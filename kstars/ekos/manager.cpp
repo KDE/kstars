@@ -1765,7 +1765,7 @@ void Manager::processNewProperty(INDI::Property prop)
             auto debugSP = prop->getSwitch();
             debugSP->at(0)->setState(ISS_ON);
             debugSP->at(1)->setState(ISS_OFF);
-            device->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
+            device->sendNewSwitch(debugSP);
         }
         return;
     }
@@ -1782,7 +1782,7 @@ void Manager::processNewProperty(INDI::Property prop)
             for (auto &it : *debugLevel)
                 it.setState(ISS_ON);
 
-            device->getDriverInfo()->getClientManager()->sendNewSwitch(debugLevel);
+            device->sendNewSwitch(debugLevel);
         }
         return;
     }
@@ -2654,7 +2654,7 @@ void Manager::updateDebugInterfaces()
         {
             debugSP->at(0)->setState(ISS_ON);
             debugSP->at(1)->setState(ISS_OFF);
-            device->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
+            device->sendNewSwitch(debugSP);
             appendLogText(i18n("Enabling debug logging for %1...", device->getDeviceName()));
         }
         else if ( !( opsLogs->getINDIDebugInterface() & device->getDriverInterface() ) &&
@@ -2662,7 +2662,7 @@ void Manager::updateDebugInterfaces()
         {
             debugSP->at(0)->setState(ISS_OFF);
             debugSP->at(1)->setState(ISS_ON);
-            device->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
+            device->sendNewSwitch(debugSP);
             appendLogText(i18n("Disabling debug logging for %1...", device->getDeviceName()));
         }
 
@@ -2688,7 +2688,7 @@ void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
         {
             svp->sp[0].s = ISS_ON;
             svp->sp[1].s = ISS_OFF;
-            deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
+            deviceInterface->sendNewSwitch(svp);
             appendLogText(i18n("Re-enabling debug logging for %1...", deviceInterface->getDeviceName()));
         }
         // To turn off debug logging, NONE of the driver interfaces should be enabled in logging settings.
@@ -2700,7 +2700,7 @@ void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
         {
             svp->sp[0].s = ISS_OFF;
             svp->sp[1].s = ISS_ON;
-            deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
+            deviceInterface->sendNewSwitch(svp);
             appendLogText(i18n("Re-disabling debug logging for %1...", deviceInterface->getDeviceName()));
         }
     }
@@ -3113,7 +3113,7 @@ void Manager::syncActiveDevices()
                     if (!QString(it.getText()).isEmpty())
                     {
                         it.setText("");
-                        oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp.getText());
+                        oneDevice->sendNewText(tvp.getText());
                     }
                     continue;
                 }
@@ -3124,7 +3124,7 @@ void Manager::syncActiveDevices()
                     if (QString(it.getText()) != name)
                     {
                         it.setText(name.toLatin1().constData());
-                        oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp.getText());
+                        oneDevice->sendNewText(tvp.getText());
                         break;
                     }
                     continue;
@@ -3143,7 +3143,7 @@ void Manager::syncActiveDevices()
                 if (it.getText() != devs.first()->getDeviceName())
                 {
                     it.setText(devs.first()->getDeviceName().toLatin1().constData());
-                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp.getText());
+                    oneDevice->sendNewText(tvp.getText());
                 }
             }
         }

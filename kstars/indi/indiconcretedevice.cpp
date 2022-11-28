@@ -112,7 +112,7 @@ INDI::PropertyView<IBLOB>   *ConcreteDevice::getBLOB(const QString &name) const
 
 void ConcreteDevice::sendNewText(ITextVectorProperty *pp)
 {
-    m_Parent->getClientManager()->sendNewText(pp);
+    m_Parent->sendNewText(pp);
 }
 
 QString ConcreteDevice::getMessage(int id) const
@@ -130,7 +130,7 @@ void ConcreteDevice::sendNewText(const char *deviceName, const char *propertyNam
 
 void ConcreteDevice::sendNewNumber(INumberVectorProperty *pp)
 {
-    m_Parent->getClientManager()->sendNewNumber(pp);
+    m_Parent->sendNewNumber(pp);
 }
 
 void ConcreteDevice::sendNewNumber(const char *deviceName, const char *propertyName, const char *elementName, double value)
@@ -140,7 +140,7 @@ void ConcreteDevice::sendNewNumber(const char *deviceName, const char *propertyN
 
 void ConcreteDevice::sendNewSwitch(ISwitchVectorProperty *pp)
 {
-    m_Parent->getClientManager()->sendNewSwitch(pp);
+    m_Parent->sendNewSwitch(pp);
 }
 
 void ConcreteDevice::sendNewSwitch(const char *deviceName, const char *propertyName, const char *elementName)

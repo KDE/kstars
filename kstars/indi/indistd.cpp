@@ -1460,6 +1460,21 @@ bool GenericDevice::generateDevices()
     return generated;
 }
 
+void GenericDevice::sendNewText(ITextVectorProperty *pp)
+{
+    m_ClientManager->sendNewText(pp);
+}
+
+void GenericDevice::sendNewNumber(INumberVectorProperty *pp)
+{
+    m_ClientManager->sendNewNumber(pp);
+}
+
+void GenericDevice::sendNewSwitch(ISwitchVectorProperty *pp)
+{
+    m_ClientManager->sendNewSwitch(pp);
+}
+
 void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact)
 {
     QJsonArray switches;

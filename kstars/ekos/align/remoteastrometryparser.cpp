@@ -71,7 +71,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
     {
         IUResetSwitch(solverSwitch);
         enableSW->setState(ISS_ON);
-        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->sendNewSwitch(solverSwitch);
     }
 
     // #PS: TODO
@@ -97,7 +97,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
 #else
-    remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
+    remoteAstrometry->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
 #endif
 
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
@@ -137,7 +137,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
             it.setText(solverArgs.join(" ").toLatin1().constData());
     }
 
-    m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
+    m_RemoteAstrometry->sendNewText(solverSettings);
     INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(m_RemoteAstrometry->getDeviceName());
     if (guiDevice)
         guiDevice->updateTextGUI(solverSettings);
@@ -162,7 +162,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     {
         solverSwitch->reset();
         enableSW->setState(ISS_ON);
-        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->sendNewSwitch(solverSwitch);
         solverRunning = true;
         qCDebug(KSTARS_EKOS_ALIGN) << "Enabling remote solver...";
     }
@@ -170,7 +170,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     {
         solverSwitch->reset();
         disableSW->setState(ISS_ON);
-        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->sendNewSwitch(solverSwitch);
         solverRunning = false;
         qCDebug(KSTARS_EKOS_ALIGN) << "Disabling remote solver...";
     }
@@ -198,7 +198,7 @@ bool RemoteAstrometryParser::setCCD(const QString &ccd)
         return true;
 
     activeCCD->setText(ccd.toLatin1().data());
-    m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+    m_RemoteAstrometry->sendNewText(activeDevices);
 
     return true;
 }
@@ -218,7 +218,7 @@ bool RemoteAstrometryParser::stopSolver()
     {
         svp->reset();
         disableSW->setState(ISS_ON);
-        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
+        m_RemoteAstrometry->sendNewSwitch(svp);
     }
 
     solverRunning = false;

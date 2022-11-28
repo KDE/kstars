@@ -73,7 +73,7 @@ bool Device::initGUI()
         IUResetSwitch(&connectionMode);
         connectionMode.at(0)->setState(ISS_ON);
         connectionMode.at(1)->setState(ISS_OFF);
-        m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&connectionMode);
+        m_Device->sendNewSwitch(&connectionMode);
     });
 
     // Network Button
@@ -87,7 +87,7 @@ bool Device::initGUI()
         IUResetSwitch(&connectionMode);
         connectionMode.at(0)->setState(ISS_OFF);
         connectionMode.at(1)->setState(ISS_ON);
-        m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&connectionMode);
+        m_Device->sendNewSwitch(&connectionMode);
     });
 
     INDI::PropertyView<ISwitch> connectionMode = *(modeProperty->getSwitch());
@@ -113,7 +113,7 @@ bool Device::initGUI()
                     INDI::PropertyView<ISwitch> systemPortsSwitch = *(systemPorts->getSwitch());
                     IUResetSwitch(&systemPortsSwitch);
                     systemPortsSwitch.at(index)->setState(ISS_ON);
-                    m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&systemPortsSwitch);
+                    m_Device->sendNewSwitch(&systemPortsSwitch);
                 }
             });
             // When combo box text changes
@@ -121,7 +121,7 @@ bool Device::initGUI()
             {
                 INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
                 port.at(0)->setText(m_Ports->lineEdit()->text().toLatin1().constData());
-                m_Device->getDriverInfo()->getClientManager()->sendNewText(&port);
+                m_Device->sendNewText(&port);
             });
         }
 
@@ -136,7 +136,7 @@ bool Device::initGUI()
                 INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
                 IUResetSwitch(&systemBauds);
                 systemBauds.at(index)->setState(ISS_ON);
-                m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&systemBauds);
+                m_Device->sendNewSwitch(&systemBauds);
             });
         }
     }
@@ -152,7 +152,7 @@ bool Device::initGUI()
         {
             INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
             server.at(0)->setText(m_HostName->text().toLatin1().constData());
-            m_Device->getDriverInfo()->getClientManager()->sendNewText(&server);
+            m_Device->sendNewText(&server);
         });
 
         m_HostPort = new QLineEdit;
@@ -161,7 +161,7 @@ bool Device::initGUI()
         {
             INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
             server.at(1)->setText(m_HostPort->text().toLatin1().constData());
-            m_Device->getDriverInfo()->getClientManager()->sendNewText(&server);
+            m_Device->sendNewText(&server);
         });
 
         m_HostProtocolTCP = new QPushButton("TCP");
@@ -170,7 +170,7 @@ bool Device::initGUI()
             INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
             IUResetSwitch(&connectionType);
             connectionType.at(0)->setState(ISS_ON);
-            m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&connectionType);
+            m_Device->sendNewSwitch(&connectionType);
         });
 
         m_HostProtocolUDP = new QPushButton("UDP");
@@ -179,7 +179,7 @@ bool Device::initGUI()
             INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
             IUResetSwitch(&connectionType);
             connectionType.at(1)->setState(ISS_ON);
-            m_Device->getDriverInfo()->getClientManager()->sendNewSwitch(&connectionType);
+            m_Device->sendNewSwitch(&connectionType);
         });
     }
     else
