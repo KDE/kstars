@@ -163,7 +163,7 @@ void SequenceJobState::checkAllActionsReady()
                 return;
 
             // 1. Check if the selected flats light source is ready
-            if (checkFlatsLightSourceReady() != IPS_OK)
+            if (checkFlatsLightCoverReady() != IPS_OK)
                 return;
 
             // 2. Light source ready, now check if we need to perform mount prepark
@@ -202,7 +202,7 @@ void SequenceJobState::checkAllActionsReady()
                 case SOURCE_DAWN_DUSK:
                     // For cameras without a shutter, we need to ask the user to cover the telescope
                     // if the telescope is not already covered.
-                    if (checkManualCover() != IPS_OK)
+                    if (checkManualCoverReady(false) != IPS_OK)
                         return;
                     break;
                 case SOURCE_FLATCAP:
@@ -302,14 +302,14 @@ void SequenceJobState::prepareRotatorCheck()
     }
 }
 
-IPState SequenceJobState::checkFlatsLightSourceReady()
+IPState SequenceJobState::checkFlatsLightCoverReady()
 {
     IPState result = IPS_OK;
 
     switch (flatFieldSource)
     {
         case SOURCE_MANUAL:
-            result = checkManualFlatsCoverReady();
+            result = checkManualCoverReady(true);
             break;
         case SOURCE_DAWN_DUSK:
             // Not implemented.
@@ -328,17 +328,30 @@ IPState SequenceJobState::checkFlatsLightSourceReady()
     return result;
 }
 
-IPState SequenceJobState::checkManualFlatsCoverReady()
+IPState SequenceJobState::checkManualCoverReady(bool light)
 {
     // Manual mode we need to cover mount with evenly illuminated field.
-    if (m_CaptureModuleState->telescopeCovered == false)
+    if (light && m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT)
     {
         if (coverQueryState == CAL_CHECK_CONFIRMATION)
             return IPS_BUSY;
 
         // request asking the user to cover the scope manually with a light source
-        emit askManualScopeLightCover(i18n("Cover telescope with an evenly illuminated light source."),
-                                      i18n("Flat Frame"));
+        emit askManualScopeCover(i18n("Cover the telescope with an evenly illuminated light source."),
+                                 i18n("Flat Frame"), true);
+        coverQueryState = CAL_CHECK_CONFIRMATION;
+
+        return IPS_BUSY;
+    }
+    else if (!light && m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANUAL_COVER_CLOSED_DARK &&
+             m_CaptureModuleState->shutterStatus == CaptureModuleState::SHUTTER_NO)
+    {
+        if (coverQueryState == CAL_CHECK_CONFIRMATION)
+            return IPS_BUSY;
+
+        emit askManualScopeCover(i18n("Cover the telescope in order to take a dark exposure."),
+                                 i18n("Dark Exposure"), false);
+
         coverQueryState = CAL_CHECK_CONFIRMATION;
 
         return IPS_BUSY;
@@ -551,26 +564,6 @@ IPState SequenceJobState::checkHasShutter()
     return IPS_BUSY;
 }
 
-IPState SequenceJobState::checkManualCover()
-{
-    if (m_CaptureModuleState->shutterStatus == CaptureModuleState::SHUTTER_NO
-            && m_CaptureModuleState->telescopeCovered == false)
-    {
-        // Already asked for confirmation? Then wait.
-        if (coverQueryState == CAL_CHECK_CONFIRMATION)
-            return IPS_BUSY;
-
-        // Otherwise, we ask user to confirm manually
-        coverQueryState = CAL_CHECK_CONFIRMATION;
-
-        emit askManualScopeLightCover(i18n("Cover the telescope in order to take a dark exposure."),
-                                      i18n("Dark Exposure"));
-        return IPS_BUSY;
-    }
-    // everything ready
-    return IPS_OK;
-}
-
 IPState SequenceJobState::checkLightFrameScopeCoverOpen()
 {
     switch (flatFieldSource)
@@ -581,7 +574,7 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
         case SOURCE_WALL:
             // If telescopes were MANUALLY covered before
             // we need to manually uncover them.
-            if (m_CaptureModuleState->telescopeCovered)
+            if (m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANAUL_COVER_OPEN)
             {
                 // If we already asked for confirmation and waiting for it
                 // let us see if the confirmation is fulfilled
@@ -589,7 +582,7 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
                 if (coverQueryState == CAL_CHECK_CONFIRMATION)
                     return IPS_BUSY;
 
-                emit askManualScopeLightOpen();
+                emit askManualScopeOpen(m_CaptureModuleState->m_ManualCoverState == CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT);
 
                 return IPS_BUSY;
             }
@@ -727,12 +720,15 @@ void SequenceJobState::setCurrentGuiderDrift(double value)
     checkAllActionsReady();
 }
 
-void SequenceJobState::manualScopeLightCover(bool closed, bool success)
+void SequenceJobState::updateManualScopeCover(bool closed, bool success, bool light)
 {
     // covering confirmed
     if (success == true)
     {
-        m_CaptureModuleState->telescopeCovered = closed;
+        if (closed)
+            m_CaptureModuleState->m_ManualCoverState = light ? CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT : CaptureModuleState::MANUAL_COVER_CLOSED_DARK;
+        else
+            m_CaptureModuleState->m_ManualCoverState = CaptureModuleState::MANAUL_COVER_OPEN;
         coverQueryState = CAL_CHECK_TASK;
         // re-run checks
         checkAllActionsReady();

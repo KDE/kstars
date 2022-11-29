@@ -69,16 +69,16 @@ void CaptureDeviceAdaptor::connectDustCap()
     if (m_ActiveDustCap != nullptr)
         connect(m_ActiveDustCap, &ISD::DustCap::newStatus, this, &CaptureDeviceAdaptor::dustCapStatusChanged);
 
-    connect(currentSequenceJobState, &SequenceJobState::askManualScopeLightCover, this,
-            &CaptureDeviceAdaptor::askManualScopeLightCover);
-    connect(currentSequenceJobState, &SequenceJobState::askManualScopeLightOpen, this,
-            &CaptureDeviceAdaptor::askManualScopeLightOpen);
+    connect(currentSequenceJobState, &SequenceJobState::askManualScopeCover, this,
+            &CaptureDeviceAdaptor::askManualScopeCover);
+    connect(currentSequenceJobState, &SequenceJobState::askManualScopeOpen, this,
+            &CaptureDeviceAdaptor::askManualScopeOpen);
     connect(currentSequenceJobState, &SequenceJobState::setLightBoxLight, this,
             &CaptureDeviceAdaptor::setLightBoxLight);
     connect(currentSequenceJobState, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
 
-    connect(this, &CaptureDeviceAdaptor::manualScopeLightCover, currentSequenceJobState,
-            &SequenceJobState::manualScopeLightCover);
+    connect(this, &CaptureDeviceAdaptor::manualScopeCoverUpdated, currentSequenceJobState,
+            &SequenceJobState::updateManualScopeCover);
     connect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
     connect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
             &SequenceJobState::dustCapStateChanged);
@@ -89,16 +89,16 @@ void CaptureDeviceAdaptor::disconnectDustCap()
     if (m_ActiveDustCap != nullptr)
         disconnect(m_ActiveDustCap, nullptr, this, nullptr);
 
-    disconnect(currentSequenceJobState, &SequenceJobState::askManualScopeLightCover, this,
-               &CaptureDeviceAdaptor::askManualScopeLightCover);
-    disconnect(currentSequenceJobState, &SequenceJobState::askManualScopeLightOpen, this,
-               &CaptureDeviceAdaptor::askManualScopeLightOpen);
+    disconnect(currentSequenceJobState, &SequenceJobState::askManualScopeCover, this,
+               &CaptureDeviceAdaptor::askManualScopeCover);
+    disconnect(currentSequenceJobState, &SequenceJobState::askManualScopeOpen, this,
+               &CaptureDeviceAdaptor::askManualScopeOpen);
     disconnect(currentSequenceJobState, &SequenceJobState::setLightBoxLight, this,
                &CaptureDeviceAdaptor::setLightBoxLight);
     disconnect(currentSequenceJobState, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
 
-    disconnect(this, &CaptureDeviceAdaptor::manualScopeLightCover, currentSequenceJobState,
-               &SequenceJobState::manualScopeLightCover);
+    disconnect(this, &CaptureDeviceAdaptor::manualScopeCoverUpdated, currentSequenceJobState,
+               &SequenceJobState::updateManualScopeCover);
     disconnect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
     disconnect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
                &SequenceJobState::dustCapStateChanged);
@@ -335,29 +335,44 @@ void CaptureDeviceAdaptor::setFilterManager(QSharedPointer<FilterManager> device
     m_FilterManager = device;
 }
 
-void CaptureDeviceAdaptor::askManualScopeLightCover(QString question, QString title)
+void CaptureDeviceAdaptor::askManualScopeCover(QString question, QString title, bool light)
 {
     // do not ask again
-    if (m_ManualCoveringAsked == true)
+    if (light && m_ManualLightCoveringAsked == true)
     {
-        emit manualScopeLightCover(true, true);
+        emit manualScopeCoverUpdated(true, true, true);
+        return;
+    }
+    else if (!light && m_ManualDarkCoveringAsked == true)
+    {
+        emit manualScopeCoverUpdated(true, true, false);
         return;
     }
 
     // Continue
-    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, light]()
     {
-        emit manualScopeLightCover(true, true);
+        emit manualScopeCoverUpdated(true, true, light);
         KSMessageBox::Instance()->disconnect(this);
-        m_ManualCoveringAsked = true;
-        m_ManualOpeningAsked = false;
+        m_ManualLightCoveringAsked = false;
+        m_ManualLightOpeningAsked = false;
+        m_ManualDarkCoveringAsked = false;
+        m_ManualDarkOpeningAsked = false;
+        if (light)
+            m_ManualLightCoveringAsked = true;
+        else
+            m_ManualDarkCoveringAsked = true;
     });
 
     // Cancel
-    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this, light]()
     {
-        m_ManualCoveringAsked = false;
-        emit manualScopeLightCover(true, false);
+        if (light)
+            m_ManualLightCoveringAsked = false;
+        else
+            m_ManualDarkCoveringAsked = false;
+
+        emit manualScopeCoverUpdated(true, false, light);
         KSMessageBox::Instance()->disconnect(this);
     });
 
@@ -365,29 +380,45 @@ void CaptureDeviceAdaptor::askManualScopeLightCover(QString question, QString ti
 
 }
 
-void CaptureDeviceAdaptor::askManualScopeLightOpen()
+void CaptureDeviceAdaptor::askManualScopeOpen(bool light)
 {
     // do not ask again
-    if (m_ManualOpeningAsked == true)
+    if (light && m_ManualLightOpeningAsked == true)
     {
-        emit manualScopeLightCover(false, true);
+        emit manualScopeCoverUpdated(false, true, true);
+        return;
+    }
+    else if (!light && m_ManualDarkOpeningAsked == true)
+    {
+        emit manualScopeCoverUpdated(false, true, false);
         return;
     }
 
     // Continue
-    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+    connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, light]()
     {
-        m_ManualOpeningAsked = true;
-        m_ManualCoveringAsked = false;
-        emit manualScopeLightCover(false, true);
+        m_ManualLightCoveringAsked = false;
+        m_ManualLightOpeningAsked = false;
+        m_ManualDarkCoveringAsked = false;
+        m_ManualDarkOpeningAsked = false;
+
+        if (light)
+            m_ManualLightOpeningAsked = true;
+        else
+            m_ManualDarkOpeningAsked = true;
+
+        emit manualScopeCoverUpdated(false, true, light);
         KSMessageBox::Instance()->disconnect(this);
     });
 
     // Cancel
-    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+    connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this, light]()
     {
-        m_ManualOpeningAsked = false;
-        emit manualScopeLightCover(false, false);
+        if (light)
+            m_ManualLightOpeningAsked = false;
+        else
+            m_ManualDarkOpeningAsked = false;
+        emit manualScopeCoverUpdated(false, false, light);
         KSMessageBox::Instance()->disconnect(this);
     });
 
