@@ -155,13 +155,13 @@ class CaptureDeviceAdaptor: public QObject
         //////////////////////////////////////////////////////////////////////
 
         /**
-         * @brief Ask for covering the scope manually with a flats light source
+         * @brief Ask for covering the scope manually with a flats light source or dark cover
          */
-        void askManualScopeLightCover(QString question, QString title);
+        void askManualScopeCover(QString question, QString title, bool light);
         /**
          * @brief Ask for opening the scope cover manually
          */
-        void askManualScopeLightOpen();
+        void askManualScopeOpen(bool light);
         /**
          * @brief Turn light on in the light box
          */
@@ -214,9 +214,9 @@ class CaptureDeviceAdaptor: public QObject
          */
         void rotatorReverseToggled(bool enabled);
         /**
-         * @brief Cover for the scope with a flats light source
+         * @brief Cover for the scope with a flats light source (light is true) or dark (light is false)
          */
-        void manualScopeLightCover(bool closed, bool success);
+        void manualScopeCoverUpdated(bool closed, bool success, bool light);
         /**
          * @brief Light box light is on.
          */
@@ -277,8 +277,12 @@ class CaptureDeviceAdaptor: public QObject
         // currently active filter manager
         QSharedPointer<FilterManager> m_FilterManager;
 
-        // flag if manual cover has been asked
-        bool m_ManualCoveringAsked { false };
-        bool m_ManualOpeningAsked { false };
+        // flag if light manual cover has been asked
+        bool m_ManualLightCoveringAsked { false };
+        bool m_ManualLightOpeningAsked { false };
+
+        // flag if dark manual cover has been asked
+        bool m_ManualDarkCoveringAsked { false };
+        bool m_ManualDarkOpeningAsked { false };
 };
 }; // namespace

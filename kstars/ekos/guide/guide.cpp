@@ -2978,7 +2978,23 @@ void Guide::setAllSettings(const QVariantMap &settings)
         }
     }
 
-    m_Settings = settings;
+    // Sync to options
+    for (auto &key : settings.keys())
+    {
+        auto value = settings[key];
+        // Save immediately
+        Options::self()->setProperty(key.toLatin1(), value);
+        Options::self()->save();
+
+        m_Settings[key] = value;
+        m_GlobalSettings[key] = value;
+    }
+
+    emit settingsUpdated(getAllSettings());
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Guide, m_Settings);
 
     // Restablish connections
     connectSettings();
