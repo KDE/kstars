@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-26 00:42+0000\n"
-"PO-Revision-Date: 2022-11-15 18:23+0000\n"
+"PO-Revision-Date: 2022-11-28 18:14+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -7118,16 +7118,13 @@ msgstr ""
 "deverão ter um WCS válido."
 
 #: ekos/align/align.cpp:2010
-#, fuzzy, kde-format
-#| msgid ""
-#| "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
-#| "(%4)"
+#, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 "Coordenadas da solução: AR (%1) DEC (%2) Coordenadas do Telescópio: AR (%3) "
-"DEC (%4)"
+"DEC (%4) Coordenadas-Alvo: AR (%5) DEC (%6)"
 
 #: ekos/align/align.cpp:2021
 #, kde-format
