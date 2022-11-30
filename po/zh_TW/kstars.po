@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 00:42+0000\n"
+"POT-Creation-Date: 2022-11-30 00:43+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -6403,13 +6403,13 @@ msgstr "識別座標"
 msgid "Polar Alignment"
 msgstr "極地校準測量"
 
-#: ekos/align/align.cpp:4211
+#: ekos/align/align.cpp:4227
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture timed out."
 msgstr "抓取已中止。"
 
-#: ekos/align/align.cpp:4220
+#: ekos/align/align.cpp:4236
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -15260,7 +15260,7 @@ msgstr "本地時間"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:394
+#: ekos/capture/capturedeviceadaptor.cpp:425
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -15269,19 +15269,19 @@ msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 "如果引導的相機未配備快門或遮光器，請將望遠鏡或相機遮住，以便取得黑暗曝光。"
 
-#: ekos/capture/capturedeviceadaptor.cpp:395
+#: ekos/capture/capturedeviceadaptor.cpp:426
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope Covered"
 msgstr "望遠鏡座標"
 
-#: ekos/capture/capturedeviceadaptor.cpp:527
+#: ekos/capture/capturedeviceadaptor.cpp:558
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:528
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/capturedeviceadaptor.cpp:559
+#: ekos/capture/sequencejobstate.cpp:353
 #, kde-format
 msgid "Dark Exposure"
 msgstr "黑暗曝光"
@@ -15848,9 +15848,13 @@ msgid "Complete"
 msgstr "完成"
 
 #: ekos/capture/sequencejobstate.cpp:340
-#, kde-format
-msgid "Cover telescope with an evenly illuminated light source."
+#, fuzzy, kde-format
+#| msgid ""
+#| "If the guider camera if not equipped with a shutter, cover the telescope "
+#| "or camera in order to take a dark exposure."
+msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
+"如果引導的相機未配備快門或遮光器，請將望遠鏡或相機遮住，以便取得黑暗曝光。"
 
 #: ekos/capture/sequencejobstate.cpp:341
 #, fuzzy, kde-format
@@ -15858,67 +15862,7 @@ msgstr ""
 msgid "Flat Frame"
 msgstr "使用黑暗訊框"
 
-#: ekos/capture/sequencejobstate.cpp:367 ekos/capture/sequencejobstate.cpp:404
-#, fuzzy, kde-format
-#| msgid "Parking telescope..."
-msgid "Parking dust cap..."
-msgstr "定位望遠鏡中..."
-
-#: ekos/capture/sequencejobstate.cpp:376 ekos/capture/sequencejobstate.cpp:415
-#: ekos/capture/sequencejobstate.cpp:461
-#, kde-format
-msgid "Turn light box light on..."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:404 ekos/capture/sequencejobstate.cpp:624
-#, fuzzy, kde-format
-#| msgid "Parking telescope..."
-msgid "Unparking dust cap..."
-msgstr "定位望遠鏡中..."
-
-#: ekos/capture/sequencejobstate.cpp:415 ekos/capture/sequencejobstate.cpp:461
-#: ekos/capture/sequencejobstate.cpp:609
-#, kde-format
-msgid "Turn light box light off..."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:433
-#, fuzzy, kde-format
-#| msgid "Slewing back to original position..."
-msgid "Mount slewing to wall position..."
-msgstr "旋轉回原來位置中..."
-
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:448
-#, fuzzy, kde-format
-#| msgid "Calibration completed."
-msgid "Slew to wall position complete, stop tracking."
-msgstr "靈敏度校正完成。"
-
-#: ekos/capture/sequencejobstate.cpp:476
-#, fuzzy, kde-format
-#| msgid "FITS image failed to load, aborting..."
-msgid "Parking mount failed, aborting..."
-msgstr "FITS 影像載入失敗，正在中止..."
-
-#: ekos/capture/sequencejobstate.cpp:486
-#, fuzzy, kde-format
-#| msgid "Restarting autofocus process..."
-msgid "Parking mount prior to calibration frames capture..."
-msgstr "重新啟動自動對焦程序..."
-
-#: ekos/capture/sequencejobstate.cpp:500
-#, fuzzy, kde-format
-#| msgid "FITS image failed to load, aborting..."
-msgid "Parking dome failed, aborting..."
-msgstr "FITS 影像載入失敗，正在中止..."
-
-#: ekos/capture/sequencejobstate.cpp:510
-#, fuzzy, kde-format
-#| msgid "Restarting autofocus process..."
-msgid "Parking dome prior to calibration frames capture..."
-msgstr "重新啟動自動對焦程序..."
-
-#: ekos/capture/sequencejobstate.cpp:566
+#: ekos/capture/sequencejobstate.cpp:352
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -15927,19 +15871,79 @@ msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 "如果引導的相機未配備快門或遮光器，請將望遠鏡或相機遮住，以便取得黑暗曝光。"
 
-#: ekos/capture/sequencejobstate.cpp:753
+#: ekos/capture/sequencejobstate.cpp:380 ekos/capture/sequencejobstate.cpp:417
+#, fuzzy, kde-format
+#| msgid "Parking telescope..."
+msgid "Parking dust cap..."
+msgstr "定位望遠鏡中..."
+
+#: ekos/capture/sequencejobstate.cpp:389 ekos/capture/sequencejobstate.cpp:428
+#: ekos/capture/sequencejobstate.cpp:474
+#, kde-format
+msgid "Turn light box light on..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:417 ekos/capture/sequencejobstate.cpp:617
+#, fuzzy, kde-format
+#| msgid "Parking telescope..."
+msgid "Unparking dust cap..."
+msgstr "定位望遠鏡中..."
+
+#: ekos/capture/sequencejobstate.cpp:428 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:602
+#, kde-format
+msgid "Turn light box light off..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:446
+#, fuzzy, kde-format
+#| msgid "Slewing back to original position..."
+msgid "Mount slewing to wall position..."
+msgstr "旋轉回原來位置中..."
+
+#: ekos/capture/sequencejobstate.cpp:457 ekos/capture/sequencejobstate.cpp:461
+#, fuzzy, kde-format
+#| msgid "Calibration completed."
+msgid "Slew to wall position complete, stop tracking."
+msgstr "靈敏度校正完成。"
+
+#: ekos/capture/sequencejobstate.cpp:489
+#, fuzzy, kde-format
+#| msgid "FITS image failed to load, aborting..."
+msgid "Parking mount failed, aborting..."
+msgstr "FITS 影像載入失敗，正在中止..."
+
+#: ekos/capture/sequencejobstate.cpp:499
+#, fuzzy, kde-format
+#| msgid "Restarting autofocus process..."
+msgid "Parking mount prior to calibration frames capture..."
+msgstr "重新啟動自動對焦程序..."
+
+#: ekos/capture/sequencejobstate.cpp:513
+#, fuzzy, kde-format
+#| msgid "FITS image failed to load, aborting..."
+msgid "Parking dome failed, aborting..."
+msgstr "FITS 影像載入失敗，正在中止..."
+
+#: ekos/capture/sequencejobstate.cpp:523
+#, fuzzy, kde-format
+#| msgid "Restarting autofocus process..."
+msgid "Parking dome prior to calibration frames capture..."
+msgstr "重新啟動自動對焦程序..."
+
+#: ekos/capture/sequencejobstate.cpp:749
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:768
+#: ekos/capture/sequencejobstate.cpp:764
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:772
+#: ekos/capture/sequencejobstate.cpp:768
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"

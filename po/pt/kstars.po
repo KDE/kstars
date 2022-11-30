@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 00:42+0000\n"
+"POT-Creation-Date: 2022-11-30 00:43+0000\n"
 "PO-Revision-Date: 2022-11-28 18:14+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -7441,12 +7441,12 @@ msgstr "Pontos da Solução Gravados como: %1"
 msgid "Polar Alignment"
 msgstr "Alinhamento Polar"
 
-#: ekos/align/align.cpp:4211
+#: ekos/align/align.cpp:4227
 #, kde-format
 msgid "Capture timed out."
 msgstr "A captura expirou o tempo-limite."
 
-#: ekos/align/align.cpp:4220
+#: ekos/align/align.cpp:4236
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "A captura está ainda em curso. A repetir daqui a %1 segundos..."
@@ -15982,23 +15982,23 @@ msgstr "Total"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "Mudar para o modo gráfico de apresentação das quantidades de capturas."
 
-#: ekos/capture/capturedeviceadaptor.cpp:394
+#: ekos/capture/capturedeviceadaptor.cpp:425
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Remova a tampa do telescópio para continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:395
+#: ekos/capture/capturedeviceadaptor.cpp:426
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescópio Coberto"
 
-#: ekos/capture/capturedeviceadaptor.cpp:527
+#: ekos/capture/capturedeviceadaptor.cpp:558
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "O %1 tem um obturador?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:528
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/capturedeviceadaptor.cpp:559
+#: ekos/capture/sequencejobstate.cpp:353
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Exposição Escura"
@@ -16534,8 +16534,9 @@ msgid "Complete"
 msgstr "Completo"
 
 #: ekos/capture/sequencejobstate.cpp:340
-#, kde-format
-msgid "Cover telescope with an evenly illuminated light source."
+#, fuzzy, kde-format
+#| msgid "Cover telescope with an evenly illuminated light source."
+msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Cobrir o telescópio com uma fonte de luz iluminada de forma homogénea."
 
 #: ekos/capture/sequencejobstate.cpp:341
@@ -16543,74 +16544,74 @@ msgstr "Cobrir o telescópio com uma fonte de luz iluminada de forma homogénea.
 msgid "Flat Frame"
 msgstr "Imagem Plana"
 
-#: ekos/capture/sequencejobstate.cpp:367 ekos/capture/sequencejobstate.cpp:404
-#, kde-format
-msgid "Parking dust cap..."
-msgstr "A bloquear a tampa de pó..."
-
-#: ekos/capture/sequencejobstate.cpp:376 ekos/capture/sequencejobstate.cpp:415
-#: ekos/capture/sequencejobstate.cpp:461
-#, kde-format
-msgid "Turn light box light on..."
-msgstr "Ligar a luz da caixa de luz..."
-
-#: ekos/capture/sequencejobstate.cpp:404 ekos/capture/sequencejobstate.cpp:624
-#, kde-format
-msgid "Unparking dust cap..."
-msgstr "A desbloquear a tampa de pó..."
-
-#: ekos/capture/sequencejobstate.cpp:415 ekos/capture/sequencejobstate.cpp:461
-#: ekos/capture/sequencejobstate.cpp:609
-#, kde-format
-msgid "Turn light box light off..."
-msgstr "Desligar a luz da caixa de luz..."
-
-#: ekos/capture/sequencejobstate.cpp:433
-#, kde-format
-msgid "Mount slewing to wall position..."
-msgstr "A deslocar a montagem para a posição original..."
-
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:448
-#, kde-format
-msgid "Slew to wall position complete, stop tracking."
-msgstr "A deslocação para a posição inicial terminou; a parar o seguimento."
-
-#: ekos/capture/sequencejobstate.cpp:476
-#, kde-format
-msgid "Parking mount failed, aborting..."
-msgstr "O bloqueio da montagem falhou; a interromper..."
-
-#: ekos/capture/sequencejobstate.cpp:486
-#, kde-format
-msgid "Parking mount prior to calibration frames capture..."
-msgstr "A bloquear a montagem antes da captura das imagens de calibração..."
-
-#: ekos/capture/sequencejobstate.cpp:500
-#, kde-format
-msgid "Parking dome failed, aborting..."
-msgstr "O bloqueio do Dome foi mal-sucedido; a interromper..."
-
-#: ekos/capture/sequencejobstate.cpp:510
-#, kde-format
-msgid "Parking dome prior to calibration frames capture..."
-msgstr "A bloquear o 'dome' antes da captura das imagens de calibração..."
-
-#: ekos/capture/sequencejobstate.cpp:566
+#: ekos/capture/sequencejobstate.cpp:352
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Tape o telescópio para tirar uma exposição escura."
 
-#: ekos/capture/sequencejobstate.cpp:753
+#: ekos/capture/sequencejobstate.cpp:380 ekos/capture/sequencejobstate.cpp:417
+#, kde-format
+msgid "Parking dust cap..."
+msgstr "A bloquear a tampa de pó..."
+
+#: ekos/capture/sequencejobstate.cpp:389 ekos/capture/sequencejobstate.cpp:428
+#: ekos/capture/sequencejobstate.cpp:474
+#, kde-format
+msgid "Turn light box light on..."
+msgstr "Ligar a luz da caixa de luz..."
+
+#: ekos/capture/sequencejobstate.cpp:417 ekos/capture/sequencejobstate.cpp:617
+#, kde-format
+msgid "Unparking dust cap..."
+msgstr "A desbloquear a tampa de pó..."
+
+#: ekos/capture/sequencejobstate.cpp:428 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:602
+#, kde-format
+msgid "Turn light box light off..."
+msgstr "Desligar a luz da caixa de luz..."
+
+#: ekos/capture/sequencejobstate.cpp:446
+#, kde-format
+msgid "Mount slewing to wall position..."
+msgstr "A deslocar a montagem para a posição original..."
+
+#: ekos/capture/sequencejobstate.cpp:457 ekos/capture/sequencejobstate.cpp:461
+#, kde-format
+msgid "Slew to wall position complete, stop tracking."
+msgstr "A deslocação para a posição inicial terminou; a parar o seguimento."
+
+#: ekos/capture/sequencejobstate.cpp:489
+#, kde-format
+msgid "Parking mount failed, aborting..."
+msgstr "O bloqueio da montagem falhou; a interromper..."
+
+#: ekos/capture/sequencejobstate.cpp:499
+#, kde-format
+msgid "Parking mount prior to calibration frames capture..."
+msgstr "A bloquear a montagem antes da captura das imagens de calibração..."
+
+#: ekos/capture/sequencejobstate.cpp:513
+#, kde-format
+msgid "Parking dome failed, aborting..."
+msgstr "O bloqueio do Dome foi mal-sucedido; a interromper..."
+
+#: ekos/capture/sequencejobstate.cpp:523
+#, kde-format
+msgid "Parking dome prior to calibration frames capture..."
+msgstr "A bloquear o 'dome' antes da captura das imagens de calibração..."
+
+#: ekos/capture/sequencejobstate.cpp:749
 #, kde-format
 msgid "Light box on."
 msgstr "Caixa de luz ligada."
 
-#: ekos/capture/sequencejobstate.cpp:768
+#: ekos/capture/sequencejobstate.cpp:764
 #, kde-format
 msgid "Dust cap parked."
 msgstr "A tampa de pó está bloqueada."
 
-#: ekos/capture/sequencejobstate.cpp:772
+#: ekos/capture/sequencejobstate.cpp:768
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "A tampa de pó está desbloqueada."

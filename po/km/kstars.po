@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 00:42+0000\n"
+"POT-Creation-Date: 2022-11-30 00:43+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -6065,12 +6065,12 @@ msgstr "ក្រឡា​ចត្រង្គ​កូអរដោណេ"
 msgid "Polar Alignment"
 msgstr "ផ្សេងៗ"
 
-#: ekos/align/align.cpp:4211
+#: ekos/align/align.cpp:4227
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "ផ្ទុកឡើង"
 
-#: ekos/align/align.cpp:4220
+#: ekos/align/align.cpp:4236
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "របារ​ឧបករណ៍"
@@ -13911,23 +13911,23 @@ msgstr "ពេលវេលា​មូលដ្ឋាន"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:394
+#: ekos/capture/capturedeviceadaptor.cpp:425
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:395
+#: ekos/capture/capturedeviceadaptor.cpp:426
 #, fuzzy, kde-format
 msgid "Telescope Covered"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/capture/capturedeviceadaptor.cpp:527
+#: ekos/capture/capturedeviceadaptor.cpp:558
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:528
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/capturedeviceadaptor.cpp:559
+#: ekos/capture/sequencejobstate.cpp:353
 #, fuzzy, kde-format
 msgid "Dark Exposure"
 msgstr "ការ​បង្ហាញ ៖"
@@ -14426,7 +14426,7 @@ msgstr "គណនា"
 
 #: ekos/capture/sequencejobstate.cpp:340
 #, kde-format
-msgid "Cover telescope with an evenly illuminated light source."
+msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:341
@@ -14434,74 +14434,74 @@ msgstr ""
 msgid "Flat Frame"
 msgstr "រង្វង់"
 
-#: ekos/capture/sequencejobstate.cpp:367 ekos/capture/sequencejobstate.cpp:404
-#, fuzzy, kde-format
-msgid "Parking dust cap..."
-msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
-
-#: ekos/capture/sequencejobstate.cpp:376 ekos/capture/sequencejobstate.cpp:415
-#: ekos/capture/sequencejobstate.cpp:461
-#, kde-format
-msgid "Turn light box light on..."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:404 ekos/capture/sequencejobstate.cpp:624
-#, fuzzy, kde-format
-msgid "Unparking dust cap..."
-msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
-
-#: ekos/capture/sequencejobstate.cpp:415 ekos/capture/sequencejobstate.cpp:461
-#: ekos/capture/sequencejobstate.cpp:609
-#, kde-format
-msgid "Turn light box light off..."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:433
-#, kde-format
-msgid "Mount slewing to wall position..."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:448
-#, fuzzy, kde-format
-msgid "Slew to wall position complete, stop tracking."
-msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
-
-#: ekos/capture/sequencejobstate.cpp:476
-#, fuzzy, kde-format
-msgid "Parking mount failed, aborting..."
-msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
-
-#: ekos/capture/sequencejobstate.cpp:486
-#, fuzzy, kde-format
-msgid "Parking mount prior to calibration frames capture..."
-msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
-
-#: ekos/capture/sequencejobstate.cpp:500
-#, fuzzy, kde-format
-msgid "Parking dome failed, aborting..."
-msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
-
-#: ekos/capture/sequencejobstate.cpp:510
-#, fuzzy, kde-format
-msgid "Parking dome prior to calibration frames capture..."
-msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
-
-#: ekos/capture/sequencejobstate.cpp:566
+#: ekos/capture/sequencejobstate.cpp:352
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:753
+#: ekos/capture/sequencejobstate.cpp:380 ekos/capture/sequencejobstate.cpp:417
+#, fuzzy, kde-format
+msgid "Parking dust cap..."
+msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
+
+#: ekos/capture/sequencejobstate.cpp:389 ekos/capture/sequencejobstate.cpp:428
+#: ekos/capture/sequencejobstate.cpp:474
+#, kde-format
+msgid "Turn light box light on..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:417 ekos/capture/sequencejobstate.cpp:617
+#, fuzzy, kde-format
+msgid "Unparking dust cap..."
+msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
+
+#: ekos/capture/sequencejobstate.cpp:428 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:602
+#, kde-format
+msgid "Turn light box light off..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:446
+#, kde-format
+msgid "Mount slewing to wall position..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:457 ekos/capture/sequencejobstate.cpp:461
+#, fuzzy, kde-format
+msgid "Slew to wall position complete, stop tracking."
+msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
+
+#: ekos/capture/sequencejobstate.cpp:489
+#, fuzzy, kde-format
+msgid "Parking mount failed, aborting..."
+msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
+
+#: ekos/capture/sequencejobstate.cpp:499
+#, fuzzy, kde-format
+msgid "Parking mount prior to calibration frames capture..."
+msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
+
+#: ekos/capture/sequencejobstate.cpp:513
+#, fuzzy, kde-format
+msgid "Parking dome failed, aborting..."
+msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
+
+#: ekos/capture/sequencejobstate.cpp:523
+#, fuzzy, kde-format
+msgid "Parking dome prior to calibration frames capture..."
+msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
+
+#: ekos/capture/sequencejobstate.cpp:749
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:768
+#: ekos/capture/sequencejobstate.cpp:764
 #, fuzzy, kde-format
 msgid "Dust cap parked."
 msgstr "ពណ៌​មាស​"
 
-#: ekos/capture/sequencejobstate.cpp:772
+#: ekos/capture/sequencejobstate.cpp:768
 #, fuzzy, kde-format
 msgid "Dust cap unparked."
 msgstr "ពណ៌​មាស​"

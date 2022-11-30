@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 00:42+0000\n"
+"POT-Creation-Date: 2022-11-30 00:43+0000\n"
 "PO-Revision-Date: 2022-11-22 16:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -6453,13 +6453,13 @@ msgstr "Çözüm Koordinatları"
 msgid "Polar Alignment"
 msgstr "Kutupsal Hizalama Ölçümü"
 
-#: ekos/align/align.cpp:4211
+#: ekos/align/align.cpp:4227
 #, fuzzy, kde-format
 #| msgid "Capture failed."
 msgid "Capture timed out."
 msgstr "Yakalama başarısız"
 
-#: ekos/align/align.cpp:4220
+#: ekos/align/align.cpp:4236
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -15348,7 +15348,7 @@ msgstr "Yerel Saat:"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:394
+#: ekos/capture/capturedeviceadaptor.cpp:425
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -15358,19 +15358,19 @@ msgstr ""
 "Kılavuz kamera kapağı yoksa, karanlık bir poz almak yerine teleskopu veya "
 "kamerayı örtün."
 
-#: ekos/capture/capturedeviceadaptor.cpp:395
+#: ekos/capture/capturedeviceadaptor.cpp:426
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope Covered"
 msgstr "Teleskop Koordinatları"
 
-#: ekos/capture/capturedeviceadaptor.cpp:527
+#: ekos/capture/capturedeviceadaptor.cpp:558
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:528
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/capturedeviceadaptor.cpp:559
+#: ekos/capture/sequencejobstate.cpp:353
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Karanlık Pozlama"
@@ -15953,9 +15953,14 @@ msgid "Complete"
 msgstr "Tamamlanma"
 
 #: ekos/capture/sequencejobstate.cpp:340
-#, kde-format
-msgid "Cover telescope with an evenly illuminated light source."
+#, fuzzy, kde-format
+#| msgid ""
+#| "If the guider camera if not equipped with a shutter, cover the telescope "
+#| "or camera in order to take a dark exposure."
+msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
+"Kılavuz kamera kapağı yoksa, karanlık bir poz almak yerine teleskopu veya "
+"kamerayı örtün."
 
 #: ekos/capture/sequencejobstate.cpp:341
 #, fuzzy, kde-format
@@ -15963,67 +15968,7 @@ msgstr ""
 msgid "Flat Frame"
 msgstr "Karanlık Çerçeve Kullan"
 
-#: ekos/capture/sequencejobstate.cpp:367 ekos/capture/sequencejobstate.cpp:404
-#, fuzzy, kde-format
-#| msgid "Parking dome..."
-msgid "Parking dust cap..."
-msgstr "Dom park ediliyor."
-
-#: ekos/capture/sequencejobstate.cpp:376 ekos/capture/sequencejobstate.cpp:415
-#: ekos/capture/sequencejobstate.cpp:461
-#, kde-format
-msgid "Turn light box light on..."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:404 ekos/capture/sequencejobstate.cpp:624
-#, fuzzy, kde-format
-#| msgid "Parking dome..."
-msgid "Unparking dust cap..."
-msgstr "Dom park ediliyor."
-
-#: ekos/capture/sequencejobstate.cpp:415 ekos/capture/sequencejobstate.cpp:461
-#: ekos/capture/sequencejobstate.cpp:609
-#, kde-format
-msgid "Turn light box light off..."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:433
-#, fuzzy, kde-format
-#| msgid "Slewing back to original position..."
-msgid "Mount slewing to wall position..."
-msgstr "Özgün konumuna geri döndürülüyor..."
-
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:448
-#, fuzzy, kde-format
-#| msgid "Calibration completed."
-msgid "Slew to wall position complete, stop tracking."
-msgstr "Kalibrasyon tamamlandı."
-
-#: ekos/capture/sequencejobstate.cpp:476
-#, fuzzy, kde-format
-#| msgid "Startup script failed, aborting..."
-msgid "Parking mount failed, aborting..."
-msgstr "Başlangıç betiği başarısız oldu, iptal ediliyor..."
-
-#: ekos/capture/sequencejobstate.cpp:486
-#, fuzzy, kde-format
-#| msgid "Restarting autofocus process..."
-msgid "Parking mount prior to calibration frames capture..."
-msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
-
-#: ekos/capture/sequencejobstate.cpp:500
-#, fuzzy, kde-format
-#| msgid "Startup script failed, aborting..."
-msgid "Parking dome failed, aborting..."
-msgstr "Başlangıç betiği başarısız oldu, iptal ediliyor..."
-
-#: ekos/capture/sequencejobstate.cpp:510
-#, fuzzy, kde-format
-#| msgid "Restarting autofocus process..."
-msgid "Parking dome prior to calibration frames capture..."
-msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
-
-#: ekos/capture/sequencejobstate.cpp:566
+#: ekos/capture/sequencejobstate.cpp:352
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -16033,19 +15978,79 @@ msgstr ""
 "Kılavuz kamera kapağı yoksa, karanlık bir poz almak yerine teleskopu veya "
 "kamerayı örtün."
 
-#: ekos/capture/sequencejobstate.cpp:753
+#: ekos/capture/sequencejobstate.cpp:380 ekos/capture/sequencejobstate.cpp:417
+#, fuzzy, kde-format
+#| msgid "Parking dome..."
+msgid "Parking dust cap..."
+msgstr "Dom park ediliyor."
+
+#: ekos/capture/sequencejobstate.cpp:389 ekos/capture/sequencejobstate.cpp:428
+#: ekos/capture/sequencejobstate.cpp:474
+#, kde-format
+msgid "Turn light box light on..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:417 ekos/capture/sequencejobstate.cpp:617
+#, fuzzy, kde-format
+#| msgid "Parking dome..."
+msgid "Unparking dust cap..."
+msgstr "Dom park ediliyor."
+
+#: ekos/capture/sequencejobstate.cpp:428 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:602
+#, kde-format
+msgid "Turn light box light off..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:446
+#, fuzzy, kde-format
+#| msgid "Slewing back to original position..."
+msgid "Mount slewing to wall position..."
+msgstr "Özgün konumuna geri döndürülüyor..."
+
+#: ekos/capture/sequencejobstate.cpp:457 ekos/capture/sequencejobstate.cpp:461
+#, fuzzy, kde-format
+#| msgid "Calibration completed."
+msgid "Slew to wall position complete, stop tracking."
+msgstr "Kalibrasyon tamamlandı."
+
+#: ekos/capture/sequencejobstate.cpp:489
+#, fuzzy, kde-format
+#| msgid "Startup script failed, aborting..."
+msgid "Parking mount failed, aborting..."
+msgstr "Başlangıç betiği başarısız oldu, iptal ediliyor..."
+
+#: ekos/capture/sequencejobstate.cpp:499
+#, fuzzy, kde-format
+#| msgid "Restarting autofocus process..."
+msgid "Parking mount prior to calibration frames capture..."
+msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
+
+#: ekos/capture/sequencejobstate.cpp:513
+#, fuzzy, kde-format
+#| msgid "Startup script failed, aborting..."
+msgid "Parking dome failed, aborting..."
+msgstr "Başlangıç betiği başarısız oldu, iptal ediliyor..."
+
+#: ekos/capture/sequencejobstate.cpp:523
+#, fuzzy, kde-format
+#| msgid "Restarting autofocus process..."
+msgid "Parking dome prior to calibration frames capture..."
+msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
+
+#: ekos/capture/sequencejobstate.cpp:749
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:768
+#: ekos/capture/sequencejobstate.cpp:764
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:772
+#: ekos/capture/sequencejobstate.cpp:768
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"

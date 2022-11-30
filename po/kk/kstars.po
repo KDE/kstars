@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 00:42+0000\n"
+"POT-Creation-Date: 2022-11-30 00:43+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -6498,13 +6498,13 @@ msgstr "Шешім координаттары"
 msgid "Polar Alignment"
 msgstr "Полярлық дәлдеу өлшемі"
 
-#: ekos/align/align.cpp:4211
+#: ekos/align/align.cpp:4227
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture timed out."
 msgstr "Түсіріп алу доғарылды."
 
-#: ekos/align/align.cpp:4220
+#: ekos/align/align.cpp:4236
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -15187,24 +15187,24 @@ msgstr "Жергілікті уақыт"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:394
+#: ekos/capture/capturedeviceadaptor.cpp:425
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:395
+#: ekos/capture/capturedeviceadaptor.cpp:426
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope Covered"
 msgstr "Телескоптың координатары"
 
-#: ekos/capture/capturedeviceadaptor.cpp:527
+#: ekos/capture/capturedeviceadaptor.cpp:558
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:528
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/capturedeviceadaptor.cpp:559
+#: ekos/capture/sequencejobstate.cpp:353
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Exposure"
@@ -15777,7 +15777,7 @@ msgstr "Бітті"
 
 #: ekos/capture/sequencejobstate.cpp:340
 #, kde-format
-msgid "Cover telescope with an evenly illuminated light source."
+msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:341
@@ -15786,84 +15786,84 @@ msgstr ""
 msgid "Flat Frame"
 msgstr "Маркер файлы қолдану"
 
-#: ekos/capture/sequencejobstate.cpp:367 ekos/capture/sequencejobstate.cpp:404
+#: ekos/capture/sequencejobstate.cpp:352
+#, kde-format
+msgid "Cover the telescope in order to take a dark exposure."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:380 ekos/capture/sequencejobstate.cpp:417
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dust cap..."
 msgstr "Радиотелескоп"
 
-#: ekos/capture/sequencejobstate.cpp:376 ekos/capture/sequencejobstate.cpp:415
-#: ekos/capture/sequencejobstate.cpp:461
+#: ekos/capture/sequencejobstate.cpp:389 ekos/capture/sequencejobstate.cpp:428
+#: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:404 ekos/capture/sequencejobstate.cpp:624
+#: ekos/capture/sequencejobstate.cpp:417 ekos/capture/sequencejobstate.cpp:617
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dust cap..."
 msgstr "Радиотелескоп"
 
-#: ekos/capture/sequencejobstate.cpp:415 ekos/capture/sequencejobstate.cpp:461
-#: ekos/capture/sequencejobstate.cpp:609
+#: ekos/capture/sequencejobstate.cpp:428 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:602
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:433
+#: ekos/capture/sequencejobstate.cpp:446
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount slewing to wall position..."
 msgstr "Бастапқы орнына қайтып бұралу..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:448
+#: ekos/capture/sequencejobstate.cpp:457 ekos/capture/sequencejobstate.cpp:461
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Калибрлеу бітті."
 
-#: ekos/capture/sequencejobstate.cpp:476
+#: ekos/capture/sequencejobstate.cpp:489
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking mount failed, aborting..."
 msgstr "FITS кескінің жүктеу жаңылысы, доғарылады..."
 
-#: ekos/capture/sequencejobstate.cpp:486
+#: ekos/capture/sequencejobstate.cpp:499
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/capture/sequencejobstate.cpp:500
+#: ekos/capture/sequencejobstate.cpp:513
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking dome failed, aborting..."
 msgstr "FITS кескінің жүктеу жаңылысы, доғарылады..."
 
-#: ekos/capture/sequencejobstate.cpp:510
+#: ekos/capture/sequencejobstate.cpp:523
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/capture/sequencejobstate.cpp:566
-#, kde-format
-msgid "Cover the telescope in order to take a dark exposure."
-msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:753
+#: ekos/capture/sequencejobstate.cpp:749
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:768
+#: ekos/capture/sequencejobstate.cpp:764
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap parked."
 msgstr "Доум-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:772
+#: ekos/capture/sequencejobstate.cpp:768
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
