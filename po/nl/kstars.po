@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:43+0000\n"
-"PO-Revision-Date: 2022-11-21 11:14+0100\n"
+"POT-Creation-Date: 2022-12-01 00:42+0000\n"
+"PO-Revision-Date: 2022-11-30 10:39+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15292,10 +15292,9 @@ msgid "Complete"
 msgstr "Voltooid"
 
 #: ekos/capture/sequencejobstate.cpp:340
-#, fuzzy, kde-format
-#| msgid "Cover telescope with an evenly illuminated light source."
+#, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
-msgstr "Dek telescoop af met gelijkmatige lichtbron."
+msgstr "Dek de telescoop af met een gelijkmatige lichtbron."
 
 #: ekos/capture/sequencejobstate.cpp:341
 #, kde-format
@@ -17310,123 +17309,123 @@ msgstr "Belichtingstijd verlopen. Ditheren afgebroken."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Belichtingstijd verlopen. Calibratie afgebroken."
 
-#: ekos/guide/guide.cpp:1256
+#: ekos/guide/guide.cpp:1262
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "De opstelling is geparkeerd. Haal die uit de parkeerstand en start het "
 "volgen."
 
-#: ekos/guide/guide.cpp:1359
+#: ekos/guide/guide.cpp:1365
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "Pier side change detected (vert.: geen idee wat hier wordt bedoeld). "
 "Calibratie wordt gewist."
 
-#: ekos/guide/guide.cpp:1373
+#: ekos/guide/guide.cpp:1379
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Opstelling beweegt. Reset van kalibratie..."
 
-#: ekos/guide/guide.cpp:1389
+#: ekos/guide/guide.cpp:1395
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Opstelling wordt geparkeerd. Volgen wordt afgebroken..."
 
-#: ekos/guide/guide.cpp:1391
+#: ekos/guide/guide.cpp:1397
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Opstelling draait. Volgen gestopt..."
 
-#: ekos/guide/guide.cpp:1451
+#: ekos/guide/guide.cpp:1457
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibreren gewist."
 
-#: ekos/guide/guide.cpp:1472
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "External guider connected."
 msgstr "Verbonden met externe volger."
 
-#: ekos/guide/guide.cpp:1490
+#: ekos/guide/guide.cpp:1496
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Niet verbonden met externe volger."
 
-#: ekos/guide/guide.cpp:1507
+#: ekos/guide/guide.cpp:1513
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibratie voltooid."
 
-#: ekos/guide/guide.cpp:1523
+#: ekos/guide/guide.cpp:1529
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibreren gestart."
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1535
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Volgen hervat"
 
-#: ekos/guide/guide.cpp:1532
+#: ekos/guide/guide.cpp:1538
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Autovolgen gestart."
 
-#: ekos/guide/guide.cpp:1545
+#: ekos/guide/guide.cpp:1551
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Autovolgen afgebroken."
 
-#: ekos/guide/guide.cpp:1550
+#: ekos/guide/guide.cpp:1556
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Volgen onderbroken."
 
-#: ekos/guide/guide.cpp:1559
+#: ekos/guide/guide.cpp:1565
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Er wordt met de hand geditherd."
 
-#: ekos/guide/guide.cpp:1563
+#: ekos/guide/guide.cpp:1569
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Er wordt geditherd."
 
-#: ekos/guide/guide.cpp:1567
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Instellen gedurende %1 seconde na ditheren..."
 msgstr[1] "Instellen gedurende %1 seconden na ditheren..."
 
-#: ekos/guide/guide.cpp:1572
+#: ekos/guide/guide.cpp:1578
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ditheren is mislukt."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1589
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Ditheren met succes voltooid."
 
-#: ekos/guide/guide.cpp:1627
+#: ekos/guide/guide.cpp:1633
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "Binning bij volgen met %1x%1 wordt niet ondersteund."
 
-#: ekos/guide/guide.cpp:1649
+#: ekos/guide/guide.cpp:1655
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Belichten is mislukt. Belichten wordt herhaald..."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1781
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Kan actief volgtype niet wijzigen."
 
-#: ekos/guide/guide.cpp:1866
+#: ekos/guide/guide.cpp:1872
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -17435,37 +17434,37 @@ msgstr ""
 "Waarschuwing: Reset van volgkalibratie is aan. U kunt deze optie beter "
 "uitzetten voor PHD2."
 
-#: ekos/guide/guide.cpp:2249
+#: ekos/guide/guide.cpp:2255
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibratie kon niet worden gestart."
 
-#: ekos/guide/guide.cpp:2400
+#: ekos/guide/guide.cpp:2406
 #, kde-format
 msgid "Auto star selected."
 msgstr "Autoster geselecteerd."
 
-#: ekos/guide/guide.cpp:2404
+#: ekos/guide/guide.cpp:2410
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Autoster selecteren is mislukt.."
 
-#: ekos/guide/guide.cpp:2413
+#: ekos/guide/guide.cpp:2419
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Selecteer een te kalibreren volgster."
 
-#: ekos/guide/guide.cpp:2659
+#: ekos/guide/guide.cpp:2665
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (pixels)"
 
-#: ekos/guide/guide.cpp:2660
+#: ekos/guide/guide.cpp:2666
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (pixels)"
 
-#: ekos/guide/guide.cpp:2771 ekos/guide/guide.cpp:2897
+#: ekos/guide/guide.cpp:2777 ekos/guide/guide.cpp:2903
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -17475,7 +17474,7 @@ msgstr ""
 "afbeeldingen niet bekijken. Maar desondanks kunt u de afbeelding van de volg-"
 "ster zien bij het volgen."
 
-#: ekos/guide/guide.cpp:2775 ekos/guide/guide.cpp:2901
+#: ekos/guide/guide.cpp:2781 ekos/guide/guide.cpp:2907
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "

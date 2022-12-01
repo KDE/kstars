@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:43+0000\n"
+"POT-Creation-Date: 2022-12-01 00:42+0000\n"
 "PO-Revision-Date: 2015-03-19 04:30-0400\n"
 "Last-Translator: Axel Rousseau <axel584@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -16526,171 +16526,171 @@ msgstr ""
 msgid "Exposure timeout. Aborting Calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1256
+#: ekos/guide/guide.cpp:1262
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1359
+#: ekos/guide/guide.cpp:1365
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1373
+#: ekos/guide/guide.cpp:1379
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Mount Ekar"
 
-#: ekos/guide/guide.cpp:1389
+#: ekos/guide/guide.cpp:1395
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mount Ekar"
 
-#: ekos/guide/guide.cpp:1391
+#: ekos/guide/guide.cpp:1397
 #, fuzzy, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Elektu lokon"
 
-#: ekos/guide/guide.cpp:1451
+#: ekos/guide/guide.cpp:1457
 #, fuzzy, kde-format
 msgid "Calibration is cleared."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1472
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1490
+#: ekos/guide/guide.cpp:1496
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1507
+#: ekos/guide/guide.cpp:1513
 #, fuzzy, kde-format
 msgid "Calibration completed."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1523
+#: ekos/guide/guide.cpp:1529
 #, fuzzy, kde-format
 msgid "Calibration started."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1535
 #, fuzzy, kde-format
 msgid "Guiding resumed."
 msgstr "Trovu objekton"
 
-#: ekos/guide/guide.cpp:1532
+#: ekos/guide/guide.cpp:1538
 #, fuzzy, kde-format
 msgid "Autoguiding started."
 msgstr "Trovu objekton"
 
-#: ekos/guide/guide.cpp:1545
+#: ekos/guide/guide.cpp:1551
 #, fuzzy, kde-format
 msgid "Autoguiding aborted."
 msgstr "Trovu objekton"
 
-#: ekos/guide/guide.cpp:1550
+#: ekos/guide/guide.cpp:1556
 #, fuzzy, kde-format
 msgid "Guiding suspended."
 msgstr "Trovu objekton"
 
-#: ekos/guide/guide.cpp:1559
+#: ekos/guide/guide.cpp:1565
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Manual dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:1563
+#: ekos/guide/guide.cpp:1569
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:1567
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:1572
+#: ekos/guide/guide.cpp:1578
 #, fuzzy, kde-format
 msgid "Dithering failed."
 msgstr "montru nomon"
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1589
 #, fuzzy, kde-format
 msgid "Dithering completed successfully."
 msgstr "Koordinatoj"
 
-#: ekos/guide/guide.cpp:1627
+#: ekos/guide/guide.cpp:1633
 #, fuzzy, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "Plutono"
 
-#: ekos/guide/guide.cpp:1649
+#: ekos/guide/guide.cpp:1655
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1781
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1866
+#: ekos/guide/guide.cpp:1872
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2249
+#: ekos/guide/guide.cpp:2255
 #, fuzzy, kde-format
 msgid "Calibration failed to start."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:2400
+#: ekos/guide/guide.cpp:2406
 #, fuzzy, kde-format
 msgid "Auto star selected."
 msgstr "Elektita informkesto"
 
-#: ekos/guide/guide.cpp:2404
+#: ekos/guide/guide.cpp:2410
 #, fuzzy, kde-format
 msgid "Failed to select an auto star."
 msgstr "Ne eblis malfermi dosieron"
 
-#: ekos/guide/guide.cpp:2413
+#: ekos/guide/guide.cpp:2419
 #, fuzzy, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Bonvenon ĉe KStars"
 
-#: ekos/guide/guide.cpp:2659
+#: ekos/guide/guide.cpp:2665
 #, kde-format
 msgid "x (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:2660
+#: ekos/guide/guide.cpp:2666
 #, kde-format
 msgid "y (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:2771 ekos/guide/guide.cpp:2897
+#: ekos/guide/guide.cpp:2777 ekos/guide/guide.cpp:2903
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2775 ekos/guide/guide.cpp:2901
+#: ekos/guide/guide.cpp:2781 ekos/guide/guide.cpp:2907
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
