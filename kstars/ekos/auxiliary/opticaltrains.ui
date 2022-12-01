@@ -6,32 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
-    <height>237</height>
+    <width>738</width>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Optical Trains</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>3</number>
-   </property>
-   <property name="leftMargin">
-    <number>3</number>
-   </property>
-   <property name="topMargin">
-    <number>3</number>
-   </property>
-   <property name="rightMargin">
-    <number>3</number>
-   </property>
-   <property name="bottomMargin">
-    <number>3</number>
-   </property>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2"/>
-   </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -87,7 +69,208 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="trainView"/>
+    <widget class="QSplitter" name="splitter">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QListWidget" name="trainNamesList">
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Optical train name (double click to change the name)</string>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="trainConfigBox">
+      <property name="title">
+       <string>Optical Train</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,1,1">
+       <item row="0" column="0">
+        <widget class="QLabel" name="mountLabel">
+         <property name="toolTip">
+          <string>Select which mount to use. Typically, all optical trains in the same profile use the same mount.</string>
+         </property>
+         <property name="text">
+          <string>Mount:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="mountComboBox"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="scopeLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the scope or lens used in the optical train.&lt;/p&gt;&lt;p&gt;To add, edit, or delete optical elements, tap the &lt;span style=&quot; font-weight:600;&quot;&gt;Telescope &amp;amp; Lens&lt;/span&gt; button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Scope/Lense:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QComboBox" name="scopeComboBox"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="cameraLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the imaging camera for this optical train.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Camera:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="cameraComboBox"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="filterLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a filter wheel.&lt;/p&gt;&lt;p&gt;This could be a dedicated filter wheel or part of a camera driver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Filter Wheel:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QComboBox" name="filterComboBox"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="rotatorLabel">
+         <property name="toolTip">
+          <string>Select a mechanized rotator if any.</string>
+         </property>
+         <property name="text">
+          <string>Rotator:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="rotatorComboBox"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="focusLabel">
+         <property name="toolTip">
+          <string>Select a mechanized focuser if any.</string>
+         </property>
+         <property name="text">
+          <string>Focuser:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QComboBox" name="focusComboBox"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="guiderLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the device that receives the guiding correction pulses. This can be one of the following devices:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mount&lt;/span&gt;: If the Mount can receive guiding correction pulses, then it is best to select it so that the pulses are directly sent to the mount. This is the recommended option.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ST4&lt;/span&gt;: If using an ST4 cable between the guide camera and mount, then you should select the Guide Camera as the Guider.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Dedicated Guider&lt;/span&gt;: If using a dedicated guider interface device (like Shoestring GPUSB) then select it as the Guider.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Guiding:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="guiderComboBox"/>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLabel" name="reducerLabel">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select if any reducer or barlow is used in the train.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Reducer:&lt;/span&gt; If the value is less than 1.0x, this element is considered as a reducer (focal length is decreased by this factor).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Barlow&lt;/span&gt;: If the value is over 1.0x, then it is considered a barlow element (focal length is increased by this factor).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Reducer/Barlow:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QDoubleSpinBox" name="reducerSpinBox">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="dustCapLlabel">
+         <property name="toolTip">
+          <string>Telescope Select a mechanized dust cap if any (e.g. FlipFlat).</string>
+         </property>
+         <property name="text">
+          <string>Dust Cap:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="dustCapComboBox"/>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="lightBoxLabel">
+         <property name="toolTip">
+          <string>Select a flat field lightbox if any (e.g. FlipFlat).</string>
+         </property>
+         <property name="text">
+          <string>Light Box:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QComboBox" name="lightBoxComboBox"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
