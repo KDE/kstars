@@ -7,7 +7,6 @@
 #include "placeholderpath.h"
 
 #include "sequencejob.h"
-#include "Options.h"
 #include "kspaths.h"
 
 #include <QString>
@@ -33,7 +32,7 @@ m_seqFilename(seqFilename)
 }
 
 PlaceholderPath::PlaceholderPath():
-    PlaceholderPath("")
+    PlaceholderPath(QString())
 {
 }
 
@@ -238,7 +237,8 @@ QString PlaceholderPath::generateFilename(const SequenceJob &job, const QString 
     auto rawPrefix = job.getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
     auto darkFlat = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 
-    QString format = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    QString format = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() +
+                     job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
 
     return generateFilename(format, rawPrefix, darkFlat, filter, job.getFrameType(),
                             job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), targetName,
@@ -393,7 +393,8 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
     m_filter              = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
     m_exposure            = job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
     m_targetName          = job.getCoreProperty(SequenceJob::SJ_TargetName).toString();
-    m_format              = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    m_format              = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() +
+                            job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
     m_tsEnabled           = job.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
     m_DarkFlat            = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 }

@@ -4,13 +4,10 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-
-#ifndef PLACEHOLDERPATH
-#define PLACEHOLDERPATH
+#pragma once
 
 #include <lilxml.h>
 #include "indi/indistd.h"
-
 #include <QDebug>
 #include <QFileInfo>
 
@@ -149,4 +146,3 @@ class PlaceholderPath
 
 }
 
-#endif /* ifndef PLACEHOLDERPATH */

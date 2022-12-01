@@ -284,7 +284,7 @@ Capture::Capture()
 
     // #2 Guide Deviation Value
     m_LimitsUI->limitGuideDeviationN->setValue(Options::guideDeviation());
-    connect(m_LimitsUI->limitGuideDeviationN, &QDoubleSpinBox::editingFinished, [ = ]()
+    connect(m_LimitsUI->limitGuideDeviationN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
     });
@@ -300,14 +300,14 @@ Capture::Capture()
 
     // 4. Autofocus HFR Deviation
     m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
-    connect(m_LimitsUI->limitFocusHFRN, &QDoubleSpinBox::editingFinished, [ = ]()
+    connect(m_LimitsUI->limitFocusHFRN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
     });
 
     // 5. Autofocus temperature Check
     m_LimitsUI->limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
-    connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, [ = ](bool checked)
+    connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, this,  [this](bool checked)
     {
         Options::setEnforceAutofocusOnTemperature(checked);
         if (checked == false)
@@ -316,21 +316,21 @@ Capture::Capture()
 
     // 6. Autofocus temperature Delta
     m_LimitsUI->limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
-    connect(m_LimitsUI->limitFocusDeltaTN, &QDoubleSpinBox::editingFinished, [ = ]()
+    connect(m_LimitsUI->limitFocusDeltaTN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
     });
 
     // 7. Refocus Every Check
     m_LimitsUI->limitRefocusS->setChecked(Options::enforceRefocusEveryN());
-    connect(m_LimitsUI->limitRefocusS, &QCheckBox::toggled, [ = ](bool checked)
+    connect(m_LimitsUI->limitRefocusS, &QCheckBox::toggled, this, [](bool checked)
     {
         Options::setEnforceRefocusEveryN(checked);
     });
 
     // 8. Refocus Every Value
     m_LimitsUI->limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
-    connect(m_LimitsUI->limitRefocusN, &QDoubleSpinBox::editingFinished, [ = ]()
+    connect(m_LimitsUI->limitRefocusN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
     });
@@ -412,12 +412,12 @@ Capture::Capture()
     });
 
     customPropertiesDialog.reset(new CustomProperties());
-    connect(customValuesB, &QPushButton::clicked, [&]()
+    connect(customValuesB, &QPushButton::clicked, this, [&]()
     {
         customPropertiesDialog.get()->show();
         customPropertiesDialog.get()->raise();
     });
-    connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, [&]()
+    connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, this, [&]()
     {
         const double newGain = getGain();
         if (captureGainN && newGain >= 0)
@@ -438,23 +438,24 @@ Capture::Capture()
         fileDirectoryT->setText(Options::captureDirectory());
     else
     {
-        fileDirectoryT->setText(KSUtils::getDefaultPath("fitsDir") + QDir::separator() + "Pictures" + QDir::separator() +
-                                "%t" + QDir::separator() + "%T" + QDir::separator() + "%F" + QDir::separator() + "%t_%T");
+        fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
         Options::setCaptureDirectory(fileDirectoryT->text());
     }
 
-    connect(fileDirectoryT, &QLineEdit::textChanged, [&]()
+    connect(fileDirectoryT, &QLineEdit::textChanged, this, [&]()
     {
         Options::setCaptureDirectory(fileDirectoryT->text());
+        generatePreviewFilename();
     });
 
     if (Options::remoteCaptureDirectory().isEmpty() == false)
     {
         fileRemoteDirT->setText(Options::remoteCaptureDirectory());
     }
-    connect(fileRemoteDirT, &QLineEdit::editingFinished, [&]()
+    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
     {
         Options::setRemoteCaptureDirectory(fileRemoteDirT->text());
+        generatePreviewFilename();
     });
 
     //Note:  This is to prevent a button from being called the default button
@@ -480,7 +481,8 @@ Capture::Capture()
     // forward signals from capture module state
     connect(m_captureModuleState.data(), &Ekos::CaptureModuleState::newStatus, this, &Ekos::Capture::newStatus);
     connect(m_captureModuleState.data(), &Ekos::CaptureModuleState::resetFocus, this, &Ekos::Capture::resetFocus);
-    connect(m_captureModuleState.data(), &Ekos::CaptureModuleState::guideAfterMeridianFlip, this, &Ekos::Capture::guideAfterMeridianFlip);
+    connect(m_captureModuleState.data(), &Ekos::CaptureModuleState::guideAfterMeridianFlip, this,
+            &Ekos::Capture::guideAfterMeridianFlip);
 
     setupOpticalTrainManager();
 
@@ -488,25 +490,16 @@ Capture::Capture()
     getMeridianFlipState();
 
     //Update the filename preview
-    //Runs every second rather than connecting to all of the elements that could change the filename
-    QTimer *previewTimer = new QTimer(this);
-    connect(previewTimer, &QTimer::timeout, this, &Ekos::Capture::generatePreviewFilename);
-    previewTimer->start(1000);
+    placeholderFormatT->setText(Options::placeholderFomat());
+    connect(placeholderFormatT, &QLineEdit::textChanged, this, [this]()
+    {
+        Options::setPlaceholderFomat(placeholderFormatT->text());
+        generatePreviewFilename();
+    });
+    connect(formatSuffixN, &QSpinBox::textChanged, this, &Ekos::Capture::generatePreviewFilename);
+    connect(filePrefixT, &QLineEdit::textChanged, this, &Ekos::Capture::generatePreviewFilename);
 
     legacySuffix();
-
-    //If the user changes the format to use placeholder tags then make the legacy
-    //suffix fields unavailble - this is a one-way journey
-    connect(fileDirectoryT, &QLineEdit::textEdited, [&]()
-    {
-        if(fileDirectoryT->text().contains("%"))
-        {
-            Options::setFileSettingsUseFilter(false);
-            Options::setFileSettingsUseDuration(false);
-            Options::setFileSettingsUseTimestamp(false);
-            legacySuffix();
-        }
-    });
 }
 
 Capture::~Capture()
@@ -944,25 +937,25 @@ void Capture::stop(CaptureState targetState)
             QString stopText;
             switch (targetState)
             {
-            case CAPTURE_SUSPENDED:
-                stopText = i18n("CCD capture suspended");
-                activeJob->resetStatus(JOB_BUSY);
-                break;
+                case CAPTURE_SUSPENDED:
+                    stopText = i18n("CCD capture suspended");
+                    activeJob->resetStatus(JOB_BUSY);
+                    break;
 
-            case CAPTURE_COMPLETE:
-                stopText = i18n("CCD capture complete");
-                activeJob->resetStatus(JOB_DONE);
-                break;
+                case CAPTURE_COMPLETE:
+                    stopText = i18n("CCD capture complete");
+                    activeJob->resetStatus(JOB_DONE);
+                    break;
 
-            case CAPTURE_ABORTED:
-                stopText = i18n("CCD capture aborted");
-                activeJob->resetStatus(JOB_ABORTED);
-                break;
+                case CAPTURE_ABORTED:
+                    stopText = i18n("CCD capture aborted");
+                    activeJob->resetStatus(JOB_ABORTED);
+                    break;
 
-            default:
-                stopText = i18n("CCD capture stopped");
-                activeJob->resetStatus(JOB_IDLE);
-                break;
+                default:
+                    stopText = i18n("CCD capture stopped");
+                    activeJob->resetStatus(JOB_IDLE);
+                    break;
             }
             emit captureAborted(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText, KSNotification::Capture, KSNotification::Alert);
@@ -2223,7 +2216,8 @@ IPState Capture::resumeSequence()
         if (next_job)
         {
             //check delta also when starting a new job!
-            m_captureModuleState->getRefocusState()->setTemperatureDeltaCheckActive(m_captureModuleState->getRefocusState()->isAutoFocusReady() && m_LimitsUI->limitFocusDeltaTS->isChecked());
+            m_captureModuleState->getRefocusState()->setTemperatureDeltaCheckActive(
+                m_captureModuleState->getRefocusState()->isAutoFocusReady() && m_LimitsUI->limitFocusDeltaTS->isChecked());
 
             prepareJob(next_job);
 
@@ -2247,7 +2241,8 @@ IPState Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure.
     else
     {
-        m_captureModuleState->getRefocusState()->setTemperatureDeltaCheckActive(m_captureModuleState->getRefocusState()->isAutoFocusReady() && m_LimitsUI->limitFocusDeltaTS->isChecked());
+        m_captureModuleState->getRefocusState()->setTemperatureDeltaCheckActive(
+            m_captureModuleState->getRefocusState()->isAutoFocusReady() && m_LimitsUI->limitFocusDeltaTS->isChecked());
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now - unless
         // a meridian flip is ongoing
@@ -2329,30 +2324,36 @@ bool Capture::startFocusIfRequired()
         return false;
 
     m_captureModuleState->getRefocusState()->setRefocusing(false);
-    m_captureModuleState->getRefocusState()->setInSequenceFocus(m_captureModuleState->getRefocusState()->isAutoFocusReady() && m_LimitsUI->limitFocusHFRS->isChecked());
+    m_captureModuleState->getRefocusState()->setInSequenceFocus(m_captureModuleState->getRefocusState()->isAutoFocusReady()
+            && m_LimitsUI->limitFocusHFRS->isChecked());
 
     // check if time for forced refocus
     if (m_LimitsUI->limitRefocusS->isChecked())
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec() <<
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " <<
+                                     m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec() <<
                                      ". Requested Interval (secs): " << m_LimitsUI->limitRefocusN->value() * 60;
 
         if (m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec() >= m_LimitsUI->limitRefocusN->value() * 60)
         {
             m_captureModuleState->getRefocusState()->setRefocusing(true);
-            appendLogText(i18n("Scheduled refocus starting after %1 seconds...", m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec()));
+            appendLogText(i18n("Scheduled refocus starting after %1 seconds...",
+                               m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec()));
         }
     }
 
-    if (!m_captureModuleState->getRefocusState()->isRefocusing() && m_captureModuleState->getRefocusState()->isTemperatureDeltaCheckActive())
+    if (!m_captureModuleState->getRefocusState()->isRefocusing()
+            && m_captureModuleState->getRefocusState()->isTemperatureDeltaCheckActive())
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " << m_captureModuleState->getRefocusState()->getFocusTemperatureDelta() <<
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " <<
+                                     m_captureModuleState->getRefocusState()->getFocusTemperatureDelta() <<
                                      ". Requested maximum delta (°C): " << m_LimitsUI->limitFocusDeltaTN->value();
 
         if (m_captureModuleState->getRefocusState()->getFocusTemperatureDelta() > m_LimitsUI->limitFocusDeltaTN->value())
         {
             m_captureModuleState->getRefocusState()->setRefocusing(true);
-            appendLogText(i18n("Refocus starting because of temperature change of %1 °C...", m_captureModuleState->getRefocusState()->getFocusTemperatureDelta()));
+            appendLogText(i18n("Refocus starting because of temperature change of %1 °C...",
+                               m_captureModuleState->getRefocusState()->getFocusTemperatureDelta()));
         }
     }
 
@@ -2391,7 +2392,8 @@ bool Capture::startFocusIfRequired()
         m_captureModuleState->setCaptureState(CAPTURE_FOCUSING);
         return true;
     }
-    else if (m_captureModuleState->getRefocusState()->isInSequenceFocus() && m_captureModuleState->getRefocusState()->getInSequenceFocusCounter() == 0)
+    else if (m_captureModuleState->getRefocusState()->isInSequenceFocus()
+             && m_captureModuleState->getRefocusState()->getInSequenceFocusCounter() == 0)
     {
         m_captureModuleState->getRefocusState()->resetInSequenceFocusCounter();
 
@@ -2399,7 +2401,8 @@ bool Capture::startFocusIfRequired()
         // as it could have changed for whatever reason (e.g. alignment used a different filter).
         // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
         // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
-        if (getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_NONE && m_captureDeviceAdaptor->getFilterWheel())
+        if (getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_NONE
+                && m_captureDeviceAdaptor->getFilterWheel())
         {
             int targetFilterPosition = activeJob->getTargetFilter();
             int currentFilterPosition = m_FilterManager->getFilterPosition();
@@ -3035,28 +3038,30 @@ bool Capture::addJob(bool preview, bool isDarkFlat, filenamePreviewType filename
     job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
                          captureFrameHN->value()));
     job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
+    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectoryT->text());
 
-    QString fileDirectory;
+    QString placeholder;
     if (filenamePreview != REMOTE_PREVIEW)
     {
         if (!isDarkFlat)
-            fileDirectory = fileDirectoryT->text().append(formatSuffixN->prefix()).append(formatSuffixN->cleanText());
+            placeholder = placeholderFormatT->text().append(formatSuffixN->prefix()).append(formatSuffixN->cleanText());
         else
-            fileDirectory = fileDirectoryT->text();
+            placeholder = placeholderFormatT->text();
     }
     else
     {
-        fileDirectory = fileRemoteDirT->text();
+        placeholder = placeholderFormatT->text();
         // Remotely saved files get a predefined format hard coded in the driver
-        if (!fileDirectory.endsWith(QDir::separator()))
-            fileDirectory.append(QDir::separator());
-        fileDirectory.append("%target" + QDir::separator() + "%Type" + QDir::separator() + "%Filter" + QDir::separator() +
-                             "%target_%Type_%s3");
+        if (!placeholder.endsWith(QDir::separator()))
+            placeholder.append(QDir::separator());
+        placeholder.append("%target" + QDir::separator() + "%Type" + QDir::separator() + "%Filter" + QDir::separator() +
+                           "%target_%Type_%s3");
     }
 
-    while (fileDirectory.endsWith(QDir::separator()))
-        fileDirectory.chop(1);
-    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectory);
+    while (placeholder.endsWith(QDir::separator()))
+        placeholder.chop(1);
+
+    job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholder);
 
     if (m_JobUnderEdit == false || filenamePreview != NOT_PREVIEW)
     {
@@ -4032,7 +4037,8 @@ void Capture::setFocusStatus(FocusState state)
         startRefocusTimer(true);
     }
 
-    if ((m_captureModuleState->getRefocusState()->isRefocusing() || m_captureModuleState->getRefocusState()->isInSequenceFocus()) && activeJob && activeJob->getStatus() == JOB_BUSY)
+    if ((m_captureModuleState->getRefocusState()->isRefocusing()
+            || m_captureModuleState->getRefocusState()->isInSequenceFocus()) && activeJob && activeJob->getStatus() == JOB_BUSY)
     {
         if (m_captureModuleState->getFocusState() == FOCUS_COMPLETE)
         {
@@ -4242,6 +4248,7 @@ void Capture::processNewTargetName(const QString &name)
                         .replace( QRegularExpression("_$"), "");
             m_FullTargetName = name;
             filePrefixT->setText(sanitized);
+            generatePreviewFilename();
         }
     }
 }
@@ -4266,15 +4273,6 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    if (!fileDirectoryT->text().isEmpty())
-    {
-        int overwrite = KMessageBox::warningContinueCancel(nullptr,
-                        i18n("Changing directory will overwrite any format previously entered"));
-        if (overwrite == KMessageBox::Cancel)
-        {
-            return;
-        }
-    }
     QString dir =
         QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
                                           dirPath.toLocalFile());
@@ -4541,11 +4539,11 @@ bool Capture::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
-            QString fullFormat = pcdataXMLEle(ep);
-            const QString seqDigitTag = "_%s";
-            QString seqDigits = fullFormat.right(fullFormat.length() - (fullFormat.lastIndexOf(seqDigitTag) + seqDigitTag.length()));
-            formatSuffixN->setValue(seqDigits.toInt());
-            fileDirectoryT->setText(fullFormat.left(fullFormat.lastIndexOf(seqDigitTag)));
+            fileDirectoryT->setText(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
+        {
+            placeholderFormatT->setText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
@@ -4831,6 +4829,9 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << Qt::endl;
         outstream << "<FITSDirectory>" << job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() << "</FITSDirectory>" <<
                   Qt::endl;
+        outstream << "<PlaceholderFormat>" << job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString() <<
+                  "</PlaceholderFormat>" <<
+                  Qt::endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << Qt::endl;
         if (job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString().isEmpty() == false)
             outstream << "<RemoteDirectory>" << job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString() << "</RemoteDirectory>"
@@ -4984,7 +4985,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
-    fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
+    placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
 
     // Temperature Options
     cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
@@ -6641,17 +6642,18 @@ void Capture::setPresetSettings(const QJsonObject &settings)
 
 void Capture::setFileSettings(const QJsonObject &settings)
 {
-    const QString prefix = settings["prefix"].toString(filePrefixT->text());
-    //const QString script = settings["script"].toString(fileScriptT->text());
-    const QString directory = settings["directory"].toString(fileDirectoryT->text());
-    const int upload = settings["upload"].toInt(fileUploadModeS->currentIndex());
-    const QString remote = settings["remote"].toString(fileRemoteDirT->text());
+    const auto prefix = settings["prefix"].toString(filePrefixT->text());
+    const auto directory = settings["directory"].toString(fileDirectoryT->text());
+    const auto upload = settings["upload"].toInt(fileUploadModeS->currentIndex());
+    const auto remote = settings["remote"].toString(fileRemoteDirT->text());
+    const auto format = settings["format"].toString(placeholderFormatT->text());
 
     filePrefixT->setText(prefix);
     //    fileScriptT->setText(script);
     fileDirectoryT->setText(directory);
     fileUploadModeS->setCurrentIndex(upload);
     fileRemoteDirT->setText(remote);
+    placeholderFormatT->setText(format);
 }
 
 QJsonObject Capture::getFileSettings()
@@ -6659,11 +6661,8 @@ QJsonObject Capture::getFileSettings()
     QJsonObject settings =
     {
         {"prefix", filePrefixT->text()},
-        //        {"script", fileScriptT->text()},
         {"directory", fileDirectoryT->text()},
-        {"filter", FilterEnabled},
-        {"duration", ExpEnabled},
-        {"ts", TimeStampEnabled},
+        {"format", placeholderFormatT->text()},
         {"upload", fileUploadModeS->currentIndex()},
         {"remote", fileRemoteDirT->text()}
     };
@@ -7351,7 +7350,10 @@ void Capture::syncRefocusOptionsFromGUI()
 void Capture::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Capture::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
+    connect(trainB, &QPushButton::clicked, this, [this]()
+    {
+        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+    });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain,
@@ -7400,6 +7402,8 @@ void Capture::refreshOpticalTrain()
 
         auto mount = OpticalTrainManager::Instance()->getMount(name);
         setMount(mount);
+
+        generatePreviewFilename();
     }
 
     opticalTrainCombo->blockSignals(false);
@@ -7419,21 +7423,22 @@ void Capture::generatePreviewFilename()
 
 QString Capture::previewFilename(filenamePreviewType previewType)
 {
-    QString previewText = "";
-
+    QString previewText;
     QString m_format;
-    const QString seqDigitsTag = "%s";
+
+    //const QString seqDigitsTag = "%s";
 
     // Prevent the user entering a sequence tag in the main Format
-    if (fileDirectoryT->text().contains(seqDigitsTag))
-    {
-        fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().indexOf(seqDigitsTag)));
-        if (fileDirectoryT->text().endsWith("-") || fileDirectoryT->text().endsWith("_"))
-            fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().length() - 1));
-    }
+    // FIXME can we regex this instead?
+    //    if (fileDirectoryT->text().contains(seqDigitsTag))
+    //    {
+    //        fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().indexOf(seqDigitsTag)));
+    //        if (fileDirectoryT->text().endsWith("-") || fileDirectoryT->text().endsWith("_"))
+    //            fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().length() - 1));
+    //    }
 
     if (previewType == LOCAL_PREVIEW)
-        m_format = fileDirectoryT->text().append(formatSuffixN->prefix()).append(formatSuffixN->cleanText());
+        m_format = fileDirectoryT->text() + placeholderFormatT->text() + formatSuffixN->prefix() + formatSuffixN->cleanText();
     else if (previewType == REMOTE_PREVIEW)
         m_format = fileRemoteDirT->text();
 
@@ -7503,7 +7508,7 @@ void Capture::legacySuffix()
 
             if (m_format.endsWith("_"))
                 m_format.chop(1);
-            fileDirectoryT->setText(m_format);
+            placeholderFormatT->setText(m_format);
             formatSuffixN->setValue(3);
         }
     }

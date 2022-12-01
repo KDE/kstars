@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>750</width>
-    <height>518</height>
+    <width>727</width>
+    <height>563</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -897,8 +897,97 @@
           <property name="spacing">
            <number>2</number>
           </property>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_10">
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel1_7">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Target is the name of the targetted object.&lt;/p&gt;&lt;p&gt;It is available to be used in the filename Format via the %t or %type placeholder tag.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Target:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QComboBox" name="fileUploadModeS">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>Locally</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Remotely</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Both</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="5">
+           <widget class="QLineEdit" name="filePrefixT">
+            <property name="placeholderText">
+             <string>Target</string>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1" colspan="6">
+           <widget class="QLabel" name="FilenamePreviewLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Local preview</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
+            </property>
+            <property name="text">
+             <string>Remote:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select how captured images are uploaded:&lt;/p&gt;&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Locally&lt;/span&gt;: Captured images are saved locally on disk in the directory specified above.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Remotely&lt;/span&gt;: When connecting to a remote device, select this option to save images on the remote device only. No images are uploaded to Ekos.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Both&lt;/span&gt;: Captured images are saved on both the remote computer &lt;span style=&quot; font-weight:600;&quot;&gt;and&lt;/span&gt; on the local disk as well.&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;When selecting &lt;span style=&quot; font-style:italic;&quot;&gt;Remotely&lt;/span&gt; or &lt;span style=&quot; font-style:italic;&quot;&gt;Both&lt;/span&gt;, you must specify the remote directory where the remote images are saved to. By default, all captured images are saved &lt;span style=&quot; font-style:italic;&quot;&gt;Locally&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Save:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_9">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -907,6 +996,47 @@
             </property>
             <property name="text">
              <string>Preview:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="textLabel1_18">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Base local capture directory&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Directory</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="3" colspan="3">
+           <widget class="QLineEdit" name="fileRemoteDirT">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="placeholderText">
+             <string>/home/pi</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1" colspan="6">
+           <widget class="QLabel" name="RemotePreviewLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Remote preview</string>
             </property>
            </widget>
           </item>
@@ -935,109 +1065,8 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_7">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Target is the name of the targetted object.&lt;/p&gt;&lt;p&gt;It is available to be used in the filename Format via the %t or %type placeholder tag.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Target:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QComboBox" name="fileUploadModeS">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>Locally</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Remotely</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Both</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="3" colspan="3">
-           <widget class="QLineEdit" name="fileRemoteDirT">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="placeholderText">
-             <string>/home/pi</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_2">
-            <property name="toolTip">
-             <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
-            </property>
-            <property name="text">
-             <string>Remote:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="3">
-           <widget class="QLineEdit" name="fileDirectoryT">
-            <property name="text">
-             <string>Local path / Format</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="5">
-           <widget class="QLineEdit" name="filePrefixT">
-            <property name="placeholderText">
-             <string>Target</string>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select how captured images are uploaded:&lt;/p&gt;&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Locally&lt;/span&gt;: Captured images are saved locally on disk in the directory specified above.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Remotely&lt;/span&gt;: When connecting to a remote device, select this option to save images on the remote device only. No images are uploaded to Ekos.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Both&lt;/span&gt;: Captured images are saved on both the remote computer &lt;span style=&quot; font-weight:600;&quot;&gt;and&lt;/span&gt; on the local disk as well.&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;When selecting &lt;span style=&quot; font-style:italic;&quot;&gt;Remotely&lt;/span&gt; or &lt;span style=&quot; font-style:italic;&quot;&gt;Both&lt;/span&gt;, you must specify the remote directory where the remote images are saved to. By default, all captured images are saved &lt;span style=&quot; font-style:italic;&quot;&gt;Locally&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Save:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="textLabel1_18">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Format is used to define the image file names by the use of placeholder tags.&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %f&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%filename&lt;/span&gt;: The name of the .esq file, without extension.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %D&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Datetime&lt;/span&gt;: The current time and date &lt;span style=&quot; font-weight:700;&quot;&gt;when the file is saved.&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %T&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Type&lt;/span&gt;: The frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %e&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%exposure&lt;/span&gt;: The exposure duration in seconds.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %F&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Filter&lt;/span&gt;: The active filter name.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %t&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%target&lt;/span&gt;: The Target name.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %s*&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%sequence&lt;/span&gt;: The image sequence identifier where * is the number of digits used (1-9). &lt;span style=&quot; font-weight:700;&quot;&gt;This tag is mandatory and must be the last element in the format.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Arbitary text may also be included within the Format string, &lt;span style=&quot; font-weight:700;&quot;&gt;except the % and \ characters.&lt;/span&gt; The / path character can be used to define aribtary directories.&lt;/p&gt;&lt;p&gt;Notes:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tags are case sensitive in both their short and long forms.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Only use the %Datetime tag in the filename portion of the format, not in the path definition.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Format:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_9">
+          <item row="8" column="0">
+           <widget class="QLabel" name="label_10">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1049,43 +1078,20 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1" colspan="6">
-           <widget class="QLabel" name="FilenamePreviewLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-             </font>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Format is used to define the image file names by the use of placeholder tags.&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %f&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%filename&lt;/span&gt;: The name of the .esq file, without extension.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %D&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Datetime&lt;/span&gt;: The current time and date &lt;span style=&quot; font-weight:700;&quot;&gt;when the file is saved.&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %T&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Type&lt;/span&gt;: The frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %e&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%exposure&lt;/span&gt;: The exposure duration in seconds.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %F&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Filter&lt;/span&gt;: The active filter name.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %t&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%target&lt;/span&gt;: The Target name.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %s*&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%sequence&lt;/span&gt;: The image sequence identifier where * is the number of digits used (1-9). &lt;span style=&quot; font-weight:700;&quot;&gt;This tag is mandatory and must be the last element in the format.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Arbitary text may also be included within the Format string, &lt;span style=&quot; font-weight:700;&quot;&gt;except the % and \ characters.&lt;/span&gt; The / path character can be used to define aribtary directories.&lt;/p&gt;&lt;p&gt;Notes:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tags are case sensitive in both their short and long forms.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Only use the %Datetime tag in the filename portion of the format, not in the path definition.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Local preview</string>
+             <string>Format:</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1" colspan="6">
-           <widget class="QLabel" name="RemotePreviewLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Remote preview</string>
-            </property>
-           </widget>
+          <item row="2" column="1" colspan="3">
+           <widget class="QLineEdit" name="placeholderFormatT"/>
           </item>
-          <item row="1" column="4">
+          <item row="2" column="4" colspan="2">
            <widget class="QSpinBox" name="formatSuffixN">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of digits used to append the sequence number to the filename.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1103,6 +1109,9 @@
              <number>3</number>
             </property>
            </widget>
+          </item>
+          <item row="1" column="1" colspan="4">
+           <widget class="QLineEdit" name="fileDirectoryT"/>
           </item>
          </layout>
         </item>
