@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:43+0000\n"
+"POT-Creation-Date: 2022-12-01 00:42+0000\n"
 "PO-Revision-Date: 2022-06-15 22:27+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -17345,119 +17345,119 @@ msgstr "Tidsgräns för exponering överskriden. Avbryter gitter."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Tidsgräns för exponering överskriden. Avbryter kalibrering."
 
-#: ekos/guide/guide.cpp:1256
+#: ekos/guide/guide.cpp:1262
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Stativet är parkerat. Frigör det för att starta guidning."
 
-#: ekos/guide/guide.cpp:1359
+#: ekos/guide/guide.cpp:1365
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Ändring av pirsida detekterades. Rensar kalibrering."
 
-#: ekos/guide/guide.cpp:1373
+#: ekos/guide/guide.cpp:1379
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Stativet förflyttas. Nollställer kalibrering..."
 
-#: ekos/guide/guide.cpp:1389
+#: ekos/guide/guide.cpp:1395
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Stativet håller på att parkeras. Avbryter guidning ..."
 
-#: ekos/guide/guide.cpp:1391
+#: ekos/guide/guide.cpp:1397
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Stativ håller på att förflyttas. Avbryter guidning ..."
 
-#: ekos/guide/guide.cpp:1451
+#: ekos/guide/guide.cpp:1457
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrering rensad."
 
-#: ekos/guide/guide.cpp:1472
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "External guider connected."
 msgstr "Extern guidefunktion ansluten."
 
-#: ekos/guide/guide.cpp:1490
+#: ekos/guide/guide.cpp:1496
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Extern guidefunktion nerkopplad."
 
-#: ekos/guide/guide.cpp:1507
+#: ekos/guide/guide.cpp:1513
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrering slutförd."
 
-#: ekos/guide/guide.cpp:1523
+#: ekos/guide/guide.cpp:1529
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrering startad."
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1535
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Guidning återupptagen."
 
-#: ekos/guide/guide.cpp:1532
+#: ekos/guide/guide.cpp:1538
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Automatisk guidning startad."
 
-#: ekos/guide/guide.cpp:1545
+#: ekos/guide/guide.cpp:1551
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Automatisk guidning avbruten."
 
-#: ekos/guide/guide.cpp:1550
+#: ekos/guide/guide.cpp:1556
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Guidning stoppad."
 
-#: ekos/guide/guide.cpp:1559
+#: ekos/guide/guide.cpp:1565
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Manuellt gitter pågår."
 
-#: ekos/guide/guide.cpp:1563
+#: ekos/guide/guide.cpp:1569
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Gitter pågår."
 
-#: ekos/guide/guide.cpp:1567
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Dämpning efter gitter under %1 sekund..."
 msgstr[1] "Dämpning efter gitter under %1 sekunder..."
 
-#: ekos/guide/guide.cpp:1572
+#: ekos/guide/guide.cpp:1578
 #, kde-format
 msgid "Dithering failed."
 msgstr "Gitter misslyckades."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1589
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Gitter avslutades med lyckat resultat."
 
-#: ekos/guide/guide.cpp:1627
+#: ekos/guide/guide.cpp:1633
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "Guideindelningen %1 x %1 stöds inte."
 
-#: ekos/guide/guide.cpp:1649
+#: ekos/guide/guide.cpp:1655
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Exponering misslyckades. Startar om exponering..."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1781
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Kan inte ändra guidningstyp medan guidningen är aktiv."
 
-#: ekos/guide/guide.cpp:1866
+#: ekos/guide/guide.cpp:1872
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -17466,37 +17466,37 @@ msgstr ""
 "Varning: Nollställ guidningskalibrering är aktiverad. Det rekommenderas att "
 "stänga av alternativet för PHD2."
 
-#: ekos/guide/guide.cpp:2249
+#: ekos/guide/guide.cpp:2255
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Start av kalibrering misslyckades."
 
-#: ekos/guide/guide.cpp:2400
+#: ekos/guide/guide.cpp:2406
 #, kde-format
 msgid "Auto star selected."
 msgstr "Automatisk stjärna vald."
 
-#: ekos/guide/guide.cpp:2404
+#: ekos/guide/guide.cpp:2410
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Misslyckades välja automatisk stjärna."
 
-#: ekos/guide/guide.cpp:2413
+#: ekos/guide/guide.cpp:2419
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Välj en guidestjärna för att kalibrera."
 
-#: ekos/guide/guide.cpp:2659
+#: ekos/guide/guide.cpp:2665
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (bildpunkter)"
 
-#: ekos/guide/guide.cpp:2660
+#: ekos/guide/guide.cpp:2666
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (bildpunkter)"
 
-#: ekos/guide/guide.cpp:2771 ekos/guide/guide.cpp:2897
+#: ekos/guide/guide.cpp:2777 ekos/guide/guide.cpp:2903
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -17505,7 +17505,7 @@ msgstr ""
 "PHD2-kameran är nu tillgänglig för Ekos, så det går inte att se tagna "
 "bilder. Men guidestjärnans bild syns fortfarande under guidning."
 
-#: ekos/guide/guide.cpp:2775 ekos/guide/guide.cpp:2901
+#: ekos/guide/guide.cpp:2781 ekos/guide/guide.cpp:2907
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "

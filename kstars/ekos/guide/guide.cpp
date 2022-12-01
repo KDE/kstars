@@ -1176,7 +1176,13 @@ bool Guide::calibrate()
 
     if (guiderType == GUIDE_INTERNAL)
     {
-        ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+        if (!m_Camera)
+        {
+            qCCritical(KSTARS_EKOS_GUIDE) << "No camera detected. Check optical trains.";
+            return false;
+        }
+
+        auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
         if (frameSettings.contains(targetChip))
         {
@@ -1200,7 +1206,7 @@ bool Guide::calibrate()
 
     if (m_Camera && m_Guider)
     {
-        qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using CCD:" << m_Camera->getDeviceName() << "via" <<
+        qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using camera:" << m_Camera->getDeviceName() << "via" <<
                                    m_Guider->getDeviceName();
     }
 

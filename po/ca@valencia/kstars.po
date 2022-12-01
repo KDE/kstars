@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:43+0000\n"
+"POT-Creation-Date: 2022-12-01 00:42+0000\n"
 "PO-Revision-Date: 2022-11-22 14:02+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -15434,8 +15434,7 @@ msgid "Complete"
 msgstr "Finalitzat"
 
 #: ekos/capture/sequencejobstate.cpp:340
-#, fuzzy, kde-format
-#| msgid "Cover telescope with an evenly illuminated light source."
+#, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Cobrix el telescopi amb una font de llum il·luminada uniformement."
 
@@ -17486,122 +17485,122 @@ msgstr "S'ha excedit el temps límit d'exposició. S'interromp el tramat."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "S'ha excedit el temps límit d'exposició. S'interromp el calibratge."
 
-#: ekos/guide/guide.cpp:1256
+#: ekos/guide/guide.cpp:1262
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La muntura es troba aparcada. Desaparqueu-la per a iniciar el guiatge."
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#: ekos/guide/guide.cpp:1359
+#: ekos/guide/guide.cpp:1365
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "S'ha detectat un canvi al costat del moll de la muntura. Es neteja el "
 "calibratge."
 
-#: ekos/guide/guide.cpp:1373
+#: ekos/guide/guide.cpp:1379
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La muntura s'està movent. S'està restablint el calibratge..."
 
-#: ekos/guide/guide.cpp:1389
+#: ekos/guide/guide.cpp:1395
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "S'està aparcant la muntura. S'interromp el guiatge..."
 
-#: ekos/guide/guide.cpp:1391
+#: ekos/guide/guide.cpp:1397
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "S'està orientant la muntura. S'interromp el guiatge..."
 
-#: ekos/guide/guide.cpp:1451
+#: ekos/guide/guide.cpp:1457
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "S'ha netejat el calibratge."
 
-#: ekos/guide/guide.cpp:1472
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "External guider connected."
 msgstr "S'ha connectat un sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1490
+#: ekos/guide/guide.cpp:1496
 #, kde-format
 msgid "External guider disconnected."
 msgstr "S'ha desconnectat el sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1507
+#: ekos/guide/guide.cpp:1513
 #, kde-format
 msgid "Calibration completed."
 msgstr "S'ha completat el calibratge."
 
-#: ekos/guide/guide.cpp:1523
+#: ekos/guide/guide.cpp:1529
 #, kde-format
 msgid "Calibration started."
 msgstr "S'ha iniciat el calibratge."
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1535
 #, kde-format
 msgid "Guiding resumed."
 msgstr "S'ha représ el guiatge."
 
-#: ekos/guide/guide.cpp:1532
+#: ekos/guide/guide.cpp:1538
 #, kde-format
 msgid "Autoguiding started."
 msgstr "S'ha iniciat el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1545
+#: ekos/guide/guide.cpp:1551
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "S'ha interromput el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1550
+#: ekos/guide/guide.cpp:1556
 #, kde-format
 msgid "Guiding suspended."
 msgstr "S'ha suspés el guiatge."
 
-#: ekos/guide/guide.cpp:1559
+#: ekos/guide/guide.cpp:1565
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Tramat manual en curs."
 
-#: ekos/guide/guide.cpp:1563
+#: ekos/guide/guide.cpp:1569
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Tramat en curs."
 
-#: ekos/guide/guide.cpp:1567
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Posicionament del posttramat durant %1 segon..."
 msgstr[1] "Posicionament del posttramat durant %1 segons..."
 
-#: ekos/guide/guide.cpp:1572
+#: ekos/guide/guide.cpp:1578
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ha fallat el tramat."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1589
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "El tramat s'ha completat correctament."
 
-#: ekos/guide/guide.cpp:1627
+#: ekos/guide/guide.cpp:1633
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "No s'admet l'agrupament %1x%1 del guiatge."
 
-#: ekos/guide/guide.cpp:1649
+#: ekos/guide/guide.cpp:1655
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "No s'ha pogut fer l'exposició. Es reinicia l'exposició..."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1781
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "No es pot canviar el tipus del sistema de guiatge mentre està actiu."
 
-#: ekos/guide/guide.cpp:1866
+#: ekos/guide/guide.cpp:1872
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -17610,37 +17609,37 @@ msgstr ""
 "Avís: Està actiu el reinici del calibratge del guiatge. Es recomana "
 "desactivar esta opció per al PHD2."
 
-#: ekos/guide/guide.cpp:2249
+#: ekos/guide/guide.cpp:2255
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "No s'ha pogut iniciar el calibratge."
 
-#: ekos/guide/guide.cpp:2400
+#: ekos/guide/guide.cpp:2406
 #, kde-format
 msgid "Auto star selected."
 msgstr "Estrela seleccionada automàticament."
 
-#: ekos/guide/guide.cpp:2404
+#: ekos/guide/guide.cpp:2410
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "No s'ha pogut seleccionar l'estrela automàtica."
 
-#: ekos/guide/guide.cpp:2413
+#: ekos/guide/guide.cpp:2419
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleccioneu una estrela guia que s'haja de calibrar."
 
-#: ekos/guide/guide.cpp:2659
+#: ekos/guide/guide.cpp:2665
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (píxels)"
 
-#: ekos/guide/guide.cpp:2660
+#: ekos/guide/guide.cpp:2666
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (píxels)"
 
-#: ekos/guide/guide.cpp:2771 ekos/guide/guide.cpp:2897
+#: ekos/guide/guide.cpp:2777 ekos/guide/guide.cpp:2903
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -17650,7 +17649,7 @@ msgstr ""
 "les imatges capturades. Però encara podreu veure la Imatge de l'estrela guia "
 "quan feu el guiatge."
 
-#: ekos/guide/guide.cpp:2775 ekos/guide/guide.cpp:2901
+#: ekos/guide/guide.cpp:2781 ekos/guide/guide.cpp:2907
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -19860,7 +19859,7 @@ msgstr ""
 #: ekos/manager.cpp:1271
 #, kde-format
 msgid "Connecting INDI devices..."
-msgstr "Els dispositius INDI estan connectant-se..."
+msgstr "Els dispositius INDI s'estan connectant..."
 
 #: ekos/manager.cpp:1282
 #, kde-format
@@ -32933,7 +32932,7 @@ msgstr "Nom complet de l'observador predeterminat."
 #, kde-format
 msgid "Sync FOV indicator Position Angle with Rotator Settings Position Angle"
 msgstr ""
-"Sincronitza l'angle de posició de l'indicador CDV amb l'angle de posició a "
+"Sincronitza l'angle de posició de l'indicador CDV amb l'angle de posició en "
 "la configuració del rotor"
 
 #. i18n: ectx: label, entry (PAMultiplier), group (Capture)
@@ -73556,7 +73555,7 @@ msgstr "omega"
 #, kde-format
 msgid "Failed to load terrain. Set terrain file in Settings."
 msgstr ""
-"No s'ha pogut carregar el terreny. Establiu el fitxer del terreny a la "
+"No s'ha pogut carregar el terreny. Establiu el fitxer del terreny en la "
 "configuració."
 
 #: terrain/terrainrenderer.cpp:366
@@ -73564,7 +73563,7 @@ msgstr ""
 msgid "Failed to load terrain image (%1). Set terrain file in Settings."
 msgstr ""
 "No s'ha pogut carregar la imatge (%1) del terreny. Establiu el fitxer del "
-"terreny a la configuració."
+"terreny en la configuració."
 
 #: time/timezonerule.cpp:37
 #, kde-format
@@ -77302,8 +77301,8 @@ msgid ""
 msgstr ""
 "Especifiqueu una llista d'objectes amb un objecte en cada línia que s'ha "
 "d'afegir. Els noms cal que els entenga KStars, o si s'ha activat el "
-"resolutor d'Internet a la configuració, el resolutor CDS Sesame. Els resolts "
-"a Internet s'afegiran a la base de dades."
+"resolutor d'Internet en la configuració, el resolutor CDS Sesame. Els "
+"resolts a Internet s'afegiran a la base de dades."
 
 #: tools/observinglist.cpp:808
 #, kde-format
