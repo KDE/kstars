@@ -549,8 +549,7 @@ void Camera::processStream(IBLOB *bp)
 bool Camera::generateFilename(bool batch_mode, const QString &extension, QString *filename)
 {
 
-    placeholderPath.generateFilename("%p1/%t/%T/%F/%t_%T_%F_%e_%D_%s3", ISOMode,
-                                     batch_mode, nextSequenceID, extension, filename);
+    *filename = placeholderPath.generateFilename(batch_mode, nextSequenceID, extension, "");
 
     QDir currentDir = QFileInfo(*filename).dir();
     if (currentDir.exists() == false)

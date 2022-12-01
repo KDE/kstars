@@ -40,7 +40,7 @@ void TestEkosCapture::init()
 {
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 
-    // Wait for Capture to come up, switch to Focus tab
+    // Wait for Capture to come up, switch to Capture tab
     QTRY_VERIFY_WITH_TIMEOUT(ekos->captureModule() != nullptr, 5000);
     KTRY_EKOS_GADGET(QTabWidget, toolsWidget);
     toolsWidget->setCurrentWidget(ekos->captureModule());
@@ -171,7 +171,7 @@ void TestEkosCapture::testCaptureSingle()
     QVERIFY(destination.autoRemove());
 
     // Add an exposure
-    KTRY_CAPTURE_ADD_LIGHT(0.5, 1, 0, "Red", destination.path());
+    KTRY_CAPTURE_ADD_LIGHT(0.5, 1, 0, "Red", destination.path()+"/%T_");
 
     // Start capturing and wait for procedure to end (visual icon changing)
     KTRY_CAPTURE_GADGET(QPushButton, startB);
@@ -183,7 +183,7 @@ void TestEkosCapture::testCaptureSingle()
     // Verify a FITS file was created
     QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->searchFITS(QDir(destination.path())).count() == 1, 1000);
     QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[0].startsWith("Light_"));
-    QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[0].endsWith("_001.fits"));
+    QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[0].endsWith("001.fits"));
 
     // Reset sequence state - this makes a confirmation dialog appear
     volatile bool dialogValidated = false;
@@ -208,9 +208,9 @@ void TestEkosCapture::testCaptureSingle()
     // Verify an additional FITS file was created - asynchronously eventually
     QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->searchFITS(QDir(destination.path())).count() == 2, 2000);
     QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[0].startsWith("Light_"));
-    QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[0].endsWith("_001.fits"));
+    QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[0].endsWith("001.fits"));
     QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[1].startsWith("Light_"));
-    QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[1].endsWith("_002.fits"));
+    QVERIFY(m_CaptureHelper->searchFITS(QDir(destination.path()))[1].endsWith("002.fits"));
 
     // TODO: test storage options
 }
@@ -223,11 +223,11 @@ void TestEkosCapture::testCaptureMultiple()
     QVERIFY(destination.autoRemove());
 
     // Add a few exposures
-    KTRY_CAPTURE_ADD_LIGHT(0.5, 1, 0, "Red", destination.path());
-    KTRY_CAPTURE_ADD_LIGHT(0.7, 2, 0, "SII", destination.path());
-    KTRY_CAPTURE_ADD_LIGHT(0.2, 5, 0, "Green", destination.path());
-    KTRY_CAPTURE_ADD_LIGHT(0.9, 2, 0, "Luminance", destination.path());
-    KTRY_CAPTURE_ADD_LIGHT(0.5, 1, 1, "H_Alpha", destination.path());
+    KTRY_CAPTURE_ADD_LIGHT(0.5, 1, 0, "Red", destination.path()+"/%T");
+    KTRY_CAPTURE_ADD_LIGHT(0.7, 2, 0, "SII", destination.path()+"/%T");
+    KTRY_CAPTURE_ADD_LIGHT(0.2, 5, 0, "Green", destination.path()+"/%T");
+    KTRY_CAPTURE_ADD_LIGHT(0.9, 2, 0, "Luminance", destination.path()+"/%T");
+    KTRY_CAPTURE_ADD_LIGHT(0.5, 1, 1, "H_Alpha", destination.path()+"/%T");
     QWARN("A sequence of exposures under 1 second will always take 1 second to capture each of them.");
     //size_t const duration = (500+0)*1+(700+0)*2+(200+0)*5+(900+0)*2+(500+1000)*1;
     size_t const duration = 1000 * (1 + 2 + 5 + 2 + 1);
@@ -311,8 +311,8 @@ void TestEkosCapture::testCaptureDarkFlats()
     QTRY_VERIFY_WITH_TIMEOUT(dialogValidated, 1000);
 
     // Add flats
-    KTRY_CAPTURE_ADD_FLAT(1, 2, 0, "Red", destination.path());
-    KTRY_CAPTURE_ADD_FLAT(0.1, 3, 0, "Green", destination.path());
+    KTRY_CAPTURE_ADD_FLAT(1, 2, 0, "Red", destination.path()+"/%T/%F/%T");
+    KTRY_CAPTURE_ADD_FLAT(0.1, 3, 0, "Green", destination.path()+"/%T/%F/%T");
 
     // Generate Dark Flats
     KTRY_CAPTURE_CLICK(generateDarkFlatsB);

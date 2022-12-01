@@ -363,7 +363,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /**
              * @brief loadSequenceQueue Loads what's necessary to estimate job completion time from a capture sequence queue file
              * @param fileURL the filename
-             * @param schedJob the SchedulerJob is modified accoring to the contents of the sequence queue
+             * @param schedJob the SchedulerJob is modified according to the contents of the sequence queue
              * @param jobs the returned values read from the file
              * @param hasAutoFocus a return value indicating whether autofocus can be triggered by the sequence.
               * @param scheduler instance of the scheduler used for logging. Can be nullptr.
@@ -477,7 +477,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         bool saveScheduler(const QUrl &fileURL);
 
-
     private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -493,6 +492,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @return seconds of overhead.
              */
         static int timeHeuristics(const SchedulerJob *schedJob);
+
+        static void preloadSignature(SequenceJob &seqJob);
 
         void setAlgorithm(int alg);
         SchedulerAlgorithm getAlgorithm() const;
@@ -971,7 +972,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
                                               const SchedulerJob::CapturedFramesMap &capturedFramesCount,
                                               SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map);
 
-        int getCompletedFiles(const QString &path, const QString &seqPrefix);
+        int getCompletedFiles(const QString &path);
 
         // retrieve the guiding status
         GuideState getGuidingStatus();

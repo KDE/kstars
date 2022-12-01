@@ -92,6 +92,8 @@ class SequenceJob : public QObject
             SJ_TargetADU,
             // Double
             SJ_TargetADUTolerance,
+            // QString
+            SJ_Signature,
         } PropertyID;
 
         ////////////////////////////////////////////////////////////////////////

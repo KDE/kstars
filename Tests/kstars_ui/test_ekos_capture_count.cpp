@@ -301,7 +301,11 @@ bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondi
     }
 
     // step 2: create the sequence for the test
-    KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, m_CaptureHelper->getImageLocation()->path()));
+
+    // add target to path to emulate the behavior of the scheduler
+    QString imagepath = m_CaptureHelper->getImageLocation()->path() + "/" + target;
+
+    KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));
     KVERIFY_SUB(fillCapturedFramesMap(""));
     if (rememberJobProgress)
         KVERIFY_SUB(setExpectedFrames(expectedFrames));

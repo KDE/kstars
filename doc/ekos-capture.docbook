@@ -19,7 +19,7 @@
         </mediaobject>
     </screenshot>
     <para>
-        The CCD Module is your primary image and video acquisition module in Ekos. It enables you to capture single (Preview), multiple images (Sequence Queue), or record <ulink url="https://sites.google.com/site/astropipp/ser-player">SER</ulink> videos along with a selection of filter wheel and rotator, if available.
+        The Capture Module is your primary image and video acquisition module in Ekos. It enables you to capture single (Preview), multiple images (Sequence Queue), or record <ulink url="https://sites.google.com/site/astropipp/ser-player">SER</ulink> videos along with a selection of filter wheel and rotator, if available.
     </para>
     <sect3 id="capture-ccd-filter-wheel">
         <title>CCD &amp; Filter Wheel Group</title>
@@ -162,42 +162,80 @@
         <itemizedlist>
             <listitem>
                 <para>
-                    <guilabel>Prefix</guilabel>: Specify the prefix to append to the generated filename. You may also append the frame type, filter, expose duration, and ISO 8601 timestamp. For example, if you specify Prefix as <userinput>M45</userinput> and checked the Type and Filter checkboxes, and assuming your filter was set to <guimenuitem>Red</guimenuitem> and your frame type is <guimenuitem>Light</guimenuitem>, the generated file names will be as follows:
+                    <guilabel>Target</guilabel>: The name of the celestial target to be captured &eg; M42. Can be preloaded by the Scheduler Module and by selection with KStars.
                 </para>
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            M45_Light_Red_001.fits
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            M45_Light_Red_002.fits
-                        </para>
-                    </listitem>
-                </itemizedlist>
+            </listitem>
+            <listitem>
                 <para>
-                    If <guilabel>TS</guilabel> was checked, a timestamp will be appended to the filename, &eg;
+                    <guilabel>Format</guilabel>: The Format string defines the path and filename of the captured images by the use of placeholder tags that are filled in with the selected item of data at save time.
+                </para>
+                <para>
+                    A tag is identified by the % character. All tags have a single letter short form, and a self descriptive long form.
+                </para>
+                <para>
+                    Arbitary text may also be included within the Format string, <emphasis role="bold">except the % and \ characters.</emphasis> The / path character can be used to define aribtary directories.
+                </para>
+                <para>
+                    Note: Tags are case sensitive in both their short and long forms.
+                </para>
+                <para>
+                    Available placeholder tags:
                 </para>
                 <itemizedlist>
                     <listitem>
                         <para>
-                            M45_Light_Red_001_2016-11-09T23-47-46.fits</para>
+                            <emphasis role="bold">%f</emphasis> or <emphasis role="bold">%filename</emphasis>: The name of the sequence .esq file, without extension.
+                        </para>
                     </listitem>
                     <listitem>
                         <para>
-                            M45_Light_Red_002_2016-11-09T23-48-34.fits</para>
+                            <emphasis role="bold">%D</emphasis> or <emphasis role="bold">%Datetime</emphasis>: The current time and date <emphasis role="bold">when the file is saved. Only use this tag in the filename portion of the format, not in the path portion.</emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis role="bold">%T</emphasis> or <emphasis role="bold">%Type</emphasis>: The frame type &eg; 'Light', 'Bias', 'Dark', 'Flat'...
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis role="bold">%e</emphasis> or <emphasis role="bold">%exposure</emphasis>: The exposure duration in seconds.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis role="bold">%F</emphasis> or <emphasis role="bold">%Filter</emphasis>: The active filter name.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis role="bold">%t</emphasis> or <emphasis role="bold">%target</emphasis>: The Target name.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis role="bold">%s*</emphasis> or <emphasis role="bold">%sequence*</emphasis>: Placeholder %s* or %sequence: The image sequence identifier where * is the number of digits used (1-9). <emphasis role="bold">This tag is mandatory and must be the last element in the format.</emphasis>
+                        </para>
                     </listitem>
                 </itemizedlist>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Script</guilabel>: Specify an <emphasis>optional</emphasis> script to be executed after each capture is complete. The full path of the script must be specified and it must executable. To denote success, the script must return zero as this would allow the sequence to continue. If a non-zero value is returned by the script, the sequence is aborted.
+                    <guilabel>Directory Browse Button</guilabel>: Opens a browse dialog to allow selection of the directory location used in the Format string. Use when first defining a Capture job.
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Directory</guilabel>: Local directory to save the sequence images to.
+                    <guilabel>Preview</guilabel>: Shows a preview of the resulting filename according to the Format string and other job settings.
+                </para>
+                <para>
+                    Placeholder tags that are specified by the sequence .seq file can only be displayed once the sequence file has been saved. 
+                </para>
+                <para>
+                    The Datetime tag is previewed with the current system time and will be replaced by the time at point of image save.
+                </para>
+                <para>
+                    The sequence tag is always previewed as image 1 in the  sequence and will be automatically incremented when the job is in progress.
                 </para>
             </listitem>
             <listitem>
@@ -225,6 +263,11 @@
             <listitem>
                 <para>
                     <guilabel>Remote</guilabel>: When selecting either <guimenuitem>Local</guimenuitem> or <guimenuitem>Both</guimenuitem> modes above, you must specify the remote directory where remote images are saved to.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Preview</guilabel>: Shows a preview of the resulting filename according the provided path job settings. The file name format for saving remotely is pre-defined, placeholder tags may not be used. The file sequence number is always previewed as image 1 in the  sequence and will be automatically incremented when the job is in progress.
                 </para>
             </listitem>
         </itemizedlist>

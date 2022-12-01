@@ -150,10 +150,9 @@ bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequenc
         KVERIFY_SUB(value.indexOf(":") > -1);
         QString filter = value.left(value.indexOf(":"));
         int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
-        KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), fileTimestampS, true);
         KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), filePrefixT, target);
         if (count > 0)
-            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, 0, filter, fitsDirectory));
+            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, 0, filter, fitsDirectory + "/%T/%F/%t_%T"));
         // ensure that no old values are present
         Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(target, filter), 0);
     }

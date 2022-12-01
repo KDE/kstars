@@ -476,8 +476,9 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 
     const auto remoteDirectory = getCoreProperty(SJ_RemoteDirectory).toString();
     if (captureDeviceAdaptor.data()->getActiveChip()->isBatchMode() && remoteDirectory.isEmpty() == false)
-        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(
-                    SJ_DirectoryPostfix).toString());
+    {
+        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
+    }
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
     if (ISOIndex != -1)
@@ -697,12 +698,7 @@ CCDFrameType SequenceJob::getFrameType() const
 
 QString SequenceJob::getSignature()
 {
-    auto localDirectory = getCoreProperty(SJ_LocalDirectory).toString();
-    auto directoryPostfix = getCoreProperty(SJ_DirectoryPostfix).toString();
-    auto fullPrefix = getCoreProperty(SJ_FullPrefix).toString();
-
-    return QString(localDirectory + directoryPostfix + QDir::separator() + fullPrefix).remove(ISOMarker);
-
+    return (getCoreProperty(SJ_Signature).toString()).remove(".fits");
 }
 
 void SequenceJob::prepareCapture()

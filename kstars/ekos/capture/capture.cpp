@@ -257,8 +257,6 @@ Capture::Capture()
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 
-    fileDirectoryT->setText(Options::fitsDir());
-
     ////////////////////////////////////////////////////////////////////////
     /// Device Adaptor
     ////////////////////////////////////////////////////////////////////////
@@ -338,25 +336,13 @@ Capture::Capture()
     });
 
     // 9. File settings: filter name
-    fileFilterS->setChecked(Options::fileSettingsUseFilter());
-    connect(fileFilterS, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        Options::setFileSettingsUseFilter(checked);
-    });
+    FilterEnabled = Options::fileSettingsUseFilter();
 
     // 10. File settings: duration
-    fileDurationS->setChecked(Options::fileSettingsUseDuration());
-    connect(fileDurationS, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        Options::setFileSettingsUseDuration(checked);
-    });
+    ExpEnabled = Options::fileSettingsUseDuration();
 
     // 11. File settings: timestamp
-    fileTimestampS->setChecked(Options::fileSettingsUseTimestamp());
-    connect(fileTimestampS, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        Options::setFileSettingsUseTimestamp(checked);
-    });
+    TimeStampEnabled = Options::fileSettingsUseTimestamp();
 
     // 12. Refocus after meridian flip
     m_LimitsUI->meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
@@ -448,7 +434,15 @@ Capture::Capture()
     targetADU = Options::calibrationADUValue();
     targetADUTolerance = Options::calibrationADUValueTolerance();
 
-    fileDirectoryT->setText(Options::captureDirectory());
+    if(!Options::captureDirectory().isEmpty())
+        fileDirectoryT->setText(Options::captureDirectory());
+    else
+    {
+        fileDirectoryT->setText(KSUtils::getDefaultPath("fitsDir") + QDir::separator() + "Pictures" + QDir::separator() +
+                                "%t" + QDir::separator() + "%T" + QDir::separator() + "%F" + QDir::separator() + "%t_%T");
+        Options::setCaptureDirectory(fileDirectoryT->text());
+    }
+
     connect(fileDirectoryT, &QLineEdit::textChanged, [&]()
     {
         Options::setCaptureDirectory(fileDirectoryT->text());
@@ -492,6 +486,27 @@ Capture::Capture()
 
     // Generate Meridian Flip State
     getMeridianFlipState();
+
+    //Update the filename preview
+    //Runs every second rather than connecting to all of the elements that could change the filename
+    QTimer *previewTimer = new QTimer(this);
+    connect(previewTimer, &QTimer::timeout, this, &Ekos::Capture::generatePreviewFilename);
+    previewTimer->start(1000);
+
+    legacySuffix();
+
+    //If the user changes the format to use placeholder tags then make the legacy
+    //suffix fields unavailble - this is a one-way journey
+    connect(fileDirectoryT, &QLineEdit::textEdited, [&]()
+    {
+        if(fileDirectoryT->text().contains("%"))
+        {
+            Options::setFileSettingsUseFilter(false);
+            Options::setFileSettingsUseDuration(false);
+            Options::setFileSettingsUseTimestamp(false);
+            legacySuffix();
+        }
+    });
 }
 
 Capture::~Capture()
@@ -1918,7 +1933,7 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
  * - increase the frame counter
  * - update the average download time
  *
- * @return IPS_BUSY iff pausing is requested, IPS_OK otherwise.
+ * @return IPS_BUSY if pausing is requested, IPS_OK otherwise.
  */
 IPState Capture::setCaptureComplete()
 {
@@ -2248,7 +2263,7 @@ IPState Capture::resumeSequence()
         {
             if (m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
             {
-                checkSeqBoundary(activeJob->getSignature());
+                checkSeqBoundary();
                 m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(nextSequenceID);
             }
         }
@@ -2548,7 +2563,7 @@ void Capture::captureImage()
 
     if (m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
-        checkSeqBoundary(activeJob->getSignature());
+        checkSeqBoundary();
         m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(nextSequenceID);
     }
 
@@ -2584,6 +2599,9 @@ void Capture::captureImage()
         captureStatusWidget->setStatus(i18n("Calibrating..."), Qt::yellow);
 
     m_StartingCapture = true;
+    auto placeholderPath = Ekos::PlaceholderPath(m_SequenceURL.toLocalFile());
+    placeholderPath.setGenerateFilenameSettings(*activeJob);
+    m_captureDeviceAdaptor->getActiveCamera()->setPlaceholderPath(placeholderPath);
     rc = activeJob->capture(m_captureModuleState->getRefocusState()->isAutoFocusReady(),
                             activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
 
@@ -2662,13 +2680,9 @@ void Capture::captureImage()
 /*******************************************************************************/
 /* Update the prefix for the sequence of images to be captured                 */
 /*******************************************************************************/
-void Capture::updateSequencePrefix(const QString &newPrefix, const QString &dir)
+void Capture::updateSequencePrefix(const QString &newPrefix)
 {
     seqPrefix = newPrefix;
-
-    // If it doesn't exist, create it
-    QDir().mkpath(dir);
-
     nextSequenceID = 1;
 }
 
@@ -2676,56 +2690,15 @@ void Capture::updateSequencePrefix(const QString &newPrefix, const QString &dir)
 /* Determine the next file number sequence. That is, if we have file1.png      */
 /* and file2.png, then the next sequence should be file3.png		           */
 /*******************************************************************************/
-void Capture::checkSeqBoundary(const QString &path)
+void Capture::checkSeqBoundary()
 {
-    int newFileIndex = -1;
-    QFileInfo const path_info(path);
-    QString const sig_dir(path_info.dir().path());
-    QString const sig_file(path_info.completeBaseName());
-    QString tempName;
-    // seqFileCount = 0;
-
     // No updates during meridian flip
     if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
         return;
 
-    QDirIterator it(sig_dir, QDir::Files);
+    auto placeholderPath = Ekos::PlaceholderPath(m_SequenceURL.toLocalFile());
 
-    while (it.hasNext())
-    {
-        tempName = it.next();
-        QFileInfo info(tempName);
-
-        // This returns the filename without the extension
-        tempName = info.completeBaseName();
-
-        // This remove any additional extension (e.g. m42_001.fits.fz)
-        // the completeBaseName() would return m42_001.fits
-        // and this remove .fits so we end up with m42_001
-        tempName = tempName.remove(".fits");
-
-        QString finalSeqPrefix = seqPrefix;
-        finalSeqPrefix.remove(SequenceJob::ISOMarker);
-        // find the prefix first
-        if (tempName.startsWith(finalSeqPrefix, Qt::CaseInsensitive) == false)
-            continue;
-
-        /* Do not change the number of captures.
-         * - If the sequence is required by the end-user, unconditionally run what each sequence item is requiring.
-         * - If the sequence is required by the scheduler, use capturedFramesMap to determine when to stop capturing.
-         */
-        //seqFileCount++;
-
-        int lastUnderScoreIndex = tempName.lastIndexOf("_");
-        if (lastUnderScoreIndex > 0)
-        {
-            bool indexOK = false;
-
-            newFileIndex = tempName.midRef(lastUnderScoreIndex + 1).toInt(&indexOK);
-            if (indexOK && newFileIndex >= nextSequenceID)
-                nextSequenceID = newFileIndex + 1;
-        }
-    }
+    nextSequenceID = placeholderPath.checkSeqBoundary(*activeJob, m_TargetName);
 }
 
 void Capture::appendLogText(const QString &text)
@@ -2939,13 +2912,14 @@ bool Capture::addSequenceJob()
     return addJob(false, false);
 }
 
-bool Capture::addJob(bool preview, bool isDarkFlat)
+bool Capture::addJob(bool preview, bool isDarkFlat, filenamePreviewType filenamePreview)
 {
     if (m_captureModuleState->getCaptureState() != CAPTURE_IDLE && m_captureModuleState->getCaptureState() != CAPTURE_ABORTED
             && m_captureModuleState->getCaptureState() != CAPTURE_COMPLETE)
         return false;
 
     SequenceJob * job = nullptr;
+    m_TargetName = filePrefixT->text();
 
     //    if (preview == false && darkSubCheck->isChecked())
     //    {
@@ -2953,19 +2927,23 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     //        return false;
     //    }
 
-    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
+    if (filenamePreview == NOT_PREVIEW)
     {
-        KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
-        return false;
+        legacySuffix();
+        if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
+        {
+            KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
+            return false;
+        }
+
+        if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
+        {
+            KSNotification::error(i18n("You must set local directory for Client & Both modes."));
+            return false;
+        }
     }
 
-    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
-    {
-        KSNotification::error(i18n("You must set local directory for Client & Both modes."));
-        return false;
-    }
-
-    if (m_JobUnderEdit)
+    if (m_JobUnderEdit && filenamePreview == NOT_PREVIEW)
         job = jobs.at(queueTable->currentRow());
     else
     {
@@ -3013,20 +2991,20 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     // JM 2019-11-26: In case there is no raw prefix set
     // BUT target name is set, we update the prefix to include
     // the target name, which is usually set by the scheduler.
-    if (!m_TargetName.isEmpty())
+    if (!m_TargetName.isEmpty() && filenamePreview == NOT_PREVIEW)
     {
         // Target name as set externally should override Full Target Name that
         // was set by GOTO operation alone.
         m_FullTargetName = m_TargetName;
         m_FullTargetName.replace("_", " ");
-        if (filePrefixT->text().isEmpty())
-            filePrefixT->setText(m_TargetName);
+        filePrefixT->setText(m_TargetName);
+        job->setCoreProperty(SequenceJob::SJ_TargetName, m_TargetName);
     }
 
     job->setCoreProperty(SequenceJob::SJ_RawPrefix, filePrefixT->text());
-    job->setCoreProperty(SequenceJob::SJ_FilterPrefixEnabled, fileFilterS->isChecked());
-    job->setCoreProperty(SequenceJob::SJ_ExpPrefixEnabled, fileDurationS->isChecked());
-    job->setCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled, fileTimestampS->isChecked());
+    job->setCoreProperty(SequenceJob::SJ_FilterPrefixEnabled, FilterEnabled);
+    job->setCoreProperty(SequenceJob::SJ_ExpPrefixEnabled, ExpEnabled);
+    job->setCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled, TimeStampEnabled);
     job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
 
     job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
@@ -3058,13 +3036,29 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
                          captureFrameHN->value()));
     job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
 
-    // Remove trailing slash, if any.
-    QString fileDirectory = fileDirectoryT->text();
-    while (fileDirectory.endsWith("/"))
+    QString fileDirectory;
+    if (filenamePreview != REMOTE_PREVIEW)
+    {
+        if (!isDarkFlat)
+            fileDirectory = fileDirectoryT->text().append(formatSuffixN->prefix()).append(formatSuffixN->cleanText());
+        else
+            fileDirectory = fileDirectoryT->text();
+    }
+    else
+    {
+        fileDirectory = fileRemoteDirT->text();
+        // Remotely saved files get a predefined format hard coded in the driver
+        if (!fileDirectory.endsWith(QDir::separator()))
+            fileDirectory.append(QDir::separator());
+        fileDirectory.append("%target" + QDir::separator() + "%Type" + QDir::separator() + "%Filter" + QDir::separator() +
+                             "%target_%Type_%s3");
+    }
+
+    while (fileDirectory.endsWith(QDir::separator()))
         fileDirectory.chop(1);
     job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectory);
 
-    if (m_JobUnderEdit == false)
+    if (m_JobUnderEdit == false || filenamePreview != NOT_PREVIEW)
     {
         // JM 2018-09-24: If this is the first job added
         // We always ignore job progress by default.
@@ -3194,7 +3188,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
         queueDownB->setEnabled(true);
     }
 
-    if (m_JobUnderEdit)
+    if (m_JobUnderEdit && filenamePreview == NOT_PREVIEW)
     {
         m_JobUnderEdit = false;
         resetJobEdit();
@@ -3203,6 +3197,10 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
         m_SequenceArray.replace(currentRow, jsonJob);
         emit sequenceChanged(m_SequenceArray);
     }
+
+    QString signature = placeholderPath.generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                        true, 1, ".fits", "", false, true);
+    job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 
     return true;
 }
@@ -3423,8 +3421,7 @@ void Capture::prepareJob(SequenceJob * job)
         imgProgress->setValue(activeJob->getCompleted());
 
         if (m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
-                                 QFileInfo(activeJob->getSignature()).path());
+            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
 
         // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
         // The signature is the unique identification path in the system for a particular job. Format is "<storage path>/<target>/<frame type>/<filter name>".
@@ -3436,7 +3433,7 @@ void Capture::prepareJob(SequenceJob * job)
         // If 29 files exist for example, then nextSequenceID would be the NEXT file number (30)
         // Therefore, we know how to number the next file.
         // However, we do not deduce the number of captures to process from this function.
-        checkSeqBoundary(signature);
+        checkSeqBoundary();
 
         // Captured Frames Map contains a list of signatures:count of _already_ captured files in the file system.
         // This map is set by the Scheduler in order to complete efficiently the required captures.
@@ -3739,8 +3736,7 @@ void Capture::executeJob()
             auto placeholderPath = Ekos::PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
             placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
-            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
-                                 QFileInfo(activeJob->getSignature()).path());
+            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
         }
 
     }
@@ -4184,7 +4180,7 @@ void Capture::meridianFlipStatusChanged(MeridianFlipState::MeridianFlipMountStat
 
         case MeridianFlipState::MOUNT_FLIP_RUNNING:
             setMeridianFlipStage(MeridianFlipState::MF_INITIATED);
-            m_captureModuleState->setCaptureState(CAPTURE_MERIDIAN_FLIP);
+            emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
             break;
 
         case MeridianFlipState::MOUNT_FLIP_COMPLETED:
@@ -4238,13 +4234,13 @@ void Capture::processNewTargetName(const QString &name)
         QString sanitized = name;
         if (sanitized != i18n("unnamed"))
         {
-            m_FullTargetName = name;
             // Remove illegal characters that can be problematic
             sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
                         // Remove any two or more __
                         .replace( QRegularExpression("_{2,}"), "_")
                         // Remove any _ at the end
                         .replace( QRegularExpression("_$"), "");
+            m_FullTargetName = name;
             filePrefixT->setText(sanitized);
         }
     }
@@ -4270,6 +4266,15 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
+    if (!fileDirectoryT->text().isEmpty())
+    {
+        int overwrite = KMessageBox::warningContinueCancel(nullptr,
+                        i18n("Changing directory will overwrite any format previously entered"));
+        if (overwrite == KMessageBox::Cancel)
+        {
+            return;
+        }
+    }
     QString dir =
         QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
                                           dirPath.toLocalFile());
@@ -4494,16 +4499,21 @@ bool Capture::processJobInfo(XMLEle * root)
         {
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
-                filePrefixT->setText(pcdataXMLEle(subEP));
+            {
+                if (strcmp(pcdataXMLEle(subEP), "") != 0)
+                    filePrefixT->setText(pcdataXMLEle(subEP));
+                else if (!m_FullTargetName.isEmpty())
+                    filePrefixT->setText(m_FullTargetName);
+            }
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
-                fileFilterS->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
+                FilterEnabled = !strcmp("1", pcdataXMLEle(subEP));
             subEP = findXMLEle(ep, "ExpEnabled");
             if (subEP)
-                fileDurationS->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
+                ExpEnabled = !strcmp("1", pcdataXMLEle(subEP));
             subEP = findXMLEle(ep, "TimeStampEnabled");
             if (subEP)
-                fileTimestampS->setChecked(!strcmp("1", pcdataXMLEle(subEP)));
+                TimeStampEnabled = !strcmp("1", pcdataXMLEle(subEP));
         }
         else if (!strcmp(tagXMLEle(ep), "Count"))
         {
@@ -4531,7 +4541,11 @@ bool Capture::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
-            fileDirectoryT->setText(pcdataXMLEle(ep));
+            QString fullFormat = pcdataXMLEle(ep);
+            const QString seqDigitTag = "_%s";
+            QString seqDigits = fullFormat.right(fullFormat.length() - (fullFormat.lastIndexOf(seqDigitTag) + seqDigitTag.length()));
+            formatSuffixN->setValue(seqDigits.toInt());
+            fileDirectoryT->setText(fullFormat.left(fullFormat.lastIndexOf(seqDigitTag)));
         }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
@@ -4951,9 +4965,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
     }
 
     auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
-    auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
-    auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
-    auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
     const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
     captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
@@ -4968,9 +4979,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
     FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
     captureTypeS->setCurrentIndex(job->getFrameType());
     filePrefixT->setText(rawPrefix);
-    fileFilterS->setChecked(filterEnabled);
-    fileDurationS->setChecked(expEnabled);
-    fileTimestampS->setChecked(tsEnabled);
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
@@ -6112,8 +6120,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     // since it may include a placeholder for duration which would affect it.
                     if (m_captureDeviceAdaptor->getActiveCamera()
                             && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-                        updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
-                                             QFileInfo(activeJob->getSignature()).path());
+                        updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
 
                     startNextExposure();
                     return false;
@@ -6637,18 +6644,12 @@ void Capture::setFileSettings(const QJsonObject &settings)
     const QString prefix = settings["prefix"].toString(filePrefixT->text());
     //const QString script = settings["script"].toString(fileScriptT->text());
     const QString directory = settings["directory"].toString(fileDirectoryT->text());
-    const bool filter = settings["filter"].toBool(fileFilterS->isChecked());
-    const bool duration = settings["duration"].toBool(fileDurationS->isChecked());
-    const bool ts = settings["ts"].toBool(fileTimestampS->isChecked());
     const int upload = settings["upload"].toInt(fileUploadModeS->currentIndex());
     const QString remote = settings["remote"].toString(fileRemoteDirT->text());
 
     filePrefixT->setText(prefix);
     //    fileScriptT->setText(script);
     fileDirectoryT->setText(directory);
-    fileFilterS->setChecked(filter);
-    fileDurationS->setChecked(duration);
-    fileTimestampS->setChecked(ts);
     fileUploadModeS->setCurrentIndex(upload);
     fileRemoteDirT->setText(remote);
 }
@@ -6660,9 +6661,9 @@ QJsonObject Capture::getFileSettings()
         {"prefix", filePrefixT->text()},
         //        {"script", fileScriptT->text()},
         {"directory", fileDirectoryT->text()},
-        {"filter", fileFilterS->isChecked()},
-        {"duration", fileDurationS->isChecked()},
-        {"ts", fileTimestampS->isChecked()},
+        {"filter", FilterEnabled},
+        {"duration", ExpEnabled},
+        {"ts", TimeStampEnabled},
         {"upload", fileUploadModeS->currentIndex()},
         {"remote", fileRemoteDirT->text()}
     };
@@ -7404,5 +7405,108 @@ void Capture::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(false);
 }
 
+void Capture::generatePreviewFilename()
+{
+    if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
+            || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
+    {
+        FilenamePreviewLabel->setText(previewFilename( LOCAL_PREVIEW ));
+
+        if (fileUploadModeS->currentIndex() != 0)
+            RemotePreviewLabel->setText(previewFilename( REMOTE_PREVIEW ));
+    }
+}
+
+QString Capture::previewFilename(filenamePreviewType previewType)
+{
+    QString previewText = "";
+
+    QString m_format;
+    const QString seqDigitsTag = "%s";
+
+    // Prevent the user entering a sequence tag in the main Format
+    if (fileDirectoryT->text().contains(seqDigitsTag))
+    {
+        fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().indexOf(seqDigitsTag)));
+        if (fileDirectoryT->text().endsWith("-") || fileDirectoryT->text().endsWith("_"))
+            fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().length() - 1));
+    }
+
+    if (previewType == LOCAL_PREVIEW)
+        m_format = fileDirectoryT->text().append(formatSuffixN->prefix()).append(formatSuffixN->cleanText());
+    else if (previewType == REMOTE_PREVIEW)
+        m_format = fileRemoteDirT->text();
+
+    //Guard against an empty format to avoid the empty directory warning pop-up in addjob
+    if (m_format.isEmpty())
+        return previewText;
+    // Tags %d & %p disable for now for simplicity
+    //    else if (m_SequenceURL.toLocalFile().isEmpty() && (m_format.contains("%d") || m_format.contains("%p")
+    //             || m_format.contains("%f")))
+    else if (m_SequenceURL.toLocalFile().isEmpty() && m_format.contains("%f"))
+        previewText = ("Save the sequence file to show filename preview");
+    else if (addJob(true, false, previewType) == true)
+    {
+        QString previewSeq;
+        if (m_SequenceURL.toLocalFile().isEmpty())
+        {
+            if (m_format.startsWith("/"))
+                previewSeq = m_format.left(m_format.lastIndexOf("/"));
+        }
+        else
+            previewSeq = m_SequenceURL.toLocalFile();
+        auto m_placeholderPath = Ekos::PlaceholderPath(previewSeq);
+        auto m_job = jobs.last();
+
+        QString extension = ".fits";
+        if (captureEncodingS->currentText() != "FITS")
+            extension = ".[NATIVE]";
+        previewText = m_placeholderPath.generateFilename(*m_job, filePrefixT->text(), true, 1, extension, "", false);
+        jobs.removeLast();
+    }
+
+    return previewText;
+}
+
+void Capture::legacySuffix()
+{
+    bool legacyMode = false;
+    if(Options::fileSettingsUseFilter() || Options::fileSettingsUseDuration() || Options::fileSettingsUseTimestamp())
+        legacyMode = true;
+
+    if (legacyMode)
+    {
+        QString m_format = fileDirectoryT->text();
+        if (m_format.startsWith("/"))
+        {
+            if (m_format.contains("%"))
+                m_format = m_format.left(m_format.indexOf("%"));
+
+            if (!m_format.endsWith(QDir::separator()))
+                m_format.append(QDir::separator());
+
+            m_format.append("%t" + QDir::separator() + "%T" + QDir::separator());
+
+            if (!FilterPosCombo->currentText().isEmpty())
+                m_format.append("%F" + QDir::separator());
+            if (!filePrefixT->text().isEmpty() || !m_TargetName.isEmpty())
+                m_format.append("%t_");
+
+            m_format.append("%T_");
+
+            if (!FilterPosCombo->currentText().isEmpty() && FilterEnabled)
+                m_format.append("%F_");
+            if (ExpEnabled)
+                m_format.append("%e_");
+            if (TimeStampEnabled)
+                m_format.append("%D_");
+
+            if (m_format.endsWith("_"))
+                m_format.chop(1);
+            fileDirectoryT->setText(m_format);
+            formatSuffixN->setValue(3);
+        }
+    }
+}
 
 }

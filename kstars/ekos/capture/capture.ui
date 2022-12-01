@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>727</width>
+    <width>750</width>
     <height>518</height>
    </rect>
   </property>
@@ -897,17 +897,20 @@
           <property name="spacing">
            <number>2</number>
           </property>
-          <item row="3" column="5" colspan="2">
-           <widget class="QLineEdit" name="fileRemoteDirT">
-            <property name="enabled">
-             <bool>false</bool>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
             </property>
-            <property name="placeholderText">
-             <string>/home/pi</string>
+            <property name="text">
+             <string>Preview:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="6">
+          <item row="1" column="5">
            <widget class="QPushButton" name="selectFileDirectoryB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -932,7 +935,20 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel1_7">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Target is the name of the targetted object.&lt;/p&gt;&lt;p&gt;It is available to be used in the filename Format via the %t or %type placeholder tag.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Target:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
            <widget class="QComboBox" name="fileUploadModeS">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -957,105 +973,17 @@
             </item>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="toolTip">
-             <string>Post-capture script to be executed after an image is captured. The capture sequence is resumed when the script is executed successfully.</string>
+          <item row="3" column="3" colspan="3">
+           <widget class="QLineEdit" name="fileRemoteDirT">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
-            <property name="text">
-             <string>Postfix:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="6">
-           <layout class="QHBoxLayout" name="postfixHorizontalLayout">
-            <property name="spacing">
-             <number>2</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="fileFilterS">
-              <property name="toolTip">
-               <string>Append the active filter slot to the prefix</string>
-              </property>
-              <property name="text">
-               <string>Filter</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="fileDurationS">
-              <property name="toolTip">
-               <string>Append the expose duration to the prefix</string>
-              </property>
-              <property name="text">
-               <string>Duration</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="fileTimestampS">
-              <property name="toolTip">
-               <string>Append time stamp to the prefix</string>
-              </property>
-              <property name="text">
-               <string>TS</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="2" colspan="4">
-           <widget class="QLineEdit" name="fileDirectoryT"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="textLabel1_18">
-            <property name="toolTip">
-             <string>Local directory to save sequence images</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Directory:</string>
+            <property name="placeholderText">
+             <string>/home/pi</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_7">
-            <property name="toolTip">
-             <string>&lt;p&gt;Prefix is used to generate file names ( e.g. M42_HA_240_secs_001.fits)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Target&lt;/strong&gt;: Target Name (e.g. M42)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Filter&lt;/strong&gt;: When using a filter wheel, the filter name is appended to the file name (e.g. HA)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Duration&lt;/strong&gt;: Capture duration is appended to the file name (e.g. 240_secs)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;TS&lt;/strong&gt;: ISO 8601 timestamp is appended to the file name (e.g. 2016-10-20T22:42:10)&lt;/li&gt;
-&lt;/ul&gt;</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Prefix:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3">
+          <item row="3" column="2">
            <widget class="QLabel" name="label_2">
             <property name="toolTip">
              <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
@@ -1065,6 +993,23 @@
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="3">
+           <widget class="QLineEdit" name="fileDirectoryT">
+            <property name="text">
+             <string>Local path / Format</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="5">
+           <widget class="QLineEdit" name="filePrefixT">
+            <property name="placeholderText">
+             <string>Target</string>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -1078,13 +1023,84 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="2" colspan="5">
-           <widget class="QLineEdit" name="filePrefixT">
-            <property name="placeholderText">
-             <string>Target</string>
+          <item row="1" column="0">
+           <widget class="QLabel" name="textLabel1_18">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Format is used to define the image file names by the use of placeholder tags.&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %f&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%filename&lt;/span&gt;: The name of the .esq file, without extension.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %D&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Datetime&lt;/span&gt;: The current time and date &lt;span style=&quot; font-weight:700;&quot;&gt;when the file is saved.&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %T&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Type&lt;/span&gt;: The frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %e&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%exposure&lt;/span&gt;: The exposure duration in seconds.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %F&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%Filter&lt;/span&gt;: The active filter name.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %t&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%target&lt;/span&gt;: The Target name.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Placeholder&lt;span style=&quot; font-weight:700;&quot;&gt; %s*&lt;/span&gt; or &lt;span style=&quot; font-weight:700;&quot;&gt;%sequence&lt;/span&gt;: The image sequence identifier where * is the number of digits used (1-9). &lt;span style=&quot; font-weight:700;&quot;&gt;This tag is mandatory and must be the last element in the format.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Arbitary text may also be included within the Format string, &lt;span style=&quot; font-weight:700;&quot;&gt;except the % and \ characters.&lt;/span&gt; The / path character can be used to define aribtary directories.&lt;/p&gt;&lt;p&gt;Notes:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tags are case sensitive in both their short and long forms.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Only use the %Datetime tag in the filename portion of the format, not in the path definition.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Format:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Preview:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="6">
+           <widget class="QLabel" name="FilenamePreviewLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Local preview</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1" colspan="6">
+           <widget class="QLabel" name="RemotePreviewLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Remote preview</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QSpinBox" name="formatSuffixN">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of digits used to append the sequence number to the filename.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="prefix">
+             <string>_%s</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>9</number>
+            </property>
+            <property name="value">
+             <number>3</number>
             </property>
            </widget>
           </item>
@@ -2410,9 +2426,6 @@ font-weight:bold;
   <tabstop>customValuesB</tabstop>
   <tabstop>rotatorB</tabstop>
   <tabstop>filePrefixT</tabstop>
-  <tabstop>fileFilterS</tabstop>
-  <tabstop>fileDurationS</tabstop>
-  <tabstop>fileTimestampS</tabstop>
   <tabstop>fileDirectoryT</tabstop>
   <tabstop>selectFileDirectoryB</tabstop>
   <tabstop>fileUploadModeS</tabstop>

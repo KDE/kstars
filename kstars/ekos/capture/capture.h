@@ -101,6 +101,13 @@ class Capture : public QWidget, public Ui::Capture
             ADU_POLYNOMIAL
         } ADUAlgorithm;
 
+        typedef enum
+        {
+            NOT_PREVIEW,
+            LOCAL_PREVIEW,
+            REMOTE_PREVIEW
+        } filenamePreviewType;
+
         typedef IPState (Capture::*PauseFunctionPointer)();
 
         Capture();
@@ -369,7 +376,7 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /* Capture */
-        void updateSequencePrefix(const QString &newPrefix, const QString &dir);
+        void updateSequencePrefix(const QString &newPrefix);
 
         /**
          * @brief getSequence Return the JSON representation of the current sequeue queue
@@ -653,9 +660,10 @@ class Capture : public QWidget, public Ui::Capture
              * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
              * @param preview True if the job is a preview job, otherwise, it is added as a batch job.
              * @param isDarkFlat True if the job is a dark flat job, false otherwise.
+             * @param filenamePreview if the job is to generate a preview filename
              * @return True if job is added successfully, false otherwise.
              */
-        bool addJob(bool preview = false, bool isDarkFlat = false);
+        bool addJob(bool preview = false, bool isDarkFlat = false, filenamePreviewType filenamePreview = NOT_PREVIEW);
 
         /**
          * @brief removeJob Remove a job sequence from the queue
@@ -784,7 +792,7 @@ class Capture : public QWidget, public Ui::Capture
         void resetFrame();
         void setExposureProgress(ISD::CameraChip *tChip, double value, IPState state);
         void updateCaptureCountDown(int deltaMillis);
-        void checkSeqBoundary(const QString &path);
+        void checkSeqBoundary();
         void saveFITSDirectory();
         void setNewRemoteFile(QString file);
 
@@ -845,6 +853,13 @@ class Capture : public QWidget, public Ui::Capture
         void setCoolerToggled(bool enabled);
 
         void setDownloadProgress();
+
+        // Filename preview
+        void generatePreviewFilename();
+        QString previewFilename(filenamePreviewType = LOCAL_PREVIEW);
+
+        // Legacy filename suffix mapping
+        void legacySuffix();
 
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
@@ -1157,5 +1172,9 @@ class Capture : public QWidget, public Ui::Capture
 
         bool m_StartingCapture {true};
         QSharedPointer<FilterManager> m_FilterManager;
+
+        bool FilterEnabled {false};
+        bool ExpEnabled {false};
+        bool TimeStampEnabled {false};
 };
 }
