@@ -173,7 +173,7 @@
                     A tag is identified by the % character. All tags have a single letter short form, and a self descriptive long form.
                 </para>
                 <para>
-                    Arbitary text may also be included within the Format string, <emphasis role="bold">except the % and \ characters.</emphasis> The / path character can be used to define aribtary directories.
+                    Arbitrary text may also be included within the Format string, <emphasis role="bold">except the % and \ characters.</emphasis> The / path character can be used to define arbitrary directories.
                 </para>
                 <para>
                     Note: Tags are case sensitive in both their short and long forms.
