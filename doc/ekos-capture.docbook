@@ -214,7 +214,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <emphasis role="bold">%s*</emphasis> or <emphasis role="bold">%sequence*</emphasis>: Placeholder %s* or %sequence: The image sequence identifier where * is the number of digits used (1-9). <emphasis role="bold">This tag is mandatory and must be the last element in the format.</emphasis>
+                            <emphasis role="bold">%s*</emphasis> or <emphasis role="bold">%sequence*</emphasis>: The image sequence identifier where * is the number of digits used (1-9). <emphasis role="bold">This tag is mandatory and must be the last element in the format.</emphasis>
                         </para>
                     </listitem>
                 </itemizedlist>
