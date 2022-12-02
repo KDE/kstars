@@ -199,7 +199,7 @@
        <item row="4" column="0">
         <widget class="QLabel" name="dustCapLlabel">
          <property name="toolTip">
-          <string>Telescope Select a mechanized dust cap if any (e.g. FlipFlat).</string>
+          <string>Select a mechanized dust cap if any (e.g. FlipFlat).</string>
          </property>
          <property name="text">
           <string>Dust Cap:</string>
