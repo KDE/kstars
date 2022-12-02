@@ -126,7 +126,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
 
     job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
 
-    QString signature = generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(), true,
+    QString signature = generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(), true, true,
                                          1, ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
@@ -229,18 +229,29 @@ QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &
     return tempImagePrefix;
 }
 
-QString PlaceholderPath::generateFilename(const SequenceJob &job, const QString &targetName, const bool batch_mode,
-        const int nextSequenceID, const QString &extension, const QString &filename, const bool glob,
+QString PlaceholderPath::generateFilename(const SequenceJob &job,
+        const QString &targetName,
+        bool local,
+        const bool batch_mode,
+        const int nextSequenceID,
+        const QString &extension,
+        const QString &filename,
+        const bool glob,
         const bool gettingSignature) const
 {
     auto filter = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
     auto rawPrefix = job.getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
     auto darkFlat = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 
-    QString format = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() +
-                     job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
+    QString directory;
+    if (local)
+        directory = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    else
+        directory = job.getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString();
+    QString format = job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
+    uint formatSuffix = job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt();
 
-    return generateFilename(format, rawPrefix, darkFlat, filter, job.getFrameType(),
+    return generateFilename(directory, format, formatSuffix, rawPrefix, darkFlat, filter, job.getFrameType(),
                             job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), targetName,
                             batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
 }
@@ -248,14 +259,26 @@ QString PlaceholderPath::generateFilename(const SequenceJob &job, const QString 
 QString PlaceholderPath::generateFilename(const bool batch_mode, const int nextSequenceID, const QString &extension,
         const QString &filename, const bool glob, const bool gettingSignature) const
 {
-    return generateFilename(m_format, m_RawPrefix, m_DarkFlat, m_filter, m_frameType, m_exposure, m_targetName,
+    return generateFilename(m_Directory, m_format, m_formatSuffix, m_RawPrefix, m_DarkFlat, m_filter, m_frameType, m_exposure,
+                            m_targetName,
                             batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
 }
 
-QString PlaceholderPath::generateFilename(const QString &format, const QString &rawFilePrefix, const bool isDarkFlat,
-        const QString &filter, const CCDFrameType &frameType, const double exposure,
-        const QString &targetName, const bool batch_mode, const int nextSequenceID,  const QString &extension,
-        const QString &filename, const bool glob, const bool gettingSignature) const
+QString PlaceholderPath::generateFilename(const QString &directory,
+        const QString &format,
+        uint formatSuffix,
+        const QString &rawFilePrefix,
+        const bool isDarkFlat,
+        const QString &filter,
+        const CCDFrameType &frameType,
+        const double exposure,
+        const QString &targetName,
+        const bool batch_mode,
+        const int nextSequenceID,
+        const QString &extension,
+        const QString &filename,
+        const bool glob,
+        const bool gettingSignature) const
 {
     QString tempTargetName = targetName;
     tempTargetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
@@ -266,18 +289,16 @@ QString PlaceholderPath::generateFilename(const QString &format, const QString &
     int i = 0;
 
     QString tempFilename = filename;
-    QString tempFormat = format;
     QString currentDir;
     if (batch_mode)
-        currentDir = format.left(format.lastIndexOf(QDir::separator()));
+        currentDir = directory;
     else
-        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + "kstars";
+        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + "kstars/";
 
-    if (currentDir.endsWith(QDir::separator()) == true)
-        currentDir.chop(1);
+    //    if (currentDir.endsWith(QDir::separator()) == false)
+    //        currentDir += QDir::separator();
 
-    if (!currentDir.isEmpty())
-        tempFormat = currentDir + QDir::separator() + tempFormat.section(QDir::separator(), -1);
+    QString tempFormat = currentDir + format + "_%s" + QString::number(formatSuffix);
 
     QRegularExpressionMatch match;
     QRegularExpression
@@ -393,8 +414,9 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
     m_filter              = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
     m_exposure            = job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
     m_targetName          = job.getCoreProperty(SequenceJob::SJ_TargetName).toString();
-    m_format              = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() +
-                            job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
+    m_Directory           = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    m_format              = job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
+    m_formatSuffix        = job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt();
     m_tsEnabled           = job.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
     m_DarkFlat            = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 }
@@ -416,7 +438,7 @@ QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
 
 QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QString &targetName)
 {
-    QString path = generateFilename(job, targetName, true, 0, ".*", "", true);
+    QString path = generateFilename(job, targetName, true, true, 0, ".*", "", true);
     QFileInfo path_info(path);
     QDir dir(path_info.dir());
     QStringList matchingFiles = dir.entryList(QDir::Files);

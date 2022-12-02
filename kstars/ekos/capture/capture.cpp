@@ -161,13 +161,13 @@ Capture::Capture()
     });
 
 
-    connect(restartCameraB, &QPushButton::clicked, [this]()
+    connect(restartCameraB, &QPushButton::clicked, this, [this]()
     {
         if (m_Camera)
             restartCamera(m_Camera->getDeviceName());
     });
 
-    connect(cameraTemperatureS, &QCheckBox::toggled, [this](bool toggled)
+    connect(cameraTemperatureS, &QCheckBox::toggled, this, [this](bool toggled)
     {
         if (m_captureDeviceAdaptor->getActiveCamera())
         {
@@ -183,6 +183,7 @@ Capture::Capture()
             [ = ]()
     {
         updateHFRThreshold();
+        generatePreviewFilename();
     });
     connect(previewB, &QPushButton::clicked, this, &Ekos::Capture::captureOne);
     connect(loopB, &QPushButton::clicked, this, &Ekos::Capture::startFraming);
@@ -291,7 +292,7 @@ Capture::Capture()
 
     // 3. Autofocus HFR Check
     m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocus());
-    connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
+    connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, this, [this](bool checked)
     {
         Options::setEnforceAutofocus(checked);
         if (checked == false)
@@ -496,10 +497,12 @@ Capture::Capture()
         Options::setPlaceholderFomat(placeholderFormatT->text());
         generatePreviewFilename();
     });
-    connect(formatSuffixN, &QSpinBox::textChanged, this, &Ekos::Capture::generatePreviewFilename);
+    connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Capture::generatePreviewFilename);
+    connect(captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::Capture::generatePreviewFilename);
     connect(filePrefixT, &QLineEdit::textChanged, this, &Ekos::Capture::generatePreviewFilename);
+    connect(captureTypeS, &QComboBox::currentTextChanged, this, &Ekos::Capture::generatePreviewFilename);
 
-    legacySuffix();
 }
 
 Capture::~Capture()
@@ -1146,10 +1149,10 @@ void Capture::checkCamera()
 
     connect(m_Camera, &ISD::Camera::numberUpdated, this, &Ekos::Capture::processCCDNumber, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::coolerToggled, this, &Ekos::Capture::setCoolerToggled, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
-    connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
-    connect(m_Camera, &ISD::Camera::ready, this, &Ekos::Capture::ready);
-    connect(m_Camera, &ISD::Camera::error, this, &Ekos::Capture::processCaptureError);
+    connect(m_Camera, &ISD::Camera::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::ready, this, &Ekos::Capture::ready, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::error, this, &Ekos::Capture::processCaptureError, Qt::UniqueConnection);
 
     syncCameraInfo();
 
@@ -2915,7 +2918,7 @@ bool Capture::addSequenceJob()
     return addJob(false, false);
 }
 
-bool Capture::addJob(bool preview, bool isDarkFlat, filenamePreviewType filenamePreview)
+bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filenamePreview)
 {
     if (m_captureModuleState->getCaptureState() != CAPTURE_IDLE && m_captureModuleState->getCaptureState() != CAPTURE_ABORTED
             && m_captureModuleState->getCaptureState() != CAPTURE_COMPLETE)
@@ -2924,15 +2927,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat, filenamePreviewType filename
     SequenceJob * job = nullptr;
     m_TargetName = filePrefixT->text();
 
-    //    if (preview == false && darkSubCheck->isChecked())
-    //    {
-    //        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
-    //        return false;
-    //    }
-
     if (filenamePreview == NOT_PREVIEW)
     {
-        legacySuffix();
         if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
         {
             KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
@@ -2973,13 +2969,9 @@ bool Capture::addJob(bool preview, bool isDarkFlat, filenamePreviewType filename
 
     if (cameraTemperatureN->isEnabled())
     {
-        //        double currentTemperature;
-        //        m_Camera->getTemperature(&currentTemperature);
         job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraTemperatureS->isChecked());
         job->setTargetTemperature(cameraTemperatureN->value());
     }
-
-    //job->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
 
     job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
     job->setScripts(m_Scripts);
@@ -3039,29 +3031,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat, filenamePreviewType filename
                          captureFrameHN->value()));
     job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
     job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectoryT->text());
-
-    QString placeholder;
-    if (filenamePreview != REMOTE_PREVIEW)
-    {
-        if (!isDarkFlat)
-            placeholder = placeholderFormatT->text().append(formatSuffixN->prefix()).append(formatSuffixN->cleanText());
-        else
-            placeholder = placeholderFormatT->text();
-    }
-    else
-    {
-        placeholder = placeholderFormatT->text();
-        // Remotely saved files get a predefined format hard coded in the driver
-        if (!placeholder.endsWith(QDir::separator()))
-            placeholder.append(QDir::separator());
-        placeholder.append("%target" + QDir::separator() + "%Type" + QDir::separator() + "%Filter" + QDir::separator() +
-                           "%target_%Type_%s3");
-    }
-
-    while (placeholder.endsWith(QDir::separator()))
-        placeholder.chop(1);
-
-    job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholder);
+    job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
+    job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
 
     if (m_JobUnderEdit == false || filenamePreview != NOT_PREVIEW)
     {
@@ -3204,7 +3175,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, filenamePreviewType filename
     }
 
     QString signature = placeholderPath.generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
-                        true, 1, ".fits", "", false, true);
+                        filenamePreview == LOCAL_PREVIEW, true, 1, ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 
     return true;
@@ -4545,6 +4516,10 @@ bool Capture::processJobInfo(XMLEle * root)
         {
             placeholderFormatT->setText(pcdataXMLEle(ep));
         }
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
+        {
+            formatSuffixN->setValue(cLocale.toUInt(pcdataXMLEle(ep)));
+        }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
             fileRemoteDirT->setText(pcdataXMLEle(ep));
@@ -4832,6 +4807,9 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<PlaceholderFormat>" << job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString() <<
                   "</PlaceholderFormat>" <<
                   Qt::endl;
+        outstream << "<PlaceholderSuffix>" << job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt() <<
+                  "</PlaceholderSuffix>" <<
+                  Qt::endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << Qt::endl;
         if (job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString().isEmpty() == false)
             outstream << "<RemoteDirectory>" << job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString() << "</RemoteDirectory>"
@@ -4986,6 +4964,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
     placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
+    formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
 
     // Temperature Options
     cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
@@ -6647,13 +6626,14 @@ void Capture::setFileSettings(const QJsonObject &settings)
     const auto upload = settings["upload"].toInt(fileUploadModeS->currentIndex());
     const auto remote = settings["remote"].toString(fileRemoteDirT->text());
     const auto format = settings["format"].toString(placeholderFormatT->text());
+    const auto suffix = settings["suffix"].toInt(formatSuffixN->value());
 
     filePrefixT->setText(prefix);
-    //    fileScriptT->setText(script);
     fileDirectoryT->setText(directory);
     fileUploadModeS->setCurrentIndex(upload);
     fileRemoteDirT->setText(remote);
     placeholderFormatT->setText(format);
+    formatSuffixN->setValue(suffix);
 }
 
 QJsonObject Capture::getFileSettings()
@@ -6663,6 +6643,7 @@ QJsonObject Capture::getFileSettings()
         {"prefix", filePrefixT->text()},
         {"directory", fileDirectoryT->text()},
         {"format", placeholderFormatT->text()},
+        {"suffix", formatSuffixN->value()},
         {"upload", fileUploadModeS->currentIndex()},
         {"remote", fileRemoteDirT->text()}
     };
@@ -7421,21 +7402,10 @@ void Capture::generatePreviewFilename()
     }
 }
 
-QString Capture::previewFilename(filenamePreviewType previewType)
+QString Capture::previewFilename(FilenamePreviewType previewType)
 {
     QString previewText;
     QString m_format;
-
-    //const QString seqDigitsTag = "%s";
-
-    // Prevent the user entering a sequence tag in the main Format
-    // FIXME can we regex this instead?
-    //    if (fileDirectoryT->text().contains(seqDigitsTag))
-    //    {
-    //        fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().indexOf(seqDigitsTag)));
-    //        if (fileDirectoryT->text().endsWith("-") || fileDirectoryT->text().endsWith("_"))
-    //            fileDirectoryT->setText(fileDirectoryT->text().left(fileDirectoryT->text().length() - 1));
-    //    }
 
     if (previewType == LOCAL_PREVIEW)
         m_format = fileDirectoryT->text() + placeholderFormatT->text() + formatSuffixN->prefix() + formatSuffixN->cleanText();
@@ -7466,52 +7436,12 @@ QString Capture::previewFilename(filenamePreviewType previewType)
         QString extension = ".fits";
         if (captureEncodingS->currentText() != "FITS")
             extension = ".[NATIVE]";
-        previewText = m_placeholderPath.generateFilename(*m_job, filePrefixT->text(), true, 1, extension, "", false);
+        previewText = m_placeholderPath.generateFilename(*m_job, filePrefixT->text(), previewType == LOCAL_PREVIEW, true, 1,
+                      extension, "", false);
         jobs.removeLast();
     }
 
     return previewText;
-}
-
-void Capture::legacySuffix()
-{
-    bool legacyMode = false;
-    if(Options::fileSettingsUseFilter() || Options::fileSettingsUseDuration() || Options::fileSettingsUseTimestamp())
-        legacyMode = true;
-
-    if (legacyMode)
-    {
-        QString m_format = fileDirectoryT->text();
-        if (m_format.startsWith("/"))
-        {
-            if (m_format.contains("%"))
-                m_format = m_format.left(m_format.indexOf("%"));
-
-            if (!m_format.endsWith(QDir::separator()))
-                m_format.append(QDir::separator());
-
-            m_format.append("%t" + QDir::separator() + "%T" + QDir::separator());
-
-            if (!FilterPosCombo->currentText().isEmpty())
-                m_format.append("%F" + QDir::separator());
-            if (!filePrefixT->text().isEmpty() || !m_TargetName.isEmpty())
-                m_format.append("%t_");
-
-            m_format.append("%T_");
-
-            if (!FilterPosCombo->currentText().isEmpty() && FilterEnabled)
-                m_format.append("%F_");
-            if (ExpEnabled)
-                m_format.append("%e_");
-            if (TimeStampEnabled)
-                m_format.append("%D_");
-
-            if (m_format.endsWith("_"))
-                m_format.chop(1);
-            placeholderFormatT->setText(m_format);
-            formatSuffixN->setValue(3);
-        }
-    }
 }
 
 }

@@ -8785,7 +8785,7 @@ void Scheduler::preloadSignature(SequenceJob &seqJob)
 
     auto placeholderPath = Ekos::PlaceholderPath();
     QString signature = placeholderPath.generateFilename(seqJob, seqJob.getCoreProperty(SequenceJob::SJ_TargetName).toString(),
-                        true, 1, ".fits", "", false, true);
+                        true, true, 1, ".fits", "", false, true);
     seqJob.setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 }

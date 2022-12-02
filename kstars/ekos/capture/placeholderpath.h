@@ -52,6 +52,7 @@ class PlaceholderPath
          * @brief generateFilename performs the data for tag substituion in the filename
          * @param sequence job to be processed
          * @param targetName name of the celestial target
+         * @param local Generate local filename, otherwise, generate remote filename
          * @param batch_mode if true dateTime tag is returned with placeholders
          * @param nextSequenceID file sequence number count
          * @param extension filename extension
@@ -61,7 +62,7 @@ class PlaceholderPath
          *
          * This overload of the function supports calls from the capture class
          */
-        QString generateFilename(const SequenceJob &job, const QString &targetName, const bool batch_mode, const int nextSequenceID,
+        QString generateFilename(const SequenceJob &job, const QString &targetName, bool local, const bool batch_mode, const int nextSequenceID,
                                  const QString &extension, const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
 
         /**
@@ -117,7 +118,8 @@ class PlaceholderPath
         int checkSeqBoundary(const SequenceJob &job, const QString &targetName);
 
     private:
-        QString generateFilename(const QString &format, const QString &rawFilePrefix, const bool isDarkFlat, const QString &filter, const CCDFrameType &frameType,
+        // TODO use QVariantMap or QVariantList instead of passing this many args.
+        QString generateFilename(const QString &directory, const QString &format, uint formatSuffix, const QString &rawFilePrefix, const bool isDarkFlat, const QString &filter, const CCDFrameType &frameType,
                                  const double exposure, const QString &targetName, const bool batch_mode, const int nextSequenceID, const QString &extension,
                                  const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
 
@@ -133,6 +135,8 @@ class PlaceholderPath
         QMap<CCDFrameType, QString> m_frameTypes;
         QFileInfo m_seqFilename;
         QString m_format;
+        QString m_Directory;
+        uint m_formatSuffix {3};
         bool m_tsEnabled { false };
         QString m_RawPrefix;
         bool m_filterPrefixEnabled { false };

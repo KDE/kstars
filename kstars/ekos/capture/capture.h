@@ -106,7 +106,7 @@ class Capture : public QWidget, public Ui::Capture
             NOT_PREVIEW,
             LOCAL_PREVIEW,
             REMOTE_PREVIEW
-        } filenamePreviewType;
+        } FilenamePreviewType;
 
         typedef IPState (Capture::*PauseFunctionPointer)();
 
@@ -663,7 +663,7 @@ class Capture : public QWidget, public Ui::Capture
              * @param filenamePreview if the job is to generate a preview filename
              * @return True if job is added successfully, false otherwise.
              */
-        bool addJob(bool preview = false, bool isDarkFlat = false, filenamePreviewType filenamePreview = NOT_PREVIEW);
+        bool addJob(bool preview = false, bool isDarkFlat = false, FilenamePreviewType filenamePreview = NOT_PREVIEW);
 
         /**
          * @brief removeJob Remove a job sequence from the queue
@@ -856,10 +856,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // Filename preview
         void generatePreviewFilename();
-        QString previewFilename(filenamePreviewType = LOCAL_PREVIEW);
-
-        // Legacy filename suffix mapping
-        void legacySuffix();
+        QString previewFilename(FilenamePreviewType = LOCAL_PREVIEW);
 
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
