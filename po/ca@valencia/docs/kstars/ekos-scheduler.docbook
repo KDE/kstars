@@ -422,7 +422,7 @@ exit(0)
         <para
 >El nombre gran dibuixat en el cantó de cada subfinestra en la quadrícula representa l'ordre en què s'han capturat les subfinestres. L'elecció predeterminada en forma de S (oest-est i alternant moviments alts-baixos/baixos-alts), garantix un moviment mínim de la muntura durant l'observació. Desmarqueu <guilabel
 >Moviment mínim de la muntura</guilabel
-> per tornar als moviments oest-est/alts-baixos. Les coordenades de cada subfinestra es representen al seu centre com a graus, minuts i segons. Finalment, l'angle de cada subfinestra rotarà des del centre del mosaic mostrant-se a la part inferior. Si el vostre camp de visió és gran o si el mosaic es troba a prop d'un pol celeste, observareu que les subfinestres representades començaran a rotar visiblement a causa de la seua posició horitzontal o d'una declinació alta. Utilitzeu la <guilabel
+> per a tornar als moviments oest-est/alts-baixos. Les coordenades de cada subfinestra es representen al seu centre com a graus, minuts i segons. Finalment, l'angle de cada subfinestra rotarà des del centre del mosaic mostrant-se a la part inferior. Si el vostre camp de visió és gran o si el mosaic es troba a prop d'un pol celeste, observareu que les subfinestres representades començaran a rotar visiblement a causa de la seua posició horitzontal o d'una declinació alta. Utilitzeu la <guilabel
 >Superposició</guilabel
 > per a assegurar-vos que les subfinestres cobrisquen correctament l'extensió desitjada del fotograma. </para>
         <screenshot>

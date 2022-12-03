@@ -23,7 +23,7 @@
         </mediaobject>
     </screenshot>
     <para
->El mòdul per al CCD és el mòdul principal per a l'adquisició d'imatges i vídeo a l'Ekos. Permet capturar imatges individuals (vista prèvia), múltiples (cua de seqüències) o gravar vídeos <ulink url="https://sites.google.com/site/astropipp/ser-player"
+>El mòdul de captura és el mòdul principal per a l'adquisició d'imatges i vídeo a l'Ekos. Permet capturar imatges individuals (vista prèvia), múltiples (cua de seqüències) o gravar vídeos <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 > juntament amb una selecció de la roda de filtres i rotor, si està disponible. </para>
     <sect3 id="capture-ccd-filter-wheel">
@@ -219,52 +219,104 @@
             <listitem>
                 <para
 ><guilabel
->Prefix</guilabel
->: Especifiqueu el prefix a afegir al nom de fitxer generat. També podeu afegir el tipus de fotograma, filtre, durada de l'exposició i la marca de temps ISO 8601. Per exemple, si especifiqueu el prefix com a <userinput
->M45</userinput
-> i marqueu les caselles de selecció tipus i filtre, i suposant que el vostre filtre s'ha establert a <guimenuitem
->Vermell</guimenuitem
-> i el tipus de fotograma és <guimenuitem
->Llum</guimenuitem
->, els noms de fitxer generats seran els següents: </para>
-                <itemizedlist>
-                    <listitem>
-                        <para
->M45_Light_Red_001.fits </para>
-                    </listitem>
-                    <listitem>
-                        <para
->M45_Light_Red_002.fits </para>
-                    </listitem>
-                </itemizedlist>
+>Objectiu</guilabel
+>: El nom de l'objectiu celeste que s'ha de capturar, &pex;, M42. Es pot precarregar del mòdul programador o per selecció amb el KStars. </para>
+            </listitem>
+            <listitem>
                 <para
->Si s'ha comprovat el <guilabel
->TS</guilabel
->, s'afegirà una marca de temps al nom del fitxer, &pex; </para>
+><guilabel
+>Format</guilabel
+>: La cadena Format defineix el camí i el nom de fitxer de les imatges capturades mitjançant l'ús d'etiquetes de variables de substitució que s'omplen amb l'element de dades seleccionat en temps de desament. </para>
+                <para
+>Una etiqueta s'identifica amb el caràcter %. Totes les etiquetes tenen una forma curta d'una sola lletra i una forma llarga autodescriptiva. </para>
+                <para
+>També es pot incloure text arbitrari a la cadena Format, <emphasis role="bold"
+>excepte els caràcters % i \</emphasis
+>. El caràcter / de camí es pot utilitzar per definir directoris arbitraris. </para>
+                <para
+>Nota: les etiquetes distingeixen entre majúscules i minúscules tant en les seves formes curtes com llargues. </para>
+                <para
+>Etiquetes disponibles de variables de substitució: </para>
                 <itemizedlist>
                     <listitem>
                         <para
->M45_Light_Red_001_2016-11-09T23-47-46.fits</para>
+><emphasis role="bold"
+>%f</emphasis
+> o <emphasis role="bold"
+>%filename</emphasis
+>: el nom del fitxer de seqüència «.seq», sense extensió. </para>
                     </listitem>
                     <listitem>
                         <para
->M45_Light_Red_002_2016-11-09T23-48-34.fits</para>
+><emphasis role="bold"
+>%D</emphasis
+> o <emphasis role="bold"
+>%Datetime</emphasis
+>: la data i hora actual <emphasis role="bold"
+>quan es desa el fitxer. Utilitzeu aquesta etiqueta només en la part del nom de fitxer del format, no en la part del camí.</emphasis
+> </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%T</emphasis
+> o <emphasis role="bold"
+>%Type</emphasis
+>: el tipus de fotograma, &pex; «Llum», «Polaritzat», «Fosc», «Pla»... </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%e</emphasis
+> o <emphasis role="bold"
+>%exposure</emphasis
+>: la durada de l'exposició en segons. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%F</emphasis
+> o <emphasis role="bold"
+>%Filter</emphasis
+>: el nom del filtre actiu. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%t</emphasis
+> o <emphasis role="bold"
+>%target</emphasis
+>: el nom de l'objectiu. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%s*</emphasis
+> o <emphasis role="bold"
+>%sequence*</emphasis
+>: l'identificador de la seqüència d'imatge a on * és el nombre utilitzat de dígits (1-9). <emphasis role="bold"
+>Aquesta etiqueta és obligatòria i cal que sigui l'últim element del format.</emphasis
+> </para>
                     </listitem>
                 </itemizedlist>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Script</guilabel
->: Especifiqueu un script <emphasis
->opcional</emphasis
-> que s'executarà després de completar cada captura. Cal especificar el camí complet de l'script i haurà de ser executable. Per a denotar l'èxit, l'script haurà de retornar zero, ja que això permetrà que la seqüència continuï. Si l'script retorna un valor que no sigui zero, la seqüència s'interromprà. </para>
+>Botó de navegació del directori</guilabel
+>: obre un diàleg de navegació que permet seleccionar la ubicació del directori usada en la cadena Format. Useu quan definiu primer una tasca de captura. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Directori</guilabel
->: El directori local per a desar les imatges de la seqüència. </para>
+>Vista prèvia</guilabel
+>: Mostra una vista prèvia del nom de fitxer resultant segons la cadena de format i altres paràmetres de la tasca. </para>
+                <para
+>Les etiquetes de les variables de substitució que s'han especificat en el fitxer de seqüència «.seq» només es poden mostrar una vegada s'ha desat el fitxer de seqüència. </para>
+                <para
+>L'etiqueta «Datetime» es previsualitza amb l'hora actual del sistema i se substituirà per l'hora en el moment de desar la imatge. </para>
+                <para
+>L'etiqueta de seqüència sempre es previsualitza com a imatge 1 en la seqüència i s'incrementarà automàticament quan la tasca estigui en curs. </para>
             </listitem>
             <listitem>
                 <para
@@ -309,6 +361,12 @@
 > o <guimenuitem
 >Ambdós</guimenuitem
 >, haureu d'especificar el directori remot on es desaran les imatges remotes. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Vista prèvia</guilabel
+>: Mostra una vista prèvia del nom del fitxer resultant d'acord amb la configuració del camí proporcionat de la tasca. El format del nom de fitxer per a desar remotament està predefinit, és possible que no s'utilitzin etiquetes de substitució. El número de seqüència de fitxer sempre es previsualitza com a imatge 1 en la seqüència i s'incrementarà automàticament quan la tasca estigui en curs. </para>
             </listitem>
         </itemizedlist>
     </sect3>

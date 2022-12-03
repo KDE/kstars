@@ -23,7 +23,7 @@
         </mediaobject>
     </screenshot>
     <para
->In Ekos is de CCD-module de belangrijkste module voor het verkrijgen van afbeeldingen en video's. Hiermee kunt u enkele (preview) opnames maken, of meerdere afbeeldingen (Wachtrij), of <ulink url="https://sites.google.com/site/astropipp/ser-player"
+>In Ekos is de vang-module de belangrijkste module voor het verkrijgen van afbeeldingen en video's. Hiermee kunt u enkele (preview) opnames maken, of meerdere afbeeldingen (Wachtrij), of <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 >-video's, samen met een filterwiel of rotator, indien aanwezig. </para>
     <sect3 id="capture-ccd-filter-wheel">
@@ -219,52 +219,104 @@
             <listitem>
                 <para
 ><guilabel
->Voorvoegsel</guilabel
->:Geef voorvoegsel op van de aangemaaktebestandsnamen. U kunt ook frame-type, filter, belichtingstijd, en de ISO 8601 timestamp (tijdstempel) hieraan toevoegen. Bijvoorbeeld, als u het voorvoegsel <userinput
->M45</userinput
-> opgeeft,  en de keuzevakjes voor Type and Filter hebt geselecteerd, en het filter ingesteld is op <guimenuitem
->Rood</guimenuitem
-> en het frametype op <guimenuitem
->Light</guimenuitem
->, dan zijn de aangemaakte bestandsnamen als volgt: </para>
-                <itemizedlist>
-                    <listitem>
-                        <para
->M45_Light_Rood_001.fits </para>
-                    </listitem>
-                    <listitem>
-                        <para
->M45_Light_Rood_002.fits </para>
-                    </listitem>
-                </itemizedlist>
+>Doel</guilabel
+>: de naam van het te vangen hemel-doel &eg; M42. Kan vooraf geladen worden door de planningsmodule en door selectie met KStars. </para>
+            </listitem>
+            <listitem>
                 <para
->Indien <guilabel
->TS</guilabel
-> is gekozen, dan wordt de timestamp aan de  bestandsnaam toegevoegd, &eg; </para>
+><guilabel
+>Formaat</guilabel
+>: de formaattekenreeks definieert het pad en bestandsnaam van de opgenomen afbeeldingen het gebruik van plaatshoudertags die ingevuld worden met het geselecteerde gegevensitem op het moment van opslaan. </para>
+                <para
+>Een tag wordt geïdentificeerd door het % teken. Alle tags hebben een korte vorm met een enkele letter en een zichzelf beschrijvende lange vorm. </para>
+                <para
+>Willekeurige tekst kam ook ingevoegd worden in de formaattekenreeks, <emphasis role="bold"
+>behalve de tekens % en \.</emphasis
+> Het padteken / kan gebruikt worden om willekeurige mappen te definiëren. </para>
+                <para
+>Opmerking: tags zijn hoofdlettergevoelig in zowel hun korte als lange vormen. </para>
+                <para
+>Beschikbare plaatshoudertags: </para>
                 <itemizedlist>
                     <listitem>
                         <para
->M45_Light_Rood_001_2016-11-09T23-47-46.fits</para>
+><emphasis role="bold"
+>%f</emphasis
+> of <emphasis role="bold"
+>%filename</emphasis
+>: De naam van het volgorde .esq-bestand, zonder extensie. </para>
                     </listitem>
                     <listitem>
                         <para
->M45_Light_Rood_002_2016-11-09T23-48-34.fits</para>
+><emphasis role="bold"
+>%D</emphasis
+> of <emphasis role="bold"
+>%Datetime</emphasis
+>: De huidige tijd en datum <emphasis role="bold"
+>op het moment dat het bestand wordt opgeslagen. Gebruik deze tag in het bestandsnaamgedeelte van het formaat, niet in het padgedeelte.</emphasis
+> </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%T</emphasis
+> of <emphasis role="bold"
+>%Type</emphasis
+>: Het type frame &eg; 'Light', 'Bias', 'Dark', 'Flat'... </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%e</emphasis
+> of <emphasis role="bold"
+>%exposure</emphasis
+>: de belichtingstijd in seconden. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%F</emphasis
+> of <emphasis role="bold"
+>%Filter</emphasis
+>: de actieve filternaam. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%t</emphasis
+> of <emphasis role="bold"
+>%target</emphasis
+>: De doelnaam. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%s*</emphasis
+> of <emphasis role="bold"
+>%sequence*</emphasis
+>: plaatshouder %s* of %sequence: De volgorde-identifier van de afbeelding waar * het aantal gebruikte cijfers (1-9) is. <emphasis role="bold"
+>Deze tag is verplicht en moet het laatste element in het formaat zijn.</emphasis
+> </para>
                     </listitem>
                 </itemizedlist>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Script</guilabel
->: Geef een <emphasis
->optioneel</emphasis
-> script op dat moet worden uitgevoerd nadat een opname voltooid is.. Het hele  pad van het script moet worden opgegeven, en het script moet uitvoerbaar zijn. Bij succes moet nul worden teruggegeven, zodat de rij kan worden voortgezet. Indien geen nul wordt teruggegeven, wordt de rij (opnamen) afgesloten. </para>
+>Bladerknop in map</guilabel
+>: opent een bladerdialoog om een selectie van de locatie van een map te bieden die gebruikt kan worden in de formaattekenreeks. Te gebruiken bij de eerste definitie van een opnamejob. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Map</guilabel
->: Lokale map voor opslag van de opgenomen rijen van afbeeldingen to. </para>
+>Voorbeeld</guilabel
+>: toont een voorbeeld van de resulterende bestandsnaam volgens de formaattekenreeks en andere instellingen van de job. </para>
+                <para
+>Plaatshoudertags die gespecificeerd zijn door het volgorde .seq-bestand kunnen alleen getoond worden nadat het volgordebestand is opgeslagen. </para>
+                <para
+>De tag Datetime wordt getoond met de huidige systeemtijd en zal vervangen worden door de tijd op het moment van opslaan van de afbeelding. </para>
+                <para
+>De volgorde-tag wordt altijd getoond als afbeelding 1 in de reeks en zal automatisch verhoogd worden wanneer de job wordt uitgevoerd. </para>
             </listitem>
             <listitem>
                 <para
@@ -309,6 +361,12 @@
 > of <guimenuitem
 >Beide</guimenuitem
 >kiest, moet u de externe map opgeven waarin externe afbeeldingen worden opgeslagen. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Voorbeeld</guilabel
+>: toont een voorbeeld van de resulterende bestandsnaam volgens de gegeven pad-instellingen van de job. Het bestandsnaamformaat voor op afstand opslaan is voorgedefinieerd, plaatshoudertags zijn misschien niet gebruikt. Het volgordenummer van het bestand wordt altijd getoond als afbeelding 1 in de reeks en zal automatisch opgehoogd worden wanneer de job wordt uitgevoerd. </para>
             </listitem>
         </itemizedlist>
     </sect3>
