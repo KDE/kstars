@@ -4,13 +4,10 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-
-#ifndef PLACEHOLDERPATH
-#define PLACEHOLDERPATH
+#pragma once
 
 #include <lilxml.h>
 #include "indi/indistd.h"
-
 #include <QDebug>
 #include <QFileInfo>
 
@@ -25,39 +22,111 @@ class SequenceJob;
 class PlaceholderPath
 {
     public:
-        PlaceholderPath(QString seqFilename);
+        PlaceholderPath(const QString &seqFilename);
         PlaceholderPath();
         ~PlaceholderPath();
 
-        void processJobInfo(SequenceJob *job, QString targetName);
-        void addJob(SequenceJob *job, QString targetName);
-        void constructPrefix(SequenceJob *job, QString &imagePrefix);
-        void generateFilenameOld(
-            const QString &format, bool batch_mode, QString *filename,
-            QString fitsDir, QString seqPrefix, int nextSequenceID);
-        void generateFilename(QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID,
-                              const QString &extension,
-                              QString *filename) const;
-        void generateFilename(QString format, bool tsEnabled, bool batch_mode,
-                              int nextSequenceID, const QString &extension, QString *filename) const;
-        void generateFilename(QString format, QString rawFilePrefix, bool filterEnabled, bool exposureEnabled,
-                              bool tsEnabled, bool isDarkFlat, QString filter, CCDFrameType frameType, double exposure, QString targetName,
-                              bool batch_mode, int nextSequenceID, const QString &extension, QString *filename) const;
+        /**
+         * @brief processJobInfo loads the placeHolderPath with properties from the SequenceJob
+         * @param sequence job to be processed
+         * @param targetname name of the celestial target
+         */
+        void processJobInfo(SequenceJob *job, const QString &targetName);
 
+        /**
+         * @brief addjob creates the directory suffix for the SequenceJob
+         * @param sequence job to be processed
+         * @param targetname name of the celestial target
+         */
+        void addJob(SequenceJob *job, const QString &targetName);
+
+        /**
+         * @brief constructPrefix creates the prefix for the SequenceJob
+         * @param sequence job to be processed
+         * @param imagePrefix sequence job prefix string
+         * @return QString containing the processed prefix string
+         */
+        QString constructPrefix(const SequenceJob *job, const QString &imagePrefix);
+
+        /**
+         * @brief generateFilename performs the data for tag substituion in the filename
+         * @param sequence job to be processed
+         * @param targetName name of the celestial target
+         * @param local Generate local filename, otherwise, generate remote filename
+         * @param batch_mode if true dateTime tag is returned with placeholders
+         * @param nextSequenceID file sequence number count
+         * @param extension filename extension
+         * @param filename passed in with tags
+         * @param glob used in batch mode
+         * @return QString containing formatted filename
+         *
+         * This overload of the function supports calls from the capture class
+         */
+        QString generateFilename(const SequenceJob &job, const QString &targetName, bool local, const bool batch_mode, const int nextSequenceID,
+                                 const QString &extension, const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
+
+        /**
+         * @brief generateFilename performs the data for tag substituion in the filename
+         * @param sequence job to be processed
+         * @param batch_mode if true dateTime tag is returned with placeholders
+         * @param nextSequenceID file sequence number count
+         * @param extension filename extension
+         * @param filename passed in with tags
+         * @param glob used in batch mode
+         * @return QString containing formatted filename
+         *
+         * This overload of the function supports calls from the indicamera class
+         */
+        QString generateFilename(const bool batch_mode, const int nextSequenceID, const QString &extension, const QString &filename,
+                                 const bool glob = false, const bool gettingSignature = false) const;
+
+        /**
+         * @brief setGenerateFilenameSettings loads the placeHolderPath with settings from the passed job
+         * @param sequence job to be processed
+         */
         void setGenerateFilenameSettings(const SequenceJob &job);
-        void setSeqFilename(QString name)
-        {
-            m_seqFilename = name;
-        }
-        static QStringList remainingPlaceholders(QString filename);
+
+        /**
+         * @brief remainingPlaceholders finds placeholder tags in filename
+         * @param filename string to be processed
+         * @return a QStringList of the remaining placeholders
+         */
+        static QStringList remainingPlaceholders(const QString &filename);
+
+        /**
+         * @brief remainingPlaceholders provides a list of already existing fileIDs from passed sequence job
+         * @param sequence job to be processed
+         * @param targetName name of the celestial target
+         * @return a QStringList of the existing fileIDs
+         */
+        QList<int> getCompletedFileIds(const SequenceJob &job, const QString &targetName);
+
+        /**
+         * @brief getCompletedFiles provides the number of existing fileIDs
+         * @param sequence job to be processed
+         * @param targetName name of the celestial target
+         * @return number of existing fileIDs
+         */
+        int getCompletedFiles(const SequenceJob &job, const QString &targetName);
+
+        /**
+         * @brief checkSeqBoundary provides the ID to use for the next file
+         * @param sequence job to be processed
+         * @param targetName name of the celestial target
+         * @return number for the next fileIDs
+         */
+        int checkSeqBoundary(const SequenceJob &job, const QString &targetName);
 
     private:
+        // TODO use QVariantMap or QVariantList instead of passing this many args.
+        QString generateFilename(const QString &directory, const QString &format, uint formatSuffix, const QString &rawFilePrefix, const bool isDarkFlat, const QString &filter, const CCDFrameType &frameType,
+                                 const double exposure, const QString &targetName, const bool batch_mode, const int nextSequenceID, const QString &extension,
+                                 const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
+
         QString getFrameType(CCDFrameType frameType) const
         {
             if (m_frameTypes.contains(frameType))
-            {
                 return m_frameTypes[frameType];
-            }
 
             qWarning() << frameType << " not in " << m_frameTypes.keys();
             return "";
@@ -65,6 +134,10 @@ class PlaceholderPath
 
         QMap<CCDFrameType, QString> m_frameTypes;
         QFileInfo m_seqFilename;
+        QString m_format;
+        QString m_Directory;
+        uint m_formatSuffix {3};
+        bool m_tsEnabled { false };
         QString m_RawPrefix;
         bool m_filterPrefixEnabled { false };
         bool m_expPrefixEnabled { false };
@@ -77,4 +150,3 @@ class PlaceholderPath
 
 }
 
-#endif /* ifndef PLACEHOLDERPATH */

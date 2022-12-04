@@ -191,11 +191,10 @@ void ServerManager::startDriver(DriverInfo *dv)
     {
         QProcess script;
         QEventLoop loop;
-        QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished), &loop, &QEventLoop::quit);
+        QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
+                         &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
-
         qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing pre-driver script" << PreScript;
-
         script.start(PreScript, QStringList());
         loop.exec();
 
@@ -262,11 +261,10 @@ void ServerManager::startDriver(DriverInfo *dv)
     {
         QProcess script;
         QEventLoop loop;
-        QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished), &loop, &QEventLoop::quit);
+        QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
+                         &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
-
         qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing post-driver script" << PreScript;
-
         script.start(PostScript, QStringList());
         loop.exec();
 

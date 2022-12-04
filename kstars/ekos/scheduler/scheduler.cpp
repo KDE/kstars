@@ -5758,7 +5758,8 @@ uint16_t Scheduler::calculateExpectedCapturesMap(const QList<SequenceJob *> &seq
     for (auto &seqJob : seqJobs)
     {
         capturesPerRepeat += seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt();
-        QString const signature = seqJob->getSignature();
+        Scheduler::preloadSignature(*seqJob);
+        QString signature = seqJob->getCoreProperty(SequenceJob::SJ_Signature).toString();
         expected[signature] = static_cast<uint16_t>(seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt()) + (expected.contains(
                                   signature) ? expected[signature] : 0);
     }
@@ -5875,7 +5876,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
             }
 
             /* Else recount captures already stored */
-            newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
+            newFramesCount[signature] = getCompletedFiles(signature);
         }
 
         // determine whether we need to continue capturing, depending on captured frames
@@ -5993,7 +5994,6 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
              * This is why it is important to manage the repeat count of the scheduler job, as stated earlier.
              */
 
-            // we start with the total value
             captures_required = expected[seqJob->getSignature()] * schedJob->getRepeatsRequired();
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 sees %2 captures in output folder '%3'.").arg(seqName).arg(
@@ -7419,7 +7419,9 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
                     hasAutoFocus = (!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                 else if (!strcmp(tagXMLEle(ep), "Job"))
                 {
-                    jobs.append(processJobInfo(ep, schedJob));
+                    SequenceJob *thisJob = processJobInfo(ep, schedJob);
+                    Scheduler::preloadSignature(*thisJob);
+                    jobs.append(thisJob);
                     if (jobs.count() == 1)
                     {
                         auto &firstJob = jobs.first();
@@ -7457,12 +7459,14 @@ SequenceJob * Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     return job;
 }
 
-int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
+int Scheduler::getCompletedFiles(const QString &path)
 {
     int seqFileCount = 0;
     QFileInfo const path_info(path);
     QString const sig_dir(path_info.dir().path());
     QString const sig_file(path_info.completeBaseName());
+    QRegularExpression re(sig_file);
+
     QDirIterator it(sig_dir, QDir::Files);
 
     /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
@@ -7470,10 +7474,9 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
     {
         QString const fileName = QFileInfo(it.next()).completeBaseName();
 
-        if (fileName.startsWith(seqPrefix))
-        {
+        QRegularExpressionMatch match = re.match(fileName);
+        if (match.hasMatch())
             seqFileCount++;
-        }
     }
 
     return seqFileCount;
@@ -8760,4 +8763,29 @@ bool Scheduler::importMosaic(const QJsonObject &payload)
     return assistant->importMosaic(payload);
 }
 
+void Scheduler::preloadSignature(SequenceJob &seqJob)
+{
+    QString tempFormat = seqJob.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    if (!tempFormat.contains("%"))
+    {
+        if (!tempFormat.endsWith(QDir::separator()))
+            tempFormat.append(QDir::separator());
+        tempFormat.append("%t" + QDir::separator() + "%T" + QDir::separator());
+        if(!seqJob.getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
+            tempFormat.append("%F" + QDir::separator());
+        tempFormat.append("%t_%T_");
+        if(!seqJob.getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
+            tempFormat.append("%F_");
+        if(seqJob.getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool() == true)
+            tempFormat.append("%e_");
+        if(seqJob.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool() == true)
+            tempFormat.append("%D_");
+        seqJob.setCoreProperty(SequenceJob::SJ_LocalDirectory, tempFormat);
+    }
+
+    auto placeholderPath = Ekos::PlaceholderPath();
+    QString signature = placeholderPath.generateFilename(seqJob, seqJob.getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                        true, true, 1, ".fits", "", false, true);
+    seqJob.setCoreProperty(SequenceJob::SJ_Signature, signature);
+}
 }

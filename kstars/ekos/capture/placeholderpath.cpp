@@ -6,20 +6,19 @@
 
 #include "placeholderpath.h"
 
-#include "ekos/scheduler/schedulerjob.h"
 #include "sequencejob.h"
-#include "Options.h"
 #include "kspaths.h"
 
 #include <QString>
 #include <QStringList>
 
 #include <cmath>
+#include <algorithm>
 
 namespace Ekos
 {
 
-PlaceholderPath::PlaceholderPath(QString seqFilename):
+PlaceholderPath::PlaceholderPath(const QString &seqFilename):
     m_frameTypes(
 {
     {FRAME_LIGHT, "Light"},
@@ -33,7 +32,7 @@ m_seqFilename(seqFilename)
 }
 
 PlaceholderPath::PlaceholderPath():
-    PlaceholderPath("")
+    PlaceholderPath(QString())
 {
 }
 
@@ -41,7 +40,7 @@ PlaceholderPath::~PlaceholderPath()
 {
 }
 
-void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
+void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName)
 {
     job->setCoreProperty(SequenceJob::SJ_TargetName, targetName);
 
@@ -51,24 +50,23 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
     auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
     auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
     auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
-    //auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
     const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 
     if (isDarkFlat)
         frameType = "DarkFlat";
 
     // Sanitize name
-    //QString targetName = schedJob->getName();
-    targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                 // Remove any two or more __
-                 .replace( QRegularExpression("_{2,}"), "_")
-                 // Remove any _ at the end
-                 .replace( QRegularExpression("_$"), "");
+    QString tempTargetName = targetName;
+    tempTargetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+    // Remove any two or more __
+    .replace( QRegularExpression("_{2,}"), "_")
+    // Remove any _ at the end
+    .replace( QRegularExpression("_$"), "");
 
     // Because scheduler sets the target name in capture module
     // it would be the same as the raw prefix
-    if (targetName.isEmpty() == false && rawPrefix.isEmpty())
-        rawPrefix = targetName;
+    if (tempTargetName.isEmpty() == false && rawPrefix.isEmpty())
+        rawPrefix = tempTargetName;
 
     // Make full prefix
     QString imagePrefix = rawPrefix;
@@ -79,7 +77,8 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
     imagePrefix += frameType;
 
     if (filterEnabled && filterType.isEmpty() == false &&
-            (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE || isDarkFlat))
+            (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE
+             || isDarkFlat))
     {
         imagePrefix += '_';
 
@@ -116,19 +115,23 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
     QString directoryPostfix;
 
     /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in capture.cpp */
-    if (targetName.isEmpty())
+    if (tempTargetName.isEmpty())
         directoryPostfix = QDir::separator() + frameType;
     else
-        directoryPostfix = QDir::separator() + targetName + QDir::separator() + frameType;
-    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE || isDarkFlat)
+        directoryPostfix = QDir::separator() + tempTargetName + QDir::separator() + frameType;
+    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE
+            || isDarkFlat)
             && filterType.isEmpty() == false)
         directoryPostfix += QDir::separator() + filterType;
 
     job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
 
+    QString signature = generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(), true, true,
+                                         1, ".fits", "", false, true);
+    job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 
-void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
+void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
 {
     job->setCoreProperty(SequenceJob::SJ_TargetName, targetName);
 
@@ -137,7 +140,6 @@ void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
     const auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
     QString imagePrefix = rawPrefix;
 
-    // Override
     const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
     if (isDarkFlat)
         frameTypeString = "DarkFlat";
@@ -150,9 +152,9 @@ void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
         imagePrefix = targetName;
     }
 
-    constructPrefix(job, imagePrefix);
+    QString tempPrefix = constructPrefix(job, imagePrefix);
 
-    job->setCoreProperty(SequenceJob::SJ_FullPrefix, imagePrefix);
+    job->setCoreProperty(SequenceJob::SJ_FullPrefix, tempPrefix);
 
     QString directoryPostfix;
 
@@ -172,7 +174,7 @@ void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
     job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
 }
 
-void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
+QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &imagePrefix)
 {
     CCDFrameType frameType = job->getFrameType();
     auto filter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
@@ -183,12 +185,13 @@ void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
 
     double exposure = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
 
-    if (imagePrefix.isEmpty() == false)
-        imagePrefix += '_';
+    QString tempImagePrefix = imagePrefix;
+    if (tempImagePrefix.isEmpty() == false)
+        tempImagePrefix += '_';
 
     const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 
-    imagePrefix += isDarkFlat ? "DarkFlat" : CCDFrameTypeNames[frameType];
+    tempImagePrefix += isDarkFlat ? "DarkFlat" : CCDFrameTypeNames[frameType];
 
     if (filterEnabled && filter.isEmpty() == false &&
             (frameType == FRAME_LIGHT ||
@@ -196,254 +199,210 @@ void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
              frameType == FRAME_NONE ||
              isDarkFlat))
     {
-        imagePrefix += '_';
-        imagePrefix += filter;
+        tempImagePrefix += '_';
+        tempImagePrefix += filter;
     }
     if (expEnabled)
     {
-        imagePrefix += '_';
+        tempImagePrefix += '_';
 
         double exposureValue = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
 
         // Don't use the locale for exposure value in the capture file name, so that we get a "." as decimal separator
         if (exposureValue == static_cast<int>(exposureValue))
             // Whole number
-            imagePrefix += QString::number(exposure, 'd', 0) + QString("_secs");
+            tempImagePrefix += QString::number(exposure, 'd', 0) + QString("_secs");
         else
         {
             // Decimal
             if (exposure >= 0.001)
-                imagePrefix += QString::number(exposure, 'f', 3) + QString("_secs");
+                tempImagePrefix += QString::number(exposure, 'f', 3) + QString("_secs");
             else
-                imagePrefix += QString::number(exposure, 'f', 6) + QString("_secs");
+                tempImagePrefix += QString::number(exposure, 'f', 6) + QString("_secs");
         }
     }
     if (tsEnabled)
     {
-        imagePrefix += SequenceJob::ISOMarker;
+        tempImagePrefix += SequenceJob::ISOMarker;
     }
+
+    return tempImagePrefix;
 }
 
-void PlaceholderPath::generateFilenameOld(const QString &format, bool batch_mode, QString *filename,
-        QString fitsDir, QString seqPrefix, int nextSequenceID
-                                         )
-{
-    QString currentDir;
-    if (batch_mode)
-        currentDir = fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
-    else
-        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + "/kstars";
-
-    /*
-    if (QDir(currentDir).exists() == false)
-        QDir().mkpath(currentDir);
-    */
-
-    if (currentDir.endsWith('/') == false)
-        currentDir.append('/');
-
-    // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
-    // The timestamp is no longer ISO8601 but it should solve interoperality issues
-    // between different OS hosts
-    QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-
-    if (seqPrefix.contains("_ISO8601"))
-    {
-        QString finalPrefix = seqPrefix;
-        finalPrefix.replace("ISO8601", ts);
-        *filename = currentDir + finalPrefix +
-                    QString("_%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
-    }
-    else
-        *filename = currentDir + seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                    QString("%1%2").arg(QString().asprintf("%03d", nextSequenceID), format);
-}
-
-void PlaceholderPath::generateFilename(
-    QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID, const QString &extension,
-    QString *filename) const
+QString PlaceholderPath::generateFilename(const SequenceJob &job,
+        const QString &targetName,
+        bool local,
+        const bool batch_mode,
+        const int nextSequenceID,
+        const QString &extension,
+        const QString &filename,
+        const bool glob,
+        const bool gettingSignature) const
 {
     auto filter = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
     auto rawPrefix = job.getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
-    auto filterEnabled = job.getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
-    auto expEnabled = job.getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
-    auto tsEnabled = job.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
     auto darkFlat = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 
+    QString directory;
+    if (local)
+        directory = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    else
+        directory = job.getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString();
+    QString format = job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
+    uint formatSuffix = job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt();
 
-    generateFilename(format, rawPrefix, filterEnabled, expEnabled,
-                     tsEnabled, darkFlat, filter, job.getFrameType(), job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                     targetName, batch_mode, nextSequenceID, extension, filename);
+    return generateFilename(directory, format, formatSuffix, rawPrefix, darkFlat, filter, job.getFrameType(),
+                            job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), targetName,
+                            batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
 }
 
-void PlaceholderPath::generateFilename(QString format, bool tsEnabled, bool batch_mode,
-                                       int nextSequenceID, const QString &extension, QString *filename) const
+QString PlaceholderPath::generateFilename(const bool batch_mode, const int nextSequenceID, const QString &extension,
+        const QString &filename, const bool glob, const bool gettingSignature) const
 {
-    generateFilename(format, m_RawPrefix, m_filterPrefixEnabled, m_expPrefixEnabled,
-                     tsEnabled, m_DarkFlat, m_filter, m_frameType, m_exposure, m_targetName, batch_mode,
-                     nextSequenceID, extension, filename);
+    return generateFilename(m_Directory, m_format, m_formatSuffix, m_RawPrefix, m_DarkFlat, m_filter, m_frameType, m_exposure,
+                            m_targetName,
+                            batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
 }
 
-void PlaceholderPath::generateFilename(
-    QString format, QString rawFilePrefix, bool filterEnabled, bool exposureEnabled,
-    bool tsEnabled, bool isDarkFlat, QString filter, CCDFrameType frameType, double exposure, QString targetName,
-    bool batch_mode, int nextSequenceID,  const QString &extension, QString *filename) const
+QString PlaceholderPath::generateFilename(const QString &directory,
+        const QString &format,
+        uint formatSuffix,
+        const QString &rawFilePrefix,
+        const bool isDarkFlat,
+        const QString &filter,
+        const CCDFrameType &frameType,
+        const double exposure,
+        const QString &targetName,
+        const bool batch_mode,
+        const int nextSequenceID,
+        const QString &extension,
+        const QString &filename,
+        const bool glob,
+        const bool gettingSignature) const
 {
-    targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                 // Remove any two or more __
-                 .replace( QRegularExpression("_{2,}"), "_")
-                 // Remove any _ at the end
-                 .replace( QRegularExpression("_$"), "");
+    QString tempTargetName = targetName;
+    tempTargetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+    // Remove any two or more __
+    .replace( QRegularExpression("_{2,}"), "_")
+    // Remove any _ at the end
+    .replace( QRegularExpression("_$"), "");
     int i = 0;
 
+    QString tempFilename = filename;
     QString currentDir;
     if (batch_mode)
-    {
-        currentDir = m_seqFilename.path().isEmpty() ? Options::fitsDir() : currentDir;
-    }
+        currentDir = directory;
     else
-    {
-        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + "/kstars";
-    }
+        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + "kstars/";
 
-    if (currentDir.endsWith('/') == true)
-        currentDir.chop(1);
+    //    if (currentDir.endsWith(QDir::separator()) == false)
+    //        currentDir += QDir::separator();
 
-    if (!currentDir.isEmpty())
-        format = currentDir + "/" + format.section("/", -1);
+    QString tempFormat = currentDir + format + "_%s" + QString::number(formatSuffix);
 
     QRegularExpressionMatch match;
-    QRegularExpression re("(?<replace>\\%(?<name>[f,D,T,e,F,t,d,p,s])(?<level>\\d+)?)(?<sep>[_/])?");
-    while ((i = format.indexOf(re, i, &match)) != -1)
+    QRegularExpression
+    // This is the original regex with %p & %d tags - disabled for now to simply
+    // re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|sequence|s|directory|d|path|p))(?<level>\\d+)?)(?<sep>[_/])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
+    while ((i = tempFormat.indexOf(re, i, &match)) != -1)
     {
         QString replacement = "";
-        if (match.captured("name") == "f")
-        {
+        if ((match.captured("name") == "filename") || (match.captured("name") == "f"))
             replacement = m_seqFilename.baseName();
-        }
-        else if (match.captured("name") == "D")
+        else if ((match.captured("name") == "Datetime") || (match.captured("name") == "D"))
         {
-            if (tsEnabled)
-            {
+            if (glob || gettingSignature)
+                replacement = "\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d";
+            else
                 replacement = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-            }
         }
-        else if (match.captured("name") == "T")
+        else if ((match.captured("name") == "Type") || (match.captured("name") == "T"))
         {
             if (isDarkFlat)
                 replacement = "DarkFlat";
             else
                 replacement = getFrameType(frameType);
         }
-        else if (match.captured("name") == "e")
+        else if ((match.captured("name") == "exposure") || (match.captured("name") == "e"))
         {
-            if (exposureEnabled)
-            {
-                double fractpart, intpart;
-                fractpart = std::modf(exposure, &intpart);
-                if (fractpart == 0)
-                {
-                    replacement = QString::number(exposure, 'd', 0) + QString("_secs");
-                }
-                else if (exposure >= 1e-3)
-                {
-                    replacement = QString::number(exposure, 'f', 3) + QString("_secs");
-                }
-                else
-                {
-                    replacement = QString::number(exposure, 'f', 6) + QString("_secs");
-                }
-            }
-        }
-        else if (match.captured("name") == "F")
-        {
-            if (format.indexOf("/", match.capturedStart()) == -1)
-            {
-                // in the basename part of the path
-                if (filterEnabled && filter.isEmpty() == false
-                        && (frameType == FRAME_LIGHT
-                            || frameType == FRAME_FLAT
-                            || frameType == FRAME_NONE
-                            || m_DarkFlat))
-                {
-                    replacement = filter;
-                }
-            }
+            double fractpart, intpart;
+            fractpart = std::modf(exposure, &intpart);
+            if (fractpart == 0)
+                replacement = QString::number(exposure, 'd', 0) + QString("_secs");
+            else if (exposure >= 1e-3)
+                replacement = QString::number(exposure, 'f', 3) + QString("_secs");
             else
+                replacement = QString::number(exposure, 'f', 6) + QString("_secs");
+        }
+        else if ((match.captured("name") == "Filter") || (match.captured("name") == "F"))
+        {
+            if (filter.isEmpty() == false
+                    && (frameType == FRAME_LIGHT
+                        || frameType == FRAME_FLAT
+                        || frameType == FRAME_NONE
+                        || isDarkFlat))
             {
-                // in the directory part of the path
-                if (filter.isEmpty() == false
-                        && (frameType == FRAME_LIGHT
-                            || frameType == FRAME_FLAT
-                            || frameType == FRAME_NONE
-                            || m_DarkFlat))
-                {
-                    replacement = filter;
-                }
+                replacement = filter;
             }
         }
-        else if (match.captured("name") == "t")
+        else if ((match.captured("name") == "target") || (match.captured("name") == "t"))
         {
-            if (format.indexOf("/", match.capturedStart()) != -1)
+            if (tempFormat.indexOf(QDir::separator(), match.capturedStart()) != -1)
             {
                 // in the directory part of the path
-                replacement = targetName;
+                replacement = tempTargetName;
             }
             else
             {
                 // in the basename part of the path
                 replacement = rawFilePrefix;
-                if (replacement.isEmpty() && !targetName.isEmpty())
-                {
-                    replacement = targetName;
-                }
+                if (replacement.isEmpty() && !tempTargetName.isEmpty())
+                    replacement = tempTargetName;
             }
         }
-        else if (match.captured("name") == "d" || match.captured("name") == "p")
+        // Disable for now %d & %p tags to simplfy
+        //        else if ((match.captured("name") == "directory") || (match.captured("name") == "d") ||
+        //                 (match.captured("name") == "path") || (match.captured("name") == "p"))
+        //        {
+        //            int level = 0;
+        //            if (!match.captured("level").isEmpty())
+        //                level = match.captured("level").toInt() - 1;
+        //            QFileInfo dir = m_seqFilename;
+        //            for (int j = 0; j < level; ++j)
+        //                dir = QFileInfo(dir.dir().path());
+        //            if (match.captured("name") == "directory" || match.captured("name") == "d")
+        //                replacement = dir.dir().dirName();
+        //            else if (match.captured("name") == "path" || match.captured("name") == "p")
+        //                replacement = dir.path();
+        //        }
+        else if ((match.captured("name") == "sequence") || (match.captured("name") == "s"))
         {
-            int level = 0;
-            if (!match.captured("level").isEmpty())
+            if (glob)
+                replacement = "(?<id>\\d+)";
+            else
             {
-                level = match.captured("level").toInt() - 1;
+                int level = 0;
+                if (!match.captured("level").isEmpty())
+                    level = match.captured("level").toInt();
+                replacement = QString("%1").arg(nextSequenceID, level, 10, QChar('0'));
             }
-            QFileInfo dir = m_seqFilename;
-            for (int j = 0; j < level; ++j)
-            {
-                dir = QFileInfo(dir.dir().path());
-            }
-            if (match.captured("name") == "d")
-            {
-                replacement = dir.dir().dirName();
-            }
-            else if (match.captured("name") == "p")
-            {
-                replacement = dir.path();
-            }
-        }
-        else if (match.captured("name") == "s")
-        {
-            int level = 1;
-            if (!match.captured("level").isEmpty())
-            {
-                level = match.captured("level").toInt();
-            }
-            replacement = QString("%1").arg(nextSequenceID, level, 10, QChar('0'));
         }
         else
-        {
             qWarning() << "Unknown replacement string: " << match.captured("replace");
-        }
         if (replacement.isEmpty())
-        {
-            format = format.replace(match.capturedStart(), match.capturedLength(), replacement);
-        }
+            tempFormat = tempFormat.replace(match.capturedStart(), match.capturedLength(), replacement);
         else
-        {
-            format = format.replace(match.capturedStart("replace"), match.capturedLength("replace"), replacement);
-        }
+            tempFormat = tempFormat.replace(match.capturedStart("replace"), match.capturedLength("replace"), replacement);
         i += replacement.length();
     }
-    *filename = format + extension;
+
+    if (!gettingSignature)
+        tempFilename = tempFormat + extension;
+    else
+        tempFilename = tempFormat.left(tempFormat.lastIndexOf("_"));
+
+    return tempFilename;
 }
 
 void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
@@ -455,10 +414,14 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
     m_filter              = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
     m_exposure            = job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
     m_targetName          = job.getCoreProperty(SequenceJob::SJ_TargetName).toString();
+    m_Directory           = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    m_format              = job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
+    m_formatSuffix        = job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt();
+    m_tsEnabled           = job.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
     m_DarkFlat            = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 }
 
-QStringList PlaceholderPath::remainingPlaceholders(QString filename)
+QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
 {
     QList<QString> placeholders = {};
     QRegularExpressionMatch match;
@@ -467,12 +430,43 @@ QStringList PlaceholderPath::remainingPlaceholders(QString filename)
     while ((i = filename.indexOf(re, i, &match)) != -1)
     {
         if (match.hasMatch())
-        {
             placeholders.push_back(match.captured("replace"));
-        }
         i += match.capturedLength("replace");
     }
     return placeholders;
+}
+
+QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QString &targetName)
+{
+    QString path = generateFilename(job, targetName, true, true, 0, ".*", "", true);
+    QFileInfo path_info(path);
+    QDir dir(path_info.dir());
+    QStringList matchingFiles = dir.entryList(QDir::Files);
+    QRegularExpressionMatch match;
+    QRegularExpression re("^" + path_info.fileName() + "$");
+    QList<int> ids = {};
+    for (auto name : matchingFiles)
+    {
+        match = re.match(name);
+        if (match.hasMatch())
+            ids << match.captured("id").toInt();
+    }
+
+    return ids;
+}
+
+int PlaceholderPath::getCompletedFiles(const SequenceJob &job, const QString &targetName)
+{
+    return getCompletedFileIds(job, targetName).length();
+}
+
+int PlaceholderPath::checkSeqBoundary(const SequenceJob &job, const QString &targetName)
+{
+    auto ids = getCompletedFileIds(job, targetName);
+    if (ids.length() > 0)
+        return *std::max_element(ids.begin(), ids.end()) + 1;
+    else
+        return 1;
 }
 
 }

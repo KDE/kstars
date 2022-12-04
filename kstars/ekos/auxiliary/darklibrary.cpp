@@ -1602,7 +1602,7 @@ double DarkLibrary::getGain()
 void DarkLibrary::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &DarkLibrary::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
+    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::DarkLibraryOpticalTrain,

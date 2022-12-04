@@ -7,11 +7,11 @@
 ><primary
 >Vistes</primary>
 <secondary
->Superposicions progressives del HiPS</secondary>
+>Superposicions progressives de HiPS</secondary>
 </indexterm>
 
 <para
->&kstars; proporciona suport per a HiPS: enquestes progressives jeràrquiques (Hierarchical Progressive Surveys). El HiPS proporciona enquestes progressives de múltiples resolucions per a superposar-les directament en les aplicacions client. Proporciona una experiència immersiva de manera que pugueu explorar el cel nocturn dinàmicament. Amb més de 200 enquestes a tot l'espectre electromagnètic de ràdio, infraroig, visual, fins i tot els raigs gamma, l'usuari pot fer una panoràmica i ampliar progressivament les dades de forma visual. </para>
+>&kstars; proporciona suport per a HiPS: enquestes progressives jeràrquiques (Hierarchical Progressive Surveys). HiPS proporciona enquestes progressives de múltiples resolucions per a superposar-les directament en les aplicacions client. Proporciona una experiència immersiva de manera que pugueu explorar el cel nocturn dinàmicament. Amb més de 200 enquestes a tot l'espectre electromagnètic de ràdio, infraroig, visual, fins i tot els raigs gamma, l'usuari pot fer una panoràmica i ampliar progressivament les dades de forma visual. </para>
 <para
 >Es pot habilitar des del submenú <menuchoice
 ><guimenu

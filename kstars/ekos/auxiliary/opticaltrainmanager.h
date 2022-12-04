@@ -53,6 +53,28 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         void addOpticalTrain(const QJsonObject &value);
 
         /**
+         * @brief Select an optical train and fill the field values in the train editor with the
+         *        appropriate values of the selected optical train.
+         * @param item optical train list item
+         * @return true if optical train found
+         */
+        bool selectOpticalTrain(QListWidgetItem *item);
+
+        /**
+         * @brief Select an optical train and fill the field values in the train editor with the
+         *        appropriate values of the selected optical train.
+         * @param name optical train name
+         * @return true if optical train found
+         */
+        bool selectOpticalTrain(const QString &name);
+
+        /**
+         * @brief Show the dialog and select an optical train for editing.
+         * @param name optical train name
+         */
+        void openEditor(const QString &name);
+
+        /**
          * @brief setOpticalTrainValue Set specific field of optical train
          * @param name Name of optical field
          * @param field Name of field
@@ -60,6 +82,12 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          * @return True if set is successful, false otherwise.
          */
         bool setOpticalTrainValue(const QString &name, const QString &field, const QVariant &value);
+
+        /**
+         * @brief Change the name of the currently selected optical train to a new value
+         * @param name new train name
+         */
+        void renameCurrentOpticalTrain(const QString &name);
 
         /**
          * @brief setOpticalTrain Replaces optical train matching the name of the passed train.
@@ -70,10 +98,10 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
         /**
          * @brief removeOpticalTrain Remove optical train from database and all associated settings
-         * @param id database ID for the optical train to remove
+         * @param name name if the optical train to remove
          * @return True if successful, false if id is not found.
          */
-        bool removeOpticalTrain(uint32_t id);
+        bool removeOpticalTrain(QString name);
 
         void refreshModel();
         void refreshTrains();
@@ -117,37 +145,21 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         void initModel();
         QStringList getMissingDevices() const;
 
-        // Delegates
-        QPointer<ComboDelegate> m_MountDelegate;
-        QPointer<ComboDelegate> m_DustCapDelegate;
-        QPointer<ComboDelegate> m_LightBoxDelegate;
-        QPointer<ComboDelegate> m_ScopeDelegate;
-        QPointer<DoubleDelegate> m_ReducerDelegate;
-        QPointer<ComboDelegate> m_RotatorDelegate;
-        QPointer<ComboDelegate> m_FocuserDelegate;
-        QPointer<ComboDelegate> m_FilterWheelDelegate;
-        QPointer<ComboDelegate> m_CameraDelegate;
-        QPointer<ComboDelegate> m_GuiderDelegate;
+private slots:
+        /**
+         * @brief Update an element value in the currently selected optical train
+         * @param cb combo box holding the new value
+         * @param element element name
+         */
+        void updateOpticalTrainValue(QComboBox *cb, QString element);
+        /**
+         * @brief Update an element value in the currently selected optical train
+         * @param value the new value
+         * @param element element name
+         */
+        void updateOpticalTrainValue(double value, QString element);
 
-        // Columns
-        enum
-        {
-            ID,
-            Profile,
-            Name,
-            Mount,
-            DustCap,
-            LightBox,
-            Scope,
-            Reducer,
-            Rotator,
-            Focuser,
-            FilterWheel,
-            Camera,
-            Guider,
-        };
-
-    private:
+private:
 
         OpticalTrainManager();
         static OpticalTrainManager *m_Instance;
@@ -158,7 +170,13 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         void generateOpticalTrains();
 
-        void addOpticalTrain(bool main, const QString &name);
+        /**
+         * @brief Add a new optical train with the given name
+         * @param main true if it is the primary train, false if it is the guiding train
+         * @param name train name
+         * @return unique train name
+         */
+        QString addOpticalTrain(bool main, const QString &name);
 
         void checkMissingDevices();
 
@@ -168,14 +186,36 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
            */
         bool syncDelegatesToDevices();
 
+        /**
+         * @brief Create a unique train name
+         * @param name original train name
+         * @return name, eventually added (i) to make the train name unique
+         */
+        QString uniqueTrainName(QString name);
+
         QSharedPointer<ProfileInfo> m_Profile;
         QList<QVariantMap> m_OpticalTrains;
         QTimer m_CheckMissingDevicesTimer;
+        QVariantMap *m_CurrentOpticalTrain = nullptr;
+
+        // make changes persistent
+        bool persistent = false;
 
         // Table model
         QSqlTableModel *m_OpticalTrainsModel = { nullptr };
 
         QStringList m_TrainNames;
+        // Device names
+        QStringList m_MountNames;
+        QStringList m_DustCapNames;
+        QStringList m_LightBoxNames;
+        QStringList m_ScopeNames;
+        QStringList m_ReducerNames;
+        QStringList m_RotatorNames;
+        QStringList m_FocuserNames;
+        QStringList m_FilterWheelNames;
+        QStringList m_CameraNames;
+        QStringList m_GuiderNames;
 };
 
 }

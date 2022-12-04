@@ -1388,7 +1388,7 @@ void Message::processTrainCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[TRAIN_DELETE])
     {
-        Ekos::OpticalTrainManager::Instance()->removeOpticalTrain(payload["id"].toInt());
+        Ekos::OpticalTrainManager::Instance()->removeOpticalTrain(payload["name"].toString());
     }
     else if (command == commands[TRAIN_ACCEPT])
     {

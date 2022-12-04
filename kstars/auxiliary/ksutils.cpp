@@ -1122,6 +1122,10 @@ QString getDefaultPath(const QString &option)
     {
         return QDir::homePath();
     }
+    else if (option == "placeholderFormat")
+    {
+        return "/%T/%F/%T";
+    }
     else if (option == "indiServer")
     {
 #if defined(INDI_PREFIX)

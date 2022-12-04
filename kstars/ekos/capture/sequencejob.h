@@ -71,6 +71,10 @@ class SequenceJob : public QObject
             // QString
             SJ_LocalDirectory,
             // QString
+            SJ_PlaceholderFormat,
+            // Uint
+            SJ_PlaceholderSuffix,
+            // QString
             SJ_RemoteDirectory,
             // QString
             SJ_DirectoryPostfix,
@@ -92,6 +96,8 @@ class SequenceJob : public QObject
             SJ_TargetADU,
             // Double
             SJ_TargetADUTolerance,
+            // QString
+            SJ_Signature,
         } PropertyID;
 
         ////////////////////////////////////////////////////////////////////////

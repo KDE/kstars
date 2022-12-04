@@ -28,28 +28,29 @@ class TestPlaceholderPath : public QObject
 
   private slots:
 
+    void initTestCase();
     void testSchedulerProcessJobInfo_data();
     void testSchedulerProcessJobInfo();
 
-    void testCaptureAddJob_data();
-    void testCaptureAddJob();
+//    void testCCDGenerateFilename_data();
+//    void testCCDGenerateFilename();
 
-    void testCCDGenerateFilename_data();
-    void testCCDGenerateFilename();
-
-    void testSequenceJobSignature_data();
-    void testSequenceJobSignature();
-
-    void testFullNamingSequence_data();
-    void testFullNamingSequence();
+//    void testFullNamingSequence_data();
+//    void testFullNamingSequence();
 
     void testFlexibleNaming_data();
     void testFlexibleNaming();
-    void testFlexibleNamingChangeBehavior_data();
-    void testFlexibleNamingChangeBehavior();
+
+    void testFlexibleNamingGlob_data();
+    void testFlexibleNamingGlob();
 
     void testRemainingPlaceholders_data();
     void testRemainingPlaceholders();
+
+    void testGetCompletedFileIds_data();
+    void testGetCompletedFileIds();
+
+    void cleanupTestCase();
 };
 
 #endif

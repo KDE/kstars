@@ -105,7 +105,7 @@
         <para
 ><emphasis role="bold"
 >Lineal</emphasis
->: En l'algorisme lineal, Ekos fa passos cap enfora des del seu punt de partida i després es mou cap endins prenent punts de dades regulars a través del punt d'enfocament òptim i després cap endins, per a dibuixar una corba V. Llavors s'ajusta a una corba quadràtica als punts de dades i calcula el punt d'enfocament òptim. Després es mou de nou més enllà del punt d'enfocament òptim, reduïx a la meitat la mida del pas i torna a passar per un segon pas. Pareix seguir la corba des del primer pas i així trobar el mínim HFR. A causa de l'aleatorietat en els mesuraments HFR, utilitza la tolerància % per ajudar a decidir quan ha trobat una solució. Les característiques clau inclouen: </para>
+>: En l'algorisme lineal, Ekos fa passos cap enfora des del seu punt de partida i després es mou cap endins prenent punts de dades regulars a través del punt d'enfocament òptim i després cap endins, per a dibuixar una corba V. Llavors s'ajusta a una corba quadràtica als punts de dades i calcula el punt d'enfocament òptim. Després es mou de nou més enllà del punt d'enfocament òptim, reduïx a la meitat la mida del pas i torna a passar per un segon pas. Pareix seguir la corba des del primer pas i així trobar el mínim HFR. A causa de l'aleatorietat en els mesuraments HFR, utilitza la tolerància % per a ajudar a decidir quan ha trobat una solució. Les característiques clau inclouen: </para>
 
         <itemizedlist>
           <listitem>
@@ -768,7 +768,7 @@
         <para
 ><guilabel
 >Tolerància</guilabel
->: El valor de percentatge de la tolerància s'utilitza per ajudar a decidir quan es pararà el procés d'enfocament automàtic en els algorismes <guilabel
+>: El valor de percentatge de la tolerància s'utilitza per a ajudar a decidir quan es pararà el procés d'enfocament automàtic en els algorismes <guilabel
 >Iteratiu</guilabel
 > i <guilabel
 >Lineal</guilabel
@@ -1185,7 +1185,7 @@
         <itemizedlist>
           <listitem>
             <para
->Comenceu amb el mètode de detecció d'estreles SEP i el perfil 1-Focus-Default a menys que tingueu motius per utilitzar una configuració diferent.</para>
+>Comenceu amb el mètode de detecció d'estreles SEP i el perfil 1-Focus-Default a menys que tingueu motius per a utilitzar una configuració diferent.</para>
           </listitem>
 
           <listitem>
