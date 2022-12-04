@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-03 00:42+0000\n"
-"PO-Revision-Date: 2022-11-25 10:36+0100\n"
+"PO-Revision-Date: 2022-12-03 15:55+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3069,16 +3069,12 @@ msgid "RA"
 msgstr "Rekt."
 
 #: dialogs/catalogobjectlistmodel.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "Declination"
-#| msgid "Dec"
+#, kde-format
 msgid "Dec"
 msgstr "Dekl."
 
 #: dialogs/catalogobjectlistmodel.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "Magnitude"
-#| msgid "Mag"
+#, kde-format
 msgid "Mag"
 msgstr "Mag."
 
@@ -4416,24 +4412,22 @@ msgid ""
 "Altitude. Interpreted as the apparent altitude when refraction corrections "
 "are enabled."
 msgstr ""
-"Višina. Razlaga se kot navidezna višina, ko so omogočeni popravki refrakcije."
+"Višina. Tolmači se kot navidezna višina, ko so omogočeni popravki refrakcije."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/focusdialog.ui:167
 #, fuzzy, kde-format
-#| msgid "Apparent FOV:"
 msgid "Alt (apparent):"
-msgstr "Navidezno VP:"
+msgstr "Višina (očitna):"
 
 #: dialogs/fovdialog.cpp:77
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Set FOV Indicator"
-msgstr "Nastavi kazalnik VP"
+msgstr "Nastavitev kazalnika VP"
 
 #: dialogs/fovdialog.cpp:177
-#, fuzzy, kde-format
-#| msgid "New FOV Indicator"
+#, kde-format
 msgctxt "@title:window"
 msgid "New FOV Indicator"
 msgstr "Nov kazalnik VP"
@@ -5534,17 +5528,16 @@ msgstr "~/Library/Application Support/kstars"
 
 #. i18n: ectx: property (text), widget (QLabel, foundFeedback2)
 #: dialogs/wizdata.ui:102
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Your data directory was not found.  You can click the button below to copy a "
 "default KStars data directory to the correct location, or if you have a "
 "KStars directory already some place else, you can exit KStars and copy it to "
 "that location yourself."
 msgstr ""
-"Vaš podatkovni imenik ni bil najden.  Spodaj lahko kliknete spodnji gumb, da "
-"kopirate privzeti podatkovni imenik KStars na pravilno mesto ali če imate "
-"imenik KStars že nekje drugje, lahko zapustite KStars in ga sami kopirate na "
-"to mesto."
+"Vaše podatkovne mape ni mogoče najti.  Kliknite spodnji gumb, da kopirate "
+"privzeto podatkovno mapo KStars na pravo mesto, ali pa - če imate mapo "
+"KStars že nekje drugje - zapustite KStars in jo sami kopirate na to mesto."
 
 #. i18n: ectx: property (text), widget (QPushButton, copyKStarsData)
 #: dialogs/wizdata.ui:112
@@ -7328,8 +7321,8 @@ msgid ""
 "Display the alignment points on the skymap as flags.  Clicking it again will "
 "remove the flags.  The flags will not be saved."
 msgstr ""
-"Prikažete točke poravnave na skymap kot zastavice.  Če ga še enkrat "
-"kliknete, odstranite zastavice.  Zastave ne bodo shranjene."
+"Prikaže točke poravnave na nebesnem zemljevidu kot zastavice.  Če ga še "
+"enkrat kliknete, odstranite zastavice.  Zastavice ne bodo shranjene."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAlignB)
 #: ekos/align/mountmodel.ui:570
@@ -8231,7 +8224,7 @@ msgstr "Odpri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/align/opsastrometryindexfiles.ui:295
-#, fuzzy, kde-format
+#, kde-format
 msgid "Current CCD FOV: "
 msgstr "Trenutno VP CCD: "
 
@@ -8243,7 +8236,7 @@ msgstr "URL strežnika, na katerem živijo indeksne datoteke"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: ekos/align/opsastrometryindexfiles.ui:305
-#, fuzzy, kde-format
+#, kde-format
 msgid "Index Files URL:"
 msgstr "URL indeksnih datotek:"
 
@@ -8255,9 +8248,9 @@ msgstr "http://broiler.astrometry.net/~dstn/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-5200-*.fits"
-msgstr "indeks-4200-*.fits"
+msgstr "indeks-5200-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/align/opsastrometryindexfiles.ui:357
@@ -8267,9 +8260,9 @@ msgstr "170' - 240'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4210)
 #: ekos/align/opsastrometryindexfiles.ui:426
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4210.fits"
-msgstr "index-4210.fits"
+msgstr "indeks-4210.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/align/opsastrometryindexfiles.ui:438
@@ -8299,9 +8292,9 @@ msgstr "60' - 85'"
 #: ekos/align/opsastrometryindexfiles.ui:3171
 #: ekos/align/opsastrometryindexfiles.ui:3178
 #: ekos/align/opsastrometryindexfiles.ui:3716
-#, fuzzy, kde-format
+#, kde-format
 msgid "perc"
-msgstr "perc"
+msgstr "odst"
 
 #. i18n: ectx: property (text), widget (QLabel, label_73)
 #: ekos/align/opsastrometryindexfiles.ui:485
@@ -8323,7 +8316,7 @@ msgstr "120' - 170'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/align/opsastrometryindexfiles.ui:613
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tycho2/Gaia Catalog"
 msgstr "Katalog Tycho2/Gaia"
 
@@ -8337,31 +8330,31 @@ msgstr "(2,5 G)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4112)
 #: ekos/align/opsastrometryindexfiles.ui:692
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4112.fits"
 msgstr "indeks-4112.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5203)
 #: ekos/align/opsastrometryindexfiles.ui:761
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-5203-*.fits"
-msgstr "indeks-4203-*.fits"
+msgstr "indeks-5203-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4213)
 #: ekos/align/opsastrometryindexfiles.ui:830
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4213.fits"
 msgstr "indeks-4213.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4219)
 #: ekos/align/opsastrometryindexfiles.ui:837
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4219.fits"
 msgstr "indeks-4219.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4200)
 #: ekos/align/opsastrometryindexfiles.ui:844
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4200-*.fits"
 msgstr "indeks-4200-*.fits"
 
@@ -8381,7 +8374,7 @@ msgstr "(242 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4217)
 #: ekos/align/opsastrometryindexfiles.ui:958
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4217.fits"
 msgstr "indeks-4217.fits"
 
@@ -8405,7 +8398,7 @@ msgstr "(90 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4215)
 #: ekos/align/opsastrometryindexfiles.ui:1048
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4215.fits"
 msgstr "indeks-4215.fits"
 
@@ -8491,7 +8484,7 @@ msgstr "(1,2 G)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4115)
 #: ekos/align/opsastrometryindexfiles.ui:1301
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4115.fits"
 msgstr "index-4115.fits"
 
@@ -8503,13 +8496,13 @@ msgstr "SkyMark"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4206)
 #: ekos/align/opsastrometryindexfiles.ui:1315
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4206-*.fits"
 msgstr "indeks-4206-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4218)
 #: ekos/align/opsastrometryindexfiles.ui:1322
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4218.fits"
 msgstr "indeks-4218.fits"
 
@@ -8521,7 +8514,7 @@ msgstr "(624 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4201)
 #: ekos/align/opsastrometryindexfiles.ui:1467
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4201-*.fits"
 msgstr "indeks-4201-*.fits"
 
@@ -8535,19 +8528,19 @@ msgstr "(4,8 G)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4108)
 #: ekos/align/opsastrometryindexfiles.ui:1481
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4108.fits"
 msgstr "indeks-4108.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4208)
 #: ekos/align/opsastrometryindexfiles.ui:1488
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4208.fits"
 msgstr "indeks-4208.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4207)
 #: ekos/align/opsastrometryindexfiles.ui:1495
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4207-*.fits"
 msgstr "indeks-4207-*.fits"
 
@@ -8559,19 +8552,19 @@ msgstr "(582 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4110)
 #: ekos/align/opsastrometryindexfiles.ui:1788
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4110.fits"
 msgstr "indeks-4110.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4109)
 #: ekos/align/opsastrometryindexfiles.ui:1795
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4109.fits"
 msgstr "index-4109.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4212)
 #: ekos/align/opsastrometryindexfiles.ui:1802
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4212.fits"
 msgstr "indeks-4212.fits"
 
@@ -8583,7 +8576,7 @@ msgstr "(723 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4203)
 #: ekos/align/opsastrometryindexfiles.ui:1816
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4203-*.fits"
 msgstr "indeks-4203-*.fits"
 
@@ -8601,13 +8594,13 @@ msgstr "2,0’ - 2,8’"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4209)
 #: ekos/align/opsastrometryindexfiles.ui:2068
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4209.fits"
 msgstr "indeks-4209.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4205)
 #: ekos/align/opsastrometryindexfiles.ui:2082
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4205-*.fits"
 msgstr "indeks-4205-*.fits"
 
@@ -8619,19 +8612,19 @@ msgstr "(332 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4214)
 #: ekos/align/opsastrometryindexfiles.ui:2158
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4214.fits"
 msgstr "indeks-4214.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4107)
 #: ekos/align/opsastrometryindexfiles.ui:2165
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4107.fits"
 msgstr "indeks-4107.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4114)
 #: ekos/align/opsastrometryindexfiles.ui:2234
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4114.fits"
 msgstr "indeks-4114.fits"
 
@@ -8655,9 +8648,9 @@ msgstr "(4 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5206)
 #: ekos/align/opsastrometryindexfiles.ui:2407
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-5206-*.fits"
-msgstr "indeks-4206-*.fits"
+msgstr "indeks-5206-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/align/opsastrometryindexfiles.ui:2414
@@ -8667,7 +8660,7 @@ msgstr "240' - 340'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4117)
 #: ekos/align/opsastrometryindexfiles.ui:2545
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4117.fits"
 msgstr "indeks-4117.fits"
 
@@ -8685,7 +8678,7 @@ msgstr "30' - 42'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4119)
 #: ekos/align/opsastrometryindexfiles.ui:2732
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4119.fits"
 msgstr "indeks-4119.fits"
 
@@ -8733,13 +8726,13 @@ msgstr "(78 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4211)
 #: ekos/align/opsastrometryindexfiles.ui:2871
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4211.fits"
-msgstr "index-4211.fits"
+msgstr "indeks-4211.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4216)
 #: ekos/align/opsastrometryindexfiles.ui:2940
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4216.fits"
 msgstr "indeks-4216.fits"
 
@@ -8759,13 +8752,13 @@ msgstr "(velikost datoteke)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4202)
 #: ekos/align/opsastrometryindexfiles.ui:3150
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4202-*.fits"
 msgstr "indeks-4202-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4111)
 #: ekos/align/opsastrometryindexfiles.ui:3157
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4111.fits"
 msgstr "indeks-4111.fits"
 
@@ -8777,9 +8770,9 @@ msgstr "1000' - 1400'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4113)
 #: ekos/align/opsastrometryindexfiles.ui:3185
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4113.fits"
-msgstr "index-4113.fits"
+msgstr "indeks-4113.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/align/opsastrometryindexfiles.ui:3192
@@ -8825,9 +8818,9 @@ msgstr "Katalog zvezd 2Mass"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5205)
 #: ekos/align/opsastrometryindexfiles.ui:3427
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-5205-*.fits"
-msgstr "indeks-4205-*.fits"
+msgstr "indeks-5205-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_59)
 #: ekos/align/opsastrometryindexfiles.ui:3434
@@ -8843,27 +8836,27 @@ msgstr "480' - 680'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4116)
 #: ekos/align/opsastrometryindexfiles.ui:3541
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4116.fits"
 msgstr "indeks-4116.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4118)
 #: ekos/align/opsastrometryindexfiles.ui:3617
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4118.fits"
 msgstr "indeks-4118.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5204)
 #: ekos/align/opsastrometryindexfiles.ui:3624
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-5204-*.fits"
-msgstr "indeks-4204-*.fits"
+msgstr "indeks-5204-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5201)
 #: ekos/align/opsastrometryindexfiles.ui:3631
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-5201-*.fits"
-msgstr "indeks-4201-*.fits"
+msgstr "indeks-5201-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_64)
 #: ekos/align/opsastrometryindexfiles.ui:3638
@@ -8885,9 +8878,9 @@ msgstr "(20 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4204)
 #: ekos/align/opsastrometryindexfiles.ui:3666
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-4204-*.fits"
-msgstr "indeks-4204-*.fits"
+msgstr "indeks-5204-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/align/opsastrometryindexfiles.ui:3678
@@ -8921,9 +8914,9 @@ msgstr "(141 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5202)
 #: ekos/align/opsastrometryindexfiles.ui:3908
-#, fuzzy, kde-format
+#, kde-format
 msgid "index-5202-*.fits"
-msgstr "indeks-4202-*.fits"
+msgstr "indeks-5202-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/align/opsastrometryindexfiles.ui:3920
@@ -8933,25 +8926,25 @@ msgstr "22' - 30'"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: ekos/align/opsprograms.ui:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Load Typical Default Paths"
-msgstr "Nalaganje tipičnih privzetih poti"
+msgstr "Naloži običajne privzete poti"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:23
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Choose your current setup from the list to load the typical paths to those "
 "programs for your computer "
 msgstr ""
-"Izberite trenutno nastavitev s seznama za nalaganje tipičnih poti v te "
+"Izberite trenutno nastavitev s seznama za nalaganje običajnih poti v te "
 "programe za računalnik "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:27
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select to load one of the default sets"
-msgstr "Izberite, če želite naložiti enega od privzetih nastavitev"
+msgstr "Izberite, če želite naložiti enega od privzetih naborov"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:32
@@ -11816,9 +11809,9 @@ msgstr "Vidna svetloba"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:108
-#, kde-format
+#, fuzzy, kde-format
 msgid "Optical train name (double click to change the name)"
-msgstr ""
+msgstr "Ime optičnega vlaka (dvokliknite, da spremenite ime)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
@@ -11848,11 +11841,13 @@ msgstr "Daljnogled/objektiv"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
 "use the same mount."
 msgstr ""
+"Izberite nosilec, ki ga želite uporabiti. Običajno vsi optični vlaki v istem "
+"profilu uporabljajo isti nosilec."
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -11881,9 +11876,10 @@ msgstr "Fotoaparat:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:202
-#, kde-format
+#, fuzzy, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr ""
+"Izberite mehaniziran protiprašni pokrovček, če obstaja (npr. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:205
@@ -11894,7 +11890,7 @@ msgstr "Protiprašni pokrov"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:225
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Select if any reducer or barlow is used in the train.</"
 "p><p><span style=\" font-weight:600;\">Reducer:</span> If the value is less "
@@ -11903,6 +11899,13 @@ msgid ""
 "span>: If the value is over 1.0x, then it is considered a barlow element "
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Izberite, če se v vlaku uporablja reduktor ali "
+"ekstender.</p><p><span style=\" font-weight:600;\">Reduktor:</span> Če je "
+"vrednost manjša od 1,0x, se ta element šteje kot reduktor (za ta faktor se "
+"zmanjša goriščna razdalja).</p><p><span style=\" font-weight:600;"
+"\">Ekstender</span>: Če je vrednost več kot 1,0x, potem element velja za "
+"ekstender/razširitveni element (goriščna dolžina se poveča za ta faktor).</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:228
@@ -11913,9 +11916,10 @@ msgstr "Reduktor"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:258
-#, kde-format
+#, fuzzy, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
+"Izberite svetlobno polje z ravno ploskvijo , če obstaja (npr. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:261
@@ -11942,7 +11946,7 @@ msgstr "Kolo s filtri"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:294
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Select the device that receives the guiding correction "
 "pulses. This can be one of the following devices:</p><p><span style=\" font-"
@@ -11955,6 +11959,16 @@ msgid ""
 "guider interface device (like Shoestring GPUSB) then select it as the Guider."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Izberite napravo, ki prejema impulze za popravek "
+"smeri. To je lahko ena od naslednjih naprav:</p><p><span style=\" font-"
+"weight:600;\">Nosilec</span>: če lahko nosilec prejme impulze za popravek "
+"smeri, potem je najbolje, da ga izberete, tako da se impulzi pošljejo "
+"neposredno na nosilec. To je priporočena možnost.</p><p><span style=\" font-"
+"weight:600;\">ST4</span>: če med kamero za vodenje in stativom uporabljate "
+"kabel ST4, izberite kamero vodila za vodnika.</p><p><span style=\" font-"
+"weight:600;\">Namenski vodnik</span>: če uporabljate namensko napravo za "
+"vmesnik vodnika (kot je Shoestring GPUSB), jo izberite kot vodnika.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
@@ -11967,7 +11981,7 @@ msgstr "Vodenje:"
 #: ekos/auxiliary/opticaltrains.ui:317
 #, kde-format
 msgid "Select a mechanized focuser if any."
-msgstr ""
+msgstr "Izberite mehanizirani ostrilnik, če obstaja."
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
@@ -11982,7 +11996,7 @@ msgstr "Ostrilec:"
 #: ekos/auxiliary/opticaltrains.ui:343
 #, kde-format
 msgid "Select a mechanized rotator if any."
-msgstr ""
+msgstr "Izberite mehanizirani rotator, če obstaja."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:346
@@ -12366,23 +12380,20 @@ msgstr "Profili poravnave"
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:76
 #, fuzzy, kde-format
-#| msgid "Focus Profile"
 msgid "Focus SEP Profiles"
-msgstr "Profil ostrenja"
+msgstr "Profili ostrenja SEP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:81
 #, fuzzy, kde-format
-#| msgid "Guide Profile"
 msgid "Guide SEP Profiles"
-msgstr "Profil vodnika"
+msgstr "Profili vodnika SEP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:86
 #, fuzzy, kde-format
-#| msgid "Focus Profile"
 msgid "HFR SEP Profiles"
-msgstr "Profil ostrenja"
+msgstr "Profili HFR SEP"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, reloadProfiles)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:106
@@ -12871,24 +12882,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:760
-#, fuzzy, kde-format
-#| msgid "Ecliptic"
+#, kde-format
 msgid "Max Ellipse"
-msgstr "Ekliptika"
+msgstr "Najv. elipsa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:767
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Min Size"
-msgstr "Velikost pisave"
+msgstr "Najm. velikost"
 
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:774
-#, fuzzy, kde-format
-#| msgid "Box Size:"
+#, kde-format
 msgid "Max Size"
-msgstr "Največja velikost"
+msgstr "Najv. velikost"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, maxSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:781
@@ -12926,7 +12934,7 @@ msgstr "a/b"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:840
 #, fuzzy, kde-format
 msgid "Keep #"
-msgstr "Ohrani"
+msgstr "Ohrani št."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, keepNum)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:847
@@ -13420,10 +13428,9 @@ msgid "CCD capture suspended"
 msgstr "Zajem CCD zaustavljeno"
 
 #: ekos/capture/capture.cpp:949
-#, fuzzy, kde-format
-#| msgid "Capture completed."
+#, kde-format
 msgid "CCD capture complete"
-msgstr "Zajem zaključen."
+msgstr "Zajem CCD zaključen"
 
 #: ekos/capture/capture.cpp:954
 #, kde-format
@@ -13657,21 +13664,20 @@ msgid "Set Rotator to %1 deg..."
 msgstr "Nastavite rotator %1 ..."
 
 #: ekos/capture/capture.cpp:3736
-#, fuzzy, kde-format
+#, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
-msgstr "Opozorilo: Postopek kalibracije je bil predčasno ukinjen."
+msgstr "Opozorilo: postopek kalibracije je bil predčasno ustavljen."
 
 #: ekos/capture/capture.cpp:3794
 #, fuzzy, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
-"Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
+"Začetni odklon vodenja %1 je še vedno pod mejno vrednostjo %2 kotnih s."
 
 #: ekos/capture/capture.cpp:3803
 #, fuzzy, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
-msgstr ""
-"Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
+msgstr "Začetni odklon vodenja %1 še vedno presega mejno vrednost %2 kotnih s."
 
 #: ekos/capture/capture.cpp:3826
 #, kde-format
@@ -14209,16 +14215,14 @@ msgstr "Y:"
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:386
 #, fuzzy, kde-format
-#| msgid "Current Script"
 msgid "Current camera gain"
-msgstr "Trenutni skript"
+msgstr "Trenutna ojačitev kamere"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:405
 #, fuzzy, kde-format
-#| msgid "Clear camera configuration"
 msgid "Target camera gain"
-msgstr "Očisti nastavitve kamere"
+msgstr "Ciljna ojačitev kamere"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/capture.ui:488
@@ -14235,17 +14239,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/capture.ui:557
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "Odmik kamere"
+msgstr "Trenutni odmik kamere"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/capture.ui:576
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "Odmik kamere"
+msgstr "Ciljni odmik kamere"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #: ekos/capture/capture.ui:594
@@ -14317,6 +14319,9 @@ msgid ""
 "is available to be used in the filename Format via the %t or %type "
 "placeholder tag.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Cilj je ime ciljnega predmeta.</p><p>Na voljo je za "
+"uporabo v datotečni obliki formata prek oznak ograde %t ali %type.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/capture.ui:923
@@ -14344,10 +14349,9 @@ msgstr "Cilj"
 
 #. i18n: ectx: property (text), widget (QLabel, FilenamePreviewLabel)
 #: ekos/capture/capture.ui:962
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgid "Local preview"
-msgstr "Krajevni čas"
+msgstr "Krajevni predogled"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/capture.ui:969
@@ -14418,10 +14422,9 @@ msgstr "Shrani:"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/capture/capture.ui:998 ekos/capture/capture.ui:1077
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview:"
-msgstr "Predogled"
+msgstr "Predogled:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1005
@@ -14432,10 +14435,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1011
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Directory"
-msgstr "Mapa:"
+msgstr "Mapa"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/capture.ui:1021
@@ -14445,10 +14447,9 @@ msgstr "/home/pi"
 
 #. i18n: ectx: property (text), widget (QLabel, RemotePreviewLabel)
 #: ekos/capture/capture.ui:1039
-#, fuzzy, kde-format
-#| msgid "Remove profile"
+#, kde-format
 msgid "Remote preview"
-msgstr "Odstrani profil"
+msgstr "Oddaljeni predogled"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/capture.ui:1084
@@ -14544,7 +14545,7 @@ msgstr ""
 #: ekos/capture/capture.ui:1100
 #, no-c-format, kde-format
 msgid "_%s"
-msgstr ""
+msgstr "_%s"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/capture.ui:1139
@@ -14804,7 +14805,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/capture.ui:2234
-#, fuzzy, kde-format
+#, kde-format
 msgid "total remaining:"
 msgstr "skupni preostanek:"
 
@@ -81290,73 +81291,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "Telescope cover"
-#~ msgstr "Prekrivalo teleskopa"
-
-#, fuzzy
-#~ msgid "Flat field light source"
-#~ msgstr "Vir svetlobe ravnih polj"
-
-#~ msgid "Telescope or Lens"
-#~ msgstr "Teleskop ali objektiv"
-
-#, fuzzy
-#~ msgid "Guider"
-#~ msgstr "Vodnik"
-
-#~ msgid "Device receiving guiding correction pulses"
-#~ msgstr "Naprava, ki prejema ukaze za popravljanje vodenja"
-
-#~ msgid ""
-#~ "Post-capture script to be executed after an image is captured. The "
-#~ "capture sequence is resumed when the script is executed successfully."
-#~ msgstr ""
-#~ "Skript za izvedbo po zajemu slike. Zaporedje zajemov se bo nadaljevalo, "
-#~ "ko se skript uspešno izvede."
-
-#~ msgid "Postfix:"
-#~ msgstr "Pripona:"
-
-#~ msgid "Append the active filter slot to the prefix"
-#~ msgstr "Pripni dejavno režo filtra k predponi"
-
-#~ msgid "Append the expose duration to the prefix"
-#~ msgstr "Pripni trajanje osvetlitve k predponi"
-
-#~ msgid "Append time stamp to the prefix"
-#~ msgstr "Pripni časovni žig k predponi"
-
-#~ msgid "TS"
-#~ msgstr "TS"
-
-#~ msgid "Local directory to save sequence images"
-#~ msgstr "Krajevna mapa, v katero bodo shranjene slike zaporedja"
-
-#~ msgid ""
-#~ "<p>Prefix is used to generate file names ( e.g. M42_HA_240_secs_001."
-#~ "fits)</p>\n"
-#~ "<ul>\n"
-#~ "<li><strong>Target</strong>: Target Name (e.g. M42)</li>\n"
-#~ "<li><strong>Filter</strong>: When using a filter wheel, the filter name "
-#~ "is appended to the file name (e.g. HA)</li>\n"
-#~ "<li><strong>Duration</strong>: Capture duration is appended to the file "
-#~ "name (e.g. 240_secs)</li>\n"
-#~ "<li><strong>TS</strong>: ISO 8601 timestamp is appended to the file name "
-#~ "(e.g. 2016-10-20T22:42:10)</li>\n"
-#~ "</ul>"
-#~ msgstr ""
-#~ "<p>Za ustvarjanje imen datotek se uporablja predpona (npr. "
-#~ "M42_HA_240_sek_001.fits)</p>\n"
-#~ "<ul>\n"
-#~ "<li><strong>Cilj</strong>: ime cilja (npr. M42)</li>\n"
-#~ "<li><strong>Filter</strong>: ob uporabi kolesa s filtri se k imenu "
-#~ "datoteke pripne ime filtra (npr. HA)</li>\n"
-#~ "<li><strong>Trajanje</strong>: k imenu datoteke se pripne trajanje zajema "
-#~ "(npr. 240_sek)</li>\n"
-#~ "<li><strong>ČŽ</strong>: k imenu datoteke se pripne časovni žig ISO 8601 "
-#~ "(npr. 2016-10-20T22:42:10)</li>\n"
-#~ "</ul>"
-
-#~ msgid "Prefix:"
-#~ msgstr "Predpona:"

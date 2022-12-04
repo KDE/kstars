@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-03 00:42+0000\n"
-"PO-Revision-Date: 2022-12-03 01:01+0100\n"
+"PO-Revision-Date: 2022-12-04 01:23+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11875,7 +11875,7 @@ msgstr "Trenes ópticos"
 #: ekos/auxiliary/opticaltrains.ui:108
 #, kde-format
 msgid "Optical train name (double click to change the name)"
-msgstr ""
+msgstr "Nombre del tren óptico (doble clic para cambiar el nombre)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
@@ -11886,25 +11886,22 @@ msgstr "Tren óptico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:143
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable slaving, dome motion <span style=\" font-"
-#| "weight:600;\">follows telescope motion</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train.</"
 "p><p>To add, edit, or delete optical elements, tap the <span style=\" font-"
 "weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Activar el modo esclavo: el movimiento de la cúpula "
-"<span style=\" font-weight:600;\">sigue el movimiento del telescopio</span></"
-"p></body></html>"
+"<html><head/><body><p>Seleccione el telescopio o la lente usados en el tren "
+"óptico.</p><p>Para añadir, editar o borrar elementos ópticos, pulse el botón "
+"<span style=\" font-weight:600;\">Telescopio y lente</span>.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
-#, fuzzy, kde-format
-#| msgid "Scope/Lens"
+#, kde-format
 msgid "Scope/Lense:"
-msgstr "Telescopio/lente"
+msgstr "Telescopio/lente:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
@@ -11913,6 +11910,8 @@ msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
 "use the same mount."
 msgstr ""
+"Seleccione la montura a usar. Por lo general, todos los trenes ópticos del "
+"mismo perfil usan la misma montura."
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -11923,13 +11922,13 @@ msgstr "Montura:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:179
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Tiempo restante para la finalización</p></body></html>"
+"<html><head/><body><p>Seleccione la cámara de captura de imágenes para este "
+"tren óptico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -11944,6 +11943,8 @@ msgstr "Cámara:"
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr ""
+"Seleccione una cubierta antipolvo mecanizada, si existe alguna (por ejemplo, "
+"FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:205
@@ -11962,6 +11963,13 @@ msgid ""
 "span>: If the value is over 1.0x, then it is considered a barlow element "
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione si se usa un reductor o una lente de Barlow "
+"en el tren.</p><p><span style=\" font-weight:600;\">Reductor:</span> Si el "
+"valor es inferior a 1.0x, este elemento se considera un reductor (la "
+"longitud focal se disminuye este factor).</p><p><span style=\" font-"
+"weight:600;\">Barlow</span>: Si el valor es superior a 1.0x, se considera un "
+"elemento de Barlow (la longitud focal se incrementa este factor).</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:228
@@ -11974,6 +11982,8 @@ msgstr "Reductor/Barlow:"
 #, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
+"Seleccione una caja de luz de campo plano, si existe alguna (por ejemplo "
+"FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:261
@@ -11983,16 +11993,14 @@ msgstr "Caja de luz:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccione la entrada para los gráficos. Puede ser la "
-"sesión actual de Ekos o se puede leer de un archivo.</p></body></html>"
+"<html><head/><body><p>Seleccione una rueda de filtros.</p><p>Puede ser una "
+"rueda de filtros dedicada o parte de un controlador de cámara.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
@@ -12015,6 +12023,17 @@ msgid ""
 "guider interface device (like Shoestring GPUSB) then select it as the Guider."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione el dispositivo que recibe los pulsos de "
+"corrección de guiado. Puede ser uno de los siguientes dispositivos:</"
+"p><p><span style=\" font-weight:600;\">Montura</span>: Si la montura puede "
+"recibir pulsos de corrección de guiado, es preferible seleccionarla para que "
+"los pulsos se envíen directamente a la montura. Esta es la opción "
+"recomendada.</p><p><span style=\" font-weight:600;\">ST4</span>: Si se usa "
+"un cable ST4 entre la cámara guía y la montura, debería seleccionar la "
+"cámara guía como sistema de guiado.</p><p><span style=\" font-weight:600;"
+"\">Sistema de guiado dedicado</span>: Si se usa un dispositivo de interfaz "
+"de sistema de guiado dedicado (como Shoestring GPUSB), selecciónelo como "
+"sistema de guiado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
@@ -12027,7 +12046,7 @@ msgstr "Guiado:"
 #: ekos/auxiliary/opticaltrains.ui:317
 #, kde-format
 msgid "Select a mechanized focuser if any."
-msgstr ""
+msgstr "Seleccione un enfocador mecanizado, si existe alguno."
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
@@ -12042,7 +12061,7 @@ msgstr "Enfocador:"
 #: ekos/auxiliary/opticaltrains.ui:343
 #, kde-format
 msgid "Select a mechanized rotator if any."
-msgstr ""
+msgstr "Seleccione un rotador mecanizado, si existe alguno."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:346
@@ -14374,6 +14393,9 @@ msgid ""
 "is available to be used in the filename Format via the %t or %type "
 "placeholder tag.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>«Objetivo» es el nombre del objeto de destino.</"
+"p><p>Puede usarlo en el formato del nombre del archivo mediante las "
+"etiquetas de sustitución %t o %type.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/capture.ui:923
@@ -14481,12 +14503,10 @@ msgstr "Vista previa:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1005
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Borrar el historial de datos del sensor</p></body></"
-"html>"
+"<html><head/><body><p>Directorio base de captura local</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1011
@@ -14508,41 +14528,7 @@ msgstr "Vista previa remota"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/capture.ui:1084
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -14587,54 +14573,62 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
-"<html><head/><body><p>El horizonte artificial se usa para definir <span "
-"style=\" font-weight:600;\">regiones</span> del mapa del cielo que están "
-"<span style=\" font-style:italic;\">bloqueadas</span> a la vista desde el "
-"punto de observación (por ejemplo, por árboles altos o edificios). Las "
-"regiones pueden ser áreas por encima o por debajo de los segmentos de línea "
-"que introduzca.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-"top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">Para dibujar una <span style=\" font-weight:600;"
-"\">región</span>, introduzca una línea de <span style=\" font-weight:600;"
-"\">puntos</span> (2 como <span style=\" font-style:italic;\">mínimo</span>) "
-"que delimita la parte superior del área bloqueada (el <span style=\" font-"
-"weight:600;\">bloqueo está debajo</span> de las líneas).</li><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Si "
-"establece el <span style=\" font-style:italic;\">modo techo/ventana</span> "
-"para una lista de puntos, se define el <span style=\" font-weight:600;"
-"\">bloqueo por encima</span> de las líneas.</li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Añada los puntos a mano o, preferiblemente, "
-"seleccionándolos en el mapa del cielo tras pulsar el botón <span style=\" "
-"font-style:italic;\">Seleccionar puntos</span>. </li></ul><li style=\" "
+"<html><head/><body><p>El «Formato» se usa para definir el nombre de los "
+"archivos de imagen mediante etiquetas de sustitución.</p><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
+"de sustitución<span style=\" font-weight:700;\"> %f</span> o <span style=\" "
+"font-weight:700;\">%filename</span>: El nombre del archivo .esq sin la "
+"extensión.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
+"de sustitución<span style=\" font-weight:700;\"> %D</span> o <span style=\" "
+"font-weight:700;\">%Datetime</span>: La fecha y hora actuales <span style=\" "
+"font-weight:700;\">de cuando se guarda el archivo.</span></li><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">Active una región <span style=\" font-"
-"style:italic;\">marcando su casilla</span>. </li><li style=\" margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">Al seleccionar una región se muestran sus "
-"puntos en el mapa del cielo.</li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Pulse <span style=\" font-style:italic;\">Aplicar</span> "
-"cuando termine.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">La "
-"definición de regiones resulta más fácil cuando se usa conjuntamente con la "
-"función de fondo del terreno.</li></ul></body></html>"
+"block-indent:0; text-indent:0px;\">Etiqueta de sustitución<span style=\" "
+"font-weight:700;\"> %T</span> o <span style=\" font-weight:700;\">%Type</"
+"span>: El tipo de fotograma (por ejemplo, «Claro», «Sesgo», «Oscuro», "
+"«Plano», etc.).</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
+"de sustitución<span style=\" font-weight:700;\"> %e</span> o <span style=\" "
+"font-weight:700;\">%exposure</span>: La duración de la exposición, en "
+"segundos.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
+"de sustitución<span style=\" font-weight:700;\"> %F</span> o <span style=\" "
+"font-weight:700;\">%Filter</span>: El nombre del filtro activo.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta de "
+"sustitución<span style=\" font-weight:700;\"> %t</span> o <span style=\" "
+"font-weight:700;\">%target</span>: El nombre del objetivo.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Etiqueta de sustitución<span style=\" "
+"font-weight:700;\"> %s*</span> o <span style=\" font-weight:700;\">"
+"%sequence</span>: El identificador de secuencia de la imagen, donde * es el "
+"número de dígitos usados (1-9). <span style=\" font-weight:700;\">Esta "
+"etiqueta es obligatoria y debe ser el último elemento del formato.</span></"
+"li></ul><p>También puede incluir cualquier texto dentro de la cadena de "
+"formato, <span style=\" font-weight:700;\">excepto los caracteres «%» y «\\»."
+"</span> El carácter de ruta «/» se puede usar para definir directorios.</"
+"p><p>Notas:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Las etiquetas distinguen entre mayúsculas y minúsculas, "
+"tanto en la forma corta como en la larga.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Solo debe usar la etiqueta %Datetime en la porción del "
+"nombre de archivo del formato, no en la definición de la ruta.</li></ul></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1097
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The number of stars detected in the guide images.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El número de estrellas detectadas en las imágenes de "
-"guía.</p></body></html>"
+"<html><head/><body><p>Número de dígitos usados para añadir el número de "
+"secuencia al nombre de archivo.</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1100
@@ -33372,10 +33366,9 @@ msgstr "Ruta al directorio de capturas donde guardar imágenes."
 
 #. i18n: ectx: label, entry (PlaceholderFomat), group (Capture)
 #: kstars.kcfg:1775
-#, fuzzy, kde-format
-#| msgid "Add the filter name to the capture file name."
+#, kde-format
 msgid "How to format captured image filename."
-msgstr "Añadir el nombre del filtro al nombre de archivo de la captura."
+msgstr "Cómo se formatea el nombre de archivo de la imagen capturada."
 
 #. i18n: ectx: label, entry (RemoteCaptureDirectory), group (Capture)
 #: kstars.kcfg:1779

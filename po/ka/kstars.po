@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-03 00:42+0000\n"
-"PO-Revision-Date: 2022-11-22 07:31+0100\n"
+"PO-Revision-Date: 2022-12-03 06:31+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2740,7 +2740,7 @@ msgstr "დახრ:"
 #: dialogs/catalogcsvimport.ui:222
 #, kde-format
 msgid "Mapping"
-msgstr ""
+msgstr "მიბმა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, type_mapping)
 #: dialogs/catalogcsvimport.ui:235
@@ -9770,7 +9770,7 @@ msgstr ""
 #: ekos/guide/opsguide.ui:540
 #, kde-format
 msgid "stars"
-msgstr ""
+msgstr "ვარსკვლავები"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numStarsOut)
 #: ekos/analyze/analyze.ui:650
@@ -11165,10 +11165,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
-#, fuzzy, kde-format
-#| msgid "Scope/Lens"
+#, kde-format
 msgid "Scope/Lense:"
-msgstr "ფარგლები/ლინზა"
+msgstr "ფარგლები/ლინზა:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
@@ -11187,13 +11186,13 @@ msgstr "მიმაგრება:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:179
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>გარემოს ტემპერატურის დახატვა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>აირჩიეთ გადასაღები კამერა ამ ოპტიკური მატარებლისთვის.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -11241,11 +11240,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:261
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Light Box:"
-msgstr "მსუბუქი"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
@@ -11257,10 +11254,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
-#, fuzzy, kde-format
-#| msgid "Filter Wheel"
+#, kde-format
 msgid "Filter Wheel:"
-msgstr "ფილტრის ბორბალი"
+msgstr "ფილტრის ბორბალი:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:294
@@ -11308,8 +11304,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:346
-#, fuzzy, kde-format
-#| msgid "Rotation:"
+#, kde-format
 msgid "Rotator:"
 msgstr "შემობრუნება:"
 
@@ -13467,10 +13462,9 @@ msgstr "სამიზნე წერტილი"
 
 #. i18n: ectx: property (text), widget (QLabel, FilenamePreviewLabel)
 #: ekos/capture/capture.ui:962
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgid "Local preview"
-msgstr "ლოკალური დრო"
+msgstr "ლოკალური მინიატურა"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/capture.ui:969
@@ -13520,26 +13514,22 @@ msgstr "შენახვა:"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/capture/capture.ui:998 ekos/capture/capture.ui:1077
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview:"
-msgstr "გადახედვა"
+msgstr "მინიატურა:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1005
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr ""
-"<html><head/><body><p>სენსორის მონაცემების ისტორიის გასუფთავება</p></body></"
-"html>"
+"<html><head/><body><p>საბაზისო ლოკალური ჩაწერის საქაღალდე</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1011
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Directory"
-msgstr "საქაღალდე:"
+msgstr "საქაღალდე"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/capture.ui:1021
@@ -13549,10 +13539,9 @@ msgstr "/home/pi"
 
 #. i18n: ectx: property (text), widget (QLabel, RemotePreviewLabel)
 #: ekos/capture/capture.ui:1039
-#, fuzzy, kde-format
-#| msgid "Remove profile"
+#, kde-format
 msgid "Remote preview"
-msgstr "პროფილის წაშლა"
+msgstr "დაშორებული მინიატურა"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/capture.ui:1084
@@ -13604,16 +13593,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1097
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before sequence capture "
-#| "is started.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>დააყენეთ სამიზნის მდებარეობის კუთხე სანამ მიმდევრობის "
-"გადაღება დაწყება.</p></body></html>"
+"<html><head/><body><p>ფაილის სახელის მიმდევრობისთვის მისაწერი ციფრების "
+"რაოდენობა.</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1100

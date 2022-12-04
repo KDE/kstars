@@ -230,9 +230,9 @@
                 <para
 >Una variable s'identifica pel caràcter %. Totes tenen una forma curta d'una sola lletra i una forma llarga autodescriptiva. </para>
                 <para
->També es pot incloure text arbitrari en la cadena Format, <emphasis role="bold"
->excepte els caràcters «%» i «\»</emphasis
->. El caràcter «/» de camí es pot utilitzar per a definir directoris arbitraris. </para>
+>Arbitary text may also be included within the Format string, <emphasis role="bold"
+>except the % and \ characters.</emphasis
+> The / path character can be used to define aribtary directories. </para>
                 <para
 >Nota: les variables distingixen entre majúscules i minúscules tant en les seues formes curtes com llargues. </para>
                 <para
@@ -292,10 +292,10 @@
                         <para
 ><emphasis role="bold"
 >%s*</emphasis
-> or <emphasis role="bold"
+> o <emphasis role="bold"
 >%sequence*</emphasis
->: The image sequence identifier where * is the number of digits used (1-9). <emphasis role="bold"
->This tag is mandatory and must be the last element in the format.</emphasis
+>: l'identificador de la seqüència d'imatges a on «*» és el nombre de dígits utilitzat (1-9). <emphasis role="bold"
+>Esta variable és obligatòria i cal que siga l'últim element en el format.</emphasis
 > </para>
                     </listitem>
                 </itemizedlist>
