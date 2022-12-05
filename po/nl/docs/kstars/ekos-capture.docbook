@@ -294,7 +294,7 @@
 >%s*</emphasis
 > of <emphasis role="bold"
 >%sequence*</emphasis
->: plaatshouder %s* of %sequence: De volgorde-identifier van de afbeelding waar * het aantal gebruikte cijfers (1-9) is. <emphasis role="bold"
+>: De volgorde-identifier van de afbeelding waar * het aantal gebruikte cijfers (1-9) is. <emphasis role="bold"
 >Deze tag is verplicht en moet het laatste element in het formaat zijn.</emphasis
 > </para>
                     </listitem>
