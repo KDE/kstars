@@ -11965,7 +11965,8 @@ msgstr "Zusätzliche Einstellungen für die Lösung"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Filter Wheel:"
 msgid "Filter Wheel:"
 msgstr "Filterrad:"
 
