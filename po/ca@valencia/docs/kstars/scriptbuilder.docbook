@@ -144,7 +144,7 @@
 >.kstars</quote
 >, este sufix li serà afegit automàticament. Si sou curiós de mena, podeu examinar el fitxer de l'script amb qualsevol editor de text. </para
 ><para
->Ara que tenim l'script completat, podem executar-lo en un parell de maneres. Des d'un indicatiu a la consola, podeu senzillament executar l'script mentre una instància de &kstars; s'estiga executant actualment. De manera alternativa, també podeu executar l'script des de dintre de &kstars; emprant l'element de menú <menuchoice
+>Ara que tenim l'script completat, podem executar-lo en un parell de maneres. Des d'un indicatiu en la consola, podeu senzillament executar l'script mentre una instància de &kstars; s'estiga executant actualment. De manera alternativa, també podeu executar l'script des de dintre de &kstars; emprant l'element de menú <menuchoice
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem

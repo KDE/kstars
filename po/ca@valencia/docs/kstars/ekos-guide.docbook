@@ -36,7 +36,7 @@
 >directament</emphasis
 > a la vostra muntura, si ho admet el controlador de la muntura. La majoria de les opcions de la &IGU; en el mòdul per al guiatge estan ben documentades, de manera que senzillament passeu el ratolí per damunt d'un element i apareixerà un consell d'eina emergent amb informació útil. </para>
         <para
->Per a dur a terme el guiatge, haureu de seleccionar un CCD del sistema de guiatge a la <link linkend="ekos-profile-wizard"
+>Per a dur a terme el guiatge, haureu de seleccionar un CCD del sistema de guiatge en la <link linkend="ekos-profile-wizard"
 >configuració del perfil d'Ekos</link
 >. L'obertura del telescopi i la distància focal s'hauran d'ajustar al controlador del telescopi. Si el CCD del sistema de guiatge s'adjunta a una guia telescòpica separada, també haureu d'establir la <guilabel
 >Distància focal</guilabel

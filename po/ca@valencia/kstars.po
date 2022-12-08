@@ -24133,13 +24133,13 @@ msgstr "El programador espera un reintent."
 #: ekos/scheduler/scheduler.cpp:2317
 #, kde-format
 msgid "No jobs left in the scheduler queue."
-msgstr "No queden tasques a la cua del programador."
+msgstr "No queden tasques en la cua del programador."
 
 #: ekos/scheduler/scheduler.cpp:2325
 #, kde-format
 msgid "Only %1 jobs left in the scheduler queue, rescheduling those."
 msgstr ""
-"Només queden %1 tasques a la cua del programador, torneu-les a programar."
+"Només queden %1 tasques en la cua del programador, torneu-les a programar."
 
 #: ekos/scheduler/scheduler.cpp:2453
 #, kde-format
@@ -24242,7 +24242,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:2831
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
-msgstr "No queden tasques a la cua del programador després d'avaluar."
+msgstr "No queden tasques en la cua del programador després d'avaluar."
 
 #: ekos/scheduler/scheduler.cpp:2839
 #, kde-format
@@ -24250,7 +24250,7 @@ msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr ""
-"Només queden tasques interrompudes a la cua del programador després "
+"Només queden tasques interrompudes en la cua del programador després "
 "d'avaluar, torneu-les a programar."
 
 #: ekos/scheduler/scheduler.cpp:2855
@@ -24262,7 +24262,8 @@ msgstr "No hi ha cap tasca programada."
 #, kde-format
 msgid "No jobs left in the scheduler queue after schedule cleanup."
 msgstr ""
-"No queden tasques a la cua del programador després de netejar la programació."
+"No queden tasques en la cua del programador després de netejar la "
+"programació."
 
 #: ekos/scheduler/scheduler.cpp:2907
 #, kde-format
@@ -74437,7 +74438,7 @@ msgid ""
 msgstr ""
 "\t\t <p>L'eina «Visor del sistema solar» (Ctrl+Y) mostra una vista superior\n"
 "\t\t\tdel sistema solar, amb el detall de la posició dels planetes "
-"principals a la data\n"
+"principals en la data\n"
 "\t\t\tde la simulació.\n"
 "\t\t</p>\n"
 "\t\n"

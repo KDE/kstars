@@ -61,7 +61,7 @@
 >Posta</guibutton
 > o <guibutton
 >Trànsit</guibutton
->. Quan es prem un d'estos botons, un cercle omplit de color estarà marcat a la corba. El color utilitzat per als punts de l'Eixida, Posta i Trànsit són: roig per a l'Eixida, blau per a la Posta i verd per al temps de Trànsit. Per a una manera més intuïtiva d'utilitzar estos botons, estan marcats amb el color dels seus punts específics. D'esta manera, l'usuari podrà entendre amb facilitat la representació gràfica i fer l'associació entre un determinat color i el seu significat. </para>
+>. Quan es prem un d'estos botons, un cercle omplit de color estarà marcat en la corba. El color utilitzat per als punts de l'Eixida, Posta i Trànsit són: roig per a l'Eixida, blau per a la Posta i verd per al temps de Trànsit. Per a una manera més intuïtiva d'utilitzar estos botons, estan marcats amb el color dels seus punts específics. D'esta manera, l'usuari podrà entendre amb facilitat la representació gràfica i fer l'associació entre un determinat color i el seu significat. </para>
 <para
 >L'eina altitud en funció del temps proporciona una manera fàcil d'esbrinar l'altitud d'un objecte celeste en un moment determinat de temps utilitzant el botó <guibutton
 >Calcula</guibutton
