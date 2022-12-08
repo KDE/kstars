@@ -335,6 +335,19 @@ Analyze::Analyze()
     runtimeDisplay = true;
     fullWidthCB->setVisible(true);
     fullWidthCB->setDisabled(false);
+
+    // Initialize the checkboxes that allow the user to make (in)visible
+    // each of the 4 main displays in Analyze.
+    detailsCB->setChecked(true);
+    statsCB->setChecked(true);
+    graphsCB->setChecked(true);
+    timelineCB->setChecked(true);
+    setVisibility();
+    connect(timelineCB, &QCheckBox::stateChanged, this, &Ekos::Analyze::setVisibility);
+    connect(graphsCB, &QCheckBox::stateChanged, this, &Ekos::Analyze::setVisibility);
+    connect(statsCB, &QCheckBox::stateChanged, this, &Ekos::Analyze::setVisibility);
+    connect(detailsCB, &QCheckBox::stateChanged, this, &Ekos::Analyze::setVisibility);
+
     connect(fullWidthCB, &QCheckBox::toggled, [ = ](bool checked)
     {
         if (checked)
@@ -356,10 +369,18 @@ Analyze::Analyze()
     connect(helpB, &QPushButton::clicked, this, &Ekos::Analyze::helpMessage);
     connect(keepCurrentCB, &QCheckBox::stateChanged, this, &Ekos::Analyze::keepCurrent);
 
-    setupKeyboardShortcuts(timelinePlot);
+    setupKeyboardShortcuts(this);
 
     reset();
     replot();
+}
+
+void Analyze::setVisibility()
+{
+    detailsWidget->setVisible(detailsCB->isChecked());
+    statsGridWidget->setVisible(statsCB->isChecked());
+    timelinePlot->setVisible(timelineCB->isChecked());
+    statsPlot->setVisible(graphsCB->isChecked());
 }
 
 // Mouse wheel over the Timeline plot causes an x-axis zoom.
@@ -452,17 +473,22 @@ void Analyze::initInputSelection()
     });
 }
 
-void Analyze::setupKeyboardShortcuts(QCustomPlot *plot)
+void Analyze::setupKeyboardShortcuts(QWidget *plot)
 {
     // Shortcuts defined: https://doc.qt.io/archives/qt-4.8/qkeysequence.html#standard-shortcuts
     QShortcut *s = new QShortcut(QKeySequence(QKeySequence::ZoomIn), plot);
     connect(s, &QShortcut::activated, this, &Ekos::Analyze::zoomIn);
     s = new QShortcut(QKeySequence(QKeySequence::ZoomOut), plot);
     connect(s, &QShortcut::activated, this, &Ekos::Analyze::zoomOut);
+
     s = new QShortcut(QKeySequence(QKeySequence::MoveToNextChar), plot);
     connect(s, &QShortcut::activated, this, &Ekos::Analyze::scrollRight);
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousChar), plot);
     connect(s, &QShortcut::activated, this, &Ekos::Analyze::scrollLeft);
+    s = new QShortcut(QKeySequence(QKeySequence::MoveToNextLine), plot);
+    connect(s, &QShortcut::activated, this, &Ekos::Analyze::statsYZoomIn);
+    s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousLine), plot);
+    connect(s, &QShortcut::activated, this, &Ekos::Analyze::statsYZoomOut);
     s = new QShortcut(QKeySequence("?"), plot);
     connect(s, &QShortcut::activated, this, &Ekos::Analyze::helpMessage);
     s = new QShortcut(QKeySequence("h"), plot);
@@ -1437,6 +1463,24 @@ void Analyze::replot(bool adjustSlider)
     statsPlot->replot();
     graphicsPlot->replot();
     updateStatsValues();
+}
+
+void Analyze::statsYZoom(double zoomAmount)
+{
+    auto range = statsPlot->yAxis->range();
+    const double halfDiff = (range.upper - range.lower) / 2.0;
+    const double middle = (range.upper + range.lower) / 2.0;
+    statsPlot->yAxis->setRange(QCPRange(middle - halfDiff * zoomAmount, middle + halfDiff * zoomAmount));
+}
+void Analyze::statsYZoomIn()
+{
+    statsYZoom(0.80);
+    statsPlot->replot();
+}
+void Analyze::statsYZoomOut()
+{
+    statsYZoom(1.25);
+    statsPlot->replot();
 }
 
 namespace

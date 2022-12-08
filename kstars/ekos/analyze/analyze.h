@@ -224,6 +224,10 @@ class Analyze : public QWidget, public Ui::Analyze
         void scroll(int value);
         void scrollRight();
         void scrollLeft();
+        void statsYZoom(double zoomAmount);
+        void statsYZoomIn();
+        void statsYZoomOut();
+
 
         // maxXValue keeps the largest time offset we've received so far.
         // It represents the extent of the plots (0 -> maxXValue).
@@ -249,12 +253,14 @@ class Analyze : public QWidget, public Ui::Analyze
         void timelineMouseDoubleClick(QMouseEvent *event);
         // Calls zoomIn or zoomOut.
         void timelineMouseWheel(QWheelEvent *event);
+        // Sets the various displays visbile or not according to the checkboxes.
+        void setVisibility();
 
         void processStatsClick(QMouseEvent *event, bool doubleClick);
         void statsMousePress(QMouseEvent *event);
         void statsMouseDoubleClick(QMouseEvent *event);
         void statsMouseMove(QMouseEvent *event);
-        void setupKeyboardShortcuts(QCustomPlot *plot);
+        void setupKeyboardShortcuts(QWidget *plot);
 
         // (Un)highlights a segment on the timeline after one is clicked.
         // This indicates which segment's data is displayed in the
