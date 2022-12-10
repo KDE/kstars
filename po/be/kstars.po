@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:42+0000\n"
+"POT-Creation-Date: 2022-12-10 00:41+0000\n"
 "PO-Revision-Date: 2007-06-25 11:21+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -1880,7 +1880,7 @@ msgstr "Статус"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:967 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
-#: ekos/analyze/analyze.cpp:2369 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2413 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
@@ -2478,7 +2478,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3661
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1029 ekos/capture/capture.cpp:4268
+#: ekos/analyze/analyze.cpp:1055 ekos/capture/capture.cpp:4268
 #: ekos/capture/capture.cpp:4701 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4380 ekos/scheduler/scheduler.cpp:4754
 #: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:830
@@ -3665,7 +3665,7 @@ msgstr "0,0"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:912
-#: ekos/analyze/analyze.ui:55 ekos/auxiliary/darklibrary.cpp:1053
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1053
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -7864,7 +7864,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, addOptionProfile)
 #. i18n: ectx: property (text), widget (QCheckBox, eastRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
-#: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:148
+#: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213 ekos/guide/guide.ui:299
 #: ekos/guide/guide.ui:451 kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -7882,7 +7882,7 @@ msgstr "Адрас:"
 #. i18n: ectx: property (text), widget (QPushButton, removeOptionProfile)
 #. i18n: ectx: property (text), widget (QCheckBox, westRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, southDECGuideEnabled)
-#: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:196
+#: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:247
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:309
 #: ekos/guide/guide.ui:461 kstarslite/qml/indi/modules/MotionControl.qml:264
 #, fuzzy, kde-format, kde-kuit-format
@@ -9295,8 +9295,8 @@ msgstr "&Стартаваць"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1637
-#: ekos/analyze/analyze.ui:307 ekos/auxiliary/opslogs.ui:285
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1681
+#: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:132
 #: ekos/opsekos.ui:505
 #, kde-format
@@ -9401,38 +9401,38 @@ msgstr "Панелі начыння"
 msgid "Tracking"
 msgstr "Дарожка"
 
-#: ekos/analyze/analyze.cpp:393 ekos/analyze/analyze.cpp:405
+#: ekos/analyze/analyze.cpp:414 ekos/analyze/analyze.cpp:426
 #, fuzzy, kde-format
 msgid "Current Session"
 msgstr "Версія"
 
-#: ekos/analyze/analyze.cpp:394
+#: ekos/analyze/analyze.cpp:415
 #, fuzzy, kde-format
 msgid "Read from File"
 msgstr "Увод:"
 
-#: ekos/analyze/analyze.cpp:395
+#: ekos/analyze/analyze.cpp:416
 #, kde-format
 msgid "Set alternative image-file base directory"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:417
+#: ekos/analyze/analyze.cpp:438
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select input file"
 msgstr "Скінуць вылучэнне"
 
-#: ekos/analyze/analyze.cpp:418
+#: ekos/analyze/analyze.cpp:439
 #, kde-format
 msgid "Analyze Log (*.analyze);;All Files (*)"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:438
+#: ekos/analyze/analyze.cpp:459
 #, kde-format
 msgid "Set an alternate base directory for your captured images"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1028
+#: ekos/analyze/analyze.cpp:1054
 #, fuzzy, kde-format
 msgid "Could not find image file: %1"
 msgstr "Немагчыма адкрыць файл %1"
@@ -9440,7 +9440,7 @@ msgstr "Немагчыма адкрыць файл %1"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1638 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1682 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
@@ -9449,7 +9449,7 @@ msgid "Focus"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1639 ekos/manager.cpp:1971
+#: ekos/analyze/analyze.cpp:1683 ekos/manager.cpp:1971
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:433
 #, fuzzy, kde-format
@@ -9460,7 +9460,7 @@ msgstr "Іншы"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1640 ekos/analyze/analyze.ui:271
+#: ekos/analyze/analyze.cpp:1684 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2152
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9469,7 +9469,7 @@ msgstr "Іншы"
 msgid "Guide"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1641
+#: ekos/analyze/analyze.cpp:1685
 #, fuzzy, kde-format
 msgid "Flip"
 msgstr "Агляд"
@@ -9478,7 +9478,7 @@ msgstr "Агляд"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1642 ekos/analyze/analyze.ui:289
+#: ekos/analyze/analyze.cpp:1686 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2081 ekos/manager.ui:665
 #, fuzzy, kde-format
@@ -9486,12 +9486,12 @@ msgid "Mount"
 msgstr "Колькасць:"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1643 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1687 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1720
+#: ekos/analyze/analyze.cpp:1764
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9499,7 +9499,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1736
+#: ekos/analyze/analyze.cpp:1780
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9507,7 +9507,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2371 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2415 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:645
@@ -9516,115 +9516,115 @@ msgstr ""
 msgid "Aborted"
 msgstr "Альдэбаран"
 
-#: ekos/analyze/analyze.cpp:2373 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2417 ekos/ekos.h:22
 #, fuzzy, kde-format
 msgid "Connected"
 msgstr "Злучыцца"
 
-#: ekos/analyze/analyze.cpp:2375 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2419 ekos/ekos.h:23
 #, fuzzy, kde-format
 msgid "Disconnected"
 msgstr "Адлучыцца"
 
-#: ekos/analyze/analyze.cpp:2377 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2421 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:677
 #, fuzzy, kde-format
 msgid "Capturing"
 msgstr "&Настаўленні"
 
-#: ekos/analyze/analyze.cpp:2379 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2423 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2381 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2425 ekos/ekos.h:26
 #, fuzzy, kde-format
 msgid "Subtracting"
 msgstr "Кліент"
 
-#: ekos/analyze/analyze.cpp:2383 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2427 ekos/ekos.h:27
 #, fuzzy, kde-format
 msgid "Subframing"
 msgstr "Назва:"
 
-#: ekos/analyze/analyze.cpp:2385 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2429 ekos/ekos.h:28
 #, fuzzy, kde-format
 msgid "Selecting star"
 msgstr "&Настаўленні"
 
-#: ekos/analyze/analyze.cpp:2387 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2431 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 msgid "Calibrating"
 msgstr "Кліент"
 
-#: ekos/analyze/analyze.cpp:2389 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2433 ekos/ekos.h:30
 #, fuzzy, kde-format
 msgid "Calibration error"
 msgstr "Кліент"
 
-#: ekos/analyze/analyze.cpp:2391 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2435 ekos/ekos.h:31
 #, fuzzy, kde-format
 msgid "Calibrated"
 msgstr "Кліент"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2393 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2437 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:675
 #, fuzzy, kde-format
 msgid "Guiding"
 msgstr "&Змяніць"
 
-#: ekos/analyze/analyze.cpp:2395 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2439 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 msgid "Suspended"
 msgstr "&Змяніць"
 
-#: ekos/analyze/analyze.cpp:2397 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2441 ekos/ekos.h:34
 #, fuzzy, kde-format
 msgid "Reacquiring"
 msgstr "&Настаўленні"
 
-#: ekos/analyze/analyze.cpp:2399 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2443 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 msgid "Dithering"
 msgstr "Іншы"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2401 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2445 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 msgid "Manual Dithering"
 msgstr "Іншы"
 
-#: ekos/analyze/analyze.cpp:2403 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2447 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "Ачысціць спіс"
 
-#: ekos/analyze/analyze.cpp:2405 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2449 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2407 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2451 ekos/ekos.h:39
 #, fuzzy, kde-format
 msgid "Settling"
 msgstr "&Настаўленні"
 
 #. i18n: ectx: property (text), widget (QLabel, timelineLabel)
-#: ekos/analyze/analyze.ui:22
+#: ekos/analyze/analyze.ui:38
 #, fuzzy, kde-format
 msgid "Timeline"
 msgstr "Час"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
-#: ekos/analyze/analyze.ui:45
+#: ekos/analyze/analyze.ui:61
 #, fuzzy, kde-format
 msgid "Input:"
 msgstr "Увод:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, inputCombo)
-#: ekos/analyze/analyze.ui:52
+#: ekos/analyze/analyze.ui:71
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9633,7 +9633,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fullWidthCB)
-#: ekos/analyze/analyze.ui:72
+#: ekos/analyze/analyze.ui:91
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9642,14 +9642,14 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fullWidthCB)
-#: ekos/analyze/analyze.ui:75
+#: ekos/analyze/analyze.ui:94
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Full Width"
 msgstr "Назва планеты"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keepCurrentCB)
-#: ekos/analyze/analyze.ui:82
+#: ekos/analyze/analyze.ui:101
 #, kde-format
 msgid ""
 "<html><head/><body><p>While recording live, Keep the plot recent. That is, "
@@ -9658,13 +9658,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, keepCurrentCB)
-#: ekos/analyze/analyze.ui:85
+#: ekos/analyze/analyze.ui:104
 #, kde-format
 msgid "Latest"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: ekos/analyze/analyze.ui:92
+#: ekos/analyze/analyze.ui:111
 #, fuzzy, kde-format
 msgid "Help"
 msgstr "&Дапамога"
@@ -9672,7 +9672,7 @@ msgstr "&Дапамога"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:125 fitsviewer/fitstab.cpp:373
+#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:373
 #: fitsviewer/fitsviewer.cpp:170 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -9680,7 +9680,7 @@ msgid "Statistics"
 msgstr "Статыстыка"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, zoomInB)
-#: ekos/analyze/analyze.ui:145
+#: ekos/analyze/analyze.ui:196
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9689,7 +9689,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, cursorTimeOut)
-#: ekos/analyze/analyze.ui:161
+#: ekos/analyze/analyze.ui:212
 #, kde-format
 msgid ""
 "<html><head/><body><p>The number of seconds from the start of the log to the "
@@ -9698,7 +9698,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, cursorClockTimeOut)
-#: ekos/analyze/analyze.ui:180
+#: ekos/analyze/analyze.ui:231
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9708,7 +9708,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, zoomOutB)
-#: ekos/analyze/analyze.ui:193
+#: ekos/analyze/analyze.ui:244
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9717,7 +9717,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QScrollBar, analyzeSB)
-#: ekos/analyze/analyze.ui:245
+#: ekos/analyze/analyze.ui:296
 #, kde-format
 msgid ""
 "<html><head/><body><p>If possible display previous (scroll to left) or "
@@ -9726,7 +9726,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
-#: ekos/analyze/analyze.ui:320
+#: ekos/analyze/analyze.ui:387
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9736,13 +9736,13 @@ msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raCB)
 #. i18n: ectx: property (text), widget (QCheckBox, mountRaCB)
-#: ekos/analyze/analyze.ui:326 ekos/analyze/analyze.ui:731
+#: ekos/analyze/analyze.ui:393 ekos/analyze/analyze.ui:798
 #, fuzzy, kde-format
 msgid "ra"
 msgstr "Канада"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, raOut)
-#: ekos/analyze/analyze.ui:339
+#: ekos/analyze/analyze.ui:406
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9752,7 +9752,7 @@ msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decCB)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decOut)
-#: ekos/analyze/analyze.ui:361 ekos/analyze/analyze.ui:380
+#: ekos/analyze/analyze.ui:428 ekos/analyze/analyze.ui:447
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9763,14 +9763,14 @@ msgstr "Панелі начыння"
 #. i18n: ectx: property (text), widget (QCheckBox, decCB)
 #. i18n: ectx: property (text), widget (QCheckBox, decPulseCB)
 #. i18n: ectx: property (text), widget (QCheckBox, mountDecCB)
-#: ekos/analyze/analyze.ui:367 ekos/analyze/analyze.ui:455
-#: ekos/analyze/analyze.ui:778
+#: ekos/analyze/analyze.ui:434 ekos/analyze/analyze.ui:522
+#: ekos/analyze/analyze.ui:845
 #, fuzzy, kde-format
 msgid "dec"
 msgstr "Сне"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raPulseCB)
-#: ekos/analyze/analyze.ui:402
+#: ekos/analyze/analyze.ui:469
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9779,13 +9779,13 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raPulseCB)
-#: ekos/analyze/analyze.ui:408
+#: ekos/analyze/analyze.ui:475
 #, kde-format
 msgid "ra pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, raPulseOut)
-#: ekos/analyze/analyze.ui:421
+#: ekos/analyze/analyze.ui:488
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9794,7 +9794,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decPulseCB)
-#: ekos/analyze/analyze.ui:449
+#: ekos/analyze/analyze.ui:516
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9803,7 +9803,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decPulseOut)
-#: ekos/analyze/analyze.ui:468
+#: ekos/analyze/analyze.ui:535
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9812,7 +9812,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, driftCB)
-#: ekos/analyze/analyze.ui:496
+#: ekos/analyze/analyze.ui:563
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9821,13 +9821,13 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, driftCB)
-#: ekos/analyze/analyze.ui:502
+#: ekos/analyze/analyze.ui:569
 #, kde-format
 msgid "drift"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, driftOut)
-#: ekos/analyze/analyze.ui:515
+#: ekos/analyze/analyze.ui:582
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9836,7 +9836,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCB)
-#: ekos/analyze/analyze.ui:543
+#: ekos/analyze/analyze.ui:610
 #, kde-format
 msgid ""
 "<html><head/><body><p>Plot the root-mean-squared (RMS) value of the combined "
@@ -9846,13 +9846,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCB)
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCCB)
-#: ekos/analyze/analyze.ui:549 ekos/analyze/analyze.ui:1224
+#: ekos/analyze/analyze.ui:616 ekos/analyze/analyze.ui:1291
 #, fuzzy, kde-format
 msgid "rms"
 msgstr "мм"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsOut)
-#: ekos/analyze/analyze.ui:562
+#: ekos/analyze/analyze.ui:629
 #, kde-format
 msgid ""
 "<html><head/><body><p>The root-mean-squared (RMS) value of the combined RA "
@@ -9861,7 +9861,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, skyBgCB)
-#: ekos/analyze/analyze.ui:590
+#: ekos/analyze/analyze.ui:657
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9870,14 +9870,14 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyBgCB)
-#: ekos/analyze/analyze.ui:596
+#: ekos/analyze/analyze.ui:663
 #, fuzzy, kde-format
 #| msgid "Sky"
 msgid "sky"
 msgstr "Неба"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, skyBgOut)
-#: ekos/analyze/analyze.ui:609
+#: ekos/analyze/analyze.ui:676
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9886,7 +9886,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numStarsCB)
-#: ekos/analyze/analyze.ui:631
+#: ekos/analyze/analyze.ui:698
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9900,7 +9900,7 @@ msgstr "Панелі начыння"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: ekos/analyze/analyze.ui:637 ekos/analyze/analyze.ui:1054
+#: ekos/analyze/analyze.ui:704 ekos/analyze/analyze.ui:1121
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:812
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:874 ekos/guide/opsguide.ui:434
 #: ekos/guide/opsguide.ui:540
@@ -9910,7 +9910,7 @@ msgid "stars"
 msgstr "зорка"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numStarsOut)
-#: ekos/analyze/analyze.ui:650
+#: ekos/analyze/analyze.ui:717
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9919,7 +9919,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, snrCB)
-#: ekos/analyze/analyze.ui:678
+#: ekos/analyze/analyze.ui:745
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9928,13 +9928,13 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, snrCB)
-#: ekos/analyze/analyze.ui:684
+#: ekos/analyze/analyze.ui:751
 #, kde-format
 msgid "snr"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, snrOut)
-#: ekos/analyze/analyze.ui:697
+#: ekos/analyze/analyze.ui:764
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9943,7 +9943,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountRaCB)
-#: ekos/analyze/analyze.ui:725
+#: ekos/analyze/analyze.ui:792
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9952,7 +9952,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountRaOut)
-#: ekos/analyze/analyze.ui:750
+#: ekos/analyze/analyze.ui:817
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9961,7 +9961,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
-#: ekos/analyze/analyze.ui:772
+#: ekos/analyze/analyze.ui:839
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9970,7 +9970,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountDecOut)
-#: ekos/analyze/analyze.ui:797
+#: ekos/analyze/analyze.ui:864
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9979,7 +9979,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
-#: ekos/analyze/analyze.ui:819
+#: ekos/analyze/analyze.ui:886
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -9988,13 +9988,13 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, azCB)
-#: ekos/analyze/analyze.ui:825
+#: ekos/analyze/analyze.ui:892
 #, fuzzy, kde-format
 msgid "az"
 msgstr "Мальта"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, azOut)
-#: ekos/analyze/analyze.ui:838
+#: ekos/analyze/analyze.ui:905
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10002,7 +10002,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altCB)
-#: ekos/analyze/analyze.ui:866
+#: ekos/analyze/analyze.ui:933
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10011,13 +10011,13 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, altCB)
-#: ekos/analyze/analyze.ui:872
+#: ekos/analyze/analyze.ui:939
 #, fuzzy, kde-format
 msgid "alt"
 msgstr "Мальта"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, altOut)
-#: ekos/analyze/analyze.ui:885
+#: ekos/analyze/analyze.ui:952
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10025,7 +10025,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pierSideCB)
-#: ekos/analyze/analyze.ui:913
+#: ekos/analyze/analyze.ui:980
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10034,13 +10034,13 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
-#: ekos/analyze/analyze.ui:919
+#: ekos/analyze/analyze.ui:986
 #, fuzzy, kde-format
 msgid "side"
 msgstr "&Змяніць"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pierSideOut)
-#: ekos/analyze/analyze.ui:932
+#: ekos/analyze/analyze.ui:999
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10049,7 +10049,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
-#: ekos/analyze/analyze.ui:960
+#: ekos/analyze/analyze.ui:1027
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10057,20 +10057,20 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, mountHaCB)
-#: ekos/analyze/analyze.ui:966
+#: ekos/analyze/analyze.ui:1033
 #, fuzzy, kde-format
 msgid "ha"
 msgstr "тэта"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountHaOut)
-#: ekos/analyze/analyze.ui:985
+#: ekos/analyze/analyze.ui:1052
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "<html><head/><body><p>The mount's hour angle value.</p></body></html>"
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
-#: ekos/analyze/analyze.ui:1007
+#: ekos/analyze/analyze.ui:1074
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10079,13 +10079,13 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, hfrCB)
-#: ekos/analyze/analyze.ui:1013
+#: ekos/analyze/analyze.ui:1080
 #, fuzzy, kde-format
 msgid "hfr"
 msgstr "Кіпр"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, hfrOut)
-#: ekos/analyze/analyze.ui:1026
+#: ekos/analyze/analyze.ui:1093
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10095,7 +10095,7 @@ msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numCaptureStarsOut)
-#: ekos/analyze/analyze.ui:1048 ekos/analyze/analyze.ui:1067
+#: ekos/analyze/analyze.ui:1115 ekos/analyze/analyze.ui:1134
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10105,7 +10105,7 @@ msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, medianCB)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, medianOut)
-#: ekos/analyze/analyze.ui:1089 ekos/analyze/analyze.ui:1108
+#: ekos/analyze/analyze.ui:1156 ekos/analyze/analyze.ui:1175
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10114,14 +10114,14 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, medianCB)
-#: ekos/analyze/analyze.ui:1095
+#: ekos/analyze/analyze.ui:1162
 #, fuzzy, kde-format
 msgid "median"
 msgstr "Рэжым"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eccentricityCB)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, eccentricityOut)
-#: ekos/analyze/analyze.ui:1130 ekos/analyze/analyze.ui:1149
+#: ekos/analyze/analyze.ui:1197 ekos/analyze/analyze.ui:1216
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10130,27 +10130,27 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, eccentricityCB)
-#: ekos/analyze/analyze.ui:1136
+#: ekos/analyze/analyze.ui:1203
 #, fuzzy, kde-format
 msgid "ecc"
 msgstr "Сне"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, temperatureCB)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, temperatureOut)
-#: ekos/analyze/analyze.ui:1171 ekos/analyze/analyze.ui:1190
+#: ekos/analyze/analyze.ui:1238 ekos/analyze/analyze.ui:1257
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, temperatureCB)
-#: ekos/analyze/analyze.ui:1177
+#: ekos/analyze/analyze.ui:1244
 #, kde-format
 msgid "temp"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCCB)
-#: ekos/analyze/analyze.ui:1218
+#: ekos/analyze/analyze.ui:1285
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10160,7 +10160,7 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsCOut)
-#: ekos/analyze/analyze.ui:1237
+#: ekos/analyze/analyze.ui:1304
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10171,7 +10171,7 @@ msgstr "Панелі начыння"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, targetDistanceCB)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, targetDistanceOut)
-#: ekos/analyze/analyze.ui:1265 ekos/analyze/analyze.ui:1284
+#: ekos/analyze/analyze.ui:1332 ekos/analyze/analyze.ui:1351
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid ""
@@ -10181,14 +10181,14 @@ msgid ""
 msgstr "Панелі начыння"
 
 #. i18n: ectx: property (text), widget (QCheckBox, targetDistanceCB)
-#: ekos/analyze/analyze.ui:1271
+#: ekos/analyze/analyze.ui:1338
 #, kde-format
 msgid "dist a-s"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label1)
+#. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
-#: ekos/analyze/analyze.ui:1303 kstarslite/qml/modules/menus/ContextMenu.qml:71
+#: ekos/analyze/analyze.ui:1370 kstarslite/qml/modules/menus/ContextMenu.qml:71
 #: tools/starhopperdialog.ui:39
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "Show Detailed Information Dialog"
