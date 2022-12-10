@@ -13,6 +13,7 @@
 #include "modcalcapcoord.h"
 #include "modcalcdaylength.h"
 #include "modcalcaltaz.h"
+#include "modcalcsimple.h"
 #include "modcalcplanets.h"
 #include "modcalceclipticcoords.h"
 #include "modcalcangdist.h"
@@ -77,6 +78,8 @@ AstroCalc::AstroCalc(QWidget *parent) : QDialog(parent)
                                 "</LI><LI>"
                                 "<B>Horizontal:</B> Computation of azimuth and elevation for a "
                                 "given source, time, and location on the Earth"
+                                "</LI><LI>"
+                                "<B>Simple:</B> Conversion between angles in hrs and degrees."
                                 "</LI><LI>"
                                 "<B>Angular Distance:</B> Computation of angular distance between "
                                 "two objects whose positions are given in equatorial coordinates"
@@ -153,6 +156,7 @@ AstroCalc::AstroCalc(QWidget *parent) : QDialog(parent)
     addTreeItem<modCalcGalCoord>(coordItem, i18n("Equatorial/Galactic"));
     addTreeItem<modCalcApCoord>(coordItem, i18n("Apparent Coordinates"));
     addTreeItem<modCalcAltAz>(coordItem, i18n("Horizontal Coordinates"));
+    addTreeItem<modCalcSimple>(coordItem, i18n("Simple Coordinates"));
     addTreeItem<modCalcEclCoords>(coordItem, i18n("Ecliptic Coordinates"));
     addTreeItem<modCalcAngDist>(coordItem, i18n("Angular Distance"));
     addTreeItem<modCalcGeodCoord>(coordItem, i18n("Geodetic Coordinates"));
