@@ -429,6 +429,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // The vertical line in the stats plot.
         QCPItemLine *statsCursor { nullptr };
+        QCPItemLine *timelineCursor { nullptr };
         double statsCursorTime { -1 };
 
         // Keeps the directory from the last time the user loaded a .analyze file.

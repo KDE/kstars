@@ -1311,12 +1311,25 @@ void Analyze::processTimelineClick(QMouseEvent *event, bool doubleClick)
 void Analyze::setStatsCursor(double time)
 {
     removeStatsCursor();
+
+    // Cursor on the stats graph.
     QCPItemLine *line = new QCPItemLine(statsPlot);
     line->setPen(QPen(Qt::darkGray, 1, Qt::SolidLine));
-    double top = statsPlot->yAxis->range().upper;
-    line->start->setCoords(time, 0);
+    const double top = statsPlot->yAxis->range().upper;
+    const double bottom = statsPlot->yAxis->range().lower;
+    line->start->setCoords(time, bottom);
     line->end->setCoords(time, top);
     statsCursor = line;
+
+    // Cursor on the timeline.
+    QCPItemLine *line2 = new QCPItemLine(timelinePlot);
+    line2->setPen(QPen(Qt::darkGray, 1, Qt::SolidLine));
+    const double top2 = timelinePlot->yAxis->range().upper;
+    const double bottom2 = timelinePlot->yAxis->range().lower;
+    line2->start->setCoords(time, bottom2);
+    line2->end->setCoords(time, top2);
+    timelineCursor = line2;
+
     cursorTimeOut->setText(QString("%1s").arg(time));
     cursorClockTimeOut->setText(QString("%1")
                                 .arg(clockTime(time).toString("hh:mm:ss")));
@@ -1329,6 +1342,11 @@ void Analyze::removeStatsCursor()
     if (statsCursor != nullptr)
         statsPlot->removeItem(statsCursor);
     statsCursor = nullptr;
+
+    if (timelineCursor != nullptr)
+        timelinePlot->removeItem(timelineCursor);
+    timelineCursor = nullptr;
+
     cursorTimeOut->setText("");
     cursorClockTimeOut->setText("");
     statsCursorTime = -1;
