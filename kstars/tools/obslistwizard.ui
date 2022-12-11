@@ -600,7 +600,7 @@
              <item row="0" column="0">
               <widget class="QLabel" name="CenterRALabel">
                <property name="text">
-                <string>center RA:</string>
+                <string>Center RA (in Hours):</string>
                </property>
               </widget>
              </item>
@@ -613,7 +613,7 @@
              <item row="1" column="0">
               <widget class="QLabel" name="CenterDecLabel">
                <property name="text">
-                <string>center Dec:</string>
+                <string>Center Dec (in Degrees):</string>
                </property>
               </widget>
              </item>
