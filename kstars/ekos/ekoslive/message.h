@@ -110,6 +110,7 @@ class Message : public QObject
 
         // Capture
         void sendCaptureSequence(const QJsonArray &sequenceArray);
+        void sendPreviewLabel(const QString &preview);
         void sendCaptureSettings(const QJsonObject &settings);
 
         // DSLR

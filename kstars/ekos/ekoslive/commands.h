@@ -88,7 +88,9 @@ enum COMMANDS
     CAPTURE_SAVE_SEQUENCE_FILE,
     CAPTURE_LOAD_SEQUENCE_FILE,
     CAPTURE_GET_CALIBRATION_SETTINGS,
+    CAPTURE_SET_FILE_SETTINGS,
     CAPTURE_GET_FILE_SETTINGS,
+    CAPTURE_GET_PREVIEW_LABEL,
     CAPTURE_LOOP,
     CAPTURE_GENERATE_DARK_FLATS,
 
@@ -318,7 +320,9 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_SAVE_SEQUENCE_FILE, "capture_save_sequence_file"},
     {CAPTURE_LOAD_SEQUENCE_FILE, "capture_load_sequence_file"},
     {CAPTURE_GET_CALIBRATION_SETTINGS, "capture_get_calibration_settings"},
+    {CAPTURE_SET_FILE_SETTINGS, "capture_set_file_settings"},
     {CAPTURE_GET_FILE_SETTINGS, "capture_get_file_settings"},
+    {CAPTURE_GET_PREVIEW_LABEL, "capture_get_preview_label"},
     {CAPTURE_LOOP, "capture_loop"},
     {CAPTURE_GENERATE_DARK_FLATS, "capture_generate_dark_flats"},
 

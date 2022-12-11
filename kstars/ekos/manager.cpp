@@ -2859,6 +2859,8 @@ void Manager::connectModules()
                 &EkosLive::Message::sendCaptureSequence, Qt::UniqueConnection);
         connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendCaptureSettings, Qt::UniqueConnection);
+        connect(captureProcess.get(), &Ekos::Capture::newLocalPreview, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendPreviewLabel, Qt::UniqueConnection);
         connect(captureProcess.get(), &Ekos::Capture::trainChanged, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);
     }

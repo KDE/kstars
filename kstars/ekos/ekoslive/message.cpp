@@ -452,6 +452,10 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     {
         sendCaptureSequence(capture->getSequence());
     }
+    else if(command == commands[CAPTURE_SET_FILE_SETTINGS])
+    {
+        m_Manager->captureModule()->setFileSettings(payload);
+    }
     else if (command == commands[CAPTURE_ADD_SEQUENCE])
     {
         // Set capture settings first
@@ -515,6 +519,14 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
 void Message::sendCaptureSequence(const QJsonArray &sequenceArray)
 {
     sendResponse(commands[CAPTURE_GET_SEQUENCES], sequenceArray);
+}
+
+void Message::sendPreviewLabel(const QString &preview)
+{
+    const QJsonObject payload = {
+        {"preview", preview}
+    };
+    sendResponse(commands[CAPTURE_GET_PREVIEW_LABEL], payload);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

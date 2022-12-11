@@ -886,6 +886,7 @@ class Capture : public QWidget, public Ui::Capture
         void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QJsonObject &settings);
+        void newLocalPreview(const QString &preview);
         void newMeridianFlipSetup(bool activate, double hours);
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);

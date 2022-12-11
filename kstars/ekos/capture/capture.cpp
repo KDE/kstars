@@ -7396,6 +7396,7 @@ void Capture::generatePreviewFilename()
             || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
     {
         FilenamePreviewLabel->setText(previewFilename( LOCAL_PREVIEW ));
+        emit newLocalPreview(FilenamePreviewLabel->text());
 
         if (fileUploadModeS->currentIndex() != 0)
             RemotePreviewLabel->setText(previewFilename( REMOTE_PREVIEW ));
