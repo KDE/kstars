@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-10 00:41+0000\n"
+"POT-Creation-Date: 2022-12-11 00:42+0000\n"
 "PO-Revision-Date: 2022-12-03 12:37+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -545,7 +545,7 @@ msgstr "Cancel·la"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:133
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1053 ekos/manager.cpp:1068
-#: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:646
+#: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:649
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
 #: kstarsactions.cpp:496
@@ -1920,14 +1920,14 @@ msgstr "Estat:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:967 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
-#: ekos/analyze/analyze.cpp:2413 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2431 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
 #: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:554
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
-#: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:639
-#: ekos/scheduler/schedulerjob.cpp:663 indi/indidome.cpp:20
+#: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:642
+#: ekos/scheduler/schedulerjob.cpp:666 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2309,8 +2309,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Marqueu-ho si es desconeix la magnitud"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:647
-#: ekos/scheduler/schedulerjob.cpp:678 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:650
+#: ekos/scheduler/schedulerjob.cpp:681 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -4217,7 +4217,7 @@ msgstr "Tots"
 
 #: dialogs/finddialog.cpp:37 kstarsactions.cpp:1098 kstarsinit.cpp:461
 #: kstarslite/dialogs/finddialoglite.cpp:27
-#: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:162
+#: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
 #, kde-format, kde-kuit-format
 msgid "Solar System"
@@ -9761,7 +9761,7 @@ msgstr "Inicia"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1681
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1699
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:132
 #: ekos/opsekos.ui:505
@@ -9848,7 +9848,7 @@ msgid "Parking"
 msgstr "Aparcant"
 
 #: ekos/analyze/analyze.cpp:125 ekos/analyze/analyze.cpp:144 ekos/ekos.h:140
-#: ekos/scheduler/schedulerjob.cpp:664 indi/indimount.cpp:32
+#: ekos/scheduler/schedulerjob.cpp:667 indi/indimount.cpp:32
 #, kde-format
 msgid "Slewing"
 msgstr "S'està orientant"
@@ -9905,7 +9905,7 @@ msgstr "No s'ha pogut trobar el fitxer d'imatge: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1682 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1700 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
@@ -9914,7 +9914,7 @@ msgid "Focus"
 msgstr "Enfocament"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1683 ekos/manager.cpp:1971
+#: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1971
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:433
 #, kde-format
@@ -9925,7 +9925,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1684 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1702 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2152
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9934,7 +9934,7 @@ msgstr "Alinea"
 msgid "Guide"
 msgstr "Guia"
 
-#: ekos/analyze/analyze.cpp:1685
+#: ekos/analyze/analyze.cpp:1703
 #, kde-format
 msgid "Flip"
 msgstr "Inverteix"
@@ -9943,7 +9943,7 @@ msgstr "Inverteix"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1686 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1704 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2081 ekos/manager.ui:665
 #, kde-format
@@ -9951,12 +9951,12 @@ msgid "Mount"
 msgstr "Muntura"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1687 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1705 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr "Tasca"
 
-#: ekos/analyze/analyze.cpp:1764
+#: ekos/analyze/analyze.cpp:1782
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9967,7 +9967,7 @@ msgstr ""
 "FITS del KStars. Sense ella no s'obtindran els valors HFR. Un cop establert, "
 "les imatges capturades de nou tindran calculat el seu HFR."
 
-#: ekos/analyze/analyze.cpp:1780
+#: ekos/analyze/analyze.cpp:1798
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9979,105 +9979,105 @@ msgstr ""
 "a la imatge capturada. Un cop establert, les imatges capturades de nou "
 "tindran les seves estrelles detectades."
 
-#: ekos/analyze/analyze.cpp:2415 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2433 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
-#: ekos/scheduler/schedulerjob.cpp:645
+#: ekos/scheduler/schedulerjob.cpp:648
 #, kde-format
 msgid "Aborted"
 msgstr "Interromput"
 
-#: ekos/analyze/analyze.cpp:2417 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2435 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Connectat"
 
-#: ekos/analyze/analyze.cpp:2419 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2437 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Desconnectat"
 
-#: ekos/analyze/analyze.cpp:2421 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:677
+#: ekos/analyze/analyze.cpp:2439 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:680
 #, kde-format
 msgid "Capturing"
 msgstr "S'està capturant"
 
-#: ekos/analyze/analyze.cpp:2423 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2441 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Repetició"
 
-#: ekos/analyze/analyze.cpp:2425 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2443 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "S'està restant"
 
-#: ekos/analyze/analyze.cpp:2427 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2445 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "S'està fent el requadre"
 
-#: ekos/analyze/analyze.cpp:2429 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2447 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Seleccionant estrella"
 
-#: ekos/analyze/analyze.cpp:2431 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2449 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "S'està calibrant"
 
-#: ekos/analyze/analyze.cpp:2433 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2451 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Error de calibratge"
 
-#: ekos/analyze/analyze.cpp:2435 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2453 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Calibrat"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2437 ekos/ekos.h:32
-#: ekos/scheduler/schedulerjob.cpp:675
+#: ekos/analyze/analyze.cpp:2455 ekos/ekos.h:32
+#: ekos/scheduler/schedulerjob.cpp:678
 #, kde-format
 msgid "Guiding"
 msgstr "Guiatge"
 
-#: ekos/analyze/analyze.cpp:2439 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2457 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Suspès"
 
-#: ekos/analyze/analyze.cpp:2441 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2459 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Tornant a obtenir"
 
-#: ekos/analyze/analyze.cpp:2443 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2461 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Tramat"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2445 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2463 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Tramat manual"
 
-#: ekos/analyze/analyze.cpp:2447 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2465 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Error de tramat"
 
-#: ekos/analyze/analyze.cpp:2449 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2467 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Tramat correcte"
 
-#: ekos/analyze/analyze.cpp:2451 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2469 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Posicionament"
@@ -15641,7 +15641,7 @@ msgid "In Progress"
 msgstr "En curs"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:644
+#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:647
 #, kde-format
 msgid "Complete"
 msgstr "Finalitzat"
@@ -15750,7 +15750,7 @@ msgstr "En espera"
 msgid "Image Received"
 msgstr "Imatge rebuda"
 
-#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:667
+#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:670
 #, kde-format
 msgid "Focusing"
 msgstr "S'està enfocant"
@@ -15780,7 +15780,7 @@ msgstr "S'està establint la temperatura"
 msgid "Setting Rotator"
 msgstr "Configuració del rotor"
 
-#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:670
+#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:673
 #, kde-format
 msgid "Aligning"
 msgstr "S'està alineant"
@@ -15831,7 +15831,7 @@ msgstr "Desplaçament de l'enfocament"
 msgid "Startup"
 msgstr "Inici"
 
-#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:642
+#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:645
 #, kde-format
 msgid "Running"
 msgstr "En execució"
@@ -25909,12 +25909,12 @@ msgstr "Obre la funda de protecció"
 msgid "UnCap"
 msgstr "Treu la funda"
 
-#: ekos/scheduler/schedulerjob.cpp:347
+#: ekos/scheduler/schedulerjob.cpp:350
 #, kde-format
 msgid "Ekos job failed (%1)"
 msgstr "Ha fallat una tasca de l'Ekos (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:408
+#: ekos/scheduler/schedulerjob.cpp:411
 #, kde-format
 msgid ""
 "Current status of job '%1', managed by the Scheduler.\n"
@@ -25933,7 +25933,7 @@ msgstr ""
 "Si és completa, el programador verificarà que totes les captures de "
 "seqüència sol·licitades s'han emmagatzemat, incloent-hi les repeticions."
 
-#: ekos/scheduler/schedulerjob.cpp:419
+#: ekos/scheduler/schedulerjob.cpp:422
 #, kde-format
 msgid ""
 "Current altitude of the target of job '%1'.\n"
@@ -25944,7 +25944,7 @@ msgstr ""
 "Un objectiu que ascendeix s'indica amb una fletxa cap amunt.\n"
 "Un objectiu que es pon s'indica amb una fletxa cap avall."
 
-#: ekos/scheduler/schedulerjob.cpp:429
+#: ekos/scheduler/schedulerjob.cpp:432
 #, kde-format
 msgid ""
 "Startup time for job '%1', as estimated by the Scheduler.\n"
@@ -25957,7 +25957,7 @@ msgstr ""
 "Temps fixat per l'usuari o temps de culminació, està marcada amb el símbol "
 "d'un cronòmetre."
 
-#: ekos/scheduler/schedulerjob.cpp:439
+#: ekos/scheduler/schedulerjob.cpp:442
 #, kde-format
 msgid ""
 "Completion time for job '%1', as estimated by the Scheduler.\n"
@@ -25970,7 +25970,7 @@ msgstr ""
 "repetides. Un símbol d'avís indica que l'altitud a la compleció pot fer que "
 "la tasca s'interrompi abans de la compleció.\n"
 
-#: ekos/scheduler/schedulerjob.cpp:449
+#: ekos/scheduler/schedulerjob.cpp:452
 #, kde-format
 msgid ""
 "Count of captures stored for job '%1', based on its sequence job.\n"
@@ -25982,7 +25982,7 @@ msgstr ""
 "Això és un resum, es poden requerir tipus de fotogrames addicionals per a "
 "completar la tasca."
 
-#: ekos/scheduler/schedulerjob.cpp:458
+#: ekos/scheduler/schedulerjob.cpp:461
 #, kde-format
 msgid ""
 "Current score for job '%1', from its altitude, moon separation and sky "
@@ -25998,7 +25998,7 @@ msgstr ""
 "El programador actualitzarà les puntuacions en seleccionar una nova tasca "
 "candidata."
 
-#: ekos/scheduler/schedulerjob.cpp:468
+#: ekos/scheduler/schedulerjob.cpp:471
 #, kde-format
 msgid ""
 "Time interval from the job which precedes job '%1'.\n"
@@ -26012,7 +26012,7 @@ msgstr ""
 "Rearranja les tasques per a minimitzar la durada i optimitzar els temps per "
 "a l'obtenció de les imatges."
 
-#: ekos/scheduler/schedulerjob.cpp:560
+#: ekos/scheduler/schedulerjob.cpp:563
 #, kde-format
 msgid ""
 "Duration job '%1' will take to complete when started, as estimated by the "
@@ -26023,47 +26023,47 @@ msgstr ""
 "estimada pel programador.\n"
 "Depèn de les accions a executar, i de la tasca de seqüències a processar."
 
-#: ekos/scheduler/schedulerjob.cpp:640
+#: ekos/scheduler/schedulerjob.cpp:643
 #, kde-format
 msgid "Evaluating"
 msgstr "S'està avaluant"
 
-#: ekos/scheduler/schedulerjob.cpp:641
+#: ekos/scheduler/schedulerjob.cpp:644
 #, kde-format
 msgid "Scheduled"
 msgstr "Programada"
 
-#: ekos/scheduler/schedulerjob.cpp:643
+#: ekos/scheduler/schedulerjob.cpp:646
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: ekos/scheduler/schedulerjob.cpp:665
+#: ekos/scheduler/schedulerjob.cpp:668
 #, kde-format
 msgid "Slew complete"
 msgstr "L'orientació s'ha completat"
 
-#: ekos/scheduler/schedulerjob.cpp:669
+#: ekos/scheduler/schedulerjob.cpp:672
 #, kde-format
 msgid "Focus complete"
 msgstr "S'ha finalitzat l'enfocament"
 
-#: ekos/scheduler/schedulerjob.cpp:671
+#: ekos/scheduler/schedulerjob.cpp:674
 #, kde-format
 msgid "Align complete"
 msgstr "Alineació completada"
 
-#: ekos/scheduler/schedulerjob.cpp:672
+#: ekos/scheduler/schedulerjob.cpp:675
 #, kde-format
 msgid "Repositioning"
 msgstr "S'està reposicionant"
 
-#: ekos/scheduler/schedulerjob.cpp:673
+#: ekos/scheduler/schedulerjob.cpp:676
 #, kde-format
 msgid "Repositioning complete"
 msgstr "S'ha completat el reposicionament"
 
-#: ekos/scheduler/schedulerjob.cpp:676
+#: ekos/scheduler/schedulerjob.cpp:679
 #, kde-format
 msgid "Guiding complete"
 msgstr "S'ha completat el guiatge"
@@ -75578,7 +75578,7 @@ msgstr ""
 "El nivell d'ampliació especifica el nombre de píxels que cobreix un radiant "
 "d'arc. Els valors raonables haurien d'estar entre 300 i 10.000.000.\n"
 
-#: tools/astrocalc.cpp:38
+#: tools/astrocalc.cpp:39
 #, kde-format
 msgid ""
 "<QT><H2>KStars Astrocalculator</H2><P>The KStars Astrocalculator contains "
@@ -75599,7 +75599,7 @@ msgstr ""
 "LI> <LI><B>Sistema solar:</B> Prediuen la posició de qualsevol planeta, des "
 "d'un emplaçament i instant donats sobre la Terra</LI></UL></QT>"
 
-#: tools/astrocalc.cpp:53
+#: tools/astrocalc.cpp:54
 #, kde-format
 msgid ""
 "<QT>Section which includes algorithms for computing time "
@@ -75616,8 +75616,21 @@ msgstr ""
 "Lluna, i posicions d'aquests esdeveniments</LI><LI><B>Equinoccis i solsticis:"
 "</B> Equinoccis, solsticis i durada de les estacions</LI></UL></QT>"
 
-#: tools/astrocalc.cpp:67
-#, kde-format
+#: tools/astrocalc.cpp:68
+#, fuzzy, kde-format
+#| msgid ""
+#| "<QT>Section with algorithms for the conversion of different astronomical "
+#| "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
+#| "coordinates conversion</LI><LI><B>Apparent:</B> Computation of current "
+#| "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> "
+#| "Ecliptic/Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> "
+#| "Computation of azimuth and elevation for a given source, time, and "
+#| "location on the Earth</LI><LI><B>Angular Distance:</B> Computation of "
+#| "angular distance between two objects whose positions are given in "
+#| "equatorial coordinates</LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ "
+#| "coordinate conversion</LI><LI><B>LSR Velocity:</B> Computation of the "
+#| "heliocentric, geocentric and topocentric radial velocity of a source from "
+#| "its LSR velocity</LI></UL></QT>"
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
 "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
@@ -75625,6 +75638,7 @@ msgid ""
 "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> Ecliptic/"
 "Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> Computation of "
 "azimuth and elevation for a given source, time, and location on the Earth</"
+"LI><LI><B>Simple:</B> Conversion between angles in hrs and degrees.</"
 "LI><LI><B>Angular Distance:</B> Computation of angular distance between two "
 "objects whose positions are given in equatorial coordinates</"
 "LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ coordinate conversion</"
@@ -75645,7 +75659,7 @@ msgstr ""
 "geocèntrica i topocèntrica d'una font a partir de la seva velocitat ELR</"
 "LI></UL></QT>"
 
-#: tools/astrocalc.cpp:90
+#: tools/astrocalc.cpp:93
 #, kde-format
 msgid ""
 "<QT>Section with algorithms regarding information on solar system bodies "
@@ -75658,58 +75672,58 @@ msgstr ""
 "Coordenades dels planetes, Lluna i Sol per a un instant donat i des d'una "
 "posició concreta sobre la Terra </LI></UL></QT>"
 
-#: tools/astrocalc.cpp:109
+#: tools/astrocalc.cpp:112
 #, kde-format
 msgctxt "@title:window"
 msgid "Calculator"
 msgstr "Calculadora"
 
-#: tools/astrocalc.cpp:114
+#: tools/astrocalc.cpp:117
 #, kde-format
 msgid "Calculator modules"
 msgstr "Mòduls de la calculadora"
 
-#: tools/astrocalc.cpp:141
+#: tools/astrocalc.cpp:144
 #, kde-format
 msgid "Time Calculators"
 msgstr "Calculadores horàries"
 
 #. i18n("Julian Day"))->setIcon(0,jdIcon);
-#: tools/astrocalc.cpp:145
+#: tools/astrocalc.cpp:148
 #, kde-format
 msgid "Julian Day"
 msgstr "Dia julià"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSidTimeDlg)
-#: tools/astrocalc.cpp:146 tools/modcalcsidtime.ui:14
+#: tools/astrocalc.cpp:149 tools/modcalcsidtime.ui:14
 #, kde-format
 msgid "Sidereal Time"
 msgstr "Hora sidèria"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcDayLengthDlg)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: tools/astrocalc.cpp:147 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
+#: tools/astrocalc.cpp:150 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
 #, kde-format
 msgid "Almanac"
 msgstr "Calendari"
 
-#: tools/astrocalc.cpp:148
+#: tools/astrocalc.cpp:151
 #, kde-format
 msgid "Equinoxes & Solstices"
 msgstr "Equinoccis i solsticis"
 
-#: tools/astrocalc.cpp:152
+#: tools/astrocalc.cpp:155
 #, kde-format
 msgid "Coordinate Converters"
 msgstr "Convertidors de coordenades"
 
-#: tools/astrocalc.cpp:153
+#: tools/astrocalc.cpp:156
 #, kde-format
 msgid "Equatorial/Galactic"
 msgstr "Equatorial/Galàctic"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcApCoordDlg)
-#: tools/astrocalc.cpp:154 tools/modcalcapcoord.ui:17
+#: tools/astrocalc.cpp:157 tools/modcalcapcoord.ui:17
 #, kde-format
 msgid "Apparent Coordinates"
 msgstr "Coordenades aparents"
@@ -75717,45 +75731,52 @@ msgstr "Coordenades aparents"
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcAltAz)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: tools/astrocalc.cpp:155 tools/modcalcaltaz.ui:17 tools/modcalcaltaz.ui:249
-#: tools/modcalcplanets.ui:275
+#. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSimple)
+#: tools/astrocalc.cpp:158 tools/modcalcaltaz.ui:17 tools/modcalcaltaz.ui:249
+#: tools/modcalcplanets.ui:275 tools/modcalcsimple.ui:17
 #, kde-format
 msgid "Horizontal Coordinates"
 msgstr "Coordenades horitzontals"
 
+#: tools/astrocalc.cpp:159
+#, fuzzy, kde-format
+#| msgid "Copy Coordinates"
+msgid "Simple Coordinates"
+msgstr "Copia les coordenades"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: tools/astrocalc.cpp:156 tools/modcalceclipticcoords.ui:144
+#: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
 #, kde-format
 msgid "Ecliptic Coordinates"
 msgstr "Coordenades eclíptiques"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcAngDistDlg)
-#: tools/astrocalc.cpp:157 tools/modcalcangdist.ui:14
+#: tools/astrocalc.cpp:161 tools/modcalcangdist.ui:14
 #, kde-format
 msgid "Angular Distance"
 msgstr "Distància angular"
 
-#: tools/astrocalc.cpp:158
+#: tools/astrocalc.cpp:162
 #, kde-format
 msgid "Geodetic Coordinates"
 msgstr "Coordenades geodèsiques"
 
-#: tools/astrocalc.cpp:159
+#: tools/astrocalc.cpp:163
 #, kde-format
 msgid "LSR Velocity"
 msgstr "Velocitat ELR"
 
-#: tools/astrocalc.cpp:164
+#: tools/astrocalc.cpp:168
 #, kde-format
 msgid "Planets Coordinates"
 msgstr "Coordenades planetàries"
 
-#: tools/astrocalc.cpp:165
+#: tools/astrocalc.cpp:169
 #, kde-format
 msgid "Conjunctions"
 msgstr "Conjuncions"
 
-#: tools/astrocalc.cpp:166
+#: tools/astrocalc.cpp:170
 #, kde-format
 msgid "Eclipses"
 msgstr "Eclipsis"
@@ -76389,8 +76410,8 @@ msgstr "Temps des d'ara (dies)"
 #: tools/modcalcapcoord.ui:42 tools/modcalcdaylength.ui:24
 #: tools/modcalceclipticcoords.ui:36 tools/modcalcgalcoord.ui:34
 #: tools/modcalcgeod.ui:31 tools/modcalcjd.ui:28 tools/modcalcplanets.ui:36
-#: tools/modcalcsidtime.ui:24 tools/modcalcvizequinox.ui:24
-#: tools/modcalcvlsr.ui:34
+#: tools/modcalcsidtime.ui:24 tools/modcalcsimple.ui:42
+#: tools/modcalcvizequinox.ui:24 tools/modcalcvlsr.ui:34
 #, kde-format
 msgid "Interactive Mode"
 msgstr "Mode interactiu"
@@ -77181,6 +77202,46 @@ msgstr "Llegeix-la del fitxer d'entrada"
 #, kde-format
 msgid "Specify Local Time in the Input File"
 msgstr "Especifica l'hora local en el fitxer d'entrada"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
+#, fuzzy, kde-format
+#| msgctxt "City in Newfoundland Canada"
+#| msgid "Englee"
+msgid "Angle"
+msgstr "Englee"
+
+#. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
+#: tools/modcalcsimple.ui:130
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "RA (hh:mm:ss)"
+msgid "Angle (hh mm ss.s) "
+msgstr "AR (hh:mm:ss)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
+#: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
+#, fuzzy, kde-format
+#| msgid "Results"
+msgid "Angle Result"
+msgstr "Resultats"
+
+#. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
+#. i18n: ectx: property (text), widget (QLabel, angle2Label)
+#: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
+#, kde-format
+msgid "Angle (dd.d)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
+#: tools/modcalcsimple.ui:189
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Dec (dd:mm:ss)"
+msgid "Angle (dd mm ss.s)"
+msgstr "Dec (dd:mm:ss)"
 
 #: tools/modcalcvizequinox.cpp:32
 #, kde-format

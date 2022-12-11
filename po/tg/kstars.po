@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-10 00:41+0000\n"
+"POT-Creation-Date: 2022-12-11 00:42+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -585,7 +585,7 @@ msgstr "Каннес"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:133
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1053 ekos/manager.cpp:1068
-#: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:646
+#: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:649
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
 #: kstarsactions.cpp:496
@@ -2029,14 +2029,14 @@ msgstr "Вазъият"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:967 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
-#: ekos/analyze/analyze.cpp:2413 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2431 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
 #: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:554
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
-#: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:639
-#: ekos/scheduler/schedulerjob.cpp:663 indi/indidome.cpp:20
+#: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:642
+#: ekos/scheduler/schedulerjob.cpp:666 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2400,8 +2400,8 @@ msgid "Check if magnitude is unknown"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:647
-#: ekos/scheduler/schedulerjob.cpp:678 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:650
+#: ekos/scheduler/schedulerjob.cpp:681 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -4400,7 +4400,7 @@ msgstr "Ҳар кадом"
 
 #: dialogs/finddialog.cpp:37 kstarsactions.cpp:1098 kstarsinit.cpp:461
 #: kstarslite/dialogs/finddialoglite.cpp:27
-#: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:162
+#: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
 #, kde-format, kde-kuit-format
 msgid "Solar System"
@@ -9791,7 +9791,7 @@ msgstr "Сар кардан"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1681
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1699
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:132
 #: ekos/opsekos.ui:505
@@ -9884,7 +9884,7 @@ msgid "Parking"
 msgstr "Пекин"
 
 #: ekos/analyze/analyze.cpp:125 ekos/analyze/analyze.cpp:144 ekos/ekos.h:140
-#: ekos/scheduler/schedulerjob.cpp:664 indi/indimount.cpp:32
+#: ekos/scheduler/schedulerjob.cpp:667 indi/indimount.cpp:32
 #, fuzzy, kde-format
 msgid "Slewing"
 msgstr "&Боздоштан"
@@ -9945,7 +9945,7 @@ msgstr "Наметавонам файлро нобуд кунам:%1"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1682 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1700 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
@@ -9954,7 +9954,7 @@ msgid "Focus"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1683 ekos/manager.cpp:1971
+#: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1971
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:433
 #, fuzzy, kde-format
@@ -9966,7 +9966,7 @@ msgstr "Пайвандӣ ба: "
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1684 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1702 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2152
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9976,7 +9976,7 @@ msgstr "Пайвандӣ ба: "
 msgid "Guide"
 msgstr "Равонакунанда"
 
-#: ekos/analyze/analyze.cpp:1685
+#: ekos/analyze/analyze.cpp:1703
 #, fuzzy, kde-format
 msgid "Flip"
 msgstr "Феирфилд"
@@ -9985,7 +9985,7 @@ msgstr "Феирфилд"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1686 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1704 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2081 ekos/manager.ui:665
 #, fuzzy, kde-format
@@ -9994,12 +9994,12 @@ msgid "Mount"
 msgstr "Ҳисоб кардан:"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1687 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1705 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1764
+#: ekos/analyze/analyze.cpp:1782
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10007,7 +10007,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1780
+#: ekos/analyze/analyze.cpp:1798
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10015,71 +10015,71 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2415 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2433 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
-#: ekos/scheduler/schedulerjob.cpp:645
+#: ekos/scheduler/schedulerjob.cpp:648
 #, fuzzy, kde-format
 msgid "Aborted"
 msgstr "Албург"
 
-#: ekos/analyze/analyze.cpp:2417 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2435 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "Васл шудан"
 
-#: ekos/analyze/analyze.cpp:2419 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2437 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "Ҷудо кардан"
 
-#: ekos/analyze/analyze.cpp:2421 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:677
+#: ekos/analyze/analyze.cpp:2439 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:680
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing"
 msgstr "Гирифтани расм"
 
-#: ekos/analyze/analyze.cpp:2423 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2441 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2425 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2443 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Subtracting"
 msgstr "Калиент"
 
-#: ekos/analyze/analyze.cpp:2427 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2445 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "Ном:"
 
-#: ekos/analyze/analyze.cpp:2429 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2447 ekos/ekos.h:28
 #, fuzzy, kde-format
 msgid "Selecting star"
 msgstr "Интихобкардагиро гузоред"
 
-#: ekos/analyze/analyze.cpp:2431 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2449 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibrating"
 msgstr "Калиент"
 
-#: ekos/analyze/analyze.cpp:2433 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2451 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration error"
 msgstr "Калиент"
 
-#: ekos/analyze/analyze.cpp:2435 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2453 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -10087,27 +10087,27 @@ msgid "Calibrated"
 msgstr "Калиент"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2437 ekos/ekos.h:32
-#: ekos/scheduler/schedulerjob.cpp:675
+#: ekos/analyze/analyze.cpp:2455 ekos/ekos.h:32
+#: ekos/scheduler/schedulerjob.cpp:678
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
 msgstr "Равонакунанда"
 
-#: ekos/analyze/analyze.cpp:2439 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2457 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspended"
 msgstr "Равонакунанда"
 
-#: ekos/analyze/analyze.cpp:2441 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2459 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Reacquiring"
 msgstr "Гирифтани расм"
 
-#: ekos/analyze/analyze.cpp:2443 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2461 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10115,24 +10115,24 @@ msgid "Dithering"
 msgstr "Дигар"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2445 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2463 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "Дигар"
 
-#: ekos/analyze/analyze.cpp:2447 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2465 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "Бухтаи Гуз"
 
-#: ekos/analyze/analyze.cpp:2449 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2467 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2451 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2469 ekos/ekos.h:39
 #, fuzzy, kde-format
 msgid "Settling"
 msgstr "Кеттеринг"
@@ -15511,7 +15511,7 @@ msgid "In Progress"
 msgstr "Равона кардан"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:644
+#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:647
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Complete"
@@ -15624,7 +15624,7 @@ msgstr "Дигар"
 msgid "Image Received"
 msgstr "Сохтани тасвири майдашуда..."
 
-#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:667
+#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:670
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing"
@@ -15657,7 +15657,7 @@ msgstr "Ҳамаи параметрҳо"
 msgid "Setting Rotator"
 msgstr "Интихобкардагиро гузоред"
 
-#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:670
+#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:673
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Aligning"
@@ -15717,7 +15717,7 @@ msgstr "Пайвандӣ ба: "
 msgid "Startup"
 msgstr "Сар кардан"
 
-#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:642
+#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:645
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Running"
@@ -25219,12 +25219,12 @@ msgstr "Дастаро кушоед"
 msgid "UnCap"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:347
+#: ekos/scheduler/schedulerjob.cpp:350
 #, kde-format
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:408
+#: ekos/scheduler/schedulerjob.cpp:411
 #, kde-format
 msgid ""
 "Current status of job '%1', managed by the Scheduler.\n"
@@ -25236,7 +25236,7 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:419
+#: ekos/scheduler/schedulerjob.cpp:422
 #, kde-format
 msgid ""
 "Current altitude of the target of job '%1'.\n"
@@ -25244,7 +25244,7 @@ msgid ""
 "A setting target is indicated with an arrow going down."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:429
+#: ekos/scheduler/schedulerjob.cpp:432
 #, kde-format
 msgid ""
 "Startup time for job '%1', as estimated by the Scheduler.\n"
@@ -25253,7 +25253,7 @@ msgid ""
 "symbol. "
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:439
+#: ekos/scheduler/schedulerjob.cpp:442
 #, kde-format
 msgid ""
 "Completion time for job '%1', as estimated by the Scheduler.\n"
@@ -25262,7 +25262,7 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:449
+#: ekos/scheduler/schedulerjob.cpp:452
 #, kde-format
 msgid ""
 "Count of captures stored for job '%1', based on its sequence job.\n"
@@ -25270,7 +25270,7 @@ msgid ""
 "complete the job."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:458
+#: ekos/scheduler/schedulerjob.cpp:461
 #, kde-format
 msgid ""
 "Current score for job '%1', from its altitude, moon separation and sky "
@@ -25280,7 +25280,7 @@ msgid ""
 "The Scheduler will refresh scores when picking a new candidate job."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:468
+#: ekos/scheduler/schedulerjob.cpp:471
 #, kde-format
 msgid ""
 "Time interval from the job which precedes job '%1'.\n"
@@ -25289,7 +25289,7 @@ msgid ""
 "Rearrange jobs to minimize that duration and optimize your imaging time."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:560
+#: ekos/scheduler/schedulerjob.cpp:563
 #, kde-format
 msgid ""
 "Duration job '%1' will take to complete when started, as estimated by the "
@@ -25297,54 +25297,54 @@ msgid ""
 "Depends on the actions to be run, and the sequence job to be processed."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:640
+#: ekos/scheduler/schedulerjob.cpp:643
 #, kde-format
 msgid "Evaluating"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:641
+#: ekos/scheduler/schedulerjob.cpp:644
 #, fuzzy, kde-format
 #| msgid "Set Time..."
 msgid "Scheduled"
 msgstr "Вақтро танзим кунед..."
 
-#: ekos/scheduler/schedulerjob.cpp:643
+#: ekos/scheduler/schedulerjob.cpp:646
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid"
 msgstr "URL-и нодуруст"
 
-#: ekos/scheduler/schedulerjob.cpp:665
+#: ekos/scheduler/schedulerjob.cpp:668
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Slew complete"
 msgstr "Комил"
 
-#: ekos/scheduler/schedulerjob.cpp:669
+#: ekos/scheduler/schedulerjob.cpp:672
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete"
 msgstr "Комил"
 
-#: ekos/scheduler/schedulerjob.cpp:671
+#: ekos/scheduler/schedulerjob.cpp:674
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Align complete"
 msgstr "Комил"
 
-#: ekos/scheduler/schedulerjob.cpp:672
+#: ekos/scheduler/schedulerjob.cpp:675
 #, fuzzy, kde-format
 msgid "Repositioning"
 msgstr "&Нуқта"
 
-#: ekos/scheduler/schedulerjob.cpp:673
+#: ekos/scheduler/schedulerjob.cpp:676
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Repositioning complete"
 msgstr "Калиент"
 
-#: ekos/scheduler/schedulerjob.cpp:676
+#: ekos/scheduler/schedulerjob.cpp:679
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Guiding complete"
@@ -80703,7 +80703,7 @@ msgstr ""
 "Андозаи Тасвир рақами воҳидҳоро таъйин мекунад, ки як радиани камонро паҳн "
 "мекунад.Маҷмуъи фаол бояд тахминан 300 ва 10,000,000 бошад.\n"
 
-#: tools/astrocalc.cpp:38
+#: tools/astrocalc.cpp:39
 #, kde-format
 msgid ""
 "<QT><H2>KStars Astrocalculator</H2><P>The KStars Astrocalculator contains "
@@ -80716,7 +80716,7 @@ msgid ""
 "UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:53
+#: tools/astrocalc.cpp:54
 #, kde-format
 msgid ""
 "<QT>Section which includes algorithms for computing time "
@@ -80727,7 +80727,7 @@ msgid ""
 "duration of the seasons</LI></UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:67
+#: tools/astrocalc.cpp:68
 #, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
@@ -80736,6 +80736,7 @@ msgid ""
 "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> Ecliptic/"
 "Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> Computation of "
 "azimuth and elevation for a given source, time, and location on the Earth</"
+"LI><LI><B>Simple:</B> Conversion between angles in hrs and degrees.</"
 "LI><LI><B>Angular Distance:</B> Computation of angular distance between two "
 "objects whose positions are given in equatorial coordinates</"
 "LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ coordinate conversion</"
@@ -80743,7 +80744,7 @@ msgid ""
 "topocentric radial velocity of a source from its LSR velocity</LI></UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:90
+#: tools/astrocalc.cpp:93
 #, kde-format
 msgid ""
 "<QT>Section with algorithms regarding information on solar system bodies "
@@ -80752,59 +80753,59 @@ msgid ""
 "LI></UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:109
+#: tools/astrocalc.cpp:112
 #, fuzzy, kde-format
 #| msgid "Calculator"
 msgctxt "@title:window"
 msgid "Calculator"
 msgstr "Ҳисоб кардан"
 
-#: tools/astrocalc.cpp:114
+#: tools/astrocalc.cpp:117
 #, fuzzy, kde-format
 msgid "Calculator modules"
 msgstr "Ҳисоб кардан"
 
-#: tools/astrocalc.cpp:141
+#: tools/astrocalc.cpp:144
 #, kde-format
 msgid "Time Calculators"
 msgstr "Вақтро ҳисоб кунед"
 
 #. i18n("Julian Day"))->setIcon(0,jdIcon);
-#: tools/astrocalc.cpp:145
+#: tools/astrocalc.cpp:148
 #, kde-format
 msgid "Julian Day"
 msgstr "Рӯзи Юлианӣ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSidTimeDlg)
-#: tools/astrocalc.cpp:146 tools/modcalcsidtime.ui:14
+#: tools/astrocalc.cpp:149 tools/modcalcsidtime.ui:14
 #, kde-format
 msgid "Sidereal Time"
 msgstr "Вақти Ситорагӣ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcDayLengthDlg)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: tools/astrocalc.cpp:147 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
+#: tools/astrocalc.cpp:150 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
 #, kde-format
 msgid "Almanac"
 msgstr "Алманах"
 
-#: tools/astrocalc.cpp:148
+#: tools/astrocalc.cpp:151
 #, fuzzy, kde-format
 msgid "Equinoxes & Solstices"
 msgstr "Эътидоли шабу рӯз, Ҳолати офтоб ва Фаслҳо"
 
-#: tools/astrocalc.cpp:152
+#: tools/astrocalc.cpp:155
 #, fuzzy, kde-format
 msgid "Coordinate Converters"
 msgstr "Шабакаи координатӣ "
 
-#: tools/astrocalc.cpp:153
+#: tools/astrocalc.cpp:156
 #, fuzzy, kde-format
 msgid "Equatorial/Galactic"
 msgstr "Экваториалӣ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcApCoordDlg)
-#: tools/astrocalc.cpp:154 tools/modcalcapcoord.ui:17
+#: tools/astrocalc.cpp:157 tools/modcalcapcoord.ui:17
 #, kde-format
 msgid "Apparent Coordinates"
 msgstr "Координатҳои Равшан"
@@ -80812,46 +80813,53 @@ msgstr "Координатҳои Равшан"
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcAltAz)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: tools/astrocalc.cpp:155 tools/modcalcaltaz.ui:17 tools/modcalcaltaz.ui:249
-#: tools/modcalcplanets.ui:275
+#. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSimple)
+#: tools/astrocalc.cpp:158 tools/modcalcaltaz.ui:17 tools/modcalcaltaz.ui:249
+#: tools/modcalcplanets.ui:275 tools/modcalcsimple.ui:17
 #, kde-format
 msgid "Horizontal Coordinates"
 msgstr "Хати уфуқии Координатаҳо"
 
+#: tools/astrocalc.cpp:159
+#, fuzzy, kde-format
+#| msgid "Final Coordinates"
+msgid "Simple Coordinates"
+msgstr "Ҷустуҷӯи Координатаҳо"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: tools/astrocalc.cpp:156 tools/modcalceclipticcoords.ui:144
+#: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
 #, kde-format
 msgid "Ecliptic Coordinates"
 msgstr "Координатҳои Эклиптикӣ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcAngDistDlg)
-#: tools/astrocalc.cpp:157 tools/modcalcangdist.ui:14
+#: tools/astrocalc.cpp:161 tools/modcalcangdist.ui:14
 #, kde-format
 msgid "Angular Distance"
 msgstr "Фосилаи Кунҷ"
 
-#: tools/astrocalc.cpp:158
+#: tools/astrocalc.cpp:162
 #, kde-format
 msgid "Geodetic Coordinates"
 msgstr "Координатҳои Геодетикӣ"
 
-#: tools/astrocalc.cpp:159
+#: tools/astrocalc.cpp:163
 #, kde-format
 msgid "LSR Velocity"
 msgstr ""
 
-#: tools/astrocalc.cpp:164
+#: tools/astrocalc.cpp:168
 #, fuzzy, kde-format
 msgid "Planets Coordinates"
 msgstr "Координатаҳо"
 
-#: tools/astrocalc.cpp:165
+#: tools/astrocalc.cpp:169
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Conjunctions"
 msgstr "Пайвастшавӣ"
 
-#: tools/astrocalc.cpp:166
+#: tools/astrocalc.cpp:170
 #, fuzzy, kde-format
 #| msgid "Ecliptic"
 msgid "Eclipses"
@@ -81500,8 +81508,8 @@ msgstr ""
 #: tools/modcalcapcoord.ui:42 tools/modcalcdaylength.ui:24
 #: tools/modcalceclipticcoords.ui:36 tools/modcalcgalcoord.ui:34
 #: tools/modcalcgeod.ui:31 tools/modcalcjd.ui:28 tools/modcalcplanets.ui:36
-#: tools/modcalcsidtime.ui:24 tools/modcalcvizequinox.ui:24
-#: tools/modcalcvlsr.ui:34
+#: tools/modcalcsidtime.ui:24 tools/modcalcsimple.ui:42
+#: tools/modcalcvizequinox.ui:24 tools/modcalcvlsr.ui:34
 #, kde-format
 msgid "Interactive Mode"
 msgstr "Муҳовараи намуд"
@@ -82295,6 +82303,39 @@ msgstr ""
 #| msgid "Select Fields in Input File"
 msgid "Specify Local Time in the Input File"
 msgstr "Интихоб кардани дашт ва дар файл гузоштан"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
+#, fuzzy, kde-format
+msgid "Angle"
+msgstr "Орёл"
+
+#. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
+#: tools/modcalcsimple.ui:130
+#, kde-format
+msgid "Angle (hh mm ss.s) "
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
+#: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
+#, fuzzy, kde-format
+msgid "Angle Result"
+msgstr "&Масштаби пешфарзи "
+
+#. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
+#. i18n: ectx: property (text), widget (QLabel, angle2Label)
+#: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
+#, kde-format
+msgid "Angle (dd.d)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
+#: tools/modcalcsimple.ui:189
+#, kde-format
+msgid "Angle (dd mm ss.s)"
+msgstr ""
 
 #: tools/modcalcvizequinox.cpp:32
 #, fuzzy, kde-format
@@ -96028,9 +96069,6 @@ msgstr "Ранг ва шароити пайраҳа пажмурда шуда?"
 
 #~ msgid "Initial Coordinates"
 #~ msgstr "Оғозӣ Координатҳо"
-
-#~ msgid "Final Coordinates"
-#~ msgstr "Ҷустуҷӯи Координатаҳо"
 
 #~ msgid "Universal time:"
 #~ msgstr "Вақти ҳаматарафа: "
