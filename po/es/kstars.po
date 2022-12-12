@@ -17,15 +17,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-11 00:42+0000\n"
-"PO-Revision-Date: 2022-12-04 01:23+0100\n"
+"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"PO-Revision-Date: 2022-12-11 12:05+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.11.90\n"
+"X-Generator: Lokalize 22.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -907,9 +907,8 @@ msgstr "Simulador del Sistema Solar XPlanet: %1"
 #: tools/conjunctions.cpp:58 tools/conjunctions.cpp:292 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
-#: tools/modcalcplanets.ui:614 tools/obslistwizard.cpp:516
-#: tools/obslistwizard.cpp:526 tools/obslistwizard.cpp:528
-#: tools/pvplotwidget.cpp:94 tools/whatsinteresting/modelmanager.cpp:192
+#: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
+#: tools/whatsinteresting/modelmanager.cpp:192
 #: tools/whatsinteresting/wiview.cpp:608 tools/wutdialog.cpp:127
 #, kde-format, kde-kuit-format
 msgid "Sun"
@@ -927,9 +926,8 @@ msgstr "Sol"
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:435 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
-#: tools/modcalcplanets.ui:564 tools/obslistwizard.cpp:544
-#: tools/obslistwizard.cpp:553 tools/obslistwizard.cpp:555
-#: tools/pvplotwidget.cpp:102 tools/skycalendar.ui:34
+#: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
+#: tools/skycalendar.ui:34
 #, kde-format, kde-kuit-format
 msgid "Mercury"
 msgstr "Mercurio"
@@ -945,9 +943,7 @@ msgstr "Mercurio"
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
 #: tools/ksconjunct.cpp:71 tools/ksconjunct.cpp:72 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:150 tools/modcalcplanets.ui:569
-#: tools/obslistwizard.cpp:557 tools/obslistwizard.cpp:567
-#: tools/obslistwizard.cpp:569 tools/pvplotwidget.cpp:111
-#: tools/skycalendar.ui:41
+#: tools/pvplotwidget.cpp:111 tools/skycalendar.ui:41
 #, kde-format
 msgid "Venus"
 msgstr "Venus"
@@ -985,9 +981,8 @@ msgstr "Tierra"
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
-#: tools/modcalcplanets.ui:609 tools/obslistwizard.cpp:530
-#: tools/obslistwizard.cpp:540 tools/obslistwizard.cpp:542
-#: tools/whatsinteresting/wiview.cpp:608 tools/wutdialog.cpp:195
+#: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:608
+#: tools/wutdialog.cpp:195
 #, kde-format, kde-kuit-format
 msgid "Moon"
 msgstr "Luna"
@@ -1006,9 +1001,8 @@ msgstr "Luna"
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:431 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
-#: tools/modcalcplanets.ui:579 tools/obslistwizard.cpp:571
-#: tools/obslistwizard.cpp:580 tools/obslistwizard.cpp:582
-#: tools/pvplotwidget.cpp:129 tools/skycalendar.ui:48
+#: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
+#: tools/skycalendar.ui:48
 #, kde-format, kde-kuit-format
 msgid "Mars"
 msgstr "Marte"
@@ -1036,9 +1030,7 @@ msgstr "Deimos"
 #: skyqpainter.cpp:435 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
-#: tools/obslistwizard.cpp:584 tools/obslistwizard.cpp:593
-#: tools/obslistwizard.cpp:595 tools/pvplotwidget.cpp:138
-#: tools/skycalendar.ui:55
+#: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
 #, kde-format, kde-kuit-format
 msgid "Jupiter"
 msgstr "Júpiter"
@@ -1076,9 +1068,8 @@ msgstr "Europa"
 #: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:436
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
-#: tools/modcalcplanets.ui:589 tools/obslistwizard.cpp:597
-#: tools/obslistwizard.cpp:607 tools/obslistwizard.cpp:609
-#: tools/pvplotwidget.cpp:147 tools/skycalendar.ui:62
+#: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
+#: tools/skycalendar.ui:62
 #, kde-format, kde-kuit-format
 msgid "Saturn"
 msgstr "Saturno"
@@ -1139,8 +1130,7 @@ msgstr "Febe"
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
 #: tools/ksconjunct.cpp:60 tools/ksconjunct.cpp:61 tools/modcalcplanets.cpp:261
 #: tools/modcalcplanets.ui:175 tools/modcalcplanets.ui:594
-#: tools/obslistwizard.cpp:611 tools/obslistwizard.cpp:621
-#: tools/obslistwizard.cpp:623 tools/skycalendar.ui:76
+#: tools/skycalendar.ui:76
 #, kde-format
 msgid "Uranus"
 msgstr "Urano"
@@ -1181,9 +1171,7 @@ msgstr "Oberón"
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
 #: tools/ksconjunct.cpp:60 tools/modcalcplanets.cpp:261
 #: tools/modcalcplanets.ui:180 tools/modcalcplanets.ui:599
-#: tools/obslistwizard.cpp:625 tools/obslistwizard.cpp:635
-#: tools/obslistwizard.cpp:637 tools/pvplotwidget.cpp:165
-#: tools/skycalendar.ui:69
+#: tools/pvplotwidget.cpp:165 tools/skycalendar.ui:69
 #, kde-format
 msgid "Neptune"
 msgstr "Neptuno"
@@ -1947,7 +1935,7 @@ msgstr "Planetas"
 #: data/qml/whatisinteresting/wiview.qml:278 dialogs/finddialog.cpp:36
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 tools/conjunctions.cpp:95
-#: tools/obslistwizard.cpp:416 tools/obslistwizard.cpp:458
+#: tools/obslistwizard.cpp:405 tools/obslistwizard.cpp:449
 #: tools/obslistwizard.ui:105 tools/wutdialog.cpp:99
 #, kde-format, kde-kuit-format
 msgid "Stars"
@@ -1970,8 +1958,8 @@ msgstr "Objetos del espacio profundo"
 #: data/qml/whatisinteresting/wiview.qml:348
 #: data/qml/whatisinteresting/wiview.qml:359 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
-#: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:289
-#: tools/obslistwizard.cpp:422 tools/obslistwizard.cpp:776
+#: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:285
+#: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
 #: tools/obslistwizard.ui:120 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Asteroids"
@@ -1982,8 +1970,8 @@ msgstr "Asteroides"
 #: data/qml/whatisinteresting/wiview.qml:380
 #: data/qml/whatisinteresting/wiview.qml:391 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
-#: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:288
-#: tools/obslistwizard.cpp:420 tools/obslistwizard.cpp:734
+#: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:284
+#: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
 #: tools/obslistwizard.ui:115 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Comets"
@@ -1993,8 +1981,8 @@ msgstr "Cometas"
 #: data/qml/whatisinteresting/wiview.qml:412
 #: data/qml/whatisinteresting/wiview.qml:426 dialogs/finddialog.cpp:42
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
-#: tools/obslistwizard.cpp:281 tools/obslistwizard.cpp:424
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:697
+#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
+#: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
 #: tools/obslistwizard.ui:145 tools/wutdialog.cpp:100
 #, kde-format, kde-kuit-format
 msgid "Galaxies"
@@ -15904,7 +15892,7 @@ msgstr "Conectar automáticamente con el servicio EkosLive al iniciar."
 msgid "Auto Start"
 msgstr "Inicio automático"
 
-#: ekos/ekoslive/message.cpp:930
+#: ekos/ekoslive/message.cpp:942
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "La importación del mosaico ha fallado."
@@ -75435,20 +75423,7 @@ msgstr ""
 "solsticios y duración de las estaciones</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "<QT>Section with algorithms for the conversion of different astronomical "
-#| "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
-#| "coordinates conversion</LI><LI><B>Apparent:</B> Computation of current "
-#| "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> "
-#| "Ecliptic/Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> "
-#| "Computation of azimuth and elevation for a given source, time, and "
-#| "location on the Earth</LI><LI><B>Angular Distance:</B> Computation of "
-#| "angular distance between two objects whose positions are given in "
-#| "equatorial coordinates</LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ "
-#| "coordinate conversion</LI><LI><B>LSR Velocity:</B> Computation of the "
-#| "heliocentric, geocentric and topocentric radial velocity of a source from "
-#| "its LSR velocity</LI></UL></QT>"
+#, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
 "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
@@ -75470,7 +75445,8 @@ msgstr ""
 "cierta época.</LI><LI><B>Eclípticas:</B> Conversión de coordenadas "
 "eclípticas/ecuatoriales</LI><LI><B>Horizontales:</B> Cálculo del acimut y "
 "altura de una cierta fuente para una fecha, hora y ubicación sobre la Tierra."
-"</LI><LI><B>Distancia angular:</B> Cálculo de la distancia angular entre dos "
+"</LI><LI><B>Simple:</B> Conversión entre ángulos en horas y grados.</"
+"LI><LI><B>Distancia angular:</B> Cálculo de la distancia angular entre dos "
 "objetos cuyas posiciones se dan en coordenadas ecuatoriales</"
 "LI><LI><B>Velocidad LSR:</B> Cálculo de la velocidad radial heliocéntrica, "
 "geocéntrica y topocéntrica de una fuente a partir de su velocidad LSR</LI></"
@@ -75556,10 +75532,9 @@ msgid "Horizontal Coordinates"
 msgstr "Coordenadas horizontales"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "Copiar coordenadas"
+msgstr "Coordenadas simples"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
@@ -77019,42 +76994,35 @@ msgstr "Especificar hora local en el archivo de entrada"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Ángulo"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (hh:mm:ss)"
+#, kde-format
 msgid "Angle (hh mm ss.s) "
-msgstr "AR (hh:mm:ss)"
+msgstr "Ángulo (hh mm ss.s) "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "Resultado"
+msgstr "Ángulo resultante"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
 #, kde-format
 msgid "Angle (dd.d)"
-msgstr ""
+msgstr "Ángulo (gg.g)"
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dec (dd:mm:ss)"
+#, kde-format
 msgid "Angle (dd mm ss.s)"
-msgstr "Dec (dd:mm:ss)"
+msgstr "Ángulo (gg mm ss.s)"
 
 #: tools/modcalcvizequinox.cpp:32
 #, kde-format
@@ -77855,83 +77823,62 @@ msgstr "Eliminar de la lista de observaciones deseadas"
 msgid "Remove from Session Plan"
 msgstr "Eliminar del plan de la sesión"
 
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:224 tools/obslistwizard.cpp:849
-#: tools/obslistwizard.ui:345
-#, kde-format
-msgid "in a rectangular region"
-msgstr "en una región rectangular"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:226 tools/obslistwizard.cpp:885
-#: tools/obslistwizard.ui:350
-#, kde-format
-msgid "in a circular region"
-msgstr "en una región circular"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:228 tools/obslistwizard.cpp:450
-#: tools/obslistwizard.ui:335
-#, kde-format
-msgid "all over the sky"
-msgstr "por todo el cielo"
-
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:426
-#: tools/obslistwizard.cpp:656 tools/obslistwizard.cpp:677
+#: tools/obslistwizard.cpp:273 tools/obslistwizard.cpp:415
+#: tools/obslistwizard.cpp:478 tools/obslistwizard.cpp:496
 #: tools/obslistwizard.ui:125
 #, kde-format
 msgid "Open clusters"
 msgstr "Cúmulos abiertos"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:278 tools/obslistwizard.cpp:428
-#: tools/obslistwizard.cpp:657 tools/obslistwizard.cpp:682
+#: tools/obslistwizard.cpp:274 tools/obslistwizard.cpp:417
+#: tools/obslistwizard.cpp:479 tools/obslistwizard.cpp:501
 #: tools/obslistwizard.ui:130
 #, kde-format
 msgid "Globular clusters"
 msgstr "Cúmulos globulares"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:279 tools/obslistwizard.cpp:430
-#: tools/obslistwizard.cpp:658 tools/obslistwizard.cpp:688
+#: tools/obslistwizard.cpp:275 tools/obslistwizard.cpp:419
+#: tools/obslistwizard.cpp:480 tools/obslistwizard.cpp:507
 #: tools/obslistwizard.ui:135
 #, kde-format
 msgid "Gaseous nebulae"
 msgstr "Nebulosas gaseosas"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:280 tools/obslistwizard.cpp:432
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:693
+#: tools/obslistwizard.cpp:276 tools/obslistwizard.cpp:421
+#: tools/obslistwizard.cpp:481 tools/obslistwizard.cpp:512
 #: tools/obslistwizard.ui:140
 #, kde-format
 msgid "Planetary nebulae"
 msgstr "Nebulosas planetarias"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:287 tools/obslistwizard.cpp:418
-#: tools/obslistwizard.cpp:514 tools/obslistwizard.ui:110
+#: tools/obslistwizard.cpp:283 tools/obslistwizard.cpp:407
+#: tools/obslistwizard.cpp:461 tools/obslistwizard.ui:110
 #, kde-format
 msgid "Sun, moon, planets"
 msgstr "El Sol, la Luna, los planetas"
 
-#: tools/obslistwizard.cpp:399
+#: tools/obslistwizard.cpp:353
+#, fuzzy, kde-format
+#| msgid "Illegal circle specified, no region selection possible."
+msgid "Illegal rectangle specified, no region selection possible."
+msgstr "Círculo especificado incorrecto, no es posible la región seleccionada."
+
+#: tools/obslistwizard.cpp:392
 #, kde-format
 msgid "Illegal circle specified, no region selection possible."
 msgstr "Círculo especificado incorrecto, no es posible la región seleccionada."
 
-#: tools/obslistwizard.cpp:821
+#: tools/obslistwizard.cpp:545
 #, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
 msgstr[0] "Su lista de observación tiene 1 objeto"
 msgstr[1] "Su lista de observación tiene %1 objetos"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:828 tools/obslistwizard.ui:340
-#, kde-format
-msgid "by constellation"
-msgstr "por constelación"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: tools/obslistwizard.ui:42
@@ -78050,6 +77997,30 @@ msgstr ""
 msgid "I wish to select objects:"
 msgstr "Deseo seleccionar los objetos:"
 
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:335
+#, kde-format
+msgid "all over the sky"
+msgstr "por todo el cielo"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:340
+#, kde-format
+msgid "by constellation"
+msgstr "por constelación"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:345
+#, kde-format
+msgid "in a rectangular region"
+msgstr "en una región rectangular"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:350
+#, kde-format
+msgid "in a circular region"
+msgstr "en una región circular"
+
 #. i18n: ectx: property (text), widget (QLabel, ConstellationText)
 #: tools/obslistwizard.ui:392
 #, kde-format
@@ -78128,14 +78099,15 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, CenterRALabel)
 #: tools/obslistwizard.ui:603
 #, kde-format
-msgid "center RA:"
-msgstr "Centrar AR:"
+msgid "Center RA (in Hours):"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, kde-format
-msgid "center Dec:"
-msgstr "Centrar Dec:"
+#, fuzzy, kde-format
+#| msgid "Radius (in Degrees):"
+msgid "Center Dec (in Degrees):"
+msgstr "Radio (en grados):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -80843,6 +80815,12 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
+
+#~ msgid "center RA:"
+#~ msgstr "Centrar AR:"
+
+#~ msgid "center Dec:"
+#~ msgstr "Centrar Dec:"
 
 #~ msgid "Telescope cover"
 #~ msgstr "Cubierta del telescopio"

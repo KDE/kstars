@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-11 00:42+0000\n"
+"POT-Creation-Date: 2022-12-12 00:42+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -958,9 +958,8 @@ msgstr "सौर मण्डल प्रदर्शक"
 #: tools/conjunctions.cpp:58 tools/conjunctions.cpp:292 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
-#: tools/modcalcplanets.ui:614 tools/obslistwizard.cpp:516
-#: tools/obslistwizard.cpp:526 tools/obslistwizard.cpp:528
-#: tools/pvplotwidget.cpp:94 tools/whatsinteresting/modelmanager.cpp:192
+#: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
+#: tools/whatsinteresting/modelmanager.cpp:192
 #: tools/whatsinteresting/wiview.cpp:608 tools/wutdialog.cpp:127
 #, kde-format, kde-kuit-format
 msgid "Sun"
@@ -978,9 +977,8 @@ msgstr "रवि"
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:435 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
-#: tools/modcalcplanets.ui:564 tools/obslistwizard.cpp:544
-#: tools/obslistwizard.cpp:553 tools/obslistwizard.cpp:555
-#: tools/pvplotwidget.cpp:102 tools/skycalendar.ui:34
+#: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
+#: tools/skycalendar.ui:34
 #, kde-format, kde-kuit-format
 msgid "Mercury"
 msgstr "मर्क्यूरी"
@@ -996,9 +994,7 @@ msgstr "मर्क्यूरी"
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
 #: tools/ksconjunct.cpp:71 tools/ksconjunct.cpp:72 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:150 tools/modcalcplanets.ui:569
-#: tools/obslistwizard.cpp:557 tools/obslistwizard.cpp:567
-#: tools/obslistwizard.cpp:569 tools/pvplotwidget.cpp:111
-#: tools/skycalendar.ui:41
+#: tools/pvplotwidget.cpp:111 tools/skycalendar.ui:41
 #, kde-format
 msgid "Venus"
 msgstr "शुक्र ग्रह"
@@ -1036,9 +1032,8 @@ msgstr "पृथ्वी"
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
-#: tools/modcalcplanets.ui:609 tools/obslistwizard.cpp:530
-#: tools/obslistwizard.cpp:540 tools/obslistwizard.cpp:542
-#: tools/whatsinteresting/wiview.cpp:608 tools/wutdialog.cpp:195
+#: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:608
+#: tools/wutdialog.cpp:195
 #, kde-format, kde-kuit-format
 msgid "Moon"
 msgstr "चन्द्रमा"
@@ -1057,9 +1052,8 @@ msgstr "चन्द्रमा"
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:431 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
-#: tools/modcalcplanets.ui:579 tools/obslistwizard.cpp:571
-#: tools/obslistwizard.cpp:580 tools/obslistwizard.cpp:582
-#: tools/pvplotwidget.cpp:129 tools/skycalendar.ui:48
+#: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
+#: tools/skycalendar.ui:48
 #, kde-format, kde-kuit-format
 msgid "Mars"
 msgstr "मंगल ग्रह"
@@ -1087,9 +1081,7 @@ msgstr "मिनेडोसा"
 #: skyqpainter.cpp:435 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
-#: tools/obslistwizard.cpp:584 tools/obslistwizard.cpp:593
-#: tools/obslistwizard.cpp:595 tools/pvplotwidget.cpp:138
-#: tools/skycalendar.ui:55
+#: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
 #, kde-format, kde-kuit-format
 msgid "Jupiter"
 msgstr "वृहस्पति"
@@ -1135,9 +1127,8 @@ msgstr "यूरोपा"
 #: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:436
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
-#: tools/modcalcplanets.ui:589 tools/obslistwizard.cpp:597
-#: tools/obslistwizard.cpp:607 tools/obslistwizard.cpp:609
-#: tools/pvplotwidget.cpp:147 tools/skycalendar.ui:62
+#: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
+#: tools/skycalendar.ui:62
 #, kde-format, kde-kuit-format
 msgid "Saturn"
 msgstr "शनि ग्रह"
@@ -1213,8 +1204,7 @@ msgstr "फीनिक्स"
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
 #: tools/ksconjunct.cpp:60 tools/ksconjunct.cpp:61 tools/modcalcplanets.cpp:261
 #: tools/modcalcplanets.ui:175 tools/modcalcplanets.ui:594
-#: tools/obslistwizard.cpp:611 tools/obslistwizard.cpp:621
-#: tools/obslistwizard.cpp:623 tools/skycalendar.ui:76
+#: tools/skycalendar.ui:76
 #, kde-format
 msgid "Uranus"
 msgstr "उरण ग्रह"
@@ -1263,9 +1253,7 @@ msgstr "ओबर्लिन"
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
 #: tools/ksconjunct.cpp:60 tools/modcalcplanets.cpp:261
 #: tools/modcalcplanets.ui:180 tools/modcalcplanets.ui:599
-#: tools/obslistwizard.cpp:625 tools/obslistwizard.cpp:635
-#: tools/obslistwizard.cpp:637 tools/pvplotwidget.cpp:165
-#: tools/skycalendar.ui:69
+#: tools/pvplotwidget.cpp:165 tools/skycalendar.ui:69
 #, kde-format
 msgid "Neptune"
 msgstr "वरूण ग्रह"
@@ -2053,7 +2041,7 @@ msgstr "ग्रह"
 #: data/qml/whatisinteresting/wiview.qml:278 dialogs/finddialog.cpp:36
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 tools/conjunctions.cpp:95
-#: tools/obslistwizard.cpp:416 tools/obslistwizard.cpp:458
+#: tools/obslistwizard.cpp:405 tools/obslistwizard.cpp:449
 #: tools/obslistwizard.ui:105 tools/wutdialog.cpp:99
 #, kde-format, kde-kuit-format
 msgid "Stars"
@@ -2078,8 +2066,8 @@ msgstr "वस्तु-नाम"
 #: data/qml/whatisinteresting/wiview.qml:348
 #: data/qml/whatisinteresting/wiview.qml:359 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
-#: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:289
-#: tools/obslistwizard.cpp:422 tools/obslistwizard.cpp:776
+#: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:285
+#: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
 #: tools/obslistwizard.ui:120 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Asteroids"
@@ -2090,8 +2078,8 @@ msgstr "क्षुद्रग्रह"
 #: data/qml/whatisinteresting/wiview.qml:380
 #: data/qml/whatisinteresting/wiview.qml:391 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
-#: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:288
-#: tools/obslistwizard.cpp:420 tools/obslistwizard.cpp:734
+#: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:284
+#: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
 #: tools/obslistwizard.ui:115 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Comets"
@@ -2101,8 +2089,8 @@ msgstr "घूमकेतु"
 #: data/qml/whatisinteresting/wiview.qml:412
 #: data/qml/whatisinteresting/wiview.qml:426 dialogs/finddialog.cpp:42
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
-#: tools/obslistwizard.cpp:281 tools/obslistwizard.cpp:424
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:697
+#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
+#: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
 #: tools/obslistwizard.ui:145 tools/wutdialog.cpp:100
 #, kde-format, kde-kuit-format
 msgid "Galaxies"
@@ -16078,7 +16066,7 @@ msgstr "निर्देशांक ग्रिड टॉगल करें
 msgid "Auto Start"
 msgstr "आटो स्केल"
 
-#: ekos/ekoslive/message.cpp:930
+#: ekos/ekoslive/message.cpp:942
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -85377,84 +85365,63 @@ msgstr "सूची में से बाहर करें"
 msgid "Remove from Session Plan"
 msgstr "सूची में से बाहर करें"
 
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:224 tools/obslistwizard.cpp:849
-#: tools/obslistwizard.ui:345
-#, kde-format
-msgid "in a rectangular region"
-msgstr "आयताकार क्षेत्र में"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:226 tools/obslistwizard.cpp:885
-#: tools/obslistwizard.ui:350
-#, kde-format
-msgid "in a circular region"
-msgstr "वृत्तीय क्षेत्र में"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:228 tools/obslistwizard.cpp:450
-#: tools/obslistwizard.ui:335
-#, kde-format
-msgid "all over the sky"
-msgstr "सारे आकाश में"
-
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:426
-#: tools/obslistwizard.cpp:656 tools/obslistwizard.cpp:677
+#: tools/obslistwizard.cpp:273 tools/obslistwizard.cpp:415
+#: tools/obslistwizard.cpp:478 tools/obslistwizard.cpp:496
 #: tools/obslistwizard.ui:125
 #, kde-format
 msgid "Open clusters"
 msgstr "गुच्छ खोलें"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:278 tools/obslistwizard.cpp:428
-#: tools/obslistwizard.cpp:657 tools/obslistwizard.cpp:682
+#: tools/obslistwizard.cpp:274 tools/obslistwizard.cpp:417
+#: tools/obslistwizard.cpp:479 tools/obslistwizard.cpp:501
 #: tools/obslistwizard.ui:130
 #, kde-format
 msgid "Globular clusters"
 msgstr "ग्लोबुलर गुच्छ"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:279 tools/obslistwizard.cpp:430
-#: tools/obslistwizard.cpp:658 tools/obslistwizard.cpp:688
+#: tools/obslistwizard.cpp:275 tools/obslistwizard.cpp:419
+#: tools/obslistwizard.cpp:480 tools/obslistwizard.cpp:507
 #: tools/obslistwizard.ui:135
 #, kde-format
 msgid "Gaseous nebulae"
 msgstr "गैसीय नेबुले"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:280 tools/obslistwizard.cpp:432
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:693
+#: tools/obslistwizard.cpp:276 tools/obslistwizard.cpp:421
+#: tools/obslistwizard.cpp:481 tools/obslistwizard.cpp:512
 #: tools/obslistwizard.ui:140
 #, kde-format
 msgid "Planetary nebulae"
 msgstr "प्लेनेटेरी नेबुले"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:287 tools/obslistwizard.cpp:418
-#: tools/obslistwizard.cpp:514 tools/obslistwizard.ui:110
+#: tools/obslistwizard.cpp:283 tools/obslistwizard.cpp:407
+#: tools/obslistwizard.cpp:461 tools/obslistwizard.ui:110
 #, kde-format
 msgid "Sun, moon, planets"
 msgstr "सूर्य, चन्द्र व ग्रह"
 
-#: tools/obslistwizard.cpp:399
+#: tools/obslistwizard.cpp:353
+#, fuzzy, kde-format
+#| msgid "Illegal circle specified, no region selection possible."
+msgid "Illegal rectangle specified, no region selection possible."
+msgstr "अवैध वृत्त निर्दिष्ट है, कोीई क्षेत्रीय चयन संभव नहीं है."
+
+#: tools/obslistwizard.cpp:392
 #, kde-format
 msgid "Illegal circle specified, no region selection possible."
 msgstr "अवैध वृत्त निर्दिष्ट है, कोीई क्षेत्रीय चयन संभव नहीं है."
 
-#: tools/obslistwizard.cpp:821
+#: tools/obslistwizard.cpp:545
 #, fuzzy, kde-format
 #| msgid "Your observing list currently has 0 objects."
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
 msgstr[0] "आपकी ऑब्जर्विंग सूची में वर्तमान में ० वस्तुएँ हैं."
 msgstr[1] "आपकी ऑब्जर्विंग सूची में वर्तमान में ० वस्तुएँ हैं."
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:828 tools/obslistwizard.ui:340
-#, kde-format
-msgid "by constellation"
-msgstr "तारामंडल से"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: tools/obslistwizard.ui:42
@@ -85544,6 +85511,30 @@ msgstr ""
 msgid "I wish to select objects:"
 msgstr "मैं वस्तुओं को चुनना चाहता हूं:"
 
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:335
+#, kde-format
+msgid "all over the sky"
+msgstr "सारे आकाश में"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:340
+#, kde-format
+msgid "by constellation"
+msgstr "तारामंडल से"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:345
+#, kde-format
+msgid "in a rectangular region"
+msgstr "आयताकार क्षेत्र में"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:350
+#, kde-format
+msgid "in a circular region"
+msgstr "वृत्तीय क्षेत्र में"
+
 #. i18n: ectx: property (text), widget (QLabel, ConstellationText)
 #: tools/obslistwizard.ui:392
 #, kde-format
@@ -85603,14 +85594,15 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, CenterRALabel)
 #: tools/obslistwizard.ui:603
 #, kde-format
-msgid "center RA:"
-msgstr "सेंटर RA:"
+msgid "Center RA (in Hours):"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, kde-format
-msgid "center Dec:"
-msgstr "सेंटर Dec:"
+#, fuzzy, kde-format
+#| msgid "Radius (in Degrees):"
+msgid "Center Dec (in Degrees):"
+msgstr "त्रिज्या (डिग्री में):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -88267,6 +88259,12 @@ msgstr "जानकारी-बक्सा पृष्ठभूमि का
 #| msgid "The color for the sky background."
 msgid "Set the color for the background."
 msgstr "आकाश के पृष्ठ भूमि का रंग."
+
+#~ msgid "center RA:"
+#~ msgstr "सेंटर RA:"
+
+#~ msgid "center Dec:"
+#~ msgstr "सेंटर Dec:"
 
 #, fuzzy
 #~| msgid "Select Input Coordinates"
