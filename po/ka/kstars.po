@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-12 00:42+0000\n"
-"PO-Revision-Date: 2022-12-03 06:31+0100\n"
+"PO-Revision-Date: 2022-12-12 06:24+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2252,7 +2252,7 @@ msgstr "სხვანი"
 #: dialogs/addcatalogobject.ui:182 dialogs/addcatalogobject.ui:185
 #, kde-format
 msgid "Some catalog specific identifier, like the NGC number."
-msgstr ""
+msgstr "კატალოგისთვის სპეციფიკური იდენტიფიკატორი. მაგ NGC რიცხვი."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/addcatalogobject.ui:188
@@ -2338,6 +2338,7 @@ msgid ""
 "When you select a data file in the above line, its contents are displayed "
 "here."
 msgstr ""
+"როცა ზემო ხაზში მონაცემების ფაილს აირჩევთ, მისი შემცველობა აქ გამოჩნდება."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: dialogs/addcatdialog.ui:89
@@ -2520,7 +2521,7 @@ msgstr "მისამართი:"
 #: dialogs/addlinkdialog.ui:94
 #, kde-format
 msgid "The URL which will be displayed by this item"
-msgstr ""
+msgstr "URL, საიდანაც ეს ელემენტი გამოჩნდება"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, URLButton)
 #: dialogs/addlinkdialog.ui:127
@@ -2535,6 +2536,8 @@ msgid ""
 "You can verify the entered URL by opening it in a browser window with this "
 "button"
 msgstr ""
+"შეყვანილი ბმულის შემოწმება ამ ღილაკზე დაწკაპუნებით მისი ბრაუზერში გახსნით "
+"შეგიძლიათ"
 
 #. i18n: ectx: property (text), widget (QPushButton, URLButton)
 #: dialogs/addlinkdialog.ui:133
@@ -2734,7 +2737,7 @@ msgstr "მიბმა"
 #: dialogs/catalogcsvimport.ui:235
 #, kde-format
 msgid "Type Mapping"
-msgstr ""
+msgstr "ტიპის მიბმა"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
@@ -3090,7 +3093,7 @@ msgstr "გამორთვა"
 #: dialogs/catalogsdbui.cpp:154
 #, kde-format
 msgid "Could not enable/disable the catalog.<br>%1"
-msgstr ""
+msgstr "კატალოგის ჩართვა/გამორთვის შეცდომა.<br>%1"
 
 #: dialogs/catalogsdbui.cpp:175
 #, kde-format
@@ -4277,7 +4280,7 @@ msgstr "ეპოქსის J2000-ზე დაყენება"
 #: dialogs/focusdialog.ui:104 ekos/manager.ui:786 ekos/mount/mount.ui:141
 #, kde-format
 msgid "Right Ascension"
-msgstr ""
+msgstr "პირდაპირი აისი"
 
 #. i18n: ectx: property (text), widget (QLineEdit, epochBox)
 #. i18n: ectx: property (text), widget (QLabel, EpochTarget)
@@ -4325,7 +4328,7 @@ msgstr ""
 #: dialogs/focusdialog.ui:167
 #, kde-format
 msgid "Alt (apparent):"
-msgstr ""
+msgstr "ხილული ხედი:"
 
 #: dialogs/fovdialog.cpp:77
 #, kde-format
@@ -4343,7 +4346,7 @@ msgstr "ხედვის არის ახალი ინდიკატო
 #, kde-format
 msgctxt "Specify the apparent field of view (AFOV) manually"
 msgid "Specify AFOV"
-msgstr ""
+msgstr "ხილული ხედის ხელით მითითება"
 
 #: dialogs/fovdialog.cpp:236
 #, kde-format
@@ -4490,7 +4493,7 @@ msgstr "ახალი..."
 #: dialogs/fovdialog.ui:83
 #, kde-format
 msgid "Modify the highlighted FOV symbol"
-msgstr ""
+msgstr "გამოკვეთილი ხილული ხედის ჩასწორება"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/fovdialog.ui:86
@@ -4504,7 +4507,7 @@ msgstr ""
 #: dialogs/fovdialog.ui:96
 #, kde-format
 msgid "Remove highlighted FOV symbol"
-msgstr ""
+msgstr "გამოკვეთილი ხილული ხედის წაშლა"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/fovdialog.ui:99
@@ -5205,7 +5208,7 @@ msgstr "Y-ის წანაცვლება:"
 #: dialogs/newfov.ui:1088
 #, kde-format
 msgid "Degrees E of N"
-msgstr ""
+msgstr "გრადუსი"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVEditX)
 #: dialogs/newfov.ui:1102
@@ -5300,7 +5303,7 @@ msgstr "წრე"
 #: dialogs/newfov.ui:1272
 #, kde-format
 msgid "Crosshairs"
-msgstr ""
+msgstr "გადაჯვარედინება"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1277
@@ -5942,7 +5945,7 @@ msgstr "მასშტაბი და მდებარეობა"
 #: ekos/align/align.cpp:3237
 #, kde-format
 msgid "Align Options Profiles Editor"
-msgstr ""
+msgstr "მინიატურების რედაქტორი"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/align.cpp:3255 ekos/align/opsastrometryindexfiles.ui:329
@@ -5990,7 +5993,7 @@ msgstr "არასწორი FOV."
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
-msgstr ""
+msgstr "ყველა ორბიტის დამალვა"
 
 #: ekos/align/align.cpp:3660 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4267
@@ -15427,7 +15430,7 @@ msgstr ""
 #: ekos/focus/focus.ui:1042
 #, kde-format
 msgid "Sub Frame"
-msgstr ""
+msgstr "ქვეკადრი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseFullField)
 #: ekos/focus/focus.ui:1058
@@ -15443,7 +15446,7 @@ msgstr ""
 #: ekos/focus/focus.ui:1061
 #, kde-format
 msgid "Full Field"
-msgstr ""
+msgstr "სრული ველი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1074
@@ -15460,7 +15463,7 @@ msgstr ""
 #: ekos/focus/focus.ui:1077
 #, kde-format
 msgid "Use Weights"
-msgstr ""
+msgstr "წონების გამოყენება"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:1084
@@ -15484,13 +15487,13 @@ msgstr ""
 #: ekos/focus/focus.ui:1125
 #, kde-format
 msgid "Use dark frames from the library."
-msgstr ""
+msgstr "ბიბლიოთეკიდან მუქი ჩარჩოების გამოყენება."
 
 #. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
 #: ekos/focus/focus.ui:1128
 #, kde-format
 msgid "Dark Frame"
-msgstr ""
+msgstr "მუქი ჩარჩო"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1141
@@ -15525,7 +15528,7 @@ msgstr "მწკრივების რიცხვი:"
 #: ekos/focus/focus.ui:1206
 #, kde-format
 msgid "SEP Profile:"
-msgstr ""
+msgstr "SEP პროფილი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1250
@@ -15607,7 +15610,7 @@ msgstr ""
 #: ekos/focus/focus.ui:1353
 #, kde-format
 msgid "Iterative"
-msgstr ""
+msgstr "იტერაციული"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1358
@@ -15689,7 +15692,7 @@ msgstr "ბახტინოვი"
 #: ekos/focus/focus.ui:1420
 #, kde-format
 msgid "Detection:"
-msgstr ""
+msgstr "გამოვლენა:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
 #: ekos/focus/focus.ui:1427
@@ -15753,7 +15756,7 @@ msgstr ""
 #: ekos/focus/focus.ui:1517
 #, kde-format
 msgid "Quadradic"
-msgstr ""
+msgstr "პარადაისი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1522
@@ -63802,7 +63805,7 @@ msgstr "სწრაფი"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Feed"
-msgstr ""
+msgstr "ლენტა"
 
 #: libindi_strings.cpp:155
 #, kde-kuit-format
@@ -71560,10 +71563,9 @@ msgid "Horizontal Coordinates"
 msgstr "ჰორიზონტალური კოორდინატები"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "კოორდინატების კოპირება"
+msgstr "მარტივი კოორდინატები"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
@@ -72969,11 +72971,9 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "ენგლი"
+msgstr "კუთხე"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
@@ -72984,10 +72984,9 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "შედეგები"
+msgstr "კუთხის შედეგი"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
@@ -73980,10 +73979,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "ტელესკოპზე დაცენტრება"
+msgstr "ცენტრის დახრა (გრადუსებში)"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642

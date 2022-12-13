@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-12 00:42+0000\n"
-"PO-Revision-Date: 2022-12-03 15:55+0100\n"
+"PO-Revision-Date: 2022-12-12 10:07+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7138,9 +7138,9 @@ msgid ""
 "distributed over RA and DEC. Note, if Fixed DEC is selected, all of the "
 "points will be at the same DEC."
 msgstr ""
-"Število točk, ki bi jih čarovnik moral ustvariti. Če je to število manjše od "
-"5, jih bo ustvarilo na istem DEC. Po tem bodo enakomerno porazdeljene po RA "
-"in DEC. Opomba, če je izbran fiksni DEC, bodo vse točke na istem DEC."
+"Število točk, ki naj jih čarovnik ustvari. Če je to število manjše od 5, jih "
+"bo ustvarilo na istem DEC. Po tem bodo enakomerno porazdeljene po RA in DEC. "
+"Opomba, če je izbran fiksni DEC, bodo vse točke na istem DEC."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:219
@@ -7172,7 +7172,7 @@ msgstr "Grško:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, greekStarListBox)
 #: ekos/align/mountmodel.ui:283
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "These are the Greek names for the brighter stars that are currently up at "
 "your location.  If you select a star, it will be added to the table below."
@@ -7585,24 +7585,24 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_ASTAPExecutable)
 #: ekos/align/opsastap.ui:62
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Full path to the ASTAP executable application.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Popolna pot do izvršilne aplikacije ASTAP.</p></body></"
-"html>"
+"<html><head/><body><p>Polna pot do izvršilne datoteke programa ASTAP.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ASTAPSearchRadiusValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPSearchRadius)
 #: ekos/align/opsastap.ui:72 ekos/align/opsastap.ui:150
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>The program will search in a square spiral around the "
 "start position up to this radius.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Program bo iskal v kvadratni spirali okoli začetnega "
-"položaja do tega polmera.</p></body></html>"
+"položaja vse do tega polmera.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsastap.ui:88
@@ -7614,7 +7614,7 @@ msgstr "Izvedljiva datoteka"
 #: ekos/align/opsastap.ui:127
 #, fuzzy, kde-format
 msgid "Down Sample"
-msgstr "Vzorec navzdol"
+msgstr "Vzorči navzdol"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPUpdateFITS)
 #: ekos/align/opsastap.ui:137
@@ -7641,14 +7641,14 @@ msgstr "Radij iskanja"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPLargeSearchWindow)
 #: ekos/align/opsastap.ui:163
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Improve solving reliability in some cases. Search "
 "window will be large with overlap but it can slow down solving.</p></body></"
 "html>"
 msgstr ""
 "<html><head/><body><p>Izboljšajte zanesljivost reševanja v nekaterih "
-"primerih. Iskalno okno bo veliko s prekrivanjem, vendar lahko upočasni "
+"primerih. Iskalno okno bo veliko in s prekrivanjem, vendar lahko upočasni "
 "reševanje.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPLargeSearchWindow)
@@ -7807,7 +7807,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/align/opsastrometry.ui:209
-#, fuzzy, kde-format
+#, kde-format
 msgid "units"
 msgstr "enote"
 
@@ -7998,13 +7998,13 @@ msgid "Recommended"
 msgstr "Priporočeno"
 
 #: ekos/align/opsastrometryindexfiles.cpp:431
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
 "accessible, or you are not connected."
 msgstr ""
-"Prenesi časovni pomik.  Omrežje ni dovolj hitro, datoteka ni dostopna ali pa "
-"niste povezani."
+"Prenosu je pretekel čas.  Omrežje ni dovolj hitro, datoteka ni dostopna ali "
+"pa niste povezani."
 
 #: ekos/align/opsastrometryindexfiles.cpp:478
 #, kde-format
@@ -9041,7 +9041,7 @@ msgstr "ASTAP binarni:"
 #: ekos/align/opsprograms.ui:162
 #, fuzzy, kde-format
 msgid "ASTAP Program binary path"
-msgstr "ASTAP binarni:"
+msgstr "Pot izvršilne datoteke programa ASTAP"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
 #: ekos/align/opsprograms.ui:175
@@ -9141,9 +9141,8 @@ msgstr "Prvo vrtenje"
 
 #: ekos/align/polaralignmentassistant.cpp:32
 #, fuzzy, kde-format
-#| msgid "Settle"
 msgid "First Settle"
-msgstr "Čakaj na umiritev"
+msgstr "Prva umiritev"
 
 #: ekos/align/polaralignmentassistant.cpp:33
 #, kde-format
@@ -9245,8 +9244,7 @@ msgstr "Model poravnave nosilca za počistitev..."
 #: ekos/align/polaralignmentassistant.cpp:779
 #, fuzzy, kde-format
 msgid "This could cause the telescope to cross the meridian."
-msgstr ""
-"Opozorilo, to lahko povzroči, da teleskop prečka meridian. Preveri smer."
+msgstr "To lahko povzroči, da teleskop prečka meridian."
 
 #: ekos/align/polaralignmentassistant.cpp:799
 #, fuzzy, kde-format
@@ -9273,7 +9271,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:889
 #, fuzzy, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
-msgstr "PAA: Iskanje popravnega pixela ni uspelo."
+msgstr "PAA: Iskanje popravne sl. točke (finCorrectedPixel) ni uspelo."
 
 #: ekos/align/polaralignmentassistant.cpp:915
 #, fuzzy, kde-format
@@ -10047,9 +10045,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, keepCurrentCB)
 #: ekos/analyze/analyze.ui:104
-#, fuzzy, kde-format
+#, kde-format
 msgid "Latest"
-msgstr "Nedavno objavljeno"
+msgstr "Najnovejše"
 
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #: ekos/analyze/analyze.ui:111
@@ -11825,7 +11823,7 @@ msgstr ""
 #: ekos/auxiliary/opticaltrains.ui:146
 #, fuzzy, kde-format
 msgid "Scope/Lense:"
-msgstr "Daljnogled/objektiv"
+msgstr "Daljnogled/objektiv:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
@@ -11871,10 +11869,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:205
-#, fuzzy, kde-format
-#| msgid "Dust Cap"
+#, kde-format
 msgid "Dust Cap:"
-msgstr "Protiprašni pokrov"
+msgstr "Protiprašni pokrov:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:225
@@ -11898,9 +11895,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:228
 #, fuzzy, kde-format
-#| msgid "Reducer"
 msgid "Reducer/Barlow:"
-msgstr "Reduktor"
+msgstr "Reduktor (Barlow):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:258
@@ -11913,7 +11909,7 @@ msgstr ""
 #: ekos/auxiliary/opticaltrains.ui:261
 #, fuzzy, kde-format
 msgid "Light Box:"
-msgstr "Svetilna škatla"
+msgstr "Svetilna škatla:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
@@ -11928,9 +11924,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
 #, fuzzy, kde-format
-#| msgid "Filter Wheel"
 msgid "Filter Wheel:"
-msgstr "Kolo s filtri"
+msgstr "Kolo s filtri:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:294
@@ -11990,7 +11985,7 @@ msgstr "Izberite mehanizirani rotator, če obstaja."
 #: ekos/auxiliary/opticaltrains.ui:346
 #, fuzzy, kde-format
 msgid "Rotator:"
-msgstr "Vrtilnik"
+msgstr "Vrtilnik:"
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
 #: ekos/auxiliary/opticaltrains.ui:398
@@ -13093,9 +13088,8 @@ msgstr "0,1"
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1009
 #, fuzzy, kde-format
-#| msgid "in degrees"
 msgid "Min Degree Width"
-msgstr "v stopinjah"
+msgstr "Najm. širina v stopinjah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1016
@@ -13106,17 +13100,14 @@ msgstr "Vzporedni algoritem"
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1023
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Width"
 msgid "Max Degree Width"
-msgstr "Širina"
+msgstr "Najv. širina v stopinjah"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1030
 #, fuzzy, kde-format
-#| msgid "Pause script execution for specified number of seconds."
 msgid "Give up solving after the specified number of seconds of CPU time"
-msgstr "Naredi premor izvajanja skripta za določeno število sekund."
+msgstr "Opusti reševanje po določenem številu sekund časa CPE"
 
 #. i18n: ectx: property (text), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1033
@@ -13448,9 +13439,9 @@ msgid "Framing..."
 msgstr "Okvirjanje..."
 
 #: ekos/capture/capture.cpp:1984
-#, fuzzy, kde-format
+#, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
-msgstr "Čas prenosa: %1 s, Nov čas prenosa Ocena: %2 s."
+msgstr "Čas prenosa: %1 s, ocena novega časa prenosa: %2 s."
 
 #: ekos/capture/capture.cpp:1992
 #, kde-format
@@ -13468,9 +13459,9 @@ msgid "Captured %1"
 msgstr "Zajeto %1"
 
 #: ekos/capture/capture.cpp:2082
-#, fuzzy, kde-format
+#, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
-msgstr "OPOZORILO: preostali in potencialno neznani ogradi %1 v %2"
+msgstr "OPOZORILO: preostale in morebiti neznane ograde %1 v %2"
 
 #: ekos/capture/capture.cpp:2111
 #, kde-format
@@ -77514,9 +77505,9 @@ msgstr "Rezultati"
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
-#, kde-format
+#, fuzzy, kde-format
 msgid "Angle (dd.d)"
-msgstr ""
+msgstr "Kot (dd.d)"
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
@@ -78626,9 +78617,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CenterRALabel)
 #: tools/obslistwizard.ui:603
-#, kde-format
+#, fuzzy, kde-format
 msgid "Center RA (in Hours):"
-msgstr ""
+msgstr "Središče RA (v urah):"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
@@ -81344,9 +81335,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "center RA:"
-#~ msgstr "Rekt. središča:"
-
-#~ msgid "center Dec:"
-#~ msgstr "Dekl. središča:"

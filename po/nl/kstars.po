@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-12 00:42+0000\n"
-"PO-Revision-Date: 2022-12-11 14:11+0100\n"
+"PO-Revision-Date: 2022-12-12 12:29+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -75013,18 +75013,17 @@ msgid ""
 msgstr ""
 "<QT>Sectie met algoritmes voor de conversie van de verschillende "
 "astronomische coördinatenstelsels<UL><LI><B>Galactische:</B> Omrekenen "
-"Galactische/Equatoriale coördinaten </LI><LI><B>Schijnbare:</B> Berekenen "
-"van de huidige Equatoriale coördinaten uitgaande van die voor een gegeven "
-"epoche</LI><LI><B>Ecliptische:</B> Omrekenen Ecliptische/Equatoriale "
-"coördinaten </LI><LI><B>Horizontale:</B> Berekening van azimut en hoogte van "
-"een gegeven object, voor een gegeven tijdstip en locatie op aarde</"
-"LI><B>Eenvoudig:</B> Conversie tussen hoeken in uren en graden.</"
-"LI><LI><B>Hoekafstand:</B> Berekening van de hoekafstand tussen twee "
-"objecten waarvan de posities gegeven zijn in Equatoriale coördinaten</"
-"LI><LI><B>Geodetische coördinaten:</B> Omrekenen van Geodetische/XYZ-"
-"coördinaten</LI><LI><B>LSR-snelheid:</B> Berekening van de heliocentrische, "
-"geocentrische en topocentrische radiële snelheid van een object vanuit zijn "
-"LSR-snelheid</LI></UL></QT>"
+"Galactische/Equatoriale coördinaten</LI><LI><B>Schijnbare:</B> Berekenen van "
+"de huidige Equatoriale coördinaten uitgaande die voor een gegeven epoche</"
+"LI><LI><B>Ecliptische:</B> Omrekenen Ecliptische/Equatoriale coördinaten</"
+"LI><LI><B>Horizontale:</B> Berekening van azimut en hoogte van een gegeven "
+"object, voor een gegeven tijdstip en locatie op aarde</LI><LI><B>Eenvoudig:</"
+"B> Conversie tussen hoeken in uren en graden.</LI><LI><B>Hoekafstand:</B> "
+"Berekening van de hoekafstand tussen twee objecten waarvan de posities "
+"gegeven zijn in Equatoriale coördinaten</LI><LI><B>Geodetische coördinaten:</"
+"B> Omrekenen van Geodetische/XYZ-coördinaten</LI><LI><B>LSR-snelheid:</B> "
+"Berekening van de heliocentrische, geocentrische en topocentrische radiële "
+"snelheid van een object vanuit zijn LSR-snelheid</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:93
 #, kde-format
@@ -77435,10 +77434,10 @@ msgid "Sun, moon, planets"
 msgstr "Zon, Maan, planeten"
 
 #: tools/obslistwizard.cpp:353
-#, fuzzy, kde-format
-#| msgid "Illegal circle specified, no region selection possible."
+#, kde-format
 msgid "Illegal rectangle specified, no region selection possible."
-msgstr "Onjuiste cirkel opgegeven, selectie van gebied is niet mogelijk."
+msgstr ""
+"Onjuiste rechthoek gespecificeerd, selectie van gebied is niet mogelijk."
 
 #: tools/obslistwizard.cpp:392
 #, kde-format
@@ -77673,14 +77672,13 @@ msgstr ""
 #: tools/obslistwizard.ui:603
 #, kde-format
 msgid "Center RA (in Hours):"
-msgstr ""
+msgstr "RK centreren (in uren):"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Straal (in graden):"
+msgstr "Dec centreren (in graden):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-12 00:42+0000\n"
-"PO-Revision-Date: 2022-12-11 16:52+0100\n"
+"PO-Revision-Date: 2022-12-12 22:17+0100\n"
 "Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -78050,10 +78050,10 @@ msgid "Sun, moon, planets"
 msgstr "Sol, Lluna, planetes"
 
 #: tools/obslistwizard.cpp:353
-#, fuzzy, kde-format
-#| msgid "Illegal circle specified, no region selection possible."
+#, kde-format
 msgid "Illegal rectangle specified, no region selection possible."
-msgstr "S'ha especificat un cercle il·legal, no es pot seleccionar cap regió."
+msgstr ""
+"S'ha especificat un rectangle il·legal, no es pot seleccionar cap regió."
 
 #: tools/obslistwizard.cpp:392
 #, kde-format
@@ -78288,14 +78288,13 @@ msgstr ""
 #: tools/obslistwizard.ui:603
 #, kde-format
 msgid "Center RA (in Hours):"
-msgstr ""
+msgstr "AR del centre (en hores):"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Radi (en graus):"
+msgstr "Dec. del centre (en graus):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -81020,9 +81019,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "center RA:"
-#~ msgstr "AR del centre:"
-
-#~ msgid "center Dec:"
-#~ msgstr "Dec. del centre:"
