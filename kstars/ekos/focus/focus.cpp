@@ -4107,8 +4107,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -4121,8 +4119,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -4135,8 +4131,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -4149,8 +4143,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     m_GlobalSettings = m_Settings = settings;

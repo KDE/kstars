@@ -3967,8 +3967,6 @@ void Align::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -3981,8 +3979,6 @@ void Align::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -3995,8 +3991,6 @@ void Align::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -4009,8 +4003,6 @@ void Align::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     m_GlobalSettings = m_Settings = settings;

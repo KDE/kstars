@@ -1916,8 +1916,6 @@ void Mount::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -1930,8 +1928,6 @@ void Mount::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -1944,8 +1940,6 @@ void Mount::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -1958,8 +1952,6 @@ void Mount::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     // initialize meridian flip state machine values
