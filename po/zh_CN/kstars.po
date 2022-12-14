@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-12 00:42+0000\n"
-"PO-Revision-Date: 2022-12-01 06:52\n"
+"PO-Revision-Date: 2022-12-13 12:21\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -11381,24 +11381,18 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:143
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable slaving, dome motion <span style=\" font-"
-#| "weight:600;\">follows telescope motion</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train.</"
 "p><p>To add, edit, or delete optical elements, tap the <span style=\" font-"
 "weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>启用从动， 圆顶将 <span style=\" font-weight:600;\">跟"
-"随望远镜移动</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
-#, fuzzy, kde-format
-#| msgid "License:"
+#, kde-format
 msgid "Scope/Lense:"
-msgstr "许可证："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
@@ -11417,12 +11411,11 @@ msgstr "赤道仪："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:179
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>完成前的剩余时间</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -11440,11 +11433,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:205
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dust Cover"
+#, kde-format
 msgid "Dust Cap:"
-msgstr "防尘盖"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:225
@@ -11472,30 +11463,23 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:261
-#, fuzzy, kde-format
-#| msgid "Light box on."
+#, kde-format
 msgid "Light Box:"
-msgstr "Light box 打开。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>选择绘图的输入。 这可以是当前的 Ekos 会话，也可以从文件"
-"读取。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
-#, fuzzy, kde-format
-#| msgid "Filter Wheel"
+#, kde-format
 msgid "Filter Wheel:"
-msgstr "滤镜轮"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:294
@@ -11543,10 +11527,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:346
-#, fuzzy, kde-format
-#| msgid "Rotator"
+#, kde-format
 msgid "Rotator:"
-msgstr "场旋器"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
 #: ekos/auxiliary/opticaltrains.ui:398
@@ -13738,10 +13721,9 @@ msgstr "目标文本"
 
 #. i18n: ectx: property (text), widget (QLabel, FilenamePreviewLabel)
 #: ekos/capture/capture.ui:962
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgid "Local preview"
-msgstr "本地时间"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/capture.ui:969
@@ -13807,24 +13789,21 @@ msgstr "保存："
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/capture/capture.ui:998 ekos/capture/capture.ui:1077
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview:"
-msgstr "预览"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1005
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
-msgstr "<html><head/><body><p>清除传感器数据历史</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1011
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Directory"
-msgstr "目录："
+msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/capture.ui:1021
@@ -13834,10 +13813,9 @@ msgstr "/home/pi"
 
 #. i18n: ectx: property (text), widget (QLabel, RemotePreviewLabel)
 #: ekos/capture/capture.ui:1039
-#, fuzzy, kde-format
-#| msgid "Remove profile"
+#, kde-format
 msgid "Remote preview"
-msgstr "删除配置文件"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/capture.ui:1084
@@ -13889,14 +13867,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1097
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The number of stars detected in the guide images.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
-msgstr "<html><head/><body><p>导星图像中检测到的星数。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1100
@@ -31194,10 +31169,9 @@ msgstr "保存拍摄图像的目录路径。"
 
 #. i18n: ectx: label, entry (PlaceholderFomat), group (Capture)
 #: kstars.kcfg:1775
-#, fuzzy, kde-format
-#| msgid "Add the filter name to the capture file name."
+#, kde-format
 msgid "How to format captured image filename."
-msgstr "添加滤镜名到拍摄文件名。"
+msgstr ""
 
 #. i18n: ectx: label, entry (RemoteCaptureDirectory), group (Capture)
 #: kstars.kcfg:1779
@@ -72491,20 +72465,7 @@ msgstr ""
 "间</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "<QT>Section with algorithms for the conversion of different astronomical "
-#| "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
-#| "coordinates conversion</LI><LI><B>Apparent:</B> Computation of current "
-#| "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> "
-#| "Ecliptic/Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> "
-#| "Computation of azimuth and elevation for a given source, time, and "
-#| "location on the Earth</LI><LI><B>Angular Distance:</B> Computation of "
-#| "angular distance between two objects whose positions are given in "
-#| "equatorial coordinates</LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ "
-#| "coordinate conversion</LI><LI><B>LSR Velocity:</B> Computation of the "
-#| "heliocentric, geocentric and topocentric radial velocity of a source from "
-#| "its LSR velocity</LI></UL></QT>"
+#, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
 "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
@@ -72519,14 +72480,6 @@ msgid ""
 "LI><LI><B>LSR Velocity:</B> Computation of the heliocentric, geocentric and "
 "topocentric radial velocity of a source from its LSR velocity</LI></UL></QT>"
 msgstr ""
-"<QT>本栏包含换算不同天文坐标系统的算法<UL><LI><B>银河坐标系:</B> 银河坐标系/"
-"赤道坐标系 坐标换算</LI><LI><B>Apparent:</B> 计算给定的某个历元的坐标在现在的"
-"值</LI><LI><B>黄道坐标系:</B> 黄道坐标系/赤道坐标系 坐标换算</LI><LI><B>地平"
-"坐标系:</B> 计算给定天体在地球上特定时间特定地点的平经(方位角)和平纬(高度"
-"角)</LI><LI><B>角距离:</B> 计算两个给定赤道坐标的天体之间的角距离</LI><LI><B>"
-"地心地固坐标系:</B> 地形低估坐标系坐标换算</LI><LI><B>LSR Velocity:</B> "
-"Computation of the heliocentric, geocentric and topocentric radial velocity "
-"of a source from its LSR velocity</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:93
 #, kde-format
@@ -72606,10 +72559,9 @@ msgid "Horizontal Coordinates"
 msgstr "地平坐标"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "复制坐标"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
@@ -74020,27 +73972,22 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "恩格利"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (hh:mm:ss)"
+#, kde-format
 msgid "Angle (hh mm ss.s) "
-msgstr "赤经(hh:mm:ss)"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "结果"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
@@ -74051,11 +73998,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dec (dd:mm:ss)"
+#, kde-format
 msgid "Angle (dd mm ss.s)"
-msgstr "赤纬(dd:mm:ss)"
+msgstr ""
 
 #: tools/modcalcvizequinox.cpp:32
 #, kde-format
@@ -75072,10 +75017,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "半径(单位：度)："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -77642,59 +77586,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "center RA:"
-#~ msgstr "中心赤经："
-
-#~ msgid "center Dec:"
-#~ msgstr "中心赤纬："
-
-#~ msgid ""
-#~ "Post-capture script to be executed after an image is captured. The "
-#~ "capture sequence is resumed when the script is executed successfully."
-#~ msgstr ""
-#~ "在一张图片拍摄完成后需要执行的脚本。当脚本执行成功后，拍摄序列将恢复运行。"
-
-#~ msgid "Postfix:"
-#~ msgstr "后缀："
-
-#~ msgid "Append the active filter slot to the prefix"
-#~ msgstr "向文件名前缀添加使用的滤镜轮孔信息"
-
-#~ msgid "Append the expose duration to the prefix"
-#~ msgstr "向文件名前缀添加曝光时间"
-
-#~ msgid "Append time stamp to the prefix"
-#~ msgstr "向文件名前缀添加时间戳"
-
-#~ msgid "TS"
-#~ msgstr "时间戳"
-
-#~ msgid "Local directory to save sequence images"
-#~ msgstr "要保存序列图像的本地目录"
-
-#~ msgid ""
-#~ "<p>Prefix is used to generate file names ( e.g. M42_HA_240_secs_001."
-#~ "fits)</p>\n"
-#~ "<ul>\n"
-#~ "<li><strong>Target</strong>: Target Name (e.g. M42)</li>\n"
-#~ "<li><strong>Filter</strong>: When using a filter wheel, the filter name "
-#~ "is appended to the file name (e.g. HA)</li>\n"
-#~ "<li><strong>Duration</strong>: Capture duration is appended to the file "
-#~ "name (e.g. 240_secs)</li>\n"
-#~ "<li><strong>TS</strong>: ISO 8601 timestamp is appended to the file name "
-#~ "(e.g. 2016-10-20T22:42:10)</li>\n"
-#~ "</ul>"
-#~ msgstr ""
-#~ "<p>前缀用于生成文件名称 ( e.g. M42_HA_240_secs_001.fits )</p>\n"
-#~ "<ul>\n"
-#~ "<li><strong>目标</strong>: 目标名称 (e.g. M42)</li>\n"
-#~ "<li><strong>滤镜</strong>: 当使用滤镜轮时，过滤器名称被添加到文件名(e.g. "
-#~ "HA)</li>\n"
-#~ "<li><strong>时长</strong>: 拍摄时间被附加到文件名(如： 240_secs)</li>\n"
-#~ "<li><strong>TS</strong>: ISO 8601 标准的时间戳附加到文件名 (e.g. "
-#~ "2016-10-20T22:42:10)</li>\n"
-#~ "</ul>"
-
-#~ msgid "Prefix:"
-#~ msgstr "前缀："
