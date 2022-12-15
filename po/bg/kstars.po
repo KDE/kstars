@@ -77098,38 +77098,3 @@ msgstr "Цвят на фона:"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Избледняване на траекториите до фоновия цвят"
-
-#, fuzzy
-#~ msgid "center RA:"
-#~ msgstr "Центриране на рект.:"
-
-#, fuzzy
-#~ msgid "center Dec:"
-#~ msgstr "Центриране на декл.:"
-
-#, fuzzy
-#~ msgid "Telescope cover"
-#~ msgstr "Входни координати"
-
-#, fuzzy
-#~ msgid "Telescope or Lens"
-#~ msgstr "Входни координати"
-
-#, fuzzy
-#~ msgid "Guider"
-#~ msgstr "Гид-телескопи"
-
-#, fuzzy
-#~ msgid "Postfix:"
-#~ msgstr "Представка:"
-
-#, fuzzy
-#~ msgid "Append time stamp to the prefix"
-#~ msgstr "Добавяне на дата и час към името на файла"
-
-#, fuzzy
-#~ msgid "TS"
-#~ msgstr "Унив. вр.:"
-
-#~ msgid "Prefix:"
-#~ msgstr "Представка:"
