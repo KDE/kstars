@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2022-07-31 23:14+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -6206,12 +6206,12 @@ msgstr ""
 msgid "Polar Alignment"
 msgstr ""
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, kde-format
 msgid "Capture timed out."
 msgstr ""
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -15529,7 +15529,7 @@ msgstr ""
 msgid "Exposure failure. Restarting exposure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgctxt "use default color scheme"
 #| msgid "Default Colors"

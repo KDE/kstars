@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -6316,12 +6316,12 @@ msgstr "Horizontalna sink.:"
 msgid "Polar Alignment"
 msgstr "Finningley"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "NFS preslika"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -15841,7 +15841,7 @@ msgstr "zadaj vrijeme isključivanja u sekundama"
 msgid "Exposure failure. Restarting exposure..."
 msgstr "zadaj vrijeme isključivanja u sekundama"
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

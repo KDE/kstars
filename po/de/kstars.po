@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -6337,12 +6337,12 @@ msgstr "Lösungspunkte gespeichert unter: %1"
 msgid "Polar Alignment"
 msgstr "Polare Ausrichtung"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, kde-format
 msgid "Capture timed out."
 msgstr "Zeitüberschreitung bei der Aufnahme."
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Die Aufnahme läuft noch, erneuter Versuch in %1 Sekunden ..."
@@ -16278,7 +16278,7 @@ msgid "Exposure failure. Restarting exposure..."
 msgstr ""
 "Die Belichtung ist fehlgeschlagen. Die Belichtung wird neu gestartet ..."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -6188,12 +6188,12 @@ msgstr "यादी रिकामी करा"
 msgid "Polar Alignment"
 msgstr "जुळवा (&A)"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "कॅपचर: %1"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -15688,7 +15688,7 @@ msgstr "कॅपचर: %1"
 msgid "Exposure failure. Restarting exposure..."
 msgstr "कॅपचर: %1"
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "@title:window"

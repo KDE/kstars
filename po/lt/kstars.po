@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -6476,13 +6476,13 @@ msgstr "Horizontaliosios koordinatės"
 msgid "Polar Alignment"
 msgstr "Lygiavimas"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "Gauti paveikslą"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -16369,7 +16369,7 @@ msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"

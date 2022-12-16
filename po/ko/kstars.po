@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -6355,13 +6355,13 @@ msgstr "지평 좌표"
 msgid "Polar Alignment"
 msgstr "일괄작업 모드"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "이미지 캡처"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -16325,7 +16325,7 @@ msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"

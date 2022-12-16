@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2021-01-13 13:17+0200\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@ludost.net>\n"
@@ -6095,12 +6095,12 @@ msgstr "Хоризонтални координати"
 msgid "Polar Alignment"
 msgstr "В изпълнение..."
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "Създаване на изображение"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Настройки на автофокуса"
@@ -15222,7 +15222,7 @@ msgstr "Начало на експониране на камерата CCD. Пр
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Начало на експониране на камерата CCD. Продължителността е в секунди."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

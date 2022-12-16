@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2022-12-12 10:07+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -6253,12 +6253,12 @@ msgstr "Točke rešitve shranjene kot: %1"
 msgid "Polar Alignment"
 msgstr "Poravnava na pol"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, kde-format
 msgid "Capture timed out."
 msgstr "Čas zajema je potekel."
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Zajem še vedno poteka, poskusite znova čez %1 sekund ..."
@@ -16196,7 +16196,7 @@ msgstr "Napaka ekspozicije. Prekinitev ..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Osvetljevanje ni uspelo. Ponovno zaganjanje osvetljevanja..."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

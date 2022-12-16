@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -6259,12 +6259,12 @@ msgstr "Amanani akunika indawo ncam &Athe tye"
 msgid "Polar Alignment"
 msgstr "Iqwalasele ku: "
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "Gcina umfanekiso"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Fumana umxholo"
@@ -15700,7 +15700,7 @@ msgstr "Gcina umfanekiso"
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

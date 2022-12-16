@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -6057,12 +6057,12 @@ msgstr "Kordinat Bulan"
 msgid "Polar Alignment"
 msgstr "Pada Ahli:"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "Imej NFS"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Padanan kurungan"
@@ -15249,7 +15249,7 @@ msgstr "Mula Kamera ialah inci saat."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Mula Kamera ialah inci saat."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

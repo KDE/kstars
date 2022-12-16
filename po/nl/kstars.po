@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2022-12-12 12:29+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -6262,12 +6262,12 @@ msgstr "Oplospunten opgeslagen als: %1"
 msgid "Polar Alignment"
 msgstr "Uitlijnen op de pool"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, kde-format
 msgid "Capture timed out."
 msgstr "Tijd voor opnemen is verlopen."
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Nog bezig met opnemen, probeer het opnieuw in %1 seconden..."
@@ -16133,7 +16133,7 @@ msgstr "Belichtingsfout. Wordt afgebroken..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Belichtingsfout. Belichten wordt herhaald..."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

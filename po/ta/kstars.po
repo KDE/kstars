@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -6502,13 +6502,13 @@ msgstr "இடம் வலமான இடமதிப்பு"
 msgid "Polar Alignment"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "பொருளை தேடு"
@@ -16227,7 +16227,7 @@ msgstr "நொடிகளில் தாமதத்தை நிறுத்�
 msgid "Exposure failure. Restarting exposure..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"

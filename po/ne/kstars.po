@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -6600,13 +6600,13 @@ msgstr "तेर्सो समकक्ष"
 msgid "Polar Alignment"
 msgstr "फोकस गरिएको: "
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "छवि ग्रहण गर्नुहोस्"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -16578,7 +16578,7 @@ msgstr "क्यामेरा/सीसीडी प्रदर्शन स
 msgid "Exposure failure. Restarting exposure..."
 msgstr "क्यामेरा/सीसीडी प्रदर्शन सुरु गर्नुहोस् । अवधि सेकेन्डमा छ ।"
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"

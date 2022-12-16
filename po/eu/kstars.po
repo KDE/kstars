@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2022-08-17 17:31+0200\n"
 "Last-Translator: Jon Intxaurbe <joinzar@gmail.com>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -6138,12 +6138,12 @@ msgstr "Soluzio puntuak honela gordeta: %1"
 msgid "Polar Alignment"
 msgstr "Lerrokadura polarra"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, kde-format
 msgid "Capture timed out."
 msgstr "Harrapaketa denbora-muga gainditu da."
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Harrapaketa oraindik badoa; berriro saiatu %1 segundotan..."
@@ -16110,7 +16110,7 @@ msgstr "Hasi kamera/CCD-aren esposizioa. Iraupena segundutan da."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Hasi kamera/CCD-aren esposizioa. Iraupena segundutan da."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"

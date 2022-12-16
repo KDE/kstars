@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -6249,12 +6249,12 @@ msgstr "കുറുകെയുള്ള ഫ്ലിപ്പ്"
 msgid "Polar Alignment"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "നക്ഷത്രക്കൂട്ടം"
@@ -15704,7 +15704,7 @@ msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സ�
 msgid "Exposure failure. Restarting exposure..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

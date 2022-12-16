@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2012-01-12 17:10+0330\n"
 "Last-Translator: Mohammad Reza Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <>\n"
@@ -6721,13 +6721,13 @@ msgstr "مختصات افقی"
 msgid "Polar Alignment"
 msgstr "تمرکز بر: "
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "گیراندازی تصویر"
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "بارگذاری اشیاء آسمان"
@@ -16545,7 +16545,7 @@ msgstr "آغاز ارائه دوربین/CCD. مدت، برحسب ثانیه م�
 msgid "Exposure failure. Restarting exposure..."
 msgstr "آغاز ارائه دوربین/CCD. مدت، برحسب ثانیه می‌باشد."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"

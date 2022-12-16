@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:42+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -6459,13 +6459,13 @@ msgstr "Coordenadas da solução"
 msgid "Polar Alignment"
 msgstr "Medida do Alinhamento Polar"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, fuzzy, kde-format
 #| msgid "Capture failed."
 msgid "Capture timed out."
 msgstr "Falha na captura."
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, fuzzy, kde-format
 #| msgid "Cannot capture while focus module is busy."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -16742,7 +16742,7 @@ msgstr "A duração da exposição da guia em segundos."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "A exposição falhou. Reiniciando a exposição..."
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Remove profile"
 msgctxt "@title:window"
