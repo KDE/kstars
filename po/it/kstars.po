@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-16 00:45+0000\n"
-"PO-Revision-Date: 2022-11-09 23:41+0100\n"
+"PO-Revision-Date: 2022-12-09 20:29+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.04.0\n"
+"X-Generator: Lokalize 22.11.90\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11849,6 +11849,8 @@ msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
+"Rilevati dispositivi mancanti (%1). Riconfigura il gruppo ottico prima di "
+"procedere oltre."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:851
 #, kde-format
@@ -11856,6 +11858,8 @@ msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
+"Rilevati dispositivi mancanti (%1). Riconfigura il gruppo ottico prima di "
+"procedere oltre."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
@@ -11867,7 +11871,7 @@ msgstr "Gruppo ottico"
 #: ekos/auxiliary/opticaltrains.ui:108
 #, kde-format
 msgid "Optical train name (double click to change the name)"
-msgstr ""
+msgstr "Nome del gruppo ottico (fai doppio clic per cambiare il nome)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
@@ -11878,24 +11882,22 @@ msgstr "Gruppo ottico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:143
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train.</"
 "p><p>To add, edit, or delete optical elements, tap the <span style=\" font-"
 "weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rispetta il valore della temperatura prima di "
-"catturare un'immagine</p></body></html>"
+"<html><head/><body><p>Seleziona il telescopio o l'obbiettivo utilizzato nel "
+"gruppo ottico.</p><p>Per aggiungere, modificare o eliminare gli elementi "
+"ottici, tocca il pulsante <span style=\" font-weight:600;\">Telescopio e "
+"lenti</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
-#, fuzzy, kde-format
-#| msgid "Scope/Lens"
+#, kde-format
 msgid "Scope/Lense:"
-msgstr "Ambito/Lente"
+msgstr "Telescopio/Lente:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
@@ -11904,6 +11906,8 @@ msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
 "use the same mount."
 msgstr ""
+"Seleziona quale montatura usare. Tutti i gruppi ottici nello stesso profilo "
+"usano tipicamente la stessa montatura."
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -11914,13 +11918,13 @@ msgstr "Montatura:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:179
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Tempo restante per il completamento</p></body></html>"
+"<html><head/><body><p>Seleziona la fotocamera di ripresa per questo gruppo "
+"ottico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -11934,14 +11938,13 @@ msgstr "Fotocamera:"
 #: ekos/auxiliary/opticaltrains.ui:202
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
-msgstr ""
+msgstr "Seleziona un parapolvere meccanizzato, se presente (per es. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:205
-#, fuzzy, kde-format
-#| msgid "Dust Cap"
+#, kde-format
 msgid "Dust Cap:"
-msgstr "Parapolvere"
+msgstr "Parapolvere:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:225
@@ -11954,47 +11957,48 @@ msgid ""
 "span>: If the value is over 1.0x, then it is considered a barlow element "
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleziona se nel gruppo viene utilizzato un riduttore "
+"o un moltiplicatore.</p><p><span style=\" font-weight:600;\">Riduttore:</"
+"span> se il valore è inferiore a 1,0x, questo elemento viene considerato un "
+"riduttore (la lunghezza focale è ridotta per questo fattore).</p><p><span "
+"style=\" font-weight:600;\">Moltiplicatore</span>: se il valore è superiore "
+"a 1,0x, allora è considerato un elemento moltiplicatore (la lunghezza focale "
+"è aumentata per questo fattore).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:228
-#, fuzzy, kde-format
-#| msgid "Reducer/Barlow"
+#, kde-format
 msgid "Reducer/Barlow:"
-msgstr "Riduttore/Barlow"
+msgstr "Riduttore/Moltiplicatore:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:258
 #, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
+"Seleziona una scatola luminosa flat field, se presente (per es. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:261
-#, fuzzy, kde-format
-#| msgid "Light Box"
+#, kde-format
 msgid "Light Box:"
-msgstr "Scatola luminosa"
+msgstr "Scatola luminosa:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleziona l'input per i grafici: può essere la "
-"sessione corrente di Ekos oppure può essere letto da un file.</p></body></"
-"html>"
+"<html><head/><body><p>Seleziona una ruota portafiltri.</p><p>Potrebbe essere "
+"una ruota portafiltri o parte del driver di una fotocamera.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
-#, fuzzy, kde-format
-#| msgid "Filter Wheel:"
+#, kde-format
 msgid "Filter Wheel:"
-msgstr "Ruota filtri:"
+msgstr "Ruota portafiltri:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:294
@@ -12023,7 +12027,7 @@ msgstr "Guida:"
 #: ekos/auxiliary/opticaltrains.ui:317
 #, kde-format
 msgid "Select a mechanized focuser if any."
-msgstr ""
+msgstr "Seleziona un focheggiatore meccanizzato, se presente."
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
@@ -12038,7 +12042,7 @@ msgstr "Focheggiatore:"
 #: ekos/auxiliary/opticaltrains.ui:343
 #, kde-format
 msgid "Select a mechanized rotator if any."
-msgstr ""
+msgstr "Seleziona un rotatore meccanizzato, se presente."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:346

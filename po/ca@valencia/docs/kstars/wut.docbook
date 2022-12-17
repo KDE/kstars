@@ -31,7 +31,7 @@
 >Què passa esta nit?</quote
 > (<quote
 >What's Up Tonight?</quote
-> - WUT) mostra una llista dels objectes que estaran visibles durant la nit des de qualsevol emplaçament, a qualsevol data. De manera predeterminada, la data i l'emplaçament són agafades de les opcions a la finestra principal, però les podeu canviar a qualsevol valor emprant els botons <guibutton
+> - WUT) mostra una llista dels objectes que estaran visibles durant la nit des de qualsevol emplaçament, a qualsevol data. De manera predeterminada, la data i l'emplaçament són agafades de les opcions en la finestra principal, però les podeu canviar a qualsevol valor emprant els botons <guibutton
 >Canvia la data...</guibutton
 > i <guibutton
 >Canvia l'emplaçament...</guibutton

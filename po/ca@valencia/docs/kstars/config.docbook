@@ -622,7 +622,7 @@
 </table>
 <note>
   <para
->Trobareu una llista potencialment més actualitzada a la <ulink url="https://protagon.space/catalogs/pages/catalogs.html"
+>Trobareu una llista potencialment més actualitzada en la <ulink url="https://protagon.space/catalogs/pages/catalogs.html"
 >documentació del repositori de catàlegs</ulink
 >. </para>
 </note>
@@ -1837,7 +1837,7 @@
 > <guimenuitem
 >Esquemes de color</guimenuitem
 ></menuchoice
->. Hi ha quatre esquemes de color predefinits, i també és possible definir el vostre propi a la finestra <link linkend="config"
+>. Hi ha quatre esquemes de color predefinits, i també és possible definir el vostre propi en la finestra <link linkend="config"
 ><guilabel
 >Configuració - &kstars;</guilabel
 ></link

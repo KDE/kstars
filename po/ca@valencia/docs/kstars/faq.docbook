@@ -76,7 +76,7 @@
 <para
 >Si voleu utilitzar un emplaçament que no es troba en la llista, introduïu la informació rellevant (llargària, latitud, nom de la ciutat, nom de la província i el nom del país), després premeu el botó <guibutton
 >Afig la ciutat</guibutton
->. S'hauran d'omplir tots els camps, excepte el camp de la província que és opcional. També podeu modificar els valors d'una ciutat existent, senzillament canviant els valors a la finestra, i afegir-los a la llista. </para>
+>. S'hauran d'omplir tots els camps, excepte el camp de la província que és opcional. També podeu modificar els valors d'una ciutat existent, senzillament canviant els valors en la finestra, i afegir-los a la llista. </para>
 </answer>
 </qandaentry>
 
@@ -100,7 +100,7 @@
 </question>
 <answer>
 <para
->Quan la vista està en moviment, &kstars; haurà de tornar a calcular les coordenades dels píxels de tots els objectes en la seua base de dades, el qual implica forts càlculs de trigonometria. Quan desplaceu la vista (siga amb les tecles de cursor o arrossegant-la amb el ratolí), la vista es torna lenta i poc precisa, per culpa que l'ordinador no pot realitzar totes les operacions que se li demanen. En excloure molts dels objectes, l'ordinador reduïx esta càrrega i el desplaçament és molt més ràpid i suau. Seguint este plantejament podeu desactivar esta opció a la finestra <guilabel
+>Quan la vista està en moviment, &kstars; haurà de tornar a calcular les coordenades dels píxels de tots els objectes en la seua base de dades, el qual implica forts càlculs de trigonometria. Quan desplaceu la vista (siga amb les tecles de cursor o arrossegant-la amb el ratolí), la vista es torna lenta i poc precisa, per culpa que l'ordinador no pot realitzar totes les operacions que se li demanen. En excloure molts dels objectes, l'ordinador reduïx esta càrrega i el desplaçament és molt més ràpid i suau. Seguint este plantejament podeu desactivar esta característica en la finestra <guilabel
 >Configuració - &kstars;</guilabel
 > o fins i tot personalitzar quins objectes s'ocultaran. </para>
 </answer>
