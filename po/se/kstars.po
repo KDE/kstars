@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-10 00:41+0000\n"
+"POT-Creation-Date: 2022-12-16 00:45+0000\n"
 "PO-Revision-Date: 2007-09-11 22:44+0200\n"
 "Last-Translator: Northern Sami translation team <l10n-no@lister.huftis.org>\n"
 "Language-Team: Northern Sami <l10n-no@lister.huftis.org>\n"
@@ -526,7 +526,7 @@ msgstr ""
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:133
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1053 ekos/manager.cpp:1068
-#: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:646
+#: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:649
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
 #: kstarsactions.cpp:496
@@ -879,9 +879,8 @@ msgstr ""
 #: tools/conjunctions.cpp:58 tools/conjunctions.cpp:292 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
-#: tools/modcalcplanets.ui:614 tools/obslistwizard.cpp:516
-#: tools/obslistwizard.cpp:526 tools/obslistwizard.cpp:528
-#: tools/pvplotwidget.cpp:94 tools/whatsinteresting/modelmanager.cpp:192
+#: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
+#: tools/whatsinteresting/modelmanager.cpp:192
 #: tools/whatsinteresting/wiview.cpp:608 tools/wutdialog.cpp:127
 #, kde-format, kde-kuit-format
 msgid "Sun"
@@ -899,9 +898,8 @@ msgstr ""
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:435 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
-#: tools/modcalcplanets.ui:564 tools/obslistwizard.cpp:544
-#: tools/obslistwizard.cpp:553 tools/obslistwizard.cpp:555
-#: tools/pvplotwidget.cpp:102 tools/skycalendar.ui:34
+#: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
+#: tools/skycalendar.ui:34
 #, kde-format, kde-kuit-format
 msgid "Mercury"
 msgstr ""
@@ -917,9 +915,7 @@ msgstr ""
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
 #: tools/ksconjunct.cpp:71 tools/ksconjunct.cpp:72 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:150 tools/modcalcplanets.ui:569
-#: tools/obslistwizard.cpp:557 tools/obslistwizard.cpp:567
-#: tools/obslistwizard.cpp:569 tools/pvplotwidget.cpp:111
-#: tools/skycalendar.ui:41
+#: tools/pvplotwidget.cpp:111 tools/skycalendar.ui:41
 #, kde-format
 msgid "Venus"
 msgstr ""
@@ -957,9 +953,8 @@ msgstr ""
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
-#: tools/modcalcplanets.ui:609 tools/obslistwizard.cpp:530
-#: tools/obslistwizard.cpp:540 tools/obslistwizard.cpp:542
-#: tools/whatsinteresting/wiview.cpp:608 tools/wutdialog.cpp:195
+#: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:608
+#: tools/wutdialog.cpp:195
 #, kde-format, kde-kuit-format
 msgid "Moon"
 msgstr ""
@@ -978,9 +973,8 @@ msgstr ""
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:431 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
-#: tools/modcalcplanets.ui:579 tools/obslistwizard.cpp:571
-#: tools/obslistwizard.cpp:580 tools/obslistwizard.cpp:582
-#: tools/pvplotwidget.cpp:129 tools/skycalendar.ui:48
+#: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
+#: tools/skycalendar.ui:48
 #, kde-format, kde-kuit-format
 msgid "Mars"
 msgstr ""
@@ -1008,9 +1002,7 @@ msgstr ""
 #: skyqpainter.cpp:435 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
-#: tools/obslistwizard.cpp:584 tools/obslistwizard.cpp:593
-#: tools/obslistwizard.cpp:595 tools/pvplotwidget.cpp:138
-#: tools/skycalendar.ui:55
+#: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
 #, kde-format, kde-kuit-format
 msgid "Jupiter"
 msgstr ""
@@ -1048,9 +1040,8 @@ msgstr ""
 #: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:436
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
-#: tools/modcalcplanets.ui:589 tools/obslistwizard.cpp:597
-#: tools/obslistwizard.cpp:607 tools/obslistwizard.cpp:609
-#: tools/pvplotwidget.cpp:147 tools/skycalendar.ui:62
+#: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
+#: tools/skycalendar.ui:62
 #, kde-format, kde-kuit-format
 msgid "Saturn"
 msgstr ""
@@ -1111,8 +1102,7 @@ msgstr ""
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
 #: tools/ksconjunct.cpp:60 tools/ksconjunct.cpp:61 tools/modcalcplanets.cpp:261
 #: tools/modcalcplanets.ui:175 tools/modcalcplanets.ui:594
-#: tools/obslistwizard.cpp:611 tools/obslistwizard.cpp:621
-#: tools/obslistwizard.cpp:623 tools/skycalendar.ui:76
+#: tools/skycalendar.ui:76
 #, kde-format
 msgid "Uranus"
 msgstr ""
@@ -1153,9 +1143,7 @@ msgstr ""
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
 #: tools/ksconjunct.cpp:60 tools/modcalcplanets.cpp:261
 #: tools/modcalcplanets.ui:180 tools/modcalcplanets.ui:599
-#: tools/obslistwizard.cpp:625 tools/obslistwizard.cpp:635
-#: tools/obslistwizard.cpp:637 tools/pvplotwidget.cpp:165
-#: tools/skycalendar.ui:69
+#: tools/pvplotwidget.cpp:165 tools/skycalendar.ui:69
 #, kde-format
 msgid "Neptune"
 msgstr ""
@@ -1855,14 +1843,14 @@ msgstr "Stáhtus:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:967 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
-#: ekos/analyze/analyze.cpp:2413 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2431 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
 #: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:554
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
-#: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:639
-#: ekos/scheduler/schedulerjob.cpp:663 indi/indidome.cpp:20
+#: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:642
+#: ekos/scheduler/schedulerjob.cpp:666 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -1891,7 +1879,7 @@ msgstr ""
 #: data/qml/whatisinteresting/wiview.qml:278 dialogs/finddialog.cpp:36
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 tools/conjunctions.cpp:95
-#: tools/obslistwizard.cpp:416 tools/obslistwizard.cpp:458
+#: tools/obslistwizard.cpp:405 tools/obslistwizard.cpp:449
 #: tools/obslistwizard.ui:105 tools/wutdialog.cpp:99
 #, kde-format, kde-kuit-format
 msgid "Stars"
@@ -1914,8 +1902,8 @@ msgstr ""
 #: data/qml/whatisinteresting/wiview.qml:348
 #: data/qml/whatisinteresting/wiview.qml:359 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
-#: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:289
-#: tools/obslistwizard.cpp:422 tools/obslistwizard.cpp:776
+#: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:285
+#: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
 #: tools/obslistwizard.ui:120 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Asteroids"
@@ -1926,8 +1914,8 @@ msgstr ""
 #: data/qml/whatisinteresting/wiview.qml:380
 #: data/qml/whatisinteresting/wiview.qml:391 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
-#: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:288
-#: tools/obslistwizard.cpp:420 tools/obslistwizard.cpp:734
+#: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:284
+#: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
 #: tools/obslistwizard.ui:115 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Comets"
@@ -1937,8 +1925,8 @@ msgstr ""
 #: data/qml/whatisinteresting/wiview.qml:412
 #: data/qml/whatisinteresting/wiview.qml:426 dialogs/finddialog.cpp:42
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
-#: tools/obslistwizard.cpp:281 tools/obslistwizard.cpp:424
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:697
+#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
+#: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
 #: tools/obslistwizard.ui:145 tools/wutdialog.cpp:100
 #, kde-format, kde-kuit-format
 msgid "Galaxies"
@@ -2203,8 +2191,8 @@ msgid "Check if magnitude is unknown"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:647
-#: ekos/scheduler/schedulerjob.cpp:678 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:650
+#: ekos/scheduler/schedulerjob.cpp:681 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -4092,7 +4080,7 @@ msgstr ""
 
 #: dialogs/finddialog.cpp:37 kstarsactions.cpp:1098 kstarsinit.cpp:461
 #: kstarslite/dialogs/finddialoglite.cpp:27
-#: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:162
+#: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
 #, kde-format, kde-kuit-format
 msgid "Solar System"
@@ -6024,12 +6012,12 @@ msgstr ""
 msgid "Polar Alignment"
 msgstr ""
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4219
 #, kde-format
 msgid "Capture timed out."
 msgstr ""
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4228
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -9150,7 +9138,7 @@ msgstr "Álggat"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1681
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1699
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:132
 #: ekos/opsekos.ui:505
@@ -9235,7 +9223,7 @@ msgid "Parking"
 msgstr ""
 
 #: ekos/analyze/analyze.cpp:125 ekos/analyze/analyze.cpp:144 ekos/ekos.h:140
-#: ekos/scheduler/schedulerjob.cpp:664 indi/indimount.cpp:32
+#: ekos/scheduler/schedulerjob.cpp:667 indi/indimount.cpp:32
 #, kde-format
 msgid "Slewing"
 msgstr ""
@@ -9292,7 +9280,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1682 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1700 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
@@ -9301,7 +9289,7 @@ msgid "Focus"
 msgstr "Fohkus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1683 ekos/manager.cpp:1971
+#: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1971
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:433
 #, kde-format
@@ -9312,7 +9300,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1684 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1702 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2152
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9321,7 +9309,7 @@ msgstr ""
 msgid "Guide"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1685
+#: ekos/analyze/analyze.cpp:1703
 #, kde-format
 msgid "Flip"
 msgstr ""
@@ -9330,7 +9318,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1686 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1704 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2081 ekos/manager.ui:665
 #, kde-format
@@ -9338,12 +9326,12 @@ msgid "Mount"
 msgstr "Čana"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1687 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1705 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1764
+#: ekos/analyze/analyze.cpp:1782
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9351,7 +9339,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1780
+#: ekos/analyze/analyze.cpp:1798
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9359,105 +9347,105 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2415 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2433 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
-#: ekos/scheduler/schedulerjob.cpp:645
+#: ekos/scheduler/schedulerjob.cpp:648
 #, kde-format
 msgid "Aborted"
 msgstr "Gaskkalduvvon"
 
-#: ekos/analyze/analyze.cpp:2417 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2435 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2419 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2437 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2421 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:677
+#: ekos/analyze/analyze.cpp:2439 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:680
 #, kde-format
 msgid "Capturing"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2423 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2441 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2425 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2443 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2427 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2445 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2429 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2447 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2431 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2449 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2433 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2451 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2435 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2453 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr ""
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2437 ekos/ekos.h:32
-#: ekos/scheduler/schedulerjob.cpp:675
+#: ekos/analyze/analyze.cpp:2455 ekos/ekos.h:32
+#: ekos/scheduler/schedulerjob.cpp:678
 #, kde-format
 msgid "Guiding"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2439 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2457 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2441 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2459 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2443 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2461 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Dielvvasmahttin"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2445 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2463 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2447 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2465 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2449 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2467 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2451 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2469 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr ""
@@ -14497,7 +14485,7 @@ msgid "In Progress"
 msgstr ""
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:644
+#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:647
 #, kde-format
 msgid "Complete"
 msgstr "Geargan"
@@ -14599,7 +14587,7 @@ msgstr "Vuordimin"
 msgid "Image Received"
 msgstr ""
 
-#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:667
+#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:670
 #, kde-format
 msgid "Focusing"
 msgstr ""
@@ -14629,7 +14617,7 @@ msgstr ""
 msgid "Setting Rotator"
 msgstr ""
 
-#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:670
+#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:673
 #, kde-format
 msgid "Aligning"
 msgstr ""
@@ -14680,7 +14668,7 @@ msgstr ""
 msgid "Startup"
 msgstr ""
 
-#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:642
+#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:645
 #, kde-format
 msgid "Running"
 msgstr "Jođus"
@@ -14783,7 +14771,7 @@ msgstr ""
 msgid "Auto Start"
 msgstr ""
 
-#: ekos/ekoslive/message.cpp:930
+#: ekos/ekoslive/message.cpp:942
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
@@ -15136,7 +15124,7 @@ msgstr ""
 msgid "Exposure failure. Restarting exposure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4209
+#: ekos/focus/focus.cpp:4201
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -23546,12 +23534,12 @@ msgstr ""
 msgid "UnCap"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:347
+#: ekos/scheduler/schedulerjob.cpp:350
 #, kde-format
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:408
+#: ekos/scheduler/schedulerjob.cpp:411
 #, kde-format
 msgid ""
 "Current status of job '%1', managed by the Scheduler.\n"
@@ -23563,7 +23551,7 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:419
+#: ekos/scheduler/schedulerjob.cpp:422
 #, kde-format
 msgid ""
 "Current altitude of the target of job '%1'.\n"
@@ -23571,7 +23559,7 @@ msgid ""
 "A setting target is indicated with an arrow going down."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:429
+#: ekos/scheduler/schedulerjob.cpp:432
 #, kde-format
 msgid ""
 "Startup time for job '%1', as estimated by the Scheduler.\n"
@@ -23580,7 +23568,7 @@ msgid ""
 "symbol. "
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:439
+#: ekos/scheduler/schedulerjob.cpp:442
 #, kde-format
 msgid ""
 "Completion time for job '%1', as estimated by the Scheduler.\n"
@@ -23589,7 +23577,7 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:449
+#: ekos/scheduler/schedulerjob.cpp:452
 #, kde-format
 msgid ""
 "Count of captures stored for job '%1', based on its sequence job.\n"
@@ -23597,7 +23585,7 @@ msgid ""
 "complete the job."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:458
+#: ekos/scheduler/schedulerjob.cpp:461
 #, kde-format
 msgid ""
 "Current score for job '%1', from its altitude, moon separation and sky "
@@ -23607,7 +23595,7 @@ msgid ""
 "The Scheduler will refresh scores when picking a new candidate job."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:468
+#: ekos/scheduler/schedulerjob.cpp:471
 #, kde-format
 msgid ""
 "Time interval from the job which precedes job '%1'.\n"
@@ -23616,7 +23604,7 @@ msgid ""
 "Rearrange jobs to minimize that duration and optimize your imaging time."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:560
+#: ekos/scheduler/schedulerjob.cpp:563
 #, kde-format
 msgid ""
 "Duration job '%1' will take to complete when started, as estimated by the "
@@ -23624,47 +23612,47 @@ msgid ""
 "Depends on the actions to be run, and the sequence job to be processed."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:640
+#: ekos/scheduler/schedulerjob.cpp:643
 #, kde-format
 msgid "Evaluating"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:641
+#: ekos/scheduler/schedulerjob.cpp:644
 #, kde-format
 msgid "Scheduled"
 msgstr "Plánejuvvon"
 
-#: ekos/scheduler/schedulerjob.cpp:643
+#: ekos/scheduler/schedulerjob.cpp:646
 #, kde-format
 msgid "Invalid"
 msgstr "Gustohis"
 
-#: ekos/scheduler/schedulerjob.cpp:665
+#: ekos/scheduler/schedulerjob.cpp:668
 #, kde-format
 msgid "Slew complete"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:669
+#: ekos/scheduler/schedulerjob.cpp:672
 #, kde-format
 msgid "Focus complete"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:671
+#: ekos/scheduler/schedulerjob.cpp:674
 #, kde-format
 msgid "Align complete"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:672
+#: ekos/scheduler/schedulerjob.cpp:675
 #, kde-format
 msgid "Repositioning"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:673
+#: ekos/scheduler/schedulerjob.cpp:676
 #, kde-format
 msgid "Repositioning complete"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:676
+#: ekos/scheduler/schedulerjob.cpp:679
 #, kde-format
 msgid "Guiding complete"
 msgstr ""
@@ -71384,7 +71372,7 @@ msgid ""
 "Reasonable values should be between 300 and 10,000,000.\n"
 msgstr ""
 
-#: tools/astrocalc.cpp:38
+#: tools/astrocalc.cpp:39
 #, kde-format
 msgid ""
 "<QT><H2>KStars Astrocalculator</H2><P>The KStars Astrocalculator contains "
@@ -71397,7 +71385,7 @@ msgid ""
 "UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:53
+#: tools/astrocalc.cpp:54
 #, kde-format
 msgid ""
 "<QT>Section which includes algorithms for computing time "
@@ -71408,7 +71396,7 @@ msgid ""
 "duration of the seasons</LI></UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:67
+#: tools/astrocalc.cpp:68
 #, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
@@ -71417,6 +71405,7 @@ msgid ""
 "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> Ecliptic/"
 "Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> Computation of "
 "azimuth and elevation for a given source, time, and location on the Earth</"
+"LI><LI><B>Simple:</B> Conversion between angles in hrs and degrees.</"
 "LI><LI><B>Angular Distance:</B> Computation of angular distance between two "
 "objects whose positions are given in equatorial coordinates</"
 "LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ coordinate conversion</"
@@ -71424,7 +71413,7 @@ msgid ""
 "topocentric radial velocity of a source from its LSR velocity</LI></UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:90
+#: tools/astrocalc.cpp:93
 #, kde-format
 msgid ""
 "<QT>Section with algorithms regarding information on solar system bodies "
@@ -71433,58 +71422,58 @@ msgid ""
 "LI></UL></QT>"
 msgstr ""
 
-#: tools/astrocalc.cpp:109
+#: tools/astrocalc.cpp:112
 #, kde-format
 msgctxt "@title:window"
 msgid "Calculator"
 msgstr ""
 
-#: tools/astrocalc.cpp:114
+#: tools/astrocalc.cpp:117
 #, kde-format
 msgid "Calculator modules"
 msgstr ""
 
-#: tools/astrocalc.cpp:141
+#: tools/astrocalc.cpp:144
 #, kde-format
 msgid "Time Calculators"
 msgstr ""
 
 #. i18n("Julian Day"))->setIcon(0,jdIcon);
-#: tools/astrocalc.cpp:145
+#: tools/astrocalc.cpp:148
 #, kde-format
 msgid "Julian Day"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSidTimeDlg)
-#: tools/astrocalc.cpp:146 tools/modcalcsidtime.ui:14
+#: tools/astrocalc.cpp:149 tools/modcalcsidtime.ui:14
 #, kde-format
 msgid "Sidereal Time"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcDayLengthDlg)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: tools/astrocalc.cpp:147 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
+#: tools/astrocalc.cpp:150 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
 #, kde-format
 msgid "Almanac"
 msgstr ""
 
-#: tools/astrocalc.cpp:148
+#: tools/astrocalc.cpp:151
 #, kde-format
 msgid "Equinoxes & Solstices"
 msgstr ""
 
-#: tools/astrocalc.cpp:152
+#: tools/astrocalc.cpp:155
 #, kde-format
 msgid "Coordinate Converters"
 msgstr ""
 
-#: tools/astrocalc.cpp:153
+#: tools/astrocalc.cpp:156
 #, kde-format
 msgid "Equatorial/Galactic"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcApCoordDlg)
-#: tools/astrocalc.cpp:154 tools/modcalcapcoord.ui:17
+#: tools/astrocalc.cpp:157 tools/modcalcapcoord.ui:17
 #, kde-format
 msgid "Apparent Coordinates"
 msgstr ""
@@ -71492,45 +71481,51 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcAltAz)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: tools/astrocalc.cpp:155 tools/modcalcaltaz.ui:17 tools/modcalcaltaz.ui:249
-#: tools/modcalcplanets.ui:275
+#. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSimple)
+#: tools/astrocalc.cpp:158 tools/modcalcaltaz.ui:17 tools/modcalcaltaz.ui:249
+#: tools/modcalcplanets.ui:275 tools/modcalcsimple.ui:17
 #, kde-format
 msgid "Horizontal Coordinates"
 msgstr ""
 
+#: tools/astrocalc.cpp:159
+#, kde-format
+msgid "Simple Coordinates"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: tools/astrocalc.cpp:156 tools/modcalceclipticcoords.ui:144
+#: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
 #, kde-format
 msgid "Ecliptic Coordinates"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcAngDistDlg)
-#: tools/astrocalc.cpp:157 tools/modcalcangdist.ui:14
+#: tools/astrocalc.cpp:161 tools/modcalcangdist.ui:14
 #, kde-format
 msgid "Angular Distance"
 msgstr ""
 
-#: tools/astrocalc.cpp:158
+#: tools/astrocalc.cpp:162
 #, kde-format
 msgid "Geodetic Coordinates"
 msgstr ""
 
-#: tools/astrocalc.cpp:159
+#: tools/astrocalc.cpp:163
 #, kde-format
 msgid "LSR Velocity"
 msgstr ""
 
-#: tools/astrocalc.cpp:164
+#: tools/astrocalc.cpp:168
 #, kde-format
 msgid "Planets Coordinates"
 msgstr ""
 
-#: tools/astrocalc.cpp:165
+#: tools/astrocalc.cpp:169
 #, kde-format
 msgid "Conjunctions"
 msgstr ""
 
-#: tools/astrocalc.cpp:166
+#: tools/astrocalc.cpp:170
 #, kde-format
 msgid "Eclipses"
 msgstr ""
@@ -72114,8 +72109,8 @@ msgstr ""
 #: tools/modcalcapcoord.ui:42 tools/modcalcdaylength.ui:24
 #: tools/modcalceclipticcoords.ui:36 tools/modcalcgalcoord.ui:34
 #: tools/modcalcgeod.ui:31 tools/modcalcjd.ui:28 tools/modcalcplanets.ui:36
-#: tools/modcalcsidtime.ui:24 tools/modcalcvizequinox.ui:24
-#: tools/modcalcvlsr.ui:34
+#: tools/modcalcsidtime.ui:24 tools/modcalcsimple.ui:42
+#: tools/modcalcvizequinox.ui:24 tools/modcalcvlsr.ui:34
 #, kde-format
 msgid "Interactive Mode"
 msgstr ""
@@ -72899,6 +72894,39 @@ msgstr ""
 msgid "Specify Local Time in the Input File"
 msgstr ""
 
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
+#, kde-format
+msgid "Angle"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
+#: tools/modcalcsimple.ui:130
+#, kde-format
+msgid "Angle (hh mm ss.s) "
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
+#: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
+#, kde-format
+msgid "Angle Result"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
+#. i18n: ectx: property (text), widget (QLabel, angle2Label)
+#: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
+#, kde-format
+msgid "Angle (dd.d)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
+#: tools/modcalcsimple.ui:189
+#, kde-format
+msgid "Angle (dd mm ss.s)"
+msgstr ""
+
 #: tools/modcalcvizequinox.cpp:32
 #, kde-format
 msgid "Sun's Declination"
@@ -73645,83 +73673,61 @@ msgstr ""
 msgid "Remove from Session Plan"
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:224 tools/obslistwizard.cpp:849
-#: tools/obslistwizard.ui:345
-#, kde-format
-msgid "in a rectangular region"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:226 tools/obslistwizard.cpp:885
-#: tools/obslistwizard.ui:350
-#, kde-format
-msgid "in a circular region"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:228 tools/obslistwizard.cpp:450
-#: tools/obslistwizard.ui:335
-#, kde-format
-msgid "all over the sky"
-msgstr ""
-
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:426
-#: tools/obslistwizard.cpp:656 tools/obslistwizard.cpp:677
+#: tools/obslistwizard.cpp:273 tools/obslistwizard.cpp:415
+#: tools/obslistwizard.cpp:478 tools/obslistwizard.cpp:496
 #: tools/obslistwizard.ui:125
 #, kde-format
 msgid "Open clusters"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:278 tools/obslistwizard.cpp:428
-#: tools/obslistwizard.cpp:657 tools/obslistwizard.cpp:682
+#: tools/obslistwizard.cpp:274 tools/obslistwizard.cpp:417
+#: tools/obslistwizard.cpp:479 tools/obslistwizard.cpp:501
 #: tools/obslistwizard.ui:130
 #, kde-format
 msgid "Globular clusters"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:279 tools/obslistwizard.cpp:430
-#: tools/obslistwizard.cpp:658 tools/obslistwizard.cpp:688
+#: tools/obslistwizard.cpp:275 tools/obslistwizard.cpp:419
+#: tools/obslistwizard.cpp:480 tools/obslistwizard.cpp:507
 #: tools/obslistwizard.ui:135
 #, kde-format
 msgid "Gaseous nebulae"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:280 tools/obslistwizard.cpp:432
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:693
+#: tools/obslistwizard.cpp:276 tools/obslistwizard.cpp:421
+#: tools/obslistwizard.cpp:481 tools/obslistwizard.cpp:512
 #: tools/obslistwizard.ui:140
 #, kde-format
 msgid "Planetary nebulae"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:287 tools/obslistwizard.cpp:418
-#: tools/obslistwizard.cpp:514 tools/obslistwizard.ui:110
+#: tools/obslistwizard.cpp:283 tools/obslistwizard.cpp:407
+#: tools/obslistwizard.cpp:461 tools/obslistwizard.ui:110
 #, kde-format
 msgid "Sun, moon, planets"
 msgstr ""
 
-#: tools/obslistwizard.cpp:399
+#: tools/obslistwizard.cpp:353
+#, kde-format
+msgid "Illegal rectangle specified, no region selection possible."
+msgstr ""
+
+#: tools/obslistwizard.cpp:392
 #, kde-format
 msgid "Illegal circle specified, no region selection possible."
 msgstr ""
 
-#: tools/obslistwizard.cpp:821
+#: tools/obslistwizard.cpp:545
 #, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
 msgstr[0] ""
 msgstr[1] ""
-
-#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:828 tools/obslistwizard.ui:340
-#, kde-format
-msgid "by constellation"
-msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: tools/obslistwizard.ui:42
@@ -73811,6 +73817,30 @@ msgstr ""
 msgid "I wish to select objects:"
 msgstr ""
 
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:335
+#, kde-format
+msgid "all over the sky"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:340
+#, kde-format
+msgid "by constellation"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:345
+#, kde-format
+msgid "in a rectangular region"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
+#: tools/obslistwizard.ui:350
+#, kde-format
+msgid "in a circular region"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, ConstellationText)
 #: tools/obslistwizard.ui:392
 #, kde-format
@@ -73870,13 +73900,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, CenterRALabel)
 #: tools/obslistwizard.ui:603
 #, kde-format
-msgid "center RA:"
+msgid "Center RA (in Hours):"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
 #, kde-format
-msgid "center Dec:"
+msgid "Center Dec (in Degrees):"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
