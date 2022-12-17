@@ -356,9 +356,18 @@ QString PlaceholderPath::generateFilename(const QString &directory,
             else
             {
                 // in the basename part of the path
-                replacement = rawFilePrefix;
-                if (replacement.isEmpty() && !tempTargetName.isEmpty())
+                if (rawFilePrefix.isEmpty() && !tempTargetName.isEmpty())
                     replacement = tempTargetName;
+                else
+                {
+                    replacement = rawFilePrefix;
+                    replacement.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+                    // Remove any two or more __
+                    .replace( QRegularExpression("_{2,}"), "_")
+                    // Remove any _ at the end
+                    .replace( QRegularExpression("_$"), "");
+
+                }
             }
         }
         // Disable for now %d & %p tags to simplfy
