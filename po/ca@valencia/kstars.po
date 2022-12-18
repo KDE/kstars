@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-16 00:45+0000\n"
-"PO-Revision-Date: 2022-12-12 22:17+0100\n"
+"PO-Revision-Date: 2022-12-17 19:34+0100\n"
 "Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5922,8 +5922,8 @@ msgid ""
 "to the list."
 msgstr ""
 "No s'ha trobat cap fitxer d'índex en els directoris especificats de fitxers "
-"d'índex. Descarregueu fitxers d'índex o afegiu el directori correcte a la "
-"llista."
+"d'índex. Descarregueu els fitxers d'índex o afegiu el directori correcte a "
+"la llista."
 
 #: ekos/align/align.cpp:1793
 #, kde-format
@@ -6000,9 +6000,9 @@ msgid ""
 "correct, and the necessary index files are installed. Enable Alignment "
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
-"Comproveu que hi haja estreles suficients a la imatge, CDV indicat siga "
-"correcte, i estiguen instal·lats els fitxers d'índex necessaris. Activeu la "
-"gravació de l'alineació a la pestanya de Configuració -> Registres per a "
+"Comproveu que hi haja estreles suficients en la imatge, que CDV indicat siga "
+"correcte i que estiguen instal·lats els fitxers d'índex necessaris. Activeu "
+"la gravació de l'alineació a la pestanya «Configuració -> Registres» per a "
 "obtindre informació detallada de la fallada."
 
 #: ekos/align/align.cpp:2255
@@ -8144,9 +8144,9 @@ msgstr ""
 "net/doc/readme.html\"><span style=\"text-decoration: underline; color:"
 "#0000ff;\">README</span></a> d'Astrometry.net. La llista següent proporciona "
 "una llista completa dels fitxers d'índex, junt amb els fitxers d'índex que "
-"s'instal·laran amb el camp de visió actual del CCD. Els fitxers d'índex "
-"instal·lats es comprovaran. Al costat de cada fitxer d'índex hi ha una icona "
-"que representa el següent:</p></body></html>"
+"s'instal·laran amb el camp de visió actual del CCD. Es comprovaran els "
+"fitxers d'índex instal·lats. Al costat de cada fitxer d'índex hi ha una "
+"icona que representa el següent:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, required_legend)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_32)
@@ -9017,7 +9017,7 @@ msgstr ""
 #: ekos/align/opsprograms.ui:27
 #, kde-format
 msgid "Select to load one of the default sets"
-msgstr "Seleccioneu per carregar un dels conjunts predeterminats"
+msgstr "Seleccioneu per a carregar un dels conjunts predeterminats"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:32
@@ -11453,7 +11453,7 @@ msgstr ""
 "<html><head/><body><p>Activeu els registres per a diagnosticar problemes amb "
 "Ekos o INDI. Activeu només els registres necessaris per a ajudar a "
 "diagnosticar problemes concrets. Els registres consumixen recursos i poden "
-"alentir el sistema. Desactiveu els quan ja no s'utilitzen.</p></body></html>"
+"alentir el sistema. Desactiveu-los quan ja no s'utilitzen.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (toolTip), widget (QPushButton, logsB)
@@ -11682,7 +11682,7 @@ msgstr "Registra l'eixida de depuració detallada"
 #: ekos/auxiliary/opslogs.ui:341 options/opsadvanced.ui:307
 #, kde-format
 msgid "&Verbose"
-msgstr "&Detallada"
+msgstr "&Detallat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDetectorLogging)
 #: ekos/auxiliary/opslogs.ui:351
@@ -12903,7 +12903,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:709
 #, kde-format
 msgid "Cut Dimmest"
-msgstr "Retalla les més febles"
+msgstr "Retalla les més febles que el"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, dimmestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:716
@@ -12935,7 +12935,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:743
 #, kde-format
 msgid "Sat. Limit"
-msgstr "Sat. límit"
+msgstr "Sat. límit al"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:750
@@ -12987,7 +12987,7 @@ msgstr "px"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:805
 #, kde-format
 msgid "Cut Brightest"
-msgstr "Retalla les més brillants"
+msgstr "Retalla les més brillants que el"
 
 #. i18n: ectx: property (text), widget (QLabel, label_53)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:833
@@ -12999,7 +12999,7 @@ msgstr "a/b"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:840
 #, kde-format
 msgid "Keep #"
-msgstr "Manté núm."
+msgstr "Mantín el núm."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, keepNum)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:847
@@ -13172,7 +13172,7 @@ msgstr "0,1"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1009
 #, kde-format
 msgid "Min Degree Width"
-msgstr "Amplària mín. graus"
+msgstr "Amplària mín. en graus"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1016
@@ -13184,7 +13184,7 @@ msgstr "Algorisme paral·lel"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1023
 #, kde-format
 msgid "Max Degree Width"
-msgstr "Amplària màx. graus"
+msgstr "Amplària màx. en graus"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1030
@@ -13209,7 +13209,7 @@ msgstr "Reduïx automàticament el mostreig basant-se en la mida de la imatge"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1043
 #, kde-format
 msgid "Auto DownSample"
-msgstr "Reducció automàtica de mostreig"
+msgstr "Reducció automàtica del mostreig"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, inParallel)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1053
@@ -26527,7 +26527,7 @@ msgstr "Alterna l'estirament"
 #: fitsviewer/fitsview.cpp:2226 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
-msgstr "Mostra els punts de mira"
+msgstr "Mostra el punt de mira"
 
 #: fitsviewer/fitsview.cpp:2230 fitsviewer/fitsviewer.cpp:223
 #, kde-format

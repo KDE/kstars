@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-16 00:45+0000\n"
-"PO-Revision-Date: 2022-12-11 13:11+0300\n"
+"PO-Revision-Date: 2022-12-17 18:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2449,7 +2449,7 @@ msgstr "İçeriye Dosya Aktar"
 #: dialogs/addcatdialog.ui:53
 #, kde-format
 msgid "Enter import data filename"
-msgstr "İçeriye aktarılacak dosya adını gir"
+msgstr "İçe aktarılacak dosya adını gir"
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, DataURL)
 #: dialogs/addcatdialog.ui:56
@@ -3352,10 +3352,9 @@ msgstr "Katalog Silinsin Mi?"
 #. i18n: ectx: property (text), widget (QPushButton, ExportButton)
 #: dialogs/catalogsdbui.ui:93 tools/conjunctions.ui:198
 #: tools/eclipsetool.ui:160
-#, fuzzy, kde-format
-#| msgid "Export"
+#, kde-format
 msgid "Export..."
-msgstr "Dışarıya Aktar"
+msgstr "Dışa Aktar..."
 
 #. i18n: ectx: property (text), widget (QPushButton, dublicateButton)
 #: dialogs/catalogsdbui.ui:103
@@ -13340,10 +13339,9 @@ msgstr "Tutulum"
 
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:767
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Min Size"
-msgstr "Yazı Tipi Boyutu"
+msgstr "En Küçük Boyut"
 
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:774
@@ -27961,10 +27959,9 @@ msgid "Front"
 msgstr "Ön"
 
 #: fitsviewer/starprofileviewer.cpp:184
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Front High"
-msgstr "Yazı Tipi Boyutu"
+msgstr "Ön Yüksek"
 
 #: fitsviewer/starprofileviewer.cpp:185
 #, fuzzy, kde-format
@@ -31979,7 +31976,7 @@ msgstr ""
 #: kstars.kcfg:847 xplanet/opsxplanet.ui:656
 #, kde-format
 msgid "Label font size"
-msgstr "Etiketin yazı tipi boyutu"
+msgstr "Etiket yazıtipi boyutu"
 
 #. i18n: ectx: whatsthis, entry (LabelFontScaling), group (View)
 #: kstars.kcfg:848
@@ -32691,7 +32688,7 @@ msgstr ""
 #: kstars.kcfg:1138
 #, kde-format
 msgid "Font Size"
-msgstr "Yazı Tipi Boyutu"
+msgstr "Yazıtipi Boyutu"
 
 #. i18n: ectx: whatsthis, entry (XplanetFontSize), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetFontSize)
@@ -73838,11 +73835,10 @@ msgid "Selected object:"
 msgstr "Seçili cisim:"
 
 #: printing/pwizprint.cpp:65
-#, fuzzy, kde-format
-#| msgid "Export"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export"
-msgstr "Dışarıya Aktar"
+msgstr "Dışa Aktar"
 
 #: printing/pwizprint.cpp:126
 #, kde-format
@@ -76993,7 +76989,7 @@ msgstr "Göz merceği Alan Görünümü:"
 #, kde-format
 msgctxt "Export image"
 msgid "Export"
-msgstr "Dışarıya Aktar"
+msgstr "Dışa Aktar"
 
 #: tools/eyepiecefield.cpp:75
 #, kde-format
@@ -78679,10 +78675,9 @@ msgstr "Mevcut gözlem listesini, dosya adı belirterek kaydet"
 
 #. i18n: ectx: property (text), widget (QPushButton, OALExport)
 #: tools/observinglist.ui:152
-#, fuzzy, kde-format
-#| msgid "Export to OAL"
+#, kde-format
 msgid "Export to OAL..."
-msgstr "OAL olarak dışarıya aktar"
+msgstr "OAL Olarak Dışa Aktar..."
 
 #. i18n: ectx: property (text), widget (QPushButton, SetLocation)
 #: tools/observinglist.ui:192
@@ -81770,7 +81765,7 @@ msgstr ""
 #: xplanet/opsxplanet.ui:649
 #, kde-format
 msgid "Font size:"
-msgstr "Yazı tipi boyutu:"
+msgstr "Yazıtipi boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelLabelPos)
 #: xplanet/opsxplanet.ui:756
