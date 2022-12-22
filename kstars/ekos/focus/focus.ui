@@ -1730,10 +1730,13 @@
               <string>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</string>
              </property>
              <property name="minimum">
-              <number>1</number>
+              <number>5</number>
              </property>
              <property name="maximum">
               <number>120</number>
+             </property>
+             <property name="value">
+              <number>30</number>
              </property>
             </widget>
            </item>
