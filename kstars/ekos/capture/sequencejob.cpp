@@ -85,6 +85,10 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
     };
 
+    // by default, we assume that no placeholders are used unless
+    // the corresponding tag is found
+    setCoreProperty(SJ_UsingPlaceholders, false);
+
     setFrameType(FRAME_NONE);
     setCoreProperty(SJ_Exposure, 0);
     /* Reset light frame presence flag before enumerating */
@@ -100,11 +104,21 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         {
             setCoreProperty(SJ_Exposure, atof(pcdataXMLEle(ep)));
         }
-        if (!strcmp(tagXMLEle(ep), "Format"))
+        else if (!strcmp(tagXMLEle(ep), "Format"))
         {
             setCoreProperty(SJ_Format, pcdataXMLEle(ep));
         }
-        if (!strcmp(tagXMLEle(ep), "Encoding"))
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
+        {
+            setCoreProperty(SJ_PlaceholderFormat, pcdataXMLEle(ep));
+            setCoreProperty(SJ_UsingPlaceholders, true);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
+        {
+            setCoreProperty(SJ_PlaceholderSuffix, pcdataXMLEle(ep));
+            setCoreProperty(SJ_UsingPlaceholders, true);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Encoding"))
         {
             setCoreProperty(SJ_Encoding, pcdataXMLEle(ep));
         }

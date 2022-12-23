@@ -20,9 +20,8 @@ ADD_CUSTOM_COMMAND( TARGET test_placeholderpath POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_CURRENT_SOURCE_DIR}/testFlexibleNamingChangeBehavior_data_small.csv
             ${CMAKE_CURRENT_BINARY_DIR}/testFlexibleNamingChangeBehavior_data_small.csv)
-# Exculded as this is flakey: December 8, 2022
-#ADD_TEST( NAME TestPlaceholderPath COMMAND test_placeholderpath )
-#SET_TESTS_PROPERTIES( TestPlaceholderPath PROPERTIES LABELS "stable" )
+ADD_TEST( NAME TestPlaceholderPath COMMAND test_placeholderpath )
+SET_TESTS_PROPERTIES( TestPlaceholderPath PROPERTIES LABELS "stable" )
 endif()
 
 ADD_EXECUTABLE( test_sequencejobstate test_sequencejobstate.cpp)

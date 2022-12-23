@@ -40,6 +40,21 @@ PlaceholderPath::~PlaceholderPath()
 {
 }
 
+QString PlaceholderPath::defaultFormat(bool useFilter, bool useExposure, bool useTimestamp)
+{
+    QString tempFormat = QDir::separator() + "%t" + QDir::separator() + "%T" + QDir::separator();
+    if (useFilter)
+        tempFormat.append("%F" + QDir::separator());
+    tempFormat.append("%t_%T_");
+    if (useFilter)
+        tempFormat.append("%F_");
+    if (useExposure)
+        tempFormat.append("%e_");
+    if (useTimestamp)
+        tempFormat.append("%D");
+    return tempFormat;
+}
+
 void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName)
 {
     job->setCoreProperty(SequenceJob::SJ_TargetName, targetName);
@@ -125,6 +140,18 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
         directoryPostfix += QDir::separator() + filterType;
 
     job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
+
+    // handle the case where .esq files do not make usage of placeholder and placeholder suffix
+    if (job->getCoreProperty(SequenceJob::SJ_UsingPlaceholders).toBool() == false)
+    {
+        QString tempFormat = defaultFormat(!job->getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty(),
+                                           job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool(),
+                                           job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool());
+        job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, tempFormat);
+        job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, 3);
+        // converted, from now on we are in the new file format
+        job->setCoreProperty(SequenceJob::SJ_UsingPlaceholders, true);
+    }
 
     QString signature = generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(), true, true,
                                          1, ".fits", "", false, true);
@@ -356,7 +383,7 @@ QString PlaceholderPath::generateFilename(const QString &directory,
             else
             {
                 // in the basename part of the path
-                if (rawFilePrefix.isEmpty() && !tempTargetName.isEmpty())
+                if (!tempTargetName.isEmpty())
                     replacement = tempTargetName;
                 else
                 {

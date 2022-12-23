@@ -70,6 +70,8 @@ class SequenceJob : public QObject
             SJ_Offset,
             // QString
             SJ_LocalDirectory,
+            // Bool
+            SJ_UsingPlaceholders,
             // QString
             SJ_PlaceholderFormat,
             // Uint

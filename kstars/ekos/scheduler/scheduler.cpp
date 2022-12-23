@@ -5758,7 +5758,6 @@ uint16_t Scheduler::calculateExpectedCapturesMap(const QList<SequenceJob *> &seq
     for (auto &seqJob : seqJobs)
     {
         capturesPerRepeat += seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt();
-        Scheduler::preloadSignature(*seqJob);
         QString signature = seqJob->getCoreProperty(SequenceJob::SJ_Signature).toString();
         expected[signature] = static_cast<uint16_t>(seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt()) + (expected.contains(
                                   signature) ? expected[signature] : 0);
@@ -7420,7 +7419,6 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
                 else if (!strcmp(tagXMLEle(ep), "Job"))
                 {
                     SequenceJob *thisJob = processJobInfo(ep, schedJob);
-                    Scheduler::preloadSignature(*thisJob);
                     jobs.append(thisJob);
                     if (jobs.count() == 1)
                     {
@@ -8761,31 +8759,5 @@ bool Scheduler::importMosaic(const QJsonObject &payload)
 {
     QScopedPointer<FramingAssistantUI> assistant(new FramingAssistantUI());
     return assistant->importMosaic(payload);
-}
-
-void Scheduler::preloadSignature(SequenceJob &seqJob)
-{
-    QString tempFormat = seqJob.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
-    if (!tempFormat.contains("%"))
-    {
-        if (!tempFormat.endsWith(QDir::separator()))
-            tempFormat.append(QDir::separator());
-        tempFormat.append("%t" + QDir::separator() + "%T" + QDir::separator());
-        if(!seqJob.getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
-            tempFormat.append("%F" + QDir::separator());
-        tempFormat.append("%t_%T_");
-        if(!seqJob.getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
-            tempFormat.append("%F_");
-        if(seqJob.getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool() == true)
-            tempFormat.append("%e_");
-        if(seqJob.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool() == true)
-            tempFormat.append("%D_");
-        seqJob.setCoreProperty(SequenceJob::SJ_LocalDirectory, tempFormat);
-    }
-
-    auto placeholderPath = Ekos::PlaceholderPath();
-    QString signature = placeholderPath.generateFilename(seqJob, seqJob.getCoreProperty(SequenceJob::SJ_TargetName).toString(),
-                        true, true, 1, ".fits", "", false, true);
-    seqJob.setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 }

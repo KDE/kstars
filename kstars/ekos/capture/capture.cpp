@@ -2925,7 +2925,10 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         return false;
 
     SequenceJob * job = nullptr;
-    m_TargetName = filePrefixT->text();
+    // change target only if not already set - this is necessary to NOT clearing
+    // the target that has been set by the scheduler before
+    if (m_TargetName.isEmpty())
+        m_TargetName = filePrefixT->text();
 
     if (filenamePreview == NOT_PREVIEW)
     {
@@ -2954,6 +2957,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
     job->setCoreProperty(SequenceJob::SJ_DarkFlat, isDarkFlat);
+    job->setCoreProperty(SequenceJob::SJ_UsingPlaceholders, true);
 
     if (captureISOS)
         job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
@@ -3175,7 +3179,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     }
 
     QString signature = placeholderPath.generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
-                        filenamePreview == LOCAL_PREVIEW, true, 1, ".fits", "", false, true);
+                        filenamePreview != REMOTE_PREVIEW, true, 1, ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 
     return true;
@@ -4404,6 +4408,7 @@ bool Capture::processJobInfo(XMLEle * root)
     bool isDarkFlat = false;
     m_Scripts.clear();
     QLocale cLocale = QLocale::c();
+    bool foundPlaceholderFormat = false;
 
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
@@ -4515,10 +4520,12 @@ bool Capture::processJobInfo(XMLEle * root)
         else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
         {
             placeholderFormatT->setText(pcdataXMLEle(ep));
+            foundPlaceholderFormat = true;
         }
         else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
         {
             formatSuffixN->setValue(cLocale.toUInt(pcdataXMLEle(ep)));
+            foundPlaceholderFormat = true;
         }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
@@ -4649,6 +4656,9 @@ bool Capture::processJobInfo(XMLEle * root)
             }
         }
     }
+
+    if (!foundPlaceholderFormat)
+        placeholderFormatT->setText(PlaceholderPath::defaultFormat(FilterEnabled, ExpEnabled, TimeStampEnabled));
 
     addJob(false, isDarkFlat);
 
