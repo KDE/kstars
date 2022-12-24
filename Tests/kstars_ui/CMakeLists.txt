@@ -132,7 +132,7 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler_ops POST_BUILD
             ${CMAKE_CURRENT_BINARY_DIR})
 
 ADD_TEST(NAME TestEkosSchedulerOps COMMAND test_ekos_scheduler_ops)
-SET_TESTS_PROPERTIES( TestEkosSchedulerOps PROPERTIES LABELS "unstable;ui" TIMEOUT 120 )
+SET_TESTS_PROPERTIES( TestEkosSchedulerOps PROPERTIES LABELS "stable;ui" TIMEOUT 200 )
 
 ADD_EXECUTABLE(test_artificial_horizon ${KSTARS_UI_EKOS_SRC} test_artificial_horizon.cpp)
 TARGET_LINK_LIBRARIES(test_artificial_horizon ${KSTARS_UI_EKOS_LIBS})
