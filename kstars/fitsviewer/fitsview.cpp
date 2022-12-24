@@ -862,27 +862,48 @@ int drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int hei
     constexpr int timeoutMilliseconds = 3 * 1000;
     QElapsedTimer timer;
     timer.start();
-    bool timedOut = false;
+    QPoint p;
     for (int y = 0; y < height; y++)
     {
-        const auto inputLine  = inputBuffer + y * width;
+        auto inputLine  = inputBuffer + y * width;
+        p.setY(y);
         for (int x = 0; x < width; x++)
         {
-            if (inputLine[x] > clipping)
+            if (*inputLine++ > clipping)
             {
-                painter->drawPoint(x, y);
                 numClipped++;
+                const int start = x;
+                // Use this inner loop to recognize strings of clipped pixels
+                // and draw lines instead of multiple calls to drawPoints.
+                while (true)
+                {
+                    if (++x >= width)
+                    {
+                        painter->drawLine(start, y, width - 1, y);
+                        break;
+                    }
+                    if (*inputLine++ > clipping)
+                        numClipped++;
+                    else
+                    {
+                        if (x == start + 1)
+                        {
+                            p.setX(start);
+                            painter->drawPoints(&p, 1);
+                        }
+                        else
+                            painter->drawLine(start, y, x - 1, y);
+                        break;
+                    }
+                }
             }
         }
         if (timer.elapsed() > timeoutMilliseconds)
         {
-            timedOut = true;
-            break;
+            painter->restore();
+            return -1;
         }
     }
-    if (timedOut)
-        numClipped = -1;
-
     painter->restore();
     return numClipped;
 }
@@ -890,42 +911,68 @@ int drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int hei
 template <typename T>
 int drawClippingThreeChannels(T *inputBuffer, QPainter *painter, int width, int height, double clipVal, double scale)
 {
+    int numClipped = 0;
     painter->save();
     painter->setPen(QPen(Qt::red, scale, Qt::SolidLine));
-    const int size = width * height;
     const T clipping = clipVal;
-    int numClipped = 0;
     constexpr int timeoutMilliseconds = 3 * 1000;
     QElapsedTimer timer;
     timer.start();
-    bool timedOut = false;
+    QPoint p;
+    const int size = width * height;
     for (int y = 0; y < height; y++)
     {
         // R, G, B input images are stored one after another.
         const T * inputLineR  = inputBuffer + y * width;
         const T * inputLineG  = inputLineR + size;
         const T * inputLineB  = inputLineG + size;
+        p.setY(y);
 
         for (int x = 0; x < width; x++)
         {
-            const T inputR = inputLineR[x];
-            const T inputG = inputLineG[x];
-            const T inputB = inputLineB[x];
+            T inputR = inputLineR[x];
+            T inputG = inputLineG[x];
+            T inputB = inputLineB[x];
+
             if (inputR > clipping || inputG > clipping || inputB > clipping)
             {
-                painter->drawPoint(x, y);
                 numClipped++;
+                const int start = x;
+
+                // Use this inner loop to recognize strings of clipped pixels
+                // and draw lines instead of multiple calls to drawPoints.
+                while (true)
+                {
+                    if (++x >= width)
+                    {
+                        painter->drawLine(start, y, width - 1, y);
+                        break;
+                    }
+                    T inputR2 = inputLineR[x];
+                    T inputG2 = inputLineG[x];
+                    T inputB2 = inputLineB[x];
+                    if (inputR2 > clipping || inputG2 > clipping || inputB2 > clipping)
+                        numClipped++;
+                    else
+                    {
+                        if (x == start + 1)
+                        {
+                            p.setX(start);
+                            painter->drawPoints(&p, 1);
+                        }
+                        else
+                            painter->drawLine(start, y, x - 1, y);
+                        break;
+                    }
+                }
             }
         }
         if (timer.elapsed() > timeoutMilliseconds)
         {
-            timedOut = true;
-            break;
+            painter->restore();
+            return -1;
         }
     }
-    if (timedOut)
-        numClipped = -1;
-
     painter->restore();
     return numClipped;
 }
