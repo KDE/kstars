@@ -189,6 +189,82 @@
          </layout>
         </widget>
        </item>
+       <item>
+        <widget class="QGroupBox" name="clippingBox">
+         <property name="title">
+          <string>Clipping</string>
+         </property>
+         <layout class="QGridLayout" name="clippingLayout">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="clipping64KLabel">
+            <property name="toolTip">
+             <string>Clipping value for 16-bit values.</string>
+            </property>
+            <property name="text">
+             <string>64K Clipping value:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="kcfg_Clipping64KValue">
+            <property name="toolTip">
+             <string>64K Clipping value.</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>65536</number>
+            </property>
+            <property name="value">
+             <number>60000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="clipping256Label">
+            <property name="toolTip">
+             <string>Clipping value for 16-bit values.</string>
+            </property>
+            <property name="text">
+             <string>Byte Clipping value:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="kcfg_Clipping256Value">
+            <property name="toolTip">
+             <string>Byte Clipping value.</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>256</number>
+            </property>
+            <property name="value">
+             <number>250</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -334,6 +410,13 @@
            <bool>false</bool>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>

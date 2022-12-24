@@ -37,6 +37,7 @@
 #include <QImageReader>
 #include <QGestureEvent>
 #include <QMutexLocker>
+#include <QElapsedTimer>
 
 #ifndef _WIN32
 #include <unistd.h>
@@ -858,6 +859,10 @@ int drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int hei
     painter->save();
     painter->setPen(QPen(Qt::red, scale, Qt::SolidLine));
     const T clipping = clipVal;
+    constexpr int timeoutMilliseconds = 3 * 1000;
+    QElapsedTimer timer;
+    timer.start();
+    bool timedOut = false;
     for (int y = 0; y < height; y++)
     {
         const auto inputLine  = inputBuffer + y * width;
@@ -869,8 +874,15 @@ int drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int hei
                 numClipped++;
             }
         }
+        if (timer.elapsed() > timeoutMilliseconds)
+        {
+            timedOut = true;
+            break;
+        }
     }
-    fprintf(stderr, "%d of %d clipped (%.2f%%)\n", numClipped, width * height, numClipped * 100.0 / (width * height));
+    if (timedOut)
+        numClipped = -1;
+
     painter->restore();
     return numClipped;
 }
@@ -883,6 +895,10 @@ int drawClippingThreeChannels(T *inputBuffer, QPainter *painter, int width, int 
     const int size = width * height;
     const T clipping = clipVal;
     int numClipped = 0;
+    constexpr int timeoutMilliseconds = 3 * 1000;
+    QElapsedTimer timer;
+    timer.start();
+    bool timedOut = false;
     for (int y = 0; y < height; y++)
     {
         // R, G, B input images are stored one after another.
@@ -901,8 +917,15 @@ int drawClippingThreeChannels(T *inputBuffer, QPainter *painter, int width, int 
                 numClipped++;
             }
         }
+        if (timer.elapsed() > timeoutMilliseconds)
+        {
+            timedOut = true;
+            break;
+        }
     }
-    fprintf(stderr, "%d of %d clipped (%.2f%%)\n", numClipped, width * height, numClipped * 100.0 / (width * height));
+    if (timedOut)
+        numClipped = -1;
+
     painter->restore();
     return numClipped;
 }
@@ -924,10 +947,10 @@ void FITSView::drawClipping(QPainter *painter)
     auto input = m_ImageData->getImageBuffer();
     const int height = m_ImageData->height();
     const int width = m_ImageData->width();
-    constexpr double FLOAT_CLIP = 60000;
-    constexpr double SHORT_CLIP = 30000;
-    constexpr double USHORT_CLIP = 60000;
-    constexpr double BYTE_CLIP = 250;
+    const double FLOAT_CLIP = Options::clipping64KValue();
+    const double SHORT_CLIP = Options::clipping64KValue();
+    const double USHORT_CLIP = Options::clipping64KValue();
+    const double BYTE_CLIP = Options::clipping256Value();
     switch (m_ImageData->dataType())
     {
         case TBYTE:
@@ -964,8 +987,10 @@ void FITSView::drawClipping(QPainter *painter)
             m_NumClipped = 0;
             break;
     }
-    emit newStatus(QString("Clip:%1").arg(m_NumClipped), FITS_CLIP);
-
+    if (m_NumClipped < 0)
+        emit newStatus(QString("Clip:failed"), FITS_CLIP);
+    else
+        emit newStatus(QString("Clip:%1").arg(m_NumClipped), FITS_CLIP);
 }
 
 void FITSView::ZoomDefault()

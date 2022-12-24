@@ -384,7 +384,13 @@ QString HFRStatusString(const QSharedPointer<FITSData> &data)
 QString HFRClipString(FITSView* view)
 {
     if (view->isClippingShown())
-        return QString("Clip:%1").arg(view->getNumClipped());
+    {
+        const int numClipped = view->getNumClipped();
+        if (numClipped < 0)
+            return QString("Clip:failed");
+        else
+            return QString("Clip:%1").arg(view->getNumClipped());
+    }
     return "";
 }
 }  // namespace

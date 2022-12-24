@@ -1752,6 +1752,15 @@
          <label>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</label>
          <default>4</default>
       </entry>
+      <entry name="Clipping64KValue" type="UInt">
+         <label>Min value of pixels marked as clipped in the fitsviewer for 16-bit images.</label>
+         <default>60000</default>
+      </entry>
+      <entry name="Clipping256Value" type="UInt">
+         <label>Min value of pixels marked as clipped in the fitsviewer for 8-bit images.</label>
+         <default>250</default>
+      </entry>
+      
       <entry name="AdaptiveSampling" type="Bool">
          <label>Automatically down sample images based on available resources.</label>
          <default>true</default>
