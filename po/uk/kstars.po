@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-25 00:45+0000\n"
-"PO-Revision-Date: 2022-12-23 08:57+0200\n"
+"PO-Revision-Date: 2022-12-25 08:50+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -26907,48 +26907,45 @@ msgstr "Розтягування попереднього перегляду:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clippingBox)
 #: fitsviewer/opsfits.ui:195
-#, fuzzy, kde-format
-#| msgid "Clipping"
+#, kde-format
 msgid "Clipping Limits"
-msgstr "Зрізання"
+msgstr "Обмеження обрізання"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:216
 #, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr ""
+msgstr "Значення обрізання для 16-бітових значень."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:219
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "16bit threshold:"
-msgstr "Темп. поріг:"
+msgstr "16-бітовий поріг:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:226
 #, kde-format
 msgid "64K Clipping value."
-msgstr ""
+msgstr "Значення обрізання на 64К."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:242
 #, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr ""
+msgstr "Значення обрізання для 8-бітових значень."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:245
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "8Bit threshold:"
-msgstr "Темп. поріг:"
+msgstr "8-бітовий поріг:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:252
 #, kde-format
 msgid "Byte Clipping value."
-msgstr ""
+msgstr "Байтове значення обрізання."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:273
@@ -33285,6 +33282,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
+"Мінімальне значення пікселів, які позначено як обрізані у fitsviewer для 16-"
+"бітових зображень."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1760
@@ -33292,6 +33291,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
+"Мінімальне значення пікселів, які позначено як обрізані у fitsviewer для 8-"
+"бітових зображень."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:1765

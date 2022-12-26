@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-25 00:45+0000\n"
-"PO-Revision-Date: 2022-12-23 14:37+0100\n"
+"PO-Revision-Date: 2022-12-25 09:40+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -26970,48 +26970,45 @@ msgstr "Vista prèvia estirada:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clippingBox)
 #: fitsviewer/opsfits.ui:195
-#, fuzzy, kde-format
-#| msgid "Clipping"
+#, kde-format
 msgid "Clipping Limits"
-msgstr "Retallat"
+msgstr "Límits del retallat"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:216
 #, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr ""
+msgstr "Valor del retallat per a valors de 16 bits."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:219
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "16bit threshold:"
-msgstr "Llindar de temp.:"
+msgstr "Llindar de 16 bits:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:226
 #, kde-format
 msgid "64K Clipping value."
-msgstr ""
+msgstr "Valor del retallat de 64K."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:242
 #, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr ""
+msgstr "Valor del retallat per a valors de 8 bits."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:245
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "8Bit threshold:"
-msgstr "Llindar de temp.:"
+msgstr "Llindar de 8 bits:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:252
 #, kde-format
 msgid "Byte Clipping value."
-msgstr ""
+msgstr "Valor del retallat de byte."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:273
@@ -33491,6 +33488,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
+"Valor mínim dels píxels marcats com a retallats en el visualitzador FITS per "
+"a les imatges de 16 bits."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1760
@@ -33498,6 +33497,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
+"Valor mínim dels píxels marcats com a retallats en el visualitzador FITS per "
+"a les imatges de 8 bits."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:1765

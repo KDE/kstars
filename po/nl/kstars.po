@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-25 00:45+0000\n"
-"PO-Revision-Date: 2022-12-23 11:25+0100\n"
+"PO-Revision-Date: 2022-12-25 13:53+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -26631,48 +26631,45 @@ msgstr "Voorbeeld van uitrekken:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clippingBox)
 #: fitsviewer/opsfits.ui:195
-#, fuzzy, kde-format
-#| msgid "Clipping"
+#, kde-format
 msgid "Clipping Limits"
-msgstr "Afsnijden"
+msgstr "Afsnijgrenzen"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:216
 #, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr ""
+msgstr "Afsnijwaarde voor 16 bits waarden."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:219
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "16bit threshold:"
-msgstr "T. grenswaarde:"
+msgstr "16 bits drempelwaarde:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:226
 #, kde-format
 msgid "64K Clipping value."
-msgstr ""
+msgstr "64K afsnijwaarde."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:242
 #, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr ""
+msgstr "Afsnijwaarde voor 8 bits waarden."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:245
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "8Bit threshold:"
-msgstr "T. grenswaarde:"
+msgstr "8 bits drempelwaarde:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:252
 #, kde-format
 msgid "Byte Clipping value."
-msgstr ""
+msgstr "Afsnijwaarde van byte."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:273
@@ -33006,6 +33003,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
+"Minimum waarde van pixels gemarkeerd als afgesneden in de fitsviewer voor 16 "
+"bits afbeeldingen."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1760
@@ -33013,6 +33012,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
+"Minimum waarde van pixels gemarkeerd als afgesneden in de fitsviewer voor 8 "
+"bits afbeeldingen."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:1765
