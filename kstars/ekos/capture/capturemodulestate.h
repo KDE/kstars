@@ -304,6 +304,11 @@ class CaptureModuleState: public QObject
             return (m_FocusState != FOCUS_IDLE && m_FocusState != FOCUS_COMPLETE && m_FocusState != FOCUS_ABORTED);
         }
 
+        bool isCaptureRunning()
+        {
+            return (m_CaptureState != CAPTURE_IDLE && m_CaptureState != CAPTURE_COMPLETE && m_CaptureState != CAPTURE_ABORTED);
+        }
+
     signals:
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();

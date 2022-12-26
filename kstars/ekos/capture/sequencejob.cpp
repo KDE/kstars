@@ -141,7 +141,7 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         {
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
-                setCoreProperty(SJ_RawPrefix, QString(pcdataXMLEle(subEP)));
+                setCoreProperty(SJ_TargetName, QString(pcdataXMLEle(subEP)));
 
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)

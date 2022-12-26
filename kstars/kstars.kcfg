@@ -1780,7 +1780,7 @@
       <entry name="CaptureDirectory" type="String">
          <label>Path to capture directory to save images.</label>         
       </entry>
-      <entry name="PlaceholderFomat" type="String">
+      <entry name="PlaceholderFormat" type="String">
          <label>How to format captured image filename.</label>
          <default code="true">KSUtils::getDefaultPath("placeholderFormat")</default>
       </entry>

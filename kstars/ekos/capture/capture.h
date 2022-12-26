@@ -85,7 +85,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Capture")
         Q_PROPERTY(Ekos::CaptureState status READ status NOTIFY newStatus)
-        Q_PROPERTY(QString targetName MEMBER m_TargetName)
+        Q_PROPERTY(QString targetName READ getTargetName WRITE setTargetName)
         Q_PROPERTY(QString observerName MEMBER m_ObserverName)
         Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
         Q_PROPERTY(QString camera READ camera)
@@ -535,6 +535,12 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name);
 
+        /** DBus interface function
+         * @brief Set the name of the target to be captured.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
+        Q_SCRIPTABLE QString getTargetName() { return m_RawPrefix; }
+
         /** @}*/
 
         /**
@@ -572,15 +578,6 @@ class Capture : public QWidget, public Ui::Capture
         void setDelay(uint16_t delay)
         {
             captureDelayN->setValue(delay);
-        }
-
-        /**
-         * @brief setPrefix Set target or prefix name used in constructing the generated file name
-         * @param prefix Leading text of the generated image name.
-         */
-        void setPrefix(const QString &prefix)
-        {
-            filePrefixT->setText(prefix);
         }
 
         /**
@@ -643,12 +640,6 @@ class Capture : public QWidget, public Ui::Capture
              * @param nvp pointer to number property.
              */
         void processCCDNumber(INumberVectorProperty *nvp);
-
-        /**
-         * @brief processNewTargetName If mount slews to a new object, process it as it can be used for prefix
-         * @param name new sky object under tracking.
-         */
-        void processNewTargetName(const QString &name);
 
         /**
          * @brief addSequenceJob Add a sequence job. This simply calls addJob below with both preview and isDarkFlat set to false.
@@ -781,7 +772,8 @@ class Capture : public QWidget, public Ui::Capture
         QSharedPointer<MeridianFlipState> getMeridianFlipState();
         void setMeridianFlipState(QSharedPointer<MeridianFlipState> state);
 
-    private slots:
+
+private slots:
 
         /**
              * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
@@ -1051,7 +1043,7 @@ class Capture : public QWidget, public Ui::Capture
         bool autoGuideReady { false};
 
         QString m_TargetName;
-        QString m_FullTargetName;
+        QString m_RawPrefix;
         QString m_ObserverName;
 
         // Currently active sequence job.

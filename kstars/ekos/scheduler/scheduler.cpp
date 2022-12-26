@@ -3078,15 +3078,9 @@ bool Scheduler::executeJob(SchedulerJob *job)
 
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
-        QString sanitized = job->getName();
-        sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                    // Remove any two or more __
-                    .replace( QRegularExpression("_{2,}"), "_")
-                    // Remove any _ at the end
-                    .replace( QRegularExpression("_$"), "");
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s%s\n", __LINE__, "captureInterface:setProperty", "targetName=",
-                   sanitized.toLatin1().data());
-        captureInterface->setProperty("targetName", sanitized);
+                   job->getName().toLatin1().data());
+        captureInterface->setProperty("targetName", job->getName());
     }
 
     calculateDawnDusk();
@@ -5565,15 +5559,9 @@ void Scheduler::startCapture(bool restart)
         return;
     }
 
-    QString sanitized = currentJob->getName();
-    sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                // Remove any two or more __
-                .replace( QRegularExpression("_{2,}"), "_")
-                // Remove any _ at the end
-                .replace( QRegularExpression("_$"), "");
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s%s\n", __LINE__, "captureInterface:setProperty", "targetName=",
-               sanitized.toLatin1().data());
-    captureInterface->setProperty("targetName", sanitized);
+               currentJob->getName().toLatin1().data());
+    captureInterface->setProperty("targetName", currentJob->getName());
 
     QString url = currentJob->getSequenceFile().toLocalFile();
 

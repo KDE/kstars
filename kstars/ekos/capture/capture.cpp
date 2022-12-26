@@ -491,16 +491,16 @@ Capture::Capture()
     getMeridianFlipState();
 
     //Update the filename preview
-    placeholderFormatT->setText(Options::placeholderFomat());
+    placeholderFormatT->setText(Options::placeholderFormat());
     connect(placeholderFormatT, &QLineEdit::textChanged, this, [this]()
     {
-        Options::setPlaceholderFomat(placeholderFormatT->text());
+        Options::setPlaceholderFormat(placeholderFormatT->text());
         generatePreviewFilename();
     });
     connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Capture::generatePreviewFilename);
     connect(captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             &Ekos::Capture::generatePreviewFilename);
-    connect(filePrefixT, &QLineEdit::textChanged, this, &Ekos::Capture::generatePreviewFilename);
+    connect(targetNameT, &QLineEdit::textChanged, this, &Ekos::Capture::generatePreviewFilename);
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Ekos::Capture::generatePreviewFilename);
 
 }
@@ -680,7 +680,7 @@ bool Capture::setMount(ISD::Mount *device)
         return false;
 
     m_captureDeviceAdaptor->getMount()->disconnect(this);
-    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::newTargetName, this, &Ekos::Capture::processNewTargetName);
+    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::newTargetName, this, &Ekos::Capture::setTargetName);
 
     m_RotatorControlPanel->setCurrentPierSide(device->pierSide());
     connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::pierSideChanged, m_RotatorControlPanel.get(),
@@ -2925,10 +2925,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         return false;
 
     SequenceJob * job = nullptr;
-    // change target only if not already set - this is necessary to NOT clearing
-    // the target that has been set by the scheduler before
-    if (m_TargetName.isEmpty())
-        m_TargetName = filePrefixT->text();
+    m_TargetName = targetNameT->text();
 
     if (filenamePreview == NOT_PREVIEW)
     {
@@ -2986,21 +2983,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     job->setWallCoord(wallCoord);
     job->setCoreProperty(SequenceJob::SJ_TargetADU, targetADU);
     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, targetADUTolerance);
-
-    // JM 2019-11-26: In case there is no raw prefix set
-    // BUT target name is set, we update the prefix to include
-    // the target name, which is usually set by the scheduler.
-    if (!m_TargetName.isEmpty() && filenamePreview == NOT_PREVIEW)
-    {
-        // Target name as set externally should override Full Target Name that
-        // was set by GOTO operation alone.
-        m_FullTargetName = m_TargetName;
-        m_FullTargetName.replace("_", " ");
-        filePrefixT->setText(m_TargetName);
-        job->setCoreProperty(SequenceJob::SJ_TargetName, m_TargetName);
-    }
-
-    job->setCoreProperty(SequenceJob::SJ_RawPrefix, filePrefixT->text());
+    job->setCoreProperty(SequenceJob::SJ_TargetName, m_TargetName);
     job->setCoreProperty(SequenceJob::SJ_FilterPrefixEnabled, FilterEnabled);
     job->setCoreProperty(SequenceJob::SJ_ExpPrefixEnabled, ExpEnabled);
     job->setCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled, TimeStampEnabled);
@@ -3687,8 +3670,8 @@ void Capture::executeJob()
     QString rawPrefix = activeJob->property("rawPrefix").toString();
     if (m_ObserverName.isEmpty() == false)
         FITSHeader["FITS_OBSERVER"] = m_ObserverName;
-    if (m_FullTargetName.isEmpty() == false)
-        FITSHeader["FITS_OBJECT"] = m_FullTargetName;
+    if (m_RawPrefix.isEmpty() == false)
+        FITSHeader["FITS_OBJECT"] = m_RawPrefix;
     else if (rawPrefix.isEmpty() == false)
     {
         // JM 2021-07-08: Remove "_" from target name.
@@ -4208,23 +4191,13 @@ void Capture::setRotatorReversed(bool toggled)
 
 }
 
-void Capture::processNewTargetName(const QString &name)
+void Capture::setTargetName(const QString &name)
 {
-    if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
+    if (m_captureModuleState->isCaptureRunning() == false)
     {
-        QString sanitized = name;
-        if (sanitized != i18n("unnamed"))
-        {
-            // Remove illegal characters that can be problematic
-            sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                        // Remove any two or more __
-                        .replace( QRegularExpression("_{2,}"), "_")
-                        // Remove any _ at the end
-                        .replace( QRegularExpression("_$"), "");
-            m_FullTargetName = name;
-            filePrefixT->setText(sanitized);
-            generatePreviewFilename();
-        }
+        m_RawPrefix = name;
+        targetNameT->setText(m_RawPrefix);
+        generatePreviewFilename();
     }
 }
 
@@ -4475,9 +4448,9 @@ bool Capture::processJobInfo(XMLEle * root)
             if (subEP)
             {
                 if (strcmp(pcdataXMLEle(subEP), "") != 0)
-                    filePrefixT->setText(pcdataXMLEle(subEP));
-                else if (!m_FullTargetName.isEmpty())
-                    filePrefixT->setText(m_FullTargetName);
+                    targetNameT->setText(pcdataXMLEle(subEP));
+                else if (!m_RawPrefix.isEmpty())
+                    targetNameT->setText(m_RawPrefix);
             }
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
@@ -4764,7 +4737,7 @@ bool Capture::saveSequenceQueue(const QString &path)
               << Qt::endl;
     for (auto &job : jobs)
     {
-        auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+        auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
         auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
         auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
         auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
@@ -4953,7 +4926,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
         return;
     }
 
-    auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+    auto jobTargetName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
     captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
@@ -4967,7 +4940,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     captureFrameHN->setValue(roi.height());
     FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
     captureTypeS->setCurrentIndex(job->getFrameType());
-    filePrefixT->setText(rawPrefix);
+    targetNameT->setText(jobTargetName);
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
@@ -6631,14 +6604,14 @@ void Capture::setPresetSettings(const QJsonObject &settings)
 
 void Capture::setFileSettings(const QJsonObject &settings)
 {
-    const auto prefix = settings["prefix"].toString(filePrefixT->text());
+    const auto prefix = settings["prefix"].toString(targetNameT->text());
     const auto directory = settings["directory"].toString(fileDirectoryT->text());
     const auto upload = settings["upload"].toInt(fileUploadModeS->currentIndex());
     const auto remote = settings["remote"].toString(fileRemoteDirT->text());
     const auto format = settings["format"].toString(placeholderFormatT->text());
     const auto suffix = settings["suffix"].toInt(formatSuffixN->value());
 
-    filePrefixT->setText(prefix);
+    targetNameT->setText(prefix);
     fileDirectoryT->setText(directory);
     fileUploadModeS->setCurrentIndex(upload);
     fileRemoteDirT->setText(remote);
@@ -6650,7 +6623,7 @@ QJsonObject Capture::getFileSettings()
 {
     QJsonObject settings =
     {
-        {"prefix", filePrefixT->text()},
+        {"prefix", targetNameT->text()},
         {"directory", fileDirectoryT->text()},
         {"format", placeholderFormatT->text()},
         {"suffix", formatSuffixN->value()},
@@ -7393,8 +7366,6 @@ void Capture::refreshOpticalTrain()
 
         auto mount = OpticalTrainManager::Instance()->getMount(name);
         setMount(mount);
-
-        generatePreviewFilename();
     }
 
     opticalTrainCombo->blockSignals(false);
@@ -7447,7 +7418,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         QString extension = ".fits";
         if (captureEncodingS->currentText() != "FITS")
             extension = ".[NATIVE]";
-        previewText = m_placeholderPath.generateFilename(*m_job, filePrefixT->text(), previewType == LOCAL_PREVIEW, true, 1,
+        previewText = m_placeholderPath.generateFilename(*m_job, targetNameT->text(), previewType == LOCAL_PREVIEW, true, 1,
                       extension, "", false);
         jobs.removeLast();
     }

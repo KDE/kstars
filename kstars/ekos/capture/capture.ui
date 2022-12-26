@@ -936,7 +936,7 @@
            </widget>
           </item>
           <item row="0" column="1" colspan="5">
-           <widget class="QLineEdit" name="filePrefixT">
+           <widget class="QLineEdit" name="targetNameT">
             <property name="placeholderText">
              <string>Target</string>
             </property>
@@ -2239,6 +2239,7 @@ font-weight:bold;
            <widget class="QLabel" name="frameInfoLabel">
             <property name="font">
              <font>
+              <weight>50</weight>
               <bold>false</bold>
              </font>
             </property>
@@ -2270,6 +2271,7 @@ font-weight:bold;
             </property>
             <property name="font">
              <font>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -2308,6 +2310,7 @@ font-weight:bold;
             </property>
             <property name="font">
              <font>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -2434,7 +2437,7 @@ font-weight:bold;
   <tabstop>captureBinVN</tabstop>
   <tabstop>customValuesB</tabstop>
   <tabstop>rotatorB</tabstop>
-  <tabstop>filePrefixT</tabstop>
+  <tabstop>targetNameT</tabstop>
   <tabstop>fileDirectoryT</tabstop>
   <tabstop>selectFileDirectoryB</tabstop>
   <tabstop>fileUploadModeS</tabstop>
@@ -2462,11 +2465,11 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="sequenceControlsButtonGroup"/>
   <buttongroup name="queueEditButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="sequenceControlsButtonGroup"/>
  </buttongroups>
 </ui>
