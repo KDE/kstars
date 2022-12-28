@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-08-17 17:31+0200\n"
 "Last-Translator: Jon Intxaurbe <joinzar@gmail.com>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -11814,11 +11814,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, fuzzy, kde-format
 #| msgid "Guides"
-msgid "Guiding:"
+msgid "Guider:"
 msgstr "Gidak"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -21872,6 +21871,13 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr "Erabili zehaztutako konfigurazioaren fitxategia"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgid "Guides"
+msgid "Guiding:"
+msgstr "Gidak"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -87807,11 +87813,6 @@ msgstr "Ezarri atzeko planoko kolorea."
 
 #~ msgid "Prefix:"
 #~ msgstr "Aurrizkia:"
-
-#, fuzzy
-#~| msgid "Guides"
-#~ msgid "Guider:"
-#~ msgstr "Gidak"
 
 #~ msgid "Aliases for filter wheel slots."
 #~ msgstr "Aliasak iragazki gurpilaren erretenentzako."

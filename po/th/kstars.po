@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -11643,12 +11643,11 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
-msgid "Guiding:"
+msgid "Guider:"
 msgstr "แสดงภาพ DSS"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -21143,6 +21142,14 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgctxt "Digitized Sky Survey"
+#| msgid "Show DSS Image"
+msgid "Guiding:"
+msgstr "แสดงภาพ DSS"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -78422,12 +78429,6 @@ msgstr ""
 #~| msgid "Invalid Save Location"
 #~ msgid "Telescope or Lens"
 #~ msgstr "ที่ตั้งการบันทึกไม่ถูกต้อง"
-
-#, fuzzy
-#~| msgctxt "Digitized Sky Survey"
-#~| msgid "Show DSS Image"
-#~ msgid "Guider"
-#~ msgstr "แสดงภาพ DSS"
 
 #, fuzzy
 #~| msgid "Next Target >"

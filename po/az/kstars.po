@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-07-31 23:14+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -11533,11 +11533,11 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
-#, kde-format
-msgid "Guiding:"
-msgstr ""
+#: ekos/auxiliary/opticaltrains.ui:297
+#, fuzzy, kde-format
+#| msgid "G5 star"
+msgid "Guider:"
+msgstr "G5 ulduz"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -20779,6 +20779,12 @@ msgstr ""
 msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
@@ -77286,11 +77292,6 @@ msgstr ""
 #~| msgid "Telescope Toolbar"
 #~ msgid "Telescope or Lens"
 #~ msgstr "Teleskop Alətlər Paneli"
-
-#, fuzzy
-#~| msgid "G5 star"
-#~ msgid "Guider"
-#~ msgstr "G5 ulduz"
 
 #, fuzzy
 #~| msgid "Country:"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-12-25 14:01+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -13149,11 +13149,11 @@ msgstr ""
 "como a guia.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
-#, kde-format
-msgid "Guiding:"
-msgstr "Guia:"
+#: ekos/auxiliary/opticaltrains.ui:297
+#, fuzzy, kde-format
+#| msgid "Guide: "
+msgid "Guider:"
+msgstr "Guia: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -23242,6 +23242,12 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Selecciona o 'plugin' que o módulo de Guia deverá usar."
 "</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
+msgstr "Guia:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-12-17 07:53+0100\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -12040,11 +12040,10 @@ msgstr ""
 "GPUSB) est utilisé, alors il faut le choisir comme guide.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, kde-format
-msgid "Guiding:"
-msgstr "Guidage"
+msgid "Guider:"
+msgstr "Guide"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -22214,6 +22213,12 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Sélectionner quel module externe du module "
 "d'assistance au guidage doit être utilisé.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
+msgstr "Guidage"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -81318,9 +81323,6 @@ msgstr "Sélectionnez la couleur de fond."
 #~ msgstr ""
 #~ "Impossible de lancer la procédure de démarrage si les périphériques INDI "
 #~ "ne sont pas connectés."
-
-#~ msgid "Guider:"
-#~ msgstr "Guide"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD"

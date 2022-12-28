@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -12121,12 +12121,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
-#, fuzzy, kde-format
-#| msgid "Guiding"
-msgid "Guiding:"
-msgstr "Navođenje"
+#: ekos/auxiliary/opticaltrains.ui:297
+#, kde-format
+msgid "Guider:"
+msgstr "Vodič:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -22224,6 +22222,13 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr "Dodatne opcije za rješavača"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgid "Guiding"
+msgid "Guiding:"
+msgstr "Navođenje"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -88196,9 +88201,6 @@ msgstr "Postavi boju pozadine."
 #~| msgid "Cannot switch modes while INDI services are running."
 #~ msgid "Cannot run startup procedure while INDI devices are not online."
 #~ msgstr "Ne mogu se zamjeniti stanja dok su pokrenutu INDI usluge."
-
-#~ msgid "Guider:"
-#~ msgstr "Vodič:"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD:"

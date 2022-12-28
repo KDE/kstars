@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -11971,12 +11971,11 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, fuzzy, kde-format
-#| msgid "Coordinates"
-msgid "Guiding:"
-msgstr "كوئوردېنات"
+#| msgid "Guide"
+msgid "Guider:"
+msgstr "يېتەكچى"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -21855,6 +21854,13 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgid "Coordinates"
+msgid "Guiding:"
+msgstr "كوئوردېنات"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -85316,11 +85322,6 @@ msgstr ""
 #~| msgid "Geographic Coordinates"
 #~ msgid "Telescope or Lens"
 #~ msgstr "جۇغراپىيىلىك كوئوردېناتلار"
-
-#, fuzzy
-#~| msgid "Guide"
-#~ msgid "Guider"
-#~ msgstr "يېتەكچى"
 
 #, fuzzy
 #~| msgid "Prefix:"

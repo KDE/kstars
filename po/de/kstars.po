@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -11975,10 +11975,9 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, kde-format
-msgid "Guiding:"
+msgid "Guider:"
 msgstr "Nachführung:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -22257,6 +22256,12 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr "Zusätzliche Einstellungen für die Lösung"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
+msgstr "Nachführung:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -81104,9 +81109,6 @@ msgstr "Bestimmt die Farbe für den Hintergrund."
 #~ msgstr ""
 #~ "Wechsel der Modi ist nicht möglich, während die INDI-Dienste ausgeführt "
 #~ "werden."
-
-#~ msgid "Guider:"
-#~ msgstr "Nachführung:"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD:"

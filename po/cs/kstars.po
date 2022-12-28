@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-06-28 15:19+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -11323,11 +11323,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, kde-format
-msgid "Guiding:"
-msgstr ""
+msgid "Guider:"
+msgstr "Guider:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -20427,6 +20426,12 @@ msgstr "Informace o stránce"
 msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
@@ -76937,9 +76942,6 @@ msgstr "Nastavte barvu pozadí."
 
 #~ msgid "Prefix:"
 #~ msgstr "Přípona:"
-
-#~ msgid "Guider:"
-#~ msgstr "Guider:"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD:"

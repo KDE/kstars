@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kstars.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -12062,12 +12062,11 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, fuzzy, kde-format
-#| msgid "Horizontal Coordinates"
-msgid "Guiding:"
-msgstr "Comhordanáidí Cothrománacha"
+#| msgid "Guides"
+msgid "Guider:"
+msgstr "Treoirleabhair"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -22055,6 +22054,13 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgid "Horizontal Coordinates"
+msgid "Guiding:"
+msgstr "Comhordanáidí Cothrománacha"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -87114,11 +87120,6 @@ msgstr ""
 #~| msgid "Celestial Coordinates"
 #~ msgid "Telescope or Lens"
 #~ msgstr "Comhordanáidí Neamhaí"
-
-#, fuzzy
-#~| msgid "Guides"
-#~ msgid "Guider"
-#~ msgstr "Treoirleabhair"
 
 #, fuzzy
 #~| msgid "Prefix:"

@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1640887 $
+# Version: $Revision: 1640977 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-09-23 13:24+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -11934,11 +11934,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, kde-format
-msgid "Guiding:"
-msgstr "Naprowadzanie:"
+msgid "Guider:"
+msgstr "Prowadnica:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -22015,6 +22014,12 @@ msgid ""
 msgstr ""
 "<html><body><p>Wybierz jakiej wtyczki ma użyć moduł naprowadzania.</p></"
 "body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
+msgstr "Naprowadzanie:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -80522,9 +80527,6 @@ msgstr "Ustaw barwę tła."
 
 #~ msgid "Cannot run startup procedure while INDI devices are not online."
 #~ msgstr "Nie można dokonać rozruchu, gdy urządzenia INDI nie są podłączone."
-
-#~ msgid "Guider:"
-#~ msgstr "Prowadnica:"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD:"

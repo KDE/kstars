@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -12116,12 +12116,11 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, fuzzy, kde-format
 #| msgid "Guides"
-msgid "Guiding:"
-msgstr "Vedikliai"
+msgid "Guider:"
+msgstr "Guideris"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -22011,6 +22010,13 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr "Naudoti nurodytą konfigūracijos failą"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgid "Guides"
+msgid "Guiding:"
+msgstr "Vedikliai"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -84937,11 +84943,6 @@ msgstr "Foną spalvinti šia spalva."
 
 #~ msgid "Prefix:"
 #~ msgstr "Prefiksas:"
-
-#, fuzzy
-#~| msgid "Guides"
-#~ msgid "Guider:"
-#~ msgstr "Guideris"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD:"

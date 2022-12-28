@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-12-25 08:50+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -11980,10 +11980,9 @@ msgstr ""
 "Shoestring GPUSB), виберіть його як засіб наведення.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, kde-format
-msgid "Guiding:"
+msgid "Guider:"
 msgstr "Наведення:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -22115,6 +22114,12 @@ msgid ""
 msgstr ""
 "<html><body><p>Виберіть додаток, яким має користуватися модуль наведення.</"
 "p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
+msgstr "Наведення:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -80839,9 +80844,6 @@ msgstr "Встановити колір тла."
 #~ msgstr ""
 #~ "Неможливо розпочати процедуру запуску, доки триває зв'язок із пристроями "
 #~ "INDI."
-
-#~ msgid "Guider:"
-#~ msgstr "Наведення:"
 
 #~ msgid "CCD:"
 #~ msgstr "ПЗЗ:"

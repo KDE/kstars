@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -11480,10 +11480,9 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, fuzzy, kde-format
-msgid "Guiding:"
+msgid "Guider:"
 msgstr "niks"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -20716,6 +20715,12 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr "Soek Voorwerp"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+msgid "Guiding:"
+msgstr "niks"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -79220,10 +79225,6 @@ msgstr "Wissel Diep Lug Objekte"
 #, fuzzy
 #~ msgid "Telescope or Lens"
 #~ msgstr "Aarde koördinate"
-
-#, fuzzy
-#~ msgid "Guider"
-#~ msgstr "niks"
 
 #, fuzzy
 #~ msgid "Append time stamp to the prefix"

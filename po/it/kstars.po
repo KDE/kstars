@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-12-09 20:29+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -12017,11 +12017,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, kde-format
-msgid "Guiding:"
-msgstr "Guida:"
+msgid "Guider:"
+msgstr "Telescopio guida:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -22155,6 +22154,12 @@ msgid ""
 msgstr ""
 "<html><body><p>Seleziona quale estensione dovrebbe essere utilizzata dal "
 "modulo di Guida.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
+msgstr "Guida:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -80699,9 +80704,6 @@ msgstr "Imposta il colore dello sfondo."
 #~ msgstr ""
 #~ "Impossibile eseguire la procedura di avvio mentre i dispositivi INDI non "
 #~ "sono in linea."
-
-#~ msgid "Guider:"
-#~ msgstr "Telescopio guida:"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD:"

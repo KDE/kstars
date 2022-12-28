@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -12046,11 +12046,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, fuzzy, kde-format
 #| msgid "Guides"
-msgid "Guiding:"
+msgid "Guider:"
 msgstr "안내선"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -22071,6 +22070,13 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr "지정된 설정 파일 사용."
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgid "Guides"
+msgid "Guiding:"
+msgstr "안내선"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -80728,11 +80734,6 @@ msgstr "배경색 설정"
 
 #~ msgid "Prefix:"
 #~ msgstr "접두어:"
-
-#, fuzzy
-#~| msgid "Guides"
-#~ msgid "Guider:"
-#~ msgstr "안내선"
 
 #~ msgid "Aliases for filter wheel slots."
 #~ msgstr "필터 휠 슬롯의 별칭"

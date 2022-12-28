@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2022-12-25 21:58+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -12024,11 +12024,10 @@ msgstr ""
 "sistema de guiado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
+#: ekos/auxiliary/opticaltrains.ui:297
 #, kde-format
-msgid "Guiding:"
-msgstr "Guiado:"
+msgid "Guider:"
+msgstr "Sistema de guiado:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -22158,6 +22157,12 @@ msgid ""
 msgstr ""
 "<html><body><p>Seleccione el complemento que debe usar el módulo del sistema "
 "de guiado.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, kde-format
+msgid "Guiding:"
+msgstr "Guiado:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -80977,9 +80982,6 @@ msgstr "Establecer el color para el fondo."
 #~ msgstr ""
 #~ "No se puede ejecutar el proceso de arranque mientras los dispositivos "
 #~ "INDI estén desconectados."
-
-#~ msgid "Guider:"
-#~ msgstr "Sistema de guiado:"
 
 #~ msgid "CCD:"
 #~ msgstr "CCD:"

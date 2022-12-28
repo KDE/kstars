@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-27 00:44+0000\n"
+"POT-Creation-Date: 2022-12-28 00:45+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -12578,12 +12578,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/auxiliary/opticaltrains.ui:297 ekos/profileeditor.ui:127
-#, fuzzy, kde-format
-#| msgid "Guiding"
-msgid "Guiding:"
-msgstr "Гидирование"
+#: ekos/auxiliary/opticaltrains.ui:297
+#, kde-format
+msgid "Guider:"
+msgstr "Гид:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:317
@@ -23417,6 +23415,13 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Принудительное достижение значения температуры перед "
 "съёмкой изображения</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
+#: ekos/profileeditor.ui:127
+#, fuzzy, kde-format
+#| msgid "Guiding"
+msgid "Guiding:"
+msgstr "Гидирование"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -82791,9 +82796,6 @@ msgstr "Установить цвет фона."
 #~| msgid "Cannot switch modes while INDI services are running."
 #~ msgid "Cannot run startup procedure while INDI devices are not online."
 #~ msgstr "Невозможно переключить режимы пока службы INDI работают."
-
-#~ msgid "Guider:"
-#~ msgstr "Гид:"
 
 #~ msgid "CCD:"
 #~ msgstr "ПЗС:"
