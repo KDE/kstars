@@ -152,8 +152,9 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
              * @param fileURL full URL of the filename
+             * @param ignoreTarget ignore target defined in the sequence queue file (necessary for using the target of the scheduler)
              */
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, bool ignoreTarget = false);
 
         /** DBUS interface function.
              * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -539,7 +540,7 @@ class Capture : public QWidget, public Ui::Capture
          * @brief Set the name of the target to be captured.
          */
         Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
-        Q_SCRIPTABLE QString getTargetName() { return m_RawPrefix; }
+        Q_SCRIPTABLE QString getTargetName() { return m_TargetName; }
 
         /** @}*/
 
@@ -914,7 +915,7 @@ private slots:
         void updateFrameProperties(int reset = 0);
         void prepareJob(SequenceJob *job);
         void syncGUIToJob(SequenceJob *job);
-        bool processJobInfo(XMLEle *root);
+        bool processJobInfo(XMLEle *root, bool ignoreTarget = false);
 
         /**
          * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
@@ -1043,7 +1044,6 @@ private slots:
         bool autoGuideReady { false};
 
         QString m_TargetName;
-        QString m_RawPrefix;
         QString m_ObserverName;
 
         // Currently active sequence job.

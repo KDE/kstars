@@ -5569,6 +5569,9 @@ void Scheduler::startCapture(bool restart)
     {
         QList<QVariant> dbusargs;
         dbusargs.append(url);
+        // ignore targets from sequence queue file
+        QVariant ignoreTarget(true);
+        dbusargs.append(ignoreTarget);
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:callWithArgs", "loadSequenceQueue");
         QDBusReply<bool> const captureReply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue",
                                               dbusargs);

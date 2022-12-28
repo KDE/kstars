@@ -500,7 +500,11 @@ Capture::Capture()
     connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Capture::generatePreviewFilename);
     connect(captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             &Ekos::Capture::generatePreviewFilename);
-    connect(targetNameT, &QLineEdit::textChanged, this, &Ekos::Capture::generatePreviewFilename);
+    connect(targetNameT, &QLineEdit::textChanged, this, [ = ]()
+    {
+        m_TargetName = targetNameT->text();
+        generatePreviewFilename();
+    });
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Ekos::Capture::generatePreviewFilename);
 
 }
@@ -2925,7 +2929,6 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         return false;
 
     SequenceJob * job = nullptr;
-    m_TargetName = targetNameT->text();
 
     if (filenamePreview == NOT_PREVIEW)
     {
@@ -3667,15 +3670,15 @@ void Capture::executeJob()
     activeJob->setFilterManager(m_FilterManager);
 
     QMap<QString, QString> FITSHeader;
-    QString rawPrefix = activeJob->property("rawPrefix").toString();
+    QString jobTargetName = activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     if (m_ObserverName.isEmpty() == false)
         FITSHeader["FITS_OBSERVER"] = m_ObserverName;
-    if (m_RawPrefix.isEmpty() == false)
-        FITSHeader["FITS_OBJECT"] = m_RawPrefix;
-    else if (rawPrefix.isEmpty() == false)
+    if (m_TargetName.isEmpty() == false)
+        FITSHeader["FITS_OBJECT"] = m_TargetName;
+    else if (jobTargetName.isEmpty() == false)
     {
         // JM 2021-07-08: Remove "_" from target name.
-        FITSHeader["FITS_OBJECT"] = rawPrefix.remove("_");
+        FITSHeader["FITS_OBJECT"] = jobTargetName.remove("_");
     }
 
     if (FITSHeader.count() > 0)
@@ -4195,8 +4198,8 @@ void Capture::setTargetName(const QString &name)
 {
     if (m_captureModuleState->isCaptureRunning() == false)
     {
-        m_RawPrefix = name;
-        targetNameT->setText(m_RawPrefix);
+        m_TargetName = name;
+        targetNameT->setText(m_TargetName);
         generatePreviewFilename();
     }
 }
@@ -4251,7 +4254,7 @@ void Capture::loadSequenceQueue()
     loadSequenceQueue(fileURL.toLocalFile());
 }
 
-bool Capture::loadSequenceQueue(const QString &fileURL)
+bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
 {
     QFile sFile(fileURL);
     if (!sFile.open(QIODevice::ReadOnly))
@@ -4349,7 +4352,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 }
                 else
                 {
-                    processJobInfo(ep);
+                    processJobInfo(ep, ignoreTarget);
                 }
             }
             delXMLEle(root);
@@ -4372,7 +4375,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
     return true;
 }
 
-bool Capture::processJobInfo(XMLEle * root)
+bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
 {
     XMLEle * ep;
     XMLEle * subEP;
@@ -4445,12 +4448,12 @@ bool Capture::processJobInfo(XMLEle * root)
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
             subEP = findXMLEle(ep, "RawPrefix");
-            if (subEP)
+            if (subEP && ignoreTarget == false)
             {
                 if (strcmp(pcdataXMLEle(subEP), "") != 0)
                     targetNameT->setText(pcdataXMLEle(subEP));
-                else if (!m_RawPrefix.isEmpty())
-                    targetNameT->setText(m_RawPrefix);
+                else if (!m_TargetName.isEmpty())
+                    targetNameT->setText(m_TargetName);
             }
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
