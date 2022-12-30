@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-29 00:48+0000\n"
-"PO-Revision-Date: 2022-12-29 10:14+0100\n"
+"PO-Revision-Date: 2022-12-30 07:36+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4243,7 +4243,7 @@ msgstr "ეპოქის არასწორი ფორმატი"
 #: dialogs/focusdialog.cpp:180
 #, kde-format
 msgid "The Azimuth value must be between 0.0 and 360.0."
-msgstr ""
+msgstr "აზიმუტის მნიშვნელობა 0.0-სა და 360.0-ს შორის უნდა იყოს."
 
 #: dialogs/focusdialog.cpp:182
 #, kde-format
