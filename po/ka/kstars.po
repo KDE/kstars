@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-29 00:48+0000\n"
-"PO-Revision-Date: 2022-12-28 09:31+0100\n"
+"PO-Revision-Date: 2022-12-29 10:14+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -23194,7 +23194,7 @@ msgstr "კლასიკური"
 #: ekos/scheduler/scheduler.ui:1209
 #, kde-format
 msgid "Greedy"
-msgstr ""
+msgstr "ხარბი"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/scheduler.ui:1267
