@@ -56,8 +56,8 @@ Capture::Capture()
 {
     setupUi(this);
 
-    qRegisterMetaType<Ekos::CaptureState>("Ekos::CaptureState");
-    qDBusRegisterMetaType<Ekos::CaptureState>();
+    qRegisterMetaType<CaptureState>("CaptureState");
+    qDBusRegisterMetaType<CaptureState>();
 
     new CaptureAdaptor(this);
     m_captureModuleState.reset(new CaptureModuleState());
@@ -90,7 +90,7 @@ Capture::Capture()
 
     //isAutoGuiding   = false;
 
-    m_RotatorControlPanel.reset(new RotatorSettings(Ekos::Manager::Instance()));
+    m_RotatorControlPanel.reset(new RotatorSettings(Manager::Instance()));
 
     // hide avg. download time and target drift initially
     targetDriftLabel->setVisible(false);
@@ -126,16 +126,16 @@ Capture::Capture()
 
     seqFileCount = 0;
     seqDelayTimer = new QTimer(this);
-    connect(seqDelayTimer, &QTimer::timeout, this, &Ekos::Capture::captureImage);
+    connect(seqDelayTimer, &QTimer::timeout, this, &Capture::captureImage);
     captureDelayTimer = new QTimer(this);
     captureDelayTimer->setSingleShot(true);
-    connect(captureDelayTimer, &QTimer::timeout, this, &Ekos::Capture::start, Qt::UniqueConnection);
+    connect(captureDelayTimer, &QTimer::timeout, this, &Capture::start, Qt::UniqueConnection);
 
-    connect(startB, &QPushButton::clicked, this, &Ekos::Capture::toggleSequence);
-    connect(pauseB, &QPushButton::clicked, this, &Ekos::Capture::pause);
+    connect(startB, &QPushButton::clicked, this, &Capture::toggleSequence);
+    connect(pauseB, &QPushButton::clicked, this, &Capture::pause);
     connect(darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
     connect(limitsB, &QPushButton::clicked, m_LimitsDialog, &QDialog::show);
-    connect(temperatureRegulationB, &QPushButton::clicked, this, &Ekos::Capture::showTemperatureRegulation);
+    connect(temperatureRegulationB, &QPushButton::clicked, this, &Capture::showTemperatureRegulation);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -147,12 +147,12 @@ Capture::Capture()
 
     connect(captureBinHN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), captureBinVN, &QSpinBox::setValue);
 
-    connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Capture::toggleVideo);
+    connect(liveVideoB, &QPushButton::clicked, this, &Capture::toggleVideo);
 
     guideDeviationTimer.setInterval(GD_TIMER_TIMEOUT);
-    connect(&guideDeviationTimer, &QTimer::timeout, this, &Ekos::Capture::checkGuideDeviationTimeout);
+    connect(&guideDeviationTimer, &QTimer::timeout, this, &Capture::checkGuideDeviationTimeout);
 
-    connect(clearConfigurationB, &QPushButton::clicked, this, &Ekos::Capture::clearCameraConfiguration);
+    connect(clearConfigurationB, &QPushButton::clicked, this, &Capture::clearCameraConfiguration);
 
     darkB->setChecked(Options::autoDark());
     connect(darkB, &QAbstractButton::toggled, this, [this]()
@@ -177,31 +177,31 @@ Capture::Capture()
         }
     });
 
-    connect(filterEditB, &QPushButton::clicked, this, &Ekos::Capture::editFilterName);
+    connect(filterEditB, &QPushButton::clicked, this, &Capture::editFilterName);
 
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
             [ = ]()
     {
-        updateHFRThreshold();
+        m_captureModuleState->updateHFRThreshold();
         generatePreviewFilename();
     });
-    connect(previewB, &QPushButton::clicked, this, &Ekos::Capture::captureOne);
-    connect(loopB, &QPushButton::clicked, this, &Ekos::Capture::startFraming);
+    connect(previewB, &QPushButton::clicked, this, &Capture::captureOne);
+    connect(loopB, &QPushButton::clicked, this, &Capture::startFraming);
 
-    //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Ekos::Capture::checkSeqFile(QString)));
+    //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Capture::checkSeqFile(QString)));
 
-    connect(addToQueueB, &QPushButton::clicked, this, &Ekos::Capture::addSequenceJob);
-    connect(removeFromQueueB, &QPushButton::clicked, this, &Ekos::Capture::removeJobFromQueue);
-    connect(queueUpB, &QPushButton::clicked, this, &Ekos::Capture::moveJobUp);
-    connect(queueDownB, &QPushButton::clicked, this, &Ekos::Capture::moveJobDown);
-    connect(selectFileDirectoryB, &QPushButton::clicked, this, &Ekos::Capture::saveFITSDirectory);
-    connect(queueSaveB, &QPushButton::clicked, this, static_cast<void(Ekos::Capture::*)()>(&Ekos::Capture::saveSequenceQueue));
-    connect(queueSaveAsB, &QPushButton::clicked, this, &Ekos::Capture::saveSequenceQueueAs);
-    connect(queueLoadB, &QPushButton::clicked, this, static_cast<void(Ekos::Capture::*)()>(&Ekos::Capture::loadSequenceQueue));
-    connect(resetB, &QPushButton::clicked, this, &Ekos::Capture::resetJobs);
-    connect(queueTable->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &Ekos::Capture::selectedJobChanged);
-    connect(queueTable, &QAbstractItemView::doubleClicked, this, &Ekos::Capture::editJob);
-    connect(queueTable, &QTableWidget::itemSelectionChanged, this, &Ekos::Capture::resetJobEdit);
+    connect(addToQueueB, &QPushButton::clicked, this, &Capture::addSequenceJob);
+    connect(removeFromQueueB, &QPushButton::clicked, this, &Capture::removeJobFromQueue);
+    connect(queueUpB, &QPushButton::clicked, this, &Capture::moveJobUp);
+    connect(queueDownB, &QPushButton::clicked, this, &Capture::moveJobDown);
+    connect(selectFileDirectoryB, &QPushButton::clicked, this, &Capture::saveFITSDirectory);
+    connect(queueSaveB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::saveSequenceQueue));
+    connect(queueSaveAsB, &QPushButton::clicked, this, &Capture::saveSequenceQueueAs);
+    connect(queueLoadB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::loadSequenceQueue));
+    connect(resetB, &QPushButton::clicked, this, &Capture::resetJobs);
+    connect(queueTable->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &Capture::selectedJobChanged);
+    connect(queueTable, &QAbstractItemView::doubleClicked, this, &Capture::editJob);
+    connect(queueTable, &QTableWidget::itemSelectionChanged, this, &Capture::resetJobEdit);
     connect(setTemperatureB, &QPushButton::clicked, this, [&]()
     {
         if (m_captureDeviceAdaptor->getActiveCamera())
@@ -220,13 +220,13 @@ Capture::Capture()
     connect(cameraTemperatureN, &QDoubleSpinBox::editingFinished, setTemperatureB,
             static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
     connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &Ekos::Capture::checkFrameType);
-    connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Capture::resetFrame);
-    connect(calibrationB, &QPushButton::clicked, this, &Ekos::Capture::openCalibrationDialog);
-    connect(rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Ekos::Capture::show);
+            &Capture::checkFrameType);
+    connect(resetFrameB, &QPushButton::clicked, this, &Capture::resetFrame);
+    connect(calibrationB, &QPushButton::clicked, this, &Capture::openCalibrationDialog);
+    connect(rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Capture::show);
 
-    connect(generateDarkFlatsB, &QPushButton::clicked, this, &Ekos::Capture::generateDarkFlats);
-    connect(scriptManagerB, &QPushButton::clicked, this, &Ekos::Capture::handleScriptsManager);
+    connect(generateDarkFlatsB, &QPushButton::clicked, this, &Capture::generateDarkFlats);
+    connect(scriptManagerB, &QPushButton::clicked, this, &Capture::handleScriptsManager);
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -261,10 +261,10 @@ Capture::Capture()
     ////////////////////////////////////////////////////////////////////////
     /// Device Adaptor
     ////////////////////////////////////////////////////////////////////////
-    connect(m_captureDeviceAdaptor.data(), &Ekos::CaptureDeviceAdaptor::newCCDTemperatureValue, this,
-            &Ekos::Capture::updateCCDTemperature, Qt::UniqueConnection);
-    connect(m_captureDeviceAdaptor.data(), &Ekos::CaptureDeviceAdaptor::newRotatorAngle, this,
-            &Ekos::Capture::updateRotatorAngle, Qt::UniqueConnection);
+    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newCCDTemperatureValue, this,
+            &Capture::updateCCDTemperature, Qt::UniqueConnection);
+    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newRotatorAngle, this,
+            &Capture::updateRotatorAngle, Qt::UniqueConnection);
 
     ////////////////////////////////////////////////////////////////////////
     /// Settings
@@ -291,10 +291,10 @@ Capture::Capture()
     });
 
     // 3. Autofocus HFR Check
-    m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocus());
-    connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, this, [this](bool checked)
+    m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocusHFR());
+    connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
     {
-        Options::setEnforceAutofocus(checked);
+        Options::setEnforceAutofocusHFR(checked);
         if (checked == false)
             m_captureModuleState->getRefocusState()->setInSequenceFocus(false);
     });
@@ -305,14 +305,16 @@ Capture::Capture()
     {
         Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
     });
+    connect(m_captureModuleState.get(), &CaptureModuleState::newLimitFocusHFR, this, [this](double hfr)
+    {
+        m_LimitsUI->limitFocusHFRN->setValue(hfr);
+    });
 
     // 5. Autofocus temperature Check
     m_LimitsUI->limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
-    connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, this,  [this](bool checked)
+    connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, this,  [ = ](bool checked)
     {
         Options::setEnforceAutofocusOnTemperature(checked);
-        if (checked == false)
-            m_captureModuleState->getRefocusState()->setTemperatureDeltaCheckActive(false);
     });
 
     // 6. Autofocus temperature Delta
@@ -359,7 +361,7 @@ Capture::Capture()
         m_LimitsUI->limitGuideDeviationS,
     };
     for (const QCheckBox * control : checkBoxes)
-        connect(control, &QCheckBox::toggled, this, &Ekos::Capture::setDirty);
+        connect(control, &QCheckBox::toggled, this, &Capture::setDirty);
 
     QDoubleSpinBox * const dspinBoxes[]
     {
@@ -369,24 +371,24 @@ Capture::Capture()
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
         connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
-                &Ekos::Capture::setDirty);
+                &Capture::setDirty);
 
     connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &Ekos::Capture::setDirty);
-    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, &Ekos::Capture::setDirty);
+            &Capture::setDirty);
+    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, &Capture::setDirty);
 
     m_ObserverName = Options::defaultObserver();
     observerB->setIcon(QIcon::fromTheme("im-user"));
     observerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(observerB, &QPushButton::clicked, this, &Ekos::Capture::showObserverDialog);
+    connect(observerB, &QPushButton::clicked, this, &Capture::showObserverDialog);
 
     // Exposure Timeout
     captureTimeout.setSingleShot(true);
-    connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Capture::processCaptureTimeout);
+    connect(&captureTimeout, &QTimer::timeout, this, &Capture::processCaptureTimeout);
 
     // Post capture script
     connect(&m_CaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
-            this, &Ekos::Capture::scriptFinished);
+            this, &Capture::scriptFinished);
     connect(&m_CaptureScript, &QProcess::errorOccurred, this,
             [this](QProcess::ProcessError error)
     {
@@ -469,21 +471,28 @@ Capture::Capture()
     //It will also update the Exposure time left in the Summary Screen.
     //It fires every 100 ms while images are downloading.
     downloadProgressTimer.setInterval(100);
-    connect(&downloadProgressTimer, &QTimer::timeout, this, &Ekos::Capture::setDownloadProgress);
+    connect(&downloadProgressTimer, &QTimer::timeout, this, &Capture::setDownloadProgress);
 
     DarkLibrary::Instance()->setCaptureModule(this);
     m_DarkProcessor = new DarkProcessor(this);
-    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Capture::appendLogText);
-    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &Ekos::Capture::setCaptureComplete);
+    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Capture::appendLogText);
+    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &Capture::setCaptureComplete);
 
     // display the capture status in the UI
-    connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::LedStatusWidget::setCaptureState);
+    connect(this, &Capture::newStatus, captureStatusWidget, &LedStatusWidget::setCaptureState);
 
     // forward signals from capture module state
-    connect(m_captureModuleState.data(), &Ekos::CaptureModuleState::newStatus, this, &Ekos::Capture::newStatus);
-    connect(m_captureModuleState.data(), &Ekos::CaptureModuleState::resetFocus, this, &Ekos::Capture::resetFocus);
-    connect(m_captureModuleState.data(), &Ekos::CaptureModuleState::guideAfterMeridianFlip, this,
-            &Ekos::Capture::guideAfterMeridianFlip);
+    connect(m_captureModuleState.data(), &CaptureModuleState::newStatus, this, &Capture::newStatus);
+    connect(m_captureModuleState.data(), &CaptureModuleState::checkFocus, this, &Capture::checkFocus);
+    connect(m_captureModuleState.data(), &CaptureModuleState::resetFocus, this, &Capture::resetFocus);
+    connect(m_captureModuleState.data(), &CaptureModuleState::guideAfterMeridianFlip, this,
+            &Capture::guideAfterMeridianFlip);
+    connect(m_captureModuleState.data(), &CaptureModuleState::newFocusStatus, this, &Capture::updateFocusStatus);
+    // connections between state machine and device adaptor
+    connect(m_captureModuleState.data(), &CaptureModuleState::newFilterPosition,
+            m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::setFilterPosition);
+    connect(m_captureModuleState.data(), &CaptureModuleState::abortFastExposure,
+            m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::abortFastExposure);
 
     setupOpticalTrainManager();
 
@@ -497,15 +506,15 @@ Capture::Capture()
         Options::setPlaceholderFormat(placeholderFormatT->text());
         generatePreviewFilename();
     });
-    connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Capture::generatePreviewFilename);
+    connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Capture::generatePreviewFilename);
     connect(captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
-            &Ekos::Capture::generatePreviewFilename);
+            &Capture::generatePreviewFilename);
     connect(targetNameT, &QLineEdit::textChanged, this, [ = ]()
     {
         m_TargetName = targetNameT->text();
         generatePreviewFilename();
     });
-    connect(captureTypeS, &QComboBox::currentTextChanged, this, &Ekos::Capture::generatePreviewFilename);
+    connect(captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
 
 }
 
@@ -684,7 +693,7 @@ bool Capture::setMount(ISD::Mount *device)
         return false;
 
     m_captureDeviceAdaptor->getMount()->disconnect(this);
-    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::newTargetName, this, &Ekos::Capture::setTargetName);
+    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::newTargetName, this, &Capture::setTargetName);
 
     m_RotatorControlPanel->setCurrentPierSide(device->pierSide());
     connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::pierSideChanged, m_RotatorControlPanel.get(),
@@ -712,7 +721,7 @@ bool Capture::setRotator(ISD::Rotator * device)
         return false;
     }
 
-    connect(m_captureDeviceAdaptor.data(), &Ekos::CaptureDeviceAdaptor::rotatorReverseToggled, this,
+    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::rotatorReverseToggled, this,
             &Capture::setRotatorReversed,
             Qt::UniqueConnection);
 
@@ -889,7 +898,7 @@ void Capture::start()
     if (m_DeviationDetected == false && m_captureModuleState->getCaptureState() != CAPTURE_SUSPENDED)
     {
         // start timer to measure time until next forced refocus
-        startRefocusTimer();
+        m_captureModuleState->getRefocusState()->startRefocusTimer();
     }
 
     // Only reset these counters if we are NOT restarting from deviation errors
@@ -1090,13 +1099,13 @@ void Capture::checkCamera()
 
     //        for (auto &ccd : m_Cameras)
     //        {
-    //            disconnect(ccd, &ISD::Camera::numberUpdated, this, &Ekos::Capture::processCCDNumber);
-    //            disconnect(ccd, &ISD::Camera::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature);
-    //            disconnect(ccd, &ISD::Camera::coolerToggled, this, &Ekos::Capture::setCoolerToggled);
-    //            disconnect(ccd, &ISD::Camera::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
-    //            disconnect(ccd, &ISD::Camera::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
-    //            disconnect(ccd, &ISD::Camera::ready, this, &Ekos::Capture::ready);
-    //            disconnect(ccd, &ISD::Camera::error, this, &Ekos::Capture::processCaptureError);
+    //            disconnect(ccd, &ISD::Camera::numberUpdated, this, &Capture::processCCDNumber);
+    //            disconnect(ccd, &ISD::Camera::newTemperatureValue, this, &Capture::updateCCDTemperature);
+    //            disconnect(ccd, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled);
+    //            disconnect(ccd, &ISD::Camera::newRemoteFile, this, &Capture::setNewRemoteFile);
+    //            disconnect(ccd, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled);
+    //            disconnect(ccd, &ISD::Camera::ready, this, &Capture::ready);
+    //            disconnect(ccd, &ISD::Camera::error, this, &Capture::processCaptureError);
     //        }
 
     if (m_Camera->hasCoolerControl())
@@ -1151,17 +1160,17 @@ void Capture::checkCamera()
     else
         liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
-    connect(m_Camera, &ISD::Camera::numberUpdated, this, &Ekos::Capture::processCCDNumber, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::coolerToggled, this, &Ekos::Capture::setCoolerToggled, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::ready, this, &Ekos::Capture::ready, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::error, this, &Ekos::Capture::processCaptureError, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::numberUpdated, this, &Capture::processCCDNumber, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::newRemoteFile, this, &Capture::setNewRemoteFile, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::error, this, &Capture::processCaptureError, Qt::UniqueConnection);
 
     syncCameraInfo();
 
     // update values received by the device adaptor
-    // connect(m_Camera, &ISD::Camera::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature, Qt::UniqueConnection);
+    // connect(m_Camera, &ISD::Camera::newTemperatureValue, this, &Capture::updateCCDTemperature, Qt::UniqueConnection);
 
     DarkLibrary::Instance()->checkCamera();
 }
@@ -1171,19 +1180,19 @@ void Capture::connectCamera(bool connection)
     if (connection)
     {
         connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
-                &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
-        connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData,
+                &Capture::setExposureProgress, Qt::UniqueConnection);
+        connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Capture::processData,
                 Qt::UniqueConnection);
-        //connect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
-        connect(m_Camera, &ISD::Camera::ready, this, &Ekos::Capture::ready);
+        //connect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
+        connect(m_Camera, &ISD::Camera::ready, this, &Capture::ready);
     }
     else
     {
-        disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData);
+        disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Capture::processData);
         disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
-                   &Ekos::Capture::setExposureProgress);
-        //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
-        disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::ready, this, &Ekos::Capture::ready);
+                   &Capture::setExposureProgress);
+        //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Capture::setGeneratedPreviewFITS);
+        disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::ready, this, &Capture::ready);
     }
 }
 
@@ -1688,6 +1697,14 @@ QString Capture::filter()
     return FilterPosCombo->currentText();
 }
 
+void Capture::updateCurrentFilterPosition()
+{
+    const QString currentFilterText = FilterPosCombo->itemText(m_FilterManager->getFilterPosition() - 1);
+    m_captureModuleState->setCurrentFilterPosition(m_FilterManager->getFilterPosition(),
+            currentFilterText,
+            m_FilterManager->getFilterLock(currentFilterText));
+}
+
 void Capture::checkFilter()
 {
     FilterPosCombo->clear();
@@ -1712,11 +1729,11 @@ void Capture::checkFilter()
 
     FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
 
-    m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
+    updateCurrentFilterPosition();
 
-    filterEditB->setEnabled(m_CurrentFilterPosition > 0);
+    filterEditB->setEnabled(m_captureModuleState->getCurrentFilterPosition() > 0);
 
-    FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
+    FilterPosCombo->setCurrentIndex(m_captureModuleState->getCurrentFilterPosition() - 1);
 }
 
 void Capture::syncFilterInfo()
@@ -1815,7 +1832,7 @@ void Capture::checkNextExposure()
     // if starting the next exposure did not succeed due to pending jobs running,
     // we retry after 1 second
     if (started == IPS_BUSY)
-        QTimer::singleShot(1000, this, &Ekos::Capture::checkNextExposure);
+        QTimer::singleShot(1000, this, &Capture::checkNextExposure);
 }
 
 
@@ -1971,7 +1988,7 @@ IPState Capture::setCaptureComplete()
     if (m_captureDeviceAdaptor->getActiveCamera()->isFastExposureEnabled() == false)
     {
         disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
-                   &Ekos::Capture::setExposureProgress);
+                   &Capture::setExposureProgress);
         DarkLibrary::Instance()->disconnect(this);
     }
 
@@ -2222,9 +2239,6 @@ IPState Capture::resumeSequence()
 
         if (next_job)
         {
-            //check delta also when starting a new job!
-            m_captureModuleState->getRefocusState()->setTemperatureDeltaCheckActive(
-                m_captureModuleState->getRefocusState()->isAutoFocusReady() && m_LimitsUI->limitFocusDeltaTS->isChecked());
 
             prepareJob(next_job);
 
@@ -2248,9 +2262,6 @@ IPState Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure.
     else
     {
-        m_captureModuleState->getRefocusState()->setTemperatureDeltaCheckActive(
-            m_captureModuleState->getRefocusState()->isAutoFocusReady() && m_LimitsUI->limitFocusDeltaTS->isChecked());
-
         // If we suspended guiding due to primary chip download, resume guide chip guiding now - unless
         // a meridian flip is ongoing
         if (m_captureModuleState->getGuideState() == GUIDE_SUSPENDED && suspendGuideOnDownload &&
@@ -2316,121 +2327,6 @@ IPState Capture::resumeSequence()
     return IPS_OK;
 }
 
-/**
- * @brief Check, if re-focusing is required and initiate it in that case.
- * @return true iff re-focusing is necessary.
- */
-bool Capture::startFocusIfRequired()
-{
-    // Do not start focus if:
-    // 1. There is no active job, or
-    // 2. Target frame is not LIGHT
-    // 3. Capture is preview only
-    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT
-            || activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
-        return false;
-
-    m_captureModuleState->getRefocusState()->setRefocusing(false);
-    m_captureModuleState->getRefocusState()->setInSequenceFocus(m_captureModuleState->getRefocusState()->isAutoFocusReady()
-            && m_LimitsUI->limitFocusHFRS->isChecked());
-
-    // check if time for forced refocus
-    if (m_LimitsUI->limitRefocusS->isChecked())
-    {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " <<
-                                     m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec() <<
-                                     ". Requested Interval (secs): " << m_LimitsUI->limitRefocusN->value() * 60;
-
-        if (m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec() >= m_LimitsUI->limitRefocusN->value() * 60)
-        {
-            m_captureModuleState->getRefocusState()->setRefocusing(true);
-            appendLogText(i18n("Scheduled refocus starting after %1 seconds...",
-                               m_captureModuleState->getRefocusState()->getRefocusEveryNTimerElapsedSec()));
-        }
-    }
-
-    if (!m_captureModuleState->getRefocusState()->isRefocusing()
-            && m_captureModuleState->getRefocusState()->isTemperatureDeltaCheckActive())
-    {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " <<
-                                     m_captureModuleState->getRefocusState()->getFocusTemperatureDelta() <<
-                                     ". Requested maximum delta (°C): " << m_LimitsUI->limitFocusDeltaTN->value();
-
-        if (m_captureModuleState->getRefocusState()->getFocusTemperatureDelta() > m_LimitsUI->limitFocusDeltaTN->value())
-        {
-            m_captureModuleState->getRefocusState()->setRefocusing(true);
-            appendLogText(i18n("Refocus starting because of temperature change of %1 °C...",
-                               m_captureModuleState->getRefocusState()->getFocusTemperatureDelta()));
-        }
-    }
-
-    if (m_LimitsUI->meridianRefocusS->isChecked() && m_captureModuleState->getRefocusState()->isRefocusAfterMeridianFlip())
-    {
-        m_captureModuleState->getRefocusState()->setRefocusing(true);
-        m_captureModuleState->getRefocusState()->setRefocusAfterMeridianFlip(false);
-        appendLogText(i18n("Refocus after meridian flip"));
-
-        // Post meridian flip we need to reset filter _before_ running in-sequence focusing
-        // as it could have changed for whatever reason (e.g. alignment used a different filter).
-        if (m_captureDeviceAdaptor->getFilterWheel())
-        {
-            int targetFilterPosition = activeJob->getTargetFilter();
-            int currentFilterPosition = m_FilterManager->getFilterPosition();
-            if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
-                m_captureDeviceAdaptor->getFilterWheel()->setPosition(targetFilterPosition);
-        }
-    }
-
-    // Either it is time to force autofocus or temperature has changed
-    if (m_captureModuleState->getRefocusState()->isRefocusing())
-    {
-        if (m_captureDeviceAdaptor->getActiveCamera()->isFastExposureEnabled())
-            m_captureDeviceAdaptor->getActiveChip()->abortExposure();
-
-        // If we are over 30 mins since last autofocus, we'll reset frame.
-        if (m_LimitsUI->limitRefocusN->value() >= 30)
-            emit resetFocus();
-
-        // force refocus
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Capture is triggering autofocus on line " << __LINE__;
-        setFocusStatus(FOCUS_PROGRESS);
-        emit checkFocus(0.1);
-
-        m_captureModuleState->setCaptureState(CAPTURE_FOCUSING);
-        return true;
-    }
-    else if (m_captureModuleState->getRefocusState()->isInSequenceFocus()
-             && m_captureModuleState->getRefocusState()->getInSequenceFocusCounter() == 0)
-    {
-        m_captureModuleState->getRefocusState()->resetInSequenceFocusCounter();
-
-        // Post meridian flip we need to reset filter _before_ running in-sequence focusing
-        // as it could have changed for whatever reason (e.g. alignment used a different filter).
-        // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
-        // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
-        if (getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_NONE
-                && m_captureDeviceAdaptor->getFilterWheel())
-        {
-            int targetFilterPosition = activeJob->getTargetFilter();
-            int currentFilterPosition = m_FilterManager->getFilterPosition();
-            if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
-                m_captureDeviceAdaptor->getFilterWheel()->setPosition(targetFilterPosition);
-        }
-
-        if (m_captureDeviceAdaptor->getActiveCamera()->isFastExposureEnabled())
-            m_captureDeviceAdaptor->getActiveChip()->abortExposure();
-
-        setFocusStatus(FOCUS_PROGRESS);
-        emit checkFocus(m_LimitsUI->limitFocusHFRN->value() == 0.0 ? 0.1 : m_LimitsUI->limitFocusHFRN->value());
-
-        qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
-        m_captureModuleState->setCaptureState(CAPTURE_FOCUSING);
-        return true;
-    }
-
-    return false;
-}
-
 void Capture::captureOne()
 {
     if (m_captureModuleState->getFocusState() >= FOCUS_PROGRESS)
@@ -2487,15 +2383,15 @@ void Capture::captureImage()
             break;
 
         case FILTER_AUTOFOCUS:
-            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            QTimer::singleShot(1000, this, &Capture::captureImage);
             return;
 
         case FILTER_CHANGE:
-            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            QTimer::singleShot(1000, this, &Capture::captureImage);
             return;
 
         case FILTER_OFFSET:
-            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            QTimer::singleShot(1000, this, &Capture::captureImage);
             return;
     }
 
@@ -2503,7 +2399,7 @@ void Capture::captureImage()
     if (m_captureModuleState->getFocusState() >= FOCUS_PROGRESS)
     {
         //appendLogText(i18n("Delaying capture while focus module is busy."));
-        QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+        QTimer::singleShot(1000, this, &Capture::captureImage);
         return;
     }
 
@@ -2526,8 +2422,8 @@ void Capture::captureImage()
         // JM 2021.08.23 Call filter info to set the active filter wheel in the camera driver
         // so that it may snoop on the active filter
         syncFilterInfo();
-        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
-        activeJob->setCurrentFilter(m_CurrentFilterPosition);
+        updateCurrentFilterPosition();
+        activeJob->setCurrentFilter(m_captureModuleState->getCurrentFilterPosition());
     }
 
     if (m_captureDeviceAdaptor->getActiveCamera()->isFastExposureEnabled())
@@ -2609,7 +2505,7 @@ void Capture::captureImage()
         captureStatusWidget->setStatus(i18n("Calibrating..."), Qt::yellow);
 
     m_StartingCapture = true;
-    auto placeholderPath = Ekos::PlaceholderPath(m_SequenceURL.toLocalFile());
+    auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
     placeholderPath.setGenerateFilenameSettings(*activeJob);
     m_captureDeviceAdaptor->getActiveCamera()->setPlaceholderPath(placeholderPath);
     rc = activeJob->capture(m_captureModuleState->getRefocusState()->isAutoFocusReady(),
@@ -2618,7 +2514,7 @@ void Capture::captureImage()
     if (rc != CAPTURE_OK)
     {
         disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
-                   &Ekos::Capture::setExposureProgress);
+                   &Capture::setExposureProgress);
     }
     switch (rc)
     {
@@ -2671,13 +2567,13 @@ void Capture::captureImage()
 
         case CAPTURE_FILTER_BUSY:
             // Try again in 1 second if filter is busy
-            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            QTimer::singleShot(1000, this, &Capture::captureImage);
             break;
 
         case CAPTURE_GUIDER_DRIFT_WAIT:
             // Try again in 1 second if filter is busy
             qCDebug(KSTARS_EKOS_CAPTURE) << "Waiting for the guider to settle.";
-            QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
+            QTimer::singleShot(1000, this, &Capture::captureImage);
             break;
 
         case CAPTURE_FOCUS_ERROR:
@@ -2706,7 +2602,7 @@ void Capture::checkSeqBoundary()
     if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
         return;
 
-    auto placeholderPath = Ekos::PlaceholderPath(m_SequenceURL.toLocalFile());
+    auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
 
     nextSequenceID = placeholderPath.checkSeqBoundary(*activeJob, m_TargetName);
 }
@@ -2812,7 +2708,7 @@ void Capture::setExposureProgress(ISD::CameraChip * tChip, double value, IPState
         downloadProgressTimer.start();
 
 
-        //disconnect(m_Camera, &ISD::Camera::newExposureValue(ISD::CameraChip*,double,IPState)), this, &Ekos::Capture::updateCaptureProgress(ISD::CameraChip*,double,IPState)));
+        //disconnect(m_Camera, &ISD::Camera::newExposureValue(ISD::CameraChip*,double,IPState)), this, &Capture::updateCaptureProgress(ISD::CameraChip*,double,IPState)));
     }
 }
 
@@ -3040,7 +2936,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
 
-    auto placeholderPath = Ekos::PlaceholderPath();
+    auto placeholderPath = PlaceholderPath();
     placeholderPath.addJob(job, m_TargetName);
 
     int currentRow = 0;
@@ -3485,7 +3381,7 @@ void Capture::prepareJob(SequenceJob * job)
         // FIXME: Move this warning pop-up elsewhere, it will interfere with automation.
         //        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL || KMessageBox::questionYesNo(nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
         //                KMessageBox::Yes)
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL)
+        if (Options::guiderType() != Guide::GUIDE_INTERNAL)
         {
             m_captureDeviceAdaptor->getActiveCamera()->setBLOBEnabled(true);
         }
@@ -3623,7 +3519,7 @@ void Capture::preparePreCaptureActions()
  * @brief Listen to device property changes (temperature, rotator) that are triggered by
  *        SequenceJob.
  */
-void Capture::updatePrepareState(Ekos::CaptureState prepareState)
+void Capture::updatePrepareState(CaptureState prepareState)
 {
     m_captureModuleState->setCaptureState(prepareState);
 
@@ -3699,7 +3595,7 @@ void Capture::executeJob()
         if (setDarkFlatExposure(activeJob)
                 && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
         {
-            auto placeholderPath = Ekos::PlaceholderPath();
+            auto placeholderPath = PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
             placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
             updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
@@ -3733,7 +3629,7 @@ void Capture::updatePreCaptureCalibrationStatus()
         return;
     else if (rc == IPS_BUSY)
     {
-        QTimer::singleShot(1000, this, &Ekos::Capture::updatePreCaptureCalibrationStatus);
+        QTimer::singleShot(1000, this, &Capture::updatePreCaptureCalibrationStatus);
         return;
     }
 
@@ -3939,69 +3835,16 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
 void Capture::setFocusStatus(FocusState state)
 {
-    if (state != m_captureModuleState->getFocusState())
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFocusStatusString(
-                                         m_captureModuleState->getFocusState()) << "to" << Ekos::getFocusStatusString(state);
-    m_captureModuleState->setFocusState(state);
+    // directly forward it to the state machine
+    m_captureModuleState->updateFocusState(state);
+}
 
-    // Do not process above aborted or when meridian flip in progress
-    if (m_captureModuleState->getFocusState() > FOCUS_ABORTED || getMeridianFlipState()->checkMeridianFlipRunning())
-        return;
-
-    if (m_captureModuleState->getFocusState() == FOCUS_COMPLETE)
-    {
-        // enable option to have a refocus event occur if HFR goes over threshold
-        m_captureModuleState->getRefocusState()->setAutoFocusReady(true);
-        // forward to the active job
-        if (activeJob != nullptr)
-            activeJob->setAutoFocusReady(true);
-
-        //if (limitFocusHFRN->value() == 0.0 && fileHFR == 0.0)
-        if (fileHFR == 0.0)
-        {
-            QList<double> filterHFRList;
-            if (m_CurrentFilterPosition > 0)
-            {
-                // If we are using filters, then we retrieve which filter is currently active.
-                // We check if filter lock is used, and store that instead of the current filter.
-                // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
-                // If no lock filter exists, then we store as is (HA)
-                QString currentFilterText = FilterPosCombo->itemText(m_CurrentFilterPosition - 1);
-                //QString filterLock = filterManager.data()->getFilterLock(currentFilterText);
-                //QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
-
-                //filterHFRList = HFRMap[finalFilter];
-                filterHFRList = HFRMap[currentFilterText];
-                filterHFRList.append(focusHFR);
-                //HFRMap[finalFilter] = filterHFRList;
-                HFRMap[currentFilterText] = filterHFRList;
-            }
-            // No filters
-            else
-            {
-                filterHFRList = HFRMap["--"];
-                filterHFRList.append(focusHFR);
-                HFRMap["--"] = filterHFRList;
-            }
-
-            double median = focusHFR;
-            int count = filterHFRList.size();
-            if (Options::useMedianFocus() && count > 1)
-                median = (count % 2) ? filterHFRList[count / 2] : (filterHFRList[count / 2 - 1] + filterHFRList[count / 2]) / 2.0;
-
-            // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
-            // in case in-sequence-focusing is used.
-            m_LimitsUI->limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
-        }
-
-        // successful focus so reset elapsed time, force a reset
-        startRefocusTimer(true);
-    }
-
+void Capture::updateFocusStatus(FocusState state)
+{
     if ((m_captureModuleState->getRefocusState()->isRefocusing()
             || m_captureModuleState->getRefocusState()->isInSequenceFocus()) && activeJob && activeJob->getStatus() == JOB_BUSY)
     {
-        if (m_captureModuleState->getFocusState() == FOCUS_COMPLETE)
+        if (state == FOCUS_COMPLETE)
         {
             appendLogText(i18n("Focus complete."));
             captureStatusWidget->setStatus(i18n("Focus complete."), Qt::yellow);
@@ -4018,48 +3861,6 @@ void Capture::setFocusStatus(FocusState state)
             abort();
         }
     }
-}
-
-void Capture::updateHFRThreshold()
-{
-    if (fileHFR != 0.0)
-        return;
-
-    QList<double> filterHFRList;
-    if (FilterPosCombo->currentIndex() != -1)
-    {
-        // If we are using filters, then we retrieve which filter is currently active.
-        // We check if filter lock is used, and store that instead of the current filter.
-        // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
-        // If no lock filter exists, then we store as is (HA)
-        QString currentFilterText = FilterPosCombo->currentText();
-        QString filterLock = m_FilterManager->getFilterLock(currentFilterText);
-        QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
-
-        filterHFRList = HFRMap[finalFilter];
-    }
-    // No filters
-    else
-    {
-        filterHFRList = HFRMap["--"];
-    }
-
-    if (filterHFRList.empty())
-    {
-        m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
-        return;
-    }
-
-    double median = 0;
-    int count = filterHFRList.size();
-    if (count > 1)
-        median = (count % 2) ? filterHFRList[count / 2] : (filterHFRList[count / 2 - 1] + filterHFRList[count / 2]) / 2.0;
-    else if (count == 1)
-        median = filterHFRList[0];
-
-    // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
-    // in case in-sequence-focusing is used.
-    m_LimitsUI->limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
 }
 
 void Capture::setMeridianFlipStage(MeridianFlipState::MFStage stage)
@@ -4090,10 +3891,11 @@ void Capture::setMeridianFlipStage(MeridianFlipState::MFStage stage)
                 // Reset HFR pixels to file value after meridian flip
                 if (m_captureModuleState->getRefocusState()->isInSequenceFocus())
                 {
-                    qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
+                    qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << m_captureModuleState->getFileHFR() <<
+                                                 "pixels after meridian flip.";
                     //firstAutoFocus = true;
                     m_captureModuleState->getRefocusState()->setInSequenceFocusCounter(0);
-                    m_LimitsUI->limitFocusHFRN->setValue(fileHFR);
+                    m_LimitsUI->limitFocusHFRN->setValue(m_captureModuleState->getFileHFR());
                 }
 
                 // after a meridian flip we do not need to dither
@@ -4101,7 +3903,7 @@ void Capture::setMeridianFlipStage(MeridianFlipState::MFStage stage)
                     m_captureModuleState->resetDitherCounter();
 
                 // if requested set flag so it perform refocus before next frame
-                if (m_LimitsUI->meridianRefocusS->isChecked())
+                if (Options::refocusAfterMeridianFlip() == true)
                     m_captureModuleState->getRefocusState()->setRefocusAfterMeridianFlip(true);
                 break;
 
@@ -4147,7 +3949,7 @@ void Capture::meridianFlipStatusChanged(MeridianFlipState::MeridianFlipMountStat
 
         case MeridianFlipState::MOUNT_FLIP_RUNNING:
             setMeridianFlipStage(MeridianFlipState::MF_INITIATED);
-            emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
+            emit newStatus(CAPTURE_MERIDIAN_FLIP);
             break;
 
         case MeridianFlipState::MOUNT_FLIP_COMPLETED:
@@ -4225,7 +4027,7 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
+        QFileDialog::getExistingDirectory(Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
                                           dirPath.toLocalFile());
 
     if (dir.isEmpty())
@@ -4236,7 +4038,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Open Ekos Sequence Queue"),
+    QUrl fileURL = QFileDialog::getOpenFileUrl(Manager::Instance(), i18nc("@title:window", "Open Ekos Sequence Queue"),
                    dirPath,
                    "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
@@ -4321,8 +4123,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
                     double const HFRValue = cLocale.toDouble(pcdataXMLEle(ep));
                     // Set the HFR value from XML, or reset it to zero, don't let another unrelated older HFR be used
                     // Note that HFR value will only be serialized to XML when option "Save Sequence HFR to File" is enabled
-                    fileHFR = HFRValue > 0.0 ? HFRValue : 0.0;
-                    m_LimitsUI->limitFocusHFRN->setValue(fileHFR);
+                    m_captureModuleState->setFileHFR(HFRValue > 0.0 ? HFRValue : 0.0);
+                    m_LimitsUI->limitFocusHFRN->setValue(m_captureModuleState->getFileHFR());
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusOnTemperatureDelta"))
                 {
@@ -4335,8 +4137,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
                     m_LimitsUI->limitRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     int const minutesValue = cLocale.toInt(pcdataXMLEle(ep));
                     // Set the refocus period from XML, or reset it to zero, don't let another unrelated older refocus period be used.
-                    m_captureModuleState->getRefocusState()->setRefocusEveryNMinutes(minutesValue > 0 ? minutesValue : 0);
-                    m_LimitsUI->limitRefocusN->setValue(m_captureModuleState->getRefocusState()->getRefocusEveryNMinutes());
+                    m_LimitsUI->limitRefocusN->setValue(minutesValue > 0 ? minutesValue : 0);
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusOnMeridianFlip"))
                 {
@@ -4654,7 +4455,7 @@ void Capture::saveSequenceQueue()
 
     if (m_SequenceURL.isEmpty())
     {
-        m_SequenceURL = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Save Ekos Sequence Queue"),
+        m_SequenceURL = QFileDialog::getSaveFileUrl(Manager::Instance(), i18nc("@title:window", "Save Ekos Sequence Queue"),
                         dirPath,
                         "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
@@ -5731,7 +5532,7 @@ bool Capture::setCoolerControl(bool enable)
 void Capture::clearAutoFocusHFR()
 {
     // If HFR limit was set from file, we cannot override it.
-    if (fileHFR > 0)
+    if (m_captureModuleState->getFileHFR() > 0)
         return;
 
     m_LimitsUI->limitFocusHFRN->setValue(0);
@@ -5927,7 +5728,7 @@ IPState Capture::checkLightFramePendingTasks()
     //         Needs to be checked after dithering checks to avoid dithering in parallel
     //         to focusing, since @startFocusIfRequired() might change its value over time
     if ((m_captureModuleState->getCaptureState() == CAPTURE_FOCUSING && m_captureModuleState->checkFocusRunning())
-            || startFocusIfRequired())
+            || m_captureModuleState->startFocusIfRequired())
         return IPS_BUSY;
 
     // step 10: resume guiding if it was suspended
@@ -6075,7 +5876,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     appendLogText(
                         i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
                     m_captureDeviceAdaptor->getActiveCamera()->setUploadMode(activeJob->getUploadMode());
-                    auto placeholderPath = Ekos::PlaceholderPath();
+                    auto placeholderPath = PlaceholderPath();
                     // Make sure to update Full Prefix as exposure value was changed
                     placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
                     // Mark calibration as complete
@@ -6194,7 +5995,7 @@ void Capture::toggleVideo(bool enabled)
 
     if (m_captureDeviceAdaptor->getActiveCamera()->isBLOBEnabled() == false)
     {
-        if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL)
+        if (Options::guiderType() != Guide::GUIDE_INTERNAL)
             m_captureDeviceAdaptor->getActiveCamera()->setBLOBEnabled(true);
         else
         {
@@ -6321,35 +6122,6 @@ void Capture::showObserverDialog()
 }
 
 
-void Capture::startRefocusTimer(bool forced)
-{
-    /* If refocus is requested, only restart timer if not already running in order to keep current elapsed time since last refocus */
-    if (m_LimitsUI->limitRefocusS->isChecked())
-    {
-        // How much time passed since we last started the time
-        long elapsedSecs = m_captureModuleState->getRefocusState()->getRefocusEveryNTimer().elapsed() / 1000;
-        // How many seconds do we wait for between focusing (60 mins ==> 3600 secs)
-        int totalSecs   = m_LimitsUI->limitRefocusN->value() * 60;
-
-        if (!m_captureModuleState->getRefocusState()->getRefocusEveryNTimer().isValid() || forced)
-        {
-            appendLogText(i18n("Ekos will refocus in %1 seconds.", totalSecs));
-            m_captureModuleState->getRefocusState()->restartRefocusEveryNTimer();
-        }
-        else if (elapsedSecs < totalSecs)
-        {
-            appendLogText(i18n("Ekos will refocus in %1 seconds, last procedure was %2 seconds ago.", totalSecs - elapsedSecs,
-                               elapsedSecs));
-        }
-        else
-        {
-            appendLogText(i18n("Ekos will refocus as soon as possible, last procedure was %1 seconds ago.", elapsedSecs));
-        }
-    }
-}
-
-
-
 void Capture::setAlignResults(double orientation, double ra, double de, double pixscale)
 {
     Q_UNUSED(orientation)
@@ -6370,10 +6142,10 @@ void Capture::setupFilterManager()
         m_FilterManager->disconnect(this);
 
     // Create new or refresh device
-    Ekos::Manager::Instance()->createFilterManager(m_FilterWheel);
+    Manager::Instance()->createFilterManager(m_FilterWheel);
 
     // Return global filter manager for this filter wheel.
-    Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
+    Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
     m_captureDeviceAdaptor->setFilterManager(m_FilterManager);
 
@@ -6394,10 +6166,10 @@ void Capture::setupFilterManager()
 
     connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
-        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
+        updateCurrentFilterPosition();
         // Due to race condition,
         if (activeJob)
-            activeJob->setCurrentFilter(m_CurrentFilterPosition);
+            activeJob->setCurrentFilter(m_captureModuleState->getCurrentFilterPosition());
 
     });
 
@@ -6411,7 +6183,7 @@ void Capture::setupFilterManager()
     });
 
     connect(m_FilterManager.get(), &FilterManager::newStatus,
-            this, [this](Ekos::FilterState filterState)
+            this, [this](FilterState filterState)
     {
         if (filterState != m_captureModuleState->getFilterManagerState())
             qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFilterStatusString(
@@ -6449,14 +6221,14 @@ void Capture::setupFilterManager()
     {
         FilterPosCombo->clear();
         FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
-        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
+        FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
+        updateCurrentFilterPosition();
     });
 
     connect(m_FilterManager.get(), &FilterManager::positionChanged, this, [this]()
     {
-        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
-        FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
+        FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
+        updateCurrentFilterPosition();
     });
 }
 
@@ -7042,7 +6814,7 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
     if (m_Camera && m_Camera->getDeviceName() == camera)
     {
         // Set camera again to the one we restarted
-        Ekos::CaptureState rememberState = m_captureModuleState->getCaptureState();
+        CaptureState rememberState = m_captureModuleState->getCaptureState();
         m_captureModuleState->setCaptureState(CAPTURE_IDLE);
         checkCamera();
         m_captureModuleState->setCaptureState(rememberState);
@@ -7112,7 +6884,7 @@ void Capture::syncDSLRToTargetChip(const QString &model)
 
 void Capture::editFilterName()
 {
-    if (m_captureDeviceAdaptor->getFilterWheel() == nullptr || m_CurrentFilterPosition < 1)
+    if (m_captureDeviceAdaptor->getFilterWheel() == nullptr || m_captureModuleState->getCurrentFilterPosition() < 1)
         return;
 
     QStringList labels = m_FilterManager->getFilterLabels();
@@ -7305,7 +7077,7 @@ bool Capture::setDarkFlatExposure(SequenceJob *job)
 
 void Capture::syncRefocusOptionsFromGUI()
 {
-    Options::setEnforceAutofocus(m_LimitsUI->limitFocusHFRS->isChecked());
+    Options::setEnforceAutofocusHFR(m_LimitsUI->limitFocusHFRS->isChecked());
     Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
     Options::setEnforceAutofocusOnTemperature(m_LimitsUI->limitFocusDeltaTS->isChecked());
     Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
@@ -7415,7 +7187,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         }
         else
             previewSeq = m_SequenceURL.toLocalFile();
-        auto m_placeholderPath = Ekos::PlaceholderPath(previewSeq);
+        auto m_placeholderPath = PlaceholderPath(previewSeq);
         auto m_job = jobs.last();
 
         QString extension = ".fits";

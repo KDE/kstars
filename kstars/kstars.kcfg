@@ -1649,8 +1649,8 @@
          <label>Enforce guiding deviation limit.</label>
          <default>false</default>
       </entry>
-      <entry name="EnforceAutofocus" type="Bool">
-         <label>Enforce Autofocus HFR limit.</label>
+      <entry name="EnforceAutofocusHFR" type="Bool">
+         <label>Enforce Autofocus on HFR limit.</label>
          <default>false</default>
       </entry>
       <entry name="EnforceAutofocusOnTemperature" type="Bool">

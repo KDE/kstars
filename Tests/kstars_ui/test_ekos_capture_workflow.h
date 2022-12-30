@@ -58,154 +58,169 @@ KTRY_CAPTURE_CLICK(calibrationB);  } while (false)
 
 class TestEkosCaptureWorkflow : public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestEkosCaptureWorkflow(QObject *parent = nullptr);
-    explicit TestEkosCaptureWorkflow(QString guider, QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestEkosCaptureWorkflow(QObject *parent = nullptr);
+        explicit TestEkosCaptureWorkflow(QString guider, QObject *parent = nullptr);
 
-protected:
-    // destination where images will be located
-    QTemporaryDir *destination;
-    QDir *imageLocation = nullptr;
+    protected:
+        // destination where images will be located
+        QTemporaryDir *destination;
+        QDir *imageLocation = nullptr;
 
-protected slots:
-    void initTestCase();
-    void cleanupTestCase();
+    protected slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    bool prepareTestCase();
+        bool prepareTestCase();
 
-private:
-    // helper class
-    TestEkosCaptureHelper *m_CaptureHelper = nullptr;
+    private:
+        // helper class
+        TestEkosCaptureHelper *m_CaptureHelper = nullptr;
 
-    QString target = "test";
+        QString target = "test";
 
-    /**
-     * @brief Setup capturing
-     * @return true iff preparation was successful
-     */
-    bool prepareCapture();
+        /**
+         * @brief Setup capturing
+         * @param refocusLimitTime time limit to trigger re-focusing
+         * @param refocusHFR HFR limit to trigger re-focusing
+         * @param refocusTemp temperature limit to trigger re-focusing
+         * @return true iff preparation was successful
+         */
+        bool prepareCapture(int refocusLimitTime = 0.0, double refocusHFR = 0.0, double refocusTemp = 0.0);
 
-    /**
-     * @brief Helper function translating simple QString input into QTest test data rows
-     * @param exptime exposure time of the sequence
-     * @param sequence filter and count as QString("<filter>:<count"), ... list
-     */
-    void prepareTestData(double exptime, QString sequence);
+        /**
+         * @brief Helper function translating simple QString input into QTest test data rows
+         * @param exptime exposure time of the sequence
+         * @param sequence filter and count as QString("<filter>:<count"), ... list
+         */
+        void prepareTestData(double exptime, QString sequence);
 
-    // counter for images taken in a single test run
-    int image_count;
+        // counter for images taken in a single test run
+        int image_count;
 
-    QDir *getImageLocation();
+        QDir *getImageLocation();
 
 
-private slots:
-    /** @brief Test if re-focusing is triggered after the configured delay. */
-    void testCaptureRefocus();
+    private slots:
+        /** @brief Test if re-focusing is triggered after the configured delay. */
+        void testCaptureRefocusDelay();
 
-    /** @brief Test data for @see testCaptureRefocus() */
-    void testCaptureRefocus_data();
+        /** @brief Test data for @see testCaptureRefocusDelay() */
+        void testCaptureRefocusDelay_data();
 
-    /** @brief Test if re-focusing is aborted if capture is aborted. */
-    void testCaptureRefocusAbort();
+        /** @brief Test if re-focusing is triggered when the HFR gets worse. */
+        void testCaptureRefocusHFR();
 
-    /** @brief Test data for @see testCaptureRefocusAbort() */
-    void testCaptureRefocusAbort_data();
+        /** @brief Test data for @see testCaptureRefocusHFR() */
+        void testCaptureRefocusHFR_data();
 
-    /** @brief Test whether a pre-capture script is executed before a capture is executed */
-    void testPreCaptureScriptExecution();
+        /** @brief Test if re-focusing is triggered when the temperature changes. */
+        void testCaptureRefocusTemperature();
 
-    /**
-     * @brief Test if capture continues where it had been suspended by a
-     * guiding deviation as soon as guiding is back below the deviation threshold
-     */
-    void testGuidingDeviationSuspendingCapture();
+        /** @brief Test data for @see testCaptureRefocusTemperature() */
+        void testCaptureRefocusTemperature_data();
 
-    /**
-     * @brief Test if aborting a job suspended due to a guiding deviation
-     * remains aborted when the guiding deviation is below the configured threshold.
-     */
-    void testGuidingDeviationAbortCapture();
+        /** @brief Test if re-focusing is aborted if capture is aborted. */
+        void testCaptureRefocusAbort();
 
-    /**
-     * @brief Test if a guiding deviation beyond the configured limit blocks the start of
-     * capturing until the guiding deviation is below the configured deviation threshold.
-     */
-    void testInitialGuidingLimitCapture();
+        /** @brief Test data for @see testCaptureRefocusAbort() */
+        void testCaptureRefocusAbort_data();
 
-    /**
-     * @brief Wait with start of capturing until the target temperature has been reached
-     */
-    void testCaptureWaitingForTemperature();
+        /** @brief Test whether a pre-capture script is executed before a capture is executed */
+        void testPreCaptureScriptExecution();
 
-    /** @brief Test data for {@see testCaptureWaitingForTemperature()} */
-    void testCaptureWaitingForTemperature_data();
+        /**
+         * @brief Test if capture continues where it had been suspended by a
+         * guiding deviation as soon as guiding is back below the deviation threshold
+         */
+        void testGuidingDeviationSuspendingCapture();
 
-    /**
-     * @brief Wait with start of capturing until the target rotator position has been reached
-     */
-    void testCaptureWaitingForRotator();
+        /**
+         * @brief Test if aborting a job suspended due to a guiding deviation
+         * remains aborted when the guiding deviation is below the configured threshold.
+         */
+        void testGuidingDeviationAbortCapture();
 
-    /**
-     * @brief Test capturing flats with manual flat light
-     */
-    void testFlatManualSource();
+        /**
+         * @brief Test if a guiding deviation beyond the configured limit blocks the start of
+         * capturing until the guiding deviation is below the configured deviation threshold.
+         */
+        void testInitialGuidingLimitCapture();
 
-    /** @brief Test data for {@see testFlatManualSource()} */
-    void testFlatManualSource_data();
+        /**
+         * @brief Wait with start of capturing until the target temperature has been reached
+         */
+        void testCaptureWaitingForTemperature();
 
-    /**
-     * @brief Test capturing flats with a lights panel
-     */
-    void testFlatLightPanelSource();
+        /** @brief Test data for {@see testCaptureWaitingForTemperature()} */
+        void testCaptureWaitingForTemperature_data();
 
-    /** @brief Test data for {@see testFlatLightPanelSource()} */
-    void testFlatLightPanelSource_data();
+        /**
+         * @brief Wait with start of capturing until the target rotator position has been reached
+         */
+        void testCaptureWaitingForRotator();
 
-    /**
-     * @brief Test capturing flats or darks with a dust cap
-     */
-    void testDustcapSource();
+        /**
+         * @brief Test capturing flats with manual flat light
+         */
+        void testFlatManualSource();
 
-    /** @brief Test data for {@see testFlatDustcapSource()} */
-    void testDustcapSource_data();
+        /** @brief Test data for {@see testFlatManualSource()} */
+        void testFlatManualSource_data();
 
-    /**
-     * @brief Test capturing flats with the wall as flat light source
-     */
-    void testWallSource();
+        /**
+         * @brief Test capturing flats with a lights panel
+         */
+        void testFlatLightPanelSource();
 
-    /** @brief Test data for {@see testWallSource()} */
-    void testWallSource_data();
+        /** @brief Test data for {@see testFlatLightPanelSource()} */
+        void testFlatLightPanelSource_data();
 
-    /**
-     * @brief Check mount and dome parking before capturing flats.
-     */
-    void testFlatPreMountAndDomePark();
+        /**
+         * @brief Test capturing flats or darks with a dust cap
+         */
+        void testDustcapSource();
 
-    /**
-     * @brief Check the flat capture behavior if "same focus" is selectee
-     *        in the filter settings when capturing flats. Before capturing
-     *        flats, the focuser should move to the position last determined
-     *        with an autofocus run for the selected filter.
-     */
-    void testFlatSyncFocus();
+        /** @brief Test data for {@see testFlatDustcapSource()} */
+        void testDustcapSource_data();
 
-    /**
-     * @brief Test capturing darks with manual scope covering
-     */
-    void testDarkManualCovering();
+        /**
+         * @brief Test capturing flats with the wall as flat light source
+         */
+        void testWallSource();
 
-    /** @brief Test data for {@see testDarkManualCovering()} */
-    void testDarkManualCovering_data();
+        /** @brief Test data for {@see testWallSource()} */
+        void testWallSource_data();
 
-    /**
-     * @brief Test capturing a simple darks library
-     */
-    void testDarksLibrary();
+        /**
+         * @brief Check mount and dome parking before capturing flats.
+         */
+        void testFlatPreMountAndDomePark();
+
+        /**
+         * @brief Check the flat capture behavior if "same focus" is selectee
+         *        in the filter settings when capturing flats. Before capturing
+         *        flats, the focuser should move to the position last determined
+         *        with an autofocus run for the selected filter.
+         */
+        void testFlatSyncFocus();
+
+        /**
+         * @brief Test capturing darks with manual scope covering
+         */
+        void testDarkManualCovering();
+
+        /** @brief Test data for {@see testDarkManualCovering()} */
+        void testDarkManualCovering_data();
+
+        /**
+         * @brief Test capturing a simple darks library
+         */
+        void testDarksLibrary();
 
 };
 

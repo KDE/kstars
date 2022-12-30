@@ -106,7 +106,8 @@ void TestEkosMeridianFlip::testGuidingMF()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedGuidingStates, 0.0);
 
     // check if guiding has NOT been restarted (since we are not capturing
-    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_IDLE || m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_ABORTED, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_IDLE
+                             || m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_ABORTED, 10000);
 }
 
 
@@ -124,7 +125,7 @@ void TestEkosMeridianFlip::testCaptureMF()
     if (refocus_checked)
         m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
 
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, refocus_checked?61000:21000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, refocus_checked ? 61000 : 21000);
 
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(15));
@@ -273,6 +274,36 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
     QVERIFY(checkPostMFBehavior());
 }
 
+void TestEkosMeridianFlip::testRefocusAfterMF()
+{
+    // select the option for refocusing after an MF
+    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->captureModule(), meridianRefocusS, true);
+
+    // set up the capture sequence
+    QVERIFY(prepareCaptureTestcase(15, false, false, false));
+
+    // manually set the refocus flag
+    refocus_checked = true;
+
+    // start guiding if configured
+    QFETCH(bool, guide);
+    if (guide)
+        QVERIFY(m_CaptureHelper->startGuiding(2.0));
+
+    // start capturing
+    QVERIFY(startCapturing());
+
+    // check if single capture completes correctly
+    m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 21000);
+
+    // check if meridian flip runs and completes successfully
+    QVERIFY(checkMFExecuted(45));
+
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
+}
+
 
 
 /* *********************************************************************************
@@ -325,6 +356,11 @@ void TestEkosMeridianFlip::testCaptureAlignMF_data()
 void TestEkosMeridianFlip::testCaptureAlignGuidingMF_data()
 {
     testCaptureGuidingMF_data();
+}
+
+void TestEkosMeridianFlip::testRefocusAfterMF_data()
+{
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {false}, {false, true}, {false});
 }
 
 QTEST_KSTARS_WITH_GUIDER_MAIN(TestEkosMeridianFlip)

@@ -31,14 +31,14 @@ TestEkosCaptureWorkflow::TestEkosCaptureWorkflow(QString guider, QObject *parent
     m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
 }
 
-void TestEkosCaptureWorkflow::testCaptureRefocus()
+void TestEkosCaptureWorkflow::testCaptureRefocusDelay()
 {
     m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
     // default initialization
     QVERIFY(prepareTestCase());
 
     Ekos::Manager *manager = Ekos::Manager::Instance();
-    QVERIFY(prepareCapture());
+    QVERIFY(prepareCapture(1));
     QVERIFY(m_CaptureHelper->executeFocusing());
 
     // start capturing, expect focus after first captured frame
@@ -52,6 +52,72 @@ void TestEkosCaptureWorkflow::testCaptureRefocus()
                                      60000 + 10000 + 1000 * capture->captureExposureN->value());
 }
 
+void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
+{
+    m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    Ekos::Manager *manager = Ekos::Manager::Instance();
+    QVERIFY(prepareCapture(0, 1.2));
+    QVERIFY(m_CaptureHelper->executeFocusing());
+
+    // start capturing
+    Ekos::Capture *capture = manager->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    KTRY_CLICK(capture, startB);
+    // wait for one frame has been captured:   exposure time + 10 secs delay
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
+                                     10000 +  1000 * capture->captureExposureN->value());
+    // now move the focuser twice to increase the HFR
+    KTRY_CLICK(manager->focusModule(), focusOutB);
+    KTRY_CLICK(manager->focusModule(), focusOutB);
+    // check if focusing has started, latest after two more frames
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
+                                     10000 + 2 * 1000 * capture->captureExposureN->value());
+}
+
+
+void TestEkosCaptureWorkflow::testCaptureRefocusTemperature()
+{
+    m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    Ekos::Manager *manager = Ekos::Manager::Instance();
+    Ekos::Capture *capture = manager->captureModule();
+    // select temperature threshold
+    double deltaT = 2.0;
+    QVERIFY(prepareCapture(0, 0, deltaT));
+    // set the focuser temperature
+    SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_FocuserDevice, "FOCUS_TEMPERATURE", "TEMPERATURE", 0);
+    // select the focuser as temperature source
+    KTRY_SET_COMBO(manager->focusModule(), defaultFocusTemperatureSource, m_CaptureHelper->m_FocuserDevice);
+
+    QVERIFY(m_CaptureHelper->executeFocusing());
+
+    // start capturing
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    KTRY_CLICK(capture, startB);
+    // wait for one frame has been captured:   exposure time + 10 secs delay
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
+                                     10000 +  1000 * capture->captureExposureN->value());
+    // now change the temperature on the focuser
+    SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_FocuserDevice, "FOCUS_TEMPERATURE", "TEMPERATURE", -2 * deltaT);
+
+    KTRY_CLICK(manager->focusModule(), focusOutB);
+    KTRY_CLICK(manager->focusModule(), focusOutB);
+    // check if focusing has started, latest after two more frames
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
+                                     10000 + 2 * 1000 * capture->captureExposureN->value());
+
+}
+
+
 void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
 {
     m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
@@ -59,7 +125,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
     QVERIFY(prepareTestCase());
 
     Ekos::Manager *manager = Ekos::Manager::Instance();
-    QVERIFY(prepareCapture());
+    QVERIFY(prepareCapture(1));
     QVERIFY(m_CaptureHelper->executeFocusing());
 
     // start capturing, expect focus after first captured frame
@@ -884,9 +950,19 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
  *
  * ********************************************************************************* */
 
-void TestEkosCaptureWorkflow::testCaptureRefocus_data()
+void TestEkosCaptureWorkflow::testCaptureRefocusDelay_data()
 {
     prepareTestData(31.0, "Luminance:3");
+}
+
+void TestEkosCaptureWorkflow::testCaptureRefocusHFR_data()
+{
+    prepareTestData(10.0, "Luminance:6");
+}
+
+void TestEkosCaptureWorkflow::testCaptureRefocusTemperature_data()
+{
+    prepareTestData(10.0, "Luminance:6");
 }
 
 void TestEkosCaptureWorkflow::testCaptureRefocusAbort_data()
@@ -918,9 +994,9 @@ void TestEkosCaptureWorkflow::testDustcapSource_data()
     QTest::addColumn<QString>("frametype");              /*!< frame type (Dark or Flat)           */
     QTest::addColumn<bool>("internalLight");             /*!< use internal or external flat light */
 
-//    QTest::newRow("Flat, light=internal") << "Flat" << true;   // flat + light source integrated into the light panel
+    //    QTest::newRow("Flat, light=internal") << "Flat" << true;   // flat + light source integrated into the light panel
     QTest::newRow("Flat, light=external") << "Flat" << false;  // flat + external light source used
-//    QTest::newRow("Dark") << "Dark" << false;  // dark
+    //    QTest::newRow("Dark") << "Dark" << false;  // dark
 }
 
 void TestEkosCaptureWorkflow::testWallSource_data()
@@ -1061,7 +1137,7 @@ void TestEkosCaptureWorkflow::cleanup()
 }
 
 
-bool TestEkosCaptureWorkflow::prepareCapture()
+bool TestEkosCaptureWorkflow::prepareCapture(int refocusLimitTime, double refocusHFR, double refocusTemp)
 {
     QFETCH(double, exptime);
     QFETCH(QString, sequence);
@@ -1076,9 +1152,20 @@ bool TestEkosCaptureWorkflow::prepareCapture()
     // create the destination for images
     qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << imagepath;
 
+    // set refocusing limits
+    KTRY_SET_CHECKBOX_SUB(capture, limitRefocusS, (refocusLimitTime > 0));
+    if (refocusLimitTime > 0)
+        KTRY_SET_SPINBOX_SUB(capture, limitRefocusN, refocusLimitTime);
+
+    KTRY_SET_CHECKBOX_SUB(capture, limitFocusHFRS, (refocusHFR > 0));
+    if (refocusHFR > 0)
+        KTRY_SET_DOUBLESPINBOX_SUB(capture, limitFocusHFRN, refocusHFR);
+
+    KTRY_SET_CHECKBOX_SUB(capture, limitFocusDeltaTS, (refocusTemp > 0));
+    if (refocusTemp > 0)
+        KTRY_SET_DOUBLESPINBOX_SUB(capture, limitFocusDeltaTN, refocusTemp);
+
     // create capture sequences
-    KTRY_SET_CHECKBOX_SUB(capture, limitRefocusS, true);
-    KTRY_SET_SPINBOX_SUB(capture, limitRefocusN, 1);
     KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));
 
     // everything successfully completed

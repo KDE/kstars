@@ -138,6 +138,11 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE bool setFilter(const QString &filter);
         Q_SCRIPTABLE QString filter();
 
+        /**
+         * @brief shortcut for updating the current filter information for the state machine
+         */
+        void updateCurrentFilterPosition();
+
         /** DBUS interface function.
              * Aborts any current jobs and remove all sequence queue jobs.
              */
@@ -286,7 +291,7 @@ class Capture : public QWidget, public Ui::Capture
             return m_LogText;
         }
 
-        Q_SCRIPTABLE Ekos::CaptureState status()
+        Q_SCRIPTABLE CaptureState status()
         {
             return m_captureModuleState->getCaptureState();
         }
@@ -540,7 +545,10 @@ class Capture : public QWidget, public Ui::Capture
          * @brief Set the name of the target to be captured.
          */
         Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
-        Q_SCRIPTABLE QString getTargetName() { return m_TargetName; }
+        Q_SCRIPTABLE QString getTargetName()
+        {
+            return m_TargetName;
+        }
 
         /** @}*/
 
@@ -728,20 +736,27 @@ class Capture : public QWidget, public Ui::Capture
         void appendLogText(const QString &);
 
         // Auto Focus
-        void setFocusStatus(Ekos::FocusState state);
+        /**
+         * @brief Forward the new focus state to the capture module state machine
+         */
+        void setFocusStatus(FocusState state);
+
+        /**
+         * @brief Handle new focus state
+         */
+        void updateFocusStatus(FocusState state);
+
         void setHFR(double newHFR, int)
         {
-            focusHFR = newHFR;
+            m_captureModuleState->getRefocusState()->setFocusHFR(newHFR);
         }
         void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature);
-        // Return TRUE if we need to run focus/autofocus. Otherwise false if not necessary
-        bool startFocusIfRequired();
 
         // Guide
-        void setGuideStatus(Ekos::GuideState state);
+        void setGuideStatus(GuideState state);
 
         // Align
-        void setAlignStatus(Ekos::AlignState state);
+        void setAlignStatus(AlignState state);
         void setAlignResults(double orientation, double ra, double de, double pixscale);
         // Update Mount module status
         void setMountStatus(ISD::Mount::Status newState);
@@ -774,7 +789,7 @@ class Capture : public QWidget, public Ui::Capture
         void setMeridianFlipState(QSharedPointer<MeridianFlipState> state);
 
 
-private slots:
+    private slots:
 
         /**
              * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
@@ -837,7 +852,7 @@ private slots:
         void showObserverDialog();
 
         // Active Job Prepare State
-        void updatePrepareState(Ekos::CaptureState prepareState);
+        void updatePrepareState(CaptureState prepareState);
 
         // Rotator
         void updateRotatorAngle(double value);
@@ -855,10 +870,10 @@ private slots:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();
         Q_SCRIPTABLE void guideAfterMeridianFlip();
-        Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
+        Q_SCRIPTABLE void newStatus(CaptureState status);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
-        void newFilterManagerStatus(Ekos::FilterState state);
+        void newFilterManagerStatus(FilterState state);
 
         void ready();
 
@@ -874,8 +889,8 @@ private slots:
         void abortFocus();
         void suspendGuiding();
         void resumeGuiding();
-        void newImage(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data);
-        void newExposureProgress(Ekos::SequenceJob *job);
+        void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+        void newExposureProgress(SequenceJob *job);
         void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QJsonObject &settings);
@@ -948,9 +963,6 @@ private slots:
         bool checkPausing();
 
         void resetFrameToZero();
-
-        /* Refocus */
-        void startRefocusTimer(bool forced = false);
 
         // If exposure timed out, let's handle it.
         void processCaptureTimeout();
@@ -1062,23 +1074,11 @@ private slots:
         QUrl m_SequenceURL;
         bool m_Dirty { false };
         bool m_JobUnderEdit { false };
-        int m_CurrentFilterPosition { -1 };
 
         // Guide Deviation
         bool m_DeviationDetected { false };
         int m_SpikesDetected { 0 };
         QTimer guideDeviationTimer;
-
-        // Autofocus
-        /**
-         * @brief updateHFRThreshold calculate new HFR threshold based on median value for current selected filter
-         */
-        void updateHFRThreshold();
-        //bool requiredAutoFocusStarted { false };
-        //bool firstAutoFocus { true };
-        double focusHFR { 0 }; // HFR value as received from the Ekos focus module
-        QMap<QString, QList<double>> HFRMap;
-        double fileHFR { 0 };  // HFR value as loaded from the sequence file
 
         // Fast Exposure
         bool m_RememberFastExposure {false};

@@ -234,7 +234,7 @@ void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
     if (m_ActiveCamera != nullptr)
     {
         disconnect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
-                   &Ekos::CaptureDeviceAdaptor::newCCDTemperatureValue);
+                   &CaptureDeviceAdaptor::newCCDTemperatureValue);
     }
 
     // store the link to the new device
@@ -245,7 +245,7 @@ void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
     {
         // publish device events
         connect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
-                &Ekos::CaptureDeviceAdaptor::newCCDTemperatureValue, Qt::UniqueConnection);
+                &CaptureDeviceAdaptor::newCCDTemperatureValue, Qt::UniqueConnection);
     }
 }
 
@@ -264,7 +264,7 @@ void CaptureDeviceAdaptor::connectActiveCamera()
             &SequenceJobState::flatSyncFocusChanged);
     connect(this, &CaptureDeviceAdaptor::hasShutter, currentSequenceJobState, &SequenceJobState::hasShutter);
     connect(this, &CaptureDeviceAdaptor::newCCDTemperatureValue, currentSequenceJobState,
-            &Ekos::SequenceJobState::setCurrentCCDTemperature, Qt::UniqueConnection);
+            &SequenceJobState::setCurrentCCDTemperature, Qt::UniqueConnection);
 }
 
 void CaptureDeviceAdaptor::disconnectActiveCamera()
@@ -280,10 +280,10 @@ void CaptureDeviceAdaptor::disconnectActiveCamera()
                &SequenceJobState::flatSyncFocusChanged);
     disconnect(this, &CaptureDeviceAdaptor::hasShutter, currentSequenceJobState, &SequenceJobState::hasShutter);
     disconnect(this, &CaptureDeviceAdaptor::newCCDTemperatureValue, currentSequenceJobState,
-               &Ekos::SequenceJobState::setCurrentCCDTemperature);
+               &SequenceJobState::setCurrentCCDTemperature);
 }
 
-void CaptureDeviceAdaptor::readCurrentState(Ekos::CaptureState state)
+void CaptureDeviceAdaptor::readCurrentState(CaptureState state)
 {
     switch(state)
     {
@@ -318,6 +318,18 @@ void CaptureDeviceAdaptor::enableCCDBatchMode(bool enable)
 {
     if (m_ActiveChip != nullptr)
         m_ActiveChip->setBatchMode(enable);
+}
+
+void CaptureDeviceAdaptor::abortFastExposure()
+{
+    if (m_ActiveCamera != nullptr && m_ActiveChip != nullptr && m_ActiveCamera->isFastExposureEnabled())
+        m_ActiveChip->abortExposure();
+}
+
+void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition)
+{
+    if (m_ActiveFilterWheel != nullptr)
+        m_ActiveFilterWheel->setPosition(targetFilterPosition);
 }
 
 void CaptureDeviceAdaptor::setActiveChip(ISD::CameraChip *device)
@@ -466,7 +478,7 @@ void CaptureDeviceAdaptor::setScopeTracking(bool on)
     }
 }
 
-void Ekos::CaptureDeviceAdaptor::setScopeParked(bool parked)
+void CaptureDeviceAdaptor::setScopeParked(bool parked)
 {
     if (m_ActiveTelescope != nullptr)
     {
@@ -485,7 +497,7 @@ void Ekos::CaptureDeviceAdaptor::setScopeParked(bool parked)
     }
 }
 
-void Ekos::CaptureDeviceAdaptor::setDomeParked(bool parked)
+void CaptureDeviceAdaptor::setDomeParked(bool parked)
 {
     if (m_ActiveDome != nullptr)
     {

@@ -115,7 +115,7 @@ class Camera : public ConcreteDevice
         {
             seqPrefix = preFix;
         }
-        void setPlaceholderPath(Ekos::PlaceholderPath php)
+        void setPlaceholderPath(const Ekos::PlaceholderPath &php)
         {
             placeholderPath = php;
         }

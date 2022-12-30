@@ -146,9 +146,19 @@ class CaptureDeviceAdaptor: public QObject
          */
         void enableCCDBatchMode(bool enable);
 
+        /**
+         * @brief Abort exposure if fast exposure is enabled
+         */
+        void abortFastExposure();
+
         //////////////////////////////////////////////////////////////////////
         // Filter wheel commands
         //////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Select the filter at the given position
+         */
+        void setFilterPosition(int targetFilterPosition);
 
         //////////////////////////////////////////////////////////////////////
         // Flat capturing commands
@@ -251,7 +261,7 @@ class CaptureDeviceAdaptor: public QObject
          * @brief Slot that reads the requested device state and publishes the corresponding event
          * @param state device state that needs to be read directly
          */
-        void readCurrentState(Ekos::CaptureState state);
+        void readCurrentState(CaptureState state);
 
     private:
         // the state machine of the capture module
