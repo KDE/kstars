@@ -74,6 +74,7 @@
         <Action name="view_pixel_grid" />
         <Action name="toggle_3D_graph" />
         <Separator/>
+        <Action name="mark_stars"/>
         <Action name="view_clipping"/>
         <Action name="view_eq_grid" />
         <Action name="view_objects" />
