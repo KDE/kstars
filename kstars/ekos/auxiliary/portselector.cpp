@@ -26,7 +26,8 @@ const QString Device::ACTIVE_STYLESHEET = "background-color: #004400;";
 //////////////////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
-Device::Device(const QSharedPointer<ISD::GenericDevice> &device, QGridLayout *grid, uint8_t row) :  m_Name(device->getDeviceName()), m_Device(device), m_Grid(grid), m_Row(row)
+Device::Device(const QSharedPointer<ISD::GenericDevice> &device, QGridLayout *grid,
+               uint8_t row) :  m_Name(device->getDeviceName()), m_Device(device), m_Grid(grid), m_Row(row)
 {
     ColorCode[IPS_IDLE] = Qt::gray;
     ColorCode[IPS_OK] = Qt::green;
@@ -393,6 +394,9 @@ Dialog::Dialog(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(buttonBox);
 
     setWindowTitle(i18nc("@title:window", "Port Selector"));
+#ifdef Q_OS_OSX
+    setWindowFlags(Qt::WindowStaysOnTopHint);
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
