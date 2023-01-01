@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:47+0000\n"
+"POT-Creation-Date: 2023-01-01 00:47+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -1650,7 +1650,7 @@ msgid "Main Toolbar"
 msgstr "Barra de ferramentas principal"
 
 #. i18n: ectx: ToolBar (processToolBar)
-#: data/fitsviewerui.rc:85
+#: data/fitsviewerui.rc:86
 #, kde-format
 msgid "Process ToolBar"
 msgstr "Barra de ferramentas de procesamento"
@@ -2015,8 +2015,7 @@ msgid "Clusters"
 msgstr "Cúmulos"
 
 #: data/qml/whatisinteresting/wiview.qml:542
-#, fuzzy, kde-kuit-format
-#| msgid "Explore Catalogs"
+#, kde-kuit-format
 msgid "Explore Catalogs"
 msgstr "Explorar os catálogos"
 
@@ -2752,7 +2751,8 @@ msgstr[0] "Obxecto"
 msgstr[1] "Obxecto"
 
 #: dialogs/catalogcsvimport.cpp:184
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Text"
 msgid "Text"
 msgstr "Texto"
 
@@ -2866,7 +2866,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:600 indi/indicamera.cpp:908
+#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:908
 #, kde-format
 msgid "Preview"
 msgstr "Vista previa"
@@ -10058,7 +10058,7 @@ msgstr "Non se puido eliminar o ficheiro: %1"
 #: ekos/analyze/analyze.cpp:1700 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:431
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
 #, kde-format
 msgid "Focus"
 msgstr "Foco"
@@ -10066,7 +10066,7 @@ msgstr "Foco"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1971
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:439
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
 #, kde-format
 msgid "Align"
 msgstr "Aliñar"
@@ -10079,7 +10079,7 @@ msgstr "Aliñar"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2153
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
 msgid "Guide"
 msgstr "Guía"
@@ -11133,7 +11133,8 @@ msgstr "FPS medios"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, temperatureStepLabel)
 #: ekos/auxiliary/darklibrary.ui:229 ekos/auxiliary/darklibrary.ui:263
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Step:"
 msgid "Step:"
 msgstr "Paso:"
 
@@ -11705,7 +11706,8 @@ msgstr "Seleccionouse unha estrela automaticamente."
 #. i18n: ectx: property (windowTitle), widget (QWidget, MeridianFlipStatusWidget)
 #: ekos/auxiliary/ledstatuswidget.ui:14
 #: ekos/mount/meridianflipstatuswidget.ui:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Form"
 msgid "Form"
 msgstr "Formulario"
 
@@ -12296,7 +12298,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Filter Wheel:"
 msgid "Filter Wheel:"
 msgstr "Roda de filtros:"
 
@@ -22289,12 +22292,7 @@ msgstr "Restabelecer o modelo de montura en caso de fallo de aliñamento."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
 #: ekos/opsekos.ui:478
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If guiding calibration fails then restart alignment "
-#| "process before proceeding to guiding recalibration process again. This "
-#| "can help recenter the target object in the field of view if the "
-#| "calibration process strayed too far off.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If guiding calibration fails then restart alignment "
 "process before proceeding to guiding recalibration process again. This can "
@@ -23766,10 +23764,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/scheduler/framingassistant.ui:418
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position Angle:"
-msgstr "Ángulo da posición"
+msgstr "Ángulo da posición:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraHFOVSpin)
 #: ekos/scheduler/framingassistant.ui:458 ekos/scheduler/mosaic.ui:698
@@ -23791,7 +23788,8 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:825 ekos/scheduler/mosaic.ui:431
 #: ekos/scheduler/mosaic.ui:579 ekos/scheduler/mosaic.ui:633
 #: ekos/scheduler/mosaic.ui:704
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "'"
 msgid "'"
 msgstr "'"
 
@@ -26627,7 +26625,7 @@ msgstr "Completouse a guía"
 msgid "Normal"
 msgstr "Norman"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:427
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:431
 #, kde-format
 msgid "Calibrate"
 msgstr "Calibrar"
@@ -26909,8 +26907,8 @@ msgid "Y Offset:"
 msgstr "Desprazamento en Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:469
-#: fitsviewer/fitsviewer.cpp:1233
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:473
+#: fitsviewer/fitsviewer.cpp:1237
 #, kde-format
 msgid "Ready."
 msgstr "Listo."
@@ -27145,13 +27143,13 @@ msgid "View Star Profile"
 msgstr "Ver o perfil da estrela"
 
 #: fitsviewer/fitsview.cpp:2323 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:965
+#: fitsviewer/fitsviewer.cpp:969
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostras as liñas da grade ecuatorial"
 
 #: fitsviewer/fitsview.cpp:2329 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:967
+#: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostrar os obxectos na imaxe"
@@ -27229,7 +27227,7 @@ msgstr "Estatísticas"
 msgid "Show Clipping"
 msgstr "Mostrar o diálogo de impresión"
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:976
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:980
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -27243,25 +27241,25 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr "Axustar á vista"
 
-#: fitsviewer/fitsviewer.cpp:256 fitsviewer/fitsviewer.cpp:698
-#: fitsviewer/fitsviewer.cpp:1198
-#, kde-format
-msgid "View 3D Graph"
-msgstr "Ver o gráfico en 3D"
-
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1206
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1210
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marcar as estrelas"
 
-#: fitsviewer/fitsviewer.cpp:279
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:702
+#: fitsviewer/fitsviewer.cpp:1202
+#, kde-format
+msgid "View 3D Graph"
+msgstr "Ver o gráfico en 3D"
+
+#: fitsviewer/fitsviewer.cpp:283
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Visor de FITS de KStars"
 
-#: fitsviewer/fitsviewer.cpp:373
+#: fitsviewer/fitsviewer.cpp:377
 #, fuzzy, kde-format
 #| msgid "%1 star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -27269,7 +27267,7 @@ msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "%1 estrela"
 msgstr[1] "%1 estrela"
 
-#: fitsviewer/fitsviewer.cpp:379
+#: fitsviewer/fitsviewer.cpp:383
 #, fuzzy, kde-format
 #| msgid "%1 star"
 msgid "HFR:%2, %1 star."
@@ -27277,23 +27275,23 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "%1 estrela"
 msgstr[1] "%1 estrela"
 
-#: fitsviewer/fitsviewer.cpp:565
+#: fitsviewer/fitsviewer.cpp:569
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:684
+#: fitsviewer/fitsviewer.cpp:688
 #, fuzzy, kde-format
 #| msgid "View 3D Graph"
 msgid "currentView 3D Graph"
 msgstr "Ver o gráfico en 3D"
 
-#: fitsviewer/fitsviewer.cpp:685 fitsviewer/fitsviewer.cpp:1119
+#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1123
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Miras"
 
-#: fitsviewer/fitsviewer.cpp:686 fitsviewer/fitsviewer.cpp:1133
+#: fitsviewer/fitsviewer.cpp:690 fitsviewer/fitsviewer.cpp:1137
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
@@ -27301,39 +27299,39 @@ msgid "Clipping"
 msgstr "Filipinas"
 
 # skip-rule: noPT-2010-dual_grid
-#: fitsviewer/fitsviewer.cpp:687
+#: fitsviewer/fitsviewer.cpp:691
 #, kde-format
 msgid "Equatorial Gridines"
 msgstr "Liñas da grade ecuatorial"
 
-#: fitsviewer/fitsviewer.cpp:688 fitsviewer/fitsviewer.cpp:1172
+#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1176
 #, kde-format
 msgid "Objects in Image"
 msgstr "Obxectos na imaxe"
 
-#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1185
+#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1189
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Liñas de grade de píxel"
 
-#: fitsviewer/fitsviewer.cpp:703 kstarsactions.cpp:1268
+#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1268
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Abrir unha imaxe FITS"
 
-#: fitsviewer/fitsviewer.cpp:942
+#: fitsviewer/fitsviewer.cpp:946
 #, kde-format
 msgid "Hide %1"
 msgstr "Agochar %1"
 
-#: fitsviewer/fitsviewer.cpp:947
+#: fitsviewer/fitsviewer.cpp:951
 #, kde-format
 msgid "Show %1"
 msgstr "Mostrar %1"
 
-#: fitsviewer/fitsviewer.cpp:971
+#: fitsviewer/fitsviewer.cpp:975
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -27342,7 +27340,7 @@ msgstr ""
 "Centrar o telescopio\n"
 "*Preparado*"
 
-#: fitsviewer/fitsviewer.cpp:982
+#: fitsviewer/fitsviewer.cpp:986
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -27351,7 +27349,7 @@ msgstr ""
 "Mostras as liñas da grade ecuatorial\n"
 "*Non hai información de SCM*"
 
-#: fitsviewer/fitsviewer.cpp:984
+#: fitsviewer/fitsviewer.cpp:988
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -27360,7 +27358,7 @@ msgstr ""
 "Centrar o telescopio\n"
 "*Non hai información de SCM*"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:990
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -27369,41 +27367,41 @@ msgstr ""
 "Mostrar os obxectos na imaxe\n"
 "*Non hai información de SCM*"
 
-#: fitsviewer/fitsviewer.cpp:1017 fitsviewer/fitsviewer.cpp:1159
+#: fitsviewer/fitsviewer.cpp:1021 fitsviewer/fitsviewer.cpp:1163
 #, fuzzy, kde-format
 #| msgid "Selecting star"
 msgid "Selection Rectangle"
 msgstr "Seleccionando unha estrela"
 
-#: fitsviewer/fitsviewer.cpp:1046 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1050 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Tamaño"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1054 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1058 fitsviewer/statform.ui:66
 #, kde-format
 msgid "Width"
 msgstr "Anchura"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1055 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1059 fitsviewer/statform.ui:71
 #, kde-format
 msgid "Height"
 msgstr "Altura"
 
 # skip-rule: noPT-2010-dual_grid
-#: fitsviewer/fitsviewer.cpp:1146
+#: fitsviewer/fitsviewer.cpp:1150
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Liñas da grade ecuatorial"
 
-#: fitsviewer/fitsviewer.cpp:1211
+#: fitsviewer/fitsviewer.cpp:1215
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Desmarcar as estrelas"
 
-#: fitsviewer/fitsviewer.cpp:1227
+#: fitsviewer/fitsviewer.cpp:1231
 #, kde-format
 msgid "Processing %1..."
 msgstr "Procesando %1…"
@@ -35316,10 +35314,7 @@ msgstr "Comezou a calibración."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:2539
-#, fuzzy, kde-format
-#| msgid ""
-#| "If guiding calibration fails, run alignment process again before "
-#| "proceeding to recalibration."
+#, kde-format
 msgid ""
 "If guiding calibration fails, run alignment process again before proceeding "
 "to recalibration."

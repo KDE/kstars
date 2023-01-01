@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:47+0000\n"
+"POT-Creation-Date: 2023-01-01 00:47+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -1748,7 +1748,7 @@ msgid "Main Toolbar"
 msgstr "Dangos y Prif Bar Offer"
 
 #. i18n: ectx: ToolBar (processToolBar)
-#: data/fitsviewerui.rc:85
+#: data/fitsviewerui.rc:86
 #, kde-format
 msgid "Process ToolBar"
 msgstr ""
@@ -2948,7 +2948,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:600 indi/indicamera.cpp:908
+#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:908
 #, fuzzy, kde-format
 msgid "Preview"
 msgstr "Delwedd"
@@ -9880,7 +9880,7 @@ msgstr "Methwyd agor y ffeil : %1"
 #: ekos/analyze/analyze.cpp:1700 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:431
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
 #, kde-format
 msgid "Focus"
 msgstr ""
@@ -9888,7 +9888,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1971
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:439
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -9903,7 +9903,7 @@ msgstr "Arall"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2153
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
 msgid "Guide"
 msgstr ""
@@ -25343,7 +25343,7 @@ msgstr "gorffenwyd"
 msgid "Normal"
 msgstr "Norman"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:427
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:431
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -25620,8 +25620,8 @@ msgid "Y Offset:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:469
-#: fitsviewer/fitsviewer.cpp:1233
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:473
+#: fitsviewer/fitsviewer.cpp:1237
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Reading"
@@ -25866,7 +25866,7 @@ msgid "View Star Profile"
 msgstr "Arrecife"
 
 #: fitsviewer/fitsview.cpp:2323 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:965
+#: fitsviewer/fitsviewer.cpp:969
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Equatorial Guinea"
@@ -25874,7 +25874,7 @@ msgid "Show Equatorial Gridlines"
 msgstr "Gini'r Cyhydedd"
 
 #: fitsviewer/fitsview.cpp:2329 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:967
+#: fitsviewer/fitsviewer.cpp:971
 #, fuzzy, kde-format
 #| msgid "Show &name"
 msgid "Show Objects in Image"
@@ -25959,7 +25959,7 @@ msgstr "Ystadegau"
 msgid "Show Clipping"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:976
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:980
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -25971,20 +25971,20 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:256 fitsviewer/fitsviewer.cpp:698
-#: fitsviewer/fitsviewer.cpp:1198
-#, kde-format
-msgid "View 3D Graph"
-msgstr ""
-
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1206
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1210
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Merkers"
 msgid "Mark Stars"
 msgstr "Merkers"
 
-#: fitsviewer/fitsviewer.cpp:279
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:702
+#: fitsviewer/fitsviewer.cpp:1202
+#, kde-format
+msgid "View 3D Graph"
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:283
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Welcome to Mars!"
@@ -25992,7 +25992,7 @@ msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Croeso i Fawrth!"
 
-#: fitsviewer/fitsviewer.cpp:373
+#: fitsviewer/fitsviewer.cpp:377
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -26000,7 +26000,7 @@ msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "seren"
 msgstr[1] "seren"
 
-#: fitsviewer/fitsviewer.cpp:379
+#: fitsviewer/fitsviewer.cpp:383
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2, %1 star."
@@ -26008,132 +26008,132 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "seren"
 msgstr[1] "seren"
 
-#: fitsviewer/fitsviewer.cpp:565
+#: fitsviewer/fitsviewer.cpp:569
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:684
+#: fitsviewer/fitsviewer.cpp:688
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:685 fitsviewer/fitsviewer.cpp:1119
+#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1123
 #, kde-format
 msgid "Cross Hairs"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:686 fitsviewer/fitsviewer.cpp:1133
+#: fitsviewer/fitsviewer.cpp:690 fitsviewer/fitsviewer.cpp:1137
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Philippines"
 
-#: fitsviewer/fitsviewer.cpp:687
+#: fitsviewer/fitsviewer.cpp:691
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Equatorial Guinea"
 msgid "Equatorial Gridines"
 msgstr "Gini'r Cyhydedd"
 
-#: fitsviewer/fitsviewer.cpp:688 fitsviewer/fitsviewer.cpp:1172
+#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1176
 #, fuzzy, kde-format
 #| msgid "Show &name"
 msgid "Objects in Image"
 msgstr "Dango&s enw"
 
-#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1185
+#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1189
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Pixel Gridlines"
 msgstr "Dangos llinellau cyfseriadau?"
 
-#: fitsviewer/fitsviewer.cpp:703 kstarsactions.cpp:1268
+#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1268
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Constellation names:"
 
-#: fitsviewer/fitsviewer.cpp:942
+#: fitsviewer/fitsviewer.cpp:946
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:947
+#: fitsviewer/fitsviewer.cpp:951
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "Dangos"
 
-#: fitsviewer/fitsviewer.cpp:971
+#: fitsviewer/fitsviewer.cpp:975
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*Ready*"
 msgstr "Gwrthrych"
 
-#: fitsviewer/fitsviewer.cpp:982
+#: fitsviewer/fitsviewer.cpp:986
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:984
+#: fitsviewer/fitsviewer.cpp:988
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*No WCS Info*"
 msgstr "Gwrthrych"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:990
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1017 fitsviewer/fitsviewer.cpp:1159
+#: fitsviewer/fitsviewer.cpp:1021 fitsviewer/fitsviewer.cpp:1163
 #, fuzzy, kde-format
 msgid "Selection Rectangle"
 msgstr "Dewis Dim"
 
-#: fitsviewer/fitsviewer.cpp:1046 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1050 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "Maint:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1054 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1058 fitsviewer/statform.ui:66
 #, fuzzy, kde-format
 #| msgid "Width:"
 msgid "Width"
 msgstr "Lled:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1055 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1059 fitsviewer/statform.ui:71
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Height"
 msgstr "Taldra:"
 
-#: fitsviewer/fitsviewer.cpp:1146
+#: fitsviewer/fitsviewer.cpp:1150
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Equatorial Guinea"
 msgid "Equatorial Gridlines"
 msgstr "Gini'r Cyhydedd"
 
-#: fitsviewer/fitsviewer.cpp:1211
+#: fitsviewer/fitsviewer.cpp:1215
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Merkers"
 msgid "Unmark Stars"
 msgstr "Merkers"
 
-#: fitsviewer/fitsviewer.cpp:1227
+#: fitsviewer/fitsviewer.cpp:1231
 #, kde-format
 msgid "Processing %1..."
 msgstr ""

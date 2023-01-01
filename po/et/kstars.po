@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:47+0000\n"
+"POT-Creation-Date: 2023-01-01 00:47+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -1633,7 +1633,7 @@ msgid "Main Toolbar"
 msgstr "Peamine tööriistariba"
 
 #. i18n: ectx: ToolBar (processToolBar)
-#: data/fitsviewerui.rc:85
+#: data/fitsviewerui.rc:86
 #, kde-format
 msgid "Process ToolBar"
 msgstr "Protsessiriba"
@@ -2815,7 +2815,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:600 indi/indicamera.cpp:908
+#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:908
 #, kde-format
 msgid "Preview"
 msgstr "Eelvaatlus"
@@ -9739,7 +9739,7 @@ msgstr "Ei suuda kustutada faili: %1"
 #: ekos/analyze/analyze.cpp:1700 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:431
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
 #, kde-format
 msgid "Focus"
 msgstr "Fookus"
@@ -9747,7 +9747,7 @@ msgstr "Fookus"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1971
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:439
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
 #, kde-format
 msgid "Align"
 msgstr "Joondamine"
@@ -9760,7 +9760,7 @@ msgstr "Joondamine"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2153
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
 msgid "Guide"
 msgstr "Gideerija"
@@ -25229,7 +25229,7 @@ msgstr "Gideerimine lõpetatud"
 msgid "Normal"
 msgstr "Norman"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:427
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:431
 #, kde-format
 msgid "Calibrate"
 msgstr "Kalibreerimine"
@@ -25502,8 +25502,8 @@ msgid "Y Offset:"
 msgstr "Y-nihe:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:469
-#: fitsviewer/fitsviewer.cpp:1233
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:473
+#: fitsviewer/fitsviewer.cpp:1237
 #, kde-format
 msgid "Ready."
 msgstr "Valmis."
@@ -25732,13 +25732,13 @@ msgid "View Star Profile"
 msgstr "Vaata tähe profiili"
 
 #: fitsviewer/fitsview.cpp:2323 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:965
+#: fitsviewer/fitsviewer.cpp:969
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr ""
 
 #: fitsviewer/fitsview.cpp:2329 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:967
+#: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Näita pildi objekte"
@@ -25816,7 +25816,7 @@ msgstr "Statistika"
 msgid "Show Clipping"
 msgstr "Näidatakse trükkimisdialoogi"
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:976
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:980
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -25830,25 +25830,25 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr "Suurenda mahutamiseks"
 
-#: fitsviewer/fitsviewer.cpp:256 fitsviewer/fitsviewer.cpp:698
-#: fitsviewer/fitsviewer.cpp:1198
-#, kde-format
-msgid "View 3D Graph"
-msgstr "Vaata 3D graafikut"
-
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1206
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1210
 #, kde-format
 msgid "Mark Stars"
 msgstr "Tähista tähed"
 
-#: fitsviewer/fitsviewer.cpp:279
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:702
+#: fitsviewer/fitsviewer.cpp:1202
+#, kde-format
+msgid "View 3D Graph"
+msgstr "Vaata 3D graafikut"
+
+#: fitsviewer/fitsviewer.cpp:283
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "KStarsi FITS-i näitaja"
 
-#: fitsviewer/fitsviewer.cpp:373
+#: fitsviewer/fitsviewer.cpp:377
 #, fuzzy, kde-format
 #| msgid "%1 star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -25856,7 +25856,7 @@ msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "%1 täht"
 msgstr[1] "%1 täht"
 
-#: fitsviewer/fitsviewer.cpp:379
+#: fitsviewer/fitsviewer.cpp:383
 #, fuzzy, kde-format
 #| msgid "%1 star"
 msgid "HFR:%2, %1 star."
@@ -25864,62 +25864,62 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "%1 täht"
 msgstr[1] "%1 täht"
 
-#: fitsviewer/fitsviewer.cpp:565
+#: fitsviewer/fitsviewer.cpp:569
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:684
+#: fitsviewer/fitsviewer.cpp:688
 #, fuzzy, kde-format
 #| msgid "View 3D Graph"
 msgid "currentView 3D Graph"
 msgstr "Vaata 3D graafikut"
 
-#: fitsviewer/fitsviewer.cpp:685 fitsviewer/fitsviewer.cpp:1119
+#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1123
 #, kde-format
 msgid "Cross Hairs"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:686 fitsviewer/fitsviewer.cpp:1133
+#: fitsviewer/fitsviewer.cpp:690 fitsviewer/fitsviewer.cpp:1137
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Filipiinid"
 
-#: fitsviewer/fitsviewer.cpp:687
+#: fitsviewer/fitsviewer.cpp:691
 #, kde-format
 msgid "Equatorial Gridines"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:688 fitsviewer/fitsviewer.cpp:1172
+#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1176
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objektid pildil"
 
-#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1185
+#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1189
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:703 kstarsactions.cpp:1268
+#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1268
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Ava FITS-pilt"
 
-#: fitsviewer/fitsviewer.cpp:942
+#: fitsviewer/fitsviewer.cpp:946
 #, kde-format
 msgid "Hide %1"
 msgstr "Peida %1"
 
-#: fitsviewer/fitsviewer.cpp:947
+#: fitsviewer/fitsviewer.cpp:951
 #, kde-format
 msgid "Show %1"
 msgstr "Näita %1"
 
-#: fitsviewer/fitsviewer.cpp:971
+#: fitsviewer/fitsviewer.cpp:975
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -25928,14 +25928,14 @@ msgstr ""
 "Tsentreeri teleskoobis\n"
 "*Tehtud*"
 
-#: fitsviewer/fitsviewer.cpp:982
+#: fitsviewer/fitsviewer.cpp:986
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:984
+#: fitsviewer/fitsviewer.cpp:988
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -25944,7 +25944,7 @@ msgstr ""
 "Tsentreeri teleskoobis\n"
 "*WCS-teave puudub*"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:990
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -25953,40 +25953,40 @@ msgstr ""
 "Näita pildi objekte\n"
 "*WCS-teave puudub*"
 
-#: fitsviewer/fitsviewer.cpp:1017 fitsviewer/fitsviewer.cpp:1159
+#: fitsviewer/fitsviewer.cpp:1021 fitsviewer/fitsviewer.cpp:1163
 #, fuzzy, kde-format
 #| msgid "Selecting star"
 msgid "Selection Rectangle"
 msgstr "Tähe valimine"
 
-#: fitsviewer/fitsviewer.cpp:1046 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1050 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Suurus"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1054 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1058 fitsviewer/statform.ui:66
 #, kde-format
 msgid "Width"
 msgstr "Laius"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1055 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1059 fitsviewer/statform.ui:71
 #, kde-format
 msgid "Height"
 msgstr "Kõrgus"
 
-#: fitsviewer/fitsviewer.cpp:1146
+#: fitsviewer/fitsviewer.cpp:1150
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1211
+#: fitsviewer/fitsviewer.cpp:1215
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Eemalda tähtede tähistus"
 
-#: fitsviewer/fitsviewer.cpp:1227
+#: fitsviewer/fitsviewer.cpp:1231
 #, kde-format
 msgid "Processing %1..."
 msgstr "%1 töötlemine ..."
