@@ -46,6 +46,7 @@ class Media;
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
+class OpsEkos;
 
 /**
  * @class Manager
@@ -101,9 +102,10 @@ class Manager : public QDialog, public Ui::Manager
         void initialize() {}
 
         void appendLogText(const QString &);
-        void setOptionsWidget(KPageWidgetItem *ops)
+        void setOptionsWidget(KPageWidgetItem *ops, OpsEkos *opsEkosPtr)
         {
             ekosOptionsWidget = ops;
+            opsEkos = opsEkosPtr;
         }
         void addObjectToScheduler(SkyObject *object);
 
@@ -529,6 +531,7 @@ class Manager : public QDialog, public Ui::Manager
 
         QStringList m_LogText;
         KPageWidgetItem *ekosOptionsWidget { nullptr };
+        OpsEkos *opsEkos { nullptr };
 
         CommunicationStatus m_ekosStatus { Ekos::Idle };
         CommunicationStatus m_indiStatus { Ekos::Idle };

@@ -1058,7 +1058,11 @@ void KStars::slotViewOps()
     // An instance of your dialog could be already created and could be cached,
     // in which case you want to display the cached dialog instead of creating
     // another one
-    prepareOps()->show();
+    auto ops = prepareOps();
+    ops->show();
+    // Bring to the front.
+    ops->raise();  // for MacOS
+    ops->activateWindow(); // for Windows
 }
 
 KConfigDialog *KStars::prepareOps()
@@ -1128,8 +1132,8 @@ KConfigDialog *KStars::prepareOps()
     opsekos                     = new OpsEkos();
     KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");
     ekosOption->setIcon(QIcon::fromTheme("kstars_ekos"));
-    if (m_EkosManager)
-        m_EkosManager->setOptionsWidget(ekosOption);
+    if (Ekos::Manager::Instance())
+        Ekos::Manager::Instance()->setOptionsWidget(ekosOption, opsekos);
 #endif
 
 #endif

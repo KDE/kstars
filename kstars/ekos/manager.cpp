@@ -6,6 +6,7 @@
 
 #include "manager.h"
 
+#include "opsekos.h"
 #include "ekosadaptor.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -2626,6 +2627,26 @@ void Manager::showEkosOptions()
         return;
     }
 
+    if ((captureProcess.get() && captureProcess.get() == currentWidget) ||
+            (schedulerProcess.get() && schedulerProcess.get() == currentWidget))
+    {
+        if (opsEkos)
+        {
+            // Scheduler is tab 1, Capture is tab 2.
+            const int index = schedulerProcess.get() == currentWidget ? 1 : 2;
+            opsEkos->setCurrentIndex(index);
+        }
+        KConfigDialog * cDialog = KConfigDialog::exists("settings");
+        if (cDialog)
+        {
+            cDialog->setCurrentPage(ekosOptionsWidget);
+            cDialog->show();
+            cDialog->raise();  // for MacOS
+            cDialog->activateWindow(); // for Windows
+        }
+        return;
+    }
+
     if (ekosOptionsWidget == nullptr)
     {
         optionsB->click();
@@ -2633,7 +2654,13 @@ void Manager::showEkosOptions()
     else if (KConfigDialog::showDialog("settings"))
     {
         KConfigDialog * cDialog = KConfigDialog::exists("settings");
-        cDialog->setCurrentPage(ekosOptionsWidget);
+        if (cDialog)
+        {
+            cDialog->setCurrentPage(ekosOptionsWidget);
+            cDialog->show();
+            cDialog->raise();  // for MacOS
+            cDialog->activateWindow(); // for Windows
+        }
     }
 }
 
