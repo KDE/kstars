@@ -1677,7 +1677,7 @@
 ><para
 >Si seleccioneu este submenú, a continuació s'obrirà el Gestor de l'horitzó artificial. Este s'utilitza per a definir una o més regions en el mapa celeste que estan bloquejades a la vista des del vostre emplaçament actual (&ead;, arbres o edificis alts). La finestra es dividix en dues seccions: al costat esquerre hi ha la secció Regions, mentre que en el costat dret hi ha la secció Punts. Podeu afegir una nova regió prement el botó <guibutton
 >+</guibutton
-> (Afig una regió) o la podeu traure, seleccionant-la a la llista de regions i després prement el botó <guibutton
+> (Afig una regió) o la podeu traure, seleccionant-la en la llista de regions i després prement el botó <guibutton
 >-</guibutton
 > (Elimina la regió). Per tal de dibuixar una regió, necessitareu definir una llista de punts que abasten l'àrea bloquejada. Podeu afegir un punt nou prement el botó <guibutton
 >+</guibutton
@@ -1706,7 +1706,7 @@
 ></term>
     <listitem
 ><para
->Seleccionant-lo s'obrirà la finestra Gestioneu els observadors, la qual permet registrar un nombre d'observadors que estan utilitzant &kstars; en este ordinador. Podeu afegir una nova entrada a la llista d'observadors, completant els camps obligatoris: <guilabel
+>Seleccionant-lo s'obrirà la finestra Gestioneu els observadors, la qual permet registrar un nombre d'observadors que estan utilitzant &kstars; en este ordinador. Podeu afegir una entrada nova a la llista d'observadors, completant els camps obligatoris: <guilabel
 >Nom:</guilabel
 > i <guilabel
 >Cognom:</guilabel
@@ -1714,7 +1714,7 @@
 >+</guibutton
 > (Afig un observador). Recordeu que el camp <guilabel
 >Contacte:</guilabel
-> és opcional, &kstars; permet afegir un nou observador malgrat que el quadro de text <guilabel
+> és opcional, &kstars; permet afegir un observador nou malgrat que el quadro de text <guilabel
 >Contacte:</guilabel
 > estiga buit. També podeu eliminar un observador de la llista utilitzant el botó <guibutton
 >-</guibutton
@@ -1816,7 +1816,7 @@
 >Següent</guibutton
 >, obtindreu la pàgina <guilabel
 >Escolliu l'emplaçament de casa vostra</guilabel
->. Ací podeu seleccionar l'emplaçament d'inici exacte o una ciutat prop de l'emplaçament d'inici si la vostra ubicació exacta no es troba en la base de dades de ciutats de &kstars;. El fet de navegar per tota la llista no és gaire eficient i per tant, &kstars; proporciona un mètode fàcil d'ús per a la selecció de la ciutat desitjada en poc temps. Podeu filtrar la llista de ciutats amb el nom de la ciutat, província i país. En donar més detalls sobre el vostre emplaçament, la mida de la llista s'anirà reduint a només les millors coincidències. Quan ressalteu una ciutat a la llista de ciutats, els quadros <guilabel
+>. Ací podeu seleccionar l'emplaçament d'inici exacte o una ciutat prop de l'emplaçament d'inici si la vostra ubicació exacta no es troba en la base de dades de ciutats de &kstars;. El fet de navegar per tota la llista no és gaire eficient i per tant, &kstars; proporciona un mètode fàcil d'ús per a la selecció de la ciutat desitjada en poc temps. Podeu filtrar la llista de ciutats amb el nom de la ciutat, província i país. En donar més detalls sobre el vostre emplaçament, la mida de la llista s'anirà reduint a només les millors coincidències. Quan ressalteu una ciutat en la llista de ciutats, els quadros <guilabel
 >Llargària:</guilabel
 > i <guilabel
 >Latitud:</guilabel

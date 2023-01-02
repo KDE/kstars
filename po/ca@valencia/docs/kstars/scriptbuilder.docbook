@@ -41,7 +41,7 @@
 </screenshot>
 
 <para
->El constructor de scripts és mostra't a la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
+>El constructor de scripts és mostra't en la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
 >Script actual</firstterm
 >; mostra el llistat d'ordres que abasten l'escriptura de tasques a este script. El quadro a la dreta és el <firstterm
 >Navegador de funcions</firstterm

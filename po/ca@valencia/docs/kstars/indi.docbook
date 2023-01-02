@@ -649,7 +649,7 @@
 <itemizedlist>
 <listitem>
 <para
->Permisos: Totes les propietats poden habilitar sols lectura, sols escriptura o lectura i escriptura. Un exemple d'una propietat de lectura/escriptura és l'ascensió recta del telescopi. Podeu introduir una nova ascensió recta i el telescopi, basant-se en els valors actuals, orientarà o sincronitzarà amb la nova entrada. A més, quan s'orienta el telescopi, la seua ascensió recta s'actualitzarà i s'enviarà altra vegada cap al client. </para>
+>Permisos: Totes les propietats poden habilitar sols lectura, sols escriptura o lectura i escriptura. Un exemple d'una propietat de lectura/escriptura és l'ascensió recta del telescopi. Podeu introduir una nova ascensió recta i el telescopi, basant-se en els valors actuals, orientarà o sincronitzarà amb l'entrada nova. A més, quan s'orienta el telescopi, la seua ascensió recta s'actualitzarà i s'enviarà altra vegada cap al client. </para>
 </listitem>
 <listitem>
 <para

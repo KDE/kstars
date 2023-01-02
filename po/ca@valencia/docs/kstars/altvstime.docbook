@@ -47,7 +47,7 @@
 <para
 >Estes corbes mostren l'altitud dels objectes (angle sobre l'<link linkend="ai-horizon"
 >horitzó</link
->) en funció del temps. Quan una corba passa de la meitat inferior a la meitat superior, l'objecte haurà eixit, quan baixa altra vegada a la meitat inferior, este haurà arribat al seu ocàs. Per exemple, a la captura de pantalla, el planeta nan <firstterm
+>) en funció del temps. Quan una corba passa de la meitat inferior a la meitat superior, l'objecte haurà eixit, quan baixa altra vegada a la meitat inferior, este haurà arribat al seu ocàs. Per exemple, en la captura de pantalla, el planeta nan <firstterm
 >Quaoar</firstterm
 > està eixint aproximadament a les 15.00 hores en hora local i es pondrà al voltant de les 04.00 hores en hora local. </para>
 <para

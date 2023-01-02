@@ -46,7 +46,7 @@
 >EUA</userinput
 > en el <guilabel
 >Filtre de país:</guilabel
->. Observeu que totes les ciutats mostrades a la llista posseïxen noms de ciutat, província i país que comencen pel text introduït en estos camps, i que el missatge que hi ha davall dels quadros de filtre indica que s'han trobat sis ciutats coincidents. També podeu comprovar que els punts del mapa que representen a estes sis ciutats han sigut pintats en color blanc, mentre que la resta de ciutats romandrà en gris. </para
+>. Observeu que totes les ciutats mostrades en la llista posseïxen noms de ciutat, província i país que comencen pel text introduït en estos camps, i que el missatge que hi ha davall dels quadros de filtre indica que s'han trobat sis ciutats coincidents. També podeu comprovar que els punts del mapa que representen a estes sis ciutats han sigut pintats en color blanc, mentre que la resta de ciutats romandrà en gris. </para
 ><para
 >En la llista també es pot filtrar pel seu emplaçament en el mapa. Fent clic en algun lloc del mapa del món es mostraran les ciutats existents en dos graus al voltant de l'emplaçament desitjat. En esta ocasió, podreu buscar per nom o per posició, però no per ambdues opcions a la vegada. En altres paraules, quan feu clic damunt del mapa, els noms filtrats seran ignorats, i viceversa. </para
 ><para>
@@ -1156,7 +1156,7 @@
 ><para
 >Un identificador intern del catàleg.</para>
     <para
->Per exemple, a la captura de pantalla anterior, l'objecte s'origina des del catàleg OpenNGC on s'identifica cada fila per <quote
+>Per exemple, en la captura de pantalla anterior, l'objecte s'origina des del catàleg OpenNGC on s'identifica cada fila per <quote
 >NGCXXXX</quote
 >.</para
 ></listitem>
@@ -1551,7 +1551,7 @@
 >Lluna nova</guilabel
 >, un tema més realista i obscur. De manera addicional, podeu guardar la configuració actual com a un esquema de color a mida fent clic en el botó <guibutton
 >Anomena i guarda...</guibutton
->. Se us demanarà per un nom per a l'esquema nou i aleshores este apareixerà a la llista en totes les sessions futures de &kstars;. Per a eliminar a un esquema personalitzat, senzillament ressalteu-lo en la llista i premeu el botó <guibutton
+>. Se us demanarà per un nom per a l'esquema nou i aleshores este apareixerà en la llista en totes les sessions futures de &kstars;. Per a eliminar a un esquema personalitzat, senzillament ressalteu-lo en la llista i premeu el botó <guibutton
 >Elimina</guibutton
 >. </para>
 </sect1>
@@ -1924,7 +1924,7 @@
 >Camp visual</guilabel
 >, o podeu utilitzar les pestanyes Ocular/Càmera per a calcular l'angle del camp de visió, indicant-hi les dades de la vostra configuració de telescopi/ocular o telescopi/càmera. Les cinc formes disponibles són: quadrat, cercle, punts de mira, ull de bou i cercle semitransparent. Una vegada especificat, premeu <guibutton
 >D'acord</guibutton
->, i el símbol apareixerà a la llista predefinida. També restarà disponible des del submenú <menuchoice
+>, i el símbol apareixerà en la llista predefinida. També restarà disponible des del submenú <menuchoice
 ><guimenu
 >Configuració</guimenu
 > <guisubmenu

@@ -157,7 +157,7 @@
 >Estrela automàtica</guilabel
 > està marcada, només caldrà que feu clic en <guibutton
 >Captura</guibutton
-> i Ekos seleccionarà automàticament l'estrela guia més adequada que trobe a la imatge i continuarà automàticament el procés de calibratge. Si <guilabel
+> i Ekos seleccionarà automàticament l'estrela guia més adequada que trobe en la imatge i continuarà automàticament el procés de calibratge. Si <guilabel
 >Estrela automàtica</guilabel
 > està inhabilitada, Ekos intentarà ressaltar automàticament la millor estrela guia del camp. Haureu de confirmar o canviar la selecció abans de poder iniciar el procés de calibratge. Les opcions del calibratge són: </para>
         <itemizedlist>
@@ -181,11 +181,11 @@
             </listitem>
         </itemizedlist>
         <para
->La posició de retícula, és la posició de l'estrela guia seleccionada (o amb la selecció automàtica) a la imatge capturada pel sistema de guiatge. Haureu de seleccionar una estrela que no siga a prop de la vora. Si la imatge no està clara, podreu seleccionar diferents <guilabel
+>La posició de retícula, és la posició de l'estrela guia seleccionada (o amb la selecció automàtica) en la imatge capturada pel sistema de guiatge. Haureu de seleccionar una estrela que no siga a prop de la vora. Si la imatge no està clara, podreu seleccionar diferents <guilabel
 >Efectes</guilabel
 > per a millorar-la. </para>
         <para
->Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura a l'AR i Dec. Si falla el procés de calibratge per una corba curta, intenteu augmentar la duració del pols. Per a netejar el calibratge, feu clic en la icona de paperera que hi ha en el costat del botó <guibutton
+>Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura a l'AR i Dec. Si falla el procés de calibratge per una corba curta, intenteu augmentar la duració del pols. Per a netejar el calibratge, feu clic damunt de la icona de paperera que hi ha en el costat del botó <guibutton
 >Guiatge</guibutton
 >. </para>
         <warning>

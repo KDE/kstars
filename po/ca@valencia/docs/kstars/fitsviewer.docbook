@@ -111,7 +111,7 @@
 ></listitem>
                 <listitem
 ><para
->Marca estreles: detecta i marca les estreles a la imatge.</para
+>Marca estreles: detecta i marca les estreles en la imatge.</para
 ></listitem>
             </itemizedlist>
             </listitem>
@@ -187,7 +187,7 @@
 ></listitem>
                 <listitem
 ><para
->Mostra els objectes a la imatge: identifica els objectes com ara estreles, galàxies i nebuloses dins de la imatge.</para
+>Mostra els objectes en la imatge: identifica els objectes com ara estreles, galàxies i nebuloses dins de la imatge.</para
 ></listitem>
                 <listitem
 ><para
@@ -558,7 +558,7 @@
     <para
 >A continuació, l'usuari té el quadro combinat <guilabel
 >Zoom a</guilabel
->, que l'usuari pot utilitzar per a ampliar el gràfic a diferents ubicacions predefinides. A continuació es mostra el quadro combinat que permet a l'usuari seleccionar l'esquema de color del gràfic. A continuació, es mostren les caselles de selecció HFR i Pic, les quals activaran les etiquetes HFR i Pic de cada estrela trobada a la imatge, però també mostraran una d'elles a la part inferior de la pantalla. Finalment, apareix la casella de selecció d'escalat, la qual habilita el quadro lateral <guilabel
+>, que l'usuari pot utilitzar per a ampliar el gràfic a diferents ubicacions predefinides. A continuació es mostra el quadro combinat que permet a l'usuari seleccionar l'esquema de color del gràfic. A continuació, es mostren les caselles de selecció HFR i Pic, les quals activaran les etiquetes HFR i Pic de cada estrela trobada en la imatge, però també mostraran una d'elles a la part inferior de la pantalla. Finalment, apareix la casella de selecció d'escalat, la qual habilita el quadro lateral <guilabel
 >Escalat</guilabel
 >. Hi ha tres controls lliscants en este quadro, un per a controlar el valor mínim que es mostra al gràfic o <quote
 >punt negre</quote

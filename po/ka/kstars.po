@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 00:47+0000\n"
-"PO-Revision-Date: 2022-12-30 07:36+0100\n"
+"POT-Creation-Date: 2023-01-02 00:52+0000\n"
+"PO-Revision-Date: 2023-01-01 07:17+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3046,7 +3046,7 @@ msgstr "ID"
 #: dialogs/catalogsdbui.cpp:26
 #, kde-format
 msgid "Precedence"
-msgstr ""
+msgstr "პროვიდენსი"
 
 #: dialogs/catalogsdbui.cpp:26
 #, kde-format
@@ -4021,7 +4021,7 @@ msgstr "სრული შინაარსი"
 #: dialogs/exportimagedialog.cpp:96 printing/pwizfovconfig.cpp:55
 #, kde-format
 msgid "Scale with magnitudes chart"
-msgstr ""
+msgstr "გრაფიკის მასშტაბი ვარსკვლავური სიდიდეებით"
 
 #: dialogs/exportimagedialog.cpp:96 printing/pwizfovconfig.cpp:55
 #, kde-format
@@ -5828,7 +5828,7 @@ msgstr ""
 #: ekos/align/align.cpp:3785 ekos/align/polaralignmentassistant.cpp:637
 #, kde-format
 msgid "Settling..."
-msgstr ""
+msgstr "პარამეტრები..."
 
 #: ekos/align/align.cpp:2550
 #, kde-format
@@ -11305,45 +11305,45 @@ msgstr "შემობრუნება:"
 msgid "Telescopes && Lenses"
 msgstr "ტელესკოპები და ლინზები"
 
-#: ekos/auxiliary/portselector.cpp:66
+#: ekos/auxiliary/portselector.cpp:67
 #, kde-format
 msgid "Serial"
 msgstr "სერიული"
 
-#: ekos/auxiliary/portselector.cpp:68
+#: ekos/auxiliary/portselector.cpp:69
 #, kde-format
 msgid ""
 "Select <b>Serial</b> if your device is connected via Serial to USB adapter."
 msgstr ""
 
-#: ekos/auxiliary/portselector.cpp:80
+#: ekos/auxiliary/portselector.cpp:81
 #, kde-format
 msgid "Network"
 msgstr "ქსელი"
 
-#: ekos/auxiliary/portselector.cpp:82
+#: ekos/auxiliary/portselector.cpp:83
 #, kde-format
 msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
 
-#: ekos/auxiliary/portselector.cpp:101
+#: ekos/auxiliary/portselector.cpp:102
 #, kde-format
 msgid "Select Serial port"
 msgstr "აირჩიეთ სერიული პორტი"
 
-#: ekos/auxiliary/portselector.cpp:132
+#: ekos/auxiliary/portselector.cpp:133
 #, kde-format
 msgid "Select Baud rate"
 msgstr "აირჩიეთ ბოდების სიჩქარე"
 
-#: ekos/auxiliary/portselector.cpp:149
+#: ekos/auxiliary/portselector.cpp:150
 #, kde-format
 msgid "Host name or IP address."
 msgstr "ჰოსტის სახელი ან IP მისამართი."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/auxiliary/portselector.cpp:159 indi/drivermanager.ui:81
+#: ekos/auxiliary/portselector.cpp:160 indi/drivermanager.ui:81
 #: indi/drivermanager.ui:332
 #, kde-format
 msgid "Port"
@@ -11352,7 +11352,7 @@ msgstr "პორტი"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:190 ekos/ekoslive/ekosliveclient.cpp:213
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:213
 #: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:324
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -11363,19 +11363,19 @@ msgstr "დაკავშირება"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:197 ekos/ekoslive/ekosliveclient.cpp:187
+#: ekos/auxiliary/portselector.cpp:198 ekos/ekoslive/ekosliveclient.cpp:187
 #: ekos/guide/guide.ui:386 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
 msgstr "გათიშვა"
 
-#: ekos/auxiliary/portselector.cpp:382
+#: ekos/auxiliary/portselector.cpp:383
 #, kde-format
 msgid "Connect All"
 msgstr "ყველას მიერთება"
 
-#: ekos/auxiliary/portselector.cpp:395
+#: ekos/auxiliary/portselector.cpp:396
 #, kde-format
 msgctxt "@title:window"
 msgid "Port Selector"
@@ -17765,7 +17765,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:318
 #, kde-format
 msgid "Expert Settings"
-msgstr ""
+msgstr "ექსპერტული პარამეტრები"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas0a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGSE0KLengthScale)

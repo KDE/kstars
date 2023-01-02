@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 00:47+0000\n"
+"POT-Creation-Date: 2023-01-02 00:52+0000\n"
 "PO-Revision-Date: 2022-12-09 20:29+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -12056,12 +12056,12 @@ msgstr "Rotatore:"
 msgid "Telescopes && Lenses"
 msgstr "Telescopi e lenti"
 
-#: ekos/auxiliary/portselector.cpp:66
+#: ekos/auxiliary/portselector.cpp:67
 #, kde-format
 msgid "Serial"
 msgstr "Seriale"
 
-#: ekos/auxiliary/portselector.cpp:68
+#: ekos/auxiliary/portselector.cpp:69
 #, kde-format
 msgid ""
 "Select <b>Serial</b> if your device is connected via Serial to USB adapter."
@@ -12069,36 +12069,36 @@ msgstr ""
 "Seleziona <b>Seriale</b> se il tuo dispositivo è collegato tramite "
 "adattatore seriale all'USB."
 
-#: ekos/auxiliary/portselector.cpp:80
+#: ekos/auxiliary/portselector.cpp:81
 #, kde-format
 msgid "Network"
 msgstr "Rete"
 
-#: ekos/auxiliary/portselector.cpp:82
+#: ekos/auxiliary/portselector.cpp:83
 #, kde-format
 msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
 "Seleziona <b>Rete</b> se il tuo dispositivo è collegato tramite Ethernet o "
 "WiFi."
 
-#: ekos/auxiliary/portselector.cpp:101
+#: ekos/auxiliary/portselector.cpp:102
 #, kde-format
 msgid "Select Serial port"
 msgstr "Seleziona porta seriale"
 
-#: ekos/auxiliary/portselector.cpp:132
+#: ekos/auxiliary/portselector.cpp:133
 #, kde-format
 msgid "Select Baud rate"
 msgstr "Seleziona velocità in baud"
 
-#: ekos/auxiliary/portselector.cpp:149
+#: ekos/auxiliary/portselector.cpp:150
 #, kde-format
 msgid "Host name or IP address."
 msgstr "Nome host o indirizzo IP."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/auxiliary/portselector.cpp:159 indi/drivermanager.ui:81
+#: ekos/auxiliary/portselector.cpp:160 indi/drivermanager.ui:81
 #: indi/drivermanager.ui:332
 #, kde-format
 msgid "Port"
@@ -12107,7 +12107,7 @@ msgstr "Porta"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:190 ekos/ekoslive/ekosliveclient.cpp:213
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:213
 #: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:324
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12118,19 +12118,19 @@ msgstr "Connetti"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:197 ekos/ekoslive/ekosliveclient.cpp:187
+#: ekos/auxiliary/portselector.cpp:198 ekos/ekoslive/ekosliveclient.cpp:187
 #: ekos/guide/guide.ui:386 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
 msgstr "Disconnetti"
 
-#: ekos/auxiliary/portselector.cpp:382
+#: ekos/auxiliary/portselector.cpp:383
 #, kde-format
 msgid "Connect All"
 msgstr "Connetti tutto"
 
-#: ekos/auxiliary/portselector.cpp:395
+#: ekos/auxiliary/portselector.cpp:396
 #, kde-format
 msgctxt "@title:window"
 msgid "Port Selector"
