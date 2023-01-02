@@ -598,7 +598,7 @@ void FramingAssistantUI::createJobs()
         if (root == nullptr)
             return;
 
-        const auto oneTarget = QString("%1-Part%2").arg(target).arg(batchCount);
+        const auto oneTarget = QString("%1-Part_%2").arg(target).arg(batchCount);
         if (scheduler->createJobSequence(root, oneTarget, outputDirectory) == false)
         {
             delXMLEle(root);

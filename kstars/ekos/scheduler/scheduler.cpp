@@ -7000,12 +7000,12 @@ void Scheduler::startMosaicTool()
     if (mosaicTool.exec() == QDialog::Accepted)
     {
         // #1 Edit Sequence File ---> Not needed as of 2016-09-12 since Scheduler can send Target Name to Capture module it will append it to root dir
-        // #1.1 Set prefix to Target-Part#
-        // #1.2 Set directory to output/Target-Part#
+        // #1.1 Set prefix to Target-Part_#
+        // #1.2 Set directory to output/Target-Part_#
 
         // #2 Save all sequence files in Jobs dir
         // #3 Set as current Sequence file
-        // #4 Change Target name to Target-Part#
+        // #4 Change Target name to Target-Part_#
         // #5 Update J2000 coords
         // #6 Repeat and save Ekos Scheduler List in the output directory
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Job accepted with # " << mosaicTool.getJobs().size() << " jobs and fits dir "
@@ -7046,7 +7046,7 @@ void Scheduler::startMosaicTool()
 
         foreach (auto oneJob, mosaicTool.getJobs())
         {
-            QString prefix = QString("%1-Part%2").arg(targetName).arg(batchCount++);
+            QString prefix = QString("%1-Part_%2").arg(targetName).arg(batchCount++);
 
             prefix.replace(' ', '-');
             nameEdit->setText(prefix);
