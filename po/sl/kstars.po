@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 00:52+0000\n"
-"PO-Revision-Date: 2022-12-12 10:07+0100\n"
+"POT-Creation-Date: 2023-01-03 00:42+0000\n"
+"PO-Revision-Date: 2022-12-27 01:04+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -194,7 +194,7 @@ msgstr "Vidni sateliti"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:235
 #: data/qml/whatisinteresting/wiview.qml:246 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1101 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1105 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -207,7 +207,7 @@ msgstr "Oznake satelitov"
 
 #: auxiliary/colorscheme.cpp:61 data/qml/whatisinteresting/wiview.qml:511
 #: data/qml/whatisinteresting/wiview.qml:522 dialogs/finddialog.cpp:46
-#: kstarsactions.cpp:1104 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -452,14 +452,14 @@ msgid "Save Image"
 msgstr "Shrani sliko"
 
 #: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3650
-#: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1311
+#: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Datoteka z imenom »%1« že obstaja. Ali jo prepišem?"
 
 #: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3653
-#: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1312
+#: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1316
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "Overwrite File?"
@@ -546,8 +546,8 @@ msgstr "Prekliči"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:133
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1053 ekos/manager.cpp:1068
-#: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:649
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1054 ekos/manager.cpp:1069
+#: ekos/manager.cpp:1101 ekos/scheduler/schedulerjob.cpp:649
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
 #: kstarsactions.cpp:496
@@ -1893,7 +1893,7 @@ msgstr "Stanje:"
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
-#: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:554
+#: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:555
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
 #: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:642
 #: ekos/scheduler/schedulerjob.cpp:666 indi/indidome.cpp:20
@@ -3239,7 +3239,7 @@ msgid "Clone..."
 msgstr "Kloniraj..."
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1114
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1118
 #, kde-format
 msgid "Colors"
 msgstr "Barve"
@@ -3532,7 +3532,7 @@ msgstr "Povezave"
 msgid "Could not add the link."
 msgstr "Ni mogoče dodati povezave."
 
-#: dialogs/detaildialog.cpp:759 kstarsactions.cpp:1141
+#: dialogs/detaildialog.cpp:759 kstarsactions.cpp:1145
 #, kde-format
 msgid "Advanced"
 msgstr "Napredno"
@@ -4176,7 +4176,7 @@ msgstr "Položaj legende:"
 msgid "Any"
 msgstr "Vsi"
 
-#: dialogs/finddialog.cpp:37 kstarsactions.cpp:1098 kstarsinit.cpp:461
+#: dialogs/finddialog.cpp:37 kstarsactions.cpp:1102 kstarsinit.cpp:461
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -6002,7 +6002,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Reševalnik je prekinil po %1 sekundah."
 
 #: ekos/align/align.cpp:2392 ekos/capture/capture.cpp:2612
-#: ekos/focus/focus.cpp:3273 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
+#: ekos/focus/focus.cpp:3273 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1879
 #: ekos/mount/mount.cpp:826 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -6225,7 +6225,7 @@ msgstr "V datoteko %1 ni mogoče pisati"
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7096
 #: ekos/scheduler/scheduler.cpp:7153 indi/drivermanager.cpp:1532
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1360 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1364 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6305,7 +6305,7 @@ msgstr "Naloži in premakni ..."
 #: ekos/align/align.ui:159 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
 #: ekos/capture/capture.cpp:3508 ekos/focus/focus.ui:331
-#: ekos/guide/guide.ui:148 ekos/manager.cpp:209
+#: ekos/guide/guide.ui:148 ekos/manager.cpp:210
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -9657,7 +9657,7 @@ msgstr "Polar Poravnava Azimuth napaka ocenjena po nedavnih prilagoditvah."
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:128 ekos/manager.cpp:215 ekos/manager.cpp:562
+#: ekos/manager.cpp:129 ekos/manager.cpp:216 ekos/manager.cpp:563
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -9701,7 +9701,7 @@ msgid "Slew"
 msgstr "Premakni"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:311
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:312
 #, kde-format
 msgid "Setup"
 msgstr "Nastavitve"
@@ -9819,7 +9819,7 @@ msgstr "Ni bilo mogoče najti datoteke slike: %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1700 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:1997 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:1998 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
 #, kde-format
@@ -9827,7 +9827,7 @@ msgid "Focus"
 msgstr "Žarišče"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1971
+#: ekos/analyze/analyze.cpp:1701 ekos/manager.cpp:1972
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
 #, kde-format
@@ -9840,7 +9840,7 @@ msgstr "Poravnaj"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1702 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:258 ekos/manager.cpp:2153
+#: ekos/guide/guide.ui:258 ekos/manager.cpp:2154
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
@@ -9858,7 +9858,7 @@ msgstr "Prezrcali"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1704 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/manager.cpp:2082 ekos/manager.ui:665
+#: ekos/manager.cpp:2083 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Stojalo"
@@ -11396,7 +11396,7 @@ msgstr "Dejavnost modula Log Ekos Scheduler"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:316 ekos/opsekos.ui:166
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:317 ekos/opsekos.ui:166
 #: ekos/scheduler/framingassistantui.cpp:635
 #, kde-format
 msgid "Scheduler"
@@ -11436,7 +11436,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:133 ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1129 kstarsinit.cpp:443
+#: kstarsactions.cpp:1133 kstarsinit.cpp:443
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -11478,7 +11478,7 @@ msgid "Log INDI devices activity"
 msgstr "Beleži dejavnost naprav INDI"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1125
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1129
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -11492,7 +11492,7 @@ msgstr "Beleži dejavnost obdelovanja FITS"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/capture.ui:204
-#: kstarsactions.cpp:1119
+#: kstarsactions.cpp:1123
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -11590,7 +11590,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2193
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2194
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12996,7 +12996,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1324
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1764 kstarsinit.cpp:733
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1768 kstarsinit.cpp:733
 #: kstarsinit.cpp:734 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
@@ -15959,9 +15959,9 @@ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
 msgstr "Ostrenje %2 po %1 ms..."
 
 #: ekos/focus/focus.cpp:1521
-#, kde-format
+#, fuzzy, kde-format
 msgid "Attempting to reconnect focuser: %1"
-msgstr ""
+msgstr "Poskus ponovno vzpostavitve povezave z ostrilnikom: %1"
 
 #: ekos/focus/focus.cpp:1530
 #, fuzzy, kde-format
@@ -19826,40 +19826,40 @@ msgstr ""
 msgid "Robotic (Experimental)"
 msgstr "Robotsko (Poskusno)"
 
-#: ekos/manager.cpp:210
+#: ekos/manager.cpp:211
 #, fuzzy, kde-format
 #| msgid "Ekos - %1 Profile"
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Profil naprave Ekos - %1"
 
-#: ekos/manager.cpp:220
+#: ekos/manager.cpp:221
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "Povezovanje je v teku. Kliknite, če ga želite prekiniti."
 
-#: ekos/manager.cpp:240
+#: ekos/manager.cpp:241
 #, fuzzy, kde-format
 msgid "Logging"
 msgstr "Beleženje dnevnika"
 
-#: ekos/manager.cpp:327
+#: ekos/manager.cpp:328
 #, kde-format
 msgid "Analyze"
 msgstr "Analiziraj"
 
-#: ekos/manager.cpp:586
+#: ekos/manager.cpp:587
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:793 ekos/manager.cpp:819
+#: ekos/manager.cpp:794 ekos/manager.cpp:820
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr "Ekos za delovanje potrebuje vsaj en CCD ali vodnika."
 
-#: ekos/manager.cpp:882
+#: ekos/manager.cpp:883
 #, fuzzy, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -19869,17 +19869,17 @@ msgstr ""
 "fotoaparata Canon ali Nikon s sistemom Ekos. Ali želite pustiti fotoaparat "
 "PTP zdaj?"
 
-#: ekos/manager.cpp:883
+#: ekos/manager.cpp:884
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP fotoaparat"
 
-#: ekos/manager.cpp:898
+#: ekos/manager.cpp:899
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Zaganjanje storitev INDI ..."
 
-#: ekos/manager.cpp:929
+#: ekos/manager.cpp:930
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -19889,49 +19889,49 @@ msgstr ""
 "obstoječi primerek, preden zaženete novega?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/manager.cpp:931 indi/opsindi.ui:347
+#: ekos/manager.cpp:932 indi/opsindi.ui:347
 #, kde-format
 msgid "INDI Server"
 msgstr "Strežnik INDI"
 
-#: ekos/manager.cpp:946
+#: ekos/manager.cpp:947
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Povezovanje s strežnikom INDI na %1 in vratih %2 ..."
 
-#: ekos/manager.cpp:966
+#: ekos/manager.cpp:967
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr ""
 "Ni bilo mogoče zagnati profila na oddaljenem spletnem upravljalniku INDI."
 
-#: ekos/manager.cpp:970
+#: ekos/manager.cpp:971
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Zaganjanje profila na oddaljenem spletnem upravljalniku INDI ..."
 
-#: ekos/manager.cpp:983
+#: ekos/manager.cpp:984
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr ""
 "Vzpostavljanje komunikacije z oddaljenim spletnem upravljalniku INDI..."
 
-#: ekos/manager.cpp:1003
+#: ekos/manager.cpp:1004
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Opozorilo: spletni upravljalnik INDI ni povezan."
 
-#: ekos/manager.cpp:1026
+#: ekos/manager.cpp:1027
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Storitve INDI so bile zagnane na vratih %1."
 
-#: ekos/manager.cpp:1029
+#: ekos/manager.cpp:1030
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Storitve INDI so bile zagnane na vratih %1. Povežite naprave."
 
-#: ekos/manager.cpp:1034
+#: ekos/manager.cpp:1035
 #, fuzzy, kde-format
 #| msgid ""
 #| "INDI services started. Connection to remote INDI server is successful. "
@@ -19943,31 +19943,31 @@ msgstr ""
 "Storitve INDI zagnane. Povezava z oddaljenim strežnikom INDI je bila "
 "uspešna. Čakanje na naprave ..."
 
-#: ekos/manager.cpp:1044
+#: ekos/manager.cpp:1045
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
 
-#: ekos/manager.cpp:1046
+#: ekos/manager.cpp:1047
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
 
-#: ekos/manager.cpp:1059
+#: ekos/manager.cpp:1060
 #, fuzzy, kde-format
 #| msgid "Connected to INDI server"
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Vzpostavljena povezava s strežnikom INDI"
 
-#: ekos/manager.cpp:1061
+#: ekos/manager.cpp:1062
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
 
-#: ekos/manager.cpp:1140
+#: ekos/manager.cpp:1141
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -19980,7 +19980,7 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1142
+#: ekos/manager.cpp:1143
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -19995,7 +19995,7 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1170
+#: ekos/manager.cpp:1171
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -20006,13 +20006,13 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1174 ekos/manager.cpp:1182 ekos/manager.cpp:1212
-#: ekos/manager.cpp:1220
+#: ekos/manager.cpp:1175 ekos/manager.cpp:1183 ekos/manager.cpp:1213
+#: ekos/manager.cpp:1221
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Napaka med zagonom Ekos-a"
 
-#: ekos/manager.cpp:1178
+#: ekos/manager.cpp:1179
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -20023,7 +20023,7 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da so naprave povezane in vklopljene."
 
-#: ekos/manager.cpp:1208
+#: ekos/manager.cpp:1209
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -20038,7 +20038,7 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1216
+#: ekos/manager.cpp:1217
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish the following devices:\n"
@@ -20053,32 +20053,32 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da so naprave povezane in vklopljene."
 
-#: ekos/manager.cpp:1271
+#: ekos/manager.cpp:1272
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Povezovanje naprav INDI ..."
 
-#: ekos/manager.cpp:1282
+#: ekos/manager.cpp:1283
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Prekinjanje povezav z napravami INDI ..."
 
-#: ekos/manager.cpp:1320
+#: ekos/manager.cpp:1321
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Storitve INDI so bile zaustavljene."
 
-#: ekos/manager.cpp:1395
+#: ekos/manager.cpp:1396
 #, kde-format
 msgid "Remote devices established."
 msgstr "Oddaljene naprava so bile vzpostavljene."
 
-#: ekos/manager.cpp:1397
+#: ekos/manager.cpp:1398
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Oddaljene naprava so bile vzpostavljene. Povežite naprave."
 
-#: ekos/manager.cpp:1458
+#: ekos/manager.cpp:1459
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -20092,109 +20092,109 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1465
+#: ekos/manager.cpp:1466
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 ni povezan."
 
-#: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
+#: ekos/manager.cpp:1485 ekos/manager.cpp:1494 ekos/manager.cpp:1525
 #: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 je povezana."
 
-#: ekos/manager.cpp:1501
+#: ekos/manager.cpp:1502
 #, kde-format
 msgid "%1 filter is online."
 msgstr "Filter %1 je povezan."
 
-#: ekos/manager.cpp:1510
+#: ekos/manager.cpp:1511
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "ostrilnik %1 je povezan."
 
-#: ekos/manager.cpp:1517
+#: ekos/manager.cpp:1518
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "%1 je povezana."
 
-#: ekos/manager.cpp:1531
+#: ekos/manager.cpp:1532
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "%1 Weather is online."
 msgstr "Filter %1 je povezan."
 
-#: ekos/manager.cpp:1538
+#: ekos/manager.cpp:1539
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "%1 je povezana."
 
-#: ekos/manager.cpp:1547
+#: ekos/manager.cpp:1548
 #, fuzzy, kde-format
 #| msgid "%1 focuser is online."
 msgid "%1 Dust cap is online."
 msgstr "ostrilnik %1 je povezan."
 
-#: ekos/manager.cpp:1554
+#: ekos/manager.cpp:1555
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "%1 Light box is online."
 msgstr "Filter %1 je povezan."
 
-#: ekos/manager.cpp:1674
+#: ekos/manager.cpp:1675
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 ni povezana."
 
-#: ekos/manager.cpp:1928
+#: ekos/manager.cpp:1929
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2200
+#: ekos/manager.cpp:2201
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Vrata vodnika z %1 so pripravljena."
 
-#: ekos/manager.cpp:2389
+#: ekos/manager.cpp:2390
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Ali ste prepričani, da želite izbrisati profil?"
 
-#: ekos/manager.cpp:2390
+#: ekos/manager.cpp:2391
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Potrditev izbrisa"
 
-#: ekos/manager.cpp:2442
+#: ekos/manager.cpp:2443
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Položaj mesta posodobljen v %1."
 
-#: ekos/manager.cpp:2444
+#: ekos/manager.cpp:2445
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Ni bilo mogoče posodobiti položaja mesta v %1. Mesto ni bilo najdeno."
 
-#: ekos/manager.cpp:2659
+#: ekos/manager.cpp:2686
 #, fuzzy, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Omogočanje dnevnika odpravljanja napak za %1..."
 
-#: ekos/manager.cpp:2667
+#: ekos/manager.cpp:2694
 #, fuzzy, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Onemogočenje dnevnika odpravljanja napak za %1 ..."
 
-#: ekos/manager.cpp:2693
+#: ekos/manager.cpp:2720
 #, fuzzy, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Ponovno omogočanje dnevnika odpravljanja napak za %1 ..."
 
-#: ekos/manager.cpp:2705
+#: ekos/manager.cpp:2732
 #, fuzzy, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Ponovno onemogočitev dnevnika odpravljanja napak za %1 ..."
@@ -26872,7 +26872,7 @@ msgstr "Predmeti na sliki"
 msgid "Pixel Gridlines"
 msgstr "Pokaži mrežo slikovnih točk"
 
-#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1268
+#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1272
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
@@ -27096,55 +27096,51 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, stretchPreviewSamplingLabel)
 #: fitsviewer/opsfits.ui:169
-#, fuzzy, kde-format
-#| msgid "Print preview"
+#, kde-format
 msgid "Stretch preview:"
-msgstr "Predogled tiskanja"
+msgstr "Raztegni predogled:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clippingBox)
 #: fitsviewer/opsfits.ui:195
-#, fuzzy, kde-format
-#| msgid "Clipping"
+#, kde-format
 msgid "Clipping Limits"
-msgstr "Porezava"
+msgstr "Meje porezave"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:216
-#, kde-format
+#, fuzzy, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr ""
+msgstr "Vrednost porezave za 16-bitne vrednosti."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:219
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "16bit threshold:"
-msgstr "Prag:"
+msgstr "Prag za 16-bitne:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:226
-#, kde-format
+#, fuzzy, kde-format
 msgid "64K Clipping value."
-msgstr ""
+msgstr "Vrednost porezave 64K."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:242
-#, kde-format
+#, fuzzy, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr ""
+msgstr "Vrednost porezave za 8-bitne vrednosti."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:245
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "8Bit threshold:"
-msgstr "Prag:"
+msgstr "Prag za 8-bitne:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:252
-#, kde-format
+#, fuzzy, kde-format
 msgid "Byte Clipping value."
-msgstr ""
+msgstr "Vrednost porezave bajtov."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:273
@@ -27235,10 +27231,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:292
-#, fuzzy, kde-format
-#| msgid "Image Resources"
+#, kde-format
 msgid "Limited resources mode"
-msgstr "Slikovni viri"
+msgstr "Način omejenih virov"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoDebayer)
 #: fitsviewer/opsfits.ui:299
@@ -27303,10 +27298,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_NonLinearHistogram)
 #: fitsviewer/opsfits.ui:338
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Non linear histogram"
-msgstr "Histogram"
+msgstr "Nelineani histogram"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:345
@@ -27540,9 +27534,8 @@ msgstr "Prikazuje vrhovne vrednosti zvezdnih centrov v okvirju"
 
 #: fitsviewer/starprofileviewer.cpp:170
 #, fuzzy, kde-format
-#| msgid "Toggle whether star name labels are shown in the sky map."
 msgid "Changes the sample size shown in the graph"
-msgstr "Preklopi ali naj bodo na zvezdni karti prikazane oznake imen zvezd."
+msgstr "Spremeni velikost vzorca, prikazano v grafu"
 
 #: fitsviewer/starprofileviewer.cpp:181
 #, fuzzy, kde-format
@@ -27633,22 +27626,20 @@ msgstr "Izreži %1"
 
 #: fitsviewer/starprofileviewer.cpp:512 fitsviewer/starprofileviewer.cpp:519
 #: fitsviewer/starprofileviewer.cpp:876
-#, fuzzy, kde-format
-#| msgid "Max:"
+#, kde-format
 msgid "Max: %1"
-msgstr "najv. 1"
+msgstr "Najv.: %1"
 
 #: fitsviewer/starprofileviewer.cpp:513 fitsviewer/starprofileviewer.cpp:520
 #: fitsviewer/starprofileviewer.cpp:877
-#, fuzzy, kde-format
-#| msgid "Min:"
+#, kde-format
 msgid "Min: %1"
-msgstr "Min: %1%2"
+msgstr "Najm.: %1"
 
 #: fitsviewer/starprofileviewer.cpp:667
-#, fuzzy, kde-format
+#, kde-format
 msgid "Selected Pixel: (%1, %2): %3"
-msgstr "Izbrana pika: (%1, %2): %3"
+msgstr "Izbrana slik. točka: (%1, %2): %3"
 
 #: fitsviewer/starprofileviewer.cpp:706
 #, fuzzy, kde-format
@@ -27818,10 +27809,9 @@ msgid "Linear interpolation"
 msgstr "Linearna interpolacija"
 
 #: indi/clientmanager.cpp:315
-#, fuzzy, kde-format
-#| msgid "Failed to connect to remote INDI server."
+#, kde-format
 msgid "Failed to connect to INDI server %1:%2"
-msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
+msgstr "Neuspela povezava s strežnikom INDI %1:%2"
 
 #: indi/clientmanager.cpp:320
 #, fuzzy, kde-format
@@ -28152,14 +28142,14 @@ msgstr ""
 "Upravljalniku naprav."
 
 #: indi/indicamera.cpp:447
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video Recording Stopped"
-msgstr "Snemanje videoposnetkov je ustavljeno"
+msgstr "Snemanje videoposnetka je ustavljeno"
 
 #: indi/indicamera.cpp:452
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video Recording Started"
-msgstr "Snemanje videoposnetkov se je začelo"
+msgstr "Snemanje videoposnetka se je začelo"
 
 #: indi/indicamera.cpp:730
 #, fuzzy, kde-format
@@ -28171,10 +28161,9 @@ msgstr ""
 "Preverite mapo, ime datoteke & dovoljenja."
 
 #: indi/indicamera.cpp:732
-#, fuzzy, kde-format
-#| msgid "Image received."
+#, kde-format
 msgid "Image Write Failed"
-msgstr "Slika prejeta."
+msgstr "Zapisovanje slike ni uspelo"
 
 #: indi/indicamera.cpp:743
 #, kde-format
@@ -29452,18 +29441,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:327 kstarsactions.cpp:1538 skymap.cpp:395
+#: kstars.cpp:327 kstarsactions.cpp:1542 skymap.cpp:395
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Zaustavi s&ledenje"
 
-#: kstars.cpp:335 kstarsactions.cpp:1698 kstarsinit.cpp:263
+#: kstars.cpp:335 kstarsactions.cpp:1702 kstarsinit.cpp:263
 #, fuzzy, kde-format
 #| msgid "Switch to star globe view (Equatorial &Coordinates)"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Preklopi v prikaz zvezdne krogle (ekvatorialne &koordinate)"
 
-#: kstars.cpp:336 kstarsactions.cpp:1686 kstarsinit.cpp:264
+#: kstars.cpp:336 kstarsactions.cpp:1690 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Switch to horizonal view (Horizontal &Coordinates)"
 msgid "Switch to Horizonal View (Horizontal &Coordinates)"
@@ -33572,17 +33561,21 @@ msgstr "Samodejno raztegni zajete slike v pregledovalniku FITS."
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:1756
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
+"Najnižja vrednost slikovnih točk, označenih kot porezanih v fitsviewer za 16-"
+"bitne slike."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1760
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
+"Najnižja vrednost slikovnih točk, označenih kot porezanih v fitsviewer za 8-"
+"bitne slike."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:1765
@@ -64371,73 +64364,73 @@ msgstr ""
 msgid "INDI Device Manager"
 msgstr "Upravitelj naprav INDI"
 
-#: kstarsactions.cpp:1095
+#: kstarsactions.cpp:1099
 #, kde-format
 msgid "Catalogs"
 msgstr "Katalogi"
 
-#: kstarsactions.cpp:1107
+#: kstarsactions.cpp:1111
 #, kde-format
 msgid "Guides"
 msgstr "Vodniki"
 
-#: kstarsactions.cpp:1110
+#: kstarsactions.cpp:1114
 #, kde-format
 msgid "Terrain"
 msgstr "Teren"
 
-#: kstarsactions.cpp:1138
+#: kstarsactions.cpp:1142
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1144
+#: kstarsactions.cpp:1148
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Revelstoke"
 msgid "Developer"
 msgstr "Revelstoke"
 
-#: kstarsactions.cpp:1162 kstarsactions.cpp:1881 kstarsinit.cpp:268
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1885 kstarsinit.cpp:268
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Skrij teren"
 
-#: kstarsactions.cpp:1162 kstarsactions.cpp:1881 kstarsinit.cpp:269
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1885 kstarsinit.cpp:269
 #, kde-format
 msgid "Show Terrain"
 msgstr "Prikaži teren"
 
-#: kstarsactions.cpp:1281
+#: kstarsactions.cpp:1285
 #, fuzzy, kde-format
 #| msgid "Update FITS"
 msgid "Open FITS"
 msgstr "Posodobi FITS"
 
-#: kstarsactions.cpp:1297
+#: kstarsactions.cpp:1301
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Izvozi sliko"
 
-#: kstarsactions.cpp:1343 tools/scriptbuilder.cpp:793
+#: kstarsactions.cpp:1347 tools/scriptbuilder.cpp:793
 #: tools/scriptbuilder.cpp:861
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "Skripti KStars (*.kstars)"
 
-#: kstarsactions.cpp:1351
+#: kstarsactions.cpp:1355
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "Izvajanje oddaljenih skriptov ni podprto."
 
-#: kstarsactions.cpp:1359 oal/execute.cpp:319 tools/observinglist.cpp:909
+#: kstarsactions.cpp:1363 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Ni bilo mogoče odpreti datoteke %1"
 
-#: kstarsactions.cpp:1384
+#: kstarsactions.cpp:1388
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -64449,27 +64442,27 @@ msgstr ""
 "izgrajevalnikom skriptov za KStars. Ta skript mogoče ne bo deloval pravilno. "
 "Mogoče celo vsebuje zlonamerno kodo. Ali ga vseeno želite izvesti?"
 
-#: kstarsactions.cpp:1389
+#: kstarsactions.cpp:1393
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Potrjevanje veljavnosti skripta ni uspelo"
 
-#: kstarsactions.cpp:1389
+#: kstarsactions.cpp:1393
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Vseeno zaženi"
 
-#: kstarsactions.cpp:1396
+#: kstarsactions.cpp:1400
 #, kde-format
 msgid "Running script: %1"
 msgstr "Zaganjam skript: %1"
 
-#: kstarsactions.cpp:1414
+#: kstarsactions.cpp:1418
 #, kde-format
 msgid "Script finished."
 msgstr "Skript zaključen."
 
-#: kstarsactions.cpp:1426
+#: kstarsactions.cpp:1430
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -64480,66 +64473,66 @@ msgstr ""
 "prihranite nekaj črnila. Ali za tiskanje začasno preklopim na barvno shemo "
 "Zvezdna karta?"
 
-#: kstarsactions.cpp:1431
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Preklopim na barve Zvezdna karta?"
 
-#: kstarsactions.cpp:1432
+#: kstarsactions.cpp:1436
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Preklopi barvno shemo"
 
-#: kstarsactions.cpp:1432
+#: kstarsactions.cpp:1436
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Ne preklopi"
 
-#: kstarsactions.cpp:1515 kstarsinit.cpp:236
+#: kstarsactions.cpp:1519 kstarsinit.cpp:236
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Zaženi s&ledenje"
 
-#: kstarsactions.cpp:1629
+#: kstarsactions.cpp:1633
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Približno VP: %1 stopinj"
 
-#: kstarsactions.cpp:1634
+#: kstarsactions.cpp:1638
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Približno VP: %1 ločnih minut"
 
-#: kstarsactions.cpp:1640
+#: kstarsactions.cpp:1644
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Približno VP: %1 ločnih sekund"
 
-#: kstarsactions.cpp:1657
+#: kstarsactions.cpp:1661
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Vnesite željen kot vidnega polja"
 
-#: kstarsactions.cpp:1658
+#: kstarsactions.cpp:1662
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Vnesite kot vidnega polja v stopinjah: "
 
-#: kstarsactions.cpp:1833
+#: kstarsactions.cpp:1837
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr "Poskus določanja iz slike"
 
-#: kstarsactions.cpp:1835
+#: kstarsactions.cpp:1839
 #, kde-format
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "Pogled okularja: izberite vidno polje"
 
-#: kstarsactions.cpp:1836
+#: kstarsactions.cpp:1840
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr "VP, za katerega bo izrisan pogled okularja:"
