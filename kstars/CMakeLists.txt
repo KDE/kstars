@@ -118,6 +118,7 @@ if (INDI_FOUND)
             ekos/profilewizard.ui
             # Analyze
             ekos/analyze/analyze.ui
+            ekos/analyze/yaxistool.ui
             # Scheduler
             ekos/scheduler/scheduler.ui
             ekos/scheduler/mosaic.ui
@@ -227,6 +228,7 @@ if (INDI_FOUND)
 
             # Analyze
             ekos/analyze/analyze.cpp
+            ekos/analyze/yaxistool.cpp
 
             # Scheduler
             ekos/scheduler/schedulerjob.cpp

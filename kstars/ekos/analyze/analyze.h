@@ -9,10 +9,11 @@
 
 #include <QtDBus>
 #include <memory>
-
+#include "qcustomplot.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
 #include "indi/indimount.h"
+#include "yaxistool.h"
 #include "ui_analyze.h"
 
 class FITSViewer;
@@ -183,6 +184,13 @@ class Analyze : public QWidget, public Ui::Analyze
         void schedulerJobEnded(const QString &jobName, const QString &endReason);
         void newTargetDistance(double targetDistance);
 
+        // From YAxisTool
+        void userChangedYAxis(QObject *key, const YAxisInfo &axisInfo);
+        void userSetLeftAxis(QCPAxis *axis);
+        void userSetAxisColor(QObject *key, const YAxisInfo &axisInfo, const QColor &color);
+
+        void yAxisRangeChanged(const QCPRange &newRange);
+
     private slots:
 
     signals:
@@ -314,7 +322,8 @@ class Analyze : public QWidget, public Ui::Analyze
                       const QColor &color, const QString &name);
         template <typename Func>
         int initGraphAndCB(QCustomPlot *plot, QCPAxis *yAxis, QCPGraph::LineStyle lineStyle,
-                           const QColor &color, const QString &name, QCheckBox *cb, Func setCb);
+                           const QColor &color, const QString &name, const QString &shortName,
+                           QCheckBox *cb, Func setCb, QLineEdit *out = nullptr);
 
         // Make graphs visible/invisible & add/delete them from the legend.
         void toggleGraph(int graph_id, bool show);
@@ -373,6 +382,35 @@ class Analyze : public QWidget, public Ui::Analyze
         void startLog();
         void appendToLog(const QString &lines);
 
+        // Used to capture double clicks on stats output QLineEdits to set y-axis limits.
+        bool eventFilter(QObject *o, QEvent *e) override;
+        QTimer clickTimer;
+        YAxisInfo m_ClickTimerInfo;
+
+        // Utility that adds a y-axis to the stats plot.
+        QCPAxis *newStatsYAxis(const QString &label, double lower = YAxisInfo::LOWER_RESCALE,
+                               double upper = YAxisInfo::UPPER_RESCALE);
+
+        // Save and restore user-updated y-axis limits.
+        QString serializeYAxes();
+        bool restoreYAxes(const QString &encoding);
+
+        // Sets the y-axis to be displayed on the left of the statsPlot.
+        void setLeftAxis(QCPAxis *axis);
+        void updateYAxisMap(QObject *key, const YAxisInfo &axisInfo);
+
+        // The pop-up allowing users to edit y-axis lower and upper graph values.
+        YAxisTool m_YAxisTool;
+
+        // The y-axis values displayed to the left of the stat's graph.
+        QCPAxis *activeYAxis { nullptr };
+
+        void startYAxisTool(QObject *key, const YAxisInfo &info);
+
+        // Map connecting QLineEdits to Y-Axes, so when a QLineEdit is double clicked,
+        // the corresponding y-axis can be found.
+        std::map<QObject*, YAxisInfo> yAxisMap;
+
         // The .analyze log file being written.
         QString logFilename { "" };
         QFile logFile;
@@ -401,15 +439,6 @@ class Analyze : public QWidget, public Ui::Analyze
         std::unique_ptr<RmsFilter> guiderRms;
         std::unique_ptr<RmsFilter> captureRms;
 
-        // Y-axes for the for several plots where we rescale based on data.
-        // QCustomPlot owns these pointers' memory, don't free it.
-        QCPAxis *snrAxis;
-        QCPAxis *numStarsAxis;
-        QCPAxis *skyBgAxis;
-        QCPAxis *medianAxis;
-        QCPAxis *numCaptureStarsAxis;
-        QCPAxis *temperatureAxis;
-        QCPAxis *targetDistanceAxis;
         // Used to keep track of the y-axis position when moving it with the mouse.
         double yAxisInitialPos = { 0 };
 

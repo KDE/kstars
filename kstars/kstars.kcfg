@@ -2778,6 +2778,9 @@
       <whatsthis>Display PierSide on the Analyze Statistics Plot.</whatsthis>
       <default>false</default>
     </entry>
+    <entry name="AnalyzeStatsYAxis" type="String">
+      <label>Stored Y-axis upper and lower limits for the Analyze Stats Plot.</label>
+    </entry>
    </group>
    <group name="INDI Lite">
       <entry name="LastServer" type="String">

@@ -403,7 +403,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The right ascension (RA) drift error in arc-seconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The right ascension (RA) drift error in arc-seconds. Click here to view this axis on left-axis values. Shares axis with RA/DEC error, drift, and RMS values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -444,7 +444,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the declination (DEC) drift error in arc-seconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the declination (DEC) drift error in arc-seconds. Click here to view this axis on left-axis values. Shares axis with RA/DEC error, drift, and RMS values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -485,7 +485,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The right ascension (RA) guide pulses in milliseconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The right ascension (RA) guide pulses in milliseconds. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -532,7 +532,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The declination (DEC) guide pulses in milliseconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The declination (DEC) guide pulses in milliseconds. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -579,7 +579,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The combined RA and DEC drift error in arc-seconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The combined RA and DEC drift error in arc-seconds. Click here to view this axis on left-axis values. Shares axis with RA/DEC error, drift, and RMS values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -626,7 +626,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The root-mean-squared (RMS) value of the combined RA and DEC drift in arc-seconds, averaged on approximately the past 40 samples.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The root-mean-squared (RMS) value of the combined RA and DEC drift in arc-seconds, averaged on approximately the past 40 samples. Click here to view this axis on left-axis values. Shares axis with RA/DEC error, drift, and RMS values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -673,7 +673,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The sky background light level (computed by SEP from the guide images).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The sky background light level (computed by SEP from the guide images). Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -714,7 +714,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of stars detected in the guide images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of stars detected in the guide images. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -761,7 +761,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The signal-to-noise ratio (SNR) of the guide star.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The signal-to-noise ratio (SNR) of the guide star. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -814,7 +814,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Right Ascension (RA) in HMS where the telescope is pointing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Right Ascension (RA) in HMS where the telescope is pointing. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 8pt</string>
@@ -861,7 +861,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Declination (DEC) in degrees:arc-minutes:arc-seconds where the telescope is pointing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Declination (DEC) in degrees:arc-minutes:arc-seconds where the telescope is pointing. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 8pt</string>
@@ -902,7 +902,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The telescope's azimuth (degrees).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The telescope's azimuth (degrees). Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -949,7 +949,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The telescope's altitude (degrees).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The telescope's altitude (degrees). Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -996,7 +996,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The mount's pier side (left) -&gt; where the mount is pointing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The mount's pier side (left) -&gt; where the mount is pointing. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -1049,7 +1049,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The mount's hour angle value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The mount's hour angle value. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 8pt</string>
@@ -1090,7 +1090,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Half-Flux Radius (in pixels) of the captured images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Half-Flux Radius (in pixels) of the captured images. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -1131,7 +1131,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the number of stars detected in the captured images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the number of stars detected in the captured images. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -1172,7 +1172,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the median sample value in the captured images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the median sample value in the captured images. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -1213,7 +1213,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the median star eccentricity in the captured images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the median star eccentricity in the captured images. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -1254,7 +1254,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the ambient temperature.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the ambient temperature. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -1301,7 +1301,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The root-mean-squared (RMS) value of the combined RA and DEC drift in arc-seconds, averaged on approximately the past 40 samples, but only in during capture.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The root-mean-squared (RMS) value of the combined RA and DEC drift in arc-seconds, averaged on approximately the past 40 samples, but only in during capture. Click here to view this axis on left-axis values. Shares axis with RA/DEC error, drift, and RMS values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
@@ -1348,7 +1348,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the distance between the plate-solved captured image and the target position in arc-seconds. Must be enabled in scheduler options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the distance between the plate-solved captured image and the target position in arc-seconds. Must be enabled in scheduler options. Click here to view this axis on left-axis values. Double click to update axis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size: 9pt</string>
