@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
-# Vit Pelcak <vpelcak@suse.cz>, 2021, 2022.
+# Vit Pelcak <vit@pelcak.org>, 2021, 2022.
 #
 msgid ""
 msgstr ""
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:42+0000\n"
 "PO-Revision-Date: 2022-06-28 15:19+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -5868,10 +5868,9 @@ msgid "Settling..."
 msgstr ""
 
 #: ekos/align/align.cpp:2550
-#, fuzzy, kde-format
-#| msgid "Refresh is complete."
+#, kde-format
 msgid "Differential slewing complete."
-msgstr "Obnovení bylo dokončeno."
+msgstr ""
 
 #: ekos/align/align.cpp:2564
 #, kde-format
@@ -7205,12 +7204,11 @@ msgstr "Překrytí"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PAHAutoPark)
 #: ekos/align/opsalign.ui:244
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically park mount after completing Polar "
 "Alignment Assistant Tools.</p></body></html>"
-msgstr "<html><head/><body><p>Oddálit pro osu X.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
@@ -11204,10 +11202,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
-#, fuzzy, kde-format
-#| msgid "License:"
+#, kde-format
 msgid "Scope/Lense:"
-msgstr "Licence:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
@@ -11226,14 +11223,11 @@ msgstr "Připojit:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:179
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -11281,31 +11275,23 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:261
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Light Box:"
-msgstr "Světlé"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is required and must be installed "
-#| "for the solver to work correctly.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor je potřeba a aby řešitel "
-"fungoval správně, musí být nainstalován.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
-#, fuzzy, kde-format
-#| msgid "Filter:"
+#, kde-format
 msgid "Filter Wheel:"
-msgstr "Filtr:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:294
@@ -11352,10 +11338,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:346
-#, fuzzy, kde-format
-#| msgid "Rotation:"
+#, kde-format
 msgid "Rotator:"
-msgstr "Rotace:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
 #: ekos/auxiliary/opticaltrains.ui:398
@@ -12644,10 +12629,9 @@ msgid "CCD capture suspended"
 msgstr "Nahrávání CCD pozastaveno"
 
 #: ekos/capture/capture.cpp:962
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "CCD capture complete"
-msgstr "Zachytávací sekvence CCD dokončena"
+msgstr ""
 
 #: ekos/capture/capture.cpp:967
 #, kde-format
@@ -13344,17 +13328,15 @@ msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:386
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Current camera gain"
-msgstr "Aktuální skript"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:405
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Target camera gain"
-msgstr "Zesílení fotoaparátu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/capture.ui:488
@@ -13371,17 +13353,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/capture.ui:557
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "Posun fotoaparátu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/capture.ui:576
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "Posun fotoaparátu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #: ekos/capture/capture.ui:594
@@ -13478,10 +13458,9 @@ msgstr "Cíl"
 
 #. i18n: ectx: property (text), widget (QLabel, FilenamePreviewLabel)
 #: ekos/capture/capture.ui:962
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgid "Local preview"
-msgstr "Místní čas"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/capture.ui:969
@@ -13531,24 +13510,21 @@ msgstr "Uložit:"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/capture/capture.ui:998 ekos/capture/capture.ui:1077
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview:"
-msgstr "Náhled"
+msgstr "Náhled:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1005
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
-msgstr "<html><head/><body><p>Výběr portu zařízení</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:1011
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Directory"
-msgstr "Adresář:"
+msgstr "Adresář"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/capture.ui:1021
@@ -13558,10 +13534,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, RemotePreviewLabel)
 #: ekos/capture/capture.ui:1039
-#, fuzzy, kde-format
-#| msgid "Remove profile"
+#, kde-format
 msgid "Remote preview"
-msgstr "Odstranit profil"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/capture.ui:1084
@@ -13613,14 +13588,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1097
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>What do you want to name your profile?</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
-msgstr "<html><head/><body><p>Jak chcete váš profil nazvat?</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:1100
@@ -14750,10 +14722,9 @@ msgid "Framing"
 msgstr ""
 
 #: ekos/ekos.h:139
-#, fuzzy, kde-format
-#| msgid "Success"
+#, kde-format
 msgid "Successful"
-msgstr "Úspěch"
+msgstr ""
 
 #: ekos/ekos.h:140
 #, kde-format
@@ -14761,10 +14732,9 @@ msgid "Syncing"
 msgstr "Synchronizování"
 
 #: ekos/ekos.h:140
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotating"
-msgstr "Rotace"
+msgstr ""
 
 #: ekos/ekos.h:161
 #, kde-format
@@ -15029,10 +14999,9 @@ msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
 #: ekos/focus/focus.cpp:1530
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1 for reading."
+#, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
-msgstr "Není možné otevřít soubor %1 pro čtení."
+msgstr ""
 
 #: ekos/focus/focus.cpp:1580
 #, kde-format
@@ -20636,10 +20605,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profileeditor.ui:460
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "Camera 2:"
-msgstr "Fotoaparát:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
@@ -20704,10 +20672,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/profileeditor.ui:621
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "Camera 1:"
-msgstr "Fotoaparát:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, weatherLabel)
 #: ekos/profileeditor.ui:691
@@ -21563,10 +21530,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, importB)
 #: ekos/scheduler/framingassistant.ui:939
-#, fuzzy, kde-format
-#| msgid "Import CSV..."
+#, kde-format
 msgid "Import..."
-msgstr "Importovat CSV..."
+msgstr "Importovat..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
 #: ekos/scheduler/framingassistant.ui:946
@@ -21798,11 +21764,10 @@ msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
 
 #: ekos/scheduler/framingassistantui.cpp:677
-#, fuzzy, kde-format
-#| msgid "Select Serial port"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
-msgstr "Vyberte sériový port"
+msgstr ""
 
 #: ekos/scheduler/framingassistantui.cpp:679
 #, kde-format
@@ -21959,16 +21924,14 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:489
-#, fuzzy, kde-format
-#| msgid "Clear all selected items in the list"
+#, kde-format
 msgid "Move selected job one line up in the list.\n"
-msgstr "Zrušit výběr všech položek seznamu"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:492
-#, fuzzy, kde-format
-#| msgid "Clear all selected items in the list"
+#, kde-format
 msgid "Move selected job one line down in the list.\n"
-msgstr "Zrušit výběr všech položek seznamu"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:496
 #, kde-format
@@ -23102,11 +23065,9 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:8429
-#, fuzzy, kde-format
-#| msgctxt "the time at which an object falls below the horizon"
-#| msgid "Set time: %1"
+#, kde-format
 msgid "Solver timed out: %1s %2"
-msgstr "Čas západu: %1"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:8431
 #, kde-format
@@ -24705,10 +24666,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:219
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "16bit threshold:"
-msgstr "Práh:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:226
@@ -24724,10 +24684,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:245
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "8Bit threshold:"
-msgstr "Práh:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:252
@@ -71935,10 +71894,9 @@ msgid "Horizontal Coordinates"
 msgstr "Horizontální souřadnice"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "Kopírovat souřadnice"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
@@ -73345,11 +73303,9 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Úhel"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
@@ -73360,10 +73316,9 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "Výsledky"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
@@ -74172,10 +74127,9 @@ msgid "Sun, moon, planets"
 msgstr "Slunce, Měsíc, planety"
 
 #: tools/obslistwizard.cpp:353
-#, fuzzy, kde-format
-#| msgid "Illegal circle specified, no region selection possible."
+#, kde-format
 msgid "Illegal rectangle specified, no region selection possible."
-msgstr "Zadán neplatný kruh, nelze vybrat oblast."
+msgstr ""
 
 #: tools/obslistwizard.cpp:392
 #, kde-format
@@ -74366,10 +74320,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Poloměr (ve stupních):"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -76933,21 +76886,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#~ msgid "Guider"
-#~ msgstr "Guider"
-
-#~ msgid "Postfix:"
-#~ msgstr "Za:"
-
-#~ msgid "Append time stamp to the prefix"
-#~ msgstr "Přidat časové razítko k příponě"
-
-#~ msgid "TS"
-#~ msgstr "TS"
-
-#~ msgid "Prefix:"
-#~ msgstr "Přípona:"
-
-#~ msgid "CCD:"
-#~ msgstr "CCD:"

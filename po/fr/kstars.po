@@ -15409,10 +15409,9 @@ msgstr ""
 "Nouvelle mise au point par suite d'un changement de température de %1 °C…"
 
 #: ekos/capture/refocusstate.cpp:58
-#, fuzzy, kde-format
-#| msgid "FITS file saved to %1"
+#, kde-format
 msgid "In sequence HFR based refocus starting..."
-msgstr "Fichier FITS enregistré dans %1"
+msgstr "Redémarrage de la mise au point basée sur la séquence HFR…"
 
 #: ekos/capture/refocusstate.cpp:85
 #, kde-format
@@ -33359,10 +33358,9 @@ msgstr "Renforcer la limite de déviation pour le guidage."
 
 #. i18n: ectx: label, entry (EnforceAutofocusHFR), group (Capture)
 #: kstars.kcfg:1653
-#, fuzzy, kde-format
-#| msgid "Enforce Autofocus HFR limit."
+#, kde-format
 msgid "Enforce Autofocus on HFR limit."
-msgstr "Renforcer la limite HFR pour la mise au point automatique."
+msgstr "Appliquer la mise au point automatique à partir de la limite HFR."
 
 #. i18n: ectx: label, entry (EnforceAutofocusOnTemperature), group (Capture)
 #: kstars.kcfg:1657

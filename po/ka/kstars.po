@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:42+0000\n"
-"PO-Revision-Date: 2023-01-02 09:06+0100\n"
+"PO-Revision-Date: 2023-01-03 07:42+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5196,7 +5196,7 @@ msgstr "0"
 #: dialogs/newfov.ui:1068
 #, kde-format
 msgid "Desired vertical offset in arcminutes"
-msgstr ""
+msgstr "სასურველი ვერტიკალური წანაცვლება არკწუთებში"
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_3)
 #: dialogs/newfov.ui:1081
@@ -5242,7 +5242,7 @@ msgstr " x "
 #: dialogs/newfov.ui:1131
 #, kde-format
 msgid "Desired horizontal offset in arcminutes"
-msgstr ""
+msgstr "სასურველი ჰორიზონტალური წანაცვლება არკწუთებში"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, FOVLockCP)
 #: dialogs/newfov.ui:1144
