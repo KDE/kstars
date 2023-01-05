@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:42+0000\n"
-"PO-Revision-Date: 2023-01-03 07:42+0100\n"
+"PO-Revision-Date: 2023-01-04 07:55+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -28748,13 +28748,13 @@ msgstr ""
 #: kstars.kcfg:905 kstars.kcfg:906
 #, kde-format
 msgid "The name of the color scheme"
-msgstr ""
+msgstr "ფერის სქემის სახელი"
 
 #. i18n: ectx: label, entry (StarColorMode), group (Colors)
 #: kstars.kcfg:910
 #, kde-format
 msgid "Mode for rendering stars"
-msgstr ""
+msgstr "ვარსკვლავების რენდერის რეჟიმი"
 
 #. i18n: ectx: whatsthis, entry (StarColorMode), group (Colors)
 #: kstars.kcfg:911
