@@ -283,7 +283,8 @@ bool TestEkosHelper::shutdownEkosProfile()
     disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this,
                &TestEkosHelper::mountStatusChanged);
     // disconnect the mount process to receive meridian flip status changes
-    disconnect(Ekos::Manager::Instance()->mountModule()->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, this,
+    disconnect(Ekos::Manager::Instance()->mountModule()->getMeridianFlipState().get(),
+               &Ekos::MeridianFlipState::newMountMFStatus, this,
                &TestEkosHelper::meridianFlipStatusChanged);
     // disconnect to the scheduler process to receive scheduler status changes
     disconnect(Ekos::Manager::Instance()->schedulerModule(), &Ekos::Scheduler::newStatus, this,
@@ -786,7 +787,7 @@ bool TestEkosHelper::executeFocusing(int initialFocusPosition)
 {
     // check whether focusing is already running
     if (! (getFocusStatus() == Ekos::FOCUS_IDLE || getFocusStatus() == Ekos::FOCUS_COMPLETE
-           || getFocusStatus() == Ekos::FOCUS_ABORTED))
+            || getFocusStatus() == Ekos::FOCUS_ABORTED))
         return true;
 
     // prepare for focusing tests

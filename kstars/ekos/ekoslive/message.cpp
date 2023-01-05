@@ -16,6 +16,7 @@
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
+#include "ekos/guide/guide.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
@@ -523,7 +524,8 @@ void Message::sendCaptureSequence(const QJsonArray &sequenceArray)
 
 void Message::sendPreviewLabel(const QString &preview)
 {
-    const QJsonObject payload = {
+    const QJsonObject payload =
+    {
         {"preview", preview}
     };
     sendResponse(commands[CAPTURE_GET_PREVIEW_LABEL], payload);

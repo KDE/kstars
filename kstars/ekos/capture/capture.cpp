@@ -29,6 +29,7 @@
 #include "indi/clientmanager.h"
 #include "indi/indilistener.h"
 #include "oal/observeradd.h"
+#include "ekos/guide/guide.h"
 
 #include <basedevice.h>
 

@@ -16,15 +16,7 @@
 
 #include "ekos.h"
 #include "fitsviewer/summaryfitsview.h"
-#include "align/align.h"
-#include "capture/capture.h"
-#include "focus/focus.h"
-#include "guide/guide.h"
 #include "indi/indistd.h"
-#include "mount/mount.h"
-#include "observatory/observatory.h"
-#include "scheduler/scheduler.h"
-#include "analyze/analyze.h"
 #include "auxiliary/portselector.h"
 #include "ksnotification.h"
 #include "auxiliary/opslogs.h"
@@ -70,6 +62,15 @@ class OpsEkos;
  */
 namespace Ekos
 {
+
+class Analyze;
+class Capture;
+class Scheduler;
+class Focus;
+class Align;
+class Guide;
+class Mount;
+class Observatory;
 
 class Manager : public QDialog, public Ui::Manager
 {

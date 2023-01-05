@@ -12,7 +12,6 @@
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/auxiliary/darkprocessor.h"
-#include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indicamera.h"
 #include "indi/indifocuser.h"

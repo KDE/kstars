@@ -6,6 +6,15 @@
 
 #include "manager.h"
 
+#include "analyze/analyze.h"
+#include "capture/capture.h"
+#include "scheduler/scheduler.h"
+#include "focus/focus.h"
+#include "align/align.h"
+#include "guide/guide.h"
+#include "mount/mount.h"
+#include "observatory/observatory.h"
+
 #include "opsekos.h"
 #include "ekosadaptor.h"
 #include "kstars.h"

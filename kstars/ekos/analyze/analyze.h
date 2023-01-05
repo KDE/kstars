@@ -14,7 +14,6 @@
 #include "ekos/mount/mount.h"
 #include "indi/indimount.h"
 #include "ui_analyze.h"
-#include "ekos/scheduler/scheduler.h"
 
 class FITSViewer;
 class OffsetDateTimeTicker;

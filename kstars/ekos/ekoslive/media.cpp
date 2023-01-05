@@ -15,6 +15,7 @@
 #include "indi/indilistener.h"
 #include "hips/hipsfinder.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/guide/guide.h"
 #include "kspaths.h"
 #include "Options.h"
 

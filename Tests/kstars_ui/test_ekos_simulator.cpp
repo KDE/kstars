@@ -6,6 +6,7 @@
 
 #include "kstars_ui_tests.h"
 #include "test_ekos_simulator.h"
+#include "ekos/guide/guide.h"
 
 #if defined(HAVE_INDI)
 
@@ -73,9 +74,9 @@ void TestEkosSimulator::testMountSlew_data()
             o.EquatorialToHorizontal(&LST, geo->lat());
             if (5.0 < o.alt().Degrees())
                 QTest::addRow("%s", name.toStdString().c_str())
-                    << name
-                    << o.ra().toHMSString()
-                    << o.dec().toDMSString();
+                        << name
+                        << o.ra().toHMSString()
+                        << o.dec().toDMSString();
         }
     }
 #endif
@@ -129,13 +130,20 @@ void TestEkosSimulator::testMountSlew()
     });
     bool const slew_result = ekos->mountModule()->slew(RA, DEC);
     if (under_horizon_or_close_to_sun)
-        QEXPECT_FAIL(NAME.toStdString().c_str(), QString("Slew target '%1' is expected to be over the horizon during night time.").arg(NAME).toStdString().c_str(), Abort);
+        QEXPECT_FAIL(NAME.toStdString().c_str(),
+                     QString("Slew target '%1' is expected to be over the horizon during night time.").arg(NAME).toStdString().c_str(), Abort);
     QVERIFY(slew_result);
 #endif
 
     // DEC slews are precise at plus/minus one arcsecond - expected or not?
-    auto clampRA = [](QString v) { return CachingDms(v, false).arcsec(); };
-    auto clampDE = [](QString v) { return CachingDms(v, true).arcsec(); };
+    auto clampRA = [](QString v)
+    {
+        return CachingDms(v, false).arcsec();
+    };
+    auto clampDE = [](QString v)
+    {
+        return CachingDms(v, true).arcsec();
+    };
 
     QLineEdit * raOut = ekos->findChild<QLineEdit*>("raOUT");
     QVERIFY(raOut != nullptr);
@@ -173,18 +181,18 @@ void TestEkosSimulator::testColorSchemes_data()
 
     QTest::addRow("Classic, friendly name") << "Default Colors" << "classic.colors";
     QTest::addRow("Chart, friendly name") << "Star Chart" << "chart.colors",
-    QTest::addRow("Night, friendly name") << "Night Vision" << "night.colors",
-    QTest::addRow("Moonless, friendly name") << "Moonless Night" << "moonless-night.colors";
+                                          QTest::addRow("Night, friendly name") << "Night Vision" << "night.colors",
+                                          QTest::addRow("Moonless, friendly name") << "Moonless Night" << "moonless-night.colors";
 
     QTest::addRow("Classic, short name") << "classic" << "classic.colors";
     QTest::addRow("Chart, short name") << "chart" << "chart.colors",
-    QTest::addRow("Night, short name") << "night" << "night.colors",
-    QTest::addRow("Moonless, short name") << "moonless-night" << "moonless-night.colors";
+                                       QTest::addRow("Night, short name") << "night" << "night.colors",
+                                       QTest::addRow("Moonless, short name") << "moonless-night" << "moonless-night.colors";
 
     QTest::addRow("Classic, full name") << "classic.colors" << "classic.colors";
     QTest::addRow("Chart, full name") << "chart.colors" << "chart.colors",
-    QTest::addRow("Night, full name") << "night.colors" << "night.colors",
-    QTest::addRow("Moonless, full name") << "moonless-night.colors" << "moonless-night.colors";
+                                      QTest::addRow("Night, full name") << "night.colors" << "night.colors",
+                                      QTest::addRow("Moonless, full name") << "moonless-night.colors" << "moonless-night.colors";
 #endif
 }
 

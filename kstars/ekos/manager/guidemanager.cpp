@@ -9,6 +9,7 @@
 
 #include "kstarsdata.h"
 #include "Options.h"
+#include "ekos/guide/guide.h"
 
 namespace Ekos
 {

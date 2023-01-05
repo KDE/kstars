@@ -10,7 +10,7 @@
 #include "ui_guidemanager.h"
 
 #include "ekos/ekos.h"
-#include "ekos/guide/guide.h"
+#include "ekos/guide/guidestatewidget.h"
 
 #include <QWidget>
 #include <QProgressIndicator.h>
@@ -20,23 +20,25 @@ class QProgressIndicator;
 namespace Ekos
 {
 
+class Guide;
+
 class GuideManager : public QWidget, public Ui::GuideManager
 {
-    Q_OBJECT
-public:
-    GuideManager(QWidget *parent = nullptr);
-    void init(Guide *guideProcess);
-    void updateGuideDetailView();
-    void reset();
+        Q_OBJECT
+    public:
+        GuideManager(QWidget *parent = nullptr);
+        void init(Guide *guideProcess);
+        void updateGuideDetailView();
+        void reset();
 
-public slots:
-    void updateGuideStatus(GuideState status);
-    void updateGuideStarPixmap(QPixmap &starPix);
-    void updateSigmas(double ra, double de);
+    public slots:
+        void updateGuideStatus(GuideState status);
+        void updateGuideStarPixmap(QPixmap &starPix);
+        void updateSigmas(double ra, double de);
 
-private:
-    GuideStateWidget *guideStateWidget { nullptr };
-    std::unique_ptr<QPixmap> guideStarPixmap;
+    private:
+        GuideStateWidget *guideStateWidget { nullptr };
+        std::unique_ptr<QPixmap> guideStarPixmap;
 
 };
 }
