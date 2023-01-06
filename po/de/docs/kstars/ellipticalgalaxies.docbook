@@ -1,100 +1,115 @@
 <sect1 id="ai-ellipgal">
 <sect1info>
-<author
-><firstname
->Jasem</firstname
-> <surname
->Mutlaq</surname
-> <affiliation
-><address>
-</address
-></affiliation>
+<author>
+<firstname>Jasem</firstname>
+<surname>Mutlaq</surname>
+<affiliation><address>
+</address></affiliation>
 </author>
 </sect1info>
 
-<title
->Elliptische Galaxien</title>
-<indexterm
-><primary
->Elliptische Galaxien</primary>
+<title>Elliptical Galaxies</title>
+<indexterm><primary>Elliptical Galaxies</primary>
 </indexterm>
 
-<para
->Elliptische Galaxien sind kugelförmige Konzentrationen von Milliarden Sternen, die Kugelsternhaufen sehr ähneln. Sie haben wenig innere Struktur, die Dichte von Sternen nimmt allmählich vom konzentrierten Zentrum zu den diffusen Randregionen ab und sie können viele Arten der Ellipsenform (Seitenverhältnisse) aufweisen. Sie enthalten typischerweise sehr wenig interstellares Gas und Staub und keine Jungsterne (obwohl es auch Abweichungen von dieser Regel gibt). Edwin Hubble bezog sich auf elliptische Galaxien als <quote
->frühe</quote
-> Galaxien, da er dachte, dass aus ihnen Spiralgalaxien entstünden (welche er als <quote
->späte</quote
-> Galaxien bezeichnete). Astronomen wissen nun, dass das Gegenteil der Fall ist (also dass Spiralgalaxien sich in elliptische Galaxien umwandeln können), aber Hubbles Bezeichnungen werden immer noch benutzt. </para>
+<para>Elliptical galaxies are spheroidal concentrations of billions
+of stars that resemble Globular Clusters on a grand scale.  They have
+very little internal structure; the density of stars declines smoothly
+from the concentrated center to the diffuse edge, and they can have a
+broad range of ellipticities (or aspect ratios).  They typically
+contain very little interstellar gas and dust, and no young stellar
+populations (although there are exceptions to these rules).  Edwin
+Hubble referred to Elliptical galaxies as <quote>early-type</quote>
+galaxies, because he thought that they evolved to become Spiral
+Galaxies (which he called <quote>late-type</quote> galaxies).
+Astronomers actually now believe the opposite is the case (&ie;, that
+Spiral galaxies can turn into Elliptical galaxies), but Hubble's
+early- and late-type labels are still used.</para>
 
-<para
->Früher als einfacher Galaxientyp betrachtet, sind elliptische Galaxien heute als sehr komplexe Objekte bekannt. Ein Teil dieser Komplexität kommt von ihrer erstaunlichen Entwicklung: Elliptische Galaxien werden als Endprodukt der Verschmelzung zweier Spiralgalaxien betrachtet. Sie können eine Simulation als MPEG-Film einer solchen Verschmelzung auf <ulink url="http://oposite.stsci.edu/pubinfo/pr/2002/11/vid/v0211d3.mpg"
->dieser NASA HST Webseite</ulink
-> sehen. (Warnung: Die Datei ist 3,4 MB groß). </para>
+<para>
+Once thought to be a simple galaxy type, ellipticals are now known to
+be quite complex objects.  Part of this complexity is due
+to their amazing history: ellipticals are thought to be the end
+product of the merger of two Spiral galaxies.  You can
+view a computer simulation MPEG movie of such a merger at <ulink
+url="http://oposite.stsci.edu/pubinfo/pr/2002/11/vid/v0211d3.mpg">
+this NASA HST webpage</ulink> (warning: the file is 3.4 MB).
+</para>
 
-<para
->Elliptische Galaxien umfassen einen weiten Bereich von Größen und Leuchtkraft, von gigantischen Galaxien mit Tausenden von Lichtjahren Durchmesser und fast eine Billion Mal heller als die Sonne zu Zwerggalaxien, die nur ein bisschen heller sind als ein durchschnittlicher Kugelsternhaufen. Sie werden in verschiedene morphologische Klassen eingeteilt: </para>
+<para>
+Elliptical galaxies span a very wide range of sizes and
+luminosities, from giant Ellipticals hundreds of thousands of light
+years across and nearly a trillion times brighter than the sun, to
+dwarf Ellipticals just a bit brighter than the average globular
+cluster.  They are divided to several morphological classes:
+</para>
 
 <variablelist>
 <varlistentry>
-<term
->cD Galaxien:</term>
-<listitem
-><para
->Riesige und Helle Objekte, die fast 1 Megaparsec (3 Millionen Lichtjahre) durchmessen können. Diese Titanen können nur nahe dem Zentrum von großen, dichten Haufen von Galaxien gefunden werden und sind oft das Resultat von vielen Verschmelzungen.</para
-></listitem>
+<term>cD galaxies:</term>
+<listitem><para>
+Immense and bright objects that can
+measure nearly 1 Megaparsec (3 million light years) across.  These
+titans are only found near the centers of large, dense clusters of
+galaxies, and are likely the result of many galaxy
+mergers.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term
->Normale elliptische Galaxien</term>
-<listitem
-><para
->Kondensierte Objekte hoher Oberflächenhelligkeit im Zentrum. Sie enthalten gigantische elliptische Galaxien (gE‚e), elliptische Galaxien mit mittlerer Leuchtkraft (E‘S) und kompakte elliptische Galaxien.</para
-></listitem>
+<term>Normal Elliptical galaxies</term>
+<listitem><para>Condensed Object with
+relatively high central surface brightness. They include the giant
+ellipticals (gE'e), intermediate-luminosity ellipticals (E's), and
+compact ellipticals.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term
->Elliptische Zwerggalaxien (dE's)</term>
-<listitem
-><para
->Diese Klasse von Galaxien ist fundamental verschieden von normalen elliptischen Galaxien. Ihre Durchmesser im Bereich von einem bis zehn Kiloparsec und ihre Oberflächenhelligkeit, die viel niedriger ist als die der normalen elliptischen Galaxien, geben ihnen ein viel diffuseres Erscheinungsbild. Sie zeigen dieselbe charakteristische Abnahme der Sternenhäufigkeit vom dichten Kern zum äußeren Rand hin.</para
-></listitem>
+<term>Dwarf elliptical galaxies (dE's)</term>
+<listitem><para>This class of
+galaxies is fundamentally different from normal ellipticals. Their
+diameters on the order of 1 to 10 kiloparsec with surface brightness
+that is much lower than normal ellipticals, giving them a much more
+diffuse appearance. They display the same characteristic gradual
+decline of star density from a relatively dense core out to a diffuse
+periphery.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term
->Kugelförmige Zwerggalaxien (dSph's)</term>
-<listitem
-><para
->Sehr lichtschwache Galaxien mit wenig Oberflächenhelligkeit und die nur in der Umgebung der Milchstraße beobachtet wurden und anderen nahen Galaxiegruppen, wie die Gruppe <quote
->Leo</quote
->. Die absoluten Magnituden liegen zwischen -8 und -15 mag. Die kugelförmige Zwerggalaxie Draco hat eine absolute Größe von -8,6, also matter als der durchschnittliche Kugelsternhaufen in der Milchstraße! </para
-></listitem>
+<term>Dwarf spheroidal galaxies (dSph's)</term>
+<listitem><para>Extreme low-luminosity, low
+surface-brightness and have only been observed in the vicinity of the
+Milky Way, and possibly other very nearby galaxy groups, such as the
+Leo group.  Their absolute magnitudes are only -8 to -15 mag.
+The Draco dwarf spheroidal galaxy has an absolute magnitude of -8.6,
+making it fainter than the average globular cluster in the Milky Way!
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term
->Blaue kompakte Zwerggalaxien (BCD's)</term>
+<term>Blue compact dwarf galaxies (BCD's)</term>
 <listitem>
-<para
->Kleine Galaxien, die unüblich blau sind. Sie haben fotometrische Farben von B-V = 0,0 bis 0,30 mag, was typisch für relativ junge Sterne vom <firstterm
->Spektraltyp</firstterm
-> A ist. Das legt nahe, dass BCDs formende Sterne enthalten. Diese Systeme enthalten auch reichlich interstellares Gas (Im Gegensatz zu anderen elliptischen Galaxien).  </para
-></listitem>
+<para>Small galaxies that are unusually
+blue. Thehave photometric colors of B-V = 0.0 to 0.30 mag, which is
+typical for relatively young stars of <firstterm>spectral type</firstterm> A.
+This suggests that BCDs
+are currently actively forming stars.  These systems also have
+abundant interstellar gas (unlike other Elliptical galaxies).
+</para></listitem>
 </varlistentry>
 </variablelist>
 
 <tip>
-<para
->Sie können Beispiele von elliptischen Galaxien in &kstars; sehen. Benutzen Sie das Fenster Objekt suchen (<keycombo action="simul"
-><keycap
->&Ctrl;</keycap
-><keycap
->F</keycap
-></keycombo
->). Suchen Sie nach NGC 4881, was eine gigantische cD Galaxie im Coma-Sternhaufen ist. M 86 ist eine normale elliptische Galaxie im Virgo-Sternhaufen. M 32 ist eine elliptische Zwerggalaxie, die ein Satellit unseres Nachbarn, der Andromedagalaxie (M 31) ist. M 110 ist ein weitere Satellit von M 31, sie ist ein Grenzfall einer kugelförmige Zwerggalaxie (<quote
->Grenzfall</quote
-> wegen der größeren Helligkeit als die meisten anderen Zwergkugelgalaxien). </para>
+<para>
+You can see examples of Elliptical galaxies in &kstars;, using the
+<guilabel>Find Object</guilabel> window
+(<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>).
+Search for NGC 4881, which is the Giant cD galaxy in the Coma
+cluster of galaxies.  M 86 is a normal Elliptical galaxy in the Virgo
+cluster of galaxies.  M 32 is a dwarf Elliptical that is a satellite
+of our neighbor, the Andromeda galaxy (M 31).  M 110 is another
+satellite of M 31 that is a borderline dwarf spheroidal galaxy
+(<quote>borderline</quote> because it is somewhat brighter than most other
+dwarf spheroidals).
+</para>
 </tip>
 </sect1>

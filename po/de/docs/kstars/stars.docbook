@@ -1,109 +1,130 @@
 <sect1 id="ai-stars">
 <sect1info>
-<author
-><firstname
->Jason</firstname
-> <surname
->Harris</surname
-> </author>
+<author>
+<firstname>Jason</firstname> <surname>Harris</surname>
+</author>
 </sect1info>
-<title
->Sterne: Einführende <acronym
->Fragen und Antworten</acronym
-></title>
-<indexterm
-><primary
->Sterne</primary
-></indexterm>
+<title>Stars: An Introductory <acronym>FAQ</acronym></title>
+<indexterm><primary>Stars</primary></indexterm>
 
 <qandaset id="stars-faq">
 
 <qandaentry>
 <question>
-<para
->Was sind Sterne?</para>
+<para>What are the stars?</para>
 </question>
 <answer>
-<para
-><firstterm
->Sterne</firstterm
-> sind gigantische, selbst-anziehende Sphären (oftmals) aus Wasserstoffgas. Sterne sind auch thermonukleare Maschinen, Kernverschmelzungen finden ständig tief in den Kernen der Sternen statt, wo die Dichte extrem ist und die Temperaturen einige Zehnmillionen Grad Celsius erreichen. </para>
+<para>
+<firstterm>Stars</firstterm> are gigantic, self-gravitating spheres
+of (mostly) Hydrogen gas.  Stars are also thermonuclear engines;
+nuclear fusion takes place deep in the cores of stars, where the
+density is extreme and the temperature reaches tens of millions
+of degrees Celsius.
+</para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para
->Ist die Sonne ein Stern?</para>
+<para>Is the Sun a star?</para>
 </question>
 <answer>
-<para
->Ja, die Sonne ist ein Stern. Sie ist der dominante Mittelpunkt unseres Sonnensystems. Verglichen mit anderen Sternen ist unsere Sonne sehr normal, sie scheint so groß und hell zu sein, da sie sehr viel näher ist, als jeder andere Stern. </para>
+<para>
+Yes, the Sun is a star.  It is the dominant centerpiece of our
+solar system.  Compared to other stars, our Sun is rather ordinary;
+it appears to be so much bigger and brighter to us
+because it is millions of times closer than any other star.
+</para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para
->Warum leuchten Sterne?</para>
+<para>Why do stars shine?</para>
 </question>
 <answer>
-<para
->Die kurze Antwort ist: Die Sterne leuchten, weil sie heiß sind. Es ist nicht viel komplizierter als das. Jedes Objekt, das auf Tausende von Grad erhitzt ist, sendet Licht aus, genauso wie das Sterne tun. </para>
+<para>
+The short answer is: star shine because they are very hot.  It is
+really no more complicated than that.  Any object heated to
+thousands of degrees will radiate light, just like stars do.
+</para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para
->Die offensichtlich nächste Frage ist: Warum sind Sterne so heiß?</para>
+<para>The obvious next question is: why are stars so hot?</para>
 </question>
 <answer>
-<para
->Das ist eine schwerere Frage. Die übliche Antwort ist, dass die Sterne ihre Hitze durch die thermonuklearen Fusionen in ihren Kernen erhalten. Jedoch ist dies nicht der ultimative Grund für die Hitze der Sterne, da der Stern zuerst einmal heiß sein muss, damit die Fusion beginnt. Kernfusionen können nur die hohen Temperaturen erhalten, aber den Stern nicht heiß machen. Ein richtigere Antwort ist, dass die Sterne durch Kollaps so heiß geworden sind. Sterne entstehen aus Gasnebeln, wenn diese Gasnebel bei der Sternenbildung kondensieren wird die gravitative potentielle Energie freigesetzt, zuerst als kinetische Energie und dann als Wärme, wenn die Dichte zunimmt. </para>
+<para>
+This is a tougher question.  The usual answer is that stars get
+their heat from the thermonuclear fusion reactions in their cores.
+However, this cannot be the ultimate cause for the stars' heat,
+because a star must be hot in the first place for nuclear fusion to be
+triggered.  Fusion can only sustain the hot temperature; it cannot
+make a star hot.  A more correct answer is that stars are hot because
+they have collapsed.  Stars form from diffuse gaseous nebulae; as the
+nebulous gas condenses to form a star, the gravitational potential
+energy of the material is released, first as kinetic energy, and
+ultimately as heat as the density increases.
+</para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para
->Sind alle Sterne gleich?</para>
+<para>Are stars all the same?</para>
 </question>
 <answer>
-<para
->Sterne habe sehr viel gemeinsam: Sie sind alle kollabierte Sphären von heißem, verdichtetem Gas (hauptsächlich Wasserstoff) und Nuklearfusionen treten in der Nähe des Zentrums jedes Sterns im Himmel auf. </para
-><para
->Jedoch zeigen Sterne große Unterschiede in einigen Eigenschaften. Die hellsten Sterne scheinen fast 100 Million Mal stärker als die schwächsten. Die Oberflächentemperatur geht von wenigen tausend Grad bis fast 50.000 Grad Celsius. Diese Unterschiede entstehen durch die Massenunterschiede: Schwere Sterne sind sowohl heißer als auch heller als leichtere Sterne. Die Temperatur und die Leuchtkraft hängen also vom <emphasis
->Evolutionsgrad</emphasis
-> des Sterns ab. </para>
+<para>
+Stars have many things in common: they are all collapsed spheres of
+hot, dense gas (mostly Hydrogen), and nuclear fusion reactions are
+occurring at or near the centers of every star in the sky.
+</para><para>
+However, stars also show a great diversity in some properties.
+The brightest stars shine almost 100 million times as brightly as the
+faintest stars.  Stars range in surface temperature from only a few
+thousand degrees to almost 50,000 degrees Celsius.  These differences
+are largely due to differences in mass: massive stars are both hotter
+and brighter than lower-mass stars.  The temperature and Luminosity
+also
+depend on the <emphasis>evolutionary state</emphasis>
+of the star.
+</para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para
->Was ist die Hauptsequenz?</para>
+<para>What is the Main Sequence?</para>
 </question>
 <answer>
-<para
-><indexterm
-><primary
->Hauptsequenz</primary
-></indexterm
-> Die Hauptsequenz ist der Evolutionsgrad eines Sterns, wenn Wasserstoff in seinem Kern verschmilzt. Das ist die erste (und längste) Stufe des Sternenlebens (ohne die Protonensternphasen). Was mit einem Stern passiert, nachdem ihm der Wasserstoff ausgegangen ist, wird im Sternenevolutionsartikel beschrieben (folgt demnächst). </para>
+<para><indexterm><primary>Main sequence</primary></indexterm>
+The main sequence is the evolutionary state of a star when it is
+fusing Hydrogen in its core.  This is the first (and longest) stage
+of a star's life (not including protostar phases).  What happens to a
+star after it runs out of core Hydrogen is addressed in the stellar
+evolution article (coming soon).
+</para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para
->Wie lange leben die Sterne?</para>
+<para>How long do stars last?</para>
 </question>
 <answer>
-<para
->Die Lebenszeit eines Sterns hängt sehr von seiner Masse ab. Schwere Sterne sind heißer und leuchten heller, was dazu führt, dass sie ihren Brennstoff viel schneller verbrauchen. Den größten Sternen (ungefähr 100 Mal schwerer als die Sonne) wird in ein paar Millionen Jahren der Brennstoff ausgehen, während die kleineren Sterne (mit ungefähr 10 Prozent der Sonnenmasse) mit ihrem viel sparsameren Verbrauch noch <emphasis
->Billionen</emphasis
-> von Jahren (obwohl trübe) weiterleuchten. Bedenken Sie dabei, dass das länger als das jetzige Alter des Universums ist. </para>
+<para>
+The lifetime of a star depends very much on its mass.  More massive
+stars are hotter and shine much more brightly, causing them to
+consume their nuclear fuel much more rapidly.  The largest
+stars (roughly 100 times as massive as the Sun), will run out of
+fuel in only a few million years; while the smallest stars (roughly
+ten percent the mass of the Sun), with their much more frugal
+consumption rate, will shine on (albeit dimly) for
+<emphasis>trillions</emphasis> of years.  Note that this is much
+longer than the Universe has yet been in existence.
+</para>
 </answer>
 </qandaentry>
 

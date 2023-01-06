@@ -2,51 +2,53 @@
 
 <sect1info>
 
-<author
-><firstname
->Jasem</firstname
-> <surname
->Mutlaq</surname
-> <affiliation
-><address>
-</address
-></affiliation>
+<author>
+<firstname>Jasem</firstname>
+<surname>Mutlaq</surname>
+<affiliation><address>
+</address></affiliation>
 </author>
 </sect1info>
 
-<title
->Leuchtkraft</title>
-<indexterm
-><primary
->Leuchtkraft</primary>
-<seealso
->Energiefluss</seealso>
+<title>Luminosity</title>
+<indexterm><primary>Luminosity</primary>
+<seealso>Flux</seealso>
 </indexterm>
 
-<para
-><firstterm
->Leuchtkraft</firstterm
-> ist die Menge an Energie, die von einem Stern pro Sekunde ausgesandt wird. </para>
+<para>
+<firstterm>Luminosity</firstterm> is the amount of energy emitted by a star each second.
+</para>
 
-<para
->Alle Sterne senden Licht in einem weiten Bereich von Frequenzen im elektromagnetischen Bereich von niedrigenergetischen Radiowellen bis zu hochenergetischen Gammastrahlen. Ein Stern, der vorwiegend im ultravioletten Bereich des Spektrums strahlt, erzeugt eine größere Menge an Energie als einer, der vorwiegend im infraroten Bereich strahlt. Deshalb ist die Leuchtkraft eine Messung der ausgesandten Energie über alle Wellenlängen. Die Gleichung für das Verhältnis zwischen Wellenlänge und Energie wurde von Einstein als E = h * f bezeichnet, wobei f die Frequenz ist, h das Planck'sche Wirkungsquantum und E die Photonenenergie in Joule. Das bedeutet, das kürzere Wellenlängen (und daher höhere Frequenzen) höheren Energien entsprechen. </para>
+<para>
+All stars radiate light over a broad range of frequencies in the electromagnetic spectrum from the low energy radio waves up to the highly energetic gamma rays. A star that emits predominately in the ultra-violet region of the spectrum produces a total amount of energy magnitudes larger than that produced in a star that emits principally in the infrared.
+Therefore, luminosity is a measure of energy emitted by a star over all wavelengths. The relationship between wavelength and energy was quantified by Einstein as
+E = h * v
+where v is the frequency, h is the Planck constant, and E is the photon energy in joules.
+That is, shorter wavelengths (and thus higher frequencies) correspond to higher energies.
+</para>
 
-<para
->Zum Beispiel liegt eine Wellenlänge von lambda = 10 m im Radiobereich des elektromagnetischen Spektrums und hat eine Frequenz von f = c / lambda = 3 * 10<superscript
->8</superscript
-> m/s / 10 = 30 MHz, wobei c die Lichtgeschwindigkeit ist. Die Energie dieses Photons ist E = h * f = 6,625 * 10<superscript
->-34</superscript
-> J s * 30 Mhz = 1,988 * 10<superscript
->-26</superscript
-> Joule. Zum anderen hat sichtbares Licht viel kürzere Wellenlängen und höhere Frequenzen. Ein Photon mit einer Wellenlänge von lambda = 5 * 10<superscript
->-9</superscript
-> m (ein grünes Photon) hat eine Energie von E = 3,975 * 10<superscript
->-17</superscript
-> Joule, was eine Milliarde Mal größer als die Energie des Radiophotons ist. Genauso hat ein Photon des roten Lichts (Wellenlänge lambda = 700nm) weniger Energie als ein Photon des violetten Lichts (Wellenlänge lambda = 400 nm). </para>
+<para>
+For example, a wavelength of lambda = 10 meter lies in the radio region of the electromagnetic spectrum and has a frequency of
 
-<para
->Die Leuchtkraft hängt sowohl von der Temperatur als auch von der Oberfläche ab. Das ist logisch, da ein brennendes Stück Holz mehr Energie aussendet als ein Streichholz, beide aber die gleiche Temperatur haben. Genauso sendet eine Eisenstange mehr Energie aus, wenn sie auf 2000 Grad erhitzt wurde, als wenn sie nur auf 200 Grad erhitzt wurde. </para>
+f = c / lambda = 3 * 10<superscript>8</superscript> m/s / 10 = 30 MHz
 
-<para
->Die Leuchtkraft ist eine sehr fundamentale Menge in der Astronomie und der Astrophysik. Sehr viele Erkenntnisse über Himmelsobjekte werden über deren Licht gewonnen. Dies ist möglich, da physikalische Prozesse im Inneren über das Licht sozusagen aufgezeichnet und übertragen werden. Die Leuchtkraft wird in Energieeinheiten pro Sekunde gemessen. Astronomen benutzen lieber Ergs als Watt, wenn sie die Leuchtkraft messen wollen. </para>
+where c is the speed of light.
+The energy of this photon is
+
+E = h * v = 6.625 * 10<superscript>-34</superscript> J s * 30 Mhz = 1.988 * 10<superscript>-26</superscript> joules.
+
+On the other hand, visible light has much shorter wavelengths and higher frequencies. A photon that has a wavelength of lambda = 5 * 10<superscript>-9</superscript> meters (A greenish photon) has an energy
+E = 3.975 * 10<superscript>-17</superscript> joules which is over a billion times higher than the energy of a radio photon. Similarly, a photon of red light (wavelength lambda = 700 nm) has less energy
+than a photon of violet light (wavelength lambda = 400 nm).
+</para>
+
+<para>
+Luminosity depends both on temperature and surface area. This makes sense because a burning log radiates more energy than a match, even though both have the same temperature.
+Similarly, an iron rod heated to 2000 degrees emits more energy than when it is heated to only 200 degrees.
+</para>
+
+<para>
+Luminosity is a very fundamental quantity in Astronomy and Astrophysics. Much of what is learnt about celestial objects comes from analyzing their light. This is because the physical processes that occur inside stars gets recorded and transmitted by light.
+Luminosity is measured in units of energy per second. Astronomers prefer to use Ergs, rather than Watts, when quantifying luminosity.
+</para>
 </sect1>

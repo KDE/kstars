@@ -1,28 +1,35 @@
 <sect1 id="ai-epoch">
 <sect1info>
-<author
-><firstname
->Akarsh</firstname
-> <surname
->Simha</surname
-> </author>
+<author>
+<firstname>Akarsh</firstname>
+<surname>Simha</surname>
+</author>
 </sect1info>
-<title
->Epoche</title>
-<indexterm
-><primary
->Epoche</primary
-></indexterm>
-<para
->Eine Epoche ist ein bestimmter Zeitpunkt, normalerweise in der Vergangenheit, der als Bezug für Zeitmessungen in der Astronomie verwendet wird. Um Berechnungen zu vereinfachen, benutzen Astronomen die Anzahl der Tage, die seit einem bestimmten Datum vergangen ist, zur Darstellung der Zeit in astronomischen Berechnungen. Dieser willkürlich gewählte Startpunkt als Bezug für die Zeit wird Epoche genannt. </para>
-<para
->Eine Epoche wird normalerweise zusammen mit <link linkend="equatorial"
-> äquatorialen Koordinaten</link
-> in astronomischen Katalogen angegeben, da sich die äquatorialen Koordinaten von Himmelsobjekten mit der Zeit langsam ändern. Gedruckte Sterndiagramme oder Sternatlanten werden üblicherweise für eine bestimmte Epoche herausgegeben. </para>
-<para
->Die am häufigsten benutze Epoche ist zurzeit „J2000.0“, das <link linkend="ai-julianday"
->Julianische Jahr</link
-> 2000.0, die ziemlich genau dem 1. Januar 2000 um 12 Uhr Mittag UTC entspricht. Andere verwendete Epochen sind B1900 und B1950. </para>
-<para
->&kstars; unterstützt Kataloge auf der Basis der Epochen J2000.0 und B1950.0. </para>
+<title>Epoch</title>
+<indexterm><primary>Epoch</primary></indexterm>
+<para>
+An epoch is a certain instant of time (usually past) used as a
+reference for time measurement in astronomy. In order to make
+calculations easier, astronomers usually use the number of days that
+have passed since a certain moment in time as a way of representing
+time in astronomical calculations. This arbitrarily chosen "starting
+point" reference for time is called an epoch.
+</para>
+<para>
+An epoch is usually cited along
+with <link linkend="equatorial">equatorial
+coordinates</link> in astronomical catalogs, since the equatorial
+coordinates of sky objects change (although slowly) with time. Printed
+star charts / atlases are usually marked as being valid for a certain
+epoch.
+</para>
+<para>
+The most popular epoch used currently is J2000.0,
+(the <link linkend="ai-julianday">Julian year</link> 2000.0), which
+(almost exactly) corresponds to 1st January 2000, 12:00 noon
+UTC. Other epochs include B1900 and B1950.
+</para>
+<para>
+&kstars; supports catalogs based on J2000.0 and B1950.0 epochs.
+</para>
 </sect1>

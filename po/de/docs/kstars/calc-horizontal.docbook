@@ -1,44 +1,33 @@
 <sect2 id="calc-horiz">
-<title
->Modul <quote
->Horizontale Koordinaten</quote
-></title>
-<indexterm
-><primary
->Hilfsmittel</primary>
-<secondary
->Astrorechner</secondary>
-<tertiary
->Modul <quote
->Horizontale Koordinaten</quote
-></tertiary>
+<title>Horizontal Coordinates module</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+<tertiary>Horizontal Coordinates module</tertiary>
 </indexterm>
 
 <screenshot>
-<screeninfo
->Das Rechnermodul <quote
->Horizontale Koordinaten</quote
-> </screeninfo>
+<screeninfo>
+The Horizontal Coordinates calculator module
+</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="calc-horizontal.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase
->Horizontale Koordinaten</phrase>
+    <phrase>Horizontal Coordinates</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
-<para
->Dieses Modul konvertiert <link linkend="equatorial"
->äquatoriale Koordinaten</link
-> in <link linkend="horizontal"
->horizontale Koordinaten</link
->. Wählen Sie zunächst Datum, Zeit und Ortskoordinaten für die Berechnung. Dann geben Sie die äquatorialen Koordinaten im Abschnitt <guilabel
->Äquatoriale Koordinaten</guilabel
-> ein. Die entsprechenden horizontalen Koordinaten werden berechnet und im Abschnitt <guilabel
->Horizontale Koordinaten</guilabel
-> angezeigt. </para>
+<para>
+This module converts from <link linkend="equatorial">Equatorial
+coordinates</link> to <link linkend="horizontal">Horizontal
+coordinates</link>.  First, select the date, time, and
+geographic coordinates for the calculation.  Then, fill in the
+equatorial coordinates to be converted or use the <guilabel>Find Object</guilabel> dialog
+in the <guilabel>Equatorial Coordinates (J2000)</guilabel> section.
+The corresponding Horizontal coordinates will be presented in
+the <guilabel>Horizontal Coordinates</guilabel> section.
+</para>
 </sect2>
 

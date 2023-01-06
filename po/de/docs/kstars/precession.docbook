@@ -1,58 +1,54 @@
 <sect1 id="ai-precession">
 <sect1info>
-<author
-><firstname
->Jason</firstname
-> <surname
->Harris</surname
-> </author>
+<author>
+<firstname>Jason</firstname>
+<surname>Harris</surname>
+</author>
 </sect1info>
-<title
->Kreiselbewegung</title>
-<indexterm
-><primary
->Kreiselbewegung</primary>
+<title>Precession</title>
+<indexterm><primary>Precession</primary>
 </indexterm>
-<para
->Die <firstterm
->Kreiselbewegung</firstterm
-> ist die allmähliche Änderung der Richtung der Drehachse der Erde. Die Drehachse folgt einem Kegel und vollendet einen Umlauf in 26.000 Jahren. Wenn Sie jemals einen Kreisel gedreht haben, ist die <quote
->schwankende</quote
-> Drehung der Spitze während der Bewegung eine Kreiselbewegung. </para
-><para
->Da sich die Richtung der Drehachse verändert, ändern sich auch die Positionen der <link linkend="ai-cpoles"
->Himmelspole</link
->. </para
-><para
->Der Grund für die Kreiselbewegung der Erde ist kompliziert. Die Erde ist keine perfekte Kugel, sie ist ein bisschen abgeflacht, was bedeutet, dass der <link linkend="ai-greatcircle"
->Großkreis</link
-> des Äquators länger ist als ein <quote
->meridianischer</quote
-> Großkreis, der durch die Pole geht. Zudem liegen der Mond und die Sonne außerhalb der äquatorialen Fläche. Ein Ergebnis daraus ist, dass der Gravitationseinfluss des Mondes und der Sonne auf die abgeplattete Erde zusätzlich zur linearen Kraft einen leichtes <emphasis
->Drehmoment</emphasis
-> hervorruft. Dieses Drehmoment des drehenden Körpers der Erde führt zu dieser Kreiselbewegung. </para>
+<para>
+<firstterm>Precession</firstterm> is the gradual change in the direction of the
+Earth's spin axis. The spin axis traces a cone, completing a full circuit in
+26,000 years. If you have ever spun a top or a dreidel, the
+<quote>wobbling</quote> rotation of the top as it spins is precession.
+</para><para>
+Because the direction of the Earth's spin axis changes, so does the location of
+the <link linkend="ai-cpoles">Celestial Poles</link>.
+</para><para>
+The reason for the Earth's precession is complicated.  The Earth is not a
+perfect sphere, it is a bit flattened, meaning the
+<link linkend="ai-greatcircle">Great Circle</link> of the equator is longer
+than a <quote>meridonal</quote> great circle that
+passes through the poles.  Also, the Moon and Sun lie outside the Earth's
+Equatorial plane.  As a result, the gravitational pull of the Moon and Sun on
+the oblate Earth induces a slight <emphasis>torque</emphasis> in addition to a
+linear force. This torque on the spinning body of the Earth leads to the
+precessional motion.
+</para>
 <tip>
-<para
->Übung:</para>
-<para
->Die Kreiselbewegung ist am einfachsten zu sehen, indem sie die <link linkend="ai-cpoles"
->Himmelspole</link
-> beobachten. Um die Pole zu finden, schalten Sie zuerst in das äquatoriale Koordinatensystem im Menü <guilabel
->&kstars; einrichten</guilabel
-> und halten Sie die Taste <keycap
->Pfeil hoch</keycap
-> gedrückt, bis die Ansicht sich nicht mehr bewegt. Die Deklination, die mitten im <guilabel
->Infofeld</guilabel
-> angezeigt wird, sollte +90 Grad sein und der helle Polarstern (lat. <quote
->Polaris</quote
->) sollte sich fast in der Mitte des Bildschirms befinden. Probieren Sie die Pfeiltasten nach links und rechts aus. Beachten Sie, dass der Himmel um den Pol herum zu rotieren scheint. </para
-><para
->Wir werden nun die Kreiselbewegung demonstrieren, indem wir das Datum auf ein sehr weit entfernte Zeit stellen und beobachten, dass der Ort des Himmelspols nicht mehr in der Nähe des Polarsterns ist. Öffnen Sie das <guilabel
->Zeit einstellen</guilabel
->-Fenster (<keycombo action="simul"
->&Ctrl;<keycap
->S</keycap
-></keycombo
->) und setzen Sie das Datum auf das Jahr 8000 (zurzeit kann &kstars; keine weiter entfernten Daten behandeln, aber dieses Datum reicht für unsere Zwecke). Beachten Sie, dass die Himmelsanzeige nun auf einen Punkt zwischen den Sternbildern Schwan und Cepheus zentriert ist. Überzeugen Sie sich davon, dass das wirklich der Pol ist, indem Sie nach links und rechts schwenken: Der Himmel rotiert um diesen Punkt. Im Jahr 8000 wird der Himmelsnordpol nicht länger in der Nähe des Polarsterns sein! </para>
+<para>Exercise:</para>
+<para>
+Precession is easiest to see by observing the <link
+linkend="ai-cpoles">Celestial Pole</link>.  To find the pole, first switch to
+Equatorial Coordinates in the <guilabel>Configure - &kstars;</guilabel> window, and
+then hold down the &Up; arrow key until the display stops
+scrolling.  The declination displayed in the center of the
+<guilabel>Info Panel</guilabel> should be +90 degrees, and the bright star
+Polaris should be nearly at the center of the screen.  Try slewing with the left
+and right arrow keys. Notice that the sky appears to rotate around the Pole.
+</para><para>
+We will now demonstrate Precession by changing the Date to a very remote year,
+and observing that the location of the Celestial Pole is no longer near Polaris.
+Open the <guilabel>Set Time</guilabel> window
+(<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>), and set the date
+to the year 8000 (currently, &kstars; cannot handle dates much more remote than
+this, but this date is sufficient for our purposes).  Notice that the sky
+display is now centered at a point between the constellations Cygnus and
+Cepheus.  Verify that this is actually the pole by slewing left and right: the
+sky rotates about this point; in the year 8000, the North celestial pole will no
+longer be near Polaris.
+</para>
 </tip>
 </sect1>

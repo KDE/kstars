@@ -1,51 +1,59 @@
 <sect2 id="calc-geodetic">
-<title
->Modul <quote
->Geodätische Koordinaten</quote
-></title>
-<indexterm
-><primary
->Hilfsmittel</primary>
-<secondary
->Astrorechner</secondary>
-<tertiary
->Modul <quote
->Geodätische Koordinaten</quote
-></tertiary>
+<title>Geodetic Coordinates module</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+<tertiary>Geodetic Coordinates module</tertiary>
 </indexterm>
 
 <screenshot>
-<screeninfo
->Das Rechnermodul <quote
->Geodätische Koordinaten</quote
-> </screeninfo>
+<screeninfo>
+The Geodetic Coordinates calculator module
+</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="calc-geodetic.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase
->Geodätische Koordinaten</phrase>
+    <phrase>Geodetic Coordinates</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
-<para
->Das normale <link linkend="ai-geocoords"
->geografische Koordinatensystem</link
-> nimmt an, dass die Erde eine perfekte Kugel ist. Das ist fast richtig, also sind für die meisten Zwecke die geografischen Koordinaten ausreichend. Wenn hohe Präzision gefragt ist, müssen wir die wahre Gestalt der Erde in Betracht ziehen. Die Erde ist ein Ellipsoid, die Strecke um den Äquator ist ungefähr 0,3 % länger als ein <link linkend="ai-geocoords"
->Großkreis</link
->, der durch die Pole verläuft. Das <link linkend="ai-greatcircle"
->geodätische Koordinatensystem</link
-> berücksichtigt diese ellipsoide Gestalt und gibt die Position auf der Erdoberfläche in kartesischen Koordinaten (X, Y und Z) an. </para>
-<para
->Um dieses Modul zu benutzen, geben Sie zuerst im Abschnitt <guilabel
->Eingabekoordinaten auswählen</guilabel
-> an, welche Koordinaten als Eingabe dienen sollen. Dann geben Sie entweder im Abschnitt <guilabel
->Kartesische Koordinaten</guilabel
-> oder im Abschnitt <guilabel
->Geografische Koordinaten</guilabel
-> die Werte an. Wenn Sie den Knopf <guibutton
->Konvertieren</guibutton
-> drücken, werden die entsprechenden Koordinaten ausgefüllt. </para>
+<para>
+The normal <link linkend="ai-geocoords">geographic coordinate
+system</link> assumes that the Earth is a perfect sphere.  This is
+nearly true, so for most purposes geographic coordinates are fine.
+If very high precision is required, then we must take the true shape
+of the Earth into account.  The Earth is an ellipsoid; the distance
+around the equator is about 0.3% longer than a <link
+linkend="ai-greatcircle">Great Circle</link> that passes through the
+poles.  The <firstterm>Geodetic Coordinate system</firstterm> takes
+this ellipsoidal shape into account, and expresses the position
+on the Earth's surface in Cartesian coordinates (X, Y and Z) or in
+Geographic coordinates (Longitude, Latitude and Elevation).
+</para>
+
+<para>
+To use the module, first select which coordinates you will use as
+input in the <guilabel>Select Input Coordinates</guilabel> section: <guilabel>Cartesian</guilabel>
+or <guilabel>Geographic</guilabel> radio buttons.
+Then select an ellipsoid model and fill
+in the input coordinates in either the <guilabel>Cartesian
+Coordinates</guilabel> section or the <guilabel>Geographic
+Coordinates</guilabel> section.  When you press the
+<guibutton>Convert</guibutton> button, the corresponding
+coordinates will be filled in.
+</para>
+
+<para>
+The module contains a batch mode for converting several coordinate
+values at once.  You must construct an input file in which each line
+contains up to three numbers: the input coordinate values (either Cartesian
+or Geographic).  Then specify which coordinates you are using as input,
+and identify the input and output filenames.  Finally, press the
+<guibutton>Run</guibutton> button to generate the output file,
+which will contain the converted coordinates (Cartesian or
+Geographic; the complement of what you chose as the input values).
+</para>
+
 </sect2>

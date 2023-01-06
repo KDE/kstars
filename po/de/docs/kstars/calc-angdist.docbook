@@ -1,43 +1,44 @@
 <sect2 id="calc-angdist">
-<title
->Modul <quote
->Winkeldistanz</quote
-></title>
-<indexterm
-><primary
->Hilfsmittel</primary>
-<secondary
->Astrorechner</secondary>
-<tertiary
->Modul <quote
->Winkeldistanz</quote
-></tertiary>
+<title>Angular Distance module</title>
+<indexterm><primary>Tools</primary>
+<secondary>Astrocalculator</secondary>
+<tertiary>Angular Distance module</tertiary>
 </indexterm>
 
 <screenshot>
-<screeninfo
->Das Rechnermodul <quote
->Winkeldistanz</quote
-> </screeninfo>
+<screeninfo>
+The Angular Distance calculator module
+</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="calc-angdist.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase
->Winkeldistanz</phrase>
+    <phrase>Angular Distance</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
-<para
->Mit dem Modul Winkeldistanz können Sie den Winkel zwischen zwei beliebigen Punkten am Himmel messen. Geben Sie einfach die <link linkend="equatorial"
->Äquatorialen Koordinaten</link
-> der beiden gewünschten Punkte ein und Sie erhalten den Winkel zwischen den beiden Punkten. </para>
-<para
->Es gibt auch einen Stapelverarbeitungsmodus für dieses Modul. Erstellen Sie einfach eine Eingabedatei mit vier Zahlen in jeder Zeile: die Werte für Rekt. und Dekl. des Punktepaares. Alternativ können sie einen einzelnen Wert für jeden dieser vier Koordinaten in der Rechner-Kontrollleiste eingeben (der zugehörige Wert in der Eingabedatei wird dann übersprungen, wenn bereits im Rechner eingeben).  </para>
-<para
->Wenn Sie die Namen der Eingabedatei und der Ausgabedatei eingegeben haben, drücken Sie einfach auf den Knopf <guibutton
->Starten</guibutton
-> und erzeugen damit die Ausgabedatei. </para>
+<para>
+The Angular Distance tool is used to measure the angle between any
+two points on the sky.  You simply specify the
+<link linkend="equatorial">Equatorial coordinates</link> of the
+desired pair of points, and then obtain the angle between
+the two points.
+</para>
+<para>
+There is also a Batch mode for this module.  In batch mode, you
+specify an input filename which contains a number of parameters (up to four) on each line:
+the initial right ascension (RA), initial declination (Dec), final right ascension and
+final declination. By default, each line should contain four numbers signifying
+the RA and Dec values for pairs of points.  Alternatively, you can
+specify a single value for any of these four coordinates in
+the calculator panel (the corresponding values in the input file
+should be skipped if they are specified in the calculator).
+</para>
+<para>
+Once you have specified the input filename and an output filename,
+simply press the <guibutton>Run</guibutton> button to generate the
+output file.
+</para>
 </sect2>

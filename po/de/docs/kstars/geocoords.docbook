@@ -1,66 +1,56 @@
 <sect1 id="ai-geocoords">
 <sect1info>
-<author
-><firstname
->Jason</firstname
-> <surname
->Harris</surname
-> </author>
+<author>
+<firstname>Jason</firstname>
+<surname>Harris</surname>
+</author>
 </sect1info>
-<title
->Geografische Koordinaten</title>
-<indexterm
-><primary
->Geografisches Koordinatensystem</primary
-></indexterm>
-<indexterm
-><primary
->Längengrad</primary
-><see
->Geografisches Koordinatensystem</see
-></indexterm>
-<indexterm
-><primary
->Breitengrad</primary
-><see
->Geografisches Koordinatensystem</see
-></indexterm>
-<para
->Standorte auf der Erde können mit einem sphärischen Koordinatensystem angegeben werden. Das geografische (<quote
->erd-abbildende</quote
->) Koordinatensystem ist an der Drehachse der Erde ausgerichtet. Es definiert zwei Winkel, die vom Zentrum der Erde gemessen werden. Ein Winkel, genannt <firstterm
->Breitengrad</firstterm
->, misst den Winkel zwischen einem Punkt und dem Äquator. Der andere Winkel, genannt <firstterm
->Längengrad</firstterm
->, misst den Winkel <emphasis
->entlang</emphasis
-> des Äquators von einem beliebigen Punkt auf der Erde (Greenwich, England ist als Nullpunkt für den Längengrad in fast allen modernen Gesellschaften akzeptiert). </para
-><para
->Indem man diese beiden Winkel kombiniert, kann man jeden Ort auf der Erde angeben. Zum Beispiel hat Baltimore, Maryland (USA) den Breitengrad von 39,3 Grad Nord und eine Längengrad von 76,6 Grad West. Also wird ein Vektor, der vom Erdmittelpunkt in einem Winkel von 39,3 Grad über dem Äquator und 76,6 Grad westlich von Greenwich, England gezogen wird, Baltimore durchqueren. </para
-><para
->Der Äquator ist offensichtlich ein wichtiger Teil des Koordinatensystems, er stellt den <emphasis
->Nullpunkt</emphasis
-> des Breitengrades dar und die Hälfte des Weges zwischen den Polen. Der Äquator ist die <firstterm
->Bezugsfläche</firstterm
-> des geografischen Koordinatensystems. <link linkend="ai-skycoords"
->Alle sphärischen Koordinatensysteme</link
-> definieren solch eine Bezugsfläche. </para
-><para
->Linien gleichen Breitengrades werden <firstterm
->Parallelen</firstterm
-> genannt. Sie bilden Kreise auf der Erdoberfläche, aber die einzige Parallele, die ein <link linkend="ai-greatcircle"
->Großkreis</link
-> ist, ist der Äquator (Breite = 0 Grad). Linien von gleicher Länge werden <firstterm
->Meridiane</firstterm
-> genannt. Der Meridian, der durch Greenwich läuft, ist der <firstterm
->Nullmeridian</firstterm
-> (Länge = 0 Grad). Im Gegensatz zu den Parallelen sind alle Meridiane Großkreise und sind nicht parallel, sie schneiden sich im Nord- und Südpol. </para>
+<title>Geographic Coordinates</title>
+<indexterm><primary>Geographic Coordinate System</primary></indexterm>
+<indexterm><primary>Longitude</primary><see>Geographic Coordinate System</see></indexterm>
+<indexterm><primary>Latitude</primary><see>Geographic Coordinate System</see></indexterm>
+<para>
+Locations on Earth can be specified using a spherical coordinate system.
+The geographic (<quote>earth-mapping</quote>) coordinate system is aligned
+with the spin axis of the Earth.  It defines two angles measured from
+the center of the Earth.  One angle, called the <firstterm>Latitude</firstterm>,
+measures the angle between any point and the Equator.  The other angle, called
+the <firstterm>Longitude</firstterm>, measures the angle
+<emphasis>along</emphasis> the Equator from an arbitrary point on the Earth
+(Greenwich, England is the accepted zero-longitude point in most modern
+societies).
+</para><para>
+By combining these two angles, any location on Earth can be specified.
+For example, Baltimore, Maryland (USA) has a latitude of 39.3 degrees
+North, and a longitude of 76.6 degrees West.  So, a vector drawn from
+the center of the Earth to a point 39.3 degrees above the Equator and
+76.6 degrees west of Greenwich, England will pass through Baltimore.
+</para><para>
+The Equator is obviously an important part of this coordinate system; it
+represents the <emphasis>zeropoint</emphasis> of the latitude angle, and the
+halfway point between the poles.  The Equator is the <firstterm>Fundamental
+Plane</firstterm> of the geographic coordinate system.  <link
+linkend="ai-skycoords">All Spherical Coordinate Systems</link> define such a
+Fundamental Plane.
+</para><para>
+Lines of constant Latitude are called <firstterm>Parallels</firstterm>.  They
+trace circles on the surface of the Earth, but the only parallel that is a <link
+linkend="ai-greatcircle">Great Circle</link> is the Equator (Latitude=0
+degrees).    Lines of constant Longitude are called
+<firstterm>Meridians</firstterm>.  The Meridian passing through Greenwich is the
+<firstterm>Prime Meridian</firstterm> (longitude=0 degrees).  Unlike Parallels,
+all Meridians are great circles, and Meridians are not parallel: they intersect
+at the north and south poles.
+</para>
 <tip>
-<para
->Übung:</para>
-<para
->Auf welchem geografischen Längengrad liegt der Nordpol? Sein Breitengrad beträgt 90 Grad Nord. </para>
-<para
->Das ist eine Scherzfrage. Die Längengrad ist am Nordpol (und auch am Südpol) bedeutungslos. Die Pole haben alle Längengrade gleichzeitig. </para>
+<para>Exercise:</para>
+<para>
+What is the longitude of the North Pole?  Its latitude
+is 90 degrees North.
+</para>
+<para>
+This is a trick question.  The Longitude is meaningless at the north pole (and the
+south pole too).  It has all longitudes at the same time.
+</para>
 </tip>
 </sect1>

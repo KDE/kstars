@@ -1,0 +1,431 @@
+<sect2 id="ekos-scheduler">
+    <title>Scheduler</title>
+    <indexterm>
+        <primary>Tools</primary>
+        <secondary>Ekos</secondary>
+        <tertiary>Scheduler</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo>
+            Ekos Scheduler Module
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_scheduler.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Ekos Scheduler Module</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <sect3 id="ekos-scheduler-introduction">
+        <title>Introduction</title>
+        <para>
+            Ekos Scheduler is an indispensable arsenal in building your robotic observatory. A Robotic observatory is an observatory composed of several subsystems that are orchestrated together to achieve a set of scientific objectives without human intervention. It is the only Ekos module that does not require Ekos to be started as it is utilized to <emphasis>start</emphasis> and <emphasis>stop</emphasis> Ekos. It is designed to be straightforward and intuitive. However, the scheduler should only be used after you mastered Ekos and knows all the quirks of your equipment. Since the complete process is automated, including focus, guiding, and meridian flip, all equipment should be thoroughly used with Ekos and all their parameters and settings adjusted to achieve the best result.
+        </para>
+        <para>
+            With Ekos, the user can utilize the powerful sequence queue to image batches of images for a particular target. In simple setups, the user is expected to focus the CCD, align the mount, frame the target, and start guiding before initiating the capture process. For more complex observatory environments, there are usually predefined custom procedures to be executed to prepare the observatory for imaging, and another set of procedures on shutdown. The user may plan to image one or more targets during the night and expects data to be ready by morning. In &kstars;, tools such as the <link linkend="tool-obsplanner">Observation Planner</link> and <link linkend="tool-whatsup">What's up Tonight</link> help the user in selecting candidates for imaging. After selecting the desired candidates, the user can add them to the Ekos Scheduler list for evaluation. The user may also add the targets directly in Ekos scheduler or select a FITS file of a previous image.
+        </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-settings">
+        <title>Settings</title>
+        <para>
+            Ekos Scheduler provides a simple interface to aid the user in setting the conditions and constraints required for an observation job. Each observation job is composed of the following:
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <guilabel>Target name and coordinates</guilabel>: Select target from the <link linkend="findobjects">Find Dialog</link> or <guibutton>Add</guibutton> it from <link linkend="tool-obsplanner">Observation Planner</link>. You can also enter a custom name.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Optional <guilabel>FITS File</guilabel>: If a FITS file is specified, the astrometry solver shall solve the file and use the central RA/DEC as the target coordinates.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Sequence</guilabel> file: The sequence file is constructed in the Ekos <link linkend="ekos-capture">Capture Module</link>. It contains the number of images to capture, filters, temperature settings, prefixes, download directory, &etc;
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Priority</guilabel>: Set job priority in the range of 1 to 20 where 1 designates the highest priority and 20 the lowest priority. Priority is applied in calculating the weight used to select the next target to image.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Profile</guilabel>: Select which equipment profile to utilize when starting Ekos. If Ekos &amp; INDI are already started and online, this selection is ignored.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Steps</guilabel>: The user selects which Ekos modules should be utilized in the observation job execution workflow.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Startup Conditions</guilabel>: Conditions that must be met <emphasis role="bold">before</emphasis> the observation job is started. Currently, the user may select to start as soon as possible, <guimenuitem>ASAP</guimenuitem>, or when the target is near or past culmination, or at a specific time.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Constraints</guilabel>: Constraints are conditions that must be met <emphasis role="bold">at all times</emphasis> during the observation job execution process. These include minimum target altitude, minimum moon separation, twilight observation, artificial horizon altitude constraints, and weather monitoring.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Completion Conditions</guilabel>: Conditions that trigger completion of the observation job. The default selection is to simply mark the observation job as complete once the sequence process is complete. Additional conditions enable the user to repeat the sequence process indefinitely or up until a specific time.
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para>
+            You must select the <guilabel>Target</guilabel> and <guilabel>Sequence</guilabel> before you can add a job to the Scheduler. When the scheduler starts, it evaluates all jobs in accord to the conditions and constraints specified and attempts to select the best job to execute. Selection of the job depends on a simple heuristic algorithm that scores each job given the conditions and constraints, each of which is weighted accordingly. If two targets have identical conditions and constraints, usually the higher priority target followed by higher altitude target is selected for execution. If no candidates are available at the current time, the scheduler goes into sleep mode and wakes up when the next job is ready for execution.
+        </para>
+        <screenshot>
+            <screeninfo>
+                Scheduler + Planner
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="scheduler_planner.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Scheduler + Planner</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+            The description above only tackles the <emphasis role="bold">Data Acquisition</emphasis> stage of the observatory workflow. The overall procedure typically utilized in an observatory can be summarized in three primary stages:
+        </para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    Startup
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Data Acquisition (including preprocessing and storage)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Shutdown
+                </para>
+            </listitem>
+        </orderedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-startup-procedure">
+        <title>Startup Procedure</title>
+        <para>
+            Startup procedure is unique to each observatory but may include:
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Turning on power to equipment
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Running safety/sanity checks
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Checking weather conditions
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Turning off light
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Fan/Light control
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Unparking dome
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Unparking mount
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    &etc;
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para>
+            Ekos Scheduler only initiates the startup procedure once the startup time for the first observation job is close (default <emphasis>lead</emphasis> time is 5 minutes before <emphasis>startup</emphasis> time). Once the startup procedure is completed successfully, the scheduler picks the observation job target and starts the sequence process. If a startup script is specified, it shall be executed first.
+        </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-data-acquisition">
+        <title>Data Acquisition</title>
+        <para>
+            Depending the on the user selection, the typical workflow proceeds as follows:
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Slew mount to target. If a FITS file was specified, it first solves the files and slew to the file coordinates.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Auto-focus target. The autofocus process automatically selects the best star in the frame and runs the autofocus algorithm against it.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Perform plate solving, sync mount, and slew to target coordinates.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Perform post-alignment focusing since the frame might have moved during the plate solving process.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Perform calibration and start auto-guiding: The calibration process automatically selects the best guide star, performs calibration, and starts the autoguide process.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Load the sequence file in the <link linkend="ekos-capture">Capture module</link> and start the imaging process.
+                </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-shutdown">
+        <title>Shutdown</title>
+        <para>
+            Once the observation job is completed successfully, the scheduler selects the next target. If the next target scheduled time is not due yet, the mount is parked until the target is ready. Furthermore, if the next scheduled target is not due for a user-configurable time limit, the scheduler performs a <emphasis>preemptive</emphasis> shutdown to preserve resources and performs the startup procedure again when the target is due.
+        </para>
+        <para>
+            If an unrecoverable error occurs, the observatory initiates shutdown procedure. If there is a shutdown script, it will be executed last.
+        </para>
+        <para>
+            The following video demonstrates an earlier version of the scheduler, but the basic principles still apply today:
+        </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/v8vIXD1kois"/>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase>Ekos Scheduler</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-weather-monitoring">
+        <title>Weather Monitoring</title>
+        <para>
+            Another critical feature of any remotely operated robotic observatory is weather monitoring. For weather updates, Ekos relies on the selected INDI weather driver to continuously monitor the weather conditions. For simplicity sake, the weather conditions can be summed in three states:
+        </para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    <emphasis role="bold">Ok</emphasis>: Weather conditions are clear and optimal for imaging.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <emphasis role="bold">Warning</emphasis>: Weather conditions are not clear, seeing is subpar, or partially obstructed and not suitable for imaging. Any further imaging process is suspended until the weather improves. Warning weather status does not pose any danger to the observatory equipment so the observatory is kept operational. The exact behavior to take under Warning status can be configured.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <emphasis role="bold">Alert</emphasis>: Weather conditions are detrimental to the observatory safety and shutdown must be initiated as soon as possible.
+                </para>
+            </listitem>
+        </orderedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+        <title>Startup &amp; Shutdown Scripts</title>
+        <para>
+            Due to the uniqueness of each observatory, Ekos enables the user to select startup and shutdown scripts. The scripts take care of any necessary procedures that must take place on startup and shutdown stages. On startup, Ekos executes the startup scripts and only proceeds to the remainder of the startup procedure (unpark dome/unpark mount) if the script completes successfully. Conversely, the shutdown procedure begins with parking the mount &amp; dome before executing the shutdown script as the final procedure.
+        </para>
+        <para>
+            Startup and shutdown scripts can be written any language that can be executed on the local machine. It must return 0 to report success, any other exist value is considered an error indicator. The script's standard output is also directed to Ekos logger window. The following is an sample demo startup script in Python:
+        </para>
+        <programlisting language="python">
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import time
+import sys
+
+print "Turning on observatory equipment..."
+sys.stdout.flush()
+
+time.sleep(5)
+
+print "Checking safety switches..."
+sys.stdout.flush()
+
+time.sleep(5)
+
+print "All systems are GO"
+sys.stdout.flush()
+
+exit(0)
+        </programlisting>
+        <para>
+            The startup and shutdown scripts must be <emphasis>executable</emphasis> in order for Ekos to invoke them (&eg; use <userinput>chmod +x startup_script.py</userinput> to mark the script as executable). Ekos Scheduler enables truly simple robotic operation without the need of any human intervention in any step of the process. Without human presence, it becomes increasingly critical to gracefully recover from failures in any stage of the observation run. Using &plasma; notifications, the user can configure audible alarms and email notifications for the various events in the scheduler.
+        </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-mosaic-Planner">
+        <title>Mosaic Planner</title>
+        <screenshot>
+            <screeninfo>
+                Mosaic Planner
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_planner.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Mosaic Planner</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+            Hubble-like super wide field images of <ulink url="http://darkskyart.com/?page_id=96">galaxies</ulink> and nebulae are truly awe-inspiring, and while it takes great skills to obtain such images and process them; many notable names in the field of astrophotography employ gear that is not <emphasis>vastly</emphasis> different from yours or mine. I emphasize <emphasis>vastly</emphasis> because some do indeed have impressive equipment and dedicated observatories worth tens of the thousands of dollars. Nevertheless, many amateurs can obtain stellar wide-field images by combining smaller images into a single grand mosaic.
+        </para>
+        <para>
+            We are often limited by our camera+telescope Field of View (FOV). By increasing FOV by means of a focal reducer or a shorter tube, we gain a larger sky coverage at the expense of spatial resolution. At the same time, many attractive wide-field targets span multiple FOVs across the sky. Without any changes to your astrophotography gear, it is possible to create a super mosaic image <emphasis>stitched</emphasis> together from several smaller images. There are two major steps to accomplish a super mosaic image:
+        </para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    Capture multiple images spanning the target with some overlap between images. The overlap is necessary to enable the processing software from aligning and joining the sub-images.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Process the images and <emphasis>stitch</emphasis> them into a super mosaic image.
+                </para>
+            </listitem>
+        </orderedlist>
+        <para>
+            The 2nd step is handled by image processing applications such as <ulink url="https://pixinsight.com">PixInsight</ulink>, among others, and will not be the topic of discussion here. The first step can be accomplished in Ekos Scheduler where it creates a mosaic suitable for your equipment and in accordance with the desired field of view. Not only Ekos creates the mosaic panels for your target, but it also constructs the corresponding observatory jobs required to capture all the images. This greatly facilitates the logistics of capturing many images with different filters and calibration frames across a wide area of the sky.
+        </para>
+        <para>
+            The <guilabel>Mosaic Planner</guilabel> in the Ekos Scheduler will create multiple Scheduler jobs based on a central target. To toggle the planner, click on the <guibutton>Mosaic Planner</guibutton> button in Ekos Scheduler or KStars INDI toolbar as illustrated in the screenshot. The planner draws the Mosaic Panel directly unto the sky map. It is recommended to enable HiPS overlay for the best experience. The planner is composed of four stages:
+        </para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    <emphasis role="bold">Confirm Equipment</emphasis>: Ekos attempts to load equipment settings from INDI. If unsuccessful, you need to enter your equipment settings including your telescope focal length in addition to camera's width, height, and pixel dimensions. The settings are saved for future sessions.
+                </para>
+            <screenshot>
+            <screeninfo>
+            Confirm Equipment
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_confirm_equipment.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Confirm Equipment</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para>
+                    <emphasis role="bold">Adjust Grid</emphasis>: Select the mosaic panel dimension and overlap percentage. The Mosaic Panel is updated accordingly on the sky map. Adjust the Position Angle to match the desired mosaic orientation in the sky. If the Position Angle is different from your camera's usual orientation, you may need to rotate the camera either manually or via a mechanized rotator when the scheduler jobs are executed. Tile transparency is automatically calculated by default but may be turned off and adjusted manually. To compute the mosaic field from the number of tiles, click the <guibutton>Cover FOV</guibutton> button. The mosaic panel can be centered in the sky map by clicking on the <guibutton>Recenter</guibutton> button.
+                </para>
+                <screenshot>
+            <screeninfo>
+            Select Grid
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_select_grid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Select Grid</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+            A large overlap will make frame stitching easier during post-processing, but it requires more panes to cover the desired extent. However, if you already know the minimal amount of sub-frames your rejection algorithm will use during post-processing, you may want to increase the overlap to attain that amount on the areas covered by multiple panes. For instance, a 4x4 mosaic grid with 75% overlap has 16 sub-frames covering the central intersection, which is enough for Winsorized Sigma rejection. Although the resulting stack does not have the same height on all parts of the final frame, this method gives you control on signal-to-noise ratio and allows you to provide context to your target while exposing a relatively low number of captures.
+        </para>
+        <para>
+            The large number drawn in the corner of each grid pane represents the order in which panes will be captured. The default S-shaped choice (west-east then alternating high-low/low-high moves), ensures minimal movement of the mount during observation. Uncheck <guilabel>Minimum mount move</guilabel> to revert to west-east/high-low movement only. The coordinates of each pane are rendered in their center as degrees, minutes and seconds. Finally, the angle each pane rotates from the center of the mosaic is displayed at the bottom. If your field of view is large, or if your mosaic is located close to a celestial pole, you may observe that rendered panes start rotating visibly due their horizontal position or high declination. Use the <guilabel>overlap</guilabel> to ensure panes cover the desired frame extents properly.
+        </para>
+        <screenshot>
+            <screeninfo>
+                Scheduler Mosaic Tool - Large rotation
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_close_pole.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Scheduler Mosaic Tool - Large rotation</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para>
+                    <emphasis role="bold">Adjust Grid</emphasis>: Adjust Grid center by manually entering the J2000 center or by dragging the center of the mosaic on the sky map.
+                </para>
+            <screenshot>
+            <screeninfo>
+            Adjust Grid
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_adjust_grid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Adjust Grid</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para>
+                    <emphasis role="bold">Create Jobs</emphasis>: The final step is to select the sequence file and directory to store the images. Target field is automatically filled but may be changed as desired. Select the steps each scheduler job should execute in sequence (Track -> Focus -> Align -> Guide -> Capture), and adjust the frequency of automatic alignment and focus routines that must be executed during the mosaic operation. For example, if <guilabel>Align Every</guilabel> is set to 2 Scheduler Jobs, then the first job will run the astrometry alignment, while the second job will skip it. When the third job is executed, alignment is performed again and so forth.
+                </para>
+            <screenshot>
+            <screeninfo>
+            Create Jobs
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_create_jobs.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Create Jobs</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+        </orderedlist>                
+        <para>
+            Click <guibutton>Create Jobs</guibutton> to generate mosaic scheduler jobs and add them to the schedule queue.
+        </para>
+    </sect3>
+</sect2>

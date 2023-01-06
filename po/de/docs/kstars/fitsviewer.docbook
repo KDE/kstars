@@ -1,121 +1,422 @@
 <sect1 id="tool-fitsviewer">
-<title
-><acronym
->FITS</acronym
->-Betrachter</title>
-<indexterm
-><primary
->Hilfsmittel</primary>
-<secondary
->FITS-Betrachter</secondary>
+<title><acronym>FITS</acronym> Viewer Tool</title>
+<indexterm><primary>Tools</primary>
+<secondary>FITS Viewer</secondary>
 </indexterm>
 
-<para
->Das Flexible Image Transport System (FITS) ist das Standardformat für die Darstellung von Bildern und Daten in der Astronomie.</para>
+<para>The Flexible Image Transport System (FITS) is the standard format for representing images and data in Astronomy.</para>
 
-<para
->Der FITS-Betrachter ist in &kstars; über <link linkend="indi"
->INDI</link
-> für die Anzeige und Bearbeitung der aufgenommenen FITS-Bilder innerhalb des Programms eingebunden. Außerdem können Sie die Bilddaten mit dem FITS-Betrachter nachbearbeiten. Um eine FITS-Datei zu öffnen, wählen Sie <guimenuitem
->FITS öffnen ...</guimenuitem
-> aus dem Menü <guimenu
->Datei</guimenu
-> oder drücken Sie <keycombo action="simul"
->&Ctrl;<keycap
->O</keycap
-></keycombo
->.</para>
-
-<para
->Eigenschaften des FITS-Betrachters:</para>
-<itemizedlist>
-  <listitem
-><para
->Unterstützung für 8, 16, 32, IEEE -32 und IEEE -64 Bitformate</para
-></listitem>
-  <listitem
-><para
->Histogramm mit Linearer, Logarithmischer oder Quadratwurzel-Skalierung.</para
-></listitem>
-  <listitem
-><para
->Einstellung von Helligkeit/Kontrast.</para
-></listitem>
-  <listitem
-><para
->Verschieben und Zoomen.</para
-></listitem>
-  <listitem
-><para
->Automatisches Abgleichen.</para
-></listitem>
-  <listitem
-><para
->Statistik.</para
-></listitem>
-  <listitem
-><para
->Abfrage der FITS-Kopfzeilen.</para
-></listitem>
-  <listitem
-><para
->Rückgängig/Wiederherstellen.</para
-></listitem>
-</itemizedlist>
+<para>The &kstars; FITS Viewer tool is automatically invoked when new images are received from the camera.
+It is primarily used to view and examine FITS data. It is not designed for editing of FITS Images.
+To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
+<guimenuitem>Open Image...</guimenuitem></menuchoice> menu item, or press 
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>.</para>
 
 <screenshot>
-  <screeninfo
->Der FITS-Betrachter</screeninfo>
+  <screeninfo>The FITS Viewer Tool</screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="fitsarea.png" format="PNG"/>
+      <imagedata fileref="fitsviewer.png" format="PNG"/>
     </imageobject>
     <textobject>
-      <phrase
->FITS-Betrachter</phrase>
+      <phrase>FITS Viewer Tool</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
 
-<para
->Das Diagramm zeigt den Arbeitsbereich und das Fenster des FITS-Betrachters, der grundlegende Funktionen für die Bildanzeige zur Verfügung stellt. Die FITS-Daten bleiben während der gesamten Bearbeitung, beim Öffnen und beim Speichern erhalten. Der Betrachter hält sich an den FITS-Standard, aber nicht alle FITS-Eigenschaften werden unterstützt:</para>
+<para>The above diagram illustrates the FITS Viewer work area and window. The tool provides basic functions for image display. FITS data depth is preserved throughout all processing, open, and save functions. While the tool adhere to the FITS standard, it does not support all possible FITS features:</para>
 <itemizedlist>
-  <listitem
-><para
->Unterstützt nur <emphasis
->ein</emphasis
-> Bild pro Datei.</para
-></listitem>
-  <listitem
-><para
->Unterstützt nur 2D-Daten. 1D und 3D-Daten werden nicht dargestellt.</para
-></listitem>
-  <listitem
-><para
->WCS (World Coordinate System - Welt-Koordinaten-System) wird nicht unterstützt.</para
-></listitem>
+  <listitem><para>Support for only <emphasis>one</emphasis> image per file.</para></listitem>
+  <listitem><para>Support for only 2D and 3D data. 1D data are discarded.</para></listitem>
 </itemizedlist>
+<para>The FITS Viewer window is divided into the following regions:</para>
+<orderedlist>
+    <listitem><para>Main Menu</para>
+        <itemizedlist>
+            <listitem><para>File</para>
+            <itemizedlist>
+                <listitem><para>Standard Open, Save, and Save As actions.</para></listitem>
+                <listitem><para>FITS Header: Display FITS header table data.</para></listitem>
+                <listitem><para>Debayer: Covert RAW image to RGB.</para></listitem>
+            </itemizedlist>
+            </listitem>
+            <listitem><para>Edit</para>
+            <itemizedlist>
+                <listitem><para>Undo: Undo last action.</para></listitem>
+                <listitem><para>Redo: Redo last action.</para></listitem>
+                <listitem><para>Copy: Copy image to clipboard.</para></listitem>
+            </itemizedlist>
+            </listitem>
+            <listitem><para>View</para>
+                <itemizedlist>
+                <listitem><para>Zoom Controls: Zoom in, Zoom out, standard Zoom.</para></listitem>
+                <listitem><para>Filters: Auto Stretch, Contrast, High Pass, Rotate, Flip.</para></listitem>
+                <listitem><para>Mark Stars: Detect and mark stars in the image.</para></listitem>
+            </itemizedlist>
+            </listitem>
+        </itemizedlist>
+    </listitem>
+    <listitem><para>Main Toolbar</para>
+            <itemizedlist>
+                <listitem><para>Open File.</para></listitem>
+                <listitem><para>Save File: Save FITS data. Any filters applied to the image will be saved.</para></listitem>
+                <listitem><para>Save File As.</para></listitem>
+                <listitem><para>Undo last action.</para></listitem>
+                <listitem><para>Redo last action.</para></listitem>
+                <listitem><para>Zoom In: Zoom in up to a maximum of 400%. For large images this operation can be very memory intensive. Turn on Limited Resource Mode to save memory.</para></listitem>
+                <listitem><para>Zoom Out.</para></listitem>
+                <listitem><para>View in Actual Size.</para></listitem>
+                <listitem><para>Zoom to fit.</para></listitem>
+                <listitem><para>Rotate Right.</para></listitem>
+                <listitem><para>Rotate Left.</para></listitem>
+                <listitem><para>Flip Horizontal.</para></listitem>
+                <listitem><para>Flip Vertical.</para></listitem>
+                <listitem><para>Show Cross Hairs: Toggles crosshairs in the center of the image.</para></listitem>
+                <listitem><para>Show Pixel Gridlines: Toggles pixel grid.</para></listitem>
+                <listitem><para>Show Equatorial Gridlines: Toggles Equatorial Grid if FITS contains a valid WCS header.</para></listitem>
+                <listitem><para>Show Objects in Image: Identifies objects such as stars, galaxies, and nebulae within the image.</para></listitem>
+                <listitem><para>Center Telescope: Toggle Center Telescope mode. When active and if the image contains a valid WCS header, clicking anywhere in the image triggers the telescope slewing to the clicked point.</para></listitem>
+                <listitem><para>Histogram: Toggle histogram view in the side panel.</para></listitem>
+                <listitem><para>Statistics: Toggle FITS Statistic view in the side panel.</para></listitem>
+                <listitem><para>Auto Stretch: Apply Auto Stretch filter to the image.</para></listitem>
+                <listitem><para>Toggle Selection Rectangle: Toggle selection rectangle for statistics of a region of interest.</para></listitem>
+            </itemizedlist>
+    </listitem>
+    <listitem><para>Side Panel: The side panel can be opened by dragging the separator to the right. When dragged to the left, the side panel can also be closed.</para>
+            <itemizedlist>
+                <listitem><para>Statistics: Displays image statistics including Minimum, Maximum, Average, and Median values.</para></listitem>
+                <listitem><para>Histogram: Displays image histogram with controls to adjust the minimum and maximum values for each channel. Both linear and logarithmic scalings are available to apply to the image.</para></listitem>
+                <listitem><para>FITS Header: Displays a table for FITS header keywords, values, and comments.</para></listitem>
+                <listitem><para>Recent Images: Displays recently opened images. Clicking on any image will load it.</para></listitem>
+            </itemizedlist>
+    </listitem>
+    <listitem><para>Image Display Area. Hovering over the image will update the status bar values accordingly.</para>
+    </listitem>
+    <listitem><para>Status Bar: From right to left, the following status indicators are available:</para>
+            <itemizedlist>
+                <listitem><para>Loading Indicator: The LED becomes yellow when an image is getting loaded and turns green after loading is successfully done. If there are problems with loading the image, it turns red.</para></listitem>
+                <listitem><para>Resolution: Image resolution in pixels.</para></listitem>
+                <listitem><para>Cartesian Coordinates: Displays and updates the current mouse position as you hover over the image. It include the X and Y position in addition to the current value.</para></listitem>
+                <listitem><para>Equatorial Coordinates: If the image contains a valid WCS header, the J2000 Right Ascension (RA) and declination (DE) values are displayed.</para></listitem>
+            </itemizedlist>
+    </listitem>
+</orderedlist>
+<para>
+    In addition to image display, the viewer can process World-Coordinate-System (WCS) header if present within the FITS file and provides useful information regarding the objects found within the image, equatorial grid overlay, popup menu, and the ability to slew the mount (if connected) to any point within the image.
+</para>
+<para>
+    Several filters can be applied to enhance the image include auto stretch and high contrast. Depending on the image size, these operations can take a few seconds to complete. The bottom status bar displays the current pixel value and current X &amp; Y coordinates of the mouse pointer within the image. Furthermore, it includes the current zoom level and the image resolution.
+</para>
+<para>
+    When loading a bayered image, the viewer can automatically debayer the image if <emphasis>Auto Debayer</emphasis> is checked in the FITS Settings. The debayering operation fetches the bayer pattern (&eg; RGGB) from the FITS header. If none exists, you can alter the debayering algorithm and pattern from the <guimenu>File</guimenu> menu or by using the <keycombo>&Ctrl; <keycap>D</keycap></keycombo> shortcut.
+</para>
+<para>
+    Since operations such as auto debayering and auto WCS are computationally expensive and stress the processor on low-powered embedded devices, you can toggle their behavior in <link linkend="fits-configure">&kstars; Settings FITS page</link>.
+</para>
+<screenshot>
+    <screeninfo>
+        FITS Settings
+    </screeninfo>
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="fits_settings.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+            <phrase>FITS Settings</phrase>
+        </textobject>
+    </mediaobject>
+</screenshot>
+<para>
+    Hovering over any option shall display a detailed tooltip that explains its function.
+</para>
+<sect2 id="fits-viewer-features">
+    <title>Features</title>
+    <itemizedlist>
+        <listitem>
+            <para>
+                Support for 8, 16, 32, IEEE-32, and IEEE-64 bits formats.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Support Color FITS images (3D Cubes) and Bayered FITS images.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Histogram with linear, logarithmic, and square-root scales.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Brightness/Contrast controls.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Pan and Zoom.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Auto levels.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Statistics.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Statistics for a region of interest(Rectangle).
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Rectangular and Equatorial Grids (if WCS info is present).
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Detection and highlight of stars.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                FITS header query.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Undo/Redo.
+            </para>
+        </listitem>
+    </itemizedlist>
+    <variablelist>
+        <varlistentry>
+            <term>Histogram</term>
+            <listitem>
+                <screenshot>
+                    <screeninfo>
+                        Histogram
+                    </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_histogram.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase>Histogram</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para>
+                    Displays multi-channel FITS histogram. The user can rescale the image by optionally defining an upper and lower limit for the cutoff region. The rescaling operation (linear, logarithmic, or square-root) may then be applied to the region enclosed by the upper and lower limits.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>FITS Header</term>
+            <listitem>
+                <para>
+                    Displays a read-only table listing FITS header keywords and values.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>Statistics</term>
+            <listitem>
+                <para>
+                    Provides simple statistics for minimum and maximum pixel values and their respective locations. FITS depth, dimension, mean, and standard deviation.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>Statistics of region of interest</term>
+            <listitem>
+                <screenshot>
+                    <screeninfo>
+                      FITSViewer 
+                    </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase>Selection Statistics</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para>
+                Provides simple statistics average mean, average standard deviation and average median of the selected region by the user in a tooltip.
+                </para>
+                <para>
+                The user can either set the selection region by <keycombo>&Shift;<keycap>Left Click</keycap></keycombo> dragging or by choosing an entry from the drop down menu of the Toggle Selection Rectangle button. In addition to this, the user can translate the region by simple <keycap>Left Click</keycap> drag of the mouse. The statistics of the region are shown as a tooltip once the cursor is brought over the selection region. For smaller images, the statistics are updated instantly, and for larger images, the statistics are updated once the user releases the <keycap>Left Click</keycap> button after modification of the region.
+                </para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</sect2>
 
-<para
->Im Folgendes eine kurze Beschreibung der Funktionen dieses Werkzeugs:</para>
-<itemizedlist>
-  <!-- not in 4.10
-  <listitem
-><para
->Brightness/Contrast: Adjusts brightness and contrast. The function can be CPU and memory intensive for very large FITS.</para
-></listitem>
-  -->
-  <listitem
-><para
->Histogramm: Zeigt das einkanalige FITS-Histogramm. Sie können das Diagramm durch die Festsetzung von oberer und unterer Grenze für den Ausschnitt neu skalieren. Die Skalierungsoperation (Auto, Linear, Logarithmisch, Quadratwurzel) kann dabei für den eingegrenzten Bereich ausgewählt werden.</para
-></listitem>
-  <listitem
-><para
->Statistik: Zeigt eine einfache Statistik für minimale und maximale Pixelwerte und ihre Verteilung, FITS-Farbtiefe, Bildabmessungen, Mittelwert und Standardabweichung.</para
-></listitem>
-  <listitem
-><para
->FITS Kopfzeile: Zeigt die Informationen in der Fits Kopfzeile an.</para
-></listitem>
-</itemizedlist>
+<sect2 id="fits-viewer-embedded">
+    <title>Embedded FITS Viewer</title>
+    <screenshot>
+        <screeninfo>
+            FITS Viewer embedded
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="fitsviewer_embedded.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>FITS Viewer embedded</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para>
+        In Ekos <link linkend="ekos-focus">Focus</link>, <link linkend="ekos-guide">Guide</link>, and <link linkend="ekos-align">Align</link> modules, captured images are displayed in the embedded FITS Viewer. The embedded viewer includes a <emphasis>floating bar</emphasis> that can be used to perform several functions:
+    </para>
+    <itemizedlist>
+        <listitem>
+            <para>
+                Zoom Out
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Zoom In
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Default Zoom
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Zoom To Fit
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Toggle Cross Hairs
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Toggle Pixel Gridlines
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Toggle Detected Stars: Highlight detected stars with red circles.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Star Profile: View detailed 3D star profile.
+            </para>
+        </listitem>
+    </itemizedlist>
+    <para>
+        The floating bar is automatically hidden once the mouse leaves the embedded viewer area. You can use the mouse to pan and zoom just like the standalone FITS Viewer tool. The green tracking box can be used to select a specific star or region within the image, for example, to select a guide star.
+    </para>
+</sect2>
+
+<sect2 id="fits-viewer-3d-star-profile">
+<title>3D Star Profile &amp; Data Visualization Tool</title>
+<screenshot>
+        <screeninfo>
+            Star Profile main page
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_main.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Star Profile main page</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para>
+        The 3D data visualization tool can plot 3D graphs of the selected region of the image. This is particularly useful for astrophotographers who want to visualize the profile of a star they are considering focusing or guiding on. For scientists, it enables them to examine a cross-section of the data to understand the relative brightness of different objects in the image. Additionally, it empowers imagers who want to visually see what is going on in their data collection in a new way.
+    </para>
+    <para>
+        To use the new feature, the user needs to select the <guiicon>View Star Profile</guiicon> icon in one of the Ekos Module Views, or in the FITS Viewer. Then, the region selected in the green tracking box will show up in the 3D graph as shown above. The user will then have one of the following toolbars at the bottom.
+    </para>
+    <screenshot>
+        <screeninfo>
+            Star Profile toolbar 1
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_toolbar1.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Star Profile toolbar 1</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <screenshot>
+        <screeninfo>
+            Star Profile toolbar 2
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_toolbar2.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Star Profile toolbar 2</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para>
+        At the far left, the sample size combo box will let the user select the size of the image crop shown in the graph. This option is only available in the <guilabel>Summary Screen</guilabel>, the <link linkend="ekos-align">Align Module</link>, and the FITS Viewer. The second combo box lets the user control whether they are selecting an individual item, or a row, or a column of pixels. The slice button will be enabled if the user selects <guimenuitem>Row</guimenuitem> or <guimenuitem>Column</guimenuitem>. It will put the graph in slice mode so that the user can see a cross-section view of the image. Third, is a checkbox that will open up two sliders that will let the user drag the slider to change the selection. This is extremely useful in the slide mode to change the selected point and to move the cross section around the graph. It is also useful in the normal view when in <guilabel>Explore Mode</guilabel> so that the user can zoom around the image examining the pixels.
+    </para>
+    <screenshot>
+        <screeninfo>
+            Star Profile, examine pixels
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_examine_pixels.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Star Profile, examine pixels</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para>
+        Then the user has the <guilabel>Zoom To</guilabel> combo box, which the user can use to zoom the graph to different preset locations. Next is the combo box that lets the user select the color scheme of the graph. Then are the HFR and the Peak checkboxes, which will both turn on the HFR and Peak labels on each found star in the image, but will also display one of them at the bottom of the screen. And finally comes the Scaling checkbox, which enables the <guilabel>Scaling</guilabel> Side Panel. There are three sliders in that panel, one to control the minimum value displayed on the graph or <quote>black point</quote>, one to control the maximum value displayed in the graph or the <quote>white point</quote>, and a third that is disabled by default that lets the user control the cutoff value for data displayed on the graph.
+    </para>
+    <screenshot>
+        <screeninfo>
+            Star Profile vertical page
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_vertical.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Star Profile vertical</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para>
+        This third slider is very useful to get really big peaks out of the way so you can study the finer details in the image. There is a checkbox at the top to enable/disable the cutoff slider. And finally at the bottom of the sliders is the <guibutton>Auto scale</guibutton> button. This will auto scale the sliders as you sample different areas in the image. It will not only optimize the display of the data but will also affect the minimum and maximum points of the slider. If you disable auto scale, then as you sample different parts of the image, they will be displayed at the same scale. A particularly useful way to use this is to select an area of your image using auto scale, tweak the min, max, and cutoff sliders to your liking, and then turn off the auto scale feature to explore other areas of the graph.
+    </para>
+    <screenshot>
+        <screeninfo>
+            Star Profile final page
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_final.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase>Star Profile final page</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+</sect2>
 </sect1>

@@ -1,58 +1,63 @@
 <sect1 id="tool-whatsup">
-<title
->Was ist los heute Nacht?</title>
-<indexterm
-><primary
->Hilfsmittel</primary>
-<secondary
->Was ist los heute Nacht?</secondary>
+<title>What's up Tonight? Tool</title>
+<indexterm><primary>Tools</primary>
+<secondary>What's up Tonight? Tool</secondary>
 </indexterm>
 
 <screenshot>
-<screeninfo
->Das Hilfsmittel <quote
->Was ist los heute Nacht?</quote
-> </screeninfo>
+<screeninfo>
+The What's up Tonight Tool
+</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="wut.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase
->Was ist los heute Nacht?</phrase>
+    <phrase>What's up Tonight?</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
-<para
->Das Hilfsmittel <quote
->Was ist los heute Nacht?</quote
-> zeigt eine Liste der Objekte, die nachts an einem beliebigen Standort an einem beliebigen Datum sichtbar sind. Standardmäßig wird das Datum und der Standort aus den aktuellen Einstellungen im Hauptfenster übernommen, aber Sie können diese Einstellungen mit den Knöpfen <guibutton
->Datum ändern</guibutton
-> und <guibutton
->Standort ändern</guibutton
-> oben im Fenster verändern. </para>
-<para
->Das Hilfsmittel zeigt auch einen kurzen Auszug der Daten für das ausgewählte Datum: Die Aufgangs- und Untergangszeiten für die Sonne und den Mond, die Dauer der Nacht und der Prozentsatz des beleuchteten Mondteils. </para>
-<para
->Unter dem Almanach werden die Objektinformationen angezeigt. Die Objekte werden in Typkategorien angeordnet. Wählen Sie einen Objekttyp im Feld <guilabel
->Wählen Sie eine Kategorie</guilabel
-> und alle Objekte dieses Typs, die über dem Horizont in der ausgewählten Nacht sind, werden im Feld <guilabel
->Passende Objekte</guilabel
-> angezeigt. Zum Beispiel wurde im Bildschirmfoto die Kategorie <guilabel
->Planeten</guilabel
-> ausgewählt und vier Planeten, die in der Nacht am Himmel sind, werden angezeigt (Mars, Neptun, Pluto und Uranus). Wenn ein Objekt aus der Liste ausgewählt wurde, werden seine Aufgangs-, Übergangs- und Untergangszeiten im rechten unteren Feld angezeigt. Zusätzlich können Sie den Knopf <guibutton
->Objektdetails ...</guibutton
-> drücken, der ein Fenster mit <link linkend="tool-details"
->ausführlichen Informationen</link
-> für dieses Objekt öffnet. </para>
-<para
->Standardmäßig zeigt das Hilfsmittel Objekte an, die über dem Horizont zwischen Sonnenuntergang und Mitternacht sind (d.h.: <quote
->am Abend</quote
->). Sie können auswählen, auch Objekte zu zeigen, die zwischen Mitternacht und Morgendämmerung (<quote
->am Morgen</quote
->) oder zwischen Sonnenuntergang und Sonnenaufgang (<quote
->zu jeder Zeit</quote
->) am Himmel sind mittels der Box oben im Fenster. </para>
+<para>
+The <quote>What's up Tonight?</quote> (WUT) tool displays a list of
+objects that will be visible at night from any location, on any date.
+By default, the Date and Location are taken from the current settings
+in the main window, but you can change either value using the
+<guibutton>Change Date...</guibutton> and <guibutton>Change Location...</guibutton>
+buttons at the top of the WUT window.
+</para>
+<para>
+The WUT tool also displays a short almanac of data for the selected
+date: the rise and set times for the Sun and moon, the duration of
+the night, and the Moon's illumination fraction.
+</para>
+<para>
+Below the almanac is where the object information is displayed.  The
+objects are organized into type categories.  Select an object type
+in the box labeled <guilabel>Select a category:</guilabel>, and all
+objects of that type which are above the horizon on the selected
+night will be displayed in the box labeled <guilabel>Matching
+objects:</guilabel>.  For example, in the screenshot, the
+<guilabel>Planets</guilabel> category has been selected, and three
+planets which are up on the selected night are displayed (Mars,
+Jupiter and Saturn).  When an object in the list is selected,
+its rise, set and transit times are displayed in the lower-right
+panel (&ie; Mars rises at 17:13, transits at 21:46 and sets at 02:16).
+In addition, you can press the <guibutton>Object Details...</guibutton>
+button to open the <link linkend="tool-details">Object Details window</link>
+for that object.
+</para>
+<para>
+By default, the WUT will display objects which are above the horizon
+between sunset and midnight (&ie; <quote>in the evening</quote>).
+You can choose to show objects which are up between midnight and dawn
+(<quote>in the morning</quote>), or between dusk and dawn (<quote>any
+time tonight</quote>) using the combobox near the top of the window.
+You can also choose to see only those objects that are brighter than a
+magnitude by setting a minimum magnitude using the <guilabel>Show objects
+brighter than magnitude:</guilabel> spinbox. You may center the selected object
+in the Sky Map or add it to Wish List by pressing the
+<guibutton>Center Object</guibutton> or <guibutton>Add to List</guibutton> button.
+</para>
 </sect1>
 

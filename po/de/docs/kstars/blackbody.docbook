@@ -2,69 +2,88 @@
 
 <sect1info>
 
-<author
-><firstname
->Jasem</firstname
-> <surname
->Mutlaq</surname
-> <affiliation
-><address>
-</address
-></affiliation>
+<author>
+<firstname>Jasem</firstname>
+<surname>Mutlaq</surname>
+<affiliation><address>
+</address></affiliation>
 </author>
 </sect1info>
 
-<title
->Schwarzkörperstrahlung</title>
-<indexterm
-><primary
->Schwarzkörperstrahlung</primary>
-<seealso
->Sternenfarben und Temperaturen</seealso>
+<title>Blackbody Radiation</title>
+<indexterm><primary>Blackbody Radiation</primary>
+<seealso>Star Colors and Temperatures</seealso>
 </indexterm>
 
-<para
->Ein <firstterm
->Schwarzer Körper</firstterm
-> bezieht sich auf ein dunkles Objekt, das <firstterm
->Wärmestrahlung</firstterm
-> aussendet. Ein perfekter Schwarzer Körper ist einer, der alles eintreffende Licht absorbiert und keines reflektiert. Bei Raumtemperatur würde so ein Objekt perfekt schwarz aussehen (daher der Ausdruck <firstterm
->Schwarzer Körper</firstterm
->). Wenn Sie jedoch auf eine hohe Temperatur erhitzt werden, glühen Schwarze Körper mit <firstterm
->Wärmestrahlung</firstterm
->. </para>
+<para>
+A <firstterm>blackbody</firstterm> refers to an opaque object that
+emits <firstterm>thermal radiation</firstterm>.  A perfect
+blackbody is one that absorbs all incoming light and does not
+reflect any.  At room temperature, such an object would
+appear to be perfectly black (hence the term
+<emphasis>blackbody</emphasis>).  However, if heated to a high
+temperature, a blackbody will begin to glow with
+<firstterm>thermal radiation</firstterm>.
+</para>
 
-<para
->Tatsächlich senden alle Objekte Wärmestrahlung aus (so lange ihre Temperatur über dem absoluten Nullpunkt oder -273,15 Grad Celsius liegt), aber kein Objekt sendet sie vollständig aus, einige sind vielmehr besser beim Aussenden/Absorbieren bestimmter Wellenlänge des Lichts als andere. Diese ungleichmäßigen Wirkungen machen es schwer, die Wechselwirkung von Licht, Hitze und Materie bei normalen Objekten zu studieren. </para>
+<para>
+In fact, all objects emit thermal radiation (as long as their
+temperature is above Absolute Zero, or -273.15 degrees Celsius),
+but no object emits thermal radiation perfectly; rather, they are
+better at emitting/absorbing some wavelengths of light than others.
+These uneven efficiencies make it difficult to study the interaction
+of light, heat and matter using normal objects.
+</para>
 
-<para
->Glücklicherweise ist es möglich, einen fast perfekten Schwarzen Körper zu konstruieren. Man erstellt eine Box aus einem leitenden Material, wie Metall. Die Box sollte an den Seiten komplett geschlossen sein, sodass die Innenseite einen Hohlraum bildet, der kein Licht von außen erhält. Dann macht man ein sehr kleines Loch irgendwo in die Box. Das Licht, das aus diesem Loch kommt, ähnelt fast perfekt dem Licht eines perfekten Schwarzen Körpers für die Temperatur der Luft in der Box. </para>
+<para>
+Fortunately, it is possible to construct a nearly-perfect blackbody.
+Construct a box made of a thermally conductive material, such as
+metal.  The box should be completely closed on all sides, so that the
+inside forms a cavity that does not receive light from the
+surroundings.  Then, make a small hole somewhere on the box.
+The light coming out of this hole will almost perfectly resemble the
+light from an ideal blackbody, for the temperature of the air inside
+the box.
+</para>
 
-<para
->Zu Beginn des 20. Jahrhunderts studierten die Wissenschaftler Lord Rayleigh, und Max Planck (unter anderem) die Schwarzkörperstrahlung mit einem solchen Versuchsaufbau. Nach viel Arbeit konnte Planck sehr gut die Intensität von Licht aus dem Schwarzer Körper als eine Funktion der Wellenlänge beschreiben. Weiter war er auch in der Lage zu beschreiben, wie dieses Spektrum sich verändert, wenn die Temperatur sich ändert. Plancks Arbeit an der Schwarzkörperstrahlung machte die wundervolle Wissenschaft der Quantenmechanik erst möglich, aber das liegt leider außerhalb des Rahmens dieses Artikels. </para>
+<para>
+At the beginning of the 20th century, scientists Lord Rayleigh,
+and Max Planck (among others) studied the blackbody
+radiation using such a device.  After much work, Planck was able to
+empirically describe the intensity of light emitted by a blackbody as a
+function of wavelength.  Furthermore, he was able to describe how this
+spectrum would change as the temperature changed.  Planck's work on
+blackbody radiation is one of the areas of physics that led to the
+foundation of the wonderful science of Quantum Mechanics, but that is
+unfortunately beyond the scope of this article.
+</para>
 
-<para
->Planck und Anderen haben herausgefunden, dass beim Anstieg der Temperatur eines Schwarzen Körpers die Menge des pro Sekunde abgegebenen Lichts größer wird und die Wellenläge des Spektralausschlags sich zu blaueren Farben verschiebt. (siehe Bild 1) </para>
+<para>
+What Planck and the others found was that as the temperature of a
+blackbody increases, the total amount of light emitted per
+second increases, and the wavelength of the spectrum's peak shifts to
+bluer colors (see Figure 1).
+</para>
 
 <para>
 <mediaobject>
 <imageobject>
 <imagedata fileref="blackbody.png" format="PNG"/>
 </imageobject>
-<caption
-><para
-><phrase
->Bild 1</phrase
-></para
-></caption>
+<caption><para><phrase>Figure 1</phrase></para></caption>
 </mediaobject>
 </para>
 
-<para
->Zum Beispiel wird eine Eisenstange orange-rot, wenn Sie auf hohe Temperaturen erhitzt wird und ihre Farbe ändert sich dann nach blau und weiß, wenn sie weiter erhitzt wird. </para>
+<para>
+For example, an iron bar becomes orange-red when heated to high temperatures and its color
+progressively shifts toward blue and white as it is heated further.
+</para>
 
-<para
->1893 erklärte Wilhelm Wien die Beziehung zwischen Schwarzkörpertemperatur und der Wellenlänge des Spektralausschlags mit der folgenden Gleichung: </para>
+<para>
+In 1893, German physicist Wilhelm Wien quantified the relationship between blackbody
+temperature and the wavelength of the spectral peak with the
+following equation:
+</para>
 
 <para>
 <mediaobject>
@@ -74,24 +93,38 @@
 </mediaobject>
 </para>
 
-<para
->wobei T die Temperatur in Kelvin ist. Wiens Gesetz (auch bekannt als der <quote
->Wiensche Verschiebungssatz</quote
->) beschreibt, dass die Wellenlänge der maximalen Aussendung eines Schwarzen Körpers umgekehrt proportional zu seiner Temperatur ist. Das ist logisch, denn kurzwelliges (hochfrequentes) Licht entspricht hochenergetischen Photonen, was von einem heißen Objekt zu erwarten ist. </para>
+<para>
+where T is the temperature in Kelvin.  Wien's law (also known as
+Wien's displacement law) states that the
+wavelength of maximum emission from a blackbody is inversely
+proportional to its temperature.  This makes sense;
+shorter-wavelength (higher-frequency) light corresponds to
+higher-energy photons, which you would expect from a
+higher-temperature object.
+</para>
 
-<para
->Zum Beispiel hat die Sonne eine durchschnittliche Temperatur von 5800 K mit einer Wellenlänge der maximalen Emission von: <mediaobject
-> <imageobject>
+<para>
+For example, the sun has an average temperature of 5800 K, so
+its wavelength of maximum emission is given by:
+
+<mediaobject>
+<imageobject>
 <imagedata fileref="lambda_ex.png" format="PNG"/>
 </imageobject>
 </mediaobject>
 </para>
 
-<para
->Die Wellenlängen fallen in die grüne Regionen des sichtbaren Lichtspektrums, aber die Umgebung der Sonne strahlt auch Photonen längerer und kürzerer Wellenlänge als lambda(max) aus und das menschliche Auge nimmt die Sonnenfarbe als Gelb/Weiß war. </para>
+<para>
+This wavelengths falls in the
+green region of the visible light spectrum, but the sun's continuum
+radiates photons both longer and shorter than lambda(max) and the
+human eyes perceives the sun's color as yellow/white.
+</para>
 
-<para
->1879 zeigte der österreichische Physiker Stephan Josef Stefan, dass die Leuchtkraft L eines Schwarzen Körpers proportional zur 4. Potenz seiner Temperatur T ist. </para>
+<para>
+In 1879, Austrian physicist Stephan Josef Stefan showed that
+the luminosity, L, of a black body is proportional to the 4th power of its temperature T.
+</para>
 
 <para>
 <mediaobject>
@@ -101,13 +134,18 @@
 </mediaobject>
 </para>
 
-<para
->wobei A die Oberfläche ist, alpha die Konstante der Proportionalität und T die Temperatur in Kelvin. Das bedeutet, wenn wir die Temperatur verdoppeln (&eg; 1000 K auf 2000 K) dann erhöht sich die Gesamtenergie, die vom Schwarzen Körper ausgesendet wird um einen Faktor von 2<superscript
->4</superscript
-> oder 16. </para>
+<para>
+where A is the surface area, alpha is a constant of proportionality,
+and T is the temperature in Kelvin. That is, if we double the
+temperature (e.g. 1000 K to 2000 K) then the total energy radiated
+from a blackbody increase by a factor of 2<superscript>4</superscript> or 16.
+</para>
 
-<para
->Fünf Jahr später erarbeitete der österreichische Physiker Ludwig Boltzman die dieselbe Gleichung, sie ist nun als Stephan-Boltzman-Gesetz bekannt. Wenn wir einen sphärischen Stern mit dem Radius R annehmen, dann ist die Leuchtkraft eines solchen Sternes </para>
+<para>
+Five years later, Austrian physicist Ludwig Boltzman derived the same
+equation and is now known as the Stefan-Boltzman law. If we assume a
+spherical star with radius R, then the luminosity of such a star is
+</para>
 
 <para>
 <mediaobject>
@@ -117,9 +155,12 @@
 </mediaobject>
 </para>
 
-<para
->wobei R der Sternenradius in cm und alpha die Stephan-Boltzman-Konstante ist, mit folgendem Wert: <mediaobject
-> <imageobject>
+<para>
+where R is the star radius in cm, and the alpha is the
+Stefan-Boltzman constant, which has the value:
+
+<mediaobject>
+<imageobject>
 <imagedata fileref="alpha.png" format="PNG"/>
 </imageobject>
 </mediaobject>
