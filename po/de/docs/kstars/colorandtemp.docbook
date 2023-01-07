@@ -2,173 +2,138 @@
 
 <sect1info>
 
-<author>
-<firstname>Jasem</firstname>
-<surname>Mutlaq</surname>
-<affiliation><address>
-</address></affiliation>
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
 </author>
 </sect1info>
 
-<title>Star Colors and Temperatures</title>
-<indexterm><primary>Star Colors and Temperatures</primary>
-<seealso>Blackbody Radiation</seealso>
-<seealso>Magnitude Scale</seealso>
-</indexterm>
+<title
+>Sternenfarben und Temperaturen</title>
+<indexterm
+><primary
+>Sternenfarben und Temperaturen</primary
+><seealso
+>Schwarzkörperstrahlung</seealso
+> <seealso
+>Magnitudenskala</seealso
+> </indexterm>
 
-<para>
-Stars appear to be exclusively white at first glance.
-But if we look carefully, we can notice a range of colors: blue,
-white, red, and even gold. In the winter constellation of Orion, a
-beautiful contrast is seen between the red Betelgeuse at Orion's
-"armpit" and the blue Bellatrix at the shoulder. What causes stars to
-exhibit different colors remained a mystery until two centuries ago,
-when Physicists gained enough understanding of the nature of light and
-the properties of matter at immensely high temperatures.
-</para>
+<para
+>Sterne scheinen auf den ersten Blick weiß zu sein. Aber wenn wir genauer hinschauen, sehen wir eine Reihe von Farben: Blau, weiß, rot und sogar gold. Im Wintersternbild des Orion ist ein schöner Kontrast zwischen der roten Beteigeuze in Orions <quote
+>Armbeuge</quote
+> und dem blauen Bellatrix an der Schulter zu sehen. Was Sterne dazu bringt, verschiedene Farben auszusenden, war bis vor zwei Jahrhunderten ein Rätsel, als Physiker genug Informationen über das Wesen des Lichts und über Eigenschaften der Materie bei sehr hohen Temperaturen gesammelt hatten. </para>
 
-<para>
-Specifically, it was the physics of
-<link linkend="ai-blackbody">blackbody radiation</link> that enabled
-us to understand the variation of stellar colors.  Shortly after
-blackbody radiation was understood, it was noticed that the spectra of
-stars look extremely similar to blackbody radiation curves of
-various temperatures, ranging from a few thousand Kelvin to ~50,000
-Kelvin.  The obvious conclusion is that stars are similar to
-blackbodies, and that the color variation of stars is a direct
-consequence of their surface temperatures.
-</para>
+<para
+>Genauer war es die Physik der <link linkend="ai-blackbody"
+>Schwarzkörperstrahlung</link
+>, die uns erlaubt, die Sternenfarben zu verstehen. Kurz nachdem die Schwarzkörperstrahlung verstanden war, wurde bemerkt, dass das Spektrum von Sternen genauso aussieht wie die Schwarzkörperkurven von Temperaturen von ein paar Tausend Kelvin bis ca. 50.000 Kelvin. Der offensichtliche Schluss ist, dass die Sterne den Schwarzen Körpern ähnlich sind und dass die Farbenvielfalt der Sterne eine direkte Konsequenz aus der Oberflächentemperatur ist. </para>
 
-<para>
-Cool stars (i.e., Spectral Type K and M) radiate most
-of their energy in the red and infrared region of the
-electromagnetic spectrum and thus appear red, while hot stars (i.e.,
-Spectral Type O and B) emit mostly at blue and ultra-violet
-wavelengths, making them appear blue or white.
-</para>
+<para
+>Kühle Sterne (also die Spektraltypen K und M) geben ihre meiste Energie im roten und infraroten Bereich des elektromagnetischen Spektrums ab und scheinen daher rot, während heißere Sterne (Spektraltypen O und B) hauptsächlich blaue und ultraviolette Wellenlängen aussenden, wodurch sie uns blau oder weiß erscheinen. </para>
 
-<para>
-To estimate the surface temperature of a star, we can use the known
-relationship between the temperature of a blackbody, and the
-wavelength of light where its spectrum peaks.  That is, as you
-increase the temperature of a blackbody, the peak of its spectrum
-moves to shorter (bluer) wavelengths of light.
-This is illustrated in Figure 1 where the intensity of three
-hypothetical stars is plotted against wavelength.  The "rainbow"
-indicates the range of wavelengths that are visible to the human eye.
-</para>
+<para
+>Um die Oberflächentemperatur eines Sterns abzuschätzen, können wir die bekannte Beziehung zwischen der Temperatur eines Schwarzen Körpers und der Wellenlänge des Lichts benutzen, wo das Spektrum den höchsten Stand erreicht. Das bedeutet, wenn man die Temperatur eines Schwarzen Körpers erhöht, verschiebt sich der höchste Ausschlag des Spektrums zu kürzeren (blaueren) Wellenlängen des Lichts. Das ist in Abbildung 1 gezeigt, wo die Intensitäten dreier hypothetischer Sterne der Wellenlänge gegenüber gestellt werden. Der <quote
+>Regenbogen</quote
+> zeigt den Bereich der Wellenlängen, der für das menschliche Auge sichtbar ist. </para>
 
 <para>
 <mediaobject>
 <imageobject>
   <imagedata fileref="star_colors.png" format="PNG"/>
 </imageobject>
-<caption><para><phrase>Figure 1</phrase></para></caption>
+<caption
+><para
+><phrase
+>Bild 1</phrase
+></para
+></caption>
 </mediaobject>
 </para>
 
-<para>
-This simple method is conceptually correct, but it cannot be used to
-obtain stellar temperatures accurately, because stars are
-<emphasis>not</emphasis> perfect blackbodies.  The presence of various
-elements in the star's atmosphere will cause certain wavelengths of
-light to be absorbed.  Because these absorption lines are not uniformly
-distributed over the spectrum, they can skew the position of
-the spectral peak.
-Moreover, obtaining a usable spectrum of a star
-is a time-intensive process and is prohibitively inefficient for large
-samples of stars.
-</para>
+<para
+>Diese einfache Methode ist grundsätzlich richtig, kann aber nicht benutzt werden, um die Sterntemperaturen genau zu erhalten, da Sterne <emphasis
+>keine</emphasis
+> perfekten Schwarzen Körper sind. Das Vorhandensein von zahlreichen Elementen in der Atmosphäre des Sterns führt dazu, dass bestimmte Wellenlängen des Lichts absorbiert werden. Da diese Absorptionslinien nicht gleichmäßig über das Spektrum verteilt sind, können Sie die Position des Ausschlags der Spektrallinien verschieben. Vielmehr ist der Prozess bis zu einem nutzbaren Spektrum eines Sterns ein zeitaufwändiger Prozess und sehr ineffizient für eine große Anzahl von Sternen. </para>
 
-<para>
-An alternative method utilizes photometry to measure the intensity of
-light
-passing through different filters. Each filter allows
-<emphasis>only</emphasis> a specific part of the spectrum
-of light to pass through while rejecting all others. A widely used
-photometric system is called the <firstterm>Johnson UBV
-system</firstterm>.  It employs three bandpass filters: U
-("Ultra-violet"), B ("Blue"), and V ("Visible"); each occupying different regions of the
-electromagnetic spectrum.
-</para>
+<para
+>Eine alternative Methode benutzt die Fotometrie, um die Intensität des Lichts zu messen, das durch verschiedene Filter trifft. Jeder Filter erlaubt <emphasis
+>nur</emphasis
+> einem bestimmten Teil des Lichtspektrums den Durchgang, während das andere Licht reflektiert wird. Ein weitverbreitetes fotometrisches System wird <firstterm
+>Johnson UBV-System</firstterm
+> genannt. Es benutzt drei Bandbreitenfilter: U (<quote
+>Ultraviolette</quote
+>), B (<quote
+>Blaue</quote
+>) und V (<quote
+>Visible</quote
+> (engl. für Sichtbare; Anm. d. Übers.) für unterschiedliche Bereiche des elektromagnetischen Spektrums. </para>
 
-<para>
-The process of UBV photometry involves using light sensitive devices
-(such as film or CCD cameras) and aiming a telescope at a star to
-measure the intensity of light that passes through each of the
-filters individually. This procedure gives three apparent
-brightnesses or <link linkend="ai-flux">fluxes</link> (amount of
-energy per cm<superscript>2</superscript> per second) designated by Fu, Fb, and Fv. The ratio of
-fluxes Fu/Fb and Fb/Fv is a quantitative measure of the star's
-"color", and these ratios can be used to establish a temperature scale
-for stars.  Generally speaking, the larger the Fu/Fb and Fb/Fv ratios
-of a star, the hotter its surface temperature.
-</para>
+<para
+>Der Prozess der UBV-Fotometrie erfordert lichtsensitive Geräte (wie einen Film oder CCD-Kameras) und ein Teleskop, das auf einen Stern gerichtet ist, um die Lichtstärken, die durch die einzelnen Filter kommen, getrennt zu messen. Diese Prozedur ergibt drei scheinbare Helligkeiten oder <link linkend="ai-flux"
+>Energieströme</link
+> (Menge der Energie pro cm<superscript
+>2</superscript
+>*s<superscript
+>-1</superscript
+>) angegeben durch Fu, Fb und Fv. Das Verhältnis der Energieströme Fu/Fb und Fb/Fv ist eine mengenmäßige Messgröße der <quote
+>Sternenfarbe</quote
+> und diese Verhältnisse können dazu benutzt werden, m eine Temperaturskala für Sterne zu entwickeln. Allgemein gesagt, je größer die Verhältnisse Fu/Fb und Fb/Fv, desto größer ist die Oberflächentemperatur. </para>
 
-<para>
-For example, the star Bellatrix in Orion has Fb/Fv = 1.22, indicating
-that it is brighter through the B filter than through the V filter.
-furthermore, its Fu/Fb ratio is 2.22, so it is brightest through the U
-filter.  This indicates that the star must be very hot indeed, since
-the position of its spectral peak must be somewhere in the range of
-the U filter, or at an even shorter wavelength.  The surface
-temperature of Bellatrix (as determined from comparing its spectrum to
-detailed models that account for its absorption lines) is about 25,000
-Kelvin.
-</para>
+<para
+>Zum Beispiel hat der Stern Bellatrix im Orion Fb/Fv = 1,22, was zeigt, dass er heller durch den B-Filter als durch den V-Filter ist. Weiterhin ist das Verhältnis Fu/Fb 2,22 also ist er am hellsten durch den U-Filter. Das zeigt, dass der Stern tatsächlich sehr heiß sein muss, da die Position der Spitzenwerte seiners Spektrallinie irgendwo im Bereich des U-Filters sein muss oder sogar bei einer noch kürzeren Wellenlänge. Die Oberflächentemperatur von Bellatrix (ermittelt aus dem Vergleich seines Spektrums mit detaillierten Modellen) beträgt ungefähr 25.000 Kelvin. </para>
 
-<para>
-We can repeat this analysis for the star Betelgeuse.  Its Fb/Fv and
-Fu/Fb ratios are 0.15 and 0.18, respectively, so it is brightest
-in V and dimmest in U.  So, the spectral peak of Betelgeuse must be
-somewhere in the range of the V filter, or at an even longer
-wavelength.  The surface temperature of Betelgeuse is only 2,400
-Kelvin.
-</para>
+<para
+>Wir können diese Analyse für den Stern Beteigeuze wiederholen. Sein Verhältnisse Fb/Fv und Fu/Fb sind 0,15 und 0,18, also ist er hellsten in V und am dunkelsten in U. Also muss der Spektralausschlag von Beteigeuze irgendwo im Bereich des V-Filters liegen oder bei einer noch längeren Wellenlänge. Die Oberflächentemperatur von Beteigeuze beträgt nur 2.400 Kelvin. </para>
 
-<para>
-Astronomers prefer to express star colors in terms of a difference in
-<link linkend="ai-magnitude">magnitudes</link>, rather than a ratio of
-<link linkend="ai-flux">fluxes</link>.  Therefore, going back to blue
-Bellatrix we have a color index equal to
-</para>
+<para
+>Astronomen bevorzugen die Sternenfarben in <link linkend="ai-magnitude"
+>Magnituden</link
+>unterschieden auszudrücken und nicht in <link linkend="ai-flux"
+>Energiefluss</link
+>verhältnissen. Deshalb haben wir beim blauen Bellatrix einen Farbindex gleich </para>
 
-<para>
-   B - V = -2.5 log (Fb/Fv) = -2.5 log (1.22) = -0.22,
-</para>
+<para
+>B - V = -2.5 log (Fb/Fv) = -2.5 log (1.22) = -0.22, </para>
 
-<para>
-Similarly, the color index for red Betelgeuse is
-</para>
+<para
+>Dementsprechend ist der Farbindex für den roten Beteigeuze </para>
 
-<para>
- B - V = -2.5 log (Fb/Fv) = -2.5 log (0.18) =  1.85
-</para>
+<para
+>B - V = -2.5 log (Fb/Fv) = -2.5 log (0.18) = 1.85 </para>
 
-<para>
-The color indices, like the <link linkend="ai-magnitude">magnitude
-scale</link>, run backward. <emphasis>Hot and blue</emphasis>
-stars have <emphasis>smaller and negative</emphasis> values of B-V
-than the cooler and redder stars.
-</para>
+<para
+>Die Farbindizes, wie auch die <link linkend="ai-magnitude"
+>Magnitudenskala</link
+>, laufen rückwärts. <emphasis
+>Heiße und blaue</emphasis
+>Sterne haben <emphasis
+>kleine und negative</emphasis
+> Werte von B-V als die kühleren und roteren Sterne, wie unten dargestellt ist. </para>
 
-<para>
-An Astronomer can then use the color indices for a star, after
-correcting for reddening and interstellar extinction, to obtain an accurate temperature of that star.
-The relationship between B-V and temperature is illustrated in Figure
-2.
-</para>
+<para
+>Ein Astronom kann dann, nach der Korrektur der Rötung und des interstellaren Farbverlustes, den Farbindex eines Stern benutzen, um eine genaue Temperatur für den Stern zu berechnen. Die Beziehung zwischen B-V und der Temperatur wird in Bild 2 gezeigt. </para>
 
 <para>
 <mediaobject>
 <imageobject>
-  <imagedata fileref="color_indices.png" />
+  <imagedata fileref="color_indices.png"/>
 </imageobject>
-<caption><para><phrase>Figure 2</phrase></para></caption>
+<caption
+><para
+><phrase
+>Bild 2</phrase
+></para
+></caption>
 </mediaobject>
 </para>
 
-<para>
-The Sun with surface temperature of 5,800 K has a B-V index of 0.62.
-</para>
+<para
+>Die Sonne mit einer Oberflächentemperatur von 5.800 K hat einen B-V-Index von 0,62. </para>
 </sect1>

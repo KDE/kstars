@@ -1,39 +1,41 @@
 <sect2 id="calc-equinox">
-<title>Equinoxes and Solstices module</title>
-<indexterm><primary>Tools</primary>
-<secondary>Astrocalculator</secondary>
-<tertiary>Equinoxes and Solstices module</tertiary>
+<title
+>Modul <quote
+>Tagundnachtgleichen und Sonnenwenden</quote
+></title>
+<indexterm
+><primary
+>Hilfsmittel</primary>
+<secondary
+>Astrorechner</secondary>
+<tertiary
+>Modul <quote
+>Tagundnachtgleichen und Sonnenwenden</quote
+></tertiary>
 </indexterm>
 
 <screenshot>
-<screeninfo>
-The Equinoxes and Solstices calculator module
-</screeninfo>
+<screeninfo
+>Das Rechnermodul <quote
+>Tagundnachtgleichen und Sonnenwenden</quote
+> </screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="calc-equinox.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>Equinoxes and Solstices</phrase>
+    <phrase
+>Tagundnachtgleichen und Sonnenwenden</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
-<para>
-The <link linkend="ai-equinox">Equinoxes</link> and
-Solstices module calculates the date and time of an
-equinox or solstice for a given year.  You specify the year
-and the date and time of the events (Vernal Equinox,
-Summer Solstice, Autumnal Equinox, or Winter Solstice) are displayed.
-</para>
-<para>
-There is a batch mode for this module.  To use it, simply
-generate an input file whose lines each contain a year
-for which the Equinox and Solstice data will be computed.
-Then specify the input and output filenames, and press the
-<guibutton>Compute</guibutton> button to generate the output
-file.  Each line in the output file contains the input year and
-the date of each event. You can also read the output directly in &kstars;
-by pressing the <guibutton>View output...</guibutton> button.
-</para>
+<para
+>Das Modul <link linkend="ai-equinox"
+>Tagundnachtgleichen und Sonnenwenden</link
+> berechnet Datum und Zeit von Tagundnachtgleichen und Sonnenwenden für ein bestimmtes Jahr. Geben Sie das Jahr ein und Datum und Zeit der Ereignisse (Frühlings-Tagundnachtgleiche, Sommersonnenwende, Herbst-Tagundnachtgleiche und Wintersonnenwende) werden berechnet und angezeigt. </para>
+<para
+>Es gibt einen Stapelverarbeitungsmodus für dieses Modul. Erstellen Sie einfach eine Eingabedatei, die in jeder Zeile das Jahr enthält, für das die Tagundnachtgleichen und Sonnenwenden berechnet werden sollen. Geben Sie dann die Namen der Eingabe- und Ausgabedatei ein und drücken Sie den Knopf <guibutton
+>Berechnen</guibutton
+>, um die Ausgabedatei zu erstellen. Jede Zeile der Ausgabedatei enthält dann das Eingabejahr, Datum und Zeit jedes Ereignisses und die Länge jeder Jahreszeit. </para>
 </sect2>

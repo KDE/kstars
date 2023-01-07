@@ -1,27 +1,32 @@
 <sect1 id="ai-greatcircle">
 <sect1info>
-<author>
-<firstname>Jason</firstname>
-<surname>Harris</surname>
-</author>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
 </sect1info>
-<title>Great Circles</title>
-<indexterm><primary>Great Circles</primary>
-<seealso>Celestial Sphere</seealso>
+<title
+>Großkreise</title>
+<indexterm
+><primary
+>Großkreise</primary>
+<seealso
+>Himmelssphäre</seealso>
 </indexterm>
-<para>
-Consider a sphere, such as the Earth, or the
-<link linkend="ai-csphere">Celestial Sphere</link>.  The intersection
-of any plane with the sphere will result in a circle on the surface of
-the sphere.  If the plane happens to contain the center of the sphere,
-the intersection circle is a <firstterm>Great Circle</firstterm>.
-Great circles are the largest circles that can be drawn on a sphere.
-Also, the shortest path between any two points on a sphere is always
-along a great circle.
-</para><para>
-Some examples of great circles on the celestial sphere include: the
-<link linkend="ai-horizon">Horizon</link>, the
-<link linkend="ai-cequator">Celestial Equator</link>, and the
-<link linkend="ai-ecliptic">Ecliptic</link>.
-</para>
+<para
+>Stellen Sie sich eine große Kugel wie die Erde oder die <link linkend="ai-csphere"
+>Himmelssphäre</link
+> vor. Die Schnittpunkte einer jeden Fläche mit der Kugel ergeben einen Kreis auf der Oberfläche der Kugel. Wenn die Fläche zufällig den Mittelpunkt der Kugel enthält, ist der Schnittkreis ein <firstterm
+>Großkreis</firstterm
+>. Großkreise sind die größten Kreise, die man auf einer Kugel ziehen kann. Genauso liegt die kleinste Strecke zwischen zwei Punkten auf der Kugel immer auf einem Großkreis. </para
+><para
+>Einige Beispiele von Großkreisen auf der Himmelssphäre sind der <link linkend="ai-horizon"
+>Horizont</link
+>, der <link linkend="ai-cequator"
+>Himmelsäquator</link
+> und die <link linkend="ai-ecliptic"
+>Ekliptik</link
+>. </para>
 </sect1>

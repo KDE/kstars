@@ -1,122 +1,119 @@
 <sect1 id="tool-details">
-<title>Object Details Window</title>
-<indexterm><primary>Tools</primary>
-<secondary>Object Details Window</secondary></indexterm>
-<indexterm><primary>Objects in the Sky</primary>
-<secondary>Details</secondary></indexterm>
+<title
+>Detaillierter Informationsdialog</title>
+<indexterm
+><primary
+>Hilfsmittel</primary>
+<secondary
+>Detaillierter Informationsdialog</secondary
+></indexterm>
+<indexterm
+><primary
+>Objekte im Himmel</primary>
+<secondary
+>Details</secondary
+></indexterm>
 
 <screenshot>
-<screeninfo>
-The Object Details Window
-</screeninfo>
+<screeninfo
+>Der Detaillierte Informationsdialog </screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="detaildialog.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>Object Details Window</phrase>
+    <phrase
+>Detaillierter Informationsdialog</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
+<para
+>Der detaillierte Informationsdialog präsentiert erweiterte Daten über ein Objekt im Himmel. Um dieses Hilfsmittel zu erreichen, klicken Sie mit der <mousebutton
+>rechten</mousebutton
+> Maustaste auf ein Objekt und wählen <guimenuitem
+>Details ...</guimenuitem
+> aus dem Kontextmenü. </para>
+<para
+>Das Fenster ist in eine Anzahl von Karteikarten aufgeteilt. Im Abschnitt <guilabel
+>Allgemein</guilabel
+> ist eine Übersicht von Daten über das aktuelle Objekt zu finden. Es enthält Name, Katalogdaten, Objekttyp und <link linkend="ai-magnitude"
+>Magnitude</link
+> (Helligkeit). Auf der Karteikarte <guilabel
+>Position</guilabel
+> werden die äquatorialen und horizontalen Koordinaten sowie Aufgangs-, Untergangs- und Durchgangszeiten angezeigt. </para>
 <para>
-The Object Details Window presents advanced data available about
-a specific object in the sky.  To access this tool,
-<mousebutton>right</mousebutton>-click on any object, and select the
-<guimenuitem>Details...</guimenuitem> item from the popup menu.
-</para>
-<para>
-The window is divided into a number of tabs.  In the
-<guilabel>General</guilabel> tab, we present basic data about
-the current object.  This includes names and catalog designations,
-object type, and <link linkend="ai-magnitude">magnitude</link>
-(brightness).  On the <guilabel>Position</guilabel> tab
-are the object's Equatorial and Horizontal
-coordinates, as well as its rise, set and transit times.
-</para>
-<para>
-<indexterm><primary>Objects in the Sky</primary>
-<secondary>Internet Links</secondary>
-<tertiary>Customizing</tertiary></indexterm>
-In the <guilabel>Links</guilabel> tab, you can manage the internet
-links associated with this object.  The Image and Information links
-associated with the object are listed.  These are the links that
-appear in the popup menu when the object is
-<mousebutton>right</mousebutton>-clicked.  You can add custom
-links to the object with the <guibutton>Add Link...</guibutton>
-button.  This will open a window in which you fill in the &URL; and link
-text for the new link (you can also test the &URL; in the web browser
-from this window).  Every time you add a custom &URL; to a certain object,
-you are able to choose the resource type using the <guibutton>Resource Type</guibutton>
-button. Keep in mind that the custom link can easily point
-to a file on your local disk, so you can use this feature to index
-your personal astronomical images or observing logs.
-</para>
-<para>
-You can also modify or remove any link using the
-<guibutton>Edit Link...</guibutton> and
-<guibutton>Remove Link...</guibutton> buttons.
-</para>
-<!-- no Advanced tab for
-an unnamed star or
+<indexterm
+><primary
+>Objekte im Himmel</primary>
+<secondary
+>Internetverknüpfungen</secondary>
+<tertiary
+>Anpassen</tertiary
+></indexterm>
+Im Abschnitt <guilabel
+>Verknüpfungen</guilabel
+> können Sie die Internetverknüpfungen des Objektes bearbeiten. Die Bild- und Informationsverknüpfungen des Objektes werden aufgeführt. Dies sind die Verknüpfungen, die im Kontextmenü erscheinen, wenn Sie mit der <mousebutton
+>rechten</mousebutton
+> Maustaste auf ein Objekt klicken. Sie können mit dem Knopf <guibutton
+>Verknüpfung hinzufügen ...</guibutton
+> eigene Verknüpfungen zum Objekt hinzufügen. Dann öffnet sich ein Fenster, in das Sie die &URL; eingeben und einen Text für die neue Verknüpfung. Sie können die &URL; von hier aus auch in einem Browserfenster testen. Behalten Sie im Hinterkopf, dass die eigenen Verknüpfung leicht auch auf eine Datei auf ihrer lokalen Festplatte zeigen kann, Sie so also persönliche astronomische Bilder oder Beobachtungsprotokolle erreichen können. </para>
+<para
+>Sie können auch die Knöpfe <guibutton
+>Verknüpfung bearbeiten ...</guibutton
+> und <guibutton
+>Verknüpfung entfernen ...</guibutton
+> benutzen, um die Verknüpfungen zu verändern oder zu löschen. </para>
+<!-- no Advanced tab for 
+an unnamed star or 
 if advinterface file failed loading or
 for solar system objects -->
-<para>
-The <guilabel>Advanced</guilabel> tab (not available for all objects) allows you to query professional
-astronomical databases on the internet for information regarding the
-current object.  To use these databases, double click on the
-desired database in the list to see the results of your query in a web browser window.  The
-query is made using the primary name of the object you clicked on to
-open the Details Dialog.  The following databases are available for
-querying:
-
-<itemizedlist>
-<listitem><para><guimenuitem>Set of Identifications, Measurements, and Bibliography
-for Astronomical Data (SIMBAD)</guimenuitem>: SIMBAD is similar to NED, except it
-provides data about all kinds of objects, not just galaxies.
-</para></listitem>
-<listitem><para><guimenuitem>SkyView</guimenuitem>: Provides images from All-Sky surveys that have
-been performed in dozens of different parts of the spectrum, from
-Gamma Rays to the Radio.  The &kstars; interface will retrieve an image
-from any of these surveys, centered on the selected object.
-</para></listitem>
-<listitem><para><guimenuitem>High Energy Astrophysical Archive (HEASARC)</guimenuitem>: Here you
-can retrieve data about the current object from a number of
-<quote>High-energy</quote> observatories, which covers the
-Ultraviolet, X-ray and Gamma Ray portions of the electromagnetic
-spectrum.</para></listitem>
-<listitem><para><guimenuitem>NASA/IPAC Extragalactic Database (NED)</guimenuitem>: NED provides
-encapsulated data and bibliographic links about
-extragalactic objects.  You should only use NED if your target is
-extragalactic; &ie; if it is itself a galaxy.
-</para></listitem>
-<listitem><para><guimenuitem>NASA Astrophysical Data System (ADS)</guimenuitem>: This
-incredible bibliographic database encompass the entire body of
-literature published in international peer-review Journals about
-astronomy and astrophysics.  The database is divided into four
-general subject areas (Astronomy and Astrophysics, Astrophysics
-Preprints, Instrumentation, and Physics and Geophysics).  Each of these
-has three sub-nodes that query the database
-in different ways.  <quote>Keyword search</quote> will return articles
-which listed the object's name as a keyword.  <quote>Title word
-search</quote> will return articles which included the object name in
-their Title, and the <quote>Title &amp; Keyword search</quote> uses
-both options together.
-</para></listitem>
-<listitem><para><guimenuitem>Multimission Archive at Space Telescope (MAST)</guimenuitem>:
-The <ulink url="https://www.stsci.edu/">Space Telescope Science Institute</ulink> provides access to the entire
-collection of images and spectra taken with the Hubble Space
-Telescope, as well as several other space-based observatories.
-</para></listitem>
+<para
+>Auf der Karteikarte <guilabel
+>Erweitert</guilabel
+> (nicht für alle Objekte verfügbar) können Sie professionelle astronomische Datenbanken im Internet für Informationen zum aktuellen Objekt zu befragen. Um diese Datenbanken zu benutzen, doppelklicken Sie auf die gewünschte Datenbank in der Liste, um die Ergebnisse der Abfrage im Webbrowser zu sehen. In der Abfrage wird Hauptname des Objektes benutzt, auf das Sie geklickt haben, um den Detaildialog zu öffnen. Die folgenden Datenbanken sind verfügbar: <itemizedlist>
+<listitem
+><para
+>High Energy Astrophysical Archive (HEASARC) (Deutsch etwa: Astrophysikalisches Archive für Hochenergie). Hier können Sie Daten über das aktuelle Objekt aus einer Anzahl von <quote
+>Hochenergie</quote
+>-Observatorien erhalten, die die Ultravioletten, Röntgenstrahl- und Gammastrahlanteile des elektromagnetischen Spektrums abdecken.</para
+></listitem>
+<listitem
+><para
+>Multimission Archive at Space Telescope (MAST) (Deutsch etwa: <quote
+>Space Telescope</quote
+>-Archive für mehrere Missionen). Das <quote
+>Space Telescope Science Institute</quote
+> bietet Zugriff auf die ganze Sammlung von Bildern und Spektren, die vom Hubble-Weltraumteleskop und von anderen Observatorien im Welltall aufgenommen wurden. </para
+></listitem>
+<listitem
+><para
+>NASA Astrophysical Data System (ADS) (Deutsch etwa: NASA Astrophysisches Datensystem). Diese unglaubliche bibliografische Datenbank enthält den gesamten Inhalt der Literatur, die in internationalen Magazinen über Astronomie und Astrophysik veröffentlicht wurde. Die Datenbank ist in vier allgemeine Themengebiete aufgeteilt (Astronomie und Astrophysik, Astrophysische Vorabdrucke, Instrumente und Physik und Geophysik). Jeder dieser Abschnitte hat drei Unterpunkte, die die Datenbank auf verschiedenen Wegen abfragt. <quote
+>(Keyword Search) Schlagwortsuche</quote
+> gibt Artikel zurück, in denen der Objektname als Schlagwort angegeben war. <quote
+>Title word search (Titelwortsuche)</quote
+> gibt Artikel zurück, die den Objektnamen in ihrem Titel haben und <quote
+>Title &amp; Keyword search (Titel- &amp; Schlagwortsuche)</quote
+> startet beide Aktionen. </para
+></listitem>
+<listitem
+><para
+>NASA/IPAC Extragalactic Database (NED) (Deutsch etwa: Außergalaktische Datenbank der NASA/IPAC). Diese Datenbank bietet verkapselte Daten und bibliografische Verknüpfungen über außergalaktische Objekte. Sie sollten NED nur benutzen, wenn Ihr Ziel außergalaktisch ist, also selbst eine Galaxie ist. </para
+></listitem>
+<listitem
+><para
+>Set of Identifications, Measurements, and Bibliography for Astronomical Data (SIMBAD) (Deutsch etwa: Sammlung von Identifikationen, Messungen und Texten für Astronomische Daten). SIMBAD ist NED ähnlich , aber es enthält Daten über alle Arten von Objekten, nicht nur über Galaxien. </para
+></listitem>
+<listitem
+><para
+>SkyView bietet Bilder von Überwachungen des ganzen Himmels, die in vielen Teilen des Spektrums gemacht wurden, von Gammastrahlen bis Radiostrahlen. Die &kstars;-Oberfläche lädt ein solches Bild herunter, das auf dem ausgewählten Objekt zentriert ist. </para
+></listitem>
 </itemizedlist>
 </para>
 
-<para>
-Finally, in the <guilabel>Log</guilabel> tab, you can type in some text
-that will remain associated with this object's <guilabel>Details</guilabel> window.
-You could use this to attach personal observing notes, for example. Your notes
-will be saved, such that you can easily read or use them next time when you will
-use &kstars;.
-</para>
+<para
+>Schließlich können Sie im Abschnitt <guilabel
+>Protokoll</guilabel
+> selbst einigen Text eingeben, der in diesem Detaildialog verbleibt. Sie können damit zum Beispiel eigene Notizen von Beobachtungen speichern. </para>
 </sect1>
 

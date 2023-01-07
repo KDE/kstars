@@ -1,26 +1,37 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- This document was created with Syntext Serna Free. --><sect1 id="tool-obsplanner">
   <sect1info>
-    <author>
-      <firstname>Kristian</firstname>
-      <surname>Ivanov</surname>
-    </author>
+    <author
+><firstname
+>Kristian</firstname
+> <surname
+>Ivanov</surname
+> </author>
   </sect1info>
-  <title>Observation Planner</title>
+  <title
+>Beobachtungsliste</title>
   <indexterm>
-    <primary>Planner</primary>
+    <primary
+>Planung</primary>
   </indexterm>
-  <para>Since &kde; SC 4.4, Prakash Mohan&apos;s GSoC work has been released in &kstars;. &kstars; now
-has an awesome observation planner to plan your observation sessions. The execute session option allows
-you to log information about objects as you observe them. Alternately, you may also write a short log
-in the session planner itself. We wish you a lot of fun planning your observations with &kstars;!
-  </para>
-  <para>You can even add some pictures to the objects. The image list is a Google image search list.
-To add image to an object just press <guibutton>Find Image</guibutton> button on the right and then
-find an image that you like. If you do not have an Internet connection you can open an image from
-your hard drive. Note that images that will be used are going to be cropped to 600x600 pixels.
-  </para>
-  <para>The first way of doing this is by pressing <keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo> or <keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo> to open the Observation List, then press the <guibutton>Add Object</guibutton> button.</para>
+  <para
+>Seit &kde; SC 4.4 ist Prakash Mohan&apos;s GSoC-Arbeit in &kstars; eingefügt. &kstars; enthält nun ein Planungsmodul für Ihre Beobachtungssitzungen. Mit der Aktion „Sitzungsplan ausführen“ können Sie Informationen über die Objekte während der Beobachtung notieren. Als Alternative kann auch ein kurzes Protokoll direkt im Sitzungsplaner eingegeben werden. Viel Spaß bei der Planung Ihrer Beobachtungen mit &kstars;.</para>
+  <para
+>Sie können auch Bilder für Objekte hinzufügen. Die Bilder werden über Google gesucht. Um ein Bild für ein Objekt hinzuzufügen, klicken Sie rechts auf den Knopf <guibutton
+>Bild suchen</guibutton
+> und wählen dann die passenden Bilder aus. Sind Sie nicht mit dem Internet verbunden, können Sie ebenso Bilder von Ihrer Festplatte laden. Beachten Sie, dass alle verwendeten Bilder auf eine Größe von 600x600 Pixel verkleinert werden.</para>
+  <para
+>Benutzen Sie die Kurzbefehle <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> oder <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+>, um die Beobachtungsliste zu öffnen und drücken Sie dann den Knopf <guibutton
+>Objekt hinzufügen</guibutton
+>.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="KStars_Neptune.png" format="PNG"/>
@@ -31,14 +42,18 @@ your hard drive. Note that images that will be used are going to be cropped to 6
       </para>
     </caption>
   </mediaobject>
-  <para>The <guibutton>Download all Images</guibutton> button does a search for the SDSS images and displays the DSS image if the requested RA/Dec is out of the SDSS footprint.</para>
+  <para
+>Mit dem Knopf <guibutton
+>Alle Bilder speichern</guibutton
+> wird die Suche nach SDSS-Bildern gestartet. Es wird ein DSS-Bild angezeigt, wenn der angeforderte Bereich von Rektaszension/Deklination nicht für SDSS-Bilder verfügbar ist.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="sds.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
-        <phrase> This is an SDSS image of a galaxy</phrase>
+        <phrase
+>Dies ist ein SDSS-Bild einer Galaxie</phrase>
       </para>
     </caption>
   </mediaobject>
@@ -48,54 +63,55 @@ your hard drive. Note that images that will be used are going to be cropped to 6
     </imageobject>
     <caption>
       <para>
-        <phrase> This is an DSS image of the same galaxy</phrase>
+        <phrase
+>Dies ist ein DSS-Bild derselben Galaxie</phrase>
       </para>
     </caption>
   </mediaobject>
-  <para>The <guibutton>Delete all Images</guibutton> button does the opposite. It deletes all downloaded images.</para>
+  <para
+>Mit dem Knopf <guibutton
+>Alle Bilder löschen</guibutton
+> werden alle heruntergeladenen Bilder entfernt.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Delete_all_images.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
-        <phrase> The image for the galaxy is now deleted </phrase>
+        <phrase
+>Das Bild der Galaxie ist nun gelöscht </phrase>
       </para>
     </caption>
   </mediaobject>
-  <para>You can add more objects by pressing the <guibutton>Find Object</guibutton> button. It will open
-the <guilabel>Find Object</guilabel> tool which provides two accurate methods for sorting out the items,
-depending on what criteria you want to use.
-You can filter the list by objects type: Any, Stars, Solar System, Clusters (Globular and Open),
-Nebulae (Gaseous and Planetary), Galaxies, Comets, Asteroids, Constellations, Supernovae or Satellites.
-You can also filter the objects list by name. Enter the name of desired object
-in the <guilabel>Filter by name</guilabel> text box.
-  </para>
-
-  <para>Inside Observation Planner window you can see the <quote>Altitude vs Time</quote> widget (AltvsTime),
-which shows you how the altitude of a selected object varies over time.
-  </para>
-  <para>Below the AltvsTime widget, there is a text box in that you can add observing notes for current sky object.
-  </para>
-  <para>Note that the Wish List is not the Session Plan. In the Wish List you can add objects
-that you wish to observe at some point. From there you can add them to the Session Plan.
-  </para>
-  <para>You can see the pop-up window that comes after right-clicking on an object.</para>
+  <para
+>Sie können weitere Objekte zur Beobachtungsliste hinzufügen, indem Sie auf den Knopf <guibutton
+>Objekt hinzufügen</guibutton
+> drücken. Im Dialog „Objekt suchen“ können Sie dann Objekte nach Namen oder Typ ausfiltern. Folgende Filter für den Typ können verwendet werden: Alle, Sterne, Sonnensystem, Offene und Kugelsternhaufen, Gasnebel, Planetarische Nebel, Galaxien, Kometen, Asteroiden, Sternbilder und Supernovae.</para>
+  <para
+>Hier können Sie die Sichtbarkeit des Objekts abhängig von Uhrzeit und Datum erkennen. Die Führungslinie zeigt die aktuelle Zeit an.</para>
+  <para
+>Darunter können Sie Notizen zur Beobachtung dieser Objekte eintragen.</para>
+  <para
+>Beachten Sie den Unterschied zwischen Beobachtungsliste und Sitzungsplan. In der Beobachtungsliste können Sie Objekte hinzufügen, die Sie irgendwann beobachten möchten. Aus der Beobachtungsliste können Sie dann Objekte in den Sitzungsplan einfügen.</para>
+  <para
+>Durch Klicken mit der &RMBn; auf ein Objekt öffnen Sie ein Kontextmenü für das Objekt.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Add_Object_to_Session_plan.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
-        <phrase>Add objects to Session Plan window</phrase>
+        <phrase
+>Objekte zum Sitzungsplan hinzufügen</phrase>
       </para>
     </caption>
   </mediaobject>
-  <para>Here is the second way of adding objects in your Observation Plan, using the Observing List Wizard. You
-just need to press the fourth button on the top-left corner of the Observation Planner window.</para>
-  <para>Despite looking differently this way is basically the same as the first one. Although that
-it could be a bit more detailed. Here you can see the same categories of objects.
-  </para>
+  <para
+>Für die zweite Möglichkeit, um Objekte zur Beobachtungsliste hinzuzufügen und die Beobachtungsliste zu benutzen, drücken Sie den Knopf <guibutton
+>Beobachtungslisten-Assistent</guibutton
+> oben links im Dialog, der im Bildschirmfoto hervorgehoben ist.</para>
+  <para
+>Trotz anderer Ansicht ist der Umgang mit der Beobachtungsliste ähnlich wie bei der ersten Variante, ist aber etwas ausführlicher. Hier werden die gleichen Kategorien von Objekten angezeigt.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Another_way_to_add.png" format="PNG"/>
@@ -116,7 +132,8 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
-  <para>You can choose where these objects to be on the sky. There are four options available for you: All over the sky (which is the default option), by constellation and in a region (rectangular or circular).</para>
+  <para
+>Sie können auswählen, wo sich die Objekte im Himmel befinden sollen. Es gibt vier Möglichkeiten: Alle Objekte als Voreinstellung oder Sternbilder und Objekte in einem rechteckigen oder kreisförmigen Bereich.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Another_way4.png" format="PNG"/>
@@ -127,7 +144,8 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
-  <para>You can choose the date for the observation and the place you are going to observe from.</para>
+  <para
+>Das Datum und der Standort der Beobachtung kann ebenfalls eingestellt werden.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Another_way5.png" format="PNG"/>
@@ -138,7 +156,8 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
-  <para>You can choose the treshold of magnitude for the objects to be shown. In astronomy, absolute magnitude (also known as absolute visual magnitude when measured in the standard V photometric band) measures a celestial object&apos;s intrinsic brightness.</para>
+  <para
+>Auch der Grenzwert der Magnitude (Helligkeit) der angezeigten Objekte kann vorgegeben werden. In der Astronomie ist die absolute Magnitude (auch als absolute sichtbare Magnitude bei der Messung im Standard-V-Photometrischen Bereich bekannt) ein Maß für die scheinbare Helligkeit eines Himmelsobjekts.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Another_way6.png" format="PNG"/>
@@ -149,7 +168,10 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
-  <para>You can save your observation plan. And it will save it with a <literal role="extension">.obslist</literal> extension.</para>
+  <para
+>Ihren Beobachtungsplan können Sie als Datei mit der Erweiterung <filename class="extension"
+>.obslist</filename
+> speichern.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Savin_session.png" format="PNG"/>
@@ -160,7 +182,12 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
-  <para>You can also access the <guilabel>WUT</guilabel> (What&apos;s up tonight), which could be of a great assistance to you. It can give you ideas what to observe on a date, time and place that you specify using the configuration buttons int the top-right corner of the <guilabel>What&apos;s up tonight</guilabel> window.</para>
+  <para
+>Sie können außerdem mit dem Knopf <guilabel
+>Ereignisse</guilabel
+> den Dialog „Was ist los heute Nacht“ öffnen, der sehr hilfreich sein kann. Damit erhalten Sie Vorschläge, was es an einem von Ihnen angegebenen Datum und Standort an interessanten Beobachtungen gibt, wenn Sie die Knöpfe rechts oben im Dialog <guilabel
+>Was ist los heute Nacht</guilabel
+> benutzen.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="wut.png" format="PNG"/>
@@ -171,29 +198,42 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
-  <para>Another way of adding objects to your observation plan is using the newly introduced <guibutton>Batch Add</guibutton> will open up a text box where you can type many objects to add in one shot to the observation planner. Any objects not in the &kstars; database already will be resolved using SIMBAD Astronomical Database (provided this has been enabled in the Settings) and added to the database. The entire process of adding objects is slow and may take a while, and you can watch the progress in the Status Bar. Any objects that could not be found are then listed in an error message, so you can identify and fix the errors. Usually this may be because SIMBAD expects a different way of specifying the object (&eg; Sim 147 instead of Simeis 147). This new feature allows you to easily scrape data from observing lists on the web &etc; and add them to your workflow in &kstars;.
-  </para>
-  <para>This is how the <guilabel>Execution Session</guilabel> Window look. It can be opened by pressing <keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>. In it you can also see some information about the selected object and you are able to add observing notes.</para>
+  <para
+>Im nächsten Bildschirmfoto sehen Sie den Dialog <guilabel
+>Sitzung ausführen</guilabel
+>, den Sie mit dem Kurzbefehl <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> aufrufen. In diesem Dialog finden Sie Informationen über die bereits ausgewählten Objekte und können auch Notizen für eine Beobachtung hinzufügen. </para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="execute_session_nt.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
-        <phrase>First Execute Session window</phrase>
+        <phrase
+>Erste Seite des Dialogs „Sitzung ausführen“</phrase>
       </para>
     </caption>
   </mediaobject>
-  <para>By pressing the <guibutton>Next Page</guibutton> button you will access the second page of Session Plan. Here you are able to see information not about your object, but about your equipment.</para>
+  <para
+>Mit dem Knopf <guibutton
+>Nächste Seite</guibutton
+> wechseln Sie zur folgenden Seite des Sitzungsplans. Hier finden Sie Informationen über Ihre Ausrüstung.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="execute_session_the_nt.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
-        <phrase>Second Execute Session window</phrase>
+        <phrase
+>Zweite Seite des Dialogs „Sitzung ausführen“</phrase>
       </para>
     </caption>
   </mediaobject>
-  <para>Pressing the <guibutton>Next Target</guibutton> button will cause the Execute Session to open the first window about the next object.</para>
+  <para
+>Drücken Sie den Knopf <guibutton
+>Nächstes Ziel</guibutton
+>, wird wieder die erste Seite für das folgende Objekt in der Beobachtungsliste geöffnet.</para>
 </sect1>

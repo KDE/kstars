@@ -1,58 +1,64 @@
 <sect1 id="ai-cpoles">
 <sect1info>
-<author>
-<firstname>Jason</firstname>
-<surname>Harris</surname>
-</author>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
 </sect1info>
-<title>The Celestial Poles</title>
-<indexterm><primary>Celestial Poles</primary>
-<seealso>Equatorial Coordinates</seealso>
+<title
+>Die Himmelspole</title>
+<indexterm
+><primary
+>Himmelspole</primary>
+<seealso
+>Äquatoriale Koordinaten</seealso>
 </indexterm>
-<para>
-The sky appears to drift overhead from east to west, completing a full circuit
-around the sky in 24 (<link linkend="ai-sidereal">Sidereal</link>) hours.  This
-phenomenon is due to the spinning of the Earth on its axis.  The Earth's
-spin axis intersects the <link linkend="ai-csphere">Celestial Sphere</link> at
-two points.  These points are the <firstterm>Celestial Poles</firstterm>.  As the
-Earth spins; they remain fixed in the sky, and all other points seem to rotate
-around them.  The celestial poles are also the poles of the <link
-linkend="equatorial">Equatorial Coordinate System</link>, meaning
-they have <firstterm>Declinations</firstterm> of +90 degrees and -90 degrees
-(for the North and South celestial poles, respectively).
-</para><para>
-The North Celestial Pole currently has nearly the same coordinates as
-the bright star <firstterm>Polaris</firstterm> (which is Latin for <quote>Pole Star</quote>).
-This makes Polaris useful for navigation: not only is it always above the North
-point of the horizon, but its <link
-linkend="horizontal">Altitude</link> angle is always (nearly)
-equal to the observer's <link linkend="ai-geocoords">Geographic Latitude</link>
-(however, Polaris can only be seen from locations in the Northern hemisphere).
-</para><para>
-The fact that Polaris is near the pole is purely a coincidence.  In fact,
-because of <link linkend="ai-precession">Precession</link>, Polaris is only near
-the pole for a small fraction of the time.
-</para>
+<para
+>Der Himmel scheint von Osten nach Westen zu ziehen und einen vollen Umlauf um den Himmel in 24 Stunden (<link linkend="ai-sidereal"
+>Sternenzeit</link
+>) zu vollziehen. Dieses Phänomen entsteht wegen der Drehung der Erde um ihre eigene Achse. Die Drehachse der Erde schneidet die <link linkend="ai-csphere"
+>Himmelssphäre</link
+> in zwei Punkten. Diese Punkte sind die <firstterm
+>Himmelspole</firstterm
+>. Wenn die Erde sich dreht, bleiben sie fest im Himmel und alle anderen Punkte scheinen sich um sie herum zu drehen. Die Himmelspole sind auch die Pole des <link linkend="equatorial"
+>äquatorialen Koordinatensystems</link
+>, was bedeutet, dass sie <firstterm
+>Deklinationen</firstterm
+> von +90 und -90 Grad (Nord- bzw. Südpol) haben. </para
+><para
+>Der nördliche Himmelspol hat dieselben Koordinaten wie der helle Stern <firstterm
+>Polaris</firstterm
+> (Lateinisch für <quote
+>Polarstern</quote
+>). Das macht den Polaris nützlich für die Navigation: Er ist nicht nur immer der Nordpunkt des Horizonts, sein <link linkend="horizontal"
+>Höhen</link
+>winkel ist immer (fast) gleich dem <link linkend="ai-geocoords"
+>geografischen Breitengrad</link
+> des Betrachters. (Jedoch kann der Polaris nur von Orten auf der nördlichen Erdhalbkugel gesehen werden). </para
+><para
+>Die Tatsache, dass sich der Polaris in der Nähe des Pols befindet, ist ein reiner Zufall. Tatsächlich ist der Polaris wegen der <link linkend="ai-precession"
+>Kreiselbewegung</link
+> nur für einen kleinen Bruchteil der Zeit in der Nähe des Pols. </para>
 <tip>
-<para>Exercises:</para>
-<para>
-Use the <guilabel>Find Object</guilabel> window
-(<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>) to locate
-Polaris.  Notice that its Declination is almost (but not exactly) +90 degrees.
-Compare the Altitude reading when focused on Polaris to your location's
-geographic latitude.  They are always within one degree of each other.
-They are not exactly the same because Polaris isn't exactly at the Pole.
-(you can point exactly at the pole by switching to Equatorial
-coordinates, and pressing the up-arrow key until the sky stops scrolling).
-</para><para>
-Use the <guilabel>Time Step</guilabel> spinbox in the toolbar to accelerate time
- to a
-step of 100 seconds.  You can see the entire sky appears to rotate around
-Polaris, while Polaris itself remains nearly stationary.
-</para><para>
-We said that the celestial pole is the pole of the Equatorial coordinate
-system.  What do you think is the pole of the horizontal (Altitude/Azimuth)
-coordinate system?  (The <link linkend="ai-zenith">Zenith</link>).
-</para>
+<para
+>Übungen:</para>
+<para
+>Benutzen Sie das Fenster <guilabel
+>Objekt suchen</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>), um den Polarstern (lat. Polaris) zu finden. Beachten Sie, dass seine Deklination fast (aber nicht genau) +90 Grad ist. Vergleichen Sie die Höhe, die Sie ablesen können, wenn Sie auf den Polarstern schauen, mit dem geografischen Breitengrad ihres Standorts. Sie sind immer fast gleich. Da sich der Polarstern jedoch nicht genau am Pol befindet, sind die beiden Werte nicht genau gleich. (Sie können genau auf den Pol zeigen, indem Sie zum äquatorialen Koordinatensystem schalten und die Pfeiltaste nach oben drücken bis sich die Ansicht nicht mehr bewegt. </para
+><para
+>Benutzen Sie das Drehfeld <guilabel
+>Zeitschritt</guilabel
+> in der Werkzeugleiste, um den Zeitschritt auf 100 Sekunden zu stellen. Sie können nun sehen, wie der ganze Himmel sich um den Polarstern dreht, während dieser fast stehenbleibt. </para
+><para
+>Wir haben gesagt, dass der Himmelspol der Pol des äquatorialen Koordinatensystems ist. Was, glauben Sie, ist der Pol des horizontalen (Höhen-/Azimut-) Koordinatensystems? (Der <link linkend="ai-zenith"
+>Zenit</link
+>). </para>
 </tip>
 </sect1>

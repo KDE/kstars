@@ -1,49 +1,54 @@
 <sect1 id="ai-utime">
 <sect1info>
-<author>
-<firstname>Jason</firstname>
-<surname>Harris</surname>
-</author>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
 </sect1info>
-<title>Universal Time</title>
-<indexterm><primary>Universal Time</primary>
-<seealso>Time Zones</seealso>
+<title
+>Universalzeit</title>
+<indexterm
+><primary
+>Universalzeit</primary>
+<seealso
+>Zeitzonen</seealso>
 </indexterm>
-<para>
-The time on our clocks is essentially a measurement of the current position of
-the Sun in the sky, which is different for places at different Longitudes
-because the Earth is round (see <link linkend="ai-timezones">Time Zones</link>).
-</para><para>
-However, it is sometimes necessary to define a global time, one that is the same
-for all places on Earth.  One way to do this is to pick a place on the Earth,
-and adopt the Local Time at that place as the <firstterm>Universal
-Time</firstterm>, abbreviated <abbrev>UT</abbrev>.  (The name is a bit of a
-misnomer, since Universal Time has little to do with the Universe.  It would
-perhaps be better to think of it as <emphasis>global time</emphasis>).
-</para><para>
-The geographic location chosen to represent Universal Time is Greenwich,
-England.  The choice is arbitrary and historical.  Universal Time became an
-important concept when European ships began to sail the wide open seas, far from
-any known landmarks.  A navigator could reckon the ship's longitude by comparing
-the Local Time (as measured from the Sun's position) to the time back at the
-home port (as kept by an accurate clock on board the ship).  Greenwich was home
-to England's Royal Observatory, which was charged with keeping time
-very accurately, so that ships in port could re-calibrate their clocks before
-setting sail.
-</para>
+<para
+>Die Zeit auf unseren Uhren ist für die Festlegung der aktuellen Position der Sonne im Himmel wichtig, die für Orte auf einem anderen geografischen Längengrad abweicht, da die Erde rund ist (siehe <link linkend="ai-timezones"
+>Zeitzonen</link
+>). </para
+><para
+>Jedoch ist es manchmal wichtig, eine globale Zeit zu definieren, die für alle Orte auf der Erde gleich ist. Eine Möglichkeit dazu ist, einen Ort auf der Erde zu wählen und die lokale Zeit an diesem Ort als <firstterm
+>Universalzeit</firstterm
+>, abgekürzt <abbrev
+>UT</abbrev
+>, anzunehmen. (Der Name ist etwas irreführend, da die Universalzeit wenig mit dem Universum zu tun hat. Es ist vielleicht besser an eine <emphasis
+>Globalzeit</emphasis
+> zu denken). </para
+><para
+>Der geografische Ort, der ausgewählt wurde, ist Greenwich, England. Diese Wahl ist beliebig und historisch bedingt. Die Universalzeit war sehr wichtig, als europäische Schiffe begannen, auf den offenen Weltmeere weit weg von bekannten Landstrichen herumzusegeln. Ein Steuermann konnte den geografischen Längengrad des Schiffes herausfinden, indem er die Lokalzeit (gemessen aus der Sonnenposition) mit der Zeit seines Heimathafens verglich (die mit einer genauen Uhr an Bord gemessen wurde). Greenwich war die Heimat des königlichen englischen Observatoriums, wo die Zeit sehr genau gemessen wurde, sodass die Schiffe im Hafen ihre Uhren vor der Abfahrt danach stellen konnten.   </para>
 <tip>
-<para>Exercise:</para>
-<para>
-Set the geographic location to <quote>Greenwich, England</quote> using the
-<guilabel>Set Location</guilabel> window
-(<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>).  Note that the
-Local Time (<abbrev>LT</abbrev>) and the Universal Time (<abbrev>UT</abbrev>) are
-now the same.
-</para><para>
-Further Reading: The history behind the construction of the first clock
-that was accurate and stable enough to be used on ships to keep Universal Time
-is a fascinating tale, and one told expertly in the book <quote>Longitude</quote>,
-by Dava Sobel.
-</para>
+<para
+>Übung:</para>
+<para
+>Setzen Sie den Standort auf <quote
+>Greenwich, England</quote
+>, indem Sie das <guilabel
+>Standort einstellen</guilabel
+> Fenster benutzen. (<keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+>). Beachten Sie, dass nun die Lokalzeit (<abbrev
+>OZ</abbrev
+>) und die Universalzeit (<abbrev
+>UZ</abbrev
+>) den gleichen Wert zeigen. </para
+><para
+>Literaturhinweise: Die Geschichte hinter der Konstruktion der ersten Uhr, die genau und stabil genug war, um auf Schiffen die Universalzeit zu behalten, ist ein faszinierendes Märchen und sehr gut im Buch <quote
+>Longitude</quote
+> von Dava Sobel erzählt. </para>
 </tip>
 </sect1>

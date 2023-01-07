@@ -1,176 +1,223 @@
 <sect1 id="tool-aavso">
 
 <sect1info>
-<author>
-<firstname>Aaron</firstname>
-<surname>Price</surname>
-<affiliation><address>
-<email>aavso@aavso.org</email>
-</address></affiliation>
+<author
+><firstname
+>Aaron</firstname
+> <surname
+>Price</surname
+> <affiliation
+><address
+> <email
+>aavso@aavso.org</email>
+</address
+></affiliation>
 </author>
 </sect1info>
 
-<title>AAVSO Light Curves</title>
-<indexterm><primary>Tools</primary>
-<secondary>AAVSO Lightcurve Generator</secondary>
+<title
+>AAVSO Lichtkurven</title>
+<indexterm
+><primary
+>Hilfsmittel</primary>
+<secondary
+>AAVSO Lichtkurvengenerator</secondary>
 </indexterm>
 
 <screenshot>
-<screeninfo>
-The AAVSO Lightcurves Tool
-</screeninfo>
+<screeninfo
+>Das Hilfsmittel AAVSO-Lichtkurven </screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="aavso.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>AAVSO Lightcurves</phrase>
+    <phrase
+>AAVSO-Lichtkurven</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
 <sect2 id="aavso-intro">
-<title>Introduction</title>
-<para>
-&kstars; can display light curves for variable stars from the observing
-program of the <ulink url="https://www.aavso.org">American Association
-of Variable Star Observers</ulink> (<abbrev>AAVSO</abbrev>).  This
-program monitors over 6,000 variable stars and consists of 10 million
-observations going back almost a century.  &kstars; downloads the very
-latest data directly from the <abbrev>AAVSO</abbrev> database via the
-Internet, so a network connection is required to use this tool.
-</para>
-<para>
-To use the tool, select a variable star either by
-<firstterm>designation</firstterm> or name in the left panel, and
-set the start and end dates to be plotted.  In the right panel,
-select the type of data that should be plotted (see below).  When you have
-made you selections, press the <guibutton>Retrieve Curve</guibutton>
-button.  &kstars; will automatically connect to the AAVSO server,
-which will generate the lightcurve plot and send it to your computer for
-display.  A sample lightcurve plot is shown below:
-</para>
+<title
+>Einführung</title>
+<para
+>&kstars; kann Lichtkurven für variable Sterne vom Beobachtungsprogramm der <ulink url="http://www.aavso.org"
+>American Association of Variable Star Observers</ulink
+> (<abbrev
+>AAVSO</abbrev
+>) (Deutsch etwa: Amerikanische Vereinigung zur Beobachtung variabler Sternen) anzeigen. Dieses Programm beobachtet über 6.000 variable Sterne und enthält 10 Millionen Beobachtungen aus den letzten hundert Jahren. &kstars; lädt die aktuellsten Daten direkt von der <abbrev
+>AAVSO</abbrev
+>-Datenbank aus dem Internet, also ist eine Internetverbindung für dieses Hilfsmittel notwendig. </para>
+<para
+>Um das Hilfsmittel zu benutzen, wählen Sie einen variablen Stern entweder durch seine <firstterm
+>Bezeichnung</firstterm
+> oder per Namen im linken Feld und setzen die Start- und Enddaten für die Zeichnung. Im rechten Feld wählen Sie die Daten, die gezeichnet werden sollen. Wenn Sie Ihre Wahl getroffen haben, drücken Sie den Knopf <guibutton
+>Kurve abfragen</guibutton
+>. &kstars; verbindet sich automatisch mit dem AAVSO-Server, der die Zeichnung erstellt und sie an Ihren Computer zur Anzeige zurückschickt. Eine Beispielkurve ist unten dargestellt: </para>
 
 <screenshot>
-<screeninfo>
-A Sample Lightcurve
-</screeninfo>
+<screeninfo
+>Eine Beispiellichtkurve </screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="lightcurve.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>Sample Lightcurve</phrase>
+    <phrase
+>Beispiellichtkurve</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
-<para>
-Please not these light curves should <emphasis>NEVER</emphasis> be used
-in research, papers, presentations, publications, &etc; They are only
-meant to be used as a source of info for &kstars;. They have not been
-validated and passed the <abbrev>AAVSO</abbrev>'s strict quality control
-measures. We will be glad to give you good raw data simply by requesting
-it at <ulink url="http://www.aavso.org/adata/onlinedata/">http://www.aavso.org/adata/onlinedata/</ulink>.
-</para>
+<para
+>Diese Lichtkurven sollten bitte <emphasis
+>nie</emphasis
+> in Forschung, Veröffentlichungen, Präsentationen, Publikationen &etc; verwendet werden. Sie sind nur als eine Informationsquelle zu &kstars; gedacht. Sie wurde nicht durch die strenge Qualitätskontrolle der <abbrev
+>AAVSO</abbrev
+> geprüft und für gut befunden. Genaue Rohdaten finden Sie unter <ulink url="http://www.aavso.org/adata/onlinedata/"
+>http://www.aavso.org/adata/onlinedata/</ulink
+>. </para>
 <!-- broken link in 4.7 -->
-<para>
-Specific questions about the data in the light curves can be sent to
-<email>aavso@aavso.org</email>.
-</para>
+<para
+>Spezifische Fragen über die Daten in den Lichtkurven können an <email
+>aavso@aavso.org</email
+> gestellt werden. </para>
 </sect2>
 
 <sect2 id="aavso-about">
-<title>About Variable Stars</title>
-<para>
-<firstterm>Variable stars</firstterm> are stars that change in
-brightness.  A <firstterm>light curve</firstterm> is a plot of a
-variable star's brightness over time. By looking at a light curve you
-can see how the star has behaved in the past and try to predict how it
-will behave in the future. Astronomers also use this data to model
-astrophysical processes in the star. This important to help us
-understand how stars work.
-</para>
+<title
+>Über variable Sterne</title>
+<para
+><firstterm
+>Variable Sterne</firstterm
+> sind Sterne, die Ihre Helligkeit verändern. Eine <firstterm
+>Lichtkurve</firstterm
+> ist eine Zeichnung der Helligkeit eines variablen Sternes über die Zeit. Durch den Blick auf die Lichtkurve können Sie sehen, wie sich ein Stern in der Vergangenheit verhalten hat und wie er in Zukunft sich verhalten wird. Astronomen benutzen diese Daten, um astrophysische Prozesse im Stern zu modellieren. Das ist wichtig, damit wir verstehen, wie Sterne arbeiten. </para>
 </sect2>
 
 <sect2 id="aavso-data">
-<title>The Data</title>
+<title
+>Die Daten</title>
 
-<para>
-Here is a summary of the various types of data available in the light
-curves:
+<para
+>Hier ist eine Zusammenfassung der verschiedenen Datentypen in Lichtkurven: <itemizedlist
+>  
+<listitem
+><para
+><firstterm
+>Visuelle Beobachtung</firstterm
+>: Das ist eine Beobachtung des variablen Sterns von einem Beobachter mit einem normalen Teleskop. Das bedeutet, dass ein Beobachter den Stern mit der Helligkeit Y am Datum und zur Zeit X gesehen hat.</para
+></listitem>
 
-<itemizedlist>
-<listitem><para><firstterm>Visual Observation</firstterm>:
-This is an observation of a variable star by an observer with a
-regular telescope.  It means that an observer saw the star at Y
-brightness on X date and time.</para></listitem>
+<listitem
+><para
+><firstterm
+>Blasser Als</firstterm
+>: Manchmal ist der Stern zu lichtschwach um vom Beobachter gesehen werden zu können. Wenn das passiert, berichtet der Beobachter vom blassesten Stern im Bereich. Diese werden dann auch <quote
+>Blasser Als</quote
+> genannt, da der variable Stern blasser als die berichtete Helligkeit.</para
+></listitem>
 
-<listitem><para><firstterm>Fainter than</firstterm>:
-Sometimes the star is too faint to be seen by the observer. When that
-happens, the observer reports the faintest star seen in the field.
-These are called <quote>fainter thans</quote> because the variable star
-was fainter than the brightness reported.</para></listitem>
+<listitem
+><para
+><firstterm
+>Durchschnitt</firstterm
+>: Das ist ein berechneter Durchschnitt aller Daten. Die Zahl <firstterm
+>bin</firstterm
+> sagt dem Computer, wieviele Tage in die Kalkulation einfließen sollen. Das muss an die Frequenz der Beobachtungen angepasst werden. Die Fehlerbalken repräsentieren die einfache Sigmaabweichung für den Fehler.</para
+></listitem>
 
-<listitem><para><firstterm>Average</firstterm>:
-This is a computed running average of all the data reported. The
-<firstterm>bin</firstterm> number tells the computer how many days to
-use in each average calculation. This will need to be adjusted based on
-the frequency of observations. The error bars represent the 1 sigma
-standard deviation of error.</para></listitem>
+<listitem
+><para
+><firstterm
+>CCDV</firstterm
+>: Dies sind Beobachtungen, die mit einem <abbrev
+>CCD</abbrev
+> mit einem Johnson <abbrev
+>V</abbrev
+>-Filter vorgenommen wurden. <abbrev
+>CCDV</abbrev
+>-Beobachtungen sind meistens genauer als die visuellen (aber nicht immer!).</para
+></listitem>
 
-<listitem><para><firstterm>CCDV</firstterm>:
-These are observations reported using a <abbrev>CCD</abbrev> with a
-Johnson <abbrev>V</abbrev> filter.  <abbrev>CCDV</abbrev> observations
-tend to be more accurate than visual (but not
-always).</para></listitem>
+<listitem
+><para
+><firstterm
+>CCDB</firstterm
+>: <abbrev
+>CCD</abbrev
+>-Beobachtungen mit einem Johnson <abbrev
+>B</abbrev
+>-Filter.</para
+></listitem>
 
-<listitem><para><firstterm>CCDB</firstterm>:
-<abbrev>CCD</abbrev> observations with a Johnson <abbrev>B</abbrev>
-filter.</para></listitem>
+<listitem
+><para
+><firstterm
+>CCDI</firstterm
+>: <abbrev
+>CCD</abbrev
+>-Beobachtungen mit einem Cousins <abbrev
+>Ic</abbrev
+>-Filter.</para
+></listitem>
 
-<listitem><para><firstterm>CCDI</firstterm>:
-<abbrev>CCD</abbrev> observations with a Cousins <abbrev>Ic</abbrev>
-filter.</para></listitem>
+<listitem
+><para
+><firstterm
+>CCDR</firstterm
+>: <abbrev
+>CCD</abbrev
+>-Beobachtung mit einem Cousins <abbrev
+>R</abbrev
+>-Filter.</para
+></listitem>
 
-<listitem><para><firstterm>CCDR</firstterm>:
-<abbrev>CCD</abbrev> observations with a Cousins <abbrev>R</abbrev>
-filter.</para></listitem>
+<listitem
+><para
+><firstterm
+>Diskrepante Daten</firstterm
+>: Das sind Daten, die von einem Mitarbeiter von <abbrev
+>AAVSO</abbrev
+> als diskrepant zu den <abbrev
+>HQ</abbrev
+>-Regeln für die Datenüberprüfung markiert wurden. Kontaktieren Sie <email
+>aavso@aavso.org</email
+> für weitere Informationen.</para
+></listitem>
 
-<listitem><para><firstterm>Discrepant Data</firstterm>:
-This is data that has been flagged by an <abbrev>AAVSO</abbrev> staff
-member as being discrepant following <abbrev>HQ</abbrev> rules for
-data validation. Contact <email>aavso@aavso.org</email> for more
-information.</para></listitem>
-
-<listitem><para><firstterm>Dates</firstterm>:
-The observational database the light curves are based on is updated
-every 10 minutes so you can get data in near real-time. Right now
-light curve data is only available back to 1961, but this will likely
-be expanded further back in time in the future.</para></listitem>
+<listitem
+><para
+><firstterm
+>Daten</firstterm
+>: Die Beobachtungsdatenbank der Lichtkurven wird alle 10 Minuten aktualisiert, Sie können also Daten in Realzeit bekommen. Zurzeit reichen die Lichtkurvendaten nur bis ins Jahr 1961, aber das wird bald auf weiter zurückliegende Zeiträume erweitert werden.</para
+></listitem>
 
 </itemizedlist>
 </para>
 </sect2>
 
 <sect2 id="aavso-update">
-<title>Updating your local copy of Variable Stars</title>
-<para>
-The <abbrev>AAVSO</abbrev> publishes the <!-- broken link in 4.7 -->
-<ulink url="http://www.aavso.org/valnam.txt">full list of variable
-stars</ulink> in their monitoring program.  This file is updated
-monthly with newly discovered variable stars.  To sync the list that
-&kstars; uses with the <abbrev>AAVSO</abbrev> master list, click
-on the <guibutton>Update List</guibutton> button in the
-<abbrev>AAVSO</abbrev> dialog.  &kstars; will then attempt to
-connect to the <abbrev>AAVSO</abbrev> database and download the
-latest list.
-</para>
+<title
+>Die lokale Kopie der variablen Sterne aktualisieren</title>
+<para
+>Die <abbrev
+>AAVSO</abbrev
+> veröffentlicht die <ulink url="http://www.aavso.org/valnam.txt"
+>vollständige Liste der variablen Sterne</ulink
+> in Ihrem Beobachtungsprogramm. Diese Datei wird monatlich mit neu gefundenen Sternen aktualisiert. Um die Liste von &kstars; mit der <abbrev
+>Masterliste</abbrev
+> zu synchronisieren klicken Sie auf den Knopf <guibutton
+>Liste aktualisieren</guibutton
+> im <abbrev
+>AAVSO</abbrev
+>-Dialog. &kstars; versucht dann eine Verbindung zur <abbrev
+>AAVSO</abbrev
+>-Datenbank herzustellen und die neueste Liste herunterzuladen. </para>
 <note>
-<para>
-The customized data stream provided by the AAVSO was implemented for
-&kstars; by Aaron Price.  Thank you, Aaron!
-</para>
+<para
+>Der angepasste Datenstrom, der von der AAVSO angeboten wird, wurde für &kstars; von Aaron Price implementiert. Danke, Aaron! </para>
 </note>
 </sect2>
 </sect1>
