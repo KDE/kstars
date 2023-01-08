@@ -202,7 +202,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getJobCount()
         {
-            return jobs.count();
+            return m_captureModuleState->allJobs().count();
         }
 
         /** DBUS interface function.
@@ -1033,14 +1033,9 @@ class Capture : public QWidget, public Ui::Capture
         // time left for the current sequence
         QTime sequenceCountDown;
 
-        int seqDelay { 0 };
         // Timer for starting the next capture sequence with delay
         // @see startNextExposure()
         QTimer *seqDelayTimer { nullptr };
-        // Timer to start the entire capturing with the delay configured
-        // for the first capture job that is ready to be executed.
-        // @see start().
-        QTimer *captureDelayTimer { nullptr };
         QString seqPrefix;
         int nextSequenceID { 0 };
         int seqFileCount { 0 };
@@ -1064,8 +1059,6 @@ class Capture : public QWidget, public Ui::Capture
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
         QSharedPointer<CaptureModuleState> m_captureModuleState;
 
-        QList<SequenceJob *> jobs;
-
         QPointer<QDBusInterface> mountInterface;
 
         QSharedPointer<FITSData> m_ImageData;
@@ -1074,11 +1067,6 @@ class Capture : public QWidget, public Ui::Capture
         QUrl m_SequenceURL;
         bool m_Dirty { false };
         bool m_JobUnderEdit { false };
-
-        // Guide Deviation
-        bool m_DeviationDetected { false };
-        int m_SpikesDetected { 0 };
-        QTimer guideDeviationTimer;
 
         // Fast Exposure
         bool m_RememberFastExposure {false};
@@ -1160,7 +1148,6 @@ class Capture : public QWidget, public Ui::Capture
         QVariantMap m_Metadata;
         void processGuidingFailed();
 
-        bool m_StartingCapture {true};
         QSharedPointer<FilterManager> m_FilterManager;
 
         bool FilterEnabled {false};

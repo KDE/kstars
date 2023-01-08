@@ -141,7 +141,8 @@ QDir *TestEkosCaptureHelper::getImageLocation()
     return imageLocation;
 }
 
-bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory)
+bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory,
+        int delay)
 {
     if (sequence == "")
         return true;
@@ -153,7 +154,7 @@ bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequenc
         int count      = value.right(value.length() - value.indexOf(":") - 1).toInt();
         KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), targetNameT, target);
         if (count > 0)
-            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, 0, filter, fitsDirectory + "/%T/%F/%t_%T"));
+            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, delay, filter, fitsDirectory + "/%T/%F/%t_%T"));
         // ensure that no old values are present
         Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(target, filter), 0);
     }

@@ -138,6 +138,11 @@ class RefocusState : public QObject
          */
         void addHFRValue(const QString &filter);
 
+signals:
+        // new log text for the module log window
+        void newLog(const QString &text);
+
+
     private:
         // HFR value as received from the Ekos focus module
         double m_focusHFR { 0 };

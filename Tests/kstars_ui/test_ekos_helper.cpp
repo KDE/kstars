@@ -454,6 +454,19 @@ void TestEkosHelper::prepareAlignmentModule()
     Options::setAlignCheckFrequency(0);
 }
 
+void TestEkosHelper::prepareCaptureModule()
+{
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    // clear refocusing limits
+    KTRY_SET_CHECKBOX(capture, limitRefocusS, false);
+    KTRY_SET_CHECKBOX(capture, limitFocusHFRS, false);
+    KTRY_SET_CHECKBOX(capture, limitFocusDeltaTS, false);
+    // clear the guiding limits
+    KTRY_SET_CHECKBOX(capture, startGuiderDriftS, false);
+    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, false);
+
+}
+
 void TestEkosHelper::prepareFocusModule()
 {
     // set focus mode defaults
@@ -519,6 +532,8 @@ void TestEkosHelper::prepareGuidingModule()
     Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0052,ph=0.0052,fl=450,ang=268.48,angR=270.003,angD=176.956,ramspas=139.827,decmspas=132.191,swap=0,ra= 344:23:02,dec=00:25:52,side=0,when=2022-11-08 20:36:46,calEnd");
     // 0.5 pixel dithering
     Options::setDitherPixels(0.5);
+    // disable dithering
+    Options::setDitherEnabled(false);
     // auto star select
     KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), guideAutoStar, true);
     // set the guide star box to size 32

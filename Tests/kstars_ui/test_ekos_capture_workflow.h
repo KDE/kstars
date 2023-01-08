@@ -88,16 +88,17 @@ class TestEkosCaptureWorkflow : public QObject
          * @param refocusLimitTime time limit to trigger re-focusing
          * @param refocusHFR HFR limit to trigger re-focusing
          * @param refocusTemp temperature limit to trigger re-focusing
+         * @param delay delay between frame captures
          * @return true iff preparation was successful
          */
-        bool prepareCapture(int refocusLimitTime = 0.0, double refocusHFR = 0.0, double refocusTemp = 0.0);
+        bool prepareCapture(int refocusLimitTime = 0.0, double refocusHFR = 0.0, double refocusTemp = 0.0, int delay = 0);
 
         /**
          * @brief Helper function translating simple QString input into QTest test data rows
          * @param exptime exposure time of the sequence
-         * @param sequence filter and count as QString("<filter>:<count"), ... list
+         * @param sequenceList List of sequences with filter and count as QString("<filter>:<count"), ... list
          */
-        void prepareTestData(double exptime, QString sequence);
+        void prepareTestData(double exptime, QList<QString> sequenceList);
 
         // counter for images taken in a single test run
         int image_count;
@@ -150,6 +151,9 @@ class TestEkosCaptureWorkflow : public QObject
          * capturing until the guiding deviation is below the configured deviation threshold.
          */
         void testInitialGuidingLimitCapture();
+
+        /** @brief Test data for @see testInitialGuidingLimitCapture() */
+        void testInitialGuidingLimitCapture_data();
 
         /**
          * @brief Wait with start of capturing until the target temperature has been reached

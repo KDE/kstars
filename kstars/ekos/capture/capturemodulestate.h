@@ -74,6 +74,11 @@ class CaptureModuleState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
         // ////////////////////////////////////////////////////////////////////
+        QList<SequenceJob *> &allJobs()
+        {
+            return m_allJobs;
+        }
+
         SequenceJob *getActiveJob() const
         {
             return m_activeJob;
@@ -130,6 +135,15 @@ class CaptureModuleState: public QObject
         }
         void setCaptureState(CaptureState value);
 
+        bool isStartingCapture() const
+        {
+            return m_StartingCapture;
+        }
+        void setStartingCapture(bool newStartingCapture)
+        {
+            m_StartingCapture = newStartingCapture;
+        }
+
         FocusState getFocusState() const
         {
             return m_FocusState;
@@ -146,6 +160,38 @@ class CaptureModuleState: public QObject
         void setGuideState(GuideState value)
         {
             m_GuideState = value;
+        }
+
+        QTimer &getCaptureDelayTimer()
+        {
+            return m_captureDelayTimer;
+        }
+
+        QTimer &getGuideDeviationTimer()
+        {
+            return m_guideDeviationTimer;
+        }
+
+        bool isGuidingDeviationDetected() const
+        {
+            return m_GuidingDeviationDetected;
+        }
+        void setGuidingDeviationDetected(bool newDeviationDetected)
+        {
+            m_GuidingDeviationDetected = newDeviationDetected;
+        }
+
+        int SpikesDetected() const
+        {
+            return m_SpikesDetected;
+        }
+        int increaseSpikesDetected()
+        {
+            return ++m_SpikesDetected;
+        }
+        void resetSpikesDetected()
+        {
+            m_SpikesDetected = 0;
         }
 
         IPState getDitheringState() const
@@ -348,13 +394,31 @@ class CaptureModuleState: public QObject
              */
         bool checkAlignmentAfterFlip();
 
+        /**
+         * @brief Slot that listens to guiding deviations reported by the Guide module.
+         *
+         * Depending on the current status, it triggers several actions:
+         * - If there is no active job, it calls {@see m_captureModuleState->checkMeridianFlipReady()}, which may initiate a meridian flip.
+         * - If guiding has been started after a meridian flip and the deviation is within the expected limits,
+         *   the meridian flip is regarded as completed by setMeridianFlipStage(MF_NONE) (@see setMeridianFlipStage()).
+         * - If the deviation is beyond the defined limit, capturing is suspended (@see suspend()) and the
+         *   #guideDeviationTimer is started.
+         * - Otherwise, it checks if there has been a job suspended and restarts it, since guiding is within the limits.
+         */
+
+        void setGuideDeviation(double deviation_rms);
+
 
         bool isCaptureRunning()
         {
             return (m_CaptureState != CAPTURE_IDLE && m_CaptureState != CAPTURE_COMPLETE && m_CaptureState != CAPTURE_ABORTED);
         }
 
-    signals:
+signals:
+        // controls for capture execution
+        void startCapture();
+        void abortCapture();
+        void suspendCapture();
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();
         // new capture state
@@ -371,10 +435,14 @@ class CaptureModuleState: public QObject
         void newLimitFocusHFR(double hfr);
         // Select the filter at the given position
         void newFilterPosition(int targetFilterPosition);
-
-    private:
+        // new log text for the module log window
+        void newLog(const QString &text);
+private:
+        // list of all sequence jobs
+        QList<SequenceJob *> m_allJobs;
         // Currently active sequence job.
         SequenceJob *m_activeJob { nullptr };
+
         // current filter position
         // TODO: check why we have both currentFilterID and this, seems redundant
         int m_CurrentFilterPosition { -1 };
@@ -384,6 +452,19 @@ class CaptureModuleState: public QObject
         QString m_CurrentFocusFilterName { "--" };
         // HFR value as loaded from the sequence file
         double m_fileHFR { 0 };
+        // are we in the starting phase of capturing?
+        bool m_StartingCapture { true };
+        // Guide Deviation
+        bool m_GuidingDeviationDetected { false };
+        // Guiding spikes
+        int m_SpikesDetected { 0 };
+        // Timer for guiding recovery
+        QTimer m_guideDeviationTimer;
+        // Timer to start the entire capturing with the delay configured
+        // for the first capture job that is ready to be executed.
+        // @see Capture::start().
+        QTimer m_captureDelayTimer;
+
 
         // ////////////////////////////////////////////////////////////////////
         // device states

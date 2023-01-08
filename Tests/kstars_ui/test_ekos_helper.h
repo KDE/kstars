@@ -483,10 +483,15 @@ class TestEkosHelper : public QObject
          */
         void prepareAlignmentModule();
 
-        /**
-         * @brief Helper function that ensures that focusing works in a test environment
-         */
-        void prepareFocusModule();
+    /**
+     * @brief Helper function that ensures that capturing works in a test environment
+     */
+    void prepareCaptureModule();
+
+    /**
+     * @brief Helper function that ensures that focusing works in a test environment
+     */
+    void prepareFocusModule();
 
         /**
          * @brief Helper function that ensures that guiding works in a test environment

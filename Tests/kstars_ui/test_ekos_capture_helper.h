@@ -183,9 +183,10 @@ public:
      * @param sequence comma separated list of <filter>:<count>
      * @param exptime exposure time
      * @param fitsDirectory directory where the captures will be placed
+     * @param delay delay between frame captures
      * @return true if everything was successful
      */
-    bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory);
+    bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory, int delay = 0);
 
     /**
      * @brief Fill the fields of the script manager in the capture module
