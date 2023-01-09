@@ -36,6 +36,10 @@ class FITSHistogramView : public QCustomPlot
     signals:
         void constructed();
 
+    private slots:
+        void onXRangeChanged(const QCPRange &range);
+        void onYRangeChanged(const QCPRange &range);
+
     public slots:
         //void applyScale();
         void resizePlot();
