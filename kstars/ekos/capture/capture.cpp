@@ -820,19 +820,6 @@ void Capture::registerNewModule(const QString &name)
     }
 }
 
-/**
- * @brief Start the execution of the Capture::SequenceJob list #jobs.
- *
- * Starting the execution of the Capture::SequenceJob list selects the first job
- * from the ist that may be executed and starts to prepare the job (@see prepareJob()).
- *
- * Several factors determine, which of the jobs will be selected:
- * - First, the list is searched to find the first job that is marked as idle or aborted.
- * -  If none is found, it is checked whether ignoring job progress is set. If yes,
- *    all jobs are are reset (@see reset()) and the first one from the list is selected.
- *    If no, the user is asked whether the jobs should be reset. If the user declines,
- *    starting is aborted.
- */
 void Capture::start()
 {
     //    if (darkSubCheck->isChecked())
@@ -1787,26 +1774,7 @@ void Capture::syncFilterInfo()
     }
 }
 
-/**
- * @brief Ensure that all pending preparation tasks are be completed (focusing, dithering, etc.)
- *        and start the next exposure.
- *
- * Checks of pending preparations depends upon the frame type:
- *
- * - For light frames, pending preparations like focusing, dithering etc. needs
- *   to be checked before each single frame capture. efore starting to capture the next light frame,
- *   checkLightFramePendingTasks() is called to check if all pending preparation tasks have
- *   been completed successfully. As soon as this is the case, the sequence timer
- *   #seqTimer is started to wait the configured delay and starts capturing the next image.
- *
- * - For bias, dark and flat frames, preparation jobs are only executed when starting a sequence.
- *   Hence, for these frames we directly start the sequence timer #seqTimer.
- *
- * @return IPS_OK, iff all pending preparation jobs are completed (@see checkLightFramePendingTasks()).
- *         In that case, the #seqTimer is started to wait for the configured settling delay and then
- *         capture the next image (@see Capture::captureImage). In case that a pending task aborted,
- *         IPS_IDLE is returned.
- */
+
 IPState Capture::startNextExposure()
 {
     // Since this function is looping while pending tasks are running in parallel
@@ -1835,12 +1803,6 @@ IPState Capture::startNextExposure()
     return IPS_OK;
 }
 
-/**
- * @brief Try to start capturing the next exposure (@see startNextExposure()).
- *        If startNextExposure() returns, that there are still some jobs pending,
- *        we wait for 1 second and retry to start it again.
- *        If one of the pending preparation jobs has problems, the looping stops.
- */
 void Capture::checkNextExposure()
 {
     IPState started = startNextExposure();
@@ -1953,20 +1915,6 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
     setCaptureComplete();
 }
 
-/**
- * @brief Manage the capture process after a captured image has been successfully downloaded from the camera.
- *
- * When a image frame has been captured and downloaded successfully, send the image to the client (if configured)
- * and execute the book keeping for the captured frame. After this, either processJobCompletion() is executed
- * in case that the job is completed, and resumeSequence() otherwise.
- *
- * Book keeping means:
- * - increase / decrease the counters for focusing and dithering
- * - increase the frame counter
- * - update the average download time
- *
- * @return IPS_BUSY if pausing is requested, IPS_OK otherwise.
- */
 IPState Capture::setCaptureComplete()
 {
     captureTimeout.stop();
@@ -2183,10 +2131,6 @@ void Capture::processJobCompletionStage1()
     processJobCompletionStage2();
 }
 
-/**
- * @brief Stop execution of the current sequence and check whether there exists a next sequence
- *        and start it, if there is a next one to be started (@see resumeSequence()).
- */
 void Capture::processJobCompletionStage2()
 {
     if (activeJob == nullptr)
@@ -2228,16 +2172,6 @@ void Capture::processJobCompletionStage2()
 }
 
 
-/**
- * @brief Try to continue capturing.
- *
- * Take the active job, if there is one, or search for the next one that is either
- * idle or aborted. If a new job is selected, call prepareJob(*SequenceJob) to prepare it and
- * resume guiding (TODO: is this not part of the preparation?). If the current job is still active,
- * initiate checkNextExposure().
- *
- * @return IPS_OK if there is a job that may be continued, IPS_BUSY otherwise.
- */
 IPState Capture::resumeSequence()
 {
     // If no job is active, we have to find if there are more pending jobs in the queue
@@ -2600,19 +2534,12 @@ void Capture::captureImage()
     }
 }
 
-/*******************************************************************************/
-/* Update the prefix for the sequence of images to be captured                 */
-/*******************************************************************************/
 void Capture::updateSequencePrefix(const QString &newPrefix)
 {
     seqPrefix = newPrefix;
     nextSequenceID = 1;
 }
 
-/*******************************************************************************/
-/* Determine the next file number sequence. That is, if we have file1.png      */
-/* and file2.png, then the next sequence should be file3.png		           */
-/*******************************************************************************/
 void Capture::checkSeqBoundary()
 {
     // No updates during meridian flip
@@ -2640,7 +2567,6 @@ void Capture::clearLog()
     emit newLog(QString());
 }
 
-//This method will update the Capture Module and Summary Screen's estimate of how much time is left in the download
 void Capture::setDownloadProgress()
 {
     if (activeJob)
@@ -3251,10 +3177,6 @@ void Capture::setBusy(bool enable)
         button->setEnabled(!enable);
 }
 
-/**
- * @brief Update the counters of existing frames and continue with prepareActiveJob(), if there exist less
- *        images than targeted. If enough images exist, continue with processJobCompletion().
- */
 void Capture::prepareJob(SequenceJob * job)
 {
     setActiveJob(job);
@@ -3450,9 +3372,7 @@ void Capture::prepareActiveJobStage1()
     }
     prepareActiveJobStage2();
 }
-/**
- * @brief Reset #calibrationStage and continue with preparePreCaptureActions().
- */
+
 void Capture::prepareActiveJobStage2()
 {
     // Just notification of active job stating up
@@ -3489,22 +3409,6 @@ void Capture::prepareActiveJobStage2()
     preparePreCaptureActions();
 }
 
-/**
- * @brief Trigger setting the filter, temperature, (if existing) the rotator angle and
- *        let the #activeJob execute the preparation actions before a capture may
- *        take place (@see SequenceJob::prepareCapture()).
- *
- * After triggering the settings, this method returns. This mechanism is slightly tricky, since it
- * asynchronous and event based and works as collaboration between Capture and SequenceJob. Capture has
- * the connection to devices and SequenceJob knows the target values.
- *
- * Each time Capture receives an updated value - e.g. the current CCD temperature
- * (@see updateCCDTemperature()) - it informs the #activeJob about the current CCD temperature.
- * SequenceJob checks, if it has reached the target value and if yes, sets this action as as completed.
- *
- * As soon as all actions are completed, SequenceJob emits a prepareComplete() event, which triggers
- * executeJob() from the Capture module.
- */
 void Capture::preparePreCaptureActions()
 {
     if (activeJob == nullptr)
@@ -3530,10 +3434,6 @@ void Capture::preparePreCaptureActions()
     activeJob->prepareCapture();
 }
 
-/**
- * @brief Listen to device property changes (temperature, rotator) that are triggered by
- *        SequenceJob.
- */
 void Capture::updatePrepareState(CaptureState prepareState)
 {
     m_captureModuleState->setCaptureState(prepareState);
@@ -3567,9 +3467,6 @@ void Capture::updatePrepareState(CaptureState prepareState)
     }
 }
 
-/**
- * @brief Start the execution of #activeJob by initiating updatePreCaptureCalibrationStatus().
- */
 void Capture::executeJob()
 {
     if (activeJob == nullptr)
@@ -3621,14 +3518,6 @@ void Capture::executeJob()
     updatePreCaptureCalibrationStatus();
 }
 
-/**
- * @brief This is a wrapping loop for processPreCaptureCalibrationStage(), which contains
- *        all checks before captureImage() may be called.
- *
- * If processPreCaptureCalibrationStage() returns IPS_OK (i.e. everything is ready so that
- * capturing may be started), captureImage() is called. Otherwise, it waits for a second and
- * calls itself again.
- */
 void Capture::updatePreCaptureCalibrationStatus()
 {
     // If process was aborted or stopped by the user
@@ -3660,17 +3549,6 @@ void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absT
     m_captureModuleState->getRefocusState()->setFocusTemperatureDelta(focusTemperatureDelta);
 }
 
-/**
- * @brief Slot that listens to guiding deviations reported by the Guide module.
- *
- * Depending on the current status, it triggers several actions:
- * - If there is no active job, it calls {@see m_captureModuleState->checkMeridianFlipReady()}, which may initiate a meridian flip.
- * - If guiding has been started after a meridian flip and the deviation is within the expected limits,
- *   the meridian flip is regarded as completed by setMeridianFlipStage(MF_NONE) (@see setMeridianFlipStage()).
- * - If the deviation is beyond the defined limit, capturing is suspended (@see suspend()) and the
- *   #guideDeviationTimer is started.
- * - Otherwise, it checks if there has been a job suspended and restarts it, since guiding is within the limits.
- */
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
     const double deviation_rms = std::hypot(delta_ra, delta_dec);
@@ -4919,10 +4797,7 @@ void Capture::setInSequenceFocus(bool enable, double HFR)
         m_LimitsUI->limitFocusHFRN->setValue(HFR);
 }
 
-void Capture::setTargetTemperature(double temperature)
-{
-    cameraTemperatureN->setValue(temperature);
-}
+
 
 void Capture::clearSequenceQueue()
 {
@@ -5501,25 +5376,7 @@ void Capture::openCalibrationDialog()
     }
 }
 
-/**
- * @brief Check all tasks that might be pending before capturing may start.
- *
- * The following checks are executed:
- *  1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
- *  2. Has pausing been initiated (@see checkPausing()).
- *  3. Is a meridian flip already running (@see m_MeridianFlipState->checkMeridianFlipRunning()) or ready
- *     for execution (@see m_captureModuleState->checkMeridianFlipReady()).
- *  4. Is a post meridian flip alignment running (@see checkAlignmentAfterFlip()).
- *  5. Is post flip guiding required or running (@see checkGuidingAfterFlip().
- *  6. Is the guiding deviation below the expected limit (@see setGuideDeviation(double,double)).
- *  7. Is dithering required or ongoing (@see checkDithering()).
- *  8. Is re-focusing required or ongoing (@see startFocusIfRequired()).
- *  9. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
- *
- * If none of this is true, everything is ready and capturing may be started.
- *
- * @return IPS_OK iff no task is pending, IPS_BUSY otherwise (or IPS_ALERT if a problem occured)
- */
+
 IPState Capture::checkLightFramePendingTasks()
 {
     // step 1: did one of the pending jobs fail or has the user aborted the capture?
@@ -5594,13 +5451,6 @@ IPState Capture::checkLightFramePendingTasks()
 }
 
 
-/**
- * @brief Execute the tasks that need to be completed before capturing may start.
- *
- * For light frames, checkLightFramePendingTasks() is called.
- *
- * @return IPS_OK if all necessary tasks have been completed
- */
 IPState Capture::processPreCaptureCalibrationStage()
 {
     // in some rare cases it might happen that activeJob has been cleared by a concurrent thread
