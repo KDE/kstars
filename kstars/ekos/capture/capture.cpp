@@ -6871,7 +6871,11 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
     QString m_format;
 
     if (previewType == LOCAL_PREVIEW)
+    {
+        if(!fileDirectoryT->text().endsWith("/") && !placeholderFormatT->text().startsWith("/"))
+            placeholderFormatT->setText("/" + placeholderFormatT->text());
         m_format = fileDirectoryT->text() + placeholderFormatT->text() + formatSuffixN->prefix() + formatSuffixN->cleanText();
+    }
     else if (previewType == REMOTE_PREVIEW)
         m_format = fileRemoteDirT->text();
 
@@ -6902,6 +6906,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         previewText = m_placeholderPath.generateFilename(*m_job, targetNameT->text(), previewType == LOCAL_PREVIEW, true, 1,
                       extension, "", false);
         m_captureModuleState->allJobs().removeLast();
+        previewText = QDir::toNativeSeparators(previewText);
     }
 
     return previewText;
