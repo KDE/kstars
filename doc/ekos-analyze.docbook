@@ -33,7 +33,7 @@
     <sect3 id="analyze-timeline">
         <title>Timeline</title>
         <para>
-        Timeline shows the major Ekos processes, and when they were active. For instance, the <guilabel>Capture</guilabel> line shows when images were taken (wither green for RGB or color-coded by the the filter) and when imaging was aborted (shown as red sections). Clicking on a capture section gives information about that image, and double clicking on one brings up the image taken then in a fitsviewer, if it is available.
+        Timeline shows the major Ekos processes, and when they were active. For instance, the <guilabel>Capture</guilabel> line shows when images were taken (wither green for RGB or color-coded by the filter) and when imaging was aborted (shown as red sections). Clicking on a capture section gives information about that image, and double clicking on one brings up the image taken then in a fitsviewer, if it is available.
         </para>
         <note>
             <para>
