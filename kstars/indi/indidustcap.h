@@ -39,7 +39,7 @@ class DustCap : public ConcreteDevice
             CAP_ERROR
         } Status;
 
-        virtual void processSwitch(ISwitchVectorProperty *svp) override;
+        virtual void processSwitch(INDI::Property prop) override;
 
         Q_SCRIPTABLE virtual bool canPark();        
         // Check if cap is fully parked.

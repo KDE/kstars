@@ -55,7 +55,7 @@ class StreamWG : public QDialog, public Ui::streamForm
             return processStream;
         }
 
-        void newFrame(IBLOB *bp);
+        void newFrame(INDI::Property prop);
 
         int getStreamWidth()
         {

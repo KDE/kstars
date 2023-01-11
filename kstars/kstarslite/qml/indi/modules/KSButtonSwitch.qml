@@ -11,7 +11,7 @@ Button {
     checked: true
 
     onClicked: {
-        parentRow.sendNewSwitch(switchName, null)
+        parentRow.sendNewProperty(switchName, null)
         Qt.inputMethod.hide()
     }
 }

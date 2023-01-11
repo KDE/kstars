@@ -24,9 +24,10 @@ Weather::Weather(GenericDevice *parent) : ConcreteDevice(parent)
     QDBusConnection::sessionBus().registerObject(m_DBusObjectPath, this);
 }
 
-void Weather::processLight(ILightVectorProperty *lvp)
+void Weather::processLight(INDI::Property prop)
 {
-    if (!strcmp(lvp->name, "WEATHER_STATUS"))
+    auto lvp = prop.getLight();
+    if (lvp->isNameMatch("WEATHER_STATUS"))
     {
         Status currentStatus = static_cast<Status>(lvp->s);
         if (currentStatus != m_WeatherStatus)
@@ -37,25 +38,24 @@ void Weather::processLight(ILightVectorProperty *lvp)
     }
 }
 
-void Weather::processNumber(INumberVectorProperty *nvp)
+void Weather::processNumber(INDI::Property prop)
 {
-    if (nvp == nullptr)
-        return;
+    auto nvp = prop.getNumber();
 
-    if (!strcmp(nvp->name, "WEATHER_PARAMETERS"))
+    if (nvp->isNameMatch("WEATHER_PARAMETERS"))
     {
         m_Data = QJsonArray();
 
         // read all sensor values received
         for (int i = 0; i < nvp->nnp; i++)
         {
-            INumber number = nvp->np[i];
+            auto number = nvp->at(i);
             QJsonObject sensor =
-                {
-                    {"name", number.name},
-                    {"label", number.label},
-                    {"value", number.value}
-                };
+            {
+                {"name", number->getName()},
+                {"label", number->getLabel()},
+                {"value", number->getValue()}
+            };
             m_Data.push_back(sensor);
         }
         emit newData(m_Data);
@@ -93,7 +93,7 @@ void Weather::setRefreshPeriod(int value)
         return;
 
     updateNP->at(0)->setValue(value);
-    sendNewNumber(updateNP);
+    sendNewProperty(updateNP);
 }
 
 bool Weather::refresh()
@@ -110,7 +110,7 @@ bool Weather::refresh()
 
     refreshSP->reset();
     refreshSW->setState(ISS_ON);
-    sendNewSwitch(refreshSP);
+    sendNewProperty(refreshSP);
 
     return true;
 

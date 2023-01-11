@@ -30,27 +30,27 @@ bool ClientManager::isDriverManaged(DriverInfo *di)
     });
 }
 
-void ClientManager::newDevice(INDI::BaseDevice *dp)
+void ClientManager::newDevice(INDI::BaseDevice dp)
 {
     //setBLOBMode(B_ALSO, dp->getDeviceName());
     // JM 2018.09.27: ClientManager will no longer handle BLOB, just messages.
     // We relay the BLOB handling to BLOB Manager to better manage concurrent connections with large data
-    setBLOBMode(B_NEVER, dp->getDeviceName());
+    setBLOBMode(B_NEVER, dp.getDeviceName());
 
     DriverInfo *deviceDriver = nullptr;
 
-    if (QString(dp->getDeviceName()).isEmpty())
+    if (QString(dp.getDeviceName()).isEmpty())
     {
         qCWarning(KSTARS_INDI) << "Received invalid device with empty name! Ignoring the device...";
         return;
     }
 
-    qCDebug(KSTARS_INDI) << "Received new device" << dp->getDeviceName();
+    qCDebug(KSTARS_INDI) << "Received new device" << dp.getDeviceName();
 
     // First iteration find unique matches
     for (auto &oneDriverInfo : m_ManagedDrivers)
     {
-        if (oneDriverInfo->getUniqueLabel() == QString(dp->getDeviceName()))
+        if (oneDriverInfo->getUniqueLabel() == QString(dp.getDeviceName()))
         {
             deviceDriver = oneDriverInfo;
             break;
@@ -66,7 +66,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
             if (dvName.isEmpty())
                 dvName = oneDriverInfo->getName();
             if (/*dv->getUniqueLabel() == dp->getDeviceName() ||*/
-                QString(dp->getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) ||
+                QString(dp.getDeviceName()).startsWith(dvName, Qt::CaseInsensitive) ||
                 ((oneDriverInfo->getDriverSource() == HOST_SOURCE || oneDriverInfo->getDriverSource() == GENERATED_SOURCE)))
             {
                 deviceDriver = oneDriverInfo;
@@ -78,36 +78,39 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
     if (deviceDriver == nullptr)
         return;
 
-    deviceDriver->setUniqueLabel(dp->getDeviceName());
+    deviceDriver->setUniqueLabel(dp.getDeviceName());
 
     DeviceInfo *devInfo = new DeviceInfo(deviceDriver, dp);
     deviceDriver->addDevice(devInfo);
     emit newINDIDevice(devInfo);
 }
 
-void ClientManager::newProperty(INDI::Property *pprop)
+void ClientManager::newProperty(INDI::Property property)
 {
-    INDI::Property prop(*pprop);
-
     // Do not emit the signal if the server is disconnected or disconnecting (deadlock between signals)
     if (!isServerConnected())
     {
-        IDLog("Received new property %s for disconnected device %s, discarding\n", prop.getName(), prop.getDeviceName());
+        IDLog("Received new property %s for disconnected device %s, discarding\n", property.getName(), property.getDeviceName());
         return;
     }
 
     //IDLog("Received new property %s for device %s\n", prop->getName(), prop->getgetDeviceName());
-    emit newINDIProperty(prop);
+    emit newINDIProperty(property);
 }
 
-void ClientManager::removeProperty(INDI::Property *prop)
+void ClientManager::updateProperty(INDI::Property property)
 {
-    const QString name = prop->getName();
-    const QString device = prop->getDeviceName();
-    emit removeINDIProperty(device, name);
+    emit updateINDIProperty(property);
+}
+
+void ClientManager::removeProperty(INDI::Property prop)
+{
+    const QString name = prop.getName();
+    const QString device = prop.getDeviceName();
+    emit removeINDIProperty(prop);
 
     // If BLOB property is removed, remove its corresponding property if one exists.
-    if (blobManagers.empty() == false && prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
+    if (blobManagers.empty() == false && prop.getType() == INDI_BLOB && prop.getPermission() != IP_WO)
         emit removeBLOBManager(device, name);
 }
 
@@ -133,12 +136,12 @@ void ClientManager::processNewProperty(INDI::Property prop)
     // Only handle RW and RO BLOB properties
     if (prop.getType() == INDI_BLOB && prop.getPermission() != IP_WO)
     {
-        BlobManager *bm = new BlobManager(this, getHost(), getPort(), prop.getBaseDevice()->getDeviceName(), prop.getName());
-        connect(bm, &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
+        BlobManager *bm = new BlobManager(this, getHost(), getPort(), prop.getDeviceName(), prop.getName());
+        connect(bm, &BlobManager::propertyUpdated, this, &ClientManager::updateINDIProperty);
         connect(bm, &BlobManager::connected, this, [prop, this]()
         {
             if (prop && prop.getRegistered())
-                emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
+                emit newBLOBManager(prop.getDeviceName(), prop);
         });
         blobManagers.append(bm);
     }
@@ -151,9 +154,9 @@ void ClientManager::disconnectAll()
         oneManager->disconnectServer();
 }
 
-void ClientManager::removeDevice(INDI::BaseDevice *dp)
+void ClientManager::removeDevice(INDI::BaseDevice dp)
 {
-    QString deviceName = dp->getDeviceName();
+    QString deviceName = dp.getDeviceName();
 
     QMutableListIterator<BlobManager*> it(blobManagers);
     while (it.hasNext())
@@ -191,42 +194,17 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
     }
 }
 
-void ClientManager::newBLOB(IBLOB *bp)
-{
-    emit newINDIBLOB(bp);
-}
-
-void ClientManager::newSwitch(ISwitchVectorProperty *svp)
-{
-    emit newINDISwitch(svp);
-}
-
-void ClientManager::newNumber(INumberVectorProperty *nvp)
-{
-    emit newINDINumber(nvp);
-}
-
-void ClientManager::newText(ITextVectorProperty *tvp)
-{
-    emit newINDIText(tvp);
-}
-
-void ClientManager::newLight(ILightVectorProperty *lvp)
-{
-    emit newINDILight(lvp);
-}
-
-void ClientManager::newMessage(INDI::BaseDevice *dp, int messageID)
+void ClientManager::newMessage(INDI::BaseDevice dp, int messageID)
 {
     emit newINDIMessage(dp, messageID);
 }
 
-#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+
 void ClientManager::newUniversalMessage(std::string message)
 {
     emit newINDIUniversalMessage(QString::fromStdString(message));
 }
-#endif
+
 
 void ClientManager::appendManagedDriver(DriverInfo *dv)
 {

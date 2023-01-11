@@ -60,22 +60,24 @@ void Dome::registerProperty(INDI::Property prop)
     ConcreteDevice::registerProperty(prop);
 }
 
-void Dome::processNumber(INumberVectorProperty *nvp)
+void Dome::processNumber(INDI::Property prop)
 {
-    if (!strcmp(nvp->name, "ABS_DOME_POSITION"))
+    auto nvp = prop.getNumber();
+    if (nvp->isNameMatch("ABS_DOME_POSITION"))
     {
-        emit positionChanged(nvp->np[0].value);
+        emit positionChanged(nvp->at(0)->getValue());
     }
 }
 
-void Dome::processSwitch(ISwitchVectorProperty *svp)
+void Dome::processSwitch(INDI::Property prop)
 {
-    if (!strcmp(svp->name, "CONNECTION"))
+    auto svp = prop.getSwitch();
+    if (svp->isNameMatch("CONNECTION"))
     {
-        ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
+        auto conSP = svp->findWidgetByName("CONNECT");
         if (conSP)
         {
-            if (conSP->s == ISS_ON)
+            if (conSP->getState() == ISS_ON)
                 KStars::Instance()->slotSetDomeEnabled(true);
             else
             {
@@ -86,14 +88,14 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             }
         }
     }
-    else if (!strcmp(svp->name, "DOME_PARK"))
+    else if (svp->isNameMatch("DOME_PARK"))
     {
         m_CanPark = true;
 
-        ISwitch *sp = IUFindSwitch(svp, "PARK");
+        auto sp = svp->findWidgetByName("PARK");
         if (sp)
         {
-            if (svp->s == IPS_ALERT)
+            if (svp->getState() == IPS_ALERT)
             {
                 m_ParkStatus = PARK_ERROR;
                 emit newParkStatus(PARK_ERROR);
@@ -108,7 +110,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
                 //                emit newParkStatus(m_ParkStatus);
 
             }
-            else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
+            else if (svp->getState() == IPS_BUSY && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKING)
             {
                 m_ParkStatus = PARK_PARKING;
                 KNotification::event(QLatin1String("DomeParking"), i18n("Dome parking is in progress"));
@@ -120,7 +122,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
                     emit newStatus(m_Status);
                 }
             }
-            else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
+            else if (svp->getState() == IPS_BUSY && sp->getState() == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
             {
                 m_ParkStatus = PARK_UNPARKING;
                 KNotification::event(QLatin1String("DomeUnparking"), i18n("Dome unparking is in progress"));
@@ -132,7 +134,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
                     emit newStatus(m_Status);
                 }
             }
-            else if (svp->s == IPS_OK && sp->s == ISS_ON && m_ParkStatus != PARK_PARKED)
+            else if (svp->getState() == IPS_OK && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKED)
             {
                 m_ParkStatus = PARK_PARKED;
                 KNotification::event(QLatin1String("DomeParked"), i18n("Dome parked"));
@@ -152,7 +154,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
                 }
 
             }
-            else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
+            else if ( (svp->getState() == IPS_OK || svp->getState() == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
             {
                 m_ParkStatus = PARK_UNPARKED;
                 KNotification::event(QLatin1String("DomeUnparked"), i18n("Dome unparked"));
@@ -174,14 +176,15 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             }
         }
     }
-    else if (!strcmp(svp->name, "DOME_MOTION"))
+    else if (svp->isNameMatch("DOME_MOTION"))
     {
         Status lastStatus = m_Status;
 
-        if (svp->s == IPS_BUSY && lastStatus != DOME_MOVING_CW && lastStatus != DOME_MOVING_CCW && lastStatus != DOME_PARKING
+        if (svp->getState() == IPS_BUSY && lastStatus != DOME_MOVING_CW && lastStatus != DOME_MOVING_CCW
+                && lastStatus != DOME_PARKING
                 && lastStatus != DOME_UNPARKING)
         {
-            m_Status = svp->sp->s == ISS_ON ? DOME_MOVING_CW : DOME_MOVING_CCW;
+            m_Status = svp->at(0)->getState() == ISS_ON ? DOME_MOVING_CW : DOME_MOVING_CCW;
             emit newStatus(m_Status);
 
             // rolloff roofs: cw = opening = unparking, ccw = closing = parking
@@ -191,25 +194,25 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
                 emit newParkStatus(m_ParkStatus);
             }
         }
-        else if (svp->s == IPS_OK && (lastStatus == DOME_MOVING_CW || lastStatus == DOME_MOVING_CCW))
+        else if (svp->getState() == IPS_OK && (lastStatus == DOME_MOVING_CW || lastStatus == DOME_MOVING_CCW))
         {
             m_Status = DOME_TRACKING;
             emit newStatus(m_Status);
         }
-        else if (svp->s == IPS_IDLE && lastStatus != DOME_IDLE)
+        else if (svp->getState() == IPS_IDLE && lastStatus != DOME_IDLE)
         {
             m_Status = DOME_IDLE;
             emit newStatus(m_Status);
         }
-        else if (svp->s == IPS_ALERT)
+        else if (svp->getState() == IPS_ALERT)
         {
             m_Status = DOME_ERROR;
             emit newStatus(m_Status);
         }
     }
-    else if (!strcmp(svp->name, "DOME_SHUTTER"))
+    else if (svp->isNameMatch("DOME_SHUTTER"))
     {
-        if (svp->s == IPS_ALERT)
+        if (svp->getState() == IPS_ALERT)
         {
             emit newShutterStatus(SHUTTER_ERROR);
 
@@ -223,7 +226,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             emit newShutterStatus(m_ShutterStatus);
         }
 
-        ShutterStatus status = parseShutterStatus(svp);
+        ShutterStatus status = parseShutterStatus(prop);
 
         switch (status)
         {
@@ -266,9 +269,9 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
         return;
 
     }
-    else if (!strcmp(svp->name, "DOME_AUTOSYNC"))
+    else if (svp->isNameMatch("DOME_AUTOSYNC"))
     {
-        ISwitch *sp = IUFindSwitch(svp, "DOME_AUTOSYNC_ENABLE");
+        auto sp = svp->findWidgetByName("DOME_AUTOSYNC_ENABLE");
         if (sp != nullptr)
             emit newAutoSyncStatus(sp->s == ISS_ON);
     }
@@ -290,7 +293,7 @@ bool Dome::abort()
         return false;
 
     abortSW->setState(ISS_ON);
-    sendNewSwitch(motionSP);
+    sendNewProperty(motionSP);
 
     return true;
 }
@@ -309,7 +312,7 @@ bool Dome::park()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    sendNewSwitch(parkSP);
+    sendNewProperty(parkSP);
 
     return true;
 }
@@ -328,7 +331,7 @@ bool Dome::unpark()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    sendNewSwitch(parkSP);
+    sendNewProperty(parkSP);
 
     return true;
 }
@@ -361,7 +364,7 @@ bool Dome::setPosition(double position)
         return false;
 
     az->at(0)->setValue(position);
-    sendNewNumber(az);
+    sendNewProperty(az);
     return true;
 }
 
@@ -372,7 +375,7 @@ bool Dome::setRelativePosition(double position)
         return false;
 
     azDiff->at(0)->setValue(position);
-    sendNewNumber(azDiff);
+    sendNewProperty(azDiff);
     return true;
 }
 
@@ -401,7 +404,7 @@ bool Dome::setAutoSync(bool activate)
 
     autosync->reset();
     autosyncSW->setState(ISS_ON);
-    sendNewSwitch(autosync);
+    sendNewProperty(autosync);
 
     return true;
 }
@@ -418,7 +421,7 @@ bool Dome::moveDome(DomeDirection dir, DomeMotionCommand operation)
 
     domeMotion->reset();
     opSwitch->setState(operation == DomeMotionCommand::MOTION_START ? ISS_ON : ISS_OFF);
-    sendNewSwitch(domeMotion);
+    sendNewProperty(domeMotion);
     return true;
 }
 
@@ -434,7 +437,7 @@ bool Dome::controlShutter(bool open)
 
     shutterSP->reset();
     shutterSW->setState(ISS_ON);
-    sendNewSwitch(shutterSP);
+    sendNewProperty(shutterSP);
 
     return true;
 }
@@ -446,20 +449,22 @@ Dome::ShutterStatus Dome::shutterStatus()
     return parseShutterStatus(shutterSP);
 }
 
-Dome::ShutterStatus Dome::parseShutterStatus(ISwitchVectorProperty *svp)
+Dome::ShutterStatus Dome::parseShutterStatus(INDI::Property prop)
 {
-    if (svp == nullptr)
+    if (prop.isValid() == false)
         return SHUTTER_UNKNOWN;
 
-    ISwitch *sp = IUFindSwitch(svp, "SHUTTER_OPEN");
+    auto svp = prop.getSwitch();
+
+    auto sp = svp->findWidgetByName("SHUTTER_OPEN");
     if (sp == nullptr)
         return SHUTTER_UNKNOWN;
 
-    if (svp->s == IPS_ALERT)
+    if (svp->getState() == IPS_ALERT)
         return SHUTTER_ERROR;
-    else if (svp->s == IPS_BUSY)
+    else if (svp->getState() == IPS_BUSY)
         return (sp->s == ISS_ON) ? SHUTTER_OPENING : SHUTTER_CLOSING;
-    else if (svp->s == IPS_OK)
+    else if (svp->getState() == IPS_OK)
         return (sp->s == ISS_ON) ? SHUTTER_OPEN : SHUTTER_CLOSED;
 
     // this should not happen

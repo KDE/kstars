@@ -370,15 +370,12 @@ class Manager : public QDialog, public Ui::Manager
         void cleanDevices(bool stopDrivers = true);
 
         void processNewDevice(const QSharedPointer<ISD::GenericDevice> &device);
-        void processNewProperty(INDI::Property);
-        void processDeleteProperty(const QString &name);
-        void setDeviceReady();
 
-        void processNewNumber(INumberVectorProperty *nvp);
-        void processNewText(ITextVectorProperty *tvp);
-        void processNewSwitch(ISwitchVectorProperty *svp);
-        void processNewLight(ILightVectorProperty *lvp);
-        void processNewBLOB(IBLOB *bvp);
+        void processNewProperty(INDI::Property);
+        void processUpdateProperty(INDI::Property);
+        void processDeleteProperty(INDI::Property);
+
+        void setDeviceReady();
 
         void restartDriver(const QString &deviceName);
 
@@ -411,7 +408,7 @@ class Manager : public QDialog, public Ui::Manager
 
         // Logs
         void updateDebugInterfaces();
-        void watchDebugProperty(ISwitchVectorProperty *svp);
+        void watchDebugProperty(INDI::Property prop);
 
         void addMount(ISD::Mount *device);
         void addCamera(ISD::Camera *device);

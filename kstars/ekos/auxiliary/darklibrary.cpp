@@ -506,9 +506,13 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::processNewBLOB(IBLOB *bp)
+void DarkLibrary::updateProperty(INDI::Property prop)
 {
-    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
+    if (prop.getType() != INDI_BLOB)
+        return;
+
+    auto bp = prop.getBLOB()->at(0);
+    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
     if (!m_CurrentDarkFrame->loadFromBuffer(buffer, "fits"))
     {
         m_FileLabel->setText(i18n("Failed to process dark data."));
@@ -1203,7 +1207,7 @@ void DarkLibrary::execute()
     darkProgress->setTextVisible(true);
     connect(m_CaptureModule, &Capture::newImage, this, &DarkLibrary::processNewImage, Qt::UniqueConnection);
     connect(m_CaptureModule, &Capture::newStatus, this, &DarkLibrary::setCaptureState, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::BLOBUpdated, this, &DarkLibrary::processNewBLOB, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::propertyUpdated, this, &DarkLibrary::updateProperty, Qt::UniqueConnection);
 
     Options::setUseFITSViewer(false);
     Options::setUseSummaryPreview(false);
@@ -1602,7 +1606,10 @@ double DarkLibrary::getGain()
 void DarkLibrary::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &DarkLibrary::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
+    connect(trainB, &QPushButton::clicked, this, [this]()
+    {
+        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+    });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::DarkLibraryOpticalTrain,

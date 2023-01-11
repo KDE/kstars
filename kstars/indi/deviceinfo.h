@@ -20,7 +20,7 @@
 class DeviceInfo
 {
     public:
-        DeviceInfo(DriverInfo *parent, INDI::BaseDevice *ibd);
+        DeviceInfo(DriverInfo *parent, INDI::BaseDevice ibd);
 
         const QString  &getDeviceName() const
         {
@@ -30,14 +30,14 @@ class DeviceInfo
         {
             return drv;
         }
-        INDI::BaseDevice *getBaseDevice()
+        INDI::BaseDevice getBaseDevice()
         {
             return dp;
         }
 
     private:
         DriverInfo *drv;
-        INDI::BaseDevice *dp;
+        INDI::BaseDevice dp;
         QString m_Name;
 };
 

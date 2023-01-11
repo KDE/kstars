@@ -1098,17 +1098,6 @@ void Capture::checkCamera()
     if (!targetChip || !targetChip->getCCD() || targetChip->isCapturing())
         return;
 
-    //        for (auto &ccd : m_Cameras)
-    //        {
-    //            disconnect(ccd, &ISD::Camera::numberUpdated, this, &Capture::processCCDNumber);
-    //            disconnect(ccd, &ISD::Camera::newTemperatureValue, this, &Capture::updateCCDTemperature);
-    //            disconnect(ccd, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled);
-    //            disconnect(ccd, &ISD::Camera::newRemoteFile, this, &Capture::setNewRemoteFile);
-    //            disconnect(ccd, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled);
-    //            disconnect(ccd, &ISD::Camera::ready, this, &Capture::ready);
-    //            disconnect(ccd, &ISD::Camera::error, this, &Capture::processCaptureError);
-    //        }
-
     if (m_Camera->hasCoolerControl())
     {
         coolerOnB->setEnabled(true);
@@ -1161,7 +1150,7 @@ void Capture::checkCamera()
     else
         liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
-    connect(m_Camera, &ISD::Camera::numberUpdated, this, &Capture::processCCDNumber, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::newRemoteFile, this, &Capture::setNewRemoteFile, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
@@ -1614,33 +1603,36 @@ void Capture::updateFrameProperties(int reset)
     }
 }
 
-void Capture::processCCDNumber(INumberVectorProperty * nvp)
+void Capture::processCameraNumber(INDI::Property prop)
 {
     if (m_captureDeviceAdaptor->getActiveCamera() == nullptr)
         return;
 
-    if ((!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) ||
-            (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead))
+    if ((prop.isNameMatch("CCD_FRAME") && useGuideHead == false) ||
+            (prop.isNameMatch("GUIDER_FRAME") && useGuideHead))
         updateFrameProperties();
-    else if ((!strcmp(nvp->name, "CCD_INFO") && useGuideHead == false) ||
-             (!strcmp(nvp->name, "GUIDER_INFO") && useGuideHead))
+    else if ((prop.isNameMatch("CCD_INFO") && useGuideHead == false) ||
+             (prop.isNameMatch("GUIDER_INFO") && useGuideHead))
         updateFrameProperties(2);
-    else if (!strcmp(nvp->name, "CCD_CONTROLS"))
+    else if (prop.isNameMatch("CCD_CONTROLS"))
     {
-        auto gain = IUFindNumber(nvp, "Gain");
+        auto nvp = prop.getNumber();
+        auto gain = nvp->findWidgetByName("Gain");
         if (gain)
             currentGainLabel->setText(QString::number(gain->value, 'f', 0));
-        auto offset = IUFindNumber(nvp, "Offset");
+        auto offset = nvp->findWidgetByName("Offset");
         if (offset)
             currentOffsetLabel->setText(QString::number(offset->value, 'f', 0));
     }
-    else if (!strcmp(nvp->name, "CCD_GAIN"))
+    else if (prop.isNameMatch("CCD_GAIN"))
     {
-        currentGainLabel->setText(QString::number(nvp->np[0].value, 'f', 0));
+        auto nvp = prop.getNumber();
+        currentGainLabel->setText(QString::number(nvp->at(0)->getValue(), 'f', 0));
     }
-    else if (!strcmp(nvp->name, "CCD_OFFSET"))
+    else if (prop.isNameMatch("CCD_OFFSET"))
     {
-        currentOffsetLabel->setText(QString::number(nvp->np[0].value, 'f', 0));
+        auto nvp = prop.getNumber();
+        currentOffsetLabel->setText(QString::number(nvp->at(0)->getValue(), 'f', 0));
     }
 }
 
@@ -1758,7 +1750,7 @@ void Capture::syncFilterInfo()
                     if (activeFilter->getText() != m_FilterWheel->getDeviceName())
                     {
                         activeFilter->setText(m_FilterWheel->getDeviceName().toLatin1().constData());
-                        oneDevice->sendNewText(activeDevices);
+                        oneDevice->sendNewProperty(activeDevices);
                     }
                 }
                 // Reset filter name in CCD driver
@@ -1767,7 +1759,7 @@ void Capture::syncFilterInfo()
                     // Add debug info since this issue is reported by users. Need to know when it happens.
                     qCDebug(KSTARS_EKOS_CAPTURE) << "No active filter wheel. " << oneDevice->getDeviceName() << " ACTIVE_FILTER is reset.";
                     activeFilter->setText("");
-                    oneDevice->sendNewText(activeDevices);
+                    oneDevice->sendNewProperty(activeDevices);
                 }
             }
         }
@@ -3743,7 +3735,7 @@ void Capture::syncTelescopeInfo()
             if (activeTelescope)
             {
                 activeTelescope->setText(m_captureDeviceAdaptor->getMount()->getDeviceName().toLatin1().constData());
-                m_Camera->sendNewText(activeDevices);
+                m_Camera->sendNewProperty(activeDevices);
             }
         }
     }
@@ -6908,6 +6900,10 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         m_captureModuleState->allJobs().removeLast();
         previewText = QDir::toNativeSeparators(previewText);
     }
+
+    // Must change directory separate to UNIX style for remote
+    if (previewType == REMOTE_PREVIEW)
+        previewText.replace("/", "\\");
 
     return previewText;
 }

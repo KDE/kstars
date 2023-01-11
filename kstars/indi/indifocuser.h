@@ -35,7 +35,7 @@ class Focuser : public ConcreteDevice
         explicit Focuser(GenericDevice *parent) : ConcreteDevice(parent) {}
 
         void registerProperty(INDI::Property prop) override;
-        void processNumber(INumberVectorProperty *nvp) override;
+        void processNumber(INDI::Property prop) override;
 
         bool focusIn();
         bool focusOut();

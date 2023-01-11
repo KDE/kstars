@@ -58,8 +58,7 @@ class Device : public QObject
         void syncGUI();
 
     private:
-        void processText(ITextVectorProperty *tvp);
-        void processSwitch(ISwitchVectorProperty *svp);
+        void updateProperty(INDI::Property prop);
         void setConnected();
         void setDisconnected();
         void setConnectionMode(ConnectionMode mode);

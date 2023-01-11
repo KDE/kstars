@@ -164,9 +164,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void updated();
 
     private slots:
-        void processText(ITextVectorProperty *tvp);
-        void processNumber(INumberVectorProperty *nvp);
-        void processSwitch(ISwitchVectorProperty *svp);
+        void updateProperty(INDI::Property prop);
         void processDisconnect();
 
     private:        

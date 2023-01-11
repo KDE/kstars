@@ -71,9 +71,9 @@ Mount::Mount(GenericDevice *parent) : ConcreteDevice(parent)
 
 void Mount::registerProperty(INDI::Property prop)
 {
-    if (prop->isNameMatch("TELESCOPE_INFO"))
+    if (prop.isNameMatch("TELESCOPE_INFO"))
     {
-        auto ti = prop->getNumber();
+        auto ti = prop.getNumber();
 
         if (!ti)
             return;
@@ -114,16 +114,16 @@ void Mount::registerProperty(INDI::Property prop)
         }
 
         if (aperture_ok && focal_ok)
-            sendNewNumber(ti);
+            sendNewProperty(ti);
     }
-    else if (prop->isNameMatch("ON_COORD_SET"))
+    else if (prop.isNameMatch("ON_COORD_SET"))
     {
-        m_canGoto = IUFindSwitch(prop->getSwitch(), "TRACK") != nullptr;
-        m_canSync = IUFindSwitch(prop->getSwitch(), "SYNC") != nullptr;
+        m_canGoto = IUFindSwitch(prop.getSwitch(), "TRACK") != nullptr;
+        m_canSync = IUFindSwitch(prop.getSwitch(), "SYNC") != nullptr;
     }
-    else if (prop->isNameMatch("TELESCOPE_PIER_SIDE"))
+    else if (prop.isNameMatch("TELESCOPE_PIER_SIDE"))
     {
-        auto svp = prop->getSwitch();
+        auto svp = prop.getSwitch();
         int currentSide = svp->findOnSwitchIndex();
         if (currentSide != m_PierSide)
         {
@@ -131,14 +131,14 @@ void Mount::registerProperty(INDI::Property prop)
             emit pierSideChanged(m_PierSide);
         }
     }
-    else if (prop->isNameMatch("TELESCOPE_PARK"))
+    else if (prop.isNameMatch("TELESCOPE_PARK"))
         updateParkStatus();
-    else if (prop->isNameMatch("TELESCOPE_TRACK_STATE"))
+    else if (prop.isNameMatch("TELESCOPE_TRACK_STATE"))
         m_canControlTrack = true;
-    else if (prop->isNameMatch("TELESCOPE_TRACK_MODE"))
+    else if (prop.isNameMatch("TELESCOPE_TRACK_MODE"))
     {
         m_hasTrackModes = true;
-        auto svp = prop->getSwitch();
+        auto svp = prop.getSwitch();
         for (int i = 0; i < svp->count(); i++)
         {
             if (svp->at(i)->isNameMatch("TRACK_SIDEREAL"))
@@ -151,16 +151,16 @@ void Mount::registerProperty(INDI::Property prop)
                 TrackMap[TRACK_CUSTOM] = i;
         }
     }
-    else if (prop->isNameMatch("TELESCOPE_TRACK_RATE"))
+    else if (prop.isNameMatch("TELESCOPE_TRACK_RATE"))
         m_hasCustomTrackRate = true;
-    else if (prop->isNameMatch("TELESCOPE_ABORT_MOTION"))
+    else if (prop.isNameMatch("TELESCOPE_ABORT_MOTION"))
         m_canAbort = true;
-    else if (prop->isNameMatch("TELESCOPE_PARK_OPTION"))
+    else if (prop.isNameMatch("TELESCOPE_PARK_OPTION"))
         m_hasCustomParking = true;
-    else if (prop->isNameMatch("TELESCOPE_SLEW_RATE"))
+    else if (prop.isNameMatch("TELESCOPE_SLEW_RATE"))
     {
         m_hasSlewRates = true;
-        auto svp = prop->getSwitch();
+        auto svp = prop.getSwitch();
         if (svp)
         {
             m_slewRates.clear();
@@ -168,16 +168,16 @@ void Mount::registerProperty(INDI::Property prop)
                 m_slewRates << it.getLabel();
         }
     }
-    else if (prop->isNameMatch("EQUATORIAL_EOD_COORD"))
+    else if (prop.isNameMatch("EQUATORIAL_EOD_COORD"))
     {
         m_isJ2000 = false;
         m_hasEquatorialCoordProperty = true;
     }
-    else if (prop->isNameMatch("SAT_TRACKING_STAT"))
+    else if (prop.isNameMatch("SAT_TRACKING_STAT"))
     {
         m_canTrackSatellite = true;
     }
-    else if (prop->isNameMatch("EQUATORIAL_COORD"))
+    else if (prop.isNameMatch("EQUATORIAL_COORD"))
     {
         m_isJ2000 = true;
         m_hasEquatorialCoordProperty = true;
@@ -192,12 +192,13 @@ void Mount::updateJ2000Coordinates(SkyPoint *coords)
     coords->setDec0(J2000Coord.dec());
 }
 
-void Mount::processNumber(INumberVectorProperty *nvp)
+void Mount::processNumber(INDI::Property prop)
 {
-    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "EQUATORIAL_COORD"))
+    auto nvp = prop.getNumber();
+    if (nvp->isNameMatch("EQUATORIAL_EOD_COORD") || nvp->isNameMatch("EQUATORIAL_COORD"))
     {
-        INumber *RA  = IUFindNumber(nvp, "RA");
-        INumber *DEC = IUFindNumber(nvp, "DEC");
+        auto RA  = nvp->findWidgetByName("RA");
+        auto DEC = nvp->findWidgetByName("DEC");
 
         if (RA == nullptr || DEC == nullptr)
             return;
@@ -224,15 +225,15 @@ void Mount::processNumber(INumberVectorProperty *nvp)
         if (! updateCoordinatesTimer.isActive())
             updateCoordinatesTimer.start();
 
-        ISD::Mount::Status currentStatus = status(nvp);
+        auto currentStatus = status(nvp);
 
-        if (nvp->s == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
+        if (nvp->getState() == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
         {
             if (currentStatus == MOUNT_SLEWING)
                 KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"), KSNotification::Mount);
             emit newStatus(currentStatus);
         }
-        else if (EqCoordPreviousState == IPS_BUSY && nvp->s == IPS_OK)
+        else if (EqCoordPreviousState == IPS_BUSY && nvp->getState() == IPS_OK)
         {
             KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
             emit newStatus(currentStatus);
@@ -241,7 +242,7 @@ void Mount::processNumber(INumberVectorProperty *nvp)
             // when starting to track is exactly that one where the slew went to.
         }
 
-        EqCoordPreviousState = nvp->s;
+        EqCoordPreviousState = nvp->getState();
 
         KStars::Instance()->map()->update();
     }
@@ -249,10 +250,10 @@ void Mount::processNumber(INumberVectorProperty *nvp)
     // When a driver both sends EQUATORIAL_COORD and HORIZONTAL_COORD, we should prioritize EQUATORIAL_COORD
     // especially since the conversion from horizontal to equatorial is not as accurate and can result in weird
     // coordinates near the poles.
-    else if (!strcmp(nvp->name, "HORIZONTAL_COORD") && m_hasEquatorialCoordProperty == false)
+    else if (nvp->isNameMatch("HORIZONTAL_COORD") && m_hasEquatorialCoordProperty == false)
     {
-        INumber *Az  = IUFindNumber(nvp, "AZ");
-        INumber *Alt = IUFindNumber(nvp, "ALT");
+        auto Az  = nvp->findWidgetByName("AZ");
+        auto Alt = nvp->findWidgetByName("ALT");
 
         if (Az == nullptr || Alt == nullptr)
             return;
@@ -271,29 +272,30 @@ void Mount::processNumber(INumberVectorProperty *nvp)
 
         KStars::Instance()->map()->update();
     }
-    else if (!strcmp(nvp->name, "POLLING_PERIOD"))
+    else if (nvp->isNameMatch("POLLING_PERIOD"))
     {
         // set the timer how often the coordinates should be published
-        INumber *period = IUFindNumber(nvp, "PERIOD_MS");
+        auto period = nvp->findWidgetByName("PERIOD_MS");
         if (period != nullptr)
-            updateCoordinatesTimer.setInterval(static_cast<int>(period->value));
+            updateCoordinatesTimer.setInterval(static_cast<int>(period->getValue()));
 
     }
 }
 
-void Mount::processSwitch(ISwitchVectorProperty *svp)
+void Mount::processSwitch(INDI::Property prop)
 {
     bool manualMotionChanged = false;
+    auto svp = prop.getSwitch();
 
-    if (!strcmp(svp->name, "CONNECTION"))
+    if (svp->isNameMatch("CONNECTION"))
     {
-        ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
+        auto conSP = svp->findWidgetByName("CONNECT");
         if (conSP)
         {
             // TODO We must allow for multiple mount drivers to be online, not just one
             // For the actions taken, the user should be able to specify which mounts shall receive the commands. It could be one
             // or more. For now, we enable/disable telescope group on the assumption there is only one mount present.
-            if (conSP->s == ISS_ON)
+            if (conSP->getState() == ISS_ON)
                 KStars::Instance()->slotSetTelescopeEnabled(true);
             else
             {
@@ -302,17 +304,18 @@ void Mount::processSwitch(ISwitchVectorProperty *svp)
             }
         }
     }
-    else if (!strcmp(svp->name, "TELESCOPE_PARK"))
+    else if (svp->isNameMatch("TELESCOPE_PARK"))
         updateParkStatus();
-    else if (!strcmp(svp->name, "TELESCOPE_ABORT_MOTION"))
+    else if (svp->isNameMatch("TELESCOPE_ABORT_MOTION"))
     {
         if (svp->s == IPS_OK)
         {
             inCustomParking = false;
-            KSNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"), KSNotification::Mount, KSNotification::Warn);
+            KSNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"), KSNotification::Mount,
+                                  KSNotification::Warn);
         }
     }
-    else if (!strcmp(svp->name, "TELESCOPE_PIER_SIDE"))
+    else if (svp->isNameMatch("TELESCOPE_PIER_SIDE"))
     {
         int currentSide = IUFindOnSwitchIndex(svp);
         if (currentSide != m_PierSide)
@@ -321,45 +324,46 @@ void Mount::processSwitch(ISwitchVectorProperty *svp)
             emit pierSideChanged(m_PierSide);
         }
     }
-    else if (!strcmp(svp->name, "TELESCOPE_TRACK_MODE"))
+    else if (svp->isNameMatch("TELESCOPE_TRACK_MODE"))
     {
-        ISwitch *sp = IUFindOnSwitch(svp);
+        auto sp = svp->findOnSwitch();
         if (sp)
         {
-            if (!strcmp(sp->name, "TRACK_SIDEREAL"))
+            if (sp->isNameMatch("TRACK_SIDEREAL"))
                 currentTrackMode = TRACK_SIDEREAL;
-            else if (!strcmp(sp->name, "TRACK_SOLAR"))
+            else if (sp->isNameMatch("TRACK_SOLAR"))
                 currentTrackMode = TRACK_SOLAR;
-            else if (!strcmp(sp->name, "TRACK_LUNAR"))
+            else if (sp->isNameMatch("TRACK_LUNAR"))
                 currentTrackMode = TRACK_LUNAR;
             else
                 currentTrackMode = TRACK_CUSTOM;
         }
     }
-    else if (!strcmp(svp->name, "TELESCOPE_MOTION_NS"))
+    else if (svp->isNameMatch("TELESCOPE_MOTION_NS"))
         manualMotionChanged = true;
-    else if (!strcmp(svp->name, "TELESCOPE_MOTION_WE"))
+    else if (svp->isNameMatch("TELESCOPE_MOTION_WE"))
         manualMotionChanged = true;
-    else if (!strcmp(svp->name, "TELESCOPE_REVERSE_MOTION"))
+    else if (svp->isNameMatch("TELESCOPE_REVERSE_MOTION"))
     {
-        emit axisReversed(AXIS_DE, svp->sp[0].s == ISS_ON);
-        emit axisReversed(AXIS_RA, svp->sp[1].s == ISS_ON);
+        emit axisReversed(AXIS_DE, svp->at(0)->getState() == ISS_ON);
+        emit axisReversed(AXIS_RA, svp->at(1)->getState() == ISS_ON);
     }
 
     if (manualMotionChanged)
     {
-        IPState NSCurrentMotion = getSwitch("TELESCOPE_MOTION_NS")->s;
-        IPState WECurrentMotion = getSwitch("TELESCOPE_MOTION_WE")->s;
+        auto NSCurrentMotion = getSwitch("TELESCOPE_MOTION_NS")->getState();
+        auto WECurrentMotion = getSwitch("TELESCOPE_MOTION_WE")->getState();
         inCustomParking = false;
         inManualMotion = (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY);
     }
 }
 
-void Mount::processText(ITextVectorProperty *tvp)
+void Mount::processText(INDI::Property prop)
 {
-    if (!strcmp(tvp->name, "SAT_TLE_TEXT"))
+    auto tvp = prop.getText();
+    if (tvp->isNameMatch("SAT_TLE_TEXT"))
     {
-        if ((tvp->s == IPS_OK) && (m_TLEIsSetForTracking))
+        if ((tvp->getState() == IPS_OK) && (m_TLEIsSetForTracking))
         {
             auto trajWindow = getText("SAT_PASS_WINDOW");
             if (!trajWindow)
@@ -380,15 +384,15 @@ void Mount::processText(ITextVectorProperty *tvp)
                     trajStart->setText(g_satPassStart.toString(Qt::ISODate).toLocal8Bit().data());
                     trajEnd->setText(g_satPassEnd.toString(Qt::ISODate).toLocal8Bit().data());
 
-                    sendNewText(trajWindow);
+                    sendNewProperty(trajWindow);
                     m_windowIsSetForTracking = true;
                 }
             }
         }
     }
-    else if (!strcmp(tvp->name, "SAT_PASS_WINDOW"))
+    else if (tvp->isNameMatch("SAT_PASS_WINDOW"))
     {
-        if ((tvp->s == IPS_OK) && (m_TLEIsSetForTracking) && (m_windowIsSetForTracking))
+        if ((tvp->getState() == IPS_OK) && (m_TLEIsSetForTracking) && (m_windowIsSetForTracking))
         {
             auto trackSwitchV  = getSwitch("SAT_TRACKING_STAT");
             if (!trackSwitchV)
@@ -403,7 +407,7 @@ void Mount::processText(ITextVectorProperty *tvp)
                     trackSwitchV->reset();
                     trackSwitch->setState(ISS_ON);
 
-                    sendNewSwitch(trackSwitchV);
+                    sendNewProperty(trackSwitchV);
                     m_TLEIsSetForTracking = false;
                     m_windowIsSetForTracking = false;
                 }
@@ -418,19 +422,20 @@ void Mount::updateParkStatus()
     if (!svp)
         return;
 
-    ISwitch *sp = IUFindSwitch(svp, "PARK");
+    auto sp = svp->findWidgetByName("PARK");
     if (sp)
     {
-        if (svp->s == IPS_ALERT)
+        if (svp->getState() == IPS_ALERT)
         {
             // First, inform everyone watch this that an error occurred.
             emit newParkStatus(PARK_ERROR);
             // JM 2021-03-08: Reset parking internal state to either PARKED or UNPARKED.
             // Whatever the current switch is set to
-            m_ParkStatus = (sp->s == ISS_ON) ? PARK_PARKED : PARK_UNPARKED;
-            KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::Mount, KSNotification::Alert);
+            m_ParkStatus = (sp->getState() == ISS_ON) ? PARK_PARKED : PARK_UNPARKED;
+            KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::Mount,
+                                  KSNotification::Alert);
         }
-        else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
+        else if (svp->getState() == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
         {
             m_ParkStatus = PARK_PARKING;
             KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"), KSNotification::Mount);
@@ -438,14 +443,14 @@ void Mount::updateParkStatus()
 
             emit newParkStatus(m_ParkStatus);
         }
-        else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
+        else if (svp->getState() == IPS_BUSY && sp->getState() == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
         {
             m_ParkStatus = PARK_UNPARKING;
             KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"), KSNotification::Mount);
 
             emit newParkStatus(m_ParkStatus);
         }
-        else if (svp->s == IPS_OK && sp->s == ISS_ON && m_ParkStatus != PARK_PARKED)
+        else if (svp->getState() == IPS_OK && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKED)
         {
             m_ParkStatus = PARK_PARKED;
             KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"), KSNotification::Mount);
@@ -462,7 +467,8 @@ void Mount::updateParkStatus()
 
             emit newTarget(currentCoords);
         }
-        else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
+        else if ( (svp->getState() == IPS_OK || svp->getState() == IPS_IDLE) && sp->getState() == ISS_OFF
+                  && m_ParkStatus != PARK_UNPARKED)
         {
             m_ParkStatus = PARK_UNPARKED;
             KSNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"), KSNotification::Mount);
@@ -486,7 +492,6 @@ bool Mount::canGuide()
 
     return raPulse && decPulse;
 }
-
 
 bool Mount::canPark()
 {
@@ -567,7 +572,7 @@ bool Mount::doPulse(GuideDirection dir, int msecs)
 
     dirPulse->setValue(msecs);
 
-    sendNewNumber(npulse);
+    sendNewProperty(npulse);
 
     return true;
 }
@@ -721,7 +726,7 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
 
             RAEle->value  = ra.Hours();
             DecEle->value = de.Degrees();
-            sendNewNumber(EqProp);
+            sendNewProperty(EqProp);
 
             qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ra.toHMSString() <<
                                  "(" << RAEle->value << ") DE:" << de.toDMSString() <<
@@ -735,7 +740,7 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
         {
             AzEle->value  = ScopeTarget->az().Degrees();
             AltEle->value = ScopeTarget->alt().Degrees();
-            sendNewNumber(HorProp);
+            sendNewProperty(HorProp);
             AzEle->value  = currentAz;
             AltEle->value = currentAlt;
         }
@@ -907,7 +912,7 @@ bool Mount::Slew(SkyPoint * ScopeTarget)
     {
         motionSP->reset();
         slewSW->setState(ISS_ON);
-        sendNewSwitch(motionSP);
+        sendNewProperty(motionSP);
 
         qCDebug(KSTARS_INDI) << "ISD:Telescope: " << slewSW->getName();
     }
@@ -941,7 +946,7 @@ bool Mount::Sync(SkyPoint * ScopeTarget)
     {
         motionSP->reset();
         syncSW->setState(ISS_ON);
-        sendNewSwitch(motionSP);
+        sendNewProperty(motionSP);
 
         qCDebug(KSTARS_INDI) << "ISD:Telescope: Syncing...";
     }
@@ -964,7 +969,7 @@ bool Mount::abort()
     qCDebug(KSTARS_INDI) << "ISD:Telescope: Aborted." << Qt::endl;
 
     abortSW->setState(ISS_ON);
-    sendNewSwitch(motionSP);
+    sendNewProperty(motionSP);
 
     inCustomParking = false;
 
@@ -987,7 +992,7 @@ bool Mount::park()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    sendNewSwitch(parkSP);
+    sendNewProperty(parkSP);
 
     return true;
 }
@@ -1008,7 +1013,7 @@ bool Mount::unpark()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    sendNewSwitch(parkSP);
+    sendNewProperty(parkSP);
 
     return true;
 }
@@ -1067,7 +1072,7 @@ bool Mount::MoveNS(VerticalMotion dir, MotionCommand cmd)
             motionSouth->setState(ISS_ON);
     }
 
-    sendNewSwitch(motionSP);
+    sendNewProperty(motionSP);
 
     return true;
 }
@@ -1081,7 +1086,7 @@ bool Mount::StopWE()
 
     motionSP->reset();
 
-    sendNewSwitch(motionSP);
+    sendNewProperty(motionSP);
 
     return true;
 }
@@ -1095,7 +1100,7 @@ bool Mount::StopNS()
 
     motionSP->reset();
 
-    sendNewSwitch(motionSP);
+    sendNewProperty(motionSP);
 
     return true;
 }
@@ -1130,7 +1135,7 @@ bool Mount::MoveWE(HorizontalMotion dir, MotionCommand cmd)
             motionEast->setState(ISS_ON);
     }
 
-    sendNewSwitch(motionSP);
+    sendNewProperty(motionSP);
 
     return true;
 }
@@ -1151,7 +1156,7 @@ bool Mount::setSlewRate(int index)
 
     slewRateSP->at(index)->setState(ISS_ON);
 
-    sendNewSwitch(slewRateSP);
+    sendNewProperty(slewRateSP);
 
     emit slewRateChanged(index);
 
@@ -1183,7 +1188,7 @@ bool Mount::setAlignmentModelEnabled(bool enable)
     if (alignSwitch)
     {
         alignSwitch->at(0)->setState(enable ? ISS_ON : ISS_OFF);
-        sendNewSwitch(alignSwitch);
+        sendNewProperty(alignSwitch);
         wasExecuted = true;
     }
 
@@ -1199,7 +1204,7 @@ bool Mount::setAlignmentModelEnabled(bool enable)
         else
             alignSwitch->at(0)->setState(ISS_ON);
 
-        sendNewSwitch(alignSwitch);
+        sendNewProperty(alignSwitch);
         wasExecuted = true;
     }
 
@@ -1221,7 +1226,7 @@ bool Mount::setSatelliteTLEandTrack(QString tle, const KStarsDateTime satPassSta
 
     tleText->setText(tle.toLocal8Bit().data());
 
-    sendNewText(tleTextVec);
+    sendNewProperty(tleTextVec);
     m_TLEIsSetForTracking = true;
     g_satPassStart = satPassStart;
     g_satPassEnd = satPassEnd;
@@ -1243,7 +1248,7 @@ bool Mount::clearParking()
     parkSwitch->reset();
     clearParkSW->setState(ISS_ON);
 
-    sendNewSwitch(parkSwitch);
+    sendNewProperty(parkSwitch);
     return true;
 }
 
@@ -1259,9 +1264,9 @@ bool Mount::clearAlignmentModel()
         clearSwitch->reset();
         // ALIGNMENT_POINTSET_ACTION.CLEAR
         clearSwitch->at(4)->setState(ISS_ON);
-        sendNewSwitch(clearSwitch);
+        sendNewProperty(clearSwitch);
         commitSwitch->at(0)->setState(ISS_ON);
-        sendNewSwitch(commitSwitch);
+        sendNewProperty(commitSwitch);
         wasExecuted = true;
     }
 
@@ -1272,7 +1277,7 @@ bool Mount::clearAlignmentModel()
         // ALIGNLISTCLEAR
         clearSwitch->reset();
         clearSwitch->at(1)->setState(ISS_ON);
-        sendNewSwitch(clearSwitch);
+        sendNewProperty(clearSwitch);
         wasExecuted = true;
     }
 
@@ -1343,7 +1348,7 @@ bool Mount::setTrackEnabled(bool enable)
     trackON->setState(enable ? ISS_ON : ISS_OFF);
     trackOFF->setState(enable ? ISS_OFF : ISS_ON);
 
-    sendNewSwitch(trackSP);
+    sendNewProperty(trackSP);
 
     return true;
 }
@@ -1365,7 +1370,7 @@ bool Mount::setTrackMode(uint8_t index)
     trackModeSP->reset();
     trackModeSP->at(index)->setState(ISS_ON);
 
-    sendNewSwitch(trackModeSP);
+    sendNewProperty(trackModeSP);
 
     return true;
 }
@@ -1396,7 +1401,7 @@ bool Mount::setCustomTrackRate(double raRate, double deRate)
     raRateN->setValue(raRate);
     deRateN->setValue(deRate);
 
-    sendNewNumber(trackRateNP);
+    sendNewProperty(trackRateNP);
 
     return true;
 }
@@ -1428,7 +1433,7 @@ bool Mount::sendParkingOptionCommand(ParkOptionCommand command)
 
     parkOptionsSP->reset();
     parkOptionsSP->at(command)->setState(ISS_ON);
-    sendNewSwitch(parkOptionsSP);
+    sendNewProperty(parkOptionsSP);
 
     return true;
 }
@@ -1503,7 +1508,7 @@ bool Mount::setReversedEnabled(INDI_EQ_AXIS axis, bool enabled)
         return false;
 
     reversed->at(axis == AXIS_DE ? 0 : 1)->setState(enabled ? ISS_ON : ISS_OFF);
-    sendNewSwitch(reversed);
+    sendNewProperty(reversed);
     return true;
 }
 

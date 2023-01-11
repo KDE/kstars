@@ -43,7 +43,7 @@ bool LightBox::setLightEnabled(bool enable)
     else
         lightOFF->setState(ISS_ON);
 
-    sendNewSwitch(lightSP);
+    sendNewProperty(lightSP);
 
     return true;
 }
@@ -55,7 +55,7 @@ bool LightBox::setBrightness(uint16_t val)
         return false;
 
     lightIntensity->at(0)->setValue(val);
-    sendNewNumber(lightIntensity);
+    sendNewProperty(lightIntensity);
     return true;
 }
 

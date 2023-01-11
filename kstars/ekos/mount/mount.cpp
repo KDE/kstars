@@ -277,8 +277,7 @@ bool Mount::setMount(ISD::Mount *device)
     if (m_GPS != nullptr)
         syncGPS();
 
-    connect(m_Mount, &ISD::Mount::numberUpdated, this, &Mount::updateNumber);
-    connect(m_Mount, &ISD::Mount::switchUpdated, this, &Mount::updateSwitch);
+    connect(m_Mount, &ISD::Mount::propertyUpdated, this, &Mount::updateProperty);
     connect(m_Mount, &ISD::Mount::newTarget, this, &Mount::newTarget);
     connect(m_Mount, &ISD::Mount::newTargetName, this, &Mount::newTargetName);
     connect(m_Mount, &ISD::Mount::newCoords, this, &Mount::newCoords);
@@ -361,7 +360,7 @@ bool Mount::addGPS(ISD::GPS * device)
     auto executeSetGPS = [this, device]()
     {
         m_GPS = device;
-        connect(m_GPS, &ISD::GPS::numberUpdated, this, &Ekos::Mount::updateNumber, Qt::UniqueConnection);
+        connect(m_GPS, &ISD::GPS::propertyUpdated, this, &Ekos::Mount::updateProperty, Qt::UniqueConnection);
         appendLogText(i18n("GPS driver detected. KStars and mount time and location settings are now synced to the GPS driver."));
         syncGPS();
     };
@@ -405,7 +404,7 @@ void Mount::syncGPS()
                 if (activeGPS->getText() != m_GPS->getDeviceName())
                 {
                     activeGPS->setText(m_GPS->getDeviceName().toLatin1().constData());
-                    m_Mount->sendNewText(activeDevices);
+                    m_Mount->sendNewProperty(activeDevices);
                 }
             }
         }
@@ -418,7 +417,7 @@ void Mount::syncGPS()
         if (refreshGPS)
         {
             refreshGPS->at(0)->setState(ISS_ON);
-            m_GPS->sendNewSwitch(refreshGPS);
+            m_GPS->sendNewProperty(refreshGPS);
             GPSInitialized = true;
         }
     }
@@ -721,25 +720,40 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     }
 }
 
-void Mount::updateNumber(INumberVectorProperty * nvp)
+void Mount::updateProperty(INDI::Property prop)
 {
-    if (m_GPS != nullptr && (nvp->device == m_GPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD")
-            && nvp->s == IPS_OK)
-        syncGPS();
-
-    // if the meridian flip state machine is not initialized, return
-    if (getMeridianFlipState().isNull())
-        return;
-
-    switch (getMeridianFlipState()->getMeridianFlipStage())
+    if (prop.isNameMatch("GEOGRAPHIC_COORD") &&
+            m_GPS != nullptr &&
+            (prop.getDeviceName() == m_GPS->getDeviceName()) &&
+            prop.getState() == IPS_OK)
     {
-        case MeridianFlipState::MF_INITIATED:
-            if (nvp->s == IPS_BUSY && m_Mount != nullptr && m_Mount->isSlewing())
-                getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_FLIPPING);
-            break;
+        syncGPS();
+    }
+    else if (prop.isNameMatch("EQUATORIAL_EOD_COORD") || prop.isNameMatch("EQUATORIAL_COORD"))
+    {
+        auto nvp = prop.getNumber();
 
-        default:
-            break;
+        // if the meridian flip state machine is not initialized, return
+        if (getMeridianFlipState().isNull())
+            return;
+
+        switch (getMeridianFlipState()->getMeridianFlipStage())
+        {
+            case MeridianFlipState::MF_INITIATED:
+                if (nvp->s == IPS_BUSY && m_Mount != nullptr && m_Mount->isSlewing())
+                    getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_FLIPPING);
+                break;
+
+            default:
+                break;
+        }
+    }
+    else if (prop.isNameMatch("TELESCOPE_SLEW_RATE"))
+    {
+        auto svp = prop.getSwitch();
+        auto index = svp->findOnSwitchIndex();
+        m_SpeedSlider->setProperty("value", index);
+        m_SpeedLabel->setProperty("text", i18nc(libindi_strings_context, svp->at(index)->getLabel()));
     }
 }
 
@@ -807,17 +821,6 @@ void Mount::paaStageChanged(int stage)
                 mf_state->setEnabled(executeMeridianFlip->isChecked());
             }
             break;
-    }
-}
-
-void Mount::updateSwitch(ISwitchVectorProperty * svp)
-{
-    if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE"))
-    {
-        int index = IUFindOnSwitchIndex(svp);
-
-        m_SpeedSlider->setProperty("value", index);
-        m_SpeedLabel->setProperty("text", i18nc(libindi_strings_context, svp->sp[index].label));
     }
 }
 
@@ -1635,7 +1638,10 @@ void Mount::syncAxisReversed(INDI_EQ_AXIS axis, bool reversed)
 void Mount::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Mount::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
+    connect(trainB, &QPushButton::clicked, this, [this]()
+    {
+        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+    });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain,

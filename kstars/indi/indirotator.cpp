@@ -21,7 +21,7 @@ bool Rotator::setAbsoluteAngle(double angle)
 
     nvp->at(0)->setValue(angle);
 
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
     return true;
 }
 
@@ -37,7 +37,7 @@ bool Rotator::setAbsoluteSteps(uint32_t steps)
 
     nvp->at(0)->setValue(steps);
 
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
     return true;
 }
 
@@ -56,7 +56,7 @@ bool Rotator::setReversed(bool enabled)
     svp->at(0)->setState(enabled ? ISS_ON : ISS_OFF);
     svp->at(1)->setState(enabled ? ISS_OFF : ISS_ON);
 
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
     return true;
 }
 
@@ -68,24 +68,26 @@ void Rotator::registerProperty(INDI::Property prop)
         processSwitch(prop.getSwitch());
 }
 
-void Rotator::processNumber(INumberVectorProperty *nvp)
+void Rotator::processNumber(INDI::Property prop)
 {
-    if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
+    auto nvp = prop.getNumber();
+    if (nvp->isNameMatch("ABS_ROTATOR_ANGLE"))
     {
-        if (std::abs(nvp->np[0].value - m_AbsoluteAngle) > 0 || nvp->s != m_AbsoluteAngleState)
+        if (std::abs(nvp->at(0)->getValue() - m_AbsoluteAngle) > 0 || nvp->getState() != m_AbsoluteAngleState)
         {
-            m_AbsoluteAngle = nvp->np[0].value;
-            m_AbsoluteAngleState = nvp->s;
+            m_AbsoluteAngle = nvp->at(0)->getValue();
+            m_AbsoluteAngleState = nvp->getState();
             emit newAbsoluteAngle(m_AbsoluteAngle, m_AbsoluteAngleState);
         }
     }
 }
 
-void Rotator::processSwitch(ISwitchVectorProperty *svp)
+void Rotator::processSwitch(INDI::Property prop)
 {
-    if (!strcmp(svp->name, "ROTATOR_REVERSE"))
+    auto svp = prop.getSwitch();
+    if (svp->isNameMatch("ROTATOR_REVERSE"))
     {
-        auto reverse = IUFindOnSwitchIndex(svp) == 0;
+        auto reverse = svp->findOnSwitchIndex() == 0;
         if (m_Reversed != reverse)
         {
             m_Reversed = reverse;

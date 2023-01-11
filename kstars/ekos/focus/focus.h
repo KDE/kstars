@@ -354,16 +354,16 @@ class Focus : public QWidget, public Ui::Focus
         void processData(const QSharedPointer<FITSData> &data);
 
         /**
-             * @brief processFocusNumber Read focus number properties of interest as they arrive from the focuser driver and process them accordingly.
-             * @param nvp pointer to updated focuser number property.
+             * @brief updateProperty Read focus number properties of interest as they arrive from the focuser driver and process them accordingly.
+             * @param prop INDI Property
              */
-        void processFocusNumber(INumberVectorProperty *nvp);
+        void updateProperty(INDI::Property prop);
 
         /**
              * @brief processTemperatureSource Updates focus temperature source.
              * @param nvp pointer to updated focuser number property.
              */
-        void processTemperatureSource(INumberVectorProperty *nvp);
+        void processTemperatureSource(INDI::Property prop);
 
         /**
              * @brief setFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
@@ -888,7 +888,7 @@ class Focus : public QWidget, public Ui::Focus
 
         // Set m_DebugFocuser = true to simulate a focuser failure
         bool m_DebugFocuser { false };
-        uint8_t m_DebugFocuserCounter { 0 };
+        uint16_t m_DebugFocuserCounter { 0 };
 
         // Guide Suspend
         bool m_GuidingSuspended { false };

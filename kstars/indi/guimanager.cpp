@@ -31,8 +31,10 @@ GUIManager *GUIManager::_GUIManager = nullptr;
 GUIManager *GUIManager::Instance()
 {
     if (_GUIManager == nullptr)
+    {
         _GUIManager = new GUIManager(
             Options::independentWindowINDI() ? nullptr : KStars::Instance());
+    }
 
     return _GUIManager;
 }
@@ -271,19 +273,15 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
     connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
-    connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
-    connect(cm, &ClientManager::newINDIText, gdm, &INDI_D::updateTextGUI);
-    connect(cm, &ClientManager::newINDINumber, gdm, &INDI_D::updateNumberGUI);
-    connect(cm, &ClientManager::newINDILight, gdm, &INDI_D::updateLightGUI);
-    connect(cm, &ClientManager::newINDIBLOB, gdm, &INDI_D::updateBLOBGUI);
+    connect(cm, &ClientManager::updateINDIProperty, gdm, &INDI_D::updateProperty);
     connect(cm, &ClientManager::newINDIMessage, gdm, &INDI_D::updateMessageLog);
 
     // Build existing properties.
-    for (const auto &oneProperty : di->getBaseDevice()->getProperties())
+    for (auto &oneProperty : di->getBaseDevice().getProperties())
         gdm->buildProperty(oneProperty);
 
-    QString deviceName = di->getDeviceName();
-    int index          = mainTabWidget->count();
+    auto deviceName = di->getDeviceName();
+    auto index = mainTabWidget->count();
     for (int i = 0; i < mainTabWidget->count(); i++)
     {
         if (mainTabWidget->tabText(i) > deviceName)

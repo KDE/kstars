@@ -660,9 +660,17 @@ class Capture : public QWidget, public Ui::Capture
         void updateTargetDistance(double targetDiff);
 
         /**
-         * @brief checkCamera Refreshes the CCD information in the capture module.
-         */
+             * @brief checkCamera Refreshes the CCD information in the capture module.
+             */
         void checkCamera();
+
+
+        /**
+             * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
+             * @param nvp pointer to number property.
+             */
+        void processCameraNumber(INDI::Property prop);
+
 
         /**
          * @brief removeJob Remove a job sequence from the queue

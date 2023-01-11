@@ -39,8 +39,8 @@ class Weather : public ConcreteDevice
             WEATHER_ALERT,
         } Status;
 
-        void processNumber(INumberVectorProperty *nvp) override;
-        void processLight(ILightVectorProperty *lvp) override;
+        void processNumber(INDI::Property prop) override;
+        void processLight(INDI::Property prop) override;
 
         Status status();
 

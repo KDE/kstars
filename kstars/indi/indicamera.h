@@ -71,11 +71,12 @@ class Camera : public ConcreteDevice
         } ErrorType;
 
         void registerProperty(INDI::Property prop) override;
-        void removeProperty(const QString &name) override;
-        void processSwitch(ISwitchVectorProperty *svp) override;
-        void processText(ITextVectorProperty *tvp) override;
-        void processNumber(INumberVectorProperty *nvp) override;
-        bool processBLOB(IBLOB *bp) override;
+        void removeProperty(INDI::Property prop) override;
+
+        void processSwitch(INDI::Property prop) override;
+        void processText(INDI::Property prop) override;
+        void processNumber(INDI::Property prop) override;
+        bool processBLOB(INDI::Property prop) override;
 
         // Does it an on-chip dedicated guide head?
         bool hasGuideHead();
@@ -251,14 +252,14 @@ class Camera : public ConcreteDevice
         void newImage(const QSharedPointer<FITSData> &data);
 
     private:
-        void processStream(IBLOB *bp);
+        void processStream(INDI::Property prop);
         bool generateFilename(bool batch_mode, const QString &extension, QString *filename);
         // Saves an image to disk on a separate thread.
-        bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);
+        bool writeImageFile(const QString &filename, INDI::Property prop, bool is_fits);
         bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
         // Creates or finds the FITSViewer.
         QPointer<FITSViewer> getFITSViewer();
-        void handleImage(CameraChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
+        void handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop, QSharedPointer<FITSData> data);
 
         bool ISOMode { true };
         bool HasGuideHead { false };
@@ -280,8 +281,7 @@ class Camera : public ConcreteDevice
         int guideTabID { -1 };
         int alignTabID { -1 };
 
-        //char BLOBFilename[MAXINDIFILENAME + 1];
-        IBLOB *primaryCCDBLOB { nullptr };
+        INDI::Property primaryCCDBLOB;
 
         std::unique_ptr<CameraChip> primaryChip;
         std::unique_ptr<CameraChip> guideChip;

@@ -469,7 +469,7 @@ void Focus::checkTemperatureSource(const QString &name)
 
     // Disconnect all existing signals
     for (const auto &oneSource : m_TemperatureSources)
-        disconnect(oneSource.get(), &ISD::GenericDevice::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
+        disconnect(oneSource.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Focus::processTemperatureSource);
 
     if (findTemperatureElement(currentSource))
     {
@@ -480,29 +480,29 @@ void Focus::checkTemperatureSource(const QString &name)
     else
         m_LastSourceAutofocusTemperature = INVALID_VALUE;
 
-    connect(currentSource.get(), &ISD::GenericDevice::numberUpdated, this, &Ekos::Focus::processTemperatureSource,
+    connect(currentSource.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Focus::processTemperatureSource,
             Qt::UniqueConnection);
 }
 
 bool Focus::findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    INDI::Property *temperatureProperty = device->getProperty("FOCUS_TEMPERATURE");
+    auto temperatureProperty = device->getProperty("FOCUS_TEMPERATURE");
     if (!temperatureProperty)
         temperatureProperty = device->getProperty("CCD_TEMPERATURE");
     if (temperatureProperty)
     {
-        currentTemperatureSourceElement = temperatureProperty->getNumber()->at(0);
+        currentTemperatureSourceElement = temperatureProperty.getNumber()->at(0);
         return true;
     }
 
     temperatureProperty = device->getProperty("WEATHER_PARAMETERS");
     if (temperatureProperty)
     {
-        for (int i = 0; i < temperatureProperty->getNumber()->count(); i++)
+        for (int i = 0; i < temperatureProperty.getNumber()->count(); i++)
         {
-            if (strstr(temperatureProperty->getNumber()->at(i)->getName(), "_TEMPERATURE"))
+            if (strstr(temperatureProperty.getNumber()->at(i)->getName(), "_TEMPERATURE"))
             {
-                currentTemperatureSourceElement = temperatureProperty->getNumber()->at(i);
+                currentTemperatureSourceElement = temperatureProperty.getNumber()->at(i);
                 return true;
             }
         }
@@ -704,7 +704,7 @@ void Focus::checkFocuser()
         focusBacklash->setValue(0);
     }
 
-    connect(m_Focuser, &ISD::Focuser::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
+    connect(m_Focuser, &ISD::Focuser::propertyUpdated, this, &Ekos::Focus::updateProperty, Qt::UniqueConnection);
 
     resetButtons();
 }
@@ -780,10 +780,10 @@ void Focus::getAbsFocusPosition()
     }
 }
 
-void Focus::processTemperatureSource(INumberVectorProperty *nvp)
+void Focus::processTemperatureSource(INDI::Property prop)
 {
     double delta = 0;
-    if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp == nvp)
+    if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp->name == prop.getName())
     {
         if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
         {
@@ -3008,26 +3008,24 @@ void Focus::autoFocusProcessPositionChange(IPState state)
     }
 }
 
-void Focus::processFocusNumber(INumberVectorProperty *nvp)
+void Focus::updateProperty(INDI::Property prop)
 {
-    if (m_Focuser == nullptr)
+    if (m_Focuser == nullptr || prop.getType() != INDI_NUMBER || prop.getDeviceName() != m_Focuser->getDeviceName())
         return;
 
-    // Return if it is not our current focuser
-    if (nvp->device != m_Focuser->getDeviceName())
-        return;
+    auto nvp = prop.getNumber();
 
     // Only process focus properties
-    if (QString(nvp->name).contains("focus", Qt::CaseInsensitive) == false)
+    if (QString(nvp->getName()).contains("focus", Qt::CaseInsensitive) == false)
         return;
 
-    if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
+    if (nvp->isNameMatch("FOCUS_BACKLASH_STEPS"))
     {
         focusBacklash->setValue(nvp->np[0].value);
         return;
     }
 
-    if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
+    if (nvp->isNameMatch("ABS_FOCUS_POSITION"))
     {
         if (m_DebugFocuser)
         {
@@ -3131,7 +3129,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (canAbsMove)
         return;
 
-    if (!strcmp(nvp->name, "manualfocusdrive"))
+    if (nvp->isNameMatch("manualfocusdrive"))
     {
         m_FocusMotionTimer.stop();
 
@@ -3177,7 +3175,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         return;
     }
 
-    if (!strcmp(nvp->name, "REL_FOCUS_POSITION"))
+    if (nvp->isNameMatch("REL_FOCUS_POSITION"))
     {
         m_FocusMotionTimer.stop();
 
@@ -3229,7 +3227,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (canRelMove)
         return;
 
-    if (!strcmp(nvp->name, "FOCUS_TIMER"))
+    if (nvp->isNameMatch("FOCUS_TIMER"))
     {
         m_FocusMotionTimer.stop();
         // restart if focus movement has finished
@@ -4662,7 +4660,10 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
 void Focus::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Focus::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
+    connect(trainB, &QPushButton::clicked, this, [this]()
+    {
+        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+    });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain,

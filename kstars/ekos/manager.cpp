@@ -1370,13 +1370,11 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
     connect(device.get(), &ISD::GenericDevice::propertyDefined, this, &Ekos::Manager::processNewProperty, Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::propertyDeleted, this, &Ekos::Manager::processDeleteProperty,
             Qt::UniqueConnection);
+    connect(device.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::processUpdateProperty,
+            Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::interfaceDefined, this, &Ekos::Manager::syncActiveDevices, Qt::UniqueConnection);
 
-    connect(device.get(), &ISD::GenericDevice::numberUpdated, this, &Ekos::Manager::processNewNumber, Qt::UniqueConnection);
-    connect(device.get(), &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::processNewSwitch, Qt::UniqueConnection);
-    connect(device.get(), &ISD::GenericDevice::textUpdated, this, &Ekos::Manager::processNewText, Qt::UniqueConnection);
-    connect(device.get(), &ISD::GenericDevice::lightUpdated, this, &Ekos::Manager::processNewLight, Qt::UniqueConnection);
-    connect(device.get(), &ISD::GenericDevice::BLOBUpdated, this, &Ekos::Manager::processNewBLOB, Qt::UniqueConnection);
+
 
     // Only look for primary & guider CCDs if we can tell a difference between them
     // otherwise rely on saved options
@@ -1433,7 +1431,7 @@ void Manager::deviceConnected()
         {
             if (oneDevice == device)
             {
-                connect(device, &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::watchDebugProperty, Qt::UniqueConnection);
+                connect(device, &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::watchDebugProperty, Qt::UniqueConnection);
 
                 auto configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
                 if (configProp && configProp->getState() == IPS_IDLE)
@@ -1691,37 +1689,19 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
     }
 }
 
-void Manager::processNewText(ITextVectorProperty * tvp)
+void Manager::processDeleteProperty(INDI::Property prop)
 {
-    ekosLiveClient.get()->message()->processNewText(tvp);
-
-    if (!strcmp(tvp->name, "ACTIVE_DEVICES"))
-    {
-        syncActiveDevices();
-    }
+    ekosLiveClient.get()->message()->processDeleteProperty(prop);
 }
 
-void Manager::processNewSwitch(ISwitchVectorProperty * svp)
+void Manager::processUpdateProperty(INDI::Property prop)
 {
-    ekosLiveClient.get()->message()->processNewSwitch(svp);
-}
+    ekosLiveClient.get()->message()->processUpdateProperty(prop);
 
-void Manager::processNewLight(ILightVectorProperty * lvp)
-{
-    ekosLiveClient.get()->message()->processNewLight(lvp);
-}
-
-void Manager::processNewBLOB(IBLOB * bp)
-{
-    ekosLiveClient.get()->media()->processNewBLOB(bp);
-}
-
-void Manager::processNewNumber(INumberVectorProperty * nvp)
-{
-    ekosLiveClient.get()->message()->processNewNumber(nvp);
-
-    if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "GUIDER_INFO") || !strcmp(nvp->name, "CCD_FRAME") ||
-            !strcmp(nvp->name, "GUIDER_FRAME"))
+    if (prop.isNameMatch("CCD_INFO") ||
+            prop.isNameMatch("GUIDER_INFO") ||
+            prop.isNameMatch("CCD_FRAME") ||
+            prop.isNameMatch("GUIDER_FRAME"))
     {
         if (focusProcess.get() != nullptr)
             focusProcess->syncCameraInfo();
@@ -1734,25 +1714,23 @@ void Manager::processNewNumber(INumberVectorProperty * nvp)
 
         return;
     }
-}
-
-void Manager::processDeleteProperty(const QString &name)
-{
-    ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
-    ekosLiveClient.get()->message()->processDeleteProperty(deviceInterface->getDeviceName(), name);
+    else if (prop.isNameMatch("ACTIVE_DEVICES"))
+    {
+        syncActiveDevices();
+    }
 }
 
 void Manager::processNewProperty(INDI::Property prop)
 {
     QSharedPointer<ISD::GenericDevice> device;
-    if (!INDIListener::findDevice(prop->getDeviceName(), device))
+    if (!INDIListener::findDevice(prop.getDeviceName(), device))
         return;
 
     settleTimer.start();
 
     ekosLiveClient.get()->message()->processNewProperty(prop);
 
-    if (prop->isNameMatch("DEVICE_PORT_SCAN") || prop->isNameMatch("CONNECTION_TYPE"))
+    if (prop.isNameMatch("DEVICE_PORT_SCAN") || prop.isNameMatch("CONNECTION_TYPE"))
     {
         if (!m_PortSelector)
         {
@@ -1766,38 +1744,38 @@ void Manager::processNewProperty(INDI::Property prop)
     }
 
     // Check if we need to turn on DEBUG for logging purposes
-    if (prop->isNameMatch("DEBUG"))
+    if (prop.isNameMatch("DEBUG"))
     {
         uint16_t interface = device->getDriverInterface();
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
             // Check if we need to enable debug logging for the INDI drivers.
-            auto debugSP = prop->getSwitch();
+            auto debugSP = prop.getSwitch();
             debugSP->at(0)->setState(ISS_ON);
             debugSP->at(1)->setState(ISS_OFF);
-            device->sendNewSwitch(debugSP);
+            device->sendNewProperty(debugSP);
         }
         return;
     }
 
     // Handle debug levels for logging purposes
-    if (prop->isNameMatch("DEBUG_LEVEL"))
+    if (prop.isNameMatch("DEBUG_LEVEL"))
     {
         uint16_t interface = device->getDriverInterface();
         // Check if the logging option for the specific device class is on and if the device interface matches it.
         if ( opsLogs->getINDIDebugInterface() & interface )
         {
             // Turn on everything
-            auto debugLevel = prop->getSwitch();
+            auto debugLevel = prop.getSwitch();
             for (auto &it : *debugLevel)
                 it.setState(ISS_ON);
 
-            device->sendNewSwitch(debugLevel);
+            device->sendNewProperty(debugLevel);
         }
         return;
     }
 
-    if (prop->isNameMatch("ACTIVE_DEVICES"))
+    if (prop.isNameMatch("ACTIVE_DEVICES"))
     {
         if (device->getDriverInterface() > 0)
             syncActiveDevices();
@@ -1805,11 +1783,11 @@ void Manager::processNewProperty(INDI::Property prop)
         return;
     }
 
-    if (prop->isNameMatch("ASTROMETRY_SOLVER"))
+    if (prop.isNameMatch("ASTROMETRY_SOLVER"))
     {
         for (auto &oneDevice : INDIListener::devices())
         {
-            if (oneDevice->getDeviceName() == prop->getDeviceName())
+            if (oneDevice->getDeviceName() == prop.getDeviceName())
             {
                 initAlign();
                 alignProcess->setAstrometryDevice(oneDevice);
@@ -1820,7 +1798,7 @@ void Manager::processNewProperty(INDI::Property prop)
         return;
     }
 
-    if (focusProcess.get() != nullptr && strstr(prop->getName(), "FOCUS_"))
+    if (focusProcess.get() != nullptr && strstr(prop.getName(), "FOCUS_"))
     {
         focusProcess->checkFocuser();
         return;
@@ -2691,7 +2669,7 @@ void Manager::updateDebugInterfaces()
         {
             debugSP->at(0)->setState(ISS_ON);
             debugSP->at(1)->setState(ISS_OFF);
-            device->sendNewSwitch(debugSP);
+            device->sendNewProperty(debugSP);
             appendLogText(i18n("Enabling debug logging for %1...", device->getDeviceName()));
         }
         else if ( !( opsLogs->getINDIDebugInterface() & device->getDriverInterface() ) &&
@@ -2699,7 +2677,7 @@ void Manager::updateDebugInterfaces()
         {
             debugSP->at(0)->setState(ISS_OFF);
             debugSP->at(1)->setState(ISS_ON);
-            device->sendNewSwitch(debugSP);
+            device->sendNewProperty(debugSP);
             appendLogText(i18n("Disabling debug logging for %1...", device->getDeviceName()));
         }
 
@@ -2708,10 +2686,12 @@ void Manager::updateDebugInterfaces()
     }
 }
 
-void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
+void Manager::watchDebugProperty(INDI::Property prop)
 {
-    if (!strcmp(svp->name, "DEBUG"))
+    if (prop.isNameMatch("DEBUG"))
     {
+        auto svp = prop.getSwitch();
+
         ISD::GenericDevice * deviceInterface = qobject_cast<ISD::GenericDevice *>(sender());
 
         // We don't process pure general interfaces
@@ -2725,7 +2705,7 @@ void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
         {
             svp->sp[0].s = ISS_ON;
             svp->sp[1].s = ISS_OFF;
-            deviceInterface->sendNewSwitch(svp);
+            deviceInterface->sendNewProperty(svp);
             appendLogText(i18n("Re-enabling debug logging for %1...", deviceInterface->getDeviceName()));
         }
         // To turn off debug logging, NONE of the driver interfaces should be enabled in logging settings.
@@ -2737,7 +2717,7 @@ void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
         {
             svp->sp[0].s = ISS_OFF;
             svp->sp[1].s = ISS_ON;
-            deviceInterface->sendNewSwitch(svp);
+            deviceInterface->sendNewProperty(svp);
             appendLogText(i18n("Re-disabling debug logging for %1...", deviceInterface->getDeviceName()));
         }
     }
@@ -3152,7 +3132,7 @@ void Manager::syncActiveDevices()
                     if (!QString(it.getText()).isEmpty())
                     {
                         it.setText("");
-                        oneDevice->sendNewText(tvp.getText());
+                        oneDevice->sendNewProperty(tvp.getText());
                     }
                     continue;
                 }
@@ -3163,7 +3143,7 @@ void Manager::syncActiveDevices()
                     if (QString(it.getText()) != name)
                     {
                         it.setText(name.toLatin1().constData());
-                        oneDevice->sendNewText(tvp.getText());
+                        oneDevice->sendNewProperty(tvp.getText());
                         break;
                     }
                     continue;
@@ -3182,7 +3162,7 @@ void Manager::syncActiveDevices()
                 if (it.getText() != devs.first()->getDeviceName())
                 {
                     it.setText(devs.first()->getDeviceName().toLatin1().constData());
-                    oneDevice->sendNewText(tvp.getText());
+                    oneDevice->sendNewProperty(tvp.getText());
                 }
             }
         }

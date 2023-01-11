@@ -203,9 +203,7 @@ void FilterManager::setFilterWheel(ISD::FilterWheel *filter)
     if (!m_FilterWheel)
         return;
 
-    connect(m_FilterWheel, &ISD::ConcreteDevice::textUpdated, this, &FilterManager::processText);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::numberUpdated, this, &FilterManager::processNumber);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::propertyUpdated, this, &FilterManager::updateProperty);
     connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, &FilterManager::processDisconnect);
 
     refreshFilterProperties();
@@ -288,131 +286,50 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
     return true;
 }
 
-void FilterManager::processNumber(INumberVectorProperty *nvp)
+
+void FilterManager::updateProperty(INDI::Property prop)
 {
-    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_FilterWheel == nullptr
-            || (nvp->device != m_FilterWheel->getDeviceName()))
+    if (m_FilterWheel == nullptr || m_FilterWheel->getDeviceName() != prop.getDeviceName())
         return;
 
-    m_FilterPositionProperty = nvp;
-
-    if (m_currentFilterPosition != static_cast<int>(m_FilterPositionProperty->np[0].value))
+    if (prop.isNameMatch("FILTER_NAME"))
     {
-        m_currentFilterPosition = static_cast<int>(m_FilterPositionProperty->np[0].value);
-        emit positionChanged(m_currentFilterPosition);
+        auto tvp = prop.getText();
+        m_FilterNameProperty = tvp;
+
+        QStringList newFilterLabels = getFilterLabels(true);
+
+        if (newFilterLabels != m_currentFilterLabels)
+        {
+            m_currentFilterLabels = newFilterLabels;
+
+            refreshFilterModel();
+
+            emit labelsChanged(newFilterLabels);
+        }
     }
-
-    if (state == FILTER_CHANGE)
-        executeOperationQueue();
-    // If filter is changed externally, record its current offset as the starting offset.
-    else if (state == FILTER_IDLE && m_ActiveFilters.count() >= m_currentFilterPosition)
-        lastFilterOffset = m_ActiveFilters[m_currentFilterPosition - 1]->offset();
-
-    // Check if we have to apply Focus Offset
-    // Focus offsets are always applied first
-
-
-
-    // Check if we have to start Auto Focus
-    // If new filter position changed, and new filter policy is to perform auto-focus then autofocus is initiated.
-
-    // Capture Module
-    // 3x L ---> 3x HA ---> 3x L
-    // Capture calls setFilterPosition("L").
-    // 0. Change filter to desired filter "L"
-    // 1. Is there any offset from last offset that needs to be applied?
-    // 1.1 Yes --> Apply focus offset and wait until position is changed:
-    // 1.1.1 Position complete, now check for useAutoFocus policy (#2).
-    // 1.1.2 Position failed, retry?
-    // 1.2 No  --> Go to #2
-    // 2. Is there autofocus policy for current filter?
-    // 2.1. Yes --> Check filter lock policy
-    // 2.1.1 If filter lock is another filter --> Change filter
-    // 2.1.2 If filter lock is same filter --> proceed to 2.3
-    // 2.2 No --> Process to 2.3
-    // 2.3 filter lock policy filter is applied, start autofocus.
-    // 2.4 Autofocus complete. Check filter lock policy
-    // 2.4.1 If filter lock policy was applied --> revert filter
-    // 2.4.1.1 If filter offset policy is applicable --> Apply offset
-    // 2.4.1.2 If no filter offset policy is applicable --> Go to 2.5
-    // 2.4.2 No filter lock policy, go to 2.5
-    // 2.5 All complete, emit ready()
-
-    // Example. Current filter L. setFilterPosition("HA"). AutoFocus = YES. HA lock policy: L, HA offset policy: +100 with respect to L
-    // Operation Stack. offsetDiff = 100
-    // If AutoFocus && current filter = lock policy filter
-    // AUTO_FOCUS (on L)
-    // CHANGE_FILTER (to HA)
-    // APPLY_OFFSET: +100
-
-    // Example. Current filter L. setFilterPosition("HA"). AutoFocus = No. HA lock policy: L, HA offset policy: +100 with respect to L
-    // Operation Stack. offsetDiff = 100
-    // CHANGE_FILTER (to HA)
-    // APPLY_OFFSET: +100
-
-
-
-
-    // Example. Current filter R. setFilterPosition("B"). AutoFocus = YES. B lock policy: "--", B offset policy: +70 with respect to L
-    // R offset = -50 with respect to L
-    // FILTER_CHANGE (to B)
-    // FILTER_OFFSET (+120)
-    // AUTO_FOCUS
-
-    // Example. Current filter R. setFilterPosition("HA"). AutoFocus = YES. HA lock policy: L, HA offset policy: +100 with respect to L
-    // R offset = -50 with respect to L
-    // Operation Stack. offsetDiff = +150
-    // CHANGE_FILTER (to L)
-    // APPLY_OFFSET: +50 (L - R)
-    // AUTO_FOCUS
-    // CHANGE_FILTER (HA)
-    // APPLY_OFFSET: +100
-
-
-
-    // Example. Current filter R. setFilterPosition("HA"). AutoFocus = No. HA lock policy: L, HA offset policy: +100 with respect to L
-    // R offset = -50 with respect to L
-    // Operation Stack. offsetDiff = +150
-    // CHANGE_FILTER (to HA)
-    // APPLY_OFFSET: +150 (HA - R)
-
-
-
-    // Example. Current filter L. setFilterPosition("R"). AutoFocus = Yes. R lock policy: R, R offset policy: -50 with respect to L
-    // Operation Stack. offsetDiff = -50
-    // CHANGE_FILTER (to R)
-    // APPLY_OFFSET: -50 (R - L)
-    // AUTO_FOCUS
-
-
-}
-
-void FilterManager::processText(ITextVectorProperty *tvp)
-{
-    if (strcmp(tvp->name, "FILTER_NAME") || m_FilterWheel == nullptr
-            || (tvp->device != m_FilterWheel->getDeviceName())            )
-        return;
-
-    m_FilterNameProperty = tvp;
-
-    QStringList newFilterLabels = getFilterLabels(true);
-
-    if (newFilterLabels != m_currentFilterLabels)
+    else if (prop.isNameMatch("FILTER_SLOT"))
     {
-        m_currentFilterLabels = newFilterLabels;
+        auto nvp = prop.getNumber();
+        if (nvp->s != IPS_OK)
+            return;
 
-        refreshFilterModel();
+        m_FilterPositionProperty = nvp;
 
-        emit labelsChanged(newFilterLabels);
+        if (m_currentFilterPosition != static_cast<int>(m_FilterPositionProperty->np[0].value))
+        {
+            m_currentFilterPosition = static_cast<int>(m_FilterPositionProperty->np[0].value);
+            emit positionChanged(m_currentFilterPosition);
+        }
+
+        if (state == FILTER_CHANGE)
+            executeOperationQueue();
+        // If filter is changed externally, record its current offset as the starting offset.
+        else if (state == FILTER_IDLE && m_ActiveFilters.count() >= m_currentFilterPosition)
+            lastFilterOffset = m_ActiveFilters[m_currentFilterPosition - 1]->offset();
     }
 }
 
-void FilterManager::processSwitch(ISwitchVectorProperty *svp)
-{
-    if (m_FilterWheel == nullptr || (svp->device != m_FilterWheel->getDeviceName()))
-        return;
-
-}
 
 void FilterManager::processDisconnect()
 {

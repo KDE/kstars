@@ -366,16 +366,10 @@ class Mount : public QWidget, public Ui::Mount
              */
         void syncTelescopeInfo();
         /**
-             * @brief updateNumber Update number properties under watch in the mount module
-             * @param nvp pointer to number property
+             * @brief updateProperty Update properties under watch in the mount module
+             * @param prop INDI property
              */
-        void updateNumber(INumberVectorProperty *nvp);
-
-        /**
-             * @brief updateSwitch Update switch properties under watch in the mount module
-             * @param svp pointer to switch property
-             */
-        void updateSwitch(ISwitchVectorProperty *svp);
+        void updateProperty(INDI::Property prop);
 
         /**
              * @brief updateLog Update mount module log to include any messages arriving for the telescope driver

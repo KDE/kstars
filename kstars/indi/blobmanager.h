@@ -45,26 +45,14 @@ class BlobManager : public QObject, public INDI::BaseClient
     void setEnabled(bool enabled);
 
   protected:
-    virtual void newDevice(INDI::BaseDevice *device) override;
-    virtual void newProperty(INDI::Property *) override {}
-    virtual void removeProperty(INDI::Property *) override {}
-    virtual void removeDevice(INDI::BaseDevice *) override {}
-    virtual void newSwitch(ISwitchVectorProperty *) override {}
-    virtual void newNumber(INumberVectorProperty *) override {}
-    virtual void newBLOB(IBLOB *bp) override;
-    virtual void newText(ITextVectorProperty *) override {}
-    virtual void newLight(ILightVectorProperty *) override {}
-    virtual void newMessage(INDI::BaseDevice *, int) override {}
-
-#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
-    virtual void newUniversalMessage(std::string) override {}
-#endif
+    virtual void newDevice(INDI::BaseDevice device) override;
+    virtual void updateProperty(INDI::Property prop) override;
 
     virtual void serverConnected() override {}
     virtual void serverDisconnected(int exit_code) override;
 
   signals:   
-    void newINDIBLOB(IBLOB *bp);
+    void propertyUpdated(INDI::Property prop);
     void connected();
     void connectionFailure();
 

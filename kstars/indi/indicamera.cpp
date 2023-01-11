@@ -67,7 +67,7 @@ Camera::~Camera()
 
 void Camera::setBLOBManager(const char *device, INDI::Property prop)
 {
-    if (!prop->getRegistered())
+    if (!prop.getRegistered())
         return;
 
     if (getDeviceName() == device)
@@ -76,77 +76,75 @@ void Camera::setBLOBManager(const char *device, INDI::Property prop)
 
 void Camera::registerProperty(INDI::Property prop)
 {
-    if (prop->isNameMatch("GUIDER_EXPOSURE"))
+    if (prop.isNameMatch("GUIDER_EXPOSURE"))
     {
         HasGuideHead = true;
         guideChip.reset(new CameraChip(this, CameraChip::GUIDE_CCD));
     }
-    else if (prop->isNameMatch("CCD_FRAME_TYPE"))
+    else if (prop.isNameMatch("CCD_FRAME_TYPE"))
     {
-        auto ccdFrame = prop->getSwitch();
-
         primaryChip->clearFrameTypes();
 
-        for (const auto &it : *ccdFrame)
+        for (auto &it : *prop.getSwitch())
             primaryChip->addFrameLabel(it.getLabel());
     }
-    else if (prop->isNameMatch("CCD_FRAME"))
+    else if (prop.isNameMatch("CCD_FRAME"))
     {
-        auto np = prop->getNumber();
+        auto np = prop.getNumber();
         if (np && np->getPermission() != IP_RO)
             primaryChip->setCanSubframe(true);
     }
-    else if (prop->isNameMatch("GUIDER_FRAME"))
+    else if (prop.isNameMatch("GUIDER_FRAME"))
     {
-        auto np = prop->getNumber();
+        auto np = prop.getNumber();
         if (np && np->getPermission() != IP_RO)
             guideChip->setCanSubframe(true);
     }
-    else if (prop->isNameMatch("CCD_BINNING"))
+    else if (prop.isNameMatch("CCD_BINNING"))
     {
-        auto np = prop->getNumber();
+        auto np = prop.getNumber();
         if (np && np->getPermission() != IP_RO)
             primaryChip->setCanBin(true);
     }
-    else if (prop->isNameMatch("GUIDER_BINNING"))
+    else if (prop.isNameMatch("GUIDER_BINNING"))
     {
-        auto np = prop->getNumber();
+        auto np = prop.getNumber();
         if (np && np->getPermission() != IP_RO)
             guideChip->setCanBin(true);
     }
-    else if (prop->isNameMatch("CCD_ABORT_EXPOSURE"))
+    else if (prop.isNameMatch("CCD_ABORT_EXPOSURE"))
     {
-        auto sp = prop->getSwitch();
+        auto sp = prop.getSwitch();
         if (sp && sp->getPermission() != IP_RO)
             primaryChip->setCanAbort(true);
     }
-    else if (prop->isNameMatch("GUIDER_ABORT_EXPOSURE"))
+    else if (prop.isNameMatch("GUIDER_ABORT_EXPOSURE"))
     {
-        auto sp = prop->getSwitch();
+        auto sp = prop.getSwitch();
         if (sp && sp->getPermission() != IP_RO)
             guideChip->setCanAbort(true);
     }
-    else if (prop->isNameMatch("CCD_TEMPERATURE"))
+    else if (prop.isNameMatch("CCD_TEMPERATURE"))
     {
-        auto np = prop->getNumber();
+        auto np = prop.getNumber();
         HasCooler = true;
         CanCool   = (np->getPermission() != IP_RO);
         if (np)
             emit newTemperatureValue(np->at(0)->getValue());
     }
-    else if (prop->isNameMatch("CCD_COOLER"))
+    else if (prop.isNameMatch("CCD_COOLER"))
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
     }
-    else if (prop->isNameMatch("CCD_VIDEO_STREAM"))
+    else if (prop.isNameMatch("CCD_VIDEO_STREAM"))
     {
         // Has Video Stream
         HasVideoStream = true;
     }
-    else if (prop->isNameMatch("CCD_CAPTURE_FORMAT"))
+    else if (prop.isNameMatch("CCD_CAPTURE_FORMAT"))
     {
-        auto sp = prop->getSwitch();
+        auto sp = prop.getSwitch();
         if (sp)
         {
             m_CaptureFormats.clear();
@@ -156,9 +154,9 @@ void Camera::registerProperty(INDI::Property prop)
             m_CaptureFormatIndex = sp->findOnSwitchIndex();
         }
     }
-    else if (prop->isNameMatch("CCD_TRANSFER_FORMAT"))
+    else if (prop.isNameMatch("CCD_TRANSFER_FORMAT"))
     {
-        auto sp = prop->getSwitch();
+        auto sp = prop.getSwitch();
         if (sp)
         {
             m_EncodingFormats.clear();
@@ -170,9 +168,9 @@ void Camera::registerProperty(INDI::Property prop)
                 m_EncodingFormat = format->label;
         }
     }
-    else if (prop->isNameMatch("CCD_EXPOSURE_PRESETS"))
+    else if (prop.isNameMatch("CCD_EXPOSURE_PRESETS"))
     {
-        auto svp = prop->getSwitch();
+        auto svp = prop.getSwitch();
         if (svp)
         {
             bool ok = false;
@@ -210,17 +208,17 @@ void Camera::registerProperty(INDI::Property prop)
             }
         }
     }
-    else if (prop->isNameMatch("CCD_FAST_TOGGLE"))
+    else if (prop.isNameMatch("CCD_FAST_TOGGLE"))
     {
-        auto sp = prop->getSwitch();
+        auto sp = prop.getSwitch();
         if (sp)
             m_FastExposureEnabled = sp->findOnSwitchIndex() == 0;
         else
             m_FastExposureEnabled = false;
     }
-    else if (prop->isNameMatch("TELESCOPE_TYPE"))
+    else if (prop.isNameMatch("TELESCOPE_TYPE"))
     {
-        auto sp = prop->getSwitch();
+        auto sp = prop.getSwitch();
         if (sp)
         {
             auto format = sp->findWidgetByName("TELESCOPE_PRIMARY");
@@ -230,24 +228,22 @@ void Camera::registerProperty(INDI::Property prop)
                 telescopeType = TELESCOPE_GUIDE;
         }
     }
-    else if (prop->isNameMatch("CCD_WEBSOCKET_SETTINGS"))
+    else if (prop.isNameMatch("CCD_WEBSOCKET_SETTINGS"))
     {
-        auto np = prop->getNumber();
+        auto np = prop.getNumber();
         m_Media->setURL(QUrl(QString("ws://%1:%2").arg(m_Parent->getClientManager()->getHost()).arg(np->at(0)->getValue())));
         m_Media->connectServer();
     }
-    else if (prop->isNameMatch("CCD1"))
+    else if (prop.isNameMatch("CCD1"))
     {
-        IBLOBVectorProperty *bp = prop->getBLOB();
-        primaryCCDBLOB = bp->bp;
-        primaryCCDBLOB->bvp = bp;
+        primaryCCDBLOB = prop;
     }
     // try to find gain and/or offset property, if any
-    else if ( (gainN == nullptr || offsetN == nullptr) && prop->getType() == INDI_NUMBER)
+    else if ( (gainN == nullptr || offsetN == nullptr) && prop.getType() == INDI_NUMBER)
     {
         // Since gain is spread among multiple property depending on the camera providing it
         // we need to search in all possible number properties
-        auto controlNP = prop->getNumber();
+        auto controlNP = prop.getNumber();
         if (controlNP)
         {
             for (auto &it : *controlNP)
@@ -272,86 +268,84 @@ void Camera::registerProperty(INDI::Property prop)
     ConcreteDevice::registerProperty(prop);
 }
 
-void Camera::removeProperty(const QString &name)
+void Camera::removeProperty(INDI::Property prop)
 {
-    if (name == "CCD_WEBSOCKET_SETTINGS")
+    if (prop.isNameMatch("CCD_WEBSOCKET_SETTINGS"))
     {
         m_Media->disconnectServer();
     }
 }
 
-void Camera::processNumber(INumberVectorProperty *nvp)
+void Camera::processNumber(INDI::Property prop)
 {
-    if (!strcmp(nvp->name, "CCD_EXPOSURE"))
+    auto nvp = prop.getNumber();
+    if (nvp->isNameMatch("CCD_EXPOSURE"))
     {
-        INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
+        auto np = nvp->findWidgetByName("CCD_EXPOSURE_VALUE");
         if (np)
-            emit newExposureValue(primaryChip.get(), np->value, nvp->s);
-        if (nvp->s == IPS_ALERT)
+            emit newExposureValue(primaryChip.get(), np->getValue(), nvp->getState());
+        if (nvp->getState() == IPS_ALERT)
             emit error(ERROR_CAPTURE);
     }
-    else if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
+    else if (prop.isNameMatch("CCD_TEMPERATURE"))
     {
         HasCooler   = true;
-        INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
+        auto np = nvp->findWidgetByName("CCD_TEMPERATURE_VALUE");
         if (np)
-            emit newTemperatureValue(np->value);
+            emit newTemperatureValue(np->getValue());
     }
-    else if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
+    else if (prop.isNameMatch("GUIDER_EXPOSURE"))
     {
-        INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
+        auto np = nvp->findWidgetByName("GUIDER_EXPOSURE_VALUE");
         if (np)
-            emit newExposureValue(guideChip.get(), np->value, nvp->s);
+            emit newExposureValue(guideChip.get(), np->getValue(), nvp->getState());
     }
-    else if (!strcmp(nvp->name, "FPS"))
+    else if (prop.isNameMatch("FPS"))
     {
-        emit newFPS(nvp->np[0].value, nvp->np[1].value);
+        emit newFPS(nvp->at(0)->getValue(), nvp->at(1)->getValue());
     }
-    else if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
+    else if (prop.isNameMatch("CCD_RAPID_GUIDE_DATA"))
     {
-        double dx = -1, dy = -1, fit = -1;
-        INumber *np = nullptr;
-
-        if (nvp->s == IPS_ALERT)
+        if (nvp->getState() == IPS_ALERT)
         {
             emit newGuideStarData(primaryChip.get(), -1, -1, -1);
         }
         else
         {
-            np = IUFindNumber(nvp, "GUIDESTAR_X");
+            double dx = -1, dy = -1, fit = -1;
+
+            auto np = nvp->findWidgetByName("GUIDESTAR_X");
             if (np)
-                dx = np->value;
-            np = IUFindNumber(nvp, "GUIDESTAR_Y");
+                dx = np->getValue();
+            np = nvp->findWidgetByName("GUIDESTAR_Y");
             if (np)
-                dy = np->value;
-            np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+                dy = np->getValue();
+            np = nvp->findWidgetByName("GUIDESTAR_FIT");
             if (np)
-                fit = np->value;
+                fit = np->getValue();
 
             if (dx >= 0 && dy >= 0 && fit >= 0)
                 emit newGuideStarData(primaryChip.get(), dx, dy, fit);
         }
     }
-    else if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
+    else if (prop.isNameMatch("GUIDER_RAPID_GUIDE_DATA"))
     {
-        double dx = -1, dy = -1, fit = -1;
-        INumber *np = nullptr;
-
-        if (nvp->s == IPS_ALERT)
+        if (nvp->getState() == IPS_ALERT)
         {
             emit newGuideStarData(guideChip.get(), -1, -1, -1);
         }
         else
         {
-            np = IUFindNumber(nvp, "GUIDESTAR_X");
+            double dx = -1, dy = -1, fit = -1;
+            auto np = nvp->findWidgetByName("GUIDESTAR_X");
             if (np)
-                dx = np->value;
-            np = IUFindNumber(nvp, "GUIDESTAR_Y");
+                dx = np->getValue();
+            np = nvp->findWidgetByName("GUIDESTAR_Y");
             if (np)
-                dy = np->value;
-            np = IUFindNumber(nvp, "GUIDESTAR_FIT");
+                dy = np->getValue();
+            np = nvp->findWidgetByName("GUIDESTAR_FIT");
             if (np)
-                fit = np->value;
+                fit = np->getValue();
 
             if (dx >= 0 && dy >= 0 && fit >= 0)
                 emit newGuideStarData(guideChip.get(), dx, dy, fit);
@@ -359,15 +353,17 @@ void Camera::processNumber(INumberVectorProperty *nvp)
     }
 }
 
-void Camera::processSwitch(ISwitchVectorProperty *svp)
+void Camera::processSwitch(INDI::Property prop)
 {
-    if (!strcmp(svp->name, "CCD_COOLER"))
+    auto svp = prop.getSwitch();
+
+    if (svp->isNameMatch("CCD_COOLER"))
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
         emit coolerToggled(svp->sp[0].s == ISS_ON);
     }
-    else if (QString(svp->name).endsWith("VIDEO_STREAM"))
+    else if (QString(svp->getName()).endsWith("VIDEO_STREAM"))
     {
         // If BLOB is not enabled for this camera, then ignore all VIDEO_STREAM calls.
         if (isBLOBEnabled() == false || m_StreamingEnabled == false)
@@ -421,7 +417,7 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
             emit videoStreamToggled(svp->sp[0].s == ISS_ON);
         }
     }
-    else if (!strcmp(svp->name, "CCD_CAPTURE_FORMAT"))
+    else if (svp->isNameMatch("CCD_CAPTURE_FORMAT"))
     {
         m_CaptureFormats.clear();
         for (int i = 0; i < svp->nsp; i++)
@@ -431,13 +427,13 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
                 m_CaptureFormatIndex = i;
         }
     }
-    else if (!strcmp(svp->name, "CCD_TRANSFER_FORMAT"))
+    else if (svp->isNameMatch("CCD_TRANSFER_FORMAT"))
     {
         ISwitch *format = IUFindOnSwitch(svp);
         if (format)
             m_EncodingFormat = format->label;
     }
-    else if (!strcmp(svp->name, "RECORD_STREAM"))
+    else if (svp->isNameMatch("RECORD_STREAM"))
     {
         ISwitch *recordOFF = IUFindSwitch(svp, "RECORD_OFF");
 
@@ -452,7 +448,7 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
             KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::INDI);
         }
     }
-    else if (!strcmp(svp->name, "TELESCOPE_TYPE"))
+    else if (svp->isNameMatch("TELESCOPE_TYPE"))
     {
         ISwitch *format = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
         if (format && format->s == ISS_ON)
@@ -464,11 +460,11 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
     {
         m_FastExposureEnabled = IUFindOnSwitchIndex(svp) == 0;
     }
-    else if (!strcmp(svp->name, "CONNECTION"))
+    else if (svp->isNameMatch("CONNECTION"))
     {
-        ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
+        auto dSwitch = svp->findWidgetByName("DISCONNECT");
 
-        if (dSwitch && dSwitch->s == ISS_ON)
+        if (dSwitch && dSwitch->getState() == ISS_ON)
         {
             if (streamWindow)
             {
@@ -481,18 +477,19 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
             // Clear the pointers on disconnect.
             gainN = nullptr;
             offsetN = nullptr;
-            primaryCCDBLOB = nullptr;
+            primaryCCDBLOB = INDI::Property();
         }
     }
 }
 
-void Camera::processText(ITextVectorProperty *tvp)
+void Camera::processText(INDI::Property prop)
 {
-    if (!strcmp(tvp->name, "CCD_FILE_PATH"))
+    auto tvp = prop.getText();
+    if (tvp->isNameMatch("CCD_FILE_PATH"))
     {
-        IText *filepath = IUFindText(tvp, "FILE_PATH");
+        auto filepath = tvp->findWidgetByName("FILE_PATH");
         if (filepath)
-            emit newRemoteFile(QString(filepath->text));
+            emit newRemoteFile(QString(filepath->getText()));
     }
 }
 
@@ -501,16 +498,19 @@ void Camera::setWSBLOB(const QByteArray &message, const QString &extension)
     if (!primaryCCDBLOB)
         return;
 
-    primaryCCDBLOB->blob = const_cast<char *>(message.data());
-    primaryCCDBLOB->size = message.size();
-    strncpy(primaryCCDBLOB->format, extension.toLatin1().constData(), MAXINDIFORMAT - 1);
+    auto bvp = primaryCCDBLOB.getBLOB();
+    auto bp = bvp->at(0);
+
+    bp->setBlob(const_cast<char *>(message.data()));
+    bp->setSize(message.size());
+    bp->setFormat(extension.toLatin1().constData());
     processBLOB(primaryCCDBLOB);
 
     // Disassociate
-    primaryCCDBLOB->blob = nullptr;
+    bp->setBlob(nullptr);
 }
 
-void Camera::processStream(IBLOB *bp)
+void Camera::processStream(INDI::Property prop)
 {
     if (!streamWindow || streamWindow->isStreamEnabled() == false)
         return;
@@ -543,7 +543,7 @@ void Camera::processStream(IBLOB *bp)
     streamWindow->setSize(streamW, streamH);
 
     streamWindow->show();
-    streamWindow->newFrame(bp);
+    streamWindow->newFrame(prop);
 }
 
 bool Camera::generateFilename(bool batch_mode, const QString &extension, QString *filename)
@@ -563,7 +563,7 @@ bool Camera::generateFilename(bool batch_mode, const QString &extension, QString
     return true;
 }
 
-bool Camera::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
+bool Camera::writeImageFile(const QString &filename, INDI::Property prop, bool is_fits)
 {
     // TODO: Not yet threading the writes for non-fits files.
     // Would need to deal with the raw conversion, etc.
@@ -582,24 +582,26 @@ bool Camera::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
         // Will write blob data in a separate thread, and can't depend on the blob
         // memory, so copy it first.
 
+        auto bp = prop.getBLOB()->at(0);
         // Check buffer size.
-        if (fileWriteBufferSize != bp->bloblen)
+        if (fileWriteBufferSize != bp->getBlobLen())
         {
             if (fileWriteBuffer != nullptr)
                 delete [] fileWriteBuffer;
-            fileWriteBufferSize = bp->bloblen;
+            fileWriteBufferSize = bp->getBlobLen();
             fileWriteBuffer = new char[fileWriteBufferSize];
         }
 
         // Copy memory, and write file on a separate thread.
         // Probably too late to return an error if the file couldn't write.
-        memcpy(fileWriteBuffer, bp->blob, bp->bloblen);
+        memcpy(fileWriteBuffer, bp->getBlob(), bp->getBlobLen());
         fileWriteThread = QtConcurrent::run(this, &ISD::Camera::WriteImageFileInternal, fileWriteFilename, fileWriteBuffer,
-                                            bp->bloblen);
+                                            bp->getBlobLen());
     }
     else
     {
-        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->bloblen))
+        auto bp = prop.getBLOB()->at(0);
+        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->getBlob()), bp->getBlobLen()))
             return false;
     }
     return true;
@@ -648,15 +650,18 @@ QPointer<FITSViewer> Camera::getFITSViewer()
     return m_FITSViewerWindow;
 }
 
-bool Camera::processBLOB(IBLOB *bp)
+bool Camera::processBLOB(INDI::Property prop)
 {
+    auto bvp = prop.getBLOB();
     // Ignore write-only BLOBs since we only receive it for state-change
-    if (bp->bvp->p == IP_WO || bp->size == 0)
+    if (bvp->getPermission() == IP_WO || bvp->at(0)->getSize() == 0)
         return false;
 
     BType = BLOB_OTHER;
 
-    QString format = QString(bp->format).toLower();
+    auto bp = bvp->at(0);
+
+    auto format = QString(bp->getFormat()).toLower();
 
     // If stream, process it first
     if (format.contains("stream"))
@@ -664,7 +669,7 @@ bool Camera::processBLOB(IBLOB *bp)
         if (m_StreamingEnabled == false)
             return true;
         else if (streamWindow)
-            processStream(bp);
+            processStream(prop);
         return true;
     }
 
@@ -687,13 +692,13 @@ bool Camera::processBLOB(IBLOB *bp)
 
     CameraChip *targetChip = nullptr;
 
-    if (!strcmp(bp->name, "CCD2"))
+    if (bvp->isNameMatch("CCD2"))
         targetChip = guideChip.get();
     else
     {
         targetChip = primaryChip.get();
         qCDebug(KSTARS_INDI) << "Image received. Mode:" << getFITSModeStringString(targetChip->getCaptureMode()) << "Size:" <<
-                             bp->size;
+                             bp->getSize();
     }
 
     // Create temporary name if ANY of the following conditions are met:
@@ -720,7 +725,7 @@ bool Camera::processBLOB(IBLOB *bp)
         // If either generating file name or writing the image file fails
         // then return
         if (!generateFilename(targetChip->isBatchMode(), format, &filename) ||
-                !writeImageFile(filename, bp, BType == BLOB_FITS))
+                !writeImageFile(filename, prop, BType == BLOB_FITS))
         {
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
             {
@@ -731,7 +736,7 @@ bool Camera::processBLOB(IBLOB *bp)
                                                  filename),
                                             i18n("Image Write Failed"), 30);
 
-            emit BLOBUpdated(nullptr);
+            emit propertyUpdated(prop);
             return true;
         }
     }
@@ -844,12 +849,12 @@ bool Camera::processBLOB(IBLOB *bp)
             Options::useSummaryPreview() == false &&
             targetChip->isBatchMode())
     {
-        emit BLOBUpdated(bp);
+        emit propertyUpdated(prop);
         emit newImage(nullptr);
         return true;
     }
 
-    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
+    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
     QSharedPointer<FITSData> imageData;
     imageData.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
     if (!imageData->loadFromBuffer(buffer, shortFormat, filename))
@@ -858,18 +863,20 @@ bool Camera::processBLOB(IBLOB *bp)
         return true;
     }
 
-    handleImage(targetChip, filename, bp, imageData);
+    handleImage(targetChip, filename, prop, imageData);
     return true;
 }
 
-void Camera::handleImage(CameraChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data)
+void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop,
+                         QSharedPointer<FITSData> data)
 {
     FITSMode captureMode = targetChip->getCaptureMode();
+    auto bp = prop.getBLOB()->at(0);
 
     // Add metadata
     data->setProperty("device", getDeviceName());
-    data->setProperty("blobVector", bp->bvp->name);
-    data->setProperty("blobElement", bp->name);
+    data->setProperty("blobVector", prop.getName());
+    data->setProperty("blobElement", bp->getName());
     data->setProperty("chip", targetChip->getType());
     // Retain a copy
     targetChip->setImageData(data);
@@ -883,7 +890,7 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, IBLOB 
             {
                 // No need to wait until the image is loaded in the view, but emit AFTER checking
                 // batch mode, since newImage() may change it
-                emit BLOBUpdated(bp);
+                emit propertyUpdated(prop);
                 emit newImage(data);
 
                 bool success = false;
@@ -933,7 +940,7 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, IBLOB 
             break;
     }
 
-    emit BLOBUpdated(bp);
+    emit propertyUpdated(prop);
     emit newImage(data);
 }
 
@@ -949,7 +956,7 @@ void Camera::StreamWindowHidden()
             streamSP->at(0)->setState(ISS_OFF);
             streamSP->at(1)->setState(ISS_ON);
             streamSP->setState(IPS_IDLE);
-            sendNewSwitch(streamSP);
+            sendNewProperty(streamSP);
         }
 
         streamSP = getSwitch("VIDEO_STREAM");
@@ -959,7 +966,7 @@ void Camera::StreamWindowHidden()
             streamSP->at(0)->setState(ISS_OFF);
             streamSP->at(1)->setState(ISS_ON);
             streamSP->setState(IPS_IDLE);
-            sendNewSwitch(streamSP);
+            sendNewProperty(streamSP);
         }
 
         streamSP = getSwitch("AUX_VIDEO_STREAM");
@@ -969,7 +976,7 @@ void Camera::StreamWindowHidden()
             streamSP->at(0)->setState(ISS_OFF);
             streamSP->at(1)->setState(ISS_ON);
             streamSP->setState(IPS_IDLE);
-            sendNewSwitch(streamSP);
+            sendNewProperty(streamSP);
         }
     }
 
@@ -1010,7 +1017,7 @@ bool Camera::setCoolerControl(bool enable)
 
     coolerON->setState(enable ? ISS_ON : ISS_OFF);
     coolerOFF->setState(enable ? ISS_OFF : ISS_ON);
-    sendNewSwitch(coolerSP);
+    sendNewProperty(coolerSP);
 
     return true;
 }
@@ -1055,7 +1062,7 @@ bool Camera::setRapidGuide(CameraChip *targetChip, bool enable)
     rapidSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
     rapidSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
 
-    sendNewSwitch(rapidSP);
+    sendNewProperty(rapidSP);
 
     return true;
 }
@@ -1090,7 +1097,7 @@ bool Camera::configureRapidGuide(CameraChip *targetChip, bool autoLoop, bool sen
     sendImageS->s  = sendImage ? ISS_ON : ISS_OFF;
     showMarkerS->s = showMarker ? ISS_ON : ISS_OFF;
 
-    sendNewSwitch(rapidSP);
+    sendNewProperty(rapidSP);
 
     return true;
 }
@@ -1107,13 +1114,17 @@ void Camera::updateUploadSettings(const QString &remoteDir)
     {
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_DIR");
         if (uploadT && remoteDir.isEmpty() == false)
-            IUSaveText(uploadT, remoteDir.toLatin1().constData());
+        {
+            auto uploadDir = remoteDir;
+            uploadDir.replace("/", "\\");
+            IUSaveText(uploadT, uploadDir.toLatin1().constData());
+        }
 
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_PREFIX");
         if (uploadT)
             IUSaveText(uploadT, filename.toLatin1().constData());
 
-        sendNewText(uploadSettingsTP);
+        sendNewProperty(uploadSettingsTP);
     }
 }
 
@@ -1190,7 +1201,7 @@ bool Camera::setUploadMode(UploadMode mode)
     uploadModeSP->reset();
     modeS->s = ISS_ON;
 
-    sendNewSwitch(uploadModeSP);
+    sendNewProperty(uploadModeSP);
 
     return true;
 }
@@ -1224,7 +1235,7 @@ bool Camera::setTemperature(double value)
 
     np->setValue(value);
 
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
 
     return true;
 }
@@ -1250,7 +1261,7 @@ bool Camera::setEncodingFormat(const QString &value)
     }
 
     m_EncodingFormat = value;
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
     return true;
 }
 
@@ -1277,7 +1288,7 @@ bool Camera::setTelescopeType(TelescopeType type)
     {
         typePrimary->setState(telescopeType == TELESCOPE_PRIMARY ? ISS_ON : ISS_OFF);
         typeGuide->setState(telescopeType == TELESCOPE_PRIMARY ? ISS_OFF : ISS_ON);
-        sendNewSwitch(svp);
+        sendNewProperty(svp);
         setConfig(SAVE_CONFIG);
     }
 
@@ -1301,7 +1312,7 @@ bool Camera::setVideoStreamEnabled(bool enable)
     svp->at(0)->setState(enable ? ISS_ON : ISS_OFF);
     svp->at(1)->setState(enable ? ISS_OFF : ISS_ON);
 
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
 
     return true;
 }
@@ -1331,7 +1342,7 @@ bool Camera::resetStreamingFrame()
         warg->setValue(warg->getMax());
         harg->setValue(harg->getMax());
 
-        sendNewNumber(frameProp);
+        sendNewProperty(frameProp);
         return true;
     }
 
@@ -1354,7 +1365,7 @@ bool Camera::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
         {
             bufferMax->setValue(maxBufferSize);
             previewFPS->setValue(maxPreviewFPS);
-            sendNewNumber(limitsProp);
+            sendNewProperty(limitsProp);
         }
 
         return true;
@@ -1389,7 +1400,7 @@ bool Camera::setStreamingFrame(int x, int y, int w, int h)
         warg->value = qBound(warg->getMin(), static_cast<double>(w), warg->getMax());
         harg->value = qBound(harg->getMin(), static_cast<double>(h), harg->getMax());
 
-        sendNewNumber(frameProp);
+        sendNewProperty(frameProp);
         return true;
     }
 
@@ -1420,7 +1431,7 @@ bool Camera::setSERNameDirectory(const QString &filename, const QString &directo
     filenameT->setText(filename.toLatin1().data());
     dirT->setText(directory.toLatin1().data());
 
-    sendNewText(tvp);
+    sendNewProperty(tvp);
 
     return true;
 }
@@ -1462,7 +1473,7 @@ bool Camera::startRecording()
     svp->reset();
     recordON->setState(ISS_ON);
 
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
 
     return true;
 }
@@ -1493,12 +1504,12 @@ bool Camera::startDurationRecording(double duration)
         return true;
 
     durationN->setValue(duration);
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
 
     svp->reset();
     recordON->setState(ISS_ON);
 
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
 
     return true;
 }
@@ -1525,12 +1536,12 @@ bool Camera::startFramesRecording(uint32_t frames)
         return true;
 
     frameN->setValue(frames);
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
 
     svp->reset();
     recordON->setState(ISS_ON);
 
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
 
     return true;
 }
@@ -1554,7 +1565,7 @@ bool Camera::stopRecording()
     svp->reset();
     recordOFF->setState(ISS_ON);
 
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
 
     return true;
 }
@@ -1580,7 +1591,7 @@ bool Camera::setFITSHeader(const QMap<QString, QString> &values)
         headerT->setText(i.value().toLatin1().data());
     }
 
-    sendNewText(tvp);
+    sendNewProperty(tvp);
 
     return true;
 }
@@ -1591,7 +1602,7 @@ bool Camera::setGain(double value)
         return false;
 
     gainN->value = value;
-    sendNewNumber(gainN->nvp);
+    sendNewProperty(gainN->nvp);
     return true;
 }
 
@@ -1623,7 +1634,7 @@ bool Camera::setOffset(double value)
         return false;
 
     offsetN->value = value;
-    sendNewNumber(offsetN->nvp);
+    sendNewProperty(offsetN->nvp);
     return true;
 }
 
@@ -1673,7 +1684,7 @@ bool Camera::setFastExposureEnabled(bool enable)
 
     svp->at(0)->setState(enable ? ISS_ON : ISS_OFF);
     svp->at(1)->setState(enable ? ISS_OFF : ISS_ON);
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
 
     return true;
 }
@@ -1687,7 +1698,7 @@ bool Camera::setCaptureFormat(const QString &format)
     for (auto &oneSwitch : *svp)
         oneSwitch.setState(oneSwitch.label == format ? ISS_ON : ISS_OFF);
 
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
     return true;
 }
 
@@ -1700,7 +1711,7 @@ bool Camera::setFastCount(uint32_t count)
 
     nvp->at(0)->setValue(count);
 
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
 
     return true;
 }
@@ -1714,7 +1725,7 @@ bool Camera::setStreamExposure(double duration)
 
     nvp->at(0)->setValue(duration);
 
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
 
     return true;
 }
@@ -1760,7 +1771,7 @@ bool Camera::setTemperatureRegulation(double ramp, double threshold)
 
     regulation.getNumber()->at(0)->setValue(ramp);
     regulation.getNumber()->at(1)->setValue(threshold);
-    sendNewNumber(regulation->getNumber());
+    sendNewProperty(regulation->getNumber());
     return true;
 }
 
@@ -1773,7 +1784,7 @@ bool Camera::setScopeInfo(double focalLength, double aperture)
     auto nvp = scopeInfo.getNumber();
     nvp->at(0)->setValue(focalLength);
     nvp->at(1)->setValue(aperture);
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
     return true;
 }
 

@@ -232,17 +232,17 @@ bool INDIDBus::sendProperty(const QString &device, const QString &property)
                 {
                     case INDI_SWITCH:
                         prop->getSwitch()->setState(IPS_BUSY);
-                        cm->sendNewSwitch(prop->getSwitch());
+                        cm->sendNewProperty(prop->getSwitch());
                         break;
 
                     case INDI_TEXT:
                         prop->getText()->setState(IPS_BUSY);
-                        cm->sendNewText(prop->getText());
+                        cm->sendNewProperty(prop->getText());
                         break;
 
                     case INDI_NUMBER:
                         prop->getNumber()->setState(IPS_BUSY);
-                        cm->sendNewNumber(prop->getNumber());
+                        cm->sendNewProperty(prop->getNumber());
                         break;
 
                     default:

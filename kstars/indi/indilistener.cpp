@@ -27,18 +27,7 @@ INDIListener *INDIListener::Instance()
     if (_INDIListener == nullptr)
     {
         _INDIListener = new INDIListener(KStars::Instance());
-
-        //        connect(_INDIListener, &INDIListener::newTelescope,
-        //                [&]()
-        //        {
-        //            KStars::Instance()->slotSetTelescopeEnabled(true);
-        //        });
-
-        //        connect(_INDIListener, &INDIListener::newDome,
-        //                [&]()
-        //        {
-        //            KStars::Instance()->slotSetDomeEnabled(true);
-        //        });
+        qRegisterMetaType<INDI::BaseDevice>("INDI::BaseDevice");
     }
 
     return _INDIListener;
@@ -81,16 +70,12 @@ void INDIListener::addClient(ClientManager *cm)
     clients.append(cm);
 
     connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice);
-    connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
-
     connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
+
+    connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
+    connect(cm, &ClientManager::updateINDIProperty, this, &INDIListener::updateProperty);
     connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
 
-    connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
-    connect(cm, &ClientManager::newINDIText, this, &INDIListener::processText);
-    connect(cm, &ClientManager::newINDINumber, this, &INDIListener::processNumber);
-    connect(cm, &ClientManager::newINDILight, this, &INDIListener::processLight);
-    connect(cm, &ClientManager::newINDIBLOB, this, &INDIListener::processBLOB);
     connect(cm, &ClientManager::newINDIUniversalMessage, this,
             &INDIListener::processUniversalMessage);
 }
@@ -121,7 +106,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
     auto isConnected = gd->isConnected();
     // If already connected, we need to process all the properties as well
     // Register all existing properties
-    for (auto &oneProperty : dv->getBaseDevice()->getProperties())
+    for (auto &oneProperty : dv->getBaseDevice().getProperties())
     {
         gd->registerProperty(oneProperty);
         if (isConnected)
@@ -188,83 +173,35 @@ void INDIListener::registerProperty(INDI::Property prop)
     }
 }
 
-void INDIListener::removeProperty(const QString &device, const QString &name)
+void INDIListener::removeProperty(INDI::Property prop)
 {
     for (auto &oneDevice : m_Devices)
     {
-        if (oneDevice->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
-            oneDevice->removeProperty(name);
+            oneDevice->removeProperty(prop);
             return;
         }
     }
 }
 
-void INDIListener::processSwitch(ISwitchVectorProperty *svp)
+void INDIListener::updateProperty(INDI::Property prop)
 {
     for (auto &oneDevice : m_Devices)
     {
-        if (oneDevice->getDeviceName() == svp->device)
+        if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
-            oneDevice->processSwitch(svp);
+            oneDevice->updateProperty(prop);
             break;
         }
     }
 }
 
-void INDIListener::processNumber(INumberVectorProperty *nvp)
+void INDIListener::processMessage(INDI::BaseDevice dp, int messageID)
 {
     for (auto &oneDevice : m_Devices)
     {
-        if (oneDevice->getDeviceName() == nvp->device)
-        {
-            oneDevice->processNumber(nvp);
-            break;
-        }
-    }
-}
-
-void INDIListener::processText(ITextVectorProperty *tvp)
-{
-    for (auto &oneDevice : m_Devices)
-    {
-        if (oneDevice->getDeviceName() == tvp->device)
-        {
-            oneDevice->processText(tvp);
-            break;
-        }
-    }
-}
-
-void INDIListener::processLight(ILightVectorProperty *lvp)
-{
-    for (auto &oneDevice : m_Devices)
-    {
-        if (oneDevice->getDeviceName() == lvp->device)
-        {
-            oneDevice->processLight(lvp);
-            break;
-        }
-    }
-}
-
-void INDIListener::processBLOB(IBLOB *bp)
-{
-    for (auto &oneDevice : m_Devices)
-    {
-        if (oneDevice->getDeviceName() == bp->bvp->device)
-        {
-            oneDevice->processBLOB(bp);
-            break;
-        }
-    }
-}
-
-void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
-{
-    for (auto &oneDevice : m_Devices)
-    {
-        if (oneDevice->getDeviceName() == dp->getDeviceName())
+        if (oneDevice->getDeviceName() == dp.getDeviceName())
         {
             oneDevice->processMessage(messageID);
             break;
