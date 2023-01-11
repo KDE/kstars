@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-10 00:52+0000\n"
-"PO-Revision-Date: 2023-01-05 05:48+0100\n"
+"PO-Revision-Date: 2023-01-10 07:20+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9744,7 +9744,7 @@ msgstr ""
 #: ekos/analyze/analyze.ui:663
 #, kde-format
 msgid "sky"
-msgstr ""
+msgstr "ცა"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, skyBgOut)
 #: ekos/analyze/analyze.ui:676
@@ -10031,13 +10031,14 @@ msgstr "ტემპ"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, temperatureOut)
 #: ekos/analyze/analyze.ui:1257
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the ambient temperature. Click here to view this "
 "axis on left-axis values. Double click to update axis.</p></body></html>"
-msgstr "<html><head/><body><p>გარემოს ტემპერატურის დახატვა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>გარემოს ტემპერატურის დახატვა. დააწკაპუნეთ აქ ღერძზე "
+"მარცხენა-ღერძის მნიშვნელობების სანახავად. ორმაგი წკაპი ღერძის გასანახლებლად."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCCB)
 #: ekos/analyze/analyze.ui:1285
@@ -10100,8 +10101,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, statLabel)
 #: ekos/analyze/yaxistool.ui:25
-#, fuzzy, kde-format
-#| msgid "Star Name"
+#, kde-format
 msgid "Stat Name"
 msgstr "ვარსკვლავის სახელი"
 
@@ -10117,23 +10117,21 @@ msgstr "ტექსტური ჭდე"
 
 #. i18n: ectx: property (text), widget (QLabel, upperLimitLabel)
 #: ekos/analyze/yaxistool.ui:76
-#, fuzzy, kde-format
-#| msgid "Clipping Limits"
+#, kde-format
 msgid "Upper Limit"
-msgstr "კლიპინგის ლიმიტები"
+msgstr "ზედა ლიმიტი"
 
 #. i18n: ectx: property (text), widget (QLabel, lowerLimitLabel)
 #: ekos/analyze/yaxistool.ui:122
 #, kde-format
 msgid "Lower Limit"
-msgstr ""
+msgstr "ქვედა ლიმიტი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoLimitsCB)
 #: ekos/analyze/yaxistool.ui:166
-#, fuzzy, kde-format
-#| msgid "Automatic mode"
+#, kde-format
 msgid "Automatic Limits"
-msgstr "ავტომატური რეჟიმი"
+msgstr "ავტომატური ლიმიტები"
 
 #. i18n: ectx: property (text), widget (QCheckBox, leftAxisCB)
 #: ekos/analyze/yaxistool.ui:173
@@ -10143,26 +10141,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/analyze/yaxistool.ui:188
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Color"
+#, kde-format
 msgid "Color"
 msgstr "ფერი"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorB)
 #: ekos/analyze/yaxistool.ui:217
-#, fuzzy, kde-format
-#| msgctxt "City in Gyeongnam South Korea"
-#| msgid "Changwon"
+#, kde-format
 msgid "Change"
-msgstr "ჩხანვონი"
+msgstr "შეცვლა"
 
 #. i18n: ectx: property (text), widget (QPushButton, defaultB)
 #: ekos/analyze/yaxistool.ui:239
-#, fuzzy, kde-format
-#| msgid "Default city"
+#, kde-format
 msgid "Use Default Limits"
-msgstr "ნაგულისხმები ქალაქი"
+msgstr "ნაგულისხმები ლიმიტების გამოყენება"
 
 #: ekos/auxiliary/darklibrary.cpp:83
 #, kde-format
@@ -13218,10 +13211,9 @@ msgid "Manage Observers"
 msgstr "დამკვირვებლების მართვა"
 
 #: ekos/capture/capture.cpp:5910
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Filter set to %1."
-msgstr "ფაილი შენახულია %1-ში"
+msgstr "ფილტრი დაყენებულია %1-ზე."
 
 #: ekos/capture/capture.cpp:6249
 #, kde-format
@@ -65683,7 +65675,7 @@ msgstr "მორგება"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Shutter Speed"
-msgstr ""
+msgstr "შატერის სიჩქარე"
 
 #: libindi_strings.cpp:427
 #, kde-kuit-format

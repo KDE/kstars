@@ -44,11 +44,9 @@
 >Tijdlijn</guilabel
 > het aantal seconden wordt getoond vanaf de start van het loggen, en in <guilabel
 >Stats</guilabel
-> de kloktijd. Op de x-as kan met de knop <guibutton
+> de kloktijd. Op de x-as kunnen met de knoppen <guibutton
 >+/-</guibutton
-> worden in en uit gezoomd, met het <mousebutton
->wiel</mousebutton
->, of met de standaard sneltoetsen (&eg; inzoomen == <keycombo
+> worden in en uit gezoomd of met de standaard sneltoetsen (&eg; inzoomen == <keycombo
 >&Ctrl;<keycap
 >+</keycap
 ></keycombo
@@ -61,14 +59,16 @@
 > te kiezen ziet u alle gegevens en met <guilabel
 >Laatste</guilabel
 > ziet u de meest recente gegevens (u kunt de breedte met zoomen regelen). </para>
+        <para
+>De drie hoofdschermen kunnen verborgen worden om meer ruimte te maken voor de andere schermen. Er zijn keuzevakken links van de sectietitels (Tijdlijn, Statistieken en Details) die de schermen inschakelen en verbergen. </para>
     </sect3>
     <sect3 id="analyze-timeline">
         <title
 >Tijdlijn</title>
         <para
->De Tijdlijn toont de processen van Ekos, en wanneer die actief waren. Bijvoorbeeld, op de regel  <guilabel
->Opname</guilabel
-> staat wanneer opnames werden gemaakt (groene secties) en wanneer afgebroken (rode secties). Klikken op een groene sectie geeft informatie over die afbeelding, na dubbelklikken ziet u de  opgenomen afbeelding in een fitsviewer (programma voor het tonen van een fits-afbeelding), indien aanwezig. </para>
+>Timeline shows the major Ekos processes, and when they were active. For instance, the <guilabel
+>Capture</guilabel
+> line shows when images were taken (wither green for RGB or color-coded by the filter) and when imaging was aborted (shown as red sections). Clicking on a capture section gives information about that image, and double clicking on one brings up the image taken then in a fitsviewer, if it is available. </para>
         <note>
             <para
 >Indien u de opgenomen afbeelding verplaatst, kunt u de <guilabel
@@ -87,15 +87,19 @@
 >Statistiek</title>
         <para
 >In de grafiek voor <guilabel
->Stats</guilabel
+>Statistieken</guilabel
 > kan een aantal statistieken worden weergegeven. Daar zijn er teveel van om die op een leesbare manier te noemen, dus kiest u die met behulp van de keuzevakjes. Een goede manier om hiermee te beginnen is met die voor <guilabel
 >rms</guilabel
 >, <guilabel
 >ruis</guilabel
 > (met de interne volger en SEP Multistar), en <guilabel
 >hfr</guilabel
-> (indien u auto-berekenen heeft gekozen in de FITS-opties). Experimenteer met de andere. De getoonde as (0-5) is alleen geschikt voor rk/dec-fout, rms, pulsen, en hfr. De y-as hiervoor kan (onhandig) worden geschaald met het <mousebutton
+> (indien u auto-berekenen heeft gekozen in de FITS-opties). Experimenteer met de andere. </para>
+        <para
+>De linker as is initieel alleen van toepassing voor RA/DEC-fout, driften, RMS-fout, RA/DEC pulsen en HFR, geplot in boogseconden en standaard gezet op een reeks van -2 tot 5 boogseconden. Echter klikken op een van de vakken onder de statistiekengrafiek (die een statistiekwaarde toont) zal die statistiekreeks instellenals de reeks getoond op de linker as. Dubbelklikken op dat vak zal een menu tonen waarmee u de geplotte y-reeks van de statistieken kan aanpassen (bijv. het op automatisch zetten, expliciet de reeks invoeren, het terugzetten tot zijn standaard waarde en ook de kleur van die statistiekenplot wijzigen). </para>
+        <para
+>De statistiek getoond op de linker as kan ook geschaald worden (lastig) met het muis<mousebutton
 >wiel</mousebutton
->, de andere grafieken kunnen niet worden geschaald. U kunt zoomen van de y-as door rechtsklikken in de Statsplot terugzetten. Na klikken op de grafiekbestanden worden de getallen ingevuld voor de getoonde statistieken. In deze grafiek kan worden gezoomd en horizontaal worden gezwenkt, samen met de tijdlijn. </para>
+>. Het kan in breedte wijzigen door de muis op of neer over de linker getallen op de as te slepen. Ergens klikken in de statistiekgrafiek vult in de waarden van de getoonde statistieken. Activeren van het laatste vak maakt dat de meest recente waarde (uit een live sessie) de getoonde statistieken worden. Deze grafiek wordt gezoomd en horizontaal verschoven in samen met de tijdlijn. </para>
     </sect3>
 </sect2>
