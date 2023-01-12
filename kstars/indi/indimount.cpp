@@ -7,9 +7,7 @@
 #include "indimount.h"
 
 #include "ksmessagebox.h"
-#include "clientmanager.h"
 #include "driverinfo.h"
-#include "indidevice.h"
 #include "kstars.h"
 #include "Options.h"
 #include "skymap.h"

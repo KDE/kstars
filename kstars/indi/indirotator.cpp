@@ -62,10 +62,10 @@ bool Rotator::setReversed(bool enabled)
 
 void Rotator::registerProperty(INDI::Property prop)
 {
-    if (!strcmp(prop->getName(), "ABS_ROTATOR_ANGLE"))
-        processNumber(prop.getNumber());
-    if (!strcmp(prop->getName(), "ROTATOR_REVERSE"))
-        processSwitch(prop.getSwitch());
+    if (prop.isNameMatch("ABS_ROTATOR_ANGLE"))
+        processNumber(prop);
+    else if (prop.isNameMatch("ROTATOR_REVERSE"))
+        processSwitch(prop);
 }
 
 void Rotator::processNumber(INDI::Property prop)

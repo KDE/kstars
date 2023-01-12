@@ -9,7 +9,6 @@
 #include "indiadaptor.h"
 #include "nan.h"
 #include "indi/drivermanager.h"
-#include "indi/servermanager.h"
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
 #include "indi/indilistener.h"
@@ -150,37 +149,37 @@ QStringList INDIDBus::getProperties(const QString &device)
         if (oneDevice->getDeviceName() == device)
         {
             // Let's print a list of all device properties
-            for (const auto &prop : *oneDevice->getProperties())
+            for (const auto &prop : oneDevice->getProperties())
             {
-                switch (prop->getType())
+                switch (prop.getType())
                 {
                     case INDI_SWITCH:
-                        for (const auto &it : *prop->getSwitch())
-                            properties << device + '.' + QString(prop->getName()) + '.' + it.getName();
+                        for (const auto &it : *prop.getSwitch())
+                            properties << device + '.' + QString(prop.getName()) + '.' + it.getName();
                         break;
 
                     case INDI_TEXT:
-                        for (const auto &it : *prop->getText())
-                            properties << device + '.' + QString(prop->getName()) + '.' + it.getName();
+                        for (const auto &it : *prop.getText())
+                            properties << device + '.' + QString(prop.getName()) + '.' + it.getName();
                         break;
 
                     case INDI_NUMBER:
-                        for (const auto &it : *prop->getNumber())
-                            properties << device + '.' + QString(prop->getName()) + '.' + it.getName();
+                        for (const auto &it : *prop.getNumber())
+                            properties << device + '.' + QString(prop.getName()) + '.' + it.getName();
                         break;
 
                     case INDI_LIGHT:
-                        for (const auto &it : *prop->getLight())
-                            properties << device + '.' + QString(prop->getName()) + '.' + it.getName();
+                        for (const auto &it : *prop.getLight())
+                            properties << device + '.' + QString(prop.getName()) + '.' + it.getName();
                         break;
 
                     case INDI_BLOB:
-                        for (const auto &it : *prop->getBLOB())
-                            properties << device + '.' + QString(prop->getName()) + '.' + it.getName();
+                        for (const auto &it : *prop.getBLOB())
+                            properties << device + '.' + QString(prop.getName()) + '.' + it.getName();
                         break;
 
                     case INDI_UNKNOWN:
-                        qCWarning(KSTARS) << device << '.' << QString(prop->getName()) << " has an unknown type! Aborting...";
+                        qCWarning(KSTARS) << device << '.' << QString(prop.getName()) << " has an unknown type! Aborting...";
                         return properties;
                 }
             }
@@ -204,7 +203,7 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
             auto prop = oneDevice->getProperty(property.toLatin1());
             if (prop)
             {
-                status = QString(pstateStr(prop->getState()));
+                status = QString(pstateStr(prop.getState()));
                 return status;
             }
 
@@ -228,21 +227,21 @@ bool INDIDBus::sendProperty(const QString &device, const QString &property)
             auto prop = oneDevice->getProperty(property.toLatin1());
             if (prop)
             {
-                switch (prop->getType())
+                switch (prop.getType())
                 {
                     case INDI_SWITCH:
-                        prop->getSwitch()->setState(IPS_BUSY);
-                        cm->sendNewProperty(prop->getSwitch());
+                        prop.getSwitch()->setState(IPS_BUSY);
+                        cm->sendNewProperty(prop.getSwitch());
                         break;
 
                     case INDI_TEXT:
-                        prop->getText()->setState(IPS_BUSY);
-                        cm->sendNewProperty(prop->getText());
+                        prop.getText()->setState(IPS_BUSY);
+                        cm->sendNewProperty(prop.getText());
                         break;
 
                     case INDI_NUMBER:
-                        prop->getNumber()->setState(IPS_BUSY);
-                        cm->sendNewProperty(prop->getNumber());
+                        prop.getNumber()->setState(IPS_BUSY);
+                        cm->sendNewProperty(prop.getNumber());
                         break;
 
                     default:
@@ -273,7 +272,7 @@ QString INDIDBus::getLight(const QString &device, const QString &property, const
             auto prop = oneDevice->getProperty(property.toLatin1());
             if (prop)
             {
-                auto lp = prop->getLight();
+                auto lp = prop.getLight();
                 if (lp)
                 {
                     auto l = lp->findWidgetByName(lightName.toLatin1());
@@ -307,18 +306,18 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto sp = oneDevice->getBaseDevice()->getSwitch(property.toLatin1());
+            auto sp = oneDevice->getBaseDevice().getSwitch(property.toLatin1());
 
-            if (sp->getRule() == ISR_1OFMANY && status == "Off")
+            if (sp.getRule() == ISR_1OFMANY && status == "Off")
             {
                 qCWarning(KSTARS) << "Cannot set ISR_1OFMANY switch to Off. At least one switch must be On.";
                 return false;
             }
 
-            if (sp->getRule() == ISR_1OFMANY || sp->getRule() == ISR_ATMOST1)
-                sp->reset();
+            if (sp.getRule() == ISR_1OFMANY || sp.getRule() == ISR_ATMOST1)
+                sp.reset();
 
-            auto sw = sp->findWidgetByName(switchName.toLatin1());
+            auto sw = sp.findWidgetByName(switchName.toLatin1());
 
             if (sw)
             {
@@ -343,10 +342,10 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto sp = oneDevice->getBaseDevice()->getSwitch(property.toLatin1());
+            auto sp = oneDevice->getBaseDevice().getSwitch(property.toLatin1());
             if (sp)
             {
-                auto sw = sp->findWidgetByName(switchName.toLatin1());
+                auto sw = sp.findWidgetByName(switchName.toLatin1());
                 if (sw)
                 {
                     result = ((sw->getState() == ISS_ON) ? "On" : "Off");
@@ -372,11 +371,11 @@ bool INDIDBus::setText(const QString &device, const QString &property, const QSt
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto tp = oneDevice->getBaseDevice()->getText(property.toLatin1());
+            auto tp = oneDevice->getBaseDevice().getText(property.toLatin1());
 
             if (tp)
             {
-                auto t = tp->findWidgetByName(textName.toLatin1());
+                auto t = tp.findWidgetByName(textName.toLatin1());
                 if (t)
                 {
                     t->setText(text.toLatin1());
@@ -404,10 +403,10 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto tp = oneDevice->getBaseDevice()->getText(property.toLatin1());
+            auto tp = oneDevice->getBaseDevice().getText(property.toLatin1());
             if (tp)
             {
-                auto t = tp->findWidgetByName(textName.toLatin1());
+                auto t = tp.findWidgetByName(textName.toLatin1());
                 if (t)
                 {
                     result = QString(t->getText());
@@ -433,11 +432,11 @@ bool INDIDBus::setNumber(const QString &device, const QString &property, const Q
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto np = oneDevice->getBaseDevice()->getNumber(property.toLatin1());
+            auto np = oneDevice->getBaseDevice().getNumber(property.toLatin1());
 
             if (np)
             {
-                auto n = np->findWidgetByName(numberName.toLatin1());
+                auto n = np.findWidgetByName(numberName.toLatin1());
                 if (n)
                 {
                     n->setValue(value);
@@ -465,10 +464,10 @@ double INDIDBus::getNumber(const QString &device, const QString &property, const
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto np = oneDevice->getBaseDevice()->getNumber(property.toLatin1());
+            auto np = oneDevice->getBaseDevice().getNumber(property.toLatin1());
             if (np)
             {
-                auto n = np->findWidgetByName(numberName.toLatin1());
+                auto n = np.findWidgetByName(numberName.toLatin1());
                 if (n)
                 {
                     result = n->getValue();
@@ -498,10 +497,10 @@ QByteArray INDIDBus::getBLOBData(const QString &device, const QString &property,
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto bp = oneDevice->getBaseDevice()->getBLOB(property.toLatin1());
+            auto bp = oneDevice->getBaseDevice().getBLOB(property.toLatin1());
             if (bp)
             {
-                auto b = bp->findWidgetByName(blobName.toLatin1());
+                auto b = bp.findWidgetByName(blobName.toLatin1());
                 if (b)
                 {
                     const char *rawData = static_cast<const char *>(b->getBlob());
@@ -535,10 +534,10 @@ QString INDIDBus::getBLOBFile(const QString &device, const QString &property, co
     {
         if (oneDevice->getDeviceName() == device)
         {
-            auto bp = oneDevice->getBaseDevice()->getBLOB(property.toLatin1());
+            auto bp = oneDevice->getBaseDevice().getBLOB(property.toLatin1());
             if (bp)
             {
-                auto b = bp->findWidgetByName(blobName.toLatin1());
+                auto b = bp.findWidgetByName(blobName.toLatin1());
                 if (b)
                 {
                     filename   = QString(static_cast<char *>(b->aux2));

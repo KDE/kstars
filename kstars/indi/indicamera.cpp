@@ -12,11 +12,7 @@
 #include "indi_debug.h"
 
 #include "clientmanager.h"
-#include "driverinfo.h"
-#include "guimanager.h"
-#include "kspaths.h"
 #include "kstars.h"
-#include "kstarsdata.h"
 #include "Options.h"
 #include "streamwg.h"
 //#include "ekos/manager.h"
@@ -1755,7 +1751,7 @@ bool Camera::isCoolerOn()
 bool Camera::getTemperatureRegulation(double &ramp, double &threshold)
 {
     auto regulation = getProperty("CCD_TEMP_RAMP");
-    if (!regulation->isValid())
+    if (!regulation.isValid())
         return false;
 
     ramp = regulation.getNumber()->at(0)->getValue();
@@ -1766,12 +1762,12 @@ bool Camera::getTemperatureRegulation(double &ramp, double &threshold)
 bool Camera::setTemperatureRegulation(double ramp, double threshold)
 {
     auto regulation = getProperty("CCD_TEMP_RAMP");
-    if (!regulation->isValid())
+    if (!regulation.isValid())
         return false;
 
     regulation.getNumber()->at(0)->setValue(ramp);
     regulation.getNumber()->at(1)->setValue(threshold);
-    sendNewProperty(regulation->getNumber());
+    sendNewProperty(regulation.getNumber());
     return true;
 }
 
