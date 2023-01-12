@@ -66,9 +66,9 @@
         <title
 >Tijdlijn</title>
         <para
->Timeline shows the major Ekos processes, and when they were active. For instance, the <guilabel
->Capture</guilabel
-> line shows when images were taken (wither green for RGB or color-coded by the filter) and when imaging was aborted (shown as red sections). Clicking on a capture section gives information about that image, and double clicking on one brings up the image taken then in a fitsviewer, if it is available. </para>
+>De Tijdlijn toont de processen van Ekos en wanneer die actief waren. Bijvoorbeeld, op de regel <guilabel
+>Opname</guilabel
+> staat wanneer opnames werden gemaakt (witter groene voor RGB of met kleur gecodeerd door het filter) en wanneer afgebroken (als rode secties getoond). Klikken op een opnamesectie geeft informatie over die afbeelding, na dubbelklikken ziet u de  opgenomen afbeelding in een fitsviewer (programma voor het tonen van een fits-afbeelding), indien aanwezig. </para>
         <note>
             <para
 >Indien u de opgenomen afbeelding verplaatst, kunt u de <guilabel
