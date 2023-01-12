@@ -74,6 +74,11 @@ class CaptureModuleState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
         // ////////////////////////////////////////////////////////////////////
+        QList<SequenceJob *> &allJobs()
+        {
+            return m_allJobs;
+        }
+
         SequenceJob *getActiveJob() const
         {
             return m_activeJob;
@@ -130,6 +135,15 @@ class CaptureModuleState: public QObject
         }
         void setCaptureState(CaptureState value);
 
+        bool isStartingCapture() const
+        {
+            return m_StartingCapture;
+        }
+        void setStartingCapture(bool newStartingCapture)
+        {
+            m_StartingCapture = newStartingCapture;
+        }
+
         FocusState getFocusState() const
         {
             return m_FocusState;
@@ -146,6 +160,38 @@ class CaptureModuleState: public QObject
         void setGuideState(GuideState value)
         {
             m_GuideState = value;
+        }
+
+        QTimer &getCaptureDelayTimer()
+        {
+            return m_captureDelayTimer;
+        }
+
+        QTimer &getGuideDeviationTimer()
+        {
+            return m_guideDeviationTimer;
+        }
+
+        bool isGuidingDeviationDetected() const
+        {
+            return m_GuidingDeviationDetected;
+        }
+        void setGuidingDeviationDetected(bool newDeviationDetected)
+        {
+            m_GuidingDeviationDetected = newDeviationDetected;
+        }
+
+        int SpikesDetected() const
+        {
+            return m_SpikesDetected;
+        }
+        int increaseSpikesDetected()
+        {
+            return ++m_SpikesDetected;
+        }
+        void resetSpikesDetected()
+        {
+            m_SpikesDetected = 0;
         }
 
         IPState getDitheringState() const
@@ -174,6 +220,23 @@ class CaptureModuleState: public QObject
         {
             m_FilterManagerState = value;
         }
+
+        int getCurrentFilterPosition() const
+        {
+            return m_CurrentFilterPosition;
+        }
+
+        const QString &getCurrentFilterName() const
+        {
+            return m_CurrentFilterName;
+        }
+
+        const QString &CurrentFocusFilterName() const
+        {
+            return m_CurrentFocusFilterName;
+        }
+
+        void setCurrentFilterPosition(int position, const QString &name, const QString &focusFilterName);
 
         LightState getLightBoxLightState() const
         {
@@ -228,6 +291,17 @@ class CaptureModuleState: public QObject
             return m_refocusState;
         }
 
+
+        double getFileHFR() const
+        {
+            return m_fileHFR;
+        }
+
+        void setFileHFR(double newFileHFR)
+        {
+            m_fileHFR = newFileHFR;
+        }
+
         // ////////////////////////////////////////////////////////////////////
         // counters
         // ////////////////////////////////////////////////////////////////////
@@ -247,53 +321,51 @@ class CaptureModuleState: public QObject
 
         int getDitherCounter() const
         {
-            return ditherCounter;
+            return m_ditherCounter;
         }
         void decreaseDitherCounter();
         void resetDitherCounter()
         {
-            ditherCounter = Options::ditherFrames();
+            m_ditherCounter = Options::ditherFrames();
         }
 
         // ////////////////////////////////////////////////////////////////////
         // Action checks
         // ////////////////////////////////////////////////////////////////////
         /**
-         * @brief Check, whether dithering is necessary and, in that case initiate it.
-         *
-         *  Dithering is only required for batch images and does not apply for PREVIEW.
-         *
-         * There are several situations that determine, if dithering is necessary:
-         * 1. the current job captures light frames AND the dither counter has reached 0 AND
-         * 2. guiding is running OR the manual dithering option is selected AND
-         * 3. there is a guiding camera active AND
-         * 4. there hasn't just a meridian flip been finised.
-         *
-         * @return true iff dithering is necessary.
-         */
+             * @brief Check, whether dithering is necessary and, in that case initiate it.
+             *
+             *  Dithering is only required for batch images and does not apply for PREVIEW.
+             *
+             * There are several situations that determine, if dithering is necessary:
+             * 1. the current job captures light frames AND the dither counter has reached 0 AND
+             * 2. guiding is running OR the manual dithering option is selected AND
+             * 3. there is a guiding camera active AND
+             * 4. there hasn't just a meridian flip been finised.
+             *
+             * @return true iff dithering is necessary.
+             */
 
         bool checkDithering();
 
         /**
-         * @brief Check whether a meridian flip has been requested and trigger it
-         * @return true iff a meridian flip has been triggered
-         */
+             * @brief Check whether a meridian flip has been requested and trigger it
+             * @return true iff a meridian flip has been triggered
+             */
         bool checkMeridianFlipReady();
 
         /**
-         * @brief Check if the mount's flip has been completed and start guiding
-         * if necessary. Starting guiding after the meridian flip works through
-         * the signal {@see startGuidingAfterFlip()}
-         * @return true if guiding needs to start but is not running yet
-         */
+             * @brief Check if the mount's flip has been completed and start guiding
+             * if necessary. Starting guiding after the meridian flip works through
+             * the signal {@see startGuidingAfterFlip()}
+             * @return true if guiding needs to start but is not running yet
+             */
         bool checkGuidingAfterFlip();
 
         /**
-         * @brief Check if an alignment needs to be executed after completing
-         * a meridian flip.
-         * @return
+         * @brief Process changes necessary when the focus state changes.
          */
-        bool checkAlignmentAfterFlip();
+        void updateFocusState(FocusState state);
 
         /**
          * @brief Check if focusing is running (abbreviating function for focus state
@@ -304,17 +376,95 @@ class CaptureModuleState: public QObject
             return (m_FocusState != FOCUS_IDLE && m_FocusState != FOCUS_COMPLETE && m_FocusState != FOCUS_ABORTED);
         }
 
-    signals:
+        /**
+         * @brief Start focusing if necessary
+         * @return TRUE if we need to run focusing, false if not necessary
+         */
+        bool startFocusIfRequired();
+
+        /**
+         * @brief calculate new HFR threshold based on median value for current selected filter
+         */
+        void updateHFRThreshold();
+
+        /**
+             * @brief Check if an alignment needs to be executed after completing
+             * a meridian flip.
+             * @return
+             */
+        bool checkAlignmentAfterFlip();
+
+        /**
+         * @brief Slot that listens to guiding deviations reported by the Guide module.
+         *
+         * Depending on the current status, it triggers several actions:
+         * - If there is no active job, it calls {@see m_captureModuleState->checkMeridianFlipReady()}, which may initiate a meridian flip.
+         * - If guiding has been started after a meridian flip and the deviation is within the expected limits,
+         *   the meridian flip is regarded as completed by setMeridianFlipStage(MF_NONE) (@see setMeridianFlipStage()).
+         * - If the deviation is beyond the defined limit, capturing is suspended (@see suspend()) and the
+         *   #guideDeviationTimer is started.
+         * - Otherwise, it checks if there has been a job suspended and restarts it, since guiding is within the limits.
+         */
+
+        void setGuideDeviation(double deviation_rms);
+
+
+        bool isCaptureRunning()
+        {
+            return (m_CaptureState != CAPTURE_IDLE && m_CaptureState != CAPTURE_COMPLETE && m_CaptureState != CAPTURE_ABORTED);
+        }
+
+signals:
+        // controls for capture execution
+        void startCapture();
+        void abortCapture();
+        void suspendCapture();
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();
         // new capture state
         void newStatus(Ekos::CaptureState status);
-        // stop focusing and reset to the last known position
+        // forward new focus status
+        void newFocusStatus(FocusState status);
+        // check focusing is necessary for the given HFR
+        void checkFocus(double hfr);
+        // reset the focuser to the last known focus position
         void resetFocus();
-
-    private:
+        // abort capturing if fast exposure mode is used
+        void abortFastExposure();
+        // new HFR focus limit calculated
+        void newLimitFocusHFR(double hfr);
+        // Select the filter at the given position
+        void newFilterPosition(int targetFilterPosition);
+        // new log text for the module log window
+        void newLog(const QString &text);
+private:
+        // list of all sequence jobs
+        QList<SequenceJob *> m_allJobs;
         // Currently active sequence job.
         SequenceJob *m_activeJob { nullptr };
+
+        // current filter position
+        // TODO: check why we have both currentFilterID and this, seems redundant
+        int m_CurrentFilterPosition { -1 };
+        // current filter name matching the filter position
+        QString m_CurrentFilterName { "--" };
+        // holds the filter name used for focusing or "--" if the current one is used
+        QString m_CurrentFocusFilterName { "--" };
+        // HFR value as loaded from the sequence file
+        double m_fileHFR { 0 };
+        // are we in the starting phase of capturing?
+        bool m_StartingCapture { true };
+        // Guide Deviation
+        bool m_GuidingDeviationDetected { false };
+        // Guiding spikes
+        int m_SpikesDetected { 0 };
+        // Timer for guiding recovery
+        QTimer m_guideDeviationTimer;
+        // Timer to start the entire capturing with the delay configured
+        // for the first capture job that is ready to be executed.
+        // @see Capture::start().
+        QTimer m_captureDelayTimer;
+
 
         // ////////////////////////////////////////////////////////////////////
         // device states
@@ -337,7 +487,7 @@ class CaptureModuleState: public QObject
         // Number of alignment retries
         int m_AlignmentRetries { 0 };
         // How many images to capture before dithering operation is executed?
-        uint ditherCounter { 0 };
+        uint m_ditherCounter { 0 };
 
         /* Refocusing */
         QSharedPointer<RefocusState> m_refocusState;
@@ -345,9 +495,9 @@ class CaptureModuleState: public QObject
         QSharedPointer<MeridianFlipState> mf_state;
 
         /**
-         * @brief Add log message
-         */
-        void appendLogText(QString message);
+             * @brief Add log message
+             */
+        void appendLogText(const QString &message);
 
 };
 

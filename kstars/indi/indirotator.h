@@ -24,8 +24,8 @@ class Rotator : public ConcreteDevice
         explicit Rotator(GenericDevice *parent) : ConcreteDevice(parent) {}
 
         virtual void registerProperty(INDI::Property prop) override;
-        virtual void processNumber(INumberVectorProperty *nvp) override;
-        virtual void processSwitch(ISwitchVectorProperty *svp) override;
+        virtual void processNumber(INDI::Property prop) override;
+        virtual void processSwitch(INDI::Property prop) override;
 
         bool setAbsoluteAngle(double angle);
         bool setAbsoluteSteps(uint32_t steps);

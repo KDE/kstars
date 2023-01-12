@@ -79,7 +79,7 @@ bool Guider::doPulse(GuideDirection dir, int msecs)
 
     dirPulse->setValue(msecs);
 
-    sendNewNumber(npulse);
+    sendNewProperty(npulse);
 
     return true;
 }

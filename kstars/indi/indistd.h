@@ -89,14 +89,15 @@ class GDInterface : public QObject
 
         // Property registration
         virtual void registerProperty(INDI::Property prop) = 0;
-        virtual void removeProperty(const QString &name) = 0;
+        virtual void removeProperty(INDI::Property prop) = 0;
+        virtual void updateProperty(INDI::Property prop) = 0;
 
         // Property updates
-        virtual void processSwitch(ISwitchVectorProperty *svp) = 0;
-        virtual void processText(ITextVectorProperty *tvp) = 0;
-        virtual void processNumber(INumberVectorProperty *nvp) = 0;
-        virtual void processLight(ILightVectorProperty *lvp) = 0;
-        virtual bool processBLOB(IBLOB *bp) = 0;
+        virtual void processSwitch(INDI::Property prop) = 0;
+        virtual void processText(INDI::Property prop) = 0;
+        virtual void processNumber(INDI::Property prop) = 0;
+        virtual void processLight(INDI::Property prop) = 0;
+        virtual bool processBLOB(INDI::Property prop) = 0;
 
         // Messages
         virtual void processMessage(int messageID) = 0;
@@ -126,11 +127,13 @@ class GenericDevice : public GDInterface
         virtual ~GenericDevice() override;
 
         virtual void registerProperty(INDI::Property prop) override;
-        virtual void removeProperty(const QString &name) override;
-        virtual void processSwitch(ISwitchVectorProperty *svp) override;
-        virtual void processText(ITextVectorProperty *tvp) override;
-        virtual void processNumber(INumberVectorProperty *nvp) override;
-        virtual void processLight(ILightVectorProperty *lvp) override;
+        virtual void removeProperty(INDI::Property prop) override;
+        virtual void updateProperty(INDI::Property prop) override;
+
+        virtual void processSwitch(INDI::Property prop) override;
+        virtual void processText(INDI::Property prop) override;
+        virtual void processNumber(INDI::Property prop) override;
+        virtual void processLight(INDI::Property prop) override;
 
         /**
              * @brief processBLOB Process Binary BLOB
@@ -138,7 +141,7 @@ class GenericDevice : public GDInterface
              * @return Return true of BLOB was successfully processed. If a concrete device does not process the blob, it should
              * return false to allow sibling or parent devices to process the blob.
              */
-        virtual bool processBLOB(IBLOB *bp) override;
+        virtual bool processBLOB(INDI::Property prop) override;
         virtual void processMessage(int messageID) override;
 
         virtual const QString &getDeviceName() const;
@@ -152,7 +155,7 @@ class GenericDevice : public GDInterface
         }
         virtual Properties getProperties()
         {
-            return m_BaseDevice->getProperties();
+            return m_BaseDevice.getProperties();
         }
         virtual uint32_t getDriverInterface()
         {
@@ -172,7 +175,7 @@ class GenericDevice : public GDInterface
         {
             return m_Ready;
         }
-        virtual INDI::BaseDevice *getBaseDevice() const
+        virtual INDI::BaseDevice getBaseDevice() const
         {
             return m_BaseDevice;
         }
@@ -191,12 +194,13 @@ class GenericDevice : public GDInterface
 
         bool findConcreteDevice(uint32_t interface, QSharedPointer<ConcreteDevice> &device);
 
+        void sendNewProperty(INDI::Property prop);
         /** @brief Send new Text command to server */
-        void sendNewText(ITextVectorProperty *pp);
+        void sendNewText(INDI::Property prop);
         /** @brief Send new Number command to server */
-        void sendNewNumber(INumberVectorProperty *pp);
+        void sendNewNumber(INDI::Property prop);
         /** @brief Send new Switch command to server */
-        void sendNewSwitch(ISwitchVectorProperty *pp);
+        void sendNewSwitch(INDI::Property prop);
 
         // Convinence functions
         ISD::Mount *getMount();
@@ -242,17 +246,14 @@ class GenericDevice : public GDInterface
     signals:
         void Connected();
         void Disconnected();
-        void switchUpdated(ISwitchVectorProperty *svp);
-        void textUpdated(ITextVectorProperty *tvp);
-        void numberUpdated(INumberVectorProperty *nvp);
-        void lightUpdated(ILightVectorProperty *lvp);
-        void BLOBUpdated(IBLOB *bp);
+
+        void propertyUpdated(INDI::Property prop);
         void messageUpdated(int messageID);
 
         void interfaceDefined();
         void systemPortDetected();
         void propertyDefined(INDI::Property prop);
-        void propertyDeleted(const QString &name);
+        void propertyDeleted(INDI::Property prop);
         void ready();
 
         // These are emitted as soon as the driver interface defines them
@@ -290,7 +291,7 @@ class GenericDevice : public GDInterface
         QString m_Name;
         DriverInfo *m_DriverInfo { nullptr };
         DeviceInfo *m_DeviceInfo { nullptr };
-        INDI::BaseDevice *m_BaseDevice { nullptr };
+        INDI::BaseDevice m_BaseDevice;
         ClientManager *m_ClientManager { nullptr };
         QTimer *watchDogTimer { nullptr };
         QTimer *m_ReadyTimer {nullptr};
@@ -303,10 +304,10 @@ class GenericDevice : public GDInterface
         static uint8_t m_ID;
 };
 
-void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact = true);
-void propertyToJson(ITextVectorProperty *tvp, QJsonObject &propObject, bool compact = true);
-void propertyToJson(INumberVectorProperty *nvp, QJsonObject &propObject, bool compact = true);
-void propertyToJson(ILightVectorProperty *lvp, QJsonObject &propObject, bool compact = true);
+void switchToJson(INDI::Property prop, QJsonObject &propObject, bool compact = true);
+void textToJson(INDI::Property prop, QJsonObject &propObject, bool compact = true);
+void numberToJson(INDI::Property prop, QJsonObject &propObject, bool compact = true);
+void lightToJson(INDI::Property prop, QJsonObject &propObject, bool compact = true);
 void propertyToJson(INDI::Property prop, QJsonObject &propObject, bool compact = true);
 
 }

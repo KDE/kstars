@@ -207,6 +207,8 @@ signals:
     void newMeridianFlipMountStatusText(const QString &text);
     // slew the telescope to a target
     void slewTelescope(SkyPoint &target);
+    // new log text for the module log window
+    void newLog(const QString &text);
 
 private:
     // flag if meridian flip is enabled

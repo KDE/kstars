@@ -44,11 +44,9 @@
 >Línia de temps</guilabel
 > mostra els segons transcorreguts des del començament del registre i <guilabel
 >Estadístiques</guilabel
-> mostra l'hora del rellotge. L'eix «x» es pot apropar i allunyar amb el botó <guibutton
+> mostra l'hora del rellotge. L'eix «x» es pot apropar i allunyar amb el botons <guibutton
 >+/-</guibutton
->, la <mousebutton
->roda</mousebutton
-> del ratolí, així com amb les dreceres de teclat estàndard (&pex;, apropar és igual que <keycombo
+>, així com amb les dreceres de teclat estàndard (&pex;, apropar és igual que <keycombo
 >&Ctrl;<keycap
 >+</keycap
 ></keycombo
@@ -61,6 +59,8 @@
 >, es mostraran totes les dades i <guilabel
 >Darrer</guilabel
 > mostrarà les dades més recents (podreu controlar l'amplada fent-hi zoom). </para>
+        <para
+>Les tres pantalles principals es poden ocultar per fer més espai per a les altres pantalles. Hi ha caselles de selecció a l'esquerra dels títols de la secció (Línia de temps, Estadístiques i Detalls) que activen i oculten les pantalles. </para>
     </sect3>
     <sect3 id="analyze-timeline">
         <title
@@ -68,7 +68,7 @@
         <para
 >La línia de temps mostra els principals processos de l'Ekos i quan han estat actius. Per exemple, la línia <guilabel
 >Captura</guilabel
-> mostra quan es van prendre les imatges (seccions en verd) i quan es va interrompre (seccions en vermell). En fer clic a una secció en verd es proporcionarà informació sobre aquesta imatge, i en fer-hi doble clic sobre una apareixerà la imatge presa en un visualitzador FITS, si està disponible. </para>
+> mostra quan es van prendre les imatges (verd ambre per a RGB o color codificat pel filtre) i quan es va interrompre (mostrades com a seccions en vermell). En fer clic a una secció de captura es proporcionarà informació sobre aquesta imatge, i en fer-hi doble clic sobre una apareixerà la imatge presa en un visualitzador FITS, si està disponible. </para>
         <note>
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel
@@ -88,7 +88,7 @@
         <para
 >En el gràfic <guilabel
 >Estadístiques</guilabel
-> pot mostrar una varietat d'estadístiques. N'hi ha massa perquè es mostrin totes de forma llegible, de manera que feu la tria amb les caselles de selecció. Una forma raonable de començar podria ser utilitzar <guilabel
+> es pot mostrar una varietat d'estadístiques. N'hi ha massa perquè es mostrin totes de forma llegible, de manera que feu la tria amb les caselles de selecció. Una forma raonable de començar podria ser utilitzar <guilabel
 >rms</guilabel
 >, <guilabel
 >snr</guilabel
@@ -96,8 +96,12 @@
 >hfr</guilabel
 > (si teniu <guilabel
 >Calcula automàticament l'HFR</guilabel
-> a les opcions de FITS). Experimenteu amb les altres. L'eix mostrat (0-5) només és apropiat per a errors d'AR/Dec, deriva, rms, polsos i HFR. Aquests es poden escalar en l'eix «y» (de manera incòmoda) utilitzant la <mousebutton
+> a les opcions de FITS). Experimenteu amb les altres. </para>
+        <para
+>L'eix esquerre mostrat només és apropiat per a errors d'AR/Dec, deriva, error RMS, polsos AR/Dec i HFR, traçats en segons d'arc i amb un valor predeterminat en l'interval de -2 a 5 segons d'arc. No obstant això, en fer clic en una de les caselles sota el gràfic d'estadístiques (que mostra el valor d'una estadística) s'establirà l'interval de l'estadística com l'interval mostrat a l'eix esquerre. En fer doble clic en aquesta casella es mostrarà un menú que us permetrà ajustar l'interval Y dibuixat per l'estadística (p. ex. establir-lo a automàtic, escriure explícitament a l'interval, tornar al seu valor predeterminat, i també canviar el color del diagrama d'aquesta estadística). </para>
+        <para
+>L'estadística mostrada en l'eix esquerre mostrat també es pot escalar (de manera incòmoda) utilitzant la <mousebutton
 >roda</mousebutton
-> del ratolí, però els altres gràfics no es poden escalar. Per a restablir el zoom de l'eix «y», feu clic dret a sobre del gràfic Estadístiques. En fer clic a sobre del gràfic, s'emplenaran els valors de les estadístiques mostrades. En aquest gràfic es pot fer zoom i desplaçar horitzontalment en coordinació amb la línia de temps. </para>
+> del ratolí. Es pot desplaçar arrossegant el ratolí amunt o avall sobre els números de l'eix esquerre. En fer clic a qualsevol lloc dins del gràfic d'estadístiques s'omplen els valors de les estadístiques mostrades. En marcar l'última casella fa que els valors més recents (d'una sessió en directe) siguin les estadístiques mostrades. Aquest gràfic s'amplia i es desplaça horitzontalment en coordinació amb la línia temporal. </para>
     </sect3>
 </sect2>

@@ -243,7 +243,10 @@ void SchedulerJob::setMinAltitude(const double &value)
 bool SchedulerJob::hasAltitudeConstraint() const
 {
     return hasMinAltitude() ||
-           (enforceArtificialHorizon && (getHorizon() != nullptr) && getHorizon()->altitudeConstraintsExist());
+           (enforceArtificialHorizon && (getHorizon() != nullptr) && getHorizon()->altitudeConstraintsExist()) ||
+           (Options::enableAltitudeLimits() &&
+            (Options::minimumAltLimit() > 0 ||
+             Options::maximumAltLimit() < 90));
 }
 
 void SchedulerJob::setMinMoonSeparation(const double &value)
@@ -929,7 +932,23 @@ bool SchedulerJob::increasingStartupTimeOrder(SchedulerJob const *job1, Schedule
 
 bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason) const
 {
-    // First check the global min-altitude constraint.
+    // Check the mount's altitude constraints.
+    if (Options::enableAltitudeLimits() &&
+            (altitude < Options::minimumAltLimit() ||
+             altitude > Options::maximumAltLimit()))
+    {
+        if (altitudeReason != nullptr)
+        {
+            if (altitude < Options::minimumAltLimit())
+                *altitudeReason = QString("altitude %1 < mount altitude limit %2")
+                                  .arg(altitude, 0, 'f', 1).arg(Options::minimumAltLimit(), 0, 'f', 1);
+            else
+                *altitudeReason = QString("altitude %1 > mount altitude limit %2")
+                                  .arg(altitude, 0, 'f', 1).arg(Options::maximumAltLimit(), 0, 'f', 1);
+        }
+        return false;
+    }
+    // Check the global min-altitude constraint.
     if (altitude < getMinAltitude())
     {
         if (altitudeReason != nullptr)

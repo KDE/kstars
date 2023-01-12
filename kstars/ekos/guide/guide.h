@@ -392,7 +392,7 @@ class Guide : public QWidget, public Ui::Guide
                 * @brief processCCDNumber Process number properties arriving from CCD. Currently, binning changes are processed.
                 * @param nvp pointer to number property.
                 */
-        void processCCDNumber(INumberVectorProperty *nvp);
+        void updateProperty(INDI::Property prop);
 
         /**
              * @brief setTrackingStar Gets called when the user select a star in the guide frame

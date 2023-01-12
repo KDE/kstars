@@ -1101,7 +1101,8 @@ void TestEkosSchedulerOps::testRememberJobProgress()
             for (int i = 0; i < count; i++)
             {
                 QFile frame;
-                frame.setFileName(QString(img_dir.absolutePath() + "/Kocab/Light/" + filter + "/Kocab_Light_%1.fits").arg(i));
+                frame.setFileName(QString(img_dir.absolutePath() + "/Kocab/Light/" + filter + "/Kocab_Light_%1_%2.fits").arg(filter).arg(
+                                      i));
                 frame.open(QIODevice::WriteOnly | QIODevice::Text);
                 frame.close();
             }
@@ -1131,13 +1132,14 @@ void TestEkosSchedulerOps::loadGreedySchedule(
     const TestEkosSchedulerHelper::StartupCondition &startupCondition,
     const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
     QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude,
-    const TestEkosSchedulerHelper::ScheduleSteps steps, bool enforceTwilight, bool enforceHorizon)
+    const TestEkosSchedulerHelper::ScheduleSteps steps, bool enforceTwilight, bool enforceHorizon, int errorDelay)
 {
     SkyObject *object = KStars::Instance()->data()->skyComposite()->findByName(targetName);
     QVERIFY(object != nullptr);
     const QString schedulerXML =
         TestEkosSchedulerHelper::getSchedulerFile(
-            object, startupCondition, completionCondition, steps, enforceTwilight, enforceHorizon, minAltitude);
+            object, startupCondition, completionCondition, steps, enforceTwilight, enforceHorizon, minAltitude,
+            nullptr, {false, false, true, false}, errorDelay);
 
     // Write the scheduler and sequence files.
     QString f1 = writeFiles(targetName, dir, captureJob, schedulerXML);
@@ -1316,17 +1318,20 @@ void TestEkosSchedulerOps::testGreedyAborts()
     loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
+    // Parameters related to resheduling aborts and the delay times are in the scheduler .esl file created in loadGreedyScheduler.
+    const TestEkosSchedulerHelper::ScheduleSteps steps = {true, true, true, true};
+    const bool enforceTwilight = true;
+    const bool enforceHorizon = true;
+    const int errorDelay = 3600;
 
-    scheduler->getGreedyScheduler()->setRescheduleAbortsImmediate(false);
-    scheduler->getGreedyScheduler()->setRescheduleAbortsQueue(true);
-    scheduler->getGreedyScheduler()->setRescheduleErrors(true);
-    scheduler->getGreedyScheduler()->setAbortDelaySeconds(3600);
-    scheduler->getGreedyScheduler()->setErrorDelaySeconds(3600);
-
-    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36);
-    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45);
-    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30);
-    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42);
+    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
+    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
+    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
+    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
 
     // start the scheduler at 1am
     KStarsDateTime evalUTime(QDate(2022, 2, 28), QTime(9, 00, 00), Qt::UTC);
@@ -1347,16 +1352,15 @@ void TestEkosSchedulerOps::testGreedyAborts()
         {"M 104",      "2022/03/02 00:35", "2022/03/02 03:45"}},
     scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
-    // Now load the same schedule, but set the M104 job to have been aborted a minute before
-    scheduler->getGreedyScheduler()->setRescheduleAbortsImmediate(false);
-    scheduler->getGreedyScheduler()->setRescheduleAbortsQueue(true);
-    scheduler->getGreedyScheduler()->setRescheduleErrors(true);
-    scheduler->getGreedyScheduler()->setAbortDelaySeconds(3600);
-    scheduler->getGreedyScheduler()->setErrorDelaySeconds(3600);
-    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36);
-    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45);
-    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30);
-    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42);
+    // Now load the same schedule, but set the M104 job to have been aborted a minute before.
+    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
+    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
+    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
+    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42, steps,
+                       enforceTwilight, enforceHorizon, errorDelay);
 
     // Otherwise time changes below will trigger reschedules and mess up test.
     scheduler->state = Ekos::SCHEDULER_RUNNING;
@@ -1557,7 +1561,7 @@ void TestEkosSchedulerOps::makeFitsFiles(const QString &base, int num)
 
     for (int i = 0; i < num; ++i)
     {
-        QString newName = QString("%1-%2.fits").arg(base).arg(i);
+        QString newName = QString("%1_%2.fits").arg(base).arg(i);
         QVERIFY(f.copy(newName));
     }
 }
@@ -1599,12 +1603,12 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
     repeat9.type = SchedulerJob::FINISH_REPEAT;
     repeat9.repeat = 9;
 
-    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/L/NGC_2359_Light"), 41);
-    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/R/NGC_2359_Light"), 8);
-    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/G/NGC_2359_Light"), 8);
-    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/B/NGC_2359_Light"), 8);
-    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/Ha/NGC_2359_Light"), 12);
-    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/OIII/NGC_2359_Light"), 11);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/L/NGC_2359_Light_L"), 41);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/R/NGC_2359_Light_R"), 8);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/G/NGC_2359_Light_G"), 8);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/B/NGC_2359_Light_B"), 8);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/Ha/NGC_2359_Light_Ha"), 12);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/OIII/NGC_2359_Light_OIII"), 11);
 
     // Not focusing in these schedule steps.
     TestEkosSchedulerHelper::ScheduleSteps steps = {true, false, true, true};

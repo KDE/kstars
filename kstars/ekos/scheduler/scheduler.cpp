@@ -3078,15 +3078,9 @@ bool Scheduler::executeJob(SchedulerJob *job)
 
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
-        QString sanitized = job->getName();
-        sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                    // Remove any two or more __
-                    .replace( QRegularExpression("_{2,}"), "_")
-                    // Remove any _ at the end
-                    .replace( QRegularExpression("_$"), "");
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s%s\n", __LINE__, "captureInterface:setProperty", "targetName=",
-                   sanitized.toLatin1().data());
-        captureInterface->setProperty("targetName", sanitized);
+                   job->getName().toLatin1().data());
+        captureInterface->setProperty("targetName", job->getName());
     }
 
     calculateDawnDusk();
@@ -5565,15 +5559,9 @@ void Scheduler::startCapture(bool restart)
         return;
     }
 
-    QString sanitized = currentJob->getName();
-    sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                // Remove any two or more __
-                .replace( QRegularExpression("_{2,}"), "_")
-                // Remove any _ at the end
-                .replace( QRegularExpression("_$"), "");
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s%s\n", __LINE__, "captureInterface:setProperty", "targetName=",
-               sanitized.toLatin1().data());
-    captureInterface->setProperty("targetName", sanitized);
+               currentJob->getName().toLatin1().data());
+    captureInterface->setProperty("targetName", currentJob->getName());
 
     QString url = currentJob->getSequenceFile().toLocalFile();
 
@@ -5581,6 +5569,9 @@ void Scheduler::startCapture(bool restart)
     {
         QList<QVariant> dbusargs;
         dbusargs.append(url);
+        // ignore targets from sequence queue file
+        QVariant ignoreTarget(true);
+        dbusargs.append(ignoreTarget);
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:callWithArgs", "loadSequenceQueue");
         QDBusReply<bool> const captureReply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "loadSequenceQueue",
                                               dbusargs);
@@ -5758,7 +5749,6 @@ uint16_t Scheduler::calculateExpectedCapturesMap(const QList<SequenceJob *> &seq
     for (auto &seqJob : seqJobs)
     {
         capturesPerRepeat += seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt();
-        Scheduler::preloadSignature(*seqJob);
         QString signature = seqJob->getCoreProperty(SequenceJob::SJ_Signature).toString();
         expected[signature] = static_cast<uint16_t>(seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt()) + (expected.contains(
                                   signature) ? expected[signature] : 0);
@@ -7010,12 +7000,12 @@ void Scheduler::startMosaicTool()
     if (mosaicTool.exec() == QDialog::Accepted)
     {
         // #1 Edit Sequence File ---> Not needed as of 2016-09-12 since Scheduler can send Target Name to Capture module it will append it to root dir
-        // #1.1 Set prefix to Target-Part#
-        // #1.2 Set directory to output/Target-Part#
+        // #1.1 Set prefix to Target-Part_#
+        // #1.2 Set directory to output/Target-Part_#
 
         // #2 Save all sequence files in Jobs dir
         // #3 Set as current Sequence file
-        // #4 Change Target name to Target-Part#
+        // #4 Change Target name to Target-Part_#
         // #5 Update J2000 coords
         // #6 Repeat and save Ekos Scheduler List in the output directory
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Job accepted with # " << mosaicTool.getJobs().size() << " jobs and fits dir "
@@ -7056,7 +7046,7 @@ void Scheduler::startMosaicTool()
 
         foreach (auto oneJob, mosaicTool.getJobs())
         {
-            QString prefix = QString("%1-Part%2").arg(targetName).arg(batchCount++);
+            QString prefix = QString("%1-Part_%2").arg(targetName).arg(batchCount++);
 
             prefix.replace(' ', '-');
             nameEdit->setText(prefix);
@@ -7420,7 +7410,6 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
                 else if (!strcmp(tagXMLEle(ep), "Job"))
                 {
                     SequenceJob *thisJob = processJobInfo(ep, schedJob);
-                    Scheduler::preloadSignature(*thisJob);
                     jobs.append(thisJob);
                     if (jobs.count() == 1)
                     {
@@ -8761,31 +8750,5 @@ bool Scheduler::importMosaic(const QJsonObject &payload)
 {
     QScopedPointer<FramingAssistantUI> assistant(new FramingAssistantUI());
     return assistant->importMosaic(payload);
-}
-
-void Scheduler::preloadSignature(SequenceJob &seqJob)
-{
-    QString tempFormat = seqJob.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
-    if (!tempFormat.contains("%"))
-    {
-        if (!tempFormat.endsWith(QDir::separator()))
-            tempFormat.append(QDir::separator());
-        tempFormat.append("%t" + QDir::separator() + "%T" + QDir::separator());
-        if(!seqJob.getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
-            tempFormat.append("%F" + QDir::separator());
-        tempFormat.append("%t_%T_");
-        if(!seqJob.getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
-            tempFormat.append("%F_");
-        if(seqJob.getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool() == true)
-            tempFormat.append("%e_");
-        if(seqJob.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool() == true)
-            tempFormat.append("%D_");
-        seqJob.setCoreProperty(SequenceJob::SJ_LocalDirectory, tempFormat);
-    }
-
-    auto placeholderPath = Ekos::PlaceholderPath();
-    QString signature = placeholderPath.generateFilename(seqJob, seqJob.getCoreProperty(SequenceJob::SJ_TargetName).toString(),
-                        true, true, 1, ".fits", "", false, true);
-    seqJob.setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 }

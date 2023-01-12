@@ -1124,7 +1124,7 @@ QString getDefaultPath(const QString &option)
     }
     else if (option == "placeholderFormat")
     {
-        return "/%T/%F/%T";
+        return "/%t/%T/%F/%t_%T_%F_%e_%D";
     }
     else if (option == "indiServer")
     {

@@ -41,14 +41,16 @@ QString MeridianFlipState::MFStageString(MFStage stage)
     return "MFStage unknown.";
 }
 
-void MeridianFlipState::setEnabled(bool value) {
+void MeridianFlipState::setEnabled(bool value)
+{
     m_enabled = value;
     // reset meridian flip if disabled
     if (m_enabled == false)
         updateMFMountState(MOUNT_FLIP_NONE);
 }
 
-void MeridianFlipState::updateMeridianFlipStage(const MFStage &stage) {
+void MeridianFlipState::updateMeridianFlipStage(const MFStage &stage)
+{
     qCDebug(KSTARS_EKOS_CAPTURE) << "updateMeridianFlipStage: " << MeridianFlipState::MFStageString(stage);
 
     if (meridianFlipStage != stage)
@@ -56,7 +58,7 @@ void MeridianFlipState::updateMeridianFlipStage(const MFStage &stage) {
         switch (stage)
         {
             case MeridianFlipState::MF_NONE:
-                 meridianFlipStage = stage;
+                meridianFlipStage = stage;
                 break;
 
             case MeridianFlipState::MF_READY:
@@ -77,14 +79,14 @@ void MeridianFlipState::updateMeridianFlipStage(const MFStage &stage) {
                     // if neither a MF has been requested (checked above) or is in a post
                     // MF calibration phase, no MF needs to take place.
                     // Hence we set to the stage to NONE
-                     meridianFlipStage = MeridianFlipState::MF_NONE;
+                    meridianFlipStage = MeridianFlipState::MF_NONE;
                     break;
                 }
                 // in any other case, ignore it
                 break;
 
             case MeridianFlipState::MF_INITIATED:
-                 meridianFlipStage = MeridianFlipState::MF_INITIATED;
+                meridianFlipStage = MeridianFlipState::MF_INITIATED;
                 break;
 
             case MeridianFlipState::MF_REQUESTED:
@@ -93,15 +95,15 @@ void MeridianFlipState::updateMeridianFlipStage(const MFStage &stage) {
                     updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
                 else
                     updateMFMountState(MeridianFlipState::MOUNT_FLIP_WAITING);
-                 meridianFlipStage = stage;
+                meridianFlipStage = stage;
                 break;
 
             case MeridianFlipState::MF_COMPLETED:
-                 meridianFlipStage = MeridianFlipState::MF_COMPLETED;
+                meridianFlipStage = MeridianFlipState::MF_COMPLETED;
                 break;
 
             default:
-                 meridianFlipStage = stage;
+                meridianFlipStage = stage;
                 break;
         }
     }
@@ -367,6 +369,7 @@ void MeridianFlipState::setMeridianFlipMountState(MeridianFlipMountState newMeri
 void MeridianFlipState::appendLogText(QString message)
 {
     qCInfo(KSTARS_EKOS_MOUNT) << message;
+    emit newLog(message);
 }
 
 void MeridianFlipState::updateMinMeridianFlipEndTime()
@@ -378,7 +381,8 @@ void MeridianFlipState::updateMFMountState(MeridianFlipMountState status)
 {
     if (getMeridianFlipMountState() != status)
     {
-        if (status == MOUNT_FLIP_ACCEPTED) {
+        if (status == MOUNT_FLIP_ACCEPTED)
+        {
             // ignore accept signal if none was requested
             if (meridianFlipStage != MF_REQUESTED)
                 return;
@@ -406,32 +410,32 @@ void MeridianFlipState::publishMFMountStatus(MeridianFlipMountState status)
 
     switch (status)
     {
-    case MOUNT_FLIP_NONE:
-        publishMFMountStatusText(i18n("Status: inactive"));
-        break;
+        case MOUNT_FLIP_NONE:
+            publishMFMountStatusText(i18n("Status: inactive"));
+            break;
 
-    case MOUNT_FLIP_PLANNED:
-        publishMFMountStatusText(i18n("Meridian flip planned..."));
-        break;
+        case MOUNT_FLIP_PLANNED:
+            publishMFMountStatusText(i18n("Meridian flip planned..."));
+            break;
 
-    case MOUNT_FLIP_WAITING:
-        publishMFMountStatusText(i18n("Meridian flip waiting..."));
-        break;
+        case MOUNT_FLIP_WAITING:
+            publishMFMountStatusText(i18n("Meridian flip waiting..."));
+            break;
 
-    case MOUNT_FLIP_ACCEPTED:
-        publishMFMountStatusText(i18n("Meridian flip ready to start..."));
-        break;
+        case MOUNT_FLIP_ACCEPTED:
+            publishMFMountStatusText(i18n("Meridian flip ready to start..."));
+            break;
 
-    case MOUNT_FLIP_RUNNING:
-        publishMFMountStatusText(i18n("Meridian flip running..."));
-        break;
+        case MOUNT_FLIP_RUNNING:
+            publishMFMountStatusText(i18n("Meridian flip running..."));
+            break;
 
-    case MOUNT_FLIP_COMPLETED:
-        publishMFMountStatusText(i18n("Meridian flip completed."));
-        break;
+        case MOUNT_FLIP_COMPLETED:
+            publishMFMountStatusText(i18n("Meridian flip completed."));
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
 }
@@ -472,13 +476,15 @@ QString MeridianFlipState::meridianFlipStatusString(MeridianFlipMountState statu
 
 
 
-void MeridianFlipState::setMountStatus(ISD::Mount::Status status) {
+void MeridianFlipState::setMountStatus(ISD::Mount::Status status)
+{
     m_PrevMountStatus = m_MountStatus;
     m_MountStatus = status;
 }
 
 
-void MeridianFlipState::updatePosition(MountPosition &pos, const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha, const bool isValid)
+void MeridianFlipState::updatePosition(MountPosition &pos, const SkyPoint &position, ISD::Mount::PierSide pierSide,
+                                       const dms &ha, const bool isValid)
 {
     pos.position = position;
     pos.pierSide = pierSide;
@@ -502,7 +508,7 @@ void MeridianFlipState::updateTelescopeCoord(const SkyPoint &position, ISD::Moun
         // set the target position
         updatePosition(targetPosition, currentPosition.position, currentPosition.pierSide, currentPosition.ha, true);
         qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " <<
-                                      meridianFlipStatusString(meridianFlipMountState);
+                                   meridianFlipStatusString(meridianFlipMountState);
         // ensure that this is executed only once
         m_PrevMountStatus = m_MountStatus;
     }

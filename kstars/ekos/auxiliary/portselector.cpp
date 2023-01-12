@@ -26,17 +26,15 @@ const QString Device::ACTIVE_STYLESHEET = "background-color: #004400;";
 //////////////////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
-Device::Device(const QSharedPointer<ISD::GenericDevice> &device, QGridLayout *grid, uint8_t row) :  m_Name(device->getDeviceName()), m_Device(device), m_Grid(grid), m_Row(row)
+Device::Device(const QSharedPointer<ISD::GenericDevice> &device, QGridLayout *grid,
+               uint8_t row) :  m_Name(device->getDeviceName()), m_Device(device), m_Grid(grid), m_Row(row)
 {
     ColorCode[IPS_IDLE] = Qt::gray;
     ColorCode[IPS_OK] = Qt::green;
     ColorCode[IPS_BUSY] = Qt::yellow;
     ColorCode[IPS_ALERT] = Qt::red;
 
-    connect(m_Device.get(), &ISD::GenericDevice::switchUpdated, this, &Device::processSwitch);
-    connect(m_Device.get(), &ISD::GenericDevice::textUpdated, this, &Device::processText);
-    connect(m_Device.get(), &ISD::GenericDevice::Connected, this, &Device::setConnected);
-    connect(m_Device.get(), &ISD::GenericDevice::Disconnected, this, &Device::setDisconnected);
+    connect(m_Device.get(), &ISD::GenericDevice::propertyUpdated, this, &Device::updateProperty);
 
     if (initGUI())
         syncGUI();
@@ -73,7 +71,7 @@ bool Device::initGUI()
         IUResetSwitch(&connectionMode);
         connectionMode.at(0)->setState(ISS_ON);
         connectionMode.at(1)->setState(ISS_OFF);
-        m_Device->sendNewSwitch(&connectionMode);
+        m_Device->sendNewProperty(&connectionMode);
     });
 
     // Network Button
@@ -87,7 +85,7 @@ bool Device::initGUI()
         IUResetSwitch(&connectionMode);
         connectionMode.at(0)->setState(ISS_OFF);
         connectionMode.at(1)->setState(ISS_ON);
-        m_Device->sendNewSwitch(&connectionMode);
+        m_Device->sendNewProperty(&connectionMode);
     });
 
     INDI::PropertyView<ISwitch> connectionMode = *(modeProperty->getSwitch());
@@ -113,7 +111,7 @@ bool Device::initGUI()
                     INDI::PropertyView<ISwitch> systemPortsSwitch = *(systemPorts->getSwitch());
                     IUResetSwitch(&systemPortsSwitch);
                     systemPortsSwitch.at(index)->setState(ISS_ON);
-                    m_Device->sendNewSwitch(&systemPortsSwitch);
+                    m_Device->sendNewProperty(&systemPortsSwitch);
                 }
             });
             // When combo box text changes
@@ -121,7 +119,7 @@ bool Device::initGUI()
             {
                 INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
                 port.at(0)->setText(m_Ports->lineEdit()->text().toLatin1().constData());
-                m_Device->sendNewText(&port);
+                m_Device->sendNewProperty(&port);
             });
         }
 
@@ -136,7 +134,7 @@ bool Device::initGUI()
                 INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
                 IUResetSwitch(&systemBauds);
                 systemBauds.at(index)->setState(ISS_ON);
-                m_Device->sendNewSwitch(&systemBauds);
+                m_Device->sendNewProperty(&systemBauds);
             });
         }
     }
@@ -152,7 +150,7 @@ bool Device::initGUI()
         {
             INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
             server.at(0)->setText(m_HostName->text().toLatin1().constData());
-            m_Device->sendNewText(&server);
+            m_Device->sendNewProperty(&server);
         });
 
         m_HostPort = new QLineEdit;
@@ -161,7 +159,7 @@ bool Device::initGUI()
         {
             INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
             server.at(1)->setText(m_HostPort->text().toLatin1().constData());
-            m_Device->sendNewText(&server);
+            m_Device->sendNewProperty(&server);
         });
 
         m_HostProtocolTCP = new QPushButton("TCP");
@@ -170,7 +168,7 @@ bool Device::initGUI()
             INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
             IUResetSwitch(&connectionType);
             connectionType.at(0)->setState(ISS_ON);
-            m_Device->sendNewSwitch(&connectionType);
+            m_Device->sendNewProperty(&connectionType);
         });
 
         m_HostProtocolUDP = new QPushButton("UDP");
@@ -179,7 +177,7 @@ bool Device::initGUI()
             INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
             IUResetSwitch(&connectionType);
             connectionType.at(1)->setState(ISS_ON);
-            m_Device->sendNewSwitch(&connectionType);
+            m_Device->sendNewProperty(&connectionType);
         });
     }
     else
@@ -332,26 +330,16 @@ void Device::setConnectionMode(ConnectionMode mode)
 //////////////////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
-void Device::processSwitch(ISwitchVectorProperty *svp)
+void Device::updateProperty(INDI::Property prop)
 {
-    QString prop = svp->name;
-    if (prop == "CONNECTION_MODE")
+    if (prop.isNameMatch("CONNECTION_MODE"))
     {
-        setConnectionMode(static_cast<ConnectionMode>(IUFindOnSwitchIndex(svp)));
+        auto svp = prop.getSwitch();
+        setConnectionMode(static_cast<ConnectionMode>(svp->findOnSwitchIndex()));
         syncGUI();
     }
-    else if (prop == "CONNECTION_TYPE" || prop == "SYSTEM_PORTS" ||
-             prop == "DEVICE_BAUD_RATE")
-        syncGUI();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-///
-//////////////////////////////////////////////////////////////////////////////////////////
-void Device::processText(ITextVectorProperty *tvp)
-{
-    QString prop = tvp->name;
-    if (prop == "DEVICE_PORT")
+    else if (prop.isNameMatch("CONNECTION_TYPE") || prop.isNameMatch("SYSTEM_PORTS") ||
+             prop.isNameMatch("DEVICE_BAUD_RATE") || prop.isNameMatch("DEVICE_PORT"))
         syncGUI();
 }
 
@@ -393,6 +381,9 @@ Dialog::Dialog(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(buttonBox);
 
     setWindowTitle(i18nc("@title:window", "Port Selector"));
+#ifdef Q_OS_OSX
+    setWindowFlags(Qt::WindowStaysOnTopHint);
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

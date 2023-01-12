@@ -479,26 +479,6 @@ void TestSchedulerUnit::estimateJobTimeTest()
     QVERIFY(Scheduler::loadSequenceQueue(seqFile9Filters, &job, jobs, hasAutoFocus, nullptr));
     // 2. Get the signiture of the first job
     SequenceJob *seqJob = jobs[0];
-    QString tempFormat = seqJob->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
-    if (!tempFormat.contains("%"))
-    {
-        if (!tempFormat.endsWith("/"))
-            tempFormat.append("/");
-        tempFormat.append("%t/%T/");
-        if(!seqJob->getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
-            tempFormat.append("%F/");
-        if(!seqJob->getCoreProperty(SequenceJob::SJ_RawPrefix).toString().isEmpty())
-            tempFormat.append("%t_");
-        tempFormat.append("%T_");
-        if(!seqJob->getCoreProperty(SequenceJob::SJ_Filter).toString().isEmpty())
-            tempFormat.append("%F_");
-        if(seqJob->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool() == true)
-            tempFormat.append("%e_");
-        if(seqJob->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool() == true)
-            tempFormat.append("%D_");
-        seqJob->setCoreProperty(SequenceJob::SJ_LocalDirectory, tempFormat);
-    }
-
     auto placeholderPath = Ekos::PlaceholderPath();
     QString signature = placeholderPath.generateFilename(*seqJob,
                         seqJob->getCoreProperty(SequenceJob::SJ_TargetName).toString(),

@@ -21,7 +21,7 @@ bool FilterWheel::setPosition(uint8_t index)
 
     nvp->at(0)->setValue(index);
 
-    sendNewNumber(nvp);
+    sendNewProperty(nvp);
 
     return true;
 }
@@ -38,7 +38,8 @@ bool FilterWheel::setLabels(const QStringList &names)
 
     for (uint8_t i = 0; i < tvp->ntp; i++)
         tvp->at(i)->setText(names[i].toLatin1().constData());
-    sendNewText(tvp);
+
+    sendNewProperty(tvp);
     return true;
 }
 
@@ -49,7 +50,7 @@ bool FilterWheel::confirmFilter()
         return false;
 
     svp->at(0)->setState(ISS_ON);
-    sendNewSwitch(svp);
+    sendNewProperty(svp);
     return true;
 }
 

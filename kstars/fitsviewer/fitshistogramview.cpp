@@ -45,6 +45,8 @@ FITSHistogramView::FITSHistogramView(QWidget *parent) : QCustomPlot(parent)
     yAxis->grid()->setZeroLinePen(Qt::NoPen);
 
     connect(this, &QCustomPlot::mouseMove, this, &FITSHistogramView::driftMouseOverLine);
+    connect(xAxis, SIGNAL(rangeChanged(QCPRange)), this,   SLOT(onXRangeChanged(QCPRange)));
+    connect(yAxis, SIGNAL(rangeChanged(QCPRange)), this,   SLOT(onYRangeChanged(QCPRange)));
 
     m_HistogramIntensity.resize(3);
     m_HistogramFrequency.resize(3);
@@ -308,4 +310,23 @@ void FITSHistogramView::createNonLinearHistogram()
 
     syncGUI();
 
+}
+
+void FITSHistogramView::onXRangeChanged(const QCPRange &range)
+{
+    QCPRange boundedRange = range;
+    if(boundedRange.lower < 0) {  // restrict max zoom in
+        boundedRange.lower = 0;
+        boundedRange.upper = boundedRange.size();
+    }
+    xAxis->setRange(boundedRange);
+}
+void FITSHistogramView::onYRangeChanged(const QCPRange &range)
+{
+    QCPRange boundedRange = range;
+    if(boundedRange.lower < 0) {  // restrict max zoom in
+        boundedRange.lower = 0;
+        boundedRange.upper = boundedRange.size();
+    }
+    yAxis->setRange(boundedRange);
 }

@@ -160,7 +160,7 @@ bool CameraChip::setImageInfo(uint16_t width, uint16_t height, double pixelX, do
     ccdInfoProp->np[4].value = pixelY;
     ccdInfoProp->np[5].value = bitdepth;
 
-    m_Camera->sendNewNumber(ccdInfoProp);
+    m_Camera->sendNewProperty(ccdInfoProp);
 
     return true;
 }
@@ -287,7 +287,7 @@ bool CameraChip::resetFrame()
         warg->value = warg->max;
         harg->value = harg->max;
 
-        m_Camera->sendNewNumber(frameProp);
+        m_Camera->sendNewProperty(frameProp);
         return true;
     }
 
@@ -331,7 +331,7 @@ bool CameraChip::setFrame(int x, int y, int w, int h, bool force)
         warg->value = w;
         harg->value = h;
 
-        m_Camera->sendNewNumber(frameProp);
+        m_Camera->sendNewProperty(frameProp);
         return true;
     }
 
@@ -401,7 +401,7 @@ bool CameraChip::capture(double exposure)
     newExpProp->np = &n;
     newExpProp->nnp = 1;
 
-    m_Camera->sendNewNumber(newExpProp.get());
+    m_Camera->sendNewProperty(newExpProp.get());
 
     return true;
 }
@@ -431,7 +431,7 @@ bool CameraChip::abortExposure()
 
     abort->s = ISS_ON;
 
-    m_Camera->sendNewSwitch(abortProp);
+    m_Camera->sendNewProperty(abortProp);
 
     return true;
 }
@@ -501,7 +501,7 @@ bool CameraChip::setISOIndex(int value)
     isoProp->reset();
     isoProp->at(value)->setState(ISS_ON);
 
-    m_Camera->sendNewSwitch(isoProp);
+    m_Camera->sendNewProperty(isoProp);
 
     return true;
 }
@@ -597,7 +597,7 @@ bool CameraChip::setFrameType(CCDFrameType fType)
     IUResetSwitch(frameProp);
     ccdFrame->s = ISS_ON;
 
-    m_Camera->sendNewSwitch(frameProp);
+    m_Camera->sendNewProperty(frameProp);
 
     return true;
 }
@@ -805,7 +805,7 @@ bool CameraChip::setBinning(int bin_x, int bin_y)
     horBin->value = bin_x;
     verBin->value = bin_y;
 
-    m_Camera->sendNewNumber(binProp);
+    m_Camera->sendNewProperty(binProp);
 
     return true;
 }

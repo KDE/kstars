@@ -118,6 +118,7 @@ if (INDI_FOUND)
             ekos/profilewizard.ui
             # Analyze
             ekos/analyze/analyze.ui
+            ekos/analyze/yaxistool.ui
             # Scheduler
             ekos/scheduler/scheduler.ui
             ekos/scheduler/mosaic.ui
@@ -227,6 +228,7 @@ if (INDI_FOUND)
 
             # Analyze
             ekos/analyze/analyze.cpp
+            ekos/analyze/yaxistool.cpp
 
             # Scheduler
             ekos/scheduler/schedulerjob.cpp
@@ -443,6 +445,7 @@ set(libkstarstools_SRCS
     tools/modcalcangdist.cpp
     tools/modcalcapcoord.cpp
     tools/modcalcaltaz.cpp
+    tools/modcalcsimple.cpp
     tools/modcalcdaylength.cpp
     tools/modcalceclipticcoords.cpp
     tools/modcalcvizequinox.cpp
@@ -513,10 +516,10 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/argzoom.ui
     tools/conjunctions.ui
     tools/eclipsetool.ui
-
     tools/modcalcangdist.ui
     tools/modcalcapcoord.ui
     tools/modcalcaltaz.ui
+    tools/modcalcsimple.ui
     tools/modcalcdaylength.ui
     tools/modcalceclipticcoords.ui
     tools/modcalcvizequinox.ui

@@ -709,8 +709,7 @@ bool Align::setMount(ISD::Mount *device)
 
     RUN_PAH(setCurrentTelescope(m_Mount));
 
-    connect(m_Mount, &ISD::Mount::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
-    connect(m_Mount, &ISD::Mount::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
+    connect(m_Mount, &ISD::Mount::propertyUpdated, this, &Ekos::Align::updateProperty, Qt::UniqueConnection);
     connect(m_Mount, &ISD::Mount::Disconnected, this, [this]()
     {
         m_isRateSynced = false;
@@ -733,7 +732,7 @@ bool Align::setDome(ISD::Dome *device)
     if (!m_Dome)
         return false;
 
-    connect(m_Dome, &ISD::Dome::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
+    connect(m_Dome, &ISD::Dome::propertyUpdated, this, &Ekos::Align::updateProperty, Qt::UniqueConnection);
     return true;
 }
 
@@ -1493,7 +1492,7 @@ bool Align::captureAndSolve()
                 if (QString(activeCCD->text) != m_Camera->getDeviceName())
                 {
                     activeCCD->setText(m_Camera->getDeviceName().toLatin1().constData());
-                    m_RemoteParserDevice->getClientManager()->sendNewText(activeDevices);
+                    m_RemoteParserDevice->getClientManager()->sendNewProperty(activeDevices);
                 }
             }
 
@@ -1984,7 +1983,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             {
                 ClientManager *clientManager = m_Camera->getDriverInfo()->getClientManager();
                 rotation->setValue(orientation);
-                clientManager->sendNewNumber(ccdRotation);
+                clientManager->sendNewProperty(ccdRotation);
 
                 if (m_wcsSynced == false)
                 {
@@ -1994,7 +1993,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                     // Just send telescope info in case the CCD driver did not pick up before.
                     auto telescopeInfo = m_Mount->getNumber("TELESCOPE_INFO");
                     if (telescopeInfo)
-                        clientManager->sendNewNumber(telescopeInfo);
+                        clientManager->sendNewProperty(telescopeInfo);
 
                     m_wcsSynced = true;
                 }
@@ -2251,7 +2250,7 @@ bool Align::checkIfRotationRequired()
                     double rawAngle = range360((Options::pAOffset() + m_TargetPositionAngle) / Options::pAMultiplier());
                     absAngle->at(0)->setValue(rawAngle);
                     ClientManager *clientManager = m_Rotator->getDriverInfo()->getClientManager();
-                    clientManager->sendNewNumber(absAngle);
+                    clientManager->sendNewProperty(absAngle);
                     appendLogText(i18n("Setting position angle to %1 degrees E of N...", m_TargetPositionAngle));
                     state = ALIGN_ROTATING;
                     emit newStatus(state);
@@ -2403,48 +2402,17 @@ void Align::clearLog()
     emit newLog(QString());
 }
 
-void Align::processSwitch(ISwitchVectorProperty * svp)
+void Align::updateProperty(INDI::Property prop)
 {
-    if (!strcmp(svp->name, "DOME_MOTION"))
+    if (prop.isNameMatch("EQUATORIAL_EOD_COORD") || prop.isNameMatch("EQUATORIAL_COORD"))
     {
-        // If dome is not ready and state is now
-        if (domeReady == false && svp->s == IPS_OK)
-        {
-            domeReady = true;
-            // trigger process number for mount so that it proceeds with normal workflow since
-            // it was stopped by dome not being ready
-            handleMountStatus();
-        }
-    }
-    else if ((!strcmp(svp->name, "TELESCOPE_MOTION_NS") || !strcmp(svp->name, "TELESCOPE_MOTION_WE")))
-        switch (svp->s)
-        {
-            case IPS_BUSY:
-                // react upon mount motion
-                handleMountMotion();
-                m_wasSlewStarted = true;
-                break;
-            default:
-                qCDebug(KSTARS_EKOS_ALIGN) << "Mount motion finished.";
-                handleMountStatus();
-                break;
-        }
-
-}
-
-void Align::processNumber(INumberVectorProperty * nvp)
-{
-    if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "EQUATORIAL_COORD"))
-    {
+        auto nvp = prop.getNumber();
         QString ra_dms, dec_dms;
 
         getFormattedCoords(m_TelescopeCoord.ra().Hours(), m_TelescopeCoord.dec().Degrees(), ra_dms, dec_dms);
 
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
-
-        //        qCDebug(KSTARS_EKOS_ALIGN) << "## RA" << ra_dms << "DE" << dec_dms
-        //                                   << "state:" << pstateStr(nvp->s) << "slewStarted?" << m_wasSlewStarted;
 
         switch (nvp->s)
         {
@@ -2630,8 +2598,9 @@ void Align::processNumber(INumberVectorProperty * nvp)
 
         RUN_PAH(processMountRotation(m_TelescopeCoord.ra(), alignSettlingTime->value()));
     }
-    else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
+    else if (prop.isNameMatch("ABS_ROTATOR_ANGLE"))
     {
+        auto nvp = prop.getNumber();
         // 1. PA = (RawAngle * Multiplier) - Offset
         currentRotatorPA = SolverUtils::rangePA( (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset());
         if (std::isnan(m_TargetPositionAngle) == false && nvp->s == IPS_OK)
@@ -2660,6 +2629,32 @@ void Align::processNumber(INumberVectorProperty * nvp)
             }
         }
     }
+    else if (prop.isNameMatch("DOME_MOTION"))
+    {
+        // If dome is not ready and state is now
+        if (domeReady == false && prop.getState() == IPS_OK)
+        {
+            domeReady = true;
+            // trigger process number for mount so that it proceeds with normal workflow since
+            // it was stopped by dome not being ready
+            handleMountStatus();
+        }
+    }
+    else if (prop.isNameMatch("TELESCOPE_MOTION_NS") || prop.isNameMatch("TELESCOPE_MOTION_WE"))
+    {
+        switch (prop.getState())
+        {
+            case IPS_BUSY:
+                // react upon mount motion
+                handleMountMotion();
+                m_wasSlewStarted = true;
+                break;
+            default:
+                qCDebug(KSTARS_EKOS_ALIGN) << "Mount motion finished.";
+                handleMountStatus();
+                break;
+        }
+    }
 }
 
 void Align::handleMountMotion()
@@ -2683,7 +2678,7 @@ void Align::handleMountStatus()
                                   "EQUATORIAL_EOD_COORD");
 
     if (nvp)
-        processNumber(nvp);
+        updateProperty(nvp);
 }
 
 
@@ -3011,7 +3006,7 @@ void Align::setWCSEnabled(bool enable)
 
     auto clientManager = m_Camera->getDriverInfo()->getClientManager();
     if (clientManager)
-        clientManager->sendNewSwitch(wcsControl);
+        clientManager->sendNewProperty(wcsControl);
 }
 
 void Align::checkCameraExposureProgress(ISD::CameraChip * targetChip, double remaining, IPState state)
@@ -3201,7 +3196,7 @@ bool Align::setRotator(ISD::Rotator * device)
     if (!m_Rotator)
         return false;
 
-    connect(m_Rotator, &ISD::Rotator::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
+    connect(m_Rotator, &ISD::Rotator::propertyUpdated, this, &Ekos::Align::updateProperty, Qt::UniqueConnection);
     return true;
 }
 
@@ -3812,7 +3807,10 @@ void Align::toggleManualRotator(bool toggled)
 void Align::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Align::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
+    connect(trainB, &QPushButton::clicked, this, [this]()
+    {
+        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+    });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain,
@@ -3967,8 +3965,6 @@ void Align::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -3981,8 +3977,6 @@ void Align::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -3995,8 +3989,6 @@ void Align::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -4009,8 +4001,6 @@ void Align::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_ALIGN) << "Option" << key << "not found!";
     }
 
     m_GlobalSettings = m_Settings = settings;

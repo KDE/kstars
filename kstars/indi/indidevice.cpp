@@ -45,15 +45,15 @@
 
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
-INDI_D::INDI_D(QWidget *parent, INDI::BaseDevice *in_dv, ClientManager *in_cm) : QWidget(parent)
+INDI_D::INDI_D(QWidget *parent, INDI::BaseDevice baseDevice, ClientManager *in_cm) : QWidget(parent)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
-    m_BaseDevice = in_dv;
+    m_BaseDevice = baseDevice;
     m_ClientManager = in_cm;
 
-    m_Name = m_BaseDevice->getDeviceName();
+    m_Name = m_BaseDevice.getDeviceName();
 
     QHBoxLayout *layout = new QHBoxLayout(this);
 
@@ -130,18 +130,18 @@ bool INDI_D::removeProperty(INDI::Property prop)
 }
 #endif
 
-bool INDI_D::removeProperty(const QString &device, const QString &name)
+bool INDI_D::removeProperty(INDI::Property prop)
 {
-    if (device != m_Name)
+    if (prop.getDeviceName() != m_Name)
         return false;
 
     for (auto &oneGroup : groupsList)
     {
         for (auto &oneProperty : oneGroup->getProperties())
         {
-            if (name == oneProperty->getName())
+            if (prop.getName() == oneProperty->getName())
             {
-                bool rc = oneGroup->removeProperty(name);
+                bool rc = oneGroup->removeProperty(prop.getName());
                 if (oneGroup->size() == 0)
                 {
                     int index = groupsList.indexOf(oneGroup);
@@ -156,17 +156,35 @@ bool INDI_D::removeProperty(const QString &device, const QString &name)
     return false;
 }
 
-bool INDI_D::updateSwitchGUI(ISwitchVectorProperty *svp)
+bool INDI_D::updateProperty(INDI::Property prop)
+{
+    switch (prop.getType())
+    {
+        case INDI_SWITCH:
+            return updateSwitchGUI(prop);
+        case INDI_NUMBER:
+            return updateNumberGUI(prop);
+        case INDI_TEXT:
+            return updateTextGUI(prop);
+        case INDI_LIGHT:
+            return updateLightGUI(prop);
+        case INDI_BLOB:
+            return updateBLOBGUI(prop);
+        default:
+            return false;
+    }
+}
+
+bool INDI_D::updateSwitchGUI(INDI::Property prop)
 {
     INDI_P *guiProp = nullptr;
-    QString propName(svp->name);
 
-    if (m_Name != svp->device)
+    if (m_Name != prop.getDeviceName())
         return false;
 
     for (const auto &pg : groupsList)
     {
-        if ((guiProp = pg->getProperty(propName)) != nullptr)
+        if ((guiProp = pg->getProperty(prop.getName())) != nullptr)
             break;
     }
 
@@ -186,17 +204,16 @@ bool INDI_D::updateSwitchGUI(ISwitchVectorProperty *svp)
     return true;
 }
 
-bool INDI_D::updateTextGUI(ITextVectorProperty *tvp)
+bool INDI_D::updateTextGUI(INDI::Property prop)
 {
     INDI_P *guiProp = nullptr;
-    QString propName(tvp->name);
 
-    if (m_Name != tvp->device)
+    if (m_Name != prop.getDeviceName())
         return false;
 
     for (const auto &pg : groupsList)
     {
-        INDI_P * const p = pg->getProperty(propName);
+        auto p = pg->getProperty(prop.getName());
         if (p != nullptr)
         {
             guiProp = p;
@@ -215,17 +232,16 @@ bool INDI_D::updateTextGUI(ITextVectorProperty *tvp)
     return true;
 }
 
-bool INDI_D::updateNumberGUI(INumberVectorProperty *nvp)
+bool INDI_D::updateNumberGUI(INDI::Property prop)
 {
     INDI_P *guiProp = nullptr;
-    QString propName(nvp->name);
 
-    if (m_Name != nvp->device)
+    if (m_Name != prop.getDeviceName())
         return false;
 
     for (const auto &pg : groupsList)
     {
-        INDI_P * const p = pg->getProperty(propName);
+        auto p = pg->getProperty(prop.getName());
         if (p != nullptr)
         {
             guiProp = p;
@@ -244,17 +260,16 @@ bool INDI_D::updateNumberGUI(INumberVectorProperty *nvp)
     return true;
 }
 
-bool INDI_D::updateLightGUI(ILightVectorProperty *lvp)
+bool INDI_D::updateLightGUI(INDI::Property prop)
 {
     INDI_P *guiProp = nullptr;
-    QString propName(lvp->name);
 
-    if (m_Name != lvp->device)
+    if (m_Name != prop.getDeviceName())
         return false;
 
     for (const auto &pg : groupsList)
     {
-        INDI_P * const p = pg->getProperty(propName);
+        auto p = pg->getProperty(prop.getName());
         if (p != nullptr)
         {
             guiProp = p;
@@ -273,17 +288,16 @@ bool INDI_D::updateLightGUI(ILightVectorProperty *lvp)
     return true;
 }
 
-bool INDI_D::updateBLOBGUI(IBLOB *bp)
+bool INDI_D::updateBLOBGUI(INDI::Property prop)
 {
     INDI_P *guiProp = nullptr;
-    QString propName(bp->bvp->name);
 
-    if (m_Name != bp->bvp->device)
+    if (m_Name != prop.getDeviceName())
         return false;
 
     for (const auto &pg : groupsList)
     {
-        INDI_P * const p = pg->getProperty(propName);
+        auto p = pg->getProperty(prop.getName());
         if (p != nullptr)
         {
             guiProp = p;
@@ -299,12 +313,12 @@ bool INDI_D::updateBLOBGUI(IBLOB *bp)
     return true;
 }
 
-void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
+void INDI_D::updateMessageLog(INDI::BaseDevice idv, int messageID)
 {
-    if (idv != m_BaseDevice)
+    if (idv.getDeviceName() != m_BaseDevice.getDeviceName())
         return;
 
-    QString message = QString::fromStdString(m_BaseDevice->messageQueue(messageID));
+    QString message = QString::fromStdString(m_BaseDevice.messageQueue(messageID));
     QString formatted = message;
 
     // TODO the colors should be from the color scheme
@@ -315,7 +329,7 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     else if (message.mid(21, 2) != "[I")
     {
         // Debug message
-        qCDebug(KSTARS_INDI) << idv->getDeviceName() << ":" << message.mid(21);
+        qCDebug(KSTARS_INDI) << idv.getDeviceName() << ":" << message.mid(21);
         return;
     }
 
@@ -329,7 +343,7 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     c.movePosition(QTextCursor::Start);
     msgST_w->setTextCursor(c);
 
-    qCInfo(KSTARS_INDI) << idv->getDeviceName() << ": " << message.mid(21);
+    qCInfo(KSTARS_INDI) << idv.getDeviceName() << ": " << message.mid(21);
 }
 
 //INDI_D::~INDI_D()

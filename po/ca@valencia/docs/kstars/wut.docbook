@@ -31,7 +31,7 @@
 >Què passa esta nit?</quote
 > (<quote
 >What's Up Tonight?</quote
-> - WUT) mostra una llista dels objectes que estaran visibles durant la nit des de qualsevol emplaçament, a qualsevol data. De manera predeterminada, la data i l'emplaçament són agafades de les opcions a la finestra principal, però les podeu canviar a qualsevol valor emprant els botons <guibutton
+> - WUT) mostra una llista dels objectes que estaran visibles durant la nit des de qualsevol emplaçament, a qualsevol data. De manera predeterminada, la data i l'emplaçament són agafades de les opcions en la finestra principal, però les podeu canviar a qualsevol valor emprant els botons <guibutton
 >Canvia la data...</guibutton
 > i <guibutton
 >Canvia l'emplaçament...</guibutton
@@ -43,7 +43,7 @@
 >Escolliu una categoria:</guilabel
 >, i tots els objectes d'estos tipus que resten per damunt de l'horitzó es mostraran en el quadro anomenat com a <guilabel
 >Objectes coincidents:</guilabel
->. Per exemple, a la captura de pantalla, hi ha seleccionada la categoria <guilabel
+>. Per exemple, en la captura de pantalla, hi ha seleccionada la categoria <guilabel
 >Planetes</guilabel
 >, i en esta es mostren tres planetes que estaran amunt en la nit seleccionada (Mart, Júpiter i Saturn). Quan se selecciona un objecte en la llista, les seues hores d'eixida, posta i de trànsit són mostrades en el quadro que hi ha davall, a la dreta (&ead;, Mart ix a les 17.13, transita a les 21.46 i es pon a les 02.16). A més, podeu prémer el botó <guibutton
 >Detalls de l'objecte...</guibutton

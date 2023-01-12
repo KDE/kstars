@@ -135,10 +135,10 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
             NSSlider->setEnabled(true);
             WESlider->setEnabled(true);
             // Set it twice!
-            m_Camera->sendNewText(tvp);
+            m_Camera->sendNewProperty(tvp);
             QTimer::singleShot(1000, this, [ &, tvp]()
             {
-                m_Camera->sendNewText(tvp);
+                m_Camera->sendNewProperty(tvp);
             });
 
         });
@@ -160,7 +160,7 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
             auto tvp = eoszoomposition->getText();
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
             tvp->at(0)->setText(pos.toLatin1().constData());
-            m_Camera->sendNewText(tvp);
+            m_Camera->sendNewProperty(tvp);
         });
 
         connect(WESlider, &QSlider::sliderReleased, [&]()
@@ -168,16 +168,16 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
             auto tvp = eoszoomposition->getText();
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
             tvp->at(0)->setText(pos.toLatin1().constData());
-            m_Camera->sendNewText(tvp);
+            m_Camera->sendNewProperty(tvp);
         });
 
         horizontalSpacer->changeSize(1, 1, QSizePolicy::Preferred);
     }
 
-    connect(m_Camera, SIGNAL(newFPS(double, double)), this, SLOT(updateFPS(double, double)));
-    connect(m_Camera, &ISD::Camera::numberUpdated, this, [this](INumberVectorProperty * nvp)
+    connect(m_Camera, &ISD::Camera::newFPS, this, &StreamWG::updateFPS);
+    connect(m_Camera, &ISD::Camera::propertyUpdated, this, [this](INDI::Property prop)
     {
-        if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "CCD_CFA"))
+        if (prop.isNameMatch("CCD_INFO") || prop.isNameMatch("CCD_CFA"))
             syncDebayerParameters();
     });
     connect(changeFPSB, &QPushButton::clicked, this, [&]()
@@ -385,10 +385,12 @@ void StreamWG::toggleRecord()
     }
 }
 
-void StreamWG::newFrame(IBLOB *bp)
+void StreamWG::newFrame(INDI::Property prop)
 {
+    auto bp = prop.getBLOB()->at(0);
+
     bool rc = (m_DebayerActive
-               && !strcmp(bp->format, ".stream")) ? videoFrame->newBayerFrame(bp, m_DebayerParams) : videoFrame->newFrame(bp);
+               && !strcmp(bp->getFormat(), ".stream")) ? videoFrame->newBayerFrame(bp, m_DebayerParams) : videoFrame->newFrame(bp);
 
     if (rc == false)
         qCWarning(KSTARS) << "Failed to load video frame.";

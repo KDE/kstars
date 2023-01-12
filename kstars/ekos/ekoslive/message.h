@@ -110,6 +110,7 @@ class Message : public QObject
 
         // Capture
         void sendCaptureSequence(const QJsonArray &sequenceArray);
+        void sendPreviewLabel(const QString &preview);
         void sendCaptureSettings(const QJsonObject &settings);
 
         // DSLR
@@ -126,12 +127,10 @@ class Message : public QObject
         void processDialogResponse(const QJsonObject &payload);
 
         // Process properties
-        void processNewNumber(INumberVectorProperty *nvp);
-        void processNewText(ITextVectorProperty *tvp);
-        void processNewSwitch(ISwitchVectorProperty *svp);
-        void processNewLight(ILightVectorProperty *lvp);
         void processNewProperty(INDI::Property prop);
-        void processDeleteProperty(const QString &device, const QString &name);
+        void processDeleteProperty(INDI::Property prop);
+        void processUpdateProperty(INDI::Property prop);
+
 
         // StellarSolver
         void sendStellarSolverProfiles();

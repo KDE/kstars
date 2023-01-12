@@ -85,6 +85,10 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
     };
 
+    // by default, we assume that no placeholders are used unless
+    // the corresponding tag is found
+    setCoreProperty(SJ_UsingPlaceholders, false);
+
     setFrameType(FRAME_NONE);
     setCoreProperty(SJ_Exposure, 0);
     /* Reset light frame presence flag before enumerating */
@@ -100,11 +104,21 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         {
             setCoreProperty(SJ_Exposure, atof(pcdataXMLEle(ep)));
         }
-        if (!strcmp(tagXMLEle(ep), "Format"))
+        else if (!strcmp(tagXMLEle(ep), "Format"))
         {
             setCoreProperty(SJ_Format, pcdataXMLEle(ep));
         }
-        if (!strcmp(tagXMLEle(ep), "Encoding"))
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
+        {
+            setCoreProperty(SJ_PlaceholderFormat, pcdataXMLEle(ep));
+            setCoreProperty(SJ_UsingPlaceholders, true);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
+        {
+            setCoreProperty(SJ_PlaceholderSuffix, pcdataXMLEle(ep));
+            setCoreProperty(SJ_UsingPlaceholders, true);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Encoding"))
         {
             setCoreProperty(SJ_Encoding, pcdataXMLEle(ep));
         }
@@ -127,7 +141,7 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         {
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
-                setCoreProperty(SJ_RawPrefix, QString(pcdataXMLEle(subEP)));
+                setCoreProperty(SJ_TargetName, QString(pcdataXMLEle(subEP)));
 
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
@@ -439,7 +453,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneSwitch)
                             oneSwitch->setState(static_cast<ISState>(j.value().toInt()));
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewSwitch(sp);
+                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewProperty(sp);
                 }
                 break;
                 case INDI_TEXT:
@@ -452,7 +466,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneText)
                             oneText->setText(j.value().toString().toLatin1().constData());
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewText(tp);
+                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewProperty(tp);
                 }
                 break;
                 case INDI_NUMBER:
@@ -465,7 +479,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneNumber)
                             oneNumber->setValue(j.value().toDouble());
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewNumber(np);
+                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewProperty(np);
                 }
                 break;
                 default:

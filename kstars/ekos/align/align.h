@@ -345,15 +345,10 @@ class Align : public QWidget, public Ui::Align
 
         /**
              * @brief Process updated device properties
-             * @param nvp pointer to updated property.
+             * @param prop INDI Property
              */
-        void processNumber(INumberVectorProperty *nvp);
+        void updateProperty(INDI::Property prop);
 
-        /**
-             * @brief Process updated device properties
-             * @param svp pointer to updated property.
-             */
-        void processSwitch(ISwitchVectorProperty *svp);
 
         /**
              * @brief Check CCD and make sure information is updated and FOV is re-calculated.

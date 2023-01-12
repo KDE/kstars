@@ -12,7 +12,6 @@
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/auxiliary/darkprocessor.h"
-#include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indicamera.h"
 #include "indi/indifocuser.h"
@@ -178,6 +177,12 @@ class Focus : public QWidget, public Ui::Focus
              * @return True if added successfully, false if duplicate or failed to add.
              */
         bool setFocuser(ISD::Focuser *device);
+
+        /**
+             * @brief reconnectFocuser Add focuser to the list of available focusers.
+             * @param focuser name of the focuser.
+             */
+        void reconnectFocuser(const QString &focuser);
 
         /**
              * @brief addFilter Add filter to the list of available filters.
@@ -349,16 +354,16 @@ class Focus : public QWidget, public Ui::Focus
         void processData(const QSharedPointer<FITSData> &data);
 
         /**
-             * @brief processFocusNumber Read focus number properties of interest as they arrive from the focuser driver and process them accordingly.
-             * @param nvp pointer to updated focuser number property.
+             * @brief updateProperty Read focus number properties of interest as they arrive from the focuser driver and process them accordingly.
+             * @param prop INDI Property
              */
-        void processFocusNumber(INumberVectorProperty *nvp);
+        void updateProperty(INDI::Property prop);
 
         /**
              * @brief processTemperatureSource Updates focus temperature source.
              * @param nvp pointer to updated focuser number property.
              */
-        void processTemperatureSource(INumberVectorProperty *nvp);
+        void processTemperatureSource(INDI::Property prop);
 
         /**
              * @brief setFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
@@ -532,6 +537,12 @@ class Focus : public QWidget, public Ui::Focus
          * @param title
          */
         void updateTitle(const QString &title, bool plot = true);
+
+        /**
+         * @brief focuserTimedout responding to requests
+         * @param focuser
+         */
+        void focuserTimedout(const QString &focuser);
 
     private:
 
@@ -870,7 +881,14 @@ class Focus : public QWidget, public Ui::Focus
 
         // Focus motion timer.
         QTimer m_FocusMotionTimer;
-        uint8_t m_FocusMotionTimerCounter {0};
+        uint8_t m_FocusMotionTimerCounter { 0 };
+
+        // Focuser reconnect counter
+        uint8_t m_FocuserReconnectCounter { 0 };
+
+        // Set m_DebugFocuser = true to simulate a focuser failure
+        bool m_DebugFocuser { false };
+        uint16_t m_DebugFocuserCounter { 0 };
 
         // Guide Suspend
         bool m_GuidingSuspended { false };

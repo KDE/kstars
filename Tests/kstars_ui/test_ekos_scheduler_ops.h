@@ -117,7 +117,7 @@ class TestEkosSchedulerOps : public QObject
             const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
             QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude = 30,
             const TestEkosSchedulerHelper::ScheduleSteps steps = {true, true, true, true}, bool enforceTwilight = true,
-            bool enforceHorizon = true);
+            bool enforceHorizon = true, int errorDelay = 0);
         void makeFitsFiles(const QString &base, int num);
 
         QSharedPointer<Ekos::Scheduler> scheduler;

@@ -400,7 +400,7 @@ void INDI_P::sendSwitch()
     updateStateLED();
 
     // Send it to server
-    pg->getDevice()->getClientManager()->sendNewSwitch(svp);
+    pg->getDevice()->getClientManager()->sendNewProperty(svp);
 }
 
 void INDI_P::sendText()
@@ -418,7 +418,7 @@ void INDI_P::sendText()
             for (auto &el : elementList)
                 el->updateTP();
 
-            pg->getDevice()->getClientManager()->sendNewText(tvp);
+            pg->getDevice()->getClientManager()->sendNewProperty(tvp);
 
             break;
         }
@@ -434,7 +434,7 @@ void INDI_P::sendText()
             for (auto &el : elementList)
                 el->updateNP();
 
-            pg->getDevice()->getClientManager()->sendNewNumber(nvp);
+            pg->getDevice()->getClientManager()->sendNewProperty(nvp);
             break;
         }
         default:

@@ -71,7 +71,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
     {
         IUResetSwitch(solverSwitch);
         enableSW->setState(ISS_ON);
-        m_RemoteAstrometry->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->sendNewProperty(solverSwitch);
     }
 
     // #PS: TODO
@@ -92,13 +92,10 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
     solverRunning = true;
 
-    m_RemoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->device, solverBLOB->name, timestamp());
+    m_RemoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB.getDeviceName(), solverBLOB.getName(),
+            timestamp());
 
-#if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
-#else
-    remoteAstrometry->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
-#endif
 
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
 
@@ -137,7 +134,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
             it.setText(solverArgs.join(" ").toLatin1().constData());
     }
 
-    m_RemoteAstrometry->sendNewText(solverSettings);
+    m_RemoteAstrometry->sendNewProperty(solverSettings);
     INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(m_RemoteAstrometry->getDeviceName());
     if (guiDevice)
         guiDevice->updateTextGUI(solverSettings);
@@ -162,7 +159,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     {
         solverSwitch->reset();
         enableSW->setState(ISS_ON);
-        m_RemoteAstrometry->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->sendNewProperty(solverSwitch);
         solverRunning = true;
         qCDebug(KSTARS_EKOS_ALIGN) << "Enabling remote solver...";
     }
@@ -170,7 +167,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     {
         solverSwitch->reset();
         disableSW->setState(ISS_ON);
-        m_RemoteAstrometry->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->sendNewProperty(solverSwitch);
         solverRunning = false;
         qCDebug(KSTARS_EKOS_ALIGN) << "Disabling remote solver...";
     }
@@ -198,7 +195,7 @@ bool RemoteAstrometryParser::setCCD(const QString &ccd)
         return true;
 
     activeCCD->setText(ccd.toLatin1().data());
-    m_RemoteAstrometry->sendNewText(activeDevices);
+    m_RemoteAstrometry->sendNewProperty(activeDevices);
 
     return true;
 }
@@ -218,7 +215,7 @@ bool RemoteAstrometryParser::stopSolver()
     {
         svp->reset();
         disableSW->setState(ISS_ON);
-        m_RemoteAstrometry->sendNewSwitch(svp);
+        m_RemoteAstrometry->sendNewProperty(svp);
     }
 
     solverRunning = false;
@@ -235,19 +232,19 @@ void RemoteAstrometryParser::setAstrometryDevice(const QSharedPointer<ISD::Gener
 
     m_RemoteAstrometry->disconnect(this);
 
-    connect(m_RemoteAstrometry.get(), &ISD::GenericDevice::switchUpdated, this, &RemoteAstrometryParser::checkStatus);
-    connect(m_RemoteAstrometry.get(), &ISD::GenericDevice::numberUpdated, this, &RemoteAstrometryParser::checkResults);
+    connect(m_RemoteAstrometry.get(), &ISD::GenericDevice::propertyUpdated, this, &RemoteAstrometryParser::checkStatus);
+    connect(m_RemoteAstrometry.get(), &ISD::GenericDevice::propertyUpdated, this, &RemoteAstrometryParser::checkResults);
 
     if (targetCCD.isEmpty() == false)
         setCCD(targetCCD);
 }
 
-void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)
+void RemoteAstrometryParser::checkStatus(INDI::Property prop)
 {
-    if (solverRunning == false || strcmp(svp->name, "ASTROMETRY_SOLVER"))
+    if (solverRunning == false || !prop.isNameMatch("ASTROMETRY_SOLVER"))
         return;
 
-    if (svp->s == IPS_ALERT)
+    if (prop.getState() == IPS_ALERT)
     {
         stopSolver();
         align->appendLogText(i18n("Solver failed. Try again."));
@@ -256,35 +253,38 @@ void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)
     }
     // In case the remote solver started solving by listening to ACTIVE_CCD BLOB remotely via snooping
     // then we need to start the timer.
-    else if (svp->s == IPS_BUSY)
+    else if (prop.getState() == IPS_BUSY)
     {
         solverTimer.restart();
     }
 }
 
-void RemoteAstrometryParser::checkResults(INumberVectorProperty *nvp)
+void RemoteAstrometryParser::checkResults(INDI::Property prop)
 {
-    if (solverRunning == false || strcmp(nvp->name, "ASTROMETRY_RESULTS") || nvp->s != IPS_OK)
+    if (solverRunning == false || !prop.isNameMatch("ASTROMETRY_RESULTS") || prop.getState() != IPS_OK)
         return;
 
     double pixscale, ra, de, orientation;
     pixscale = ra = de = orientation = -1000;
 
-    for (int i = 0; i < nvp->nnp; i++)
+    auto nvp = prop.getNumber();
+
+    for (int i = 0; i < nvp->count(); i++)
     {
-        if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_PIXSCALE"))
-            pixscale = nvp->np[i].value;
-        else if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_ORIENTATION"))
-            orientation = nvp->np[i].value;
-        else if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_RA"))
-            ra = nvp->np[i].value;
-        else if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_DE"))
-            de = nvp->np[i].value;
-        else if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_PARITY"))
+        auto value = nvp->at(i)->getValue();
+        if (nvp->at(i)->isNameMatch("ASTROMETRY_RESULTS_PIXSCALE"))
+            pixscale = value;
+        else if (nvp->at(i)->isNameMatch("ASTROMETRY_RESULTS_ORIENTATION"))
+            orientation = value;
+        else if (nvp->at(i)->isNameMatch("ASTROMETRY_RESULTS_RA"))
+            ra = value;
+        else if (nvp->at(i)->isNameMatch("ASTROMETRY_RESULTS_DE"))
+            de = value;
+        else if (nvp->at(i)->isNameMatch("ASTROMETRY_RESULTS_PARITY"))
         {
-            if (nvp->np[i].value == 1)
+            if (value == 1)
                 parity = FITSImage::POSITIVE;
-            else if (nvp->np[i].value == -1)
+            else if (value == -1)
                 parity = FITSImage::NEGATIVE;
         }
     }

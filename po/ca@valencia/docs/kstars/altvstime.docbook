@@ -47,7 +47,7 @@
 <para
 >Estes corbes mostren l'altitud dels objectes (angle sobre l'<link linkend="ai-horizon"
 >horitzó</link
->) en funció del temps. Quan una corba passa de la meitat inferior a la meitat superior, l'objecte haurà eixit, quan baixa altra vegada a la meitat inferior, este haurà arribat al seu ocàs. Per exemple, a la captura de pantalla, el planeta nan <firstterm
+>) en funció del temps. Quan una corba passa de la meitat inferior a la meitat superior, l'objecte haurà eixit, quan baixa altra vegada a la meitat inferior, este haurà arribat al seu ocàs. Per exemple, en la captura de pantalla, el planeta nan <firstterm
 >Quaoar</firstterm
 > està eixint aproximadament a les 15.00 hores en hora local i es pondrà al voltant de les 04.00 hores en hora local. </para>
 <para
@@ -61,7 +61,7 @@
 >Posta</guibutton
 > o <guibutton
 >Trànsit</guibutton
->. Quan es prem un d'estos botons, un cercle omplit de color estarà marcat a la corba. El color utilitzat per als punts de l'Eixida, Posta i Trànsit són: roig per a l'Eixida, blau per a la Posta i verd per al temps de Trànsit. Per a una manera més intuïtiva d'utilitzar estos botons, estan marcats amb el color dels seus punts específics. D'esta manera, l'usuari podrà entendre amb facilitat la representació gràfica i fer l'associació entre un determinat color i el seu significat. </para>
+>. Quan es prem un d'estos botons, un cercle omplit de color estarà marcat en la corba. El color utilitzat per als punts de l'Eixida, Posta i Trànsit són: roig per a l'Eixida, blau per a la Posta i verd per al temps de Trànsit. Per a una manera més intuïtiva d'utilitzar estos botons, estan marcats amb el color dels seus punts específics. D'esta manera, l'usuari podrà entendre amb facilitat la representació gràfica i fer l'associació entre un determinat color i el seu significat. </para>
 <para
 >L'eina altitud en funció del temps proporciona una manera fàcil d'esbrinar l'altitud d'un objecte celeste en un moment determinat de temps utilitzant el botó <guibutton
 >Calcula</guibutton

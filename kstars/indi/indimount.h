@@ -65,9 +65,9 @@ class Mount : public ConcreteDevice
         static const QList<const char *> mountStates;
 
         void registerProperty(INDI::Property prop) override;
-        void processSwitch(ISwitchVectorProperty *svp) override;
-        void processText(ITextVectorProperty *tvp) override;
-        void processNumber(INumberVectorProperty *nvp) override;
+        void processSwitch(INDI::Property prop) override;
+        void processText(INDI::Property prop) override;
+        void processNumber(INDI::Property prop) override;
 
         // Coordinates
         bool getEqCoords(double *ra, double *dec);

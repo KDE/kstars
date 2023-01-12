@@ -12,6 +12,7 @@
 
 #include "ekos/manager.h"
 #include "fitsviewer/fitsdata.h"
+#include "ekos/guide/guide.h"
 
 #include <cassert>
 #include <fitsio.h>
@@ -141,35 +142,35 @@ PHD2::PHD2()
         QTcpSocket::SocketState socketstate = tcpSocket->state();
         switch (socketstate)
         {
-        case QTcpSocket::UnconnectedState:
-            m_PHD2ReconnectCounter++;
-            if (m_PHD2ReconnectCounter > PHD2_RECONNECT_THRESHOLD)
-            {
-                stateTimer->stop();
-                emit newLog(i18n("Giving up reconnecting."));
-            }
-            else
-            {
-                emit newLog(i18n("Reconnecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
+            case QTcpSocket::UnconnectedState:
+                m_PHD2ReconnectCounter++;
+                if (m_PHD2ReconnectCounter > PHD2_RECONNECT_THRESHOLD)
+                {
+                    stateTimer->stop();
+                    emit newLog(i18n("Giving up reconnecting."));
+                }
+                else
+                {
+                    emit newLog(i18n("Reconnecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
 
-                connect(tcpSocket, &QTcpSocket::readyRead, this, &PHD2::readPHD2, Qt::UniqueConnection);
+                    connect(tcpSocket, &QTcpSocket::readyRead, this, &PHD2::readPHD2, Qt::UniqueConnection);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-                connect(tcpSocket, &QTcpSocket::errorOccurred, this, &PHD2::displayError, Qt::UniqueConnection);
+                    connect(tcpSocket, &QTcpSocket::errorOccurred, this, &PHD2::displayError, Qt::UniqueConnection);
 #else
-                connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
-                        SLOT(displayError(QAbstractSocket::SocketError)));
+                    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this,
+                            SLOT(displayError(QAbstractSocket::SocketError)));
 #endif
-                tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
-            }
-            break;
-        case QTcpSocket::ConnectedState:
-            m_PHD2ReconnectCounter = 0;
-            checkIfEquipmentConnected();
-            requestAppState();
-            break;
-        default:
-            qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: TCP connection state:" << socketstate;
-            break;
+                    tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
+                }
+                break;
+            case QTcpSocket::ConnectedState:
+                m_PHD2ReconnectCounter = 0;
+                checkIfEquipmentConnected();
+                requestAppState();
+                break;
+            default:
+                qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: TCP connection state:" << socketstate;
+                break;
         }
     });
 }

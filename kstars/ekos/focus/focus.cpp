@@ -96,6 +96,7 @@ Focus::Focus()
 
     // Focus motion timeout
     m_FocusMotionTimer.setInterval(focusMotionTimeout->value() * 1000);
+    m_FocusMotionTimer.setSingleShot(true);
     connect(&m_FocusMotionTimer, &QTimer::timeout, this, &Focus::handleFocusMotionTimeout);
 
     // Create an autofocus CSV file, dated at startup time
@@ -468,7 +469,7 @@ void Focus::checkTemperatureSource(const QString &name)
 
     // Disconnect all existing signals
     for (const auto &oneSource : m_TemperatureSources)
-        disconnect(oneSource.get(), &ISD::GenericDevice::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
+        disconnect(oneSource.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Focus::processTemperatureSource);
 
     if (findTemperatureElement(currentSource))
     {
@@ -479,29 +480,29 @@ void Focus::checkTemperatureSource(const QString &name)
     else
         m_LastSourceAutofocusTemperature = INVALID_VALUE;
 
-    connect(currentSource.get(), &ISD::GenericDevice::numberUpdated, this, &Ekos::Focus::processTemperatureSource,
+    connect(currentSource.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Focus::processTemperatureSource,
             Qt::UniqueConnection);
 }
 
 bool Focus::findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    INDI::Property *temperatureProperty = device->getProperty("FOCUS_TEMPERATURE");
+    auto temperatureProperty = device->getProperty("FOCUS_TEMPERATURE");
     if (!temperatureProperty)
         temperatureProperty = device->getProperty("CCD_TEMPERATURE");
     if (temperatureProperty)
     {
-        currentTemperatureSourceElement = temperatureProperty->getNumber()->at(0);
+        currentTemperatureSourceElement = temperatureProperty.getNumber()->at(0);
         return true;
     }
 
     temperatureProperty = device->getProperty("WEATHER_PARAMETERS");
     if (temperatureProperty)
     {
-        for (int i = 0; i < temperatureProperty->getNumber()->count(); i++)
+        for (int i = 0; i < temperatureProperty.getNumber()->count(); i++)
         {
-            if (strstr(temperatureProperty->getNumber()->at(i)->getName(), "_TEMPERATURE"))
+            if (strstr(temperatureProperty.getNumber()->at(i)->getName(), "_TEMPERATURE"))
             {
-                currentTemperatureSourceElement = temperatureProperty->getNumber()->at(i);
+                currentTemperatureSourceElement = temperatureProperty.getNumber()->at(i);
                 return true;
             }
         }
@@ -703,7 +704,7 @@ void Focus::checkFocuser()
         focusBacklash->setValue(0);
     }
 
-    connect(m_Focuser, &ISD::Focuser::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
+    connect(m_Focuser, &ISD::Focuser::propertyUpdated, this, &Ekos::Focus::updateProperty, Qt::UniqueConnection);
 
     resetButtons();
 }
@@ -779,10 +780,10 @@ void Focus::getAbsFocusPosition()
     }
 }
 
-void Focus::processTemperatureSource(INumberVectorProperty *nvp)
+void Focus::processTemperatureSource(INDI::Property prop)
 {
     double delta = 0;
-    if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp == nvp)
+    if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp->name == prop.getName())
     {
         if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
         {
@@ -928,6 +929,9 @@ void Focus::start()
     m_FocusMotionTimerCounter = 0;
     m_FocusMotionTimer.stop();
     m_FocusMotionTimer.setInterval(focusMotionTimeout->value() * 1000);
+
+    // Reset focuser reconnect counter
+    m_FocuserReconnectCounter = 0;
 
     starsHFR.clear();
 
@@ -1151,6 +1155,7 @@ void Focus::stop(Ekos::FocusState completionState)
     captureTimeout.stop();
     m_FocusMotionTimer.stop();
     m_FocusMotionTimerCounter = 0;
+    m_FocuserReconnectCounter = 0;
 
     opticalTrainCombo->setEnabled(true);
     inAutoFocus     = false;
@@ -1441,12 +1446,51 @@ bool Focus::changeFocus(int amount)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void Focus::handleFocusMotionTimeout()
 {
-    if (++m_FocusMotionTimerCounter > 3)
+    // handleFocusMotionTimeout is called when the focus motion timer times out. This is only
+    // relevant to AutoFocus runs.
+    // If set correctly, say 30 secs, this should only occur when there are comms issues
+    // with the focuser.
+    // Step 1: Just retry the last requested move. If the issue is a transient one-off issue
+    //         this should resolve it. Try this twice.
+    // Step 2: Step 1 didn't resolve the issue so try to restart the focus driver. In this case
+    //         abort the inflight autofocus run and let it retry from the start. It will try to
+    //         return the focuser to the start (last successful autofocus) position. Try twice.
+    // Step 3: Step 2 didn't work either because the driver restart wasn't successful or we are
+    //         still getting timeouts. In this case just stop the autoFocus process and return
+    //         control to either the Scheduer or GUI. Note that here we cannot reset the focuser
+    //         to the previous good position so if the focuser miraculously fixes itself the
+    //         next autofocus run won't start from the best place.
+
+    if (!inAutoFocus)
     {
-        appendLogText(i18n("Focuser is not responding to commands. Aborting..."));
-        completeFocusProcedure(Ekos::FOCUS_ABORTED);
+        qCDebug(KSTARS_EKOS_FOCUS) << "handleFocusMotionTimeout() called while not in AutoFocus";
         return;
     }
+
+    m_FocusMotionTimerCounter++;
+
+    if (m_FocusMotionTimerCounter > 4)
+    {
+        // We've tried everything but still get timeouts so abort...
+        appendLogText(i18n("Focuser is still timing out. Aborting..."));
+        stop(Ekos::FOCUS_ABORTED);
+        return;
+    }
+    else if (m_FocusMotionTimerCounter > 2)
+    {
+        QString focuser = m_Focuser->getDeviceName();
+        appendLogText(i18n("Focus motion timed out (%1). Restarting focus driver %2", m_FocusMotionTimerCounter, focuser));
+        emit focuserTimedout(focuser);
+
+        QTimer::singleShot(5000, this, [ &, focuser]()
+        {
+            Focus::reconnectFocuser(focuser);
+        });
+        return;
+    }
+
+    // We're about to try to move the focuser so restart the timer
+    m_FocusMotionTimer.start();
 
     const QString dirStr = m_LastFocusDirection == FOCUS_OUT ? i18n("outward") : i18n("inward");
     if (canAbsMove)
@@ -1466,6 +1510,32 @@ void Focus::handleFocusMotionTimeout()
         appendLogText(i18n("Focus motion timed out (%1). Focusing %3 by %2 ms...",
                            m_FocusMotionTimerCounter, m_LastFocusSteps, dirStr));
     }
+}
+
+void Focus::reconnectFocuser(const QString &focuser)
+{
+    m_FocuserReconnectCounter++;
+
+    if (m_Focuser && m_Focuser->getDeviceName() == focuser)
+    {
+        appendLogText(i18n("Attempting to reconnect focuser: %1", focuser));
+        refreshOpticalTrain();
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
+        return;
+    }
+
+    if (m_FocuserReconnectCounter > 12)
+    {
+        // We've waited a minute and can't reconnect the focuser so abort...
+        appendLogText(i18n("Cannot reconnect focuser: %1. Aborting...", focuser));
+        stop(Ekos::FOCUS_ABORTED);
+        return;
+    }
+
+    QTimer::singleShot(5000, this, [ &, focuser]()
+    {
+        reconnectFocuser(focuser);
+    });
 }
 
 void Focus::processData(const QSharedPointer<FITSData> &data)
@@ -1806,6 +1876,7 @@ void Focus::resetFocuser()
             currentPosition--;
 
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
+        m_FocusMotionTimer.start();
         m_Focuser->moveAbs(initialFocuserAbsPosition);
         /* Restart will be executed by the end-of-move notification from the device if needed by resetFocus */
     }
@@ -2937,27 +3008,37 @@ void Focus::autoFocusProcessPositionChange(IPState state)
     }
 }
 
-void Focus::processFocusNumber(INumberVectorProperty *nvp)
+void Focus::updateProperty(INDI::Property prop)
 {
-    if (m_Focuser == nullptr)
+    if (m_Focuser == nullptr || prop.getType() != INDI_NUMBER || prop.getDeviceName() != m_Focuser->getDeviceName())
         return;
 
-    // Return if it is not our current focuser
-    if (nvp->device != m_Focuser->getDeviceName())
-        return;
+    auto nvp = prop.getNumber();
 
     // Only process focus properties
-    if (QString(nvp->name).contains("focus", Qt::CaseInsensitive) == false)
+    if (QString(nvp->getName()).contains("focus", Qt::CaseInsensitive) == false)
         return;
 
-    if (!strcmp(nvp->name, "FOCUS_BACKLASH_STEPS"))
+    if (nvp->isNameMatch("FOCUS_BACKLASH_STEPS"))
     {
         focusBacklash->setValue(nvp->np[0].value);
         return;
     }
 
-    if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
+    if (nvp->isNameMatch("ABS_FOCUS_POSITION"))
     {
+        if (m_DebugFocuser)
+        {
+            // Simulate focuser comms issues every 5 moves
+            if (m_DebugFocuserCounter++ >= 5 && m_DebugFocuserCounter <= 1000)
+            {
+                if (m_DebugFocuserCounter == 1000)
+                    m_DebugFocuserCounter = 0;
+                appendLogText(i18n("Simulate focuser comms failure..."));
+                return;
+            }
+        }
+
         m_FocusMotionTimer.stop();
         INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
 
@@ -3048,7 +3129,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (canAbsMove)
         return;
 
-    if (!strcmp(nvp->name, "manualfocusdrive"))
+    if (nvp->isNameMatch("manualfocusdrive"))
     {
         m_FocusMotionTimer.stop();
 
@@ -3094,7 +3175,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         return;
     }
 
-    if (!strcmp(nvp->name, "REL_FOCUS_POSITION"))
+    if (nvp->isNameMatch("REL_FOCUS_POSITION"))
     {
         m_FocusMotionTimer.stop();
 
@@ -3146,7 +3227,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (canRelMove)
         return;
 
-    if (!strcmp(nvp->name, "FOCUS_TIMER"))
+    if (nvp->isNameMatch("FOCUS_TIMER"))
     {
         m_FocusMotionTimer.stop();
         // restart if focus movement has finished
@@ -4107,8 +4188,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -4121,8 +4200,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -4135,8 +4212,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -4149,8 +4224,6 @@ void Focus::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     m_GlobalSettings = m_Settings = settings;
@@ -4587,7 +4660,10 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
 void Focus::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Focus::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
+    connect(trainB, &QPushButton::clicked, this, [this]()
+    {
+        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+    });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain,

@@ -493,8 +493,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         static int timeHeuristics(const SchedulerJob *schedJob);
 
-        static void preloadSignature(SequenceJob &seqJob);
-
         void setAlgorithm(int alg);
         SchedulerAlgorithm getAlgorithm() const;
 

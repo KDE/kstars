@@ -4,16 +4,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "clientmanager.h"
+#include "blobmanager.h"
 
-#include "deviceinfo.h"
-#include "drivermanager.h"
-#include "guimanager.h"
-#include "indilistener.h"
-#include "Options.h"
-#include "servermanager.h"
+#include <basedevice.h>
 
-#include <indi_debug.h>
+#include "indi_debug.h"
 
 BlobManager::BlobManager(QObject *parent, const QString &host, int port, const QString &device,
                          const QString &prop) : QObject(parent), m_Device(device), m_Property(prop)
@@ -34,21 +29,20 @@ void BlobManager::serverDisconnected(int exit_code)
                          "Exit code:" << exit_code;
 }
 
-void BlobManager::newBLOB(IBLOB *bp)
+void BlobManager::updateProperty(INDI::Property prop)
 {
-    emit newINDIBLOB(bp);
+    if (prop.getType() == INDI_BLOB)
+        emit propertyUpdated(prop);
 }
 
-void BlobManager::newDevice(INDI::BaseDevice *device)
+void BlobManager::newDevice(INDI::BaseDevice device)
 {
     // Got out target device, let's now set to BLOB ONLY for the particular property we want
-    if (QString(device->getDeviceName()) == m_Device)
+    if (QString(device.getDeviceName()) == m_Device)
     {
         setBLOBMode(B_ONLY, m_Device.toLatin1().constData(), m_Property.toLatin1().constData());
         // enable Direct Blob Access for faster BLOB loading.
-#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 9 && INDI_VERSION_RELEASE >= 7
         enableDirectBlobAccess(m_Device.toLatin1().constData(), m_Property.toLatin1().constData());
-#endif
         emit connected();
     }
 }

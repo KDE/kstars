@@ -41,7 +41,7 @@
 </screenshot>
 
 <para
->El constructor de scripts és mostra't a la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
+>El constructor de scripts és mostra't en la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
 >Script actual</firstterm
 >; mostra el llistat d'ordres que abasten l'escriptura de tasques a este script. El quadro a la dreta és el <firstterm
 >Navegador de funcions</firstterm
@@ -61,7 +61,7 @@
 >Prova l'script</guibutton
 >. La funció d'estos botons hauria de resultar òbvia, a excepció potser de l'últim botó. El fet de prémer <guibutton
 >Prova l'script</guibutton
-> resultarà en l'intent d'executar l'script actual a la finestra principal de &kstars;. Abans de prémer haureu d'apartar la finestra del constructor de scripts per a poder veure els resultats. </para
+> resultarà en l'intent d'executar l'script actual en la finestra principal de &kstars;. Abans de prémer haureu d'apartar la finestra del constructor de scripts per a poder veure els resultats. </para
 ><para
 >En el centre de la finestra (entre les dues caixes superiors), hi ha una columna de botons que operen sobre les funcions individuals de l'script. De dalt a baix, són: <guibutton
 >Afig una funció</guibutton
@@ -144,7 +144,7 @@
 >.kstars</quote
 >, este sufix li serà afegit automàticament. Si sou curiós de mena, podeu examinar el fitxer de l'script amb qualsevol editor de text. </para
 ><para
->Ara que tenim l'script completat, podem executar-lo en un parell de maneres. Des d'un indicatiu a la consola, podeu senzillament executar l'script mentre una instància de &kstars; s'estiga executant actualment. De manera alternativa, també podeu executar l'script des de dintre de &kstars; emprant l'element de menú <menuchoice
+>Ara que tenim l'script completat, podem executar-lo en un parell de maneres. Des d'un indicatiu en la consola, podeu senzillament executar l'script mentre una instància de &kstars; s'estiga executant actualment. De manera alternativa, també podeu executar l'script des de dintre de &kstars; emprant l'element de menú <menuchoice
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem

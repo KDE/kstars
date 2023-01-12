@@ -62,8 +62,9 @@ class PlaceholderPath
          *
          * This overload of the function supports calls from the capture class
          */
-        QString generateFilename(const SequenceJob &job, const QString &targetName, bool local, const bool batch_mode, const int nextSequenceID,
-                                 const QString &extension, const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
+        QString generateFilename(const SequenceJob &job, const QString &targetName, bool local, const bool batch_mode,
+                                 const int nextSequenceID, const QString &extension, const QString &filename,
+                                 const bool glob = false, const bool gettingSignature = false) const;
 
         /**
          * @brief generateFilename performs the data for tag substituion in the filename
@@ -117,10 +118,20 @@ class PlaceholderPath
          */
         int checkSeqBoundary(const SequenceJob &job, const QString &targetName);
 
+        /**
+         * @brief defaultFormat provides a default format string
+         * @param useFilter whether to include the filter in the format string
+         * @param useExposure whether to include the exposure in the format string
+         * @param useTimestamp whether to include the timestamp in the format string
+         * @return the format string
+         */
+        static QString defaultFormat(bool useFilter, bool useExposure, bool useTimestamp);
+
     private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.
-        QString generateFilename(const QString &directory, const QString &format, uint formatSuffix, const QString &rawFilePrefix, const bool isDarkFlat, const QString &filter, const CCDFrameType &frameType,
-                                 const double exposure, const QString &targetName, const bool batch_mode, const int nextSequenceID, const QString &extension,
+        QString generateFilename(const QString &directory, const QString &format, uint formatSuffix, const QString &rawFilePrefix,
+                                 const bool isDarkFlat, const QString &filter, const CCDFrameType &frameType,
+                                 const double exposure, const bool batch_mode, const int nextSequenceID, const QString &extension,
                                  const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
 
         QString getFrameType(CCDFrameType frameType) const
@@ -138,7 +149,6 @@ class PlaceholderPath
         QString m_Directory;
         uint m_formatSuffix {3};
         bool m_tsEnabled { false };
-        QString m_RawPrefix;
         bool m_filterPrefixEnabled { false };
         bool m_expPrefixEnabled { false };
         bool m_DarkFlat {false};

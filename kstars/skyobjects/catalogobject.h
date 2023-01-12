@@ -27,7 +27,7 @@ struct Catalog;
 }
 
 /**
- * A simple container object to hold the minimum information for a Deeb
+ * A simple container object to hold the minimum information for a Deep
  * Sky Object to be drawn on the skymap.  Detailed information about the
  * object (like `Catalog` information) will be loaded from it's birthing
  * database when needed. Based on the original DeepSkyObject by Jason

@@ -82,8 +82,8 @@ class Dome : public ConcreteDevice
         } DomeMotionCommand;
 
 
-        void processSwitch(ISwitchVectorProperty *svp) override;
-        void processNumber(INumberVectorProperty *nvp) override;
+        void processSwitch(INDI::Property prop) override;
+        void processNumber(INDI::Property prop) override;
         void registerProperty(INDI::Property prop) override;
 
         Q_SCRIPTABLE bool canPark() const
@@ -170,7 +170,7 @@ class Dome : public ConcreteDevice
         static const QString getStatusString (Status status, bool translated = true);
 
         ShutterStatus shutterStatus();
-        ShutterStatus parseShutterStatus(ISwitchVectorProperty *svp);
+        ShutterStatus parseShutterStatus(INDI::Property prop);
 
         Q_SCRIPTABLE bool abort();
         Q_SCRIPTABLE bool park();

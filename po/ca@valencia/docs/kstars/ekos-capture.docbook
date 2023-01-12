@@ -230,9 +230,9 @@
                 <para
 >Una variable s'identifica pel caràcter %. Totes tenen una forma curta d'una sola lletra i una forma llarga autodescriptiva. </para>
                 <para
->Arbitary text may also be included within the Format string, <emphasis role="bold"
->except the % and \ characters.</emphasis
-> The / path character can be used to define aribtary directories. </para>
+>També es pot incloure text arbitrari en la cadena Format, <emphasis role="bold"
+>excepte els caràcters «%» i «\»</emphasis
+>. El caràcter «/» de camí es pot utilitzar per a definir directoris arbitraris. </para>
                 <para
 >Nota: les variables distingixen entre majúscules i minúscules tant en les seues formes curtes com llargues. </para>
                 <para
@@ -534,7 +534,7 @@
         </screenshot>
 
         <para
->Feu clic en la icona del filtre <inlinemediaobject
+>Feu clic damunt de la icona del filtre <inlinemediaobject
 ><imageobject
 ><imagedata fileref="view-filter.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -758,7 +758,7 @@
                             <para
 ><guilabel
 >Manual</guilabel
->: La duració és com s'especifica a la cua de seqüències.</para>
+>: La duració és com s'especifica en la cua de seqüències.</para>
                         </listitem>
                         <listitem>
                             <para

@@ -69,18 +69,15 @@ class INDIListener : public QObject
         }
 
     public slots:
+        void processDevice(DeviceInfo *dv);
+        void removeDevice(const QString &deviceName);
 
         void registerProperty(INDI::Property prop);
-        void removeProperty(const QString &device, const QString &name);
-        void processDevice(DeviceInfo *dv);
-        void processSwitch(ISwitchVectorProperty *svp);
-        void processText(ITextVectorProperty *tvp);
-        void processNumber(INumberVectorProperty *nvp);
-        void processLight(ILightVectorProperty *lvp);
-        void processBLOB(IBLOB *bp);
-        void processMessage(INDI::BaseDevice *dp, int messageID);
+        void updateProperty(INDI::Property prop);
+        void removeProperty(INDI::Property prop);
+
+        void processMessage(INDI::BaseDevice dp, int messageID);
         void processUniversalMessage(const QString &message);
-        void removeDevice(const QString &deviceName);
 
     private:
         explicit INDIListener(QObject *parent);

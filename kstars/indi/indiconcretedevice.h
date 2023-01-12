@@ -75,18 +75,8 @@ class ConcreteDevice : public GDInterface
         /** @return Return vector BLOB property given its name */
         INDI::PropertyView<IBLOB>   *getBLOB(const QString &name) const;
 
-        /** @brief Send new Text command to server */
-        void sendNewText(ITextVectorProperty *pp);
-        /** @brief Send new Text command to server */
-        void sendNewText(const char *deviceName, const char *propertyName, const char *elementName, const char *text);
-        /** @brief Send new Number command to server */
-        void sendNewNumber(INumberVectorProperty *pp);
-        /** @brief Send new Number command to server */
-        void sendNewNumber(const char *deviceName, const char *propertyName, const char *elementName, double value);
-        /** @brief Send new Switch command to server */
-        void sendNewSwitch(ISwitchVectorProperty *pp);
-        /** @brief Send new Switch command to server */
-        void sendNewSwitch(const char *deviceName, const char *propertyName, const char *elementName);
+        /** @brief Send new property command to server */
+        void sendNewProperty(INDI::Property prop);
 
         INDI::Property getProperty(const QString &name) const;
         Properties getProperties() const;
@@ -104,39 +94,19 @@ class ConcreteDevice : public GDInterface
         }
 
         // No implmenetation by default
-        virtual void registerProperty(INDI::Property prop) override
-        {
-            Q_UNUSED(prop)
-        }
-        virtual void removeProperty(const QString &name) override
-        {
-            Q_UNUSED(name)
-        }
-        virtual void processSwitch(ISwitchVectorProperty *svp) override
-        {
-            Q_UNUSED(svp)
-        }
-        virtual void processText(ITextVectorProperty *tvp) override
-        {
-            Q_UNUSED(tvp)
-        }
-        virtual void processNumber(INumberVectorProperty *nvp) override
-        {
-            Q_UNUSED(nvp)
-        }
-        virtual void processLight(ILightVectorProperty *lvp) override
-        {
-            Q_UNUSED(lvp)
-        }
-        virtual bool processBLOB(IBLOB *bp) override
-        {
-            Q_UNUSED(bp)
+        virtual void registerProperty(INDI::Property) override {}
+        virtual void removeProperty(INDI::Property) override {}
+        virtual void updateProperty(INDI::Property prop) override;
+
+        virtual void processSwitch(INDI::Property) override {}
+        virtual void processText(INDI::Property) override {}
+        virtual void processNumber(INDI::Property) override {}
+        virtual void processLight(INDI::Property) override {}
+        virtual bool processBLOB(INDI::Property) override
+        {            
             return false;
         }
-        virtual void processMessage(int messageID) override
-        {
-            Q_UNUSED(messageID)
-        }
+        virtual void processMessage(int) override {}
 
         /**
          * @brief Register all properties.
@@ -155,14 +125,8 @@ class ConcreteDevice : public GDInterface
 
         // Registeration
         void propertyDefined(INDI::Property prop);
-        void propertyDeleted(const QString &name);
-
-        // Updates
-        void switchUpdated(ISwitchVectorProperty *svp);
-        void textUpdated(ITextVectorProperty *tvp);
-        void numberUpdated(INumberVectorProperty *nvp);
-        void lightUpdated(ILightVectorProperty *lvp);
-        void BLOBUpdated(IBLOB *bp);
+        void propertyUpdated(INDI::Property prop);
+        void propertyDeleted(INDI::Property prop);        
 
         void ready();
 

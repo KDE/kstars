@@ -25,11 +25,12 @@ void Focuser::registerProperty(INDI::Property prop)
     ConcreteDevice::registerProperty(prop);
 }
 
-void Focuser::processNumber(INumberVectorProperty *nvp)
+void Focuser::processNumber(INDI::Property prop)
 {
-    if (!strcmp(nvp->name, "FOCUS_MAX"))
+    auto nvp = prop.getNumber();
+    if (prop.isNameMatch("FOCUS_MAX"))
     {
-        m_maxPosition = nvp->np[0].value;
+        m_maxPosition = nvp->at(0)->getValue();
     }
 }
 
@@ -51,7 +52,7 @@ bool Focuser::focusIn()
     focusProp->reset();
     inFocus->setState(ISS_ON);
 
-    sendNewSwitch(focusProp);
+    sendNewProperty(focusProp);
 
     return true;
 }
@@ -64,7 +65,7 @@ bool Focuser::stop()
         return false;
 
     focusStop->at(0)->setState(ISS_ON);
-    sendNewSwitch(focusStop);
+    sendNewProperty(focusStop);
 
     return true;
 }
@@ -87,7 +88,7 @@ bool Focuser::focusOut()
     focusProp->reset();
     outFocus->setState(ISS_ON);
 
-    sendNewSwitch(focusProp);
+    sendNewProperty(focusProp);
 
     return true;
 }
@@ -121,7 +122,7 @@ bool Focuser::moveByTimer(int msecs)
 
     focusProp->at(0)->setValue(msecs);
 
-    sendNewNumber(focusProp);
+    sendNewProperty(focusProp);
 
     return true;
 }
@@ -135,7 +136,7 @@ bool Focuser::moveAbs(int steps)
 
     focusProp->at(0)->setValue(steps);
 
-    sendNewNumber(focusProp);
+    sendNewProperty(focusProp);
 
     return true;
 }
@@ -160,7 +161,7 @@ bool Focuser::moveRel(int steps)
 
         FocusDirection dir;
         if (!getFocusDirection(&dir))
-                return false;
+            return false;
         if (dir == FOCUS_INWARD)
             steps = -abs(steps);
         else if (dir == FOCUS_OUTWARD)
@@ -187,7 +188,7 @@ bool Focuser::moveRel(int steps)
 
     focusProp->at(0)->setValue(steps);
 
-    sendNewNumber(focusProp);
+    sendNewProperty(focusProp);
 
     return true;
 }
@@ -241,7 +242,7 @@ bool Focuser::setMaxPosition(uint32_t steps)
         return false;
 
     focusProp->at(0)->setValue(steps);
-    sendNewNumber(focusProp);
+    sendNewProperty(focusProp);
 
     return true;
 }
@@ -264,7 +265,7 @@ bool Focuser::setBacklash(int32_t steps)
         focusToggle->reset();
         focusToggle->at(0)->setState(ISS_ON);
         focusToggle->at(1)->setState(ISS_OFF);
-        sendNewSwitch(focusToggle);
+        sendNewProperty(focusToggle);
     }
 
     auto focusProp = getNumber("FOCUS_BACKLASH_STEPS");
@@ -272,7 +273,7 @@ bool Focuser::setBacklash(int32_t steps)
         return false;
 
     focusProp->at(0)->setValue(steps);
-    sendNewNumber(focusProp);
+    sendNewProperty(focusProp);
 
     // If steps = 0, disable compensation
     if (steps == 0 && focusToggle->at(0)->getState() == ISS_ON)
@@ -280,7 +281,7 @@ bool Focuser::setBacklash(int32_t steps)
         focusToggle->reset();
         focusToggle->at(0)->setState(ISS_OFF);
         focusToggle->at(1)->setState(ISS_ON);
-        sendNewSwitch(focusToggle);
+        sendNewProperty(focusToggle);
     }
     return true;
 }

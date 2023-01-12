@@ -250,6 +250,13 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setText(i18n("Zoom To Fit"));
     connect(action, SIGNAL(triggered(bool)), SLOT(ZoomToFit()));
 
+    action = actionCollection()->addAction("mark_stars");
+    action->setIcon(QIcon::fromTheme("glstarbase", QIcon(":/icons/glstarbase.png")));
+    action->setText(i18n("Mark Stars"));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_A));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
+
 #ifdef HAVE_DATAVISUALIZATION
     action = actionCollection()->addAction("toggle_3D_graph");
     action->setIcon(QIcon::fromTheme("star_profile", QIcon(":/icons/star_profile.svg")));
@@ -258,9 +265,6 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(toggle3DGraph()));
 #endif
 
-    action = actionCollection()->addAction("mark_stars");
-    action->setText(i18n("Mark Stars"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
 
     int filterCounter = 1;
 
@@ -384,7 +388,13 @@ QString HFRStatusString(const QSharedPointer<FITSData> &data)
 QString HFRClipString(FITSView* view)
 {
     if (view->isClippingShown())
-        return QString("Clip:%1").arg(view->getNumClipped());
+    {
+        const int numClipped = view->getNumClipped();
+        if (numClipped < 0)
+            return QString("Clip:failed");
+        else
+            return QString("Clip:%1").arg(view->getNumClipped());
+    }
     return "";
 }
 }  // namespace

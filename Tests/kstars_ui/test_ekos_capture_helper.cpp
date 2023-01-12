@@ -58,7 +58,8 @@ bool TestEkosCaptureHelper::startCapturing(bool checkCapturing)
 bool TestEkosCaptureHelper::stopCapturing()
 {
     // check if capture is in a stopped state
-    if (getCaptureStatus() == Ekos::CAPTURE_IDLE || getCaptureStatus() == Ekos::CAPTURE_ABORTED || getCaptureStatus() == Ekos::CAPTURE_COMPLETE)
+    if (getCaptureStatus() == Ekos::CAPTURE_IDLE || getCaptureStatus() == Ekos::CAPTURE_ABORTED
+            || getCaptureStatus() == Ekos::CAPTURE_COMPLETE)
         return true;
 
     // switch to the capture module
@@ -140,7 +141,8 @@ QDir *TestEkosCaptureHelper::getImageLocation()
     return imageLocation;
 }
 
-bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory)
+bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory,
+        int delay)
 {
     if (sequence == "")
         return true;
@@ -149,10 +151,10 @@ bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequenc
     {
         KVERIFY_SUB(value.indexOf(":") > -1);
         QString filter = value.left(value.indexOf(":"));
-        int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
-        KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), filePrefixT, target);
+        int count      = value.right(value.length() - value.indexOf(":") - 1).toInt();
+        KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), targetNameT, target);
         if (count > 0)
-            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, 0, filter, fitsDirectory + "/%T/%F/%t_%T"));
+            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, delay, filter, fitsDirectory + "/%T/%F/%t_%T"));
         // ensure that no old values are present
         Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(target, filter), 0);
     }

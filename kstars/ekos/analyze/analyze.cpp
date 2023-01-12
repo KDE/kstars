@@ -317,7 +317,60 @@ class RmsFilter
         double filteredRMS { 0 };
 };
 
-Analyze::Analyze()
+bool Analyze::eventFilter(QObject *obj, QEvent *ev)
+{
+    // Quit if click wasn't on a QLineEdit.
+    if (qobject_cast<QLineEdit*>(obj) == nullptr)
+        return false;
+
+    // This filter only applies to single or double clicks.
+    if (ev->type() != QEvent::MouseButtonDblClick && ev->type() != QEvent::MouseButtonPress)
+        return false;
+
+    auto axisEntry = yAxisMap.find(obj);
+    if (axisEntry == yAxisMap.end())
+        return false;
+
+    const bool isRightClick = (ev->type() == QEvent::MouseButtonPress) &&
+                              (static_cast<QMouseEvent*>(ev)->button() == Qt::RightButton);
+    const bool isControlClick = (ev->type() == QEvent::MouseButtonPress) &&
+                                (static_cast<QMouseEvent*>(ev)->modifiers() &
+                                 Qt::KeyboardModifier::ControlModifier);
+    const bool isShiftClick = (ev->type() == QEvent::MouseButtonPress) &&
+                              (static_cast<QMouseEvent*>(ev)->modifiers() &
+                               Qt::KeyboardModifier::ShiftModifier);
+
+    if (ev->type() == QEvent::MouseButtonDblClick || isRightClick || isControlClick || isShiftClick)
+    {
+        startYAxisTool(axisEntry->first, axisEntry->second);
+        clickTimer.stop();
+        return true;
+    }
+    else if (ev->type() == QEvent::MouseButtonPress)
+    {
+        clickTimer.setSingleShot(true);
+        clickTimer.setInterval(250);
+        clickTimer.start();
+        m_ClickTimerInfo = axisEntry->second;
+        // Wait 0.25 seconds to see if this is a double click or just a single click.
+        connect(&clickTimer, &QTimer::timeout, this, [&]()
+        {
+            m_YAxisTool.reject();
+            if (m_ClickTimerInfo.checkBox && !m_ClickTimerInfo.checkBox->isChecked())
+            {
+                // Enable the graph.
+                m_ClickTimerInfo.checkBox->setChecked(true);
+                statsPlot->graph(m_ClickTimerInfo.graphIndex)->setVisible(true);
+                statsPlot->graph(m_ClickTimerInfo.graphIndex)->addToLegend();
+            }
+            userSetLeftAxis(m_ClickTimerInfo.axis);
+        });
+        return true;
+    }
+    return false;
+}
+
+Analyze::Analyze() : m_YAxisTool(this)
 {
     setupUi(this);
 
@@ -328,13 +381,32 @@ Analyze::Analyze()
 
     initInputSelection();
     initTimelinePlot();
+
     initStatsPlot();
+    connect(&m_YAxisTool, &YAxisTool::axisChanged, this, &Analyze::userChangedYAxis);
+    connect(&m_YAxisTool, &YAxisTool::leftAxisChanged, this, &Analyze::userSetLeftAxis);
+    connect(&m_YAxisTool, &YAxisTool::axisColorChanged, this, &Analyze::userSetAxisColor);
+    qApp->installEventFilter(this);
+
     initGraphicsPlot();
     fullWidthCB->setChecked(true);
     keepCurrentCB->setChecked(true);
     runtimeDisplay = true;
     fullWidthCB->setVisible(true);
     fullWidthCB->setDisabled(false);
+
+    // Initialize the checkboxes that allow the user to make (in)visible
+    // each of the 4 main displays in Analyze.
+    detailsCB->setChecked(true);
+    statsCB->setChecked(true);
+    graphsCB->setChecked(true);
+    timelineCB->setChecked(true);
+    setVisibility();
+    connect(timelineCB, &QCheckBox::stateChanged, this, &Analyze::setVisibility);
+    connect(graphsCB, &QCheckBox::stateChanged, this, &Analyze::setVisibility);
+    connect(statsCB, &QCheckBox::stateChanged, this, &Analyze::setVisibility);
+    connect(detailsCB, &QCheckBox::stateChanged, this, &Analyze::setVisibility);
+
     connect(fullWidthCB, &QCheckBox::toggled, [ = ](bool checked)
     {
         if (checked)
@@ -343,22 +415,31 @@ Analyze::Analyze()
 
     initStatsCheckboxes();
 
-    connect(zoomInB, &QPushButton::clicked, this, &Ekos::Analyze::zoomIn);
-    connect(zoomOutB, &QPushButton::clicked, this, &Ekos::Analyze::zoomOut);
-    connect(timelinePlot, &QCustomPlot::mousePress, this, &Ekos::Analyze::timelineMousePress);
-    connect(timelinePlot, &QCustomPlot::mouseDoubleClick, this, &Ekos::Analyze::timelineMouseDoubleClick);
-    connect(timelinePlot, &QCustomPlot::mouseWheel, this, &Ekos::Analyze::timelineMouseWheel);
-    connect(statsPlot, &QCustomPlot::mousePress, this, &Ekos::Analyze::statsMousePress);
-    connect(statsPlot, &QCustomPlot::mouseDoubleClick, this, &Ekos::Analyze::statsMouseDoubleClick);
-    connect(statsPlot, &QCustomPlot::mouseMove, this, &Ekos::Analyze::statsMouseMove);
-    connect(analyzeSB, &QScrollBar::valueChanged, this, &Ekos::Analyze::scroll);
+    connect(zoomInB, &QPushButton::clicked, this, &Analyze::zoomIn);
+    connect(zoomOutB, &QPushButton::clicked, this, &Analyze::zoomOut);
+    connect(timelinePlot, &QCustomPlot::mousePress, this, &Analyze::timelineMousePress);
+    connect(timelinePlot, &QCustomPlot::mouseDoubleClick, this, &Analyze::timelineMouseDoubleClick);
+    connect(timelinePlot, &QCustomPlot::mouseWheel, this, &Analyze::timelineMouseWheel);
+    connect(statsPlot, &QCustomPlot::mousePress, this, &Analyze::statsMousePress);
+    connect(statsPlot, &QCustomPlot::mouseDoubleClick, this, &Analyze::statsMouseDoubleClick);
+    connect(statsPlot, &QCustomPlot::mouseMove, this, &Analyze::statsMouseMove);
+    connect(analyzeSB, &QScrollBar::valueChanged, this, &Analyze::scroll);
     analyzeSB->setRange(0, MAX_SCROLL_VALUE);
-    connect(helpB, &QPushButton::clicked, this, &Ekos::Analyze::helpMessage);
-    connect(keepCurrentCB, &QCheckBox::stateChanged, this, &Ekos::Analyze::keepCurrent);
+    connect(helpB, &QPushButton::clicked, this, &Analyze::helpMessage);
+    connect(keepCurrentCB, &QCheckBox::stateChanged, this, &Analyze::keepCurrent);
 
-    setupKeyboardShortcuts(timelinePlot);
+    setupKeyboardShortcuts(this);
 
     reset();
+    replot();
+}
+
+void Analyze::setVisibility()
+{
+    detailsWidget->setVisible(detailsCB->isChecked());
+    statsGridWidget->setVisible(statsCB->isChecked());
+    timelinePlot->setVisible(timelineCB->isChecked());
+    statsPlot->setVisible(graphsCB->isChecked());
     replot();
 }
 
@@ -452,23 +533,28 @@ void Analyze::initInputSelection()
     });
 }
 
-void Analyze::setupKeyboardShortcuts(QCustomPlot *plot)
+void Analyze::setupKeyboardShortcuts(QWidget *plot)
 {
     // Shortcuts defined: https://doc.qt.io/archives/qt-4.8/qkeysequence.html#standard-shortcuts
     QShortcut *s = new QShortcut(QKeySequence(QKeySequence::ZoomIn), plot);
-    connect(s, &QShortcut::activated, this, &Ekos::Analyze::zoomIn);
+    connect(s, &QShortcut::activated, this, &Analyze::zoomIn);
     s = new QShortcut(QKeySequence(QKeySequence::ZoomOut), plot);
-    connect(s, &QShortcut::activated, this, &Ekos::Analyze::zoomOut);
+    connect(s, &QShortcut::activated, this, &Analyze::zoomOut);
+
     s = new QShortcut(QKeySequence(QKeySequence::MoveToNextChar), plot);
-    connect(s, &QShortcut::activated, this, &Ekos::Analyze::scrollRight);
+    connect(s, &QShortcut::activated, this, &Analyze::scrollRight);
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousChar), plot);
-    connect(s, &QShortcut::activated, this, &Ekos::Analyze::scrollLeft);
+    connect(s, &QShortcut::activated, this, &Analyze::scrollLeft);
+    s = new QShortcut(QKeySequence(QKeySequence::MoveToNextLine), plot);
+    connect(s, &QShortcut::activated, this, &Analyze::statsYZoomIn);
+    s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousLine), plot);
+    connect(s, &QShortcut::activated, this, &Analyze::statsYZoomOut);
     s = new QShortcut(QKeySequence("?"), plot);
-    connect(s, &QShortcut::activated, this, &Ekos::Analyze::helpMessage);
+    connect(s, &QShortcut::activated, this, &Analyze::helpMessage);
     s = new QShortcut(QKeySequence("h"), plot);
-    connect(s, &QShortcut::activated, this, &Ekos::Analyze::helpMessage);
+    connect(s, &QShortcut::activated, this, &Analyze::helpMessage);
     s = new QShortcut(QKeySequence(QKeySequence::HelpContents), plot);
-    connect(s, &QShortcut::activated, this, &Ekos::Analyze::helpMessage);
+    connect(s, &QShortcut::activated, this, &Analyze::helpMessage);
 }
 
 Analyze::~Analyze()
@@ -596,12 +682,6 @@ void Analyze::addGuideStatsInternal(double raDrift, double decDrift, double raPu
         skyBgMax = std::max(skyBackground, skyBgMax);
     if (!qIsNaN(numStars))
         numStarsMax = std::max(numStars, static_cast<double>(numStarsMax));
-
-    snrAxis->setRange(-1.05 * snrMax, std::max(10.0, 1.05 * snrMax));
-    medianAxis->setRange(-1.35 * medianMax, std::max(10.0, 1.35 * medianMax));
-    numCaptureStarsAxis->setRange(-1.45 * numCaptureStarsMax, std::max(10.0, 1.45 * numCaptureStarsMax));
-    skyBgAxis->setRange(0, std::max(10.0, 1.15 * skyBgMax));
-    numStarsAxis->setRange(0, std::max(10.0, 1.25 * numStarsMax));
 
     statsPlot->graph(SNR_GRAPH)->addData(time, snr);
     statsPlot->graph(NUMSTARS_GRAPH)->addData(time, numStars);
@@ -1285,12 +1365,25 @@ void Analyze::processTimelineClick(QMouseEvent *event, bool doubleClick)
 void Analyze::setStatsCursor(double time)
 {
     removeStatsCursor();
+
+    // Cursor on the stats graph.
     QCPItemLine *line = new QCPItemLine(statsPlot);
     line->setPen(QPen(Qt::darkGray, 1, Qt::SolidLine));
-    double top = statsPlot->yAxis->range().upper;
-    line->start->setCoords(time, 0);
+    const double top = statsPlot->yAxis->range().upper;
+    const double bottom = statsPlot->yAxis->range().lower;
+    line->start->setCoords(time, bottom);
     line->end->setCoords(time, top);
     statsCursor = line;
+
+    // Cursor on the timeline.
+    QCPItemLine *line2 = new QCPItemLine(timelinePlot);
+    line2->setPen(QPen(Qt::darkGray, 1, Qt::SolidLine));
+    const double top2 = timelinePlot->yAxis->range().upper;
+    const double bottom2 = timelinePlot->yAxis->range().lower;
+    line2->start->setCoords(time, bottom2);
+    line2->end->setCoords(time, top2);
+    timelineCursor = line2;
+
     cursorTimeOut->setText(QString("%1s").arg(time));
     cursorClockTimeOut->setText(QString("%1")
                                 .arg(clockTime(time).toString("hh:mm:ss")));
@@ -1303,6 +1396,11 @@ void Analyze::removeStatsCursor()
     if (statsCursor != nullptr)
         statsPlot->removeItem(statsCursor);
     statsCursor = nullptr;
+
+    if (timelineCursor != nullptr)
+        timelinePlot->removeItem(timelineCursor);
+    timelineCursor = nullptr;
+
     cursorTimeOut->setText("");
     cursorClockTimeOut->setText("");
     statsCursorTime = -1;
@@ -1313,11 +1411,7 @@ void Analyze::processStatsClick(QMouseEvent *event, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     double xval = statsPlot->xAxis->pixelToCoord(event->x());
-    if (event->button() == Qt::RightButton || event->modifiers() == Qt::ControlModifier)
-        // Resets the range. Replot will take care of ra/dec needing negative values.
-        statsPlot->yAxis->setRange(0, 5);
-    else
-        setStatsCursor(xval);
+    setStatsCursor(xval);
     replot();
 }
 
@@ -1333,10 +1427,13 @@ void Analyze::timelineMouseDoubleClick(QMouseEvent *event)
 
 void Analyze::statsMousePress(QMouseEvent *event)
 {
+    QCPAxis *yAxis = activeYAxis;
+    if (!yAxis) return;
+
     // If we're on the legend, adjust the y-axis.
     if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
     {
-        yAxisInitialPos = statsPlot->yAxis->pixelToCoord(event->y());
+        yAxisInitialPos = yAxis->pixelToCoord(event->y());
         return;
     }
     processStatsClick(event, false);
@@ -1350,13 +1447,18 @@ void Analyze::statsMouseDoubleClick(QMouseEvent *event)
 // Allow the user to click and hold, causing the cursor to move in real-time.
 void Analyze::statsMouseMove(QMouseEvent *event)
 {
+    QCPAxis *yAxis = activeYAxis;
+    if (!yAxis) return;
+
     // If we're on the legend, adjust the y-axis.
     if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
     {
-        auto range = statsPlot->yAxis->range();
-        double yDiff = yAxisInitialPos - statsPlot->yAxis->pixelToCoord(event->y());
-        statsPlot->yAxis->setRange(range.lower + yDiff, range.upper + yDiff);
+        auto range = yAxis->range();
+        double yDiff = yAxisInitialPos - yAxis->pixelToCoord(event->y());
+        yAxis->setRange(range.lower + yDiff, range.upper + yDiff);
         replot();
+        if (m_YAxisTool.isVisible() && m_YAxisTool.getAxis() == yAxis)
+            m_YAxisTool.replot(true);
         return;
     }
     processStatsClick(event, false);
@@ -1420,15 +1522,19 @@ void Analyze::replot(bool adjustSlider)
 
     statsPlot->xAxis->setRange(plotStart, plotStart + plotWidth);
 
-    // Don't reset the range if the user has changed it.
-    auto yRange = statsPlot->yAxis->range();
-    if ((yRange.lower == 0 || yRange.lower == -2) && (yRange.upper == 5))
+    // Rescale any automatic y-axes.
+    if (statsPlot->isVisible())
     {
-        // Only need negative numbers on the stats plot if we're plotting RA or DEC
-        if (raCB->isChecked() || decCB->isChecked() || raPulseCB->isChecked() || decPulseCB->isChecked())
-            statsPlot->yAxis->setRange(-2, 5);
-        else
-            statsPlot->yAxis->setRange(0, 5);
+        for (auto &pairs : yAxisMap)
+        {
+            const YAxisInfo &info = pairs.second;
+            if (statsPlot->graph(info.graphIndex)->visible() && info.rescale)
+            {
+                QCPAxis *axis = info.axis;
+                axis->rescale();
+                axis->scaleRange(1.1, axis->range().center());
+            }
+        }
     }
 
     dateTicker->setOffset(displayStartTime.toMSecsSinceEpoch() / 1000.0);
@@ -1436,7 +1542,44 @@ void Analyze::replot(bool adjustSlider)
     timelinePlot->replot();
     statsPlot->replot();
     graphicsPlot->replot();
+
+    if (activeYAxis != nullptr)
+    {
+        // Adjust the statsPlot padding to align statsPlot and timelinePlot.
+        const int widthDiff = statsPlot->axisRect()->width() - timelinePlot->axisRect()->width();
+        const int paddingSize = activeYAxis->padding();
+        constexpr int maxPadding = 100;
+        // Don't quite following why a positive difference should INCREASE padding, but it works.
+        const int newPad = std::min(maxPadding, std::max(0, paddingSize + widthDiff));
+        if (newPad != paddingSize)
+        {
+            activeYAxis->setPadding(newPad);
+            statsPlot->replot();
+        }
+    }
     updateStatsValues();
+}
+
+void Analyze::statsYZoom(double zoomAmount)
+{
+    auto axis = activeYAxis;
+    if (!axis) return;
+    auto range = axis->range();
+    const double halfDiff = (range.upper - range.lower) / 2.0;
+    const double middle = (range.upper + range.lower) / 2.0;
+    axis->setRange(QCPRange(middle - halfDiff * zoomAmount, middle + halfDiff * zoomAmount));
+    if (m_YAxisTool.isVisible() && m_YAxisTool.getAxis() == axis)
+        m_YAxisTool.replot(true);
+}
+void Analyze::statsYZoomIn()
+{
+    statsYZoom(0.80);
+    statsPlot->replot();
+}
+void Analyze::statsYZoomOut()
+{
+    statsYZoom(1.25);
+    statsPlot->replot();
 }
 
 namespace
@@ -1603,28 +1746,27 @@ void Analyze::zoomOut()
 
 namespace
 {
+
+void setupAxisDefaults(QCPAxis *axis)
+{
+    axis->setBasePen(QPen(Qt::white, 1));
+    axis->grid()->setPen(QPen(QColor(140, 140, 140, 140), 1, Qt::DotLine));
+    axis->grid()->setSubGridPen(QPen(QColor(40, 40, 40), 1, Qt::DotLine));
+    axis->grid()->setZeroLinePen(QPen(Qt::white, 1));
+    axis->setBasePen(QPen(Qt::white, 1));
+    axis->setTickPen(QPen(Qt::white, 1));
+    axis->setSubTickPen(QPen(Qt::white, 1));
+    axis->setTickLabelColor(Qt::white);
+    axis->setLabelColor(Qt::white);
+}
+
 // Generic initialization of a plot, applied to all plots in this tab.
 void initQCP(QCustomPlot *plot)
 {
     plot->setBackground(QBrush(Qt::black));
-    plot->xAxis->setBasePen(QPen(Qt::white, 1));
-    plot->yAxis->setBasePen(QPen(Qt::white, 1));
-    plot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140, 140), 1, Qt::DotLine));
-    plot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140, 140), 1, Qt::DotLine));
-    plot->xAxis->grid()->setSubGridPen(QPen(QColor(40, 40, 40), 1, Qt::DotLine));
-    plot->yAxis->grid()->setSubGridPen(QPen(QColor(40, 40, 40), 1, Qt::DotLine));
+    setupAxisDefaults(plot->yAxis);
+    setupAxisDefaults(plot->xAxis);
     plot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
-    plot->yAxis->grid()->setZeroLinePen(QPen(Qt::white, 1));
-    plot->xAxis->setBasePen(QPen(Qt::white, 1));
-    plot->yAxis->setBasePen(QPen(Qt::white, 1));
-    plot->xAxis->setTickPen(QPen(Qt::white, 1));
-    plot->yAxis->setTickPen(QPen(Qt::white, 1));
-    plot->xAxis->setSubTickPen(QPen(Qt::white, 1));
-    plot->yAxis->setSubTickPen(QPen(Qt::white, 1));
-    plot->xAxis->setTickLabelColor(Qt::white);
-    plot->yAxis->setTickLabelColor(Qt::white);
-    plot->xAxis->setLabelColor(Qt::white);
-    plot->yAxis->setLabelColor(Qt::white);
 }
 }  // namespace
 
@@ -1655,7 +1797,7 @@ void Analyze::toggleGraph(int graph_id, bool show)
     replot();
 }
 
-int Analyze::initGraph(QCustomPlot *plot, QCPAxis *yAxis, QCPGraph::LineStyle lineStyle,
+int Analyze::initGraph(QCustomPlot * plot, QCPAxis * yAxis, QCPGraph::LineStyle lineStyle,
                        const QColor &color, const QString &name)
 {
     int num = plot->graphCount();
@@ -1666,12 +1808,27 @@ int Analyze::initGraph(QCustomPlot *plot, QCPAxis *yAxis, QCPGraph::LineStyle li
     return num;
 }
 
-template <typename Func>
-int Analyze::initGraphAndCB(QCustomPlot *plot, QCPAxis *yAxis, QCPGraph::LineStyle lineStyle,
-                            const QColor &color, const QString &name, QCheckBox *cb, Func setCb)
-
+void Analyze::updateYAxisMap(QObject * key, const YAxisInfo &axisInfo)
 {
-    const int num = initGraph(plot, yAxis, lineStyle, color, name);
+    if (key == nullptr) return;
+    auto axisEntry = yAxisMap.find(key);
+    if (axisEntry == yAxisMap.end())
+        yAxisMap.insert(std::make_pair(key, axisInfo));
+    else
+        axisEntry->second = axisInfo;
+}
+
+template <typename Func>
+int Analyze::initGraphAndCB(QCustomPlot * plot, QCPAxis * yAxis, QCPGraph::LineStyle lineStyle,
+                            const QColor &color, const QString &name, const QString &shortName,
+                            QCheckBox * cb, Func setCb, QLineEdit * out)
+{
+    const int num = initGraph(plot, yAxis, lineStyle, color, shortName);
+    if (out != nullptr)
+    {
+        const bool autoAxis = YAxisInfo::isRescale(yAxis->range());
+        updateYAxisMap(out, YAxisInfo(yAxis, yAxis->range(), autoAxis, num, plot, cb, name, shortName, color));
+    }
     if (cb != nullptr)
     {
         // Don't call toggleGraph() here, as it's too early for replot().
@@ -1692,9 +1849,175 @@ int Analyze::initGraphAndCB(QCustomPlot *plot, QCPAxis *yAxis, QCPGraph::LineSty
     return num;
 }
 
+
+void Analyze::userSetAxisColor(QObject *key, const YAxisInfo &axisInfo, const QColor &color)
+{
+    updateYAxisMap(key, axisInfo);
+    statsPlot->graph(axisInfo.graphIndex)->setPen(QPen(color));
+    Options::setAnalyzeStatsYAxis(serializeYAxes());
+    replot();
+}
+
+void Analyze::userSetLeftAxis(QCPAxis *axis)
+{
+    setLeftAxis(axis);
+    Options::setAnalyzeStatsYAxis(serializeYAxes());
+    replot();
+}
+
+void Analyze::userChangedYAxis(QObject *key, const YAxisInfo &axisInfo)
+{
+    updateYAxisMap(key, axisInfo);
+    Options::setAnalyzeStatsYAxis(serializeYAxes());
+    replot();
+}
+
+// TODO: Doesn't seem like this is ever getting called. Not sure why not receiving the rangeChanged signal.
+void Analyze::yAxisRangeChanged(const QCPRange &newRange)
+{
+    Q_UNUSED(newRange);
+    if (m_YAxisTool.isVisible() && m_YAxisTool.getAxis() == activeYAxis)
+        m_YAxisTool.replot(true);
+}
+
+void Analyze::setLeftAxis(QCPAxis *axis)
+{
+    if (axis != nullptr && axis != activeYAxis)
+    {
+        for (const auto &pair : yAxisMap)
+        {
+            // Couldn't get this to compile in the new-style connect syntax.
+            disconnect(pair.second.axis, SIGNAL(QCPAxis::rangeChanged(QCPRange)),
+                       this, SLOT(Ekos::Analyze::yAxisRangeChanged(QCPRange)));
+            //disconnect(pair.second.axis, &QCPAxis::rangeChanged, this, &Analyze::yAxisRangeChanged);
+            pair.second.axis->setVisible(false);
+        }
+        axis->setVisible(true);
+        activeYAxis = axis;
+        statsPlot->axisRect()->setRangeZoomAxes(0, axis);
+
+        // Couldn't get this to compile in the new-style connect syntax.
+        connect(axis, SIGNAL(QCPAxis::rangeChanged(QCPRange)),
+                this, SLOT(Ekos::Analyze::yAxisRangeChanged(QCPRange)));
+        //connect(axis, &QCPAxis::rangeChanged, this, &Analyze::yAxisRangeChanged);
+    }
+}
+
+void Analyze::startYAxisTool(QObject * key, const YAxisInfo &info)
+{
+    if (info.checkBox && !info.checkBox->isChecked())
+    {
+        // Enable the graph.
+        info.checkBox->setChecked(true);
+        statsPlot->graph(info.graphIndex)->setVisible(true);
+        statsPlot->graph(info.graphIndex)->addToLegend();
+    }
+
+    m_YAxisTool.reset(key, info, info.axis == activeYAxis);
+    m_YAxisTool.show();
+}
+
+QCPAxis *Analyze::newStatsYAxis(const QString &label, double lower, double upper)
+{
+    QCPAxis *axis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0); // 0 means QCP creates the axis.
+    axis->setVisible(false);
+    axis->setRange(lower, upper);
+    axis->setLabel(label);
+    setupAxisDefaults(axis);
+    return axis;
+}
+
+bool Analyze::restoreYAxes(const QString &encoding)
+{
+    constexpr int headerSize = 2;
+    constexpr int itemSize = 5;
+    QVector<QStringRef> items = encoding.splitRef(',');
+    if (items.size() <= headerSize) return false;
+    if ((items.size() - headerSize) % itemSize != 0) return false;
+    if (items[0] != "AnalyzeStatsYAxis1.0") return false;
+
+    // Restore the active Y axis
+    const QString leftID = "left=";
+    if (!items[1].startsWith(leftID)) return false;
+    QStringRef left = items[1].mid(leftID.size());
+    if (left.size() <= 0) return false;
+    for (const auto &pair : yAxisMap)
+    {
+        if (pair.second.axis->label() == left)
+        {
+            setLeftAxis(pair.second.axis);
+            break;
+        }
+    }
+
+    // Restore the various upper/lower/rescale axis values.
+    for (int i = headerSize; i < items.size(); i += itemSize)
+    {
+        const QString shortName = items[i].toString();
+        const double lower = items[i + 1].toDouble();
+        const double upper = items[i + 2].toDouble();
+        const bool rescale = items[i + 3] == "T";
+        const QColor color(items[i + 4]);
+        for (auto &pair : yAxisMap)
+        {
+            auto &info = pair.second;
+            if (info.axis->label() == shortName)
+            {
+                info.color = color;
+                statsPlot->graph(info.graphIndex)->setPen(QPen(color));
+                info.rescale = rescale;
+                if (rescale)
+                    info.axis->setRange(
+                        QCPRange(YAxisInfo::LOWER_RESCALE,
+                                 YAxisInfo::UPPER_RESCALE));
+                else
+                    info.axis->setRange(QCPRange(lower, upper));
+                break;
+            }
+        }
+    }
+    return true;
+}
+
+// This would be sensitive to short names with commas in them, but we don't do that.
+QString Analyze::serializeYAxes()
+{
+    QString encoding = QString("AnalyzeStatsYAxis1.0,left=%1").arg(activeYAxis->label());
+    QList<QString> savedAxes;
+    for (const auto &pair : yAxisMap)
+    {
+        const YAxisInfo &info = pair.second;
+        const bool rescale = info.rescale;
+
+        // Only save if something has changed.
+        bool somethingChanged = (info.initialColor != info.color) ||
+                                (rescale != YAxisInfo::isRescale(info.initialRange)) ||
+                                (!rescale && info.axis->range() != info.initialRange);
+
+        if (!somethingChanged) continue;
+
+        // Don't save the same axis twice
+        if (savedAxes.contains(info.axis->label())) continue;
+
+        double lower = rescale ? YAxisInfo::LOWER_RESCALE : info.axis->range().lower;
+        double upper = rescale ? YAxisInfo::UPPER_RESCALE : info.axis->range().upper;
+        encoding.append(QString(",%1,%2,%3,%4,%5")
+                        .arg(info.axis->label()).arg(lower).arg(upper)
+                        .arg(info.rescale ? "T" : "F").arg(info.color.name()));
+        savedAxes.append(info.axis->label());
+    }
+    return encoding;
+}
+
 void Analyze::initStatsPlot()
 {
     initQCP(statsPlot);
+
+    // Setup the main y-axis
+    statsPlot->yAxis->setVisible(true);
+    statsPlot->yAxis->setLabel("RA/DEC");
+    statsPlot->yAxis->setRange(-2, 5);
+    setLeftAxis(statsPlot->yAxis);
 
     // Setup the legend
     statsPlot->legend->setVisible(true);
@@ -1709,9 +2032,10 @@ void Analyze::initStatsPlot()
     statsPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignTop);
 
     // Add the graphs.
-
-    HFR_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsStepRight, Qt::cyan, "HFR", hfrCB,
-                               Options::setAnalyzeHFR);
+    QString shortName = "HFR";
+    QCPAxis *hfrAxis = newStatsYAxis(shortName, -2, 6);
+    HFR_GRAPH = initGraphAndCB(statsPlot, hfrAxis, QCPGraph::lsStepRight, Qt::cyan, "Capture Image HFR", shortName, hfrCB,
+                               Options::setAnalyzeHFR, hfrOut);
     connect(hfrCB, &QCheckBox::clicked,
             [ = ](bool show)
     {
@@ -1723,11 +2047,11 @@ void Analyze::initStatsPlot()
                      "will have their HFRs computed."));
     });
 
-    numCaptureStarsAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    numCaptureStarsAxis->setVisible(false);
-    numCaptureStarsAxis->setRange(0, 1000);  // this will be reset.
-    NUM_CAPTURE_STARS_GRAPH = initGraphAndCB(statsPlot, numCaptureStarsAxis, QCPGraph::lsStepRight, Qt::darkGreen, "#SubStars",
-                              numCaptureStarsCB, Options::setAnalyzeNumCaptureStars);
+    shortName = "#SubStars";
+    QCPAxis *numCaptureStarsAxis = newStatsYAxis(shortName);
+    NUM_CAPTURE_STARS_GRAPH = initGraphAndCB(statsPlot, numCaptureStarsAxis, QCPGraph::lsStepRight, Qt::darkGreen,
+                              "#Stars in Capture", shortName,
+                              numCaptureStarsCB, Options::setAnalyzeNumCaptureStars, numCaptureStarsOut);
     connect(numCaptureStarsCB, &QCheckBox::clicked,
             [ = ](bool show)
     {
@@ -1739,106 +2063,93 @@ void Analyze::initStatsPlot()
                      "will have their stars detected."));
     });
 
-    medianAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    medianAxis->setVisible(false);
-    medianAxis->setRange(0, 1000);  // this will be reset.
-    MEDIAN_GRAPH = initGraphAndCB(statsPlot, medianAxis, QCPGraph::lsStepRight, Qt::darkGray, "median",
-                                  medianCB, Options::setAnalyzeMedian);
+    shortName = "median";
+    QCPAxis *medianAxis = newStatsYAxis(shortName);
+    MEDIAN_GRAPH = initGraphAndCB(statsPlot, medianAxis, QCPGraph::lsStepRight, Qt::darkGray, "Median Pixel", shortName,
+                                  medianCB, Options::setAnalyzeMedian, medianOut);
 
-    ECCENTRICITY_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsStepRight, Qt::darkMagenta, "ecc",
-                                        eccentricityCB, Options::setAnalyzeEccentricity);
+    shortName = "ecc";
+    QCPAxis *eccAxis = newStatsYAxis(shortName, 0, 1.0);
+    ECCENTRICITY_GRAPH = initGraphAndCB(statsPlot, eccAxis, QCPGraph::lsStepRight, Qt::darkMagenta, "Eccentricity",
+                                        shortName, eccentricityCB, Options::setAnalyzeEccentricity, eccentricityOut);
+    shortName = "#Stars";
+    QCPAxis *numStarsAxis = newStatsYAxis(shortName);
+    NUMSTARS_GRAPH = initGraphAndCB(statsPlot, numStarsAxis, QCPGraph::lsStepRight, Qt::magenta, "#Stars in Guide Image",
+                                    shortName, numStarsCB, Options::setAnalyzeNumStars, numStarsOut);
+    shortName = "SkyBG";
+    QCPAxis *skyBgAxis = newStatsYAxis(shortName);
+    SKYBG_GRAPH = initGraphAndCB(statsPlot, skyBgAxis, QCPGraph::lsStepRight, Qt::darkYellow, "Sky Background Brightness",
+                                 shortName, skyBgCB, Options::setAnalyzeSkyBg, skyBgOut);
 
-    numStarsAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    numStarsAxis->setVisible(false);
-    numStarsAxis->setRange(0, 15000);
-    NUMSTARS_GRAPH = initGraphAndCB(statsPlot, numStarsAxis, QCPGraph::lsStepRight, Qt::magenta, "#Stars", numStarsCB,
-                                    Options::setAnalyzeNumStars);
-
-    skyBgAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    skyBgAxis->setVisible(false);
-    skyBgAxis->setRange(0, 1000);
-    SKYBG_GRAPH = initGraphAndCB(statsPlot, skyBgAxis, QCPGraph::lsStepRight, Qt::darkYellow, "SkyBG", skyBgCB,
-                                 Options::setAnalyzeSkyBg);
-
-
-    temperatureAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    temperatureAxis->setVisible(false);
-    temperatureAxis->setRange(-40, 40);
-    TEMPERATURE_GRAPH = initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "temp", temperatureCB,
-                                       Options::setAnalyzeTemperature);
-
-    targetDistanceAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    targetDistanceAxis->setVisible(false);
-    targetDistanceAxis->setRange(0, 60);
+    shortName = "temp";
+    QCPAxis *temperatureAxis = newStatsYAxis(shortName, -40, 40);
+    TEMPERATURE_GRAPH = initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "Temperature", shortName,
+                                       temperatureCB, Options::setAnalyzeTemperature, temperatureOut);
+    shortName = "tDist";
+    QCPAxis *targetDistanceAxis = newStatsYAxis(shortName, 0, 60);
     TARGET_DISTANCE_GRAPH = initGraphAndCB(statsPlot, targetDistanceAxis, QCPGraph::lsLine,
                                            QColor(253, 185, 200),  // pink
-                                           "tDist", targetDistanceCB, Options::setAnalyzeTargetDistance);
-
-    snrAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    snrAxis->setVisible(false);
-    snrAxis->setRange(-100, 100);  // this will be reset.
-    SNR_GRAPH = initGraphAndCB(statsPlot, snrAxis, QCPGraph::lsLine, Qt::yellow, "SNR", snrCB, Options::setAnalyzeSNR);
-
+                                           "Distance to Target (arcsec)", shortName, targetDistanceCB, Options::setAnalyzeTargetDistance, targetDistanceOut);
+    shortName = "SNR";
+    QCPAxis *snrAxis = newStatsYAxis(shortName, -100, 100);
+    SNR_GRAPH = initGraphAndCB(statsPlot, snrAxis, QCPGraph::lsLine, Qt::yellow, "Guider SNR", shortName, snrCB,
+                               Options::setAnalyzeSNR, snrOut);
+    shortName = "RA";
     auto raColor = KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError");
-    RA_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, raColor, "RA", raCB, Options::setAnalyzeRA);
+    RA_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, raColor, "Guider RA Drift", shortName, raCB,
+                              Options::setAnalyzeRA, raOut);
+    shortName = "DEC";
     auto decColor = KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError");
-    DEC_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, decColor, "DEC", decCB, Options::setAnalyzeDEC);
-
-    QCPAxis *pulseAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    pulseAxis->setVisible(false);
-    // 150 is a typical value for pulse-ms/pixel
-    // This will roughtly co-incide with the -2,5 range for the ra/dec plots.
-    pulseAxis->setRange(-2 * 150, 5 * 150);
-
+    DEC_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, decColor, "Guider DEC Drift", shortName, decCB,
+                               Options::setAnalyzeDEC, decOut);
+    shortName = "RAp";
     auto raPulseColor = KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError");
     raPulseColor.setAlpha(75);
-    RA_PULSE_GRAPH = initGraphAndCB(statsPlot, pulseAxis, QCPGraph::lsLine, raPulseColor, "RAp", raPulseCB,
-                                    Options::setAnalyzeRAp);
+    QCPAxis *pulseAxis = newStatsYAxis(shortName, -2 * 150, 5 * 150);
+    RA_PULSE_GRAPH = initGraphAndCB(statsPlot, pulseAxis, QCPGraph::lsLine, raPulseColor, "RA Correction Pulse (ms)", shortName,
+                                    raPulseCB, Options::setAnalyzeRAp, raPulseOut);
     statsPlot->graph(RA_PULSE_GRAPH)->setBrush(QBrush(raPulseColor, Qt::Dense4Pattern));
 
+    shortName = "DECp";
     auto decPulseColor = KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError");
     decPulseColor.setAlpha(75);
-    DEC_PULSE_GRAPH = initGraphAndCB(statsPlot, pulseAxis, QCPGraph::lsLine, decPulseColor, "DECp", decPulseCB,
-                                     Options::setAnalyzeDECp);
+    DEC_PULSE_GRAPH = initGraphAndCB(statsPlot, pulseAxis, QCPGraph::lsLine, decPulseColor, "DEC Correction Pulse (ms)",
+                                     shortName, decPulseCB, Options::setAnalyzeDECp, decPulseOut);
     statsPlot->graph(DEC_PULSE_GRAPH)->setBrush(QBrush(decPulseColor, Qt::Dense4Pattern));
 
-    DRIFT_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::lightGray, "Drift", driftCB,
-                                 Options::setAnalyzeDrift);
-    RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red, "RMS", rmsCB, Options::setAnalyzeRMS);
-    CAPTURE_RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red, "RMSc", rmsCCB,
-                                       Options::setAnalyzeRMSC);
-
-    QCPAxis *mountRaDecAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    mountRaDecAxis->setVisible(false);
-    mountRaDecAxis->setRange(-10, 370);
+    shortName = "Drift";
+    DRIFT_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::lightGray, "Guider Instantaneous Drift",
+                                 shortName, driftCB, Options::setAnalyzeDrift, driftOut);
+    shortName = "RMS";
+    RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red, "Guider RMS Drift", shortName, rmsCB,
+                               Options::setAnalyzeRMS, rmsOut);
+    shortName = "RMSc";
+    CAPTURE_RMS_GRAPH = initGraphAndCB(statsPlot, statsPlot->yAxis, QCPGraph::lsLine, Qt::red,
+                                       "Guider RMS Drift (during capture)", shortName, rmsCCB,
+                                       Options::setAnalyzeRMSC, rmsCOut);
+    shortName = "MOUNT_RA";
+    QCPAxis *mountRaDecAxis = newStatsYAxis(shortName, -10, 370);
     // Colors of these two unimportant--not really plotted.
-    MOUNT_RA_GRAPH = initGraphAndCB(statsPlot, mountRaDecAxis, QCPGraph::lsLine, Qt::red, "MOUNT_RA", mountRaCB,
-                                    Options::setAnalyzeMountRA);
-    MOUNT_DEC_GRAPH = initGraphAndCB(statsPlot, mountRaDecAxis, QCPGraph::lsLine, Qt::red, "MOUNT_DEC", mountDecCB,
-                                     Options::setAnalyzeMountDEC);
-    MOUNT_HA_GRAPH = initGraphAndCB(statsPlot, mountRaDecAxis, QCPGraph::lsLine, Qt::red, "MOUNT_HA", mountHaCB,
-                                    Options::setAnalyzeMountHA);
-
-    QCPAxis *azAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    azAxis->setVisible(false);
-    azAxis->setRange(-10, 370);
-    AZ_GRAPH = initGraphAndCB(statsPlot, azAxis, QCPGraph::lsLine, Qt::darkGray, "AZ", azCB, Options::setAnalyzeAz);
-
-    QCPAxis *altAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    altAxis->setVisible(false);
-    altAxis->setRange(0, 90);
-    ALT_GRAPH = initGraphAndCB(statsPlot, altAxis, QCPGraph::lsLine, Qt::white, "ALT", altCB, Options::setAnalyzeAlt);
-
-    QCPAxis *pierSideAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
-    pierSideAxis->setVisible(false);
-    pierSideAxis->setRange(-2, 2);
-    PIER_SIDE_GRAPH = initGraphAndCB(statsPlot, pierSideAxis, QCPGraph::lsLine, Qt::darkRed, "PierSide", pierSideCB,
-                                     Options::setAnalyzePierSide);
-
-    // TODO: Should figure out the margin
-    // on the timeline plot, and setting this one accordingly.
-    // doesn't look like that's possible with current code, though.
-    statsPlot->yAxis->setPadding(50);
+    MOUNT_RA_GRAPH = initGraphAndCB(statsPlot, mountRaDecAxis, QCPGraph::lsLine, Qt::red, "Mount RA Degrees", shortName,
+                                    mountRaCB, Options::setAnalyzeMountRA, mountRaOut);
+    shortName = "MOUNT_DEC";
+    MOUNT_DEC_GRAPH = initGraphAndCB(statsPlot, mountRaDecAxis, QCPGraph::lsLine, Qt::red, "Mount DEC Degrees", shortName,
+                                     mountDecCB, Options::setAnalyzeMountDEC, mountDecOut);
+    shortName = "MOUNT_HA";
+    MOUNT_HA_GRAPH = initGraphAndCB(statsPlot, mountRaDecAxis, QCPGraph::lsLine, Qt::red, "Mount Hour Angle", shortName,
+                                    mountHaCB, Options::setAnalyzeMountHA, mountHaOut);
+    shortName = "AZ";
+    QCPAxis *azAxis = newStatsYAxis(shortName, -10, 370);
+    AZ_GRAPH = initGraphAndCB(statsPlot, azAxis, QCPGraph::lsLine, Qt::darkGray, "Mount Azimuth", shortName, azCB,
+                              Options::setAnalyzeAz, azOut);
+    shortName = "ALT";
+    QCPAxis *altAxis = newStatsYAxis(shortName, 0, 90);
+    ALT_GRAPH = initGraphAndCB(statsPlot, altAxis, QCPGraph::lsLine, Qt::white, "Mount Altitude", shortName, altCB,
+                               Options::setAnalyzeAlt, altOut);
+    shortName = "PierSide";
+    QCPAxis *pierSideAxis = newStatsYAxis(shortName, -2, 2);
+    PIER_SIDE_GRAPH = initGraphAndCB(statsPlot, pierSideAxis, QCPGraph::lsLine, Qt::darkRed, "Mount Pier Side", shortName,
+                                     pierSideCB, Options::setAnalyzePierSide, pierSideOut);
 
     // This makes mouseMove only get called when a button is pressed.
     statsPlot->setMouseTracking(false);
@@ -1850,7 +2161,8 @@ void Analyze::initStatsPlot()
 
     // Didn't include QCP::iRangeDrag as it  interacts poorly with the curson logic.
     statsPlot->setInteractions(QCP::iRangeZoom);
-    statsPlot->axisRect()->setRangeZoomAxes(0, statsPlot->yAxis);
+
+    restoreYAxes(Options::analyzeStatsYAxis());
 }
 
 // Clear the graphics and state when changing input data.
@@ -2095,7 +2407,7 @@ void Analyze::updateMaxX(double time)
 // This only happens with live data, not with data read from .analyze files.
 
 // Remove the graphic element.
-void Analyze::removeTemporarySession(Session *session)
+void Analyze::removeTemporarySession(Session * session)
 {
     if (session->rect != nullptr)
         timelinePlot->removeItem(session->rect);
@@ -2117,7 +2429,7 @@ void Analyze::removeTemporarySessions()
 }
 
 // Add a new temporary session.
-void Analyze::addTemporarySession(Session *session, double time, double duration,
+void Analyze::addTemporarySession(Session * session, double time, double duration,
                                   int y_offset, const QBrush &brush)
 {
     removeTemporarySession(session);
@@ -2132,7 +2444,7 @@ void Analyze::addTemporarySession(Session *session, double time, double duration
 // Extend a temporary session. That is, we don't know how long the session will last,
 // so when new data arrives (from any module, not necessarily the one with the temporary
 // session) we must extend that temporary session.
-void Analyze::adjustTemporarySession(Session *session)
+void Analyze::adjustTemporarySession(Session * session)
 {
     if (session->rect != nullptr && session->end < maxXValue)
     {

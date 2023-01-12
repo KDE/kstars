@@ -70,6 +70,8 @@ class SequenceJob : public QObject
             SJ_Offset,
             // QString
             SJ_LocalDirectory,
+            // Bool
+            SJ_UsingPlaceholders,
             // QString
             SJ_PlaceholderFormat,
             // Uint
@@ -84,8 +86,6 @@ class SequenceJob : public QObject
             SJ_ExpPrefixEnabled,
             // Bool
             SJ_TimeStampPrefixEnabled,
-            // QString
-            SJ_RawPrefix,
             // QString
             SJ_TargetName,
             // QString

@@ -28,22 +28,23 @@ DustCap::DustCap(GenericDevice *parent): ConcreteDevice(parent)
     QDBusConnection::sessionBus().registerObject(m_DBusObjectPath, this);
 }
 
-void DustCap::processSwitch(ISwitchVectorProperty *svp)
+void DustCap::processSwitch(INDI::Property prop)
 {
-    if (!strcmp(svp->name, "CAP_PARK"))
+    auto svp = prop.getSwitch();
+    if (svp->isNameMatch("CAP_PARK"))
     {
         Status currentStatus = CAP_ERROR;
         ParkStatus currentParkStatus = PARK_UNKNOWN;
 
-        switch (svp->s)
+        switch (svp->getState())
         {
             case IPS_IDLE:
-                if (svp->sp[0].s == ISS_ON)
+                if (svp->at(0)->getState() == ISS_ON)
                 {
                     currentStatus = CAP_PARKED;
                     currentParkStatus = PARK_PARKED;
                 }
-                else if (svp->sp[1].s == ISS_ON)
+                else if (svp->at(1)->getState() == ISS_ON)
                 {
                     currentStatus = CAP_IDLE;
                     currentParkStatus = PARK_UNPARKED;
@@ -51,7 +52,7 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
                 break;
 
             case IPS_OK:
-                if (svp->sp[0].s == ISS_ON)
+                if (svp->at(0)->getState() == ISS_ON)
                 {
                     currentStatus = CAP_PARKED;
                     currentParkStatus = PARK_PARKED;
@@ -64,7 +65,7 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
                 break;
 
             case IPS_BUSY:
-                if (svp->sp[0].s == ISS_ON)
+                if (svp->at(0)->getState() == ISS_ON)
                 {
                     currentStatus = CAP_PARKING;
                     currentParkStatus = PARK_PARKING;
@@ -136,7 +137,7 @@ bool DustCap::park()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    sendNewSwitch(parkSP);
+    sendNewProperty(parkSP);
 
     return true;
 }
@@ -153,7 +154,7 @@ bool DustCap::unpark()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    sendNewSwitch(parkSP);
+    sendNewProperty(parkSP);
 
     return true;
 }

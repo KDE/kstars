@@ -374,7 +374,7 @@ exit(0)
 >Planificador de mosaic</guilabel
 > en el Planificador d'Ekos crearà múltiples tasques del planificador basant-se en un objectiu central. Per a canviar al planificador, feu clic en el botó <guibutton
 >Planificador de mosaic</guibutton
-> en el Planificador d'Ekos o en la barra d'eines INDI de KStars, tal com s'il·lustra a la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
+> en el Planificador d'Ekos o en la barra d'eines INDI de KStars, tal com s'il·lustra en la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
         <orderedlist>
             <listitem>
                 <para

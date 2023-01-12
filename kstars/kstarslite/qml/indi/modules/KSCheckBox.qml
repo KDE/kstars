@@ -9,6 +9,6 @@ CheckBox {
     property Flow parentRow
 
     onClicked: {
-        parentRow.sendNewSwitch(switchName, null)
+        parentRow.sendNewProperty(switchName, null)
     }
 }

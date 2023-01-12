@@ -51,7 +51,7 @@ Flow {
         checkBox.enabled = enabled
     }
 
-    function sendNewSwitch(switchName, button) {
+    function sendNewProperty(switchName, button) {
         ClientManagerLite.sendNewINDISwitch(deviceName,propName,switchName)
         if(exclusive && button != null) {
             for(var i = 0; i < children.length; ++i) {

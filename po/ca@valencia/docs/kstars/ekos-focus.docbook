@@ -988,10 +988,10 @@
     <para
 >La pantalla d'enfocament mostra una finestra del visor FITS en el fotograma pres durant el procés d'enfocament. Mostra els valors d'<guilabel
 >Anell</guilabel
-> superposats a la imatge. Totes les estreles detectades per Ekos en funció dels paràmetres seleccionats, tenen el seu valor HFR al costat de l'estrela associada. </para>
+> superposats en la imatge. Totes les estreles detectades per Ekos en funció dels paràmetres seleccionats, tenen el seu valor HFR al costat de l'estrela associada. </para>
 
     <para
->La finestra admet les opcions següents del visor FITS (a la part superior de la finestra):</para>
+>La finestra admet les opcions següents del visor FITS (en la part superior de la finestra):</para>
 
     <itemizedlist>
       <listitem>
@@ -1290,7 +1290,7 @@
     <para
 >El coeficient de determinació, o R², es calcula per a donar una mesura de com coincidix la corba ajustada amb els punts de dades. Hi ha més informació disponible <ulink url="https://en.wikipedia.org/wiki/Coefficient_of_determination"
 >ací</ulink
->. Esta és una característica experimental disponible per a l'algorisme d'enfocament lineal d'1 pas. En essència, R² dona un valor entre 0 i 1, amb 1 significa un ajust perfecte on tots els punts de dades es troben a la corba, i 0 significa que no hi ha correlació entre els punts de dades i la corba. L'usuari hauria d'experimentar amb el seu equip per a veure quins valors es poden obtindre, però com a guia, un valor per damunt de 0,8 serà un bon ajust.</para>
+>. Esta és una característica experimental disponible per a l'algorisme d'enfocament lineal d'1 pas. En essència, R² dona un valor entre 0 i 1, amb 1 significa un ajust perfecte on tots els punts de dades es troben en la corba, i 0 significa que no hi ha correlació entre els punts de dades i la corba. L'usuari hauria d'experimentar amb el seu equip per a veure quins valors es poden obtindre, però com a guia, un valor per damunt de 0,8 serà un bon ajust.</para>
 
     <para
 >Hi ha una opció per a establir un «Límit R²» a la pestanya Configuració de la finestra Enfocament que es compara amb R² calculat una vegada s'ha completat l'execució d'enfocament automàtic. Si no s'ha aconseguit el valor límit, es tornarà a executar l'enfocament automàtic.</para>

@@ -1631,6 +1631,11 @@
          <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>
          <default>2</default>
       </entry>
+      <entry name="StartGuideDeviation" type="Double">
+         <label>Default maximum permittable guide deviation before capture start</label>
+         <whatsthis>If guide deviation exceeds this limit before capture start, starting an exposure will be suspended until the deviation is within this limit.</whatsthis>
+         <default>2</default>
+      </entry>
       <entry name="HFRDeviation" type="Double">
          <label>Default maximum permittable HFR deviation</label>
          <whatsthis>If HFR deviation exceeds this limit, the autofocus routine will be automatically started.</whatsthis>
@@ -1649,8 +1654,8 @@
          <label>Enforce guiding deviation limit.</label>
          <default>false</default>
       </entry>
-      <entry name="EnforceAutofocus" type="Bool">
-         <label>Enforce Autofocus HFR limit.</label>
+      <entry name="EnforceAutofocusHFR" type="Bool">
+         <label>Enforce Autofocus on HFR limit.</label>
          <default>false</default>
       </entry>
       <entry name="EnforceAutofocusOnTemperature" type="Bool">
@@ -1752,6 +1757,15 @@
          <label>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</label>
          <default>4</default>
       </entry>
+      <entry name="Clipping64KValue" type="UInt">
+         <label>Min value of pixels marked as clipped in the fitsviewer for 16-bit images.</label>
+         <default>60000</default>
+      </entry>
+      <entry name="Clipping256Value" type="UInt">
+         <label>Min value of pixels marked as clipped in the fitsviewer for 8-bit images.</label>
+         <default>250</default>
+      </entry>
+      
       <entry name="AdaptiveSampling" type="Bool">
          <label>Automatically down sample images based on available resources.</label>
          <default>true</default>
@@ -1771,7 +1785,7 @@
       <entry name="CaptureDirectory" type="String">
          <label>Path to capture directory to save images.</label>         
       </entry>
-      <entry name="PlaceholderFomat" type="String">
+      <entry name="PlaceholderFormat" type="String">
          <label>How to format captured image filename.</label>
          <default code="true">KSUtils::getDefaultPath("placeholderFormat")</default>
       </entry>
@@ -2477,7 +2491,7 @@
    <group name="Scheduler">
     <entry name="SchedulerAlgorithm" type="UInt">
       <label>Scheduler algorithm</label>
-      <default>0</default>
+      <default>1</default>
     </entry>
     <entry name="SchedulerLogging" type="Bool">
       <whatsthis>Log Ekos Scheduler Module activity.</whatsthis>
@@ -2763,6 +2777,9 @@
     <entry name="AnalyzePierSide" type="Bool">
       <whatsthis>Display PierSide on the Analyze Statistics Plot.</whatsthis>
       <default>false</default>
+    </entry>
+    <entry name="AnalyzeStatsYAxis" type="String">
+      <label>Stored Y-axis upper and lower limits for the Analyze Stats Plot.</label>
     </entry>
    </group>
    <group name="INDI Lite">

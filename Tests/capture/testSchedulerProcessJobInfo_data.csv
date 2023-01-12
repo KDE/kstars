@@ -1,14 +1,13 @@
-Exposure,Filter,Type,Prefix,RawPrefix,FilterEnabled,ExpEnabled,Format,targetName,signature
-,,,,,,,/home/pi_%s3,,/home/pi
-,,,,,,,/home/pi/ABC_%s3,,/home/pi/ABC
-,,Bias,,,,,/home/pi_%s3,,/home/pi
-,,Bias,,,,,/home/pi/%T_%s3,,/home/pi/Bias
-,,Bias,,,,,/home/pi/%T/%s4,,/home/pi/Bias/0001
-,H_Alpha,Light,,,,,/home/pi/%T/%F_%s3,,/home/pi/Light/H_Alpha
-,H_Alpha,Light,,,,,/home/pi/%t/%T/%F_%s3,M42,/home/pi/M42/Light/H_Alpha
-,H_Alpha,Light,,,,,/home/pi/%T/%T_%s6,,/home/pi/Light/Light
-1,,,,,,,/home/pi/%T/%t%e_%s3,,/home/pi/1_secs
-10,,Light,,,,,/home/pi/%T/%t%e_%s3,,/home/pi/Light/10_secs
-20,H_Alpha,Light,,,,,/home/pi/%T/%t_%e_%s3,M42,/home/pi/Light/M42_20_secs
-1,H_Alpha,Flat,,,,,/home/pi/New %target/%Type/%Filter/%T_%exposure_%S3,M42,/home/pi/New M42/Flat/H_Alpha/Flat_1_secs
-,,Light,,,,,/home/pi/%T/%Type_%Datetime_%S3,,/home/pi/Light/Light_\d\d\d\d-\d\d-\d\dT\d\d-\d\d-\d\d
+Exposure,Filter,Type,Prefix,RawPrefix,FilterEnabled,ExpEnabled,FITSDirectory,PlaceholderFormat,PlaceholderSuffix,targetName,signature
+,,,,,,,/home/pi,,3,,/home/pi
+,,,,,,,/home/pi/,ABC,3,,/home/pi/ABC
+,,Bias,,,,,/home/pi,,3,,/home/pi
+,,Bias,,,,,/home/pi,/%T,3,,/home/pi/Bias
+,H_Alpha,Light,,,,,/home/pi,/%T/%F,3,,/home/pi/Light/H_Alpha
+,H_Alpha,Light,,,,,/home/pi,/%t/%T/%F,3,M42,/home/pi/M42/Light/H_Alpha
+,H_Alpha,Light,,,,,/home/pi,/%T/%T,6,,/home/pi/Light/Light
+1,,,,,,,/home/pi/%T,/%t%e,3,,/home/pi/1_secs
+10,,Light,,,,,/home/pi,/%T/%t%e,3,,/home/pi/Light/10_secs
+20,H_Alpha,Light,,,,,/home/pi,/%T/%t_%e,3,M42,/home/pi/Light/M42_20_secs
+1,H_Alpha,Flat,,,,,/home/pi,/New %target/%Type/%Filter/%T_%exposure,3,M42,/home/pi/New M42/Flat/H_Alpha/Flat_1_secs
+,,Light,,,,,/home/pi,/%T/%Type_%Datetime,3,,/home/pi/Light/Light_\d\d\d\d-\d\d-\d\dT\d\d-\d\d-\d\d

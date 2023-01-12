@@ -16,15 +16,7 @@
 
 #include "ekos.h"
 #include "fitsviewer/summaryfitsview.h"
-#include "align/align.h"
-#include "capture/capture.h"
-#include "focus/focus.h"
-#include "guide/guide.h"
 #include "indi/indistd.h"
-#include "mount/mount.h"
-#include "observatory/observatory.h"
-#include "scheduler/scheduler.h"
-#include "analyze/analyze.h"
 #include "auxiliary/portselector.h"
 #include "ksnotification.h"
 #include "auxiliary/opslogs.h"
@@ -46,6 +38,7 @@ class Media;
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
+class OpsEkos;
 
 /**
  * @class Manager
@@ -69,6 +62,15 @@ class KPageWidgetItem;
  */
 namespace Ekos
 {
+
+class Analyze;
+class Capture;
+class Scheduler;
+class Focus;
+class Align;
+class Guide;
+class Mount;
+class Observatory;
 
 class Manager : public QDialog, public Ui::Manager
 {
@@ -101,9 +103,10 @@ class Manager : public QDialog, public Ui::Manager
         void initialize() {}
 
         void appendLogText(const QString &);
-        void setOptionsWidget(KPageWidgetItem *ops)
+        void setOptionsWidget(KPageWidgetItem *ops, OpsEkos *opsEkosPtr)
         {
             ekosOptionsWidget = ops;
+            opsEkos = opsEkosPtr;
         }
         void addObjectToScheduler(SkyObject *object);
 
@@ -367,15 +370,12 @@ class Manager : public QDialog, public Ui::Manager
         void cleanDevices(bool stopDrivers = true);
 
         void processNewDevice(const QSharedPointer<ISD::GenericDevice> &device);
-        void processNewProperty(INDI::Property);
-        void processDeleteProperty(const QString &name);
-        void setDeviceReady();
 
-        void processNewNumber(INumberVectorProperty *nvp);
-        void processNewText(ITextVectorProperty *tvp);
-        void processNewSwitch(ISwitchVectorProperty *svp);
-        void processNewLight(ILightVectorProperty *lvp);
-        void processNewBLOB(IBLOB *bvp);
+        void processNewProperty(INDI::Property);
+        void processUpdateProperty(INDI::Property);
+        void processDeleteProperty(INDI::Property);
+
+        void setDeviceReady();
 
         void restartDriver(const QString &deviceName);
 
@@ -408,7 +408,7 @@ class Manager : public QDialog, public Ui::Manager
 
         // Logs
         void updateDebugInterfaces();
-        void watchDebugProperty(ISwitchVectorProperty *svp);
+        void watchDebugProperty(INDI::Property prop);
 
         void addMount(ISD::Mount *device);
         void addCamera(ISD::Camera *device);
@@ -529,6 +529,7 @@ class Manager : public QDialog, public Ui::Manager
 
         QStringList m_LogText;
         KPageWidgetItem *ekosOptionsWidget { nullptr };
+        OpsEkos *opsEkos { nullptr };
 
         CommunicationStatus m_ekosStatus { Ekos::Idle };
         CommunicationStatus m_indiStatus { Ekos::Idle };

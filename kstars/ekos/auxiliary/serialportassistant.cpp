@@ -374,7 +374,7 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
         {
             // Set port in device and then save config
             devicePort->at(0)->setText(QString("/dev/%1").arg(rule["symlink"].toString()).toLatin1().constData());
-            m_CurrentDevice->sendNewText(devicePort);
+            m_CurrentDevice->sendNewProperty(devicePort);
             m_CurrentDevice->setConfig(SAVE_CONFIG);
             m_CurrentDevice->Connect();
         }

@@ -15,6 +15,7 @@
 #include "indi/indilistener.h"
 #include "hips/hipsfinder.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/guide/guide.h"
 #include "kspaths.h"
 #include "Options.h"
 
@@ -168,11 +169,14 @@ void Media::onTextReceived(const QString &message)
 
                 if (!centerImage.isNull())
                 {
+                    QString uuid = "hips_" + QUuid::createUuid().toString();
+                    uuid.remove(QRegularExpression("[-{}]"));
                     // Send everything as strings
                     QJsonObject metadata =
                     {
-                        {"uuid", "hips"},
+                        {"uuid", uuid},
                         {"name", name},
+                        {"zoom", zoom},
                         {"resolution", QString("%1x%2").arg(HIPS_TILE_WIDTH).arg(HIPS_TILE_HEIGHT)},
                         {"bin", "1x1"},
                         {"fov_w", QString::number(fov_w)},

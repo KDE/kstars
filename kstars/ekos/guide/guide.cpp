@@ -495,7 +495,7 @@ void Guide::checkCamera()
         return;
     }
 
-    connect(m_Camera, &ISD::Camera::numberUpdated, this, &Ekos::Guide::processCCDNumber, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::updateProperty, this, &Ekos::Guide::updateProperty, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
     syncCameraInfo();
@@ -1620,18 +1620,20 @@ void Guide::updateCCDBin(int index)
                                      settings["binx"].toInt(), settings["biny"].toInt());
 }
 
-void Guide::processCCDNumber(INumberVectorProperty *nvp)
+void Guide::updateProperty(INDI::Property prop)
 {
-    if (m_Camera == nullptr || (nvp->device != m_Camera->getDeviceName()) || guiderType != GUIDE_INTERNAL)
+    if (m_Camera == nullptr || (prop.getDeviceName() != m_Camera->getDeviceName()) || guiderType != GUIDE_INTERNAL)
         return;
 
-    if ((!strcmp(nvp->name, "CCD_BINNING") && useGuideHead == false) ||
-            (!strcmp(nvp->name, "GUIDER_BINNING") && useGuideHead))
+    if ((prop.isNameMatch("CCD_BINNING") && useGuideHead == false) ||
+            (prop.isNameMatch("GUIDER_BINNING") && useGuideHead))
     {
-        if (guideBinIndex > (nvp->np[0].value - 1)) // INDI driver reports not supported binning
+        auto nvp = prop.getNumber();
+        auto value = nvp->at(0)->getValue();
+        if (guideBinIndex > (value - 1)) // INDI driver reports not supported binning
         {
             appendLogText(i18n("%1x%1 guide binning is not supported.", guideBinIndex + 1));
-            guideBinning->setCurrentIndex( nvp->np[0].value - 1 );
+            guideBinning->setCurrentIndex( value - 1 );
             updateSetting("guideBinning", guideBinning->currentText());
         }
         else
@@ -3055,7 +3057,10 @@ bool Guide::syncControl(const QVariantMap &settings, const QString &key, QWidget
 void Guide::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Guide::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]() {OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());});
+    connect(trainB, &QPushButton::clicked, this, [this]()
+    {
+        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+    });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain,
@@ -3147,8 +3152,6 @@ void Guide::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_GUIDE) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -3161,8 +3164,6 @@ void Guide::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_GUIDE) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -3175,8 +3176,6 @@ void Guide::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_GUIDE) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -3189,8 +3188,6 @@ void Guide::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
-        else
-            qCDebug(KSTARS_EKOS_GUIDE) << "Option" << key << "not found!";
     }
 
     m_GlobalSettings = m_Settings = settings;

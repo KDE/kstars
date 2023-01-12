@@ -44,8 +44,8 @@ class RemoteAstrometryParser : public AstrometryParser
         bool setCCD(const QString &ccd);
 
     public slots:
-        void checkStatus(ISwitchVectorProperty *svp);
-        void checkResults(INumberVectorProperty *nvp);
+        void checkStatus(INDI::Property prop);
+        void checkResults(INDI::Property prop);
 
     private:
         QSharedPointer<ISD::GenericDevice> m_RemoteAstrometry;

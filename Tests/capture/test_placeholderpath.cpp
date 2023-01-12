@@ -83,7 +83,9 @@ XMLEle* buildXML(
     QString FilterEnabled,
     QString ExpEnabled,
     QString TimeStampEnabled,
-    QString FITSDirectory
+    QString FITSDirectory,
+    QString PlaceholderFormat,
+    QString PlaceholderSuffix
 )
 {
     XMLEle *root = nullptr;
@@ -139,6 +141,18 @@ XMLEle* buildXML(
         editXMLEle(ep, FITSDirectory.toStdString().c_str());
     }
 
+    if (!PlaceholderFormat.isEmpty())
+    {
+        ep = addXMLEle(root, "PlaceholderFormat");
+        editXMLEle(ep, PlaceholderFormat.toStdString().c_str());
+    }
+
+    if (!PlaceholderSuffix.isEmpty())
+    {
+        ep = addXMLEle(root, "PlaceholderSuffix");
+        editXMLEle(ep, PlaceholderSuffix.toStdString().c_str());
+    }
+
     return root;
 }
 
@@ -156,7 +170,9 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo_data()
         "RawPrefix",
         "FilterEnabled",
         "ExpEnabled",
-        "Format",
+        "FITSDirectory",
+        "PlaceholderFormat",
+        "PlaceholderSuffix",
         "targetName",
         "signature",
     };
@@ -181,7 +197,9 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo()
     QFETCH(QString, RawPrefix);
     QFETCH(QString, FilterEnabled);
     QFETCH(QString, ExpEnabled);
-    QFETCH(QString, Format);
+    QFETCH(QString, FITSDirectory);
+    QFETCH(QString, PlaceholderFormat);
+    QFETCH(QString, PlaceholderSuffix);
     QFETCH(QString, targetName);
     QFETCH(QString, signature);
 
@@ -194,7 +212,9 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo()
                        FilterEnabled,
                        ExpEnabled,
                        "",
-                       Format);
+                       FITSDirectory,
+                       PlaceholderFormat,
+                       PlaceholderSuffix);
 
     Ekos::SequenceJob job(root);
     auto placeholderPath = Ekos::PlaceholderPath();
@@ -444,7 +464,9 @@ void TestPlaceholderPath::testFlexibleNaming_data()
         "targetName",
         "batch_mode",
         "nextSequenceID",
-        "format",
+        "FITSDirectory",
+        "PlaceholderFormat",
+        "PlaceholderSuffix",
         "result",
     };
     for (const auto &column : columns)
@@ -452,7 +474,7 @@ void TestPlaceholderPath::testFlexibleNaming_data()
         QTest::addColumn<QString>(column);
     }
     QTest::addRow("f")  << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" <<
-                        "1" << "" << "/%f"  << "^/100x30s_RGB\\.fits$";
+                        "1" << "" << "" << "/%f" << "1"  << "^/100x30s_RGB_0\\.fits$";
     // %p & %d tags disabled for simplicity
     //    QTest::addRow("p")  << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" <<
     //                        "1" << "" << "%p"  << "^/home/user/Images/NGC7635\\.fits$";
@@ -476,32 +498,30 @@ void TestPlaceholderPath::testFlexibleNaming_data()
     //                        "1" << "" << "%d4" << "^home\\.fits$";
 
     QTest::addRow("t")  << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << "target" << "" << ""
-                        << "%t"  << "^/tmp/kstars/target\\.fits$";
+                        << "" << "%t" << "1"  << "^/tmp/kstars/target_0\\.fits$";
     QTest::addRow("T")  << ""      << ""      << "Light" << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << ""
-                        << "%T"  << "^/tmp/kstars/Light\\.fits$";
-    QTest::addRow("F")  << ""      << "H_Alpha" << ""      << "prefix" << "" << "1" << ""  << ""  << "" << ""       << "" << ""
-                        << "%F"  << "^/tmp/kstars/H_Alpha\\.fits$";
+                        << "" << "%T" << "1"  << "^/tmp/kstars/Light_0\\.fits$";
+    QTest::addRow("F")  << ""      << "H_Alpha" << "" << "prefix" << "" << "1" << ""  << ""  << "" << ""       << "" << ""
+                        << "" << "%F" << "1"  << "^/tmp/kstars/H_Alpha_0\\.fits$";
     QTest::addRow("e")  << "0.001" << ""      << ""      << "prefix" << "" << ""  << "1" << ""  << "" << ""       << "" << ""
-                        << "%e"  << "^/tmp/kstars/0.001_secs\\.fits$";
+                        << "" << "%e" << "1"  << "^/tmp/kstars/0.001_secs_0\\.fits$";
     QTest::addRow("D")  << ""      << ""      << ""      << "prefix" << "" << ""  << ""  << "1" << "" << ""       << "" << ""
-                        << "%D"  << "^/tmp/kstars/\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}\\.fits$";
-    QTest::addRow("s")  << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1"
-                        << "%s"  << "^/tmp/kstars/1\\.fits$";
+                        << "" << "%D" << "1"  << "^/tmp/kstars/\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}_0\\.fits$";
     QTest::addRow("s1") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1"
-                        << "%s1" << "^/tmp/kstars/1\\.fits$";
+                        << "" << "" << "1" << "^/tmp/kstars/_1\\.fits$";
     QTest::addRow("s2") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1"
-                        << "%s2" << "^/tmp/kstars/01\\.fits$";
+                        << "" << "" << "2" << "^/tmp/kstars/_01\\.fits$";
     QTest::addRow("s3") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1"
-                        << "%s3" << "^/tmp/kstars/001\\.fits$";
+                        << "" << "" << "3" << "^/tmp/kstars/_001\\.fits$";
     QTest::addRow("s4") << ""      << ""      << ""      << ""       << "" << ""  << ""  << ""  << "" << ""       << "" << "1"
-                        << "%s4" << "^/tmp/kstars/0001\\.fits$";
+                        << "" << "" << "4" << "^/tmp/kstars/_0001\\.fits$";
 
-    QTest::addRow("_s") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "1" << "_%s" <<
+    QTest::addRow("_s") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "1" << "" << "" << "1" <<
                         "^/tmp/kstars/_1\\.fits$";
-    QTest::addRow("unknown1") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%b" <<
-                              "^/tmp/kstars/%b\\.fits$";
-    QTest::addRow("unknown2") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%f_%a_%t" <<
-                              "^/tmp/kstars/%a_\\.fits$";
+    QTest::addRow("unknown1") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%b" << "" <<
+                              "^/tmp/kstars/%b_0\\.fits$";
+    QTest::addRow("unknown2") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%f_%a_%t" << "" <<
+                              "^/tmp/kstars/%a_0\\.fits$";
 
     parseCSV("testFlexibleNaming_data_small.csv", columns);
 
@@ -525,7 +545,9 @@ void TestPlaceholderPath::testFlexibleNaming()
     QFETCH(QString, targetName);
     QFETCH(QString, batch_mode);
     QFETCH(QString, nextSequenceID);
-    QFETCH(QString, format);
+    QFETCH(QString, FITSDirectory);
+    QFETCH(QString, PlaceholderFormat);
+    QFETCH(QString, PlaceholderSuffix);
     QFETCH(QString, result);
 
     XMLEle *root = buildXML(
@@ -537,7 +559,9 @@ void TestPlaceholderPath::testFlexibleNaming()
                        FilterEnabled,
                        ExpEnabled,
                        TimeStampEnabled,
-                       format);
+                       FITSDirectory,
+                       PlaceholderFormat,
+                       PlaceholderSuffix);
 
     Ekos::SequenceJob job(root);
     auto placeholderPath = Ekos::PlaceholderPath(seqFilename);
@@ -564,23 +588,21 @@ void TestPlaceholderPath::testFlexibleNamingGlob_data()
     {
         "TimeStampEnabled",
         "nextSequenceID",
-        "format",
+        "FITSDirectory",
+        "PlaceholderFormat",
+        "PlaceholderSuffix",
         "result",
     };
     for (const auto &column : columns)
     {
         QTest::addColumn<QString>(column);
     }
-    QTest::addRow("D")  << "1" << ""  << "%D"  << "/tmp/kstars/\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d.fits";
-    QTest::addRow("s_D")  << "1" << ""  << "%D_%s"  <<
+    QTest::addRow("D")  << "1" << "" << "" << "%D" << "1" <<
                           "/tmp/kstars/\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d_(?<id>\\d+).fits";
-    QTest::addRow("s")  << ""  << "1" << "%s"  << "/tmp/kstars/(?<id>\\d+).fits";
-    QTest::addRow("s1") << ""  << "1" << "%s1" << "/tmp/kstars/(?<id>\\d+).fits";
-    QTest::addRow("s2") << ""  << "1" << "%s2" << "/tmp/kstars/(?<id>\\d+).fits";
-    QTest::addRow("s3") << ""  << "1" << "%s3" << "/tmp/kstars/(?<id>\\d+).fits";
-    QTest::addRow("s4") << ""  << "1" << "%s4" << "/tmp/kstars/(?<id>\\d+).fits";
-
-    QTest::addRow("_s") << ""  << "1" << "_%s" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s1") << ""  << "1" << "" << "" << "1" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s2") << ""  << "1" << "" << "" << "2" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s3") << ""  << "1" << "" << "" << "3" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s4") << ""  << "1" << "" << "" << "4" << "/tmp/kstars/_(?<id>\\d+).fits";
 #endif
 }
 
@@ -591,7 +613,9 @@ void TestPlaceholderPath::testFlexibleNamingGlob()
 #else
     QFETCH(QString, TimeStampEnabled);
     QFETCH(QString, nextSequenceID);
-    QFETCH(QString, format);
+    QFETCH(QString, FITSDirectory);
+    QFETCH(QString, PlaceholderFormat);
+    QFETCH(QString, PlaceholderSuffix);
     QFETCH(QString, result);
 
     XMLEle *root = buildXML(
@@ -603,18 +627,20 @@ void TestPlaceholderPath::testFlexibleNamingGlob()
                        "",
                        "",
                        TimeStampEnabled,
-                       format);
+                       FITSDirectory,
+                       PlaceholderFormat,
+                       PlaceholderSuffix);
 
     Ekos::SequenceJob job(root);
     auto placeholderPath = Ekos::PlaceholderPath("");
     bool bm = false;
     int i = nextSequenceID.toInt();
     QString filename = placeholderPath.generateFilename(job, "", true, bm, i, ".fits", "", true);
-    QCOMPARE(result, filename);
+    QCOMPARE(filename, result);
     job.setCoreProperty(SequenceJob::SJ_TargetName, "");
     placeholderPath.setGenerateFilenameSettings(job);
     filename = placeholderPath.generateFilename(bm, i, ".fits", "", true);
-    QCOMPARE(result, filename);
+    QCOMPARE(filename, result);
 #endif
 }
 
@@ -661,7 +687,8 @@ void TestPlaceholderPath::testGetCompletedFileIds_data()
         "TimeStampEnabled",
         "seqFilename",
         "targetName",
-        "format",
+        "PlaceholderFormat",
+        "PlaceholderSuffix"
     };
     for (const auto &column : columns)
     {
@@ -670,17 +697,17 @@ void TestPlaceholderPath::testGetCompletedFileIds_data()
 
     // tags %d & %p disabled for simplicity
     //    QTest::addRow("f1") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
-    //                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "%p1/%t/%T/%F/%t_%T_%F_%e_%D_%s3";
+    //                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "%p1/%t/%T/%F/%t_%T_%F_%e_%D" << "3";
     //    QTest::addRow("f2") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
-    //                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "%p1/%t/%T/%F/%D_%s3_%t_%T_%F_%e";
+    //                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "%p1/%t/%T/%F/%D_%t_%T_%F_%e" << "3";
     //    QTest::addRow("f3") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "0" <<
-    //                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "%p1/%t/%T/%F/%s3_%t_%T_%F_%e";
+    //                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "%p1/%t/%T/%F/%t_%T_%F_%e << "3"";
     QTest::addRow("f1") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
-                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%t_%T_%F_%e_%D_%s3";
+                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%t_%T_%F_%e_%D" << "3";
     QTest::addRow("f2") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
-                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%D_%s3_%t_%T_%F_%e";
-    QTest::addRow("f3") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "0" <<
-                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%s3_%t_%T_%F_%e";
+                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%D_%t_%T_%F_%e" << "3";
+    QTest::addRow("f3") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
+                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%t_%T_%e_%F" << "3";
 #endif
 }
 
@@ -699,7 +726,9 @@ void TestPlaceholderPath::testGetCompletedFileIds()
     QFETCH(QString, TimeStampEnabled);
     QFETCH(QString, seqFilename);
     QFETCH(QString, targetName);
-    QFETCH(QString, format);
+    QFETCH(QString, PlaceholderFormat);
+    QFETCH(QString, PlaceholderSuffix);
+
 
     XMLEle *root = buildXML(
                        Exposure,
@@ -710,7 +739,9 @@ void TestPlaceholderPath::testGetCompletedFileIds()
                        FilterEnabled,
                        ExpEnabled,
                        TimeStampEnabled,
-                       format);
+                       "",
+                       PlaceholderFormat,
+                       "1");
 
     Ekos::SequenceJob job(root);
     auto placeholderPath = Ekos::PlaceholderPath(seqFilename);

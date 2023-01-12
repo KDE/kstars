@@ -85,20 +85,15 @@ class ClientManager : public QObject, public INDI::BaseClient
         void establishConnection();
 
     protected:
-        virtual void newDevice(INDI::BaseDevice *dp) override;
-        virtual void newProperty(INDI::Property *prop) override;
-        virtual void removeProperty(INDI::Property *prop) override;
-        virtual void removeDevice(INDI::BaseDevice *dp) override;
-        virtual void newBLOB(IBLOB *bp) override;
-        virtual void newSwitch(ISwitchVectorProperty *svp) override;
-        virtual void newNumber(INumberVectorProperty *) override;
-        virtual void newText(ITextVectorProperty *) override;
-        virtual void newLight(ILightVectorProperty *) override;
-        virtual void newMessage(INDI::BaseDevice *dp, int messageID) override;
+        virtual void newDevice(INDI::BaseDevice dp) override;
+        virtual void removeDevice(INDI::BaseDevice dp) override;
 
-#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+        virtual void newProperty(INDI::Property prop) override;
+        virtual void updateProperty(INDI::Property prop) override;
+        virtual void removeProperty(INDI::Property prop) override;
+
+        virtual void newMessage(INDI::BaseDevice dp, int messageID) override;
         virtual void newUniversalMessage(std::string message) override;
-#endif
 
         virtual void serverConnected() override;
         virtual void serverDisconnected(int exitCode) override;
@@ -126,20 +121,14 @@ class ClientManager : public QObject, public INDI::BaseClient
         void removeINDIDevice(const QString &name);
 
         void newINDIProperty(INDI::Property prop);
-        void removeINDIProperty(const QString &device, const QString &name);
+        void updateINDIProperty(INDI::Property prop);
+        void removeINDIProperty(INDI::Property prop);
 
         void newBLOBManager(const char *device, INDI::Property prop);
         void removeBLOBManager(const QString &device, const QString &property);
 
-        void newINDIBLOB(IBLOB *bp);
-        void newINDISwitch(ISwitchVectorProperty *svp);
-        void newINDINumber(INumberVectorProperty *nvp);
-        void newINDIText(ITextVectorProperty *tvp);
-        void newINDILight(ILightVectorProperty *lvp);
-        void newINDIMessage(INDI::BaseDevice *dp, int messageID);
-#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
+        void newINDIMessage(INDI::BaseDevice dp, int messageID);
         void newINDIUniversalMessage(const QString &message);
-#endif
 
     private:
         static constexpr uint8_t MAX_RETRIES {2};
