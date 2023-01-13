@@ -1531,7 +1531,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         for (const auto &oneProp : *oneDevice->getProperties())
         {
             QJsonObject singleProp;
-            if (oneDevice->getJSONProperty(oneProp->getName(), singleProp, payload["compact"].toBool(false)))
+            if (oneDevice->getJSONProperty(oneProp.getName(), singleProp, payload["compact"].toBool(false)))
                 properties.append(singleProp);
         }
 
@@ -1568,15 +1568,15 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
             QVariantList indiGroups = groups.toVariantList();
             for (auto &oneProp : *oneDevice->getProperties())
             {
-                if (indiGroups.contains(oneProp->getGroupName()))
-                    props.insert(oneProp->getName());
+                if (indiGroups.contains(oneProp.getGroupName()))
+                    props.insert(oneProp.getName());
             }
         }
         // Otherwise, subscribe to ALL property in this device
         else
         {
             for (auto &oneProp : *oneDevice->getProperties())
-                props.insert(oneProp->getName());
+                props.insert(oneProp.getName());
         }
 
         m_PropertySubscriptions[device] = props;
@@ -1604,15 +1604,15 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
             QVariantList indiGroups = groups.toVariantList();
             for (auto &oneProp : *oneDevice->getProperties())
             {
-                if (indiGroups.contains(oneProp->getGroupName()))
-                    props.remove(oneProp->getName());
+                if (indiGroups.contains(oneProp.getGroupName()))
+                    props.remove(oneProp.getName());
             }
         }
         // Otherwise, subscribe to ALL property in this device
         else
         {
             for (auto &oneProp : *oneDevice->getProperties())
-                props.remove(oneProp->getName());
+                props.remove(oneProp.getName());
         }
 
         m_PropertySubscriptions[device] = props;

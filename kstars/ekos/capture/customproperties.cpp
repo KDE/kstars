@@ -73,17 +73,17 @@ void CustomProperties::syncProperties()
 
     for (auto &property : *currentCCD->getProperties())
     {
-        const QString name = property->getName();
+        const QString name = property.getName();
         // Skip empty properties
         if (name.isEmpty())
             continue;
 
         if (skipProperties.contains(name) ||
-                property->getPermission() == IP_RO ||
-                property->getType() == INDI_BLOB || property->getType() == INDI_LIGHT)
+                property.getPermission() == IP_RO ||
+                property.getType() == INDI_BLOB || property.getType() == INDI_LIGHT)
             continue;
 
-        props << property->getLabel();
+        props << property.getLabel();
     }
 
 
@@ -146,28 +146,28 @@ void CustomProperties::slotApply()
         for(auto &oneProperty : *currentCCD->getProperties())
         {
             // Search by label
-            if (label != oneProperty->getLabel())
+            if (label != oneProperty.getLabel())
                 continue;
 
             // Now get all the elements for this property
             QMap<QString, QVariant> elements;
 
-            switch (oneProperty->getType())
+            switch (oneProperty.getType())
             {
                 case INDI_SWITCH:
-                    for (const auto &oneSwitch : *oneProperty->getSwitch())
+                    for (const auto &oneSwitch : *oneProperty.getSwitch())
                     {
                         elements[oneSwitch.getName()] = oneSwitch.getState();
                     }
                     break;
                 case INDI_TEXT:
-                    for (const auto &oneText : *oneProperty->getText())
+                    for (const auto &oneText : *oneProperty.getText())
                     {
                         elements[oneText.getName()] = oneText.getText();
                     }
                     break;
                 case INDI_NUMBER:
-                    for (const auto &oneNumber : *oneProperty->getNumber())
+                    for (const auto &oneNumber : *oneProperty.getNumber())
                     {
                         elements[oneNumber.getName()] = oneNumber.getValue();
                     }
@@ -177,7 +177,7 @@ void CustomProperties::slotApply()
                     continue;
             }
 
-            newMap[oneProperty->getName()] = elements;
+            newMap[oneProperty.getName()] = elements;
 
             break;
         }

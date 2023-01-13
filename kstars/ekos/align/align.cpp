@@ -1485,10 +1485,10 @@ bool Align::captureAndSolve()
         else
         {
             // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
-            auto activeDevices = m_RemoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+            auto activeDevices = m_RemoteParserDevice->getBaseDevice().getText("ACTIVE_DEVICES");
             if (activeDevices)
             {
-                auto activeCCD = activeDevices->findWidgetByName("ACTIVE_CCD");
+                auto activeCCD = activeDevices.findWidgetByName("ACTIVE_CCD");
                 if (QString(activeCCD->text) != m_Camera->getDeviceName())
                 {
                     activeCCD->setText(m_Camera->getDeviceName().toLatin1().constData());

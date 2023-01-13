@@ -1202,7 +1202,7 @@ void Manager::checkINDITimeout()
 
             for (auto &device : INDIListener::devices())
             {
-                if (device->getBaseDevice()->getDriverName() == driver)
+                if (device->getBaseDevice().getDriverName() == driver)
                 {
                     driverFound = true;
                     break;
@@ -1433,8 +1433,8 @@ void Manager::deviceConnected()
             {
                 connect(device, &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::watchDebugProperty, Qt::UniqueConnection);
 
-                auto configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-                if (configProp && configProp->getState() == IPS_IDLE)
+                auto configProp = device->getBaseDevice().getSwitch("CONFIG_PROCESS");
+                if (configProp && configProp.getState() == IPS_IDLE)
                     device->setConfig(tConfig);
                 break;
             }
@@ -2661,7 +2661,7 @@ void Manager::updateDebugInterfaces()
         if (!debugProp)
             continue;
 
-        auto debugSP = debugProp->getSwitch();
+        auto debugSP = debugProp.getSwitch();
 
         // Check if the debug interface matches the driver device class
         if ( ( opsLogs->getINDIDebugInterface() & device->getDriverInterface() ) &&
