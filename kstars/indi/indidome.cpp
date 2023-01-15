@@ -37,22 +37,22 @@ Dome::Dome(GenericDevice *parent) : ConcreteDevice(parent)
 
 void Dome::registerProperty(INDI::Property prop)
 {
-    if (!prop->getRegistered())
+    if (!prop.getRegistered())
         return;
 
-    if (prop->isNameMatch("ABS_DOME_POSITION"))
+    if (prop.isNameMatch("ABS_DOME_POSITION"))
     {
         m_CanAbsMove = true;
     }
-    else if (prop->isNameMatch("REL_DOME_POSITION"))
+    else if (prop.isNameMatch("REL_DOME_POSITION"))
     {
         m_CanRelMove = true;
     }
-    else if (prop->isNameMatch("DOME_ABORT_MOTION"))
+    else if (prop.isNameMatch("DOME_ABORT_MOTION"))
     {
         m_CanAbort = true;
     }
-    else if (prop->isNameMatch("DOME_SHUTTER"))
+    else if (prop.isNameMatch("DOME_SHUTTER"))
     {
         m_HasShutter = true;
     }

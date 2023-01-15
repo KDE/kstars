@@ -53,8 +53,8 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
         return false;
     }
 
-    auto solverSwitch = m_RemoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
-    auto solverBLOB   = m_RemoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
+    auto solverSwitch = m_RemoteAstrometry->getBaseDevice().getSwitch("ASTROMETRY_SOLVER");
+    auto solverBLOB   = m_RemoteAstrometry->getBaseDevice().getBLOB("ASTROMETRY_DATA");
 
     if (!solverSwitch || !solverBLOB)
     {
@@ -66,7 +66,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
     sendArgs(args);
 
-    auto enableSW = solverSwitch->findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
+    auto enableSW = solverSwitch.findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
     if (enableSW->getState() == ISS_OFF)
     {
         IUResetSwitch(solverSwitch);
@@ -107,7 +107,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
 bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 {
-    auto solverSettings = m_RemoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
+    auto solverSettings = m_RemoteAstrometry->getBaseDevice().getText("ASTROMETRY_SETTINGS");
 
     if (!solverSettings)
     {
@@ -144,13 +144,13 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 
 void RemoteAstrometryParser::setEnabled(bool enable)
 {
-    auto solverSwitch = m_RemoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto solverSwitch = m_RemoteAstrometry->getBaseDevice().getSwitch("ASTROMETRY_SOLVER");
 
     if (!solverSwitch)
         return;
 
-    auto enableSW  = solverSwitch->findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
-    auto disableSW = solverSwitch->findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
+    auto enableSW  = solverSwitch.findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
+    auto disableSW = solverSwitch.findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
 
     if (!enableSW || !disableSW)
         return;
@@ -180,12 +180,12 @@ bool RemoteAstrometryParser::setCCD(const QString &ccd)
     if (!m_RemoteAstrometry)
         return false;
 
-    auto activeDevices = m_RemoteAstrometry->getBaseDevice()->getText("ACTIVE_DEVICES");
+    auto activeDevices = m_RemoteAstrometry->getBaseDevice().getText("ACTIVE_DEVICES");
 
     if (!activeDevices)
         return false;
 
-    auto activeCCD  = activeDevices->findWidgetByName("ACTIVE_CCD");
+    auto activeCCD  = activeDevices.findWidgetByName("ACTIVE_CCD");
 
     if (!activeCCD)
         return false;
@@ -206,11 +206,11 @@ bool RemoteAstrometryParser::stopSolver()
         return true;
 
     // Disable solver
-    auto svp = m_RemoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto svp = m_RemoteAstrometry->getBaseDevice().getSwitch("ASTROMETRY_SOLVER");
     if (!svp)
         return false;
 
-    auto disableSW = svp->findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
+    auto disableSW = svp.findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
     if (disableSW->getState() == ISS_OFF)
     {
         svp->reset();

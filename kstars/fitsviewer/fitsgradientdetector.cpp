@@ -123,7 +123,7 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
     if (maxID == 0)
         return 0;
 
-    typedef struct
+    typedef struct massInfo
     {
         float massX     = 0;
         float massY     = 0;

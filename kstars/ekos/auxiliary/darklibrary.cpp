@@ -1586,13 +1586,13 @@ double DarkLibrary::getGain()
     // Therefore, we have to find what the currently camera supports first.
     auto gain = m_Camera->getProperty("CCD_GAIN");
     if (gain)
-        return gain->getNumber()->at(0)->value;
+        return gain.getNumber()->at(0)->value;
 
 
     auto controls = m_Camera->getProperty("CCD_CONTROLS");
     if (controls)
     {
-        auto oneGain = controls->getNumber()->findWidgetByName("Gain");
+        auto oneGain = controls.getNumber()->findWidgetByName("Gain");
         if (oneGain)
             return oneGain->value;
     }

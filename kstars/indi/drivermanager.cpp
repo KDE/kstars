@@ -1599,7 +1599,7 @@ QString DriverManager::getUniqueDeviceLabel(const QString &label)
 
         for (auto &dv : devices)
         {
-            if (label == QString(dv->getDeviceName()))
+            if (label == QString(dv.getDeviceName()))
                 nset++;
         }
     }

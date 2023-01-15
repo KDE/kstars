@@ -75,7 +75,7 @@ public:
     } MFStage;
 
     // mount position
-    typedef struct {
+    typedef struct MountPosition {
          SkyPoint position;
          ISD::Mount::PierSide pierSide;
          dms ha;

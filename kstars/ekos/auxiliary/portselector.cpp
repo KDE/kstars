@@ -45,7 +45,7 @@ Device::Device(const QSharedPointer<ISD::GenericDevice> &device, QGridLayout *gr
 //////////////////////////////////////////////////////////////////////////////////////////
 bool Device::initGUI()
 {
-    INDI::Property modeProperty = m_Device->getBaseDevice()->getSwitch("CONNECTION_MODE");
+    INDI::Property modeProperty = m_Device->getBaseDevice().getSwitch("CONNECTION_MODE");
     if (!modeProperty.isValid())
         return false;
 
@@ -67,7 +67,7 @@ bool Device::initGUI()
     m_Grid->addWidget(m_SerialB, m_Row, 2);
     connect(m_SerialB, &QPushButton::clicked, this, [this]()
     {
-        INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_MODE"));
+        INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice().getSwitch("CONNECTION_MODE"));
         IUResetSwitch(&connectionMode);
         connectionMode.at(0)->setState(ISS_ON);
         connectionMode.at(1)->setState(ISS_OFF);
@@ -81,34 +81,34 @@ bool Device::initGUI()
     m_Grid->addWidget(m_NetworkB, m_Row, 3);
     connect(m_NetworkB, &QPushButton::clicked, this, [this]()
     {
-        INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_MODE"));
+        INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice().getSwitch("CONNECTION_MODE"));
         IUResetSwitch(&connectionMode);
         connectionMode.at(0)->setState(ISS_OFF);
         connectionMode.at(1)->setState(ISS_ON);
         m_Device->sendNewProperty(&connectionMode);
     });
 
-    INDI::PropertyView<ISwitch> connectionMode = *(modeProperty->getSwitch());
+    INDI::PropertyView<ISwitch> connectionMode = *(modeProperty.getSwitch());
     if (connectionMode.findWidgetByName("CONNECTION_SERIAL"))
     {
-        if (m_Device->getBaseDevice()->getProperty("SYSTEM_PORTS").isValid())
+        if (m_Device->getBaseDevice().getProperty("SYSTEM_PORTS").isValid())
         {
             m_Ports = new QComboBox;
             m_Ports->setEditable(true);
             m_Ports->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
             m_Ports->setToolTip(i18n("Select Serial port"));
 
-            INDI::PropertyView<ISwitch> systemPorts = *(m_Device->getBaseDevice()->getSwitch("SYSTEM_PORTS"));
+            INDI::PropertyView<ISwitch> systemPorts = *(m_Device->getBaseDevice().getSwitch("SYSTEM_PORTS"));
             for (auto &oneSwitch : systemPorts)
                 m_Ports->addItem(oneSwitch.getLabel());
             connect(m_Ports, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
                     [this](int index)
             {
                 // Double check property still exists.
-                INDI::Property systemPorts = m_Device->getBaseDevice()->getProperty("SYSTEM_PORTS");
+                INDI::Property systemPorts = m_Device->getBaseDevice().getProperty("SYSTEM_PORTS");
                 if (systemPorts.isValid())
                 {
-                    INDI::PropertyView<ISwitch> systemPortsSwitch = *(systemPorts->getSwitch());
+                    INDI::PropertyView<ISwitch> systemPortsSwitch = *(systemPorts.getSwitch());
                     IUResetSwitch(&systemPortsSwitch);
                     systemPortsSwitch.at(index)->setState(ISS_ON);
                     m_Device->sendNewProperty(&systemPortsSwitch);
@@ -117,7 +117,7 @@ bool Device::initGUI()
             // When combo box text changes
             connect(m_Ports->lineEdit(), &QLineEdit::editingFinished, this, [this]()
             {
-                INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
+                INDI::PropertyView<IText> port = *(m_Device->getBaseDevice().getText("DEVICE_PORT"));
                 port.at(0)->setText(m_Ports->lineEdit()->text().toLatin1().constData());
                 m_Device->sendNewProperty(&port);
             });
@@ -131,7 +131,7 @@ bool Device::initGUI()
             connect(m_BaudRates, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
                     [this](int index)
             {
-                INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
+                INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice().getSwitch("DEVICE_BAUD_RATE"));
                 IUResetSwitch(&systemBauds);
                 systemBauds.at(index)->setState(ISS_ON);
                 m_Device->sendNewProperty(&systemBauds);
@@ -148,7 +148,7 @@ bool Device::initGUI()
         m_HostName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
         connect(m_HostName, &QLineEdit::editingFinished, this, [this]()
         {
-            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
+            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice().getText("DEVICE_ADDRESS"));
             server.at(0)->setText(m_HostName->text().toLatin1().constData());
             m_Device->sendNewProperty(&server);
         });
@@ -157,7 +157,7 @@ bool Device::initGUI()
         m_HostPort->setPlaceholderText(i18n("Port"));
         connect(m_HostPort, &QLineEdit::editingFinished, this, [this]()
         {
-            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
+            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice().getText("DEVICE_ADDRESS"));
             server.at(1)->setText(m_HostPort->text().toLatin1().constData());
             m_Device->sendNewProperty(&server);
         });
@@ -165,7 +165,7 @@ bool Device::initGUI()
         m_HostProtocolTCP = new QPushButton("TCP");
         connect(m_HostProtocolTCP, &QPushButton::clicked, this, [this]()
         {
-            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
+            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice().getSwitch("CONNECTION_TYPE"));
             IUResetSwitch(&connectionType);
             connectionType.at(0)->setState(ISS_ON);
             m_Device->sendNewProperty(&connectionType);
@@ -174,7 +174,7 @@ bool Device::initGUI()
         m_HostProtocolUDP = new QPushButton("UDP");
         connect(m_HostProtocolUDP, &QPushButton::clicked, this, [this]()
         {
-            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
+            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice().getSwitch("CONNECTION_TYPE"));
             IUResetSwitch(&connectionType);
             connectionType.at(1)->setState(ISS_ON);
             m_Device->sendNewProperty(&connectionType);
@@ -220,7 +220,7 @@ void Device::syncGUI()
 
     m_LED->setColor(ColorCode.value(m_Device->getState("CONNECTION")));
 
-    INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_MODE"));
+    INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice().getSwitch("CONNECTION_MODE"));
 
     if (connectionMode.findOnSwitchIndex() == CONNECTION_SERIAL)
     {
@@ -230,13 +230,13 @@ void Device::syncGUI()
 
         if (m_Ports)
         {
-            INDI::PropertyView<IText> port = *(m_Device->getBaseDevice()->getText("DEVICE_PORT"));
+            INDI::PropertyView<IText> port = *(m_Device->getBaseDevice().getText("DEVICE_PORT"));
             m_Ports->setEditText(port.at(0)->getText());
         }
 
         if (m_BaudRates)
         {
-            INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice()->getSwitch("DEVICE_BAUD_RATE"));
+            INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice().getSwitch("DEVICE_BAUD_RATE"));
             m_BaudRates->setCurrentIndex(systemBauds.findOnSwitchIndex());
         }
     }
@@ -246,16 +246,16 @@ void Device::syncGUI()
         m_SerialB->setStyleSheet(QString());
         m_NetworkB->setStyleSheet(ACTIVE_STYLESHEET);
 
-        if (m_Device->getBaseDevice()->getProperty("DEVICE_ADDRESS").isValid())
+        if (m_Device->getBaseDevice().getProperty("DEVICE_ADDRESS").isValid())
         {
-            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice()->getText("DEVICE_ADDRESS"));
+            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice().getText("DEVICE_ADDRESS"));
             m_HostName->setText(server.at(0)->getText());
             m_HostPort->setText(server.at(1)->getText());
         }
 
-        if (m_Device->getBaseDevice()->getProperty("CONNECTION_TYPE").isValid())
+        if (m_Device->getBaseDevice().getProperty("CONNECTION_TYPE").isValid())
         {
-            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_TYPE"));
+            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice().getSwitch("CONNECTION_TYPE"));
             m_HostProtocolTCP->setStyleSheet(connectionType.findOnSwitchIndex() == 0 ? ACTIVE_STYLESHEET : QString());
             m_HostProtocolUDP->setStyleSheet(connectionType.findOnSwitchIndex() == 1 ? ACTIVE_STYLESHEET : QString());
         }

@@ -628,7 +628,7 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
     svp->reset();
     if (strConfig)
     {
-        auto sp = svp->findWidgetByName(strConfig);
+        auto sp = svp.findWidgetByName(strConfig);
         if (!sp)
             return false;
         sp->setState(ISS_ON);
@@ -668,11 +668,11 @@ void GenericDevice::updateTime()
 
     if (timeUTC)
     {
-        auto timeEle = timeUTC->findWidgetByName("UTC");
+        auto timeEle = timeUTC.findWidgetByName("UTC");
         if (timeEle)
             timeEle->setText(isoTS.toLatin1().constData());
 
-        auto offsetEle = timeUTC->findWidgetByName("OFFSET");
+        auto offsetEle = timeUTC.findWidgetByName("OFFSET");
         if (offsetEle)
             offsetEle->setText(offset.toLatin1().constData());
 
@@ -951,10 +951,10 @@ bool GenericDevice::getJSONProperty(const QString &propName, QJsonObject &propOb
 bool GenericDevice::getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject)
 {
     auto blobProperty = m_BaseDevice.getProperty(propName.toLatin1().constData());
-    if (blobProperty == nullptr)
+    if (blobProperty == false)
         return false;
 
-    auto oneBLOB = blobProperty->getBLOB()->findWidgetByName(elementName.toLatin1().constData());
+    auto oneBLOB = blobProperty.getBLOB()->findWidgetByName(elementName.toLatin1().constData());
     if (!oneBLOB)
         return false;
 
