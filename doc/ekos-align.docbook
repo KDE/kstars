@@ -27,20 +27,8 @@
             Often, there is a discrepancy between where the telescope thinks it is looking at and where it is truly pointing. The magnitude of this discrepancy can range from a few arcminutes to a couple of degrees. Ekos can then correct the discrepancy by either syncing to the new coordinates, or by slewing the mount to the desired target originally requested.
         </para>
         <para>
-            Furthermore, Ekos provides two tools to measure and correct polar alignment errors:
+            Furthermore, Ekos provides a Polar Alignment Assistant Tool to correct polar alignment errors. It takes three images, slewing between the images, and calculates the offset between the mount axis and polar axis. It feeds back to the user the altitude and azimuth adjustments needed to align these axes. These images are typically taken near the celestial pole (Close to Polaris for Northern Hemisphere) but can work well taken from anywhere, usually starting near the meridian and slewing either East or West.
         </para>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <guilabel>Polar Alignment Assistant Tool</guilabel>: A very easy tool to measure and correct polar errors. It takes three images near the celestial pole (Close to Polaris for Northern Hemisphere) and then calculates the offset between the mount axis and polar axis.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Legacy Polar Alignment Tool</guilabel>: If Polaris is not visible, this tool can be used to measure and correct polar alignment errors. It captures a couple of images near the meridian and east/west of the meridian. This will enable the user to adjust the mount until the misalignment is minimized.
-                </para>
-            </listitem>
-        </itemizedlist>
         <para>
             At a minimum, you need a CCD/Webcam and a telescope that supports Slew &amp; Sync commands. Most popular commercial telescope nowadays support such commands.
         </para>
@@ -336,11 +324,6 @@
                         <guilabel>Polar Alignment Assistant</guilabel>: A simple tool to aid in polar alignment of German Equatorial Mounts.
                     </para>
                 </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Legacy Polar Alignment Tool</guilabel>: Measure polar alignment error when a view of the celestial pole (&eg; Polaris for Northern Hemisphere) is not available.
-                    </para>
-                </listitem>
             </itemizedlist>
             <warning>
                 <para>
@@ -533,8 +516,6 @@
 
         <sect3 id="ekos-align-polaralignment">
             <title>Polar Alignment</title>
-            <sect4 id="ekos-align-plar-alignment-assistant">
-                <title>Polar Alignment Assistant</title>
                 <para>
                     When setting up a German Equatorial Mount (GEM) for imaging, a critical aspect of capturing long-exposure images is to ensure proper polar alignment. A GEM mount has two axis: Right Ascension (RA) axis and Declination (DE) axis. Ideally, the RA axis should be aligned with the celestial sphere polar axis. A mount's job is to track the star's motion around the sky, from the moment they rise at the eastern horizon, all the way up across the median, and westward until they set.
                 </para>
@@ -573,10 +554,10 @@
                     However, unless you have a top of the line mount, then you'd probably want to use an autoguider to keep the same star locked in the same position over time. Despite all of this, if the axis of the mount is not properly aligned with the celestial pole, then even a mechanically-perfect mount would lose tracking with time. Tracking errors are proportional to the magnitude of the misalignment. It is therefore very important for long exposure imaging to get the mount polar aligned to reduce any residual errors as it spans across the sky.
                 </para>
                 <para>
-                    Before starting the process, point the mount as close as possible to the celestial pole. If you are living in the Northern Hemisphere, point it as close as possible to Polaris.
+                    Before starting the process, point the mount as close as possible to the celestial pole with the counterweights down. If you are living in the Northern Hemisphere, point it as close as possible to Polaris. If Polaris is not visible (e.g. blocked by trees or  buildings) you may point elsewhere, preferably near the Meridian. Make sure there is at 30-60 degrees of sky viewable in an arc East or West of the Meridian from the position you choose. Select the direction of free sky, the number of degrees for each of two slews, the mount slew speed, and whether the mount will be slewing automatically (recommended) or manually.
                 </para>
                 <para>
-                    The tool works by capturing and solving three images. After capturing each, the mount rotates by a fixed amount and another image is captured and solved.
+                    The tool works by capturing and solving three images. After capturing each, the mount rotates by the fixed amount you entered and another image is captured and solved. If you chose manual, you will need to slew the mount by roughly the angle chosen.
                 </para>
                 <screenshot>
                     <screeninfo>
@@ -584,141 +565,82 @@
                     </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_assistant_main.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_main2.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase>Polar Alignment Assistant</phrase>
                         </textobject>
                     </mediaobject>
                 </screenshot>
+
+            <sect4 id="ekos-align-platesolvecorrection">
+                <title>Plate Solve Correction Scheme</title>
+                
                 <para>
-                    After the first capture, you can rotate the mount by a specific amount (default 30 degrees) either West or East. After selecting the magnitude and direction, click <guibutton>Next</guibutton> to continue and the mount will be rotated. Once the rotation is complete you shall be asked to take another capture, unless you have checked <guilabel>Auto Mode</guilabel>. In Automated mode, the rest of the process will continue with the same settings and direction until a total of three images are captured.
-                </para>
-                <para>
-                    Since the mount's true RA/DE are resolved by astrometry, we can construct a unique circle from the three centers found in the astrometry solutions. The circle's center is where the mount rotates about (RA Axis) and ideally, this point should coincide with the celestial pole. However, if there is a misalignment, then Ekos draws a correction vector. This correction vector can be placed anywhere in the image. Next, <emphasis>refresh</emphasis> the camera feed and make corrections to the mount's Altitude and Azimuth knobs until the star is located in the designated cross-hair. To make it easy to make corrections, expand the view by clicking on the Fullscreen button <inlinemediaobject><imageobject><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject></inlinemediaobject>.
+                  The images below show the workflow when the <emphasis>Plate Solve</emphasis> correction technique is used. The image below shows a display after the 3 measurement images are captured and solved. It shows an error of almost 18' in altitude and that the mount's axis needs to be moved up. Similarly it shows an azimuth error of almost 15' and that the axis needs to be moved to the right (as viewed from behind the telescope). 
                 </para>
                 <screenshot>
                     <screeninfo>
-                        Polar Alignment Result
+                        Polar Alignment Assistant
                     </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_alignment_result.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_ps1.png" format="PNG"/>
                         </imageobject>
                         <textobject>
-                            <phrase>Polar Alignment Result</phrase>
+                            <phrase>Polar Alignment Assistant, Plate Solve Workflow 1</phrase>
                         </textobject>
                     </mediaobject>
                 </screenshot>
                 <para>
-                    If you are away from StellarMate or PC, you can use your Tablet to monitor the camera feed while making corrections. Use the <link linkend="ekos-tutorials-viewer">StellarMate's web-based VNC viewer</link> or use any VNC Client on your tablet to access StellarMate. If Ekos is running on your PC, you can use applications like TeamViewer to achieve the same results. The following is a video demonstrating how to utilize the Polar Alignment Assistant tool.
-                </para>
-                <mediaobject>
-                    <videoobject>
-                        <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/sx6Zz9lNd5Q"/>
-                    </videoobject>
-                    <caption>
-                        <para>
-                            <phrase>Polar Alignment</phrase>
-                        </para>
-                    </caption>
-                </mediaobject>
-            </sect4>
-            <sect4 id="ekos-align-legacy-polar-alignment-workflow">
-                <title>Legacy Polar Alignment Workflow</title>
-                <para>
-                    Using the Polar Alignment mode, Ekos can measure and correct the polar alignment errors. To measure Azimuth error, point your mount to a star close to the meridian. If you live in the northern hemisphere, you will point the mount toward the southern meridian. Click on <guibutton>Measure Az Error</guibutton> to begin the process. Ekos will try to measure the drift between two images and calculates the error accordingly. You can ask Ekos to correct Azimuth error by clicking on the <guibutton>Correct Az Error</guibutton> button. Ekos will slew to a new location and asks you to adjust the mount's azimuth knobs until the star is in the center of the Field of View. You can use the Focus Module's <link linkend="focus-focuser-group">Framing feature</link> to take a look at the image as you make your adjustments.
+                  If your error is low enough (e.g. less than an arc-minute) then you don't need to make any adjustments. Simply press stop and you're done.
                 </para>
                 <para>
-                    Similarly, to measure Altitude error, click on the <guibutton>Measure Alt Error</guibutton> button. You need to point your mount either east or west and set the <guilabel>Altitude Direction</guilabel> combo box accordingly. Ekos will take two images and calculates the error. You can ask Ekos to correct Altitude error by clicking on the <guibutton>Correct Alt Error</guibutton> button. As with Azimuth correction, Ekos will slew to a new location and asks you to adjust the mount's altitude knobs until the star is in the center of the FOV.
+                  If you will be making corrections to your mount's axis, you should select the adjustment approach (we're using Plate Solve in this example), and how often the system should recapture images to re-measure the polar alignment error. The refresh interval should be frequent, but it doesn't make sense to make it faster that your CPU can capture and plate-solve the images. We're using 2s in this example. Then press the Refresh button to begin the correction process.
                 </para>
                 <para>
-                    After making a correction, it is recommended to measure the Azimuth and Altitude errors again and gauge the difference. You may need to perform the correction more than once to obtain optimal results.
+                  The system will capture images, and re-estimate the polar alignment error after each image. You can try to reduce the error by adjusting the Alititude and Azimuth correction knobs on your mount. The image below shows the screen after the altitude error has been almost zeroed. See the difference between the  <emphasis>Measured Error</emphasis> row, which shows the originally measured error after the original 3 captures, and the  <emphasis>Updated Error</emphasis> row which shows the current error estimate.
                 </para>
+                <screenshot>
+                    <screeninfo>
+                        Polar Alignment Assistant
+                    </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps2.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase>Polar Alignment Assistant, Plate Solve Workflow 2</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
                 <para>
-                    Before starting the Polar Alignment tool, you must complete the GOTO Workflow above for at least one point in the sky. Once your mount is aligned, proceed with the following (assuming you live in the northern hemisphere):
+                  Below the user has also adjust Azimuth to reduce the error further. Now the error is very low and the process is done. The user should press the stop button.
                 </para>
-                <orderedlist>
-                    <listitem>
-                        <para>
-                            Slew to a <emphasis role="bold">bright</emphasis> star (4th magnitude or below) near the southern meridian (Azimuth 180). Make sure <guilabel>Slew to Target</guilabel> is selected. Capture and solve. The star should be exactly centered in your CCD field of view.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Switch mode to <guilabel>Polar Alignment</guilabel>. Click <guibutton>Measure Az Error</guibutton>. It will ask you to slew to a star at the southern meridian which we already done. Click <guibutton>Continue</guibutton>. Ekos will now perform the error calculation.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            If all goes well, the error is displayed in the output boxes. To correct for the error, click <guibutton>Correct Az Error</guibutton>. Ekos will now slew to a different point in the sky, and you will be required to <emphasis role="bold">ONLY</emphasis> adjust the mount's azimuth knobs to center the star in the field of view. The most convenient way of monitoring the star field is by going to the <guilabel>Focus</guilabel> module and clicking <guibutton>Start Framing</guibutton>. If the azimuth error is great, the star might not be visible in the CCD field of view, and therefore you have to make <emphasis>blind</emphasis> adjustments (or simply look through the finderscope) until the star enters the CCD FOV.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Begin your azimuth adjustments until the bright star you slewed to initially is as close to center as you can get it.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <guibutton>Stop Framing</guibutton> in the <link linkend="focus-focuser-group">Focus module</link>.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Repeat the <guibutton>Measure Az Error</guibutton> to ensure we indeed corrected the error. You might have to run it more than once to ensure the results are valid.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Switch mode to <guilabel>GOTO</guilabel>.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Now slew to a <emphasis role="bold">bright</emphasis> star either on the eastern or western horizon, preferably above 20 degrees of altitude. It has to be as close as possible to the eastern (90 azimuth) or western (270) cardinal points.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            After slew is complete, capture and solve. The star should be dead center in the CCD FOV now.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Switch mode to <guilabel>Polar Alignment</guilabel>.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Click <guibutton>Measure Alt Error</guibutton>. It will ask you to slew to a star at either the eastern (Azimuth 90) or western (Azimuth 270) horizon which we already done. Click <guibutton>Continue</guibutton>. Ekos will now perform the error calculation.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            To correct for the error, click <guibutton>Correct Alt Error</guibutton>. Ekos will now slew to a different point in the sky, and you will be required to <emphasis role="bold">ONLY</emphasis> adjust the mount's altitude knobs to center the star in the field of view. Start framing as done before in the <link linkend="focus-focuser-group">focus module</link> to help you with the centering.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            After centering is complete, stop framing.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Repeat the <guibutton>Measure Alt Error</guibutton> to ensure we indeed corrected the error. You might have to run it more than once to ensure the results are valid.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Polar alignment is now complete!</para>
-                    </listitem>
-                </orderedlist>
-                <warning>
-                    <para>
-                        The mount may slew to a dangerous position and you might risk hitting the tripod and/or other equipment. Carefully monitor the mount's motion. Use at your own risk.
-                    </para>
-                </warning>
+                <screenshot>
+                    <screeninfo>
+                        Polar Alignment Assistant
+                    </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps3.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase>Polar Alignment Assistant, Plate Solve Workflow 3</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                </sect4>
+                <sect4 id="ekos-align-move-star-correction">
+                <title>Move Star Correction Scheme</title>
+
+                <para>
+                  We also have an alternative schemes for correcting polar alignment. Two variations are <emphasis>Move Star &amp; Calc Error</emphasis> and <emphasis>Move Star</emphasis>. When you select this scheme, the system place a yellow/green/violet triangle on the screen. The trangle can be moved by clicking near a star, and the yellow/violet corner is moved to that star. In this scheme the user corrects polar alignment by first adjusting the mount's azimuth knob so that the selected star moves along the yellow side of the triangle. Once the star is near the next vertex, the azimuth knob should be adjusted so that the star moves along the green side of the triangle. Once the star is moved to the green/violet vertex, the mount is polar aligned, and the user can click <emphasis>stop</emphasis>.
+                </para>
+                  <para>
+                    The difference between <emphasis>Move Star &amp; Calc Error</emphasis> and  <emphasis>Move Star</emphasis> is that in the former, the system attempts to track the star the user has selected, and places a circle around that star. In that scheme it also attempts to update the <emphasis>Updated Err</emphasis> row. If the star tracking isn't reliable, simply ignore it or use the <emphasis> Move Star </emphasis>scheme and move the star by-eye until it's close to the final target. An example of using this technique is shown in this video: 
+                    <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU">https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink>
+                </para>
             </sect4>
         </sect3>
-    </sect2>
+</sect2>
