@@ -32,21 +32,7 @@
         <para
 >Vaak is er een verschil tussen de bekende kijkrichting van de telescoop, en de werkelijke kijkrichting. Dit verschil kan oplopen van een paar boogminuten, tot aan een aantal graden. Ekos kan dit verschil opheffen door of de coördinaten aan te passen, of door de opstelling te draaien tot aan het aanvankelijk gewenste doel. </para>
         <para
->Verder zijn er in Ekos twee hulpmiddelen aanwezig voor het meten en corrigeren van uitlijnfouten op de pool: </para>
-        <itemizedlist>
-            <listitem>
-                <para
-><guilabel
->Hulpmiddel uitlijnen op pool</guilabel
->: Een zeer eenvoudig hulpmiddel voor het meten en corrigeren van poolfouten. Hiervoor zijn drie afbeeldingen nodig van de omgeving van de hemelpool (op het Noordelijk Halfrond nabij Polaris), waarna het verschil wordt berekend tussen as van de kijker en de poolas. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Oud hulpmiddel uitlijnen op pool</guilabel
->: Als Polaris (de poolster) niet zichtbaar is, kan dit hulpmiddel worden gebruikt voor het meten en corrigeren van uitlijnfouten op de pool. Er worden een aantal opnamen gemaakt nabij de meridiaan en oost/west van de meridiaan. Hiermee kan de opstelling worden bijgesteld totdat uitlijnfout zo klein mogelijk is. </para>
-            </listitem>
-        </itemizedlist>
+>Verder biedt Ekos een assisterend hulpmiddel voor polair uitlijnen om polaire uitlijnfouten te corrigeren. Het neemt drie afbeeldingen, met zwenken tussen de afbeeldingen en berekent de offset tussen de as van de opstelling en de polaire as. Het koppelt terug aan de gebruiker de aanpassingen in hoogte en azimuth nodig om deze assen uit te lijnen. Deze afbeeldingen worden typisch genomen dichtbij de hemelpool (Dichtbij de Poolster voor het Noordelijk halfrond) maar kan goed werken van overal elders, gewoonlijk beginnend dichtbij de meridiaan en zwenkend Oost of West. </para>
         <para
 >U heeft minstens een CCD/Webcam nodig en een telescoop die luistert naar commando's voor draaien &amp; sync. De meeste commerciële telescopen voldoen hier tegenwoordig aan. </para>
         <para
@@ -481,12 +467,6 @@
 >Assistent  uitlijnen op de pool</guilabel
 >: Een eenvoudig hulpmiddel voor het op de pool uitlijnen van Duitse equatoriale opstellingen. </para>
                 </listitem>
-                <listitem>
-                    <para
-><guilabel
->Oud hulpmiddel voor op de pool uitlijnen</guilabel
->: Meten van de uitlijnfout op de pool, wanneer een beeld van de hemelpool (&eg; Polaris op het Noordelijk Halfrond) niet beschikbaar is. </para>
-                </listitem>
             </itemizedlist>
             <warning>
                 <para
@@ -714,9 +694,6 @@
         <sect3 id="ekos-align-polaralignment">
             <title
 >Op pool uitlijnen</title>
-            <sect4 id="ekos-align-plar-alignment-assistant">
-                <title
->Assistent op pool uitlijnen</title>
                 <para
 >Wanneer een Duitse equatoriale opstelling (GEM: German Equatorial Mount) word ingesteld voor het maken van afbeeldingen, is het van veel belang, voor het maken van langdurige afbeeldingen, dat die goed op de pool wordt uitgelijnd. Een GEM heeft twee assen: een as voor de Rechte Klimming (RK), en een voor de declinatie (dec). Idealiter moet de as voor de RK evenwijdig zijn aan de poolas aan de hemel. De taak van de opstelling is het volgen van de ster in zijn baan langs het hemelgewelf, vanaf het moment van opkomst in het oosten, tot aan de ondergang in het westen. </para>
 
@@ -755,15 +732,15 @@
                 <para
 >Maar, als u geen opstelling heeft van topkwaliteit, heeft u hoogstwaarschijnlijk een autovolger nodig, om de zelfde ster gedurende een hele tijd in dezelfde positie vast te houden. Maar desondanks, als de as van de opstelling niet goed op de hemelpool is uitgelijnd, zal zelfs een mechanisch perfecte opstelling de volgster kwijt raken na enige tijd. Volgfouten verhouden zich tot de grootte van de uitlijningsfout. Voor lange belichtingstijden is het dus erg belangrijk dat de opstelling goed is uitgelijnd op de pool, zodat overblijvende restfouten zo klein mogelijk blijven. </para>
                 <para
->Voordat echt met uitlijnen wordt begonnen, moet de opstelling zoveel mogelijk op de pool worden gericht. Op het Noordelijk Halfrond richt u die zo goed mogelijk op de poolster, Polaris. </para>
+>Before starting the process, point the mount as close as possible to the celestial pole with the counterweights down. If you are living in the Northern Hemisphere, point it as close as possible to Polaris. If Polaris is not visible (&eg; blocked by trees or buildings) you may point elsewhere, preferably near the Meridian. Make sure there is at least 30-60 degrees of sky viewable in an arc East or West of the Meridian from the position you choose. Select the direction of free sky, the number of degrees for each of two slews, the mount slew speed, and whether the mount will be slewing automatically (recommended) or manually. </para>
                 <para
->Door het hulpmiddel worden drie afbeeldingen opgenomen en opgelost. Na elke opname draait de opstelling over een vaste afstand, voordat de volgende opname wordt gemaakt en opgelost. </para>
+>Door het hulpmiddel worden drie afbeeldingen opgenomen en opgelost. Na elke opname draait de opstelling over de vaste afstand, die u hebt ingevoerd, voordat de volgende opname wordt gemaakt en opgelost. Als u handmatig kiest, moet u de opstelling verdraaien met ruwweg de gekozen hoek. </para>
                 <screenshot>
                     <screeninfo
 >Assistent uitlijnen op pool </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_assistant_main.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_main2.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
@@ -771,183 +748,93 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
+
+            <sect4 id="ekos-align-platesolvecorrection">
+                <title
+>Correctieschema van oplossen van platen</title>
+                
                 <para
->Na de eerste opname kunt u de opstelling over een vaste afstand draaien (standaard 30 graden), oost of west. Na de keuze van afstand en richting, klikt u op <guibutton
->Volgende</guibutton
->, waarna de opstelling wordt gedraaid. Zodra het draaien voltooid is, wordt u gevraagd een volgende opname te maken, behalve als <guilabel
->Automodus</guilabel
-> is ingesteld. In de automatische modus gaat de rest van dit proces verder met dezelfde instellingen, totdat er drie afbeeldingen zijn gemaakt. </para>
-                <para
->Omdat de werkelijke RK/dec van de opstelling is opgelost met astrometrie, kunnen we eenduidig een cirkel bepalen met behulp van de drie centrale punten in de gevonden oplossingen. De opstelling roteert om het middelpunt van deze cirkel (RK-as) en idealiter valt dit punt samen met de hemelpool. Maar, in het geval van een uitlijnfout, tekent Ekos een correctievector. Deze correctievector kan overal in de afbeelding zijn geplaatst. Daarna  <emphasis
->reset</emphasis
-> u de camera, en draait u de knoppen van de opstelling voor het instellen van hoogte en azimut, totdat de ster in het midden van het hiervoor bestemde draadkruis is. Om dit gemakkelijker te maken, kunt u het beeld groter maken door op de knop Volledig scherm <inlinemediaobject
-><imageobject
-><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject
-></inlinemediaobject
-> te drukken. </para>
+>De onderstaande afbeeldingen tonen de werkmethode wanneer de correctietechniek <emphasis
+>Oplossen van platen</emphasis
+> wordt gebruikt. De onderstaande afbeelding toont een voorstelling nadat de 3 meetafbeeldingen zijn opgenomen en opgelost. Het toont een fout van bijna 18' in hoogte en dat deas van de opstelling omhoog verplaatst moet worden. Het toont tegelijk een azimuth-fout van bijna 15' en dat de as naar rechts verplaatst moet worden (zoals gezien vanachter de telescoop). </para>
                 <screenshot>
                     <screeninfo
->Resultaat Uitlijnen op pool </screeninfo>
+>Assistent uitlijnen op pool </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_alignment_result.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_ps1.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
->Resultaat Uitlijnen op pool</phrase>
+>Assistent voor pool uitlijnen, werkmethode 1 Oplossen van platen</phrase>
                         </textobject>
                     </mediaobject>
                 </screenshot>
                 <para
->Als PC of StellarMate niet in de buurt is, kunt u de camera beheren met behulp van een tablet terwijl u de correcties uitvoert. Gebruik de <link linkend="ekos-tutorials-viewer"
->StellarMate's VNC viewer op het web</link
-> of enige andere VNC-client op uw tablet, waarmee u toegang heeft tot StellarMate.  Als Ekos op uw PC draait, kunt u toepassingen gebruiken als TeamViewer, voor hetzelfde resultaat. Hieronder is een videodemonstratie van hoe u de assistent kunt gebruiken voor het op de pool uitlijnen.  </para>
-                <mediaobject>
-                    <videoobject>
-                        <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/sx6Zz9lNd5Q"
-></videodata>
-                    </videoobject>
-                    <caption>
-                        <para>
+>If your error is low enough (&eg; less than an arc-minute) then you don't need to make any adjustments. Simply press stop and you're done. </para>
+                <para
+>If you will be making corrections to your mount's axis, you should select the adjustment approach (we're using Plate Solve in this example), and how often the system should recapture images to re-measure the polar alignment error. The refresh interval should be frequent, but it doesn't make sense to make it faster that your CPU can capture and plate-solve the images. We're using 2s in this example. Then press the <guibutton
+>Refresh</guibutton
+> button to begin the correction process. </para>
+                <para
+>The system will capture images, and re-estimate the polar alignment error after each image. You can try to reduce the error by adjusting the Altitude and Azimuth correction knobs on your mount. The image below shows the screen after the altitude error has been almost zeroed. See the difference between the <emphasis
+>Measured Error</emphasis
+> row, which shows the originally measured error after the original 3 captures, and the <emphasis
+>Updated Error</emphasis
+> row which shows the current error estimate. </para>
+                <screenshot>
+                    <screeninfo
+>Assistent uitlijnen op pool </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps2.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
                             <phrase
->Uitlijnen op de pool</phrase>
-                        </para>
-                    </caption>
-                </mediaobject>
-            </sect4>
-            <sect4 id="ekos-align-legacy-polar-alignment-workflow">
+>Assistent voor pool uitlijnen, werkmethode 2 Oplossen van platen</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Hieronder heeft de gebruiker ook de azimut aangepast om de fout verder te verminderen. Nu is de fout erg laag en het proces is klaar. De gebruiker zou op de knop stop moeten drukken. </para>
+                <screenshot>
+                    <screeninfo
+>Assistent uitlijnen op pool </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps3.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Assistent voor pool uitlijnen, werkmethode 3 Oplossen van platen</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                </sect4>
+                <sect4 id="ekos-align-move-star-correction">
                 <title
->Werken met het verouderde uitlijnen op de pool </title>
+>Correctieschema Ster verplaatsen</title>
+
                 <para
->In de modus voor uitlijnen op de pool, kan Ekos de uitlijnfouten op de pool meten en corrigeren. Als u de fout in azimut wilt meten, richt u de opstelling op een ster dicht bij de meridiaan. Op het Noordelijk Halfrond richt u de opstelling op de zuidelijke meridiaan. Klikken op <guibutton
->Fout Az meten</guibutton
-> start het proces. Ekos zal het verloop proberen te meten tussen twee afbeeldingen en op die manier de fout berekenen. U kunt nu Ekos vragen de azimutfout te corrigeren door te klikken op de knop <guibutton
->Corr. Az-fout</guibutton
->. Ekos draait dan naar de nieuwe lokatie, en zal u vragen de azimutknoppen te draaien totdat de ster in het midden is van de GV (het gezichtsveld). Met de <link linkend="focus-focuser-group"
->Framing-eigenschap</link
-> van de Focusmodule kunt u in de afbeelding uw correcties bekijken. </para>
-                <para
->Soortgelijk, voor het meten van de fout in hoogte, klikt u op de knop <guibutton
->Fout hoogte meten</guibutton
->. U moet de opstelling of naar het oosten of naar het westen richten,en dit in het neerklapmenu <guilabel
->Hoogterichting</guilabel
-> kiezen. Ekos maakt nu twee afbeeldingen, en berekent de fout. U kunt  Ekos de fout in hoogte laten corrigeren door te klikken op de knop <guibutton
->Corr. Hgte-fout</guibutton
->. Net zoals bij het corrigeren van het azimut, draait Ekos naar de nieuwe locatie, en wordt u gevraagd de knoppen van de opstelling net zolang te draaien totdat de ster in het midden is van de GV. </para>
-                <para
->Na het maken van een correctie, is het aan te raden opnieuw de fouten te bepalen in azimut en hoogte, en het verschil te bepalen. Voor optimale resultaten kan het nodig zijn dit meerdere keren te herhalen (itereren). </para>
-                <para
->Voordat u het hulpmiddel start voor het uitlijnen op de pool, moet u het bovenstaande GOTO-proces volledig uitvoeren voor minstens 1 punt aan de hemel. Als eenmaal uw opstelling is uitgelijnd, gaat u verder met het volgende (aangenomen wordt dat u zich op het Noordelijk Halfrond bevindt): </para>
-                <orderedlist>
-                    <listitem>
-                        <para
->Draai naar een <emphasis role="bold"
->heldere</emphasis
-> ster (magnitude 4 of lager) nabij de zuidelijke meridiaan (azimut 180). Let erop dat <guilabel
->Draaien naar doel</guilabel
-> is geselecteerd. Opnemen en oplossen. De ster moet nu precies in het midden staan van het gezichtsveld van uw CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Ga naar modus <guilabel
->Uitlijnen op pool</guilabel
->. Klik op <guibutton
->Meten Az-fout</guibutton
->. U wordt gevraagd naar een sterte draaien nabij de zuidelijke meridiaan, wat al is gedaan. Klik op <guibutton
->Verder</guibutton
->. Ekos gaat nu de foutberekening doen. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Als alles goed gaat, ziet u de fout in de uitvoervakken. Om de fout te corrigeren klikt u op <guibutton
->Corr Az-fout</guibutton
->. Ekos draait nu naar een ander punt aan de hemel, en u hoeft  <emphasis role="bold"
->ALLEEN</emphasis
-> maar de azimutknoppen van de opstelling te draaien totdat de ster in het midden van het gezichtsveld komt. De eenvoudigste manier voor het monitoren van het sterveldis door naar de <guilabel
->Focus</guilabel
->-module te gaan en te klikken op <guibutton
->Framing starten</guibutton
->.  Als de azimutfout groot is, kan mogelijk de ster niet zichtbaarzijn in het gezichtsveld van de CCD en moet u dus  <emphasis
->blind</emphasis
-> corrigeren  (of in de volgtelescoop te kijken) totdat de ster in het gezichtsveld komt van de CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Begin met de azimutcorrecties totdat de heldere ster waarnaar u aanvankelijk draaide zo dicht bij het midden is als mogelijk. </para>
-                    </listitem>
-                    <listitem>
-                        <para
-><guibutton
->Stop Framing</guibutton
-> in de <link linkend="focus-focuser-group"
->Focusmodule</link
+>We also have an alternative schemes for correcting polar alignment. Two variations are <emphasis
+>Move Star &amp; Calc Error</emphasis
+> and <emphasis
+>Move Star</emphasis
+>. When you select this scheme, the system place a yellow/green/violet triangle on the screen. The triangle can be moved by clicking near a star, and the yellow/violet corner is moved to that star. In this scheme the user corrects polar alignment by first adjusting the mount's azimuth knob so that the selected star moves along the yellow side of the triangle. Once the star is near the next vertex, the azimuth knob should be adjusted so that the star moves along the green side of the triangle. Once the star is moved to the green/violet vertex, the mount is polar aligned, and the user can click <emphasis
+>stop</emphasis
 >. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Herhaal <guibutton
->Meten Az-fout</guibutton
-> om er zeker van te zijn dat we de fout inderdaad hebben gecorrigeerd. Dit moet u mogelijk meerdere keren doen om er zeker van te zijn dat de resultaten echt goed zijn. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Modus schakelen naar <guilabel
->GOTO</guilabel
->. </para>
-                    </listitem>
-                    <listitem>
-                        <para
-> Draai nu naar een  <emphasis role="bold"
->heldere</emphasis
-> ster, oost of west, bij voorkeur hoger dan 20 graden. De ster moet zoveel mogelijk een azimut hebben van 90 of 270 graden. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Nadat het draaien klaar is, opnemen en oplossen. De ster moet nu precies in het midden zijn van het gezichtsveld van de CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Modus naar <guilabel
->Uitlijnen op de pool</guilabel
-> schakelen. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Klik op <guibutton
->Hgte-fout meten</guibutton
->. U wordt gevraagd te draaien naar een ster in het oosten (azimut 90 graden) of in het westen (azimut 270 graden), wat al is gebeurd. Klik op <guibutton
->Verder</guibutton
->. Ekos zal nu de foutberekening doen. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Om de fout te corrigeren, klikt u op <guibutton
->Corr. hgte-fout</guibutton
->. Ekos draait nu naar een ander punt aan de hemel, en u hoeft  <emphasis role="bold"
->ALLEEN</emphasis
-> maar de hoogteknoppen van de opstelling te draaien totdat de ster in het midden van het gezichtsveld komt. Start framing zoal eerder is gedaan in de <link linkend="focus-focuser-group"
->focus-focuser-groep</link
-> om het centreren gemakkelijker te maken. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Na het centreren, framing stoppen. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Herhaal <guibutton
->Meten hgte-fout</guibutton
-> om er zeker van te zijn dat we de fout inderdaad hebben gecorrigeerd. Dit moet u mogelijk meerdere keren doen om er zeker van te zijn dat de resultaten echt goed zijn. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Het uitlijnen op de pool is nu voltooid!</para>
-                    </listitem>
-                </orderedlist>
-                <warning>
-                    <para
->De opstelling kan naar een gevaarlijke positie draaien, en u loopt het risico dat de driepoot en/of andere apparatuur wordt geraakt. Kijk goed naar welke bewegingen uw telescoop kan maken. Alles is voor eigen risico. </para>
-                </warning>
+                  <para
+>Het verschil tussen <emphasis
+>Ster verplaatsen &amp; Fout berekenen</emphasis
+> en <emphasis
+>Ster verplaatsen</emphasis
+> is dat in de eerdere, het systeem probeert de ster te volgend die de gebruiker heeft geselecteerd en een cirkel plaatst rond die ster. In dat schema probeert het ook de rij <emphasis
+>Bijgewerkte fout</emphasis
+> bij te werken. Als het volgen van de ster niet betrouwbaar is, negeer dat dan eenvoudig of gebruik het schema <emphasis
+>Ster verplaatsten</emphasis
+> en verplaats de ster met het oog totdat het dicht bij het uiteindelijke doel is. Een voorbeeld van het gebruik van deze techniek wordt getoond in deze video: <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
+>https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
+> </para>
             </sect4>
         </sect3>
-    </sect2>
+</sect2>

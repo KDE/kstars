@@ -4174,7 +4174,7 @@ msgstr "No s'ha pogut exportar la imatge"
 #: dialogs/exportimagedialog.ui:17
 #, kde-format
 msgid "Legend Configuration"
-msgstr "Configuració de la llegenda"
+msgstr "Configureu la llegenda"
 
 #. i18n: ectx: property (text), widget (QCheckBox, addLegendCheckBox)
 #: dialogs/exportimagedialog.ui:23
@@ -6680,7 +6680,7 @@ msgstr "Exp:"
 #: ekos/capture/rotatorsettings.ui:14
 #, kde-format
 msgid "Rotator Settings"
-msgstr "Configuració del rotor"
+msgstr "Configureu el rotor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
@@ -7410,7 +7410,7 @@ msgstr ""
 #: ekos/align/opsalign.ui:32
 #, kde-format
 msgid "StellarSolver Settings"
-msgstr "Configuració de StellarSolver"
+msgstr "Configureu StellarSolver"
 
 #. i18n: ectx: property (text), widget (QLabel, label_73)
 #: ekos/align/opsalign.ui:62
@@ -13941,7 +13941,7 @@ msgstr "Inversió completada."
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
-msgstr "Directori FITS per a guardar"
+msgstr "Directori FITS per que es guardarà"
 
 #: ekos/capture/capture.cpp:3754
 #, kde-format
@@ -14292,7 +14292,7 @@ msgstr "Càmera i roda de filtres"
 #: ekos/capture/capture.ui:159
 #, kde-format
 msgid "<b>File Settings</b>"
-msgstr "<b>Configuració del fitxer</b>"
+msgstr "<b>Configureu el fitxer</b>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureFormatS)
 #: ekos/capture/capture.ui:193
@@ -14553,8 +14553,8 @@ msgstr ""
 "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Remotament</span>: En connectar amb un dispositiu remot, "
-"seleccioneu esta opció per a guardar les imatges només al dispositiu remot. "
-"No es puja cap imatge a Ekos.</li><li style=\"margin-top:0px; margin-"
+"seleccioneu esta opció per que es guardarà les imatges només al dispositiu "
+"remot. No es puja cap imatge a Ekos.</li><li style=\"margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Ambdós</span>: Les imatges "
 "capturades es guarden en l'ordinador remot <span style=\"font-weight:600;"
@@ -14717,7 +14717,7 @@ msgstr "_%s"
 #: ekos/capture/capture.ui:1139
 #, kde-format
 msgid "<b>Capture Settings</b>"
-msgstr "<b>Configuració de la captura</b>"
+msgstr "<b>Configureu la captura</b>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/capture.ui:1161
@@ -15413,7 +15413,7 @@ msgstr "Propietats de la tasca"
 #: ekos/capture/dslrinfo.ui:14
 #, kde-format
 msgid "DSLR Camera Settings"
-msgstr "Configuració de la càmera rèflex digital"
+msgstr "Configureu la càmera rèflex digital"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/dslrinfo.ui:44
@@ -15946,7 +15946,7 @@ msgstr "S'està establint la temperatura"
 #: ekos/ekos.h:74
 #, kde-format
 msgid "Setting Rotator"
-msgstr "Configuració del rotor"
+msgstr "Configureu el rotor"
 
 #: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:673
 #, kde-format
@@ -19983,7 +19983,7 @@ msgstr "Utilitza el xip de guiatge dedicat"
 #: ekos/indihub.ui:14
 #, kde-format
 msgid "INDI Hub Settings"
-msgstr "Configuració del Hub d'INDI"
+msgstr "Configureu el Hub d'INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/indihub.ui:59
@@ -20691,7 +20691,7 @@ msgstr "Segur que voleu netejar totes les configuracions de la muntura?"
 #: ekos/mount/mount.cpp:95
 #, kde-format
 msgid "Mount Configuration"
-msgstr "Configuració de la muntura"
+msgstr "Configureu la muntura"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
 #: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
@@ -20718,7 +20718,7 @@ msgstr ""
 #: ekos/mount/mount.cpp:380
 #, kde-format
 msgid "GPS Settings"
-msgstr "Configuració del GPS"
+msgstr "Configureu el GPS"
 
 #: ekos/mount/mount.cpp:508
 #, kde-format
@@ -21119,7 +21119,7 @@ msgstr "Desaparcant"
 #: ekos/observatory/observatory.cpp:267
 #, kde-format
 msgid "Rolloff roof opening..."
-msgstr "Obertura del sostre desplegable..."
+msgstr "Obriu el sostre desplegable..."
 
 #: ekos/observatory/observatory.cpp:271
 #, kde-format
@@ -21792,7 +21792,7 @@ msgstr ""
 #: ekos/opsekos.ui:257
 #, kde-format
 msgid "Setting altitude cutoff:"
-msgstr "Configuració del tall de l'altitud:"
+msgstr "Configureu el tall de l'altitud:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, duskOffsetLabel)
 #: ekos/opsekos.ui:267
@@ -25853,8 +25853,8 @@ msgid ""
 msgstr ""
 "<html><body><p>La restricció de l'horitzó artificial obliga que l'altitud de "
 "l'objectiu estiga sobre l'horitzó artificial, si se n'ha definit i activat "
-"un. Vegeu l'element de l'horitzó artificial en el menú Configuració de "
-"KStars.</p></body></html>"
+"un. Vegeu l'element de l'horitzó artificial en el menú Configureu KStars.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
 #: ekos/scheduler/scheduler.ui:1753
@@ -34181,7 +34181,8 @@ msgstr "Si s'ha d'enregistrar a un fitxer."
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
 msgstr ""
-"Camí cap al fitxer de gravació per a guardar la gravació de l'astrometria."
+"Camí cap al fitxer de gravació per que es guardarà la gravació de "
+"l'astrometria."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2017
@@ -64299,7 +64300,7 @@ msgstr "No s'ha pogut importar el catàleg «%1»<br>%2"
 #: kstarsactions.cpp:551
 #, kde-format
 msgid "Light Pollution Settings"
-msgstr "Configuració de la pol·lució lumínica"
+msgstr "Configureu la pol·lució lumínica"
 
 #: kstarsactions.cpp:553
 #, kde-format
@@ -67914,7 +67915,7 @@ msgstr "Guiatge"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Aperture (mm)"
-msgstr "Obertura del sistema de guiatge (mm)"
+msgstr "Obriu el sistema de guiatge (mm)"
 
 #: libindi_strings.cpp:230
 #, kde-kuit-format
@@ -69132,13 +69133,13 @@ msgstr "Simulació"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Simulator Config"
-msgstr "Configuració del simulador"
+msgstr "Configureu el simulador"
 
 #: libindi_strings.cpp:432
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Simulator Settings"
-msgstr "Configuració del simulador"
+msgstr "Configureu el simulador"
 
 #: libindi_strings.cpp:433
 #, kde-kuit-format
@@ -69600,7 +69601,7 @@ msgstr "Actualitza"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Upload Settings"
-msgstr "Configuració de la pujada"
+msgstr "Configureu la pujada"
 
 #: libindi_strings.cpp:510
 #, kde-kuit-format
@@ -71020,7 +71021,7 @@ msgstr "Tipus de lletra de les etiquetes en el mapa celeste:"
 #: options/opsadvanced.ui:628
 #, kde-format
 msgid "Configure hidden objects while moving"
-msgstr "Configuració dels objectes ocults en moure"
+msgstr "Configureu els objectes ocults en moure"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:649
@@ -71487,7 +71488,7 @@ msgstr "Colors de l'esquema actual"
 #: options/opscolors.ui:53
 #, kde-format
 msgid "Current color settings"
-msgstr "Configuració del color actual"
+msgstr "Configureu el color actual"
 
 #. i18n: ectx: property (whatsThis), widget (QListWidget, ColorPalette)
 #: options/opscolors.ui:56
@@ -72846,7 +72847,7 @@ msgid ""
 "settings or use manual capture mode."
 msgstr ""
 "El saltador entre estreles ha retornat un trajecte buit. Se vos recomana que "
-"canvieu Configuració dels salts entre estreles o bé que utilitzeu el mode "
+"canvieu Configureu els salts entre estreles o bé que utilitzeu el mode "
 "captura manual."
 
 #: printing/printingwizard.cpp:222
@@ -74786,7 +74787,7 @@ msgstr ""
 "«Guarda la imatge del cel»\n"
 "\t\t\tdel menú Fitxer, o bé prement Ctrl+I. A més, podeu executar KStars des "
 "d'una\n"
-"\t\t\tconsola amb l'argument «--dump» per a guardar en el disc una imatge "
+"\t\t\tconsola amb l'argument «--dump» per que es guardarà al disc una imatge "
 "del cel\n"
 "\t\t\tsense necessitat d'obrir la finestra del programa. Açò es pot "
 "utilitzar\n"
@@ -80936,7 +80937,7 @@ msgid ""
 "enhancement.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si està marcada, Xplanet utilitzarà un fitxer FIFO en "
-"el directori /tmp per a guardar temporalment la imatge d'Xplanet per a "
+"el directori /tmp per que es guardarà temporalment la imatge d'Xplanet per a "
 "KStars per a carregar-la i actualitzar la vista. Si no està marcada, en "
 "realitat Xplanet guardarà els fitxers en la carpeta d'Xplanet del directori "
 "de dades de KStars. L'ús d'un fitxer FIFO hauria de preservar al disc dur de "
