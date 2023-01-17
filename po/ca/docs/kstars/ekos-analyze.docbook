@@ -98,7 +98,7 @@
 >Calcula automàticament l'HFR</guilabel
 > a les opcions de FITS). Experimenteu amb les altres. </para>
         <para
->L'eix esquerre mostrat només és apropiat per a errors d'AR/Dec, deriva, error RMS, polsos AR/Dec i HFR, traçats en segons d'arc i amb un valor predeterminat en l'interval de -2 a 5 segons d'arc. No obstant això, en fer clic en una de les caselles sota el gràfic d'estadístiques (que mostra el valor d'una estadística) s'establirà l'interval de l'estadística com l'interval mostrat a l'eix esquerre. En fer doble clic en aquesta casella es mostrarà un menú que us permetrà ajustar l'interval Y dibuixat per l'estadística (p. ex. establir-lo a automàtic, escriure explícitament a l'interval, tornar al seu valor predeterminat, i també canviar el color del diagrama d'aquesta estadística). </para>
+>L'eix esquerre mostrat només és apropiat per a errors d'AR/Dec, deriva, error RMS, polsos AR/Dec i HFR, traçats en segons d'arc i amb un valor predeterminat en l'interval de -2 a 5 segons d'arc. No obstant això, en fer clic en una de les caselles sota el gràfic d'estadístiques (que mostra el valor d'una estadística) s'establirà l'interval de l'estadística com l'interval mostrat a l'eix esquerre. En fer doble clic en aquesta casella es mostrarà un menú que us permetrà ajustar l'interval Y traçat per l'estadística (p. ex. establir-lo a automàtic, escriure explícitament a l'interval, tornar al seu valor predeterminat, i també canviar el color del diagrama d'aquesta estadística). </para>
         <para
 >L'estadística mostrada en l'eix esquerre mostrat també es pot escalar (de manera incòmoda) utilitzant la <mousebutton
 >roda</mousebutton
