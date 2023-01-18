@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:52+0000\n"
-"PO-Revision-Date: 2023-01-11 15:57+0100\n"
+"PO-Revision-Date: 2023-01-17 19:30+0100\n"
 "Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2230,7 +2230,7 @@ msgstr "Arrere"
 #: dialogs/addcatalogobject.cpp:132
 #, kde-format
 msgid "Guess object data from text"
-msgstr "Suposa les dades d'un objecte a partir de text"
+msgstr "Suposa les dades d'un objecte a partir del text"
 
 #: dialogs/addcatalogobject.cpp:133
 #, kde-format
@@ -2239,7 +2239,7 @@ msgid ""
 "guess the contents of the fields from the text. The result is just a guess, "
 "so please verify the coordinates and the other information."
 msgstr ""
-"Copieu-apegueu un extracte de text amb dades de l'objecte, i KStars "
+"Copieu-apegueu un extracte de text amb les dades de l'objecte, i KStars "
 "intentarà suposar el contingut dels camps a partir del text. El resultat "
 "només serà una conjectura, de manera que caldrà verificar les coordenades i "
 "la resta d'informació."
@@ -2398,7 +2398,7 @@ msgstr ""
 #: dialogs/addcatalogobject.ui:254
 #, kde-format
 msgid "Guess from &Text"
-msgstr "Suposa a partir de &text"
+msgstr "Suposa a partir del &text"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox4)
 #: dialogs/addcatdialog.ui:32
@@ -3371,7 +3371,7 @@ msgstr "%1 %2 mas/any"
 #: printing/detailstable.cpp:142 printing/pwizobjectselection.cpp:121
 #, kde-format
 msgid "G5 star"
-msgstr "estrela del G5"
+msgstr "Estrela del G5"
 
 #: dialogs/detaildialog.cpp:222 printing/detailstable.cpp:150
 #: printing/pwizobjectselection.cpp:129
@@ -6444,7 +6444,7 @@ msgid ""
 "After telescope completes slewing, wait until it settles for this many "
 "milliseconds before capturing the next image."
 msgstr ""
-"Després que el telescopi complete l'orientació, espera estos mil·lisegons "
+"Després que el telescopi complete l'orientació, esperarà estos mil·lisegons "
 "fins que es posicioni abans de capturar la imatge següent."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
