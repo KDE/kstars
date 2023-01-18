@@ -10,10 +10,8 @@
 
 #include "addlinkdialog.h"
 #include "kspaths.h"
-#include "kstars.h"
 #include "ksnotification.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "observinglist.h"
 #include "skymap.h"
 #include "skyobjectuserdata.h"
@@ -30,7 +28,6 @@
 #include "Options.h"
 
 #ifdef HAVE_INDI
-#include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/indimount.h"
 #endif
@@ -583,7 +580,8 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
     Pos->RA0->setText(selectedObject->ra0().toHMSString(false, true));
     Pos->Dec0->setText(selectedObject->dec0().toDMSString(false, false, true));
 #if 0
-    if (!selectedObject->isSolarSystem() || selectedObject->type() == SkyObject::COMET || selectedObject->type() == SkyObject::ASTEROID)
+    if (!selectedObject->isSolarSystem() || selectedObject->type() == SkyObject::COMET
+            || selectedObject->type() == SkyObject::ASTEROID)
     {
         Pos->RA0->setText(selectedObject->ra0().toHMSString());
         Pos->Dec0->setText(selectedObject->dec0().toDMSString());
@@ -983,7 +981,8 @@ void DetailDialog::populateADVTree()
         {
             // Top Level
             case 0:
-                temp = new QTreeWidgetItem(parent, QStringList(i18nc("Advanced URLs: description or category", item->Name.toLocal8Bit().data())));
+                temp = new QTreeWidgetItem(parent, QStringList(i18nc("Advanced URLs: description or category",
+                                           item->Name.toLocal8Bit().data())));
                 if (parent == nullptr)
                     Adv->ADVTree->addTopLevelItem(temp);
                 parent = temp;
@@ -1119,7 +1118,8 @@ void DetailDialog::centerTelescope()
         // Display Sun warning on slew
         if (selectedObject && selectedObject->name() == i18n("Sun"))
         {
-            if (KMessageBox::warningContinueCancel(nullptr, i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permanent eye damage!"))
+            if (KMessageBox::warningContinueCancel(nullptr,
+                                                   i18n("Danger! Viewing the Sun without adequate solar filters is dangerous and will result in permanent eye damage!"))
                     == KMessageBox::Cancel)
                 return;
         }
