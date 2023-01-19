@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-13 00:52+0000\n"
+"POT-Creation-Date: 2023-01-19 00:53+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -511,8 +511,8 @@ msgid "Question"
 msgstr "Këndi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerYesR)
-#: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:435
-#: dialogs/detaildialog.cpp:493 ekos/profilewizard.ui:560
+#: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:432
+#: dialogs/detaildialog.cpp:490 ekos/profilewizard.ui:560
 #: kstarslite/qml/modules/tutorial/TutorialExitPopup.qml:39
 #: printing/detailstable.cpp:372 printing/detailstable.cpp:410
 #, kde-format, kde-kuit-format
@@ -520,8 +520,8 @@ msgid "Yes"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNoR)
-#: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:437
-#: dialogs/detaildialog.cpp:495 ekos/profilewizard.ui:567
+#: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:434
+#: dialogs/detaildialog.cpp:492 ekos/profilewizard.ui:567
 #: printing/detailstable.cpp:372 printing/detailstable.cpp:410
 #, fuzzy, kde-format
 #| msgid "None"
@@ -935,8 +935,8 @@ msgstr "Sistemi Diellor"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #: auxiliary/xplanetimageviewer.cpp:203
 #: data/qml/whatisinteresting/wiview.qml:141
-#: data/qml/whatisinteresting/wiview.qml:152 dialogs/detaildialog.cpp:214
-#: dialogs/detaildialog.cpp:272 dialogs/detaildialog.cpp:1120
+#: data/qml/whatisinteresting/wiview.qml:152 dialogs/detaildialog.cpp:211
+#: dialogs/detaildialog.cpp:269 dialogs/detaildialog.cpp:1119
 #: indi/indimount.cpp:770 indi/indimount.cpp:785 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -1008,9 +1008,9 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #: auxiliary/xplanetimageviewer.cpp:205
 #: data/qml/whatisinteresting/wiview.qml:172
-#: data/qml/whatisinteresting/wiview.qml:183 dialogs/detaildialog.cpp:218
-#: dialogs/detaildialog.cpp:234 dialogs/detaildialog.cpp:257
-#: dialogs/detaildialog.cpp:272 ekos/scheduler/schedulerjob.cpp:156
+#: data/qml/whatisinteresting/wiview.qml:183 dialogs/detaildialog.cpp:215
+#: dialogs/detaildialog.cpp:231 dialogs/detaildialog.cpp:254
+#: dialogs/detaildialog.cpp:269 ekos/scheduler/schedulerjob.cpp:156
 #: printing/detailstable.cpp:145 printing/detailstable.cpp:162
 #: printing/detailstable.cpp:173 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:124 skycomponents/skymapcomposite.cpp:600
@@ -1877,7 +1877,7 @@ msgstr "Yjet"
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:745 dialogs/addcatalogobject.ui:40
-#: dialogs/detaildialog.cpp:317 ekos/capture/capture.ui:791
+#: dialogs/detaildialog.cpp:314 ekos/capture/capture.ui:791
 #: oal/equipmentwriter.ui:195 oal/equipmentwriter.ui:1005 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
@@ -2644,7 +2644,7 @@ msgid "Description:"
 msgstr "Përshkrimi:"
 
 #. i18n: ectx: property (text), widget (QLabel, URLLabel)
-#: dialogs/addlinkdialog.ui:73 dialogs/detaildialog.cpp:889
+#: dialogs/addlinkdialog.ui:73 dialogs/detaildialog.cpp:887
 #, kde-format
 msgid "URL:"
 msgstr "URL:"
@@ -3371,7 +3371,7 @@ msgstr "Ngjyrat"
 msgid "More..."
 msgstr ""
 
-#: dialogs/detaildialog.cpp:60
+#: dialogs/detaildialog.cpp:57
 #, fuzzy, kde-format
 #| msgid "Object Details"
 msgctxt "@title:window"
@@ -3381,14 +3381,14 @@ msgstr "Detajet e Objektit"
 #. i18n: ectx: attribute (title), widget (QWidget, generalTab)
 #. i18n: ectx: property (title), widget (QGroupBox, generalGroup)
 #. i18n: ectx: attribute (title), widget (QWidget, XplanetTabGeneral)
-#: dialogs/detaildialog.cpp:76 ekos/opsekos.ui:21 indi/opsindi.ui:32
+#: dialogs/detaildialog.cpp:73 ekos/opsekos.ui:21 indi/opsindi.ui:32
 #: kstarslite/qml/dialogs/DetailsDialog.qml:34 printing/detailstable.cpp:311
 #: xplanet/opsxplanet.ui:21
 #, kde-format, kde-kuit-format
 msgid "General"
 msgstr "Të Përgjithshme"
 
-#: dialogs/detaildialog.cpp:122
+#: dialogs/detaildialog.cpp:119
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "%1 star"
@@ -3399,8 +3399,8 @@ msgstr "yll"
 #.
 #. }
 #. else{
-#: dialogs/detaildialog.cpp:124 dialogs/detaildialog.cpp:252
-#: dialogs/detaildialog.cpp:301 dialogs/detaildialog.cpp:378
+#: dialogs/detaildialog.cpp:121 dialogs/detaildialog.cpp:249
+#: dialogs/detaildialog.cpp:298 dialogs/detaildialog.cpp:375
 #: kstarslite/dialogs/detaildialoglite.cpp:70
 #: kstarslite/dialogs/detaildialoglite.cpp:162
 #: kstarslite/dialogs/detaildialoglite.cpp:210
@@ -3412,15 +3412,15 @@ msgctxt "number in magnitudes"
 msgid "%1 mag"
 msgstr "%1 mag"
 
-#: dialogs/detaildialog.cpp:143 kstarslite/dialogs/detaildialoglite.cpp:81
+#: dialogs/detaildialog.cpp:140 kstarslite/dialogs/detaildialoglite.cpp:81
 #: printing/detailstable.cpp:88
 #, kde-format
 msgctxt "larger than 2000 parsecs"
 msgid "> 2000 pc"
 msgstr "> 2000 pc"
 
-#: dialogs/detaildialog.cpp:147 dialogs/detaildialog.cpp:152
-#: dialogs/detaildialog.cpp:157 kstarslite/dialogs/detaildialoglite.cpp:86
+#: dialogs/detaildialog.cpp:144 dialogs/detaildialog.cpp:149
+#: dialogs/detaildialog.cpp:154 kstarslite/dialogs/detaildialoglite.cpp:86
 #: kstarslite/dialogs/detaildialoglite.cpp:91
 #: kstarslite/dialogs/detaildialoglite.cpp:96 printing/detailstable.cpp:93
 #: printing/detailstable.cpp:98 printing/detailstable.cpp:103
@@ -3429,7 +3429,7 @@ msgctxt "number in parsecs"
 msgid "%1 pc"
 msgstr "%1 pc"
 
-#: dialogs/detaildialog.cpp:168 dialogs/detaildialog.cpp:174
+#: dialogs/detaildialog.cpp:165 dialogs/detaildialog.cpp:171
 #: kstarslite/dialogs/detaildialoglite.cpp:103
 #: kstarslite/dialogs/detaildialoglite.cpp:108 printing/detailstable.cpp:109
 #: printing/detailstable.cpp:115
@@ -3438,7 +3438,7 @@ msgctxt "the star is a multiple star"
 msgid "multiple"
 msgstr "i shumëfishtë"
 
-#: dialogs/detaildialog.cpp:169 dialogs/detaildialog.cpp:179
+#: dialogs/detaildialog.cpp:166 dialogs/detaildialog.cpp:176
 #: kstarslite/dialogs/detaildialoglite.cpp:104
 #: kstarslite/dialogs/detaildialoglite.cpp:112 printing/detailstable.cpp:110
 #: printing/detailstable.cpp:120
@@ -3447,14 +3447,14 @@ msgctxt "the star is a variable star"
 msgid "variable"
 msgstr "i ndryshueshëm"
 
-#: dialogs/detaildialog.cpp:187
+#: dialogs/detaildialog.cpp:184
 #, fuzzy, kde-format
 #| msgid "Position"
 msgctxt "Proper motion of a star"
 msgid "Proper Motion:"
 msgstr "Pozicioni"
 
-#: dialogs/detaildialog.cpp:191
+#: dialogs/detaildialog.cpp:188
 #, fuzzy, kde-format
 #| msgctxt "angular size in arcminutes"
 #| msgid "%1 arcmin"
@@ -3464,13 +3464,13 @@ msgctxt ""
 msgid "%1 %2 mas/yr"
 msgstr "%1 arcmin"
 
-#: dialogs/detaildialog.cpp:216 kstarslite/dialogs/detaildialoglite.cpp:129
+#: dialogs/detaildialog.cpp:213 kstarslite/dialogs/detaildialoglite.cpp:129
 #: printing/detailstable.cpp:142 printing/pwizobjectselection.cpp:121
 #, kde-format
 msgid "G5 star"
 msgstr "yll G5"
 
-#: dialogs/detaildialog.cpp:222 printing/detailstable.cpp:150
+#: dialogs/detaildialog.cpp:219 printing/detailstable.cpp:150
 #: printing/pwizobjectselection.cpp:129
 #: skycomponents/asteroidscomponent.cpp:150 tools/wutdialog.cpp:359
 #, fuzzy, kde-format
@@ -3479,42 +3479,42 @@ msgctxt "Asteroid name (optional)"
 msgid "Pluto"
 msgstr "Pluto"
 
-#: dialogs/detaildialog.cpp:223 printing/detailstable.cpp:150
+#: dialogs/detaildialog.cpp:220 printing/detailstable.cpp:150
 #: printing/pwizobjectselection.cpp:129
 #, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Ceres"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:224 printing/detailstable.cpp:151
+#: dialogs/detaildialog.cpp:221 printing/detailstable.cpp:151
 #: printing/pwizobjectselection.cpp:129
 #, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Eris"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:226 kstarslite/dialogs/detaildialoglite.cpp:138
+#: dialogs/detaildialog.cpp:223 kstarslite/dialogs/detaildialoglite.cpp:138
 #: printing/detailstable.cpp:153 printing/pwizobjectselection.cpp:131
 #, kde-format
 msgid "Dwarf planet"
 msgstr "Planet xhuxh"
 
-#: dialogs/detaildialog.cpp:260 kstarslite/dialogs/detaildialoglite.cpp:169
+#: dialogs/detaildialog.cpp:257 kstarslite/dialogs/detaildialoglite.cpp:169
 #: printing/detailstable.cpp:175
 #, kde-format
 msgctxt "distance in kilometers"
 msgid "%1 km"
 msgstr "%1 km"
 
-#: dialogs/detaildialog.cpp:265 kstarslite/dialogs/detaildialoglite.cpp:174
+#: dialogs/detaildialog.cpp:262 kstarslite/dialogs/detaildialoglite.cpp:174
 #: printing/detailstable.cpp:180
 #, kde-format
 msgctxt "distance in Astronomical Units"
 msgid "%1 AU"
 msgstr "%1 AU"
 
-#: dialogs/detaildialog.cpp:275 dialogs/detaildialog.cpp:391
-#: dialogs/detaildialog.cpp:396 kstarslite/dialogs/detaildialoglite.cpp:186
+#: dialogs/detaildialog.cpp:272 dialogs/detaildialog.cpp:388
+#: dialogs/detaildialog.cpp:393 kstarslite/dialogs/detaildialoglite.cpp:186
 #: kstarslite/dialogs/detaildialoglite.cpp:272
 #: kstarslite/dialogs/detaildialoglite.cpp:277 printing/detailstable.cpp:189
 #: printing/detailstable.cpp:271 printing/detailstable.cpp:276
@@ -3523,50 +3523,50 @@ msgctxt "angular size in arcminutes"
 msgid "%1 arcmin"
 msgstr "%1 arcmin"
 
-#: dialogs/detaildialog.cpp:283 kstarslite/dialogs/detaildialoglite.cpp:193
+#: dialogs/detaildialog.cpp:280 kstarslite/dialogs/detaildialoglite.cpp:193
 #: printing/detailstable.cpp:195
 #, kde-format
 msgctxt "angular size in arcseconds"
 msgid "%1 arcsec"
 msgstr "%1 arcsec"
 
-#: dialogs/detaildialog.cpp:298 kstarslite/dialogs/detaildialoglite.cpp:208
+#: dialogs/detaildialog.cpp:295 kstarslite/dialogs/detaildialoglite.cpp:208
 #: skyobjects/skyobject.cpp:373
 #, fuzzy, kde-format
 #| msgid "supernova remnant"
 msgid "Supernova"
 msgstr "ngelje e një supernova"
 
-#: dialogs/detaildialog.cpp:312
+#: dialogs/detaildialog.cpp:309
 #, kde-format
 msgid "Discovery Date:"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:322
+#: dialogs/detaildialog.cpp:319
 #, fuzzy, kde-format
 #| msgid "Andromeda Galaxy"
 msgid "Host Galaxy:"
 msgstr "Galaktika Andromeda"
 
-#: dialogs/detaildialog.cpp:328
+#: dialogs/detaildialog.cpp:325
 #, kde-format
 msgid "Red Shift:"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:366 printing/detailstable.cpp:249
+#: dialogs/detaildialog.cpp:363 printing/detailstable.cpp:249
 #, kde-format
 msgctxt "integrated flux at a frequency"
 msgid "Flux(%1):"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:367 printing/detailstable.cpp:250
+#: dialogs/detaildialog.cpp:364 printing/detailstable.cpp:250
 #, kde-format
 msgctxt "integrated flux value"
 msgid "%1 %2"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:420 dialogs/detaildialog.cpp:427
-#: dialogs/detaildialog.cpp:478 dialogs/detaildialog.cpp:485
+#: dialogs/detaildialog.cpp:417 dialogs/detaildialog.cpp:424
+#: dialogs/detaildialog.cpp:475 dialogs/detaildialog.cpp:482
 #, fuzzy, kde-format
 #| msgctxt "distance in Astronomical Units"
 #| msgid "%1 AU"
@@ -3574,7 +3574,7 @@ msgctxt "Distance in astronomical units"
 msgid "%1 AU"
 msgstr "%1 AU"
 
-#: dialogs/detaildialog.cpp:447 dialogs/detaildialog.cpp:505
+#: dialogs/detaildialog.cpp:444 dialogs/detaildialog.cpp:502
 #, fuzzy, kde-format
 #| msgctxt "distance in kilometers"
 #| msgid "%1 km"
@@ -3582,7 +3582,7 @@ msgctxt "Diameter in kilometers"
 msgid "%1 km"
 msgstr "%1 km"
 
-#: dialogs/detaildialog.cpp:454 dialogs/detaildialog.cpp:512
+#: dialogs/detaildialog.cpp:451 dialogs/detaildialog.cpp:509
 #, fuzzy, kde-format
 #| msgctxt "distance in kilometers"
 #| msgid "%1 km"
@@ -3590,19 +3590,19 @@ msgctxt "Dimension in kilometers"
 msgid "%1 km"
 msgstr "%1 km"
 
-#: dialogs/detaildialog.cpp:460 dialogs/detaildialog.cpp:518
+#: dialogs/detaildialog.cpp:457 dialogs/detaildialog.cpp:515
 #, kde-format
 msgctxt "Rotation period in hours"
 msgid "%1 h"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:466 dialogs/detaildialog.cpp:524
+#: dialogs/detaildialog.cpp:463 dialogs/detaildialog.cpp:521
 #, kde-format
 msgctxt "Orbit period in years"
 msgid "%1 y"
 msgstr ""
 
-#: dialogs/detaildialog.cpp:539 kstarslite/dialogs/detaildialoglite.cpp:417
+#: dialogs/detaildialog.cpp:536 kstarslite/dialogs/detaildialoglite.cpp:417
 #: printing/detailstable.cpp:297 tools/observinglist.cpp:627
 #, kde-format
 msgctxt ""
@@ -3612,25 +3612,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, domeAzimuthPositionLabel)
 #. i18n: ectx: attribute (title), widget (QWidget, XplanetTabPosition)
-#: dialogs/detaildialog.cpp:547 ekos/observatory/observatory.ui:109
+#: dialogs/detaildialog.cpp:544 ekos/observatory/observatory.ui:109
 #: kstarslite/qml/dialogs/DetailsDialog.qml:38 xplanet/opsxplanet.ui:874
 #, kde-format, kde-kuit-format
 msgid "Position"
 msgstr "Pozicioni"
 
-#: dialogs/detaildialog.cpp:564 kstarslite/dialogs/detaildialoglite.cpp:441
+#: dialogs/detaildialog.cpp:561 kstarslite/dialogs/detaildialoglite.cpp:441
 #: printing/detailstable.cpp:518
 #, kde-format
 msgid "RA (%1):"
 msgstr "RA (%1):"
 
-#: dialogs/detaildialog.cpp:565
+#: dialogs/detaildialog.cpp:562
 #, fuzzy, kde-format
 #| msgid "Dec (%1):"
 msgid "DE (%1):"
 msgstr "Dec (%1):"
 
-#: dialogs/detaildialog.cpp:652 dialogs/detaildialog.cpp:653
+#: dialogs/detaildialog.cpp:650 dialogs/detaildialog.cpp:651
 #: kstarslite/dialogs/detaildialoglite.cpp:523
 #: kstarslite/dialogs/detaildialoglite.cpp:524 printing/detailstable.cpp:622
 #: printing/detailstable.cpp:623 tools/modcalcdaylength.cpp:138
@@ -3640,7 +3640,7 @@ msgstr "Dec (%1):"
 msgid "Circumpolar"
 msgstr "Rrethpolar"
 
-#: dialogs/detaildialog.cpp:657 dialogs/detaildialog.cpp:658
+#: dialogs/detaildialog.cpp:655 dialogs/detaildialog.cpp:656
 #: kstarslite/dialogs/detaildialoglite.cpp:528
 #: kstarslite/dialogs/detaildialoglite.cpp:529 printing/detailstable.cpp:628
 #: printing/detailstable.cpp:629 tools/observinglist.cpp:189
@@ -3648,7 +3648,7 @@ msgstr "Rrethpolar"
 msgid "Never rises"
 msgstr "Nuk ngrohet kurrë"
 
-#: dialogs/detaildialog.cpp:661 dialogs/detaildialog.cpp:662
+#: dialogs/detaildialog.cpp:659 dialogs/detaildialog.cpp:660
 #: ekos/observatory/observatory.cpp:164
 #: kstarslite/dialogs/detaildialoglite.cpp:532
 #: kstarslite/dialogs/detaildialoglite.cpp:533 printing/detailstable.cpp:632
@@ -3658,29 +3658,29 @@ msgctxt "Not Applicable"
 msgid "N/A"
 msgstr "N/A"
 
-#: dialogs/detaildialog.cpp:679 kstarslite/qml/dialogs/DetailsDialog.qml:47
+#: dialogs/detaildialog.cpp:677 kstarslite/qml/dialogs/DetailsDialog.qml:47
 #, kde-format, kde-kuit-format
 msgid "Links"
 msgstr "Lidhjet"
 
-#: dialogs/detaildialog.cpp:741
+#: dialogs/detaildialog.cpp:739
 #, fuzzy, kde-format
 #| msgid "Could not download the file."
 msgid "Could not add the link."
 msgstr "Nuk mund të shkarkojmë skedarin."
 
-#: dialogs/detaildialog.cpp:759 kstarsactions.cpp:1145
+#: dialogs/detaildialog.cpp:757 kstarsactions.cpp:1145
 #, kde-format
 msgid "Advanced"
 msgstr "Të Avancuara"
 
-#: dialogs/detaildialog.cpp:774 kstarslite/qml/dialogs/DetailsDialog.qml:55
+#: dialogs/detaildialog.cpp:772 kstarslite/qml/dialogs/DetailsDialog.qml:55
 #: kstarslite/qml/dialogs/DetailsDialog.qml:453
 #, kde-format, kde-kuit-format
 msgid "Log"
 msgstr "Hyrje"
 
-#: dialogs/detaildialog.cpp:781 kstarsdata.cpp:1702
+#: dialogs/detaildialog.cpp:779 kstarsdata.cpp:1702
 #: kstarslite/dialogs/detaildialoglite.cpp:557
 #: kstarslite/qml/dialogs/DetailsDialog.qml:462 tools/observinglist.cpp:561
 #: tools/observinglist.cpp:868
@@ -3688,43 +3688,43 @@ msgstr "Hyrje"
 msgid "Record here observation logs and/or data on %1."
 msgstr "Regjistro  këtu hyrjet e vëzhgimeve dhe të dhënave për %1."
 
-#: dialogs/detaildialog.cpp:855
+#: dialogs/detaildialog.cpp:853
 #, fuzzy, kde-format
 #| msgid "Edit Link"
 msgctxt "@title:window"
 msgid "Edit Link"
 msgstr "Modifiko Lidhjen"
 
-#: dialogs/detaildialog.cpp:920
+#: dialogs/detaildialog.cpp:918
 #, fuzzy, kde-format
 #| msgid "Could not download the file."
 msgid "Could not edit the entry."
 msgstr "Nuk mund të shkarkojmë skedarin."
 
-#: dialogs/detaildialog.cpp:955
+#: dialogs/detaildialog.cpp:953
 #, kde-format
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "Jeni i sigurtë se doni ta hiqni lidhjen %1?"
 
-#: dialogs/detaildialog.cpp:956 indi/drivermanager.cpp:1506
+#: dialogs/detaildialog.cpp:954 indi/drivermanager.cpp:1506
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
 msgstr "Fshije Konfirmimin"
 
-#: dialogs/detaildialog.cpp:964
+#: dialogs/detaildialog.cpp:962
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not delete the entry."
 msgstr "Nuk mund të hapim skedarin %1"
 
-#: dialogs/detaildialog.cpp:1080 tools/observinglist.cpp:874
+#: dialogs/detaildialog.cpp:1079 tools/observinglist.cpp:874
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not update the user log."
 msgstr "Nuk mund të hapim skedarin %1"
 
-#: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
+#: dialogs/detaildialog.cpp:1099 dialogs/detaildialog.cpp:1131
 #: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
@@ -3733,7 +3733,7 @@ msgstr "Nuk mund të hapim skedarin %1"
 msgid "No connected mounts found."
 msgstr "Nuk u gjet asnjë objekt i emërtuar %1."
 
-#: dialogs/detaildialog.cpp:1111 fitsviewer/fitslabel.cpp:433
+#: dialogs/detaildialog.cpp:1110 fitsviewer/fitslabel.cpp:433
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, fuzzy, kde-format
