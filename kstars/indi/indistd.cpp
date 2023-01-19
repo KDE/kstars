@@ -951,7 +951,7 @@ bool GenericDevice::getJSONProperty(const QString &propName, QJsonObject &propOb
 bool GenericDevice::getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject)
 {
     auto blobProperty = m_BaseDevice.getProperty(propName.toLatin1().constData());
-    if (blobProperty == false)
+    if (!blobProperty.isValid())
         return false;
 
     auto oneBLOB = blobProperty.getBLOB()->findWidgetByName(elementName.toLatin1().constData());
