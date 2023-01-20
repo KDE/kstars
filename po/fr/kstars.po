@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-19 00:53+0000\n"
-"PO-Revision-Date: 2022-12-30 17:30+0100\n"
+"PO-Revision-Date: 2023-01-19 08:56+0100\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -10230,6 +10230,10 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
+"<p>L'erreur de dérive de l'ascension droite AD en secondes d'arc. Cliquez "
+"ici pour afficher cet axe sur l'axe des ordonnées. Partage l'axe avec les "
+"erreurs en AD et DEC, dérive et valeur RMS. Double-cliquez pour mettre cet "
+"axe à jour.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decCB)
 #: ekos/analyze/analyze.ui:428
@@ -10258,6 +10262,10 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
+"<p>Affiche l'erreur de dérive de la déclinaison DEC en secondes d'arc. "
+"Cliquez ici pour afficher cet axe sur l'axe des ordonnées. Partage cet axe "
+"avec les erreurs en AD et DEC, la dérive et les valeurs RMS. Double-cliquez "
+"pour mettre cet axe à jour.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raPulseCB)
 #: ekos/analyze/analyze.ui:469
@@ -10277,17 +10285,15 @@ msgstr "Impulsion AD"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, raPulseOut)
 #: ekos/analyze/analyze.ui:488
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The right ascension (RA) guide pulses in "
-#| "milliseconds.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The right ascension (RA) guide pulses in milliseconds. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Les impulsions de guidage de l'ascension droite (AD) "
-"en millisecondes.</p></body></html>"
+"en millisecondes. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. "
+"Double-cliquez pour mettre à jour l'axe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decPulseCB)
 #: ekos/analyze/analyze.ui:516
@@ -10337,6 +10343,9 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
+"<p>L'erreur de dérive en AD et DEC combinée. Cliquez ici pour afficher cet "
+"axe sur l'axe des ordonnées. Partage cet axe avec les erreurs en AD et DEC, "
+"la dérive et les valeurs RMS. Double-cliquez pour mettre cet axe à jour.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCB)
 #: ekos/analyze/analyze.ui:610
@@ -10359,11 +10368,7 @@ msgstr "rms"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsOut)
 #: ekos/analyze/analyze.ui:629
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The root-mean-squared (RMS) value of the combined "
-#| "RA and DEC drift in arc-seconds, averaged on approximately the past 40 "
-#| "samples, but only in during capture.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The root-mean-squared (RMS) value of the combined RA "
 "and DEC drift in arc-seconds, averaged on approximately the past 40 samples. "
@@ -10372,8 +10377,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>La valeur en moyenne quadratique (Root-Mean-Squared, "
 "RMS) de la dérive combinée RA et DEC, en secondes d'arc moyennée sur "
-"approximativement les 40 derniers échantillons, mais, uniquement durant la "
-"capture.</p></body></html>"
+"approximativement les 40 derniers échantillons. Cliquez ici pour afficher "
+"cet axe sur l'axe des ordonnées. Double-cliquez pour mettre cet axe à jour.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, skyBgCB)
 #: ekos/analyze/analyze.ui:657
@@ -10393,17 +10399,15 @@ msgstr "ciel"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, skyBgOut)
 #: ekos/analyze/analyze.ui:676
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The sky background light level (computed by SEP "
-#| "from the guide images).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sky background light level (computed by SEP from "
 "the guide images). Click here to view this axis on left-axis values. Double "
 "click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tracer le niveau de lumière du fo du ciel (Calculé par "
-"« SEP à partir des images de guidage).</p></body></html>"
+"<html><head/><body><p>Le niveau de lumière du fond du ciel (calculé par SEP "
+"à partir des images de guidage). Cliquez ici pour afficher cet axe sur l'axe "
+"des ordonnées. Double-cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numStarsCB)
 #: ekos/analyze/analyze.ui:698
@@ -10431,17 +10435,15 @@ msgstr "étoiles"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numStarsOut)
 #: ekos/analyze/analyze.ui:717
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The number of stars detected in the guide images.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The number of stars detected in the guide images. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre d'étoiles détectées dans les images de guidage."
-"</p></body></html>"
+"<html><head/><body><p>Nombre d'étoiles détectées dans les images de guidage. "
+"Cliquez pour afficher cet axe sur l'axe des ordonnées. Double-cliquez pour "
+"mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, snrCB)
 #: ekos/analyze/analyze.ui:745
@@ -10461,17 +10463,15 @@ msgstr "snr"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, snrOut)
 #: ekos/analyze/analyze.ui:764
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The signal-to-noise ratio (SNR) of the guide star.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The signal-to-noise ratio (SNR) of the guide star. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Le rapport Signal/Bruit (SNR) de l'étoile de guidage.</"
-"p></body></html>"
+"<html><head/><body><p>Le rapport Signal/Bruit (SNR) de l'étoile de guidage. "
+"Cliquez ici pour afficher cet axe sur l'axe des ordonnées. Double-cliquez "
+"pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountRaCB)
 #: ekos/analyze/analyze.ui:792
@@ -10485,17 +10485,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountRaOut)
 #: ekos/analyze/analyze.ui:817
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Right Ascension (RA) in HMS where the telescope "
-#| "is pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Right Ascension (RA) in HMS where the telescope is "
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>L'ascension droite (AD) au format H:M:S où le "
-"télescope pointe.</p></body></html>"
+"télescope pointe. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. "
+"Double-cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
 #: ekos/analyze/analyze.ui:839
@@ -10509,17 +10507,16 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountDecOut)
 #: ekos/analyze/analyze.ui:864
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Declination (DEC) in degrees:arc-minutes:arc-"
-#| "seconds where the telescope is pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Declination (DEC) in degrees:arc-minutes:arc-"
 "seconds where the telescope is pointing. Click here to view this axis on "
 "left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>La déclinaison (DEC) au format degrés:minutes-d'arc:"
-"secondes-d'arc là où DEC dans le télescope pointe.</p></body></html>"
+"secondes-d'arc là où le télescope pointe. Cliquez ici pour afficher cet axe "
+"sur l'axe des ordonnées. Double-cliquez pour mettre cet axe à jour.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:886
@@ -10539,14 +10536,14 @@ msgstr "az"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, azOut)
 #: ekos/analyze/analyze.ui:905
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The telescope's azimuth (degrees).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The telescope's azimuth (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>L'azimut du télescope (en degrés).</p></body></html>"
+"<html><head/><body><p>L'azimut du télescope (en degrés). Cliquez ici pour "
+"afficher cet axe sur l'axe des ordonnées. Double-cliquez pour mettre cet axe "
+"à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altCB)
 #: ekos/analyze/analyze.ui:933
@@ -10566,15 +10563,14 @@ msgstr "alt"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, altOut)
 #: ekos/analyze/analyze.ui:952
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The telescope's altitude (degrees).</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The telescope's altitude (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Hauteur du télescope (en degrés).</p></body></html>"
+"<html><head/><body><p>Hauteur du télescope (en degrés). Cliquez ici pour "
+"afficher cet axe sur l'axe des ordonnées. Double-cliquez pour mettre cet axe "
+"à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:980
@@ -10594,17 +10590,15 @@ msgstr "côté"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pierSideOut)
 #: ekos/analyze/analyze.ui:999
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-#| "pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Le côté du pied de la monture (gauche) => la direction "
-"dans laquelle la monture pointe.</p></body></html>"
+"dans laquelle la monture pointe. Cliquez ici pour afficher cet axe sur l'axe "
+"des ordonnées. Double-cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
 #: ekos/analyze/analyze.ui:1027
@@ -10623,16 +10617,14 @@ msgstr "ah"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountHaOut)
 #: ekos/analyze/analyze.ui:1052
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-#| "pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The mount's hour angle value. Click here to view this "
 "axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Le côté du pied de la monture (gauche) => la direction "
-"dans laquelle la monture pointe.</p></body></html>"
+"<html><head/><body><p>L'angle horaire de la monture. Cliquez ici pour "
+"afficher cet axe sur l'axe des ordonnées. Double-cliquez pour mettre cet axe "
+"à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1074
@@ -10652,17 +10644,15 @@ msgstr "hfr"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, hfrOut)
 #: ekos/analyze/analyze.ui:1093
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Half-Flux Radius (in pixels) of the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Half-Flux Radius (in pixels) of the captured "
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Le rayon de demi-flux (HFR) en pixels des images "
-"acquises.</p></body></html>"
+"acquises. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. Double-"
+"cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
 #: ekos/analyze/analyze.ui:1115
@@ -10676,17 +10666,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numCaptureStarsOut)
 #: ekos/analyze/analyze.ui:1134
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the number of stars detected in the captured "
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Tracer le nombre d'étoiles détectées dans les images "
-"acquises.</p></body></html>"
+"acquises. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. Double-"
+"cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, medianCB)
 #: ekos/analyze/analyze.ui:1156
@@ -10706,17 +10694,15 @@ msgstr "Médiane"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, medianOut)
 #: ekos/analyze/analyze.ui:1175
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median sample value in the captured images."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the median sample value in the captured images. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Tracer la valeur médiane d'échantillonnage dans les "
-"images acquises.</p></body></html>"
+"images acquises. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. "
+"Double-cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eccentricityCB)
 #: ekos/analyze/analyze.ui:1197
@@ -10736,17 +10722,15 @@ msgstr "ECC"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, eccentricityOut)
 #: ekos/analyze/analyze.ui:1216
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median star eccentricity in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the median star eccentricity in the captured "
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Tracer l'excentricité médiane des étoiles dans les "
-"images acquises.</p></body></html>"
+"images acquises. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. "
+"Double-cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, temperatureCB)
 #: ekos/analyze/analyze.ui:1238
@@ -10764,15 +10748,14 @@ msgstr "Temp"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, temperatureOut)
 #: ekos/analyze/analyze.ui:1257
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the ambient temperature. Click here to view this "
 "axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Effectuer un tracé de la température ambiante.</p></"
-"body></html>"
+"<html><head/><body><p>Effectuer un tracé de la température ambiante. Cliquez "
+"ici pour afficher cet axe sur l'axe des ordonnées. Double-cliquez pour "
+"mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCCB)
 #: ekos/analyze/analyze.ui:1285
@@ -10789,11 +10772,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsCOut)
 #: ekos/analyze/analyze.ui:1304
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The root-mean-squared (RMS) value of the combined "
-#| "RA and DEC drift in arc-seconds, averaged on approximately the past 40 "
-#| "samples, but only in during capture.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The root-mean-squared (RMS) value of the combined RA "
 "and DEC drift in arc-seconds, averaged on approximately the past 40 samples, "
@@ -10803,8 +10782,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>La valeur en moyenne quadratique (Root-Mean-Squared, "
 "RMS) de la dérive combinée RA et DEC, en secondes d'arc moyennée sur "
-"approximativement les 40 derniers échantillons, mais, uniquement durant la "
-"capture.</p></body></html>"
+"approximativement les 40 derniers échantillons, mais, uniquement durant "
+"l'acquisition. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. "
+"Double-cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, targetDistanceCB)
 #: ekos/analyze/analyze.ui:1332
@@ -10826,11 +10806,7 @@ msgstr "dist a-s"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, targetDistanceOut)
 #: ekos/analyze/analyze.ui:1351
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the distance between the plate-solved captured "
-#| "image and the target position in arc-seconds. Must be enabled in "
-#| "scheduler options.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the distance between the plate-solved captured "
 "image and the target position in arc-seconds. Must be enabled in scheduler "
@@ -10839,7 +10815,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Tracer la distance (en secondes d'arc) entre l'image "
 "résolue et la position de la cible. Doit être activé dans les options de "
-"l'ordonnanceur.</p></body></html>"
+"l'ordonnanceur. Cliquez ici pour afficher cet axe sur l'axe des ordonnées. "
+"Double-cliquez pour mettre cet axe à jour.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
@@ -10853,12 +10830,11 @@ msgstr "Détails"
 #, kde-format
 msgctxt "@title:window"
 msgid "Y-Axis Tool"
-msgstr ""
+msgstr "Outil de l'axe Y"
 
 #. i18n: ectx: property (text), widget (QLabel, statLabel)
 #: ekos/analyze/yaxistool.ui:25
-#, fuzzy, kde-format
-#| msgid "Star Name"
+#, kde-format
 msgid "Stat Name"
 msgstr "Nom de l'étoile"
 
@@ -10874,53 +10850,45 @@ msgstr "Étiquette de texte"
 
 #. i18n: ectx: property (text), widget (QLabel, upperLimitLabel)
 #: ekos/analyze/yaxistool.ui:76
-#, fuzzy, kde-format
-#| msgid "Clipping Limits"
+#, kde-format
 msgid "Upper Limit"
-msgstr "Limites de découpage"
+msgstr "Limite haute"
 
 #. i18n: ectx: property (text), widget (QLabel, lowerLimitLabel)
 #: ekos/analyze/yaxistool.ui:122
-#, fuzzy, kde-format
-#| msgid "Guide Limits"
+#, kde-format
 msgid "Lower Limit"
-msgstr "Conditions de guidage"
+msgstr "Limite basse"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoLimitsCB)
 #: ekos/analyze/yaxistool.ui:166
-#, fuzzy, kde-format
-#| msgid "Automatic mode"
+#, kde-format
 msgid "Automatic Limits"
-msgstr "Mode automatique"
+msgstr "Limites automatiques"
 
 #. i18n: ectx: property (text), widget (QCheckBox, leftAxisCB)
 #: ekos/analyze/yaxistool.ui:173
 #, kde-format
 msgid "Use for Left Axis"
-msgstr ""
+msgstr "Utiliser pour l'axe des ordonnées"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/analyze/yaxistool.ui:188
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Color"
+#, kde-format
 msgid "Color"
 msgstr "Couleur"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorB)
 #: ekos/analyze/yaxistool.ui:217
-#, fuzzy, kde-format
-#| msgctxt "City in Gyeongnam South Korea"
-#| msgid "Changwon"
+#, kde-format
 msgid "Change"
-msgstr "Changwon"
+msgstr "Changement"
 
 #. i18n: ectx: property (text), widget (QPushButton, defaultB)
 #: ekos/analyze/yaxistool.ui:239
-#, fuzzy, kde-format
-#| msgid "Default city"
+#, kde-format
 msgid "Use Default Limits"
-msgstr "Ville par défaut"
+msgstr "Utiliser les limites par défaut"
 
 #: ekos/auxiliary/darklibrary.cpp:83
 #, kde-format
@@ -14232,10 +14200,9 @@ msgid "Manage Observers"
 msgstr "Gestion des observateurs"
 
 #: ekos/capture/capture.cpp:5898
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Filter set to %1."
-msgstr "Fichier enregistré dans %1"
+msgstr "Filtre positionné à %1"
 
 #: ekos/capture/capture.cpp:6237
 #, kde-format
@@ -15250,11 +15217,10 @@ msgstr ""
 "limite de %2 secondes d'arc."
 
 #: ekos/capture/capturemodulestate.cpp:439
-#, fuzzy, kde-format
-#| msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
+#, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
-"La déviation de guidage au début de l'acquisition %1 a dépassé la valeur "
+"La déviation de guidage au début de l'acquisition %1 est sous la valeur "
 "limite de %2 secondes d'arc."
 
 #: ekos/capture/capturemodulestate.cpp:467
@@ -33530,24 +33496,22 @@ msgstr ""
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1635
-#, fuzzy, kde-format
-#| msgid "Default maximum permittable guide deviation"
+#, kde-format
 msgid "Default maximum permittable guide deviation before capture start"
-msgstr "Déviation maximale par défaut admissible pour le guidage"
+msgstr ""
+"Déviation maximale par défaut admissible pour le guidage avant le démarrage "
+"de l'acquisition"
 
 #. i18n: ectx: whatsthis, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1636
-#, fuzzy, kde-format
-#| msgid ""
-#| "If guide deviation exceeds this limit, the exposure will be automatically "
-#| "aborted and only resumed when the deviation is within this limit."
+#, kde-format
 msgid ""
 "If guide deviation exceeds this limit before capture start, starting an "
 "exposure will be suspended until the deviation is within this limit."
 msgstr ""
-"Si la déviation de guidage dépasse cette limite, l'exposition sera "
-"automatiquement abandonnée et reprise uniquement lorsque la déviation se "
-"situe dans cette limite."
+"Si la déviation de guidage dépasse cette limite avant le démarrage de "
+"l'acquisition, l'exposition sera automatiquement abandonnée et reprise "
+"uniquement lorsque la déviation se situe dans cette limite."
 
 #. i18n: ectx: label, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1640
@@ -35551,10 +35515,11 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
 #: kstars.kcfg:2782
-#, fuzzy, kde-format
-#| msgid "Display Drift on the Analyze Statistics Plot."
+#, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
-msgstr "Afficher la dérive sur le tracé de statistiques de l'onglet Analyse."
+msgstr ""
+"Limites hautes et basses de l'axe des ordonnées enregistrées pour le tracé "
+"de statistiques de l'onglet Analyse."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
 #: kstars.kcfg:2787
