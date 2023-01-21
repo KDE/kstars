@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:53+0000\n"
+"POT-Creation-Date: 2023-01-21 00:54+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -5950,7 +5950,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "konstelacion"
 
 #: ekos/align/align.cpp:1437 ekos/capture/capture.cpp:3331
-#: ekos/capture/capture.cpp:5694 ekos/focus/focus.cpp:4030
+#: ekos/capture/capture.cpp:5694 ekos/focus/focus.cpp:4017
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5972,14 +5972,14 @@ msgstr ""
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1535 ekos/focus/focus.cpp:1329
+#: ekos/align/align.cpp:1535 ekos/focus/focus.cpp:1317
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing image..."
 msgstr "Kap Imazihn"
 
 #: ekos/align/align.cpp:1625 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:1993
+#: ekos/focus/focus.cpp:1981
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image received."
@@ -6085,7 +6085,7 @@ msgid "Refresh is complete."
 msgstr "%1 është në linjë."
 
 #: ekos/align/align.cpp:2342 ekos/auxiliary/darklibrary.cpp:1415
-#: ekos/focus/focus.cpp:1107
+#: ekos/focus/focus.cpp:1095
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6098,7 +6098,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Skedari FITS u regjistrua tek %1"
 
 #: ekos/align/align.cpp:2391 ekos/capture/capture.cpp:2544
-#: ekos/focus/focus.cpp:3271 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
+#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -6273,7 +6273,7 @@ msgid "dDE (arcsec)"
 msgstr "arcsekonda"
 
 #: ekos/align/align.cpp:3362 ekos/capture/capture.cpp:5865
-#: ekos/focus/focus.cpp:3935
+#: ekos/focus/focus.cpp:3922
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Filter operation failed."
@@ -6375,7 +6375,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
 #: ekos/align/align.ui:42 ekos/auxiliary/darklibrary.ui:49
-#: ekos/capture/capture.ui:48 ekos/focus/focus.ui:48 ekos/guide/guide.ui:39
+#: ekos/capture/capture.ui:48 ekos/focus/focus.ui:54 ekos/guide/guide.ui:39
 #: ekos/mount/mount.ui:47
 #, fuzzy, kde-format
 #| msgid "Print Sky"
@@ -6414,7 +6414,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:159 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:3415 ekos/focus/focus.ui:331
+#: ekos/capture/capture.cpp:3415 ekos/focus/focus.ui:337
 #: ekos/guide/guide.ui:148 ekos/manager.cpp:219
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
@@ -6643,20 +6643,20 @@ msgstr "ngelje e një supernova"
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: ekos/align/align.ui:565 ekos/auxiliary/darklibrary.ui:477
 #: ekos/capture/capture.ui:147 ekos/capture/captureprocessoverlay.ui:296
-#: ekos/focus/focus.ui:747
+#: ekos/focus/focus.ui:608
 #, kde-format
 msgid "Gain:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:572 ekos/focus/focus.ui:709 ekos/guide/guide.ui:396
+#: ekos/align/align.ui:572 ekos/focus/focus.ui:464 ekos/guide/guide.ui:396
 #, kde-format
 msgid "Bin:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:594 ekos/focus/focus.ui:524 ekos/guide/guide.ui:161
+#: ekos/align/align.ui:594 ekos/focus/focus.ui:660 ekos/guide/guide.ui:161
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Show in FITS Viewer"
@@ -6713,7 +6713,7 @@ msgstr "Horizonti"
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:696 ekos/capture/capture.ui:516 ekos/focus/focus.ui:596
+#: ekos/align/align.ui:696 ekos/capture/capture.ui:516 ekos/focus/focus.ui:762
 #: ekos/profileeditor.ui:644 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
@@ -6730,7 +6730,7 @@ msgstr "Horizonti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:710 ekos/focus/focus.ui:769 ekos/guide/guide.ui:370
+#: ekos/align/align.ui:710 ekos/focus/focus.ui:726 ekos/guide/guide.ui:370
 #, kde-format
 msgid "Exp:"
 msgstr ""
@@ -6748,7 +6748,7 @@ msgstr "Fshije Konfirmimin"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
 #: ekos/align/align.ui:743 ekos/auxiliary/darklibrary.ui:506
-#: ekos/capture/capture.ui:1200 ekos/focus/focus.ui:719
+#: ekos/capture/capture.ui:1200 ekos/focus/focus.ui:772
 #, kde-format
 msgid "ISO:"
 msgstr ""
@@ -7570,7 +7570,7 @@ msgstr "Vetë Përshkallëzo"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6671
-#: ekos/focus/focus.ui:1240
+#: ekos/focus/focus.ui:1233
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Threshold:"
@@ -10896,7 +10896,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: ekos/auxiliary/darklibrary.ui:346 ekos/focus/focus.ui:1216
+#: ekos/auxiliary/darklibrary.ui:346 ekos/focus/focus.ui:1209
 #, kde-format
 msgid "Algorithm:"
 msgstr ""
@@ -11081,7 +11081,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetMapParametersB)
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:480
+#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:742
 #: ekos/mount/mount.ui:346
 #, kde-format
 msgid "Reset"
@@ -11251,7 +11251,7 @@ msgid "Start Auto Focus when filter is activated"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:408
+#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:414
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Auto Focus"
@@ -11295,7 +11295,7 @@ msgstr "Në skedar..."
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
 #: ekos/auxiliary/filtersettings.ui:14 ekos/capture/capture.ui:450
-#: ekos/focus/focus.ui:807
+#: ekos/focus/focus.ui:813
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Filter Settings"
@@ -11716,7 +11716,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
-#: ekos/auxiliary/opslogs.ui:387 ekos/focus/focus.ui:111
+#: ekos/auxiliary/opslogs.ui:387 ekos/focus/focus.ui:117
 #, kde-format
 msgid "Focuser"
 msgstr ""
@@ -12024,7 +12024,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:132
+#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:138
 #: ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
@@ -13274,7 +13274,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1286
+#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1279
 #, fuzzy, kde-format
 #| msgid "Cancel"
 msgid "Tolerance:"
@@ -13962,13 +13962,13 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6266 ekos/focus/focus.cpp:4072
+#: ekos/capture/capture.cpp:6266 ekos/focus/focus.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Exposure timeout. Aborting..."
 msgstr "Kap Imazihn"
 
-#: ekos/capture/capture.cpp:6289 ekos/focus/focus.cpp:4077
+#: ekos/capture/capture.cpp:6289 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -14020,7 +14020,7 @@ msgstr[1] ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CCDFWGroup)
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
-#: ekos/capture/capture.ui:120 ekos/focus/focus.ui:437
+#: ekos/capture/capture.ui:120 ekos/focus/focus.ui:443
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Camera && Filter Wheel"
@@ -14415,7 +14415,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
 #: ekos/capture/capture.ui:1187 ekos/capture/limits.ui:60
-#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:590
+#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:756
 #, kde-format
 msgid "Number of images to capture"
 msgstr ""
@@ -14597,7 +14597,7 @@ msgid "Start framing (looping)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/capture.ui:2011 ekos/focus/focus.ui:549
+#: ekos/capture/capture.ui:2011 ekos/focus/focus.ui:685
 #, kde-format
 msgid "Live Video"
 msgstr ""
@@ -15295,7 +15295,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, settingsTab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
-#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:842
+#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:854
 #: ekos/guide/opscalibration.ui:34 ekos/guide/opsgpg.ui:103
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
@@ -15814,7 +15814,7 @@ msgstr "Mënyra"
 msgid "No Focuser connected."
 msgstr "Pajisja INDI %1 nuk ekziston më."
 
-#: ekos/focus/focus.cpp:904 ekos/focus/focus.cpp:3319
+#: ekos/focus/focus.cpp:904 ekos/focus/focus.cpp:3306
 #, fuzzy, kde-format
 #| msgid "INDI device %1 no longer exists."
 msgid "No CCD connected."
@@ -15847,69 +15847,69 @@ msgstr ""
 msgid "Autofocus operation started"
 msgstr "Koordinatat"
 
-#: ekos/focus/focus.cpp:1113
+#: ekos/focus/focus.cpp:1101
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Detection in progress, please wait."
 msgstr "Koordinatat"
 
-#: ekos/focus/focus.cpp:1148
+#: ekos/focus/focus.cpp:1136
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Autofocus aborted."
 msgstr "Koordinatat"
 
-#: ekos/focus/focus.cpp:1229
+#: ekos/focus/focus.cpp:1217
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1236
+#: ekos/focus/focus.cpp:1224
 #, fuzzy, kde-format
 #| msgid "constellation"
 msgid "Error: Lost connection to Camera."
 msgstr "konstelacion"
 
-#: ekos/focus/focus.cpp:1257
+#: ekos/focus/focus.cpp:1245
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1263
+#: ekos/focus/focus.cpp:1251
 #, fuzzy, kde-format
 #| msgid "constellation"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "konstelacion"
 
-#: ekos/focus/focus.cpp:1398 ekos/focus/focus.cpp:3660
+#: ekos/focus/focus.cpp:1386 ekos/focus/focus.cpp:3647
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1405 ekos/focus/focus.cpp:3667
+#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:3654
 #, fuzzy, kde-format
 #| msgid "constellation"
 msgid "Error: Lost connection to Focuser."
 msgstr "konstelacion"
 
-#: ekos/focus/focus.cpp:1411 ekos/focus/focus.cpp:1495
+#: ekos/focus/focus.cpp:1399 ekos/focus/focus.cpp:1483
 #, kde-format
 msgid "outward"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1411 ekos/focus/focus.cpp:1495
+#: ekos/focus/focus.cpp:1399 ekos/focus/focus.cpp:1483
 #, kde-format
 msgid "inward"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1426
+#: ekos/focus/focus.cpp:1414
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "&Vendose Kohën..."
 
-#: ekos/focus/focus.cpp:1432
+#: ekos/focus/focus.cpp:1420
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
@@ -15918,83 +15918,83 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "&Vendose Kohën..."
 msgstr[1] "&Vendose Kohën..."
 
-#: ekos/focus/focus.cpp:1438
+#: ekos/focus/focus.cpp:1426
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "&Vendose Kohën..."
 
-#: ekos/focus/focus.cpp:1475
+#: ekos/focus/focus.cpp:1463
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Kap Imazihn"
 
-#: ekos/focus/focus.cpp:1482
+#: ekos/focus/focus.cpp:1470
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "&Vendose Kohën..."
 
-#: ekos/focus/focus.cpp:1499
+#: ekos/focus/focus.cpp:1487
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "&Vendose Kohën..."
 
-#: ekos/focus/focus.cpp:1504
+#: ekos/focus/focus.cpp:1492
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
 msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
 msgstr "&Vendose Kohën..."
 
-#: ekos/focus/focus.cpp:1510
+#: ekos/focus/focus.cpp:1498
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
 msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
 msgstr "&Vendose Kohën..."
 
-#: ekos/focus/focus.cpp:1521
+#: ekos/focus/focus.cpp:1509
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1530
+#: ekos/focus/focus.cpp:1518
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Kap Imazihn"
 
-#: ekos/focus/focus.cpp:1580
+#: ekos/focus/focus.cpp:1568
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Detection complete."
 msgstr "Këndi"
 
-#: ekos/focus/focus.cpp:1623
+#: ekos/focus/focus.cpp:1611
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Detecting sources..."
 msgstr "Duke Shkarkuar Të Dhëna Të Reja..."
 
-#: ekos/focus/focus.cpp:1740
+#: ekos/focus/focus.cpp:1728
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "Koordinatat"
 
-#: ekos/focus/focus.cpp:1749
+#: ekos/focus/focus.cpp:1737
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Autofocus operation failed"
 msgstr "Koordinatat"
 
-#: ekos/focus/focus.cpp:1777
+#: ekos/focus/focus.cpp:1765
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Focus procedure completed after %1 iteration."
@@ -16002,209 +16002,209 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Koordinatat"
 msgstr[1] "Koordinatat"
 
-#: ekos/focus/focus.cpp:1858
+#: ekos/focus/focus.cpp:1846
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Settling for %1s..."
 msgstr "Fshije Konfirmimin"
 
-#: ekos/focus/focus.cpp:1865
+#: ekos/focus/focus.cpp:1853
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Settling complete."
 msgstr "Këndi"
 
-#: ekos/focus/focus.cpp:1878
+#: ekos/focus/focus.cpp:1866
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1915
+#: ekos/focus/focus.cpp:1903
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2069
+#: ekos/focus/focus.cpp:2057
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2165
+#: ekos/focus/focus.cpp:2153
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2198
+#: ekos/focus/focus.cpp:2186
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2298
+#: ekos/focus/focus.cpp:2286
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2309 ekos/focus/focus.cpp:2918
+#: ekos/focus/focus.cpp:2297 ekos/focus/focus.cpp:2905
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2318 ekos/focus/focus.cpp:2924
+#: ekos/focus/focus.cpp:2306 ekos/focus/focus.cpp:2911
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
-#: ekos/focus/focus.cpp:2323 ekos/focus/focus.cpp:2929
+#: ekos/focus/focus.cpp:2311 ekos/focus/focus.cpp:2916
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2517
+#: ekos/focus/focus.cpp:2504
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2524
+#: ekos/focus/focus.cpp:2511
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2567
+#: ekos/focus/focus.cpp:2554
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2569
+#: ekos/focus/focus.cpp:2556
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2629
+#: ekos/focus/focus.cpp:2616
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2636
+#: ekos/focus/focus.cpp:2623
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2741
+#: ekos/focus/focus.cpp:2728
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2805
+#: ekos/focus/focus.cpp:2792
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2816
+#: ekos/focus/focus.cpp:2803
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2826
+#: ekos/focus/focus.cpp:2813
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2855
+#: ekos/focus/focus.cpp:2842
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2903
+#: ekos/focus/focus.cpp:2890
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2907
+#: ekos/focus/focus.cpp:2894
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2993 ekos/focus/focus.cpp:3006
-#: ekos/focus/focus.cpp:3125 ekos/focus/focus.cpp:3173
-#: ekos/focus/focus.cpp:3222 ekos/focus/focus.cpp:3263
+#: ekos/focus/focus.cpp:2980 ekos/focus/focus.cpp:2993
+#: ekos/focus/focus.cpp:3112 ekos/focus/focus.cpp:3160
+#: ekos/focus/focus.cpp:3209 ekos/focus/focus.cpp:3250
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3037
+#: ekos/focus/focus.cpp:3024
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3105 ekos/focus/focus.cpp:3157
-#: ekos/focus/focus.cpp:3206 ekos/focus/focus.cpp:3238
+#: ekos/focus/focus.cpp:3092 ekos/focus/focus.cpp:3144
+#: ekos/focus/focus.cpp:3193 ekos/focus/focus.cpp:3225
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3337
+#: ekos/focus/focus.cpp:3324
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3542
+#: ekos/focus/focus.cpp:3529
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3547
+#: ekos/focus/focus.cpp:3534
 #, fuzzy, kde-format
 #| msgid "Info Box Selected"
 msgid "Focus star is selected."
 msgstr "Kutia e Informacionit u Zgjodh"
 
-#: ekos/focus/focus.cpp:3639
+#: ekos/focus/focus.cpp:3626
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3645
+#: ekos/focus/focus.cpp:3632
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3771
+#: ekos/focus/focus.cpp:3758
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Në skedar..."
 
-#: ekos/focus/focus.cpp:4090
+#: ekos/focus/focus.cpp:4077
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing image again..."
 msgstr "Kap Imazihn"
 
-#: ekos/focus/focus.cpp:4105
+#: ekos/focus/focus.cpp:4092
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
 msgid "Failed to save image. Aborting..."
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
-#: ekos/focus/focus.cpp:4115
+#: ekos/focus/focus.cpp:4102
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Exposure failure. Aborting..."
 msgstr "Kap Imazihn"
 
-#: ekos/focus/focus.cpp:4120
+#: ekos/focus/focus.cpp:4107
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Kap Imazihn"
 
-#: ekos/focus/focus.cpp:4282
+#: ekos/focus/focus.cpp:4269
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
@@ -16212,61 +16212,61 @@ msgid "Relative Profile"
 msgstr "Hiq Gjurmë"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
-#: ekos/focus/focus.ui:148
+#: ekos/focus/focus.ui:154
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Stop focuser motion"
 msgstr "Pozicioni"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
-#: ekos/focus/focus.ui:177
+#: ekos/focus/focus.ui:183
 #, kde-format
 msgid "Focus In"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
-#: ekos/focus/focus.ui:209
+#: ekos/focus/focus.ui:215
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Go to an absolute focus position"
 msgstr "Pozicioni"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
-#: ekos/focus/focus.ui:244
+#: ekos/focus/focus.ui:250
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Desired absolute focus position"
 msgstr "Pozicioni"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/focus/focus.ui:251
+#: ekos/focus/focus.ui:257
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Start:"
 msgstr "Yjet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
-#: ekos/focus/focus.ui:267
+#: ekos/focus/focus.ui:273
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture image"
 msgstr "Kap Imazihn"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
-#: ekos/focus/focus.ui:296
+#: ekos/focus/focus.ui:302
 #, kde-format
 msgid "Focus Out"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
-#: ekos/focus/focus.ui:328
+#: ekos/focus/focus.ui:334
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stop Auto Focus process"
 msgstr "Yjet"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
-#: ekos/focus/focus.ui:347
+#: ekos/focus/focus.ui:353
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Current absolute focuser position"
@@ -16275,55 +16275,51 @@ msgstr "Pozicioni"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:360 ekos/scheduler/framingassistant.ui:1256
+#: ekos/focus/focus.ui:366 ekos/scheduler/framingassistant.ui:1256
 #: ekos/scheduler/scheduler.ui:350
 #, kde-format
 msgid "Steps:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
-#: ekos/focus/focus.ui:376
+#: ekos/focus/focus.ui:382
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Start framing"
 msgstr "Teleskopi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
-#: ekos/focus/focus.ui:405
+#: ekos/focus/focus.ui:411
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Start Auto Focus process"
 msgstr "Yjet"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/focus/focus.ui:477
-#, kde-format
-msgid "Reset focus subframe to full capture"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/focus/focus.ui:502
+#. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
+#: ekos/focus/focus.ui:471
 #, fuzzy, kde-format
-#| msgid "Welcome to KStars FITS Viewer"
-msgid "Toggle Full Screen"
-msgstr "Mirëseerdhët në Shfaqësin e KStars Fits"
+#| msgid "Telescope"
+msgid "Focuser temperature source"
+msgstr "Teleskopi"
 
-#. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
-#: ekos/focus/focus.ui:580
-#, kde-format
-msgid "Select focuser temperature source"
-msgstr ""
+#. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
+#: ekos/focus/focus.ui:474
+#, fuzzy, kde-format
+#| msgctxt "Constellation name (optional)"
+#| msgid "SEK"
+msgid "TS."
+msgstr "SEK"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
-#: ekos/focus/focus.ui:640 ekos/focus/focus.ui:656
+#: ekos/focus/focus.ui:518 ekos/focus/focus.ui:534
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Source temperature in Celsius"
 msgstr "Teleskopi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: ekos/focus/focus.ui:643
+#: ekos/focus/focus.ui:521
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Temp. ="
@@ -16331,7 +16327,7 @@ msgstr "Kap Imazihn"
 
 #. i18n: ectx: property (text), widget (QLabel, absoluteTemperatureLabel)
 #. i18n: ectx: property (text), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:662 ekos/focus/focus.ui:697
+#: ekos/focus/focus.ui:540 ekos/focus/focus.ui:575
 #, fuzzy, kde-format
 #| msgctxt "Not Applicable"
 #| msgid "N/A"
@@ -16340,7 +16336,7 @@ msgstr "N/A"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_31)
 #. i18n: ectx: property (toolTip), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:672 ekos/focus/focus.ui:691
+#: ekos/focus/focus.ui:550 ekos/focus/focus.ui:569
 #, kde-format
 msgid ""
 "Delta temperature in Celsius. It is the difference between the last recorded "
@@ -16348,7 +16344,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: ekos/focus/focus.ui:675
+#: ekos/focus/focus.ui:553
 #, kde-format
 msgid "ΔT ="
 msgstr ""
@@ -16356,74 +16352,78 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:744 ekos/focus/focus.ui:766 ekos/guide/guide.ui:367
+#: ekos/focus/focus.ui:605 ekos/focus/focus.ui:723 ekos/guide/guide.ui:367
 #, kde-format
 msgid "Exposure time in seconds"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:776
+#. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
+#: ekos/focus/focus.ui:638
 #, fuzzy, kde-format
-#| msgid "Telescope"
-msgid "Focuser temperature source"
-msgstr "Teleskopi"
+#| msgid "Welcome to KStars FITS Viewer"
+msgid "Toggle Full Screen"
+msgstr "Mirëseerdhët në Shfaqësin e KStars Fits"
 
-#. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:779
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "SEK"
-msgid "TS."
-msgstr "SEK"
+#. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
+#: ekos/focus/focus.ui:716
+#, kde-format
+msgid "Select focuser temperature source"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
+#: ekos/focus/focus.ui:739
+#, kde-format
+msgid "Reset focus subframe to full capture"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:880
+#: ekos/focus/focus.ui:892
 #, kde-format
 msgid "Automatically select the best focus star from the image"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:883
+#: ekos/focus/focus.ui:895
 #, fuzzy, kde-format
 #| msgid "multiple star"
 msgid "Auto Select Star"
 msgstr "yll i shumëfishtë"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:899
+#: ekos/focus/focus.ui:911
 #, kde-format
 msgid "Suspend Guiding while autofocus in progress"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:902
+#: ekos/focus/focus.ui:914
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspend Guiding"
 msgstr "Guidat"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
-#: ekos/focus/focus.ui:915
+#: ekos/focus/focus.ui:927
 #, kde-format
 msgid "Wait this many seconds before resuming guiding."
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:918 ekos/focus/focus.ui:1768
+#: ekos/focus/focus.ui:930 ekos/focus/focus.ui:1713
 #, kde-format
 msgid " s"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/focus/focus.ui:928 ekos/focus/focus.ui:1607
+#: ekos/focus/focus.ui:940 ekos/focus/focus.ui:1667
 #, kde-format
 msgid "Settle:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
-#: ekos/focus/focus.ui:944
+#: ekos/focus/focus.ui:956
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are inside this "
@@ -16436,15 +16436,15 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusTolerance)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusThreshold)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, overlapSpin)
-#: ekos/focus/focus.ui:947 ekos/focus/focus.ui:969 ekos/focus/focus.ui:1321
-#: ekos/focus/focus.ui:1458 ekos/scheduler/framingassistant.ui:854
+#: ekos/focus/focus.ui:959 ekos/focus/focus.ui:981 ekos/focus/focus.ui:1314
+#: ekos/focus/focus.ui:1451 ekos/scheduler/framingassistant.ui:854
 #: ekos/scheduler/mosaic.ui:380
 #, no-c-format, kde-format
 msgid " %"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
-#: ekos/focus/focus.ui:966
+#: ekos/focus/focus.ui:978
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are outside this "
@@ -16453,13 +16453,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/focus/focus.ui:985
+#: ekos/focus/focus.ui:997
 #, kde-format
 msgid "Annulus:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:1001
+#: ekos/focus/focus.ui:1013
 #, kde-format
 msgid ""
 "<html><body><p>Size of the subframe to constrain capture to, in pixels.</p></"
@@ -16467,32 +16467,32 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:1004
+#: ekos/focus/focus.ui:1016
 #, kde-format
 msgid " px"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1023 ekos/guide/guide.ui:360
+#: ekos/focus/focus.ui:1035 ekos/guide/guide.ui:360
 #, kde-format
 msgid "Box:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1039
+#: ekos/focus/focus.ui:1051
 #, kde-format
 msgid "Subframe around the focus star during the autofocus procedure"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1042
+#: ekos/focus/focus.ui:1054
 #, kde-format
 msgid "Sub Frame"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1058
+#: ekos/focus/focus.ui:1070
 #, kde-format
 msgid ""
 "<html><head/><body><p>Measure average HFR from all stars combined in a full "
@@ -16502,14 +16502,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1061
+#: ekos/focus/focus.ui:1073
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Full Field"
 msgstr "Parapamje e %1"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1074
+#: ekos/focus/focus.ui:1086
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR as "
@@ -16520,19 +16520,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1077
+#: ekos/focus/focus.ui:1089
 #, kde-format
 msgid "Use Weights"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/focus/focus.ui:1084
+#: ekos/focus/focus.ui:1096
 #, kde-format
 msgid "R² Limit:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
-#: ekos/focus/focus.ui:1100
+#: ekos/focus/focus.ui:1112
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
@@ -16544,72 +16544,54 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1125
+#: ekos/focus/focus.ui:1137
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
 msgid "Use dark frames from the library."
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1128
+#: ekos/focus/focus.ui:1140
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Dark Frame"
 msgstr "Teleskopi"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAFBacklashComp)
-#: ekos/focus/focus.ui:1141
-#, kde-format
-msgid ""
-"<html><head/><body><p>Enable to have AutoFocus perform Backlash "
-"Compensation. Use in conjunction with the Backlash field.  Either the "
-"autofocus algorithm or the driver/focuser should perform backlash "
-"compensation but not both.</p><p>Used by Linear and Linear 1 Pass algorithms."
-"</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
-#: ekos/focus/focus.ui:1144
-#, fuzzy, kde-format
-#| msgid "&Back"
-msgid "AF Backlash Comp"
-msgstr "&Mbrapsht"
-
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
-#: ekos/focus/focus.ui:1170
+#: ekos/focus/focus.ui:1163
 #, fuzzy, kde-format
 #| msgid "Process ToolBar"
 msgid "Process"
 msgstr "Shiriti i Proçeseve"
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: ekos/focus/focus.ui:1196
+#: ekos/focus/focus.ui:1189
 #, kde-format
 msgid "Num. of rows:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: ekos/focus/focus.ui:1206
+#: ekos/focus/focus.ui:1199
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "SEP Profile:"
 msgstr "Në skedar..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:1250
+#: ekos/focus/focus.ui:1243
 #, kde-format
 msgid "Average over:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: ekos/focus/focus.ui:1257
+#: ekos/focus/focus.ui:1250
 #, fuzzy, kde-format
 #| msgid "Size:"
 msgid "Kernel size:"
 msgstr "Përmasa:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1270
+#: ekos/focus/focus.ui:1263
 #, kde-format
 msgid ""
 "<html><body><p>Number of frames to capture in order to average the HFR value "
@@ -16617,14 +16599,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1273
+#: ekos/focus/focus.ui:1266
 #, fuzzy, kde-format
 #| msgid "Name"
 msgid " frames"
 msgstr "Emri"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMultiRowAverage)
-#: ekos/focus/focus.ui:1293
+#: ekos/focus/focus.ui:1286
 #, kde-format
 msgid ""
 "<html><head/><body><p>Combine this number of rows in the Bahtinov max "
@@ -16633,7 +16615,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
-#: ekos/focus/focus.ui:1318
+#: ekos/focus/focus.ui:1311
 #, kde-format
 msgid ""
 "Decrease value to narrow optimal focus point solution radius. Increase to "
@@ -16641,7 +16623,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1346
+#: ekos/focus/focus.ui:1339
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Select focus process algorithm:</p><ul style=\"margin-"
@@ -16674,14 +16656,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1353
+#: ekos/focus/focus.ui:1346
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Iterative"
 msgstr "Këndi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1358
+#: ekos/focus/focus.ui:1351
 #, fuzzy, kde-format
 #| msgctxt "Sky Culture"
 #| msgid "Polynesian"
@@ -16689,21 +16671,21 @@ msgid "Polynomial"
 msgstr "Polineziane"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1363
+#: ekos/focus/focus.ui:1356
 #, fuzzy, kde-format
 #| msgid "Linear Scale"
 msgid "Linear"
 msgstr "Shkallë Lineare"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1368
+#: ekos/focus/focus.ui:1361
 #, fuzzy, kde-format
 #| msgid "Linear Scale"
 msgid "Linear 1 Pass"
 msgstr "Shkallë Lineare"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1382
+#: ekos/focus/focus.ui:1375
 #, kde-format
 msgid ""
 "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: 0px; "
@@ -16730,21 +16712,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1389
+#: ekos/focus/focus.ui:1382
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Gradient"
 msgstr "Klienti"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1394
+#: ekos/focus/focus.ui:1387
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Centroid"
 msgstr "Paneli i Kontrollit INDI"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1399
+#: ekos/focus/focus.ui:1392
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Threshold"
@@ -16752,7 +16734,7 @@ msgstr "Kap Imazihn"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
-#: ekos/focus/focus.ui:1404 ekos/guide/opsguide.ui:456
+#: ekos/focus/focus.ui:1397 ekos/guide/opsguide.ui:456
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "SEK"
@@ -16760,20 +16742,20 @@ msgid "SEP"
 msgstr "SEK"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1409
+#: ekos/focus/focus.ui:1402
 #, kde-format
 msgid "Bahtinov"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1420
+#: ekos/focus/focus.ui:1413
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Detection:"
 msgstr "Këndi"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
-#: ekos/focus/focus.ui:1427
+#: ekos/focus/focus.ui:1420
 #, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
@@ -16781,7 +16763,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusThreshold)
-#: ekos/focus/focus.ui:1455
+#: ekos/focus/focus.ui:1448
 #, kde-format
 msgid ""
 "<html><body><p>Increase to restrict the centroid to bright cores. Decrease "
@@ -16789,7 +16771,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
-#: ekos/focus/focus.ui:1477
+#: ekos/focus/focus.ui:1470
 #, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur kernel size. Used for blurring the "
@@ -16797,19 +16779,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: ekos/focus/focus.ui:1496
+#: ekos/focus/focus.ui:1489
 #, kde-format
 msgid "Sigma:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
-#: ekos/focus/focus.ui:1506
+#: ekos/focus/focus.ui:1499
 #, kde-format
 msgid "Curve Fit:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1513
+#: ekos/focus/focus.ui:1506
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
@@ -16831,79 +16813,32 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1517
+#: ekos/focus/focus.ui:1510
 #, kde-format
 msgid "Quadradic"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1522
+#: ekos/focus/focus.ui:1515
 #, fuzzy, kde-format
 #| msgid "supernova remnant"
 msgid "Hyperbola"
 msgstr "ngelje e një supernova"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1527
+#: ekos/focus/focus.ui:1520
 #, kde-format
 msgid "Parabola"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, mechanicsTab)
-#: ekos/focus/focus.ui:1551
+#: ekos/focus/focus.ui:1544
 #, kde-format
 msgid "Mechanics"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_12b)
-#: ekos/focus/focus.ui:1568
-#, kde-format
-msgid "Out Step Multiple:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
-#: ekos/focus/focus.ui:1581
-#, kde-format
-msgid ""
-"<html><body><p>This number multiplied by initial-step-size is number of "
-"outward steps the Linear Focus algorithm moves away from the initial "
-"position at the start of focusing.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_27)
-#: ekos/focus/focus.ui:1600
-#, fuzzy, kde-format
-#| msgid "Date and time"
-msgid "Motion Timeout:"
-msgstr "Data dhe ora"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
-#. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
-#: ekos/focus/focus.ui:1614 kstars.kcfg:1839
-#, kde-format
-msgid ""
-"Maximum time in seconds to wait for a captured image to be received before "
-"declaring a timeout."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
-#: ekos/focus/focus.ui:1633
-#, kde-format
-msgid ""
-"<b>Initial</b> step size in ticks to cause a noticeable change in HFR value. "
-"For timer based focuser, it is the initial time in milliseconds to move the "
-"focuser inward or outward"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/focus/focus.ui:1652
-#, fuzzy, kde-format
-#| msgid "Size:"
-msgid "Max Step size:"
-msgstr "Përmasa:"
-
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
-#: ekos/focus/focus.ui:1659
+#: ekos/focus/focus.ui:1561
 #, kde-format
 msgid ""
 "<html><head/><body><p>The maximum single step size the algorithm is allowed "
@@ -16911,83 +16846,146 @@ msgid ""
 "size would be limited to this maximum value.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_26)
-#: ekos/focus/focus.ui:1675
+#. i18n: ectx: property (text), widget (QLabel, label_17)
+#: ekos/focus/focus.ui:1577
 #, fuzzy, kde-format
-#| msgid "Capture Image"
-msgid "Capture Timeout:"
-msgstr "Kap Imazihn"
+#| msgid "Size:"
+msgid "Max Step size:"
+msgstr "Përmasa:"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
-#: ekos/focus/focus.ui:1688
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
+#. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
+#: ekos/focus/focus.ui:1584 kstars.kcfg:1839
 #, kde-format
 msgid ""
-"<html><head/><body><p>Maximum travel in steps before the autofocus process "
-"aborts</p></body></html>"
+"Maximum time in seconds to wait for a captured image to be received before "
+"declaring a timeout."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/focus/focus.ui:1710
+#. i18n: ectx: property (text), widget (QLabel, label_27)
+#: ekos/focus/focus.ui:1597
 #, fuzzy, kde-format
-#| msgid "&Back"
-msgid "Backlash:"
-msgstr "&Mbrapsht"
+#| msgid "Date and time"
+msgid "Motion Timeout:"
+msgstr "Data dhe ora"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
+#: ekos/focus/focus.ui:1610
+#, kde-format
+msgid ""
+"<html><body><p>This number multiplied by initial-step-size is number of "
+"outward steps the Linear Focus algorithm moves away from the initial "
+"position at the start of focusing.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
+#: ekos/focus/focus.ui:1635
+#, kde-format
+msgid ""
+"<b>Initial</b> step size in ticks to cause a noticeable change in HFR value. "
+"For timer based focuser, it is the initial time in milliseconds to move the "
+"focuser inward or outward"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/focus/focus.ui:1723
+#: ekos/focus/focus.ui:1660
 #, fuzzy, kde-format
 #| msgid "Size:"
 msgid "Initial Step size:"
 msgstr "Përmasa:"
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
-#. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
-#: ekos/focus/focus.ui:1730 kstars.kcfg:1843
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ekos/focus/focus.ui:1677
 #, kde-format
-msgid ""
-"Maximum time in seconds to wait for a focuser to move to desired position "
-"before declaring a timeout."
+msgid "Max Travel:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_12b)
+#: ekos/focus/focus.ui:1684
+#, kde-format
+msgid "Out Step Multiple:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
-#: ekos/focus/focus.ui:1752
+#: ekos/focus/focus.ui:1697
 #, kde-format
 msgid ""
-"<html><head/><body><p>For backlash-aware focuser, the amount of backlash to "
-"apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-"algorithm, set backlash field &gt;= focuser backlash to have backlash "
-"neutralised during an Autofocus run.</p></body></html>"
+"<html><head/><body><p>Used in the device driver for backlash-aware "
+"focusers,  the amount of backlash to apply when reversing movement "
+"direction. </p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:1765
+#: ekos/focus/focus.ui:1710
 #, kde-format
 msgid ""
 "<html><head/><body><p>Wait for this many seconds after moving the focuser "
 "before capturing the next image during Auto Focus.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/focus/focus.ui:1784
+#. i18n: ectx: property (text), widget (QLabel, label_26)
+#: ekos/focus/focus.ui:1726
+#, fuzzy, kde-format
+#| msgid "Capture Image"
+msgid "Capture Timeout:"
+msgstr "Kap Imazihn"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: ekos/focus/focus.ui:1733
+#, fuzzy, kde-format
+#| msgctxt "use default color scheme"
+#| msgid "Default Colors"
+msgid "Driver Backlash:"
+msgstr "Ngjyrat e Parazgjedhura"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
+#: ekos/focus/focus.ui:1746
 #, kde-format
-msgid "Max Travel:"
+msgid ""
+"<html><head/><body><p>Maximum travel in steps before the autofocus process "
+"aborts</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ekos/focus/focus.ui:1768
+#, kde-format
+msgid "AF Overscan:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
+#: ekos/focus/focus.ui:1775
+#, kde-format
+msgid ""
+"<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
+"Compensation by the number of ticks specified. Set to 0 to disable.  "
+"Overscan backlash and Driver Backlash are independent.</p><p>Used by Linear "
+"and Linear 1 Pass algorithms.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
+#. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
+#: ekos/focus/focus.ui:1788 kstars.kcfg:1843
+#, kde-format
+msgid ""
+"Maximum time in seconds to wait for a focuser to move to desired position "
+"before declaring a timeout."
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/focus/focus.ui:1854
+#: ekos/focus/focus.ui:1867
 #, kde-format
 msgid "V-Curve"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/focus/focus.ui:1896
+#: ekos/focus/focus.ui:1912
 #, fuzzy, kde-format
 #| msgid "Size:"
 msgid "HFR: "
 msgstr "Përmasa:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
-#: ekos/focus/focus.ui:1915
+#: ekos/focus/focus.ui:1931
 #, kde-format
 msgid ""
 "<html><body><p>HFR value in pixels consolidated at the current focuser "
@@ -16995,14 +16993,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/focus.ui:1947
+#: ekos/focus/focus.ui:1963
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stars: "
 msgstr "Yjet"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
-#: ekos/focus/focus.ui:1960
+#: ekos/focus/focus.ui:1976
 #, kde-format
 msgid ""
 "<html><body><p>Number of stars used for HFR computation at the current "
@@ -17010,27 +17008,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: ekos/focus/focus.ui:1986
+#: ekos/focus/focus.ui:2002
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Iteration: "
 msgstr "Këndi"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
-#: ekos/focus/focus.ui:1999
+#: ekos/focus/focus.ui:2015
 #, kde-format
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
-#: ekos/focus/focus.ui:2028
+#: ekos/focus/focus.ui:2044
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgid "Relative Profile..."
 msgstr "Hiq Gjurmë"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
-#: ekos/focus/focus.ui:2035
+#: ekos/focus/focus.ui:2051
 #, fuzzy, kde-format
 #| msgid "&Overwrite"
 msgid "Clear Data"
@@ -80463,6 +80461,16 @@ msgstr ""
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "&Back"
+#~ msgid "AF Backlash Comp"
+#~ msgstr "&Mbrapsht"
+
+#, fuzzy
+#~| msgid "&Back"
+#~ msgid "Backlash:"
+#~ msgstr "&Mbrapsht"
 
 #, fuzzy
 #~| msgid "Coordinates"
