@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <driversList>
+    <devGroup group="Spectrographs">
+        <device label="Shelyak Usis" manufacturer="Shelyak">
+            <driver name="Shelyak Usis">shelyak_usis</driver>
+            <version>1.2</version>
+        </device>
+    </devGroup>
     <devGroup group="Telescopes">
+        <device label="Shelyak Usis" manufacturer="Shelyak">
+            <driver name="Shelyak Usis">shelyak_usis</driver>
+            <version>1.2</version>
+        </device>
         <device label="LX200 Basic" manufacturer="Meade">
             <driver name="LX200 Basic">indi_lx200basic</driver>
             <version>2.1</version>
@@ -237,6 +247,10 @@
             <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
             <version>1.6</version>
         </device>
+        <device label="iOptron AZ Pro" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.6</version>
+        </device>
         <device label="Pulsar2" manufacturer="GTD">
             <driver name="Pulsar2">indi_lx200pulsar2</driver>
             <version>1.3</version>
@@ -257,11 +271,11 @@
             <driver name="Skywatcher Alt-Az">indi_skywatcherAltAzMount</driver>
             <version>1.7</version>
         </device>
-        <device label="Star Adventurer" manufacturer="SkyWatcher">
-            <driver name="Telescope Simulator">indi_simulator_telescope</driver>
-            <version>1.0</version>
-        </device>
         <device label="AZ-GTi Alt-Az WiFi" manufacturer="SkyWatcher">
+            <driver name="Skywatcher Alt-Az">indi_skywatcherAltAzMount</driver>
+            <version>1.7</version>
+        </device>
+        <device label="AZ-GTi Alt-Az Wired" manufacturer="SkyWatcher">
             <driver name="Skywatcher Alt-Az">indi_skywatcherAltAzMount</driver>
             <version>1.7</version>
         </device>
@@ -444,8 +458,8 @@
             <version>0.7</version>
         </device>
         <device label="Esatto" manufacturer="Primaluce Lab">
-            <driver name="Sesto Senso 2">indi_sestosenso2_focus</driver>
-            <version>0.7</version>
+            <driver name="Esatto">indi_esatto_focus</driver>
+            <version>1.0</version>
         </device>
         <device label="Esatto Arco" manufacturer="Primaluce Lab">
             <driver name="Esatto Arco">indi_esattoarco_focus</driver>
@@ -577,6 +591,10 @@
             <driver name="Manual Filter">indi_manual_wheel</driver>
             <version>1.0</version>
         </device>
+        <device label="Pegasus INDIGO" manufacturer="Pegasus Astro">
+            <driver name="Pegasus INDIGO">indi_pegasusindigo_wheel</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="Astrometry" manufacturer="Others">
@@ -637,6 +655,14 @@
         </device>
         <device label="SnapCap" manufacturer="GTD">
             <driver name="SnapCap">indi_snapcap</driver>
+            <version>1.0</version>
+        </device>
+        <device label="RBF Excalibur" manufacturer="RB Focus">
+            <driver name="RBF Excalibur">indi_Excalibur</driver>
+            <version>1.0</version>
+        </device>
+        <device label="GIOTTO" manufacturer="Primaluce Lab">
+            <driver name="GIOTTO">indi_giotto</driver>
             <version>1.0</version>
         </device>
         <device label="Light Panel Simulator" manufacturer="Simulator">
@@ -777,7 +803,7 @@
 </driversList>
 <driversList>
     <devGroup group="Spectrographs">
-        <device label="AHP XC Correlator" mdpd="true">
+        <device label="XC Correlator" manufacturer="AHP">
             <driver name="AHP XC Correlator">indi_ahp_xc</driver>
             <version>1.0</version>
         </device>
@@ -931,11 +957,23 @@
             <driver name="Celestron AUX">indi_celestron_aux</driver>
             <version>1.2</version>
         </device>
+        <device label="CGEM II Wired" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>1.2</version>
+        </device>
         <device label="CGEM II WiFi" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
             <version>1.2</version>
         </device>
+        <device label="CGX Wired" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>1.2</version>
+        </device>
         <device label="CGX WiFi" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>1.2</version>
+        </device>
+        <device label="Advanced VX Wired" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
             <version>1.2</version>
         </device>
@@ -1021,6 +1059,10 @@
             <driver name="EQMod Mount">indi_eqmod_telescope</driver>
             <version>1.2</version>
         </device>
+        <device label="SkyAdventurer GTi" manufacturer="SkyWatcher">
+            <driver name="SkyAdventurer GTi">indi_skyadventurergti_telescope</driver>
+            <version>1.2</version>
+        </device>
         <device label="AZ-GTi Equatorial WiFi" manufacturer="SkyWatcher">
             <driver name="AZ-GTi">indi_azgti_telescope</driver>
             <version>1.2</version>
@@ -1031,6 +1073,10 @@
         </device>
         <device label="Star Adventurer 2i USB" manufacturer="SkyWatcher">
             <driver name="Star Adventurer 2i">indi_staradventurer2i_telescope</driver>
+            <version>1.2</version>
+        </device>
+        <device label="AHP GT Mount" manufacturer="AHP">
+            <driver name="AHP GT Mount">indi_ahpgt_telescope</driver>
             <version>1.2</version>
         </device>
     </devGroup>
@@ -1239,7 +1285,13 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>0.8</version>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+    <devGroup group="Filter Wheels">
+        <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
+            <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
