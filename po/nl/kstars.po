@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-21 00:54+0000\n"
-"PO-Revision-Date: 2023-01-10 13:57+0100\n"
+"PO-Revision-Date: 2023-01-21 11:40+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17122,21 +17122,15 @@ msgstr "Aantal buitenwaartse stappen:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:1697
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>For backlash-aware focuser, the amount of backlash "
-#| "to apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-#| "algorithm, set backlash field &gt;= focuser backlash to have backlash "
-#| "neutralised during an Autofocus run.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Used in the device driver for backlash-aware "
 "focusers,  the amount of backlash to apply when reversing movement "
 "direction. </p></body></html>"
 msgstr ""
-"<html><body><p>Voor focuser met bekende speling, de toe te passen speling "
-"bij omkeren van de bewegingsrichting.</p><p>Voor het algoritme lineaire 1 "
-"doorgang, stel het spelingveld &gt;= speling van focuser in om speling te "
-"neutraliseren tijdens een autofocus run.</p></body></html>"
+"<html><body><p>Gebruikt in het apparaatstuurprogramma voor focusers met "
+"bekende speling, de toe te passen speling bij omkeren van de "
+"bewegingsrichting.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:1710
@@ -17156,10 +17150,9 @@ msgstr "Tijdslimiet voor opnemen:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:1733
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Crash driver"
+msgstr "Speling van stuurprogramma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:1746
@@ -17173,31 +17166,24 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:1768
-#, fuzzy, kde-format
-#| msgid "Overlap:"
+#, kde-format
 msgid "AF Overscan:"
-msgstr "Overlap:"
+msgstr "AF-overscan:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:1775
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable to have AutoFocus perform Backlash "
-#| "Compensation. Use in conjunction with the Backlash field.  Either the "
-#| "autofocus algorithm or the driver/focuser should perform backlash "
-#| "compensation but not both.</p><p>Used by Linear and Linear 1 Pass "
-#| "algorithms.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
 "Compensation by the number of ticks specified. Set to 0 to disable.  "
 "Overscan backlash and Driver Backlash are independent.</p><p>Used by Linear "
 "and Linear 1 Pass algorithms.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Inschakelen om AutoFocus compensatie voor speling te "
-"laten doen. In samenhang gebruiken met het veld Speling.  Ofwel het "
-"autofocus algoritme of het apparaatstuurprogramma/focuser zou compensatie "
-"van speling moeten doen maar niet beiden.</p><p>Gebruikt door Lineair en "
-"Lineair 1 doorgang algoritmen.</p></body></html>"
+"<html><head/><body><p>Inschakelen om AutoFocus compensatie voor overscan-"
+"speling te laten doen door het aantal gespecificeerde pulsen. Op 0 instellen "
+"om uit te schakelen. Overscan-speling en stuurprogramma-speling zijn "
+"onafhankelijk.</p><p>Gebruikt door Lineair en Lineair 1 doorgangsalgoritmen."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)

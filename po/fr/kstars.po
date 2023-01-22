@@ -17,14 +17,15 @@
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
 # MORELLI <robert.morelli@laposte.net>, 2022.
 # Steve <stax@ik.me>, 2022.
+# Xavier BESNARD <xavier.besnard]neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-21 00:54+0000\n"
-"PO-Revision-Date: 2023-01-19 08:56+0100\n"
-"Last-Translator: Steve <stax@ik.me>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"PO-Revision-Date: 2023-01-20 18:56+0100\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Lokalize 22.12.1\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -10307,17 +10308,16 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decPulseOut)
 #: ekos/analyze/analyze.ui:535
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The declination (DEC) guide pulses in milliseconds."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The declination (DEC) guide pulses in milliseconds. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Les impulsions de guidage de déclinaison (DEC) en "
-"millisecondes.</p></body></html>"
+"<html><head/><body><p>Les impulsions de guidage de l'ascension droite (AD) "
+"en millisecondes. Veuillez cliquer ici pour afficher cet axe à gauche sur "
+"l'axe des ordonnées. Veuillez faire un double clic pour mettre à jour l'axe."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, driftCB)
 #: ekos/analyze/analyze.ui:563

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-21 00:54+0000\n"
-"PO-Revision-Date: 2023-01-10 23:55+0200\n"
+"PO-Revision-Date: 2023-01-21 08:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -17255,22 +17255,15 @@ msgstr "Коефіцієнт зовнішніх кроків:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:1697
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>For backlash-aware focuser, the amount of backlash "
-#| "to apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-#| "algorithm, set backlash field &gt;= focuser backlash to have backlash "
-#| "neutralised during an Autofocus run.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Used in the device driver for backlash-aware "
 "focusers,  the amount of backlash to apply when reversing movement "
 "direction. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Для засобу фокусування з люфтом розмір люфту, який "
-"слід застосувати при реверсуванні напрямку руху.</p><p>Для лінійного "
-"однопрохідного алгоритму встановіть у полі люфту значення &gt;= люфту засобу "
-"фокусування, щоб люфт було нейтралізовано під час автофокусування.</p></"
-"body></html>"
+"<html><head/><body><p>Використовують у драйвері пристрою для засобів "
+"фокусування з люфтом. Розмір люфту, який слід застосувати при реверсуванні "
+"напрямку руху.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:1710
@@ -17291,10 +17284,9 @@ msgstr "Час очікування на захоплення:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:1733
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Аварія драйвера"
+msgstr "Люфт драйвера:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:1746
@@ -17308,20 +17300,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:1768
-#, fuzzy, kde-format
-#| msgid "Overlap:"
+#, kde-format
 msgid "AF Overscan:"
-msgstr "Накладання:"
+msgstr "Пересканування АФ:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:1775
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable to have AutoFocus perform Backlash "
-#| "Compensation. Use in conjunction with the Backlash field.  Either the "
-#| "autofocus algorithm or the driver/focuser should perform backlash "
-#| "compensation but not both.</p><p>Used by Linear and Linear 1 Pass "
-#| "algorithms.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
 "Compensation by the number of ticks specified. Set to 0 to disable.  "
@@ -17329,11 +17314,10 @@ msgid ""
 "and Linear 1 Pass algorithms.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Увімкнути виконання засобом автоматичного фокусування "
-"компенсації люфту. Слід використовувати разом із полем люфту. Компенсацію "
-"люфту має виконати або алгоритм автоматичного фокусування, або драйвер чи "
-"засіб фокусування, але не обидва інструменти одночасно.</"
-"p><p>Використовується у лінійному та лінійному однопрохідному алгоритмах.</"
-"p></body></html>"
+"компенсації люфту з надмірним скануванням на вказану кількість ділень. "
+"Встановіть значення 0, щоб вимкнути. Люфт надмірного сканування та люфт "
+"драйвера є величинами незалежними одна від одної.</p><p>Використовується у "
+"лінійному та лінійному однопрохідному алгоритмах.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)

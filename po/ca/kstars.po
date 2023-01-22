@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-21 00:54+0000\n"
-"PO-Revision-Date: 2023-01-17 13:18+0100\n"
+"PO-Revision-Date: 2023-01-21 12:45+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -17307,22 +17307,15 @@ msgstr "Múltiples passos enfora:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:1697
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>For backlash-aware focuser, the amount of backlash "
-#| "to apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-#| "algorithm, set backlash field &gt;= focuser backlash to have backlash "
-#| "neutralised during an Autofocus run.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Used in the device driver for backlash-aware "
 "focusers,  the amount of backlash to apply when reversing movement "
 "direction. </p></body></html>"
 msgstr ""
-"<html><body><p>Per a l'enfocador amb suport de la reacció, la quantitat de "
-"reacció a aplicar quan s'inverteix la direcció del moviment.</p><p>Per a "
-"l'algorisme lineal d'1 pas, establiu el camp de reacció &gt;= reacció de "
-"l'enfocador per a neutralitzar la reacció durant una execució d'enfocament "
-"automàtic.</p></body></html>"
+"<html><body><p>Usat en el controlador del dispositiu per als enfocadors amb "
+"compensació de rebot, la quantitat de compensació de rebot a aplicar quan "
+"s'inverteix la direcció del moviment.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:1710
@@ -17343,10 +17336,9 @@ msgstr "Temps d'espera de la captura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:1733
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Fallada del controlador"
+msgstr "Compensació de rebot del controlador:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:1746
@@ -17360,31 +17352,24 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:1768
-#, fuzzy, kde-format
-#| msgid "Overlap:"
+#, kde-format
 msgid "AF Overscan:"
-msgstr "Superposició:"
+msgstr "Sobreexploració de l'EA:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:1775
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable to have AutoFocus perform Backlash "
-#| "Compensation. Use in conjunction with the Backlash field.  Either the "
-#| "autofocus algorithm or the driver/focuser should perform backlash "
-#| "compensation but not both.</p><p>Used by Linear and Linear 1 Pass "
-#| "algorithms.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
 "Compensation by the number of ticks specified. Set to 0 to disable.  "
 "Overscan backlash and Driver Backlash are independent.</p><p>Used by Linear "
 "and Linear 1 Pass algorithms.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Activeu-ho per a que l'enfocament automàtic realitzi "
-"la compensació del rebot. Useu conjuntament amb el camp de rebot. Tant "
-"l'algorisme d'enfocament automàtic com el controlador/enfocador han de "
-"realitzar una compensació del rebot, però no tots dos.</p><p>Usat per "
-"algorismes de pas lineal i lineal 1.</p></body></html>"
+"<html><head/><body><p>Activeu-ho per a que l'enfocament automàtic (EA) "
+"realitzi la compensació de rebot de sobreexploració. Establiu-ho a 0 per a "
+"desactivar-ho. La compensació de rebot de sobreexploració i la compensació "
+"de rebot del controlador són independents.</p><p>Usat pels algorismes de pas "
+"lineal i lineal 1.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
@@ -81327,9 +81312,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "AF Backlash Comp"
-#~ msgstr "Compensació del rebot AF"
-
-#~ msgid "Backlash:"
-#~ msgstr "Rebot:"

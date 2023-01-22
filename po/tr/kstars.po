@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-21 00:54+0000\n"
-"PO-Revision-Date: 2023-01-19 22:40+0300\n"
+"PO-Revision-Date: 2023-01-21 22:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -66349,7 +66349,7 @@ msgstr "Tipe göre filtrele:"
 #: kstarslite/qml/dialogs/FindDialog.qml:100
 #, kde-kuit-format
 msgid "Search in internet"
-msgstr "Search in internet"
+msgstr "İnternette ara"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:13
 #, fuzzy, kde-kuit-format
