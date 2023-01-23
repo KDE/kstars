@@ -3464,7 +3464,12 @@ void Align::zoomAlignView()
 {
     m_AlignView->ZoomDefault();
 
-    emit newFrame(m_AlignView);
+    // Frame update is not immediate to reduce too many refreshes
+    // So emit updated frame in 500ms
+    QTimer::singleShot(500, this, [this]()
+    {
+        emit newFrame(m_AlignView);
+    });
 }
 
 void Align::setAlignZoom(double scale)
@@ -3474,7 +3479,12 @@ void Align::setAlignZoom(double scale)
     else if (scale < 1)
         m_AlignView->ZoomOut();
 
-    emit newFrame(m_AlignView);
+    // Frame update is not immediate to reduce too many refreshes
+    // So emit updated frame in 500ms
+    QTimer::singleShot(500, this, [this]()
+    {
+        emit newFrame(m_AlignView);
+    });
 }
 
 void Align::syncFOV()
