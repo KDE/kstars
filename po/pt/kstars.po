@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-21 00:54+0000\n"
-"PO-Revision-Date: 2023-01-10 19:20+0000\n"
+"PO-Revision-Date: 2023-01-22 22:40+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -18384,22 +18384,15 @@ msgstr "Multiplicador do Passo para Fora:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:1697
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>For backlash-aware focuser, the amount of backlash "
-#| "to apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-#| "algorithm, set backlash field &gt;= focuser backlash to have backlash "
-#| "neutralised during an Autofocus run.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Used in the device driver for backlash-aware "
 "focusers,  the amount of backlash to apply when reversing movement "
 "direction. </p></body></html>"
 msgstr ""
-"<html><body><p>Para um sistema de focagem reactivo, a quantidade de reacção "
-"a aplicar quando inverter a direcção do movimento.</p><p>Para o algoritmo "
-"linear de 1 passo, defina o campo de reacção &gt;= reacção da focagem para "
-"que esta seja neutralizada após a execução da focagem automática.</body></"
-"html>"
+"<html><head/><body><p>Usado no controlador do dispositivo de sistema de "
+"focagem com detecção da reacção - esta é a quantidade de reacção a aplicar "
+"ao inverter a direcção do movimento. </p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:1710
@@ -18420,10 +18413,9 @@ msgstr "Tempo-Limite da Captura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:1733
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Estoiro do controlador"
+msgstr "Reacção do Controlador:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:1746
@@ -18437,20 +18429,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:1768
-#, fuzzy, kde-format
-#| msgid "Overlap:"
+#, kde-format
 msgid "AF Overscan:"
-msgstr "Sobreposição:"
+msgstr "Sobreposição do AF:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:1775
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable to have AutoFocus perform Backlash "
-#| "Compensation. Use in conjunction with the Backlash field.  Either the "
-#| "autofocus algorithm or the driver/focuser should perform backlash "
-#| "compensation but not both.</p><p>Used by Linear and Linear 1 Pass "
-#| "algorithms.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
 "Compensation by the number of ticks specified. Set to 0 to disable.  "
@@ -82150,9 +82135,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid "AF Backlash Comp"
-#~ msgstr "Compensação da Reacção"
-
-#~ msgid "Backlash:"
-#~ msgstr "Recuo:"

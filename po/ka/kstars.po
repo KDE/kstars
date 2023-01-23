@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-21 00:54+0000\n"
-"PO-Revision-Date: 2023-01-10 07:20+0100\n"
+"PO-Revision-Date: 2023-01-22 06:26+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16008,10 +16008,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:1733
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "დრაივერის შეცდომა"
+msgstr "დრაივერის უკუღმა დახრილი ხაზი:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:1746
@@ -16023,10 +16022,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:1768
-#, fuzzy, kde-format
-#| msgid "Overlap:"
+#, kde-format
 msgid "AF Overscan:"
-msgstr "გადაფარვა:"
+msgstr "AF გადასკანირება:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:1775
@@ -23305,7 +23303,7 @@ msgstr "დასასრულის Დრო"
 #: ekos/scheduler/scheduler.ui:1082
 #, kde-format
 msgid "Est. Duration"
-msgstr ""
+msgstr "დაახლ. ხანგრძლივობა"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/scheduler/scheduler.ui:1087
@@ -23385,7 +23383,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:1362
 #, kde-format
 msgid "Repeat &until"
-msgstr ""
+msgstr "გამეორება, &სანამ"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
 #: ekos/scheduler/scheduler.ui:1378
@@ -24868,7 +24866,7 @@ msgstr ""
 #: fitsviewer/opsfits.ui:325
 #, kde-format
 msgid "3D cube"
-msgstr ""
+msgstr "3D კუბი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_NonLinearHistogram)
 #: fitsviewer/opsfits.ui:335
@@ -24982,7 +24980,7 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:27
 #, kde-format
 msgid "Pixel Values"
-msgstr ""
+msgstr "პიქსელის მნიშვნელობები"
 
 #: fitsviewer/starprofileviewer.cpp:49
 #, kde-format
@@ -25182,7 +25180,7 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:504 fitsviewer/starprofileviewer.cpp:704
 #, kde-format
 msgid "Cut: %1"
-msgstr ""
+msgstr "ამოჭრა: %1"
 
 #: fitsviewer/starprofileviewer.cpp:512 fitsviewer/starprofileviewer.cpp:519
 #: fitsviewer/starprofileviewer.cpp:876
@@ -25199,12 +25197,12 @@ msgstr "მინ: %1"
 #: fitsviewer/starprofileviewer.cpp:667
 #, kde-format
 msgid "Selected Pixel: (%1, %2): %3"
-msgstr ""
+msgstr "მონიშნული პიქსელი: (%1, %2): %3"
 
 #: fitsviewer/starprofileviewer.cpp:706
 #, kde-format
 msgid "Cut Disabled"
-msgstr ""
+msgstr "ამოჭრა გათიშულია"
 
 #: fitsviewer/starprofileviewer.cpp:902
 #, kde-format
@@ -25718,12 +25716,12 @@ msgstr "%1%"
 #: indi/indidome.cpp:20
 #, kde-format
 msgid "Moving clockwise"
-msgstr ""
+msgstr "საათის ისრის მიმართულებით მოძრაობა"
 
 #: indi/indidome.cpp:20
 #, kde-format
 msgid "Moving counter clockwise"
-msgstr ""
+msgstr "საათის ისრის მოძრაობის საწინააღმდეგო მიმართულებით მოძრაობა"
 
 #: indi/indidome.cpp:21 indi/indidustcap.cpp:17
 #, kde-format
@@ -25753,22 +25751,22 @@ msgstr "გუმბათი მოხსნილია"
 #: indi/indidome.cpp:237
 #, kde-format
 msgid "Shutter closing is in progress"
-msgstr ""
+msgstr "მიმდინარეობს შატერის დახურვა"
 
 #: indi/indidome.cpp:245
 #, kde-format
 msgid "Shutter opening is in progress"
-msgstr ""
+msgstr "მიმდინარეობს შატერის გახსნა"
 
 #: indi/indidome.cpp:253
 #, kde-format
 msgid "Shutter closed"
-msgstr ""
+msgstr "შატერი დახურულია"
 
 #: indi/indidome.cpp:261
 #, kde-format
 msgid "Shutter opened"
-msgstr ""
+msgstr "შატერი ღიაა"
 
 #: indi/indidriver.cpp:796
 #, kde-kuit-format
@@ -25788,12 +25786,12 @@ msgstr ""
 #: indi/indielement.cpp:624
 #, kde-format
 msgid "Cannot open file %1 for reading"
-msgstr ""
+msgstr "ფაილის %1 წასაკითხად გახსნის შეცდომა"
 
 #: indi/indielement.cpp:633
 #, kde-format
 msgid "Not enough memory for file %1"
-msgstr ""
+msgstr "არასაკმარისი მეხსიერება ფაილისთვის %1"
 
 #: indi/indilistener.cpp:234
 #, kde-format
@@ -25850,7 +25848,7 @@ msgstr ""
 #: indi/indimount.cpp:800
 #, kde-format
 msgid "Sun Warning"
-msgstr ""
+msgstr "მზის გაფრთხილება"
 
 #: indi/indimount.cpp:818
 #, kde-format
@@ -25900,7 +25898,7 @@ msgstr ""
 #: indi/indistd.cpp:594
 #, kde-format
 msgid "Data file saved to %1"
-msgstr ""
+msgstr "მონაცემები შენახულია ფალში %1"
 
 #: indi/indiwebmanager.cpp:239
 #, kde-format
@@ -25992,7 +25990,7 @@ msgstr ""
 #: indi/opsindi.ui:154
 #, kde-format
 msgid "INDIHub agent:"
-msgstr ""
+msgstr "INDIHub-ს აგენტი:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, fitsLabel)
 #: indi/opsindi.ui:193
@@ -26033,7 +26031,7 @@ msgstr ""
 #: indi/opsindi.ui:254
 #, kde-format
 msgid "KStars updates all devices"
-msgstr ""
+msgstr "KStars განაახლებს ყველა მოწყობილობას"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useTimeUpdate)
 #: indi/opsindi.ui:274
@@ -26095,7 +26093,7 @@ msgstr ""
 #: indi/opsindi.ui:319
 #, kde-format
 msgid "GPS updates KStars"
-msgstr ""
+msgstr "GPS განახლება KStars"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, groupBox)
 #: indi/opsindi.ui:344
@@ -26155,13 +26153,13 @@ msgstr ""
 #: indi/opsindi.ui:523
 #, kde-format
 msgid "Message notifications"
-msgstr ""
+msgstr "გაფრთხილების შეტყობინებები"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: indi/opsindi.ui:546
 #, kde-format
 msgid "Show INDI Logs..."
-msgstr ""
+msgstr "INDI-ის ჟურნალის ჩვენება..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, recordingOptions)
 #: indi/recordingoptions.ui:14
@@ -26254,7 +26252,7 @@ msgstr ""
 #: indi/recordingoptions.ui:194
 #, kde-format
 msgid "Until Stopped"
-msgstr ""
+msgstr "შეჩერებამდე"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/recordingoptions.ui:215
@@ -26270,7 +26268,7 @@ msgstr "INDI FIFO ფაილის შექმნის შეცდომა
 #: indi/servermanager.cpp:125
 #, kde-format
 msgid "INDI server failed to start: %1"
-msgstr ""
+msgstr "INDI სერვერის გაშვების შეცდომა: %1"
 
 #: indi/servermanager.cpp:203
 #, kde-format
@@ -26405,7 +26403,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "%1 Live Video"
-msgstr ""
+msgstr "%1 ცოცხალი ვიდეო"
 
 #: indi/streamwg.cpp:336 indi/streamwg.cpp:383
 #, kde-format
@@ -26570,7 +26568,7 @@ msgstr "ტელესკოპის ოსტატმა მუშაობ�
 #: kspopupmenu.cpp:87
 #, kde-format
 msgid "Rise time: %1"
-msgstr ""
+msgstr "ამოსვლის დრო: %1"
 
 #: kspopupmenu.cpp:89
 #, kde-format
@@ -26601,7 +26599,7 @@ msgstr ""
 #: kspopupmenu.cpp:106
 #, kde-format
 msgid "Transit time: %1"
-msgstr ""
+msgstr "ტრანზიტის დრო: %1"
 
 #: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:763
 #, kde-format
@@ -26667,7 +26665,7 @@ msgstr "დაცენრება და ტრეკინგი"
 #: kspopupmenu.cpp:295 kspopupmenu.cpp:383
 #, kde-format
 msgid "Angular Distance To...            ["
-msgstr ""
+msgstr "კუთხური მანძილი ობიექტამდე.....           ["
 
 #: kspopupmenu.cpp:298 kspopupmenu.cpp:386
 #, kde-format
@@ -26998,13 +26996,13 @@ msgstr ""
 #: kstars.kcfg:81
 #, kde-format
 msgid "Display the statusbar?"
-msgstr ""
+msgstr "ვაჩვენო სტატუსის ზოლი?"
 
 #. i18n: ectx: whatsthis, entry (ShowStatusBar), group (GUI)
 #: kstars.kcfg:82
 #, kde-format
 msgid "Toggle display of the status bar."
-msgstr ""
+msgstr "სტატუსის ზოლის ჩვენების გადართვა."
 
 #. i18n: ectx: label, entry (ShowAltAzField), group (GUI)
 #: kstars.kcfg:86
@@ -27157,7 +27155,7 @@ msgstr ""
 #: kstars.kcfg:157
 #, kde-format
 msgid "The filename of the DSO catalog."
-msgstr ""
+msgstr "DSO კატალოგის ფაილის სახელი."
 
 #. i18n: ectx: label, entry (DSODefaultCatalogFilename), group (Catalogs)
 #: kstars.kcfg:161
@@ -27169,13 +27167,13 @@ msgstr ""
 #: kstars.kcfg:167
 #, kde-format
 msgid "INDI window width"
-msgstr ""
+msgstr "INDI ფანჯრის სიგანე"
 
 #. i18n: ectx: label, entry (INDIWindowHeight), group (indi)
 #: kstars.kcfg:171
 #, kde-format
 msgid "INDI window height"
-msgstr ""
+msgstr "INDI ფანჯრის სიმაღლე"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:175
@@ -27255,13 +27253,13 @@ msgstr ""
 #: kstars.kcfg:218
 #, kde-format
 msgid "FITS Default directory"
-msgstr ""
+msgstr "FITS ნაგულისხმევი საქაღალდე"
 
 #. i18n: ectx: whatsthis, entry (fitsDir), group (indi)
 #: kstars.kcfg:219
 #, kde-format
 msgid "The default location of saved FITS files"
-msgstr ""
+msgstr "შენახული FITS ფაილების ნაგულისხმები მდებარეობა"
 
 #. i18n: ectx: label, entry (serverTransferBufferSize), group (indi)
 #: kstars.kcfg:223
@@ -27279,7 +27277,7 @@ msgstr ""
 #: kstars.kcfg:228
 #, kde-format
 msgid "INDI Server Start Port"
-msgstr ""
+msgstr "INDI სერვერის საწყისი პორტი"
 
 #. i18n: ectx: whatsthis, entry (serverPortStart), group (indi)
 #: kstars.kcfg:229
@@ -27291,7 +27289,7 @@ msgstr ""
 #: kstars.kcfg:233
 #, kde-format
 msgid "INDI Server Final Port"
-msgstr ""
+msgstr "INDI სერვერის საბოლოო პორტი"
 
 #. i18n: ectx: whatsthis, entry (serverPortEnd), group (indi)
 #: kstars.kcfg:234
@@ -27304,14 +27302,14 @@ msgstr ""
 #: kstars.kcfg:238 kstars.kcfg:239
 #, kde-format
 msgid "PATH to indiserver binary"
-msgstr ""
+msgstr "ბილიკი indiserver გამშვებ ფაილამდე"
 
 #. i18n: ectx: label, entry (INDIHubAgent), group (indi)
 #. i18n: ectx: whatsthis, entry (INDIHubAgent), group (indi)
 #: kstars.kcfg:243 kstars.kcfg:244
 #, kde-format
 msgid "PATH to indihub-agent binary"
-msgstr ""
+msgstr "ბილიკი indihub-agent გამშვებ ფაილამდე"
 
 #. i18n: ectx: label, entry (indiServerIsInternal), group (indi)
 #: kstars.kcfg:248
@@ -27324,7 +27322,7 @@ msgstr ""
 #: kstars.kcfg:252 kstars.kcfg:253
 #, kde-format
 msgid "PATH to indi drivers directory"
-msgstr ""
+msgstr "ბილიკი indi-ის დრაივერების საქაღალდემდე"
 
 #. i18n: ectx: label, entry (indiDriversAreInternal), group (indi)
 #: kstars.kcfg:257
@@ -27336,13 +27334,13 @@ msgstr ""
 #: kstars.kcfg:261
 #, kde-format
 msgid "Video streaming window width"
-msgstr ""
+msgstr "ვიდეონაკადის ფანჯრის სიგანე"
 
 #. i18n: ectx: label, entry (streamWindowHeight), group (indi)
 #: kstars.kcfg:265
 #, kde-format
 msgid "Video streaming window height"
-msgstr ""
+msgstr "ვიდეონაკადის ფანჯრის სიმაღლე"
 
 #. i18n: ectx: label, entry (INDIMountLogging), group (indi)
 #: kstars.kcfg:269
@@ -27846,13 +27844,13 @@ msgstr ""
 #: kstars.kcfg:486
 #, kde-format
 msgid "Draw supernovae in the sky map?"
-msgstr ""
+msgstr "დავხატო ზეახალი ვარსკვლავები ცის რუკაზე?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:487
 #, kde-format
 msgid "Toggle whether supernovae are drawn in the sky map."
-msgstr ""
+msgstr "ზეახალი ვარსკვლავები ცის რუკაზე ჩვენების გადართვა."
 
 #. i18n: ectx: label, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:491
@@ -27882,13 +27880,13 @@ msgstr ""
 #: kstars.kcfg:501
 #, kde-format
 msgid "Show supernova alerts?"
-msgstr ""
+msgstr "გაჩვენოთ ზეახალი ვარსკვლავის გაფრთხილებები?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:502
 #, kde-format
 msgid "Toggle supernova alerts."
-msgstr ""
+msgstr "ზეახალი ვარსკვლავის გაფრთხილებების გადართვა."
 
 #. i18n: ectx: label, entry (MagnitudeLimitAlertSupernovae), group (View)
 #: kstars.kcfg:506
@@ -28778,13 +28776,13 @@ msgstr ""
 #: kstars.kcfg:862
 #, kde-format
 msgid "Run clock"
-msgstr ""
+msgstr "საათის გაშვება"
 
 #. i18n: ectx: whatsthis, entry (RunClock), group (View)
 #: kstars.kcfg:863
 #, kde-format
 msgid "The state of the clock (running or not)"
-msgstr ""
+msgstr "საათის მდგომარეობა (გაშვებულია, თუ არა)"
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:869
@@ -28911,7 +28909,7 @@ msgstr ""
 #: kstars.kcfg:916
 #, kde-format
 msgid "Saturation level of star colors"
-msgstr ""
+msgstr "ვარსკვლავის ფერის გაჯერებულობა"
 
 #. i18n: ectx: whatsthis, entry (StarColorIntensity), group (Colors)
 #: kstars.kcfg:917
@@ -28925,7 +28923,7 @@ msgstr ""
 #: kstars.kcfg:922
 #, kde-format
 msgid "Color of angular distance ruler"
-msgstr ""
+msgstr "კუთხური მანძილის საქაღალდის ფერი"
 
 #. i18n: ectx: whatsthis, entry (AngularRulerColor), group (Colors)
 #: kstars.kcfg:923
@@ -29813,14 +29811,14 @@ msgstr ""
 #: kstars.kcfg:1291
 #, kde-format
 msgid "Draw satellites in the sky map?"
-msgstr ""
+msgstr "დავხატო თანამგზავრები ცის რუკაზე?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellites), group (Satellites)
 #. i18n: ectx: whatsthis, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1292 kstars.kcfg:1297
 #, kde-format
 msgid "Toggle whether satellite tracks are drawn in the sky map."
-msgstr ""
+msgstr "ცის რუკაზე თანამგზავრების ჩვენების გადართვა."
 
 #. i18n: ectx: label, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1296
@@ -29841,7 +29839,7 @@ msgstr ""
 #: kstars.kcfg:1306
 #, kde-format
 msgid "Draw satellite labels?"
-msgstr ""
+msgstr "დავხატო თანამგზავრის ჭდეები?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1307
@@ -29880,7 +29878,7 @@ msgstr ""
 #: kstars.kcfg:1322 options/opsadvanced.ui:91
 #, kde-format
 msgid "Always recompute coordinates"
-msgstr ""
+msgstr "კოორდინატები ყოველთვის თავიდან გადაითვლება"
 
 #. i18n: ectx: whatsthis, entry (AlwaysRecomputeCoordinates), group (General)
 #: kstars.kcfg:1323
@@ -29898,7 +29896,7 @@ msgstr ""
 #: kstars.kcfg:1327
 #, kde-format
 msgid "Default size for DSS images"
-msgstr ""
+msgstr "DSS გამოსახულებების ნაგულისხმები ზომა"
 
 #. i18n: ectx: whatsthis, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1328
@@ -29925,7 +29923,7 @@ msgstr ""
 #: kstars.kcfg:1337
 #, kde-format
 msgid "Enable Verbose Logging"
-msgstr ""
+msgstr "ჟურნალში დამატებითი ჩანაწერების ჩარტვა"
 
 #. i18n: ectx: whatsthis, entry (VerboseLogging), group (General)
 #: kstars.kcfg:1338
@@ -29939,7 +29937,7 @@ msgstr ""
 #: kstars.kcfg:1342
 #, kde-format
 msgid "Enable Regular Logging"
-msgstr ""
+msgstr "ჟურნალში ჩვეულებრივი ჩანაწერების ჩაწერა"
 
 #. i18n: ectx: whatsthis, entry (RegularLogging), group (General)
 #: kstars.kcfg:1343
@@ -29952,7 +29950,7 @@ msgstr ""
 #: kstars.kcfg:1347
 #, kde-format
 msgid "Disable Verbose Logging"
-msgstr ""
+msgstr "ჟურნალის დამატებითი შეტყობინებების გამორთვა"
 
 #. i18n: ectx: whatsthis, entry (DisableLogging), group (General)
 #: kstars.kcfg:1348
@@ -31785,7 +31783,7 @@ msgstr ""
 #: kstars.kcfg:2541
 #, kde-format
 msgid "Last Calibration serialized."
-msgstr ""
+msgstr "ბოლო კალიბრაცია სერიალიზებულია."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:2544
@@ -31815,7 +31813,7 @@ msgstr ""
 #: kstars.kcfg:2556
 #, kde-format
 msgid "Minimum time between jobs in minutes."
-msgstr ""
+msgstr "მინიმალური დრო დავალებებს შორის, წუთებში."
 
 #. i18n: ectx: label, entry (PreDawnTime), group (Scheduler)
 #: kstars.kcfg:2560
@@ -63404,10 +63402,10 @@ msgid "Bias"
 msgstr ""
 
 #: libindi_strings.cpp:44
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Binning"
-msgstr ""
+msgstr "დაჯგუფება"
 
 #: libindi_strings.cpp:45
 #, kde-kuit-format
@@ -66020,10 +66018,10 @@ msgid "Theta D:M:S"
 msgstr ""
 
 #: libindi_strings.cpp:484
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Ticks"
-msgstr ""
+msgstr "გაყოფები"
 
 #: libindi_strings.cpp:485
 #, kde-kuit-format
