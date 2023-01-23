@@ -101,7 +101,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          * @param name name if the optical train to remove
          * @return True if successful, false if id is not found.
          */
-        bool removeOpticalTrain(QString name);
+        bool removeOpticalTrain(const QString &name);
 
         void refreshModel();
         void refreshTrains();
@@ -145,21 +145,21 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         void initModel();
         QStringList getMissingDevices() const;
 
-private slots:
+    private slots:
         /**
          * @brief Update an element value in the currently selected optical train
          * @param cb combo box holding the new value
          * @param element element name
          */
-        void updateOpticalTrainValue(QComboBox *cb, QString element);
+        void updateOpticalTrainValue(QComboBox *cb, const QString &element);
         /**
          * @brief Update an element value in the currently selected optical train
          * @param value the new value
          * @param element element name
          */
-        void updateOpticalTrainValue(double value, QString element);
+        void updateOpticalTrainValue(double value, const QString &element);
 
-private:
+    private:
 
         OpticalTrainManager();
         static OpticalTrainManager *m_Instance;
@@ -199,7 +199,7 @@ private:
         QVariantMap *m_CurrentOpticalTrain = nullptr;
 
         // make changes persistent
-        bool persistent = false;
+        bool m_Persistent = false;
 
         // Table model
         QSqlTableModel *m_OpticalTrainsModel = { nullptr };

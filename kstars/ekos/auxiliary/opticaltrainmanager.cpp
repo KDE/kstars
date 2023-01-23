@@ -7,13 +7,12 @@
 #include "opticaltrainmanager.h"
 #include <kstars_debug.h>
 
+#include "ksnotification.h"
 #include "kstarsdata.h"
 #include "kstars.h"
 #include "indi/indilistener.h"
 #include "ekos/auxiliary/profilesettings.h"
-#include "ekos/auxiliary/tabledelegate.h"
 #include "oal/equipmentwriter.h"
-#include "ekos/manager.h"
 
 #include <QTimer>
 #include <QSqlTableModel>
@@ -67,47 +66,77 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
 
     // Mount Combo
     connect(mountComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(mountComboBox, "mount");});
+            [this]()
+    {
+        updateOpticalTrainValue(mountComboBox, "mount");
+    });
 
     // DustCap Combo
     connect(dustCapComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(dustCapComboBox, "dustcap");});
+            [this]()
+    {
+        updateOpticalTrainValue(dustCapComboBox, "dustcap");
+    });
 
     // Light Box
     connect(lightBoxComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(lightBoxComboBox, "lightbox");});
+            [this]()
+    {
+        updateOpticalTrainValue(lightBoxComboBox, "lightbox");
+    });
 
     // Scope / Lens
     connect(scopeComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(scopeComboBox, "scope");});
+            [this]()
+    {
+        updateOpticalTrainValue(scopeComboBox, "scope");
+    });
 
     // Reducer
     connect(reducerSpinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
-            [this](double value){updateOpticalTrainValue(value, "reducer");});
+            [this](double value)
+    {
+        updateOpticalTrainValue(value, "reducer");
+    });
 
     // Rotator
     connect(rotatorComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(rotatorComboBox, "rotator");});
+            [this]()
+    {
+        updateOpticalTrainValue(rotatorComboBox, "rotator");
+    });
 
     // Focuser
     connect(focusComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(focusComboBox, "focuser");});
+            [this]()
+    {
+        updateOpticalTrainValue(focusComboBox, "focuser");
+    });
 
     // Filter Wheel
     connect(filterComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(filterComboBox, "filterwheel");});
+            [this]()
+    {
+        updateOpticalTrainValue(filterComboBox, "filterwheel");
+    });
 
     // Camera
     connect(cameraComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(cameraComboBox, "camera");});
+            [this]()
+    {
+        updateOpticalTrainValue(cameraComboBox, "camera");
+    });
 
     // Guider
     connect(guiderComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](){updateOpticalTrainValue(guiderComboBox, "guider");});
+            [this]()
+    {
+        updateOpticalTrainValue(guiderComboBox, "guider");
+    });
 
     connect(addB, &QPushButton::clicked, this, [this]()
     {
-        QString name = addOpticalTrain(false, i18n("New Train"));
+        addOpticalTrain(false, i18n("New Train"));
         m_OpticalTrainsModel->select();
         refreshModel();
         trainNamesList->setCurrentRow(trainNamesList->count() - 1);
@@ -131,9 +160,16 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
         refreshOpticalElements();
     });
 
-    connect(trainNamesList, &QListWidget::itemClicked, this, [this](QListWidgetItem *item) {selectOpticalTrain(item);});
-    connect(trainNamesList, &QListWidget::itemChanged, this, [this](QListWidgetItem *item) {renameCurrentOpticalTrain(item->text());});
-    connect(trainNamesList, &QListWidget::currentRowChanged, this, [this](int row) {
+    connect(trainNamesList, &QListWidget::itemClicked, this, [this](QListWidgetItem * item)
+    {
+        selectOpticalTrain(item);
+    });
+    connect(trainNamesList, &QListWidget::itemChanged, this, [this](QListWidgetItem * item)
+    {
+        renameCurrentOpticalTrain(item->text());
+    });
+    connect(trainNamesList, &QListWidget::currentRowChanged, this, [this](int row)
+    {
         if (row >= 0)
             selectOpticalTrain(trainNamesList->currentItem());
     });
@@ -313,8 +349,14 @@ bool OpticalTrainManager::setOpticalTrainValue(const QString &name, const QStrin
     {
         if (oneTrain["name"].toString() == name)
         {
+            // If value did not change, just return true
+            if (oneTrain[field] == value)
+                return true;
+
+            // Update field and database.
             oneTrain[field] = value;
             KStarsData::Instance()->userdb()->UpdateOpticalTrain(oneTrain, oneTrain["id"].toInt());
+            emit updated();
             return true;
         }
     }
@@ -328,9 +370,9 @@ void OpticalTrainManager::renameCurrentOpticalTrain(const QString &name)
 {
     if (m_CurrentOpticalTrain != nullptr && (*m_CurrentOpticalTrain)["name"] != name)
     {
-        int pos = trainNamesList->currentRow();
+        auto pos = trainNamesList->currentRow();
         // ensure train name uniqueness
-        QString unique = uniqueTrainName(name);
+        auto unique = uniqueTrainName(name);
         // update the train database entry
         setOpticalTrainValue((*m_CurrentOpticalTrain)["name"].toString(), "name", unique);
         // propagate the unique name to the current selection
@@ -361,13 +403,13 @@ bool OpticalTrainManager::setOpticalTrain(const QJsonObject &train)
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-bool OpticalTrainManager::removeOpticalTrain(QString name)
+bool OpticalTrainManager::removeOpticalTrain(const QString &name)
 {
     for (auto &oneTrain : m_OpticalTrains)
     {
         if (oneTrain["name"].toString() == name)
         {
-            int id = oneTrain["id"].toInt();
+            auto id = oneTrain["id"].toInt();
             KStarsData::Instance()->userdb()->DeleteOpticalTrain(id);
             KStarsData::Instance()->userdb()->DeleteOpticalTrainSettings(id);
             refreshTrains();
@@ -508,29 +550,30 @@ bool OpticalTrainManager::selectOpticalTrain(QListWidgetItem *item)
 bool OpticalTrainManager::selectOpticalTrain(const QString &name)
 {
     for (auto &oneTrain : m_OpticalTrains)
+    {
+        if (oneTrain["name"].toString() == name)
         {
-            if (oneTrain["name"].toString() == name)
-            {
-                persistent = false;
-                m_CurrentOpticalTrain = &oneTrain;
-                mountComboBox->setCurrentText(oneTrain["mount"].toString());
-                dustCapComboBox->setCurrentText(oneTrain["dustcap"].toString());
-                lightBoxComboBox->setCurrentText(oneTrain["lightbox"].toString());
-                scopeComboBox->setCurrentText(oneTrain["scope"].toString());
-                reducerSpinBox->setValue(oneTrain["reducer"].toDouble());
-                rotatorComboBox->setCurrentText(oneTrain["rotator"].toString());
-                focusComboBox->setCurrentText(oneTrain["focuser"].toString());
-                filterComboBox->setCurrentText(oneTrain["filterwheel"].toString());
-                cameraComboBox->setCurrentText(oneTrain["camera"].toString());
-                guiderComboBox->setCurrentText(oneTrain["guider"].toString());
-                removeB->setEnabled(true);
-                trainConfigBox->setEnabled(true);
-                persistent = true;
-                return true;
-            }
+            m_Persistent = false;
+            m_CurrentOpticalTrain = &oneTrain;
+            mountComboBox->setCurrentText(oneTrain["mount"].toString());
+            dustCapComboBox->setCurrentText(oneTrain["dustcap"].toString());
+            lightBoxComboBox->setCurrentText(oneTrain["lightbox"].toString());
+            scopeComboBox->setCurrentText(oneTrain["scope"].toString());
+            reducerSpinBox->setValue(oneTrain["reducer"].toDouble());
+            rotatorComboBox->setCurrentText(oneTrain["rotator"].toString());
+            focusComboBox->setCurrentText(oneTrain["focuser"].toString());
+            filterComboBox->setCurrentText(oneTrain["filterwheel"].toString());
+            cameraComboBox->setCurrentText(oneTrain["camera"].toString());
+            guiderComboBox->setCurrentText(oneTrain["guider"].toString());
+            removeB->setEnabled(true);
+            trainConfigBox->setEnabled(true);
+            m_Persistent = true;
+            return true;
         }
+    }
+
     // none found
-    persistent = false;
+    m_Persistent = false;
     m_CurrentOpticalTrain = nullptr;
     mountComboBox->setCurrentText("--");
     dustCapComboBox->setCurrentText("--");
@@ -544,7 +587,7 @@ bool OpticalTrainManager::selectOpticalTrain(const QString &name)
     guiderComboBox->setCurrentText("--");
     removeB->setEnabled(false);
     trainConfigBox->setEnabled(false);
-    persistent = true;
+    m_Persistent = true;
     return false;
 }
 
@@ -557,6 +600,7 @@ void OpticalTrainManager::openEditor(const QString &name)
     QList<QListWidgetItem*> matches = trainNamesList->findItems(name, Qt::MatchExactly);
     if (matches.count() > 0)
         trainNamesList->setCurrentItem(matches.first());
+    emit configurationRequested(true);
     show();
 }
 
@@ -899,15 +943,21 @@ QStringList OpticalTrainManager::getMissingDevices() const
     return missing;
 }
 
-void Ekos::OpticalTrainManager::updateOpticalTrainValue(QComboBox *cb, QString element)
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+void Ekos::OpticalTrainManager::updateOpticalTrainValue(QComboBox *cb, const QString &element)
 {
-    if (trainNamesList->currentItem() != nullptr && persistent == true)
+    if (trainNamesList->currentItem() != nullptr && m_Persistent == true)
         setOpticalTrainValue(trainNamesList->currentItem()->text(), element, cb->currentText());
 }
 
-void OpticalTrainManager::updateOpticalTrainValue(double value, QString element)
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::updateOpticalTrainValue(double value, const QString &element)
 {
-    if (trainNamesList->currentItem() != nullptr && persistent == true)
+    if (trainNamesList->currentItem() != nullptr && m_Persistent == true)
         setOpticalTrainValue(trainNamesList->currentItem()->text(), element, QString("%0.2d").arg(value));
 
 }
