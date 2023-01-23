@@ -923,8 +923,9 @@ bool PolarAlignmentAssistant::calculatePAHError()
     dms polarError(hypot(altitudeError, azimuthError));
     dms azError(azimuthError), altError(altitudeError);
 
-    if (m_AlignView->isEQGridShown() == false && !Options::limitedResourcesMode())
-        m_AlignView->toggleEQGrid();
+    // No need to toggle EQGrid
+    //    if (m_AlignView->isEQGridShown() == false && !Options::limitedResourcesMode())
+    //        m_AlignView->toggleEQGrid();
 
     QString msg = QString("%1. Azimuth: %2  Altitude: %3")
                   .arg(polarError.toDMSString()).arg(azError.toDMSString())

@@ -106,22 +106,22 @@ void AlignView::drawTriangle(QPainter *painter, const QPointF &from, const QPoin
 
     // In limited memory mode, WCS data is not loaded so no Equatorial Gridlines are drawn
     // so we have to at least draw the NCP/SCP locations
-    if (Options::limitedResourcesMode() && !celestialPolePoint.isNull()
-            && m_ImageData->contains(celestialPolePoint))
-    {
-        QPen pen;
-        pen.setWidth(2);
-        pen.setColor(Qt::darkRed);
-        painter->setPen(pen);
-        double x  = celestialPolePoint.x() * scale;
-        double y  = celestialPolePoint.y() * scale;
-        double sr = 3 * scale;
+    //    if (Options::limitedResourcesMode() && !celestialPolePoint.isNull()
+    //            && m_ImageData->contains(celestialPolePoint))
+    //    {
+    //        QPen pen;
+    //        pen.setWidth(2);
+    //        pen.setColor(Qt::darkRed);
+    //        painter->setPen(pen);
+    //        double x  = celestialPolePoint.x() * scale;
+    //        double y  = celestialPolePoint.y() * scale;
+    //        double sr = 3 * scale;
 
-        if (KStarsData::Instance()->geo()->lat()->Degrees() > 0)
-            painter->drawText(x + sr, y + sr, i18nc("North Celestial Pole", "NCP"));
-        else
-            painter->drawText(x + sr, y + sr, i18nc("South Celestial Pole", "SCP"));
-    }
+    //        if (KStarsData::Instance()->geo()->lat()->Degrees() > 0)
+    //            painter->drawText(x + sr, y + sr, i18nc("North Celestial Pole", "NCP"));
+    //        else
+    //            painter->drawText(x + sr, y + sr, i18nc("South Celestial Pole", "SCP"));
+    //    }
 }
 
 void AlignView::drawStarCircle(QPainter *painter, const QPointF &center, double radius, const QColor &color)
