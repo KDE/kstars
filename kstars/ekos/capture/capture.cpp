@@ -6845,11 +6845,11 @@ void Capture::generatePreviewFilename()
     if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
             || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
     {
-        FilenamePreviewLabel->setText(previewFilename( LOCAL_PREVIEW ));
-        emit newLocalPreview(FilenamePreviewLabel->text());
+        placeholderFormatT->setToolTip(previewFilename( LOCAL_PREVIEW ));
+        emit newLocalPreview(placeholderFormatT->toolTip());
 
         if (fileUploadModeS->currentIndex() != 0)
-            RemotePreviewLabel->setText(previewFilename( REMOTE_PREVIEW ));
+            fileRemoteDirT->setToolTip(previewFilename( REMOTE_PREVIEW ));
     }
 }
 
