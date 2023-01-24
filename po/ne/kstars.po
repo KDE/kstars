@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-21 00:54+0000\n"
+"POT-Creation-Date: 2023-01-24 00:53+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -469,14 +469,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "आकाशे छवि बचत गर्नुहोस्..."
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3645
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3655
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "\"%1\" नामकरण गरिएको फाइल पहिल्यै अवस्थित छ । यसलाई अधिलेखन गर्नुहुन्छ ?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3648
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3658
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1316
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
@@ -1928,7 +1928,7 @@ msgstr "RA:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#: data/qml/mount/mountbox.qml:641 ekos/capture/capture.ui:909
+#: data/qml/mount/mountbox.qml:641 ekos/capture/capture.ui:957
 #: ekos/scheduler/scheduler.ui:319
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -2646,7 +2646,7 @@ msgstr ""
 "यूआरएल वैध छैन । तपाईँ गुगल खोजी इन्जिनमा ब्राउजर सञ्झ्याल\n"
 "खोल्न चाहनुहुन्छ ?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3656
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3666
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
 #: ekos/analyze/analyze.cpp:1109 ekos/capture/capture.cpp:3763
 #: ekos/capture/capture.cpp:4201 ekos/guide/guidedriftgraph.cpp:475
@@ -2860,7 +2860,7 @@ msgstr "पाठ"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/capture.ui:1889 tools/observinglist.cpp:93
+#: ekos/capture/capture.ui:1827 tools/observinglist.cpp:93
 #: tools/observinglist.cpp:97 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
@@ -4072,7 +4072,7 @@ msgstr "अल्बिरियो"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2372
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2307
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -6351,7 +6351,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "आकाशे नक्सामा टेलिस्कोप स्थिति प्रदर्शन गर्नुहोस्"
 
 #: ekos/align/align.cpp:2512 ekos/align/align.cpp:2542
-#: ekos/align/align.cpp:3780 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:3790 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling..."
@@ -6533,20 +6533,20 @@ msgstr ""
 msgid "Auto focus on filter change..."
 msgstr "पूरा भएको"
 
-#: ekos/align/align.cpp:3497
+#: ekos/align/align.cpp:3507
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "अवैध यूआरएल"
 
-#: ekos/align/align.cpp:3632
+#: ekos/align/align.cpp:3642
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "सबै कक्ष मार्ग खाली गर्नुहोस्"
 
-#: ekos/align/align.cpp:3655 ekos/align/mountmodel.cpp:263
+#: ekos/align/align.cpp:3665 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3762
 #: ekos/capture/capture.cpp:4200 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
@@ -6556,7 +6556,7 @@ msgstr "सबै कक्ष मार्ग खाली गर्नुह�
 msgid "Invalid URL: %1"
 msgstr "अवैध यूआरएल: %1"
 
-#: ekos/align/align.cpp:3664 ekos/align/mountmodel.cpp:400
+#: ekos/align/align.cpp:3674 ekos/align/mountmodel.cpp:400
 #: ekos/capture/capture.cpp:4223 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7152
 #, fuzzy, kde-format
@@ -6564,7 +6564,7 @@ msgstr "अवैध यूआरएल: %1"
 msgid "Unable to write to file %1"
 msgstr "छवि बचत गर्न असक्षम भयो: %1 "
 
-#: ekos/align/align.cpp:3665 ekos/align/mountmodel.cpp:283
+#: ekos/align/align.cpp:3675 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3778
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7096
@@ -6582,31 +6582,31 @@ msgstr "छवि बचत गर्न असक्षम भयो: %1 "
 msgid "Could Not Open File"
 msgstr "फाइल खोल्न सकेन"
 
-#: ekos/align/align.cpp:3686
+#: ekos/align/align.cpp:3696
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "रेखामा त्रुटि"
 
-#: ekos/align/align.cpp:3695
+#: ekos/align/align.cpp:3705
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "तेर्सो समकक्ष"
 
-#: ekos/align/align.cpp:3709
+#: ekos/align/align.cpp:3719
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Polar Alignment"
 msgstr "फोकस गरिएको: "
 
-#: ekos/align/align.cpp:4217
+#: ekos/align/align.cpp:4227
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "छवि ग्रहण गर्नुहोस्"
 
-#: ekos/align/align.cpp:4226
+#: ekos/align/align.cpp:4236
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -6924,7 +6924,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:613 ekos/capture/capture.ui:2209 ekos/guide/guide.ui:235
+#: ekos/align/align.ui:613 ekos/capture/capture.ui:2147 ekos/guide/guide.ui:235
 #, kde-format
 msgid "Dark"
 msgstr ""
@@ -7001,7 +7001,7 @@ msgstr "हालको रङ सेटिङ"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
 #: ekos/align/align.ui:743 ekos/auxiliary/darklibrary.ui:506
-#: ekos/capture/capture.ui:1200 ekos/focus/focus.ui:772
+#: ekos/capture/capture.ui:1138 ekos/focus/focus.ui:772
 #, kde-format
 msgid "ISO:"
 msgstr ""
@@ -7137,19 +7137,6 @@ msgstr ""
 #| msgid "Mount Mario"
 msgid "Mount Model"
 msgstr "माउन्ट म्यारियो"
-
-#: ekos/align/alignview.cpp:121 fitsviewer/fitsview.cpp:1602
-#, kde-format
-msgctxt "North Celestial Pole"
-msgid "NCP"
-msgstr ""
-
-#: ekos/align/alignview.cpp:123 fitsviewer/fitsview.cpp:1619
-#, fuzzy, kde-format
-#| msgid "UT:"
-msgctxt "South Celestial Pole"
-msgid "SCP"
-msgstr "UT:"
 
 #: ekos/align/alignview.cpp:167
 #, kde-format
@@ -9599,61 +9586,61 @@ msgstr "छवि लोड गर्न असफल भयो"
 msgid "PAA: Failed to find RA Axis center."
 msgstr "छवि लोड गर्न असफल भयो"
 
-#: ekos/align/polaralignmentassistant.cpp:985
+#: ekos/align/polaralignmentassistant.cpp:986
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1002
+#: ekos/align/polaralignmentassistant.cpp:1003
 #, fuzzy, kde-format
 #| msgid "First position"
 msgid "First manual rotation done."
 msgstr "पहिलो स्थिति"
 
-#: ekos/align/polaralignmentassistant.cpp:1007
+#: ekos/align/polaralignmentassistant.cpp:1008
 #, fuzzy, kde-format
 #| msgid "Second position"
 msgid "Second manual rotation done."
 msgstr "दोस्रो स्थिति"
 
-#: ekos/align/polaralignmentassistant.cpp:1050
+#: ekos/align/polaralignmentassistant.cpp:1051
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1069
+#: ekos/align/polaralignmentassistant.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Please wait while KStars tries to connect to your telescope..."
 msgid "Please wait while WCS data is processed..."
 msgstr "केडीई ताराले तपाईँको टेलिस्कोपमा जडान गर्ने प्रयास गर्दा कृपया प्रतिक्षा गर्नुहोस्..."
 
-#: ekos/align/polaralignmentassistant.cpp:1100
+#: ekos/align/polaralignmentassistant.cpp:1101
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "WCS data processing is complete."
 msgstr "%1 अनलाइन छ ।"
 
-#: ekos/align/polaralignmentassistant.cpp:1109
+#: ekos/align/polaralignmentassistant.cpp:1110
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1151
+#: ekos/align/polaralignmentassistant.cpp:1152
 #, fuzzy, kde-format
 #| msgid "Date && Location"
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "मिति र स्थान"
 
-#: ekos/align/polaralignmentassistant.cpp:1169
+#: ekos/align/polaralignmentassistant.cpp:1170
 #, fuzzy, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "छवि लोड गर्न असफल भयो"
 
-#: ekos/align/polaralignmentassistant.cpp:1244
+#: ekos/align/polaralignmentassistant.cpp:1245
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -11171,7 +11158,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, darkTab)
 #. i18n: ectx: property (text), widget (QPushButton, darkLibraryB)
 #: ekos/auxiliary/darklibrary.ui:118 ekos/auxiliary/darklibrary.ui:167
-#: ekos/capture/capture.ui:2160
+#: ekos/capture/capture.ui:2098
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sparks"
@@ -11193,7 +11180,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, binningLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_9)
-#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/capture.ui:1167
+#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/capture.ui:1105
 #: ekos/capture/captureprocessoverlay.ui:433
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -11255,7 +11242,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
-#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1193
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1131
 #, kde-format
 msgid "Count:"
 msgstr "गणना गर्नुहोस्:"
@@ -11591,7 +11578,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:1874
+#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:1812
 #: oal/equipmentwriter.ui:940
 #, kde-format
 msgid "Filter"
@@ -11616,7 +11603,7 @@ msgid "Relative offset in steps"
 msgstr "स्थिति रिसेट गर्नुहोस्"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1904
+#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1842
 #, fuzzy, kde-format
 #| msgid "UT offset:"
 msgid "Offset"
@@ -12237,34 +12224,34 @@ msgstr "स्थितिपट्टीमा इन्दी सन्दे�
 msgid "Open Logs Directory"
 msgstr "पूर्वानिर्धारित फिट्स डाइरेक्टरी:"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:110
+#: ekos/auxiliary/opticaltrainmanager.cpp:139
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "New Britian"
 msgid "New Train"
 msgstr "न्यू ब्रिटेन"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:258
+#: ekos/auxiliary/opticaltrainmanager.cpp:294
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Primghar"
 msgid "Primary"
 msgstr "प्रिमघर"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:261
+#: ekos/auxiliary/opticaltrainmanager.cpp:297
 #, fuzzy, kde-format
 #| msgid "Asteroids"
 msgid "Secondary"
 msgstr "ग्रहिका"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:844
+#: ekos/auxiliary/opticaltrainmanager.cpp:888
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:851
+#: ekos/auxiliary/opticaltrainmanager.cpp:895
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -12338,7 +12325,7 @@ msgstr "स्काइ वस्तुहरू लोड गर्दै"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1480
+#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1418
 #: ekos/scheduler/framingassistant.ui:117 ekos/scheduler/mosaic.ui:301
 #, fuzzy, kde-format
 #| msgid "Camera"
@@ -13869,14 +13856,14 @@ msgid "CCD capture stopped"
 msgstr "छवि ग्रहण गर्नुहोस्"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1040 ekos/capture/capture.ui:2247
+#: ekos/capture/capture.cpp:1040 ekos/capture/capture.ui:2184
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
 msgstr "विवरण:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1051 ekos/capture/capture.ui:2074
+#: ekos/capture/capture.cpp:1051 ekos/capture/capture.ui:2012
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Start Sequence"
@@ -14639,7 +14626,7 @@ msgstr "UT अफसेट:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:620 ekos/capture/capture.ui:1087
+#: ekos/capture/capture.ui:620 ekos/capture/capture.ui:1037
 #, fuzzy, kde-format
 #| msgid "Valid date formats: "
 msgid "Format:"
@@ -14688,68 +14675,8 @@ msgstr "मन्ट्रियल"
 msgid "W:"
 msgstr "S"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
-#: ekos/capture/capture.ui:903
-#, no-c-format, kde-format
-msgid ""
-"<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
-"is available to be used in the filename Format via the %t or %type "
-"placeholder tag.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:923
-#, fuzzy, kde-format
-#| msgid "Local"
-msgid "Locally"
-msgstr "स्थानीय"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:928
-#, fuzzy, kde-format
-#| msgid "Remove"
-msgid "Remotely"
-msgstr "हटाउनुहोस्"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:933
-#, kde-format
-msgid "Both"
-msgstr ""
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
-#: ekos/capture/capture.ui:941
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Sargent"
-msgid "Target"
-msgstr "सारजेन्ट"
-
-#. i18n: ectx: property (text), widget (QLabel, FilenamePreviewLabel)
-#: ekos/capture/capture.ui:962
-#, fuzzy, kde-format
-#| msgid "Local Time"
-msgid "Local preview"
-msgstr "स्थानीय समय"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: ekos/capture/capture.ui:969
-#, kde-format
-msgid ""
-"When storing images on remote devices, specify the directory where captured "
-"images are saved to."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/capture.ui:972 ekos/profileeditor.ui:480
-#, fuzzy, kde-format
-#| msgid "Remove"
-msgid "Remote:"
-msgstr "हटाउनुहोस्"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:982
+#: ekos/capture/capture.ui:903
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select how captured images are uploaded:</p><ol style="
@@ -14773,49 +14700,86 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:985
+#: ekos/capture/capture.ui:906
 #, fuzzy, kde-format
 #| msgid "Save"
 msgid "Save:"
 msgstr "बचत गर्नुहोस्"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/capture/capture.ui:998 ekos/capture/capture.ui:1077
-#, fuzzy, kde-format
-#| msgid "Preview of %1"
-msgid "Preview:"
-msgstr "%1 को पूर्वावलोकन"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/capture/capture.ui:1005
+#: ekos/capture/capture.ui:916
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr "स्काइ वस्तुहरू लोड गर्दै"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
-#: ekos/capture/capture.ui:1011
+#: ekos/capture/capture.ui:922
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Directory"
 msgstr "पूर्वानिर्धारित फिट्स डाइरेक्टरी:"
 
+#. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
+#: ekos/capture/capture.ui:929
+#, fuzzy, kde-format
+#| msgid "Loading sky objects"
+msgid ""
+"<html><head/><body><p>Number of digits used to append the sequence number to "
+"the filename.</p></body></html>"
+msgstr "स्काइ वस्तुहरू लोड गर्दै"
+
+#. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
+#: ekos/capture/capture.ui:932
+#, no-c-format, kde-format
+msgid "_%s"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
+#: ekos/capture/capture.ui:951
+#, no-c-format, kde-format
+msgid ""
+"<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
+"is available to be used in the filename Format via the %t or %type "
+"placeholder tag.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
+#: ekos/capture/capture.ui:996
+#, fuzzy, kde-format
+#| msgid "Local"
+msgid "Locally"
+msgstr "स्थानीय"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
+#: ekos/capture/capture.ui:1001
+#, fuzzy, kde-format
+#| msgid "Remove"
+msgid "Remotely"
+msgstr "हटाउनुहोस्"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
+#: ekos/capture/capture.ui:1006
+#, kde-format
+msgid "Both"
+msgstr ""
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
-#: ekos/capture/capture.ui:1021
+#: ekos/capture/capture.ui:1017
 #, kde-format
 msgid "/home/pi"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, RemotePreviewLabel)
-#: ekos/capture/capture.ui:1039
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
+#: ekos/capture/capture.ui:1024
 #, fuzzy, kde-format
-#| msgid "Remove Trail"
-msgid "Remote preview"
-msgstr "खोज हटाउनुहोस्"
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Sargent"
+msgid "Target"
+msgstr "सारजेन्ट"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:1084
+#: ekos/capture/capture.ui:1034
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
@@ -14862,35 +14826,36 @@ msgid ""
 "ul></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/capture.ui:1097
-#, fuzzy, kde-format
-#| msgid "Loading sky objects"
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: ekos/capture/capture.ui:1044
+#, kde-format
 msgid ""
-"<html><head/><body><p>Number of digits used to append the sequence number to "
-"the filename.</p></body></html>"
-msgstr "स्काइ वस्तुहरू लोड गर्दै"
-
-#. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/capture.ui:1100
-#, no-c-format, kde-format
-msgid "_%s"
+"When storing images on remote devices, specify the directory where captured "
+"images are saved to."
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
+#: ekos/capture/capture.ui:1047 ekos/profileeditor.ui:480
+#, fuzzy, kde-format
+#| msgid "Remove"
+msgid "Remote:"
+msgstr "हटाउनुहोस्"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/capture/capture.ui:1139
+#: ekos/capture/capture.ui:1077
 #, kde-format
 msgid "<b>Capture Settings</b>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
-#: ekos/capture/capture.ui:1161
+#: ekos/capture/capture.ui:1099
 #, kde-format
 msgid "Horizontal and Vertical binning"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_12)
-#: ekos/capture/capture.ui:1180
+#: ekos/capture/capture.ui:1118
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Frame:"
@@ -14900,81 +14865,81 @@ msgstr "नाम:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/capture.ui:1187 ekos/capture/limits.ui:60
+#: ekos/capture/capture.ui:1125 ekos/capture/limits.ui:60
 #: ekos/capture/limits.ui:169 ekos/focus/focus.ui:756
 #, kde-format
 msgid "Number of images to capture"
 msgstr "ग्रहण गर्न छविको सङ्ख्या"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
-#: ekos/capture/capture.ui:1236
+#: ekos/capture/capture.ui:1174
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Restart camera driver"
 msgstr "पूर्वानिर्धारित फिट्स डाइरेक्टरी:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
-#: ekos/capture/capture.ui:1268
+#: ekos/capture/capture.ui:1206
 #, fuzzy, kde-format
 #| msgid "Aperture:"
 msgid "Temperature regulation"
 msgstr "छिद्र:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
-#: ekos/capture/capture.ui:1303
+#: ekos/capture/capture.ui:1241
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set CCD temperature"
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
-#: ekos/capture/capture.ui:1338
+#: ekos/capture/capture.ui:1276
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Desired CCD temperature"
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
-#: ekos/capture/capture.ui:1351
+#: ekos/capture/capture.ui:1289
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Current CCD temperature"
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearConfigurationB)
-#: ekos/capture/capture.ui:1373
+#: ekos/capture/capture.ui:1311
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Clear camera configuration"
 msgstr "यकीन मेट्नुहोस्"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1407
+#: ekos/capture/capture.ui:1345
 #, kde-format
 msgid "Turn cooler on"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1418
+#: ekos/capture/capture.ui:1356
 #, kde-format
 msgid "On"
 msgstr "खुला"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOffB)
-#: ekos/capture/capture.ui:1437
+#: ekos/capture/capture.ui:1375
 #, kde-format
 msgid "Turn cooler off"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOffB)
 #. i18n: ectx: property (text), widget (QRadioButton, offR)
-#: ekos/capture/capture.ui:1448 ekos/indihub.ui:84
+#: ekos/capture/capture.ui:1386 ekos/indihub.ui:84
 #, kde-format
 msgid "Off"
 msgstr "बन्द"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1458
+#: ekos/capture/capture.ui:1396
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enforce temperature value before capturing an image</"
@@ -14982,52 +14947,52 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1461
+#: ekos/capture/capture.ui:1399
 #, kde-format
 msgid "Tº"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/capture.ui:1473
+#: ekos/capture/capture.ui:1411
 #, kde-format
 msgid "Cooler:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, sequenceBox)
-#: ekos/capture/capture.ui:1517
+#: ekos/capture/capture.ui:1455
 #, kde-format
 msgid "Sequence Queue"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/capture/capture.ui:1701
+#: ekos/capture/capture.ui:1639
 #, kde-format
 msgid "Reset status of all jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
-#: ekos/capture/capture.ui:1726
+#: ekos/capture/capture.ui:1664
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Select Observer"
 msgstr "सर्भर"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/capture/capture.ui:1767
+#: ekos/capture/capture.ui:1705
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Load capture sequence from file"
 msgstr "सुपरनोभा रेमन्यान्ट"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/capture/capture.ui:1801
+#: ekos/capture/capture.ui:1739
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Save capture sequence"
 msgstr "सुपरनोभा रेमन्यान्ट"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/capture/capture.ui:1835
+#: ekos/capture/capture.ui:1773
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Save capture sequence as ..."
@@ -15037,7 +15002,7 @@ msgstr "सुपरनोभा रेमन्यान्ट"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/capture/capture.ui:1869 ekos/ekoslive/ekoslivedialog.ui:119
+#: ekos/capture/capture.ui:1807 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/scheduler/scheduler.ui:1046 indi/drivermanager.ui:66
 #: indi/drivermanager.ui:322
 #, kde-format
@@ -15045,14 +15010,14 @@ msgid "Status"
 msgstr "वस्तुस्थिति"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1879
+#: ekos/capture/capture.ui:1817
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Count"
 msgstr "गणना गर्नुहोस्:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1884
+#: ekos/capture/capture.ui:1822
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Eastport"
@@ -15060,27 +15025,27 @@ msgid "Exp"
 msgstr "इस्टपोर्ट"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1894
+#: ekos/capture/capture.ui:1832
 #, fuzzy, kde-format
 #| msgid "in"
 msgid "Bin"
 msgstr "भित्र"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1899
+#: ekos/capture/capture.ui:1837
 #, kde-format
 msgid "ISO/Gain"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/capture/capture.ui:1932
+#: ekos/capture/capture.ui:1870
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Capture a preview"
 msgstr "छवि क्रम ग्रहण गर्नुहोस्"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
-#: ekos/capture/capture.ui:1973
+#: ekos/capture/capture.ui:1911
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -15088,28 +15053,28 @@ msgid "Start framing (looping)"
 msgstr "फारमिङटन"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/capture.ui:2011 ekos/focus/focus.ui:685
+#: ekos/capture/capture.ui:1949 ekos/focus/focus.ui:685
 #, fuzzy, kde-format
 #| msgid "Video port:"
 msgid "Live Video"
 msgstr "भिडियो पोर्ट:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/capture/capture.ui:2108
+#: ekos/capture/capture.ui:2046
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Pause Sequence"
 msgstr "आवृती:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, toolsGroup)
-#: ekos/capture/capture.ui:2136
+#: ekos/capture/capture.ui:2074
 #, fuzzy, kde-format
 #| msgid "&Tools"
 msgid "Tools"
 msgstr "उपकरणहरू"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
-#: ekos/capture/capture.ui:2157
+#: ekos/capture/capture.ui:2095
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Clear Lake City"
@@ -15117,7 +15082,7 @@ msgid "Create and manage Dark Library"
 msgstr "क्लियर लेक शहर"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
-#: ekos/capture/capture.ui:2167
+#: ekos/capture/capture.ui:2105
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "Configure Guide & Focus limits"
@@ -15125,14 +15090,14 @@ msgstr "लुकाएको वस्तु कन्फिगर गर्न
 
 #. i18n: ectx: property (text), widget (QPushButton, limitsB)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
-#: ekos/capture/capture.ui:2170 ekos/mount/mount.ui:791
+#: ekos/capture/capture.ui:2108 ekos/mount/mount.ui:791
 #: tools/scriptbuilder.cpp:683
 #, kde-format
 msgid "Limits"
 msgstr "सीमा"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
-#: ekos/capture/capture.ui:2183
+#: ekos/capture/capture.ui:2121
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage sequence scripts"
@@ -15140,14 +15105,14 @@ msgstr "सर्भर"
 
 #. i18n: ectx: property (text), widget (QPushButton, scriptManagerB)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/capture.ui:2186 ekos/profileeditor.ui:721
+#: ekos/capture/capture.ui:2124 ekos/profileeditor.ui:721
 #, fuzzy, kde-format
 #| msgid "Script name:"
 msgid "Scripts"
 msgstr "स्क्रिप्ट नाम:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
-#: ekos/capture/capture.ui:2206
+#: ekos/capture/capture.ui:2144
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid ""
@@ -15156,7 +15121,7 @@ msgid ""
 msgstr "स्काइ वस्तुहरू लोड गर्दै"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/capture/capture.ui:2234
+#: ekos/capture/capture.ui:2172
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "total remaining:"
@@ -15169,7 +15134,7 @@ msgstr "छवि यूआरएल लोड गर्दै"
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2279 ekos/capture/capture.ui:2318
+#: ekos/capture/capture.ui:2215 ekos/capture/capture.ui:2253
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -15182,21 +15147,21 @@ msgid "--:--:--"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2299
+#: ekos/capture/capture.ui:2235
 #, fuzzy, kde-format
 #| msgid "<b>Port:</b>"
 msgid "<b>Progress</b>"
 msgstr "<b>पोर्ट:</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2328
+#: ekos/capture/capture.ui:2263
 #, fuzzy, kde-format
 #| msgid "Download Extra Data..."
 msgid "Avg. Download:"
 msgstr "अतिरिक्त डेटा डाउनलोड गर्नुहोस्..."
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2338
+#: ekos/capture/capture.ui:2273
 #, fuzzy, kde-format
 #| msgctxt "Declination"
 #| msgid "Dec"
@@ -15204,7 +15169,7 @@ msgid "sec"
 msgstr "Dec"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2362
+#: ekos/capture/capture.ui:2297
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
@@ -15214,7 +15179,7 @@ msgstr "सारजेन्ट"
 #. i18n: ectx: property (text), widget (QLabel, targetDriftUnit)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
-#: ekos/capture/capture.ui:2382 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2317 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102
 #, kde-format
 msgid "\""
@@ -26675,6 +26640,19 @@ msgstr "छवि %1 को बचत असफल भयो ।"
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
+
+#: fitsviewer/fitsview.cpp:1602
+#, kde-format
+msgctxt "North Celestial Pole"
+msgid "NCP"
+msgstr ""
+
+#: fitsviewer/fitsview.cpp:1619
+#, fuzzy, kde-format
+#| msgid "UT:"
+msgctxt "South Celestial Pole"
+msgid "SCP"
+msgstr "UT:"
 
 #: fitsviewer/fitsview.cpp:2039
 #, fuzzy, kde-format
@@ -89622,6 +89600,21 @@ msgstr "सूचना बाकसहरूको पृष्ठभूमि 
 #| msgid "The color for the sky background."
 msgid "Set the color for the background."
 msgstr "आकाश पृष्ठभूमिको लागि रङ ।"
+
+#, fuzzy
+#~| msgid "Local Time"
+#~ msgid "Local preview"
+#~ msgstr "स्थानीय समय"
+
+#, fuzzy
+#~| msgid "Preview of %1"
+#~ msgid "Preview:"
+#~ msgstr "%1 को पूर्वावलोकन"
+
+#, fuzzy
+#~| msgid "Remove Trail"
+#~ msgid "Remote preview"
+#~ msgstr "खोज हटाउनुहोस्"
 
 #, fuzzy
 #~| msgid "Info Box Background"
