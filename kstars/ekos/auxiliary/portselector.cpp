@@ -157,27 +157,27 @@ bool Device::initGUI()
         m_HostPort->setPlaceholderText(i18n("Port"));
         connect(m_HostPort, &QLineEdit::editingFinished, this, [this]()
         {
-            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice().getText("DEVICE_ADDRESS"));
-            server.at(1)->setText(m_HostPort->text().toLatin1().constData());
-            m_Device->sendNewProperty(&server);
+            auto server = m_Device->getProperty("DEVICE_ADDRESS").getText();
+            server->at(1)->setText(m_HostPort->text().toLatin1().constData());
+            m_Device->sendNewProperty(server);
         });
 
         m_HostProtocolTCP = new QPushButton("TCP");
         connect(m_HostProtocolTCP, &QPushButton::clicked, this, [this]()
         {
-            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice().getSwitch("CONNECTION_TYPE"));
-            IUResetSwitch(&connectionType);
-            connectionType.at(0)->setState(ISS_ON);
-            m_Device->sendNewProperty(&connectionType);
+            auto connectionType = m_Device->getProperty("CONNECTION_TYPE").getSwitch();
+            connectionType->reset();
+            connectionType->at(0)->setState(ISS_ON);
+            m_Device->sendNewProperty(connectionType);
         });
 
         m_HostProtocolUDP = new QPushButton("UDP");
         connect(m_HostProtocolUDP, &QPushButton::clicked, this, [this]()
         {
-            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice().getSwitch("CONNECTION_TYPE"));
-            IUResetSwitch(&connectionType);
-            connectionType.at(1)->setState(ISS_ON);
-            m_Device->sendNewProperty(&connectionType);
+            auto connectionType = m_Device->getProperty("CONNECTION_TYPE").getSwitch();
+            connectionType->reset();
+            connectionType->at(1)->setState(ISS_ON);
+            m_Device->sendNewProperty(connectionType);
         });
     }
     else
@@ -220,9 +220,9 @@ void Device::syncGUI()
 
     m_LED->setColor(ColorCode.value(m_Device->getState("CONNECTION")));
 
-    INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice().getSwitch("CONNECTION_MODE"));
+    auto connectionMode = m_Device->getProperty("CONNECTION_MODE").getSwitch();
 
-    if (connectionMode.findOnSwitchIndex() == CONNECTION_SERIAL)
+    if (connectionMode->findOnSwitchIndex() == CONNECTION_SERIAL)
     {
         m_ActiveConnectionMode = CONNECTION_SERIAL;
         m_SerialB->setStyleSheet(ACTIVE_STYLESHEET);
@@ -230,14 +230,14 @@ void Device::syncGUI()
 
         if (m_Ports)
         {
-            INDI::PropertyView<IText> port = *(m_Device->getBaseDevice().getText("DEVICE_PORT"));
-            m_Ports->setEditText(port.at(0)->getText());
+            auto port = m_Device->getProperty("DEVICE_PORT").getText();
+            m_Ports->setEditText(port->at(0)->getText());
         }
 
         if (m_BaudRates)
         {
-            INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice().getSwitch("DEVICE_BAUD_RATE"));
-            m_BaudRates->setCurrentIndex(systemBauds.findOnSwitchIndex());
+            auto systemBauds = m_Device->getProperty("DEVICE_BAUD_RATE").getSwitch();
+            m_BaudRates->setCurrentIndex(systemBauds->findOnSwitchIndex());
         }
     }
     else
@@ -246,18 +246,18 @@ void Device::syncGUI()
         m_SerialB->setStyleSheet(QString());
         m_NetworkB->setStyleSheet(ACTIVE_STYLESHEET);
 
-        if (m_Device->getBaseDevice().getProperty("DEVICE_ADDRESS").isValid())
+        if (m_Device->getProperty("DEVICE_ADDRESS").isValid())
         {
-            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice().getText("DEVICE_ADDRESS"));
-            m_HostName->setText(server.at(0)->getText());
-            m_HostPort->setText(server.at(1)->getText());
+            auto server = m_Device->getProperty("DEVICE_ADDRESS").getText();
+            m_HostName->setText(server->at(0)->getText());
+            m_HostPort->setText(server->at(1)->getText());
         }
 
-        if (m_Device->getBaseDevice().getProperty("CONNECTION_TYPE").isValid())
+        if (m_Device->getProperty("CONNECTION_TYPE").isValid())
         {
-            INDI::PropertyView<ISwitch> connectionType = *(m_Device->getBaseDevice().getSwitch("CONNECTION_TYPE"));
-            m_HostProtocolTCP->setStyleSheet(connectionType.findOnSwitchIndex() == 0 ? ACTIVE_STYLESHEET : QString());
-            m_HostProtocolUDP->setStyleSheet(connectionType.findOnSwitchIndex() == 1 ? ACTIVE_STYLESHEET : QString());
+            auto connectionType = m_Device->getBaseDevice().getSwitch("CONNECTION_TYPE").getSwitch();
+            m_HostProtocolTCP->setStyleSheet(connectionType->findOnSwitchIndex() == 0 ? ACTIVE_STYLESHEET : QString());
+            m_HostProtocolUDP->setStyleSheet(connectionType->findOnSwitchIndex() == 1 ? ACTIVE_STYLESHEET : QString());
         }
     }
 

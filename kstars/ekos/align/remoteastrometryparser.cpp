@@ -13,7 +13,6 @@
 #include "indi/driverinfo.h"
 #include "indi/guimanager.h"
 #include "indi/indidevice.h"
-#include "indi/indiauxiliary.h"
 
 #include <indicom.h>
 
@@ -53,10 +52,10 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
         return false;
     }
 
-    auto solverSwitch = m_RemoteAstrometry->getBaseDevice().getSwitch("ASTROMETRY_SOLVER");
-    auto solverBLOB   = m_RemoteAstrometry->getBaseDevice().getBLOB("ASTROMETRY_DATA");
+    auto solverSwitch = m_RemoteAstrometry->getProperty("ASTROMETRY_SOLVER").getSwitch();
+    auto solverBLOB   = m_RemoteAstrometry->getProperty("ASTROMETRY_DATA").getBLOB();
 
-    if (!solverSwitch || !solverBLOB)
+    if (solverSwitch->isEmpty() || solverBLOB->isEmpty())
     {
         align->appendLogText(i18n("Failed to find solver properties."));
         fp.close();
@@ -66,21 +65,22 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
     sendArgs(args);
 
-    auto enableSW = solverSwitch.findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
+    auto enableSW = solverSwitch->findWidgetByName("ASTROMETRY_SOLVER_ENABLE");
     if (enableSW->getState() == ISS_OFF)
     {
-        IUResetSwitch(solverSwitch);
+        solverSwitch->reset();
         enableSW->setState(ISS_ON);
         m_RemoteAstrometry->sendNewProperty(solverSwitch);
     }
 
     // #PS: TODO
-    IBLOB *bp = &(solverBLOB->bp[0]);
+    auto bp = solverBLOB->at(0);
 
-    bp->bloblen = bp->size = fp.size();
+    bp->setBlobLen(fp.size());
+    bp->setSize(fp.size());
 
-    bp->blob = (uint8_t *)realloc(bp->blob, bp->size);
-    if (bp->blob == nullptr)
+    bp->setBlob(static_cast<uint8_t *>(realloc(bp->getBlob(), bp->getSize())));
+    if (bp->getBlob() == nullptr)
     {
         align->appendLogText(i18n("Not enough memory for file %1.", filename));
         fp.close();
@@ -92,7 +92,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
     solverRunning = true;
 
-    m_RemoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB.getDeviceName(), solverBLOB.getName(),
+    m_RemoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->getDeviceName(), solverBLOB->getName(),
             timestamp());
 
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
@@ -124,7 +124,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
         solverArgs << "--parity" << QString::number(parity);
 
     //for (int i = 0; i < solverSettings->ntp; i++)
-    for (auto &it : *solverSettings)
+    for (auto it : solverSettings)
     {
         // 2016-10-20: Disable setting this automatically since remote device might have different
         // settings
@@ -157,7 +157,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
 
     if (enable && enableSW->getState() == ISS_OFF)
     {
-        solverSwitch->reset();
+        solverSwitch.reset();
         enableSW->setState(ISS_ON);
         m_RemoteAstrometry->sendNewProperty(solverSwitch);
         solverRunning = true;
@@ -165,7 +165,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     }
     else if (enable == false && disableSW->s == ISS_OFF)
     {
-        solverSwitch->reset();
+        solverSwitch.reset();
         disableSW->setState(ISS_ON);
         m_RemoteAstrometry->sendNewProperty(solverSwitch);
         solverRunning = false;
@@ -206,11 +206,11 @@ bool RemoteAstrometryParser::stopSolver()
         return true;
 
     // Disable solver
-    auto svp = m_RemoteAstrometry->getBaseDevice().getSwitch("ASTROMETRY_SOLVER");
-    if (!svp)
+    auto svp = m_RemoteAstrometry->getProperty("ASTROMETRY_SOLVER").getSwitch();
+    if (svp->isEmpty())
         return false;
 
-    auto disableSW = svp.findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
+    auto disableSW = svp->findWidgetByName("ASTROMETRY_SOLVER_DISABLE");
     if (disableSW->getState() == ISS_OFF)
     {
         svp->reset();
