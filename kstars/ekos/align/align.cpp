@@ -976,8 +976,10 @@ void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scal
     auto reducedFocalLength = m_Reducer * m_FocalLength;
     if (m_FocalRatio > 0)
     {
-        fov_w = 2 * atan(m_CameraWidth * (m_CameraPixelWidth / 1000.0) / (2 * reducedFocalLength));
-        fov_w = 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength));
+        // The forumla is in radians, must convert to degrees.
+        // Then to arcsecs
+        fov_w = 3600 * 2 * atan(m_CameraWidth * (m_CameraPixelWidth / 1000.0) / (2 * reducedFocalLength)) / dms::DegToRad;
+        fov_w = 3600 * 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength)) / dms::DegToRad;
     }
     // Telescope
     else
@@ -1020,8 +1022,10 @@ void Align::calculateFOV()
     auto reducedFocalLength = m_Reducer * m_FocalLength;
     if (m_FocalRatio > 0)
     {
-        m_FOVWidth = 2 * atan(m_CameraWidth * (m_CameraPixelWidth / 1000.0) / (2 * reducedFocalLength));
-        m_FOVHeight = 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength));
+        // The forumla is in radians, must convert to degrees.
+        // Then to arcsecs
+        m_FOVWidth = 3600 * 2 * atan(m_CameraWidth * (m_CameraPixelWidth / 1000.0) / (2 * reducedFocalLength)) / dms::DegToRad;
+        m_FOVHeight = 3600 * 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength)) / dms::DegToRad;
     }
     // Telescope
     else
