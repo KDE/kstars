@@ -435,8 +435,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
         values << oneMount->getDeviceName();
     changed |= !values.empty() && values != m_MountNames;
     m_MountNames = values;
+    auto currentMount = mountComboBox->currentText();
     mountComboBox->clear();
     mountComboBox->addItems(QStringList() << "--" << values);
+    mountComboBox->setCurrentText(currentMount);
 
     // Dust Caps
     values.clear();
@@ -445,8 +447,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
         values << oneCap->getDeviceName();
     changed |= !values.empty() && values != m_DustCapNames;
     m_DustCapNames = values;
+    auto currentCap = dustCapComboBox->currentText();
     dustCapComboBox->clear();
     dustCapComboBox->addItems(QStringList() << "--" << values);
+    dustCapComboBox->setCurrentText(currentCap);
 
     // Light Boxes
     values.clear();
@@ -454,16 +458,20 @@ bool OpticalTrainManager::syncDelegatesToDevices()
     for (auto &oneBox : lightboxes)
         values << oneBox->getDeviceName();
     changed |= !values.empty() && values != m_LightBoxNames;
+    auto currentLightBox = lightBoxComboBox->currentText();
     m_LightBoxNames = values;
     lightBoxComboBox->clear();
     lightBoxComboBox->addItems(QStringList() << "--" << values);
+    lightBoxComboBox->setCurrentText(currentLightBox);
 
     // Scopes
     values = KStars::Instance()->data()->userdb()->getOpticalElementNames();
     changed |= !values.empty() && values != m_ScopeNames;
     m_ScopeNames = values;
+    auto currentScope = scopeComboBox->currentText();
     scopeComboBox->clear();
     scopeComboBox->addItems(QStringList() << "--" << values);
+    scopeComboBox->setCurrentText(currentScope);
 
     // Rotators
     values.clear();
@@ -472,8 +480,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
         values << oneRotator->getDeviceName();
     changed |= !values.empty() && values != m_RotatorNames;
     m_RotatorNames = values;
+    auto currentRotator = rotatorComboBox->currentText();
     rotatorComboBox->clear();
     rotatorComboBox->addItems(QStringList() << "--" << values);
+    rotatorComboBox->setCurrentText(currentRotator);
 
     // Focusers
     values.clear();
@@ -482,8 +492,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
         values << oneFocuser->getDeviceName();
     changed |= !values.empty() && values != m_FocuserNames;
     m_FocuserNames = values;
+    auto currentFocuser = focusComboBox->currentText();
     focusComboBox->clear();
     focusComboBox->addItems(QStringList() << "--" << values);
+    focusComboBox->setCurrentText(currentFocuser);
 
     // Filter Wheels
     values.clear();
@@ -492,8 +504,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
         values << oneFilterWheel->getDeviceName();
     changed |= !values.empty() && values != m_FilterWheelNames;
     m_FilterWheelNames = values;
+    auto currentFilter = filterComboBox->currentText();
     filterComboBox->clear();
     filterComboBox->addItems(QStringList() << "--" << values);
+    filterComboBox->setCurrentText(currentFilter);
 
     // Cameras
     values.clear();
@@ -502,8 +516,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
         values << oneCamera->getDeviceName();
     changed |= !values.empty() && values != m_CameraNames;
     m_CameraNames = values;
+    auto currentCamera = cameraComboBox->currentText();
     cameraComboBox->clear();
     cameraComboBox->addItems(QStringList() << "--" << values);
+    cameraComboBox->setCurrentText(currentCamera);
 
     // Guiders
     values.clear();
@@ -512,8 +528,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
         values << oneGuider->getDeviceName();
     changed |= !values.empty() && values != m_GuiderNames;
     m_GuiderNames = values;
+    auto currentGuider = guiderComboBox->currentText();
     guiderComboBox->clear();
     guiderComboBox->addItems(QStringList() << "--" << values);
+    guiderComboBox->setCurrentText(currentGuider);
 
     return changed;
 }
@@ -843,12 +861,7 @@ void OpticalTrainManager::refreshTrains()
 void OpticalTrainManager::refreshOpticalElements()
 {
     m_ScopeNames = KStars::Instance()->data()->userdb()->getOpticalElementNames();
-
-    // After list is updated, need to refresh scopeCombo box.
-    auto currentOpticalElement = scopeComboBox->currentText();
-    scopeComboBox->clear();
-    scopeComboBox->addItems(QStringList() << "--" << m_ScopeNames);
-    scopeComboBox->setCurrentText(currentOpticalElement);
+    syncDelegatesToDevices();
 }
 
 ////////////////////////////////////////////////////////////////////////////
