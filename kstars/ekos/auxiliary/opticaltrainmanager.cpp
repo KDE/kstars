@@ -843,6 +843,12 @@ void OpticalTrainManager::refreshTrains()
 void OpticalTrainManager::refreshOpticalElements()
 {
     m_ScopeNames = KStars::Instance()->data()->userdb()->getOpticalElementNames();
+
+    // After list is updated, need to refresh scopeCombo box.
+    auto currentOpticalElement = scopeComboBox->currentText();
+    scopeComboBox->clear();
+    scopeComboBox->addItems(QStringList() << "--" << m_ScopeNames);
+    scopeComboBox->setCurrentText(currentOpticalElement);
 }
 
 ////////////////////////////////////////////////////////////////////////////
