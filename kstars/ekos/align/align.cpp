@@ -979,7 +979,7 @@ void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scal
         // The forumla is in radians, must convert to degrees.
         // Then to arcsecs
         fov_w = 3600 * 2 * atan(m_CameraWidth * (m_CameraPixelWidth / 1000.0) / (2 * reducedFocalLength)) / dms::DegToRad;
-        fov_w = 3600 * 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength)) / dms::DegToRad;
+        fov_h = 3600 * 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength)) / dms::DegToRad;
     }
     // Telescope
     else
