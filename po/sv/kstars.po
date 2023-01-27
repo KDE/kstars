@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-24 00:53+0000\n"
+"POT-Creation-Date: 2023-01-27 00:54+0000\n"
 "PO-Revision-Date: 2022-06-15 22:27+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -437,14 +437,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Spara bild"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3655
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3659
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "En fil med namn \"%1\" finns redan. Skriv över den?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3658
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3662
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1316
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
@@ -657,7 +657,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1346
+#: auxiliary/ksutils.cpp:1342
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -668,17 +668,17 @@ msgstr ""
 " %1 \n"
 "finns inte. Vill du skapa katalogen?"
 
-#: auxiliary/ksutils.cpp:1349
+#: auxiliary/ksutils.cpp:1345
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Skapa indexfilkatalog för Astrometry?"
 
-#: auxiliary/ksutils.cpp:1354
+#: auxiliary/ksutils.cpp:1350
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Standardplatsen för Astrometry indexfil har skapats."
 
-#: auxiliary/ksutils.cpp:1359
+#: auxiliary/ksutils.cpp:1355
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -686,19 +686,19 @@ msgid ""
 msgstr ""
 "Standardkatalogen för Astrometry indexfil finns inte och kunde inte skapas:"
 
-#: auxiliary/ksutils.cpp:1380 auxiliary/ksutils.cpp:1536
-#: auxiliary/ksutils.cpp:1601
+#: auxiliary/ksutils.cpp:1376 auxiliary/ksutils.cpp:1532
+#: auxiliary/ksutils.cpp:1597
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Läsfel av inställningsfil för Astrometry."
 
-#: auxiliary/ksutils.cpp:1394 auxiliary/ksutils.cpp:1579
-#: auxiliary/ksutils.cpp:1621
+#: auxiliary/ksutils.cpp:1390 auxiliary/ksutils.cpp:1575
+#: auxiliary/ksutils.cpp:1617
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Internt skrivfel av inställningsfil för Astrometry."
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:571
+#: auxiliary/ksutils.cpp:1663 fitsviewer/fitsdata.cpp:571
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -707,17 +707,17 @@ msgstr ""
 "Kan inte hitta dcraw och cjpeg. Installera nödvändiga verktyg för att "
 "konvertera CR2/NEF till JPEG."
 
-#: auxiliary/ksutils.cpp:1678
+#: auxiliary/ksutils.cpp:1674
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Kan inte öppna %1: %2"
 
-#: auxiliary/ksutils.cpp:1686
+#: auxiliary/ksutils.cpp:1682
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Kan inte packa upp miniatyrbild %1: %2"
 
-#: auxiliary/ksutils.cpp:1697
+#: auxiliary/ksutils.cpp:1693
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "Kan inte skriva %s %1: %2"
@@ -2503,7 +2503,7 @@ msgstr ""
 "Webbadressen är inte giltig. Vill du att jag ska öppna ett\n"
 "webbläsarfönster med sökmotorn Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3666
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3670
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
 #: ekos/analyze/analyze.cpp:1109 ekos/capture/capture.cpp:3763
 #: ekos/capture/capture.cpp:4201 ekos/guide/guidedriftgraph.cpp:475
@@ -5763,12 +5763,12 @@ msgstr "Tidsgräns överskreds för lösningsverktyg."
 msgid "Mount does not support syncing."
 msgstr "Stativet stöder inte synkronisering."
 
-#: ekos/align/align.cpp:1014
+#: ekos/align/align.cpp:1016
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr "Teleskopets effektiva fokallängd är uppdaterad till %1 mm."
 
-#: ekos/align/align.cpp:1051
+#: ekos/align/align.cpp:1055
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
@@ -5777,7 +5777,7 @@ msgstr ""
 "Varning: Det beräknade synfältet (%1) är utanför gränserna. Säkerställ att "
 "teleskopets fokallängd och kamerans bildpunktsstorlek är riktiga."
 
-#: ekos/align/align.cpp:1090
+#: ekos/align/align.cpp:1094
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -5788,27 +5788,27 @@ msgstr ""
 "mäta effektivt synfält eller ange värdena manuellt.</p><p>Beräknat synfält: "
 "%1</p>"
 
-#: ekos/align/align.cpp:1099
+#: ekos/align/align.cpp:1103
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Effektiv synfältsstorlek i bågminuter.</p>"
 
-#: ekos/align/align.cpp:1380
+#: ekos/align/align.cpp:1384
 #, kde-format
 msgid "Error: No camera detected."
 msgstr "Fel: Ingen kamera detekterad."
 
-#: ekos/align/align.cpp:1386
+#: ekos/align/align.cpp:1390
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Fel: Förlorade anslutning till kameran."
 
-#: ekos/align/align.cpp:1387 ekos/align/align.cpp:2175
+#: ekos/align/align.cpp:1391 ekos/align/align.cpp:2179
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Inriktning för astrometri misslyckades"
 
-#: ekos/align/align.cpp:1403
+#: ekos/align/align.cpp:1407
 #, fuzzy, kde-format
 #| msgid ""
 #| "Telescope aperture and focal length are missing. Please check your driver "
@@ -5820,7 +5820,7 @@ msgstr ""
 "Teleskopets öppningsdiameter och fokallängd saknas. Kontrollera drivrutinens "
 "inställningar och försök igen."
 
-#: ekos/align/align.cpp:1409
+#: ekos/align/align.cpp:1413
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
@@ -5828,50 +5828,50 @@ msgstr ""
 "CCD-bildpunktsstorlek saknas. Kontrollera drivrutinens inställningar och "
 "försök igen."
 
-#: ekos/align/align.cpp:1417
+#: ekos/align/align.cpp:1421
 #, kde-format
 msgid "Error: lost connection to filter wheel."
 msgstr "Fel: Förlorade anslutning till filterhjulet."
 
-#: ekos/align/align.cpp:1437 ekos/capture/capture.cpp:3331
+#: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3331
 #: ekos/capture/capture.cpp:5694 ekos/focus/focus.cpp:4017
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr "Bildöverföring är inaktiverad för kameran. Vill du aktivera den?"
 
-#: ekos/align/align.cpp:1457
+#: ekos/align/align.cpp:1461
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 "Kan inte ta bild medan fokuseringsmodulen är upptagen. Försöker igen om %1 "
 "sekunder..."
 
-#: ekos/align/align.cpp:1464
+#: ekos/align/align.cpp:1468
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr ""
 "Kan inte ta bild medan CCD-exponering pågår. Försöker igen om %1 sekunder..."
 
-#: ekos/align/align.cpp:1482 ekos/align/align.cpp:2833
+#: ekos/align/align.cpp:1486 ekos/align/align.cpp:2837
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Ingen drivrutin för fjärrastrometri detekterades, byter till StellarSolver."
 
-#: ekos/align/align.cpp:1535 ekos/focus/focus.cpp:1317
+#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1317
 #, kde-format
 msgid "Capturing image..."
 msgstr "Tar bild..."
 
-#: ekos/align/align.cpp:1625 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1629 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:1981
 #, kde-format
 msgid "Image received."
 msgstr "Bild mottagen."
 
-#: ekos/align/align.cpp:1733
+#: ekos/align/align.cpp:1737
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -5881,29 +5881,29 @@ msgstr ""
 "Inga indexfiler hittades på systemet i de angivna indexfilkatalogerna. Ladda "
 "ner indexfiler eller lägg till rätt katalog i listan."
 
-#: ekos/align/align.cpp:1792
+#: ekos/align/align.cpp:1796
 #, kde-format
 msgid "Solving with blind image scale..."
 msgstr "Löser med blind bildskalning..."
 
-#: ekos/align/align.cpp:1800
+#: ekos/align/align.cpp:1804
 #, kde-format
 msgid "Solving with blind image position..."
 msgstr "Löser med blind bildposition..."
 
-#: ekos/align/align.cpp:1908
+#: ekos/align/align.cpp:1912
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "Lösningsverktyget färdig efter %1 sekunder."
 
-#: ekos/align/align.cpp:1924
+#: ekos/align/align.cpp:1928
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 "Lösningsverktygets RA (%1) Dek (%2) Orientering (%3) Bildpunktsskala (%4) "
 "Paritet (%5)"
 
-#: ekos/align/align.cpp:1991
+#: ekos/align/align.cpp:1995
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -5912,7 +5912,7 @@ msgstr ""
 "Information om världskoordinatsystem uppdaterad. Bilder tagna efter detta "
 "tillfälle bör ha giltigt världskoordinatsystem."
 
-#: ekos/align/align.cpp:2009
+#: ekos/align/align.cpp:2013
 #, fuzzy, kde-format
 #| msgid ""
 #| "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -5923,33 +5923,33 @@ msgid ""
 msgstr ""
 "Lösningskoordinater: RA (%1) Dek (%2) Teleskopkoordinater: RA (%3) Dek (%4)"
 
-#: ekos/align/align.cpp:2020
+#: ekos/align/align.cpp:2024
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Målet är inom %1 grader från lösningskoordinaterna."
 
-#: ekos/align/align.cpp:2062 ekos/align/align.cpp:2483
-#: ekos/align/align.cpp:2523
+#: ekos/align/align.cpp:2066 ekos/align/align.cpp:2487
+#: ekos/align/align.cpp:2527
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Inriktning för astrometri avslutades med lyckat resultat"
 
-#: ekos/align/align.cpp:2084
+#: ekos/align/align.cpp:2088
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Maximalt antal iterationer uppnådda. Lösning misslyckades."
 
-#: ekos/align/align.cpp:2113
+#: ekos/align/align.cpp:2117
 #, kde-format
 msgid "Target is within acceptable range. Astrometric solver is successful."
 msgstr "Målet är inom acceptabelt intervall. Astrometrisk lösning lyckades."
 
-#: ekos/align/align.cpp:2170
+#: ekos/align/align.cpp:2174
 #, kde-format
 msgid "Solver Failed."
 msgstr "Lösningsverktyg misslyckades."
 
-#: ekos/align/align.cpp:2173
+#: ekos/align/align.cpp:2177
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -5961,34 +5961,34 @@ msgstr ""
 "loggning av inriktning under inställningsfliken -> Loggar för att få "
 "detaljerad information om felet."
 
-#: ekos/align/align.cpp:2254
+#: ekos/align/align.cpp:2258
 #, kde-format
 msgid "Setting position angle to %1 degrees E of N..."
 msgstr "Ställer in positionsvinkel till %1 grader Ö om N ..."
 
-#: ekos/align/align.cpp:2268
+#: ekos/align/align.cpp:2272
 #, fuzzy, kde-format
 #| msgid "Current Rotation is %1; Target Rotation is %2; diff: %3"
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Nuvarande rotation är %1, målrotation är %2, skillnad: %3"
 
-#: ekos/align/align.cpp:2335
+#: ekos/align/align.cpp:2339
 #, kde-format
 msgid "Refresh is complete."
 msgstr "Uppdatering är färdig."
 
-#: ekos/align/align.cpp:2342 ekos/auxiliary/darklibrary.cpp:1415
+#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1415
 #: ekos/focus/focus.cpp:1095
 #, kde-format
 msgid "Capture aborted."
 msgstr "Tagning avbruten."
 
-#: ekos/align/align.cpp:2348
+#: ekos/align/align.cpp:2352
 #, kde-format
 msgid "Solver aborted after %1 seconds."
 msgstr "Lösningsverktyget avbröts efter %1 sekunder."
 
-#: ekos/align/align.cpp:2391 ekos/capture/capture.cpp:2544
+#: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2544
 #: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
@@ -5997,14 +5997,14 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2454
+#: ekos/align/align.cpp:2458
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "Stativet har förflyttats färdigt nära himmelspolen. Ta en bild igen för att "
 "verifiera."
 
-#: ekos/align/align.cpp:2477
+#: ekos/align/align.cpp:2481
 #, fuzzy, kde-format
 #| msgid ""
 #| "Mount is synced to solution coordinates. Astrometric solver is successful."
@@ -6013,180 +6013,180 @@ msgstr ""
 "Stativet är synkroniserat till lösningskoordinater. Astrometrisk lösning "
 "lyckades."
 
-#: ekos/align/align.cpp:2512 ekos/align/align.cpp:2542
-#: ekos/align/align.cpp:3790 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2516 ekos/align/align.cpp:2546
+#: ekos/align/align.cpp:3794 ekos/align/polaralignmentassistant.cpp:637
 #, kde-format
 msgid "Settling..."
 msgstr "Dämpning..."
 
-#: ekos/align/align.cpp:2518
+#: ekos/align/align.cpp:2522
 #, fuzzy, kde-format
 #| msgid "Settling complete."
 msgid "Differential slewing complete."
 msgstr "Dämpning färdig."
 
-#: ekos/align/align.cpp:2532
+#: ekos/align/align.cpp:2536
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Förflyttning färdig. Målnoggrannhet ej uppnådd, kör lösningsverktyg igen ..."
 
-#: ekos/align/align.cpp:2534
+#: ekos/align/align.cpp:2538
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Förflyttning klar. Löser inriktningspunkter..."
 
-#: ekos/align/align.cpp:2577 ekos/align/align.cpp:2717
+#: ekos/align/align.cpp:2581 ekos/align/align.cpp:2721
 #, kde-format
 msgid "Syncing failed."
 msgstr "Synkronisering misslyckades."
 
-#: ekos/align/align.cpp:2579
+#: ekos/align/align.cpp:2583
 #, kde-format
 msgid "Slewing failed."
 msgstr "Förflyttning misslyckades."
 
-#: ekos/align/align.cpp:2614
+#: ekos/align/align.cpp:2618
 #, kde-format
 msgid "Rotator reached target position angle."
 msgstr "Rotatör nådde målpositionsvinkel."
 
-#: ekos/align/align.cpp:2622
+#: ekos/align/align.cpp:2626
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Check power, "
 "backlash, or obstructions."
 msgstr ""
 
-#: ekos/align/align.cpp:2628
+#: ekos/align/align.cpp:2632
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Try to reverse "
 "rotation direction in Rotator Settings."
 msgstr ""
 
-#: ekos/align/align.cpp:2667
+#: ekos/align/align.cpp:2671
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Förflyttning detekterad, avbryter lösning ..."
 
-#: ekos/align/align.cpp:2711
+#: ekos/align/align.cpp:2715
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Synkroniserar till RA (%1) Dek (%2)"
 
-#: ekos/align/align.cpp:2734
+#: ekos/align/align.cpp:2738
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Förflyttar teleskopet till målkoordinater: RA (%1) Dek (%2)."
 
-#: ekos/align/align.cpp:2747
+#: ekos/align/align.cpp:2751
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Ekos-jobb (%1) - teleskop synkroniserat"
 
-#: ekos/align/align.cpp:2803
+#: ekos/align/align.cpp:2807
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Läs in bild"
 
-#: ekos/align/align.cpp:2997
+#: ekos/align/align.cpp:3001
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Världskoordinatsystem (WCS) är aktiverat."
 
-#: ekos/align/align.cpp:3002
+#: ekos/align/align.cpp:3006
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Världskoordinatsystem (WCS) är inaktiverat."
 
-#: ekos/align/align.cpp:3021
+#: ekos/align/align.cpp:3025
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Tagningsfel. Avbryter..."
 
-#: ekos/align/align.cpp:3026 ekos/capture/capture.cpp:2605
+#: ekos/align/align.cpp:3030 ekos/capture/capture.cpp:2605
 #: ekos/capture/capture.cpp:2673
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Startar om tagningsförsök nr. %1"
 
-#: ekos/align/align.cpp:3140
+#: ekos/align/align.cpp:3144
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Justera ruta"
 
-#: ekos/align/align.cpp:3219
+#: ekos/align/align.cpp:3223
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Alternativ för StellarSolver"
 
-#: ekos/align/align.cpp:3224
+#: ekos/align/align.cpp:3228
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Externa och nätprogram"
 
-#: ekos/align/align.cpp:3228
+#: ekos/align/align.cpp:3232
 #, kde-format
 msgid "Scale & Position"
 msgstr "Skala och position"
 
-#: ekos/align/align.cpp:3232
+#: ekos/align/align.cpp:3236
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Editor av justeringsalternativprofiler"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3250 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3254 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Indexfiler"
 
-#: ekos/align/align.cpp:3315 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3319 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dRA (bågmin)"
 
-#: ekos/align/align.cpp:3316 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3320 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDE (bågsek)"
 
-#: ekos/align/align.cpp:3362 ekos/capture/capture.cpp:5865
+#: ekos/align/align.cpp:3366 ekos/capture/capture.cpp:5865
 #: ekos/focus/focus.cpp:3922
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filtrering misslyckades."
 
-#: ekos/align/align.cpp:3374 ekos/capture/capture.cpp:5881
+#: ekos/align/align.cpp:3378 ekos/capture/capture.cpp:5881
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Ändrar fokuseringsposition med %1 steg..."
 
-#: ekos/align/align.cpp:3381 ekos/capture/capture.cpp:5886
+#: ekos/align/align.cpp:3385 ekos/capture/capture.cpp:5886
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Byter filter till %1..."
 
-#: ekos/align/align.cpp:3386 ekos/capture/capture.cpp:5891
+#: ekos/align/align.cpp:3390 ekos/capture/capture.cpp:5891
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Automatisk fokusering vid filterbyte..."
 
-#: ekos/align/align.cpp:3507
+#: ekos/align/align.cpp:3511
 #, kde-format
 msgid "Invalid FOV."
 msgstr "Ogiltigt synfält."
 
-#: ekos/align/align.cpp:3642
+#: ekos/align/align.cpp:3646
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Exportera lösningspunkter"
 
-#: ekos/align/align.cpp:3665 ekos/align/mountmodel.cpp:263
+#: ekos/align/align.cpp:3669 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3762
 #: ekos/capture/capture.cpp:4200 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
@@ -6196,14 +6196,14 @@ msgstr "Exportera lösningspunkter"
 msgid "Invalid URL: %1"
 msgstr "Ogiltig webbadress: %1"
 
-#: ekos/align/align.cpp:3674 ekos/align/mountmodel.cpp:400
+#: ekos/align/align.cpp:3678 ekos/align/mountmodel.cpp:400
 #: ekos/capture/capture.cpp:4223 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7152
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Kan inte skriva till filen %1"
 
-#: ekos/align/align.cpp:3675 ekos/align/mountmodel.cpp:283
+#: ekos/align/align.cpp:3679 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3778
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7096
@@ -6221,27 +6221,27 @@ msgstr "Kan inte skriva till filen %1"
 msgid "Could Not Open File"
 msgstr "Kunde inte öppna filen"
 
-#: ekos/align/align.cpp:3696
+#: ekos/align/align.cpp:3700
 #, kde-format
 msgid "Error in table structure."
 msgstr "Fel i tabellstruktur."
 
-#: ekos/align/align.cpp:3705
+#: ekos/align/align.cpp:3709
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Lösningspunkter sparade som: %1"
 
-#: ekos/align/align.cpp:3719
+#: ekos/align/align.cpp:3723
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Polärinriktning"
 
-#: ekos/align/align.cpp:4227
+#: ekos/align/align.cpp:4231
 #, kde-format
 msgid "Capture timed out."
 msgstr "Tidsgräns för tagning överskriden."
 
-#: ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:4240
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Tagning pågår fortfarande. Försöker igen om %1 sekunder..."
@@ -9679,7 +9679,7 @@ msgstr "Inställning"
 msgid "Adjust"
 msgstr "Justera"
 
-#: ekos/align/remoteastrometryparser.cpp:33
+#: ekos/align/remoteastrometryparser.cpp:32
 #, kde-format
 msgid ""
 "Cannot set solver to remote. The Ekos equipment profile must include the "
@@ -9688,12 +9688,12 @@ msgstr ""
 "Kan inte ställa in lösningsverktyg till fjärrverktyg. Ekos utrustningsprofil "
 "måste inkludera astrometry extra drivrutin."
 
-#: ekos/align/remoteastrometryparser.cpp:51
+#: ekos/align/remoteastrometryparser.cpp:50
 #, kde-format
 msgid "Cannot open file %1 for reading."
 msgstr "Kan inte öppna filen %1 för läsning."
 
-#: ekos/align/remoteastrometryparser.cpp:61
+#: ekos/align/remoteastrometryparser.cpp:60
 #, kde-format
 msgid "Failed to find solver properties."
 msgstr "Misslyckades hitta lösningsegenskaper."
@@ -11933,14 +11933,14 @@ msgstr "Primär"
 msgid "Secondary"
 msgstr "Sekunder"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:888
+#: ekos/auxiliary/opticaltrainmanager.cpp:907
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:895
+#: ekos/auxiliary/opticaltrainmanager.cpp:914
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
