@@ -3887,6 +3887,13 @@ void Align::refreshOpticalTrain()
             setAllSettings(settings.toJsonObject().toVariantMap());
         else
             m_Settings = m_GlobalSettings;
+
+        // Need to save information used for Mosaic planner
+        Options::setTelescopeFocalLength(m_FocalLength);
+        Options::setCameraPixelWidth(m_CameraPixelWidth);
+        Options::setCameraPixelHeight(m_CameraPixelHeight);
+        Options::setCameraWidth(m_CameraWidth);
+        Options::setCameraHeight(m_CameraHeight);
     }
 
     opticalTrainCombo->blockSignals(false);
