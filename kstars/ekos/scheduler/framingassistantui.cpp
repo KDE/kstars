@@ -779,8 +779,13 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     csvFile.write(csv.toUtf8());
     csvFile.close();
 
+    // Delete debounce timer since we update all parameters programatically at once
+    m_DebounceTimer->disconnect();
+
     if (parseMosaicCSV(csvFile.fileName()) == false)
         return false;
+
+    constructMosaic();
 
     m_JobsDirectory = directory;
 
@@ -801,11 +806,7 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
 
     // Need to wait a bit since parseMosaicCSV needs to trigger UI
     // But button clicks need to be executed first in the event loop
-    QTimer::singleShot(500, this, [this]()
-    {
-        ui->createJobsB->click();
-    });
-
+    ui->createJobsB->click();
 
     return true;
 }
