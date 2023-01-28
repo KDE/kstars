@@ -799,14 +799,21 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     if (ui->createJobsB->isEnabled() == false)
         return false;
 
-    ui->createJobsB->click();
+    // Need to wait a bit since parseMosaicCSV needs to trigger UI
+    // But button clicks need to be executed first in the event loop
+    QTimer::singleShot(500, this, [this]()
+    {
+        ui->createJobsB->click();
+    });
+
 
     return true;
 }
 
 void FramingAssistantUI::selectDirectory()
 {
-    m_JobsDirectory = QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "Select Jobs Directory"),
+    m_JobsDirectory = QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window",
+                      "Select Jobs Directory"),
                       QDir::homePath());
 
     if (!m_JobsDirectory.isEmpty())
