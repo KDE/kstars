@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-27 00:54+0000\n"
-"PO-Revision-Date: 2023-01-23 06:08+0100\n"
+"POT-Creation-Date: 2023-01-28 00:54+0000\n"
+"PO-Revision-Date: 2023-01-27 08:07+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -6045,12 +6045,12 @@ msgstr ""
 msgid "Polar Alignment"
 msgstr "პოლარული სწორება"
 
-#: ekos/align/align.cpp:4231
+#: ekos/align/align.cpp:4238
 #, kde-format
 msgid "Capture timed out."
 msgstr "გადაღების დრო გავიდა."
 
-#: ekos/align/align.cpp:4240
+#: ekos/align/align.cpp:4247
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "გადაღება ჯერ კიდევ მიმდინარეობს. თავიდან %1 წამში ვცდი..."
@@ -20954,7 +20954,7 @@ msgstr ""
 #: ekos/profilewizard.ui:519 ekos/profilewizard.ui:701
 #, kde-format
 msgid "Enter IP address or host name"
-msgstr ""
+msgstr "შეიყვანეთ ჰოსტის სახელი ან IP მისამართი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/profilewizard.ui:548
@@ -21062,7 +21062,7 @@ msgstr ""
 #: ekos/profilewizard.ui:944
 #, kde-format
 msgid "My Astro Gear"
-msgstr ""
+msgstr "ჩემი ასტროგაიდერი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/profilewizard.ui:959
@@ -21076,7 +21076,7 @@ msgstr ""
 #: ekos/profilewizard.ui:968
 #, kde-format
 msgid "Internal Guider"
-msgstr ""
+msgstr "შიდა გაიდერი"
 
 #. i18n: ectx: property (text), widget (QRadioButton, useLinGuiderR)
 #: ekos/profilewizard.ui:985
@@ -23415,7 +23415,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:1497
 #, kde-format
 msgid "O&n"
-msgstr ""
+msgstr "&დრო"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, culminationOffset)
 #: ekos/scheduler/scheduler.ui:1513
@@ -23449,7 +23449,7 @@ msgstr "ახლავე"
 #: ekos/scheduler/scheduler.ui:1575
 #, kde-format
 msgid "Job Constraints"
-msgstr ""
+msgstr "დავალების შეზღუდვები"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, moonSeparationCheck)
 #: ekos/scheduler/scheduler.ui:1607
@@ -24128,7 +24128,7 @@ msgstr "მზადაა."
 #: fitsviewer/fitsviewer.cpp:135
 #, kde-format
 msgid "FITS Header"
-msgstr ""
+msgstr "FITS-ის თავსართი"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: fitsviewer/fitsheaderdialog.ui:48
@@ -24267,7 +24267,7 @@ msgstr "წითელი"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
-msgstr ""
+msgstr "FITS-ის შენახვა"
 
 #: fitsviewer/fitstab.cpp:717
 #, kde-format
@@ -24586,7 +24586,7 @@ msgstr "სიმაღლე"
 #: fitsviewer/fitsviewer.cpp:1150
 #, kde-format
 msgid "Equatorial Gridlines"
-msgstr ""
+msgstr "ეკვატორული კოორდინატები"
 
 #: fitsviewer/fitsviewer.cpp:1215
 #, kde-format
@@ -25259,7 +25259,7 @@ msgstr ""
 #: hips/opships.cpp:82
 #, kde-format
 msgid "HiPS Update"
-msgstr ""
+msgstr "HiPS-ის განახლება"
 
 #: hips/opships.cpp:82
 #, kde-format

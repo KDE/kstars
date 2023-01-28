@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-27 00:54+0000\n"
+"POT-Creation-Date: 2023-01-28 00:54+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -6386,13 +6386,13 @@ msgstr "Horizontālās koordinātes"
 msgid "Polar Alignment"
 msgstr "Fokuss"
 
-#: ekos/align/align.cpp:4231
+#: ekos/align/align.cpp:4238
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capture timed out."
 msgstr "Tvert"
 
-#: ekos/align/align.cpp:4240
+#: ekos/align/align.cpp:4247
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Capturing still running, Retrying in %1 seconds..."

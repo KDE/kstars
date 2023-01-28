@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-27 00:54+0000\n"
+"POT-Creation-Date: 2023-01-28 00:54+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -6224,14 +6224,14 @@ msgstr "เขียนทับ"
 msgid "Polar Alignment"
 msgstr "เขียนทับ"
 
-#: ekos/align/align.cpp:4231
+#: ekos/align/align.cpp:4238
 #, fuzzy, kde-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
 msgid "Capture timed out."
 msgstr "เวลาตก: %1"
 
-#: ekos/align/align.cpp:4240
+#: ekos/align/align.cpp:4247
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""

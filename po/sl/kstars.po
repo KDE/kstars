@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-27 00:54+0000\n"
+"POT-Creation-Date: 2023-01-28 00:54+0000\n"
 "PO-Revision-Date: 2023-01-11 21:56+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -6253,12 +6253,12 @@ msgstr "Točke rešitve shranjene kot: %1"
 msgid "Polar Alignment"
 msgstr "Poravnava na pol"
 
-#: ekos/align/align.cpp:4231
+#: ekos/align/align.cpp:4238
 #, kde-format
 msgid "Capture timed out."
 msgstr "Čas zajema je potekel."
 
-#: ekos/align/align.cpp:4240
+#: ekos/align/align.cpp:4247
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Zajem še vedno poteka, poskusite znova čez %1 sekund ..."

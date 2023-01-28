@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-27 00:54+0000\n"
+"POT-Creation-Date: 2023-01-28 00:54+0000\n"
 "PO-Revision-Date: 2015-03-19 04:30-0400\n"
 "Last-Translator: Axel Rousseau <axel584@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -6113,12 +6113,12 @@ msgstr "originala koordinato"
 msgid "Polar Alignment"
 msgstr "Centrigita al: "
 
-#: ekos/align/align.cpp:4231
+#: ekos/align/align.cpp:4238
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "Konservu bildon"
 
-#: ekos/align/align.cpp:4240
+#: ekos/align/align.cpp:4247
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Trovu objekton"

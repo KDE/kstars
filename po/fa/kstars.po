@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-27 00:54+0000\n"
+"POT-Creation-Date: 2023-01-28 00:54+0000\n"
 "PO-Revision-Date: 2012-01-12 17:10+0330\n"
 "Last-Translator: Mohammad Reza Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <>\n"
@@ -6721,13 +6721,13 @@ msgstr "مختصات افقی"
 msgid "Polar Alignment"
 msgstr "تمرکز بر: "
 
-#: ekos/align/align.cpp:4231
+#: ekos/align/align.cpp:4238
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "گیراندازی تصویر"
 
-#: ekos/align/align.cpp:4240
+#: ekos/align/align.cpp:4247
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "بارگذاری اشیاء آسمان"
