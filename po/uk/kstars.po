@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-28 00:54+0000\n"
+"POT-Creation-Date: 2023-01-29 00:54+0000\n"
 "PO-Revision-Date: 2023-01-21 08:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -23778,8 +23778,8 @@ msgstr "Створити заплановані завдання для вико
 #: ekos/scheduler/framingassistantui.cpp:163
 #: ekos/scheduler/framingassistantui.cpp:178
 #: ekos/scheduler/framingassistantui.cpp:542
-#: ekos/scheduler/framingassistantui.cpp:816
-#: ekos/scheduler/framingassistantui.cpp:835 skyobjects/ksplanetbase.h:60
+#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:843 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -23812,7 +23812,7 @@ msgstr "CSV Telescopius (*.csv)"
 msgid "Import must contain center coordinates."
 msgstr "Імпортовані дані мають містити координати центра."
 
-#: ekos/scheduler/framingassistantui.cpp:809
+#: ekos/scheduler/framingassistantui.cpp:817
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"

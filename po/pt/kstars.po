@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-28 00:54+0000\n"
+"POT-Creation-Date: 2023-01-29 00:54+0000\n"
 "PO-Revision-Date: 2023-01-22 22:40+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -24902,8 +24902,8 @@ msgstr "Criar as tarefas de agendamento para executar o plano do mosaico"
 #: ekos/scheduler/framingassistantui.cpp:163
 #: ekos/scheduler/framingassistantui.cpp:178
 #: ekos/scheduler/framingassistantui.cpp:542
-#: ekos/scheduler/framingassistantui.cpp:816
-#: ekos/scheduler/framingassistantui.cpp:835 skyobjects/ksplanetbase.h:60
+#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:843 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -24936,7 +24936,7 @@ msgstr "CSV do Telescopius (*.csv)"
 msgid "Import must contain center coordinates."
 msgstr "A importação deverá conter as coordenadas do centro."
 
-#: ekos/scheduler/framingassistantui.cpp:809
+#: ekos/scheduler/framingassistantui.cpp:817
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
