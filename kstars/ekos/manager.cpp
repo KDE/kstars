@@ -2544,6 +2544,7 @@ void Manager::updateCaptureCountDown()
     QJsonObject status =
     {
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
+        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
 
