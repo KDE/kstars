@@ -4,6 +4,81 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.3 (ZTF):
+
+a250eb5f3 2023-01-31 Jasem Mutlaq         INDI drivers sync
+833cc0dc1 2023-01-30 Jasem Mutlaq         Add missing overall percentage
+962673337 2023-01-30 Jasem Mutlaq         Fix meridian flip update throttling issue
+62ac48afb 2023-01-28 Jasem Mutlaq         Use MD5 unique signature instead of random UUID since the latter cannot be used again
+a3633aa2b 2023-01-28 Jasem Mutlaq         Traced down the issue to the debounce timer introduced before. Needs to be disabled for programattic imports
+a82b08561 2023-01-28 Jasem Mutlaq         Fix timing issue with mosaic import
+9a8f4739a 2023-01-27 Jasem Mutlaq         Need to save mosaic information on train change in align module
+c540e4546 2023-01-26 Jasem Mutlaq         When syncing devices we must reset the combo boxes to previous state
+da9595154 2023-01-26 Jasem Mutlaq         Fix typo
+327e831b5 2023-01-26 Jasem Mutlaq         Fix deprecated INDI 2.0.0 warnings
+6dfc7c571 2023-01-26 Jasem Mutlaq         Use same format as previous version of KStars to be consistent
+ad163ad69 2023-01-26 Jasem Mutlaq         Fix major calculation error in calculating DSLR field of view
+48b170a28 2023-01-26 Jasem Mutlaq         Refresh scope list after editing equipment manager otherwise newly added optical elements do not show up
+6a13a7f70 2023-01-23 Jasem Mutlaq         Disable EQGrid since it is no longer needed
+640c86a95 2023-01-23 Jasem Mutlaq         Delay emitting newFrame since align view does not render immediately
+3e2ee4da5 2023-01-23 Jasem Mutlaq         Misc fixes to code style. Make sure we emit update whenever any element is updated
+ee28def5b 2023-01-23 Jasem Mutlaq         Use tooltips instead of dedicated UI to show the preview filename
+b83f57bc4 2023-01-21 Jasem Mutlaq         INDI drivers sync
+ae8750ee7 2023-01-20 John Evans           Auto focus overscan
+4aa8b9660 2023-01-19 Jasem Mutlaq         Fix compile error on Windows
+b73651e41 2023-01-18 Jasem Mutlaq         Remove unnecessary headers
+8294000cc 2023-01-16 Yuri Chornoivan      Fix minor typos
+94a629497 2023-01-15 Hy Murveit           Update handbook for polar alignment
+9670a2b57 2023-01-14 Wolfgang Reissenberger Fixing compiler warnings for anonymous non-c-compatible type defs
+cd8468a4c 2023-01-13 Hy Murveit           Fix deprecations
+67c277420 2023-01-12 Jasem Mutlaq         Fix few INDI warnings
+a613b41fd 2023-01-11 Jasem Mutlaq         Update to support INDI v2.0.0
+04c226d02 2023-01-10 Yuri Chornoivan      Fix minor typo
+dea0c5630 2023-01-10 Ed Lee               Manage path separator between directory and format.
+f65e6c7e8 2023-01-09 Hy Murveit           Make Greedy the default scheduer algorithm
+8027ac261 2023-01-09 Wolfgang Reissenberger Restructured Capture header file to improve the readability
+3c3a686e9 2023-01-09 Jurgen Doreleijers   FITS histogram limited scroll and zoom. See #239 assuming only positive pixel intensities.
+882a0a360 2023-01-03 Hy Murveit           Add custom y-axes to Analyze Statistics plot.
+a5bf0733f 2023-01-08 Wolfgang Reissenberger State machine for guiding deviation
+7572cabec 2023-01-05 Hy Murveit           Move some includes from .h to .cpp files when not needed in the .h.
+e719762dd 2023-01-02 Dušan Poizl          Change Part# to Part_# in mosaic tool
+ebda16652 2023-01-02 Hy Murveit           Make the right ekos options tab display for capture and scheduler. Start options on top.
+a0424db1c 2023-01-01 Jasem Mutlaq         Add uuid and zoom to payload
+5b4455e31 2023-01-01 Hy Murveit           Add WindowStaysOnTopHint on Mac OS
+993ba254d 2022-12-31 Jurgen Doreleijers   Fix for #237 FITS viewer fails to show the button for toggling star detection
+0c603711f 2022-12-30 Wolfgang Reissenberger Re-focusing state machine for Capture
+71ae9043c 2022-12-28 Wolfgang Reissenberger Bug fix for capture target part III
+6f18babd3 2022-12-27 Jasem Mutlaq         Guiding --> Guider so that it is consistent
+4e8e992de 2022-12-26 Wolfgang Reissenberger Bug fix for capture target part II
+19a9b07e3 2022-12-24 Hy Murveit           speedup for the clipping calculations
+987476f44 2022-12-24 Jasem Mutlaq         Improve description
+231a5e06b 2022-12-23 Hy Murveit           Add controls to set the clipping values
+3714e6903 2022-12-23 Hy Murveit           fix test_ekos_scheduler_ops and make it stable
+1b16c737b 2022-12-23 Wolfgang Reissenberger Placeholder setting target from scheduler
+7594783db 2022-12-22 John Evans           Focus timer bug version 2
+79e8f5b25 2022-12-17 Wolfgang Reissenberger Bugfix for target in file name
+83db5e001 2022-12-14 Wolfgang Reissenberger Debug message for missing options key removed
+f7fc99b99 2022-12-11 Jurgen Doreleijers   Fixing bugs 1 thru 3 mentioned in issue 173.
+c8b36baba 2022-12-11 Salman Naheed        Add commands for file settings
+67e2801ee 2022-12-10 Jurgen Doreleijers   Simple calculators for angle
+7fb401349 2022-12-08 Hy Murveit           Add mount altitude constraint to scheduler altitude check
+459e91fea 2022-12-09 Hy Murveit           Fix analyze cursor bug, add cursor to the timeline too.
+4be1d63c9 2022-12-08 Hy Murveit           Add y-zoom to analyze stats plot, and allow user to hide Analyze displays.
+6d7935cd5 2022-12-08 Hy Murveit           disable 2 flakey tests, test_placeholderpath and test_ekos_capture_count
+3f20b2a18 2022-12-02 Josep M. Ferrer      Small typo
+0b901fb69 2022-12-02 Yuri Chornoivan      Remove leftover
+8866a3d91 2022-12-02 Jasem Mutlaq         More fixes for placeholder. Separate suffix from format
+45926fc9f 2022-12-02 Yuri Chornoivan      Remove extra word
+e5325d060 2022-12-02 Josep M. Ferrer      Small typo
+2e7fb6e00 2022-12-02 Jasem Mutlaq         Preliminary fixes for placeholder changes. Separate base pictures directory from placeholder format
+c0c1ecc01 2022-12-02 Jasem Mutlaq         Minor GUI improvements
+8a9e9d23c 2022-12-01 Wolfgang Reissenberger Optical trains editor reworked
+faa1afec4 2022-12-01 Ed Lee               filename Placeholders
+460dbab54 2022-12-01 Jasem Mutlaq         Kicking off KStars v3.6.3 development cycle
+83ac93731 2022-11-30 Jasem Mutlaq         Add extra check for crash
+7ced69219 2022-11-30 Jasem Mutlaq         KStars stable 3.6.2 release
+
+
 3.6.2 (Artemis):
 
 c23d787e1 2022-11-29 Jasem Mutlaq         Fix issue with opening and closing covers manually for Light, Flat, and Dark frames. It was not asking user to cover the scope on darks and was not ..
