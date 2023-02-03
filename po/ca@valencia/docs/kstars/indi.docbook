@@ -108,7 +108,7 @@
 
 <sect1 id="indi-telescope-setup">
 <title
->Configuració del telescopi</title>
+>Configureu el telescopi</title>
 <indexterm
 ><primary
 >INDI</primary>
@@ -549,7 +549,7 @@
 ><guilabel
 >Punt de mira del telescopi:</guilabel
 > Quan està marcada, &kstars; mostrarà el punt de mira de l'objectiu del telescopi en el mapa celeste. El punt de mira es mostra després d'una connexió amb èxit amb el telescopi, i el seu emplaçament és actualitzat periòdicament. El nom del telescopi es mostra al costat del punt de mira. &kstars; mostrarà un punt de mira per a cada telescopi connectat. Per a canviar el color del punt de mira del telescopi, obriu la finestra <link linkend="viewops"
->Configuració de &kstars;</link
+>Configureu &kstars;</link
 >. Seleccioneu la pàgina <guilabel
 >Colors</guilabel
 > i canvieu a continuació el color de l'element <guimenuitem

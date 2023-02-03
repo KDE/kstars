@@ -58,17 +58,17 @@
     </sect3>
     <sect3 id="capture-settings">
         <title
->Configuració de la captura</title>
+>Configureu la captura</title>
         <screenshot>
             <screeninfo
->Configuració de la captura </screeninfo>
+>Configureu la captura </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="capture_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració de la captura</phrase>
+>Configureu la captura</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -198,18 +198,18 @@
 
     <sect3 id="capture-file-settings">
         <title
->Configuració del fitxer</title>
+>Configureu el fitxer</title>
 
         <screenshot>
             <screeninfo
->Configuració del fitxer </screeninfo>
+>Configureu el fitxer </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="file_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració del fitxer</phrase>
+>Configureu el fitxer</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -373,18 +373,18 @@
 
     <sect3 id="capture-limit-settings">
         <title
->Configuració dels límits</title>
+>Configureu els límits</title>
 
         <screenshot>
             <screeninfo
->Configuració dels límits </screeninfo>
+>Configureu els límits </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="limit_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració dels límits</phrase>
+>Configureu els límits</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -639,18 +639,18 @@
 
     <sect3 id="capture-rotation-settings">
         <title
->Configuració del rotor</title>
+>Configureu el rotor</title>
 
         <screenshot>
             <screeninfo
->Configuració del rotor </screeninfo>
+>Configureu el rotor </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_rotator_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració del rotor</phrase>
+>Configureu el rotor</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -686,7 +686,7 @@
             <caption>
                 <para>
                     <phrase
->Configuració del rotor</phrase>
+>Configureu el rotor</phrase>
                 </para>
             </caption>
         </mediaobject>
@@ -701,14 +701,14 @@
 
         <screenshot>
             <screeninfo
->Configuració del calibratge </screeninfo>
+>Configureu el calibratge </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="calibration_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració del calibratge</phrase>
+>Configureu el calibratge</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>

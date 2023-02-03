@@ -778,7 +778,7 @@
 ></term>
     <listitem
 ><para
->Permet definir les característiques dels vostres equips de registre de l'observació. La finestra «Configureu l'equip» es dividix en quatre pestanyes: <guilabel
+>Permet definir les característiques dels vostres equips de registre de l'observació. La finestra Configureu l'equip es dividix en quatre pestanyes: <guilabel
 >Telescopi</guilabel
 >, <guilabel
 >Ocular</guilabel
@@ -1756,11 +1756,11 @@
 ></term>
     <listitem
 ><para
->Obriu la finestra Configuració de les dreceres, la qual permet modificar les dreceres de &kstars;. Podeu utilitzar l'esquema de dreceres predeterminat de &kstars; o definir el vostre propi esquema de dreceres. Per tal d'afegir una drecera personalitzada nova a una acció, cal fer clic en el nom de l'acció i després prémer la casella de selecció <guibutton
+>Obriu la finestra Configureu les dreceres, la qual permet modificar les dreceres de &kstars;. Podeu utilitzar l'esquema de dreceres predeterminat de &kstars; o definir el vostre propi esquema de dreceres. Per tal d'afegir una drecera personalitzada nova a una acció, cal fer clic en el nom de l'acció i després prémer la casella de selecció <guibutton
 >Personalitzada:</guibutton
 >. Després, feu clic en el botó al costat de la casella de selecció i introduïu la drecera que voleu utilitzar a &kstars;. També podeu eliminar una drecera prement el botó <guibutton
 >Elimina</guibutton
-> després de seleccionar una acció de la llista. &kstars; vos ajudarà a trobar una acció proporcionada per al seu mètode de busca. Senzillament escriviu el nom de l'acció i la llista es reduirà a les seues millors coincidències. Per exemple, vos done un breu exemple de com utilitzar la característica Configuració de les dreceres en &kstars;: <itemizedlist>
+> després de seleccionar una acció de la llista. &kstars; vos ajudarà a trobar una acció proporcionada per al seu mètode de busca. Senzillament escriviu el nom de l'acció i la llista es reduirà a les seues millors coincidències. Per exemple, vos done un breu exemple de com utilitzar la característica Configureu les dreceres en &kstars;: <itemizedlist>
         <listitem
 ><para
 >En primer lloc, obriu la finestra Configura les dreceres des del menú <guimenu

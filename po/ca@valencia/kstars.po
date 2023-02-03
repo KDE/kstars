@@ -13929,7 +13929,7 @@ msgstr "Inversió completada."
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
-msgstr "Directori FITS per que es guardarà"
+msgstr "Directori FITS per a guardar"
 
 #: ekos/capture/capture.cpp:3754
 #, kde-format
@@ -14482,8 +14482,8 @@ msgstr ""
 "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Remotament</span>: En connectar amb un dispositiu remot, "
-"seleccioneu esta opció per que es guardarà les imatges només al dispositiu "
-"remot. No es puja cap imatge a Ekos.</li><li style=\"margin-top:0px; margin-"
+"seleccioneu esta opció per a guardar les imatges només al dispositiu remot. "
+"No es puja cap imatge a Ekos.</li><li style=\"margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Ambdós</span>: Les imatges "
 "capturades es guarden en l'ordinador remot <span style=\"font-weight:600;"
@@ -34163,8 +34163,7 @@ msgstr "Si s'ha d'enregistrar a un fitxer."
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
 msgstr ""
-"Camí cap al fitxer de gravació per que es guardarà la gravació de "
-"l'astrometria."
+"Camí cap al fitxer de gravació per a guardar la gravació de l'astrometria."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2017
@@ -74769,7 +74768,7 @@ msgstr ""
 "«Guarda la imatge del cel»\n"
 "\t\t\tdel menú Fitxer, o bé prement Ctrl+I. A més, podeu executar KStars des "
 "d'una\n"
-"\t\t\tconsola amb l'argument «--dump» per que es guardarà al disc una imatge "
+"\t\t\tconsola amb l'argument «--dump» per a guardar en el disc una imatge "
 "del cel\n"
 "\t\t\tsense necessitat d'obrir la finestra del programa. Açò es pot "
 "utilitzar\n"
@@ -80919,7 +80918,7 @@ msgid ""
 "enhancement.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si està marcada, Xplanet utilitzarà un fitxer FIFO en "
-"el directori /tmp per que es guardarà temporalment la imatge d'Xplanet per a "
+"el directori /tmp per a guardar temporalment la imatge d'Xplanet per a "
 "KStars per a carregar-la i actualitzar la vista. Si no està marcada, en "
 "realitat Xplanet guardarà els fitxers en la carpeta d'Xplanet del directori "
 "de dades de KStars. L'ús d'un fitxer FIFO hauria de preservar al disc dur de "
@@ -81312,12 +81311,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Local preview"
-#~ msgstr "Vista prèvia local"
-
-#~ msgid "Preview:"
-#~ msgstr "Vista prèvia:"
-
-#~ msgid "Remote preview"
-#~ msgstr "Vista prèvia remota"

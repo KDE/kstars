@@ -90,7 +90,7 @@
 >abans</emphasis
 > de l'inici del controlador, mentre que els camps després de la llista desplegable de selecció del controlador s'executaran <emphasis
 >després</emphasis
-> de l'inici del controlador. El camp script, si s'especifica, hauria d'incloure el camí complet a un script executable amb els permisos apropiats. Tots els controladors configurats en l'editor de scripts s'iniciarien primer i en ordre abans de la resta dels controladors de perfil de l'equip. </para>
+> de l'inici del controlador. El camp script, si s'especifica, hauria d'incloure el camí complet cap a un script executable amb els permisos apropiats. Tots els controladors configurats en l'editor de scripts s'iniciarien primer i en ordre abans de la resta dels controladors de perfil de l'equip. </para>
                         <screenshot>
                         <screeninfo
 >Scripts de l'editor de perfils </screeninfo>

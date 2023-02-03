@@ -16,7 +16,7 @@
     <itemizedlist>
         <listitem>
             <para
->Mòdul d'Configuració i Resum </para>
+>Mòdul de Configuració i Resum </para>
         </listitem>
 
         <listitem>
@@ -68,7 +68,7 @@
     <variablelist>
         <varlistentry>
             <term
->Mòdul d'Configuració i Resum</term>
+>Mòdul de Configuració i Resum</term>
             <listitem>
                 <para
 >Com el seu nom indica, ací és on creareu i gestionareu el perfil del vostre equip i connectareu amb els vostres dispositius. També proporciona una vista de resum on el progrés de la captura juntament amb les operacions d'enfocament i guiatge es mostraran en un format compacte per a transmetre a l'usuari la informació més rellevant. </para>
