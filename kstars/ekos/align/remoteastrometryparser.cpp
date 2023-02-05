@@ -93,7 +93,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
     solverRunning = true;
 
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->getDeviceName(), solverBLOB->getName(),
-            timestamp());
+            indi_timestamp());
 
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
 
