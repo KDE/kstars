@@ -1112,7 +1112,8 @@ void Camera::updateUploadSettings(const QString &remoteDir)
         if (uploadT && remoteDir.isEmpty() == false)
         {
             auto uploadDir = remoteDir;
-            uploadDir.replace("/", "\\");
+            // N.B. Need to convert any Windows directory separators / to Posix separators /
+            uploadDir.replace("\\", "/");
             IUSaveText(uploadT, uploadDir.toLatin1().constData());
         }
 
