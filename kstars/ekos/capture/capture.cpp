@@ -517,10 +517,11 @@ Capture::Capture()
     connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Capture::generatePreviewFilename);
     connect(captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             &Capture::generatePreviewFilename);
-    connect(targetNameT, &QLineEdit::textChanged, this, [ = ]()
+    connect(targetNameT, &QLineEdit::textEdited, this, [ = ]()
     {
         m_TargetName = targetNameT->text();
         generatePreviewFilename();
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << m_TargetName << "because of user edit";
     });
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
 
@@ -4460,6 +4461,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     targetNameT->setText(jobTargetName);
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
+    fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
