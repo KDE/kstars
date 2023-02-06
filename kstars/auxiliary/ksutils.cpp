@@ -931,11 +931,11 @@ void Logging::UseFile()
         QDir dir;
         QString path =
             QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
-            .filePath("logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+                .filePath("logs" + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd"));
         dir.mkpath(path);
         QString name =
             "log_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".txt";
-        _filename = path + QStringLiteral("/") + name;
+        _filename = path + QDir::separator() + name;
 
         // Clear file contents
         QFile file(_filename);
@@ -1130,6 +1130,14 @@ QString getDefaultPath(const QString &option)
         return "/usr/local/bin/indiserver";
 #endif
         return prefix + "/bin/indiserver";
+    }
+    else if (option == "PlaceholderFormat")
+    {
+#if defined(Q_OS_WIN)
+        return "\%t\%T\%F\%t_%T_%F";
+#else
+        return "/%t/%T/%F/%t_%T_%F";
+#endif
     }
     else if (option == "INDIHubAgent")
     {

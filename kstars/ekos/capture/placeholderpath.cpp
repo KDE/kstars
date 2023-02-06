@@ -316,10 +316,7 @@ QString PlaceholderPath::generateFilename(const QString &directory,
     if (batch_mode)
         currentDir = directory;
     else
-        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + "kstars/";
-
-    //    if (currentDir.endsWith(QDir::separator()) == false)
-    //        currentDir += QDir::separator();
+        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + "kstars" + QDir::separator();
 
     QString tempFormat = currentDir + format + "_%s" + QString::number(formatSuffix);
 
@@ -465,7 +462,7 @@ QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QS
     QRegularExpressionMatch match;
     QRegularExpression re("^" + path_info.fileName() + "$");
     QList<int> ids = {};
-    for (auto name : matchingFiles)
+    for (auto &name : matchingFiles)
     {
         match = re.match(name);
         if (match.hasMatch())
