@@ -444,7 +444,7 @@ Capture::Capture()
         fileDirectoryT->setText(Options::captureDirectory());
     else
     {
-        fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
+        fileDirectoryT->setText(QDir::toNativeSeparators(QDir::homePath() + "/Pictures"));
         Options::setCaptureDirectory(fileDirectoryT->text());
     }
 
@@ -3741,13 +3741,11 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
-                                          dirPath.toLocalFile());
-
+        QFileDialog::getExistingDirectory(Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),  dirPath.toLocalFile());
     if (dir.isEmpty())
         return;
 
-    fileDirectoryT->setText(dir);
+    fileDirectoryT->setText(QDir::toNativeSeparators(dir));
 }
 
 void Capture::loadSequenceQueue()

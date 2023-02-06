@@ -1120,7 +1120,7 @@ QString getDefaultPath(const QString &option)
 
     if (option == "fitsDir")
     {
-        return QDir::homePath();
+        return QDir::toNativeSeparators(QDir::homePath());
     }
     else if (option == "indiServer")
     {
@@ -1134,7 +1134,7 @@ QString getDefaultPath(const QString &option)
     else if (option == "PlaceholderFormat")
     {
 #if defined(Q_OS_WIN)
-        return "\%t\%T\%F\%t_%T_%F";
+        return "\\%t\\%T\\%F\\%t_%T_%F";
 #else
         return "/%t/%T/%F/%t_%T_%F";
 #endif
