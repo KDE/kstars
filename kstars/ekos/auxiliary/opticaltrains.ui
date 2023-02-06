@@ -329,11 +329,17 @@
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
+         <property name="minimum">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>3.000000000000000</double>
+         </property>
          <property name="singleStep">
           <double>0.100000000000000</double>
          </property>
          <property name="value">
-          <double>1.000000000000000</double>
+          <double>0.100000000000000</double>
          </property>
         </widget>
        </item>
