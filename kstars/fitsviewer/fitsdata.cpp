@@ -51,7 +51,7 @@
 
 QString getTemporaryPath()
 {
-    return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" +
+    return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() +
                 qAppName()).path();
 }
 

@@ -6859,11 +6859,12 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
 {
     QString previewText;
     QString m_format;
+    auto separator = QDir::separator();
 
     if (previewType == LOCAL_PREVIEW)
     {
-        if(!fileDirectoryT->text().endsWith("/") && !placeholderFormatT->text().startsWith("/"))
-            placeholderFormatT->setText("/" + placeholderFormatT->text());
+        if(!fileDirectoryT->text().endsWith(separator) && !placeholderFormatT->text().startsWith(separator))
+            placeholderFormatT->setText(separator + placeholderFormatT->text());
         m_format = fileDirectoryT->text() + placeholderFormatT->text() + formatSuffixN->prefix() + formatSuffixN->cleanText();
     }
     else if (previewType == REMOTE_PREVIEW)
@@ -6882,8 +6883,8 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         QString previewSeq;
         if (m_SequenceURL.toLocalFile().isEmpty())
         {
-            if (m_format.startsWith("/"))
-                previewSeq = m_format.left(m_format.lastIndexOf("/"));
+            if (m_format.startsWith(separator))
+                previewSeq = m_format.left(m_format.lastIndexOf(separator));
         }
         else
             previewSeq = m_SequenceURL.toLocalFile();
@@ -6901,7 +6902,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
 
     // Must change directory separate to UNIX style for remote
     if (previewType == REMOTE_PREVIEW)
-        previewText.replace("/", "\\");
+        previewText.replace(separator, "/");
 
     return previewText;
 }

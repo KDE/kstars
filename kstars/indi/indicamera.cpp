@@ -170,13 +170,14 @@ void Camera::registerProperty(INDI::Property prop)
         if (svp)
         {
             bool ok = false;
+            auto separator = QDir::separator();
             for (const auto &it : *svp)
             {
                 QString key = QString(it.getLabel());
                 double value = key.toDouble(&ok);
                 if (!ok)
                 {
-                    QStringList parts = key.split("/");
+                    QStringList parts = key.split(separator);
                     if (parts.count() == 2)
                     {
                         bool numOk = false, denOk = false;
@@ -1113,7 +1114,7 @@ void Camera::updateUploadSettings(const QString &remoteDir)
         {
             auto uploadDir = remoteDir;
             // N.B. Need to convert any Windows directory separators / to Posix separators /
-            uploadDir.replace("\\", "/");
+            uploadDir.replace(QDir::separator(), "/");
             IUSaveText(uploadT, uploadDir.toLatin1().constData());
         }
 

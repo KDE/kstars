@@ -783,11 +783,10 @@ bool XPlanetImageViewer::setupOutputFile()
     {
         if(m_File.fileName().contains("xplanetfifo") && m_File.exists())
             return true;
-        QDir kstarsTempDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" + qAppName());
+        QDir kstarsTempDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + qAppName());
         kstarsTempDir.mkpath(".");
         m_File.setFileName(kstarsTempDir.filePath(QString("xplanetfifo%1.png").arg(QUuid::createUuid().toString().mid(1, 8)).toLatin1()));
-        int mkFifoSuccess = 0; //Note if the return value of the command is 0 it succeeded, -1 means it failed.
-        if ((mkFifoSuccess = mkfifo(m_File.fileName().toLatin1(), S_IRUSR | S_IWUSR) < 0))
+        if (mkfifo(m_File.fileName().toLatin1(), S_IRUSR | S_IWUSR) < 0)
         {
             KSNotification::error(i18n("Error making FIFO file %1: %2.", m_File.fileName(), strerror(errno)));
             return false;
@@ -797,7 +796,7 @@ bool XPlanetImageViewer::setupOutputFile()
 #endif
 
     //If the user is using windows or has not selected to use FIFO, it uses files in the KStars data directory.
-    QDir xPlanetDirPath(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/" + "xplanet");
+    QDir xPlanetDirPath(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QDir::separator() + "xplanet");
     xPlanetDirPath.mkpath(".");
     m_File.setFileName(xPlanetDirPath.filePath(m_ObjectName + ".png"));
     return true;
