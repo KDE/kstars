@@ -316,7 +316,7 @@ QString PlaceholderPath::generateFilename(const QString &directory,
     if (batch_mode)
         currentDir = directory;
     else
-        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + "kstars" + QDir::separator();
+        currentDir = QDir::toNativeSeparators(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/kstars/");
 
     QString tempFormat = currentDir + format + "_%s" + QString::number(formatSuffix);
 
@@ -324,7 +324,12 @@ QString PlaceholderPath::generateFilename(const QString &directory,
     QRegularExpression
     // This is the original regex with %p & %d tags - disabled for now to simply
     // re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|sequence|s|directory|d|path|p))(?<level>\\d+)?)(?<sep>[_/])?");
+#if defined(Q_OS_WIN)
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|sequence|s))(?<level>\\d+)?)(?<sep>[_\\\\])?");
+#else
     re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
+#endif
+
     while ((i = tempFormat.indexOf(re, i, &match)) != -1)
     {
         QString replacement = "";
@@ -408,6 +413,7 @@ QString PlaceholderPath::generateFilename(const QString &directory,
         }
         else
             qWarning() << "Unknown replacement string: " << match.captured("replace");
+
         if (replacement.isEmpty())
             tempFormat = tempFormat.replace(match.capturedStart(), match.capturedLength(), replacement);
         else
@@ -442,7 +448,11 @@ QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
 {
     QList<QString> placeholders = {};
     QRegularExpressionMatch match;
-    QRegularExpression re("(?<replace>\\%(?<name>[a-z])(?<level>\\d+)?)(?<sep>[_/])?");
+#if defined(Q_OS_WIN)
+    QRegularExpression re("(?<replace>\\%(?<name>[a-zA-Z])(?<level>\\d+)?)(?<sep>[_\\\\])+");
+#else
+    QRegularExpression re("(?<replace>%(?<name>[a-zA-Z])(?<level>\\d+)?)(?<sep>[_/])+");
+#endif
     int i = 0;
     while ((i = filename.indexOf(re, i, &match)) != -1)
     {
@@ -456,11 +466,20 @@ QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
 QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QString &targetName)
 {
     QString path = generateFilename(job, targetName, true, true, 0, ".*", "", true);
-    QFileInfo path_info(path);
+    auto sanitizedPath = path;
+
+    // This is needed for Windows as the regular expression confuses path search
+    QString regexp = "(?<id>\\d+).*";
+    sanitizedPath.remove(regexp);
+    QFileInfo path_info(sanitizedPath);
     QDir dir(path_info.dir());
+
+    // e.g. Light_R_(?<id>\\d+).*
+    QString glob = path_info.fileName() + regexp;
+
     QStringList matchingFiles = dir.entryList(QDir::Files);
     QRegularExpressionMatch match;
-    QRegularExpression re("^" + path_info.fileName() + "$");
+    QRegularExpression re("^" + glob + "$");
     QList<int> ids = {};
     for (auto &name : matchingFiles)
     {
