@@ -977,7 +977,7 @@ void Ekos::OpticalTrainManager::updateOpticalTrainValue(QComboBox *cb, const QSt
 void OpticalTrainManager::updateOpticalTrainValue(double value, const QString &element)
 {
     if (trainNamesList->currentItem() != nullptr && m_Persistent == true)
-        setOpticalTrainValue(trainNamesList->currentItem()->text(), element, QString("%0.2d").arg(value));
+        setOpticalTrainValue(trainNamesList->currentItem()->text(), element, value);
 
 }
 
