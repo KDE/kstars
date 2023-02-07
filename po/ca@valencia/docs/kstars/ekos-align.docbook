@@ -32,21 +32,7 @@
         <para
 >Sovint, hi ha una discrepància entre el lloc on el telescopi creu que està mirant i on realment apunta. La magnitud d'esta discrepància pot variar des d'uns quants minuts d'arc fins a un parell de graus. Ekos ho pot corregir sincronitzant-se amb les noves coordenades, o bé orientant la muntura fins a l'objectiu desitjat sol·licitat originalment. </para>
         <para
->A més, Ekos proporciona dues eines per a mesurar i corregir els errors de l'alineació polar: </para>
-        <itemizedlist>
-            <listitem>
-                <para
-><guilabel
->Eina de l'assistent d'alineació polar</guilabel
->: Una eina molt senzilla per a mesurar i corregir els errors polars. Pren tres imatges a prop del pol celeste (prop de Polaris per a l'hemisferi nord) i, a continuació, calcula el desplaçament entre l'eix de la muntura i l'eix polar. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Eina d'alineació polar antiga</guilabel
->: Si Polaris no està visible, es pot emprar esta eina per a mesurar i corregir els errors de l'alineació polar. Captura un parell d'imatges a prop del meridià i est/oest del meridià. Açò permetrà a l'usuari ajustar la muntura fins que es minimitze la desalineació. </para>
-            </listitem>
-        </itemizedlist>
+>A més, Ekos proporciona una eina d'assistent d'alineació polar per a corregir els errors de l'alineació polar. Pren tres imatges, alternant entre les imatges i calcula el desplaçament entre l'eix de la muntura i l'eix polar. Realimenta a l'usuari amb els paràmetres d'altitud i azimut necessaris per a alinear estos eixos. Estes imatges generalment es prenen a prop del pol celeste (prop de Polaris per a l'hemisferi nord), però poden funcionar bé preses des de qualsevol lloc, generalment començant a prop del meridià i girant cap a l'est o cap a l'oest. </para>
         <para
 >Com a mínim, necessitareu una CCD/càmera web i un telescopi que admeta les ordres orienta i sincronitza. El telescopi comercial més popular hui dia les admet sense problemes. </para>
         <para
@@ -481,12 +467,6 @@
 >Assistent d'alineació polar</guilabel
 >: Una eina senzilla per a ajudar a l'alineació polar de les muntures equatorials alemanyes. </para>
                 </listitem>
-                <listitem>
-                    <para
-><guilabel
->Eina d'alineació polar antiga</guilabel
->: Mesura l'error de l'alineació polar quan una vista del pol celeste (&pex;, Polaris per a l'hemisferi nord) no està disponible. </para>
-                </listitem>
             </itemizedlist>
             <warning>
                 <para
@@ -498,17 +478,17 @@
 
         <sect3 id="ekos-align-alignment-settings">
             <title
->Configuració de l'alineació</title>
+>Configureu l'alineació</title>
             <screenshot>
                 <screeninfo
->Configuració de l'«astrometry.net» </screeninfo>
+>Configureu l'«astrometry.net» </screeninfo>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="astrometry_settings.png" format="PNG"/>
                     </imageobject>
                     <textobject>
                         <phrase
->Configuració de l'«astrometry.net»</phrase>
+>Configureu l'«astrometry.net»</phrase>
                     </textobject>
                 </mediaobject>
             </screenshot>
@@ -637,14 +617,14 @@
 >Ekos selecciona i actualitza les opcions òptimes predeterminades per a accelerar el rendiment del solucionador. Podeu optar per canviar les opcions que es passen al solucionador en el cas que les opcions predeterminades no siguen suficients. </para>
             <screenshot>
                 <screeninfo
->Configuració del solucionador </screeninfo>
+>Configureu el solucionador </screeninfo>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="solver_settings.png" format="PNG"/>
                     </imageobject>
                     <textobject>
                         <phrase
->Configuració del solucionador</phrase>
+>Configureu el solucionador</phrase>
                     </textobject>
                 </mediaobject>
             </screenshot>
@@ -714,9 +694,6 @@
         <sect3 id="ekos-align-polaralignment">
             <title
 >Alineació polar</title>
-            <sect4 id="ekos-align-plar-alignment-assistant">
-                <title
->Assistent de l'alineació polar</title>
                 <para
 >Quan es configura una muntura equatorial alemanya (GEM) per a l'obtenció de les imatges, un aspecte crítica de capturar imatges amb una exposició prolongada és assegurar una alineació polar adequada. Una muntura GEM té dos eixos: l'eix de l'ascensió dreta (AR) i l'eix de la declinació (Dec). De manera ideal, l'eix de l'AR haurà d'estar alineat amb l'eix polar de l'esfera celeste. La tasca d'una muntura és seguir el moviment de l'estrela al voltant del cel, des del moment en què ix per l'horitzó de l'est, passant pel mig i ponent-se a l'oest. </para>
 
@@ -753,15 +730,15 @@
                 <para
 >Tanmateix, tret que tingueu una muntura de gamma alta, probablement voldreu utilitzar un guiador automàtic per a mantindre bloquejada la mateixa estrela en la mateixa posició al llarg del temps. Malgrat tot açò, si l'eix de la muntura no està correctament alineat amb el pol celeste, fins i tot una muntura mecànicament perfecta perdrà el seguiment amb el temps. Els errors de seguiment són proporcionals a la magnitud de la desalineació. Per tant, és molt important per a les imatges obtingudes amb una exposició prolongada aconseguir que la muntura s'alinee en l'àmbit polar per a reduir els errors residuals a mesura que es desplaça a través del cel. </para>
                 <para
->Abans d'iniciar el procés, apunteu la muntura el més a prop possible del pol celeste. Si viviu a l'hemisferi nord, apunteu-la el més a prop possible de Polaris. </para>
+>Abans d'iniciar el procés, apunteu la muntura el més a prop possible del pol celeste amb els contrapesos cap avall. Si viviu a l'hemisferi nord, apunteu-lo el més a prop possible de Polaris. Si Polaris no està visible (&pex;, està bloquejada per arbres o edificis), podeu apuntar a un altre lloc, preferiblement a prop del meridià. Assegureu-vos que hi haja almenys de 30 a 60 graus de cel visible en un arc a l'est o l'oest del meridià des de la posició que trieu. Seleccioneu la direcció del cel lliure, el nombre de graus per a cadascun dels dos girs, la velocitat de gir de la muntura i si la muntura girarà automàticament (recomanat) o manualment. </para>
                 <para
->L'eina funciona capturant i resolent tres imatges. Després de capturar cadascuna, la muntura girarà una quantitat fixa i es capturarà i resoldrà una altra imatge. </para>
+>L'eina funciona capturant i resolent tres imatges. Després de capturar cadascuna, la muntura girarà per la quantitat fixa que heu introduït i es capturarà i resoldrà una altra imatge. Si trieu manualment, haureu de fer girar la muntura aproximadament per l'angle escollit. </para>
                 <screenshot>
                     <screeninfo
 >Assistent d'alineació polar </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_assistant_main.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_main2.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
@@ -769,181 +746,97 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
+
+            <sect4 id="ekos-align-platesolvecorrection">
+                <title
+>Esquema de correcció resolució de plaques</title>
+                
                 <para
->Després de la primera captura, podeu fer girar la muntura en una quantitat específica (el valor predeterminat és 30 graus) a l'oest o a l'est. Després de seleccionar la magnitud i la direcció, feu clic en <guibutton
->Següent</guibutton
-> per a continuar i la muntura serà girada. Una vegada finalitzada la rotació, se us demanarà prendre una altra captura, tret que hàgeu marcat el mode automàtic. En el mode automatitzat, la resta del procés continuarà amb la mateixa configuració i direcció fins que es capturen un total de tres imatges. </para>
-                <para
->Atés que la veritable AR/Dec de la muntura es resol amb astrometria, podem construir un cercle únic a partir dels tres centres que es troben en les solucions de l'astrometria. El centre del cercle és on gira la muntura (eix AR) i, de manera ideal, este punt hauria de coincidir amb el pol celeste. Tanmateix, si hi ha una desalineació, Ekos dibuixarà un vector de correcció. Este vector de correcció pot estar situat a qualsevol lloc de la imatge. A continuació, <emphasis
->refresqueu</emphasis
-> l'alimentació de la càmera i feu les correccions als botons altitud i azimut de la muntura fins que l'estrela estiga situada en el punt de mira designat. Per a facilitar les correccions, expandiu la vista fent clic en el botó <inlinemediaobject
-><imageobject
-><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject
-></inlinemediaobject
-> Pantalla completa. </para>
+>Les imatges següents mostren el flux de treball quan s'utilitza la tècnica de correcció <emphasis
+>resolució de plaques</emphasis
+>. La imatge següent mostra una pantalla després de capturar i resoldre les 3 imatges de mesura. Mostra un error de quasi 18º d'alçària i que l'eix de la muntura s'ha de moure cap amunt. De manera similar, mostra un error d'azimut de quasi 15º i que l'eix s'ha de moure cap a la dreta (vist des del darrere del telescopi). </para>
                 <screenshot>
                     <screeninfo
->Resultat de l'alineació polar </screeninfo>
+>Assistent d'alineació polar </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_alignment_result.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_ps1.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
->Resultat de l'alineació polar</phrase>
+>Assistent de l'alineació polar, flux de treball 1 en la resolució de plaques</phrase>
                         </textobject>
                     </mediaobject>
                 </screenshot>
                 <para
->Si esteu lluny del StellarMate o del PC, podeu utilitzar la tauleta per a supervisar l'alimentació de la càmera mentre feu les correccions. Utilitzeu el <link linkend="ekos-tutorials-viewer"
->visor VNC basat en web del StellarMate</link
-> o utilitzeu qualsevol client de VNC a la tauleta per a accedir al StellarMate. Si Ekos s'executa al vostre PC, podeu utilitzar aplicacions com TeamViewer per a aconseguir els mateixos resultats. El següent és un vídeo que demostra com utilitzar l'eina assistent de l'alineació polar. </para>
-                <mediaobject>
-                    <videoobject>
-                        <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/sx6Zz9lNd5Q"
-></videodata>
-                    </videoobject>
-                    <caption>
-                        <para>
+>Si el vostre error és prou baix (&pex;, menys d'un minut d'arc), llavors no haureu de fer cap ajustament. Senzillament premeu <guilabel
+>Para</guilabel
+> i ja està. </para>
+                <para
+>Si voleu fer correccions a l'eix de la vostra muntura, haureu de seleccionar l'enfocament d'ajust (en este exemple estem utilitzant resolució de plaques) i la freqüència amb què el sistema haurà de tornar a capturar imatges per a tornar a mesurar l'error d'alineació polar. L'interval d'actualització haurà de ser freqüent, però no té sentit fer-ho més ràpid perquè la vostra CPU puga capturar i resoldre les imatges. En este exemple estem utilitzant 2 s. Després premeu el botó <guibutton
+>Actualitza</guibutton
+> per a començar amb el procés de correcció. </para>
+                <para
+>El sistema capturarà les imatges i tornarà a estimar l'error d'alineació polar després de cada imatge. Podeu intentar reduir l'error ajustant els poms de correcció d'altitud i azimut en la muntura. La imatge següent mostra la pantalla una vegada l'error d'altitud s'haja posat quasi a zero. Vegeu la diferència entre la fila <emphasis
+>Error mesurat</emphasis
+>, la qual mostra l'error mesurat originalment després de les 3 captures originals, i la fila <emphasis
+>Error actualitzat</emphasis
+>, la qual mostra l'estimació actual de l'error. </para>
+                <screenshot>
+                    <screeninfo
+>Assistent d'alineació polar </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps2.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
                             <phrase
->Alineació polar</phrase>
-                        </para>
-                    </caption>
-                </mediaobject>
-            </sect4>
-            <sect4 id="ekos-align-legacy-polar-alignment-workflow">
+>Assistent de l'alineació polar, flux de treball 2 en la resolució de plaques</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>A davall, l'usuari també ha ajustat Azimut per a reduir encara més l'error. Ara, l'error és molt baix i el procés està fet. L'usuari haurà de prémer el botó <guibutton
+>Para</guibutton
+>. </para>
+                <screenshot>
+                    <screeninfo
+>Assistent d'alineació polar </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps3.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Assistent de l'alineació polar, flux de treball 3 en la resolució de plaques</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                </sect4>
+                <sect4 id="ekos-align-move-star-correction">
                 <title
->Flux de treball de l'alineació polar antiga</title>
+>Moure l'esquema de correcció d'estreles</title>
+
                 <para
->Mitjançant el mode alineació polar, Ekos podrà mesurar i corregir els errors de l'alineació polar. Per a mesurar l'error en l'azimut, apunteu la muntura a una estrela propera al meridià. Si viviu a l'hemisferi nord, apuntareu cap al meridià sud. Feu clic en <guibutton
->Mesura l'error de l'Az</guibutton
-> per a iniciar el procés. Ekos intentarà mesurar la deriva entre les dues imatges i calcular l'error en conseqüència. Podeu demanar a Ekos que corregisca l'error en l'azimut fent clic en el botó <guibutton
->Correcció de l'error de l'Az</guibutton
->. Ekos orientarà cap a una nova ubicació i vos demanarà que ajusteu els botons d'azimut de la muntura fins que l'estrela estiga al centre del camp de visió. Podeu utilitzar la <link linkend="focus-focuser-group"
->característica Captura</link
-> del mòdul per a l'enfocament per a donar un colp d'ull a la imatge a mesura que feu els vostres ajustos. </para>
-                <para
->De la mateixa manera, per a mesurar l'error en l'altitud, feu clic en el botó <guibutton
->Mesura l'error de l'Alt</guibutton
->. Cal que apunteu la muntura a l'est o a l'oest i que establiu el quadro combinat <guilabel
->Direcció de l'altitud</guilabel
-> en conseqüència. Ekos prendrà dues imatges i calcularà l'error. Podeu demanar a Ekos que corregisca l'error de l'altitud fent clic en el botó <guibutton
->Correcció de l'error de l'Alt</guibutton
->. Igual que amb la correcció de l'azimut, Ekos orientarà a una nova ubicació i vos demanarà que ajusteu els botons d'altitud de la muntura fins que l'estrela estiga al centre de CDV. </para>
-                <para
->Després de fer una correcció, es recomana mesurar de nou els errors d'azimut i altitud, i calcular la diferència. És possible que necessiteu realitzar la correcció més d'una vegada per a obtindre resultats òptims. </para>
-                <para
->Abans d'iniciar l'eina de l'alineació polar, haureu de completar el flux de treball GOTO per a almenys un punt en el cel. Una vegada que la muntura estiga alineada, procediu amb el següent (suposant que viviu a l'hemisferi nord): </para>
-                <orderedlist>
-                    <listitem>
-                        <para
->Orienteu cap a una estrela <emphasis role="bold"
->brillant</emphasis
-> (quarta magnitud o inferior) propera del meridià sud (Azimut 180). Assegureu-vos que <guilabel
->Orienta cap a l'objectiu</guilabel
-> està seleccionada. Captureu i resoleu. L'estrela hauria d'estar exactament centrada en el vostre camp de visió CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Canvieu el mode a <guilabel
->Alineació polar</guilabel
->. Feu clic en <guibutton
->Mesura l'error de l'Az</guibutton
->. Se us demanarà que orienteu cap a una estrela al meridià sud, el qual ja ho hem fet. Feu clic en <guibutton
->Continua</guibutton
->. Ekos ara realitzarà el càlcul de l'error. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Si tot va bé, l'error es mostrarà als quadros d'eixida. Per a corregir l'error, feu clic en <guibutton
->Correcció de l'error de l'Az</guibutton
->. Ekos ara orientarà cap a un punt diferent en el cel, i se us demanarà que <emphasis role="bold"
->només</emphasis
-> ajusteu els botons d'azimut de la muntura per a centrar l'estrela en el camp de visió. La manera més pràctica de controlar el camp estrel·lar és anar al mòdul per a l'<guilabel
->Enfocament</guilabel
-> i fer clic en <guibutton
->Inicia la captura</guibutton
->. Si l'error en l'azimut és gran, l'estrela podria no ser visible en el camp de visió del CCD i, per tant, haureu de fer ajustos <emphasis
->cecs</emphasis
-> (o senzillament mirar pel buscador) fins que l'estrela entre dins de CDV del CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Comenceu els ajustaments de l'azimut fins que l'estrela brillant que heu orientat inicialment estiga tan a prop del centre com pugueu. </para>
-                    </listitem>
-                    <listitem>
-                        <para
-><guibutton
->Inicia la captura</guibutton
-> al <link linkend="focus-focuser-group"
->mòdul per a l'enfocament</link
+>També tenim esquemes alternatius per a corregir l'alineació polar. Dues variacions són <emphasis
+>Mou l'estrela i Calcula l'error</emphasis
+> i <emphasis
+>Mou l'estrela</emphasis
+>. Quan seleccioneu este esquema, el sistema col·loca un triangle groc/verd/violeta a la pantalla. El triangle es pot moure fent clic a prop d'una estrela, i el cantó groga/violeta es mou cap a esta estrela. En este esquema, l'usuari corregix l'alineació polar ajustant primer el pom d'azimut de la muntura perquè l'estrela seleccionada es moga al llarg del costat groc del triangle. Quan l'estrela estiga a prop del vèrtex següent, s'haurà d'ajustar el pom d'azimut perquè l'estrela es moga al llarg del costat verd del triangle. Quan l'estrela es moga fins al vèrtex verd/violeta, la muntura s'alinearà polarment i l'usuari podrà fer clic en <guibutton
+>Para</guibutton
 >. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Repetiu el <guibutton
->Mesura l'error de l'Az</guibutton
-> per a assegurar-nos que hem corregit l'error. És possible que hàgeu d'executar-la més d'una vegada per a garantir que els resultats siguen vàlids. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Alterneu el mode a <guilabel
->GOTO</guilabel
->. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Ara orienteu cap a una estrela <emphasis role="bold"
->brillant</emphasis
-> que es trobe a prop de l'horitzó oriental o occidental, preferentment per damunt dels 20 graus d'altitud. Haurà d'estar el més a prop possible dels punts cardinals, oriental (90 azimut) o occidental (270). </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Després de completar l'orientació, captureu i solucioneu. L'estrela ara haurà d'estar en el centre de CDV del CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Alterneu el mode a <guilabel
->Alineació polar</guilabel
->. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Feu clic en <guibutton
->Mesura l'error de l'Alt</guibutton
->. Vos demanarà que orienteu cap a una estrela a l'horitzó oriental (Azimut 90) o occidental (Azimut 270), el qual ja ho hem fet. Feu clic en <guibutton
->Continua</guibutton
->. Ekos ara realitzarà el càlcul de l'error. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Per a corregir l'error, feu clic en <guibutton
->Correcció de l'error de l'Alt</guibutton
->. Ekos ara orientarà cap a un punt diferent en el cel, i se us demanarà que <emphasis role="bold"
->només</emphasis
-> ajusteu els botons d'altitud de la muntura per a centrar l'estrela en el camp de visió. Inicieu la captura tal com s'ha fet abans al <link linkend="focus-focuser-group"
->mòdul per a l'enfocament</link
-> per a ajudar-vos amb el centrat. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Una vegada finalitzat el centrat, deixeu de capturar. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Repetiu la <guibutton
->Mesura l'error de l'Alt</guibutton
-> per a assegurar-nos que hàgem corregit l'error. És possible que hàgeu d'executar-la més d'una vegada per a garantir que els resultats siguen vàlids. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->S'ha completat l'alineació polar!</para>
-                    </listitem>
-                </orderedlist>
-                <warning>
-                    <para
->La muntura pot orientar fins a una posició perillosa i pot entrar en risc de colpejar amb el trípode i/o un altre equip. Seguiu acuradament el moviment de la muntura. Utilitzeu-ho davall el vostre propi risc. </para>
-                </warning>
+                  <para
+>La diferència entre <emphasis
+>Mou l'estrela i Calcula l'error</emphasis
+> i <emphasis
+>Mou l'estrela</emphasis
+> és que al primer, el sistema intenta seguir l'estrela que l'usuari ha seleccionat i col·loca un cercle al seu voltant. En este esquema, també intentareu actualitzar la fila <guilabel
+>Error actualitzat:</guilabel
+>. Si el seguiment d'estreles no és fiable, senzillament ignoreu-lo o utilitzeu l'esquema <emphasis
+>Mou l'estrela</emphasis
+> i moveu l'estrela a ull fins que estiga a prop de l'objectiu final. Un exemple de l'ús d'esta tècnica es mostra en este vídeo: <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
+>https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
+> </para>
             </sect4>
         </sect3>
-    </sect2>
+</sect2>

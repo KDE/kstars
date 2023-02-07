@@ -139,14 +139,14 @@
 
         <screenshot>
             <screeninfo
->Configuració del calibratge </screeninfo>
+>Configureu el calibratge </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="guide_calibration_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració del calibratge</phrase>
+>Configureu el calibratge</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -244,14 +244,14 @@
 
         <screenshot>
             <screeninfo
->Configuració del guiatge </screeninfo>
+>Configureu el guiatge </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="guide_guide_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració del guiatge</phrase>
+>Configureu el guiatge</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -426,14 +426,14 @@
 >Podeu optar per seleccionar l'aplicació PHD2 externa per a realitzar el guiatge en comptes del sistema de guiatge integrat. </para>
         <screenshot>
             <screeninfo
->Configuració del PHD2 de guiatge d'Ekos </screeninfo>
+>Configureu el PHD2 de guiatge d'Ekos </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_guide_phd2.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configuració del PHD2 de guiatge d'Ekos</phrase>
+>Configureu el PHD2 de guiatge d'Ekos</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>

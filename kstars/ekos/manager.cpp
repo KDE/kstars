@@ -2080,21 +2080,8 @@ void Manager::initMount()
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
     });
     connect(mountProcess->getMeridianFlipState().get(),
-            &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
+            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, this, [&](const QString & text)
     {
-        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
-        {
-            {"meridianFlipStatus", status},
-        }));
-    });
-    connect(mountProcess->getMeridianFlipState().get(),
-            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
-    {
-        // Throttle this down
-        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
-        {
-            {"meridianFlipText", text},
-        }), mountProcess->getMeridianFlipState()->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE);
         meridianFlipStatusWidget->setStatus(text);
     });
 
@@ -2471,6 +2458,8 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pi
         {"az", dms::fromString(azOUT->text(), true).Degrees()},
         {"at", dms::fromString(altOUT->text(), true).Degrees()},
         {"ha", ha.Degrees()},
+        {"meridianFlipText", mountProcess->getMeridianFlipState()->getMeridianStatusText()},
+        {"meridianFlipStatus", mountProcess->getMeridianFlipState()->getMeridianFlipMountState()},
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus, true);
@@ -2555,6 +2544,7 @@ void Manager::updateCaptureCountDown()
     QJsonObject status =
     {
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
+        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
 

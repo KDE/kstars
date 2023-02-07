@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:53+0000\n"
+"POT-Creation-Date: 2023-02-07 00:54+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -366,7 +366,7 @@ msgid "Error: Unable to save image: %1"
 msgstr "Қате: Келесі кескін сақталмады: %1"
 
 #: auxiliary/imageexporter.cpp:168 auxiliary/imageviewer.cpp:356
-#: auxiliary/xplanetimageviewer.cpp:1247
+#: auxiliary/xplanetimageviewer.cpp:1246
 #, fuzzy, kde-format
 #| msgid "Save the image to disk"
 msgid "Saved image to %1"
@@ -408,7 +408,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/capture/capture.cpp:4192 ekos/scheduler/scheduler.cpp:4738
+#: ekos/capture/capture.cpp:4191 ekos/scheduler/scheduler.cpp:4738
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
@@ -456,7 +456,7 @@ msgstr "KStars-тың FITS қарау құралы"
 msgid "Loading of the image %1 failed."
 msgstr "%1 кескіннің жүктеу жаңылысы."
 
-#: auxiliary/imageviewer.cpp:312 auxiliary/xplanetimageviewer.cpp:1218
+#: auxiliary/imageviewer.cpp:312 auxiliary/xplanetimageviewer.cpp:1217
 #: indi/clientmanagerlite.cpp:795 printing/foveditordialog.cpp:119
 #, fuzzy, kde-format
 #| msgid "Save all Images"
@@ -464,14 +464,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Бүкіл кескіндерді сақтау"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3645
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3659
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "\"%1\" деп аталған файл бар екен. Үстінен жазыла берсін бе?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3648
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3662
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1316
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
@@ -693,7 +693,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1346
+#: auxiliary/ksutils.cpp:1350
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -701,19 +701,19 @@ msgid ""
 " does not exist.  Do you want to make the directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1349
+#: auxiliary/ksutils.cpp:1353
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Make Astrometry Index File Directory?"
 msgstr "Дәлдеу"
 
-#: auxiliary/ksutils.cpp:1354
+#: auxiliary/ksutils.cpp:1358
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Дәлдеу"
 
-#: auxiliary/ksutils.cpp:1359
+#: auxiliary/ksutils.cpp:1363
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid ""
@@ -721,39 +721,39 @@ msgid ""
 "to be created."
 msgstr "Дәлдеу"
 
-#: auxiliary/ksutils.cpp:1380 auxiliary/ksutils.cpp:1536
-#: auxiliary/ksutils.cpp:1601
+#: auxiliary/ksutils.cpp:1384 auxiliary/ksutils.cpp:1540
+#: auxiliary/ksutils.cpp:1605
 #, fuzzy, kde-format
 #| msgid "Astrometry.net configuration file"
 msgid "Astrometry Configuration File Read Error."
 msgstr "Аstrometry.net баптау файлы"
 
-#: auxiliary/ksutils.cpp:1394 auxiliary/ksutils.cpp:1579
-#: auxiliary/ksutils.cpp:1621
+#: auxiliary/ksutils.cpp:1398 auxiliary/ksutils.cpp:1583
+#: auxiliary/ksutils.cpp:1625
 #, fuzzy, kde-format
 #| msgid "Astrometry.net configuration file"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Аstrometry.net баптау файлы"
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:571
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:571
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1678
+#: auxiliary/ksutils.cpp:1682
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open %1: %2"
 msgstr "Файл ашылмады: %1"
 
-#: auxiliary/ksutils.cpp:1686
+#: auxiliary/ksutils.cpp:1690
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1697
+#: auxiliary/ksutils.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot write %s %1: %2"
@@ -909,7 +909,7 @@ msgstr "Ке&скінді өңдеу..."
 msgid "Unset Image"
 msgstr "Кескінді кетіру"
 
-#: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:891
+#: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:890
 #, fuzzy, kde-format
 #| msgid "Solar System Viewer"
 msgctxt "@title:window"
@@ -1355,8 +1355,8 @@ msgstr ""
 msgid "Current XPlanet Time"
 msgstr "Биіктігі"
 
-#: auxiliary/xplanetimageviewer.cpp:422 auxiliary/xplanetimageviewer.cpp:878
-#: auxiliary/xplanetimageviewer.cpp:1039 auxiliary/xplanetimageviewer.cpp:1052
+#: auxiliary/xplanetimageviewer.cpp:422 auxiliary/xplanetimageviewer.cpp:877
+#: auxiliary/xplanetimageviewer.cpp:1038 auxiliary/xplanetimageviewer.cpp:1051
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1, %2"
@@ -1478,30 +1478,30 @@ msgid ""
 "expired."
 msgstr ""
 
-#: auxiliary/xplanetimageviewer.cpp:792 indi/servermanager.cpp:88
+#: auxiliary/xplanetimageviewer.cpp:791 indi/servermanager.cpp:88
 #, kde-format
 msgid "Error making FIFO file %1: %2."
 msgstr "%1 FIFO файлын құрғанда қате орын алды: %2"
 
-#: auxiliary/xplanetimageviewer.cpp:843
+#: auxiliary/xplanetimageviewer.cpp:842
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1, %2, %3"
 msgstr "%1, %2 және %3"
 
-#: auxiliary/xplanetimageviewer.cpp:1119
+#: auxiliary/xplanetimageviewer.cpp:1118
 #, fuzzy, kde-format
 #| msgid "Star Hopper: Choose a field-of-view"
 msgid "Choose a field-of-view"
 msgstr "Жұлдыздан-жұлдызға өту: Шолу өрісін таңдау"
 
-#: auxiliary/xplanetimageviewer.cpp:1120
+#: auxiliary/xplanetimageviewer.cpp:1119
 #, fuzzy, kde-format
 #| msgid "Minor Planets"
 msgid "FOV to render in XPlanet:"
 msgstr "Шағын планеталар"
 
-#: auxiliary/xplanetimageviewer.cpp:1244
+#: auxiliary/xplanetimageviewer.cpp:1243
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Saving of the image to %1 failed."
@@ -1870,7 +1870,7 @@ msgstr "ТК:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#: data/qml/mount/mountbox.qml:641 ekos/capture/capture.ui:909
+#: data/qml/mount/mountbox.qml:641 ekos/capture/capture.ui:957
 #: ekos/scheduler/scheduler.ui:319
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City in Nebraska USA"
@@ -2586,10 +2586,10 @@ msgstr ""
 "Бұл жарамсыз URL сілтемесі. Google-мен іздеуге шолғыш\n"
 "терезесі ашылсын ба?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3656
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3670
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1109 ekos/capture/capture.cpp:3763
-#: ekos/capture/capture.cpp:4201 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/analyze/analyze.cpp:1109 ekos/capture/capture.cpp:3762
+#: ekos/capture/capture.cpp:4200 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4374 ekos/scheduler/scheduler.cpp:4748
 #: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:928
@@ -2792,7 +2792,7 @@ msgstr "Мәтін"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/capture.ui:1889 tools/observinglist.cpp:93
+#: ekos/capture/capture.ui:1827 tools/observinglist.cpp:93
 #: tools/observinglist.cpp:97 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
@@ -2900,7 +2900,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:911
+#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:912
 #, kde-format
 msgid "Preview"
 msgstr "Қарап-шығу"
@@ -3857,7 +3857,7 @@ msgstr "0.0 пс"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:1286 ekos/capture/capture.cpp:1324
+#: ekos/capture/capture.cpp:1287 ekos/capture/capture.cpp:1325
 #: ekos/focus/focus.cpp:331 ekos/guide/guide.ui:528 ekos/guide/guide.ui:652
 #: indi/streamform.ui:368
 #, kde-format
@@ -3979,7 +3979,7 @@ msgstr "Альбедосы:"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2372
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2307
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -5999,19 +5999,19 @@ msgstr ""
 msgid "Mount does not support syncing."
 msgstr "Телескоп қадамдастыруды қолдамайды."
 
-#: ekos/align/align.cpp:1014
+#: ekos/align/align.cpp:1016
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr ""
 
-#: ekos/align/align.cpp:1051
+#: ekos/align/align.cpp:1055
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr ""
 
-#: ekos/align/align.cpp:1090
+#: ekos/align/align.cpp:1094
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -6019,30 +6019,30 @@ msgid ""
 "p><p>Calculated FOV: %1</p>"
 msgstr ""
 
-#: ekos/align/align.cpp:1099
+#: ekos/align/align.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Desired field-of-view size, in arcminutes"
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "Керек шолу өрістің өлшемі (бұрышты мин.)"
 
-#: ekos/align/align.cpp:1380
+#: ekos/align/align.cpp:1384
 #, kde-format
 msgid "Error: No camera detected."
 msgstr ""
 
-#: ekos/align/align.cpp:1386
+#: ekos/align/align.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: lost connection to camera."
 msgstr "Қате: Тоғыс келтіргішімен байланыс үзілді."
 
-#: ekos/align/align.cpp:1387 ekos/align/align.cpp:2175
+#: ekos/align/align.cpp:1391 ekos/align/align.cpp:2179
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Astrometry alignment failed"
 msgstr "Дәлдеу"
 
-#: ekos/align/align.cpp:1403
+#: ekos/align/align.cpp:1407
 #, fuzzy, kde-format
 #| msgid ""
 #| "Telescope aperture and focal length are missing. Please check your driver "
@@ -6054,7 +6054,7 @@ msgstr ""
 "Телескоптың апертурасы мен тоғыс қашықтығы көрсетілмеген. Драйверінің "
 "параметрлерін тексеріп, қайталап көріңіз."
 
-#: ekos/align/align.cpp:1409
+#: ekos/align/align.cpp:1413
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
@@ -6062,49 +6062,49 @@ msgstr ""
 "Телескоптың CCD пикселдер өлшемі көрсетілмеген. Драйверінің параметрлерін "
 "тексеріп, қайталап көріңіз."
 
-#: ekos/align/align.cpp:1417
+#: ekos/align/align.cpp:1421
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: lost connection to filter wheel."
 msgstr "Қате: Тоғыс келтіргішімен байланыс үзілді."
 
-#: ekos/align/align.cpp:1437 ekos/capture/capture.cpp:3331
-#: ekos/capture/capture.cpp:5694 ekos/focus/focus.cpp:4030
+#: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3332
+#: ekos/capture/capture.cpp:5694 ekos/focus/focus.cpp:4017
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr ""
 
-#: ekos/align/align.cpp:1457
+#: ekos/align/align.cpp:1461
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/align/align.cpp:1464
+#: ekos/align/align.cpp:1468
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/align/align.cpp:1482 ekos/align/align.cpp:2833
+#: ekos/align/align.cpp:1486 ekos/align/align.cpp:2837
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1535 ekos/focus/focus.cpp:1329
+#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1317
 #, kde-format
 msgid "Capturing image..."
 msgstr "Кескінді түсіріп алу..."
 
-#: ekos/align/align.cpp:1625 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:1993
+#: ekos/align/align.cpp:1629 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/focus/focus.cpp:1981
 #, kde-format
 msgid "Image received."
 msgstr "Кескін қабылданды."
 
-#: ekos/align/align.cpp:1733
+#: ekos/align/align.cpp:1737
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -6112,74 +6112,74 @@ msgid ""
 "to the list."
 msgstr ""
 
-#: ekos/align/align.cpp:1792
+#: ekos/align/align.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Solving with blind image scale..."
 msgstr "Кескінді түсіріп алу..."
 
-#: ekos/align/align.cpp:1800
+#: ekos/align/align.cpp:1804
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Solving with blind image position..."
 msgstr "Бастапқы орнына қайтып бұралу..."
 
-#: ekos/align/align.cpp:1908
+#: ekos/align/align.cpp:1912
 #, fuzzy, kde-format
 #| msgid "Solver completed in %1 second."
 #| msgid_plural "Solver completed in %1 seconds."
 msgid "Solver completed after %1 seconds."
 msgstr "Есеп %1 секундта шығарылды."
 
-#: ekos/align/align.cpp:1924
+#: ekos/align/align.cpp:1928
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 
-#: ekos/align/align.cpp:1991
+#: ekos/align/align.cpp:1995
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
 
-#: ekos/align/align.cpp:2009
+#: ekos/align/align.cpp:2013
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 
-#: ekos/align/align.cpp:2020
+#: ekos/align/align.cpp:2024
 #, fuzzy, kde-format
 #| msgid "Sync the telescope to the solution coordinates"
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Телескопты шешім координаттармен қадамдастыру"
 
-#: ekos/align/align.cpp:2062 ekos/align/align.cpp:2483
-#: ekos/align/align.cpp:2523
+#: ekos/align/align.cpp:2066 ekos/align/align.cpp:2487
+#: ekos/align/align.cpp:2527
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Astrometry alignment completed successfully"
 msgstr "Телескоп шебері сәтті аяқтады."
 
-#: ekos/align/align.cpp:2084
+#: ekos/align/align.cpp:2088
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2113
+#: ekos/align/align.cpp:2117
 #, kde-format
 msgid "Target is within acceptable range. Astrometric solver is successful."
 msgstr ""
 
-#: ekos/align/align.cpp:2170
+#: ekos/align/align.cpp:2174
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Failed."
 msgstr "ШӨР орнатылмаған"
 
-#: ekos/align/align.cpp:2173
+#: ekos/align/align.cpp:2177
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6187,38 +6187,38 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2254
+#: ekos/align/align.cpp:2258
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting position angle to %1 degrees E of N..."
 msgstr "CCD матрицасының температурасы."
 
-#: ekos/align/align.cpp:2268
+#: ekos/align/align.cpp:2272
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2335
+#: ekos/align/align.cpp:2339
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Refresh is complete."
 msgstr "%1 байланыста."
 
-#: ekos/align/align.cpp:2342 ekos/auxiliary/darklibrary.cpp:1415
-#: ekos/focus/focus.cpp:1107
+#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1415
+#: ekos/focus/focus.cpp:1095
 #, kde-format
 msgid "Capture aborted."
 msgstr "Түсіріп алу доғарылды."
 
-#: ekos/align/align.cpp:2348
+#: ekos/align/align.cpp:2352
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
 msgid "Solver aborted after %1 seconds."
 msgstr "Есеп шығарғыш %1 секундтан кейін доғарылды"
 
-#: ekos/align/align.cpp:2391 ekos/capture/capture.cpp:2544
-#: ekos/focus/focus.cpp:3271 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
+#: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2545
+#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -6226,216 +6226,216 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2454
+#: ekos/align/align.cpp:2458
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2477
+#: ekos/align/align.cpp:2481
 #, fuzzy, kde-format
 #| msgid "Sync the telescope to the solution coordinates"
 msgid "Mount is synced to solution coordinates."
 msgstr "Телескопты шешім координаттармен қадамдастыру"
 
-#: ekos/align/align.cpp:2512 ekos/align/align.cpp:2542
-#: ekos/align/align.cpp:3780 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2516 ekos/align/align.cpp:2546
+#: ekos/align/align.cpp:3794 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling..."
 msgstr "Баптау"
 
-#: ekos/align/align.cpp:2518
+#: ekos/align/align.cpp:2522
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Differential slewing complete."
 msgstr "түсірілген"
 
-#: ekos/align/align.cpp:2532
+#: ekos/align/align.cpp:2536
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2534
+#: ekos/align/align.cpp:2538
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2577 ekos/align/align.cpp:2717
+#: ekos/align/align.cpp:2581 ekos/align/align.cpp:2721
 #, kde-format
 msgid "Syncing failed."
 msgstr "Қадамдастыру жаңылды."
 
-#: ekos/align/align.cpp:2579
+#: ekos/align/align.cpp:2583
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Other"
 msgid "Slewing failed."
 msgstr "Басқа"
 
-#: ekos/align/align.cpp:2614
+#: ekos/align/align.cpp:2618
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached target position angle."
 msgstr "Орнының бұрышы"
 
-#: ekos/align/align.cpp:2622
+#: ekos/align/align.cpp:2626
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Check power, "
 "backlash, or obstructions."
 msgstr ""
 
-#: ekos/align/align.cpp:2628
+#: ekos/align/align.cpp:2632
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Try to reverse "
 "rotation direction in Rotator Settings."
 msgstr ""
 
-#: ekos/align/align.cpp:2667
+#: ekos/align/align.cpp:2671
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Жұлдыздар табылған жоқ, қайталап көру..."
 
-#: ekos/align/align.cpp:2711
+#: ekos/align/align.cpp:2715
 #, fuzzy, kde-format
 #| msgid "Syncing successful."
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Қадамдастыру сәтті өтті."
 
-#: ekos/align/align.cpp:2734
+#: ekos/align/align.cpp:2738
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Телескопты көздеген координаттарға бұрау"
 
-#: ekos/align/align.cpp:2747
+#: ekos/align/align.cpp:2751
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:2803
+#: ekos/align/align.cpp:2807
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Кескін URL-лерін жүктеу"
 
-#: ekos/align/align.cpp:2997
+#: ekos/align/align.cpp:3001
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Шығыс файл үшін координаттар жүйесін таңдау"
 
-#: ekos/align/align.cpp:3002
+#: ekos/align/align.cpp:3006
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Шығыс файл үшін координаттар жүйесін таңдау"
 
-#: ekos/align/align.cpp:3021
+#: ekos/align/align.cpp:3025
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture error. Aborting..."
 msgstr "Түсіріп алу доғарылды."
 
-#: ekos/align/align.cpp:3026 ekos/capture/capture.cpp:2605
-#: ekos/capture/capture.cpp:2673
+#: ekos/align/align.cpp:3030 ekos/capture/capture.cpp:2606
+#: ekos/capture/capture.cpp:2674
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3140
+#: ekos/align/align.cpp:3144
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Дәлдеу"
 
-#: ekos/align/align.cpp:3219
+#: ekos/align/align.cpp:3223
 #, fuzzy, kde-format
 #| msgid "Plate Solve Options"
 msgid "StellarSolver Options"
 msgstr "Астрометриялық шешім параметрлері"
 
-#: ekos/align/align.cpp:3224
+#: ekos/align/align.cpp:3228
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3228
+#: ekos/align/align.cpp:3232
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "Ысырып тастау"
 
-#: ekos/align/align.cpp:3232
+#: ekos/align/align.cpp:3236
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "Нобай өңдегіші"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3250 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3254 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Invalid File"
 msgid "Index Files"
 msgstr "Жарамсыз файл"
 
-#: ekos/align/align.cpp:3315 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3319 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "RA (arcmin)"
 msgid "dRA (arcsec)"
 msgstr "ТК (бұрыш.мин.)"
 
-#: ekos/align/align.cpp:3316 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3320 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcseconds"
 msgid "dDE (arcsec)"
 msgstr "бұрыш.сек."
 
-#: ekos/align/align.cpp:3362 ekos/capture/capture.cpp:5865
-#: ekos/focus/focus.cpp:3935
+#: ekos/align/align.cpp:3366 ekos/capture/capture.cpp:5865
+#: ekos/focus/focus.cpp:3922
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Калибрлеу"
 
-#: ekos/align/align.cpp:3374 ekos/capture/capture.cpp:5881
+#: ekos/align/align.cpp:3378 ekos/capture/capture.cpp:5881
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3381 ekos/capture/capture.cpp:5886
+#: ekos/align/align.cpp:3385 ekos/capture/capture.cpp:5886
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3386 ekos/capture/capture.cpp:5891
+#: ekos/align/align.cpp:3390 ekos/capture/capture.cpp:5891
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
 msgstr "Автотоғыстыру бітті."
 
-#: ekos/align/align.cpp:3497
+#: ekos/align/align.cpp:3511
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "Жарамсыз URL"
 
-#: ekos/align/align.cpp:3632
+#: ekos/align/align.cpp:3646
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Барлық орбиталық траекторияларын өшіру"
 
-#: ekos/align/align.cpp:3655 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3762
-#: ekos/capture/capture.cpp:4200 ekos/guide/guidedriftgraph.cpp:474
+#: ekos/align/align.cpp:3669 ekos/align/mountmodel.cpp:263
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3761
+#: ekos/capture/capture.cpp:4199 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
 #: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:927
@@ -6443,16 +6443,16 @@ msgstr "Барлық орбиталық траекторияларын өшір�
 msgid "Invalid URL: %1"
 msgstr "Жарамсыз URL: %1"
 
-#: ekos/align/align.cpp:3664 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:4223 ekos/guide/guidedriftgraph.cpp:483
+#: ekos/align/align.cpp:3678 ekos/align/mountmodel.cpp:400
+#: ekos/capture/capture.cpp:4222 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7152
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
 msgstr "Келесі кескін сақталмады: %1"
 
-#: ekos/align/align.cpp:3665 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3778
+#: ekos/align/align.cpp:3679 ekos/align/mountmodel.cpp:283
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3777
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7096
 #: ekos/scheduler/scheduler.cpp:7153 indi/drivermanager.cpp:1532
@@ -6469,31 +6469,31 @@ msgstr "Келесі кескін сақталмады: %1"
 msgid "Could Not Open File"
 msgstr "Файл ашылмады"
 
-#: ekos/align/align.cpp:3686
+#: ekos/align/align.cpp:3700
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Жолдарда қате"
 
-#: ekos/align/align.cpp:3695
+#: ekos/align/align.cpp:3709
 #, fuzzy, kde-format
 #| msgid "Solution Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Шешім координаттары"
 
-#: ekos/align/align.cpp:3709
+#: ekos/align/align.cpp:3723
 #, fuzzy, kde-format
 #| msgid "Polar Alignment Measurement"
 msgid "Polar Alignment"
 msgstr "Полярлық дәлдеу өлшемі"
 
-#: ekos/align/align.cpp:4217
+#: ekos/align/align.cpp:4238
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture timed out."
 msgstr "Түсіріп алу доғарылды."
 
-#: ekos/align/align.cpp:4226
+#: ekos/align/align.cpp:4247
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -6503,7 +6503,7 @@ msgstr "Автотоғыстау барысында..."
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
 #: ekos/align/align.ui:42 ekos/auxiliary/darklibrary.ui:49
-#: ekos/capture/capture.ui:48 ekos/focus/focus.ui:48 ekos/guide/guide.ui:39
+#: ekos/capture/capture.ui:48 ekos/focus/focus.ui:54 ekos/guide/guide.ui:39
 #: ekos/mount/mount.ui:47
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
@@ -6543,7 +6543,7 @@ msgstr "Каталогты жүктеу..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:159 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:3415 ekos/focus/focus.ui:331
+#: ekos/capture/capture.cpp:3416 ekos/focus/focus.ui:337
 #: ekos/guide/guide.ui:148 ekos/manager.cpp:219
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
@@ -6780,20 +6780,20 @@ msgstr "Астрометриялық шешім параметрлері"
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: ekos/align/align.ui:565 ekos/auxiliary/darklibrary.ui:477
 #: ekos/capture/capture.ui:147 ekos/capture/captureprocessoverlay.ui:296
-#: ekos/focus/focus.ui:747
+#: ekos/focus/focus.ui:608
 #, kde-format
 msgid "Gain:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:572 ekos/focus/focus.ui:709 ekos/guide/guide.ui:396
+#: ekos/align/align.ui:572 ekos/focus/focus.ui:464 ekos/guide/guide.ui:396
 #, kde-format
 msgid "Bin:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:594 ekos/focus/focus.ui:524 ekos/guide/guide.ui:161
+#: ekos/align/align.ui:594 ekos/focus/focus.ui:660 ekos/guide/guide.ui:161
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Show in FITS Viewer"
@@ -6810,7 +6810,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:613 ekos/capture/capture.ui:2209 ekos/guide/guide.ui:235
+#: ekos/align/align.ui:613 ekos/capture/capture.ui:2147 ekos/guide/guide.ui:235
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Dark"
@@ -6852,7 +6852,7 @@ msgstr "Тік торы"
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:696 ekos/capture/capture.ui:516 ekos/focus/focus.ui:596
+#: ekos/align/align.ui:696 ekos/capture/capture.ui:516 ekos/focus/focus.ui:762
 #: ekos/profileeditor.ui:644 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
@@ -6869,7 +6869,7 @@ msgstr "Камера"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:710 ekos/focus/focus.ui:769 ekos/guide/guide.ui:370
+#: ekos/align/align.ui:710 ekos/focus/focus.ui:726 ekos/guide/guide.ui:370
 #, kde-format
 msgid "Exp:"
 msgstr ""
@@ -6888,7 +6888,7 @@ msgstr "Иммитатор параметрлері"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
 #: ekos/align/align.ui:743 ekos/auxiliary/darklibrary.ui:506
-#: ekos/capture/capture.ui:1200 ekos/focus/focus.ui:719
+#: ekos/capture/capture.ui:1138 ekos/focus/focus.ui:772
 #, kde-format
 msgid "ISO:"
 msgstr ""
@@ -7024,22 +7024,6 @@ msgstr ""
 msgid "Mount Model"
 msgstr "Марио тауы"
 
-#: ekos/align/alignview.cpp:121 fitsviewer/fitsview.cpp:1602
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
-msgctxt "North Celestial Pole"
-msgid "NCP"
-msgstr "NGC"
-
-#: ekos/align/alignview.cpp:123 fitsviewer/fitsview.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
-msgctxt "South Celestial Pole"
-msgid "SCP"
-msgstr "NGC"
-
 #: ekos/align/alignview.cpp:167
 #, kde-format
 msgid "RA Axis"
@@ -7123,14 +7107,14 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Тізбек кезегі"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:3777
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:3776
 #: ekos/scheduler/scheduler.cpp:4416 ekos/scheduler/scheduler.cpp:7095
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
 msgstr "%1 файлы ашылмайды."
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:3804
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:3803
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7734,7 +7718,7 @@ msgstr "Автосозу"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6671
-#: ekos/focus/focus.ui:1240
+#: ekos/focus/focus.ui:1233
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
 #| msgid "Freehold"
@@ -9506,62 +9490,62 @@ msgstr "Жинақтау жаңылысы"
 msgid "PAA: Failed to find RA Axis center."
 msgstr "Жинақтау жаңылысы"
 
-#: ekos/align/polaralignmentassistant.cpp:985
+#: ekos/align/polaralignmentassistant.cpp:986
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1002
+#: ekos/align/polaralignmentassistant.cpp:1003
 #, fuzzy, kde-format
 #| msgid "First position"
 msgid "First manual rotation done."
 msgstr "Бірінші орны"
 
-#: ekos/align/polaralignmentassistant.cpp:1007
+#: ekos/align/polaralignmentassistant.cpp:1008
 #, fuzzy, kde-format
 #| msgid "Second position"
 msgid "Second manual rotation done."
 msgstr "Екінші орны"
 
-#: ekos/align/polaralignmentassistant.cpp:1050
+#: ekos/align/polaralignmentassistant.cpp:1051
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1069
+#: ekos/align/polaralignmentassistant.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Please wait while re-indexing stars ..."
 msgid "Please wait while WCS data is processed..."
 msgstr "Жұлдыздарды қайта индекстеуді күте тұрыңыз ..."
 
-#: ekos/align/polaralignmentassistant.cpp:1100
+#: ekos/align/polaralignmentassistant.cpp:1101
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "WCS data processing is complete."
 msgstr "%1 байланыста."
 
-#: ekos/align/polaralignmentassistant.cpp:1109
+#: ekos/align/polaralignmentassistant.cpp:1110
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1151
+#: ekos/align/polaralignmentassistant.cpp:1152
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "Тәулік, уақыт пен орын:"
 
-#: ekos/align/polaralignmentassistant.cpp:1169
+#: ekos/align/polaralignmentassistant.cpp:1170
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "Жинақтау жаңылысы"
 
-#: ekos/align/polaralignmentassistant.cpp:1244
+#: ekos/align/polaralignmentassistant.cpp:1245
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -9935,20 +9919,20 @@ msgstr "Баптау"
 msgid "Adjust"
 msgstr ""
 
-#: ekos/align/remoteastrometryparser.cpp:33
+#: ekos/align/remoteastrometryparser.cpp:32
 #, kde-format
 msgid ""
 "Cannot set solver to remote. The Ekos equipment profile must include the "
 "astrometry Auxiliary driver."
 msgstr ""
 
-#: ekos/align/remoteastrometryparser.cpp:51
+#: ekos/align/remoteastrometryparser.cpp:50
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1 for reading"
 msgid "Cannot open file %1 for reading."
 msgstr "%1 деген файл оқуға ашылмады"
 
-#: ekos/align/remoteastrometryparser.cpp:61
+#: ekos/align/remoteastrometryparser.cpp:60
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to find solver properties."
@@ -10078,7 +10062,7 @@ msgstr "Туралау"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1782 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:258 ekos/manager.cpp:2141
+#: ekos/guide/guide.ui:258 ekos/manager.cpp:2128
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
@@ -11127,7 +11111,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, darkTab)
 #. i18n: ectx: property (text), widget (QPushButton, darkLibraryB)
 #: ekos/auxiliary/darklibrary.ui:118 ekos/auxiliary/darklibrary.ui:167
-#: ekos/capture/capture.ui:2160
+#: ekos/capture/capture.ui:2098
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Dark"
@@ -11149,7 +11133,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, binningLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_9)
-#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/capture.ui:1167
+#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/capture.ui:1105
 #: ekos/capture/captureprocessoverlay.ui:433
 #, kde-format
 msgid "Binning:"
@@ -11213,14 +11197,14 @@ msgstr "64x"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
-#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1193
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1131
 #, kde-format
 msgid "Count:"
 msgstr "Саны:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: ekos/auxiliary/darklibrary.ui:346 ekos/focus/focus.ui:1216
+#: ekos/auxiliary/darklibrary.ui:346 ekos/focus/focus.ui:1209
 #, fuzzy, kde-format
 #| msgid "Algorithm"
 msgid "Algorithm:"
@@ -11411,7 +11395,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetMapParametersB)
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:480
+#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:742
 #: ekos/mount/mount.ui:346
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -11550,7 +11534,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:1874
+#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:1812
 #: oal/equipmentwriter.ui:940
 #, kde-format
 msgid "Filter"
@@ -11577,7 +11561,7 @@ msgid "Relative offset in steps"
 msgstr "Салыстырмалы орны"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1904
+#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1842
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Offset"
@@ -11591,7 +11575,7 @@ msgid "Start Auto Focus when filter is activated"
 msgstr "Автотоғыстыру бітті."
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:408
+#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:414
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Auto Focus"
@@ -11635,7 +11619,7 @@ msgstr "Баптау файлы"
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
 #: ekos/auxiliary/filtersettings.ui:14 ekos/capture/capture.ui:450
-#: ekos/focus/focus.ui:807
+#: ekos/focus/focus.ui:813
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
@@ -11729,7 +11713,7 @@ msgstr "Автотоғыстыру бітті."
 msgid "Aligning..."
 msgstr "Орындау..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2444
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2445
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating..."
@@ -12029,7 +12013,7 @@ msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2181
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2168
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City in Tennessee USA"
@@ -12081,7 +12065,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
-#: ekos/auxiliary/opslogs.ui:387 ekos/focus/focus.ui:111
+#: ekos/auxiliary/opslogs.ui:387 ekos/focus/focus.ui:117
 #, kde-format
 msgid "Focuser"
 msgstr "Тоғыс келтіргіші"
@@ -12199,34 +12183,34 @@ msgstr "INDI хабарлары күй-жай &жолағына шығарылс
 msgid "Open Logs Directory"
 msgstr "Деректер қапшығы:"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:110
+#: ekos/auxiliary/opticaltrainmanager.cpp:139
 #, fuzzy, kde-format
 #| msgctxt "City in Connecticut USA"
 #| msgid "New Britian"
 msgid "New Train"
 msgstr "Нью-Британ"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:258
+#: ekos/auxiliary/opticaltrainmanager.cpp:294
 #, fuzzy, kde-format
 #| msgctxt "City in Iowa USA"
 #| msgid "Primghar"
 msgid "Primary"
 msgstr "Примгар"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:261
+#: ekos/auxiliary/opticaltrainmanager.cpp:297
 #, fuzzy, kde-format
 #| msgid "seconds"
 msgid "Secondary"
 msgstr "секунд"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:844
+#: ekos/auxiliary/opticaltrainmanager.cpp:907
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:851
+#: ekos/auxiliary/opticaltrainmanager.cpp:914
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -12301,7 +12285,7 @@ msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1480
+#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1418
 #: ekos/scheduler/framingassistant.ui:117 ekos/scheduler/mosaic.ui:301
 #, fuzzy, kde-format
 #| msgid "Camera"
@@ -12399,20 +12383,30 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:132
+#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:138
 #: ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
 msgstr "Тоғыс келтіргіші:"
 
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, reducerSpinBox)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, textLabelXplanetGeometryY)
+#: ekos/auxiliary/opticaltrains.ui:333 ekos/capture/dslrinfo.ui:80
+#: ekos/capture/dslrinfo.ui:137 xplanet/opsxplanet.ui:114
+#, kde-format
+msgid "x"
+msgstr "x"
+
 #. i18n: ectx: property (toolTip), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:343
+#: ekos/auxiliary/opticaltrains.ui:352
 #, kde-format
 msgid "Select a mechanized rotator if any."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:346
+#: ekos/auxiliary/opticaltrains.ui:355
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Rotanev"
@@ -12420,7 +12414,7 @@ msgid "Rotator:"
 msgstr "Ротанев"
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
-#: ekos/auxiliary/opticaltrains.ui:398
+#: ekos/auxiliary/opticaltrains.ui:407
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Telescopes"
@@ -13702,7 +13696,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1286
+#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1279
 #, fuzzy, kde-format
 #| msgid "Tolerance:"
 msgid "Tolerance:"
@@ -13740,40 +13734,40 @@ msgstr "Ішкі қоршауын орнату жаңылысы"
 msgid "Remove job from sequence queue"
 msgstr "Ішкі қоршауын орнату жаңылысы"
 
-#: ekos/capture/capture.cpp:765
+#: ekos/capture/capture.cpp:766
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/capture.cpp:771
+#: ekos/capture/capture.cpp:772
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/capture.cpp:775
+#: ekos/capture/capture.cpp:776
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "Жиілігі:"
 
-#: ekos/capture/capture.cpp:785 ekos/capture/capture.cpp:915
+#: ekos/capture/capture.cpp:786 ekos/capture/capture.cpp:916
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Stop Sequence"
 msgstr "Тізбекті &бастау"
 
-#: ekos/capture/capture.cpp:790
+#: ekos/capture/capture.cpp:791
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Sequence resumed."
 msgstr "Тізбек кезегі"
 
-#: ekos/capture/capture.cpp:864
+#: ekos/capture/capture.cpp:865
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr "Күтіп тұрған тапсырмалар жоқ. Кезек тізбегіне тапсырманы қосыңыз."
 
-#: ekos/capture/capture.cpp:873
+#: ekos/capture/capture.cpp:874
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -13781,324 +13775,324 @@ msgid ""
 "restart capturing?"
 msgstr "%1 сілтемесін өшіргіңіз келгені рас па?"
 
-#: ekos/capture/capture.cpp:874 ekos/capture/capture.cpp:4414
+#: ekos/capture/capture.cpp:875 ekos/capture/capture.cpp:4413
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "Ысырып тастау"
 
-#: ekos/capture/capture.cpp:888
+#: ekos/capture/capture.cpp:889
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/capture.cpp:921
+#: ekos/capture/capture.cpp:922
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:923
+#: ekos/capture/capture.cpp:924
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:925
+#: ekos/capture/capture.cpp:926
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:954
+#: ekos/capture/capture.cpp:955
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "CCD capture suspended"
 msgstr "Аса жаңалар параметрлері"
 
-#: ekos/capture/capture.cpp:959
+#: ekos/capture/capture.cpp:960
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "CCD capture complete"
 msgstr "Түсіріп алу доғарылды."
 
-#: ekos/capture/capture.cpp:964
+#: ekos/capture/capture.cpp:965
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "CCD capture aborted"
 msgstr "Түсіріп алу доғарылды."
 
-#: ekos/capture/capture.cpp:969
+#: ekos/capture/capture.cpp:970
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "CCD capture stopped"
 msgstr "Түсіріп алу доғарылды."
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1040 ekos/capture/capture.ui:2247
+#: ekos/capture/capture.cpp:1041 ekos/capture/capture.ui:2184
 #, fuzzy, kde-format
 #| msgid "Expose:"
 msgid "Expose (-/-):"
 msgstr "Экспозиция:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1051 ekos/capture/capture.ui:2074
+#: ekos/capture/capture.cpp:1052 ekos/capture/capture.ui:2012
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Start Sequence"
 msgstr "Тізбекті &бастау"
 
-#: ekos/capture/capture.cpp:1923
+#: ekos/capture/capture.cpp:1924
 #, fuzzy, kde-format
 #| msgctxt "City in Massachusetts USA"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "Фрамингем"
 
-#: ekos/capture/capture.cpp:1958
+#: ekos/capture/capture.cpp:1959
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1966
+#: ekos/capture/capture.cpp:1967
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Captured image received"
 msgstr "Кескіндер тізбегін түсіру"
 
-#: ekos/capture/capture.cpp:2031
+#: ekos/capture/capture.cpp:2032
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "%2 дегеннен қабылданған %1 кескіні."
 
-#: ekos/capture/capture.cpp:2051
+#: ekos/capture/capture.cpp:2052
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Түсіріп алу"
 
-#: ekos/capture/capture.cpp:2056
+#: ekos/capture/capture.cpp:2057
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2085
+#: ekos/capture/capture.cpp:2086
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing post capture script %1"
 msgstr "Орындалып жатқан скрипт: %1"
 
-#: ekos/capture/capture.cpp:2114
+#: ekos/capture/capture.cpp:2115
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing post job script %1"
 msgstr "Орындалып жатқан скрипт: %1"
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/capture.cpp:2150
+#: ekos/capture/capture.cpp:2151
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "CCD capture sequence completed"
 msgstr "Аса жаңалар параметрлері"
 
-#: ekos/capture/capture.cpp:2238 ekos/capture/capture.cpp:3392
+#: ekos/capture/capture.cpp:2239 ekos/capture/capture.cpp:3393
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing pre capture script %1"
 msgstr "Орындалып жатқан скрипт: %1"
 
-#: ekos/capture/capture.cpp:2273 ekos/capture/capture.cpp:2519
+#: ekos/capture/capture.cpp:2274 ekos/capture/capture.cpp:2520
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2290
+#: ekos/capture/capture.cpp:2291
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot start framing while focus module is busy."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/capture/capture.cpp:2295
+#: ekos/capture/capture.cpp:2296
 #, fuzzy, kde-format
 #| msgid "Starting solver..."
 msgid "Starting framing..."
 msgstr "Есеп шығарғышын жегу..."
 
-#: ekos/capture/capture.cpp:2348
+#: ekos/capture/capture.cpp:2349
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Қате: CCD-мен байланыс үзілді."
 
-#: ekos/capture/capture.cpp:2387
+#: ekos/capture/capture.cpp:2388
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2464
+#: ekos/capture/capture.cpp:2465
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing %1-second %2 image..."
 msgstr "Кескінді түсіріп алу..."
 
-#: ekos/capture/capture.cpp:2498
+#: ekos/capture/capture.cpp:2499
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Ішкі қоршауын орнату жаңылысы"
 
-#: ekos/capture/capture.cpp:2503
+#: ekos/capture/capture.cpp:2504
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Жинақтау жаңылысы"
 
-#: ekos/capture/capture.cpp:2597 ekos/capture/capture.cpp:2665
+#: ekos/capture/capture.cpp:2598 ekos/capture/capture.cpp:2666
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2635
+#: ekos/capture/capture.cpp:2636
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Downloading..."
 msgstr "Жаңа деректерді алу..."
 
-#: ekos/capture/capture.cpp:2764
+#: ekos/capture/capture.cpp:2765
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2770
+#: ekos/capture/capture.cpp:2771
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2909 ekos/capture/capture.cpp:2912
+#: ekos/capture/capture.cpp:2910 ekos/capture/capture.cpp:2913
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Flat"
 msgstr "Маркер файлы қолдану"
 
-#: ekos/capture/capture.cpp:2988
+#: ekos/capture/capture.cpp:2989
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3190
+#: ekos/capture/capture.cpp:3191
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3191
+#: ekos/capture/capture.cpp:3192
 #, fuzzy, kde-format
 #| msgid "Display view toolbar?"
 msgid "Display preview"
 msgstr "\"Көру\" құралдар панелі көрсетілсін бе?"
 
-#: ekos/capture/capture.cpp:3280
+#: ekos/capture/capture.cpp:3281
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3292
+#: ekos/capture/capture.cpp:3293
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3332 ekos/capture/capture.cpp:5695
+#: ekos/capture/capture.cpp:3333 ekos/capture/capture.cpp:5695
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
 msgstr "Кескіннің пішімі"
 
-#: ekos/capture/capture.cpp:3357
+#: ekos/capture/capture.cpp:3358
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing pre job script %1"
 msgstr "Орындалып жатқан скрипт: %1"
 
-#: ekos/capture/capture.cpp:3439
+#: ekos/capture/capture.cpp:3440
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "CCD матрицасының температурасы."
 
-#: ekos/capture/capture.cpp:3440
+#: ekos/capture/capture.cpp:3441
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "CCD матрицасының температурасы."
 
-#: ekos/capture/capture.cpp:3443
+#: ekos/capture/capture.cpp:3444
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Дәлдеу жылдамдығы, x15\"/сек"
 
-#: ekos/capture/capture.cpp:3444
+#: ekos/capture/capture.cpp:3445
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3448
+#: ekos/capture/capture.cpp:3449
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting rotation to %1 degrees E of N..."
 msgstr "CCD матрицасының температурасы."
 
-#: ekos/capture/capture.cpp:3449
+#: ekos/capture/capture.cpp:3450
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Rotator to %1 deg..."
 msgstr "Жерін таңдау..."
 
-#: ekos/capture/capture.cpp:3514
+#: ekos/capture/capture.cpp:3515
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3565 ekos/capture/capture.cpp:3566
+#: ekos/capture/capture.cpp:3566 ekos/capture/capture.cpp:3567
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus complete."
 msgstr "Автотоғыстыру бітті."
 
-#: ekos/capture/capture.cpp:3570
+#: ekos/capture/capture.cpp:3571
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus failed."
 msgstr "Автотоғыстыру бітті."
 
-#: ekos/capture/capture.cpp:3591
+#: ekos/capture/capture.cpp:3592
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3597
+#: ekos/capture/capture.cpp:3598
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian Flip..."
 msgstr "FITS-ті &бірден көрсету"
 
-#: ekos/capture/capture.cpp:3598
+#: ekos/capture/capture.cpp:3599
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip started"
 msgstr "FITS-ті &бірден көрсету"
 
-#: ekos/capture/capture.cpp:3602
+#: ekos/capture/capture.cpp:3603
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "түсірілген"
 
-#: ekos/capture/capture.cpp:3743 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:3744 ekos/scheduler/framingassistant.cpp:221
 #: ekos/scheduler/mosaic.cpp:212
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
@@ -14106,46 +14100,46 @@ msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS әдетті қапшығы"
 
-#: ekos/capture/capture.cpp:3754
+#: ekos/capture/capture.cpp:3753
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Тізбек кезегі"
 
-#: ekos/capture/capture.cpp:3865
+#: ekos/capture/capture.cpp:3864
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3953
+#: ekos/capture/capture.cpp:3952
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr "Қадамдастыру жаңылды."
 
-#: ekos/capture/capture.cpp:4171
+#: ekos/capture/capture.cpp:4170
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Тізбек кезегі"
 
-#: ekos/capture/capture.cpp:4192
+#: ekos/capture/capture.cpp:4191
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save sequence queue"
 msgstr "Ішкі қоршауын орнату жаңылысы"
 
-#: ekos/capture/capture.cpp:4224
+#: ekos/capture/capture.cpp:4223
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "%1 деген файл ашылмады"
 
-#: ekos/capture/capture.cpp:4244
+#: ekos/capture/capture.cpp:4243
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14153,13 +14147,13 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4390
+#: ekos/capture/capture.cpp:4389
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Sequence queue saved to %1"
 msgstr "Тізбек кезегі"
 
-#: ekos/capture/capture.cpp:4414
+#: ekos/capture/capture.cpp:4413
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
@@ -14409,13 +14403,13 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6266 ekos/focus/focus.cpp:4072
+#: ekos/capture/capture.cpp:6266 ekos/focus/focus.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#: ekos/capture/capture.cpp:6289 ekos/focus/focus.cpp:4077
+#: ekos/capture/capture.cpp:6289 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
@@ -14468,7 +14462,7 @@ msgstr[0] ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CCDFWGroup)
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
-#: ekos/capture/capture.ui:120 ekos/focus/focus.ui:437
+#: ekos/capture/capture.ui:120 ekos/focus/focus.ui:443
 #, fuzzy, kde-format
 #| msgid "Filter Wheel"
 msgid "Camera && Filter Wheel"
@@ -14619,7 +14613,7 @@ msgstr "Шегініс"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:620 ekos/capture/capture.ui:1087
+#: ekos/capture/capture.ui:620 ekos/capture/capture.ui:1037
 #, fuzzy, kde-format
 #| msgid "Date format:"
 msgid "Format:"
@@ -14666,68 +14660,8 @@ msgstr "Жылжуды басқару"
 msgid "W:"
 msgstr "Е:"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
-#: ekos/capture/capture.ui:903
-#, no-c-format, kde-format
-msgid ""
-"<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
-"is available to be used in the filename Format via the %t or %type "
-"placeholder tag.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:923
-#, fuzzy, kde-format
-#| msgid "Local"
-msgid "Locally"
-msgstr "Жергілікті"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:928
-#, fuzzy, kde-format
-#| msgid "Remote"
-msgid "Remotely"
-msgstr "Қашық"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:933
-#, kde-format
-msgid "Both"
-msgstr ""
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
-#: ekos/capture/capture.ui:941
-#, fuzzy, kde-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "Sargent"
-msgid "Target"
-msgstr "Сарджент"
-
-#. i18n: ectx: property (text), widget (QLabel, FilenamePreviewLabel)
-#: ekos/capture/capture.ui:962
-#, fuzzy, kde-format
-#| msgid "Local Time"
-msgid "Local preview"
-msgstr "Жергілікті уақыт"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: ekos/capture/capture.ui:969
-#, kde-format
-msgid ""
-"When storing images on remote devices, specify the directory where captured "
-"images are saved to."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/capture.ui:972 ekos/profileeditor.ui:480
-#, fuzzy, kde-format
-#| msgid "Remote"
-msgid "Remote:"
-msgstr "Қашық"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:982
+#: ekos/capture/capture.ui:903
 #, fuzzy, kde-format
 #| msgid ""
 #| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -14800,49 +14734,86 @@ msgstr ""
 "</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:985
+#: ekos/capture/capture.ui:906
 #, fuzzy, kde-format
 #| msgid "Save"
 msgid "Save:"
 msgstr "Сақтау"
 
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/capture/capture.ui:998 ekos/capture/capture.ui:1077
-#, fuzzy, kde-format
-#| msgid "Preview"
-msgid "Preview:"
-msgstr "Қарап-шығу"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/capture/capture.ui:1005
+#: ekos/capture/capture.ui:916
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
-#: ekos/capture/capture.ui:1011
+#: ekos/capture/capture.ui:922
 #, fuzzy, kde-format
 #| msgid "Data directory:"
 msgid "Directory"
 msgstr "Деректер қапшығы:"
 
+#. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
+#: ekos/capture/capture.ui:929
+#, fuzzy, kde-format
+#| msgid "Additional options to be the solver"
+msgid ""
+"<html><head/><body><p>Number of digits used to append the sequence number to "
+"the filename.</p></body></html>"
+msgstr "Есеп шығарғыштың қосымша параметрлері"
+
+#. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
+#: ekos/capture/capture.ui:932
+#, no-c-format, kde-format
+msgid "_%s"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
+#: ekos/capture/capture.ui:951
+#, no-c-format, kde-format
+msgid ""
+"<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
+"is available to be used in the filename Format via the %t or %type "
+"placeholder tag.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
+#: ekos/capture/capture.ui:996
+#, fuzzy, kde-format
+#| msgid "Local"
+msgid "Locally"
+msgstr "Жергілікті"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
+#: ekos/capture/capture.ui:1001
+#, fuzzy, kde-format
+#| msgid "Remote"
+msgid "Remotely"
+msgstr "Қашық"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
+#: ekos/capture/capture.ui:1006
+#, kde-format
+msgid "Both"
+msgstr ""
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
-#: ekos/capture/capture.ui:1021
+#: ekos/capture/capture.ui:1017
 #, kde-format
 msgid "/home/pi"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, RemotePreviewLabel)
-#: ekos/capture/capture.ui:1039
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
+#: ekos/capture/capture.ui:1024
 #, fuzzy, kde-format
-#| msgid "Remove Trail"
-msgid "Remote preview"
-msgstr "Ізін өшіру"
+#| msgctxt "City in Nebraska USA"
+#| msgid "Sargent"
+msgid "Target"
+msgstr "Сарджент"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:1084
+#: ekos/capture/capture.ui:1034
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
@@ -14889,35 +14860,36 @@ msgid ""
 "ul></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/capture.ui:1097
-#, fuzzy, kde-format
-#| msgid "Additional options to be the solver"
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: ekos/capture/capture.ui:1044
+#, kde-format
 msgid ""
-"<html><head/><body><p>Number of digits used to append the sequence number to "
-"the filename.</p></body></html>"
-msgstr "Есеп шығарғыштың қосымша параметрлері"
-
-#. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/capture.ui:1100
-#, no-c-format, kde-format
-msgid "_%s"
+"When storing images on remote devices, specify the directory where captured "
+"images are saved to."
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
+#: ekos/capture/capture.ui:1047 ekos/profileeditor.ui:480
+#, fuzzy, kde-format
+#| msgid "Remote"
+msgid "Remote:"
+msgstr "Қашық"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/capture/capture.ui:1139
+#: ekos/capture/capture.ui:1077
 #, kde-format
 msgid "<b>Capture Settings</b>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
-#: ekos/capture/capture.ui:1161
+#: ekos/capture/capture.ui:1099
 #, kde-format
 msgid "Horizontal and Vertical binning"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_12)
-#: ekos/capture/capture.ui:1180
+#: ekos/capture/capture.ui:1118
 #, kde-format
 msgid "Frame:"
 msgstr "Коршауы:"
@@ -14926,21 +14898,21 @@ msgstr "Коршауы:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/capture.ui:1187 ekos/capture/limits.ui:60
-#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:590
+#: ekos/capture/capture.ui:1125 ekos/capture/limits.ui:60
+#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:756
 #, kde-format
 msgid "Number of images to capture"
 msgstr "Түсіретін кескіндер саны"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
-#: ekos/capture/capture.ui:1236
+#: ekos/capture/capture.ui:1174
 #, fuzzy, kde-format
 #| msgid "Default Filter driver"
 msgid "Restart camera driver"
 msgstr "Әдетті сүзгі драйвері"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
-#: ekos/capture/capture.ui:1268
+#: ekos/capture/capture.ui:1206
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Temperature K"
@@ -14948,60 +14920,60 @@ msgid "Temperature regulation"
 msgstr "Температура, K"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
-#: ekos/capture/capture.ui:1303
+#: ekos/capture/capture.ui:1241
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set CCD temperature"
 msgstr "CCD матрицасының температурасы."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
-#: ekos/capture/capture.ui:1338
+#: ekos/capture/capture.ui:1276
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Desired CCD temperature"
 msgstr "CCD матрицасының температурасы."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
-#: ekos/capture/capture.ui:1351
+#: ekos/capture/capture.ui:1289
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Current CCD temperature"
 msgstr "CCD матрицасының температурасы."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearConfigurationB)
-#: ekos/capture/capture.ui:1373
+#: ekos/capture/capture.ui:1311
 #, fuzzy, kde-format
 #| msgid "Never load device configuration?"
 msgid "Clear camera configuration"
 msgstr "Құрылғы конфигурациясы ешқашан жүктелмесін бе?"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1407
+#: ekos/capture/capture.ui:1345
 #, kde-format
 msgid "Turn cooler on"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1418
+#: ekos/capture/capture.ui:1356
 #, kde-format
 msgid "On"
 msgstr "Қос."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOffB)
-#: ekos/capture/capture.ui:1437
+#: ekos/capture/capture.ui:1375
 #, kde-format
 msgid "Turn cooler off"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOffB)
 #. i18n: ectx: property (text), widget (QRadioButton, offR)
-#: ekos/capture/capture.ui:1448 ekos/indihub.ui:84
+#: ekos/capture/capture.ui:1386 ekos/indihub.ui:84
 #, kde-format
 msgid "Off"
 msgstr "Ажыр."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1458
+#: ekos/capture/capture.ui:1396
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enforce temperature value before capturing an image</"
@@ -15009,52 +14981,52 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1461
+#: ekos/capture/capture.ui:1399
 #, kde-format
 msgid "Tº"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/capture.ui:1473
+#: ekos/capture/capture.ui:1411
 #, kde-format
 msgid "Cooler:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, sequenceBox)
-#: ekos/capture/capture.ui:1517
+#: ekos/capture/capture.ui:1455
 #, kde-format
 msgid "Sequence Queue"
 msgstr "Тізбек кезегі"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/capture/capture.ui:1701
+#: ekos/capture/capture.ui:1639
 #, kde-format
 msgid "Reset status of all jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
-#: ekos/capture/capture.ui:1726
+#: ekos/capture/capture.ui:1664
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Select Observer"
 msgstr "Бақылаушы"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/capture/capture.ui:1767
+#: ekos/capture/capture.ui:1705
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Load capture sequence from file"
 msgstr "Аса жаңалар параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/capture/capture.ui:1801
+#: ekos/capture/capture.ui:1739
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Save capture sequence"
 msgstr "Аса жаңалар параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/capture/capture.ui:1835
+#: ekos/capture/capture.ui:1773
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Save capture sequence as ..."
@@ -15064,7 +15036,7 @@ msgstr "Кескіндер тізбегін түсіру..."
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/capture/capture.ui:1869 ekos/ekoslive/ekoslivedialog.ui:119
+#: ekos/capture/capture.ui:1807 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/scheduler/scheduler.ui:1046 indi/drivermanager.ui:66
 #: indi/drivermanager.ui:322
 #, kde-format
@@ -15072,45 +15044,45 @@ msgid "Status"
 msgstr "Күй-жайы"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1879
+#: ekos/capture/capture.ui:1817
 #, kde-format
 msgid "Count"
 msgstr "Саны:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1884
+#: ekos/capture/capture.ui:1822
 #, kde-format
 msgid "Exp"
 msgstr "Эксп"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1894
+#: ekos/capture/capture.ui:1832
 #, kde-format
 msgid "Bin"
 msgstr "Бин"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1899
+#: ekos/capture/capture.ui:1837
 #, kde-format
 msgid "ISO/Gain"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/capture/capture.ui:1932
+#: ekos/capture/capture.ui:1870
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Capture a preview"
 msgstr "Кескіндер тізбегін түсіру"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
-#: ekos/capture/capture.ui:1973
+#: ekos/capture/capture.ui:1911
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Start framing (looping)"
 msgstr "Басталуы:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/capture.ui:2011 ekos/focus/focus.ui:549
+#: ekos/capture/capture.ui:1949 ekos/focus/focus.ui:685
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Video"
@@ -15118,21 +15090,21 @@ msgid "Live Video"
 msgstr "Видео"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/capture/capture.ui:2108
+#: ekos/capture/capture.ui:2046
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Pause Sequence"
 msgstr "Жиілігі:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, toolsGroup)
-#: ekos/capture/capture.ui:2136
+#: ekos/capture/capture.ui:2074
 #, fuzzy, kde-format
 #| msgid "&Tools"
 msgid "Tools"
 msgstr "Құ&ралдар"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
-#: ekos/capture/capture.ui:2157
+#: ekos/capture/capture.ui:2095
 #, fuzzy, kde-format
 #| msgctxt "City in Texas USA"
 #| msgid "Clear Lake City"
@@ -15140,7 +15112,7 @@ msgid "Create and manage Dark Library"
 msgstr "Клеар-Лейк-Сити"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
-#: ekos/capture/capture.ui:2167
+#: ekos/capture/capture.ui:2105
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "Configure Guide & Focus limits"
@@ -15148,14 +15120,14 @@ msgstr "Жасырылатын нысандар параметрлері"
 
 #. i18n: ectx: property (text), widget (QPushButton, limitsB)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
-#: ekos/capture/capture.ui:2170 ekos/mount/mount.ui:791
+#: ekos/capture/capture.ui:2108 ekos/mount/mount.ui:791
 #: tools/scriptbuilder.cpp:683
 #, kde-format
 msgid "Limits"
 msgstr "Шектері"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
-#: ekos/capture/capture.ui:2183
+#: ekos/capture/capture.ui:2121
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage sequence scripts"
@@ -15163,14 +15135,14 @@ msgstr "Бақылаушы"
 
 #. i18n: ectx: property (text), widget (QPushButton, scriptManagerB)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/capture.ui:2186 ekos/profileeditor.ui:721
+#: ekos/capture/capture.ui:2124 ekos/profileeditor.ui:721
 #, fuzzy, kde-format
 #| msgid "Script name:"
 msgid "Scripts"
 msgstr "Скрипт атауы:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
-#: ekos/capture/capture.ui:2206
+#: ekos/capture/capture.ui:2144
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -15179,7 +15151,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/capture/capture.ui:2234
+#: ekos/capture/capture.ui:2172
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "total remaining:"
@@ -15192,7 +15164,7 @@ msgstr "Кескін URL-лерін жүктеу"
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2279 ekos/capture/capture.ui:2318
+#: ekos/capture/capture.ui:2215 ekos/capture/capture.ui:2253
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -15205,21 +15177,21 @@ msgid "--:--:--"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2299
+#: ekos/capture/capture.ui:2235
 #, fuzzy, kde-format
 #| msgid "<b>Port:</b>"
 msgid "<b>Progress</b>"
 msgstr "<b>Порты:</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2328
+#: ekos/capture/capture.ui:2263
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Avg. Download:"
 msgstr "Жаңа деректерді алу..."
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2338
+#: ekos/capture/capture.ui:2273
 #, fuzzy, kde-format
 #| msgctxt "second"
 #| msgid "sec"
@@ -15227,7 +15199,7 @@ msgid "sec"
 msgstr "сек"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2362
+#: ekos/capture/capture.ui:2297
 #, fuzzy, kde-format
 #| msgctxt "City in Nebraska USA"
 #| msgid "Sargent"
@@ -15237,7 +15209,7 @@ msgstr "Сарджент"
 #. i18n: ectx: property (text), widget (QLabel, targetDriftUnit)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
-#: ekos/capture/capture.ui:2382 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2317 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102
 #, kde-format
 msgid "\""
@@ -15668,15 +15640,6 @@ msgstr ""
 msgid "Sensor Resolution:"
 msgstr "x-айырымдылығы"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, textLabelXplanetGeometryY)
-#: ekos/capture/dslrinfo.ui:80 ekos/capture/dslrinfo.ui:137
-#: xplanet/opsxplanet.ui:114
-#, kde-format
-msgid "x"
-msgstr "x"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
 #: ekos/capture/dslrinfo.ui:115
 #, kde-format
@@ -15858,7 +15821,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, settingsTab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
-#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:842
+#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:854
 #: ekos/guide/opscalibration.ui:34 ekos/guide/opsgpg.ui:103
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -16408,7 +16371,7 @@ msgstr "Нобай өңдегіші"
 msgid "No Focuser connected."
 msgstr "INDI қызметтері тоқталды."
 
-#: ekos/focus/focus.cpp:904 ekos/focus/focus.cpp:3319
+#: ekos/focus/focus.cpp:904 ekos/focus/focus.cpp:3306
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No CCD connected."
@@ -16441,240 +16404,240 @@ msgstr ""
 msgid "Autofocus operation started"
 msgstr "Автотоғыстау параметрлері"
 
-#: ekos/focus/focus.cpp:1113
+#: ekos/focus/focus.cpp:1101
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Detection in progress, please wait."
 msgstr "Доум-Крик"
 
-#: ekos/focus/focus.cpp:1148
+#: ekos/focus/focus.cpp:1136
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus aborted."
 msgstr "Автотоғыстыру бітті."
 
-#: ekos/focus/focus.cpp:1229
+#: ekos/focus/focus.cpp:1217
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1236
+#: ekos/focus/focus.cpp:1224
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Camera."
 msgstr "Қате: Тоғыс келтіргішімен байланыс үзілді."
 
-#: ekos/focus/focus.cpp:1257
+#: ekos/focus/focus.cpp:1245
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1263
+#: ekos/focus/focus.cpp:1251
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Қате: Тоғыс келтіргішімен байланыс үзілді."
 
-#: ekos/focus/focus.cpp:1398 ekos/focus/focus.cpp:3660
+#: ekos/focus/focus.cpp:1386 ekos/focus/focus.cpp:3647
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1405 ekos/focus/focus.cpp:3667
+#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:3654
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Қате: Тоғыс келтіргішімен байланыс үзілді."
 
-#: ekos/focus/focus.cpp:1411 ekos/focus/focus.cpp:1495
+#: ekos/focus/focus.cpp:1399 ekos/focus/focus.cpp:1483
 #, fuzzy, kde-format
 #| msgid "eastward"
 msgid "outward"
 msgstr "шығысқа"
 
-#: ekos/focus/focus.cpp:1411 ekos/focus/focus.cpp:1495
+#: ekos/focus/focus.cpp:1399 ekos/focus/focus.cpp:1483
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Сьюард"
 
-#: ekos/focus/focus.cpp:1426
+#: ekos/focus/focus.cpp:1414
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "Ішке қарай тоғыстау..."
 
-#: ekos/focus/focus.cpp:1432
+#: ekos/focus/focus.cpp:1420
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Ішке қарай тоғыстау..."
 
-#: ekos/focus/focus.cpp:1438
+#: ekos/focus/focus.cpp:1426
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "Ішке қарай тоғыстау..."
 
-#: ekos/focus/focus.cpp:1475
+#: ekos/focus/focus.cpp:1463
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#: ekos/focus/focus.cpp:1482
+#: ekos/focus/focus.cpp:1470
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Сыртқа қарай тоғыстау..."
 
-#: ekos/focus/focus.cpp:1499
+#: ekos/focus/focus.cpp:1487
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Сыртқа қарай тоғыстау..."
 
-#: ekos/focus/focus.cpp:1504
+#: ekos/focus/focus.cpp:1492
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
 msgstr "Ішке қарай тоғыстау..."
 
-#: ekos/focus/focus.cpp:1510
+#: ekos/focus/focus.cpp:1498
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
 msgstr "Ішке қарай тоғыстау..."
 
-#: ekos/focus/focus.cpp:1521
+#: ekos/focus/focus.cpp:1509
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1530
+#: ekos/focus/focus.cpp:1518
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Түсіріп алу доғарылды."
 
-#: ekos/focus/focus.cpp:1580
+#: ekos/focus/focus.cpp:1568
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "түсірілген"
 
-#: ekos/focus/focus.cpp:1623
+#: ekos/focus/focus.cpp:1611
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Detecting sources..."
 msgstr "Жаңа деректерді алу..."
 
-#: ekos/focus/focus.cpp:1740
+#: ekos/focus/focus.cpp:1728
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Autofocus operation completed successfully"
 msgstr "Телескоп шебері сәтті аяқтады."
 
-#: ekos/focus/focus.cpp:1749
+#: ekos/focus/focus.cpp:1737
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation failed"
 msgstr "Автотоғыстау параметрлері"
 
-#: ekos/focus/focus.cpp:1777
+#: ekos/focus/focus.cpp:1765
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Автотоғыстыру бітті."
 
-#: ekos/focus/focus.cpp:1858
+#: ekos/focus/focus.cpp:1846
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "Баптау"
 
-#: ekos/focus/focus.cpp:1865
+#: ekos/focus/focus.cpp:1853
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "түсірілген"
 
-#: ekos/focus/focus.cpp:1878
+#: ekos/focus/focus.cpp:1866
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1915
+#: ekos/focus/focus.cpp:1903
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS қабылданды. Жұлдыздар табылған жоқ."
 
-#: ekos/focus/focus.cpp:2069
+#: ekos/focus/focus.cpp:2057
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Жұлдызды автотаңдау жаңылысы. Қолмен таңдаңыз."
 
-#: ekos/focus/focus.cpp:2165
+#: ekos/focus/focus.cpp:2153
 #, fuzzy, kde-format
 #| msgid "Image capture in progress, please select a star to focus."
 msgid "Capture complete. Select a star to focus."
 msgstr "Кескінді түсіру істе, тоғысына келтіретін жұлдызды таңдаңыз."
 
-#: ekos/focus/focus.cpp:2198
+#: ekos/focus/focus.cpp:2186
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Жұлдыздар табылған жоқ, қайталап көру..."
 
-#: ekos/focus/focus.cpp:2298
+#: ekos/focus/focus.cpp:2286
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr "Автотоғыстау керек тоғысқа жетпеді. Ауытқу шегін үлкейтіп көріңіз."
 
-#: ekos/focus/focus.cpp:2309 ekos/focus/focus.cpp:2918
+#: ekos/focus/focus.cpp:2297 ekos/focus/focus.cpp:2905
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Жұлдыздар табылған жоқ, қайталап көру..."
 
-#: ekos/focus/focus.cpp:2318 ekos/focus/focus.cpp:2924
+#: ekos/focus/focus.cpp:2306 ekos/focus/focus.cpp:2911
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Жұлдызды автотаңдау жаңылысы. Қолмен таңдаңыз."
 
-#: ekos/focus/focus.cpp:2323 ekos/focus/focus.cpp:2929
+#: ekos/focus/focus.cpp:2311 ekos/focus/focus.cpp:2916
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Жұлдызды автотаңдау жаңылысы. Қолмен таңдаңыз."
 
-#: ekos/focus/focus.cpp:2517
+#: ekos/focus/focus.cpp:2504
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2524
+#: ekos/focus/focus.cpp:2511
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2567
+#: ekos/focus/focus.cpp:2554
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS қабылданды. HFR %1 @ %2. Дельта (%3%)"
 
-#: ekos/focus/focus.cpp:2569
+#: ekos/focus/focus.cpp:2556
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS қабылданды. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:2629
+#: ekos/focus/focus.cpp:2616
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -16683,99 +16646,99 @@ msgstr ""
 "HFR тым аз өзгерді. Аттам өлшемін үлкейтіп немесе ауытқу шегін азайтып "
 "көріңіз."
 
-#: ekos/focus/focus.cpp:2636
+#: ekos/focus/focus.cpp:2623
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2741
+#: ekos/focus/focus.cpp:2728
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2805
+#: ekos/focus/focus.cpp:2792
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2816
+#: ekos/focus/focus.cpp:2803
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2826
+#: ekos/focus/focus.cpp:2813
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Мүлдем бұғатталды. Басқаша баптап көріңіз."
 
-#: ekos/focus/focus.cpp:2855
+#: ekos/focus/focus.cpp:2842
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2903
+#: ekos/focus/focus.cpp:2890
 #, fuzzy, kde-format
 #| msgid "FITS received. HFR %1. Delta (%2%)"
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS қабылданды. HFR %1. Дельта (%2%)"
 
-#: ekos/focus/focus.cpp:2907
+#: ekos/focus/focus.cpp:2894
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr "Автотоғыстау керек тоғысқа жетпеді. Ауытқу шегін лайықтап көріңіз."
 
-#: ekos/focus/focus.cpp:2993 ekos/focus/focus.cpp:3006
-#: ekos/focus/focus.cpp:3125 ekos/focus/focus.cpp:3173
-#: ekos/focus/focus.cpp:3222 ekos/focus/focus.cpp:3263
+#: ekos/focus/focus.cpp:2980 ekos/focus/focus.cpp:2993
+#: ekos/focus/focus.cpp:3112 ekos/focus/focus.cpp:3160
+#: ekos/focus/focus.cpp:3209 ekos/focus/focus.cpp:3250
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Тоғыс келтіргіш қатесі, INDI басқару панелін қараңыз."
 
-#: ekos/focus/focus.cpp:3037
+#: ekos/focus/focus.cpp:3024
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Simulate focuser comms failure..."
 msgstr "Автотоғыстыру бітті."
 
-#: ekos/focus/focus.cpp:3105 ekos/focus/focus.cpp:3157
-#: ekos/focus/focus.cpp:3206 ekos/focus/focus.cpp:3238
+#: ekos/focus/focus.cpp:3092 ekos/focus/focus.cpp:3144
+#: ekos/focus/focus.cpp:3193 ekos/focus/focus.cpp:3225
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Restarting autofocus process..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/focus/focus.cpp:3337
+#: ekos/focus/focus.cpp:3324
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Ұзақ экспозицияны бастау..."
 
-#: ekos/focus/focus.cpp:3542
+#: ekos/focus/focus.cpp:3529
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3547
+#: ekos/focus/focus.cpp:3534
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Focus star is selected."
 msgstr "%1 жұлдыз көрінді."
 
-#: ekos/focus/focus.cpp:3639
+#: ekos/focus/focus.cpp:3626
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Using last known position..."
 msgstr "Жұлдыздар табылған жоқ, қайталап көру..."
 
-#: ekos/focus/focus.cpp:3645
+#: ekos/focus/focus.cpp:3632
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Aborting..."
 msgstr "Жұлдыздар табылған жоқ, қайталап көру..."
 
-#: ekos/focus/focus.cpp:3771
+#: ekos/focus/focus.cpp:3758
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus Timer"
@@ -16783,31 +16746,31 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Тоғыстау таймері"
 
-#: ekos/focus/focus.cpp:4090
+#: ekos/focus/focus.cpp:4077
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing image again..."
 msgstr "Кескінді түсіріп алу..."
 
-#: ekos/focus/focus.cpp:4105
+#: ekos/focus/focus.cpp:4092
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save image. Aborting..."
 msgstr "Ішкі қоршауын орнату жаңылысы"
 
-#: ekos/focus/focus.cpp:4115
+#: ekos/focus/focus.cpp:4102
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#: ekos/focus/focus.cpp:4120
+#: ekos/focus/focus.cpp:4107
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/focus/focus.cpp:4282
+#: ekos/focus/focus.cpp:4269
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
@@ -16815,61 +16778,61 @@ msgid "Relative Profile"
 msgstr "Ізін өшіру"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
-#: ekos/focus/focus.ui:148
+#: ekos/focus/focus.ui:154
 #, fuzzy, kde-format
 #| msgid "Declination of focus position"
 msgid "Stop focuser motion"
 msgstr "Көздейтін нүктесінің еңістігі"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
-#: ekos/focus/focus.ui:177
+#: ekos/focus/focus.ui:183
 #, kde-format
 msgid "Focus In"
 msgstr "Ішіне қарай тоғыстау"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
-#: ekos/focus/focus.ui:209
+#: ekos/focus/focus.ui:215
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "Go to an absolute focus position"
 msgstr "Көздейтін нүктесінің тура көтерілуі"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
-#: ekos/focus/focus.ui:244
+#: ekos/focus/focus.ui:250
 #, fuzzy, kde-format
 #| msgid "Declination of focus position"
 msgid "Desired absolute focus position"
 msgstr "Көздейтін нүктесінің еңістігі"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/focus/focus.ui:251
+#: ekos/focus/focus.ui:257
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "Start:"
 msgstr "Бастау"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
-#: ekos/focus/focus.ui:267
+#: ekos/focus/focus.ui:273
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture image"
 msgstr "Кескінді түсіріп алу"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
-#: ekos/focus/focus.ui:296
+#: ekos/focus/focus.ui:302
 #, kde-format
 msgid "Focus Out"
 msgstr "Сыртқа қарай тоғыстау"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
-#: ekos/focus/focus.ui:328
+#: ekos/focus/focus.ui:334
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Stop Auto Focus process"
 msgstr "Автотоғыстау барысында..."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
-#: ekos/focus/focus.ui:347
+#: ekos/focus/focus.ui:353
 #, fuzzy, kde-format
 #| msgid "Declination of focus position"
 msgid "Current absolute focuser position"
@@ -16878,7 +16841,7 @@ msgstr "Көздейтін нүктесінің еңістігі"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:360 ekos/scheduler/framingassistant.ui:1256
+#: ekos/focus/focus.ui:366 ekos/scheduler/framingassistant.ui:1256
 #: ekos/scheduler/scheduler.ui:350
 #, fuzzy, kde-format
 #| msgid "Step:"
@@ -16886,42 +16849,38 @@ msgid "Steps:"
 msgstr "Аттамы:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
-#: ekos/focus/focus.ui:376
+#: ekos/focus/focus.ui:382
 #, fuzzy, kde-format
 #| msgid "Starting solver..."
 msgid "Start framing"
 msgstr "Есеп шығарғышын жегу..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
-#: ekos/focus/focus.ui:405
+#: ekos/focus/focus.ui:411
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Start Auto Focus process"
 msgstr "Автотоғыстау барысында..."
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/focus/focus.ui:477
-#, kde-format
-msgid "Reset focus subframe to full capture"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/focus/focus.ui:502
+#. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
+#: ekos/focus/focus.ui:471
 #, fuzzy, kde-format
-#| msgid "KStars FITS Viewer"
-msgid "Toggle Full Screen"
-msgstr "KStars-тың FITS қарау құралы"
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Focuser Simulator"
+msgid "Focuser temperature source"
+msgstr "Тоғыстау иммитаторы"
 
-#. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
-#: ekos/focus/focus.ui:580
+#. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
+#: ekos/focus/focus.ui:474
 #, fuzzy, kde-format
-#| msgid "Default alignment exposure value"
-msgid "Select focuser temperature source"
-msgstr "Дәлдегіш экспозициясының әдетті мәні"
+#| msgctxt "Map projection method"
+#| msgid "TSC"
+msgid "TS."
+msgstr "TSC"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
-#: ekos/focus/focus.ui:640 ekos/focus/focus.ui:656
+#: ekos/focus/focus.ui:518 ekos/focus/focus.ui:534
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focuser Simulator"
@@ -16929,7 +16888,7 @@ msgid "Source temperature in Celsius"
 msgstr "Тоғыстау иммитаторы"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: ekos/focus/focus.ui:643
+#: ekos/focus/focus.ui:521
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Temp."
@@ -16938,7 +16897,7 @@ msgstr "Темп."
 
 #. i18n: ectx: property (text), widget (QLabel, absoluteTemperatureLabel)
 #. i18n: ectx: property (text), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:662 ekos/focus/focus.ui:697
+#: ekos/focus/focus.ui:540 ekos/focus/focus.ui:575
 #, fuzzy, kde-format
 #| msgctxt "Not Applicable"
 #| msgid "N/A"
@@ -16947,7 +16906,7 @@ msgstr "Қ/Ж"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_31)
 #. i18n: ectx: property (toolTip), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:672 ekos/focus/focus.ui:691
+#: ekos/focus/focus.ui:550 ekos/focus/focus.ui:569
 #, kde-format
 msgid ""
 "Delta temperature in Celsius. It is the difference between the last recorded "
@@ -16955,7 +16914,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: ekos/focus/focus.ui:675
+#: ekos/focus/focus.ui:553
 #, kde-format
 msgid "ΔT ="
 msgstr ""
@@ -16963,70 +16922,74 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:744 ekos/focus/focus.ui:766 ekos/guide/guide.ui:367
+#: ekos/focus/focus.ui:605 ekos/focus/focus.ui:723 ekos/guide/guide.ui:367
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds"
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:776
+#. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
+#: ekos/focus/focus.ui:638
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focuser Simulator"
-msgid "Focuser temperature source"
-msgstr "Тоғыстау иммитаторы"
+#| msgid "KStars FITS Viewer"
+msgid "Toggle Full Screen"
+msgstr "KStars-тың FITS қарау құралы"
 
-#. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:779
+#. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
+#: ekos/focus/focus.ui:716
 #, fuzzy, kde-format
-#| msgctxt "Map projection method"
-#| msgid "TSC"
-msgid "TS."
-msgstr "TSC"
+#| msgid "Default alignment exposure value"
+msgid "Select focuser temperature source"
+msgstr "Дәлдегіш экспозициясының әдетті мәні"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
+#: ekos/focus/focus.ui:739
+#, kde-format
+msgid "Reset focus subframe to full capture"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:880
+#: ekos/focus/focus.ui:892
 #, fuzzy, kde-format
 #| msgid "Automatically select a star to focus."
 msgid "Automatically select the best focus star from the image"
 msgstr "Тоғыстағы жұлдызды автоматты түрде таңдау."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:883
+#: ekos/focus/focus.ui:895
 #, kde-format
 msgid "Auto Select Star"
 msgstr "Жұлдызды автотаңдау"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:899
+#: ekos/focus/focus.ui:911
 #, kde-format
 msgid "Suspend Guiding while autofocus in progress"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:902
+#: ekos/focus/focus.ui:914
 #, fuzzy, kde-format
 #| msgid "Guiding"
 msgid "Suspend Guiding"
 msgstr "Дәлдеу"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
-#: ekos/focus/focus.ui:915
+#: ekos/focus/focus.ui:927
 #, kde-format
 msgid "Wait this many seconds before resuming guiding."
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:918 ekos/focus/focus.ui:1768
+#: ekos/focus/focus.ui:930 ekos/focus/focus.ui:1713
 #, kde-format
 msgid " s"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/focus/focus.ui:928 ekos/focus/focus.ui:1607
+#: ekos/focus/focus.ui:940 ekos/focus/focus.ui:1667
 #, fuzzy, kde-format
 #| msgctxt "City in Washington USA"
 #| msgid "Seattle"
@@ -17034,7 +16997,7 @@ msgid "Settle:"
 msgstr "Сиэттл"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
-#: ekos/focus/focus.ui:944
+#: ekos/focus/focus.ui:956
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are inside this "
@@ -17047,8 +17010,8 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusTolerance)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusThreshold)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, overlapSpin)
-#: ekos/focus/focus.ui:947 ekos/focus/focus.ui:969 ekos/focus/focus.ui:1321
-#: ekos/focus/focus.ui:1458 ekos/scheduler/framingassistant.ui:854
+#: ekos/focus/focus.ui:959 ekos/focus/focus.ui:981 ekos/focus/focus.ui:1314
+#: ekos/focus/focus.ui:1451 ekos/scheduler/framingassistant.ui:854
 #: ekos/scheduler/mosaic.ui:380
 #, fuzzy, no-c-format, kde-format
 #| msgid "%"
@@ -17056,7 +17019,7 @@ msgid " %"
 msgstr "%"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
-#: ekos/focus/focus.ui:966
+#: ekos/focus/focus.ui:978
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are outside this "
@@ -17065,13 +17028,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/focus/focus.ui:985
+#: ekos/focus/focus.ui:997
 #, kde-format
 msgid "Annulus:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:1001
+#: ekos/focus/focus.ui:1013
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17080,7 +17043,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:1004
+#: ekos/focus/focus.ui:1016
 #, fuzzy, kde-format
 #| msgid " x "
 msgid " px"
@@ -17088,19 +17051,19 @@ msgstr " x "
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1023 ekos/guide/guide.ui:360
+#: ekos/focus/focus.ui:1035 ekos/guide/guide.ui:360
 #, kde-format
 msgid "Box:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1039
+#: ekos/focus/focus.ui:1051
 #, kde-format
 msgid "Subframe around the focus star during the autofocus procedure"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1042
+#: ekos/focus/focus.ui:1054
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
@@ -17108,7 +17071,7 @@ msgid "Sub Frame"
 msgstr "Кадр"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1058
+#: ekos/focus/focus.ui:1070
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17119,14 +17082,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1061
+#: ekos/focus/focus.ui:1073
 #, fuzzy, kde-format
 #| msgid "Full legend"
 msgid "Full Field"
 msgstr "Толық түсіндірме"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1074
+#: ekos/focus/focus.ui:1086
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR as "
@@ -17137,21 +17100,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1077
+#: ekos/focus/focus.ui:1089
 #, fuzzy, kde-format
 #| msgid "Use images"
 msgid "Use Weights"
 msgstr "Кескіндері болсын"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/focus/focus.ui:1084
+#: ekos/focus/focus.ui:1096
 #, fuzzy, kde-format
 #| msgid "RA limits:"
 msgid "R² Limit:"
 msgstr "ТК шектері:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
-#: ekos/focus/focus.ui:1100
+#: ekos/focus/focus.ui:1112
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
@@ -17163,47 +17126,28 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1125
+#: ekos/focus/focus.ui:1137
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Use dark frames from the library."
 msgstr "Ішкі қоршауын орнату жаңылысы"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1128
+#: ekos/focus/focus.ui:1140
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Frame"
 msgstr "Маркер файлы қолдану"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAFBacklashComp)
-#: ekos/focus/focus.ui:1141
-#, kde-format
-msgid ""
-"<html><head/><body><p>Enable to have AutoFocus perform Backlash "
-"Compensation. Use in conjunction with the Backlash field.  Either the "
-"autofocus algorithm or the driver/focuser should perform backlash "
-"compensation but not both.</p><p>Used by Linear and Linear 1 Pass algorithms."
-"</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
-#: ekos/focus/focus.ui:1144
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
-msgid "AF Backlash Comp"
-msgstr "Люфт"
-
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
-#: ekos/focus/focus.ui:1170
+#: ekos/focus/focus.ui:1163
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Process"
 msgstr "Ішке қарай тоғыстау..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: ekos/focus/focus.ui:1196
+#: ekos/focus/focus.ui:1189
 #, fuzzy, kde-format
 #| msgctxt "City in Philippines"
 #| msgid "Cubi Point"
@@ -17211,28 +17155,28 @@ msgid "Num. of rows:"
 msgstr "Куби Пойнт"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: ekos/focus/focus.ui:1206
+#: ekos/focus/focus.ui:1199
 #, fuzzy, kde-format
 #| msgid "Config file:"
 msgid "SEP Profile:"
 msgstr "Баптау файлы:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:1250
+#: ekos/focus/focus.ui:1243
 #, fuzzy, kde-format
 #| msgid "Plot average:"
 msgid "Average over:"
 msgstr "Орташасы:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: ekos/focus/focus.ui:1257
+#: ekos/focus/focus.ui:1250
 #, fuzzy, kde-format
 #| msgid "Square size:"
 msgid "Kernel size:"
 msgstr "Квадратың өлшемі:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1270
+#: ekos/focus/focus.ui:1263
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17241,14 +17185,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1273
+#: ekos/focus/focus.ui:1266
 #, fuzzy, kde-format
 #| msgid "Frame:"
 msgid " frames"
 msgstr "Коршауы:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMultiRowAverage)
-#: ekos/focus/focus.ui:1293
+#: ekos/focus/focus.ui:1286
 #, kde-format
 msgid ""
 "<html><head/><body><p>Combine this number of rows in the Bahtinov max "
@@ -17257,7 +17201,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
-#: ekos/focus/focus.ui:1318
+#: ekos/focus/focus.ui:1311
 #, kde-format
 msgid ""
 "Decrease value to narrow optimal focus point solution radius. Increase to "
@@ -17265,7 +17209,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1346
+#: ekos/focus/focus.ui:1339
 #, fuzzy, no-c-format, kde-format
 #| msgid ""
 #| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -17347,14 +17291,14 @@ msgstr ""
 "</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1353
+#: ekos/focus/focus.ui:1346
 #, fuzzy, kde-format
 #| msgid "Interactive Mode"
 msgid "Iterative"
 msgstr "Интерактивті режім"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1358
+#: ekos/focus/focus.ui:1351
 #, fuzzy, kde-format
 #| msgctxt "Sky Culture"
 #| msgid "Polynesian"
@@ -17362,21 +17306,21 @@ msgid "Polynomial"
 msgstr "Полинезиялықша атау"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1363
+#: ekos/focus/focus.ui:1356
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Linear"
 msgstr "Сызықты"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1368
+#: ekos/focus/focus.ui:1361
 #, fuzzy, kde-format
 #| msgid "Linear Scale"
 msgid "Linear 1 Pass"
 msgstr "Бірқалыпты масштаб"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1382
+#: ekos/focus/focus.ui:1375
 #, fuzzy, kde-format
 #| msgid ""
 #| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -17452,7 +17396,7 @@ msgstr ""
 "</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1389
+#: ekos/focus/focus.ui:1382
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -17460,14 +17404,14 @@ msgid "Gradient"
 msgstr "Калиенте"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1394
+#: ekos/focus/focus.ui:1387
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Centroid"
 msgstr "Ортасы"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1399
+#: ekos/focus/focus.ui:1392
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
 #| msgid "Freehold"
@@ -17476,7 +17420,7 @@ msgstr "Фрихолд"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
-#: ekos/focus/focus.ui:1404 ekos/guide/opsguide.ui:456
+#: ekos/focus/focus.ui:1397 ekos/guide/opsguide.ui:456
 #, fuzzy, kde-format
 #| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 #| msgid "SE"
@@ -17484,7 +17428,7 @@ msgid "SEP"
 msgstr "ОШ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1409
+#: ekos/focus/focus.ui:1402
 #, fuzzy, kde-format
 #| msgctxt "City in Finland"
 #| msgid "Lahti"
@@ -17492,7 +17436,7 @@ msgid "Bahtinov"
 msgstr "Лахти"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1420
+#: ekos/focus/focus.ui:1413
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Direction"
@@ -17500,7 +17444,7 @@ msgid "Detection:"
 msgstr "Бағыт"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
-#: ekos/focus/focus.ui:1427
+#: ekos/focus/focus.ui:1420
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17509,7 +17453,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusThreshold)
-#: ekos/focus/focus.ui:1455
+#: ekos/focus/focus.ui:1448
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17518,7 +17462,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
-#: ekos/focus/focus.ui:1477
+#: ekos/focus/focus.ui:1470
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17527,20 +17471,20 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: ekos/focus/focus.ui:1496
+#: ekos/focus/focus.ui:1489
 #, fuzzy, kde-format
 #| msgid "sigma"
 msgid "Sigma:"
 msgstr "сигма"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
-#: ekos/focus/focus.ui:1506
+#: ekos/focus/focus.ui:1499
 #, kde-format
 msgid "Curve Fit:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1513
+#: ekos/focus/focus.ui:1506
 #, fuzzy, kde-format
 #| msgid ""
 #| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -17611,7 +17555,7 @@ msgstr ""
 "</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1517
+#: ekos/focus/focus.ui:1510
 #, fuzzy, kde-format
 #| msgctxt "City in Quebec Canada"
 #| msgid "Paradis"
@@ -17619,7 +17563,7 @@ msgid "Quadradic"
 msgstr "Парадис"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1522
+#: ekos/focus/focus.ui:1515
 #, fuzzy, kde-format
 #| msgctxt "Eyepiece Design / Brand / Name; Optional"
 #| msgid "Baader Hyperion"
@@ -17627,7 +17571,7 @@ msgid "Hyperbola"
 msgstr "Baader Hyperion"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1527
+#: ekos/focus/focus.ui:1520
 #, fuzzy, kde-format
 #| msgctxt "City in Wisconsin USA"
 #| msgid "Baraboo"
@@ -17635,62 +17579,15 @@ msgid "Parabola"
 msgstr "Барабу"
 
 #. i18n: ectx: attribute (title), widget (QWidget, mechanicsTab)
-#: ekos/focus/focus.ui:1551
+#: ekos/focus/focus.ui:1544
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Buchans"
 msgid "Mechanics"
 msgstr "Буханс"
 
-#. i18n: ectx: property (text), widget (QLabel, label_12b)
-#: ekos/focus/focus.ui:1568
-#, kde-format
-msgid "Out Step Multiple:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
-#: ekos/focus/focus.ui:1581
-#, kde-format
-msgid ""
-"<html><body><p>This number multiplied by initial-step-size is number of "
-"outward steps the Linear Focus algorithm moves away from the initial "
-"position at the start of focusing.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_27)
-#: ekos/focus/focus.ui:1600
-#, fuzzy, kde-format
-#| msgid "Timeout:"
-msgid "Motion Timeout:"
-msgstr "Күту уақыты:"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
-#. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
-#: ekos/focus/focus.ui:1614 kstars.kcfg:1839
-#, kde-format
-msgid ""
-"Maximum time in seconds to wait for a captured image to be received before "
-"declaring a timeout."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
-#: ekos/focus/focus.ui:1633
-#, kde-format
-msgid ""
-"<b>Initial</b> step size in ticks to cause a noticeable change in HFR value. "
-"For timer based focuser, it is the initial time in milliseconds to move the "
-"focuser inward or outward"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/focus/focus.ui:1652
-#, fuzzy, kde-format
-#| msgid "Step:"
-msgid "Max Step size:"
-msgstr "Аттамы:"
-
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
-#: ekos/focus/focus.ui:1659
+#: ekos/focus/focus.ui:1561
 #, kde-format
 msgid ""
 "<html><head/><body><p>The maximum single step size the algorithm is allowed "
@@ -17698,58 +17595,79 @@ msgid ""
 "size would be limited to this maximum value.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_26)
-#: ekos/focus/focus.ui:1675
+#. i18n: ectx: property (text), widget (QLabel, label_17)
+#: ekos/focus/focus.ui:1577
 #, fuzzy, kde-format
-#| msgid "Capture aborted."
-msgid "Capture Timeout:"
-msgstr "Түсіріп алу доғарылды."
+#| msgid "Step:"
+msgid "Max Step size:"
+msgstr "Аттамы:"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
-#: ekos/focus/focus.ui:1688
-#, fuzzy, kde-format
-#| msgid "Additional options to be the solver"
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
+#. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
+#: ekos/focus/focus.ui:1584 kstars.kcfg:1839
+#, kde-format
 msgid ""
-"<html><head/><body><p>Maximum travel in steps before the autofocus process "
-"aborts</p></body></html>"
-msgstr "Есеп шығарғыштың қосымша параметрлері"
+"Maximum time in seconds to wait for a captured image to be received before "
+"declaring a timeout."
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/focus/focus.ui:1710
+#. i18n: ectx: property (text), widget (QLabel, label_27)
+#: ekos/focus/focus.ui:1597
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
-msgid "Backlash:"
-msgstr "Люфт"
+#| msgid "Timeout:"
+msgid "Motion Timeout:"
+msgstr "Күту уақыты:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
+#: ekos/focus/focus.ui:1610
+#, kde-format
+msgid ""
+"<html><body><p>This number multiplied by initial-step-size is number of "
+"outward steps the Linear Focus algorithm moves away from the initial "
+"position at the start of focusing.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
+#: ekos/focus/focus.ui:1635
+#, kde-format
+msgid ""
+"<b>Initial</b> step size in ticks to cause a noticeable change in HFR value. "
+"For timer based focuser, it is the initial time in milliseconds to move the "
+"focuser inward or outward"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/focus/focus.ui:1723
+#: ekos/focus/focus.ui:1660
 #, fuzzy, kde-format
 #| msgid "Step:"
 msgid "Initial Step size:"
 msgstr "Аттамы:"
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
-#. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
-#: ekos/focus/focus.ui:1730 kstars.kcfg:1843
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ekos/focus/focus.ui:1677
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Max. travel"
+msgid "Max Travel:"
+msgstr "Макс. кезу"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12b)
+#: ekos/focus/focus.ui:1684
 #, kde-format
-msgid ""
-"Maximum time in seconds to wait for a focuser to move to desired position "
-"before declaring a timeout."
+msgid "Out Step Multiple:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
-#: ekos/focus/focus.ui:1752
+#: ekos/focus/focus.ui:1697
 #, kde-format
 msgid ""
-"<html><head/><body><p>For backlash-aware focuser, the amount of backlash to "
-"apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-"algorithm, set backlash field &gt;= focuser backlash to have backlash "
-"neutralised during an Autofocus run.</p></body></html>"
+"<html><head/><body><p>Used in the device driver for backlash-aware "
+"focusers,  the amount of backlash to apply when reversing movement "
+"direction. </p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:1765
+#: ekos/focus/focus.ui:1710
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17757,29 +17675,69 @@ msgid ""
 "before capturing the next image during Auto Focus.</p></body></html>"
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
-#. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/focus/focus.ui:1784
+#. i18n: ectx: property (text), widget (QLabel, label_26)
+#: ekos/focus/focus.ui:1726
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Max. travel"
-msgid "Max Travel:"
-msgstr "Макс. кезу"
+#| msgid "Capture aborted."
+msgid "Capture Timeout:"
+msgstr "Түсіріп алу доғарылды."
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: ekos/focus/focus.ui:1733
+#, fuzzy, kde-format
+#| msgid "Driver:"
+msgid "Driver Backlash:"
+msgstr "Драйвері:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
+#: ekos/focus/focus.ui:1746
+#, fuzzy, kde-format
+#| msgid "Additional options to be the solver"
+msgid ""
+"<html><head/><body><p>Maximum travel in steps before the autofocus process "
+"aborts</p></body></html>"
+msgstr "Есеп шығарғыштың қосымша параметрлері"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ekos/focus/focus.ui:1768
+#, kde-format
+msgid "AF Overscan:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
+#: ekos/focus/focus.ui:1775
+#, kde-format
+msgid ""
+"<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
+"Compensation by the number of ticks specified. Set to 0 to disable.  "
+"Overscan backlash and Driver Backlash are independent.</p><p>Used by Linear "
+"and Linear 1 Pass algorithms.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
+#. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
+#: ekos/focus/focus.ui:1788 kstars.kcfg:1843
+#, kde-format
+msgid ""
+"Maximum time in seconds to wait for a focuser to move to desired position "
+"before declaring a timeout."
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/focus/focus.ui:1854
+#: ekos/focus/focus.ui:1867
 #, kde-format
 msgid "V-Curve"
 msgstr "V-қисығы:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/focus/focus.ui:1896
+#: ekos/focus/focus.ui:1912
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "HFR: "
 msgstr "ЖЛР (HFR):"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
-#: ekos/focus/focus.ui:1915
+#: ekos/focus/focus.ui:1931
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17788,14 +17746,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/focus.ui:1947
+#: ekos/focus/focus.ui:1963
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stars: "
 msgstr "Жұлдыздар"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
-#: ekos/focus/focus.ui:1960
+#: ekos/focus/focus.ui:1976
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -17804,28 +17762,28 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: ekos/focus/focus.ui:1986
+#: ekos/focus/focus.ui:2002
 #, fuzzy, kde-format
 #| msgid "Separation"
 msgid "Iteration: "
 msgstr "Аралығы"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
-#: ekos/focus/focus.ui:1999
+#: ekos/focus/focus.ui:2015
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
-#: ekos/focus/focus.ui:2028
+#: ekos/focus/focus.ui:2044
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgid "Relative Profile..."
 msgstr "Ізін өшіру"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
-#: ekos/focus/focus.ui:2035
+#: ekos/focus/focus.ui:2051
 #, fuzzy, kde-format
 #| msgid "Clear List"
 msgid "Clear Data"
@@ -20804,49 +20762,49 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2188
+#: ekos/manager.cpp:2175
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "%1 дегеннін дәлдегіш порты дайын."
 
-#: ekos/manager.cpp:2377
+#: ekos/manager.cpp:2364
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "%1 клиентті кетіргіңіз келгені рас па?"
 
-#: ekos/manager.cpp:2378
+#: ekos/manager.cpp:2365
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Delete"
 msgstr "Баптау файлы"
 
-#: ekos/manager.cpp:2430
+#: ekos/manager.cpp:2417
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2432
+#: ekos/manager.cpp:2419
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2673
+#: ekos/manager.cpp:2663
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2681
+#: ekos/manager.cpp:2671
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2709
+#: ekos/manager.cpp:2699
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2721
+#: ekos/manager.cpp:2711
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -24330,8 +24288,8 @@ msgstr ""
 #: ekos/scheduler/framingassistantui.cpp:163
 #: ekos/scheduler/framingassistantui.cpp:178
 #: ekos/scheduler/framingassistantui.cpp:542
-#: ekos/scheduler/framingassistantui.cpp:816
-#: ekos/scheduler/framingassistantui.cpp:835 skyobjects/ksplanetbase.h:60
+#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:843 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -24367,7 +24325,7 @@ msgstr ""
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:809
+#: ekos/scheduler/framingassistantui.cpp:817
 #, fuzzy, kde-format
 #| msgid "Data directory:"
 msgctxt "@title:window"
@@ -27135,6 +27093,22 @@ msgstr "%1 кескіннің сақтау жаңылысы."
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
+#: fitsviewer/fitsview.cpp:1602
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "NGC"
+msgctxt "North Celestial Pole"
+msgid "NCP"
+msgstr "NGC"
+
+#: fitsviewer/fitsview.cpp:1619
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "NGC"
+msgctxt "South Celestial Pole"
+msgid "SCP"
+msgstr "NGC"
+
 #: fitsviewer/fitsview.cpp:2039
 #, fuzzy, kde-format
 #| msgid "Loading stars"
@@ -28674,42 +28648,42 @@ msgstr ""
 "Жегілген INDI құрылғысы жоқ. Құрылғыны жегу үшін оны Құрылғы менеджеріндегі "
 "құрылғылар мәзірінен таңдап алыңыз."
 
-#: indi/indicamera.cpp:439
+#: indi/indicamera.cpp:440
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr ""
 
-#: indi/indicamera.cpp:444
+#: indi/indicamera.cpp:445
 #, kde-format
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:731
+#: indi/indicamera.cpp:732
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:733
+#: indi/indicamera.cpp:734
 #, fuzzy, kde-format
 #| msgid "Image received."
 msgid "Image Write Failed"
 msgstr "Кескін қабылданды."
 
-#: indi/indicamera.cpp:744
+#: indi/indicamera.cpp:745
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "%1 file saved to %2"
 msgstr "FITS файлы %1 деп сақталды"
 
-#: indi/indicamera.cpp:751
+#: indi/indicamera.cpp:752
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Image file is received"
 msgstr "Тізбек кезегі"
 
-#: indi/indicamera.cpp:908
+#: indi/indicamera.cpp:909
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "%1 Preview"
@@ -88927,6 +88901,33 @@ msgstr "Аясының түсі"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Аспан аясының түсін орнату."
+
+#, fuzzy
+#~| msgid "Local Time"
+#~ msgid "Local preview"
+#~ msgstr "Жергілікті уақыт"
+
+#, fuzzy
+#~| msgid "Preview"
+#~ msgid "Preview:"
+#~ msgstr "Қарап-шығу"
+
+#, fuzzy
+#~| msgid "Remove Trail"
+#~ msgid "Remote preview"
+#~ msgstr "Ізін өшіру"
+
+#, fuzzy
+#~| msgctxt "string from libindi, used in the config dialog"
+#~| msgid "Backlash"
+#~ msgid "AF Backlash Comp"
+#~ msgstr "Люфт"
+
+#, fuzzy
+#~| msgctxt "string from libindi, used in the config dialog"
+#~| msgid "Backlash"
+#~ msgid "Backlash:"
+#~ msgstr "Люфт"
 
 #, fuzzy
 #~| msgid "Additional options to be the solver"

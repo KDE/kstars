@@ -177,7 +177,7 @@
 
         <textobject>
           <phrase
->Configuració del tren òptic</phrase>
+>Configureu el tren òptic</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
@@ -208,7 +208,7 @@
 
     <screenshot>
       <screeninfo
->Configuració de l'enfocador </screeninfo>
+>Configureu l'enfocador </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -217,7 +217,7 @@
 
         <textobject>
           <phrase
->Configuració de l'enfocador</phrase>
+>Configureu l'enfocador</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
@@ -464,7 +464,7 @@
 
     <screenshot>
       <screeninfo
->Configuració de l'enfocament </screeninfo>
+>Configureu l'enfocament </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -473,7 +473,7 @@
 
         <textobject>
           <phrase
->Configuració de l'enfocament</phrase>
+>Configureu l'enfocament</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
@@ -1293,7 +1293,7 @@
 >. Esta és una característica experimental disponible per a l'algorisme d'enfocament lineal d'1 pas. En essència, R² dona un valor entre 0 i 1, amb 1 significa un ajust perfecte on tots els punts de dades es troben en la corba, i 0 significa que no hi ha correlació entre els punts de dades i la corba. L'usuari hauria d'experimentar amb el seu equip per a veure quins valors es poden obtindre, però com a guia, un valor per damunt de 0,8 serà un bon ajust.</para>
 
     <para
->Hi ha una opció per a establir un «Límit R²» a la pestanya Configuració de la finestra Enfocament que es compara amb R² calculat una vegada s'ha completat l'execució d'enfocament automàtic. Si no s'ha aconseguit el valor límit, es tornarà a executar l'enfocament automàtic.</para>
+>Hi ha una opció per a establir un «Límit R²» a la pestanya Configureu la finestra Enfocament que es compara amb R² calculat una vegada s'ha completat l'execució d'enfocament automàtic. Si no s'ha aconseguit el valor límit, es tornarà a executar l'enfocament automàtic.</para>
 
     <para
 >Establir un límit R² podria ser útil per a l'observació desatesa si l'execució de l'enfocament produïx un resultat roín per un motiu puntual. És evident que si el motiu no és transitori, la reactivació no millorarà res.</para>

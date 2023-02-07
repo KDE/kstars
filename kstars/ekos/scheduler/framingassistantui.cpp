@@ -779,8 +779,13 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     csvFile.write(csv.toUtf8());
     csvFile.close();
 
+    // Delete debounce timer since we update all parameters programatically at once
+    m_DebounceTimer->disconnect();
+
     if (parseMosaicCSV(csvFile.fileName()) == false)
         return false;
+
+    constructMosaic();
 
     m_JobsDirectory = directory;
 
@@ -799,6 +804,8 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     if (ui->createJobsB->isEnabled() == false)
         return false;
 
+    // Need to wait a bit since parseMosaicCSV needs to trigger UI
+    // But button clicks need to be executed first in the event loop
     ui->createJobsB->click();
 
     return true;
@@ -806,7 +813,8 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
 
 void FramingAssistantUI::selectDirectory()
 {
-    m_JobsDirectory = QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "Select Jobs Directory"),
+    m_JobsDirectory = QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window",
+                      "Select Jobs Directory"),
                       QDir::homePath());
 
     if (!m_JobsDirectory.isEmpty())

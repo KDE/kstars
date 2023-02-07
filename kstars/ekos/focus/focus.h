@@ -640,14 +640,13 @@ class Focus : public QWidget, public Ui::Focus
         // Start up capture, or occasionally move focuser again, after current focus-move accomplished.
         void autoFocusProcessPositionChange(IPState state);
 
-        // For the Linear algorithm, which always scans in (from higher position to lower position)
+        // For the Linear and L1P algorithms, which always scans in (from higher position to lower position)
         // if we notice the new position is higher than the current position (that is, it is the start
         // of a new scan), we adjust the new position to be several steps further out than requested
         // and set focuserAdditionalMovement to the extra motion, so that after this motion completes
-        // we will then scan back in (back to the originally requested position). This "dance" is done
+        // we will then scan back in (back to the originally requested position). This "overscan dance" is done
         // to reduce backlash on such movement changes and so that we've always focused in before capture.
-        // For LINEAR1PASS algo use the user-defined backlash value to adjust by
-        int adjustLinearPosition(int position, int newPosition, bool backlashEnabled, int backlash);
+        int adjustLinearPosition(int position, int newPosition, int overscan);
 
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center

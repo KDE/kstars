@@ -444,7 +444,7 @@ Capture::Capture()
         fileDirectoryT->setText(Options::captureDirectory());
     else
     {
-        fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
+        fileDirectoryT->setText(QDir::toNativeSeparators(QDir::homePath() + "/Pictures"));
         Options::setCaptureDirectory(fileDirectoryT->text());
     }
 
@@ -517,10 +517,11 @@ Capture::Capture()
     connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Capture::generatePreviewFilename);
     connect(captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             &Capture::generatePreviewFilename);
-    connect(targetNameT, &QLineEdit::textChanged, this, [ = ]()
+    connect(targetNameT, &QLineEdit::textEdited, this, [ = ]()
     {
         m_TargetName = targetNameT->text();
         generatePreviewFilename();
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << m_TargetName << "because of user edit";
     });
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
 
@@ -3740,13 +3741,11 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
-                                          dirPath.toLocalFile());
-
+        QFileDialog::getExistingDirectory(Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),  dirPath.toLocalFile());
     if (dir.isEmpty())
         return;
 
-    fileDirectoryT->setText(dir);
+    fileDirectoryT->setText(QDir::toNativeSeparators(dir));
 }
 
 void Capture::loadSequenceQueue()
@@ -4460,6 +4459,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     targetNameT->setText(jobTargetName);
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
+    fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
@@ -6845,11 +6845,11 @@ void Capture::generatePreviewFilename()
     if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
             || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
     {
-        FilenamePreviewLabel->setText(previewFilename( LOCAL_PREVIEW ));
-        emit newLocalPreview(FilenamePreviewLabel->text());
+        placeholderFormatT->setToolTip(previewFilename( LOCAL_PREVIEW ));
+        emit newLocalPreview(placeholderFormatT->toolTip());
 
         if (fileUploadModeS->currentIndex() != 0)
-            RemotePreviewLabel->setText(previewFilename( REMOTE_PREVIEW ));
+            fileRemoteDirT->setToolTip(previewFilename( REMOTE_PREVIEW ));
     }
 }
 
@@ -6857,11 +6857,12 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
 {
     QString previewText;
     QString m_format;
+    auto separator = QDir::separator();
 
     if (previewType == LOCAL_PREVIEW)
     {
-        if(!fileDirectoryT->text().endsWith("/") && !placeholderFormatT->text().startsWith("/"))
-            placeholderFormatT->setText("/" + placeholderFormatT->text());
+        if(!fileDirectoryT->text().endsWith(separator) && !placeholderFormatT->text().startsWith(separator))
+            placeholderFormatT->setText(separator + placeholderFormatT->text());
         m_format = fileDirectoryT->text() + placeholderFormatT->text() + formatSuffixN->prefix() + formatSuffixN->cleanText();
     }
     else if (previewType == REMOTE_PREVIEW)
@@ -6880,8 +6881,8 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         QString previewSeq;
         if (m_SequenceURL.toLocalFile().isEmpty())
         {
-            if (m_format.startsWith("/"))
-                previewSeq = m_format.left(m_format.lastIndexOf("/"));
+            if (m_format.startsWith(separator))
+                previewSeq = m_format.left(m_format.lastIndexOf(separator));
         }
         else
             previewSeq = m_SequenceURL.toLocalFile();
@@ -6899,7 +6900,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
 
     // Must change directory separate to UNIX style for remote
     if (previewType == REMOTE_PREVIEW)
-        previewText.replace("/", "\\");
+        previewText.replace(separator, "/");
 
     return previewText;
 }

@@ -169,8 +169,10 @@ void Media::onTextReceived(const QString &message)
 
                 if (!centerImage.isNull())
                 {
-                    QString uuid = "hips_" + QUuid::createUuid().toString();
-                    uuid.remove(QRegularExpression("[-{}]"));
+                    // Use seed from name, level, and zoom so that it is unique
+                    // even if regenerated again.
+                    auto seed = QString("%1%2%3").arg(QString::number(level), QString::number(zoom), name);
+                    QString uuid = "hips_" + QCryptographicHash::hash(seed.toLatin1(), QCryptographicHash::Md5).toHex();
                     // Send everything as strings
                     QJsonObject metadata =
                     {

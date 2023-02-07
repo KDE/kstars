@@ -35,7 +35,7 @@
 >eclíptiques</link
 > del cos. </para>
 <para
->Este mòdul disposa d'un mode de treball per lots. Per a utilitzar-lo, haureu de generar un fitxer d'entrada en el qual cada línia especifique valors per als paràmetres d'entrada (cos del sistema solar, data, hora, llargària i latitud). Podeu especificar un valor constant per a algun dels paràmetres a la finestra de la calculadora (estos paràmetres seran obviats al fitxer d'entrada). També podeu especificar quins dels paràmetres d'eixida s'hauran de calcular (coordenades equatorials, horitzontals, eclíptiques heliocèntriques i eclíptiques geocèntriques). Finalment, especifiqueu els noms per als fitxers d'entrada i d'eixida, i premeu el botó <guibutton
+>Este mòdul disposa d'un mode de treball per lots. Per a utilitzar-lo, haureu de generar un fitxer d'entrada en el qual cada línia especifique valors per als paràmetres d'entrada (cos del sistema solar, data, hora, llargària i latitud). Podeu especificar un valor constant per a algun dels paràmetres en la finestra de la calculadora (estos paràmetres seran obviats al fitxer d'entrada). També podeu especificar quins dels paràmetres d'eixida s'hauran de calcular (coordenades equatorials, horitzontals, eclíptiques heliocèntriques i eclíptiques geocèntriques). Finalment, especifiqueu els noms per als fitxers d'entrada i d'eixida, i premeu el botó <guibutton
 >Executa</guibutton
 > per a generar el fitxer d'eixida amb els valors calculats. </para>
 </sect2>

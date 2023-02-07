@@ -552,8 +552,6 @@ void INDI_P::processSetButton()
 
 void INDI_P::sendBlob()
 {
-    //int index=0;
-    //bool openingTag=false;
     auto bvp = dataProp.getBLOB();
 
     if (!bvp)
@@ -561,44 +559,14 @@ void INDI_P::sendBlob()
 
     bvp->setState(IPS_BUSY);
 
-    pg->getDevice()->getClientManager()->startBlob(bvp->getDeviceName(), bvp->getName(), timestamp());
+    pg->getDevice()->getClientManager()->startBlob(bvp->getDeviceName(), bvp->getName(), indi_timestamp());
 
     for (int i = 0; i < elementList.count(); i++)
     {
-        INDI::WidgetView<IBLOB> *bp = bvp->at(i);
-#if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
+        auto bp = bvp->at(i);
         pg->getDevice()->getClientManager()->sendOneBlob(bp);
-#else
-        pg->getDevice()->getClientManager()->sendOneBlob(bp->getName(), bp->getSize(), bp->getFormat(),
-                const_cast<void *>(bp->getBlob()));
-#endif
     }
 
-    // JM: Why we need dirty here? We should be able to upload multiple time
-    /*foreach(INDI_E *ep, elementList)
-    {
-        if (ep->getBLOBDirty() == true)
-        {
-
-            if (openingTag == false)
-            {
-                pg->getDevice()->getClientManager()->startBlob(bvp->device, bvp->name, timestamp());
-                openingTag = true;
-            }
-
-            IBLOB *bp = &(bvp->bp[index]);
-            ep->setBLOBDirty(false);
-
-            //qDebug() << Q_FUNC_INFO << "SENDING BLOB " << bp->name << " has size of " << bp->size << " and bloblen of " << bp->bloblen << Qt::endl;
-            pg->getDevice()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
-
-        }
-
-        index++;
-
-    }*/
-
-    //if (openingTag)
     pg->getDevice()->getClientManager()->finishBlob();
 
     updateStateLED();

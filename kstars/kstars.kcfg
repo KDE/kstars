@@ -1787,7 +1787,7 @@
       </entry>
       <entry name="PlaceholderFormat" type="String">
          <label>How to format captured image filename.</label>
-         <default code="true">KSUtils::getDefaultPath("placeholderFormat")</default>
+         <default code="true">KSUtils::getDefaultPath("PlaceholderFormat")</default>
       </entry>
       <entry name="RemoteCaptureDirectory" type="String">
          <label>Path to remote capture directory to save images.</label>

@@ -103,6 +103,10 @@ public:
     void setOffset(double newOffset) { m_offset = newOffset; }
 
     MeridianFlipState::MFStage getMeridianFlipStage() const { return meridianFlipStage; };
+    const QString &getMeridianStatusText()
+    {
+        return m_lastStatusText;
+    }
 
     /**
      * @brief Update the meridian flip stage

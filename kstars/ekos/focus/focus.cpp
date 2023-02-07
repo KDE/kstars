@@ -990,8 +990,8 @@ void Focus::start()
                                << " [" << focusFullFieldInnerRadius->value() << "%," << focusFullFieldOuterRadius->value() << "%]"
                                << " Step Size: " << focusTicks->value()
                                << " Number Steps " << focusOutSteps->value()
-                               << " Autofocus Backlash Comp " << ( focusAFBacklashComp->isChecked() ? "yes" : "no" )
                                << " Backlash " << focusBacklash->value()
+                               << " AF Overscan " << focusAFOverscan->value()
                                << " Threshold: " << focusThreshold->value()
                                << " Gaussian Sigma: " << focusGaussianSigma->value()
                                << " Gaussian Kernel size: " << focusGaussianKernelSize->value()
@@ -1049,8 +1049,7 @@ void Focus::start()
         linearFocuser.reset(MakeLinearFocuser(params));
         curveFitting.reset(new CurveFitting());
         linearRequestedPosition = linearFocuser->initialPosition();
-        const int newPosition = adjustLinearPosition(position, linearRequestedPosition, focusAFBacklashComp->isChecked(),
-                                focusBacklash->value());
+        const int newPosition = adjustLinearPosition(position, linearRequestedPosition, focusAFOverscan->value());
         if (newPosition != position)
         {
             if (!changeFocus(newPosition - position))
@@ -1064,24 +1063,13 @@ void Focus::start()
     capture();
 }
 
-int Focus::adjustLinearPosition(int position, int newPosition, bool backlashEnabled, int backlash)
+int Focus::adjustLinearPosition(int position, int newPosition, int overscan)
 {
-    if (backlashEnabled && newPosition > position)
+    if (overscan > 0 && newPosition > position)
     {
-        constexpr int extraMotionSteps = 5;
-        int adjustment;
-
-        // If user has set a backlash value then for Linear 1 Pass use that, otherwise use 5 * step size
-        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && backlash > 0)
-        {
-            adjustment = backlash;
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: extending outward movement by backlash %1").arg(adjustment);
-        }
-        else
-        {
-            adjustment = extraMotionSteps * focusTicks->value();
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: extending outward movement by %1").arg(adjustment);
-        }
+        // If user has set an overscan value then use it
+        int adjustment = overscan;
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: extending outward movement by overscan %1").arg(adjustment);
 
         if (newPosition + adjustment > absMotionMax)
             adjustment = static_cast<int>(absMotionMax) - newPosition;
@@ -2241,7 +2229,7 @@ void Focus::setHFRComplete()
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
         QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits.gz";
-        QString filename = path + QStringLiteral("/") + name + QStringLiteral("[compress R 100,100]");
+        QString filename = path + QDir::separator() + name + QStringLiteral("[compress R 100,100]");
         m_ImageData->saveImage(filename);
     }
 
@@ -2492,8 +2480,7 @@ void Focus::autoFocusLinear()
         // Update the graph with the next datapoint, draw the curve, etc.
         plotLinearFocus();
 
-    nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition, focusAFBacklashComp->isChecked(),
-                                        focusBacklash->value());
+    nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition, focusAFOverscan->value());
 
     if (linearFocuser->isDone())
     {
@@ -4439,8 +4426,7 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             focusTolerance->setEnabled(true);             // Solution tolerance
             focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
             focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
-            focusAFBacklashComp->setEnabled(false);       // Autofocus Backlash Comp off
-            focusAFBacklashComp->setChecked(false);
+            focusAFOverscan->setEnabled(false);           // Overscan off
             break;
 
         case FOCUS_POLYNOMIAL:
@@ -4451,8 +4437,7 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             focusTolerance->setEnabled(true);             // Solution tolerance
             focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
             focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
-            focusAFBacklashComp->setEnabled(false);       // Autofocus Backlash Comp off
-            focusAFBacklashComp->setChecked(false);
+            focusAFOverscan->setEnabled(false);           // Overscan off
             break;
 
         case FOCUS_LINEAR:
@@ -4463,8 +4448,7 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             focusTolerance->setEnabled(true);             // Solution tolerance
             focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
             focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
-            focusAFBacklashComp->setEnabled(true);        // Autofocus Backlash Comp on
-            focusAFBacklashComp->setChecked(true);
+            focusAFOverscan->setEnabled(true);            // Overscan on
             break;
 
         case FOCUS_LINEAR1PASS:
@@ -4474,8 +4458,7 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             focusMaxSingleStep->setEnabled(false);        // Max Step Size
             focusTolerance->setEnabled(false);            // Solution tolerance
             focusCurveFit->setEnabled(true);              // Curve fit
-            focusAFBacklashComp->setEnabled(true);        // Autofocus Backlash Comp on
-            focusAFBacklashComp->setChecked(true);
+            focusAFOverscan->setEnabled(true);            // Overscan on
             break;
     }
 }

@@ -732,7 +732,7 @@
                 <para
 >Maar, als u geen opstelling heeft van topkwaliteit, heeft u hoogstwaarschijnlijk een autovolger nodig, om de zelfde ster gedurende een hele tijd in dezelfde positie vast te houden. Maar desondanks, als de as van de opstelling niet goed op de hemelpool is uitgelijnd, zal zelfs een mechanisch perfecte opstelling de volgster kwijt raken na enige tijd. Volgfouten verhouden zich tot de grootte van de uitlijningsfout. Voor lange belichtingstijden is het dus erg belangrijk dat de opstelling goed is uitgelijnd op de pool, zodat overblijvende restfouten zo klein mogelijk blijven. </para>
                 <para
->Before starting the process, point the mount as close as possible to the celestial pole with the counterweights down. If you are living in the Northern Hemisphere, point it as close as possible to Polaris. If Polaris is not visible (&eg; blocked by trees or buildings) you may point elsewhere, preferably near the Meridian. Make sure there is at least 30-60 degrees of sky viewable in an arc East or West of the Meridian from the position you choose. Select the direction of free sky, the number of degrees for each of two slews, the mount slew speed, and whether the mount will be slewing automatically (recommended) or manually. </para>
+>Alvorens het proces te beginnen, laat de opstelling zo dicht mogelijk naar de hemelpool wijzen met de contragewichten omlaag. Als u leeft op het Noordelijke halfrond, wis dan zo dicht mogelijk naar de Poolster. Als de Poolster niet zichtbaar (&eg; geblokkeerd door bomen of gebouwen) dan kunt u ergens anders naar wijzen, bij voorkeur dichtbij de meridiaan. Ga na is dat er minstens 30-60 graden hemel zichtbaar is in een boog Oost of West van de meridiaan vanaf de positie die u kiest. Selecteer de richting van de vrije hemel, het aantal graden voor elk van de twee zwenkingen, de zwenksnelheid van de opstelling en of de opstelling automatisch (aanbevolen) of handmatig zwenkt. </para>
                 <para
 >Door het hulpmiddel worden drie afbeeldingen opgenomen en opgelost. Na elke opname draait de opstelling over de vaste afstand, die u hebt ingevoerd, voordat de volgende opname wordt gemaakt en opgelost. Als u handmatig kiest, moet u de opstelling verdraaien met ruwweg de gekozen hoek. </para>
                 <screenshot>
@@ -771,17 +771,17 @@
                     </mediaobject>
                 </screenshot>
                 <para
->If your error is low enough (&eg; less than an arc-minute) then you don't need to make any adjustments. Simply press stop and you're done. </para>
+>Als uw fout klein genoeg is (&eg; minder dan een boogminuut) dan hoeft u geen enkele aanpassing te doen. Druk eenvoudig op stop en u bent klaar. </para>
                 <para
->If you will be making corrections to your mount's axis, you should select the adjustment approach (we're using Plate Solve in this example), and how often the system should recapture images to re-measure the polar alignment error. The refresh interval should be frequent, but it doesn't make sense to make it faster that your CPU can capture and plate-solve the images. We're using 2s in this example. Then press the <guibutton
->Refresh</guibutton
-> button to begin the correction process. </para>
+>Als u correcties wilt toepassen op de assen van uw opstelling zou u de methode van aanpassen moeten kiezen (we gebruiken in dit voorbeeld oplossen van platen) en hoe vaak het systeem opnieuw afbeeldingen moet maken de polaire fout in uitlijning opnieuw te meten. Het vernieuwingsinterval zou frequent moeten zijn, maar het heeft geen zin het sneller te doen dan uw CPU opnieuw kan opnemen en op de afbeeldingen oplossen van platen los te laten. We gebruiken 2s in dit voorbeeld. Druk daarna op de knop <guibutton
+>Vernieuwen</guibutton
+> om het correctieproces te beginnen. </para>
                 <para
->The system will capture images, and re-estimate the polar alignment error after each image. You can try to reduce the error by adjusting the Altitude and Azimuth correction knobs on your mount. The image below shows the screen after the altitude error has been almost zeroed. See the difference between the <emphasis
->Measured Error</emphasis
-> row, which shows the originally measured error after the original 3 captures, and the <emphasis
->Updated Error</emphasis
-> row which shows the current error estimate. </para>
+>Het systeem zal afbeeldingen nemen en opnieuw de fout in polaire uitlijning bepalen na elke afbeelding. U kunt proberen de fout te beperken door de correctieknoppen voor Hoogte en azimut op uw opstelling aan te passen. De onderstaande afbeelding toont het scherm nadat de hoogtefout bijna nul is geworden. Zie het verschil tussen de rij <emphasis
+>Gemeten fout</emphasis
+>, die de oorspronkelijk gemeten fout toont na de oorspronkelijke 3 opnamen en de rij <emphasis
+>Bijgewerkte fout</emphasis
+> die de nu geschatte fout toont. </para>
                 <screenshot>
                     <screeninfo
 >Assistent uitlijnen op pool </screeninfo>
@@ -816,13 +816,13 @@
 >Correctieschema Ster verplaatsen</title>
 
                 <para
->We also have an alternative schemes for correcting polar alignment. Two variations are <emphasis
->Move Star &amp; Calc Error</emphasis
-> and <emphasis
->Move Star</emphasis
->. When you select this scheme, the system place a yellow/green/violet triangle on the screen. The triangle can be moved by clicking near a star, and the yellow/violet corner is moved to that star. In this scheme the user corrects polar alignment by first adjusting the mount's azimuth knob so that the selected star moves along the yellow side of the triangle. Once the star is near the next vertex, the azimuth knob should be adjusted so that the star moves along the green side of the triangle. Once the star is moved to the green/violet vertex, the mount is polar aligned, and the user can click <emphasis
+>We hebben ook een alternatief schema voor corrigeren van polaire uitlijning. Twee variaties zijn <emphasis
+>Ster verplaatsen &amp; Fout berekenen</emphasis
+> en <emphasis
+>Ster verplaatsen</emphasis
+>. Wanneer u dit schema selecteert plaatst het systeem een geel/groen/violet driehoek op het scherm. De driehoek kan verplaatst worden door te klikken dichtbij een ster en de geel/violet hoek is verplaatst naar die ster. In dit schema corrigeert de gebruiker de polaire uitlijning door eerst de azimut-knop aan te passen zodat de geselecteerde ster beweegt langs de gele kant van de driehoek. Nadat de ster dichtbij het volgende hoekpunt is, moet de azimut-knop aangepast worden zodat de ster beweegt langs de groene kant van de driehoek. Nadat de ster is verplaatst naar het groen/violet hoekpunt, is de opstelling polair uitgelijnd en de gebruiker kan op <emphasis
 >stop</emphasis
->. </para>
+> klikken. </para>
                   <para
 >Het verschil tussen <emphasis
 >Ster verplaatsen &amp; Fout berekenen</emphasis
