@@ -469,17 +469,25 @@ QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QS
     auto sanitizedPath = path;
 
     // This is needed for Windows as the regular expression confuses path search
-    QString regexp = "(?<id>\\d+).*";
-    sanitizedPath.remove(regexp);
+    QString idRE = "(?<id>\\d+).*";
+    QString datetimeRE = "\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d";
+    sanitizedPath.replace(idRE, "{IDRE}");
+    sanitizedPath.replace(datetimeRE, "{DATETIMERE}");
+
+    // Now we can get a proper directory
     QFileInfo path_info(sanitizedPath);
     QDir dir(path_info.dir());
 
     // e.g. Light_R_(?<id>\\d+).*
-    QString glob = path_info.fileName() + regexp;
+    auto filename = path_info.fileName();
+
+    // Next replace back the problematic regular expressions
+    filename.replace("{IDRE}", idRE);
+    filename.replace("{DATETIMERE}", datetimeRE);
 
     QStringList matchingFiles = dir.entryList(QDir::Files);
     QRegularExpressionMatch match;
-    QRegularExpression re("^" + glob + "$");
+    QRegularExpression re("^" + filename + "$");
     QList<int> ids = {};
     for (auto &name : matchingFiles)
     {
