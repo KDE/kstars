@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1644041 $
+# Version: $Revision: 1644360 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -15,20 +15,20 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2009.
 # Marta Rybczynska <kde-i18n@rybczynska.net>, 2009, 2010, 2013.
 # Artur Chłond <eugenewolfe@o2.pl>, 2011.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 00:54+0000\n"
-"PO-Revision-Date: 2022-09-23 13:24+0200\n"
+"PO-Revision-Date: 2023-02-11 08:39+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "(n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -5936,16 +5936,13 @@ msgstr ""
 "poprawny WCS."
 
 #: ekos/align/align.cpp:2013
-#, fuzzy, kde-format
-#| msgid ""
-#| "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
-#| "(%4)"
+#, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 "Współrzędne rozwiązania: RA (%1) DEK (%2) Współrzędne teleskopu: RA (%3) DEK "
-"(%4)"
+"(%4) Współrzędne celu: RA (%5) DEC (%6)"
 
 #: ekos/align/align.cpp:2024
 #, kde-format
@@ -7506,18 +7503,13 @@ msgstr "Nakładka"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PAHAutoPark)
 #: ekos/align/opsalign.ui:244
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Automatically park mount after completing Polar "
-#| "Alignment Assistant Tools. Beware that turning this option off might lead "
-#| "to inaccurate results.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically park mount after completing Polar "
 "Alignment Assistant Tools.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sam zaparkuj montaż, po tym jak narzędzie pomocy "
-"wyrównania do bieguna ukończy. Wyłączenie tej opcji może prowadzić do "
-"niedokładnych wyników.</p></body></html>"
+"wyrównania do bieguna ukończy.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
@@ -10137,6 +10129,9 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Błąd dryfu prostopadłego wzniesienia (RA) w sekundach "
+"kątowych. Współdzieli oś z błędem, dryfem oraz wartościami RMS RA/DEC. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decCB)
 #: ekos/analyze/analyze.ui:428
@@ -10165,6 +10160,9 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Narysuj błąd dryfu deklinacji (DEC) w sekundach "
+"kątowych. Współdzieli oś z błędem, dryfem oraz wartościami RMS RA/DEC. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raPulseCB)
 #: ekos/analyze/analyze.ui:469
@@ -10184,17 +10182,15 @@ msgstr "puls ra"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, raPulseOut)
 #: ekos/analyze/analyze.ui:488
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The right ascension (RA) guide pulses in "
-#| "milliseconds.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The right ascension (RA) guide pulses in milliseconds. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Pulsy prowadzące prostopadłego wzniesienie (RA) w "
-"milisekundach</p></body></html>"
+"milisekundach. Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decPulseCB)
 #: ekos/analyze/analyze.ui:516
@@ -10208,17 +10204,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decPulseOut)
 #: ekos/analyze/analyze.ui:535
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The declination (DEC) guide pulses in milliseconds."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The declination (DEC) guide pulses in milliseconds. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Pulsy prowadzące deklinacji (DEC) w milisekundach</p></"
-"body></html>"
+"<html><head/><body><p>Pulsy prowadzące deklinacji (DEC) w milisekundach. "
+"Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij "
+"dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, driftCB)
 #: ekos/analyze/analyze.ui:563
@@ -10244,6 +10238,9 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Błąd dryfu łączenie dla RA oraz DEC w sekundach "
+"kątowych. Współdzieli oś z błędem, dryfem oraz wartościami RMS RA/DEC. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCB)
 #: ekos/analyze/analyze.ui:610
@@ -10266,11 +10263,7 @@ msgstr "rms"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsOut)
 #: ekos/analyze/analyze.ui:629
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The root-mean-squared (RMS) value of the combined "
-#| "RA and DEC drift in arc-seconds, averaged on approximately the past 40 "
-#| "samples, but only in during capture.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The root-mean-squared (RMS) value of the combined RA "
 "and DEC drift in arc-seconds, averaged on approximately the past 40 samples. "
@@ -10279,8 +10272,10 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Wartość podniesiona, a następnie spierwiastkowana do "
 "kwadratu (RMS) połączonego dryfu RA oraz DEC w sekundach kątowych, "
-"uśrednioną na około 40 poprzednich próbkach, lecz tylko podczas "
-"przechwytywania.</p></body></html>"
+"uśrednioną na około 40 poprzednich próbkach. Naciśnij tutaj, aby obejrzeć tę "
+"oś na wartościach osi lewej. Współdzieli oś z błędem, dryfem oraz "
+"wartościami RMS RA/DEC. Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, skyBgCB)
 #: ekos/analyze/analyze.ui:657
@@ -10300,17 +10295,16 @@ msgstr "niebo"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, skyBgOut)
 #: ekos/analyze/analyze.ui:676
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The sky background light level (computed by SEP "
-#| "from the guide images).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sky background light level (computed by SEP from "
 "the guide images). Click here to view this axis on left-axis values. Double "
 "click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Poziom drugoplanowego światła nieba (obliczony przez "
-"SEP z obrazów naprowadzających).</p></body></html>"
+"SEP z obrazów naprowadzających). Naciśnij tutaj, aby obejrzeć tę oś na "
+"wartościach osi lewej. Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numStarsCB)
 #: ekos/analyze/analyze.ui:698
@@ -10338,17 +10332,15 @@ msgstr "gwiazdy"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numStarsOut)
 #: ekos/analyze/analyze.ui:717
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The number of stars detected in the guide images.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The number of stars detected in the guide images. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Liczba wykrytych gwiazd na obrazach prowadzących.</p></"
-"body></html>"
+"<html><head/><body><p>Liczba wykrytych gwiazd na obrazach prowadzących. "
+"Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij "
+"dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, snrCB)
 #: ekos/analyze/analyze.ui:745
@@ -10368,17 +10360,15 @@ msgstr "snr"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, snrOut)
 #: ekos/analyze/analyze.ui:764
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The signal-to-noise ratio (SNR) of the guide star.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The signal-to-noise ratio (SNR) of the guide star. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Stosunek sygnału-do-szumu (SNR) gwiazdy prowadzącej.</"
-"p></body></html>"
+"<html><head/><body><p>Stosunek sygnału-do-szumu (SNR) gwiazdy prowadzącej. "
+"Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij "
+"dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountRaCB)
 #: ekos/analyze/analyze.ui:792
@@ -10392,17 +10382,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountRaOut)
 #: ekos/analyze/analyze.ui:817
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Right Ascension (RA) in HMS where the telescope "
-#| "is pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Right Ascension (RA) in HMS where the telescope is "
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Prostopadłe wzniesienie (RA) w HMS, na które wskazuje "
-"teleskop.</p></body></html>"
+"teleskop. Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
 #: ekos/analyze/analyze.ui:839
@@ -10416,18 +10404,16 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountDecOut)
 #: ekos/analyze/analyze.ui:864
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Declination (DEC) in degrees:arc-minutes:arc-"
-#| "seconds where the telescope is pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Declination (DEC) in degrees:arc-minutes:arc-"
 "seconds where the telescope is pointing. Click here to view this axis on "
 "left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Deklinacja (DEC) w stopniach:minutach kątowych:"
-"sekundach kątowych określająca kierunek, w którą wskazuje teleskop.</p></"
-"body></html>"
+"sekundach kątowych określająca kierunek, w którą wskazuje teleskop. Naciśnij "
+"tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij dwukrotnie, aby "
+"uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:886
@@ -10447,14 +10433,14 @@ msgstr "az"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, azOut)
 #: ekos/analyze/analyze.ui:905
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The telescope's azimuth (degrees).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The telescope's azimuth (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Azymut teleskopu (w stopniach).</p></body></html>"
+"<html><head/><body><p>Azymut teleskopu (w stopniach). Naciśnij tutaj, aby "
+"obejrzeć tę oś na wartościach osi lewej. Naciśnij dwukrotnie, aby uaktualnić "
+"oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altCB)
 #: ekos/analyze/analyze.ui:933
@@ -10474,15 +10460,14 @@ msgstr "alt"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, altOut)
 #: ekos/analyze/analyze.ui:952
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The telescope's altitude (degrees).</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The telescope's altitude (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Wysokość teleskopu (w stopniach).</p></body></html>"
+"<html><head/><body><p>Wysokość teleskopu (w stopniach). Naciśnij tutaj, aby "
+"obejrzeć tę oś na wartościach osi lewej. Naciśnij dwukrotnie, aby uaktualnić "
+"oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:980
@@ -10502,17 +10487,15 @@ msgstr "strona"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pierSideOut)
 #: ekos/analyze/analyze.ui:999
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-#| "pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Strona doku montażu (lewa) -> w którą wskazuje montaż."
-"</p></body></html>"
+"<html><head/><body><p>Strona doku montażu (lewa) -> w którą wskazuje montaż. "
+"Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij "
+"dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
 #: ekos/analyze/analyze.ui:1027
@@ -10531,16 +10514,14 @@ msgstr "ha"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountHaOut)
 #: ekos/analyze/analyze.ui:1052
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-#| "pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The mount's hour angle value. Click here to view this "
 "axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Strona doku montażu (lewa) -> w którą wskazuje montaż."
-"</p></body></html>"
+"<html><head/><body><p>Strona doku montażu (lewa) -> w którą wskazuje montaż. "
+"Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij "
+"dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1074
@@ -10560,17 +10541,15 @@ msgstr "hfr"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, hfrOut)
 #: ekos/analyze/analyze.ui:1093
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Half-Flux Radius (in pixels) of the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Half-Flux Radius (in pixels) of the captured "
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Promień połowy strumienia (w pikselach) przechwyconych "
-"obrazów.</p></body></html>"
+"obrazów. Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
 #: ekos/analyze/analyze.ui:1115
@@ -10584,17 +10563,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numCaptureStarsOut)
 #: ekos/analyze/analyze.ui:1134
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the number of stars detected in the captured "
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Narysuj liczbę wykrytych gwiazd na przechwyconych "
-"obrazach.</p></body></html>"
+"obrazach. Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, medianCB)
 #: ekos/analyze/analyze.ui:1156
@@ -10614,17 +10591,15 @@ msgstr "mediana"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, medianOut)
 #: ekos/analyze/analyze.ui:1175
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median sample value in the captured images."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the median sample value in the captured images. "
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Narysuj wartość środkową próbki na przechwyconych "
-"obrazach.</p></body></html>"
+"obrazach. Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. "
+"Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eccentricityCB)
 #: ekos/analyze/analyze.ui:1197
@@ -10644,17 +10619,15 @@ msgstr "ecc"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, eccentricityOut)
 #: ekos/analyze/analyze.ui:1216
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median star eccentricity in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the median star eccentricity in the captured "
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Narysuj ekscentryczność gwiazdy środkowej na "
-"przechwyconych obrazach.</p></body></html>"
+"przechwyconych obrazach. Naciśnij tutaj, aby obejrzeć tę oś na wartościach "
+"osi lewej. Naciśnij dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, temperatureCB)
 #: ekos/analyze/analyze.ui:1238
@@ -10670,13 +10643,14 @@ msgstr "temp"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, temperatureOut)
 #: ekos/analyze/analyze.ui:1257
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the ambient temperature. Click here to view this "
 "axis on left-axis values. Double click to update axis.</p></body></html>"
-msgstr "<html><head/><body><p>Narysuj temperaturę otoczenia.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Narysuj temperaturę otoczenia. Naciśnij tutaj, aby "
+"obejrzeć tę oś na wartościach osi lewej. Naciśnij dwukrotnie, aby uaktualnić "
+"oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCCB)
 #: ekos/analyze/analyze.ui:1285
@@ -10693,11 +10667,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsCOut)
 #: ekos/analyze/analyze.ui:1304
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The root-mean-squared (RMS) value of the combined "
-#| "RA and DEC drift in arc-seconds, averaged on approximately the past 40 "
-#| "samples, but only in during capture.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The root-mean-squared (RMS) value of the combined RA "
 "and DEC drift in arc-seconds, averaged on approximately the past 40 samples, "
@@ -10708,7 +10678,9 @@ msgstr ""
 "<html><head/><body><p>Wartość podniesiona, a następnie spierwiastkowana do "
 "kwadratu (RMS) połączonego dryfu RA oraz DEC w sekundach kątowych, "
 "uśrednioną na około 40 poprzednich próbkach, lecz tylko podczas "
-"przechwytywania.</p></body></html>"
+"przechwytywania. Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi "
+"lewej. Współdzieli oś z błędem, dryfem oraz wartościami RMS RA/DEC. Naciśnij "
+"dwukrotnie, aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, targetDistanceCB)
 #: ekos/analyze/analyze.ui:1332
@@ -10731,11 +10703,7 @@ msgstr "odległość a-s"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, targetDistanceOut)
 #: ekos/analyze/analyze.ui:1351
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the distance between the plate-solved captured "
-#| "image and the target position in arc-seconds. Must be enabled in "
-#| "scheduler options.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the distance between the plate-solved captured "
 "image and the target position in arc-seconds. Must be enabled in scheduler "
@@ -10744,8 +10712,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Narysuj odległość pomiędzy obrazem zrzuconym i "
 "rozwiązanym przy użyciu fotoastronometrii oraz położeniem docelowym a "
-"sekundach kątowych. Należy to włączyć w ustawieniach planowania.</p></body></"
-"html>"
+"sekundach kątowych. Należy to włączyć w ustawieniach planowania. Naciśnij "
+"tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij dwukrotnie, aby "
+"uaktualnić oś.</html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
@@ -10780,10 +10749,9 @@ msgstr "EtykietaTekstowa"
 
 #. i18n: ectx: property (text), widget (QLabel, upperLimitLabel)
 #: ekos/analyze/yaxistool.ui:76
-#, fuzzy, kde-format
-#| msgid "Clipping"
+#, kde-format
 msgid "Upper Limit"
-msgstr "Przycinanie"
+msgstr "Górna granica"
 
 #. i18n: ectx: property (text), widget (QLabel, lowerLimitLabel)
 #: ekos/analyze/yaxistool.ui:122
@@ -11994,19 +11962,16 @@ msgstr "Układ optyczny"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:143
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The second image shall now be captured and solved. "
-#| "Click <span style=\" font-weight:600;\">Capture</span> to start.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train.</"
 "p><p>To add, edit, or delete optical elements, tap the <span style=\" font-"
 "weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Teraz należy przechwycić i rozwiązać drugi obraz. "
-"Naciśnij <span style=\" font-weight:600;\">Przechwyć</span> aby zacząć.</p></"
-"body></html>"
+"<html><head/><body><p>Wybierz okular lub soczewkę używaną w układzie "
+"optycznym.</p><p>Aby dodać, zmienić lub usunąć części optyki, naciśnij "
+"przycisk <span style=\" font-weight:600;\">Teleskop &amp; Okular</span>.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
@@ -12032,12 +11997,13 @@ msgstr "Montaż:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:179
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Czas pozostały do ukończenia</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Wybierz aparat zrzucający obraz dla tego układu "
+"optycznego.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -12071,6 +12037,13 @@ msgid ""
 "span>: If the value is over 1.0x, then it is considered a barlow element "
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Wybierz czy w układzie używany jest jakiś reduktor lub "
+"część barlow.</p><p><span style=\" font-weight:600;\">Reduktor:</span> Jeśli "
+"wartość jest mniejsza niż 1.0x, to część jest uznawana za reduktor "
+"(ogniskowa jest skracana o ten współczynnik).</p><p><span style=\" font-"
+"weight:600;\">Barlow</span>: Jeśli wartość jest ponad 1.0x, to część jest "
+"uznawana za część barlow (ogniskowa jest wydłużana o ten współczynnik).</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:228
@@ -12094,16 +12067,13 @@ msgstr "Skrzynka świetlna"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Wskaż dane wejściowe dla wykresów. Może to być bieżąca "
-"sesja Ekos lub plik do wczytania.</p></body></html>"
+"<html><head/><body><p>Wybierz koło filtra.</p><p>Może to być osobne koło "
+"filtra lub część napędu aparatu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:274
@@ -12126,6 +12096,17 @@ msgid ""
 "guider interface device (like Shoestring GPUSB) then select it as the Guider."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Wybierz urządzenie, które otrzymuj pulsy poprawkowe "
+"naprowadzania. Może to być jedno z następujących urządzeń:</p><p><span style="
+"\" font-weight:600;\">Montaż</span>: Jeśli montaż jest w stanie odbierać "
+"pulsy poprawkowe naprowadzania, to najlepiej go wybrać tak, aby pulsy były "
+"bezpośrednio wysyłane do montażu. Jest to zalecane ustawienie.</p><p><span "
+"style=\" font-weight:600;\">ST4</span>: Jeśli używasz kabla ST4 do łączenia "
+"aparatu naprowadzającego i montażu, to powinieneś wybrać Aparat "
+"Naprowadzający jako Urządzenie Naprowadzające.</p><p><span style=\" font-"
+"weight:600;\">Osobne Urządzenie Naprowadzające</span>: Jeśli używasz "
+"osobnego urządzenia naprowadzającego (takiego jak Shoestring GPUSB) to "
+"wybierz je jako Urządzenie Naprowadzające.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:297
@@ -14401,11 +14382,11 @@ msgstr "Zapisz:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:916
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Czyszczenie historii danych czujnika</p></body></html>"
+"<html><head/><body><p>Podstawowy, miejscowy katalog do zrzucania</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:922
@@ -14416,15 +14397,12 @@ msgstr "Katalog:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:929
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The number of stars detected in the guide images.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Liczba wykrytych gwiazd na obrazach prowadzących.</p></"
+"<html><head/><body><p>Liczba cyfr szeregu dopisywana do nazwy pliku.</p></"
 "body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
@@ -14441,6 +14419,9 @@ msgid ""
 "is available to be used in the filename Format via the %t or %type "
 "placeholder tag.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Cel to nazwa obiektu, na który celujesz.</p><p>Jest "
+"dostępny w formacie nazwy pliku poprzez pole zastępcze %t lub %type.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/capture.ui:996
@@ -14474,41 +14455,7 @@ msgstr "Cel"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/capture.ui:1034
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -14553,39 +14500,48 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Sztuczny horyzont jest używany do określenia <span "
-"style=\" font-weight:600;\">Regionów</span> na mapie nieba, które są <span "
-"style=\" font-style:italic;\">zablokowane</span> o oglądania z punktu "
-"widokowego (np. poprzez wysokie drzewa, czy budynki). Regiony mogą być "
-"obszarami powyżej lub poniżej odcinków linii, które wpiszesz. </p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Aby "
-"narysować <span style=\" font-weight:600;\">Region</span>, wpisz listę <span "
-"style=\" font-weight:600;\">Punktów</span> (<span style=\" font-style:italic;"
-"\">minimum</span> 2) które zarysowują szczyt zablokowanego obszaru (<span "
-"style=\" font-weight:600;\">blokada jest poniżej</span> linii).</li><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Ustawienie <span style=\" font-style:italic;\">trybu okna/sufitu</span> "
-"dla listy punktów zamiast tego ustawia  <span style=\" font-weight:600;"
-"\">blokadę powyżej</span> linii.</li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Dodaj punkty ręcznie, lub zaznaczając je z mapy nieba poprzez "
-"naciskanie na przycisk <span style=\" font-style:italic;\">Zaznacz punkty</"
-"span>. </li></ul><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Włącz "
-"region <span style=\" font-style:italic;\">zaznaczając jego pole</span>. </"
+"<html><head/><body><p>Format jest używany do określania nazw plików obrazów "
+"poprzez umieszczanie znaczników pól zastępczych.</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Pole "
+"zastępcze<span style=\" font-weight:700;\"> %f</span> lub <span style=\" "
+"font-weight:700;\">%filename</span>: Nazwa pliku .esq bez rozszerzenia.</"
 "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Zaznaczenie regionu "
-"wyświetla jego punkty na mapie nieba. </li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Gdy skończysz, naciśnij <span style=\" font-style:italic;"
-"\">Zastosuj</span>.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Pole zastępcze<span style="
+"\" font-weight:700;\"> %D</span> or <span style=\" font-weight:700;\">"
+"%Datetime</span>: Data i czas <span style=\" font-weight:700;\">w chwili "
+"zapisu pliku.</span></li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Określanie regionów jest łatwiejsze, gdy użyte w połączeniu z włączonym "
-"terenem w tle.</li></ul></body></html>"
+"\">Pole zastępcze<span style=\" font-weight:700;\"> %T</span> or <span style="
+"\" font-weight:700;\">%Type</span>: Rodzaj ramki np.: 'Light', 'Bias', "
+"'Dark', 'Flat'...</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Pole "
+"zastępcze<span style=\" font-weight:700;\"> %e</span> lub <span style=\" "
+"font-weight:700;\">%exposure</span>: Czas naświetlenia w sekundach.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Pole zastępcze<span style="
+"\" font-weight:700;\"> %F</span> lub  <span style=\" font-weight:700;\">"
+"%Filter</span>: Nazwa bieżącego filtra.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Pole zastępcze<span style=\" font-weight:700;\"> %t</"
+"span> or <span style=\" font-weight:700;\">%target</span>: Nazwa celu.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Pole zastępcze<span style="
+"\" font-weight:700;\"> %s*</span> lub <span style=\" font-weight:700;\">"
+"%sequence</span>: Identyfikator szeregu obrazów, gdzie * jest liczbą "
+"używanych cyfr (1-9). <span style=\" font-weight:700;\">Znacznik ten jest "
+"obowiązkowy i musi być ostatnią rzeczą w formacie.</span></li></ul><p>Można "
+"także dodać dowolny tekst wewnątrz ciągu znaków formatu, <span style=\" font-"
+"weight:700;\">poza znakiem % oraz \\.</span> Można użyć znaku ścieżki / do "
+"określania dowolnych katalogów.</p><p>Uwagi:</p><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">W obu zapisach krótkim i "
+"długim zwraca się uwagę na wielkość liter.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Użyj tylko znacznika %Datetime w części nazwy pliku "
+"formatu, a nie w określeniu ścieżki.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/capture.ui:1044
@@ -15099,20 +15055,18 @@ msgid "Post meridian flip calibration completed successfully."
 msgstr "Pomyślnie ukończono kalibrację po obrocie o południk."
 
 #: ekos/capture/capturemodulestate.cpp:425
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"Odchylenie początkowe naprowadzania %1 przekroczyło wartość graniczną %2 "
-"sekundy kątowych"
+"Odchylenie naprowadzania na początku zrzucania %1 jest powyżej wartości "
+"granicznej %2 sekund kątowych."
 
 #: ekos/capture/capturemodulestate.cpp:439
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
-"Odchylenie początkowe naprowadzania %1 przekroczyło wartość graniczną %2 "
-"sekundy kątowych"
+"Odchylenie naprowadzania na początku zrzucania %1 jest poniżej wartości "
+"granicznej %2 sekund kątowych"
 
 #: ekos/capture/capturemodulestate.cpp:467
 #, kde-format
@@ -16723,13 +16677,7 @@ msgstr "Granica R²:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1112
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. If the minimum is not met, Auto Focus will rerun once "
-#| "to try to improve the R². Currently only available for the Linear 1 Pass "
-#| "algorithm when using a Curve Fit of Hyperbola or Parabola. This feature "
-#| "is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is "
@@ -16739,10 +16687,12 @@ msgid ""
 "experimental.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ustaw minimum dla akceptowalnego R² przy wykonywaniu "
-"samoogniskowania. Jeśli minimum nie jest spełnione, to samoogniskowanie "
-"nastąpi ponownie jeden raz, aby polepszyć R². Obecnie jest to dostępne dla "
-"algorytmu linowego jednoprzejściowego przy używaniu dopasowywania krzywej "
-"hiperbolicznej lub parabolicznej. Funkcja ta jest eksperymentalna.</p></body>"
+"samoogniskowania. Wartość spomiędzy 0 (bez dopasowania) oraz 1 (doskonałe "
+"dopasowanie). Na początek dobrze ustawić 0,8 . Jeśli minimum nie jest "
+"spełnione, to samoogniskowanie nastąpi ponownie jeden raz, aby polepszyć R². "
+"Obecnie jest to dostępne dla algorytmu linowego jednoprzejściowego przy "
+"używaniu dopasowywania krzywej hiperbolicznej lub parabolicznej. Funkcja ta "
+"jest eksperymentalna.</p></body>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
 #: ekos/focus/focus.ui:1137
@@ -17181,22 +17131,15 @@ msgstr "Mnożnik kroku na zewnątrz:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:1697
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>For backlash-aware focuser, the amount of backlash "
-#| "to apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-#| "algorithm, set backlash field &gt;= focuser backlash to have backlash "
-#| "neutralised during an Autofocus run.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Used in the device driver for backlash-aware "
 "focusers,  the amount of backlash to apply when reversing movement "
 "direction. </p></body></html>"
 msgstr ""
-"<html><body><p>Dla układu ogniskowego uwzględniającego luz, ilość luzu do "
-"zastosowania przy odwracaniu kierunku ruchu.</p><p>Dla algorytmu linowego, "
-"jednoprzejściowego, ustaw pole luzu tak, aby było równe luzowi układu "
-"ogniskującego tak, aby wyzerować luz w trakcie samoogniskowania.</p></body></"
-"html>"
+"<html><head/><body><p>Używane w sterowniku urządzenia dla urządzeń "
+"świadomych luzów, ilość luzu do zastosowania przy ruchu w przeciwną stronę. "
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:1710
@@ -17248,6 +17191,10 @@ msgid ""
 "Overscan backlash and Driver Backlash are independent.</p><p>Used by Linear "
 "and Linear 1 Pass algorithms.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Włącz, aby samoogniskowanie wykonało kompensowanie "
+"luzu nadmiarowego o liczbę kres tutaj określoną. Ustaw na 0, aby wyłączyć.  "
+"Nadmiarowy Luz oraz Luz Napędu są niezależne od siebie.</p><p>Używane przez "
+"algorytmy Liniowe oraz Liniowe 1 Przepuszczający.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
@@ -20055,27 +20002,22 @@ msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Utracono połączenie ze zdalnym serwerem INDI %1:%2"
 
 #: ekos/manager.cpp:1150
-#, fuzzy, kde-format
-#| msgid ""
-#| "%1 failed to connect.\n"
-#| "Please ensure the device is connected and powered on."
+#, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
-"Nie można nawiązać połączyć %1:\n"
-"Upewnij się, że urządzenie jest podłączone i włączone."
+"Nie udało się połączyć z %1. Upewnij się, że urządzenie jest podłączone i "
+"włączone."
 
 #: ekos/manager.cpp:1152
-#, fuzzy, kde-format
-#| msgid ""
-#| "%1 failed to connect.\n"
-#| "Please ensure the device is connected and powered on."
+#, kde-format
 msgid ""
 "Failed to connect to \n"
 "%1\n"
 "Please ensure each device is connected and powered on."
 msgstr ""
-"Nie można nawiązać połączyć %1:\n"
+"Nie udało się połączyć z \n"
+"%1\n"
 "Upewnij się, że urządzenie jest podłączone i włączone."
 
 #: ekos/manager.cpp:1180
@@ -23975,16 +23917,7 @@ msgid "Reset state and force reevaluation of all observation jobs."
 msgstr "Wyzeruj stan i wymuś ponowną ocenę wszystkich zadań obserwacji."
 
 #: ekos/scheduler/scheduler.cpp:500
-#, fuzzy, kde-format
-#| msgid ""
-#| "Reset state and sort observation jobs per altitude and movement in sky, "
-#| "using the start time of the first job.\n"
-#| "This action sorts setting targets before rising targets, and may help "
-#| "scheduling when starting your observation.\n"
-#| "Option \"Sort Jobs by Altitude and Priority\" keeps the job list sorted "
-#| "this way, but with current time as reference.\n"
-#| "Note the algorithm first calculates all altitudes using the same time, "
-#| "then evaluates jobs."
+#, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
 "using the start time of the first job.\n"
@@ -23997,8 +23930,6 @@ msgstr ""
 "używając czas rozpoczęcia pierwszego zadania.\n"
 "To działanie umieszcza szczytujące cele przed wschodzącymi celami i może "
 "pomóc planowanie przy rozpoczynaniu obserwacji.\n"
-"Opcja \"Uszereguj zadania po wysokości i priorytecie\" zachowuje listę "
-"uszeregowaną w ten sposób, lecz z obecnym czasem jako odniesieniem.\n"
 "Zauważ, że algorytm najpierw oblicza wszystkie wysokości przy użyciu tego "
 "samego czasu, a następnie ocenia zadania."
 
@@ -24718,23 +24649,21 @@ msgid "Job '%1' is plate solving %2."
 msgstr "Odbywa się astrofotografia %2 w zadaniu '%1'."
 
 #: ekos/scheduler/scheduler.cpp:5453
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
-msgstr "Błąd captureAndSolve DBUS: %1"
+msgstr "Uwaga: zadanie '%1' żądania setTargetCoords otrzymało błąd DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5470
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
-msgstr "Błąd captureAndSolve DBUS: %1"
+msgstr ""
+"Uwaga: zadanie '%1' żądania setTargetPositionAngle otrzymało błąd DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5484
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
-msgstr "Błąd captureAndSolve DBUS: %1"
+msgstr "Uwaga: zadanie '%1' żądania captureAndSolve otrzymało błąd DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5495
 #, fuzzy, kde-format
@@ -33063,24 +32992,20 @@ msgstr ""
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1635
-#, fuzzy, kde-format
-#| msgid "Default maximum permittable guide deviation"
+#, kde-format
 msgid "Default maximum permittable guide deviation before capture start"
-msgstr "Domyślna maksymalnie dozwolone odchylenie naprowadzania"
+msgstr "Domyślne największe dozwolone odchylenie przed rozpoczęciem zrzucania"
 
 #. i18n: ectx: whatsthis, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1636
-#, fuzzy, kde-format
-#| msgid ""
-#| "If guide deviation exceeds this limit, the exposure will be automatically "
-#| "aborted and only resumed when the deviation is within this limit."
+#, kde-format
 msgid ""
 "If guide deviation exceeds this limit before capture start, starting an "
 "exposure will be suspended until the deviation is within this limit."
 msgstr ""
-"Jeśli odchylenie naprowadzania przekroczy tę granicę, to naświetlenie "
-"zostanie samoczynnie przerwane i wznowione tylko wtedy, gdy odchylenie "
-"znajdzie się w tych granicach."
+"Jeśli odchylenie przekroczy tę granicę przed początkiem zrzucania, to "
+"początek naświetlania zostanie przesunięty do czasu znalezienia się tego "
+"odchylenia poniżej wspomnianej granicy."
 
 #. i18n: ectx: label, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1640
@@ -75308,20 +75233,7 @@ msgstr ""
 "przesilenia i długość pór roku</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "<QT>Section with algorithms for the conversion of different astronomical "
-#| "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
-#| "coordinates conversion</LI><LI><B>Apparent:</B> Computation of current "
-#| "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> "
-#| "Ecliptic/Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> "
-#| "Computation of azimuth and elevation for a given source, time, and "
-#| "location on the Earth</LI><LI><B>Angular Distance:</B> Computation of "
-#| "angular distance between two objects whose positions are given in "
-#| "equatorial coordinates</LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ "
-#| "coordinate conversion</LI><LI><B>LSR Velocity:</B> Computation of the "
-#| "heliocentric, geocentric and topocentric radial velocity of a source from "
-#| "its LSR velocity</LI></UL></QT>"
+#, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
 "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
@@ -75342,9 +75254,10 @@ msgstr ""
 "Obliczenie współrzędnych równikowych w podanej epoce</LI><LI><B>Ekliptyczne:"
 "</B> Przekształcenie między układem współrzędnych ekliptycznych i "
 "równikowych</LI><LI><B>Poziome:</B> Obliczenie azymutu i wysokości dla "
-"podanego źródła, czasu i położenia na Ziemi</LI><LI><B>Odległość kątowa:</B> "
-"Obliczenie odległości kątowej między dwoma obiektami, których pozycje "
-"zostały podane we współrzędnych równikowych</LI><LI><B>Współrzędne "
+"podanego źródła, czasu i położenia na Ziemi</LI><LI><B>Proste:</B> "
+"Przekształcenie pomiędzy kątami z godzin na stopnie.</LI><LI><B>Odległość "
+"kątowa:</B> Obliczenie odległości kątowej między dwoma obiektami, których "
+"pozycje zostały podane we współrzędnych równikowych</LI><LI><B>Współrzędne "
 "geodezyjne:</B> Przekształcenie współrzędnych geodezyjnych na XYZ</"
 "LI><LI><B>Prędkość LSR:</B> Obliczenie heliocentrycznej, geocentrycznej i "
 "topocentrycznej prędkości kątowej źródła z prędkości LSR</LI></UL></QT>"
