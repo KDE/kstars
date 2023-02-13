@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 00:54+0000\n"
-"PO-Revision-Date: 2023-01-17 19:30+0100\n"
+"PO-Revision-Date: 2023-02-12 17:47+0100\n"
 "Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5979,7 +5979,7 @@ msgstr ""
 #: ekos/align/align.cpp:2024
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
-msgstr "L'objectiu està a %1 graus de les coordenades de la solució."
+msgstr "L'objectiu es troba a %1 graus de les coordenades de la solució."
 
 #: ekos/align/align.cpp:2066 ekos/align/align.cpp:2487
 #: ekos/align/align.cpp:2527
@@ -7590,7 +7590,7 @@ msgid ""
 "successful.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Llindar del rotor en minuts d'arc quan s'utilitza "
-"Carrega i orientació. Si la diferència entre l'angle de posició mesurat i "
+"Carrega i orienta. Si la diferència entre l'angle de posició mesurat i "
 "l'angle de posició FITS està per davall d'este valor, es considera que "
 "l'operació de Carrega i orientació ha finalitzat amb èxit.</p></body></html>"
 
@@ -9414,7 +9414,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:1170
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
-msgstr "PAA: No s'ha pogut trobar l'eix de l'AR. S'interromp."
+msgstr "PAA: No s'ha pogut trobar l'eix de l'AR. Se ix."
 
 #: ekos/align/polaralignmentassistant.cpp:1245
 #, kde-format
@@ -9638,8 +9638,8 @@ msgid ""
 "Polar Alignment total error measured by the 3 exposures at the start of the "
 "polar-alignment procedure."
 msgstr ""
-"Error total de l'alineació polar mesurat amb 3 exposicions a l'inici del "
-"procediment d'alineació polar."
+"Error total de l'alineació polar mesurada amb 3 exposicions a l'inici del "
+"procediment de l'alineació polar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
 #: ekos/align/polaralignmentassistant.ui:504
@@ -9656,8 +9656,8 @@ msgid ""
 "Polar Alignment altitude error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
-"S'ha produït un error d'altitud de l'alineació polar mesurat amb 3 "
-"exposicions a l'inici del procediment d'alineació polar."
+"S'ha produït un error de l'altitud de l'alineació polar mesurada amb 3 "
+"exposicions a l'inici del procediment de l'alineació polar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAlt)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -9679,8 +9679,8 @@ msgid ""
 "Polar Alignment azimuth error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
-"S'ha produït un error d'azimut de l'alineació polar mesurat amb 3 "
-"exposicions a l'inici del procediment d'alineació polar."
+"S'ha produït un error de l'azimut de l'alineació polar mesurada amb 3 "
+"exposicions a l'inici del procediment de l'alineació polar."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorTotal)
@@ -9704,8 +9704,8 @@ msgstr "Error actualitzat:"
 #, kde-format
 msgid "Polar Alignment altitude error estimated after recent adjustments."
 msgstr ""
-"S'ha produït un error d'altitud de l'alineació polar estimada després dels "
-"ajustos recents."
+"S'ha produït un error de l'altitud de l'alineació polar estimada després "
+"dels ajustos recents."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
@@ -9714,7 +9714,7 @@ msgstr ""
 #, kde-format
 msgid "Polar Alignment azimuth error estimated after recent adjustments."
 msgstr ""
-"S'ha produït un error d'azimut de l'alineació polar estimada després dels "
+"S'ha produït un error de l'azimut de l'alineació polar estimada després dels "
 "ajustos recents."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStartB)
@@ -9783,8 +9783,8 @@ msgid ""
 "Cannot set solver to remote. The Ekos equipment profile must include the "
 "astrometry Auxiliary driver."
 msgstr ""
-"No s'ha pogut establir el solucionador en remot. El perfil de l'equip Ekos "
-"ha d'incloure el controlador auxiliar de l'astrometria."
+"No s'ha pogut establir el solucionador a remot. El perfil de l'equip Ekos ha "
+"d'incloure el controlador auxiliar de l'astrometria."
 
 #: ekos/align/remoteastrometryparser.cpp:50
 #, kde-format
@@ -9942,7 +9942,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 "No s'ha establit l'opció «Calcula automàticament l'HFR» en el menú d'opcions "
-"FITS de KStars. Sense ella no s'obtindran els valors HFR. Una vegada "
+"FITS de KStars. Sense ella no s'obtindran els valors de l'HFR. Una vegada "
 "establida, les imatges capturades de nou tindran calculat el seu HFR."
 
 #: ekos/analyze/analyze.cpp:2060
@@ -11965,7 +11965,7 @@ msgid ""
 "you REALLY want to check this box."
 msgstr ""
 "Opció per a enregistrar els missatges de l'astrometria a un fitxer separat. "
-"Si se selecciona LOG_ALL «segur» que voldreu activar esta casella."
+"Si se selecciona LOG_ALL, segur que voldreu activar esta casella."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryLogToFile)
 #: ekos/auxiliary/opslogs.ui:468
@@ -12100,7 +12100,7 @@ msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu la càmera per a prendre imatges per a este "
+"<html><head/><body><p>Seleccioneu la càmera per a prendre imatges en este "
 "tren òptic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
@@ -12116,7 +12116,7 @@ msgstr "Càmera:"
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr ""
-"Seleccioneu una tapa per la pols mecanitzada si n'hi ha (p. ex., FlipFlat)."
+"Seleccioneu una tapa mecanitzada per la pols si n'hi ha (p. ex., FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:205
@@ -12856,8 +12856,8 @@ msgstr ""
 "el paràmetre FWHM, i per tant és millor per a les estreles xicotetes. El "
 "filtre gaussià és millor per a la detecció d'objectes febles.  El filtre de "
 "barret mexicà és bo en camps d'estreles atapeïts o als voltants de "
-"nebuloses. El filtre barret de copa alta és bo per a objectes de baixa "
-"brillantor estesos. Nota: La selecció del filtre «Personalitzat» està "
+"nebuloses. El filtre barret de copa alta és bo per a objectes estesos de "
+"brillantor baixa. Nota: La selecció del filtre «Personalitzat» està "
 "destinada a propòsits de prova i només l'han d'utilitzar els desenvolupadors"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
@@ -13882,7 +13882,7 @@ msgstr "Establix la temperatura a %1 °C..."
 #: ekos/capture/capture.cpp:3444
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
-msgstr "S'està esperant que la deriva del guiatge estiga davall %1\"..."
+msgstr "S'està esperant que la deriva del guiatge estiga per davall de %1\"..."
 
 #: ekos/capture/capture.cpp:3445
 #, kde-format
@@ -18718,12 +18718,12 @@ msgstr "Ha fallat el calibratge: la deriva és massa xicoteta."
 #: ekos/guide/internalguide/calibrationprocess.cpp:423
 #, kde-format
 msgid "Calibrating DEC Backlash"
-msgstr "S'està calibrant el rebot de la DEC"
+msgstr "S'està calibrant el rebot de la Dec"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:432
 #, kde-format
 msgid "Calibrating DEC Out"
-msgstr "S'està calibrant l'eixida de la DEC"
+msgstr "S'està calibrant l'eixida de la Dec"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:468
 #, kde-format
@@ -18746,18 +18746,18 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"Guia DEC: El telescopi no ha pogut assolir el punt inicial després d'%1 "
+"Guia Dec: El telescopi no ha pogut assolir el punt inicial després d'%1 "
 "iteració.\n"
 "Possible problema de la muntura o del rebot..."
 msgstr[1] ""
-"Guia DEC: El telescopi no ha pogut assolir el punt inicial després de %1 "
+"Guia Dec: El telescopi no ha pogut assolir el punt inicial després de %1 "
 "iteracions.\n"
 "Possible problema de la muntura o de rebot..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:511
 #, kde-format
 msgid "Calibrating DEC In"
-msgstr "S'està calibrant l'entrada de la DEC"
+msgstr "S'està calibrant l'entrada de la Dec"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:584
 #, kde-format
@@ -18878,7 +18878,7 @@ msgid ""
 "Maximum number of iterations calibration should use per phase. It may use "
 "fewer (if max move is reached)."
 msgstr ""
-"Nombre màxim d'iteracions utilitzades en cada fase del calibratge. Em pot "
+"Nombre màxim d'iteracions utilitzades en cada fase del calibratge. En pot "
 "utilitzar menys (si s'ha arribat al màxim de moviments)."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -18998,7 +18998,7 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:372
 #, kde-format
 msgid "Remove DEC backlash in guide calibration"
-msgstr "Elimina el rebot de la DEC en calibrar el sistema de guiatge"
+msgstr "Elimina el rebot de la Dec en calibrar el sistema de guiatge"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
@@ -19051,10 +19051,10 @@ msgid ""
 "when re-using calibrations. The value you need is a property of your mount "
 "that should be researched. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>En reusar un calibratge, invertix l'angle DEC si el "
-"costat del moll actual diferix del costat del calibratge. Açò només s'aplica "
-"en reusar calibratges. El valor que cal és una propietat de la muntura que "
-"cal investigar.</p></body></html>"
+"<html><head/><body><p>En reusar un calibratge, invertix l'angle de la Dec si "
+"el costat del moll actual diferix del costat del calibratge. Açò només "
+"s'aplica en reusar calibratges. El valor que cal és una propietat de la "
+"muntura que cal investigar.</p></body></html>"
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
@@ -19062,7 +19062,8 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:411 kstars.kcfg:2533
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
-msgstr "Invertix el Dec en canvi del costat del moll en reusar el calibratge."
+msgstr ""
+"Invertix el Dec en canviar el costat del moll quan es reusa el calibratge."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -20140,7 +20141,7 @@ msgstr ""
 #: ekos/manager.cpp:1054
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
-msgstr "No s'ha pogut connectar amb el servidor INDI remot %1:%2"
+msgstr "No s'ha pogut connectar amb el servidor INDI local %1:%2"
 
 #: ekos/manager.cpp:1056
 #, kde-format
@@ -20975,8 +20976,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Habilitar o inhabilitar els límits de l'interval per "
 "al recorregut de la muntura. Una vegada habilitat, Ekos controlarà l'altitud "
-"de la muntura mentre gira o seguix. Si la muntura orienta/seguix per davall "
-"o per damunt del límit, s'ordenarà que es pare i el seguiment serà "
+"de la muntura mentre s'orienta o seguix. Si la muntura orienta/seguix per "
+"davall o per damunt del límit, s'ordenarà que es pare i el seguiment serà "
 "desactivat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
@@ -22675,14 +22676,12 @@ msgstr ""
 #: ekos/profilescript.cpp:57
 #, kde-format
 msgid "Select script to execute before starting the driver"
-msgstr ""
-"Seleccioneu l'script que s'ha d'executar abans d'iniciar el controlador"
+msgstr "Seleccioneu l'script que s'executarà abans d'iniciar el controlador"
 
 #: ekos/profilescript.cpp:66
 #, kde-format
 msgid "Select script to execute after starting the driver"
-msgstr ""
-"Seleccioneu l'script que s'ha d'executar després d'iniciar el controlador"
+msgstr "Seleccioneu l'script que s'executarà després d'iniciar el controlador"
 
 #: ekos/profilescript.cpp:115
 #, kde-format
@@ -23935,7 +23934,7 @@ msgid ""
 "to calculate it"
 msgstr ""
 "Nombre de tasques del programador requerides per a capturar la imatge en "
-"mosaic. Feu clic en actualitza per a calcular-ho"
+"mosaic. Per a calcular-ho, feu clic en actualitza"
 
 #. i18n: ectx: property (text), widget (QLabel, jobCountLabel)
 #: ekos/scheduler/mosaic.ui:961
@@ -33547,8 +33546,8 @@ msgid ""
 "Maximum difference between measured and target ADU values to deem the value "
 "as acceptable."
 msgstr ""
-"Diferència màxima entre els valors mesurats i ADU objectiu per a considerar "
-"el valor com acceptable."
+"Diferència màxima entre els valors mesurats i de l'ADU objectiu per a "
+"considerar el valor com acceptable."
 
 #. i18n: ectx: label, entry (CalibrationFlatSourceIndex), group (Capture)
 #: kstars.kcfg:1693
@@ -34948,7 +34947,7 @@ msgstr ""
 #: kstars.kcfg:2537
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
-msgstr "Elimina el rebot de la DEC en calibrar el sistema de guiatge."
+msgstr "Elimina el rebot de la Dec en calibrar el sistema de guiatge."
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
 #: kstars.kcfg:2541
@@ -35200,7 +35199,7 @@ msgstr "Restricció de l'altitud de treball predeterminada del programador."
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr ""
 "Casella de selecció predeterminada del planificador per a la restricció de "
-"l'horitzó artificial de treball."
+"l'horitzó artificial del treball."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
 #: kstars.kcfg:2676
@@ -79350,7 +79349,7 @@ msgstr "string"
 #, kde-format
 msgid "Use animated slewing? (otherwise, \"snap\" to new focus)"
 msgstr ""
-"Voleu utilitzar la transició animada? (altrament, «salta» al nou enfocament)"
+"Voleu utilitzar la transició animada? (altrament, «salta» a l'enfocament nou)"
 
 #: tools/scriptbuilder.cpp:652
 #, kde-format

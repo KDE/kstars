@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1644360 $
+# Version: $Revision: 1644420 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 00:54+0000\n"
-"PO-Revision-Date: 2023-02-11 08:39+0100\n"
+"PO-Revision-Date: 2023-02-12 09:19+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -6027,13 +6027,9 @@ msgstr ""
 "to sprawdzić."
 
 #: ekos/align/align.cpp:2481
-#, fuzzy, kde-format
-#| msgid ""
-#| "Mount is synced to solution coordinates. Astrometric solver is successful."
+#, kde-format
 msgid "Mount is synced to solution coordinates."
-msgstr ""
-"Montaż jest zsychronizowany z współrzędnymi rozwiązania. Program "
-"rozwiązujący astronometrię ukończył pomyślnie."
+msgstr "Montaż jest zsychronizowany z współrzędnymi rozwiązania."
 
 #: ekos/align/align.cpp:2516 ekos/align/align.cpp:2546
 #: ekos/align/align.cpp:3794 ekos/align/polaralignmentassistant.cpp:637
@@ -6042,10 +6038,9 @@ msgid "Settling..."
 msgstr "Ustalanie..."
 
 #: ekos/align/align.cpp:2522
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Differential slewing complete."
-msgstr "Ukończono ustalanie."
+msgstr "Ukończono różnicowe obracanie."
 
 #: ekos/align/align.cpp:2536
 #, kde-format
@@ -10728,14 +10723,13 @@ msgstr "Szczegóły"
 #, kde-format
 msgctxt "@title:window"
 msgid "Y-Axis Tool"
-msgstr ""
+msgstr "Narzędzie osi Y"
 
 #. i18n: ectx: property (text), widget (QLabel, statLabel)
 #: ekos/analyze/yaxistool.ui:25
-#, fuzzy, kde-format
-#| msgid "Star Name"
+#, kde-format
 msgid "Stat Name"
-msgstr "Nazwa gwiazdy"
+msgstr "Nazwa statystyki"
 
 #. i18n: ectx: property (text), widget (QLabel, statShortLabel)
 #. i18n: ectx: property (text), widget (QLabel, labelDate)
@@ -10755,46 +10749,39 @@ msgstr "Górna granica"
 
 #. i18n: ectx: property (text), widget (QLabel, lowerLimitLabel)
 #: ekos/analyze/yaxistool.ui:122
-#, fuzzy, kde-format
-#| msgid "Guide Limits"
+#, kde-format
 msgid "Lower Limit"
-msgstr "Granice naprowadzania"
+msgstr "Dolna granica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoLimitsCB)
 #: ekos/analyze/yaxistool.ui:166
-#, fuzzy, kde-format
-#| msgid "Automatic mode"
+#, kde-format
 msgid "Automatic Limits"
-msgstr "Tryb samoczynny"
+msgstr "Samoustalane granice"
 
 #. i18n: ectx: property (text), widget (QCheckBox, leftAxisCB)
 #: ekos/analyze/yaxistool.ui:173
 #, kde-format
 msgid "Use for Left Axis"
-msgstr ""
+msgstr "Użyj dla lewej osi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/analyze/yaxistool.ui:188
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Color"
+#, kde-format
 msgid "Color"
 msgstr "Barwa"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorB)
 #: ekos/analyze/yaxistool.ui:217
-#, fuzzy, kde-format
-#| msgctxt "City in Gyeongnam South Korea"
-#| msgid "Changwon"
+#, kde-format
 msgid "Change"
-msgstr "Changwon"
+msgstr "Zmień"
 
 #. i18n: ectx: property (text), widget (QPushButton, defaultB)
 #: ekos/analyze/yaxistool.ui:239
-#, fuzzy, kde-format
-#| msgid "Default city"
+#, kde-format
 msgid "Use Default Limits"
-msgstr "Domyślne miasto"
+msgstr "Użyj domyślnych granic"
 
 #: ekos/auxiliary/darklibrary.cpp:83
 #, kde-format
@@ -11933,6 +11920,8 @@ msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
+"Wykryto brakujące urządzenie (%1). Ustaw ponownie układ optyczny przez "
+"przejściem dalej."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:914
 #, kde-format
@@ -11940,6 +11929,8 @@ msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
+"Wykryto brakujących urządzeń (%1). Ustaw ponownie układ optyczny przez "
+"przejściem dalej."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
@@ -11951,7 +11942,7 @@ msgstr "Układy optyczne"
 #: ekos/auxiliary/opticaltrains.ui:108
 #, kde-format
 msgid "Optical train name (double click to change the name)"
-msgstr ""
+msgstr "Nazwa układu optycznego (naciśnij dwukrotnie, aby zmienić nazwę)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
@@ -11975,10 +11966,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
-#, fuzzy, kde-format
-#| msgid "Scope/Lens"
+#, kde-format
 msgid "Scope/Lense:"
-msgstr "Optyka/Obiektyw"
+msgstr "Okular/soczewka:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:156
@@ -11987,6 +11977,8 @@ msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
 "use the same mount."
 msgstr ""
+"Wybierz montaż do użycia. Zazwyczaj, wszystkie układy optyczne w tym samym "
+"profilu używają tego samego montażu."
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -12017,14 +12009,13 @@ msgstr "Aparat:"
 #: ekos/auxiliary/opticaltrains.ui:202
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
-msgstr ""
+msgstr "Wybierz zmechanizowaną zaślepkę, jeśli istnieje (np. FlipFlat)"
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:205
-#, fuzzy, kde-format
-#| msgid "Dust Cap"
+#, kde-format
 msgid "Dust Cap:"
-msgstr "Zaślepka"
+msgstr "Zaślepka:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:225
@@ -12047,23 +12038,22 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:228
-#, fuzzy, kde-format
-#| msgid "Reducer"
+#, kde-format
 msgid "Reducer/Barlow:"
-msgstr "Reduktor"
+msgstr "Reduktor/Barlow:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:258
 #, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
+"Wybierz skrzynkę świetlną płaskiego pola, jeśli istnieje (np. FlipFlat)"
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:261
-#, fuzzy, kde-format
-#| msgid "Light Box"
+#, kde-format
 msgid "Light Box:"
-msgstr "Skrzynka świetlna"
+msgstr "Skrzynka świetlna:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:271
@@ -12118,7 +12108,7 @@ msgstr "Prowadnica:"
 #: ekos/auxiliary/opticaltrains.ui:317
 #, kde-format
 msgid "Select a mechanized focuser if any."
-msgstr ""
+msgstr "Wybierz zmechanizowany układ ogniskujący, jeśli istnieje."
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
@@ -12143,7 +12133,7 @@ msgstr "x"
 #: ekos/auxiliary/opticaltrains.ui:352
 #, kde-format
 msgid "Select a mechanized rotator if any."
-msgstr ""
+msgstr "Wybierz zmechanizowaną obrotnicę, jeśli istnieje."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:355
@@ -13554,10 +13544,9 @@ msgid "CCD capture suspended"
 msgstr "Wstrzymano przechwytywanie CCD"
 
 #: ekos/capture/capture.cpp:960
-#, fuzzy, kde-format
-#| msgid "Capture completed."
+#, kde-format
 msgid "CCD capture complete"
-msgstr "Ukończono przechwytywanie."
+msgstr "Ukończono zrzucanie CCD"
 
 #: ekos/capture/capture.cpp:965
 #, kde-format
@@ -13830,10 +13819,9 @@ msgstr ""
 "obrót o południk właśnie tam."
 
 #: ekos/capture/capture.cpp:3952
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing failed."
+#, kde-format
 msgid "Warning: Filter %1 not found in filter wheel."
-msgstr "Uwaga: nie udało się zadanie ogniskowania '%1'."
+msgstr "Ostrzeżenie: Nie udało się odnaleźć koła filtra w filtrze %1."
 
 #: ekos/capture/capture.cpp:4170
 #, kde-format
@@ -14067,10 +14055,9 @@ msgid "Manage Observers"
 msgstr "Zarządzanie obserwatorami"
 
 #: ekos/capture/capture.cpp:5898
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Filter set to %1."
-msgstr "Plik zapisano do %1"
+msgstr "Filtr ustawiony na %1."
 
 #: ekos/capture/capture.cpp:6237
 #, kde-format
@@ -14229,17 +14216,15 @@ msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:386
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Current camera gain"
-msgstr "Bieżący skrypt"
+msgstr "Bieżący wzmocnienie aparatu"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:405
-#, fuzzy, kde-format
-#| msgid "Clear camera configuration"
+#, kde-format
 msgid "Target camera gain"
-msgstr "Wyczyść ustawienia aparatu"
+msgstr "Docelowe wzmocnienie aparatu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/capture.ui:488
@@ -14256,17 +14241,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/capture.ui:557
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "Przesunięcie aparatu"
+msgstr "Bieżące przesunięcie aparatu"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/capture.ui:576
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "Przesunięcie aparatu"
+msgstr "Docelowe przesunięcie aparatu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #: ekos/capture/capture.ui:594
@@ -14390,10 +14373,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/capture/capture.ui:922
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Directory"
-msgstr "Katalog:"
+msgstr "Katalog"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:929
@@ -14409,7 +14391,7 @@ msgstr ""
 #: ekos/capture/capture.ui:932
 #, no-c-format, kde-format
 msgid "_%s"
-msgstr ""
+msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/capture.ui:951
@@ -15428,10 +15410,9 @@ msgstr ""
 "Rozpoczęto ponowne ogniskowanie, bo temperatura zmieniła się o %1 °C..."
 
 #: ekos/capture/refocusstate.cpp:58
-#, fuzzy, kde-format
-#| msgid "Scheduled refocus started..."
+#, kde-format
 msgid "In sequence HFR based refocus starting..."
-msgstr "Rozpoczęto zaplanowaną zmianę ogniskowej..."
+msgstr "Rozpoczęto ponowne ogniskowanie w szeregu oparte na HFR..."
 
 #: ekos/capture/refocusstate.cpp:85
 #, kde-format
@@ -15649,8 +15630,7 @@ msgid "Complete"
 msgstr "Ukończone"
 
 #: ekos/capture/sequencejobstate.cpp:340
-#, fuzzy, kde-format
-#| msgid "Cover telescope with an evenly illuminated light source."
+#, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Przykryj teleskop równo oświetlającym źródłem światła."
 
@@ -15803,8 +15783,7 @@ msgid "Framing"
 msgstr "Klatkownanie"
 
 #: ekos/ekos.h:139
-#, fuzzy, kde-format
-#| msgid "Success"
+#, kde-format
 msgid "Successful"
 msgstr "Powodzenie"
 
@@ -15814,10 +15793,9 @@ msgid "Syncing"
 msgstr "Synchronizowanie"
 
 #: ekos/ekos.h:140
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotating"
-msgstr "Obrót"
+msgstr "Obracanie"
 
 #: ekos/ekos.h:161
 #, kde-format
@@ -15933,10 +15911,9 @@ msgid "Auto Start"
 msgstr "Auto Start"
 
 #: ekos/ekoslive/message.cpp:944
-#, fuzzy, kde-format
-#| msgid "Rescaling image failed."
+#, kde-format
 msgid "Mosaic import failed."
-msgstr "Nie udało się przeskalowanie obrazu."
+msgstr "Nie udało się zaimportować mozaiki."
 
 #: ekos/focus/focus.cpp:95
 #, kde-format
@@ -16057,48 +16034,48 @@ msgid "Focusing %2 by %1 ms..."
 msgstr "Ogniskowanie %2 w czasie %1 ms..."
 
 #: ekos/focus/focus.cpp:1463
-#, fuzzy, kde-format
-#| msgid "Focuser is not responding to commands. Aborting..."
+#, kde-format
 msgid "Focuser is still timing out. Aborting..."
-msgstr "Układ ogniskujący nie odpowiada na polecenia. Przerywanie..."
+msgstr "Układ ogniskujący nadal nie odpowiada. Przerywanie..."
 
 #: ekos/focus/focus.cpp:1470
-#, fuzzy, kde-format
-#| msgid "Focus motion timed out. Focusing to %1 steps..."
+#, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
-"Upłynął czas oczekiwania na ruch ogniskowania. Ogniskowanie do %1 kroków..."
+"Upłynął czas oczekiwania na ruch ogniskowania (%1). Uruchamiam ponownie "
+"sterownik ogniskowania %2"
 
 #: ekos/focus/focus.cpp:1487
-#, fuzzy, kde-format
-#| msgid "Focus motion timed out. Focusing to %1 steps..."
+#, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
-"Upłynął czas oczekiwania na ruch ogniskowania. Ogniskowanie do %1 kroków..."
+"Upłynął czas oczekiwania na ruch ogniskowania (%1). Ogniskowanie do %2 "
+"kroków..."
 
 #: ekos/focus/focus.cpp:1492
-#, fuzzy, kde-format
-#| msgid "Focus motion timed out. Focusing %2 by %1 steps..."
+#, kde-format
 msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
-msgstr "Upłynął czas oczekiwania na ruch ogniskowania. Ogniskowanie %2 o %1..."
+msgstr ""
+"Upłynął czas oczekiwania na ruch ogniskowania (%1). Ogniskowanie %3 w %2 "
+"krokach..."
 
 #: ekos/focus/focus.cpp:1498
-#, fuzzy, kde-format
-#| msgid "Focus motion timed out. Focusing %2 by %1 ms..."
+#, kde-format
 msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
 msgstr ""
-"Upłynął czas oczekiwania na ruch ogniskowania. Ogniskowanie %2 co %1 ms..."
+"Upłynął czas oczekiwania na ruch ogniskowania (%1). Ogniskowanie %3 co %2 "
+"ms..."
 
 #: ekos/focus/focus.cpp:1509
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
-msgstr ""
+msgstr "Próba ponownego połączenia z układem ogniskującym: %1"
 
 #: ekos/focus/focus.cpp:1518
-#, fuzzy, kde-format
-#| msgid "Capture error. Aborting..."
+#, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
-msgstr "Błąd przechwytywania. Przerywanie..."
+msgstr ""
+"Nie udało się ponownie podłączyć układu ogniskującego: %1. Przerywanie..."
 
 #: ekos/focus/focus.cpp:1568
 #, kde-format
@@ -16280,10 +16257,9 @@ msgid "Focuser error, check INDI panel."
 msgstr "Błąd układu ogniskowania, sprawdź panel INDI."
 
 #: ekos/focus/focus.cpp:3024
-#, fuzzy, kde-format
-#| msgid "Auto focus on filter change..."
+#, kde-format
 msgid "Simulate focuser comms failure..."
-msgstr "Samo-ogniskowanie po zmianie filtra..."
+msgstr "Zasymuluj niepowodzenie porozumiewania się z układem ogniskującym..."
 
 #: ekos/focus/focus.cpp:3092 ekos/focus/focus.cpp:3144
 #: ekos/focus/focus.cpp:3193 ekos/focus/focus.cpp:3225
@@ -17160,10 +17136,9 @@ msgstr "Czas oczekiwania na przechwycenie:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:1733
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Usterka sterownika"
+msgstr "Luz napędu:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:1746
@@ -17177,10 +17152,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:1768
-#, fuzzy, kde-format
-#| msgid "Overlap:"
+#, kde-format
 msgid "AF Overscan:"
-msgstr "Nachodzenie:"
+msgstr "Nadmiarowe AF:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:1775
@@ -17401,7 +17375,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:150
 #, kde-format
 msgid "Giving up reconnecting."
-msgstr ""
+msgstr "Zaniechano ponownego łączenia."
 
 #: ekos/guide/externalguide/phd2.cpp:154
 #, kde-format
@@ -19151,7 +19125,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:132
 #, kde-format
 msgid "Dark guiding interval"
-msgstr ""
+msgstr "Okres naprowadzania w ciemni"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs0a)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGPeriod)
@@ -19195,7 +19169,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:169
 #, kde-format
 msgid "Intra-frame dark guiding"
-msgstr ""
+msgstr "Naprowadzenie w ciemni wewnątrz ramki"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs1a)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGEstimatePeriod)
@@ -20474,10 +20448,9 @@ msgid "Meridian flip waiting..."
 msgstr "Oczekiwanie na obrót o południk..."
 
 #: ekos/manager/meridianflipstate.cpp:426
-#, fuzzy, kde-format
-#| msgid "Meridian ready to start..."
+#, kde-format
 msgid "Meridian flip ready to start..."
-msgstr "Południk gotowy do rozpoczęcia..."
+msgstr "Gotowy na obrót o południk..."
 
 #: ekos/manager/meridianflipstate.cpp:430
 #, kde-format
@@ -22371,10 +22344,9 @@ msgstr "Pom 4:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profileeditor.ui:460
-#, fuzzy, kde-format
-#| msgid "Camera W:"
+#, kde-format
 msgid "Camera 2:"
-msgstr "Szerokość aparatu:"
+msgstr "Aparat 2:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
@@ -22454,10 +22426,9 @@ msgstr "Pom 2:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/profileeditor.ui:621
-#, fuzzy, kde-format
-#| msgid "Camera W:"
+#, kde-format
 msgid "Camera 1:"
-msgstr "Szerokość aparatu:"
+msgstr "Aparat 1:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, weatherLabel)
 #: ekos/profileeditor.ui:691
@@ -23418,14 +23389,13 @@ msgstr "Potwierdź wyposażenie"
 #: ekos/scheduler/framingassistant.ui:936
 #, kde-format
 msgid "Import Mosaic from Telescopius"
-msgstr ""
+msgstr "Zaimportuj Mozaikę z Telescopius"
 
 #. i18n: ectx: property (text), widget (QPushButton, importB)
 #: ekos/scheduler/framingassistant.ui:939
-#, fuzzy, kde-format
-#| msgid "Import CSV..."
+#, kde-format
 msgid "Import..."
-msgstr "Zaimportuj CSV..."
+msgstr "Zaimportuj..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
 #: ekos/scheduler/framingassistant.ui:946
@@ -23672,21 +23642,20 @@ msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Kolejka Ekos (*.esq)"
 
 #: ekos/scheduler/framingassistantui.cpp:677
-#, fuzzy, kde-format
-#| msgid "Select Serial port"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
-msgstr "Wybierz gniazdo seryjne"
+msgstr "Wybierz import mozaiki"
 
 #: ekos/scheduler/framingassistantui.cpp:679
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
-msgstr ""
+msgstr "Telescopius CSV (*.csv)"
 
 #: ekos/scheduler/framingassistantui.cpp:738
 #, kde-format
 msgid "Import must contain center coordinates."
-msgstr ""
+msgstr "Import musi zawierać współrzędne środka."
 
 #: ekos/scheduler/framingassistantui.cpp:817
 #, kde-format
@@ -23900,16 +23869,14 @@ msgstr ""
 "Właściwości zdania zostaną skopiowane w pola edycji przed usunięciem."
 
 #: ekos/scheduler/scheduler.cpp:489
-#, fuzzy, kde-format
-#| msgid "Clear all selected items in the list"
+#, kde-format
 msgid "Move selected job one line up in the list.\n"
-msgstr "Wyczyszczenie listy zaznaczonych"
+msgstr "Przesuń zaznaczone zadanie jeden wiersz w górę na liście.\n"
 
 #: ekos/scheduler/scheduler.cpp:492
-#, fuzzy, kde-format
-#| msgid "Clear all selected items in the list"
+#, kde-format
 msgid "Move selected job one line down in the list.\n"
-msgstr "Wyczyszczenie listy zaznaczonych"
+msgstr "Przesuń zaznaczone zadanie jeden wiersz w dół na liście.\n"
 
 #: ekos/scheduler/scheduler.cpp:496
 #, kde-format
@@ -24357,7 +24324,7 @@ msgstr "Uwaga: kopuła niegotowa po ustalonym czasie, więc ponowiono..."
 #: ekos/scheduler/scheduler.cpp:3299
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr ""
+msgstr "Wymagane wyparkowanie kopuły, lecz kopułą nie jest jeszcze gotowa."
 
 #: ekos/scheduler/scheduler.cpp:3309
 #, kde-format
@@ -24626,22 +24593,19 @@ msgstr[2] ""
 "uruchomiono je ponownie."
 
 #: ekos/scheduler/scheduler.cpp:5407
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
-msgstr "Uwaga: nie udało się zadanie wyrównywania '%1'."
+msgstr "Ostrzeżenie: plik docelowy FITS zadania '%1' nie istnieje."
 
 #: ekos/scheduler/scheduler.cpp:5420
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
-msgstr "Błąd captureAndSolve DBUS: %1"
+msgstr "Uwaga: zadanie '%1' żądania loadAndSlew otrzymało błąd DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5431
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
-msgstr "Uwaga: nie udało się zadanie wyrównywania '%1'."
+msgstr "Ostrzeżenie: nie udało się żądanie loadAndSlew zadania '%1'"
 
 #: ekos/scheduler/scheduler.cpp:5438
 #, kde-format
@@ -24666,10 +24630,9 @@ msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr "Uwaga: zadanie '%1' żądania captureAndSolve otrzymało błąd DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5495
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
-msgstr "Błąd captureAndSolve DBUS: %1"
+msgstr "Ostrzeżenie: nie udało się żądanie captureAndSolve zadania '%1'"
 
 #: ekos/scheduler/scheduler.cpp:5501
 #, kde-format
@@ -25179,16 +25142,14 @@ msgstr ""
 "wyprzedzające wyłączenie."
 
 #: ekos/scheduler/scheduler.cpp:8429
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s"
+#, kde-format
 msgid "Solver timed out: %1s %2"
-msgstr "Czas programu rozwiązującego upłynął: %1s"
+msgstr "Czas oczekiwania na program rozwiązujący upłynął: %1s %2"
 
 #: ekos/scheduler/scheduler.cpp:8431
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "Solver failed: %1s %2"
-msgstr "Niepowodzenie programu rozwiązującego: %1s"
+msgstr "Niepowodzenie programu rozwiązującego: %1s %2"
 
 #: ekos/scheduler/scheduler.cpp:8466
 #, kde-format
@@ -26926,48 +26887,45 @@ msgstr "Rozciągnij podgląd:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clippingBox)
 #: fitsviewer/opsfits.ui:195
-#, fuzzy, kde-format
-#| msgid "Clipping"
+#, kde-format
 msgid "Clipping Limits"
-msgstr "Przycinanie"
+msgstr "Granice przycinania"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:216
 #, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr ""
+msgstr "Wartość przycinająca dla wartości 16-bitowych."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:219
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "16bit threshold:"
-msgstr "Próg T.:"
+msgstr "Próg 16-bitowy:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:226
 #, kde-format
 msgid "64K Clipping value."
-msgstr ""
+msgstr "Wartość przycinania 64K."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:242
 #, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr ""
+msgstr "Wartość przycinająca dla wartości 8bitowych."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:245
-#, fuzzy, kde-format
-#| msgid "T. threshold:"
+#, kde-format
 msgid "8Bit threshold:"
-msgstr "Próg T.:"
+msgstr "Próg 8-bitowy:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:252
 #, kde-format
 msgid "Byte Clipping value."
-msgstr ""
+msgstr "Wartość przycinania w bajtach."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:273
@@ -33055,10 +33013,9 @@ msgstr "Wymuś ograniczenie odchylenia naprowadzania."
 
 #. i18n: ectx: label, entry (EnforceAutofocusHFR), group (Capture)
 #: kstars.kcfg:1658
-#, fuzzy, kde-format
-#| msgid "Enforce Autofocus HFR limit."
+#, kde-format
 msgid "Enforce Autofocus on HFR limit."
-msgstr "Wymuś ograniczenie samoczynnego ogniskowania HFR."
+msgstr "Wymuś samoogniskowanie przy granicy HFR."
 
 #. i18n: ectx: label, entry (EnforceAutofocusOnTemperature), group (Capture)
 #: kstars.kcfg:1662
@@ -33249,6 +33206,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
+"Najmniejsza wartość pikseli oznaczonych jako przycięte w przeglądarce FITS "
+"dla obrazów 16-bitowych."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1765
@@ -33256,6 +33215,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
+"Najmniejsza wartość pikseli oznaczonych jako przycięte w przeglądarce FITS "
+"dla obrazów 8-bitowych."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:1770
@@ -33296,10 +33257,9 @@ msgstr "Ścieżka do zapisywania przechwyconych obrazów."
 
 #. i18n: ectx: label, entry (PlaceholderFormat), group (Capture)
 #: kstars.kcfg:1789
-#, fuzzy, kde-format
-#| msgid "Add the filter name to the capture file name."
+#, kde-format
 msgid "How to format captured image filename."
-msgstr "Dodaje nazwę filtra do nazwy pliku przechwytywania."
+msgstr "Jak zapisać nazwę zrzuconego pliku."
 
 #. i18n: ectx: label, entry (RemoteCaptureDirectory), group (Capture)
 #: kstars.kcfg:1793
@@ -33587,7 +33547,7 @@ msgstr "Profil wydobywania źródła ogniskowania"
 #: kstars.kcfg:1923
 #, kde-format
 msgid "Focus backlash in steps. Zero disables backlash compensation."
-msgstr ""
+msgstr "Luz ogniskowania w krokach. Zero wyłącza kompensowanie luzu."
 
 #. i18n: ectx: label, entry (FocusFramesCount), group (Focus)
 #: kstars.kcfg:1927
@@ -34183,7 +34143,7 @@ msgstr ""
 #: kstars.kcfg:2256
 #, kde-format
 msgid "Guide square size selection in pixels."
-msgstr ""
+msgstr "Rozmiar kwadratowego zaznaczenia naprowadzania w pikselach."
 
 #. i18n: ectx: label, entry (GuideBinning), group (Guide)
 #: kstars.kcfg:2260
@@ -34909,10 +34869,10 @@ msgstr "Wyświetl stronę doku na wykresie analizy statystycznej."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
 #: kstars.kcfg:2782
-#, fuzzy, kde-format
-#| msgid "Display Drift on the Analyze Statistics Plot."
+#, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
-msgstr "Wyświetl dryf na wykresie analizy statystycznej."
+msgstr ""
+"Zachowane górna i dolna granica osi Y dla wykresu analizy statystycznej."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
 #: kstars.kcfg:2787
@@ -40596,13 +40556,13 @@ msgstr "Obs. Słoneczne Big Bear"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Big Bend Ranch SP (Marfa) IDS"
-msgstr ""
+msgstr "Big Bend Ranch SP (Marfa) IDS"
 
 #: kstars_i18n.cpp:1015
 #, kde-kuit-format
 msgctxt "City in Florida USA"
 msgid "Big Cypress National Preserve (Ochopee) IDS"
-msgstr ""
+msgstr "Big Cypress National Preserve (Ochopee) IDS"
 
 #: kstars_i18n.cpp:1016
 #, kde-kuit-format
@@ -40728,7 +40688,7 @@ msgstr "Black Birch"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Black Gap WMA (Marathon) IDS"
-msgstr ""
+msgstr "Black Gap WMA (Marathon) IDS"
 
 #: kstars_i18n.cpp:1037
 #, kde-kuit-format
@@ -41322,7 +41282,7 @@ msgstr "Briańsk"
 #, kde-kuit-format
 msgctxt "City in Utah USA"
 msgid "Bryce Canyon National Park (Tropic) IDS"
-msgstr ""
+msgstr "Bryce Canyon National Park (Tropic) IDS"
 
 #: kstars_i18n.cpp:1136
 #, kde-kuit-format
@@ -41742,7 +41702,7 @@ msgstr "Kapsztad (Cape Town)"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Caprock Canyon SP (Quitaque)"
-msgstr ""
+msgstr "Caprock Canyon SP (Quitaque)"
 
 #: kstars_i18n.cpp:1206
 #, kde-kuit-format
@@ -42810,7 +42770,7 @@ msgstr "Kopenhaga"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Copper Breaks SP (Quanah) IDS"
-msgstr ""
+msgstr "Copper Breaks SP (Quanah) IDS"
 
 #: kstars_i18n.cpp:1384
 #, kde-kuit-format
@@ -43218,7 +43178,7 @@ msgstr "Davidson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Davis Mountains SP (Fort Davis) IDS"
-msgstr ""
+msgstr "Davis Mountains SP (Fort Davis) IDS"
 
 #: kstars_i18n.cpp:1452
 #, kde-kuit-format
@@ -43440,7 +43400,7 @@ msgstr "Devils Lake"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Devils River State Natural Area (Del Rio) IDS"
-msgstr ""
+msgstr "Devils River State Natural Area (Del Rio) IDS"
 
 #: kstars_i18n.cpp:1489
 #, kde-kuit-format
@@ -44256,7 +44216,7 @@ msgstr "Emerson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Enchanted Rock State Natural Area (Fredricksburg) IDS"
-msgstr ""
+msgstr "Enchanted Rock State Natural Area (Fredricksburg) IDS"
 
 #: kstars_i18n.cpp:1625
 #, kde-kuit-format
@@ -47802,7 +47762,7 @@ msgstr "Chmielnicki"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Kickapoo Cavern  SP (Bracketville)"
-msgstr ""
+msgstr "Kickapoo Cavern  SP (Bracketville)"
 
 #: kstars_i18n.cpp:2216
 #, kde-kuit-format
@@ -49224,7 +49184,7 @@ msgstr "Los Angeles"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Lost Maples State Natural Area (Vanderpool)"
-msgstr ""
+msgstr "Lost Maples State Natural Area (Vanderpool)"
 
 #: kstars_i18n.cpp:2453
 #, kde-kuit-format
@@ -55392,7 +55352,7 @@ msgstr "Selter"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Seminole Canyon SP (Comstock)"
-msgstr ""
+msgstr "Seminole Canyon SP (Comstock)"
 
 #: kstars_i18n.cpp:3481
 #, kde-kuit-format
@@ -55974,7 +55934,7 @@ msgstr "VORTAC, South Kauai"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "South Llano River SP (Llano) IDS"
-msgstr ""
+msgstr "South Llano River SP (Llano) IDS"
 
 #: kstars_i18n.cpp:3578
 #, kde-kuit-format
@@ -75341,10 +75301,9 @@ msgid "Horizontal Coordinates"
 msgstr "Współrzędne poziome"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "Skopiuj współrzędne"
+msgstr "Proste współrzędne"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
@@ -76798,42 +76757,35 @@ msgstr "Podaj czas lokalny w pliku wejściowym"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Kąt"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (hh:mm:ss)"
+#, kde-format
 msgid "Angle (hh mm ss.s) "
-msgstr "RA (gg:mm:ss)"
+msgstr "Kąt (hh mm ss.)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "Wyniki"
+msgstr "Wyniki kątowy"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
 #, kde-format
 msgid "Angle (dd.d)"
-msgstr ""
+msgstr "Kąt (dd.d)"
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dec (dd:mm:ss)"
+#, kde-format
 msgid "Angle (dd mm ss.s)"
-msgstr "Dek (dd:mm:ss)"
+msgstr "Kąt (dd mm ss.s)"
 
 #: tools/modcalcvizequinox.cpp:32
 #, kde-format
@@ -77675,10 +77627,9 @@ msgid "Sun, moon, planets"
 msgstr "Słońce, Księżyc i planety"
 
 #: tools/obslistwizard.cpp:353
-#, fuzzy, kde-format
-#| msgid "Illegal circle specified, no region selection possible."
+#, kde-format
 msgid "Illegal rectangle specified, no region selection possible."
-msgstr "Podano niepoprawny okrąg, niemożliwe wybranie regionu."
+msgstr "Podano niepoprawny prostokąt, niemożliwe wybranie regionu."
 
 #: tools/obslistwizard.cpp:392
 #, kde-format
@@ -77907,14 +77858,13 @@ msgstr ""
 #: tools/obslistwizard.ui:603
 #, kde-format
 msgid "Center RA (in Hours):"
-msgstr ""
+msgstr "Środek RA (w godzinach):"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Promień (stopnie):"
+msgstr "Środkowa Dec (w stopniach):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
