@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 00:54+0000\n"
-"PO-Revision-Date: 2023-02-12 21:18+0100\n"
+"PO-Revision-Date: 2023-02-13 12:45+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -64890,11 +64890,12 @@ msgstr "Símbols del &CDV"
 msgid "HiPS All Sky Overlay"
 msgstr "Totes les superposicions del cel de HiPS"
 
+# NdT: En català no pot ser un adjectiu, i com que es refereix a l'emplaçament geogràfic, és preferible emprar el nom «Geografia»
 #: kstarsinit.cpp:376
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
-msgstr "&Geogràfic..."
+msgstr "&Geografia..."
 
 #: kstarsinit.cpp:393
 #, kde-format
@@ -74082,7 +74083,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Per a canviar el vostre emplaçament geogràfic,\n"
 "\t\t\tuseu Ctrl+G, el botó «globus» de la barra d'eines\n"
-"\t\t\to l'element de menú «Arranjament -> Geogràfic...».\n"
+"\t\t\to l'element de menú «Arranjament -> Geografia...».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -74926,8 +74927,9 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Podeu definir les vostres pròpies localitzacions geogràfiques.\n"
-"\t\t\tOmpliu els camps adequats al diàleg «Arranjament -> Geogràfic...» i\n"
-"\t\t\tpremeu el botó «Afegeix l'emplaçament a la llista». Els vostres "
+"\t\t\tOmpliu els camps adequats al diàleg «Establiment de l'emplaçament "
+"geogràfic»\n"
+"\t\t\ti premeu el botó «Afegeix l'emplaçament a la llista». Els vostres "
 "emplaçaments\n"
 "\t\t\testaran disponibles en totes les sessions futures.\n"
 "\t\t</p>\n"
