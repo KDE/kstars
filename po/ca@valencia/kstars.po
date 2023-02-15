@@ -6,7 +6,7 @@
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# Josep M. Ferrer <txemaq@gmail.com>, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Josep M. Ferrer <txemaq@gmail.com>, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
@@ -5466,7 +5466,7 @@ msgstr ""
 "Permet escollir una forma per al símbol del camp de visió (CDV). Les formes "
 "possibles són:\n"
 "\n"
-"Cercle, Quadrat, Punts de mira, Ull de bou."
+"Cercle, Quadrat, Punt de mira, Ull de bou."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1262
@@ -5487,7 +5487,7 @@ msgstr "Cercle"
 #: dialogs/newfov.ui:1272
 #, kde-format
 msgid "Crosshairs"
-msgstr "Punts de mira"
+msgstr "Punt de mira"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1277
@@ -5780,7 +5780,7 @@ msgid ""
 "<p>This wizard will help you set up some basic options, such as your "
 "location on Earth.</p><p>To get started, press the <b>Next</b> button.</p>"
 msgstr ""
-"<p>Este assistent vos ajudarà a establir algunes opcions bàsiques, com ara "
+"<p>Este assistent vos ajudarà a configurar algunes opcions bàsiques, com ara "
 "el vostre emplaçament sobre la Terra.</p><p>Per a començar, premeu el botó "
 "<b>Següent</b>.</p>"
 
@@ -19567,7 +19567,7 @@ msgid ""
 "indent:0; text-indent:0px;\">Swinging or dragging\n"
 "          cables.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Escala de llargària del nucli de curt abast, en \n"
+"<html><head/><body><p>Escala de llargària del nucli d'abast proper, en \n"
 "          segons.</p><p>Açò és una mesura de l'escala del soroll no periòdic "
 "a curt termini, causat per coses\n"
 "          com:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -19603,8 +19603,8 @@ msgid ""
 "          scale.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Variància del senyal del nucli\n"
-"          de curt abast.</p><p><br/></p><p>Quant canvia el soroll de curt "
-"abast en l'escala de llargària de \n"
+"          d'abast proper.</p><p><br/></p><p>Quant canvia el soroll d'abast "
+"proper en l'escala de llargària de \n"
 "          curt termini.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas5a)
@@ -22313,10 +22313,10 @@ msgid ""
 "</body></html>"
 msgstr ""
 "<html><head/><body>\n"
-"<p>Envia la configuració del lloc geogràfic actual de KStars als "
+"<p>Envia la configuració de l'emplaçament geogràfic actual de KStars als "
 "controladors quan Ekos estiga en línia.</p>\n"
-"<p>Esta opció només s'ha d'utilitzar en connectar amb un lloc geogràfic "
-"remot.</p>\n"
+"<p>Esta opció només s'ha d'utilitzar en connectar amb un emplaçament "
+"geogràfic remot.</p>\n"
 "</body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, loadSiteCheck)
@@ -24312,8 +24312,8 @@ msgstr "No hi ha cap tasca executant-se"
 #, kde-format
 msgid "All jobs aborted. Waiting %1 seconds to re-schedule."
 msgstr ""
-"S'han interromput totes les tasques. S'esperen %1 segons per a reprogramar-"
-"les."
+"S'han interromput totes les tasques. S'esperen %1 segons per a tornar a "
+"programar-les."
 
 #: ekos/scheduler/scheduler.cpp:2161 ekos/scheduler/scheduler.cpp:5161
 #, kde-format
@@ -25845,22 +25845,22 @@ msgid ""
 "30 minutes and will thus prevent a job from starting just before that moment."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Alba i posta astronòmiques per a la tasca del "
-"programador actualment seleccionada, o per a hui si no s'ha seleccionat cap "
-"tasca.</p><p>- El primer valor és la <span style=\"font-weight:600;\">posta</"
-"span>, concretament el pròxim temps local en què el sol ix davall una "
-"altitud de -18° després que s'inicie la tasca.</p><p>- El segon valor és "
-"l'<span style=\"font-weight:600;\">alba</span>, concretament el pròxim temps "
-"local en què el sol s'alça per damunt d'una altitud de -18° després que "
-"s'inicie la tasca.</p><p>Un símbol d'avís indica que el sol no transcorrerà "
-"per davall del límit de la posta astronòmica després que s'inicie la tasca, "
-"i que les hores de posta i alba es calculen a partir de la seua altitud "
-"mínima. En esta situació, la restricció del crepuscle evita l'execució de la "
-"tasca a menys que les opcions Desplaçament de la posta i Desplaçament de "
-"l'alba d'Ekos s'hagen configurat adequadament.</p><p>Cal tindre present que "
-"l'opció Desplaçament abans de l'alba d'Ekos avança virtualment la posta de "
-"manera predeterminada 30 minuts, i per tant, evitarà l'inici d'una tasca "
-"abans d'este moment.</p></body></html>"
+"<html><head/><body><p>Alba i posta astronòmiques per a la tasca seleccionada "
+"del programador, o per a hui si no s'ha seleccionat cap tasca.</p><p>- El "
+"primer valor és la <span style=\"font-weight:600;\">posta</span>, "
+"concretament el pròxim temps local en què el sol ix davall una altitud de "
+"-18° després que s'inicie la tasca.</p><p>- El segon valor és l'<span style="
+"\"font-weight:600;\">alba</span>, concretament el pròxim temps local en què "
+"el sol s'alça per damunt d'una altitud de -18° després que s'inicie la tasca."
+"</p><p>Un símbol d'avís indica que el sol no transcorrerà per davall del "
+"límit de la posta astronòmica després que s'inicie la tasca, i que les hores "
+"de posta i alba es calculen a partir de la seua altitud mínima. En esta "
+"situació, la restricció del crepuscle evita l'execució de la tasca a menys "
+"que les opcions Desplaçament de la posta i Desplaçament de l'alba d'Ekos "
+"s'hagen configurat adequadament.</p><p>Cal tindre present que l'opció "
+"Desplaçament abans de l'alba d'Ekos avança virtualment la posta de manera "
+"predeterminada 30 minuts, i per tant, evitarà l'inici d'una tasca abans "
+"d'este moment.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:1777
@@ -25955,21 +25955,22 @@ msgstr ""
 "s'interromp:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
 "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\"margin-"
 "top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">No "
-"replanifiques</span>: No replanifica la tasca en cas d'un error o una "
+"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">No tornes a "
+"programar</span>: No torna a programar la tasca en cas d'un error o una "
 "interrupció.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Replanifica després de finalitzar-ho tot</span>: "
-"Si una tasca s'interromp, el planificador només la replanificarà quan totes "
-"les tasques finalitzen o s'interrompen. Si és este cas, el planificador "
-"replanificarà totes les tasques interrompudes i esperarà el retard indicat.</"
-"li><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">Replanifica immediatament</span>: Tan prompte com s'interrompa "
-"una tasca, el planificador la replanificarà i esperarà el retard indicat.</"
-"li></ul><p>Si s'ha seleccionat l'opció de replanificar els errors, els "
-"errors es gestionaran com les interrupcions. Altrament. les tasques que "
-"donen un error no es replanificaran mai.</p></body></html>"
+"style=\"font-weight:600;\">Torna a programar després de finalitzar-ho tot</"
+"span>: Si una tasca s'interromp, el programador només la tornarà a programar "
+"quan totes les tasques finalitzen o s'interrompen. Si és este cas, el "
+"programador tornarà a programar totes les tasques interrompudes i esperarà "
+"el retard indicat.</li><li style=\"margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-weight:600;\">Torna a programar immediatament</span>: "
+"Tan prompte com s'interrompa una tasca, el programador la tornarà a "
+"programar i esperarà el retard indicat.</li></ul><p>Si s'ha seleccionat "
+"l'opció de tornar a programar els errors, els errors es gestionaran com les "
+"interrupcions. Altrament. les tasques que donen un error no es tornaran a "
+"programar mai.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, errorHandlingGroup)
 #: ekos/scheduler/scheduler.ui:1968
@@ -25981,7 +25982,7 @@ msgstr "Interrupció del gestor de tasques"
 #: ekos/scheduler/scheduler.ui:2000
 #, kde-format
 msgid "Do not re-schedule aborted jobs."
-msgstr "No replanifiques les tasques interrompudes."
+msgstr "No torna a programar les tasques interrompudes."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingDontRestartButton)
 #: ekos/scheduler/scheduler.ui:2003
@@ -25996,8 +25997,8 @@ msgid ""
 "Re-schedule aborted jobs as soon as all executable jobs are either completed "
 "or aborted."
 msgstr ""
-"Replanifica les tasques interrompudes tan prompte com totes les tasques "
-"executables s'hagen completat o interromput."
+"Torna a programar les tasques interrompudes tan prompte com totes les "
+"tasques executables s'hagen completat o interromput."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartQueueButton)
 #: ekos/scheduler/scheduler.ui:2022
@@ -26009,7 +26010,7 @@ msgstr "Posa a la &cua"
 #: ekos/scheduler/scheduler.ui:2038
 #, kde-format
 msgid "Re-schedule an aborted job immediately."
-msgstr "Replanifica immediatament una tasca interrompuda."
+msgstr "Torna a programar immediatament una tasca interrompuda."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
 #: ekos/scheduler/scheduler.ui:2041
@@ -26027,7 +26028,7 @@ msgstr "Tracta els errors com a interrupcions."
 #: ekos/scheduler/scheduler.ui:2067
 #, kde-format
 msgid "Re-schedule errors"
-msgstr "Replanifica els errors"
+msgstr "Torna a programar els errors"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingDelaySB)
 #: ekos/scheduler/scheduler.ui:2080
@@ -26756,7 +26757,7 @@ msgstr "Detecta les estreles en la imatge"
 #: fitsviewer/fitsview.cpp:2313
 #, kde-format
 msgid "View Star Profile"
-msgstr "Perfil de vista de l'estrela"
+msgstr "Veure el perfil d'una estrela"
 
 #: fitsviewer/fitsview.cpp:2323 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
@@ -26899,7 +26900,7 @@ msgstr "Gràfic en 3D de la vista actual"
 #: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1123
 #, kde-format
 msgid "Cross Hairs"
-msgstr "Punts de mira"
+msgstr "Punt de mira"
 
 #: fitsviewer/fitsviewer.cpp:690 fitsviewer/fitsviewer.cpp:1137
 #, kde-format
@@ -27433,7 +27434,7 @@ msgstr "No s'ha pogut restablir el context OpenGL."
 #, kde-format
 msgctxt "@title:window"
 msgid "View Star Profile"
-msgstr "Perfil de vista de l'estrela"
+msgstr "Visualització del perfil d'una estrela"
 
 #: fitsviewer/starprofileviewer.cpp:77
 #, kde-format
@@ -28794,7 +28795,7 @@ msgstr "Nom del fitxer"
 #: indi/servermanager.cpp:97
 #, kde-format
 msgid "Unable to create INDI FIFO file %1"
-msgstr "No s'ha pogut crear el fitxer FIFO d'INDI %1"
+msgstr "No s'ha pogut crear el fitxer FIFO %1 d'INDI"
 
 #: indi/servermanager.cpp:125
 #, kde-format
@@ -29495,7 +29496,8 @@ msgstr ""
 #: kstars.kcfg:35
 #, kde-format
 msgid "Is the geographic InfoBox in the \"shaded\" state?"
-msgstr "El rètol informatiu geogràfic es troba en estat «ocult»?"
+msgstr ""
+"El rètol informatiu de l'emplaçament geogràfic es troba en estat «ocult»?"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (ShadeGeoBox), group (GUI)
@@ -29555,7 +29557,7 @@ msgstr "Mostra/oculta la visualització del rètol informatiu de l'enfocament."
 #: kstars.kcfg:55
 #, kde-format
 msgid "Display the geographic InfoBox?"
-msgstr "Voleu mostrar el rètol informatiu geogràfic?"
+msgstr "Voleu mostrar el rètol informatiu de l'emplaçament geogràfic?"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (ShowGeoBox), group (GUI)
@@ -31512,7 +31514,7 @@ msgid ""
 "applicable if faint stars are set to be hidden while the map is in motion)."
 msgstr ""
 "El límit de magnitud feble per a dibuixar les estreles, quan el mapa està en "
-"moviment (només aplicable si s'ha indicat que s'oculten les estreles febles "
+"moviment (només aplicable si s'ha establit que s'oculten les estreles febles "
 "mentre el mapa està en moviment)."
 
 #. i18n: ectx: label, entry (StarLabelDensity), group (View)
@@ -33113,7 +33115,7 @@ msgstr ""
 #: kstars.kcfg:1461
 #, kde-format
 msgid "Bortle dark-sky rating"
-msgstr "Avaluació de la foscor del cel de Bortle"
+msgstr "Valoració de la foscor del cel de Bortle"
 
 #. i18n: ectx: label, entry (TelescopeCheck), group (WISettings)
 #: kstars.kcfg:1465
@@ -33392,7 +33394,7 @@ msgstr "Calibració de l'angle de posició del costat del moll"
 #: kstars.kcfg:1630
 #, kde-format
 msgid "Default maximum permittable guide deviation"
-msgstr "Desviació predeterminada màxima permissible per al guiatge"
+msgstr "Desviació predeterminada màxima permesa pel guiatge"
 
 #. i18n: ectx: whatsthis, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:1631
@@ -33410,7 +33412,7 @@ msgstr ""
 #, kde-format
 msgid "Default maximum permittable guide deviation before capture start"
 msgstr ""
-"Desviació predeterminada màxima permesa del guiatge abans de començar la "
+"Desviació predeterminada màxima permesa pel guiatge abans de començar la "
 "captura"
 
 #. i18n: ectx: whatsthis, entry (StartGuideDeviation), group (Capture)
@@ -33428,7 +33430,7 @@ msgstr ""
 #: kstars.kcfg:1640
 #, kde-format
 msgid "Default maximum permittable HFR deviation"
-msgstr "Desviació predeterminada HFR màxima permissible"
+msgstr "Desviació predeterminada HFR màxima permesa"
 
 #. i18n: ectx: whatsthis, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1641
@@ -33930,7 +33932,7 @@ msgid ""
 "performance decreases as the number of stars increases."
 msgstr ""
 "Mesura la mitjana de l'HFR de totes les estreles combinades en un fotograma "
-"complet. Este mètode és predeterminat per a la detecció Centroide, però "
+"complet. Este mètode és el predeterminat per a la detecció Centroide, però "
 "també pot utilitzar la detecció SEP. El seu rendiment disminuïx quan el "
 "nombre d'estreles crix."
 
@@ -34875,7 +34877,7 @@ msgstr "Visualitza el traçat d'error RMS als gràfics de la deriva del guiatge.
 #: kstars.kcfg:2493
 #, kde-format
 msgid "Scheduler algorithm"
-msgstr "Algorisme del planificador"
+msgstr "Algorisme del programador"
 
 #. i18n: ectx: whatsthis, entry (SchedulerLogging), group (Scheduler)
 #: kstars.kcfg:2497
@@ -35082,14 +35084,14 @@ msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
 "aborted job or a job that ran into an error."
 msgstr ""
-"Retard en minuts de la duració de la pausa del planificador abans de "
+"Retard en minuts de la duració de la pausa del programador abans de "
 "reiniciar una tasca interrompuda o una tasca que ha donat un error."
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
 #: kstars.kcfg:2608
 #, kde-format
 msgid "Re-schedule jobs that ran into errors."
-msgstr "Replanifica les tasques que han donat errors."
+msgstr "Torna a programar les tasques que han donat errors."
 
 #. i18n: ectx: label, entry (SchedulerParkDome), group (Scheduler)
 #: kstars.kcfg:2620
@@ -35120,8 +35122,8 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for warming the CCD on shutdown."
 msgstr ""
-"Casella de selecció predeterminada del programador per l'escalfament del CCD "
-"en tancar."
+"Casella de selecció predeterminada del programador per a l'escalfament del "
+"CCD en tancar."
 
 #. i18n: ectx: label, entry (SchedulerUnparkDome), group (Scheduler)
 #: kstars.kcfg:2636
@@ -35198,7 +35200,7 @@ msgstr "Restricció de l'altitud de treball predeterminada del programador."
 #, kde-format
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr ""
-"Casella de selecció predeterminada del planificador per a la restricció de "
+"Casella de selecció predeterminada del programador per a la restricció de "
 "l'horitzó artificial del treball."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
@@ -35230,7 +35232,7 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr ""
-"Casella de selecció predeterminada del planificador per a la restricció "
+"Casella de selecció predeterminada del programador per a la restricció "
 "crepuscular del treball."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
@@ -64912,7 +64914,7 @@ msgstr "Totes les superposicions del cel de HiPS"
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
-msgstr "&Geogràfic..."
+msgstr "Emplaçament &geogràfic..."
 
 #: kstarsinit.cpp:393
 #, kde-format
@@ -74080,7 +74082,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Podeu localitzar objectes en el cel pel seu nom.\n"
-"\t\t\tUtilitzeu Ctrl+F, l'element del menú «Apunta -> Busca un objecte»\n"
+"\t\t\tUtilitzeu Ctrl+F, l'element de menú «Apunta -> Busca un objecte»\n"
 "\t\t\to el botó «Busca un objecte» de la barra d'eines.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -74097,7 +74099,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Per a canviar el vostre emplaçament geogràfic,\n"
 "\t\t\tutilitzeu Ctrl+G, el botó «globus» de la barra d'eines\n"
-"\t\t\to l'element del menú «Configuració -> Geogràfic...».\n"
+"\t\t\to l'element de menú «Configuració -> Emplaçament geogràfic...».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -74117,8 +74119,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Podeu seguir un objecte, de manera que sempre estiga centrat\n"
 "\t\t\ta la pantalla.<br/>\n"
-"\t\t\tUtilitzeu Ctrl+T, l'element del menú «Apunta -> Comença el seguiment» "
-"o el botó\n"
+"\t\t\tUtilitzeu Ctrl+T, l'element de menú «Apunta -> Comença el seguiment» o "
+"el botó\n"
 "\t\t\tdel «cadenat» de la barra d'eines. També podeu centrar amb facilitat\n"
 "\t\t\tl'objecte fent-hi doble clic damunt o seleccionant\n"
 "\t\t\t«Centra i seguix» des del menú emergent de l'objecte.\n"
@@ -74156,7 +74158,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>En la pantalla hi ha tres tipus de «Rètols informatius» que mostren "
+"\t\t<p>En la pantalla hi ha tres tipus de «Rètols informatius» que mostren "
 "dades\n"
 "\t\t\trelacionades amb el temps/data, l'emplaçament geogràfic i la posició "
 "central\n"
@@ -74233,7 +74235,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>Les tecles 0-9 centraran el mapa en algun dels cossos principals del "
+"\t\t<p>Les tecles 0-9 centraran el mapa en algun dels cossos principals del "
 "sistema solar.\n"
 "\t\t\tEl 0 correspon al Sol, el 3 en la Lluna, i així successivament la "
 "resta de cossos ordenats\n"
@@ -74284,7 +74286,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>La barra d'estat mostra les coordenades celestes de la posició\n"
+"\t\t<p>La barra d'estat mostra les coordenades celestes de la posició\n"
 "\t\tdel ratolí, tant en el sistema de coordenades equatorials com \n"
 "\t\t\thoritzontals.\n"
 "\t\t</p>\n"
@@ -74607,7 +74609,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>L'eina «Generador de corbes de lluminositat de l'AAVSO» (Ctrl+V) es "
+"\t\t<p>L'eina «Generador de corbes de lluminositat de l'AAVSO» (Ctrl+V) es "
 "connecta \n"
 "\t\t\ta un servidor de l'Associació Americana d'Observadors d'Estreles "
 "Variables, i \n"
@@ -74725,7 +74727,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>L'eina «Visor del sistema solar» (Ctrl+Y) mostra una vista superior\n"
+"\t\t<p>L'eina «Visor del sistema solar» (Ctrl+Y) mostra una vista superior\n"
 "\t\t\tdel sistema solar, amb el detall de la posició dels planetes "
 "principals en la data\n"
 "\t\t\tde la simulació.\n"
@@ -74888,7 +74890,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>Podeu ocultar o mostrar les barres d'eines utilitzant l'element de "
+"\t\t<p>Podeu ocultar o mostrar les barres d'eines utilitzant l'element de "
 "menú\n"
 "\t\t\t«Configuració -> Barres d'eines mostrades».\n"
 "\t\t</p>\n"
@@ -75021,7 +75023,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>La pestanya «Avançat» de la finestra de configuració de KStars us "
+"\t\t<p>La pestanya «Avançat» de la finestra de configuració de KStars us "
 "permet afinar\n"
 "\t\t\tel seu comportament. Podeu especificar si voleu corregir la refracció "
 "atmosfèrica\n"
@@ -75043,7 +75045,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>KStars mostra fins a 100 milions d'estreles, 13.000 objectes del cel "
+"\t\t<p>KStars mostra fins a 100 milions d'estreles, 13.000 objectes del cel "
 "profund, les 88 constel·lacions,\n"
 "\t\t\ttots els planetes, el Sol, la Lluna, milers de cometes i asteroides, "
 "així com la Via Làctia.\n"
@@ -75076,7 +75078,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>Les posicions dels objectes en KStars inclouen els efectes de "
+"\t\t<p>Les posicions dels objectes en KStars inclouen els efectes de "
 "precessió,\n"
 "\t\t\tnutació, aberració, refracció atmosfèrica i retard per a la velocitat "
 "de\n"
@@ -75142,8 +75144,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>El gran grup de cúmul i nebuloses en el pol sud celeste són "
-"objectes\n"
+"\t\t<p>El gran grup de cúmul i nebuloses en el pol sud celeste són objectes\n"
 "\t\t\tdel Gran Núvol de Magallanes, el qual és una galàxia nana en òrbita\n"
 "\t\t\tal voltant de la Via Làctia.\n"
 "\t\t</p>\n"
@@ -75161,8 +75162,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t <p>El catàleg Messier és una llista dels 110 objectes no estrel·lars "
-"més brillants\n"
+"\t\t<p>El catàleg Messier és una llista dels 110 objectes no estrel·lars més "
+"brillants\n"
 "\t\t\tdel cel. Açò inclou objectes tan famosos com la nebulosa d'Orió (M "
 "42),\n"
 "\t\t\tla galàxia d'Andròmeda (M 31) i les Plèiades (M 45).\n"
@@ -77176,7 +77177,7 @@ msgstr "Cartesià"
 #: tools/modcalcgeod.ui:78
 #, kde-format
 msgid "Geographic"
-msgstr "Geogràfic"
+msgstr "Emplaçament geogràfic"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/modcalcgeod.ui:93
@@ -79028,7 +79029,7 @@ msgstr "Canvia mostrar el rètol informatiu del temps"
 #: tools/scriptbuilder.cpp:411
 #, kde-format
 msgid "Toggle display of Geographic InfoBox"
-msgstr "Canvia mostrar el rètol informatiu geogràfic"
+msgstr "Canvia mostrar el rètol informatiu de l'emplaçament geogràfic"
 
 # skip-rule: kct-box
 #: tools/scriptbuilder.cpp:414
@@ -79929,8 +79930,8 @@ msgid ""
 msgstr ""
 "<p>Quanta pol·lució lumínica hi ha al vostre cel nocturn? Avalueu les "
 "vostres condicions del cel nocturn de l'1 al 9 basant-vos en l'<b>Escala de "
-"Bortle de foscor del cel</b>. Un valor d'<b>1</b> representa un <b>lloc amb "
-"una foscor excel·lent</b>, mentre que el <b>9</b> representa un <b>cel "
+"Bortle de foscor del cel</b>. Una valoració d'<b>1</b> representa un <b>lloc "
+"amb una foscor excel·lent</b>, mentre que el <b>9</b> representa un <b>cel "
 "d'interior de ciutat molt il·luminat</b>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleClassLabel1)
