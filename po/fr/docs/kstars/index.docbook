@@ -380,7 +380,7 @@
 >distants</link
 > en utilisant une simple session de &kstars;. Pour les utilisateurs avancés, &kstars; fournit Ekos, une suite complète d'astrophotographie pour Linux. <ulink url="https://indilib.org/about/ekos.html"
 >Ekos</ulink
-> est basé sur un cadre extensible modulaire permettant d'effectuer les tâches courante d'astrophotographie. Cela inclut les GOTO hautement précis qui utilise un résolveur astrométrique, la mise au point automatique, la possibilité de mesurer et corriger les erreurs d'alignement polaire et l'acquisition d'une ou plusieurs images avec la gestion d'une roue à filtres. </para>
+> est fondé sur un cadre extensible modulaire permettant d'effectuer les tâches courante d'astrophotographie. Cela inclut les GOTO hautement précis qui utilise un résolveur astrométrique, la mise au point automatique, la possibilité de mesurer et corriger les erreurs d'alignement polaire et l'acquisition d'une ou plusieurs images avec la gestion d'une roue à filtres. </para>
 <para
 >Nous sommes intéressés par vos remarques ; veuillez envoyer tout bogue et toute demande spéciale à la liste de diffusion de &kstars; : <email
 >kstars-devel AT kde.org</email

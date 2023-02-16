@@ -94,13 +94,13 @@
 >avant</emphasis
 > le chargement du pilote, et ceux se trouvant après le menu déroulant seront exécutés <emphasis
 >après</emphasis
-> son chargement. Le champ du script doit contenir un chemin complet vers le script et posséder les droits adéquats. Les scripts sont exécutés dans l'ordre avant le reste des pilotes de profil du matériel.<guilabel
+> son chargement. Le champ du script doit contenir un emplacement complet vers le script et posséder les droits adéquats. Les scripts sont exécutés dans l'ordre avant le reste des pilotes de profil du matériel.<guilabel
 >Scripts</guilabel
 > : permet d'ajuster les scripts pré et post chargement pour chaque pilote. Une règle peut être définie pour chaque pilote si un délai est nécessaire avant ou après son chargement. Les champs avant le menu déroulant de sélection de pilote sont exécutés <emphasis
 >avant</emphasis
 > le chargement du pilote, et ceux se trouvant après le menu déroulant seront exécutés <emphasis
 >après</emphasis
-> son chargement. Le champ du script doit contenir un chemin complet vers le script et posséder les droits adéquats. Les scripts sont exécutés dans l'ordre avant le reste des pilotes de profil du matériel. </para>
+> son chargement. Le champ du script doit contenir un emplacement complet vers le script et posséder les droits adéquats. Les scripts sont exécutés dans l'ordre avant le reste des pilotes de profil du matériel. </para>
                         <screenshot>
                         <screeninfo
 >Scripts de l'éditeur de profil </screeninfo>

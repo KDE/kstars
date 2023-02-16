@@ -60,7 +60,7 @@
 >Ajouter un lien…</guibutton
 >. Cela ouvrira une fenêtre dans laquelle vous remplirez l'&URL; et lierez le texte au nouveau lien (vous pouvez aussi tester l'&URL; dans le navigateur web depuis cette fenêtre). Chaque fois que vous ajoutez un lien &URL; personnalisé à un certain objet, vous pouvez le lier à une resource avec le bouton <guibutton
 >Type de resource</guibutton
->.Gardez à l'esprit que le lien personnalisé peut facilement pointer vers un fichier de votre disque local, de telle manière que vous puissiez utiliser cette fonction pour indexer vos images astronomiques ou vos carnets d'observations. </para>
+>. Gardez à l'esprit que le lien personnalisé peut facilement pointer vers un fichier de votre disque local, de telle manière que vous puissiez utiliser cette fonction pour indexer vos images astronomiques ou vos carnets d'observations. </para>
 <para
 >Vous pouvez aussi modifier ou supprimer n'importe quel lien en utilisant le bouton <guibutton
 >Modifier le lien…</guibutton

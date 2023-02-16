@@ -26,13 +26,13 @@
         <title
 >Introduction</title>
         <para
->Le module Analyse enregistre et affiche ce qui s'est passé durant une session d'acquisition. C'est à dire qu'il ne contrôle pas la session mais plutôt analyse ce qui s'y est passé. Les sessions sont enregistrées dans le répertoire <filename class="directory"
+>Le module Analyse enregistre et affiche ce qui s'est passé durant une session d'acquisition. C'est-à-dire qu'il ne contrôle pas la session mais plutôt analyse ce qui s'y est passé. Les sessions sont enregistrées dans le dossier <filename class="directory"
 >analyze</filename
-> qui se trouve dans le même répertoire que le répertoire contenant les fichiers journaux. Les fichiers <literal role="extension"
+> qui se trouve dans le même dossier que le dossier contenant les fichiers journaux. Les fichiers <literal role="extension"
 >.analyze</literal
 > enregistrés peuvent être chargés dans l'onglet <guilabel
 >Analyse</guilabel
-> pour visualisation. Le module <guilabel
+> pour affichage. Le module <guilabel
 >Analyse</guilabel
 > peut également afficher les données de la session d'acquisition courante. </para>
         <para
@@ -52,7 +52,7 @@
 >&Ctrl;<keycap
 >+</keycap
 ></keycombo
->). L'axe temporel peut être déplacé avec la barre de défilement ou avec les touches flèches du clavier. Vous pouvez visualiser votre session courante ou revoir d'anciennes sessions en ouvrant les fichiers <literal role="extension"
+>). L'axe temporel peut être déplacé avec la barre de défilement ou avec les touches flèches du clavier. Vous pouvez afficher votre session courante ou revoir d'anciennes sessions en ouvrant les fichiers <literal role="extension"
 >.analyze</literal
 > avec la liste déroulante <guilabel
 >Entrée</guilabel
@@ -61,6 +61,8 @@
 >, vous verrez toutes les données alors que la case <guilabel
 >Dernier</guilabel
 > affichera les données les plus récentes (vous pouvez contrôler la largeur en zoomant). </para>
+        <para
+>Les trois affichages principaux peuvent être cachés pour laisser de la place aux autres affichages. Ce sont les cases à cocher à gauche du titre de la section (Chronologie, statistiques et détails) qui permettent d'afficher ou de cacher ces affichages. </para>
     </sect3>
     <sect3 id="analyze-timeline">
         <title
@@ -68,12 +70,12 @@
         <para
 >Le graphique Chronologie affiche les processus principaux d'Ekos et quand ils étaient actifs. Par exemple, la ligne <guilabel
 >Acquisition</guilabel
-> montre le moment où une image a été prise (sections vertes) et quand l'acquisition a été arrêtée (sections rouges). En cliquant sur une section verte, vous obtiendrez de l'information sur cette image et en double-cliquant vous ferez apparaître l'image dans l'afficheur FITS, s'il est disponible. </para>
+> montre le moment où une image a été prise (verte pour RGB ou une couleur liée au filtre utilisé)) et quand l'acquisition a été arrêtée (en rouge). En cliquant sur une section d'acquisition, vous obtiendrez de l'information sur cette image et en double-cliquant vous ferez apparaître l'image dans l'afficheur FITS, s'il est disponible. </para>
         <note>
             <para
 >Si vous avez déplacé vos images vous pouvez configurer un <guilabel
->répertoire alternatif</guilabel
-> dans le menu d'entrée en indiquant le chemin de base du fichier. </para>
+>dossier alternatif</guilabel
+> dans le menu d'entrée en indiquant l'emplacement de base du fichier. </para>
         </note>
         <para
 >En cliquant sur un segment de <guilabel
@@ -94,8 +96,12 @@
 >snr</guilabel
 > (en utilisant le guidage interne avec le SEP mutlistars) et <guilabel
 >hfr</guilabel
-> (si vous avez sélectionné l'option de calcul automatique du HFR dans les options FITS). Vous pouvez tester les autres également. L'axe affiché (0-5) n'est approprié que pour les erreurs AD/DEC, la dérive, le rms, les pulsations et le hfr. Vous pouvez redéfinir l'échelle de l'axe y (bizarrement) en utilisant la <guibutton
->molette</guibutton
-> de la souris mais il n'est pas possible de modifier l'échelle pour les autres graphiques. Pour réinitialiser le niveau de zoom de l'axe y, il faut faire un clic droit sur le graphique des statistiques. En cliquant sur le graphique, les valeurs des statistiques affichées seront insérées. Le niveau de zoom de ce graphique et sa position sont coordonnés avec la ligne chronologique. </para>
+> (si vous avez sélectionné l'option de calcul automatique du HFR dans les options FITS). Vous pouvez tester les autres également. </para>
+        <para
+>L'axe de gauche est initialement approprié pour les erreurs en AD/DEC, la dérive, l'erreur RMS, les pulsations AD/DEC et le HFR, tracés en secondes d'arc et avec des valeurs par défaut allant de -2 à -5 secondes d'arc. Toutefois, un clic sur une des boîtes sous le graphique des statistiques (qui montre une valeur de statistique) réglera la plage de statistiques sur la base de la plage affichée sur l'axe de gauche. Un double-clic sur cette boîte affichera une fenêtre dans laquelle il est possible d'ajuster cette plage de valeurs (soit en choisissant auto, soit en saisissant explicitement la plage ou encore en remettant les valeurs par défaut, ainsi que le choix de la couleur du graphique). </para>
+        <para
+>Les valeurs de la statistique peuvent aussi (bizarrement) être mis à l'échelle en utilisant la <mousebutton
+>molette</mousebutton
+> de la souris. Il peut aussi être déplacé en glissant la souris vers le haut ou vers le bas sur l'axe de gauche. Un clic n'importe où dans le graphique des statistiques affiche les valeurs des statistiques affichées. En cochant la dernière case, on affiche les valeurs les plus récentes (à partir d'une session en direct). Ce graphique est zoomé et déplacé horizontalement en synchronisation avec la ligne temporelle. </para>
     </sect3>
 </sect2>

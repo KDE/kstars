@@ -69,7 +69,7 @@
 >Séquence</guilabel
 > : le fichier est (préalablement) construit dans le <link linkend="ekos-capture"
 >module d'acquisition</link
->. Il contient le nombre d'images à acquérir, les filtres à utiliser, les réglages de température, les préfixes, le répertoire d'enregistrement, &etc;. </para>
+>. Il contient le nombre d'images à acquérir, les filtres à utiliser, les réglages de température, les préfixes, le dossier d'enregistrement, &etc;. </para>
             </listitem>
             <listitem>
                 <para
@@ -269,7 +269,7 @@
             <listitem>
                 <para
 ><emphasis role="bold"
->OK</emphasis
+>Ok</emphasis
 > : les conditions sont claires et optimales pour imager. </para>
             </listitem>
             <listitem>
@@ -293,7 +293,7 @@
         <para
 >Comme chaque observatoire est unique, Ekos offre la possibilité à l'utilisateur de choisir ses scripts de démarrage et d'arrêt. Les scripts s'occupent de toute procédure qui doivent être activée au démarrage et à l'arrêt. Ekos exécute le script et continue la procédure (déparcage du dôme et de la monture) qu'en cas de succès de l'exécution du script. Inversement, la procédure d'arrêt commence par parquer la monture et le dôme avant d'exécuter le script d'arrêt qui termine la procédure. </para>
         <para
->Les scripts peuvent être écrits dans n'importe quel language qui peut être exécuté sur la machine locale. Un script doit retourner la valeur 0 pour être considéré comme succès, tout autre valeur indique une erreur. La sortie standard du script est dirigée vers la fenêtre des fichiers journaux d'Ekos. Voici un exemple de script de démarrage écrit en Python : </para>
+>Les scripts peuvent être écrits dans n'importe quel langage qui peut être exécuté sur la machine locale. Un script doit retourner la valeur 0 pour être considéré comme succès, tout autre valeur indique une erreur. La sortie standard du script est dirigée vers la fenêtre des fichiers journaux d'Ekos. Voici un exemple de script de démarrage écrit en Python : </para>
         <programlisting language="python"
 >#!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -322,7 +322,7 @@ exit(0)
 >exécutables</emphasis
 > pour qu'Ekos puisse les invoquer (c'est-à-dire utilisez la commande <userinput
 >chmod u+x startup_script.py</userinput
-> pour le rendre exécutable). L'ordonnanceur d'Ekos permet d'opérer un observatoire de manière complètement robotisée sans aucune intervention humaine. Il est donc critique que le système puisse se rétablir après des erreurs, et cela à n'importe quelle étape du processus d'observation. L'utilisation des notifications &plasma; permet de configurer des alarmes audibles et l'envoi automatique de courriels pour divers événements de l'ordonnanceur. </para>
+> pour le rendre exécutable). L'ordonnanceur d'Ekos permet d'opérer un observatoire de manière complètement robotisée sans aucune intervention humaine. Il est donc critique que le système puisse se rétablir après des erreurs, et cela à n'importe quelle étape du processus d'observation. L'utilisation des notifications &plasma; permet de configurer des alarmes audibles et l'envoi automatique de courriels pour divers évènements de l'ordonnanceur. </para>
     </sect3>
 
     <sect3 id="ekos-scheduler-mosaic-Planner">
@@ -372,7 +372,7 @@ exit(0)
         <para
 >Le <guilabel
 >planificateur de mosaïques</guilabel
-> de l'ordonnanceur d'Ekos créera plusieurs tâches basées sur une cible centrale. Pour afficher le planificateur, cliquez sur le bouton <guibutton
+> de l'ordonnanceur d'Ekos créera plusieurs tâches fondées sur une cible centrale. Pour afficher le planificateur, cliquez sur le bouton <guibutton
 >Planificateur de mosaïques</guibutton
 > dans l'ordonnanceur d'Ekos ou sur la barre d'outils INDI de KStars comme illustré dans la capture d'écran. Le planificateur dessine la mosaïque directement sur la carte du ciel. Il est recommandé d'activer la superposition HiPS pour la meilleure expérience. Le planificateur est composé de quatre étapes : </para>
         <orderedlist>
@@ -462,7 +462,7 @@ exit(0)
                 <para
 ><emphasis role="bold"
 >Création des tâches</emphasis
-> : l'étape finale consiste en la sélection du fichier séquence et le dossier d'enregistrement des images. Le champ cible est automatiquement renseigné mais peut être modifié à convenance. Sélectionner les différentes étapes de la tâche (Suivre -> Mise au point -> Alignement -> Guidage -> Acquisition) et régler la fréquence de rafraichissement de l'alignement et de la mise au point durant l'exécution de la tâche. Par exemple, si <guilabel
+> : l'étape finale consiste en la sélection du fichier séquence et le dossier d'enregistrement des images. Le champ cible est automatiquement renseigné mais peut être modifié à convenance. Sélectionner les différentes étapes de la tâche (Suivre -> Mise au point -> Alignement -> Guidage -> Acquisition) et régler la fréquence de rafraîchissement de l'alignement et de la mise au point durant l'exécution de la tâche. Par exemple, si <guilabel
 >Aligner tous les</guilabel
 > est réglé à 2 tâches, alors la première tâche exécutera un alignement alors que la suivante ne l'exécutera pas. Et la troisième l'exécutera à nouveau et ainsi de suite. </para>
             <screenshot>

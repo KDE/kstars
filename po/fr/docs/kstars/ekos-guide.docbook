@@ -268,7 +268,7 @@
 >Intelligent</emphasis
 > qui convient à la plupart des situations. L'algorithme <emphasis
 >Rapide</emphasis
-> est basé sur les calculs de HFR. Vous pouvez essayer de changer d'algorithme si Ekos ne parvient pas à garder correctement l'étoile guide dans le carré de guidage. </para>
+> est fondé sur les calculs de HFR. Vous pouvez essayer de changer d'algorithme si Ekos ne parvient pas à garder correctement l'étoile guide dans le carré de guidage. </para>
         <para
 >La zone d'informations affiche des informations sur le télescope &amp; CdV, ainsi que sur les déviations de l'étoile guide et les impulsions de corrections envoyées à la monture. La valeur RMS pour chaque axe est affichée avec la valeur RMS totale en secondes d'arc. Le guidage interne emploie un <ulink url="https://fr.wikipedia.org/wiki/Régulateur_PID"
 >régulateur PID</ulink
@@ -382,7 +382,7 @@
 >Corr</guilabel
 > sous chaque axe. Les corrections sont affichées sous la forme de zones ombrées en arrière-plan avec les mêmes couleurs que celles des axes. </para>
         <para
->Vous pouvez déplacer le graphique ainsi que faire un zoom et lorsque vous survolez une zone, des infobulles apparaîtront contenant de l'information pour un moment spécifique. Elle contient la dérive et la correction effectuée et l'heure locale d'enregistrement de l'événement. Un curseur vertical à la droite de l'image permet d'ajuster la hauteur de l'axe Y secondaire qui affiche les impulsions de correction.</para>
+>Vous pouvez déplacer le graphique ainsi que faire un zoom et lorsque vous survolez une zone, des infobulles apparaîtront contenant de l'information pour un moment spécifique. Elle contient la dérive et la correction effectuée et l'heure locale d'enregistrement de l'évènement. Un curseur vertical à la droite de l'image permet d'ajuster la hauteur de l'axe Y secondaire qui affiche les impulsions de correction.</para>
         <para
 >Le curseur horizontal <guilabel
 >Trace</guilabel

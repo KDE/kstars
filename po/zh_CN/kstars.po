@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 00:54+0000\n"
-"PO-Revision-Date: 2023-02-07 11:02\n"
+"PO-Revision-Date: 2023-02-15 11:04\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -6974,7 +6974,7 @@ msgid ""
 "These are the common names for the named stars that are currently up at your "
 "location.  If you select a star, it will be added to the table below."
 msgstr ""
-"这些是目前您位置上方较亮恒星的常用名称。 如果您选择了一颗恒星，它将被添加到下"
+"这些是目前您位置上方较亮恒星的通用名称。 如果您选择了一颗恒星，它将被添加到下"
 "表中。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -9385,7 +9385,7 @@ msgstr "无法将解析器设置为远程。Ekos设备配置文件必须包含 a
 #: ekos/align/remoteastrometryparser.cpp:50
 #, kde-format
 msgid "Cannot open file %1 for reading."
-msgstr "无法打开文件 %1 读取."
+msgstr "无法打开文件 %1 进行读取。"
 
 #: ekos/align/remoteastrometryparser.cpp:60
 #, kde-format
@@ -26397,7 +26397,7 @@ msgstr "INDI 数据流"
 #: indi/indielement.cpp:624
 #, kde-format
 msgid "Cannot open file %1 for reading"
-msgstr "无法打开文件 %1 读取"
+msgstr "无法打开文件 %1 进行读取"
 
 #: indi/indielement.cpp:633
 #, kde-format
@@ -29410,7 +29410,7 @@ msgstr "在深空天体标签中使用长名字吗？"
 msgid ""
 "If true, long names (common names) for deep-sky objects are shown in the "
 "labels."
-msgstr "如果为真，则在标签中显示深空天体的长名 (普通名称)。"
+msgstr "如果为真，则在标签中显示深空天体的长名 (通用名称)。"
 
 #. i18n: ectx: label, entry (LabelFontScaling), group (View)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetFontSize)
@@ -61484,7 +61484,7 @@ msgstr "无线电波"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "High Energy Astrophysical Archive (HEASARC)"
-msgstr "高能天体物理档案(HEASARC)"
+msgstr "高能天体物理档案 (HEASARC)"
 
 #: kstars_i18n.cpp:4841
 #, kde-kuit-format
@@ -61568,7 +61568,7 @@ msgstr "天体物理学预印本"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Multimission Archive at Space Telescope (MAST)"
-msgstr "太空望远镜多任务档案(MAST)"
+msgstr "太空望远镜多任务档案 (MAST)"
 
 #: kstars_i18n.cpp:4855
 #, kde-kuit-format

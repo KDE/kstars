@@ -121,7 +121,7 @@
     </listitem>
     <listitem
 ><para
->Barre d'outils principales</para>
+>Barre principales</para>
             <itemizedlist>
                 <listitem
 ><para
@@ -187,7 +187,7 @@
 ></listitem>
                 <listitem
 ><para
->Afficher la grille équatoriale : bascule la grille équatoriale si le fichier FITS contient une en-tête WCS valide.</para
+>Afficher la grille équatoriale : bascule la grille équatoriale si le fichier FITS contient une en-tête WCS valable.</para
 ></listitem>
                 <listitem
 ><para
@@ -195,7 +195,7 @@
 ></listitem>
                 <listitem
 ><para
->Centrer le télescope : bascule le mode de centrage du télescope. Quand ce mode est activé et que l'image contient une en-tête WCS valide, un clic n'importe où dans l'image déclenche le pivotement du télescope vers le point cliqué.</para
+>Centrer le télescope : bascule le mode de centrage du télescope. Quand ce mode est activé et que l'image contient une en-tête WCS valable, un clic n'importe où dans l'image déclenche le pivotement du télescope vers le point cliqué.</para
 ></listitem>
                 <listitem
 ><para
@@ -259,7 +259,7 @@
 ></listitem>
                 <listitem
 ><para
->Coordonnées équatoriales : si l'image contient une en-tête WCS valide, l'ascension droite J2000 (AD) et la déclinaison (Déc) sont affichées.</para
+>Coordonnées équatoriales : si l'image contient une en-tête WCS valable, l'ascension droite J2000 (AD) et la déclinaison (Déc) sont affichées.</para
 ></listitem>
             </itemizedlist>
     </listitem>
@@ -409,7 +409,7 @@
 >Fournit des statistiques simples : moyenne, écart-type moyen et médiane moyenne de la région sélectionnée par l'utilisateur dans une infobulle. </para>
                 <para
 >L'utilisateur peut soit sélectionner une région en glissant le pointeur après un <keycombo
->&Maj; <keycap
+>&Shift;<keycap
 >Clic gauche</keycap
 ></keycombo
 > ou en choisissant une entrée du menu déroulant du bouton de sélection de rectangle. De plus, l'utilisateur peut translater la région d'un simple <keycap
@@ -488,7 +488,7 @@
 
 <sect2 id="fits-viewer-3d-star-profile">
 <title
->Profil 3D de l'étoile &amp; outil de visualisation des données</title>
+>Profil 3D de l'étoile &amp; outil d'affichage des données</title>
 <screenshot>
         <screeninfo
 >Page principale du profil de l'étoile </screeninfo>
@@ -503,7 +503,7 @@
         </mediaobject>
     </screenshot>
     <para
->L'outil de visualisation de données 3D peut tracer un graphique 3D d'une région sélectionnée de l'image. Cela est particulièrement utile pour les astrophotographes qui souhaite visualiser le profil d'une étoile qu'ils envisagent d'utiliser comme étoile guide. Pour les scientifiques, cela leurs permet d'étudier un échantillon des données pour comprendre la luminosité relative des différents objets de l'image. De plus, cela permet aux personnes qui souhaitent comprendre visuellement ce qui se passe dans leurs données d'une nouvelle manière. </para>
+>L'outil d'affichage de données 3D peut tracer un graphique 3D d'une région sélectionnée de l'image. Cela est particulièrement utile pour les astrophotographes qui souhaite afficher le profil d'une étoile qu'ils envisagent d'utiliser comme étoile guide. Pour les scientifiques, cela leurs permet d'étudier un échantillon des données pour comprendre la luminosité relative des différents objets de l'image. De plus, cela permet aux personnes qui souhaitent comprendre visuellement ce qui se passe dans leurs données d'une nouvelle manière. </para>
     <para
 >Pour utiliser cette nouvelle fonctionnalité, l'utilisateur doit sélectionner l'icône <guiicon
 >Voir profil de l'étoile</guiicon
@@ -535,7 +535,7 @@
         </mediaobject>
     </screenshot>
     <para
->Tout à gauche, la boîte d'échantillon permet à l'utilisateur de choisir la taille du recadrage de l'image affichée dans le graphe. Cette option n'est disponible que dans <guilabel
+>Tout à gauche, la boîte d'échantillon permet à l'utilisateur de choisir la taille de l'image rognée affichée dans le graphe. Cette option n'est disponible que dans <guilabel
 >Écran résumé</guilabel
 >, le module <link linkend="ekos-align"
 >Alignement</link

@@ -272,8 +272,8 @@
 <listitem>
 <para
 ><guilabel
->Panneau de contrôle INDI</guilabel
-> : ce panneau de contrôle offre à l'utilisateur toutes les fonctions gérées par un périphérique. </para>
+>Tableau de bord INDI</guilabel
+> : ce tableau de bord offre à l'utilisateur toutes les fonctions gérées par un périphérique. </para>
 
 <para
 >Le panneau est divisé en trois sections principales : </para>
@@ -305,7 +305,7 @@
 
 <screenshot>
 <screeninfo
->Panneau de contrôle INDI</screeninfo>
+>Tableau de bord INDI</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="indicontrolpanel.png" format="PNG"/>
@@ -319,7 +319,7 @@
 >Vous n'êtes pas limité à l'utilisation d'une interface par le chevauchement, car les deux peuvent être utilisées simultanément. Les actions de <guilabel
 >Carte du ciel</guilabel
 > sont reflétés automatiquement dans le <guilabel
->Panneau de contrôle INDI</guilabel
+>Tableau de bord INDI</guilabel
 > et vice versa. </para>
 
 <para
@@ -328,7 +328,7 @@
 > du menu contextuel des périphériques, soit actionner <guibutton
 >Connecter</guibutton
 > sous votre onglet de périphérique dans le <guilabel
->Panneau de contrôle INDI</guilabel
+>Tableau de bord INDI</guilabel
 >. </para>
 
 <important
@@ -341,13 +341,13 @@
 > <guisubmenu
 >Périphériques</guisubmenu
 > <guimenuitem
->Panneau de contrôle INDI</guimenuitem
+>Tableau de bord INDI</guimenuitem
 ></menuchoice
 > et changez le port sous l'onglet de votre périphérique. </para
 ></important>
 
 <para
->&kstars; met à jour automatiquement la longitude, la latitude et l'heure basés sur les réglages actuels de &kstars;. Vous pouvez les activer/désactiver en utilisant la page <guilabel
+>&kstars; met à jour automatiquement la longitude, la latitude et l'heure fondés sur les réglages actuels de &kstars;. Vous pouvez les activer/désactiver en utilisant la page <guilabel
 >INDI</guilabel
 > dans le menu <menuchoice
 ><guimenu
@@ -418,7 +418,7 @@
 >Gestionnaire de périphériques</guimenuitem
 ></menuchoice
 >. Comme tous les périphériques INDI, certains des contrôles seront accessibles depuis la carte du ciel. Le périphérique peut être contrôlé pleinement depuis le <guimenuitem
->Panneau de contrôle INDI…</guimenuitem
+>Tableau de bord INDI…</guimenuitem
 >. </para>
 
 <para
@@ -468,16 +468,16 @@
       <listitem
 ><para
 ><guilabel
->Répertoire XML des pilotes INDI</guilabel
-> : spécifie le répertoire &XML; sur votre système contenant les pilotes INDI. Par défaut &kstars; utilise le répertoire <quote
+>Dossier XML des pilotes INDI</guilabel
+> : spécifie le dossier &XML; sur votre système contenant les pilotes INDI. Par défaut &kstars; utilise le dossier <quote
 >/usr/share/indi</quote
->. </para
+>.</para
 ></listitem>
       <listitem
 ><para
 ><guilabel
->Répertoire FITS par défaut : </guilabel
-> spécifie le dossier où toutes les images FITS seront enregistrées. S'il n'y a pas de répertoire spécifié, les images seront enregistrées dans <varname
+>Dossier FITS par défaut : </guilabel
+> spécifie le dossier où toutes les images FITS seront enregistrées. S'il n'y a pas de dossier spécifié, les images seront enregistrées dans <varname
 >$HOME</varname
 >.</para
 ></listitem>
@@ -566,7 +566,7 @@
 ><para
 ><guilabel
 >Notifications des messages</guilabel
-> : montrer les messages d'INDI comme des notifications du bureau plutôt que dans des boîtes de dialogue.</para
+> : afficher les messages d'INDI comme des notifications du bureau plutôt que dans des boîtes de dialogue.</para
 ></listitem>
     </itemizedlist>
   </listitem>
@@ -642,7 +642,7 @@
 > interrupteur standard CONNECTION. La propriété CONNECTION possède deux éléments : les interrupteurs CONNECT et DISCONNECT. &kstars; analyse la description générique &XML; des propriétés et construit une représentation graphique adaptée à l'interaction humaine directe. </para>
 
 <para
->Le panneau de contrôle INDI offre beaucoup de propriétés de périphériques inaccessibles de la carte du ciel. Les propriétés offertes diffèrent d'un périphérique à l'autre. Néanmoins, toutes les propriétés partagent des fonctionnalités communes qui déterminent comment elles sont affichées et utilisées. </para>
+>Le tableau de bord INDI offre beaucoup de propriétés de périphériques inaccessibles de la carte du ciel. Les propriétés offertes diffèrent d'un périphérique à l'autre. Néanmoins, toutes les propriétés partagent des fonctionnalités communes qui déterminent comment elles sont affichées et utilisées. </para>
 
 <itemizedlist>
 <listitem>
@@ -811,7 +811,7 @@
 >. Si une connexion est établie, vous pouvez contrôler le télescope depuis la <guilabel
 >Carte du ciel</guilabel
 > ou le <guilabel
->panneau de contrôle INDI</guilabel
+>tableau de bord INDI</guilabel
 > exactement comme décrit dans la section <link linkend="indi-kstars-setup"
 >local/serveur</link
 >. C'est aussi facile que ça. </para>
@@ -823,7 +823,7 @@
 >Comme &kstars; vous permet de déployer un serveur INDI, vous pouvez lancer un serveur INDI depuis la ligne de commande. </para>
 
 <para
->Comme INDI est indépendant du composant d'arrière-plan, vous pouvez lancer un serveur INDI sur un hôte sans &kstars;. INDI peut être compilé séparément pour fonctionner sur des hôtes distants. De plus, les pilotes de périphériques écrivent dans un journal les messages dans <constant
+>Comme INDI est indépendant du moteur d'arrière-plan, vous pouvez lancer un serveur INDI sur un hôte sans &kstars;. INDI peut être compilé séparément pour fonctionner sur des hôtes distants. De plus, les pilotes de périphériques écrivent dans un journal les messages dans <constant
 >stderr</constant
 >. Cela peut être utile pour les situations de recherche d'erreur. La syntaxe pour le serveur INDI est la suivante : </para>
 
@@ -985,7 +985,7 @@
 > <guisubmenu
 >Périphériques</guisubmenu
 > <guimenuitem
->Panneau de contrôle INDI…</guimenuitem
+>Tableau de bord INDI…</guimenuitem
 ></menuchoice
 >. </para>
 </answer>
@@ -1063,7 +1063,7 @@
 > <guisubmenu
 >Périphériques</guisubmenu
 > <guimenuitem
->Panneau de contrôle INDI…</guimenuitem
+>Tableau de bord INDI…</guimenuitem
 ></menuchoice
 >. Le périphérique par défaut est <constant
 >/dev/ttyS0</constant
@@ -1106,7 +1106,7 @@
 <listitem>
 <para
 >Le mode d'alignement du télescope est-il correct ? Utilisez le <guilabel
->panneau de contrôle INDI</guilabel
+>Tableau de bord INDI</guilabel
 > pour le vérifier et changez ces réglages (<constant
 >Alt/Az, Polar, Land</constant
 >). </para>
