@@ -134,7 +134,7 @@
 >El telescopi necessita ser alineat abans de poder-lo utilitzar correctament. Alineeu-lo (alineació d'una o dues estrelles) segons l'il·lustrat en el vostre manual del telescopi. </para>
 
 <para
->El &kstars; necessita verificar la configuració de temps i emplaçament abans de connectar amb el telescopi. Això assegura un seguiment i sincronització adequada entre el telescopi i el &kstars;. Els passos següents us permetran connectar amb un dispositiu que estigui connectat al vostre ordinador. Per a connectar i controlar els dispositius remots, si us plau, consulteu la secció <link linkend="indi-remote-control"
+>El &kstars; necessita verificar la configuració d'hora i emplaçament abans de connectar amb el telescopi. Això assegura un seguiment i sincronització adequada entre el telescopi i el &kstars;. Els passos següents us permetran connectar amb un dispositiu que estigui connectat al vostre ordinador. Per a connectar i controlar els dispositius remots, si us plau, consulteu la secció <link linkend="indi-remote-control"
 >control remot del dispositiu</link
 >. </para>
 
@@ -174,19 +174,19 @@
 ><para
 >Establir la vostra data i hora locals. Podeu canviar-les a qualsevol valor seleccionant l'element de menú <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 ><guimenuitem
->Estableix el temps...</guimenuitem
+>Estableix l'hora...</guimenuitem
 ></menuchoice
 >, o prement la icona amb forma de <guiicon
 >rellotge</guiicon
 > que hi ha a la barra d'eines. La finestra <guilabel
->Estableix el temps</guilabel
-> empra un giny selector de dates estàndard del &kde;. Si sempre necessiteu reajustar el rellotge al temps actual, senzillament seleccioneu <menuchoice
+>Estableix l'hora</guilabel
+> empra un giny selector de dates estàndard del &kde;. Si sempre necessiteu reajustar el rellotge a l'hora actual, senzillament seleccioneu <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
->Estableix el temps a ara</guimenuitem
+>Estableix l'hora a ara</guimenuitem
 ></menuchoice
 >. </para>
 </listitem>
@@ -345,7 +345,7 @@
 ></important>
 
 <para
->El &kstars; actualitza automàticament la longitud, latitud i el temps del telescopi d'acord amb la configuració actual al &kstars;. Ho podeu activar/desactivar utilitzant la pàgina <guilabel
+>El &kstars; actualitza automàticament la longitud, latitud i l'hora del telescopi d'acord amb la configuració actual al &kstars;. Ho podeu activar/desactivar utilitzant la pàgina <guilabel
 >INDI</guilabel
 > des de l'element de menú <menuchoice
 ><guimenu
@@ -503,31 +503,31 @@
   <listitem
 ><para
 ><guilabel
->Actualitzacions del temps i emplaçament</guilabel
+>Actualitzacions de l'hora i l'emplaçament</guilabel
 ></para>
     <itemizedlist>
       <listitem
 ><para
 ><guilabel
 >El &kstars; actualitza tots els dispositius</guilabel
->: El &kstars; és la font mestra de la configuració per al temps i l'emplaçament. Tots els dispositius INDI sincronitzaran aquesta configuració amb la del &kstars;.</para
+>: El &kstars; és la font mestra de la configuració per a l'hora i l'emplaçament. Tots els dispositius INDI sincronitzaran aquesta configuració amb la del &kstars;.</para
 ></listitem>
       <listitem
 ><para
 ><guilabel
 >La muntura actualitza el &kstars;</guilabel
->: El comandament de la muntura és la font mestra de la configuració del temps i emplaçament. El &kstars; sincronitzarà aquesta configuració amb la del controlador.</para
+>: El comandament de la muntura és la font mestra de la configuració de l'hora i emplaçament. El &kstars; sincronitzarà aquesta configuració amb la del controlador.</para
 ></listitem>
       <listitem
 ><para
 ><guilabel
 >El GPS actualitza el &kstars;</guilabel
->: El controlador del GPS és la font mestra de la configuració del temps i emplaçament. El &kstars; sincronitzarà aquesta configuració amb la del GPS.</para
+>: El controlador del GPS és la font mestra de la configuració de l'hora i emplaçament. El &kstars; sincronitzarà aquesta configuració amb la del GPS.</para
 ></listitem>
       <listitem
 ><para
 ><guilabel
->Temps</guilabel
+>Hora</guilabel
 >: Sincronitza automàticament la data i hora del &kstars; amb la de la font d'actualització.</para
 ></listitem>
       <listitem

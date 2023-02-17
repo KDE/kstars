@@ -87,7 +87,7 @@
 
 <itemizedlist
 ><title
->Temps</title>
+>Hora</title>
   <listitem
 ><para
 ><link linkend="ai-epoch"
@@ -109,7 +109,7 @@
   <listitem
 ><para
 ><link linkend="ai-sidereal"
->Temps sideri</link
+>Hora sidèria</link
 ></para
 ></listitem>
   <listitem

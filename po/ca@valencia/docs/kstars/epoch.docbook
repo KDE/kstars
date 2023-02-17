@@ -20,9 +20,9 @@
 >coordenades equatorials</link
 > en els catàlegs astronòmics, atés que les coordenades equatorials dels objectes celestes canvien (encara que lentament) amb el temps. Les cartes estrel·lars / atles impresos estan normalment marcats com a document vàlid per a una època determinada. </para>
 <para
->L'època més popular utilitzada actualment és J2000,0 (l'<link linkend="ai-julianday"
+>L'època més popular utilitzada actualment és J2000.0 (l'<link linkend="ai-julianday"
 >any julià</link
-> 2000,0), el qual (quasi exactament) correspon a l'1 de gener de 2000, a les 12.00 hores del migdia en temps UTC. Altres èpoques inclouen B1900 i B1950. </para>
+> 2000.0), el qual (quasi exactament) correspon a l'1 de gener de 2000, a les 12,00 hores del migdia en temps UTC. Altres èpoques inclouen B1900 i B1950. </para>
 <para
->&kstars; permet l'ús de catàlegs basats en les èpoques J2000,0 i B1950,0. </para>
+>&kstars; permet l'ús de catàlegs basats en les èpoques J2000.0 i B1950.0. </para>
 </sect1>

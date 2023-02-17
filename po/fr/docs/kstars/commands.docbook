@@ -483,7 +483,7 @@
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
->&Ctrl;&Shift;<keycap
+>&Ctrl;&Maj;<keycap
 >Z</keycap
 ></keycombo
 > </shortcut
@@ -504,7 +504,7 @@
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
->&Ctrl;&Shift;<keycap
+>&Ctrl;&Maj;<keycap
 >F</keycap
 ></keycombo
 > </shortcut
@@ -550,7 +550,7 @@
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
->&Ctrl;&Shift;<keycap
+>&Ctrl;&Maj;<keycap
 >T</keycap
 ></keycombo
 > </shortcut
@@ -732,7 +732,7 @@
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
->&Ctrl;&Shift;<keycap
+>&Ctrl;&Maj;<keycap
 >C</keycap
 ></keycombo
 > </shortcut
@@ -2157,7 +2157,7 @@
 >Les touche fléchées</term>
 <listitem
 ><para
->Les flèches de votre clavier servent à déplacer l'écran. L'écran se déplacera plus rapidement si vous maintenez la touche &Shift; enfoncée en même temps. </para
+>Les flèches de votre clavier servent à déplacer l'écran. L'écran se déplacera plus rapidement si vous maintenez la touche &Maj; enfoncée en même temps. </para
 ></listitem
 ></varlistentry>
 
@@ -2190,7 +2190,7 @@
 <varlistentry>
 <term
 ><keycombo action="simul"
->&Ctrl;&Shift;<keycap
+>&Ctrl;&Maj;<keycap
 >Z</keycap
 ></keycombo
 ></term>
@@ -2505,7 +2505,7 @@
 <varlistentry>
 <term
 ><keycombo action="simul"
->&Ctrl;&Shift;<keycap
+>&Ctrl;&Maj;<keycap
 >F</keycap
 ></keycombo
 ></term>
@@ -2664,7 +2664,7 @@
 >Chacune des actions sur le clavier effectue une action sur l'<firstterm
 >objet sélectionné</firstterm
 >. L'objet sélectionné est le dernier objet sur lequel on a cliqué (identifié dans la barre d'état). Autrement, si vous maintenez enfoncée la touche <keycap
->&Shift;</keycap
+>&Maj;</keycap
 >, l'action sera effectuée sur l'objet centré.</para>
 
 <variablelist>

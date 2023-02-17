@@ -85,7 +85,7 @@
 
 <sect1 id="settime">
 <title
->Establir el temps</title>
+>Establir l'hora</title>
 <para>
 <indexterm
 ><primary
@@ -93,9 +93,9 @@
 <secondary
 >La simulació del rellotge</secondary
 ></indexterm
->Quan s'inicia el &kstars;, la data i l'hora es prenen del rellotge del sistema de l'ordinador, i el rellotge del &kstars; comença a comptar en sincronització amb el temps real. Si voleu aturar el rellotge, seleccioneu l'element de menú <menuchoice
+>Quan s'inicia el &kstars;, la data i l'hora es prenen del rellotge del sistema de l'ordinador, i el rellotge del &kstars; comença a comptar en sincronització amb l'hora real. Si voleu aturar el rellotge, seleccioneu l'element de menú <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Atura el rellotge</guimenuitem
 ></menuchoice
@@ -111,7 +111,7 @@
 ></indexterm
 >La podeu establir seleccionant l'element de menú <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Estableix la data i l'hora...</guimenuitem
 ></menuchoice
@@ -121,9 +121,9 @@
 >Estableix la data i l'hora</guilabel
 > utilitza un giny estàndard del &kde; per a seleccionar la data, junt amb un botó de selecció de valors per a establir l'hora i els minuts. Si voleu tornar a sincronitzar el rellotge de la simulació amb el de la CPU, simplement seleccioneu l'element de menú <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
->Estableix l'hora a Ara</guimenuitem
+>Estableix l'hora a ara</guimenuitem
 ></menuchoice
 >.</para>
 
@@ -1721,7 +1721,7 @@
 >Corregeix per a la refracció atmosfèrica</guilabel
 > controla si les posicions dels objectes estan corregides per als efectes de l'atmosfera. A causa que aquesta és una clofolla esfèrica, la llum de l'espai exterior és <quote
 >doblegada</quote
-> en passar a través de l'atmosfera cap als nostres telescopis o ulls en la superfície. Dit efecte és més pronunciat per als objectes a prop de l'horitzó i realment canvia les prediccions de sortida/posta o temps establerts per als objectes en uns quants minuts! De fet, quan <quote
+> en passar a través de l'atmosfera cap als nostres telescopis o ulls en la superfície. Dit efecte és més pronunciat per als objectes a prop de l'horitzó i realment canvia les prediccions de sortida/posta o hores establertes per als objectes en uns quants minuts! De fet, quan <quote
 >veieu</quote
 > una posta de Sol, la posició real d'aquest ja està ven bé per sota de l'horitzó, a efectes de la refracció atmosfèrica sembla com si el Sol encara estigués en el cel! Cal tenir present que la refracció atmosfèrica mai serà aplicada si esteu emprant <guilabel
 >coordenades equatorials</guilabel
@@ -1767,7 +1767,7 @@
 >CPU</abbrev
 > no pot continuar amb la demanda, aleshores la vista apareixerà inactiva o desigual. Per a mitigar-ho, el &kstars; ocultarà certs objectes durant aquestes situacions, sempre que la casella de selecció <guilabel
 >Oculta els objectes en moure</guilabel
-> estigui seleccionada. El temps sobre el qual els objectes restaran ocults és determinat pel botó de selecció de valors <guilabel
+> estigui seleccionada. L'hora sobre la qual els objectes restaran ocults és determinat pel botó de selecció de valors <guilabel
 >Oculta també si el pas temporal és més gran que:</guilabel
 >. Podreu especificar els objectes que s'hauran d'ocultar a la secció <guilabel
 >Configura els objectes a ocultar</guilabel

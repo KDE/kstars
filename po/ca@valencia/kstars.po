@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 00:54+0000\n"
-"PO-Revision-Date: 2023-02-12 17:47+0100\n"
+"PO-Revision-Date: 2023-02-16 18:12+0100\n"
 "Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -697,8 +697,8 @@ msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr ""
-"El directori predeterminat pels fitxers d'índex de l'astrometria no existix "
-"i no s'ha pogut crear."
+"El directori predeterminat per als fitxers d'índex de l'astrometria no "
+"existix i no s'ha pogut crear."
 
 #: auxiliary/ksutils.cpp:1384 auxiliary/ksutils.cpp:1540
 #: auxiliary/ksutils.cpp:1605
@@ -2132,14 +2132,14 @@ msgstr ""
 "El quadro Què hi ha d'interessant està destinat a permetre explorar molts "
 "objectes interessants diferents del cel nocturn. Inclou objectes visibles a "
 "simple vista així com objectes que requerixen telescopis. Està pensat per a "
-"astrònoms principiants i avançats. Si feu clic en una categoria o un "
-"catàleg, apareixerà una llista d'objectes. Fent clic en un objecte de la "
-"llista apareixerà una vista de detalls a on trobareu més informació sobre "
-"l'objecte.  Si hi ha imatges en miniatura o informació de la Viquipèdia "
-"d'este objecte, també es mostraran. Si no, les podreu baixar utilitzant la "
-"icona de baixada. Si feu més ample el Què hi ha d'interessant, la pantalla "
-"canviarà dinàmicament per a mostrar la informació de manera més adequada. "
-"Vegeu davall els detalls de què fan els botons de la part inferior."
+"astrònoms principiants i avançats. Si feu clic damunt d'una categoria o un "
+"catàleg, apareixerà una llista d'objectes. En fer clic damunt d'un objecte "
+"de la llista apareixerà una vista de detalls a on trobareu més informació "
+"sobre l'objecte.  Si hi ha imatges en miniatura o informació de la "
+"Viquipèdia d'este objecte, també es mostraran. Si no, les podreu baixar "
+"utilitzant la icona de baixada. Si feu més ample el Què hi ha d'interessant, "
+"la pantalla canviarà dinàmicament per a mostrar la informació de manera més "
+"adequada. Vegeu davall els detalls de què fan els botons de la part inferior."
 
 #: data/qml/whatisinteresting/wiview.qml:1579
 #, kde-kuit-format
@@ -2160,8 +2160,8 @@ msgid ""
 "information about it."
 msgstr ""
 "Este botó activarà i desactivarà el mode Inspector. En este mode podreu fer "
-"clic en qualsevol objecte del mapa i el Què hi ha d'interessant mostrarà la "
-"seua informació."
+"clic damunt de qualsevol objecte del mapa i el Què hi ha d'interessant "
+"mostrarà la seua informació."
 
 #: data/qml/whatisinteresting/wiview.qml:1621
 #, kde-kuit-format
@@ -2421,9 +2421,9 @@ msgid ""
 "to construct a catalog file with a valid header, but no data."
 msgstr ""
 "Per a importar un fitxer de dades existent, introduïu el seu nom ací. "
-"Després descriureu el contingut del fitxer al de davall. Podeu deixar en "
-"blanc el nom del fitxer per a construir un fitxer de catàleg amb una "
-"capçalera vàlida, però buit."
+"Després descriureu el contingut del fitxer de davall. Podeu deixar en blanc "
+"el nom del fitxer per a construir un fitxer de catàleg amb una capçalera "
+"vàlida, però buit."
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, DataFileBox)
 #: dialogs/addcatdialog.ui:76
@@ -2688,7 +2688,7 @@ msgstr "_"
 #: dialogs/catalogcoloreditor.ui:36
 #, kde-format
 msgid "Click on a color to change it..."
-msgstr "Feu clic en un color per a canviar-lo..."
+msgstr "Feu clic damunt d'un color per a canviar-lo..."
 
 #: dialogs/catalogcsvimport.cpp:89
 #, kde-format
@@ -4592,7 +4592,7 @@ msgid ""
 "shape, and color of the new symbol."
 msgstr ""
 "Afig a la llista un símbol nou del camp de visió (CDV). Podeu definir la "
-"mida, forma i color del símbol nou."
+"mida, forma i color."
 
 #. i18n: ectx: property (text), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:60
@@ -4672,8 +4672,8 @@ msgstr "S'ha produït un error: Entrada duplicada"
 #, kde-format
 msgid "All fields (except province) must be filled to add this location."
 msgstr ""
-"Cal emplenar tots els camps (excepte la província) per a afegir este "
-"emplaçament."
+"Per a afegir este emplaçament, cal emplenar tots els camps (excepte la "
+"província)."
 
 #: dialogs/locationdialog.cpp:318
 #, kde-format
@@ -5560,10 +5560,10 @@ msgid ""
 "KStars directory already some place else, you can exit KStars and copy it to "
 "that location yourself."
 msgstr ""
-"No s'ha trobat el directori de dades. Podeu fer clic en el botó de davall "
-"per a copiar un directori de dades predeterminat de KStars a la ubicació "
-"correcta, o si ja en teniu una en un altre lloc, podeu eixir de KStars i "
-"copiar-lo en esta ubicació vós mateix."
+"No s'ha trobat el directori de dades. Podeu fer clic damunt del botó de "
+"davall per a copiar un directori de dades predeterminat de KStars a la "
+"ubicació correcta, o si ja en teniu una en un altre lloc, podeu eixir de "
+"KStars i copiar-lo en esta ubicació vós mateix."
 
 #. i18n: ectx: property (text), widget (QPushButton, copyKStarsData)
 #: dialogs/wizdata.ui:112
@@ -5694,8 +5694,8 @@ msgstr ""
 "Quan l'instal·leu en el directori de dades s'activarà el simulador de CCD de "
 "KStars per a fer imatges realistes. És útil per a seqüències de proves, "
 "solució de la placa i per a aprendre a utilitzar KStars. Només cal fer clic "
-"en el botó per a instal·lar o descomprimir el fitxer ZIP i situar la carpeta "
-"«gsc» en el directori de les dades."
+"damunt del botó per a instal·lar o descomprimir el fitxer ZIP i situar la "
+"carpeta «gsc» en el directori de les dades."
 
 #. i18n: ectx: property (text), widget (QLabel, DownloadTitle)
 #: dialogs/wizdownload.ui:61
@@ -6444,8 +6444,8 @@ msgid ""
 "After telescope completes slewing, wait until it settles for this many "
 "milliseconds before capturing the next image."
 msgstr ""
-"Després que el telescopi complete l'orientació, esperarà estos mil·lisegons "
-"fins que es posicioni abans de capturar la imatge següent."
+"Després que el telescopi complete l'orientació, esperarà este nombre de "
+"mil·lisegons fins que es posicioni abans de capturar la imatge següent."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -6722,7 +6722,7 @@ msgid ""
 "Load and Slew Tool, and the Mount Model Tool will be displayed below."
 msgstr ""
 "Els resultats de les solucions per a l'astrometria de l'eina de captura i "
-"solució, l'eina de càrrega i orientació, i l'eina per al model de muntura es "
+"solució, l'eina de càrrega i orientació i l'eina per al model de muntura es "
 "mostraran davall."
 
 # skip-rule: abbreviations-dec
@@ -7457,7 +7457,7 @@ msgstr ""
 "utilitza una instal·lació local de la línia d'ordres d'Astrometry.net a "
 "Linux i Mac, o ANSVR a Windows. Watney local utilitza una instal·lació local "
 "del programa solucionador d'astrometria Watney. L'ASTAP utilitza una "
-"instal·lació local del programa ASTAP.  I en línia utilitza Astrometry.net "
+"instal·lació local del programa ASTAP. I en línia utilitza Astrometry.net "
 "per Internet o l'ANSVR d'un ordinador proper."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
@@ -7592,7 +7592,7 @@ msgstr ""
 "<html><head/><body><p>Llindar del rotor en minuts d'arc quan s'utilitza "
 "Carrega i orienta. Si la diferència entre l'angle de posició mesurat i "
 "l'angle de posició FITS està per davall d'este valor, es considera que "
-"l'operació de Carrega i orientació ha finalitzat amb èxit.</p></body></html>"
+"l'operació de carrega i orienta ha finalitzat amb èxit.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:307
@@ -9083,7 +9083,7 @@ msgstr "Fitxer de configuració d'Astrometry.net"
 #: ekos/align/opsprograms.ui:105
 #, kde-format
 msgid "Astrometry.net wcsinfo binary"
-msgstr "Binari wcsinfo d'Astrometry.net"
+msgstr "Binari «wcsinfo» d'Astrometry.net"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/align/opsprograms.ui:115
@@ -9095,7 +9095,7 @@ msgstr "«wcsinfo»:"
 #: ekos/align/opsprograms.ui:122
 #, kde-format
 msgid "Astrometry.net solve-field binary path"
-msgstr "Camí al binari del solucionador de camp d'Astrometry.net"
+msgstr "Camí cap al binari del solucionador de camp d'Astrometry.net"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/align/opsprograms.ui:132
@@ -9216,7 +9216,7 @@ msgstr "Primera solució"
 #: ekos/align/polaralignmentassistant.cpp:30
 #, kde-format
 msgid "Finding CP"
-msgstr "Buscar de CP"
+msgstr "Busca de CP"
 
 #: ekos/align/polaralignmentassistant.cpp:31
 #, kde-format
@@ -9261,7 +9261,7 @@ msgstr "Tercera solució"
 #: ekos/align/polaralignmentassistant.cpp:39
 #, kde-format
 msgid "Select Star"
-msgstr "Seleccioneu l'estrela"
+msgstr "Seleccioneu una estrela"
 
 #: ekos/align/polaralignmentassistant.cpp:40
 #, kde-format
@@ -9348,7 +9348,7 @@ msgstr "S'està aparcant la muntura..."
 #: ekos/align/polaralignmentassistant.cpp:867
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
-msgstr "Espereu fins que la muntura complete la rotació a AR (%1) DE (%2)"
+msgstr "Espereu fins que la muntura complete la rotació a AR (%1) Dec (%2)"
 
 #: ekos/align/polaralignmentassistant.cpp:883
 #: ekos/align/polaralignmentassistant.cpp:889
@@ -9597,7 +9597,7 @@ msgstr ""
 "l'error en la línia «Error actualitzat» de davall i minimitzar la mida de "
 "les fletxes. Este és l'únic esquema que pot corregir completament un error "
 "més gran que el camp de visió de la imatge, però depén d'un solucionador de "
-"plaques fiable. </li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
+"plaques fiable.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">Estrela en moviment</span>: Se sobreposa un "
 "triangle en la imatge capturada de dalt. L'usuari selecciona una estrela i "
@@ -9638,7 +9638,7 @@ msgid ""
 "Polar Alignment total error measured by the 3 exposures at the start of the "
 "polar-alignment procedure."
 msgstr ""
-"Error total de l'alineació polar mesurada amb 3 exposicions a l'inici del "
+"Error total en l'alineació polar mesurada amb 3 exposicions a l'inici del "
 "procediment de l'alineació polar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
@@ -9656,7 +9656,7 @@ msgid ""
 "Polar Alignment altitude error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
-"S'ha produït un error de l'altitud de l'alineació polar mesurada amb 3 "
+"S'ha produït un error d'altitud en l'alineació polar mesurada amb 3 "
 "exposicions a l'inici del procediment de l'alineació polar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAlt)
@@ -9679,7 +9679,7 @@ msgid ""
 "Polar Alignment azimuth error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
-"S'ha produït un error de l'azimut de l'alineació polar mesurada amb 3 "
+"S'ha produït un error d'azimut en l'alineació polar mesurada amb 3 "
 "exposicions a l'inici del procediment de l'alineació polar."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
@@ -9689,7 +9689,7 @@ msgstr ""
 #, kde-format
 msgid "Polar Alignment total error estimated after recent adjustments."
 msgstr ""
-"Error total de l'alineació polar estimada després dels ajustos recents."
+"Error total en l'alineació polar estimada després dels ajustos recents."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHUpdatedErrorTotal)
 #: ekos/align/polaralignmentassistant.ui:649
@@ -9704,8 +9704,8 @@ msgstr "Error actualitzat:"
 #, kde-format
 msgid "Polar Alignment altitude error estimated after recent adjustments."
 msgstr ""
-"S'ha produït un error de l'altitud de l'alineació polar estimada després "
-"dels ajustos recents."
+"S'ha produït un error d'altitud en l'alineació polar estimada després dels "
+"ajustos recents."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
@@ -9714,7 +9714,7 @@ msgstr ""
 #, kde-format
 msgid "Polar Alignment azimuth error estimated after recent adjustments."
 msgstr ""
-"S'ha produït un error de l'azimut de l'alineació polar estimada després dels "
+"S'ha produït un error d'azimut en l'alineació polar estimada després dels "
 "ajustos recents."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStartB)
@@ -11235,7 +11235,7 @@ msgid ""
 "Generate Map to execute."
 msgstr ""
 "Nivell d'agressivitat. Incrementeu el valor per a incloure més píxels "
-"cremats. Feu clic en Genera mapa per a executar."
+"cremats. Feu clic en «Genera el mapa» per a executar-ho."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hotPixelsEnabled)
 #: ekos/auxiliary/darklibrary.ui:903
@@ -11251,7 +11251,7 @@ msgid ""
 "Generate Map to execute."
 msgstr ""
 "Nivell d'agressivitat. Incrementeu el valor per a incloure més píxels freds. "
-"Feu clic en Genera mapa per a executar."
+"Feu clic en «Genera el mapa» per a executar-ho."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetMapParametersB)
 #: ekos/auxiliary/darklibrary.ui:979
@@ -11279,7 +11279,7 @@ msgstr "S'han detectat píxels cremats i freds en el llindar d'agressivitat."
 #: ekos/auxiliary/darklibrary.ui:1011
 #, kde-format
 msgid "Generate Map"
-msgstr "Genera mapa"
+msgstr "Genera el mapa"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveMapB)
 #: ekos/auxiliary/darklibrary.ui:1030
@@ -20591,7 +20591,7 @@ msgstr "Inversió del meridià en %1"
 #, kde-format
 msgid "Meridian flip failed - time too short, pier side unknown."
 msgstr ""
-"La inversió del meridià ha fallat - horari massa curt, costat del moll "
+"La inversió del meridià ha fallat - temps massa curt, costat del moll "
 "desconegut."
 
 #: ekos/manager/meridianflipstate.cpp:271
@@ -21063,7 +21063,7 @@ msgstr "Alt màx.:"
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
 msgid "%1 error. See INDI log for details."
-msgstr "S'ha produït un error de %1. Vegeu els detalls al registre d'INDI."
+msgstr "S'ha produït un error de %1. Vegeu els detalls en el registre d'INDI."
 
 #: ekos/observatory/observatory.cpp:244 ekos/observatory/observatory.cpp:255
 #: ekos/observatory/observatory.cpp:295 ekos/observatory/observatory.cpp:310
@@ -21505,9 +21505,9 @@ msgid ""
 "<html><head/><body><p>Current data of the weather sensors. Click on the "
 "sensor name to display its data over time.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dades actuals dels sensors meteorològics. Feu clic en "
-"el nom del sensor per a mostrar les seues dades amb el pas del temps.</p></"
-"body></html>"
+"<html><head/><body><p>Dades actuals dels sensors meteorològics. Feu clic "
+"damunt del nom del sensor per a mostrar les seues dades amb el pas del temps."
+"</p></body></html>"
 
 #: ekos/observatory/observatorydomemodel.cpp:49
 #: ekos/observatory/observatorydomemodel.cpp:59
@@ -22762,8 +22762,8 @@ msgstr ""
 "plataforma de control i automatització d'observatoris. Amb Ekos, es poden "
 "capturar imatges i recopilar dades científiques amb facilitat. Este "
 "assistent vos ajudarà a crear el perfil de l'equip. Se us demanarà la "
-"verificació de diversa informació bàsica. </p><p>Feu clic en <span style="
-"\"font-weight:600;\">següent</span> per a continuar. </p></body></html>"
+"verificació de diversa informació bàsica.</p><p>Feu clic en <span style="
+"\"font-weight:600;\">Següent</span> per a continuar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/profilewizard.ui:155
@@ -23383,8 +23383,8 @@ msgid ""
 "Final mosaic field of view size in arc minutes. Click update to calculate it "
 "or enter it manually."
 msgstr ""
-"Mida del camp de visió del mosaic final en minuts d'arc. Feu clic en "
-"actualitza per a calcular-ho o introduïu-ho manualment."
+"Mida del camp de visió del mosaic final en minuts d'arc. Per a calcular-ho, "
+"feu clic en «Actualitza» o introduïu-lo manualment."
 
 #. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
 #: ekos/scheduler/framingassistant.ui:482 ekos/scheduler/mosaic.ui:767
@@ -23934,7 +23934,7 @@ msgid ""
 "to calculate it"
 msgstr ""
 "Nombre de tasques del programador requerides per a capturar la imatge en "
-"mosaic. Per a calcular-ho, feu clic en actualitza"
+"mosaic. Per a calcular-ho, feu clic en «Actualitza»"
 
 #. i18n: ectx: property (text), widget (QLabel, jobCountLabel)
 #: ekos/scheduler/mosaic.ui:961
@@ -26103,9 +26103,9 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 "Estat actual de la tasca «%1», gestionada pel programador.\n"
-"Si és no vàlida, el programador no podrà trobar cap temps adequat per a "
+"Si és no vàlida, el programador no podrà trobar cap hora adequada per a "
 "l'observació de l'objectiu.\n"
-"Si és interrompuda, el programador trobarà faltes al temps programat o "
+"Si és interrompuda, el programador trobarà faltes en el temps programat o "
 "problemes temporals i tornarà a planificar la tasca.\n"
 "Si és completa, el programador verificarà que totes les captures de "
 "seqüència sol·licitades s'han emmagatzemat, incloent-hi les repeticions."
@@ -26171,7 +26171,7 @@ msgstr ""
 "La puntuació actual per a la tasca «%1», a partir de la seua altitud, la "
 "separació de la Lluna i foscor del cel.\n"
 "Negatiu si encara no s'ha arribat a l'altitud suficient, o si hui no hi ha "
-"cap temps adequat per a l'observació.\n"
+"cap hora adequada per a l'observació.\n"
 "El programador actualitzarà les puntuacions en seleccionar una nova tasca "
 "candidata."
 
@@ -27089,7 +27089,7 @@ msgstr "Obri una finestra única"
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image"
 msgstr ""
-"Porta la finestra del visor FITS al primer pla en rebre una imatge nova"
+"Porta la finestra del visor FITS al primer pla quan es reba una imatge nova"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:115
@@ -27749,7 +27749,7 @@ msgstr "S'ha produït un error en baixar els orígens HiPS: %1"
 msgid "Cache space on hard disk used to store HiPS images."
 msgstr ""
 "Espai de la memòria cau en el disc dur que s'utilitza per a emmagatzemar les "
-"imatges HIPS."
+"imatges HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
@@ -27771,7 +27771,7 @@ msgstr "MB"
 msgid "Cache space in RAM used to store HiPS images."
 msgstr ""
 "Espai de la memòria cau a la RAM que s'utilitza per a emmagatzemar les "
-"imatges HIPS."
+"imatges HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -29001,8 +29001,8 @@ msgid ""
 msgstr ""
 "<h3>1. Model de telescopi</h3>\n"
 "\n"
-"Seleccioneu el vostre model de telescopi de la llista. Després de fer-ho feu "
-"clic en «Següent»."
+"Seleccioneu el vostre model de telescopi de la llista. Després de fer-ho, "
+"feu clic en «Següent»."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: indi/telescopewizard.ui:274
@@ -30192,7 +30192,7 @@ msgstr ""
 #: kstars.kcfg:362
 #, kde-format
 msgid "Select objects on left click?"
-msgstr "Seleccione objectes en fer clic amb l'esquerre?"
+msgstr "Voleu seleccionar objectes en fer clic esquerre?"
 
 #. i18n: ectx: whatsthis, entry (LeftClickSelectsObject), group (View)
 #: kstars.kcfg:363
@@ -33405,7 +33405,7 @@ msgid ""
 msgstr ""
 "Si la desviació del guiatge supera este límit, l'exposició s'interromprà "
 "automàticament i només es reprendrà quan la desviació torne a situar-se dins "
-"del límit."
+"d'este límit."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1635
@@ -34139,8 +34139,8 @@ msgid ""
 "Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for "
 "Local ASTAP. 3 for Online Astrometry."
 msgstr ""
-"Mètode de solució local. 0 per al solucionador intern. 1 per a l'Astrometria "
-"local. 2 per a l'ASTAP local. 3 per a l'Astrometria en línia."
+"Mètode de solució local. 0 per al solucionador intern. 1 per a l'astrometria "
+"local. 2 per a l'ASTAP local. 3 per a l'astrometria en línia."
 
 #. i18n: ectx: label, entry (SolveOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2001
@@ -34429,19 +34429,19 @@ msgstr "Binari del solucionador de camp Astrometry.net"
 #: kstars.kcfg:2148
 #, kde-format
 msgid "Path to astrometry.net solver location."
-msgstr "Camí a la ubicació del solucionador Astrometry.net."
+msgstr "Camí cap a la ubicació del solucionador Astrometry.net."
 
 #. i18n: ectx: label, entry (AstrometryWCSInfo), group (Align)
 #: kstars.kcfg:2152
 #, kde-format
 msgid "astrometry.net wcsinfo binary"
-msgstr "Binari wcsinfo d'Astrometry.net"
+msgstr "Binari «wcsinfo» d'Astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometryWCSInfo), group (Align)
 #: kstars.kcfg:2153
 #, kde-format
 msgid "Path to astrometry.net wcsinfo location."
-msgstr "Camí a la ubicació del wcsinfo d'Astrometry.net."
+msgstr "Camí cap a la ubicació del «wcsinfo» d'Astrometry.net."
 
 #. i18n: ectx: label, entry (AstrometryConfFile), group (Align)
 #: kstars.kcfg:2157
@@ -34453,7 +34453,7 @@ msgstr "Fitxer de configuració d'Astrometry.net"
 #: kstars.kcfg:2158
 #, kde-format
 msgid "Path to astrometry.net file location."
-msgstr "Camí a la ubicació del fitxer Astrometry.net."
+msgstr "Camí cap a la ubicació del fitxer d'Astrometry.net."
 
 #. i18n: ectx: whatsthis, entry (SextractorBinary), group (Align)
 #: kstars.kcfg:2163
@@ -35420,7 +35420,7 @@ msgstr "El port de l'últim gestor web emprat"
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
 "Mida en MB de la memòria cau RAM que s'utilitza per a emmagatzemar les "
-"imatges HIPS a la memòria cau."
+"imatges HiPS a la memòria cau."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
 #: kstars.kcfg:2804
@@ -35428,13 +35428,13 @@ msgstr ""
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
 "Mida en MB de la memòria cau en el disc dur que s'utilitza per a "
-"emmagatzemar les imatges HIPS a la memòria cau."
+"emmagatzemar les imatges HiPS a la memòria cau."
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
 #: kstars.kcfg:2808
 #, kde-format
 msgid "HIPS source catalog title."
-msgstr "Títol del catàleg d'origen HIPS."
+msgstr "Títol del catàleg d'origen HiPS."
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
 #: kstars.kcfg:2812
@@ -35464,13 +35464,13 @@ msgstr "Voleu dibuixar els orígens HiPS en el mapa celeste?"
 #: kstars.kcfg:2825
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
-msgstr "Establix si es dibuixen o no els orígens HIPS en el mapa celeste."
+msgstr "Establix si es dibuixen o no els orígens HiPS en el mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
 #: kstars.kcfg:2829
 #, kde-format
 msgid "Use offline storage to load HiPS?"
-msgstr "Utilitze l'emmagatzematge fora de línia per a carregar HiPS?"
+msgstr "Voleu utilitzar l'emmagatzematge fora de línia per a carregar HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
 #: kstars.kcfg:2833
@@ -39021,7 +39021,7 @@ msgstr "CASSIOPEA W"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FISH HOOK"
-msgstr "ESCORPÍ"
+msgstr "L'HAM DE PESCAR"
 
 # Nota: https://ca.wikipedia.org/wiki/Creu_del_Nord
 #: kstars_i18n.cpp:664
@@ -40220,13 +40220,13 @@ msgstr "Atenes"
 #, kde-kuit-format
 msgctxt "City in Georgia USA"
 msgid "Athens"
-msgstr "Atenes"
+msgstr "Athens"
 
 #: kstars_i18n.cpp:866
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Athens"
-msgstr "Atenes"
+msgstr "Athens"
 
 #: kstars_i18n.cpp:867
 #, kde-kuit-format
@@ -64501,8 +64501,8 @@ msgid ""
 "\n"
 "It appears that your setup is broken."
 msgstr ""
-"El fitxer %1 no s'ha pogut trobar. KStars no pot funcionar adequadament "
-"sense este fitxer. KStars busca el fitxer a les ubicacions següents:\n"
+"No s'ha pogut trobar el fitxer %1. KStars no pot funcionar adequadament "
+"sense este fitxer. KStars el busca a les ubicacions següents:\n"
 "\n"
 "\t%2\n"
 "\n"
@@ -64708,7 +64708,7 @@ msgstr "&Assistent d'impressió..."
 #: kstarsinit.cpp:180
 #, kde-format
 msgid "Set Time to &Now"
-msgstr "Establix l'hora a &Ara"
+msgstr "Establix l'hora a &ara"
 
 #: kstarsinit.cpp:184
 #, kde-format
@@ -64910,6 +64910,7 @@ msgstr "Símbols de &CDV"
 msgid "HiPS All Sky Overlay"
 msgstr "Totes les superposicions del cel de HiPS"
 
+# En català no pot ser un adjectiu
 #: kstarsinit.cpp:376
 #, kde-format
 msgctxt "Location on Earth"
@@ -66509,7 +66510,7 @@ msgstr ""
 "Enhorabona per les primeres passes a KStars Lite. Este programa "
 "d'aprenentatge quasi s'ha acabat. L'últim pas és establir el vostre "
 "emplaçament (podeu fer-ho manualment o a partir del GPS). Feu clic en "
-"següent per a continuar."
+"«Següent» per a continuar."
 
 #: kstarslite/skyitems/horizonitem.cpp:22
 #: skycomponents/horizoncomponent.cpp:111
@@ -67952,7 +67953,7 @@ msgstr "H:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "HA H:M:S"
-msgstr "HA H:M:S"
+msgstr "AH H:M:S"
 
 #: libindi_strings.cpp:239
 #, kde-kuit-format
@@ -69104,7 +69105,7 @@ msgstr "Temps sideral"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sidereal"
-msgstr "Sideral"
+msgstr "Sideri"
 
 #: libindi_strings.cpp:430
 #, kde-kuit-format
@@ -69830,7 +69831,7 @@ msgstr "activat"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "rel. to HA"
-msgstr "rel. a HA"
+msgstr "rel. a l'AH"
 
 #: libindi_strings.cpp:551
 #, kde-kuit-format
@@ -69842,7 +69843,7 @@ msgstr "restablix"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "sidereal"
-msgstr "sideral"
+msgstr "sideri"
 
 #: libindi_strings.cpp:553
 #, kde-kuit-format
@@ -70669,7 +70670,7 @@ msgid ""
 "Looks like you have not listed out your observers / equipment. Please hit "
 "Ctrl + 0 and Ctrl + 1 to fix this situation and come back here."
 msgstr ""
-"Pareix com si no heu definit els observadors/equip. Per favor, premeu Ctrl+0 "
+"Pareix com si no heu llistat els observadors/equip. Per favor, premeu Ctrl+0 "
 "i Ctrl+1 per a esmenar esta situació i torneu ací."
 
 #. i18n: ectx: property (text), widget (QPushButton, NextButton)
@@ -70920,7 +70921,7 @@ msgstr "Mostra una etiqueta transitòria en passar per damunt amb el ratolí"
 #: options/opsadvanced.ui:534
 #, kde-format
 msgid "Show inline images on the sky?"
-msgstr "Voleu que es mostren com a incloses les imatges en el cel?"
+msgstr "Voleu mostrar imatges incloses en el cel?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:537
@@ -71010,7 +71011,7 @@ msgstr "Configureu els objectes ocults en moure"
 #: options/opsadvanced.ui:649
 #, kde-format
 msgid "Do not draw all objects while the map is moving?"
-msgstr "No s'han de dibuixar tots els objectes en moure el mapa?"
+msgstr "No s'han de dibuixar tots els objectes mentre el mapa s'està movent?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:652
@@ -71094,7 +71095,7 @@ msgstr "Sistema solar"
 #: options/opsadvanced.ui:724
 #, kde-format
 msgid "Hide object labels while moving?"
-msgstr "Voleu amagar les etiquetes dels objectes en moure?"
+msgstr "Voleu ocultar les etiquetes dels objectes en moure?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:727
@@ -71842,7 +71843,7 @@ msgstr ""
 #: options/opsguides.ui:214
 #, kde-format
 msgid "Use filled Milky Way contour?"
-msgstr "Cal utilitzar un farciment per al contorn de la Via Làctia?"
+msgstr "Voleu utilitzar un farciment per al contorn de la Via Làctia?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:217
@@ -72829,8 +72830,8 @@ msgid ""
 "Star hopper returned empty path. We advise you to change star hopping "
 "settings or use manual capture mode."
 msgstr ""
-"El saltador entre estreles ha retornat un trajecte buit. Se vos recomana que "
-"canvieu Configureu els salts entre estreles o bé que utilitzeu el mode "
+"El saltador entre estreles ha retornat un trajecte buit. Es recomana que "
+"canvieu la configuració dels salts entre estreles o bé que utilitzeu el mode "
 "captura manual."
 
 #: printing/printingwizard.cpp:222
@@ -73010,7 +73011,7 @@ msgid ""
 "image shape, then click <b>Next</b> to proceed.</p>"
 msgstr ""
 "<p>Establiu la configuració bàsica de la captura del camp de visió: esquema "
-"de color, llegenda i forma de la imatge de CDV, i després feu clic "
+"de color, llegenda i forma de la imatge de CDV, i després feu clic en "
 "<b>Següent</b> per a procedir.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, switchColorsBox)
@@ -73217,10 +73218,10 @@ msgid ""
 "<p>When done, press <b>Next</b> button.</p>"
 msgstr ""
 "<p>Seleccioneu l'objecte celeste que s'observarà. Podeu seleccionar-lo des "
-"d'una llista d'objectes fent clic en el botó <b>Selecciona un objecte de la "
-"llista</b> o bé directament del mapa celeste prement <b>Apunta a un objecte "
-"del mapa celeste</b>. Una vegada s'haja localitzat l'objecte, feu-hi clic "
-"amb el botó dret del ratolí i seleccioneu l'opció <b>Selecciona este "
+"d'una llista d'objectes fent clic damunt del botó <b>Selecciona un objecte "
+"de la llista</b> o bé directament del mapa celeste prement <b>Apunta a un "
+"objecte del mapa celeste</b>. Una vegada s'haja localitzat l'objecte, feu-hi "
+"clic amb el botó dret del ratolí i seleccioneu l'opció <b>Selecciona este "
 "objecte</b> des del menú contextual.</p>\n"
 "<p>En acabar, premeu el botó <b>Següent</b>.</p>"
 
@@ -73257,12 +73258,12 @@ msgid ""
 "<p>If you wish to change contents of printed document, click <b>Previous</b> "
 "button to get back to previous steps.</p>"
 msgstr ""
-"<p>El document està a punt per a ser imprés. Feu clic en el botó "
+"<p>El document està a punt per a ser imprés. Feu clic damunt del botó "
 "<b>Previsualitza la impressió </b>per a previsualitzar-la i el botó "
 "<b>Imprimix</b> per a iniciar la impressió. També podeu exportar-la a un "
 "fitxer.</p>\n"
-"<p>Si voleu canviar el contingut del document imprés, feu clic en el botó "
-"<b>Anterior</b> per a retornar als passos previs.</p>"
+"<p>Si voleu canviar el contingut del document imprés, feu clic damunt del "
+"botó <b>Anterior</b> per a retornar als passos previs.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, previewButton)
 #: printing/pwizprint.ui:142
@@ -73359,7 +73360,7 @@ msgid ""
 "the new one?"
 msgstr ""
 "Voleu importar els objectes personalitzats i els resolts per Internet des de "
-"la base de dades DSO antiga a la nova?"
+"la base de dades DSO antiga cap a la nova?"
 
 #: skycomponents/catalogscomponent.cpp:447
 #: skycomponents/catalogscomponent.cpp:454
@@ -74122,8 +74123,8 @@ msgstr ""
 "\t\t\tUtilitzeu Ctrl+T, l'element de menú «Apunta -> Comença el seguiment» o "
 "el botó\n"
 "\t\t\tdel «cadenat» de la barra d'eines. També podeu centrar amb facilitat\n"
-"\t\t\tl'objecte fent-hi doble clic damunt o seleccionant\n"
-"\t\t\t«Centra i seguix» des del menú emergent de l'objecte.\n"
+"\t\t\tl'objecte fent-hi doble clic o seleccionant «Centra i seguix»\n"
+"\t\t\tdes del menú emergent de l'objecte.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -74160,7 +74161,7 @@ msgid ""
 msgstr ""
 "\t\t<p>En la pantalla hi ha tres tipus de «Rètols informatius» que mostren "
 "dades\n"
-"\t\t\trelacionades amb el temps/data, l'emplaçament geogràfic i la posició "
+"\t\t\trelacionades amb l'hora/data, l'emplaçament geogràfic i la posició "
 "central\n"
 "\t\t\tactual en el cel (l'enfocament). Podeu arrossegar estos rètols amb el "
 "ratolí\n"
@@ -74270,7 +74271,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Feu doble clic amb el ratolí per a centrar la pantalla a la posició\n"
-"\t\t\tdel cursor del ratolí. Si feu doble clic en un objecte, KStars "
+"\t\t\tdel cursor del ratolí. Si feu doble clic damunt d'un objecte, KStars "
 "començarà\n"
 "\t\t\ta seguir-lo automàticament.\n"
 "\t\t</p>\n"
@@ -74391,7 +74392,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Podeu prémer Ctrl+E o utilitzar l'element de menú «Temps -> Establix "
-"l'hora a Ara»\n"
+"l'hora a ara»\n"
 "\t\t\tper a sincronitzar el rellotge de simulació amb el rellotge de la "
 "vostra CPU.\n"
 "\t\t</p>\n"
@@ -74578,7 +74579,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Podeu adjuntar una etiqueta a qualsevol objecte en el cel. Canvieu \n"
-"\t\t\tl'etiqueta en el menú emergent, o bé feu clic en l'objecte i premeu "
+"\t\t\tl'etiqueta en el menú emergent, o bé feu clic sobre l'objecte i premeu "
 "«L».\n"
 "\t\t</p>\n"
 "\t\n"
@@ -74747,7 +74748,7 @@ msgid ""
 msgstr ""
 "\t\t<p>L'eina «Llunes de Júpiter» (Ctrl+J) mostra les posicions relatives de "
 "les\n"
-"\t\t\tquatre llunes de Júpiter més grans.(Io, Europa, Ganimedes i Calixt), "
+"\t\t\tquatre llunes de Júpiter més grans (Io, Europa, Ganimedes i Calixt), "
 "tal com\n"
 "\t\t\tes veuen des de la Terra, i en funció del temps.\n"
 "\t\t</p>\n"
@@ -74860,7 +74861,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Podeu ajustar dotzenes d'opcions de pantalla fent clic en el botó de\n"
+"\t\t<p>Podeu ajustar dotzenes d'opcions de pantalla fent clic damunt del "
+"botó de\n"
 "\t\t\t«clau anglesa» de la barra d'eines o seleccionant l'element de menú\n"
 "«Configuració -> Configura KStars...».\n"
 "\t\t</p>\n"
@@ -75027,8 +75029,8 @@ msgstr ""
 "permet afinar\n"
 "\t\t\tel seu comportament. Podeu especificar si voleu corregir la refracció "
 "atmosfèrica\n"
-"\t\t\ti si utilitzar o no transició animada. També podeu especificar quins "
-"objectes\n"
+"\t\t\ti si utilitzar o no la transició animada. També podeu especificar "
+"quins objectes\n"
 "\t\t\ts'ocultaran quan la pantalla estiga en moviment.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -75185,7 +75187,7 @@ msgstr ""
 "canvien la seua direcció de moviment a través del cel nocturn. Açò s'anomena "
 "moviment retrògrad. El podeu simular en KStars afegint una traça a un "
 "planeta exterior i deixant que el rellotge de la simulació avance ràpid (a 1 "
-"dia sideral o així).\n"
+"dia sideri o així).\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -75239,7 +75241,7 @@ msgstr ""
 "\t\t<p>La distància a les estreles més properes es pot mesurar utilitzant la "
 "«paral·laxi». La idea està explicada en el projecte AstroInfo. KStars mostra "
 "les distàncies a moltes estreles en el diàleg «Detalls». Per a accedir a "
-"esta informació, senzillament feu clic amb el botó dret en l'estrela, i "
+"esta informació, senzillament feu clic amb el botó dret sobre l'estrela, i "
 "seleccioneu «Detalls» en el menú emergent.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -75276,8 +75278,8 @@ msgstr ""
 "\t\t<p>El Digitized Sky Survey (DSS) ha digitalitzat imatges de fotògrafs de "
 "cada regió del cel, efectuades amb el telescopi Oschin Schmidt del Mt. "
 "Palomar, i el telescopi Schmidt UK. Des de KStars es pot accedir a les "
-"imatges DSS de quasi qualsevol regió del cel fent clic amb el botó dret en "
-"el mapa celeste i seleccionat «Mostra la imatge DSS».\n"
+"imatges DSS de quasi qualsevol regió del cel fent clic amb el botó dret "
+"sobre el mapa celeste i seleccionat «Mostra la imatge DSS».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -75618,7 +75620,7 @@ msgid ""
 msgstr ""
 "Obri el diàleg «Busqueu un objecte», el qual us permet seleccionar un "
 "objecte des d'una llista d'objectes coneguts. Quan un objecte ha sigut "
-"seleccionat, el seu nom apareixerà al quadro «dir» de l'esquerra."
+"seleccionat, el seu nom apareixerà en el quadro «dir» de l'esquerra."
 
 #. i18n: ectx: property (text), widget (QPushButton, FindButton)
 #: tools/argfindobject.ui:47 tools/arglooktoward.ui:116
@@ -75880,14 +75882,14 @@ msgid ""
 "position of any planet, from a given location on Earth at a given time</LI></"
 "UL></QT>"
 msgstr ""
-"<QT><H2>L'astrocalculadora de KStars</H2><P>L'astrocalculadora de KStars "
-"conté diversos <B>mòduls</b> que efectuen càlculs variats relacionats amb "
+"<qt><h2>L'astrocalculadora de KStars</h2><p>L'astrocalculadora de KStars "
+"conté diversos <b>mòduls</b> que efectuen càlculs variats relacionats amb "
 "l'astronomia. Els mòduls s'organitzen en diverses categories: "
-"<UL><LI><B>Calculadores de temps:</B> Convertixen entre sistemes de temps, i "
-"prediuen la temporització d'esdeveniments celestes</LI><LI><B>Convertidors "
-"de coordenades:</B> Fan conversions entre diversos sistemes de coordenades</"
-"LI><LI><B>Sistema solar:</B> Prediuen la posició de qualsevol planeta, des "
-"d'un emplaçament i instant donats sobre la Terra</LI></UL></QT>"
+"<ul><li><b>Calculadores de temps:</b> Convertixen entre sistemes de temps, i "
+"prediuen la temporització d'esdeveniments celestes</li><li><b>Convertidors "
+"de coordenades:</b> Fan conversions entre diversos sistemes de coordenades</"
+"li><li><b>Sistema solar:</b> Prediuen la posició de qualsevol planeta, des "
+"d'un emplaçament i instant donats sobre la Terra</li></ul></qt>"
 
 #: tools/astrocalc.cpp:54
 #, kde-format
@@ -75899,12 +75901,12 @@ msgid ""
 "and Moon</LI><LI><B>Equinoxes & Solstices:</B> Equinoxes, Solstices and "
 "duration of the seasons</LI></UL></QT>"
 msgstr ""
-"<QT>Secció que inclou algorismes per al càlcul d'efemèrides "
-"temporals<UL><LI><B>Dia Julià:</B> Conversió entre Dia Julià/Calendari</"
-"LI><LI><B>Temps Sideral:</B> Conversió entre Temps Sideral/Universal</"
-"LI><LI><B>Calendari:</B> Horaris d'eixida/posta/trànsit del Sol i la Lluna, "
-"i posicions d'estos esdeveniments</LI><LI><B>Equinoccis i Solsticis:</B> "
-"Equinoccis, Solsticis i duració de les estacions</LI></UL></QT>"
+"<qt>Secció que inclou algorismes per al càlcul d'efemèrides "
+"temporals<ul><li><b>Dia julià:</b> Conversió entre Dia julià/Calendari</"
+"li><li><b>Temps Sideral:</b> Conversió entre Temps Sideral/Universal</"
+"li><li><b>Calendari:</b> Horaris d'eixida/posta/trànsit del Sol i la Lluna, "
+"i posicions d'estos esdeveniments</li><li><b>Equinoccis i solsticis:</b> "
+"Equinoccis, solsticis i duració de les estacions</li></ul></qt>"
 
 #: tools/astrocalc.cpp:68
 #, kde-format
@@ -75922,19 +75924,19 @@ msgid ""
 "LI><LI><B>LSR Velocity:</B> Computation of the heliocentric, geocentric and "
 "topocentric radial velocity of a source from its LSR velocity</LI></UL></QT>"
 msgstr ""
-"<QT>Secció amb algorismes per a la conversió entre diferents sistemes "
-"astronòmics de coordenades<UL><LI><B>Galàctiques:</B> Convertidor entre "
-"coordenades galàctiques i equatorials</LI><LI><B>Aparents:</B> Càlcul de les "
+"<qt>Secció amb algorismes per a la conversió entre diferents sistemes "
+"astronòmics de coordenades<ul><li><b>Galàctiques:</b> Convertidor entre "
+"coordenades galàctiques i equatorials</li><li><b>Aparents:</b> Càlcul de les "
 "coordenades equatorials actuals per a una època en concret</"
-"LI><LI><B>Eclíptiques:</B> Convertidor entre coordenades eclíptiques i "
-"equatorials</LI><LI><B>Horitzontals:</B> Càlcul de l'azimut i l'altitud per "
-"a una font, temps i emplaçament concrets sobre la Terra</LI><LI><B>Simple:</"
-"B> Conversió dels angles en hores i graus.</LI><LI><B>Distància angular:</B> "
+"li><li><b>Eclíptiques:</b> Convertidor entre coordenades eclíptiques i "
+"equatorials</li><li><b>Horitzontals:</b> Càlcul de l'azimut i l'altitud per "
+"a una font, temps i emplaçament concrets sobre la Terra</li><li><b>Simple:</"
+"b> Conversió dels angles en hores i graus.</li><li><b>Distància angular:</b> "
 "Càlcul de la distància angular entre dos objectes amb les seues posicions "
-"expressades en coordenades equatorials</LI><LI><B>Coord. geodèsiques:</B> "
-"Conversió entre coordenades geodèsiques i XYZ</LI><LI><B>Velocitat ELR:</B> "
+"expressades en coordenades equatorials</li><li><b>Coord. geodèsiques:</b> "
+"Conversió entre coordenades geodèsiques i XYZ</li><li><b>Velocitat ELR:</b> "
 "Càlcul de les velocitats radials heliocèntrica, geocèntrica i topocèntrica "
-"d'una font a partir de la seua velocitat ELR</LI></UL></QT>"
+"d'una font a partir de la seua velocitat ELR</li></ul></qt>"
 
 #: tools/astrocalc.cpp:93
 #, kde-format
@@ -75944,10 +75946,10 @@ msgid ""
 "planets, moon and sun at a given time and from a given position on Earth </"
 "LI></UL></QT>"
 msgstr ""
-"<QT>Secció amb algorismes per a l'obtenció d'informació sobre coordenades i "
-"temps dels cossos del sistema solar<UL><LI><B>Coordenades planetàries:</B> "
+"<qt>Secció amb algorismes per a l'obtenció d'informació sobre coordenades i "
+"temps dels cossos del sistema solar<ul><li><b>Coordenades planetàries:</b> "
 "Coordenades dels planetes, Lluna i Sol per a un instant donat i des d'una "
-"posició concreta sobre la Terra </LI></UL></QT>"
+"posició concreta sobre la Terra </li></ul></qt>"
 
 #: tools/astrocalc.cpp:112
 #, kde-format
@@ -75969,7 +75971,7 @@ msgstr "Calculadores de temps"
 #: tools/astrocalc.cpp:148
 #, kde-format
 msgid "Julian Day"
-msgstr "Dia Julià"
+msgstr "Dia julià"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSidTimeDlg)
 #: tools/astrocalc.cpp:149 tools/modcalcsidtime.ui:14
@@ -75987,7 +75989,7 @@ msgstr "Calendari"
 #: tools/astrocalc.cpp:151
 #, kde-format
 msgid "Equinoxes & Solstices"
-msgstr "Equinoccis i Solsticis"
+msgstr "Equinoccis i solsticis"
 
 #: tools/astrocalc.cpp:155
 #, kde-format
@@ -76126,7 +76128,7 @@ msgid ""
 "Object' button."
 msgstr ""
 "Escolliu un objecte per tal de comprovar les conjuncions amb d'altres, fent "
-"clic en el botó «Busca un objecte»."
+"clic damunt del botó «Busca un objecte»."
 
 #: tools/conjunctions.cpp:268
 #, kde-format
@@ -76383,7 +76385,7 @@ msgstr "Estàndard"
 #: tools/eyepiecefield.cpp:104
 #, kde-format
 msgid "Flipped"
-msgstr "Invertit"
+msgstr "Invertida"
 
 #: tools/eyepiecefield.cpp:106
 #, kde-format
@@ -76632,7 +76634,7 @@ msgstr ""
 "style=\"font-weight:600;\">regions</span> del mapa celeste que estan <span "
 "style=\"font-style:italic;\">tapades</span> en la vista des del vostre punt "
 "de vista (p. ex. per arbres alts o edificis). Les regions poden ser àrees "
-"per damunt o per davall de segments de línies que introduïu. </p><ul style="
+"per damunt o per davall de segments de línies que introduïu.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
 "qt-list-indent: 1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Per a "
@@ -76649,13 +76651,13 @@ msgstr ""
 "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Afegiu manualment els "
 "punts, o amb preferència seleccionant-los en el mapa celeste després de fer "
-"clic en el botó <span style=\"font-style:italic;\">Seleccioneu els punts</"
-"span>. </li></ul><li style=\"margin-top:0px; margin-bottom:0px; margin-"
+"clic damunt del botó <span style=\"font-style:italic;\">Seleccioneu els "
+"punts</span>.</li></ul><li style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Habiliteu "
-"una regió <span style=\"font-style:italic;\">marcant el seu quadro</span>. </"
+"una regió <span style=\"font-style:italic;\">marcant el seu quadro</span>.</"
 "li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">En seleccionar una regió "
-"es mostren els seus punts en el mapa celeste. </li><li style=\"margin-"
+"es mostren els seus punts en el mapa celeste.</li><li style=\"margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">En acabar, feu clic en <span style=\"font-style:"
 "italic;\">Aplica</span>.</li><li style=\"margin-top:0px; margin-bottom:12px; "
@@ -76896,7 +76898,7 @@ msgstr "Hora i data de l'objectiu"
 #: tools/modcalcapcoord.ui:195
 #, kde-format
 msgid "Reset to Now"
-msgstr "Restablix l'hora a ara"
+msgstr "Restablix a ara"
 
 #. i18n: ectx: property (text), widget (QLabel, timeLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, utCheckBatch)
@@ -77123,9 +77125,10 @@ msgid ""
 "If checked, value will be read from input file. If not, value will be read "
 "from adjacent box"
 msgstr ""
-"Si se selecciona, el valor serà llegit des del fitxer d'entrada. Si no, el "
+"Si se selecciona, el valor es llegirà des del fitxer d'entrada. Si no, el "
 "valor es llegirà des del quadro adjacent"
 
+# No és un punt decimal, és una convenció de l'època: https://ca.wikipedia.org/wiki/%C3%88poca_(astronomia)
 #. i18n: ectx: property (text), widget (QLineEdit, epochBoxBatch)
 #: tools/modcalcgalcoord.ui:233
 #, kde-format
@@ -77239,13 +77242,13 @@ msgstr "Elev. (m):"
 #: tools/modcalcjd.cpp:244
 #, kde-format
 msgid "Results of Julian day calculation"
-msgstr "Resultats del càlcul del Dia Julià"
+msgstr "Resultats del càlcul del Dia julià"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: tools/modcalcjd.ui:57
 #, kde-format
 msgid "Julian day:"
-msgstr "Dia Julià:"
+msgstr "Dia julià:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: tools/modcalcjd.ui:67
@@ -77269,7 +77272,7 @@ msgstr "Data i hora"
 #: tools/modcalcjd.ui:125
 #, kde-format
 msgid "Julian day"
-msgstr "Dia Julià"
+msgstr "Dia julià"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, InputComboBatch)
 #: tools/modcalcjd.ui:130
@@ -77457,13 +77460,13 @@ msgstr "Temps sideral:"
 #: tools/modcalcsidtime.ui:162
 #, kde-format
 msgid "Compute sidereal time"
-msgstr "Computa el temps sideral"
+msgstr "Calcula el temps sideral"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ComputeComboBatch)
 #: tools/modcalcsidtime.ui:167
 #, kde-format
 msgid "Compute standard time"
-msgstr "Computa el temps estàndard"
+msgstr "Calcula el temps estàndard"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DateCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, LocationCheckBatch)
@@ -77485,31 +77488,32 @@ msgstr "Especifica el temps local en el fitxer d'entrada"
 msgid "Angle"
 msgstr "Angle"
 
+# skip-rule: t-mot_rep
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
 #, kde-format
 msgid "Angle (hh mm ss.s) "
-msgstr "Angle (hh:mm:ss)"
+msgstr "Angle (hh mm ss.s)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
 #, kde-format
 msgid "Angle Result"
-msgstr "Resultats"
+msgstr "Resultat de l'angle"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
 #, kde-format
 msgid "Angle (dd.d)"
-msgstr "Resultat dels angles"
+msgstr "Angle (dd.d)"
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
 #, kde-format
 msgid "Angle (dd mm ss.s)"
-msgstr "Angle (dd:mm:ss)"
+msgstr "Angle (dd mm ss.s)"
 
 #: tools/modcalcvizequinox.cpp:32
 #, kde-format
@@ -77545,7 +77549,7 @@ msgstr ""
 #: tools/modcalcvizequinox.ui:14
 #, kde-format
 msgid "Equinoxes and Solstices"
-msgstr "Equinoccis i Solsticis"
+msgstr "Equinoccis i solsticis"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/modcalcvizequinox.ui:66
@@ -77678,7 +77682,7 @@ msgid ""
 "connection?"
 msgstr ""
 "Resultat buit en lloc de l'XML esperat des de CDS Sesame. Potser hi ha una "
-"connexió roïna a Internet?"
+"connexió roïna amb Internet?"
 
 #: tools/nameresolver.cpp:219
 #, kde-kuit-format
@@ -77797,8 +77801,8 @@ msgstr "Sense informació disponible de la imatge."
 #, kde-format
 msgid "No image available. Click on the placeholder image to download one."
 msgstr ""
-"No hi ha cap imatge disponible. Feu clic en la imatge de substitució per a "
-"baixar-ne una."
+"No hi ha cap imatge disponible. Feu clic damunt de la imatge de substitució "
+"per a baixar-ne una."
 
 #: tools/observinglist.cpp:623
 #, kde-format
@@ -77940,7 +77944,7 @@ msgid ""
 msgstr ""
 "Si cancel·leu esta operació, la llista d'observacions desitjades es truncarà "
 "i els objectes següents s'eliminaran de la llista quan isqueu de KStars. "
-"Segur que açò és correcte?"
+"Segur que és correcte?"
 
 #: tools/observinglist.cpp:1149
 #, kde-format
@@ -78477,8 +78481,8 @@ msgstr ""
 "o bé especificant una <span style=\"font-weight:600;\">regió circular</"
 "span>. També podeu ometre la selecció per regió, i llavors s'inclouran "
 "objectes de <span style=\"font-weight:600;\">tot el cel</span>.</p><p></"
-"p><p>Feu la vostra selecció al dessota i premeu <span style=\"font-"
-"weight:600;\">Següent</span>. </p></body></html>"
+"p><p>Feu la vostra selecció de davall i premeu <span style=\"font-weight:600;"
+"\">Següent</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RegionSelectLabel)
 #: tools/obslistwizard.ui:303
@@ -79268,37 +79272,37 @@ msgstr "doble"
 #: tools/scriptbuilder.cpp:600
 #, kde-format
 msgid "Hide faint stars while slewing?"
-msgstr "Voleu ocultar les estreles més febles durant l'orientació?"
+msgstr "Voleu ocultar les estreles més febles durant la transició?"
 
 #: tools/scriptbuilder.cpp:603
 #, kde-format
 msgid "Hide solar system bodies while slewing?"
-msgstr "Voleu ocultar els cossos del sistema solar durant l'orientació?"
+msgstr "Voleu ocultar els cossos del sistema solar durant la transició?"
 
 #: tools/scriptbuilder.cpp:606
 #, kde-format
 msgid "Hide Milky Way while slewing?"
-msgstr "Voleu ocultar la Via Làctia durant l'orientació?"
+msgstr "Voleu ocultar la Via Làctia durant la transició?"
 
 #: tools/scriptbuilder.cpp:609
 #, kde-format
 msgid "Hide constellation names while slewing?"
-msgstr "Voleu ocultar els noms de les constel·lacions durant l'orientació?"
+msgstr "Voleu ocultar els noms de les constel·lacions durant la transició?"
 
 #: tools/scriptbuilder.cpp:612
 #, kde-format
 msgid "Hide constellation lines while slewing?"
-msgstr "Voleu ocultar les línies de les constel·lacions durant l'orientació?"
+msgstr "Voleu ocultar les línies de les constel·lacions durant la transició?"
 
 #: tools/scriptbuilder.cpp:615
 #, kde-format
 msgid "Hide constellation boundaries while slewing?"
-msgstr "Voleu ocultar els límits de les constel·lacions durant l'orientació?"
+msgstr "Voleu ocultar els límits de les constel·lacions durant la transició?"
 
 #: tools/scriptbuilder.cpp:618
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
-msgstr "Voleu ocultar la quadrícula de coordenades durant l'orientació?"
+msgstr "Voleu ocultar la quadrícula de coordenades durant la transició?"
 
 #: tools/scriptbuilder.cpp:632
 #, kde-format
@@ -80580,13 +80584,13 @@ msgstr "AZ"
 #, kde-format
 msgctxt "seconds"
 msgid "secs"
-msgstr "segs."
+msgstr "s."
 
 #: widgets/timespinbox.cpp:120
 #, kde-format
 msgctxt "second"
 msgid "sec"
-msgstr "seg."
+msgstr "s."
 
 #: widgets/timespinbox.cpp:126
 #, kde-format
@@ -80600,7 +80604,7 @@ msgstr "min."
 #, kde-format
 msgctxt "minutes"
 msgid "mins"
-msgstr "mins."
+msgstr "min."
 
 #: widgets/timespinbox.cpp:132
 #, kde-format
@@ -80612,13 +80616,13 @@ msgstr "hora"
 #, kde-format
 msgctxt "hours"
 msgid "hrs"
-msgstr "hrs."
+msgstr "h."
 
 #: widgets/timespinbox.cpp:142
 #, kde-format
 msgctxt "sidereal day"
 msgid "sid day"
-msgstr "dia sid."
+msgstr "dia sideri"
 
 #: widgets/timespinbox.cpp:143
 #, kde-format

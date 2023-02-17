@@ -136,7 +136,7 @@
 
 <sect2 id="timemenu">
 <title
->El menú Temps</title>
+>El menú Hora</title>
 
 <variablelist>
 <varlistentry>
@@ -149,14 +149,14 @@
 ></keycombo
 > </shortcut
 > <guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
->Estableix el temps a ara</guimenuitem
+>Estableix l'hora a ara</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
->Sincronitza el temps amb el rellotge del sistema.</para
+>Sincronitza l'hora amb el rellotge del sistema.</para
 ></listitem>
 </varlistentry>
 
@@ -170,7 +170,7 @@
 ></keycombo
 > </shortcut
 > <guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Estableix la data i l'hora...</guimenuitem
 > </menuchoice
@@ -188,7 +188,7 @@
 >&lt;</keycap
 > </shortcut
 > <guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Retrocedeix un pas temporal</guimenuitem
 > </menuchoice
@@ -204,7 +204,7 @@
 <term
 ><menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Atura el rellotge</guimenuitem
 > </menuchoice
@@ -222,7 +222,7 @@
 >&gt;</keycap
 > </shortcut
 > <guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Avança un pas temporal</guimenuitem
 > </menuchoice
@@ -1240,7 +1240,7 @@
           <listitem
 ><para
 ><guiicon
->Mostra el rètol del temps</guiicon
+>Mostra el rètol de l'hora</guiicon
 ></para
 ></listitem>
           <listitem
@@ -1263,11 +1263,11 @@
     <varlistentry>
       <term
 ><guimenuitem
->Mostra el rètol del temps</guimenuitem
+>Mostra el rètol de l'hora</guimenuitem
 ></term>
       <listitem
 ><para
->Mostra o oculta el rètol informatiu del temps. De manera predeterminada, el rètol informatiu del temps es troba a la part superior esquerra de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta el rètol informatiu de l'hora. De manera predeterminada, el rètol informatiu de l'hora es troba a la part superior esquerra de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
 ></listitem>
     </varlistentry>
 
@@ -1605,7 +1605,7 @@
     <varlistentry>
       <term
 ><guimenuitem
->Mostra el camp AR/Dec del J2000,0</guimenuitem
+>Mostra el camp AR/Dec del J2000.0</guimenuitem
 ></term>
       <listitem
 ><para
@@ -2052,7 +2052,7 @@
 ><para
 ><guimenuitem
 >Simula la vista de l'ocular</guimenuitem
->: La característica vista de l'ocular representa la vista a través de l'ocular dels diversos tipus de telescopis. En primer lloc, mostra un diàleg d'entrada, el qual us demanarà que seleccioneu un dels CDV visibles per a utilitzar-lo per a la vista ocular. L'usuari també té l'opció d'intentar determinar-lo a partir de la imatge (molt precís si la imatge conté metadades, en cas contrari serà aleatori). Una vegada establiu el CDV, es mostrarà la finestra «Camp de visió de l'ocular». Podeu fer girar la vista amb facilitat utilitzant el control lliscant «Rotació». També la podeu capgirar i invertir per tal d'ajudar a fer que coincideixi amb la d'un telescopi/càmera. L'eina «Vista de l'ocular» pot ajudar a localitzar molts objectes amb facilitat, en lloc d'intentar treballar amb posicions relatives i orientacions relatives. Aquest és un avantatge important, especialment quan feu salts entre estrelles. Recordeu que per a obtenir millors resultats, el temps haurà d'estar sincronitzat amb el temps del &kstars;, i el &kstars; haurà d'estar en el mode de coordenades horitzontals. </para
+>: La característica vista de l'ocular representa la vista a través de l'ocular dels diversos tipus de telescopis. En primer lloc, mostra un diàleg d'entrada, el qual us demanarà que seleccioneu un dels CDV visibles per a utilitzar-lo per a la vista ocular. L'usuari també té l'opció d'intentar determinar-lo a partir de la imatge (molt precís si la imatge conté metadades, en cas contrari serà aleatori). Una vegada establiu el CDV, es mostrarà la finestra «Camp de visió de l'ocular». Podeu fer girar la vista amb facilitat utilitzant el control lliscant «Rotació». També la podeu capgirar i invertir per tal d'ajudar a fer que coincideixi amb la d'un telescopi/càmera. L'eina «Vista de l'ocular» pot ajudar a localitzar molts objectes amb facilitat, en lloc d'intentar treballar amb posicions relatives i orientacions relatives. Aquest és un avantatge important, especialment quan feu salts entre estrelles. Recordeu que per a obtenir millors resultats, l'hora haurà d'estar sincronitzada amb l'hora del &kstars;, i el &kstars; haurà d'estar en el mode de coordenades horitzontals. </para
 ></listitem>
 </varlistentry>
 

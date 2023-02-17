@@ -79,7 +79,7 @@
 <secondary
 >Bases</secondary
 ></indexterm
->Maintenant que votre position et votre heure sont ajustées, faisons le tour du propriétaire. Vous pouvez bouger l'image à l'aide des flèches sur votre clavier. L'image bougera deux fois plus vite si vous gardez enfoncée la touche &Shift;. Une autre façon de bouger l'image est de laisser enfoncé le bouton de la souris tout en la bougeant. Vous noterez que certains objets disparaissent temporairement lorsque l'image est bougée. Cela réduit la charge sur votre <acronym
+>Maintenant que votre position et votre heure sont ajustées, faisons le tour du propriétaire. Vous pouvez bouger l'image à l'aide des flèches sur votre clavier. L'image bougera deux fois plus vite si vous gardez enfoncée la touche &Maj;. Une autre façon de bouger l'image est de laisser enfoncé le bouton de la souris tout en la bougeant. Vous noterez que certains objets disparaissent temporairement lorsque l'image est bougée. Cela réduit la charge sur votre <acronym
 >processeur</acronym
 > et permet un défilement plus en douceur (vous pouvez configurer ce qui est caché pendant le déplacement dans la fenêtre de <link linkend="config"
 >Configuration de &kstars;</link
@@ -91,9 +91,9 @@
 <listitem>
 	<para
 >Utilisez les touches <keycap
->&Ctrl;&Shift;+</keycap
+>+</keycap
 > et <keycap
->&Ctrl;&Shift;-</keycap
+>-</keycap
 >.</para>
 </listitem>
 <listitem>
@@ -479,7 +479,7 @@
 
 <note>
 <para
->En maintenant enfoncée la touche &Shift;, on peut effectuer ces actions sur l'objet centré, plutôt que sur l'objet sélectionné. </para>
+>En maintenant enfoncée la touche &Maj;, on peut effectuer ces actions sur l'objet centré, plutôt que sur l'objet sélectionné. </para>
 </note>
 </sect2
 > <!--object actions-->

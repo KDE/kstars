@@ -409,7 +409,7 @@
 >Fournit des statistiques simples : moyenne, écart-type moyen et médiane moyenne de la région sélectionnée par l'utilisateur dans une infobulle. </para>
                 <para
 >L'utilisateur peut soit sélectionner une région en glissant le pointeur après un <keycombo
->&Shift;<keycap
+>&Maj;<keycap
 >Clic gauche</keycap
 ></keycombo
 > ou en choisissant une entrée du menu déroulant du bouton de sélection de rectangle. De plus, l'utilisateur peut translater la région d'un simple <keycap

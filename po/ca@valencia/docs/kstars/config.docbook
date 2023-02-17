@@ -235,7 +235,7 @@
 ></indexterm
 >La pàgina <guilabel
 >Satèl·lits</guilabel
-> permet definir les opcions de visualització per als satèl·lits. </para>
+> permet establir les opcions de visualització per als satèl·lits. </para>
 
 <!-- Supernovae page: -->
 <para>
@@ -762,7 +762,7 @@
 ></menuchoice
 > generalment són immutables, mentre que els catàlegs creats per l'usuari no ho són. Sempre podreu clonar un catàleg perquè siga mutable. </para>
 <para
->Els botons a la part superior dreta permeten afegir catàlegs a la base de dades. </para>
+>Els botons al cantó superior dret permeten afegir catàlegs a la base de dades. </para>
 <variablelist>
 <varlistentry id="import">
 <term

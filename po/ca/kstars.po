@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 00:54+0000\n"
-"PO-Revision-Date: 2023-02-13 12:45+0100\n"
+"PO-Revision-Date: 2023-02-16 14:57+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11161,7 +11161,7 @@ msgstr "Fotograma fosc mestre:"
 #: printing/loggingform.cpp:41
 #, kde-format
 msgid "Time:"
-msgstr "Temps:"
+msgstr "Hora:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
@@ -19485,7 +19485,7 @@ msgstr ""
 "<html><head/><body><p>Variància del senyal del nucli de abast llunyà.</"
 "p><p>Això descriu \n"
 "          quant canvia l'error sobre l'escala de temps a llarg termini. Una "
-"variància més alta vol di que un canvi més gran en l'error, de\n"
+"variància més alta vol dir un canvi més gran en l'error, de\n"
 "          mitjana.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas1a)
@@ -20596,7 +20596,7 @@ msgstr "Inversió del meridià en %1"
 #, kde-format
 msgid "Meridian flip failed - time too short, pier side unknown."
 msgstr ""
-"La inversió del meridià ha fallat - horari massa curt, costat del moll "
+"La inversió del meridià ha fallat - temps massa curt, costat del moll "
 "desconegut."
 
 #: ekos/manager/meridianflipstate.cpp:271
@@ -20682,8 +20682,8 @@ msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
-"S'ha detectat un controlador del GPS. El KStars i la configuració de temps i "
-"emplaçament de la muntura ara se sincronitzaran amb el controlador del GPS."
+"S'ha detectat un controlador del GPS. El KStars i la configuració de l'hora "
+"i emplaçament de la muntura ara se sincronitzaran amb el controlador del GPS."
 
 #: ekos/mount/mount.cpp:379
 #, kde-format
@@ -21701,8 +21701,8 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>El termini de lliurament és el temps mínim en minuts "
-"entre les tasques. El programador inicia l'execució d'una tasca abans del "
-"seu temps d'inici programat amb aquest termini de lliurament. L'execució "
+"entre les tasques. El programador inicia l'execució d'una tasca abans de la "
+"seva hora d'inici programada amb aquest termini de lliurament. L'execució "
 "abans és útil perquè els procediments d'enfocament, alineació i guiatge "
 "poden trigar períodes prolongats de temps a completar-se.</p></body></html>"
 
@@ -24117,7 +24117,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 "Restableix l'estat i ordena les tasques d'observació. segons l'altitud i "
-"moviment al cel, usant el temps d'inici de la primera tasca.\n"
+"moviment al cel, usant l'hora d'inici de la primera tasca.\n"
 "Aquesta acció ordena els objectius que es ponen abans que els objectius que "
 "ascendeixen, i pot ajudar la planificació en iniciar l'observació.\n"
 "Cal tenir en compte que l'algorisme primer calcula totes les elevacions "
@@ -24194,8 +24194,8 @@ msgid ""
 "Warning: job '%1' has startup time %2 resulting in a negative score, and "
 "will be marked invalid when processed."
 msgstr ""
-"Avís: la tasca «%1» té el temps d'inici %2, provocant una puntuació "
-"negativa, i es marcarà no vàlida quan es processi."
+"Avís: la tasca «%1» té l'hora d'inici %2, provocant una puntuació negativa, "
+"i es marcarà no vàlida quan es processi."
 
 #: ekos/scheduler/scheduler.cpp:1350
 #, kde-format
@@ -24224,9 +24224,9 @@ msgid ""
 "different priority, as currently they will start in order of insertion in "
 "the table"
 msgstr ""
-"Avís: la tasca «%1» de la fila %2 podria requerir un temps d'inici específic "
-"o una prioritat diferent, ja que actualment s'iniciaran en l'ordre "
-"d'inserció a la taula"
+"Avís: la tasca «%1» de la fila %2 podria requerir una hora d'inici "
+"específica o una prioritat diferent, ja que actualment s'iniciaran en "
+"l'ordre d'inserció a la taula"
 
 #: ekos/scheduler/scheduler.cpp:1549
 #, kde-format
@@ -24337,7 +24337,7 @@ msgstr ""
 msgid ""
 "Warning: job '%1' has fixed startup time %2 set in the past, marking invalid."
 msgstr ""
-"Avís: la tasca «%1» té el temps fix d'inici %2 establert en el passat, s'ha "
+"Avís: la tasca «%1» té l'hora fixa d'inici %2 establerta en el passat, s'ha "
 "marcat com a no vàlida."
 
 #: ekos/scheduler/scheduler.cpp:2464
@@ -24346,8 +24346,8 @@ msgid ""
 "Warning: job '%1' has a fixed start time incompatible with its twilight "
 "restriction, marking invalid."
 msgstr ""
-"Avís: la tasca «%1» té el temps fix d'inici incompatible amb la restricció "
-"de crepuscle, s'ha marcat com a no vàlida."
+"Avís: la tasca «%1» té l'hora fixa d'inici incompatible amb la restricció de "
+"crepuscle, s'ha marcat com a no vàlida."
 
 #: ekos/scheduler/scheduler.cpp:2475
 #, kde-format
@@ -24355,7 +24355,7 @@ msgid ""
 "Warning: job '%1' has a fixed start time incompatible with its altitude "
 "restriction, marking invalid."
 msgstr ""
-"Avís: la tasca «%1» té el temps fix d'inici incompatible amb la restricció "
+"Avís: la tasca «%1» té l'hora fixa d'inici incompatible amb la restricció "
 "d'altitud, s'ha marcat com a no vàlida."
 
 #: ekos/scheduler/scheduler.cpp:2486
@@ -24364,8 +24364,8 @@ msgid ""
 "Warning: job '%1' has a fixed start time incompatible with its Moon "
 "separation restriction, marking invalid."
 msgstr ""
-"Avís: la tasca «%1» té el temps fix d'inici incompatible amb la restricció "
-"de separació de la Lluna, s'ha marcat com a no vàlida."
+"Avís: la tasca «%1» té l'hora fixa d'inici incompatible amb la restricció de "
+"separació de la Lluna, s'ha marcat com a no vàlida."
 
 #: ekos/scheduler/scheduler.cpp:2505
 #, kde-format
@@ -24373,9 +24373,9 @@ msgid ""
 "Warning: job '%1' has fixed startup time %2 unachievable due to the "
 "completion time of its previous sibling, marking invalid."
 msgstr ""
-"Avís: la tasca «%1» té el temps fix d'inici %2 que no es durà a terme a "
-"causa de l'hora de compleció de la seva tasca germana prèvia, s'ha marcat "
-"com a no vàlida."
+"Avís: la tasca «%1» té l'hora fixa d'inici %2 que no es durà a terme a causa "
+"de l'hora de compleció de la seva tasca germana prèvia, s'ha marcat com a no "
+"vàlida."
 
 #: ekos/scheduler/scheduler.cpp:2566
 #, kde-format
@@ -24383,7 +24383,7 @@ msgid ""
 "Warning: Job '%1' cannot start because its previous sibling has no "
 "completion time, marking invalid."
 msgstr ""
-"Avís: la tasca «%1» no es pot iniciar perquè la seva germana no té temps de "
+"Avís: la tasca «%1» no es pot iniciar perquè la seva germana no té l'hora de "
 "compleció, es marca com a no vàlida."
 
 #: ekos/scheduler/scheduler.cpp:2611
@@ -24419,16 +24419,16 @@ msgid ""
 "Warning: job '%1' is constrained by the start time of the next job, and "
 "cannot finish in time, marking aborted."
 msgstr ""
-"Avís: la tasca «%1» està restringida per al temps d'inici de la tasca "
-"següent, i no pot finalitzar a l'hora. Es marca com interrompuda."
+"Avís: la tasca «%1» està restringida per l'hora d'inici de la tasca següent, "
+"i no pot finalitzar a l'hora. Es marca com interrompuda."
 
 #: ekos/scheduler/scheduler.cpp:2746
 #, kde-format
 msgid ""
 "Job '%1' completion time (%2) could not be achieved before start up time (%3)"
 msgstr ""
-"El termini de compleció (%2) de la tasca «%1» no es pot aconseguir abans del "
-"temps d'inici (%3)"
+"El termini de compleció (%2) de la tasca «%1» no es pot aconseguir abans de "
+"l'hora d'inici (%3)"
 
 #: ekos/scheduler/scheduler.cpp:2831
 #, kde-format
@@ -25717,7 +25717,7 @@ msgid ""
 "culmination time.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Desplaçament en minuts per a iniciar l'obtenció de les "
-"imatges abans o després del temps de culminació.</p></body></html>"
+"imatges abans o després de l'hora de culminació.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, culminationOffset)
 #: ekos/scheduler/scheduler.ui:1516
@@ -26104,9 +26104,9 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 "Estat actual de la tasca «%1», gestionada pel programador.\n"
-"Si és no vàlida, el programador no podrà trobar cap temps adequat per a "
+"Si és no vàlida, el programador no podrà trobar cap hora adequada per a "
 "l'observació de l'objectiu.\n"
-"Si és interrompuda, el programador trobarà mancances al temps programat o "
+"Si és interrompuda, el programador trobarà mancances a l'hora programada o "
 "problemes temporals i tornarà a planificar la tasca.\n"
 "Si és completa, el programador verificarà que totes les captures de "
 "seqüència sol·licitades s'han emmagatzemat, incloent-hi les repeticions."
@@ -26130,9 +26130,9 @@ msgid ""
 "Fixed time from user or culmination time is marked with a chronometer "
 "symbol. "
 msgstr ""
-"Temps d'inici de la tasca «%1», estimat pel programador.\n"
+"Hora d'inici de la tasca «%1», estimada pel programador.\n"
 "També es mostra l'altitud a l'inici, si està disponible.\n"
-"Temps fixat per l'usuari o temps de culminació, està marcada amb el símbol "
+"Hora fixada per l'usuari o hora de culminació, està marcada amb el símbol "
 "d'un cronòmetre."
 
 #: ekos/scheduler/schedulerjob.cpp:442
@@ -26172,7 +26172,7 @@ msgstr ""
 "La puntuació actual per a la tasca «%1», a partir de la seva altitud, la "
 "separació de la Lluna i foscor del cel.\n"
 "Negatiu si encara no s'ha arribat a l'altitud suficient, o si avui no hi ha "
-"cap temps adequat per a l'observació.\n"
+"cap hora adequada per a l'observació.\n"
 "El programador actualitzarà les puntuacions en seleccionar una nova tasca "
 "candidata."
 
@@ -29193,7 +29193,7 @@ msgstr "Sense hora de posta: Sempre sota l'horitzó"
 #: kspopupmenu.cpp:106
 #, kde-format
 msgid "Transit time: %1"
-msgstr "Temps de trànsit: %1"
+msgstr "Hora de trànsit: %1"
 
 #: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:763
 #, kde-format
@@ -29430,14 +29430,14 @@ msgstr "Commuta a la vista horitzontal (&coordenades horitzontals)"
 #: kstars.kcfg:10
 #, kde-format
 msgid "Position of the time InfoBox."
-msgstr "Posició del rètol informatiu del temps."
+msgstr "Posició del rètol informatiu de l'hora."
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:11
 #, kde-format
 msgid "The screen coordinates of the Time InfoBox."
-msgstr "Les coordenades de pantalla del rètol informatiu del temps."
+msgstr "Les coordenades de pantalla del rètol informatiu de l'hora."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (PositionFocusBox), group (GUI)
@@ -29473,7 +29473,7 @@ msgstr ""
 #: kstars.kcfg:25
 #, kde-format
 msgid "Is the time InfoBox in the \"shaded\" state?"
-msgstr "El rètol informatiu del temps es troba en estat «ocult»?"
+msgstr "El rètol informatiu de l'hora es troba en estat «ocult»?"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (ShadeTimeBox), group (GUI)
@@ -29481,7 +29481,7 @@ msgstr "El rètol informatiu del temps es troba en estat «ocult»?"
 #, kde-format
 msgid "If true, the Time InfoBox will show only its top line of data."
 msgstr ""
-"Si està activada, el rètol informatiu del temps mostrarà només la primera "
+"Si està activada, el rètol informatiu de l'hora mostrarà només la primera "
 "línia de dades."
 
 # skip-rule: kct-box
@@ -29537,14 +29537,14 @@ msgstr "Mostra/oculta la visualització de tots tres rètols informatius."
 #: kstars.kcfg:45
 #, kde-format
 msgid "Display the time InfoBox?"
-msgstr "Voleu mostrar el rètol informatiu del temps?"
+msgstr "Voleu mostrar el rètol informatiu de l'hora?"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (ShowTimeBox), group (GUI)
 #: kstars.kcfg:46
 #, kde-format
 msgid "Toggles display of the Time InfoBox."
-msgstr "Mostra/oculta la visualització del rètol informatiu del temps."
+msgstr "Mostra/oculta la visualització del rètol informatiu de l'hora."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShowFocusBox), group (GUI)
@@ -29582,7 +29582,7 @@ msgstr ""
 #: kstars.kcfg:60 kstars.kcfg:67
 #, kde-format
 msgid "Time InfoBox anchor flag"
-msgstr "Indicador d'ancoratge del rètol informatiu del temps"
+msgstr "Indicador d'ancoratge del rètol informatiu de l'hora"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (StickyTimeBox), group (GUI)
@@ -29593,7 +29593,7 @@ msgid ""
 "anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom "
 "and right edges."
 msgstr ""
-"El rètol informatiu del temps està ancorat a una vora de la finestra? 0 = no "
+"El rètol informatiu de l'hora està ancorat a una vora de la finestra? 0 = no "
 "ancorat; 1 = ancorat a la vora dreta; 2 = ancorat a la vora inferior; 3 = "
 "ancorat a les vores inferior i dreta."
 
@@ -64688,7 +64688,7 @@ msgstr "&Assistent d'impressió..."
 #: kstarsinit.cpp:180
 #, kde-format
 msgid "Set Time to &Now"
-msgstr "Estableix l'hora a &Ara"
+msgstr "Estableix l'hora a &ara"
 
 #: kstarsinit.cpp:184
 #, kde-format
@@ -64808,7 +64808,7 @@ msgstr "Mostra els rètols &informatius"
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
-msgstr "Mostra el rètol del &temps"
+msgstr "Mostra el rètol de l'&hora"
 
 # skip-rule: kct-box
 #: kstarsinit.cpp:306
@@ -65528,7 +65528,7 @@ msgstr "Hora de sortida"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:297
 #, kde-kuit-format
 msgid "Transit time"
-msgstr "Temps de trànsit"
+msgstr "Hora de trànsit"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:302
 #, kde-kuit-format
@@ -69430,7 +69430,7 @@ msgstr "Factor temporal"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Time"
-msgstr "Temps"
+msgstr "Hora"
 
 #: libindi_strings.cpp:487
 #, kde-kuit-format
@@ -70562,7 +70562,7 @@ msgstr "Visualitza els detalls de l'objecte:"
 #: oal/execute.ui:160
 #, kde-format
 msgid "Scheduled time:"
-msgstr "Temps programat:"
+msgstr "Hora programada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #. i18n: ectx: property (text), widget (QLabel, raLabel)
@@ -74358,7 +74358,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Per a establir la data i l'hora, premeu Ctrl+S, useu l'element de "
 "menú\n"
-"\t\t\t«Temps -> Estableix la data i l'hora» o el botó del rellotge de la "
+"\t\t\t«Hora -> Estableix la data i l'hora» o el botó del rellotge de la "
 "barra d'eines.\n"
 "\t\t\tCal tenir present que les dates del KStars poden ser molt remotes;\n"
 "\t\t\tpodeu usar qualsevol any entre el -50.000 i el +50.000.\n"
@@ -74375,8 +74375,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Podeu prémer Ctrl+E o usar l'element de menú «Temps -> Estableix "
-"l'hora a Ara»\n"
+"\t\t<p>Podeu prémer Ctrl+E o usar l'element de menú «Hora -> Estableix "
+"l'hora a ara»\n"
 "\t\t\tper a sincronitzar el rellotge de simulació amb el rellotge de la "
 "vostra CPU.\n"
 "\t\t</p>\n"
@@ -74411,7 +74411,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Podeu aturar i iniciar el rellotge amb el botó «Reproducció/Pausa»\n"
-"\t\t\tde la barra d'eines o amb l'element de menú «Temps -> Atura el "
+"\t\t\tde la barra d'eines o amb l'element de menú «Hora -> Atura el "
 "rellotge».\n"
 "\t\t\t</p>\n"
 "\t\n"
@@ -74735,9 +74735,9 @@ msgid ""
 msgstr ""
 "\t\t<p>L'eina «Llunes de Júpiter» (Ctrl+J) mostra les posicions relatives de "
 "les\n"
-"\t\t\tquatre llunes de Júpiter més grans.(Io, Europa, Ganimedes i Calixt), "
+"\t\t\tquatre llunes de Júpiter més grans (Io, Europa, Ganimedes i Calixt), "
 "tal com\n"
-"\t\t\tes veuen des de la Terra, i en funció del temps.\n"
+"\t\t\tes veuen des de la Terra, i en funció de l'hora.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -75914,7 +75914,7 @@ msgstr ""
 "coordenades equatorials actuals per a una època en concret</"
 "LI><LI><B>Eclíptiques:</B> Convertidor entre coordenades eclíptiques i "
 "equatorials</LI><LI><B>Horitzontals:</B> Càlcul de l'azimut i l'altitud per "
-"a una font, temps i emplaçament concrets sobre la Terra</LI><LI><B>Simple:</"
+"a una font, hora i emplaçament concrets sobre la Terra</LI><LI><B>Simple:</"
 "B> Conversió d'angles en hores i graus.</LI><LI><B>Distància angular:</B> "
 "Càlcul de la distància angular entre dos objectes amb les seves posicions "
 "expressades en coordenades equatorials</LI><LI><B>Coord. geodèsiques:</B> "
@@ -75931,7 +75931,7 @@ msgid ""
 "LI></UL></QT>"
 msgstr ""
 "<QT>Secció amb algorismes per a l'obtenció d'informació sobre coordenades i "
-"temps dels cossos del sistema solar<UL><LI><B>Coordenades planetàries:</B> "
+"hores dels cossos del sistema solar<UL><LI><B>Coordenades planetàries:</B> "
 "Coordenades dels planetes, Lluna i Sol per a un instant donat i des d'una "
 "posició concreta sobre la Terra </LI></UL></QT>"
 
@@ -77444,13 +77444,13 @@ msgstr "Hora sidèria:"
 #: tools/modcalcsidtime.ui:162
 #, kde-format
 msgid "Compute sidereal time"
-msgstr "Computa l'hora sidèria"
+msgstr "Calcula l'hora sidèria"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ComputeComboBatch)
 #: tools/modcalcsidtime.ui:167
 #, kde-format
 msgid "Compute standard time"
-msgstr "Computa l'hora estàndard"
+msgstr "Calcula l'hora estàndard"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DateCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, LocationCheckBatch)
@@ -78200,7 +78200,7 @@ msgstr "Planificació de la sessió"
 #: tools/observinglist.ui:502
 #, kde-format
 msgid "Scheduled Time"
-msgstr "Temps programat"
+msgstr "Hora programada"
 
 #. i18n: ectx: property (text), widget (QLabel, quickInfoLabel)
 #: tools/observinglist.ui:545
@@ -79012,7 +79012,7 @@ msgstr "bool"
 #: tools/scriptbuilder.cpp:408
 #, kde-format
 msgid "Toggle display of Time InfoBox"
-msgstr "Commuta mostrar el rètol informatiu del temps"
+msgstr "Commuta mostrar el rètol informatiu de l'hora"
 
 # skip-rule: kct-box
 #: tools/scriptbuilder.cpp:411
@@ -79030,7 +79030,7 @@ msgstr "Commuta mostrar el rètol informatiu de l'enfocament"
 #: tools/scriptbuilder.cpp:417
 #, kde-format
 msgid "(un)Shade Time InfoBox"
-msgstr "Mostra/oculta el rètol informatiu del temps"
+msgstr "Mostra/oculta el rètol informatiu de l'hora"
 
 # skip-rule: kct-box
 #: tools/scriptbuilder.cpp:420
@@ -80513,7 +80513,7 @@ msgstr "Any anterior"
 #, kde-format
 msgctxt "Local Time"
 msgid "LT: "
-msgstr "TL: "
+msgstr "HL: "
 
 #: widgets/infoboxwidget.cpp:74
 #, kde-format
@@ -80525,7 +80525,7 @@ msgstr "TU: "
 #, kde-format
 msgctxt "Sidereal Time"
 msgid "ST: "
-msgstr "TS: "
+msgstr "HS: "
 
 #: widgets/infoboxwidget.cpp:83
 #, kde-format

@@ -58,7 +58,7 @@
 >Informació del lloc</guilabel
 >: De manera opcional, podeu marcar aquesta casella de selecció i l'Ekos carregarà la ciutat i la zona horària <emphasis role="bold"
 >actuals</emphasis
-> cada vegada que s'iniciï amb aquest perfil. Això pot ser útil quan es connecta amb el lloc geogràfic remot, de manera que l'Ekos estarà sincronitzat en l'emplaçament i el temps. </para>
+> cada vegada que s'iniciï amb aquest perfil. Això pot ser útil quan es connecta amb el lloc geogràfic remot, de manera que l'Ekos estarà sincronitzat en l'emplaçament i l'hora. </para>
                     </listitem>
                     <listitem>
                         <para

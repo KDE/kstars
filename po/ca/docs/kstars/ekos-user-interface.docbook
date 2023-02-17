@@ -79,7 +79,7 @@
 >Mòdul del programador</term>
             <listitem>
                 <para
->Una vegada domineu l'Ekos, s'anima als usuaris a aprendre a utilitzar el mòdul per al programador, ja que facilita enormement tot el procés d'observació. Permet seleccionar múltiples objectius, especificar quines condicions i requisits s'han de complir i quins fotogrames cal capturar. Després, el programador calcularà de manera intel·ligent el millor temps de l'observació per a cada objecte i després controlarà l'observatori des de l'inici fins al tancament. </para>
+>Una vegada domineu l'Ekos, s'anima als usuaris a aprendre a utilitzar el mòdul per al programador, ja que facilita enormement tot el procés d'observació. Permet seleccionar múltiples objectius, especificar quines condicions i requisits s'han de complir i quins fotogrames cal capturar. Després, el programador calcularà de manera intel·ligent l'hora millor d'observació per a cada objecte i després controlarà l'observatori des de l'inici fins al tancament. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
