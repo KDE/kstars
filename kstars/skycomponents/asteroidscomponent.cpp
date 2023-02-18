@@ -192,33 +192,41 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
 
     bool hideLabels = !Options::showAsteroidNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels());
 
-    double showLimit     = Options::magLimitAsteroid();
-    double lgmin         = log10(MINZOOM);
-    double lgmax         = log10(MAXZOOM);
-    double lgz           = log10(Options::zoomFactor());
-    double labelMagLimit = 2.5 + Options::asteroidLabelDensity() / 5.0;
-    labelMagLimit += (15.0 - labelMagLimit) * (lgz - lgmin) / (lgmax - lgmin);
-    if (labelMagLimit > 10.0)
-        labelMagLimit = 10.0;
-    //printf("labelMagLim = %.1f\n", labelMagLimit );
+    double labelMagLimit            = Options::asteroidLabelDensity(); // Slider min value 0, max value 20.
+    const double showMagLimit       = Options::magLimitAsteroid();
+    const double lgmin              = log10(MINZOOM);
+    const double lgmax              = log10(MAXZOOM);
+    const double lgz                = log10(Options::zoomFactor());
+    const double densityLabelFactor = 10.0; // Value of 10.0 influences the slider mag value [0, 2],
+                                            // where a value 5.0 influences the slider mag value [0, 4].
+    const double zoomLimit          = (lgz - lgmin) / (lgmax - lgmin); // Min-max normalize into [lgmin, lgmax].
 
+    // Map labelMagLimit into interval [0, 20.0 / densityLabelFactor]
+    labelMagLimit = std::max(1e-3, labelMagLimit) / densityLabelFactor;
+    // If zooming closer, then the labelMagLimit gets closer to showMagLimit value.
+    // If sliding density value to the right, then the labelMagLimit gets closer to showMagLimit value.
+    // It is however assured that labelMagLimit <= showMagLimit.
+    labelMagLimit = showMagLimit - 20.0 / densityLabelFactor + std::max(zoomLimit, labelMagLimit);
+
+    // FIXME: Setting color value has no influnce. Create a proper drawing function as e.g. drawComet().
     skyp->setBrush(QBrush(QColor("gray")));
 
     foreach (SkyObject *so, m_ObjectList)
     {
         KSAsteroid *ast = dynamic_cast<KSAsteroid *>(so);
 
-        if (!ast->toDraw() || std::isnan(ast->mag()) || ast->mag() > showLimit)
+        if (!ast->toDraw() || std::isnan(ast->mag()) || ast->mag() > showMagLimit)
             continue;
 
         bool drawn = false;
 
         if (ast->image().isNull() == false)
             drawn = skyp->drawPlanet(ast);
-        else
+        else // FIXME: Asteroids are drawn as a tiny little pixel, nearly invisible.
+	     // Create a proper drawing function as e.g. drawComet().
             drawn = skyp->drawPointSource(ast, ast->mag());
 
-        if (drawn && !(hideLabels || ast->mag() >= labelMagLimit))
+        if (drawn && !hideLabels && ast->mag() <= labelMagLimit)
             SkyLabeler::AddLabel(ast, SkyLabeler::ASTEROID_LABEL);
     }
 #endif
