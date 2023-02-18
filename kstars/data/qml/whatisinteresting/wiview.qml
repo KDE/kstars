@@ -32,6 +32,7 @@ Rectangle {
         y: 20
         color: "#59ad0e"
         text: xi18n("What's Interesting...")
+        renderType: Text.QtRendering
         verticalAlignment: Text.AlignVCenter
         font {
             family: "Cantarell"
@@ -47,6 +48,7 @@ Rectangle {
         y: 50
         color: "white"
         text: ""
+        renderType: Text.QtRendering
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         font {
@@ -121,6 +123,7 @@ Rectangle {
                         id: nakedEyeText
                         color: "yellow"
                         title: xi18n("Naked-Eye Objects")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
                     }
                 }
@@ -139,6 +142,7 @@ Rectangle {
                         id: sunText
 
                         title: xi18n("Sun")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -170,6 +174,7 @@ Rectangle {
                         id: moonText
 
                         title: xi18n("Moon")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -203,6 +208,7 @@ Rectangle {
                         id: planetText
 
                         title: xi18n("Planets")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -233,6 +239,7 @@ Rectangle {
                     CategoryTitle {
                         id: satelliteText
                         title: xi18n("Satellites")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -265,6 +272,7 @@ Rectangle {
                         id: starText
 
                         title: xi18n("Stars")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -295,6 +303,7 @@ Rectangle {
                     CategoryTitle {
                         id: conText
                         title: xi18n("Constellations")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -327,6 +336,7 @@ Rectangle {
                         id: dsoText
                         color: "yellow"
                         title: xi18n("Deep-sky Objects")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
                     }
                 }
@@ -346,6 +356,7 @@ Rectangle {
                         id: asteroidText
 
                         title: xi18n("Asteroids")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -378,6 +389,7 @@ Rectangle {
                         id: cometText
 
                         title: xi18n("Comets")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -410,6 +422,7 @@ Rectangle {
                     CategoryTitle {
                         id: galText
                         title: xi18n("Galaxies")
+                        renderType: Text.QtRendering
                         anchors {
                             centerIn: parent
                             margins: 0
@@ -445,6 +458,7 @@ Rectangle {
                     CategoryTitle {
                         id: nebText
                         title: xi18n("Nebulae")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -477,6 +491,7 @@ Rectangle {
                     CategoryTitle {
                         id: clustText
                         title: xi18n("Clusters")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -509,6 +524,7 @@ Rectangle {
                     CategoryTitle {
                         id: superText
                         title: xi18n("Supernovae")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -540,6 +556,7 @@ Rectangle {
                         id: catalogText
                         color: "yellow"
                         title: xi18n("Explore Catalogs")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
                     }
                 }
@@ -559,6 +576,7 @@ Rectangle {
                     CategoryTitle {
                         id: messierText
                         title: xi18n("Messier Catalog")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -591,6 +609,7 @@ Rectangle {
                     CategoryTitle {
                         id: ngcText
                         title: xi18n("NGC Catalog")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -623,6 +642,7 @@ Rectangle {
                     CategoryTitle {
                         id: icText
                         title: xi18n("IC Catalog")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -655,6 +675,7 @@ Rectangle {
                     CategoryTitle {
                         id: sh2Text
                         title: xi18n("Sharpless Catalog")
+                        renderType: Text.QtRendering
                         anchors.centerIn: parent
 
                         MouseArea {
@@ -739,6 +760,7 @@ Rectangle {
                                     Text{
                                         anchors.fill: parent
                                         text: xi18n("No Items to display")
+                                        renderType: Text.QtRendering
                                         verticalAlignment: Text.AlignVCenter
                                         horizontalAlignment: Text.AlignHCenter
                                         color: "white"
@@ -797,6 +819,7 @@ Rectangle {
                                             id: dispSummary
                                             objectName: dispObjSummary
                                             text: dispObjSummary
+                                            renderType: Text.QtRendering
                                             textFormat: Text.RichText
                                             x: image.width + 5
                                             width: parent.width - image.width - 30
@@ -840,6 +863,7 @@ Rectangle {
                                         id: dispText
                                         objectName: dispName
                                         text: dispName
+                                        renderType: Text.QtRendering
                                         color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "white"
 
                                         font.bold: true
@@ -886,6 +910,7 @@ Rectangle {
                             height: 22
                             color: "#ffffff"
                             text: xi18n("text")
+                            renderType: Text.QtRendering
                             anchors{
                                 left: parent.left
                                 leftMargin: 8
@@ -909,6 +934,7 @@ Rectangle {
                             width: parent.width
                             height: 16
                             text: xi18n("text")
+                            renderType: Text.QtRendering
                             horizontalAlignment: Text.AlignRight
                             font{
                                 family: "Arial"
@@ -951,6 +977,7 @@ Rectangle {
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
                                 text: xi18n("More Details")
+                                renderType: Text.QtRendering
                                 font {
                                     underline: true
                                     family: "Cantarell"
@@ -977,6 +1004,7 @@ Rectangle {
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
                                 text: xi18n("Center in Map \n")
+                                renderType: Text.QtRendering
                                 font {
                                     underline: true
                                     family: "Arial"
@@ -997,6 +1025,7 @@ Rectangle {
 
                                 Text {
                                     text: xi18n(" Auto     Track   ")
+                                    renderType: Text.QtRendering
                                     color: "white"
                                     font {
                                         family: "Arial"
@@ -1032,6 +1061,7 @@ Rectangle {
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
                                 text: xi18n("Slew Telescope")
+                                renderType: Text.QtRendering
                                 font {
                                     underline: true
                                     family: "Cantarell"
@@ -1070,6 +1100,7 @@ Rectangle {
                                         id: text
                                         anchors.centerIn: parent
                                         text: styleData.title
+                                        renderType: Text.QtRendering
                                         color: styleData.selected ? "white" : "black"
                                     }
                                 }
@@ -1077,6 +1108,7 @@ Rectangle {
 
                             Tab {
                                 title: xi18n("Object Information")
+
 
                                 Rectangle {
                                     id: descTextBox
@@ -1134,6 +1166,7 @@ Rectangle {
                                                     objectName: "descTextObj"
                                                     color: "white"
                                                     text: xi18n("text")
+                                                    renderType: Text.QtRendering
                                                     clip: true
                                                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                                     width: parent.width - 20
@@ -1158,6 +1191,7 @@ Rectangle {
                             Tab {
                                 id: infoBoxTab
                                 title: xi18n("Wikipedia Infotext")
+
                                 active: true
                                 Rectangle {
                                     id: descTextBox2
@@ -1270,6 +1304,7 @@ Rectangle {
                                                     verticalAlignment: Text.AlignVCenter
                                                     horizontalAlignment: Text.AlignHCenter
                                                     text: xi18n("Info Text")
+                                                    renderType: Text.QtRendering
                                                     clip: true
                                                     width: parent.width
                                                     font{
@@ -1333,6 +1368,7 @@ Rectangle {
                                 height: 22
                                 color: "white"
                                 text: xi18n("Next")
+                                renderType: Text.QtRendering
                                 anchors{
                                     right: nextObjIcon.left
                                     rightMargin: 5
@@ -1409,6 +1445,7 @@ Rectangle {
                                 height: 22
                                 color: "#ffffff"
                                 text: xi18n("Previous")
+                                renderType: Text.QtRendering
                                 anchors{
                                     left: prevObjIcon.right
                                     leftMargin: 5
@@ -1445,6 +1482,7 @@ Rectangle {
                         Text{
                             anchors.fill: parent
                             text: xi18n("No Items to display")
+                            renderType: Text.QtRendering
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             color: "white"
@@ -1511,6 +1549,7 @@ Rectangle {
                     Text{
                         anchors.fill: parent
                         text: xi18n("Loading...")
+                        renderType: Text.QtRendering
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         color: "white"
@@ -1541,6 +1580,7 @@ Rectangle {
                 anchors.right: helpMessage.right
                 anchors.margins: 10
                 text: xi18n("Explanation of the What's Interesting Panel")
+                renderType: Text.QtRendering
                 horizontalAlignment: Text.AlignHCenter
                 color: "white"
                 font{
@@ -1555,6 +1595,7 @@ Rectangle {
                 anchors.left: helpMessage.left
                 anchors.right: helpMessage.right
                 text: xi18n("The What's Interesting Panel is intended to allow you to explore many different interesting objects in the night sky.  It includes objects visible to the naked eye as well as objects that require telescopes.  It is intended to appeal to both beginners and advanced astronomers.  If you click on a category or catalog, a list of objects will appear.  Clicking on an object in the list will bring up the details view where you can find out more information about the object.  If you have thumbnail images or wikipedia information for this object, these will be displayed as well.  If not, you can download them using the download icon.  If you make What's Interesting wider, the display will dynamically change to display the information more conveniently.  Please see the descriptions below for details on what the buttons at the bottom do.")
+                renderType: Text.QtRendering
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 color: "white"
                 font{
@@ -1577,6 +1618,7 @@ Rectangle {
                 anchors.margins: 10
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: xi18n("This button will bring up the What's Interesting Settings. It will let you configure what is displayed in What's Interesting based upon which equipment you are using and the observing conditions.")
+                renderType: Text.QtRendering
                 color: "white"
                 font{
                     family: "Arial"
@@ -1598,6 +1640,7 @@ Rectangle {
                 anchors.margins: 10
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: xi18n("This button will turn on and off the Inspector Mode.  In this mode you can click on any object in the map and What's Interesting will display the information about it.")
+                renderType: Text.QtRendering
                 color: "white"
                 font{
                     family: "Arial"
@@ -1619,6 +1662,7 @@ Rectangle {
                 anchors.margins: 10
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: xi18n("This button will reload the current object list, update all displayed information, update any images, and update the information and images for the currently selected object.")
+                renderType: Text.QtRendering
                 color: "white"
                 font{
                     family: "Arial"
@@ -1640,6 +1684,7 @@ Rectangle {
                 anchors.margins: 10
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: xi18n("This button will toggle whether to filter the list to display only currently visible objects in a list or to display all of the objects in the list.  The visibility is determined based on the current KStars date and time, the current observing equipment, and the current sky conditions based on the What's Interesting Settings.")
+                renderType: Text.QtRendering
                 color: "white"
                 font{
                     family: "Arial"
@@ -1661,6 +1706,7 @@ Rectangle {
                 anchors.margins: 10
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: xi18n("This button will toggle whether to filter the list to display only 'interesting' objects or to display any of the objects in the list.  This setting only applies to the Galaxies, Nebulas, and Clusters lists.  The objects are considered 'interesting' if they appear on the KStars 'interesting' list.")
+                renderType: Text.QtRendering
                 color: "white"
                 font{
                     family: "Arial"
@@ -1682,6 +1728,7 @@ Rectangle {
                 anchors.margins: 10
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: xi18n("This button will attempt to download information and pictures about the object(s) from Wikipedia.  You can select whether to download the information about just one object, all of the objects in a list, or only the objects in a list for which no data was downloaded yet.  Please note: If the list is currently filtered for visible objects or 'interesting' objects, only the filtered objects will be downloaded.  If you actually want all the objects in the list, turn off the filters.")
+                renderType: Text.QtRendering
                 color: "white"
                 font{
                     family: "Arial"
@@ -1719,6 +1766,7 @@ Rectangle {
             y: 12
             color: "#f7e808"
             text: xi18n("Back")
+            renderType: Text.QtRendering
             anchors {
                 left: leftArrow.right
                 leftMargin: 7
