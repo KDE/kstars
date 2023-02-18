@@ -529,11 +529,9 @@ void TestEkosHelper::prepareGuidingModule()
     Options::setResetGuideCalibration(false);
     // guide calibration captured with fsq-85 as guiding scope, clear if it creates problems
     // KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
-    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0052,ph=0.0052,fl=450,ang=268.48,angR=270.003,angD=176.956,ramspas=139.827,decmspas=132.191,swap=0,ra= 344:23:02,dec=00:25:52,side=0,when=2022-11-08 20:36:46,calEnd");
+    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0024,ph=0.0024,fl=450,ang=268.349,angR=270.023,angD=176.674,ramspas=139.764,decmspas=134.438,swap=0,ra= 27:21:00,dec=00:25:52,side=0,when=2023-02-18 16:46:48,calEnd");
     // 0.5 pixel dithering
     Options::setDitherPixels(0.5);
-    // disable dithering
-    Options::setDitherEnabled(false);
     // auto star select
     KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), guideAutoStar, true);
     // set the guide star box to size 32
@@ -898,6 +896,8 @@ void TestEkosHelper::init()
     use_guiding = false;
     // reset dithering flag
     dithered = false;
+    // disable dithering by default
+    Options::setDitherEnabled(false);
 }
 void TestEkosHelper::cleanup()
 {

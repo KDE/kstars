@@ -283,6 +283,30 @@ void CaptureDeviceAdaptor::disconnectActiveCamera()
                &SequenceJobState::setCurrentCCDTemperature);
 }
 
+void CaptureDeviceAdaptor::connectFilterManager()
+{
+    connect(m_FilterManager.get(), &FilterManager::newStatus, currentSequenceJobState, &SequenceJobState::setFilterStatus);
+    connect(m_FilterManager.get(), &FilterManager::ready, this, &CaptureDeviceAdaptor::updateFilterPosition);
+    connect(currentSequenceJobState, &SequenceJobState::changeFilterPosition,
+            this, &CaptureDeviceAdaptor::setFilterPosition);
+    connect(currentSequenceJobState, &SequenceJobState::readFilterPosition, this, &CaptureDeviceAdaptor::updateFilterPosition);
+}
+
+void CaptureDeviceAdaptor::disconnectFilterManager()
+{
+    disconnect(currentSequenceJobState, &SequenceJobState::readFilterPosition, this,
+               &CaptureDeviceAdaptor::updateFilterPosition);
+    disconnect(currentSequenceJobState, &SequenceJobState::changeFilterPosition,
+               this, &CaptureDeviceAdaptor::setFilterPosition);
+    disconnect(m_FilterManager.get(), &FilterManager::ready, this, &CaptureDeviceAdaptor::updateFilterPosition);
+    disconnect(m_FilterManager.get(), &FilterManager::newStatus, currentSequenceJobState, &SequenceJobState::setFilterStatus);
+}
+
+void Ekos::CaptureDeviceAdaptor::updateFilterPosition()
+{
+    currentSequenceJobState->setCurrentFilterID(m_FilterManager->getFilterPosition());
+}
+
 void CaptureDeviceAdaptor::readCurrentState(CaptureState state)
 {
     switch(state)
@@ -326,10 +350,10 @@ void CaptureDeviceAdaptor::abortFastExposure()
         m_ActiveChip->abortExposure();
 }
 
-void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition)
+void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy)
 {
-    if (m_ActiveFilterWheel != nullptr)
-        m_ActiveFilterWheel->setPosition(targetFilterPosition);
+    if (m_FilterManager.isNull() == false && m_ActiveFilterWheel != nullptr)
+        m_FilterManager->setFilterPosition(targetFilterPosition, policy);
 }
 
 void CaptureDeviceAdaptor::setActiveChip(ISD::CameraChip *device)

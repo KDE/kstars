@@ -1931,7 +1931,7 @@ void Manager::initCapture()
     capturePreview->setEnabled(true);
 
     // display capture status changes
-    connect(captureProcess.get(), &Ekos::Capture::newFilterManagerStatus, capturePreview->captureStatusWidget,
+    connect(captureProcess.get(), &Ekos::Capture::newFilterStatus, capturePreview->captureStatusWidget,
             &LedStatusWidget::setFilterState);
 
     // display target drift

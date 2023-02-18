@@ -158,7 +158,11 @@ class CaptureDeviceAdaptor: public QObject
         /**
          * @brief Select the filter at the given position
          */
-        void setFilterPosition(int targetFilterPosition);
+        void setFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES);
+        /**
+         * @brief updateFilterPosition Inform the sequence job state machine about the current filter position
+         */
+        void updateFilterPosition();
 
         //////////////////////////////////////////////////////////////////////
         // Flat capturing commands

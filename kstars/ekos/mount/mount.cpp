@@ -249,7 +249,10 @@ bool Mount::setMount(ISD::Mount *device)
     }
 
     if (m_Mount)
-        m_Mount->disconnect(this);
+    {
+        m_Mount->disconnect(m_Mount, nullptr, this, nullptr);
+        m_Mount->disconnect(m_Mount, nullptr, mf_state.get(), nullptr);
+    }
 
     m_Mount = device;
 

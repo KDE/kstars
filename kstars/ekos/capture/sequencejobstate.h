@@ -9,6 +9,8 @@
 #include "indi/indicommon.h"
 #include "skypoint.h"
 #include "capturemodulestate.h"
+#include "ekos/auxiliary/filtermanager.h"
+#include "fitsviewer/fitscommon.h"
 
 #include <QWidget>
 #include <QVector>
@@ -32,9 +34,7 @@ typedef enum
     CAPTURE_OK,               /* Starting a new capture succeeded.                                          */
     CAPTURE_FRAME_ERROR,      /* Setting frame parameters failed, capture not started.                      */
     CAPTURE_BIN_ERROR,        /* Setting binning parameters failed, capture not started.                    */
-    CAPTURE_FILTER_BUSY,      /* Filter change needed and not completed, capture not started yet.           */
     CAPTURE_FOCUS_ERROR,      /* NOT USED.                                                                  */
-    CAPTURE_GUIDER_DRIFT_WAIT /* Waiting until guide drift is below the threshold, capture not started yet. */
 } CAPTUREResult;
 
 class SequenceJobState: public QObject
@@ -67,10 +67,10 @@ class SequenceJobState: public QObject
 
         typedef enum
         {
-            PREP_NONE,      /* preparation has not been executed */
-            PREP_BUSY,      /* preparation started               */
-            PREP_COMPLETED, /* preparation completed             */
-            PREP_ABORTED    /* preparation aborted (UNUSED)      */
+            PREP_NONE,           /* preparation has not been executed                               */
+            PREP_BUSY,           /* preparation started                                             */
+            PREP_COMPLETED,      /* preparation completed                                           */
+            PREP_INIT_CAPTURE    /* initialize capturing (last step before device capturing starts) */
         } PreparationState;
 
         typedef enum
@@ -133,6 +133,16 @@ class SequenceJobState: public QObject
         void prepareBiasFrameCapture(bool enforceCCDTemp, bool isPreview);
 
         /**
+         * @brief initCapture Initialize capturing (currently only setting the
+         * target filter).
+         * @param frameType frame type to be captured
+         * @param isPreview is the captured frame only a preview?
+         * @param isAutofocusReady is an autofocus possible?
+         * @return true if the initialization is already completed
+         */
+        bool initCapture(CCDFrameType frameType, bool isPreview, bool isAutofocusReady, FITSMode mode);
+
+        /**
          * @brief Set the flag if a maximal initial guiding deviation is required
          */
         void setEnforceInitialGuidingDrift(bool enforceInitialGuidingDrift);
@@ -165,6 +175,11 @@ class SequenceJobState: public QObject
         //////////////////////////////////////////////////////////////////////
 
         /**
+         * @brief setFilterStatus Update the current filter state
+         */
+        void setFilterStatus(FilterState filterState);
+
+        /**
          * @brief Update the currently active filter ID
          */
         void setCurrentFilterID(int value);
@@ -191,6 +206,11 @@ class SequenceJobState: public QObject
         {
             targetStartGuiderDrift = value;
         }
+
+        /**
+         * @brief setFocusStatus Evaluate the current focus state
+         */
+        void setFocusStatus(FocusState state);
 
         /**
          * @brief Update the current rotator position (calculated from the rotator angle)
@@ -243,9 +263,15 @@ class SequenceJobState: public QObject
         // ask for the current device state
         void readCurrentState(Ekos::CaptureState state);
         // Capture preparation complete(d)
-        void prepareComplete();
+        void prepareComplete(bool success = true);
+        // Capture initialization complete(d)
+        void initCaptureComplete(FITSMode mode);
         // change the rotator angle
         void setRotatorAngle(double *rawAngle);
+        // ask for the current filter position
+        void readFilterPosition();
+        // Change the filter to the given position and the filter change policy
+        void changeFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy);
         // set the CCD target temperature
         void setCCDTemperature(double temp);
         // set CCD to preview mode
@@ -303,7 +329,10 @@ class SequenceJobState: public QObject
         bool m_enforceTemperature { false };
         // should the a certain maximal initial guiding drift should be enforced?
         bool m_enforceInitialGuiding { false };
-
+        // flag if auto focus has been completed for the selected filter
+        bool autoFocusReady;
+        // Capturing mode, necessary for the display in the FITS viewer
+        FITSMode m_fitsMode;
         // ////////////////////////////////////////////////////////////////////
         // flat preparation attributes
         // ////////////////////////////////////////////////////////////////////
@@ -319,8 +348,6 @@ class SequenceJobState: public QObject
         bool preMountPark;
         // flag if the dome should be parking before capturing
         bool preDomePark;
-        // flag if auto focus has been completed for the selected filter
-        bool autoFocusReady;
 
         // ////////////////////////////////////////////////////////////////////
         // capture preparation state
@@ -345,6 +372,20 @@ class SequenceJobState: public QObject
          * @brief Prepare CCD temperature checks
          */
         void prepareTemperatureCheck(bool enforceCCDTemp);
+
+        /**
+         * @brief prepareRotatorCheck Check if the rotator is at the expected
+         *        target angle.
+         */
+        void prepareRotatorCheck();
+
+        /**
+         * @brief prepareTargetFilter Initiate changing the filter to the target position
+         *        {@see #targetFilterID}
+         * @param frameType frame type to be captured
+         * @param isPreview is the captured frame only a preview?
+         */
+        void prepareTargetFilter(CCDFrameType frameType, bool isPreview);
 
         /**
          * @brief Before capturing light frames check, if the scope cover is open.
@@ -445,6 +486,7 @@ class SequenceJobState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // target filter ID
         int targetFilterID { Ekos::INVALID_VALUE };
+        FilterManager::FilterPolicy m_filterPolicy { FilterManager::ALL_POLICIES };
         // target temperature
         double targetTemperature { Ekos::INVALID_VALUE };
         // target rotation in absolute ticks, NOT angle
@@ -455,7 +497,6 @@ class SequenceJobState: public QObject
         CalibrationStage calibrationStage { CAL_NONE };
         // query state for (un)covering the scope
         CalibrationCheckType coverQueryState { CAL_CHECK_TASK };
-        void prepareRotatorCheck();
 };
 
 }; // namespace

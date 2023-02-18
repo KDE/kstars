@@ -19,6 +19,7 @@
 
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/refocusstate.h"
+#include "ekos/auxiliary/filtermanager.h"
 
 namespace Ekos
 {
@@ -40,7 +41,8 @@ class CaptureModuleState: public QObject
             ACTION_MOUNT_PARK,          /* Park the mount.                                                                                */
             ACTION_DOME_PARK,           /* Park the dome.                                                                                 */
             ACTION_FLAT_SYNC_FOCUS,     /* Move the focuser to the focus position for the selected filter.                                */
-            ACTION_SCOPE_COVER          /* Ensure that the scope cover (if present) is opened.                                            */
+            ACTION_SCOPE_COVER,         /* Ensure that the scope cover (if present) is opened.                                            */
+            ACTION_AUTOFOCUS            /* Execute autofocus (might be triggered due to filter change).                                   */
         } PrepareActions;
 
         typedef enum
@@ -107,8 +109,7 @@ class CaptureModuleState: public QObject
         {
             MANAUL_COVER_OPEN,
             MANUAL_COVER_CLOSED_LIGHT,
-            MANUAL_COVER_CLOSED_DARK,
-
+            MANUAL_COVER_CLOSED_DARK
         } ManualCoverState;
 
         ManualCoverState m_ManualCoverState { MANAUL_COVER_OPEN };
@@ -434,7 +435,7 @@ signals:
         // new HFR focus limit calculated
         void newLimitFocusHFR(double hfr);
         // Select the filter at the given position
-        void newFilterPosition(int targetFilterPosition);
+        void newFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES);
         // new log text for the module log window
         void newLog(const QString &text);
 private:

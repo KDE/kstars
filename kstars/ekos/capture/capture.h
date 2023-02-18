@@ -731,6 +731,12 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // slots handling device and module events
         // ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief captureStarted Manage the result when capturing has been started
+         */
+        void captureStarted(CAPTUREResult rc);
+
         /**
              * @brief setGuideDeviation Set the guiding deviation as measured by the guiding module. Abort capture
              *        if deviation exceeds user value. Resume capture if capture was aborted and guiding
@@ -769,6 +775,9 @@ class Capture : public QWidget, public Ui::Capture
             m_captureModuleState->getRefocusState()->setFocusHFR(newHFR);
         }
 
+        // Filter
+        void setFilterStatus(FilterState filterState);
+
         // Guide
         void setGuideStatus(GuideState state);
 
@@ -789,7 +798,7 @@ class Capture : public QWidget, public Ui::Capture
         void appendLogText(const QString &);
 
 
-    private slots:
+private slots:
 
         // ////////////////////////////////////////////////////////////////////
         // UI controls
@@ -867,7 +876,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE void newStatus(CaptureState status);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
-        void newFilterManagerStatus(FilterState state);
+        void newFilterStatus(FilterState state);
 
         void ready();
 

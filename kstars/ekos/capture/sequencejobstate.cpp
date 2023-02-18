@@ -40,13 +40,6 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
     // disable batch mode for previews
     emit setCCDBatchMode(!isPreview);
 
-    // Filter changes are actually done in capture(), therefore prepareActions are always true
-    prepareActions[CaptureModuleState::ACTION_FILTER] = true;
-    // nevertheless, emit an event so that Capture changes m_state
-    if (targetFilterID != INVALID_VALUE && targetFilterID != m_CaptureModuleState->currentFilterID)
-        emit prepareState(CAPTURE_CHANGING_FILTER);
-
-
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
     prepareTemperatureCheck(enforceCCDTemp);
 
@@ -81,12 +74,6 @@ void SequenceJobState::prepareFlatFrameCapture(bool enforceCCDTemp, bool isPrevi
     // disable batch mode for previews
     emit setCCDBatchMode(!isPreview);
 
-    // Filter changes are actually done in capture(), therefore prepareActions are always true
-    prepareActions[CaptureModuleState::ACTION_FILTER] = true;
-    // nevertheless, emit an event so that Capture changes m_state
-    if (targetFilterID != INVALID_VALUE && targetFilterID != m_CaptureModuleState->currentFilterID)
-        emit prepareState(CAPTURE_CHANGING_FILTER);
-
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
     prepareTemperatureCheck(enforceCCDTemp);
 
@@ -111,9 +98,6 @@ void SequenceJobState::prepareDarkFrameCapture(bool enforceCCDTemp, bool isPrevi
     // disable batch mode for previews
     emit setCCDBatchMode(!isPreview);
 
-    // Filter changes are actually done in capture(), therefore prepareActions are always true
-    prepareActions[CaptureModuleState::ACTION_FILTER] = true;
-
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
     prepareTemperatureCheck(enforceCCDTemp);
 
@@ -126,6 +110,19 @@ void SequenceJobState::prepareDarkFrameCapture(bool enforceCCDTemp, bool isPrevi
 void SequenceJobState::prepareBiasFrameCapture(bool enforceCCDTemp, bool isPreview)
 {
     prepareDarkFrameCapture(enforceCCDTemp, isPreview);
+}
+
+bool SequenceJobState::initCapture(CCDFrameType frameType, bool isPreview, bool isAutofocusReady, FITSMode mode)
+{
+    m_PreparationState = PREP_INIT_CAPTURE;
+    autoFocusReady = isAutofocusReady;
+    m_fitsMode = mode;
+
+    //check for setting the target filter
+    prepareTargetFilter(frameType, isPreview);
+    checkAllActionsReady();
+
+    return areActionsReady();
 }
 
 bool SequenceJobState::areActionsReady()
@@ -141,103 +138,120 @@ bool SequenceJobState::areActionsReady()
 
 void SequenceJobState::checkAllActionsReady()
 {
-    // do nothing if preparation is not running
-    if (m_PreparationState != PREP_BUSY)
-        return;
-
-    switch (m_frameType)
+    switch (m_PreparationState)
     {
-        case FRAME_LIGHT:
-            if (areActionsReady())
+        // capture preparation
+        case PREP_BUSY:
+            switch (m_frameType)
             {
-                // as last step ensure that the scope is uncovered
-                if (checkLightFrameScopeCoverOpen() != IPS_OK)
-                    return;
+                case FRAME_LIGHT:
+                    if (areActionsReady())
+                    {
+                        // as last step ensure that the scope is uncovered
+                        if (checkLightFrameScopeCoverOpen() != IPS_OK)
+                            return;
 
-                m_PreparationState = PREP_COMPLETED;
-                emit prepareComplete();
-            }
-            break;
-        case FRAME_FLAT:
-            if (!areActionsReady())
-                return;
-
-            // 1. Check if the selected flats light source is ready
-            if (checkFlatsLightCoverReady() != IPS_OK)
-                return;
-
-            // 2. Light source ready, now check if we need to perform mount prepark
-            if (checkPreMountParkReady() != IPS_OK)
-                return;
-
-            // 3. Check if we need to perform dome prepark
-            if (checkPreDomeParkReady() != IPS_OK)
-                return;
-
-            // 4. If we used AUTOFOCUS before for a specific frame (e.g. Lum)
-            //    then the absolute focus position for Lum is recorded in the filter manager
-            //    when we take flats again, we always go back to the same focus position as the light frames to ensure
-            //    near identical focus for both frames.
-            if (checkFlatSyncFocus() != IPS_OK)
-                return;
-
-            // all preparations ready, avoid doubled events
-            if (m_PreparationState == PREP_BUSY)
-            {
-                m_PreparationState = PREP_COMPLETED;
-                emit prepareComplete();
-            }
-            break;
-        case FRAME_DARK:
-            if (!areActionsReady())
-                return;
-
-            // 1. check if the CCD has a shutter
-            if (checkHasShutter() != IPS_OK)
-                return;
-            switch (flatFieldSource)
-            {
-                // All these are manual when it comes to dark frames
-                case SOURCE_MANUAL:
-                case SOURCE_DAWN_DUSK:
-                    // For cameras without a shutter, we need to ask the user to cover the telescope
-                    // if the telescope is not already covered.
-                    if (checkManualCoverReady(false) != IPS_OK)
-                        return;
+                        m_PreparationState = PREP_COMPLETED;
+                        emit prepareComplete();
+                    }
                     break;
-                case SOURCE_FLATCAP:
-                case SOURCE_DARKCAP:
-                    if (checkDustCapReady(FRAME_DARK) != IPS_OK)
+                case FRAME_FLAT:
+                    if (!areActionsReady())
                         return;
-                    break;
 
-                case SOURCE_WALL:
-                    if (checkWallPositionReady(FRAME_DARK) != IPS_OK)
+                    // 1. Check if the selected flats light source is ready
+                    if (checkFlatsLightCoverReady() != IPS_OK)
                         return;
-                    break;
-            }
 
-            // avoid doubled events
-            if (m_PreparationState == PREP_BUSY)
-            {
-                m_PreparationState = PREP_COMPLETED;
-                emit prepareComplete();
-            }
-            break;
-        case FRAME_BIAS:
-            if (areActionsReady())
-            {
-                // avoid doubled events
-                if (m_PreparationState == PREP_BUSY)
-                {
-                    m_PreparationState = PREP_COMPLETED;
+                    // 2. Light source ready, now check if we need to perform mount prepark
+                    if (checkPreMountParkReady() != IPS_OK)
+                        return;
+
+                    // 3. Check if we need to perform dome prepark
+                    if (checkPreDomeParkReady() != IPS_OK)
+                        return;
+
+                    // 4. If we used AUTOFOCUS before for a specific frame (e.g. Lum)
+                    //    then the absolute focus position for Lum is recorded in the filter manager
+                    //    when we take flats again, we always go back to the same focus position as the light frames to ensure
+                    //    near identical focus for both frames.
+                    if (checkFlatSyncFocus() != IPS_OK)
+                        return;
+
+                    // all preparations ready, avoid doubled events
+                    if (m_PreparationState == PREP_BUSY)
+                    {
+                        m_PreparationState = PREP_COMPLETED;
+                        emit prepareComplete();
+                    }
+                    break;
+                case FRAME_DARK:
+                    if (!areActionsReady())
+                        return;
+
+                    // 1. check if the CCD has a shutter
+                    if (checkHasShutter() != IPS_OK)
+                        return;
+                    switch (flatFieldSource)
+                    {
+                        // All these are manual when it comes to dark frames
+                        case SOURCE_MANUAL:
+                        case SOURCE_DAWN_DUSK:
+                            // For cameras without a shutter, we need to ask the user to cover the telescope
+                            // if the telescope is not already covered.
+                            if (checkManualCoverReady(false) != IPS_OK)
+                                return;
+                            break;
+                        case SOURCE_FLATCAP:
+                        case SOURCE_DARKCAP:
+                            if (checkDustCapReady(FRAME_DARK) != IPS_OK)
+                                return;
+                            break;
+
+                        case SOURCE_WALL:
+                            if (checkWallPositionReady(FRAME_DARK) != IPS_OK)
+                                return;
+                            break;
+                    }
+
+                    // avoid doubled events
+                    if (m_PreparationState == PREP_BUSY)
+                    {
+                        m_PreparationState = PREP_COMPLETED;
+                        emit prepareComplete();
+                    }
+                    break;
+                case FRAME_BIAS:
+                    if (areActionsReady())
+                    {
+                        // avoid doubled events
+                        if (m_PreparationState == PREP_BUSY)
+                        {
+                            m_PreparationState = PREP_COMPLETED;
+                            emit prepareComplete();
+                        }
+                    }
+                    break;
+                default:
+                    // all other cases not refactored yet, preparation immediately completed
                     emit prepareComplete();
-                }
+                    break;
             }
             break;
-        default:
-            // all other cases not refactored yet, preparation immediately completed
-            emit prepareComplete();
+
+        // capture initialization (final preparation steps before starting frame capturing)
+        case PREP_INIT_CAPTURE:
+            if (areActionsReady())
+            {
+                // reset the state to avoid double events
+                m_PreparationState = PREP_NONE;
+                emit initCaptureComplete(m_fitsMode);
+            }
+            break;
+
+        case PREP_NONE:
+        case PREP_COMPLETED:
+            // in all other cases do nothing
             break;
     }
 }
@@ -258,6 +272,33 @@ void SequenceJobState::setAllActionsReady()
                 CaptureModuleState::ACTION_GUIDER_DRIFT
             })
         setInitialized(action, false);
+}
+
+void SequenceJobState::prepareTargetFilter(CCDFrameType frameType, bool isPreview)
+{
+    if (targetFilterID != INVALID_VALUE)
+    {
+        if (isInitialized(CaptureModuleState::ACTION_FILTER) == false)
+        {
+            prepareActions[CaptureModuleState::ACTION_FILTER] = false;
+            emit readFilterPosition();
+        }
+        else if (targetFilterID != m_CaptureModuleState->currentFilterID)
+        {
+            // mark filter preparation action
+            prepareActions[CaptureModuleState::ACTION_FILTER] = false;
+
+            // determine policy
+            m_filterPolicy = FilterManager::ALL_POLICIES;
+
+            // Don't perform autofocus on preview or calibration frames or if Autofocus is not ready yet.
+            if (isPreview || frameType != FRAME_LIGHT || autoFocusReady == false)
+                m_filterPolicy = static_cast<FilterManager::FilterPolicy>(m_filterPolicy & ~FilterManager::AUTOFOCUS_POLICY);
+
+            emit changeFilterPosition(targetFilterID, m_filterPolicy);
+            emit prepareState(CAPTURE_CHANGING_FILTER);
+        }
+    }
 }
 
 void SequenceJobState::prepareTemperatureCheck(bool enforceCCDTemp)
@@ -636,10 +677,18 @@ void SequenceJobState::setInitialized(CaptureModuleState::PrepareActions action,
 void SequenceJobState::setCurrentFilterID(int value)
 {
     m_CaptureModuleState->currentFilterID = value;
+    if (isInitialized(CaptureModuleState::ACTION_FILTER) == false && value != targetFilterID)
+    {
+        // mark filter preparation action
+        // TODO introduce settle time
+        prepareActions[CaptureModuleState::ACTION_FILTER] = false;
+
+        emit changeFilterPosition(targetFilterID, m_filterPolicy);
+        emit prepareState(CAPTURE_CHANGING_FILTER);
+    }
     setInitialized(CaptureModuleState::ACTION_FILTER, true);
 
-    // TODO introduce settle time
-    if (m_CaptureModuleState->currentFilterID == targetFilterID)
+    if (value == targetFilterID)
         prepareActions[CaptureModuleState::ACTION_FILTER] = true;
 
     checkAllActionsReady();
@@ -720,13 +769,37 @@ void SequenceJobState::setCurrentGuiderDrift(double value)
     checkAllActionsReady();
 }
 
+void SequenceJobState::setFocusStatus(FocusState state)
+{
+    switch (state)
+    {
+        case FOCUS_COMPLETE:
+            // did we wait for a successful autofocus run?
+            if (prepareActions[CaptureModuleState::ACTION_AUTOFOCUS] == false)
+            {
+                prepareActions[CaptureModuleState::ACTION_AUTOFOCUS] = true;
+                checkAllActionsReady();
+            }
+            break;
+        case FOCUS_ABORTED:
+        case FOCUS_FAILED:
+            // finish preparation with failure
+            emit prepareComplete(false);
+            break;
+        default:
+            // in all other cases do nothing
+            break;
+    }
+}
+
 void SequenceJobState::updateManualScopeCover(bool closed, bool success, bool light)
 {
     // covering confirmed
     if (success == true)
     {
         if (closed)
-            m_CaptureModuleState->m_ManualCoverState = light ? CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT : CaptureModuleState::MANUAL_COVER_CLOSED_DARK;
+            m_CaptureModuleState->m_ManualCoverState = light ? CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT :
+                    CaptureModuleState::MANUAL_COVER_CLOSED_DARK;
         else
             m_CaptureModuleState->m_ManualCoverState = CaptureModuleState::MANAUL_COVER_OPEN;
         coverQueryState = CAL_CHECK_TASK;
@@ -845,5 +918,24 @@ void SequenceJobState::setEnforceInitialGuidingDrift(bool enforceInitialGuidingD
 SequenceJobState::PreparationState SequenceJobState::getPreparationState() const
 {
     return m_PreparationState;
+}
+
+void SequenceJobState::setFilterStatus(FilterState filterState)
+{
+    switch (filterState)
+    {
+        case FILTER_AUTOFOCUS:
+            // we need to wait until focusing has completed
+            prepareActions[CaptureModuleState::ACTION_AUTOFOCUS] = false;
+            emit prepareState(CAPTURE_FOCUSING);
+            break;
+
+        // nothing to do in all other cases
+        case FILTER_IDLE:
+        case FILTER_OFFSET:
+        case FILTER_CHANGE:
+            break;
+    }
+
 }
 } // namespace

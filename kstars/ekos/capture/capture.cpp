@@ -786,7 +786,9 @@ void Capture::toggleSequence()
         startB->setToolTip(i18n("Stop Sequence"));
         pauseB->setEnabled(true);
 
-        m_captureModuleState->setCaptureState(CAPTURE_CAPTURING);
+        // change the state back to capturing only if planned pause is cleared
+        if (m_captureModuleState->getCaptureState() == CAPTURE_PAUSE_PLANNED)
+            m_captureModuleState->setCaptureState(CAPTURE_CAPTURING);
 
         appendLogText(i18n("Sequence resumed."));
 
@@ -1928,11 +1930,11 @@ IPState Capture::setCaptureComplete()
             {
                 QTimer::singleShot(seqDelay, this, [this]()
                 {
-                    activeJob->capture(m_captureModuleState->getRefocusState()->isAutoFocusReady(), FITS_NORMAL);
+                    activeJob->startCapturing(m_captureModuleState->getRefocusState()->isAutoFocusReady(), FITS_NORMAL);
                 });
             }
             else
-                activeJob->capture(m_captureModuleState->getRefocusState()->isAutoFocusReady(), FITS_NORMAL);
+                activeJob->startCapturing(m_captureModuleState->getRefocusState()->isAutoFocusReady(), FITS_NORMAL);
         }
         return IPS_OK;
     }
@@ -2313,36 +2315,6 @@ void Capture::captureImage()
     if (activeJob == nullptr)
         return;
 
-    // This test must be placed before the FOCUS_PROGRESS test,
-    // as sometimes the FilterManager can cause an auto-focus.
-    // If the filterManager is not IDLE, then try again in 1 second.
-    switch (m_captureModuleState->getFilterManagerState())
-    {
-        case FILTER_IDLE:
-            // do nothing
-            break;
-
-        case FILTER_AUTOFOCUS:
-            QTimer::singleShot(1000, this, &Capture::captureImage);
-            return;
-
-        case FILTER_CHANGE:
-            QTimer::singleShot(1000, this, &Capture::captureImage);
-            return;
-
-        case FILTER_OFFSET:
-            QTimer::singleShot(1000, this, &Capture::captureImage);
-            return;
-    }
-
-    // Do not start nor abort if Focus is busy
-    if (m_captureModuleState->getFocusState() >= FOCUS_PROGRESS)
-    {
-        //appendLogText(i18n("Delaying capture while focus module is busy."));
-        QTimer::singleShot(1000, this, &Capture::captureImage);
-        return;
-    }
-
     // Bail out if we have no CCD anymore
     if (m_captureDeviceAdaptor->getActiveCamera()->isConnected() == false)
     {
@@ -2355,15 +2327,12 @@ void Capture::captureImage()
     seqDelayTimer->stop();
     m_captureModuleState->getCaptureDelayTimer().stop();
 
-    CAPTUREResult rc = CAPTURE_OK;
-
     if (m_captureDeviceAdaptor->getFilterWheel() != nullptr)
     {
         // JM 2021.08.23 Call filter info to set the active filter wheel in the camera driver
         // so that it may snoop on the active filter
         syncFilterInfo();
         updateCurrentFilterPosition();
-        activeJob->setCurrentFilter(m_captureModuleState->getCurrentFilterPosition());
     }
 
     if (m_captureDeviceAdaptor->getActiveCamera()->isFastExposureEnabled())
@@ -2413,8 +2382,6 @@ void Capture::captureImage()
         m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(nextSequenceID);
     }
 
-    m_captureModuleState->setCaptureState(CAPTURE_CAPTURING);
-
     if (frameSettings.contains(m_captureDeviceAdaptor->getActiveChip()))
     {
         const auto roi = activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect();
@@ -2448,9 +2415,16 @@ void Capture::captureImage()
     auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
     placeholderPath.setGenerateFilenameSettings(*activeJob);
     m_captureDeviceAdaptor->getActiveCamera()->setPlaceholderPath(placeholderPath);
-    rc = activeJob->capture(m_captureModuleState->getRefocusState()->isAutoFocusReady(),
-                            activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
+    // now hand over the control of capturing to the sequence job. As soon as capturing
+    // has started, the sequence job will report the result with the captureStarted() event
+    // that will trigger Capture::captureStarted()
+    activeJob->startCapturing(m_captureModuleState->getRefocusState()->isAutoFocusReady(),
+                              activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
 
+}
+
+void Capture::captureStarted(CAPTUREResult rc)
+{
     if (rc != CAPTURE_OK)
     {
         disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
@@ -2460,6 +2434,7 @@ void Capture::captureImage()
     {
         case CAPTURE_OK:
         {
+            m_captureModuleState->setCaptureState(CAPTURE_CAPTURING);
             emit captureStarting(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                                  activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
             appendLogText(i18n("Capturing %1-second %2 image...",
@@ -2503,17 +2478,6 @@ void Capture::captureImage()
         case CAPTURE_BIN_ERROR:
             appendLogText(i18n("Failed to set binning."));
             abort();
-            break;
-
-        case CAPTURE_FILTER_BUSY:
-            // Try again in 1 second if filter is busy
-            QTimer::singleShot(1000, this, &Capture::captureImage);
-            break;
-
-        case CAPTURE_GUIDER_DRIFT_WAIT:
-            // Try again in 1 second if filter is busy
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Waiting for the guider to settle.";
-            QTimer::singleShot(1000, this, &Capture::captureImage);
             break;
 
         case CAPTURE_FOCUS_ERROR:
@@ -2695,6 +2659,8 @@ void Capture::setActiveJob(SequenceJob *value)
     {
         disconnect(this, nullptr, activeJob, nullptr);
         disconnect(activeJob, nullptr, this, nullptr);
+        // ensure that the device adaptor does not send any new events
+        activeJob->disconnectDeviceAdaptor();
     }
 
     // set the new value
@@ -2705,16 +2671,28 @@ void Capture::setActiveJob(SequenceJob *value)
     // create job connections
     if (activeJob != nullptr)
     {
+        // connect job with device adaptor events
+        activeJob->connectDeviceAdaptor();
         // forward signals to the sequence job
         connect(this, &Capture::newGuiderDrift, activeJob, &SequenceJob::updateGuiderDrift);
         // react upon sequence job signals
         connect(activeJob, &SequenceJob::prepareState, this, &Capture::updatePrepareState);
-        connect(activeJob, &SequenceJob::prepareComplete, this, [this]()
+        connect(activeJob, &SequenceJob::prepareComplete, this, [this](bool success)
         {
-            m_captureModuleState->setCaptureState(CAPTURE_PROGRESS);
-            executeJob();
+            if (success)
+            {
+                m_captureModuleState->setCaptureState(CAPTURE_PROGRESS);
+                executeJob();
+            }
+            else
+            {
+                qWarning(KSTARS_EKOS_CAPTURE) << "Capture preparation failed, aborting.";
+                m_captureModuleState->setCaptureState(CAPTURE_ABORTED);
+                abort();
+            }
         }, Qt::UniqueConnection);
         connect(activeJob, &SequenceJob::abortCapture, this, &Capture::abort);
+        connect(activeJob, &SequenceJob::captureStarted, this, &Capture::captureStarted);
         connect(activeJob, &SequenceJob::newLog, this, &Capture::newLog);
         // forward the devices and attributes
         activeJob->setLightBox(m_captureDeviceAdaptor->getLightBox());
@@ -3464,8 +3442,6 @@ void Capture::executeJob()
         return;
     }
 
-    activeJob->setFilterManager(m_FilterManager);
-
     QMap<QString, QString> FITSHeader;
     QString jobTargetName = activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     if (m_ObserverName.isEmpty() == false)
@@ -3553,6 +3529,8 @@ void Capture::setFocusStatus(FocusState state)
 {
     // directly forward it to the state machine
     m_captureModuleState->updateFocusState(state);
+    if (activeJob != nullptr)
+        activeJob->setFocusStatus(state);
 }
 
 void Capture::updateFocusStatus(FocusState state)
@@ -3741,7 +3719,8 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),  dirPath.toLocalFile());
+        QFileDialog::getExistingDirectory(Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
+                                          dirPath.toLocalFile());
     if (dir.isEmpty())
         return;
 
@@ -5820,6 +5799,45 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
     m_RotatorControlPanel->refresh();
 }
 
+void Capture::setFilterStatus(FilterState filterState)
+{
+    if (filterState != m_captureModuleState->getFilterManagerState())
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFilterStatusString(
+                                         m_captureModuleState->getFilterManagerState()) << "to" << Ekos::getFilterStatusString(filterState);
+    if (m_captureModuleState->getCaptureState() == CAPTURE_CHANGING_FILTER)
+    {
+        switch (filterState)
+        {
+            case FILTER_OFFSET:
+                appendLogText(i18n("Changing focus offset by %1 steps...",
+                                   m_FilterManager->getTargetFilterOffset()));
+                break;
+
+            case FILTER_CHANGE:
+                appendLogText(i18n("Changing filter to %1...",
+                                   FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
+                break;
+
+            case FILTER_AUTOFOCUS:
+                appendLogText(i18n("Auto focus on filter change..."));
+                clearAutoFocusHFR();
+                break;
+
+            case FILTER_IDLE:
+                if (m_captureModuleState->getFilterManagerState() == FILTER_CHANGE)
+                {
+                    appendLogText(i18n("Filter set to %1.",
+                                       FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+    m_captureModuleState->setFilterManagerState(filterState);
+}
+
 void Capture::setupFilterManager()
 {
     // Do we have an existing filter manager?
@@ -5840,7 +5858,7 @@ void Capture::setupFilterManager()
     });
 
     // display capture status changes
-    connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::newFilterManagerStatus);
+    connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::newFilterStatus);
 
     connect(filterManagerB, &QPushButton::clicked, this, [this]()
     {
@@ -5849,14 +5867,7 @@ void Capture::setupFilterManager()
         m_FilterManager->raise();
     });
 
-    connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
-    {
-        updateCurrentFilterPosition();
-        // Due to race condition,
-        if (activeJob)
-            activeJob->setCurrentFilter(m_captureModuleState->getCurrentFilterPosition());
-
-    });
+    connect(m_FilterManager.get(), &FilterManager::ready, this, &Capture::updateCurrentFilterPosition);
 
     connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
@@ -5867,45 +5878,8 @@ void Capture::setupFilterManager()
         }
     });
 
-    connect(m_FilterManager.get(), &FilterManager::newStatus,
-            this, [this](FilterState filterState)
-    {
-        if (filterState != m_captureModuleState->getFilterManagerState())
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFilterStatusString(
-                                             m_captureModuleState->getFilterManagerState()) << "to" << Ekos::getFilterStatusString(filterState);
-        if (m_captureModuleState->getCaptureState() == CAPTURE_CHANGING_FILTER)
-        {
-            switch (filterState)
-            {
-                case FILTER_OFFSET:
-                    appendLogText(i18n("Changing focus offset by %1 steps...",
-                                       m_FilterManager->getTargetFilterOffset()));
-                    break;
-
-                case FILTER_CHANGE:
-                    appendLogText(i18n("Changing filter to %1...",
-                                       FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
-                    break;
-
-                case FILTER_AUTOFOCUS:
-                    appendLogText(i18n("Auto focus on filter change..."));
-                    clearAutoFocusHFR();
-                    break;
-
-                case FILTER_IDLE:
-                    if (m_captureModuleState->getFilterManagerState() == FILTER_CHANGE)
-                    {
-                        appendLogText(i18n("Filter set to %1.",
-                                           FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        m_captureModuleState->setFilterManagerState(filterState);
-    });
+    // filter changes
+    connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::setFilterStatus);
 
     // display capture status changes
     connect(m_FilterManager.get(), &FilterManager::newStatus, captureStatusWidget, &LedStatusWidget::setFilterState);
