@@ -118,6 +118,7 @@ void INDI_P::initGUI()
     labelLayout->addWidget(labelW);
     PHBox->addWidget(labelWidget, 0, Qt::AlignTop | Qt::AlignLeft);
 
+    labelWidget->setToolTip(label);
     ledStatus->show();
     labelW->show();
 
@@ -159,6 +160,7 @@ void INDI_P::initGUI()
         default:
             break;
     }
+    labelWidget->raise();
 }
 
 void INDI_P::buildSwitchGUI()
