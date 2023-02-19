@@ -945,8 +945,8 @@ void Scheduler::addObject(SkyObject *object)
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS Image"), dirPath,
-                                          "FITS (*.fits *.fit)");
+    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS/XISF Image"), dirPath,
+                                          "FITS (*.fits *.fit);;XISF (*.xisf)");
     if (fitsURL.isEmpty())
         return;
 

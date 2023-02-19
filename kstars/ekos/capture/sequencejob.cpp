@@ -523,8 +523,9 @@ void SequenceJob::capture(FITSMode mode)
         captureDeviceAdaptor.data()->getActiveCamera()->setOffset(offset);
     }
 
-    // Only attempt to set ROI and Binning if CCD transfer format is FITS
-    if (captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("FITS"))
+    // Only attempt to set ROI and Binning if CCD transfer format is FITS or XISF
+    if (captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("FITS")
+            || captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("XISF"))
     {
         int currentBinX = 1, currentBinY = 1;
         captureDeviceAdaptor.data()->getActiveChip()->getBinning(&currentBinX, &currentBinY);

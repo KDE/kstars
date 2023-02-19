@@ -582,6 +582,10 @@ class FITSData : public QObject
         bool loadCanonicalImage(const QByteArray &buffer, const QString &extension);
         // Load FITS images.
         bool loadFITSImage(const QByteArray &buffer, const QString &extension, const bool isCompressed = false);
+        // Load XISF images.
+        bool loadXISFImage(const QByteArray &buffer);
+        // Save XISF images.
+        bool saveXISFImage(const QString &newFilename);
         // Load RAW images.
         bool loadRAWImage(const QByteArray &buffer, const QString &extension);
 

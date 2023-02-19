@@ -2352,7 +2352,8 @@ void Capture::captureImage()
                 && activeJob->getFlatFieldDuration() == DURATION_ADU &&
                 activeJob->getCalibrationStage() == SequenceJobState::CAL_NONE)
         {
-            if (m_captureDeviceAdaptor->getActiveCamera()->getEncodingFormat() != "FITS")
+            if (m_captureDeviceAdaptor->getActiveCamera()->getEncodingFormat() != "FITS" &&
+                    m_captureDeviceAdaptor->getActiveCamera()->getEncodingFormat() != "XISF")
             {
                 appendLogText(i18n("Cannot calculate ADU levels in non-FITS images."));
                 abort();
@@ -6864,7 +6865,9 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         auto m_job = m_captureModuleState->allJobs().last();
 
         QString extension = ".fits";
-        if (captureEncodingS->currentText() != "FITS")
+        if (captureEncodingS->currentText() == "XISF")
+            extension = ".xisf";
+        else
             extension = ".[NATIVE]";
         previewText = m_placeholderPath.generateFilename(*m_job, targetNameT->text(), previewType == LOCAL_PREVIEW, true, 1,
                       extension, "", false);

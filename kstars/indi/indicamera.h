@@ -58,6 +58,7 @@ class Camera : public ConcreteDevice
         {
             BLOB_IMAGE,
             BLOB_FITS,
+            BLOB_XISF,
             BLOB_RAW,
             BLOB_OTHER
         } BType;

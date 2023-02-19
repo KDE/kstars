@@ -678,6 +678,8 @@ bool Camera::processBLOB(INDI::Property prop)
         BType = BLOB_IMAGE;
     else if (format.contains("fits"))
         BType = BLOB_FITS;
+    else if (format.contains("xisf"))
+        BType = BLOB_XISF;
     else if (RAWFormats.contains(shortFormat))
         BType = BLOB_RAW;
 

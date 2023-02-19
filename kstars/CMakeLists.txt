@@ -1332,6 +1332,10 @@ if (NOVA_FOUND)
     target_link_libraries(KStarsLib ${NOVA_LIBRARIES})
 endif()
 
+if (LibXISF_FOUND)
+    target_link_libraries(KStarsLib LibXISF::LibXISF)
+endif()
+
 #FIXME Enable OpenGL Later
 #if( OPENGL_FOUND )
 #    target_link_libraries(KStarsLib

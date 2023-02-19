@@ -38,6 +38,10 @@
 #include <libraw/libraw.h>
 #endif
 
+#ifdef HAVE_XISF
+#include <libxisf.h>
+#endif
+
 #include <cfloat>
 #include <cmath>
 
@@ -181,6 +185,8 @@ bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension)
 
     if (extension.contains("fit"))
         return loadFITSImage(buffer, extension);
+    if (extension.contains("xisf"))
+        return loadXISFImage(buffer);
     if (QImageReader::supportedImageFormats().contains(extension.toLatin1()))
         return loadCanonicalImage(buffer, extension);
     else if (RAWFormats.contains(extension))
@@ -445,6 +451,148 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     return true;
 }
 
+bool FITSData::loadXISFImage(const QByteArray &buffer)
+{
+    m_HistogramConstructed = false;
+    clearImageBuffers();
+
+#ifdef HAVE_XISF
+    try
+    {
+        LibXISF::XISFReader xisfReader;
+        if (buffer.isEmpty())
+            xisfReader.open(m_Filename);
+        else
+            xisfReader.open(buffer);
+
+        if (xisfReader.imagesCount() == 0)
+        {
+            m_LastError = i18n("File contain no images");
+            return false;
+        }
+
+        const LibXISF::Image &image = xisfReader.getImage(0);
+
+        switch (image.sampleFormat())
+        {
+        case LibXISF::Image::UInt8:
+            m_Statistics.dataType = TBYTE;
+            m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt8);
+            m_FITSBITPIX = TBYTE;
+            break;
+        case LibXISF::Image::UInt16:
+            m_Statistics.dataType = TUSHORT;
+            m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt16);
+            m_FITSBITPIX = TUSHORT;
+            break;
+        case LibXISF::Image::UInt32:
+            m_Statistics.dataType = TULONG;
+            m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt32);
+            m_FITSBITPIX = TULONG;
+            break;
+        case LibXISF::Image::Float32:
+            m_Statistics.dataType = TFLOAT;
+            m_Statistics.bytesPerPixel = sizeof(LibXISF::Float32);
+            m_FITSBITPIX = TFLOAT;
+            break;
+        default:
+            m_LastError = i18n("Sample format %1 is not supported.", LibXISF::Image::sampleFormatString(image.sampleFormat()));
+            qCCritical(KSTARS_FITS) << m_LastError;
+            return false;
+        }
+
+        m_Statistics.width = image.width();
+        m_Statistics.height = image.height();
+        m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
+        m_Statistics.channels = image.channelCount();
+        m_Statistics.size = buffer.size();
+        roiCenter.setX(m_Statistics.width / 2);
+        roiCenter.setY(m_Statistics.height / 2);
+        if(m_Statistics.width % 2)
+            roiCenter.setX(roiCenter.x() + 1);
+        if(m_Statistics.height % 2)
+            roiCenter.setY(roiCenter.y() + 1);
+
+        m_HeaderRecords.clear();
+        auto &fitsKeywords = image.fitsKeywords();
+        for(auto &fitsKeyword : fitsKeywords)
+            m_HeaderRecords.push_back({fitsKeyword.name, fitsKeyword.value, fitsKeyword.comment});
+
+        QVariant value;
+        if (getRecordValue("DATE-OBS", value) && value.isValid())
+        {
+            QDateTime ts = value.toDateTime();
+            m_DateTime = KStarsDateTime(ts.date(), ts.time());
+        }
+
+        m_ImageBufferSize = image.imageDataSize();
+        m_ImageBuffer = new uint8_t[m_ImageBufferSize];
+        std::memcpy(m_ImageBuffer, image.imageData(), m_ImageBufferSize);
+
+        calculateStats(false, false);
+    }
+    catch (LibXISF::Error &error)
+    {
+        m_LastError = i18n("XISF file open error: ") + error.what();
+        return false;
+    }
+    return true;
+#else
+    return false;
+#endif
+
+}
+
+bool FITSData::saveXISFImage(const QString &newFilename)
+{
+#ifdef HAVE_XISF
+    try
+    {
+        LibXISF::XISFWriter xisfWriter;
+        LibXISF::Image image;
+        image.setGeometry(m_Statistics.width, m_Statistics.height, m_Statistics.channels);
+        if (m_Statistics.channels > 1)
+            image.setColorSpace(LibXISF::Image::RGB);
+
+        switch (m_FITSBITPIX)
+        {
+        case BYTE_IMG:
+            image.setSampleFormat(LibXISF::Image::UInt8);
+            break;
+        case USHORT_IMG:
+            image.setSampleFormat(LibXISF::Image::UInt16);
+            break;
+        case ULONG_IMG:
+            image.setSampleFormat(LibXISF::Image::UInt32);
+            break;
+        case FLOAT_IMG:
+            image.setSampleFormat(LibXISF::Image::Float32);
+            break;
+        default:
+            m_LastError = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
+            qCCritical(KSTARS_FITS) << m_LastError;
+            return false;
+        }
+
+        std::memcpy(image.imageData(), m_ImageBuffer, m_ImageBufferSize);
+        for (auto &fitsKeyword : m_HeaderRecords)
+            image.addFITSKeyword({fitsKeyword.key, fitsKeyword.value.toString(), fitsKeyword.comment});
+
+        xisfWriter.writeImage(image);
+        xisfWriter.save(newFilename);
+        m_Filename = newFilename;
+    }
+    catch (LibXISF::Error &err)
+    {
+        m_LastError = i18n("Error saving XISF image") + err.what();
+        return false;
+    }
+    return true;
+#else
+    return false;
+#endif
+}
+
 bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &extension)
 {
     QImage imageFromFile;
@@ -475,7 +623,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     // Note: This will need to be changed.  I think QT only loads 8 bpp images.
     // Also the depth method gives the total bits per pixel in the image not just the bits per
     // pixel in each channel.
-    const int m_FITSBITPIX = 8;
+    m_FITSBITPIX = BYTE_IMG;
     switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
@@ -771,6 +919,17 @@ bool FITSData::saveImage(const QString &newFilename)
     int status = 0;
     long nelements;
     fitsfile * new_fptr;
+
+    if (ext == "xisf")
+    {
+        if(fptr)
+        {
+            fits_close_file(fptr, &status);
+            fptr = nullptr;
+        }
+        rotCounter = flipHCounter = flipVCounter = 0;
+        return saveXISFImage(newFilename);
+    }
 
     //    if (HasDebayer && m_Filename.isEmpty() == false)
     //    {

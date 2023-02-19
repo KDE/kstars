@@ -250,6 +250,11 @@ set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all t
 find_package(Qt5DataVisualization)
 MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 
+# LibXISF
+find_package(LibXISF)
+set_package_properties(LibXISF PROPERTIES DESCRIPTION "Library for loading and saving XISF images" URL "https://nouspiro.space" TYPE OPTIONAL)
+MACRO_BOOL_TO_01(LibXISF_FOUND HAVE_XISF)
+
 ## Astrometry.net
 #find_package(AstrometryNet)
 #set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
