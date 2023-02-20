@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-19 00:54+0000\n"
+"POT-Creation-Date: 2023-02-20 00:53+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -414,7 +414,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/capture/capture.cpp:4170 ekos/scheduler/scheduler.cpp:4738
+#: ekos/capture/capture.cpp:4171 ekos/scheduler/scheduler.cpp:4738
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
@@ -741,7 +741,7 @@ msgstr "Файл конфигурации Astrometry.net"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Файл конфигурации Astrometry.net"
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:571
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:719
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -2579,10 +2579,10 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3670
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1109 ekos/capture/capture.cpp:3741
-#: ekos/capture/capture.cpp:4179 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/analyze/analyze.cpp:1109 ekos/capture/capture.cpp:3742
+#: ekos/capture/capture.cpp:4180 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4374 ekos/scheduler/scheduler.cpp:4748
-#: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:830
+#: fitsviewer/fitstab.cpp:738 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:928
 #, kde-format
 msgid "Invalid URL"
@@ -2897,7 +2897,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:912
+#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:914
 #, kde-format
 msgid "Preview"
 msgstr "Предпросмотр"
@@ -6049,8 +6049,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr "Ошибка: потеряно соединение с колесом фильтров."
 
-#: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3310
-#: ekos/capture/capture.cpp:5673 ekos/focus/focus.cpp:4017
+#: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3311
+#: ekos/capture/capture.cpp:5674 ekos/focus/focus.cpp:4017
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6202,7 +6202,7 @@ msgstr "Захват прерван."
 msgid "Solver aborted after %1 seconds."
 msgstr "Решатель прерван после %1 секунды."
 
-#: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2509
+#: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2510
 #: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
@@ -6324,8 +6324,8 @@ msgstr "Всемирная система координат (WCS) выключ�
 msgid "Capture error. Aborting..."
 msgstr "Захват прерван."
 
-#: ekos/align/align.cpp:3030 ekos/capture/capture.cpp:2570
-#: ekos/capture/capture.cpp:2638
+#: ekos/align/align.cpp:3030 ekos/capture/capture.cpp:2571
+#: ekos/capture/capture.cpp:2639
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6380,25 +6380,25 @@ msgstr "ПВ (угл. мин)"
 msgid "dDE (arcsec)"
 msgstr "угл. с"
 
-#: ekos/align/align.cpp:3366 ekos/capture/capture.cpp:5876
+#: ekos/align/align.cpp:3366 ekos/capture/capture.cpp:5877
 #: ekos/focus/focus.cpp:3922
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Filter operation failed."
 msgstr "Автоматическая калибровка не получилась."
 
-#: ekos/align/align.cpp:3378 ekos/capture/capture.cpp:5812
+#: ekos/align/align.cpp:3378 ekos/capture/capture.cpp:5813
 #, fuzzy, kde-format
 #| msgid "Changing filter to %1..."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Изменение фильтра для %1..."
 
-#: ekos/align/align.cpp:3385 ekos/capture/capture.cpp:5817
+#: ekos/align/align.cpp:3385 ekos/capture/capture.cpp:5818
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Изменение фильтра для %1..."
 
-#: ekos/align/align.cpp:3390 ekos/capture/capture.cpp:5822
+#: ekos/align/align.cpp:3390 ekos/capture/capture.cpp:5823
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
@@ -6418,24 +6418,24 @@ msgid "Export Solution Points"
 msgstr "Скрыть все орбиты"
 
 #: ekos/align/align.cpp:3669 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3740
-#: ekos/capture/capture.cpp:4178 ekos/guide/guidedriftgraph.cpp:474
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3741
+#: ekos/capture/capture.cpp:4179 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
-#: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:830
+#: fitsviewer/fitstab.cpp:737 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:927
 #, kde-format
 msgid "Invalid URL: %1"
 msgstr "Неверный адрес: %1"
 
 #: ekos/align/align.cpp:3678 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:4201 ekos/guide/guidedriftgraph.cpp:483
+#: ekos/capture/capture.cpp:4202 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7152
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Невозможно записать в файл %1"
 
 #: ekos/align/align.cpp:3679 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3756
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3757
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7096
 #: ekos/scheduler/scheduler.cpp:7153 indi/drivermanager.cpp:1532
@@ -6527,7 +6527,7 @@ msgstr "Загрузить и навести..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:159 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:3394 ekos/focus/focus.ui:337
+#: ekos/capture/capture.cpp:3395 ekos/focus/focus.ui:337
 #: ekos/guide/guide.ui:148 ekos/manager.cpp:219
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
@@ -7116,13 +7116,13 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Открыть очередь Ekos"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:3755
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:3756
 #: ekos/scheduler/scheduler.cpp:4416 ekos/scheduler/scheduler.cpp:7095
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Не удаётся открыть файл %1"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:3782
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:3783
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7765,7 +7765,7 @@ msgstr "Автомасштаб"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6645
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6646
 #: ekos/focus/focus.ui:1233
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
@@ -12055,7 +12055,7 @@ msgstr "Автофокусировка завершена."
 msgid "Aligning..."
 msgstr "Выравнивание..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2412
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2413
 #, kde-format
 msgid "Calibrating..."
 msgstr "Калибровка..."
@@ -14085,13 +14085,13 @@ msgstr "Монтировка"
 msgid "Park Dome"
 msgstr "Запарковать телескоп"
 
-#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:4606
+#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:4607
 #, fuzzy, kde-format
 #| msgid "Failed to save sequence queue"
 msgid "Add job to sequence queue"
 msgstr "Не удалось сохранить очередь."
 
-#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:4607
+#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:4608
 #, fuzzy, kde-format
 #| msgid "Failed to save sequence queue"
 msgid "Remove job from sequence queue"
@@ -14139,7 +14139,7 @@ msgstr ""
 "Все задания завершены. Вы действительно хотите сбросить состояние всех "
 "заданий и перезапустить съёмку?"
 
-#: ekos/capture/capture.cpp:877 ekos/capture/capture.cpp:4392
+#: ekos/capture/capture.cpp:877 ekos/capture/capture.cpp:4393
 #, kde-format
 msgid "Reset job status"
 msgstr "Сбросить статус задания"
@@ -14262,13 +14262,13 @@ msgstr "Выполняется сценарий: %1"
 msgid "CCD capture sequence completed"
 msgstr "Параметры сверхновых"
 
-#: ekos/capture/capture.cpp:2241 ekos/capture/capture.cpp:3371
+#: ekos/capture/capture.cpp:2241 ekos/capture/capture.cpp:3372
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing pre capture script %1"
 msgstr "Выполняется сценарий: %1"
 
-#: ekos/capture/capture.cpp:2276 ekos/capture/capture.cpp:2484
+#: ekos/capture/capture.cpp:2276 ekos/capture/capture.cpp:2485
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
@@ -14290,28 +14290,28 @@ msgstr "Запуск решателя..."
 msgid "Error: Lost connection to CCD."
 msgstr "Ошибка: потеряно соединение с ПЗС."
 
-#: ekos/capture/capture.cpp:2357
+#: ekos/capture/capture.cpp:2358
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2440
+#: ekos/capture/capture.cpp:2441
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing %1-second %2 image..."
 msgstr "Захват изображения..."
 
-#: ekos/capture/capture.cpp:2474
+#: ekos/capture/capture.cpp:2475
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Не удалось установить область кадра."
 
-#: ekos/capture/capture.cpp:2479
+#: ekos/capture/capture.cpp:2480
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Не удалось установить биннинг."
 
-#: ekos/capture/capture.cpp:2562 ekos/capture/capture.cpp:2630
+#: ekos/capture/capture.cpp:2563 ekos/capture/capture.cpp:2631
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error syncing telescope info. Check INDI control panel for more details."
@@ -14320,143 +14320,143 @@ msgstr ""
 "Ошибка синхронизации информации о телескопе. Проверьте контрольную панель "
 "INDI для получения подробностей."
 
-#: ekos/capture/capture.cpp:2600
+#: ekos/capture/capture.cpp:2601
 #, kde-format
 msgid "Downloading..."
 msgstr "Загрузка с сервера..."
 
-#: ekos/capture/capture.cpp:2743
+#: ekos/capture/capture.cpp:2744
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2749
+#: ekos/capture/capture.cpp:2750
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2888 ekos/capture/capture.cpp:2891
+#: ekos/capture/capture.cpp:2889 ekos/capture/capture.cpp:2892
 #, fuzzy, kde-format
 #| msgid "Use Dark Frame"
 msgid "Dark Flat"
 msgstr "Использовать темновой кадр"
 
-#: ekos/capture/capture.cpp:2967
+#: ekos/capture/capture.cpp:2968
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "Применены изменения задания #%1."
 
-#: ekos/capture/capture.cpp:3169
+#: ekos/capture/capture.cpp:3170
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3170
+#: ekos/capture/capture.cpp:3171
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "Панель просмотра"
 
-#: ekos/capture/capture.cpp:3259
+#: ekos/capture/capture.cpp:3260
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3271
+#: ekos/capture/capture.cpp:3272
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3311 ekos/capture/capture.cpp:5674
+#: ekos/capture/capture.cpp:3312 ekos/capture/capture.cpp:5675
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
 msgstr "Формат изображения"
 
-#: ekos/capture/capture.cpp:3336
+#: ekos/capture/capture.cpp:3337
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing pre job script %1"
 msgstr "Выполняется сценарий: %1"
 
-#: ekos/capture/capture.cpp:3418
+#: ekos/capture/capture.cpp:3419
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Setting temperature to %1 °C..."
 msgstr "Установка температуры в %1 С..."
 
-#: ekos/capture/capture.cpp:3419
+#: ekos/capture/capture.cpp:3420
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Set Temp to %1 °C..."
 msgstr "Установка температуры в %1 С..."
 
-#: ekos/capture/capture.cpp:3422
+#: ekos/capture/capture.cpp:3423
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Гидирование возобновлено."
 
-#: ekos/capture/capture.cpp:3423
+#: ekos/capture/capture.cpp:3424
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3427
+#: ekos/capture/capture.cpp:3428
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Setting rotation to %1 degrees E of N..."
 msgstr "Установка температуры в %1 С..."
 
-#: ekos/capture/capture.cpp:3428
+#: ekos/capture/capture.cpp:3429
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Rotator to %1 deg..."
 msgstr "Местонахождение..."
 
-#: ekos/capture/capture.cpp:3491
+#: ekos/capture/capture.cpp:3492
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3544 ekos/capture/capture.cpp:3545
+#: ekos/capture/capture.cpp:3545 ekos/capture/capture.cpp:3546
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus complete."
 msgstr "Автофокусировка завершена."
 
-#: ekos/capture/capture.cpp:3549
+#: ekos/capture/capture.cpp:3550
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus failed."
 msgstr "Автофокусировка завершена."
 
-#: ekos/capture/capture.cpp:3570
+#: ekos/capture/capture.cpp:3571
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3576
+#: ekos/capture/capture.cpp:3577
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/capture/capture.cpp:3577
+#: ekos/capture/capture.cpp:3578
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip started"
 msgstr "Перекладывание меридиана"
 
-#: ekos/capture/capture.cpp:3581
+#: ekos/capture/capture.cpp:3582
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "готово"
 
-#: ekos/capture/capture.cpp:3722 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:3723 ekos/scheduler/framingassistant.cpp:221
 #: ekos/scheduler/mosaic.cpp:212
 #, fuzzy, kde-format
 #| msgid "FITS Save Directory"
@@ -14464,45 +14464,45 @@ msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Каталог сохранения FITS"
 
-#: ekos/capture/capture.cpp:3732
+#: ekos/capture/capture.cpp:3733
 #, fuzzy, kde-format
 #| msgid "Open Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Открыть очередь Ekos"
 
-#: ekos/capture/capture.cpp:3843
+#: ekos/capture/capture.cpp:3844
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3931
+#: ekos/capture/capture.cpp:3932
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr "Синхронизация не удалась."
 
-#: ekos/capture/capture.cpp:4149
+#: ekos/capture/capture.cpp:4150
 #, fuzzy, kde-format
 #| msgid "Save Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Сохранить очередь Ekos"
 
-#: ekos/capture/capture.cpp:4170
+#: ekos/capture/capture.cpp:4171
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Не удалось сохранить очередь."
 
-#: ekos/capture/capture.cpp:4202
+#: ekos/capture/capture.cpp:4203
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "Не удаётся открыть файл %1"
 
-#: ekos/capture/capture.cpp:4222
+#: ekos/capture/capture.cpp:4223
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14510,309 +14510,309 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4368
+#: ekos/capture/capture.cpp:4369
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Очередь сохранена в %1"
 
-#: ekos/capture/capture.cpp:4392
+#: ekos/capture/capture.cpp:4393
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Вы действительно хотите сбросить статус всех заданий?"
 
-#: ekos/capture/capture.cpp:4585
+#: ekos/capture/capture.cpp:4586
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Правка задания #%1..."
 
-#: ekos/capture/capture.cpp:4588 ekos/scheduler/scheduler.cpp:1629
+#: ekos/capture/capture.cpp:4589 ekos/scheduler/scheduler.cpp:1629
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4589
+#: ekos/capture/capture.cpp:4590
 #, fuzzy, kde-format
 #| msgid "Save changes"
 msgid "Cancel job changes."
 msgstr "Сохранить изменения"
 
-#: ekos/capture/capture.cpp:4601
+#: ekos/capture/capture.cpp:4602
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Правка задания отменена."
 
-#: ekos/capture/capture.cpp:4843
+#: ekos/capture/capture.cpp:4844
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4853
+#: ekos/capture/capture.cpp:4854
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Sequence paused."
 msgstr "Очередь серии"
 
-#: ekos/capture/capture.cpp:4874
+#: ekos/capture/capture.cpp:4875
 #, fuzzy, kde-format
 #| msgid "Guiding timed out."
 msgid "Guide module timed out."
 msgstr "Истекло время гидирования."
 
-#: ekos/capture/capture.cpp:4899
+#: ekos/capture/capture.cpp:4900
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторное выравнивание после перекладывания успешно завершено."
 
-#: ekos/capture/capture.cpp:4918
+#: ekos/capture/capture.cpp:4919
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed."
 msgstr "Истекло время выравнивания."
 
-#: ekos/capture/capture.cpp:4923
+#: ekos/capture/capture.cpp:4924
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Истекло время выравнивания."
 
-#: ekos/capture/capture.cpp:4963
+#: ekos/capture/capture.cpp:4964
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Dithering succeeded."
 msgstr "Размывание..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:4970
+#: ekos/capture/capture.cpp:4971
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "Решатель прерван после %1 секунды."
 
-#: ekos/capture/capture.cpp:4978
+#: ekos/capture/capture.cpp:4979
 #, kde-format
 msgid "Dither complete."
 msgstr "Размывание завершено."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:4992
+#: ekos/capture/capture.cpp:4993
 #, fuzzy, kde-format
 #| msgid "Dithering failed. Autoguiding aborted."
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "Размывание не удалось. Автогидирование прервано."
 
-#: ekos/capture/capture.cpp:5001
+#: ekos/capture/capture.cpp:5002
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Warning: Dithering failed."
 msgstr "Размывание..."
 
-#: ekos/capture/capture.cpp:5023
+#: ekos/capture/capture.cpp:5024
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Автогидирование остановлено."
 
-#: ekos/capture/capture.cpp:5032
+#: ekos/capture/capture.cpp:5033
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Автогидирование остановлено."
 
-#: ekos/capture/capture.cpp:5039
+#: ekos/capture/capture.cpp:5040
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 "Калибровка перекладывания после прохождения меридиана успешно завершена."
 
-#: ekos/capture/capture.cpp:5317
+#: ekos/capture/capture.cpp:5318
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Wall coordinates are invalid."
 msgstr "Видимые координаты:"
 
-#: ekos/capture/capture.cpp:5408
+#: ekos/capture/capture.cpp:5409
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Autoguiding resumed."
 msgstr "Гидирование возобновлено."
 
-#: ekos/capture/capture.cpp:5436
+#: ekos/capture/capture.cpp:5437
 #, fuzzy, kde-format
 #| msgid "Guiding suspended."
 msgid "Autoguiding suspended."
 msgstr "Гидирование приостановлено."
 
-#: ekos/capture/capture.cpp:5509
+#: ekos/capture/capture.cpp:5510
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5520
+#: ekos/capture/capture.cpp:5521
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1% Next exposure is %2 seconds."
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Текущее ADU составляет %1%. Следующая экспозиция %2 секунд."
 
-#: ekos/capture/capture.cpp:5541
+#: ekos/capture/capture.cpp:5542
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5574
+#: ekos/capture/capture.cpp:5575
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5582
+#: ekos/capture/capture.cpp:5583
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1% Next exposure is %2 seconds."
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Текущее ADU составляет %1%. Следующая экспозиция %2 секунд."
 
-#: ekos/capture/capture.cpp:5604
+#: ekos/capture/capture.cpp:5605
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Файл данных сохранён в %1"
 
-#: ekos/capture/capture.cpp:5614
+#: ekos/capture/capture.cpp:5615
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5622
+#: ekos/capture/capture.cpp:5623
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5632
+#: ekos/capture/capture.cpp:5633
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Processing meridian flip..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/capture/capture.cpp:5637
+#: ekos/capture/capture.cpp:5638
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resuming sequence..."
 msgstr "Частота:"
 
-#: ekos/capture/capture.cpp:5643
+#: ekos/capture/capture.cpp:5644
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5648
+#: ekos/capture/capture.cpp:5649
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5743
+#: ekos/capture/capture.cpp:5744
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Наблюдатель:"
 
-#: ekos/capture/capture.cpp:5745
+#: ekos/capture/capture.cpp:5746
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgid "Current Observer:"
 msgstr "Наблюдатель:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:5756 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:5757 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "Наблюдатель:"
 
-#: ekos/capture/capture.cpp:5829
+#: ekos/capture/capture.cpp:5830
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Filter set to %1."
 msgstr "Файл сохранён в %1"
 
-#: ekos/capture/capture.cpp:6211
+#: ekos/capture/capture.cpp:6212
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Reset %1 configuration to default?"
 msgstr "Использовать указанный файл конфигурации"
 
-#: ekos/capture/capture.cpp:6213
+#: ekos/capture/capture.cpp:6214
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Confirmation"
 msgstr "Конфигурация"
 
-#: ekos/capture/capture.cpp:6229
+#: ekos/capture/capture.cpp:6230
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6229
+#: ekos/capture/capture.cpp:6230
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6240 ekos/focus/focus.cpp:4059
+#: ekos/capture/capture.cpp:6241 ekos/focus/focus.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Выдержка камеры/ПЗС в секундах."
 
-#: ekos/capture/capture.cpp:6263 ekos/focus/focus.cpp:4064
+#: ekos/capture/capture.cpp:6264 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Автофокусировка не удалась. Прерывание экспозиции..."
 
-#: ekos/capture/capture.cpp:6600
+#: ekos/capture/capture.cpp:6601
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Вы действительно хотите удалить %1?"
 
-#: ekos/capture/capture.cpp:6601
+#: ekos/capture/capture.cpp:6602
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Restart"
 msgid "Driver Restart"
 msgstr "Перезапустить"
 
-#: ekos/capture/capture.cpp:6637
+#: ekos/capture/capture.cpp:6638
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6643
+#: ekos/capture/capture.cpp:6644
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6651
+#: ekos/capture/capture.cpp:6652
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6661
+#: ekos/capture/capture.cpp:6662
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Установка температуры в %1 С..."
 
-#: ekos/capture/capture.cpp:6692
+#: ekos/capture/capture.cpp:6693
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -16332,7 +16332,7 @@ msgstr "Контроль движения"
 #. i18n: ectx: property (text), widget (QPushButton, setRawAngleB)
 #. i18n: ectx: property (text), widget (QPushButton, setPositionAngleB)
 #: ekos/capture/rotatorsettings.ui:192 ekos/capture/rotatorsettings.ui:262
-#: indi/indiproperty.cpp:223 indi/indiproperty.cpp:247
+#: indi/indiproperty.cpp:225 indi/indiproperty.cpp:249
 #: kstarslite/qml/indi/modules/KSINDITextField.qml:32
 #, kde-format, kde-kuit-format
 msgid "Set"
@@ -25365,7 +25365,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
-msgid "Select FITS Image"
+msgid "Select FITS/XISF Image"
 msgstr "Открыть FITS..."
 
 #: ekos/scheduler/scheduler.cpp:1002
@@ -27499,179 +27499,203 @@ msgstr "Норман"
 msgid "Calibrate"
 msgstr "Калибровать"
 
-#: fitsviewer/fitsdata.cpp:232
+#: fitsviewer/fitsdata.cpp:238
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error reading fits buffer: %1."
 msgstr "Ошибка чтения изображения: %1"
 
-#: fitsviewer/fitsdata.cpp:245
+#: fitsviewer/fitsdata.cpp:251
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:261
+#: fitsviewer/fitsdata.cpp:267
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error opening fits file %1 : %2"
 msgstr "Ошибка чтения изображения: %1"
 
-#: fitsviewer/fitsdata.cpp:274
+#: fitsviewer/fitsdata.cpp:280
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error reading fits buffer: %1"
 msgstr "Ошибка чтения изображения: %1"
 
-#: fitsviewer/fitsdata.cpp:286
+#: fitsviewer/fitsdata.cpp:292
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "Не удаётся открыть файл %1."
 
-#: fitsviewer/fitsdata.cpp:293
+#: fitsviewer/fitsdata.cpp:299
 #, fuzzy, kde-format
 #| msgid "FITS file open error (fits_get_img_param): %1"
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Ошибка открытия FITS-файла (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:307
+#: fitsviewer/fitsdata.cpp:313
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D FITS изображение не поддерживаются в KStars."
 
-#: fitsviewer/fitsdata.cpp:353
+#: fitsviewer/fitsdata.cpp:359 fitsviewer/fitsdata.cpp:572
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:363
+#: fitsviewer/fitsdata.cpp:369
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:408
+#: fitsviewer/fitsdata.cpp:414
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Ошибка чтения изображения: %1"
 
-#: fitsviewer/fitsdata.cpp:531 fitsviewer/fitsdata.cpp:646
+#: fitsviewer/fitsdata.cpp:470
+#, fuzzy, kde-format
+#| msgid "Failed to load image"
+msgid "File contain no images"
+msgstr "Невозможно загрузить изображение"
+
+#: fitsviewer/fitsdata.cpp:499
+#, fuzzy, kde-format
+#| msgid "Autofocus in progress..."
+msgid "Sample format %1 is not supported."
+msgstr "Автофокус в процессе..."
+
+#: fitsviewer/fitsdata.cpp:536
+#, fuzzy, kde-format
+#| msgid "Alt Error:"
+msgid "XISF file open error: "
+msgstr "Ошибка высоты:"
+
+#: fitsviewer/fitsdata.cpp:587
+#, fuzzy, kde-format
+#| msgid "Error reading image: %1"
+msgid "Error saving XISF image"
+msgstr "Ошибка чтения изображения: %1"
+
+#: fitsviewer/fitsdata.cpp:679 fitsviewer/fitsdata.cpp:794
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:585
+#: fitsviewer/fitsdata.cpp:733
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open file %1: %2"
 msgstr "Не удаётся открыть файл: %1"
 
-#: fitsviewer/fitsdata.cpp:598
+#: fitsviewer/fitsdata.cpp:746
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "Не удаётся открыть файл: %1"
 
-#: fitsviewer/fitsdata.cpp:609
+#: fitsviewer/fitsdata.cpp:757
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:616
+#: fitsviewer/fitsdata.cpp:764
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot dcraw_process: %1"
 msgstr "Не могу записать файл журнала наблюдений"
 
-#: fitsviewer/fitsdata.cpp:624
+#: fitsviewer/fitsdata.cpp:772
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:767
+#: fitsviewer/fitsdata.cpp:915
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Saving compressed files is not supported."
 msgstr "Автофокус в процессе..."
 
-#: fitsviewer/fitsdata.cpp:816
+#: fitsviewer/fitsdata.cpp:975
 #, fuzzy, kde-format
 #| msgid "Failed to open file %1. %2"
 msgid "Failed to close file: %1"
 msgstr "Не удаётся открыть файл %1. %2"
 
-#: fitsviewer/fitsdata.cpp:823
+#: fitsviewer/fitsdata.cpp:982
 #, fuzzy, kde-format
 #| msgid "Failed to open file %1. %2"
 msgid "Failed to create file: %1"
 msgstr "Не удаётся открыть файл %1. %2"
 
-#: fitsviewer/fitsdata.cpp:838
+#: fitsviewer/fitsdata.cpp:997
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "Невозможно загрузить изображение в %1"
 
-#: fitsviewer/fitsdata.cpp:847 fitsviewer/fitsdata.cpp:854
+#: fitsviewer/fitsdata.cpp:1006 fitsviewer/fitsdata.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to update key: %1"
 msgstr "Не удалось установить область кадра."
 
-#: fitsviewer/fitsdata.cpp:943
+#: fitsviewer/fitsdata.cpp:1102
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "Невозможно загрузить изображение в %1"
 
-#: fitsviewer/fitsdata.cpp:952
+#: fitsviewer/fitsdata.cpp:1111
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to update history: %1"
 msgstr "Не удалось установить биннинг."
 
-#: fitsviewer/fitsdata.cpp:974
+#: fitsviewer/fitsdata.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "Невозможно загрузить изображение в %1"
 
-#: fitsviewer/fitsdata.cpp:2585 fitsviewer/fitsdata.cpp:2595
-#: fitsviewer/fitsdata.cpp:2663 fitsviewer/fitsdata.cpp:2674
-#: fitsviewer/fitsdata.cpp:2711 fitsviewer/fitsdata.cpp:2747
-#: fitsviewer/fitsdata.cpp:2794
+#: fitsviewer/fitsdata.cpp:2744 fitsviewer/fitsdata.cpp:2754
+#: fitsviewer/fitsdata.cpp:2822 fitsviewer/fitsdata.cpp:2833
+#: fitsviewer/fitsdata.cpp:2870 fitsviewer/fitsdata.cpp:2906
+#: fitsviewer/fitsdata.cpp:2953
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "Использовать горизонтальную систему координат?"
 
-#: fitsviewer/fitsdata.cpp:3516
+#: fitsviewer/fitsdata.cpp:3675
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3549
+#: fitsviewer/fitsdata.cpp:3708
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3580
+#: fitsviewer/fitsdata.cpp:3739
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3648 fitsviewer/fitsdata.cpp:3695
-#: fitsviewer/fitsdata.cpp:3740 fitsviewer/fitsdata.cpp:3787
+#: fitsviewer/fitsdata.cpp:3807 fitsviewer/fitsdata.cpp:3854
+#: fitsviewer/fitsdata.cpp:3899 fitsviewer/fitsdata.cpp:3946
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3658 fitsviewer/fitsdata.cpp:3750
+#: fitsviewer/fitsdata.cpp:3817 fitsviewer/fitsdata.cpp:3909
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3678 fitsviewer/fitsdata.cpp:3770
+#: fitsviewer/fitsdata.cpp:3837 fitsviewer/fitsdata.cpp:3929
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -27929,27 +27953,27 @@ msgctxt "Red"
 msgid "R"
 msgstr "У"
 
-#: fitsviewer/fitstab.cpp:690 fitsviewer/fitstab.cpp:694
+#: fitsviewer/fitstab.cpp:691 fitsviewer/fitstab.cpp:695
 #, fuzzy, kde-format
 #| msgid "Save FITS"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Сохранить FITS"
 
-#: fitsviewer/fitstab.cpp:717
+#: fitsviewer/fitstab.cpp:727
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "Ошибка сохранений FITS-файла: %1"
 
-#: fitsviewer/fitstab.cpp:717
+#: fitsviewer/fitstab.cpp:727
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "Дата изображения"
 
-#: fitsviewer/fitstab.cpp:721
+#: fitsviewer/fitstab.cpp:731
 #, kde-format
 msgid "File saved to %1"
 msgstr "Файл сохранён в %1"
@@ -29552,31 +29576,31 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:732
+#: indi/indicamera.cpp:734
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:734
+#: indi/indicamera.cpp:736
 #, fuzzy, kde-format
 #| msgid "Image received."
 msgid "Image Write Failed"
 msgstr "Изображение получено."
 
-#: indi/indicamera.cpp:745
+#: indi/indicamera.cpp:747
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "Файл %1 сохранён в %2"
 
-#: indi/indicamera.cpp:752
+#: indi/indicamera.cpp:754
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Image file is received"
 msgstr "Очередь серии"
 
-#: indi/indicamera.cpp:909
+#: indi/indicamera.cpp:911
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "%1 Preview"
@@ -29788,19 +29812,19 @@ msgid "Telescope Motion"
 msgstr "Порт телескопа:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useTimeUpdate)
-#: indi/indiproperty.cpp:221 indi/opsindi.ui:280 tools/observinglist.cpp:98
+#: indi/indiproperty.cpp:223 indi/opsindi.ui:280 tools/observinglist.cpp:98
 #, kde-format
 msgid "Time"
 msgstr "Время"
 
-#: indi/indiproperty.cpp:290
+#: indi/indiproperty.cpp:292
 #, kde-format
 msgid ""
 "Enable binary data transfer from this property to KStars and vice-versa."
 msgstr ""
 "Включить передачу двоичных данных из этого свойства в KStars и наоборот."
 
-#: indi/indiproperty.cpp:297
+#: indi/indiproperty.cpp:299
 #, kde-format
 msgid "Upload"
 msgstr "Сохранение на сервере"
@@ -83417,11 +83441,6 @@ msgstr "Установить цвет фона."
 
 #~ msgid "FITS Open"
 #~ msgstr "Открыть FITS"
-
-#, fuzzy
-#~| msgid "Error reading image: %1"
-#~ msgid "Error reading image."
-#~ msgstr "Ошибка чтения изображения: %1"
 
 #, fuzzy
 #~| msgctxt "City in Tennessee USA"
