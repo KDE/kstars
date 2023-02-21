@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-20 00:53+0000\n"
-"PO-Revision-Date: 2023-01-21 11:40+0100\n"
+"PO-Revision-Date: 2023-02-20 12:53+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -23855,12 +23855,10 @@ msgstr ""
 "tijdstip, waarna de taken worden ingedeeld."
 
 #: ekos/scheduler/scheduler.cpp:948
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
-msgstr "FITS afbeelding selecteren"
+msgstr "FITS/XISF afbeelding selecteren"
 
 #: ekos/scheduler/scheduler.cpp:1002
 #, kde-format
@@ -25978,28 +25976,24 @@ msgid "Error reading image: %1"
 msgstr "Fout bij inlezen afbeelding: %1"
 
 #: fitsviewer/fitsdata.cpp:470
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "File contain no images"
-msgstr "Afbeelding kon niet worden ingelezen"
+msgstr "Bestand bevat geen afbeeldingen"
 
 #: fitsviewer/fitsdata.cpp:499
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "Sample format %1 is not supported."
-msgstr "Bitdiepte %1 wordt niet ondersteund."
+msgstr "Sampleformaat %1 wordt niet ondersteund."
 
 #: fitsviewer/fitsdata.cpp:536
-#, fuzzy, kde-format
-#| msgid "File write error."
+#, kde-format
 msgid "XISF file open error: "
-msgstr "Schrijffout bestand."
+msgstr "Fout bij openen van XISF-bestand: "
 
 #: fitsviewer/fitsdata.cpp:587
-#, fuzzy, kde-format
-#| msgid "Error reading image."
+#, kde-format
 msgid "Error saving XISF image"
-msgstr "Fout bij inlezen afbeelding."
+msgstr "Fout bij opslaan van XISF-afbeelding."
 
 #: fitsviewer/fitsdata.cpp:679 fitsviewer/fitsdata.cpp:794
 #, kde-format

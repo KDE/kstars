@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-20 00:53+0000\n"
-"PO-Revision-Date: 2023-02-16 18:12+0100\n"
+"PO-Revision-Date: 2023-02-20 22:56+0100\n"
 "Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7628,6 +7628,7 @@ msgstr "Seleccioneu l'executable ASTAP"
 msgid "Options"
 msgstr "Opcions"
 
+# NdT: https://www.termcat.cat/ca/cercaterm/downsampling?type=basic
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ASTAPDownSampleValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPDownSample)
 #: ekos/align/opsastap.ui:40 ekos/align/opsastap.ui:124
@@ -7636,9 +7637,9 @@ msgid ""
 "<html><head/><body><p>Down sample prior to solving. Also called binning. A "
 "zero value will result in auto selection downsampling.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>A davall es mostra abans de resoldre. També s'anomena "
-"agrupament. Un valor 0 donarà com a resultat una reducció de mostreig en la "
-"selecció automàtica.</p></body></html>"
+"<html><head/><body><p>Submostratge abans de resoldre. També s'anomena "
+"agrupament. Un valor 0 donarà com a resultat un submostratge en la selecció "
+"automàtica.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_ASTAPExecutable)
 #: ekos/align/opsastap.ui:62
@@ -7671,7 +7672,7 @@ msgstr "Executable"
 #: ekos/align/opsastap.ui:127
 #, kde-format
 msgid "Down Sample"
-msgstr "Reducció del mostreig"
+msgstr "Submostratge"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPUpdateFITS)
 #: ekos/align/opsastap.ui:137
@@ -13242,14 +13243,14 @@ msgid ""
 "Factor to use for downsampling the image before SEP for plate solving.  Can "
 "speed it up."
 msgstr ""
-"Factor que s'utilitzarà per a la reducció de mostreig de la imatge abans del "
-"SEP per a la solució de la placa. Pot accelerar-ho."
+"Factor que s'utilitzarà per al submostratge de la imatge abans del SEP per a "
+"la solució de la placa. Pot accelerar-ho."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:932
 #, kde-format
 msgid "DownSample"
-msgstr "Reducció de mostreig"
+msgstr "Submostratge"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:939
@@ -13388,13 +13389,13 @@ msgstr "600"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1040
 #, kde-format
 msgid "Automatically Downsamples the image based on the image size"
-msgstr "Reduïx automàticament el mostreig basant-se en la mida de la imatge"
+msgstr "Efectua un submostratge automàtic basant-se en la mida de la imatge"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoDownsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1043
 #, kde-format
 msgid "Auto DownSample"
-msgstr "Reducció automàtica del mostreig"
+msgstr "Submostratge automàtic"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, inParallel)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1053
@@ -15392,7 +15393,7 @@ msgstr "Propietats de la tasca"
 #: ekos/capture/dslrinfo.ui:14
 #, kde-format
 msgid "DSLR Camera Settings"
-msgstr "Configureu la càmera rèflex digital"
+msgstr "Configureu de la càmera rèflex digital"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/dslrinfo.ui:44
@@ -24122,12 +24123,10 @@ msgstr ""
 "utilitzant la mateixa hora, després avalua les tasques."
 
 #: ekos/scheduler/scheduler.cpp:948
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
-msgstr "Seleccioneu una imatge FITS"
+msgstr "Seleccioneu una imatge FITS/XISF"
 
 #: ekos/scheduler/scheduler.cpp:1002
 #, kde-format
@@ -26309,29 +26308,25 @@ msgid "Error reading image: %1"
 msgstr "S'ha produït un error en llegir la imatge: %1"
 
 #: fitsviewer/fitsdata.cpp:470
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "File contain no images"
-msgstr "No s'ha pogut carregar la imatge"
+msgstr "El fitxer no conté cap imatge"
 
 #: fitsviewer/fitsdata.cpp:499
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "Sample format %1 is not supported."
-msgstr "La profunditat de bits %1 no està admesa."
+msgstr "El format de mostra %1 no està admés."
 
 # skip-rule: k-Alt-1
 #: fitsviewer/fitsdata.cpp:536
-#, fuzzy, kde-format
-#| msgid "File write error."
+#, kde-format
 msgid "XISF file open error: "
-msgstr "S'ha produït un error d'escriptura en el fitxer."
+msgstr "S'ha produït un error en obrir el fitxer XISF: "
 
 #: fitsviewer/fitsdata.cpp:587
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error saving XISF image"
-msgstr "S'ha produït un error en llegir la imatge: %1"
+msgstr "S'ha produït un error en guardar la imatge XISF"
 
 #: fitsviewer/fitsdata.cpp:679 fitsviewer/fitsdata.cpp:794
 #, kde-format
@@ -27134,7 +27129,7 @@ msgstr "Fes que la finestra del visor FITS siga independent de KStars"
 #: fitsviewer/opsfits.ui:135
 #, kde-format
 msgid "Down Sampling"
-msgstr "Reducció del mostreig"
+msgstr "Submostratge"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AdaptiveSampling)
 #: fitsviewer/opsfits.ui:156
@@ -27143,7 +27138,7 @@ msgid ""
 "<html><head/><body><p>Automatically down sample images based on available "
 "resources.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Reduïx el mostreig de les imatges automàticament en "
+"<html><head/><body><p>Efectua un submostratge automàtic de les imatges en "
 "funció dels recursos disponibles.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdaptiveSampling)
@@ -33717,8 +33712,7 @@ msgstr ""
 #, kde-format
 msgid "Automatically down sample images based on available resources."
 msgstr ""
-"Reduïx el mostreig de les imatges automàticament en funció dels recursos "
-"disponibles."
+"Submostratge automàtic de les imatges en funció dels recursos disponibles."
 
 #. i18n: ectx: label, entry (useSummaryPreview), group (Capture)
 #: kstars.kcfg:1774
@@ -34392,20 +34386,20 @@ msgstr ""
 #, kde-format
 msgid "Downsample the image to shrink its size and speed up the solver."
 msgstr ""
-"Baixa el mostreig de la imatge per a reduir la seua mida i accelerar el "
+"Submostratge de la imatge per a reduir la seua mida i accelerar el "
 "solucionador."
 
 #. i18n: ectx: label, entry (AstrometryDownsample), group (Align)
 #: kstars.kcfg:2114
 #, kde-format
 msgid "Downsample factor"
-msgstr "Factor de reducció del mostreig"
+msgstr "Factor del submostratge"
 
 #. i18n: ectx: label, entry (AstrometryAutoDownsample), group (Align)
 #: kstars.kcfg:2118
 #, kde-format
 msgid "Automatically downsample based on image size."
-msgstr "Reduïx el mostreig automàticament basant-se en la mida de la imatge."
+msgstr "Submostratge automàtic basant-se en la mida de la imatge."
 
 #. i18n: ectx: label, entry (AstrometryPositionRA), group (Align)
 #: kstars.kcfg:2126
@@ -35545,7 +35539,7 @@ msgstr "Correcció d'altitud de l'origen del terreny."
 #: kstars.kcfg:2853
 #, kde-format
 msgid "Terrain Downsampling"
-msgstr "Reducció del mostreig del terreny"
+msgstr "Submostratge del terreny"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
 #: kstars.kcfg:2854
@@ -35704,8 +35698,8 @@ msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
 "auto selection downsampling."
 msgstr ""
-"A davall es mostra abans de resoldre. També s'anomena agrupament. Un valor 0 "
-"donarà com a resultat una reducció de mostreig en la selecció automàtica."
+"Submostratge abans de resoldre. També s'anomena agrupament. Un valor 0 "
+"donarà com a resultat un submostratge en la selecció automàtica."
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
@@ -72660,7 +72654,7 @@ msgstr ""
 #: options/opsterrain.ui:231
 #, kde-format
 msgid "Terrain downsampling:"
-msgstr "Reducció del mostreig del terreny:"
+msgstr "Submostratge del terreny:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainPanning)
 #: options/opsterrain.ui:272

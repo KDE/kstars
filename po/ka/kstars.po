@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-20 00:53+0000\n"
-"PO-Revision-Date: 2023-02-03 15:42+0100\n"
+"PO-Revision-Date: 2023-02-20 06:56+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -15433,7 +15433,7 @@ msgstr ""
 #: ekos/focus/focus.ui:638
 #, kde-format
 msgid "Toggle Full Screen"
-msgstr ""
+msgstr "მთელ ეკრანზე გასვლის გადართვა"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
 #: ekos/focus/focus.ui:716
@@ -18239,7 +18239,7 @@ msgstr "სწრაფი"
 #: ekos/guide/opsguide.ui:466
 #, kde-format
 msgid "Auto Threshold"
-msgstr ""
+msgstr "ავტომატური ზღვარი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
 #: ekos/guide/opsguide.ui:471
@@ -23915,10 +23915,9 @@ msgid "Error reading image: %1"
 msgstr "გამოსახულების წაკითხვის შეცდომა: %1"
 
 #: fitsviewer/fitsdata.cpp:470
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "File contain no images"
-msgstr "გამოსახულების ჩატვირთვის შეცდომა"
+msgstr "ფაილი გამოსახულებებს არ შეიცავს"
 
 #: fitsviewer/fitsdata.cpp:499
 #, kde-format
@@ -23926,16 +23925,14 @@ msgid "Sample format %1 is not supported."
 msgstr ""
 
 #: fitsviewer/fitsdata.cpp:536
-#, fuzzy, kde-format
-#| msgid "File write error."
+#, kde-format
 msgid "XISF file open error: "
-msgstr "ფაილის ჩაწერის შეცდომა."
+msgstr "XISF ფაილის გახსნის შეცდომა: "
 
 #: fitsviewer/fitsdata.cpp:587
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error saving XISF image"
-msgstr "გამოსახულების წაკითხვის შეცდომა: %1"
+msgstr "შეცდომა XISF გამოსახულების შენახვისას"
 
 #: fitsviewer/fitsdata.cpp:679 fitsviewer/fitsdata.cpp:794
 #, kde-format
@@ -65618,7 +65615,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Seeing"
-msgstr ""
+msgstr "მხედველობა"
 
 #: libindi_strings.cpp:417
 #, kde-kuit-format
@@ -71901,7 +71898,7 @@ msgstr "ობიექტი 2"
 #: tools/conjunctions.cpp:117
 #, kde-format
 msgid "Separation"
-msgstr ""
+msgstr "გაცალკევება"
 
 #: tools/conjunctions.cpp:206
 #, kde-format
