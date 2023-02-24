@@ -190,6 +190,19 @@ void Mount::updateJ2000Coordinates(SkyPoint *coords)
     coords->setDec0(J2000Coord.dec());
 }
 
+void ISD::Mount::updateTarget()
+{
+    emit newTarget(currentCoords);
+    double maxrad = 0.1;
+    currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoords, maxrad);
+    if (currentObject)
+        emit newTargetName(currentObject->name());
+    // If there is no object, we must clear target as it might give wrong
+    // indication we are still on it.
+    else
+        emit newTargetName(QString());
+}
+
 void Mount::processNumber(INDI::Property prop)
 {
     auto nvp = prop.getNumber();
@@ -231,13 +244,22 @@ void Mount::processNumber(INDI::Property prop)
                 KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"), KSNotification::Mount);
             emit newStatus(currentStatus);
         }
-        else if (EqCoordPreviousState == IPS_BUSY && nvp->getState() == IPS_OK)
+        else if (EqCoordPreviousState == IPS_BUSY && nvp->getState() == IPS_OK && slewDefined())
         {
-            KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
+            if (Options::useKStarsSkyMap())
+            {
+                // In case that we use KStars as skymap, we intentionally do not communicate the target here, since it
+                // has been set at the beginning of the slew AND we cannot be sure that the position the INDI
+                // mount reports when starting to track is exactly that one where the slew went to.
+                KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
+            }
+            else
+            {
+                // For external skymaps the only way to determine the target is to take the position where the mount
+                // starts to track
+                updateTarget();
+            }
             emit newStatus(currentStatus);
-            // Hint: we intentionally do not communicate the target here, since it has been communicated
-            // at the beginning of the slew AND we cannot be sure that the position the INDI mount reports
-            // when starting to track is exactly that one where the slew went to.
         }
 
         EqCoordPreviousState = nvp->getState();

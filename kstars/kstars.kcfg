@@ -214,6 +214,14 @@
          <label>Use GPS time and location for synchronization?</label>
          <default>false</default>
       </entry>
+      <entry name="useKStarsSkyMap" type="Bool">
+         <label>Use the KStars sky map to control mount slews and syncs.</label>
+         <default>true</default>
+      </entry>
+      <entry name="useExternalSkyMap" type="Bool">
+         <label>Use an external planetarium software to control mount slews and syncs.</label>
+         <default>false</default>
+      </entry>
       <entry name="fitsDir" type="String">
          <label>FITS Default directory</label>
          <whatsthis>The default location of saved FITS files</whatsthis>

@@ -251,6 +251,12 @@ class Mount : public ConcreteDevice
          */
         void updateParkStatus();
 
+        /**
+         * @brief updateTarget update target position from {@see currentPosition} and
+         *       (if not pointing into the empty sky) also the target name.
+         */
+        void updateTarget();
+
     public slots:
         bool abort();
         bool park();
