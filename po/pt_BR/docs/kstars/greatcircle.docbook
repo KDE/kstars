@@ -17,7 +17,7 @@
 </indexterm>
 <para
 >Considere uma esfera, como a Terra, ou a <link linkend="ai-csphere"
->esfera celestial</link
+>esfera celeste</link
 >. A interseção de qualquer plano com a esfera resultará em um círculo na superfície da esfera. Se o plano contiver o centro da esfera, o círculo de interseção é um <firstterm
 >grande círculo</firstterm
 >. Grandes círculos são os maiores círculos que podem ser desenhados em uma esfera. Também, o menor caminho entre quaisquer dois pontos em uma esfera está sempre sobre um grande círculo. </para

@@ -11,8 +11,8 @@
 >Os equinócios</title>
 <indexterm
 ><primary
->Equinócios</primary>
-<seealso
+>Equinócios</primary
+><seealso
 >Equador celeste</seealso
 > <seealso
 >Eclíptica</seealso
@@ -21,13 +21,13 @@
 >Muitas pessoas conhecem os equinócios de primavera e outono como datas de calendário, significando o começo da primavera no hemisfério norte e outono, respectivamente. Você sabia que os equinócios são também posições no céu? </para
 ><para
 >O <link linkend="ai-cequator"
->equador celestial</link
+>equador celeste</link
 > e a <link linkend="ai-ecliptic"
 >eclíptica</link
 > são dois <link linkend= "ai-greatcircle"
 >grandes círculos</link
 > na <link linkend="ai-csphere"
->esfera celestial</link
+>esfera celeste</link
 >, em um ângulo de 23,5 graus. Os dois pontos onde se encontram são chamados <firstterm
 >equinócios</firstterm
 >. O <firstterm
@@ -39,6 +39,6 @@
 >Os equinócios são importantes por criarem as estações. Porque estão na <link linkend="ai-ecliptic"
 >eclíptica</link
 >, o Sol passa por cada equinócio todo ano. Quando o Sol passa pelo equinócio da primavera (usualmente em 21 de março), ele cruza o <link linkend="ai-cequator"
->equador celestial</link
-> do sul para o norte, significando o fim do Inverno para o hemisfério norte. Similarmente, quando o Sol passa pelo equinócio do outono (usualmente em 21 de setembro), ele cruza o equador celestial do norte para o sul, significando o fim do inverno no hemisfério sul. </para>
+>equador celeste</link
+> do sul para o norte, significando o fim do Inverno para o hemisfério norte. Similarmente, quando o Sol passa pelo equinócio do outono (usualmente em 21 de setembro), ele cruza o equador celeste do norte para o sul, significando o fim do inverno no hemisfério sul. </para>
 </sect1>
