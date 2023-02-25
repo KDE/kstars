@@ -581,8 +581,6 @@ void FilterManager::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
         m_currentFilterPosition = 0;
         qDeleteAll(m_ActiveFilters);
         m_ActiveFilters.clear();
-        delete(m_FilterModel);
-        m_FilterModel = nullptr;
     }
 }
 
