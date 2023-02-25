@@ -1679,6 +1679,12 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 
     DarkLibrary::Instance()->removeDevice(device);
 
+    // Remove from filter managers
+    for (auto &oneManager : m_FilterManagers)
+    {
+        oneManager->removeDevice(device);
+    }
+
     appendLogText(i18n("%1 is offline.", device->getDeviceName()));
 
 
