@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-25 00:55+0000\n"
-"PO-Revision-Date: 2023-02-20 11:12+0200\n"
+"POT-Creation-Date: 2023-02-26 00:54+0000\n"
+"PO-Revision-Date: 2023-02-25 09:09+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5997,7 +5997,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Розв'язування перервано за %1 секунд."
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2510
-#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
+#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1872
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -9827,7 +9827,7 @@ msgstr "Не вдалося знайти файл зображення: %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1780 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:1985 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:1991 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
 #, kde-format
@@ -9835,7 +9835,7 @@ msgid "Focus"
 msgstr "Фокус"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1781 ekos/manager.cpp:1959
+#: ekos/analyze/analyze.cpp:1781 ekos/manager.cpp:1965
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
 #, kde-format
@@ -9848,7 +9848,7 @@ msgstr "Вирівнювання"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1782 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:258 ekos/manager.cpp:2128
+#: ekos/guide/guide.ui:258 ekos/manager.cpp:2134
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
@@ -9866,7 +9866,7 @@ msgstr "Перехід"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1784 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/manager.cpp:2070 ekos/manager.ui:665
+#: ekos/manager.cpp:2076 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Лафет"
@@ -11782,7 +11782,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2168
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2174
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -20258,59 +20258,59 @@ msgstr "Протипиловий ковпак %1 активний."
 msgid "%1 Light box is online."
 msgstr "Підсвітка %1 активна."
 
-#: ekos/manager.cpp:1682
+#: ekos/manager.cpp:1688
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 поза мережею."
 
-#: ekos/manager.cpp:1916
+#: ekos/manager.cpp:1922
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "ПЗЗ"
 
-#: ekos/manager.cpp:2175
+#: ekos/manager.cpp:2181
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Порт наведення з %1 готовий до роботи."
 
-#: ekos/manager.cpp:2364
+#: ekos/manager.cpp:2370
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Ви справді хочете вилучити цей профіль?"
 
-#: ekos/manager.cpp:2365
+#: ekos/manager.cpp:2371
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Підтвердження вилучення"
 
-#: ekos/manager.cpp:2417
+#: ekos/manager.cpp:2423
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Оновлено запис місця до значення %1."
 
-#: ekos/manager.cpp:2419
+#: ekos/manager.cpp:2425
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Не вдалося оновити запис місця до значення %1. Такого міста не знайдено."
 
-#: ekos/manager.cpp:2663
+#: ekos/manager.cpp:2669
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Вмикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:2671
+#: ekos/manager.cpp:2677
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Вимикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:2699
+#: ekos/manager.cpp:2705
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Повторно вмикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:2711
+#: ekos/manager.cpp:2717
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Повторно вимикаємо діагностичний журнал %1…"
@@ -28554,46 +28554,38 @@ msgstr "Карта неба"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:349
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
 "slews and syncs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Накреслити кількість зірок, які виявлено на "
-"зображеннях наведення.</p></body></html>"
+"<html><head/><body><p>Скористатися картою неба KStars для керування "
+"обертанням і синхронізацією телескопа.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:352
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "KStars Sky Map"
-msgstr "Карта неба"
+msgstr "Карта неба KStars"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:362
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Automatically select the calibration star. <br/"
-#| ">Please note: 'SEP Multi Star' does  <span style=\" font-weight:600;"
-#| "\">always</span> use 'auto star' detection.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use an external planetarium software to control mount "
 "slews and syncs.</p><p><span style=\" font-weight:600;\">WARNING</span>: "
 "this feature is experimental!</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Автоматично вибрати зірку для калібрування. <br/>Будь "
-"ласка, зауважте що у «ПдЕП за декількома зірками»  <span style=\" font-"
-"weight:600;\">завжди</span> використовується автоматичне виявлення зірок.</"
-"p></body></html>"
+"<html><head/><body><p>Скористатися зовнішнім програмним забезпеченням "
+"планетарію для керування обертанням і синхронізацією лафета.</p><p><span "
+"style=\" font-weight:600;\">ПОПЕРЕДЖЕННЯ</span>: ця можливість є "
+"експериментальною!</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:365
 #, kde-format
 msgid "external Sky Map (experimental)"
-msgstr ""
+msgstr "зовнішня карта неба (експериментальна)"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:388
@@ -29867,12 +29859,16 @@ msgstr "Використати час і розташування GPS для с�
 #, kde-format
 msgid "Use the KStars sky map to control mount slews and syncs."
 msgstr ""
+"Скористатися картою неба KStars для керування обертанням і синхронізацією "
+"лафета."
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:222
 #, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
+"Скористатися зовнішнім програмним забезпеченням планетарію для керування "
+"обертанням і синхронізацією лафета."
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:226

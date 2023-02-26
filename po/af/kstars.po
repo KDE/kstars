@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-25 00:55+0000\n"
+"POT-Creation-Date: 2023-02-26 00:54+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -5934,7 +5934,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Ongeldige Url"
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2510
-#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1866
+#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1872
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -9492,7 +9492,7 @@ msgstr "Kon nie uitvee die lêer: %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1780 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:1985 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:1991 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
 #, kde-format
@@ -9500,7 +9500,7 @@ msgid "Focus"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1781 ekos/manager.cpp:1959
+#: ekos/analyze/analyze.cpp:1781 ekos/manager.cpp:1965
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
 #, fuzzy, kde-format
@@ -9513,7 +9513,7 @@ msgstr "Vertoon naam"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1782 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:258 ekos/manager.cpp:2128
+#: ekos/guide/guide.ui:258 ekos/manager.cpp:2134
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
@@ -9531,7 +9531,7 @@ msgstr "Sirkel"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1784 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/manager.cpp:2070 ekos/manager.ui:665
+#: ekos/manager.cpp:2076 ekos/manager.ui:665
 #, fuzzy, kde-format
 msgid "Mount"
 msgstr "Land:"
@@ -11275,7 +11275,7 @@ msgstr "Soek Voorwerp"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2168
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2174
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 msgid "Observatory"
@@ -18952,58 +18952,58 @@ msgstr "Bereken"
 msgid "%1 Light box is online."
 msgstr "Bereken"
 
-#: ekos/manager.cpp:1682
+#: ekos/manager.cpp:1688
 #, kde-format
 msgid "%1 is offline."
 msgstr ""
 
-#: ekos/manager.cpp:1916
+#: ekos/manager.cpp:1922
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr ""
 
-#: ekos/manager.cpp:2175
+#: ekos/manager.cpp:2181
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2364
+#: ekos/manager.cpp:2370
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr ""
 
-#: ekos/manager.cpp:2365
+#: ekos/manager.cpp:2371
 #, fuzzy, kde-format
 msgid "Confirm Delete"
 msgstr "Fout Uitveeïng Lêer"
 
-#: ekos/manager.cpp:2417
+#: ekos/manager.cpp:2423
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2419
+#: ekos/manager.cpp:2425
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2663
+#: ekos/manager.cpp:2669
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2671
+#: ekos/manager.cpp:2677
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2699
+#: ekos/manager.cpp:2705
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2711
+#: ekos/manager.cpp:2717
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
