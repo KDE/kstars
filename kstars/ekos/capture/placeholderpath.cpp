@@ -304,7 +304,7 @@ QString PlaceholderPath::generateFilename(const QString &directory,
         const bool gettingSignature) const
 {
     QString targetNameSanitized = targetName;
-    targetNameSanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
+    targetNameSanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|\\+|~|\"" ), "_" )
     // Remove any two or more __
     .replace( QRegularExpression("_{2,}"), "_")
     // Remove any _ at the end
