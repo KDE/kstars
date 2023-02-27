@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 00:54+0000\n"
-"PO-Revision-Date: 2023-02-20 06:56+0100\n"
+"PO-Revision-Date: 2023-02-26 03:15+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -10242,7 +10242,7 @@ msgstr "ბნელი ბიბლიოთეკა"
 #: ekos/auxiliary/darklibrary.ui:56
 #, kde-format
 msgid "Prefer:"
-msgstr ""
+msgstr "სასურველი:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, preferDarksRadio)
 #: ekos/auxiliary/darklibrary.ui:115
@@ -24177,12 +24177,12 @@ msgstr "ინტენსვობა"
 #: fitsviewer/fitshistogram.cpp:769 fitsviewer/fitshistogramcommand.cpp:255
 #, kde-format
 msgid "Linear Scale"
-msgstr ""
+msgstr "ხაზოვანი ზრდა"
 
 #: fitsviewer/fitshistogram.cpp:771 fitsviewer/fitshistogramcommand.cpp:257
 #, kde-format
 msgid "Logarithmic Scale"
-msgstr ""
+msgstr "ლოგარითმული ზრდა"
 
 #: fitsviewer/fitshistogram.cpp:773 fitsviewer/fitshistogramcommand.cpp:259
 #, kde-format
@@ -26105,23 +26105,19 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:349
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
 "slews and syncs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>აირჩიეთ გადასაღები კამერა ამ ოპტიკური მატარებლისთვის.</"
-"p></body></html>"
+"<html><head/><body><p>KStars-ის ცის რუკის გამოყენება ტელესკოპის მობრუნებისა "
+"და სინქრონიზაციისთვის.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:352
-#, fuzzy, kde-format
-#| msgid "Star map"
+#, kde-format
 msgid "KStars Sky Map"
-msgstr "ვარსკვლავების რუკა"
+msgstr "KStars-ის ვარსკვლავების რუკა"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:362
@@ -63833,7 +63829,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dir"
-msgstr ""
+msgstr "საქაღალდე"
 
 #: libindi_strings.cpp:109
 #, kde-kuit-format

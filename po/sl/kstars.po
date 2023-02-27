@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 00:54+0000\n"
-"PO-Revision-Date: 2023-01-11 21:56+0100\n"
+"PO-Revision-Date: 2023-02-26 10:21+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2152,7 +2152,7 @@ msgstr ""
 "trenutno izbranega predmeta."
 
 #: data/qml/whatisinteresting/wiview.qml:1686
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgid ""
 "This button will toggle whether to filter the list to display only currently "
 "visible objects in a list or to display all of the objects in the list.  The "
@@ -2163,11 +2163,11 @@ msgstr ""
 "Ta gumb preklopi, ali želite filtrirati seznam tako, da prikaže samo "
 "trenutno vidne predmete na seznamu ali pa prikaže vse predmete na seznamu.  "
 "Vidljivost se določi na podlagi trenutnega datuma in časa KStars, trenutne "
-"opazovalne opreme in trenutnih pogojev neba, ki temeljijo na zanimivih "
-"nastavitvah."
+"opazovalne opreme in trenutnih pogojev neba, ki temeljijo na nastavitvah "
+"zanimivosti."
 
 #: data/qml/whatisinteresting/wiview.qml:1708
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgid ""
 "This button will toggle whether to filter the list to display only "
 "'interesting' objects or to display any of the objects in the list.  This "
@@ -2175,10 +2175,10 @@ msgid ""
 "objects are considered 'interesting' if they appear on the KStars "
 "'interesting' list."
 msgstr ""
-"Ta gumb preklopi, ali filtrirati seznam tako, da prikaže samo 'zanimive' "
+"Ta gumb preklopi, ali filtrirati seznam tako, da prikaže samo »zanimive« "
 "predmete ali da prikaže katerega od predmetov na seznamu.  Ta nastavitev "
-"velja le za sezname galaksij, meglice in gruče.  Predmeti se štejejo za "
-"'zanimive', če se pojavijo na seznamu KStars 'zanimivih'."
+"velja le za sezname galaksij, meglic in gruč.  Predmeti štejejo za "
+"»zanimive«, če se pojavijo na seznamu »zanimivih« v KStars."
 
 #: data/qml/whatisinteresting/wiview.qml:1730
 #, fuzzy, kde-kuit-format
@@ -2875,7 +2875,7 @@ msgstr "_ID"
 #: dialogs/catalogdetails.ui:53
 #, fuzzy, kde-format
 msgid "Prec:"
-msgstr "Prec:"
+msgstr "Natan:"
 
 #. i18n: ectx: property (text), widget (QLabel, precedence)
 #: dialogs/catalogdetails.ui:60
@@ -2959,7 +2959,7 @@ msgstr "Licenca:"
 #: dialogs/catalogdetails.ui:156
 #, fuzzy, kde-format
 msgid "_lic"
-msgstr "Van Gogh (LIC)"
+msgstr "_lic"
 
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
@@ -3594,7 +3594,7 @@ msgstr "Ni mogoče najti povezanih stativov."
 #: dialogs/detaildialog.cpp:1110 fitsviewer/fitslabel.cpp:433
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
 msgstr "Stativ %1 ni priključen. Priključite ga in poskusite znova."
 
@@ -5653,10 +5653,10 @@ msgid ""
 "solving, and learning to use KStars. Just click the button to install or "
 "unzip the zip file and place the gsc folder in the data directory."
 msgstr ""
-"Če to namestite v podatkovni imenik, lahko simulator CCD v KStarsu posnema "
-"realne slike. To je uporabno za testiranje zaporedja, reševanje plošč in "
-"učenje uporabe KStars. Samo kliknite gumb, da namestite ali raztrgate zip "
-"datoteko in postavite mapo GSC v podatkovni imenik."
+"Če to namestite v podatkovni imenik, lahko simulator CCD v KStarsu zajame "
+"realistične slike. To je uporabno za testiranje zaporedja, reševanje plošč "
+"in učenje rabe KStars. Samo kliknite gumb, da namestite ali razširite "
+"datoteko zip in postavite mapo GSC v podatkovni imenik."
 
 #. i18n: ectx: property (text), widget (QLabel, DownloadTitle)
 #: dialogs/wizdownload.ui:61
@@ -28810,7 +28810,7 @@ msgstr ""
 #: indi/opsindi.ui:365
 #, kde-format
 msgid "external Sky Map (experimental)"
-msgstr ""
+msgstr "zunanji zemljevid neba (poskusno)"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:388
@@ -28984,9 +28984,7 @@ msgstr "Snemanje toka, dokler se ne ujame toliko okvirjev"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
 #: indi/recordingoptions.ui:166
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Frame"
+#, kde-format
 msgid "Frames"
 msgstr "Sličice"
 
@@ -28998,10 +28996,9 @@ msgstr "Snemanje toka, dokler se ročno ne ustavi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:194
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Until Stopped"
-msgstr "Zaustavljeno"
+msgstr "Do ustavitve"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/recordingoptions.ui:215
@@ -29077,10 +29074,9 @@ msgstr "Možnosti snemanja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:114
-#, fuzzy, kde-format
-#| msgid "Reset Frame"
+#, kde-format
 msgid "Reset frame"
-msgstr "Ponastavi posnetek"
+msgstr "Ponastavi sličico"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:143
@@ -29123,10 +29119,9 @@ msgstr "Premakni povečani pogled levo/desno"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetFrameDurationSpin)
 #: indi/streamform.ui:276 indi/streamform.ui:292
-#, fuzzy, kde-format
-#| msgid "Guider exposure duration in seconds."
+#, kde-format
 msgid "Video frame duration in seconds"
-msgstr "Trajanje osvetlitve vodnika v sekundah."
+msgstr "Trajanje sličice videa v sekundah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/streamform.ui:279
@@ -29595,10 +29590,9 @@ msgid "Web Links"
 msgstr "Spletne povezave"
 
 #: kspopupmenu.cpp:581
-#, fuzzy, kde-format
-#| msgid "Remove Catalog..."
+#, kde-format
 msgid "Remove From Local Catalog"
-msgstr "Odstrani katalog ..."
+msgstr "Odstrani iz krajevnega katalog"
 
 #: kspopupmenu.cpp:624
 #, fuzzy, kde-format
@@ -30111,15 +30105,17 @@ msgstr "Uporaba časa in položaja naprave za usklajevanje?"
 
 #. i18n: ectx: label, entry (useKStarsSkyMap), group (indi)
 #: kstars.kcfg:218
-#, kde-format
+#, fuzzy, kde-format
 msgid "Use the KStars sky map to control mount slews and syncs."
-msgstr ""
+msgstr "S zemljevidom neba KStars nadzorujte premike in sinhronizacije."
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:222
-#, kde-format
+#, fuzzy, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
+"Uporabite zunanjo programsko opremo planetarija za nadzor nad premiki in "
+"sinhronizacijo montaže."
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:226
@@ -30426,14 +30422,13 @@ msgstr ""
 #: kstars.kcfg:375
 #, fuzzy, kde-format
 msgid "Select default Skymap cursor?"
-msgstr "Izberite privzeto kazalko Skymap?"
+msgstr "Ali želite privzeti kazalec Skymap?"
 
 #. i18n: ectx: whatsthis, entry (DefaultCursor), group (View)
 #: kstars.kcfg:376
-#, fuzzy, kde-format
-#| msgid "Toggle whether Mercury is drawn in the sky map."
+#, kde-format
 msgid "Type of cursor when exploring the sky map."
-msgstr "Preklopi izris Merkurja na zvezdni karti."
+msgstr "Vrsta kazalca pri raziskovanju zemljevida neba."
 
 #. i18n: ectx: label, entry (FOVNames), group (View)
 #: kstars.kcfg:380
@@ -32333,16 +32328,15 @@ msgstr "Uporabi datoteko FIFO"
 
 #. i18n: ectx: whatsthis, entry (XplanetUseFIFO), group (Xplanet)
 #: kstars.kcfg:1102
-#, fuzzy, kde-format
+#, kde-format
 msgid "Option to use a FIFO file instead of saving to the hard disk"
-msgstr "Možnost uporabe datoteke FIFO namesto shranjevanje na trdi disk"
+msgstr "Možnost uporabe datoteke FIFO namesto shranjevanja na trdi disk"
 
 #. i18n: ectx: label, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1106
 #, fuzzy, kde-format
-#| msgid "Planet Name"
 msgid "XPlanet timeout"
-msgstr "Ime planeta"
+msgstr "Časovna omejitev XPlanet"
 
 #. i18n: ectx: whatsthis, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1107
@@ -33724,14 +33718,9 @@ msgstr "Pred zagonom zajemanja uveljavite največji sprejemljivi zdrs vodnika."
 #. i18n: ectx: label, entry (GuidingSettle), group (Capture)
 #: kstars.kcfg:1729
 #, fuzzy, kde-format
-#| msgid ""
-#| "Time to wait in milliseconds after telescope slewing is complete before "
-#| "starting the next capture."
 msgid ""
 "Wait this many seconds after guiding is resumed before starting capture."
-msgstr ""
-"Čas v milisekundah po zaključku premikanja daljnogleda, po katerem bo začet "
-"nov zajem."
+msgstr "Čas čakanja v sekundah po začetku premikanja, preden se prične zajem."
 
 #. i18n: ectx: label, entry (AlwaysResetSequenceWhenStarting), group (Capture)
 #: kstars.kcfg:1733
@@ -33749,7 +33738,7 @@ msgstr ""
 #: kstars.kcfg:1737
 #, fuzzy, kde-format
 msgid "Capture flat frames at the same focus position of light frames."
-msgstr "Zajemanje ravnih okvirjev na istem mestu ostranje svetlobnih okvirjev."
+msgstr "Zajemanje ravnih sličic na istem mestu ostrenja svetlobnih sličic."
 
 #. i18n: ectx: label, entry (HFRThresholdPercentage), group (Capture)
 #: kstars.kcfg:1741
@@ -33758,7 +33747,7 @@ msgid ""
 "Increase autofocus HFR value by this percentage gain and store it in Capture "
 "Module."
 msgstr ""
-"Povečajte vrednost samodejnega ostranjenja HFR za ta odstotek dobička in jo "
+"Povečajte vrednost samodejnega ostrenja HFR za takšen odstotek in jo "
 "shranite v Modul za zajemanje."
 
 #. i18n: ectx: label, entry (UseMedianFocus), group (Capture)
@@ -33840,10 +33829,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CaptureDirectory), group (Capture)
 #: kstars.kcfg:1794
-#, fuzzy, kde-format
-#| msgid "Local directory to save sequence images"
+#, kde-format
 msgid "Path to capture directory to save images."
-msgstr "Krajevna mapa, v katero bodo shranjene slike zaporedja"
+msgstr "Pot do mape za zajem, v katero bodo shranjene slike."
 
 #. i18n: ectx: label, entry (PlaceholderFormat), group (Capture)
 #: kstars.kcfg:1797
@@ -34191,16 +34179,14 @@ msgstr "Gaussian meglica velikost jedra."
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:1955
 #, fuzzy, kde-format
-#| msgid "Number of frames to average"
 msgid "Number of rows to combine in the Bahtinov average calculation."
-msgstr "Število sličic za povprečenje"
+msgstr "Število vrstic za združevanje pri izračunu Bahtinovega povprečja."
 
 #. i18n: ectx: label, entry (FocusCurveFit), group (Focus)
 #: kstars.kcfg:1959
-#, fuzzy, kde-format
-#| msgid "Resource Type"
+#, kde-format
 msgid "Curve Type."
-msgstr "Vrsta vira"
+msgstr "Vrsta krivulje."
 
 #. i18n: ectx: label, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:1963
@@ -34213,7 +34199,7 @@ msgstr "Opazovalnica se izklaplja"
 #: kstars.kcfg:1967
 #, fuzzy, kde-format
 msgid "Acceptable limit on R2 from curve fit."
-msgstr "Sprejemljiva omejitev na R2 iz umerjene krivulje."
+msgstr "Sprejemljiva meja na R2 iz umerjene krivulje."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:1973
@@ -34258,13 +34244,13 @@ msgstr "Možnosti Profil sekstrakcije pri uvajanju."
 #: kstars.kcfg:1997
 #, fuzzy, kde-format
 msgid "Internal, External, or BuiltIn Sextractor for Solving."
-msgstr "Notranji, zunanji ali BuiltIn Sextractor za reševanje."
+msgstr "Notranji, zunanji ali vgrajeni Sextractor za reševanje."
 
 #. i18n: ectx: label, entry (SolverMode), group (StellarSolver)
 #: kstars.kcfg:2001
-#, fuzzy, kde-format
+#, kde-format
 msgid "Local (0) or Remote (1) solver."
-msgstr "Lokalni (0) ali daljinski (1) reševalec."
+msgstr "Krajevni (0) ali oddaljeni (1) reševalnik."
 
 #. i18n: ectx: label, entry (SolverType), group (StellarSolver)
 #: kstars.kcfg:2005
@@ -81641,22 +81627,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "Local preview"
-#~ msgstr "Krajevni predogled"
-
-#~ msgid "Preview:"
-#~ msgstr "Predogled:"
-
-#~ msgid "Remote preview"
-#~ msgstr "Oddaljeni predogled"
-
-#, fuzzy
-#~| msgctxt "string from libindi, used in the config dialog"
-#~| msgid "Backlash"
-#~ msgid "AF Backlash Comp"
-#~ msgstr "Odpor"
-
-#, fuzzy
-#~ msgid "Backlash:"
-#~ msgstr "Odpor"
