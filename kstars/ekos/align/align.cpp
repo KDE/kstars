@@ -3105,6 +3105,12 @@ void Align::setCaptureStatus(CaptureState newState)
             m_CaptureTimer.start(alignSettlingTime->value());
             break;
 
+        // On meridian flip, reset Target Position Angle to fully rotated value
+        // expected after MF so that we do not end up with reversed camera rotation
+        case CAPTURE_MERIDIAN_FLIP:
+            if (std::isnan(m_TargetPositionAngle) == false)
+                m_TargetPositionAngle = SolverUtils::rangePA(m_TargetPositionAngle + 180.0);
+            break;
         default:
             break;
     }
