@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 00:54+0000\n"
-"PO-Revision-Date: 2023-02-22 10:56+0100\n"
+"PO-Revision-Date: 2023-02-27 14:50+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -19388,7 +19388,7 @@ msgstr ""
 #: ekos/observatory/observatory.cpp:255
 #, kde-format
 msgid "%1 is idle."
-msgstr ""
+msgstr "%1 je nečinný."
 
 #: ekos/observatory/observatory.cpp:265 ekos/observatory/observatory.cpp:318
 #: ekos/observatory/observatory.cpp:387
@@ -26163,21 +26163,17 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:349
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do you want to select additional services?</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
 "slews and syncs.</p></body></html>"
-msgstr "<html><head/><body><p>Chcete zvolit další služby?</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:352
-#, fuzzy, kde-format
-#| msgid "Star map"
+#, kde-format
 msgid "KStars Sky Map"
-msgstr "Hvězdná mapa"
+msgstr "Hvězdná mapa KStars"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:362
@@ -26192,7 +26188,7 @@ msgstr ""
 #: indi/opsindi.ui:365
 #, kde-format
 msgid "external Sky Map (experimental)"
-msgstr ""
+msgstr "externí hvězdná mapa (experimentální)"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:388
