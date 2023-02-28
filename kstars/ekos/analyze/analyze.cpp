@@ -494,9 +494,11 @@ void Analyze::initInputSelection()
         }
         else if (index == 1)
         {
-            // Input from a file.
+            // The i18n call below is broken up (and the word "analyze" is protected from it) because i18n
+            // translates "analyze" to "analyse" for the English UK locale, but we need to keep it ".analyze"
+            // because that's what how the files are named.
             QUrl inputURL = QFileDialog::getOpenFileUrl(this, i18nc("@title:window", "Select input file"), dirPath,
-                            i18n("Analyze Log (*.analyze);;All Files (*)"));
+                                                        QString("Analyze %1 (*.analyze);;%2").arg(i18n("Log")).arg(i18n("All Files (*)")));
             if (inputURL.isEmpty())
                 return;
             dirPath = QUrl(inputURL.url(QUrl::RemoveFilename));
