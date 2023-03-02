@@ -1554,6 +1554,10 @@
       <entry name="shutterlessCCDs" type="StringList">
          <label>List of CCDs without mechanical or electronic shutters.</label>
       </entry>
+      <entry name="DarkLibraryDuration" type="UInt">
+         <label>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</label>
+         <default>30</default>
+      </entry>
    </group>
    <group name="Manager">
    <entry name="UseGraphicalCountsDisplay" type="Bool">
@@ -1752,10 +1756,6 @@
       <entry name="InSequenceCheckFrames" type="UInt">
          <label>Run In-Sequence HFR check after this many frames.</label>
          <default>1</default>
-      </entry>
-      <entry name="DarkLibraryDuration" type="UInt">
-         <label>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</label>
-         <default>30</default>
       </entry>
       <entry name="AutoStretch" type="Bool">
          <label>Perform auto stretch on captured images in FITS Viewer.</label>
