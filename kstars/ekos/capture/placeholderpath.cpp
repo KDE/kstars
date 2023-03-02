@@ -14,6 +14,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <ekos_capture_debug.h>
 
 namespace Ekos
 {
@@ -284,8 +285,8 @@ QString PlaceholderPath::generateFilename(const SequenceJob &job,
 QString PlaceholderPath::generateFilename(const bool batch_mode, const int nextSequenceID, const QString &extension,
         const QString &filename, const bool glob, const bool gettingSignature) const
 {
-    return generateFilename(m_Directory, m_format, m_formatSuffix, m_targetName, m_DarkFlat, m_filter, m_frameType, m_exposure,
-                            batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
+    return generateFilename(m_Directory, m_format, m_formatSuffix, m_targetName, m_DarkFlat, m_filter, m_frameType,
+                            m_exposure, batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
 }
 
 QString PlaceholderPath::generateFilename(const QString &directory,
@@ -511,6 +512,35 @@ int PlaceholderPath::checkSeqBoundary(const SequenceJob &job, const QString &tar
         return *std::max_element(ids.begin(), ids.end()) + 1;
     else
         return 1;
+}
+
+// An "emergency" method--the code should not be overwriting files,
+// however, if we've detected an overwrite, we generate a new filename
+// by looking for numbers at its end (before its extension) and incrementing
+// that number, checking to make sure the new filename with the incremented number doesn't exist.
+QString PlaceholderPath::repairFilename(const QString &filename)
+{
+    QRegularExpression re("^(.*[^\\d])(\\d+)\\.(\\w+)$");
+
+    auto match = re.match(filename);
+    if (match.hasMatch())
+    {
+        QString prefix = match.captured(1);
+        int number = match.captured(2).toInt();
+        int numberLength = match.captured(2).size();
+        QString extension = match.captured(3);
+        QString candidate = QString("%1%2.%3").arg(prefix).arg(number + 1, numberLength, 10, QLatin1Char('0')).arg(extension);
+        int maxIterations = 2000;
+        while (QFile::exists(candidate))
+        {
+            number = number + 1;
+            candidate = QString("%1%2.%3").arg(prefix).arg(number, numberLength, 10, QLatin1Char('0')).arg(extension);
+            if (--maxIterations <= 0)
+                return filename;
+        }
+        return candidate;
+    }
+    return filename;;
 }
 
 }

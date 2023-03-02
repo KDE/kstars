@@ -127,6 +127,13 @@ class PlaceholderPath
          */
         static QString defaultFormat(bool useFilter, bool useExposure, bool useTimestamp);
 
+        /**
+         * @brief repairFilename is an emergency method used when an unexpected filename collision is detected.
+         * @param filename the filename which already exists on disk.
+         * @return Returns the repaired filename. If it was unable to repair, it returns the filename passed in.
+         */
+        static QString repairFilename(const QString &filename);
+
     private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.
         QString generateFilename(const QString &directory, const QString &format, uint formatSuffix, const QString &rawFilePrefix,
