@@ -174,7 +174,7 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
             selectOpticalTrain(trainNamesList->currentItem());
     });
 
-    m_CheckMissingDevicesTimer.setInterval(2000);
+    m_CheckMissingDevicesTimer.setInterval(5000);
     m_CheckMissingDevicesTimer.setSingleShot(true);
     connect(&m_CheckMissingDevicesTimer, &QTimer::timeout, this, &OpticalTrainManager::checkMissingDevices);
     initModel();
