@@ -1066,6 +1066,11 @@
          <whatsthis>Color of supernova</whatsthis>
          <default>#FFA500</default>
       </entry>
+      <entry name="AsteroidColor" type="String">
+         <label>Color of asteroids</label>
+         <whatsthis>Color of asteroid</whatsthis>
+         <default>#F1C232</default>
+      </entry>
       <entry name="UserLabelColor" type="String">
          <label>Color of user-added labels</label>
          <whatsthis>The color for user-added object labels.</whatsthis>

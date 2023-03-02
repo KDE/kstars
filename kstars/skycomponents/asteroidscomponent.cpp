@@ -208,9 +208,6 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
     // It is however assured that labelMagLimit <= showMagLimit.
     labelMagLimit = showMagLimit - 20.0 / densityLabelFactor + std::max(zoomLimit, labelMagLimit);
 
-    // FIXME: Setting color value has no influnce. Create a proper drawing function as e.g. drawComet().
-    skyp->setBrush(QBrush(QColor("gray")));
-
     foreach (SkyObject *so, m_ObjectList)
     {
         KSAsteroid *ast = dynamic_cast<KSAsteroid *>(so);
@@ -222,9 +219,8 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
 
         if (ast->image().isNull() == false)
             drawn = skyp->drawPlanet(ast);
-        else // FIXME: Asteroids are drawn as a tiny little pixel, nearly invisible.
-	     // Create a proper drawing function as e.g. drawComet().
-            drawn = skyp->drawPointSource(ast, ast->mag());
+        else
+            drawn = skyp->drawAsteroid(ast);
 
         if (drawn && !hideLabels && ast->mag() <= labelMagLimit)
             SkyLabeler::AddLabel(ast, SkyLabeler::ASTEROID_LABEL);
