@@ -2502,7 +2502,9 @@ void Capture::checkSeqBoundary()
 
     auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
 
-    nextSequenceID = placeholderPath.checkSeqBoundary(*activeJob, m_TargetName);
+
+    nextSequenceID = placeholderPath.checkSeqBoundary(*activeJob,
+                     activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
 }
 
 void Capture::appendLogText(const QString &text)

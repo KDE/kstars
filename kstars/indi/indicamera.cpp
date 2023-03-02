@@ -552,6 +552,17 @@ bool Camera::generateFilename(bool batch_mode, const QString &extension, QString
     if (currentDir.exists() == false)
         QDir().mkpath(currentDir.path());
 
+    // Check if the file exists. We try not to overwrite capture files.
+    if (QFile::exists(*filename))
+    {
+        QString oldFilename = *filename;
+        *filename = placeholderPath.repairFilename(*filename);
+        if (filename != oldFilename)
+            qCWarning(KSTARS_INDI) << "File over-write detected: changing" << oldFilename << "to" << *filename;
+        else
+            qCWarning(KSTARS_INDI) << "File over-write detected for" << oldFilename << "but could not correct filename";
+    }
+
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
         return false;
