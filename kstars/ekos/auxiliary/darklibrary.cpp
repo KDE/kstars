@@ -175,6 +175,8 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_RememberSummaryView = Options::useSummaryPreview();
     initView();
 
+    loadGlobalSettings();
+
     connectSettings();
 
     setupOpticalTrainManager();
@@ -1658,6 +1660,70 @@ void DarkLibrary::refreshOpticalTrain()
 
     opticalTrainCombo->blockSignals(false);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::loadGlobalSettings()
+{
+    QString key;
+    QVariant value;
+
+    QVariantMap settings;
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+    {
+        if (oneWidget->objectName() == "opticalTrainCombo")
+            continue;
+
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setCurrentText(value.toString());
+            settings[key] = value;
+        }
+    }
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toDouble());
+            settings[key] = value;
+        }
+    }
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toInt());
+            settings[key] = value;
+        }
+    }
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
+    m_GlobalSettings = m_Settings = settings;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
