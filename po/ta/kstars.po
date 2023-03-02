@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 00:54+0000\n"
+"POT-Creation-Date: 2023-03-02 00:50+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -485,14 +485,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "&வான் படத்தை சேமி..."
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3659
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3665
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr " \"%1\"  என பெயரிடப்பட்ட கோப்பு ஏற்கனவே உள்ளது .மேல் எழுத வேண்டுமா?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3662
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3668
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1316
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
@@ -2026,7 +2026,7 @@ msgstr "நிலை"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
-#: ekos/analyze/analyze.cpp:2681 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2683 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
@@ -2639,9 +2639,9 @@ msgstr ""
 "வலை முகவரி உரியது அல்ல. நீங்கள் கூகுல் தேடியந்திரத்தை \n"
 " உலாவியில் திறக்க விரும்புகிறீர்களா"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3670
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3676
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1109 ekos/capture/capture.cpp:3742
+#: ekos/analyze/analyze.cpp:1111 ekos/capture/capture.cpp:3742
 #: ekos/capture/capture.cpp:4180 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4374 ekos/scheduler/scheduler.cpp:4748
 #: fitsviewer/fitstab.cpp:738 tools/scriptbuilder.cpp:830
@@ -3734,7 +3734,8 @@ msgstr "கோப்பினை கீழிறக்கம் செய்ய 
 msgid "Advanced"
 msgstr "மேம்பட்ட"
 
-#: dialogs/detaildialog.cpp:772 kstarslite/qml/dialogs/DetailsDialog.qml:55
+#: dialogs/detaildialog.cpp:772 ekos/analyze/analyze.cpp:501
+#: kstarslite/qml/dialogs/DetailsDialog.qml:55
 #: kstarslite/qml/dialogs/DetailsDialog.qml:453
 #, kde-format, kde-kuit-format
 msgid "Log"
@@ -6263,7 +6264,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "தனிப்படுத்தப்பட்ட பொருள்களுக்கான விவரங்கள் சாளரத்தை திற"
 
 #: ekos/align/align.cpp:2516 ekos/align/align.cpp:2546
-#: ekos/align/align.cpp:3794 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:3800 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 msgid "Settling..."
 msgstr "கெட்டரிங்"
@@ -6366,53 +6367,53 @@ msgstr "படிமங்கள் கவர்தல்"
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3144
+#: ekos/align/align.cpp:3150
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/align/align.cpp:3223
+#: ekos/align/align.cpp:3229
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "StellarSolver Options"
 msgstr "விண்மீன் கூட்ட பெயர் விருப்பங்கள்"
 
-#: ekos/align/align.cpp:3228
+#: ekos/align/align.cpp:3234
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3232
+#: ekos/align/align.cpp:3238
 #, fuzzy, kde-format
 msgid "Scale & Position"
 msgstr "&சுட்டுதல் "
 
-#: ekos/align/align.cpp:3236
+#: ekos/align/align.cpp:3242
 #, fuzzy, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "ஒன்றையும் தேர்ந்தெடுக்க வேணடாம்"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3254 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3260 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 msgid "Index Files"
 msgstr "செல்லாத கோப்பு"
 
-#: ekos/align/align.cpp:3319 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3325 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 msgid "dRA (arcsec)"
 msgstr "<i>arcmin</i>"
 
-#: ekos/align/align.cpp:3320 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3326 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Parsons"
 msgid "dDE (arcsec)"
 msgstr "பார்சான்ஸ்"
 
-#: ekos/align/align.cpp:3366 ekos/capture/capture.cpp:5877
+#: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5877
 #: ekos/focus/focus.cpp:3922
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6420,36 +6421,36 @@ msgstr "பார்சான்ஸ்"
 msgid "Filter operation failed."
 msgstr "காலியென்ட்"
 
-#: ekos/align/align.cpp:3378 ekos/capture/capture.cpp:5813
+#: ekos/align/align.cpp:3384 ekos/capture/capture.cpp:5813
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3385 ekos/capture/capture.cpp:5818
+#: ekos/align/align.cpp:3391 ekos/capture/capture.cpp:5818
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3390 ekos/capture/capture.cpp:5823
+#: ekos/align/align.cpp:3396 ekos/capture/capture.cpp:5823
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
 msgstr "முடிந்தது"
 
-#: ekos/align/align.cpp:3511
+#: ekos/align/align.cpp:3517
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "தவறான வலை முகவரி"
 
-#: ekos/align/align.cpp:3646
+#: ekos/align/align.cpp:3652
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "எல்லா கோள்களின் அடிச்சுவடுகளையும் துடை"
 
-#: ekos/align/align.cpp:3669 ekos/align/mountmodel.cpp:263
+#: ekos/align/align.cpp:3675 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3741
 #: ekos/capture/capture.cpp:4179 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
@@ -6459,7 +6460,7 @@ msgstr "எல்லா கோள்களின் அடிச்சுவட�
 msgid "Invalid URL: %1"
 msgstr "முறையற்ற URL : %1"
 
-#: ekos/align/align.cpp:3678 ekos/align/mountmodel.cpp:400
+#: ekos/align/align.cpp:3684 ekos/align/mountmodel.cpp:400
 #: ekos/capture/capture.cpp:4202 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7152
 #, fuzzy, kde-format
@@ -6467,7 +6468,7 @@ msgstr "முறையற்ற URL : %1"
 msgid "Unable to write to file %1"
 msgstr "%1 கோப்பில் இருந்து FITS  தரவை படிக்க இயலவில்லை.\n"
 
-#: ekos/align/align.cpp:3679 ekos/align/mountmodel.cpp:283
+#: ekos/align/align.cpp:3685 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3757
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7096
@@ -6485,30 +6486,30 @@ msgstr "%1 கோப்பில் இருந்து FITS  தரவை ப
 msgid "Could Not Open File"
 msgstr "கோப்பினைத் திறக்க இயலவில்லை"
 
-#: ekos/align/align.cpp:3700
+#: ekos/align/align.cpp:3706
 #, fuzzy, kde-format
 msgid "Error in table structure."
 msgstr "பிழை நீக்கும் கோப்பு"
 
-#: ekos/align/align.cpp:3709
+#: ekos/align/align.cpp:3715
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "இடம் வலமான இடமதிப்பு"
 
-#: ekos/align/align.cpp:3723
+#: ekos/align/align.cpp:3729
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Polar Alignment"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/align/align.cpp:4238
+#: ekos/align/align.cpp:4244
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/align/align.cpp:4247
+#: ekos/align/align.cpp:4253
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "பொருளை தேடு"
@@ -9776,7 +9777,7 @@ msgstr "தொடங்கு"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1779
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1781
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:132
 #: ekos/opsekos.ui:505
@@ -9906,24 +9907,27 @@ msgstr "உள்ளிடு கோப்பு..."
 msgid "Set alternative image-file base directory"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:498
+#. i18n call below is broken up (and the word "analyze" is protected from it) because i18n
+#. translates "analyze" to "analyse" for the English UK locale, but we need to keep it ".analyze"
+#. because that's what how the files are named.
+#: ekos/analyze/analyze.cpp:500
 #, fuzzy, kde-format
 #| msgid "Select Fields in Input File"
 msgctxt "@title:window"
 msgid "Select input file"
 msgstr "உள்ளீட்டு கோப்பில் "
 
-#: ekos/analyze/analyze.cpp:499
-#, kde-format
-msgid "Analyze Log (*.analyze);;All Files (*)"
-msgstr ""
+#: ekos/analyze/analyze.cpp:501
+#, fuzzy, kde-format
+msgid "All Files (*)"
+msgstr "ஒன்றையும் தேர்ந்தெடுக்க வேணடாம்"
 
-#: ekos/analyze/analyze.cpp:519
+#: ekos/analyze/analyze.cpp:521
 #, kde-format
 msgid "Set an alternate base directory for your captured images"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1108
+#: ekos/analyze/analyze.cpp:1110
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not find image file: %1"
@@ -9932,7 +9936,7 @@ msgstr "கோப்பினை கண்டுபிடிக்க இயல�
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1780 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1782 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:1991 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
@@ -9941,7 +9945,7 @@ msgid "Focus"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1781 ekos/manager.cpp:1965
+#: ekos/analyze/analyze.cpp:1783 ekos/manager.cpp:1965
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
 #, fuzzy, kde-format
@@ -9953,7 +9957,7 @@ msgstr "இதில் ஃபோகஸ் செய்யப்பட்டு�
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1782 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1784 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:2134
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9963,7 +9967,7 @@ msgstr "இதில் ஃபோகஸ் செய்யப்பட்டு�
 msgid "Guide"
 msgstr "வழிகாட்டிகள்"
 
-#: ekos/analyze/analyze.cpp:1783
+#: ekos/analyze/analyze.cpp:1785
 #, fuzzy, kde-format
 msgid "Flip"
 msgstr "ஃபேர்பீல்ட்"
@@ -9972,7 +9976,7 @@ msgstr "ஃபேர்பீல்ட்"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1784 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1786 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2076 ekos/manager.ui:665
 #, fuzzy, kde-format
@@ -9981,12 +9985,12 @@ msgid "Mount"
 msgstr "எண்:"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1785 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1787 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2044
+#: ekos/analyze/analyze.cpp:2046
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9994,7 +9998,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2060
+#: ekos/analyze/analyze.cpp:2062
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10002,7 +10006,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2683 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2685 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:648
@@ -10010,63 +10014,63 @@ msgstr ""
 msgid "Aborted"
 msgstr "ஆல்போர்க்"
 
-#: ekos/analyze/analyze.cpp:2685 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2687 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "இணை "
 
-#: ekos/analyze/analyze.cpp:2687 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2689 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "தொடர்பறு"
 
-#: ekos/analyze/analyze.cpp:2689 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2691 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:680
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing"
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/analyze/analyze.cpp:2691 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2693 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2693 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2695 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Subtracting"
 msgstr "காலியென்ட்"
 
-#: ekos/analyze/analyze.cpp:2695 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2697 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "பெயர்:"
 
-#: ekos/analyze/analyze.cpp:2697 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2699 ekos/ekos.h:28
 #, fuzzy, kde-format
 msgid "Selecting star"
 msgstr "உள்ளீட்டை தேர்ந்தெடு"
 
-#: ekos/analyze/analyze.cpp:2699 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2701 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibrating"
 msgstr "காலியென்ட்"
 
-#: ekos/analyze/analyze.cpp:2701 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2703 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration error"
 msgstr "காலியென்ட்"
 
-#: ekos/analyze/analyze.cpp:2703 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2705 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -10074,27 +10078,27 @@ msgid "Calibrated"
 msgstr "காலியென்ட்"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2705 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2707 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:678
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
 msgstr "வழிகாட்டிகள்"
 
-#: ekos/analyze/analyze.cpp:2707 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2709 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspended"
 msgstr "வழிகாட்டிகள்"
 
-#: ekos/analyze/analyze.cpp:2709 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2711 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Reacquiring"
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/analyze/analyze.cpp:2711 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2713 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10102,24 +10106,24 @@ msgid "Dithering"
 msgstr "வேறு"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2713 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2715 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "வேறு"
 
-#: ekos/analyze/analyze.cpp:2715 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2717 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "கூஸ்கிரீக்"
 
-#: ekos/analyze/analyze.cpp:2717 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2719 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2719 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2721 ekos/ekos.h:39
 #, fuzzy, kde-format
 msgid "Settling"
 msgstr "கெட்டரிங்"
