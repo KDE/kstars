@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-02 00:50+0000\n"
+"POT-Creation-Date: 2023-03-03 00:44+0000\n"
 "PO-Revision-Date: 2023-02-24 12:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -384,7 +384,7 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/capture/capture.cpp:4171 ekos/scheduler/scheduler.cpp:4738
+#: ekos/capture/capture.cpp:4173 ekos/scheduler/scheduler.cpp:4738
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
@@ -2458,8 +2458,8 @@ msgstr "该 URL 无效。您是否想要打开浏览器窗口用 Google 搜索�
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3676
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1111 ekos/capture/capture.cpp:3742
-#: ekos/capture/capture.cpp:4180 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/analyze/analyze.cpp:1111 ekos/capture/capture.cpp:3744
+#: ekos/capture/capture.cpp:4182 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4374 ekos/scheduler/scheduler.cpp:4748
 #: fitsviewer/fitstab.cpp:738 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:928
@@ -2750,7 +2750,7 @@ msgstr "类型映射"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:914
+#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:925
 #, kde-format
 msgid "Preview"
 msgstr "预览"
@@ -3621,7 +3621,7 @@ msgstr "0.0 秒差距"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:911
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1059
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -5736,8 +5736,8 @@ msgstr "CCD 像素尺寸缺失。请检查您的驱动设置并重试。"
 msgid "Error: lost connection to filter wheel."
 msgstr "错误：与滤镜轮的连接中断。"
 
-#: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3311
-#: ekos/capture/capture.cpp:5674 ekos/focus/focus.cpp:4017
+#: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3313
+#: ekos/capture/capture.cpp:5676 ekos/focus/focus.cpp:4017
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5865,7 +5865,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "刷新完成。"
 
-#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1415
+#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1417
 #: ekos/focus/focus.cpp:1095
 #, kde-format
 msgid "Capture aborted."
@@ -5876,7 +5876,7 @@ msgstr "拍摄已中止。"
 msgid "Solver aborted after %1 seconds."
 msgstr "解析中止，用时 %1 秒。"
 
-#: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2510
+#: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2512
 #: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1872
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
@@ -5986,8 +5986,8 @@ msgstr "世界坐标系统（WCS）被禁用。"
 msgid "Capture error. Aborting..."
 msgstr "拍摄失败。中止..."
 
-#: ekos/align/align.cpp:3030 ekos/capture/capture.cpp:2571
-#: ekos/capture/capture.cpp:2639
+#: ekos/align/align.cpp:3030 ekos/capture/capture.cpp:2573
+#: ekos/capture/capture.cpp:2641
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "尝试重新启动拍摄 #%1"
@@ -6034,23 +6034,23 @@ msgstr "赤经误差(角秒)"
 msgid "dDE (arcsec)"
 msgstr "赤纬误差(角秒)"
 
-#: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5877
+#: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5879
 #: ekos/focus/focus.cpp:3922
 #, kde-format
 msgid "Filter operation failed."
 msgstr "滤镜操作失败。"
 
-#: ekos/align/align.cpp:3384 ekos/capture/capture.cpp:5813
+#: ekos/align/align.cpp:3384 ekos/capture/capture.cpp:5815
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "更改焦点偏移 %1 步..."
 
-#: ekos/align/align.cpp:3391 ekos/capture/capture.cpp:5818
+#: ekos/align/align.cpp:3391 ekos/capture/capture.cpp:5820
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "更改滤镜至 %1..."
 
-#: ekos/align/align.cpp:3396 ekos/capture/capture.cpp:5823
+#: ekos/align/align.cpp:3396 ekos/capture/capture.cpp:5825
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "更换滤镜后自动对焦..."
@@ -6067,8 +6067,8 @@ msgid "Export Solution Points"
 msgstr "导出已解析的点"
 
 #: ekos/align/align.cpp:3675 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3741
-#: ekos/capture/capture.cpp:4179 ekos/guide/guidedriftgraph.cpp:474
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3743
+#: ekos/capture/capture.cpp:4181 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
 #: fitsviewer/fitstab.cpp:737 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:927
@@ -6077,14 +6077,14 @@ msgid "Invalid URL: %1"
 msgstr "无效的网址：%1"
 
 #: ekos/align/align.cpp:3684 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:4202 ekos/guide/guidedriftgraph.cpp:483
+#: ekos/capture/capture.cpp:4204 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7152
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "无法写入到文件 %1"
 
 #: ekos/align/align.cpp:3685 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3757
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3759
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7096
 #: ekos/scheduler/scheduler.cpp:7153 indi/drivermanager.cpp:1532
@@ -6166,7 +6166,7 @@ msgstr "加载并转动"
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:159 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:3395 ekos/focus/focus.ui:337
+#: ekos/capture/capture.cpp:3397 ekos/focus/focus.ui:337
 #: ekos/guide/guide.ui:148 ekos/manager.cpp:219
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
@@ -6689,13 +6689,13 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "打开 Ekos 校准列表"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:3756
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:3758
 #: ekos/scheduler/scheduler.cpp:4416 ekos/scheduler/scheduler.cpp:7095
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "无法打开文件 %1"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:3783
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:3785
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7305,7 +7305,7 @@ msgstr "自动归位"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6646
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6648
 #: ekos/focus/focus.ui:1233
 #, kde-format
 msgid "Threshold:"
@@ -10360,84 +10360,84 @@ msgstr ""
 msgid "Failed to load %1: %2"
 msgstr "加载 %1 失败：%2"
 
-#: ekos/auxiliary/darklibrary.cpp:293
+#: ekos/auxiliary/darklibrary.cpp:295
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %1 seconds exposure for more accurate results."
 msgstr "使用可用的 %1 秒曝光暗场。请拍摄 %1 秒暗场以获取更准确的结果。"
 
-#: ekos/auxiliary/darklibrary.cpp:303
+#: ekos/auxiliary/darklibrary.cpp:305
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr "暗场 %s 已过期，请新建主暗场。"
 
-#: ekos/auxiliary/darklibrary.cpp:326
+#: ekos/auxiliary/darklibrary.cpp:328
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "删除坏的暗场文件 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:422
+#: ekos/auxiliary/darklibrary.cpp:424
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "加载 defect map %1 失败"
 
-#: ekos/auxiliary/darklibrary.cpp:442
+#: ekos/auxiliary/darklibrary.cpp:444
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "加载 defect map 文件 %1 失败"
 
-#: ekos/auxiliary/darklibrary.cpp:458
+#: ekos/auxiliary/darklibrary.cpp:460
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "未能加载暗场文件 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:518
+#: ekos/auxiliary/darklibrary.cpp:520
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "处理暗场数据失败。"
 
-#: ekos/auxiliary/darklibrary.cpp:524
+#: ekos/auxiliary/darklibrary.cpp:526
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "加载暗场数据失败。"
 
-#: ekos/auxiliary/darklibrary.cpp:534
+#: ekos/auxiliary/darklibrary.cpp:536
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "收到 %1/%2 图像。"
 
-#: ekos/auxiliary/darklibrary.cpp:653
+#: ekos/auxiliary/darklibrary.cpp:655
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "您确定要删除所有暗场和数据吗？"
 
-#: ekos/auxiliary/darklibrary.cpp:1217
+#: ekos/auxiliary/darklibrary.cpp:1219
 #, kde-format
 msgid "In progress..."
 msgstr "进行中..."
 
-#: ekos/auxiliary/darklibrary.cpp:1373
+#: ekos/auxiliary/darklibrary.cpp:1375
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "保存 master frame 失败： %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1394
+#: ekos/auxiliary/darklibrary.cpp:1396
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "主暗场保存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1419
+#: ekos/auxiliary/darklibrary.cpp:1421
 #, kde-format
 msgid "Capture completed."
 msgstr "拍摄完成。"
 
-#: ekos/auxiliary/darklibrary.cpp:1446
+#: ekos/auxiliary/darklibrary.cpp:1448
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Defect map 保存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1466
+#: ekos/auxiliary/darklibrary.cpp:1468
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "保存 defect map %1 失败"
@@ -10807,8 +10807,8 @@ msgid "° C"
 msgstr "°C"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
-#. i18n: ectx: label, entry (DarkLibraryDuration), group (Capture)
-#: ekos/auxiliary/darklibrary.ui:1129 kstars.kcfg:1757
+#. i18n: ectx: label, entry (DarkLibraryDuration), group (DarkLibrary)
+#: ekos/auxiliary/darklibrary.ui:1129 kstars.kcfg:1558
 #, kde-format
 msgid ""
 "Reuse dark frames from the dark library for this many days. If exceeded, a "
@@ -12885,12 +12885,12 @@ msgstr "归位赤道仪"
 msgid "Park Dome"
 msgstr "归位圆顶"
 
-#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:4607
+#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:4609
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "将作业添加到序列队列"
 
-#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:4608
+#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:4610
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "从序列队列中删除作业"
@@ -12932,7 +12932,7 @@ msgid ""
 "restart capturing?"
 msgstr "所有任务都已完成。您想重置所有任务的状态并重新开始拍摄吗？"
 
-#: ekos/capture/capture.cpp:877 ekos/capture/capture.cpp:4393
+#: ekos/capture/capture.cpp:877 ekos/capture/capture.cpp:4395
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
@@ -13042,7 +13042,7 @@ msgstr "执行后作业脚本 %1"
 msgid "CCD capture sequence completed"
 msgstr "CCD 拍摄队列完毕"
 
-#: ekos/capture/capture.cpp:2241 ekos/capture/capture.cpp:3372
+#: ekos/capture/capture.cpp:2241 ekos/capture/capture.cpp:3374
 #, kde-format
 msgid "Executing pre capture script %1"
 msgstr "正在执行前拍摄脚本 %1"
@@ -13087,177 +13087,177 @@ msgstr "设置子帧失败。"
 msgid "Failed to set binning."
 msgstr "设置合并像素失败。"
 
-#: ekos/capture/capture.cpp:2563 ekos/capture/capture.cpp:2631
+#: ekos/capture/capture.cpp:2565 ekos/capture/capture.cpp:2633
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
 
-#: ekos/capture/capture.cpp:2601
+#: ekos/capture/capture.cpp:2603
 #, kde-format
 msgid "Downloading..."
 msgstr "下载中..."
 
-#: ekos/capture/capture.cpp:2744
+#: ekos/capture/capture.cpp:2746
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "您必须为”当地 & 均存放“模式设置远程目录。"
 
-#: ekos/capture/capture.cpp:2750
+#: ekos/capture/capture.cpp:2752
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "您必须为“客户端” 和“两端”模式设置本地目录。"
 
-#: ekos/capture/capture.cpp:2889 ekos/capture/capture.cpp:2892
+#: ekos/capture/capture.cpp:2891 ekos/capture/capture.cpp:2894
 #, kde-format
 msgid "Dark Flat"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2968
+#: ekos/capture/capture.cpp:2970
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "任务 #%1 更改生效。"
 
-#: ekos/capture/capture.cpp:3170
+#: ekos/capture/capture.cpp:3172
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr "无用于预览的视图。是否已启用 FITS 查看器？"
 
-#: ekos/capture/capture.cpp:3171
+#: ekos/capture/capture.cpp:3173
 #, kde-format
 msgid "Display preview"
 msgstr "显示预览"
 
-#: ekos/capture/capture.cpp:3260
+#: ekos/capture/capture.cpp:3262
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr "作业需要 %1秒的图像 %2 张，已经拍摄 %3/%4 ，无需运行。"
 
-#: ekos/capture/capture.cpp:3272
+#: ekos/capture/capture.cpp:3274
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr "作业需要 %1秒图像 %2 张，已经拍摄 %3/%4 帧并将被处理。"
 
-#: ekos/capture/capture.cpp:3312 ekos/capture/capture.cpp:5675
+#: ekos/capture/capture.cpp:3314 ekos/capture/capture.cpp:5677
 #, kde-format
 msgid "Image Transfer"
 msgstr "图像传输"
 
-#: ekos/capture/capture.cpp:3337
+#: ekos/capture/capture.cpp:3339
 #, kde-format
 msgid "Executing pre job script %1"
 msgstr "正在执行前作业脚本 %1"
 
-#: ekos/capture/capture.cpp:3419
+#: ekos/capture/capture.cpp:3421
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "正在设置温度至 %1 摄氏度..."
 
-#: ekos/capture/capture.cpp:3420
+#: ekos/capture/capture.cpp:3422
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "设置温度至 %1 摄氏度..."
 
-#: ekos/capture/capture.cpp:3423
+#: ekos/capture/capture.cpp:3425
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3424
+#: ekos/capture/capture.cpp:3426
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "等待导星 < “%1”..."
 
-#: ekos/capture/capture.cpp:3428
+#: ekos/capture/capture.cpp:3430
 #, kde-format
 msgid "Setting rotation to %1 degrees E of N..."
 msgstr "设置旋转到北偏东 %1 度..."
 
-#: ekos/capture/capture.cpp:3429
+#: ekos/capture/capture.cpp:3431
 #, kde-format
 msgid "Set Rotator to %1 deg..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3492
+#: ekos/capture/capture.cpp:3494
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "警告： 校准过程被提前终止。"
 
-#: ekos/capture/capture.cpp:3545 ekos/capture/capture.cpp:3546
+#: ekos/capture/capture.cpp:3547 ekos/capture/capture.cpp:3548
 #, kde-format
 msgid "Focus complete."
 msgstr "对焦完成。"
 
-#: ekos/capture/capture.cpp:3550
+#: ekos/capture/capture.cpp:3552
 #, kde-format
 msgid "Autofocus failed."
 msgstr "自动对焦失败."
 
-#: ekos/capture/capture.cpp:3571
+#: ekos/capture/capture.cpp:3573
 #, kde-format
 msgid "Paused..."
 msgstr "暂停..."
 
-#: ekos/capture/capture.cpp:3577
+#: ekos/capture/capture.cpp:3579
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "过中天翻转..."
 
-#: ekos/capture/capture.cpp:3578
+#: ekos/capture/capture.cpp:3580
 #, kde-format
 msgid "Meridian flip started"
 msgstr "开始过中天翻转"
 
-#: ekos/capture/capture.cpp:3582
+#: ekos/capture/capture.cpp:3584
 #, kde-format
 msgid "Flip complete."
 msgstr "翻转完成。"
 
-#: ekos/capture/capture.cpp:3723 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:3725 ekos/scheduler/framingassistant.cpp:221
 #: ekos/scheduler/mosaic.cpp:212
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS 保存目录"
 
-#: ekos/capture/capture.cpp:3733
+#: ekos/capture/capture.cpp:3735
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "打开 Ekos 序列队列"
 
-#: ekos/capture/capture.cpp:3844
+#: ekos/capture/capture.cpp:3846
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr "中天翻转配置已移到赤道仪模块。请在那里配置中天翻转。"
 
-#: ekos/capture/capture.cpp:3932
+#: ekos/capture/capture.cpp:3934
 #, kde-format
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4150
+#: ekos/capture/capture.cpp:4152
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "保存 Ekos 序列队列"
 
-#: ekos/capture/capture.cpp:4171
+#: ekos/capture/capture.cpp:4173
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "保存序列队列失败"
 
-#: ekos/capture/capture.cpp:4203
+#: ekos/capture/capture.cpp:4205
 #, kde-format
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ekos/capture/capture.cpp:4223
+#: ekos/capture/capture.cpp:4225
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -13267,275 +13267,275 @@ msgstr ""
 "警告：基于 HFR 的自动焦点已设置，但未启用“保存序列 HFR 值至文件”选项。 当前 "
 "HFR 值将不会被写入序列文件。"
 
-#: ekos/capture/capture.cpp:4369
+#: ekos/capture/capture.cpp:4371
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "序列队列已保存到 %1"
 
-#: ekos/capture/capture.cpp:4393
+#: ekos/capture/capture.cpp:4395
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/capture.cpp:4586
+#: ekos/capture/capture.cpp:4588
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "编辑任务 #%1..."
 
-#: ekos/capture/capture.cpp:4589 ekos/scheduler/scheduler.cpp:1629
+#: ekos/capture/capture.cpp:4591 ekos/scheduler/scheduler.cpp:1629
 #, kde-format
 msgid "Apply job changes."
 msgstr "应用作业更改。"
 
-#: ekos/capture/capture.cpp:4590
+#: ekos/capture/capture.cpp:4592
 #, kde-format
 msgid "Cancel job changes."
 msgstr "取消作业更改"
 
-#: ekos/capture/capture.cpp:4602
+#: ekos/capture/capture.cpp:4604
 #, kde-format
 msgid "Editing job canceled."
 msgstr "取消编辑任务"
 
-#: ekos/capture/capture.cpp:4844
+#: ekos/capture/capture.cpp:4846
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "成功完成过中天翻转"
 
-#: ekos/capture/capture.cpp:4854
+#: ekos/capture/capture.cpp:4856
 #, kde-format
 msgid "Sequence paused."
 msgstr "序列已暂停。"
 
-#: ekos/capture/capture.cpp:4875
+#: ekos/capture/capture.cpp:4877
 #, kde-format
 msgid "Guide module timed out."
 msgstr "导星模块超时。"
 
-#: ekos/capture/capture.cpp:4900
+#: ekos/capture/capture.cpp:4902
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "翻转后重新对准成功。"
 
-#: ekos/capture/capture.cpp:4919
+#: ekos/capture/capture.cpp:4921
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "翻转后对准失败。"
 
-#: ekos/capture/capture.cpp:4924
+#: ekos/capture/capture.cpp:4926
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "翻转后对准失败。正在重试..."
 
-#: ekos/capture/capture.cpp:4964
+#: ekos/capture/capture.cpp:4966
 #, kde-format
 msgid "Dithering succeeded."
 msgstr "抖动成功。"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:4971
+#: ekos/capture/capture.cpp:4973
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "像素偏移完成。在 %1 秒后恢复..."
 
-#: ekos/capture/capture.cpp:4979
+#: ekos/capture/capture.cpp:4981
 #, kde-format
 msgid "Dither complete."
 msgstr "像素偏移完毕。"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:4993
+#: ekos/capture/capture.cpp:4995
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "警告: 像素偏移失败。在 %1 秒后恢复..."
 
-#: ekos/capture/capture.cpp:5002
+#: ekos/capture/capture.cpp:5004
 #, kde-format
 msgid "Warning: Dithering failed."
 msgstr "警告: 像素偏移失败。"
 
-#: ekos/capture/capture.cpp:5024
+#: ekos/capture/capture.cpp:5026
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "自动导星停止，正在等待自动对焦完成..."
 
-#: ekos/capture/capture.cpp:5033
+#: ekos/capture/capture.cpp:5035
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "导星停止。中止..."
 
-#: ekos/capture/capture.cpp:5040
+#: ekos/capture/capture.cpp:5042
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "过中天翻转后校准错误。中止..."
 
-#: ekos/capture/capture.cpp:5318
+#: ekos/capture/capture.cpp:5320
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "墙坐标无效。"
 
-#: ekos/capture/capture.cpp:5409
+#: ekos/capture/capture.cpp:5411
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "自动导星恢复。"
 
-#: ekos/capture/capture.cpp:5437
+#: ekos/capture/capture.cpp:5439
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "暂停导星。"
 
-#: ekos/capture/capture.cpp:5510
+#: ekos/capture/capture.cpp:5512
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr "平场校准失败，需要的 ADU 是 %2 但捕获图像仅为 %1位。"
 
-#: ekos/capture/capture.cpp:5521
+#: ekos/capture/capture.cpp:5523
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "当前图像已饱和(%1)，下一次曝光是 %2 秒。"
 
-#: ekos/capture/capture.cpp:5542
+#: ekos/capture/capture.cpp:5544
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "当前 ADU %1 在目标 ADU 容忍范围内。"
 
-#: ekos/capture/capture.cpp:5575
+#: ekos/capture/capture.cpp:5577
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
 
-#: ekos/capture/capture.cpp:5583
+#: ekos/capture/capture.cpp:5585
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
 
-#: ekos/capture/capture.cpp:5605
+#: ekos/capture/capture.cpp:5607
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "远程图像保存到 %1"
 
-#: ekos/capture/capture.cpp:5615
+#: ekos/capture/capture.cpp:5617
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "预拍摄脚本以代码 %1 完成"
 
-#: ekos/capture/capture.cpp:5623
+#: ekos/capture/capture.cpp:5625
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "后拍摄脚本以代码 %1 完成。"
 
-#: ekos/capture/capture.cpp:5633
+#: ekos/capture/capture.cpp:5635
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "正在中天翻转..."
 
-#: ekos/capture/capture.cpp:5638
+#: ekos/capture/capture.cpp:5640
 #, kde-format
 msgid "Resuming sequence..."
 msgstr "恢复序列..."
 
-#: ekos/capture/capture.cpp:5644
+#: ekos/capture/capture.cpp:5646
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "预作业脚本以代码 %1 完成。"
 
-#: ekos/capture/capture.cpp:5649
+#: ekos/capture/capture.cpp:5651
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "后作业脚本以代码 %1 完成。"
 
-#: ekos/capture/capture.cpp:5744
+#: ekos/capture/capture.cpp:5746
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "选择当前观测员"
 
-#: ekos/capture/capture.cpp:5746
+#: ekos/capture/capture.cpp:5748
 #, kde-format
 msgid "Current Observer:"
 msgstr "当前观测员："
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:5757 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:5759 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "管理观测员"
 
-#: ekos/capture/capture.cpp:5830
+#: ekos/capture/capture.cpp:5832
 #, kde-format
 msgid "Filter set to %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6212
+#: ekos/capture/capture.cpp:6214
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "重置 %1 配置为默认值吗？"
 
-#: ekos/capture/capture.cpp:6214
+#: ekos/capture/capture.cpp:6216
 #, kde-format
 msgid "Confirmation"
 msgstr "确认"
 
-#: ekos/capture/capture.cpp:6230
+#: ekos/capture/capture.cpp:6232
 #, kde-format
 msgid "Cooler is on"
 msgstr "制冷已打开"
 
-#: ekos/capture/capture.cpp:6230
+#: ekos/capture/capture.cpp:6232
 #, kde-format
 msgid "Cooler is off"
 msgstr "制冷已关闭"
 
-#: ekos/capture/capture.cpp:6241 ekos/focus/focus.cpp:4059
+#: ekos/capture/capture.cpp:6243 ekos/focus/focus.cpp:4059
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "曝光超时。终止..."
 
-#: ekos/capture/capture.cpp:6264 ekos/focus/focus.cpp:4064
+#: ekos/capture/capture.cpp:6266 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
 
-#: ekos/capture/capture.cpp:6601
+#: ekos/capture/capture.cpp:6603
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "您确定要重新启动相机 %1 驱动吗？"
 
-#: ekos/capture/capture.cpp:6602
+#: ekos/capture/capture.cpp:6604
 #, kde-format
 msgid "Driver Restart"
 msgstr "重启设备"
 
-#: ekos/capture/capture.cpp:6638
+#: ekos/capture/capture.cpp:6640
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "温度梯度(度/分)"
 
-#: ekos/capture/capture.cpp:6644
+#: ekos/capture/capture.cpp:6646
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr "冷却或加热摄像头时，每分钟最大温度变化。设置为零以禁用。"
 
-#: ekos/capture/capture.cpp:6652
+#: ekos/capture/capture.cpp:6654
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr "相机温度与目标温度的最大温差"
 
-#: ekos/capture/capture.cpp:6662
+#: ekos/capture/capture.cpp:6664
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "设置温度管控"
 
-#: ekos/capture/capture.cpp:6693
+#: ekos/capture/capture.cpp:6695
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -19716,7 +19716,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:897 kstars.kcfg:1567
+#: ekos/mount/mount.ui:897 kstars.kcfg:1571
 #, kde-format
 msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
@@ -20794,7 +20794,7 @@ msgstr "序列内 HFR 检查："
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_InSequenceCheckFrames)
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
-#: ekos/opsekos.ui:837 kstars.kcfg:1753
+#: ekos/opsekos.ui:837 kstars.kcfg:1757
 #, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
 msgstr "在这么多帧后运行序列内 HFR 检查。"
@@ -26308,7 +26308,7 @@ msgstr "已停止录制视频"
 msgid "Video Recording Started"
 msgstr "已开始录制视频。"
 
-#: indi/indicamera.cpp:734
+#: indi/indicamera.cpp:745
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -26317,22 +26317,22 @@ msgstr ""
 "将图像写入到 %1失败\n"
 "请检查文件夹、文件名和权限。"
 
-#: indi/indicamera.cpp:736
+#: indi/indicamera.cpp:747
 #, kde-format
 msgid "Image Write Failed"
 msgstr "图像写入失败"
 
-#: indi/indicamera.cpp:747
+#: indi/indicamera.cpp:758
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "文件 %1 已保存到 %2"
 
-#: indi/indicamera.cpp:754
+#: indi/indicamera.cpp:765
 #, kde-format
 msgid "Image file is received"
 msgstr "图像文件已收到"
 
-#: indi/indicamera.cpp:911
+#: indi/indicamera.cpp:922
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 的预览"
@@ -31037,7 +31037,7 @@ msgid "List of CCDs without mechanical or electronic shutters."
 msgstr "没有机械或电子快门的 CCD 的列表。"
 
 #. i18n: ectx: label, entry (UseGraphicalCountsDisplay), group (Manager)
-#: kstars.kcfg:1560
+#: kstars.kcfg:1564
 #, kde-format
 msgid ""
 "Use the graphical version for capture/sequence/total counting using round "
@@ -31045,19 +31045,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (MinimumAltLimit), group (Mount)
-#: kstars.kcfg:1566
+#: kstars.kcfg:1570
 #, kde-format
 msgid "Default minimum mount altitude limit"
 msgstr "默认最小支架高度角限制"
 
 #. i18n: ectx: label, entry (MaximumAltLimit), group (Mount)
-#: kstars.kcfg:1571
+#: kstars.kcfg:1575
 #, kde-format
 msgid "Default maximum mount altitude limit."
 msgstr "默认最大支架高度角限制。"
 
 #. i18n: ectx: whatsthis, entry (MaximumAltLimit), group (Mount)
-#: kstars.kcfg:1572
+#: kstars.kcfg:1576
 #, kde-format
 msgid ""
 "Maximum telescope altitude limit. If the telescope is above this limit, it "
@@ -31065,25 +31065,25 @@ msgid ""
 msgstr " 最大望远镜的高度角限制。如果望远镜超过此限制，它将被命令停止。"
 
 #. i18n: ectx: label, entry (EnableAltitudeLimits), group (Mount)
-#: kstars.kcfg:1576
+#: kstars.kcfg:1580
 #, kde-format
 msgid "Enable mount altitude limits."
 msgstr "启用支架高度角限制。"
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
-#: kstars.kcfg:1580
+#: kstars.kcfg:1584
 #, kde-format
 msgid "Warn user before command mount to go to a target below horizon."
 msgstr ""
 
 #. i18n: ectx: label, entry (MeridianFlipOffsetDegrees), group (Mount)
-#: kstars.kcfg:1584
+#: kstars.kcfg:1588
 #, kde-format
 msgid "Default hour angle to perform meridian flip in degrees."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MeridianFlipOffsetDegrees), group (Mount)
-#: kstars.kcfg:1585
+#: kstars.kcfg:1589
 #, kde-format
 msgid ""
 "If the target hour angle exceeds this value, Ekos will command a meridian "
@@ -31091,13 +31091,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (MaximumHaLimit), group (Mount)
-#: kstars.kcfg:1589
+#: kstars.kcfg:1593
 #, kde-format
 msgid "Default maximum limit for the hour angle."
 msgstr "默认最大时角限制。"
 
 #. i18n: ectx: whatsthis, entry (MaximumHaLimit), group (Mount)
-#: kstars.kcfg:1590
+#: kstars.kcfg:1594
 #, kde-format
 msgid ""
 "Maximum limit for the hour angle of the telescope. If the hour angle of the "
@@ -31105,79 +31105,79 @@ msgid ""
 msgstr "望远镜最大时角限制。 如果望远镜时角高于这个极限，将强制过中天翻转。"
 
 #. i18n: ectx: label, entry (EnableHaLimit), group (Mount)
-#: kstars.kcfg:1594
+#: kstars.kcfg:1598
 #, kde-format
 msgid "Enable mount hour angle limit."
 msgstr "启用支架时角限制。"
 
 #. i18n: ectx: label, entry (ExecuteMeridianFlip), group (Mount)
-#: kstars.kcfg:1598
+#: kstars.kcfg:1602
 #, kde-format
 msgid "Flips the mount when reaching the meridian, if supported."
 msgstr "如果赤道仪支持，赤道仪将在抵达中天时，执行翻转。"
 
 #. i18n: ectx: label, entry (LeftRightReversed), group (Mount)
-#: kstars.kcfg:1602
+#: kstars.kcfg:1606
 #, kde-format
 msgid "Reverse the direction of right and left buttons in mount control."
 msgstr ""
 
 #. i18n: ectx: label, entry (UpDownReversed), group (Mount)
-#: kstars.kcfg:1606
+#: kstars.kcfg:1610
 #, kde-format
 msgid "Reverse the direction of up and down buttons in mount control."
 msgstr ""
 
 #. i18n: ectx: label, entry (ParkEveryDay), group (Mount)
-#: kstars.kcfg:1610
+#: kstars.kcfg:1614
 #, kde-format
 msgid "Automatically start parking timer on startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (ParkTime), group (Mount)
-#: kstars.kcfg:1614
+#: kstars.kcfg:1618
 #, kde-format
 msgid "Park mount at this time in 12 hour format."
 msgstr ""
 
 #. i18n: ectx: label, entry (DefaultObserver), group (Capture)
-#: kstars.kcfg:1620
+#: kstars.kcfg:1624
 #, kde-format
 msgid "Default observer full name."
 msgstr "默认观察员的完整名称。"
 
 #. i18n: ectx: label, entry (SyncFOVPA), group (Capture)
-#: kstars.kcfg:1623
+#: kstars.kcfg:1627
 #, kde-format
 msgid "Sync FOV indicator Position Angle with Rotator Settings Position Angle"
 msgstr "同步视场指示器位置角度以匹配旋像器设置的位置角度"
 
 #. i18n: ectx: label, entry (PAMultiplier), group (Capture)
-#: kstars.kcfg:1627
+#: kstars.kcfg:1631
 #, kde-format
 msgid "Position angle multiplier"
 msgstr "方位角乘系数"
 
 #. i18n: ectx: label, entry (PAOffset), group (Capture)
-#: kstars.kcfg:1631
+#: kstars.kcfg:1635
 #, kde-format
 msgid "Position angle offset"
 msgstr "方位角偏移量"
 
 #. i18n: ectx: label, entry (PAPierSide), group (Capture)
-#: kstars.kcfg:1635
+#: kstars.kcfg:1639
 #, kde-format
 msgid "Position angle calibration pier side"
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideDeviation), group (Capture)
-#: kstars.kcfg:1638
+#: kstars.kcfg:1642
 #, kde-format
 msgid "Default maximum permittable guide deviation"
 msgstr "默认的最大可接受导星误差"
 
 #. i18n: ectx: whatsthis, entry (GuideDeviation), group (Capture)
-#: kstars.kcfg:1639
+#: kstars.kcfg:1643
 #, kde-format
 msgid ""
 "If guide deviation exceeds this limit, the exposure will be automatically "
@@ -31185,13 +31185,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
-#: kstars.kcfg:1643
+#: kstars.kcfg:1647
 #, kde-format
 msgid "Default maximum permittable guide deviation before capture start"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (StartGuideDeviation), group (Capture)
-#: kstars.kcfg:1644
+#: kstars.kcfg:1648
 #, kde-format
 msgid ""
 "If guide deviation exceeds this limit before capture start, starting an "
@@ -31199,13 +31199,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (HFRDeviation), group (Capture)
-#: kstars.kcfg:1648
+#: kstars.kcfg:1652
 #, kde-format
 msgid "Default maximum permittable HFR deviation"
 msgstr "默认的最大可接受 HFR 误差"
 
 #. i18n: ectx: whatsthis, entry (HFRDeviation), group (Capture)
-#: kstars.kcfg:1649
+#: kstars.kcfg:1653
 #, kde-format
 msgid ""
 "If HFR deviation exceeds this limit, the autofocus routine will be "
@@ -31213,13 +31213,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (MaxFocusTemperatureDelta), group (Capture)
-#: kstars.kcfg:1653
+#: kstars.kcfg:1657
 #, kde-format
 msgid "Default maximum focus temperature delta"
 msgstr "默认最大对焦温度偏差"
 
 #. i18n: ectx: whatsthis, entry (MaxFocusTemperatureDelta), group (Capture)
-#: kstars.kcfg:1654
+#: kstars.kcfg:1658
 #, kde-format
 msgid ""
 "If the temperature change exceeds this limit, the autofocus routine will be "
@@ -31227,44 +31227,44 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AutoDark), group (Capture)
-#: kstars.kcfg:1658
+#: kstars.kcfg:1662
 #, kde-format
 msgid ""
 "Automatically apply dark subtraction if a suitable dark frame is available."
 msgstr "如果有合适的暗场，自动减去暗场。"
 
 #. i18n: ectx: label, entry (EnforceGuideDeviation), group (Capture)
-#: kstars.kcfg:1662
+#: kstars.kcfg:1666
 #, kde-format
 msgid "Enforce guiding deviation limit."
 msgstr ""
 
 #. i18n: ectx: label, entry (EnforceAutofocusHFR), group (Capture)
-#: kstars.kcfg:1666
+#: kstars.kcfg:1670
 #, kde-format
 msgid "Enforce Autofocus on HFR limit."
 msgstr ""
 
 #. i18n: ectx: label, entry (EnforceAutofocusOnTemperature), group (Capture)
-#: kstars.kcfg:1670
+#: kstars.kcfg:1674
 #, kde-format
 msgid "Enforce Autofocus on temperature change."
 msgstr ""
 
 #. i18n: ectx: label, entry (EnforceRefocusEveryN), group (Capture)
-#: kstars.kcfg:1674
+#: kstars.kcfg:1678
 #, kde-format
 msgid "Enforce Refocus Every N Minutes."
 msgstr "每 N 分钟强制重新对焦。"
 
 #. i18n: ectx: label, entry (RefocusEveryN), group (Capture)
-#: kstars.kcfg:1678
+#: kstars.kcfg:1682
 #, kde-format
 msgid "Number of minute between forced refocus attempts"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (RefocusEveryN), group (Capture)
-#: kstars.kcfg:1679
+#: kstars.kcfg:1683
 #, kde-format
 msgid ""
 "Sets the time interval before forced autofocus attempts during a capture "
@@ -31272,25 +31272,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (RefocusAfterMeridianFlip), group (Capture)
-#: kstars.kcfg:1683
+#: kstars.kcfg:1687
 #, kde-format
 msgid "Refocus after meridian flip is done"
 msgstr ""
 
 #. i18n: ectx: label, entry (ResetMountModelAfterMeridian), group (Capture)
-#: kstars.kcfg:1687
+#: kstars.kcfg:1691
 #, kde-format
 msgid "Reset mount model after meridian flip."
 msgstr "中天翻转后重置赤道仪模型。"
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
-#: kstars.kcfg:1691
+#: kstars.kcfg:1695
 #, kde-format
 msgid "Desired flat field ADU"
 msgstr "期望的平场 ADU"
 
 #. i18n: ectx: whatsthis, entry (CalibrationADUValue), group (Capture)
-#: kstars.kcfg:1692
+#: kstars.kcfg:1696
 #, kde-format
 msgid ""
 "If set, Ekos will capture a few flat images to determine the optimal "
@@ -31298,13 +31298,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationADUValueTolerance), group (Capture)
-#: kstars.kcfg:1696
+#: kstars.kcfg:1700
 #, kde-format
 msgid "ADU Value tolerance"
 msgstr "ADU 值容差"
 
 #. i18n: ectx: whatsthis, entry (CalibrationADUValueTolerance), group (Capture)
-#: kstars.kcfg:1697
+#: kstars.kcfg:1701
 #, kde-format
 msgid ""
 "Maximum difference between measured and target ADU values to deem the value "
@@ -31312,31 +31312,31 @@ msgid ""
 msgstr "测量值与目标ADU值之间最大差值，用以评议该值是可接受的。"
 
 #. i18n: ectx: label, entry (CalibrationFlatSourceIndex), group (Capture)
-#: kstars.kcfg:1701
+#: kstars.kcfg:1705
 #, kde-format
 msgid "Index of flat source option."
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationFlatDurationIndex), group (Capture)
-#: kstars.kcfg:1705
+#: kstars.kcfg:1709
 #, kde-format
 msgid "Index of flat duration option."
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationWallAz), group (Capture)
-#: kstars.kcfg:1709
+#: kstars.kcfg:1713
 #, kde-format
 msgid "Azimuth of calibration wall location."
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationWallAlt), group (Capture)
-#: kstars.kcfg:1713
+#: kstars.kcfg:1717
 #, kde-format
 msgid "Altitude of calibration wall location."
 msgstr ""
 
 #. i18n: ectx: label, entry (MaxTemperatureDiff), group (Capture)
-#: kstars.kcfg:1717
+#: kstars.kcfg:1721
 #, kde-format
 msgid ""
 "Maximum acceptable difference between requested and measured temperature set "
@@ -31344,27 +31344,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (MaxStartGuiderDrift), group (Capture)
-#: kstars.kcfg:1721
+#: kstars.kcfg:1725
 #, kde-format
 msgid "Maximum acceptable guider drift allowed before starting capture."
 msgstr "开始拍摄前允许的最大导星漂移。"
 
 #. i18n: ectx: label, entry (EnforceStartGuiderDrift), group (Capture)
-#: kstars.kcfg:1725
+#: kstars.kcfg:1729
 #, kde-format
 msgid ""
 "Enforce maximum acceptable guider drift allowed before starting capture."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuidingSettle), group (Capture)
-#: kstars.kcfg:1729
+#: kstars.kcfg:1733
 #, kde-format
 msgid ""
 "Wait this many seconds after guiding is resumed before starting capture."
 msgstr "导星恢复后等待这么多秒才开始拍摄."
 
 #. i18n: ectx: label, entry (AlwaysResetSequenceWhenStarting), group (Capture)
-#: kstars.kcfg:1733
+#: kstars.kcfg:1737
 #, kde-format
 msgid ""
 "<html><head/><body><p>When starting to process a sequence list, reset all "
@@ -31373,13 +31373,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (FlatSyncFocus), group (Capture)
-#: kstars.kcfg:1737
+#: kstars.kcfg:1741
 #, kde-format
 msgid "Capture flat frames at the same focus position of light frames."
 msgstr "使用与拍摄亮场相同的对焦点位置拍摄平场。"
 
 #. i18n: ectx: label, entry (HFRThresholdPercentage), group (Capture)
-#: kstars.kcfg:1741
+#: kstars.kcfg:1745
 #, kde-format
 msgid ""
 "Increase autofocus HFR value by this percentage gain and store it in Capture "
@@ -31387,14 +31387,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseMedianFocus), group (Capture)
-#: kstars.kcfg:1745
+#: kstars.kcfg:1749
 #, kde-format
 msgid ""
 "Calculate median focus value after each autofocus operation is complete."
 msgstr ""
 
 #. i18n: ectx: label, entry (SaveHFRToFile), group (Capture)
-#: kstars.kcfg:1749
+#: kstars.kcfg:1753
 #, kde-format
 msgid ""
 "When saving a sequence file, save current HFR threshold value. By default, "
