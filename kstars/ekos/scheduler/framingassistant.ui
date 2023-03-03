@@ -1396,7 +1396,7 @@
           <item row="7" column="2" colspan="2">
            <widget class="QSpinBox" name="alignEvery">
             <property name="toolTip">
-             <string>Perform autofocus every N jobs.</string>
+             <string>Perform alignment every N jobs.</string>
             </property>
             <property name="suffix">
              <string/>
