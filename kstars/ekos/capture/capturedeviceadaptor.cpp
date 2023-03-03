@@ -285,6 +285,9 @@ void CaptureDeviceAdaptor::disconnectActiveCamera()
 
 void CaptureDeviceAdaptor::connectFilterManager()
 {
+    if (!m_FilterManager)
+        return;
+
     connect(m_FilterManager.get(), &FilterManager::newStatus, currentSequenceJobState, &SequenceJobState::setFilterStatus);
     connect(m_FilterManager.get(), &FilterManager::ready, this, &CaptureDeviceAdaptor::updateFilterPosition);
     connect(currentSequenceJobState, &SequenceJobState::changeFilterPosition,
@@ -294,6 +297,9 @@ void CaptureDeviceAdaptor::connectFilterManager()
 
 void CaptureDeviceAdaptor::disconnectFilterManager()
 {
+    if (!m_FilterManager)
+        return;
+
     disconnect(currentSequenceJobState, &SequenceJobState::readFilterPosition, this,
                &CaptureDeviceAdaptor::updateFilterPosition);
     disconnect(currentSequenceJobState, &SequenceJobState::changeFilterPosition,
