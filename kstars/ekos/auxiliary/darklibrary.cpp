@@ -458,7 +458,6 @@ bool DarkLibrary::cacheDarkFrameFromFile(const QString &filename)
     if (rc.result())
     {
         m_CachedDarkFrames[filename] = data;
-        m_CurrentDarkFrame = data;
     }
     else
     {
@@ -1383,7 +1382,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 
     auto memoryMB = KSUtils::getAvailableRAM() / 1e6;
     if (memoryMB > CACHE_MEMORY_LIMIT)
-        m_CachedDarkFrames[path] = data;
+        cacheDarkFrameFromFile(data->filename());
 
     QVariantMap map;
     map["ccd"]         = metadata["camera"].toString();
