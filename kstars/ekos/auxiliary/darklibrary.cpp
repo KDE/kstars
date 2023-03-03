@@ -266,9 +266,9 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 double diffMap = std::fabs(map["duration"].toDouble() - duration);
                 double diffBest = std::fabs(bestCandidate["duration"].toDouble() - duration);
                 if (diffMap < diffBest)
-                    thisMapScore += 2;
+                    thisMapScore += 5;
                 else if (diffBest < diffMap)
-                    bestCandidateScore += 2;
+                    bestCandidateScore += 5;
             }
 
             // More recent has a higher score than older.
@@ -277,9 +277,9 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 int64_t diffMap  = map["timestamp"].toDateTime().secsTo(now);
                 int64_t diffBest = bestCandidate["timestamp"].toDateTime().secsTo(now);
                 if (diffMap < diffBest)
-                    thisMapScore += 2;
+                    thisMapScore++;
                 else if (diffBest < diffMap)
-                    bestCandidateScore += 2;
+                    bestCandidateScore++;
             }
 
             // Find candidate with closest time in case we have multiple defect maps
@@ -450,11 +450,16 @@ bool DarkLibrary::cacheDefectMapFromFile(const QString &key, const QString &file
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DarkLibrary::cacheDarkFrameFromFile(const QString &filename)
 {
-    QFuture<bool> rc = m_CurrentDarkFrame->loadFromFile(filename);
+    QSharedPointer<FITSData> data;
+    data.reset(new FITSData(FITS_CALIBRATE), &QObject::deleteLater);
+    QFuture<bool> rc = data->loadFromFile(filename);
 
     rc.waitForFinished();
     if (rc.result())
-        m_CachedDarkFrames[filename] = m_CurrentDarkFrame;
+    {
+        m_CachedDarkFrames[filename] = data;
+        m_CurrentDarkFrame = data;
+    }
     else
     {
         emit newLog(i18n("Failed to load dark frame file %1", filename));
