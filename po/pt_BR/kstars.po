@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-03 00:44+0000\n"
+"POT-Creation-Date: 2023-03-04 00:42+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -3821,7 +3821,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:911
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1059
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1063
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6177,7 +6177,7 @@ msgstr "A ADU atual é %1. A próxima exposição ocorrerá em %2 segundos."
 msgid "Refresh is complete."
 msgstr "O desvio de %1 está completo."
 
-#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1421
 #: ekos/focus/focus.cpp:1095
 #, kde-format
 msgid "Capture aborted."
@@ -11141,67 +11141,67 @@ msgstr "Falha ao carregar imagem em %1"
 msgid "Failed to load defect map file %1"
 msgstr "Falha ao carregar imagem em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:460
+#: ekos/auxiliary/darklibrary.cpp:464
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to load dark frame file %1"
 msgstr "Falha ao carregar imagem em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:520
+#: ekos/auxiliary/darklibrary.cpp:524
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Failed to process dark data."
 msgstr "Data, hora e localização: "
 
-#: ekos/auxiliary/darklibrary.cpp:526
+#: ekos/auxiliary/darklibrary.cpp:530
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to load dark data."
 msgstr "Falha ao carregar imagem em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:536
+#: ekos/auxiliary/darklibrary.cpp:540
 #, fuzzy, kde-format
 #| msgid "Received image %1 out of %2."
 msgid "Received %1/%2 images."
 msgstr "Foi recebida a imagem %1 de %2."
 
-#: ekos/auxiliary/darklibrary.cpp:655
+#: ekos/auxiliary/darklibrary.cpp:659
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to delete the profile?"
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Deseja realmente excluir este perfil?"
 
-#: ekos/auxiliary/darklibrary.cpp:1219
+#: ekos/auxiliary/darklibrary.cpp:1223
 #, fuzzy, kde-format
 #| msgid "In Progress"
 msgid "In progress..."
 msgstr "Em andamento"
 
-#: ekos/auxiliary/darklibrary.cpp:1375
+#: ekos/auxiliary/darklibrary.cpp:1379
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save master frame: %1"
 msgstr "Não foi possível definir a subimagem."
 
-#: ekos/auxiliary/darklibrary.cpp:1396
+#: ekos/auxiliary/darklibrary.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "Arquivo de dados salvo em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1421
+#: ekos/auxiliary/darklibrary.cpp:1425
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture completed."
 msgstr "Captura cancelada."
 
-#: ekos/auxiliary/darklibrary.cpp:1448
+#: ekos/auxiliary/darklibrary.cpp:1452
 #, fuzzy, kde-format
 #| msgid "Remote image saved to %1"
 msgid "Defect map saved to %1"
 msgstr "Imagem remota salva em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1468
+#: ekos/auxiliary/darklibrary.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Failed to open file %1. %2"
 msgid "Failed to save defect map to %1"
@@ -15417,7 +15417,7 @@ msgstr "Hora local: "
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:461
+#: ekos/capture/capturedeviceadaptor.cpp:467
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -15427,18 +15427,18 @@ msgstr ""
 "Se a câmera do guia não estiver ocupada com um obturador, tape o telescópio "
 "ou câmera para obter uma exposição escura."
 
-#: ekos/capture/capturedeviceadaptor.cpp:462
+#: ekos/capture/capturedeviceadaptor.cpp:468
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope Covered"
 msgstr "Coordenadas do telescópio"
 
-#: ekos/capture/capturedeviceadaptor.cpp:594
+#: ekos/capture/capturedeviceadaptor.cpp:600
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:595
+#: ekos/capture/capturedeviceadaptor.cpp:601
 #: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Dark Exposure"
@@ -24300,8 +24300,14 @@ msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
 
 # Raio do Meio-Fluxo (RMF)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1399
+#, fuzzy, kde-format
+#| msgid "Enforce Autofocus HFR limit."
+msgid "Perform alignment every N jobs."
+msgstr "Força o limite de focagem automática do RMF."
+
+# Raio do Meio-Fluxo (RMF)
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1418
 #, fuzzy, kde-format
 #| msgid "Enforce Autofocus HFR limit."

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-03 00:44+0000\n"
+"POT-Creation-Date: 2023-03-04 00:42+0000\n"
 "PO-Revision-Date: 2023-02-26 22:41+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3718,7 +3718,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:911
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1059
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1063
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6032,7 +6032,7 @@ msgstr "L'AP actual està %1; l'AP de l'objectiu està %2; dif.: %3"
 msgid "Refresh is complete."
 msgstr "Ha finalitzat l'actualització."
 
-#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1421
 #: ekos/focus/focus.cpp:1095
 #, kde-format
 msgid "Capture aborted."
@@ -10917,58 +10917,58 @@ msgstr "S'ha produït un error en carregar el mapa de defectes %1"
 msgid "Failed to load defect map file %1"
 msgstr "No s'ha pogut carregar el fitxer de mapa de defectes %1"
 
-#: ekos/auxiliary/darklibrary.cpp:460
+#: ekos/auxiliary/darklibrary.cpp:464
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "No s'ha pogut carregar el fitxer de fotograma fosc «%1»"
 
-#: ekos/auxiliary/darklibrary.cpp:520
+#: ekos/auxiliary/darklibrary.cpp:524
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "No s'ha pogut processar les dades fosques."
 
-#: ekos/auxiliary/darklibrary.cpp:526
+#: ekos/auxiliary/darklibrary.cpp:530
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "No s'han pogut carregar les dades fosques."
 
-#: ekos/auxiliary/darklibrary.cpp:536
+#: ekos/auxiliary/darklibrary.cpp:540
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "S'han rebut %1/%2 imatges."
 
-#: ekos/auxiliary/darklibrary.cpp:655
+#: ekos/auxiliary/darklibrary.cpp:659
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Segur que voleu eliminar totes les imatges i les dades de fotogrames foscos?"
 
-#: ekos/auxiliary/darklibrary.cpp:1219
+#: ekos/auxiliary/darklibrary.cpp:1223
 #, kde-format
 msgid "In progress..."
 msgstr "En curs..."
 
-#: ekos/auxiliary/darklibrary.cpp:1375
+#: ekos/auxiliary/darklibrary.cpp:1379
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "No s'ha pogut guardar el fotograma mestre: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1396
+#: ekos/auxiliary/darklibrary.cpp:1400
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "El fotograma fosc mestre s'ha guardat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1421
+#: ekos/auxiliary/darklibrary.cpp:1425
 #, kde-format
 msgid "Capture completed."
 msgstr "Captura completada."
 
-#: ekos/auxiliary/darklibrary.cpp:1448
+#: ekos/auxiliary/darklibrary.cpp:1452
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "El mapa de defectes s'ha guardat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1468
+#: ekos/auxiliary/darklibrary.cpp:1472
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "No s'ha pogut guardar el mapa de defectes a %1"
@@ -15134,22 +15134,22 @@ msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 "Canvia la pantalla al mode gràfic de visualització del nombre de captures."
 
-#: ekos/capture/capturedeviceadaptor.cpp:461
+#: ekos/capture/capturedeviceadaptor.cpp:467
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Elimina la funda del telescopi per tal de continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:462
+#: ekos/capture/capturedeviceadaptor.cpp:468
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescopi cobert"
 
-#: ekos/capture/capturedeviceadaptor.cpp:594
+#: ekos/capture/capturedeviceadaptor.cpp:600
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 té un obturador?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:595
+#: ekos/capture/capturedeviceadaptor.cpp:601
 #: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Dark Exposure"
@@ -23823,8 +23823,13 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1399
+#, fuzzy, kde-format
+#| msgid "Perform autofocus every N jobs."
+msgid "Perform alignment every N jobs."
+msgstr "Porta a terme un enfocament automàtic cada N tasques."
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1418
 #, kde-format
 msgid "Perform autofocus every N jobs."

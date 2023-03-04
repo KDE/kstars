@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-03 00:44+0000\n"
+"POT-Creation-Date: 2023-03-04 00:42+0000\n"
 "PO-Revision-Date: 2023-01-22 22:40+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -4859,7 +4859,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:911
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1059
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1063
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -7174,7 +7174,7 @@ msgstr "O Ângulo de Posição Actual é %1; o Ângulo-Alvo é de %2; diferença
 msgid "Refresh is complete."
 msgstr "A actualização está completa."
 
-#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1421
 #: ekos/focus/focus.cpp:1095
 #, kde-format
 msgid "Capture aborted."
@@ -12020,59 +12020,59 @@ msgstr "Não foi possível carregar o mapa de defeitos %1"
 msgid "Failed to load defect map file %1"
 msgstr "Não foi possível carregar o ficheiro do mapa de defeitos %1"
 
-#: ekos/auxiliary/darklibrary.cpp:460
+#: ekos/auxiliary/darklibrary.cpp:464
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "Não foi possível carregar o ficheiro da imagem escura %1"
 
-#: ekos/auxiliary/darklibrary.cpp:520
+#: ekos/auxiliary/darklibrary.cpp:524
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "Não foi possível processar os dados escuros."
 
-#: ekos/auxiliary/darklibrary.cpp:526
+#: ekos/auxiliary/darklibrary.cpp:530
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "Não foi possível carregar os dados escuros."
 
-#: ekos/auxiliary/darklibrary.cpp:536
+#: ekos/auxiliary/darklibrary.cpp:540
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "Foram recebidas %1/%2 imagens."
 
-#: ekos/auxiliary/darklibrary.cpp:655
+#: ekos/auxiliary/darklibrary.cpp:659
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Tem a certeza que deseja remover todas as imagens e dados das imagens "
 "escuras?"
 
-#: ekos/auxiliary/darklibrary.cpp:1219
+#: ekos/auxiliary/darklibrary.cpp:1223
 #, kde-format
 msgid "In progress..."
 msgstr "Em progresso..."
 
-#: ekos/auxiliary/darklibrary.cpp:1375
+#: ekos/auxiliary/darklibrary.cpp:1379
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Não foi possível gravar a imagem-mestra: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1396
+#: ekos/auxiliary/darklibrary.cpp:1400
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "A Imagem Escura foi gravada em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1421
+#: ekos/auxiliary/darklibrary.cpp:1425
 #, kde-format
 msgid "Capture completed."
 msgstr "A captura está completa."
 
-#: ekos/auxiliary/darklibrary.cpp:1448
+#: ekos/auxiliary/darklibrary.cpp:1452
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "O mapa de defeitos foi gravado em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1468
+#: ekos/auxiliary/darklibrary.cpp:1472
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Não foi possível gravar o mapa de defeitos em %1"
@@ -16223,22 +16223,22 @@ msgstr "Total"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "Mudar para o modo gráfico de apresentação das quantidades de capturas."
 
-#: ekos/capture/capturedeviceadaptor.cpp:461
+#: ekos/capture/capturedeviceadaptor.cpp:467
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Remova a tampa do telescópio para continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:462
+#: ekos/capture/capturedeviceadaptor.cpp:468
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescópio Coberto"
 
-#: ekos/capture/capturedeviceadaptor.cpp:594
+#: ekos/capture/capturedeviceadaptor.cpp:600
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "O %1 tem um obturador?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:595
+#: ekos/capture/capturedeviceadaptor.cpp:601
 #: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Dark Exposure"
@@ -24885,8 +24885,13 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1399
+#, fuzzy, kde-format
+#| msgid "Perform autofocus every N jobs."
+msgid "Perform alignment every N jobs."
+msgstr "Forçar a focagem automática a cada N tarefas."
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1418
 #, kde-format
 msgid "Perform autofocus every N jobs."

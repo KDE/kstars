@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-03 00:44+0000\n"
+"POT-Creation-Date: 2023-03-04 00:42+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -3761,7 +3761,7 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:911
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1059
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1063
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -5990,7 +5990,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1421
 #: ekos/focus/focus.cpp:1095
 #, fuzzy, kde-format
 msgid "Capture aborted."
@@ -10503,57 +10503,57 @@ msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യു�
 msgid "Failed to load defect map file %1"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/auxiliary/darklibrary.cpp:460
+#: ekos/auxiliary/darklibrary.cpp:464
 #, fuzzy, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/auxiliary/darklibrary.cpp:520
+#: ekos/auxiliary/darklibrary.cpp:524
 #, fuzzy, kde-format
 msgid "Failed to process dark data."
 msgstr "തിരഞ്ഞെടുത്ത സ്ഥലം സൂക്ഷിക്കുക"
 
-#: ekos/auxiliary/darklibrary.cpp:526
+#: ekos/auxiliary/darklibrary.cpp:530
 #, fuzzy, kde-format
 msgid "Failed to load dark data."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/auxiliary/darklibrary.cpp:536
+#: ekos/auxiliary/darklibrary.cpp:540
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr ""
 
-#: ekos/auxiliary/darklibrary.cpp:655
+#: ekos/auxiliary/darklibrary.cpp:659
 #, fuzzy, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/auxiliary/darklibrary.cpp:1219
+#: ekos/auxiliary/darklibrary.cpp:1223
 #, fuzzy, kde-format
 msgid "In progress..."
 msgstr "ഗാനത്തിന്റെ മുന്നേറ്റം"
 
-#: ekos/auxiliary/darklibrary.cpp:1375
+#: ekos/auxiliary/darklibrary.cpp:1379
 #, fuzzy, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/auxiliary/darklibrary.cpp:1396
+#: ekos/auxiliary/darklibrary.cpp:1400
 #, fuzzy, kde-format
 msgid "Master Dark saved to %1"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/auxiliary/darklibrary.cpp:1421
+#: ekos/auxiliary/darklibrary.cpp:1425
 #, fuzzy, kde-format
 msgid "Capture completed."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/auxiliary/darklibrary.cpp:1448
+#: ekos/auxiliary/darklibrary.cpp:1452
 #, fuzzy, kde-format
 msgid "Defect map saved to %1"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/auxiliary/darklibrary.cpp:1468
+#: ekos/auxiliary/darklibrary.cpp:1472
 #, fuzzy, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"
@@ -14530,22 +14530,22 @@ msgstr "ശരിക്കുള്ള സമയം"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:461
+#: ekos/capture/capturedeviceadaptor.cpp:467
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:462
+#: ekos/capture/capturedeviceadaptor.cpp:468
 #, fuzzy, kde-format
 msgid "Telescope Covered"
 msgstr "തുടങ്ങാന്‍ തിരഞ്ഞെടുത്ത് പുറത്ത് കടക്കുക."
 
-#: ekos/capture/capturedeviceadaptor.cpp:594
+#: ekos/capture/capturedeviceadaptor.cpp:600
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:595
+#: ekos/capture/capturedeviceadaptor.cpp:601
 #: ekos/capture/sequencejobstate.cpp:394
 #, fuzzy, kde-format
 #| msgctxt "star name"
@@ -22611,8 +22611,12 @@ msgid ""
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1399
+#, kde-format
+msgid "Perform alignment every N jobs."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1418
 #, kde-format
 msgid "Perform autofocus every N jobs."
