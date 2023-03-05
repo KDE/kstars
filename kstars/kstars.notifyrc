@@ -1473,7 +1473,7 @@ Name[zh_CN]=更换滤镜成功
 Action=None
 [Event/RecordingStarted]
 Name=Video Recording Started
-Name[ar]=بدأ تسجيل الڤديو
+Name[ar]=بدأ تسجيل الفديو
 Name[ca]=Ha començat la gravació de vídeo
 Name[ca@valencia]=Ha començat la gravació de vídeo
 Name[de]=Video-Aufnahme wurde gestartet
@@ -1500,7 +1500,7 @@ Name[zh_CN]=已开始录制视频。
 Action=None
 [Event/RecordingStopped]
 Name=Video Recording Stopped
-Name[ar]=توقّف تسجيل الڤديو
+Name[ar]=توقّف تسجيل الفديو
 Name[ca]=S'ha aturat la gravació de vídeo
 Name[ca@valencia]=S'ha parat la gravació de vídeo
 Name[de]=Video-Aufnahme wurde angehalten
