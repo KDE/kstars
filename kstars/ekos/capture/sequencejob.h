@@ -87,8 +87,6 @@ class SequenceJob : public QObject
             // Bool
             SJ_TimeStampPrefixEnabled,
             // QString
-            SJ_TargetName,
-            // QString
             SJ_Filename,
             // Bool
             SJ_DarkFlat,

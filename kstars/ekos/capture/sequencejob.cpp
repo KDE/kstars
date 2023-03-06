@@ -141,10 +141,6 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
-            subEP = findXMLEle(ep, "RawPrefix");
-            if (subEP)
-                setCoreProperty(SJ_TargetName, QString(pcdataXMLEle(subEP)));
-
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
                 setCoreProperty(SJ_FilterPrefixEnabled, !strcmp("1", pcdataXMLEle(subEP)));
@@ -427,10 +423,6 @@ void SequenceJob::capture(FITSMode mode)
     captureDeviceAdaptor.data()->getActiveChip()->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
     captureDeviceAdaptor.data()->getActiveCamera()->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
     captureDeviceAdaptor.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
-
-    auto placeholderPath = Ekos::PlaceholderPath(getCoreProperty(SJ_LocalDirectory).toString() + "/sequence.esq");
-    placeholderPath.setGenerateFilenameSettings(*this);
-    captureDeviceAdaptor.data()->getActiveCamera()->setPlaceholderPath(placeholderPath);
 
     if (getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {

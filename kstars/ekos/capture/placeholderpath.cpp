@@ -58,12 +58,10 @@ QString PlaceholderPath::defaultFormat(bool useFilter, bool useExposure, bool us
 
 void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName)
 {
-    job->setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-
+    QString jobTargetName = targetName;
     auto frameType = getFrameType(job->getFrameType());
     auto filterType = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     auto exposure    = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
-    auto jobTargetName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
     auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
     const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
@@ -154,19 +152,15 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
         job->setCoreProperty(SequenceJob::SJ_UsingPlaceholders, true);
     }
 
-    QString signature = generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(), true, true,
-                                         1, ".fits", "", false, true);
+    QString signature = generateFilename(*job, jobTargetName, true, true, 1, ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 
 void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
 {
-    job->setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-
     auto frameType = job->getFrameType();
     auto frameTypeString = getFrameType(job->getFrameType());
-    const auto jobTargetName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
-    QString imagePrefix = jobTargetName;
+    QString imagePrefix = targetName;
 
     const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
     if (isDarkFlat)
@@ -430,14 +424,14 @@ QString PlaceholderPath::generateFilename(const QString &directory,
     return tempFilename;
 }
 
-void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
+void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, const QString &targetName)
 {
+    m_targetName          = targetName;
     m_frameType           = job.getFrameType();
     m_filterPrefixEnabled = job.getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
     m_expPrefixEnabled    = job.getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
     m_filter              = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
     m_exposure            = job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
-    m_targetName          = job.getCoreProperty(SequenceJob::SJ_TargetName).toString();
     m_Directory           = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
     m_format              = job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
     m_formatSuffix        = job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt();

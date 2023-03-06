@@ -481,8 +481,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     SequenceJob *seqJob = jobs[0];
     auto placeholderPath = Ekos::PlaceholderPath();
     QString signature = placeholderPath.generateFilename(*seqJob,
-                        seqJob->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
-                        true, true, 1, ".fits", "", false, true);
+                        job.getName(), true, true, 1, ".fits", "", false, true);
     seqJob->setCoreProperty(SequenceJob::SJ_Signature, signature);
     QString sig0 = jobs[0]->getSignature();
     // 3. The first job has 6 exposures, each of 20s duration. Set it up that 2 are already done.

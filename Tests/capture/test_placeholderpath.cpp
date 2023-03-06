@@ -38,7 +38,7 @@ void parseCSV(const QString filename, const QList<const char*> columns)
     if (!testDataFile.open(QIODevice::ReadOnly))
     {
         QDir cwd(".");
-        qDebug() << cwd.absolutePath() << ":" << testDataFile.errorString();
+        qDebug() << QString("%1/%2").arg(cwd.absolutePath()).arg(filename) << ":" << testDataFile.errorString();
         QFAIL("error");
     }
 
@@ -520,7 +520,8 @@ void TestPlaceholderPath::testFlexibleNaming_data()
                         "^/tmp/kstars/_1\\.fits$";
     QTest::addRow("unknown1") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%b" << "" <<
                               "^/tmp/kstars/%b_0\\.fits$";
-    QTest::addRow("unknown2") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%f_%a_%t" << "" <<
+    QTest::addRow("unknown2") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%f_%a_%t" << ""
+                              <<
                               "^/tmp/kstars/%a_0\\.fits$";
 
     parseCSV("testFlexibleNaming_data_small.csv", columns);
@@ -571,8 +572,7 @@ void TestPlaceholderPath::testFlexibleNaming()
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
 
-    job.setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-    placeholderPath.setGenerateFilenameSettings(job);
+    placeholderPath.setGenerateFilenameSettings(job, targetName);
     filename = placeholderPath.generateFilename(bm, i, ".fits", "");
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
@@ -598,7 +598,7 @@ void TestPlaceholderPath::testFlexibleNamingGlob_data()
         QTest::addColumn<QString>(column);
     }
     QTest::addRow("D")  << "1" << "" << "" << "%D" << "1" <<
-                          "/tmp/kstars/\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d_(?<id>\\d+).fits";
+                        "/tmp/kstars/\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d_(?<id>\\d+).fits";
     QTest::addRow("s1") << ""  << "1" << "" << "" << "1" << "/tmp/kstars/_(?<id>\\d+).fits";
     QTest::addRow("s2") << ""  << "1" << "" << "" << "2" << "/tmp/kstars/_(?<id>\\d+).fits";
     QTest::addRow("s3") << ""  << "1" << "" << "" << "3" << "/tmp/kstars/_(?<id>\\d+).fits";
@@ -637,8 +637,7 @@ void TestPlaceholderPath::testFlexibleNamingGlob()
     int i = nextSequenceID.toInt();
     QString filename = placeholderPath.generateFilename(job, "", true, bm, i, ".fits", "", true);
     QCOMPARE(filename, result);
-    job.setCoreProperty(SequenceJob::SJ_TargetName, "");
-    placeholderPath.setGenerateFilenameSettings(job);
+    placeholderPath.setGenerateFilenameSettings(job, "");
     filename = placeholderPath.generateFilename(bm, i, ".fits", "", true);
     QCOMPARE(filename, result);
 #endif
@@ -746,8 +745,7 @@ void TestPlaceholderPath::testGetCompletedFileIds()
     Ekos::SequenceJob job(root);
     auto placeholderPath = Ekos::PlaceholderPath(seqFilename);
     bool bm = true;
-    job.setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-    placeholderPath.setGenerateFilenameSettings(job);
+    placeholderPath.setGenerateFilenameSettings(job, targetName);
     int nextSequenceID;
     for (int id = 1; id < 4; id++)
     {

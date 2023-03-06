@@ -84,8 +84,9 @@ class PlaceholderPath
         /**
          * @brief setGenerateFilenameSettings loads the placeHolderPath with settings from the passed job
          * @param sequence job to be processed
+         * @param targetName name of the target to be captured
          */
-        void setGenerateFilenameSettings(const SequenceJob &job);
+        void setGenerateFilenameSettings(const SequenceJob &job, const QString &targetName);
 
         /**
          * @brief remainingPlaceholders finds placeholder tags in filename

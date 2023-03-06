@@ -40,7 +40,7 @@
 #define CAPTURE_TIMEOUT_THRESHOLD  180000
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.4
+#define SQ_FORMAT_VERSION 2.5
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 2.0
 
@@ -2414,7 +2414,7 @@ void Capture::captureImage()
 
     m_captureModuleState->setStartingCapture(true);
     auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
-    placeholderPath.setGenerateFilenameSettings(*activeJob);
+    placeholderPath.setGenerateFilenameSettings(*activeJob, m_TargetName);
     m_captureDeviceAdaptor->getActiveCamera()->setPlaceholderPath(placeholderPath);
     // now hand over the control of capturing to the sequence job. As soon as capturing
     // has started, the sequence job will report the result with the captureStarted() event
@@ -2503,8 +2503,7 @@ void Capture::checkSeqBoundary()
     auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
 
 
-    nextSequenceID = placeholderPath.checkSeqBoundary(*activeJob,
-                     activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+    nextSequenceID = placeholderPath.checkSeqBoundary(*activeJob, m_TargetName);
 }
 
 void Capture::appendLogText(const QString &text)
@@ -2795,7 +2794,6 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     job->setWallCoord(wallCoord);
     job->setCoreProperty(SequenceJob::SJ_TargetADU, targetADU);
     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, targetADUTolerance);
-    job->setCoreProperty(SequenceJob::SJ_TargetName, m_TargetName);
     job->setCoreProperty(SequenceJob::SJ_FilterPrefixEnabled, FilterEnabled);
     job->setCoreProperty(SequenceJob::SJ_ExpPrefixEnabled, ExpEnabled);
     job->setCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled, TimeStampEnabled);
@@ -2973,8 +2971,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         emit sequenceChanged(m_SequenceArray);
     }
 
-    QString signature = placeholderPath.generateFilename(*job, job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
-                        filenamePreview != REMOTE_PREVIEW, true, 1, ".fits", "", false, true);
+    QString signature = placeholderPath.generateFilename(*job, m_TargetName, filenamePreview != REMOTE_PREVIEW, true, 1,
+                        ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 
     return true;
@@ -3446,16 +3444,10 @@ void Capture::executeJob()
     }
 
     QMap<QString, QString> FITSHeader;
-    QString jobTargetName = activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     if (m_ObserverName.isEmpty() == false)
         FITSHeader["FITS_OBSERVER"] = m_ObserverName;
     if (m_TargetName.isEmpty() == false)
         FITSHeader["FITS_OBJECT"] = m_TargetName;
-    else if (jobTargetName.isEmpty() == false)
-    {
-        // JM 2021-07-08: Remove "_" from target name.
-        FITSHeader["FITS_OBJECT"] = jobTargetName.remove("_");
-    }
 
     if (FITSHeader.count() > 0)
         m_captureDeviceAdaptor->getActiveCamera()->setFITSHeader(FITSHeader);
@@ -3477,7 +3469,7 @@ void Capture::executeJob()
         {
             auto placeholderPath = PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
-            placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+            placeholderPath.processJobInfo(activeJob, m_TargetName);
             updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
         }
 
@@ -3942,13 +3934,12 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
+            // RawPrefix is outdated and will be ignored
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP && ignoreTarget == false)
             {
                 if (strcmp(pcdataXMLEle(subEP), "") != 0)
-                    targetNameT->setText(pcdataXMLEle(subEP));
-                else if (!m_TargetName.isEmpty())
-                    targetNameT->setText(m_TargetName);
+                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(subEP));
             }
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
@@ -4235,7 +4226,6 @@ bool Capture::saveSequenceQueue(const QString &path)
               << Qt::endl;
     for (auto &job : m_captureModuleState->allJobs())
     {
-        auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
         auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
         auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
         auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
@@ -4265,8 +4255,6 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<Filter>" << job->getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << Qt::endl;
         outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << Qt::endl;
         outstream << "<Prefix>" << Qt::endl;
-        //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << Qt::endl;
-        outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << Qt::endl;
         outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << Qt::endl;
         outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << Qt::endl;
         outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << Qt::endl;
@@ -4424,7 +4412,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
         return;
     }
 
-    auto jobTargetName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
     captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
@@ -4438,7 +4425,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
     captureFrameHN->setValue(roi.height());
     FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
     captureTypeS->setCurrentIndex(job->getFrameType());
-    targetNameT->setText(jobTargetName);
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
     fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
@@ -5545,7 +5531,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     m_captureDeviceAdaptor->getActiveCamera()->setUploadMode(activeJob->getUploadMode());
                     auto placeholderPath = PlaceholderPath();
                     // Make sure to update Full Prefix as exposure value was changed
-                    placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+                    placeholderPath.processJobInfo(activeJob, m_TargetName);
                     // Mark calibration as complete
                     activeJob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
 
