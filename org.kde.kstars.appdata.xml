@@ -427,7 +427,7 @@
       <caption xml:lang="x-test">xxKStars main windowxx</caption>
       <caption xml:lang="zh-CN">KStars 主窗口</caption>
       <caption xml:lang="zh-TW">KStars 主視窗</caption>
-      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_main.png</image>
+      <image width="1600" height="900">https://cdn.kde.org/screenshots/kstars/kstars_main.png</image>
     </screenshot>
     <screenshot>
       <caption>"What's interesting" tool in KStars</caption>
@@ -456,7 +456,7 @@
       <caption xml:lang="x-test">xx"What's interesting" tool in KStarsxx</caption>
       <caption xml:lang="zh-CN">KStars 的“有趣天体”工具</caption>
       <caption xml:lang="zh-TW">「有哪些有趣的東西」工具在 KStars 中</caption>
-      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_interesting.png</image>
+      <image width="1600" height="900">https://cdn.kde.org/screenshots/kstars/kstars_interesting.png</image>
     </screenshot>
     <screenshot>
       <caption>Ekos tool in KStars</caption>
@@ -486,7 +486,7 @@
       <caption xml:lang="x-test">xxEkos tool in KStarsxx</caption>
       <caption xml:lang="zh-CN">KStars 的 Ekos 工具</caption>
       <caption xml:lang="zh-TW">Ekos 工具在 Kstars 中</caption>
-      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_ekos.png</image>
+      <image width="1600" height="900">https://cdn.kde.org/screenshots/kstars/kstars_ekos.png</image>
     </screenshot>
     <screenshot>
       <caption>Observation Planner of KStars</caption>
@@ -515,7 +515,7 @@
       <caption xml:lang="x-test">xxObservation Planner of KStarsxx</caption>
       <caption xml:lang="zh-CN">KStars 的观测规划器</caption>
       <caption xml:lang="zh-TW">KStars 的觀測計劃器</caption>
-      <image width="1600" height="900">https://edu.kde.org/kstars/appstream/kstars_planner.png</image>
+      <image width="1600" height="900">https://cdn.kde.org/screenshots/kstars/kstars_planner.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
