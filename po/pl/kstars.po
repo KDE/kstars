@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1646065 $
+# Version: $Revision: 1646140 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:42+0000\n"
-"PO-Revision-Date: 2023-02-18 08:48+0100\n"
+"PO-Revision-Date: 2023-03-05 08:18+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -9781,10 +9781,9 @@ msgid "Select input file"
 msgstr "Wybór plik wejściowego"
 
 #: ekos/analyze/analyze.cpp:501
-#, fuzzy, kde-format
-#| msgid "PNG Files (*.png)"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Pliki PNG (*.png)"
+msgstr "Wszystkie pliki (*)"
 
 #: ekos/analyze/analyze.cpp:521
 #, kde-format
@@ -23607,10 +23606,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
 #: ekos/scheduler/framingassistant.ui:1399
-#, fuzzy, kde-format
-#| msgid "Perform autofocus every N jobs."
+#, kde-format
 msgid "Perform alignment every N jobs."
-msgstr "Wykonaj samoogniskowanie co N zadań."
+msgstr "Wykonaj wyrównanie co N zadań."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1418
@@ -23911,12 +23909,10 @@ msgstr ""
 "samego czasu, a następnie ocenia zadania."
 
 #: ekos/scheduler/scheduler.cpp:948
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
-msgstr "Wybór obrazu FITS"
+msgstr "Wybór obrazu FITS/XISF"
 
 #: ekos/scheduler/scheduler.cpp:1002
 #, kde-format
@@ -26062,28 +26058,24 @@ msgid "Error reading image: %1"
 msgstr "Błąd odczytu obrazu: %1"
 
 #: fitsviewer/fitsdata.cpp:470
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "File contain no images"
-msgstr "Nie udało się wczytać obrazu"
+msgstr "Plik nie zawiera żadnego obrazu"
 
 #: fitsviewer/fitsdata.cpp:499
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "Sample format %1 is not supported."
-msgstr "Głębia bitowa %1 jest nieobsługiwana."
+msgstr "Format próbkowania %1 jest nieobsługiwany."
 
 #: fitsviewer/fitsdata.cpp:536
-#, fuzzy, kde-format
-#| msgid "File write error."
+#, kde-format
 msgid "XISF file open error: "
-msgstr "Błąd zapisywania pliku."
+msgstr "Błąd otwierania pliku XISF: "
 
 #: fitsviewer/fitsdata.cpp:587
-#, fuzzy, kde-format
-#| msgid "Error reading image."
+#, kde-format
 msgid "Error saving XISF image"
-msgstr "Błąd odczytu obrazu."
+msgstr "Błąd zapisywania obrazu XISF"
 
 #: fitsviewer/fitsdata.cpp:679 fitsviewer/fitsdata.cpp:794
 #, kde-format
@@ -28362,45 +28354,37 @@ msgstr "Mapa nieba"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:349
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
 "slews and syncs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Narysuj liczbę wykrytych gwiazd na obrazach "
-"prowadzących.</p></body></html>"
+"<html><head/><body><p>Użyj mapy nieba KStars do sterowania obrotami i "
+"synchronizacją teleskopu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:352
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "KStars Sky Map"
-msgstr "Mapa nieba"
+msgstr "Mapa nieba KStars"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:362
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Automatically select the calibration star. <br/"
-#| ">Please note: 'SEP Multi Star' does  <span style=\" font-weight:600;"
-#| "\">always</span> use 'auto star' detection.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use an external planetarium software to control mount "
 "slews and syncs.</p><p><span style=\" font-weight:600;\">WARNING</span>: "
 "this feature is experimental!</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Samoczynnie wybierz gwiazdę kalibrującą. <br/"
-">Pamiętaj: 'Wielogwiazda SEP' nie  <span style=\" font-weight:600;\">zawsze</"
-"span> używa wykrywania 'auto gwiazdy'.</p></body></html>"
+"<html><head/><body><p>Użyj zewnętrznego oprogramowania planetarium do "
+"sterowania obrotami i synchronizacją teleskopu.</p><p><span style=\" font-"
+"weight:600;\">UWAGA</span>: nadal w trakcie prób!</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:365
 #, kde-format
 msgid "external Sky Map (experimental)"
-msgstr ""
+msgstr "zewnętrzna mapa nieba (eksperymentalnie)"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:388
@@ -29674,12 +29658,15 @@ msgstr "Czy użyć czasu i położenia GPS do synchronizacji?"
 #, kde-format
 msgid "Use the KStars sky map to control mount slews and syncs."
 msgstr ""
+"Użyj mapy nieba KStars do sterowania obrotami i synchronizacją montażu."
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:222
 #, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
+"Użyj zewnętrznego oprogramowania planetarium do sterowania obrotami i "
+"synchronizacją montażu"
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:226
@@ -31797,17 +31784,15 @@ msgstr "Barwa supernowej"
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1070
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroids"
-msgstr "Barwa supernowej"
+msgstr "Barwa asteroid"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1071
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroid"
-msgstr "Barwa supernowej"
+msgstr "Barwa asteroidy"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1075
@@ -69181,7 +69166,7 @@ msgstr "Tryb balansu bieli"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "White Balance"
-msgstr "Balans bieli"
+msgstr "Równowaga bieli"
 
 #: libindi_strings.cpp:530
 #, kde-kuit-format

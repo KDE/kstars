@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:42+0000\n"
-"PO-Revision-Date: 2023-02-26 22:41+0100\n"
+"PO-Revision-Date: 2023-03-05 19:39+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -9871,10 +9871,9 @@ msgid "Select input file"
 msgstr "Seleccioneu el fitxer d'entrada"
 
 #: ekos/analyze/analyze.cpp:501
-#, fuzzy, kde-format
-#| msgid "PNG Files (*.png)"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Fitxers PNG (*.png)"
+msgstr "Tots els fitxers (*)"
 
 #: ekos/analyze/analyze.cpp:521
 #, kde-format
@@ -23824,10 +23823,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
 #: ekos/scheduler/framingassistant.ui:1399
-#, fuzzy, kde-format
-#| msgid "Perform autofocus every N jobs."
+#, kde-format
 msgid "Perform alignment every N jobs."
-msgstr "Porta a terme un enfocament automàtic cada N tasques."
+msgstr "Porta a terme una alineació cada N tasques."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1418
@@ -32220,17 +32218,15 @@ msgstr "Color de la supernova"
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1070
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroids"
-msgstr "Color de la supernova"
+msgstr "Color dels asteroides"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1071
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroid"
-msgstr "Color de la supernova"
+msgstr "Color de l'asteroide"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1075
@@ -73378,7 +73374,7 @@ msgstr "Imprimix"
 #: printing/pwizprint.ui:216
 #, kde-format
 msgid "Export to File..."
-msgstr "Exporta a un fitxer..."
+msgstr "Exporta cap a un fitxer..."
 
 #. i18n: ectx: property (text), widget (QLabel, stepTitle)
 #: printing/pwizwelcome.ui:83
@@ -78176,7 +78172,7 @@ msgstr ""
 #: tools/observinglist.ui:152
 #, kde-format
 msgid "Export to OAL..."
-msgstr "Exporta a OAL..."
+msgstr "Exporta cap a OAL..."
 
 #. i18n: ectx: property (text), widget (QPushButton, SetLocation)
 #: tools/observinglist.ui:192
@@ -81413,6 +81409,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Analyze Log (*.analyze);;All Files (*)"
-#~ msgstr "Registre d'Analyze (*.analyze);;Tots els fitxers (*)"
