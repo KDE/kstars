@@ -2421,8 +2421,8 @@ msgid ""
 "to construct a catalog file with a valid header, but no data."
 msgstr ""
 "Per a importar un fitxer de dades existent, introduïu el seu nom ací. "
-"Després descriureu el contingut del fitxer de davall. Podeu deixar en blanc "
-"el nom del fitxer per a construir un fitxer de catàleg amb una capçalera "
+"Després descriureu el contingut del fitxer davall. Podeu deixar en blanc el "
+"nom del fitxer per a construir un fitxer de catàleg amb una capçalera "
 "vàlida, però buit."
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, DataFileBox)
@@ -78574,7 +78574,7 @@ msgstr ""
 "o bé especificant una <span style=\"font-weight:600;\">regió circular</"
 "span>. També podeu ometre la selecció per regió, i llavors s'inclouran "
 "objectes de <span style=\"font-weight:600;\">tot el cel</span>.</p><p></"
-"p><p>Feu la vostra selecció de davall i premeu <span style=\"font-weight:600;"
+"p><p>Feu la vostra selecció davall i premeu <span style=\"font-weight:600;"
 "\">Següent</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RegionSelectLabel)
