@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-07 00:42+0000\n"
-"PO-Revision-Date: 2023-03-03 06:13+0100\n"
+"PO-Revision-Date: 2023-03-08 10:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -29313,17 +29313,15 @@ msgstr "ზეახალი ვარსკვლავის ფერი"
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1070
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroids"
-msgstr "ზეახალი ვარსკვლავის ფერი"
+msgstr "ასტეროიდების ფერი"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1071
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroid"
-msgstr "ზეახალი ვარსკვლავის ფერი"
+msgstr "ასტეროიდის ფერი"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1075
