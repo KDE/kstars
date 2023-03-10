@@ -461,9 +461,14 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
     {
         LibXISF::XISFReader xisfReader;
         if (buffer.isEmpty())
-            xisfReader.open(m_Filename);
+        {
+            xisfReader.open(m_Filename.toLocal8Bit().data());
+        }
         else
-            xisfReader.open(buffer);
+        {
+            LibXISF::ByteArray byteArray(buffer.constData(), buffer.size());
+            xisfReader.open(byteArray);
+        }
 
         if (xisfReader.imagesCount() == 0)
         {
@@ -496,7 +501,7 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
             m_FITSBITPIX = TFLOAT;
             break;
         default:
-            m_LastError = i18n("Sample format %1 is not supported.", LibXISF::Image::sampleFormatString(image.sampleFormat()));
+            m_LastError = i18n("Sample format %1 is not supported.", LibXISF::Image::sampleFormatString(image.sampleFormat()).c_str());
             qCCritical(KSTARS_FITS) << m_LastError;
             return false;
         }
@@ -516,7 +521,7 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
         m_HeaderRecords.clear();
         auto &fitsKeywords = image.fitsKeywords();
         for(auto &fitsKeyword : fitsKeywords)
-            m_HeaderRecords.push_back({fitsKeyword.name, fitsKeyword.value, fitsKeyword.comment});
+            m_HeaderRecords.push_back({QString::fromStdString(fitsKeyword.name), QString::fromStdString(fitsKeyword.value), QString::fromStdString(fitsKeyword.comment)});
 
         QVariant value;
         if (getRecordValue("DATE-OBS", value) && value.isValid())
@@ -576,10 +581,10 @@ bool FITSData::saveXISFImage(const QString &newFilename)
 
         std::memcpy(image.imageData(), m_ImageBuffer, m_ImageBufferSize);
         for (auto &fitsKeyword : m_HeaderRecords)
-            image.addFITSKeyword({fitsKeyword.key, fitsKeyword.value.toString(), fitsKeyword.comment});
+            image.addFITSKeyword({fitsKeyword.key.toUtf8().data(), fitsKeyword.value.toString().toUtf8().data(), fitsKeyword.comment.toUtf8().data()});
 
         xisfWriter.writeImage(image);
-        xisfWriter.save(newFilename);
+        xisfWriter.save(newFilename.toLocal8Bit().data());
         m_Filename = newFilename;
     }
     catch (LibXISF::Error &err)
