@@ -393,7 +393,7 @@
       <li xml:lang="zh-TW">顯示線上資料庫的工具</li>
     </ul>
   </description>
-  <url type="homepage">https://edu.kde.org/kstars/</url>
+  <url type="homepage">https://kstars.kde.org/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kstars</url>
   <url type="help">https://docs.kde.org/?application=kstars</url>
   <screenshots>
