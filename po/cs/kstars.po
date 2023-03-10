@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-07 00:42+0000\n"
-"PO-Revision-Date: 2023-02-27 14:50+0100\n"
+"PO-Revision-Date: 2023-03-06 13:45+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9335,10 +9335,9 @@ msgid "Select input file"
 msgstr "Vyberte výstupní soubor"
 
 #: ekos/analyze/analyze.cpp:501
-#, fuzzy, kde-format
-#| msgid "PNG Files (*.png)"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Soubory PNG (*.png)"
+msgstr "Všechny soubory (*)"
 
 #: ekos/analyze/analyze.cpp:521
 #, kde-format
@@ -29417,17 +29416,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1070
-#, fuzzy, kde-format
-#| msgid "Draw asteroids?"
+#, kde-format
 msgid "Color of asteroids"
-msgstr "Vykreslit asteroidy?"
+msgstr "Barva asteroidů"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1071
-#, fuzzy, kde-format
-#| msgid "Color of sky"
+#, kde-format
 msgid "Color of asteroid"
-msgstr "Barva oblohy"
+msgstr "Barva asteroidu"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1075

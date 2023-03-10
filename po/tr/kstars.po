@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-07 00:42+0000\n"
-"PO-Revision-Date: 2023-02-05 12:30+0300\n"
+"PO-Revision-Date: 2023-03-09 13:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -20573,7 +20573,7 @@ msgstr "Ekos"
 #: ekos/manager.cpp:803 ekos/manager.cpp:829
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
-msgstr "Ekos, en az bir CCD veya Kılavuza ihtiyaç duyar."
+msgstr "Ekos, en az bir CCD veya Kılavuza gereksinim duyar."
 
 #: ekos/manager.cpp:892
 #, kde-format
@@ -75162,15 +75162,7 @@ msgstr ""
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:53
-#, fuzzy, kde-format
-#| msgid ""
-#| "\t\t<p>Help us improve the KStars project! Visit our website at http://"
-#| "edu.kde.org/kstars and join our mailing list at kstars-devel@kde.org to "
-#| "learn more. We welcome you to help us with bug reports, contributions of "
-#| "astronomy know-how and knowledge, code contributions, translations and "
-#| "many more kinds of contributions!\n"
-#| "\t\t</p>\n"
-#| "\t\n"
+#, kde-format
 msgid ""
 "\t\t<p>Help us improve the KStars project! Visit our website at https://edu."
 "kde.org/kstars and join our mailing list at kstars-devel@kde.org to learn "
@@ -75180,10 +75172,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars projesini geliştirmemize yardım edin! Web sitemizi http://edu."
-"kde.org/kstars üzerinden ziyaret edin ve kstars-devel@kde.org mali listemize "
-"katılın. Hata raporları, astronomi bilgisi katkılar, kod katkıları, "
-"çeviriler ve bir çok farklı katkı için yardıma ihtiyacımız var!\n"
+"\t\t<p>KStars projesini geliştirmemize yardım edin! Daha fazlasını öğrenmek "
+"için https://edu.kde.org/kstars adresindeki web sitemizi ziyaret edin ve "
+"kstars-devel@kde.org adresindeki posta listemize katılın. Hata raporları, "
+"astronomi teknik bilgi ve bilgisinin katkıları, kod katkıları, çeviriler ve "
+"daha birçok türde katkı ile bize yardımcı olmanızı bekliyoruz!\n"
 "\t\t</p>\n"
 "\t\n"
 
