@@ -23808,7 +23808,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:1269 ekos/scheduler/mosaic.ui:817
 #, kde-format
 msgid "Align Every"
-msgstr "Aligner toute les "
+msgstr "Aligner toutes les "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadSequenceB)
 #: ekos/scheduler/framingassistant.ui:1288 ekos/scheduler/scheduler.ui:140
