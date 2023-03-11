@@ -108,8 +108,6 @@ class Capture : public QWidget, public Ui::Capture
             REMOTE_PREVIEW
         } FilenamePreviewType;
 
-        typedef IPState (Capture::*PauseFunctionPointer)();
-
         Capture();
         ~Capture();
 
@@ -788,8 +786,8 @@ class Capture : public QWidget, public Ui::Capture
         // Update Mount module status
         void setMountStatus(ISD::Mount::Status newState);
 
-        // Meridian flip
-        void meridianFlipStatusChanged(MeridianFlipState::MeridianFlipMountState status);
+        // Meridian flip interface
+        void updateMFMountState(MeridianFlipState::MeridianFlipMountState status);
 
         // ////////////////////////////////////////////////////////////////////
         // Module logging
@@ -898,7 +896,6 @@ private slots:
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QJsonObject &settings);
         void newLocalPreview(const QString &preview);
-        void newMeridianFlipSetup(bool activate, double hours);
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
 
@@ -1091,9 +1088,8 @@ private slots:
 
         double setCurrentADU(double value);
 
-        // Execute the meridian flip
-        void setMeridianFlipStage(MeridianFlipState::MFStage stage);
-        void processFlipCompleted();
+        // Propagate meridian flip state changes to the UI
+        void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
 
         void processGuidingFailed();
 
@@ -1141,8 +1137,6 @@ private slots:
 
         void resetFrameToZero();
 
-        // short cut for all guiding states that indicate guiding is on
-        bool isGuidingOn();
         // short cut for all guiding states that indicate guiding in state GUIDING
         bool isActivelyGuiding();
 
@@ -1315,8 +1309,6 @@ private slots:
         bool ignoreJobProgress { true };
         bool suspendGuideOnDownload { false };
         QJsonArray m_SequenceArray;
-
-        PauseFunctionPointer pauseFunction { nullptr };
 
         // CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;

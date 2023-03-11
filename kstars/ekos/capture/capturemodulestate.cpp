@@ -8,6 +8,7 @@
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/sequencejob.h"
 
+#include "ksnotification.h"
 #include <ekos_capture_debug.h>
 
 namespace Ekos
@@ -110,6 +111,106 @@ bool CaptureModuleState::checkDithering()
     }
     // no dithering required
     return false;
+}
+
+void CaptureModuleState::updateMFMountState(MeridianFlipState::MeridianFlipMountState status)
+{
+    qCDebug(KSTARS_EKOS_CAPTURE) << "updateMFMountState: " << MeridianFlipState::meridianFlipStatusString(status);
+
+    switch (status)
+    {
+        case MeridianFlipState::MOUNT_FLIP_NONE:
+            // MF_NONE as external signal ignored so that re-alignment and guiding are processed first
+            if (getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_COMPLETED)
+                updateMeridianFlipStage(MeridianFlipState::MF_NONE);
+            break;
+
+        case MeridianFlipState::MOUNT_FLIP_PLANNED:
+            if (getMeridianFlipState()->getMeridianFlipStage() > MeridianFlipState::MF_REQUESTED)
+            {
+                // This should never happen, since a meridian flip seems to be ongoing
+                qCritical(KSTARS_EKOS_CAPTURE) << "Accepting meridian flip request while being in stage " <<
+                                               getMeridianFlipState()->getMeridianFlipStage();
+            }
+
+            // If we are autoguiding, we should resume autoguiding after flip
+            getMeridianFlipState()->setResumeGuidingAfterFlip(isGuidingOn());
+
+            // mark flip as requested
+            updateMeridianFlipStage(MeridianFlipState::MF_REQUESTED);
+            // if capture is not running, immediately accept it
+            if (m_CaptureState == CAPTURE_IDLE || m_CaptureState == CAPTURE_ABORTED
+                    || m_CaptureState == CAPTURE_COMPLETE || m_CaptureState == CAPTURE_PAUSED)
+                getMeridianFlipState()->updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
+
+            break;
+
+        case MeridianFlipState::MOUNT_FLIP_RUNNING:
+            updateMeridianFlipStage(MeridianFlipState::MF_INITIATED);
+            emit newStatus(CAPTURE_MERIDIAN_FLIP);
+            break;
+
+        case MeridianFlipState::MOUNT_FLIP_COMPLETED:
+            updateMeridianFlipStage(MeridianFlipState::MF_COMPLETED);
+            break;
+
+        default:
+            break;
+
+    }
+}
+
+void CaptureModuleState::updateMeridianFlipStage(const MeridianFlipState::MFStage &stage)
+{
+    // forward the stage to the module state
+    getMeridianFlipState()->updateMeridianFlipStage(stage);
+
+    // handle state changes for other modules
+    switch (stage)
+    {
+        case MeridianFlipState::MF_READY:
+            break;
+
+        case MeridianFlipState::MF_INITIATED:
+            emit meridianFlipStarted();
+            break;
+
+        case MeridianFlipState::MF_COMPLETED:
+
+            // Reset HFR pixels to file value after meridian flip
+            if (getRefocusState()->isInSequenceFocus())
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << getFileHFR() <<
+                                             "pixels after meridian flip.";
+                //firstAutoFocus = true;
+                getRefocusState()->setInSequenceFocusCounter(0);
+            }
+
+            // after a meridian flip we do not need to dither
+            if ( Options::ditherEnabled() || Options::ditherNoGuiding())
+                resetDitherCounter();
+
+            // if requested set flag so it perform refocus before next frame
+            if (Options::refocusAfterMeridianFlip() == true)
+                getRefocusState()->setRefocusAfterMeridianFlip(true);
+            // If dome is syncing, wait until it stops
+            if (hasDome && (m_domeState == ISD::Dome::DOME_MOVING_CW || m_domeState == ISD::Dome::DOME_MOVING_CCW))
+                return;
+
+            // if the capturing has been paused before the flip, reset the state to paused, otherwise to idle
+            setCaptureState(m_ContinueAction == CONTINUE_ACTION_NONE ? CAPTURE_IDLE : CAPTURE_PAUSED);
+
+            KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"),
+                                  KSNotification::Capture);
+
+            getMeridianFlipState()->processFlipCompleted();
+            break;
+
+        default:
+            break;
+    }
+    // forward the new stage
+    emit newMeridianFlipStage(stage);
 }
 
 bool CaptureModuleState::checkMeridianFlipReady()
@@ -537,10 +638,35 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
 }
 
 
+
+
+
+
 void CaptureModuleState::appendLogText(const QString &message)
 {
     qCInfo(KSTARS_EKOS_CAPTURE()) << message;
     emit newLog(message);
+}
+
+bool CaptureModuleState::isGuidingOn()
+{
+    // In case we are doing non guiding dither, then we are not performing autoguiding.
+    if (Options::ditherNoGuiding())
+        return false;
+
+    return (m_GuideState == GUIDE_GUIDING ||
+            m_GuideState == GUIDE_CALIBRATING ||
+            m_GuideState == GUIDE_CALIBRATION_SUCCESS ||
+            m_GuideState == GUIDE_DARK ||
+            m_GuideState == GUIDE_SUBFRAME ||
+            m_GuideState == GUIDE_STAR_SELECT ||
+            m_GuideState == GUIDE_REACQUIRE ||
+            m_GuideState == GUIDE_DITHERING ||
+            m_GuideState == GUIDE_DITHERING_SUCCESS ||
+            m_GuideState == GUIDE_DITHERING_ERROR ||
+            m_GuideState == GUIDE_DITHERING_SETTLE ||
+            m_GuideState == GUIDE_SUSPENDED
+           );
 }
 
 } // namespace

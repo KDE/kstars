@@ -71,6 +71,13 @@ class CaptureModuleState: public QObject
             CAP_LIGHT_BUSY     /* light state changing      */
         } LightState;
 
+        typedef enum
+        {
+            CONTINUE_ACTION_NONE,            /* do nothing              */
+            CONTINUE_ACTION_NEXT_EXPOSURE,   /* start next exposure     */
+            CONTINUE_ACTION_CAPTURE_COMPLETE /* recall capture complete */
+        } ContinueAction;
+
         CaptureModuleState(QObject *parent = nullptr);
 
         // ////////////////////////////////////////////////////////////////////
@@ -145,6 +152,15 @@ class CaptureModuleState: public QObject
             m_StartingCapture = newStartingCapture;
         }
 
+        ContinueAction getContinueAction() const
+        {
+            return m_ContinueAction;
+        }
+        void setContinueAction(ContinueAction newPauseFunction)
+        {
+            m_ContinueAction = newPauseFunction;
+        }
+
         FocusState getFocusState() const
         {
             return m_FocusState;
@@ -162,6 +178,9 @@ class CaptureModuleState: public QObject
         {
             m_GuideState = value;
         }
+
+        // short cut for all guiding states that indicate guiding is on
+        bool isGuidingOn();
 
         QTimer &getCaptureDelayTimer()
         {
@@ -350,6 +369,16 @@ class CaptureModuleState: public QObject
         bool checkDithering();
 
         /**
+         * @brief updateMFMountState Handle changes of the meridian flip mount state
+         */
+        void updateMFMountState(MeridianFlipState::MeridianFlipMountState status);
+
+        /**
+         * @brief updateMeridianFlipStage Update the meridian flip stage
+         */
+        void updateMeridianFlipStage(const MeridianFlipState::MFStage &stage);
+
+        /**
              * @brief Check whether a meridian flip has been requested and trigger it
              * @return true iff a meridian flip has been triggered
              */
@@ -420,6 +449,10 @@ signals:
         void startCapture();
         void abortCapture();
         void suspendCapture();
+        // mount meridian flip status update event
+        void newMeridianFlipStage(MeridianFlipState::MFStage status);
+        // meridian flip started
+        void meridianFlipStarted();
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();
         // new capture state
@@ -438,6 +471,7 @@ signals:
         void newFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES);
         // new log text for the module log window
         void newLog(const QString &text);
+
 private:
         // list of all sequence jobs
         QList<SequenceJob *> m_allJobs;
@@ -465,6 +499,8 @@ private:
         // for the first capture job that is ready to be executed.
         // @see Capture::start().
         QTimer m_captureDelayTimer;
+        // how to continue after pausing
+        ContinueAction m_ContinueAction { CONTINUE_ACTION_NONE };
 
 
         // ////////////////////////////////////////////////////////////////////

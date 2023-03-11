@@ -2845,7 +2845,7 @@ void Manager::connectModules()
         connect(captureProcess.get(), &Ekos::Capture::guideAfterMeridianFlip, mountProcess.get(), &Ekos::Mount::resumeAltLimits,
                 Qt::UniqueConnection);
         connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, captureProcess.get(),
-                &Ekos::Capture::meridianFlipStatusChanged, Qt::UniqueConnection);
+                &Ekos::Capture::updateMFMountState, Qt::UniqueConnection);
 
         // Mount Status
         connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.get(), &Ekos::Capture::setMountStatus,
