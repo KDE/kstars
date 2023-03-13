@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-12 00:42+0000\n"
-"PO-Revision-Date: 2023-03-05 19:53+0100\n"
+"PO-Revision-Date: 2023-03-12 15:40+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -65537,7 +65537,7 @@ msgstr "KStars"
 #: kstarslite/qml/dialogs/AboutDialog.qml:37 main.cpp:48
 #, kde-format, kde-kuit-format
 msgid "Desktop Planetarium"
-msgstr "Planetari per a l'escriptori"
+msgstr "Planetari d'escriptori"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-kuit-format

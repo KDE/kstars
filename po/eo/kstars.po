@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-12 00:42+0000\n"
-"PO-Revision-Date: 2023-03-04 08:26+0100\n"
+"PO-Revision-Date: 2023-03-12 22:53+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -31510,17 +31510,15 @@ msgstr "Koloro de supernovao"
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1070
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroids"
-msgstr "Koloro de supernovao"
+msgstr "Koloro de asteroidoj"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1071
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroid"
-msgstr "Koloro de supernovao"
+msgstr "Koloro de asteroido"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1075
