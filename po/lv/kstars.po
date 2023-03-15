@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-14 00:42+0000\n"
+"POT-Creation-Date: 2023-03-15 00:42+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -1288,7 +1288,7 @@ msgid "Recenters the XPlanet image once it has been moved"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:382
+#: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:372
 #, kde-format
 msgid "FOV:"
 msgstr ""
@@ -1826,7 +1826,7 @@ msgstr "x"
 #. i18n: ectx: property (text), widget (QCheckBox, RACheckBatch)
 #: data/qml/mount/mountbox.qml:545 data/qml/mount/mountbox.qml:737
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
-#: dialogs/focusdialog.ui:107 ekos/align/align.ui:338 ekos/align/align.ui:426
+#: dialogs/focusdialog.ui:107 ekos/align/align.ui:328 ekos/align/align.ui:416
 #: ekos/manager.ui:789 tools/altvstime.ui:97 tools/argsetradec.ui:37
 #: tools/modcalcgalcoord.ui:288 tools/modcalcplanets.ui:251
 #: tools/modcalcvlsr.ui:508
@@ -1847,7 +1847,7 @@ msgstr "RA:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
-#: dialogs/focusdialog.ui:64 ekos/align/align.ui:294 ekos/align/align.ui:396
+#: dialogs/focusdialog.ui:64 ekos/align/align.ui:284 ekos/align/align.ui:386
 #: ekos/manager.ui:773
 #, kde-format, kde-kuit-format
 msgid "DE:"
@@ -1875,7 +1875,7 @@ msgstr "RA:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#: data/qml/mount/mountbox.qml:668 ekos/capture/capture.ui:957
+#: data/qml/mount/mountbox.qml:668 ekos/capture/capture.ui:947
 #: ekos/scheduler/scheduler.ui:319
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City in Newfoundland Canada"
@@ -1888,7 +1888,7 @@ msgstr "Argentija"
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
-#: dialogs/detaildialog.cpp:314 ekos/capture/capture.ui:791
+#: dialogs/detaildialog.cpp:314 ekos/capture/capture.ui:781
 #: oal/equipmentwriter.ui:195 oal/equipmentwriter.ui:1005 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
@@ -2787,7 +2787,7 @@ msgstr "Teksts"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/capture.ui:1827 tools/observinglist.cpp:93
+#: ekos/capture/capture.ui:1817 tools/observinglist.cpp:93
 #: tools/observinglist.cpp:97 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
@@ -3144,8 +3144,8 @@ msgstr "R&ediģēt"
 #. i18n: ectx: property (text), widget (QLabel, l_01)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:909
-#: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:419
+#: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:898
+#: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:409
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
 #: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:452
 #: fitsviewer/solveInfo.ui:66
@@ -3784,7 +3784,7 @@ msgstr "0.0 zvaigžņliel."
 
 #. i18n: ectx: property (text), widget (QLabel, AngSizeLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_19)
-#: dialogs/details_data.ui:289 ekos/capture/capture.ui:302
+#: dialogs/details_data.ui:289 ekos/capture/capture.ui:292
 #: printing/detailstable.cpp:326
 #, kde-format
 msgid "Size:"
@@ -3847,7 +3847,7 @@ msgstr "0.0 pc"
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:1301 ekos/capture/capture.cpp:1339
-#: ekos/focus/focus.cpp:331 ekos/guide/guide.ui:528 ekos/guide/guide.ui:652
+#: ekos/focus/focus.cpp:331 ekos/guide/guide.ui:518 ekos/guide/guide.ui:642
 #: indi/streamform.ui:368
 #, kde-format
 msgid "--"
@@ -3968,7 +3968,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2307
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2300
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -5259,8 +5259,8 @@ msgstr "Fotoaparāts"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_10)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_16)
-#: dialogs/newfov.ui:504 dialogs/newfov.ui:559 ekos/capture/capture.ui:230
-#: ekos/capture/capture.ui:876
+#: dialogs/newfov.ui:504 dialogs/newfov.ui:559 ekos/capture/capture.ui:220
+#: ekos/capture/capture.ui:866
 #, kde-format
 msgid "H:"
 msgstr ""
@@ -6402,8 +6402,8 @@ msgstr "Autofokusa opcijas"
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
-#: ekos/align/align.ui:42 ekos/auxiliary/darklibrary.ui:49
-#: ekos/capture/capture.ui:48 ekos/focus/focus.ui:54 ekos/guide/guide.ui:39
+#: ekos/align/align.ui:32 ekos/auxiliary/darklibrary.ui:49
+#: ekos/capture/capture.ui:38 ekos/focus/focus.ui:44 ekos/guide/guide.ui:29
 #: ekos/mount/mount.ui:47
 #, fuzzy, kde-format
 #| msgctxt "City in Bahamas"
@@ -6412,7 +6412,7 @@ msgid "Train:"
 msgstr "Naso"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlBox)
-#: ekos/align/align.ui:104
+#: ekos/align/align.ui:94
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Control"
@@ -6420,20 +6420,20 @@ msgid "Solver Control"
 msgstr "Kontrole"
 
 #. i18n: ectx: property (text), widget (QPushButton, solveB)
-#: ekos/align/align.ui:131
+#: ekos/align/align.ui:121
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capture && Solve"
 msgstr "Tvert"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadSlewB)
-#: ekos/align/align.ui:144
+#: ekos/align/align.ui:134
 #, kde-format
 msgid "Load a FITS image and solve. Slew mount to image central coordinates."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadSlewB)
-#: ekos/align/align.ui:147
+#: ekos/align/align.ui:137
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Load && Slew..."
@@ -6443,10 +6443,10 @@ msgstr "Ielādēt katalogu..."
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
-#: ekos/align/align.ui:159 ekos/align/polaralignmentassistant.ui:819
+#: ekos/align/align.ui:149 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:3408 ekos/focus/focus.ui:337
-#: ekos/guide/guide.ui:148 ekos/manager.cpp:219
+#: ekos/capture/capture.cpp:3408 ekos/focus/focus.ui:327
+#: ekos/guide/guide.ui:138 ekos/manager.cpp:219
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -6456,38 +6456,38 @@ msgid "Stop"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, gotoBox)
-#: ekos/align/align.ui:171
+#: ekos/align/align.ui:161
 #, kde-format
 msgid "Select which action to perform after the captured image is solved"
 msgstr ""
 
 #. i18n: ectx: property (statusTip), widget (QGroupBox, gotoBox)
-#: ekos/align/align.ui:174
+#: ekos/align/align.ui:164
 #, kde-format
 msgid "Select what action to take once a solution is found."
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, gotoBox)
-#: ekos/align/align.ui:177
+#: ekos/align/align.ui:167
 #, fuzzy, kde-format
 #| msgid "Location:"
 msgid "Solver Action"
 msgstr "Vieta:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, syncR)
-#: ekos/align/align.ui:198
+#: ekos/align/align.ui:188
 #, kde-format
 msgid "Synchronize the telescope to the solution coordinates"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, syncR)
-#: ekos/align/align.ui:204
+#: ekos/align/align.ui:194
 #, kde-format
 msgid "S&ync"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, slewR)
-#: ekos/align/align.ui:217
+#: ekos/align/align.ui:207
 #, kde-format
 msgid ""
 "Synchronize the telescope to the solution coordinates and then slew to the "
@@ -6495,27 +6495,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, slewR)
-#: ekos/align/align.ui:223
+#: ekos/align/align.ui:213
 #, fuzzy, kde-format
 #| msgid "Next Target >"
 msgid "S&lew to Target"
 msgstr "Nākamais mērķis >"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, nothingR)
-#: ekos/align/align.ui:233
+#: ekos/align/align.ui:223
 #, kde-format
 msgid "Just solve"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, nothingR)
-#: ekos/align/align.ui:239
+#: ekos/align/align.ui:229
 #, fuzzy, kde-format
 #| msgid "nothing"
 msgid "&Nothing"
 msgstr "nekas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, telescopeCoordinateGroup)
-#: ekos/align/align.ui:254
+#: ekos/align/align.ui:244
 #, fuzzy, kde-format
 #| msgid "Catalog Coordinates"
 msgid "Telescope Coordinates (JNow)"
@@ -6523,7 +6523,7 @@ msgstr "Kataloga koordinātes"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignAccuracyThreshold)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/align/align.ui:275 ekos/align/align.ui:345
+#: ekos/align/align.ui:265 ekos/align/align.ui:335
 #, kde-format
 msgid ""
 "Accuracy threshold in arcseconds between solution and target coordinates. "
@@ -6533,7 +6533,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignSettlingTime)
-#: ekos/align/align.ui:308 ekos/align/align.ui:325
+#: ekos/align/align.ui:298 ekos/align/align.ui:315
 #, kde-format
 msgid ""
 "After telescope completes slewing, wait until it settles for this many "
@@ -6542,7 +6542,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/align/align.ui:311 ekos/guide/opsdither.ui:65
+#: ekos/align/align.ui:301 ekos/guide/opsdither.ui:65
 #, fuzzy, kde-format
 #| msgctxt "City in Washington USA"
 #| msgid "Seattle"
@@ -6550,13 +6550,13 @@ msgid "Settle"
 msgstr "Sietla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/align/align.ui:348
+#: ekos/align/align.ui:338
 #, kde-format
 msgid "Accuracy"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
-#: ekos/align/align.ui:358
+#: ekos/align/align.ui:348
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Coordinates (JNow)"
@@ -6564,7 +6564,7 @@ msgstr "Horizontālās koordinātes"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVOut)
-#: ekos/align/align.ui:379 ekos/align/align.ui:514
+#: ekos/align/align.ui:369 ekos/align/align.ui:504
 #, fuzzy, kde-format
 #| msgid "offset from Jupiter (arcmin)"
 msgid "Effective field of view size in arcminutes."
@@ -6572,61 +6572,61 @@ msgstr "nobīde no Jupitera (loka minūtes)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, err)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, errOut)
-#: ekos/align/align.ui:403 ekos/align/align.ui:413
+#: ekos/align/align.ui:393 ekos/align/align.ui:403
 #, kde-format
 msgid ""
 "Difference between telescope coordinates and solution coordinates in arcsec"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, err)
-#: ekos/align/align.ui:406
+#: ekos/align/align.ui:396
 #, kde-format
 msgid "Err:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pixScaleOut)
-#: ekos/align/align.ui:433 ekos/align/align.ui:470
+#: ekos/align/align.ui:423 ekos/align/align.ui:460
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Image scale in arcsecs/pixel"
 msgstr "Informācija"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/align/align.ui:436
+#: ekos/align/align.ui:426
 #, kde-format
 msgid "Pix:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
-#: ekos/align/align.ui:450
+#: ekos/align/align.ui:440
 #, kde-format
 msgid "Image rotation angle, East of North"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/align/align.ui:453
+#: ekos/align/align.ui:443
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "PA:"
 msgstr "RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, PAOut)
-#: ekos/align/align.ui:460
+#: ekos/align/align.ui:450
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Position angle in degrees, East of North"
 msgstr "Pozīcijas leņķis"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: ekos/align/align.ui:480
+#: ekos/align/align.ui:470
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "FL:"
 msgstr "RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
-#: ekos/align/align.ui:487
+#: ekos/align/align.ui:477
 #, kde-format
 msgid ""
 "<html><head/><body><p>Active telescope supplied (effective) focal length in "
@@ -6635,13 +6635,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/align/align.ui:497
+#: ekos/align/align.ui:487
 #, kde-format
 msgid "F/:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
-#: ekos/align/align.ui:504
+#: ekos/align/align.ui:494
 #, kde-format
 msgid ""
 "<html><head/><body><p>Active telescope calculated (effective) focal ratio. "
@@ -6649,7 +6649,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/align/align.ui:527
+#: ekos/align/align.ui:517
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "R:"
@@ -6657,13 +6657,13 @@ msgstr "RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
-#: ekos/align/align.ui:534 ekos/guide/guide.ui:649
+#: ekos/align/align.ui:524 ekos/guide/guide.ui:639
 #, kde-format
 msgid "Reducer"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
-#: ekos/align/align.ui:544
+#: ekos/align/align.ui:534
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Plate Solve Capture Options"
@@ -6672,29 +6672,29 @@ msgstr "Pārnovu opcijas"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
-#: ekos/align/align.ui:565 ekos/auxiliary/darklibrary.ui:477
-#: ekos/capture/capture.ui:147 ekos/capture/captureprocessoverlay.ui:296
-#: ekos/focus/focus.ui:608
+#: ekos/align/align.ui:555 ekos/auxiliary/darklibrary.ui:477
+#: ekos/capture/capture.ui:137 ekos/capture/captureprocessoverlay.ui:296
+#: ekos/focus/focus.ui:598
 #, kde-format
 msgid "Gain:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:572 ekos/focus/focus.ui:464 ekos/guide/guide.ui:396
+#: ekos/align/align.ui:562 ekos/focus/focus.ui:454 ekos/guide/guide.ui:386
 #, kde-format
 msgid "Bin:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:594 ekos/focus/focus.ui:660 ekos/guide/guide.ui:161
+#: ekos/align/align.ui:584 ekos/focus/focus.ui:650 ekos/guide/guide.ui:151
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Show in FITS Viewer"
 msgstr "KStars FITS skatītājs"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
-#: ekos/align/align.ui:610
+#: ekos/align/align.ui:600
 #, kde-format
 msgid ""
 "Subtract dark frame. If no suitable dark frame is available, a dark frame "
@@ -6704,27 +6704,27 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:613 ekos/capture/capture.ui:2147 ekos/guide/guide.ui:235
+#: ekos/align/align.ui:603 ekos/capture/capture.ui:2137 ekos/guide/guide.ui:225
 #, kde-format
 msgid "Dark"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignBinning)
-#: ekos/align/align.ui:620
+#: ekos/align/align.ui:610
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Camera binning"
 msgstr "Vertikāls"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/align/align.ui:639
+#: ekos/align/align.ui:629
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Toggle full screen"
 msgstr "KStars FITS skatītājs"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignExposure)
-#: ekos/align/align.ui:655
+#: ekos/align/align.ui:645
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure duration in seconds"
@@ -6733,8 +6733,8 @@ msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignGain)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
-#: ekos/align/align.ui:680 ekos/auxiliary/darklibrary.ui:471
-#: ekos/auxiliary/darklibrary.ui:490 ekos/capture/capture.ui:141
+#: ekos/align/align.ui:670 ekos/auxiliary/darklibrary.ui:471
+#: ekos/auxiliary/darklibrary.ui:490 ekos/capture/capture.ui:131
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Camera Gain"
@@ -6744,7 +6744,7 @@ msgstr "Vertikāls"
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:696 ekos/capture/capture.ui:516 ekos/focus/focus.ui:762
+#: ekos/align/align.ui:686 ekos/capture/capture.ui:506 ekos/focus/focus.ui:752
 #: ekos/profileeditor.ui:644 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
@@ -6752,8 +6752,8 @@ msgstr "Filtrs:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignISO)
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureISOS)
-#: ekos/align/align.ui:703 ekos/auxiliary/darklibrary.ui:516
-#: ekos/capture/capture.ui:181
+#: ekos/align/align.ui:693 ekos/auxiliary/darklibrary.ui:516
+#: ekos/capture/capture.ui:171
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "Camera ISO"
@@ -6761,7 +6761,7 @@ msgstr "Fotoaparāts"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:710 ekos/focus/focus.ui:726 ekos/guide/guide.ui:370
+#: ekos/align/align.ui:700 ekos/focus/focus.ui:716 ekos/guide/guide.ui:360
 #, kde-format
 msgid "Exp:"
 msgstr ""
@@ -6769,7 +6769,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/align/align.ui:723 ekos/align/opsalign.ui:257
+#: ekos/align/align.ui:713 ekos/align/opsalign.ui:257
 #: ekos/capture/rotatorsettings.ui:14
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -6779,42 +6779,42 @@ msgstr "Simulatora iestatījumi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
-#: ekos/align/align.ui:743 ekos/auxiliary/darklibrary.ui:506
-#: ekos/capture/capture.ui:1138 ekos/focus/focus.ui:772
+#: ekos/align/align.ui:733 ekos/auxiliary/darklibrary.ui:506
+#: ekos/capture/capture.ui:1128 ekos/focus/focus.ui:762
 #, kde-format
 msgid "ISO:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
-#: ekos/align/align.ui:753
+#: ekos/align/align.ui:743
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Mode"
 msgstr "Nav skata lauka"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localSolverR)
-#: ekos/align/align.ui:774
+#: ekos/align/align.ui:764
 #, fuzzy, kde-format
 #| msgid "Satellite"
 msgid "StellarSolver"
 msgstr "Pavadonis"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteSolverR)
-#: ekos/align/align.ui:790
+#: ekos/align/align.ui:780
 #, fuzzy, kde-format
 #| msgid "Remote"
 msgid "Remote"
 msgstr "Attālinātais"
 
 #. i18n: ectx: attribute (title), widget (QWidget, solutionResults)
-#: ekos/align/align.ui:846
+#: ekos/align/align.ui:835
 #, fuzzy, kde-format
 #| msgid "Star-Hop Route"
 msgid "Solution Results"
 msgstr "Zvaigžņu lēkuma maršruts"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/align/align.ui:873
+#: ekos/align/align.ui:862
 #, kde-format
 msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
@@ -6828,8 +6828,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, l_02)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/align/align.ui:914 ekos/align/opsastrometry.ui:389
-#: ekos/guide/guide.ui:337 ekos/guide/guide.ui:1222
+#: ekos/align/align.ui:903 ekos/align/opsastrometry.ui:389
+#: ekos/guide/guide.ui:327 ekos/guide/guide.ui:1212
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
 #: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:472
 #, kde-format
@@ -6837,7 +6837,7 @@ msgid "DEC"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:919
+#: ekos/align/align.ui:908
 #, fuzzy, kde-format
 #| msgid "Object Name"
 msgid "Obj Name"
@@ -6845,13 +6845,13 @@ msgstr "Objekta nosaukums"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/align.ui:924 ekos/align/mountmodel.ui:463
+#: ekos/align/align.ui:913 ekos/align/mountmodel.ui:463
 #, kde-format
 msgid "~~"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:929
+#: ekos/align/align.ui:918
 #, fuzzy, kde-format
 #| msgctxt "Right Ascension"
 #| msgid "RA"
@@ -6859,13 +6859,13 @@ msgid "dRA"
 msgstr "RA"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:934
+#: ekos/align/align.ui:923
 #, kde-format
 msgid "dDE"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllSolutionsB)
-#: ekos/align/align.ui:959
+#: ekos/align/align.ui:948
 #, kde-format
 msgid ""
 "Clear all of the solutions from the solutions table.  Be careful because you "
@@ -6873,7 +6873,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeSolutionB)
-#: ekos/align/align.ui:981
+#: ekos/align/align.ui:970
 #, kde-format
 msgid ""
 "Remove the selected row from the solutions table.  This can be useful for "
@@ -6883,7 +6883,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportSolutionsCSV)
-#: ekos/align/align.ui:1003
+#: ekos/align/align.ui:992
 #, kde-format
 msgid ""
 "Export all of the solutions in the Solution Results table to CSV file of "
@@ -6891,13 +6891,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoScaleGraphB)
-#: ekos/align/align.ui:1025
+#: ekos/align/align.ui:1014
 #, kde-format
 msgid "Auto scale and center the Solution Results graph."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mountModelB)
-#: ekos/align/align.ui:1048
+#: ekos/align/align.ui:1037
 #, kde-format
 msgid ""
 "Launch the mount model tool. This tool enables you to create pre-programmed "
@@ -6906,7 +6906,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, mountModelB)
-#: ekos/align/align.ui:1051
+#: ekos/align/align.ui:1040
 #, fuzzy, kde-format
 #| msgctxt "City in California USA"
 #| msgid "Ontario"
@@ -7605,7 +7605,7 @@ msgstr "Automātiska mērogošana"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6556
-#: ekos/focus/focus.ui:1233
+#: ekos/focus/focus.ui:1223
 #, fuzzy, kde-format
 #| msgctxt "City in Sierra Leone"
 #| msgid "Freetown"
@@ -8206,8 +8206,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, eastRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:213 ekos/guide/guide.ui:299
-#: ekos/guide/guide.ui:451 kstarslite/qml/indi/modules/MotionControl.qml:294
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:213 ekos/guide/guide.ui:289
+#: ekos/guide/guide.ui:441 kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
 msgid "+"
 msgstr ""
@@ -8225,8 +8225,8 @@ msgstr "Vieta:"
 #. i18n: ectx: property (text), widget (QCheckBox, westRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, southDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:247
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:309
-#: ekos/guide/guide.ui:461 kstarslite/qml/indi/modules/MotionControl.qml:264
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:299
+#: ekos/guide/guide.ui:451 kstarslite/qml/indi/modules/MotionControl.qml:264
 #, kde-format, kde-kuit-format
 msgid "-"
 msgstr ""
@@ -9697,7 +9697,7 @@ msgstr "Sākt"
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1781
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
-#: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:132
+#: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:122
 #: ekos/opsekos.ui:505
 #, kde-format
 msgid "Capture"
@@ -9880,7 +9880,7 @@ msgstr "Fokuss"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1784 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:258 ekos/manager.cpp:2134
+#: ekos/guide/guide.ui:248 ekos/manager.cpp:2134
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
@@ -10880,7 +10880,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, darkTab)
 #. i18n: ectx: property (text), widget (QPushButton, darkLibraryB)
 #: ekos/auxiliary/darklibrary.ui:118 ekos/auxiliary/darklibrary.ui:167
-#: ekos/capture/capture.ui:2098
+#: ekos/capture/capture.ui:2088
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Count"
@@ -10902,7 +10902,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, binningLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_9)
-#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/capture.ui:1105
+#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/capture.ui:1095
 #: ekos/capture/captureprocessoverlay.ui:433
 #, kde-format
 msgid "Binning:"
@@ -10961,14 +10961,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
-#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1131
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1121
 #, kde-format
 msgid "Count:"
 msgstr "Skaits:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: ekos/auxiliary/darklibrary.ui:346 ekos/focus/focus.ui:1209
+#: ekos/auxiliary/darklibrary.ui:346 ekos/focus/focus.ui:1199
 #, fuzzy, kde-format
 #| msgid "Algorithm"
 msgid "Algorithm:"
@@ -11058,7 +11058,7 @@ msgstr "Laiks:"
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel_2)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:539
+#: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:529
 #: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1025
 #, kde-format
 msgid "Exposure:"
@@ -11159,7 +11159,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetMapParametersB)
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:742
+#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:732
 #: ekos/mount/mount.ui:346
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -11298,7 +11298,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:1812
+#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:1802
 #: oal/equipmentwriter.ui:940
 #, kde-format
 msgid "Filter"
@@ -11325,7 +11325,7 @@ msgid "Relative offset in steps"
 msgstr "Relatīvā pozīcija"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1842
+#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1832
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Offset"
@@ -11339,7 +11339,7 @@ msgid "Start Auto Focus when filter is activated"
 msgstr "Autofokusa opcijas"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:414
+#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:404
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Auto Focus"
@@ -11383,8 +11383,8 @@ msgstr "Pabeigts"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
-#: ekos/auxiliary/filtersettings.ui:14 ekos/capture/capture.ui:450
-#: ekos/focus/focus.ui:813
+#: ekos/auxiliary/filtersettings.ui:14 ekos/capture/capture.ui:440
+#: ekos/focus/focus.ui:803
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
@@ -11670,7 +11670,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
-#: ekos/auxiliary/opslogs.ui:202 ekos/capture/capture.ui:204
+#: ekos/auxiliary/opslogs.ui:202 ekos/capture/capture.ui:194
 #: kstarsactions.cpp:1123
 #, fuzzy, kde-format
 #| msgid "FITS Open"
@@ -11828,7 +11828,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
-#: ekos/auxiliary/opslogs.ui:387 ekos/focus/focus.ui:117
+#: ekos/auxiliary/opslogs.ui:387 ekos/focus/focus.ui:107
 #, kde-format
 msgid "Focuser"
 msgstr ""
@@ -12047,7 +12047,7 @@ msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1418
+#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1408
 #: ekos/scheduler/framingassistant.ui:117 ekos/scheduler/mosaic.ui:301
 #, fuzzy, kde-format
 #| msgid "Camera"
@@ -12146,7 +12146,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:138
+#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:128
 #: ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
@@ -12236,7 +12236,7 @@ msgstr "Ports"
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
 #: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:213
-#: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:324
+#: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:314
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -12247,7 +12247,7 @@ msgstr "Pievienot"
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
 #: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:187
-#: ekos/guide/guide.ui:386 ekos/manager.ui:583 indi/drivermanager.ui:368
+#: ekos/guide/guide.ui:376 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
@@ -12795,7 +12795,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, deblend_thresh)
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:472 ekos/guide/guide.ui:481
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:472 ekos/guide/guide.ui:471
 #, kde-format
 msgid "32"
 msgstr ""
@@ -13429,7 +13429,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1279
+#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1269
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "France"
@@ -13566,14 +13566,14 @@ msgid "CCD capture stopped"
 msgstr "Tvert"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2184
+#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2175
 #, fuzzy, kde-format
 #| msgid "Expose:"
 msgid "Expose (-/-):"
 msgstr "Eksponēt:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1066 ekos/capture/capture.ui:2012
+#: ekos/capture/capture.cpp:1066 ekos/capture/capture.ui:2002
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Start Sequence"
@@ -14191,14 +14191,14 @@ msgstr[2] ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CCDFWGroup)
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
-#: ekos/capture/capture.ui:120 ekos/focus/focus.ui:443
+#: ekos/capture/capture.ui:110 ekos/focus/focus.ui:433
 #, fuzzy, kde-format
 #| msgid "Filter Wheel"
 msgid "Camera && Filter Wheel"
 msgstr "Filtru ripa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/capture/capture.ui:159
+#: ekos/capture/capture.ui:149
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
@@ -14206,54 +14206,54 @@ msgid "<b>File Settings</b>"
 msgstr "Iestatījumi"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureFormatS)
-#: ekos/capture/capture.ui:193
+#: ekos/capture/capture.ui:183
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Image capture format"
 msgstr "Informācija"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureEncodingS)
-#: ekos/capture/capture.ui:200
+#: ekos/capture/capture.ui:190
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Image transfer format"
 msgstr "Informācija"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
-#: ekos/capture/capture.ui:209
+#: ekos/capture/capture.ui:199
 #, kde-format
 msgid "Native"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinHN)
-#: ekos/capture/capture.ui:243
+#: ekos/capture/capture.ui:233
 #, fuzzy, kde-format
 #| msgid "Horizontal "
 msgid "Horizontal binning"
 msgstr "Horizontāls "
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_11)
-#: ekos/capture/capture.ui:265
+#: ekos/capture/capture.ui:255
 #, kde-format
 msgid "V:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinVN)
-#: ekos/capture/capture.ui:278
+#: ekos/capture/capture.ui:268
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical binning"
 msgstr "Vertikāls"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
-#: ekos/capture/capture.ui:309
+#: ekos/capture/capture.ui:299
 #, kde-format
 msgid "Delay in seconds between consecutive images"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:315 ekos/guide/guide.ui:406
+#: ekos/capture/capture.ui:305 ekos/guide/guide.ui:396
 #, kde-format
 msgid "Delay:"
 msgstr "Aizture:"
@@ -14261,7 +14261,7 @@ msgstr "Aizture:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_13)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_26)
-#: ekos/capture/capture.ui:333 ekos/guide/manualdither.ui:67
+#: ekos/capture/capture.ui:323 ekos/guide/manualdither.ui:67
 #: ekos/guide/opscalibration.ui:178
 #, kde-format
 msgid "X:"
@@ -14270,41 +14270,41 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_14)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, l_27)
-#: ekos/capture/capture.ui:356 ekos/guide/manualdither.ui:88
+#: ekos/capture/capture.ui:346 ekos/guide/manualdither.ui:88
 #: ekos/guide/opscalibration.ui:195
 #, kde-format
 msgid "Y:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
-#: ekos/capture/capture.ui:386
+#: ekos/capture/capture.ui:376
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Current camera gain"
 msgstr "Vertikāls"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
-#: ekos/capture/capture.ui:405
+#: ekos/capture/capture.ui:395
 #, fuzzy, kde-format
 #| msgid "Load Device Configuration:"
 msgid "Target camera gain"
 msgstr "Ielādēt ierīces konfigurāciju:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
-#: ekos/capture/capture.ui:488
+#: ekos/capture/capture.ui:478
 #, fuzzy, kde-format
 #| msgid "City filter:"
 msgid "Edit filter names"
 msgstr "Pilsētu filtrs:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureLabel_2)
-#: ekos/capture/capture.ui:533
+#: ekos/capture/capture.ui:523
 #, kde-format
 msgid "Set the exposure time in seconds for individual images, if applicable"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
-#: ekos/capture/capture.ui:557
+#: ekos/capture/capture.ui:547
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Offset"
@@ -14312,7 +14312,7 @@ msgid "Current camera offset"
 msgstr "Nobīde"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
-#: ekos/capture/capture.ui:576
+#: ekos/capture/capture.ui:566
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Offset"
@@ -14320,7 +14320,7 @@ msgid "Target camera offset"
 msgstr "Nobīde"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
-#: ekos/capture/capture.ui:594
+#: ekos/capture/capture.ui:584
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Offset"
@@ -14330,7 +14330,7 @@ msgstr "Nobīde"
 #. i18n: ectx: property (text), widget (QLabel, offsetLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/capture/capture.ui:600 ekos/capture/captureprocessoverlay.ui:154
+#: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
 #: oal/equipmentwriter.ui:1054
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -14340,32 +14340,32 @@ msgstr "Nobīde"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:620 ekos/capture/capture.ui:1037
+#: ekos/capture/capture.ui:610 ekos/capture/capture.ui:1027
 #, fuzzy, kde-format
 #| msgid "Date format:"
 msgid "Format:"
 msgstr "Datuma formāts:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, calibrationB)
-#: ekos/capture/capture.ui:647
+#: ekos/capture/capture.ui:637
 #, kde-format
 msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
-#: ekos/capture/capture.ui:673
+#: ekos/capture/capture.ui:663
 #, kde-format
 msgid "Manage INDI sequence properties"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/capture/capture.ui:705
+#: ekos/capture/capture.ui:695
 #, kde-format
 msgid "Reset CCD frame & size values to default values"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
-#: ekos/capture/capture.ui:734
+#: ekos/capture/capture.ui:724
 #, kde-format
 msgid ""
 "<html><head/><body><p>Generate Dark Flats after adding Flat frames to the "
@@ -14373,7 +14373,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
-#: ekos/capture/capture.ui:763
+#: ekos/capture/capture.ui:753
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Control"
@@ -14381,13 +14381,13 @@ msgid "Rotator Control"
 msgstr "Kontrole"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_15)
-#: ekos/capture/capture.ui:850
+#: ekos/capture/capture.ui:840
 #, kde-format
 msgid "W:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:903
+#: ekos/capture/capture.ui:893
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select how captured images are uploaded:</p><ol style="
@@ -14411,21 +14411,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:906
+#: ekos/capture/capture.ui:896
 #, fuzzy, kde-format
 #| msgid "Save"
 msgid "Save:"
 msgstr "Saglabāt"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/capture/capture.ui:916
+#: ekos/capture/capture.ui:906
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
-#: ekos/capture/capture.ui:922
+#: ekos/capture/capture.ui:912
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Direction"
@@ -14433,7 +14433,7 @@ msgid "Directory"
 msgstr "Virziens"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/capture.ui:929
+#: ekos/capture/capture.ui:919
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -14442,13 +14442,13 @@ msgid ""
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/capture.ui:932
+#: ekos/capture/capture.ui:922
 #, no-c-format, kde-format
 msgid "_%s"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
-#: ekos/capture/capture.ui:951
+#: ekos/capture/capture.ui:941
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
@@ -14457,33 +14457,33 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:996
+#: ekos/capture/capture.ui:986
 #, fuzzy, kde-format
 #| msgid "Local"
 msgid "Locally"
 msgstr "Lokāls"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:1001
+#: ekos/capture/capture.ui:991
 #, fuzzy, kde-format
 #| msgid "Remote"
 msgid "Remotely"
 msgstr "Attālinātais"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:1006
+#: ekos/capture/capture.ui:996
 #, kde-format
 msgid "Both"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
-#: ekos/capture/capture.ui:1017
+#: ekos/capture/capture.ui:1007
 #, kde-format
 msgid "/home/pi"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
-#: ekos/capture/capture.ui:1024
+#: ekos/capture/capture.ui:1014
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Argentia"
@@ -14491,7 +14491,7 @@ msgid "Target"
 msgstr "Argentija"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:1034
+#: ekos/capture/capture.ui:1024
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
@@ -14539,7 +14539,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: ekos/capture/capture.ui:1044
+#: ekos/capture/capture.ui:1034
 #, kde-format
 msgid ""
 "When storing images on remote devices, specify the directory where captured "
@@ -14548,26 +14548,26 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/capture.ui:1047 ekos/profileeditor.ui:480
+#: ekos/capture/capture.ui:1037 ekos/profileeditor.ui:480
 #, fuzzy, kde-format
 #| msgid "Remote"
 msgid "Remote:"
 msgstr "Attālinātais"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/capture/capture.ui:1077
+#: ekos/capture/capture.ui:1067
 #, kde-format
 msgid "<b>Capture Settings</b>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
-#: ekos/capture/capture.ui:1099
+#: ekos/capture/capture.ui:1089
 #, kde-format
 msgid "Horizontal and Vertical binning"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_12)
-#: ekos/capture/capture.ui:1118
+#: ekos/capture/capture.ui:1108
 #, kde-format
 msgid "Frame:"
 msgstr "Kadrs:"
@@ -14576,21 +14576,21 @@ msgstr "Kadrs:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/capture.ui:1125 ekos/capture/limits.ui:60
-#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:756
+#: ekos/capture/capture.ui:1115 ekos/capture/limits.ui:60
+#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:746
 #, kde-format
 msgid "Number of images to capture"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
-#: ekos/capture/capture.ui:1174
+#: ekos/capture/capture.ui:1164
 #, fuzzy, kde-format
 #| msgid "&Default Zoom"
 msgid "Restart camera driver"
 msgstr "&Noklusētais mērogs"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
-#: ekos/capture/capture.ui:1206
+#: ekos/capture/capture.ui:1196
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Temperature K"
@@ -14598,60 +14598,60 @@ msgid "Temperature regulation"
 msgstr "Temperatūra K"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
-#: ekos/capture/capture.ui:1241
+#: ekos/capture/capture.ui:1231
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set CCD temperature"
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
-#: ekos/capture/capture.ui:1276
+#: ekos/capture/capture.ui:1266
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Desired CCD temperature"
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
-#: ekos/capture/capture.ui:1289
+#: ekos/capture/capture.ui:1279
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Current CCD temperature"
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearConfigurationB)
-#: ekos/capture/capture.ui:1311
+#: ekos/capture/capture.ui:1301
 #, fuzzy, kde-format
 #| msgid "Load Device Configuration:"
 msgid "Clear camera configuration"
 msgstr "Ielādēt ierīces konfigurāciju:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1345
+#: ekos/capture/capture.ui:1335
 #, kde-format
 msgid "Turn cooler on"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1356
+#: ekos/capture/capture.ui:1346
 #, kde-format
 msgid "On"
 msgstr "Ieslēgts"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOffB)
-#: ekos/capture/capture.ui:1375
+#: ekos/capture/capture.ui:1365
 #, kde-format
 msgid "Turn cooler off"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOffB)
 #. i18n: ectx: property (text), widget (QRadioButton, offR)
-#: ekos/capture/capture.ui:1386 ekos/indihub.ui:84
+#: ekos/capture/capture.ui:1376 ekos/indihub.ui:84
 #, kde-format
 msgid "Off"
 msgstr "Izslēgts"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1396
+#: ekos/capture/capture.ui:1386
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enforce temperature value before capturing an image</"
@@ -14659,52 +14659,52 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1399
+#: ekos/capture/capture.ui:1389
 #, kde-format
 msgid "Tº"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/capture.ui:1411
+#: ekos/capture/capture.ui:1401
 #, kde-format
 msgid "Cooler:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, sequenceBox)
-#: ekos/capture/capture.ui:1455
+#: ekos/capture/capture.ui:1445
 #, kde-format
 msgid "Sequence Queue"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/capture/capture.ui:1639
+#: ekos/capture/capture.ui:1629
 #, kde-format
 msgid "Reset status of all jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
-#: ekos/capture/capture.ui:1664
+#: ekos/capture/capture.ui:1654
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Select Observer"
 msgstr "Novērotājs"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/capture/capture.ui:1705
+#: ekos/capture/capture.ui:1695
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Load capture sequence from file"
 msgstr "Pārnovu opcijas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/capture/capture.ui:1739
+#: ekos/capture/capture.ui:1729
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Save capture sequence"
 msgstr "Pārnovu opcijas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/capture/capture.ui:1773
+#: ekos/capture/capture.ui:1763
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Save capture sequence as ..."
@@ -14714,7 +14714,7 @@ msgstr "Pārnovu opcijas"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/capture/capture.ui:1807 ekos/ekoslive/ekoslivedialog.ui:119
+#: ekos/capture/capture.ui:1797 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/scheduler/scheduler.ui:1046 indi/drivermanager.ui:66
 #: indi/drivermanager.ui:322
 #, kde-format
@@ -14722,31 +14722,31 @@ msgid "Status"
 msgstr "Statuss"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1817
+#: ekos/capture/capture.ui:1807
 #, kde-format
 msgid "Count"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1822
+#: ekos/capture/capture.ui:1812
 #, kde-format
 msgid "Exp"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1832
+#: ekos/capture/capture.ui:1822
 #, kde-format
 msgid "Bin"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1837
+#: ekos/capture/capture.ui:1827
 #, kde-format
 msgid "ISO/Gain"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/capture/capture.ui:1870
+#: ekos/capture/capture.ui:1860
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
@@ -14754,13 +14754,13 @@ msgid "Capture a preview"
 msgstr "Kadrs"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
-#: ekos/capture/capture.ui:1911
+#: ekos/capture/capture.ui:1901
 #, kde-format
 msgid "Start framing (looping)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/capture.ui:1949 ekos/focus/focus.ui:685
+#: ekos/capture/capture.ui:1939 ekos/focus/focus.ui:675
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Video"
@@ -14768,21 +14768,21 @@ msgid "Live Video"
 msgstr "Video"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/capture/capture.ui:2046
+#: ekos/capture/capture.ui:2036
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Pause Sequence"
 msgstr "Biežums:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, toolsGroup)
-#: ekos/capture/capture.ui:2074
+#: ekos/capture/capture.ui:2064
 #, fuzzy, kde-format
 #| msgid "&Tools"
 msgid "Tools"
 msgstr "&Rīki"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
-#: ekos/capture/capture.ui:2095
+#: ekos/capture/capture.ui:2085
 #, fuzzy, kde-format
 #| msgctxt "City in Utah USA"
 #| msgid "Salt Lake City"
@@ -14790,7 +14790,7 @@ msgid "Create and manage Dark Library"
 msgstr "Soltleiksitija"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
-#: ekos/capture/capture.ui:2105
+#: ekos/capture/capture.ui:2095
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "Configure Guide & Focus limits"
@@ -14798,14 +14798,14 @@ msgstr "Konfigurēt slēptos objektus"
 
 #. i18n: ectx: property (text), widget (QPushButton, limitsB)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
-#: ekos/capture/capture.ui:2108 ekos/mount/mount.ui:791
+#: ekos/capture/capture.ui:2098 ekos/mount/mount.ui:791
 #: tools/scriptbuilder.cpp:683
 #, kde-format
 msgid "Limits"
 msgstr "Ierobežojumi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
-#: ekos/capture/capture.ui:2121
+#: ekos/capture/capture.ui:2111
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage sequence scripts"
@@ -14813,14 +14813,14 @@ msgstr "Novērotājs"
 
 #. i18n: ectx: property (text), widget (QPushButton, scriptManagerB)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/capture.ui:2124 ekos/profileeditor.ui:721
+#: ekos/capture/capture.ui:2114 ekos/profileeditor.ui:721
 #, fuzzy, kde-format
 #| msgid "New Script"
 msgid "Scripts"
 msgstr "Jauns skripts"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
-#: ekos/capture/capture.ui:2144
+#: ekos/capture/capture.ui:2134
 #, kde-format
 msgid ""
 "<html><head/><body><p>Automatically apply dark subtraction on preview images "
@@ -14828,7 +14828,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/capture/capture.ui:2172
+#: ekos/capture/capture.ui:2162
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "total remaining:"
@@ -14841,7 +14841,7 @@ msgstr "Ielādē attēlu URL"
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2215 ekos/capture/capture.ui:2253
+#: ekos/capture/capture.ui:2207 ekos/capture/capture.ui:2246
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -14854,21 +14854,21 @@ msgid "--:--:--"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2235
+#: ekos/capture/capture.ui:2227
 #, fuzzy, kde-format
 #| msgid "<b>Port:</b>"
 msgid "<b>Progress</b>"
 msgstr "<b>Ports:</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2263
+#: ekos/capture/capture.ui:2256
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Avg. Download:"
 msgstr "Lejupielādēt jaunus datus..."
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2273
+#: ekos/capture/capture.ui:2266
 #, fuzzy, kde-format
 #| msgctxt "second"
 #| msgid "sec"
@@ -14876,7 +14876,7 @@ msgid "sec"
 msgstr "sek."
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2297
+#: ekos/capture/capture.ui:2290
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Argentia"
@@ -14886,7 +14886,7 @@ msgstr "Argentija"
 #. i18n: ectx: property (text), widget (QLabel, targetDriftUnit)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
-#: ekos/capture/capture.ui:2317 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2310 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102
 #, kde-format
 msgid "\""
@@ -15475,7 +15475,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, settingsTab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
-#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:854
+#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:844
 #: ekos/guide/opscalibration.ui:34 ekos/guide/opsgpg.ui:103
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -16423,7 +16423,7 @@ msgid "Relative Profile"
 msgstr "Izņemt pēdas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
-#: ekos/focus/focus.ui:154
+#: ekos/focus/focus.ui:144
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Relative Position"
@@ -16431,54 +16431,54 @@ msgid "Stop focuser motion"
 msgstr "Relatīvā pozīcija"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
-#: ekos/focus/focus.ui:183
+#: ekos/focus/focus.ui:173
 #, kde-format
 msgid "Focus In"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
-#: ekos/focus/focus.ui:215
+#: ekos/focus/focus.ui:205
 #, fuzzy, kde-format
 #| msgid "Set the target filter position."
 msgid "Go to an absolute focus position"
 msgstr "Iestatīt mērķa filtra pozīciju."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
-#: ekos/focus/focus.ui:250
+#: ekos/focus/focus.ui:240
 #, fuzzy, kde-format
 #| msgid "Absolute Position"
 msgid "Desired absolute focus position"
 msgstr "Absolūtā pozīcija"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/focus/focus.ui:257
+#: ekos/focus/focus.ui:247
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "Start:"
 msgstr "Sākt"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
-#: ekos/focus/focus.ui:273
+#: ekos/focus/focus.ui:263
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capture image"
 msgstr "Tvert"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
-#: ekos/focus/focus.ui:302
+#: ekos/focus/focus.ui:292
 #, kde-format
 msgid "Focus Out"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
-#: ekos/focus/focus.ui:334
+#: ekos/focus/focus.ui:324
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Stop Auto Focus process"
 msgstr "Autofokusa opcijas"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
-#: ekos/focus/focus.ui:353
+#: ekos/focus/focus.ui:343
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Current absolute focuser position"
@@ -16487,28 +16487,28 @@ msgstr "Pašreizējo krāsu iestatījumi"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:366 ekos/scheduler/framingassistant.ui:1256
+#: ekos/focus/focus.ui:356 ekos/scheduler/framingassistant.ui:1256
 #: ekos/scheduler/scheduler.ui:350
 #, kde-format
 msgid "Steps:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
-#: ekos/focus/focus.ui:382
+#: ekos/focus/focus.ui:372
 #, fuzzy, kde-format
 #| msgid "Starting the timer"
 msgid "Start framing"
 msgstr "Startēt taimeri"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
-#: ekos/focus/focus.ui:411
+#: ekos/focus/focus.ui:401
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Start Auto Focus process"
 msgstr "Autofokusa opcijas"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:471
+#: ekos/focus/focus.ui:461
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Filter Simulator"
@@ -16516,7 +16516,7 @@ msgid "Focuser temperature source"
 msgstr "Filtru simulators"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:474
+#: ekos/focus/focus.ui:464
 #, fuzzy, kde-format
 #| msgctxt "Map projection method"
 #| msgid "TSC"
@@ -16525,7 +16525,7 @@ msgstr "TSC"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
-#: ekos/focus/focus.ui:518 ekos/focus/focus.ui:534
+#: ekos/focus/focus.ui:508 ekos/focus/focus.ui:524
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Filter Simulator"
@@ -16533,7 +16533,7 @@ msgid "Source temperature in Celsius"
 msgstr "Filtru simulators"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: ekos/focus/focus.ui:521
+#: ekos/focus/focus.ui:511
 #, fuzzy, kde-format
 #| msgid "Temp:"
 msgid "Temp. ="
@@ -16541,7 +16541,7 @@ msgstr "Pagaidu:"
 
 #. i18n: ectx: property (text), widget (QLabel, absoluteTemperatureLabel)
 #. i18n: ectx: property (text), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:540 ekos/focus/focus.ui:575
+#: ekos/focus/focus.ui:530 ekos/focus/focus.ui:565
 #, fuzzy, kde-format
 #| msgctxt "Not Applicable"
 #| msgid "N/A"
@@ -16550,7 +16550,7 @@ msgstr "N/P"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_31)
 #. i18n: ectx: property (toolTip), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:550 ekos/focus/focus.ui:569
+#: ekos/focus/focus.ui:540 ekos/focus/focus.ui:559
 #, kde-format
 msgid ""
 "Delta temperature in Celsius. It is the difference between the last recorded "
@@ -16558,7 +16558,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: ekos/focus/focus.ui:553
+#: ekos/focus/focus.ui:543
 #, kde-format
 msgid "ΔT ="
 msgstr ""
@@ -16566,73 +16566,73 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:605 ekos/focus/focus.ui:723 ekos/guide/guide.ui:367
+#: ekos/focus/focus.ui:595 ekos/focus/focus.ui:713 ekos/guide/guide.ui:357
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds"
 msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/focus/focus.ui:638
+#: ekos/focus/focus.ui:628
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Toggle Full Screen"
 msgstr "KStars FITS skatītājs"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
-#: ekos/focus/focus.ui:716
+#: ekos/focus/focus.ui:706
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Select focuser temperature source"
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/focus/focus.ui:739
+#: ekos/focus/focus.ui:729
 #, kde-format
 msgid "Reset focus subframe to full capture"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:892
+#: ekos/focus/focus.ui:882
 #, kde-format
 msgid "Automatically select the best focus star from the image"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:895
+#: ekos/focus/focus.ui:885
 #, fuzzy, kde-format
 #| msgid "Multiple Star"
 msgid "Auto Select Star"
 msgstr "Zvaigžņu kopums"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:911
+#: ekos/focus/focus.ui:901
 #, kde-format
 msgid "Suspend Guiding while autofocus in progress"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:914
+#: ekos/focus/focus.ui:904
 #, kde-format
 msgid "Suspend Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
-#: ekos/focus/focus.ui:927
+#: ekos/focus/focus.ui:917
 #, kde-format
 msgid "Wait this many seconds before resuming guiding."
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:930 ekos/focus/focus.ui:1713
+#: ekos/focus/focus.ui:920 ekos/focus/focus.ui:1703
 #, kde-format
 msgid " s"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/focus/focus.ui:940 ekos/focus/focus.ui:1667
+#: ekos/focus/focus.ui:930 ekos/focus/focus.ui:1657
 #, fuzzy, kde-format
 #| msgctxt "City in Washington USA"
 #| msgid "Seattle"
@@ -16640,7 +16640,7 @@ msgid "Settle:"
 msgstr "Sietla"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
-#: ekos/focus/focus.ui:956
+#: ekos/focus/focus.ui:946
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are inside this "
@@ -16653,8 +16653,8 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusTolerance)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusThreshold)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, overlapSpin)
-#: ekos/focus/focus.ui:959 ekos/focus/focus.ui:981 ekos/focus/focus.ui:1314
-#: ekos/focus/focus.ui:1451 ekos/scheduler/framingassistant.ui:854
+#: ekos/focus/focus.ui:949 ekos/focus/focus.ui:971 ekos/focus/focus.ui:1304
+#: ekos/focus/focus.ui:1441 ekos/scheduler/framingassistant.ui:854
 #: ekos/scheduler/mosaic.ui:380
 #, fuzzy, no-c-format, kde-format
 #| msgid "%"
@@ -16662,7 +16662,7 @@ msgid " %"
 msgstr "%"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
-#: ekos/focus/focus.ui:978
+#: ekos/focus/focus.ui:968
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are outside this "
@@ -16671,13 +16671,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/focus/focus.ui:997
+#: ekos/focus/focus.ui:987
 #, kde-format
 msgid "Annulus:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:1013
+#: ekos/focus/focus.ui:1003
 #, kde-format
 msgid ""
 "<html><body><p>Size of the subframe to constrain capture to, in pixels.</p></"
@@ -16685,7 +16685,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:1016
+#: ekos/focus/focus.ui:1006
 #, fuzzy, kde-format
 #| msgid " x "
 msgid " px"
@@ -16693,19 +16693,19 @@ msgstr "x"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1035 ekos/guide/guide.ui:360
+#: ekos/focus/focus.ui:1025 ekos/guide/guide.ui:350
 #, kde-format
 msgid "Box:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1051
+#: ekos/focus/focus.ui:1041
 #, kde-format
 msgid "Subframe around the focus star during the autofocus procedure"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1054
+#: ekos/focus/focus.ui:1044
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
@@ -16713,7 +16713,7 @@ msgid "Sub Frame"
 msgstr "Kadrs"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1070
+#: ekos/focus/focus.ui:1060
 #, kde-format
 msgid ""
 "<html><head/><body><p>Measure average HFR from all stars combined in a full "
@@ -16723,14 +16723,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1073
+#: ekos/focus/focus.ui:1063
 #, fuzzy, kde-format
 #| msgid "Full legend"
 msgid "Full Field"
 msgstr "Pilna leģenda"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1086
+#: ekos/focus/focus.ui:1076
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR as "
@@ -16741,20 +16741,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1089
+#: ekos/focus/focus.ui:1079
 #, kde-format
 msgid "Use Weights"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/focus/focus.ui:1096
+#: ekos/focus/focus.ui:1086
 #, fuzzy, kde-format
 #| msgid "Limits"
 msgid "R² Limit:"
 msgstr "Ierobežojumi"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
-#: ekos/focus/focus.ui:1112
+#: ekos/focus/focus.ui:1102
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
@@ -16766,14 +16766,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1137
+#: ekos/focus/focus.ui:1127
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Use dark frames from the library."
 msgstr "Neizdevās atvērt failu %1."
 
 #. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1140
+#: ekos/focus/focus.ui:1130
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
@@ -16781,40 +16781,40 @@ msgid "Dark Frame"
 msgstr "Kadrs"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
-#: ekos/focus/focus.ui:1163
+#: ekos/focus/focus.ui:1153
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Process"
 msgstr "Fokuss"
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: ekos/focus/focus.ui:1189
+#: ekos/focus/focus.ui:1179
 #, kde-format
 msgid "Num. of rows:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: ekos/focus/focus.ui:1199
+#: ekos/focus/focus.ui:1189
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "SEP Profile:"
 msgstr "Uz failu..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:1243
+#: ekos/focus/focus.ui:1233
 #, kde-format
 msgid "Average over:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: ekos/focus/focus.ui:1250
+#: ekos/focus/focus.ui:1240
 #, fuzzy, kde-format
 #| msgid "Font size:"
 msgid "Kernel size:"
 msgstr "Fonta izmērs:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1263
+#: ekos/focus/focus.ui:1253
 #, kde-format
 msgid ""
 "<html><body><p>Number of frames to capture in order to average the HFR value "
@@ -16822,14 +16822,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1266
+#: ekos/focus/focus.ui:1256
 #, fuzzy, kde-format
 #| msgid "Frame:"
 msgid " frames"
 msgstr "Kadrs:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMultiRowAverage)
-#: ekos/focus/focus.ui:1286
+#: ekos/focus/focus.ui:1276
 #, kde-format
 msgid ""
 "<html><head/><body><p>Combine this number of rows in the Bahtinov max "
@@ -16838,7 +16838,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
-#: ekos/focus/focus.ui:1311
+#: ekos/focus/focus.ui:1301
 #, kde-format
 msgid ""
 "Decrease value to narrow optimal focus point solution radius. Increase to "
@@ -16846,7 +16846,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1339
+#: ekos/focus/focus.ui:1329
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Select focus process algorithm:</p><ul style=\"margin-"
@@ -16879,14 +16879,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1346
+#: ekos/focus/focus.ui:1336
 #, fuzzy, kde-format
 #| msgid "Interactive Mode"
 msgid "Iterative"
 msgstr "Interaktīvais režīms"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1351
+#: ekos/focus/focus.ui:1341
 #, fuzzy, kde-format
 #| msgctxt "Sky Culture"
 #| msgid "Polynesian"
@@ -16894,21 +16894,21 @@ msgid "Polynomial"
 msgstr "Polinēziešu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1356
+#: ekos/focus/focus.ui:1346
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Linear"
 msgstr "Lineāri"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1361
+#: ekos/focus/focus.ui:1351
 #, fuzzy, kde-format
 #| msgid "Linear Scale"
 msgid "Linear 1 Pass"
 msgstr "Lineāra mērogošana"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1375
+#: ekos/focus/focus.ui:1365
 #, kde-format
 msgid ""
 "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: 0px; "
@@ -16935,21 +16935,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1382
+#: ekos/focus/focus.ui:1372
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Gradient"
 msgstr "Klients"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1387
+#: ekos/focus/focus.ui:1377
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Centroid"
 msgstr "Centrā"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1392
+#: ekos/focus/focus.ui:1382
 #, fuzzy, kde-format
 #| msgctxt "City in Sierra Leone"
 #| msgid "Freetown"
@@ -16958,7 +16958,7 @@ msgstr "Frītauna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
-#: ekos/focus/focus.ui:1397 ekos/guide/opsguide.ui:456
+#: ekos/focus/focus.ui:1387 ekos/guide/opsguide.ui:456
 #, fuzzy, kde-format
 #| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 #| msgid "SE"
@@ -16966,13 +16966,13 @@ msgid "SEP"
 msgstr "DA"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1402
+#: ekos/focus/focus.ui:1392
 #, kde-format
 msgid "Bahtinov"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1413
+#: ekos/focus/focus.ui:1403
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Direction"
@@ -16980,7 +16980,7 @@ msgid "Detection:"
 msgstr "Virziens"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
-#: ekos/focus/focus.ui:1420
+#: ekos/focus/focus.ui:1410
 #, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
@@ -16988,7 +16988,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusThreshold)
-#: ekos/focus/focus.ui:1448
+#: ekos/focus/focus.ui:1438
 #, kde-format
 msgid ""
 "<html><body><p>Increase to restrict the centroid to bright cores. Decrease "
@@ -16996,7 +16996,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
-#: ekos/focus/focus.ui:1470
+#: ekos/focus/focus.ui:1460
 #, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur kernel size. Used for blurring the "
@@ -17004,20 +17004,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: ekos/focus/focus.ui:1489
+#: ekos/focus/focus.ui:1479
 #, fuzzy, kde-format
 #| msgid "sigma"
 msgid "Sigma:"
 msgstr "sigma"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
-#: ekos/focus/focus.ui:1499
+#: ekos/focus/focus.ui:1489
 #, kde-format
 msgid "Curve Fit:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1506
+#: ekos/focus/focus.ui:1496
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
@@ -17039,20 +17039,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1510
+#: ekos/focus/focus.ui:1500
 #, fuzzy, kde-format
 msgid "Quadradic"
 msgstr "Resursa Tips"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1515
+#: ekos/focus/focus.ui:1505
 #, fuzzy, kde-format
 #| msgid "Supernova"
 msgid "Hyperbola"
 msgstr "Supernova"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1520
+#: ekos/focus/focus.ui:1510
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Paraguay"
@@ -17060,7 +17060,7 @@ msgid "Parabola"
 msgstr "Paragvaja"
 
 #. i18n: ectx: attribute (title), widget (QWidget, mechanicsTab)
-#: ekos/focus/focus.ui:1544
+#: ekos/focus/focus.ui:1534
 #, fuzzy, kde-format
 #| msgctxt "City in Romania"
 #| msgid "Bucharest"
@@ -17068,7 +17068,7 @@ msgid "Mechanics"
 msgstr "Bukareste"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
-#: ekos/focus/focus.ui:1561
+#: ekos/focus/focus.ui:1551
 #, kde-format
 msgid ""
 "<html><head/><body><p>The maximum single step size the algorithm is allowed "
@@ -17077,7 +17077,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/focus/focus.ui:1577
+#: ekos/focus/focus.ui:1567
 #, fuzzy, kde-format
 #| msgid "Square size:"
 msgid "Max Step size:"
@@ -17085,7 +17085,7 @@ msgstr "Kvadrāta izmērs:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
 #. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
-#: ekos/focus/focus.ui:1584 kstars.kcfg:1852
+#: ekos/focus/focus.ui:1574 kstars.kcfg:1852
 #, kde-format
 msgid ""
 "Maximum time in seconds to wait for a captured image to be received before "
@@ -17093,14 +17093,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
-#: ekos/focus/focus.ui:1597
+#: ekos/focus/focus.ui:1587
 #, fuzzy, kde-format
 #| msgid "Timeout:"
 msgid "Motion Timeout:"
 msgstr "Noildze:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
-#: ekos/focus/focus.ui:1610
+#: ekos/focus/focus.ui:1600
 #, kde-format
 msgid ""
 "<html><body><p>This number multiplied by initial-step-size is number of "
@@ -17109,7 +17109,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
-#: ekos/focus/focus.ui:1635
+#: ekos/focus/focus.ui:1625
 #, kde-format
 msgid ""
 "<b>Initial</b> step size in ticks to cause a noticeable change in HFR value. "
@@ -17118,26 +17118,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/focus/focus.ui:1660
+#: ekos/focus/focus.ui:1650
 #, fuzzy, kde-format
 #| msgid "Square size:"
 msgid "Initial Step size:"
 msgstr "Kvadrāta izmērs:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/focus/focus.ui:1677
+#: ekos/focus/focus.ui:1667
 #, kde-format
 msgid "Max Travel:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12b)
-#: ekos/focus/focus.ui:1684
+#: ekos/focus/focus.ui:1674
 #, kde-format
 msgid "Out Step Multiple:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
-#: ekos/focus/focus.ui:1697
+#: ekos/focus/focus.ui:1687
 #, kde-format
 msgid ""
 "<html><head/><body><p>Used in the device driver for backlash-aware "
@@ -17146,7 +17146,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:1710
+#: ekos/focus/focus.ui:1700
 #, kde-format
 msgid ""
 "<html><head/><body><p>Wait for this many seconds after moving the focuser "
@@ -17154,21 +17154,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: ekos/focus/focus.ui:1726
+#: ekos/focus/focus.ui:1716
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capture Timeout:"
 msgstr "Tvert"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/focus/focus.ui:1733
+#: ekos/focus/focus.ui:1723
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Driver Backlash:"
 msgstr "Dzinis:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
-#: ekos/focus/focus.ui:1746
+#: ekos/focus/focus.ui:1736
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum travel in steps before the autofocus process "
@@ -17176,13 +17176,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/focus/focus.ui:1768
+#: ekos/focus/focus.ui:1758
 #, kde-format
 msgid "AF Overscan:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
-#: ekos/focus/focus.ui:1775
+#: ekos/focus/focus.ui:1765
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
@@ -17193,7 +17193,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
-#: ekos/focus/focus.ui:1788 kstars.kcfg:1856
+#: ekos/focus/focus.ui:1778 kstars.kcfg:1856
 #, kde-format
 msgid ""
 "Maximum time in seconds to wait for a focuser to move to desired position "
@@ -17201,20 +17201,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/focus/focus.ui:1867
+#: ekos/focus/focus.ui:1856
 #, kde-format
 msgid "V-Curve"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/focus/focus.ui:1912
+#: ekos/focus/focus.ui:1901
 #, fuzzy, kde-format
 #| msgid "P: %1"
 msgid "HFR: "
 msgstr "P: %1"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
-#: ekos/focus/focus.ui:1931
+#: ekos/focus/focus.ui:1920
 #, kde-format
 msgid ""
 "<html><body><p>HFR value in pixels consolidated at the current focuser "
@@ -17222,14 +17222,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/focus.ui:1963
+#: ekos/focus/focus.ui:1952
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stars: "
 msgstr "Zvaigznes"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
-#: ekos/focus/focus.ui:1976
+#: ekos/focus/focus.ui:1965
 #, kde-format
 msgid ""
 "<html><body><p>Number of stars used for HFR computation at the current "
@@ -17237,27 +17237,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: ekos/focus/focus.ui:2002
+#: ekos/focus/focus.ui:1991
 #, fuzzy, kde-format
 #| msgid "Separation"
 msgid "Iteration: "
 msgstr "Atdalīšana"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
-#: ekos/focus/focus.ui:2015
+#: ekos/focus/focus.ui:2004
 #, kde-format
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
-#: ekos/focus/focus.ui:2044
+#: ekos/focus/focus.ui:2033
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgid "Relative Profile..."
 msgstr "Izņemt pēdas"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
-#: ekos/focus/focus.ui:2051
+#: ekos/focus/focus.ui:2040
 #, fuzzy, kde-format
 #| msgid "Clear List"
 msgid "Clear Data"
@@ -17916,13 +17916,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
-#: ekos/guide/guide.ui:90
+#: ekos/guide/guide.ui:80
 #, kde-format
 msgid "Control"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideAutoStar)
-#: ekos/guide/guide.ui:116
+#: ekos/guide/guide.ui:106
 #, kde-format
 msgid ""
 "<html><head/><body><p>Automatically select the calibration star. <br/>Please "
@@ -17931,28 +17931,28 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideAutoStar)
-#: ekos/guide/guide.ui:119
+#: ekos/guide/guide.ui:109
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Auto Star"
 msgstr "Automātiska mērogošana"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearCalibrationB)
-#: ekos/guide/guide.ui:183
+#: ekos/guide/guide.ui:173
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Clear calibration data."
 msgstr "Kalibrēšana"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
-#: ekos/guide/guide.ui:212
+#: ekos/guide/guide.ui:202
 #, fuzzy, kde-format
 #| msgid "Manual"
 msgid "Manual Dither"
 msgstr "Pašrocīgi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
-#: ekos/guide/guide.ui:232
+#: ekos/guide/guide.ui:222
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. If no dark frame is available, a "
@@ -17960,13 +17960,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loopB)
-#: ekos/guide/guide.ui:242
+#: ekos/guide/guide.ui:232
 #, kde-format
 msgid "Loop"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
-#: ekos/guide/guide.ui:271
+#: ekos/guide/guide.ui:261
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
@@ -17978,7 +17978,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
-#: ekos/guide/guide.ui:274
+#: ekos/guide/guide.ui:264
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
@@ -17986,32 +17986,32 @@ msgid "Subframe"
 msgstr "Kadrs"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
-#: ekos/guide/guide.ui:296
+#: ekos/guide/guide.ui:286
 #, kde-format
 msgid "East Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, westRAGuideEnabled)
-#: ekos/guide/guide.ui:306
+#: ekos/guide/guide.ui:296
 #, kde-format
 msgid "West Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalConnectB)
-#: ekos/guide/guide.ui:321
+#: ekos/guide/guide.ui:311
 #, kde-format
 msgid "Connect to external guiding application."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECGuideEnabled)
-#: ekos/guide/guide.ui:331
+#: ekos/guide/guide.ui:321
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Guide Declination Axis"
 msgstr "Deklinācija"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: ekos/guide/guide.ui:357
+#: ekos/guide/guide.ui:347
 #, kde-format
 msgid ""
 "Guide star tracking box size. Box size must be set in accordance to the "
@@ -18019,26 +18019,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalDisconnectB)
-#: ekos/guide/guide.ui:383
+#: ekos/guide/guide.ui:373
 #, kde-format
 msgid "Disconnect from external guiding application."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
-#: ekos/guide/guide.ui:393
+#: ekos/guide/guide.ui:383
 #, kde-format
 msgid "Apply filter to image after capture to enhance it"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/guide/guide.ui:403
+#: ekos/guide/guide.ui:393
 #, kde-format
 msgid ""
 "Guide camera binning. It is recommended to set binning to 2x2 or higher."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rAGuideEnabled)
-#: ekos/guide/guide.ui:413
+#: ekos/guide/guide.ui:403
 #, fuzzy, kde-format
 #| msgctxt "use 'night vision' color scheme"
 #| msgid "Night Vision"
@@ -18046,7 +18046,7 @@ msgid "Guide Right Ascention Axis"
 msgstr "Nakts redzamība"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
-#: ekos/guide/guide.ui:426
+#: ekos/guide/guide.ui:416
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Direction"
@@ -18054,65 +18054,65 @@ msgid "Directions"
 msgstr "Virziens"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
-#: ekos/guide/guide.ui:433
+#: ekos/guide/guide.ui:423
 #, kde-format
 msgid "Delay next guide exposure this many seconds after a pulse is sent"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, northDECGuideEnabled)
-#: ekos/guide/guide.ui:448
+#: ekos/guide/guide.ui:438
 #, kde-format
 msgid "North Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, southDECGuideEnabled)
-#: ekos/guide/guide.ui:458
+#: ekos/guide/guide.ui:448
 #, kde-format
 msgid "South Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:471
+#: ekos/guide/guide.ui:461
 #, kde-format
 msgid "8"
 msgstr "8"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:476
+#: ekos/guide/guide.ui:466
 #, fuzzy, kde-format
 #| msgid "6"
 msgid "16"
 msgstr "6"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:486
+#: ekos/guide/guide.ui:476
 #, fuzzy, kde-format
 #| msgid "6"
 msgid "64"
 msgstr "6"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:491
+#: ekos/guide/guide.ui:481
 #, kde-format
 msgid "128"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
-#: ekos/guide/guide.ui:504
+#: ekos/guide/guide.ui:494
 #, fuzzy, kde-format
 #| msgid "Save Telescope"
 msgid "Scope / Lens Info"
 msgstr "Saglabāt teleskopu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FOV)
-#: ekos/guide/guide.ui:525
+#: ekos/guide/guide.ui:515
 #, fuzzy, kde-format
 #| msgid "offset from Jupiter (arcmin)"
 msgid "Field of View (arcmin)"
 msgstr "nobīde no Jupitera (loka minūtes)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
-#: ekos/guide/guide.ui:579
+#: ekos/guide/guide.ui:569
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Aperture (mm)"
@@ -18120,7 +18120,7 @@ msgid "Aperture (mm)"
 msgstr "Atvērums (mm)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Focal)
-#: ekos/guide/guide.ui:633
+#: ekos/guide/guide.ui:623
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focal Length (mm)"
@@ -18129,21 +18129,21 @@ msgstr "Fokusa attālums (mm)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/guide/guide.ui:659 oal/equipmentwriter.ui:573
+#: ekos/guide/guide.ui:649 oal/equipmentwriter.ui:573
 #, fuzzy, kde-format
 #| msgid "Local time"
 msgid "Focal Ratio"
 msgstr "Lokālais Laiks"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
-#: ekos/guide/guide.ui:697
+#: ekos/guide/guide.ui:687
 #, fuzzy, kde-format
 #| msgid "Save Telescope"
 msgid "Guide Info"
 msgstr "Saglabāt teleskopu"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17)
-#: ekos/guide/guide.ui:723
+#: ekos/guide/guide.ui:713
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focal Length (mm)"
@@ -18151,65 +18151,65 @@ msgid "Pulse Length (ms)"
 msgstr "Fokusa attālums (mm)"
 
 #. i18n: ectx: property (text), widget (QLabel, l_16)
-#: ekos/guide/guide.ui:730
+#: ekos/guide/guide.ui:720
 #, fuzzy, kde-format
 #| msgid "Maximum allowed separation:"
 msgid "Guiding Delta \""
 msgstr "Maksimālā atļautā atdalīšana:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
-#: ekos/guide/guide.ui:742
+#: ekos/guide/guide.ui:732
 #, kde-format
 msgid "Generated RA pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseDEC)
-#: ekos/guide/guide.ui:755
+#: ekos/guide/guide.ui:745
 #, kde-format
 msgid "Generated DEC pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaRA)
-#: ekos/guide/guide.ui:775
+#: ekos/guide/guide.ui:765
 #, kde-format
 msgid "Immediate Guiding RA deviation in arcseconds"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaDEC)
-#: ekos/guide/guide.ui:788
+#: ekos/guide/guide.ui:778
 #, kde-format
 msgid "Immediate Guiding DEC deviation in arcseconds"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_17b)
-#: ekos/guide/guide.ui:803
+#: ekos/guide/guide.ui:793
 #, fuzzy, kde-format
 #| msgid "Abort"
 msgid "Guiding RMS error"
 msgstr "Pārtraukt"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17b)
-#: ekos/guide/guide.ui:806
+#: ekos/guide/guide.ui:796
 #, kde-format
 msgid "RMS\" (RA/DEC)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
-#: ekos/guide/guide.ui:818
+#: ekos/guide/guide.ui:808
 #, fuzzy, kde-format
 #| msgid "Abort"
 msgid "Guiding RA RMS error"
 msgstr "Pārtraukt"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrDEC)
-#: ekos/guide/guide.ui:831
+#: ekos/guide/guide.ui:821
 #, fuzzy, kde-format
 #| msgid "Abort"
 msgid "Guiding DEC RMS error"
 msgstr "Pārtraukt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/guide/guide.ui:846
+#: ekos/guide/guide.ui:836
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Control"
@@ -18218,21 +18218,21 @@ msgstr "Kontrole"
 
 #. i18n: ectx: property (text), widget (QLabel, l_TotalRMS)
 #. i18n: ectx: property (text), widget (QLabel, l_SNR)
-#: ekos/guide/guide.ui:856 ekos/guide/guide.ui:876
+#: ekos/guide/guide.ui:846 ekos/guide/guide.ui:866
 #, fuzzy, kde-format
 #| msgid "xx"
 msgid "xxx"
 msgstr "xx"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7b)
-#: ekos/guide/guide.ui:866
+#: ekos/guide/guide.ui:856
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide SNR"
 msgstr "Vedņi"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
-#: ekos/guide/guide.ui:1048
+#: ekos/guide/guide.ui:1038
 #, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to adjust the scale of the Corrections "
@@ -18240,20 +18240,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: ekos/guide/guide.ui:1095
+#: ekos/guide/guide.ui:1085
 #, kde-format
 msgid "Drift Plot"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: ekos/guide/guide.ui:1130
+#: ekos/guide/guide.ui:1120
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration Plot"
 msgstr "Kalibrēšana"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rADisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1186
+#: ekos/guide/guide.ui:1176
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA graph in the Drift Graphics plot.</p></"
@@ -18261,7 +18261,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rADisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1189
+#: ekos/guide/guide.ui:1179
 #, fuzzy, kde-format
 #| msgctxt "Right Ascension"
 #| msgid "RA"
@@ -18269,7 +18269,7 @@ msgid "RA "
 msgstr "RA"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1199
+#: ekos/guide/guide.ui:1189
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA Corrections graph in the Drift Graphics "
@@ -18278,13 +18278,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #. i18n: ectx: property (text), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1202 ekos/guide/guide.ui:1235
+#: ekos/guide/guide.ui:1192 ekos/guide/guide.ui:1225
 #, kde-format
 msgid "Corr"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dEDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1219
+#: ekos/guide/guide.ui:1209
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
@@ -18292,7 +18292,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1232
+#: ekos/guide/guide.ui:1222
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display the DEC Corrections graph in the Drift "
@@ -18300,7 +18300,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, sNRDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1252
+#: ekos/guide/guide.ui:1242
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display SNR graph in the Drift Graphics plot.</p></"
@@ -18308,13 +18308,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1255
+#: ekos/guide/guide.ui:1245
 #, kde-format
 msgid "SNR"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rMSDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1265
+#: ekos/guide/guide.ui:1255
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display RMS graph in the Drift Graphics plot.</p></"
@@ -18322,32 +18322,32 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rMSDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1268
+#: ekos/guide/guide.ui:1258
 #, kde-format
 msgid "RMS"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
-#: ekos/guide/guide.ui:1308
+#: ekos/guide/guide.ui:1299
 #, kde-format
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
-#: ekos/guide/guide.ui:1336
+#: ekos/guide/guide.ui:1328
 #, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/guide/guide.ui:1362
+#: ekos/guide/guide.ui:1354
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Trace:"
 msgstr "Celiņš"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, guideSlider)
-#: ekos/guide/guide.ui:1369
+#: ekos/guide/guide.ui:1361
 #, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to scroll through guide history while "
@@ -18357,7 +18357,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1385
+#: ekos/guide/guide.ui:1377
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
@@ -18365,13 +18365,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1388
+#: ekos/guide/guide.ui:1380
 #, kde-format
 msgid "Max "
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
-#: ekos/guide/guide.ui:1408
+#: ekos/guide/guide.ui:1400
 #, kde-format
 msgid ""
 "<html><head/><body><p>Autoscale both Guide Graphs to their default scale. If "
@@ -18381,7 +18381,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
-#: ekos/guide/guide.ui:1430
+#: ekos/guide/guide.ui:1422
 #, kde-format
 msgid ""
 "<html><head/><body><p>Export the guide data from the current session to a "
@@ -18389,14 +18389,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
-#: ekos/guide/guide.ui:1452
+#: ekos/guide/guide.ui:1444
 #, kde-format
 msgid ""
 "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
-#: ekos/guide/guide.ui:1468
+#: ekos/guide/guide.ui:1460
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
