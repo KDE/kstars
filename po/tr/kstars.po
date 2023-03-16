@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-15 00:42+0000\n"
-"PO-Revision-Date: 2023-03-14 19:16+0300\n"
+"PO-Revision-Date: 2023-03-15 11:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -366,7 +366,7 @@ msgstr "Görüş Alanı yok"
 #: auxiliary/imageexporter.cpp:39 auxiliary/imageexporter.cpp:40
 #, kde-format
 msgid "KStars Exported Sky Image"
-msgstr "KStart Dışa Aktarılmış Gök Görüntüsü"
+msgstr "K Yıldızlar Dışa Aktarılmış Gökyüzü Görseli"
 
 #: auxiliary/imageexporter.cpp:161
 #, fuzzy, kde-format
@@ -2297,10 +2297,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, AddCatalogObject)
 #: dialogs/addcatalogobject.ui:14
-#, fuzzy, kde-format
-#| msgid "Deep Sky Object Name"
+#, kde-format
 msgid "Add/Edit DSO"
-msgstr "Uzak Gök Cismi Adı"
+msgstr "DGN Ekle/Düzenle"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/addcatalogobject.ui:20
@@ -4318,7 +4317,7 @@ msgstr "Gösterge Yapılandırma"
 #: dialogs/exportimagedialog.ui:23
 #, kde-format
 msgid "Add legend to exported sky image"
-msgstr "Dışa aktarılmış gök görüntüsüne gösterge ekle"
+msgstr "Dışa aktarılmış gökyüzü görseline gösterge ekle"
 
 #. i18n: ectx: property (text), widget (QLabel, legendOrientationLabel)
 #: dialogs/exportimagedialog.ui:35
@@ -31854,20 +31853,21 @@ msgid ""
 "Toggle whether deep-sky object magnitude (brightness) labels are shown in "
 "the sky map."
 msgstr ""
-"Gökyüzü haritasında uzak gök cismi parlaklık şiddeti etiketlerini göster/"
-"gizle."
+"Gökyüzü haritasında uzak nesnesi cismi parlaklık şiddeti etiketlerini "
+"gösterin/gizleyin."
 
 #. i18n: ectx: label, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:694
 #, kde-format
 msgid "Label deep-sky objects in the sky map?"
-msgstr "Gökyüzü haritasında uzak gök cisimleri etiketlensin mi?"
+msgstr "Gökyüzü haritasında uzak gök nesneleri etiketlensin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:695
 #, kde-format
 msgid "Toggle whether deep-sky object name labels are shown in the sky map."
-msgstr " Gökyüzü haritasında uzak gök cismi isim etiketlerini göster/gizle."
+msgstr ""
+"Gökyüzü haritasında uzak gök nesnesi adı etiketlerini gösterin/gizleyin."
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:699
@@ -32270,7 +32270,7 @@ msgstr "Yıldız isim ve parlaklık etiketlerinin gösterimi için bağıl yoğu
 #, kde-format
 msgid "Relative density for deep-sky object name labels and/or magnitudes"
 msgstr ""
-"Uzak gök cisimleri için göreceli yoğunluklu isim ve/veya parlaklık şiddeti "
+"Uzak gök nesneleri için göreceli yoğunluklu ad ve/veya parlaklık şiddeti "
 "etiketleri"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyLabelDensity), group (View)
@@ -32279,13 +32279,13 @@ msgstr ""
 msgid ""
 "The relative density for drawing deep-sky object name and magnitude labels."
 msgstr ""
-"Uzak gök cismi isim ve parlaklık etiketlerinin çizimi için bağıl yoğunluk."
+"Uzak gök nesnesi ad ve parlaklık etiketlerinin çizimi için bağıl yoğunluk."
 
 #. i18n: ectx: label, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:850
 #, kde-format
 msgid "Show long names in deep-sky object name labels?"
-msgstr "Uzak gök cisimlerinin etiketlerinde uzun isimleri gösterilsin mi?"
+msgstr "Uzak gök nesnelerinin etiketlerinde uzun adları gösterilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:851
@@ -32294,8 +32294,8 @@ msgid ""
 "If true, long names (common names) for deep-sky objects are shown in the "
 "labels."
 msgstr ""
-"Eğer doğru ise uzak gök cisimlerinin tam isimlerini (sıklıkla kullanılan "
-"isimeri) etiketlerde göster."
+"Eğer doğruysa uzak gök nesnelerinin tam adlarını (sık kullanılan adlarını) "
+"etiketlerde gösterin."
 
 #. i18n: ectx: label, entry (LabelFontScaling), group (View)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetFontSize)
@@ -32716,13 +32716,13 @@ msgstr "Yıldız isim etiketleri için renk."
 #: kstars.kcfg:1020
 #, kde-format
 msgid "Color of deep-sky object name labels"
-msgstr "Uzak gök cisimlerinin isim etiketlerinin rengi"
+msgstr "Uzak gök nesnelerinin ad etiketlerinin rengi"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyNameColor), group (Colors)
 #: kstars.kcfg:1021
 #, kde-format
 msgid "The color for deep-sky object name labels."
-msgstr "Uzak gök cisimleri isim etiketi rengi."
+msgstr "Uzak gök nesneleri ad etiketi rengi."
 
 #. i18n: ectx: label, entry (PlanetNameColor), group (Colors)
 #: kstars.kcfg:1025
@@ -65764,7 +65764,7 @@ msgstr "Güneş Sistemi Görüntüleyici"
 #: kstarsinit.cpp:439 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
-msgstr "Gök Takvimi"
+msgstr "Gökyüzü Takvimi"
 
 #: kstarsinit.cpp:457
 #, kde-format
@@ -74177,7 +74177,7 @@ msgstr "Yıldız sekmesi tabanlı görünüm yakalamanın alanları (deneysel)"
 #: printing/pwizobjectselection.ui:71
 #, kde-format
 msgid "Select Sky Object"
-msgstr "Gök Cismi Seçin"
+msgstr "Gök Nesnesi Seç"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizobjectselection.ui:95
@@ -75784,7 +75784,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Öntanımlı olarak KStars, NGC ve IC derin gökyüzü nesne kataloglarıyla "
+"\t\t<p>Öntanımlı olarak KStars, NGC ve IC derin gök nesnesi kataloglarıyla "
 "birlikte gelir. Dosya->Yeni Veri İndir seçeneğinden daha birçok kataloğu "
 "indirebilirsiniz. Ayrıca kendi özel kataloglarınızı oluşturabilir ve "
 "ekleyebilirsiniz.\n"
@@ -80690,12 +80690,12 @@ msgstr "Betik adı:"
 #, kde-format
 msgctxt "@title:window"
 msgid "Sky Calendar"
-msgstr "Gök Takvimi"
+msgstr "Gökyüzü Takvimi"
 
 #: tools/skycalendar.cpp:52
 #, kde-format
 msgid "Print the Sky Calendar"
-msgstr "Gök Takvimini Yazdır"
+msgstr "Gökyüzü Takvimini Yazdır"
 
 #: tools/skycalendar.cpp:74 tools/skycalendar.cpp:122 tools/skycalendar.cpp:125
 #, kde-format
@@ -80730,7 +80730,7 @@ msgstr "%1 geçişi"
 #, kde-format
 msgctxt "@title:window"
 msgid "Print sky calendar"
-msgstr "Gök takvimini yazdır"
+msgstr "Gökyüzü takvimini yazdır"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/skycalendar.ui:86
