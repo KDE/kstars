@@ -11383,7 +11383,7 @@ msgstr "الهندسة فلكية"
 #: ekos/auxiliary/opslogs.ui:302
 #, kde-format
 msgid "GPS"
-msgstr "جي‌پي‌إس"
+msgstr "جي‌بي‌إس"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlignmentLogging)
 #: ekos/auxiliary/opslogs.ui:312
@@ -65852,7 +65852,7 @@ msgstr "المجموعة الشمسية"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "GPS"
-msgstr "جي‌پي‌إس"
+msgstr "جي‌بي‌إس"
 
 #: libindi_strings.cpp:210
 #, kde-kuit-format
