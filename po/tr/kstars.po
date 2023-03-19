@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-15 00:42+0000\n"
-"PO-Revision-Date: 2023-03-17 13:14+0300\n"
+"PO-Revision-Date: 2023-03-18 14:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -118,11 +118,9 @@ msgid "Horizon"
 msgstr "Ufuk"
 
 #: auxiliary/colorscheme.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "City in Mississippi USA"
-#| msgid "Meridian"
+#, kde-format
 msgid "Local Meridian"
-msgstr "Meridian"
+msgstr "Yerel Meridyen"
 
 #: auxiliary/colorscheme.cpp:46
 #, kde-format
@@ -142,12 +140,12 @@ msgstr "Yatay Koordinat Izgarası"
 #: auxiliary/colorscheme.cpp:49
 #, kde-format
 msgid "Info Box Text"
-msgstr "Bilgi Kutusu Metni"
+msgstr "Metin Bilgi Kutusu"
 
 #: auxiliary/colorscheme.cpp:50
 #, kde-format
 msgid "Info Box Selected"
-msgstr "Bilgi Kutusu Seçili"
+msgstr "Seçili Bilgi Kutusu"
 
 #: auxiliary/colorscheme.cpp:51
 #, kde-format
@@ -182,12 +180,12 @@ msgstr "Gözlem Listesi Etiketi"
 #: auxiliary/colorscheme.cpp:57
 #, kde-format
 msgid "Star-Hop Route"
-msgstr "Star-Hop Rota"
+msgstr "Yıldız Sıçrama Rotası"
 
 #: auxiliary/colorscheme.cpp:58
 #, kde-format
 msgid "Visible Satellites"
-msgstr "Görülebilinir Uydular"
+msgstr "Görünür Uydular"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:241
 #: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:47
@@ -208,7 +206,7 @@ msgstr "Uydu Etiketleri"
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
-msgstr "Süpernovalar"
+msgstr "Üstnovalar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroids)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
@@ -220,7 +218,7 @@ msgstr "Süpernovalar"
 #: tools/obslistwizard.ui:120 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Asteroids"
-msgstr "Küçük Gezegenler"
+msgstr "Asteroitler"
 
 #. i18n: ectx: property (text), widget (QCheckBox, artificialHorizonCheck)
 #: auxiliary/colorscheme.cpp:63 ekos/scheduler/scheduler.ui:1730
@@ -232,12 +230,12 @@ msgstr "Yapay Ufuk"
 #: auxiliary/colorscheme.cpp:64
 #, kde-format
 msgid "RA Guide Error"
-msgstr "RA Kılavuz Hatası"
+msgstr "Sağ Açıklık Kılavuz Hatası"
 
 #: auxiliary/colorscheme.cpp:65
 #, kde-format
 msgid "DEC Guide Error"
-msgstr "DEC Kılavuz Hatası"
+msgstr "Dik Açıklık Kılavuz Hatası"
 
 #: auxiliary/colorscheme.cpp:66 ekos/align/align.cpp:94
 #, kde-format
@@ -245,21 +243,19 @@ msgid "Solver FOV"
 msgstr "Çözücü Görüş Alanı"
 
 #: auxiliary/colorscheme.cpp:67
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Sensor FOV"
-msgstr "Çözücü Görüş Alanı"
+msgstr "Algılayıcı Görüş Alanı"
 
 #: auxiliary/colorscheme.cpp:68
 #, kde-format
 msgid "HiPS Grid"
-msgstr ""
+msgstr "Hiyerarşik Aşamalı Gözlem Izgarası"
 
 #: auxiliary/colorscheme.cpp:69
-#, fuzzy, kde-format
-#| msgid "Object labels"
+#, kde-format
 msgid "FITS Image Object Label"
-msgstr "Cisim etiketleri"
+msgstr "FITS Görseli Nesnesi Etiketi"
 
 #: auxiliary/colorscheme.cpp:135 kstarsdata.cpp:1055 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:739
@@ -288,7 +284,7 @@ msgid ""
 "Local color scheme file could not be opened.\n"
 "Scheme cannot be recorded."
 msgstr ""
-"Yerel renk ayar dosyası okunamadı.\n"
+"Yerel renk şeması dosyası açılamadı.\n"
 "Şema kaydedilemiyor."
 
 #: auxiliary/colorscheme.cpp:287
@@ -297,20 +293,18 @@ msgid ""
 "Local color scheme index file could not be opened.\n"
 "Scheme cannot be recorded."
 msgstr ""
-"Yerel renk şema dizini açılamadı.\n"
+"Yerel renk şeması indeks dosyası açılamadı.\n"
 "Şema kaydedilemiyor."
 
 #: auxiliary/filedownloader.cpp:94
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Data verification failed"
-msgstr "Kıpırdatılıyor..."
+msgstr "Veri doğrulaması başarısız"
 
 #: auxiliary/filedownloader.cpp:105
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "File verification failed"
-msgstr "%1 kalibrasyon başarısız oldu!"
+msgstr "Dosya doğrulaması başarısız"
 
 #: auxiliary/filedownloader.cpp:153
 #, kde-format
@@ -323,16 +317,15 @@ msgid "Downloading Data..."
 msgstr "Veri İndiriliyor..."
 
 #: auxiliary/filedownloader.cpp:197
-#, fuzzy, kde-format
-#| msgid "Starting solver..."
+#, kde-format
 msgid "Awaiting response from server..."
-msgstr "Çözücü başlatılıyor..."
+msgstr "Sunucudan yanıt bekleniyor..."
 
 #: auxiliary/fov.cpp:39 kstarslite/skyitems/fovitem.cpp:13
 #, kde-format
 msgctxt "use field-of-view for binoculars"
 msgid "7x35 Binoculars"
-msgstr "7x35 Dürbün"
+msgstr "7 x 35 Dürbün"
 
 #: auxiliary/fov.cpp:41 kstarslite/skyitems/fovitem.cpp:14
 #, kde-format
@@ -356,12 +349,12 @@ msgstr "HST WFPC2"
 #, kde-format
 msgctxt "use Radiotelescope HPBW"
 msgid "30m at 1.3cm"
-msgstr "1.3cm de 30m"
+msgstr "1,3 cm'de 30 m"
 
 #: auxiliary/fov.cpp:193
 #, kde-format
 msgid "No FOV"
-msgstr "Görüş Alanı yok"
+msgstr "Görüş Alanı Yok"
 
 #: auxiliary/imageexporter.cpp:39 auxiliary/imageexporter.cpp:40
 #, kde-format
@@ -369,27 +362,26 @@ msgid "KStars Exported Sky Image"
 msgstr "K Yıldızlar Dışa Aktarılmış Gökyüzü Görseli"
 
 #: auxiliary/imageexporter.cpp:161
-#, fuzzy, kde-format
-#| msgid "Error: Unable to save image: %1 "
+#, kde-format
 msgid "Error: Unable to save image: %1"
-msgstr "Hata: Resim kaydedilemiyor: %1 "
+msgstr "Hata: Görsel kaydedilemiyor: %1"
 
 #: auxiliary/imageexporter.cpp:168 auxiliary/imageviewer.cpp:356
 #: auxiliary/xplanetimageviewer.cpp:1246
 #, kde-format
 msgid "Saved image to %1"
-msgstr "Görüntü %1 konumuna kaydedildi"
+msgstr "Görsel, %1 konumuna kaydedildi"
 
 #: auxiliary/imageexporter.cpp:228 printing/foveditordialog.cpp:197
 #: tools/scriptbuilder.cpp:918
 #, kde-format
 msgid "Could not upload image to remote location: %1"
-msgstr "Resim uzak konuma yüklenemedi: %1"
+msgstr "Görsel, uzak konuma yüklenemedi: %1"
 
 #: auxiliary/imageexporter.cpp:235
 #, kde-format
 msgid "Could not export image: URL %1 invalid"
-msgstr "Görüntü dışa aktarılamadı: %1 adresi geçerli değil."
+msgstr "Görsel dışa aktarılamadı: %1 URL'si geçersiz"
 
 #: auxiliary/imageviewer.cpp:117
 #, kde-format
@@ -408,7 +400,7 @@ msgid ""
 "Reverse colors of the image. This is useful to enhance contrast at times. "
 "This affects only the display and not the saving."
 msgstr ""
-"Görüntünün renklerinin tersi. Karşıtlığı artırmak için yararlıdır. Bu, "
+"Görselin renklerinin tersi. Karşıtlığı artırmak için yararlıdır. Bu, "
 "yalnızca gösterir, değişikliği kaydetmez."
 
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
@@ -427,18 +419,17 @@ msgstr "Kaydet"
 #: auxiliary/imageviewer.cpp:135 auxiliary/xplanetimageviewer.cpp:287
 #, kde-format
 msgid "Save the image to disk"
-msgstr "Resmi diske kaydet"
+msgstr "Görseli diske kaydet"
 
 #: auxiliary/imageviewer.cpp:176
 #, kde-format
 msgid "Remove temporary file %1 from disk?"
-msgstr "Diskten %1 geçici sayfa kaldırılsın mı?"
+msgstr "%1 geçici dosyası diskten kaldırılsın mı?"
 
 #: auxiliary/imageviewer.cpp:177
-#, fuzzy, kde-format
-#| msgid "Config file"
+#, kde-format
 msgid "Confirm Removal"
-msgstr "Yapılandırma dosyası"
+msgstr "Kaldırmayı Onayla"
 
 #: auxiliary/imageviewer.cpp:195
 #, kde-format
@@ -446,36 +437,33 @@ msgid "Download"
 msgstr "İndir"
 
 #: auxiliary/imageviewer.cpp:196
-#, fuzzy, kde-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-format
 msgid "Please wait while image is being downloaded..."
-msgstr "Yıldızlar yeniden dizinlenirken lütfen bekleyin..."
+msgstr "Görsel indirilirken lütfen bekleyin..."
 
 #: auxiliary/imageviewer.cpp:224
-#, fuzzy, kde-format
-#| msgid "FITS Viewer"
+#, kde-format
 msgid "Image Viewer"
-msgstr "FITS Görüntüleyici"
+msgstr "Görsel Görüntüleyici"
 
 #: auxiliary/imageviewer.cpp:257
 #, kde-format
 msgid "Loading of the image %1 failed."
-msgstr "%1 resmi yüklenemedi."
+msgstr "%1 görseli yüklenemedi."
 
 #: auxiliary/imageviewer.cpp:312 auxiliary/xplanetimageviewer.cpp:1217
 #: indi/clientmanagerlite.cpp:795 printing/foveditordialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Save Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
-msgstr "Görüntüyü Kaydet"
+msgstr "Görseli Kaydet"
 
 #: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3665
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
-msgstr "\"%1\" isimli bir dosya zaten var. Üstüne yazılsın mı?"
+msgstr "\"%1\" adlı bir dosya halihazırda var. Üzerine yazılsın mı?"
 
 #: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3668
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1316
@@ -487,31 +475,28 @@ msgstr "Dosyanın Üstüne Yazılsın mı?"
 #: auxiliary/imageviewer.cpp:347
 #, kde-format
 msgid "Saving of the image %1 failed."
-msgstr "%1 resmi kaydedilemedi."
+msgstr "%1 görseli kaydedilemedi."
 
 #: auxiliary/ksdssdownloader.cpp:200 auxiliary/ksdssdownloader.cpp:228
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgid "DSS Download"
-msgstr "İndiriliyor..."
+msgstr "DSS İndirme..."
 
 #: auxiliary/ksdssdownloader.cpp:201 auxiliary/ksdssdownloader.cpp:229
-#, fuzzy, kde-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-format
 msgid "Please wait while DSS image is being downloaded..."
-msgstr "Yıldızlar yeniden dizinlenirken lütfen bekleyin..."
+msgstr "DSS görseli indirilirken lütfen bekleyin..."
 
 #: auxiliary/ksmessagebox.cpp:132
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Auto close in ..."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "Otomatik kapatma süresi..."
 
 #: auxiliary/ksmessagebox.cpp:254 kstarslite/qml/modules/TimePage.qml:535
 #: kstarslite/qml/modules/TimePage.qml:553
 #, kde-format, kde-kuit-format
 msgid "Ok"
-msgstr ""
+msgstr "Tamam"
 
 #: auxiliary/ksmessagebox.h:35
 #, kde-format
@@ -694,89 +679,71 @@ msgid "???"
 msgstr "???"
 
 #: auxiliary/ksutils.cpp:1350
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error!  The Astrometry Index File Directory does not exist and was not "
-#| "able to be created."
+#, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
 " %1 \n"
 " does not exist.  Do you want to make the directory?"
 msgstr ""
-"Hata! Astrometri Dizin Dosya Rehberi var olmamıştır ve oluşturulamadı. "
+"Seçili Astrometri İndeks Dosyası Konumu:\n"
+" %1 \n"
+" yok. Dizini yapmak istiyor musunuz?"
 
 #: auxiliary/ksutils.cpp:1353
-#, fuzzy, kde-format
-#| msgid "Alignment timed out."
+#, kde-format
 msgid "Make Astrometry Index File Directory?"
-msgstr "Hizalama zaman aşımı."
+msgstr "Astrometri İndeks Dosyası Dizini Yapılsın mı?"
 
 #: auxiliary/ksutils.cpp:1358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error!  The Astrometry Index File Directory does not exist and was not "
-#| "able to be created."
+#, kde-format
 msgid "The Default Astrometry Index File Location was created."
-msgstr ""
-"Hata! Astrometri Dizin Dosya Rehberi var olmamıştır ve oluşturulamadı. "
+msgstr "Astrometri İndeks Dosyası Konumu oluşturuldu."
 
 #: auxiliary/ksutils.cpp:1363
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error!  The Astrometry Index File Directory does not exist and was not "
-#| "able to be created."
+#, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
-msgstr ""
-"Hata! Astrometri Dizin Dosya Rehberi var olmamıştır ve oluşturulamadı. "
+msgstr "Öntanımlı Astrometri İndeks Dosyası Dizini yok ve oluşturulamadı."
 
 #: auxiliary/ksutils.cpp:1384 auxiliary/ksutils.cpp:1540
 #: auxiliary/ksutils.cpp:1605
-#, fuzzy, kde-format
-#| msgid "Astrometry.net configuration file"
+#, kde-format
 msgid "Astrometry Configuration File Read Error."
-msgstr "Astrometry.net yapılandırma dosyası"
+msgstr "Astrometri Yapılandırma Dosyası Okuma Hatası."
 
 #: auxiliary/ksutils.cpp:1398 auxiliary/ksutils.cpp:1583
 #: auxiliary/ksutils.cpp:1625
-#, fuzzy, kde-format
-#| msgid "Astrometry.net configuration file"
+#, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
-msgstr "Astrometry.net yapılandırma dosyası"
+msgstr "İç Astrometri Yapılandırma Dosyası Yazma Hatası."
 
 #: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:724
-#, fuzzy, kde-format
-#| msgid ""
-#| "Unable to find dcraw and cjpeg. Please install the required tools to "
-#| "convert CR2 to JPEG."
+#, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
-"dcraw ve cjpeg bulunamadı. Lütfen CR2 'den JPEG 'e dönüştürmek için gerekli "
+"dcraw ve cjpeg bulunamadı. Lütfen CR2/NEF'i JPEG 'e dönüştürmek için gerekli "
 "araçları kurun."
 
 #: auxiliary/ksutils.cpp:1682
-#, fuzzy, kde-format
-#| msgid "Could not open file: %1"
+#, kde-format
 msgid "Cannot open %1: %2"
-msgstr "%1 dosyası açılamadı"
+msgstr "%1 açılamıyor: %2"
 
 #: auxiliary/ksutils.cpp:1690
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
-msgstr ""
+msgstr "%1 unpack_thumb yapılamıyor: %2"
 
 #: auxiliary/ksutils.cpp:1701
-#, fuzzy, kde-format
-#| msgid "Cannot write to user log file"
+#, kde-format
 msgid "Cannot write %s %1: %2"
-msgstr "Kullanıcı günlük dosyasına yazılamadı"
+msgstr "%s %1 yazılamıyor: %2"
 
 #: auxiliary/kswizard.cpp:65
-#, fuzzy, kde-format
-#| msgid "Startup Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Startup Wizard"
 msgstr "Başlangıç Sihirbazı"
@@ -801,10 +768,9 @@ msgid "Done"
 msgstr "Bitti"
 
 #: auxiliary/kswizard.cpp:268
-#, fuzzy, kde-format
-#| msgid "Error! There was no default data directory found in the app bundle!"
+#, kde-format
 msgid "There was no default data directory found in the app bundle."
-msgstr "Hata! Uygulama paketinde varsayılan veri dizini bulunamadı!"
+msgstr "Uygulama demetinde öntanımlı veri dizini bulunamadı."
 
 #: auxiliary/kswizard.cpp:277
 #, kde-format
@@ -815,16 +781,14 @@ msgstr ""
 "~/Library/Application Support/ veri dizini oluşturulurken bir sorun oluştu."
 
 #: auxiliary/kswizard.cpp:383
-#, fuzzy, kde-format
-#| msgid "Alt Error:"
+#, kde-format
 msgid "File write error."
-msgstr "Yükseklik Hatası:"
+msgstr "Dosya yazma hatası."
 
 #: auxiliary/kswizard.cpp:395
-#, fuzzy, kde-format
-#| msgid "Astrometry.net"
+#, kde-format
 msgid "Data folder permissions error."
-msgstr "Astrometry.net"
+msgstr "Veri klasörü izinleri hatası."
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -835,25 +799,24 @@ msgstr "Öntanımlı"
 #: auxiliary/thumbnaileditor.cpp:37
 #, kde-format
 msgid "Crop region will be scaled to [ %1 * %2 ]"
-msgstr "Kırpılan bölge boyutlandırılacak [ %1 * %2 ]"
+msgstr "Kırpma bölgesi [ %1 * %2 ] olarak ölçeklenecek"
 
 #: auxiliary/thumbnaileditor.cpp:39
-#, fuzzy, kde-format
-#| msgid "Edit Thumbnail Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit Thumbnail Image"
-msgstr "Küçük Resmi Düzenle"
+msgstr "Küçük Görseli Düzenle"
 
 #: auxiliary/thumbnaileditor.cpp:72
 #, kde-format
 msgid "Crop region: [%1,%2  %3x%4]"
-msgstr "Kırpma alanı: [%1,%2  %3x%4]"
+msgstr "Kırpma bölgesi: [%1,%2  %3 x %4]"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ThumbnailEditor)
 #: auxiliary/thumbnaileditor.ui:13
 #, kde-format
 msgid "Thumbnail Editor"
-msgstr "Küçük Resim Düzenleyici"
+msgstr "Küçük Görsel Düzenleyici"
 
 #. i18n: ectx: property (text), widget (QLabel, CropLabel)
 #: auxiliary/thumbnaileditor.ui:43
@@ -865,12 +828,12 @@ msgstr "Kırpma bölgesi: [0,0  200 x 200]"
 #: auxiliary/thumbnaileditor.ui:59
 #, kde-format
 msgid "(crop region will be scaled to 200x200)"
-msgstr "(kırpılan bölge 200x200 olarak boyutlandırılacak)"
+msgstr "(kırpma bölgesi 200 x 200 olarak ölçeklenecek)"
 
 #: auxiliary/thumbnailpicker.cpp:135
 #, kde-format
 msgid "Loading images..."
-msgstr "Resimler yükleniyor..."
+msgstr "Görseller yükleniyor..."
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #: auxiliary/thumbnailpicker.cpp:169 auxiliary/thumbnailpicker.ui:24
@@ -881,54 +844,53 @@ msgstr "Arama sonuçları:"
 #: auxiliary/thumbnailpicker.cpp:353
 #, kde-format
 msgid "Failed to load image at %1"
-msgstr "%1 konumundaki resim yüklenemedi"
+msgstr "%1 konumundaki görsel yüklenemedi"
 
 #: auxiliary/thumbnailpicker.cpp:353
 #, kde-format
 msgid "Failed to load image"
-msgstr "Resim yüklenemedi"
+msgstr "Görsel yüklenemedi"
 
 #: auxiliary/thumbnailpicker.h:38
 #, kde-format
 msgid "Choose Thumbnail Image"
-msgstr "Küçük Resmi Seçin"
+msgstr "Küçük Görsel Seç"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ThumbnailPicker)
 #: auxiliary/thumbnailpicker.ui:14
 #, kde-format
 msgid "Thumbnail Picker"
-msgstr "Küçük Resim Seçicisi"
+msgstr "Küçük Görsel Seçici"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:69
 #, kde-format
 msgid "Specify image location:"
-msgstr "Resim konumunu belirt:"
+msgstr "Görsel konumunu belirt:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: auxiliary/thumbnailpicker.ui:103
 #, kde-format
 msgid "Current thumbnail:"
-msgstr "Geçerli küçük resim:"
+msgstr "Geçerli küçük görsel:"
 
 #. i18n: ectx: property (text), widget (QPushButton, EditButton)
 #: auxiliary/thumbnailpicker.ui:178
 #, kde-format
 msgid "Edit Ima&ge..."
-msgstr "Resimi &düzenle..."
+msgstr "Görseli &düzenle..."
 
 #. i18n: ectx: property (text), widget (QPushButton, UnsetButton)
 #: auxiliary/thumbnailpicker.ui:185
 #, kde-format
 msgid "Unset Image"
-msgstr "Resmi ayarlama"
+msgstr "Görseli kaldır"
 
 #: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:890
-#, fuzzy, kde-format
-#| msgid "Solar System Viewer"
+#, kde-format
 msgctxt "@title:window"
 msgid "XPlanet Solar System Simulator: %1"
-msgstr "Güneş Sistemi Görüntüleyici"
+msgstr "XPlanet Güneş Sistemi Benzetici: %1"
 
 #. i18n?
 #. i18nc("Asteroid name (optional)", "Pluto");
@@ -974,7 +936,7 @@ msgstr "Güneş"
 #: tools/skycalendar.ui:34
 #, kde-format, kde-kuit-format
 msgid "Mercury"
-msgstr "Merkür"
+msgstr "Merkür (Erdenay)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowVenus)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
@@ -990,7 +952,7 @@ msgstr "Merkür"
 #: tools/pvplotwidget.cpp:111 tools/skycalendar.ui:41
 #, kde-format
 msgid "Venus"
-msgstr "Venüs"
+msgstr "Venüs (Çolpan)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
@@ -1004,7 +966,7 @@ msgstr "Venüs"
 #: widgets/moonphasecalendarwidget.cpp:321
 #, kde-format
 msgid "Earth"
-msgstr "Dünya"
+msgstr "Dünya (Yer)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, MoonBox)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
@@ -1049,19 +1011,17 @@ msgstr "Ay"
 #: tools/skycalendar.ui:48
 #, kde-format, kde-kuit-format
 msgid "Mars"
-msgstr "Mars"
+msgstr "Mars (Bakır Sokum)"
 
 #: auxiliary/xplanetimageviewer.cpp:207
 #, kde-format
 msgid "Phobos"
-msgstr ""
+msgstr "Fobos"
 
 #: auxiliary/xplanetimageviewer.cpp:207
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Mimosa"
+#, kde-format
 msgid "Deimos"
-msgstr "Mimoza"
+msgstr "Deimos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowJupiter)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
@@ -1079,22 +1039,22 @@ msgstr "Mimoza"
 #: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
 #, kde-format, kde-kuit-format
 msgid "Jupiter"
-msgstr "Jüpiter"
+msgstr "Jüpiter (Erendiz)"
 
 #: auxiliary/xplanetimageviewer.cpp:209 tools/jmoontool.cpp:50
 #, kde-format
 msgid "Ganymede"
-msgstr "Ganymede"
+msgstr "Ganimid"
 
 #: auxiliary/xplanetimageviewer.cpp:209 tools/jmoontool.cpp:48
 #, kde-format
 msgid "Io"
-msgstr "Io"
+msgstr "İo"
 
 #: auxiliary/xplanetimageviewer.cpp:209 tools/jmoontool.cpp:51
 #, kde-format
 msgid "Callisto"
-msgstr "Callisto"
+msgstr "Kalisto"
 
 #: auxiliary/xplanetimageviewer.cpp:209 tools/jmoontool.cpp:49
 #, kde-format
@@ -1118,70 +1078,52 @@ msgstr "Europa"
 #: tools/skycalendar.ui:62
 #, kde-format, kde-kuit-format
 msgid "Saturn"
-msgstr "Satürn"
+msgstr "Satürn (Sekendiz)"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Titan"
-#| msgid "Titan"
+#, kde-format
 msgid "Titan"
 msgstr "Titan"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Mimas"
-#| msgid "Mimas"
+#, kde-format
 msgid "Mimas"
 msgstr "Mimas"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Enceladus"
-#| msgid "Enceladus"
+#, kde-format
 msgid "Enceladus"
-msgstr "Enceladus"
+msgstr "Enseladus"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Tethys"
-#| msgid "Tethys"
+#, kde-format
 msgid "Tethys"
-msgstr "Tethys"
+msgstr "Tetis"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Dione"
-#| msgid "Dione"
+#, kde-format
 msgid "Dione"
-msgstr "Dione"
+msgstr "Dion"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Rheas"
-#| msgid "Rhea"
+#, kde-format
 msgid "Rhea"
-msgstr "Rhea"
+msgstr "Ria"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Eyepiece Design / Brand / Name; Optional"
-#| msgid "Baader Hyperion"
+#, kde-format
 msgid "Hyperion"
-msgstr "Baader Hyperion"
+msgstr "Hiperyon"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Iapetus"
-#| msgid "Iapetus"
+#, kde-format
 msgid "Iapetus"
-msgstr "Iapetus"
+msgstr "İapetüs"
 
 #: auxiliary/xplanetimageviewer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "City in Arizona USA"
-#| msgid "Phoenix"
+#, kde-format
 msgid "Phoebe"
-msgstr "Phoenix"
+msgstr "Fibi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowUranus)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
@@ -1197,40 +1139,32 @@ msgstr "Phoenix"
 #: tools/skycalendar.ui:76
 #, kde-format
 msgid "Uranus"
-msgstr "Uranüs"
+msgstr "Uranüs (Altayhan)"
 
 #: auxiliary/xplanetimageviewer.cpp:213
-#, fuzzy, kde-format
-#| msgctxt "City in United Kingdom"
-#| msgid "Cambridge"
+#, kde-format
 msgid "Umbriel"
-msgstr "Cambridge"
+msgstr "Umbriel"
 
 #: auxiliary/xplanetimageviewer.cpp:213
 #, kde-format
 msgid "Ariel"
-msgstr ""
+msgstr "Ariel"
 
 #: auxiliary/xplanetimageviewer.cpp:213
-#, fuzzy, kde-format
-#| msgctxt "City in North Dakota USA"
-#| msgid "Mandan"
+#, kde-format
 msgid "Miranda"
-msgstr "Mandan"
+msgstr "Miranda"
 
 #: auxiliary/xplanetimageviewer.cpp:213
-#, fuzzy, kde-format
-#| msgctxt "Saturn's moon Titan"
-#| msgid "Titan"
+#, kde-format
 msgid "Titania"
-msgstr "Titan"
+msgstr "Titanya"
 
 #: auxiliary/xplanetimageviewer.cpp:213
-#, fuzzy, kde-format
-#| msgctxt "City in Ohio USA"
-#| msgid "Oberlin"
+#, kde-format
 msgid "Oberon"
-msgstr "Oberlin"
+msgstr "Oberon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowNeptune)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
@@ -1246,28 +1180,27 @@ msgstr "Oberlin"
 #: tools/pvplotwidget.cpp:165 tools/skycalendar.ui:69
 #, kde-format
 msgid "Neptune"
-msgstr "Neptün"
+msgstr "Neptün (Talayhan)"
 
 #: auxiliary/xplanetimageviewer.cpp:215
 #, kde-format
 msgid "Triton"
-msgstr ""
+msgstr "Triton"
 
 #: auxiliary/xplanetimageviewer.cpp:226
 #, kde-format
 msgid "This allows you to select a new object/target for XPlanet to view"
-msgstr ""
+msgstr "Bu, XPlanet için yeni bir nesne/hedef belirmenize izin verir"
 
 #: auxiliary/xplanetimageviewer.cpp:234
-#, fuzzy, kde-format
-#| msgid "from: "
+#, kde-format
 msgid "from"
-msgstr "buradan:"
+msgstr "şu konumdan"
 
 #: auxiliary/xplanetimageviewer.cpp:237
 #, kde-format
 msgid "This allows you to select a viewing location"
-msgstr ""
+msgstr "Bu, bir görüntüleme konumu seçmenize izin verir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, LocationLabel)
@@ -1289,27 +1222,31 @@ msgid ""
 "XPlanet Latitude, Longitude, and object radius in %. This is only valid when "
 "viewing the object from the same object"
 msgstr ""
+"Yüzde türünden XPlanet enlem, boylam ve nesne yarıçapı. Bu, yalnızca nesneyi "
+"aynı nesneden görüntülerken geçerlidir."
 
 #: auxiliary/xplanetimageviewer.cpp:259
 #, kde-format
 msgid "Reset XPlanet Location to the location specified in the XPlanet Options"
-msgstr ""
+msgstr "XPlanet konumunu, XPlanet seçeneklerinde belirtilen konuma sıfırla"
 
 #: auxiliary/xplanetimageviewer.cpp:269
 #, kde-format
 msgid "Hover over target and freely rotate view with mouse in XPlanet Viewer"
 msgstr ""
+"XPlanet Görüntüleyici'de nesne üzerinde serbestçe gezin ve görünümü fareyle "
+"döndür"
 
 #: auxiliary/xplanetimageviewer.cpp:278
 #, kde-format
 msgid "Recenters the XPlanet image once it has been moved"
-msgstr ""
+msgstr "Hareket ettirildiğinde XPlanet görselini yeniden ortalar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:372
 #, kde-format
 msgid "FOV:"
-msgstr "FOV:"
+msgstr "Görüş Alanı:"
 
 #: auxiliary/xplanetimageviewer.cpp:305
 #, kde-format
@@ -1317,6 +1254,8 @@ msgid ""
 "Sets the FOV to the Specified value.   Note: has no effect if hovering over "
 "object."
 msgstr ""
+"Görüş Alanı'nı belirtilen değere ayarlar. Not: Nesne üzerinde geziniliyorsa "
+"bir etkisi olmaz."
 
 #: auxiliary/xplanetimageviewer.cpp:321
 #, kde-format
@@ -1324,11 +1263,15 @@ msgid ""
 "Zoom to the current KStars FOV.   Note: has no effect if hovering over "
 "object."
 msgstr ""
+"Geçerli K Yıldızlar Görüş Alanı'na yakınlaştır. Not: Nesne üzerinde "
+"geziniliyorsa bir etkisi olmaz."
 
 #: auxiliary/xplanetimageviewer.cpp:330
 #, kde-format
 msgid "Zoom to a specific FOV. This has no effect when hovering over an object"
 msgstr ""
+"Belirli bir Görüş Alanı'na yakınlaştır. Not: Nesne üzerinde geziniliyorsa "
+"bir etkisi olmaz."
 
 #: auxiliary/xplanetimageviewer.cpp:339
 #, kde-format
@@ -1336,6 +1279,8 @@ msgid ""
 "Optimum FOV for the target, FOV parameter not specified.  Note: has no "
 "effect if hovering over object."
 msgstr ""
+"Hedef için en iyi Görüş Alanı, Görüş Alanı parametresi belirtilmemiş. Not: "
+"Nesne üzerinde geziniliyorsa bir etkisi olmaz."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1343,45 +1288,44 @@ msgstr ""
 #: ekos/scheduler/mosaic.ui:157 tools/eyepiecefield.cpp:99
 #, kde-format
 msgid "Rotation:"
-msgstr "Dönme:"
+msgstr "Döndürme:"
 
 #: auxiliary/xplanetimageviewer.cpp:352
 #, kde-format
 msgid "Set the view rotation to the desired angle"
-msgstr ""
+msgstr "Görünüm döndürmesini istenen açıya ayarla"
 
 #: auxiliary/xplanetimageviewer.cpp:361
-#, fuzzy, kde-format
-#| msgid "Longitude in degrees"
+#, kde-format
 msgid "Rotate the view 180 degrees"
-msgstr "Derece olarak boylam"
+msgstr "Görünümü 180 derece döndür"
 
 #: auxiliary/xplanetimageviewer.cpp:370
 #, kde-format
 msgid "Reset view rotation to 0"
-msgstr ""
+msgstr "Görünüm döndürmesini 0 yap"
 
 #: auxiliary/xplanetimageviewer.cpp:379
 #, kde-format
 msgid "Bring up XPlanet Options"
-msgstr ""
+msgstr "XPlanet Seçenekleri'ni getir"
 
 #: auxiliary/xplanetimageviewer.cpp:405
 #, kde-format
 msgid "Allows you to set the XPlanet time to a different date/time from KStars"
 msgstr ""
+"XPlanet zamanını, K Yıldızlar zamanından başka bir zamana ayarlamanıza izin "
+"verir"
 
 #: auxiliary/xplanetimageviewer.cpp:414
 #, kde-format
 msgid "Sets the XPlanet time to the current KStars time"
-msgstr ""
+msgstr "XPlanet zamanını geçerli K Yıldızlar zamanına ayarlar"
 
 #: auxiliary/xplanetimageviewer.cpp:419
-#, fuzzy, kde-format
-#| msgctxt "the angle of an object above (or below) the horizon"
-#| msgid "Altitude"
+#, kde-format
 msgid "Current XPlanet Time"
-msgstr "Rakım"
+msgstr "Geçerli XPlanet Zamanı"
 
 #: auxiliary/xplanetimageviewer.cpp:422 auxiliary/xplanetimageviewer.cpp:877
 #: auxiliary/xplanetimageviewer.cpp:1038 auxiliary/xplanetimageviewer.cpp:1051
@@ -1395,11 +1339,13 @@ msgid ""
 "This sets the time step from the current XPlanet time, good for viewing "
 "events"
 msgstr ""
+"Bu, zaman adımını geçerli XPlanet zamanından ayarlar; olayları görüntülemek "
+"için yararlıdır"
 
 #: auxiliary/xplanetimageviewer.cpp:435
 #, kde-format
 msgid "This sets the time step from the current XPlanet time"
-msgstr ""
+msgstr "Bu, zaman adımını geçerli XPlanet zamanından ayarlar"
 
 #: auxiliary/xplanetimageviewer.cpp:442
 #, kde-format
