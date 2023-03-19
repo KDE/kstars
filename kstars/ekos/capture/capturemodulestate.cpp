@@ -197,13 +197,13 @@ void CaptureModuleState::updateMeridianFlipStage(const MeridianFlipState::MFStag
             if (hasDome && (m_domeState == ISD::Dome::DOME_MOVING_CW || m_domeState == ISD::Dome::DOME_MOVING_CCW))
                 return;
 
-            // if the capturing has been paused before the flip, reset the state to paused, otherwise to idle
-            setCaptureState(m_ContinueAction == CONTINUE_ACTION_NONE ? CAPTURE_IDLE : CAPTURE_PAUSED);
-
             KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"),
                                   KSNotification::Capture);
 
             getMeridianFlipState()->processFlipCompleted();
+
+            // if the capturing has been paused before the flip, reset the state to paused, otherwise to idle
+            setCaptureState(m_ContinueAction == CONTINUE_ACTION_NONE ? CAPTURE_IDLE : CAPTURE_PAUSED);
             break;
 
         default:
