@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -14548,7 +14548,7 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr "കാസ്റ്റര്‍"
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""

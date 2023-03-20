@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2023-02-26 10:21+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -15008,7 +15008,7 @@ msgstr "Ali ima %1 zaslonko?"
 msgid "Dark Exposure"
 msgstr "Osvetlitev teme"
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, fuzzy, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Meridian flip je uspešno dokončan"

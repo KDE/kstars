@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -15151,7 +15151,7 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr "Išlaikymas:"
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""

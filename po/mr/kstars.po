@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -14508,7 +14508,7 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""

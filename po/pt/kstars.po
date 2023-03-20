@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2023-03-06 16:29+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -16239,7 +16239,7 @@ msgstr "O %1 tem um obturador?"
 msgid "Dark Exposure"
 msgstr "Exposição Escura"
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "A inversão do meridiano terminou com sucesso"

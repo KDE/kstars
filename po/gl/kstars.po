@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -15438,7 +15438,7 @@ msgstr "Ten %1 unha persiana?"
 msgid "Dark Exposure"
 msgstr "Exposición escura"
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Completouse correctamente a volta do meridiano"

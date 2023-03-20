@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2023-01-20 18:56+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
@@ -15144,7 +15144,7 @@ msgstr "Est-ce que %1 possède un obturateur ?"
 msgid "Dark Exposure"
 msgstr "Acquisition des dark"
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Le retournement au méridien s'est terminé avec succès."

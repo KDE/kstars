@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-15 00:42+0000\n"
+"POT-Creation-Date: 2023-03-20 00:46+0000\n"
 "PO-Revision-Date: 2005-01-25 01:58+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -15086,7 +15086,7 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr "Castor"
 
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:200
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
