@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-20 00:46+0000\n"
-"PO-Revision-Date: 2023-03-05 19:39+0100\n"
+"PO-Revision-Date: 2023-03-20 15:57+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -9999,7 +9999,7 @@ msgstr "S'està restant"
 #: ekos/analyze/analyze.cpp:2697 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
-msgstr "S'està fent el requadro"
+msgstr "Subenquadrament"
 
 #: ekos/analyze/analyze.cpp:2699 ekos/ekos.h:28
 #, kde-format
@@ -12071,9 +12071,10 @@ msgid ""
 "p><p>To add, edit, or delete optical elements, tap the <span style=\" font-"
 "weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'abast o la lent emprada en el tren òptic."
-"</p><p>Per a afegir, editar o suprimir elements òptics, premeu el botó <span "
-"style=\" font-weight:600;\">Telescopis i lents</span>.</p></body></html>"
+"<html><head/><body><p>Seleccioneu l'instrument de visió o la lent emprada en "
+"el tren òptic.</p><p>Per a afegir, editar o suprimir elements òptics, premeu "
+"el botó <span style=\" font-weight:600;\">Telescopis i lents</span>.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:146
@@ -13712,7 +13713,7 @@ msgstr "Inicia la seqüència"
 #: ekos/capture/capture.cpp:1938
 #, kde-format
 msgid "Framing..."
-msgstr "Capturant..."
+msgstr "S'està fent l'enquadrament..."
 
 #: ekos/capture/capture.cpp:1973
 #, kde-format
@@ -13770,12 +13771,13 @@ msgstr "No es pot capturar mentre el mòdul d'enfocament està ocupat."
 #, kde-format
 msgid "Cannot start framing while focus module is busy."
 msgstr ""
-"No s'ha pogut iniciar la captura mentre el mòdul d'enfocament està ocupat."
+"No s'ha pogut iniciar l'enquadrament mentre el mòdul d'enfocament està "
+"ocupat."
 
 #: ekos/capture/capture.cpp:2311
 #, kde-format
 msgid "Starting framing..."
-msgstr "S'està iniciant la captura..."
+msgstr "S'està iniciant l'enquadrament..."
 
 #: ekos/capture/capture.cpp:2334
 #, kde-format
@@ -14884,7 +14886,7 @@ msgstr "Captura una vista prèvia"
 #: ekos/capture/capture.ui:1901
 #, kde-format
 msgid "Start framing (looping)"
-msgstr "Inicia la captura (repetició)"
+msgstr "Inicia l'enquadrament (repetició)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
 #: ekos/capture/capture.ui:1939 ekos/focus/focus.ui:675
@@ -15947,7 +15949,7 @@ msgstr "Entrada de l'usuari"
 #: ekos/ekos.h:120
 #, kde-format
 msgid "Framing"
-msgstr "Captura"
+msgstr "Enquadrament"
 
 #: ekos/ekos.h:139
 #, kde-format
@@ -16565,7 +16567,7 @@ msgstr "Passos:"
 #: ekos/focus/focus.ui:372
 #, kde-format
 msgid "Start framing"
-msgstr "Inicia la captura"
+msgstr "Inicia l'enquadrament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
 #: ekos/focus/focus.ui:401
@@ -18696,11 +18698,11 @@ msgid_plural ""
 "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible "
 "mount or backlash problems..."
 msgstr[0] ""
-"Guia AR: El telescopi no ha pogut assolir el punt inicial després d'%1 "
-"iteració. Possible problema de la muntura o del rebot..."
+"Guia AR: L'instrument de visió no ha pogut assolir el punt inicial després "
+"d'%1 iteració. Possible problema de la muntura o del rebot..."
 msgstr[1] ""
-"Guia AR: El telescopi no ha pogut assolir el punt inicial després de %1 "
-"iteracions. Possible problema de la muntura o de rebot..."
+"Guia AR: L'instrument de visió no ha pogut assolir el punt inicial després "
+"de %1 iteracions. Possible problema de la muntura o de rebot..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:354
 #, kde-format
@@ -18751,12 +18753,12 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"Guia Dec: El telescopi no ha pogut assolir el punt inicial després d'%1 "
-"iteració.\n"
+"Guia Dec: L'instrument de visió no ha pogut assolir el punt inicial després "
+"d'%1 iteració.\n"
 "Possible problema de la muntura o del rebot..."
 msgstr[1] ""
-"Guia Dec: El telescopi no ha pogut assolir el punt inicial després de %1 "
-"iteracions.\n"
+"Guia Dec: L'instrument de visió no ha pogut assolir el punt inicial després "
+"de %1 iteracions.\n"
 "Possible problema de la muntura o de rebot..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:511
@@ -20564,7 +20566,7 @@ msgstr "estrela guia"
 #: ekos/manager/meridianflipstate.cpp:119
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
-msgstr "Inversió del meridià inactiva (cap telescopi connectat)"
+msgstr "Inversió del meridià inactiva (cap instrument de visió connectat)"
 
 #: ekos/manager/meridianflipstate.cpp:126
 #, kde-format
@@ -33238,7 +33240,9 @@ msgstr "Disponible l'obertura dels prismàtics"
 #: kstars.kcfg:1490
 #, kde-format
 msgid "Index of selected scope from list of scopes"
-msgstr "Índex del telescopi seleccionat de la llista d'instruments de visió"
+msgstr ""
+"Índex de l'instrument de visió seleccionat des de la llista d'instruments de "
+"visió"
 
 #. i18n: ectx: label, entry (EkosWindowWidth), group (Ekos)
 #: kstars.kcfg:1496
