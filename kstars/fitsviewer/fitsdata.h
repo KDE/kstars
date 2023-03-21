@@ -80,13 +80,15 @@ class FITSData : public QObject
         explicit FITSData(const QSharedPointer<FITSData> &other);
         ~FITSData() override;
 
-        /** Structure to hold FITS Header records */
-        typedef struct
+        /** Object to hold FITS Header records */
+        struct Record
         {
+            Record() = default;
+            Record(QString k, QString v, QString c) : key(k), value(v), comment(c) {}
             QString key;      /** FITS Header Key */
             QVariant value;   /** FITS Header Value */
             QString comment;  /** FITS Header Comment, if any */
-        } Record;
+        };
 
         typedef enum
         {

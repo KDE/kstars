@@ -1581,28 +1581,21 @@ bool Camera::stopRecording()
     return true;
 }
 
-bool Camera::setFITSHeader(const QMap<QString, QString> &values)
+bool Camera::setFITSHeaders(const QList<FITSData::Record> &values)
 {
     auto tvp = getText("FITS_HEADER");
 
     if (!tvp)
         return false;
 
-    QMapIterator<QString, QString> i(values);
-
-    while (i.hasNext())
+    for (auto &record : values)
     {
-        i.next();
+        tvp->at(0)->setText(record.key.toLatin1().constData());
+        tvp->at(1)->setText(record.value.toString().toLatin1().constData());
+        tvp->at(2)->setText(record.comment.toLatin1().constData());
 
-        auto headerT = tvp->findWidgetByName(i.key().toLatin1().data());
-
-        if (!headerT)
-            continue;
-
-        headerT->setText(i.value().toLatin1().data());
+        sendNewProperty(tvp);
     }
-
-    sendNewProperty(tvp);
 
     return true;
 }

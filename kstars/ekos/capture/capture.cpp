@@ -3456,14 +3456,14 @@ void Capture::executeJob()
         return;
     }
 
-    QMap<QString, QString> FITSHeader;
+    QList<FITSData::Record> FITSHeaders;
     if (m_ObserverName.isEmpty() == false)
-        FITSHeader["FITS_OBSERVER"] = m_ObserverName;
+        FITSHeaders.append(FITSData::Record("Observer", m_ObserverName, "Observer"));
     if (m_TargetName.isEmpty() == false)
-        FITSHeader["FITS_OBJECT"] = m_TargetName;
+        FITSHeaders.append(FITSData::Record("Object", m_TargetName, "Object"));
 
-    if (FITSHeader.count() > 0)
-        m_captureDeviceAdaptor->getActiveCamera()->setFITSHeader(FITSHeader);
+    if (!FITSHeaders.isEmpty())
+        m_captureDeviceAdaptor->getActiveCamera()->setFITSHeaders(FITSHeaders);
 
     // Update button status
     setBusy(true);
@@ -5911,8 +5911,6 @@ void Capture::setCapturedFramesMap(const QString &signature, int count)
 
 void Capture::setPresetSettings(const QJsonObject &settings)
 {
-    static bool init = false;
-
     auto opticalTrain = settings["optical_train"].toString(opticalTrainCombo->currentText());
     auto targetFilter = settings["filter"].toString(FilterPosCombo->currentText());
 
@@ -5972,8 +5970,6 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     bool dark = settings["dark"].toBool(darkB->isChecked());
     if (dark != darkB->isChecked())
         darkB->setChecked(dark);
-
-    init = true;
 }
 
 void Capture::setFileSettings(const QJsonObject &settings)
