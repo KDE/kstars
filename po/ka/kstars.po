@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-20 00:46+0000\n"
+"POT-Creation-Date: 2023-03-22 00:43+0000\n"
 "PO-Revision-Date: 2023-03-08 10:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -7172,7 +7172,7 @@ msgstr "ავტომატური პარკირება"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6556
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6552
 #: ekos/focus/focus.ui:1223
 #, kde-format
 msgid "Threshold:"
@@ -13212,72 +13212,72 @@ msgstr "დამკვირვებლების მართვა"
 msgid "Filter set to %1."
 msgstr "ფილტრი დაყენებულია %1-ზე."
 
-#: ekos/capture/capture.cpp:6143
+#: ekos/capture/capture.cpp:6139
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6145
+#: ekos/capture/capture.cpp:6141
 #, kde-format
 msgid "Confirmation"
 msgstr "დასტური"
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is on"
 msgstr "გაგრილება ჩართულია"
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is off"
 msgstr "გაგრილება გამორთულია"
 
-#: ekos/capture/capture.cpp:6172 ekos/focus/focus.cpp:4059
+#: ekos/capture/capture.cpp:6168 ekos/focus/focus.cpp:4059
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6195 ekos/focus/focus.cpp:4064
+#: ekos/capture/capture.cpp:6191 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6511
+#: ekos/capture/capture.cpp:6507
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6512
+#: ekos/capture/capture.cpp:6508
 #, kde-format
 msgid "Driver Restart"
 msgstr "დრაივერის გადატვირთვა"
 
-#: ekos/capture/capture.cpp:6548
+#: ekos/capture/capture.cpp:6544
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6554
+#: ekos/capture/capture.cpp:6550
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6562
+#: ekos/capture/capture.cpp:6558
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6572
+#: ekos/capture/capture.cpp:6568
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6603
+#: ekos/capture/capture.cpp:6599
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."

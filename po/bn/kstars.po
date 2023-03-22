@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-20 00:46+0000\n"
+"POT-Creation-Date: 2023-03-22 00:43+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -7801,7 +7801,7 @@ msgstr "স্বয়ংক্রিয় মাত্রা"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6556
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6552
 #: ekos/focus/focus.ui:1223
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -14255,78 +14255,78 @@ msgstr "সার্ভার"
 msgid "Filter set to %1."
 msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়েছে"
 
-#: ekos/capture/capture.cpp:6143
+#: ekos/capture/capture.cpp:6139
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6145
+#: ekos/capture/capture.cpp:6141
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "মুছে ফেলার উদ্যোগ নিশ্চিত করুন"
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6172 ekos/focus/focus.cpp:4059
+#: ekos/capture/capture.cpp:6168 ekos/focus/focus.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting..."
 msgstr "সেকেন্ড এককে বিরতির দৈর্ঘ্য"
 
-#: ekos/capture/capture.cpp:6195 ekos/focus/focus.cpp:4064
+#: ekos/capture/capture.cpp:6191 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "সেকেন্ড এককে বিরতির দৈর্ঘ্য"
 
-#: ekos/capture/capture.cpp:6511
+#: ekos/capture/capture.cpp:6507
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "আপনি কি %1 ক্লায়েন্টকে অপসারণের ব্যাপারে নিশ্চিত?"
 
-#: ekos/capture/capture.cpp:6512
+#: ekos/capture/capture.cpp:6508
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "তারা"
 
-#: ekos/capture/capture.cpp:6548
+#: ekos/capture/capture.cpp:6544
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6554
+#: ekos/capture/capture.cpp:6550
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6562
+#: ekos/capture/capture.cpp:6558
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6572
+#: ekos/capture/capture.cpp:6568
 #, fuzzy, kde-format
 #| msgid "Aperture:"
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "অ্যাপার্চার:"
 
-#: ekos/capture/capture.cpp:6603
+#: ekos/capture/capture.cpp:6599
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."

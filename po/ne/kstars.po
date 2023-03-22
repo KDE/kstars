@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-20 00:46+0000\n"
+"POT-Creation-Date: 2023-03-22 00:43+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -7830,7 +7830,7 @@ msgstr "स्वत: मापन"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6556
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6552
 #: ekos/focus/focus.ui:1223
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -14412,78 +14412,78 @@ msgstr "सर्भर"
 msgid "Filter set to %1."
 msgstr "%1 मा FITS फाइल बचत गरियो"
 
-#: ekos/capture/capture.cpp:6143
+#: ekos/capture/capture.cpp:6139
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6145
+#: ekos/capture/capture.cpp:6141
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "यकीन मेट्नुहोस्"
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6172 ekos/focus/focus.cpp:4059
+#: ekos/capture/capture.cpp:6168 ekos/focus/focus.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "क्यामेरा/सीसीडी प्रदर्शन सुरु गर्नुहोस् । अवधि सेकेन्डमा छ ।"
 
-#: ekos/capture/capture.cpp:6195 ekos/focus/focus.cpp:4064
+#: ekos/capture/capture.cpp:6191 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "क्यामेरा/सीसीडी प्रदर्शन सुरु गर्नुहोस् । अवधि सेकेन्डमा छ ।"
 
-#: ekos/capture/capture.cpp:6511
+#: ekos/capture/capture.cpp:6507
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "तपाईँ %1 क्लाइन्ट हटाउन निश्चित हुनुहुन्छ ?"
 
-#: ekos/capture/capture.cpp:6512
+#: ekos/capture/capture.cpp:6508
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "तारा"
 
-#: ekos/capture/capture.cpp:6548
+#: ekos/capture/capture.cpp:6544
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6554
+#: ekos/capture/capture.cpp:6550
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6562
+#: ekos/capture/capture.cpp:6558
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6572
+#: ekos/capture/capture.cpp:6568
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
-#: ekos/capture/capture.cpp:6603
+#: ekos/capture/capture.cpp:6599
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."

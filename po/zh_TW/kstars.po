@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-20 00:46+0000\n"
+"POT-Creation-Date: 2023-03-22 00:43+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -7653,7 +7653,7 @@ msgstr "自動延伸"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6556
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6552
 #: ekos/focus/focus.ui:1223
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
@@ -14457,79 +14457,79 @@ msgstr "管理觀測者"
 msgid "Filter set to %1."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/capture/capture.cpp:6143
+#: ekos/capture/capture.cpp:6139
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Reset %1 configuration to default?"
 msgstr "使用指定的設定檔"
 
-#: ekos/capture/capture.cpp:6145
+#: ekos/capture/capture.cpp:6141
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Confirmation"
 msgstr "設定"
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6161
+#: ekos/capture/capture.cpp:6157
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6172 ekos/focus/focus.cpp:4059
+#: ekos/capture/capture.cpp:6168 ekos/focus/focus.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/capture/capture.cpp:6195 ekos/focus/focus.cpp:4064
+#: ekos/capture/capture.cpp:6191 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:882
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "自動對焦失敗。將中止曝光..."
 
-#: ekos/capture/capture.cpp:6511
+#: ekos/capture/capture.cpp:6507
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "您確定要移除用戶端 %1 嗎？"
 
-#: ekos/capture/capture.cpp:6512
+#: ekos/capture/capture.cpp:6508
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Driver Restart"
 msgstr "驅動程式："
 
-#: ekos/capture/capture.cpp:6548
+#: ekos/capture/capture.cpp:6544
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6554
+#: ekos/capture/capture.cpp:6550
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6562
+#: ekos/capture/capture.cpp:6558
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6572
+#: ekos/capture/capture.cpp:6568
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "設定溫度為 %1 度 C..."
 
-#: ekos/capture/capture.cpp:6603
+#: ekos/capture/capture.cpp:6599
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
