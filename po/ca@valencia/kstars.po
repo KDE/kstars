@@ -1235,8 +1235,8 @@ msgid ""
 "XPlanet Latitude, Longitude, and object radius in %. This is only valid when "
 "viewing the object from the same object"
 msgstr ""
-"Latitud, Llargària i radi de l'objecte en % d'Xplanet. Només és vàlid quan "
-"es visualitza l'objecte des del mateix objecte"
+"Latitud, Longitud i radi de l'objecte en % d'Xplanet. Només és vàlid quan es "
+"visualitza l'objecte des del mateix objecte"
 
 #: auxiliary/xplanetimageviewer.cpp:259
 #, kde-format
@@ -4819,7 +4819,7 @@ msgstr ""
 #: tools/modcalcplanets.ui:739 tools/modcalcvlsr.ui:528
 #, kde-format
 msgid "Longitude:"
-msgstr "Llargària:"
+msgstr "Longitud:"
 
 #. i18n: ectx: property (toolTip), widget (dmsBox, NewLong)
 #: dialogs/locationdialog.ui:376
@@ -4828,7 +4828,7 @@ msgid ""
 "<html><head/><body><p>Longitude in degrees. East of Greenwich is positive "
 "and West is negative.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Llargària en graus. L'est de Greenwich és positiu i "
+"<html><head/><body><p>Longitud en graus. L'est de Greenwich és positiu i "
 "l'oest és negatiu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LatLabel)
@@ -5272,7 +5272,7 @@ msgstr "m"
 #: dialogs/newfov.ui:882
 #, kde-format
 msgid "Wavelength:"
-msgstr "Llargària d'ona:"
+msgstr "Longitud d'ona:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_3_2_3)
 #: dialogs/newfov.ui:916
@@ -5301,9 +5301,9 @@ msgid ""
 msgstr ""
 "Este botó calcularà l'angle d'Amplària de Feix de Potència Meitat (AFPM o "
 "HPBW en anglés) per a una combinació concreta del radiotelescopi i la "
-"llargària d'ona de l'observació, assumint que el telescopi no disposa de cap "
+"longitud d'ona de l'observació, assumint que el telescopi no disposa de cap "
 "receptor multifeix. En primer lloc haureu d'especificar el diàmetre del "
-"radiotelescopi i la llargària d'ona de l'observació.\n"
+"radiotelescopi i la longitud d'ona de l'observació.\n"
 "\n"
 "L'angle HPBW calculat (en minuts d'arc) es mostrarà al quadro d'edició «Camp "
 "de visió»."
@@ -9157,13 +9157,13 @@ msgstr "Astrometry.net en línia o ANSVR remot"
 #: ekos/align/opsprograms.ui:207
 #, kde-format
 msgid "API URL"
-msgstr "URL de la API"
+msgstr "URL de l'API"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
 #, kde-format
 msgid "API URL:"
-msgstr "URL de la API:"
+msgstr "URL de l'API:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsprograms.ui:224
@@ -9181,13 +9181,13 @@ msgstr "Temps d'espera en segons a què acabe el solucionador de l'astrometria"
 #: ekos/align/opsprograms.ui:244
 #, kde-format
 msgid "API Key"
-msgstr "Clau de la API"
+msgstr "Clau de l'API"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/align/opsprograms.ui:254
 #, kde-format
 msgid "API Key:"
-msgstr "Clau de la API:"
+msgstr "Clau de l'API:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseJPEG)
 #: ekos/align/opsprograms.ui:261
@@ -19517,7 +19517,7 @@ msgstr ""
 "<html><head/><body><p>Escala de llargària periòdica del nucli, en segons.</"
 "p><p>Descriu\n"
 "          la rapidesa amb què l'error canvia en un sol període. Es pot "
-"pensar com la llargària d'ona del component de soroll\n"
+"pensar com la longitud d'ona del component de soroll\n"
 "          per damunt del qual el soroll es torna impredictible. Una escala "
 "de llargària més alta significa que l'error previsible \n"
 "          té menys components d'alta freqüència; una escala de llargària més "
@@ -30203,13 +30203,13 @@ msgstr "El nom de país de l'emplaçament geogràfic actual."
 #: kstars.kcfg:339
 #, kde-format
 msgid "Geographic Longitude, in degrees."
-msgstr "Llargària geogràfica, en graus."
+msgstr "Longitud geogràfica, en graus."
 
 #. i18n: ectx: whatsthis, entry (Longitude), group (Location)
 #: kstars.kcfg:340
 #, kde-format
 msgid "The longitude of the current geographic location, in decimal degrees."
-msgstr "La llargària de l'emplaçament geogràfic actual, en graus decimals."
+msgstr "La longitud de l'emplaçament geogràfic actual, en graus decimals."
 
 #. i18n: ectx: label, entry (Latitude), group (Location)
 #: kstars.kcfg:344
@@ -32542,7 +32542,7 @@ msgstr ""
 #: kstars.kcfg:1202 xplanet/opsxplanet.ui:917
 #, kde-format
 msgid "Longitude in degrees"
-msgstr "Llargària en graus"
+msgstr "Longitud en graus"
 
 #. i18n: ectx: whatsthis, entry (XplanetLongitude), group (Xplanet)
 #: kstars.kcfg:1203
@@ -32552,7 +32552,7 @@ msgid ""
 "positive going east, negative going west (for the earth and moon), so for "
 "example Los Angeles is at -118 or 242. The default value is 0."
 msgstr ""
-"Situa l'observador damunt la llargària especificada (en graus). La llargària "
+"Situa l'observador damunt la longitud especificada (en graus). La longitud "
 "és positiva anant cap a l'est, i negativa anant cap a l'oest (per a la Terra "
 "i la Lluna), així, per exemple, Los Angeles és a -118 o 242. El valor "
 "predeterminat és 0."
@@ -34573,7 +34573,7 @@ msgstr "Camí cap a l'executable del solucionador Watney."
 #: kstars.kcfg:2185
 #, kde-format
 msgid "astrometry.net API Key"
-msgstr "Clau de la API d'Astrometry.net"
+msgstr "Clau de l'API d'Astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometryAPIKey), group (Align)
 #: kstars.kcfg:2186
@@ -34589,7 +34589,7 @@ msgstr ""
 #: kstars.kcfg:2190
 #, kde-format
 msgid "astrometry.net API URL"
-msgstr "URL de la API d'Astrometry.net"
+msgstr "URL de l'API d'Astrometry.net"
 
 #. i18n: ectx: label, entry (AstrometryUseJPEG), group (Align)
 #: kstars.kcfg:2194
@@ -64249,7 +64249,7 @@ msgstr "Seleccions populars de catàlegs"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Multiwavelength Catalogs"
-msgstr "Catàlegs de llargària d'ona múltiple"
+msgstr "Catàlegs de longitud d'ona múltiple"
 
 #: kstars_i18n.cpp:4847
 #, kde-kuit-format
@@ -65826,7 +65826,7 @@ msgstr "S'ha excedit el temps límit. Torneu-ho a intentar."
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:175
 #, kde-kuit-format
 msgid "Found your longitude and altitude"
-msgstr "Trobeu la vostra llargària i altitud"
+msgstr "Trobeu la vostra longitud i altitud"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:185
 #, kde-kuit-format
@@ -65856,7 +65856,7 @@ msgstr "Latitud: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
 msgid "Longitude: "
-msgstr "Llargària: "
+msgstr "Longitud: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
 #, kde-kuit-format
@@ -65897,7 +65897,7 @@ msgstr "Empleneu la llargària"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:392
 #, kde-kuit-format
 msgid "Either the longitude or the latitude values are not valid"
-msgstr "Els valors de llargària o latitud no són vàlids"
+msgstr "Els valors de longitud o latitud no són vàlids"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:398
 #, kde-kuit-format
@@ -81322,7 +81322,7 @@ msgstr ""
 #: xplanet/opsxplanet.ui:910
 #, kde-format
 msgid " and longitude "
-msgstr " i llargària "
+msgstr " i longitud "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLongitude)
 #: xplanet/opsxplanet.ui:920
@@ -81332,7 +81332,7 @@ msgid ""
 "positive going east, negative going west (for the earth and moon), so for "
 "example Los Angeles is at -118 or 242.  The default value is 0."
 msgstr ""
-"Situa l'observador damunt la llargària especificada (en graus). La llargària "
+"Situa l'observador damunt la longitud especificada (en graus). La longitud "
 "és positiva anant cap a l'est, i negativa anant cap a l'oest (per a la Terra "
 "i la Lluna), així, per exemple, Los Angeles és a -118 o 242. El valor "
 "predeterminat és 0."
