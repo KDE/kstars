@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-22 00:43+0000\n"
-"PO-Revision-Date: 2023-03-18 14:36+0300\n"
+"PO-Revision-Date: 2023-03-23 14:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1400,7 +1400,7 @@ msgstr "saniye"
 #: auxiliary/xplanetimageviewer.cpp:449
 #, kde-format
 msgid "Lets you change the units for the timestep in the animation"
-msgstr ""
+msgstr "Canlandırmadaki zaman adımı için birimleri değiştirmenizi sağlar"
 
 #: auxiliary/xplanetimageviewer.cpp:462
 #, kde-format
@@ -1410,7 +1410,7 @@ msgstr ""
 #: auxiliary/xplanetimageviewer.cpp:471
 #, kde-format
 msgid "Resets the animation to 0 timesteps from the current XPlanet Time"
-msgstr ""
+msgstr "Canlandırmayı geçerli XPlanet Saatinden 0 zaman adımına sıfırlar"
 
 #: auxiliary/xplanetimageviewer.cpp:542
 #, kde-format
@@ -1445,6 +1445,7 @@ msgid ""
 "XPlanet failed to generate the image for object %1 before the timeout "
 "expired."
 msgstr ""
+"XPlanet, zaman aşımı süresi dolmadan %1 nesnesi için görseli oluşturamadı."
 
 #: auxiliary/xplanetimageviewer.cpp:791 indi/servermanager.cpp:88
 #, kde-format
@@ -2265,7 +2266,7 @@ msgstr "Temel Seçenekler"
 #: oal/observeradd.ui:53 tools/altvstime.ui:54 tools/argfindobject.ui:21
 #, kde-format
 msgid "Name:"
-msgstr "İsim:"
+msgstr "Ad:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, name)
 #: dialogs/addcatalogobject.ui:33
@@ -3563,7 +3564,7 @@ msgstr "%1 km"
 #, kde-format
 msgctxt "Rotation period in hours"
 msgid "%1 h"
-msgstr "%1 saat"
+msgstr "%1 sa"
 
 #: dialogs/detaildialog.cpp:463 dialogs/detaildialog.cpp:521
 #, kde-format
@@ -4131,7 +4132,7 @@ msgstr "Geçiş zamanı:"
 #: dialogs/details_position.ui:669 printing/detailstable.cpp:651
 #, kde-format
 msgid "Rise time:"
-msgstr "Yükselme saati:"
+msgstr "Yükselme zamanı:"
 
 #. i18n: ectx: property (text), widget (QLabel, TimeRise)
 #. i18n: ectx: property (text), widget (QLabel, TimeTransit)
@@ -7569,17 +7570,15 @@ msgstr "Astrometry.net"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:108
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgid "Local ASTAP"
-msgstr "Yerel Saat"
+msgstr "Yerel ASTAP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:113
-#, fuzzy, kde-format
-#| msgid "Local time"
+#, kde-format
 msgid "Local Watney"
-msgstr "Yerel Saat"
+msgstr "Yerel Watney"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:118
@@ -9589,10 +9588,9 @@ msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
 #: ekos/align/polaralignmentassistant.cpp:1152
-#, fuzzy, kde-format
-#| msgid "Date, time and location: "
+#, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
-msgstr "Tarih, saat ve konum: "
+msgstr "Dünya Koordinat Sistemi işlenemedi: %1. Yeniden deneyin."
 
 #: ekos/align/polaralignmentassistant.cpp:1170
 #, fuzzy, kde-format
@@ -11211,10 +11209,9 @@ msgid "Failed to load dark frame file %1"
 msgstr "%1 konumundaki resim yüklenemedi"
 
 #: ekos/auxiliary/darklibrary.cpp:524
-#, fuzzy, kde-format
-#| msgid "Date, time and location: "
+#, kde-format
 msgid "Failed to process dark data."
-msgstr "Tarih, saat ve konum: "
+msgstr "Karanlık veri işlenemedi."
 
 #: ekos/auxiliary/darklibrary.cpp:530
 #, fuzzy, kde-format
@@ -11401,10 +11398,9 @@ msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/darklibrary.ui:382
-#, fuzzy, kde-format
-#| msgid "Local Time:"
+#, kde-format
 msgid "Total Time:"
-msgstr "Yerel Saat:"
+msgstr "Toplam Zaman:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minExposureSpin)
 #: ekos/auxiliary/darklibrary.ui:389
@@ -12780,10 +12776,9 @@ msgid "Mapping is successful."
 msgstr "Teleskop bilgisi başarıyla güncellendi."
 
 #: ekos/auxiliary/serialportassistant.cpp:386
-#, fuzzy, kde-format
-#| msgid "Date, time and location: "
+#, kde-format
 msgid "Failed to add a new rule."
-msgstr "Tarih, saat ve konum: "
+msgstr "Yeni bir kural eklenemedi."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SerialPortAssistant)
 #: ekos/auxiliary/serialportassistant.ui:14
@@ -15448,10 +15443,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, overallLabel)
 #: ekos/capture/capturecountswidget.ui:511
-#, fuzzy, kde-format
-#| msgid "Local Time:"
+#, kde-format
 msgid "Total"
-msgstr "Yerel Saat:"
+msgstr "Toplam"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, switchToGraphicsButton)
 #: ekos/capture/capturecountswidget.ui:614
@@ -17942,10 +17936,9 @@ msgid "Auto star selected %1"
 msgstr "1 yıldız algılandı."
 
 #: ekos/guide/externalguide/linguider.cpp:172
-#, fuzzy, kde-format
-#| msgid "Date, time and location: "
+#, kde-format
 msgid "Failed to process star position."
-msgstr "Tarih, saat ve konum: "
+msgstr "Yıldız konumu işlenemedi."
 
 #: ekos/guide/externalguide/linguider.cpp:185
 #, fuzzy, kde-format
@@ -21355,10 +21348,9 @@ msgstr "SA:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/mount/mount.ui:212
-#, fuzzy, kde-format
-#| msgid "Hour angle:"
+#, kde-format
 msgid "Hour Angle"
-msgstr "Saat açısı:"
+msgstr "Saat Açısı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/mount/mount.ui:215
@@ -21382,19 +21374,15 @@ msgstr "LST"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:275
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Command a meridian flip if the hour angle exceeds "
-#| "the specified value. Capture and Guiding will be suspended and resumed "
-#| "after the flip is complete.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Request a meridian flip if the hour angle exceeds the "
 "specified value. Capture and Guiding will be suspended and resumed after the "
 "flip is complete.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Saat açısı belirtilen değeri aşarsa, bir meridyen "
-"döndürme yapılır. Yakalama ve Kılavuzluk, bekletilmiş ve döndürme bittikten "
-"sonra devam etmiştir.</p></body></html>"
+"<html><head/><body><p>Saat açısı belirtilen değeri aşarsa bir boylam dönüşü "
+"talep edin. Yakalama ve Kılavuzluk, çevirme tamamlandıktan sonra askıya "
+"alınacak ve kaldığı yerden sürer.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:278
@@ -22354,10 +22342,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, leadTimeLabel)
 #: ekos/opsekos.ui:214
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgid "Lead time:"
-msgstr "Yerel Saat"
+msgstr "Tedarik süresi:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, preDawnLabel)
 #: ekos/opsekos.ui:224
@@ -23083,10 +23070,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, externalGuideHost)
 #: ekos/profileeditor.ui:276
-#, fuzzy, kde-format
-#| msgid "local time"
+#, kde-format
 msgid "localhost"
-msgstr "yerel saat"
+msgstr "yerel birim"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indihubB)
 #: ekos/profileeditor.ui:283
@@ -25030,12 +25016,13 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2648
-#, fuzzy, kde-format
-#| msgid "%1 completion time (%2) is earlier than start up time (%3)"
+#, kde-format
 msgid ""
 "Warning: job '%1' requires culmination offset of %2 minutes, not achievable, "
 "marking invalid."
-msgstr "%1 bitirme zamanı (%2) başlanıç saatinden (%3) önce"
+msgstr ""
+"Uyarı: '%1' işi, %2 dakikalık doruk ofseti gerektiriyor, ulaşılamaz, "
+"geçersiz olarak imleniyor."
 
 #: ekos/scheduler/scheduler.cpp:2691
 #, kde-format
@@ -25052,11 +25039,12 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2746
-#, fuzzy, kde-format
-#| msgid "%1 completion time (%2) is earlier than start up time (%3)"
+#, kde-format
 msgid ""
 "Job '%1' completion time (%2) could not be achieved before start up time (%3)"
-msgstr "%1 bitirme zamanı (%2) başlanıç saatinden (%3) önce"
+msgstr ""
+"'%1' işinin tamamlanma zamanı (%2) başlangıç zamanından önce "
+"gerçekleştirilemedi (%3)"
 
 #: ekos/scheduler/scheduler.cpp:2831
 #, fuzzy, kde-format
@@ -26196,10 +26184,9 @@ msgstr "Süre:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/scheduler/scheduler.ui:1087
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgid "Lead time"
-msgstr "Yerel Saat"
+msgstr "Tedarik zamanı"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
 #: ekos/scheduler/scheduler.ui:1160
@@ -26282,10 +26269,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
 #: ekos/scheduler/scheduler.ui:1378
-#, fuzzy, kde-format
-#| msgid "start the job on the specified date and time"
+#, kde-format
 msgid "Restart job until it is executed this many times."
-msgstr "işi belirtilen tarih ve saatte başlat"
+msgstr "İşi, belirtilen kere yürütülene kadar yeniden başlatın."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
 #: ekos/scheduler/scheduler.ui:1381
@@ -26340,7 +26326,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:1494
 #, kde-format
 msgid "start the job on the specified date and time"
-msgstr "işi belirtilen tarih ve saatte başlat"
+msgstr "işi belirtilen tarih ve zamanda başlat"
 
 #. i18n: ectx: property (text), widget (QRadioButton, startupTimeConditionR)
 #: ekos/scheduler/scheduler.ui:1497
@@ -28939,10 +28925,9 @@ msgid "Mount is slewing to target location"
 msgstr "Özgün konumuna geri döndürülüyor..."
 
 #: indi/indimount.cpp:254
-#, fuzzy, kde-format
-#| msgid "Date, time and location: "
+#, kde-format
 msgid "Mount arrived at target location"
-msgstr "Tarih, saat ve konum: "
+msgstr ""
 
 #: indi/indimount.cpp:334
 #, fuzzy, kde-format
@@ -29212,7 +29197,7 @@ msgstr ""
 #, kde-format
 msgid "Synchronize KStars date and time automatically from the update source."
 msgstr ""
-"K Yıldızlar tarihini ve saatini güncelleme kaynağından otomatik olarak "
+"K Yıldızlar tarihini ve zamanını güncelleme kaynağından otomatik olarak "
 "eşzamanlayın."
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useMountSource)
@@ -30229,13 +30214,13 @@ msgstr "Üç bilgi kutusunun hepsini göster/gizle."
 #: kstars.kcfg:45
 #, kde-format
 msgid "Display the time InfoBox?"
-msgstr "Saat BilgiKutusu gösterilsin mi?"
+msgstr "Zaman bilgi kutusu görüntülensin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowTimeBox), group (GUI)
 #: kstars.kcfg:46
 #, kde-format
 msgid "Toggles display of the Time InfoBox."
-msgstr "Saat BilgiKutusunun görünümünü açar/kapatır."
+msgstr "Zaman bilgi kutusunun görüntülenmesini açar/kapatır."
 
 #. i18n: ectx: label, entry (ShowFocusBox), group (GUI)
 #: kstars.kcfg:50
@@ -30532,7 +30517,7 @@ msgstr "Coğrafi konum otomatik olarak güncellensin mi?"
 #: kstars.kcfg:179
 #, kde-format
 msgid "Automatically updates time and date?"
-msgstr "Tarih ve saat otomatik olarak güncellensin mi?"
+msgstr "Tarih ve zaman otomatik olarak güncellensin mi?"
 
 #. i18n: ectx: label, entry (independentWindowINDI), group (indi)
 #: kstars.kcfg:183
@@ -30867,7 +30852,7 @@ msgstr "Coğrafi konumun metre olarak deniz düzeyinden yüksekliği."
 #: kstars.kcfg:353
 #, kde-format
 msgid "Time Zone offset of geographic location, in hours."
-msgstr "Coğrafi konumun saat olarak Zaman Dilimi sapması."
+msgstr "Saat cinsinden coğrafi konumun Zaman Dilimi farkı."
 
 #. i18n: ectx: label, entry (DST), group (Location)
 #: kstars.kcfg:357
@@ -30875,8 +30860,7 @@ msgstr "Coğrafi konumun saat olarak Zaman Dilimi sapması."
 msgid ""
 "Two-letter code for daylight savings time rule used by geographic location."
 msgstr ""
-"Coğrafi konum tarafından kullanılan yaz saati sistemi için iki harfli "
-"kodlama."
+"Coğrafi konum tarafından kullanılan yaz saati kuralı için iki harfli kod."
 
 #. i18n: ectx: whatsthis, entry (DST), group (Location)
 #: kstars.kcfg:358
@@ -30886,9 +30870,9 @@ msgid ""
 "begins and ends (you can view the rules by pressing the \"Explain DST Rules"
 "\" button in the Geographic Location window)."
 msgstr ""
-"Yaz saati uygulamasının başlangıç be bitiş gününü belirleyen iki harfli "
-"kodlama (coğrafi konum penceresindeki \"DST Kurallarını açıkla\" düğmesine "
-"basarak kuralları görebilirsiniz)."
+"Yaz saatinin başladığı ve bittiği tarihleri belirleyen iki harfli kod "
+"(Coğrafi Konum penceresindeki \"DST Kurallarını Açıkla\" düğmesine basarak "
+"kuralları görüntüleyebilirsiniz)."
 
 #. i18n: ectx: label, entry (UseAnimatedSlewing), group (View)
 #: kstars.kcfg:365
@@ -71070,7 +71054,7 @@ msgstr "Gökyüzü görüntüsünün yüksekliği."
 #: main.cpp:194
 #, kde-format
 msgid "Date and time."
-msgstr "Tarih ve saat."
+msgstr "Tarih ve zaman."
 
 #: main.cpp:195
 #, fuzzy, kde-format
@@ -77621,7 +77605,7 @@ msgstr "Etkileşimli Yöntem"
 #: tools/modcalcjd.ui:36 tools/modcalcplanets.ui:95 tools/modcalcvlsr.ui:54
 #, kde-format
 msgid "Date and time:"
-msgstr "Tarih ve saat:"
+msgstr "Tarih ve zaman:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
