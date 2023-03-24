@@ -1669,6 +1669,14 @@ void Mount::refreshOpticalTrain()
     if (trainID.isValid())
     {
         auto id = trainID.toUInt();
+
+        // If train not found, select the first one available.
+        if (OpticalTrainManager::Instance()->exists(id) == false)
+        {
+            id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain, id);
+        }
+
         auto name = OpticalTrainManager::Instance()->name(id);
 
         opticalTrainCombo->setCurrentText(name);

@@ -39,6 +39,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
         void setProfile(const QSharedPointer<ProfileInfo> &profile);
 
+        bool exists(uint8_t id) const;
         const QVariantMap getOpticalTrain(uint8_t id) const;
         const QVariantMap getOpticalTrain(const QString &name) const;
         const QList<QVariantMap> &getOpticalTrains() const
