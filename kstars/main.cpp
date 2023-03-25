@@ -124,7 +124,6 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Robert Lancaster"),
                         i18n("FITSViewer & Ekos Improvements. KStars OSX Port"),
                         "rlancaste@gmail.com");
-    aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
     aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com",
                         i18n("Ekos Scheduler Improvements"));
     aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(),
@@ -132,10 +131,14 @@ int main(int argc, char *argv[])
                         i18n("Ekos Scheduler & Observatory Improvements"));
     aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com",
                         i18n("FITS, Focus, Guide Improvements"));
-    aboutData.addAuthor("Valentin Boettcher", QString(), "hiro@protagon.space",
-                        i18n("Binary Asteroid List, DSO Database & Catalogs"));
+    aboutData.addAuthor(i18n("John Evans"), QString(), "john.e.evans.email@gmail.com ",
+                        i18n("Focus algorithms"));
+
 
     // Inactive developers
+    aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
+    aboutData.addAuthor("Valentin Boettcher", QString(), "hiro@protagon.space",
+                        i18n("Binary Asteroid List, DSO Database & Catalogs"));
     aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"),
                         "afedoskin3@gmail.com");
     aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
@@ -179,6 +182,7 @@ int main(int argc, char *argv[])
                         i18n("Splash screen for both regular KStars and KStars Lite."));
     aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port."));
     aboutData.addCredit(i18n("Patrick Molenaar"), i18n("Bahtinov Focus Assistant."));
+    aboutData.addCredit("Transient Name Server TNS", i18n("Supernovae daily updates"));
 
     KAboutData::setApplicationData(aboutData);
 
