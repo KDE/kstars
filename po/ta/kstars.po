@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-25 00:42+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -6503,13 +6503,13 @@ msgstr "இடம் வலமான இடமதிப்பு"
 msgid "Polar Alignment"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/align/align.cpp:4244
+#: ekos/align/align.cpp:4252
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/align/align.cpp:4253
+#: ekos/align/align.cpp:4261
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "பொருளை தேடு"
@@ -12007,14 +12007,14 @@ msgstr "ப்ரிம்கார்"
 msgid "Secondary"
 msgstr "நொடிகள்"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:907
+#: ekos/auxiliary/opticaltrainmanager.cpp:921
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:914
+#: ekos/auxiliary/opticaltrainmanager.cpp:928
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "

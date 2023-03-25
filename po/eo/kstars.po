@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-25 00:42+0000\n"
 "PO-Revision-Date: 2023-03-12 22:53+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -6230,12 +6230,12 @@ msgstr "Solvopunktoj Konservitaj kiel: %1"
 msgid "Polar Alignment"
 msgstr "Polusa Paraleligo"
 
-#: ekos/align/align.cpp:4244
+#: ekos/align/align.cpp:4252
 #, kde-format
 msgid "Capture timed out."
 msgstr "Kapto eltempiĝis."
 
-#: ekos/align/align.cpp:4253
+#: ekos/align/align.cpp:4261
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Kaptado daŭre funkcianta, Reprovo post %1 sekundoj..."
@@ -11867,7 +11867,7 @@ msgstr "Primaraj"
 msgid "Secondary"
 msgstr "Sekundara"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:907
+#: ekos/auxiliary/opticaltrainmanager.cpp:921
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -11876,7 +11876,7 @@ msgstr ""
 "Mankas aparato detektita (%1). Bonvolu reagordi la optikajn trajnojn antaŭ "
 "ol daŭrigi."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:914
+#: ekos/auxiliary/opticaltrainmanager.cpp:928
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-25 00:42+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -6250,12 +6250,12 @@ msgstr "കുറുകെയുള്ള ഫ്ലിപ്പ്"
 msgid "Polar Alignment"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/align/align.cpp:4244
+#: ekos/align/align.cpp:4252
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/align/align.cpp:4253
+#: ekos/align/align.cpp:4261
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "നക്ഷത്രക്കൂട്ടം"
@@ -11618,14 +11618,14 @@ msgstr "കാര്‍മന്‍"
 msgid "Secondary"
 msgstr "സെക്കന്റുകള്‍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:907
+#: ekos/auxiliary/opticaltrainmanager.cpp:921
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:914
+#: ekos/auxiliary/opticaltrainmanager.cpp:928
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "

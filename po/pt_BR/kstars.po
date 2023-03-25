@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-25 00:42+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -6460,13 +6460,13 @@ msgstr "Coordenadas da solução"
 msgid "Polar Alignment"
 msgstr "Medida do Alinhamento Polar"
 
-#: ekos/align/align.cpp:4244
+#: ekos/align/align.cpp:4252
 #, fuzzy, kde-format
 #| msgid "Capture failed."
 msgid "Capture timed out."
 msgstr "Falha na captura."
 
-#: ekos/align/align.cpp:4253
+#: ekos/align/align.cpp:4261
 #, fuzzy, kde-format
 #| msgid "Cannot capture while focus module is busy."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -12319,14 +12319,14 @@ msgstr "Primghar"
 msgid "Secondary"
 msgstr "segundos"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:907
+#: ekos/auxiliary/opticaltrainmanager.cpp:921
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:914
+#: ekos/auxiliary/opticaltrainmanager.cpp:928
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
