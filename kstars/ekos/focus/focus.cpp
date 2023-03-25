@@ -4662,7 +4662,7 @@ void Focus::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
-    trainB->setEnabled(opticalTrainCombo->count() > 0);
+    trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::FocusOpticalTrain);
 

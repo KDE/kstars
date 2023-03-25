@@ -583,7 +583,7 @@ bool OpticalTrainManager::selectOpticalTrain(const QString &name)
             filterComboBox->setCurrentText(oneTrain["filterwheel"].toString());
             cameraComboBox->setCurrentText(oneTrain["camera"].toString());
             guiderComboBox->setCurrentText(oneTrain["guider"].toString());
-            removeB->setEnabled(true);
+            removeB->setEnabled(m_OpticalTrains.length() > 1);
             trainConfigBox->setEnabled(true);
             m_Persistent = true;
             return true;
