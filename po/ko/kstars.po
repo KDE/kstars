@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-25 00:42+0000\n"
+"POT-Creation-Date: 2023-03-26 00:43+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -12038,15 +12038,29 @@ msgstr ""
 msgid "Optical Trains"
 msgstr "가시광선"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, addB)
+#: ekos/auxiliary/opticaltrains.ui:46
+#, fuzzy, kde-format
+#| msgid "Use the specified configuration file."
+msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+msgstr "지정된 설정 파일 사용."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
+#: ekos/auxiliary/opticaltrains.ui:69
+#, fuzzy, kde-format
+#| msgid "Use the specified configuration file."
+msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+msgstr "지정된 설정 파일 사용."
+
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
-#: ekos/auxiliary/opticaltrains.ui:108
+#: ekos/auxiliary/opticaltrains.ui:114
 #, kde-format
 msgid "Optical train name (double click to change the name)"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
-#: ekos/auxiliary/opticaltrains.ui:122 ekos/mount/mount.ui:66
+#: ekos/auxiliary/opticaltrains.ui:128 ekos/mount/mount.ui:66
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
@@ -12054,7 +12068,7 @@ msgid "Optical Train"
 msgstr "가시광선"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
-#: ekos/auxiliary/opticaltrains.ui:143
+#: ekos/auxiliary/opticaltrains.ui:149
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -12064,7 +12078,7 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
-#: ekos/auxiliary/opticaltrains.ui:146
+#: ekos/auxiliary/opticaltrains.ui:152
 #, fuzzy, kde-format
 #| msgctxt "Show the selected object in the telescope"
 #| msgid "Scope"
@@ -12072,7 +12086,7 @@ msgid "Scope/Lense:"
 msgstr "범위"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
-#: ekos/auxiliary/opticaltrains.ui:156
+#: ekos/auxiliary/opticaltrains.ui:162
 #, kde-format
 msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
@@ -12081,14 +12095,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/auxiliary/opticaltrains.ui:159 ekos/profileeditor.ui:658
+#: ekos/auxiliary/opticaltrains.ui:165 ekos/profileeditor.ui:658
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Mount:"
 msgstr "개수:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
-#: ekos/auxiliary/opticaltrains.ui:179
+#: ekos/auxiliary/opticaltrains.ui:185
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -12098,7 +12112,7 @@ msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1408
+#: ekos/auxiliary/opticaltrains.ui:188 ekos/capture/capture.ui:1408
 #: ekos/scheduler/framingassistant.ui:117 ekos/scheduler/mosaic.ui:301
 #, fuzzy, kde-format
 #| msgid "Camera"
@@ -12106,13 +12120,13 @@ msgid "Camera:"
 msgstr "카메라"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
-#: ekos/auxiliary/opticaltrains.ui:202
+#: ekos/auxiliary/opticaltrains.ui:208
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
-#: ekos/auxiliary/opticaltrains.ui:205
+#: ekos/auxiliary/opticaltrains.ui:211
 #, fuzzy, kde-format
 #| msgctxt "City in United Kingdom"
 #| msgid "Dover"
@@ -12120,7 +12134,7 @@ msgid "Dust Cap:"
 msgstr "Dover"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
-#: ekos/auxiliary/opticaltrains.ui:225
+#: ekos/auxiliary/opticaltrains.ui:231
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select if any reducer or barlow is used in the train.</"
@@ -12132,26 +12146,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
-#: ekos/auxiliary/opticaltrains.ui:228
+#: ekos/auxiliary/opticaltrains.ui:234
 #, kde-format
 msgid "Reducer/Barlow:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
-#: ekos/auxiliary/opticaltrains.ui:258
+#: ekos/auxiliary/opticaltrains.ui:264
 #, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
-#: ekos/auxiliary/opticaltrains.ui:261
+#: ekos/auxiliary/opticaltrains.ui:267
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Light Box:"
 msgstr "높이:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
-#: ekos/auxiliary/opticaltrains.ui:271
+#: ekos/auxiliary/opticaltrains.ui:277
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -12160,14 +12174,14 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
-#: ekos/auxiliary/opticaltrains.ui:274
+#: ekos/auxiliary/opticaltrains.ui:280
 #, fuzzy, kde-format
 #| msgid "Filter Wheel"
 msgid "Filter Wheel:"
 msgstr "필터 휠"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
-#: ekos/auxiliary/opticaltrains.ui:294
+#: ekos/auxiliary/opticaltrains.ui:300
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the device that receives the guiding correction "
@@ -12183,14 +12197,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#: ekos/auxiliary/opticaltrains.ui:297
+#: ekos/auxiliary/opticaltrains.ui:303
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guider:"
 msgstr "안내선"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
-#: ekos/auxiliary/opticaltrains.ui:317
+#: ekos/auxiliary/opticaltrains.ui:323
 #, kde-format
 msgid "Select a mechanized focuser if any."
 msgstr ""
@@ -12198,7 +12212,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:128
+#: ekos/auxiliary/opticaltrains.ui:326 ekos/focus/focus.ui:128
 #: ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
@@ -12208,20 +12222,20 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetGeometryY)
-#: ekos/auxiliary/opticaltrains.ui:333 ekos/capture/dslrinfo.ui:80
+#: ekos/auxiliary/opticaltrains.ui:339 ekos/capture/dslrinfo.ui:80
 #: ekos/capture/dslrinfo.ui:137 xplanet/opsxplanet.ui:114
 #, kde-format
 msgid "x"
 msgstr "x"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:352
+#: ekos/auxiliary/opticaltrains.ui:358
 #, kde-format
 msgid "Select a mechanized rotator if any."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:355
+#: ekos/auxiliary/opticaltrains.ui:361
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Rotanev"
@@ -12229,7 +12243,7 @@ msgid "Rotator:"
 msgstr "로타네브(니콜라우스 Venator의 역철자)"
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
-#: ekos/auxiliary/opticaltrains.ui:407
+#: ekos/auxiliary/opticaltrains.ui:413
 #, fuzzy, kde-format
 #| msgid "Telescopes:"
 msgid "Telescopes && Lenses"
@@ -70196,304 +70210,321 @@ msgstr ""
 
 #: main.cpp:127
 #, kde-format
-msgid "Csaba Kertesz"
-msgstr ""
-
-#: main.cpp:128
-#, kde-format
 msgid "Eric Dejouhanet"
 msgstr ""
 
-#: main.cpp:129
+#: main.cpp:128
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "Ekos Scheduler Improvements"
 msgstr "관찰 목록"
 
-#: main.cpp:130
+#: main.cpp:129
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr ""
 
-#: main.cpp:132
+#: main.cpp:131
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "관찰 목록"
 
-#: main.cpp:133
+#: main.cpp:132
 #, kde-format
 msgid "Hy Murveit"
 msgstr ""
 
-#: main.cpp:134
+#: main.cpp:133
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "FITS, Focus, Guide Improvements"
 msgstr "관찰 목록"
 
-#: main.cpp:136
+#: main.cpp:134
+#, fuzzy, kde-format
+msgid "John Evans"
+msgstr "Mount Evans Obs."
+
+#: main.cpp:135
+#, fuzzy, kde-format
+#| msgid "FITS file saved to %1"
+msgid "Focus algorithms"
+msgstr "FITS 파일을 %1로 저장"
+
+#: main.cpp:139
+#, kde-format
+msgid "Csaba Kertesz"
+msgstr ""
+
+#: main.cpp:141
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:139
+#: main.cpp:142
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr ""
 
-#: main.cpp:139
+#: main.cpp:142
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgid "KStars Lite"
 msgstr "KStars"
 
-#: main.cpp:141
+#: main.cpp:144
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:142
+#: main.cpp:145
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:143
+#: main.cpp:146
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:144
+#: main.cpp:147
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:146
+#: main.cpp:149
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:147
+#: main.cpp:150
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:148
+#: main.cpp:151
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:149
+#: main.cpp:152
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:151
+#: main.cpp:154
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:153
+#: main.cpp:156
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:154
+#: main.cpp:157
 #, kde-format
 msgid "Victor Cărbune"
 msgstr ""
 
-#: main.cpp:155
+#: main.cpp:158
 #, kde-format
 msgid "Henry de Valence"
 msgstr ""
 
-#: main.cpp:156
+#: main.cpp:159
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr ""
 
-#: main.cpp:158
+#: main.cpp:161
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr ""
 
-#: main.cpp:159
+#: main.cpp:162
 #, kde-format
 msgid "Rishab Arora"
 msgstr ""
 
-#: main.cpp:163
+#: main.cpp:166
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr ""
 
-#: main.cpp:164
+#: main.cpp:167
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:168
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr ""
 
-#: main.cpp:166
+#: main.cpp:169
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:170
 #, fuzzy, kde-format
 #| msgctxt "City in Alabama USA"
 #| msgid "Alexander City"
 msgid "Andrew Stepanenko"
 msgstr "Alexander City"
 
-#: main.cpp:168
+#: main.cpp:171
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:172
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:172
 #, kde-format
 msgid "Artwork"
 msgstr ""
 
-#: main.cpp:171
+#: main.cpp:174
 #, fuzzy, kde-format
 #| msgid "Akarsh Simha"
 msgid "Utkarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:172
+#: main.cpp:175
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 
-#: main.cpp:173
+#: main.cpp:176
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Daniel's Harbour"
 msgid "Daniel Holler"
 msgstr "Daniel's Harbour"
 
-#: main.cpp:174
+#: main.cpp:177
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:179
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "St. Lucia"
 msgid "Stephane Lucas"
 msgstr "세인트 루시아"
 
-#: main.cpp:177
+#: main.cpp:180
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:178
+#: main.cpp:181
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr ""
 
-#: main.cpp:179
+#: main.cpp:182
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 
-#: main.cpp:180
+#: main.cpp:183
 #, kde-format
 msgid "Jamie Smith"
 msgstr ""
 
-#: main.cpp:180
+#: main.cpp:183
 #, kde-format
 msgid "KStars OSX Port."
 msgstr ""
 
-#: main.cpp:181
+#: main.cpp:184
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Patrick Molenaar"
 msgstr "개수:"
 
-#: main.cpp:181
+#: main.cpp:184
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:190
+#: main.cpp:185
+#, fuzzy, kde-format
+#| msgid "Supernova Remnant"
+msgid "Supernovae daily updates"
+msgstr "초신성 잔해"
+
+#: main.cpp:194
 #, fuzzy, kde-format
 #| msgid "Dump sky image to file"
 msgid "Dump sky image to file."
 msgstr "천구 이미지를 파일로 저장"
 
-#: main.cpp:191
+#: main.cpp:195
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "실행할 스크립트"
 
-#: main.cpp:192
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Width of sky image"
 msgid "Width of sky image."
 msgstr "천구 이미지 너비"
 
-#: main.cpp:193
+#: main.cpp:197
 #, fuzzy, kde-format
 #| msgid "Height of sky image"
 msgid "Height of sky image."
 msgstr "천구 이미지 높이"
 
-#: main.cpp:194
+#: main.cpp:198
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "날짜와 시간"
 
-#: main.cpp:195
+#: main.cpp:199
 #, fuzzy, kde-format
 #| msgid "Start with clock paused"
 msgid "Start with clock paused."
 msgstr "잠시 중지된 시간을 시작"
 
-#: main.cpp:198
+#: main.cpp:202
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:234 printing/foveditordialog.cpp:176
+#: main.cpp:238 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "%1 이미지 형식을 분석할 수 ㅇ벗음; PNG로 가정함."
 
-#: main.cpp:292
+#: main.cpp:296
 #, fuzzy, kde-format
 #| msgid "Using CPU date/time instead."
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "대신 CPU 날짜/시간 사용 중."
 
-#: main.cpp:323
+#: main.cpp:327
 #, kde-format
 msgid "Script executed."
 msgstr "실행된 스크립트."
 
-#: main.cpp:327
+#: main.cpp:331
 #, kde-format
 msgid "Could not execute script."
 msgstr "스크립트를 실행할 수 없음."
 
-#: main.cpp:351
+#: main.cpp:355
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "대신 CPU 날짜/시간 사용 중."

@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1647840 $
+# Version: $Revision: 1647938 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-25 00:42+0000\n"
+"POT-Creation-Date: 2023-03-26 00:43+0000\n"
 "PO-Revision-Date: 2023-03-05 08:18+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -11942,21 +11942,39 @@ msgstr ""
 msgid "Optical Trains"
 msgstr "Układy optyczne"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, addB)
+#: ekos/auxiliary/opticaltrains.ui:46
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
+#| "p></body></html>"
+msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Wybierz aparat zrzucający obraz dla tego układu "
+"optycznego.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
+#: ekos/auxiliary/opticaltrains.ui:69
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+msgstr "<html><head/><body><p>Usuń bieżącą klatkę</p></body></html>"
+
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
-#: ekos/auxiliary/opticaltrains.ui:108
+#: ekos/auxiliary/opticaltrains.ui:114
 #, kde-format
 msgid "Optical train name (double click to change the name)"
 msgstr "Nazwa układu optycznego (naciśnij dwukrotnie, aby zmienić nazwę)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
-#: ekos/auxiliary/opticaltrains.ui:122 ekos/mount/mount.ui:66
+#: ekos/auxiliary/opticaltrains.ui:128 ekos/mount/mount.ui:66
 #, kde-format
 msgid "Optical Train"
 msgstr "Układ optyczny"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
-#: ekos/auxiliary/opticaltrains.ui:143
+#: ekos/auxiliary/opticaltrains.ui:149
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train.</"
@@ -11969,13 +11987,13 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
-#: ekos/auxiliary/opticaltrains.ui:146
+#: ekos/auxiliary/opticaltrains.ui:152
 #, kde-format
 msgid "Scope/Lense:"
 msgstr "Okular/soczewka:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
-#: ekos/auxiliary/opticaltrains.ui:156
+#: ekos/auxiliary/opticaltrains.ui:162
 #, kde-format
 msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
@@ -11986,13 +12004,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/auxiliary/opticaltrains.ui:159 ekos/profileeditor.ui:658
+#: ekos/auxiliary/opticaltrains.ui:165 ekos/profileeditor.ui:658
 #, kde-format
 msgid "Mount:"
 msgstr "Montaż:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
-#: ekos/auxiliary/opticaltrains.ui:179
+#: ekos/auxiliary/opticaltrains.ui:185
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.</p></"
@@ -12003,26 +12021,26 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/auxiliary/opticaltrains.ui:182 ekos/capture/capture.ui:1408
+#: ekos/auxiliary/opticaltrains.ui:188 ekos/capture/capture.ui:1408
 #: ekos/scheduler/framingassistant.ui:117 ekos/scheduler/mosaic.ui:301
 #, kde-format
 msgid "Camera:"
 msgstr "Aparat:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
-#: ekos/auxiliary/opticaltrains.ui:202
+#: ekos/auxiliary/opticaltrains.ui:208
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr "Wybierz zmechanizowaną zaślepkę, jeśli istnieje (np. FlipFlat)"
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
-#: ekos/auxiliary/opticaltrains.ui:205
+#: ekos/auxiliary/opticaltrains.ui:211
 #, kde-format
 msgid "Dust Cap:"
 msgstr "Zaślepka:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
-#: ekos/auxiliary/opticaltrains.ui:225
+#: ekos/auxiliary/opticaltrains.ui:231
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select if any reducer or barlow is used in the train.</"
@@ -12041,26 +12059,26 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
-#: ekos/auxiliary/opticaltrains.ui:228
+#: ekos/auxiliary/opticaltrains.ui:234
 #, kde-format
 msgid "Reducer/Barlow:"
 msgstr "Reduktor/Barlow:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
-#: ekos/auxiliary/opticaltrains.ui:258
+#: ekos/auxiliary/opticaltrains.ui:264
 #, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
 "Wybierz skrzynkę świetlną płaskiego pola, jeśli istnieje (np. FlipFlat)"
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
-#: ekos/auxiliary/opticaltrains.ui:261
+#: ekos/auxiliary/opticaltrains.ui:267
 #, kde-format
 msgid "Light Box:"
 msgstr "Skrzynka świetlna:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
-#: ekos/auxiliary/opticaltrains.ui:271
+#: ekos/auxiliary/opticaltrains.ui:277
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
@@ -12070,13 +12088,13 @@ msgstr ""
 "filtra lub część napędu aparatu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
-#: ekos/auxiliary/opticaltrains.ui:274
+#: ekos/auxiliary/opticaltrains.ui:280
 #, kde-format
 msgid "Filter Wheel:"
 msgstr "Koło filtra:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
-#: ekos/auxiliary/opticaltrains.ui:294
+#: ekos/auxiliary/opticaltrains.ui:300
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the device that receives the guiding correction "
@@ -12103,13 +12121,13 @@ msgstr ""
 "wybierz je jako Urządzenie Naprowadzające.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#: ekos/auxiliary/opticaltrains.ui:297
+#: ekos/auxiliary/opticaltrains.ui:303
 #, kde-format
 msgid "Guider:"
 msgstr "Prowadnica:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
-#: ekos/auxiliary/opticaltrains.ui:317
+#: ekos/auxiliary/opticaltrains.ui:323
 #, kde-format
 msgid "Select a mechanized focuser if any."
 msgstr "Wybierz zmechanizowany układ ogniskujący, jeśli istnieje."
@@ -12117,7 +12135,7 @@ msgstr "Wybierz zmechanizowany układ ogniskujący, jeśli istnieje."
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:320 ekos/focus/focus.ui:128
+#: ekos/auxiliary/opticaltrains.ui:326 ekos/focus/focus.ui:128
 #: ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
@@ -12127,26 +12145,26 @@ msgstr "Układ ogniskujący:"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetGeometryY)
-#: ekos/auxiliary/opticaltrains.ui:333 ekos/capture/dslrinfo.ui:80
+#: ekos/auxiliary/opticaltrains.ui:339 ekos/capture/dslrinfo.ui:80
 #: ekos/capture/dslrinfo.ui:137 xplanet/opsxplanet.ui:114
 #, kde-format
 msgid "x"
 msgstr "x"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:352
+#: ekos/auxiliary/opticaltrains.ui:358
 #, kde-format
 msgid "Select a mechanized rotator if any."
 msgstr "Wybierz zmechanizowaną obrotnicę, jeśli istnieje."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:355
+#: ekos/auxiliary/opticaltrains.ui:361
 #, kde-format
 msgid "Rotator:"
 msgstr "Obrotnica:"
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
-#: ekos/auxiliary/opticaltrains.ui:407
+#: ekos/auxiliary/opticaltrains.ui:413
 #, kde-format
 msgid "Telescopes && Lenses"
 msgstr "Teleskopy i obiektywy"
@@ -69406,289 +69424,308 @@ msgstr "Ulepszenia do przeglądarki FITS & Ekos. Port KStars na OSX"
 
 #: main.cpp:127
 #, kde-format
-msgid "Csaba Kertesz"
-msgstr "Csaba Kertesz"
-
-#: main.cpp:128
-#, kde-format
 msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
-#: main.cpp:129
+#: main.cpp:128
 #, kde-format
 msgid "Ekos Scheduler Improvements"
 msgstr "Ulepszenia do planisty Ekos"
 
-#: main.cpp:130
+#: main.cpp:129
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr "Wolfgang Reissenberger"
 
-#: main.cpp:132
+#: main.cpp:131
 #, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Ulepszenia do planisty i obserwatorium Ekos"
 
-#: main.cpp:133
+#: main.cpp:132
 #, kde-format
 msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
-#: main.cpp:134
+#: main.cpp:133
 #, kde-format
 msgid "FITS, Focus, Guide Improvements"
 msgstr "Ulepszenia do FITS, ogniskowania, naprowadzania"
 
-#: main.cpp:136
+#: main.cpp:134
+#, fuzzy, kde-format
+#| msgctxt "City in Colorado USA"
+#| msgid "Mount Evans Obs."
+msgid "John Evans"
+msgstr "Obs. Mount Evans"
+
+#: main.cpp:135
+#, fuzzy, kde-format
+#| msgid "Focus process algorithm"
+msgid "Focus algorithms"
+msgstr "Algorytm procesu ogniskowania"
+
+#: main.cpp:139
+#, kde-format
+msgid "Csaba Kertesz"
+msgstr "Csaba Kertesz"
+
+#: main.cpp:141
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr "Lista binarnych asteroid, baza danych i katalogi DSO"
 
-#: main.cpp:139
+#: main.cpp:142
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Artem Fedoskin"
 
-#: main.cpp:139
+#: main.cpp:142
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:141
+#: main.cpp:144
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:142
+#: main.cpp:145
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:143
+#: main.cpp:146
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:144
+#: main.cpp:147
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:146
+#: main.cpp:149
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:147
+#: main.cpp:150
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:148
+#: main.cpp:151
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:149
+#: main.cpp:152
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:151
+#: main.cpp:154
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:153
+#: main.cpp:156
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:154
+#: main.cpp:157
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:155
+#: main.cpp:158
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:156
+#: main.cpp:159
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:158
+#: main.cpp:161
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:159
+#: main.cpp:162
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Rishab Arora"
 
-#: main.cpp:163
+#: main.cpp:166
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:164
+#: main.cpp:167
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 "Przekształciła etykiety zawierające pojęcia techniczne na odsyłacze w "
 "dokumentacji"
 
-#: main.cpp:165
+#: main.cpp:168
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:166
+#: main.cpp:169
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Dokumentacja techniczna o Astronomii i KStars"
 
-#: main.cpp:167
+#: main.cpp:170
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr "Andrew Stepanenko"
 
-#: main.cpp:168
+#: main.cpp:171
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr "Kod naprowadzający oparty o lin_guider"
 
-#: main.cpp:169
+#: main.cpp:172
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Nuno Pinheiro"
 
-#: main.cpp:169
+#: main.cpp:172
 #, kde-format
 msgid "Artwork"
 msgstr "Oprawa graficzna"
 
-#: main.cpp:171
+#: main.cpp:174
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Utkarsh Simha"
 
-#: main.cpp:172
+#: main.cpp:175
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr "Ulepszenia do wykonywania planu obserwacji, Skoki Międzygwiezdne, itp."
 
-#: main.cpp:173
+#: main.cpp:176
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Daniel Holler"
 
-#: main.cpp:174
+#: main.cpp:177
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "Dogłębne testowanie i sugestie dla Ekos/INDI."
 
-#: main.cpp:176
+#: main.cpp:179
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
-#: main.cpp:177
+#: main.cpp:180
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 "Dogłębne testowanie i sugestie dla planowania Ekos. Przeniesienie KStars na "
 "OSX"
 
-#: main.cpp:178
+#: main.cpp:181
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Yuri Fabirovsky"
 
-#: main.cpp:179
+#: main.cpp:182
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr "Ekran powitalny dla KStars i KStars Lite."
 
-#: main.cpp:180
+#: main.cpp:183
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Jamie Smith"
 
-#: main.cpp:180
+#: main.cpp:183
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "Wersja KStars na OSX."
 
-#: main.cpp:181
+#: main.cpp:184
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Patrick Molenaar"
 
-#: main.cpp:181
+#: main.cpp:184
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr "Pomocnik skupienia Bahtinov."
 
-#: main.cpp:190
+#: main.cpp:185
+#, fuzzy, kde-format
+#| msgid "Supernovae Update"
+msgid "Supernovae daily updates"
+msgstr "Uaktualnienia supernowych"
+
+#: main.cpp:194
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Zrzuć obraz nieba do pliku."
 
-#: main.cpp:191
+#: main.cpp:195
 #, kde-format
 msgid "Script to execute."
 msgstr "Skrypt do wykonania."
 
-#: main.cpp:192
+#: main.cpp:196
 #, kde-format
 msgid "Width of sky image."
 msgstr "Szerokość obrazu nieba."
 
-#: main.cpp:193
+#: main.cpp:197
 #, kde-format
 msgid "Height of sky image."
 msgstr "Wysokość obrazu nieba."
 
-#: main.cpp:194
+#: main.cpp:198
 #, kde-format
 msgid "Date and time."
 msgstr "Data i czas."
 
-#: main.cpp:195
+#: main.cpp:199
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Rozpocznij z zatrzymanym zegarem."
 
-#: main.cpp:198
+#: main.cpp:202
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Plik(i) FITS do otwarcia."
 
-#: main.cpp:234 printing/foveditordialog.cpp:176
+#: main.cpp:238 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Nie udało się rozpoznać formatu obrazu %1, przyjęto PNG."
 
-#: main.cpp:292
+#: main.cpp:296
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "Podany ciąg znakowy daty jest nieprawidłowy: %1. Użyto daty/czasu CPU."
 
-#: main.cpp:323
+#: main.cpp:327
 #, kde-format
 msgid "Script executed."
 msgstr "Skrypt zakończony."
 
-#: main.cpp:327
+#: main.cpp:331
 #, kde-format
 msgid "Could not execute script."
 msgstr "Nie można wykonać skryptu."
 
-#: main.cpp:351
+#: main.cpp:355
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Nastąpi użycie daty i czasu procesora."
