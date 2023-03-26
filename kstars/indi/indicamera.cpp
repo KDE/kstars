@@ -1585,7 +1585,8 @@ bool Camera::setFITSHeaders(const QList<FITSData::Record> &values)
 {
     auto tvp = getText("FITS_HEADER");
 
-    if (!tvp)
+    // Only proceed if FITS header has 3 fields introduced with INDI v2.0.1
+    if (!tvp || tvp->count() < 3)
         return false;
 
     for (auto &record : values)
