@@ -2475,11 +2475,14 @@ void Capture::captureStarted(CAPTUREResult rc)
 
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
             {
-                int index = m_captureModuleState->allJobs().indexOf(activeJob);
-                QJsonObject oneSequence = m_SequenceArray[index].toObject();
-                oneSequence["Status"] = "In Progress";
-                m_SequenceArray.replace(index, oneSequence);
-                emit sequenceChanged(m_SequenceArray);
+                auto index = m_captureModuleState->allJobs().indexOf(activeJob);
+                if (index >= 0 && index < m_SequenceArray.count())
+                {
+                    QJsonObject oneSequence = m_SequenceArray[index].toObject();
+                    oneSequence["Status"] = "In Progress";
+                    m_SequenceArray.replace(index, oneSequence);
+                    emit sequenceChanged(m_SequenceArray);
+                }
             }
         }
         break;
