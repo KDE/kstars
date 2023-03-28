@@ -219,6 +219,9 @@ void ClientManager::appendManagedDriver(DriverInfo *dv)
 
 void ClientManager::removeManagedDriver(DriverInfo *dv)
 {
+    if (m_ManagedDrivers.empty())
+        return;
+
     qCDebug(KSTARS_INDI) << "Removing managed driver" << dv->getName();
 
     dv->setClientState(false);
