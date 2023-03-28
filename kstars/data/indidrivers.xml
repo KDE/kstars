@@ -29,7 +29,7 @@
         </device>
         <device label="LX200 OnStep" manufacturer="OnStep">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.17</version>
+            <version>1.18</version>
         </device>
         <device label="LX200 OpenAstroTech" manufacturer="OpenAstroTech">
             <driver name="LX200 OpenAstroTech">indi_lx200_OpenAstroTech</driver>
@@ -677,6 +677,10 @@
             <driver name="GIOTTO">indi_giotto</driver>
             <version>1.0</version>
         </device>
+        <device label="ALTO" manufacturer="Primaluce Lab">
+            <driver name="ALTO">indi_alto</driver>
+            <version>1.0</version>
+        </device>
         <device label="Light Panel Simulator" manufacturer="Simulator">
             <driver name="Light Panel Simulator">indi_simulator_lightpanel</driver>
             <version>1.0</version>
@@ -1181,11 +1185,11 @@
     <devGroup group="Auxiliary">
         <device label="GPSD">
             <driver name="GPSD">indi_gpsd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="GPS Dongle">
             <driver name="GPSD">indi_gpsd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
     </devGroup>
 </driversList>
@@ -1305,13 +1309,25 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>1.1</version>
+            <version>1.4</version>
+        </device>
+        <device label="PlayerOne Camera 1" manufacturer="PlayerOne">
+            <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
+            <version>1.4</version>
+        </device>
+        <device label="PlayerOne Camera 2" manufacturer="PlayerOne">
+            <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
+            <version>1.4</version>
+        </device>
+        <device label="PlayerOne Camera 3" manufacturer="PlayerOne">
+            <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
+            <version>1.4</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
-            <version>1.1</version>
+            <version>1.4</version>
         </device>
     </devGroup>
 </driversList>
