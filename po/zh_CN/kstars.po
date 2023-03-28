@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-27 00:45+0000\n"
-"PO-Revision-Date: 2023-03-26 02:18\n"
+"PO-Revision-Date: 2023-03-27 11:59\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -11477,18 +11477,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
-msgstr "<html><head/><body><p>清除所有最近导星数据</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
-msgstr "<html><head/><body><p>删除当前帧</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
@@ -67374,17 +67371,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr "提升 FITS、对焦、导星"
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "埃文斯山天文台"
+msgstr ""
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Focus process algorithm"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "对焦算法"
+msgstr ""
 
 #: main.cpp:139
 #, kde-format
@@ -67582,10 +67576,9 @@ msgid "Bahtinov Focus Assistant."
 msgstr "鱼骨板对焦助手"
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "超新星更新"
+msgstr ""
 
 #: main.cpp:194
 #, kde-format

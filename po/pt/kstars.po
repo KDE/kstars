@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-27 00:45+0000\n"
-"PO-Revision-Date: 2023-03-06 16:29+0000\n"
+"PO-Revision-Date: 2023-03-27 23:24+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -13156,21 +13156,17 @@ msgstr "Treinos Ópticos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Seleccione a câmara de imagens para este treino óptico."
-"</p></body></html>"
+msgstr "<html><head/><body><p>Criar um novo treino óptico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Apagar a imagem actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Apagar o treino óptico seleccionado de momento.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
@@ -70932,17 +70928,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr "Melhorias no FITS, Foco, Guia"
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Obs. Mount Evans."
+msgstr "John Evans"
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Focus process algorithm"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "Algoritmo do processo de focagem"
+msgstr "Algoritmos de focagem"
 
 #: main.cpp:139
 #, kde-format
@@ -71144,10 +71137,9 @@ msgid "Bahtinov Focus Assistant."
 msgstr "Assistente de Focagem Bahtinov."
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Actualização de Supernovas"
+msgstr "Actualizações diárias de supernovas"
 
 #: main.cpp:194
 #, kde-format
@@ -82241,6 +82233,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid "Equatorial Gridines"
-#~ msgstr "Grelhas Equatoriais"

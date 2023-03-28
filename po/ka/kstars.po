@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-27 00:45+0000\n"
-"PO-Revision-Date: 2023-03-08 10:02+0100\n"
+"PO-Revision-Date: 2023-03-27 06:37+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -11260,25 +11260,16 @@ msgstr "ოპტიკური ანაწყობი"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>აირჩიეთ გადასაღები კამერა ამ ოპტიკური მატარებლისთვის.</"
-"p></body></html>"
+"<html><head/><body><p>ახალი ოპტიკური მატარებლის შექმნა.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>აირჩიეთ გადასაღები კამერა ამ ოპტიკური მატარებლისთვის.</"
-"p></body></html>"
+msgstr "<html><head/><body><p>ამ ოპტიკური მატარებლის წაშლა.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
@@ -66635,17 +66626,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr ""
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "მაუნთ ევანსის ობს."
+msgstr "ჯონ ევანსი"
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Scheduler algorithm"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "დამგეგმავის ალგორითმი"
+msgstr "ფოკუსის ალგორითმები"
 
 #: main.cpp:139
 #, kde-format
@@ -66843,10 +66831,9 @@ msgid "Bahtinov Focus Assistant."
 msgstr ""
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "ზეახალი ვარსკვლავის განახლება"
+msgstr "ზეახალი ვარსკვლავის დღიური განახლებები"
 
 #: main.cpp:194
 #, kde-format
@@ -72270,7 +72257,7 @@ msgstr "Vanilla"
 #: tools/eyepiecefield.cpp:104
 #, kde-format
 msgid "Flipped"
-msgstr ""
+msgstr "ამობრუნებული"
 
 #: tools/eyepiecefield.cpp:106
 #, kde-format
