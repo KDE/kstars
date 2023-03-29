@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kstars.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -27530,13 +27530,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "URLanna Faisnéise á luchtú"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Ceangail"
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, fuzzy, kde-format
 #| msgid "Connecting INDI devices..."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"

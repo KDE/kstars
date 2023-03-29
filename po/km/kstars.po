@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -25374,12 +25374,12 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "ព័ត៌មាន"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, fuzzy, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "តភ្ជាប់"
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""

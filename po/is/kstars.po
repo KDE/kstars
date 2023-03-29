@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -26381,12 +26381,12 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Hleð inn upplýsingaslóðum"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, fuzzy, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "villa."
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, fuzzy, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr "villa."

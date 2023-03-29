@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2022-06-15 22:27+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -27658,13 +27658,13 @@ msgstr "Visa HiPS under panorering"
 msgid "Linear interpolation"
 msgstr "Linjär interpolation"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Misslyckades ansluta till INDI-fjärrserver."
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"

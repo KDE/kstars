@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2005-01-25 01:58+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -27399,13 +27399,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Emaon o kargañ ar steredegoù"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Ne m'eus ket loc'hañ ar servijer INDI : fazi ar porzh."
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -27456,13 +27456,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Įkeliamos informacijos internetinės nuorodos"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Neina paleisti INDI tarnybos: prievado klaida."
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -28583,13 +28583,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "載入使用者資訊中"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "遠端 INDI 焦點器裝置名稱。"
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"

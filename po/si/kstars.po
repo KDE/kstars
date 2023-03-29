@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2010-03-14 21:56+0530\n"
 "Last-Translator: Danishka Navin\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -25456,12 +25456,12 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr ""
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr ""
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""

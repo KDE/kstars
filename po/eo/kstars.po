@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-27 00:45+0000\n"
+"POT-Creation-Date: 2023-03-29 00:43+0000\n"
 "PO-Revision-Date: 2023-03-12 22:53+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -27320,12 +27320,12 @@ msgstr "Montri HiPS Dum Panado"
 msgid "Linear interpolation"
 msgstr "Lineara interpolado"
 
-#: indi/clientmanager.cpp:293
+#: indi/clientmanager.cpp:296
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Malsukcesis konekti al INDI-servilo %1:%2"
 
-#: indi/clientmanager.cpp:298
+#: indi/clientmanager.cpp:301
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
