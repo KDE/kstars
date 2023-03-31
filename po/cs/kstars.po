@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-29 00:43+0000\n"
-"PO-Revision-Date: 2023-03-06 13:45+0100\n"
+"PO-Revision-Date: 2023-03-29 16:23+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -11302,17 +11302,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Jste skoro na konci...</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Výběr portu zařízení</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
@@ -66744,17 +66742,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr ""
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Mount Evans Obs."
+msgstr "John Evans"
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "Algoritmus"
+msgstr ""
 
 #: main.cpp:139
 #, kde-format
@@ -66952,10 +66947,9 @@ msgid "Bahtinov Focus Assistant."
 msgstr ""
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Options"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Možnosti supernov"
+msgstr "Denní aktualizace o Supernovách"
 
 #: main.cpp:194
 #, kde-format
