@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>727</width>
-    <height>519</height>
+    <width>740</width>
+    <height>531</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -932,8 +932,46 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1" colspan="3">
+            <item row="2" column="1" colspan="2">
              <widget class="QLineEdit" name="placeholderFormatT"/>
+            </item>
+            <item row="2" column="3">
+             <widget class="QPushButton" name="resetFormatB">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Reset placeholder format to default</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset theme="edit-clear">
+                <normaloff>.</normaloff>.</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="textLabel1_7">
@@ -2167,7 +2205,6 @@ font-weight:bold;
              <widget class="QLabel" name="frameInfoLabel">
               <property name="font">
                <font>
-                <weight>50</weight>
                 <bold>false</bold>
                </font>
               </property>
@@ -2199,7 +2236,6 @@ font-weight:bold;
               </property>
               <property name="font">
                <font>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -2238,7 +2274,6 @@ font-weight:bold;
               </property>
               <property name="font">
                <font>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>

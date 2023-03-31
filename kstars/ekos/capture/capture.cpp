@@ -223,6 +223,10 @@ Capture::Capture()
 
     connect(generateDarkFlatsB, &QPushButton::clicked, this, &Capture::generateDarkFlats);
     connect(scriptManagerB, &QPushButton::clicked, this, &Capture::handleScriptsManager);
+    connect(resetFormatB, &QPushButton::clicked, this, [this]()
+    {
+        placeholderFormatT->setText(KSUtils::getDefaultPath("PlaceholderFormat"));
+    });
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
     addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -6781,8 +6785,10 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         auto m_placeholderPath = PlaceholderPath(previewSeq);
         auto m_job = m_captureModuleState->allJobs().last();
 
-        QString extension = ".fits";
-        if (captureEncodingS->currentText() == "XISF")
+        QString extension;
+        if (captureEncodingS->currentText() == "FITS")
+            extension = ".fits";
+        else if (captureEncodingS->currentText() == "XISF")
             extension = ".xisf";
         else
             extension = ".[NATIVE]";
