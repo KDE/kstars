@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-01 00:47+0000\n"
-"PO-Revision-Date: 2023-03-26 11:30+0200\n"
+"PO-Revision-Date: 2023-04-01 11:33+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -14557,10 +14557,10 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/capture.ui:959
-#, fuzzy, kde-format
-#| msgid "Reset %1 configuration to default?"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "Reinicio la configuració %1 als valors predeterminats?"
+msgstr ""
+"Reinicia el format de les variables de substitució als valors predeterminats"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/capture.ui:979
@@ -81424,6 +81424,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "Equatorial Gridines"
-#~ msgstr "Línies de la quadrícula equatorial"

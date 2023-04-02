@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-01 00:47+0000\n"
-"PO-Revision-Date: 2023-03-27 23:24+0100\n"
+"PO-Revision-Date: 2023-04-01 12:04+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -15649,10 +15649,9 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/capture.ui:959
-#, fuzzy, kde-format
-#| msgid "Reset %1 configuration to default?"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "Deseja repor a configuração predefinida do %1?"
+msgstr "Repor o formato predefinido da substituição"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/capture.ui:979

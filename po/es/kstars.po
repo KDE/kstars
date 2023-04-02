@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-01 00:47+0000\n"
-"PO-Revision-Date: 2023-03-26 19:34+0200\n"
+"PO-Revision-Date: 2023-04-01 18:27+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -13728,8 +13728,8 @@ msgstr "Se ha capturado %1"
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
-"Advertencia: variables de sustitución %1 pendientes y potencialmente "
-"desconocidas en %2."
+"Advertencia: etiquetas de sustitución restantes y potencialmente "
+"desconocidas %1 en %2"
 
 #: ekos/capture/capture.cpp:2105
 #, kde-format
@@ -14532,10 +14532,11 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/capture.ui:959
-#, fuzzy, kde-format
-#| msgid "Reset %1 configuration to default?"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "¿Reiniciar la configuración de %1 a sus valores por omisión?"
+msgstr ""
+"Reiniciar el formato de las etiquetas de sustitución a sus valores "
+"predeterminados"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/capture.ui:979
