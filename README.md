@@ -10,7 +10,7 @@ Included with KStars is Ekos astrophotography suite, a complete astrophotography
 
 ## Copyright
 
-Copyright (c) 2001 - 2020 by The KStars Team:
+Copyright (c) 2001 - 2023 by The KStars Team:
 
 KStars is Free Software, released under the GNU Public License. See COPYING for GPL license information.
 
@@ -20,7 +20,7 @@ KStars is available for Windows, MacOS, and Linux. You can download the latest v
 
 On Linux, it is available for most Linux distributions.
 
-Latest stable version is v3.4.2
+Latest stable version is v3.6.4
 
 ## Important URLs and files.
 
@@ -65,7 +65,7 @@ To build and develop KStars, several packages may be required from your distribu
 * Required dependencies
     * GNU Make, GCC -- Essential tools for building
     * cmake -- buildsystem used by KDE
-    * Qt Library > 5.9.0
+    * Qt Library > 5.12.0
     * Several KDE Frameworks: KConfig, KDocTools, KGuiAddons, KWidgetsAddons, KNewStuff, KI18n, KInit, KIO, KXmlGui, KPlotting, KIconThemes
     * eigen -- linear algebra library
     * zlib -- compression library
@@ -89,12 +89,12 @@ Debian/Ubuntu
 The apt-add-respository command is needed for the apt-get's libstellarsolver-dev. Alternatively, you can skip the apt-add-repository, remove the libstellarsolver-dev from the apt-get, and build & install stellarsolver from https://github.com/rlancaste/stellarsolver.
 ```
 sudo apt-add-repository ppa:mutlaqja/ppa
-sudo apt-get -y install build-essential cmake git libstellarsolver-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev libkf5kio-dev kinit-dev libkf5newstuff-dev kdoctools-dev|libkf5doctools-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme
+sudo apt-get -y install build-essential cmake git libstellarsolver-dev libxisf-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev libkf5kio-dev kinit-dev libkf5newstuff-dev libkf5doctools-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme
 ```
 
 Fedora
 ```
-yum install cfitsio-devel eigen3-devel stellarsolver-devel cmake extra-cmake-modules.noarch kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kdoctools-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel
+yum install cfitsio-devel eigen3-devel stellarsolver-devel cmake extra-cmake-modules.noarch xisf-devel kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kdoctools-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel
 ```
 
 3. Compiling
