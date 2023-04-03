@@ -237,6 +237,8 @@ class GenericDevice : public GDInterface
          */
         bool generateDevices();
         void handleTimeout();
+        void checkTimeUpdate();
+        void checkLocationUpdate();
 
     protected:
         uint32_t m_DriverInterface { 0 };
@@ -295,6 +297,8 @@ class GenericDevice : public GDInterface
         ClientManager *m_ClientManager { nullptr };
         QTimer *watchDogTimer { nullptr };
         QTimer *m_ReadyTimer {nullptr};
+        QTimer *m_TimeUpdateTimer {nullptr};
+        QTimer *m_LocationUpdateTimer {nullptr};
         QList<StreamFileMetadata> streamFileMetadata;
 
         static uint8_t getID()
