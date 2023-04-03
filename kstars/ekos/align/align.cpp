@@ -1429,7 +1429,7 @@ bool Align::captureAndSolve()
             filterPositionPending    = true;
             // Disabling the autofocus policy for align.
             m_FilterManager->setFilterPosition(targetPosition, FilterManager::NO_AUTOFOCUS_POLICY);
-            state = ALIGN_PROGRESS;
+            setState(ALIGN_PROGRESS);
             return true;
         }
     }
@@ -1528,7 +1528,7 @@ bool Align::captureAndSolve()
 
     differentialSlewingActivated = false;
 
-    state = ALIGN_PROGRESS;
+    setState(ALIGN_PROGRESS);
     emit newStatus(state);
     solverFOV->setProperty("visible", true);
 
@@ -1875,7 +1875,7 @@ void Align::startSolving()
     // Kick off timer
     solverTimer.start();
 
-    state = ALIGN_PROGRESS;
+    setState(ALIGN_PROGRESS);
     emit newStatus(state);
 }
 
@@ -2060,7 +2060,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     };
     emit newSolution(solution.toVariantMap());
 
-    state = ALIGN_SUCCESSFUL;
+    setState(ALIGN_SUCCESSFUL);
     emit newStatus(state);
     solverIterations = 0;
     KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
@@ -2140,7 +2140,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             return;
 
         // We are done!
-        state = ALIGN_COMPLETE;
+        setState(ALIGN_COMPLETE);
         emit newStatus(state);
 
         solveB->setEnabled(true);
@@ -2193,7 +2193,7 @@ void Align::solverFailed()
     m_CaptureTimeoutCounter = 0;
     m_SlewErrorCounter = 0;
 
-    state = ALIGN_FAILED;
+    setState(ALIGN_FAILED);
     emit newStatus(state);
 
     solverFOV->setProperty("visible", false);
@@ -2256,7 +2256,7 @@ bool Align::checkIfRotationRequired()
                     ClientManager *clientManager = m_Rotator->getDriverInfo()->getClientManager();
                     clientManager->sendNewProperty(absAngle);
                     appendLogText(i18n("Setting position angle to %1 degrees E of N...", m_TargetPositionAngle));
-                    state = ALIGN_ROTATING;
+                    setState(ALIGN_ROTATING);
                     emit newStatus(state);
                     return true;
                 }
@@ -2279,7 +2279,7 @@ bool Align::checkIfRotationRequired()
                     targetAccuracyNotMet = true;
                     m_ManualRotator->show();
                     m_ManualRotator->raise();
-                    state = ALIGN_ROTATING;
+                    setState(ALIGN_ROTATING);
                     emit newStatus(state);
                     return true;
                 }
@@ -2353,7 +2353,7 @@ void Align::stop(Ekos::AlignState mode)
         }
     }
 
-    state = mode;
+    setState(mode);
     emit newStatus(state);
 
     setAlignTableResult(ALIGN_RESULT_FAILED);
@@ -2485,7 +2485,7 @@ void Align::updateProperty(INDI::Property prop)
 
                             KSNotification::event(QLatin1String("AlignSuccessful"),
                                                   i18n("Astrometry alignment completed successfully"), KSNotification::Align);
-                            state = ALIGN_COMPLETE;
+                            setState(ALIGN_COMPLETE);
                             emit newStatus(state);
                             solverIterations = 0;
                         }
@@ -2509,7 +2509,7 @@ void Align::updateProperty(INDI::Property prop)
                             m_TargetPositionAngle = solverFOV->PA();
                             qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file: Setting target PA to" << m_TargetPositionAngle;
 
-                            state = ALIGN_PROGRESS;
+                            setState(ALIGN_PROGRESS);
                             emit newStatus(state);
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
@@ -2526,7 +2526,7 @@ void Align::updateProperty(INDI::Property prop)
 
                             KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
                                                   KSNotification::Align);
-                            state = ALIGN_COMPLETE;
+                            setState(ALIGN_COMPLETE);
                             emit newStatus(state);
                             solverIterations = 0;
                         }
@@ -2539,7 +2539,7 @@ void Align::updateProperty(INDI::Property prop)
 
                             targetAccuracyNotMet = false;
 
-                            state = ALIGN_PROGRESS;
+                            setState(ALIGN_PROGRESS);
                             emit newStatus(state);
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
@@ -2672,7 +2672,7 @@ void Align::handleMountMotion()
             suspend();
         }
 
-        state = ALIGN_SLEWING;
+        setState(ALIGN_SLEWING);
     }
 }
 
@@ -2706,7 +2706,7 @@ void Align::executeGOTO()
 
 void Align::Sync()
 {
-    state = ALIGN_SYNCING;
+    setState(ALIGN_SYNCING);
 
     if (m_Mount->Sync(&m_AlignCoord))
     {
@@ -2716,7 +2716,7 @@ void Align::Sync()
     }
     else
     {
-        state = ALIGN_IDLE;
+        setState(ALIGN_IDLE);
         emit newStatus(state);
         appendLogText(i18n("Syncing failed."));
     }
@@ -2724,7 +2724,7 @@ void Align::Sync()
 
 void Align::Slew()
 {
-    state = ALIGN_SLEWING;
+    setState(ALIGN_SLEWING);
     emit newStatus(state);
 
     //qCDebug(KSTARS_EKOS_ALIGN) << "## Before SLEW command: wasSlewStarted -->" << m_wasSlewStarted;
@@ -4243,6 +4243,12 @@ bool Align::syncControl(const QVariantMap &settings, const QString &key, QWidget
     }
 
     return false;
+}
+
+void Align::setState(AlignState value)
+{
+    qCDebug(KSTARS_EKOS_ALIGN) << "Align state changed to" << getAlignStatusString(value);
+    state = value;
 };
 
 void Align::processCaptureTimeout()

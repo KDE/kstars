@@ -936,7 +936,7 @@ void Capture::start()
 
     setBusy(true);
 
-    if (Options::enforceGuideDeviation() && autoGuideReady == false)
+    if (Options::enforceGuideDeviation() && m_captureModuleState->isGuidingOn() == false)
         appendLogText(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
     if (m_LimitsUI->limitFocusHFRS->isChecked() && m_captureModuleState->getRefocusState()->isAutoFocusReady() == false)
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
@@ -3416,7 +3416,7 @@ void Capture::preparePreCaptureActions()
     }
 
     // Update guiderActive before prepareCapture.
-    activeJob->setCoreProperty(SequenceJob::SJ_GuiderActive, isActivelyGuiding());
+    activeJob->setCoreProperty(SequenceJob::SJ_GuiderActive, m_captureModuleState->isActivelyGuiding());
 
     // signal that capture preparation steps should be executed
     activeJob->prepareCapture();
@@ -3544,8 +3544,6 @@ void Capture::setFocusStatus(FocusState state)
 {
     // directly forward it to the state machine
     m_captureModuleState->updateFocusState(state);
-    if (activeJob != nullptr)
-        activeJob->setFocusStatus(state);
 }
 
 void Capture::updateFocusStatus(FocusState state)
@@ -4815,165 +4813,16 @@ void Capture::checkGuideDeviationTimeout()
 
 void Capture::setAlignStatus(AlignState state)
 {
-    if (state != m_captureModuleState->getAlignState())
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Align State changed from" << Ekos::getAlignStatusString(
-                                         m_captureModuleState->getAlignState()) << "to" << Ekos::getAlignStatusString(state);
+    // forward it directly to the state machine
     m_captureModuleState->setAlignState(state);
-
-    getMeridianFlipState()->setResumeAlignmentAfterFlip(true);
-
-    switch (state)
-    {
-        case ALIGN_COMPLETE:
-            if (getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_ALIGNING)
-            {
-                appendLogText(i18n("Post flip re-alignment completed successfully."));
-                m_captureModuleState->resetAlignmentRetries();
-                // Trigger guiding if necessary.
-                if (m_captureModuleState->checkGuidingAfterFlip() == false)
-                {
-                    // If no guiding is required, the meridian flip is complete
-                    updateMeridianFlipStage(MeridianFlipState::MF_NONE);
-                    m_captureModuleState->setCaptureState(CAPTURE_WAITING);
-                }
-            }
-            break;
-
-        case ALIGN_ABORTED:
-        case ALIGN_FAILED:
-            // TODO run it 3 times before giving up
-            if (getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_ALIGNING)
-            {
-                if (m_captureModuleState->increaseAlignmentRetries() >= 3)
-                {
-                    appendLogText(i18n("Post-flip alignment failed."));
-                    abort();
-                }
-                else
-                {
-                    appendLogText(i18n("Post-flip alignment failed. Retrying..."));
-
-                    m_captureModuleState->setCaptureState(CAPTURE_ALIGNING);
-
-                    updateMeridianFlipStage(MeridianFlipState::MF_ALIGNING);
-                }
-            }
-            break;
-
-        default:
-            break;
-    }
 }
 
 void Capture::setGuideStatus(GuideState state)
 {
-    if (state != m_captureModuleState->getGuideState())
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Guiding state changed from" << Ekos::getGuideStatusString(
-                                         m_captureModuleState->getGuideState())
-                                     << "to" << Ekos::getGuideStatusString(state);
-    switch (state)
-    {
-        case GUIDE_IDLE:
-            break;
-
-        case GUIDE_GUIDING:
-        case GUIDE_CALIBRATION_SUCCESS:
-            autoGuideReady = true;
-            break;
-
-        case GUIDE_ABORTED:
-        case GUIDE_CALIBRATION_ERROR:
-            processGuidingFailed();
-            m_captureModuleState->setGuideState(state);
-            break;
-
-        case GUIDE_DITHERING_SUCCESS:
-            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering succeeded, capture state" << getCaptureStatusString(
-                                            m_captureModuleState->getCaptureState());
-            // do nothing if something happened during dithering
-            appendLogText(i18n("Dithering succeeded."));
-            if (m_captureModuleState->getCaptureState() != CAPTURE_DITHERING)
-                break;
-
-            if (Options::guidingSettle() > 0)
-            {
-                // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-                appendLogText(i18n("Dither complete. Resuming in %1 seconds...", Options::guidingSettle()));
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]()
-                {
-                    m_captureModuleState->setDitheringState(IPS_OK);
-                });
-            }
-            else
-            {
-                appendLogText(i18n("Dither complete."));
-                m_captureModuleState->setDitheringState(IPS_OK);
-            }
-            break;
-
-        case GUIDE_DITHERING_ERROR:
-            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering failed, capture state" << getCaptureStatusString(
-                                            m_captureModuleState->getCaptureState());
-            if (m_captureModuleState->getCaptureState() != CAPTURE_DITHERING)
-                break;
-
-            if (Options::guidingSettle() > 0)
-            {
-                // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-                appendLogText(i18n("Warning: Dithering failed. Resuming in %1 seconds...", Options::guidingSettle()));
-                // set dithering state to OK after settling time and signal to proceed
-                QTimer::singleShot(Options::guidingSettle() * 1000, this, [this]()
-                {
-                    m_captureModuleState->setDitheringState(IPS_OK);
-                });
-            }
-            else
-            {
-                appendLogText(i18n("Warning: Dithering failed."));
-                // signal OK so that capturing may continue although dithering failed
-                m_captureModuleState->setDitheringState(IPS_OK);
-            }
-
-            break;
-
-        default:
-            break;
-    }
-
+    // forward it directly to the state machine
     m_captureModuleState->setGuideState(state);
-    // forward it to the currently active sequence job
-    if (activeJob != nullptr)
-        activeJob->setCoreProperty(SequenceJob::SJ_GuiderActive, isActivelyGuiding());
 }
 
-
-void Capture::processGuidingFailed()
-{
-    if (m_captureModuleState->getFocusState() > FOCUS_PROGRESS)
-    {
-        appendLogText(i18n("Autoguiding stopped. Waiting for autofocus to finish..."));
-    }
-    // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-    else if (m_captureModuleState->isGuidingOn()
-             && getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_NONE &&
-             // JM 2022.08.03: Only abort if the current job is LIGHT. For calibration frames, we can ignore guide failures.
-             ((activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT) ||
-              this->m_captureModuleState->getCaptureState() == CAPTURE_SUSPENDED
-              || this->m_captureModuleState->getCaptureState() == CAPTURE_PAUSED))
-    {
-        appendLogText(i18n("Autoguiding stopped. Aborting..."));
-        abort();
-    }
-    else if (getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_GUIDING)
-    {
-        if (m_captureModuleState->increaseAlignmentRetries() >= 3)
-        {
-            appendLogText(i18n("Post meridian flip calibration error. Aborting..."));
-            abort();
-        }
-    }
-    autoGuideReady = false;
-}
 
 void Capture::checkFrameType(int index)
 {
@@ -5290,52 +5139,30 @@ IPState Capture::checkLightFramePendingTasks()
         return IPS_BUSY;
     }
 
-    // step 3: check if meridian flip is already running or ready for execution
-    if (getMeridianFlipState()->checkMeridianFlipRunning() || m_captureModuleState->checkMeridianFlipReady())
+    // step 3: check if a meridian flip is active
+    if (m_captureModuleState->checkMeridianFlipActive())
         return IPS_BUSY;
 
-    // step 4: check if post flip alignment is running
-    if (m_captureModuleState->getCaptureState() == CAPTURE_ALIGNING || m_captureModuleState->checkAlignmentAfterFlip())
-        return IPS_BUSY;
-
-    // step 5: check if post flip guiding is running
-    // MF_NONE is set as soon as guiding is running and the guide deviation is below the limit
-    if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_COMPLETED
-            && m_captureModuleState->getGuideState() != GUIDE_GUIDING && m_captureModuleState->checkGuidingAfterFlip())
-        return IPS_BUSY;
-
-    // step 6: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
-    //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
-    //         Otherwise the meridian flip is complete
-    if (m_captureModuleState->getCaptureState() == CAPTURE_CALIBRATING
-            && getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_GUIDING)
-    {
-        if (Options::enforceGuideDeviation() || Options::enforceStartGuiderDrift())
-            return IPS_BUSY;
-        else
-            updateMeridianFlipStage(MeridianFlipState::MF_NONE);
-    }
-
-    // step 7: check guide deviation for non meridian flip stages if the initial guide limit is set.
+    // step 4: check guide deviation for non meridian flip stages if the initial guide limit is set.
     //         Wait until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
     if (m_captureModuleState->getCaptureState() == CAPTURE_PROGRESS &&
             m_captureModuleState->getGuideState() == GUIDE_GUIDING &&
             Options::enforceStartGuiderDrift())
         return IPS_BUSY;
 
-    // step 8: check if dithering is required or running
+    // step 5: check if dithering is required or running
     if ((m_captureModuleState->getCaptureState() == CAPTURE_DITHERING && m_captureModuleState->getDitheringState() != IPS_OK)
             || m_captureModuleState->checkDithering())
         return IPS_BUSY;
 
-    // step 9: check if re-focusing is required
+    // step 6: check if re-focusing is required
     //         Needs to be checked after dithering checks to avoid dithering in parallel
     //         to focusing, since @startFocusIfRequired() might change its value over time
     if ((m_captureModuleState->getCaptureState() == CAPTURE_FOCUSING && m_captureModuleState->checkFocusRunning())
             || m_captureModuleState->startFocusIfRequired())
         return IPS_BUSY;
 
-    // step 10: resume guiding if it was suspended
+    // step 7: resume guiding if it was suspended
     if (m_captureModuleState->getGuideState() == GUIDE_SUSPENDED)
     {
         appendLogText(i18n("Autoguiding resumed."));
@@ -6437,11 +6264,6 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
     {
         reconnectDriver(camera, filterWheel);
     });
-}
-
-bool Capture::isActivelyGuiding()
-{
-    return m_captureModuleState->isGuidingOn() && (m_captureModuleState->getGuideState() == GUIDE_GUIDING);
 }
 
 void Capture::syncDSLRToTargetChip(const QString &model)

@@ -1091,8 +1091,6 @@ private slots:
         // Propagate meridian flip state changes to the UI
         void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
 
-        void processGuidingFailed();
-
         // ////////////////////////////////////////////////////////////////////
         // helper functions
         // ////////////////////////////////////////////////////////////////////
@@ -1136,9 +1134,6 @@ private slots:
         void createDSLRDialog();
 
         void resetFrameToZero();
-
-        // short cut for all guiding states that indicate guiding in state GUIDING
-        bool isActivelyGuiding();
 
         /**
          * @brief generateScriptArguments Generate argument list to pass to capture script
@@ -1267,7 +1262,6 @@ private slots:
         uint8_t m_DeviceRestartCounter { 0 };
 
         bool useGuideHead { false };
-        bool autoGuideReady { false};
 
         QString m_TargetName;
         QString m_ObserverName;

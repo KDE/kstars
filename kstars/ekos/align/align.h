@@ -635,6 +635,7 @@ class Align : public QWidget, public Ui::Align
          */
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
+        void setState (AlignState value);
         /**
          * @brief Retrieve the align status indicator
          */

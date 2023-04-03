@@ -174,13 +174,12 @@ class CaptureModuleState: public QObject
         {
             return m_GuideState;
         }
-        void setGuideState(GuideState value)
-        {
-            m_GuideState = value;
-        }
+        void setGuideState(GuideState state);
 
         // short cut for all guiding states that indicate guiding is on
         bool isGuidingOn();
+        // short cut for all guiding states that indicate guiding in state GUIDING
+        bool isActivelyGuiding();
 
         QTimer &getCaptureDelayTimer()
         {
@@ -227,10 +226,7 @@ class CaptureModuleState: public QObject
         {
             return m_AlignState;
         }
-        void setAlignState(AlignState value)
-        {
-            m_AlignState = value;
-        }
+        void setAlignState(AlignState value);
 
         FilterState getFilterManagerState() const
         {
@@ -379,18 +375,50 @@ class CaptureModuleState: public QObject
         void updateMeridianFlipStage(const MeridianFlipState::MFStage &stage);
 
         /**
-             * @brief Check whether a meridian flip has been requested and trigger it
-             * @return true iff a meridian flip has been triggered
-             */
+         * @brief checkMeridianFlipActive
+         * @return true iff the meridian flip itself or post flip actions are running
+         */
+        bool checkMeridianFlipActive();
+
+        /**
+         * @brief Check whether a meridian flip has been requested and trigger it
+         * @return true iff a meridian flip has been triggered
+         */
         bool checkMeridianFlipReady();
 
         /**
-             * @brief Check if the mount's flip has been completed and start guiding
-             * if necessary. Starting guiding after the meridian flip works through
-             * the signal {@see startGuidingAfterFlip()}
-             * @return true if guiding needs to start but is not running yet
-             */
+         * @brief checkPostMeridianFlipActions Execute the checks necessary after the mount
+         * has completed the meridian flip.
+         * @return true iff the post meridian flip actions are ongoing, false if completed or not necessary
+         */
+        bool checkPostMeridianFlipActions();
+
+        /**
+         * @brief Check if an alignment needs to be executed after completing
+         * a meridian flip.
+         * @return
+         */
+        bool checkAlignmentAfterFlip();
+
+        /**
+         * @brief Check if the mount's flip has been completed and start guiding
+         * if necessary. Starting guiding after the meridian flip works through
+         * the signal {@see startGuidingAfterFlip()}
+         * @return true if guiding needs to start but is not running yet
+         */
         bool checkGuidingAfterFlip();
+
+        /**
+         * @brief processGuidingFailed React when guiding failed.
+         *
+         * If aguiding has been started before and stopped, capturing aborts except
+         * for the case that either
+         *  - a meridian flip is running
+         *  - a job is running for non light frames
+         *  - capturing is either paused or suspended
+         *  In these case, nothing is done.
+         */
+        void processGuidingFailed();
 
         /**
          * @brief Process changes necessary when the focus state changes.
@@ -416,13 +444,6 @@ class CaptureModuleState: public QObject
          * @brief calculate new HFR threshold based on median value for current selected filter
          */
         void updateHFRThreshold();
-
-        /**
-             * @brief Check if an alignment needs to be executed after completing
-             * a meridian flip.
-             * @return
-             */
-        bool checkAlignmentAfterFlip();
 
         /**
          * @brief Slot that listens to guiding deviations reported by the Guide module.

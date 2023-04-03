@@ -234,8 +234,6 @@ void TestEkosAlign::prepareTestCase()
         m_CaptureHelper->prepareFocusModule();
     // prepare for alignment tests
     m_CaptureHelper->prepareAlignmentModule();
-    // prepare for guiding tests
-    m_CaptureHelper->prepareGuidingModule();
 
     m_CaptureHelper->init();
     // close INDI window
