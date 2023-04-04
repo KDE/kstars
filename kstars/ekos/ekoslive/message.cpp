@@ -1279,16 +1279,8 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
         sendResponse(commands[OPTION_GET], result);
         return;
     }
-    if (command == commands[OPTION_SET_HIGH_BANDWIDTH])
-        m_Options[OPTION_SET_HIGH_BANDWIDTH] = payload["value"].toBool(true);
-    else if (command == commands[OPTION_SET_IMAGE_TRANSFER])
-        m_Options[OPTION_SET_IMAGE_TRANSFER] = payload["value"].toBool(true);
-    else if (command == commands[OPTION_SET_NOTIFICATIONS])
-        m_Options[OPTION_SET_NOTIFICATIONS] = payload["value"].toBool(true);
-    else if (command == commands[OPTION_SET_CLOUD_STORAGE])
-        m_Options[OPTION_SET_CLOUD_STORAGE] = payload["value"].toBool(false);
 
-    emit optionsChanged(m_Options);
+    emit optionsUpdated();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2336,7 +2328,7 @@ void Message::sendStates()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_NOTIFICATIONS] == false)
+    if (m_isConnected == false || Options::ekosLiveNotifications() == false)
         return;
 
     QJsonObject newEvent =

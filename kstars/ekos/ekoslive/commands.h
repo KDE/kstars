@@ -183,10 +183,6 @@ enum COMMANDS
     PAH_SET_ALGORITHM,
 
     // Options
-    OPTION_SET_HIGH_BANDWIDTH,
-    OPTION_SET_IMAGE_TRANSFER,
-    OPTION_SET_NOTIFICATIONS,
-    OPTION_SET_CLOUD_STORAGE,
     OPTION_SET,
     OPTION_GET,
 
@@ -407,10 +403,6 @@ static QMap<COMMANDS, QString> const commands =
     {PAH_PAH_SET_ZOOM, "polar_set_zoom"},
     {PAH_SET_ALGORITHM, "polar_set_algorithm"},
 
-    {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
-    {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
-    {OPTION_SET_NOTIFICATIONS, "option_set_notifications"},
-    {OPTION_SET_CLOUD_STORAGE, "option_set_cloud_storage"},
     {OPTION_SET, "option_set"},
     {OPTION_GET, "option_get"},
 

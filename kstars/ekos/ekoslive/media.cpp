@@ -52,8 +52,7 @@ void Media::connectServer()
     query.addQueryItem("token", m_AuthResponse["token"].toString());
     if (m_AuthResponse.contains("remoteToken"))
         query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
-    if (m_Options[OPTION_SET_CLOUD_STORAGE])
-        query.addQueryItem("cloudEnabled", "true");
+    query.addQueryItem("cloudEnabled", Options::ekosLiveCloud() ? "true" : "false");
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
@@ -226,7 +225,7 @@ void Media::sendDarkLibraryData(const QSharedPointer<FITSData> &data)
 
 void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (m_isConnected == false || Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     m_UUID = uuid;
@@ -238,7 +237,7 @@ void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 
 void Media::sendFile(const QString &filename, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (m_isConnected == false || Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     m_UUID = uuid;
@@ -253,7 +252,7 @@ void Media::sendFile(const QString &filename, const QString &uuid)
 
 void Media::sendView(const QSharedPointer<FITSView> &view, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (m_isConnected == false || Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     m_UUID = uuid;
@@ -309,7 +308,7 @@ void Media::upload(const QSharedPointer<FITSView> &view)
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto sendPixmap = (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+");
+    auto sendPixmap = (!Options::ekosLiveHighBandwidth() || m_UUID[0] == "+");
     auto scaleWidth = sendPixmap ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images
@@ -430,10 +429,10 @@ void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
 
 void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
+    if (m_isConnected == false || Options::ekosLiveImageTransfer() == false || m_sendBlobs == false || !frame)
         return;
 
-    int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_WIDTH : HB_VIDEO_WIDTH / 2;
+    int32_t width = Options::ekosLiveHighBandwidth() ? HB_VIDEO_WIDTH : HB_VIDEO_WIDTH / 2;
     QByteArray image;
     QBuffer buffer(&image);
     buffer.open(QIODevice::WriteOnly);
@@ -501,7 +500,7 @@ void Media::processNewBLOB(IBLOB *bp)
 
 void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (m_isConnected == false || Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     if (qobject_cast<Ekos::Align*>(sender()) == m_Manager->alignModule())

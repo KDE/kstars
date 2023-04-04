@@ -8,11 +8,7 @@
 
 #include "cloud.h"
 #include "commands.h"
-#include "profileinfo.h"
-
-#include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
-#include "fitsviewer/fpack.h"
 
 #include "ekos_debug.h"
 
@@ -34,6 +30,8 @@ Cloud::Cloud(Ekos::Manager * manager): m_Manager(manager)
 
     connect(this, &Cloud::newMetadata, this, &Cloud::uploadMetadata);
     connect(this, &Cloud::newImage, this, &Cloud::uploadImage);
+
+    connect(Options::self(), &Options::EkosLiveCloudChanged, this, &Cloud::updateOptions);
 }
 
 void Cloud::connectServer()
@@ -45,8 +43,7 @@ void Cloud::connectServer()
     query.addQueryItem("token", m_AuthResponse["token"].toString());
     if (m_AuthResponse.contains("remoteToken"))
         query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
-    if (m_Options[OPTION_SET_CLOUD_STORAGE])
-        query.addQueryItem("cloudEnabled", "true");
+    query.addQueryItem("cloudEnabled", Options::ekosLiveCloud() ? "true" : "false");
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
@@ -130,7 +127,7 @@ void Cloud::onTextReceived(const QString &message)
 
 void Cloud::upload(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false  || m_sendBlobs == false)
+    if (m_isConnected == false || Options::ekosLiveCloud() == false  || m_sendBlobs == false)
         return;
 
     m_UUID = uuid;
@@ -140,7 +137,7 @@ void Cloud::upload(const QSharedPointer<FITSData> &data, const QString &uuid)
 
 void Cloud::upload(const QString &filename, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_CLOUD_STORAGE] == false  || m_sendBlobs == false)
+    if (m_isConnected == false || Options::ekosLiveCloud() == false  || m_sendBlobs == false)
         return;
 
     watcher.waitForFinished();
@@ -169,7 +166,7 @@ void Cloud::asyncUpload()
     }
 
     // Filename only without path
-    QString filepath = m_ImageData->isCompressed() ? m_ImageData->compressedFilename() : m_ImageData->filename();
+    QString filepath = m_ImageData->filename();
     QString filenameOnly = QFileInfo(filepath).fileName();
 
     // Add filename and size as wells
@@ -177,23 +174,17 @@ void Cloud::asyncUpload()
     metadata.insert("filename", filenameOnly);
     metadata.insert("filesize", static_cast<int>(m_ImageData->size()));
     // Must set Content-Disposition so
-    if (m_ImageData->isCompressed())
-        metadata.insert("Content-Disposition", QString("attachment;filename=%1").arg(filenameOnly));
-    else
-        metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
+    metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
 
     emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
     //m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
 
     qCInfo(KSTARS_EKOS) << "Uploading file to the cloud with metadata" << metadata;
 
-    QString compressedFile = filepath;
+    QString compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
     // Use cfitsio pack to compress the file first
-    if (m_ImageData->isCompressed() == false)
-    {
-        compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
-        m_ImageData->saveImage(compressedFile + QStringLiteral("[compress R]"));
-    }
+    m_ImageData->saveImage(compressedFile + QStringLiteral("[compress R]"));
+
 
     // Upload the compressed image
     QFile image(compressedFile);
@@ -222,20 +213,16 @@ void Cloud::uploadImage(const QByteArray &image)
     m_WebSocket.sendBinaryMessage(image);
 }
 
-void Cloud::setOptions(QMap<int, bool> options)
+void Cloud::updateOptions()
 {
-    bool cloudEnabled = m_Options[OPTION_SET_CLOUD_STORAGE];
-    m_Options = options;
-
     // In case cloud storage is toggled, inform cloud
     // websocket channel of this change.
-    if (cloudEnabled != m_Options[OPTION_SET_CLOUD_STORAGE])
+    if (m_isConnected)
     {
-        bool enabled = m_Options[OPTION_SET_CLOUD_STORAGE];
-        QJsonObject payload = {{"value", enabled}};
+        QJsonObject payload = {{"value", Options::ekosLiveCloud()}};
         QJsonObject message =
         {
-            {"type",  commands[OPTION_SET_CLOUD_STORAGE]},
+            {"type",  commands[OPTION_SET]},
             {"payload", payload}
         };
 

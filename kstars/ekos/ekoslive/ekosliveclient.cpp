@@ -155,7 +155,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     m_Message->setURL(m_wsURL);
     connect(m_Message, &Message::connected, this, &Client::onConnected);
     connect(m_Message, &Message::disconnected, this, &Client::onDisconnected);
-    connect(m_Message, &Message::expired, [&]()
+    connect(m_Message, &Message::expired, this, [&]()
     {
         // If token expired, disconnect and reconnect again.
         disconnectAuthServer();
@@ -163,11 +163,11 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     });
 
     m_Media = new Media(m_Manager);
-    connect(m_Message, &Message::optionsChanged, m_Media, &Media::setOptions);
+    //connect(m_Message, &Message::optionsUpdated, m_Media, &Media::updateOptions);
     m_Media->setURL(m_wsURL);
 
     m_Cloud = new Cloud(m_Manager);
-    connect(m_Message, &Message::optionsChanged, m_Cloud, &Cloud::setOptions);
+    //connect(m_Message, &Message::optionsUpdated, m_Cloud, &Cloud::updateOptions);
     m_Cloud->setURL(m_wsURL);
 }
 

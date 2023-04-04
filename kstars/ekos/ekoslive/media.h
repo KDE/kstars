@@ -65,12 +65,6 @@ class Media : public QObject
         // Capture
         void sendVideoFrame(const QSharedPointer<QImage> &frame);
 
-        // Options
-        void setOptions(QMap<int, bool> options)
-        {
-            m_Options = options;
-        }
-
         // Correction Vector
         void setCorrectionVector(QLineF correctionVector)
         {
@@ -105,8 +99,6 @@ class Media : public QObject
         Ekos::Manager * m_Manager { nullptr };
         QUrl m_URL;
         QString m_UUID;
-
-        QMap<int, bool> m_Options;
 
         QString extension;
         QStringList temporaryFiles;

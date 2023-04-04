@@ -1507,22 +1507,7 @@
     <entry name="EkosLeftIcons" type="Bool">
        <label>Ekos modules icons are placed to the left of pages</label>
        <default>false</default>
-    </entry>
-    <entry name="RememberCredentials" type="Bool">
-       <label>Remember Ekos Live credentials.</label>
-       <default>true</default>
-    </entry>
-    <entry name="AutoStartEkosLive" type="Bool">
-       <label>Start Ekos Live on KStars startup.</label>
-       <default>true</default>
-    </entry>
-    <entry name="EkosLiveOnline" type="Bool">
-       <label>Whether EkosLive connection mode is online.</label>
-       <default>true</default>
-    </entry>
-    <entry name="EkosLiveUsername" type="String">
-       <label>EkosLive username</label>
-    </entry>
+    </entry>    
       <entry name="independentWindowEkos" type="Bool">
          <label>Make Ekos window independent of KStars main window</label>
          <default>false</default>
@@ -1547,6 +1532,38 @@
          <label>Automatically load Serial Port Assistant tool when detecting unmapped serial ports?</label>
          <default>true</default>
       </entry>
+   </group>
+   <group name="EkosLive">
+       <entry name="RememberCredentials" type="Bool">
+          <label>Remember Ekos Live credentials.</label>
+          <default>true</default>
+       </entry>
+       <entry name="AutoStartEkosLive" type="Bool">
+          <label>Start Ekos Live on KStars startup.</label>
+          <default>true</default>
+       </entry>
+       <entry name="EkosLiveOnline" type="Bool">
+          <label>Whether EkosLive connection mode is online.</label>
+          <default>true</default>
+       </entry>
+       <entry name="EkosLiveUsername" type="String">
+          <label>EkosLive username</label>
+       </entry>
+       <entry name="EkosLiveSound" type="Bool">
+          <default>true</default>
+       </entry>
+       <entry name="EkosLiveHighBandwidth" type="Bool">
+          <default>true</default>
+       </entry>
+       <entry name="EkosLiveNotifications" type="Bool">
+          <default>true</default>
+       </entry>
+       <entry name="EkosLiveImageTransfer" type="Bool">
+          <default>true</default>
+       </entry>
+       <entry name="EkosLiveCloud" type="Bool">
+          <default>false</default>
+       </entry>
    </group>
    <group name="DarkLibrary">
       <entry name="MaxDarkTemperatureDiff" type="Double">
