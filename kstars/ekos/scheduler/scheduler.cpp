@@ -6174,6 +6174,13 @@ int Scheduler::timeHeuristics(const SchedulerJob *schedJob)
 
 void Scheduler::parkMount()
 {
+    if (mountInterface.isNull())
+    {
+        appendLogText(i18n("Mount park requested but no mounts detected."));
+        shutdownState = SHUTDOWN_ERROR;
+        return;
+    }
+
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:property", "parkStatus");
     QVariant parkingStatus = mountInterface->property("parkStatus");
     TEST_PRINT(stderr, "  @@@dbus received %d\n", !parkingStatus.isValid() ? -1 : parkingStatus.toInt());
@@ -6240,7 +6247,11 @@ void Scheduler::parkMount()
 void Scheduler::unParkMount()
 {
     if (mountInterface.isNull())
+    {
+        appendLogText(i18n("Mount unpark requested but no mounts detected."));
+        startupState = STARTUP_ERROR;
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:property", "parkStatus");
     QVariant parkingStatus = mountInterface->property("parkStatus");
@@ -6521,8 +6532,13 @@ bool Scheduler::isMountParked()
 
 void Scheduler::parkDome()
 {
+    // If there is no dome, mark error
     if (domeInterface.isNull())
+    {
+        appendLogText(i18n("Dome park requested but no domes detected."));
+        shutdownState = SHUTDOWN_ERROR;
         return;
+    }
 
     //QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
     //Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
@@ -6557,8 +6573,13 @@ void Scheduler::parkDome()
 
 void Scheduler::unParkDome()
 {
+    // If there is no dome, mark error
     if (domeInterface.isNull())
+    {
+        appendLogText(i18n("Dome unpark requested but no domes detected."));
+        startupState = STARTUP_ERROR;
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "domeInterface:property", "parkStatus");
     QVariant parkingStatus = domeInterface->property("parkStatus");
@@ -6709,7 +6730,11 @@ bool Scheduler::isDomeParked()
 void Scheduler::parkCap()
 {
     if (capInterface.isNull())
+    {
+        appendLogText(i18n("Dust cover park requested but no dust covers detected."));
+        shutdownState = SHUTDOWN_ERROR;
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "dustCapInterface:property", "parkStatus");
     QVariant parkingStatus = capInterface->property("parkStatus");
@@ -6744,7 +6769,11 @@ void Scheduler::parkCap()
 void Scheduler::unParkCap()
 {
     if (capInterface.isNull())
+    {
+        appendLogText(i18n("Dust cover unpark requested but no dust covers detected."));
+        startupState = STARTUP_ERROR;
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "dustCapInterface:property", "parkStatus");
     QVariant parkingStatus = capInterface->property("parkStatus");
