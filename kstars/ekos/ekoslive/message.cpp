@@ -1261,7 +1261,9 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
         const QJsonArray options = payload["options"].toArray();
         for (const auto &oneOption : options)
             Options::self()->setProperty(oneOption["name"].toString().toLatin1(), oneOption["value"].toVariant());
-        return;
+
+        Options::self()->save();
+        emit optionsUpdated();
     }
     else if (command == commands[OPTION_GET])
     {
@@ -1277,10 +1279,7 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
             result.append(QJsonObject::fromVariantMap(map));
         }
         sendResponse(commands[OPTION_GET], result);
-        return;
     }
-
-    emit optionsUpdated();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
