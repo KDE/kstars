@@ -12,6 +12,7 @@
 
 #include "ekos_debug.h"
 #include "version.h"
+#include "../fitsviewer/fpack.h"
 
 #include <QtConcurrent>
 #include <QFutureWatcher>
@@ -183,9 +184,7 @@ void Cloud::asyncUpload()
     image += meta;
 
     QString compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
-    // Use cfitsio pack to compress the file first
     m_ImageData->saveImage(compressedFile + QStringLiteral("[compress R]"));
-
     // Upload the compressed image
     QFile compressedImage(compressedFile);
     if (compressedImage.open(QIODevice::ReadOnly))
@@ -213,7 +212,7 @@ void Cloud::updateOptions()
     // websocket channel of this change.
     if (m_isConnected)
     {
-        QJsonObject payload = {{"value", Options::ekosLiveCloud()}};
+        QJsonObject payload = {{"name", "ekosLiveCloud"}, {"value", Options::ekosLiveCloud()}};
         QJsonObject message =
         {
             {"type",  commands[OPTION_SET]},

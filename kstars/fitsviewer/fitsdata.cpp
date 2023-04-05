@@ -183,7 +183,7 @@ bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension)
     cacheHFR = -1;
     cacheEccentricity = -1;
 
-    if (extension.contains("fit"))
+    if (extension.contains("fit") || extension.contains("fz"))
         return loadFITSImage(buffer, extension);
     if (extension.contains("xisf"))
         return loadXISFImage(buffer);
@@ -216,7 +216,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
                                            QRegularExpression("[-{}]")));
 
-            rc = fp_unpack_file_to_fits(m_Filename.toLocal8Bit().data(), &fptr, fpvar) < 0;
+            rc = fp_unpack_file_to_fits(m_Filename.toLocal8Bit().data(), &fptr, fpvar) == 0;
             if (rc)
             {
                 m_Filename = uncompressedFile;
@@ -480,30 +480,30 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
 
         switch (image.sampleFormat())
         {
-        case LibXISF::Image::UInt8:
-            m_Statistics.dataType = TBYTE;
-            m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt8);
-            m_FITSBITPIX = TBYTE;
-            break;
-        case LibXISF::Image::UInt16:
-            m_Statistics.dataType = TUSHORT;
-            m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt16);
-            m_FITSBITPIX = TUSHORT;
-            break;
-        case LibXISF::Image::UInt32:
-            m_Statistics.dataType = TULONG;
-            m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt32);
-            m_FITSBITPIX = TULONG;
-            break;
-        case LibXISF::Image::Float32:
-            m_Statistics.dataType = TFLOAT;
-            m_Statistics.bytesPerPixel = sizeof(LibXISF::Float32);
-            m_FITSBITPIX = TFLOAT;
-            break;
-        default:
-            m_LastError = i18n("Sample format %1 is not supported.", LibXISF::Image::sampleFormatString(image.sampleFormat()).c_str());
-            qCCritical(KSTARS_FITS) << m_LastError;
-            return false;
+            case LibXISF::Image::UInt8:
+                m_Statistics.dataType = TBYTE;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt8);
+                m_FITSBITPIX = TBYTE;
+                break;
+            case LibXISF::Image::UInt16:
+                m_Statistics.dataType = TUSHORT;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt16);
+                m_FITSBITPIX = TUSHORT;
+                break;
+            case LibXISF::Image::UInt32:
+                m_Statistics.dataType = TULONG;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt32);
+                m_FITSBITPIX = TULONG;
+                break;
+            case LibXISF::Image::Float32:
+                m_Statistics.dataType = TFLOAT;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::Float32);
+                m_FITSBITPIX = TFLOAT;
+                break;
+            default:
+                m_LastError = i18n("Sample format %1 is not supported.", LibXISF::Image::sampleFormatString(image.sampleFormat()).c_str());
+                qCCritical(KSTARS_FITS) << m_LastError;
+                return false;
         }
 
         m_Statistics.width = image.width();
@@ -561,22 +561,22 @@ bool FITSData::saveXISFImage(const QString &newFilename)
 
         switch (m_FITSBITPIX)
         {
-        case BYTE_IMG:
-            image.setSampleFormat(LibXISF::Image::UInt8);
-            break;
-        case USHORT_IMG:
-            image.setSampleFormat(LibXISF::Image::UInt16);
-            break;
-        case ULONG_IMG:
-            image.setSampleFormat(LibXISF::Image::UInt32);
-            break;
-        case FLOAT_IMG:
-            image.setSampleFormat(LibXISF::Image::Float32);
-            break;
-        default:
-            m_LastError = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
-            qCCritical(KSTARS_FITS) << m_LastError;
-            return false;
+            case BYTE_IMG:
+                image.setSampleFormat(LibXISF::Image::UInt8);
+                break;
+            case USHORT_IMG:
+                image.setSampleFormat(LibXISF::Image::UInt16);
+                break;
+            case ULONG_IMG:
+                image.setSampleFormat(LibXISF::Image::UInt32);
+                break;
+            case FLOAT_IMG:
+                image.setSampleFormat(LibXISF::Image::Float32);
+                break;
+            default:
+                m_LastError = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
+                qCCritical(KSTARS_FITS) << m_LastError;
+                return false;
         }
 
         std::memcpy(image.imageData(), m_ImageBuffer, m_ImageBufferSize);
