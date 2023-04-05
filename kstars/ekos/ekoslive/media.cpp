@@ -20,6 +20,7 @@
 #include "Options.h"
 
 #include "ekos_debug.h"
+#include "version.h"
 
 #include <QtConcurrent>
 #include <KFormat>
@@ -58,6 +59,7 @@ void Media::connectServer()
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
     query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
     query.addQueryItem("type", m_AuthResponse["type"].toString());
+    query.addQueryItem("version", KSTARS_VERSION);
 
     requestURL.setPath("/media/ekos");
     requestURL.setQuery(query);

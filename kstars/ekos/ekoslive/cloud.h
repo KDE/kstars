@@ -11,7 +11,6 @@
 #include <QtWebSockets/QWebSocket>
 #include <memory>
 
-#include "ekos/ekos.h"
 #include "ekos/manager.h"
 
 class FITSView;
@@ -47,8 +46,6 @@ class Cloud : public QObject
     signals:
         void connected();
         void disconnected();
-
-        void newMetadata(const QByteArray &metadata);
         void newImage(const QByteArray &image);
 
     public slots:
@@ -68,8 +65,6 @@ class Cloud : public QObject
         // Send image
         void sendImage();
 
-        // Metadata and Image upload
-        void uploadMetadata(const QByteArray &metadata);
         void uploadImage(const QByteArray &image);
 
     private:
@@ -97,6 +92,9 @@ class Cloud : public QObject
         static const uint8_t HB_IMAGE_QUALITY = 76;
         // Video high bandwidth video quality (jpg)
         static const uint8_t HB_VIDEO_QUALITY = 64;
+
+        // Binary Metadata Size
+        static const uint16_t METADATA_PACKET = 2048;
 
         // Retry every 5 seconds in case remote server is down
         static const uint16_t RECONNECT_INTERVAL = 5000;

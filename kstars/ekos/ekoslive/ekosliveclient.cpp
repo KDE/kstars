@@ -7,20 +7,10 @@
 #include "Options.h"
 
 #include "ekosliveclient.h"
-#include "ekos_debug.h"
 #include "ekos/manager.h"
-#include "ekos/capture/capture.h"
-#include "ekos/mount/mount.h"
-#include "ekos/focus/focus.h"
 
 #include "kspaths.h"
-#include "kstarsdata.h"
-#include "filedownloader.h"
 #include "QProgressIndicator.h"
-
-#include "indi/indilistener.h"
-#include "indi/indicamera.h"
-#include "indi/indifilterwheel.h"
 
 #include <config-kstars.h>
 
@@ -54,12 +44,12 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     connectionState->setPixmap(QIcon::fromTheme("state-offline").pixmap(QSize(64, 64)));
 
     username->setText(Options::ekosLiveUsername());
-    connect(username, &QLineEdit::editingFinished, [ = ]()
+    connect(username, &QLineEdit::editingFinished, this, [this]()
     {
         Options::setEkosLiveUsername(username->text());
     });
 
-    connect(connectB, &QPushButton::clicked, [ = ]()
+    connect(connectB, &QPushButton::clicked, this, [this]()
     {
         if (m_isConnected)
             disconnectAuthServer();
@@ -67,7 +57,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             connectAuthServer();
     });
 
-    connect(password, &QLineEdit::returnPressed, [ = ]()
+    connect(password, &QLineEdit::returnPressed, this, [this]()
     {
         if (!m_isConnected)
             connectAuthServer();
@@ -92,7 +82,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     else
         ekosLiveOfflineR->setChecked(true);
 
-    connect(ekosLiveOnlineR, &QRadioButton::toggled, [&](bool toggled)
+    connect(ekosLiveOnlineR, &QRadioButton::toggled, this, [&](bool toggled)
     {
         Options::setEkosLiveOnline(toggled);
         if (toggled)
@@ -124,18 +114,13 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     QKeychain::ReadPasswordJob *job = new QKeychain::ReadPasswordJob(QLatin1String("kstars"));
     job->setAutoDelete(false);
     job->setKey(QLatin1String("ekoslive"));
-    connect(job, &QKeychain::Job::finished, [&](QKeychain::Job * job)
+    connect(job, &QKeychain::Job::finished, this, [&](QKeychain::Job * job)
     {
         if (job->error() == false)
         {
-            //QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
-            //const QString usernameText = data["username"].toString();
-            //const QString passwordText = data["password"].toString();
-
             const auto passwordText = dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1();
 
             // Only set and attempt connection if the data is not empty
-            //if (usernameText.isEmpty() == false && passwordText.isEmpty() == false)
             if (passwordText.isEmpty() == false && username->text().isEmpty() == false)
             {
                 //username->setText(usernameText);

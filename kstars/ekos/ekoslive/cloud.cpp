@@ -11,6 +11,7 @@
 #include "fitsviewer/fitsdata.h"
 
 #include "ekos_debug.h"
+#include "version.h"
 
 #include <QtConcurrent>
 #include <QFutureWatcher>
@@ -28,7 +29,6 @@ Cloud::Cloud(Ekos::Manager * manager): m_Manager(manager)
 
     connect(&watcher, &QFutureWatcher<bool>::finished, this, &Cloud::sendImage, Qt::UniqueConnection);
 
-    connect(this, &Cloud::newMetadata, this, &Cloud::uploadMetadata);
     connect(this, &Cloud::newImage, this, &Cloud::uploadImage);
 
     connect(Options::self(), &Options::EkosLiveCloudChanged, this, &Cloud::updateOptions);
@@ -49,6 +49,7 @@ void Cloud::connectServer()
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
     query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
     query.addQueryItem("type", m_AuthResponse["type"].toString());
+    query.addQueryItem("version", KSTARS_VERSION);
 
     requestURL.setPath("/cloud/ekos");
     requestURL.setQuery(query);
@@ -176,36 +177,29 @@ void Cloud::asyncUpload()
     // Must set Content-Disposition so
     metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
 
-    emit newMetadata(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
-    //m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
-
-    qCInfo(KSTARS_EKOS) << "Uploading file to the cloud with metadata" << metadata;
+    QByteArray image;
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+    meta = meta.leftJustified(METADATA_PACKET, 0);
+    image += meta;
 
     QString compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
     // Use cfitsio pack to compress the file first
     m_ImageData->saveImage(compressedFile + QStringLiteral("[compress R]"));
 
-
     // Upload the compressed image
-    QFile image(compressedFile);
-    if (image.open(QIODevice::ReadOnly))
+    QFile compressedImage(compressedFile);
+    if (compressedImage.open(QIODevice::ReadOnly))
     {
-        //m_WebSocket.sendBinaryMessage(image.readAll());
-        emit newImage(image.readAll());
+        image += compressedImage.readAll();
+        emit newImage(image);
         qCInfo(KSTARS_EKOS) << "Uploaded" << compressedFile << " to the cloud";
     }
-    image.close();
 
     // Remove from disk if temporary
     if (compressedFile != filepath && compressedFile.startsWith(QDir::tempPath()))
         QFile::remove(compressedFile);
 
     m_ImageData.reset();
-}
-
-void Cloud::uploadMetadata(const QByteArray &metadata)
-{
-    m_WebSocket.sendTextMessage(metadata);
 }
 
 void Cloud::uploadImage(const QByteArray &image)

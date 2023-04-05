@@ -20,13 +20,13 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
-#include "fitsviewer/fitsview.h"
 #include "ksalmanac.h"
 #include "skymapcomposite.h"
 #include "catalogobject.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "skymap.h"
 #include "Options.h"
+#include "version.h"
 
 #include <KActionCollection>
 #include <basedevice.h>
@@ -60,6 +60,7 @@ void Message::connectServer()
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
     query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
     query.addQueryItem("type", m_AuthResponse["type"].toString());
+    query.addQueryItem("version", KSTARS_VERSION);
 
     requestURL.setPath("/message/ekos");
     requestURL.setQuery(query);
