@@ -4,6 +4,75 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.4 (XISF):
+
+e27a949d3 2023-04-06 Jasem Mutlaq         Fix typo
+72911b507 2023-04-05 Jasem Mutlaq         Fix loading of compressed FITS
+79a2438bf 2023-04-05 Jasem Mutlaq         Fix ekoslive warnings
+6fa3707e4 2023-04-04 Jasem Mutlaq         If device interface is not defined then parking and unparking them should result in a state error and not endless loops. Thanks to Lee in INDI forum..
+af20fb775 2023-04-04 Jasem Mutlaq         Fix option not synced to disk
+46eec7822 2023-04-04 Jasem Mutlaq         Fix EkosLive options not getting saved
+f70848260 2023-04-04 Jasem Mutlaq         INDI drivers sync
+0bd4bd113 2023-04-03 Jasem Mutlaq         Protect against missing time and location update in case an external source (e.g. GPS) is missing in the profile or fails to connect. This is done b..
+e2819d315 2023-04-03 Wolfgang Reissenberger Bugfix for mount model
+084c98e0e 2023-04-02 Jasem Mutlaq         Update the documentation to remove obsoleted packages and add xisf
+64ddc0721 2023-03-31 Jasem Mutlaq         Add reset placeholder format button and fix format preview
+2539107d8 2023-03-29 Jasem Mutlaq         INDI drivers sync
+802b47efa 2023-03-28 Jasem Mutlaq         INDI drivers sync
+d7777aac5 2023-03-28 Jasem Mutlaq         Fix crash when removing a managed driver that was removed previously
+f9896797e 2023-03-26 Jasem Mutlaq         Add extra check to ensure index is valid
+1da9fb89b 2023-03-26 Jasem Mutlaq         Check if we have new FITS_HEADER property introduced in INDI v2.0.1
+c60ca17fc 2023-03-26 Jasem Mutlaq         Fix typo
+a83ab4122 2023-03-25 Wolfgang Reissenberger Avoid deleting the last optical train
+3a3bd60bd 2023-03-25 Jasem Mutlaq         Mark as stable to prepare for release
+78585dae0 2023-03-25 Jasem Mutlaq         INDI drivers sync
+cc9e0b93a 2023-03-25 Jasem Mutlaq         Add John Evans to authors and TNS server for supernovae
+bd541f2a3 2023-03-24 Jasem Mutlaq         if a train is deleted, replace with with the next available train until a user make an explicit selection
+59d571f1f 2023-03-21 Jasem Mutlaq         Update KStars to be compatible with INDI 2.0.1 FITS headers property
+58795d32c 2023-03-19 Wolfgang Reissenberger Setting capture state correctly after flip completed
+4e3a60b89 2023-03-13 Dušan Poizl          Add libxisf-dev as build dependency
+68ac5fd09 2023-03-14 Wolfgang Reissenberger Horizontal splitters added to modules layout
+e536811e5 2023-03-10 Phu Nguyen           Update home page to kstars.kde.org
+0ef3b1fd1 2023-03-10 Dušan Poizl          Changes for LibXISF0.2
+e6d9b4712 2023-03-11 Wolfgang Reissenberger Refactor meridian state capture logic to state machine
+a3f3c23ab 2023-03-06 Phu Nguyen           Update screenshot links
+85a93acd5 2023-03-06 Wolfgang Reissenberger Remove target attribute from SequenceJob
+acd22a458 2023-03-02 Thomas Stibor        Draw asteroids with selectable color and fixed size
+117c717f9 2023-03-03 Jasem Mutlaq         Cache directly from filename so that we do not reuse m_CurrentDarkFrame
+c36da89c7 2023-03-03 Jasem Mutlaq         Protect against connecting nullptr
+d8ad7c16e 2023-03-03 Jasem Mutlaq         Fix dark library cache issue where same reference was used for multiple images
+1b8b4ce10 2023-03-03 Jasem Mutlaq         Fix typo
+59e5fc5f3 2023-03-03 Jasem Mutlaq         Add missing loadGlobalSettings function in dark library
+489459240 2023-03-02 Jasem Mutlaq         Max dark guide threshold Default is 1 sec
+c66d297bf 2023-03-02 Jasem Mutlaq         Increase missing devices timeout to 5 seconds to alleviate false alarms for late initialized devices
+5471ea716 2023-03-02 Jasem Mutlaq         Remove obsolete signals
+d9855d97f 2023-03-02 Hy Murveit           Fix file overwriting issue
+5757bd7fa 2023-02-28 Hy Murveit           Fix locale issue in Analyze file picker
+16ce193b0 2023-02-28 Jasem Mutlaq         Update target position angle when a meridian flip is detected so that it does not cause uncommanded rotation post MF
+10775c532 2023-02-27 Wolfgang Reissenberger Avoid '+' in target names
+dd1ec285b 2023-02-25 Jasem Mutlaq         Do not remove filter model on device removal
+9eb7dca58 2023-02-25 Jasem Mutlaq         Remove device from filter manager
+644ae4280 2023-02-24 Wolfgang Reissenberger Controlling EKOS with external Sky Maps
+2ab3d1715 2023-02-19 James Amendolagine   Increase the indi control panel property label width to make them more readable.
+8d8d1b2ec 2023-02-19 Dušan Poizl          Support for XISF
+0738eeb60 2023-02-18 Wolfgang Reissenberger Extract capture initialization (filters, focus on filter change) to state machine
+30b3cd59b 2023-02-18 Thomas Stibor        Fix asteroid visual magnitude calculation
+f19d35326 2023-02-18 Eric Dejouhanet      CI: move to Ubuntu 22.04.
+437afb6a9 2023-02-18 Robert Lancaster     A user recently reported missing letters in QML labels, textfields, radio boxes, and titles in the Mount Control Box and the What's Interesting Wind..
+303bbc9c8 2023-02-18 Jasem Mutlaq         Add missing Qt::Tool
+bdd05f0fd 2023-02-15 Jasem Mutlaq         Fix crash in test catalog due to XML loading issue that only happens in TEST probably due to some https issue?
+d1dc21dea 2023-02-09 Jasem Mutlaq         Use alternative solution that also fixes datetime placeholder on Windows. Backporting to 3.6.3
+11dce3d7a 2023-02-09 Jasem Mutlaq         Remove another use for indi_timestamp
+e1b75bbc6 2023-02-08 Jasem Mutlaq         Use Qt own ISO8601
+e5e8f4c1e 2023-02-07 Jasem Mutlaq         Fix setting optical train reducer
+1530d9eec 2023-02-06 Jasem Mutlaq         Fix placeholder sequence counter on Windows.
+ce303ea71 2023-02-06 Jasem Mutlaq         Fix placeholder path on Windows due to hardcoded POSIX separators
+09d24763b 2023-02-06 Jasem Mutlaq         Add x suffix to make it more clear
+b81336d65 2023-02-06 Jasem Mutlaq         Fix range for reducer/barlow
+2851932b8 2023-02-05 Jasem Mutlaq         Fix separator replacement mistake
+1dbdae3e9 2023-02-05 Jasem Mutlaq         Use indi_timestamp from INDI GIT
+608a13db2 2023-02-05 Hy Murveit           m_TargetName was being overwritten when the UI Element targetNameT was programmatically modified. This cause the signaling from the scheduler to cap..
+
 3.6.3 (ZTF):
 
 a250eb5f3 2023-01-31 Jasem Mutlaq         INDI drivers sync
