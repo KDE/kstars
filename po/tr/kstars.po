@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-05 00:43+0000\n"
+"POT-Creation-Date: 2023-04-06 00:43+0000\n"
 "PO-Revision-Date: 2023-03-23 14:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -12660,7 +12660,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:213
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:198
 #: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:314
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12671,7 +12671,7 @@ msgstr "Bağlan"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:187
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:172
 #: ekos/guide/guide.ui:376 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -16448,17 +16448,17 @@ msgstr "Kapat"
 msgid "Loading"
 msgstr "Yükleniyor..."
 
-#: ekos/ekoslive/ekosliveclient.cpp:220
+#: ekos/ekoslive/ekosliveclient.cpp:205
 #, kde-format
 msgid "Username or password is missing."
 msgstr ""
 
-#: ekos/ekoslive/ekosliveclient.cpp:275
+#: ekos/ekoslive/ekosliveclient.cpp:260
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr ""
 
-#: ekos/ekoslive/ekosliveclient.cpp:288
+#: ekos/ekoslive/ekosliveclient.cpp:273
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error parsing server response: %1"
@@ -16541,7 +16541,7 @@ msgstr "Kalibrasyon yıldızını otomatik olarak seç."
 msgid "Auto Start"
 msgstr "Otomatik Yıldız"
 
-#: ekos/ekoslive/message.cpp:944
+#: ekos/ekoslive/message.cpp:945
 #, fuzzy, kde-format
 #| msgid "Rescaling image failed."
 msgid "Mosaic import failed."

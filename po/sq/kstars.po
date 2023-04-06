@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-05 00:43+0000\n"
+"POT-Creation-Date: 2023-04-06 00:43+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -12114,7 +12114,7 @@ msgstr "Porti"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:213
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:198
 #: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:314
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12125,7 +12125,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:187
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:172
 #: ekos/guide/guide.ui:376 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -15686,17 +15686,17 @@ msgstr "Këndi"
 msgid "Loading"
 msgstr "Duke Shkarkuar Të Dhëna Të Reja..."
 
-#: ekos/ekoslive/ekosliveclient.cpp:220
+#: ekos/ekoslive/ekosliveclient.cpp:205
 #, kde-format
 msgid "Username or password is missing."
 msgstr ""
 
-#: ekos/ekoslive/ekosliveclient.cpp:275
+#: ekos/ekoslive/ekosliveclient.cpp:260
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr ""
 
-#: ekos/ekoslive/ekosliveclient.cpp:288
+#: ekos/ekoslive/ekosliveclient.cpp:273
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
 msgid "Error parsing server response: %1"
@@ -15781,7 +15781,7 @@ msgstr "Këndi"
 msgid "Auto Start"
 msgstr "Vetë Përshkallëzo"
 
-#: ekos/ekoslive/message.cpp:944
+#: ekos/ekoslive/message.cpp:945
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

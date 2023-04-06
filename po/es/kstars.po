@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-05 00:43+0000\n"
-"PO-Revision-Date: 2023-04-01 18:27+0200\n"
+"POT-Creation-Date: 2023-04-06 00:43+0000\n"
+"PO-Revision-Date: 2023-04-05 04:46+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -12305,7 +12305,7 @@ msgstr "Puerto"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:213
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:198
 #: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:314
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12316,7 +12316,7 @@ msgstr "Conectar"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:187
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:172
 #: ekos/guide/guide.ui:376 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -15982,17 +15982,17 @@ msgstr "Parada"
 msgid "Loading"
 msgstr "Cargando"
 
-#: ekos/ekoslive/ekosliveclient.cpp:220
+#: ekos/ekoslive/ekosliveclient.cpp:205
 #, kde-format
 msgid "Username or password is missing."
 msgstr "Falta el nombre de usuario o la contraseña."
 
-#: ekos/ekoslive/ekosliveclient.cpp:275
+#: ekos/ekoslive/ekosliveclient.cpp:260
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Ha ocurrido un error de autenticación con el servidor de Ekos Live: %1"
 
-#: ekos/ekoslive/ekosliveclient.cpp:288
+#: ekos/ekoslive/ekosliveclient.cpp:273
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Ha ocurrido un error al analizar la respuesta del servidor: %1"
@@ -16070,7 +16070,7 @@ msgstr "Conectar automáticamente con el servicio EkosLive al iniciar."
 msgid "Auto Start"
 msgstr "Inicio automático"
 
-#: ekos/ekoslive/message.cpp:944
+#: ekos/ekoslive/message.cpp:945
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "La importación del mosaico ha fallado."
@@ -24946,12 +24946,10 @@ msgid "Job '%1' %2x%3\" %4"
 msgstr "Trabajo «%1» %2x%3\" %4"
 
 #: ekos/scheduler/scheduler.cpp:6179
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
-"Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
-"preparada."
+"Se ha solicitado aparcar la montura, pero no se han detectado monturas."
 
 #: ekos/scheduler/scheduler.cpp:6238
 #, kde-format
@@ -24959,12 +24957,10 @@ msgid "Parking mount in progress..."
 msgstr "Aparcamiento de la montura en proceso..."
 
 #: ekos/scheduler/scheduler.cpp:6251
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
-"Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
-"preparada."
+"Se ha solicitado desaparcar la montura, pero no se han detectado monturas."
 
 #: ekos/scheduler/scheduler.cpp:6278
 #, kde-format
@@ -25033,12 +25029,9 @@ msgid "Mount parking error."
 msgstr "Ha ocurrido un error al aparcar la montura."
 
 #: ekos/scheduler/scheduler.cpp:6538
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr ""
-"Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
-"preparada."
+msgstr "Se ha solicitado aparcar la cúpula, pero no se han detectado cúpulas."
 
 #: ekos/scheduler/scheduler.cpp:6563
 #, kde-format
@@ -25051,12 +25044,10 @@ msgid "Dome already parked."
 msgstr "La cúpula ya está aparcada."
 
 #: ekos/scheduler/scheduler.cpp:6579
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
-"Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
-"preparada."
+"Se ha solicitado desaparcar la cúpula, pero no se han detectado cúpulas."
 
 #: ekos/scheduler/scheduler.cpp:6601
 #, kde-format
@@ -25105,12 +25096,11 @@ msgid "Dome unparking error."
 msgstr "Ha ocurrido un error al desaparcar la cúpula."
 
 #: ekos/scheduler/scheduler.cpp:6734
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
-"Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
-"preparada."
+"Se ha solicitado aparcar la cubierta antipolvo, pero no se han detectado "
+"cubiertas antipolvo."
 
 #: ekos/scheduler/scheduler.cpp:6758
 #, kde-format
@@ -25123,12 +25113,11 @@ msgid "Cap already parked."
 msgstr "La tapa ya está aparcada."
 
 #: ekos/scheduler/scheduler.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
-"Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
-"preparada."
+"Se ha solicitado desaparcar la cubierta antipolvo, pero no se han detectado "
+"cubiertas antipolvo."
 
 #: ekos/scheduler/scheduler.cpp:6797
 #, kde-format

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-05 00:43+0000\n"
-"PO-Revision-Date: 2023-04-01 09:07+0300\n"
+"POT-Creation-Date: 2023-04-06 00:43+0000\n"
+"PO-Revision-Date: 2023-04-05 12:34+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -12263,7 +12263,7 @@ msgstr "Порт"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:213
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:198
 #: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:314
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12274,7 +12274,7 @@ msgstr "З'єднатися"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:187
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:172
 #: ekos/guide/guide.ui:376 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -15955,17 +15955,17 @@ msgstr "Вимикання"
 msgid "Loading"
 msgstr "Завантаження"
 
-#: ekos/ekoslive/ekosliveclient.cpp:220
+#: ekos/ekoslive/ekosliveclient.cpp:205
 #, kde-format
 msgid "Username or password is missing."
 msgstr "Не вказано імені користувача або пароля."
 
-#: ekos/ekoslive/ekosliveclient.cpp:275
+#: ekos/ekoslive/ekosliveclient.cpp:260
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Помилка під час розпізнавання на сервері Ekos Live: %1"
 
-#: ekos/ekoslive/ekosliveclient.cpp:288
+#: ekos/ekoslive/ekosliveclient.cpp:273
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Помилка під час обробки відповіді сервера: %1"
@@ -16045,7 +16045,7 @@ msgstr "Автоматично з'єднуватися зі службою EkosL
 msgid "Auto Start"
 msgstr "Автозапуск"
 
-#: ekos/ekoslive/message.cpp:944
+#: ekos/ekoslive/message.cpp:945
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Не вдалося імпортувати мозаїку."
@@ -24898,10 +24898,9 @@ msgid "Job '%1' %2x%3\" %4"
 msgstr "Завдання «%1» %2⨯%3\" %4"
 
 #: ekos/scheduler/scheduler.cpp:6179
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount park requested but no mounts detected."
-msgstr "Потрібне зняття купола з паркування, але купол ще не готовий."
+msgstr "Надіслано запит щодо паркування лафета, але лафетів не виявлено."
 
 #: ekos/scheduler/scheduler.cpp:6238
 #, kde-format
@@ -24909,10 +24908,10 @@ msgid "Parking mount in progress..."
 msgstr "Паркуємо лафет…"
 
 #: ekos/scheduler/scheduler.cpp:6251
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount unpark requested but no mounts detected."
-msgstr "Потрібне зняття купола з паркування, але купол ще не готовий."
+msgstr ""
+"Надіслано запит щодо зняття лафета з паркування, але лафетів не виявлено."
 
 #: ekos/scheduler/scheduler.cpp:6278
 #, kde-format
@@ -24981,10 +24980,9 @@ msgid "Mount parking error."
 msgstr "Помилка під час паркування лафета."
 
 #: ekos/scheduler/scheduler.cpp:6538
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr "Потрібне зняття купола з паркування, але купол ще не готовий."
+msgstr "Надіслано запит щодо паркування купола, але куполів не виявлено."
 
 #: ekos/scheduler/scheduler.cpp:6563
 #, kde-format
@@ -24997,10 +24995,10 @@ msgid "Dome already parked."
 msgstr "Купол уже запарковано."
 
 #: ekos/scheduler/scheduler.cpp:6579
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome unpark requested but no domes detected."
-msgstr "Потрібне зняття купола з паркування, але купол ще не готовий."
+msgstr ""
+"Надіслано запит щодо зняття купола з паркування, але куполів не виявлено."
 
 #: ekos/scheduler/scheduler.cpp:6601
 #, kde-format
@@ -25048,10 +25046,11 @@ msgid "Dome unparking error."
 msgstr "Помилка під час зняття з паркування купола."
 
 #: ekos/scheduler/scheduler.cpp:6734
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover park requested but no dust covers detected."
-msgstr "Потрібне зняття купола з паркування, але купол ще не готовий."
+msgstr ""
+"Надіслано запит щодо паркування протипилової кришки, але протипилових кришок "
+"не виявлено."
 
 #: ekos/scheduler/scheduler.cpp:6758
 #, kde-format
@@ -25064,10 +25063,11 @@ msgid "Cap already parked."
 msgstr "Кришку уже запарковано."
 
 #: ekos/scheduler/scheduler.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
-msgstr "Потрібне зняття купола з паркування, але купол ще не готовий."
+msgstr ""
+"Надіслано запит щодо зняття протипилової кришки з паркування, але "
+"протипилових кришок не виявлено."
 
 #: ekos/scheduler/scheduler.cpp:6797
 #, kde-format

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-05 00:43+0000\n"
-"PO-Revision-Date: 2023-04-01 16:27+0200\n"
+"POT-Creation-Date: 2023-04-06 00:43+0000\n"
+"PO-Revision-Date: 2023-04-05 10:14+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -12220,7 +12220,7 @@ msgstr "Poort"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:213
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:198
 #: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:314
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12231,7 +12231,7 @@ msgstr "Verbinden"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:187
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:172
 #: ekos/guide/guide.ui:376 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -15848,17 +15848,17 @@ msgstr "Afsluiten"
 msgid "Loading"
 msgstr "Wordt gedownload"
 
-#: ekos/ekoslive/ekosliveclient.cpp:220
+#: ekos/ekoslive/ekosliveclient.cpp:205
 #, kde-format
 msgid "Username or password is missing."
 msgstr "Gebruikersnaam of wachtwoord ontbreekt."
 
-#: ekos/ekoslive/ekosliveclient.cpp:275
+#: ekos/ekoslive/ekosliveclient.cpp:260
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Fout bij het aanmelden bij server Ekos Live: %1"
 
-#: ekos/ekoslive/ekosliveclient.cpp:288
+#: ekos/ekoslive/ekosliveclient.cpp:273
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Fout bij lezen antwoord server: %1"
@@ -15936,7 +15936,7 @@ msgstr "Automatisch koppelen met dienst EkosLive bij starten."
 msgid "Auto Start"
 msgstr "Autostart"
 
-#: ekos/ekoslive/message.cpp:944
+#: ekos/ekoslive/message.cpp:945
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaïek importeren is mislukt."
@@ -24646,10 +24646,9 @@ msgid "Job '%1' %2x%3\" %4"
 msgstr "Taak '%1' %2x%3\" %4"
 
 #: ekos/scheduler/scheduler.cpp:6179
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount park requested but no mounts detected."
-msgstr "Unpark van dome gevraagd maar dome is nog niet gereed."
+msgstr "Parkeren van opstelling gevraagd maar geen opstelling gedetecteerd."
 
 #: ekos/scheduler/scheduler.cpp:6238
 #, kde-format
@@ -24657,10 +24656,11 @@ msgid "Parking mount in progress..."
 msgstr "Opstelling wordt geparkeerd..."
 
 #: ekos/scheduler/scheduler.cpp:6251
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount unpark requested but no mounts detected."
-msgstr "Unpark van dome gevraagd maar dome is nog niet gereed."
+msgstr ""
+"Parkeren van opstelling ongedaan maken gevraagd maar geen opstelling "
+"gedetecteerd."
 
 #: ekos/scheduler/scheduler.cpp:6278
 #, kde-format
@@ -24727,10 +24727,9 @@ msgid "Mount parking error."
 msgstr "Fout bij parkeren opstelling."
 
 #: ekos/scheduler/scheduler.cpp:6538
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr "Unpark van dome gevraagd maar dome is nog niet gereed."
+msgstr "Parkeren van dome gevraagd maar geen domes gedetecteerd."
 
 #: ekos/scheduler/scheduler.cpp:6563
 #, kde-format
@@ -24743,10 +24742,10 @@ msgid "Dome already parked."
 msgstr "Koepel is reeds in parkeerstand."
 
 #: ekos/scheduler/scheduler.cpp:6579
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome unpark requested but no domes detected."
-msgstr "Unpark van dome gevraagd maar dome is nog niet gereed."
+msgstr ""
+"Parkeren van dome ongedaan maken gevraagd maar geen domes gedetecteerd."
 
 #: ekos/scheduler/scheduler.cpp:6601
 #, kde-format
@@ -24794,10 +24793,9 @@ msgid "Dome unparking error."
 msgstr "Fout bij koepel uit parkeerstand brengen."
 
 #: ekos/scheduler/scheduler.cpp:6734
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover park requested but no dust covers detected."
-msgstr "Unpark van dome gevraagd maar dome is nog niet gereed."
+msgstr "Parkeren van stofkap gevraagd maar geen stofkap gedetecteerd."
 
 #: ekos/scheduler/scheduler.cpp:6758
 #, kde-format
@@ -24810,10 +24808,10 @@ msgid "Cap already parked."
 msgstr "Kap is reeds in parkeerstand."
 
 #: ekos/scheduler/scheduler.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
-msgstr "Unpark van dome gevraagd maar dome is nog niet gereed."
+msgstr ""
+"Parkeren van stofkap ongedaan maken gevraagd maar geen stofkap gedetecteerd."
 
 #: ekos/scheduler/scheduler.cpp:6797
 #, kde-format
