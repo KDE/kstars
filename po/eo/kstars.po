@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:43+0000\n"
-"PO-Revision-Date: 2023-03-12 22:53+0100\n"
+"PO-Revision-Date: 2023-04-07 10:09+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -6976,7 +6976,7 @@ msgid ""
 "</body></html>"
 msgstr ""
 "<html><head/><body><p>Elektu la tipon de objektoj/punktoj aldonitaj de la "
-"asistanto.</p><p><span style=\" font-weight:600;\">Noto:< /span> ĉiuj opcioj "
+"asistanto.</p><p><span style=\" font-weight:600;\">Noto:</span> ĉiuj opcioj "
 "krom Fiksa DEC komenciĝas per krado de RA/DEC-punktoj.</p>\n"
 "<ul>\n"
 "<li><b>Iaj Steloj:</b> La sorĉisto serĉas la plej proksiman. stelo.</li>\n"
@@ -7673,7 +7673,7 @@ msgstr ""
 "<ul>\n"
 "<li>dw: grado larĝo</li>\n"
 "<li>aw: arkminuta larĝo</li>\n"
-"< /ul>"
+"</ul>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_50)
 #: ekos/align/opsastrometry.ui:86
@@ -8037,7 +8037,7 @@ msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Senrete</span> "
 "astrometry.net solver postulas indeksajn dosierojn por solvi bildon. Bonvolu "
 "vidi la Astrometry.net <a href=\"http://astrometry.net/doc/readme.html"
-"\"><span style=\" teksto-ornamado: substreko; koloro:#0000ff;\">README< /"
+"\"><span style=\" teksto-ornamado: substreko; koloro:#0000ff;\">README</"
 "span></a> por detaloj. La sekva listo provizas kompletan liston de la "
 "indeksaj dosieroj, kune kun rekomenditaj indeksaj dosieroj por instali laŭ "
 "la nuna CCD-Vidkampo. Instalitaj indeksaj dosieroj estas kontrolitaj. Apud "
@@ -9300,8 +9300,8 @@ msgid ""
 "the Legacy Polar Alignment Tool.</p>"
 msgstr ""
 "<p>Ilo de Polar Alignment Helper postulas la jenon:</p><p>1. Germana "
-"Ekvatora Muntaĵo</p><p>2. Larĝa FOV > 1 gradoj</p><p>Por malgrandaj FOV-oj, "
-"uzu la Legacy Polar Alignment Tool.</p>"
+"Ekvatora Muntaĵo</p><p>2. Larĝa FOV &gt; 1 gradoj</p><p>Por malgrandaj FOV-"
+"oj, uzu la Legacy Polar Alignment Tool.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, introText)
 #: ekos/align/polaralignmentassistant.ui:78
@@ -10202,7 +10202,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Ploku la radik-kvadratan valoron (RMS) de la kombinita "
 "RA kaj DEC-drivo en arksekundoj, averaĝe sur proksimume la pasintaj 40 "
-"specimenoj.</p></p></p> korpo></html>"
+"specimenoj.</p></p></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCB)
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCCB)
@@ -11893,21 +11893,16 @@ msgstr "Optikaj Trajnoj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Elekti la bildigan fotilon por ĉi tiu optika trajno.</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Krei novan optikan trajnon.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Forigi nunan kadron</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Forigi elektitan optikan trajnon.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
@@ -11932,8 +11927,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Elektu la amplekson aŭ lenson uzatan en la optika "
 "trajno.</p><p>Por aldoni, redakti aŭ forigi optikajn elementojn, frapu la "
-"tiparon <span style=\" -weight:600;\">Butono Teleskopo & Lenso</span>.</p></"
-"body></html>"
+"tiparon <span style=\" -weight:600;\">Butono Teleskopo &amp; Lenso</span>.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
@@ -12000,10 +11995,10 @@ msgid ""
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Elekti ĉu iu reduktilo aŭ barlow estas uzata en la "
-"trajno.</p><p><span style=\" font-weight:600;\">Reduktilo:< /span> Se la "
+"trajno.</p><p><span style=\" font-weight:600;\">Reduktilo:</span> Se la "
 "valoro estas malpli ol 1.0x, ĉi tiu elemento estas konsiderata kiel "
 "reduktilo (la fokusa longo estas malpliigita de ĉi tiu faktoro).</p><p><span "
-"style=\" font-weight:600;\" >Barlow</span>: Se la valoro estas pli ol 1.0x, "
+"style=\" font-weight:600;\">Barlow</span>: Se la valoro estas pli ol 1.0x, "
 "tiam ĝi estas konsiderata kiel barlow-elemento (fokusa longo estas pliigita "
 "de ĉi tiu faktoro).</p></body></html>"
 
@@ -12033,7 +12028,7 @@ msgid ""
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Elektu filtrilon.</p><p>Ĉi tio povus esti dediĉita "
-"filtrila rado aŭ parto de fotila pelilo.</p></body></html >"
+"filtrila rado aŭ parto de fotila pelilo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:280
@@ -14291,10 +14286,9 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/capture.ui:959
-#, fuzzy, kde-format
-#| msgid "Reset %1 configuration to default?"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "Ĉu restarigi %1 agordon al defaŭlta?"
+msgstr "Restarigi lokokupilan formaton al defaŭlta"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/capture.ui:979
@@ -14306,7 +14300,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Celo estas la nomo de la celita objekto.</p><p>Ĝi "
 "disponeblas por esti uzata en la dosiernomo Formato per la etikedo %t aŭ "
-"%type.< /p></body></html>"
+"%type.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/capture.ui:1024
@@ -14394,7 +14388,7 @@ msgstr ""
 "span>: La nomo de la .esq-dosiero, sen etendo.</li><li style=\" margin-"
 "top:0px; margin-bottom:0px; ; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">Anstataŭilo<span style=\" font-weight:700;\"> "
-"%D< /span> aŭ <span style=\" font-weight:700;\">%Datetime</span>: La nunaj "
+"%D</span> aŭ <span style=\" font-weight:700;\">%Datetime</span>: La nunaj "
 "horo kaj dato <span style=\" font-weight:700;\">kiam la dosiero estas "
 "konservite.</span></li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; teksto -indent:0px;"
@@ -14403,14 +14397,14 @@ msgstr ""
 "'Malhela', 'Ebena'...</li> <li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Anstataŭilo<span style=\" font-weight:700;\"> %e</span> aŭ <span style=\" "
-"font-weight:700;\">%ekspozicio< /span>: La malkovrodaŭro en sekundoj.</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"font-weight:700;\">%ekspozicio</span>: La malkovrodaŭro en sekundoj.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Anstataŭilo<span style=\" "
 "font-weight:700;\"> %F</span> aŭ <span style=\" font-weight:700;\">"
-"%Filtrilo< /span>: La aktiva filtrila nomo.</li><li style=\" margin-top:0px; "
+"%Filtrilo</span>: La aktiva filtrila nomo.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Anstataŭilo<span style=\" font-weight:700;\"> %t</span> "
-"aŭ <span style=\" font-weight:700;\">%target< /span>: La Celnomo.</li><li "
+"aŭ <span style=\" font-weight:700;\">%target</span>: La Celnomo.</li><li "
 "style=\" margin-top:0px; rando-malsupro:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Anstataŭilo<span style=\" "
 "font-weight:700;\"> %s*</span> aŭ <span style=\" font-weight:700;\">"
@@ -16993,7 +16987,7 @@ msgid ""
 msgstr ""
 "<html><body><p>Ĉi tiu nombro multobligita per komenca-paŝa grandeco estas "
 "nombro da eksteraj paŝoj, la algoritmo de Linear Focus moviĝas for de la "
-"komenca pozicio ĉe la komenco de fokuso.</p></body></html. >"
+"komenca pozicio ĉe la komenco de fokuso.</p></body></html.>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:1625
@@ -17148,7 +17142,7 @@ msgstr "Ripeto:"
 #: ekos/focus/focus.ui:2004
 #, kde-format
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
-msgstr "< html >< body >< p >Fokurilo ripeto.</ p ></ body ></ html >"
+msgstr "<html><body><p>Fokusila ripeto.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:2033
@@ -17196,8 +17190,8 @@ msgid ""
 "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>POS: </td><td>%1</td></tr><tr><td>HFR: </td><td>%2</td>< /"
-"tr></table>"
+"<table><tr><td>POS: </td><td>%1</td></tr><tr><td>HFR: </td><td>%2</td></tr></"
+"table>"
 
 #: ekos/guide/externalguide/linguider.cpp:67
 #: ekos/guide/externalguide/phd2.cpp:278
@@ -18966,7 +18960,7 @@ msgstr ""
 "\" font-weight:600; color:#8ae234;\">Grava Periodo</span>. Se vi povas "
 "determini ĝin por via monto, estas multe <br/>pli bone agordi ĝin mem kaj "
 "malmarki <span style=\" font-weight:600; color:#8ae234;\">Taksa Periodo.</"
-"span>< /p><hr/></body></html>"
+"span></p><hr/></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGEnabled)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpg0)
@@ -19149,7 +19143,7 @@ msgstr ""
 "block-indent:0; text-indent:0px;\">Ŝanĝo en\n"
 " ŝarĝo pro gravito,</li><li style=\" margin-top:12px; margin; -bottom:0px; "
 "margin-left:0px; margin-right:0px;\n"
-" -qt-block-indent:0; text-indent:0px;\">Termikaj variadoj.</li></ul><p >Ĉi "
+" -qt-block-indent:0; text-indent:0px;\">Termikaj variadoj.</li></ul><p>Ĉi "
 "tio verŝajne estu plurfoje\n"
 "-oble pli granda ol la ĉefa periodo.</p></body></html>"
 
@@ -19199,8 +19193,8 @@ msgstr ""
 "esti opiniita kiel la ondolongo de la brua komponento\n"
 " super kiu la bruo iĝas neantaŭvidebla. Pli alta longskalo signifas, ke la "
 "antaŭvidebla eraro havas malpli altfrekvencajn\n"
-" komponentojn; pli mallonga longo-skalo signifas, ke ĝi havas pli.</ p ></ "
-"body ></ html >"
+" komponentojn; pli mallonga longo-skalo signifas, ke ĝi havas pli.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas2a)
 #: ekos/guide/opsgpg.ui:433
@@ -19623,7 +19617,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Se la fotilo uzata por gvidado havas dediĉitan "
 "gvidpeceton, vi povas decidi, kiu el la fotilaj blatoj estu uzataj por "
-"gvidado: la primara blato aŭ la gvidpeto.</p ><p>Por fotiloj kiuj havas nur "
+"gvidado: la primara blato aŭ la gvidpeto.</p><p>Por fotiloj kiuj havas nur "
 "unu blaton, ĉi tiu opcio estas ignorita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseGuideHead)
@@ -19654,7 +19648,7 @@ msgstr ""
 "style=\" font-size:x-large; font-weight:600;\">Kunhavu aliron al via "
 "observatorio ĉe </span><a href=\"https:/ /indihub.space\"><span style=\" "
 "font-size:x-large; tiparo-pezo:600; tekst-ornamado: substreko; koloro:"
-"#007af4;\">indihub.space</span></span a ></ h2 ></ korpo ></ html >"
+"#007af4;\">indihub.space</span></span a></h2></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, solorR)
 #: ekos/indihub.ui:94
@@ -22707,7 +22701,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Se la fora komputilo havas instalitan astrometry.net, "
 "vi povas ruli la foran astrometrian pelilon kaj uzi ĝin por solvi bildojn en "
-"la modulo Ekos Align.</p></body>< /html>"
+"la modulo Ekos Align.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useRemoteAstrometryCheck)
 #: ekos/profilewizard.ui:1061
@@ -22752,7 +22746,7 @@ msgstr ""
 "Servilon. Vi povas konekti SkySafari al ĉi tiu servilo kaj ĝi ebligos vin "
 "konekti kaj kontroli vian monton. Por pliaj detaloj, bonvolu kontroli la <a "
 "href=\"https://indilib.org/devices/telescopes/skysafari.html\"><span style="
-"\" teksto-ornamado: substreko; koloro:#007af4;\" >INDI SkySafari Dokumentado."
+"\" teksto-ornamado: substreko; koloro:#007af4;\">INDI SkySafari Dokumentado."
 "</span></a></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSkySafariCheck)
@@ -23551,7 +23545,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Sumo de Scheduler-taskoj necesaj por "
-"kovri la mozaikan kampon, kaj ke la ilo produktos.</p></body></html >"
+"kovri la mozaikan kampon, kaj ke la ilo produktos.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, jobCountLabel)
 #: ekos/scheduler/mosaic.ui:958
@@ -23664,7 +23658,7 @@ msgstr ""
 "sinteza kampo konstruita el katalogaj steloj.</p><p>• <span style=\" font-"
 "weight:600;\">10-20 %</span> se vi planas kudri apudajn kadrojn vicigante la "
 "stelojn en iliaj interkovritaj ĉielaj makuloj.</p><p>• <span style=\" font-"
-"weight:600;\">50-80%< /span> se vi planas prilabori ununuran stakon kun la "
+"weight:600;\">50-80%</span> se vi planas prilabori ununuran stakon kun la "
 "kadroj produktitaj de la mozaikaj taskoj.</p><p align=\"justify\">Ŝanĝi la "
 "interkovran valoron tuj ĝisdatigas la nombron da kaheloj por kovri la "
 "mozaikon kampo tute. La generitaj kaheloj povas tiel kovri pli da kampo ol "
@@ -24485,10 +24479,9 @@ msgid "Job '%1' %2x%3\" %4"
 msgstr "Tasko '%1' %2x%3\" %4"
 
 #: ekos/scheduler/scheduler.cpp:6179
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount park requested but no mounts detected."
-msgstr "Kupolo malparko necesas sed kupolo ankoraŭ ne estas preta."
+msgstr "Parkado de muntaĵo petita sed detektis neniujn muntaĵojn."
 
 #: ekos/scheduler/scheduler.cpp:6238
 #, kde-format
@@ -24496,10 +24489,9 @@ msgid "Parking mount in progress..."
 msgstr "Parkado de muntaĵo en progreso..."
 
 #: ekos/scheduler/scheduler.cpp:6251
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount unpark requested but no mounts detected."
-msgstr "Kupolo malparko necesas sed kupolo ankoraŭ ne estas preta."
+msgstr "Malparkigo de muntaĵo petita sed detektis neniujn muntaĵojn."
 
 #: ekos/scheduler/scheduler.cpp:6278
 #, kde-format
@@ -24564,10 +24556,9 @@ msgid "Mount parking error."
 msgstr "Muntaĵparkuma eraro."
 
 #: ekos/scheduler/scheduler.cpp:6538
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr "Kupolo malparko necesas sed kupolo ankoraŭ ne estas preta."
+msgstr "Kupola parkado petita sed detektis neniujn kupolojn."
 
 #: ekos/scheduler/scheduler.cpp:6563
 #, kde-format
@@ -24580,10 +24571,9 @@ msgid "Dome already parked."
 msgstr "Kupolo jam parkumita."
 
 #: ekos/scheduler/scheduler.cpp:6579
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome unpark requested but no domes detected."
-msgstr "Kupolo malparko necesas sed kupolo ankoraŭ ne estas preta."
+msgstr "Kupolo malparkado petita sed detektis neniujn kupolojn."
 
 #: ekos/scheduler/scheduler.cpp:6601
 #, kde-format
@@ -24631,10 +24621,9 @@ msgid "Dome unparking error."
 msgstr "Kupola malparkuma eraro."
 
 #: ekos/scheduler/scheduler.cpp:6734
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover park requested but no dust covers detected."
-msgstr "Kupolo malparko necesas sed kupolo ankoraŭ ne estas preta."
+msgstr "Polvkovrila parkado petita sed detektis neniujn polvokovrilojn."
 
 #: ekos/scheduler/scheduler.cpp:6758
 #, kde-format
@@ -24647,10 +24636,9 @@ msgid "Cap already parked."
 msgstr "Ĉapo jam parkis."
 
 #: ekos/scheduler/scheduler.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
-msgstr "Kupolo malparko necesas sed kupolo ankoraŭ ne estas preta."
+msgstr "Polvkovrila malparkado petita sed detektis neniujn polvokovrilojn."
 
 #: ekos/scheduler/scheduler.cpp:6797
 #, kde-format
@@ -25349,7 +25337,7 @@ msgstr "Alt >"
 #: ekos/scheduler/scheduler.ui:1648 ekos/scheduler/scheduler.ui:1686
 #, kde-format
 msgid " °"
-msgstr "°"
+msgstr " °"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, weatherCheck)
 #: ekos/scheduler/scheduler.ui:1667
@@ -25427,7 +25415,7 @@ msgstr ""
 "plenumadon de tasko krom se la opcioj de Ekos Dawn Offset kaj Dusk Offset "
 "estas taŭge agorditaj.</p><p>Rimarku, ke la opcio de Ekos Pre-Dawn Offset "
 "preskaŭ antaŭas tagiĝo defaŭlte de 30 minutoj kaj faros tiel malebligas ke "
-"tasko komenciĝu ĝuste antaŭ tiu momento.</ p ></ body ></ html >"
+"tasko komenciĝu ĝuste antaŭ tiu momento.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:1777
@@ -25441,7 +25429,7 @@ msgstr ""
 "<html><head/><body><p>Unufoja ĉesiga proceduro efektivigota post kiam ĉiuj "
 "planigaj taskoj estas finitaj. La skripto estas plenumita <span style=\" "
 "font-weight:600; text-decoration: underline;\">post</span> la malŝaltaj "
-"proceduroj (ekz. parkado), se elektita, estas finitaj.</p></p></p> korpo></"
+"proceduroj (ekz. parkado), se elektita, estas finitaj.</p></p></p></body></"
 "html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
@@ -25569,7 +25557,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:2022
 #, kde-format
 msgid "&Queue"
-msgstr "&Vivu"
+msgstr "&Vico"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
 #: ekos/scheduler/scheduler.ui:2038
@@ -25581,19 +25569,19 @@ msgstr "Replanu abortitan taskon tuj."
 #: ekos/scheduler/scheduler.ui:2041
 #, kde-format
 msgid "I&mmediate"
-msgstr "mi& tuj"
+msgstr "Tu&ja"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
 #: ekos/scheduler/scheduler.ui:2064
 #, kde-format
 msgid "Treat errors like aborts."
-msgstr "Traktu erarojn kiel abortojn."
+msgstr "Trakti erarojn kiel ĉesigojn."
 
 #. i18n: ectx: property (text), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
 #: ekos/scheduler/scheduler.ui:2067
 #, kde-format
 msgid "Re-schedule errors"
-msgstr "Replanu erarojn"
+msgstr "Replani erarojn"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingDelaySB)
 #: ekos/scheduler/scheduler.ui:2080
@@ -25605,7 +25593,7 @@ msgstr "Prokrasto en sekundoj."
 #: ekos/scheduler/scheduler.ui:2083
 #, kde-format
 msgid " s wait"
-msgstr "s atendi"
+msgstr " s atendo"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, startupGroupBox)
 #: ekos/scheduler/scheduler.ui:2101
@@ -25619,7 +25607,7 @@ msgstr ""
 "<html><head/><body><p>Unufoja lanĉa proceduro efektivigota antaŭ komenci "
 "Ekos. La skripto estas plenumita <span style=\" font-weight:600; text-"
 "decoration: underline;\">antaŭ ol</span> la startproceduroj (ekz. malparki "
-"amplekson), se elektita, estas plenumitaj.</p>< /korpo></html>"
+"amplekson), se elektita, estas plenumitaj.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
 #: ekos/scheduler/scheduler.ui:2104
@@ -26149,7 +26137,7 @@ msgid ""
 "td><td>%2</td></tr></table>"
 msgstr ""
 "<table><tr><td>Intenso: </td><td>%1</td></tr><tr><td>R Ofteco: </td><td>%2</"
-"td> </ tr ></ table>"
+"td></tr></table>"
 
 #: fitsviewer/fitshistogram.cpp:830 fitsviewer/fitshistogramview.cpp:214
 #, kde-format
@@ -27490,7 +27478,7 @@ msgstr ""
 "<html><head/><body><p>Por krei <span style=\" font-weight:600;\">Kaŝnomo</"
 "span> el ekzistanta pelilo, elektu ekzistantan pelilon kaj poste nur ŝanĝu "
 "la <span style=\" font-weight:600;\">Etikedu </span> tiam premu<span style="
-"\" font-weight:600;\"> Aldoni.</span></p></body ></html>"
+"\" font-weight:600;\"> Aldoni.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/customdrivers.ui:246
@@ -28331,9 +28319,9 @@ msgstr ""
 "ŝablonojn por igi ilin dinamikaj:</p>\n"
 "<ul>\n"
 "<li><b>_D_</b> por la dato en YYYY-MM-DD.</li>\n"
-"< li><b>_H_</b> por tempo en HH:MM:SS.</li>\n"
+"<li><b>_H_</b> por tempo en HH:MM:SS.</li>\n"
 "<li><b>_T_</b> por tempomarko ISO8601.</li>\n"
-"<li> <b>_F_</b> por filtrila nomo, se ekzistas.</li>\n"
+"<li><b>_F_</b> por filtrila nomo, se ekzistas.</li>\n"
 "</ul>\n"
 "</body></html>"
 
@@ -69160,17 +69148,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr "FITS, Fokuso, Gvidaj Pliboniĝoj"
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Mount Evans Obs."
+msgstr "John Evans"
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Focus process algorithm"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "Fokusproceza algoritmo"
+msgstr "Fokusaj algoritmoj"
 
 #: main.cpp:139
 #, kde-format
@@ -69370,10 +69355,9 @@ msgid "Bahtinov Focus Assistant."
 msgstr "Bahtinov Focus Asistanto."
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Ĝisdatigo de Supernovaoj"
+msgstr "Ĉiutagaj ĝisdatigoj de supernovaoj"
 
 #: main.cpp:194
 #, kde-format
@@ -73507,7 +73491,7 @@ msgstr ""
 "\t\t<p>Por ŝanĝi inter Ekvatora kaj Horizontala koordinato\n"
 "\t\t\tsistemoj, uzu la menueron \"Vidi->Koordinatoj\" aŭ premu la "
 "spacbreton.\n"
-"\t\t</p >\n"
+"\t\t</p>\n"
 "\t\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -74248,7 +74232,7 @@ msgstr ""
 "Centaŭro).\n"
 "\t\t\tLa plej hela stelo en la nokta ĉielo estas Siriuso (alfa Canis "
 "Majoris).\n"
-"\t\t< /p>\n"
+"\t\t</p>\n"
 "\t\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -75006,7 +74990,7 @@ msgstr ""
 "plurajn <B>modulojn</b> kiuj plenumas diversajn astronomi-rilatajn "
 "kalkulojn. La moduloj estas organizitaj en pluraj kategorioj: "
 "<UL><LI><B>Tempokalkuliloj: </B>Konverti inter temposistemoj, kaj antaŭdiri "
-"la tempon de ĉielaj eventoj</LI><LI><B>Konvertiloj de koordinatoj: < /"
+"la tempon de ĉielaj eventoj</LI><LI><B>Konvertiloj de koordinatoj: </"
 "B>Konverti inter diversaj koordinatsistemoj</LI><LI><B>Sunsistemo: </"
 "B>Antaŭdiri la pozicion de iu planedo, el difinita loko sur la Tero en "
 "difinita tempo</LI></UL> </QT>"
@@ -75045,9 +75029,9 @@ msgid ""
 "topocentric radial velocity of a source from its LSR velocity</LI></UL></QT>"
 msgstr ""
 "<QT>Sekcio kun algoritmoj por la konvertiĝo de malsamaj astronomiaj sistemoj "
-"de koordinatoj<UL><LI><B>Galaksio:</B> Konverto de Galaksiaj/Ekvatoraj "
-"koordinatoj</LI><LI><B>Ŝajne:</B> > Komputado de nunaj ekvatoraj koordinatoj "
-"el difinita epoko</LI><LI><B> Ekliptiko:</B> Konverto de ekliptiko/Ekvatoraj "
+"de koordinatoj<UL><LI><B>Galaksia:</B> Konverto de Galaksiaj/Ekvatoraj "
+"koordinatoj</LI><LI><B>Apera:</B> Komputado de nunaj ekvatoraj koordinatoj "
+"el difinita epoko</LI><LI><B> Ekliptika:</B> Konverto de ekliptiko/Ekvatoraj "
 "koordinatoj</LI><LI><B>Horizontala:</B> Komputado de azimuto kaj alteco por "
 "donita fonto, tempo kaj loko sur la Tero</LI><LI><B>Simpla:</B> Konverto "
 "inter anguloj en h kaj gradoj.</LI><LI><B>Angula Distanco. :</B> Komputado "
@@ -75751,8 +75735,8 @@ msgstr ""
 "liniosegmentoj kiujn vi enigas. </p><ul style=\"margin-top: 0px; margin-"
 "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
 "style= \" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Por desegni <span stilon ="
-"\" font-weight:600;\">Regiono</span>, enigu liston de <span style=\" font-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Por desegni <span style=\" "
+"font-weight:600;\">Regiono</span>, enigu liston de <span style=\" font-"
 "weight:600;\">Punktoj</span> (<span style=\" tiparo -style:italic;"
 "\">minimumo</span> 2) kiu skizas la supron de blokita areo (la <span style="
 "\" font-weight:600;\">blokado estas sub</span> la linioj).</li><ul style="
@@ -77486,7 +77470,7 @@ msgstr ""
 "style=\" font-weight:600;\">observeblaj en aparta dato</span>.</p><p></p><p "
 ">Premu la butonon <span style=\" font-weight:600;\">Sekva</span> por komenci "
 "elektante kiujn objektotipojn vi ŝatus ĉeesti en via observa listo.</p></"
-"body ></html>"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, ObjTypeLabel)
 #: tools/obslistwizard.ui:74
@@ -77503,7 +77487,7 @@ msgstr ""
 "la objektotipojn, kiujn vi volas enmeti en vian observan liston en la suba "
 "skatolo . Vi povas reliefigi pli ol unu objekton en la listo. La butonoj "
 "dekstre povas esti uzataj por rapide elekti iujn oftajn elektojn.</p><p></"
-"p><p>Kiam vi finos, premu la <span style=\" font-weight:600;\" >Sekva</"
+"p><p>Kiam vi finos, premu la <span style=\" font-weight:600;\">Sekva</"
 "span>butono.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AllButton)
@@ -77780,7 +77764,7 @@ msgstr ""
 "paĝojn per la butono <span style=\" font-weight:600;\">Reen</span>. Kiam vi "
 "estas kontenta, premu la butonon <span style=\" font-weight:600;\">Ok</span> "
 "por eliri la asistanton, kaj la ilo de Observado Listo estos plenigita per "
-"la objektoj kiujn vi specifis ĉi tie.< /p><p><br/></p></body></html>"
+"la objektoj kiujn vi specifis ĉi tie.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SelectByMagnitude)
 #: tools/obslistwizard.ui:919
