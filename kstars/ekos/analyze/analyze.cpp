@@ -498,7 +498,7 @@ void Analyze::initInputSelection()
             // translates "analyze" to "analyse" for the English UK locale, but we need to keep it ".analyze"
             // because that's what how the files are named.
             QUrl inputURL = QFileDialog::getOpenFileUrl(this, i18nc("@title:window", "Select input file"), dirPath,
-                                                        QString("Analyze %1 (*.analyze);;%2").arg(i18n("Log")).arg(i18n("All Files (*)")));
+                            QString("Analyze %1 (*.analyze);;%2").arg(i18n("Log")).arg(i18n("All Files (*)")));
             if (inputURL.isEmpty())
                 return;
             dirPath = QUrl(inputURL.url(QUrl::RemoveFilename));
@@ -1888,20 +1888,15 @@ void Analyze::setLeftAxis(QCPAxis *axis)
     {
         for (const auto &pair : yAxisMap)
         {
-            // Couldn't get this to compile in the new-style connect syntax.
-            disconnect(pair.second.axis, SIGNAL(QCPAxis::rangeChanged(QCPRange)),
-                       this, SLOT(Ekos::Analyze::yAxisRangeChanged(QCPRange)));
-            //disconnect(pair.second.axis, &QCPAxis::rangeChanged, this, &Analyze::yAxisRangeChanged);
+            disconnect(pair.second.axis, QOverload<const QCPRange &>::of(&QCPAxis::rangeChanged), this,
+                       QOverload<const QCPRange &>::of(&Analyze::yAxisRangeChanged));
             pair.second.axis->setVisible(false);
         }
         axis->setVisible(true);
         activeYAxis = axis;
         statsPlot->axisRect()->setRangeZoomAxes(0, axis);
-
-        // Couldn't get this to compile in the new-style connect syntax.
-        connect(axis, SIGNAL(QCPAxis::rangeChanged(QCPRange)),
-                this, SLOT(Ekos::Analyze::yAxisRangeChanged(QCPRange)));
-        //connect(axis, &QCPAxis::rangeChanged, this, &Analyze::yAxisRangeChanged);
+        connect(axis, QOverload<const QCPRange &>::of(&QCPAxis::rangeChanged), this,
+                QOverload<const QCPRange &>::of(&Analyze::yAxisRangeChanged));
     }
 }
 
