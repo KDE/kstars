@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:43+0000\n"
-"PO-Revision-Date: 2023-04-01 17:49+0100\n"
+"PO-Revision-Date: 2023-04-08 11:10+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -24423,10 +24423,9 @@ msgid "Job '%1' %2x%3\" %4"
 msgstr "Job '%1' %2x%3\" %4"
 
 #: ekos/scheduler/scheduler.cpp:6179
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount park requested but no mounts detected."
-msgstr "Dome unpark required but dome is not yet ready."
+msgstr "Mount park requested but no mounts detected."
 
 #: ekos/scheduler/scheduler.cpp:6238
 #, kde-format
@@ -24434,10 +24433,9 @@ msgid "Parking mount in progress..."
 msgstr "Parking mount in progress..."
 
 #: ekos/scheduler/scheduler.cpp:6251
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount unpark requested but no mounts detected."
-msgstr "Dome unpark required but dome is not yet ready."
+msgstr "Mount unpark requested but no mounts detected."
 
 #: ekos/scheduler/scheduler.cpp:6278
 #, kde-format
@@ -24502,10 +24500,9 @@ msgid "Mount parking error."
 msgstr "Mount parking error."
 
 #: ekos/scheduler/scheduler.cpp:6538
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr "Dome unpark required but dome is not yet ready."
+msgstr "Dome park requested but no domes detected."
 
 #: ekos/scheduler/scheduler.cpp:6563
 #, kde-format
@@ -24518,10 +24515,9 @@ msgid "Dome already parked."
 msgstr "Dome already parked."
 
 #: ekos/scheduler/scheduler.cpp:6579
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome unpark requested but no domes detected."
-msgstr "Dome unpark required but dome is not yet ready."
+msgstr "Dome unpark requested but no domes detected."
 
 #: ekos/scheduler/scheduler.cpp:6601
 #, kde-format
@@ -24569,10 +24565,9 @@ msgid "Dome unparking error."
 msgstr "Dome unparking error."
 
 #: ekos/scheduler/scheduler.cpp:6734
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover park requested but no dust covers detected."
-msgstr "Dome unpark required but dome is not yet ready."
+msgstr "Dust cover park requested but no dust covers detected."
 
 #: ekos/scheduler/scheduler.cpp:6758
 #, kde-format
@@ -24585,10 +24580,9 @@ msgid "Cap already parked."
 msgstr "Cap already parked."
 
 #: ekos/scheduler/scheduler.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
-msgstr "Dome unpark required but dome is not yet ready."
+msgstr "Dust cover unpark requested but no dust covers detected."
 
 #: ekos/scheduler/scheduler.cpp:6797
 #, kde-format
