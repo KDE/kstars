@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-06 00:43+0000\n"
+"POT-Creation-Date: 2023-04-10 00:42+0000\n"
 "PO-Revision-Date: 2023-04-05 04:46+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1911,7 +1911,7 @@ msgstr "Estado:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
-#: ekos/analyze/analyze.cpp:2683 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2678 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
@@ -9916,7 +9916,7 @@ msgstr "Montura"
 msgid "Job"
 msgstr "Trabajo"
 
-#: ekos/analyze/analyze.cpp:2046
+#: ekos/analyze/analyze.cpp:2041
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9927,7 +9927,7 @@ msgstr ""
 "opciones FITS de KStars. Sin ella no se podrán obtener valores de HFR. Una "
 "vez la haya definido, las imágenes que capture tendrán calculada su HFR."
 
-#: ekos/analyze/analyze.cpp:2062
+#: ekos/analyze/analyze.cpp:2057
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9939,7 +9939,7 @@ msgstr ""
 "estrellas en las imágenes capturadas. Una vez la haya definido, se "
 "detectarán las estrellas de las imágenes que capture."
 
-#: ekos/analyze/analyze.cpp:2685 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2680 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:648
@@ -9947,97 +9947,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Interrumpido"
 
-#: ekos/analyze/analyze.cpp:2687 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2682 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Conectado"
 
-#: ekos/analyze/analyze.cpp:2689 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2684 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Desconectado"
 
-#: ekos/analyze/analyze.cpp:2691 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2686 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:680
 #, kde-format
 msgid "Capturing"
 msgstr "Capturando"
 
-#: ekos/analyze/analyze.cpp:2693 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2688 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Iniciando bucle"
 
-#: ekos/analyze/analyze.cpp:2695 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2690 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Restando"
 
-#: ekos/analyze/analyze.cpp:2697 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2692 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Dividiendo fotograma"
 
-#: ekos/analyze/analyze.cpp:2699 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2694 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Seleccionando estrella"
 
-#: ekos/analyze/analyze.cpp:2701 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2696 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Calibrando"
 
-#: ekos/analyze/analyze.cpp:2703 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2698 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Error de calibración"
 
-#: ekos/analyze/analyze.cpp:2705 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2700 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Calibrado"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2707 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2702 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:678
 #, kde-format
 msgid "Guiding"
 msgstr "Guiado"
 
-#: ekos/analyze/analyze.cpp:2709 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2704 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Suspendido"
 
-#: ekos/analyze/analyze.cpp:2711 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2706 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Volviendo a obtener"
 
-#: ekos/analyze/analyze.cpp:2713 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2708 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Desviando"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2715 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2710 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Desvío manual"
 
-#: ekos/analyze/analyze.cpp:2717 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2712 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Error de desvío"
 
-#: ekos/analyze/analyze.cpp:2719 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2714 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Desvío terminado con éxito"
 
-#: ekos/analyze/analyze.cpp:2721 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2716 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Estabilizando"
