@@ -281,6 +281,11 @@ void SequenceJobState::prepareTargetFilter(CCDFrameType frameType, bool isPrevie
         if (isInitialized(CaptureModuleState::ACTION_FILTER) == false)
         {
             prepareActions[CaptureModuleState::ACTION_FILTER] = false;
+
+            // Don't perform autofocus on preview or calibration frames or if Autofocus is not ready yet.
+            if (isPreview || frameType != FRAME_LIGHT || autoFocusReady == false)
+                m_filterPolicy = static_cast<FilterManager::FilterPolicy>(m_filterPolicy & ~FilterManager::AUTOFOCUS_POLICY);
+
             emit readFilterPosition();
         }
         else if (targetFilterID != m_CaptureModuleState->currentFilterID)
