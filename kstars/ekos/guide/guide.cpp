@@ -377,7 +377,7 @@ void Guide::configurePHD2Camera()
     //If this method gives the same result as last time, no need to update the Camera info again.
     //That way the user doesn't see a ton of messages printing about the PHD2 external camera.
     //But lets make sure the blob is set correctly every time.
-    if(lastPHD2CameraName == currentPHD2CameraName)
+    if(m_LastPHD2CameraName == currentPHD2CameraName)
     {
         setExternalGuiderBLOBEnabled(!guideSubframe->isChecked());
         return;
@@ -391,7 +391,9 @@ void Guide::configurePHD2Camera()
     m_Camera = ccdMatch;
 
     //This updates the last camera name for the next time it is checked.
-    lastPHD2CameraName = currentPHD2CameraName;
+    m_LastPHD2CameraName = currentPHD2CameraName;
+
+    m_LastPHD2MountName = phd2Guider->getCurrentMount();
 
     //This sets a boolean that allows you to tell if the PHD2 camera is in Ekos
     phd2Guider->setCurrentCameraIsNotInEkos(m_Camera == nullptr);
@@ -399,7 +401,7 @@ void Guide::configurePHD2Camera()
     if(phd2Guider->isCurrentCameraNotInEkos())
     {
         appendLogText(
-            i18n("PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star Image will be received, but the full external guide frames cannot.",
+            i18n("PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star Image will be received, but the full external guide frames cannot.",
                  phd2Guider->getCurrentCamera()));
         guideSubframe->setEnabled(false);
         //We don't want to actually change the user's subFrame Setting for when a camera really is connected, just check the box to tell the user.
@@ -409,7 +411,7 @@ void Guide::configurePHD2Camera()
     }
 
     appendLogText(
-        i18n("PHD2's current camera: %1, IS connected to Ekos.  You can select whether to use the full external guide frames or just receive the PHD2 Guide Star Image using the SubFrame checkbox.",
+        i18n("PHD2's current camera: %1, is connected to Ekos.  You can select whether to use the full external guide frames or just receive the PHD2 Guide Star Image using the SubFrame checkbox.",
              phd2Guider->getCurrentCamera()));
     guideSubframe->setEnabled(true);
     connect(guideSubframe, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
@@ -3063,6 +3065,12 @@ void Guide::setupOpticalTrainManager()
     });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
+        if (guiderType == GUIDE_PHD2 && m_GuiderInstance->isConnected())
+        {
+            appendLogText(i18n("Cannot change active optical train while PHD2 is connected"));
+            return;
+        }
+
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();

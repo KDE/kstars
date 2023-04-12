@@ -558,7 +558,7 @@ class Guide : public QWidget, public Ui::Guide
         GuideInterface *m_GuiderInstance { nullptr };
 
         //This is for the configure PHD2 camera method.
-        QString lastPHD2CameraName;
+        QString m_LastPHD2CameraName, m_LastPHD2MountName;
         GuiderType guiderType { GUIDE_INTERNAL };
 
         // Star
