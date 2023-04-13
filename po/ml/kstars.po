@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-10 00:42+0000\n"
+"POT-Creation-Date: 2023-04-13 00:44+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -6002,7 +6002,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2531
-#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1872
+#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1872
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, fuzzy, kde-format
@@ -13647,7 +13647,7 @@ msgid "Exposure timeout. Aborting..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
 #: ekos/capture/capture.cpp:6025 ekos/focus/focus.cpp:4064
-#: ekos/guide/guide.cpp:882
+#: ekos/guide/guide.cpp:884
 #, fuzzy, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
@@ -14497,7 +14497,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:601
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:399
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Castor"
@@ -15157,94 +15157,94 @@ msgstr "ഗാനത്തിന്റെ മുന്നേറ്റം"
 msgid "Complete"
 msgstr "പ്രാദേശികം(കണ്ട്രി)"
 
-#: ekos/capture/sequencejobstate.cpp:381
+#: ekos/capture/sequencejobstate.cpp:386
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:382
+#: ekos/capture/sequencejobstate.cpp:387
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Barkerville"
 msgid "Flat Frame"
 msgstr "ബേകര്‍വില്‍"
 
-#: ekos/capture/sequencejobstate.cpp:393
+#: ekos/capture/sequencejobstate.cpp:398
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:421 ekos/capture/sequencejobstate.cpp:458
+#: ekos/capture/sequencejobstate.cpp:426 ekos/capture/sequencejobstate.cpp:463
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Parking dust cap..."
 msgstr "ടെലസ്കോപ്പ്"
 
-#: ekos/capture/sequencejobstate.cpp:430 ekos/capture/sequencejobstate.cpp:469
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:435 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:520
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:458 ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:463 ekos/capture/sequencejobstate.cpp:663
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Unparking dust cap..."
 msgstr "ടെലസ്കോപ്പ്"
 
-#: ekos/capture/sequencejobstate.cpp:469 ekos/capture/sequencejobstate.cpp:515
-#: ekos/capture/sequencejobstate.cpp:643
+#: ekos/capture/sequencejobstate.cpp:474 ekos/capture/sequencejobstate.cpp:520
+#: ekos/capture/sequencejobstate.cpp:648
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:487
+#: ekos/capture/sequencejobstate.cpp:492
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:502
+#: ekos/capture/sequencejobstate.cpp:503 ekos/capture/sequencejobstate.cpp:507
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Slew to wall position complete, stop tracking."
 msgstr "കാലിയെന്റെ"
 
-#: ekos/capture/sequencejobstate.cpp:530
+#: ekos/capture/sequencejobstate.cpp:535
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Parking mount failed, aborting..."
 msgstr "ടെലസ്കോപ്പ്"
 
-#: ekos/capture/sequencejobstate.cpp:540
+#: ekos/capture/sequencejobstate.cpp:545
 #, fuzzy, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:559
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Parking dome failed, aborting..."
 msgstr "ടെലസ്കോപ്പ്"
 
-#: ekos/capture/sequencejobstate.cpp:564
+#: ekos/capture/sequencejobstate.cpp:569
 #, fuzzy, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/capture/sequencejobstate.cpp:822
+#: ekos/capture/sequencejobstate.cpp:827
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:837
+#: ekos/capture/sequencejobstate.cpp:842
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Dust cap parked."
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/capture/sequencejobstate.cpp:841
+#: ekos/capture/sequencejobstate.cpp:846
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
@@ -17063,224 +17063,229 @@ msgstr "ആഷേര്‍ണ്‍"
 msgid "GPG RA Guider"
 msgstr "string"
 
-#: ekos/guide/guide.cpp:402
+#: ekos/guide/guide.cpp:404
 #, kde-format
 msgid ""
-"PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
+"PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
 
-#: ekos/guide/guide.cpp:412
+#: ekos/guide/guide.cpp:414
 #, kde-format
 msgid ""
-"PHD2's current camera: %1, IS connected to Ekos.  You can select whether to "
+"PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
 
-#: ekos/guide/guide.cpp:561
+#: ekos/guide/guide.cpp:563
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr ""
 
-#: ekos/guide/guide.cpp:733
+#: ekos/guide/guide.cpp:735
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: lost connection to CCD."
 msgstr "ബന്ധം"
 
-#: ekos/guide/guide.cpp:901
+#: ekos/guide/guide.cpp:903
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/guide/guide.cpp:903
+#: ekos/guide/guide.cpp:905
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/guide/guide.cpp:905
+#: ekos/guide/guide.cpp:907
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/guide/guide.cpp:1262
+#: ekos/guide/guide.cpp:1264
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1365
+#: ekos/guide/guide.cpp:1367
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1379
+#: ekos/guide/guide.cpp:1381
 #, fuzzy, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "ഭൂമദ്ധ്യരേഖ/അഗ്രകോടി ഉയര്‍ത്തല്‍ [ENTER]"
 
-#: ekos/guide/guide.cpp:1395
+#: ekos/guide/guide.cpp:1397
 #, fuzzy, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "ഭൂമദ്ധ്യരേഖ/അഗ്രകോടി ഉയര്‍ത്തല്‍ [ENTER]"
 
-#: ekos/guide/guide.cpp:1397
+#: ekos/guide/guide.cpp:1399
 #, fuzzy, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "തിരഞ്ഞെടുത്ത സ്ഥലം സൂക്ഷിക്കുക"
 
-#: ekos/guide/guide.cpp:1457
+#: ekos/guide/guide.cpp:1459
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration is cleared."
 msgstr "കാലിയെന്റെ"
 
-#: ekos/guide/guide.cpp:1478
+#: ekos/guide/guide.cpp:1480
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1496
+#: ekos/guide/guide.cpp:1498
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1513
+#: ekos/guide/guide.cpp:1515
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration completed."
 msgstr "കാലിയെന്റെ"
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1531
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration started."
 msgstr "കാലിയെന്റെ"
 
-#: ekos/guide/guide.cpp:1535
+#: ekos/guide/guide.cpp:1537
 #, fuzzy, kde-format
 msgid "Guiding resumed."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: ekos/guide/guide.cpp:1538
+#: ekos/guide/guide.cpp:1540
 #, fuzzy, kde-format
 msgid "Autoguiding started."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: ekos/guide/guide.cpp:1551
+#: ekos/guide/guide.cpp:1553
 #, fuzzy, kde-format
 msgid "Autoguiding aborted."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: ekos/guide/guide.cpp:1556
+#: ekos/guide/guide.cpp:1558
 #, fuzzy, kde-format
 msgid "Guiding suspended."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: ekos/guide/guide.cpp:1565
+#: ekos/guide/guide.cpp:1567
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Manual dithering in progress."
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/guide/guide.cpp:1569
+#: ekos/guide/guide.cpp:1571
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Dithering in progress."
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1575
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:1578
+#: ekos/guide/guide.cpp:1580
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Ashern"
 msgid "Dithering failed."
 msgstr "ആഷേര്‍ണ്‍"
 
-#: ekos/guide/guide.cpp:1589
+#: ekos/guide/guide.cpp:1591
 #, fuzzy, kde-format
 msgid "Dithering completed successfully."
 msgstr "തുടങ്ങാന്‍ തിരഞ്ഞെടുത്ത് പുറത്ത് കടക്കുക."
 
-#: ekos/guide/guide.cpp:1635
+#: ekos/guide/guide.cpp:1637
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "%1x%1 guide binning is not supported."
 msgstr "ടെലസ്കോപ്പ്"
 
-#: ekos/guide/guide.cpp:1657
+#: ekos/guide/guide.cpp:1659
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1783
+#: ekos/guide/guide.cpp:1785
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2257
+#: ekos/guide/guide.cpp:2259
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration failed to start."
 msgstr "കാലിയെന്റെ"
 
-#: ekos/guide/guide.cpp:2408
+#: ekos/guide/guide.cpp:2410
 #, fuzzy, kde-format
 msgid "Auto star selected."
 msgstr "തിരഞ്ഞെടുത്ത വസ്തുവിലേക്ക് പോവുക [SPACE]"
 
-#: ekos/guide/guide.cpp:2412
+#: ekos/guide/guide.cpp:2414
 #, fuzzy, kde-format
 msgid "Failed to select an auto star."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/guide/guide.cpp:2421
+#: ekos/guide/guide.cpp:2423
 #, fuzzy, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "ഒരു അറ തെരഞ്ഞെടുക്കുക"
 
-#: ekos/guide/guide.cpp:2667
+#: ekos/guide/guide.cpp:2669
 #, kde-format
 msgid "x (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:2668
+#: ekos/guide/guide.cpp:2670
 #, kde-format
 msgid "y (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:2779 ekos/guide/guide.cpp:2905
+#: ekos/guide/guide.cpp:2781 ekos/guide/guide.cpp:2907
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2783 ekos/guide/guide.cpp:2909
+#: ekos/guide/guide.cpp:2785 ekos/guide/guide.cpp:2911
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
 "unchecked.  Unchecking it now to enable your image captures.  You can re-"
 "enable it before Guiding"
+msgstr ""
+
+#: ekos/guide/guide.cpp:3070
+#, kde-format
+msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)

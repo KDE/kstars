@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-10 00:42+0000\n"
+"POT-Creation-Date: 2023-04-13 00:44+0000\n"
 "PO-Revision-Date: 2023-04-10 12:21+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -5984,7 +5984,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Solvanto ĉesigita post %1 sekundoj."
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2531
-#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1872
+#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1872
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -13980,7 +13980,7 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Eksponiĝotempo. Abortante..."
 
 #: ekos/capture/capture.cpp:6025 ekos/focus/focus.cpp:4064
-#: ekos/guide/guide.cpp:882
+#: ekos/guide/guide.cpp:884
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Eksponiĝotempo. Rekomencante ekspozicion..."
@@ -14887,7 +14887,7 @@ msgid "Does %1 have a shutter?"
 msgstr "Ĉu %1 havas ŝutron?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:601
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:399
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Malhela Ekspozicio"
@@ -15575,84 +15575,84 @@ msgstr "En progreso"
 msgid "Complete"
 msgstr "Kompleta"
 
-#: ekos/capture/sequencejobstate.cpp:381
+#: ekos/capture/sequencejobstate.cpp:386
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Kovri la teleskopon per egale lumigita lumfonto."
 
-#: ekos/capture/sequencejobstate.cpp:382
+#: ekos/capture/sequencejobstate.cpp:387
 #, kde-format
 msgid "Flat Frame"
 msgstr "Plata Kadro"
 
-#: ekos/capture/sequencejobstate.cpp:393
+#: ekos/capture/sequencejobstate.cpp:398
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Kovri la teleskopon por preni malhelan malkovron."
 
-#: ekos/capture/sequencejobstate.cpp:421 ekos/capture/sequencejobstate.cpp:458
+#: ekos/capture/sequencejobstate.cpp:426 ekos/capture/sequencejobstate.cpp:463
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Parkante polvoĉapon..."
 
-#: ekos/capture/sequencejobstate.cpp:430 ekos/capture/sequencejobstate.cpp:469
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:435 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:520
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Ŝaltu lumkeston lumon..."
 
-#: ekos/capture/sequencejobstate.cpp:458 ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:463 ekos/capture/sequencejobstate.cpp:663
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Malparkante polvoĉapon..."
 
-#: ekos/capture/sequencejobstate.cpp:469 ekos/capture/sequencejobstate.cpp:515
-#: ekos/capture/sequencejobstate.cpp:643
+#: ekos/capture/sequencejobstate.cpp:474 ekos/capture/sequencejobstate.cpp:520
+#: ekos/capture/sequencejobstate.cpp:648
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Malŝalti lumon de lumkesto..."
 
-#: ekos/capture/sequencejobstate.cpp:487
+#: ekos/capture/sequencejobstate.cpp:492
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr "Muntaĵo turniĝanta al mura pozicio..."
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:502
+#: ekos/capture/sequencejobstate.cpp:503 ekos/capture/sequencejobstate.cpp:507
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Turno al murpozicio kompleta, ĉesas spuri."
 
-#: ekos/capture/sequencejobstate.cpp:530
+#: ekos/capture/sequencejobstate.cpp:535
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Parkado de muntaĵo malsukcesis, ĉesigante..."
 
-#: ekos/capture/sequencejobstate.cpp:540
+#: ekos/capture/sequencejobstate.cpp:545
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Parkante muntaĵon antaŭ la kapto de kalibraj kadroj..."
 
-#: ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:559
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Parkado de kupolo malsukcesis, ĉesigante..."
 
-#: ekos/capture/sequencejobstate.cpp:564
+#: ekos/capture/sequencejobstate.cpp:569
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Parkante kupolon antaŭ kapto de kalibraj kadroj..."
 
-#: ekos/capture/sequencejobstate.cpp:822
+#: ekos/capture/sequencejobstate.cpp:827
 #, kde-format
 msgid "Light box on."
 msgstr "Lumkesto ŝaltita."
 
-#: ekos/capture/sequencejobstate.cpp:837
+#: ekos/capture/sequencejobstate.cpp:842
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Polvĉapo parkita."
 
-#: ekos/capture/sequencejobstate.cpp:841
+#: ekos/capture/sequencejobstate.cpp:846
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Polvĉapo neparkita."
@@ -17542,19 +17542,26 @@ msgstr "Dither"
 msgid "GPG RA Guider"
 msgstr "GPG RA Gvidisto"
 
-#: ekos/guide/guide.cpp:402
-#, kde-format
+#: ekos/guide/guide.cpp:404
+#, fuzzy, kde-format
+#| msgid ""
+#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
+#| "Image will be received, but the full external guide frames cannot."
 msgid ""
-"PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
+"PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
 "La nuna fotilo de PHD2: %1, NE estas konektita al Ekos. La PHD2 Guide Star "
 "Image estos ricevita, sed la plenaj eksteraj gvidadkadroj ne povas."
 
-#: ekos/guide/guide.cpp:412
-#, kde-format
+#: ekos/guide/guide.cpp:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
+#| "to use the full external guide frames or just receive the PHD2 Guide Star "
+#| "Image using the SubFrame checkbox."
 msgid ""
-"PHD2's current camera: %1, IS connected to Ekos.  You can select whether to "
+"PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
@@ -17562,144 +17569,144 @@ msgstr ""
 "la plenajn eksterajn gvidajn kadrojn aŭ simple ricevi la PHD2-Gvidstelan "
 "Bildon per la markobutono SubFrame."
 
-#: ekos/guide/guide.cpp:561
+#: ekos/guide/guide.cpp:563
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "Konekto al la gvidisto CCD estas perdita."
 
-#: ekos/guide/guide.cpp:733
+#: ekos/guide/guide.cpp:735
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "Eraro: perdita konekto al CCD."
 
-#: ekos/guide/guide.cpp:901
+#: ekos/guide/guide.cpp:903
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Eksponiĝotempo. Ĉesigo de Aŭtogvidilo."
 
-#: ekos/guide/guide.cpp:903
+#: ekos/guide/guide.cpp:905
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Eksponiĝotempo. Ĉesigi Dithering."
 
-#: ekos/guide/guide.cpp:905
+#: ekos/guide/guide.cpp:907
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Eksponiĝotempo. Ĉesigi Kalibradon."
 
-#: ekos/guide/guide.cpp:1262
+#: ekos/guide/guide.cpp:1264
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La muntaĵo estas parkumita. Malparku por komenci gvidadon."
 
-#: ekos/guide/guide.cpp:1365
+#: ekos/guide/guide.cpp:1367
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Kajoflankŝanĝo detektita. Nuligante kalibradon."
 
-#: ekos/guide/guide.cpp:1379
+#: ekos/guide/guide.cpp:1381
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Muntaĵo moviĝas. Restarigante kalibradon..."
 
-#: ekos/guide/guide.cpp:1395
+#: ekos/guide/guide.cpp:1397
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Muntaĵo parkumas. Ĉesigate gvidilon..."
 
-#: ekos/guide/guide.cpp:1397
+#: ekos/guide/guide.cpp:1399
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Muntaĵo turniĝas. Ĉesigante gvidilon..."
 
-#: ekos/guide/guide.cpp:1457
+#: ekos/guide/guide.cpp:1459
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrado estas forigita."
 
-#: ekos/guide/guide.cpp:1478
+#: ekos/guide/guide.cpp:1480
 #, kde-format
 msgid "External guider connected."
 msgstr "Ekstera gvidilo konektita."
 
-#: ekos/guide/guide.cpp:1496
+#: ekos/guide/guide.cpp:1498
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Ekstera gvidilo malkonektita."
 
-#: ekos/guide/guide.cpp:1513
+#: ekos/guide/guide.cpp:1515
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrado finiĝis."
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1531
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrado komenciĝis."
 
-#: ekos/guide/guide.cpp:1535
+#: ekos/guide/guide.cpp:1537
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Gvidado rekomencis."
 
-#: ekos/guide/guide.cpp:1538
+#: ekos/guide/guide.cpp:1540
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Aŭtogvidado komenciĝis."
 
-#: ekos/guide/guide.cpp:1551
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Aŭtogvidado ĉesigita."
 
-#: ekos/guide/guide.cpp:1556
+#: ekos/guide/guide.cpp:1558
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Gvidado ĉesigita."
 
-#: ekos/guide/guide.cpp:1565
+#: ekos/guide/guide.cpp:1567
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Mana dithering en progreso."
 
-#: ekos/guide/guide.cpp:1569
+#: ekos/guide/guide.cpp:1571
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Dithering en progreso."
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1575
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:1578
+#: ekos/guide/guide.cpp:1580
 #, kde-format
 msgid "Dithering failed."
 msgstr "Dithering malsukcesis."
 
-#: ekos/guide/guide.cpp:1589
+#: ekos/guide/guide.cpp:1591
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Dithering finiĝis sukcese."
 
-#: ekos/guide/guide.cpp:1635
+#: ekos/guide/guide.cpp:1637
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "%1x%1 gvida binding ne estas subtenata."
 
-#: ekos/guide/guide.cpp:1657
+#: ekos/guide/guide.cpp:1659
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Eksponiĝo malsukcesis. Rekomencante ekspozicion..."
 
-#: ekos/guide/guide.cpp:1783
+#: ekos/guide/guide.cpp:1785
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Ne povas ŝanĝi la tipon de gvidilo dum aktiva."
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -17708,37 +17715,37 @@ msgstr ""
 "Averto: Restarigi Gvidan Kalibradon estas ebligita. Oni rekomendas malŝalti "
 "ĉi tiun opcion por PHD2."
 
-#: ekos/guide/guide.cpp:2257
+#: ekos/guide/guide.cpp:2259
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrado malsukcesis komenci."
 
-#: ekos/guide/guide.cpp:2408
+#: ekos/guide/guide.cpp:2410
 #, kde-format
 msgid "Auto star selected."
 msgstr "Aŭtomata stelo elektita."
 
-#: ekos/guide/guide.cpp:2412
+#: ekos/guide/guide.cpp:2414
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Malsukcesis elekti aŭtomatan stelon."
 
-#: ekos/guide/guide.cpp:2421
+#: ekos/guide/guide.cpp:2423
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Elektu gvidstelon por kalibri."
 
-#: ekos/guide/guide.cpp:2667
+#: ekos/guide/guide.cpp:2669
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (rastrumeroj)"
 
-#: ekos/guide/guide.cpp:2668
+#: ekos/guide/guide.cpp:2670
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (rastrumeroj)"
 
-#: ekos/guide/guide.cpp:2779 ekos/guide/guide.cpp:2905
+#: ekos/guide/guide.cpp:2781 ekos/guide/guide.cpp:2907
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -17747,7 +17754,7 @@ msgstr ""
 "La fotilo PHD2 ne disponeblas por Ekos, do vi ne povas vidi la kaptitajn "
 "bildojn. Sed vi ankoraŭ vidos la Gvidstelan Bildon kiam vi gvidos."
 
-#: ekos/guide/guide.cpp:2783 ekos/guide/guide.cpp:2909
+#: ekos/guide/guide.cpp:2785 ekos/guide/guide.cpp:2911
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -17757,6 +17764,11 @@ msgstr ""
 "Por ricevi PHD2-bildojn krom la Gvidstela Bildo, SubFrame devas esti "
 "nemarkita. Malmarku ĝin nun por ebligi viajn bildkaptojn. Vi povas reŝalti "
 "ĝin antaŭ Gvidado"
+
+#: ekos/guide/guide.cpp:3070
+#, kde-format
+msgid "Cannot change active optical train while PHD2 is connected"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80

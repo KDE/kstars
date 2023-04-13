@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-10 00:42+0000\n"
+"POT-Creation-Date: 2023-04-13 00:44+0000\n"
 "PO-Revision-Date: 2023-04-10 14:10\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5877,7 +5877,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "解析中止，用时 %1 秒。"
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2531
-#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1872
+#: ekos/focus/focus.cpp:3258 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1872
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -13445,7 +13445,7 @@ msgid "Exposure timeout. Aborting..."
 msgstr "曝光超时。终止..."
 
 #: ekos/capture/capture.cpp:6025 ekos/focus/focus.cpp:4064
-#: ekos/guide/guide.cpp:882
+#: ekos/guide/guide.cpp:884
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
@@ -14285,7 +14285,7 @@ msgid "Does %1 have a shutter?"
 msgstr "%1 有快门吗？"
 
 #: ekos/capture/capturedeviceadaptor.cpp:601
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:399
 #, kde-format
 msgid "Dark Exposure"
 msgstr "暗场曝光"
@@ -14945,84 +14945,84 @@ msgstr "进行中"
 msgid "Complete"
 msgstr "完成"
 
-#: ekos/capture/sequencejobstate.cpp:381
+#: ekos/capture/sequencejobstate.cpp:386
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:382
+#: ekos/capture/sequencejobstate.cpp:387
 #, kde-format
 msgid "Flat Frame"
 msgstr "平场"
 
-#: ekos/capture/sequencejobstate.cpp:393
+#: ekos/capture/sequencejobstate.cpp:398
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "盖上望远镜以拍摄暗场。"
 
-#: ekos/capture/sequencejobstate.cpp:421 ekos/capture/sequencejobstate.cpp:458
+#: ekos/capture/sequencejobstate.cpp:426 ekos/capture/sequencejobstate.cpp:463
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "防尘盖关闭中..."
 
-#: ekos/capture/sequencejobstate.cpp:430 ekos/capture/sequencejobstate.cpp:469
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:435 ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:520
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "打开 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:458 ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:463 ekos/capture/sequencejobstate.cpp:663
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "防尘盖开启中..."
 
-#: ekos/capture/sequencejobstate.cpp:469 ekos/capture/sequencejobstate.cpp:515
-#: ekos/capture/sequencejobstate.cpp:643
+#: ekos/capture/sequencejobstate.cpp:474 ekos/capture/sequencejobstate.cpp:520
+#: ekos/capture/sequencejobstate.cpp:648
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "关闭 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:487
+#: ekos/capture/sequencejobstate.cpp:492
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr "赤道仪旋转至墙的位置..."
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:502
+#: ekos/capture/sequencejobstate.cpp:503 ekos/capture/sequencejobstate.cpp:507
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "转到 wall position 已完成，停止跟踪。"
 
-#: ekos/capture/sequencejobstate.cpp:530
+#: ekos/capture/sequencejobstate.cpp:535
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "赤道仪归位失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:540
+#: ekos/capture/sequencejobstate.cpp:545
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位赤道仪..."
 
-#: ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:559
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "归位圆顶失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:564
+#: ekos/capture/sequencejobstate.cpp:569
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位圆顶..."
 
-#: ekos/capture/sequencejobstate.cpp:822
+#: ekos/capture/sequencejobstate.cpp:827
 #, kde-format
 msgid "Light box on."
 msgstr "Light box 打开。"
 
-#: ekos/capture/sequencejobstate.cpp:837
+#: ekos/capture/sequencejobstate.cpp:842
 #, kde-format
 msgid "Dust cap parked."
 msgstr "防尘盖已关闭。"
 
-#: ekos/capture/sequencejobstate.cpp:841
+#: ekos/capture/sequencejobstate.cpp:846
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "防尘盖已开启。"
@@ -16798,199 +16798,206 @@ msgstr "抖动"
 msgid "GPG RA Guider"
 msgstr "高斯过程赤经导星（GPG）"
 
-#: ekos/guide/guide.cpp:402
-#, kde-format
+#: ekos/guide/guide.cpp:404
+#, fuzzy, kde-format
+#| msgid ""
+#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
+#| "Image will be received, but the full external guide frames cannot."
 msgid ""
-"PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
+"PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
 "PHD2 的当前摄像头： %1未连接到Ekos。将收到 PHD2 的被导星图像，但是未能接收全"
 "视场的外部导星图像。"
 
-#: ekos/guide/guide.cpp:412
-#, kde-format
+#: ekos/guide/guide.cpp:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
+#| "to use the full external guide frames or just receive the PHD2 Guide Star "
+#| "Image using the SubFrame checkbox."
 msgid ""
-"PHD2's current camera: %1, IS connected to Ekos.  You can select whether to "
+"PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
 "PHD2 的当前摄像头： %1，已连接到 Ekos。 您可以选择接收全视场的外部导星图像，"
 "或勾选截幅复选框只接收 PHD2 的被导星图像。"
 
-#: ekos/guide/guide.cpp:561
+#: ekos/guide/guide.cpp:563
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "与导星 CCD 的连接丢失。"
 
-#: ekos/guide/guide.cpp:733
+#: ekos/guide/guide.cpp:735
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "错误：与 CCD 的连接中断。"
 
-#: ekos/guide/guide.cpp:901
+#: ekos/guide/guide.cpp:903
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "曝光超时。中止自动导星。"
 
-#: ekos/guide/guide.cpp:903
+#: ekos/guide/guide.cpp:905
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "曝光超时。中止像素偏移。"
 
-#: ekos/guide/guide.cpp:905
+#: ekos/guide/guide.cpp:907
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "曝光超时。中止校准。"
 
-#: ekos/guide/guide.cpp:1262
+#: ekos/guide/guide.cpp:1264
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "支架已归位，请解除归位以开始导星。"
 
-#: ekos/guide/guide.cpp:1365
+#: ekos/guide/guide.cpp:1367
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "检测到立柱偏向改变。正在清除校准数据。"
 
-#: ekos/guide/guide.cpp:1379
+#: ekos/guide/guide.cpp:1381
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "赤道仪正在移动，正在重置校准..."
 
-#: ekos/guide/guide.cpp:1395
+#: ekos/guide/guide.cpp:1397
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "赤道仪正在归位，中止导星..."
 
-#: ekos/guide/guide.cpp:1397
+#: ekos/guide/guide.cpp:1399
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "赤道仪正在转动，中止导星..."
 
-#: ekos/guide/guide.cpp:1457
+#: ekos/guide/guide.cpp:1459
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "校准已清除。"
 
-#: ekos/guide/guide.cpp:1478
+#: ekos/guide/guide.cpp:1480
 #, kde-format
 msgid "External guider connected."
 msgstr "外部导星器连接成功。"
 
-#: ekos/guide/guide.cpp:1496
+#: ekos/guide/guide.cpp:1498
 #, kde-format
 msgid "External guider disconnected."
 msgstr "外部到星期连接断开。"
 
-#: ekos/guide/guide.cpp:1513
+#: ekos/guide/guide.cpp:1515
 #, kde-format
 msgid "Calibration completed."
 msgstr "校准完毕。"
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1531
 #, kde-format
 msgid "Calibration started."
 msgstr "校准开始。"
 
-#: ekos/guide/guide.cpp:1535
+#: ekos/guide/guide.cpp:1537
 #, kde-format
 msgid "Guiding resumed."
 msgstr "自动导星已经恢复。"
 
-#: ekos/guide/guide.cpp:1538
+#: ekos/guide/guide.cpp:1540
 #, kde-format
 msgid "Autoguiding started."
 msgstr "自动导星已启动。"
 
-#: ekos/guide/guide.cpp:1551
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "自动导星已中止。"
 
-#: ekos/guide/guide.cpp:1556
+#: ekos/guide/guide.cpp:1558
 #, kde-format
 msgid "Guiding suspended."
 msgstr "自动导星暂停。"
 
-#: ekos/guide/guide.cpp:1565
+#: ekos/guide/guide.cpp:1567
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "手动抖动中"
 
-#: ekos/guide/guide.cpp:1569
+#: ekos/guide/guide.cpp:1571
 #, kde-format
 msgid "Dithering in progress."
 msgstr "正在进行像素偏移。"
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1575
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 
-#: ekos/guide/guide.cpp:1578
+#: ekos/guide/guide.cpp:1580
 #, kde-format
 msgid "Dithering failed."
 msgstr "像素偏移失败。"
 
-#: ekos/guide/guide.cpp:1589
+#: ekos/guide/guide.cpp:1591
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "像素偏移成功完成。"
 
-#: ekos/guide/guide.cpp:1635
+#: ekos/guide/guide.cpp:1637
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1657
+#: ekos/guide/guide.cpp:1659
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "曝光失败。重新启动曝光..."
 
-#: ekos/guide/guide.cpp:1783
+#: ekos/guide/guide.cpp:1785
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "激活后无法改变导星器类型。"
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr "警告：已启用导星校准重置。建议关闭此 PHD2 选项。"
 
-#: ekos/guide/guide.cpp:2257
+#: ekos/guide/guide.cpp:2259
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "校准启动失败。"
 
-#: ekos/guide/guide.cpp:2408
+#: ekos/guide/guide.cpp:2410
 #, kde-format
 msgid "Auto star selected."
 msgstr "自动选中被导星。"
 
-#: ekos/guide/guide.cpp:2412
+#: ekos/guide/guide.cpp:2414
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "自动选择被导星失败。"
 
-#: ekos/guide/guide.cpp:2421
+#: ekos/guide/guide.cpp:2423
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "选择一颗被导星来进行校准。"
 
-#: ekos/guide/guide.cpp:2667
+#: ekos/guide/guide.cpp:2669
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (像素)"
 
-#: ekos/guide/guide.cpp:2668
+#: ekos/guide/guide.cpp:2670
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (像素)"
 
-#: ekos/guide/guide.cpp:2779 ekos/guide/guide.cpp:2905
+#: ekos/guide/guide.cpp:2781 ekos/guide/guide.cpp:2907
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -16999,7 +17006,7 @@ msgstr ""
 "PHD2 的相机在 Ekos 不可用，所以您未能看到拍摄的图像。 但您在导星时仍可看到被"
 "导星图像。"
 
-#: ekos/guide/guide.cpp:2783 ekos/guide/guide.cpp:2909
+#: ekos/guide/guide.cpp:2785 ekos/guide/guide.cpp:2911
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -17008,6 +17015,11 @@ msgid ""
 msgstr ""
 "为了接收 PHD2 图像而不是被导星图像，必须取消勾选截幅。 请现在取消勾选以拍摄图"
 "像。您可以在导星前重新启用它。"
+
+#: ekos/guide/guide.cpp:3070
+#, kde-format
+msgid "Cannot change active optical train while PHD2 is connected"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80
