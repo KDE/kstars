@@ -931,7 +931,7 @@ void Logging::UseFile()
         QDir dir;
         QString path =
             QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
-                .filePath("logs" + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+            .filePath("logs" + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd"));
         dir.mkpath(path);
         QString name =
             "log_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".txt";
@@ -1815,5 +1815,23 @@ void setGlobalSettings(const QVariantMap &settings)
     Options::self()->save();
 }
 
+QString sanitize(const QString &text)
+{
+    static const QRegularExpression re1("\\s|/|\\(|\\)|:|\\*|\\+|~|\"" );
+    static const QRegularExpression re2("_{2,}");
+    static const QRegularExpression re3("_$");
+
+    QString sanitized = text;
+    if (sanitized != i18n("unnamed"))
+    {
+        // Remove illegal characters that can be problematic
+        sanitized = sanitized.replace(re1, "_" )
+                    // Remove any two or more __
+                    .replace( re2, "_")
+                    // Remove any _ at the end
+                    .replace( re3, "");
+    }
+    return sanitized;
+}
 
 } // namespace KSUtils

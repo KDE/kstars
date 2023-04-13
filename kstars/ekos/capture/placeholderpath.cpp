@@ -70,12 +70,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
         frameType = "DarkFlat";
 
     // Sanitize name
-    QString tempTargetName = targetName;
-    tempTargetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-    // Remove any two or more __
-    .replace( QRegularExpression("_{2,}"), "_")
-    // Remove any _ at the end
-    .replace( QRegularExpression("_$"), "");
+    QString tempTargetName = KSUtils::sanitize(targetName);
 
     // Because scheduler sets the target name in capture module
     // it would be the same as the raw prefix
@@ -160,19 +155,11 @@ void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
 {
     auto frameType = job->getFrameType();
     auto frameTypeString = getFrameType(job->getFrameType());
-    QString imagePrefix = targetName;
+    QString imagePrefix = KSUtils::sanitize(targetName);
 
     const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
     if (isDarkFlat)
         frameTypeString = "DarkFlat";
-
-    // JM 2019-11-26: In case there is no job target name set
-    // BUT target name is set, we update the prefix to include
-    // the target name, which is usually set by the scheduler.
-    if (imagePrefix.isEmpty() && !targetName.isEmpty())
-    {
-        imagePrefix = targetName;
-    }
 
     QString tempPrefix = constructPrefix(job, imagePrefix);
 
@@ -186,7 +173,7 @@ void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
     if (targetName.isEmpty())
         directoryPostfix = QDir::separator() + frameTypeString;
     else
-        directoryPostfix = QDir::separator() + targetName + QDir::separator() + frameTypeString;
+        directoryPostfix = QDir::separator() + imagePrefix + QDir::separator() + frameTypeString;
 
 
     if ((frameType == FRAME_LIGHT || frameType == FRAME_FLAT || frameType == FRAME_NONE || isDarkFlat)
@@ -298,12 +285,7 @@ QString PlaceholderPath::generateFilename(const QString &directory,
         const bool glob,
         const bool gettingSignature) const
 {
-    QString targetNameSanitized = targetName;
-    targetNameSanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|\\+|~|\"" ), "_" )
-    // Remove any two or more __
-    .replace( QRegularExpression("_{2,}"), "_")
-    // Remove any _ at the end
-    .replace( QRegularExpression("_$"), "");
+    QString targetNameSanitized = KSUtils::sanitize(targetName);
     int i = 0;
 
     QString tempFilename = filename;

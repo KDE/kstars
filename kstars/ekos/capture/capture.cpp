@@ -2605,7 +2605,7 @@ void Capture::setExposureProgress(ISD::CameraChip * tChip, double value, IPState
         if (m_captureDeviceAdaptor->getActiveCamera()
                 && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
         {
-            if (activeJob && activeJob->getStatus() == JOB_BUSY)
+            if (activeJob->getStatus() == JOB_BUSY)
             {
                 processData(nullptr);
                 return;
@@ -5203,9 +5203,11 @@ IPState Capture::processPreCaptureCalibrationStage()
         case FRAME_LIGHT:
             return checkLightFramePendingTasks();
 
+        // FIXME Remote flats are not working since the files are saved remotely and no
+        // preview is done locally first to calibrate the image.
+        case FRAME_FLAT:
         case FRAME_BIAS:
         case FRAME_DARK:
-        case FRAME_FLAT:
         case FRAME_NONE:
             // no actions necessary
             break;
