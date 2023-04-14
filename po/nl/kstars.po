@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-13 00:44+0000\n"
-"PO-Revision-Date: 2023-04-05 10:14+0200\n"
+"PO-Revision-Date: 2023-04-13 13:56+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17640,30 +17640,23 @@ msgid "GPG RA Guider"
 msgstr "GPG  RK-volger"
 
 #: ekos/guide/guide.cpp:404
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
-#| "Image will be received, but the full external guide frames cannot."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"Huidige camera voor PHD2: %1, is NIET verbonden met Ekos. De afbeelding van "
+"Huidige camera voor PHD2: %1, is niet verbonden met Ekos. De afbeelding van "
 "devolg-ster voor PHD2 wordt wel ontvangen, maar dit is niet mogelijk voor de "
 "volledige externe volgframes."
 
 #: ekos/guide/guide.cpp:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
-#| "to use the full external guide frames or just receive the PHD2 Guide Star "
-#| "Image using the SubFrame checkbox."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
-"Huidige camera voor PHD2: %1, IS verbonden met Ekos. U kunt kiezen of u de "
+"Huidige camera voor PHD2: %1, is verbonden met Ekos. U kunt kiezen of u de "
 "volledige externe volgframes wilt gebruiken, of alleen de afbeelding van de "
 "volg-ster voor PHD2, met behulp van het keuzevakje voor Subframe."
 
@@ -17871,7 +17864,7 @@ msgstr ""
 #: ekos/guide/guide.cpp:3070
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
-msgstr ""
+msgstr "Kan actieve optische trein niet wijzigen terwijl PHD2 is verbonden"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80

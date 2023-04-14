@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-13 00:44+0000\n"
-"PO-Revision-Date: 2023-04-05 12:34+0300\n"
+"PO-Revision-Date: 2023-04-13 06:53+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -17774,10 +17774,7 @@ msgid "GPG RA Guider"
 msgstr "Наведення за ПС GPG"
 
 #: ekos/guide/guide.cpp:404
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
-#| "Image will be received, but the full external guide frames cannot."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
@@ -17787,11 +17784,7 @@ msgstr ""
 "наведення."
 
 #: ekos/guide/guide.cpp:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
-#| "to use the full external guide frames or just receive the PHD2 Guide Star "
-#| "Image using the SubFrame checkbox."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
@@ -18006,7 +17999,7 @@ msgstr ""
 #: ekos/guide/guide.cpp:3070
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
-msgstr ""
+msgstr "Неможливо змінити активний оптичний тракт, доки з'єднано PHD2"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80

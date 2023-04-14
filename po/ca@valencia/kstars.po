@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-13 00:44+0000\n"
-"PO-Revision-Date: 2023-04-06 18:41+0200\n"
+"PO-Revision-Date: 2023-04-13 12:23+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -17836,30 +17836,23 @@ msgid "GPG RA Guider"
 msgstr "Sistema de guiatge GPG de l'AR"
 
 #: ekos/guide/guide.cpp:404
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
-#| "Image will be received, but the full external guide frames cannot."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"Càmera actual del PHD2: %1, NO està connectada a Ekos. Es rebrà la Imatge de "
-"l'estrela guia del PHD2, però no els fotogrames externs complets de guia."
+"Càmera actual del PHD2: %1, no està connectada amb Ekos. Es rebrà la Imatge "
+"de l'estrela guia del PHD2, però no els fotogrames externs complets de guia."
 
 #: ekos/guide/guide.cpp:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
-#| "to use the full external guide frames or just receive the PHD2 Guide Star "
-#| "Image using the SubFrame checkbox."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
-"Càmera actual del PHD2: %1, està connectada a Ekos. Podeu seleccionar si "
-"utilitzar els fotogrames externs complets o només rebre la Imatge de "
+"Càmera actual del PHD2: %1, està connectada amb Ekos. Podeu seleccionar si "
+"utilitzar els fotogrames externs complets o només rebre la imatge de "
 "l'estrela guia del PHD2 utilitzant la casella de selecció Submarc."
 
 #: ekos/guide/guide.cpp:563
@@ -18066,7 +18059,7 @@ msgstr ""
 #: ekos/guide/guide.cpp:3070
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
-msgstr ""
+msgstr "No es pot canviar el tren òptic actual mentre el PHD2 està connectat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80
