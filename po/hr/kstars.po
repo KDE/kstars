@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-13 00:44+0000\n"
+"POT-Creation-Date: 2023-04-17 00:44+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -582,7 +582,7 @@ msgid "Error"
 msgstr ""
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/scheduler/framingassistantui.cpp:738
+#: ekos/scheduler/framingassistantui.cpp:723
 #, kde-format
 msgid "Sorry"
 msgstr ""
@@ -755,6 +755,15 @@ msgstr ""
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr ""
+
+#: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:163
+#: ekos/scheduler/framingassistantui.cpp:178
+#: ekos/scheduler/framingassistantui.cpp:809
+#: ekos/scheduler/framingassistantui.cpp:828 skyobjects/ksplanetbase.h:60
+#: skyobjects/skyobject.h:24
+#, kde-format
+msgid "unnamed"
+msgstr "bez imena"
 
 #: auxiliary/kswizard.cpp:65
 #, fuzzy, kde-format
@@ -5929,7 +5938,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Veza"
 
 #: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3331
-#: ekos/capture/capture.cpp:5433 ekos/focus/focus.cpp:4017
+#: ekos/capture/capture.cpp:5435 ekos/focus/focus.cpp:4017
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6232,23 +6241,23 @@ msgstr "<i>arcmin</i>"
 msgid "dDE (arcsec)"
 msgstr "arcsecs"
 
-#: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5642
+#: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5644
 #: ekos/focus/focus.cpp:3922
 #, fuzzy, kde-format
 msgid "Filter operation failed."
 msgstr "Dodatne opcije veličina"
 
-#: ekos/align/align.cpp:3384 ekos/capture/capture.cpp:5578
+#: ekos/align/align.cpp:3384 ekos/capture/capture.cpp:5580
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3391 ekos/capture/capture.cpp:5583
+#: ekos/align/align.cpp:3391 ekos/capture/capture.cpp:5585
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3396 ekos/capture/capture.cpp:5588
+#: ekos/align/align.cpp:3396 ekos/capture/capture.cpp:5590
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr ""
@@ -7500,7 +7509,7 @@ msgstr "Veličina"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6381
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:6383
 #: ekos/focus/focus.ui:1223
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -11337,7 +11346,7 @@ msgstr "Popis dopuštenja"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:326 ekos/opsekos.ui:166
-#: ekos/scheduler/framingassistantui.cpp:635
+#: ekos/scheduler/framingassistantui.cpp:620
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
@@ -13472,7 +13481,7 @@ msgid ""
 "processed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3332 ekos/capture/capture.cpp:5434
+#: ekos/capture/capture.cpp:3332 ekos/capture/capture.cpp:5436
 #, fuzzy, kde-format
 msgid "Image Transfer"
 msgstr "Unsupported Targa image format..."
@@ -13664,166 +13673,166 @@ msgstr "Vodiči"
 msgid "Autoguiding suspended."
 msgstr "Svi objekti"
 
-#: ekos/capture/capture.cpp:5269
+#: ekos/capture/capture.cpp:5271
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5280
+#: ekos/capture/capture.cpp:5282
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5301
+#: ekos/capture/capture.cpp:5303
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5334
+#: ekos/capture/capture.cpp:5336
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5342
+#: ekos/capture/capture.cpp:5344
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5364
+#: ekos/capture/capture.cpp:5366
 #, fuzzy, kde-format
 msgid "Remote image saved to %1"
 msgstr "Error writing data to file (%s/%s)."
 
-#: ekos/capture/capture.cpp:5374
+#: ekos/capture/capture.cpp:5376
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5382
+#: ekos/capture/capture.cpp:5384
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5392
+#: ekos/capture/capture.cpp:5394
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Meriden"
 msgid "Processing meridian flip..."
 msgstr "Meriden"
 
-#: ekos/capture/capture.cpp:5397
+#: ekos/capture/capture.cpp:5399
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resuming sequence..."
 msgstr "Frekvencija:"
 
-#: ekos/capture/capture.cpp:5403
+#: ekos/capture/capture.cpp:5405
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5408
+#: ekos/capture/capture.cpp:5410
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5509
+#: ekos/capture/capture.cpp:5511
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Poslužitelj"
 
-#: ekos/capture/capture.cpp:5511
+#: ekos/capture/capture.cpp:5513
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "Poslužitelj"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:5522 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:5524 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
 msgstr "Poslužitelj"
 
-#: ekos/capture/capture.cpp:5595
+#: ekos/capture/capture.cpp:5597
 #, fuzzy, kde-format
 msgid "Filter set to %1."
 msgstr "Nije moguće učitati datoteku!"
 
-#: ekos/capture/capture.cpp:5973
+#: ekos/capture/capture.cpp:5975
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:5975
+#: ekos/capture/capture.cpp:5977
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "Potvrda brisanja"
 
-#: ekos/capture/capture.cpp:5991
+#: ekos/capture/capture.cpp:5993
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:5991
+#: ekos/capture/capture.cpp:5993
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6002 ekos/focus/focus.cpp:4059
+#: ekos/capture/capture.cpp:6004 ekos/focus/focus.cpp:4059
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "zadaj vrijeme isključivanja u sekundama"
 
-#: ekos/capture/capture.cpp:6025 ekos/focus/focus.cpp:4064
+#: ekos/capture/capture.cpp:6027 ekos/focus/focus.cpp:4064
 #: ekos/guide/guide.cpp:884
 #, fuzzy, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "zadaj vrijeme isključivanja u sekundama"
 
-#: ekos/capture/capture.cpp:6336
+#: ekos/capture/capture.cpp:6338
 #, fuzzy, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Jeste li sigurni da želite ukloniti mapu \"%s\" ?"
 
-#: ekos/capture/capture.cpp:6337
+#: ekos/capture/capture.cpp:6339
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "zvijezda"
 
-#: ekos/capture/capture.cpp:6373
+#: ekos/capture/capture.cpp:6375
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6379
+#: ekos/capture/capture.cpp:6381
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6387
+#: ekos/capture/capture.cpp:6389
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6397
+#: ekos/capture/capture.cpp:6399
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Izmjena odredišnih pravila u DROP: "
 
-#: ekos/capture/capture.cpp:6428
+#: ekos/capture/capture.cpp:6430
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -22824,45 +22833,35 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:163
-#: ekos/scheduler/framingassistantui.cpp:178
-#: ekos/scheduler/framingassistantui.cpp:542
-#: ekos/scheduler/framingassistantui.cpp:824
-#: ekos/scheduler/framingassistantui.cpp:843 skyobjects/ksplanetbase.h:60
-#: skyobjects/skyobject.h:24
-#, kde-format
-msgid "unnamed"
-msgstr "bez imena"
-
-#: ekos/scheduler/framingassistantui.cpp:663 ekos/scheduler/scheduler.cpp:1071
+#: ekos/scheduler/framingassistantui.cpp:648 ekos/scheduler/scheduler.cpp:1071
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Frekvencija:"
 
-#: ekos/scheduler/framingassistantui.cpp:665 ekos/scheduler/scheduler.cpp:1073
+#: ekos/scheduler/framingassistantui.cpp:650 ekos/scheduler/scheduler.cpp:1073
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:677
+#: ekos/scheduler/framingassistantui.cpp:662
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Načini unosa"
 
-#: ekos/scheduler/framingassistantui.cpp:679
+#: ekos/scheduler/framingassistantui.cpp:664
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:738
+#: ekos/scheduler/framingassistantui.cpp:723
 #, fuzzy, kde-format
 msgid "Import must contain center coordinates."
 msgstr "Loše koordinate"
 
-#: ekos/scheduler/framingassistantui.cpp:817
+#: ekos/scheduler/framingassistantui.cpp:802
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
