@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-17 00:44+0000\n"
-"PO-Revision-Date: 2023-04-06 10:46+0100\n"
+"PO-Revision-Date: 2023-04-17 16:56+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -18914,29 +18914,22 @@ msgid "GPG RA Guider"
 msgstr "Guia da AR do GPG"
 
 #: ekos/guide/guide.cpp:404
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
-#| "Image will be received, but the full external guide frames cannot."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"A câmara actual do PHD2: %1, NÃO está ligada ao Ekos. A Imagem da Estrela-"
+"A câmara actual do PHD2: (%1) não está ligada ao Ekos. A Imagem da Estrela-"
 "Guia do PHD2 será recebida, mas as imagens completas da guia externa não."
 
 #: ekos/guide/guide.cpp:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
-#| "to use the full external guide frames or just receive the PHD2 Guide Star "
-#| "Image using the SubFrame checkbox."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
-"A câmara actual do PHD2: %1, ESTÁ ligada ao Ekos. Poderá seleccionar se "
+"A câmara actual do PHD2: (%1) está ligada ao Ekos. Poderá seleccionar se "
 "deseja usar as imagens completas da guia externa ou apenas receber a imagem "
 "da Estrela-Guia do PHD2, usando a opção da Sub-Imagem."
 
@@ -19141,6 +19134,8 @@ msgstr ""
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
+"Não é possível modificar o treino óptico activo enquanto o PHD2 estiver "
+"ligado"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80

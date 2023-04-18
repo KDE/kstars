@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-17 00:44+0000\n"
-"PO-Revision-Date: 2023-04-10 12:21+0100\n"
+"PO-Revision-Date: 2023-04-17 06:30+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -11217,7 +11217,7 @@ msgid ""
 "new dark frame shall be captured and stored for future use."
 msgstr ""
 "Reuzi malhelajn kadrojn de la malhela biblioteko dum tiom da tagoj. Se "
-"superite, nova malhela kadro estos kaptita kaj stokita por estonta uzo."
+"superite, nova malhela kadro estos kaptita kaj konservita por estonta uzo."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/darklibrary.ui:1132
@@ -15171,10 +15171,10 @@ msgid ""
 "span> to record the property values.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Elektu kutimajn ecojn por agordi kiam la sekvenca "
-"tasko estas plenumita en bata reĝimo. Post kiam la dezirata posedaĵvaloro "
+"tasko estas plenumita en bata reĝimo. Post kiam la dezirata proprecvaloro "
 "estas fiksita en INDI Kontrolpanelo, aldonu ĝin al la sekcio<span style=\" "
 "font-weight:600;\"> Taskotrajtoj</span>. Alklaku <span style=\" font-"
-"weight:600;\">Apliki</span> por registri la posedaĵvalorojn.</p></body></"
+"weight:600;\">Apliki</span> por registri la proprecvalorojn.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -17552,29 +17552,22 @@ msgid "GPG RA Guider"
 msgstr "GPG RA Gvidisto"
 
 #: ekos/guide/guide.cpp:404
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
-#| "Image will be received, but the full external guide frames cannot."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"La nuna fotilo de PHD2: %1, NE estas konektita al Ekos. La PHD2 Guide Star "
+"La nuna fotilo de PHD2: %1, ne estas konektita al Ekos. La PHD2 Guide Star "
 "Image estos ricevita, sed la plenaj eksteraj gvidadkadroj ne povas."
 
 #: ekos/guide/guide.cpp:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
-#| "to use the full external guide frames or just receive the PHD2 Guide Star "
-#| "Image using the SubFrame checkbox."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
-"La nuna fotilo de PHD2: %1, ESTAS konektita al Ekos. Vi povas elekti ĉu uzi "
+"La nuna fotilo de PHD2: %1, estas konektita al Ekos. Vi povas elekti ĉu uzi "
 "la plenajn eksterajn gvidajn kadrojn aŭ simple ricevi la PHD2-Gvidstelan "
 "Bildon per la markobutono SubFrame."
 
@@ -18775,8 +18768,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Kiam oni reuzas kalibradon, inversigi la DEC-angulon "
 "se la nuna moleoflanko diferencas de tiu ĉe kalibrado. Ĉi tio validas nur "
-"kiam oni reuzas kalibradojn. La valoro, kiun vi bezonas, estas posedaĵo de "
-"via monto, kiu devus esti esplorita. </p></body></html>"
+"kiam oni reuzas kalibradojn. La valoro, kiun vi bezonas, estas propreco de "
+"via muntaĵo, kiu devus esti esplorita. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
@@ -21329,7 +21322,7 @@ msgstr "Supre"
 #: ekos/opsekos.ui:114
 #, kde-format
 msgid "Ekos module icons are placed to the left of pages"
-msgstr "Ekos-modulo-ikonoj estas metitaj maldekstre de paĝoj"
+msgstr "Ekos-modulo-piktogramoj estas metitaj maldekstre de paĝoj"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosLeftIcons)
 #: ekos/opsekos.ui:117
@@ -21787,7 +21780,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Reagordi HFR-sojlan procentgajnon. Kiam aŭtomata "
 "fokusa operacio estas finita, la aŭtofokusa HFR-valoro estas pliigita per "
-"tiu sojla elcentvaloro kaj stokita ene de la kaptomodulo. Se In-Sequence-"
+"tiu sojla elcentvaloro kaj konservita ene de la kaptomodulo. Se In-Sequence-"
 "Focus estas engaĝita, la aŭtofokusa modulo nur elfaras aŭtofokusan "
 "proceduron se nuna HFR-valoro superas la kaptan modulan HFR-sojlon. Pliigu "
 "la valoron por permesi pli malstreĉajn ŝanĝojn en HFR-valoroj sen postuli "
@@ -22157,7 +22150,7 @@ msgid ""
 "<html><body><p>Store profile on remote INDI Web Manager. Use INDI Web "
 "Manager on the remote device to start/stop INDI server.</p></body></html>"
 msgstr ""
-"<html><body><p>Stoki profilon en fora INDI Reta Administranto. Uzu INDI-"
+"<html><body><p>Konservi profilon en fora INDI Reta Administranto. Uzu INDI-"
 "Retan Administranton sur la fora aparato por lanĉi/haltigi INDI-servilon.</"
 "p></body></html>"
 
@@ -23208,8 +23201,8 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Interkovro inter ĉiu kahelo de la "
-"mozaiko. Vidu la ĉefan helppikonon en la angulo de la ĉiela diagramo.</p></"
-"body></html>"
+"mozaiko. Vidu la ĉefan helppiktogramon en la angulo de la ĉiela diagramo.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, rotationSpin)
@@ -23638,38 +23631,38 @@ msgid ""
 "object of interest on the border of a tile.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ĉi tiu ĉiela diagramo montras la atendatan distribuon "
-"de mozaikaj kaheloj.</p><p><span style=\" font-style:italic;\">Noto:</"
-"p><p><span style=\" font-style:italic;\">Noto:</span> ĉi tiu versio de la "
-"Mozaika Ilo uzas simplan ebenan projekcion kaj mankas precizeco kiam "
-"deklinacio estas pli alta ol 70 gradoj. Zorge interkovru viajn kahelojn por "
-"eviti truojn.</p><p>• La agordo \"Interkovro\" kontrolas kiel kaheloj estas "
-"supermetitaj, ĝia efiko videblas per travidebleco. Kaheloj tiam estas "
-"distribuitaj kiel krado de fikso \"Mozaic Grid\". Ili estas bildigitaj en "
-"travidebla verdo kaj kongruas kun la kampo de la fotilo de agordo \"Kamera "
-"FOV\".</p><p>• La amplekso de la mozaika kampo kongruas kun la agordo "
-"\"Mozaiko FOV\" kaj estas prezentita kiel ruĝa fono por helpi vi plenigas "
-"truojn per alĝustigo de interkovro.</p><p>• La taskopcioj permesas al vi "
-"efektivigi la muntan vicigon aŭ la fokusan alĝustigon unufoje el pluraj "
-"ripetoj nur. Ĉi tio kontrolas aŭ ne kontrolas la koncernajn taskopaŝojn de "
-"Scheduler. Vi povas lasi tiujn al nulo se vi uzas muntan modelon en Align aŭ "
-"agordas periodan re-fokuson en Capture.</p><p>• Supre-dekstraj nombroj en "
-"kaheloj indikas la ordon en kiu Scheduler-taskoj estos kreitaj. Fiksaj celoj "
-"estas kaptitaj unue, de okcidento al oriento. Centraj nombroj indikas la "
-"koordinatojn de la celo de la tasko, kiu estos generita por ĉiu kahelo. "
-"Malsupraj nombroj indikas la angulon, ke tiuj kaheloj estas ŝovita kompare "
-"kun la centro de la mozaiko.</p><p>La proponita ordo de agoj estas:</p><p>1. "
-"Prenu aŭ enigu informojn pri ekipaĵo.<br/>2. Agordi la interkovron de "
-"kaheloj.<br/>3. Agordu la amplekson de la mozaiko ĝustigante ĝian kradon.<br/"
-">4. Alĝustigu la vicigon kaj fokusajn taskopciojn.<br/>5. Elektu "
-"eligdosierujon, kie sekvencoj kaj planilaj tasklistoj estos skribitaj.<br/"
-">6. Akceptu la dialogon.</p><p>Uzu la interkovran procenton por kontroli la "
-"areon super kiu apudaj kaheloj povas esti kudritaj:</p><p>• <span style=\" "
-"font-weight:600;\"> 0-10%</span> se vi planas registri viajn kadrojn per "
-"sinteza kampo konstruita el katalogaj steloj.</p><p>• <span style=\" font-"
-"weight:600;\">10-20 %</span> se vi planas kudri apudajn kadrojn vicigante la "
-"stelojn en iliaj interkovritaj ĉielaj makuloj.</p><p>• <span style=\" font-"
-"weight:600;\">50-80%</span> se vi planas prilabori ununuran stakon kun la "
-"kadroj produktitaj de la mozaikaj taskoj.</p><p align=\"justify\">Ŝanĝi la "
+"de mozaikaj kaheloj.</p><p><span style=\" font-style:italic;\">Noto:</span> "
+"ĉi tiu versio de la Mozaika Ilo uzas simplan ebenan projekcion kaj mankas "
+"precizeco kiam deklinacio estas pli alta ol 70 gradoj. Zorge interkovru "
+"viajn kahelojn por eviti truojn.</p><p>• La agordo &quot;Interkovro&quot; "
+"regas kiel kaheloj estas supermetitaj, ĝia efiko videblas per travidebleco. "
+"Kaheloj tiam estas distribuitaj kiel krado de fikso &quot;Mozaic Grid&quot;. "
+"Ili estas bildigitaj en travidebla verdo kaj kongruas kun la kampo de la "
+"fotilo de agordo &quot;Kamera FOV&quot;.</p><p>• La amplekso de la mozaika "
+"kampo kongruas kun la agordo &quot;Mozaiko FOV&quot; kaj estas prezentita "
+"kiel ruĝa fono por helpi vi plenigas truojn per alĝustigo de interkovro.</"
+"p><p>• La taskopcioj permesas al vi efektivigi la muntan vicigon aŭ la "
+"fokusan alĝustigon unufoje el pluraj ripetoj nur. Ĉi tio kontrolas aŭ ne "
+"kontrolas la koncernajn taskopaŝojn de Scheduler. Vi povas lasi tiujn al "
+"nulo se vi uzas muntan modelon en Align aŭ agordas periodan re-fokuson en "
+"Capture.</p><p>• Supre-dekstraj nombroj en kaheloj indikas la ordon en kiu "
+"Scheduler-taskoj estos kreitaj. Fiksaj celoj estas kaptitaj unue, de "
+"okcidento al oriento. Centraj nombroj indikas la koordinatojn de la celo de "
+"la tasko, kiu estos generita por ĉiu kahelo. Malsupraj nombroj indikas la "
+"angulon, ke tiuj kaheloj estas ŝovita kompare kun la centro de la mozaiko.</"
+"p><p>La proponita ordo de agoj estas:</p><p>1. Prenu aŭ enigu informojn pri "
+"ekipaĵo.<br/>2. Agordi la interkovron de kaheloj.<br/>3. Agordu la amplekson "
+"de la mozaiko ĝustigante ĝian kradon.<br/>4. Alĝustigu la vicigon kaj "
+"fokusajn taskopciojn.<br/>5. Elektu eligdosierujon, kie sekvencoj kaj "
+"planilaj tasklistoj estos skribitaj.<br/>6. Akceptu la dialogon.</p><p>Uzu "
+"la interkovran procenton por kontroli la areon super kiu apudaj kaheloj "
+"povas esti kudritaj:</p><p>• <span style=\" font-weight:600;\"> 0-10%</span> "
+"se vi planas registri viajn kadrojn per sinteza kampo konstruita el "
+"katalogaj steloj.</p><p>• <span style=\" font-weight:600;\">10-20 %</span> "
+"se vi planas kudri apudajn kadrojn vicigante la stelojn en iliaj "
+"interkovritaj ĉielaj makuloj.</p><p>• <span style=\" font-weight:600;"
+"\">50-80%</span> se vi planas prilabori ununuran stakon kun la kadroj "
+"produktitaj de la mozaikaj taskoj.</p><p align=\"justify\">Ŝanĝi la "
 "interkovran valoron tuj ĝisdatigas la nombron da kaheloj por kovri la "
 "mozaikon kampo tute. La generitaj kaheloj povas tiel kovri pli da kampo ol "
 "bezonata. Tial, la interkovro devus esti la unua agordo por konsideri. Por "
@@ -23684,10 +23677,10 @@ msgstr ""
 "la centro de la mozaiko, ĉar ĉi tio permesos stakigi kun la winsorigita "
 "sigma malakceptometodo. Kiel ilustraĵoj:</p><p align=\"justify\">• Mozaiko "
 "5x5 kun interkovro de 80% havas 25 subkadrojn en sia centro.<br/>• Mozaiko "
-"4x4 kun interkovro de 75% havas 16 subkadroj en sia centro.<br/>• 3x3 "
-"mozaiko kun interkovro de 66.6% havas 9 subkadrojn en sia centro, kaj "
-"postulos du enirpermesilojn.</p><p align=\"justify\">Rimarku, ke imbrikita "
-"mozaiko kaheloj povas suferi de grandskalaj gradientoj, kiuj postulos plian "
+"4x4 kun interkovro de 75% havas 16 subkadroj en sia centro.<br/>• Mozaiko "
+"3x3 kun interkovro de 66.6% havas 9 subkadrojn en sia centro, kaj postulos "
+"du enirpermesilojn.</p><p align=\"justify\">Rimarku, ke imbrikita mozaiko "
+"kaheloj povas suferi de grandskalaj gradientoj, kiuj postulos plian "
 "prilaboradon post kalibrado kaj antaŭ stakigado. Tiel, kaptu mozaikojn en "
 "vere malhela ĉielo kaj evitu meti vian interesan objekton sur la rando de "
 "kahelo.</p></body></html>"
@@ -23823,7 +23816,7 @@ msgid ""
 "may consider the same storage for captures."
 msgstr ""
 "Averto: tasko '%1' ĉe vico %2 havas duplikatan celon ĉe vico %3, la planisto "
-"povas konsideri la saman stokadon por kaptoj."
+"povas konsideri la saman konservejon por kaptoj."
 
 #: ekos/scheduler/scheduler.cpp:1358
 #, kde-format
@@ -26837,7 +26830,7 @@ msgstr ""
 "<html><head/><body><p>Aŭtomate ŝargi datumojn pri Monda-Koordinata-Sistemo "
 "(WCS) dum malfermado de FITS-dosiero.</p><p><span style=\" font-weight:600;"
 "\">Averto: Ebligu ĉi tiun opcion nur ĉe tre rapidaj maŝinoj ĉar ĝi povas "
-"konduki al neantaŭvidebla konduto rezultiganta kraŝojn sur pli malrapidaj "
+"konduki al neantaŭvidebla konduto rezultiganta paneojn sur pli malrapidaj "
 "maŝinoj.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoWCS)
@@ -27276,7 +27269,7 @@ msgstr "Fontoj"
 #, kde-format
 msgctxt "@title:window"
 msgid "HiPS Offline Storage"
-msgstr "HiPS Senkonekta Stokado"
+msgstr "HiPS Senkonekta Konservado"
 
 #: hips/opships.cpp:82
 #, kde-format
@@ -27298,7 +27291,7 @@ msgstr "Eraro dum elŝuto de HiPS-fontoj: %1"
 #: hips/opshipscache.ui:42 hips/opshipscache.ui:52
 #, kde-format
 msgid "Cache space on hard disk used to store HiPS images."
-msgstr "Cache-spaco sur malmola disko uzata por stoki HiPS-bildojn."
+msgstr "Cache-spaco sur malmola disko uzata por konservi HiPS-bildojn."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
@@ -27318,7 +27311,7 @@ msgstr "MB"
 #: hips/opshipscache.ui:75 hips/opshipscache.ui:85
 #, kde-format
 msgid "Cache space in RAM used to store HiPS images."
-msgstr "Cache-spaco en RAM uzata por stoki HiPS-bildojn."
+msgstr "Cache-spaco en RAM uzata por konservi HiPS-bildojn."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -28402,12 +28395,12 @@ msgstr "Konekto al INDI-servilo %1:%2 finiĝis: %3."
 #: indi/servermanager.cpp:453
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
-msgstr "INDI Pelilo <b>%1</b> kraŝis. Rekomenci ĝin?"
+msgstr "INDI Pelilo <b>%1</b> paneis. Rekomenci ĝin?"
 
 #: indi/servermanager.cpp:454
 #, kde-format
 msgid "Driver crash"
-msgstr "Pelilo kraŝo"
+msgstr "Pelila paneo"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, streamForm)
 #: indi/streamform.ui:20
@@ -29299,8 +29292,8 @@ msgid ""
 "such resolved objects on the sky map."
 msgstr ""
 "Nomoj de objektoj enigitaj en la trovi dialogon estas solvitaj per "
-"interretaj servoj kaj stokitaj en la datumbazo. Ĉi tiu opcio ankaŭ ŝanĝas la "
-"montradon de tiaj solvitaj objektoj sur la ĉielmapo."
+"interretaj servoj kaj konservitaj en la datumbazo. Ĉi tiu opcio ankaŭ ŝanĝas "
+"la montradon de tiaj solvitaj objektoj sur la ĉielmapo."
 
 #. i18n: ectx: label, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:141
@@ -31726,7 +31719,7 @@ msgstr "Montri GMT anstataŭ lokan horon."
 #: kstars.kcfg:1146
 #, kde-format
 msgid "Planet string"
-msgstr "Planedo ŝnuro"
+msgstr "Planeda ŝnuro"
 
 #. i18n: ectx: whatsthis, entry (XplanetLabelString), group (Xplanet)
 #: kstars.kcfg:1147
@@ -32571,7 +32564,7 @@ msgstr "Ekos fenestro alteco"
 #: kstars.kcfg:1508
 #, kde-format
 msgid "Ekos modules icons are placed to the left of pages"
-msgstr "Ikonoj de Ekos-moduloj estas metitaj maldekstre de paĝoj"
+msgstr "Piktogramoj de Ekos-moduloj estas metitaj maldekstre de paĝoj"
 
 #. i18n: ectx: label, entry (independentWindowEkos), group (Ekos)
 #: kstars.kcfg:1512
@@ -33031,8 +33024,8 @@ msgid ""
 "Increase autofocus HFR value by this percentage gain and store it in Capture "
 "Module."
 msgstr ""
-"Pliigi aŭtomatan fokusan HFR-valoron per ĉi tiu procenta gajno kaj stoku ĝin "
-"en Kapta Modulo."
+"Pliigi aŭtomatan fokusan HFR-valoron per ĉi tiu procenta gajno kaj konservi "
+"ĝin en Kapta Modulo."
 
 #. i18n: ectx: label, entry (UseMedianFocus), group (Capture)
 #: kstars.kcfg:1771
@@ -34717,7 +34710,7 @@ msgstr "La konektejo de la lasta uzata Reteja Administranto"
 #, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
-"RAM-kaŝmemorgrandeco en MB uzata por stoki kaŝmemorigitajn HIPS-bildojn."
+"RAM-kaŝmemorgrandeco en MB uzata por konservi kaŝmemorigitajn HIPS-bildojn."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
 #: kstars.kcfg:2834
@@ -34766,7 +34759,7 @@ msgstr "Baskuligi ĉu la HIPS-fontoj estas desegnitaj en la ĉielmapo."
 #: kstars.kcfg:2859
 #, kde-format
 msgid "Use offline storage to load HiPS?"
-msgstr "Ĉu uzi senkonektan stokadon por ŝargi HiPS?"
+msgstr "Ĉu uzi senkonektan konservadon por ŝargi HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
 #: kstars.kcfg:2863
@@ -36699,7 +36692,7 @@ msgstr "SEMO"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "STORAGE FOR LADY"
-msgstr "STOKADO POR SINJORINO"
+msgstr "KONSERVEJO POR SINJORINO"
 
 #: kstars_i18n.cpp:290
 #, kde-kuit-format
@@ -36789,7 +36782,7 @@ msgstr "INTERNA PISTOLO"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WAREHOUSE OF SKY"
-msgstr "STOKON DE ĈIELO"
+msgstr "STOKEJO DE ĈIELO"
 
 #: kstars_i18n.cpp:306
 #, kde-kuit-format
@@ -65649,7 +65642,7 @@ msgid ""
 "global drawer"
 msgstr ""
 "Svingante de maldekstre dekstren sur iu ajn paĝo de KStars Lite vi povas "
-"aliri tutmondan tirkeston"
+"aliri ĉiean tirkeston"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:28
 #, kde-kuit-format
@@ -69680,7 +69673,7 @@ msgstr "Fino de Seanco"
 #: oal/execute.cpp:39
 #, kde-format
 msgid "Save and End the current session"
-msgstr "Konservi kaj Fini la nunan sesion"
+msgstr "Konservi kaj Fini la nunan seancon"
 
 #: oal/execute.cpp:45
 #, kde-format
@@ -69701,7 +69694,7 @@ msgstr "retejo_"
 #: oal/execute.cpp:183 oal/execute.cpp:185
 #, kde-format
 msgid "session_"
-msgstr "sesio_"
+msgstr "seanco_"
 
 #: oal/execute.cpp:280
 #, kde-format
@@ -69877,7 +69870,7 @@ msgstr "Sekva >"
 #: oal/execute.ui:485
 #, kde-format
 msgid "Step 1: Session Details"
-msgstr "Paŝo 1: Sesiaj Detaloj"
+msgstr "Paŝo 1: Seancaj Detaloj"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, AddObject)
 #: oal/execute.ui:503
@@ -72569,7 +72562,7 @@ msgstr "Ŝargante nomojn de konstelacioj"
 #: skycomponents/flagcomponent.cpp:31
 #, kde-format
 msgid "No icon"
-msgstr "Neniu ikono"
+msgstr "Neniu piktogramo"
 
 #: skycomponents/horizoncomponent.cpp:28
 #, kde-format
@@ -73774,7 +73767,7 @@ msgstr ""
 "\t\t<p>La ilo Alteco kontraŭ Tempo (Ctrl+A) grafikos altkurbojn por iu "
 "grupo\n"
 "\t\t\to de objektoj kiujn vi elektas. Ĉi tio estas bonega ilo por plani\n"
-"\t\t\tobservi sesiojn.\n"
+"\t\t\tobservseancojn.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -73813,7 +73806,7 @@ msgstr ""
 "\t\t\t (Ctrl + L). La planisto helpas vin konservi\n"
 "\t\t\t-dezirliston de objektoj kiujn vi ŝatus\n"
 "\t\t\t observi, kaj poste elekti iujn el ĉi tiuj\n"
-"\t\t\t objektoj por elplani observan sesion.\n"
+"\t\t\t objektoj por elplani observan seancon.\n"
 "\t\t\t La planisto tiam povas asigni tempojn de\n"
 "\t\t\t observado, kaj prezenti la objektojn en\n"
 "\t\t\t tempordo por facila observado de laborfluo en\n"
@@ -74074,7 +74067,7 @@ msgstr ""
 "\t\t\tpostulatajn kampojn en la Dialogo \"Agordu Geografian Lokon\" kaj "
 "poste premu la butonon\n"
 "\t\t\t\"Aldoni Urbon al Listo\". Viaj Lokoj estos disponeblaj en ĉiuj\n"
-"\t\t\testontaj sesioj.\n"
+"\t\t\testontaj seancoj.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -74094,7 +74087,7 @@ msgstr ""
 "\t\t\ten la langeto \"Koloroj\" de la Agorda Fenestro, kaj poste premu la "
 "butonon \"Konservi\n"
 "\t\t\tNuntempajn Kolorojn\". Via Kolorskemo aperos en la listo en\n"
-"\t\t\taltaj estontaj sesioj.\n"
+"\t\t\taltaj estontaj seancoj.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -75018,7 +75011,7 @@ msgstr ""
 "tempoefemeridoj<UL><LI><B>Julia Tago:</B> Konverto de Julia Tago/Kalendaro</"
 "LI><LI><B>Sidera Tempo:</B> Siderala /Universala tempokonverto</"
 "LI><LI><B>Almanako:</B> Leviĝo/Aro/Transira tempo- kaj poziciodatenoj por la "
-"Suno kaj Luno</LI><LI><B>Ekvinoksoj & Solsticoj:</ B> Ekvinoksoj, Solsticoj "
+"Suno kaj Luno</LI><LI><B>Ekvinoksoj & Solsticoj:</B> Ekvinoksoj, Solsticoj "
 "kaj daŭro de la sezonoj</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:68
@@ -75525,9 +75518,9 @@ msgid ""
 "For example, the file <i>flagSmall_red_cross.png</i> will be shown as "
 "<b>Small red cross</b> in the combo box."
 msgstr ""
-"Por aldoni kutimajn ikonojn, nur aldonu bildojn en %1. Dosiernomoj devas "
-"komenciĝi per flago. Ekzemple, la dosiero <i>flagSmall_red_cross.png</i> "
-"estos montrita kiel <b>Malgranda ruĝa kruco</b> en la kombinujo."
+"Por aldoni kutimajn piktogramojn, nur aldonu bildojn en %1. Dosiernomoj "
+"devas komenciĝi per flago. Ekzemple, la dosiero <i>flagSmall_red_cross.png</"
+"i> estos montrita kiel <b>Malgranda ruĝa kruco</b> en la kombinujo."
 
 #: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:118
 #, kde-format
@@ -75549,7 +75542,7 @@ msgstr "Epoko"
 #: tools/flagmanager.cpp:70
 #, kde-format
 msgid "Icon"
-msgstr "Ikono"
+msgstr "Piktogramo"
 
 #: tools/flagmanager.cpp:70
 #, kde-format
@@ -75576,7 +75569,7 @@ msgstr "Etikedkoloro:"
 #: tools/flagmanager.ui:108
 #, kde-format
 msgid "Icon:"
-msgstr "Ikono:"
+msgstr "Piktogramo:"
 
 #. i18n: ectx: property (text), widget (QPushButton, saveButton)
 #: tools/flagmanager.ui:140
@@ -76504,14 +76497,14 @@ msgid ""
 "and country.  If the string contains spaces, enclose it in quotes so it gets "
 "parsed properly."
 msgstr ""
-"Lokŝnuroj konsistas el la komo-separitaj nomoj de la urbo, provinco kaj "
+"Lokoĉenoj konsistas el la komo-separitaj nomoj de la urbo, provinco kaj "
 "lando. Se la ĉeno enhavas spacojn, enmetu ĝin inter citiloj por ke ĝi estu "
 "analizita ĝuste."
 
 #: tools/modcalcsidtime.cpp:139
 #, kde-format
 msgid "Hint for writing location strings"
-msgstr "Sugesto por skribi lokŝnurojn"
+msgstr "Sugesto por skribi lokoĉenojn"
 
 #: tools/modcalcsidtime.cpp:148
 #, kde-format
@@ -76984,7 +76977,7 @@ msgstr "Ĉu vi volas konservi la nunan seancon?"
 #: tools/observinglist.cpp:999
 #, kde-format
 msgid "Save Current session?"
-msgstr "Ĉu konservi la nunan sesion?"
+msgstr "Ĉu konservi la nunan seancon?"
 
 #: tools/observinglist.cpp:1011
 #, kde-format
@@ -77123,7 +77116,7 @@ msgstr "Bildo-Elektilo"
 #: tools/observinglist.ui:77
 #, kde-format
 msgid "Open an observation session list"
-msgstr "Malfermi liston de observa sesio"
+msgstr "Malfermi liston de observa seanco"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:80
@@ -77289,7 +77282,7 @@ msgstr "Listo de Deziroj"
 #: tools/observinglist.ui:451
 #, kde-format
 msgid "Session Plan"
-msgstr "Sesia Plano"
+msgstr "Seanca Plano"
 
 #. i18n: ectx: property (text), widget (QLabel, scheduledTimeLabel)
 #: tools/observinglist.ui:502
@@ -77336,12 +77329,12 @@ msgstr "Registri objektonotojn ĉi tie."
 #: tools/obslistpopupmenu.cpp:27
 #, kde-format
 msgid "Add to session plan"
-msgstr "Aldoni al sesioplano"
+msgstr "Aldoni al seancoplano"
 
 #: tools/obslistpopupmenu.cpp:28
 #, kde-format
 msgid "Add objects visible tonight to session plan"
-msgstr "Aldoni objektojn videblajn ĉi-vespere al sesioplano"
+msgstr "Aldoni objektojn videblajn ĉi-vespere al seancoplano"
 
 #: tools/obslistpopupmenu.cpp:31
 #, kde-format
@@ -77393,7 +77386,7 @@ msgstr "Forigi el WishList"
 #: tools/obslistpopupmenu.cpp:78
 #, kde-format
 msgid "Remove from Session Plan"
-msgstr "Forigi el Sesia Plano"
+msgstr "Forigi el Seanca Plano"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: tools/obslistwizard.cpp:273 tools/obslistwizard.cpp:415
@@ -78404,7 +78397,7 @@ msgstr "Elekti koloron por la simbolo FOV"
 #: tools/scriptbuilder.cpp:646
 #, kde-format
 msgid "string"
-msgstr "ŝnuro"
+msgstr "ĉeno"
 
 #: tools/scriptbuilder.cpp:649
 #, kde-format
@@ -80121,7 +80114,7 @@ msgstr "GMT"
 #: xplanet/opsxplanet.ui:612
 #, kde-format
 msgid "Label string:"
-msgstr "Etikedŝnuro:"
+msgstr "Etikeda ĉeno:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetLabelString)
 #: xplanet/opsxplanet.ui:619
