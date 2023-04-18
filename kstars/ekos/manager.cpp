@@ -1373,6 +1373,7 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
     connect(device.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::processUpdateProperty,
             Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::interfaceDefined, this, &Ekos::Manager::syncActiveDevices, Qt::UniqueConnection);
+    connect(device.get(), &ISD::GenericDevice::messageUpdated, this, &Ekos::Manager::processMessage, Qt::UniqueConnection);
 
 
 
@@ -1698,6 +1699,19 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 void Manager::processDeleteProperty(INDI::Property prop)
 {
     ekosLiveClient.get()->message()->processDeleteProperty(prop);
+}
+
+void Manager::processMessage(int id)
+{
+    auto origin = static_cast<ISD::GenericDevice *>(sender());
+    // Shouldn't happen
+    if (!origin)
+        return;
+    QSharedPointer<ISD::GenericDevice> device;
+    if (!INDIListener::findDevice(origin->getDeviceName(), device))
+        return;
+
+    ekosLiveClient.get()->message()->processMessage(device, id);
 }
 
 void Manager::processUpdateProperty(INDI::Property prop)

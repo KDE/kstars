@@ -210,6 +210,7 @@ enum COMMANDS
     DEVICE_PROPERTY_REMOVE,
     DEVICE_PROPERTY_SUBSCRIBE,
     DEVICE_PROPERTY_UNSUBSCRIBE,
+    DEVICE_MESSAGE,
 
     // Dialogs
     DIALOG_GET_INFO,
@@ -426,6 +427,7 @@ static QMap<COMMANDS, QString> const commands =
     {DEVICE_PROPERTY_REMOVE, "device_property_remove"},
     {DEVICE_PROPERTY_SUBSCRIBE, "device_property_subscribe"},
     {DEVICE_PROPERTY_UNSUBSCRIBE, "device_property_unsubscribe"},
+    {DEVICE_MESSAGE, "device_message"},
 
     {DIALOG_GET_INFO, "dialog_get_info"},
     {DIALOG_GET_RESPONSE, "dialog_get_response"},

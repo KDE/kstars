@@ -2407,6 +2407,25 @@ void Message::processDeleteProperty(INDI::Property prop)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+void Message::processMessage(const QSharedPointer<ISD::GenericDevice> &device, int id)
+{
+    if (m_isConnected == false || Options::ekosLiveNotifications() == false)
+        return;
+
+    auto message = QString::fromStdString(device->getBaseDevice().messageQueue(id));
+    QJsonObject payload =
+    {
+        {"device", device->getDeviceName()},
+        {"message", message}
+    };
+
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_MESSAGE]}, {"payload", payload}}).toJson(
+        QJsonDocument::Compact));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processUpdateProperty(INDI::Property prop)
 {
     if (m_PropertySubscriptions.contains(prop.getDeviceName()))

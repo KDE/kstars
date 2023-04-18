@@ -128,6 +128,8 @@ class Message : public QObject
         void processDeleteProperty(INDI::Property prop);
         void processUpdateProperty(INDI::Property prop);
 
+        // Process message
+        void processMessage(const QSharedPointer<ISD::GenericDevice> &device, int id);
 
         // StellarSolver
         void sendStellarSolverProfiles();

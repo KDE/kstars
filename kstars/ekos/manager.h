@@ -374,6 +374,8 @@ class Manager : public QDialog, public Ui::Manager
         void processNewProperty(INDI::Property);
         void processUpdateProperty(INDI::Property);
         void processDeleteProperty(INDI::Property);
+        void processMessage(int id);
+
 
         void setDeviceReady();
 
