@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-19 00:45+0000\n"
-"PO-Revision-Date: 2023-03-23 14:48+0300\n"
+"PO-Revision-Date: 2023-04-20 15:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -73482,8 +73482,8 @@ msgid ""
 "Press this to clear all orbit trails that you may have attached to solar "
 "system bodies using the right-click popup menu."
 msgstr ""
-"Buraya güneş sistemi cisimlerine eklemiş olabileceğiniz tüm yörünge izlerini "
-"temizlemek için basınız."
+"Sağ tık açılır menüsünü kullanarak güneş sistemi gövdelerine iliştirmiş "
+"olabileceğiniz tüm yörünge izlerini temizlemek için buna basın."
 
 #. i18n: ectx: property (text), widget (QPushButton, ClearAllTrails)
 #: options/opssolarsystem.ui:603
@@ -76617,10 +76617,11 @@ msgid ""
 "select an object from the list of known objects by pressing the \"Object\" "
 "button."
 msgstr ""
-"Merkezlenmek için bir yön veya cisim seçin.  Birleşik giriş kutusu, başucu "
-"noktası dahil ufuk üzerinde ana pusula yönlerini de içeren bilinen bir "
-"listeyi içerir. Buraya ayrıca \"Cisim\" düğmesine basarak bilinen cisimler "
-"listesinden bir cisim adı da girebilirsiniz."
+"Merkezlemek için bir yön veya nesne seçin. Çoklu kutu, ufuktaki ana pusula "
+"noktalarının yanı sıra Zenith de dahil olmak üzere bilinen yönlerin bir "
+"listesini sağlar. Ayrıca buraya bilinen bir nesnenin adını girebilir veya "
+"\"Nesne\" düğmesine basarak bilinen nesneler listesinden bir nesne "
+"seçebilirsiniz."
 
 #. i18n: ectx: property (text), widget (QCheckBox, UsePrintDialog)
 #: tools/argprintimage.ui:22
@@ -77413,19 +77414,15 @@ msgid "Flag Manager"
 msgstr "Bayrak Yöneticisi"
 
 #: tools/flagmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "To add custom icons, just add images in %1. File names must begin with "
-#| "flag. For example, the file <i>flagSmall_red_cross.gif</i> will be shown "
-#| "as <i>Small red cross</i> in the combo box."
+#, kde-format
 msgid ""
 "To add custom icons, just add images in %1. File names must begin with flag. "
 "For example, the file <i>flagSmall_red_cross.png</i> will be shown as "
 "<b>Small red cross</b> in the combo box."
 msgstr ""
-"Özel simgeler eklemek için %1 içine resimler eklemeniz yeterli. Dosya "
-"isimleri flag ile başlamalı. Örneğin, <i>_flagKüçük_kırmızı_çarpı.gif</i> "
-"dosyası giriş kutusunda <i>Küçük kırmızı çarpı</i> olarak gösterilecektir."
+"Özel simgeler eklemek için %1 içine görseller eklemeniz yeterlidir. Dosya "
+"adları 'flag' ile başlamalıdır. Örneğin, <i>flagSmall_red_cross.png</i> "
+"dosyası, çoklu kutuda <b>Small red cross</b> olarak gösterilir."
 
 #: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:118
 #, kde-format
