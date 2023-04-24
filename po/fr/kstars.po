@@ -16,15 +16,14 @@
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
 # MORELLI <robert.morelli@laposte.net>, 2022.
-# Steve <stax@ik.me>, 2022.
-# Xavier BESNARD <xavier.besnard]neuf.fr>, 2023.
+# Steve <stax@ik.me>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-19 00:45+0000\n"
-"PO-Revision-Date: 2023-01-20 18:56+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"PO-Revision-Date: 2023-04-22 11:44+0200\n"
+"Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -9882,10 +9881,9 @@ msgid "Select input file"
 msgstr "Sélectionner un fichier d'entrée"
 
 #: ekos/analyze/analyze.cpp:501
-#, fuzzy, kde-format
-#| msgid "PNG Files (*.png)"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Fichiers PNG (*.png)"
+msgstr "Tous les fichiers (*)"
 
 #: ekos/analyze/analyze.cpp:521
 #, kde-format
@@ -12059,21 +12057,18 @@ msgstr "Trains Optiques"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sélectionner la caméra principale pour ce train "
-"optique.</p></body></html>"
+"<html><head/><body><p>Créer un nouveau train optique.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Supprimez la trame courante</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Supprimer le train optique sélectionné.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
@@ -14508,10 +14503,9 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/capture.ui:959
-#, fuzzy, kde-format
-#| msgid "Reset %1 configuration to default?"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "Réinitialiser la configuration %1 à la valeur par défaut ?"
+msgstr "Réinitialiser le format de la configuration à la valeur par défaut"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/capture.ui:979
@@ -17325,22 +17319,15 @@ msgstr "Multiple du pas extérieur"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:1687
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>For backlash-aware focuser, the amount of backlash "
-#| "to apply when reversing movement direction.</p><p>For the Linear 1 Pass "
-#| "algorithm, set backlash field &gt;= focuser backlash to have backlash "
-#| "neutralised during an Autofocus run.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Used in the device driver for backlash-aware "
 "focusers,  the amount of backlash to apply when reversing movement "
 "direction. </p></body></html>"
 msgstr ""
-"<html><body><p>Pour des moteurs de mise au point gérant le backlash, la "
-"quantité de réactions à appliquer lors du renversement de la direction de "
-"mouvement.</p><p>Pour l'algorithme linéaire à 1 passe, appliquer un champ de "
-"backlash &gt;= au backlash du moteur de mise au point pour neutraliser le "
-"backlash durant la procédure de mise au point automatique.</p></body></html>"
+"<html><body><p>Utilisé par le pilote pour les moteurs de mise au point "
+"gérant le backlash, la quantité de réactions à appliquer lors du "
+"renversement de la direction de mouvement.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:1700
@@ -17361,10 +17348,9 @@ msgstr "Délai d'acquisition maximal"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:1723
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Plantage du pilote"
+msgstr "Jeu du pilote"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:1736
@@ -17378,20 +17364,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:1758
-#, fuzzy, kde-format
-#| msgid "Overlap:"
+#, kde-format
 msgid "AF Overscan:"
-msgstr "Recouvrement"
+msgstr "Surbalayage de la mise au point automatique"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:1765
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable to have AutoFocus perform Backlash "
-#| "Compensation. Use in conjunction with the Backlash field.  Either the "
-#| "autofocus algorithm or the driver/focuser should perform backlash "
-#| "compensation but not both.</p><p>Used by Linear and Linear 1 Pass "
-#| "algorithms.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
 "Compensation by the number of ticks specified. Set to 0 to disable.  "
@@ -17399,10 +17378,9 @@ msgid ""
 "and Linear 1 Pass algorithms.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Activer pour que la mise au point automatique réalise "
-"la compensation de jeu. Utiliser en conjonction avec le champ de jeu. La "
-"compensation du jeu doit être réalisée soit par l'algorithme de la mise au "
-"point soit par le pilote de mise au point mais pas par les deux.</"
-"p><html><head></body>"
+"la compensation de jeu du nombre de pas spécifié. Mettre 0 pour désactiver. "
+"Le jeu du surbalayage et celui du pilote sont indépendants.</p><html><head></"
+"body>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
@@ -17872,23 +17850,16 @@ msgid "GPG RA Guider"
 msgstr "Guidage PGG en AD"
 
 #: ekos/guide/guide.cpp:404
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
-#| "Image will be received, but the full external guide frames cannot."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"La caméra courante pour PHD2 : %1 n'est PAS connecté à Ekos. L'image de "
+"La caméra courante pour PHD2 : %1 n'est pas connectée à Ekos. L'image de "
 "l'étoile guide de PHD2 sera reçue mais pas les trames complètes."
 
 #: ekos/guide/guide.cpp:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
-#| "to use the full external guide frames or just receive the PHD2 Guide Star "
-#| "Image using the SubFrame checkbox."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
@@ -18103,6 +18074,7 @@ msgstr ""
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
+"Impossible de changer le train optique actif courant si PHD2 est connecté"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80
@@ -23921,10 +23893,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
 #: ekos/scheduler/framingassistant.ui:1399
-#, fuzzy, kde-format
-#| msgid "Perform autofocus every N jobs."
+#, kde-format
 msgid "Perform alignment every N jobs."
-msgstr "Réaliser une mise au point automatique toutes les N tâches."
+msgstr "Réaliser un alignement toutes les N tâches."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1418
@@ -24224,12 +24195,10 @@ msgstr ""
 "puis évalue les tâches."
 
 #: ekos/scheduler/scheduler.cpp:948
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
-msgstr "Sélectionner une image FITS"
+msgstr "Sélectionner une image FITS/XISF"
 
 #: ekos/scheduler/scheduler.cpp:1002
 #, kde-format
@@ -25034,10 +25003,10 @@ msgid "Job '%1' %2x%3\" %4"
 msgstr "Tâche « %1 » %2 x %3\" %4"
 
 #: ekos/scheduler/scheduler.cpp:6179
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount park requested but no mounts detected."
-msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr ""
+"Le parcage de la monture est demandé mais aucune monture n'est détectée."
 
 #: ekos/scheduler/scheduler.cpp:6238
 #, kde-format
@@ -25045,10 +25014,10 @@ msgid "Parking mount in progress..."
 msgstr "Parcage de la monture en cours…"
 
 #: ekos/scheduler/scheduler.cpp:6251
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount unpark requested but no mounts detected."
-msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr ""
+"Le déparcage de la monture est demandé mais aucune monture n'est détectée."
 
 #: ekos/scheduler/scheduler.cpp:6278
 #, kde-format
@@ -25118,10 +25087,9 @@ msgid "Mount parking error."
 msgstr "Erreur de parcage de la monture."
 
 #: ekos/scheduler/scheduler.cpp:6538
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr "Le parcage du dôme est demandé mais aucun dôme n'est détecté."
 
 #: ekos/scheduler/scheduler.cpp:6563
 #, kde-format
@@ -25134,10 +25102,9 @@ msgid "Dome already parked."
 msgstr "Dôme déjà en sécurité."
 
 #: ekos/scheduler/scheduler.cpp:6579
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome unpark requested but no domes detected."
-msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr "Le déparcage du dôme est demandé mais aucun dôme n'est détecté."
 
 #: ekos/scheduler/scheduler.cpp:6601
 #, kde-format
@@ -25186,10 +25153,9 @@ msgid "Dome unparking error."
 msgstr "Erreur lors du déblocage du dôme."
 
 #: ekos/scheduler/scheduler.cpp:6734
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover park requested but no dust covers detected."
-msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr "La fermeture du capuchon est demandée mais aucun capuchon détecté."
 
 #: ekos/scheduler/scheduler.cpp:6758
 #, kde-format
@@ -25202,10 +25168,9 @@ msgid "Cap already parked."
 msgstr "Capuchon antipoussière déjà en sécurité."
 
 #: ekos/scheduler/scheduler.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
-msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr "L'ouverture du capuchon est demandée mais aucun capuchon détecté."
 
 #: ekos/scheduler/scheduler.cpp:6797
 #, kde-format
@@ -26445,28 +26410,24 @@ msgid "Error reading image: %1"
 msgstr "Erreur de lecture de l'image : %1"
 
 #: fitsviewer/fitsdata.cpp:475
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "File contain no images"
-msgstr "Il est impossible de charger l'image"
+msgstr "Le fichier ne contient pas d'image"
 
 #: fitsviewer/fitsdata.cpp:504
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "Sample format %1 is not supported."
-msgstr "La profondeur de bit %1 n'est pas prise en charge."
+msgstr "Le format de l'échantillon %1 n'est pas pris en charge."
 
 #: fitsviewer/fitsdata.cpp:541
-#, fuzzy, kde-format
-#| msgid "File write error."
+#, kde-format
 msgid "XISF file open error: "
-msgstr "Erreur d'écriture fichier."
+msgstr "Erreur à l'ouverture du fichier XISF"
 
 #: fitsviewer/fitsdata.cpp:592
-#, fuzzy, kde-format
-#| msgid "Error reading image."
+#, kde-format
 msgid "Error saving XISF image"
-msgstr "Erreur de lecture de l'image."
+msgstr "Erreur à l'enregistrement de l'image XISF"
 
 #: fitsviewer/fitsdata.cpp:684 fitsviewer/fitsdata.cpp:799
 #, kde-format
@@ -28773,46 +28734,38 @@ msgstr "Carte du ciel"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:349
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
 "slews and syncs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tracer le nombre d'étoiles détectées dans les images "
-"de guidage.</p></body></html>"
+"<html><head/><body><p>Utiliser la carte du ciel de KStars pour contrôler les "
+"rotations et les synchronisations du télescope.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useKStarsSkyMap)
 #: indi/opsindi.ui:352
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "KStars Sky Map"
-msgstr "Carte du ciel"
+msgstr "Carte du ciel de KStars"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:362
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Automatically select the calibration star. <br/"
-#| ">Please note: 'SEP Multi Star' does  <span style=\" font-weight:600;"
-#| "\">always</span> use 'auto star' detection.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use an external planetarium software to control mount "
 "slews and syncs.</p><p><span style=\" font-weight:600;\">WARNING</span>: "
 "this feature is experimental!</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sélectionner automatiquement l'étoile de calibration. "
-"<br/>Veuillez noter que le processus « SEP Multi Étoiles » utilise <span "
-"style=\" font-weight:600;\">toujours</span> la détection avec « étoile "
-"automatique ».</p></body></html>"
+"<html><head/><body><p>Utiliser un planétarium externe pour contrôler les "
+"rotations et les synchronisation de la monture.</p><p><span style=\"font-"
+"weight:600;\">AVERTISSEMENT</span> : cette fonctionnalité est encore "
+"expérimentale !</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:365
 #, kde-format
 msgid "external Sky Map (experimental)"
-msgstr ""
+msgstr "carte du ciel externe (expérimental)"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:388
@@ -30112,12 +30065,16 @@ msgstr "Utiliser une date et une position GPS pour la synchronisation ?"
 #, kde-format
 msgid "Use the KStars sky map to control mount slews and syncs."
 msgstr ""
+"Utiliser la carte du ciel de KStars pour contrôler les rotations et les "
+"synchronisations de la monture."
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:222
 #, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
+"Utiliser un planétarium externe pour contrôler les rotations et les "
+"synchronisations de la monture"
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:226
@@ -32361,17 +32318,15 @@ msgstr "Couleur d'une supernova"
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1070
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroids"
-msgstr "Couleur d'une supernova"
+msgstr "Couleur des astéroïdes"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1071
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroid"
-msgstr "Couleur d'une supernova"
+msgstr "Couleur d'un astéroïde"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1075
@@ -70177,17 +70132,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr "FITS, Mise au point, améliorations de guidage"
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Mont Evans (Observatoire de)"
+msgstr "John Evans"
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Focus process algorithm"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "Algorithme pour traitement de la mise au point automatique"
+msgstr "Algorithme de la mise au point"
 
 #: main.cpp:139
 #, kde-format
@@ -70390,10 +70342,9 @@ msgid "Bahtinov Focus Assistant."
 msgstr "Assistant de mise au point Bahtinov."
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Mise à jour des supernovas"
+msgstr "Mise à jour quotidienne des supernovas"
 
 #: main.cpp:194
 #, kde-format

@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1649693 $
+# Version: $Revision: 1650219 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -21,14 +21,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-19 00:45+0000\n"
-"PO-Revision-Date: 2023-03-05 08:18+0100\n"
+"PO-Revision-Date: 2023-04-23 11:55+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "(n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -11953,21 +11953,16 @@ msgstr "Układy optyczne"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Wybierz aparat zrzucający obraz dla tego układu "
-"optycznego.</p></body></html>"
+msgstr "<html><head/><body><p>Utwórz nowy układ optyczny.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Usuń bieżącą klatkę</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Usuń zaznaczony układ optyczny.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
@@ -14362,10 +14357,9 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/capture.ui:959
-#, fuzzy, kde-format
-#| msgid "Reset %1 configuration to default?"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "Wyzerować ustawienia %1 do domyślnych?"
+msgstr "Wyzeruj format pola wieloznacznego na domyślny"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/capture.ui:979
@@ -17670,30 +17664,23 @@ msgid "GPG RA Guider"
 msgstr "Układ naprowadzający RA GPG"
 
 #: ekos/guide/guide.cpp:404
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star "
-#| "Image will be received, but the full external guide frames cannot."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"Bieżący aparat PHD2: %1, NIE jest podłączony do Ekos.  Odbierany będzie "
+"Bieżący aparat PHD2: %1, nie jest podłączony do Ekos.  Odbierany będzie "
 "obraz PHD2 gwiazdy naprowadzającej, lecz nie pełne klatki zewnętrznego "
 "naprowadzania."
 
 #: ekos/guide/guide.cpp:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2's current camera: %1, IS connected to Ekos.  You can select whether "
-#| "to use the full external guide frames or just receive the PHD2 Guide Star "
-#| "Image using the SubFrame checkbox."
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
-"Bieżący aparat PHD2: %1, JEST podłączony do Ekos.  Można wybrać czy użyć "
+"Bieżący aparat PHD2: %1, jest podłączony do Ekos.  Można wybrać czy użyć "
 "pełnych klatek zewnętrznego naprowadzania, czy otrzymywać tylko obraz PHD2 "
 "gwiazdy naprowadzającej poprzez użycie pola zaznaczanego podklatki."
 
@@ -17900,6 +17887,7 @@ msgstr ""
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
+"Nie można zmienić bieżącego układu optycznego, gdy PHD2 jest podłączony"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:80
@@ -24730,10 +24718,9 @@ msgid "Job '%1' %2x%3\" %4"
 msgstr "Zadanie '%1' %2x%3\" %4"
 
 #: ekos/scheduler/scheduler.cpp:6179
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount park requested but no mounts detected."
-msgstr "Wymagane wyparkowanie kopuły, lecz kopułą nie jest jeszcze gotowa."
+msgstr "Zażądano zaparkowania montażu, lecz nie wykryto żadnych montaży."
 
 #: ekos/scheduler/scheduler.cpp:6238
 #, kde-format
@@ -24741,10 +24728,9 @@ msgid "Parking mount in progress..."
 msgstr "Parkowanie montażu w trakcie..."
 
 #: ekos/scheduler/scheduler.cpp:6251
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Mount unpark requested but no mounts detected."
-msgstr "Wymagane wyparkowanie kopuły, lecz kopułą nie jest jeszcze gotowa."
+msgstr "Zażądano wyparkowania montażu, lecz nie wykryto żadnych montaży."
 
 #: ekos/scheduler/scheduler.cpp:6278
 #, kde-format
@@ -24811,10 +24797,9 @@ msgid "Mount parking error."
 msgstr "Błąd parkowania montażu."
 
 #: ekos/scheduler/scheduler.cpp:6538
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr "Wymagane wyparkowanie kopuły, lecz kopułą nie jest jeszcze gotowa."
+msgstr "Zażądano zaparkowania kopuły, lecz nie wykryto żadnych kopuł."
 
 #: ekos/scheduler/scheduler.cpp:6563
 #, kde-format
@@ -24827,10 +24812,9 @@ msgid "Dome already parked."
 msgstr "Kopuła już jest zaparkowana."
 
 #: ekos/scheduler/scheduler.cpp:6579
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dome unpark requested but no domes detected."
-msgstr "Wymagane wyparkowanie kopuły, lecz kopułą nie jest jeszcze gotowa."
+msgstr "Zażądano wyparkowania kopuły, lecz nie wykryto żadnych kopuł."
 
 #: ekos/scheduler/scheduler.cpp:6601
 #, kde-format
@@ -24878,10 +24862,9 @@ msgid "Dome unparking error."
 msgstr "Błąd wyparkowywania kopuły."
 
 #: ekos/scheduler/scheduler.cpp:6734
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover park requested but no dust covers detected."
-msgstr "Wymagane wyparkowanie kopuły, lecz kopułą nie jest jeszcze gotowa."
+msgstr "Zażądano zaparkowania kopuły, lecz nie wykryto żadnych zaślepek."
 
 #: ekos/scheduler/scheduler.cpp:6758
 #, kde-format
@@ -24894,10 +24877,9 @@ msgid "Cap already parked."
 msgstr "Zaślepka już jest zaparkowana."
 
 #: ekos/scheduler/scheduler.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Dome unpark required but dome is not yet ready."
+#, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
-msgstr "Wymagane wyparkowanie kopuły, lecz kopułą nie jest jeszcze gotowa."
+msgstr "Zażądano wyparkowania kopuły, lecz nie wykryto żadnych zaślepek."
 
 #: ekos/scheduler/scheduler.cpp:6797
 #, kde-format
@@ -69502,17 +69484,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr "Ulepszenia do FITS, ogniskowania, naprowadzania"
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Obs. Mount Evans"
+msgstr "John Evans"
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Focus process algorithm"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "Algorytm procesu ogniskowania"
+msgstr "Algorytmy ogniskowania"
 
 #: main.cpp:139
 #, kde-format
@@ -69714,10 +69693,9 @@ msgid "Bahtinov Focus Assistant."
 msgstr "Pomocnik skupienia Bahtinov."
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Uaktualnienia supernowych"
+msgstr "Codzienne uaktualnienia o supernowych"
 
 #: main.cpp:194
 #, kde-format
