@@ -6525,8 +6525,8 @@ void Capture::refreshOpticalTrain()
         // If train not found, select the first one available.
         if (OpticalTrainManager::Instance()->exists(id) == false)
         {
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Optical train doesn't exist for id" << id;
             id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain, id);
         }
 
         auto name = OpticalTrainManager::Instance()->name(id);

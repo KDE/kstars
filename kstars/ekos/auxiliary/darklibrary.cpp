@@ -1645,8 +1645,8 @@ void DarkLibrary::refreshOpticalTrain()
         // If train not found, select the first one available.
         if (OpticalTrainManager::Instance()->exists(id) == false)
         {
+            emit newLog(i18n("Optical train doesn't exist for id %1", id));
             id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::DarkLibraryOpticalTrain, id);
         }
 
         auto name = OpticalTrainManager::Instance()->name(id);
