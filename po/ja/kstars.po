@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-19 00:45+0000\n"
+"POT-Creation-Date: 2023-04-30 00:43+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -11142,6 +11142,11 @@ msgstr "データファイルを %1 に保存しました。"
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "ファイル <filename>%1</filename> を開けませんでした。"
+
+#: ekos/auxiliary/darklibrary.cpp:1648
+#, kde-format
+msgid "Optical train doesn't exist for id %1"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14

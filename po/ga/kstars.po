@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kstars.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-19 00:45+0000\n"
+"POT-Creation-Date: 2023-04-30 00:43+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -10924,6 +10924,11 @@ msgstr "Sábháladh comhad sonraí i %1"
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "Níorbh fhéidir comhad %1 a oscailt."
+
+#: ekos/auxiliary/darklibrary.cpp:1648
+#, kde-format
+msgid "Optical train doesn't exist for id %1"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14

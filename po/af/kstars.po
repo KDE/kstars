@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-19 00:45+0000\n"
+"POT-Creation-Date: 2023-04-30 00:43+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -10445,6 +10445,11 @@ msgstr "Ongeldige Url"
 #, fuzzy, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Kon nie Open Lêer"
+
+#: ekos/auxiliary/darklibrary.cpp:1648
+#, kde-format
+msgid "Optical train doesn't exist for id %1"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14

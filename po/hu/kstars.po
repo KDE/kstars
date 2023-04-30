@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-19 00:45+0000\n"
+"POT-Creation-Date: 2023-04-30 00:43+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -10978,6 +10978,11 @@ msgstr "Az adatfájl elmentése megtörtént %1 néven"
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "<qt>Nem sikerült megnyitni a(z) „%1” fájlt<br><br>%2</qt>"
+
+#: ekos/auxiliary/darklibrary.cpp:1648
+#, kde-format
+msgid "Optical train doesn't exist for id %1"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-19 00:45+0000\n"
+"POT-Creation-Date: 2023-04-30 00:43+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -11231,6 +11231,11 @@ msgstr "A imaxe remota gardouse en %1"
 #| msgid "Failed to save file to %1"
 msgid "Failed to save defect map to %1"
 msgstr "Non se puido gardar o ficheiro en %1."
+
+#: ekos/auxiliary/darklibrary.cpp:1648
+#, kde-format
+msgid "Optical train doesn't exist for id %1"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14

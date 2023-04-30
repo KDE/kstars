@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-19 00:45+0000\n"
+"POT-Creation-Date: 2023-04-30 00:43+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -10855,6 +10855,11 @@ msgstr "ਡਾਟਾ ਫਾਇਲ  %1 ਵਿੱਚ ਸੰਭਾਲੀ ਗਈ"
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "ਫਾਇਲ਼ %1 ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
+
+#: ekos/auxiliary/darklibrary.cpp:1648
+#, kde-format
+msgid "Optical train doesn't exist for id %1"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14
