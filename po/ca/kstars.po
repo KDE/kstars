@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-30 00:43+0000\n"
-"PO-Revision-Date: 2023-04-13 10:42+0200\n"
+"PO-Revision-Date: 2023-04-30 11:14+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -10987,7 +10987,7 @@ msgstr "Ha fallat en desar el mapa de defectes a %1"
 #: ekos/auxiliary/darklibrary.cpp:1648
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
-msgstr ""
+msgstr "El tren òptic no existeix per a l'ID %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14
