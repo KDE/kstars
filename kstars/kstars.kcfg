@@ -1713,6 +1713,10 @@
          <label>Reset mount model after meridian flip.</label>
          <default>true</default>
       </entry>
+      <entry name="ForcedFlip" type="Bool">
+         <label>Use Forced meridian flips if supported.</label>
+         <default>false</default>
+      </entry>
       <entry name="CalibrationADUValue" type="UInt">
          <label>Desired flat field ADU</label>
          <whatsthis>If set, Ekos will capture a few flat images to determine the optimal exposure time to achieve the desired ADU value.</whatsthis>

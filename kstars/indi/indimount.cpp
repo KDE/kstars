@@ -118,6 +118,7 @@ void Mount::registerProperty(INDI::Property prop)
     {
         m_canGoto = IUFindSwitch(prop.getSwitch(), "TRACK") != nullptr;
         m_canSync = IUFindSwitch(prop.getSwitch(), "SYNC") != nullptr;
+        m_canFlip = IUFindSwitch(prop.getSwitch(), "FLIP") != nullptr;
     }
     else if (prop.isNameMatch("TELESCOPE_PIER_SIDE"))
     {
@@ -883,19 +884,21 @@ bool Mount::slewDefined()
 
     if (motionSP == nullptr)
         return false;
-
-    // take either the TRACK of the SLEW widget
-    auto slewSW = motionSP->findWidgetByName("TRACK");
-
-    if (slewSW == nullptr)
-        slewSW = motionSP->findWidgetByName("SLEW");
-
-    // a slew is planned if the selected widget is on
-    return (slewSW != nullptr && slewSW->getState() == ISState::ISS_ON);
+    // A slew will happen if either Track, Slew, or Flip 
+    // is selected    
+    auto sp = motionSP->findOnSwitch();
+    if(sp != nullptr &&
+       (sp->name == std::string("TRACK") ||
+        sp->name == std::string("SLEW") ||
+        sp->name == std::string("FLIP")))
+    {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-
-bool Mount::Slew(double ra, double dec)
+bool Mount::Slew(double ra, double dec, bool flip)
 {
     SkyPoint target;
 
@@ -910,30 +913,33 @@ bool Mount::Slew(double ra, double dec)
         target.setDec(dec);
     }
 
-    return Slew(&target);
+    return Slew(&target, flip);
 }
 
-bool Mount::Slew(SkyPoint * ScopeTarget)
+bool Mount::Slew(SkyPoint * ScopeTarget, bool flip)
 {
     auto motionSP = getSwitch("ON_COORD_SET");
 
     if (!motionSP)
         return false;
 
-    auto slewSW = motionSP->findWidgetByName("TRACK");
+    auto slewSW = flip ? motionSP->findWidgetByName("FLIP") : motionSP->findWidgetByName("TRACK");
 
+    if (flip && (!slewSW))
+        slewSW = motionSP->findWidgetByName("TRACK");
+    
     if (!slewSW)
         slewSW = motionSP->findWidgetByName("SLEW");
-
+        
     if (!slewSW)
         return false;
-
+        
     if (slewSW->getState() != ISS_ON)
     {
         motionSP->reset();
         slewSW->setState(ISS_ON);
         sendNewProperty(motionSP);
-
+        
         qCDebug(KSTARS_INDI) << "ISD:Telescope: " << slewSW->getName();
     }
 

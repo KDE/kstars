@@ -77,11 +77,15 @@ class Mount : public ConcreteDevice
         }
 
         // Slew
-        bool Slew(SkyPoint *ScopeTarget);
-        bool Slew(double ra, double dec);
+        bool Slew(SkyPoint *ScopeTarget, bool flip=false);
+        bool Slew(double ra, double dec, bool flip=false);
         bool canGoto()
         {
             return m_canGoto;
+        }
+        bool canFlip()
+        {
+            return m_canFlip;
         }
 
         // Sync
@@ -319,6 +323,7 @@ class Mount : public ConcreteDevice
         bool m_hasAlignmentModel = { false };
         bool m_canControlTrack = { false };
         bool m_canGoto { false};
+        bool m_canFlip { false};
         bool m_canSync { false};
         bool m_canAbort { false };
         bool m_canTrackSatellite { false };

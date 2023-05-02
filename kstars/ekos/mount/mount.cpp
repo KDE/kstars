@@ -2011,7 +2011,7 @@ void Mount::connectSettings()
     connect(mf_state.get(), &MeridianFlipState::slewTelescope, [&](SkyPoint pos)
     {
         if (m_Mount)
-            m_Mount->Slew(&pos);
+            m_Mount->Slew(&pos, (m_Mount->canFlip() && Options::forcedFlip()));
     });
 
     // Train combo box should NOT be synced.
