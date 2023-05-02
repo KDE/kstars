@@ -354,16 +354,7 @@ QString PlaceholderPath::generateFilename(const QString &directory,
         }
         else if ((match.captured("name") == "target") || (match.captured("name") == "t"))
         {
-            if (tempFormat.indexOf(QDir::separator(), match.capturedStart()) != -1)
-            {
-                // in the directory part of the path
-                replacement = targetNameSanitized;
-            }
-            else
-            {
-                // in the basename part of the path
-                replacement = targetNameSanitized;
-            }
+            replacement = targetNameSanitized;
         }
         // Disable for now %d & %p tags to simplfy
         //        else if ((match.captured("name") == "directory") || (match.captured("name") == "d") ||
