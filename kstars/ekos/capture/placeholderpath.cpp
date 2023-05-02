@@ -295,6 +295,10 @@ QString PlaceholderPath::generateFilename(const QString &directory,
     else
         currentDir = QDir::toNativeSeparators(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/kstars/");
 
+    if(!currentDir.isEmpty() && !currentDir.endsWith(QDir::separator())
+            && !format.isEmpty() && !format.startsWith(QDir::separator()))
+        currentDir.append(QDir::separator());
+
     QString tempFormat = currentDir + format + "_%s" + QString::number(formatSuffix);
 
     QRegularExpressionMatch match;
