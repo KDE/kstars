@@ -58,7 +58,7 @@ Capture::Capture()
 
     new CaptureAdaptor(this);
     m_captureModuleState.reset(new CaptureModuleState());
-    m_captureDeviceAdaptor.reset(new CaptureDeviceAdaptor(m_captureModuleState));
+    m_captureDeviceAdaptor.reset(new CaptureDeviceAdaptor());
 
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
     QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
@@ -368,7 +368,10 @@ Capture::Capture()
         m_LimitsUI->limitGuideDeviationS,
     };
     for (const QCheckBox * control : checkBoxes)
-        connect(control, &QCheckBox::toggled, this, &Capture::setDirty);
+        connect(control, &QCheckBox::toggled, this, [&]()
+    {
+        m_captureModuleState->setDirty(true);
+    });
 
     QDoubleSpinBox * const dspinBoxes[]
     {
@@ -377,12 +380,19 @@ Capture::Capture()
         m_LimitsUI->limitGuideDeviationN,
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
-        connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
-                &Capture::setDirty);
+        connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&]()
+    {
+        m_captureModuleState->setDirty(true);
+    });
 
-    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &Capture::setDirty);
-    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, &Capture::setDirty);
+    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        m_captureModuleState->setDirty(true);
+    });
+    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
+    {
+        m_captureModuleState->setDirty(true);
+    });
 
     m_ObserverName = Options::defaultObserver();
     observerB->setIcon(QIcon::fromTheme("im-user"));
@@ -525,9 +535,9 @@ Capture::Capture()
             &Capture::generatePreviewFilename);
     connect(targetNameT, &QLineEdit::textEdited, this, [ = ]()
     {
-        m_TargetName = targetNameT->text();
+        m_captureModuleState->setTargetName(targetNameT->text());
         generatePreviewFilename();
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << m_TargetName << "because of user edit";
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << targetNameT->text() << "because of user edit";
     });
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
 
@@ -684,6 +694,7 @@ bool Capture::setDustCap(ISD::DustCap *device)
 
     // forward it to the command processor
     m_captureDeviceAdaptor->setDustCap(m_DustCap);
+    m_captureModuleState->setDustCapState(CaptureModuleState::CAP_UNKNOWN);
 
     syncFilterInfo();
     return true;
@@ -758,6 +769,7 @@ bool Capture::setLightBox(ISD::LightBox *device)
 
     // forward it to the command processor
     m_captureDeviceAdaptor->setLightBox(m_LightBox);
+    m_captureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_UNKNOWN);
 
     return true;
 }
@@ -846,7 +858,8 @@ void Capture::start()
     m_captureModuleState->setStartingCapture(false);
 
     // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
-    ignoreJobProgress = !capturedFramesMap.count() && Options::alwaysResetSequenceWhenStarting();
+    m_captureModuleState->setIgnoreJobProgress(!m_captureModuleState->hasCapturedFramesMap()
+            && Options::alwaysResetSequenceWhenStarting());
 
     if (queueTable->rowCount() == 0)
     {
@@ -886,7 +899,7 @@ void Capture::start()
         }
 
         // If we only have completed jobs and we don't ignore job progress, ask the end-user what to do
-        if (!ignoreJobProgress)
+        if (!m_captureModuleState->ignoreJobProgress())
             if(KMessageBox::warningContinueCancel(
                         nullptr,
                         i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
@@ -902,7 +915,7 @@ void Capture::start()
     }
     // If we need to ignore job progress, systematically reset all jobs and restart
     // Scheduler will never ignore job progress and doesn't use this path
-    else if (ignoreJobProgress)
+    else if (m_captureModuleState->ignoreJobProgress())
     {
         appendLogText(i18n("Warning: option \"Always Reset Sequence When Starting\" is enabled and resets the sequence counts."));
         for (auto &job : m_captureModuleState->allJobs())
@@ -1971,9 +1984,9 @@ IPState Capture::setCaptureComplete()
         //This determines the time since the image started downloading
         //Then it gets the estimated time left and displays it in the log.
         double currentDownloadTime = m_DownloadTimer.elapsed() / 1000.0;
-        downloadTimes << currentDownloadTime;
+        m_captureModuleState->addDownloadTime(currentDownloadTime);
         QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
-        QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
+        QString estimatedTimeString = QString::number(m_captureModuleState->averageDownloadTime(), 'd', 2);
         appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
 
         // Always invalidate timer as it must be explicitly started.
@@ -2032,9 +2045,7 @@ IPState Capture::setCaptureComplete()
 
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
-    SchedulerJob::CapturedFramesMap::iterator frame_item = capturedFramesMap.find(activeJob->getSignature());
-    if (capturedFramesMap.end() != frame_item)
-        frame_item.value()++;
+    m_captureModuleState->addCapturedFrame(activeJob->getSignature());
 
     if (activeJob->getFrameType() != FRAME_LIGHT)
     {
@@ -2235,8 +2246,8 @@ IPState Capture::resumeSequence()
         {
             if (m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
             {
-                checkSeqBoundary();
-                m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(nextSequenceID);
+                m_captureModuleState->checkSeqBoundary(m_SequenceURL);
+                m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(m_captureModuleState->nextSequenceID());
             }
         }
 
@@ -2396,8 +2407,8 @@ void Capture::captureImage()
 
     if (m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
-        checkSeqBoundary();
-        m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(nextSequenceID);
+        m_captureModuleState->checkSeqBoundary(m_SequenceURL);
+        m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(m_captureModuleState->nextSequenceID());
     }
 
     if (frameSettings.contains(m_captureDeviceAdaptor->getActiveChip()))
@@ -2431,7 +2442,7 @@ void Capture::captureImage()
 
     m_captureModuleState->setStartingCapture(true);
     auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
-    placeholderPath.setGenerateFilenameSettings(*activeJob, m_TargetName);
+    placeholderPath.setGenerateFilenameSettings(*activeJob, m_captureModuleState->targetName());
     m_captureDeviceAdaptor->getActiveCamera()->setPlaceholderPath(placeholderPath);
     // now hand over the control of capturing to the sequence job. As soon as capturing
     // has started, the sequence job will report the result with the captureStarted() event
@@ -2475,7 +2486,7 @@ void Capture::captureStarted(CAPTUREResult rc)
             avgDownloadLabel->setVisible(true);
             secLabel->setVisible(true);
             // show estimated download time
-            avgDownloadTime->setText(QString("%L1").arg(getEstimatedDownloadTime(), 0, 'd', 2));
+            avgDownloadTime->setText(QString("%L1").arg(m_captureModuleState->averageDownloadTime(), 0, 'd', 2));
 
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
             {
@@ -2508,24 +2519,6 @@ void Capture::captureStarted(CAPTUREResult rc)
     }
 }
 
-void Capture::updateSequencePrefix(const QString &newPrefix)
-{
-    seqPrefix = newPrefix;
-    nextSequenceID = 1;
-}
-
-void Capture::checkSeqBoundary()
-{
-    // No updates during meridian flip
-    if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
-        return;
-
-    auto placeholderPath = PlaceholderPath(m_SequenceURL.toLocalFile());
-
-
-    nextSequenceID = placeholderPath.checkSeqBoundary(*activeJob, m_TargetName);
-}
-
 void Capture::appendLogText(const QString &text)
 {
     m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
@@ -2546,7 +2539,7 @@ void Capture::setDownloadProgress()
 {
     if (activeJob)
     {
-        double downloadTimeLeft = getEstimatedDownloadTime() - m_DownloadTimer.elapsed() / 1000.0;
+        double downloadTimeLeft = m_captureModuleState->averageDownloadTime() - m_DownloadTimer.elapsed() / 1000.0;
         if(downloadTimeLeft > 0)
         {
             imageCountDown.setHMS(0, 0, 0);
@@ -2591,7 +2584,7 @@ void Capture::setExposureProgress(ISD::CameraChip * tChip, double value, IPState
 
         appendLogText(i18n("Restarting capture attempt #%1", retries));
 
-        nextSequenceID = 1;
+        m_captureModuleState->setNextSequenceID(1);
 
         captureImage();
         return;
@@ -2659,7 +2652,7 @@ void Capture::processCaptureError(ISD::Camera::ErrorType type)
 
         appendLogText(i18n("Restarting capture attempt #%1", retries));
 
-        nextSequenceID = 1;
+        m_captureModuleState->setNextSequenceID(1);
 
         captureImage();
         return;
@@ -2856,7 +2849,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         // JM 2018-09-24: If this is the first job added
         // We always ignore job progress by default.
         if (m_captureModuleState->allJobs().isEmpty() && preview == false)
-            ignoreJobProgress = true;
+            m_captureModuleState->setIgnoreJobProgress(true);
 
         m_captureModuleState->allJobs().append(job);
 
@@ -2868,7 +2861,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     QJsonObject jsonJob = {{"Status", "Idle"}};
 
     auto placeholderPath = PlaceholderPath();
-    placeholderPath.addJob(job, m_TargetName);
+    placeholderPath.addJob(job, m_captureModuleState->targetName());
 
     int currentRow = 0;
     if (m_JobUnderEdit == false)
@@ -2972,7 +2965,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         queueSaveAsB->setEnabled(true);
         queueSaveB->setEnabled(true);
         resetB->setEnabled(true);
-        m_Dirty = true;
+        m_captureModuleState->setDirty(true);
     }
 
     if (queueTable->rowCount() > 1)
@@ -2991,7 +2984,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         emit sequenceChanged(m_SequenceArray);
     }
 
-    QString signature = placeholderPath.generateFilename(*job, m_TargetName, filenamePreview != REMOTE_PREVIEW, true, 1,
+    QString signature = placeholderPath.generateFilename(*job, m_captureModuleState->targetName(),
+                        filenamePreview != REMOTE_PREVIEW, true, 1,
                         ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 
@@ -3071,7 +3065,7 @@ bool Capture::removeJob(int index)
         resetB->setEnabled(false);
     }
 
-    m_Dirty = true;
+    m_captureModuleState->setDirty(true);
 
     return true;
 }
@@ -3111,7 +3105,7 @@ void Capture::moveJobUp()
     for (int i = 0; i < m_captureModuleState->allJobs().count(); i++)
         m_captureModuleState->allJobs().at(i)->setStatusCell(queueTable->item(i, 0));
 
-    m_Dirty = true;
+    m_captureModuleState->setDirty(true);
 }
 
 void Capture::moveJobDown()
@@ -3149,7 +3143,7 @@ void Capture::moveJobDown()
     for (int i = 0; i < m_captureModuleState->allJobs().count(); i++)
         m_captureModuleState->allJobs().at(i)->setStatusCell(queueTable->item(i, 0));
 
-    m_Dirty = true;
+    m_captureModuleState->setDirty(true);
 }
 
 void Capture::setBusy(bool enable)
@@ -3208,7 +3202,7 @@ void Capture::prepareJob(SequenceJob * job)
         imgProgress->setValue(activeJob->getCompleted());
 
         if (m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
+            m_captureModuleState->setNextSequenceID(1);
 
         // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
         // The signature is the unique identification path in the system for a particular job. Format is "<storage path>/<target>/<frame type>/<filter name>".
@@ -3220,7 +3214,7 @@ void Capture::prepareJob(SequenceJob * job)
         // If 29 files exist for example, then nextSequenceID would be the NEXT file number (30)
         // Therefore, we know how to number the next file.
         // However, we do not deduce the number of captures to process from this function.
-        checkSeqBoundary();
+        m_captureModuleState->checkSeqBoundary(m_SequenceURL);
 
         // Captured Frames Map contains a list of signatures:count of _already_ captured files in the file system.
         // This map is set by the Scheduler in order to complete efficiently the required captures.
@@ -3240,10 +3234,9 @@ void Capture::prepareJob(SequenceJob * job)
         // Now let's consider something went wrong, and the third job was aborted before getting to 60 images, say we have full LRG, but only 1xB.
         // When Scheduler attempts to run the aborted job again, it will count captures in storage, subtract previous job requirements, and set the frames map counters to 0 for LRG, and 4 for B.
         // When the sequence runs, the procedure will bypass LRG and proceed to capture 4xB.
-        if (capturedFramesMap.contains(signature))
+        int count = m_captureModuleState->capturedFramesCount(signature);
+        if (count > 0)
         {
-            // Get the current capture count from the map
-            int count = capturedFramesMap[signature];
 
             // Count how many captures this job has to process, given that previous jobs may have done some work already
             for (auto &a_job : m_captureModuleState->allJobs())
@@ -3257,7 +3250,7 @@ void Capture::prepareJob(SequenceJob * job)
         }
         // JM 2018-09-24: Only set completed jobs to 0 IF the scheduler set captured frames map to begin with
         // If the map is empty, then no scheduler is used and it should proceed as normal.
-        else if (capturedFramesMap.count() > 0)
+        else if (m_captureModuleState->hasCapturedFramesMap())
         {
             // No preliminary information, we reset the job count and run the job unconditionally to clarify the behavior
             activeJob->setCompleted(0);
@@ -3266,7 +3259,7 @@ void Capture::prepareJob(SequenceJob * job)
         // We check if this particular job progress ignore flag is set. If not,
         // then we set it and reset completed to zero. Next time it is evaluated here again
         // It will maintain its count regardless
-        else if (ignoreJobProgress && activeJob->getJobProgressIgnored() == false)
+        else if (m_captureModuleState->ignoreJobProgress() && activeJob->getJobProgressIgnored() == false)
         {
             activeJob->setJobProgressIgnored(true);
             activeJob->setCompleted(0);
@@ -3297,7 +3290,7 @@ void Capture::prepareJob(SequenceJob * job)
             // Emit progress update - done a few lines below
             // emit newImage(nullptr, activeJob);
 
-            m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(nextSequenceID);
+            m_captureDeviceAdaptor->getActiveCamera()->setNextSequenceID(m_captureModuleState->nextSequenceID());
         }
     }
 
@@ -3466,8 +3459,8 @@ void Capture::executeJob()
     QList<FITSData::Record> FITSHeaders;
     if (m_ObserverName.isEmpty() == false)
         FITSHeaders.append(FITSData::Record("Observer", m_ObserverName, "Observer"));
-    if (m_TargetName.isEmpty() == false)
-        FITSHeaders.append(FITSData::Record("Object", m_TargetName, "Object"));
+    if (m_captureModuleState->targetName().isEmpty() == false)
+        FITSHeaders.append(FITSData::Record("Object", m_captureModuleState->targetName(), "Object"));
 
     if (!FITSHeaders.isEmpty())
         m_captureDeviceAdaptor->getActiveCamera()->setFITSHeaders(FITSHeaders);
@@ -3484,13 +3477,13 @@ void Capture::executeJob()
     if (activeJob->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
     {
         // If we found a prior exposure, and current upload more is not local, then update full prefix
-        if (setDarkFlatExposure(activeJob)
+        if (m_captureModuleState->setDarkFlatExposure(activeJob)
                 && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
         {
             auto placeholderPath = PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
-            placeholderPath.processJobInfo(activeJob, m_TargetName);
-            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
+            placeholderPath.processJobInfo(activeJob, m_captureModuleState->targetName());
+            m_captureModuleState->setNextSequenceID(1);
         }
 
     }
@@ -3603,28 +3596,6 @@ void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
 }
 
 
-int Capture::getTotalFramesCount(QString signature)
-{
-    int  result = 0;
-    bool found  = false;
-
-    foreach (SequenceJob * job, m_captureModuleState->allJobs())
-    {
-        // FIXME: this should be part of SequenceJob
-        QString sig = job->getSignature();
-        if (sig == signature)
-        {
-            result += job->getCoreProperty(SequenceJob::SJ_Count).toInt();
-            found = true;
-        }
-    }
-
-    if (found)
-        return result;
-    else
-        return -1;
-}
-
 void Capture::setRotatorReversed(bool toggled)
 {
     m_RotatorControlPanel->ReverseDirectionCheck->setEnabled(true);
@@ -3639,8 +3610,8 @@ void Capture::setTargetName(const QString &name)
 {
     if (m_captureModuleState->isCaptureRunning() == false)
     {
-        m_TargetName = name;
-        targetNameT->setText(m_TargetName);
+        m_captureModuleState->setTargetName(name);
+        targetNameT->setText(name);
         generatePreviewFilename();
     }
 }
@@ -3704,7 +3675,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
         return false;
     }
 
-    capturedFramesMap.clear();
+    m_captureModuleState->clearCapturedFramesMap();
     clearSequenceQueue();
 
     LilXML * xmlParser = newLilXML();
@@ -3805,7 +3776,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
     }
 
     m_SequenceURL = QUrl::fromLocalFile(fileURL);
-    m_Dirty      = false;
+    m_captureModuleState->setDirty(false);
     delLilXML(xmlParser);
     // update save button tool tip
     queueSaveB->setToolTip("Save to " + sFile.fileName());
@@ -4087,7 +4058,7 @@ void Capture::saveSequenceQueue()
         m_SequenceURL.clear();
 
     // If no changes made, return.
-    if (m_Dirty == false && !m_SequenceURL.isEmpty())
+    if (m_captureModuleState->dirty() == false && !m_SequenceURL.isEmpty())
         return;
 
     if (m_SequenceURL.isEmpty())
@@ -4117,7 +4088,7 @@ void Capture::saveSequenceQueue()
             return;
         }
 
-        m_Dirty = false;
+        m_captureModuleState->setDirty(false);
     }
     else
     {
@@ -4343,16 +4314,16 @@ void Capture::resetJobs()
     }
 
     // Also reset the storage count for all jobs
-    capturedFramesMap.clear();
+    m_captureModuleState->clearCapturedFramesMap();
 
     // We're not controlled by the Scheduler, restore progress option
-    ignoreJobProgress = Options::alwaysResetSequenceWhenStarting();
+    m_captureModuleState->setIgnoreJobProgress(Options::alwaysResetSequenceWhenStarting());
 }
 
 void Capture::ignoreSequenceHistory()
 {
     // This function is called independently from the Scheduler or the UI, so honor the change
-    ignoreJobProgress = true;
+    m_captureModuleState->setIgnoreJobProgress(true);
 }
 
 void Capture::syncGUIToJob(SequenceJob * job)
@@ -4675,7 +4646,7 @@ CCDFrameType Capture::getJobFrameType(int id)
 int Capture::getOverallRemainingTime()
 {
     int remaining = 0;
-    double estimatedDownloadTime = getEstimatedDownloadTime();
+    double estimatedDownloadTime = m_captureModuleState->averageDownloadTime();
 
     foreach (SequenceJob * job, m_captureModuleState->allJobs())
         remaining += job->getJobRemainingTime(estimatedDownloadTime);
@@ -4688,7 +4659,7 @@ int Capture::getActiveJobRemainingTime()
     if (activeJob == nullptr)
         return -1;
 
-    return activeJob->getJobRemainingTime(getEstimatedDownloadTime());
+    return activeJob->getJobRemainingTime(m_captureModuleState->averageDownloadTime());
 }
 
 void Capture::setMaximumGuidingDeviation(bool enable, double value)
@@ -4977,12 +4948,6 @@ void Capture::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
     b = ybar - a * xbar;
 }
 
-void Capture::setDirty()
-{
-    m_Dirty = true;
-}
-
-
 bool Capture::hasCoolerControl()
 {
     if (m_captureDeviceAdaptor->getActiveCamera() && m_captureDeviceAdaptor->getActiveCamera()->hasCoolerControl())
@@ -5113,7 +5078,7 @@ void Capture::openCalibrationDialog()
         preMountPark = calibrationOptions.parkMountC->isChecked();
         preDomePark  = calibrationOptions.parkDomeC->isChecked();
 
-        setDirty();
+        m_captureModuleState->setDirty(true);
 
         Options::setCalibrationFlatSourceIndex(flatFieldSource);
         Options::setCalibrationFlatDurationIndex(flatFieldDuration);
@@ -5304,7 +5269,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     m_captureDeviceAdaptor->getActiveCamera()->setUploadMode(activeJob->getUploadMode());
                     auto placeholderPath = PlaceholderPath();
                     // Make sure to update Full Prefix as exposure value was changed
-                    placeholderPath.processJobInfo(activeJob, m_TargetName);
+                    placeholderPath.processJobInfo(activeJob, m_captureModuleState->targetName());
                     // Mark calibration as complete
                     activeJob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
 
@@ -5313,7 +5278,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     // since it may include a placeholder for duration which would affect it.
                     if (m_captureDeviceAdaptor->getActiveCamera()
                             && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-                        updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
+                        m_captureModuleState->setNextSequenceID(1);
 
                     startNextExposure();
                     return false;
@@ -5738,11 +5703,11 @@ void Capture::cullToDSLRLimits()
 
 void Capture::setCapturedFramesMap(const QString &signature, int count)
 {
-    capturedFramesMap[signature] = static_cast<ushort>(count);
+    m_captureModuleState->setCapturedFramesCount(signature, static_cast<ushort>(count));
     qCDebug(KSTARS_EKOS_CAPTURE) <<
                                  QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
     // Scheduler's captured frame map overrides the progress option of the Capture module
-    ignoreJobProgress = false;
+    m_captureModuleState->setIgnoreJobProgress(false);
 }
 
 void Capture::setPresetSettings(const QJsonObject &settings)
@@ -6096,6 +6061,8 @@ void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         m_DustCap->disconnect(this);
         m_DustCap = nullptr;
         m_captureDeviceAdaptor->setDustCap(nullptr);
+        m_captureModuleState->hasDustCap = false;
+        m_captureModuleState->setDustCapState(CaptureModuleState::CAP_UNKNOWN);
     }
 
     // Light Boxes
@@ -6104,6 +6071,8 @@ void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         m_LightBox->disconnect(this);
         m_LightBox = nullptr;
         m_captureDeviceAdaptor->setLightBox(nullptr);
+        m_captureModuleState->hasLightBox = false;
+        m_captureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_UNKNOWN);
     }
 
     // Cameras
@@ -6229,15 +6198,6 @@ double Capture::getOffset()
     }
 
     return -1;
-}
-
-double Capture::getEstimatedDownloadTime()
-{
-    double total = std::accumulate(downloadTimes.begin(), downloadTimes.end(), 0.0);
-    if(downloadTimes.empty())
-        return 0;
-    else
-        return total / downloadTimes.count();
 }
 
 void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
@@ -6442,45 +6402,6 @@ void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> state)
     connect(m_captureModuleState->getMeridianFlipState().get(), &MeridianFlipState::newLog, this, &Capture::appendLogText);
 }
 
-bool Capture::setDarkFlatExposure(SequenceJob *job)
-{
-    const auto darkFlatFilter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
-    const auto darkFlatBinning = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
-    const auto darkFlatADU = job->getCoreProperty(SequenceJob::SJ_TargetADU).toInt();
-
-    for (auto &oneJob : m_captureModuleState->allJobs())
-    {
-        if (oneJob->getFrameType() != FRAME_FLAT)
-            continue;
-
-        const auto filter = oneJob->getCoreProperty(SequenceJob::SJ_Filter).toString();
-
-        // Match filter, if one exists.
-        if (!darkFlatFilter.isEmpty() && darkFlatFilter != filter)
-            continue;
-
-        // Match binning
-        const auto binning = oneJob->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
-        if (darkFlatBinning != binning)
-            continue;
-
-        // Match ADU, if used.
-        const auto adu = oneJob->getCoreProperty(SequenceJob::SJ_TargetADU).toInt();
-        if (job->getFlatFieldDuration() == DURATION_ADU)
-        {
-            if (darkFlatADU != adu)
-                continue;
-        }
-
-        // Now get the exposure
-        job->setCoreProperty(SequenceJob::SJ_Exposure, oneJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
-
-        return true;
-    }
-
-    return false;
-}
-
 void Capture::syncRefocusOptionsFromGUI()
 {
     Options::setEnforceAutofocusHFR(m_LimitsUI->limitFocusHFRS->isChecked());
@@ -6562,8 +6483,7 @@ void Capture::refreshOpticalTrain()
 
 void Capture::generatePreviewFilename()
 {
-    if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
-            || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
+    if (m_captureModuleState->isCaptureRunning() == false)
     {
         placeholderFormatT->setToolTip(previewFilename( LOCAL_PREVIEW ));
         emit newLocalPreview(placeholderFormatT->toolTip());

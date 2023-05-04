@@ -12,6 +12,7 @@
 #include "test_ekos_simulator.h"
 
 #include "ekos/profileeditor.h"
+#include "ekos/capture/placeholderpath.h"
 
 #include <QObject>
 
@@ -183,10 +184,11 @@ public:
      * @param sequence comma separated list of <filter>:<count>
      * @param exptime exposure time
      * @param fitsDirectory directory where the captures will be placed
+     * @param format image location for
      * @param delay delay between frame captures
      * @return true if everything was successful
      */
-    bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory, int delay = 0);
+    bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory, int delay = 0, QString format = Ekos::PlaceholderPath::defaultFormat(true, false, false));
 
     /**
      * @brief Fill the fields of the script manager in the capture module
@@ -202,9 +204,10 @@ public:
     /**
      * @brief calculateSignature Calculate the signature of a given filter
      * @param filter filter name
+     * @param fitsDirectory base directory holding all images
      * @return signature
      */
-    QString calculateSignature(QString target, QString filter);
+    QString calculateSignature(QString target, QString filter, QString fitsDirectory);
 
     /**
      * @brief Search for FITS files recursively

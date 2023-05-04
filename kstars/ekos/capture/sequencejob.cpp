@@ -53,16 +53,16 @@ SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
 {
     captureDeviceAdaptor = cp;
     // initialize the state machine
-    stateMachine = new SequenceJobState(sharedState);
+    stateMachine.reset(new SequenceJobState(sharedState));
 
     // signal forwarding between this and the state machine
-    connect(this, &SequenceJob::updateGuiderDrift, stateMachine, &SequenceJobState::setCurrentGuiderDrift);
-    connect(stateMachine, &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
-    connect(stateMachine, &SequenceJobState::prepareComplete, this, &SequenceJob::processPrepareComplete);
-    connect(stateMachine, &SequenceJobState::abortCapture, this, &SequenceJob::processAbortCapture);
-    connect(stateMachine, &SequenceJobState::newLog, this, &SequenceJob::newLog);
+    connect(this, &SequenceJob::updateGuiderDrift, stateMachine.data(), &SequenceJobState::setCurrentGuiderDrift);
+    connect(stateMachine.data(), &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
+    connect(stateMachine.data(), &SequenceJobState::prepareComplete, this, &SequenceJob::processPrepareComplete);
+    connect(stateMachine.data(), &SequenceJobState::abortCapture, this, &SequenceJob::processAbortCapture);
+    connect(stateMachine.data(), &SequenceJobState::newLog, this, &SequenceJob::newLog);
     // start capturing as soon as the capture initialization is complete
-    connect(stateMachine, &SequenceJobState::initCaptureComplete, this, &SequenceJob::capture);
+    connect(stateMachine.data(), &SequenceJobState::initCaptureComplete, this, &SequenceJob::capture);
 }
 
 /**
@@ -77,7 +77,7 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
     // set own unconnected state machine
     QSharedPointer<CaptureModuleState> sharedState;
     sharedState.reset(new CaptureModuleState);
-    stateMachine = new SequenceJobState(sharedState);
+    stateMachine.reset(new SequenceJobState(sharedState));
 
     // We expect all data read from the XML to be in the C locale - QLocale::c().
     QLocale cLocale = QLocale::c();
@@ -382,34 +382,24 @@ void SequenceJob::setScript(ScriptTypes type, const QString &value)
 void SequenceJob::connectDeviceAdaptor()
 {
     captureDeviceAdaptor->setCurrentSequenceJobState(stateMachine);
-    captureDeviceAdaptor->connectRotator();
-    captureDeviceAdaptor->connectFilterManager();
-    captureDeviceAdaptor->connectActiveCamera();
-    captureDeviceAdaptor->connectTelescope();
-    captureDeviceAdaptor->connectDome();
-    captureDeviceAdaptor->connectDustCap();
     // connect state machine with device adaptor
-    connect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
+    connect(stateMachine.data(), &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
             &CaptureDeviceAdaptor::readCurrentState);
-    connect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocus);
+    connect(stateMachine.data(), &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(),
+            &CaptureDeviceAdaptor::flatSyncFocus);
     // connect device adaptor with state machine
-    connect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine,
+    connect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine.data(),
             &SequenceJobState::flatSyncFocusChanged);
 }
 
 void SequenceJob::disconnectDeviceAdaptor()
 {
-    captureDeviceAdaptor->disconnectRotator();
-    captureDeviceAdaptor->disconnectFilterManager();
-    captureDeviceAdaptor->disconnectActiveCamera();
-    captureDeviceAdaptor->disconnectTelescope();
-    captureDeviceAdaptor->disconnectDome();
-    captureDeviceAdaptor->disconnectDustCap();
-    disconnect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
+    captureDeviceAdaptor->disconnectDevices(stateMachine.data());
+    disconnect(stateMachine.data(), &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
                &CaptureDeviceAdaptor::readCurrentState);
-    disconnect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(),
+    disconnect(stateMachine.data(), &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(),
                &CaptureDeviceAdaptor::flatSyncFocus);
-    disconnect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine,
+    disconnect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine.data(),
                &SequenceJobState::flatSyncFocusChanged);
 }
 

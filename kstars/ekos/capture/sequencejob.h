@@ -418,7 +418,7 @@ class SequenceJob : public QObject
         /// State machines encapsulating the state of this capture sequence job
         //////////////////////////////////////////////////////////////
         QSharedPointer<CaptureDeviceAdaptor> captureDeviceAdaptor;
-        SequenceJobState *stateMachine { nullptr };
+        QSharedPointer<SequenceJobState> stateMachine;
 
 };
 }

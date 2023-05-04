@@ -20,6 +20,7 @@
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/refocusstate.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/scheduler/schedulerjob.h"
 
 namespace Ekos
 {
@@ -308,14 +309,40 @@ class CaptureModuleState: public QObject
         }
 
 
+        const QString &targetName() const
+        {
+            return m_TargetName;
+        }
+        void setTargetName(const QString &newTargetName)
+        {
+            m_TargetName = newTargetName;
+        }
+
         double getFileHFR() const
         {
             return m_fileHFR;
         }
-
         void setFileHFR(double newFileHFR)
         {
             m_fileHFR = newFileHFR;
+        }
+
+        bool ignoreJobProgress() const
+        {
+            return m_ignoreJobProgress;
+        }
+        void setIgnoreJobProgress(bool value)
+        {
+            m_ignoreJobProgress = value;
+        }
+
+        bool dirty() const
+        {
+            return m_Dirty;
+        }
+        void setDirty(bool value)
+        {
+            m_Dirty = value;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -343,6 +370,31 @@ class CaptureModuleState: public QObject
         void resetDitherCounter()
         {
             m_ditherCounter = Options::ditherFrames();
+        }
+
+        /**
+         * @brief checkSeqBoundary Determine the next file number sequence.
+         *        That is, if we have file1.png and file2.png, then the next
+         *        sequence should be file3.png.
+         */
+        void checkSeqBoundary();
+
+        int nextSequenceID() const
+        {
+            return m_nextSequenceID;
+        }
+        void setNextSequenceID(int id)
+        {
+            m_nextSequenceID = id;
+        }
+
+        uint16_t capturedFramesCount(const QString &signature) const
+        {
+            return m_capturedFramesMap[signature];
+        }
+        void setCapturedFramesCount(const QString &signature, uint16_t count)
+        {
+            m_capturedFramesMap[signature] = count;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -459,6 +511,58 @@ class CaptureModuleState: public QObject
 
         void setGuideDeviation(double deviation_rms);
 
+        /**
+         * @brief addDownloadTime Record a new download time
+         */
+        void addDownloadTime(double time);
+
+        /**
+         * @brief averageDownloadTime Determine the average download time
+         * @return
+         */
+        double averageDownloadTime()
+        {
+            return (downloadsCounter == 0 ? 0 : totalDownloadTime / downloadsCounter);
+        }
+
+
+        /**
+         * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
+         * completed flat frames.
+         * @param job Dark flat job
+         * @return True if a matching exposure is found and set, false otherwise.
+         * @warning This only works if the flat frames were captured in the same live session.
+         * If the flat frames were captured in another session (i.e. Ekos restarted), then all automatic exposure
+         * calculation results are discarded since Ekos does not save this information to the sequene file.
+         * Possible solution is to write to a local config file to keep this information persist between sessions.
+         */
+        bool setDarkFlatExposure(SequenceJob *job);
+
+        /**
+         * @brief checkSeqBoundary Determine the next file number sequence.
+         *        That is, if we have file1.png and file2.png, then the next
+         *        sequence should be file3.png.
+         */
+        void checkSeqBoundary(QUrl sequenceURL);
+
+        /**
+         * @brief hasCapturedFramesMap Check if at least one frame has been recorded
+         */
+        bool hasCapturedFramesMap()
+        {
+            return m_capturedFramesMap.count() > 0;
+        }
+        /**
+         * @brief addCapturedFrame Record a captured frame
+         */
+        void addCapturedFrame(const QString &signature);
+        /**
+         * @brief clearCapturedFramesMap Clear the map of captured frames counts
+         */
+        void clearCapturedFramesMap()
+        {
+            m_capturedFramesMap.clear();
+        }
 
         bool isCaptureRunning()
         {
@@ -508,6 +612,8 @@ private:
         QString m_CurrentFocusFilterName { "--" };
         // HFR value as loaded from the sequence file
         double m_fileHFR { 0 };
+        // Captured Frames Map
+        SchedulerJob::CapturedFramesMap m_capturedFramesMap;
         // are we in the starting phase of capturing?
         bool m_StartingCapture { true };
         // Guide Deviation
@@ -520,8 +626,20 @@ private:
         // for the first capture job that is ready to be executed.
         // @see Capture::start().
         QTimer m_captureDelayTimer;
+        // sum over all recorded list of download times
+        double totalDownloadTime;
+        // number of downloaded frames
+        uint downloadsCounter {0};
+        // next capture sequence ID
+        int m_nextSequenceID { 0 };
         // how to continue after pausing
         ContinueAction m_ContinueAction { CONTINUE_ACTION_NONE };
+        // name of the capture target
+        QString m_TargetName;
+        // ignore already captured files
+        bool m_ignoreJobProgress { true };
+        // Set dirty bit to indicate sequence queue file was modified and needs saving.
+        bool m_Dirty { false };
 
 
         // ////////////////////////////////////////////////////////////////////

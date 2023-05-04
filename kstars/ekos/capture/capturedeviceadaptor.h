@@ -26,8 +26,8 @@ class CaptureDeviceAdaptor: public QObject
 {
         Q_OBJECT
 
-    public:
-        CaptureDeviceAdaptor(QSharedPointer<CaptureModuleState> captureModuleState);
+public:
+    CaptureDeviceAdaptor() {}
 
         //////////////////////////////////////////////////////////////////////
         // current sequence job's state machine
@@ -36,67 +36,64 @@ class CaptureDeviceAdaptor: public QObject
          * @brief Set the state machine for the current sequence job and attach
          *        all active devices to it.
          */
-        void setCurrentSequenceJobState(SequenceJobState *jobState);
+        void setCurrentSequenceJobState(QSharedPointer<SequenceJobState> jobState);
 
 
         //////////////////////////////////////////////////////////////////////
         // Devices
         //////////////////////////////////////////////////////////////////////
-        void setLightBox(ISD::LightBox *device);
+        void setLightBox(ISD::LightBox *device)
+        {
+            m_ActiveLightBox = device;
+        }
         ISD::LightBox *getLightBox()
         {
             return m_ActiveLightBox;
         }
-        void connectLightBox();
-        void disconnectLightBox();
 
         void setDustCap(ISD::DustCap *device);
         ISD::DustCap *getDustCap()
         {
             return m_ActiveDustCap;
         }
-        void connectDustCap();
-        void disconnectDustCap();
 
         void setMount(ISD::Mount *device);
         ISD::Mount *getMount()
         {
-            return m_ActiveTelescope;
+            return m_ActiveMount;
         }
-        void connectTelescope();
-        void disconnectTelescope();
 
         void setDome(ISD::Dome *device);
         ISD::Dome *getDome()
         {
             return m_ActiveDome;
         }
-        void connectDome();
-        void disconnectDome();
 
         void setRotator(ISD::Rotator *device);
         ISD::Rotator *getRotator()
         {
             return m_ActiveRotator;
         }
-        void connectRotator();
-        void disconnectRotator();
 
         void setActiveCamera(ISD::Camera *device);
         ISD::Camera *getActiveCamera()
         {
             return m_ActiveCamera;
         }
-        void connectActiveCamera();
-        void disconnectActiveCamera();
 
-        void setActiveChip(ISD::CameraChip *device);
+        void setActiveChip(ISD::CameraChip *device)
+        {
+            m_ActiveChip = device;
+        }
         ISD::CameraChip *getActiveChip()
         {
             return m_ActiveChip;
         }
 
-        void setFilterWheel(ISD::FilterWheel *device);
+        void setFilterWheel(ISD::FilterWheel *device)
+        {
+            m_ActiveFilterWheel = device;
+        }
         ISD::FilterWheel *getFilterWheel()
         {
             return m_ActiveFilterWheel;
@@ -107,8 +104,12 @@ class CaptureDeviceAdaptor: public QObject
         {
             return m_FilterManager;
         }
-        void connectFilterManager();
-        void disconnectFilterManager();
+
+        /**
+         * @brief disconnectDevices Connect all current devices to the job's
+         * state machine
+         */
+        void disconnectDevices(SequenceJobState *state);
 
         //////////////////////////////////////////////////////////////////////
         // Rotator commands
@@ -214,7 +215,11 @@ class CaptureDeviceAdaptor: public QObject
          */
         void queryHasShutter();
 
-    signals:
+signals:
+        /**
+         * @brief filterIdChanged Update of the currently selected filter ID
+         */
+        void filterIdChanged(int id);
         /**
          * @brief Update for the CCD temperature
          */
@@ -260,24 +265,22 @@ class CaptureDeviceAdaptor: public QObject
          */
         void hasShutter(bool present);
 
-    public slots:
+public slots:
         /**
          * @brief Slot that reads the requested device state and publishes the corresponding event
          * @param state device state that needs to be read directly
          */
         void readCurrentState(CaptureState state);
 
-    private:
-        // the state machine of the capture module
-        QSharedPointer<CaptureModuleState> m_captureModuleState;
+private:
         // the state machine for the current sequence job
-        SequenceJobState *currentSequenceJobState = nullptr;
+        QSharedPointer<SequenceJobState> currentSequenceJobState;
         // the light box device
         ISD::LightBox *m_ActiveLightBox { nullptr };
         // the dust cap
         ISD::DustCap *m_ActiveDustCap { nullptr };
-        // the current telescope
-        ISD::Mount *m_ActiveTelescope { nullptr };
+        // the current mount
+        ISD::Mount *m_ActiveMount { nullptr };
         // the current dome
         ISD::Dome *m_ActiveDome { nullptr };
         // active rotator device
@@ -298,5 +301,21 @@ class CaptureDeviceAdaptor: public QObject
         // flag if dark manual cover has been asked
         bool m_ManualDarkCoveringAsked { false };
         bool m_ManualDarkOpeningAsked { false };
+
+        //////////////////////////////////////////////////////////////////////
+        // Device Connections
+        //////////////////////////////////////////////////////////////////////
+        void connectDustCap(SequenceJobState *state);
+        void disconnectDustCap(SequenceJobState *state);
+        void connectMount(SequenceJobState *state);
+        void disconnectMount(SequenceJobState *state);
+        void connectDome(SequenceJobState *state);
+        void disconnectDome(SequenceJobState *state);
+        void connectRotator(SequenceJobState *state);
+        void disconnectRotator(SequenceJobState *state);
+        void connectActiveCamera(SequenceJobState *state);
+        void disconnectActiveCamera(SequenceJobState *state);
+        void connectFilterManager(SequenceJobState *state);
+        void disconnectFilterManager(SequenceJobState *state);
 };
 }; // namespace

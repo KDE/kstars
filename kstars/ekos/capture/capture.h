@@ -19,7 +19,6 @@
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
-#include "ekos/scheduler/schedulerjob.h"
 #include "ekos/auxiliary/darkprocessor.h"
 #include "dslrinfodialog.h"
 #include "ui_limits.h"
@@ -598,7 +597,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
         Q_SCRIPTABLE QString getTargetName()
         {
-            return m_TargetName;
+            return m_captureModuleState->targetName();
         }
 
         /** @}*/
@@ -1094,18 +1093,10 @@ private slots:
         // ////////////////////////////////////////////////////////////////////
         // helper functions
         // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief checkSeqBoundary Determine the next file number sequence.
-         *        That is, if we have file1.png and file2.png, then the next
-         *        sequence should be file3.png.
-         */
-        void checkSeqBoundary();
 
         // Filename preview
         void generatePreviewFilename();
         QString previewFilename(FilenamePreviewType = LOCAL_PREVIEW);
-
-        double getEstimatedDownloadTime();
 
         /**
          * @brief Set the currently active sequence job. Use this function to ensure
@@ -1113,20 +1104,9 @@ private slots:
          */
         void setActiveJob(SequenceJob *value);
 
-        /**
-          * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
-          */
-        void setDirty();
-
         void setBusy(bool enable);
 
         /* Capture */
-        /**
-         * @brief updateSequencePrefix Update the prefix for the sequence of images
-         *        to be captured.
-         */
-        void updateSequencePrefix(const QString &newPrefix);
-
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
 
         bool isModelinDSLRInfo(const QString &model);
@@ -1147,27 +1127,6 @@ private slots:
          * TODO depending on user feedback.
          */
         QStringList generateScriptArguments() const;
-
-        /**
-         * @brief Determine the overall number of target frames with the same signature.
-         *        Assume capturing RGBLRGB, where in each sequence job there is only one frame.
-         *        For "L" the result will be 1, for "R" it will be 2 etc.
-         * @param frame signature (typically the filter name)
-         * @return
-         */
-        int getTotalFramesCount(QString signature);
-
-        /**
-         * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
-         * completed flat frames.
-         * @param job Dark flat job
-         * @return True if a matching exposure is found and set, false otherwise.
-         * @warning This only works if the flat frames were captured in the same live session.
-         * If the flat frames were captured in another session (i.e. Ekos restarted), then all automatic exposure
-         * calculation results are discarded since Ekos does not save this information to the sequene file.
-         * Possible solution is to write to a local config file to keep this information persist between sessions.
-         */
-        bool setDarkFlatExposure(SequenceJob *job);
 
         /**
          * @brief Sync refocus options to the GUI settings
@@ -1250,8 +1209,6 @@ private slots:
         // Timer for starting the next capture sequence with delay
         // @see startNextExposure()
         QTimer *seqDelayTimer { nullptr };
-        QString seqPrefix;
-        int nextSequenceID { 0 };
         int seqFileCount { 0 };
         bool isBusy { false };
         bool m_isFraming { false };
@@ -1263,7 +1220,6 @@ private slots:
 
         bool useGuideHead { false };
 
-        QString m_TargetName;
         QString m_ObserverName;
 
         // Currently active sequence job.
@@ -1278,7 +1234,6 @@ private slots:
 
         QStringList m_LogText;
         QUrl m_SequenceURL;
-        bool m_Dirty { false };
         bool m_JobUnderEdit { false };
 
         // Fast Exposure
@@ -1300,7 +1255,6 @@ private slots:
         QUrl dirPath;
 
         // Misc
-        bool ignoreJobProgress { true };
         bool suspendGuideOnDownload { false };
         QJsonArray m_SequenceArray;
 
@@ -1335,9 +1289,6 @@ private slots:
         // DSLR Infos
         QList<QMap<QString, QVariant>> DSLRInfos;
 
-        // Captured Frames Map
-        SchedulerJob::CapturedFramesMap capturedFramesMap;
-
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };
         double OffsetSpinSpecialValue { INVALID_VALUE };
@@ -1347,7 +1298,6 @@ private slots:
         std::unique_ptr<Ui::Limits> m_LimitsUI;
         QPointer<QDialog> m_LimitsDialog;
 
-        QList<double> downloadTimes;
         QElapsedTimer m_DownloadTimer;
         QTimer downloadProgressTimer;
         QVariantMap m_Metadata;

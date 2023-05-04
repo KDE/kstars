@@ -126,9 +126,10 @@ private:
     /**
      * @brief Fill the map of frames that have already been captured
      * @param expectedFrames comma separated list of <filter>:<count>
+     * @param imagepath base directory holding all images
      * @return true if everything was successful
      */
-    bool fillCapturedFramesMap(QString capturedFramesMap);
+    bool fillCapturedFramesMap(QString capturedFramesMap, QString imagepath);
 
     /**
      * @brief Determine the total count from a comma separated sequence of <filter>:<count>

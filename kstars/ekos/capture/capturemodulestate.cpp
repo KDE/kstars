@@ -778,6 +778,70 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
     }
 }
 
+void CaptureModuleState::addDownloadTime(double time)
+{
+    totalDownloadTime += time;
+    downloadsCounter++;
+}
+
+bool CaptureModuleState::setDarkFlatExposure(SequenceJob *job)
+{
+    const auto darkFlatFilter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+    const auto darkFlatBinning = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+    const auto darkFlatADU = job->getCoreProperty(SequenceJob::SJ_TargetADU).toInt();
+
+    for (auto &oneJob : allJobs())
+    {
+        if (oneJob->getFrameType() != FRAME_FLAT)
+            continue;
+
+        const auto filter = oneJob->getCoreProperty(SequenceJob::SJ_Filter).toString();
+
+        // Match filter, if one exists.
+        if (!darkFlatFilter.isEmpty() && darkFlatFilter != filter)
+            continue;
+
+        // Match binning
+        const auto binning = oneJob->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+        if (darkFlatBinning != binning)
+            continue;
+
+        // Match ADU, if used.
+        const auto adu = oneJob->getCoreProperty(SequenceJob::SJ_TargetADU).toInt();
+        if (job->getFlatFieldDuration() == DURATION_ADU)
+        {
+            if (darkFlatADU != adu)
+                continue;
+        }
+
+        // Now get the exposure
+        job->setCoreProperty(SequenceJob::SJ_Exposure, oneJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
+
+        return true;
+    }
+    return false;
+}
+
+void CaptureModuleState::checkSeqBoundary(QUrl sequenceURL)
+{
+    // No updates during meridian flip
+    if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
+        return;
+
+    auto placeholderPath = PlaceholderPath(sequenceURL.toLocalFile());
+    setNextSequenceID(placeholderPath.checkSeqBoundary(*getActiveJob(), targetName()));
+}
+
+void CaptureModuleState::addCapturedFrame(const QString &signature)
+{
+    SchedulerJob::CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
+    if (m_capturedFramesMap.end() != frame_item)
+        frame_item.value()++;
+    else m_capturedFramesMap[signature] = 1;
+
+}
+
+
 
 
 
