@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-03 00:43+0000\n"
-"PO-Revision-Date: 2023-04-30 18:38+0200\n"
+"PO-Revision-Date: 2023-05-03 15:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -21846,7 +21846,7 @@ msgstr "Resetten opstellingsmodel na meridiaanflip"
 #: ekos/opsekos.ui:656
 #, kde-format
 msgid "Use flip command if supported by mount"
-msgstr ""
+msgstr "Commando flip gebruiken indien ondersteunt door mount"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:665
@@ -33216,10 +33216,9 @@ msgstr "Resetten opstellingsmodel na meridiaanflip."
 
 #. i18n: ectx: label, entry (ForcedFlip), group (Capture)
 #: kstars.kcfg:1717
-#, fuzzy, kde-format
-#| msgid "Telescope meridian flip timed out."
+#, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "Tijd voor meridiaanflip is verlopen."
+msgstr "Afgedwongen meridiaanflips gebruiken indien ondersteunt."
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:1721

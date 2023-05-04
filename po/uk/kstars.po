@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-03 00:43+0000\n"
-"PO-Revision-Date: 2023-04-30 09:46+0300\n"
+"PO-Revision-Date: 2023-05-03 15:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -22027,6 +22027,7 @@ msgstr "Скинути модель лафета після переходу з�
 #, kde-format
 msgid "Use flip command if supported by mount"
 msgstr ""
+"Використати команду віддзеркалення, якщо у лафеті передбачено її підтримку"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:665
@@ -33487,10 +33488,11 @@ msgstr "Скинути модель лафета після переходу з�
 
 #. i18n: ectx: label, entry (ForcedFlip), group (Capture)
 #: kstars.kcfg:1717
-#, fuzzy, kde-format
-#| msgid "Flips the mount when reaching the meridian, if supported."
+#, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "Перевертає лафет під час перетинання меридіана, якщо це можливо."
+msgstr ""
+"Використовувати примусові переходи за меридіаном, якщо їхню підтримку "
+"передбачено."
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:1721
