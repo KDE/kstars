@@ -458,7 +458,7 @@ Capture::Capture()
         fileDirectoryT->setText(Options::captureDirectory());
     else
     {
-        fileDirectoryT->setText(QDir::toNativeSeparators(QDir::homePath() + "/Pictures"));
+        fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
         Options::setCaptureDirectory(fileDirectoryT->text());
     }
 
@@ -507,6 +507,7 @@ Capture::Capture()
     connect(m_captureModuleState.data(), &CaptureModuleState::newStatus, this, &Capture::newStatus);
     connect(m_captureModuleState.data(), &CaptureModuleState::checkFocus, this, &Capture::checkFocus);
     connect(m_captureModuleState.data(), &CaptureModuleState::resetFocus, this, &Capture::resetFocus);
+    connect(m_captureModuleState.data(), &CaptureModuleState::adaptiveFocus, this, &Capture::adaptiveFocus);
     connect(m_captureModuleState.data(), &CaptureModuleState::guideAfterMeridianFlip, this,
             &Capture::guideAfterMeridianFlip);
     connect(m_captureModuleState.data(), &CaptureModuleState::newFocusStatus, this, &Capture::updateFocusStatus);
@@ -936,6 +937,7 @@ void Capture::start()
     {
         m_captureModuleState->resetDitherCounter();
         m_captureModuleState->getRefocusState()->resetInSequenceFocusCounter();
+        m_captureModuleState->getRefocusState()->setAdaptiveFocusDone(false);
     }
 
     m_captureModuleState->setGuidingDeviationDetected(false);
@@ -2029,6 +2031,8 @@ IPState Capture::setCaptureComplete()
         activeJob->setCompleted(activeJob->getCompleted() + 1);
         /* Decrease the counter for in-sequence focusing */
         m_captureModuleState->getRefocusState()->decreaseInSequenceFocusCounter();
+        /* Reset adaptive focus flag */
+        m_captureModuleState->getRefocusState()->setAdaptiveFocusDone(false);
     }
 
     /* Decrease the dithering counter except for directly after meridian flip                                              */
@@ -3559,6 +3563,16 @@ void Capture::updateFocusStatus(FocusState state)
                 break;
         }
     }
+}
+
+void Capture::focusAdaptiveComplete(bool success)
+{
+    // directly forward it to the state machine
+    m_captureModuleState->updateAdaptiveFocusState(success);
+    if (success)
+        appendLogText(i18n("Adaptive focus complete."));
+    else
+        appendLogText(i18n("Adaptive focus failed. Continuing..."));
 }
 
 void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)

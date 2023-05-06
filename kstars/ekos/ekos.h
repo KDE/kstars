@@ -213,6 +213,9 @@ std::vector<double> gsl_polynomial_fit(const double *const data_x, const double 
 
 // Invalid value
 const int INVALID_VALUE = -1e6;
+// Invalid star HFR, FWHM result
+static double constexpr INVALID_STAR_MEASURE = -1.0;
+
 }
 
 // Communication Status

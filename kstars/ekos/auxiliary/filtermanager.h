@@ -17,10 +17,14 @@
 #include <QSqlDatabase>
 #include <QQueue>
 #include <QPointer>
+#include <QStandardItemModel>
+#include <QProgressBar>
+#include <QStatusBar>
 
 class QSqlTableModel;
 class ComboDelegate;
 class NotEditableDelegate;
+class NotEditableDelegate2dp;
 class DoubleDelegate;
 class IntegerDelegate;
 class ToggleDelegate;
@@ -33,24 +37,46 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         Q_OBJECT
     public:
 
-    typedef enum
-    {
-        CHANGE_POLICY    = 1 << 0,
-        OFFSET_POLICY    = 1 << 1,
-        AUTOFOCUS_POLICY = 1 << 2,
-        ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | AUTOFOCUS_POLICY,
-        NO_AUTOFOCUS_POLICY = CHANGE_POLICY | OFFSET_POLICY
-    } FilterPolicy;
+        typedef enum
+        {
+            CHANGE_POLICY    = 1 << 0,
+            OFFSET_POLICY    = 1 << 1,
+            AUTOFOCUS_POLICY = 1 << 2,
+            ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | AUTOFOCUS_POLICY,
+            NO_AUTOFOCUS_POLICY = CHANGE_POLICY | OFFSET_POLICY
+        } FilterPolicy;
 
-    enum
-    {
-        FM_LABEL = 4,
-        FM_EXPOSURE,
-        FM_OFFSET,
-        FM_AUTO_FOCUS,
-        FM_LOCK_FILTER,
-        FM_FLAT_FOCUS
-    };
+        enum
+        {
+            FM_LABEL = 4,
+            FM_EXPOSURE,
+            FM_OFFSET,
+            FM_AUTO_FOCUS,
+            FM_LOCK_FILTER,
+            FM_LAST_AF_SOLUTION,
+            FM_LAST_AF_TEMP,
+            FM_LAST_AF_ALT,
+            FM_TICKS_PER_TEMP,
+            FM_TICKS_PER_ALT,
+            FM_WAVELENGTH
+        };
+
+        enum
+        {
+            BFO_FILTER = 0,
+            BFO_OFFSET,
+            BFO_LOCK,
+            BFO_NUM_FOCUS_RUNS,
+            BFO_AF_RUN_1
+        };
+
+        typedef enum
+        {
+            BFO_INIT,
+            BFO_RUN,
+            BFO_SAVE,
+            BFO_STOP
+        } BFOButtonState;
 
         FilterManager(QWidget *parent = nullptr);
 
@@ -73,7 +99,25 @@ class FilterManager : public QDialog, public Ui::FilterSettings
             return targetFilterOffset;
         }
 
-        bool setFilterAbsoluteFocusPosition(int index, int absFocusPos);
+        /**
+         * @brief setFilterAbsoluteFocusDetails set params from successful autofocus run
+         * @param index filter index
+         * @param focusPos the position of the focus solution
+         * @param focusTemp the temperature at the time of the focus run
+         * @param focusAlt the altitude at the time of the focus run
+         * @return whether function worked or not
+         */
+        bool setFilterAbsoluteFocusDetails(int index, int focusPos, double focusTemp, double focusAlt);
+
+        /**
+         * @brief getFilterAbsoluteFocusDetails get params from the last successful autofocus run
+         * @param name filter name
+         * @param focusPos the position of the focus solution
+         * @param focusTemp the temperature at the time of the focus run
+         * @param focusAlt the altitude at the time of the focus run
+         * @return whether function worked or not
+         */
+        bool getFilterAbsoluteFocusDetails(const QString &name, int &focusPos, double &focusTemp, double &focusAlt) const;
 
         // Set absolute focus position, if supported, to the current filter absolute focus position.
         bool syncAbsoluteFocusPosition(int index);
@@ -85,6 +129,35 @@ class FilterManager : public QDialog, public Ui::FilterSettings
          */
         double getFilterExposure(const QString &name = QString()) const;
         bool setFilterExposure(int index, double exposure);
+
+        /**
+         * @brief setFilterOffset set the offset for the specified filter
+         * @param color of the filter
+         * @param the new filter offset
+         * @return whether or not the operation was successful
+         */
+        bool setFilterOffset(QString color, int offset);
+
+        /**
+         * @brief getFilterWavelength Get mid-point wavelength for the specified filter
+         * @param name filter to obtain exposure time for
+         * @return wavelength in nm.
+         */
+        int getFilterWavelength(const QString &name = QString()) const;
+
+        /**
+         * @brief getFilterTicksPerTemp gets the ticks per degree C
+         * @param name filter to obtain exposure time for
+         * @return ticks / degree C
+         */
+        double getFilterTicksPerTemp(const QString &name = QString()) const;
+
+        /**
+         * @brief getFilterTicksPerAlt gets the ticks per degree of altitude
+         * @param name filter to obtain exposure time for
+         * @return ticks / degree Alt
+         */
+        double getFilterTicksPerAlt(const QString &name = QString()) const;
 
         /**
          * @brief getFilterLock Return filter that should be used when running autofocus for the supplied filter
@@ -122,6 +195,13 @@ class FilterManager : public QDialog, public Ui::FilterSettings
          */
         void applyFilterFocusPolicies();
 
+        /**
+         * @brief autoFocusComplete Used by build filter offsets to process the completion of an AF run.
+         * @param completionState was the AF run successful
+         * @param currentPosition If the AF run was successful this is the focus point
+         */
+        void autoFocusComplete(FocusState completionState, int currentPosition);
+
     public slots:
         // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
         bool setFilterPosition(uint8_t position, Ekos::FilterManager::FilterPolicy policy = ALL_POLICIES);
@@ -133,6 +213,8 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
         // Refresh Filters after model update
         void reloadFilters();
+        // Resize the dialog to the contents
+        void resizeDialog();
         // Focus Status
         void setFocusStatus(Ekos::FocusState focusState);
         // Set absolute focus position
@@ -158,16 +240,27 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void newStatus(Ekos::FilterState state);
         // Check Focus
         void checkFocus(double);
+        // Run AutoFocus
+        void runAutoFocus(bool buildOffsets);
+        // Abort AutoFocus
+        void abortAutoFocus();
         // New Focus offset requested
         void newFocusOffset(int value, bool useAbsoluteOffset);
         // database was updated
         void updated();
+        // Filter ticks per degree of temperature changed
+        void ticksPerTempChanged();
+        // Filter ticks per degree of altitude changed
+        void ticksPerAltChanged();
+        // Filter wavelength changed
+        void wavelengthChanged();
 
     private slots:
         void updateProperty(INDI::Property prop);
         void processDisconnect();
+        void itemChanged(QStandardItem *item);
 
-    private:        
+    private:
 
         // Filter Wheel Devices
         ISD::FilterWheel *m_FilterWheel = { nullptr };
@@ -196,6 +289,10 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         INumberVectorProperty *m_FilterPositionProperty { nullptr };
         ISwitchVectorProperty *m_FilterConfirmSet { nullptr };
 
+        // Accessor function to return filter pointer for the passed in name.
+        // nullptr is returned if there isn't a match
+        OAL::Filter * getFilterByName(const QString &name) const;
+
         // Operation stack
         void buildOperationQueue(FilterState operation);
         bool executeOperationQueue();
@@ -203,6 +300,10 @@ class FilterManager : public QDialog, public Ui::FilterSettings
 
         // Update model
         void syncDBToINDI();
+
+        // Get the list of possible lock filters to set in the combo box.
+        // The list excludes filters already setup with a lock to prevent nested dependencies
+        QStringList getLockDelegates();
 
         // Operation Queue
         QQueue<FilterState> operationQueue;
@@ -220,14 +321,83 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Delegates
         QPointer<ComboDelegate> lockDelegate;
         QPointer<NotEditableDelegate> noEditDelegate;
+        QPointer<NotEditableDelegate2dp> noEditDelegate2dp;
         QPointer<DoubleDelegate> exposureDelegate;
         QPointer<IntegerDelegate> offsetDelegate;
         QPointer<ToggleDelegate> useAutoFocusDelegate;
+        QPointer<DoubleDelegate> ticksPerTempDelegate;
+        QPointer<DoubleDelegate> ticksPerAltDelegate;
+        QPointer<IntegerDelegate> wavelengthDelegate;
 
         // Policies
         FilterPolicy m_Policy = { ALL_POLICIES };
 
         bool m_ConfirmationPending { false };
+
+        // The following functions and members relate to the Build Filter Offsets dialog
+
+        typedef struct
+        {
+            QString color;
+            bool changeFilter;
+            int numAFRun;
+        } buildOffsetsQItem;
+
+        // Function to initialise resources for the build filter offsers dialog
+        void initBuildFilterOffsets();
+        // Setup the table widget
+        void setupBuildFilterOffsetsTable();
+        // Set the buttons state
+        void setBuildFilterOffsetsButtons(BFOButtonState state);
+        // Function to manage Build Offsets Dialog
+        void buildFilterOffsets();
+        // Function to setup the work required to build the offsets
+        void buildTheOffsets();
+        // Function to stop in-flight processing, e.g AF runs
+        void stopProcessing();
+        // Function to persist the calculated filter offsets
+        void saveTheOffsets();
+        // Function to confirm user wants to close the dialog without saving results
+        void close();
+        // When all automated processing is  complete allow some cells to be editable
+        void setCellsEditable();
+        // Function to call Autofocus to build the filter offsets
+        void runBuildOffsets();
+        // Function to process a filter change event
+        void buildTheOffsetsTaskComplete();
+        // Resize the dialog
+        void buildOffsetsDialogResize();
+        // Calculate the average of the AF runs
+        void calculateAFAverage(int row, int col);
+        // Calculate the new offset for the filter
+        void calculateOffset(int row);
+        // Process the passed in Q item
+        void processQItem(buildOffsetsQItem qitem);
+
+        QStandardItemModel *m_BFOModel;
+        QTableView *m_BFOView;
+
+        QVector <QString> m_lockFilters, m_dependantFilters;
+        QVector <int> m_dependantOffset;
+
+        //buildOffsetsQItem m_qItem;
+
+        QQueue<buildOffsetsQItem> m_buildOffsetsQ;
+        buildOffsetsQItem m_qItemInProgress;
+        QDialog *m_buildOffsetsDialog;
+        QDialogButtonBox *m_buildOffsetButtonBox;
+        QProgressBar *m_buildOffsetsProgressBar;
+        QStatusBar *m_StatusBar;
+
+        bool m_inBuildOffsets { false };
+        int m_rowIdx { 0 };
+        int m_colIdx { 0 };
+        QPushButton *m_runButton;
+        QPushButton *m_stopButton;
+        bool m_problemFlag { false };
+        bool m_stopFlag { false };
+        bool m_abortAFPending { false };
+        bool m_tableInEditMode {false};
 };
 
 }

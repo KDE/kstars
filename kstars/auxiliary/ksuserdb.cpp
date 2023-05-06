@@ -12,6 +12,7 @@
 #include "linelist.h"
 #include "version.h"
 #include "oal/dslrlens.h"
+#include "ekos/ekos.h"
 
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -306,6 +307,23 @@ bool KSUserDB::Initialize()
             qCWarning(KSTARS) << query.lastError();
     }
 
+    // Add focusTemperature, focusAltitude, focusTicksPerTemp, focusTicksPerAlt and wavelength to filter table
+    if (currentDBVersion < 313)
+    {
+        QSqlQuery query(m_UserDB);
+
+        if (!query.exec("ALTER TABLE filter ADD COLUMN FocusTemperature REAL DEFAULT NULL"))
+            qCWarning(KSTARS) << query.lastError();
+        if (!query.exec("ALTER TABLE filter ADD COLUMN FocusAltitude REAL DEFAULT NULL"))
+            qCWarning(KSTARS) << query.lastError();
+        if (!query.exec("ALTER TABLE filter ADD COLUMN FocusTicksPerTemp REAL DEFAULT 0.0"))
+            qCWarning(KSTARS) << query.lastError();
+        if (!query.exec("ALTER TABLE filter ADD COLUMN FocusTicksPerAlt REAL DEFAULT 0.0"))
+            qCWarning(KSTARS) << query.lastError();
+        if (!query.exec("ALTER TABLE filter ADD COLUMN Wavelength REAL DEFAULT 500.0"))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
     m_UserDB.close();
     return true;
 }
@@ -396,7 +414,12 @@ bool KSUserDB::RebuildDB()
                   "Offset INTEGER DEFAULT 0,"
                   "UseAutoFocus INTEGER DEFAULT 0,"
                   "LockedFilter TEXT DEFAULT '--',"
-                  "AbsoluteFocusPosition INTEGER DEFAULT 0)");
+                  "AbsoluteFocusPosition INTEGER DEFAULT 0,"
+                  "FocusTemperature REAL DEFAULT NULL,"
+                  "FocusAltitude REAL DEFAULT NULL,"
+                  "FocusTicksPerTemp REAL DEFAULT 0.0,"
+                  "FocusTicksPerAlt REAL DEFAULT 0.0,"
+                  "Wavelength INTEGER DEFAULT 500)");
 
     tables.append("CREATE TABLE wishlist ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -1417,8 +1440,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
 /*
  *  filter section
  */
-void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                         int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos)
+void KSUserDB::AddFilter(const filterProperties *fp)
 {
     if (m_UserDB.open())
     {
@@ -1426,15 +1448,20 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
         equip.setTable("filter");
 
         QSqlRecord record = equip.record();
-        record.setValue("Vendor", vendor);
-        record.setValue("Model", model);
-        record.setValue("Type", type);
-        record.setValue("Color", color);
-        record.setValue("Offset", offset);
-        record.setValue("Exposure", exposure);
-        record.setValue("UseAutoFocus", useAutoFocus ? 1 : 0);
-        record.setValue("LockedFilter", lockedFilter);
-        record.setValue("AbsoluteFocusPosition", absFocusPos);
+        record.setValue("Vendor", fp->vendor);
+        record.setValue("Model", fp->model);
+        record.setValue("Type", fp->type);
+        record.setValue("Color", fp->color);
+        record.setValue("Offset", fp->offset);
+        record.setValue("Exposure", fp->exposure);
+        record.setValue("UseAutoFocus", fp->useAutoFocus ? 1 : 0);
+        record.setValue("LockedFilter", fp->lockedFilter);
+        record.setValue("AbsoluteFocusPosition", fp->absFocusPos);
+        record.setValue("FocusTemperature", fp->focusTemperature);
+        record.setValue("FocusAltitude", fp->focusAltitude);
+        record.setValue("FocusTicksPerTemp", fp->focusTicksPerTemp);
+        record.setValue("FocusTicksPerAlt", fp->focusTicksPerAlt);
+        record.setValue("Wavelength", fp->wavelength);
 
         if (equip.insertRecord(-1, record) == false)
             qCritical() << __FUNCTION__ << equip.lastError();
@@ -1460,8 +1487,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
     else qCritical() << "Failed opening database connection to add filters.";
 }
 
-void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                         int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos, const QString &id)
+void KSUserDB::AddFilter(const filterProperties *fp, const QString &id)
 {
     m_UserDB.open();
     QSqlTableModel equip(nullptr, m_UserDB);
@@ -1472,15 +1498,20 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QStr
     if (equip.rowCount() > 0)
     {
         QSqlRecord record = equip.record(0);
-        record.setValue("Vendor", vendor);
-        record.setValue("Model", model);
-        record.setValue("Type", type);
-        record.setValue("Color", color);
-        record.setValue("Offset", offset);
-        record.setValue("Exposure", exposure);
-        record.setValue("UseAutoFocus", useAutoFocus ? 1 : 0);
-        record.setValue("LockedFilter", lockedFilter);
-        record.setValue("AbsoluteFocusPosition", absFocusPos);
+        record.setValue("Vendor", fp->vendor);
+        record.setValue("Model", fp->model);
+        record.setValue("Type", fp->type);
+        record.setValue("Color", fp->color);
+        record.setValue("Offset", fp->offset);
+        record.setValue("Exposure", fp->exposure);
+        record.setValue("UseAutoFocus", fp->useAutoFocus ? 1 : 0);
+        record.setValue("LockedFilter", fp->lockedFilter);
+        record.setValue("AbsoluteFocusPosition", fp->absFocusPos);
+        record.setValue("FocusTemperature", fp->focusTemperature);
+        record.setValue("FocusAltitude", fp->focusAltitude);
+        record.setValue("FocusTicksPerTemp", fp->focusTicksPerTemp);
+        record.setValue("FocusTicksPerAlt", fp->focusTicksPerAlt);
+        record.setValue("Wavelength", fp->wavelength);
         equip.setRecord(0, record);
         if (equip.submitAll() == false)
             qCritical() << "AddFilter:" << equip.lastError();
@@ -1497,21 +1528,27 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
     equip.setTable("filter");
     equip.select();
 
+    filterProperties *fp = new filterProperties("", "", "", "");
+
     for (int i = 0; i < equip.rowCount(); ++i)
     {
-        QSqlRecord record = equip.record(i);
-        QString id        = record.value("id").toString();
-        QString vendor    = record.value("Vendor").toString();
-        QString model     = record.value("Model").toString();
-        QString type      = record.value("Type").toString();
-        QString color     = record.value("Color").toString();
-        int offset        = record.value("Offset").toInt();
-        double exposure   = record.value("Exposure").toDouble();
-        QString lockedFilter  = record.value("LockedFilter").toString();
-        bool useAutoFocus = record.value("UseAutoFocus").toInt() == 1;
-        int absFocusPos   = record.value("AbsoluteFocusPosition").toInt();
-        OAL::Filter *o    = new OAL::Filter(id, model, vendor, type, color, exposure, offset, useAutoFocus, lockedFilter,
-                                            absFocusPos);
+        QSqlRecord record     = equip.record(i);
+        QString id            = record.value("id").toString();
+        fp->vendor            = record.value("Vendor").toString();
+        fp->model             = record.value("Model").toString();
+        fp->type              = record.value("Type").toString();
+        fp->color             = record.value("Color").toString();
+        fp->offset            = record.value("Offset").toInt();
+        fp->exposure          = record.value("Exposure").toDouble();
+        fp->lockedFilter      = record.value("LockedFilter").toString();
+        fp->useAutoFocus      = record.value("UseAutoFocus").toInt() == 1;
+        fp->absFocusPos       = record.value("AbsoluteFocusPosition").toInt();
+        fp->focusTemperature  = record.value("FocusTemperature").toDouble();
+        fp->focusAltitude     = record.value("FocusAltitude").toDouble();
+        fp->focusTicksPerTemp = record.value("FocusTicksPerTemp").toDouble();
+        fp->focusTicksPerAlt  = record.value("FocusTicksPerAlt").toDouble();
+        fp->wavelength        = record.value("Wavelength").toDouble();
+        OAL::Filter *o        = new OAL::Filter(id, fp);
         filter_list.append(o);
     }
 
@@ -1862,11 +1899,7 @@ void KSUserDB::readLens()
 
 void KSUserDB::readFilter()
 {
-    QString model, vendor, type, color, lockedFilter;
-    int offset = 0;
-    double exposure = 1.0;
-    bool useAutoFocus = false;
-    int absFocusPos = 0;
+    filterProperties *fp = new filterProperties("", "", "", "");
 
     while (!reader_->atEnd())
     {
@@ -1879,43 +1912,63 @@ void KSUserDB::readFilter()
         {
             if (reader_->name() == "model")
             {
-                model = reader_->readElementText();
+                fp->model = reader_->readElementText();
             }
             else if (reader_->name() == "vendor")
             {
-                vendor = reader_->readElementText();
+                fp->vendor = reader_->readElementText();
             }
             else if (reader_->name() == "type")
             {
-                type = reader_->readElementText();
+                fp->type = reader_->readElementText();
             }
             else if (reader_->name() == "offset")
             {
-                offset = reader_->readElementText().toInt();
+                fp->offset = reader_->readElementText().toInt();
             }
             else if (reader_->name() == "color")
             {
-                color = reader_->readElementText();
+                fp->color = reader_->readElementText();
             }
             else if (reader_->name() == "exposure")
             {
-                exposure = reader_->readElementText().toDouble();
+                fp->exposure = reader_->readElementText().toDouble();
             }
             else if (reader_->name() == "lockedFilter")
             {
-                lockedFilter = reader_->readElementText();
+                fp->lockedFilter = reader_->readElementText();
             }
             else if (reader_->name() == "useAutoFocus")
             {
-                useAutoFocus = (reader_->readElementText() == "1");
+                fp->useAutoFocus = (reader_->readElementText() == "1");
             }
             else if (reader_->name() == "AbsoluteAutoFocus")
             {
-                absFocusPos = (reader_->readElementText().toInt());
+                fp->absFocusPos = (reader_->readElementText().toInt());
+            }
+            else if (reader_->name() == "FocusTemperature")
+            {
+                fp->focusTemperature = (reader_->readElementText().toDouble());
+            }
+            else if (reader_->name() == "FocusAltitude")
+            {
+                fp->focusAltitude = (reader_->readElementText().toDouble());
+            }
+            else if (reader_->name() == "FocusTicksPerTemp")
+            {
+                fp->focusTicksPerTemp = (reader_->readElementText().toDouble());
+            }
+            else if (reader_->name() == "FocusTicksPerAlt")
+            {
+                fp->focusTicksPerAlt = (reader_->readElementText().toDouble());
+            }
+            else if (reader_->name() == "Wavelength")
+            {
+                fp->wavelength = (reader_->readElementText().toDouble());
             }
         }
     }
-    AddFilter(vendor, model, type, color, offset, exposure, useAutoFocus, lockedFilter, absFocusPos);
+    AddFilter(fp);
 }
 
 QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()

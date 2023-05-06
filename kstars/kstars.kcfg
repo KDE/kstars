@@ -1848,44 +1848,15 @@
       </entry>      
    </group>
    <group name="Focus">      
-      <entry name="DefaultFocusTemperatureSource" type="String">
-         <label>Default focus module temperature source.</label>
+      <entry name="FocusExposure" type="Double">
+         <label>Exposure to use during focus</label>
+         <whatsthis>Specifies the length of exposure to use during focus.</whatsthis>
+         <default>2.0</default>
       </entry>
-      <entry name="FocusTicks" type="UInt">
-         <label>Default Focuser step ticks</label>
-         <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
-         <default>500</default>
-      </entry>
-      <entry name="FocusSettleTime" type="Double">
-         <whatsthis>Wait for this many seconds after moving the focuser before capturing the next image during AutoFocus.</whatsthis>
-         <default>0</default>
-      </entry>
-      <entry name="GuideSettleTime" type="Double">
-         <whatsthis>Wait for this many seconds after resuming guide.</whatsthis>
-         <default>0</default>
-      </entry>
-      <entry name="FocusTolerance" type="Double">
-         <label>Default Focuser tolerance value</label>
-         <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
-         <default>1</default>
-      </entry>
-      <entry name="FocusCaptureTimeout" type="UInt">
-         <whatsthis>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</whatsthis>
-         <default>120</default>
-      </entry>
-      <entry name="FocusMotionTimeout" type="UInt">
-         <whatsthis>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</whatsthis>
-         <default>30</default>
-      </entry>
-      <entry name="FocusMaxTravel" type="UInt">
-         <label>Maximum Focus Travel Distance</label>
-         <whatsthis>Set the maximum travel distance of an absolute focuser.</whatsthis>
-         <default>5000</default>
-      </entry>
-      <entry name="FocusOutSteps" type="Double">
-         <label>Initial Focus Out Steps</label>
-         <whatsthis>Number of outward steps (this number multiplied by initial-step-size) the Linear Focus algorithm moves away from the initial position at the start of focusing.</whatsthis>
-         <default>5</default>
+      <entry name="FocusBinning" type="String">
+         <label>Default Camera binning</label>
+         <whatsthis>Set binning of camera while in focus mode.</whatsthis>
+         <default>1x1</default>
       </entry>
       <entry name="FocusGain" type="Double">
          <label>Default Focuser gain value</label>
@@ -1895,22 +1866,29 @@
       <entry name="FocusISO" type="String">
          <label>Default Focuser Camera ISO value</label>
       </entry>
-      <entry name="FocusBoxSize" type="UInt">
-         <label>Default Focuser star selection box size</label>
-         <whatsthis>Set box size to select a focus star.</whatsthis>
-         <default>64</default>
-      </entry>
-      <entry name="FocusBinning" type="String">
-         <label>Default Camera binning</label>
-         <whatsthis>Set binning of camera while in focus mode.</whatsthis>
-         <default>1x1</default>
+      <entry name="DefaultFocusTemperatureSource" type="String">
+         <label>Default focus module temperature source.</label>
       </entry>
       <entry name="FocusFilter" type="String">
          <label>Default Filter Wheel filter</label>
       </entry>
+
+      <entry name="FocusAutoStarEnabled" type="Bool">
+         <label>Automatically select a star to focus.</label>
+         <default>false</default>
+      </entry>
+      <entry name="UseFocusDarkFrame" type="Bool">
+         <label>Take a dark frame and subtract it before running autofocus operation.</label>
+         <default>false</default>
+      </entry>
       <entry name="FocusSubFrame" type="Bool">
          <label>Subframe the focus star during the autofocus procedure.</label>
          <default>true</default>
+      </entry>
+      <entry name="FocusBoxSize" type="UInt">
+         <label>Default Focuser star selection box size</label>
+         <whatsthis>Set box size to select a focus star.</whatsthis>
+         <default>64</default>
       </entry>
       <entry name="FocusUseFullField" type="Bool">
          <label>Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.</label>
@@ -1926,72 +1904,180 @@
          <whatsthis>During full field focusing, stars which are outside this percentage of the frame are filtered out of HFR calculation (default 100%). Detection algorithms may also have an inherent filter.</whatsthis>
          <default>100.0</default>
       </entry>
-      <entry name="FocusAutoStarEnabled" type="Bool">
-         <label>Automatically select a star to focus.</label>
-         <default>false</default>
-      </entry>
       <entry name="FocusSuspendGuiding" type="Bool">
          <label>Suspend guiding while autofocus in progress.</label>
          <default>true</default>
       </entry>
-      <entry name="UseFocusDarkFrame" type="Bool">
-         <label>Take a dark frame and subtract it before running autofocus operation.</label>
+      <entry name="GuideSettleTime" type="Double">
+         <whatsthis>Wait for this many seconds after resuming guide.</whatsthis>
+         <default>0</default>
+      </entry>
+      <entry name="FocusUnits" type="String">
+         <whatsthis>Display units for HFR and FWHM</whatsthis>
+         <default>Pixels</default>
+      </entry>
+      <entry name="FocusAdaptive" type="Bool">
+         <whatsthis>Whether Adaptive Focusing is enabled.</whatsthis>
          <default>false</default>
       </entry>
-      <entry name="FocusThreshold" type="Double">
-         <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
-         <default>150</default>
+      <entry name="focusAdaptiveMinMove" type="UInt">
+         <whatsthis>When using Adaptive Focusing the minimum allowable focuser move in ticks.</whatsthis>
+         <default>1</default>
       </entry>
+      <entry name="FocusAdaptStart" type="Bool">
+         <whatsthis>Whether to adapt the focuser starting position at the beginning of an Autofocus run.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="focusAdaptiveMaxMove" type="UInt">
+         <whatsthis>When using Adaptive Focusing the maximum total allowable focuser move in ticks.</whatsthis>
+         <default>1000</default>
+      </entry>
+
       <entry name="FocusDetection" type="String">
          <label>Star detection algorithm</label>
          <default>SEP</default>
+      </entry>
+      <entry name="FocusSEPProfile" type="String">
+         <label>Focus source extraction profile</label>
       </entry>
       <entry name="FocusAlgorithm" type="String">
          <label>Focus process algorithm</label>
          <default>Linear 1 Pass</default>
       </entry>
-      <entry name="FocusSEPProfile" type="String">
-         <label>Focus source extraction profile</label>
+      <entry name="FocusCurveFit" type="String">
+         <whatsthis>The type of curve to fit</whatsthis>
+         <default>Hyperbola</default>
       </entry>
-      <entry name="FocusBacklash" type="String">
-         <label>Focus backlash in steps. Zero disables backlash compensation.</label>
-         <default>0</default>
+      <entry name="FocusStarMeasure" type="String">
+         <whatsthis>The type of star measure to use.</whatsthis>
+         <default>HFR</default>
       </entry>
-      <entry name="FocusFramesCount" type="UInt">
-         <label>Number of focus frames to average for HFR calculations.</label>
+      <entry name="FocusStarPSF" type="String">
+         <whatsthis>The type of star PSF to use if curve fitting star profiles.</whatsthis>
+         <default>Gaussian</default>
+      </entry>
+      <entry name="FocusUseWeights" type="Bool">
+         <whatsthis>Whether to use weights in the curve fitting process.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="FocusR2Limit" type="Double">
+         <whatsthis>The minumum acceptable R2 value of a curve fit.</whatsthis>
+         <default>0.8</default>
+      </entry>
+      <entry name="FocusRefineCurveFit" type="Bool">
+         <whatsthis>Whether to refine the curve fit by looking for and discarding outliers.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="focusFramesCount" type="UInt">
+         <whatsthis>How many frames to average over at each step in the Autofocus process.</whatsthis>
          <default>1</default>
-      </entry>
-      <entry name="FocusMaxSingleStep" type="UInt">
-         <label>Maximum single step the focus algorithm is permitted to command.</label>
-         <default>2000</default>
-      </entry>
-      <entry name="FocusExposure" type="double">
-         <label>Default focus exposure time when no filters are used.</label>
-         <default>2</default>
-      </entry>
-      <entry name="FocusGaussianSigma" type="Double">
-         <label>Gaussian blur sigma value.</label>
-         <default>1.5</default>
-      </entry>
-      <entry name="FocusGaussianKernelSize" type="Int">
-         <label>Gaussian blur kernel size.</label>
-         <default>5</default>
       </entry>
       <entry name="FocusMultiRowAverage" type="Int">
          <label>Number of rows to combine in the Bahtinov average calculation.</label>
          <default>3</default>
       </entry>
-      <entry name="FocusCurveFit" type="UInt">
-         <label>Curve Type.</label>
+      <entry name="FocusGaussianSigma" type="Double">
+         <label>Gaussian blur sigma value.</label>
+         <default>1.5</default>
+      </entry>
+      <entry name="FocusThreshold" type="Double">
+         <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
+         <default>150</default>
+      </entry>
+      <entry name="FocusGaussianKernelSize" type="Int">
+         <label>Gaussian blur kernel size.</label>
+         <default>5</default>
+      </entry>
+      <entry name="FocusTolerance" type="Double">
+         <label>Default Focuser tolerance value</label>
+         <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
+         <default>1</default>
+      </entry>
+
+      <entry name="FocusWalk" type="String">
+         <whatsthis>The type of walk the focuser will take during an Autofocus run.</whatsthis>
+         <default>Classic</default>
+      </entry>
+      <entry name="FocusSettleTime" type="Double">
+         <whatsthis>Wait for this many seconds after moving the focuser before capturing the next image during AutoFocus.</whatsthis>
+         <default>1.0</default>
+      </entry>
+      <entry name="FocusTicks" type="UInt">
+         <label>Default Focuser step ticks</label>
+         <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
+         <default>250</default>
+      </entry>
+      <entry name="FocusOutSteps" type="Double">
+         <whatsthis>The number of steps to move outwards from the start position of an Autofocus run.</whatsthis>
+         <default>5</default>
+      </entry>
+      <entry name="FocusMaxTravel" type="UInt">
+         <label>Maximum Focus Travel Distance</label>
+         <whatsthis>Set the maximum travel distance of an absolute focuser.</whatsthis>
+         <default>10000</default>
+      </entry>
+      <entry name="FocusMaxSingleStep" type="UInt">
+         <whatsthis>The maximum size of a single step.</whatsthis>
+         <default>100000</default>
+      </entry>
+      <entry name="FocusBacklash" type="UInt">
+         <whatsthis>The amount of driver backlash.</whatsthis>
          <default>0</default>
       </entry>
-      <entry name="FocusUseWeights" type="Bool">
-         <label>Use weights in the curve fitting process.</label>
-         <default>false</default>
+      <entry name="FocusAFOverscan" type="UInt">
+         <whatsthis>The amount of Autofocus Overscan.</whatsthis>
+         <default>100</default>
       </entry>
-      <entry name="FocusR2Limit" type="Double">
-         <label>Acceptable limit on R2 from curve fit.</label>
-         <default>0.0</default>
+      <entry name="FocusCaptureTimeout" type="UInt">
+         <whatsthis>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</whatsthis>
+         <default>30</default>
+      </entry>
+      <entry name="FocusMotionTimeout" type="UInt">
+         <whatsthis>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</whatsthis>
+         <default>30</default>
+      </entry>
+
+      <entry name="focusCFZAlgorithm" type="String">
+         <whatsthis>The type of CFZ Algorithm to use.</whatsthis>
+         <default>Classic</default>
+      </entry>
+      <entry name="focusCFZTolerance" type="Double">
+         <whatsthis>The user defined tolerance to use for Classic and Wavefront algos.</whatsthis>
+         <default>0.33</default>
+      </entry>
+      <entry name="focusCFZTau" type="Double">
+         <whatsthis>The user defined tolerance to use for the Gold algo.</whatsthis>
+         <default>3.0</default>
+      </entry>
+      <entry name="focusCFZDisplayVCurve" type="Bool">
+         <whatsthis>Whether to display the CFZ on the v-curve after an Autofocus run.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="focusCFZWavelength" type="Double">
+         <whatsthis>The wavelength in nm to use in the Gold algo.</whatsthis>
+         <default>550.0</default>
+      </entry>
+      <entry name="focusCFZAperture" type="UInt">
+         <whatsthis>Telescope aperture in mm to use in CFZ calcs.</whatsthis>
+         <default>100</default>
+      </entry>
+      <entry name="focusCFZFNumber" type="Double">
+         <whatsthis>The f# to use in the CFZ algo.</whatsthis>
+         <default>5.5</default>
+      </entry>
+      <entry name="focusCFZSeeing" type="Double">
+         <whatsthis>The total seeing in arc-secs to use in the CFZ algo.</whatsthis>
+         <default>3.0</default>
+      </entry>
+
+
+
+
+      <entry name="FocusSplitter" type="String">
+         <label>Position of FocusSplitter.</label>
+      </entry>
+      <entry name="rightLayout" type="String">
+         <label>Position of rightLayout.</label>
       </entry>
    </group>
    <group name="StellarSolver">

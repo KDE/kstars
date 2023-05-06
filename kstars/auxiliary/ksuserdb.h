@@ -10,6 +10,7 @@
 #ifndef KSTARS_LITE
 #include "oal/oal.h"
 #endif
+#include <oal/filter.h>
 #include "skyobjects/skyobject.h"
 
 #include <QFile>
@@ -312,7 +313,8 @@ class KSUserDB
          *
          * @return void
          **/
-        void AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio, const QString &id);
+        void AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio,
+                         const QString &id);
 #ifndef KSTARS_LITE
         /**
          * @brief updates the dslr list with all DSLR lenses from database
@@ -333,15 +335,13 @@ class KSUserDB
          *
          * @return void
          **/
-        void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                       int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos);
+        void AddFilter(const filterProperties *fp);
         /**
          * @brief Replace a filter at given ID with new content
          *
          * @return void
          **/
-        void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
-                       int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos, const QString &id);
+        void AddFilter(const filterProperties *fp, const QString &id);
         /**
          * @brief Populate the reference passed with all filters
          *
@@ -478,5 +478,5 @@ class KSUserDB
         /** XML reader for importing old formats **/
         QXmlStreamReader *reader_ { nullptr };
 
-        static const uint16_t SCHEMA_VERSION = 312;
+        static const uint16_t SCHEMA_VERSION = 313;
 };

@@ -6,18 +6,22 @@
 
 #include "oal/filter.h"
 
-OAL::Filter::Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &color,
-                          double exposure, int offset, bool useAutoFocus, const QString &lockedFilter, int absFocusPosition)
+OAL::Filter::Filter(const QString &id, const filterProperties *fp)
 {
     m_Id       = id;
-    m_Model    = model;
-    m_Vendor   = vendor;
-    m_Type     = type;
-    m_Color    = color;
-    m_Name     = vendor + ' ' + model + " - " + type + ' ' + color + " (" + id + ')';
-    m_Offset   = offset;
-    m_Exposure = exposure;
-    m_LockedFilter = lockedFilter;
-    m_UseAutoFocus = useAutoFocus;
-    m_AbsoluteFocusPosition = absFocusPosition;
+    m_Model    = fp->model;
+    m_Vendor   = fp->vendor;
+    m_Type     = fp->type;
+    m_Color    = fp->color;
+    m_Name     = fp->vendor + ' ' + fp->model + " - " + fp->type + ' ' + fp->color + " (" + id + ')';
+    m_Offset   = fp->offset;
+    m_Exposure = fp->exposure;
+    m_LockedFilter = fp->lockedFilter;
+    m_UseAutoFocus = fp->useAutoFocus;
+    m_AbsoluteFocusPosition = fp->absFocusPos;
+    m_FocusTemperature = fp->focusTemperature;
+    m_FocusAltitude = fp->focusAltitude;
+    m_FocusTicksPerTemp = fp->focusTicksPerTemp;
+    m_FocusTicksPerAlt = fp->focusTicksPerAlt;
+    m_Wavelength = fp->wavelength;
 }

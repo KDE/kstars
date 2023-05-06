@@ -22,6 +22,7 @@
 #include "Options.h"
 #include "skymapcomposite.h"
 #include "auxiliary/ksnotification.h"
+#include "auxiliary/robuststatistics.h"
 
 #include <KFormat>
 #include <QApplication>
@@ -55,7 +56,7 @@
 
 QString getTemporaryPath()
 {
-    return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() +
+    return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" +
                 qAppName()).path();
 }
 
@@ -1577,7 +1578,11 @@ void FITSData::calculateMedian(bool roi)
         downsample = (static_cast<double>(medianSize) / maxMedianSize) + 0.999;
         medianSize /= downsample;
     }
-    std::vector<T> samples;
+    // Ideally samples would be declared like this...
+    //std::vector<T> samples;
+    // Unfortunately this doesn't compile on Mac - see the comments in robuststatistics.cpp for more details
+    // So for now declare samples like this...
+    std::vector<int32_t> samples;
     samples.reserve(medianSize);
 
     for (uint8_t n = 0; n < m_Statistics.channels; n++)
@@ -1586,9 +1591,8 @@ void FITSData::calculateMedian(bool roi)
         for (uint32_t upto = 0; upto < (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
                 upto += downsample)
             samples.push_back(oneChannel[upto]);
-        const uint32_t middle = samples.size() / 2;
-        std::nth_element(samples.begin(), samples.begin() + middle, samples.end());
-        roi ? m_ROIStatistics.median[n] = samples[middle] : m_Statistics.median[n] = samples[middle];
+        auto median = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_MEDIAN, samples);
+        roi ? m_ROIStatistics.median[n] = median : m_Statistics.median[n] = median;
     }
 }
 
@@ -2192,41 +2196,33 @@ double FITSData::getHFR(HFRType type)
     if (removeSaturatedStars && numSaturated > 0)
         qCDebug(KSTARS_FITS) << "Removing " << numSaturated << " stars from HFR calculation";
 
-    QVector<double> HFRs;
+    std::vector<double> HFRs;
+
     for (auto center : starCenters)
     {
         if (removeSaturatedStars && center->val > saturationValue) continue;
-        HFRs << center->HFR;
+
+        if (type == HFR_AVERAGE)
+            HFRs.push_back(center->HFR);
+        else
+        {
+            // HFR_ADJ_AVERAGE - so adjust the HFR based on the stars brightness
+            // HFRadj = HFR.erf(sqrt(ln(peak/background)))/(1 - background/peak)
+            // Sanity check inputs to equation blowing up
+            if (m_SkyBackground.mean <= 0.0 || center->val < m_SkyBackground.mean)
+                qCDebug(KSTARS_FITS) << "HFR Adj, sky background " << m_SkyBackground.mean << " star peak " << center->val << " ignoring";
+            else
+            {
+                const double a_div_b = center->val / m_SkyBackground.mean;
+                const double factor = erf(sqrt(log(a_div_b))) / (1 - (1 / a_div_b));
+                HFRs.push_back(center->HFR * factor);
+                qCDebug(KSTARS_FITS) << "HFR Adj, brightness adjusted from " << center->HFR << " to " << center->HFR * factor;
+            }
+        }
     }
-    std::sort(HFRs.begin(), HFRs.end());
 
-    double sum = std::accumulate(HFRs.begin(), HFRs.end(), 0.0);
-    double m =  sum / HFRs.size();
-
-    if (HFRs.size() > 3)
-    {
-        double accum = 0.0;
-        std::for_each (HFRs.begin(), HFRs.end(), [&](const double d)
-        {
-            accum += (d - m) * (d - m);
-        });
-        double stddev = sqrt(accum / (HFRs.size() - 1));
-
-        // Remove stars over 2 standard deviations away.
-        auto end1 = std::remove_if(HFRs.begin(), HFRs.end(), [m, stddev](const double hfr)
-        {
-            return hfr > (m + stddev * 2);
-        });
-        auto end2 = std::remove_if(HFRs.begin(), end1, [m, stddev](const double hfr)
-        {
-            return hfr < (m - stddev * 2);
-        });
-
-        // New mean
-        sum = std::accumulate(HFRs.begin(), end2, 0.0);
-        const int num_remaining = std::distance(HFRs.begin(), end2);
-        if (num_remaining > 0) m = sum / num_remaining;
-    }
+    auto m = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_SIGMACLIPPING,
+             HFRs, 2);
 
     cacheHFR = m;
     cacheHFRType = HFR_AVERAGE;

@@ -5,19 +5,22 @@
 // Constants used to identify the number of parameters used for different curve types
 constexpr int NUM_HYPERBOLA_PARAMS = 4;
 constexpr int NUM_PARABOLA_PARAMS = 3;
+//constexpr int NUM_GAUSSIAN_PARAMS = 7;
+constexpr int NUM_GAUSSIAN_PARAMS = 7;
 // Parameters for the solver
 // MAX_ITERATIONS is used to limit the number of iterations for the solver.
 // A value needs to be entered that allows a solution to be found without iterating unnecessarily
 // There is a relationship with the tolerance parameters that follow.
 constexpr int MAX_ITERATIONS = 500;
-// The next 2 parameters are used as tolerance for convergence
+// The next 3 parameters are used as tolerance for convergence
 // convergence is achieved if for each datapoint i
 //     dx_i < INEPSABS + (INEPSREL * x_i)
-constexpr double INEPSABS = 1e-5;
-const double INEPSREL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
+constexpr double INEPSXTOL = 1e-5;
+const double INEPSGTOL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
+constexpr double INEPSFTOL = 1e-5;
 
 // The functions here fit a number of different curves to the incoming data points using the Lehvensberg-Marquart
-// solver as provided the the Gnu Science Library (GSL). The following sources of information are useful:
+// solver with geodesic acceleration as provided the the Gnu Science Library (GSL). The following sources of information are useful:
 // www.wikipedia.org/wiki/Levenberg–Marquardt_algorithm - overview of the mathematics behind the algo
 // www.gnu.org/software/gsl/doc/html/nls.html - GSL manual describing Nonlinear Least-Squares fitting.
 //
@@ -47,8 +50,8 @@ const double INEPSREL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
 // it would receive a lower weighting when trying to fit curve to that point.
 //
 // There are several optimisations to LM that speed up convergence for certain types of equations. This
-// code uses the basic LM solver which keeps it generic if more equations are to be added. Of course, if
-// required this could easily be tweaked. An optimisation that has been implemented is that since, in normal
+// code uses the LM solver with geodesic acceleration; a technique to accelerate convergence by using the
+// second derivative of the fitted function. An optimisation that has been implemented is that since, in normal
 // operation, the solver is run multiple times with the same or similar parameters, the initial guess for
 // a solver run is set the solution from the previous run.
 //
@@ -65,11 +68,16 @@ const double INEPSREL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
 // not to disturb historic code the original solution will be called Quadratic. It uses a linear least-squares
 // model, not LM. The LM solver has been applied to a hyperbolic and a parabolic curve.
 //
+// In addition, the solver has been applied to a 3D Gaussian in order to fit star profiles and calculate FWHM
+//
 // Hyperbola
 // ---------
 // Equation y = f(x) = b * sqrt(1 + ((x - c) / a) ^2) + d
 // This can be re-written as:
-// f(x) = b * phi + d, where phi = sqrt(1 + ((x - c) / a) ^2)
+//
+// f(x) = b * phi + d
+// where phi = sqrt(1 + ((x - c) / a) ^2)
+//
 // Jacobian J = {df/da, df/db, df/dc, df/db}
 // df/da      = b * (1 / 2) * (1 / phi) * -2 * ((x - c) ^2) / (a ^3)
 //            = -b * ((x - c) ^2) / ((a ^ 3) * phi)
@@ -77,6 +85,26 @@ const double INEPSREL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
 // df/dc      = b * (1 / 2) * (1 / phi) * 2 * (x - c) / (a ^2) * (-1)
 //            = -b * (x - c) / ((a ^2) * phi)
 // df/dd      = 1
+//
+// Second directional derivative:
+// {
+//   {ddf/dada,ddf/dadb,ddf/dadc,ddf/dadd},
+//   {ddf/dbda,ddf/dbdb,ddf/dbdc,ddf/dbdd},
+//   {ddf/dcda,ddf/dcdb,ddf/dcdc,ddf/dcdd},
+//   {ddf/ddda,ddf/dddb,ddf/dddc,ddf/dddd}
+// }
+// Note the matrix is symmetric, as ddf/dxdy = ddf/dydx.
+//
+// ddf/dada = (b*(c-x)^2*(3*a^2+a*(c-x)^2))/(a^4*(a^2 + (c-x)^2)^3/2))
+// ddf/dadb = -((x - c) ^2) / ((a ^ 3) * phi)
+// ddf/dadc = -(b*(c-x)*(2a^2+(c-x)^2))/(a^3*(a^2 + (c-x)^2)^3/2))
+// ddf/dadd = 0
+// ddf/dbdb = 0
+// ddf/dbdc = -(x-c)/(a^2*phi)
+// ddf/dbdd = 0
+// ddf/dcdc = b/((a^2+(c-x)^2) * phi)
+// ddf/dcdd = 0
+// ddf/dddd = 0
 //
 // For a valid solution:
 // 1. c must be > 0 and within the range of travel of the focuser.
@@ -96,6 +124,76 @@ const double INEPSREL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
 // 2. b must be > 0 for a V shaped curve (b < 0 for an inverted V and b = 0 for a horizontal line).
 // 3. a > 0. The minimum solution when x = c gives f(x) = a which must be > 0.
 //
+// Gaussian
+// --------
+// Generalised equation for a 2D gaussian.
+// Equation z = f(x,y) = b + a.exp-(A((x-x0)^2) + 2B(x-x0)(y-y0) + 2C((y-y0)^2))
+
+// with parameters
+// b          = background
+// a          = Peak Intensity
+// x0         = Star centre in x dimension
+// y0         = Star centre in y dimension
+// A, B, C    = relate to the shape of the elliptical gaussian and the orientation of the major and
+//              minor ellipse axes wrt x and y
+//
+// Jacobian J = {df/db, df/da, df/dx0, df/dy0, df/dA, df/dB, df/dC}
+// Let phi    = exp-(A((x-x0)^2) + 2B(x-x0)(y-y0) + C((y-y0)^2))
+// df/db      = 1
+// df/da      = phi
+// df/dx0     = [2A(x-x0)+2B(y-y0)].a.phi
+// df/dy0     = [2B(x-x0)+2C(y-y0)].a.phi
+// df/dA      = -(x-x0)^2.a.phi
+// df/DB      = -2(x-x0)(y-y0).a.phi
+// df/dC      = -(y-y0)^2.a.phi
+//
+// 2nd derivatives
+// {
+//   {ddf/dbdb,ddf/dbda,ddf/dbdx0,ddf/dbdy0,ddf/dbdA,ddf/dbdB,ddf/dbdC},
+//   {ddf/dadb,ddf/dada,ddf/dadx0,ddf/dady0,ddf/dadA,ddf/dadB,ddf/dadC},
+//   {ddf/dx0db,ddf/dx0da,ddf/dx0dx0,ddf/dx0dy0,ddf/dx0dA,ddf/dx0dB,ddf/dx0dC},
+//   {ddf/dy0db,ddf/dy0da,ddf/dy0dx0,ddf/dy0dy0,ddf/dy0dA,ddf/dy0dB,ddf/dy0dC},
+//   {ddf/dAdb,ddf/dAda,ddf/dAdx0,ddf/dAdy0,ddf/dAdA,ddf/dAdB,ddf/dAdC},
+//   {ddf/dBdb,ddf/dBda,ddf/dBdx0,ddf/dBdy0,ddf/dBdA,ddf/dBdB,ddf/dBdC},
+//   {ddf/dCdb,ddf/dCda,ddf/dCdx0,ddf/dCdy0,ddf/dCdA,ddf/dCdB,ddf/dCdC},
+// }
+// The matrix is symmetric, as ddf/dParm1dParm2 = ddf/dParm2dParm1 so we only need to differentiate
+// one half (above or below the diagonal) of the matrix elements.
+// ddf/dbdb   = 0
+// ddf/dbda   = 0
+// ddf/dbdx0  = 0
+// ddf/dbdy0  = 0
+// ddf/dbdA   = 0
+// ddf/dbdB   = 0
+// ddf/dbdC   = 0
+//
+// ddf/dada   = 0
+// ddf/dadx0  = [2A(x-x0) + 2B(y-y0)].phi
+// ddf/dady0  = [2B(x-x0) + 2C(y-y0)].phi
+// ddf/dadA   = -(x-x0)^2.phi
+// ddf/dadB   = -2(x-x0)(y-y0).phi
+// ddf/dadC   = -Cy-y0)^2.phi
+//
+// ddf/dxodx0 = -2A.a.phi + [2A(x-x0)+2B(y-y0)]^2.a.phi
+// ddf/dx0dy0 = -2B.a.phi - [2A(x-x0)+2B(y-y0)].[2B(x-x0)+2C(y-y0)].a.phi
+// ddf/dx0dA  = 2(x-x0).a.phi - [2A(x-x0)+2B(y-y0)].(x-x0)^2.a.phi
+// ddf/dx0dB  = 2(y-y0).a.phi - [2A(x-x0)+2B(y-y0)].2(x-x0).(y-y0).a.phi
+// ddf/dx0dC  = -[2A(x-x0)+2B(y-y0)].2(y-y0)^2.a.phi
+//
+// ddf/dy0dy0 = -2c.a.phi + [2B(x-x0)+2C(y-y0)]^2.a.phi
+// ddf/dy0dA  = -[2B(x-x0)+2C(y-y0)].(x-x0)^2.a.phi
+// ddf/dy0dB  = 2(x-x0).a.phi - [2B(x-x0)+2C(y-y0)].2(x-x0)(y-y0).a.phi
+// ddf/dy0dC  = 2(y-y0).a.phi - [2B(x-x0)+2C(y-y0)].(y-y0)^2.a.phi
+//
+// ddf/dAdA   = (x-x0)^4.a.phi
+// ddf/dAdB   = 2(x-x0)^3.(y-y0).a.phi
+// ddf/dAdC   = (x-x0)^2.(y-y0)^2.a.phi
+//
+// ddf/dBdB   = 4(x-x0)^2.(y-y0)^2.a.phi
+// ddf/dBdC   = 2(x-x0).(y-y0)^3.a.phi
+//
+// ddf/dCdC   = (y-y0)^4.a.phi
+//
 // Convergence
 // -----------
 // There following are key parameters that drive the LM solver. Currently these settings are coded into
@@ -108,7 +206,7 @@ const double INEPSREL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
 //                  may need >1000 iterations. Setting to 500 seems a good compromise.
 // tolerance      - Conceptually tolerance could be done in 2 ways:
 //                  - check the gradient, would be 0 at the curve minimum
-//                  - check the residuals, will minimise at the curve minimum
+//                  - check the residuals (and their gradient), will minimise at the curve minimum
 //                  Currently we will check on residuals.
 //                  This is supported by 2 parameters INEPSABS and INEPSREL.
 //                      convergence is achieved if for each datapoint i, where:
@@ -132,24 +230,23 @@ const double INEPSREL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
 //                      INEPSABS = 1e-5
 //                      INEPSREL = GSL_DBL_EPSILON ^ 1/3
 
-
 namespace Ekos
 {
 
 namespace
 {
 // Constants used to index m_coefficient arrays
-enum { A_IDX = 0, B_IDX, C_IDX, D_IDX };
+enum { A_IDX = 0, B_IDX, C_IDX, D_IDX, E_IDX, F_IDX, G_IDX };
 
 // hypPhi() is a repeating part of the function calculations for Hyperbolas.
-inline double hypPhi(double x, double a, double c)
+constexpr double hypPhi(double x, double a, double c)
 {
     return sqrt(1.0 + pow(((x - c) / a), 2.0));
 }
 
 // Function to calculate f(x) for a hyperbola
 // y = b * hypPhi(x, a, c) + d
-double hypfx(double x, double a, double b, double c, double d)
+constexpr double hypfx(double x, double a, double b, double c, double d)
 {
     return b * hypPhi(x, a, c) + d;
 }
@@ -170,7 +267,7 @@ int hypFx(const gsl_vector * X, void * inParams, gsl_vector * outResultVec)
         double yi = hypfx(DataPoints->dps[i].x, a, b, c, d);
 
         // TODO: Need to understand this a bit more
-        gsl_vector_set(outResultVec, i, (yi - DataPoints->dps[i].y) / DataPoints->dps[i].sigma);
+        gsl_vector_set(outResultVec, i, (yi - DataPoints->dps[i].y));
     }
 
     return GSL_SUCCESS;
@@ -193,31 +290,82 @@ int hypJx(const gsl_vector * X, void * inParams, gsl_matrix * J)
     for(int i = 0; i < DataPoints->dps.size(); ++i)
     {
         // Calculate the Jacobian Matrix
-        const double oneBySigma = 1.0f / DataPoints->dps[i].sigma;
         const double x = DataPoints->dps[i].x;
         const double x_minus_c = x - c;
 
-        gsl_matrix_set(J, i, A_IDX, -oneBySigma * b * (x_minus_c * x_minus_c) / (a3 * hypPhi(x, a, c)));
-        gsl_matrix_set(J, i, B_IDX, oneBySigma * hypPhi(x, a, c));
-        gsl_matrix_set(J, i, C_IDX, -oneBySigma * b * x_minus_c / (a2 * hypPhi(x, a, c)));
-        gsl_matrix_set(J, i, D_IDX, oneBySigma);
+        gsl_matrix_set(J, i, A_IDX, -b * (x_minus_c * x_minus_c) / (a3 * hypPhi(x, a, c)));
+        gsl_matrix_set(J, i, B_IDX, hypPhi(x, a, c));
+        gsl_matrix_set(J, i, C_IDX, -b * x_minus_c / (a2 * hypPhi(x, a, c)));
+        gsl_matrix_set(J, i, D_IDX, 1);
     }
 
     return GSL_SUCCESS;
 }
 
-// Invokes F(x) and J(x). Seems to be an optimisation employed by the GSL library to calc these together
-int hypFJx(const gsl_vector * x, void * inParams, gsl_vector * f, gsl_matrix * J)
+
+// ddf/dada = (b*(c-x)^2*(3*a^2+a*(c-x)^2))/(a^4*(a^2 + (c-x)^2)*phi)
+// ddf/dadb = -((x - c) ^2) / ((a ^ 3) * phi)
+// ddf/dadc = -(b*(c-x)*(2a^2+(c-x)^2))/(a^3*(a^2 + (c-x)^2)*phi))
+// ddf/dadd = 0
+// ddf/dbdb = 0
+// ddf/dbdc = -(x-c)/(a^2*phi)
+// ddf/dbdd = 0
+// ddf/dcdc = b/((a^2+(c-x)^2) * phi)
+// ddf/dcdd = 0
+// ddf/dddd = 0
+
+// ddf/dada = (b*(c-x)^2*/(a^4*phi).[3 - (x-c)^2/(a * phi)^2]
+// ddf/dadb = -((x - c)^2) / ((a^3) * phi)
+// ddf/dadc = -(b*(x-c)/((a * phi)^3).[2 - (x-c)^2/((a * phi)^2)]
+// ddf/dadd = 0
+// ddf/dbdb = 0
+// ddf/dbdc = -(x-c)/(a^2*phi)
+// ddf/dbdd = 0
+// ddf/dcdc = b/(phi^3 * a^2).[1 - ((x - c)^2)/((a * phi)^2)]
+// ddf/dcdd = 0
+// ddf/dddd = 0
+int hypFxx(const gsl_vector* X,  const gsl_vector* v, void* inParams, gsl_vector* fvv)
 {
-    hypFx(x, inParams, f);
-    hypJx(x, inParams, J);
+    CurveFitting::DataPointT * DataPoint = ((struct CurveFitting::DataPointT *)inParams);
+
+    // Store current coefficients
+    const double a = gsl_vector_get(X, A_IDX);
+    const double b = gsl_vector_get(X, B_IDX);
+    const double c = gsl_vector_get(X, C_IDX);
+
+    const double a2 = pow(a, 2);
+    const double a4 = pow(a2, 2);
+
+    const double va = gsl_vector_get(v, A_IDX);
+    const double vb = gsl_vector_get(v, B_IDX);
+    const double vc = gsl_vector_get(v, C_IDX);
+
+    for(int i = 0; i < DataPoint->dps.size(); ++i)
+    {
+        const double x = DataPoint->dps[i].x;
+        const double xmc   = x - c;
+        const double xmc2  = pow(xmc, 2);
+        const double phi   = hypPhi(x, a, c);
+        const double aphi  = a * phi;
+        const double aphi2 = pow(aphi, 2);
+
+        const double Daa = b * xmc2 * (3 - xmc2 / aphi2) / (a4 * phi);
+        const double Dab = -xmc2 / (a2 * aphi);
+        const double Dac = b * xmc * (2 - (xmc2 / aphi2)) / (aphi2 * aphi);
+        const double Dbc = -xmc / (a2 * phi);
+        const double Dcc = b * (1 - (xmc2 / aphi2)) / (phi * aphi2);
+
+        double sum = va * va * Daa + 2 * (va * vb * Dab + va * vc * Dac + vb * vc * Dbc) + vc * vc * Dcc;
+
+        gsl_vector_set(fvv, i, sum);
+
+    }
 
     return GSL_SUCCESS;
 }
 
-
 // Function to calculate f(x) for a parabola.
-double parfx(double x, double a, double b, double c)
+constexpr double parfx(double x, double a, double b, double c)
 {
     return a + b * pow((x - c), 2.0);
 }
@@ -237,7 +385,7 @@ int parFx(const gsl_vector * X, void * inParams, gsl_vector * outResultVec)
         double yi = parfx(DataPoint->dps[i].x, a, b, c);
 
         // TODO: Need to understand this a bit more
-        gsl_vector_set(outResultVec, i, (yi - DataPoint->dps[i].y) / DataPoint->dps[i].sigma);
+        gsl_vector_set(outResultVec, i, (yi - DataPoint->dps[i].y));
     }
 
     return GSL_SUCCESS;
@@ -258,68 +406,279 @@ int parJx(const gsl_vector * X, void * inParams, gsl_matrix * J)
     for(int i = 0; i < DataPoint->dps.size(); ++i)
     {
         // Calculate the Jacobian Matrix
-        const double oneBySigma = 1.0f / DataPoint->dps[i].sigma;
         const double x = DataPoint->dps[i].x;
+        const double xmc = x - c;
 
-        gsl_matrix_set(J, i, 0, oneBySigma);
-        gsl_matrix_set(J, i, 1, oneBySigma * (x - c) * (x - c));
-        gsl_matrix_set(J, i, 2, -oneBySigma * b * (x - c));
+        gsl_matrix_set(J, i, A_IDX, 1);
+        gsl_matrix_set(J, i, B_IDX, xmc * xmc);
+        gsl_matrix_set(J, i, C_IDX, -2 * b * xmc);
+    }
+
+    return GSL_SUCCESS;
+}
+// Calculates the second directional derivative vector for the parabola equation f(x) = a + b*(x-c)^2
+int parFxx(const gsl_vector* X,  const gsl_vector* v, void* inParams, gsl_vector* fvv)
+{
+    CurveFitting::DataPointT * DataPoint = ((struct CurveFitting::DataPointT *)inParams);
+
+    const double b = gsl_vector_get(X, B_IDX);
+    const double c = gsl_vector_get(X, C_IDX);
+
+    const double vb = gsl_vector_get(v, B_IDX);
+    const double vc = gsl_vector_get(v, C_IDX);
+
+    for(int i = 0; i < DataPoint->dps.size(); ++i)
+    {
+        const double x = DataPoint->dps[i].x;
+        double Dbc = -2 * (x - c);
+        double Dcc = 2 * b;
+        double sum = 2 * vb * vc * Dbc + vc * vc * Dcc;
+
+        gsl_vector_set(fvv, i, sum);
+
     }
 
     return GSL_SUCCESS;
 }
 
-// Invokes F(x) and J(x)
-int parFJx(const gsl_vector * x, void * inParams, gsl_vector * f, gsl_matrix * J)
+// Function to calculate f(x,y) for a 2-D gaussian.
+constexpr double gaufxy(double x, double y, double a, double x0, double y0, double A, double B, double C, double b)
 {
-    parFx(x, inParams, f);
-    parJx(x, inParams, J);
+    return b + a * exp(-(A * (pow(x - x0, 2.0)) + 2.0 * B * (x - x0) * (y - y0) + C * (pow(y - y0, 2.0))));
+}
+
+// Calculates f(x,y) for each data point in the gaussian.
+int gauFxy(const gsl_vector * X, void * inParams, gsl_vector * outResultVec)
+{
+    CurveFitting::DataPoint3DT * DataPoint = ((struct CurveFitting::DataPoint3DT *)inParams);
+
+    double a  = gsl_vector_get (X, A_IDX);
+    double x0  = gsl_vector_get (X, B_IDX);
+    double y0 = gsl_vector_get (X, C_IDX);
+    double A = gsl_vector_get (X, D_IDX);
+    double B  = gsl_vector_get (X, E_IDX);
+    double C  = gsl_vector_get (X, F_IDX);
+    double b  = gsl_vector_get (X, G_IDX);
+
+    for(int i = 0; i < DataPoint->dps.size(); ++i)
+    {
+        // Gaussian equation
+        double zij = gaufxy(DataPoint->dps[i].x, DataPoint->dps[i].y, a, x0, y0, A, B, C, b);
+        gsl_vector_set(outResultVec, i, (zij - DataPoint->dps[i].z));
+    }
 
     return GSL_SUCCESS;
 }
 
+// Calculates the Jacobian (derivative) matrix for the gaussian
+// Jacobian J = {df/db, df/da, df/dx0, df/dy0, df/dA, df/dB, df/dC}
+// Let phi    = exp-(A((x-x0)^2) + 2B(x-x0)(y-y0) + C((y-y0)^2))
+// df/db      = 1
+// df/da      = phi
+// df/dx0     = [2A(x-x0)+2B(y-y0)].a.phi
+// df/dy0     = [2B(x-x0)+2C(y-y0)].a.phi
+// df/dA      = -(x-x0)^2.a.phi
+// df/DB      = -2(x-x0)(y-y0).a.phi
+// df/dC      = -(y-y0)^2.a.phi
+int gauJxy(const gsl_vector * X, void * inParams, gsl_matrix * J)
+{
+    CurveFitting::DataPointT * DataPoint = ((struct CurveFitting::DataPointT *)inParams);
+
+    // Get current coefficients
+    const double a  = gsl_vector_get (X, A_IDX);
+    const double x0  = gsl_vector_get (X, B_IDX);
+    const double y0 = gsl_vector_get (X, C_IDX);
+    const double A = gsl_vector_get (X, D_IDX);
+    const double B  = gsl_vector_get (X, E_IDX);
+    const double C  = gsl_vector_get (X, F_IDX);
+    // b is not used ... const double b  = gsl_vector_get (X, G_IDX);
+
+    for(int i = 0; i < DataPoint->dps.size(); ++i)
+    {
+        // Calculate the Jacobian Matrix
+        const double x = DataPoint->dps[i].x;
+        const double xmx0 = x - x0;
+        const double xmx02 = xmx0 * xmx0;
+        const double y = DataPoint->dps[i].y;
+        const double ymy0 = y - y0;
+        const double ymy02 = ymy0 * ymy0;
+        const double phi = exp(-((A * xmx02) + (2.0 * B * xmx0 * ymy0) + (C * ymy02)));
+        const double aphi = a * phi;
+
+        gsl_matrix_set(J, i, A_IDX, phi);
+        gsl_matrix_set(J, i, B_IDX, 2.0 * aphi * ((A * xmx0) + (B * ymy0)));
+        gsl_matrix_set(J, i, C_IDX, 2.0 * aphi * ((B * xmx0) + (C * ymy0)));
+        gsl_matrix_set(J, i, D_IDX, -1.0 * aphi * xmx02);
+        gsl_matrix_set(J, i, E_IDX, -2.0 * aphi * xmx0 * ymy0);
+        gsl_matrix_set(J, i, F_IDX, -1.0 * aphi * ymy02);
+        gsl_matrix_set(J, i, G_IDX, 1.0);
+    }
+
+    return GSL_SUCCESS;
+}
+
+// Calculates the second directional derivative vector for the gaussian equation
+// The matrix is symmetric, as ddf/dParm1dParm2 = ddf/dParm2dParm1 so we only need to differentiate
+// one half (above or below the diagonal) of the matrix elements.
+// ddf/dbdb   = 0
+// ddf/dbda   = 0
+// ddf/dbdx0  = 0
+// ddf/dbdy0  = 0
+// ddf/dbdA   = 0
+// ddf/dbdB   = 0
+// ddf/dbdC   = 0
+//
+// ddf/dada   = 0
+// ddf/dadx0  = [2A(x-x0) + 2B(y-y0)].phi
+// ddf/dady0  = [2B(x-x0) + 2C(y-y0)].phi
+// ddf/dadA   = -(x-x0)^2.phi
+// ddf/dadB   = -2(x-x0)(y-y0).phi
+// ddf/dadC   = -Cy-y0)^2.phi
+//
+// ddf/dxodx0 = -2A.a.phi + [2A(x-x0)+2B(y-y0)]^2.a.phi
+// ddf/dx0dy0 = -2B.a.phi - [2A(x-x0)+2B(y-y0)].[2B(x-x0)+2C(y-y0)].a.phi
+// ddf/dx0dA  = 2(x-x0).a.phi - [2A(x-x0)+2B(y-y0)].(x-x0)^2.a.phi
+// ddf/dx0dB  = 2(y-y0).a.phi - [2A(x-x0)+2B(y-y0)].2(x-x0).(y-y0).a.phi
+// ddf/dx0dC  = -[2A(x-x0)+2B(y-y0)].2(y-y0)^2.a.phi
+//
+// ddf/dy0dy0 = -2c.a.phi + [2B(x-x0)+2C(y-y0)]^2.a.phi
+// ddf/dy0dA  = -[2B(x-x0)+2C(y-y0)].(x-x0)^2.a.phi
+// ddf/dy0dB  = 2(x-x0).a.phi - [2B(x-x0)+2C(y-y0)].2(x-x0)(y-y0).a.phi
+// ddf/dy0dC  = 2(y-y0).a.phi - [2B(x-x0)+2C(y-y0)].(y-y0)^2.a.phi
+//
+// ddf/dAdA   = (x-x0)^4.a.phi
+// ddf/dAdB   = 2(x-x0)^3.(y-y0).a.phi
+// ddf/dAdC   = (x-x0)^2.(y-y0)^2.a.phi
+//
+// ddf/dBdB   = 4(x-x0)^2.(y-y0)^2.a.phi
+// ddf/dBdC   = 2(x-x0).(y-y0)^3.a.phi
+//
+// ddf/dCdC   = (y-y0)^4.a.phi
+//
+int gauFxyxy(const gsl_vector* X,  const gsl_vector* v, void* inParams, gsl_vector* fvv)
+{
+    CurveFitting::DataPointT * DataPoint = ((struct CurveFitting::DataPointT *)inParams);
+
+    // Get current coefficients
+    const double a  = gsl_vector_get (X, A_IDX);
+    const double x0 = gsl_vector_get (X, B_IDX);
+    const double y0 = gsl_vector_get (X, C_IDX);
+    const double A  = gsl_vector_get (X, D_IDX);
+    const double B  = gsl_vector_get (X, E_IDX);
+    const double C  = gsl_vector_get (X, F_IDX);
+    // b not used ... const double b  = gsl_vector_get (X, G_IDX);
+
+    const double va  = gsl_vector_get(v, A_IDX);
+    const double vx0 = gsl_vector_get(v, B_IDX);
+    const double vy0 = gsl_vector_get(v, C_IDX);
+    const double vA  = gsl_vector_get(v, D_IDX);
+    const double vB  = gsl_vector_get(v, E_IDX);
+    const double vC  = gsl_vector_get(v, F_IDX);
+    // vb not used ... const double vb  = gsl_vector_get(v, G_IDX);
+
+    for(int i = 0; i < DataPoint->dps.size(); ++i)
+    {
+        double x = DataPoint->dps[i].x;
+        double xmx0 = x - x0;
+        double xmx02 = xmx0 * xmx0;
+        double y = DataPoint->dps[i].y;
+        double ymy0 = y - y0;
+        double ymy02 = ymy0 * ymy0;
+        double phi = exp(-((A * xmx02) + (2.0 * B * xmx0 * ymy0) + (C * ymy02)));
+        double aphi = a * phi;
+        double AB = 2.0 * ((A * xmx0) + (B * ymy0));
+        double BC = 2.0 * ((B * xmx0) + (C * ymy0));
+
+        double Dax0 = AB * phi;
+        double Day0 = BC * phi;
+        double DaA  = -xmx02 * phi;
+        double DaB  = -2.0 * xmx0 * ymy0 * phi;
+        double DaC  = -ymy02 * phi;
+
+        double Dx0x0 = aphi * ((-2.0 * A) + (AB * AB));
+        double Dx0y0 = -aphi * ((2.0 * B) + (AB * BC));
+        double Dx0A  = aphi * ((2.0 * xmx0) - (AB * xmx02));
+        double Dx0B  = 2.0 * aphi * (ymy0 - (AB * xmx0 * ymy0));
+        double Dx0C  = -2.0 * aphi * AB * ymy02;
+
+        double Dy0y0 = aphi * ((-2.0 * C) + (BC * BC));
+        double Dy0A  = -aphi * BC * xmx02;
+        double Dy0B  = 2.0 * aphi * (xmx0 - (BC * xmx0 * ymy0));
+        double Dy0C  = aphi * ((2.0 * ymy0) - (BC * ymy02));
+
+        double DAA   = aphi * xmx02 * xmx02;
+        double DAB   = 2.0 * aphi * xmx02 * xmx0 * ymy0;
+        double DAC   = aphi * xmx02 * ymy02;
+
+        double DBB   = 4.0 * aphi * xmx02 * ymy02;
+        double DBC   = 2.0 * aphi * xmx0 * ymy02 * ymy0;
+
+        double DCC   = aphi * ymy02 * ymy02;
+
+        double sum = 2 * va * ((vx0 * Dax0) + (vy0 * Day0) + (vA * DaA) + (vB * DaB) + (vC * DaC)) + // a diffs
+                     vx0 * ((vx0 * Dx0x0) + 2 * ((vy0 * Dx0y0) + (vA * Dx0A) + (vB * Dx0B) + (vC * Dx0C))) + // x0 diffs
+                     vy0 * ((vy0 * Dy0y0) + 2 * ((vA * Dy0A) + (vB * Dy0B) + (vC * Dy0C))) + // y0 diffs
+                     vA * ((vA * DAA) + 2 * ((vB * DAB) + (vC * DAC))) + // A diffs
+                     vB * ((vB * DBB) + 2 * (vC * DBC)) + // B diffs
+                     vC * vC * DCC; // C diffs
+
+        gsl_vector_set(fvv, i, sum);
+    }
+
+    return GSL_SUCCESS;
+}
 }  // namespace
 
 CurveFitting::CurveFitting()
 {
     // Constructor just initialises variables
-    firstSolverRun = true;
+    m_FirstSolverRun = true;
 }
 
-void CurveFitting::fitCurve(const QVector<int> &x_, const QVector<double> &y_, const QVector<double> &sigma_,
-                            const CurveFit curveFit, const bool useWeights)
+void CurveFitting::fitCurve(const FittingGoal goal, const QVector<int> &x_, const QVector<double> &y_,
+                            const QVector<double> &weight_, const QVector<bool> &outliers_,
+                            const CurveFit curveFit, const bool useWeights, const OptimisationDirection optDir)
 {
-    if ((x_.size() != y_.size()) || (x_.size() != sigma_.size()))
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("CurveFitting::CurveFitting inconsistent parameters. x=%1, y=%2, sigma=%3")
-                                   .arg(x_.size()).arg(y_.size()).arg(sigma_.size());
+    if ((x_.size() != y_.size()) || (x_.size() != weight_.size()) || (x_.size() != outliers_.size()))
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("CurveFitting::fitCurve inconsistent parameters. x=%1, y=%2, weight=%3, outliers=%4")
+                                   .arg(x_.size()).arg(y_.size()).arg(weight_.size()).arg(outliers_.size());
 
     m_x.clear();
+    m_y.clear();
+    m_scale.clear();
     for (int i = 0; i < x_.size(); ++i)
-        m_x.push_back(static_cast<double>(x_[i]));
-    m_y = y_;
-    m_sigma = sigma_;
+    {
+        if (!outliers_[i])
+        {
+            m_x.push_back(static_cast<double>(x_[i]));
+            m_y.push_back(y_[i]);
+            m_scale.push_back(weight_[i]);
+        }
+    }
 
+    m_useWeights = useWeights;
     m_CurveType = curveFit;
+
     switch (m_CurveType)
     {
         case FOCUS_QUADRATIC :
             m_coefficients = polynomial_fit(m_x.data(), m_y.data(), m_x.count(), 2);
             break;
         case FOCUS_HYPERBOLA :
-            m_coefficients = hyperbola_fit(m_x, m_y, m_sigma, useWeights);
+            m_coefficients = hyperbola_fit(goal, m_x, m_y, m_scale, useWeights, optDir);
             break;
         case FOCUS_PARABOLA :
-            m_coefficients = parabola_fit(m_x, m_y, m_sigma, useWeights);
+            m_coefficients = parabola_fit(goal, m_x, m_y, m_scale, useWeights, optDir);
             break;
         default :
             // Something went wrong, log an error and reset state so solver starts from scratch if called again
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("CurveFitting::CurveFitting called with curveFit=%1").arg(curveFit);
-            firstSolverRun = true;
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("CurveFitting::fitCurve called with curveFit=%1").arg(curveFit);
+            m_FirstSolverRun = true;
             return;
     }
-    lastCoefficients = m_coefficients;
-    lastCurveType    = m_CurveType;
-    firstSolverRun   = false;
+    m_LastCoefficients = m_coefficients;
+    m_LastCurveType    = m_CurveType;
+    m_FirstSolverRun   = false;
 }
 
 double CurveFitting::curveFunction(double x, void *params)
@@ -345,7 +704,25 @@ double CurveFitting::f(double x)
         y = hypfx(x, m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX], m_coefficients[D_IDX]);
     else if (m_CurveType == FOCUS_PARABOLA && m_coefficients.size() == NUM_PARABOLA_PARAMS)
         y = parfx(x, m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX]);
+    else
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Error: CurveFitting::f called with m_CurveType = %1 m_coefficients.size = %2")
+                                   .arg(m_CurveType).arg(m_coefficients.size());
+
     return y;
+}
+
+double CurveFitting::f3D(double x, double y)
+{
+    const int order = m_coefficients.size() - 1;
+    double z = 0;
+    if (m_CurveType == FOCUS_GAUSSIAN && m_coefficients.size() == NUM_GAUSSIAN_PARAMS)
+        z = gaufxy(x, y, m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX], m_coefficients[D_IDX],
+                   m_coefficients[E_IDX], m_coefficients[F_IDX], m_coefficients[G_IDX]);
+    else
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Error: CurveFitting::f3D called with m_CurveType = %1 m_coefficients.size = %2")
+                                   .arg(m_CurveType).arg(m_coefficients.size());
+
+    return z;
 }
 
 QVector<double> CurveFitting::polynomial_fit(const double *const data_x, const double *const data_y, const int n,
@@ -396,237 +773,659 @@ QVector<double> CurveFitting::polynomial_fit(const double *const data_x, const d
     return vc;
 }
 
-QVector<double> CurveFitting::hyperbola_fit(const QVector<double> data_x, const QVector<double> data_y,
-        const QVector<double> data_sigma,
-        const bool useWeights)
+QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
+        const QVector<double> data_weights, const bool useWeights, const OptimisationDirection optDir)
 {
     QVector<double> vc;
-
     DataPointT dataPoints;
 
-    qCDebug(KSTARS_EKOS_FOCUS) <<
-                               QString("Starting Levenberg-Marquardt solver, fit=hyperbola, Iterations= %1, Precision abs/rel=%2/%3...")
-                               .arg(MAX_ITERATIONS).arg(INEPSABS).arg(INEPSREL);
-
+    auto weights = gsl_vector_alloc(data_weights.size());
     // Fill in the data to which the curve will be fitted
     dataPoints.useWeights = useWeights;
     for (int i = 0; i < data_x.size(); i++)
-        dataPoints.push_back(data_x[i], data_y[i], (useWeights && data_sigma[i] > 1e-8) ? data_sigma[i] : 1.0);
+        dataPoints.push_back(data_x[i], data_y[i], data_weights[i]);
 
     // Set the gsl error handler off as it aborts the program on error.
-    gsl_set_error_handler_off();
+    auto const oldErrorHandler = gsl_set_error_handler_off();
+
+    // Setup variables to be used by the solver
+    gsl_multifit_nlinear_parameters params = gsl_multifit_nlinear_default_parameters();
+    gsl_multifit_nlinear_workspace *w = gsl_multifit_nlinear_alloc(gsl_multifit_nlinear_trust, &params, data_x.size(),
+                                        NUM_HYPERBOLA_PARAMS);
+    gsl_multifit_nlinear_fdf fdf;
+    gsl_vector *guess = gsl_vector_alloc(NUM_HYPERBOLA_PARAMS);
+    int numIters;
+    double xtol, gtol, ftol;
 
     // Fill in function info
-    gsl_multifit_function_fdf f;
-    f.f      = hypFx;
-    f.df     = hypJx;
-    f.fdf    = hypFJx;
-    f.n      = data_x.size();
-    f.p      = NUM_HYPERBOLA_PARAMS;
-    f.params = &dataPoints;
+    fdf.f = hypFx;
+    fdf.df = hypJx;
+    fdf.fvv = hypFxx;
+    fdf.n = data_x.size();
+    fdf.p = NUM_HYPERBOLA_PARAMS;
+    fdf.params = &dataPoints;
 
-    // Allocate the guess vector
-    gsl_vector * guess = gsl_vector_alloc(NUM_HYPERBOLA_PARAMS);
-    // Make initial guesses - here we just set all parameters to 1.0
-    hypMakeGuess(data_x, data_y, guess);
-    // Create a Levenberg-Marquardt solver with n data points and 4 parameters
-    gsl_multifit_fdfsolver * solver = gsl_multifit_fdfsolver_alloc(gsl_multifit_fdfsolver_lmsder, data_x.size(),
-                                      NUM_HYPERBOLA_PARAMS);
-    gsl_multifit_fdfsolver_set(solver, & f, guess);  // Initialize the solver
-
-    int status, i = 0;
-
-    // Iterate to find a result
-    do
+    // This is the callback used by the LM solver to allow some introspection of each iteration
+    // Useful for debugging but clogs up the log
+    // To activate, uncomment the callback lambda and change the call to gsl_multifit_nlinear_driver
+    /*auto callback = [](const size_t iter, void* _params, const auto * w)
     {
-        i++;
-        // Iterate through the solver. Function returns GSL_SUCCESS = 0 on success
-        status = gsl_multifit_fdfsolver_iterate(solver);
+        gsl_vector *f = gsl_multifit_nlinear_residual(w);
+        gsl_vector *x = gsl_multifit_nlinear_position(w);
 
-        //qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Hyperbola): Iteration %1 status=%2 [%3] f=%4")
-        //                           .arg(i).arg(status).arg(gsl_strerror(status)).arg(gsl_blas_dnrm2(solver->f));
-        if (status)
-            break;
+        // compute reciprocal condition number of J(x)
+        double rcond;
+        gsl_multifit_nlinear_rcond(&rcond, w);
 
-        status = gsl_multifit_test_delta(solver->dx, solver->x, INEPSABS, INEPSREL);
-    }
-    while (status == GSL_CONTINUE && i < MAX_ITERATIONS);
+        // ratio of accel component to velocity component
+        double avratio = gsl_multifit_nlinear_avratio(w);
 
-    if (status != 0)
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Hyperbola): Failed with status=%1 [%2] after %3/%4 iterations")
-                                   .arg(status).arg(gsl_strerror(status)).arg(i).arg(MAX_ITERATIONS);
-    else if (i == MAX_ITERATIONS)
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Hyperbola): Failed to converge after %1 iterations").arg(i);
-    else
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("iter %1: A=%2, B=%3, C=%4, D=%5 rcond(J)=%6, avratio=%7, |f(x)|=%8")
+                                   .arg(iter)
+                                   .arg(gsl_vector_get(x, A_IDX))
+                                   .arg(gsl_vector_get(x, B_IDX))
+                                   .arg(gsl_vector_get(x, C_IDX))
+                                   .arg(gsl_vector_get(x, D_IDX))
+                                   .arg(rcond)
+                                   .arg(avratio)
+                                   .arg(gsl_blas_dnrm2(f));
+    };*/
+
+    // We can sometimes have several attempts to solve based on "goal"
+    for (int attempt = 0; attempt < 2; attempt++)
     {
-        // All good so store the results - parameters A, B, C and D
-        for (int j = 0; j < NUM_HYPERBOLA_PARAMS; j++)
+        // Make initial guesses
+        hypMakeGuess(attempt, data_x, data_y, optDir, guess);
+
+        // Load up the weights and guess vectors
+        if (useWeights)
         {
-            vc.push_back(gsl_vector_get(solver->x, j));
+            for (int i = 0; i < data_weights.size(); i++)
+                gsl_vector_set(weights, i, data_weights[i]);
+            gsl_multifit_nlinear_winit(guess, weights, &fdf, w);
         }
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Hyperbola): Solution found after %1 iterations. A=%2 B=%3, C=%4, D=%5")
-                                   .arg(i).arg(vc[A_IDX]).arg(vc[B_IDX]).arg(vc[C_IDX]).arg(vc[D_IDX]);
+        else
+            gsl_multifit_nlinear_init(guess, &fdf, w);
+
+        // Tweak solver parameters from default values
+        hypSetupParams(goal, &params, &numIters, &xtol, &gtol, &ftol);
+
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Starting LM solver, fit=hyperbola, solver=%1, scale=%2, trs=%3, iters=%4, xtol=%5,"
+                                              "gtol=%6, ftol=%7")
+                                   .arg(params.solver->name).arg(params.scale->name).arg(params.trs->name).arg(numIters)
+                                   .arg(xtol).arg(gtol).arg(ftol);
+
+        int info = 0;
+        int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
+
+        if (status != 0)
+        {
+            // If the goal was a standard run and it failed then just continue. If we want a best solution then adjust params and retry
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Hyperbola): Failed with status=%1 [%2], retry=%3")
+                                       .arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
+            if (goal == BEST)
+                goal = BEST_RETRY;
+            else
+                break;
+        }
+        else
+        {
+            // All good so store the results - parameters A, B, C and D
+            auto solution = gsl_multifit_nlinear_position(w);
+            for (int j = 0; j < NUM_HYPERBOLA_PARAMS; j++)
+                vc.push_back(gsl_vector_get(solution, j));
+
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Hyperbola): Solution found after %1 iters (%2). A=%3, B=%4, C=%5, D=%6")
+                                       .arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info)).arg(vc[A_IDX]).arg(vc[B_IDX])
+                                       .arg(vc[C_IDX]).arg(vc[D_IDX]);
+            break;
+        }
     }
 
     // Free GSL memory
-    gsl_multifit_fdfsolver_free(solver);
+    gsl_multifit_nlinear_free(w);
     gsl_vector_free(guess);
+    gsl_vector_free(weights);
+
+    // Restore old GSL error handler
+    gsl_set_error_handler(oldErrorHandler);
 
     return vc;
 }
 
+QString CurveFitting::getLMReasonCode(int info)
+{
+    QString reason;
+
+    if (info == 1)
+        reason = QString("small step size");
+    else if(info == 2)
+        reason = QString("small gradient");
+    else
+        reason = QString("unknown reason");
+
+    return reason;
+}
+
+// Setup the parameters for hyperbola curve fitting
+void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol,
+                                  double *gtol, double *ftol)
+{
+    // Trust region subproblem
+    // - gsl_multifit_nlinear_trs_lm is the Levenberg-Marquardt algorithm without acceleration
+    // - gsl_multifit_nlinear_trs_lmaccel is the Levenberg-Marquardt algorithm with acceleration
+    // - gsl_multilarge_nlinear_trs_dogleg is the dogleg algorithm
+    // - gsl_multifit_nlinear_trs_ddogleg is the double dogleg algorithm
+    // - gsl_multifit_nlinear_trs_subspace2D is the 2D subspace algorithm
+    params->trs = gsl_multifit_nlinear_trs_lmaccel;
+    params->avmax = 0.5;
+
+    // Scale
+    // - gsl_multifit_nlinear_scale_more uses. More strategy. Good for problems with parameters with widely different scales
+    // - gsl_multifit_nlinear_scale_levenberg. Levensberg strategy. Can be good but not scale invariant.
+    // - gsl_multifit_nlinear_scale_marquardt. Marquardt strategy. Considered inferior to More and Levensberg
+    params->scale = gsl_multifit_nlinear_scale_more;
+
+    // Solver
+    // - gsl_multifit_nlinear_solver_qr produces reliable results but needs more iterations than Cholesky
+    // - gsl_multifit_nlinear_solver_cholesky fast but not as stable as QR
+    // - gsl_multifit_nlinear_solver_mcholesky modified Cholesky more stable than Cholesky
+    switch (goal)
+    {
+        case STANDARD:
+            params->solver = gsl_multifit_nlinear_solver_qr;
+
+            *numIters = MAX_ITERATIONS;
+            *xtol = INEPSXTOL;
+            *gtol = INEPSGTOL;
+            *ftol = INEPSFTOL;
+            break;
+        case BEST:
+            params->solver = gsl_multifit_nlinear_solver_cholesky;
+
+            *numIters = MAX_ITERATIONS * 2.0;
+            *xtol = INEPSXTOL / 10.0;
+            *gtol = INEPSGTOL / 10.0;
+            *ftol = INEPSFTOL / 10.0;
+            break;
+        case BEST_RETRY:
+            params->solver = gsl_multifit_nlinear_solver_qr;
+
+            *numIters = MAX_ITERATIONS * 2.0;
+            *xtol = INEPSXTOL;
+            *gtol = INEPSGTOL;
+            *ftol = INEPSFTOL;
+            break;
+        default:
+            break;
+    }
+}
+
 // Initialise parameters before starting the solver
-void CurveFitting::hypMakeGuess(const QVector<double> inX, const QVector<double> inY, gsl_vector * guess)
+void CurveFitting::hypMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
+                                const OptimisationDirection optDir, gsl_vector * guess)
 {
     if (inX.size() < 1)
         return;
 
-    if (!firstSolverRun && (lastCurveType == FOCUS_HYPERBOLA) && (lastCoefficients.size() == NUM_HYPERBOLA_PARAMS))
+    // If we are retrying then perturb the initial conditions. The hope is that by doing this the solver
+    // will be nudged to find a solution this time
+    double perturbation = 1.0 + (attempt * 0.1);
+
+    if (!m_FirstSolverRun && (m_LastCurveType == FOCUS_HYPERBOLA) && (m_LastCoefficients.size() == NUM_HYPERBOLA_PARAMS))
     {
         // Last run of the solver was a Hyperbola and the solution was good, so use that solution
-        gsl_vector_set(guess, A_IDX, lastCoefficients[A_IDX]);
-        gsl_vector_set(guess, B_IDX, lastCoefficients[B_IDX]);
-        gsl_vector_set(guess, C_IDX, lastCoefficients[C_IDX]);
-        gsl_vector_set(guess, D_IDX, lastCoefficients[D_IDX]);
+        gsl_vector_set(guess, A_IDX, m_LastCoefficients[A_IDX] * perturbation);
+        gsl_vector_set(guess, B_IDX, m_LastCoefficients[B_IDX] * perturbation);
+        gsl_vector_set(guess, C_IDX, m_LastCoefficients[C_IDX] * perturbation);
+        gsl_vector_set(guess, D_IDX, m_LastCoefficients[D_IDX] * perturbation);
     }
     else
     {
-        // Find min HFD -> good start value for c. b > 0 and b + d > 0
-        int i;
-        double minX, minY;
-
-        minX = inX[0];
-        minY = inY[0];
-        for(i = 0; i < inX.size(); i++)
+        // Find min/max position -> good start value for c.
+        // For a minimum b > 0 and b + d > 0
+        // For a maximum b < 0 and b + d > 0
+        if (optDir == OPTIMISATION_MAXIMISE)
         {
-            if(inY[i] < minY)
+            double maxX = inX[0];
+            double maxY = inY[0];
+            for(int i = 0; i < inX.size(); i++)
             {
-                minX = inX[i];
-                minY = inY[i];
-            }
-        };
-        gsl_vector_set(guess, A_IDX, 1.0);
-        gsl_vector_set(guess, B_IDX, 1.0);
-        gsl_vector_set(guess, C_IDX, minX);
-        gsl_vector_set(guess, D_IDX, 1.0);
+                if(inY[i] > maxY)
+                {
+                    maxX = inX[i];
+                    maxY = inY[i];
+                }
+            };
+            gsl_vector_set(guess, A_IDX, 1.0 * perturbation);
+            gsl_vector_set(guess, B_IDX, -10.0 * perturbation);
+            gsl_vector_set(guess, C_IDX, maxX * perturbation);
+            gsl_vector_set(guess, D_IDX, (maxY + 10.0) * perturbation);
+        }
+        else
+        {
+            double minX = inX[0];
+            double minY = inY[0];
+            for(int i = 0; i < inX.size(); i++)
+            {
+                if(inY[i] < minY)
+                {
+                    minX = inX[i];
+                    minY = inY[i];
+                }
+            };
+            gsl_vector_set(guess, A_IDX, 1.0 * perturbation);
+            gsl_vector_set(guess, B_IDX, (minY / 2.0) * perturbation);
+            gsl_vector_set(guess, C_IDX, minX * perturbation);
+            gsl_vector_set(guess, D_IDX, (minY / 2.0) * perturbation);
+        }
     }
 }
 
-QVector<double> CurveFitting::parabola_fit(const QVector<double> data_x, const QVector<double> data_y,
-        const QVector<double> data_sigma,
-        bool useWeights)
+QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
+        const QVector<double> data_weights, bool useWeights, const OptimisationDirection optDir)
 {
     QVector<double> vc;
     DataPointT dataPoints;
 
-    qCDebug(KSTARS_EKOS_FOCUS) <<
-                               QString("Starting Levenberg-Marquardt solver, fit=parabola, Iterations= %1, Precision abs/rel=%2/%3...")
-                               .arg(MAX_ITERATIONS).arg(INEPSABS).arg(INEPSREL);
-
+    auto weights = gsl_vector_alloc(data_weights.size());
     // Fill in the data to which the curve will be fitted
     dataPoints.useWeights = useWeights;
     for (int i = 0; i < data_x.size(); i++)
-        dataPoints.push_back(data_x[i], data_y[i], (useWeights && data_sigma[i] > 1e-8) ? data_sigma[i] : 1.0);
+        dataPoints.push_back(data_x[i], data_y[i], data_weights[i]);
 
     // Set the gsl error handler off as it aborts the program on error.
-    gsl_set_error_handler_off();
+    auto const oldErrorHandler = gsl_set_error_handler_off();
+
+    // Setup variables to be used by the solver
+    gsl_multifit_nlinear_parameters params = gsl_multifit_nlinear_default_parameters();
+    gsl_multifit_nlinear_workspace* w = gsl_multifit_nlinear_alloc (gsl_multifit_nlinear_trust, &params, data_x.size(),
+                                        NUM_PARABOLA_PARAMS);
+    gsl_multifit_nlinear_fdf fdf;
+    gsl_vector * guess = gsl_vector_alloc(NUM_PARABOLA_PARAMS);
+    int numIters;
+    double xtol, gtol, ftol;
 
     // Fill in function info
-    gsl_multifit_function_fdf f;
-    f.f      = parFx;
-    f.df     = parJx;
-    f.fdf    = parFJx;
-    f.n      = data_x.size();
-    f.p      = NUM_PARABOLA_PARAMS;
-    f.params = &dataPoints;
+    fdf.f = parFx;
+    fdf.df = parJx;
+    fdf.fvv = parFxx;
+    fdf.n = data_x.size();
+    fdf.p = NUM_PARABOLA_PARAMS;
+    fdf.params = &dataPoints;
 
-    // Allocate the guess vector
-    gsl_vector * guess = gsl_vector_alloc(NUM_PARABOLA_PARAMS);
-    // Make initial guesses - here we just set all parameters to 1.0
-    parMakeGuess(data_x, data_y, guess);
-    // Create a Levenberg-Marquardt solver with n data points and 4 parameters
-    gsl_multifit_fdfsolver * solver = gsl_multifit_fdfsolver_alloc(gsl_multifit_fdfsolver_lmsder, data_x.size(),
-                                      NUM_PARABOLA_PARAMS);
-    gsl_multifit_fdfsolver_set(solver, & f, guess);  // Initialize the solver
-
-    int status, i = 0;
-
-    // Iterate to find a result
-    do
+    // This is the callback used by the LM solver to allow some introspection of each iteration
+    // Useful for debugging but clogs up the log
+    // To activate, uncomment the callback lambda and change the call to gsl_multifit_nlinear_driver
+    /*auto callback = [](const size_t iter, void* _params, const auto * w)
     {
-        i++;
-        // Iterate through the solver. Function returns GSL_SUCCESS = 0 on success
-        status = gsl_multifit_fdfsolver_iterate(solver);
+        gsl_vector *f = gsl_multifit_nlinear_residual(w);
+        gsl_vector *x = gsl_multifit_nlinear_position(w);
 
-        //qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Parabola): Iteration %1 status=%2 [%3] f=%4")
-        //                           .arg(i).arg(status).arg(gsl_strerror(status)).arg(gsl_blas_dnrm2(solver->f));
-        if (status)
-            break;
+        // compute reciprocal condition number of J(x)
+        double rcond;
+        gsl_multifit_nlinear_rcond(&rcond, w);
 
-        status = gsl_multifit_test_delta(solver->dx, solver->x, INEPSABS, INEPSREL);
-    }
-    while (status == GSL_CONTINUE && i < MAX_ITERATIONS);
+        // ratio of accel component to velocity component
+        double avratio = gsl_multifit_nlinear_avratio(w);
 
-    if (status != 0)
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Parabola): Failed with status=%1 [%2] after %3/%4 iterations")
-                                   .arg(status).arg(gsl_strerror(status)).arg(i).arg(MAX_ITERATIONS);
-    else if (i == MAX_ITERATIONS)
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Parabola): Failed to converge after %1 iterations").arg(i);
-    else
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("iter %1: A=%2, B=%3, C=%4, rcond(J)=%5, avratio=%6 |f(x)|=%7")
+                                   .arg(iter)
+                                   .arg(gsl_vector_get(x, A_IDX))
+                                   .arg(gsl_vector_get(x, B_IDX))
+                                   .arg(gsl_vector_get(x, C_IDX))
+                                   .arg(rcond)
+                                   .arg(gsl_blas_dnrm2(f));
+    };*/
+
+    // We can sometimes have several attempts to solve based on "goal"
+    for (int attempt = 0; attempt < 2; attempt++)
     {
-        // All good so store the results - parameters A, B, C and D
-        for (int j = 0; j < NUM_PARABOLA_PARAMS; j++)
+        // Make initial guesses - here we just set all parameters to 1.0
+        parMakeGuess(attempt, data_x, data_y, optDir, guess);
+
+        // Load up the weights and guess vectors
+        if (useWeights)
         {
-            vc.push_back(gsl_vector_get(solver->x, j));
+            for (int i = 0; i < data_weights.size(); i++)
+                gsl_vector_set(weights, i, data_weights[i]);
+            gsl_multifit_nlinear_winit(guess, weights, &fdf, w);
         }
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Parabola): Solution found after %1 iterations. A=%2 B=%3, C=%4")
-                                   .arg(i).arg(vc[A_IDX]).arg(vc[B_IDX]).arg(vc[C_IDX]);
+        else
+            gsl_multifit_nlinear_init(guess, &fdf, w);
+
+        // Tweak solver parameters from default values
+        parSetupParams(goal, &params, &numIters, &xtol, &gtol, &ftol);
+
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Starting LM solver, fit=parabola, solver=%1, scale=%2, trs=%3, iters=%4, xtol=%5,"
+                                              "gtol=%6, ftol=%7")
+                                   .arg(params.solver->name).arg(params.scale->name).arg(params.trs->name).arg(numIters)
+                                   .arg(xtol).arg(gtol).arg(ftol);
+
+        int info = 0;
+        int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
+
+        if (status != 0)
+        {
+            // If the goal was a standard run and it failed then just continue. If we want a best solution then adjust params and retry
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Parabola): Failed with status=%1 [%2], retry=%3")
+                                       .arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
+            if (goal == BEST)
+                goal = BEST_RETRY;
+            else
+                break;
+        }
+        else
+        {
+            // All good so store the results - parameters A, B, and C
+            auto solution = gsl_multifit_nlinear_position(w);
+            for (int j = 0; j < NUM_PARABOLA_PARAMS; j++)
+                vc.push_back(gsl_vector_get(solution, j));
+
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Parabola): Solution found after %1 iters (%2). A=%3, B=%4, C=%5")
+                                       .arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info)).arg(vc[A_IDX]).arg(vc[B_IDX])
+                                       .arg(vc[C_IDX]);
+            break;
+        }
     }
 
     // Free GSL memory
-    gsl_multifit_fdfsolver_free(solver);
+    gsl_multifit_nlinear_free(w);
     gsl_vector_free(guess);
+    gsl_vector_free(weights);
+
+    // Restore old GSL error handler
+    gsl_set_error_handler(oldErrorHandler);
+
+    return vc;
+}
+
+// Setup the parameters for parabola curve fitting
+void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol,
+                                  double *gtol, double *ftol)
+{
+    // Trust region subproblem
+    // - gsl_multifit_nlinear_trs_lm is the Levenberg-Marquardt algorithm without acceleration
+    // - gsl_multifit_nlinear_trs_lmaccel is the Levenberg-Marquardt algorithm with acceleration
+    // - gsl_multilarge_nlinear_trs_dogleg is the dogleg algorithm
+    // - gsl_multifit_nlinear_trs_ddogleg is the double dogleg algorithm
+    // - gsl_multifit_nlinear_trs_subspace2D is the 2D subspace algorithm
+    params->trs = gsl_multifit_nlinear_trs_lmaccel;
+    params->avmax = 0.5;
+
+    // Scale
+    // - gsl_multifit_nlinear_scale_more uses. More strategy. Good for problems with parameters with widely different scales
+    // - gsl_multifit_nlinear_scale_levenberg. Levensberg strategy. Can be good but not scale invariant.
+    // - gsl_multifit_nlinear_scale_marquardt. Marquardt strategy. Considered inferior to More and Levensberg
+    params->scale = gsl_multifit_nlinear_scale_more;
+
+    // Solver
+    // - gsl_multifit_nlinear_solver_qr produces reliable results but needs more iterations than Cholesky
+    // - gsl_multifit_nlinear_solver_cholesky fast but not as stable as QR
+    // - gsl_multifit_nlinear_solver_mcholesky modified Cholesky more stable than Cholesky
+    switch (goal)
+    {
+        case STANDARD:
+            params->solver = gsl_multifit_nlinear_solver_cholesky;
+
+            *numIters = MAX_ITERATIONS;
+            *xtol = INEPSXTOL;
+            *gtol = INEPSGTOL;
+            *ftol = INEPSFTOL;
+            break;
+        case BEST:
+            params->solver = gsl_multifit_nlinear_solver_cholesky;
+
+            *numIters = MAX_ITERATIONS * 2.0;
+            *xtol = INEPSXTOL / 10.0;
+            *gtol = INEPSGTOL / 10.0;
+            *ftol = INEPSFTOL / 10.0;
+            break;
+        case BEST_RETRY:
+            params->solver = gsl_multifit_nlinear_solver_qr;
+
+            *numIters = MAX_ITERATIONS * 2.0;
+            *xtol = INEPSXTOL;
+            *gtol = INEPSGTOL;
+            *ftol = INEPSFTOL;
+            break;
+        default:
+            break;
+    }
+}
+
+// Initialise parameters before starting the solver
+void CurveFitting::parMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
+                                const OptimisationDirection optDir,
+                                gsl_vector * guess)
+{
+    if (inX.size() < 1)
+        return;
+
+    // If we are retrying then perturb the initial conditions. The hope is that by doing this the solver
+    // will be nudged to find a solution this time
+    double perturbation = 1.0 + (attempt * 0.1);
+
+    if (!m_FirstSolverRun && (m_LastCurveType == FOCUS_PARABOLA) && (m_LastCoefficients.size() == NUM_PARABOLA_PARAMS))
+    {
+        // Last run of the solver was a Parabola and that solution was good, so use that solution
+        gsl_vector_set(guess, A_IDX, m_LastCoefficients[A_IDX] * perturbation);
+        gsl_vector_set(guess, B_IDX, m_LastCoefficients[B_IDX] * perturbation);
+        gsl_vector_set(guess, C_IDX, m_LastCoefficients[C_IDX] * perturbation);
+    }
+    else
+    {
+        // Find min/max position -> good start value for c.
+        // For a minimum b > 0 and a > 0
+        // For a maximum b < 0 and a > 0
+        // Find min HFD -> good start value for c. a and b need to be positive.
+        if (optDir == OPTIMISATION_MAXIMISE)
+        {
+            double maxX = inX[0];
+            double maxY = inY[0];
+            for(int i = 0; i < inX.size(); i++)
+            {
+                if(inY[i] > maxY)
+                {
+                    maxX = inX[i];
+                    maxY = inY[i];
+                }
+            };
+            gsl_vector_set(guess, A_IDX, 10.0 * perturbation);
+            gsl_vector_set(guess, B_IDX, -1.0 * perturbation);
+            gsl_vector_set(guess, C_IDX, maxX * perturbation);
+        }
+        else
+        {
+            double minX = inX[0];
+            double minY = inY[0];
+            for(int i = 0; i < inX.size(); i++)
+            {
+                if(inY[i] < minY)
+                {
+                    minX = inX[i];
+                    minY = inY[i];
+                }
+            };
+            gsl_vector_set(guess, A_IDX, 1.0 * perturbation);
+            gsl_vector_set(guess, B_IDX, 1.0 * perturbation);
+            gsl_vector_set(guess, C_IDX, minX * perturbation);
+        }
+    }
+}
+
+QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams starParams)
+{
+    QVector<double> vc;
+
+    // Set the gsl error handler off as it aborts the program on error.
+    auto const oldErrorHandler = gsl_set_error_handler_off();
+
+    // Setup variables to be used by the solver
+    gsl_multifit_nlinear_parameters params = gsl_multifit_nlinear_default_parameters();
+    gsl_multifit_nlinear_workspace* w = gsl_multifit_nlinear_alloc (gsl_multifit_nlinear_trust, &params, data.dps.size(),
+                                        NUM_GAUSSIAN_PARAMS);
+    gsl_multifit_nlinear_fdf fdf;
+    int numIters;
+    double xtol, gtol, ftol;
+
+    // Fill in function info
+    fdf.f = gauFxy;
+    fdf.df = gauJxy;
+    fdf.fvv = gauFxyxy;
+    fdf.n = data.dps.size();
+    fdf.p = NUM_GAUSSIAN_PARAMS;
+    fdf.params = &data;
+
+    // Allocate the guess vector
+    gsl_vector * guess = gsl_vector_alloc(NUM_GAUSSIAN_PARAMS);
+    // Make initial guesses
+    gauMakeGuess(starParams, guess);
+
+    // If using weights load up the GSL vector
+    auto weights = gsl_vector_alloc(data.dps.size());
+    if (data.useWeights)
+    {
+        QVectorIterator<DataPT3D> dp(data.dps);
+        int i = 0;
+        while (dp.hasNext())
+            gsl_vector_set(weights, i++, dp.next().weight);
+
+        gsl_multifit_nlinear_winit(guess, weights, &fdf, w);
+    }
+    else
+
+        gsl_multifit_nlinear_init(guess, &fdf, w);
+
+    // This is the callback used by the LM solver to allow some introspection of each iteration
+    // Useful for debugging but clogs up the log
+    // To activate, uncomment the callback lambda and change the call to gsl_multifit_nlinear_driver
+    /*auto callback = [](const size_t iter, void* _params, const gsl_multifit_nlinear_workspace * w)
+    {
+        gsl_vector *f = gsl_multifit_nlinear_residual(w);
+        gsl_vector *x = gsl_multifit_nlinear_position(w);
+        double rcond;
+
+        // compute reciprocal condition number of J(x)
+        gsl_multifit_nlinear_rcond(&rcond, w);
+
+        // ratio of accel component to velocity component
+        double avratio = gsl_multifit_nlinear_avratio(w);
+
+        qCDebug(KSTARS_EKOS_FOCUS) <<
+                                   QString("iter %1: A = %2, B = %3, C = %4, D = %5, E = %6, F = %7, G = %8 "
+                                           "rcond(J) = %9, avratio = %10, |f(x)| = %11")
+                                   .arg(iter)
+                                   .arg(gsl_vector_get(x, A_IDX))
+                                   .arg(gsl_vector_get(x, B_IDX))
+                                   .arg(gsl_vector_get(x, C_IDX))
+                                   .arg(gsl_vector_get(x, D_IDX))
+                                   .arg(gsl_vector_get(x, E_IDX))
+                                   .arg(gsl_vector_get(x, F_IDX))
+                                   .arg(gsl_vector_get(x, G_IDX))
+                                   //.arg(1.0 / rcond)
+                                   .arg(rcond)
+                                   .arg(avratio)
+                                   .arg(gsl_blas_dnrm2(f));
+    };*/
+
+    gauSetupParams(&params, &numIters, &xtol, &gtol, &ftol);
+
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Starting LM solver, fit=gaussian, solver=%1, scale=%2, trs=%3, iters=%4, xtol=%5,"
+                                          "gtol=%6, ftol=%7")
+                               .arg(params.solver->name).arg(params.scale->name).arg(params.trs->name).arg(numIters)
+                               .arg(xtol).arg(gtol).arg(ftol);
+
+    int info = 0;
+    int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
+
+    if (status != 0)
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Gaussian): Failed with status=%1 [%2]").arg(status).arg(gsl_strerror(
+                                       status));
+    else
+    {
+        // All good so store the results - parameters A, B, C, D, E, F, G
+        auto solution = gsl_multifit_nlinear_position(w);
+        for (int j = 0; j < NUM_GAUSSIAN_PARAMS; j++)
+            vc.push_back(gsl_vector_get(solution, j));
+
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Gaussian): Solution found after %1 iters (%2). A=%3, B=%4, C=%5, "
+                                              "D=%6, E=%7, F=%8, G=%9").arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info))
+                                   .arg(vc[A_IDX]).arg(vc[B_IDX]).arg(vc[C_IDX]).arg(vc[D_IDX]).arg(vc[E_IDX])
+                                   .arg(vc[F_IDX]).arg(vc[G_IDX]);
+    }
+
+    // Free GSL memory
+    gsl_multifit_nlinear_free(w);
+    gsl_vector_free(guess);
+    gsl_vector_free(weights);
+
+    // Restore old GSL error handler
+    gsl_set_error_handler(oldErrorHandler);
 
     return vc;
 }
 
 // Initialise parameters before starting the solver
-void CurveFitting::parMakeGuess(const QVector<double> inX, const QVector<double> inY, gsl_vector * guess)
+void CurveFitting::gauMakeGuess(const StarParams starParams, gsl_vector * guess)
 {
-    if (inX.size() < 1)
-        return;
+    // Default from a basic star centred in the area supplied
+    gsl_vector_set(guess, A_IDX, std::max(starParams.peak, 0.0));       // Peak value
+    gsl_vector_set(guess, B_IDX, std::max(starParams.centroid_x, 0.0)); // Centroid x
+    gsl_vector_set(guess, C_IDX, std::max(starParams.centroid_y, 0.0)); // Centroid y
 
-    if (!firstSolverRun && (lastCurveType == FOCUS_PARABOLA) && (lastCoefficients.size() == NUM_PARABOLA_PARAMS))
+    double A = 1.0, B = 0.0, C = 1.0;
+    if (starParams.HFR > 0.0)
     {
-        // Last run of the solver was a Parabola and that solution was good, so use that solution
-        gsl_vector_set(guess, A_IDX, lastCoefficients[A_IDX]);
-        gsl_vector_set(guess, B_IDX, lastCoefficients[B_IDX]);
-        gsl_vector_set(guess, C_IDX, lastCoefficients[C_IDX]);
-    }
-    else
-    {
-        // Find min HFD -> good start value for c. a and b need to be positive.
-        int i;
-        double minX, minY;
+        // Use 2*HFR value as FWHM along with theta to calc A, B, C
+        // FWHM = 2.sqrt(2.ln(2)).sigma
+        const double sigma2 = pow(starParams.HFR / (sqrt(2.0 * log(2.0))), 2.0);
+        const double costheta2 = pow(cos(starParams.theta), 2.0);
+        const double sintheta2 = pow(sin(starParams.theta), 2.0);
 
-        minX = inX[0];
-        minY = inY[0];
-        for(i = 0; i < inX.size(); i++)
-        {
-            if(inY[i] < minY)
-            {
-                minX = inX[i];
-                minY = inY[i];
-            }
-        };
-        gsl_vector_set(guess, A_IDX, 1.0);
-        gsl_vector_set(guess, B_IDX, 1.0);
-        gsl_vector_set(guess, C_IDX, minX);
+        A = (costheta2 + sintheta2) / (2 * sigma2);
+        B = 0.0;
+        C = A;
     }
+    gsl_vector_set(guess, D_IDX, A);
+    gsl_vector_set(guess, E_IDX, B);
+    gsl_vector_set(guess, F_IDX, C);
+    gsl_vector_set(guess, G_IDX, std::max(starParams.background, 0.0)); // Background
 }
 
-bool CurveFitting::findMin(double expected, double minPosition, double maxPosition, double *position, double *value,
-                           CurveFit curveFit)
+// Setup the parameters for gaussian curve fitting
+void CurveFitting::gauSetupParams(gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol,
+                                  double *ftol)
+{
+    // Trust region subproblem
+    // - gsl_multifit_nlinear_trs_lm is the Levenberg-Marquardt algorithm without acceleration
+    // - gsl_multifit_nlinear_trs_lmaccel is the Levenberg-Marquardt algorithm with acceleration
+    // - gsl_multilarge_nlinear_trs_dogleg is the dogleg algorithm
+    // - gsl_multifit_nlinear_trs_ddogleg is the double dogleg algorithm
+    // - gsl_multifit_nlinear_trs_subspace2D is the 2D subspace algorithm
+    params->trs = gsl_multifit_nlinear_trs_lmaccel;
+    params->avmax = 0.5;
+
+    // Scale
+    // - gsl_multifit_nlinear_scale_more uses. More strategy. Good for problems with parameters with widely different scales
+    // - gsl_multifit_nlinear_scale_levenberg. Levensberg strategy. Can be good but not scale invariant.
+    // - gsl_multifit_nlinear_scale_marquardt. Marquardt strategy. Considered inferior to More and Levensberg
+    params->scale = gsl_multifit_nlinear_scale_more;
+
+    // Solver
+    // - gsl_multifit_nlinear_solver_qr produces reliable results but needs more iterations than Cholesky
+    // - gsl_multifit_nlinear_solver_cholesky fast but not as stable as QR
+    // - gsl_multifit_nlinear_solver_mcholesky modified Cholesky more stable than Cholesky
+    params->solver = gsl_multifit_nlinear_solver_cholesky;
+
+    *numIters = MAX_ITERATIONS;
+    *xtol = 1e-5;
+    *gtol = INEPSGTOL;
+    *ftol = 1e-5;
+}
+
+bool CurveFitting::findMinMax(double expected, double minPosition, double maxPosition, double *position, double *value,
+                              CurveFit curveFit, const OptimisationDirection optDir)
 {
     bool foundFit;
     switch (curveFit)
@@ -635,10 +1434,10 @@ bool CurveFitting::findMin(double expected, double minPosition, double maxPositi
             foundFit = minimumQuadratic(expected, minPosition, maxPosition, position, value);
             break;
         case FOCUS_HYPERBOLA :
-            foundFit = minimumHyperbola(expected, minPosition, maxPosition, position, value);
+            foundFit = minMaxHyperbola(expected, minPosition, maxPosition, position, value, optDir);
             break;
         case FOCUS_PARABOLA :
-            foundFit = minimumParabola(expected, minPosition, maxPosition, position, value);
+            foundFit = minMaxParabola(expected, minPosition, maxPosition, position, value, optDir);
             break;
         default :
             foundFit = false;
@@ -646,7 +1445,7 @@ bool CurveFitting::findMin(double expected, double minPosition, double maxPositi
     }
     if (!foundFit)
         // If we couldn't fit a curve then something's wrong so reset coefficients which will force the next run of the LM solver to start from scratch
-        lastCoefficients.clear();
+        m_LastCoefficients.clear();
     return foundFit;
 }
 
@@ -699,8 +1498,8 @@ bool CurveFitting::minimumQuadratic(double expected, double minPosition, double 
     return (status == GSL_SUCCESS);
 }
 
-bool CurveFitting::minimumHyperbola(double expected, double minPosition, double maxPosition, double *position,
-                                    double *value)
+bool CurveFitting::minMaxHyperbola(double expected, double minPosition, double maxPosition, double *position,
+                                   double *value, const OptimisationDirection optDir)
 {
     Q_UNUSED(expected);
     if (m_coefficients.size() != NUM_HYPERBOLA_PARAMS)
@@ -718,8 +1517,10 @@ bool CurveFitting::minimumHyperbola(double expected, double minPosition, double 
     // We need to check that the solution found is in the correct form.
     // Check 1: The hyperbola minimum (=c) lies within the bounds of the focuser (and is > 0)
     // Check 2: At the minimum position (=c), the value of f(x) (which is the HFR) given by b+d is > 0
-    // Check 3: We have a "u" shaped curve, not an "n" shape. b > 0.
-    if ((c >= minPosition) && (c <= maxPosition) && (b + d > 0.0) && (b > 0.0))
+    // Check 3: For a minimum: we have a "u" shaped curve, not an "n" shape. b > 0.
+    //                maximum: we have an "n" shaped curve, not a "U" shape. b < 0;
+    if ((c >= minPosition) && (c <= maxPosition) && (b + d > 0.0) &&
+            ((optDir == OPTIMISATION_MINIMISE && b > 0.0) || (optDir == OPTIMISATION_MAXIMISE && b < 0.0)))
     {
         *position = c;
         *value = b + d;
@@ -729,7 +1530,8 @@ bool CurveFitting::minimumHyperbola(double expected, double minPosition, double 
         return false;
 }
 
-bool CurveFitting::minimumParabola(double expected, double minPosition, double maxPosition, double *position, double *value)
+bool CurveFitting::minMaxParabola(double expected, double minPosition, double maxPosition, double *position,
+                                  double *value, const OptimisationDirection optDir)
 {
     Q_UNUSED(expected);
     if (m_coefficients.size() != NUM_PARABOLA_PARAMS)
@@ -747,8 +1549,10 @@ bool CurveFitting::minimumParabola(double expected, double minPosition, double m
     // We need to check that the solution found is in the correct form.
     // Check 1: The parabola minimum (=c) lies within the bounds of the focuser (and is > 0)
     // Check 2: At the minimum position (=c), the value of f(x) (which is the HFR) given by a is > 0
-    // Check 3: We have a "u" shaped curve, not an "n" shape. b > 0.
-    if ((c >= minPosition) && (c <= maxPosition) && (a > 0.0) && (b > 0.0))
+    // Check 3: For a minimum: we have a "u" shaped curve, not an "n" shape. b > 0.
+    //                maximum: we have an "n" shaped curve, not a "U" shape. b < 0;
+    if ((c >= minPosition) && (c <= maxPosition) && (a > 0.0) &&
+            ((optDir == OPTIMISATION_MINIMISE && b > 0.0) || (optDir == OPTIMISATION_MAXIMISE && b < 0.0)))
     {
         *position = c;
         *value = a;
@@ -758,6 +1562,76 @@ bool CurveFitting::minimumParabola(double expected, double minPosition, double m
         return false;
 }
 
+bool CurveFitting::getStarParams(const CurveFit curveFit, StarParams *starParams)
+{
+    bool foundFit;
+    switch (curveFit)
+    {
+        case FOCUS_GAUSSIAN :
+            foundFit = getGaussianParams(starParams);
+            break;
+        default :
+            foundFit = false;
+            break;
+    }
+    if (!foundFit)
+        // If we couldn't fit a curve then something's wrong so reset coefficients which will force the next run of the LM solver to start from scratch
+        m_LastCoefficients.clear();
+    return foundFit;
+}
+
+// Having solved for a Gaussian return params
+bool CurveFitting::getGaussianParams(StarParams *starParams)
+{
+    if (m_coefficients.size() != NUM_GAUSSIAN_PARAMS)
+    {
+        if (m_coefficients.size() != 0)
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::getGaussianParams coefficients.size()=%1").arg(
+                                           m_coefficients.size());
+        return false;
+    }
+
+    const double a  = m_coefficients[A_IDX];
+    const double x0 = m_coefficients[B_IDX];
+    const double y0 = m_coefficients[C_IDX];
+    const double A  = m_coefficients[D_IDX];
+    const double B  = m_coefficients[E_IDX];
+    const double C  = m_coefficients[F_IDX];
+    const double b  = m_coefficients[G_IDX];
+
+    const double AmC = A - C;
+    double theta;
+    abs(AmC) < 1e-10 ? theta = 0.0 : theta = 0.5 * atan(2 * B / AmC);
+    const double costheta = cos(theta);
+    const double costheta2 = costheta * costheta;
+    const double sintheta = sin(theta);
+    const double sintheta2 = sintheta * sintheta;
+
+    double sigmax2 = 0.5 / ((A * costheta2) + (2 * B * costheta * sintheta) + (C * sintheta2));
+    double sigmay2 = 0.5 / ((A * costheta2) - (2 * B * costheta * sintheta) + (C * sintheta2));
+
+    double FWHMx = 2 * pow(2 * log(2) * sigmax2, 0.5);
+    double FWHMy = 2 * pow(2 * log(2) * sigmay2, 0.5);
+    double FWHM  = (FWHMx + FWHMy) / 2.0;
+
+    if (FWHM < 0.0)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::getGaussianParams FWHM=%1").arg(FWHM);
+        return false;
+    }
+
+    starParams->background = b;
+    starParams->peak = a;
+    starParams->centroid_x = x0;
+    starParams->centroid_y = y0;
+    starParams->theta = theta;
+    starParams->FWHMx = FWHMx;
+    starParams->FWHMy = FWHMy;
+    starParams->FWHM = FWHM;
+
+    return true;
+}
+
 // R2 (R squared) is the coefficient of determination gives a measure of how well the curve fits the datapoints.
 // It lies between 0 and 1. 1 means that all datapoints will lie on the curve which therefore exactly describes the
 // datapoints. 0 means that there is no correlation between the curve and the datapoints.
@@ -765,8 +1639,9 @@ bool CurveFitting::minimumParabola(double expected, double minPosition, double m
 double CurveFitting::calculateR2(CurveFit curveFit)
 {
     double R2 = 0.0;
-    QVector<double> curvePoints;
+    QVector<double> dataPoints, curvePoints;
     int i;
+
     switch (curveFit)
     {
         case FOCUS_QUADRATIC :
@@ -788,7 +1663,7 @@ double CurveFitting::calculateR2(CurveFit curveFit)
                 curvePoints.push_back(hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX],
                                             m_coefficients[D_IDX]));
             // Do the actual R2 calculation
-            R2 = calcR2(m_y, curvePoints);
+            R2 = calcR2(m_y, curvePoints, m_scale, m_useWeights);
             break;
 
         case FOCUS_PARABOLA :
@@ -805,7 +1680,29 @@ double CurveFitting::calculateR2(CurveFit curveFit)
                 curvePoints.push_back(parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX]));
 
             // Do the actual R2 calculation
-            R2 = calcR2(m_y, curvePoints);
+            R2 = calcR2(m_y, curvePoints, m_scale, m_useWeights);
+            break;
+
+        case FOCUS_GAUSSIAN :
+            // Calculate R2 for the gaussian
+            if (m_coefficients.size() != NUM_GAUSSIAN_PARAMS)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::calculateR2 gaussian coefficients.size()=").arg(
+                                               m_coefficients.size());
+                break;
+            }
+
+            for (i = 0; i < m_dataPoints.dps.size(); i++)
+            {
+                // Load up the curvePoints vector
+                curvePoints.push_back(gaufxy(m_dataPoints.dps[i].x, m_dataPoints.dps[i].y, m_coefficients[A_IDX],
+                                             m_coefficients[B_IDX], m_coefficients[C_IDX], m_coefficients[D_IDX],
+                                             m_coefficients[E_IDX], m_coefficients[F_IDX], m_coefficients[G_IDX]));
+                dataPoints.push_back(static_cast <double> (m_dataPoints.dps[i].z));
+            }
+
+            // Do the actual R2 calculation
+            R2 = calcR2(dataPoints, curvePoints, m_scale, m_useWeights);
             break;
 
         default :
@@ -818,22 +1715,23 @@ double CurveFitting::calculateR2(CurveFit curveFit)
 }
 
 // Do the maths to calculate R2 - how well the curve fits the datapoints
-double CurveFitting::calcR2(QVector<double> dataPoints, QVector<double> curvePoints)
+double CurveFitting::calcR2(const QVector<double> dataPoints, const QVector<double> curvePoints,
+                            const QVector<double> scale, const bool useWeights)
 {
-    double R2 = 0.0, chisq = 0.0, sum = 0.0, totalSumSquares = 0.0, average;
-    int i;
+    double R2 = 0.0, chisq = 0.0, sum = 0.0, totalSumSquares = 0.0, weight, average;
 
-    // Calculate R2 for the hyperbola
-    for (i = 0; i < dataPoints.size(); i++)
+    for (int i = 0; i < dataPoints.size(); i++)
     {
         sum += dataPoints[i];
-        chisq += pow((dataPoints[i] - curvePoints[i]), 2.0);
+        useWeights ? weight = scale[i] : weight = 1.0;
+        chisq += weight * pow((dataPoints[i] - curvePoints[i]), 2.0);
     }
     average = sum / dataPoints.size();
 
-    for (i = 0; i < dataPoints.size(); i++)
+    for (int i = 0; i < dataPoints.size(); i++)
     {
-        totalSumSquares += pow((dataPoints[i] - average), 2.0);
+        useWeights ? weight = scale[i] : weight = 1.0;
+        totalSumSquares += weight * pow((dataPoints[i] - average), 2.0);
     }
 
     if (totalSumSquares > 0.0)
@@ -843,9 +1741,58 @@ double CurveFitting::calcR2(QVector<double> dataPoints, QVector<double> curvePoi
         R2 = 0.0;
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::calcR2 tss=%1").arg(totalSumSquares);
     }
+
     // R2 for linear function range 0<=R2<=1. For non-linear functions it is possible
     // for R2 to be negative. This doesn't really mean anything so force 0 in these situations.
     return std::max(R2, 0.0);
 }
-}  // namespace
 
+void CurveFitting::calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair<int, double>> &curveDeltas)
+{
+    curveDeltas.clear();
+
+    switch (curveFit)
+    {
+        case FOCUS_QUADRATIC :
+            // Not implemented
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::calculateCurveDeltas called for Quadratic");
+            break;
+
+        case FOCUS_HYPERBOLA :
+            if (m_coefficients.size() != NUM_HYPERBOLA_PARAMS)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::calculateCurveDeltas hyperbola coefficients.size()=").arg(
+                                               m_coefficients.size());
+                break;
+            }
+
+            for (int i = 0; i < m_y.size(); i++)
+                curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
+                                                     m_coefficients[C_IDX],
+                                                     m_coefficients[D_IDX]))));
+            break;
+
+        case FOCUS_PARABOLA :
+            if (m_coefficients.size() != NUM_PARABOLA_PARAMS)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::calculateCurveDeltas parabola coefficients.size()=").arg(
+                                               m_coefficients.size());
+                break;
+            }
+
+            for (int i = 0; i < m_y.size(); i++)
+                curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
+                                                     m_coefficients[C_IDX]))));
+            break;
+
+        case FOCUS_GAUSSIAN :
+            // Not implemented
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::calculateCurveDeltas called for Gaussian");
+            break;
+
+        default :
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::calculateCurveDeltas curveFit=%1").arg(curveFit);
+            break;
+    }
+}
+}  // namespace

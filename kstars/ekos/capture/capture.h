@@ -762,6 +762,16 @@ class Capture : public QWidget, public Ui::Capture
          */
         void updateFocusStatus(FocusState state);
 
+        // Adaptive Focus
+        /**
+         * @brief focusAdaptiveComplete Forward the new focus state to the capture module state machine
+         */
+        void focusAdaptiveComplete(bool success);
+
+        /**
+         * @brief updateAdaptiveFocusStatus Handle new focus state
+         */
+
         void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature);
 
         /**
@@ -795,7 +805,7 @@ class Capture : public QWidget, public Ui::Capture
         void appendLogText(const QString &);
 
 
-private slots:
+    private slots:
 
         // ////////////////////////////////////////////////////////////////////
         // UI controls
@@ -887,6 +897,7 @@ private slots:
         void checkFocus(double);
         void resetFocus();
         void abortFocus();
+        void adaptiveFocus();
         void suspendGuiding();
         void resumeGuiding();
         void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
@@ -994,7 +1005,7 @@ private slots:
          *  5. Is post flip guiding required or running (@see checkGuidingAfterFlip().
          *  6. Is the guiding deviation below the expected limit (@see setGuideDeviation(double,double)).
          *  7. Is dithering required or ongoing (@see checkDithering()).
-         *  8. Is re-focusing required or ongoing (@see startFocusIfRequired()).
+         *  8. Is re-focusing or adaptive focusing required or ongoing (@see startFocusIfRequired()).
          *  9. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
          *
          * If none of this is true, everything is ready and capturing may be started.

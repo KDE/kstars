@@ -248,6 +248,8 @@ if (INDI_FOUND)
             ekos/focus/polynomialfit.cpp
             ekos/focus/focusstars.cpp
             ekos/focus/curvefit.cpp
+            ekos/focus/focusfwhm.cpp
+            ekos/focus/focusfourierpower.cpp
 
             # Mount
             ekos/mount/mount.cpp
@@ -516,6 +518,7 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/argzoom.ui
     tools/conjunctions.ui
     tools/eclipsetool.ui
+
     tools/modcalcangdist.ui
     tools/modcalcapcoord.ui
     tools/modcalcaltaz.ui
@@ -835,6 +838,8 @@ set(kstars_extra_SRCS
     auxiliary/ksmessagebox.cpp
     auxiliary/QProgressIndicator.cpp
     auxiliary/ctkrangeslider.cpp
+    auxiliary/gslhelpers.cpp
+    auxiliary/robuststatistics.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp

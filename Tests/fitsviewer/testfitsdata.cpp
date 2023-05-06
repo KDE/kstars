@@ -58,8 +58,8 @@ void TestFitsData::testComputeHFR_data()
     QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 126 << 1.254911;
 
     // Focus HFR tests
-    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 3 << 3.02;
-    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 4 << 2.02;
+    QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 3 << 3.17;
+    QTest::newRow("NGC4535-2-NORMAL") << "ngc4535-autofocus2.fits" << FITS_NORMAL << 4 << 1.99;
     QTest::newRow("NGC4535-3-NORMAL") << "ngc4535-autofocus3.fits" << FITS_NORMAL << 30 << 1.22;
 #endif
 }
@@ -90,7 +90,7 @@ void TestFitsData::testComputeHFR()
 
     QCOMPARE(d->getDetectedStars(), NSTARS);
     QCOMPARE(d->getStarCenters().count(), NSTARS);
-    QVERIFY(abs(d->getHFR() - HFR) <= 0.1);
+    QVERIFY2(abs(d->getHFR() - HFR) <= 0.1, qPrintable(QString("HFR expected(measured): %1(%2)").arg(HFR).arg(d->getHFR())));
 #endif
 }
 

@@ -587,8 +587,7 @@ IPState SequenceJobState::checkFlatSyncFocus()
         return IPS_BUSY;
     }
 
-    if (m_frameType == FRAME_FLAT && autoFocusReady && Options::flatSyncFocus() &&
-            flatSyncStatus != FS_COMPLETED)
+    if (m_frameType == FRAME_FLAT && Options::flatSyncFocus() && flatSyncStatus != FS_COMPLETED)
     {
         flatSyncStatus = FS_BUSY;
         emit flatSyncFocus(targetFilterID);

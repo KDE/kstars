@@ -20,15 +20,6 @@ class FocusHFRVPlot : public QCustomPlot
         FocusHFRVPlot(QWidget *parent = nullptr);
 
         /**
-         * @brief add a single focus position result
-         * @param pos focuser position or iteration number
-         * @param newHFR HFR value for the given position
-         * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
-         *        or the number of ticks in a relative or absolute focuser
-         */
-        void addPosition(double pos, double newHFR, int pulseDuration, bool plot = true);
-
-        /**
          * @brief add a single focus position result with error (sigma)
          * @param pos focuser position or iteration number
          * @param newHFR HFR value for the given position
@@ -36,7 +27,7 @@ class FocusHFRVPlot : public QCustomPlot
          * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
          *        or the number of ticks in a relative or absolute focuser
          */
-        void addPositionWithSigma(double pos, double newHFR, double sigma, int pulseDuration, bool plot = true);
+        void addPosition(double pos, double newHFR, double sigma, bool outlier, int pulseDuration, bool plot = true);
 
         /**
          * @brief sets the plot title
@@ -48,7 +39,7 @@ class FocusHFRVPlot : public QCustomPlot
          * @brief updates the plot title
          * @param title the new plot title
          */
-        void updateTitle(const QString &title, bool plot = true);
+        void finalUpdates(const QString &title, bool plot = true);
 
         /**
          * @brief Annotate's the plot's solution graph with the solution position.
@@ -56,6 +47,15 @@ class FocusHFRVPlot : public QCustomPlot
          * @param solutionValue HFR value on the focal point
          */
         void drawMinimum(double solutionPosition, double solutionValue, bool plot = true);
+
+        /**
+         * @brief Draw the CFZ on the graph
+         * @param solutionPosition focuser position of the focal point
+         * @param solutionValue HFR value on the focal point
+         * @param cfzSteps The CFZ size
+         * @param plot Whether to plot
+         */
+        void drawCFZ(double solutionPosition, double solutionValue, int cfzSteps, bool plot);
 
         /**
          * @brief Draws the polynomial on the plot's graph.
@@ -91,9 +91,13 @@ class FocusHFRVPlot : public QCustomPlot
 
         /**
          * @brief Initialize and reset the entire HFR V-plot
+         * @param yAxisLabel is the label to display
+         * @param starUnits the units multiplier to display the pixel data
+         * @param minimum whether the curve shape is a minimum or maximum
+         * @param useWeights whether or not to display weights on the graph
          * @param showPosition show focuser position (true) or show focusing iteration number (false)
          */
-        void init(bool showPosition);
+        void init(QString yAxisLabel, double starUnits, bool minimum, bool useWeights, bool showPosition);
 
         /// basic font size from which all others are derived
         int basicFontSize() const
@@ -105,11 +109,11 @@ class FocusHFRVPlot : public QCustomPlot
     private:
         /**
          * @brief Draw the HFR plot for all recent focuser positions
-         * @param currentHFR current HFR value
+         * @param currentValue current HFR value
          * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
          *        or the number of ticks in a relative or absolute focuser
          */
-        void drawHFRPlot(double currentHFR, int pulseDuration);
+        void drawHFRPlot(double currentValue, int pulseDuration);
 
         /**
          * @brief Draw all positions and values of the current focusing run.
@@ -132,18 +136,28 @@ class FocusHFRVPlot : public QCustomPlot
          */
         void clearItems();
 
+        /**
+         * @brief Convert input value to output display value
+         * @param value to convert
+         */
+        double getDisplayValue(const double value);
+
         QCPGraph *polynomialGraph = nullptr;
-        QVector<double> hfr_position, hfr_value, hfr_sigma;
+        QVector<double> m_position, m_value, m_displayValue, m_sigma;
+        QVector<bool> m_goodPosition;
 
         // Error bars for the focus plot
-        bool useErrorBars = false;
+        bool m_useErrorBars = false;
         QCPErrorBars * errorBars = nullptr;
+
+        // CFZ
+        QCPItemBracket * CFZ = nullptr;
 
         // Title text for the focus plot
         QCPItemText *plotTitle  { nullptr };
 
-        /// Maximum HFR recorded
-        double maxHFR { -1 };
+        /// Maximum and minimum y-values recorded
+        double minValue { -1 }, maxValue { -1 };
         /// List of V curve plot points
         /// V-Curve graph
         QCPGraph *v_graph { nullptr };
@@ -155,6 +169,10 @@ class FocusHFRVPlot : public QCustomPlot
         bool m_isVShape = false;
         /// basic font size from which all others are derived
         int m_basicFontSize = 10;
+        /// Is the curve V-shaped or n-shaped
+        bool m_Minimum = true;
+        // Units multiplier for star measure value
+        double m_starUnits = 1.0;
 
         bool m_polynomialGraphIsVisible = false;
 };

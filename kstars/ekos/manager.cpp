@@ -153,7 +153,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         emit ekosLiveStatusChanged(false);
     });
 
-    // Ekos live client toggle
+    // INDI Control Panel
+    //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
     connect(ekosLiveB, &QPushButton::clicked, this, [&]()
     {
         ekosLiveClient.get()->show();
@@ -2015,15 +2016,13 @@ void Manager::initFocus()
     connect(focusProcess.get(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
     connect(focusProcess.get(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
-    // connect signal/slot for adding a new position with errors to be shown as error bars
-    connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPositionWithSigma, focusManager->hfrVPlot,
-            &FocusHFRVPlot::addPositionWithSigma);
     connect(focusProcess.get(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
     connect(focusProcess.get(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
-    connect(focusProcess.get(), &Ekos::Focus::updateTitle, focusManager->hfrVPlot, &FocusHFRVPlot::updateTitle);
+    connect(focusProcess.get(), &Ekos::Focus::finalUpdates, focusManager->hfrVPlot, &FocusHFRVPlot::finalUpdates);
     connect(focusProcess.get(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
     // setup signal/slots for Linear 1 Pass focus algo
     connect(focusProcess.get(), &Ekos::Focus::drawCurve, focusManager->hfrVPlot, &FocusHFRVPlot::drawCurve);
+    connect(focusProcess.get(), &Ekos::Focus::drawCFZ, focusManager->hfrVPlot, &FocusHFRVPlot::drawCFZ);
 
     if (Options::ekosLeftIcons())
     {
@@ -2100,8 +2099,21 @@ void Manager::initMount()
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
     });
     connect(mountProcess->getMeridianFlipState().get(),
-            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, this, [&](const QString & text)
+            &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
     {
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
+        {
+            {"meridianFlipStatus", status},
+        }));
+    });
+    connect(mountProcess->getMeridianFlipState().get(),
+            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
+    {
+        // Throttle this down
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
+        {
+            {"meridianFlipText", text},
+        }), mountProcess->getMeridianFlipState()->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE);
         meridianFlipStatusWidget->setStatus(text);
     });
 
@@ -2478,8 +2490,6 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pi
         {"az", dms::fromString(azOUT->text(), true).Degrees()},
         {"at", dms::fromString(altOUT->text(), true).Degrees()},
         {"ha", ha.Degrees()},
-        {"meridianFlipText", mountProcess->getMeridianFlipState()->getMeridianStatusText()},
-        {"meridianFlipStatus", mountProcess->getMeridianFlipState()->getMeridianFlipMountState()},
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus, true);
@@ -2564,7 +2574,6 @@ void Manager::updateCaptureCountDown()
     QJsonObject status =
     {
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
-        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
 
@@ -2817,6 +2826,15 @@ void Manager::connectModules()
 
         // New Focus Status
         connect(focusProcess.get(), &Ekos::Focus::newStatus, captureProcess.get(), &Ekos::Capture::setFocusStatus,
+                Qt::UniqueConnection);
+
+        // Perform adaptive focus
+        connect(captureProcess.get(), &Ekos::Capture::adaptiveFocus, focusProcess.get(), &Ekos::Focus::adaptiveFocus,
+                Qt::UniqueConnection);
+
+        // New Adaptive Focus Status
+        connect(focusProcess.get(), &Ekos::Focus::focusAdaptiveComplete, captureProcess.get(),
+                &Ekos::Capture::focusAdaptiveComplete,
                 Qt::UniqueConnection);
 
         // New Focus HFR

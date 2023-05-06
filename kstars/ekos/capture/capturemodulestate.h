@@ -493,6 +493,13 @@ class CaptureModuleState: public QObject
         bool startFocusIfRequired();
 
         /**
+         * @brief Start adaptive focus if necessary
+         * @return TRUE if we need adaptive focus, false if not necessary
+         */
+
+        void updateAdaptiveFocusState(bool success);
+
+        /**
          * @brief calculate new HFR threshold based on median value for current selected filter
          */
         void updateHFRThreshold();
@@ -569,7 +576,7 @@ class CaptureModuleState: public QObject
             return (m_CaptureState != CAPTURE_IDLE && m_CaptureState != CAPTURE_COMPLETE && m_CaptureState != CAPTURE_ABORTED);
         }
 
-signals:
+    signals:
         // controls for capture execution
         void startCapture();
         void abortCapture();
@@ -584,10 +591,14 @@ signals:
         void newStatus(Ekos::CaptureState status);
         // forward new focus status
         void newFocusStatus(FocusState status);
+        // forward new adaptive focus status
+        void newAdaptiveFocusStatus(bool success);
         // check focusing is necessary for the given HFR
         void checkFocus(double hfr);
         // reset the focuser to the last known focus position
         void resetFocus();
+        // signal focus module to perform adaptive focus
+        void adaptiveFocus();
         // abort capturing if fast exposure mode is used
         void abortFastExposure();
         // new HFR focus limit calculated
@@ -597,7 +608,7 @@ signals:
         // new log text for the module log window
         void newLog(const QString &text);
 
-private:
+    private:
         // list of all sequence jobs
         QList<SequenceJob *> m_allJobs;
         // Currently active sequence job.

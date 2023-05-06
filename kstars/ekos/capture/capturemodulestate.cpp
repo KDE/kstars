@@ -425,6 +425,22 @@ void CaptureModuleState::processGuidingFailed()
     }
 }
 
+void CaptureModuleState::updateAdaptiveFocusState(bool success)
+{
+    // Always process the adaptive focus state change, incl if a MF has also just started
+    if (success)
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Adaptive focus completed successfully";
+    else
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Adaptive focus failed";
+
+    m_refocusState->setAutoFocusReady(true);
+    // forward to the active job
+    if (m_activeJob != nullptr)
+        m_activeJob->setAutoFocusReady(true);
+
+    setFocusState(FOCUS_COMPLETE);
+}
+
 void CaptureModuleState::updateFocusState(FocusState state)
 {
     if (state != m_FocusState)
@@ -476,7 +492,7 @@ void CaptureModuleState::updateFocusState(FocusState state)
 
 bool CaptureModuleState::startFocusIfRequired()
 {
-    // Do not start focus if:
+    // Do not start focus or adaptive focus if:
     // 1. There is no active job, or
     // 2. Target frame is not LIGHT
     // 3. Capture is preview only
@@ -513,6 +529,11 @@ bool CaptureModuleState::startFocusIfRequired()
             m_refocusState->resetInSequenceFocusCounter();
             emit checkFocus(Options::hFRDeviation() == 0.0 ? 0.1 : Options::hFRDeviation());
             qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
+            break;
+        case RefocusState::REFOCUS_ADAPTIVE:
+            m_refocusState->setAdaptiveFocusDone(true);
+            emit adaptiveFocus();
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Adaptive focus started...";
             break;
         case RefocusState::REFOCUS_TEMPERATURE:
         case RefocusState::REFOCUS_TIME_ELAPSED:

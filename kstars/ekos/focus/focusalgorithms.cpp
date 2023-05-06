@@ -45,26 +45,26 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         // Pass in the measurement for the last requested position. Returns the position for the next
         // requested measurement, or -1 if the algorithm's done or if there's an error.
         // If stars is not nullptr, then the relativeHFR scheme is used to modify the HFR value.
-        int newMeasurement(int position, double value,
-                           const QList<Edge*> *stars) override;
+        int newMeasurement(int position, double value, const double starWeight, const QList<Edge*> *stars) override;
 
         FocusAlgorithmInterface *Copy() override;
 
-        void getMeasurements(QVector<int> *pos, QVector<double> *hfrs, QVector<double> *sds) const override
+        void getMeasurements(QVector<int> *pos, QVector<double> *val, QVector<double> *sds) const override
         {
             *pos = positions;
-            *hfrs = values;
-            *sds = sigmas;
+            *val = values;
+            *sds = weights;
         }
 
-        void getPass1Measurements(QVector<int> *pos, QVector<double> *hfrs, QVector<double> *sds) const override
+        void getPass1Measurements(QVector<int> *pos, QVector<double> *val, QVector<double> *sds, QVector<bool> *out) const override
         {
             *pos = pass1Positions;
-            *hfrs = pass1Values;
-            *sds = pass1Sigmas;
+            *val = pass1Values;
+            *sds = pass1Weights;
+            *out = pass1Outliers;
         }
 
-        double latestHFR() const override
+        double latestValue() const override
         {
             if (values.size() > 0)
                 return values.last();
@@ -81,6 +81,15 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         // Does the bookkeeping for the final focus solution.
         int setupSolution(int position, double value, double sigma);
 
+        // Perform the linear walk for FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE
+        int linearWalk(int position, double value, const double starWeight);
+
+        // Calculate the curve fitting goal based on the algorithm parameters and progress
+        CurveFitting::FittingGoal getGoal(int numSteps);
+
+        // Calc the next step size for Linear1Pass for FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE
+        int getNextStepSize();
+
         // Called when we've found a solution, e.g. the HFR value is within tolerance of the desired value.
         // It it returns true, then it's decided tht we should try one more sample for a possible improvement.
         // If it returns false, then "play it safe" and use the current position as the solution.
@@ -89,6 +98,9 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         // Determines the desired focus position for the first sample.
         void computeInitialPosition();
 
+        // Get the first step focus position
+        int getFirstPosition();
+
         // Sets the internal state for re-finding the minimum, and returns the requested next
         // position to sample.
         // Called by Linear. L1P calls finishFirstPass instead
@@ -96,6 +108,16 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
 
         // Called by L1P to finish off the first pass, setting state variables.
         int finishFirstPass(int position, double value);
+
+        // Peirce's criterion
+        // Returns the squared threshold error deviation for outlier identification
+        // using Peirce's criterion based on Gould's methodology.
+        // Arguments:
+        // N = total number of observations
+        // n = max number of outliers to be removed
+        // m = number of model unknowns
+        // Returns: squared error threshold (x2)
+        double peirce_criterion(double N, double n, double m);
 
         // Used in the 2nd pass. Focus is getting worse. Requires several consecutive samples getting worse.
         bool gettingWorse();
@@ -119,12 +141,14 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         // A vector containing the HFR values sampled by this algorithm so far.
         QVector<double> values;
         QVector<double> pass1Values;
-        // A vector containing star measurement standard deviation = sigma
-        QVector<double> sigmas;
-        QVector<double> pass1Sigmas;
+        // A vector containing star weights
+        QVector<double> weights;
+        QVector<double> pass1Weights;
         // A vector containing the focus positions corresponding to the HFR values stored above.
         QVector<int> positions;
         QVector<int> pass1Positions;
+        // A vector containing whether or not the datapoint has been identified as an outlier.
+        QVector<bool> pass1Outliers;
 
         // Focus position requested by this algorithm the previous step.
         int requestedPosition;
@@ -217,17 +241,18 @@ QString LinearFocusAlgorithm::getTextStatus(double R2) const
     }
     else // Linear 1 Pass
     {
-        QString text = "L1P: ";
+        QString text = "L1P [";
+        text.append(params.filterName);
         if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
-            text.append("Quadratic");
+            text.append("]: Quadratic");
         else if (params.curveFit == CurveFitting::FOCUS_HYPERBOLA)
         {
-            text.append("Hyperbola");
+            text.append("]: Hyperbola");
             text.append(params.useWeights ? " (W)" : " (U)");
         }
         else if (params.curveFit == CurveFitting::FOCUS_PARABOLA)
         {
-            text.append("Parabola");
+            text.append("]: Parabola");
             text.append(params.useWeights ? " (W)" : " (U)");
         }
 
@@ -271,11 +296,59 @@ void LinearFocusAlgorithm::computeInitialPosition()
             .arg(maxPositionLimit).arg(params.initialOutwardSteps).arg(params.focusAlgorithm).arg(params.backlash)
             .arg(params.curveFit).arg(params.useWeights);
 
-    requestedPosition = std::min(maxPositionLimit,
-                                 static_cast<int>(params.startPosition + params.initialOutwardSteps * params.initialStepSize));
+    requestedPosition = std::min(maxPositionLimit, getFirstPosition());
     passStartPosition = requestedPosition;
     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: initialPosition %1 sized %2")
                                .arg(requestedPosition).arg(params.initialStepSize);
+}
+
+// Calculate the first position relative to the start position
+// Generally this is just the number of outward points * step size.
+// For LINEAR1PASS most walks have a constant step size so again it is the number of outward points * step size.
+// For LINEAR1PASS and FOCUS_WALK_CFZ_SHUFFLE the middle 3 or 4 points are separated by half step size
+int LinearFocusAlgorithm::getFirstPosition()
+{
+    if (params.focusAlgorithm != Focus::FOCUS_LINEAR1PASS)
+        return static_cast<int>(params.startPosition + params.initialOutwardSteps * params.initialStepSize);
+
+    int firstPosition;
+    double outSteps, numFullStepsOut, numHalfStepsOut;
+
+    switch (params.focusWalk)
+    {
+        case Focus::FOCUS_WALK_CLASSIC:
+            firstPosition = static_cast<int>(params.startPosition + params.initialOutwardSteps * params.initialStepSize);
+            break;
+
+        case Focus::FOCUS_WALK_FIXED_STEPS:
+            outSteps = (params.numSteps - 1) / 2.0f;
+            firstPosition = params.startPosition + (outSteps * params.initialStepSize);
+            break;
+
+        case Focus::FOCUS_WALK_CFZ_SHUFFLE:
+            if (params.numSteps % 2)
+            {
+                // Odd number of steps
+                numHalfStepsOut = 1.0f;
+                numFullStepsOut = ((params.numSteps - 1) / 2.0f) - numHalfStepsOut;
+            }
+            else
+            {
+                // Even number of steps
+                numHalfStepsOut = 1.5f;
+                numFullStepsOut = (params.numSteps / 2.0f) - 2.0f;
+            }
+            firstPosition = params.startPosition + (numFullStepsOut * params.initialStepSize) + (numHalfStepsOut *
+                            (params.initialStepSize / 2.0f));
+
+            break;
+
+        default:
+            firstPosition = static_cast<int>(params.startPosition + params.initialOutwardSteps * params.initialStepSize);
+            break;
+    }
+
+    return firstPosition;
 }
 
 // The Problem:
@@ -380,48 +453,27 @@ double LinearFocusAlgorithm::relativeHFR(double origHFR, const QList<Edge*> *sta
     return relativeHFR;
 }
 
-// Calculate the standard deviation (=sigma) of the star HFR measurements
-// on the stars used in getHFR. Sigma is then used in the curve fitting process.
-double LinearFocusAlgorithm::calculateStarSigma(const bool useWeights, const QList<Edge*> *stars)
+int LinearFocusAlgorithm::newMeasurement(int position, double value, const double starWeight, const QList<Edge*> *stars)
 {
-    if (stars == nullptr || stars->size() <= 0 || !useWeights)
-        // If we can't calculate sigma set to 1 - which will stop curve fit weightings being used
-        return 1.0f;
+    if (params.focusAlgorithm == Focus::FOCUS_LINEAR1PASS && (params.focusWalk == Focus::FOCUS_WALK_FIXED_STEPS
+            || params.focusWalk == Focus::FOCUS_WALK_CFZ_SHUFFLE))
+        return linearWalk(position, value, starWeight);
 
-    const int n = stars->size();
-    double sum = 0;
-    for (int i = 0; i < n; ++i)
-        sum += stars->value(i)->HFR;
-    const double mean = sum / n;
-    double variance = 0;
-    for(int i = 0; i < n; ++i)
-        variance += pow(stars->value(i)->HFR - mean, 2.0);
-    variance = variance / n;
-    return sqrt(variance);
-}
-
-int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList<Edge*> *stars)
-{
     double minPos = -1.0, minVal = 0;
     bool foundFit = false;
 
-    double starSigma = 1.0, origValue = value;
+    double origValue = value;
     // For QUADRATIC continue to use the relativeHFR functionality
     // For HYPERBOLA and PARABOLA the stars used for the HDR calculation and the sigma calculation
     // should be the same. For now, we will use the full set of stars and therefore not adjust the HFR
-    // JEE TODO: revisit adding relativeHFR functionality for FOCUS_PARABOLA and FOCUS_HYPERBOLA
     if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
         value = relativeHFR(value, stars);
-    else
-        // Calculate the standard deviation (=sigma) of the star measurements to be used by the curve fitting process.
-        // Currently only available for Hyperbola and Parabola
-        starSigma = calculateStarSigma(params.useWeights, stars);
 
     // For LINEAR 1 PASS don't bother with a full 2nd pass just jump to the solution
     // Do the step out and back in to deal with backlash
     if (params.focusAlgorithm == Focus::FOCUS_LINEAR1PASS && !inFirstPass)
     {
-        return setupSolution(position, value, starSigma);
+        return setupSolution(position, value, starWeight);
     }
 
     int thisStepSize = stepSize;
@@ -452,14 +504,15 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
     }
 
     // Store the sample values.
-    values.push_back(value);
     positions.push_back(position);
-    sigmas.push_back(starSigma);
+    values.push_back(value);
+    weights.push_back(starWeight);
     if (inFirstPass)
     {
-        pass1Values.push_back(value);
         pass1Positions.push_back(position);
-        pass1Sigmas.push_back(starSigma);
+        pass1Values.push_back(value);
+        pass1Weights.push_back(starWeight);
+        pass1Outliers.push_back(false);
     }
 
     // If we're in the 2nd pass and either
@@ -474,7 +527,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
             return completeIteration(retryNumber > 0 ? 0 : stepSize, false, -1.0f, -1.0f);
         else
             // Finish now
-            return setupSolution(position, value, starSigma);
+            return setupSolution(position, value, starWeight);
     }
 
     if (inFirstPass)
@@ -482,7 +535,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
         constexpr int kMinPolynomialPoints = 5;
         constexpr int kNumPolySolutionsRequired = 2;
         constexpr int kNumRestartSolutionsRequired = 3;
-        constexpr double kDecentValue = 2.5;
+        constexpr double kDecentValue = 3.0;
 
         if (values.size() >= kMinPolynomialPoints)
         {
@@ -504,9 +557,12 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
             }
             else // Hyperbola or Parabola so use the LM solver
             {
-                curveFit.fitCurve(positions, values, sigmas, params.curveFit, params.useWeights);
-                foundFit = curveFit.findMin(position, 0, params.maxPositionAllowed, &minPos, &minVal,
-                                            static_cast<CurveFitting::CurveFit>(params.curveFit));
+                params.curveFitting->fitCurve(CurveFitting::FittingGoal::STANDARD, positions, values, weights, pass1Outliers,
+                                              params.curveFit, params.useWeights, params.optimisationDirection);
+
+                foundFit = params.curveFitting->findMinMax(position, 0, params.maxPositionAllowed, &minPos, &minVal,
+                           static_cast<CurveFitting::CurveFit>(params.curveFit),
+                           params.optimisationDirection);
             }
 
             if (foundFit)
@@ -520,16 +576,22 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
                     numPolySolutionsFound = 0;
                     numRestartSolutionsFound = 0;
                     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: Solutions reset %1 = %2").arg(minPos).arg(minVal);
-                    if (value > kDecentValue)
+
+                    // The next code block is an optimisation where the user starts focus off a long way from prime focus.
+                    // The idea is that by detecting this situation we can warp quickly to the solution.
+                    // However, when the solver is solving on a small number of points (e.g. 6 or 7) its possible that the
+                    // best fit curve produces a solution much further in than what turns out to be the actual focus point.
+                    // This code therefore results in inappropriate warping. So this code is now disabled.
+                    /*if (value / minVal > kDecentValue)
                     {
-                        // Only skip samples if the HFV values aren't very good.
+                        // Only skip samples if the value is a long way from the minimum.
                         const int stepsToMin = distanceToMin / stepSize;
                         // Temporarily increase the step size if the minimum is very far inward.
                         if (stepsToMin >= 8)
                             thisStepSize = stepSize * 4;
                         else if (stepsToMin >= 4)
                             thisStepSize = stepSize * 2;
-                    }
+                    }*/
                 }
                 else if (!bestSamplesHeuristic())
                 {
@@ -552,7 +614,6 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
 
                 // The LINEAR algo goes >2 steps past the minimum. The LINEAR 1 PASS algo uses the InitialOutwardSteps parameter
                 // in order to have some user control over the number of steps past the minimum when fitting the curve.
-                // JEE TODO: Are we stepping out too far and wasting time? Needs more analysis.
                 // With LINEAR 1 PASS setupSecondPass with a margin of 0.0 as no need to move the focuser further
                 // This will result in a step out, past the solution of either "backlash" id set, or 5 * step size, followed
                 // by a step in to the solution. By stepping out and in, backlash will be neutralised.
@@ -622,10 +683,125 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
     return completeIteration(thisStepSize, foundFit, minPos, minVal);
 }
 
-int LinearFocusAlgorithm::setupSolution(int position, double value, double sigma)
+// Get the curve fitting goal
+CurveFitting::FittingGoal LinearFocusAlgorithm::getGoal(int numSteps)
+{
+    // The classic walk needs the STANDARD curve fitting
+    if (params.focusWalk == Focus::FOCUS_WALK_CLASSIC)
+        return CurveFitting::FittingGoal::STANDARD;
+
+    // Fixed step walks will use C, except for the last step which should be BEST
+    return (numSteps >= params.numSteps) ? CurveFitting::FittingGoal::BEST : CurveFitting::FittingGoal::STANDARD;
+}
+
+// Process next step for LINEAR1PASS for walks: FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE
+int LinearFocusAlgorithm::linearWalk(int position, double value, const double starWeight)
+{
+    if (!inFirstPass)
+    {
+        return setupSolution(position, value, starWeight);
+    }
+
+    bool foundFit = false;
+    double minPos = -1.0, minVal = 0;
+    ++numSteps;
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear1Pass: step %1, linearWalk %2, %3")
+                               .arg(numSteps).arg(position).arg(value);
+
+    // If we are within 1 tick of where we should be then fine, otherwise try again
+    if (abs(position - requestedPosition) > 1)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear1Pass: linearWalk error didn't get the requested position");
+        return requestedPosition;
+    }
+
+    // Store the sample values.
+    positions.push_back(position);
+    values.push_back(value);
+    weights.push_back(starWeight);
+    pass1Positions.push_back(position);
+    pass1Values.push_back(value);
+    pass1Weights.push_back(starWeight);
+    pass1Outliers.push_back(false);
+
+    constexpr int kMinPolynomialPoints = 5;
+    if (values.size() < kMinPolynomialPoints)
+    {
+        // Don't have enough samples to reliably fit a curve.
+        // Simply step the focus in one more time and iterate.
+    }
+    else
+    {
+        if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("linearWalk called incorrectly for FOCUS_QUADRATIC");
+        else
+        {
+            // Hyperbola or Parabola so use the LM solver
+            auto goal = getGoal(numSteps);
+            params.curveFitting->fitCurve(goal, positions, values, weights, pass1Outliers, params.curveFit, params.useWeights,
+                                          params.optimisationDirection);
+
+            foundFit = params.curveFitting->findMinMax(position, 0, params.maxPositionAllowed, &minPos, &minVal,
+                       static_cast<CurveFitting::CurveFit>(params.curveFit), params.optimisationDirection);
+
+            if (!foundFit)
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("linearWalk failed to fit curve");
+
+            if (numSteps >= params.numSteps)
+                return finishFirstPass(static_cast<int>(round(minPos)), minVal);
+        }
+    }
+
+    int nextStepSize = getNextStepSize();
+    return completeIteration(nextStepSize, foundFit, minPos, minVal);
+}
+
+// Function to calculate the next step size for LINEAR1PASS for walks: FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE
+int LinearFocusAlgorithm::getNextStepSize()
+{
+    int nextStepSize, lower, upper;
+
+    switch (params.focusWalk)
+    {
+        case Focus::FOCUS_WALK_CLASSIC:
+            nextStepSize = stepSize;
+            break;
+        case Focus::FOCUS_WALK_FIXED_STEPS:
+            nextStepSize = stepSize;
+            break;
+        case Focus::FOCUS_WALK_CFZ_SHUFFLE:
+            if (params.numSteps % 2)
+            {
+                // Odd number of steps
+                lower = (params.numSteps - 3) / 2;
+                upper = params.numSteps - lower;
+            }
+            else
+            {
+                // Evem number of steps
+                lower = (params.numSteps - 4) / 2;
+                upper = (params.numSteps - lower);
+            }
+
+            if (numSteps <= lower)
+                nextStepSize = stepSize;
+            else if (numSteps >= upper)
+                nextStepSize = stepSize;
+            else
+                nextStepSize = stepSize / 2;
+            break;
+        default:
+            nextStepSize = stepSize;
+            break;
+    }
+
+    return nextStepSize;
+}
+
+int LinearFocusAlgorithm::setupSolution(int position, double value, double weight)
 {
     focusSolution = position;
-    focusHFR = value;
+    focusValue = value;
     done = true;
     doneString = i18n("Solution found.");
     if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
@@ -637,9 +813,10 @@ int LinearFocusAlgorithm::setupSolution(int position, double value, double sigma
         QString str("Linear: solution @ ");
         str.append(QString("%1 = %2 (expected %3) delta=%4").arg(position).arg(value).arg(firstPassBestValue).arg(delta));
 
-        if (params.useWeights && sigma > 0.0)
+        if (params.useWeights && weight > 0.0)
         {
-            double numSigmas = delta / sigma;
+            // TODO fix this for weights
+            double numSigmas = delta * weight;
             str.append(QString(" or %1 sigma %2 than expected")
                        .arg(numSigmas).arg(value <= firstPassBestValue ? "better" : "worse"));
             if (value <= firstPassBestValue || numSigmas < 1)
@@ -778,14 +955,14 @@ void LinearFocusAlgorithm::debugLog()
     QString str("Linear: points=[");
     for (int i = 0; i < positions.size(); ++i)
     {
-        str.append(QString("(%1, %2, %3)").arg(positions[i]).arg(values[i]).arg(sigmas[i]));
+        str.append(QString("(%1, %2, %3)").arg(positions[i]).arg(values[i]).arg(weights[i]));
         if (i < positions.size() - 1)
             str.append(", ");
     }
     str.append(QString("];iterations=%1").arg(numSteps));
     str.append(QString(";duration=%1").arg(stopWatch.elapsed() / 1000));
     str.append(QString(";solution=%1").arg(focusSolution));
-    str.append(QString(";HFR=%1").arg(focusHFR));
+    str.append(QString(";value=%1").arg(focusValue));
     str.append(QString(";filter='%1'").arg(params.filterName));
     str.append(QString(";temperature=%1").arg(params.temperature));
     str.append(QString(";focusalgorithm=%1").arg(params.focusAlgorithm));
@@ -820,7 +997,167 @@ int LinearFocusAlgorithm::finishFirstPass(int position, double value)
     firstPassBestValue = value;
     inFirstPass = false;
     requestedPosition = position;
+
+    if (params.refineCurveFit)
+    {
+        // We've completed pass1 so, if required, reprocess all the datapoints excluding outliers
+        // First, we need the distance of each datapoint from the curve
+        std::vector<std::pair<int, double>> curveDeltas;
+
+        params.curveFitting->calculateCurveDeltas(params.curveFit, curveDeltas);
+
+        // Check for outliers if there are enough datapoints
+        if (curveDeltas.size() > 6)
+        {
+            // Build a vector of the square of the curve deltas
+            std::vector<double> curveDeltasX2Vec;
+            for (int i = 0; i < curveDeltas.size(); i++)
+                curveDeltasX2Vec.push_back(pow(curveDeltas[i].second, 2.0));
+
+            auto curveDeltasX2Mean = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_MEAN,
+                                     curveDeltasX2Vec);
+
+            // Order the curveDeltas, highest first, then check against the limit
+            // Remove points over the limit, but don't remove too many points to compromise the curve
+            double maxOutliers;
+            if (curveDeltas.size() < 7)
+                maxOutliers = 1;
+            else if (curveDeltas.size() < 11)
+                maxOutliers = 2;
+            else
+                maxOutliers = 3;
+
+            double modelUnknowns = params.curveFit == CurveFitting::FOCUS_PARABOLA ? 3.0 : 4.0;
+
+            // Use Peirce's Criterion to get the outlier threshold
+            // Note this operates on the square of the curve deltas
+            double pc = peirce_criterion(static_cast<double> (curveDeltas.size()), maxOutliers, modelUnknowns);
+            double pc_threshold = sqrt(pc * curveDeltasX2Mean);
+
+            // Sort the curve deltas, largest first
+            std::sort(curveDeltas.begin(), curveDeltas.end(),
+                      [](const std::pair<int, double> &a, const std::pair<int, double> &b)
+            {
+                return ( a.second > b.second );
+            });
+
+            // Save off pass1 variables in case they need to be reset later
+            auto bestPass1Outliers = pass1Outliers;
+
+            // Work out how many outliers to exclude
+            int outliers = 0;
+            for (int i = 0; i < curveDeltas.size(); i++)
+            {
+                if(curveDeltas[i].second <= pc_threshold)
+                    break;
+                else
+                {
+                    pass1Outliers[curveDeltas[i].first] = true;
+                    outliers++;
+                }
+                if (outliers >= maxOutliers)
+                    break;
+            }
+
+            // If there are any outliers then try to improve the curve fit by removing these
+            // datapoints and reruning the curve fitting process. Note that this may not improve
+            // the fit so we need to be prepared to reinstate the original solution.
+            QVector<double> currentCoefficients;
+            if (outliers > 0 && params.curveFitting->getCurveParams(params.curveFit, currentCoefficients))
+            {
+                double currentR2 = params.curveFitting->calculateR2(static_cast<CurveFitting::CurveFit>(params.curveFit));
+
+                // Try another curve fit on the data without outliers
+                params.curveFitting->fitCurve(CurveFitting::FittingGoal::BEST, pass1Positions, pass1Values, pass1Weights,
+                                              pass1Outliers, params.curveFit, params.useWeights, params.optimisationDirection);
+                double minPos, minVal;
+                bool foundFit = params.curveFitting->findMinMax(position, 0, params.maxPositionAllowed, &minPos, &minVal,
+                                static_cast<CurveFitting::CurveFit>(params.curveFit),
+                                params.optimisationDirection);
+                if (foundFit)
+                {
+                    double newR2 = params.curveFitting->calculateR2(static_cast<CurveFitting::CurveFit>(params.curveFit));
+                    if (newR2 > currentR2)
+                    {
+                        // We have a better solution so we'll use it
+                        requestedPosition = minPos;
+                        qCDebug(KSTARS_EKOS_FOCUS) << QString("Refine Curve Fit improved focus from %1 to %2. R2 improved from %3 to %4")
+                                                   .arg(position).arg(minPos).arg(currentR2).arg(newR2);
+                    }
+                    else
+                    {
+                        // New solution is not better than previous one so go with the previous one
+                        qCDebug(KSTARS_EKOS_FOCUS) <<
+                                                   QString("Refine Curve Fit could not improve on the original solution");
+                        pass1Outliers = bestPass1Outliers;
+                        params.curveFitting->setCurveParams(params.curveFit, currentCoefficients);
+                    }
+                }
+                else
+                {
+                    qCDebug(KSTARS_EKOS_FOCUS) <<
+                                               QString("Refine Curve Fit failed to fit curve whilst refining curve fit. Running with original solution");
+                    pass1Outliers = bestPass1Outliers;
+                    params.curveFitting->setCurveParams(params.curveFit, currentCoefficients);
+                }
+            }
+        }
+    }
     return requestedPosition;
+}
+
+// Peirce's criterion based on Gould's methodology for outlier identification
+// See https://en.wikipedia.org/wiki/Peirce%27s_criterion for details incl Peirce's original paper
+// and Gould's paper both referenced in the notes. The wikipedia entry also includes some code fragments
+// that form the basis of this function.
+//
+// Arguments:
+// N = total number of observations
+// n = number of outliers to be removed
+// m = number of model unknowns
+// Returns: squared error threshold (x2)
+double LinearFocusAlgorithm::peirce_criterion(double N, double n, double m)
+{
+    double x2 = 0.0;
+    if (N > 1)
+    {
+        // Calculate Q (Nth root of Gould's equation B):
+        double Q = (pow(n, (n / N)) * pow((N - n), ((N - n) / N))) / N;
+
+        // Initialize R values
+        double r_new = 1.0;
+        double r_old = 0.0;
+
+        // Start iteration to converge on R:
+        while (abs(r_new - r_old) > (N * 2.0e-16))
+        {
+            // Calculate Lamda
+            // (1 / (N - n) th root of Gould's equation B
+            double ldiv = pow(r_new, n);
+            if (ldiv == 0)
+                ldiv = 1.0e-6;
+
+            double Lamda = pow((pow(Q, N) / (ldiv)), (1.0 / (N - n)));
+
+            // Calculate x -squared(Gould's equation C)
+            x2 = 1.0 + (N - m - n) / n * (1.0 - pow(Lamda, 2.0));
+
+            if (x2 < 0.0)
+            {
+                // If x2 goes negative, return 0
+                x2 = 0.0;
+                r_old = r_new;
+            }
+            else
+            {
+                // Use x-squared to update R(Gould 's equation D)
+                r_old = r_new;
+                r_new = exp((x2 - 1) / 2.0) * gsl_sf_erfc(sqrt(x2) / sqrt(2.0));
+            }
+        }
+    }
+
+    return x2;
 }
 
 // Return true if one of the 2 recent samples is among the best 2 samples so far.
