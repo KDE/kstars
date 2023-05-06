@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-05 00:43+0000\n"
-"PO-Revision-Date: 2023-05-01 21:25+0200\n"
+"PO-Revision-Date: 2023-05-05 09:30+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22042,9 +22042,9 @@ msgstr "Ponastavi model montaže po obratu čez poldnevnik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
 #: ekos/opsekos.ui:656
-#, kde-format
+#, fuzzy, kde-format
 msgid "Use flip command if supported by mount"
-msgstr ""
+msgstr "Uporabi ukaz flip, če ga podpira namestitev"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:665

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-05 00:43+0000\n"
-"PO-Revision-Date: 2023-04-17 06:30+0100\n"
+"PO-Revision-Date: 2023-05-05 22:50+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -2105,10 +2105,10 @@ msgstr ""
 "katalogon, aperos listo de objektoj. Alklakante objekton en la listo aperos "
 "la detalojn, kie vi povas trovi pliajn informojn pri la objekto. Se vi havas "
 "bildetojn aŭ vikipediajn informojn por ĉi tiu objekto, ĉi tiuj ankaŭ aperos. "
-"Se ne, vi povas elŝuti ilin per la elŝuta ikono. Se vi plilarĝigas Kio estas "
-"Interesa, la ekrano dinamike ŝanĝiĝos por montri la informojn pli oportune. "
-"Bonvolu vidi la priskribojn sube por detaloj pri tio, kion faras la butonoj "
-"malsupre."
+"Se ne, vi povas elŝuti ilin per la elŝuta piktogramo. Se vi plilarĝigas Kio "
+"estas Interesa, la ekrano dinamike ŝanĝiĝos por montri la informojn pli "
+"oportune. Bonvolu vidi la priskribojn sube por detaloj pri tio, kion faras "
+"la butonoj malsupre."
 
 #: data/qml/whatisinteresting/wiview.qml:1620
 #, kde-kuit-format
@@ -7447,8 +7447,8 @@ msgid ""
 "enable World Coordinate System (WCS). WCS is used to encode RA/DEC "
 "coordinates in captured CCD images."
 msgstr ""
-"ebligi Monda Koordinata Sistemo (WCS). WCS kutimas ĉifri RA/DEC-koordinatojn "
-"en kaptitaj CCD-bildoj."
+"ebligi Monda Koordinata Sistemo (WCS). WCS estas uzata por ĉifri RA/DEC-"
+"koordinatojn en kaptitaj CCD-bildoj."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverWCS)
 #: ekos/align/opsalign.ui:227
@@ -12539,7 +12539,7 @@ msgid ""
 "Loads the default set of profiles, clearing any modifications or custom "
 "profiles. "
 msgstr ""
-"Ŝarĝas la defaŭltan aron de profiloj, forigante ajnajn modifojn aŭ kutimajn "
+"Ŝarĝas la defaŭltan aron de profiloj, forigante ajnajn modifojn aŭ proprajn "
 "profilojn."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, optionsProfile)
@@ -12624,8 +12624,8 @@ msgid ""
 "A variable to store the fwhm in pixels used to generate the convolution "
 "filter for star detection."
 msgstr ""
-"Variablo por stoki la fwhm en rastrumeroj uzataj por generi la konvolucian "
-"filtrilon por steldetekto."
+"Variablo por konservi la fwhm en rastrumeroj uzataj por generi la "
+"konvolucian filtrilon por steldetekto."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:376
@@ -14039,8 +14039,8 @@ msgstr "Meti Temperaturan Reguligon"
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Unu dark-flats tasko estis kreita."
+msgstr[1] "%1 dark-flats taskoj estis kreitaj."
 
 #. i18n: ectx: property (title), widget (QGroupBox, CCDFWGroup)
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
@@ -15175,7 +15175,7 @@ msgid ""
 "Properties</span> section. Click <span style=\" font-weight:600;\">Apply</"
 "span> to record the property values.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Elektu kutimajn ecojn por agordi kiam la sekvenca "
+"<html><head/><body><p>Elektu proprajn ecojn por agordi kiam la sekvenca "
 "tasko estas plenumita en bata reĝimo. Post kiam la dezirata proprecvaloro "
 "estas fiksita en INDI Kontrolpanelo, aldonu ĝin al la sekcio<span style=\" "
 "font-weight:600;\"> Taskotrajtoj</span>. Alklaku <span style=\" font-"
@@ -15982,8 +15982,8 @@ msgstr "Enfokusigante %2 je %1 paŝoj..."
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Fokusante %2 per %1 paŝo..."
+msgstr[1] "Fokusante %2 per %1 paŝoj..."
 
 #: ekos/focus/focus.cpp:1426
 #, kde-format
@@ -16049,8 +16049,8 @@ msgstr "Aŭtomata fokusa operacio malsukcesis"
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Fokusproceduro kompletiĝis post %1 iteracio."
+msgstr[1] "Fokusproceduro kompletiĝis post %1 iteracioj."
 
 #: ekos/focus/focus.cpp:1846
 #, kde-format
@@ -20879,8 +20879,8 @@ msgstr "Vetera Alerta"
 #, kde-format
 msgid "%1 second remaining"
 msgid_plural "%1 seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 sekundo restanta"
+msgstr[1] "%1 sekundoj restantaj"
 
 #. i18n: ectx: property (text), widget (QLabel, motionLabel)
 #: ekos/observatory/observatory.ui:141
@@ -22794,8 +22794,8 @@ msgstr ""
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " Planila tasko"
+msgstr[1] " Planilaj taskoj"
 
 #: ekos/scheduler/framingassistant.cpp:541
 #: ekos/scheduler/framingassistantui.cpp:536 ekos/scheduler/mosaic.cpp:549
@@ -24370,15 +24370,15 @@ msgstr "Tasko '%1' estas finita."
 #, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tasko '%1' estas kompleta post #%2 staplo."
+msgstr[1] "Tasko '%1' estas kompleta post #%2 staploj."
 
 #: ekos/scheduler/scheduler.cpp:5286
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tasko '%1' estas ripetanta, #%2 staplo restanta."
+msgstr[1] "Tasko '%1' estas ripetanta, #%2 staploj restantaj."
 
 #: ekos/scheduler/scheduler.cpp:5313
 #, kde-format
@@ -26450,15 +26450,15 @@ msgstr "KStars FITS Viewer"
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "HFR:%2 Ecc:%3 %1 stelo."
+msgstr[1] "HFR:%2 Ecc:%3 %1 steloj."
 
 #: fitsviewer/fitsviewer.cpp:383
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "HFR:%2, %1 stelo."
+msgstr[1] "HFR:%2, %1 steloj."
 
 #: fitsviewer/fitsviewer.cpp:569
 #, kde-format
@@ -28269,7 +28269,7 @@ msgstr "Daŭro"
 #: indi/recordingoptions.ui:65
 #, kde-format
 msgid "Record:"
-msgstr "Rekordo:"
+msgstr "Registrado:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, recordDirectoryEdit)
@@ -28508,7 +28508,7 @@ msgstr "Meza FPS"
 #, kde-format
 msgctxt "@title:window"
 msgid "SER Record Directory"
-msgstr "SER-Rekorda Adresaro"
+msgstr "SER-Registra Adresaro"
 
 #: indi/streamwg.cpp:97
 #, kde-format
@@ -29252,19 +29252,19 @@ msgstr "Aktuala aplikaĵa etoso"
 #: kstars.kcfg:124
 #, kde-format
 msgid "Filenames of defined custom object catalogs."
-msgstr "Dosiernomoj de difinitaj kutimaj objektokatalogoj."
+msgstr "Dosiernomoj de difinitaj propraj objektokatalogoj."
 
 #. i18n: ectx: whatsthis, entry (CatalogFile), group (Catalogs)
 #: kstars.kcfg:125
 #, kde-format
 msgid "List of the filenames of custom object catalogs."
-msgstr "Listo de la dosiernomoj de kutimaj objektokatalogoj."
+msgstr "Listo de la dosiernomoj de propraj objektokatalogoj."
 
 #. i18n: ectx: label, entry (ShowCatalog), group (Catalogs)
 #: kstars.kcfg:128
 #, kde-format
 msgid "List of toggles for displaying custom object catalogs."
-msgstr "Listo de baskuloj por montri kutimajn objektokatalogojn."
+msgstr "Listo de baskuloj por montri proprajn objektokatalogojn."
 
 #. i18n: ectx: whatsthis, entry (ShowCatalog), group (Catalogs)
 #: kstars.kcfg:129
@@ -29273,20 +29273,20 @@ msgid ""
 "List of integers toggling display of each custom object catalog (any nonzero "
 "value indicates the objects in that catalog will be displayed)."
 msgstr ""
-"Listo de entjeroj ŝanĝantaj ekranon de ĉiu kutima objektokatalogo (ĉiu ajn "
+"Listo de entjeroj ŝanĝantaj ekranon de ĉiu propra objektokatalogo (ĉiu ajn "
 "nenula valoro indikas ke la objektoj en tiu katalogo estos montrata)."
 
 #. i18n: ectx: label, entry (ShowCatalogNames), group (Catalogs)
 #: kstars.kcfg:132
 #, kde-format
 msgid "List for displaying custom object catalogs."
-msgstr "Listo por montri kutimajn objektokatalogojn."
+msgstr "Listo por montri proprajn objektokatalogojn."
 
 #. i18n: ectx: whatsthis, entry (ShowCatalogNames), group (Catalogs)
 #: kstars.kcfg:133
 #, kde-format
 msgid "List of names for which custom catalogs are to be displayed."
-msgstr "Listo de nomoj por kiuj kutimaj katalogoj estas montrotaj."
+msgstr "Listo de nomoj por kiuj propraj katalogoj estas montrotaj."
 
 #. i18n: ectx: label, entry (ResolveNamesOnline), group (Catalogs)
 #: kstars.kcfg:136
@@ -31730,7 +31730,7 @@ msgstr "Montri GMT anstataŭ lokan horon."
 #: kstars.kcfg:1146
 #, kde-format
 msgid "Planet string"
-msgstr "Planeda ŝnuro"
+msgstr "Planeda ĉeno"
 
 #. i18n: ectx: whatsthis, entry (XplanetLabelString), group (Xplanet)
 #: kstars.kcfg:1147
@@ -32923,10 +32923,9 @@ msgstr "Restarigi muntomodelon post meridiano renverso."
 
 #. i18n: ectx: label, entry (ForcedFlip), group (Capture)
 #: kstars.kcfg:1717
-#, fuzzy, kde-format
-#| msgid "Flips the mount when reaching the meridian, if supported."
+#, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "Renversas la muntaĵon atinginte la meridianon, se subtenata."
+msgstr "Uzi devigatajn meridianrenversojn, se subtenata."
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:1721
@@ -33636,8 +33635,8 @@ msgid ""
 "World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in "
 "captured CCD images."
 msgstr ""
-"Monda Koordinata Sistemo (WCS). WCS kutimas ĉifri RA/DEC-koordinatojn en "
-"kaptitaj CCD-bildoj."
+"Monda Koordinata Sistemo (WCS). WCS estas uzata por ĉifri RA/DEC-"
+"koordinatojn en kaptitaj CCD-bildoj."
 
 #. i18n: ectx: label, entry (AstrometrySolverOverlay), group (Align)
 #: kstars.kcfg:2098
@@ -37748,13 +37747,13 @@ msgstr "ESTRO DE FAMILIO"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "RECORD OF FAMILY"
-msgstr "REKORDO DE FAMILIO"
+msgstr "REGISTRO DE FAMILIO"
 
 #: kstars_i18n.cpp:482
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "OFFICER FOR FAMILY"
-msgstr "OFICIO POR FAMILIO"
+msgstr "OFICIRO POR FAMILIO"
 
 #: kstars_i18n.cpp:483
 #, kde-kuit-format
@@ -65635,7 +65634,7 @@ msgid ""
 "KStars Lite is a free, open source, cross-platform Astronomy Software "
 "designed for mobile devices."
 msgstr ""
-"KStars Lite estas senpaga, malfermfonta, plurplatforma Astronomia Programaro "
+"KStars Lite estas libera, malfermfonta, plurplatforma Astronomia Programaro "
 "dezajnita por porteblaj aparatoj."
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:51
@@ -68037,37 +68036,37 @@ msgstr "Kruda"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record (Duration)"
-msgstr "Rekordo (Daŭro)"
+msgstr "Registrado (Daŭro)"
 
 #: libindi_strings.cpp:386
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record (Frames)"
-msgstr "Rekordo (Kadroj)"
+msgstr "Registrado (Kadroj)"
 
 #: libindi_strings.cpp:387
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record File"
-msgstr "Rekorda Dosiero"
+msgstr "Registra Dosiero"
 
 #: libindi_strings.cpp:388
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record Off"
-msgstr "Rekordo Malŝaltita"
+msgstr "Registrado Malŝaltita"
 
 #: libindi_strings.cpp:389
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record On"
-msgstr "Rekordo On"
+msgstr "Registrado Ŝaltita"
 
 #: libindi_strings.cpp:390
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record Options"
-msgstr "Rekordaj Opcioj"
+msgstr "Registraj Opcioj"
 
 #: libindi_strings.cpp:391
 #, kde-kuit-format
@@ -70824,7 +70823,7 @@ msgid ""
 "work on your custom color schemes."
 msgstr ""
 "Premu ĉi tiun butonon por forigi la emfazitan kolorskemon. Ĉi tio funkcios "
-"nur pri viaj kutimaj kolorskemoj."
+"nur pri viaj propraj kolorskemoj."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opscolors.ui:239
@@ -72526,7 +72525,7 @@ msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
-"Ĉu importi kutimajn kaj interretajn solvitajn objektojn el la malnova "
+"Ĉu importi proprajn kaj interretajn solvitajn objektojn el la malnova "
 "datumbazo de DSO en la novan?"
 
 #: skycomponents/catalogscomponent.cpp:447
@@ -72539,8 +72538,8 @@ msgstr "Ne eblis importi la objektojn."
 #, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sukcese aldonis %1 objekton al la uzantkatalogo."
+msgstr[1] "Sukcese aldonis %1 objektojn al la uzantkatalogo."
 
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
@@ -73934,7 +73933,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Por aldoni viajn proprajn kutimajn Objektajn Katalogojn, elektu "
+"\t\t<p>Por aldoni viajn propre adaptitajn Objektokatalogojn, elektu "
 "\"Importi Katalogon...\" aŭ \n"
 "\t\t\t\"Krei Katalogon...\" el la paĝo Katalogoj en la KStars Agorda "
 "fenestro.\n"
@@ -73955,7 +73954,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Defaŭlte, KStars sendas kun la katalogoj de objektoj de profunda "
 "ĉielo NGC kaj IC. Vi povas elŝuti multajn pliajn katalogojn de la opcio "
-"Dosiero->Elŝuti Novajn Datumojn. Vi ankaŭ povas fari viajn proprajn kutimajn "
+"Dosiero->Elŝuti Novajn Datumojn. Vi ankaŭ povas fari viajn proprajn proprajn "
 "katalogojn kaj aldoni ilin.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -75536,7 +75535,7 @@ msgid ""
 "For example, the file <i>flagSmall_red_cross.png</i> will be shown as "
 "<b>Small red cross</b> in the combo box."
 msgstr ""
-"Por aldoni kutimajn piktogramojn, nur aldonu bildojn en %1. Dosiernomoj "
+"Por aldoni proprajn piktogramojn, nur aldonu bildojn en %1. Dosiernomoj "
 "devas komenciĝi per flago. Ekzemple, la dosiero <i>flagSmall_red_cross.png</"
 "i> estos montrita kiel <b>Malgranda ruĝa kruco</b> en la kombinujo."
 
@@ -76943,8 +76942,8 @@ msgstr ""
 #, kde-format
 msgid "Batch add: %1 object not found"
 msgid_plural "Batch add: %1 objects not found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Stapla aldono: %1 objekto ne trovita"
+msgstr[1] "Stapla aldono: %1 objektoj ne trovitaj"
 
 #: tools/observinglist.cpp:809
 #, kde-format
@@ -77050,8 +77049,8 @@ msgstr ""
 #, kde-format
 msgid "Observing wishlist truncated: %1 object not found"
 msgid_plural "Observing wishlist truncated: %1 objects not found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Observa dezirlisto detranĉita: %1 objekto ne trovita"
+msgstr[1] "Observa dezirlisto detranĉita: %1 objektoj ne trovitaj"
 
 #: tools/observinglist.cpp:1150
 #, kde-format
@@ -77459,8 +77458,8 @@ msgstr "Nevalida rondo specifita, neniu regionelekto ebla."
 #, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Via observolisto aktuale havas 1 objekton"
+msgstr[1] "Via observolisto aktuale havas %1 objektojn"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: tools/obslistwizard.ui:42
@@ -80358,6 +80357,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Equatorial Gridines"
-#~ msgstr "Ekvatoraj Kradlinioj"
