@@ -1272,7 +1272,7 @@ void FilterManager::buildTheOffsetsTaskComplete()
     {
         // The in flight task had a problem so see what the user wants to do
         if (KMessageBox::questionYesNo(KStars::Instance(),
-                                       i18n("A problem occured. Yes to retry, No to abort")) == KMessageBox::Yes)
+                                       i18n("A problem occurred. Yes to retry, No to abort")) == KMessageBox::Yes)
         {
             // User wants to retry
             m_problemFlag = false;

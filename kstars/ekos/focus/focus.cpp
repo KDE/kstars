@@ -1402,7 +1402,7 @@ int Focus::adaptStartPosition(int position, QString *AFfilter)
     {
         // Disallow excessive movement.
         // No need to check minimum movement
-        appendLogText(i18n("Adaptive start point [%1] excesive move disallowed", filterText));
+        appendLogText(i18n("Adaptive start point [%1] excessive move disallowed", filterText));
         qCDebug(KSTARS_EKOS_FOCUS) << "Adaptive start point: " << filterText
                                    << " startPosition: " << position
                                    << " Last filter position: " << lastPos
@@ -6226,7 +6226,7 @@ void Focus::focusAdvisorHelp()
                         "towards focus until star detection is acceptable. Adjust Out Step Multiple to correspond to "
                         "this range of focuser motion."));
 
-    str.append(i18n("\n\nThe fourth step is to set the remaining focus parameteres to sensible values. Focus Advisor "
+    str.append(i18n("\n\nThe fourth step is to set the remaining focus parameters to sensible values. Focus Advisor "
                     "will suggest values for 4 categories of parameters. Check the associated Update box to "
                     "accept these recommendations and press Update Params.\n"
                     "1. Camera Properties - Note you need to ensure Gain is set appropriately, e.g. unity gain.\n"

@@ -1961,7 +1961,7 @@
          <default>true</default>
       </entry>
       <entry name="FocusR2Limit" type="Double">
-         <whatsthis>The minumum acceptable R2 value of a curve fit.</whatsthis>
+         <whatsthis>The minimum acceptable R2 value of a curve fit.</whatsthis>
          <default>0.8</default>
       </entry>
       <entry name="FocusRefineCurveFit" type="Bool">
