@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:45+0000\n"
-"PO-Revision-Date: 2023-05-05 10:37+0100\n"
+"POT-Creation-Date: 2023-05-08 00:42+0000\n"
+"PO-Revision-Date: 2023-05-07 13:52+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -12612,7 +12612,7 @@ msgstr ""
 #: ekos/auxiliary/filtermanager.cpp:82
 #, kde-format
 msgid "Last AF Temp (°C)"
-msgstr ""
+msgstr "Última Temperatura da FA (°C)"
 
 #: ekos/auxiliary/filtermanager.cpp:85
 #, fuzzy, kde-format
@@ -12629,7 +12629,7 @@ msgstr ""
 #: ekos/auxiliary/filtermanager.cpp:86
 #, kde-format
 msgid "Last AF Alt (°Alt)"
-msgstr ""
+msgstr "Última Alt. da FA (°Alt)"
 
 #: ekos/auxiliary/filtermanager.cpp:89
 #, kde-format
@@ -12703,7 +12703,7 @@ msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:1275
 #, kde-format
-msgid "A problem occured. Yes to retry, No to abort"
+msgid "A problem occurred. Yes to retry, No to abort"
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:1317
@@ -17482,9 +17482,10 @@ msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
 #: ekos/focus/focus.cpp:1405
-#, kde-format
-msgid "Adaptive start point [%1] excesive move disallowed"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "XPlanet View: %1 from %2 on %3"
+msgid "Adaptive start point [%1] excessive move disallowed"
+msgstr "Vista do XPlanet: %1 de %2 às %3"
 
 #: ekos/focus/focus.cpp:1419
 #, fuzzy, kde-format
@@ -17884,10 +17885,10 @@ msgstr ""
 msgid ""
 "\n"
 "\n"
-"The fourth step is to set the remaining focus parameteres to sensible "
-"values. Focus Advisor will suggest values for 4 categories of parameters. "
-"Check the associated Update box to accept these recommendations and press "
-"Update Params.\n"
+"The fourth step is to set the remaining focus parameters to sensible values. "
+"Focus Advisor will suggest values for 4 categories of parameters. Check the "
+"associated Update box to accept these recommendations and press Update "
+"Params.\n"
 "1. Camera Properties - Note you need to ensure Gain is set appropriately, e."
 "g. unity gain.\n"
 "2. Settings Tab: These all have recommendations.\n"
@@ -19517,7 +19518,7 @@ msgid ""
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Wavefront: </span>Uses the "
 "formula, CFZ = 4 t λ f<span style=\" vertical-align:super;\">2</span>.  "
-"Formula derived from wavefront aberation theory. Some have suggested t=1/3 "
+"Formula derived from wavefront aberration theory. Some have suggested t=1/3 "
 "or even t=1/10.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
@@ -36413,7 +36414,7 @@ msgstr "Usar pesos de ponderação no processo de ajuste à curva."
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1964
 #, kde-format
-msgid "The minumum acceptable R2 value of a curve fit."
+msgid "The minimum acceptable R2 value of a curve fit."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
@@ -83721,125 +83722,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid "Flat Focus Position"
-#~ msgstr "Posição de Foco Plana"
-
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
-#~ msgstr ""
-#~ "O movimento da focagem expirou o tempo-limite (%1). A focar o %3 em %2 "
-#~ "passos..."
-
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
-#~ msgstr ""
-#~ "O movimento da focagem expirou o tempo-limite (%1). A focar o %3 em %2 "
-#~ "ms..."
-
-#~ msgid "Wait this many seconds before resuming guiding."
-#~ msgstr "Esperar este período em segundos antes de retomar a guia."
-
-#~ msgid "Settle:"
-#~ msgstr "Estabilizar:"
-
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are inside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default 0%). "
-#~ "Detection algorithms may also have an inherent filter.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Durante a focagem do campo completo, as estrelas que "
-#~ "estiverem dentro desta percentagem da moldura serão filtradas do cálculo "
-#~ "do HFR (por omissão 0%). Os algoritmos de detecção poderão também ter um "
-#~ "filtro inerente.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are outside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default "
-#~ "100%). Detection algorithms may also have an inherent filter.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><body><p>Durante a focagem do campo completo, as estrelas que "
-#~ "estiverem fora desta percentagem da moldura serão filtradas do cálculo do "
-#~ "HFR (por omissão 0%). Os algoritmos de detecção poderão também ter um "
-#~ "filtro inerente.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Used in the device driver for backlash-aware "
-#~ "focusers,  the amount of backlash to apply when reversing movement "
-#~ "direction. </p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Usado no controlador do dispositivo de sistema de "
-#~ "focagem com detecção da reacção - esta é a quantidade de reacção a "
-#~ "aplicar ao inverter a direcção do movimento. </p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
-#~ "Compensation by the number of ticks specified. Set to 0 to disable.  "
-#~ "Overscan backlash and Driver Backlash are independent.</p><p>Used by "
-#~ "Linear and Linear 1 Pass algorithms.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Active para que a Focagem Automática faça uma "
-#~ "Compensação da Reacção. Use em conjunto com o campo de Reacção. Ou o "
-#~ "algoritmo de focagem ou o controlador/foco deverão fazer a compensação da "
-#~ "reacção, mas não ambos ao mesmo tempo.</p><p>Usado pelos algoritmos "
-#~ "Linear e Linear de 1 Passo.</p></body></html>"
-
-#~ msgid "HFR: "
-#~ msgstr "HFR: "
-
-#~ msgid ""
-#~ "<html><body><p>HFR value in pixels consolidated at the current focuser "
-#~ "position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>O valor do HFR em pixels consolidado na posição actual da "
-#~ "focagem.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><body><p>Number of stars used for HFR computation at the current "
-#~ "focuser position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>O número de estrelas usadas no cálculo do HFR na posição "
-#~ "actual da focagem.</p></body></html>"
-
-#~ msgid "Iteration: "
-#~ msgstr "Iteração: "
-
-#~ msgid "Relative Profile..."
-#~ msgstr "Perfil Relativo..."
-
-#~ msgid "Clear Data"
-#~ msgstr "Limpar os Dados"
-
-#~ msgid "Initial Focus Out Steps"
-#~ msgstr "Passos Iniciais de Foco para Fora"
-
-#~ msgid ""
-#~ "Number of outward steps (this number multiplied by initial-step-size) the "
-#~ "Linear Focus algorithm moves away from the initial position at the start "
-#~ "of focusing."
-#~ msgstr ""
-#~ "O número de passos para fora (este número multiplicado pelo tamanho "
-#~ "inicial do passo) que o algoritmo de Foco Linear se move para longe da "
-#~ "posição inicial no início do foco."
-
-#~ msgid "Focus backlash in steps. Zero disables backlash compensation."
-#~ msgstr ""
-#~ "Reacção da focagem em passos. O valor zero desactiva a compensação dessa "
-#~ "reacção."
-
-#~ msgid "Number of focus frames to average for HFR calculations."
-#~ msgstr "Número de imagens de focagem a usar na média para os cálculos HFR."
-
-#~ msgid "Maximum single step the focus algorithm is permitted to command."
-#~ msgstr ""
-#~ "O tamanho máximo de um passo único que o algoritmo de focagem poderá "
-#~ "comandar."
-
-#~ msgid "Default focus exposure time when no filters are used."
-#~ msgstr ""
-#~ "O tempo de exposição de focagem predefinido quando não são usados filtros."
-
-#~ msgid "Curve Type."
-#~ msgstr "Tipo de Curva."
-
-#~ msgid "Acceptable limit on R2 from curve fit."
-#~ msgstr "Limite aceitável no R2 a partir do ajuste da curva."

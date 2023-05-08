@@ -32,10 +32,10 @@
 > e viceversa. Inserisci i valori delle coordinate nel riquadro <guilabel
 >Coordinate galattiche</guilabel
 > o in quello delle <guilabel
->Coordinate equatoriali</guilabel
+>Coordinate equatoriali (J2000)</guilabel
 >. In alternativa puoi impostare le coordinate equatoriali selezionando un oggetto con la finestra <guilabel
 >Trova oggetto</guilabel
->: sarà quindi visualizzato il risultato. </para>
+>: verranno riempite le coordinate complementari. </para>
 
 <para
 >Il modulo contiene una modalità non interattiva, che serve per convertire diverse coppie di coordinate contemporaneamente. Devi costruire un file in ingresso, nel quale ogni riga contiene due valori: le coppie di coordinate in ingresso (equatoriali o galattiche). Devi quindi specificare quali coordinate stai utilizzando come ingresso, poi identificare i nomi dei file di ingresso e di uscita. Premi quindi il pulsante <guibutton

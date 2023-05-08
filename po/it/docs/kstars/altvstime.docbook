@@ -27,20 +27,20 @@
 >tempo siderale</link
 >, in alto. La metà inferiore del grafico è verde per indicare che i punti in questa regione si trovano sotto l'orizzonte. </para>
 <para
->Ci sono alcuni modi per aggiungere curve al grafico. Il modo più semplice per aggiungere la curva di un oggetto esistente è digitare il suo nome nella casella <guilabel
+>Ci sono alcuni modi per aggiungere curve al grafico. Il modo più semplice per aggiungere la curva di un oggetto esistente è digitare il suo nome nella casella di inserimento <guilabel
 >Nome</guilabel
 > e premere Invio, o il pulsante <guibutton
->Visualizza</guibutton
+>Traccia</guibutton
 >. Se il testo inserito viene trovato nel database degli oggetti, la curva corrispondente è aggiunta al grafico. Puoi anche premere il pulsante <guibutton
->Trova oggetto</guibutton
+>Trova oggetto...</guibutton
 > per aprire la <link linkend="findobjects"
 >finestra Trova oggetto</link
-> e selezionare un oggetto dalla lista di quelli noti. Se vuoi aggiungere un punto che non esiste nel database degli oggetti, inserisci un nome per quel punto e digita le coordinate nelle caselle <guilabel
+> e selezionare un oggetto dall'elenco di quelli noti. Se vuoi aggiungere un punto che non esiste nel database degli oggetti, digita un nome per quel punto e le coordinate nelle caselle <guilabel
 >AR</guilabel
 > e <guilabel
 >Dec</guilabel
 >. Quindi premi il pulsante <guibutton
->Visualizza</guibutton
+>Traccia</guibutton
 > per aggiungere al grafico la curva dell'oggetto personalizzato (nota che perché questo funzioni devi scegliere un nome che non esista già nella banca dati degli oggetti). </para>
 <para
 >Quando aggiungi un oggetto al grafico, la sua curva dell'altitudine in funzione del tempo è tracciata con una linea bianca e spessa, e il suo nome è aggiunto alla lista in basso a destra. Le curve di eventuali oggetti già presenti sono visualizzate con una linea rossa e più sottile. Puoi scegliere quale curva visualizzare con la linea bianca spessa selezionando l'oggetto corrispondente nella lista. </para>
@@ -51,7 +51,9 @@
 >Quaoar</firstterm
 > tramonta circa alle 15:00 nel tempo locale, e sorge intorno alle 04:00. </para>
 <para
->Il grafico può essere facilmente ingrandito o spostato usando il mouse: il livello di ingrandimento può essere regolato con la rotellina. Quando viene rimpicciolito, il livello d'ingrandimento viene automaticamente limitato al valore minimo predefinito, ad esempio gli intervalli degli assi riescono a coprire l'intero grafico (cioè, sull'asse verticale il valore dell'altitudine massima dovrebbe toccare il bordo superiore del riquadro del grafico). Lo stesso si applica quando il grafico viene spostato usando il movimento del mouse. Per muoverlo tutto quello che devi fare è premere il pulsante sul punto del grafico che vuoi spostare e trascinare il mouse nella direzione desiderata: a sinistra, a destra, in alto o in basso. </para>
+>Il grafico può essere facilmente ingrandito o spostato usando il mouse: il livello di ingrandimento può essere regolato con la <mousebutton
+>rotellina</mousebutton
+>. Quando viene rimpicciolito, il livello d'ingrandimento viene automaticamente limitato al valore minimo predefinito, ad esempio gli intervalli degli assi riescono a coprire l'intero grafico (cioè, sull'asse verticale il valore dell'altitudine massima dovrebbe toccare il bordo superiore del riquadro del grafico). Lo stesso principio si applica quando il grafico viene spostato usando il movimento del mouse. Per spostarlo, tutto quello che devi fare è premere il pulsante sul punto del grafico che vuoi spostare e trascinare il mouse nella direzione desiderata: a sinistra, a destra, in alto o in basso. </para>
 <para
 >Un'altra funzionalità utile dello strumento Altitudine in funzione del tempo è quella di calcolare e segnare le ore del sorgere, del tramontare e del culmine. Questo può essere fatto con una semplice pressione sui pulsanti <guibutton
 >Sorge</guibutton

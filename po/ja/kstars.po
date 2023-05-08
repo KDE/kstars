@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:45+0000\n"
+"POT-Creation-Date: 2023-05-08 00:42+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -11767,7 +11767,7 @@ msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:1275
 #, kde-format
-msgid "A problem occured. Yes to retry, No to abort"
+msgid "A problem occurred. Yes to retry, No to abort"
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:1317
@@ -16608,9 +16608,10 @@ msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
 #: ekos/focus/focus.cpp:1405
-#, kde-format
-msgid "Adaptive start point [%1] excesive move disallowed"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Planet Name"
+msgid "Adaptive start point [%1] excessive move disallowed"
+msgstr "惑星名"
 
 #: ekos/focus/focus.cpp:1419
 #, fuzzy, kde-format
@@ -17014,10 +17015,10 @@ msgstr ""
 msgid ""
 "\n"
 "\n"
-"The fourth step is to set the remaining focus parameteres to sensible "
-"values. Focus Advisor will suggest values for 4 categories of parameters. "
-"Check the associated Update box to accept these recommendations and press "
-"Update Params.\n"
+"The fourth step is to set the remaining focus parameters to sensible values. "
+"Focus Advisor will suggest values for 4 categories of parameters. Check the "
+"associated Update box to accept these recommendations and press Update "
+"Params.\n"
 "1. Camera Properties - Note you need to ensure Gain is set appropriately, e."
 "g. unity gain.\n"
 "2. Settings Tab: These all have recommendations.\n"
@@ -18391,7 +18392,7 @@ msgid ""
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Wavefront: </span>Uses the "
 "formula, CFZ = 4 t λ f<span style=\" vertical-align:super;\">2</span>.  "
-"Formula derived from wavefront aberation theory. Some have suggested t=1/3 "
+"Formula derived from wavefront aberration theory. Some have suggested t=1/3 "
 "or even t=1/10.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
@@ -35016,7 +35017,7 @@ msgstr ""
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1964
 #, kde-format
-msgid "The minumum acceptable R2 value of a curve fit."
+msgid "The minimum acceptable R2 value of a curve fit."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)

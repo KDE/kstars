@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:45+0000\n"
-"PO-Revision-Date: 2023-05-03 15:14+0300\n"
+"POT-Creation-Date: 2023-05-08 00:42+0000\n"
+"PO-Revision-Date: 2023-05-07 23:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -11415,54 +11415,43 @@ msgid "Lock Filter"
 msgstr "Зафіксувати фільтр"
 
 #: ekos/auxiliary/filtermanager.cpp:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
-"Зображення плоского поля захоплено у цій позиції фокусування. Позицію буде "
-"автоматично оновлено процесом фокусування, якщо позначити цей пункт."
+"Останній розв'язок АФ. Автоматично оновлюється процесом автофокусування."
 
 #: ekos/auxiliary/filtermanager.cpp:78
-#, fuzzy, kde-format
-#| msgid "Solution"
+#, kde-format
 msgid "Last AF Solution"
-msgstr "Розв'язання"
+msgstr "Останній розв'язок АФ"
 
 #: ekos/auxiliary/filtermanager.cpp:81
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
 "autofocus process."
 msgstr ""
-"Зображення плоского поля захоплено у цій позиції фокусування. Позицію буде "
-"автоматично оновлено процесом фокусування, якщо позначити цей пункт."
+"Температура останнього розв'язку АФ. Автоматично оновлюється процесом "
+"автофокусування."
 
 #: ekos/auxiliary/filtermanager.cpp:82
 #, kde-format
 msgid "Last AF Temp (°C)"
-msgstr ""
+msgstr "Остання температура АФ (°C)"
 
 #: ekos/auxiliary/filtermanager.cpp:85
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Зображення плоского поля захоплено у цій позиції фокусування. Позицію буде "
-"автоматично оновлено процесом фокусування, якщо позначити цей пункт."
+"Висота останнього розв'язку АФ. Автоматично оновлюється процесом "
+"автофокусування."
 
 #: ekos/auxiliary/filtermanager.cpp:86
 #, kde-format
 msgid "Last AF Alt (°Alt)"
-msgstr ""
+msgstr "Остання висота АФ (°висоти)"
 
 #: ekos/auxiliary/filtermanager.cpp:89
 #, kde-format
@@ -11470,13 +11459,13 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"Кількість поділок на 1 °C збільшення температури. +ve для розширювального "
+"руху засобу фокусування"
 
 #: ekos/auxiliary/filtermanager.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks / °C"
-msgstr "Позначки"
+msgstr "Поділок на °C"
 
 #: ekos/auxiliary/filtermanager.cpp:93
 #, kde-format
@@ -11484,22 +11473,23 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"Кількість поділок на один градус збільшення висоти. +ve для розширювального "
+"руху засобу фокусування"
 
 #: ekos/auxiliary/filtermanager.cpp:94
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Поділок на °висоти"
 
 #: ekos/auxiliary/filtermanager.cpp:96
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Середня точка за довжиною хвилі фільтра у мкм"
 
 #: ekos/auxiliary/filtermanager.cpp:97
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
-msgstr "Довжина хвилі:"
+msgstr "Довжина хвилі"
 
 #: ekos/auxiliary/filtermanager.cpp:524
 #, kde-format
@@ -11512,55 +11502,50 @@ msgid "Confirm Filter"
 msgstr "Підтвердження фільтра"
 
 #: ekos/auxiliary/filtermanager.cpp:934
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to quit?"
-msgstr "Ви справді бажаєте скасувати дію?"
+msgstr "Ви дійсно хочете вийти?"
 
 #: ekos/auxiliary/filtermanager.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Focus In"
+#, kde-format
 msgid "# Focus Runs"
-msgstr "Фокус всередину"
+msgstr "К-ть запусків фокусування"
 
 #: ekos/auxiliary/filtermanager.cpp:1208
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "New Offset"
-msgstr "Зсув"
+msgstr "Новий зсув"
 
 #: ekos/auxiliary/filtermanager.cpp:1244
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
-msgstr ""
+msgstr "Процес зупинено. «Так», щоб перезапустити, «Ні», щоб перервати"
 
 #: ekos/auxiliary/filtermanager.cpp:1275
-#, kde-format
-msgid "A problem occured. Yes to retry, No to abort"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "A problem occured. Yes to retry, No to abort"
+msgid "A problem occurred. Yes to retry, No to abort"
+msgstr "Виникла проблема: «Так», щоб повторити спробу, «Ні», щоб перервати"
 
 #: ekos/auxiliary/filtermanager.cpp:1317
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "Фокусування завершено."
+msgstr "Обробку завершено."
 
 #: ekos/auxiliary/filtermanager.cpp:1338
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Змінюємо фільтр на %1…"
+msgstr "Проблема зі зміною фільтра на %1…"
 
 #: ekos/auxiliary/filtermanager.cpp:1347
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "Виконуємо автофокусування на %1 (%2 з %3)..."
 
 #: ekos/auxiliary/filtermanager.cpp:1502
-#, fuzzy, kde-format
-#| msgid "Aborting..."
+#, kde-format
 msgid "Aborting Autofocus..."
-msgstr "Переривання…"
+msgstr "Перериваємо автофокусування…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -11581,26 +11566,21 @@ msgstr "Барабан з фільтрами"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/filtersettings.ui:84
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
-#| "span> filter focus offset in steps. The offsets are global and are "
-#| "applied when the filter changes.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
 "span> filter offsets in steps either directly in the table or use the Build "
 "Offsets tool.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Встановити <span style=\" font-style:italic;"
-"\">відносний</span> зсув фільтрування під час фокусування у кроках. Зсуви є "
-"загальними і застосовуються при зміні фільтрів.</p></body></html>"
+"\">відносний</span> зсув фільтрування під час фокусування у кроках "
+"безпосередньо або за допомогою засобу побудови зсувів.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
 #: ekos/auxiliary/filtersettings.ui:100
-#, fuzzy, kde-format
-#| msgid "Offsets"
+#, kde-format
 msgid "Build Offsets"
-msgstr "Зсуви"
+msgstr "Побудувати зсуви"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:114
@@ -11619,8 +11599,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:117
-#, fuzzy, kde-format
-#| msgid "Capture flat frames at the same focus as light frames"
+#, kde-format
 msgid "Capture flats at the same focus as lights"
 msgstr ""
 "Захоплювати плоскі кадри у тій самій позиції фокусування, що і світлі кадри"
@@ -14037,17 +14016,14 @@ msgid "Autofocus failed."
 msgstr "Не вдалося виконати автофокусування."
 
 #: ekos/capture/capture.cpp:3573
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Adaptive focus complete."
-msgstr "Фокусування завершено."
+msgstr "Адаптивне фокусування завершено."
 
 #: ekos/capture/capture.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Adaptive focus failed. Continuing..."
-msgstr ""
-"Спроба автоматичного фокусування зазнала невдачі. Перериваємо експонування…"
+msgstr "Не вдалося виконати адаптивне фокусування. Продовжуємо…"
 
 #: ekos/capture/capture.cpp:3589
 #, kde-format
@@ -15713,10 +15689,9 @@ msgid "In sequence HFR based refocus starting..."
 msgstr "Розпочато повторне фокусування у послідовності на основі РПП…"
 
 #: ekos/capture/refocusstate.cpp:74
-#, fuzzy, kde-format
-#| msgid "Adaptive sampling"
+#, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Адаптивна дискретизація"
+msgstr "Розпочинаємо адаптивне фокусування…"
 
 #: ekos/capture/refocusstate.cpp:93
 #, kde-format
@@ -16244,26 +16219,32 @@ msgstr "Редактор профілів параметрів фокусува�
 #, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 msgstr ""
+"Адаптивне фокусування: приріст темп. — %1 поділок; приріст висоти — %2 "
+"поділок"
 
 #: ekos/focus/focus.cpp:954
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
+"Адаптивне фокусування відкладено. Загальне пересування перевищило б "
+"обмеження на максимальний перехід"
 
 #: ekos/focus/focus.cpp:963
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
+"Адаптивне фокусування відкладено. Загальне пересування перевищило б "
+"обмеження адаптації"
 
 #: ekos/focus/focus.cpp:970
 #, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
-msgstr ""
+msgstr "Адаптивне фокусування пересуває з %1 до %2"
 
 #: ekos/focus/focus.cpp:983
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
-msgstr ""
+msgstr "Адаптивному фокусуванню не вдалося пересунути засіб фокусування"
 
 #: ekos/focus/focus.cpp:1084
 #, kde-format
@@ -16293,11 +16274,14 @@ msgstr ""
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
+"Відкидаємо початковий запит автофокусування — виконання коригування "
+"фокусування."
 
 #: ekos/focus/focus.cpp:1116
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
+"Відкидаємо початковий запит автофокусування — виконання автофокусування."
 
 #: ekos/focus/focus.cpp:1252
 #, kde-format
@@ -16318,47 +16302,54 @@ msgstr "Розпочато дію з автоматичного фокусува
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
+"Адаптивна початкова точка, останній розв'язок АФ поза межами максимального "
+"переходу, ігноруємо"
 
 #: ekos/focus/focus.cpp:1364
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
-msgstr ""
+msgstr "Адаптивна початкова точка, немає доступного джерела температури"
 
 #: ekos/focus/focus.cpp:1366
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
+"Адаптивна початкова точка, немає температури для останнього розв'язку АФ"
 
 #: ekos/focus/focus.cpp:1373
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
+"Адаптивна початкова точка, дуже великий приріст за температурою, ігноруємо"
 
 #: ekos/focus/focus.cpp:1385
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
+"Адаптивна початкова точка, не записано висоти для останнього розв'язку АФ"
 
 #: ekos/focus/focus.cpp:1387
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
-msgstr ""
+msgstr "Адаптивна початкова точка, дуже великий приріст за висотою, ігноруємо"
 
 #: ekos/focus/focus.cpp:1397
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
+"Адаптивна початкова точка, позиція цілі поза межами максимального переходу, "
+"ігноруємо"
 
 #: ekos/focus/focus.cpp:1405
-#, kde-format
-msgid "Adaptive start point [%1] excesive move disallowed"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Adaptive start point [%1] excesive move disallowed"
+msgid "Adaptive start point [%1] excessive move disallowed"
+msgstr "Заборонено надмірний рух адаптивної початкової точки [%1]"
 
 #: ekos/focus/focus.cpp:1419
-#, fuzzy, kde-format
-#| msgid "XPlanet View: %1 from %2 on %3"
+#, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
-msgstr "Перегляд XPlanet: %1 з %2 о %3"
+msgstr "Адаптуємо початкову точку [%1] з %2 до %3"
 
 #: ekos/focus/focus.cpp:1465
 #, kde-format
@@ -16733,6 +16724,30 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
+"Радник з фокусування (РФ) розроблено для спрощення визначення параметрів "
+"фокусування.\n"
+"Він не обов'язково надасть вам ідеальну комбінацію параметрів — вам "
+"доведеться поекспериментувати, — але він надасть вам базовий набір "
+"параметрів для досягнення фокусування.\n"
+"\n"
+"РФ порекомендує значення для більшості параметрів. Втім, для отримання "
+"деяких значень знадобиться певна робота з налаштовування. Відповідні "
+"параметри наведено нижче разом із базовими поясненням щодо того, як їх "
+"встановити.\n"
+"\n"
+"Першим кроком є встановлення люфту. У підручнику з вашого засобу "
+"фокусування, ймовірно, наведено пояснення щодо того, як це зробити. Щойно ви "
+"матимете значення люфту для вашої системи, вкажіть його або у полі «Люфт», "
+"щоб драйвер виконав компенсацію люфту, або у полі «Пересканування АФ», щоб "
+"компенсацію люфту виконав механізм автофокусування. Вкажіть значення лише в "
+"одному полі, для іншого вкажіть значення 0.\n"
+"\n"
+"На другому кроці слід встановити розмір кроку. Типове значення можна взяти з "
+"критичної зони фокусування (КЗФ) для вашого обладнання — вкажіть його на "
+"вкладці КЗФ.\n"
+"\n"
+"На третьому кроці слід вказати множник зовнішнього кроку. Почніть із "
+"запропонованого типового значення."
 
 #: ekos/focus/focus.cpp:6222
 #, kde-format
@@ -16745,16 +16760,42 @@ msgid ""
 "star detection is acceptable. Adjust Out Step Multiple to correspond to this "
 "range of focuser motion."
 msgstr ""
+" Ви працюєте з телескопом із центральною перешкодою, тому не варто надто "
+"віддалятися від фокуса, оскільки зірки перетворяться на пончики, і "
+"обладнання не зможе їх належним чином виявляти. Поекспериментуйте із пошуком "
+"фокуса і переходом на розмір-кроку * коефіцієнт-зовнішнього-кроку поділок "
+"від фокуса і створенням кадру фокусування. Виконайте збільшення, щоб "
+"спостерігати за виявленням зірок. Якщо виходить погано, пересуньте засіб "
+"фокусування назад до фокусу, доки буде досягнуто прийнятного результату у "
+"виявленні зірок. Коригуйте коефіцієнт зовнішнього кроку так, щоб він "
+"відповідав цьому діапазону руху засобу фокусування."
 
 #: ekos/focus/focus.cpp:6229
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "The fourth step is to set the remaining focus parameteres to sensible "
+#| "values. Focus Advisor will suggest values for 4 categories of parameters. "
+#| "Check the associated Update box to accept these recommendations and press "
+#| "Update Params.\n"
+#| "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
+#| "e.g. unity gain.\n"
+#| "2. Settings Tab: These all have recommendations.\n"
+#| "3. Process Tab: These all have recommendations.\n"
+#| "4. Mechanics Tab: Note Step Size and Out Step Multiple are dealt with "
+#| "above.\n"
+#| "\n"
+#| "Now move the focuser to approximate focus and select a broadband filter, "
+#| "e.g. Luminance\n"
+#| "You are now ready to start an Autofocus run."
 msgid ""
 "\n"
 "\n"
-"The fourth step is to set the remaining focus parameteres to sensible "
-"values. Focus Advisor will suggest values for 4 categories of parameters. "
-"Check the associated Update box to accept these recommendations and press "
-"Update Params.\n"
+"The fourth step is to set the remaining focus parameters to sensible values. "
+"Focus Advisor will suggest values for 4 categories of parameters. Check the "
+"associated Update box to accept these recommendations and press Update "
+"Params.\n"
 "1. Camera Properties - Note you need to ensure Gain is set appropriately, e."
 "g. unity gain.\n"
 "2. Settings Tab: These all have recommendations.\n"
@@ -16766,12 +16807,27 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"\n"
+"\n"
+"На четвертому кроці слід встановити притомні значення для решти параметрів "
+"фокусування. Радник з фокусування запропонує значення для 4 категорій "
+"параметрів. Ознайомтеся із пов'язаним полем оновлення, щоб прийняти "
+"рекомендації і натисніть кнопку «Оновити параметри».\n"
+"1. Властивості камери — вам слід належним чином встановити підсилення, "
+"наприклад єдине підсилення.\n"
+"2. Вкладка «Параметри»: тут наведено усі рекомендації.\n"
+"3. Вкладка «Процес»: тут наведено усі рекомендації.\n"
+"4. Вкладка «Механіка»: зауважте, що поради щодо розміру кроку і коефіцієнта "
+"зовнішнього кроку наведено вище.\n"
+"\n"
+"Тепер виконайте приблизне фокусування і виберіть широкосмуговий фільтр, "
+"наприклад «Світність»\n"
+"Після цього ви будете готові розпочати автофокусування."
 
 #: ekos/focus/focus.cpp:6239
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Focus Advisor"
-msgstr "Зірка фокусування"
+msgstr "Радник з фокусування"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:155
@@ -16926,11 +16982,11 @@ msgstr "Виберіть джерело даних щодо температур
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, settingsTab)
 #: ekos/focus/focus.ui:901
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
-msgstr "<html><head/><body><p>Вилучити поточний кадр</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Загальні параметри фокусування.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
 #: ekos/focus/focus.ui:936
@@ -16941,6 +16997,10 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Під час фокусування за повним полем цей параметр керує "
+"розміром кільця з центром посередині датчика, яке слід включити до обробки. "
+"Встановіть нульове значення %, щоб включити центр датчика і встановіть "
+"зовнішній % у 100, щоб включити зовнішні краї датчика.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
@@ -16957,10 +17017,9 @@ msgstr " %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/focus/focus.ui:958
-#, fuzzy, kde-format
-#| msgid "Guider Settling"
+#, kde-format
 msgid "Guide Settle:"
-msgstr "Стабілізація наведення"
+msgstr "Стабілізація наведення:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -16998,6 +17057,10 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Під час фокусування за повним полем цей параметр керує "
+"розміром кільця з центром посередині датчика, яке слід включити до обробки. "
+"Встановіть нульове значення %, щоб включити центр датчика і встановіть "
+"зовнішній % у 100, щоб включити зовнішні краї датчика.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/focus.ui:1037
@@ -17025,21 +17088,15 @@ msgstr "Автовибір зірки"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/focus/focus.ui:1072
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display Units:"
-msgstr "Вид"
+msgstr "Одиниці показу:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1091
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
-msgstr ""
-"<html><body><p>Розмір у пікселях частини кадру, якою слід обмежити захоплену "
-"ділянку.</p></body></html>"
+msgstr "<html><head/><body><p>Розмір підкадру у пікселях.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1094
@@ -17049,38 +17106,32 @@ msgstr " пк"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1113
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
-msgstr "<html><head/><body><p>Вилучити поточний кадр</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Одиниці показу для РПФ і напівширини.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1117
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels"
-msgstr "пікселів"
+msgstr "Пікселі"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1122
-#, fuzzy, kde-format
-#| msgid "arc seconds"
+#, kde-format
 msgid "Arc Seconds"
-msgstr "кутових секунд"
+msgstr "Кутові секунди"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
 #: ekos/focus/focus.ui:1136
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Під час автофокусування після пересування засобу "
-"фокусування очікувати вказану кількість секунд, перш ніж захоплювати "
-"наступне зображення.</p></body></html>"
+"<html><head/><body><p>Зачекати вказану кількість секунд після завершення "
+"автофокусування до відновлення наведення.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
@@ -17123,17 +17174,15 @@ msgstr "Кільце:"
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1214 ekos/focus/focus.ui:1309
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adaptive Focus"
-msgstr "Адаптивна оптика"
+msgstr "Адаптивне фокусування"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/focus.ui:1262
-#, fuzzy, kde-format
-#| msgid "Max Travel:"
+#, kde-format
 msgid "Max Total Move:"
-msgstr "Макс. хід:"
+msgstr "Макс. загальний рух:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMaxMove)
 #: ekos/focus/focus.ui:1281
@@ -17148,71 +17197,63 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1284 ekos/focus/focus.ui:1351
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid " ticks"
-msgstr "Позначки"
+msgstr " поділок"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1306
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
 "experimental feature.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Накреслити зовнішню температуру.</p></body></html>"
+"<html><head/><body><p>Увімкнути адаптивне фокусування між підкадрами. Це "
+"експериментальна можливість.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1316
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Minimum focuser movement when using Adaptive Focus.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Збільшення масштабу за віссю X.</p></body></html>"
+"<html><head/><body><p>Мінімальний рух засобу фокусування при використанні "
+"адаптивного фокусування.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1319
-#, fuzzy, kde-format
-#| msgid "Minimum Move"
+#, kde-format
 msgid "Min Move:"
-msgstr "Мінімальне пересування"
+msgstr "Мінімальний рух:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1332
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before sequence capture "
-#| "is started.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings.  This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Встановіть позиційний кут цілі, перш ніж розпочнеться "
-"послідовність захоплення зображення.</p></body></html>"
+"<html><head/><body><p>Адаптувати початкову позицію автофокусування на основі "
+"параметрів фільтра та адаптивного фокусування. Ця можливість є "
+"експериментальною.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1335
-#, fuzzy, kde-format
-#| msgid "Auto Start"
+#, kde-format
 msgid "Adapt Start Pos"
-msgstr "Автозапуск"
+msgstr "Адаптувати початкову позицію"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1348
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The minimum size of an adaptive focus change that will "
 "be sent to the focuser.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Значення годинного кута лафета.</p></body></html>"
+"<html><head/><body><p>Мінімальний розмір зміни адаптивного фокусування, який "
+"буде надіслано засобу фокусування.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1373
@@ -17222,27 +17263,17 @@ msgstr "Обробка"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1376
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Максимальний хід у кроках, перш ніж процедуру "
-"автофокусування буде перервано</p></body></html>"
+"<html><head/><body><p>Параметри фокусування, які стосуються процесу "
+"автофокусування.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1411
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). "
-#| "0.8 is a good start. If the minimum is not met, Auto Focus will rerun "
-#| "once to try to improve the R². Currently only available for the Linear 1 "
-#| "Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This "
-#| "feature is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is "
@@ -17255,15 +17286,14 @@ msgstr ""
 "1 (ідеальний збіг). Почати варто з 0,8. Якщо мінімального значення досягти "
 "не вдасться, буде виконано одну повторну спробу автофокусування для "
 "поліпшення R². У поточній версії доступне лише для лінійного однопрохідного "
-"алгоритму при використанні апроксимації кривої гіперболою або параболою. Ця "
-"можливість є експериментальною.</p></body></html>"
+"алгоритму при використанні апроксимації кривої гіперболою або параболою.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1436
-#, fuzzy, kde-format
-#| msgid "Measured Err:"
+#, kde-format
 msgid "Measure:"
-msgstr "Виміряна похибка:"
+msgstr "Вимірювати:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/focus.ui:1455
@@ -17273,8 +17303,7 @@ msgstr "Виявлення:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusFramesCountLabel)
 #: ekos/focus/focus.ui:1474
-#, fuzzy, kde-format
-#| msgid "Average over:"
+#, kde-format
 msgid "Average Over:"
 msgstr "Усереднення за:"
 
@@ -17286,16 +17315,13 @@ msgstr "Обмеження R²:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Number of frames to capture in order to average the HFR "
-#| "value at the current focuser position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of frames to capture at the current focuser "
 "position.</p></body></html>"
 msgstr ""
-"<html><body><p>Кількість кадрів, які слід захопити для усереднення значення "
-"РПП (HFR) у поточній позиції засобу фокусування.</p></body></html>"
+"<html><body><p>Кількість кадрів, які слід захопити у поточній позиції засобу "
+"фокусування.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1531
@@ -17311,24 +17337,7 @@ msgstr "Апроксимація кривої:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1560
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -17357,19 +17366,17 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Гіпербола</span>: апроксимація точок даних "
 "гіперболою. Доступна у поточній версії лише для лінійного однопрохідного "
-"алгоритму і є експериментальною.</li><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Парабола</span>: "
-"апроксимація точок даних параболою. Доступна у поточній версії лише для "
-"лінійного однопрохідного алгоритму і є експериментальною.</li></ul></body></"
-"html>"
+"алгоритму.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Парабола</span>: апроксимація точок даних "
+"параболою. Доступна у поточній версії лише для лінійного однопрохідного "
+"алгоритму.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1567
-#, fuzzy, kde-format
-#| msgid "Quadradic"
+#, kde-format
 msgid "Quadratic"
-msgstr "Квадратична"
+msgstr "Квадратичний"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1572
@@ -17391,30 +17398,7 @@ msgstr "Профіль ПдЕП:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1604
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -17444,29 +17428,6 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum.This is an experimental feature.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Способ виявлення зірок:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">ПдЕП:</span> видобування початкових даних і "
-"фотометрія (Source Extractor and Photometry), ефективний спосіб виявлення "
-"джерела на основі засобу видобування джерела (Bertin і Arnouts 1996; Bertin "
-"2016). Див. <a href=\"https://joss.theoj.org/papers/10.21105/joss.00058.pdf"
-"\"><span style=\" text-decoration: underline; color:#0000ff;\">SEP: Source "
-"Extractor as a library</span></a> у «Journal of Open Source Software».</"
-"li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Центроїд</span>: виявлення джерела на основі оцінок маси зірок "
-"навколо піків сигналів.</li><li style=\" margin-top:12px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Градієнт</span>: виявлення "
-"одинарного джерела на основі фільтра Собеля. Початковий або повний аналіз "
-"поля використовуватиме SEP замість цього способу.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Поріг</span>: "
-"виявлення єдиного джерела на основі значень пікселів. Початковий або повний "
-"аналіз поля використовуватиме SEP замість цього способу.</li></ul></body></"
-"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -17479,30 +17440,25 @@ msgstr "РПП (HFR)"
 #: ekos/focus/focus.ui:1613
 #, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "Кор. РПП"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1618
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM"
 msgstr "Напівширина"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1623
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "# Stars"
-msgstr "Зірки"
+msgstr "К-ть зірок"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1628
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Мон-Лорьє"
+msgstr "Фур’є"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1636
@@ -17518,21 +17474,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1639
-#, fuzzy, kde-format
-#| msgid "Curve Fit:"
+#, kde-format
 msgid "Refine Curve Fit"
-msgstr "Апроксимація кривої:"
+msgstr "Удосконалення апроксимації кривої"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1652
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to use the standard deviation of the star HFR "
-#| "as a weighting to the curve fitting algorithm. If unchecked, all data "
-#| "points are given equal weighting. Currently only available when using "
-#| "Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola "
-#| "under the Linear 1 Pass algorithm. This feature is experimental.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR or "
 "FWHM as a weighting to the curve fitting algorithm. If unchecked, all data "
@@ -17541,12 +17489,11 @@ msgid ""
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Позначте, щоб використовувати стандартне відхилення "
-"РПП (HFR), як вагу при застосуванні алгоритму апроксимації кривої. Якщо не "
-"позначено, усі точки даних матимуть однакову вагу. У поточній версії "
-"доступним є лише використання усього поля зору (декілька зірок) та "
-"апроксимації гіперболою або параболою з використанням лінійного "
-"однопрохідного алгоритму. Ця можливість є експериментальною.</p></body></"
-"html>"
+"РПП (HFR) або напівширини, як вагу при застосуванні алгоритму апроксимації "
+"кривої. Якщо не позначено, усі точки даних матимуть однакову вагу. У "
+"поточній версії доступним є лише використання усього поля зору (декілька "
+"зірок) та апроксимації гіперболою або параболою з використанням лінійного "
+"однопрохідного алгоритму.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1655
@@ -17556,36 +17503,7 @@ msgstr "Використовувати вагову функцію"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1668
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated, further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method. Upon "
-#| "crossing to the other side of the V-Curve, polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes. The algorithm can be slow, but it is more "
-#| "resilient to backlash. Start with the focuser positioned near good focus. "
-#| "Set Initial Step Size and Max Travel for the desired sampling interval "
-#| "and range around start focus position. Tolerance should be around 5%.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear 1 Pass</span>: Starts like <span style=\" font-"
-#| "weight:600;\">Linear</span> but after completing the 1st pass, instead of "
-#| "doing a 2nd pass, moves straight to the minimum HFR value calculated. Use "
-#| "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Select focus process algorithm:</p><ul style=\"margin-"
 "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -17756,7 +17674,7 @@ msgstr "Бахтінов"
 #: ekos/focus/focus.ui:1759
 #, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "ФРТ:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/focus.ui:1769
@@ -17769,6 +17687,13 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian.  This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Тип функції розсіювання точки, якою слід скористатися, "
+"якщо для пункту «Вимірювати» встановлено значення «Напівширина»:</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Гаусова</span>: використовує двовимірну "
+"гаусову. Ця можливість є експериментальною.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1813
@@ -17851,16 +17776,13 @@ msgstr "Механіка"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, mechanicsTab)
 #: ekos/focus/focus.ui:2033
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Update the fits header with the found solution.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the mechanics of moving "
 "the focuser.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Оновити дані у заголовку FITS визначеними параметрами "
-"розв'язку.</p></body></html>"
+"<html><head/><body><p>Параметри фокусування, які впливають на механіку "
+"пересування засобу фокусування.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:2056
@@ -17870,32 +17792,27 @@ msgstr "Люфт драйвера:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/focus.ui:2078
-#, fuzzy, kde-format
-#| msgid "Initial Step size:"
+#, kde-format
 msgid "Initial Step Size:"
 msgstr "Початковий розмір кроку:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/focus.ui:2094
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focuser Settle:"
-msgstr "Фокусування:"
+msgstr "Стабілізація засобу фокусування:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:2110
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
 "before capturing the next image during Auto Focus and after an Adaptive "
 "Focus movement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Під час автофокусування після пересування засобу "
-"фокусування очікувати вказану кількість секунд, перш ніж захоплювати "
-"наступне зображення.</p></body></html>"
+"<html><head/><body><p>Час стабілізації (у секундах) після пересування засобу "
+"фокусування до захоплення наступного зображення під час автофокусування і "
+"після руху адаптивного фокусування.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusAdvOutStepMultLabel)
@@ -17906,18 +17823,15 @@ msgstr "Коефіцієнт зовнішніх кроків:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusWalkLabel)
 #: ekos/focus/focus.ui:2151
-#, fuzzy, kde-format
-#| msgctxt "City in Louisiana USA"
-#| msgid "Walker"
+#, kde-format
 msgid "Walk:"
-msgstr "Волкер"
+msgstr "Перехід:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/focus.ui:2167
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Максимальний розмір кроку:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:2183
@@ -17932,20 +17846,17 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2196
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
 "span> in ticks to cause a noticeable change in HFR value. For timer based "
 "focuser, it is the initial time in milliseconds to move the focuser inward "
 "or outward</p></body></html>"
 msgstr ""
-"<b>Початковий</b> розмір кроку у позначках, який може суттєво змінити "
-"значення РПП (HFR). Для фокусування на основі таймера це початковий час у "
-"мілісекундах для пересування фокусу зовні чи всередину."
+"<html><head/><body><p><span style=\" font-weight:600;\">Початковий</span> "
+"розмір кроку у поділках, який може суттєво змінити значення РПП (HFR). Для "
+"фокусування на основі таймера це початковий час у мілісекундах для "
+"пересування фокусу зовні чи всередину.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:2221
@@ -17991,17 +17902,15 @@ msgstr "Класичний"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2249
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Steps"
+#, kde-format
 msgid "Fixed Steps"
-msgstr "Кроки"
+msgstr "Фіксовані кроки"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2254
 #, kde-format
 msgid "CFZ Shuffle"
-msgstr ""
+msgstr "Перемішування КЗФ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/focus/focus.ui:2271
@@ -18081,43 +17990,38 @@ msgstr "Час очікування на рух:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/focus.ui:2435
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum time in seconds to wait for a focuser to move to desired position "
-#| "before declaring a timeout."
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"Максимальний час очікування у секундах на рух засобу фокусування у бажану "
-"позицію до оголошення перевищення часу очікування."
+"<html><head/><body><p>Максимальний час очікування у секундах на рух засобу "
+"фокусування у бажану позицію до оголошення перевищення часу очікування.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2457
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Number Steps:"
-msgstr "Кроки:"
+msgstr "Кількість кроків:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2473
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Кількість цифр, які слід додавати до числової "
-"послідовності у назві файла.</p></body></html>"
+"<html><head/><body><p>Загальна кількість кроків, якими слід скористатися, "
+"якщо для переходу встановлено одну з фіксованих кількостей переходів і "
+"використано лінійний однопрохідний алгоритм.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2508
 #, kde-format
 msgid "CFZ"
-msgstr ""
+msgstr "КЗФ"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2511
@@ -18127,40 +18031,35 @@ msgid ""
 "Zone (CFZ). This is not necessary for Autofocus, but provides useful "
 "information.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Параметри, що стосуються налаштування критичної зони "
+"фокусування (КЗФ). Не є необхідними для автофокусування, але надають корисну "
+"інформацію.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/focus.ui:2565
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Tolerance (τ):"
-msgstr "Допуск:"
+msgstr "Допуск (τ):"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZLabel)
 #: ekos/focus/focus.ui:2581
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>КЗФ:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/focus.ui:2600
-#, fuzzy, kde-format
-#| msgid "Aperture (mm)"
+#, kde-format
 msgid "Aperture (A):"
-msgstr "Апертура, мм"
+msgstr "Апертура (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2619
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Позначте, щоб було показано найновіші дані наведення "
-"та виконано автоматичне гортання графіка.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -18171,16 +18070,13 @@ msgstr "Вид"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/focus.ui:2641
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Виберіть фотокамеру для цього оптичного тракту.</p></"
-"body></html>"
+"<html><head/><body><p>Встановіть апертуру вашого телескопа у мм. Типове "
+"значення буде взято з вибраного оптичного тракту.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -18192,25 +18088,17 @@ msgstr " мм"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZCameraSteps)
 #: ekos/focus/focus.ui:2669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Виберіть фотокамеру для цього оптичного тракту.</p></"
-"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2685
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Вилучити позначений оптичний тракт.</p></body></html>"
+msgstr "<html><head/><body><p>Обчислена КЗФ у мкм.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/focus.ui:2704
@@ -18223,29 +18111,25 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2729
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Вилучити усі нещодавні дані наведення.</p></body></"
-"html>"
+"<html><head/><body><p>Остаточна КЗФ перевищує обчислену КЗФ і КЗФ камери.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/focus.ui:2745
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Розмір кроку:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2761
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "CFZ Camera:"
-msgstr "Камера:"
+msgstr "КЗФ камери:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/focus.ui:2780
@@ -18261,38 +18145,31 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2808
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Базовий каталог для локальних захоплених зображень</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Обчислена КЗФ у кроках.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2824
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ціль: <span style=\" color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>КЗФ = 4.88 t λ f<span style=\" vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/focus.ui:2843
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "КЗФ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength (λ):"
-msgstr "Довжина хвилі:"
+msgstr "Довжина хвилі (λ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:2878
@@ -18310,49 +18187,39 @@ msgstr ""
 #: ekos/focus/focus.ui:2881
 #, kde-format
 msgid " μm"
-msgstr ""
+msgstr " мкм"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZSeeing)
 #: ekos/focus/focus.ui:2906
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The right ascension (RA) drift error in arc-seconds."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Похибка зсуву прямого сходження (ПС) у кутових "
-"секундах.</p></body></html>"
+"<html><head/><body><p>Загальна видима напівширина (у кутових секундах).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:2934 ekos/focus/focus.ui:3222 ekos/focus/focus.ui:3335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Масштабувати вісь значень за поточним діапазоном "
-"значень.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:2937
-#, fuzzy, kde-format
-#| msgid "Reset to Now"
+#, kde-format
 msgid "Reset To OT"
-msgstr "Скинути до поточного часу"
+msgstr "Скинути до ОТ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:2950
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Ratio (f):"
-msgstr "Фокальне співвідношення"
+msgstr "Фокальне співвідношення (f):"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:2988
@@ -18367,13 +18234,13 @@ msgstr "Фокальне співвідношення"
 #| "currently the only option for all Algorithms except Linear 1 Pass.</"
 #| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
 #| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
+#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
+#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
+#| "body></html>"
 msgid ""
 "<html><head/><body><p>Select the Critical Focus Zone (CFZ) algorithm:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -18387,7 +18254,7 @@ msgid ""
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Wavefront: </span>Uses the "
 "formula, CFZ = 4 t λ f<span style=\" vertical-align:super;\">2</span>.  "
-"Formula derived from wavefront aberation theory. Some have suggested t=1/3 "
+"Formula derived from wavefront aberration theory. Some have suggested t=1/3 "
 "or even t=1/10.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
@@ -18407,92 +18274,75 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Гіпербола</span>: апроксимація точок даних "
 "гіперболою. Доступна у поточній версії лише для лінійного однопрохідного "
-"алгоритму і є експериментальною.</li><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Парабола</span>: "
-"апроксимація точок даних параболою. Доступна у поточній версії лише для "
-"лінійного однопрохідного алгоритму і є експериментальною.</li></ul></body></"
-"html>"
+"алгоритму.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Парабола</span>: апроксимація точок даних "
+"параболою. Доступна у поточній версії лише для лінійного однопрохідного "
+"алгоритму.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3000
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavefront"
-msgstr "Довжина хвилі:"
+msgstr "Фронт хвилі"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3005
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Golden"
+#, kde-format
 msgid "Gold"
-msgstr "Голден"
+msgstr "Золотий"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3019
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Вилучити позначений оптичний тракт.</p></body></html>"
+"<html><head/><body><p>Встановіть F#. Типове значення буде визначено з "
+"вибраного оптичного тракту.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/focus.ui:3047
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "Остаточна КЗФ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3066
 #, kde-format
 msgid "FWHM (θ):"
-msgstr ""
+msgstr "Напівширина (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3082
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the light wavelength to use. This is defaulted "
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Перетягніть повзунок, щоб скоригувати масштаб графіків "
-"виправлень відносного масштабу графіків зсуву.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3085
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgid " nm"
-msgstr " мм"
+msgstr " мкм"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3120
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Divisor"
+#, kde-format
 msgid "Advisor"
-msgstr "Дільник"
+msgstr "Радник"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median star eccentricity in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Advisor help utility to assist with setting up "
 "Focus parameters.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Накреслити середній ексцентриситет зірки на захоплених "
-"зображеннях.</p></body></html>"
+"<html><head/><body><p>Радник з фокусування — допоміжна програма для "
+"полегшення вибору параметрів фокусування.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvOutStepMultiple)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvStepSize)
@@ -18511,10 +18361,9 @@ msgstr "Оновити"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/focus.ui:3150
-#, fuzzy, kde-format
-#| msgid "Camera && Filter Wheel"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Камера і барабан з фільтрами"
+msgstr "Параметри камери і барабана з фільтрами"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvOutStepMultLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvOutStepMult)
@@ -18533,25 +18382,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3186
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Settings Tab Parameters"
-msgstr "Параметри Sextractor"
+msgstr "Параметри вкладки «Параметри»"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/focus.ui:3209
-#, fuzzy, kde-format
-#| msgid "Astrometry Parameters"
+#, kde-format
 msgid "Process Tab Parameters"
-msgstr "Параметри астрометрії"
+msgstr "Параметри вкладки «Процес»"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3225
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Update GPS"
+#, kde-format
 msgid "Update Params"
-msgstr "Оновити GPS"
+msgstr "Оновити параметри"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvSteps)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_32)
@@ -18565,31 +18410,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/focus.ui:3254
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Focus Advisor:"
-msgstr "Зірка фокусування"
+msgstr "Радник з фокусування:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/focus.ui:3261
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Mechanics Tab Parameters"
-msgstr "Параметри Sextractor"
+msgstr "Параметри вкладки «Механіка»"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:3303
-#, fuzzy, kde-format
-#| msgid "Max Step size:"
+#, kde-format
 msgid "Step Size:"
-msgstr "Максимальний розмір кроку:"
+msgstr "Розмір кроку:"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:3338
-#, fuzzy, kde-format
-#| msgid "Help"
+#, kde-format
 msgid "Help..."
-msgstr "Довідка"
+msgstr "Довідка…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:3429
@@ -18606,55 +18447,51 @@ msgstr "РПП (HFR):"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
 #: ekos/focus/focus.ui:3490
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Вилучити поточний кадр</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Усереднене значення РПП з останнього кадру.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/focus.ui:3522
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "  FWHM:"
-msgstr "Напівширина"
+msgstr "  Напівширина:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3535
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Вилучити поточний кадр</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Усереднене значення напівширини з останнього кадру.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/focus.ui:3548
-#, fuzzy, kde-format
-#| msgid "Stars: "
+#, kde-format
 msgid "  Stars:"
-msgstr "Зірки: "
+msgstr "  Зірки:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
 #: ekos/focus/focus.ui:3561
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of stars found in the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Накреслити кількість зірок, які виявлено на захоплених "
-"зображеннях.</p></body></html>"
+"<html><head/><body><p>Кількість зірок, які знайдено на останньому кадрі.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/focus/focus.ui:3587
 #, kde-format
 msgid "  Iter:"
-msgstr ""
+msgstr "  Ітер.:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
 #: ekos/focus/focus.ui:3600
@@ -18664,10 +18501,9 @@ msgstr "<html><body><p>Ітерація засобу фокусування.</p>
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:3635
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile..."
-msgstr "Профіль"
+msgstr "Профіль…"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
@@ -18708,37 +18544,25 @@ msgid "Value"
 msgstr "Значення"
 
 #: ekos/focus/focushfrvplot.cpp:84
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt "Graphics tooltip; %1 is the Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>Поз.:  </td><td>%1</td></tr><tr><td>РПП(HFR):</td><td>%2</"
-"td></tr></table>"
+"<table><tr><td>ПОЗ:   </td><td>%1</td></tr><tr><td>ЗНА:   </td><td>%2</td></"
+"tr></table>"
 
 #: ekos/focus/focushfrvplot.cpp:99
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; %1 is the Minimum Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>Поз.:  </td><td>%1</td></tr><tr><td>РПП(HFR):</td><td>%2</"
-"td></tr></table>"
+"<table><tr><td>МІН:   </td><td>%1</td></tr><tr><td>ЗНА:   </td><td>%2</td></"
+"tr></table>"
 
 #: ekos/guide/externalguide/linguider.cpp:67
 #: ekos/guide/externalguide/phd2.cpp:278
@@ -35011,17 +34835,17 @@ msgstr "Обчислювати позицію після захоплення."
 
 #. i18n: ectx: label, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1852
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Exposure to use during focus"
-msgstr "Тривалість експонування фільтра під час фокусування"
+msgstr "Експозиція, якою слід скористатися під час фокусування"
 
 #. i18n: ectx: whatsthis, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1853
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Specifies the length of exposure to use during focus."
-msgstr "Тривалість експонування фільтра під час фокусування"
+msgstr ""
+"Визначає тривалість експонування, яку слід використовувати під час "
+"фокусування."
 
 #. i18n: ectx: label, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:1857
@@ -35165,14 +34989,13 @@ msgstr "Очікувати вказану кількість секунд піс
 #: kstars.kcfg:1916
 #, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr ""
+msgstr "Одиниці показу для РПП і напівширини"
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:1920
-#, fuzzy, kde-format
-#| msgid "Whether EkosLive connection mode is online."
+#, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Визначає, чи є режимом роботи EkosLive режим «у мережі»."
+msgstr "Визначає, ви увімкнено адаптивне фокусування."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:1924
@@ -35180,6 +35003,8 @@ msgstr "Визначає, чи є режимом роботи EkosLive режи�
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
+"При використанні адаптивного фокусування мінімальний дозволений рух засобу "
+"фокусування у поділках."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:1928
@@ -35188,6 +35013,8 @@ msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
+"Визначає, чи слід адаптувати початкову позицію засобу фокусування на початку "
+"циклу автофокусування."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:1932
@@ -35196,6 +35023,8 @@ msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
+"При використанні адаптивного фокусування максимальний загальний дозволений "
+"рух засобу фокусування у поділках."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
 #: kstars.kcfg:1937
@@ -35219,13 +35048,13 @@ msgstr "Алгоритм обробки фокусування"
 #: kstars.kcfg:1948
 #, kde-format
 msgid "The type of curve to fit"
-msgstr ""
+msgstr "Тип кривої для апроксимації"
 
 #. i18n: ectx: whatsthis, entry (FocusStarMeasure), group (Focus)
 #: kstars.kcfg:1952
 #, kde-format
 msgid "The type of star measure to use."
-msgstr ""
+msgstr "Тип вимірювання зірки, яким слід скористатися."
 
 #. i18n: ectx: whatsthis, entry (FocusStarPSF), group (Focus)
 #: kstars.kcfg:1956
@@ -35235,28 +35064,32 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:1960
-#, fuzzy, kde-format
-#| msgid "Use weights in the curve fitting process."
+#, kde-format
 msgid "Whether to use weights in the curve fitting process."
-msgstr "Використовувати вагову функцію у процесі апроксимації кривої."
+msgstr ""
+"Визначає, чи слід використовувати вагову функцію у процесі апроксимації "
+"кривої."
 
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1964
-#, kde-format
-msgid "The minumum acceptable R2 value of a curve fit."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "The minumum acceptable R2 value of a curve fit."
+msgid "The minimum acceptable R2 value of a curve fit."
+msgstr "Мінімальне прийнятне значення R2 для апроксимації кривої."
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
 #: kstars.kcfg:1968
 #, kde-format
 msgid "Whether to refine the curve fit by looking for and discarding outliers."
 msgstr ""
+"Визначає, чи слід удосконалювати апроксимацію кривої шляхом пошуку і "
+"відкидання викидів."
 
 #. i18n: ectx: whatsthis, entry (focusFramesCount), group (Focus)
 #: kstars.kcfg:1972
 #, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
-msgstr ""
+msgstr "Кількість кадрів для усереднення на кожному кроці в автофокусуванні."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:1976
@@ -35308,11 +35141,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusWalk), group (Focus)
 #: kstars.kcfg:1998
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "The type of walk the focuser will take during an Autofocus run."
-msgstr ""
-"Підкадр для зірки фокусування під час процедури автоматичного фокусування."
+msgstr "Тип переходу, який засіб фокусування виконає під час автофокусування."
 
 #. i18n: ectx: whatsthis, entry (FocusSettleTime), group (Focus)
 #: kstars.kcfg:2002
@@ -35366,22 +35197,21 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2020
-#, fuzzy, kde-format
-#| msgid "The maximum solar distance for drawing comets."
+#, kde-format
 msgid "The maximum size of a single step."
-msgstr "Максимальна відстань від Сонця для показаних комет."
+msgstr "Максимальний розмір одного кроку."
 
 #. i18n: ectx: whatsthis, entry (FocusBacklash), group (Focus)
 #: kstars.kcfg:2024
 #, kde-format
 msgid "The amount of driver backlash."
-msgstr ""
+msgstr "Величина люфту драйвера."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2028
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr ""
+msgstr "Величина пересканування автофокусування."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2036
@@ -35397,19 +35227,22 @@ msgstr ""
 #: kstars.kcfg:2041
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr ""
+msgstr "Тип алгоритму КЗФ, яким слід скористатися."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2045
 #, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
 msgstr ""
+"Визначений користувачем допуск, яким слід скористатися в класичному "
+"алгоритмі та алгоритмі фронту хвилі."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2049
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
 msgstr ""
+"Визначений користувачем допуск, яким слід скористатися в золотому алгоритмі."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2053
@@ -35421,39 +35254,39 @@ msgstr ""
 #: kstars.kcfg:2057
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr ""
+msgstr "Довжина хвилі у мкм, якою слід скористатися в золотому алгоритмі."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2061
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "Апертура телескопа у мм, якою слід скористатися в алгоритмі КЗФ."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2065
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "f#, яким слід скористатися в алгоритмі КЗФ."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2069
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
 msgstr ""
+"Загальна видимість у кутових секундах, якою слід скористатися в алгоритмі "
+"КЗФ."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2077
-#, fuzzy, kde-format
-#| msgid "Position angle multiplier"
+#, kde-format
 msgid "Position of FocusSplitter."
-msgstr "Коефіцієнт позиційного кута"
+msgstr "Позиція поділу фокусування."
 
 #. i18n: ectx: label, entry (rightLayout), group (Focus)
 #: kstars.kcfg:2080
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Position of rightLayout."
-msgstr "Розташування панелі часу."
+msgstr "Позиція rightLayout."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2085
@@ -71756,22 +71589,21 @@ msgstr "Абс. позиція:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: oal/equipmentwriter.ui:1100
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus alt:"
-msgstr "Фокус назовні"
+msgstr "Висота фокусування:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1123
 #, kde-format
 msgid "Ticks per C:"
-msgstr ""
+msgstr "Поділок на градус:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1140
 #, kde-format
 msgid "Ticks per Alt:"
-msgstr ""
+msgstr "Поділок на висоту:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1164
@@ -71787,10 +71619,9 @@ msgstr "Зафіксований фільтр:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: oal/equipmentwriter.ui:1211
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focus temp:"
-msgstr "Фокусування:"
+msgstr "Температура фокусування:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1258

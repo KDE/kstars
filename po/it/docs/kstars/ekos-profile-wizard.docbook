@@ -45,20 +45,20 @@
                     <listitem>
                         <para
 ><guilabel
->L'equipaggiamento è collegato al tuo PC</guilabel
->: seleziona questa opzione se Ekos è in esecuzione sul tuo StellarMate (attraverso HDMI o VNC), oppure sul tuo PC (&Windows;/&Linux;) o &MacOS;. </para>
+>L'equipaggiamento è collegato a questo dispositivo</guilabel
+>: seleziona questa opzione se Ekos è in esecuzione sul tuo StellarMate (attraverso HDMI o VNC), sul dispositivo (&Windows;/&Linux;) oppure sul tuo PC (&Windows;/&Linux;) o &MacOS;. </para>
                     </listitem>
                     <listitem>
                         <para
 ><guilabel
->L'equipaggiamento è collegato ad un computer remoto</guilabel
->: seleziona questa opzione se Ekos è in esecuzione sul tuo PC, (&Windows;/&Linux;) oppure &MacOS;, ma il tuo equipaggiamento è connesso attraverso un computer remoto. </para>
+>L'equipaggiamento è collegato ad un dispositivo remoto</guilabel
+>: seleziona questa opzione se Ekos è in esecuzione sul tuo dispositivo (&Windows;/&Linux;) oppure &MacOS;, e il tuo equipaggiamento è connesso a un computer remoto. </para>
                     </listitem>
                     <listitem>
                         <para
 ><guilabel
 >L'equipaggiamento è collegato a StellarMate</guilabel
->: seleziona questa opzione se Ekos è in esecuzione sul tuo PC, (&Windows;/&Linux;) o &MacOS;, e il tuo equipaggiamento è connesso a StellarMate. </para>
+>: seleziona questa opzione se Ekos è in esecuzione sul tuo dispositivo (&Windows;/&Linux;) o &MacOS;, e il tuo equipaggiamento è connesso a StellarMate. </para>
                     </listitem>
                 </itemizedlist>
                 <screenshot>

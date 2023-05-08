@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:45+0000\n"
-"PO-Revision-Date: 2023-05-03 15:57+0200\n"
+"POT-Creation-Date: 2023-05-08 00:42+0000\n"
+"PO-Revision-Date: 2023-05-07 22:07+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11379,54 +11379,42 @@ msgid "Lock Filter"
 msgstr "Filter vastzetten"
 
 #: ekos/auxiliary/filtermanager.cpp:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
-msgstr ""
-"Bij deze focuspositie worden flat frames opgenomen. Indien aangezet wordt "
-"dit automatisch bijgewerkt tijdens het focusproces."
+msgstr "Laatste AF oplossing. Automatisch bijgewerkt door het focusproces."
 
 #: ekos/auxiliary/filtermanager.cpp:78
-#, fuzzy, kde-format
-#| msgid "Solution"
+#, kde-format
 msgid "Last AF Solution"
-msgstr "Oplossing"
+msgstr "Laatste AF oplossing."
 
 #: ekos/auxiliary/filtermanager.cpp:81
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
 "autofocus process."
 msgstr ""
-"Bij deze focuspositie worden flat frames opgenomen. Indien aangezet wordt "
-"dit automatisch bijgewerkt tijdens het focusproces."
+"De temperatuur van de laatste AF oplossing. Automatisch bijgewerkt door het "
+"focusproces."
 
 #: ekos/auxiliary/filtermanager.cpp:82
 #, kde-format
 msgid "Last AF Temp (°C)"
-msgstr ""
+msgstr "Laatste AF temperatuur (°C)"
 
 #: ekos/auxiliary/filtermanager.cpp:85
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Bij deze focuspositie worden flat frames opgenomen. Indien aangezet wordt "
-"dit automatisch bijgewerkt tijdens het focusproces."
+"De hoogte van de laatste AF oplossing. Automatisch bijgewerkt door het "
+"focusproces."
 
 #: ekos/auxiliary/filtermanager.cpp:86
 #, kde-format
 msgid "Last AF Alt (°Alt)"
-msgstr ""
+msgstr "Laatste AF hoogte (°Alt)"
 
 #: ekos/auxiliary/filtermanager.cpp:89
 #, kde-format
@@ -11434,13 +11422,13 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"Het aantal streepjes per °C verhoging in temperatuur. +ve voor buitenwaartse "
+"beweging voor focusseren"
 
 #: ekos/auxiliary/filtermanager.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks / °C"
-msgstr "Tikken"
+msgstr "Streepjes / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:93
 #, kde-format
@@ -11448,22 +11436,23 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"Het aantal streepjes per graad verhoging in hoogte. +ve voor buitenwaartse "
+"beweging voor focusseren"
 
 #: ekos/auxiliary/filtermanager.cpp:94
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Streepjes / °hoogte"
 
 #: ekos/auxiliary/filtermanager.cpp:96
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Middelpunt golflengte van filter in nm"
 
 #: ekos/auxiliary/filtermanager.cpp:97
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
-msgstr "Golflengte:"
+msgstr "Golflengte"
 
 #: ekos/auxiliary/filtermanager.cpp:524
 #, kde-format
@@ -11476,55 +11465,51 @@ msgid "Confirm Filter"
 msgstr "Filter bevestigen"
 
 #: ekos/auxiliary/filtermanager.cpp:934
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to quit?"
-msgstr "Wilt u werkelijk afbreken?"
+msgstr "Bent u er zeker van dat u wilt afsluiten?"
 
 #: ekos/auxiliary/filtermanager.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Focus In"
+#, kde-format
 msgid "# Focus Runs"
-msgstr "Infocusseren"
+msgstr "# keren focusseren"
 
 #: ekos/auxiliary/filtermanager.cpp:1208
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "New Offset"
-msgstr "Offset"
+msgstr "Nieuwe offset"
 
 #: ekos/auxiliary/filtermanager.cpp:1244
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
-msgstr ""
+msgstr "Proces gestopt. Ja om opnieuw te starten, Nee om af te breken"
 
 #: ekos/auxiliary/filtermanager.cpp:1275
-#, kde-format
-msgid "A problem occured. Yes to retry, No to abort"
+#, fuzzy, kde-format
+#| msgid "A problem occured. Yes to retry, No to abort"
+msgid "A problem occurred. Yes to retry, No to abort"
 msgstr ""
+"Er deed zich een probleem voor. Ja om terug te keren, Nee om af te breken"
 
 #: ekos/auxiliary/filtermanager.cpp:1317
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "Focusseren voltooid."
+msgstr "Verwerken gereed."
 
 #: ekos/auxiliary/filtermanager.cpp:1338
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Ander filter: %1..."
+msgstr "Probleem bij wijziging van filter naar %1..."
 
 #: ekos/auxiliary/filtermanager.cpp:1347
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "Automatisch focusseren uitvoeren op %1 (%2/%3)..."
 
 #: ekos/auxiliary/filtermanager.cpp:1502
-#, fuzzy, kde-format
-#| msgid "Post filter change Autofocus..."
+#, kde-format
 msgid "Aborting Autofocus..."
-msgstr "Autofocus na filterwissel..."
+msgstr "Automatisch focusseren afbreken..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -11545,26 +11530,21 @@ msgstr "Filterwiel"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/filtersettings.ui:84
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
-#| "span> filter focus offset in steps. The offsets are global and are "
-#| "applied when the filter changes.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
 "span> filter offsets in steps either directly in the table or use the Build "
 "Offsets tool.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Instellen <span style=\" font-style:italic;"
-"\">relatieve</span> filter focus-offset in stapjes. De offsets zijn globaal "
-"en worden toegepast bij filter wisselen.</p></body></html>"
+"\">relatieve</span> filteroffset in stapjes ofwel direct in de tabel of het "
+"gebruik van het hulpmiddel voor bouwen van offsets.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
 #: ekos/auxiliary/filtersettings.ui:100
-#, fuzzy, kde-format
-#| msgid "Offsets"
+#, kde-format
 msgid "Build Offsets"
-msgstr "Offsetten"
+msgstr "Offsets bouwen"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:114
@@ -11583,10 +11563,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:117
-#, fuzzy, kde-format
-#| msgid "Capture flat frames at the same focus as light frames"
+#, kde-format
 msgid "Capture flats at the same focus as lights"
-msgstr "Flat frames met de zelfde focus opnemen als light frames"
+msgstr "Flat opnemen met dezelfde focus opnemen als lichten"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:188
 #, kde-format
@@ -13962,16 +13941,14 @@ msgid "Autofocus failed."
 msgstr "Autofocus mislukt."
 
 #: ekos/capture/capture.cpp:3573
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Adaptive focus complete."
-msgstr "Focusseren voltooid."
+msgstr "Aanpassend focusseren voltooid."
 
 #: ekos/capture/capture.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Adaptive focus failed. Continuing..."
-msgstr "Autofocusseren mislukt. Belichten afgebroken..."
+msgstr "Aanpassend focusseren mislukt. Doorgaan..."
 
 #: ekos/capture/capture.cpp:3589
 #, kde-format
@@ -15612,10 +15589,9 @@ msgid "In sequence HFR based refocus starting..."
 msgstr "Op HFR-reeks gebaseerde herfocus gestart..."
 
 #: ekos/capture/refocusstate.cpp:74
-#, fuzzy, kde-format
-#| msgid "Adaptive sampling"
+#, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Adaptief opnemen"
+msgstr "Aanpassend focusseren begint..."
 
 #: ekos/capture/refocusstate.cpp:93
 #, kde-format
@@ -16134,11 +16110,15 @@ msgstr "Bewerken opties focusprofiel"
 #, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 msgstr ""
+"Aanpassend focusseren: delta temperatuur %1 streepjes; delta hoogte %2 "
+"streepjes"
 
 #: ekos/focus/focus.cpp:954
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
+"Aanpassend focusseren onderbroken. Totale verplaatsing zou maximale "
+"bewegingslimiet overschrijden"
 
 #: ekos/focus/focus.cpp:963
 #, kde-format
@@ -16237,15 +16217,15 @@ msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
 #: ekos/focus/focus.cpp:1405
-#, kde-format
-msgid "Adaptive start point [%1] excesive move disallowed"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Adapting start point [%1] from %2 to %3"
+msgid "Adaptive start point [%1] excessive move disallowed"
+msgstr "Startpunt aanpassen [%1] van %2 tot %3"
 
 #: ekos/focus/focus.cpp:1419
-#, fuzzy, kde-format
-#| msgid "XPlanet View: %1 from %2 on %3"
+#, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
-msgstr "Beeld Xplanet: %1 van %2 op %3"
+msgstr "Startpunt aanpassen [%1] van %2 tot %3"
 
 #: ekos/focus/focus.cpp:1465
 #, kde-format
@@ -16628,10 +16608,10 @@ msgstr ""
 msgid ""
 "\n"
 "\n"
-"The fourth step is to set the remaining focus parameteres to sensible "
-"values. Focus Advisor will suggest values for 4 categories of parameters. "
-"Check the associated Update box to accept these recommendations and press "
-"Update Params.\n"
+"The fourth step is to set the remaining focus parameters to sensible values. "
+"Focus Advisor will suggest values for 4 categories of parameters. Check the "
+"associated Update box to accept these recommendations and press Update "
+"Params.\n"
 "1. Camera Properties - Note you need to ensure Gain is set appropriately, e."
 "g. unity gain.\n"
 "2. Settings Tab: These all have recommendations.\n"
@@ -16645,10 +16625,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focus.cpp:6239
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Focus Advisor"
-msgstr "Focus op ster"
+msgstr "Adviseur van focus"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:155
@@ -16906,7 +16885,7 @@ msgstr "Ster automatisch selecteren"
 #, fuzzy, kde-format
 #| msgid "Display"
 msgid "Display Units:"
-msgstr "Weergave"
+msgstr "Eenheden tonen"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1091
@@ -16933,10 +16912,9 @@ msgstr "<html><head/><body><p>Huidige frame verwijderen</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1117
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels"
-msgstr "pixels"
+msgstr "Pixels"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1122
@@ -17136,7 +17114,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Measured Err:"
 msgid "Measure:"
-msgstr "Gemeten fout:"
+msgstr "Meten"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/focus.ui:1455
@@ -17238,8 +17216,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1567
-#, fuzzy, kde-format
-#| msgid "Quadradic"
+#, kde-format
 msgid "Quadratic"
 msgstr "Kwadratisch"
 
@@ -17354,9 +17331,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1618
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM"
 msgstr "Bandbreedte"
 
@@ -17369,11 +17344,9 @@ msgstr "Sterren"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1628
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Mont-Laurier"
+msgstr "Fourier"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1636
@@ -17773,14 +17746,14 @@ msgstr "Aantal buitenwaartse stappen:"
 #| msgctxt "City in Louisiana USA"
 #| msgid "Walker"
 msgid "Walk:"
-msgstr "Walker"
+msgstr "Walk"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/focus.ui:2167
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p><br/></p></body></html>"
 msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "Max stapgrootte:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:2183
@@ -18098,7 +18071,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p><br/></p></body></html>"
 msgid "<html><head/><body><p>Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "Stapgrootte:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2761
@@ -18245,7 +18218,7 @@ msgid ""
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Wavefront: </span>Uses the "
 "formula, CFZ = 4 t λ f<span style=\" vertical-align:super;\">2</span>.  "
-"Formula derived from wavefront aberation theory. Some have suggested t=1/3 "
+"Formula derived from wavefront aberration theory. Some have suggested t=1/3 "
 "or even t=1/10.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
@@ -18280,11 +18253,9 @@ msgstr "Golflengte:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3005
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Golden"
+#, kde-format
 msgid "Gold"
-msgstr "Golden"
+msgstr "Goud"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3019
@@ -18330,7 +18301,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid " mm"
 msgid " nm"
-msgstr " mm"
+msgstr "nm"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3120
@@ -18441,7 +18412,7 @@ msgstr "Alle parameters terugzetten"
 #, fuzzy, kde-format
 #| msgid "Max Step size:"
 msgid "Step Size:"
-msgstr "Max stapgrootte:"
+msgstr "Stapgrootte:"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:3338
@@ -18494,7 +18465,7 @@ msgstr "<html><head/><body><p>Huidige frame verwijderen</p></body></html>"
 #, fuzzy, kde-format
 #| msgid "Stars: "
 msgid "  Stars:"
-msgstr "Sterren: "
+msgstr "Sterren"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
 #: ekos/focus/focus.ui:3561
@@ -34953,7 +34924,7 @@ msgstr "Gewichten gebruiken tijdens fitten van krommen."
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1964
 #, kde-format
-msgid "The minumum acceptable R2 value of a curve fit."
+msgid "The minimum acceptable R2 value of a curve fit."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)

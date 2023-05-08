@@ -51,6 +51,12 @@
                     <listitem>
                         <para
 ><guilabel
+>Selettore della porta</guilabel
+>: seleziona questa opzione per abilitare il selettore della porta. Quando si crea un nuovo profilo, viene selezionato in modo predefinito. Il selettore della porta viene utilizzato per selezionare i parametri iniziali di comunicazione seriale e di rete per i dispositivi nel profilo dell'apparecchiatura. Dopo la prima connessione all'apparecchiatura, viene visualizzata la finestra a comparsa del selettore della porta in cui è possibile impostare i parametri di comunicazione prima di stabilire la connessione. Una volta connesso, l'opzione Selettore della porta è disattivata. Può essere selezionata nell'editor del profilo per riattivarla. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
 >Informazioni sul sito</guilabel
 >: facoltativamente puoi anche spuntare la casella <guilabel
 >Informazioni sul sito</guilabel
@@ -80,9 +86,33 @@
 >non</emphasis
 > devi specificare la ruota portafiltri nel menu a discesa del filtro. </para>
                     </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Script</guilabel
+>: regola i ritardi e gli script pre-driver e post-driver per ciascun driver. È possibile definire una regola per ciascun driver nel caso in cui sia necessario introdurre ritardi prima e/o dopo l'avvio di un determinato driver. I campi prima dell'elenco a tendina di selezione del driver devono essere eseguiti <emphasis
+>prima</emphasis
+> che il driver venga avviato, mentre i campi dopo il menu a tendina di selezione del driver devono essere eseguiti <emphasis
+>dopo</emphasis
+> l'avvio del driver. Il campo dello script, se specificato, dovrebbe includere il percorso completo di uno script eseguibile con le autorizzazioni appropriate. Tutti i driver configurati nell'editor degli script sarebbero avviati per primi e in ordine prima del resto dei driver del profilo dell'apparecchiatura. </para>
+                        <screenshot>
+                        <screeninfo
+>Script dell'editor dei profili </screeninfo>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="profile_editor_scripts.png" format="PNG"/>
+                            </imageobject>
+                            <textobject>
+                                <phrase
+>Script dell'editor dei profili</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                    </listitem>
                 </itemizedlist>
             </listitem>
-        </varlistentry>
+        </varlistentry
+>        
         <varlistentry>
             <term
 >Avviare e arrestare INDI</term>
@@ -103,5 +133,6 @@
 > per avviare il server INDI e la connessione al tuo equipaggiamento. Ekos creerà le varie icone dei moduli (montatura, cattura, messa a fuoco &etc;) una volta stabilita la connessione col dispositivo. </para>
             </listitem>
         </varlistentry>
-    </variablelist>
+    </variablelist
+>    
 </sect2>
