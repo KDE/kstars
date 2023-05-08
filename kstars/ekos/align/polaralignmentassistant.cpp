@@ -787,6 +787,14 @@ void PolarAlignmentAssistant::stopPAHProcess()
 {
     if (m_PAHStage == PAH_IDLE)
         return;
+
+    // Only display dialog if user clicked.
+    if ((static_cast<QPushButton *>(sender()) == PAHStopB) && KMessageBox::questionYesNo(KStars::Instance(),
+            i18n("Are you sure you want to stop the polar alignment process?"),
+            i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+            "restart_PAA_process_dialog") == KMessageBox::No)
+        return;
+
     if (m_PAHStage == PAH_REFRESH)
     {
         setPAHStage(PAH_POST_REFRESH);
@@ -794,12 +802,6 @@ void PolarAlignmentAssistant::stopPAHProcess()
     }
     qCInfo(KSTARS_EKOS_ALIGN) << "Stopping Polar Alignment Assistant process...";
 
-    // Only display dialog if user explicitly restarts
-    if ((static_cast<QPushButton *>(sender()) == PAHStopB) && KMessageBox::questionYesNo(KStars::Instance(),
-            i18n("Are you sure you want to stop the polar alignment process?"),
-            i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-            "restart_PAA_process_dialog") == KMessageBox::No)
-        return;
 
     if (m_CurrentTelescope && m_CurrentTelescope->isInMotion())
         m_CurrentTelescope->abort();
