@@ -241,18 +241,19 @@ QString LinearFocusAlgorithm::getTextStatus(double R2) const
     }
     else // Linear 1 Pass
     {
-        QString text = "L1P [";
-        text.append(params.filterName);
+        QString text = "L1P";
+        if (params.filterName != "")
+            text.append(QString(" [%1]").arg(params.filterName));
         if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
-            text.append("]: Quadratic");
+            text.append(": Quadratic");
         else if (params.curveFit == CurveFitting::FOCUS_HYPERBOLA)
         {
-            text.append("]: Hyperbola");
+            text.append(": Hyperbola");
             text.append(params.useWeights ? " (W)" : " (U)");
         }
         else if (params.curveFit == CurveFitting::FOCUS_PARABOLA)
         {
-            text.append("]: Parabola");
+            text.append(": Parabola");
             text.append(params.useWeights ? " (W)" : " (U)");
         }
 

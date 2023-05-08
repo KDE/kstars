@@ -1317,6 +1317,10 @@ int Focus::adaptStartPosition(int position, QString *AFfilter)
     // An exception is when the BuildOffsets utility is being used as this ignores the lock filter
     QString filterText;
     *AFfilter = filter();
+
+    if (!m_FilterManager)
+        return position;
+
     QString lockFilter = m_FilterManager->getFilterLock(*AFfilter);
     if (inBuildOffsets || lockFilter == "--" || lockFilter == *AFfilter)
         filterText = *AFfilter;
@@ -1331,9 +1335,6 @@ int Focus::adaptStartPosition(int position, QString *AFfilter)
 
     if (!focusAdaptStart->isChecked())
         // Adapt start option disabled
-        return position;
-
-    if (!m_FilterManager)
         return position;
 
     // Start with the last AF run result for the active filter
