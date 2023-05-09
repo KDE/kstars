@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-08 00:42+0000\n"
-"PO-Revision-Date: 2023-05-07 13:09+0100\n"
+"POT-Creation-Date: 2023-05-09 00:42+0000\n"
+"PO-Revision-Date: 2023-05-08 09:05+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -840,7 +840,7 @@ msgstr "(rikoltregiono estos skalita al 200x200)"
 #: auxiliary/thumbnailpicker.cpp:135
 #, kde-format
 msgid "Loading images..."
-msgstr "Ŝarĝante bildojn..."
+msgstr "Ŝargante bildojn..."
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #: auxiliary/thumbnailpicker.cpp:169 auxiliary/thumbnailpicker.ui:24
@@ -1434,7 +1434,7 @@ msgstr "XPlanet View: %1 de %2 sur %3 ĉe FOV: %4 gradoj"
 #: auxiliary/xplanetimageviewer.cpp:766
 #, kde-format
 msgid "Loading of the image of object %1 failed."
-msgstr "Ŝarĝo de la bildo de objekto %1 malsukcesis."
+msgstr "Ŝargo de la bildo de objekto %1 malsukcesis."
 
 #: auxiliary/xplanetimageviewer.cpp:771
 #, kde-format
@@ -5842,7 +5842,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Eraro: perdita konekto al filtrila rado."
 
 #: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3328
-#: ekos/capture/capture.cpp:5414 ekos/focus/focus.cpp:4710
+#: ekos/capture/capture.cpp:5414 ekos/focus/focus.cpp:4711
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5869,13 +5869,13 @@ msgstr ""
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr "Neniu fora astrometria pelilo detektita, ŝanĝante al StellarSolver."
 
-#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1692
+#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1693
 #, kde-format
 msgid "Capturing image..."
 msgstr "Kaptante bildon..."
 
 #: ekos/align/align.cpp:1629 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2499
+#: ekos/focus/focus.cpp:2500
 #, kde-format
 msgid "Image received."
 msgstr "Bildo ricevita."
@@ -5985,7 +5985,7 @@ msgid "Refresh is complete."
 msgstr "Refreŝigo estas kompleta."
 
 #: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1421
-#: ekos/focus/focus.cpp:1459
+#: ekos/focus/focus.cpp:1460
 #, kde-format
 msgid "Capture aborted."
 msgstr "Kapto ĉesigita."
@@ -5996,7 +5996,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Solvanto ĉesigita post %1 sekundoj."
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2528
-#: ekos/focus/focus.cpp:3887 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1887
+#: ekos/focus/focus.cpp:3888 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1887
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -6161,7 +6161,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (arksec)"
 
 #: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5623
-#: ekos/focus/focus.cpp:4599
+#: ekos/focus/focus.cpp:4600
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filtrila operacio malsukcesis."
@@ -6657,8 +6657,8 @@ msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
 "Load and Slew Tool, and the Mount Model Tool will be displayed below."
 msgstr ""
-"La rezultoj de Astrometriaj Solvoj de la Kapto kaj Solvo Ilo, la Ŝarĝo kaj "
-"Slew Ilo kaj la Monto-Modela Ilo estos montrataj sube."
+"La rezultoj de Astrometriaj Solvoj de la Kapto kaj Solvo Ilo, la Ŝargo kaj "
+"Slew Ilo kaj la Muntaĵ-Modela Ilo estos montrataj sube."
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QLabel, label_15)
@@ -7266,7 +7266,7 @@ msgid ""
 "Load a saved alignment point list so that you can run the same alignment you "
 "ran on a previous occasion."
 msgstr ""
-"Ŝarĝu konservitan liston de vicpunktoj por ke vi povu ruli la saman vicigon, "
+"Ŝargi konservitan liston de vicpunktoj por ke vi povu ruli la saman vicigon, "
 "kiun vi faris en antaŭa okazo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveAlignB)
@@ -7507,9 +7507,9 @@ msgid ""
 "angle is below this value, the Load &amp; Slew operation is considered "
 "successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rotaciisto-sojlo en arkminutoj kiam vi uzas Ŝarĝi kaj "
-"Ŝarĝi. Se la diferenco inter mezurita pozicia angulo kaj FITS-pozicia angulo "
-"estas sub ĉi tiu valoro, la operacio Ŝarĝi kaj Ŝargi estas konsiderata "
+"<html><head/><body><p>Rotaciisto-sojlo en arkminutoj kiam vi uzas Ŝargi kaj "
+"Slew. Se la diferenco inter mezurita pozicia angulo kaj FITS-pozicia angulo "
+"estas sub ĉi tiu valoro, la operacio Ŝargi kaj Slew estas konsiderata "
 "sukcesa.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseRotator)
@@ -7523,7 +7523,7 @@ msgid ""
 "reached.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Uzu aŭtomatan aŭ manan rotacian kontrolon kiam vi uzas "
-"Ŝarĝi kaj Ŝargi. Por aŭtomata kontrolo, la mekanizita rotaciilo estas "
+"Ŝargi kaj Slew. Por aŭtomata kontrolo, la mekanizita rotaciilo estas "
 "ordonita turni por kongrui kun la dezirata pozicio-angulo. Por mana "
 "kontrolo, la uzanto estas petata permane turni la fotilon ĝis la dezirata "
 "pozicio-angulo estas atingita.</p></body></html>"
@@ -8890,7 +8890,7 @@ msgstr "22' - 30'"
 #: ekos/align/opsprograms.ui:17
 #, kde-format
 msgid "Load Typical Default Paths"
-msgstr "Ŝarĝu Tipajn Defaŭltajn Vojetojn"
+msgstr "Ŝargi Tipajn Defaŭlt-Vojojn"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:23
@@ -11427,8 +11427,7 @@ msgid "Process stopped. Yes to restart, No to abort"
 msgstr "Procezo haltis. Jes por restartigi, Ne por ĉesigi"
 
 #: ekos/auxiliary/filtermanager.cpp:1275
-#, fuzzy, kde-format
-#| msgid "A problem occured. Yes to retry, No to abort"
+#, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
 msgstr "Problemo okazis. Jes por reprovi, Ne por ĉesigi"
 
@@ -12640,7 +12639,7 @@ msgid ""
 "Loads an alternate or backup file of profiles you saved somewhere else on "
 "your computer into and replaces all profiles in this group"
 msgstr ""
-"Ŝarĝas alternativan aŭ rezervan dosieron de profiloj, kiujn vi konservis "
+"Ŝargas alternativan aŭ rezervan dosieron de profiloj, kiujn vi konservis "
 "aliloke en via komputilo, kaj anstataŭigas ĉiujn profilojn en ĉi tiu grupo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveBackups)
@@ -12660,7 +12659,7 @@ msgid ""
 "Loads the default set of profiles, clearing any modifications or custom "
 "profiles. "
 msgstr ""
-"Ŝarĝas la defaŭltan aron de profiloj, forigante ajnajn modifojn aŭ proprajn "
+"Ŝargas la defaŭltan aron de profiloj, forigante ajnajn modifojn aŭ proprajn "
 "profilojn."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, optionsProfile)
@@ -12699,7 +12698,7 @@ msgid ""
 "Opens a profile from a file on your computer and loads it into this profile "
 "group"
 msgstr ""
-"Malfermas profilon de dosiero en via komputilo kaj ŝarĝas ĝin en ĉi tiun "
+"Malfermas profilon de dosiero en via komputilo kaj ŝargas ĝin en ĉi tiun "
 "profilgrupon"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyProfile)
@@ -13374,7 +13373,7 @@ msgid ""
 "the indices you are using take less than 2 GB of space, and you have at "
 "least as much physical memory as indices, you want this enabled."
 msgstr ""
-"Kontroli la indeksojn paralele ŝarĝante ilin samtempe en memoron? Se la "
+"Kontroli la indeksojn paralele ŝargante ilin samtempe en memoron? Se la "
 "indeksoj, kiujn vi uzas, prenas malpli ol 2 GB da spaco, kaj vi havas "
 "almenaŭ tiom da fizika memoro kiel indeksoj, vi volas tion ebligita."
 
@@ -14122,12 +14121,12 @@ msgstr "La malvarmigilo estas ŝaltita"
 msgid "Cooler is off"
 msgstr "La malvarmigilo estas malŝaltita"
 
-#: ekos/capture/capture.cpp:5983 ekos/focus/focus.cpp:4752
+#: ekos/capture/capture.cpp:5983 ekos/focus/focus.cpp:4753
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Eksponiĝotempo. Abortante..."
 
-#: ekos/capture/capture.cpp:6006 ekos/focus/focus.cpp:4757
+#: ekos/capture/capture.cpp:6006 ekos/focus/focus.cpp:4758
 #: ekos/guide/guide.cpp:884
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -15920,7 +15919,7 @@ msgstr "Malŝalto"
 #: ekos/ekos.h:189
 #, kde-format
 msgid "Loading"
-msgstr "Ŝarĝante"
+msgstr "Ŝargante"
 
 #: ekos/ekoslive/ekosliveclient.cpp:205
 #, kde-format
@@ -16055,7 +16054,7 @@ msgstr ""
 msgid "No Focuser connected."
 msgstr "Neniu Focusilo konektita."
 
-#: ekos/focus/focus.cpp:1091 ekos/focus/focus.cpp:3935
+#: ekos/focus/focus.cpp:1091 ekos/focus/focus.cpp:3936
 #, kde-format
 msgid "No CCD connected."
 msgstr "Neniu CCD konektita."
@@ -16098,252 +16097,251 @@ msgstr "Bonvolu atendi ĝis la preno de bildo finiĝos..."
 msgid "Autofocus operation started"
 msgstr "Aŭtomata fokusa operacio komenciĝis"
 
-#: ekos/focus/focus.cpp:1356
+#: ekos/focus/focus.cpp:1357
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1364
+#: ekos/focus/focus.cpp:1365
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1366
+#: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1373
+#: ekos/focus/focus.cpp:1374
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1385
+#: ekos/focus/focus.cpp:1386
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1387
+#: ekos/focus/focus.cpp:1388
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1397
+#: ekos/focus/focus.cpp:1398
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1405
-#, fuzzy, kde-format
-#| msgid "Adapting start point [%1] from %2 to %3"
+#: ekos/focus/focus.cpp:1406
+#, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
-msgstr "Adaptante startpunkton [%1] de %2 al %3"
+msgstr "Adapta startpunkto [%1] troa moviĝo malpermesata"
 
-#: ekos/focus/focus.cpp:1419
+#: ekos/focus/focus.cpp:1420
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Adaptante startpunkton [%1] de %2 al %3"
 
-#: ekos/focus/focus.cpp:1465
+#: ekos/focus/focus.cpp:1466
 #, kde-format
 msgid "Detection in progress, please wait."
 msgstr "Detekto en progreso, bonvolu atendi."
 
-#: ekos/focus/focus.cpp:1500
+#: ekos/focus/focus.cpp:1501
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Aŭtomata fokuso ĉesigita."
 
-#: ekos/focus/focus.cpp:1584
+#: ekos/focus/focus.cpp:1585
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Eraro: Neniu fotilo detektita."
 
-#: ekos/focus/focus.cpp:1591
+#: ekos/focus/focus.cpp:1592
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Eraro: Perdita konekto al Fotilo."
 
-#: ekos/focus/focus.cpp:1612
+#: ekos/focus/focus.cpp:1613
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Eraro: Neniu Filtrila Rado detektita."
 
-#: ekos/focus/focus.cpp:1618
+#: ekos/focus/focus.cpp:1619
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Eraro: Perdita konekto al Filtrila Rado."
 
-#: ekos/focus/focus.cpp:1760
+#: ekos/focus/focus.cpp:1761
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Eraro: Neniu Fokuligilo detektita."
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1768
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Eraro: Perdita konekto al Focuser."
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1780
 #, kde-format
 msgid "outward"
 msgstr "eksteren"
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1780
 #, kde-format
 msgid "inward"
 msgstr "enen"
 
-#: ekos/focus/focus.cpp:1793
+#: ekos/focus/focus.cpp:1794
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Enfokusigante %2 je %1 paŝoj..."
 
-#: ekos/focus/focus.cpp:1799
+#: ekos/focus/focus.cpp:1800
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Fokusante %2 per %1 paŝo..."
 msgstr[1] "Fokusante %2 per %1 paŝoj..."
 
-#: ekos/focus/focus.cpp:1805
+#: ekos/focus/focus.cpp:1806
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Enfokusigante %2 je %1 ms..."
 
-#: ekos/focus/focus.cpp:1843
+#: ekos/focus/focus.cpp:1844
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Fokusilo ankoraŭ finiĝas. Abortante..."
 
-#: ekos/focus/focus.cpp:1850
+#: ekos/focus/focus.cpp:1851
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Fokuso-movo elĉerpita (%1). Rekomencante fokusan pelilon %2"
 
-#: ekos/focus/focus.cpp:1861
+#: ekos/focus/focus.cpp:1862
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Fokuso-movo elĉerpita (%1). Koncentriĝo al %2 paŝoj..."
 
-#: ekos/focus/focus.cpp:1870
+#: ekos/focus/focus.cpp:1871
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Provante rekonekti fokusilon: %1"
 
-#: ekos/focus/focus.cpp:1879
+#: ekos/focus/focus.cpp:1880
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Ne povas rekonekti fokusilon: %1. Abortante..."
 
-#: ekos/focus/focus.cpp:1928
+#: ekos/focus/focus.cpp:1929
 #, kde-format
 msgid "Detection complete."
 msgstr "Detekto kompleta."
 
-#: ekos/focus/focus.cpp:2124
+#: ekos/focus/focus.cpp:2125
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Detektante fontojn..."
 
-#: ekos/focus/focus.cpp:2237
+#: ekos/focus/focus.cpp:2238
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Aŭtomata fokusa operacio sukcese finiĝis"
 
-#: ekos/focus/focus.cpp:2246
+#: ekos/focus/focus.cpp:2247
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Aŭtomata fokusa operacio malsukcesis"
 
-#: ekos/focus/focus.cpp:2278
+#: ekos/focus/focus.cpp:2279
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Fokusproceduro kompletiĝis post %1 iteracio."
 msgstr[1] "Fokusproceduro kompletiĝis post %1 iteracioj."
 
-#: ekos/focus/focus.cpp:2364
+#: ekos/focus/focus.cpp:2365
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Kontenta je %1s..."
 
-#: ekos/focus/focus.cpp:2371
+#: ekos/focus/focus.cpp:2372
 #, kde-format
 msgid "Settling complete."
 msgstr "Aranĝo kompleta."
 
-#: ekos/focus/focus.cpp:2384
+#: ekos/focus/focus.cpp:2385
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Aŭtomata fokuso malsukcesis, moviĝante reen al komenca fokusa pozicio %1."
 
-#: ekos/focus/focus.cpp:2421
+#: ekos/focus/focus.cpp:2422
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS ricevis. Neniuj steloj detektitaj."
 
-#: ekos/focus/focus.cpp:2575
+#: ekos/focus/focus.cpp:2576
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Malsukcesis aŭtomate elekti stelon. Bonvolu elekti stelon permane."
 
-#: ekos/focus/focus.cpp:2671
+#: ekos/focus/focus.cpp:2672
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Kapto kompleta. Elektu stelon por fokusigi."
 
-#: ekos/focus/focus.cpp:2704
+#: ekos/focus/focus.cpp:2705
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Neniuj steloj detektitaj dum testado de HFR, kaptado denove..."
 
-#: ekos/focus/focus.cpp:2839
+#: ekos/focus/focus.cpp:2840
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 "Aŭtomata fokuso ne atingis taŭgan fokuson. Provu pliigi tolereman valoron."
 
-#: ekos/focus/focus.cpp:2850 ekos/focus/focus.cpp:3489
+#: ekos/focus/focus.cpp:2851 ekos/focus/focus.cpp:3490
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Neniuj steloj detektitaj, kaptante denove..."
 
-#: ekos/focus/focus.cpp:2856 ekos/focus/focus.cpp:3495
+#: ekos/focus/focus.cpp:2857 ekos/focus/focus.cpp:3496
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Malsukcesis detekti iujn stelojn ĉe pozicio %1. Daŭrigante..."
 
-#: ekos/focus/focus.cpp:2861 ekos/focus/focus.cpp:3500
+#: ekos/focus/focus.cpp:2862 ekos/focus/focus.cpp:3501
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Malsukcesis detekti iujn ajn stelojn. Restarigu kadron kaj provu denove."
 
-#: ekos/focus/focus.cpp:3087
+#: ekos/focus/focus.cpp:3088
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr "Kontrolo de Curve Fit malsukcesis R2=%1 focusR2Limit=%2 reprovanta..."
 
-#: ekos/focus/focus.cpp:3094
+#: ekos/focus/focus.cpp:3095
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Kontrolo de Curve Fit denove malsukcesis R2=%1 focusR2Limit=%2 sed "
 "daŭrigante..."
 
-#: ekos/focus/focus.cpp:3137
+#: ekos/focus/focus.cpp:3138
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS ricevis. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3139
+#: ekos/focus/focus.cpp:3140
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS ricevis. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3200
+#: ekos/focus/focus.cpp:3201
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -16352,130 +16350,130 @@ msgstr ""
 "Ŝanĝo en HFR estas tro malgranda. Provu pliigi la paŝon aŭ malpliigi la "
 "toleremon."
 
-#: ekos/focus/focus.cpp:3207
+#: ekos/focus/focus.cpp:3208
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Malsukcesis detekti fokusstelon en kadro. Kaptu kaj elektu fokusan stelon."
 
-#: ekos/focus/focus.cpp:3312
+#: ekos/focus/focus.cpp:3313
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Trovita polinoma solvo @ %1"
 
-#: ekos/focus/focus.cpp:3376
+#: ekos/focus/focus.cpp:3377
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Fokulilo ne povas movi plu, limoj de aparatoj atingis. Aŭtomata fokuso "
 "ĉesigita."
 
-#: ekos/focus/focus.cpp:3387
+#: ekos/focus/focus.cpp:3388
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr "Malstabilaj fluktuoj. Provu pliigi komencan paŝon aŭ ekspontempon."
 
-#: ekos/focus/focus.cpp:3397
+#: ekos/focus/focus.cpp:3398
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Bloko atingita. Bonvolu provi denove kun malsamaj agordoj."
 
-#: ekos/focus/focus.cpp:3426
+#: ekos/focus/focus.cpp:3427
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr "Maksimuma vojaĝlimo atingita. Aŭtomata fokuso ĉesigita."
 
-#: ekos/focus/focus.cpp:3474
+#: ekos/focus/focus.cpp:3475
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS ricevis. HFR %1. Delta (%2%) Min HFR (%3)"
 
-#: ekos/focus/focus.cpp:3478
+#: ekos/focus/focus.cpp:3479
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 "Aŭtomata fokuso ne atingis taŭgan fokuson. Provu ĝustigi la toleran valoron."
 
-#: ekos/focus/focus.cpp:3568 ekos/focus/focus.cpp:3581
-#: ekos/focus/focus.cpp:3703 ekos/focus/focus.cpp:3776
-#: ekos/focus/focus.cpp:3838 ekos/focus/focus.cpp:3879
+#: ekos/focus/focus.cpp:3569 ekos/focus/focus.cpp:3582
+#: ekos/focus/focus.cpp:3704 ekos/focus/focus.cpp:3777
+#: ekos/focus/focus.cpp:3839 ekos/focus/focus.cpp:3880
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Fokusila eraro, kontrolu INDI-panelon."
 
-#: ekos/focus/focus.cpp:3612 ekos/focus/focus.cpp:3719
+#: ekos/focus/focus.cpp:3613 ekos/focus/focus.cpp:3720
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simuli misfunkciadon de la fokusilo..."
 
-#: ekos/focus/focus.cpp:3685 ekos/focus/focus.cpp:3762
-#: ekos/focus/focus.cpp:3824 ekos/focus/focus.cpp:3854
+#: ekos/focus/focus.cpp:3686 ekos/focus/focus.cpp:3763
+#: ekos/focus/focus.cpp:3825 ekos/focus/focus.cpp:3855
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Rekomencante aŭtomatan fokusan procezon..."
 
-#: ekos/focus/focus.cpp:3953
+#: ekos/focus/focus.cpp:3954
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Komencante kontinuan ekspozicion..."
 
-#: ekos/focus/focus.cpp:4190
+#: ekos/focus/focus.cpp:4191
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Malebliganta Aŭtomatan Stel-Elekton ĉar stel-elektokesto estis movita "
 "permane."
 
-#: ekos/focus/focus.cpp:4195
+#: ekos/focus/focus.cpp:4196
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Fokusa stelo estas elektita."
 
-#: ekos/focus/focus.cpp:4308
+#: ekos/focus/focus.cpp:4309
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Neniu stelo estis elektita. Uzante lastan konatan pozicion..."
 
-#: ekos/focus/focus.cpp:4314
+#: ekos/focus/focus.cpp:4315
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Neniu stelo estis elektita. Abortante..."
 
-#: ekos/focus/focus.cpp:4429
+#: ekos/focus/focus.cpp:4430
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Fokuso Kadro"
 
-#: ekos/focus/focus.cpp:4770
+#: ekos/focus/focus.cpp:4771
 #, kde-format
 msgid "Capturing image again..."
 msgstr "Kaptante bildon denove..."
 
-#: ekos/focus/focus.cpp:4785
+#: ekos/focus/focus.cpp:4786
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Malsukcesis konservi bildon. Abortante..."
 
-#: ekos/focus/focus.cpp:4795
+#: ekos/focus/focus.cpp:4796
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Malsukceso de malkovro. Abortante..."
 
-#: ekos/focus/focus.cpp:4800
+#: ekos/focus/focus.cpp:4801
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Malsukceso de malkovro. Rekomencante ekspozicion..."
 
-#: ekos/focus/focus.cpp:5000
+#: ekos/focus/focus.cpp:5001
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Relativa Profilo"
 
-#: ekos/focus/focus.cpp:6206
+#: ekos/focus/focus.cpp:6207
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -16500,7 +16498,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6222
+#: ekos/focus/focus.cpp:6223
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -16512,7 +16510,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6229
+#: ekos/focus/focus.cpp:6230
 #, kde-format
 msgid ""
 "\n"
@@ -16533,7 +16531,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6239
+#: ekos/focus/focus.cpp:6240
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Fokus-konsililo"
@@ -16931,10 +16929,14 @@ msgstr "Minimuma Movo:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1332
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Adapt the Autofocus start position based on filter "
+#| "and the Adaptive Focus settings.  This is an experimental feature.</p></"
+#| "body></html>"
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
-"the Adaptive Focus settings.  This is an experimental feature.</p></body></"
+"the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
 "<html><head/><body><p>Adapti la Aŭtofokusan startpozicion surbaze de agordoj "
@@ -17069,7 +17071,7 @@ msgid ""
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a polynomial fit "
-"of degree 2.  This is currently the default option and currently the only "
+"of degree 2. This is currently the default option and currently the only "
 "option for all Algorithms except Linear 1 Pass.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hyperbola</"
@@ -17174,7 +17176,7 @@ msgid ""
 "power calculation. Uses the Fourier Transform Power approach developed by "
 "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
 "the power in frequency space [result of the fourier transform] will be a "
-"maximum.This is an experimental feature.</li></ul></body></html>"
+"maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Metodo de detektado de steloj:</p><ul style=\"margin-"
 "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; ; -qt-"
@@ -17484,7 +17486,7 @@ msgid ""
 "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
-"Gaussian.  This is an experimental feature.</li></ul></body></html>"
+"Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
@@ -17618,10 +17620,9 @@ msgstr "Paŝi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/focus.ui:2167
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Maks. Paŝgrandeco:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:2183
@@ -17630,26 +17631,23 @@ msgid ""
 "<html><head/><body><p>For backlash-aware focusers, the amount of backlash to "
 "apply when reversing movement direction. Set to 0 to disable.</"
 "p><p>Typically either Focuser Backlash or AF Overscan is set.</p><p>This "
-"field sets the Indi Focuser Backlash field and can be set either here on on "
+"field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2196
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
 "span> in ticks to cause a noticeable change in HFR value. For timer based "
 "focuser, it is the initial time in milliseconds to move the focuser inward "
 "or outward</p></body></html>"
 msgstr ""
-"<b>Komenca</b> paŝogrando en iksodoj por kaŭzi rimarkindan ŝanĝon en HFR-"
-"valoro. Por tempigilo bazita fokusilo, ĝi estas la komenca tempo en "
-"milisekundoj movi la fokusilon enen aŭ eksteren"
+"<html><head/><body><p><span style=\" font-weight:600;\">Komenca paŝogrando</"
+"span> en paŝeroj por kaŭzi rimarkindan ŝanĝon en HFR-valoro. Por "
+"tempigilbazita fokusilo, ĝi estas la komenca tempo en milisekundoj por movi "
+"la fokusilon enen aŭ eksteren</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:2221
@@ -17757,7 +17755,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "<html><head/><body><p>Provides backlash overscan in ticks for outward "
-"focuser movements during an Autofocus run.This is in addition to any Driver "
+"focuser movements during an Autofocus run. This is in addition to any Driver "
 "Backlash provided by the device driver and set in the Driver Backlash field. "
 "Set to 0 to disable. </p><p>If set, AF Overscan is applied to all focuser "
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
@@ -17782,16 +17780,13 @@ msgstr "Movdaŭro:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/focus.ui:2435
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum time in seconds to wait for a focuser to move to desired position "
-#| "before declaring a timeout."
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"Maksimuma tempo en sekundoj por atendi ke fokusilo moviĝos al dezirata "
-"pozicio antaŭ deklari tempon."
+"<html><head/><body><p>Maksimuma tempo en sekundoj por atendi ke fokusilo "
+"moviĝos al dezirata pozicio antaŭ ol deklari eltempiĝon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2457
@@ -17810,8 +17805,9 @@ msgid ""
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Nombro de ciferoj uzataj por aldoni la sinsekvon al la "
-"dosiernomo.</p></body></html>"
+"<html><head/><body><p>La suma nombro de paŝoj uzendaj kiam Iri estas metata "
+"al unu el la iroj kun fiksa nombro de paŝoj kaj Algoritmo estas Linia 1-pasa."
+"</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2508
@@ -17848,16 +17844,13 @@ msgstr "Aperturo (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2619
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marku por montri la plej novajn gvidajn datumojn kaj "
-"aŭtomate rulumi la grafikaĵon.</p></body></html>"
+"<html><head/><body><p>Marku por montri la CFZ sur la V-kurbo post sukcesa "
+"Aŭtofokus-rulo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -17958,10 +17951,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2808
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr "<html><head/><body><p>Baza loka kapta dosierujo</p></body></html>"
+msgstr "<html><head/><body><p>La kalkulita CFZ en paŝoj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2824
@@ -17984,10 +17976,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength (λ):"
-msgstr "Ondolongo:"
+msgstr "Ondolongo (λ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:2878
@@ -18009,16 +18000,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZSeeing)
 #: ekos/focus/focus.ui:2906
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the right ascension (RA) drift error in arc-"
-#| "seconds.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Desegni la driv-eraron de dekstra supreniĝo (RA) en "
-"arkaj sekundoj.</p></body></html>"
+"<html><head/><body><p>La suma FWHM de spektado (en ark-sekundoj).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
@@ -18037,17 +18025,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:2937
-#, fuzzy, kde-format
-#| msgid "Reset to Now"
+#, kde-format
 msgid "Reset To OT"
-msgstr "Restarigi al Nun"
+msgstr "Restarigi al OT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:2950
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Ratio (f):"
-msgstr "Foka Proporcio"
+msgstr "Foka Proporcio (f):"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:2988
@@ -18285,12 +18271,13 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
 #: ekos/focus/focus.ui:3490
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Forigi nunan kadron</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Averaĝigita HFR-valoro de la lasta kadro.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/focus.ui:3522
@@ -18300,12 +18287,13 @@ msgstr "  FWHM:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3535
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Forigi nunan kadron</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Averaĝigita FWHM-valoro de la lasta kadro.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/focus.ui:3548
@@ -18352,22 +18340,22 @@ msgstr "Profilo..."
 msgid "Clear"
 msgstr "Forviŝi"
 
-#: ekos/focus/focusalgorithms.cpp:500
+#: ekos/focus/focusalgorithms.cpp:501
 #, kde-format
 msgid "Called newMeasurement after a solution was found."
 msgstr "Nomita novaMezurado post kiam solvo estis trovita."
 
-#: ekos/focus/focusalgorithms.cpp:806
+#: ekos/focus/focusalgorithms.cpp:807
 #, kde-format
 msgid "Solution found."
 msgstr "Solvo trovita."
 
-#: ekos/focus/focusalgorithms.cpp:850
+#: ekos/focus/focusalgorithms.cpp:851
 #, kde-format
 msgid "Too many steps."
 msgstr "Tro da paŝoj."
 
-#: ekos/focus/focusalgorithms.cpp:879
+#: ekos/focus/focusalgorithms.cpp:880
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr "Solvo kuŝas ekster max vojaĝado."
@@ -30474,7 +30462,7 @@ msgid ""
 "         will be cached. Turning this value up yields better\n"
 "         performance at the cost of memory."
 msgstr ""
-"La DSO-oj estas ŝarĝitaj el sqlite-datumbazo kaj\n"
+"La DSO-oj estas ŝargitaj el sqlite-datumbazo kaj\n"
 " konservitaj en memoro. Ĉi tiu agordo reguligas kiom da DSO-oj\n"
 " estos konservita en kaŝmemoro. Pliigi ĉi tiun valoron donas pli bonan\n"
 " rendimenton koste de memoro."
@@ -33752,7 +33740,7 @@ msgstr "Ĉu neniam ŝargi aparatan agordon?"
 #: kstars.kcfg:1524
 #, kde-format
 msgid "Load device configuration upon successful connection?"
-msgstr "Ĉu ŝarĝi aparatan agordon post sukcesa konekto?"
+msgstr "Ĉu ŝargi aparatan agordon post sukcesa konekto?"
 
 #. i18n: ectx: label, entry (loadDefaultConfig), group (Ekos)
 #: kstars.kcfg:1528
@@ -34544,8 +34532,7 @@ msgstr "Ĉu uzi pezojn en la kurbkonveniga procezo."
 
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1964
-#, fuzzy, kde-format
-#| msgid "The minumum acceptable R2 value of a curve fit."
+#, kde-format
 msgid "The minimum acceptable R2 value of a curve fit."
 msgstr "La minumume akeceptebla R2-valoro de kurbkonveno."
 
@@ -34628,7 +34615,7 @@ msgstr ""
 #: kstars.kcfg:2006
 #, kde-format
 msgid "Default Focuser step ticks"
-msgstr "Defaŭlta Focuser paŝo tiktakos"
+msgstr "Defaŭlta Focuser paŝeroj"
 
 #. i18n: ectx: whatsthis, entry (FocusTicks), group (Focus)
 #: kstars.kcfg:2007
@@ -34895,7 +34882,7 @@ msgstr "Defaŭlta filtrila radfiltrilo en viciga reĝimo"
 #: kstars.kcfg:2168
 #, kde-format
 msgid "Use rotator when performing load and slew."
-msgstr "Uzi rotaciilon dum ŝarĝo kaj svingo."
+msgstr "Uzi rotaciilon dum ŝargo kaj svingo."
 
 #. i18n: ectx: whatsthis, entry (AstrometryRotatorThreshold), group (Align)
 #: kstars.kcfg:2172
@@ -34905,7 +34892,7 @@ msgid ""
 "consider the load and slew operation successful."
 msgstr ""
 "Sojlo inter mezuritaj kaj FITS-poziciaj anguloj en arkminutoj por konsideri "
-"la ŝarĝon kaj turnan operacion sukcesa."
+"la ŝargon kaj turnan operacion sukcesa."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2176
@@ -65052,22 +65039,22 @@ msgstr "Urbotabelo mankas el datumbazo."
 #: kstarsdata.cpp:185
 #, kde-format
 msgid "Loading city data"
-msgstr "Ŝarĝi urbajn datumojn"
+msgstr "Ŝargante urbajn datumojn"
 
 #: kstarsdata.cpp:193
 #, kde-format
 msgid "Loading User Information"
-msgstr "Ŝarĝante Uzantajn Informojn"
+msgstr "Ŝargante Uzantajn Informojn"
 
 #: kstarsdata.cpp:197
 #, kde-format
 msgid "Loading sky objects"
-msgstr "Ŝarĝi ĉielajn objektojn"
+msgstr "Ŝargante ĉielajn objektojn"
 
 #: kstarsdata.cpp:202
 #, kde-format
 msgid "Loading Image URLs"
-msgstr "Ŝarĝante Bildajn URLojn"
+msgstr "Ŝargante Bildajn URLojn"
 
 #: kstarsdata.cpp:793
 #, kde-format
@@ -67035,7 +67022,7 @@ msgstr "NW"
 #: kstarssplash.cpp:18
 #, kde-format
 msgid "Welcome to KStars. Please stand by while loading..."
-msgstr "Bonvenon ĉe KStars. Bonvolu atendi dum la ŝarĝado..."
+msgstr "Bonvenon ĉe KStars. Bonvolu atendi dum la ŝargado..."
 
 #: libindi_strings.cpp:1
 #, kde-kuit-format
@@ -68799,7 +68786,7 @@ msgstr "Messier"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Minimum Tick"
-msgstr "Minimuma Tik"
+msgstr "Minimuma Paŝero"
 
 #: libindi_strings.cpp:299
 #, kde-kuit-format
@@ -68853,7 +68840,7 @@ msgstr "Motoraj Paŝoj"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motor steps per tick"
-msgstr "Movaj paŝoj per iksodo"
+msgstr "Movaj paŝoj por paŝero"
 
 #: libindi_strings.cpp:308
 #, kde-kuit-format
@@ -69915,7 +69902,7 @@ msgstr "Theta D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Ticks"
-msgstr "Tikoj"
+msgstr "Paŝeroj"
 
 #: libindi_strings.cpp:485
 #, kde-kuit-format
@@ -73853,7 +73840,7 @@ msgstr[1] "Sukcese aldonis %1 objektojn al la uzantkatalogo."
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
 msgid "Loading comets"
-msgstr "Ŝarĝante kometojn"
+msgstr "Ŝargante kometojn"
 
 #: skycomponents/cometscomponent.cpp:315
 #, kde-format
@@ -73873,7 +73860,7 @@ msgstr "Konstelaciaj Limoj"
 #: skycomponents/constellationboundarylines.cpp:61
 #, kde-format
 msgid "Loading Constellation Boundaries"
-msgstr "Ŝarĝante Konstelaciajn Limojn"
+msgstr "Ŝargante Konstelaciajn Limojn"
 
 #: skycomponents/constellationlines.cpp:101
 #, kde-format
@@ -73913,17 +73900,17 @@ msgstr "Loka Meridiana Komponento"
 #: skycomponents/milkyway.cpp:32
 #, kde-format
 msgid "Loading Milky Way"
-msgstr "Ŝarĝante laktan vojon"
+msgstr "Ŝargante laktan vojon"
 
 #: skycomponents/milkyway.cpp:33
 #, kde-format
 msgid "Loading Large Magellanic Clouds"
-msgstr "Ŝarĝante Grandajn Magelanaj Nuboj"
+msgstr "Ŝargante Grandajn Magelanaj Nuboj"
 
 #: skycomponents/milkyway.cpp:34
 #, kde-format
 msgid "Loading Small Magellanic Clouds"
-msgstr "Ŝarĝante Malgrandajn Magelanaj Nuboj"
+msgstr "Ŝargante Malgrandajn Magelanaj Nuboj"
 
 #: skycomponents/notifyupdatesui.cpp:21
 #, kde-format
@@ -73971,7 +73958,7 @@ msgstr "Nova supernova(e) malkovrita"
 #: skycomponents/satellitescomponent.cpp:43
 #, kde-format
 msgid "Loading satellites"
-msgstr "Ŝarĝante satelitojn"
+msgstr "Ŝargante satelitojn"
 
 #: skycomponents/satellitescomponent.cpp:143
 #, kde-format
@@ -74008,12 +73995,12 @@ msgstr ""
 #: skycomponents/solarsystemcomposite.cpp:25
 #, kde-format
 msgid "Loading solar system"
-msgstr "Ŝarĝante sunsistemon"
+msgstr "Ŝargante sunsistemon"
 
 #: skycomponents/starcomponent.cpp:65
 #, kde-format
 msgid "Loading stars"
-msgstr "Ŝarĝante stelojn"
+msgstr "Ŝargante stelojn"
 
 #: skycomponents/starcomponent.cpp:166
 #, kde-format
@@ -74512,7 +74499,7 @@ msgstr "omega"
 #: terrain/terrainrenderer.cpp:364
 #, kde-format
 msgid "Failed to load terrain. Set terrain file in Settings."
-msgstr "Malsukcesis ŝarĝi terenon. Metu terendosieron en Agordoj."
+msgstr "Malsukcesis ŝargi terenon. Metu terendosieron en Agordoj."
 
 #: terrain/terrainrenderer.cpp:366
 #, kde-format
@@ -78329,7 +78316,7 @@ msgstr "Observanta Listo Sorĉisto"
 #: tools/observinglist.cpp:1083
 #, kde-format
 msgid "Please wait while loading observing wishlist..."
-msgstr "Bonvolu atendi dum ŝarĝo de observanta dezirolisto..."
+msgstr "Bonvolu atendi dum ŝargo de observanta dezirolisto..."
 
 #: tools/observinglist.cpp:1106
 #, kde-format
@@ -81659,114 +81646,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Flat Focus Position"
-#~ msgstr "Plata Fokusa Pozicio"
-
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
-#~ msgstr "Fokuso-movo elĉerpita (%1). Enfokusigante %3 je %2 paŝoj..."
-
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
-#~ msgstr "Fokuso-movo elĉerpita (%1). Enfokusigante %3 je %2 ms..."
-
-#~ msgid "Wait this many seconds before resuming guiding."
-#~ msgstr "Atendu tiom da sekundoj antaŭ ol rekomenci gvidadon."
-
-#~ msgid "Settle:"
-#~ msgstr "Stabiliĝi:"
-
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are inside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default 0%). "
-#~ "Detection algorithms may also have an inherent filter.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Dum plena kampa fokuso, steloj kiuj estas ene de ĉi tiu "
-#~ "procento de la kadro estas filtritaj el HFR-kalkulo (defaŭlte 0%). "
-#~ "Detektaj algoritmoj ankaŭ povas havi enecan filtrilon.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are outside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default "
-#~ "100%). Detection algorithms may also have an inherent filter.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><body><p>Dum plena kampa fokuso, steloj kiuj estas ekster ĉi tiu "
-#~ "procento de la kadro estas filtritaj el HFR-kalkulo (defaŭlte 100%). "
-#~ "Detektaj algoritmoj ankaŭ povas havi enecan filtrilon.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Used in the device driver for backlash-aware "
-#~ "focusers,  the amount of backlash to apply when reversing movement "
-#~ "direction. </p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Uzita en la aparata pelilo por kontraŭreago-"
-#~ "konsciaj fokusiloj, la kvanto de kontraŭreago aplikata kiam oni "
-#~ "inversigas moviĝdirekton. </p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
-#~ "Compensation by the number of ticks specified. Set to 0 to disable.  "
-#~ "Overscan backlash and Driver Backlash are independent.</p><p>Used by "
-#~ "Linear and Linear 1 Pass algorithms.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Ebligu, ke Aŭtomata Fokuso plenumu Troskanan "
-#~ "Kontraŭreagon Kompenson laŭ la nombro de specifitaj tikoj. Agordu al 0 "
-#~ "por malŝalti. Overscan backreago kaj Driver Backlash estas sendependaj.</"
-#~ "p><p>Uzitaj de Linear kaj Linear 1 Pass-algoritmoj.</p></body></html>"
-
-#~ msgid "HFR: "
-#~ msgstr "HFR: "
-
-#~ msgid ""
-#~ "<html><body><p>HFR value in pixels consolidated at the current focuser "
-#~ "position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>HFR-valoro en rastrumeroj firmigita ĉe la nuna "
-#~ "fokusilpozicio.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><body><p>Number of stars used for HFR computation at the current "
-#~ "focuser position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Nombro de steloj uzataj por HFR-komputado ĉe la nuna "
-#~ "fokusilpozicio.</p></body></html>"
-
-#~ msgid "Iteration: "
-#~ msgstr "Ripeto:"
-
-#~ msgid "Relative Profile..."
-#~ msgstr "Relativa Profilo..."
-
-#~ msgid "Clear Data"
-#~ msgstr "Forviŝi Datumojn"
-
-#~ msgid "Initial Focus Out Steps"
-#~ msgstr "Komencaj Eksterfokusiĝaj Paŝoj"
-
-#~ msgid ""
-#~ "Number of outward steps (this number multiplied by initial-step-size) the "
-#~ "Linear Focus algorithm moves away from the initial position at the start "
-#~ "of focusing."
-#~ msgstr ""
-#~ "Nombro da eksteraj paŝoj (ĉi tiu nombro multobligita per komenca-paŝa "
-#~ "grandeco) la Linear Focus-algoritmo moviĝas for de la komenca pozicio ĉe "
-#~ "la komenco de fokuso."
-
-#~ msgid "Focus backlash in steps. Zero disables backlash compensation."
-#~ msgstr ""
-#~ "Fokusu kontraŭreagon en paŝoj. Nulo malŝaltas kontraŭreagan kompenson."
-
-#~ msgid "Number of focus frames to average for HFR calculations."
-#~ msgstr "Nombro da fokusaj kadroj por mezuri por HFR-kalkuloj."
-
-#~ msgid "Maximum single step the focus algorithm is permitted to command."
-#~ msgstr "Maksimume ununura paŝo la fokusalgoritmo estas permesita komandi."
-
-#~ msgid "Default focus exposure time when no filters are used."
-#~ msgstr "Defaŭlta fokusa ekspoziciotempo kiam neniuj filtriloj estas uzataj."
-
-#~ msgid "Curve Type."
-#~ msgstr "Kurba Tipo."
-
-#~ msgid "Acceptable limit on R2 from curve fit."
-#~ msgstr "Akceptebla limo sur R2 de kurba kongruo."

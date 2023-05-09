@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-08 00:42+0000\n"
+"POT-Creation-Date: 2023-05-09 00:42+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -5835,7 +5835,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr ""
 
 #: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3328
-#: ekos/capture/capture.cpp:5414 ekos/focus/focus.cpp:4710
+#: ekos/capture/capture.cpp:5414 ekos/focus/focus.cpp:4711
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5857,13 +5857,13 @@ msgstr ""
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1692
+#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1693
 #, kde-format
 msgid "Capturing image..."
 msgstr ""
 
 #: ekos/align/align.cpp:1629 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2499
+#: ekos/focus/focus.cpp:2500
 #, kde-format
 msgid "Image received."
 msgstr ""
@@ -5965,7 +5965,7 @@ msgid "Refresh is complete."
 msgstr "เป้าหมายต่อไป >"
 
 #: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1421
-#: ekos/focus/focus.cpp:1459
+#: ekos/focus/focus.cpp:1460
 #, kde-format
 msgid "Capture aborted."
 msgstr ""
@@ -5977,7 +5977,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "บันทึกภาพไปยังดิสก์"
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2528
-#: ekos/focus/focus.cpp:3887 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1887
+#: ekos/focus/focus.cpp:3888 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1887
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -6149,7 +6149,7 @@ msgid "dDE (arcsec)"
 msgstr ""
 
 #: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5623
-#: ekos/focus/focus.cpp:4599
+#: ekos/focus/focus.cpp:4600
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Filter operation failed."
@@ -13801,13 +13801,13 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:5983 ekos/focus/focus.cpp:4752
+#: ekos/capture/capture.cpp:5983 ekos/focus/focus.cpp:4753
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Exposure timeout. Aborting..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/capture.cpp:6006 ekos/focus/focus.cpp:4757
+#: ekos/capture/capture.cpp:6006 ekos/focus/focus.cpp:4758
 #: ekos/guide/guide.cpp:884
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -15698,7 +15698,7 @@ msgstr ""
 msgid "No Focuser connected."
 msgstr "เป้าหมายต่อไป >"
 
-#: ekos/focus/focus.cpp:1091 ekos/focus/focus.cpp:3935
+#: ekos/focus/focus.cpp:1091 ekos/focus/focus.cpp:3936
 #, kde-format
 msgid "No CCD connected."
 msgstr ""
@@ -15739,394 +15739,394 @@ msgstr ""
 msgid "Autofocus operation started"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1356
+#: ekos/focus/focus.cpp:1357
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1364
+#: ekos/focus/focus.cpp:1365
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1366
+#: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1373
+#: ekos/focus/focus.cpp:1374
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1385
+#: ekos/focus/focus.cpp:1386
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1387
+#: ekos/focus/focus.cpp:1388
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1397
+#: ekos/focus/focus.cpp:1398
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1405
+#: ekos/focus/focus.cpp:1406
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "ชื่อดาวเคราะห์"
 
-#: ekos/focus/focus.cpp:1419
+#: ekos/focus/focus.cpp:1420
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "ชื่อดาวเคราะห์"
 
-#: ekos/focus/focus.cpp:1465
+#: ekos/focus/focus.cpp:1466
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Detection in progress, please wait."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1500
+#: ekos/focus/focus.cpp:1501
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Autofocus aborted."
 msgstr "ชื่อดาว"
 
-#: ekos/focus/focus.cpp:1584
+#: ekos/focus/focus.cpp:1585
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1591
+#: ekos/focus/focus.cpp:1592
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1612
+#: ekos/focus/focus.cpp:1613
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1618
+#: ekos/focus/focus.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Could not download the file."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "ไม่สามารถดาวน์โหลดแฟ้มได้"
 
-#: ekos/focus/focus.cpp:1760
+#: ekos/focus/focus.cpp:1761
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1768
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1780
 #, kde-format
 msgid "outward"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1780
 #, kde-format
 msgid "inward"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1793
+#: ekos/focus/focus.cpp:1794
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1799
+#: ekos/focus/focus.cpp:1800
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1805
+#: ekos/focus/focus.cpp:1806
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1843
+#: ekos/focus/focus.cpp:1844
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1850
+#: ekos/focus/focus.cpp:1851
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1861
+#: ekos/focus/focus.cpp:1862
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1870
+#: ekos/focus/focus.cpp:1871
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1879
+#: ekos/focus/focus.cpp:1880
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:1928
+#: ekos/focus/focus.cpp:1929
 #, fuzzy, kde-format
 #| msgid "Next Target >"
 msgid "Detection complete."
 msgstr "เป้าหมายต่อไป >"
 
-#: ekos/focus/focus.cpp:2124
+#: ekos/focus/focus.cpp:2125
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Detecting sources..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:2237
+#: ekos/focus/focus.cpp:2238
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2246
+#: ekos/focus/focus.cpp:2247
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Autofocus operation failed"
 msgstr "ชื่อดาว"
 
-#: ekos/focus/focus.cpp:2278
+#: ekos/focus/focus.cpp:2279
 #, fuzzy, kde-format
 #| msgid "Save the image to disk"
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "บันทึกภาพไปยังดิสก์"
 
-#: ekos/focus/focus.cpp:2364
+#: ekos/focus/focus.cpp:2365
 #, fuzzy, kde-format
 #| msgid "Remove Label"
 msgid "Settling for %1s..."
 msgstr "ลบป้ายชื่อ"
 
-#: ekos/focus/focus.cpp:2371
+#: ekos/focus/focus.cpp:2372
 #, fuzzy, kde-format
 #| msgid "Next Target >"
 msgid "Settling complete."
 msgstr "เป้าหมายต่อไป >"
 
-#: ekos/focus/focus.cpp:2384
+#: ekos/focus/focus.cpp:2385
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2421
+#: ekos/focus/focus.cpp:2422
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2575
+#: ekos/focus/focus.cpp:2576
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2671
+#: ekos/focus/focus.cpp:2672
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2704
+#: ekos/focus/focus.cpp:2705
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2839
+#: ekos/focus/focus.cpp:2840
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2850 ekos/focus/focus.cpp:3489
+#: ekos/focus/focus.cpp:2851 ekos/focus/focus.cpp:3490
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2856 ekos/focus/focus.cpp:3495
+#: ekos/focus/focus.cpp:2857 ekos/focus/focus.cpp:3496
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: ekos/focus/focus.cpp:2861 ekos/focus/focus.cpp:3500
+#: ekos/focus/focus.cpp:2862 ekos/focus/focus.cpp:3501
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3087
+#: ekos/focus/focus.cpp:3088
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3094
+#: ekos/focus/focus.cpp:3095
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3137
+#: ekos/focus/focus.cpp:3138
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3139
+#: ekos/focus/focus.cpp:3140
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3200
+#: ekos/focus/focus.cpp:3201
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3207
+#: ekos/focus/focus.cpp:3208
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3312
+#: ekos/focus/focus.cpp:3313
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3376
+#: ekos/focus/focus.cpp:3377
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3387
+#: ekos/focus/focus.cpp:3388
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3397
+#: ekos/focus/focus.cpp:3398
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3426
+#: ekos/focus/focus.cpp:3427
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3474
+#: ekos/focus/focus.cpp:3475
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3478
+#: ekos/focus/focus.cpp:3479
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3568 ekos/focus/focus.cpp:3581
-#: ekos/focus/focus.cpp:3703 ekos/focus/focus.cpp:3776
-#: ekos/focus/focus.cpp:3838 ekos/focus/focus.cpp:3879
+#: ekos/focus/focus.cpp:3569 ekos/focus/focus.cpp:3582
+#: ekos/focus/focus.cpp:3704 ekos/focus/focus.cpp:3777
+#: ekos/focus/focus.cpp:3839 ekos/focus/focus.cpp:3880
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3612 ekos/focus/focus.cpp:3719
+#: ekos/focus/focus.cpp:3613 ekos/focus/focus.cpp:3720
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3685 ekos/focus/focus.cpp:3762
-#: ekos/focus/focus.cpp:3824 ekos/focus/focus.cpp:3854
+#: ekos/focus/focus.cpp:3686 ekos/focus/focus.cpp:3763
+#: ekos/focus/focus.cpp:3825 ekos/focus/focus.cpp:3855
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3953
+#: ekos/focus/focus.cpp:3954
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4190
+#: ekos/focus/focus.cpp:4191
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4195
+#: ekos/focus/focus.cpp:4196
 #, fuzzy, kde-format
 #| msgid "Info Box Selected"
 msgid "Focus star is selected."
 msgstr "กล่องข้อมูลที่เลือก"
 
-#: ekos/focus/focus.cpp:4308
+#: ekos/focus/focus.cpp:4309
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4314
+#: ekos/focus/focus.cpp:4315
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4429
+#: ekos/focus/focus.cpp:4430
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:4770
+#: ekos/focus/focus.cpp:4771
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Capturing image again..."
 msgstr "ชื่อดาว"
 
-#: ekos/focus/focus.cpp:4785
+#: ekos/focus/focus.cpp:4786
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Failed to save image. Aborting..."
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: ekos/focus/focus.cpp:4795
+#: ekos/focus/focus.cpp:4796
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Exposure failure. Aborting..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:4800
+#: ekos/focus/focus.cpp:4801
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/focus/focus.cpp:5000
+#: ekos/focus/focus.cpp:5001
 #, fuzzy, kde-format
 #| msgid "Remove Label"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "ลบป้ายชื่อ"
 
-#: ekos/focus/focus.cpp:6206
+#: ekos/focus/focus.cpp:6207
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -16151,7 +16151,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6222
+#: ekos/focus/focus.cpp:6223
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -16163,7 +16163,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6229
+#: ekos/focus/focus.cpp:6230
 #, kde-format
 msgid ""
 "\n"
@@ -16184,7 +16184,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6239
+#: ekos/focus/focus.cpp:6240
 #, fuzzy, kde-format
 #| msgid "Remove Label"
 msgid "Focus Advisor"
@@ -16582,7 +16582,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
-"the Adaptive Focus settings.  This is an experimental feature.</p></body></"
+"the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
 
@@ -16681,7 +16681,7 @@ msgid ""
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a polynomial fit "
-"of degree 2.  This is currently the default option and currently the only "
+"of degree 2. This is currently the default option and currently the only "
 "option for all Algorithms except Linear 1 Pass.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hyperbola</"
@@ -16748,7 +16748,7 @@ msgid ""
 "power calculation. Uses the Fourier Transform Power approach developed by "
 "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
 "the power in frequency space [result of the fourier transform] will be a "
-"maximum.This is an experimental feature.</li></ul></body></html>"
+"maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
@@ -16949,7 +16949,7 @@ msgid ""
 "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
-"Gaussian.  This is an experimental feature.</li></ul></body></html>"
+"Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
@@ -17083,7 +17083,7 @@ msgid ""
 "<html><head/><body><p>For backlash-aware focusers, the amount of backlash to "
 "apply when reversing movement direction. Set to 0 to disable.</"
 "p><p>Typically either Focuser Backlash or AF Overscan is set.</p><p>This "
-"field sets the Indi Focuser Backlash field and can be set either here on on "
+"field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
 
@@ -17199,7 +17199,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "<html><head/><body><p>Provides backlash overscan in ticks for outward "
-"focuser movements during an Autofocus run.This is in addition to any Driver "
+"focuser movements during an Autofocus run. This is in addition to any Driver "
 "Backlash provided by the device driver and set in the Driver Backlash field. "
 "Set to 0 to disable. </p><p>If set, AF Overscan is applied to all focuser "
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
@@ -17703,23 +17703,23 @@ msgstr "ไปยังแฟ้ม..."
 msgid "Clear"
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:500
+#: ekos/focus/focusalgorithms.cpp:501
 #, kde-format
 msgid "Called newMeasurement after a solution was found."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:806
+#: ekos/focus/focusalgorithms.cpp:807
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "Solution found."
 msgstr "เขียนทับ"
 
-#: ekos/focus/focusalgorithms.cpp:850
+#: ekos/focus/focusalgorithms.cpp:851
 #, kde-format
 msgid "Too many steps."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:879
+#: ekos/focus/focusalgorithms.cpp:880
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr ""

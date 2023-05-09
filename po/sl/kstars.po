@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-08 00:42+0000\n"
-"PO-Revision-Date: 2023-05-05 09:30+0200\n"
+"POT-Creation-Date: 2023-05-09 00:42+0000\n"
+"PO-Revision-Date: 2023-05-08 10:48+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1218,7 +1218,7 @@ msgstr "od"
 #: auxiliary/xplanetimageviewer.cpp:237
 #, kde-format
 msgid "This allows you to select a viewing location"
-msgstr "To vam omogoča izbiro lokacije opazovanja"
+msgstr "To vam omogoča izbiro mesta oz. lege opazovanja"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, LocationLabel)
@@ -1501,9 +1501,9 @@ msgid "Catalog with id=%1 not found."
 msgstr "Kataloga z id=%1 ni mogoče najti."
 
 #: catalogsdb/catalogsdb.cpp:697 catalogsdb/catalogsdb.cpp:1050
-#, fuzzy, kde-format
+#, kde-format
 msgid "Catalog is immutable!"
-msgstr "Katalog je nesprejemljiv!"
+msgstr "Katalog je nespremenljiv!"
 
 #: catalogsdb/catalogsdb.cpp:713 catalogsdb/catalogsdb.cpp:1066
 #, kde-format
@@ -1608,9 +1608,9 @@ msgid "Both catalogs have to exist!"
 msgstr "Oba kataloga morata obstajati!"
 
 #: catalogsdb/catalogsdb.cpp:918
-#, fuzzy, kde-format
+#, kde-format
 msgid "Destination catalog has to be mutable!"
-msgstr "Ciljni katalog mora biti mutable!"
+msgstr "Ciljni katalog mora biti spremenljiv!"
 
 #: catalogsdb/catalogsdb.cpp:934
 #, kde-format
@@ -5859,7 +5859,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Napaka: povezava s kolesom s filtri izgubljena."
 
 #: ekos/align/align.cpp:1441 ekos/capture/capture.cpp:3328
-#: ekos/capture/capture.cpp:5414 ekos/focus/focus.cpp:4710
+#: ekos/capture/capture.cpp:5414 ekos/focus/focus.cpp:4711
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5886,13 +5886,13 @@ msgstr ""
 "Ni odkritega daljinskega gonilnika za astrometrijo, ki bi preklopil na "
 "StellarSolver."
 
-#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1692
+#: ekos/align/align.cpp:1539 ekos/focus/focus.cpp:1693
 #, kde-format
 msgid "Capturing image..."
 msgstr "Zajemanje slike ..."
 
 #: ekos/align/align.cpp:1629 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2499
+#: ekos/focus/focus.cpp:2500
 #, kde-format
 msgid "Image received."
 msgstr "Slika prejeta."
@@ -6004,7 +6004,7 @@ msgid "Refresh is complete."
 msgstr "Osvežitev je končana."
 
 #: ekos/align/align.cpp:2346 ekos/auxiliary/darklibrary.cpp:1421
-#: ekos/focus/focus.cpp:1459
+#: ekos/focus/focus.cpp:1460
 #, kde-format
 msgid "Capture aborted."
 msgstr "Zajem prekinjen."
@@ -6015,7 +6015,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Reševalnik je prekinil po %1 sekundah."
 
 #: ekos/align/align.cpp:2395 ekos/capture/capture.cpp:2528
-#: ekos/focus/focus.cpp:3887 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1887
+#: ekos/focus/focus.cpp:3888 ekos/guide/guide.cpp:1110 ekos/manager.cpp:1887
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -6185,7 +6185,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (ločne s)"
 
 #: ekos/align/align.cpp:3372 ekos/capture/capture.cpp:5623
-#: ekos/focus/focus.cpp:4599
+#: ekos/focus/focus.cpp:4600
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operacija filtra ni uspela."
@@ -7458,7 +7458,7 @@ msgstr "Izbere profil možnosti, ki ga želite uporabiti za reševanje plošč"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
 #: ekos/align/opsalign.ui:191
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Opens the currently selected Options Profile in the Options Profile Editor"
 msgstr "Odpre trenutno izbrani profil možnosti v urejevalniku profila možnosti"
@@ -9152,7 +9152,7 @@ msgid "Second Capture"
 msgstr "Drugo zajemanje"
 
 #: ekos/align/polaralignmentassistant.cpp:34
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Solve"
 msgstr "Drugo reševanje"
 
@@ -9173,7 +9173,7 @@ msgid "Third Capture"
 msgstr "Tretji zajem"
 
 #: ekos/align/polaralignmentassistant.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Solve"
 msgstr "Tretje reševanje"
 
@@ -9211,7 +9211,7 @@ msgstr "Osvežitev reševalnika je spodletela: %1 s"
 #: ekos/align/polaralignmentassistant.cpp:574
 #, fuzzy, kde-format
 msgid "PAA: Stopping, solver failed too many times."
-msgstr "Paa: Ustavi se, reševalec ni uspel prevečkrat."
+msgstr "PAA: se ustavlja, reševalcu je prevelikokrat spodletelo."
 
 #: ekos/align/polaralignmentassistant.cpp:603
 #, fuzzy, kde-format
@@ -9389,7 +9389,7 @@ msgstr "Smer:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHDirection)
 #: ekos/align/polaralignmentassistant.ui:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mount direction"
 msgstr "Smer montaže"
 
@@ -9472,10 +9472,9 @@ msgstr "Trajanje osvetlitve v sekundah v fazi osvežitve"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHIteration)
 #: ekos/align/polaralignmentassistant.ui:385
-#, fuzzy, kde-format
-#| msgid "Image#:"
+#, kde-format
 msgid "Image#"
-msgstr "Slika#:"
+msgstr "Slika#"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHRefreshAlgorithm)
 #: ekos/align/polaralignmentassistant.ui:414
@@ -9806,10 +9805,9 @@ msgid "Select input file"
 msgstr "Izberite vhodno datoteko"
 
 #: ekos/analyze/analyze.cpp:501
-#, fuzzy, kde-format
-#| msgid "PNG Files (*.png)"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Datoteke PNG (*.png)"
+msgstr "Vse datoteke (*)"
 
 #: ekos/analyze/analyze.cpp:521
 #, kde-format
@@ -9871,7 +9869,7 @@ msgstr "Stojalo"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/analyze/analyze.cpp:1787 ekos/capture/capturecountswidget.ui:473
-#, fuzzy, kde-format
+#, kde-format
 msgid "Job"
 msgstr "Posel"
 
@@ -11203,7 +11201,7 @@ msgstr "Falster"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearRowB)
 #: ekos/auxiliary/darklibrary.ui:1092
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Remove one row from the database and delete the associated dark frame from "
 "disk"
@@ -11233,13 +11231,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/auxiliary/darklibrary.ui:1105
 #, fuzzy, kde-format
-#| msgid "Threshold:"
 msgid "T. threshold:"
-msgstr "Prag:"
+msgstr "Prag T.:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllB)
 #: ekos/auxiliary/darklibrary.ui:1112
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove all dark frames data and files"
 msgstr "Odstrani vse podatke in datoteke posnetkov teme"
 
@@ -11271,13 +11268,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/darklibrary.ui:1132
 #, fuzzy, kde-format
-#| msgid "Dark Validity"
 msgid "Dark validity:"
-msgstr "Veljavnost posnetkov teme"
+msgstr "Veljavnost posnetkov teme:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openDarksFolderB)
 #: ekos/auxiliary/darklibrary.ui:1168
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open folder where dark frames are stored"
 msgstr "Odpri mapo, v kateri so shranjeni posnetki teme"
 
@@ -11285,7 +11281,7 @@ msgstr "Odpri mapo, v kateri so shranjeni posnetki teme"
 #: ekos/auxiliary/darklibrary.ui:1171
 #, fuzzy, kde-format
 msgid "Darks Folder"
-msgstr "Mapa »Temne«"
+msgstr "Mapa posnetkov teme"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearExpiredB)
 #: ekos/auxiliary/darklibrary.ui:1195
@@ -11295,7 +11291,7 @@ msgstr "Počisti poteklo"
 
 #. i18n: ectx: property (toolTip), widget (QTableView, darkTableView)
 #: ekos/auxiliary/darklibrary.ui:1211
-#, fuzzy, kde-format
+#, kde-format
 msgid "Double click to load dark frame"
 msgstr "Dvokliknite, če želite naložiti posnetek teme"
 
@@ -11382,9 +11378,9 @@ msgstr ""
 "samodejno s postopkom ostiranja, če je omogočen."
 
 #: ekos/auxiliary/filtermanager.cpp:82
-#, kde-format
+#, fuzzy, kde-format
 msgid "Last AF Temp (°C)"
-msgstr ""
+msgstr "Zadnja temperatura AF (°C)"
 
 #: ekos/auxiliary/filtermanager.cpp:85
 #, fuzzy, kde-format
@@ -11396,46 +11392,47 @@ msgstr ""
 "samodejno s postopkom ostiranja, če je omogočen."
 
 #: ekos/auxiliary/filtermanager.cpp:86
-#, kde-format
+#, fuzzy, kde-format
 msgid "Last AF Alt (°Alt)"
-msgstr ""
+msgstr "Zadnja višina AF (°Alt)"
 
 #: ekos/auxiliary/filtermanager.cpp:89
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"Število korakov/oznak na eno °C povečanja temperature. +ve za premikanje "
+"ostrilnika navzven"
 
 #: ekos/auxiliary/filtermanager.cpp:90
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
 msgid "Ticks / °C"
-msgstr "Deli koraka"
+msgstr "Oznake / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:93
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"Število korakov/oznak na stopinjo povečanje nadmorske višine. +ve za "
+"premikanje ostrilnika navzven"
 
 #: ekos/auxiliary/filtermanager.cpp:94
-#, kde-format
+#, fuzzy, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Oznake / °Alt"
 
 #: ekos/auxiliary/filtermanager.cpp:96
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Srednja valovna dolžina filtra v nm"
 
 #: ekos/auxiliary/filtermanager.cpp:97
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
-msgstr "Valovna dolžina:"
+msgstr "Valovna dolžina"
 
 #: ekos/auxiliary/filtermanager.cpp:524
 #, kde-format
@@ -11448,10 +11445,9 @@ msgid "Confirm Filter"
 msgstr "Potrditev filtra"
 
 #: ekos/auxiliary/filtermanager.cpp:934
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to quit?"
-msgstr "Ali zares želite preklicati?"
+msgstr "Ali ste prepričani, da želite zapreti program?"
 
 #: ekos/auxiliary/filtermanager.cpp:1018
 #, fuzzy, kde-format
@@ -11460,43 +11456,39 @@ msgid "# Focus Runs"
 msgstr "Ostrilec not"
 
 #: ekos/auxiliary/filtermanager.cpp:1208
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "New Offset"
-msgstr "Odmik"
+msgstr "Nov odmik"
 
 #: ekos/auxiliary/filtermanager.cpp:1244
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
-msgstr ""
+msgstr "Proces se je ustavil. Da, če želite znova zagnati, Ne za prekinitev"
 
 #: ekos/auxiliary/filtermanager.cpp:1275
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
-msgstr ""
+msgstr "Prišlo je do težave. Da, če želite znova poskusiti, Ne za prekinitev"
 
 #: ekos/auxiliary/filtermanager.cpp:1317
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "Ostrenje zaključeno."
+msgstr "Obdelovanje končano."
 
 #: ekos/auxiliary/filtermanager.cpp:1338
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Spreminjanje filtra v %1 ..."
+msgstr "Težava pri spreminjanju filtra v %1 ..."
 
 #: ekos/auxiliary/filtermanager.cpp:1347
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "Izvajanje samodejnega ostenja na %1 (%2/%3) ..."
 
 #: ekos/auxiliary/filtermanager.cpp:1502
-#, fuzzy, kde-format
-#| msgid "Aborting..."
+#, kde-format
 msgid "Aborting Autofocus..."
-msgstr "Prekinjanje ..."
+msgstr "Prekinjanje samodejnega ostrenja ..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -11622,10 +11614,9 @@ msgstr "Filter izbran."
 #. i18n: ectx: property (windowTitle), widget (QWidget, MeridianFlipStatusWidget)
 #: ekos/auxiliary/ledstatuswidget.ui:14
 #: ekos/mount/meridianflipstatuswidget.ui:14
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Form"
-msgstr "Format:"
+msgstr "Oblika"
 
 #. i18n: ectx: property (text), widget (QLabel, statusText)
 #: ekos/auxiliary/ledstatuswidget.ui:44
@@ -11894,7 +11885,7 @@ msgstr "Podro&bni izpis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDetectorLogging)
 #: ekos/auxiliary/opslogs.ui:351
-#, fuzzy, kde-format
+#, kde-format
 msgid "Detector"
 msgstr "Detektor"
 
@@ -12073,10 +12064,8 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
 #, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Optical"
 msgid "Optical Trains"
-msgstr "Vidna svetloba"
+msgstr "Optični vlaki"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
@@ -12122,7 +12111,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scope/Lense:"
 msgstr "Daljnogled/objektiv:"
 
@@ -12195,9 +12184,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:234
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reducer/Barlow:"
-msgstr "Reduktor (Barlow):"
+msgstr "Reduktor/Barlow:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:264
@@ -12224,7 +12213,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:280
-#, fuzzy, kde-format
+#, kde-format
 msgid "Filter Wheel:"
 msgstr "Kolo s filtri:"
 
@@ -12500,7 +12489,7 @@ msgstr "Dodajanje novega pravila ni uspelo."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SerialPortAssistant)
 #: ekos/auxiliary/serialportassistant.ui:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Serial Port Assistant"
 msgstr "Pomočnik serijskih vrat"
 
@@ -12562,7 +12551,7 @@ msgstr "Vse naprave so uspešno zaslišne."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/auxiliary/serialportassistant.ui:244
-#, fuzzy, kde-format
+#, kde-format
 msgid "You can now connect to your equipment."
 msgstr "Zdaj se lahko povežete s svojo opremo."
 
@@ -12927,7 +12916,7 @@ msgstr "Cilinder"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:469
 #, fuzzy, kde-format
 msgid "The number of thresholds the intensity range is divided up into."
-msgstr "Število pragov je razpon intenzivnosti razdeljen na."
+msgstr "Število pragov, na katere je razdeljen razpon/obseg intenzivnosti."
 
 #. i18n: ectx: property (text), widget (QLineEdit, deblend_thresh)
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
@@ -12944,7 +12933,7 @@ msgid ""
 ">Extraction Params</a>"
 msgstr ""
 "<a href=\"https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html"
-"\">Ekstrakcijo params</a>"
+"\">Parametri ekstrakcije</a>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:495
@@ -13272,7 +13261,7 @@ msgstr "Parametri astrometrije"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:905
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximum time"
 msgstr "Najdaljši čas"
 
@@ -13691,7 +13680,7 @@ msgstr ""
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
-"Opozorilo: Odklon vodnika je izbran, vendar postopek samodejnega hlajenja ni "
+"Opozorilo: izbran je odklon vodnika, vendar postopek samodejnega vodenja ni "
 "bil zagnan."
 
 #: ekos/capture/capture.cpp:957
@@ -13704,13 +13693,13 @@ msgstr ""
 "ostiranja ni bil zagnan."
 
 #: ekos/capture/capture.cpp:959
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 "Opozorilo: izbrano je preverjanje delte temperature, vendar postopek "
-"samodejnega ostiranja ni bil zagnan."
+"samodejnega ostrenja ni bil zagnan."
 
 #: ekos/capture/capture.cpp:988
 #, kde-format
@@ -13952,16 +13941,14 @@ msgid "Autofocus failed."
 msgstr "Neuspelo samodejno ostrenje."
 
 #: ekos/capture/capture.cpp:3573
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Adaptive focus complete."
-msgstr "Ostrenje zaključeno."
+msgstr "Prilagodljivo ostrenje zaključeno."
 
 #: ekos/capture/capture.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Adaptive focus failed. Continuing..."
-msgstr "Samodejno ostrenje ni uspelo. Prekinjanje osvetljevanja ..."
+msgstr "Prilagodljivo ostrenje ni uspelo. Nadaljevanje ..."
 
 #: ekos/capture/capture.cpp:3589
 #, kde-format
@@ -14210,12 +14197,12 @@ msgstr "Hladilnik je aktiviran"
 msgid "Cooler is off"
 msgstr "Hladilnik je ugasnjen"
 
-#: ekos/capture/capture.cpp:5983 ekos/focus/focus.cpp:4752
+#: ekos/capture/capture.cpp:5983 ekos/focus/focus.cpp:4753
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Časovna uganka izpostavljenosti. Prekinitev..."
 
-#: ekos/capture/capture.cpp:6006 ekos/focus/focus.cpp:4757
+#: ekos/capture/capture.cpp:6006 ekos/focus/focus.cpp:4758
 #: ekos/guide/guide.cpp:884
 #, fuzzy, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -14353,13 +14340,13 @@ msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:376
-#, fuzzy, kde-format
+#, kde-format
 msgid "Current camera gain"
 msgstr "Trenutna ojačitev kamere"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:395
-#, fuzzy, kde-format
+#, kde-format
 msgid "Target camera gain"
 msgstr "Ciljna ojačitev kamere"
 
@@ -15039,25 +15026,22 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:466
 #, fuzzy, kde-format
 msgid "Light Luminance"
-msgstr "Svetlobna svetilnost"
+msgstr "Svetilnost svetlobe"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, gr_sequenceProgressBar)
 #: ekos/capture/capturecountswidget.ui:232
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Use astrometry.net solver.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Captured images in active sequence</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Uporabi reševalnik astrometry.net</p></body></html>"
+"<html><head/><body><p>Zajete slike v aktivnem zaporedju</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, gr_overallProgressBar)
 #: ekos/capture/capturecountswidget.ui:251
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Use astrometry.net solver.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Percentage of total images captured</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Uporabi reševalnik astrometry.net</p></body></html>"
+msgstr "<html><head/><body><p>Odstotek skupno zajetih slik</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, switchToTextButton)
 #: ekos/capture/capturecountswidget.ui:276
@@ -15485,7 +15469,7 @@ msgid "Pixel Pitch:"
 msgstr "Pixel Pitch:"
 
 #: ekos/capture/dslrinfodialog.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invalid values. Please set all values."
 msgstr "Neveljavne vrednosti. Nastavite vse vrednosti."
 
@@ -15538,7 +15522,7 @@ msgstr "Odstopanje vodenja <"
 #: ekos/capture/limits.ui:128
 #, fuzzy, kde-format
 msgid "Focus Limits"
-msgstr "Omejitve ostrine"
+msgstr "Meje ostrine"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitFocusHFRS)
 #: ekos/capture/limits.ui:137
@@ -15613,10 +15597,9 @@ msgid "In sequence HFR based refocus starting..."
 msgstr "Zaganja se ponovno ostrenje na temelju zaporedja HFR ..."
 
 #: ekos/capture/refocusstate.cpp:74
-#, fuzzy, kde-format
-#| msgid "Adaptive sampling"
+#, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Prilagodljivo vzorčenje"
+msgstr "Prilagodljivo ostrenje se zaganja …"
 
 #: ekos/capture/refocusstate.cpp:93
 #, kde-format
@@ -16137,36 +16120,41 @@ msgid "Focus Options Profile Editor"
 msgstr "Urejevalnik profilov"
 
 #: ekos/focus/focus.cpp:938
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 msgstr ""
+"Prilagodljivo ostrenje: %1 oznak delte temperature; %2 oznak delte višine"
 
 #: ekos/focus/focus.cpp:954
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
+"Prilagodljivo ostrenje je ustavljeno. Skupni premik bi presegel omejitev "
+"najdaljše poti"
 
 #: ekos/focus/focus.cpp:963
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
+"Prilagodljivo ostrenje je ustavljeno. Skupni premik bi presegel omejitev "
+"prilagajanja"
 
 #: ekos/focus/focus.cpp:970
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
-msgstr ""
+msgstr "Prilagodljivo ostrenje se giblje od %1 proti %2"
 
 #: ekos/focus/focus.cpp:983
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus unable to move focuser"
-msgstr ""
+msgstr "Prilagodljivo ostrenje ne more premakniti ostrilnika"
 
 #: ekos/focus/focus.cpp:1084
 #, fuzzy, kde-format
 msgid "No Focuser connected."
 msgstr "Noben ostrilnik ni povezan."
 
-#: ekos/focus/focus.cpp:1091 ekos/focus/focus.cpp:3935
+#: ekos/focus/focus.cpp:1091 ekos/focus/focus.cpp:3936
 #, kde-format
 msgid "No CCD connected."
 msgstr "Ni povezanega CCD-ja."
@@ -16184,14 +16172,17 @@ msgid "Autofocus is already running, discarding start request."
 msgstr "Samodejno ostrenje se že izvaja, zahteva za začetek bo zavržena."
 
 #: ekos/focus/focus.cpp:1111
-#, kde-format
+#, fuzzy, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
+"Zavrnitev zahteve za zagon samodejnega ostrenja - PrilagodiOstrino v teku."
 
 #: ekos/focus/focus.cpp:1116
-#, kde-format
+#, fuzzy, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
+"Zavrnitev zahteve za zagon samodejnega ostrenja - PrilagodljivoOstrenje v "
+"teku."
 
 #: ekos/focus/focus.cpp:1252
 #, kde-format
@@ -16208,111 +16199,115 @@ msgstr "Počakajte na zaključek zajema slike ..."
 msgid "Autofocus operation started"
 msgstr "Samodejno ostrenje je zagnano"
 
-#: ekos/focus/focus.cpp:1356
-#, kde-format
+#: ekos/focus/focus.cpp:1357
+#, fuzzy, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
+"Prilagodljiva začetna točka, zadnja rešitev AF izven najdaljšega potovanja, "
+"prezrto"
 
-#: ekos/focus/focus.cpp:1364
+#: ekos/focus/focus.cpp:1365
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
-msgstr ""
+msgstr "Prilagodljiva začetna točka, vir temperature ni na voljo"
 
-#: ekos/focus/focus.cpp:1366
-#, kde-format
+#: ekos/focus/focus.cpp:1367
+#, fuzzy, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
-msgstr ""
+msgstr "Prilagodljiva začetna točka, brez temperature za zadnjo rešitev AF"
 
-#: ekos/focus/focus.cpp:1373
+#: ekos/focus/focus.cpp:1374
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
-msgstr ""
+msgstr "Prilagodljiva začetna točka, zelo velika delta temperature, prezrto"
 
-#: ekos/focus/focus.cpp:1385
-#, kde-format
+#: ekos/focus/focus.cpp:1386
+#, fuzzy, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
-msgstr ""
+msgstr "Prilagodljiva začetna točka, ni zabeležene višine za zadnjo rešitev AF"
 
-#: ekos/focus/focus.cpp:1387
+#: ekos/focus/focus.cpp:1388
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
-msgstr ""
+msgstr "Prilagodljiva začetna točka, zelo velika višinska delta, prezrto"
 
-#: ekos/focus/focus.cpp:1397
-#, kde-format
+#: ekos/focus/focus.cpp:1398
+#, fuzzy, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
+"Prilagodljiva začetna točka, ciljni položaj je izven najdaljšega potovanja, "
+"prezrto"
 
-#: ekos/focus/focus.cpp:1405
+#: ekos/focus/focus.cpp:1406
 #, fuzzy, kde-format
 #| msgid "XPlanet View: %1 from %2 on %3"
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Pogled XPlanet: %1 od %2 na %3"
 
-#: ekos/focus/focus.cpp:1419
+#: ekos/focus/focus.cpp:1420
 #, fuzzy, kde-format
 #| msgid "XPlanet View: %1 from %2 on %3"
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Pogled XPlanet: %1 od %2 na %3"
 
-#: ekos/focus/focus.cpp:1465
+#: ekos/focus/focus.cpp:1466
 #, kde-format
 msgid "Detection in progress, please wait."
 msgstr "Zaznavanje je v teku, počakajte ..."
 
-#: ekos/focus/focus.cpp:1500
+#: ekos/focus/focus.cpp:1501
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Samodejno ostrenje prekinjeno."
 
-#: ekos/focus/focus.cpp:1584
+#: ekos/focus/focus.cpp:1585
 #, fuzzy, kde-format
 msgid "Error: No Camera detected."
 msgstr "Napaka: Fotoaparat ni zaznan."
 
-#: ekos/focus/focus.cpp:1591
+#: ekos/focus/focus.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to camera."
 msgid "Error: Lost connection to Camera."
 msgstr "Napaka: izgubljena povezava s kamero."
 
-#: ekos/focus/focus.cpp:1612
+#: ekos/focus/focus.cpp:1613
 #, fuzzy, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Napaka: Filtrsko kolo ni zaznano."
 
-#: ekos/focus/focus.cpp:1618
+#: ekos/focus/focus.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to filter wheel."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Napaka: povezava s kolesom s filtri izgubljena."
 
-#: ekos/focus/focus.cpp:1760
+#: ekos/focus/focus.cpp:1761
 #, fuzzy, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Napaka: Ni zaznanega fokusnika."
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1768
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Napaka: povezava z ostrilcem izgubljena."
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1780
 #, fuzzy, kde-format
 msgid "outward"
 msgstr "Krožno navzven"
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1780
 #, fuzzy, kde-format
 msgid "inward"
 msgstr "Krožno navznoter"
 
-#: ekos/focus/focus.cpp:1793
+#: ekos/focus/focus.cpp:1794
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Ostrenje %2 po %1 korakih..."
 
-#: ekos/focus/focus.cpp:1799
+#: ekos/focus/focus.cpp:1800
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
@@ -16321,60 +16316,59 @@ msgstr[1] "Ostrenje %2 po %1 korakih..."
 msgstr[2] "Ostrenje %2 po %1 korakih..."
 msgstr[3] "Ostrenje %2 po %1 korakih..."
 
-#: ekos/focus/focus.cpp:1805
+#: ekos/focus/focus.cpp:1806
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Ostrenje %2 po %1 ms..."
 
-#: ekos/focus/focus.cpp:1843
+#: ekos/focus/focus.cpp:1844
 #, fuzzy, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Focuser se ne odziva na ukaze. Prekinitev..."
 
-#: ekos/focus/focus.cpp:1850
+#: ekos/focus/focus.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Focusing outward by %1 ms..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Ostrenje navzven za %1 ms ..."
 
-#: ekos/focus/focus.cpp:1861
+#: ekos/focus/focus.cpp:1862
 #, fuzzy, kde-format
 #| msgid "Focusing outward by %1 ms..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Ostrenje navzven za %1 ms ..."
 
-#: ekos/focus/focus.cpp:1870
-#, fuzzy, kde-format
+#: ekos/focus/focus.cpp:1871
+#, kde-format
 msgid "Attempting to reconnect focuser: %1"
-msgstr "Poskus ponovno vzpostavitve povezave z ostrilnikom: %1"
+msgstr "Poskus ponovne vzpostavitve povezave z ostrilnikom: %1"
 
-#: ekos/focus/focus.cpp:1879
-#, fuzzy, kde-format
-#| msgid "Capture error. Aborting..."
+#: ekos/focus/focus.cpp:1880
+#, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
-msgstr "Napaka zajemanja! Prekinjam..."
+msgstr "Ostrilnika ni mogoče ponovno povezati: %1. Prekinitev ..."
 
-#: ekos/focus/focus.cpp:1928
+#: ekos/focus/focus.cpp:1929
 #, kde-format
 msgid "Detection complete."
 msgstr "Zaznavanje končano."
 
-#: ekos/focus/focus.cpp:2124
+#: ekos/focus/focus.cpp:2125
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Zaznavanje virov ..."
 
-#: ekos/focus/focus.cpp:2237
+#: ekos/focus/focus.cpp:2238
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Opravilo samodejnega ostrenja se je uspešno zaključilo"
 
-#: ekos/focus/focus.cpp:2246
+#: ekos/focus/focus.cpp:2247
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Operacija samodejnega ostrenja je spodletela"
 
-#: ekos/focus/focus.cpp:2278
+#: ekos/focus/focus.cpp:2279
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
@@ -16383,66 +16377,66 @@ msgstr[1] "Samodejno ostrenje zaključeno po %1 iteracijah."
 msgstr[2] "Samodejno ostrenje zaključeno po %1 iteracijah."
 msgstr[3] "Samodejno ostrenje zaključeno po %1 iteracijah."
 
-#: ekos/focus/focus.cpp:2364
+#: ekos/focus/focus.cpp:2365
 #, fuzzy, kde-format
 msgid "Settling for %1s..."
 msgstr "Nastavljanje za %1s …"
 
-#: ekos/focus/focus.cpp:2371
+#: ekos/focus/focus.cpp:2372
 #, kde-format
 msgid "Settling complete."
 msgstr "Poravnava zaključena."
 
-#: ekos/focus/focus.cpp:2384
+#: ekos/focus/focus.cpp:2385
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Samodejno ostrenje ni uspelo, pomikanje nazaj na izvorni položaj ostrine %1."
 
-#: ekos/focus/focus.cpp:2421
+#: ekos/focus/focus.cpp:2422
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "Prejeta slika FITS. Zaznane ni bilo nobene zvezde."
 
-#: ekos/focus/focus.cpp:2575
+#: ekos/focus/focus.cpp:2576
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Ni bilo mogoče samodejno izbrati zvezde. Izberite jo ročno."
 
-#: ekos/focus/focus.cpp:2671
+#: ekos/focus/focus.cpp:2672
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Zajemanje zaključeno. Izberite zvezdo, ki naj bo v žarišču."
 
-#: ekos/focus/focus.cpp:2704
+#: ekos/focus/focus.cpp:2705
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Zaznane ni bilo nobene zvezde. Ponovno zajemanje..."
 
-#: ekos/focus/focus.cpp:2839
+#: ekos/focus/focus.cpp:2840
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr "Samodejno ostrenje ni uspelo. Poskusite povečati vrednost tolerance."
 
-#: ekos/focus/focus.cpp:2850 ekos/focus/focus.cpp:3489
+#: ekos/focus/focus.cpp:2851 ekos/focus/focus.cpp:3490
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Zaznane ni bilo nobene zvezde. Ponovno zajemanje..."
 
-#: ekos/focus/focus.cpp:2856 ekos/focus/focus.cpp:3495
+#: ekos/focus/focus.cpp:2857 ekos/focus/focus.cpp:3496
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Ni bilo mogoče zaznati nobene zvezde na položaju %1. Se nadaljuje …"
 
-#: ekos/focus/focus.cpp:2861 ekos/focus/focus.cpp:3500
+#: ekos/focus/focus.cpp:2862 ekos/focus/focus.cpp:3501
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Ni bilo mogoče zaznati nobene zvezde. Ponastavite posnetek in poskusite "
 "znova."
 
-#: ekos/focus/focus.cpp:3087
+#: ekos/focus/focus.cpp:3088
 #, fuzzy, kde-format
 #| msgid "Curve Fit check failed R2=%1 R2Limit=%2 retrying..."
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
@@ -16450,7 +16444,7 @@ msgstr ""
 "Preverjanje ujemanja krivulje je spodletelo; R2=%1 R2Limit=%2 ponovno "
 "preizkušanje …"
 
-#: ekos/focus/focus.cpp:3094
+#: ekos/focus/focus.cpp:3095
 #, fuzzy, kde-format
 #| msgid "Curve Fit check failed again R2=%1 R2Limit=%2 but continuing..."
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
@@ -16458,17 +16452,17 @@ msgstr ""
 "Preverjanje ujemanja krivulje je znova spodletelo; R2=%1 R2Limit=%2 vendar "
 "se nadaljuje …"
 
-#: ekos/focus/focus.cpp:3137
+#: ekos/focus/focus.cpp:3138
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Prejeta slika FITS. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3139
+#: ekos/focus/focus.cpp:3140
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Prejeta slika FITS. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3200
+#: ekos/focus/focus.cpp:3201
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -16477,26 +16471,26 @@ msgstr ""
 "Sprememba HFR je premajhna. Poskusite povečati velikost koraka ali zmanjšati "
 "toleranco."
 
-#: ekos/focus/focus.cpp:3207
+#: ekos/focus/focus.cpp:3208
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "V posnetku ni bilo mogoče zaznati zvezde v žarišču. Zajemite in izberite "
 "zvezdo v žarišču."
 
-#: ekos/focus/focus.cpp:3312
+#: ekos/focus/focus.cpp:3313
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Najdena polinomska rešitev @ %1"
 
-#: ekos/focus/focus.cpp:3376
+#: ekos/focus/focus.cpp:3377
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Ostrilnik se ne more premakniti naprej, dosežene so omejitve naprave. "
 "Samodejno ostrenje je prekinjeno."
 
-#: ekos/focus/focus.cpp:3387
+#: ekos/focus/focus.cpp:3388
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -16504,109 +16498,109 @@ msgstr ""
 "Nestabilna nihanja. Poskusite povečati začetno velikost koraka ali trajanje "
 "ekspozicije."
 
-#: ekos/focus/focus.cpp:3397
+#: ekos/focus/focus.cpp:3398
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Prišlo je do blokade. Poskusite znova z drugačnimi nastavitvami."
 
-#: ekos/focus/focus.cpp:3426
+#: ekos/focus/focus.cpp:3427
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "Dosežena največja omejitev potovanja. Samodejno ostrenje je prekinjeno."
 
-#: ekos/focus/focus.cpp:3474
+#: ekos/focus/focus.cpp:3475
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Prejeta slika FITS. HFR %1. Delta (%2%), najm. HFR (%3)"
 
-#: ekos/focus/focus.cpp:3478
+#: ekos/focus/focus.cpp:3479
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 "Samodejno ostrenje ni uspelo. Poskusite prilagoditi vrednost tolerance."
 
-#: ekos/focus/focus.cpp:3568 ekos/focus/focus.cpp:3581
-#: ekos/focus/focus.cpp:3703 ekos/focus/focus.cpp:3776
-#: ekos/focus/focus.cpp:3838 ekos/focus/focus.cpp:3879
+#: ekos/focus/focus.cpp:3569 ekos/focus/focus.cpp:3582
+#: ekos/focus/focus.cpp:3704 ekos/focus/focus.cpp:3777
+#: ekos/focus/focus.cpp:3839 ekos/focus/focus.cpp:3880
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Napaka ostrilca. Preverite ploščo INDI."
 
-#: ekos/focus/focus.cpp:3612 ekos/focus/focus.cpp:3719
+#: ekos/focus/focus.cpp:3613 ekos/focus/focus.cpp:3720
 #, fuzzy, kde-format
 #| msgid "Auto focus on filter change..."
 msgid "Simulate focuser comms failure..."
 msgstr "Samodejno ostrenje ob spremembi filtra..."
 
-#: ekos/focus/focus.cpp:3685 ekos/focus/focus.cpp:3762
-#: ekos/focus/focus.cpp:3824 ekos/focus/focus.cpp:3854
+#: ekos/focus/focus.cpp:3686 ekos/focus/focus.cpp:3763
+#: ekos/focus/focus.cpp:3825 ekos/focus/focus.cpp:3855
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Ponoven zagon samodejnega ostrenja ..."
 
-#: ekos/focus/focus.cpp:3953
+#: ekos/focus/focus.cpp:3954
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Začenjanje neprekinjene osvetlitve ..."
 
-#: ekos/focus/focus.cpp:4190
+#: ekos/focus/focus.cpp:4191
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Onemogočanje samodejnega izbiranja zvezde, ker je bil okvir za izbor zvezde "
 "ročno premaknjen."
 
-#: ekos/focus/focus.cpp:4195
+#: ekos/focus/focus.cpp:4196
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Izbrana zvezda v žarišču."
 
-#: ekos/focus/focus.cpp:4308
+#: ekos/focus/focus.cpp:4309
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Izbrane ni bilo nobene zvezde. Uporabljam zadnjo znano pozicijo..."
 
-#: ekos/focus/focus.cpp:4314
+#: ekos/focus/focus.cpp:4315
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Izbrane ni bilo nobene zvezde. Prekinjanje ..."
 
-#: ekos/focus/focus.cpp:4429
+#: ekos/focus/focus.cpp:4430
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Ostrina sličice/izreza"
 
-#: ekos/focus/focus.cpp:4770
+#: ekos/focus/focus.cpp:4771
 #, kde-format
 msgid "Capturing image again..."
 msgstr "Ponovno zajemanje slike ..."
 
-#: ekos/focus/focus.cpp:4785
+#: ekos/focus/focus.cpp:4786
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Slike ni bilo mogoče shraniti. Prekinjanje ..."
 
-#: ekos/focus/focus.cpp:4795
+#: ekos/focus/focus.cpp:4796
 #, fuzzy, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Napaka ekspozicije. Prekinitev ..."
 
-#: ekos/focus/focus.cpp:4800
+#: ekos/focus/focus.cpp:4801
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Osvetljevanje ni uspelo. Ponovno zaganjanje osvetljevanja..."
 
-#: ekos/focus/focus.cpp:5000
+#: ekos/focus/focus.cpp:5001
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Relativni profil"
 
-#: ekos/focus/focus.cpp:6206
-#, kde-format
+#: ekos/focus/focus.cpp:6207
+#, fuzzy, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
 "It will not necessarily give you the perfect combination of parameters, you "
@@ -16629,9 +16623,32 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
+"Svetovalec za ostrenje (FA) je zasnovan tako, da vam pomaga pri parametrih "
+"ostrenja.\n"
+"Ni nujno, da vam bo ponudil popolno kombinacijo parametrov, saj boste morali "
+"sami eksperimentirati, vendar vam bo ponudil osnovni nabor parametrov za "
+"doseganje ostrine.\n"
+"\n"
+"FA priporoča vrednosti za večino parametrov. Za nastavitev nekaterih pa "
+"boste morali vložiti dodatno delo. Ti so navedeni spodaj skupaj z osnovno "
+"razlago, kako jih nastaviti.\n"
+"\n"
+"Najprej je treba nastaviti povratno lego. V priročniku za ostrilnik bo "
+"verjetno pojasnjeno, kako to storiti. Ko določite vrednost za zračno razliko "
+"za svoj sistem, nastavite polje Backlash, da gonilnik izvede kompenzacijo "
+"zračne razlike, ali polje AF Overscan, da samodejno ostrenje izvede "
+"kompenzacijo zračne razlike. Nastavite samo eno polje, drugo pa nastavite na "
+"0.\n"
+"\n"
+"Drugi korak je nastavitev velikosti koraka. Ta je lahko privzeta iz območja "
+"kritičnega ostrenja (OKO oz. CFZ) za vašo opremo - zato jo zdaj nastavite v "
+"zavihku OKO.\n"
+"\n"
+"Tretji korak je nastavitev večkratnega koraka izhoda. Začnite s predlagano "
+"privzeto vrednostjo."
 
-#: ekos/focus/focus.cpp:6222
-#, kde-format
+#: ekos/focus/focus.cpp:6223
+#, fuzzy, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
 "far away from focus as stars will appear as donuts and will not be detected "
@@ -16641,9 +16658,17 @@ msgid ""
 "star detection is acceptable. Adjust Out Step Multiple to correspond to this "
 "range of focuser motion."
 msgstr ""
+" Imate daljnogled z osrednjo oviro, zato pazite, da se ne oddaljite preveč "
+"od ostrine, saj bodo zvezde videti kot krofi in ne bodo pravilno zaznane. "
+"Eksperimentirajte tako, da poiščete gorišče in se premaknete Korak velikosti "
+"* Večkratni izhodni korak oznak stran od gorišča in posnemite kader z "
+"ostrino. Povečajte in opazujte zaznavanje zvezd. Če je slabo, premaknite "
+"ostrilnik nazaj proti ostrini, dokler zaznavanje zvezd ni sprejemljivo. "
+"Prilagodite Večkratni izhodni korak, da ustreza temu območju gibanja "
+"ostrilnika."
 
-#: ekos/focus/focus.cpp:6229
-#, kde-format
+#: ekos/focus/focus.cpp:6230
+#, fuzzy, kde-format
 msgid ""
 "\n"
 "\n"
@@ -16662,8 +16687,23 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"\n"
+"Četrti korak je, da nastavite preostale parametre ostrine na občutljive "
+"vrednosti. Svetovalec ostrenja bo predlagal vrednosti za štiri kategorije "
+"parametrov. Če želite sprejeti ta priporočila, potrdite povezano polje "
+"Posodobitev in pritisnite Posodobi parametre.\n"
+"1. Lastnosti fotoaparata/kamere - opomba: morate zagotoviti, da je ojačitev "
+"ustrezno nastavljena, npr. enotna ojačitev.\n"
+"2. Zavihek Nastavitve: vsi ti imajo priporočila.\n"
+"3. Zavihek Proces: vsi ti imajo priporočila.\n"
+"4. Zavihek Mehanika: opomba: Velikost koraka in Večkratni izstopni korak sta "
+"obravnavana zgoraj.\n"
+"\n"
+"Zdaj premaknite fokusnik na približno ostrino in izberite širokopasovni "
+"filter, npr. Svetilnost\n"
+"Zdaj ste pripravljeni za začetek samodejnega ostrenja."
 
-#: ekos/focus/focus.cpp:6239
+#: ekos/focus/focus.cpp:6240
 #, fuzzy, kde-format
 msgid "Focus Advisor"
 msgstr "Zvezda v žarišču"
@@ -16834,13 +16874,17 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
 #: ekos/focus/focus.ui:936
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>During Full Field focusing,  this controls the size of "
 "an Annulus centred at the middle of the sensor to include for processing.  "
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Pri ostrenju s polnim poljem ta nastavitev določa "
+"velikost okvirov s središčem na sredini tipala, ki se vključijo v obdelavo.  "
+"Za vključitev sredine tipala nastavite notranji % na nič, za vključitev "
+"zunanjih robov tipala pa nastavite zunanji % na 100. </p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
@@ -16891,13 +16935,17 @@ msgstr "Celotna polje"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
 #: ekos/focus/focus.ui:1012
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>During Full Field focusing, this controls the size of "
 "an Annulus centred at the middle of the sensor to include for processing. "
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Pri ostrenju s polnim poljem ta nastavitev določa "
+"velikost okvirov s središčem na sredini tipala, ki se vključijo v obdelavo. "
+"Za vključitev sredine tipala nastavite notranji % na nič, za vključitev "
+"zunanjih robov tipala pa nastavite zunanji % na 100. </p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/focus.ui:1037
@@ -17017,10 +17065,9 @@ msgstr "Anulus:"
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1214 ekos/focus/focus.ui:1309
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adaptive Focus"
-msgstr "Prilagodljiva optika"
+msgstr "Prilagodljivo ostrenje"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/focus.ui:1262
@@ -17031,13 +17078,17 @@ msgstr "Najv. potovanje:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMaxMove)
 #: ekos/focus/focus.ui:1281
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The maximum total Adaptive focuser movement between "
 "Autofocus runs.  If this value is hit,  adaptive focusing is suspended.  The "
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Najvišji skupni premik prilagodljivega ostrilnika med "
+"posameznimi zagoni samodejnega ostrenja.  Če je ta vrednost dosežena, se "
+"adaptivno ostrenje prekine.  Namen tega nadzora je obvladovanje pobeglega "
+"prilagodljivega ostrenja.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
@@ -17076,7 +17127,7 @@ msgstr "Najmanjši premik"
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
-"the Adaptive Focus settings.  This is an experimental feature.</p></body></"
+"the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
 "<html><head/><body><p>Pred zajemom nastavite kot ciljnega položaja.</p></"
@@ -17214,7 +17265,7 @@ msgid ""
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a polynomial fit "
-"of degree 2.  This is currently the default option and currently the only "
+"of degree 2. This is currently the default option and currently the only "
 "option for all Algorithms except Linear 1 Pass.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hyperbola</"
@@ -17303,7 +17354,7 @@ msgid ""
 "power calculation. Uses the Fourier Transform Power approach developed by "
 "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
 "the power in frequency space [result of the fourier transform] will be a "
-"maximum.This is an experimental feature.</li></ul></body></html>"
+"maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Metoda zaznavanja zvezd:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -17336,9 +17387,9 @@ msgstr "HFR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1613
-#, kde-format
+#, fuzzy, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "Pril. HFR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1618
@@ -17350,22 +17401,19 @@ msgstr "PŠPM"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1623
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "# Stars"
-msgstr "Zvezde"
+msgstr "# Zvezde"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1628
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Mont-Laurier"
+msgstr "Fourier"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1636
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Check to run an outlier pass when all datapoints have "
 "been taken. The pass uses Peirce's Criteria for outlier threshold detection. "
@@ -17374,6 +17422,12 @@ msgid ""
 "highlighted on the v-curve. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Preveri, da se ob upoštevanju vseh podatkovnih točk "
+"izvede prehod za odstopanja. Prehod uporablja Peirceova merila za zaznavanje "
+"praga odstopanj. Če se pojavijo izstopajoče vrednosti, se odstranijo in "
+"ponovno se izvede prilagajanje krivulje. Če se s postopkom izboljša R², se "
+"uporabi ta novi nabor podatkov in na v-krivulji se poudarijo izstopajoče "
+"vrednosti. To je eksperimentalna funkcija.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1639
@@ -17566,21 +17620,28 @@ msgstr "Bahtinov"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarPSFLabel)
 #: ekos/focus/focus.ui:1759
-#, kde-format
+#, fuzzy, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/focus.ui:1769
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The type of PSF to use when Measure is set to FWHM:</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
 "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
-"Gaussian.  This is an experimental feature.</li></ul></body></html>"
+"Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Vrsta PSF, ki ga je treba uporabiti, ko je merilo "
+"nastavljeno na FWHM:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Gaussovo</span>: Uporablja 2D-Gaussovo.  To je eksperimentalna funkcija.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1813
@@ -17724,14 +17785,19 @@ msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:2183
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>For backlash-aware focusers, the amount of backlash to "
 "apply when reversing movement direction. Set to 0 to disable.</"
 "p><p>Typically either Focuser Backlash or AF Overscan is set.</p><p>This "
-"field sets the Indi Focuser Backlash field and can be set either here on on "
+"field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Za ostrilnike, ki se zavedajo zaostritve, je količina "
+"zaostritve, ki jo je treba uporabiti pri vzvratni smeri gibanja. Nastavite "
+"na 0, da to onemogočite.</p><p>Običajno je nastavljena zaostritev ostrilnika "
+"ali AF Overscan.</p><p>To polje nastavi polje Indi Focuser Backlash in ga "
+"lahko nastavite tukaj na nadzorni plošči Indi.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2196
@@ -17753,13 +17819,12 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:2221
 #, fuzzy, kde-format
-#| msgid "Overlap:"
 msgid "AF Overscan:"
-msgstr "Prekritje:"
+msgstr "Prekritje AF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2240
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of walk for the focuser to take when "
 "using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For <span "
@@ -17782,6 +17847,27 @@ msgid ""
 "be effective but is predictable in the number of steps taken. This walk is "
 "experimental.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Izberite vrsto hoje, ki jo želite pri uporabi <span "
+"style=\" font-weight:600;\">linearnega enojnega prehoda</span>.  Za <span "
+"style=\" font-weight:600;\">linearno</span> je na voljo le <span style=\" "
+"font-weight:600;\">klasično</span>.</p><p>Klasično<span style=\" font-"
+"weight:600;\">:</span> ostrilnik stopi ven &quot;Izstopi korak več&quot; "
+"korakov, sprejme okvir in nato koraka skozi ostrino pri stalnem koraku "
+"velikosti ob in analiziranje okvirjev na vsakem koraku. Natančna točka, na "
+"kateri se prehod ustavi, je odvisna od podatkov, zato je ta sprehod "
+"toleranten, da se začne dlje od ostrine, vendar na račun dodatnih korakov.</"
+"p><p><span style=\" font-weight:600;\">Fiksni koraki</span>: ostrilnik "
+"koraka iz polovice &quot;Število korakov&quot;, sprejme okvir in nato koraka "
+"natanko &quot;Število korakov&quot;. To hojo je treba začeti blizu ostrine, "
+"da bi bila učinkovita, vendar je predvidljiva pri številu izvedenih korakov. "
+"Ta hoja je poskusna.</p><p><span style=\" font-weight:600;\">Premešani OKO</"
+"span>: podobno kot Fiksni koraki, razen da ta hoja traja polovico korakov "
+"blizu točke ostrenja, saj poskuša dati večjo težo točkam, ki so bližje, da "
+"se osredotočijo v prilagajanje krivulje.<span style=\" font-weight:600;\"></"
+"span> Tako kot pri <span style=\" font-weight:600;\">fiksnih korakih</span> "
+"je treba to hojo začeti blizu ostrine, da bi bila učinkovita, vendar je "
+"predvidljiva v številu korakov. Ta hoja je poskusna.</p><p><br/></p></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -17795,16 +17881,15 @@ msgstr "Klasična"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2249
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Fixed Steps"
-msgstr "Koraki"
+msgstr "Fiksni koraki"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2254
-#, kde-format
+#, fuzzy, kde-format
 msgid "CFZ Shuffle"
-msgstr ""
+msgstr "Premešani OKO"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/focus/focus.ui:2271
@@ -17815,9 +17900,8 @@ msgstr "Najv. potovanje:"
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/focus/focus.ui:2287
 #, fuzzy, kde-format
-#| msgid "Capture image"
 msgid "Capture Timeout:"
-msgstr "Zajemi sliko"
+msgstr "Časovna omejitev zajema:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
 #: ekos/focus/focus.ui:2303
@@ -17856,15 +17940,23 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:2372
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Provides backlash overscan in ticks for outward "
-"focuser movements during an Autofocus run.This is in addition to any Driver "
+"focuser movements during an Autofocus run. This is in addition to any Driver "
 "Backlash provided by the device driver and set in the Driver Backlash field. "
 "Set to 0 to disable. </p><p>If set, AF Overscan is applied to all focuser "
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Poudarja povratni odziv presežnega zajema slike v "
+"oznakah za premike ostrilnika navzven med izvajanjem samodejnega ostrenja.To "
+"je dodatek k morebitnemu povratnemu odzivu gonilnika, ki ga zagotavlja "
+"gonilnik naprave in je nastavljen v polju Povratni odziv gonilnika. "
+"Nastavite na 0, če ga želite onemogočiti. </p><p>Če je nastavljen, se "
+"presežni zajem AF uporablja za vse premike ostrilnika, ki jih sproži modul "
+"za ostrenje.</p><p>Tipično je nastavljen bodisi povratni odziv ostrilnika "
+"bodisi presežni zajem AF.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:2391
@@ -17879,9 +17971,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/focus.ui:2419
 #, fuzzy, kde-format
-#| msgid "Time out:"
 msgid "Motion Timeout:"
-msgstr "Časovna omejitev:"
+msgstr "Časovna omejitev gibanja:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/focus.ui:2435
@@ -17895,10 +17986,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2457
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Number Steps:"
-msgstr "Koraki:"
+msgstr "Število korakov:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2473
@@ -17908,14 +17998,15 @@ msgid ""
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Število zvezd, odkritih na slikah vodnika.</p></body></"
-"html>"
+"<html><head/><body><p>Skupno število korakov, ki jih želite uporabiti, ko je "
+"hoja nastavljena na eno od fiksnih števil korakov hoje, algoritem pa je "
+"linearni enojni prehod.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2508
 #, kde-format
 msgid "CFZ"
-msgstr ""
+msgstr "OKO"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2511
@@ -17925,36 +18016,37 @@ msgid ""
 "Zone (CFZ). This is not necessary for Autofocus, but provides useful "
 "information.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Parametri, povezani z nastavitvijo območja kritičnega "
+"ostrenja (OKO oz. angl. Critical Focus Zone ali CFZ). To ni potrebno za "
+"samodejno ostrenje, vendar zagotavlja koristne informacije.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/focus.ui:2565
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Tolerance (τ):"
-msgstr "Toleranca:"
+msgstr "Toleranca (τ):"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZLabel)
 #: ekos/focus/focus.ui:2581
-#, fuzzy, kde-format
+#, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>OKO:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/focus.ui:2600
-#, fuzzy, kde-format
-#| msgid "Aperture (mm)"
+#, kde-format
 msgid "Aperture (A):"
-msgstr "Zaslonka (mm)"
+msgstr "Zaslonka (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2619
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Preverite, ali želite prikazati najnovejše podatke "
-"vodnika in samodejno pomakniti graf.</p></body></html>"
+"<html><head/><body><p>Preverite, ali želite prikazati OKO na V-krivulji po "
+"uspešnem zagonu samodejnega ostrenja.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -17984,20 +18076,18 @@ msgstr " mm"
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZCameraSteps)
 #: ekos/focus/focus.ui:2669
 #, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Use astrometry.net solver.</p></body></html>"
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Uporabi reševalnik astrometry.net</p></body></html>"
+"<html><head/><body><p>OKO fotoaparata (omejitev ločljivosti) v aktivnem "
+"optičnem vlaku.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2685
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Use astrometry.net solver.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Uporabi reševalnik astrometry.net</p></body></html>"
+msgstr "<html><head/><body><p>Izračunani OKO v μm.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/focus.ui:2704
@@ -18007,16 +18097,19 @@ msgid ""
 "the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Nastavite vrednost tolerance=t med 0 in 1. To umeri "
+"klasični izračun OKO 4,88 λ f<span style=\" vertical-align:super;\">2</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2729
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Počistite vse nedavne podatke o vodniku.</p></body></"
-"html>"
+"<html><head/><body><p>Končni OKO je večji od izračunanega OKO in "
+"fotoaparatovega OKO.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/focus.ui:2745
@@ -18026,14 +18119,13 @@ msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2761
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "CFZ Camera:"
-msgstr "Fotoaparat:"
+msgstr "Fotoaparat OKO:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/focus.ui:2780
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Set the <span style=\" font-"
 "family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
@@ -18042,36 +18134,40 @@ msgid ""
 "background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Nastavite <span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">toleranco ostrine, </span>τ <span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">kot odstotek skupnega vidnega polja</span>.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2808
-#, fuzzy, kde-format
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Počisti zgodovino podatkov senzorja</p></body></html>"
+msgstr "<html><head/><body><p>Izračunani OKO v korakih.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2824
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Spletni viri:</"
-"span></p></body></html>"
+"<html><head/><body><p>OKO = 4,88 t λ f<span style=\" vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/focus.ui:2843
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "OKO:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength (λ):"
-msgstr "Valovna dolžina:"
+msgstr "Valovna dolžina (λ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:2878
@@ -18084,12 +18180,19 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Nastavite velikost koraka (v mikronih) svojega "
+"ostrilnika. To izračunate tako, da ostrilnik premaknete z enega konca hoda "
+"na drugega (pri tem pazite, da ostrilnika ne potisnete čez njegove meje). "
+"Čim natančneje izmerite razdaljo, na katero se premakne vlečna cev (npr. s "
+"ščipalkami), in jo pretvorite v mikrone. Zapišite, za koliko korakov ste "
+"premaknili ostrilnik. Velikost koraka = razdalja_v_mikronih / "
+"število_korakov.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:2881
 #, kde-format
 msgid " μm"
-msgstr ""
+msgstr " μm"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZSeeing)
 #: ekos/focus/focus.ui:2906
@@ -18130,31 +18233,6 @@ msgstr "Goriščno razmerje"
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:2988
 #, fuzzy, kde-format
-#| msgid ""
-#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#| "REC-html40/strict.dtd\">\n"
-#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#| "css\">\n"
-#| "p, li { white-space: pre-wrap; }\n"
-#| "</style></head><body style=\" font-family:'Sans'; font-size:10pt; font-"
-#| "weight:400; font-style:normal;\">\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Select field of view "
-#| "capture method. There are two methods: manual and star hopping-based.</"
-#| "p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">In <span style=\" font-"
-#| "weight:600;\">manual method</span> you navigate the sky map to find the "
-#| "objects of interest, then capture multiple fields of view representations."
-#| "</p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Star hopping-based method </span>automatically captures FOV "
-#| "snapshots using star hopping. This is experimental feature.</p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Once you have selected "
-#| "field of view capture method, press <span style=\" font-weight:600;"
-#| "\">Next</span>.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Select the Critical Focus Zone (CFZ) algorithm:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -18177,29 +18255,26 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Sans'; font-size:10pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Izberite način zajema "
-"vidnega polja. Na voljo sta dva načina: ročni in skakanje po zvezdah.</p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Pri <span style=\" font-"
-"weight:600;\">ročnem načinu</span> se sami sprehajate po zvezdni karti in "
-"iščete zanimive objekte ter nato zajamete več vidnih polj.</p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Izberite algoritem Območje kritične ostrine (OKO oz. "
+"CFZ):</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Classic<span style=\" font-weight:600;\">: Uporablja</span> "
+"formulo, CFZ = 4,88 t λ f<span style=\" vertical-align:super;\">2.</span>.  "
+"Nastavite toleranco, t=1 za osnovno formulo. Nekateri so predlagali t=1/3 "
+"empirično.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Valovanje: </"
+"span> Uporablja formulo, CFZ = 4 t λ f<span style=\" vertical-align:super;"
+"\">2</span>.  Formula, ki izhaja iz teorije aberacije valov. Nekateri so "
+"predlagali t=1/3 ali celo t=1/10.</li></ul><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Način skakanja po zvezdah</span> samodejno zajame posnetke "
-"vidnih polj in pri tem skače od zvezde do zvezde. Ta zmožnost je še v "
-"poskusni fazi.</p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Ko izberete način zajema "
-"vidnih polj, pritisnite <span style=\" font-weight:600;\">Naprej</span>.</"
-"p></body></html>"
+"weight:600;\">Zlato: </span> Uporablja formulo, CFZ = 0.00225 √τ θ f<span "
+"style=\" vertical-align:super;\">2. </span> A.  Več http://www.goldastro.com/"
+"goldfocus/ncfz.php si oglejte.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3000
@@ -18214,7 +18289,7 @@ msgstr "Valovna dolžina:"
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Golden"
 msgid "Gold"
-msgstr "Golden"
+msgstr "Gold"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3019
@@ -18230,13 +18305,13 @@ msgstr ""
 #: ekos/focus/focus.ui:3047
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "Končni OKO:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3066
-#, kde-format
+#, fuzzy, kde-format
 msgid "FWHM (θ):"
-msgstr ""
+msgstr "FWHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3082
@@ -18296,7 +18371,7 @@ msgstr "Kamera in kolo s filtri"
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvOutStepMultLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvOutStepMult)
 #: ekos/focus/focus.ui:3157 ekos/focus/focus.ui:3351
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>A good figure to start with is 5. An exception is if "
 "you have a scope with a central obstruction that turns stars to donuts when "
@@ -18307,6 +18382,14 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dobra številka za začetek je 5. Izjema je, če imate "
+"teleskop z osrednjo oviro, ki zvezde spremeni v krofke, ko niso izostrene. "
+"Kadar se to zgodi, bo sistem težko pravilno prepoznal zvezde. Da bi se "
+"izognili tej situaciji, zmanjšajte velikost koraka ali število korakov.</"
+"p><p>Takšno situacijo preverite tako, da začnete z ostrenjem in se "
+"oddaljujete za &quot;velikost koraka&quot; * &quot;število korakov&quot; "
+"korakov. Vzemite okvir izostritve in povečajte fitsviewer, da vidite, ali so "
+"zvezde videti kot zvezde ali krofi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3186
@@ -18324,11 +18407,9 @@ msgstr "Parametri astrometrije"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3225
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Update GPS"
+#, kde-format
 msgid "Update Params"
-msgstr "Posodobi GPS"
+msgstr "Posodobi parametre"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvSteps)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_32)
@@ -18339,32 +18420,33 @@ msgid ""
 "Make sure you configure the CFZ tab to give an appropriate value for your "
 "system.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Velikost koraka je lahko privzeto nastavljena na "
+"območje kritične ostrine. Prepričajte se, da ste nastavili zavihek OKO tako, "
+"da je podana ustrezna vrednost za vaš sistem.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/focus.ui:3254
 #, fuzzy, kde-format
 msgid "Focus Advisor:"
-msgstr "Zvezda v žarišču"
+msgstr "Svetovalec za ostrino:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/focus.ui:3261
 #, fuzzy, kde-format
-#| msgid "Control Parameters"
 msgid "Mechanics Tab Parameters"
-msgstr "Nadzorni parametri"
+msgstr "Parametri zavihka Mehanika"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:3303
-#, fuzzy, kde-format
+#, kde-format
 msgid "Step Size:"
-msgstr "Največja velikost koraka:"
+msgstr "Velikost koraka:"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:3338
-#, fuzzy, kde-format
-#| msgid "Help"
+#, kde-format
 msgid "Help..."
-msgstr "Pomoč"
+msgstr "Pomoč …"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:3429
@@ -18409,8 +18491,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/focus.ui:3548
-#, fuzzy, kde-format
-#| msgid "Stars: "
+#, kde-format
 msgid "  Stars:"
 msgstr "Zvezde:"
 
@@ -18421,29 +18502,26 @@ msgid ""
 "<html><head/><body><p>Number of stars found in the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Izrisite število zvezd, odkritih na zajetih slikah.</"
-"p></body></html>"
+"<html><head/><body><p>Število zvezd, najdenih v zadnjem posnetku.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/focus/focus.ui:3587
 #, kde-format
 msgid "  Iter:"
-msgstr ""
+msgstr "  Iter:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
 #: ekos/focus/focus.ui:3600
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Use astrometry.net solver.</p></body></html>"
+#, kde-format
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Uporabi reševalnik astrometry.net</p></body></html>"
+msgstr "<html><body><p>Iteracije ostrilnika.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:3635
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile..."
-msgstr "Profil"
+msgstr "Profil …"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
@@ -18456,22 +18534,22 @@ msgstr "Profil"
 msgid "Clear"
 msgstr "Počisti"
 
-#: ekos/focus/focusalgorithms.cpp:500
+#: ekos/focus/focusalgorithms.cpp:501
 #, fuzzy, kde-format
 msgid "Called newMeasurement after a solution was found."
 msgstr "Po najdeni rešitvi se imenuje novouminjenje."
 
-#: ekos/focus/focusalgorithms.cpp:806
+#: ekos/focus/focusalgorithms.cpp:807
 #, kde-format
 msgid "Solution found."
 msgstr "Najdena rešitev."
 
-#: ekos/focus/focusalgorithms.cpp:850
+#: ekos/focus/focusalgorithms.cpp:851
 #, kde-format
 msgid "Too many steps."
 msgstr "Preveč korakov."
 
-#: ekos/focus/focusalgorithms.cpp:879
+#: ekos/focus/focusalgorithms.cpp:880
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr "Rešitev je zunaj največjega potovanja."
@@ -23130,10 +23208,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/opsekos.ui:607
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Dialog timeout:"
-msgstr "Časovna omejitev:"
+msgstr "Časovna omejitev okna:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:636
@@ -23149,7 +23226,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:639
-#, fuzzy, kde-format
+#, kde-format
 msgid "Always reset sequence when starting"
 msgstr "Pri zagonu vedno ponastavi zaporedje"
 
@@ -23167,15 +23244,15 @@ msgstr "Uporabi ukaz flip, če ga podpira namestitev"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:665
-#, fuzzy, kde-format
+#, kde-format
 msgid "Display received FITS in the Summary screen preview window."
-msgstr "Prikaz prejetih FITS v oknu predogleda povzetka zaslona."
+msgstr "Prikaz prejetih FITS v oknu predogledu zaslona povzetka."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:668
-#, fuzzy, kde-format
+#, kde-format
 msgid "Summary screen preview"
-msgstr "Povzetek predogleda zaslona"
+msgstr "Predogled zaslona povzetka"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/opsekos.ui:693
@@ -35235,38 +35312,44 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusUnits), group (Focus)
 #: kstars.kcfg:1916
-#, kde-format
+#, fuzzy, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr ""
+msgstr "Prikazane enote za HFR in FWHM"
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:1920
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Ali je način povezave EkosLive povezan."
+msgstr "Ali je način prilagodljivega ostrenja omogočen."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:1924
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
+"Pri uporabi prilagodljivega ostrenja: najmanjši dovoljen premik ostrilnika v "
+"označbah/črticah."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:1928
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
+"Ali prilagoditi izhodiščni položaj ostrilnika na začetku izvajanja "
+"samodejnega ostrenja."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:1932
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
+"Pri uporabi prilagodljivega ostrenja največji dovoljen skupen premik "
+"ostrilnika v črticah."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
 #: kstars.kcfg:1937
@@ -35283,64 +35366,68 @@ msgstr "Samodejno ostrenje je zagnano"
 
 #. i18n: ectx: label, entry (FocusAlgorithm), group (Focus)
 #: kstars.kcfg:1944
-#, fuzzy, kde-format
+#, kde-format
 msgid "Focus process algorithm"
-msgstr "Algoritem procesa ostiranja"
+msgstr "Algoritem procesa ostrenja"
 
 #. i18n: ectx: whatsthis, entry (FocusCurveFit), group (Focus)
 #: kstars.kcfg:1948
 #, kde-format
 msgid "The type of curve to fit"
-msgstr ""
+msgstr "Vrsta krivulje za prigleganje"
 
 #. i18n: ectx: whatsthis, entry (FocusStarMeasure), group (Focus)
 #: kstars.kcfg:1952
-#, kde-format
+#, fuzzy, kde-format
 msgid "The type of star measure to use."
-msgstr ""
+msgstr "Vrsta merila zvezd, ki ga je treba uporabiti."
 
 #. i18n: ectx: whatsthis, entry (FocusStarPSF), group (Focus)
 #: kstars.kcfg:1956
-#, kde-format
+#, fuzzy, kde-format
 msgid "The type of star PSF to use if curve fitting star profiles."
 msgstr ""
+"Tip zvezdnega PSF, ki ga je treba uporabiti, če je krivuljni profili zvezd, "
+"ki se prilegajo."
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:1960
 #, fuzzy, kde-format
-#| msgid "Observatory is in the shutdown process"
 msgid "Whether to use weights in the curve fitting process."
-msgstr "Opazovalnica se izklaplja"
+msgstr "Ali uporabiti uteži v postopku umerjanja krivulje."
 
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1964
 #, kde-format
 msgid "The minimum acceptable R2 value of a curve fit."
-msgstr ""
+msgstr "Najmanjša sprejemljiva vrednost R2 za prilagajanje krivulje."
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
 #: kstars.kcfg:1968
-#, kde-format
+#, fuzzy, kde-format
 msgid "Whether to refine the curve fit by looking for and discarding outliers."
 msgstr ""
+"Ali je potrebno izpopolniti prileganje krivulje z iskanjem in zavračanjem "
+"odstopanj."
 
 #. i18n: ectx: whatsthis, entry (focusFramesCount), group (Focus)
 #: kstars.kcfg:1972
-#, kde-format
+#, fuzzy, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
 msgstr ""
+"Koliko sličic povprečiti v vsakem koraku postopka samodejnega ostrenja."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:1976
-#, fuzzy, kde-format
+#, kde-format
 msgid "Number of rows to combine in the Bahtinov average calculation."
 msgstr "Število vrstic za združevanje pri izračunu Bahtinovega povprečja."
 
 #. i18n: ectx: label, entry (FocusGaussianSigma), group (Focus)
 #: kstars.kcfg:1980
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gaussian blur sigma value."
-msgstr "Gaussianski zamegljen sigma vrednost."
+msgstr "Vrednost sigme Gaussove zabrisanosti."
 
 #. i18n: ectx: label, entry (FocusThreshold), group (Focus)
 #: kstars.kcfg:1984
@@ -35354,9 +35441,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:1988
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gaussian blur kernel size."
-msgstr "Gaussian meglica velikost jedra."
+msgstr "Velikost jedra Gaussove zabrisanosti."
 
 #. i18n: ectx: label, entry (FocusTolerance), group (Focus)
 #: kstars.kcfg:1992
@@ -35416,11 +35503,13 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusOutSteps), group (Focus)
 #: kstars.kcfg:2011
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "The number of steps to move outwards from the start position of an Autofocus "
 "run."
 msgstr ""
+"Število korakov za premik navzven od začetnega položaja izvajanja "
+"samodejnega ostrenja."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2015
@@ -35443,15 +35532,15 @@ msgstr "Največja oddaljenost od Sonca za izris kometov."
 
 #. i18n: ectx: whatsthis, entry (FocusBacklash), group (Focus)
 #: kstars.kcfg:2024
-#, kde-format
+#, fuzzy, kde-format
 msgid "The amount of driver backlash."
-msgstr ""
+msgstr "Število odzivov voznikov."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2028
-#, kde-format
+#, fuzzy, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr ""
+msgstr "Količina presežka slike pri samodejnem ostrenju."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2036
@@ -35467,49 +35556,50 @@ msgstr ""
 #: kstars.kcfg:2041
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr ""
+msgstr "Vrsta algoritma OKO, ki ga želite uporabiti."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2045
-#, kde-format
+#, fuzzy, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
 msgstr ""
+"Uporabniško določena toleranca za uporabo algoritma Classic in Wavefront."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2049
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
-msgstr ""
+msgstr "Uporabniško določena toleranca za uporabo algoritma Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2053
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
-msgstr ""
+msgstr "Ali prikazati OKO na V-krivulji po izvedbi samodejnega ostrenja."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2057
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr ""
+msgstr "Valovna dolžina v nm za uporabo v algoritmu Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2061
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "Zaslonka teleskopa v mm za uporabo v izračunih OKO."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2065
-#, kde-format
+#, fuzzy, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "F# za uporabo v algoritmu OKO."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2069
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
-msgstr ""
+msgstr "Skupno videnje v ločnih sekundah za uporabo v algoritmu OKO."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2077
@@ -41666,9 +41756,7 @@ msgid "Athens"
 msgstr "Atene"
 
 #: kstars_i18n.cpp:867
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Greece"
-#| msgid "Athens"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Athens"
 msgstr "Atene"
@@ -43442,9 +43530,7 @@ msgid "Burwash"
 msgstr "Burwash"
 
 #: kstars_i18n.cpp:1162
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Busan"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Busan"
 msgstr "Busan"
@@ -53632,12 +53718,10 @@ msgid "Ndola"
 msgstr "Ndola"
 
 #: kstars_i18n.cpp:2843
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Jecheon"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Neches"
-msgstr "Jecheon"
+msgstr "Neches"
 
 #: kstars_i18n.cpp:2844
 #, kde-kuit-format
@@ -54792,12 +54876,10 @@ msgid "Palermo"
 msgstr "Palermo"
 
 #: kstars_i18n.cpp:3036
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "Valentine"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Palestine"
-msgstr "Valentine"
+msgstr "Palestine"
 
 #: kstars_i18n.cpp:3037
 #, kde-kuit-format
@@ -55726,9 +55808,7 @@ msgid "Požega"
 msgstr "Požega"
 
 #: kstars_i18n.cpp:3191
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Czech Republic"
-#| msgid "Prague"
+#, kde-kuit-format
 msgctxt "City in Czechia"
 msgid "Prague"
 msgstr "Praga"
@@ -57502,9 +57582,7 @@ msgid "Seosan"
 msgstr "Seosan"
 
 #: kstars_i18n.cpp:3485
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Seoul"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Seoul"
 msgstr "Seul"
@@ -67418,7 +67496,7 @@ msgstr "Dodajanje položaja ni uspelo"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:417
 #, fuzzy, kde-kuit-format
 msgid "Added new location - %1"
-msgstr "Dodan novo lokacijo - %1"
+msgstr "Dodana nova lokacija - %1"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:423
 #, kde-kuit-format
@@ -67468,7 +67546,7 @@ msgstr "Nastavi kot moj položaj"
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:61
 #, fuzzy, kde-kuit-format
 msgid "Set %1 as the current location"
-msgstr "Nastavi %1 kot moj položaj"
+msgstr "Nastavi %1 kot trenutni položaj"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:63
 #, fuzzy, kde-kuit-format
@@ -71618,10 +71696,9 @@ msgid "Robert Lancaster"
 msgstr "Robert Lancaster"
 
 #: main.cpp:125
-#, fuzzy, kde-format
-#| msgid "FITSViewer Improvements. KStars OSX Port"
+#, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
-msgstr "Izboljšave pregledovalnika FITS. Predelava KStars za OSX"
+msgstr "Izboljšave pregledovalnika FITS in Ekos. KStars za sistem OSX"
 
 #: main.cpp:127
 #, kde-format
@@ -71629,10 +71706,9 @@ msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
 #: main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "Ekos Scheduler Improvements"
-msgstr "Odpri seznam razporejevalnika Ekos"
+msgstr "Izboljšave razporejevalnika Ekos"
 
 #: main.cpp:129
 #, kde-format
@@ -71657,16 +71733,14 @@ msgid "FITS, Focus, Guide Improvements"
 msgstr "Odpri seznam razporejevalnika Ekos"
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Opazovalnica Mount Evans"
+msgstr "John Evans"
 
 #: main.cpp:135
-#, fuzzy, kde-format
+#, kde-format
 msgid "Focus algorithms"
-msgstr "Algoritem procesa ostiranja"
+msgstr "Algoritmi procesa ostrenja"
 
 #: main.cpp:139
 #, kde-format
@@ -71850,9 +71924,9 @@ msgid "Jamie Smith"
 msgstr "Jamie Smith"
 
 #: main.cpp:183
-#, fuzzy, kde-format
+#, kde-format
 msgid "KStars OSX Port."
-msgstr "KStars OSX Port."
+msgstr "KStars za sistem OSX."
 
 #: main.cpp:184
 #, kde-format
@@ -71865,46 +71939,39 @@ msgid "Bahtinov Focus Assistant."
 msgstr "Bahtinov Focus Asistent."
 
 #: main.cpp:185
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Posodobitev supernov"
+msgstr "Dnevna posodobitev supernov"
 
 #: main.cpp:194
-#, fuzzy, kde-format
-#| msgid "Dump sky image to file"
+#, kde-format
 msgid "Dump sky image to file."
-msgstr "Shrani sliko neba v datoteko"
+msgstr "Shrani sliko neba v datoteko."
 
 #: main.cpp:195
-#, fuzzy, kde-format
-#| msgid "Script to execute"
+#, kde-format
 msgid "Script to execute."
-msgstr "Skript za izvedbo"
+msgstr "Skript za izvedbo."
 
 #: main.cpp:196
-#, fuzzy, kde-format
-#| msgid "Width of sky image"
+#, kde-format
 msgid "Width of sky image."
-msgstr "Širina slike neba"
+msgstr "Širina slike neba."
 
 #: main.cpp:197
-#, fuzzy, kde-format
-#| msgid "Height of sky image"
+#, kde-format
 msgid "Height of sky image."
-msgstr "Višina slike neba"
+msgstr "Višina slike neba."
 
 #: main.cpp:198
-#, fuzzy, kde-format
-#| msgid "Date and time"
+#, kde-format
 msgid "Date and time."
-msgstr "Datum in čas:"
+msgstr "Datum in čas."
 
 #: main.cpp:199
-#, fuzzy, kde-format
-#| msgid "Start with clock paused"
+#, kde-format
 msgid "Start with clock paused."
-msgstr "Zaženi z uro v premoru"
+msgstr "Zaženi z uro v premoru."
 
 #: main.cpp:202
 #, kde-format
@@ -72044,17 +72111,15 @@ msgstr "Shrani podatke o teleskopu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
 #: oal/equipmentwriter.ui:318
-#, fuzzy, kde-format
-#| msgid "Add new telescope"
+#, kde-format
 msgid "Clear data and add a new telescope"
-msgstr "Dodaj nov daljnogled"
+msgstr "Počisti podatke in dodaj nov daljnogled"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveScope)
 #: oal/equipmentwriter.ui:338
-#, fuzzy, kde-format
-#| msgid "Save new telescope"
+#, kde-format
 msgid "Remove current telescope"
-msgstr "Shrani nov daljnogled"
+msgstr "Odstrani trenutni daljnogled"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: oal/equipmentwriter.ui:369
@@ -72083,10 +72148,9 @@ msgstr "radian"
 #. i18n: ectx: attribute (title), widget (QWidget, DSLRLens)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: oal/equipmentwriter.ui:526 oal/equipmentwriter.ui:558
-#, fuzzy, kde-format
-#| msgid "Save Lens"
+#, kde-format
 msgid "DSLR Lens"
-msgstr "Shrani objektiv"
+msgstr "Objektiv DSLR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
 #: oal/equipmentwriter.ui:570
@@ -72127,10 +72191,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
 #: oal/equipmentwriter.ui:799
-#, fuzzy, kde-format
-#| msgid "Save Lens"
+#, kde-format
 msgid "Barlow Lens"
-msgstr "Shrani objektiv"
+msgstr "Objektiv Barlow"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: oal/equipmentwriter.ui:831
@@ -72160,37 +72223,32 @@ msgstr "Shrani objektiv"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
 #: oal/equipmentwriter.ui:1051
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
 msgid "Filter focus offset"
-msgstr "Število filtrov"
+msgstr "Zamik ostrine filtra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: oal/equipmentwriter.ui:1080
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Absolute Position"
+#, kde-format
 msgid "Abs. position:"
-msgstr "Absolutni položaj"
+msgstr "Abs. položaj:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: oal/equipmentwriter.ui:1100
 #, fuzzy, kde-format
-#| msgid "Focus Out"
 msgid "Focus alt:"
-msgstr "Ostrilec ven"
+msgstr "Višina ostrilca:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1123
-#, kde-format
+#, fuzzy, kde-format
 msgid "Ticks per C:"
-msgstr ""
+msgstr "Oznak na enoto stopinje:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1140
-#, kde-format
+#, fuzzy, kde-format
 msgid "Ticks per Alt:"
-msgstr ""
+msgstr "Oznak na enoto višine:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1164
@@ -72200,10 +72258,9 @@ msgstr "Samodejno ostrenje:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: oal/equipmentwriter.ui:1178
-#, fuzzy, kde-format
-#| msgid "Lock Filter"
+#, kde-format
 msgid "Locked filter:"
-msgstr "Zakleni filter"
+msgstr "Zaklenjeni filter:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: oal/equipmentwriter.ui:1211
@@ -77177,10 +77234,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, TreeButton)
 #: tools/argchangeviewoption.ui:69
-#, fuzzy, kde-format
-#| msgid "Browse Tree"
+#, kde-format
 msgid "Browse Tree..."
-msgstr "Brskaj po drevesu"
+msgstr "Brskaj po drevesu …"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, OptionValue)
 #: tools/argchangeviewoption.ui:76
@@ -77664,10 +77720,9 @@ msgid "Horizontal Coordinates"
 msgstr "Horizontalne koordinate"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "Kopiraj koordinate"
+msgstr "Enostavne koordinate"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
@@ -77907,17 +77962,15 @@ msgid "Export Eclipses"
 msgstr "Izvozi mrke"
 
 #: tools/eclipsetool.cpp:224
-#, fuzzy, kde-format
-#| msgid "Could not export image"
+#, kde-format
 msgid "Could not export."
-msgstr "Ni mogoče izvoziti v datoteko %s.\n"
+msgstr "Ni mogoče izvoziti."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: tools/eclipsetool.ui:89
-#, fuzzy, kde-format
-#| msgid "Show satellites"
+#, kde-format
 msgid "Show eclipses for:"
-msgstr "Pokaži satelite"
+msgstr "Pokaži mrke za:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/eclipsetool.ui:191
@@ -78047,14 +78100,12 @@ msgid "Preset:"
 msgstr "Prednastavitev:"
 
 #: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1395
-#, fuzzy, kde-format
-#| msgid "Failed to download DSS/SDSS image!"
+#, kde-format
 msgid "Failed to download DSS/SDSS image."
-msgstr "Ni bilo mogoče prejeti slike DSS/SDSS!"
+msgstr "Ni bilo mogoče prejeti slike DSS/SDSS."
 
 #: tools/flagmanager.cpp:51
-#, fuzzy, kde-format
-#| msgid "Flag manager"
+#, kde-format
 msgctxt "@title:window"
 msgid "Flag Manager"
 msgstr "Upravljalnik zastavic"
@@ -78102,10 +78153,9 @@ msgid "Label"
 msgstr "Oznaka"
 
 #: tools/flagmanager.cpp:178
-#, fuzzy, kde-format
-#| msgid "Invalid Coordinate Data"
+#, kde-format
 msgid "Invalid coordinates."
-msgstr "Neveljavne koordinate"
+msgstr "Neveljavne koordinate."
 
 #: tools/flagmanager.cpp:279
 #, kde-format
@@ -78143,8 +78193,7 @@ msgid "Region is invalid."
 msgstr "Območje je veljavno"
 
 #: tools/horizonmanager.cpp:57
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon Manager"
+#, kde-format
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Upravljalnik navideznega obzorja"
@@ -79142,19 +79191,15 @@ msgstr "V vhodni datoteki navedite krajevni čas."
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Kot"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (hh:mm:ss)"
+#, kde-format
 msgid "Angle (hh mm ss.s) "
-msgstr "Rekt. (uu:mm:ss)"
+msgstr "Kot (uu mm ss.s)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
@@ -79167,17 +79212,15 @@ msgstr "Rezultati"
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
-#, fuzzy, kde-format
+#, kde-format
 msgid "Angle (dd.d)"
 msgstr "Kot (dd.d)"
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dec (dd:mm:ss)"
+#, kde-format
 msgid "Angle (dd mm ss.s)"
-msgstr "Dekl. (ss:mm:ss)"
+msgstr "Kot (dd mm ss.s)"
 
 #: tools/modcalcvizequinox.cpp:32
 #, kde-format
@@ -79233,8 +79276,7 @@ msgstr "1 januarja 2007  00:00"
 
 #. i18n: ectx: property (text), widget (QLabel, HelpLabel)
 #: tools/modcalcvizequinox.ui:264
-#, fuzzy, kde-format
-#| msgid "Specify years for the calculation in the input file."
+#, kde-format
 msgid "Specify Years for the Calculation in the Input File"
 msgstr "V vhodni datoteki navedite leta za izračun."
 
@@ -79364,8 +79406,7 @@ msgid "Resolved %1 successfully."
 msgstr "%1 je bil uspešno razrešen!"
 
 #: tools/observinglist.cpp:77
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observation Planner"
 msgstr "Načrtovalnik opazovanja"
@@ -79532,19 +79573,18 @@ msgstr[3] ""
 "ni bilo mogoče dodati. Oglejte si podrobnosti za več informacij."
 
 #: tools/observinglist.cpp:883
-#, fuzzy, kde-format
-#| msgid "Open Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Observing List"
 msgstr "Odpri opazovalni seznam"
 
 #: tools/observinglist.cpp:938
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
-"Navedena datoteka ni veljavna. Pričakujemo XML datoteko na podlagi sheme "
+"Navedena datoteka ni veljavna. Pričakovana je XML-datoteka na podlagi sheme "
 "OpenAstronomyLog."
 
 #: tools/observinglist.cpp:954
@@ -79553,7 +79593,7 @@ msgid "The specified file is invalid"
 msgstr "Navedena datoteka ni veljavna"
 
 #: tools/observinglist.cpp:964
-#, fuzzy, kde-format
+#, kde-format
 msgid "Are you sure you want to clear all objects?"
 msgstr "Ali zares želite počistiti vse predmete/telesa?"
 
@@ -79573,37 +79613,35 @@ msgid "Save Current session?"
 msgstr "Shranim trenutno sejo?"
 
 #: tools/observinglist.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Save Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Observing List"
 msgstr "Shrani opazovalni seznam"
 
 #: tools/observinglist.cpp:1060
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Could not open the observing wishlist file %1 for writing. Your wishlist "
 "changes will not be saved. Check if the location is writable and not full."
 msgstr ""
-"Pred pisanjem ni bilo mogoče odpreti %1 f seznama želja. Spremembe seznama "
-"želja ne bodo shranjene. Preverite, ali je lokacija vtičljiva in ni polna."
+"Pred pisanjem ni bilo mogoče odpreti datoteke seznama želja %1. Spremembe "
+"seznama želja ne bodo shranjene. Preverite, ali je mesto zapisljivo in ni "
+"polno."
 
 #: tools/observinglist.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Add to Observing WishList"
+#, kde-format
 msgid "Could not save observing wishlist"
-msgstr "Dodaj na seznam želenih opazovanj"
+msgstr "Seznama želenih opazovanj ni mogoče shraniti"
 
 #: tools/observinglist.cpp:1082 tools/observinglist.cpp:1197
 #: tools/obslistwizard.cpp:34
-#, fuzzy, kde-format
-#| msgid "Observing List Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observing List Wizard"
 msgstr "Čarovnik za opazovalni seznam"
 
 #: tools/observinglist.cpp:1083
-#, fuzzy, kde-format
+#, kde-format
 msgid "Please wait while loading observing wishlist..."
 msgstr "Počakajte, poteka nalaganje teles/objektov ..."
 
@@ -79912,7 +79950,7 @@ msgstr "Načrtovan čas"
 
 #. i18n: ectx: property (text), widget (QLabel, quickInfoLabel)
 #: tools/observinglist.ui:545
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select an Object to View Information here"
 msgstr "Izberite objekt/telo, da tukaj vidite podrobnosti o njem."
 
@@ -79942,9 +79980,9 @@ msgstr "Izbriši sliko"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, NotesEdit)
 #: tools/observinglist.ui:685
-#, fuzzy, kde-format
+#, kde-format
 msgid "Record object notes here."
-msgstr "Tukaj zabeleži opombe o predmetih."
+msgstr "Tukaj beleži opombe o predmetih."
 
 #: tools/obslistpopupmenu.cpp:27
 #, kde-format
@@ -80515,8 +80553,7 @@ msgid "Script Data"
 msgstr "Podatki skripta"
 
 #: tools/scriptbuilder.cpp:163
-#, fuzzy, kde-format
-#| msgid "Script Builder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Script Builder"
 msgstr "Izgrajevalnik skriptov"
@@ -81389,8 +81426,7 @@ msgid "Script name:"
 msgstr "Ime skripta:"
 
 #: tools/skycalendar.cpp:45
-#, fuzzy, kde-format
-#| msgid "Sky Calendar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Sky Calendar"
 msgstr "Nebesni koledar"
@@ -81401,7 +81437,7 @@ msgid "Print the Sky Calendar"
 msgstr "Natisni nebesni koledar"
 
 #: tools/skycalendar.cpp:74 tools/skycalendar.cpp:122 tools/skycalendar.cpp:125
-#, fuzzy, kde-format
+#, kde-format
 msgid "Please Wait"
 msgstr "Prosimo, počakajte"
 
@@ -81430,8 +81466,7 @@ msgid "%1 transits"
 msgstr "%1 preide"
 
 #: tools/skycalendar.cpp:406
-#, fuzzy, kde-format
-#| msgid "Print sky calendar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print sky calendar"
 msgstr "Natisni nebesni koledar"
@@ -81625,21 +81660,16 @@ msgstr "9  "
 #. i18n: ectx: property (text), widget (QLabel, bortleHelpText)
 #: tools/whatsinteresting/wilpsettings.ui:147
 #, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"right\">For help: <a href=\"http://en."
-#| "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-"
-#| "decoration: underline; color:#004183;\">Wikipedia Link for Bortle dark-"
-#| "sky scale</span></a></p></body></html>"
 msgid ""
 "<html><head/><body><p align=\"right\">For help: <a href=\"https://en."
 "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: "
 "underline; color:#004183;\">Wikipedia Link for Bortle dark-sky scale</span></"
 "a></p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"right\">Za pomoč: <a href=\"http://en."
-"wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: "
-"underline; color:#004183;\">Povezava na wikipedijo do merila Bortle dark-"
-"sky</span></a></p></body></html>"
+"<html><head/><body><p align=\"right\">Pomoč: <a href=\"http://en.wikipedia."
+"org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: underline; "
+"color:#004183;\">Povezava na wikipedijo do merila Bortle dark-sky</span></"
+"a></p></body></html>"
 
 #: tools/whatsinteresting/wiview.cpp:557
 #, kde-kuit-format
@@ -81780,15 +81810,12 @@ msgstr "Izberite nov datum"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to select a new date for the \"What's Up Tonight\" "
-#| "tool.  Note that the date of the main window is not changed."
+#, kde-format
 msgid ""
 "Press this button to select a new date for the \"What's up Tonight\" tool.  "
 "Note that the date of the main window is not changed."
 msgstr ""
-"Kliknite na gumb za izbor novega datuma za orodje »Kaj je na nebu«. Datum za "
+"Kliknite gumb za izbor novega datuma za orodje »Kaj je na nebu«. Datum za "
 "glavno okno ostane nespremenjen."
 
 #. i18n: ectx: property (text), widget (QPushButton, DateButton)
@@ -81811,16 +81838,13 @@ msgstr "Izberite novo zemljepisno lego"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:89
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to select a new geographic location for the \"What's Up "
-#| "Tonight\" tool.  Note that the location of the main window is not changed."
+#, kde-format
 msgid ""
 "Press this button to select a new geographic location for the \"What's up "
 "Tonight\" tool.  Note that the location of the main window is not changed."
 msgstr ""
-"Kliknite na gumb za izbor nove zemljepisne lege za orodje »Kaj je na nebu«. "
-"Lega za glavno okno ostane nespremenjena."
+"Kliknite na gumb za izbor nove zemljepisne lege za orodje »Kaj je na "
+"nebu« (»What’s Up Tonight«). Položaj glavnega okna ostane nespremenjen."
 
 #. i18n: ectx: property (text), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:92
@@ -81842,13 +81866,7 @@ msgstr "Izberite časovno obdobje"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "By default, the \"What's Up Tonight\" tool displays all objects which are "
-#| "above the horizon between sunset and midnight (i.e., \"in the evening"
-#| "\").  You can also choose to show objects which are up between midnight "
-#| "and dawn (i.e., \"in the morning\"), or objects which are up at any time "
-#| "between sunset and sunrise (i.e., \"any time tonight\")"
+#, kde-format
 msgid ""
 "By default, the \"What's up Tonight\" tool displays all objects which are "
 "above the horizon between sunset and midnight (i.e., \"in the evening\").  "
@@ -82094,9 +82112,9 @@ msgstr "Odpre okno s podrobnostmi za poudarjen objekt."
 
 #. i18n: ectx: property (text), widget (QPushButton, DetailButton)
 #: tools/wutdialog.ui:480
-#, fuzzy, kde-format
+#, kde-format
 msgid "Object Details..."
-msgstr "Podrobnosti o predmetu"
+msgstr "Podrobnosti o predmetu …"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ObslistButton)
 #: tools/wutdialog.ui:487
@@ -82245,17 +82263,16 @@ msgid "Lat:"
 msgstr "Z. šir.:"
 
 #: widgets/infoboxwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "HA"
+#, kde-format
 msgctxt "Hour Angle"
 msgid "HA"
 msgstr "UK"
 
 #: widgets/infoboxwidget.cpp:131
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Zenith Angle"
 msgid "ZA"
-msgstr "ZA"
+msgstr "ZK"
 
 #: widgets/timespinbox.cpp:116 widgets/timespinbox.cpp:117
 #: widgets/timespinbox.cpp:118 widgets/timespinbox.cpp:119
@@ -82385,22 +82402,22 @@ msgstr ""
 "desni spodnji gumb pa na »1 sek«."
 
 #: widgets/timeunitbox.cpp:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Increase Time Scale"
 msgstr "Povečaj časovno lestvico"
 
 #: widgets/timeunitbox.cpp:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "Increase time scale to the next largest unit"
 msgstr "Povečajte časovno lestvico na naslednjo največjo enoto"
 
 #: widgets/timeunitbox.cpp:40
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decrease Time Scale"
 msgstr "Zmanjšaj časovno lestvico"
 
 #: widgets/timeunitbox.cpp:41
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decrease time scale to the next smallest unit"
 msgstr "Zmanjšaj časovno lestvico na naslednjo najmanjšo enoto"
 
@@ -82500,13 +82517,13 @@ msgid "Select XPlanet Config File"
 msgstr "Izberite prilagoditveno datoteko XPlanet"
 
 #: xplanet/opsxplanet.cpp:231
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Star Map File"
 msgstr "Izberite datoteko zvezdnega zemljevida XPlanet"
 
 #: xplanet/opsxplanet.cpp:244
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Arc File"
 msgstr "Izberite datoteko XPlanet Arc"
@@ -82988,138 +83005,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#, fuzzy
-#~ msgid "Flat Focus Position"
-#~ msgstr "Položaj ravnoga fokusa"
-
-#, fuzzy
-#~| msgid "Focusing %2 by %1 steps..."
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
-#~ msgstr "Ostrenje %2 po %1 korakih..."
-
-#, fuzzy
-#~| msgid "Focusing %2 by %1 ms..."
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
-#~ msgstr "Ostrenje %2 po %1 ms..."
-
-#, fuzzy
-#~ msgid "Wait this many seconds before resuming guiding."
-#~ msgstr "Počakajte toliko sekund, preden nadaljujete z  navodili."
-
-#, fuzzy
-#~ msgid "Settle:"
-#~ msgstr "Čakaj na umiritev"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are inside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default 0%). "
-#~ "Detection algorithms may also have an inherent filter.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Med ostrenjem polnega polja se zvezde, ki so znotraj tega "
-#~ "odstotka okvirja, filtrirajo iz izračuna HFR (privzeto 0%). Algoritmi za "
-#~ "odkrivanje imajo lahko tudi neločjiv filter.</p></body></html>"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are outside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default "
-#~ "100%). Detection algorithms may also have an inherent filter.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><body><p>Med ostrenjem polnega polja se zvezde, ki so zunaj tega "
-#~ "odstotka okvirja, filtrirajo iz izračuna HFR (privzetih 100 %). Algoritmi "
-#~ "za odkrivanje imajo lahko tudi neločjiv filter.</p></body></html>"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Used in the device driver for backlash-aware "
-#~ "focusers,  the amount of backlash to apply when reversing movement "
-#~ "direction. </p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Za ostrino, ki se zaveda zaostritve, je količina "
-#~ "zaostritve, ki jo je treba uporabiti pri vzvratni smeri gibanja.</p></"
-#~ "body></html>"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
-#~ "Compensation by the number of ticks specified. Set to 0 to disable.  "
-#~ "Overscan backlash and Driver Backlash are independent.</p><p>Used by "
-#~ "Linear and Linear 1 Pass algorithms.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Omogočite, da samodejno ostrenje izvede "
-#~ "kompenzacijo za odpor. Uporabite v povezavi s poljem Backlash.  Algoritem "
-#~ "samodejnega ostrenja ali gonilnik/ostrilnik bi moral opraviti "
-#~ "kompenzacijo, vendar ne oba hkrati.</p><p>Uporabljajo ga linearni in "
-#~ "linearni 1-prehodnI algoritmi.</p></body></html>"
-
-#, fuzzy
-#~| msgid "HFR:"
-#~ msgid "HFR: "
-#~ msgstr "HFR:"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><body><p>HFR value in pixels consolidated at the current focuser "
-#~ "position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Vrednost HFR v pikslih, konsolidirana na trenutnem mestu "
-#~ "fokusa.</p></body></html>"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><body><p>Number of stars used for HFR computation at the current "
-#~ "focuser position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Število zvezd, ki se uporabljajo za HFR računanje na "
-#~ "trenutnem položaju fokusa.</p></body></html>"
-
-#~ msgid "Iteration: "
-#~ msgstr "Iteracija: "
-
-#~ msgid "Relative Profile..."
-#~ msgstr "Relativni profil..."
-
-#~ msgid "Clear Data"
-#~ msgstr "Počisti podatke"
-
-#, fuzzy
-#~ msgid "Initial Focus Out Steps"
-#~ msgstr "Začetni koraki za izostritev"
-
-#, fuzzy
-#~ msgid ""
-#~ "Number of outward steps (this number multiplied by initial-step-size) the "
-#~ "Linear Focus algorithm moves away from the initial position at the start "
-#~ "of focusing."
-#~ msgstr ""
-#~ "Število korakov navzven (to število pomnožimo z velikostjo začetnih "
-#~ "korakov) se algoritem Linear Focus na začetku izostritve oddalje od "
-#~ "začetnega položaja."
-
-#, fuzzy
-#~ msgid "Focus backlash in steps. Zero disables backlash compensation."
-#~ msgstr "Upor izostritve v korakih. Noč onemogoči kompenzacijo upora."
-
-#, fuzzy
-#~| msgid "Number of frames to average"
-#~ msgid "Number of focus frames to average for HFR calculations."
-#~ msgstr "Število sličic za povprečenje"
-
-#, fuzzy
-#~ msgid "Maximum single step the focus algorithm is permitted to command."
-#~ msgstr "Največji korak, ki ga lahko ukazuje algoritem fokusa."
-
-#, fuzzy
-#~| msgid "Default align module CCD."
-#~ msgid "Default focus exposure time when no filters are used."
-#~ msgstr "Privzeti modul CCD za poravnavo."
-
-#~ msgid "Curve Type."
-#~ msgstr "Vrsta krivulje."
-
-#, fuzzy
-#~ msgid "Acceptable limit on R2 from curve fit."
-#~ msgstr "Sprejemljiva meja na R2 iz umerjene krivulje."
