@@ -276,7 +276,7 @@
                 <para
 ><emphasis role="bold"
 >Avís</emphasis
->: Les condicions meteorològiques no són clares, la vista és insatisfactòria o està parcialment obstruïda, i no és adequada per a l'obtenció de les imatges. Qualsevol altre procés d'obtenció de les imatges serà suspès fins que millori el temps. L'estat meteorològic d'avís no suposa cap perill per a l'equip de l'observatori, de manera que es mantindrà operatiu. El comportament exacte sota l'estat d'avís es pot configurar. </para>
+>: Les condicions meteorològiques no són clares, el «seeing» és insatisfactori o està parcialment obstruïda, i no és adequada per a l'obtenció de les imatges. Qualsevol altre procés d'obtenció de les imatges serà suspès fins que millori el temps. L'estat meteorològic d'avís no suposa cap perill per a l'equip de l'observatori, de manera que es mantindrà operatiu. El comportament exacte sota l'estat d'avís es pot configurar. </para>
             </listitem>
             <listitem>
                 <para

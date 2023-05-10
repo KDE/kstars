@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 00:42+0000\n"
-"PO-Revision-Date: 2023-05-08 09:05+0100\n"
+"POT-Creation-Date: 2023-05-10 00:42+0000\n"
+"PO-Revision-Date: 2023-05-09 21:55+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -9215,38 +9215,38 @@ msgstr "Malplenigante muntaĵan vicigomodelon..."
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Ĉi tio povus kaŭzi la teleskopon transiri la meridiano."
 
-#: ekos/align/polaralignmentassistant.cpp:799
+#: ekos/align/polaralignmentassistant.cpp:793
 #, kde-format
 msgid "Are you sure you want to stop the polar alignment process?"
 msgstr "Ĉu vi certas, ke vi volas ĉesigi la polusan vicigon?"
 
-#: ekos/align/polaralignmentassistant.cpp:800
+#: ekos/align/polaralignmentassistant.cpp:794
 #, kde-format
 msgid "Polar Alignment Assistant"
 msgstr "Polar Alignment Assistant"
 
-#: ekos/align/polaralignmentassistant.cpp:827
+#: ekos/align/polaralignmentassistant.cpp:829
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Parkigante la muntilon..."
 
-#: ekos/align/polaralignmentassistant.cpp:867
+#: ekos/align/polaralignmentassistant.cpp:869
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "Bonvolu atendi ĝis muntado finiĝos turniĝanta al RA (%1) DE (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:883
-#: ekos/align/polaralignmentassistant.cpp:889
+#: ekos/align/polaralignmentassistant.cpp:885
+#: ekos/align/polaralignmentassistant.cpp:891
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: Malsukcesis trovi CorrectedPixel."
 
-#: ekos/align/polaralignmentassistant.cpp:915
+#: ekos/align/polaralignmentassistant.cpp:917
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: Malsukcesis trovi RA Axis-centron."
 
-#: ekos/align/polaralignmentassistant.cpp:986
+#: ekos/align/polaralignmentassistant.cpp:988
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -9255,17 +9255,17 @@ msgstr ""
 "Polus-paraleliga stelo ne povas esti ĝisdatigita dum refreŝiga fazo ĉar ĝi "
 "povus influi erarajn mezuradojn."
 
-#: ekos/align/polaralignmentassistant.cpp:1003
+#: ekos/align/polaralignmentassistant.cpp:1005
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Unua mana rotacio farita."
 
-#: ekos/align/polaralignmentassistant.cpp:1008
+#: ekos/align/polaralignmentassistant.cpp:1010
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Dua mana rotacio farita."
 
-#: ekos/align/polaralignmentassistant.cpp:1051
+#: ekos/align/polaralignmentassistant.cpp:1053
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9274,32 +9274,32 @@ msgstr ""
 "Monto estas sinkronigita al ĉiela poluso. Vi nun povas daŭrigi la proceduron "
 "de Polar Alignment Assistant."
 
-#: ekos/align/polaralignmentassistant.cpp:1070
+#: ekos/align/polaralignmentassistant.cpp:1072
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Bonvolu atendi dum WCS-datumoj estas procesitaj..."
 
-#: ekos/align/polaralignmentassistant.cpp:1101
+#: ekos/align/polaralignmentassistant.cpp:1103
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "WCS-datumtraktado estas kompleta."
 
-#: ekos/align/polaralignmentassistant.cpp:1110
+#: ekos/align/polaralignmentassistant.cpp:1112
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "WCS-informoj nun validas. Kaptante sekvan kadron..."
 
-#: ekos/align/polaralignmentassistant.cpp:1152
+#: ekos/align/polaralignmentassistant.cpp:1154
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "Malsukcesis prilabori Mondan koordinatsistemon: %1. Provi denove."
 
-#: ekos/align/polaralignmentassistant.cpp:1170
+#: ekos/align/polaralignmentassistant.cpp:1172
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Malsukcesis trovi la RA-akson. Ĉesi."
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr "Ne povas ŝanĝi al MoveStar-algoritmo post kiam la refreŝiĝo komenciĝis"
@@ -16929,25 +16929,21 @@ msgstr "Minimuma Movo:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1332
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Adapt the Autofocus start position based on filter "
-#| "and the Adaptive Focus settings.  This is an experimental feature.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
 "<html><head/><body><p>Adapti la Aŭtofokusan startpozicion surbaze de agordoj "
-"pri filtriloj kaj Sinadapta Fokusaco. Tio estas eksperimenta kapablo.</p></"
+"pri filtriloj kaj Sinadapta Fokusado. Tio estas eksperimenta kapablo.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1335
 #, kde-format
 msgid "Adapt Start Pos"
-msgstr "Adapta Startpoz."
+msgstr "Adapti Startpoz."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1348
@@ -16977,14 +16973,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1411
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). "
-#| "0.8 is a good start. If the minimum is not met, Auto Focus will rerun "
-#| "once to try to improve the R². Currently only available for the Linear 1 "
-#| "Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This "
-#| "feature is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is "
@@ -16996,8 +16985,8 @@ msgstr ""
 "Aŭtomata Fokuso. La valoro estas inter 0 (neniu taŭga) kaj 1 (perfekta). 0.8 "
 "estas bona komenco. Se la minimumo ne estas plenumita, Aŭtomata Fokuso "
 "refunkcios unufoje por provi plibonigi la R². Nuntempe nur disponebla por la "
-"algoritmo Linear 1 Pass kiam vi uzas Kurbo-Fitiĝon de Hiperbolo aŭ Parabolo. "
-"Ĉi tiu funkcio estas eksperimenta.</p></body></html>"
+"algoritmo Linear 1 Pass kiam vi uzas kurbokongruon de Hiperboloj aŭ "
+"Paraboloj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1436
@@ -17251,14 +17240,7 @@ msgstr "Rafini kurban konvenon"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1652
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to use the standard deviation of the star HFR "
-#| "as a weighting to the curve fitting algorithm. If unchecked, all data "
-#| "points are given equal weighting. Currently only available when using "
-#| "Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola "
-#| "under the Linear 1 Pass algorithm. This feature is experimental.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR or "
 "FWHM as a weighting to the curve fitting algorithm. If unchecked, all data "
@@ -17268,9 +17250,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Marku por uzi la norman devion de la stelo HFR kiel "
 "pezon al la kurba ĝustiga algoritmo. Se nemarkite, ĉiuj datenpunktoj ricevas "
-"egalan pezon. Nuntempe nur havebla kiam vi uzas Plena Kampo (multoblaj "
-"steloj) kaj Kurbo-Fitiĝo de Hiperbolo aŭ Parabolo sub la algoritmo de Linear "
-"1 Pass. Ĉi tiu funkcio estas eksperimenta.</p></body></html>"
+"egalan pezon. Nuntempe nur havebla kiam vi uzas Plenan Kampon (multoblaj "
+"steloj) kaj kurbokongruon de Hiperboloj aŭ Paraboloj sub la algoritmo de "
+"Linear 1 Pass.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1655
@@ -17796,10 +17778,7 @@ msgstr "Nombraj Paŝoj:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2473
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
@@ -17861,16 +17840,13 @@ msgstr "Montri"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/focus.ui:2641
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Elekti la bildigan fotilon por ĉi tiu optika trajno.</"
-"p></body></html>"
+"<html><head/><body><p>Meti la aperturon de via teleskopo en mm. Tiu estas "
+"defaŭltigita el la elektita optika trajno.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -17878,29 +17854,23 @@ msgstr ""
 #: ekos/scheduler/mosaic.ui:114
 #, kde-format
 msgid " mm"
-msgstr "mm"
+msgstr " mm"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZCameraSteps)
 #: ekos/focus/focus.ui:2669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Elekti la bildigan fotilon por ĉi tiu optika trajno.</"
-"p></body></html>"
+"<html><head/><body><p>La CFZ de la kamerao (limo de rezolucio) en la aktiva "
+"optika trajno.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2685
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Forigi elektitan optikan trajnon.</p></body></html>"
+msgstr "<html><head/><body><p>La kalkulita CFZ in μm.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/focus.ui:2704
@@ -17913,29 +17883,25 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2729
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Forviŝi ĉiujn lastatempajn gvidajn datumojn.</p></"
-"body></html>"
+"<html><head/><body><p>La fina CFZ estas la pli granda de la kalkulita CFZ "
+"kaj la kameraa CFZ.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/focus.ui:2745
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Grandeco de paŝo:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2761
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "CFZ Camera:"
-msgstr "Fotilo:"
+msgstr "CFZ kameraa:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/focus.ui:2780
@@ -17948,6 +17914,12 @@ msgid ""
 "background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Meti la <span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">fokustoleremon </span>τ<span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\"> kiel procento de totala vidado.</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2808
@@ -17957,22 +17929,19 @@ msgstr "<html><head/><body><p>La kalkulita CFZ en paŝoj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2824
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Celo: <span style=\" color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/focus.ui:2843
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
@@ -18012,16 +17981,13 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:2934 ekos/focus/focus.ui:3222 ekos/focus/focus.ui:3335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Skali la valorakson al la nuna valorintervalo.</p></"
-"body></html>"
+"<html><head/><body><p>Restarigi Ondolongon, Aperturon, Fokusrilatumon al "
+"valoroj el la aktuale elektita filtrilo kaj optika trajno</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:2937
@@ -18108,20 +18074,19 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3019
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Forigi elektitan optikan trajnon.</p></body></html>"
+"<html><head/><body><p>Meti la F# uzendan. Tio estas defaŭltita el la "
+"elektita optika trajno.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/focus.ui:3047
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "Fina CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3066

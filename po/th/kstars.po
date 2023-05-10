@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 00:42+0000\n"
+"POT-Creation-Date: 2023-05-10 00:42+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -9098,96 +9098,96 @@ msgstr "ไปยังแฟ้ม..."
 msgid "This could cause the telescope to cross the meridian."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:799
+#: ekos/align/polaralignmentassistant.cpp:793
 #, kde-format
 msgid "Are you sure you want to stop the polar alignment process?"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:800
+#: ekos/align/polaralignmentassistant.cpp:794
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "Polar Alignment Assistant"
 msgstr "เขียนทับ"
 
-#: ekos/align/polaralignmentassistant.cpp:827
+#: ekos/align/polaralignmentassistant.cpp:829
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Parking the mount..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/align/polaralignmentassistant.cpp:867
+#: ekos/align/polaralignmentassistant.cpp:869
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:883
-#: ekos/align/polaralignmentassistant.cpp:889
+#: ekos/align/polaralignmentassistant.cpp:885
+#: ekos/align/polaralignmentassistant.cpp:891
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: ekos/align/polaralignmentassistant.cpp:915
+#: ekos/align/polaralignmentassistant.cpp:917
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "PAA: Failed to find RA Axis center."
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: ekos/align/polaralignmentassistant.cpp:986
+#: ekos/align/polaralignmentassistant.cpp:988
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1003
+#: ekos/align/polaralignmentassistant.cpp:1005
 #, fuzzy, kde-format
 #| msgid "Invalid Save Location"
 msgid "First manual rotation done."
 msgstr "ที่ตั้งการบันทึกไม่ถูกต้อง"
 
-#: ekos/align/polaralignmentassistant.cpp:1008
+#: ekos/align/polaralignmentassistant.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Invalid Save Location"
 msgid "Second manual rotation done."
 msgstr "ที่ตั้งการบันทึกไม่ถูกต้อง"
 
-#: ekos/align/polaralignmentassistant.cpp:1051
+#: ekos/align/polaralignmentassistant.cpp:1053
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1070
+#: ekos/align/polaralignmentassistant.cpp:1072
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1101
+#: ekos/align/polaralignmentassistant.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Next Target >"
 msgid "WCS data processing is complete."
 msgstr "เป้าหมายต่อไป >"
 
-#: ekos/align/polaralignmentassistant.cpp:1110
+#: ekos/align/polaralignmentassistant.cpp:1112
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1152
+#: ekos/align/polaralignmentassistant.cpp:1154
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: ekos/align/polaralignmentassistant.cpp:1170
+#: ekos/align/polaralignmentassistant.cpp:1172
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""

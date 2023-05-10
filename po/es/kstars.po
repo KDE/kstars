@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 00:42+0000\n"
-"PO-Revision-Date: 2023-05-07 18:30+0200\n"
+"POT-Creation-Date: 2023-05-10 00:42+0000\n"
+"PO-Revision-Date: 2023-05-09 04:03+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -9318,39 +9318,39 @@ msgstr "Borrando el modelo de alineación de la montura..."
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Esto puede hacer que el telescopio cruce el meridiano."
 
-#: ekos/align/polaralignmentassistant.cpp:799
+#: ekos/align/polaralignmentassistant.cpp:793
 #, kde-format
 msgid "Are you sure you want to stop the polar alignment process?"
 msgstr "¿Seguro que desea detener el proceso de alineación polar?"
 
-#: ekos/align/polaralignmentassistant.cpp:800
+#: ekos/align/polaralignmentassistant.cpp:794
 #, kde-format
 msgid "Polar Alignment Assistant"
 msgstr "Asistente de alineación polar"
 
-#: ekos/align/polaralignmentassistant.cpp:827
+#: ekos/align/polaralignmentassistant.cpp:829
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Aparcando la montura..."
 
-#: ekos/align/polaralignmentassistant.cpp:867
+#: ekos/align/polaralignmentassistant.cpp:869
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 "Por favor, espere hasta que la montura termine de rotar hasta AR (%1) DE (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:883
-#: ekos/align/polaralignmentassistant.cpp:889
+#: ekos/align/polaralignmentassistant.cpp:885
+#: ekos/align/polaralignmentassistant.cpp:891
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: No ha sido posible encontrar el píxel correcto."
 
-#: ekos/align/polaralignmentassistant.cpp:915
+#: ekos/align/polaralignmentassistant.cpp:917
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: No ha sido posible encontrar el centro del eje de AR."
 
-#: ekos/align/polaralignmentassistant.cpp:986
+#: ekos/align/polaralignmentassistant.cpp:988
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -9359,17 +9359,17 @@ msgstr ""
 "La alineación polar no se puede actualizar durante la fase de refresco "
 "porque podría afectar a las medidas de error."
 
-#: ekos/align/polaralignmentassistant.cpp:1003
+#: ekos/align/polaralignmentassistant.cpp:1005
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Primera rotación manual terminada."
 
-#: ekos/align/polaralignmentassistant.cpp:1008
+#: ekos/align/polaralignmentassistant.cpp:1010
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Segunda rotación manual terminada."
 
-#: ekos/align/polaralignmentassistant.cpp:1051
+#: ekos/align/polaralignmentassistant.cpp:1053
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9378,35 +9378,35 @@ msgstr ""
 "La montura está sincronizada con el polo celeste. Ahora puede continuar el "
 "procedimiento del asistente de alineación polar."
 
-#: ekos/align/polaralignmentassistant.cpp:1070
+#: ekos/align/polaralignmentassistant.cpp:1072
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Por favor, espere mientras se procesan los datos WCS..."
 
-#: ekos/align/polaralignmentassistant.cpp:1101
+#: ekos/align/polaralignmentassistant.cpp:1103
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "El procesamiento de los datos WCS se ha completado."
 
-#: ekos/align/polaralignmentassistant.cpp:1110
+#: ekos/align/polaralignmentassistant.cpp:1112
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 "La información de WCS ya es válida. Capturando el siguiente fotograma..."
 
-#: ekos/align/polaralignmentassistant.cpp:1152
+#: ekos/align/polaralignmentassistant.cpp:1154
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "El procesamiento del sistema de coordenadas mundiales ha fallado: %1. Pruebe "
 "otra vez."
 
-#: ekos/align/polaralignmentassistant.cpp:1170
+#: ekos/align/polaralignmentassistant.cpp:1172
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: No se ha podido encontrar el eje de AR. Saliendo."
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -11512,11 +11512,9 @@ msgid ""
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks / °C"
-msgstr "Pulsos"
+msgstr "Pulsos / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:93
 #, kde-format
@@ -11528,7 +11526,7 @@ msgstr ""
 #: ekos/auxiliary/filtermanager.cpp:94
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Pulsos / °Alt"
 
 #: ekos/auxiliary/filtermanager.cpp:96
 #, kde-format
@@ -11536,10 +11534,9 @@ msgid "Mid-point wavelength of filter in nm"
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:97
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
-msgstr "Longitud de onda:"
+msgstr "Longitud de onda"
 
 #: ekos/auxiliary/filtermanager.cpp:524
 #, kde-format
@@ -11552,10 +11549,9 @@ msgid "Confirm Filter"
 msgstr "Confirmar el filtro"
 
 #: ekos/auxiliary/filtermanager.cpp:934
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to quit?"
-msgstr "¿Seguro que desea cancelar?"
+msgstr "¿Seguro que desea salir?"
 
 #: ekos/auxiliary/filtermanager.cpp:1018
 #, fuzzy, kde-format
@@ -11564,43 +11560,41 @@ msgid "# Focus Runs"
 msgstr "Enfocar hacia dentro"
 
 #: ekos/auxiliary/filtermanager.cpp:1208
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "New Offset"
-msgstr "Desplazamiento"
+msgstr "Nuevo desplazamiento"
 
 #: ekos/auxiliary/filtermanager.cpp:1244
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
-msgstr ""
+msgstr "Proceso detenido. «Sí» para reiniciar, «No» para interrumpir."
 
 #: ekos/auxiliary/filtermanager.cpp:1275
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
 msgstr ""
+"Ha ocurrido un problema. «Sí» para volver a intentarlo, «No» para "
+"interrumpir."
 
 #: ekos/auxiliary/filtermanager.cpp:1317
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "Enfoque completado."
+msgstr "Procesamiento completado."
 
 #: ekos/auxiliary/filtermanager.cpp:1338
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Cambiando el filtro a %1..."
+msgstr "Ha ocurrido un problema al cambiar el filtro a %1..."
 
 #: ekos/auxiliary/filtermanager.cpp:1347
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "Ejecutando enfoque automático en %1 (%2/%3)..."
 
 #: ekos/auxiliary/filtermanager.cpp:1502
-#, fuzzy, kde-format
-#| msgid "Aborting..."
+#, kde-format
 msgid "Aborting Autofocus..."
-msgstr "Interrumpiendo..."
+msgstr "Interrumpiendo enfoque automático..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -17061,14 +17055,10 @@ msgstr "Mostrar"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1091
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
 msgstr ""
-"<html><body><p>Tamaño del subfotograma al que ajustar la captura, en píxeles."
-"</p></body></html>"
+"<html><head/><body><p>Tamaño del subfotograma en píxeles.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1094
@@ -17085,17 +17075,15 @@ msgstr "<html><head/><body><p>Borrar el fotograma actual</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1117
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels"
-msgstr "píxeles"
+msgstr "Píxeles"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1122
-#, fuzzy, kde-format
-#| msgid "arc seconds"
+#, kde-format
 msgid "Arc Seconds"
-msgstr "arcosegundos"
+msgstr "Arcosegundos"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
 #: ekos/focus/focus.ui:1136
@@ -17178,11 +17166,9 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1284 ekos/focus/focus.ui:1351
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid " ticks"
-msgstr "Pulsos"
+msgstr " pulsos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1306
@@ -17396,8 +17382,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1567
-#, fuzzy, kde-format
-#| msgid "Quadradic"
+#, kde-format
 msgid "Quadratic"
 msgstr "Cuadrática"
 
@@ -17513,9 +17498,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1618
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM"
 msgstr "FWHM"
 
@@ -17528,11 +17511,9 @@ msgstr "Estrellas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1628
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Mont-Laurier"
+msgstr "Fourier"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1636
@@ -17784,7 +17765,7 @@ msgstr "Bahtinov"
 #: ekos/focus/focus.ui:1759
 #, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/focus.ui:1769
@@ -18117,10 +18098,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2457
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Number Steps:"
-msgstr "Pasos:"
+msgstr "Número de pasos:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2473
@@ -18159,10 +18139,9 @@ msgstr "Tolerancia (τ):"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZLabel)
 #: ekos/focus/focus.ui:2581
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>CFZ:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/focus.ui:2600
@@ -18304,7 +18283,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2843
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
@@ -18461,7 +18440,7 @@ msgstr ""
 #: ekos/focus/focus.ui:3047
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "CFZ final:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3066
@@ -18528,10 +18507,9 @@ msgstr "Actualizar"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/focus.ui:3150
-#, fuzzy, kde-format
-#| msgid "Camera && Filter Wheel"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Cámara y rueda de filtros"
+msgstr "Parámetros de la cámara y de la rueda de filtros"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvOutStepMultLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvOutStepMult)
@@ -18550,25 +18528,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3186
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Settings Tab Parameters"
-msgstr "Parámetros de SExtractor"
+msgstr "Parámetros de la pestaña Preferencias"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/focus.ui:3209
-#, fuzzy, kde-format
-#| msgid "Astrometry Parameters"
+#, kde-format
 msgid "Process Tab Parameters"
-msgstr "Parámetros de Astrometry"
+msgstr "Parámetros de la pestaña Proceso"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3225
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Update GPS"
+#, kde-format
 msgid "Update Params"
-msgstr "Actualizar GPS"
+msgstr "Actualizar parámetros"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvSteps)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_32)
@@ -18589,10 +18563,9 @@ msgstr "Estrella de enfoque"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/focus.ui:3261
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Mechanics Tab Parameters"
-msgstr "Parámetros de SExtractor"
+msgstr "Parámetros de la pestaña Mecánica"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:3303
@@ -35083,10 +35056,9 @@ msgstr "Calcular la posición después de las capturas."
 
 #. i18n: ectx: label, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1852
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Exposure to use during focus"
-msgstr "Tiempo de exposición del filtro durante el enfoque"
+msgstr "Exposición para usar durante el enfoque"
 
 #. i18n: ectx: whatsthis, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1853
@@ -71829,13 +71801,13 @@ msgstr "Enfocar hacia fuera"
 #: oal/equipmentwriter.ui:1123
 #, kde-format
 msgid "Ticks per C:"
-msgstr ""
+msgstr "Pulsos por C:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1140
 #, kde-format
 msgid "Ticks per Alt:"
-msgstr ""
+msgstr "Pulsos por Alt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1164

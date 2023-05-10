@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 00:42+0000\n"
+"POT-Creation-Date: 2023-05-10 00:42+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -9624,98 +9624,98 @@ msgstr "Вычисление ошибки выравнивания по азим
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Показывать позицию телескопа на карте неба"
 
-#: ekos/align/polaralignmentassistant.cpp:799
+#: ekos/align/polaralignmentassistant.cpp:793
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to stop the polar alignment process?"
 msgstr "Вы действительно хотите удалить %1?"
 
-#: ekos/align/polaralignmentassistant.cpp:800
+#: ekos/align/polaralignmentassistant.cpp:794
 #, fuzzy, kde-format
 #| msgid "Polar Alignment Measurement"
 msgid "Polar Alignment Assistant"
 msgstr "Измерение выравнивания полярной оси"
 
-#: ekos/align/polaralignmentassistant.cpp:827
+#: ekos/align/polaralignmentassistant.cpp:829
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking the mount..."
 msgstr "Парковка телескопа..."
 
-#: ekos/align/polaralignmentassistant.cpp:867
+#: ekos/align/polaralignmentassistant.cpp:869
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:883
-#: ekos/align/polaralignmentassistant.cpp:889
+#: ekos/align/polaralignmentassistant.cpp:885
+#: ekos/align/polaralignmentassistant.cpp:891
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "Не удалось установить биннинг."
 
-#: ekos/align/polaralignmentassistant.cpp:915
+#: ekos/align/polaralignmentassistant.cpp:917
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "PAA: Failed to find RA Axis center."
 msgstr "Не удалось установить биннинг."
 
-#: ekos/align/polaralignmentassistant.cpp:986
+#: ekos/align/polaralignmentassistant.cpp:988
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1003
+#: ekos/align/polaralignmentassistant.cpp:1005
 #, fuzzy, kde-format
 #| msgid "First position"
 msgid "First manual rotation done."
 msgstr "Начальная точка"
 
-#: ekos/align/polaralignmentassistant.cpp:1008
+#: ekos/align/polaralignmentassistant.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Second position"
 msgid "Second manual rotation done."
 msgstr "Конечная точка"
 
-#: ekos/align/polaralignmentassistant.cpp:1051
+#: ekos/align/polaralignmentassistant.cpp:1053
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1070
+#: ekos/align/polaralignmentassistant.cpp:1072
 #, fuzzy, kde-format
 #| msgid "Please wait while re-indexing stars..."
 msgid "Please wait while WCS data is processed..."
 msgstr "Дождитесь переиндексации звёзд..."
 
-#: ekos/align/polaralignmentassistant.cpp:1101
+#: ekos/align/polaralignmentassistant.cpp:1103
 #, fuzzy, kde-format
 #| msgid "%1 focuser is online."
 msgid "WCS data processing is complete."
 msgstr "фокусёр %1 доступен."
 
-#: ekos/align/polaralignmentassistant.cpp:1110
+#: ekos/align/polaralignmentassistant.cpp:1112
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1152
+#: ekos/align/polaralignmentassistant.cpp:1154
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "Дата, время и место: "
 
-#: ekos/align/polaralignmentassistant.cpp:1170
+#: ekos/align/polaralignmentassistant.cpp:1172
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "Не удалось установить биннинг."
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""

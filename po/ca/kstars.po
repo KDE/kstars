@@ -11,20 +11,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 00:42+0000\n"
-"PO-Revision-Date: 2023-05-08 22:26+0200\n"
+"POT-Creation-Date: 2023-05-10 00:42+0000\n"
+"PO-Revision-Date: 2023-05-09 22:19+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 # Diccionari de termes astronòmics:
-# https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-cerca=-1&ambit-cerca=2&lletra-cerca=a
+# https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
+# cerca=-1&ambit-cerca=2&lletra-cerca=a
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -3953,7 +3954,8 @@ msgstr "Detalls - Dades de posició"
 msgid "Coordinates"
 msgstr "Coordenades"
 
-# Nota: No és un punt decimal, és una convenció de l'època: https://ca.wikipedia.org/wiki/%C3%88poca_(astronomia)
+# Nota: No és un punt decimal, és una convenció de l'època:
+# https://ca.wikipedia.org/wiki/%C3%88poca_(astronomia)
 #. i18n: ectx: property (text), widget (QLabel, DecLabel)
 #: dialogs/details_position.ui:132
 #, kde-format
@@ -9347,38 +9349,38 @@ msgstr "S'està netejant el model d'alineació de la muntura..."
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Això pot provocar que el telescopi creui el meridià."
 
-#: ekos/align/polaralignmentassistant.cpp:799
+#: ekos/align/polaralignmentassistant.cpp:793
 #, kde-format
 msgid "Are you sure you want to stop the polar alignment process?"
 msgstr "Segur que voleu aturar el procés d'alineació polar?"
 
-#: ekos/align/polaralignmentassistant.cpp:800
+#: ekos/align/polaralignmentassistant.cpp:794
 #, kde-format
 msgid "Polar Alignment Assistant"
 msgstr "Assistent d'alineació polar"
 
-#: ekos/align/polaralignmentassistant.cpp:827
+#: ekos/align/polaralignmentassistant.cpp:829
 #, kde-format
 msgid "Parking the mount..."
 msgstr "S'està aparcant la muntura..."
 
-#: ekos/align/polaralignmentassistant.cpp:867
+#: ekos/align/polaralignmentassistant.cpp:869
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "Espereu fins que la muntura completi la rotació a AR (%1) Dec (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:883
-#: ekos/align/polaralignmentassistant.cpp:889
+#: ekos/align/polaralignmentassistant.cpp:885
+#: ekos/align/polaralignmentassistant.cpp:891
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: Ha fallat a «findCorrectedPixel»."
 
-#: ekos/align/polaralignmentassistant.cpp:915
+#: ekos/align/polaralignmentassistant.cpp:917
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: Ha fallat en trobar el centre de l'eix de l'AR."
 
-#: ekos/align/polaralignmentassistant.cpp:986
+#: ekos/align/polaralignmentassistant.cpp:988
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -9387,17 +9389,17 @@ msgstr ""
 "No es pot actualitzar l'estrella d'alineació polar durant la fase "
 "d'actualització atès que pot afectar els mesuraments d'error."
 
-#: ekos/align/polaralignmentassistant.cpp:1003
+#: ekos/align/polaralignmentassistant.cpp:1005
 #, kde-format
 msgid "First manual rotation done."
 msgstr "S'ha fet la primera rotació manual."
 
-#: ekos/align/polaralignmentassistant.cpp:1008
+#: ekos/align/polaralignmentassistant.cpp:1010
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "S'ha fet la segona rotació manual."
 
-#: ekos/align/polaralignmentassistant.cpp:1051
+#: ekos/align/polaralignmentassistant.cpp:1053
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9406,34 +9408,34 @@ msgstr ""
 "La muntura s'ha sincronitzat amb el pol celeste. Ara podeu continuar amb el "
 "procediment de l'assistent d'alineació polar."
 
-#: ekos/align/polaralignmentassistant.cpp:1070
+#: ekos/align/polaralignmentassistant.cpp:1072
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Espereu mentre es processen les dades WCS..."
 
-#: ekos/align/polaralignmentassistant.cpp:1101
+#: ekos/align/polaralignmentassistant.cpp:1103
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "S'ha completat el processament de les dades WCS."
 
-#: ekos/align/polaralignmentassistant.cpp:1110
+#: ekos/align/polaralignmentassistant.cpp:1112
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "La informació WCS ara és vàlida. Es capturarà el següent fotograma..."
 
-#: ekos/align/polaralignmentassistant.cpp:1152
+#: ekos/align/polaralignmentassistant.cpp:1154
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "Ha fallat en processar el sistema de coordenades mundial: %1. Torneu-ho a "
 "intentar."
 
-#: ekos/align/polaralignmentassistant.cpp:1170
+#: ekos/align/polaralignmentassistant.cpp:1172
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Ha fallat en trobar l'eix de l'AR. Se surt."
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -16361,7 +16363,7 @@ msgstr "S'ha iniciat l'operació d'enfocament automàtic"
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
-"Punt d'inici adaptatiu, la darrera solució AF està fora del recorregut màx., "
+"Punt d'inici adaptatiu, la darrera solució AE està fora del recorregut màx., "
 "s'ignora"
 
 #: ekos/focus/focus.cpp:1365
@@ -16373,7 +16375,7 @@ msgstr "Punt d'inici adaptatiu, no hi ha disponible cap font de temperatura"
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
-"Punt d'inici adaptatiu, no hi ha temperatura per a la darrera solució AF"
+"Punt d'inici adaptatiu, no hi ha temperatura per a la darrera solució AE"
 
 #: ekos/focus/focus.cpp:1374
 #, kde-format
@@ -16386,7 +16388,7 @@ msgstr ""
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 "Punt d'inici adaptatiu, no s'ha enregistrat cap alt. per a la darrera "
-"solució AF"
+"solució AE"
 
 #: ekos/focus/focus.cpp:1388
 #, kde-format
@@ -16785,6 +16787,29 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
+"L'assessor d'enfocament (AE) està dissenyat per ajudar-vos amb els "
+"paràmetres d'enfocament.\n"
+"No us donarà necessàriament la combinació perfecta de paràmetres, haureu "
+"d'experimentar-ho, però us donarà un conjunt bàsic de paràmetres per a "
+"aconseguir l'enfocament.\n"
+"\n"
+"L'AE recomanarà valors per a la majoria dels paràmetres. No obstant això, "
+"alguns necessitaran més treball per la vostra part. Aquests s'identifiquen a "
+"continuació juntament amb una explicació bàsica de com establir-los.\n"
+"\n"
+"El primer pas és establir el rebot. El manual de l'enfocador probablement "
+"explicarà com fer-ho. Un cop tingueu un valor per al rebot del sistema, "
+"establiu el camp rebot perquè el controlador realitzi la compensació del "
+"rebot o el camp de sobreexploració de l'AE perquè l'enfocament automàtic "
+"realitzi la compensació del rebot. Establiu només un camp i deixeu l'altre a "
+"0.\n"
+"\n"
+"El segon pas és establir la mida del pas. Això es pot predeterminar des de "
+"la Zona Crítica d'Enfocament (ZCE) per al vostre equip, de manera que "
+"configureu-ho ara a la pestanya ZCE.\n"
+"\n"
+"El tercer pas és establir el multiplicador de pas exterior. Comenceu amb el "
+"valor predeterminat suggerit."
 
 #: ekos/focus/focus.cpp:6223
 #, kde-format
@@ -16797,6 +16822,15 @@ msgid ""
 "star detection is acceptable. Adjust Out Step Multiple to correspond to this "
 "range of focuser motion."
 msgstr ""
+"Teniu un telescopi amb una obstrucció central, per tant, aneu amb compte de "
+"no allunyar-vos massa del focus, ja que les estrelles apareixeran com a "
+"dònuts i no es detectaran correctament. Experimenteu cercant el focus i "
+"movent la mida del pas * multiplicador de pas exterior algunes marques lluny "
+"del focus i prenent un fotograma d'enfocament. Amplieu per a observar la "
+"detecció d'estrelles. Si és pobre llavors moveu l'enfocador de nou cap a "
+"l'enfocament fins que la detecció d'estrelles sigui acceptable. Ajusteu el "
+"multiplicador de pas exterior per a correspondre a aquest interval de "
+"moviment de l'enfocador."
 
 #: ekos/focus/focus.cpp:6230
 #, kde-format
@@ -16818,6 +16852,22 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"\n"
+"\n"
+"El quart pas és establir els paràmetres d'enfocament restants a uns valors "
+"raonables. L'assessor d'enfocament suggerirà valors per a 4 categories de "
+"paràmetres. Activeu la casella Actualització associada per a acceptar "
+"aquestes recomanacions i premeu Actualitza els paràmetres.\n"
+"1. Propietats de la càmera: Tingueu en compte que cal assegurar que el guany "
+"s'estableix adequadament, p. ex. guany d'unitat.\n"
+"2. Pestanya de configuració: Tots tenen recomanacions.\n"
+"3. Pestanya de processament: Tots tenen recomanacions.\n"
+"4. Pestanya mecànica: la nota Mida del pas i Multiplicador del pas exterior "
+"es tracten a dalt.\n"
+"\n"
+"Ara moveu l'enfocador per a aproximar el focus i seleccioneu un filtre de "
+"banda ampla, p. ex. Luminància\n"
+"Ara esteu preparat/da per iniciar una execució d'enfocament automàtic."
 
 #: ekos/focus/focus.cpp:6240
 #, kde-format
@@ -16993,6 +17043,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Durant l'enfocament de camp complet, això controla la "
+"mida d'un anell centrat al mig del sensor per incloure'l per al seu "
+"processament. Establiu el % intern a zero per a incloure el centre del "
+"sensor i establiu el % extern a 100 per a incloure les vores exteriors del "
+"sensor. </p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
@@ -17049,6 +17104,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Durant l'enfocament de camp complet, això controla la "
+"mida d'un anell centrat al mig del sensor per incloure'l per al seu "
+"processament. Establiu el % intern a zero per a incloure el centre del "
+"sensor i establiu el % extern a 100 per a incloure les vores exteriors del "
+"sensor. </p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/focus.ui:1037
@@ -17184,6 +17244,10 @@ msgid ""
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>El moviment màxim total de l'enfocador adaptatiu entre "
+"les execucions d'enfocament automàtic. Si s'arriba a aquest valor, se suspèn "
+"l'enfocament adaptatiu. El propòsit d'aquest control és gestionar "
+"l'enfocament adaptatiu descontrolat.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
@@ -17220,11 +17284,7 @@ msgstr "Moviment mín.:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1332
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Adapt the Autofocus start position based on filter "
-#| "and the Adaptive Focus settings.  This is an experimental feature.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
@@ -17332,24 +17392,7 @@ msgstr "Ajust de la corba:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1560
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -17410,30 +17453,7 @@ msgstr "Perfil SEP:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1604
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -17463,29 +17483,36 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Mètode de detecció d'estrelles:</p><ul style=\"margin-"
-"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">SEP:</span> «Source Extractor and "
-"Photometry» (Extracció de fonts i fotometria), un mètode eficient de "
-"detecció de fonts basat en el Source Extractor (Bertin and Arnouts 1996; "
-"Bertin 2016). Vegeu <a href=\"https://joss.theoj.org/papers/10.21105/"
-"joss.00058.pdf\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">SEP: Source Extractor com a biblioteca</span></a> al Journal of Open "
-"Source Software.</li><li style=\" margin-top:12px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Centroide</span>: una detecció de fonts "
-"basada en estimar els pics del senyal al voltant de la massa de l'estrella.</"
-"li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Selecció de la mesura a fer servir per ajustar una "
+"corba per al lineal d'1 pas:</p><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
+"span>: «Half Flux Radius» (Radi de semiflux). Usa un algorisme per a "
+"calcular el radi d'un cercle centrat en el centroide de l'estrella que "
+"encapula la meitat del flux de l'estrella.</li><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Gradient</span>: un mètode de detecció individual basat en el "
-"filtre Sobel filter. L'anàlisi inicial o de camp complet usarà el SEP en "
-"lloc d'aquest mètode.</li><li style=\" margin-top:12px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Llindar</span>: una detecció de font "
-"individual basada en valors dels píxels. L'anàlisi inicial o de camp complet "
-"usarà el SEP en lloc d'aquest mètode.</li></ul></body></html>"
+"weight:600;\">HFR Adj</span>: «Adjusted Half Flux Radius» (Radi de semiflux "
+"ajustat). Normalitza l'HFR per a la intensitat dels pics. Aquesta és una "
+"característica experimental.</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">FWHM</span>: «Full Width "
+"Half Maximum» (Semimàxim d'amplada completa). La corba ajusta un PSF a cada "
+"centroide d'estrella i usa la corba per a calcular el FWHM. Aquesta és una "
+"característica experimental.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Nombre estrelles</span>: "
+"Nombre d'estrelles. El nombre d'estrelles detectades en l'enfocament òptim "
+"serà un màxim. Aquesta és una característica experimental.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Fourier</span>: Càlcul de potència de Fourier. Usa l'aproximació de la "
+"potència de la transformada de Fourier desenvolupada per Tan i Schulz a "
+"https://arxiv.org/pdf/2201.12466.pdf. A l'enfocament òptim la potència en "
+"l'espai de freqüències [resultat de la transformada de Fourier] serà un "
+"màxim. Aquesta és una característica experimental.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -17510,7 +17537,7 @@ msgstr "FWHM"
 #: ekos/focus/focus.ui:1623
 #, kde-format
 msgid "# Stars"
-msgstr "Núm. estrelles"
+msgstr "Nombre estrelles"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1628
@@ -17529,6 +17556,12 @@ msgid ""
 "highlighted on the v-curve. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Comprova si s'ha d'executar una passada atípica quan "
+"s'han pres tots els punts de dades. El pas utilitza els criteris de Peirce "
+"per a la detecció de llindars atípics. Si hi ha valors atípics, s'eliminen i "
+"es torna a executar l'ajust de la corba. Si el procés millora l'R², llavors "
+"s'utilitza aquest conjunt nou de dades i els atípics es ressalten en la "
+"corba V. Aquesta és una característica experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1639
@@ -17736,15 +17769,7 @@ msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/focus.ui:1769
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The type of PSF to use when Measure is set to FWHM:"
-#| "</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Gaussian</"
-#| "span>: Uses a 2D Gaussian.  This is an experimental feature.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The type of PSF to use when Measure is set to FWHM:</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -17869,25 +17894,22 @@ msgstr "Posicionament de l'enfocador:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:2110
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
 "before capturing the next image during Auto Focus and after an Adaptive "
 "Focus movement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Espera aquest nombre de segons després de moure "
+"<html><head/><body><p>Temps de posicionament (en segons) després de moure "
 "l'enfocador abans de capturar la imatge següent durant l'enfocament "
-"automàtic.</p></body></html>"
+"automàtic i després d'un moviment d'enfocament adaptatiu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusAdvOutStepMultLabel)
 #: ekos/focus/focus.ui:2135 ekos/focus/focus.ui:3160
 #, kde-format
 msgid "Out Step Multiple:"
-msgstr "Múltiples passos enfora:"
+msgstr "Multiplicador de pas exterior:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusWalkLabel)
 #: ekos/focus/focus.ui:2151
@@ -17911,6 +17933,12 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Per a enfocadors amb compensació de rebot, la "
+"quantitat de rebot que s'aplicarà en invertir la direcció del moviment. "
+"Establiu-ho a 0 per a desactivar-ho.</p><p>Normalment s'estableix el rebot "
+"de l'enfocador o la sobreexploració de l'AE.</p><p>Aquest camp estableix el "
+"camp de rebot de l'enfocador de l'Indi i es pot establir aquí o al plafó de "
+"control de l'Indi.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2196
@@ -17957,6 +17985,28 @@ msgid ""
 "be effective but is predictable in the number of steps taken. This walk is "
 "experimental.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccioneu el tipus de camí que ha de prendre "
+"l'enfocador quan s'usi <span style=\" font-weight:600;\">lineal d'1 pas</"
+"span>. Per a <span style=\" font-weight:600;\">Lineal</span> només hi ha "
+"<span style=\" font-weight:600;\">Clàssic</span> disponible.</"
+"p><p><p>Clàssic <span style=\" font-weight:600;\">Clàssic</span>: "
+"L'enfocador surt «multiplicador de pas exterior» passos, pren un fotograma i "
+"després avança a través de l'enfocament a una mida de pas constant prenent i "
+"analitzant fotogrames a cada pas. El punt exacte en el qual s'atura el pas "
+"depèn de les dades, de manera que aquest camí és tolerant a començar més "
+"lluny del focus, però a costa de passos addicionals.</p><p><span style=\" "
+"font-weight:600;\">Passos fixos</span>: L'enfocador avança la meitat del "
+"«Nombre de passos», pren un fotograma i després avança exactament en el "
+"«Nombre de passos». Aquest camí ha de començar prop de l'enfocament per a "
+"ser efectiu, però és previsible en el nombre de passos que es prenen. Aquest "
+"camí és experimental.</p><p><span style=\" font-weight:600;\">Barreja ZCE</"
+"span>: Similar a <span style=\" font-weight:600;\">Passos fixos</span> "
+"excepte que aquest camí fa mig pas a prop del punt d'enfocament per intentar "
+"donar més pes als punts més a prop del focus en l'ajust de la corba. Igual "
+"que amb <span style=\" font-weight:600;\">Passos fixos</span>, aquest camí "
+"s'ha d'iniciar a prop del focus per ser efectiu, però és previsible en el "
+"nombre de passos fets. Aquest camí és experimental.</p><p><br/></p></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -17978,7 +18028,7 @@ msgstr "Passos fixos"
 #: ekos/focus/focus.ui:2254
 #, kde-format
 msgid "CFZ Shuffle"
-msgstr "Barreja ZEC"
+msgstr "Barreja ZCE"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/focus/focus.ui:2271
@@ -18038,6 +18088,14 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Proporciona la sobreexploració del rebot en marques "
+"per als moviments de l'enfocador cap a fora durant una execució d'enfocament "
+"automàtic. Això és a més de qualsevol reacció del controlador proporcionada "
+"pel controlador del dispositiu i establerta en el camp de reacció del "
+"controlador. Establiu a 0 per a desactivar. </p><p>Si s'estableix, la "
+"sobreexploració de l'EA s'aplica a tots els moviments d'enfocament iniciats "
+"pel mòdul d'enfocament.</p><p>Normalment s'estableix el rebot de l'enfocador "
+"o la sobreexploració de l'EA.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:2391
@@ -18074,23 +18132,21 @@ msgstr "Nombre de passos:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2473
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El nombre de dígits utilitzats per afegir el número de "
-"seqüència al nom de fitxer.</p></body></html>"
+"<html><head/><body><p>El nombre total de passos a utilitzar quan el camí "
+"s'estableix a un del nombre fix de passos i l'algorisme és lineal d'1 pas.</"
+"p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2508
 #, kde-format
 msgid "CFZ"
-msgstr "ZEC"
+msgstr "ZCE"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2511
@@ -18100,6 +18156,9 @@ msgid ""
 "Zone (CFZ). This is not necessary for Autofocus, but provides useful "
 "information.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Paràmetres que tenen a veure amb la configuració de la "
+"Zona Crítica d'Enfocament (ZCE). Això no és necessari per a l'enfocament "
+"automàtic, però proporciona informació útil.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/focus.ui:2565
@@ -18111,7 +18170,7 @@ msgstr "Tolerància (τ):"
 #: ekos/focus/focus.ui:2581
 #, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p>ZEC:</p></body></html>"
+msgstr "<html><head/><body><p>ZCE:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/focus.ui:2600
@@ -18121,16 +18180,13 @@ msgstr "Obertura (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2619
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marqueu-la per a visualitzar les últimes dades de "
-"guiatge amb desplaçament automàtic del gràfic.</p></body></html>"
+"<html><head/><body><p>Marqueu-la per a visualitzar la ZCE en la corba V "
+"després d'una execució correcta d'enfocament automàtic </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -18146,7 +18202,7 @@ msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Establiu l'obertura del telescopi en mm. Està "
+"<html><head/><body><p>Estableix l'obertura del telescopi en mm. Està "
 "predeterminada a partir del tren òptic seleccionat.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
@@ -18164,14 +18220,14 @@ msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>La ZEC de la càmera (límit de resolució) en el tren "
+"<html><head/><body><p>La ZCE de la càmera (límit de resolució) en el tren "
 "òptic actiu.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2685
 #, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr "<html><head/><body><p>La ZEC calculada en μm.</p></body></html>"
+msgstr "<html><head/><body><p>La ZCE calculada en μm.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/focus.ui:2704
@@ -18181,6 +18237,9 @@ msgid ""
 "the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Estableix el valor de la tolerància=t entre 0 i 1. "
+"Això escala el càlcul clàssic de la ZCE de 4.88 λ f<span style=\" vertical-"
+"align:super;\">2</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2729
@@ -18189,8 +18248,8 @@ msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>La ZEC final és la més gran entre la ZEC calculada i "
-"la ZEC de la càmera.</p></body></html>"
+"<html><head/><body><p>La ZCE final és la més gran entre la ZCE calculada i "
+"la ZCE de la càmera.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/focus.ui:2745
@@ -18202,7 +18261,7 @@ msgstr "<html><head/><body><p>Mida del pas:</p></body></html>"
 #: ekos/focus/focus.ui:2761
 #, kde-format
 msgid "CFZ Camera:"
-msgstr "ZEC de la càmera:"
+msgstr "ZCE de la càmera:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/focus.ui:2780
@@ -18226,7 +18285,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2808
 #, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr "<html><head/><body><p>La ZEC calculada en passos.</p></body></html>"
+msgstr "<html><head/><body><p>La ZCE calculada en passos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2824
@@ -18235,14 +18294,14 @@ msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>ZEC = 4.88 t λ f<span style=\" vertical-align:super;"
+"<html><head/><body><p>ZCE = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/focus.ui:2843
 #, kde-format
 msgid "CFZ:"
-msgstr "ZEC:"
+msgstr "ZCE:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
@@ -18261,6 +18320,13 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Estableix la mida del pas (en micres) de l'enfocador. "
+"Per a calcular això, moveu l'enfocador d'un extrem del seu recorregut a "
+"l'altre (teniu cura de no forçar l'enfocador més enllà dels seus límits). "
+"Mesureu la distància que es mou el tub amb la precisió que pugueu (p. ex. "
+"amb un peu de rei) i convertiu-ho a micres. Tingueu en compte quants passos "
+"heu mogut l'enfocador. Mida del pas = micres de distància / nombre de passos."
+"</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:2881
@@ -18293,10 +18359,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:2937
-#, fuzzy, kde-format
-#| msgid "Reset to Now"
+#, kde-format
 msgid "Reset To OT"
-msgstr "Restableix l'hora a ara"
+msgstr "Restableix a OT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:2950
@@ -18306,24 +18371,7 @@ msgstr "Relació focal (f):"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:2988
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Critical Focus Zone (CFZ) algorithm:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -18346,22 +18394,27 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el tipus de corba per ajustar a les dades:"
-"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"<html><head/><body><p>Seleccioneu l'algorisme de la Zona Crítica "
+"d'Enfocament (ZCE):</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Clàssic</span>: Usa la fórmula, ZCE = 4,88 t λ f<span style=\" vertical-"
+"align:super;\">2.</span>. Establiu la tolerància, t=1 de la fórmula bàsica. "
+"Algú ha suggerit t=1/3 de manera empírica.</li></ul><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Front d'ona: </span>Usa la fórmula, ZCE = 4 t λ "
+"f<span style=\" vertical-align:super;\">2</span>.  Fórmula derivada de la "
+"teoria d'aberració del front d'ona. Algú ha suggerit t=1/3 o inclús t=1/10.</"
+"li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
 "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Quadràtica</span>: Usa un "
-"ajust polinòmic de grau 2. Aquesta és l'opció predeterminada i l'única per a "
-"tots els algorismes excepte el lineal d'1 pas.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hipèrbola</"
-"span>: Ajusta una hipèrbola als punt de dades. Actualment aquesta només és "
-"disponible per a l'algorisme lineal d'1 pas i és experimental.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Paràbola</span>: Ajusta una paràbola als punt de dades. Actualment "
-"aquesta només és disponible per a l'algorisme lineal d'1 pas i és "
-"experimental.</li></ul></body></html>"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Or: </span>Usa la fórmula, "
+"ZCE = 0,00225 √τ θ f<span style=\" vertical-align:super;\">2. </span>A. "
+"Vegeu http://www.goldastro.com/goldfocus/ncfz.php per a més detalls.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3000
@@ -18377,20 +18430,19 @@ msgstr "Or"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3019
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Suprimeix el tren òptic seleccionat.</p></body></html>"
+"<html><head/><body><p>Estableix el nombre f a usar. Està predeterminat a "
+"partir del tren òptic seleccionat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/focus.ui:3047
 #, kde-format
 msgid "Final CFZ:"
-msgstr "ZEC final:"
+msgstr "ZCE final:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3066
@@ -18400,18 +18452,14 @@ msgstr "FWHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3082
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the light wavelength to use. This is defaulted "
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Arrossegueu el control lliscant per a ajustar l'escala "
-"dels gràfics de correccions relatives a l'escala dels gràfics de la deriva.</"
-"p></body></html>"
+"<html><head/><body><p>Estableix la longitud d'ona de la llum a usar. Està "
+"predeterminada a partir de la finestra emergent de la configuració de filtre "
+"del filtre seleccionat.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3085
@@ -18427,16 +18475,13 @@ msgstr "Assessor"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median star eccentricity in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Advisor help utility to assist with setting up "
 "Focus parameters.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'excentricitat mediana de les estrelles a les "
-"imatges capturades.</p></body></html>"
+"<html><head/><body><p>Utilitat d'ajuda de l'assessor d'enfocament per a "
+"configurar els paràmetres de l'enfocament.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvOutStepMultiple)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvStepSize)
@@ -18473,6 +18518,15 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Una bona xifra per començar és 5. Una excepció és si "
+"teniu un telescopi amb una obstrucció central que converteix les estrelles "
+"en dònuts quan estan fora de focus. Quan això passa, el sistema tindrà "
+"problemes per identificar les estrelles correctament. Per evitar aquesta "
+"situació reduïu la mida del pas o el nombre de passos.</p><p>Per a verificar "
+"aquesta situació, comenceu al focus i allunyeu-vos tants passos com la «mida "
+"del pas» * «nombre de passos». Preneu un fotograma d'enfocament i apropeu el "
+"zoom en el visualitzador FITS per a veure si les estrelles apareixen com a "
+"estrelles o com a dònuts.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3186
@@ -18501,6 +18555,10 @@ msgid ""
 "Make sure you configure the CFZ tab to give an appropriate value for your "
 "system.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>La mida del pas es pot informar de manera "
+"predeterminada a la Zona Crítica d'Enfocament. Assegureu-vos de configurar "
+"la pestanya ZCE per a donar un valor adequat per al vostre sistema.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/focus.ui:3254
@@ -18541,12 +18599,13 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
 #: ekos/focus/focus.ui:3490
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Suprimeix el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la mitjana de l'HFR del darrer fotograma.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/focus.ui:3522
@@ -18556,12 +18615,13 @@ msgstr "  FWHM:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3535
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Suprimeix el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la mitjana de l'FWHM del darrer fotograma.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/focus.ui:3548
@@ -23324,8 +23384,8 @@ msgstr ""
 "ocupat, el mòdul d'enfocament automàtic només executarà el procediment "
 "d'enfocament automàtic si el valor HFR actual excedeix el llindar HFR del "
 "mòdul de captura. L'augmenteu aquest valor per a permetre canvis més "
-"relaxats en els valors HFR sense requerir una execució completa de "
-"l'enfocament automàtic.</p></body></html>"
+"relaxats en els valors HFR sense requerir una execució completa d'enfocament "
+"automàtic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/opsekos.ui:827
@@ -35244,6 +35304,8 @@ msgstr "Si s'ha activat l'enfocament adaptatiu."
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
+"Quan s'utilitza l'enfocament adaptatiu, el moviment mínim permès de "
+"l'enfocador en marques."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:1928
@@ -35252,6 +35314,8 @@ msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
+"Si s'ha d'adaptar la posició inicial de l'enfocador al començament d'una "
+"execució d'enfocament automàtic."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:1932
@@ -35260,6 +35324,8 @@ msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
+"Quan s'utilitza l'enfocament adaptatiu, el moviment màxim total permès de "
+"l'enfocador, en marques."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
 #: kstars.kcfg:1937
@@ -35283,19 +35349,21 @@ msgstr "Algorisme de procés d'enfocament"
 #: kstars.kcfg:1948
 #, kde-format
 msgid "The type of curve to fit"
-msgstr ""
+msgstr "El tipus de corba a ajustar"
 
 #. i18n: ectx: whatsthis, entry (FocusStarMeasure), group (Focus)
 #: kstars.kcfg:1952
 #, kde-format
 msgid "The type of star measure to use."
-msgstr ""
+msgstr "El tipus de mesura d'estrelles a utilitzar."
 
 #. i18n: ectx: whatsthis, entry (FocusStarPSF), group (Focus)
 #: kstars.kcfg:1956
 #, kde-format
 msgid "The type of star PSF to use if curve fitting star profiles."
 msgstr ""
+"El tipus de PSF d'estrella que s'utilitzarà si s'ajusta la corba als perfils "
+"d'estrella."
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:1960
@@ -35307,19 +35375,22 @@ msgstr "Si s'usen ponderacions en el procés d'ajustament de la corba."
 #: kstars.kcfg:1964
 #, kde-format
 msgid "The minimum acceptable R2 value of a curve fit."
-msgstr ""
+msgstr "El valor R2 mínim acceptable d'un ajust de corba."
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
 #: kstars.kcfg:1968
 #, kde-format
 msgid "Whether to refine the curve fit by looking for and discarding outliers."
 msgstr ""
+"Si s'ha de refinar l'ajust de la corba cercant i descartant valors atípics."
 
 #. i18n: ectx: whatsthis, entry (focusFramesCount), group (Focus)
 #: kstars.kcfg:1972
 #, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
 msgstr ""
+"Quants fotogrames s'han de fer de mitjana a cada pas del procés d'enfocament "
+"automàtic."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:1976
@@ -35371,11 +35442,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusWalk), group (Focus)
 #: kstars.kcfg:1998
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "The type of walk the focuser will take during an Autofocus run."
 msgstr ""
-"Submarc de l'estrella enfocada durant el procediment d'enfocament automàtic."
+"El tipus de camí que prendrà l'enfocador durant una execució d'enfocament "
+"automàtic."
 
 #. i18n: ectx: whatsthis, entry (FocusSettleTime), group (Focus)
 #: kstars.kcfg:2002
@@ -35413,6 +35484,8 @@ msgid ""
 "The number of steps to move outwards from the start position of an Autofocus "
 "run."
 msgstr ""
+"El nombre de passos a moure cap a fora des de la posició inicial d'una "
+"execució d'enfocament automàtic."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2015
@@ -35436,13 +35509,13 @@ msgstr "La mida màxima d'un pas únic."
 #: kstars.kcfg:2024
 #, kde-format
 msgid "The amount of driver backlash."
-msgstr ""
+msgstr "La quantitat de reacció del controlador."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2028
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr ""
+msgstr "La quantitat de sobreexploració de l'enfocament automàtic."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2036
@@ -35458,49 +35531,54 @@ msgstr ""
 #: kstars.kcfg:2041
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr ""
+msgstr "El tipus d'algorisme de la ZCE a utilitzar."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2045
 #, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
 msgstr ""
+"Tolerància definida per l'usuari a usar per als algorismes clàssic i front "
+"d'ona."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2049
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
-msgstr ""
+msgstr "Tolerància definida per l'usuari a usar per a l'algorisme or."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2053
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
 msgstr ""
+"Si s'ha de mostrar la ZCE a la corba V després d'una execució d'enfocament "
+"automàtic."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2057
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr ""
+msgstr "La longitud d'ona en nm per utilitzar en l'algorisme or."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2061
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "Obertura del telescopi en mm per utilitzar en els càlculs de la ZCE."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2065
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "El nombre f a utilitzar a l'algorisme de la ZCE."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2069
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
 msgstr ""
+"El «seeing» total en segons d'arc per utilitzar en l'algorisme de la ZCE."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2077
@@ -36378,7 +36456,7 @@ msgstr ""
 #: kstars.kcfg:2657
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
-msgstr "Elimina el rebot de la Dec en calibrar el sistema de guiatge."
+msgstr "´Elimina el rebot de la Dec en calibrar el sistema de guiatge."
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
 #: kstars.kcfg:2661
@@ -66313,7 +66391,8 @@ msgstr "Símbols del &CDV"
 msgid "HiPS All Sky Overlay"
 msgstr "Totes les superposicions del cel de HiPS"
 
-# NdT: En català no pot ser un adjectiu, i com que es refereix a l'emplaçament geogràfic, és preferible emprar el nom «Geografia»
+# NdT: En català no pot ser un adjectiu, i com que es refereix a l'emplaçament
+# geogràfic, és preferible emprar el nom «Geografia»
 #: kstarsinit.cpp:376
 #, kde-format
 msgctxt "Location on Earth"
@@ -67988,14 +68067,16 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "900x"
 msgstr "900x"
 
-# Nota: Sync mode CM the Astro-Physics controller assumes that the telescope was properly aligned (see below) according to the procedure in the manual.
+# Nota: Sync mode CM the Astro-Physics controller assumes that the telescope
+# was properly aligned (see below) according to the procedure in the manual.
 #: libindi_strings.cpp:8
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid ":CM#"
 msgstr ":CM#"
 
-# Nota: Sync in mode CMR does not change the current orientation of the declination axis relative to the observed hour angle.
+# Nota: Sync in mode CMR does not change the current orientation of the
+# declination axis relative to the observed hour angle.
 #: libindi_strings.cpp:9
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -78562,7 +78643,8 @@ msgstr ""
 "Si se selecciona, el valor es llegirà des del fitxer d'entrada. Si no, el "
 "valor es llegirà des del quadre adjacent"
 
-# No és un punt decimal, és una convenció de l'època: https://ca.wikipedia.org/wiki/%C3%88poca_(astronomia)
+# No és un punt decimal, és una convenció de l'època:
+# https://ca.wikipedia.org/wiki/%C3%88poca_(astronomia)
 #. i18n: ectx: property (text), widget (QLineEdit, epochBoxBatch)
 #: tools/modcalcgalcoord.ui:233
 #, kde-format

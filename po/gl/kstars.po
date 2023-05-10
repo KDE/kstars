@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 00:42+0000\n"
+"POT-Creation-Date: 2023-05-10 00:42+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -9492,57 +9492,57 @@ msgstr "Baleirando o modelo de aliñamento da montura…"
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Mostrar a posición do telescopio no mapa celeste"
 
-#: ekos/align/polaralignmentassistant.cpp:799
+#: ekos/align/polaralignmentassistant.cpp:793
 #, kde-format
 msgid "Are you sure you want to stop the polar alignment process?"
 msgstr "Seguro que quere deter o proceso de aliñamento polar?"
 
-#: ekos/align/polaralignmentassistant.cpp:800
+#: ekos/align/polaralignmentassistant.cpp:794
 #, kde-format
 msgid "Polar Alignment Assistant"
 msgstr "Asistente de aliñamento polar"
 
-#: ekos/align/polaralignmentassistant.cpp:827
+#: ekos/align/polaralignmentassistant.cpp:829
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Estacionando a montaxe…"
 
-#: ekos/align/polaralignmentassistant.cpp:867
+#: ekos/align/polaralignmentassistant.cpp:869
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "Agarde ata que a montura complete a rotación a α (%1) δ (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:883
-#: ekos/align/polaralignmentassistant.cpp:889
+#: ekos/align/polaralignmentassistant.cpp:885
+#: ekos/align/polaralignmentassistant.cpp:891
 #, fuzzy, kde-format
 #| msgid "Failed to find solver properties."
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "Non se puideron atopar as propiedades do resolvedor."
 
-#: ekos/align/polaralignmentassistant.cpp:915
+#: ekos/align/polaralignmentassistant.cpp:917
 #, fuzzy, kde-format
 #| msgid "Failed to find RA Axis center: %1."
 msgid "PAA: Failed to find RA Axis center."
 msgstr "Non se puido atopar o centro do eixe de α: %1."
 
-#: ekos/align/polaralignmentassistant.cpp:986
+#: ekos/align/polaralignmentassistant.cpp:988
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1003
+#: ekos/align/polaralignmentassistant.cpp:1005
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Realizouse a primeira rotación manual."
 
-#: ekos/align/polaralignmentassistant.cpp:1008
+#: ekos/align/polaralignmentassistant.cpp:1010
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Realizouse a segunda rotación manual."
 
-#: ekos/align/polaralignmentassistant.cpp:1051
+#: ekos/align/polaralignmentassistant.cpp:1053
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9551,34 +9551,34 @@ msgstr ""
 "A montura está sincronizada co polo celeste. Agora pode continuar o "
 "procedemento do asistente de aliñamento polar."
 
-#: ekos/align/polaralignmentassistant.cpp:1070
+#: ekos/align/polaralignmentassistant.cpp:1072
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Agarde mentres se procesan os datos de SCM…"
 
-#: ekos/align/polaralignmentassistant.cpp:1101
+#: ekos/align/polaralignmentassistant.cpp:1103
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "Completouse o procesamento de datos de SCM."
 
-#: ekos/align/polaralignmentassistant.cpp:1110
+#: ekos/align/polaralignmentassistant.cpp:1112
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "Agora a información de SCM é válida. Capturando o seguinte fotograma…"
 
-#: ekos/align/polaralignmentassistant.cpp:1152
+#: ekos/align/polaralignmentassistant.cpp:1154
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "Non se puido procesar o sistema de coordenadas mundial: %1. Inténteo de novo."
 
-#: ekos/align/polaralignmentassistant.cpp:1170
+#: ekos/align/polaralignmentassistant.cpp:1172
 #, fuzzy, kde-format
 #| msgid "Failed to find RA Axis center: %1."
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "Non se puido atopar o centro do eixe de α: %1."
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
