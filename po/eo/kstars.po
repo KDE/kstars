@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-10 00:42+0000\n"
-"PO-Revision-Date: 2023-05-09 21:55+0100\n"
+"PO-Revision-Date: 2023-05-10 20:14+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -6008,7 +6008,7 @@ msgstr "%1 %2"
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
-"Monto kompletigita svingado proksime de ĉiela poluso. Kaptu denove por "
+"Muntaĵo kompletigita svingado proksime de ĉiela poluso. Kaptu denove por "
 "kontroli."
 
 #: ekos/align/align.cpp:2481
@@ -6950,9 +6950,9 @@ msgstr ""
 "<p>Ĉi tiu ilo povas helpi vian rajdĉevalon konstrui pli bonan indikan "
 "modelon movante la monturon al malsamaj punktoj en la ĉielo kaj solvante "
 "kaptitajn bildojn. Ĉi tio povas pliigi la precizecon de viaj GOTO-oj. Por "
-"kvalifiki, via monto devas esti kapabla plibonigi sian internan indikan "
+"kvalifiki, via muntaĵo devas esti kapabla plibonigi sian internan indikan "
 "modelon post ĉiu <b>Sinkronigo</b> ordonita de Ekos. Se ĉi tio ne estas la "
-"kazo, tiam ĉi tiu ilo ne taŭgas por via monto.</p>"
+"kazo, tiam ĉi tiu ilo ne taŭgas por via muntaĵo.</p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/align/mountmodel.ui:48
@@ -7172,9 +7172,9 @@ msgid ""
 "again, these points will not be included."
 msgstr ""
 "Forigu la tutan tabelon de vicpunktoj sube. Rimarku, ke ĉi tio neniel "
-"influos vian monton. Ĝi ne malplenigos vian indikan modelon. Ĝi nur purigas "
-"la liston de punktoj, por ke se vi denove ruligas la muntimodelrutinon, ĉi "
-"tiuj punktoj ne estos inkluzivitaj."
+"influos vian muntaĵon. Ĝi ne malplenigos vian indikan modelon. Ĝi nur "
+"purigas la liston de punktoj, por ke se vi denove ruligas la "
+"muntimodelrutinon, ĉi tiuj punktoj ne estos inkluzivitaj."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeAlignB)
 #: ekos/align/mountmodel.ui:353
@@ -7745,7 +7745,7 @@ msgid ""
 "Automatically update image scale values when CCD and/or Mount parameters are "
 "updated."
 msgstr ""
-"Aŭtomate ĝisdatigi bildskalvalorojn kiam CCD kaj/aŭ Monto-parametroj estas "
+"Aŭtomate ĝisdatigi bildskalvalorojn kiam CCD kaj/aŭ Muntaĵo-parametroj estas "
 "ĝisdatigitaj."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryAutoUpdateImageScale)
@@ -7921,8 +7921,8 @@ msgid ""
 "correct for discrepancies. This is useful on some mounts (e.g. Paramount)."
 msgstr ""
 "Ne uzu Sinkronigi kiam Slew to Target estas elektita. Uzu diferencigan "
-"svingon por korekti diferencojn. Ĉi tio estas utila sur kelkaj montoj (ekz. "
-"Paramount)."
+"svingon por korekti diferencojn. Ĉi tio estas utila sur kelkaj muntaĵoj "
+"(ekz. Paramount)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDifferentialSlewing)
 #: ekos/align/opsastrometry.ui:560
@@ -9271,8 +9271,8 @@ msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
-"Monto estas sinkronigita al ĉiela poluso. Vi nun povas daŭrigi la proceduron "
-"de Polar Alignment Assistant."
+"Muntaĵo estas sinkronigita al ĉiela poluso. Vi nun povas daŭrigi la "
+"proceduron de Polar Alignment Assistant."
 
 #: ekos/align/polaralignmentassistant.cpp:1072
 #, kde-format
@@ -9327,7 +9327,7 @@ msgid ""
 "<span style=\" font-weight:600;\">Start</span> to begin the polar alignment "
 "process.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Metu vian ekvatoran monton aŭ (a) en la hejman "
+"<html><head/><body><p>Metu vian ekvatoran muntaĵon aŭ (a) en la hejman "
 "pozicion direktitan al la ĉiela poluso aŭ (b) direktita ie ajn ideale "
 "proksime de la meridiano. Elektu <span style=\" font-weight:600;"
 "\">montdirekton</span> kaj <span style=\" font-weight:600;\">rapidecon </"
@@ -10437,8 +10437,8 @@ msgid ""
 "<html><head/><body><p>Plot the mount's pier side (left) -> where the mount "
 "is pointing.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la montoflankon (maldekstre) -> kien la monto "
-"indikas.</p></body></html>"
+"<html><head/><body><p>Desegni la muntaĵoflankon (maldekstre) -> kien la "
+"monto indikas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:986
@@ -10454,8 +10454,8 @@ msgid ""
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>La kajoflanko de la monto (maldekstre) -> kien la "
-"monto indikas. Klaku ĉi tie por vidi ĉi tiun akson sur maldekstra-akso "
+"<html><head/><body><p>La kajoflanko de la muntaĵo (maldekstre) -> kien la "
+"muntaĵo indikas. Klaku ĉi tie por vidi ĉi tiun akson sur maldekstra-akso "
 "valoroj. Duoble alklaku por ĝisdatigi akson.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
@@ -10464,7 +10464,7 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la horan angulan valoron de la monto.</p></"
+"<html><head/><body><p>Desegni la horan angulan valoron de la muntaĵo.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, mountHaCB)
@@ -10480,8 +10480,8 @@ msgid ""
 "<html><head/><body><p>The mount's hour angle value. Click here to view this "
 "axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>La horangula valoro de la monto. Klaku ĉi tie por vidi "
-"ĉi tiun akson sur maldekstra-akso valoroj. Duoble alklaku por ĝisdatigi "
+"<html><head/><body><p>La horangula valoro de la muntaĵo. Klaku ĉi tie por "
+"vidi ĉi tiun akson sur maldekstra-akso valoroj. Duoble alklaku por ĝisdatigi "
 "akson.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
@@ -12187,14 +12187,14 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Elektu la aparaton, kiu ricevas la gvidajn korektajn "
 "pulsojn. Ĉi tio povas esti unu el la sekvaj aparatoj:</p><p><span style=\" "
-"font-weight:600;\">Monto</span>: Se la Monto povas ricevi gvidajn korektajn "
-"pulsojn, tiam estas plej bone. elekti ĝin tiel ke la pulsoj estas rekte "
-"senditaj al la monto. Ĉi tiu estas la rekomendinda opcio.</p><p><span style="
-"\" font-weight:600;\">ST4</span>: Se vi uzas ST4-kablon inter la gvidfotilo "
-"kaj monturo, vi elektu la Gvidfotilo kiel la Gvidilo.</p><p><span style=\" "
-"font-weight:600;\">Dediĉita Gvidilo</span>: Se vi uzas diligentan gvidilon "
-"interfacaparaton (kiel Shoestring GPUSB) tiam elektu ĝi kiel la Gvidisto.</"
-"p></body></html>"
+"font-weight:600;\">Muntaĵo</span>: Se la Monto povas ricevi gvidajn "
+"korektajn pulsojn, tiam estas plej bone. elekti ĝin tiel ke la pulsoj estas "
+"rekte senditaj al la muntaĵo. Ĉi tiu estas la rekomendinda opcio.</"
+"p><p><span style=\" font-weight:600;\">ST4</span>: Se vi uzas ST4-kablon "
+"inter la gvidfotilo kaj monturo, vi elektu la Gvidfotilo kiel la Gvidilo.</"
+"p><p><span style=\" font-weight:600;\">Dediĉita Gvidilo</span>: Se vi uzas "
+"diligentan gvidilon interfacaparaton (kiel Shoestring GPUSB) tiam elektu ĝi "
+"kiel la Gvidisto.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:303
@@ -19899,7 +19899,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Konservi kaj provi reuzi kalibradojn. Ĉi tio funkcias "
 "nur ĉe kontraŭaj flankoj de la meridiano se la moleo-flanko povas esti "
-"aŭtomate determinita de via monto. La supra opcio \"Restarigi Gvidilon pri "
+"aŭtomate determinita de via muntaĵo. La supra opcio \"Restarigi Gvidilon pri "
 "Slew\" devas esti malmarkita por ke tio estu provita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
@@ -20123,7 +20123,7 @@ msgstr ""
 ">korekto kontrolita per <span style=\" font-weight:600; color:#8ae234;"
 "\">Prognoza Gajno </span>.</p><p>La plej grava parametro estas <span style="
 "\" font-weight:600; color:#8ae234;\">Grava Periodo</span>. Se vi povas "
-"determini ĝin por via monto, estas multe <br/>pli bone agordi ĝin mem kaj "
+"determini ĝin por via muntaĵo, estas multe <br/>pli bone agordi ĝin mem kaj "
 "malmarki <span style=\" font-weight:600; color:#8ae234;\">Taksa Periodo.</"
 "span></p><hr/></body></html>"
 
@@ -20155,9 +20155,9 @@ msgstr ""
 "Maksimuma tempo inter elsendado de prognozaj korektoj dum kaptado de "
 "gvidbildoj. Ĉi tio povus esti je la ordo de 1 sekundo aŭ malpli, kun la "
 "gvida ekspozicio multe pli longa. La precizaj valoroj kaj la proporcio inter "
-"ili multe dependos de via monto kaj mediaj kondiĉoj; sed ĝenerale, ju pli "
-"malbona perioda eraro de via monto, des pli granda la proporcio inter gvida "
-"ekspozicio kaj malhela gvidintervalo."
+"ili multe dependos de via muntaĵo kaj mediaj kondiĉoj; sed ĝenerale, ju pli "
+"malbona perioda eraro de via muntaĵo, des pli granda la proporcio inter "
+"gvida ekspozicio kaj malhela gvidintervalo."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/guide/opsgpg.ui:132
@@ -20172,7 +20172,7 @@ msgstr "Malhela gvidintervalo"
 msgid ""
 "The length in seconds of the mount's major period (that's being corrected)."
 msgstr ""
-"La longo en sekundoj de la plej grava periodo de la monto (tio estas "
+"La longo en sekundoj de la plej grava periodo de la muntaĵo (tio estas "
 "korektita)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs0a)
@@ -20215,7 +20215,7 @@ msgid ""
 "If checked, the GPG estimates the mount's major period. Otherwise, it uses "
 "the entry above."
 msgstr ""
-"Se kontrolite, la GPG taksas la plej gravan periodon de la monto. Alie, ĝi "
+"Se kontrolite, la GPG taksas la plej gravan periodon de la muntaĵo. Alie, ĝi "
 "uzas la eniron supre."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs1a)
@@ -20237,7 +20237,7 @@ msgid ""
 "The min-move parameter the GPG uses to move the mount when it uses its "
 "backoff proportional guider."
 msgstr ""
-"La min-movo-parametro, kiun GPG uzas por movi la monton kiam ĝi uzas sian "
+"La min-movo-parametro, kiun GPG uzas por movi la muntaĵon kiam ĝi uzas sian "
 "retroproporcian gvidilon."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs4a)
@@ -20257,7 +20257,8 @@ msgstr "Uzas RA \"Mineraro\" de Gvidkontroloj"
 #, kde-format
 msgid ""
 "The fraction of the guide-star drift that the GPG uses to move the mount."
-msgstr "La frakcio de la gvidstela drivo, kiun la GPG uzas por movi la monton."
+msgstr ""
+"La frakcio de la gvidstela drivo, kiun la GPG uzas por movi la muntaĵon."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs3a)
 #: ekos/guide/opsgpg.ui:267
@@ -20563,8 +20564,8 @@ msgid ""
 "</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Maksimuma gvidpulso kiu estas generita de la gvidilo "
-"kaj sendita al la monto en ark-sekundaj unuoj. Tio estas, la gvidisto ne "
-"provos movi la monton pli ol tiom da arksekundoj en iu ajn momento.</p></"
+"kaj sendita al la muntaĵo en ark-sekundaj unuoj. Tio estas, la gvidisto ne "
+"provos movi la muntaĵon pli ol tiom da arksekundoj en iu ajn momento.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_14)
@@ -20582,8 +20583,8 @@ msgid ""
 "value, then no pulse is sent to the mount.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Minimuma gvida devio, en arksekundoj, por kiu "
-"gvidpulso estus sendita al la monto. Se la gvideraro estas malpli ol ĉi tiu "
-"valoro, tiam neniu pulso estas sendita al la monto.</p></body></html>"
+"gvidpulso estus sendita al la muntaĵo. Se la gvideraro estas malpli ol ĉi "
+"tiu valoro, tiam neniu pulso estas sendita al la muntaĵo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_15)
 #: ekos/guide/opsguide.ui:190
@@ -21771,9 +21772,9 @@ msgid ""
 "If the telescope is above this limit, it will be commanded to stop.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Maksimuma Hora Angulo limo se la monto ne renversiĝis. "
-"Se la teleskopo estas super tiu ĉi limo, oni ordonos al ĝi halti.</p></"
-"body></html>"
+"<html><head/><body><p>Maksimuma Hora Angulo limo se la muntaĵo ne "
+"renversiĝis. Se la teleskopo estas super tiu ĉi limo, oni ordonos al ĝi "
+"halti.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableAltitudeLimits)
 #: ekos/mount/mount.ui:840
@@ -21785,8 +21786,8 @@ msgid ""
 "stop and tracking will be turned off.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ebligi aŭ Malebligi la limojn de la vojaĝdistanco de "
-"monto. Post kiam ebligita, Ekos kontrolas la altecon de la monto dum "
-"svingado aŭ spurado. Se la monto svingas/spuras sub aŭ super la limoj, oni "
+"muntaĵo. Post kiam ebligita, Ekos kontrolas la altecon de la muntaĵo dum "
+"svingado aŭ spurado. Se la muntaĵo svingas/spuras sub aŭ super la limoj, oni "
 "ordonos al ĝi halti kaj la spurado estos malŝaltita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
@@ -21851,11 +21852,11 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Ebligi aŭ Malebligi la limon pri muntado Horangulo. "
-"Post kiam ebligita, Ekos kontrolas la horan angulon de la monto dum svingado "
-"aŭ spurado. Se la monto preterpasas/spuras preter la limo dum la Piero-"
-"Flanko estas en la stato kiu ne permesas tion, oni ordonos ĉesi kaj spurado "
-"estos malŝaltita. Postulas monton kiu raportas ĝuste la molean flankon.</p></"
-"body></html>"
+"Post kiam ebligita, Ekos kontrolas la horan angulon de la muntaĵo dum "
+"svingado aŭ spurado. Se la monto preterpasas/spuras preter la limo dum la "
+"molea flanko estas en la stato kiu ne permesas tion, oni ordonos ĉesi kaj "
+"spurado estos malŝaltita. Postulas muntaĵon kiu raportas ĝuste la molean "
+"flankon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:923
@@ -23387,7 +23388,7 @@ msgstr ""
 "konektejo:</p><p><span style=\" font-weight:600;\">\"ZWO ASI120MC"
 "\"@192.168 .1.50:8000</span><br/>Konektu al la nomita fotilo ĉe "
 "192.168.1.50, konektejo 8000.</p><p><span style=\" font-weight:600;\">"
-"\"EQMod Mount \"@192.168.1.50</span><br/>Konektu al la nomita monto ĉe "
+"\"EQMod Mount \"@192.168.1.50</span><br/>Konektu al la nomita muntaĵo ĉe "
 "192.168.1.50, konektejo 7624.</p><p><span style=\" font-weight:600;"
 "\">@192.168 .1.50:8000</span><br/>Konektiĝu al ĉiuj peliloj trovitaj ĉe "
 "192.168.1.50, konektejo 8000.</p><p><span style=\" font-weight:600;"
@@ -23899,10 +23900,10 @@ msgstr ""
 "<html><head/><body><p>Se vi planas uzi SkySafari por monitori kaj/aŭ "
 "kontroli vian muntaĵon, marku ĉi tiun skatolon por lanĉi INDI SkySafari-"
 "Servilon. Vi povas konekti SkySafari al ĉi tiu servilo kaj ĝi ebligos vin "
-"konekti kaj kontroli vian monton. Por pliaj detaloj, bonvolu kontroli la <a "
-"href=\"https://indilib.org/devices/telescopes/skysafari.html\"><span style="
-"\" teksto-ornamado: substreko; koloro:#007af4;\">INDI SkySafari Dokumentado."
-"</span></a></p></body></html>"
+"konekti kaj kontroli vian muntaĵon. Por pliaj detaloj, bonvolu kontroli la "
+"<a href=\"https://indilib.org/devices/telescopes/skysafari.html\"><span "
+"style=\" teksto-ornamado: substreko; koloro:#007af4;\">INDI SkySafari "
+"Dokumentado.</span></a></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSkySafariCheck)
 #: ekos/profilewizard.ui:1084
@@ -24176,7 +24177,7 @@ msgid ""
 "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
 "moves minimally between jobs (S-shape).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Se kontrolite, ordigas mozaikojn tiel ke la monto "
+"<html><head/><body><p>Se kontrolite, ordigas mozaikojn tiel ke la muntaĵo "
 "moviĝas minimume inter taskoj (S-formo).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
@@ -26068,7 +26069,7 @@ msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
-"Tasko '%1' planita por plenumo ĉe %2. Parku la monton ĝis la tasko estas "
+"Tasko '%1' planita por plenumo ĉe %2. Parku la muntaĵon ĝis la tasko estas "
 "preta."
 
 #: ekos/scheduler/scheduler.cpp:8288
@@ -26120,7 +26121,7 @@ msgid ""
 msgstr ""
 "Elektu laŭvolan FITS-dosieron por esti uzata por vicigo. Kiam vi uzas FITS, "
 "specifu la objekton aŭ la taksitajn koordinatojn, kiuj estas uzataj por movi "
-"la monton."
+"la muntaĵon."
 
 #. i18n: ectx: property (text), widget (QLabel, FITSLabel)
 #: ekos/scheduler/scheduler.ui:75
@@ -29194,9 +29195,9 @@ msgid ""
 "location settings. KStars time and location settings are synchronized with "
 "controller settings.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Monta telefontelefono estas la ĉefa fonto de tempo- "
-"kaj loko-agordoj. KStars horo kaj loko agordoj estas sinkronigitaj kun "
-"regilo agordoj.</p></body></html>"
+"<html><head/><body><p>Muntaĵa manstirilo estas la ĉefa fonto de tempo- kaj "
+"loko-agordoj. KStars horo kaj loko agordoj estas sinkronigitaj kun regilo "
+"agordoj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_useMountSource)
 #: indi/opsindi.ui:293
@@ -34958,7 +34959,7 @@ msgstr "Supra bildskalo."
 msgid ""
 "Automatically update image scale when CCD or Mount parameters are updated."
 msgstr ""
-"Aŭtomate ĝisdatigi bildskalon kiam CCD aŭ Monto-parametroj estas "
+"Aŭtomate ĝisdatigi bildskalon kiam CCD- aŭ muntaĵ-parametroj estas "
 "ĝisdatigitaj."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleUnits), group (Align)
@@ -35011,7 +35012,7 @@ msgstr ""
 msgid ""
 "Automatically update position coordinates when mounts completes slewing."
 msgstr ""
-"Aŭtomate ĝisdatigi poziciokoordinatojn kiam montoj kompletigas svingadon."
+"Aŭtomate ĝisdatigi poziciokoordinatojn kiam muntaĵoj kompletigas svingadon."
 
 #. i18n: ectx: label, entry (AstrometryDetectParity), group (Align)
 #: kstars.kcfg:2260
@@ -35151,7 +35152,7 @@ msgstr ""
 msgid ""
 "User should manually rotate the mount about its axis during polar alignment."
 msgstr ""
-"Uzanto devas permane turni la monton ĉirkaŭ ĝia akso dum polusa paraleligo."
+"Uzanto devas permane turni la muntaĵon ĉirkaŭ ĝia akso dum polusa paraleligo."
 
 #. i18n: ectx: label, entry (PAHExposure), group (Align)
 #: kstars.kcfg:2330

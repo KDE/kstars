@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-10 00:42+0000\n"
-"PO-Revision-Date: 2023-05-08 06:00+0200\n"
+"PO-Revision-Date: 2023-05-10 05:56+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -15229,7 +15229,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:1501
 #, kde-format
 msgid "Autofocus aborted."
-msgstr ""
+msgstr "ავტოფოკუსი შეწყვეტილია."
 
 #: ekos/focus/focus.cpp:1585
 #, kde-format
@@ -15669,13 +15669,13 @@ msgstr ""
 #: ekos/focus/focus.ui:409
 #, kde-format
 msgid "Capture image"
-msgstr ""
+msgstr "სურათის გადაღება"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
 #: ekos/focus/focus.ui:438
 #, kde-format
 msgid "Stop Auto Focus process"
-msgstr ""
+msgstr "ავტოფოკუსის პროცესის შეწყვეტა"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
@@ -15683,26 +15683,26 @@ msgstr ""
 #: ekos/focus/focus.ui:496 ekos/focus/focus.ui:553 ekos/guide/guide.ui:357
 #, kde-format
 msgid "Exposure time in seconds"
-msgstr ""
+msgstr "ექსპოზიციის დრო წამებში"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:521
 #, kde-format
 msgid "Focuser temperature source"
-msgstr ""
+msgstr "ფოკუსერის ტემპერატურის წყრო"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:524
 #, kde-format
 msgid "TS."
-msgstr ""
+msgstr "TS."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
 #: ekos/focus/focus.ui:603 ekos/focus/focus.ui:619
 #, kde-format
 msgid "Source temperature in Celsius"
-msgstr ""
+msgstr "წყაროს ტემპერატურა ცელსიუსში"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: ekos/focus/focus.ui:606
@@ -15985,18 +15985,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1332
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Adapt the Autofocus start position based on filter "
-#| "and the Adaptive Focus settings.  This is an experimental feature.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
 "<html><head/><body><p>ავტოფოკუსის დაწყების მდებარეობის ფილტრზე და ადაპტიური "
-"ფოკუსის პარამეტრებზე დამოკიდებულებით მორგება.  ეს თვისება ექსპერიმენტალური.</"
+"ფოკუსის პარამეტრებზე დამოკიდებულებით მორგება. ეს თვისება ექსპერიმენტალურია.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
@@ -16177,13 +16173,13 @@ msgstr "HFR"
 #: ekos/focus/focus.ui:1613
 #, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "HFR მორგ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1618
 #, kde-format
 msgid "FWHM"
-msgstr ""
+msgstr "FWHM"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1623
@@ -16339,7 +16335,7 @@ msgstr "ზღვარი"
 #: ekos/focus/focus.ui:1740 ekos/guide/opsguide.ui:456
 #, kde-format
 msgid "SEP"
-msgstr ""
+msgstr "SEP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/focus.ui:1745
@@ -16351,7 +16347,7 @@ msgstr "ბახტინოვი"
 #: ekos/focus/focus.ui:1759
 #, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/focus.ui:1769
@@ -16571,7 +16567,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2287
 #, kde-format
 msgid "Capture Timeout:"
-msgstr ""
+msgstr "გადაღების ვადა"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
 #: ekos/focus/focus.ui:2303
@@ -16659,7 +16655,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2508
 #, kde-format
 msgid "CFZ"
-msgstr ""
+msgstr "CFZ"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2511
@@ -16802,7 +16798,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2843
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
@@ -16826,7 +16822,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2881
 #, kde-format
 msgid " μm"
-msgstr ""
+msgstr " μმ"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZSeeing)
 #: ekos/focus/focus.ui:2906
@@ -16914,13 +16910,13 @@ msgstr ""
 #: ekos/focus/focus.ui:3047
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "საბოლოო CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3066
 #, kde-format
 msgid "FWHM (θ):"
-msgstr ""
+msgstr "FWHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3082
@@ -17070,7 +17066,7 @@ msgstr ""
 #: ekos/focus/focus.ui:3522
 #, kde-format
 msgid "  FWHM:"
-msgstr ""
+msgstr "  FWHM:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3535
@@ -17102,7 +17098,7 @@ msgstr ""
 #: ekos/focus/focus.ui:3587
 #, kde-format
 msgid "  Iter:"
-msgstr ""
+msgstr "  იტერ:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
 #: ekos/focus/focus.ui:3600
@@ -17304,7 +17300,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:308
 #, kde-format
 msgid "PHD2: JSON error: %1"
-msgstr ""
+msgstr "PHD2: JSON-ის შეცდომა: %1"
 
 #: ekos/guide/externalguide/phd2.cpp:332
 #, kde-format
@@ -17319,7 +17315,7 @@ msgstr "PHD2: ვერსია %1"
 #: ekos/guide/externalguide/phd2.cpp:345
 #, kde-format
 msgid "PHD2: Calibration Complete."
-msgstr ""
+msgstr "PHD2: კალიბრაცია დასრულდა."
 
 #: ekos/guide/externalguide/phd2.cpp:355
 #, kde-format
@@ -18041,7 +18037,7 @@ msgstr ""
 #: ekos/guide/guide.ui:1179
 #, kde-format
 msgid "RA "
-msgstr ""
+msgstr "RA "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1189
@@ -18056,7 +18052,7 @@ msgstr ""
 #: ekos/guide/guide.ui:1192 ekos/guide/guide.ui:1225
 #, kde-format
 msgid "Corr"
-msgstr ""
+msgstr "კორ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dEDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1209
@@ -18829,7 +18825,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:91
 #, kde-format
 msgid "Enable GPG"
-msgstr ""
+msgstr "GPG-ის ჩართვა"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -65285,10 +65281,10 @@ msgid "FWHM"
 msgstr ""
 
 #: libindi_strings.cpp:151
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Factory"
-msgstr ""
+msgstr "ქარხანა"
 
 #: libindi_strings.cpp:152
 #, kde-kuit-format
