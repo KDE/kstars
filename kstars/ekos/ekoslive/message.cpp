@@ -828,14 +828,22 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
         align->abort();
     else if (command == commands[ALIGN_LOAD_AND_SLEW])
     {
-        QString filename = QDir::tempPath() + QDir::separator() +
-                           QString("XXXXXXloadslew.%1").arg(payload["ext"].toString("fits"));
-        QTemporaryFile file(filename);
-        file.setAutoRemove(false);
-        file.open();
-        file.write(QByteArray::fromBase64(payload["data"].toString().toLatin1()));
-        file.close();
-        align->loadAndSlew(file.fileName());
+        // Check if we have filename payload first
+        if (payload.contains("filename"))
+        {
+            align->loadAndSlew(payload["filename"].toString());
+        }
+        else
+        {
+            QString filename = QDir::tempPath() + QDir::separator() +
+                               QString("XXXXXXloadslew.%1").arg(payload["ext"].toString("fits"));
+            QTemporaryFile file(filename);
+            file.setAutoRemove(false);
+            file.open();
+            file.write(QByteArray::fromBase64(payload["data"].toString().toLatin1()));
+            file.close();
+            align->loadAndSlew(file.fileName());
+        }
     }
     else if (command == commands[ALIGN_MANUAL_ROTATOR_TOGGLE])
     {
