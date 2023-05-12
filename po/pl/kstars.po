@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1651347 $
+# Version: $Revision: 1651462 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-10 00:42+0000\n"
+"POT-Creation-Date: 2023-05-12 00:43+0000\n"
 "PO-Revision-Date: 2023-04-23 11:55+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -16112,7 +16112,7 @@ msgstr "Połącz się z usługą EkosLive po uruchomieniu"
 msgid "Auto Start"
 msgstr "Auto Start"
 
-#: ekos/ekoslive/message.cpp:945
+#: ekos/ekoslive/message.cpp:953
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Nie udało się zaimportować mozaiki."

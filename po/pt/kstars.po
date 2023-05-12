@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-10 00:42+0000\n"
-"PO-Revision-Date: 2023-05-07 13:52+0100\n"
+"POT-Creation-Date: 2023-05-12 00:43+0000\n"
+"PO-Revision-Date: 2023-05-11 20:06+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -12637,6 +12637,8 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"O número de traços por aumento em °C na temperatura. +ve para um movimento "
+"de focagem para fora"
 
 #: ekos/auxiliary/filtermanager.cpp:90
 #, fuzzy, kde-format
@@ -12651,22 +12653,23 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"O número de traços por aumento em graus na altitude. +ve para um movimento "
+"de focagem para fora"
 
 #: ekos/auxiliary/filtermanager.cpp:94
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Traços / °Alt"
 
 #: ekos/auxiliary/filtermanager.cpp:96
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Comprimento de onda do filtro no ponto intermédio em 'nm'"
 
 #: ekos/auxiliary/filtermanager.cpp:97
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
-msgstr "Comprimento de onda:"
+msgstr "Comprimento de Onda"
 
 #: ekos/auxiliary/filtermanager.cpp:524
 #, kde-format
@@ -12679,10 +12682,9 @@ msgid "Confirm Filter"
 msgstr "Confirmar o Filtro"
 
 #: ekos/auxiliary/filtermanager.cpp:934
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to quit?"
-msgstr "Tem a certeza que deseja cancelar?"
+msgstr "Tem a certeza que quer sair?"
 
 #: ekos/auxiliary/filtermanager.cpp:1018
 #, fuzzy, kde-format
@@ -12699,12 +12701,12 @@ msgstr "Deslocamento"
 #: ekos/auxiliary/filtermanager.cpp:1244
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
-msgstr ""
+msgstr "O processo parou. Sim para reiniciar; Não para interromper."
 
 #: ekos/auxiliary/filtermanager.cpp:1275
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
-msgstr ""
+msgstr "Ocorreu um problema. Sim para reiniciar; Não para interromper."
 
 #: ekos/auxiliary/filtermanager.cpp:1317
 #, fuzzy, kde-format
@@ -12721,7 +12723,7 @@ msgstr "A mudar o filtro para %1..."
 #: ekos/auxiliary/filtermanager.cpp:1347
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "A executar a focagem automática no %1 (%2/%3)..."
 
 #: ekos/auxiliary/filtermanager.cpp:1502
 #, fuzzy, kde-format
@@ -17357,7 +17359,7 @@ msgstr "Ligar automaticamente ao serviço EkosLive no arranque."
 msgid "Auto Start"
 msgstr "Arranque Automático"
 
-#: ekos/ekoslive/message.cpp:945
+#: ekos/ekoslive/message.cpp:953
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "A importação do mosaico falhou."
@@ -17375,27 +17377,31 @@ msgstr "Editor do Perfis de Opções de Focagem"
 #: ekos/focus/focus.cpp:938
 #, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
-msgstr ""
+msgstr "Focagem Adaptativa: Delta da temp. %1 traços; Delta da alt. %2 traços"
 
 #: ekos/focus/focus.cpp:954
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
+"A  focagem adaptativa foi suspensa. O movimento total seria superior ao "
+"limite máx. de viagem"
 
 #: ekos/focus/focus.cpp:963
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
+"A  focagem adaptativa foi suspensa. O movimento total seria superior ao "
+"limite adaptativo"
 
 #: ekos/focus/focus.cpp:970
 #, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
-msgstr ""
+msgstr "A focagem adaptativa está a mover-se de %1 para %2"
 
 #: ekos/focus/focus.cpp:983
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
-msgstr ""
+msgstr "Não é possível à focagem adaptativa mover a focagem automática"
 
 #: ekos/focus/focus.cpp:1084
 #, kde-format
@@ -17425,11 +17431,14 @@ msgstr ""
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
+"A eliminar o pedido de início da Focagem Automática - o ajuste da mesma está "
+"em curso."
 
 #: ekos/focus/focus.cpp:1116
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
+"A eliminar o pedido de início da Focagem Automática - a mesma está em curso."
 
 #: ekos/focus/focus.cpp:1252
 #, kde-format
@@ -17450,6 +17459,7 @@ msgstr "A operação de focagem automática foi iniciada"
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
+"Ponto inicial adaptativo, última solução de FA fora da Viagem Máx., a ignorar"
 
 #: ekos/focus/focus.cpp:1365
 #, kde-format
@@ -18190,10 +18200,9 @@ msgstr "<html><head/><body><p>Apagar a imagem actual</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1117
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels"
-msgstr "pontos"
+msgstr "Pixels"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1122
@@ -18500,10 +18509,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1567
-#, fuzzy, kde-format
-#| msgid "Quadradic"
+#, kde-format
 msgid "Quadratic"
-msgstr "Quadrático"
+msgstr "Quadrática"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1572
@@ -18632,11 +18640,9 @@ msgstr "Estrelas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1628
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Mont-Laurier"
+msgstr "Fourier"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1636
@@ -19553,11 +19559,9 @@ msgstr "Comprimento de onda:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3005
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Golden"
+#, kde-format
 msgid "Gold"
-msgstr "Golden"
+msgstr "Ouro"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3019

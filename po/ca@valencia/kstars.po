@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-10 00:42+0000\n"
-"PO-Revision-Date: 2023-05-10 19:23+0200\n"
+"POT-Creation-Date: 2023-05-12 00:43+0000\n"
+"PO-Revision-Date: 2023-05-11 17:39+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -9603,8 +9603,8 @@ msgid ""
 "error when it can.</li></ul><p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu l'algorisme de correcció de l'alineació "
-"polar:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\"margin-top:12px; margin-"
+"polar:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Solució de plaques</span>: "
 "Utilitza el solucionador de plaques per a seguir quin és l'error d'alineació "
@@ -12303,6 +12303,7 @@ msgstr ""
 msgid "Reducer/Barlow:"
 msgstr "Reductor/Barlow:"
 
+# skip-rule: kct-box
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:264
 #, kde-format
@@ -12310,6 +12311,7 @@ msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
 "Seleccioneu una caixa de llum de camp pla si n'hi ha (p. ex., FlipFlat)."
 
+# skip-rule: kct-box
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:267
 #, kde-format
@@ -14582,8 +14584,8 @@ msgid ""
 "saved <span style=\" font-style:italic;\">Locally</span>.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Selecciona com es pugen les imatges capturades:</p><ol "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\"margin-top:12px; margin-bottom:0px; "
+"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: "
+"0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\"font-weight:600;\">Localment</span>: Les imatges capturades "
 "es guarden localment al disc en el directori especificat més amunt.</li><li "
@@ -14736,8 +14738,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El format s'utilitza per a definir els noms dels "
 "fitxers d'imatge mitjançant l'ús de variables de substitució.</p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Variable "
 "de substitució<span style=\"font-weight:700;\"> %f</span> o <span style="
 "\"font-weight:700;\">%filename</span>: El nom del fitxer «.esq», sense "
@@ -14770,11 +14772,11 @@ msgstr ""
 "incloure text arbitrari dins de la cadena de format, <span style=\"font-"
 "weight:700;\">excepte els caràcters «%» i «\\».</span> El caràcter «/» del "
 "camí es pot emprar per a definir directoris arbitraris.</p><p>Notes:</p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\"margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Les variables de substitució són sensibles a les seues formes curtes i "
-"llargues.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
+"style=\"margin-top:0px; margin-bottom:0px; margin-left: 0px; margin-"
+"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Les variables de substitució són sensibles a les seues formes "
+"curtes i llargues.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Utilitzeu "
 "només la variable de substitució %Datetime a la part del nom de fitxer del "
 "format, no en la definició del camí.</li></ul></body></html>"
@@ -15987,6 +15989,7 @@ msgstr "Cobrix el telescopi per tal de prendre una exposició fosca."
 msgid "Parking dust cap..."
 msgstr "S'està aparcant la tapa per la pols..."
 
+# skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:435 ekos/capture/sequencejobstate.cpp:474
 #: ekos/capture/sequencejobstate.cpp:520
 #, kde-format
@@ -15998,6 +16001,7 @@ msgstr "Encén el llum de la caixa de llum..."
 msgid "Unparking dust cap..."
 msgstr "S'està desaparcant la tapa per la pols..."
 
+# skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:474 ekos/capture/sequencejobstate.cpp:520
 #: ekos/capture/sequencejobstate.cpp:647
 #, kde-format
@@ -16038,6 +16042,7 @@ msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "S'està aparcant la cúpula abans de capturar els fotogrames de calibratge..."
 
+# skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:826
 #, kde-format
 msgid "Light box on."
@@ -16252,7 +16257,7 @@ msgstr "Connecta automàticament amb el servei EkosLive en iniciar."
 msgid "Auto Start"
 msgstr "Inici automàtic"
 
-#: ekos/ekoslive/message.cpp:945
+#: ekos/ekoslive/message.cpp:953
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
@@ -16278,8 +16283,8 @@ msgstr ""
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
-"S'ha suspés l'enfocament adaptatiu. El moviment total excediria el límit de "
-"recorregut màx."
+"S'ha suspés l'enfocament adaptatiu. El moviment total excediria el límit del "
+"recorregut màxim."
 
 #: ekos/focus/focus.cpp:963
 #, kde-format
@@ -16357,7 +16362,7 @@ msgstr "S'ha iniciat l'operació d'enfocament automàtic"
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Punt d'inici adaptatiu, l'última solució d'EA es troba fora del recorregut "
-"màx., s'ignora"
+"màxim, s'ignora"
 
 #: ekos/focus/focus.cpp:1365
 #, kde-format
@@ -16393,7 +16398,7 @@ msgstr "Punt d'inici adaptatiu, la delta de l'altitud és molt gran, s'ignora"
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Punt d'inici adaptatiu, la posició de l'objectiu es troba fora del "
-"recorregut màx., s'ignora"
+"recorregut màxim, s'ignora"
 
 #: ekos/focus/focus.cpp:1406
 #, kde-format
@@ -16651,7 +16656,7 @@ msgstr ""
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
-"Fluctuacions inestables. Intenteu-ho incrementant la mida del pas inicial o "
+"Fluctuacions inestables. Intenteu-ho incrementant la mida inicial del pas o "
 "el temps d'exposició."
 
 #: ekos/focus/focus.cpp:3398
@@ -17333,8 +17338,8 @@ msgstr ""
 "(ajust perfecte). 0,8 és un bon començament. Si no es complix el mínim, "
 "l'enfocament automàtic es tornarà a executar una vegada per a intentar "
 "millorar R². Actualment només estarà disponible per a l'algorisme lineal d'1 "
-"pas quan s'utilitza un ajust de corba d'hipèrbola o de paràbola.</p></body></"
-"html>"
+"pas quan s'utilitza un «Ajust de la corba» d'«Hipèrbola» o de «Paràbola».</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1436
@@ -17403,8 +17408,8 @@ msgid ""
 "1 Pass Algorithm.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu el tipus de corba que s'ajustarà a les "
-"dades:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\"margin-top:0px; margin-"
+"dades:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Quadràtica</span>: Utilitza "
 "un ajust polinòmic de grau 2. Esta és l'opció predeterminada i l'única per a "
@@ -17475,15 +17480,15 @@ msgid ""
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu la mesura que s'utilitzarà per a ajustar "
-"una corba per al lineal d'1 pas:</p><ul style=\"margin-top: 0px; margin-"
-"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"una corba per al lineal d'1 pas:</p><ul style=\"margin-top:0px; margin-"
+"bottom: 0px; margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li "
 "style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">HFR</span>: «Half Flux Radius» (Radi de semiflux). Utilitza un "
 "algorisme per a calcular el radi d'un cercle centrat en el centroide de "
 "l'estrela que encapula la meitat del flux de l'estrela.</li><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
+"list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">HFR Adj</span>: «Adjusted Half Flux Radius» (Radi "
 "de semiflux ajustat). Normalitza l'HFR per a la intensitat dels pics. Esta "
@@ -17573,10 +17578,9 @@ msgstr ""
 "<html><head/><body><p>Marqueu-la per a utilitzar la desviació estàndard HFR "
 "or FWHM de l'estrela com a ponderació a l'algorisme d'ajust de la corba. Si "
 "no està marcada, tots els punts de dades tindran la mateixa ponderació. "
-"Actualment, només estarà disponible quan s'utilitza tot el camp (múltiples "
-"estreles) i un ajustament de corba d'hipèrbola o de paràbola davall "
-"l'algorisme lineal d'1 pas. Esta característica és experimental.</p></body></"
-"html>"
+"Actualment, només estarà disponible quan s'utilitza tot elles estreles) i un "
+"«Ajust de la corba» d'«Hipèrbola» o de «Paràbola» davall l'algorisme lineal "
+"d'1 pas. Esta característica és experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1655
@@ -17584,6 +17588,7 @@ msgstr ""
 msgid "Use Weights"
 msgstr "Utilitza les ponderacions"
 
+# skip-rule: t-2p_sp
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1668
 #, no-c-format, kde-format
@@ -17617,8 +17622,8 @@ msgid ""
 "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu l'algorisme del procés d'enfocament:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\"margin-top:12px; margin-"
+"p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Iteratiu</span>: mou "
 "l'enfocador per passos discrets inicialment decidits per la mida del pas. "
@@ -17636,15 +17641,15 @@ msgstr ""
 "style=\"font-weight:600;\">Lineal</span>: de manera habitual les mostres "
 "s'enfocaran cap endins, utilitzant 2 passos. L'algorisme pot ser lent, però "
 "és més resistent als rebots. Comenceu amb l'enfocador col·locat prop de "
-"l'enfocament bo. Establiu la Mida del pas inicial i el Recorregut màxim per "
-"a l'interval de mostreig desitjat i l'interval al voltant de la posició "
+"l'enfocament bo. Establiu la «Mida inicial del pas:» i el «Recorregut màx.:» "
+"per a l'interval de mostreig desitjat i l'interval al voltant de la posició "
 "d'enfocament inicial. La tolerància haurà d'estar al voltant del 5%.</li><li "
 "style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Lineal d'1 pas</span>: Comença com el <span style=\"font-"
 "weight:600;\">Lineal</span> però després de completar el 1r pas, en lloc de "
 "fer un 2n pas, es mou directament al valor HFR mínim calculat. Utilitzeu "
-"l'ajust de corba d'hipèrbola o de paràbola.</li></ul></body></html>"
+"l'«Ajust de la corba» d'«Hipèrbola» o de «Paràbola».</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1675
@@ -17697,8 +17702,8 @@ msgid ""
 "field analysis will use SEP instead of this method.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Mètode de detecció d'estreles:</p><ul style=\"margin-"
-"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\"margin-top:12px; margin-bottom:12px; margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-list-"
+"indent:1;\"><li style=\"margin-top:12px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">SEP:</span> «Source Extractor and "
 "Photometry» (Extracció de fonts i fotometria), un mètode eficient de "
@@ -17770,12 +17775,12 @@ msgid ""
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>El tipus de PSF que s'utilitzarà quan la mesura s'ha "
-"establit a FWHM:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\"margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Gaussià</"
-"span>: Utilitza un gaussià en 2D. Esta és una característica experimental.</"
-"li></ul></body></html>"
+"establit a FWHM:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\"font-weight:600;\">Gaussià</span>: Utilitza "
+"un gaussià en 2D. Esta és una característica experimental.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1813
@@ -18147,6 +18152,9 @@ msgid ""
 "Zone (CFZ). This is not necessary for Autofocus, but provides useful "
 "information.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Paràmetres que tenen a veure amb la configuració de la "
+"Zona crítica d'enfocament (ZCE). Açò no és necessari per a l'enfocament "
+"automàtic, però proporciona informació útil.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/focus.ui:2565
@@ -18156,30 +18164,25 @@ msgstr "Tolerància (τ):"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZLabel)
 #: ekos/focus/focus.ui:2581
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>ZCE:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/focus.ui:2600
-#, fuzzy, kde-format
-#| msgid "Aperture (mm)"
+#, kde-format
 msgid "Aperture (A):"
-msgstr "Obertura (mm)"
+msgstr "Obertura (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2619
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marqueu-la per a visualitzar les últimes dades de "
-"guiatge amb desplaçament automàtic del gràfic.</p></body></html>"
+"<html><head/><body><p>Marqueu-la per a visualitzar la ZCE en la corba V "
+"després d'una execució correcta de l'enfocament automàtic </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -18190,16 +18193,13 @@ msgstr "Pantalla"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/focus.ui:2641
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu la càmera per a prendre imatges en este "
-"tren òptic.</p></body></html>"
+"<html><head/><body><p>Establix l'obertura del telescopi en mm. Està "
+"predeterminada a partir del tren òptic seleccionat.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -18211,24 +18211,19 @@ msgstr " mm"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZCameraSteps)
 #: ekos/focus/focus.ui:2669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu la càmera per a prendre imatges en este "
-"tren òptic.</p></body></html>"
+"<html><head/><body><p>La ZCE de la càmera (límit de resolució) en el tren "
+"òptic actiu.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2685
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr "<html><head/><body><p>Suprimix el tren òptic actual.</p></body></html>"
+msgstr "<html><head/><body><p>La ZCE calculada en μm.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/focus.ui:2704
@@ -18238,32 +18233,31 @@ msgid ""
 "the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Establix el valor de la tolerància=t entre 0 i 1. Açò "
+"escala el càlcul clàssic de la ZCE de 4.88 λ f<span style=\"vertical-align:"
+"super;\">2</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2729
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Neteja totes les dades recents del guiatge.</p></"
-"body></html>"
+"<html><head/><body><p>La ZCE final és la més gran entre la ZCE calculada i "
+"la ZCE de la càmera.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/focus.ui:2745
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Mida del pas:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2761
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "CFZ Camera:"
-msgstr "Càmera:"
+msgstr "ZCE de la càmera:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/focus.ui:2780
@@ -18276,41 +18270,40 @@ msgid ""
 "background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Establix la <span style=\"font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">tolerància de l'enfocament, </span>τ<span style="
+"\"font-family:'Arial','Helvetica','sans-serif'; font-size:medium; color:"
+"#000000; background-color:#ffffff;\"> com un percentatge de la visió total.</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2808
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Directori base per a les captures locals</p></body></"
-"html>"
+msgstr "<html><head/><body><p>La ZCE calculada passos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2824
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Objectiu: <span style=\"color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>ZCE = 4.88 t λ f<span style=\"vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/focus.ui:2843
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "ZCE:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2862
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength (λ):"
-msgstr "Longitud d'ona:"
+msgstr "Longitud d'ona (λ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:2878
@@ -18323,75 +18316,58 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Establix la mida del pas (en micres) de l'enfocador. "
+"Per a calcular-ho, moveu l'enfocador d'un extrem del seu recorregut fins a "
+"l'altre (cal tindre cura de no forçar-lo més enllà dels seus límits). "
+"Mesureu la distància que es mou el tub amb la precisió que pugueu (p. ex. "
+"amb un peu de rei) i convertiu-ho a micres. Cal tindre en compte quants "
+"passos l'heu mogut. Mida del pas = a la distància en micres / nombre de "
+"passos.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:2881
 #, kde-format
 msgid " μm"
-msgstr ""
+msgstr " μm"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZSeeing)
 #: ekos/focus/focus.ui:2906
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the right ascension (RA) drift error in arc-"
-#| "seconds.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Traça l'error de deriva de l'ascensió recta (AR) en "
-"segons d'arc.</p></body></html>"
+"<html><head/><body><p>El FWHM total de la vista (en segons d'arc).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:2934 ekos/focus/focus.ui:3222 ekos/focus/focus.ui:3335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Escala l'eix de valors a l'interval actual de valors.</"
+"<html><head/><body><p>Restablix els valors de longitud d'ona, obertura i "
+"relació focal a partir del filtre i del tren òptic actualment seleccionats</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:2937
-#, fuzzy, kde-format
-#| msgid "Reset to Now"
+#, kde-format
 msgid "Reset To OT"
-msgstr "Restablix a ara"
+msgstr "Restablix a OT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:2950
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Ratio (f):"
-msgstr "Relació focal"
+msgstr "Relació focal (f):"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:2988
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Critical Focus Zone (CFZ) algorithm:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -18414,102 +18390,93 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el tipus de corba per a ajustar amb les "
-"dades:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Quadràtica</span>: Utilitza "
-"un ajust polinòmic de grau 2. Esta és l'opció predeterminada i l'única per a "
-"tots els algorismes excepte el lineal d'1 pas.</li><li style=\"margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Hipèrbola</"
-"span>: Ajusta una hipèrbola als punt de dades. Actualment esta només estarà "
-"disponible per a l'algorisme lineal d'1 pas i és experimental.</li><li style="
-"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;"
-"\">Paràbola</span>: Ajusta una paràbola als punt de dades. Actualment esta "
-"només estarà disponible per a l'algorisme lineal d'1 pas i és experimental.</"
-"li></ul></body></html>"
+"<html><head/><body><p>Seleccioneu l'algorisme de la Zona crítica "
+"d'enfocament (ZCE):</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\"font-weight:600;\">Clàssic</span>: Utilitza "
+"la fórmula, ZCE = 4,88 t λ f<span style=\"vertical-align:super;\">2.</span>. "
+"Establiu la tolerància, t=1 de la fórmula bàsica. Algú ha suggerit t=1/3 de "
+"manera empírica.</li></ul><ul style=\"margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Front d'ona: </"
+"span>Utilitza la fórmula, ZCE = 4 t λ f<span style=\"vertical-align:super;"
+"\">2</span>.  Fórmula derivada de la teoria d'aberració del front d'ona. "
+"Algú ha suggerit t=1/3 o fins i tot t=1/10.</li></ul><ul style=\"margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-list-"
+"indent:1;\"><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
+"weight:600;\">Or: </span>Utilitza la fórmula, ZCE = 0,00225 √τ θ f<span "
+"style=\"vertical-align:super;\">2. </span>A.  Per a més detalls, vegeu "
+"http://www.goldastro.com/goldfocus/ncfz.php.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3000
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavefront"
-msgstr "Longitud d'ona:"
+msgstr "Front d'ona"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3005
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Golden"
+#, kde-format
 msgid "Gold"
-msgstr "Golden"
+msgstr "Or"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3019
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Suprimix el tren òptic actual.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Establix el nombre f que s'utilitzarà. Està "
+"predeterminat a partir del tren òptic seleccionat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/focus.ui:3047
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "ZCE final:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3066
 #, kde-format
 msgid "FWHM (θ):"
-msgstr ""
+msgstr "FWHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3082
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the light wavelength to use. This is defaulted "
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Arrossegueu el control lliscant per a ajustar l'escala "
-"dels gràfics de correccions relatives a l'escala dels gràfics de la deriva.</"
-"p></body></html>"
+"<html><head/><body><p>Establix la longitud d'ona de la llum que "
+"s'utilitzarà. Està predeterminada a partir de la finestra emergent de la "
+"configuració del filtre per al filtre seleccionat.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3085
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgid " nm"
-msgstr " mm"
+msgstr " nm"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3120
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Divisor"
+#, kde-format
 msgid "Advisor"
-msgstr "Divisor"
+msgstr "Assessor"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median star eccentricity in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Advisor help utility to assist with setting up "
 "Focus parameters.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'excentricitat mediana de les estreles en les "
-"imatges capturades.</p></body></html>"
+"<html><head/><body><p>Utilitat d'ajuda de l'assessor d'enfocament per a "
+"configurar els paràmetres de l'enfocament.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvOutStepMultiple)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvStepSize)
@@ -18528,10 +18495,9 @@ msgstr "Actualitza"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/focus.ui:3150
-#, fuzzy, kde-format
-#| msgid "Camera && Filter Wheel"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Càmera i roda de filtres"
+msgstr "Paràmetres de la càmera i la roda de filtres"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvOutStepMultLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvOutStepMult)
@@ -18547,28 +18513,33 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Una bona xifra per a començar és 5. Una excepció és si "
+"teniu un telescopi amb una obstrucció central que convertix les estreles en "
+"dònuts quan estan fora de l'enfocament. Quan passa açò, el sistema tindrà "
+"problemes per a identificar correctament les estreles. Per a evitar esta "
+"situació, reduïu la mida del pas o el nombre de passos.</p><p>Per a "
+"verificar-ho, comenceu amb l'enfocament i allunyeu-vos tants passos com la "
+"«Mida del pas» * «nombre de passos». Preneu un fotograma d'enfocament i "
+"acosteu el zoom en el visor FITS per a veure si les estreles apareixen com "
+"estreles o com dònuts.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3186
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Settings Tab Parameters"
-msgstr "Paràmetres de Sextractor"
+msgstr "Paràmetres de la pestanya Configuració"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/focus.ui:3209
-#, fuzzy, kde-format
-#| msgid "Astrometry Parameters"
+#, kde-format
 msgid "Process Tab Parameters"
-msgstr "Paràmetres de l'astrometria"
+msgstr "Paràmetres de la pestanya Processament"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3225
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Update GPS"
+#, kde-format
 msgid "Update Params"
-msgstr "Actualitza el GPS"
+msgstr "Actualitza els paràmetres"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvSteps)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_32)
@@ -18579,34 +18550,33 @@ msgid ""
 "Make sure you configure the CFZ tab to give an appropriate value for your "
 "system.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>La mida del pas es pot predeterminar a la Zona crítica "
+"d'enfocament. Assegureu-vos de configurar la pestanya ZCE per a donar un "
+"valor adequat per al vostre sistema.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/focus.ui:3254
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Focus Advisor:"
-msgstr "Estrela que s'ha d'enfocar"
+msgstr "Assessor d'enfocament:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/focus.ui:3261
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Mechanics Tab Parameters"
-msgstr "Paràmetres de Sextractor"
+msgstr "Paràmetres de la pestanya Mecànica"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:3303
-#, fuzzy, kde-format
-#| msgid "Max Step size:"
+#, kde-format
 msgid "Step Size:"
-msgstr "Mida màx. del pas:"
+msgstr "Mida del pas:"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:3338
-#, fuzzy, kde-format
-#| msgid "Help"
+#, kde-format
 msgid "Help..."
-msgstr "Ajuda"
+msgstr "Ajuda..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:3429
@@ -18623,55 +18593,51 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
 #: ekos/focus/focus.ui:3490
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Suprimix el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la mitjana de l'HFR de l'últim fotograma.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/focus.ui:3522
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "  FWHM:"
-msgstr "FWHM"
+msgstr "  FWHM:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3535
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Suprimix el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la mitjana del FWHM de l'últim fotograma.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/focus.ui:3548
-#, fuzzy, kde-format
-#| msgid "Stars: "
+#, kde-format
 msgid "  Stars:"
-msgstr "Estreles: "
+msgstr "  Estreles:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
 #: ekos/focus/focus.ui:3561
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of stars found in the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Traça el nombre d'estreles detectades en les imatges "
-"capturades.</p></body></html>"
+"<html><head/><body><p>Nombre d'estreles trobades en l'últim fotograma.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/focus/focus.ui:3587
 #, kde-format
 msgid "  Iter:"
-msgstr ""
+msgstr "  Iter:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
 #: ekos/focus/focus.ui:3600
@@ -18681,10 +18647,9 @@ msgstr "<html><body><p>Iteració de l'enfocador.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:3635
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile..."
-msgstr "Perfil"
+msgstr "Perfil..."
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
@@ -18715,7 +18680,7 @@ msgstr "Hi ha massa passos."
 #: ekos/focus/focusalgorithms.cpp:880
 #, kde-format
 msgid "Solution lies outside max travel."
-msgstr "La solució està fora del recorregut màxim."
+msgstr "La solució es troba fora del recorregut màxim."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
@@ -18725,36 +18690,24 @@ msgid "Value"
 msgstr "Valor"
 
 #: ekos/focus/focushfrvplot.cpp:84
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt "Graphics tooltip; %1 is the Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</td></"
+"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 
 #: ekos/focus/focushfrvplot.cpp:99
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; %1 is the Minimum Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</td></"
+"<table><tr><td>MÍN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 
 #: ekos/guide/externalguide/linguider.cpp:67
@@ -19808,9 +19761,9 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Escala automàtica dels gràfics de guiatge a la seua "
-"escala predeterminada. Si qualsevol punt està fora de l'interval, la vista "
-"s'expandix per a incloure'l (amb l'excepció de l'eix del temps als gràfics "
-"de la deriva).</p></body></html>"
+"escala predeterminada. Si qualsevol punt queda fora de l'interval, la vista "
+"s'expandirà fins a incloure'l (amb l'excepció de l'eix del temps en els "
+"gràfics de la deriva).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
 #: ekos/guide/guide.ui:1422
@@ -20757,8 +20710,8 @@ msgstr ""
 "segons.</p><p>Este \n"
 "          paràmetre calcula la deriva a llarg termini en l'error periòdic, a "
 "l'escala de diversos períodes majors. Açò pot ser degut a, per\n"
-"          exemple:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
-"margin-left: 0px; margin-right: 0px; -qt-list-indent:\n"
+"          exemple:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-list-indent:\n"
 "          1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0;\n"
 "          text-indent:0px;\">Interacció harmònica entre els engranatges de "
@@ -20876,8 +20829,8 @@ msgstr ""
 "<html><head/><body><p>Escala de llargària del nucli d'abast proper, en \n"
 "          segons.</p><p>Açò és una mesura de l'escala del soroll no periòdic "
 "a curt termini, causat per coses\n"
-"          com:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent:\n"
+"          com:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-list-indent:\n"
 "          1;\"><li style=\"margin-top:12px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0;\n"
 "          text-indent:0px;\">Pols en la cadena d'engranatges,</li><li style="
@@ -21115,7 +21068,7 @@ msgid ""
 "MultiStar and SEP algorithms."
 msgstr ""
 "El perfil de StellarSolver que s'utilitzarà en detectar estreles -utilitzat "
-"amb els algorismes SEP MultiStar i SEP-."
+"amb els algorismes «SEP del MultiStar» i «SEP»-."
 
 #. i18n: ectx: property (text), widget (QLabel, l_20)
 #: ekos/guide/opsguide.ui:361
@@ -21609,6 +21562,7 @@ msgstr "El GPS %1 està en línia."
 msgid "%1 Dust cap is online."
 msgstr "La funda de protecció de %1 està en línia."
 
+# skip-rule: kct-box
 #: ekos/manager.cpp:1564
 #, kde-format
 msgid "%1 Light box is online."
@@ -27267,8 +27221,8 @@ msgid ""
 "jobs that step into an error are never re-scheduled.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Definix que cal fer quan una tasca dona un error o "
-"s'interromp:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\"margin-"
+"s'interromp:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
 "top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">No tornes a "
 "programar</span>: No torna a programar la tasca en cas d'un error o una "
@@ -28551,8 +28505,8 @@ msgid ""
 "processed. Only grayscale images are shown.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Activeu el mode de recursos limitats per a apagar "
-"qualsevol operació intensiva de recursos:</p><ul style=\"margin-top: 0px; "
-"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"qualsevol operació intensiva de recursos:</p><ul style=\"margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-list-indent:1;"
 "\"><li style=\"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Reconstrucció automàtica des de Bayer</span>: Les imatges "
@@ -35168,17 +35122,16 @@ msgstr "Calcula la posició després de les captures."
 
 #. i18n: ectx: label, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1852
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Exposure to use during focus"
-msgstr "Temps d'exposició del filtre durant l'enfocament"
+msgstr "Exposició que s'utilitzarà durant l'enfocament"
 
 #. i18n: ectx: whatsthis, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1853
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Specifies the length of exposure to use during focus."
-msgstr "Temps d'exposició del filtre durant l'enfocament"
+msgstr ""
+"Especifica la duració de l'exposició que s'utilitzarà durant l'enfocament."
 
 #. i18n: ectx: label, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:1857
@@ -35326,14 +35279,13 @@ msgstr "Temps d'espera en segons després que es reprenga el guiatge."
 #: kstars.kcfg:1916
 #, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr ""
+msgstr "Unitats de visualització per a l'HFR i el FWHM"
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:1920
-#, fuzzy, kde-format
-#| msgid "Whether EkosLive connection mode is online."
+#, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Si el mode de connexió d'EkosLive és en línia."
+msgstr "Si s'ha activat l'enfocament adaptatiu."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:1924
@@ -35341,6 +35293,8 @@ msgstr "Si el mode de connexió d'EkosLive és en línia."
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
+"Quan s'utilitza l'enfocament adaptatiu, el moviment mínim permés de "
+"l'enfocador en marques."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:1928
@@ -35349,6 +35303,8 @@ msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
+"Si s'ha d'adaptar la posició inicial de l'enfocador al començament d'una "
+"execució d'enfocament automàtic."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:1932
@@ -35357,6 +35313,8 @@ msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
+"Quan s'utilitza l'enfocament adaptatiu, el moviment màxim permés de "
+"l'enfocador en marques."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
 #: kstars.kcfg:1937
@@ -35380,44 +35338,48 @@ msgstr "Algorisme de procés d'enfocament"
 #: kstars.kcfg:1948
 #, kde-format
 msgid "The type of curve to fit"
-msgstr ""
+msgstr "El tipus de corba que s'ha d'ajustar"
 
 #. i18n: ectx: whatsthis, entry (FocusStarMeasure), group (Focus)
 #: kstars.kcfg:1952
 #, kde-format
 msgid "The type of star measure to use."
-msgstr ""
+msgstr "El tipus de mesura d'estreles que s'utilitzarà."
 
 #. i18n: ectx: whatsthis, entry (FocusStarPSF), group (Focus)
 #: kstars.kcfg:1956
 #, kde-format
 msgid "The type of star PSF to use if curve fitting star profiles."
 msgstr ""
+"El tipus de PSF d'estrela que s'utilitzarà si s'ajusta la corba als perfils "
+"d'estrela."
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:1960
-#, fuzzy, kde-format
-#| msgid "Use weights in the curve fitting process."
+#, kde-format
 msgid "Whether to use weights in the curve fitting process."
-msgstr "Utilitza ponderacions en el procés d'ajustament de la corba."
+msgstr "Si s'utilitzen ponderacions en el procés d'ajustament de la corba."
 
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1964
 #, kde-format
 msgid "The minimum acceptable R2 value of a curve fit."
-msgstr ""
+msgstr "El valor R2 mínim acceptable d'un ajust de la corba."
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
 #: kstars.kcfg:1968
 #, kde-format
 msgid "Whether to refine the curve fit by looking for and discarding outliers."
 msgstr ""
+"Si s'ha de refinar l'ajust de la corba buscant i descartant valors atípics."
 
 #. i18n: ectx: whatsthis, entry (focusFramesCount), group (Focus)
 #: kstars.kcfg:1972
 #, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
 msgstr ""
+"Quants fotogrames s'han de prendre de mitjana a cada pas del procés "
+"d'enfocament automàtic."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:1976
@@ -35469,11 +35431,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusWalk), group (Focus)
 #: kstars.kcfg:1998
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "The type of walk the focuser will take during an Autofocus run."
 msgstr ""
-"Submarc de l'estrela enfocada durant el procediment d'enfocament automàtic."
+"El tipus de camí que prendrà l'enfocador durant una execució d'enfocament "
+"automàtic."
 
 #. i18n: ectx: whatsthis, entry (FocusSettleTime), group (Focus)
 #: kstars.kcfg:2002
@@ -35511,6 +35473,8 @@ msgid ""
 "The number of steps to move outwards from the start position of an Autofocus "
 "run."
 msgstr ""
+"El nombre de passos que s'ha de moure cap enfora des de la posició inicial "
+"d'una execució d'enfocament automàtic."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2015
@@ -35526,22 +35490,21 @@ msgstr "Establix la distància del recorregut màxim d'un enfocador absolut."
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2020
-#, fuzzy, kde-format
-#| msgid "The maximum solar distance for drawing comets."
+#, kde-format
 msgid "The maximum size of a single step."
-msgstr "Distància màxima al Sol per a dibuixar els cometes."
+msgstr "La mida màxima d'un sol pas."
 
 #. i18n: ectx: whatsthis, entry (FocusBacklash), group (Focus)
 #: kstars.kcfg:2024
 #, kde-format
 msgid "The amount of driver backlash."
-msgstr ""
+msgstr "La quantitat de rebot del controlador."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2028
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr ""
+msgstr "La quantitat d'enfocament automàtic excessiu."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2036
@@ -35557,64 +35520,68 @@ msgstr ""
 #: kstars.kcfg:2041
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr ""
+msgstr "El tipus d'algorisme de la ZCE que s'utilitzarà."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2045
 #, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
 msgstr ""
+"La tolerància definida per l'usuari que s'utilitzarà per als algorismes "
+"«Clàssic» i «Front d'ona»."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2049
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
 msgstr ""
+"La tolerància definida per l'usuari que s'utilitzarà per a l'algorisme «Or»."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2053
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
 msgstr ""
+"Si s'ha de mostrar la ZCE a la corba V després d'una execució d'enfocament "
+"automàtic."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2057
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr ""
+msgstr "La longitud d'ona en nm que s'utilitzarà en l'algorisme «Or»."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2061
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "Obriu el telescopi en mm que s'utilitzarà en els càlculs de la ZCE."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2065
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "El nombre f que s'utilitzarà en l'algorisme de la ZCE."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2069
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
 msgstr ""
+"La vista total en segons d'arc que s'utilitzarà en l'algorisme de la ZCE."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2077
-#, fuzzy, kde-format
-#| msgid "Position angle multiplier"
+#, kde-format
 msgid "Position of FocusSplitter."
-msgstr "Multiplicador de l'angle de posició"
+msgstr "Posició del divisor de l'enfocament."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (rightLayout), group (Focus)
 #: kstars.kcfg:2080
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Position of rightLayout."
-msgstr "Posició del rètol informatiu del temps."
+msgstr "Posició de la disposició dreta."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2085
@@ -68114,14 +68081,16 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "900x"
 msgstr "900x"
 
-# Nota: Sync mode CM the Astro-Physics controller assumes that the telescope was properly aligned (see below) according to the procedure in the manual.
+# Nota: Sync mode CM the Astro-Physics controller assumes that the telescope
+# was properly aligned (see below) according to the procedure in the manual.
 #: libindi_strings.cpp:8
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid ":CM#"
 msgstr ":CM#"
 
-# Nota: Sync in mode CMR does not change the current orientation of the declination axis relative to the observed hour angle.
+# Nota: Sync in mode CMR does not change the current orientation of the
+# declination axis relative to the observed hour angle.
 #: libindi_strings.cpp:9
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -71509,7 +71478,7 @@ msgstr "John Evans"
 #: main.cpp:135
 #, kde-format
 msgid "Focus algorithms"
-msgstr "Algorisme d'enfocament"
+msgstr "Algorismes d'enfocament"
 
 #: main.cpp:139
 #, kde-format
@@ -72005,22 +71974,21 @@ msgstr "Posició absoluta:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: oal/equipmentwriter.ui:1100
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus alt:"
-msgstr "Enfoca enfora"
+msgstr "Alt. d'enfocament:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1123
 #, kde-format
 msgid "Ticks per C:"
-msgstr ""
+msgstr "Marques per C:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1140
 #, kde-format
 msgid "Ticks per Alt:"
-msgstr ""
+msgstr "Marques per alt.:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1164
@@ -72036,10 +72004,9 @@ msgstr "Filtre blocat:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: oal/equipmentwriter.ui:1211
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focus temp:"
-msgstr "Enfocador:"
+msgstr "Temp. d'enfocament:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1258
@@ -78197,35 +78164,35 @@ msgstr ""
 "style=\"font-style:italic;\">tapades</span> en la vista des del vostre punt "
 "de vista (p. ex. per arbres alts o edificis). Les regions poden ser àrees "
 "per damunt o per davall de segments de línies que introduïu.</p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
+"list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Per a "
 "dibuixar una <span style=\"font-weight:600;\">regió</span>, introduïu una "
 "llista dels <span style=\"font-weight:600;\">punts</span> (<span style="
 "\"font-style:italic;\">mínim</span> 2) que dibuixen la part superior de "
 "l'àrea tapada (la <span style=\"font-weight:600;\">part tapada està davall</"
-"span> les línies).</li><ul style=\"margin-top: 0px; margin-bottom: 0px; "
-"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">En definir el <span style=\"font-style:"
-"italic;\">mode sostre/finestra</span> la llista de punts establix la <span "
-"style=\"font-weight:600;\">part tapada sobre</span> les línies.</li><li "
-"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Afegiu manualment els "
-"punts, o amb preferència seleccionant-los en el mapa celeste després de fer "
-"clic damunt del botó <span style=\"font-style:italic;\">Seleccioneu els "
-"punts</span>.</li></ul><li style=\"margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Habiliteu "
-"una regió <span style=\"font-style:italic;\">marcant el seu quadro</span>.</"
-"li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">En seleccionar una regió "
-"es mostren els seus punts en el mapa celeste.</li><li style=\"margin-"
+"span> les línies).</li><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">En definir el <span style=\"font-style:italic;\">mode "
+"sostre/finestra</span> la llista de punts establix la <span style=\"font-"
+"weight:600;\">part tapada sobre</span> les línies.</li><li style=\"margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">En acabar, feu clic en <span style=\"font-style:"
-"italic;\">Aplica</span>.</li><li style=\"margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Definir regions és més fàcil si s'utilitza conjuntament amb la "
-"característica de fons del terreny.</li></ul></body></html>"
+"indent:0; text-indent:0px;\">Afegiu manualment els punts, o amb preferència "
+"seleccionant-los en el mapa celeste després de fer clic damunt del botó "
+"<span style=\"font-style:italic;\">Seleccioneu els punts</span>.</li></"
+"ul><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Habiliteu una regió <span "
+"style=\"font-style:italic;\">marcant el seu quadro</span>.</li><li style="
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">En seleccionar una regió es mostren els "
+"seus punts en el mapa celeste.</li><li style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">En acabar, feu clic en <span style=\"font-style:italic;"
+"\">Aplica</span>.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Definir "
+"regions és més fàcil si s'utilitza conjuntament amb la característica de "
+"fons del terreny.</li></ul></body></html>"
 
 #: tools/jmoontool.cpp:30
 #, kde-format
@@ -78690,7 +78657,8 @@ msgstr ""
 "Si se selecciona, el valor es llegirà des del fitxer d'entrada. Si no, el "
 "valor es llegirà des del quadro adjacent"
 
-# No és un punt decimal, és una convenció de l'època: https://ca.wikipedia.org/wiki/%C3%88poca_(astronomia)
+# No és un punt decimal, és una convenció de l'època:
+# https://ca.wikipedia.org/wiki/%C3%88poca_(astronomia)
 #. i18n: ectx: property (text), widget (QLineEdit, epochBoxBatch)
 #: tools/modcalcgalcoord.ui:233
 #, kde-format
@@ -79064,6 +79032,7 @@ msgstr "Angle (hh mm ss.s)"
 msgid "Angle Result"
 msgstr "Resultat de l'angle"
 
+# skip-rule: t-mot_rep
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
@@ -79071,6 +79040,7 @@ msgstr "Resultat de l'angle"
 msgid "Angle (dd.d)"
 msgstr "Angle (dd.d)"
 
+# skip-rule: t-mot_rep
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
 #, kde-format
@@ -82488,9 +82458,9 @@ msgstr ""
 "el directori /tmp per a guardar temporalment la imatge d'Xplanet per a "
 "KStars per a carregar-la i actualitzar la vista. Si no està marcada, en "
 "realitat Xplanet guardarà els fitxers en la carpeta d'Xplanet del directori "
-"de dades de KStars. L'ús d'un fitxer FIFO hauria de preservar al disc dur de "
-"lectures/escriptures excessives i pot oferir una millora en el rendiment.</"
-"p></body></html>"
+"de dades de KStars. L'ús d'un fitxer FIFO hauria d'evitar lectures/"
+"escriptures excessives al disc dur i pot oferir una millora en el rendiment."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:222

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-10 00:42+0000\n"
+"POT-Creation-Date: 2023-05-12 00:43+0000\n"
 "PO-Revision-Date: 2023-05-08 10:48+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -16103,7 +16103,7 @@ msgstr "Samodejno vzpostavite povezavo s storitvijo EkosLive ob zagonu."
 msgid "Auto Start"
 msgstr "Samodejno zaženi"
 
-#: ekos/ekoslive/message.cpp:945
+#: ekos/ekoslive/message.cpp:953
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Uvoz mozaika ni uspel."

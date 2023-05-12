@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-10 00:42+0000\n"
-"PO-Revision-Date: 2023-05-10 05:56+0200\n"
+"POT-Creation-Date: 2023-05-12 00:43+0000\n"
+"PO-Revision-Date: 2023-05-11 05:52+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -15090,7 +15090,7 @@ msgstr ""
 msgid "Auto Start"
 msgstr "ავტომატური გაშვება"
 
-#: ekos/ekoslive/message.cpp:945
+#: ekos/ekoslive/message.cpp:953
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
@@ -16567,7 +16567,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2287
 #, kde-format
 msgid "Capture Timeout:"
-msgstr "გადაღების ვადა"
+msgstr "გადაღების ვადა:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
 #: ekos/focus/focus.ui:2303
@@ -65281,7 +65281,7 @@ msgid "FWHM"
 msgstr ""
 
 #: libindi_strings.cpp:151
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Factory"
 msgstr "ქარხანა"

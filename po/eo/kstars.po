@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-10 00:42+0000\n"
-"PO-Revision-Date: 2023-05-10 20:14+0100\n"
+"POT-Creation-Date: 2023-05-12 00:43+0000\n"
+"PO-Revision-Date: 2023-05-11 19:44+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -10438,7 +10438,7 @@ msgid ""
 "is pointing.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Desegni la muntaĵoflankon (maldekstre) -> kien la "
-"monto indikas.</p></body></html>"
+"muntaĵo indikas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:986
@@ -12187,7 +12187,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Elektu la aparaton, kiu ricevas la gvidajn korektajn "
 "pulsojn. Ĉi tio povas esti unu el la sekvaj aparatoj:</p><p><span style=\" "
-"font-weight:600;\">Muntaĵo</span>: Se la Monto povas ricevi gvidajn "
+"font-weight:600;\">Muntaĵo</span>: Se la Muntaĵo povas ricevi gvidajn "
 "korektajn pulsojn, tiam estas plej bone. elekti ĝin tiel ke la pulsoj estas "
 "rekte senditaj al la muntaĵo. Ĉi tiu estas la rekomendinda opcio.</"
 "p><p><span style=\" font-weight:600;\">ST4</span>: Se vi uzas ST4-kablon "
@@ -16009,7 +16009,7 @@ msgstr "Aŭtomate konekti al EkosLive-servo ĉe ekfunkciigo."
 msgid "Auto Start"
 msgstr "Aŭtomata Komenco"
 
-#: ekos/ekoslive/message.cpp:945
+#: ekos/ekoslive/message.cpp:953
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaikimporto malsukcesis."
@@ -18096,17 +18096,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3082
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the light wavelength to use. This is defaulted "
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Trenu la ŝovilon por alĝustigi la skalon de la "
-"Korektigaj Grafeoj rilate al la skalo de la drivaj grafeoj.</p></body></html>"
+"<html><head/><body><p>Meti la luman ondolongon uzendan. Ĉi tio estas "
+"defaŭltigita el la ŝprucfenestro Filtro-Agordoj de la elektita filtrilo.</"
+"p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3085
@@ -18122,16 +18119,13 @@ msgstr "Konsilisto"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median star eccentricity in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Advisor help utility to assist with setting up "
 "Focus parameters.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la mezan stelekscentrecon en la kaptitaj "
-"bildoj.</p></body></html>"
+"<html><head/><body><p>Fokuskonsilanta help-utilaĵo por helpi pri meto de "
+"fokusparametroj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvOutStepMultiple)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvStepSize)
@@ -21853,7 +21847,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Ebligi aŭ Malebligi la limon pri muntado Horangulo. "
 "Post kiam ebligita, Ekos kontrolas la horan angulon de la muntaĵo dum "
-"svingado aŭ spurado. Se la monto preterpasas/spuras preter la limo dum la "
+"svingado aŭ spurado. Se la muntaĵo preterpasas/spuras preter la limo dum la "
 "molea flanko estas en la stato kiu ne permesas tion, oni ordonos ĉesi kaj "
 "spurado estos malŝaltita. Postulas muntaĵon kiu raportas ĝuste la molean "
 "flankon.</p></body></html>"
