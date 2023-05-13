@@ -344,23 +344,7 @@
            <number>9</number>
           </property>
           <item>
-           <widget class="QRadioButton" name="kcfg_useKStarsSkyMap">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use the sky map of KStars for controlling telescope slews and syncs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>KStars Sky Map</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="kcfg_useExternalSkyMap">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use an external planetarium software to control mount slews and syncs.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;WARNING&lt;/span&gt;: this feature is experimental!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
+           <widget class="QCheckBox" name="kcfg_useExternalSkyMap">
             <property name="text">
              <string>external Sky Map (experimental)</string>
             </property>

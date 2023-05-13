@@ -247,18 +247,18 @@ void Mount::processNumber(INDI::Property prop)
         }
         else if (EqCoordPreviousState == IPS_BUSY && nvp->getState() == IPS_OK && slewDefined())
         {
-            if (Options::useKStarsSkyMap())
+            if (Options::useExternalSkyMap())
+            {
+                // For external skymaps the only way to determine the target is to take the position where the mount
+                // starts to track
+                updateTarget();
+            }
+            else
             {
                 // In case that we use KStars as skymap, we intentionally do not communicate the target here, since it
                 // has been set at the beginning of the slew AND we cannot be sure that the position the INDI
                 // mount reports when starting to track is exactly that one where the slew went to.
                 KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
-            }
-            else
-            {
-                // For external skymaps the only way to determine the target is to take the position where the mount
-                // starts to track
-                updateTarget();
             }
             emit newStatus(currentStatus);
         }
@@ -884,16 +884,18 @@ bool Mount::slewDefined()
 
     if (motionSP == nullptr)
         return false;
-    // A slew will happen if either Track, Slew, or Flip 
-    // is selected    
+    // A slew will happen if either Track, Slew, or Flip
+    // is selected
     auto sp = motionSP->findOnSwitch();
     if(sp != nullptr &&
-       (sp->name == std::string("TRACK") ||
-        sp->name == std::string("SLEW") ||
-        sp->name == std::string("FLIP")))
+            (sp->name == std::string("TRACK") ||
+             sp->name == std::string("SLEW") ||
+             sp->name == std::string("FLIP")))
     {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -927,19 +929,19 @@ bool Mount::Slew(SkyPoint * ScopeTarget, bool flip)
 
     if (flip && (!slewSW))
         slewSW = motionSP->findWidgetByName("TRACK");
-    
+
     if (!slewSW)
         slewSW = motionSP->findWidgetByName("SLEW");
-        
+
     if (!slewSW)
         return false;
-        
+
     if (slewSW->getState() != ISS_ON)
     {
         motionSP->reset();
         slewSW->setState(ISS_ON);
         sendNewProperty(motionSP);
-        
+
         qCDebug(KSTARS_INDI) << "ISD:Telescope: " << slewSW->getName();
     }
 
