@@ -159,6 +159,7 @@ if (INDI_FOUND)
             ekos/guide/opsdither.ui
             ekos/guide/opsgpg.ui
             ekos/guide/manualdither.ui
+            ekos/guide/manualpulse.ui
             ekos/observatory/observatory.ui
             #TODO remove from GIT
             #ekos/guide/guider.ui
@@ -282,6 +283,7 @@ if (INDI_FOUND)
             ekos/guide/opsgpg.cpp
             ekos/guide/guidedriftgraph.cpp
             ekos/guide/guidetargetplot.cpp
+            ekos/guide/manualpulse.cpp
             # Internal Guide
             ekos/guide/internalguide/gmath.cpp
             ekos/guide/internalguide/guidealgorithms.cpp
