@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-12 00:43+0000\n"
-"PO-Revision-Date: 2023-05-09 04:03+0200\n"
+"PO-Revision-Date: 2023-05-12 20:54+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11455,54 +11455,44 @@ msgid "Lock Filter"
 msgstr "Bloquear filtro"
 
 #: ekos/auxiliary/filtermanager.cpp:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
-"En esta posición de enfoque se capturan fotogramas planos. Se actualiza "
-"automáticamente por el proceso de enfoque, si está activado."
+"Última solución de AF. Actualizada automáticamente por el proceso de enfoque "
+"automático."
 
 #: ekos/auxiliary/filtermanager.cpp:78
-#, fuzzy, kde-format
-#| msgid "Solution"
+#, kde-format
 msgid "Last AF Solution"
-msgstr "Solución"
+msgstr "Última solución de AF"
 
 #: ekos/auxiliary/filtermanager.cpp:81
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
 "autofocus process."
 msgstr ""
-"En esta posición de enfoque se capturan fotogramas planos. Se actualiza "
-"automáticamente por el proceso de enfoque, si está activado."
+"La temperatura de la última solución de AF. Actualizada automáticamente por "
+"el proceso de enfoque automático."
 
 #: ekos/auxiliary/filtermanager.cpp:82
 #, kde-format
 msgid "Last AF Temp (°C)"
-msgstr ""
+msgstr "Temperatura de la última solución de AF (°C)"
 
 #: ekos/auxiliary/filtermanager.cpp:85
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"En esta posición de enfoque se capturan fotogramas planos. Se actualiza "
-"automáticamente por el proceso de enfoque, si está activado."
+"La altitud de la última solución de AF. Actualizada automáticamente por el "
+"proceso de enfoque automático."
 
 #: ekos/auxiliary/filtermanager.cpp:86
 #, kde-format
 msgid "Last AF Alt (°Alt)"
-msgstr ""
+msgstr "Altitud de la última solución de AF (°Alt)"
 
 #: ekos/auxiliary/filtermanager.cpp:89
 #, kde-format
@@ -11510,6 +11500,8 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"El número de pulsos por aumento de °C en la temperatura. +ve para el "
+"movimiento hacia afuera del enfocador."
 
 #: ekos/auxiliary/filtermanager.cpp:90
 #, kde-format
@@ -11522,6 +11514,8 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"El número de pulsos por aumento de grado en altitud. +ve para el movimiento "
+"hacia afuera del enfocador."
 
 #: ekos/auxiliary/filtermanager.cpp:94
 #, kde-format
@@ -11531,7 +11525,7 @@ msgstr "Pulsos / °Alt"
 #: ekos/auxiliary/filtermanager.cpp:96
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Longitud de onda del punto medio del filtro en nm"
 
 #: ekos/auxiliary/filtermanager.cpp:97
 #, kde-format
@@ -12006,7 +12000,7 @@ msgstr "Detector"
 #: ekos/auxiliary/opslogs.ui:361 ekos/profileeditor.ui:536
 #, kde-format
 msgid "Adaptive Optics"
-msgstr "Óptica adaptable"
+msgstr "Óptica adaptativa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIAOLogging)
 #: ekos/auxiliary/opslogs.ui:364
@@ -14066,16 +14060,14 @@ msgid "Autofocus failed."
 msgstr "El enfoque automático ha fallado."
 
 #: ekos/capture/capture.cpp:3573
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Adaptive focus complete."
-msgstr "Enfoque completado."
+msgstr "Enfoque adaptativo completado."
 
 #: ekos/capture/capture.cpp:3575
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Adaptive focus failed. Continuing..."
-msgstr "El enfoque automático ha fallado. Interrumpiendo la exposición..."
+msgstr "El enfoque adaptativo ha fallado. Continuando..."
 
 #: ekos/capture/capture.cpp:3589
 #, kde-format
@@ -15738,10 +15730,9 @@ msgid "In sequence HFR based refocus starting..."
 msgstr "Iniciando reenfoque basado en HFR en la secuencia..."
 
 #: ekos/capture/refocusstate.cpp:74
-#, fuzzy, kde-format
-#| msgid "Adaptive sampling"
+#, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Muestreo adaptable"
+msgstr "Enfoque adaptativo iniciado..."
 
 #: ekos/capture/refocusstate.cpp:93
 #, kde-format
@@ -16259,29 +16250,29 @@ msgid "Focus Options Profile Editor"
 msgstr "Editor del perfil de opciones de enfoque"
 
 #: ekos/focus/focus.cpp:938
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
-msgstr ""
+msgstr "Enfoque adaptativo: "
 
 #: ekos/focus/focus.cpp:954
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
-msgstr ""
+msgstr "Enfoque adaptativo suspendido."
 
 #: ekos/focus/focus.cpp:963
-#, kde-format
+#, fuzzy, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
-msgstr ""
+msgstr "Enfoque adaptativo suspendido."
 
 #: ekos/focus/focus.cpp:970
 #, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
-msgstr ""
+msgstr "Moviendo enfoque adaptativo de %1 a %2"
 
 #: ekos/focus/focus.cpp:983
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
-msgstr ""
+msgstr "El enfoque adaptativo no puede mover el enfocador"
 
 #: ekos/focus/focus.cpp:1084
 #, kde-format
@@ -16316,6 +16307,8 @@ msgstr ""
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
+"Descartando solicitud de inicio de enfoque automático: el enfoque adaptativo "
+"está en curso."
 
 #: ekos/focus/focus.cpp:1252
 #, kde-format
@@ -16790,10 +16783,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focus.cpp:6240
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Focus Advisor"
-msgstr "Estrella de enfoque"
+msgstr "Asesor de enfoque"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:155
@@ -17048,10 +17040,9 @@ msgstr "Selección automática de estrella"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/focus/focus.ui:1072
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display Units:"
-msgstr "Mostrar"
+msgstr "Unidades de visualización:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1091
@@ -17068,10 +17059,11 @@ msgstr " px"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1113
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
-msgstr "<html><head/><body><p>Borrar el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Unidades de visualización para HFR y FWHM</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1117
@@ -17141,10 +17133,9 @@ msgstr "Corona circular:"
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1214 ekos/focus/focus.ui:1309
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adaptive Focus"
-msgstr "Óptica adaptable"
+msgstr "Enfoque adaptativo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/focus.ui:1262
@@ -28425,7 +28416,7 @@ msgstr ""
 #: fitsviewer/opsfits.ui:159
 #, kde-format
 msgid "Adaptive sampling"
-msgstr "Muestreo adaptable"
+msgstr "Muestreo adaptativo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, stretchPreviewSamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StretchPreviewSampling)
@@ -31386,7 +31377,7 @@ msgstr "Activar registro del GPS INDI"
 #: kstars.kcfg:317
 #, kde-format
 msgid "Enable INDI Adaptive Optics logging"
-msgstr "Activar registro de óptica adaptable de INDI"
+msgstr "Activar registro de óptica adaptativa de INDI"
 
 #. i18n: ectx: label, entry (CityName), group (Location)
 #: kstars.kcfg:324
@@ -35215,10 +35206,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:1920
-#, fuzzy, kde-format
-#| msgid "Whether EkosLive connection mode is online."
+#, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Si el modo de conexión de EkosLive está en línea."
+msgstr "Si el enfoque adaptativo está activado."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:1924

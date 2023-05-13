@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-12 00:43+0000\n"
-"PO-Revision-Date: 2023-05-11 20:06+0100\n"
+"PO-Revision-Date: 2023-05-12 02:37+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -17464,32 +17464,38 @@ msgstr ""
 #: ekos/focus/focus.cpp:1365
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
-msgstr ""
+msgstr "Ponto inicial adaptativo, sem fonte de temperatura disponível"
 
 #: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
-msgstr ""
+msgstr "Ponto inicial adaptativo, sem temperatura para a última solução de FA"
 
 #: ekos/focus/focus.cpp:1374
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
+"Ponto inicial adaptativo, diferença de temperaturas demasiado elevada, a "
+"ignorar"
 
 #: ekos/focus/focus.cpp:1386
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
+"Ponto inicial adaptativo, sem altitudade registada para a última solução de "
+"FA"
 
 #: ekos/focus/focus.cpp:1388
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
+"Ponto inicial adaptativo, diferença de altitudes demasiado elevada, a ignorar"
 
 #: ekos/focus/focus.cpp:1398
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
+"Ponto inicial adaptativo, a posição-alvo está fora da Viagem Máx., a ignorar"
 
 #: ekos/focus/focus.cpp:1406
 #, fuzzy, kde-format
@@ -18085,6 +18091,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Durante a focagem de Campo Completo, isto controla o "
+"tamanho de um Ânulo cnetrado no meio do sensor a incluir no processamento. "
+"Configure a % interna como zero para incluir o centro do sensor e configure "
+"a % exterior como 100 para incluir os extremos exteriores do sensor. </p></"
+"body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
@@ -18142,6 +18153,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Durante a focagem de Campo Completo, isto controla o "
+"tamanho de um Ânulo centrado no meio do sensor a incluir no processamento. "
+"Configure a % interna como zero para incluir o centro do sensor e configure "
+"a % exterior como 100 para incluir os extremos exteriores do sensor. </p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/focus.ui:1037
@@ -18621,7 +18637,7 @@ msgstr "HFR"
 #: ekos/focus/focus.ui:1613
 #, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "Ajuste do HFR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1618
@@ -18894,7 +18910,7 @@ msgstr "Bahtinov"
 #: ekos/focus/focus.ui:1759
 #, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/focus.ui:1769
@@ -18907,6 +18923,13 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>O tipo de PSF a usar quando a Medida está como FWHM:</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Gaussiana</span>: Usa uma "
+"Gaussiana em 2D. Isto é uma funcionalidade experimental.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1813
