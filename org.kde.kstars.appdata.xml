@@ -104,7 +104,7 @@
     <p xml:lang="zh-CN">KStars 是 KDE 开发的一款自由开源且跨平台的天文软件。</p>
     <p xml:lang="zh-TW">KStars 是由 KDE 提供的自由授權、開放原始碼、跨平臺的天文學軟體。</p>
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
-    <p xml:lang="ar">توفّر البرمجيّة محاكاةً رسوميّة دقيقة لسماء الليل، من أيّ نقطة على سطح الأرض وفي أيّ وقت. يعرض «نجوم‌ك» حوالي ١٠٠ مليون نجم، و١٣٬٠٠٠ جرم سماويّ عميق، والكواكب الثّمانية، والشّمس والقمر وآلاف المذنّبات والكويكبات، والمستعرات العظمى والأقمار الصّناعيّة.</p>
+    <p xml:lang="ar">توفّر البرمجيّة محاكاةً رسوميّة دقيقة لسماء الليل، من أيّ نقطة على سطح الأرض وفي أيّ وقت. يعرض «نجوم‌ك» حوالي 100 مليون نجم، و13٬000 جرم سماويّ عميق، والكواكب الثّمانية، والشّمس والقمر وآلاف المذنّبات والكويكبات، والمستعرات العظمى والأقمار الصّناعيّة.</p>
     <p xml:lang="ca">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits.</p>
     <p xml:lang="ca-valencia">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estreles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits.</p>
     <p xml:lang="de">KStars simuliert präzise den Blick in den nächtlichen Himmel von jedem Punkt der Erde aus, zu jedem beliebigen Datum und Uhrzeit. Derzeit gibt es im Planetarium bis zu 100 Millionen Sterne, 13000 Deep-Sky-Objekte, alle acht Planeten, die Sonne und den Mond, sowie tausende Kometen, Asteroiden, Supernovae und Satelliten.</p>
@@ -244,7 +244,7 @@
     <p xml:lang="zh-TW">天文類別：</p>
     <ul>
       <li>Default catalog consisting of stars to magnitude 8</li>
-      <li xml:lang="ar">الفهرس المبدئيّ والذي يحتوي النّجوم حتّى القدْر ٨</li>
+      <li xml:lang="ar">الفهرس المبدئيّ والذي يحتوي النّجوم حتّى القدْر 8</li>
       <li xml:lang="bs">Uobičajeni Katalog se sastoji od zvijezda do magnitude 8</li>
       <li xml:lang="ca">Catàleg predeterminat consistent en estrelles fins a magnitud 8</li>
       <li xml:lang="ca-valencia">Catàleg predeterminat consistent en estreles fins a magnitud 8</li>
@@ -274,7 +274,7 @@
       <li xml:lang="zh-CN">默认星表涵盖了 8 等星及以上恒星</li>
       <li xml:lang="zh-TW">包含星等 8 的預設類別</li>
       <li>Extra catalogs consisting of 100 million stars to magnitude 16</li>
-      <li xml:lang="ar">فهارس أخرى فيها ما يقارب ١٠٠ مليون نجم حتّى القدْر ١٦</li>
+      <li xml:lang="ar">فهارس أخرى فيها ما يقارب 100 مليون نجم حتّى القدْر 16</li>
       <li xml:lang="bs">Prošireni katalozi koji se sastoji od 100 milijuna zvijezda u veličini 16</li>
       <li xml:lang="ca">Catàlegs addicionals consistents en 100 milions d'estrelles fins a magnitud 16</li>
       <li xml:lang="ca-valencia">Catàlegs addicionals consistents en 100 milions d'estreles fins a magnitud 16</li>
