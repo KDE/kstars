@@ -59,6 +59,10 @@ class SupernovaeComponent : public QObject, public ListComponent
 
     private:
         void loadData();
+        void unzipData();
+        static const QString tnsDataFilename;
+        static const QString tnsDataFilenameZip;
+        static const QString tnsDataUrl;
         bool m_DataLoaded { false }, m_DataLoading { false };
         QPointer<FileDownloader> downloadJob;
 };

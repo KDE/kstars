@@ -330,6 +330,14 @@ void DetailDialog::createGeneralTab()
             Data->dataGridLayout->addWidget(redShiftLabel, 4, 0);
             Data->dataGridLayout->addWidget(redShift, 4, 1);
 
+            QLabel *urlLabel = new QLabel(i18n("URL:"), this);
+            QLabel *url      = new QLabel(QString("<a href=\"%1\">%1</a>").arg(sup->url()),this);
+            url->setTextFormat(Qt::RichText);
+            url->setTextInteractionFlags(Qt::TextBrowserInteraction);
+            url->setOpenExternalLinks(true);
+            Data->dataGridLayout->addWidget(urlLabel, 5, 0);
+            Data->dataGridLayout->addWidget(url, 5, 1);
+
             break;
         }
         default: //deep-sky objects

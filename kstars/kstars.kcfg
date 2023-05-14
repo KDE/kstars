@@ -489,17 +489,43 @@
       <entry name="ShowSupernovae" type="Bool">
          <label>Draw supernovae in the sky map?</label>
          <whatsthis>Toggle whether supernovae are drawn in the sky map.</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="ShowSupernovaNames" type="Bool">
          <label>Label Supernova Names in the sky map?</label>
          <whatsthis>Toggle whether supernova name labels are drawn in the sky map.</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="MagnitudeLimitShowSupernovae" type="Double">
          <label>Set magnitude limit for supernovae to be shown on the skymap</label>
          <whatsthis>Set magnitude limit for supernovae to be shown on the skymap.</whatsthis>
-         <default>16</default>
+         <default>19</default>
+      </entry>
+      <entry name="SupernovaDetectionAge" type="Double">
+         <label>Maximum days passed since detection</label>
+         <whatsthis>Maximum days passed since detection.</whatsthis>
+         <default>60</default>
+      </entry>
+      <entry name="SupernovaDownloadUrl" type="String">
+         <label>Maximum days passed since detection</label>
+         <whatsthis>Maximum days passed since detection.</whatsthis>
+         <!-- <default>https://indilib.org/jdownloads/kstars/tns-daily.csv.gz</default> -->
+         <default>http://kstars.bluedynamics.net:8000/tns/files/tns-daily.csv</default>
+      </entry>
+      <entry name="LimitSupernovaeByZoom" type="Bool">
+         <label>Limit Supernovae by zoom limit</label>
+         <whatsthis>Limit Supernovae by zoom limit.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="SupernovaeHostOnly" type="Bool">
+         <label>Show only supernovae with host</label>
+         <whatsthis>Show only supernovae for which a host galaxy is given.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="SupernovaeClassifiedOnly" type="Bool">
+         <label>Show only classified supernovae?</label>
+         <whatsthis>Show only classified supernovae where the supernova type is given.</whatsthis>
+         <default>true</default>
       </entry>
       <entry name="ShowSupernovaAlerts" type="Bool">
          <label>Show supernova alerts?</label>

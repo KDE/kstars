@@ -35,7 +35,7 @@ class Supernova : public SkyObject
   public:
     explicit Supernova(const QString &sName, dms ra, dms dec, const QString &type = QString(),
                        const QString &hostGalaxy = QString(), const QString &date = QString(), float sRedShift = 0.0,
-                       float sMag = 99.9);
+                       float sMag = 99.9, const QDateTime& discoveryDate=QDateTime::currentDateTime());
     /**
      * @return a clone of this object
      * @note See SkyObject::clone()
@@ -56,9 +56,14 @@ class Supernova : public SkyObject
     /** @return the date the supernova was observed */
     inline float getRedShift() const { return redShift; }
 
+    inline float getAgeDays() { return discoveryDate.daysTo(QDateTime::currentDateTime());}
+
+    QString url();
+
     void initPopupMenu(KSPopupMenu *) override;
 
   private:
     QString type, hostGalaxy, date;
+    QDateTime discoveryDate;
     float redShift { 0 };
 };
