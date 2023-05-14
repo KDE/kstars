@@ -207,7 +207,7 @@ void PolarAlignmentAssistant::solverDone(bool timedOut, bool success, const FITS
             const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
             // The 2nd false means don't block. The code below doesn't work if we block
             // because wcsToPixel in updateTriangle() depends on the injectWCS being finished.
-            m_AlignView->injectWCS(solution.orientation, ra, dec, solution.pixscale, eastToTheRight, false, false);
+            m_AlignView->injectWCS(solution.orientation, ra, dec, solution.pixscale, eastToTheRight, false);
             updatePlateSolveTriangle(m_ImageData);
         }
         else
@@ -1078,7 +1078,7 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
         }
         connect(m_AlignView.get(), &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled,
                 Qt::UniqueConnection);
-        m_AlignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
+        m_AlignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight);
         return;
     }
 }

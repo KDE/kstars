@@ -34,8 +34,7 @@ void AlignView::drawOverlay(QPainter *painter, double scale)
     drawStarCircle(painter, starCircle, 35.0, Qt::yellow);
 }
 
-bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, bool extras,
-                          bool block)
+bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, bool block)
 {
     m_ImageData->injectWCS(orientation, ra, dec, pixscale, eastToTheRight);
 
@@ -44,13 +43,13 @@ bool AlignView::injectWCS(double orientation, double ra, double dec, double pixs
         if (wcsWatcher.isRunning() == false && m_ImageData->getWCSState() == FITSData::Idle)
         {
             // Load WCS async
-            QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS, extras);
+            QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS);
             wcsWatcher.setFuture(future);
         }
         return true;
     }
     // This should probably not be called in a UI thread when extras is true.
-    return m_ImageData->loadWCS(extras);
+    return m_ImageData->loadWCS();
 }
 
 void AlignView::reset()

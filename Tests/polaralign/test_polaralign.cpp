@@ -53,7 +53,7 @@ void loadDummyFits(QSharedPointer<FITSData> &image, const KStarsDateTime &time,
     image->restoreStatistics(stats);
     image->setDateTime(time);
     image->injectWCS(orientation, ra, dec, pixScale, eastToTheRight);
-    QVERIFY(image->checkForWCS());
+    QVERIFY(image->loadWCS());
 }
 
 void setupData(Solution s, QSharedPointer<FITSData> &image, bool eastToTheRight)

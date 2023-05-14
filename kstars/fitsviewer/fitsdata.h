@@ -371,21 +371,13 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         // Check if a particular point exists within the image
         bool contains(const QPointF &point) const;
-        // Check if image has valid WCS header information and set HasWCS accordingly. Call in loadFITS()
-        bool checkForWCS();
         // Does image have valid WCS?
         bool hasWCS()
         {
             return HasWCS;
         }
-        // The WCS can be loaded without pre-computing each pixel's position. This can make certain
-        // operations slow. FullWCS() is true if the pixel positions are pre-calculated.
-        bool fullWCS()
-        {
-            return FullWCS;
-        }
         // Load WCS data
-        bool loadWCS(bool extras = true);
+        bool loadWCS();
         // Get WCS State
         WCSState getWCSState() const
         {
@@ -667,8 +659,6 @@ class FITSData : public QObject
         StarAlgorithm starAlgorithm { ALGORITHM_GRADIENT };
         /// Do we have WCS keywords in this FITS data?
         bool HasWCS { false };        /// Do we have WCS keywords in this FITS data?
-        /// we can initialize wcs without computing all the image positions.
-        bool FullWCS { false };
         /// Is the image debayarable?
         bool HasDebayer { false };
         /// Buffer to hold fpack uncompressed data
