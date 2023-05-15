@@ -2967,13 +2967,8 @@ void Align::checkFilter()
     setupFilterManager();
 
     alignFilter->addItems(m_FilterManager->getFilterLabels());
-
     currentFilterPosition = m_FilterManager->getFilterPosition();
-
-    //alignFilter->setCurrentIndex(Options::lockAlignFilterIndex());
-    auto filter = m_Settings["alignFilter"];
-    if (filter.isValid())
-        alignFilter->setCurrentText(filter.toString());
+    alignFilter->setCurrentIndex(currentFilterPosition - 1);
 }
 
 void Align::setWCSEnabled(bool enable)
