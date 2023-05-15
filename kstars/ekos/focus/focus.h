@@ -66,6 +66,7 @@ class Focus : public QWidget, public Ui::Focus
         typedef enum { FOCUS_UNITS_PIXEL, FOCUS_UNITS_ARCSEC } StarUnits;
         typedef enum { FOCUS_WALK_CLASSIC, FOCUS_WALK_FIXED_STEPS, FOCUS_WALK_CFZ_SHUFFLE } FocusWalk;
 
+        typedef enum { FOCUS_MASK_NONE, FOCUS_MASK_RING, FOCUS_MASK_MOSAIC } ImageMaskType;
         //typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
@@ -201,6 +202,12 @@ class Focus : public QWidget, public Ui::Focus
              */
         bool setFilterWheel(ISD::FilterWheel *device);
 
+        /**
+         * @brief setImageMask Select the currently active image mask filtering
+         *        the stars relevant for focusing
+         * @param newImageMask ring mask or aberration inspector style mosaic
+         */
+        void selectImageMask(const ImageMaskType newMaskType);
 
         /**
              * @brief addTemperatureSource Add temperature source to the list of available sources.
@@ -465,7 +472,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void setVideoStreamEnabled(bool enabled);
 
-        void calculateHFR();
+        void starDetectionFinished();
         void setCurrentMeasure();
 
     signals:
@@ -599,12 +606,22 @@ class Focus : public QWidget, public Ui::Focus
          * @brief loadSettings Load setting from Options and set them accordingly.
          */
         void loadGlobalSettings();
+        /**
+         * @brief checkMosaicMaskLimits Check if the maximum values configured
+         * for the aberration style mosaic tile sizes fit into the CCD frame size.
+         */
+        void checkMosaicMaskLimits();
 
         /**
          * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
          * global and per-train settings.
          */
         void syncSettings();
+
+        /**
+         * @brief syncImageMaskSelection Store the current mask selection to the settings
+         */
+        void syncImageMaskSelection();
 
         /**
          * @brief syncControl Sync setting to widget. The value depends on the widget type.
@@ -893,6 +910,8 @@ class Focus : public QWidget, public Ui::Focus
         double absMotionMin { 0 };
         /// How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever
         int absIterations { 0 };
+        /// Current image mask
+        ImageMaskType m_currentImageMask = FOCUS_MASK_NONE;
 
         /****************************
          * Misc. variables

@@ -1894,11 +1894,6 @@
       <entry name="FocusFilter" type="String">
          <label>Default Filter Wheel filter</label>
       </entry>
-
-      <entry name="FocusAutoStarEnabled" type="Bool">
-         <label>Automatically select a star to focus.</label>
-         <default>false</default>
-      </entry>
       <entry name="UseFocusDarkFrame" type="Bool">
          <label>Take a dark frame and subtract it before running autofocus operation.</label>
          <default>false</default>
@@ -1916,6 +1911,10 @@
          <label>Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.</label>
          <default>false</default>
       </entry>
+      <entry name="FocusMaskType" type="Int">
+         <label>Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 mosaic style mask</label>
+         <default>0</default>
+      </entry>
       <entry name="FocusFullFieldInnerRadius" type="Double">
          <label>Full field inner radius.</label>
          <whatsthis>During full field focusing, stars which are inside this percentage of the frame are filtered out of HFR calculation (default 0%). Detection algorithms may also have an inherent filter.</whatsthis>
@@ -1925,6 +1924,18 @@
          <label>Full field outer radius.</label>
          <whatsthis>During full field focusing, stars which are outside this percentage of the frame are filtered out of HFR calculation (default 100%). Detection algorithms may also have an inherent filter.</whatsthis>
          <default>100.0</default>
+      </entry>
+      <entry name="FocusMosaicTileWidth" type="Double">
+         <label>Mosaic filter tile width in percent of the frame width.</label>
+         <default>25.0</default>
+      </entry>
+      <entry name="focusMosaicSpace" type="UInt">
+         <label>Space between the mosaic elements for the mosaic filter.</label>
+         <default>5</default>
+      </entry>
+      <entry name="FocusAutoStarEnabled" type="Bool">
+         <label>Automatically select a star to focus.</label>
+         <default>false</default>
       </entry>
       <entry name="FocusSuspendGuiding" type="Bool">
          <label>Suspend guiding while autofocus in progress.</label>

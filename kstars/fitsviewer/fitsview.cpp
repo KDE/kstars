@@ -381,6 +381,9 @@ bool FITSView::loadData(const QSharedPointer<FITSData> &data)
 
     // Takes control of the objects passed in.
     m_ImageData = data;
+    // set the image mask geometry
+    if (m_ImageMask != nullptr)
+        m_ImageMask->setImageGeometry(data->width(), data->height());
 
     if (processData())
     {
@@ -722,16 +725,24 @@ void FITSView::ZoomToFit()
     emit zoomRubberBand(getCurrentZoom() / ZOOM_DEFAULT);
 }
 
-void FITSView::setStarFilterRange(float const innerRadius, float const outerRadius)
-{
-    starFilter.innerRadius = innerRadius;
-    starFilter.outerRadius = outerRadius;
-}
+
 
 int FITSView::filterStars()
 {
-    return starFilter.used() ? m_ImageData->filterStars(starFilter.innerRadius,
-            starFilter.outerRadius) : m_ImageData->getStarCenters().count();
+    return ((m_ImageMask.isNull() == false
+             && m_ImageMask->active()) ? m_ImageData->filterStars(m_ImageMask) : m_ImageData->getStarCenters().count());
+}
+
+void FITSView::setImageMask(ImageMask *mask)
+{
+    if (m_ImageMask.isNull() == false)
+    {
+        // copy image geometry from the old mask before deleting it
+        if (mask != nullptr)
+            mask->setImageGeometry(m_ImageMask->width(), m_ImageMask->height());
+    }
+
+    m_ImageMask.reset(mask);
 }
 
 // isImageLarge() returns whether we use the large-image rendering strategy or the small-image strategy.
@@ -787,26 +798,56 @@ void FITSView::updateFrame(bool now)
             updateFrameLargeImage();
         else
             updateFrameSmallImage();
+
     }
     else
         m_UpdateFrameTimer.start();
 }
 
 
-void FITSView::updateFrameLargeImage()
+bool FITSView::initDisplayPixmap(QImage &image, float scale)
 {
-    if (!displayPixmap.convertFromImage(rawImage))
-        return;
+    ImageMosaicMask *mask = dynamic_cast<ImageMosaicMask *>(m_ImageMask.get());
+
+    // if no mosaic should be created, simply convert the original image
+    if (mask == nullptr)
+        return displayPixmap.convertFromImage(image);
+
+    // check image geometry, sincd scaling could have changed it
+    // create the 3x3 mosaic
+    int width = mask->tileWidth() * mask->width() / 100;
+    int space = mask->space();
+    // create a new all black pixmap with mosaic size
+    displayPixmap = QPixmap((3 * width + 2 * space) * scale, (3 * width + 2 * space) * scale);
+    displayPixmap.fill(Qt::black);
 
     QPainter painter(&displayPixmap);
+    int pos = 0;
+    // paint tiles
+    for (QRect tile : mask->tiles())
+    {
+        const int posx = pos % 3;
+        const int posy = pos++ / 3;
+        const int tilewidth = width * scale;
+        QRectF source(tile.x() * scale, tile.y()*scale, tilewidth, tilewidth);
+        QRectF target((posx * (width + space)) * scale, (posy * (width + space)) * scale, width * scale, width * scale);
+        painter.drawImage(target, image, source);
+    }
+    return true;
+}
 
+void FITSView::updateFrameLargeImage()
+{
+    if (!initDisplayPixmap(rawImage, 1.0 / m_PreviewSampling))
+        return;
+    QPainter painter(&displayPixmap);
     // Possibly scale the fonts as we're drawing on the full image, not just the visible part of the scroll window.
     QFont font = painter.font();
     font.setPixelSize(scaleSize(FONT_SIZE));
     painter.setFont(font);
 
+    drawStarRingFilter(&painter, 1.0 / m_PreviewSampling, dynamic_cast<ImageRingMask *>(m_ImageMask.get()));
     drawOverlay(&painter, 1.0 / m_PreviewSampling);
-    drawStarFilter(&painter, 1.0 / m_PreviewSampling);
     m_ImageFrame->setPixmap(displayPixmap);
     m_ImageFrame->resize(((m_PreviewSampling * currentZoom) / 100.0) * displayPixmap.size());
 }
@@ -814,30 +855,28 @@ void FITSView::updateFrameLargeImage()
 void FITSView::updateFrameSmallImage()
 {
     QImage scaledImage = rawImage.scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    if (!displayPixmap.convertFromImage(scaledImage))
+    if (!initDisplayPixmap(scaledImage, currentZoom / ZOOM_DEFAULT))
         return;
 
     QPainter painter(&displayPixmap);
-
-    //    if (m_PreviewSampling == 1)
-    //    {
+    // Possibly scale the fonts as we're drawing on the full image, not just the visible part of the scroll window.
+    QFont font = painter.font();
+    drawStarRingFilter(&painter, currentZoom / ZOOM_DEFAULT, dynamic_cast<ImageRingMask *>(m_ImageMask.get()));
     drawOverlay(&painter, currentZoom / ZOOM_DEFAULT);
-    drawStarFilter(&painter, currentZoom / ZOOM_DEFAULT);
-    //}
     m_ImageFrame->setPixmap(displayPixmap);
     m_ImageFrame->resize(currentWidth, currentHeight);
 }
 
-
-void FITSView::drawStarFilter(QPainter *painter, double scale)
+void FITSView::drawStarRingFilter(QPainter *painter, double scale, ImageRingMask *ringMask)
 {
-    if (!starFilter.used())
+    if (ringMask == nullptr || !ringMask->active())
         return;
+
     const double w = m_ImageData->width() * scale;
     const double h = m_ImageData->height() * scale;
     double const diagonal = std::sqrt(w * w + h * h) / 2;
-    int const innerRadius = std::lround(diagonal * starFilter.innerRadius);
-    int const outerRadius = std::lround(diagonal * starFilter.outerRadius);
+    int const innerRadius = std::lround(diagonal * ringMask->innerRadius());
+    int const outerRadius = std::lround(diagonal * ringMask->outerRadius());
     QPoint const center(w / 2, h / 2);
     painter->save();
     painter->setPen(QPen(Qt::blue, scaleSize(1), Qt::DashLine));
@@ -1246,15 +1285,19 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
     }
 
     painter->setPen(QPen(Qt::red, scaleSize(2)));
+    ImageMosaicMask *mask = dynamic_cast<ImageMosaicMask *>(m_ImageMask.get());
 
     for (auto const &starCenter : m_ImageData->getStarCenters())
     {
         int const w  = std::round(starCenter->width) * scale;
 
+        // translate if a mosaic mask is present
+        const QPointF center = (mask == nullptr) ? QPointF(starCenter->x, starCenter->y) : mask->translate(QPointF(starCenter->x,
+                               starCenter->y));
         // Draw a circle around the detected star.
         // SEP coordinates are in the center of pixels, and Qt at the boundary.
-        const double xCoord = starCenter->x - 0.5;
-        const double yCoord = starCenter->y - 0.5;
+        const double xCoord = center.x() - 0.5;
+        const double yCoord = center.y() - 0.5;
         const int xc = std::round((xCoord - starCenter->width / 2.0f) * scale);
         const int yc = std::round((yCoord - starCenter->width / 2.0f) * scale);
         const int hw = w / 2;
@@ -1279,9 +1322,9 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
 
             // Draw offset circle
             double factor = 15.0;
-            QPointF offsetVector = (bEdge->offset - QPointF(starCenter->x, starCenter->y)) * factor;
-            int const xo = std::round((starCenter->x + offsetVector.x() - starCenter->width / 2.0f) * scale);
-            int const yo = std::round((starCenter->y + offsetVector.y() - starCenter->width / 2.0f) * scale);
+            QPointF offsetVector = (bEdge->offset - QPointF(center.x(), center.y())) * factor;
+            int const xo = std::round((center.x() + offsetVector.x() - starCenter->width / 2.0f) * scale);
+            int const yo = std::round((center.y() + offsetVector.y() - starCenter->width / 2.0f) * scale);
             painter->setPen(QPen(Qt::red, scaleSize(2)));
             painter->drawEllipse(xo, yo, w, w);
 

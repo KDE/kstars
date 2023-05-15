@@ -855,6 +855,7 @@ set(kstars_extra_SRCS
 SET(kstars_extra_kstars_SRCS
     auxiliary/thememanager.cpp
     auxiliary/schememanager.cpp
+    auxiliary/imagemask.cpp
     auxiliary/imageviewer.cpp
     auxiliary/xplanetimageviewer.cpp
     auxiliary/fov.cpp

@@ -23,6 +23,7 @@
 #include "skybackground.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
+#include "auxiliary/imagemask.h"
 
 #ifdef WIN32
 // This header must be included before fitsio.h to avoid compiler errors with Visual Studio
@@ -322,8 +323,8 @@ class FITSData : public QObject
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
         //int findSEPStars(QList<Edge*> &, const int8_t &boundary = int8_t()) const;
 
-        // Apply ring filter to searched stars
-        int filterStars(const float innerRadius, const float outerRadius);
+        // filter all stars that are visible through the given mask
+        int filterStars(QSharedPointer<ImageMask> mask);
 
         // Half Flux Radius
         const Edge &getSelectedHFRStar() const

@@ -9,6 +9,7 @@
 #include <QList>
 #include "../fitsviewer/fitsstardetector.h"
 #include "fitsviewer/fitsview.h"
+#include "auxiliary/imagemask.h"
 #include "curvefit.h"
 #include "../ekos.h"
 #include <ekos_focus_debug.h>
@@ -59,7 +60,7 @@ class FocusFourierPower
 
         template <typename T>
         void processFourierPower(const T imageBuffer, const QSharedPointer<FITSData> &imageData,
-                                 QPair<double, double> filter, double *fourierPower, double *weight)
+                                 QSharedPointer<ImageMask> mask, double *fourierPower, double *weight)
         {
             // Initialise outputs
             *fourierPower = INVALID_STAR_MEASURE;
@@ -87,33 +88,22 @@ class FocusFourierPower
             auto skyBackground = imageData->getSkyBackground();
             auto bg = skyBackground.mean + 3.0 * skyBackground.sigma;
 
-            // Check to see if the sensor in use is being restricted by an annulus
-            long const sqDiagonal = (width * width + height * height) / 4;
-            long const sqInnerRadius = std::lround(sqDiagonal * (filter.first * filter.first) / 10000);
-            long const sqOuterRadius = std::lround(sqDiagonal * (filter.second * filter.second) / 10000);
-            bool const filterInUse = filter.first != 0.0 || filter.second != 100.0;
+            uint16_t posX = 0, posY = 0;
             for (long i = 0; i < N; i++)
             {
-                if (!filterInUse)
+                if (mask.isNull() || mask->active() == false || mask->isVisible(posX, posY))
                     image[i * 2] = std::max(0.0, (double) imageBuffer[i] - bg);
                 else
-                {
-                    // Get pixel x, y relative to the centre of the sensor
-                    long x = i % width - width / 2;
-                    long y = i / width - height / 2;
-
-                    // Get the square radius of the pixel from the centre
-                    long sqRadius = x * x + y * y;
-
-                    // Is the pixel inside the filter? If not, set to zero.
-                    if (sqRadius > sqInnerRadius && sqRadius < sqOuterRadius)
-                        image[i * 2] = std::max(0.0, (double) imageBuffer[i] - bg);
-                    else
-                        image[i * 2] = 0.0;
-                }
+                    image[i * 2] = 0.0;
 
                 // Imaginary value is always zero
                 image[i * 2 + 1] = 0.0;
+
+                if (++posX == width)
+                {
+                    posX = 0;
+                    posY++;
+                }
             }
 
             // Perform FFT on all the rows

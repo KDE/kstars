@@ -2107,22 +2107,19 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
     }
 }
 
-int FITSData::filterStars(const float innerRadius, const float outerRadius)
+int FITSData::filterStars(QSharedPointer<ImageMask> mask)
 {
-    long const sqDiagonal = (long) this->width() * (long) this->width() / 4 + (long) this->height() * (long) this->height() / 4;
-    long const sqInnerRadius = std::lround(sqDiagonal * innerRadius * innerRadius);
-    long const sqOuterRadius = std::lround(sqDiagonal * outerRadius * outerRadius);
-
-    starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(),
-                                     [&](Edge * edge)
+    if (mask.isNull() == false)
     {
-        long const x = edge->x - this->width() / 2;
-        long const y = edge->y - this->height() / 2;
-        long const sqRadius = x * x + y * y;
-        return sqRadius < sqInnerRadius || sqOuterRadius < sqRadius;
-    }), starCenters.end());
+        starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(),
+                                         [&](Edge * edge)
+        {
+            return (mask->isVisible(edge->x, edge->y) == false);
+        }), starCenters.end());
+    }
 
     return starCenters.count();
+
 }
 
 double FITSData::getHFR(HFRType type)

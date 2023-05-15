@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>947</width>
-    <height>662</height>
+    <width>888</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -932,115 +932,43 @@
             <number>3</number>
            </property>
            <item>
-            <layout class="QGridLayout" name="gridLayoutSettings" rowstretch="0,0,0,0,0" columnstretch="0,0,0,0">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetDefaultConstraint</enum>
-             </property>
+            <layout class="QGridLayout" name="gridLayoutSettings" columnstretch="0,1,1,1,1">
              <property name="spacing">
               <number>3</number>
              </property>
-             <item row="2" column="2">
-              <widget class="QDoubleSpinBox" name="focusFullFieldInnerRadius">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+             <item row="5" column="0">
+              <widget class="QRadioButton" name="focusMosaicMaskRB">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;During Full Field focusing,  this controls the size of an Annulus centred at the middle of the sensor to include for processing.  Set inner % to zero to include the centre of the sensor and set outer % to 100 to include the outer edges of the sensor. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="suffix">
-                <string> %</string>
-               </property>
-               <property name="decimals">
-                <number>1</number>
-               </property>
-               <property name="singleStep">
-                <double>10.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLabel" name="label_13">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Aberration inspector style mask with a 3x3 mosaic formed with tiles from the center, the corners and the edges.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
-                <string>Guide Settle:</string>
+                <string>Mosaic Mask:</string>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">focusMaskBG</string>
+               </attribute>
+              </widget>
+             </item>
+             <item row="5" column="4">
+              <widget class="QSpinBox" name="focusMosaicSpace">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Size of the separator between the tiles.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
-               <property name="buddy">
-                <cstring>guideSettleTime</cstring>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLabel" name="label_15">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Box:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buddy">
-                <cstring>focusBoxSize</cstring>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="focusUseFullField">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Full Field</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
-              <widget class="QDoubleSpinBox" name="focusFullFieldOuterRadius">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;During Full Field focusing, this controls the size of an Annulus centred at the middle of the sensor to include for processing. Set inner % to zero to include the centre of the sensor and set outer % to 100 to include the outer edges of the sensor. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
                <property name="suffix">
-                <string> %</string>
+                <string> px</string>
                </property>
-               <property name="decimals">
+               <property name="minimum">
                 <number>1</number>
-               </property>
-               <property name="singleStep">
-                <double>10.000000000000000</double>
                </property>
                <property name="value">
-                <double>100.000000000000000</double>
+                <number>5</number>
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
+             <item row="0" column="1" colspan="2">
               <widget class="QCheckBox" name="focusSuspendGuiding">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1056,45 +984,23 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QCheckBox" name="focusAutoStarEnabled">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+             <item row="4" column="0">
+              <widget class="QRadioButton" name="focusRingMaskRB">
                <property name="toolTip">
-                <string>Automatically select the best focus star from the image</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;During Full Field focusing, this controls the size of an Annulus centred at the middle of the sensor to include for processing. Set inner % to zero to include the centre of the sensor and set outer % to 100 to include the outer edges of the sensor. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
-                <string>Auto Select Star</string>
+                <string>Ring Mask:</string>
                </property>
-               <property name="autoRepeatDelay">
-                <number>298</number>
+               <property name="checked">
+                <bool>false</bool>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">focusMaskBG</string>
+               </attribute>
               </widget>
              </item>
-             <item row="4" column="1">
-              <widget class="QLabel" name="label_38">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Display Units:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buddy">
-                <cstring>focusUnits</cstring>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2" colspan="2">
+             <item row="1" column="4">
               <widget class="QSpinBox" name="focusBoxSize">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1122,24 +1028,7 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="2" colspan="2">
-              <widget class="QComboBox" name="focusUnits">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display units for HFR and FWHM.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Pixels</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Arc Seconds</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="3" column="2" colspan="2">
+             <item row="2" column="4">
               <widget class="QDoubleSpinBox" name="guideSettleTime">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1158,7 +1047,86 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
+             <item row="1" column="1" colspan="2">
+              <widget class="QRadioButton" name="focusSubFrame">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe around the focus star during the autofocus procedure.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Sub Frame</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">focusFieldBG</string>
+               </attribute>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QRadioButton" name="focusUseFullField">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Full Field</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">focusFieldBG</string>
+               </attribute>
+              </widget>
+             </item>
+             <item row="4" column="3" colspan="2">
+              <widget class="QDoubleSpinBox" name="focusFullFieldOuterRadius">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Diameter of the outer circle to be excluded from focusing. The diameter is given as percentage of the image diagonal. Set to 100% to include the outer edges of the sensor. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="suffix">
+                <string> %</string>
+               </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>100.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QLabel" name="label_15">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Box:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="buddy">
+                <cstring>focusBoxSize</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3" colspan="2">
               <widget class="QCheckBox" name="useFocusDarkFrame">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1174,8 +1142,27 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="focusSubFrame">
+             <item row="2" column="3">
+              <widget class="QLabel" name="label_13">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Guide Settle:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="buddy">
+                <cstring>guideSettleTime</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="focusAutoStarEnabled">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1183,18 +1170,95 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Subframe around the focus star during the autofocus procedure</string>
+                <string>Automatically select the best focus star from the image</string>
                </property>
                <property name="text">
-                <string>Sub Frame</string>
+                <string>Auto Select Star</string>
                </property>
-               <property name="checked">
-                <bool>true</bool>
+               <property name="autoRepeatDelay">
+                <number>298</number>
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QLabel" name="label_10">
+             <item row="4" column="1" colspan="2">
+              <widget class="QDoubleSpinBox" name="focusFullFieldInnerRadius">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Diameter of the inner circle to be excluded from focusing (e.g. a centered galaxy or star cluster). The diameter is given as percentage of the image diagonal. Set to zero to include the centre of the sensor.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="suffix">
+                <string> %</string>
+               </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1" colspan="2">
+              <widget class="QComboBox" name="focusUnits">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display units for HFR and FWHM.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Pixels</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Arc Seconds</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="5" column="3">
+              <widget class="QLabel" name="focusSpacerLabel">
+               <property name="text">
+                <string>Spacer:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1" colspan="2">
+              <widget class="QSpinBox" name="focusMosaicTileWidth">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tiles are squares with an edge length calculated by the given percentage of the image width. The percentage is limited such that the tile size does not exceed one third of the shorter side of the image (in most cases, it's height).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="suffix">
+                <string> %</string>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>33</number>
+               </property>
+               <property name="singleStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>25</number>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_38">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1202,14 +1266,30 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Annulus:</string>
+                <string>Display Units:</string>
                </property>
                <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
                <property name="buddy">
-                <cstring>focusFullFieldInnerRadius</cstring>
+                <cstring>focusUnits</cstring>
                </property>
+              </widget>
+             </item>
+             <item row="3" column="0" colspan="3">
+              <widget class="QRadioButton" name="focusNoMaskRB">
+               <property name="toolTip">
+                <string>All stars are used for focusing.</string>
+               </property>
+               <property name="text">
+                <string>Use all stars for focusing</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">focusMaskBG</string>
+               </attribute>
               </widget>
              </item>
             </layout>
@@ -3749,16 +3829,6 @@
   <tabstop>filterManagerB</tabstop>
   <tabstop>resetFrameB</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>focusAutoStarEnabled</tabstop>
-  <tabstop>useFocusDarkFrame</tabstop>
-  <tabstop>focusSubFrame</tabstop>
-  <tabstop>focusBoxSize</tabstop>
-  <tabstop>focusUseFullField</tabstop>
-  <tabstop>focusFullFieldInnerRadius</tabstop>
-  <tabstop>focusFullFieldOuterRadius</tabstop>
-  <tabstop>focusSuspendGuiding</tabstop>
-  <tabstop>guideSettleTime</tabstop>
-  <tabstop>focusUnits</tabstop>
   <tabstop>focusAdaptive</tabstop>
   <tabstop>focusAdaptiveMinMove</tabstop>
   <tabstop>focusAdaptStart</tabstop>
@@ -3802,4 +3872,8 @@
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="focusFieldBG"/>
+  <buttongroup name="focusMaskBG"/>
+ </buttongroups>
 </ui>

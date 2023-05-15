@@ -91,7 +91,7 @@ Focus::Focus()
     // Display on screen the first tab in the tab widget
     tabWidget->setCurrentIndex(0);
 
-    connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::calculateHFR);
+    connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::starDetectionFinished);
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -256,6 +256,7 @@ void Focus::resetFrame()
             subFramed    = false;
 
             m_FocusView->setTrackingBox(QRect());
+            checkMosaicMaskLimits();
         }
     }
 }
@@ -785,6 +786,7 @@ bool Focus::setCamera(ISD::Camera *device)
     resetFrame();
 
     checkCamera();
+    checkMosaicMaskLimits();
     return true;
 }
 
@@ -1195,7 +1197,11 @@ void Focus::start()
                                << " Sub Frame:" << ( focusSubFrame->isChecked() ? "yes" : "no" )
                                << " Box:" << focusBoxSize->value()
                                << " Full frame:" << ( focusUseFullField->isChecked() ? "yes" : "no " )
-                               << " Annulus: [" << focusFullFieldInnerRadius->value() << "%," << focusFullFieldOuterRadius->value() << "%]"
+                               << " Focus Mask: " << (focusNoMaskRB->isChecked() ? "Use all stars" :
+                                       (focusRingMaskRB->isChecked() ? QString("Ring Mask: [%1%, %2%]").
+                                        arg(focusFullFieldInnerRadius->value()).arg(focusFullFieldOuterRadius->value()) :
+                                        QString("Mosaic Mask: [%1%, space=%2px]").
+                                        arg(focusMosaicTileWidth->value()).arg(focusMosaicSpace->value())))
                                << " Suspend Guiding:" << ( focusSuspendGuiding->isChecked() ? "yes" : "no " )
                                << " Guide Settle:" << guideSettleTime->value()
                                << " Display Units:" << focusUnits->currentText()
@@ -1862,6 +1868,53 @@ void Focus::handleFocusMotionTimeout()
         appendLogText(i18n("Focus motion timed out (%1). Focusing to %2 steps...", m_FocusMotionTimerCounter, m_LastFocusSteps));
 }
 
+void Focus::selectImageMask(const ImageMaskType newMaskType)
+{
+    const bool useFullField = focusUseFullField->isChecked();
+    // mask selection only enabled if full field should be used for focusing
+    focusRingMaskRB->setEnabled(useFullField);
+    focusMosaicMaskRB->setEnabled(useFullField);
+    // ring mask
+    focusFullFieldInnerRadius->setEnabled(useFullField && newMaskType == FOCUS_MASK_RING);
+    focusFullFieldOuterRadius->setEnabled(useFullField && newMaskType == FOCUS_MASK_RING);
+    // aberration inspector mosaic
+    focusMosaicTileWidth->setEnabled(useFullField && newMaskType == FOCUS_MASK_MOSAIC);
+    focusSpacerLabel->setEnabled(useFullField && newMaskType == FOCUS_MASK_MOSAIC);
+    focusMosaicSpace->setEnabled(useFullField && newMaskType == FOCUS_MASK_MOSAIC);
+
+    // create the type specific mask
+    if (newMaskType == FOCUS_MASK_RING)
+        m_FocusView->setImageMask(new ImageRingMask(Options::focusFullFieldInnerRadius() / 100.0,
+                                  Options::focusFullFieldOuterRadius() / 100.0));
+    else if (newMaskType == FOCUS_MASK_MOSAIC)
+        m_FocusView->setImageMask(new ImageMosaicMask(Options::focusMosaicTileWidth(), Options::focusMosaicSpace()));
+    else
+        m_FocusView->setImageMask(nullptr);
+
+    checkMosaicMaskLimits();
+    m_currentImageMask = newMaskType;
+}
+
+void Focus::syncImageMaskSelection()
+{
+    QRadioButton *rb = nullptr;
+    if ( (rb = qobject_cast<QRadioButton*>(sender())) && rb->isChecked())
+    {
+        const QString name = rb->objectName();
+        ImageMaskType mask = FOCUS_MASK_NONE;
+
+        if (name == "focusRingMaskRB")
+            mask = FOCUS_MASK_RING;
+        else if (name == "focusMosaicMaskRB")
+            mask = FOCUS_MASK_MOSAIC;
+
+        Options::setFocusMaskType(mask);
+        selectImageMask(mask);
+    }
+}
+
+
+
 void Focus::reconnectFocuser(const QString &focuser)
 {
     m_FocuserReconnectCounter++;
@@ -1924,7 +1977,7 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
     resetButtons();
 }
 
-void Focus::calculateHFR()
+void Focus::starDetectionFinished()
 {
     appendLogText(i18n("Detection complete."));
 
@@ -1939,8 +1992,6 @@ void Focus::calculateHFR()
     {
         if (focusUseFullField->isChecked())
         {
-            m_FocusView->setStarFilterRange(static_cast <float> (focusFullFieldInnerRadius->value() / 100.0),
-                                            static_cast <float> (focusFullFieldOuterRadius->value() / 100.0));
             m_FocusView->filterStars();
 
             // Get the average HFR of the whole frame
@@ -2057,50 +2108,48 @@ void Focus::getFourierPower(double *fourierPower, double *weight)
     *weight = 1.0;
 
     auto imageBuffer = m_ImageData->getImageBuffer();
-    QPair<double, double> filter;
-    filter.first = focusFullFieldInnerRadius->value();
-    filter.second = focusFullFieldOuterRadius->value();
 
     switch (m_ImageData->getStatistics().dataType)
     {
         case TBYTE:
-            focusFourierPower->processFourierPower(reinterpret_cast<uint8_t const *>(imageBuffer), m_ImageData, filter, fourierPower,
-                                                   weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<uint8_t const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(),
+                                                   fourierPower, weight);
             break;
 
         case TSHORT: // Don't think short is used as its recorded as unsigned short
-            focusFourierPower->processFourierPower(reinterpret_cast<short const *>(imageBuffer), m_ImageData, filter, fourierPower,
-                                                   weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<short const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
+                                                   fourierPower, weight);
             break;
 
         case TUSHORT:
-            focusFourierPower->processFourierPower(reinterpret_cast<unsigned short const *>(imageBuffer), m_ImageData, filter,
-                                                   fourierPower, weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<unsigned short const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), fourierPower, weight);
             break;
 
         case TLONG:  // Don't think long is used as its recorded as unsigned long
-            focusFourierPower->processFourierPower(reinterpret_cast<long const *>(imageBuffer), m_ImageData, filter, fourierPower,
-                                                   weight);
-            break;
-
-        case TULONG:
-            focusFourierPower->processFourierPower(reinterpret_cast<unsigned long const *>(imageBuffer), m_ImageData, filter,
+            focusFourierPower->processFourierPower(reinterpret_cast<long const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
                                                    fourierPower, weight);
             break;
 
+        case TULONG:
+            focusFourierPower->processFourierPower(reinterpret_cast<unsigned long const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), fourierPower, weight);
+            break;
+
         case TFLOAT:
-            focusFourierPower->processFourierPower(reinterpret_cast<float const *>(imageBuffer), m_ImageData, filter, fourierPower,
-                                                   weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<float const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
+                                                   fourierPower, weight);
             break;
 
         case TLONGLONG:
-            focusFourierPower->processFourierPower(reinterpret_cast<long long const *>(imageBuffer), m_ImageData, filter, fourierPower,
-                                                   weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<long long const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), fourierPower, weight);
             break;
 
         case TDOUBLE:
-            focusFourierPower->processFourierPower(reinterpret_cast<double const *>(imageBuffer), m_ImageData, filter, fourierPower,
-                                                   weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<double const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
+                                                   fourierPower, weight);
             break;
 
         default:
@@ -2509,7 +2558,8 @@ void Focus::setCaptureComplete()
     }
 
     captureInProgress = false;
-
+    // update the limits from the real values
+    checkMosaicMaskLimits();
 
     // Emit the whole image
     emit newImage(m_FocusView);
@@ -4004,6 +4054,7 @@ void Focus::resetButtons()
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
+    focusAutoStarEnabled->setEnabled(enableCaptureButtons && focusUseFullField->isChecked() == false);
 
     if (m_Focuser && m_Focuser->isConnected())
     {
@@ -4248,8 +4299,24 @@ void Focus::toggleSubframe(bool enable)
     starSelected = false;
     starCenter   = QVector3D();
 
-    if (focusUseFullField->isChecked())
-        focusUseFullField->setChecked(!enable);
+    if (enable)
+    {
+        // sub frame focusing
+        focusAutoStarEnabled->setEnabled(true);
+        // disable focus image mask
+        focusNoMaskRB->setChecked(true);
+    }
+    else
+    {
+        // full frame focusing
+        focusAutoStarEnabled->setChecked(false);
+        focusAutoStarEnabled->setEnabled(false);
+    }
+    // update image mask controls
+    selectImageMask(m_currentImageMask);
+    // enable focus mask selection if full field is selected
+    focusRingMaskRB->setEnabled(!enable);
+    focusMosaicMaskRB->setEnabled(!enable);
 
     setUseWeights();
 }
@@ -4268,6 +4335,7 @@ void Focus::setUseWeights()
     }
     else
         focusUseWeights->setEnabled(true);
+
 }
 
 void Focus::setExposure(double value)
@@ -4812,6 +4880,7 @@ void Focus::syncSettings()
     QDoubleSpinBox *dsb = nullptr;
     QSpinBox *sb = nullptr;
     QCheckBox *cb = nullptr;
+    QRadioButton *rb = nullptr;
     QComboBox *cbox = nullptr;
     QSplitter *s = nullptr;
 
@@ -4833,6 +4902,11 @@ void Focus::syncSettings()
     {
         key = cb->objectName();
         value = cb->isChecked();
+    }
+    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = rb->objectName();
+        value = rb->isChecked();
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
@@ -4858,6 +4932,20 @@ void Focus::syncSettings()
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, m_Settings);
+
+    // propagate image mask attributes
+    ImageRingMask *ringmask     = dynamic_cast<ImageRingMask *>(m_FocusView->imageMask().get());
+    ImageMosaicMask *mosaicmask = dynamic_cast<ImageMosaicMask *>(m_FocusView->imageMask().get());
+    if (ringmask != nullptr)
+    {
+        ringmask->setInnerRadius(focusFullFieldInnerRadius->value() / 100.0);
+        ringmask->setOuterRadius(focusFullFieldOuterRadius->value() / 100.0);
+    }
+    else if (mosaicmask != nullptr)
+    {
+        mosaicmask->setTileWidth(focusMosaicTileWidth->value());
+        mosaicmask->setSpace(focusMosaicSpace->value());
+    }
 }
 
 void Focus::loadGlobalSettings()
@@ -4940,7 +5028,42 @@ void Focus::loadGlobalSettings()
         else
             qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+    // select focus mask type
+    ImageMaskType masktype = static_cast<ImageMaskType>(Options::focusMaskType());
+    selectImageMask(masktype);
+    if (masktype == FOCUS_MASK_NONE)
+        focusNoMaskRB->setChecked(true);
+    else if (masktype == FOCUS_MASK_RING)
+        focusRingMaskRB->setChecked(true);
+    else
+        focusMosaicMaskRB->setChecked(true);
+
     m_GlobalSettings = m_Settings = settings;
+}
+
+void Focus::checkMosaicMaskLimits()
+{
+    if (m_Camera == nullptr || m_Camera->isConnected() == false)
+        return;
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+    if (targetChip == nullptr || frameSettings.contains(targetChip) == false)
+        return;
+    QVariantMap settings = frameSettings[targetChip];
+    // determine maximal square size
+    int min = std::min(settings["w"].toInt(), settings["h"].toInt());
+    // now check if the tile size is below this limit
+    focusMosaicTileWidth->setMaximum(100 * min / (3 * settings["w"].toInt()));
 }
 
 void Focus::connectSettings()
@@ -4951,11 +5074,11 @@ void Focus::connectSettings()
 
     // All Double Spin Boxes
     for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
-        connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        connect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Spin Boxes
     for (auto &oneWidget : findChildren<QSpinBox*>())
-        connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        connect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
@@ -4964,6 +5087,10 @@ void Focus::connectSettings()
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         connect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+    // connect mask selections
+    connect(focusNoMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    connect(focusRingMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    connect(focusMosaicMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
 
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
@@ -4977,11 +5104,11 @@ void Focus::disconnectSettings()
 
     // All Double Spin Boxes
     for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
-        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        disconnect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Spin Boxes
     for (auto &oneWidget : findChildren<QSpinBox*>())
-        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        disconnect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
@@ -4990,6 +5117,10 @@ void Focus::disconnectSettings()
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         disconnect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+    // All Radio Buttons
+    disconnect(focusNoMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    disconnect(focusRingMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    disconnect(focusMosaicMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
 
 }
 
@@ -5057,26 +5188,12 @@ void Focus::initConnections()
     // Start continuous capture
     connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
     // Use a subframe when capturing
-    connect(focusSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
+    connect(focusSubFrame, &QRadioButton::toggled, this, &Ekos::Focus::toggleSubframe);
     // Reset frame dimensions to default
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
-    // Sync setting if full field setting is toggled.
-    connect(focusUseFullField, &QCheckBox::toggled, this, [&](bool toggled)
-    {
-        focusFullFieldInnerRadius->setEnabled(toggled);
-        focusFullFieldOuterRadius->setEnabled(toggled);
-        setUseWeights();
-        if (toggled)
-        {
-            focusSubFrame->setChecked(false);
-            focusAutoStarEnabled->setChecked(false);
-        }
-        else
-        {
-            // Disable the overlay
-            m_FocusView->setStarFilterRange(0, 1);
-        }
-    });
+
+    // handle frame size changes
+    connect(focusBinning, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::checkMosaicMaskLimits);
 
     // Sync settings if the temperature source selection is updated.
     connect(defaultFocusTemperatureSource, &QComboBox::currentTextChanged, this, &Ekos::Focus::checkTemperatureSource);
@@ -6128,7 +6245,7 @@ void Focus::focusAdvisorSetup()
 
     FAFullFieldInnerRadius = 0.0;
     FAFullFieldOuterRadius = 80.0;
-    str.append("Annulus 0%-80%\n");
+    str.append("Ring Mask 0%-80%\n");
 
     // Suspend Guilding, Guide Settle and Display Units won't affect Autofocus so don't set
 
@@ -6268,6 +6385,7 @@ void Focus::focusAdvisorAction()
         focusAutoStarEnabled->setChecked(FAAutoSelectStar);
         focusFullFieldInnerRadius->setValue(FAFullFieldInnerRadius);
         focusFullFieldOuterRadius->setValue(FAFullFieldOuterRadius);
+        focusRingMaskRB->setChecked(true);
         focusAdaptive->setChecked(FAAdaptiveFocus);
         focusAdaptStart->setChecked(FAAdaptStartPos);
     }

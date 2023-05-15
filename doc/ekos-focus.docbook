@@ -484,6 +484,15 @@
       </listitem>
 
       <listitem>
+        <para> <guilabel>Suspend Guiding</guilabel>: Set this option to
+        suspend guiding during an Autofocus run. An additional check is made
+        to only suspend guiding if it is being carried out via the primary
+        scope, for example when using an Off Axis Guider. The purpose of this
+        is to prevent guiding from having problems with defocused stars during
+        the focus process.</para>
+      </listitem>
+
+      <listitem>
         <para> <guilabel>Dark Frame</guilabel>: Check this option to perform
         dark-frame subtraction. This option can be useful in noisy images,
         where a pretaken dark is subtracted from the focus image before
@@ -562,29 +571,37 @@
         <para> <guilabel>Full Field</guilabel>: Either use the full field of
         the camera or select a Sub Frame around the focus star during the
         Autofocus procedure. If using multiple stars then this option must be
-        selected.</para>
-      </listitem>
+          selected.
+	  <itemizedlist>
+	    <listitem>
+	      <para> <guilabel>Use all stars for focusing</guilabel>: Select this option
+		if all stars of the field should be considered for focusing.</para>
+	    </listitem>
+	    
+	    <listitem>
+              <para> <guilabel>Ring Mask</guilabel>: Used in conjunction with Full
+		Field, this option provides two input fields that together define a
+		doughnut over the FOV of the camera. Stars falling outside of the
+		doughnut are discounted from processing. Setting an inner value above
+		0% causes stars in the centre of the FOV to be discarded. This could
+		be useful to avoid using stars in the target of the image (for example
+		a galaxy) for focusing purposes. Setting an outer value below 100%
+		causes stars in the edges of the FOV to be discarded during focusing.
+		This could be useful if you do not have a flat field out to the edges
+		of your FOV.</para>
+	    </listitem>
 
-      <listitem>
-        <para> <guilabel>Annulus</guilabel>: Used in conjunction with Full
-        Field, Annulus provides two input fields that together define a
-        doughnut over the FOV of the camera. Stars falling outside of the
-        doughnut are discounted from processing. Setting an inner value above
-        0% causes stars in the centre of the FOV to be discarded. This could
-        be useful to avoid using stars in the target of the image (for example
-        a galaxy) for focusing purposes. Setting an outer value below 100%
-        causes stars in the edges of the FOV to be discarded during focusing.
-        This could be useful if you do not have a flat field out to the edges
-        of your FOV.</para>
-      </listitem>
-
-      <listitem>
-        <para> <guilabel>Suspend Guiding</guilabel>: Set this option to
-        suspend guiding during an Autofocus run. An additional check is made
-        to only suspend guiding if it is being carried out via the primary
-        scope, for example when using an Off Axis Guider. The purpose of this
-        is to prevent guiding from having problems with defocused stars during
-        the focus process.</para>
+	    <listitem>
+	      <para> <guilabel>Mosaic Mask</guilabel>: A 3x3 mosaic is composed with tiles
+		from the imagecenter, its corners and from the edges. This option is useful
+		if you want to inspect the optics performance - you might know this from the
+		PixInsight Aberration Inspector script. The tile size can be configured in
+		percent of the frame width, with the spacer value the space between the tiles
+		is defined.</para>
+	    </listitem>
+	    
+	  </itemizedlist>
+	</para>
       </listitem>
 
       <listitem>

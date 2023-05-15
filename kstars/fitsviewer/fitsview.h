@@ -8,6 +8,7 @@
 #pragma once
 
 #include "fitscommon.h"
+#include "auxiliary/imagemask.h"
 
 #include <config-kstars.h>
 #include "stretch.h"
@@ -120,7 +121,7 @@ class FITSView : public QScrollArea
         virtual void drawOverlay(QPainter *, double scale);
 
         // Overlay objects
-        void drawStarFilter(QPainter *, double scale);
+        void drawStarRingFilter(QPainter *, double scale, ImageRingMask *ringMask);
         void drawStarCentroid(QPainter *, double scale);
         void drawClipping(QPainter *);
         void drawTrackingBox(QPainter *, double scale);
@@ -182,8 +183,11 @@ class FITSView : public QScrollArea
         void searchStars();
         void setStarsEnabled(bool enable);
         void setStarsHFREnabled(bool enable);
-        void setStarFilterRange(float const innerRadius, float const outerRadius);
         int filterStars();
+
+        // image masks
+        QSharedPointer<ImageMask> imageMask() { return m_ImageMask; }
+        void setImageMask(ImageMask *mask);
 
         // FITS Mode
         void updateMode(FITSMode fmode);
@@ -356,6 +360,7 @@ class FITSView : public QScrollArea
         void doStretch(QImage *outputImage);
         double scaleSize(double size);
         bool isLargeImage();
+        bool initDisplayPixmap(QImage &image, float space);
         void updateFrameLargeImage();
         void updateFrameSmallImage();
         bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
@@ -409,15 +414,8 @@ class FITSView : public QScrollArea
         // Adaptive sampling is based on available RAM
         uint8_t m_AdaptiveSampling {1};
 
-        struct
-        {
-            bool used() const
-            {
-                return innerRadius != 0.0f || outerRadius != 1.0f;
-            }
-            float innerRadius { 0.0f };
-            float outerRadius { 1.0f };
-        } starFilter;
+        // mask for star detection
+        QSharedPointer<ImageMask> m_ImageMask;
 
         CursorMode cursorMode { selectCursor };
         bool zooming { false };
