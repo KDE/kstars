@@ -64,7 +64,7 @@
                         <para
 ><guilabel
 >Guiatge</guilabel
->: Seleccioneu l'aplicació de guia que voleu utilitzar per al guiatge. De manera predeterminada, s'utilitza el mòdul per al guiatge intern d'Ekos. Els sistemes de guiatge externs inclouen el PHD2 i LinGuider. </para>
+>: Seleccioneu l'aplicació de guia que voleu utilitzar per al guiatge. De manera predeterminada, s'utilitza el mòdul per al guiatge intern d'Ekos. Els sistemes de guiatge externs inclouen PHD2 i LinGuider. </para>
                     </listitem>
                     <listitem>
                         <para

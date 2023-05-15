@@ -57,7 +57,7 @@
 >Emplaçaments a mida</secondary
 ></indexterm
 >La informació de <link linkend="ai-geocoords"
->llargària, latitud</link
+>longitud, latitud</link
 > i <link linkend="ai-timezones"
 >zona horària</link
 > (desplaçament TU) per a l'emplaçament actualment seleccionat es mostra en els quadros existents a la part inferior de la finestra. Si estimeu que algun d'estos valors no és prou precís, el podeu modificar directament i prémer el botó <guibutton

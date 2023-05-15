@@ -302,7 +302,7 @@
                 <para
 ><guilabel
 >PHD2</guilabel
->: Utilitzeu el PHD2 com a sistema de guiatge extern. Si està seleccionada, especifiqueu l'amfitrió i el port del PHD2. Deixeu els valors predeterminats si Ekos i el PHD2 s'estan executant a la mateixa màquina. </para>
+>: Utilitzeu PHD2 com a sistema de guiatge extern. Si està seleccionada, especifiqueu l'amfitrió i el port de PHD2. Deixeu els valors predeterminats si Ekos i PHD2 s'estan executant a la mateixa màquina. </para>
             </listitem>
             <listitem>
                 <para
@@ -421,41 +421,41 @@
 
     <sect3 id="guide-phd2-support">
         <title
->Admet el PHD2</title>
+>Admet PHD2</title>
         <para
 >Podeu optar per seleccionar l'aplicació PHD2 externa per a realitzar el guiatge en comptes del sistema de guiatge integrat. </para>
         <screenshot>
             <screeninfo
->Configureu el PHD2 de guiatge d'Ekos </screeninfo>
+>Configureu PHD2 de guiatge d'Ekos </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_guide_phd2.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Configureu el PHD2 de guiatge d'Ekos</phrase>
+>Configureu PHD2 de guiatge d'Ekos</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
 
         <para
->Si se selecciona el PHD2, els botons <guibutton
+>Si se selecciona PHD2, els botons <guibutton
 >Connecta</guibutton
 > i <guibutton
 >Desconnecta</guibutton
-> estaran habilitats per a permetre establir una connexió amb el servidor del PHD2. Podeu controlar la configuració de l'exposició i Dec del guiatge al PHD2. Fent clic en <guibutton
+> estaran habilitats per a permetre establir una connexió amb el servidor de PHD2. Podeu controlar la configuració de l'exposició i Dec del guiatge a PHD2. Fent clic en <guibutton
 >Guiatge</guibutton
->, el PHD2 <emphasis role="bold"
+>, PHD2 <emphasis role="bold"
 >haurà</emphasis
-> de realitzar totes les accions necessàries per a iniciar el procés de guiatge. El PHD2 s'haurà d'iniciar i configurar <emphasis
+> de realitzar totes les accions necessàries per a iniciar el procés de guiatge. PHD2 s'haurà d'iniciar i configurar <emphasis
 >abans</emphasis
 > que Ekos. </para>
         <para
->Després d'iniciar el PHD2, seleccioneu el vostre equip INDI i establiu-hi les opcions. Des d'Ekos, connecteu-vos amb el PHD2 fent clic en el botó <guibutton
+>Després d'iniciar PHD2, seleccioneu el vostre equip INDI i establiu-hi les opcions. Des d'Ekos, connecteu-vos amb PHD2 fent clic en el botó <guibutton
 >Connecta</guibutton
->. A l'inici, Ekos intentarà connectar-se automàticament amb el PHD2. Una vegada establida la connexió, podreu iniciar immediatament el guiatge fent clic en el botó <guibutton
+>. A l'inici, Ekos intentarà connectar-se automàticament amb PHD2. Una vegada establida la connexió, podreu iniciar immediatament el guiatge fent clic en el botó <guibutton
 >Guiatge</guibutton
->. El PHD2 haurà de realitzar el calibratge si és necessari. Si se selecciona el tramat, s'haurà d'ordenar al PHD2 que proporcione els píxels indicats del desplaçament i, una vegada que el guiatge siga regi i estable, es reprendrà el procés de captura a Ekos. </para>
+>. PHD2 haurà de realitzar el calibratge si és necessari. Si se selecciona el tramat, s'haurà d'ordenar a PHD2 que proporcione els píxels indicats del desplaçament i, una vegada que el guiatge siga regi i estable, es reprendrà el procés de captura a Ekos. </para>
         <note>
             <para
 >Ekos guarda les dades de registre de la guia en CSV, el qual pot ser útil per a l'anàlisi del rendiment de la muntura davall <filename

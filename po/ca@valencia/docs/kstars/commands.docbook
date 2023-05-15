@@ -1817,7 +1817,7 @@
 >, obtindreu la pàgina <guilabel
 >Escolliu l'emplaçament de casa vostra</guilabel
 >. Ací podeu seleccionar l'emplaçament d'inici exacte o una ciutat prop de l'emplaçament d'inici si la vostra ubicació exacta no es troba en la base de dades de ciutats de &kstars;. El fet de navegar per tota la llista no és gaire eficient i per tant, &kstars; proporciona un mètode fàcil d'ús per a la selecció de la ciutat desitjada en poc temps. Podeu filtrar la llista de ciutats amb el nom de la ciutat, província i país. En donar més detalls sobre el vostre emplaçament, la mida de la llista s'anirà reduint a només les millors coincidències. Quan ressalteu una ciutat en la llista de ciutats, els quadros <guilabel
->Llargària:</guilabel
+>Longitud:</guilabel
 > i <guilabel
 >Latitud:</guilabel
 > s'actualitzaran amb la informació exacta de l'emplaçament seleccionat. Quan premeu el botó <guibutton
