@@ -3981,9 +3981,12 @@ void Focus::resetButtons()
             AFDisable(opticalTrainCombo, false);
             AFDisable(trainB, false);
             AFDisable(focuserGroup, true);
-            AFDisable(ccdGroup, false);
-            AFDisable(tabWidget, false);
             AFDisable(clearDataB, false);
+
+            // JM 2023.05.15: Do not disable these group as it leads to regressions
+            // AFDisable(ccdGroup, false);
+            // AFDisable(tabWidget, false);
+
 
             // Enable the "stop" button so the user can abort an AF run
             stopFocusB->setEnabled(true);
