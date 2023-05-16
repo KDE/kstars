@@ -225,7 +225,18 @@ void CaptureDeviceAdaptor::disconnectRotator(SequenceJobState *state)
 void CaptureDeviceAdaptor::setRotatorAngle(double *rawAngle)
 {
     if (m_ActiveRotator != nullptr)
-        m_ActiveRotator->setAbsoluteAngle(*rawAngle);
+        if (!m_ActiveRotator->setAbsoluteAngle(*rawAngle))
+        {
+            qWarning(KSTARS_EKOS_CAPTURE) << "Rotator is not responding!";
+        }
+}
+
+double CaptureDeviceAdaptor::getRotatorAngle()
+{
+    if (m_ActiveRotator != nullptr)
+        return m_ActiveRotator->absoluteAngle();
+    else
+        return 0;
 }
 
 void CaptureDeviceAdaptor::reverseRotator(bool toggled)

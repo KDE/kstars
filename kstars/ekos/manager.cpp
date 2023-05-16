@@ -20,6 +20,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "ekos/capture/rotatorsettings.h"
 #include "profileeditor.h"
 #include "profilewizard.h"
 #include "indihub.h"
@@ -531,8 +532,12 @@ void Manager::reset()
 
     for (auto &oneManger : m_FilterManagers)
         oneManger.reset();
-
     m_FilterManagers.clear();
+
+    for (auto &oneController : m_RotatorControllers)
+        oneController.reset();
+    m_RotatorControllers.clear();
+
     DarkLibrary::Release();
     m_PortSelector.reset();
     m_PortSelectorTimer.stop();
@@ -1526,6 +1531,8 @@ void Manager::addRotator(ISD::Rotator *device)
 {
     appendLogText(i18n("Rotator %1 is online.", device->getDeviceName()));
 
+    // createRotatorControl(device);
+
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
@@ -1685,6 +1692,12 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
     for (auto &oneManager : m_FilterManagers)
     {
         oneManager->removeDevice(device);
+    }
+
+    // Remove from rotator controllers
+    for (auto &oneController : m_RotatorControllers)
+    {
+        oneController->close();
     }
 
     appendLogText(i18n("%1 is offline.", device->getDeviceName()));
@@ -3464,5 +3477,28 @@ bool Manager::getFilterManager(const QString &name, QSharedPointer<FilterManager
     return false;
 }
 
+void Manager::createRotatorController(const QString &Name)
+{
+    if (m_RotatorControllers.contains(Name) == false)
+    {
+        QSharedPointer<RotatorSettings> newRC(new RotatorSettings(this));
+        m_RotatorControllers[Name]= newRC;
+    }
+}
+
+bool Manager::getRotatorController(const QString &Name, QSharedPointer<RotatorSettings> &rs)
+{
+    if (m_RotatorControllers.contains(Name))
+    {
+        rs = m_RotatorControllers[Name];
+        return true;
+    }
+    return false;
+}
+
+bool Manager::existRotatorController()
+{
+    return (!m_RotatorControllers.empty());
+}
 
 }

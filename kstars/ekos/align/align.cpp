@@ -1,4 +1,4 @@
-/*
+﻿/*
     SPDX-FileCopyrightText: 2013 Jasem Mutlaq <mutlaqja@ikarustech.com>
     SPDX-FileCopyrightText: 2013-2021 Jasem Mutlaq <mutlaqja@ikarustech.com>
     SPDX-FileCopyrightText: 2018-2020 Robert Lancaster <rlancaste@gmail.com>
@@ -118,6 +118,9 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Align::toggleAlignWidgetFullScreen);
+
+    // rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
+    rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     m_AlignView.reset(new AlignView(alignWidget, FITS_ALIGN));
     m_AlignView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -1458,7 +1461,8 @@ bool Align::captureAndSolve()
 
     if (m_FocusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY / 1000));
+        appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...",
+                           CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return true;
     }
@@ -1469,6 +1473,15 @@ bool Align::captureAndSolve()
                            CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return true;
+    }
+
+    // Let rotate the camera BEFORE taking a capture in [Capture & Solve]
+    if (!m_SolveFromFile && m_Rotator && (m_Rotator->absoluteAngleState() != IPS_OK))
+    {
+        appendLogText(i18n("Cannot capture while rotator ist busy. Retrying in %1 seconds...",
+                           CAPTURE_RETRY_DELAY / 1000));
+        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
+        return false;
     }
 
     m_AlignView->setBaseSize(alignWidget->size());
@@ -1523,6 +1536,7 @@ bool Align::captureAndSolve()
         targetChip->capture(seqExpose);
 
     solveB->setEnabled(false);
+    loadSlewB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();
 
@@ -1820,6 +1834,19 @@ void Align::startSolving()
                 m_StellarSolver->setSearchPositionInDegrees(solution.ra, solution.dec);
             else
                 m_StellarSolver->setProperty("UsePosition", false);
+
+            QVariant value = "";
+            if (!m_ImageData->getRecordValue("PIERSIDE", value))
+            {
+                appendLogText(i18n("Loaded image does not have pierside information"));
+                m_TargetPierside = ISD::Mount::PIER_UNKNOWN;
+            }
+            else
+            {
+                appendLogText(i18n("Loaded image was taken on pierside %1", value.toString()));
+                (value == "WEST") ? m_TargetPierside = ISD::Mount::PIER_WEST : m_TargetPierside = ISD::Mount::PIER_EAST;
+            }
+            RotatorUtils::setImagePierside(m_TargetPierside);
         }
         else
         {
@@ -1969,7 +1996,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // Sensor FOV as well
     sensorFOV->setPA(solverPA);
 
-    PAOut->setText(QString::number(solverPA, 'f', 5));
+    PAOut->setText(QString::number(solverPA, 'f', 2)); // Two decimals are reasonable
 
     QString ra_dms, dec_dms;
     getFormattedCoords(m_AlignCoord.ra().Hours(), m_AlignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -2037,15 +2064,40 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
     std::unique_ptr<QTableWidgetItem> statusReport(new QTableWidgetItem());
     int currentRow = solutionTable->rowCount() - 1;
-    if (!m_SolveFromFile)
+    if (!m_SolveFromFile) // [Capture & Solve]
     {
         stopProgressAnimation();
         solutionTable->setCellWidget(currentRow, 3, new QWidget());
         statusReport->setFlags(Qt::ItemIsSelectable);
+        // Calibration: determine camera offset from capture
+        if (m_Rotator != nullptr && m_Rotator->isConnected())
+        {
+            if (auto absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE"))
+            // if (absAngle && std::isnan(m_TargetPositionAngle) == true)
+            {
+                sRawAngle = absAngle->at(0)->getValue();
+                double OffsetAngle = RotatorUtils::calcOffsetAngle(sRawAngle, solverPA);
+                RotatorUtils::updateOffset(OffsetAngle);
+                // Debug info
+                auto reverseStatus = "Unknown";
+                auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
+                if (reverseProperty)
+                {
+                    if (reverseProperty->at(0)->getState() == ISS_ON)
+                        reverseStatus = "Reversed Direction";
+                    else
+                        reverseStatus = "Normal Direction";
+                }
+                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << sRawAngle << "Rotator PA:" << solverPA
+                                           << "Rotator Offset:" << OffsetAngle << "Direction:" << reverseStatus;
+                // newSolverResulta() -> capture: setAlignresult() -> RotatorSettings: refresh()
+                emit newSolverResults(solverPA, ra, dec, pixscale);
+                // appendLogText(i18n("Camera offset angle is %1 degrees.", OffsetAngle));
+                appendLogText(i18n("Camera position angle is %1 degrees.", RotatorUtils::calcCameraAngle(sRawAngle, false)));
+            }
+        }
     }
 
-    // Send Solver results
-    emit newSolverResults(orientation, ra, dec, pixscale);
     QJsonObject solution =
     {
         {"camera", m_Camera->getDeviceName()},
@@ -2114,7 +2166,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
             solutionTable->setItem(currentRow, 3, statusReport.release());
 
-            appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
+            appendLogText(i18n("Target is within acceptable range."));
             break;
 
         case GOTO_NOTHING:
@@ -2137,7 +2189,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     {
 
         if (checkIfRotationRequired())
+        {
+            solveB->setEnabled(false);
+            loadSlewB->setEnabled(false);
             return;
+        }
 
         // We are done!
         setState(ALIGN_COMPLETE);
@@ -2206,62 +2262,45 @@ bool Align::checkIfRotationRequired()
     // Check if we need to perform any rotations.
     if (Options::astrometryUseRotator())
     {
-        if (m_SolveFromFile)
+        if (m_SolveFromFile) // [Load & Slew] Program flow never lands here!?
         {
             m_TargetPositionAngle = solverFOV->PA();
             // We are not done yet.
             qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file: Setting target PA to:" << m_TargetPositionAngle;
         }
-        else
+        else // [Capture & Solve]: "direct" or within [Load & Slew]
         {
             currentRotatorPA = solverFOV->PA();
-
-            // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
-            if (m_Rotator != nullptr && m_Rotator->isConnected())
+            // [Load & Slew] only: check if we need to rotate the rotator to match the position angle of the image
+            if  (m_Rotator != nullptr && m_Rotator->isConnected())
             {
-                // Update Rotator offsets
-                auto absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE");
-                if (absAngle)
-                {
-                    // 1. PA = (RawAngle * Multiplier) - Offset
-                    // 2. Offset = (RawAngle * Multiplier) - PA
-                    // 3. RawAngle = (Offset + PA) / Multiplier
-                    double rawAngle = absAngle->at(0)->getValue();
-                    double offset   = range360((rawAngle * Options::pAMultiplier()) - currentRotatorPA);
-
-                    auto reverseStatus = "Unknown";
-                    auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
-                    if (reverseProperty)
-                    {
-                        if (reverseProperty->at(0)->getState() == ISS_ON)
-                            reverseStatus = "Reversed Direction";
-                        else
-                            reverseStatus = "Normal Direction";
+                if (std::isnan(m_TargetPositionAngle) == false) // [Load & Slew]
+                {    // Check if image pierside versus versus mount pierside is different ...
+                    if (RotatorUtils::checkImageFlip())
+                    {   // ... and calculate flipped PA ...
+                        sRawAngle = RotatorUtils::calcRotatorAngle(m_TargetPositionAngle);
+                        m_TargetPositionAngle = RotatorUtils::calcCameraAngle(sRawAngle, true);
+                        RotatorUtils::setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
                     }
-
-                    qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
-                                               << "Rotator Offset:" << offset << "Direction:" << reverseStatus;
-
-                    if (m_Mount)
-                        Options::setPAPierSide(m_Mount->pierSide());
-                    Options::setPAOffset(offset);
-                }
-
-                if (absAngle && std::isnan(m_TargetPositionAngle) == false
-                        && fabs(currentRotatorPA - m_TargetPositionAngle) * 60 > Options::astrometryRotatorThreshold())
-                {
-                    // 3. RawAngle = (Offset + PA) / Multiplier
-                    double rawAngle = range360((Options::pAOffset() + m_TargetPositionAngle) / Options::pAMultiplier());
-                    absAngle->at(0)->setValue(rawAngle);
-                    ClientManager *clientManager = m_Rotator->getDriverInfo()->getClientManager();
-                    clientManager->sendNewProperty(absAngle);
-                    appendLogText(i18n("Setting position angle to %1 degrees E of N...", m_TargetPositionAngle));
-                    setState(ALIGN_ROTATING);
-                    emit newStatus(state);
-                    return true;
+                    // Go to 'updateProperty()' (where the same check is executed again)
+                    if(fabs(RotatorUtils::DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60 > Options::astrometryRotatorThreshold())
+                    {
+                        // newSolverResults() -> capture: setAlignresult() -> RS: refresh()
+                        emit newSolverResults(m_TargetPositionAngle, 0, 0, 0);
+                        appendLogText(i18n("Setting camera position angle to %1 degrees ...", m_TargetPositionAngle));
+                        setState(ALIGN_ROTATING);
+                        emit newStatus(state);
+                        return true;
+                    }
+                    else
+                    {
+                        appendLogText(i18n("Camera position angle is within acceptable range."));
+                        // We're done! (Opposed to 'updateProperty()')
+                        m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
+                    }
                 }
             }
-            else if (std::isnan(m_TargetPositionAngle) == false)
+            else if (std::isnan(m_TargetPositionAngle) == false) // [Load & Slew] with manual rotator
             {
                 double current = currentRotatorPA;
                 double target = m_TargetPositionAngle;
@@ -2605,31 +2644,42 @@ void Align::updateProperty(INDI::Property prop)
     else if (prop.isNameMatch("ABS_ROTATOR_ANGLE"))
     {
         auto nvp = prop.getNumber();
-        // 1. PA = (RawAngle * Multiplier) - Offset
-        currentRotatorPA = SolverUtils::rangePA( (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset());
-        if (std::isnan(m_TargetPositionAngle) == false && nvp->s == IPS_OK)
-        {
-            auto diff = fabs(currentRotatorPA - m_TargetPositionAngle) * 60;
+        currentRotatorPA = RotatorUtils::calcCameraAngle(nvp->np[0].value, false);
+        /*QString logtext = "Alignstate: " + QString::number(state)
+                        + " IPSstate: " + QString::number(nvp->s)
+                        + " Raw Rotator Angle:" + QString::number(nvp->np[0].value)
+                        + " Current PA:" + QString::number(currentRotatorPA)
+                        + " Target PA:" + QString::number(m_TargetPositionAngle)
+                        + " Offset:" + QString::number(Options::pAOffset());
+        appendLogText(logtext);*/
+        // loadSlewTarget defined if activation through [Load & Slew] and rotator just reached position
+        if (std::isnan(m_TargetPositionAngle) == false && state == ALIGN_ROTATING && nvp->s == IPS_OK)
+        {      
+            auto diff = fabs(RotatorUtils::DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60;
             qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
-                                       << "Target PA:" << m_TargetPositionAngle << "Diff (arcmin):" << diff << "Offset:" << Options::pAOffset();
+                                       << "Target PA:" << m_TargetPositionAngle << "Diff (arcmin):" << diff << "Offset:"
+                                       << Options::pAOffset();
 
             if (diff <= Options::astrometryRotatorThreshold())
             {
-                appendLogText(i18n("Rotator reached target position angle."));
-                targetAccuracyNotMet = true;
-                m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
-                QTimer::singleShot(alignSettlingTime->value(), this, &Ekos::Align::executeGOTO);
+                appendLogText(i18n("Rotator reached camera position angle."));
+                // Check angle once again (no slew -> no settle time)
+                // QTimer::singleShot(alignSettlingTime->value(), this, &Ekos::Align::executeGOTO);
+                executeGOTO();
             }
-            // If close, but not quite there
-            else if (diff <= Options::astrometryRotatorThreshold() * 2)
-            {
-                appendLogText(i18n("Rotator failed to arrive at the requested position angle. Check power, backlash, or obstructions."));
-            }
-            // If very far off, then we might need to reverse direction
             else
-            {
-                appendLogText(
-                    i18n("Rotator failed to arrive at the requested position angle. Try to reverse rotation direction in Rotator Settings."));
+            {   // Sometimes update of "nvp->s" is a bit slow, so check state again, if it's really ok
+                QTimer::singleShot(300, [=]
+                    {
+                    if (nvp->s == IPS_OK)
+                    {
+                        appendLogText(i18n("Rotator failed to arrive at the requested position angle (Deviation %1 arcmin).", diff));
+                        setState(ALIGN_FAILED);
+                        emit newStatus(state);
+                        solveB->setEnabled(true);
+                        loadSlewB->setEnabled(true);
+                    }
+                });
             }
         }
     }
@@ -2733,10 +2783,21 @@ void Align::Slew()
 
     // JM 2019-08-23: Do not assume that slew was started immediately. Wait until IPS_BUSY state is triggered
     // from Goto
-    m_Mount->Slew(&m_TargetCoord);
-    slewStartTimer.start();
-    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", m_TargetCoord.ra().toHMSString(),
+    if (m_Mount->Slew(&m_TargetCoord))
+    {
+        slewStartTimer.start();
+        appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", m_TargetCoord.ra().toHMSString(),
                        m_TargetCoord.dec().toDMSString()));
+    }
+    else // inform user about failure
+    {
+        appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see notification)", m_TargetCoord.ra().toHMSString(),
+                       m_TargetCoord.dec().toDMSString()));
+        setState(ALIGN_FAILED);
+        emit newStatus(state);
+        solveB->setEnabled(true);
+        loadSlewB->setEnabled(true);
+    }
 }
 
 void Align::SlewToTarget()
@@ -2829,6 +2890,7 @@ bool Align::loadAndSlew(QString fileURL)
     m_CurrentGotoMode = GOTO_SLEW;
 
     solveB->setEnabled(false);
+    loadSlewB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();
 
@@ -2855,6 +2917,7 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
     slewR->setChecked(true);
     m_CurrentGotoMode = GOTO_SLEW;
     solveB->setEnabled(false);
+    loadSlewB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();
 
@@ -2969,6 +3032,33 @@ void Align::checkFilter()
     alignFilter->addItems(m_FilterManager->getFilterLabels());
     currentFilterPosition = m_FilterManager->getFilterPosition();
     alignFilter->setCurrentIndex(currentFilterPosition - 1);
+}
+
+void Align::setRotator(ISD::Rotator * Device)
+{
+    if ((Manager::Instance()->existRotatorController()) && (!m_Rotator || !(Device == m_Rotator)))
+    {
+        rotatorB->setEnabled(false);
+        if (m_Rotator)
+        {
+            m_Rotator->disconnect(this);
+            m_RotatorControlPanel->close();
+        }
+        m_Rotator = Device;
+        if (m_Rotator)
+        {
+            if (Manager::Instance()->getRotatorController(m_Rotator->getDeviceName(), m_RotatorControlPanel))
+            {
+                connect(m_Rotator, &ISD::Rotator::propertyUpdated, this, &Ekos::Align::updateProperty, Qt::UniqueConnection);
+                connect(rotatorB, &QPushButton::clicked, this, [this]()
+                {
+                    m_RotatorControlPanel->show();
+                    m_RotatorControlPanel->raise();
+                });
+                rotatorB->setEnabled(true);
+            }
+        }
+    }
 }
 
 void Align::setWCSEnabled(bool enable)
@@ -3153,7 +3243,18 @@ void Align::setMountStatus(ISD::Mount::Status newState)
 {
     switch (newState)
     {
+        case ISD::Mount::MOUNT_PARKED:
+            solveB->setEnabled(false);
+            loadSlewB->setEnabled(false);
+            break;
+        case ISD::Mount::MOUNT_IDLE:
+            solveB->setEnabled(true);
+            loadSlewB->setEnabled(true);
+            break;
         case ISD::Mount::MOUNT_PARKING:
+            solveB->setEnabled(false);
+            loadSlewB->setEnabled(false);
+            break;
         case ISD::Mount::MOUNT_SLEWING:
         case ISD::Mount::MOUNT_MOVING:
             solveB->setEnabled(false);
@@ -3188,23 +3289,6 @@ void Align::setAstrometryDevice(const QSharedPointer<ISD::GenericDevice> &device
     }
 }
 
-bool Align::setRotator(ISD::Rotator * device)
-{
-    if (device == m_Rotator)
-        return false;
-
-    if (m_Rotator)
-        m_Rotator->disconnect(this);
-
-    m_Rotator = device;
-
-    if (!m_Rotator)
-        return false;
-
-    connect(m_Rotator, &ISD::Rotator::propertyUpdated, this, &Ekos::Align::updateProperty, Qt::UniqueConnection);
-    return true;
-}
-
 void Align::refreshAlignOptions()
 {
     solverFOV->setImageDisplay(Options::astrometrySolverWCS());
@@ -3223,7 +3307,7 @@ void Align::setupOptions()
     connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
     KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("StellarSolver Options"));
     page->setIcon(QIcon(":/icons/StellarSolverIcon.png"));
-    connect(rotatorB, &QPushButton::clicked, dialog, &KConfigDialog::show);
+    // connect(rotatorB, &QPushButton::clicked, dialog, &KConfigDialog::show);
 
     opsPrograms = new OpsPrograms(this);
     page = dialog->addPage(opsPrograms, i18n("External & Online Programs"));

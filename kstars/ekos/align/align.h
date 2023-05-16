@@ -18,6 +18,7 @@
 #include "indi/indidome.h"
 #include "ksuserdb.h"
 #include "ekos/auxiliary/darkprocessor.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 #include <QTime>
 #include <QTimer>
@@ -39,6 +40,7 @@ class AlignView;
 class FOV;
 class StarObject;
 class ProfileInfo;
+class RotatorSettings;
 
 namespace Ekos
 {
@@ -226,9 +228,8 @@ class Align : public QWidget, public Ui::Align
         /**
              * @brief Add new Rotator
              * @param device pointer to rotator device.
-             * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool setRotator(ISD::Rotator *device);
+        void setRotator(ISD::Rotator *device);
 
         void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
 
@@ -512,6 +513,7 @@ class Align : public QWidget, public Ui::Align
 
         // Manual Rotator Dialog
         void toggleManualRotator(bool toggled);
+
         /**
          * @brief checkIfRotationRequired Check whether we need to perform an ALIGN_ROTATING action, whether manual or automatic.
          * @return True if rotation is required as per the settings, false is not required.
@@ -596,7 +598,7 @@ class Align : public QWidget, public Ui::Align
         void settingsUpdated(const QVariantMap &settings);
 
         // Manual Rotator
-        void manualRotatorChanged(double currentPA, double targetPA, double threshold);
+        void manualRotatorChanged(double currentPA, double targetPA, double pixscale);
 
     private:
 
@@ -701,6 +703,8 @@ class Align : public QWidget, public Ui::Align
          */
         void setupPolarAlignmentAssistant();
 
+        void setupRotatorControl();
+
         /**
          * @brief initManualRotator Initialize Manual Rotator Tool
          */
@@ -735,6 +739,8 @@ class Align : public QWidget, public Ui::Align
         bool m_SolveFromFile { false };
         // Target Position Angle of solver Load&Slew image to be used for rotator if necessary
         double m_TargetPositionAngle { std::numeric_limits<double>::quiet_NaN() };
+        // Target Pierside of solver Load&Slew image to be used
+        ISD::Mount::PierSide m_TargetPierside = ISD::Mount::PIER_UNKNOWN;
         double currentRotatorPA { -1 };
         /// Solver iterations count
         uint8_t solverIterations { 0 };
@@ -758,6 +764,8 @@ class Align : public QWidget, public Ui::Align
         double m_FOVHeight { 0 };
         double m_FOVPixelScale { 0 };
 
+        // Keep raw rotator angle
+        double sRawAngle { INVALID_VALUE };
         // Keep track of solver results
         double sOrientation { INVALID_VALUE };
         double sRA { INVALID_VALUE };
@@ -906,6 +914,9 @@ class Align : public QWidget, public Ui::Align
 
         // Filter Manager
         QSharedPointer<FilterManager> m_FilterManager;
+
+        // Rotator Control
+        QSharedPointer<RotatorSettings> m_RotatorControlPanel;
 
         // Settings
         QVariantMap m_Settings;

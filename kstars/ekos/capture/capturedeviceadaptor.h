@@ -120,6 +120,11 @@ public:
         void setRotatorAngle(double *rawAngle);
 
         /**
+         * @brief Get the rotator's angle
+         */
+        double getRotatorAngle();
+
+        /**
          * @brief reverseRotator Toggle rotation reverse
          * @param toggled If true, reverse rotator normal direction. If false, use rotator normal direction.
          */

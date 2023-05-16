@@ -337,8 +337,7 @@ void SequenceJobState::prepareRotatorCheck()
         if (isInitialized(CaptureModuleState::ACTION_ROTATOR))
         {
             prepareActions[CaptureModuleState::ACTION_ROTATOR] = false;
-            // RawAngle = PA + Offset / Multiplier -> see Capture::Capture()
-            double rawAngle = (targetPositionAngle + Options::pAOffset()) / Options::pAMultiplier();
+            double rawAngle = RotatorUtils::calcRotatorAngle(targetPositionAngle);
             emit prepareState(CAPTURE_SETTING_ROTATOR);
             emit setRotatorAngle(&rawAngle);
         }
@@ -733,15 +732,12 @@ void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
 
 void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPState state)
 {
-    // PA = RawAngle * Multiplier - Offset -> see Capture::Capture()
-    double currentPositionAngle = range360(rotatorAngle * Options::pAMultiplier() - Options::pAOffset());
-    if (currentPositionAngle > 180)
-        currentPositionAngle -= 360.0;
+    double currentPositionAngle = RotatorUtils::calcCameraAngle(rotatorAngle, false);
 
     if (isInitialized(CaptureModuleState::ACTION_ROTATOR))
     {
         // TODO introduce settle time
-        // TODO make sure rotator has fully stopped
+        // TODO make sure rotator has fully stopped -> see 'align.cpp' captureAndSolve()
         if (fabs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
                 && state != IPS_BUSY)
             prepareActions[CaptureModuleState::ACTION_ROTATOR] = true;

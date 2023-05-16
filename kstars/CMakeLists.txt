@@ -204,6 +204,7 @@ if (INDI_FOUND)
             ekos/auxiliary/filtermanager.cpp
             ekos/auxiliary/tabledelegate.cpp
             ekos/auxiliary/opslogs.cpp
+	    ekos/auxiliary/rotatorutils.cpp
             ekos/auxiliary/stellarsolverprofileeditor.cpp
             ekos/auxiliary/stellarsolverprofile.cpp
             ekos/auxiliary/solverutils.cpp

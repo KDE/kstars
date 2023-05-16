@@ -20,6 +20,7 @@
 #include "auxiliary/portselector.h"
 #include "ksnotification.h"
 #include "auxiliary/opslogs.h"
+#include "ekos/capture/rotatorsettings.h"
 
 #include <QDialog>
 #include <QHash>
@@ -71,6 +72,7 @@ class Align;
 class Guide;
 class Mount;
 class Observatory;
+// class RotatorSettings;
 
 class Manager : public QDialog, public Ui::Manager
 {
@@ -142,6 +144,11 @@ class Manager : public QDialog, public Ui::Manager
         // Filter Manager
         void createFilterManager(ISD::FilterWheel *device);
         bool getFilterManager(const QString &name, QSharedPointer<FilterManager> &fm);
+
+        // Rotator Control
+        void createRotatorController(const QString &Name);
+        bool getRotatorController(const QString &Name, QSharedPointer<RotatorSettings> &rs);
+        bool existRotatorController();
 
         QString getCurrentJobName();
         void announceEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
@@ -563,6 +570,7 @@ class Manager : public QDialog, public Ui::Manager
         QTimer m_PortSelectorTimer;
 
         QMap<QString, QSharedPointer<FilterManager>> m_FilterManagers;
+        QMap<QString, QSharedPointer<RotatorSettings>> m_RotatorControllers;
 
         // Logs
         QPointer<OpsLogs> opsLogs;

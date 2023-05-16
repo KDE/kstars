@@ -10,6 +10,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+//#include "ekos/capture/rotatorsettings.h"
 #include "rotatorsettings.h"
 #include "sequencejob.h"
 #include "placeholderpath.h"
@@ -87,8 +88,6 @@ Capture::Capture()
 
     //isAutoGuiding   = false;
 
-    m_RotatorControlPanel.reset(new RotatorSettings(Manager::Instance()));
-
     // hide avg. download time and target drift initially
     targetDriftLabel->setVisible(false);
     targetDrift->setVisible(false);
@@ -96,30 +95,6 @@ Capture::Capture()
     avgDownloadTime->setVisible(false);
     avgDownloadLabel->setVisible(false);
     secLabel->setVisible(false);
-    connect(m_RotatorControlPanel->setRawAngleB, &QPushButton::clicked, this, [this]()
-    {
-        double angle = m_RotatorControlPanel->targetRawAngle();
-        m_captureDeviceAdaptor->setRotatorAngle(&angle);
-    });
-    connect(m_RotatorControlPanel->setPositionAngleB, &QPushButton::clicked, this, [this]()
-    {
-        // 1. PA = (RawAngle * Multiplier) - Offset
-        // 2. Offset = (RawAngle * Multiplier) - PA
-        // 3. RawAngle = (Offset + PA) / Multiplier
-        double rawAngle = (m_RotatorControlPanel->adjustedOffset() + m_RotatorControlPanel->targetPositionAngle()) /
-                          Options::pAMultiplier();
-        while (rawAngle < 0)
-            rawAngle += 360;
-        while (rawAngle > 360)
-            rawAngle -= 360;
-
-        m_RotatorControlPanel->setTargetRawAngle(rawAngle);
-        m_captureDeviceAdaptor->setRotatorAngle(&rawAngle);
-    });
-    connect(m_RotatorControlPanel->ReverseDirectionCheck, &QCheckBox::toggled, this, [this](bool toggled)
-    {
-        m_captureDeviceAdaptor->reverseRotator(toggled);
-    });
 
     seqFileCount = 0;
     seqDelayTimer = new QTimer(this);
@@ -219,7 +194,7 @@ Capture::Capture()
             &Capture::checkFrameType);
     connect(resetFrameB, &QPushButton::clicked, this, &Capture::resetFrame);
     connect(calibrationB, &QPushButton::clicked, this, &Capture::openCalibrationDialog);
-    connect(rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Capture::show);
+    // connect(rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Capture::show);
 
     connect(generateDarkFlatsB, &QPushButton::clicked, this, &Capture::generateDarkFlats);
     connect(scriptManagerB, &QPushButton::clicked, this, &Capture::handleScriptsManager);
@@ -252,7 +227,7 @@ Capture::Capture()
     calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     generateDarkFlatsB->setIcon(QIcon::fromTheme("tools-wizard"));
     generateDarkFlatsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
+    // rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
     rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
@@ -723,39 +698,42 @@ bool Capture::setMount(ISD::Mount *device)
     m_captureDeviceAdaptor->getMount()->disconnect(this);
     connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::newTargetName, this, &Capture::setTargetName);
 
-    m_RotatorControlPanel->setCurrentPierSide(device->pierSide());
-    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::pierSideChanged, m_RotatorControlPanel.get(),
-            &RotatorSettings::setCurrentPierSide);
     syncTelescopeInfo();
     return true;
 }
 
-bool Capture::setRotator(ISD::Rotator * device)
+void Capture::setRotator(ISD::Rotator * device)
 {
-    if (m_Rotator && m_Rotator == device)
+    if (m_Mount) // rotator initializing depends on present mount process
     {
-        rotatorB->setEnabled(true);
-        return false;
+        if (!m_Rotator || !(m_Rotator == device))
+        {
+            rotatorB->setEnabled(false);
+            if (m_Rotator)
+            {
+                m_Rotator->disconnect(this);
+                m_RotatorControlPanel->close();
+            }
+            m_Rotator = device;
+            if (m_Rotator)
+            {
+                Manager::Instance()->createRotatorController(m_Rotator->getDeviceName());
+                Manager::Instance()->getRotatorController(m_Rotator->getDeviceName(), m_RotatorControlPanel);
+                m_RotatorControlPanel->initRotator(m_captureDeviceAdaptor.get(), m_Rotator->getDeviceName());
+                m_captureDeviceAdaptor->setRotator(device);
+                connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::rotatorReverseToggled,
+                        this,
+                        &Capture::setRotatorReversed,
+                        Qt::UniqueConnection);
+                connect(rotatorB, &QPushButton::clicked, this, [this]()
+                {
+                    m_RotatorControlPanel->show();
+                    m_RotatorControlPanel->raise();
+                });
+                rotatorB->setEnabled(true);
+            }
+        }
     }
-
-    if (m_Rotator)
-        m_Rotator->disconnect(this);
-
-    m_Rotator = device;
-
-    if (!m_Rotator)
-    {
-        rotatorB->setEnabled(false);
-        return false;
-    }
-
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::rotatorReverseToggled, this,
-            &Capture::setRotatorReversed,
-            Qt::UniqueConnection);
-
-    m_captureDeviceAdaptor->setRotator(device);
-    rotatorB->setEnabled(true);
-    return true;
 }
 
 bool Capture::setLightBox(ISD::LightBox *device)
@@ -2738,8 +2716,12 @@ void Capture::updateCCDTemperature(double value)
 
 void Capture::updateRotatorAngle(double value)
 {
-    // Update widget rotator position
-    m_RotatorControlPanel->setCurrentRawAngle(value);
+    IPState RState = m_captureDeviceAdaptor->getRotator()->absoluteAngleState();
+    // appendLogText(i18n("Rotator IPState: #%1 Angle: %2", RState, value));
+    if (RState == IPS_OK)
+        m_RotatorControlPanel->updateRotator(value);
+    else
+        m_RotatorControlPanel->updateGauge(value);
 }
 
 bool Capture::addSequenceJob()
@@ -2838,7 +2820,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
 
     if (m_captureDeviceAdaptor->getRotator() && m_RotatorControlPanel->isRotationEnforced())
     {
-        job->setTargetRotation(m_RotatorControlPanel->targetPositionAngle());
+        job->setTargetRotation(m_RotatorControlPanel->getCameraPA());
     }
 
     job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
@@ -3442,8 +3424,8 @@ void Capture::updatePrepareState(CaptureState prepareState)
             break;
 
         case CAPTURE_SETTING_ROTATOR:
-            appendLogText(i18n("Setting rotation to %1 degrees E of N...", activeJob->getTargetRotation()));
-            captureStatusWidget->setStatus(i18n("Set Rotator to %1 deg...", activeJob->getTargetRotation()), Qt::yellow);
+            appendLogText(i18n("Setting camera to %1 degrees E of N...", activeJob->getTargetRotation()));
+            captureStatusWidget->setStatus(i18n("Set Camera to %1 deg...", activeJob->getTargetRotation()), Qt::yellow);
             break;
 
         default:
@@ -3612,12 +3594,11 @@ void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
 
 void Capture::setRotatorReversed(bool toggled)
 {
-    m_RotatorControlPanel->ReverseDirectionCheck->setEnabled(true);
+    m_RotatorControlPanel->reverseDirection->setEnabled(true);
 
-    m_RotatorControlPanel->ReverseDirectionCheck->blockSignals(true);
-    m_RotatorControlPanel->ReverseDirectionCheck->setChecked(toggled);
-    m_RotatorControlPanel->ReverseDirectionCheck->blockSignals(false);
-
+    m_RotatorControlPanel->reverseDirection->blockSignals(true);
+    m_RotatorControlPanel->reverseDirection->setChecked(toggled);
+    m_RotatorControlPanel->reverseDirection->blockSignals(false);
 }
 
 void Capture::setTargetName(const QString &name)
@@ -3939,10 +3920,10 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
             if (captureISOS)
                 captureISOS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
-        else if (!strcmp(tagXMLEle(ep), "Rotation"))
+        else if (!strcmp(tagXMLEle(ep), "Rotation") && (m_RotatorControlPanel))
         {
             m_RotatorControlPanel->setRotationEnforced(true);
-            m_RotatorControlPanel->setTargetPositionAngle(cLocale.toDouble(pcdataXMLEle(ep)));
+            m_RotatorControlPanel->setCameraPA(cLocale.toDouble(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Properties"))
         {
@@ -4413,13 +4394,16 @@ void Capture::syncGUIToJob(SequenceJob * job)
     else
         captureOffsetN->setValue(OffsetSpinSpecialValue);
 
-    if (job->getTargetRotation() != Ekos::INVALID_VALUE)
+    if (m_RotatorControlPanel) // only if rotator is registered
     {
-        m_RotatorControlPanel->setRotationEnforced(true);
-        m_RotatorControlPanel->setTargetPositionAngle(job->getTargetRotation());
+        if (job->getTargetRotation() != Ekos::INVALID_VALUE)
+        {
+            m_RotatorControlPanel->setRotationEnforced(true);
+            m_RotatorControlPanel->setCameraPA(job->getTargetRotation());
+        }
+        else
+            m_RotatorControlPanel->setRotationEnforced(false);
     }
-    else
-        m_RotatorControlPanel->setRotationEnforced(false);
 
     // hide target drift if align check frequency is == 0
     if (Options::alignCheckFrequency() == 0)
@@ -5532,18 +5516,14 @@ void Capture::showObserverDialog()
     Options::setDefaultObserver(m_ObserverName);
 }
 
-
-void Capture::setAlignResults(double orientation, double ra, double de, double pixscale)
+void Capture::setAlignResults(double solverPA, double ra, double de, double pixscale)
 {
-    Q_UNUSED(orientation)
     Q_UNUSED(ra)
     Q_UNUSED(de)
     Q_UNUSED(pixscale)
-
     if (m_captureDeviceAdaptor->getRotator() == nullptr)
         return;
-
-    m_RotatorControlPanel->refresh();
+    m_RotatorControlPanel->refresh(solverPA);
 }
 
 void Capture::setFilterStatus(FilterState filterState)
@@ -6468,6 +6448,9 @@ void Capture::refreshOpticalTrain()
 
         opticalTrainCombo->setCurrentText(name);
 
+        auto mount = OpticalTrainManager::Instance()->getMount(name);
+        setMount(mount);
+
         auto camera = OpticalTrainManager::Instance()->getCamera(name);
         if (camera)
         {
@@ -6488,8 +6471,6 @@ void Capture::refreshOpticalTrain()
         auto lightbox = OpticalTrainManager::Instance()->getLightBox(name);
         setLightBox(lightbox);
 
-        auto mount = OpticalTrainManager::Instance()->getMount(name);
-        setMount(mount);
     }
 
     opticalTrainCombo->blockSignals(false);

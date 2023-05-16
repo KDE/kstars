@@ -10,6 +10,7 @@
 #include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
 #include "sequencejobstate.h"
+// #include "ekos/manager.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
 #include "ekos/ekos.h"
@@ -20,6 +21,7 @@
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
 #include "ekos/auxiliary/darkprocessor.h"
+#include "ekos/auxiliary/rotatorutils.h"
 #include "dslrinfodialog.h"
 #include "ui_limits.h"
 
@@ -67,6 +69,7 @@ class RotatorSettings;
  */
 namespace Ekos
 {
+
 class SequenceJob;
 
 /**
@@ -357,9 +360,8 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief Add new Rotator
          * @param device pointer to rotator device.
-         * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool setRotator(ISD::Rotator *device);
+        void setRotator(ISD::Rotator *device);
 
         // Restart driver
         void reconnectDriver(const QString &camera, const QString &filterWheel);
@@ -398,6 +400,14 @@ class Capture : public QWidget, public Ui::Capture
         void setOpticalTrain(const QString &value)
         {
             opticalTrainCombo->setCurrentText(value);
+        }
+
+        // ////////////////////////////////////////////////////////////////////
+        // Rotator
+        // ////////////////////////////////////////////////////////////////////
+        const QSharedPointer<RotatorSettings> &RotatorControl() const
+        {
+            return m_RotatorControlPanel;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -506,6 +516,8 @@ class Capture : public QWidget, public Ui::Capture
          * @param model Name of camera driver in the DSLR database.
          */
         void syncDSLRToTargetChip(const QString &model);
+
+        QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
 
     public slots:
         // ////////////////////////////////////////////////////////////////////
@@ -789,8 +801,9 @@ class Capture : public QWidget, public Ui::Capture
         void setGuideStatus(GuideState state);
 
         // Align
-        void setAlignStatus(AlignState state);
-        void setAlignResults(double orientation, double ra, double de, double pixscale);
+
+        void setAlignStatus(Ekos::AlignState state);
+        void setAlignResults(double solverPA, double ra, double de, double pixscale);
 
         // Update Mount module status
         void setMountStatus(ISD::Mount::Status newState);
@@ -1236,7 +1249,6 @@ class Capture : public QWidget, public Ui::Capture
         // Currently active sequence job.
         // DO NOT SET IT MANUALLY, USE {@see setActiveJob()} INSTEAD!
         SequenceJob *activeJob { nullptr };
-        QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
         QSharedPointer<CaptureModuleState> m_captureModuleState;
 
         QPointer<QDBusInterface> mountInterface;
@@ -1291,9 +1303,6 @@ class Capture : public QWidget, public Ui::Capture
         QProcess m_CaptureScript;
         uint8_t m_CaptureScriptType {0};
 
-        // Rotator Settings
-        std::unique_ptr<RotatorSettings> m_RotatorControlPanel;
-
         std::unique_ptr<CustomProperties> customPropertiesDialog;
         std::unique_ptr<DSLRInfo> dslrInfoDialog;
 
@@ -1314,9 +1323,11 @@ class Capture : public QWidget, public Ui::Capture
         QVariantMap m_Metadata;
 
         QSharedPointer<FilterManager> m_FilterManager;
+        QSharedPointer<RotatorSettings> m_RotatorControlPanel;
 
         bool FilterEnabled {false};
         bool ExpEnabled {false};
         bool TimeStampEnabled {false};
 };
+
 }
