@@ -115,7 +115,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rotator gauge displays the actual camera position angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount of the rotator in order to have a reasonable display.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rotator gauge displays the actual camera position angle (yellow) and the raw rotator angle (gray). To calibrate the rotator, capture and solve an image in the Align module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">selection-background-color: rgb(46, 52, 54);</string>
@@ -200,7 +200,7 @@
            </font>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the angle of the camera upright direction (see FOV) respective to the rotator origin direction. The camera offset is determined automatically by a &amp;quot;Capture &amp;amp; Solve&amp;quot; or a &amp;quot;Load&amp;amp;Slew&amp;quot; in the Align module. &lt;/p&gt;&lt;p&gt;The camera offset is measured in position angle scope (-179.99° to 180.00°).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The angle of the camera upright direction (see FOV) respective to the rotator origin direction. The camera offset is determined automatically by a &lt;span style=&quot; font-weight:700;&quot;&gt;Capture &amp;amp; Solve&lt;/span&gt; or a &lt;span style=&quot; font-weight:700;&quot;&gt;Load &amp;amp; Slew&lt;/span&gt; in the Align module. &lt;/p&gt;&lt;p&gt;The camera offset is measured in position angle scope (-179.99° to 180.00°).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Camera Offset</string>
@@ -215,7 +215,7 @@
            </font>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The current pierside of the mount. The red frame indicates an unknown pierside. This is normal if the mount is parked. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The current pierside of the mount. A red frame indicates an unknown pierside. This is normal if the mount is parked. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Current Pierside</string>
@@ -332,8 +332,11 @@
             <height>22</height>
            </size>
           </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -363,7 +366,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Setting the camera position angle will move the rotator. The gauge reflects the state ot the rotator. Depending on the accuracy of the rotator there can be some deviation in the ending position angle.&lt;/p&gt;&lt;p&gt;If the checkbox 'Save Camera Position Angle to Sequence Job' is toggled, the rotator is activated on execution of the job.&lt;/p&gt;&lt;p&gt;The position angle is measured from North counter-clockwise to the direction in question (see astrometry.net)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Setting the camera position angle shall move the rotator. The gauge reflects the state ot the rotator. Depending on the accuracy of the rotator there can be some deviation in the ending position angle.&lt;/p&gt;&lt;p&gt;If &lt;span style=&quot; font-weight:700;&quot;&gt;Save Camera Position Angle to Sequence Job&lt;/span&gt; is toggled, any subsequent jobs added to the sequence queue would always rotate to this position angle before capture begins.&lt;/p&gt;&lt;p&gt;The position angle is measured East of North in degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Camera Position Angle</string>
@@ -474,15 +477,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QRoundProgressBar</class>
-   <extends>QWidget</extends>
-   <header>QRoundProgressBar.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>auxiliary/qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QRoundProgressBar</class>
+   <extends>QWidget</extends>
+   <header>QRoundProgressBar.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

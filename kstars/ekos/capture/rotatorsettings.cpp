@@ -30,7 +30,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 
     // -- Camera position angle
     CameraPA->setKeyboardTracking(false);
-    connect(CameraPA, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,  [=](double PAngle)
+    connect(CameraPA, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,  [ = ](double PAngle)
     {
         double RAngle = m_RotatorUtils->calcRotatorAngle(PAngle);
         RotatorAngle->setValue(RAngle);
@@ -51,7 +51,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 
     // -- Options
     // enforceJobPA -> header file
-    connect(reverseDirection,  &QCheckBox::toggled, this, [=](bool toggled)
+    connect(reverseDirection,  &QCheckBox::toggled, this, [ = ](bool toggled)
     {
         commitRotatorDirection(toggled);
     });
@@ -98,7 +98,7 @@ void RotatorSettings::initRotator(Ekos::CaptureDeviceAdaptor *CaptureDA, QString
 {
     m_RotatorUtils->initRotatorUtils();
     // Setting name
-    RotatorName->setText("- " + RName +" -");
+    RotatorName->setText(RName);
     // Setting angle & gauge
     m_CaptureDA = CaptureDA;
     RotatorAngle->setValue(CaptureDA->getRotatorAngle());
