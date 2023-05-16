@@ -64,6 +64,7 @@ constexpr double halfTimelineHeight = 0.35;
 // They index the graphs in statsPlot, e.g. statsPlot->graph(HFR_GRAPH)->addData(...)
 int HFR_GRAPH = -1;
 int TEMPERATURE_GRAPH = -1;
+int FOCUS_POSITION_GRAPH = -1;
 int NUM_CAPTURE_STARS_GRAPH = -1;
 int MEDIAN_GRAPH = -1;
 int ECCENTRICITY_GRAPH = -1;
@@ -700,6 +701,11 @@ void Analyze::addTemperature(double temperature, double time)
         statsPlot->graph(TEMPERATURE_GRAPH)->addData(time, temperature);
 }
 
+void Analyze::addFocusPosition(double focusPosition, double time)
+{
+    statsPlot->graph(FOCUS_POSITION_GRAPH)->addData(time, focusPosition);
+}
+
 void Analyze::addTargetDistance(double targetDistance, double time)
 {
     // The target distance corresponds to the last capture
@@ -858,6 +864,18 @@ double Analyze::processInputLine(const QString &line)
         const QString curve = list.size() > 4 ? list[4] : "";
         const QString title = list.size() > 5 ? list[5] : "";
         processAutofocusComplete(time, filter, samples, curve, title, true);
+    }
+    else if ((list[0] == "AdaptiveFocusComplete") && (list.size() == 9))
+    {
+        const QString filter = list[2];
+        double temperature = QString(list[3]).toDouble(&ok);
+        const int tempTicks = QString(list[4]).toInt(&ok);
+        double altitude = QString(list[5]).toDouble(&ok);
+        const int altTicks = QString(list[6]).toInt(&ok);
+        const int totalTicks = QString(list[7]).toInt(&ok);
+        const int position = QString(list[8]).toInt(&ok);
+        processAdaptiveFocusComplete(time, filter, temperature, tempTicks,
+                                     altitude, altTicks, totalTicks, position, true);
     }
     else if ((list[0] == "AutofocusAborted") && (list.size() == 4))
     {
@@ -1078,6 +1096,25 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
     }
 }
 
+Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect,
+                                    const QString &filter_, double temperature_, int tempTicks_, double altitude_,
+                                    int altTicks_, int totalTicks_, int position_)
+    : Session(start_, end_, FOCUS_Y, rect), temperature(temperature_), filter(filter_), tempTicks(tempTicks_),
+      altitude(altitude_), altTicks(altTicks_), totalTicks(totalTicks_), adaptedPosition(position_)
+{
+    standardSession = false;
+}
+
+double Analyze::FocusSession::focusPosition()
+{
+    if (!standardSession)
+        return adaptedPosition;
+
+    if (positions.size() > 0)
+        return positions.last();
+    return 0;
+}
+
 // When the user clicks on a particular capture session in the timeline,
 // a table is rendered in the details section, and, if it was a double click,
 // the fits file is displayed, if it can be found.
@@ -1117,6 +1154,21 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
     }
 }
 
+namespace
+{
+QString getSign(int val)
+{
+    if (val == 0) return "";
+    else if (val > 0) return "+";
+    else return "-";
+}
+QString signedIntString(int val)
+{
+    return QString("%1%2").arg(getSign(val)).arg(abs(val));
+}
+}
+
+
 // When the user clicks on a focus session in the timeline,
 // a table is rendered in the details section, and the HFR/position plot
 // is displayed in the graphics plot. If focus is ongoing
@@ -1125,6 +1177,20 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(c.offset, c.start, c.end);
+
+    if (!c.standardSession)
+    {
+        // This is an adaptive focus session
+        c.setupTable("Focus", "Adaptive", clockTime(c.end), clockTime(c.end), detailsTable);
+        c.addRow("Filter", c.filter);
+        addDetailsRow(detailsTable, "Temperature", Qt::yellow, QString("%1°").arg(c.temperature, 0, 'f', 1),
+                      Qt::white, signedIntString(c.tempTicks));
+        addDetailsRow(detailsTable, "Altitude", Qt::yellow, QString("%1°").arg(c.altitude, 0, 'f', 1),
+                      Qt::white, signedIntString(c.altTicks));
+        addDetailsRow(detailsTable, "Position", Qt::yellow, QString::number(c.adaptedPosition),
+                      Qt::white, signedIntString(c.totalTicks));
+        return;
+    }
 
     if (c.success)
         c.setupTable("Focus", "successful", clockTime(c.start), clockTime(c.end), detailsTable);
@@ -1685,7 +1751,7 @@ void Analyze::updateStatsValues()
     updateStat(time, decPulseOut, statsPlot->graph(DEC_PULSE_GRAPH), intFcn);
     updateStat(time, numCaptureStarsOut, statsPlot->graph(NUM_CAPTURE_STARS_GRAPH), intFcn, true);
     updateStat(time, medianOut, statsPlot->graph(MEDIAN_GRAPH), intFcn, true);
-
+    updateStat(time, focusPositionOut, statsPlot->graph(FOCUS_POSITION_GRAPH), intFcn);
 
     auto pierFcn = [](double d) -> QString
     {
@@ -1704,6 +1770,7 @@ void Analyze::initStatsCheckboxes()
     skyBgCB->setChecked(Options::analyzeSkyBg());
     snrCB->setChecked(Options::analyzeSNR());
     temperatureCB->setChecked(Options::analyzeTemperature());
+    focusPositionCB->setChecked(Options::focusPosition());
     targetDistanceCB->setChecked(Options::analyzeTargetDistance());
     raCB->setChecked(Options::analyzeRA());
     decCB->setChecked(Options::analyzeDEC());
@@ -2087,6 +2154,10 @@ void Analyze::initStatsPlot()
     QCPAxis *temperatureAxis = newStatsYAxis(shortName, -40, 40);
     TEMPERATURE_GRAPH = initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "Temperature", shortName,
                                        temperatureCB, Options::setAnalyzeTemperature, temperatureOut);
+    shortName = "focus";
+    QCPAxis *focusPositionAxis = newStatsYAxis(shortName);
+    FOCUS_POSITION_GRAPH = initGraphAndCB(statsPlot, focusPositionAxis, QCPGraph::lsStepLeft, Qt::lightGray, "Focus", shortName,
+                                          focusPositionCB, Options::setFocusPosition, focusPositionOut);
     shortName = "tDist";
     QCPAxis *targetDistanceAxis = newStatsYAxis(shortName, 0, 60);
     TARGET_DISTANCE_GRAPH = initGraphAndCB(statsPlot, targetDistanceAxis, QCPGraph::lsLine,
@@ -2209,6 +2280,7 @@ void Analyze::reset()
     skyBgOut->setText("");
     snrOut->setText("");
     temperatureOut->setText("");
+    focusPositionOut->setText("");
     targetDistanceOut->setText("");
     eccentricityOut->setText("");
     medianOut->setText("");
@@ -2637,6 +2709,40 @@ void Analyze::processAutofocusStarting(double time, double temperature, const QS
     }
 }
 
+void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks,
+                                    double altitude, int altTicks, int totalTicks, int position)
+{
+    saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7").arg(filter).arg(temperature, 0, 'f', 2)
+                .arg(tempTicks).arg(altitude, 0, 'f', 2).arg(altTicks).arg(totalTicks).arg(position));
+
+    if (runtimeDisplay)
+        processAdaptiveFocusComplete(logTime(), filter, temperature, tempTicks, altitude, altTicks, totalTicks, position);
+}
+
+void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, double temperature, int tempTicks,
+        double altitude, int altTicks, int totalTicks, int position, bool batchMode)
+{
+    removeTemporarySession(&temporaryFocusSession);
+    QBrush stripe;
+    // Making the interval "time-1 -> time" since adaptive focus is a quick process and want to make it visible.
+    if (filterStripeBrush(filter, &stripe))
+        addSession(time - 1, time, FOCUS_Y, successBrush, &stripe);
+    else
+        addSession(time - 1, time, FOCUS_Y, successBrush, nullptr);
+    auto session = FocusSession(time - 1, time, nullptr,
+                                filter, temperature, tempTicks, altitude, altTicks, totalTicks, position);
+    focusSessions.add(session);
+    addFocusPosition(position, time);
+    updateMaxX(time);
+    if (!batchMode)
+    {
+        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+            focusSessionClicked(session, false);
+        replot();
+    }
+    autofocusStartedTime = -1;
+}
+
 void Analyze::autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &title)
 {
     if (curve.size() == 0)
@@ -2662,6 +2768,7 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
     auto session = FocusSession(autofocusStartedTime, time, nullptr, true,
                                 autofocusStartedTemperature, filter, points, curve, title);
     focusSessions.add(session);
+    addFocusPosition(session.focusPosition(), autofocusStartedTime);
     updateMaxX(time);
     if (!batchMode)
     {

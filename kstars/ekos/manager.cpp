@@ -3076,6 +3076,8 @@ void Manager::connectModules()
     {
         connect(focusProcess.get(), &Ekos::Focus::autofocusComplete,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusComplete, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::adaptiveFocusComplete,
+                analyzeProcess.get(), &Ekos::Analyze::adaptiveFocusComplete, Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::autofocusStarting,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusStarting, Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::autofocusAborted,

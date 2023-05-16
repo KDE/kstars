@@ -931,16 +931,19 @@ void Focus::adaptiveFocus()
     // have an error of < 1 tick but we need to keep track of these as adaptive focus will be called many
     // times between autofocus runs and we don't want these errors to add up to something significant.
     const double tempTicksPlusLastError = tempTicksDelta + m_LastAdaptiveFocusTempError;
-    const int tempTicksInt = static_cast<int> (round(tempTicksPlusLastError));
+    m_LastAdaptiveFocusTempTicks = static_cast<int> (round(tempTicksPlusLastError));
 
     const double altTicksPlusLastError = altTicksDelta + m_LastAdaptiveFocusAltError;
-    const int altTicksInt = static_cast<int> (round(altTicksPlusLastError));
+    m_LastAdaptiveFocusAltTicks = static_cast<int> (round(altTicksPlusLastError));
 
-    const int totalTicksDelta = tempTicksInt + altTicksInt;
-    appendLogText(i18n("Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks", tempTicksInt, altTicksInt));
+    m_LastAdaptiveFocusTotalTicks = m_LastAdaptiveFocusTempTicks + m_LastAdaptiveFocusAltTicks;
+    m_LastAdaptiveFocusPosition = currentPosition + m_LastAdaptiveFocusTotalTicks;
+
+    appendLogText(i18n("Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks", m_LastAdaptiveFocusTempTicks,
+                       m_LastAdaptiveFocusAltTicks));
 
     // Check movement is above user defined minimum
-    if (abs(totalTicksDelta) < focusAdaptiveMinMove->value())
+    if (abs(m_LastAdaptiveFocusTotalTicks) < focusAdaptiveMinMove->value())
     {
         emit focusAdaptiveComplete(true);
         inAdaptiveFocus = false;
@@ -948,7 +951,7 @@ void Focus::adaptiveFocus()
     else
     {
         // Now do some checks that the movement is permitted
-        if (abs(initialFocuserAbsPosition - currentPosition + totalTicksDelta) > focusMaxTravel->value())
+        if (abs(initialFocuserAbsPosition - currentPosition + m_LastAdaptiveFocusTotalTicks) > focusMaxTravel->value())
         {
             // We are about to move the focuser beyond adaptive focus max move so don't
             // Suspend adaptive focusing can always re-enable, if required
@@ -957,7 +960,7 @@ void Focus::adaptiveFocus()
             emit focusAdaptiveComplete(false);
             inAdaptiveFocus = false;
         }
-        else if (abs(m_AdaptiveTotalMove + totalTicksDelta) > focusAdaptiveMaxMove->value())
+        else if (abs(m_AdaptiveTotalMove + m_LastAdaptiveFocusTotalTicks) > focusAdaptiveMaxMove->value())
         {
             // We are about to move the focuser beyond adaptive focus max move so don't
             // Suspend adaptive focusing. User can always re-enable, if required
@@ -969,15 +972,16 @@ void Focus::adaptiveFocus()
         else
         {
             // Go ahead and try to move the focuser. First setup an overscan movement
-            appendLogText(i18n("Adaptive Focus moving from %1 to %2", currentPosition, currentPosition + totalTicksDelta));
-            if (changeFocus(totalTicksDelta))
+            appendLogText(i18n("Adaptive Focus moving from %1 to %2", currentPosition,
+                               currentPosition + m_LastAdaptiveFocusTotalTicks));
+            if (changeFocus(m_LastAdaptiveFocusTotalTicks))
             {
                 // All good so update variables for next time
                 m_LastAdaptiveFocusTemperature = currentTemp;
-                m_LastAdaptiveFocusTempError = tempTicksPlusLastError - static_cast<double> (tempTicksInt);
+                m_LastAdaptiveFocusTempError = tempTicksPlusLastError - static_cast<double> (m_LastAdaptiveFocusTempTicks);
                 m_LastAdaptiveFocusAlt = currentAlt;
-                m_LastAdaptiveFocusAltError = altTicksPlusLastError - static_cast<double> (altTicksInt);
-                m_AdaptiveTotalMove += totalTicksDelta;
+                m_LastAdaptiveFocusAltError = altTicksPlusLastError - static_cast<double> (m_LastAdaptiveFocusAltTicks);
+                m_AdaptiveTotalMove += m_LastAdaptiveFocusTotalTicks;
             }
             else
             {
@@ -3724,6 +3728,10 @@ void Focus::updateProperty(INDI::Property prop)
                 if (focuserAdditionalMovement == 0)
                 {
                     inAdaptiveFocus = false;
+                    // Signal Analyze with details of
+                    emit adaptiveFocusComplete(filter(), m_LastAdaptiveFocusTemperature, m_LastAdaptiveFocusTempTicks, m_LastAdaptiveFocusAlt,
+                                               m_LastAdaptiveFocusAltTicks, m_LastAdaptiveFocusTotalTicks, m_LastAdaptiveFocusPosition);
+
                     QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
                     {
                         emit focusAdaptiveComplete(true);

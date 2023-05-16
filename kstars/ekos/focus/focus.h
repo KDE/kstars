@@ -497,6 +497,8 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points, const QString &curve = "", const QString &title = "");
         void autofocusAborted(const QString &filter, const QString &points);
+        void adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks, double altitude, int altTicks,
+                                   int totalTicks, int position);
 
         // HFR V curve plot events
         /**
@@ -1080,8 +1082,12 @@ class Focus : public QWidget, public Ui::Focus
         // Adaptive focusing
         double m_LastAdaptiveFocusTemperature { INVALID_VALUE };
         double m_LastAdaptiveFocusAlt { INVALID_VALUE };
+        int m_LastAdaptiveFocusAltTicks { INVALID_VALUE };
         double m_LastAdaptiveFocusTempError { 0.0 };
+        int m_LastAdaptiveFocusTempTicks { INVALID_VALUE };
         double m_LastAdaptiveFocusAltError { 0.0 };
+        int m_LastAdaptiveFocusTotalTicks { INVALID_VALUE };
+        int m_LastAdaptiveFocusPosition { INVALID_VALUE };
         int m_AdaptiveTotalMove { 0 };
 
         static constexpr uint8_t MAXIMUM_FLUCTUATIONS {10};

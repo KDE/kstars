@@ -2859,6 +2859,10 @@
       <whatsthis>Display the ambient temperature on the Analyze Statistics Plot.</whatsthis>
       <default>false</default>
     </entry>
+    <entry name="FocusPosition" type="Bool">
+      <whatsthis>Display the autofocus solution position.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="AnalyzeNumStars" type="Bool">
       <whatsthis>Display NumStars on the Analyze Statistics Plot.</whatsthis>
       <default>false</default>
