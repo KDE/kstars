@@ -3731,10 +3731,13 @@ void Focus::updateProperty(INDI::Property prop)
 
             if (m_RestartState == RESTART_NOW && status() != Ekos::FOCUS_ABORTED)
             {
-                m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
-                appendLogText(i18n("Restarting autofocus process..."));
-                start();
+                if (focuserAdditionalMovement == 0)
+                {
+                    m_RestartState = RESTART_NONE;
+                    inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                    appendLogText(i18n("Restarting autofocus process..."));
+                    start();
+                }
             }
             else if (m_RestartState == RESTART_ABORT)
             {
@@ -3808,10 +3811,13 @@ void Focus::updateProperty(INDI::Property prop)
         // restart if focus movement has finished
         if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
-            appendLogText(i18n("Restarting autofocus process..."));
-            start();
+            if (focuserAdditionalMovement == 0)
+            {
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                appendLogText(i18n("Restarting autofocus process..."));
+                start();
+            }
         }
         else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
         {
@@ -3870,10 +3876,13 @@ void Focus::updateProperty(INDI::Property prop)
         // restart if focus movement has finished
         if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
-            appendLogText(i18n("Restarting autofocus process..."));
-            start();
+            if (focuserAdditionalMovement == 0)
+            {
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                appendLogText(i18n("Restarting autofocus process..."));
+                start();
+            }
         }
         else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
         {
@@ -3900,10 +3909,13 @@ void Focus::updateProperty(INDI::Property prop)
         // restart if focus movement has finished
         if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
-            appendLogText(i18n("Restarting autofocus process..."));
-            start();
+            if (focuserAdditionalMovement == 0)
+            {
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                appendLogText(i18n("Restarting autofocus process..."));
+                start();
+            }
         }
         else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
         {
