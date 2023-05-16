@@ -2286,7 +2286,10 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
 
             KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"),
                                   KSNotification::Focus);
-            emit autofocusComplete(filter(), analysis_results);
+            if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && curveFitting != nullptr)
+                emit autofocusComplete(filter(), analysis_results, curveFitting->serialize(), linearFocuser->getTextStatus(R2));
+            else
+                emit autofocusComplete(filter(), analysis_results);
         }
     }
     else

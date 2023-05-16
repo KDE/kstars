@@ -145,11 +145,13 @@ class Analyze : public QWidget, public Ui::Analyze
                 double temperature;
                 QString filter;
                 QString points;
+                QString curve;
+                QString title;
                 QVector<double> positions; // Double to be more friendly to QCustomPlot addData.
                 QVector<double> hfrs;
                 FocusSession() : Session(0, 0, FOCUS_Y, nullptr) {}
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
-                             const QString &filter_, const QString &points_);
+                             const QString &filter_, const QString &points_, const QString &curve_, const QString &title_);
         };
 
     public slots:
@@ -168,7 +170,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // From Focus
         void autofocusStarting(double temperature, const QString &filter);
-        void autofocusComplete(const QString &filter, const QString &points);
+        void autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &title);
         void autofocusAborted(const QString &filter, const QString &points);
         void newTemperature(double temperatureDelta, double temperature);
 
@@ -206,7 +208,7 @@ class Analyze : public QWidget, public Ui::Analyze
                                     double hfr, int numStars, int median, double eccentricity, bool batchMode = false);
         void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false);
         void processAutofocusStarting(double time, double temperature, const QString &filter, bool batchMode = false);
-        void processAutofocusComplete(double time, const QString &filter, const QString &points, bool batchMode = false);
+        void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve, const QString &title, bool batchMode = false);
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode = false);
         void processTemperature(double time, double temperature, bool batchMode = false);
         void processGuideState(double time, const QString &state, bool batchMode = false);
@@ -335,7 +337,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void initInputSelection();
 
         // Displays the focus positions and HFRs on the graphics plot.
-        void displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, bool success);
+        void displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, const QString &curve, const QString &title, bool success);
         // Displays the guider ra and dec drift plot, and computes RMS errors.
         void displayGuideGraphics(double start, double end, double *raRMS,
                                   double *decRMS, double *totalRMS, int *numSamples);

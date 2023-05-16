@@ -97,6 +97,11 @@ class CurveFitting
 
         // Constructor just initialises the object
         CurveFitting();
+
+        // A constructor that reconstructs a previously built object.
+        // Does not implement getting the original data points.
+        CurveFitting(const QString &serialized);
+
         // fitCurve takes in the vectors with the position, hfr and weight (e.g. variance in HFR) values
         // along with the type of curve to use and whether or not to use weights in the calculation
         // It fits the curve and solves for the coefficients.
@@ -201,6 +206,10 @@ class CurveFitting
         // Calculate the deltas of each datapoint from the curve
         void calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair<int, double>> &curveDeltas);
 
+        // Returns a QString which can be used to construct an identical object.
+        // Does not implement getting the original data points.
+        QString serialize() const;
+
     private:
         // TODO: This function will likely go when Linear and L1P merge to be closer.
         // Calculates the value of the polynomial at x. Params will be cast to a CurveFit*.
@@ -242,6 +251,9 @@ class CurveFitting
         // Calculation engine for the R-squared which is a measure of how well the curve fits the datapoints
         double calcR2(const QVector<double> dataPoints, const QVector<double> curvePoints, const QVector<double> scale,
                       const bool useWeights);
+
+        // Used in the QString constructor.
+        bool recreateFromQString(const QString &serialized);
 
         // Type of curve
         CurveFit m_CurveType;

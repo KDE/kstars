@@ -635,6 +635,11 @@ CurveFitting::CurveFitting()
     m_FirstSolverRun = true;
 }
 
+CurveFitting::CurveFitting(const QString &serialized)
+{
+    recreateFromQString(serialized);
+}
+
 void CurveFitting::fitCurve(const FittingGoal goal, const QVector<int> &x_, const QVector<double> &y_,
                             const QVector<double> &weight_, const QVector<bool> &outliers_,
                             const CurveFit curveFit, const bool useWeights, const OptimisationDirection optDir)
@@ -1795,4 +1800,82 @@ void CurveFitting::calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair
             break;
     }
 }
+
+namespace
+{
+QString serializeDoubleVector(const QVector<double> &vector)
+{
+    QString str = QString("%1").arg(vector.size());
+    for (const double v : vector)
+        str.append(QString(";%1").arg(v));
+    return str;
+}
+
+bool decodeDoubleVector(const QString serialized, QVector<double> *vector)
+{
+    vector->clear();
+    const QStringList parts = serialized.split(';');
+    if (parts.size() == 0) return false;
+    bool ok;
+    int size = parts[0].toInt(&ok);
+    if (!ok || (size != parts.size() - 1)) return false;
+    for (int i = 0; i < size; ++i)
+    {
+        const double val = parts[i + 1].toDouble(&ok);
+        if (!ok) return false;
+        vector->append(val);
+    }
+    return true;
+}
+}
+
+QString CurveFitting::serialize() const
+{
+    QString serialized = "";
+    if (m_FirstSolverRun) return serialized;
+    serialized = QString("%1").arg(int(m_CurveType));
+    serialized.append(QString("|%1").arg(serializeDoubleVector(m_x)));
+    serialized.append(QString("|%1").arg(serializeDoubleVector(m_y)));
+    serialized.append(QString("|%1").arg(serializeDoubleVector(m_scale)));
+    serialized.append(QString("|%1").arg(m_useWeights ? "T" : "F"));
+    // m_dataPoints not implemented. Not needed for graphing.
+    serialized.append(QString("|m_dataPoints not implemented"));
+    serialized.append(QString("|%1").arg(serializeDoubleVector(m_coefficients)));
+    serialized.append(QString("|%1").arg(int(m_LastCurveType)));
+    serialized.append(QString("|%1").arg(serializeDoubleVector(m_LastCoefficients)));
+    return serialized;
+}
+
+bool CurveFitting::recreateFromQString(const QString &serialized)
+{
+    QStringList parts = serialized.split('|');
+    bool ok = false;
+    if (parts.size() != 9) return false;
+
+    int val = parts[0].toInt(&ok);
+    if (!ok) return false;
+    m_CurveType = static_cast<CurveFit>(val);
+
+    if (!decodeDoubleVector(parts[1], &m_x)) return false;
+    if (!decodeDoubleVector(parts[2], &m_y)) return false;
+    if (!decodeDoubleVector(parts[3], &m_scale)) return false;
+
+    if (parts[4] == "T") m_useWeights = true;
+    else if (parts[4] == "F") m_useWeights = false;
+    else return false;
+
+    // parts[5]: m_dataPoints not implemented.
+
+    if (!decodeDoubleVector(parts[6], &m_coefficients)) return false;
+
+    val = parts[7].toInt(&ok);
+    if (!ok) return false;
+    m_LastCurveType = static_cast<CurveFit>(val);
+
+    if (!decodeDoubleVector(parts[8], &m_LastCoefficients)) return false;
+
+    m_FirstSolverRun = false;
+    return true;
+}
+
 }  // namespace

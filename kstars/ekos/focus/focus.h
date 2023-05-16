@@ -495,7 +495,7 @@ class Focus : public QWidget, public Ui::Focus
 
         // Signals for Analyze.
         void autofocusStarting(double temperature, const QString &filter);
-        void autofocusComplete(const QString &filter, const QString &points);
+        void autofocusComplete(const QString &filter, const QString &points, const QString &curve = "", const QString &title = "");
         void autofocusAborted(const QString &filter, const QString &points);
 
         // HFR V curve plot events

@@ -15,6 +15,7 @@
 #include "auxiliary/kspaths.h"
 #include "dms.h"
 #include "ekos/manager.h"
+#include "ekos/focus/curvefit.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsviewer.h"
 #include "ksmessagebox.h"
@@ -87,6 +88,7 @@ int TARGET_DISTANCE_GRAPH = -1;
 // Initialized in initGraphicsPlot().
 int FOCUS_GRAPHICS = -1;
 int FOCUS_GRAPHICS_FINAL = -1;
+int FOCUS_GRAPHICS_CURVE = -1;
 int GUIDER_GRAPHICS = -1;
 
 // Brushes used in the timeline plot.
@@ -849,11 +851,13 @@ double Analyze::processInputLine(const QString &line)
             return 0;
         processAutofocusStarting(time, temperature, filter, true);
     }
-    else if ((list[0] == "AutofocusComplete") && (list.size() == 4))
+    else if ((list[0] == "AutofocusComplete") && (list.size() >= 4))
     {
-        QString filter = list[2];
-        QString samples = list[3];
-        processAutofocusComplete(time, filter, samples, true);
+        const QString filter = list[2];
+        const QString samples = list[3];
+        const QString curve = list.size() > 4 ? list[4] : "";
+        const QString title = list.size() > 5 ? list[5] : "";
+        processAutofocusComplete(time, filter, samples, curve, title, true);
     }
     else if ((list[0] == "AutofocusAborted") && (list.size() == 4))
     {
@@ -1046,9 +1050,9 @@ bool Analyze::Session::isTemporary() const
 // The focus session parses the "pipe-separate-values" list of positions
 // and HFRs given it, eventually to be used to plot the focus v-curve.
 Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
-                                    const QString &filter_, const QString &points_)
+                                    const QString &filter_, const QString &points_, const QString &curve_, const QString &title_)
     : Session(start_, end_, FOCUS_Y, rect), success(ok),
-      temperature(temperature_), filter(filter_), points(points_)
+      temperature(temperature_), filter(filter_), points(points_), curve(curve_), title(title_)
 {
     const QStringList list = points.split(QLatin1Char('|'));
     const int size = list.size();
@@ -1146,7 +1150,7 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
     if (c.isTemporary())
         resetGraphicsPlot();
     else
-        displayFocusGraphics(c.positions, c.hfrs, c.success);
+        displayFocusGraphics(c.positions, c.hfrs, c.curve, c.title, c.success);
 }
 
 // When the user clicks on a guide session in the timeline,
@@ -1754,12 +1758,13 @@ void setupAxisDefaults(QCPAxis *axis)
     axis->setBasePen(QPen(Qt::white, 1));
     axis->grid()->setPen(QPen(QColor(140, 140, 140, 140), 1, Qt::DotLine));
     axis->grid()->setSubGridPen(QPen(QColor(40, 40, 40), 1, Qt::DotLine));
-    axis->grid()->setZeroLinePen(QPen(Qt::white, 1));
+    axis->grid()->setZeroLinePen(Qt::NoPen);
     axis->setBasePen(QPen(Qt::white, 1));
     axis->setTickPen(QPen(Qt::white, 1));
     axis->setSubTickPen(QPen(Qt::white, 1));
     axis->setTickLabelColor(Qt::white);
     axis->setLabelColor(Qt::white);
+    axis->grid()->setVisible(true);
 }
 
 // Generic initialization of a plot, applied to all plots in this tab.
@@ -2242,6 +2247,8 @@ void Analyze::initGraphicsPlot()
                                      QCPGraph::lsNone, Qt::cyan, "FocusBest");
     graphicsPlot->graph(FOCUS_GRAPHICS_FINAL)->setScatterStyle(
         QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::yellow, Qt::yellow, 14));
+    FOCUS_GRAPHICS_CURVE = initGraph(graphicsPlot, graphicsPlot->yAxis,
+                                     QCPGraph::lsLine, Qt::white, "FocusCurve");
     graphicsPlot->setInteractions(QCP::iRangeZoom);
     graphicsPlot->setInteraction(QCP::iRangeDrag, true);
 
@@ -2252,7 +2259,8 @@ void Analyze::initGraphicsPlot()
         QCPScatterStyle(QCPScatterStyle::ssStar, Qt::gray, 5));
 }
 
-void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, bool success)
+void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs,
+                                   const QString &curve, const QString &title, bool success)
 {
     resetGraphicsPlot();
     auto graph = graphicsPlot->graph(FOCUS_GRAPHICS);
@@ -2282,10 +2290,34 @@ void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVect
         textLabel->setPen(Qt::NoPen);
         textLabel->setColor(Qt::red);
     }
+
     const double xRange = maxPosition - minPosition;
-    const double yRange = maxHfr - minHfr;
-    graphicsPlot->xAxis->setRange(minPosition - xRange * .2, maxPosition + xRange * .2);
-    graphicsPlot->yAxis->setRange(minHfr - yRange * .2, maxHfr + yRange * .2);
+
+    // Draw the curve, if given.
+    if (curve.size() > 0)
+    {
+        CurveFitting curveFitting(curve);
+        const double interval = xRange / 20.0;
+        auto curveGraph = graphicsPlot->graph(FOCUS_GRAPHICS_CURVE);
+        for (double x = minPosition ; x < maxPosition ; x += interval)
+            curveGraph->addData(x, curveFitting.f(x));
+    }
+
+    auto plotTitle = new QCPItemText(graphicsPlot);
+    plotTitle->setColor(QColor(255, 255, 255));
+    plotTitle->setPositionAlignment(Qt::AlignTop | Qt::AlignHCenter);
+    plotTitle->position->setType(QCPItemPosition::ptAxisRectRatio);
+    plotTitle->position->setCoords(0.5, 0);
+    plotTitle->setFont(QFont(font().family(), 10));
+    plotTitle->setVisible(true);
+    plotTitle->setText(title);
+
+    // Set the same axes ranges as are used in focushfrvplot.cpp.
+    const double upper = 1.5 * maxHfr;
+    const double lower = minHfr - (0.25 * (upper - minHfr));
+    const double xPadding = hfrs.size() > 0 ? xRange / hfrs.size() : 10;
+    graphicsPlot->xAxis->setRange(minPosition - xPadding, maxPosition + xPadding);
+    graphicsPlot->yAxis->setRange(lower, upper);
     graphicsPlot->replot();
 }
 
@@ -2605,14 +2637,21 @@ void Analyze::processAutofocusStarting(double time, double temperature, const QS
     }
 }
 
-void Analyze::autofocusComplete(const QString &filter, const QString &points)
+void Analyze::autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &title)
 {
-    saveMessage("AutofocusComplete", QString("%1,%2").arg(filter, points));
+    if (curve.size() == 0)
+        saveMessage("AutofocusComplete", QString("%1,%2").arg(filter, points));
+    else if (title.size() == 0)
+        saveMessage("AutofocusComplete", QString("%1,%2,%3").arg(filter, points, curve));
+    else
+        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4").arg(filter, points, curve, title));
+
     if (runtimeDisplay && autofocusStartedTime >= 0)
-        processAutofocusComplete(logTime(), filter, points);
+        processAutofocusComplete(logTime(), filter, points, curve, title);
 }
 
-void Analyze::processAutofocusComplete(double time, const QString &filter, const QString &points, bool batchMode)
+void Analyze::processAutofocusComplete(double time, const QString &filter, const QString &points,
+                                       const QString &curve, const QString &title, bool batchMode)
 {
     removeTemporarySession(&temporaryFocusSession);
     QBrush stripe;
@@ -2621,7 +2660,7 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
     else
         addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
     auto session = FocusSession(autofocusStartedTime, time, nullptr, true,
-                                autofocusStartedTemperature, filter, points);
+                                autofocusStartedTemperature, filter, points, curve, title);
     focusSessions.add(session);
     updateMaxX(time);
     if (!batchMode)
@@ -2649,7 +2688,7 @@ void Analyze::processAutofocusAborted(double time, const QString &filter, const 
         // Just in case..
         addSession(autofocusStartedTime, time, FOCUS_Y, failureBrush);
         auto session = FocusSession(autofocusStartedTime, time, nullptr, false,
-                                    autofocusStartedTemperature, filter, points);
+                                    autofocusStartedTemperature, filter, points, "", "");
         focusSessions.add(session);
         updateMaxX(time);
         if (!batchMode)
