@@ -47,7 +47,8 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     });
 
     // Initialize node managers
-    QSharedPointer<NodeManager> onlineManager(new NodeManager(QUrl("https://live.stellarmate.com"), QUrl("wss://live.stellarmate.com")));
+    QSharedPointer<NodeManager> onlineManager(new NodeManager(QUrl("https://live.stellarmate.com"),
+            QUrl("wss://live.stellarmate.com")));
     connect(onlineManager.get(), &NodeManager::authenticationError, this, [this](const QString & message)
     {
         onlineLabel->setToolTip(message);
@@ -150,7 +151,9 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     });
 
     m_Media = new Media(m_Manager, m_NodeManagers);
+    connect(m_Media, &Media::connected, this, &Client::onConnected);
     m_Cloud = new Cloud(m_Manager, m_NodeManagers);
+    connect(m_Cloud, &Cloud::connected, this, &Client::onConnected);
 }
 
 Client::~Client()

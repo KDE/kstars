@@ -26,6 +26,7 @@ class Cloud : public QObject
         explicit Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &nodeManagers);
         virtual ~Cloud() = default;
 
+        bool isConnected() const;
         void registerCameras();
 
         // Ekos Cloud Message to User

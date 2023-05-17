@@ -56,7 +56,7 @@ bool Media::isConnected() const
 {
     return std::any_of(m_NodeManagers.begin(), m_NodeManagers.end(), [](auto & nodeManager)
     {
-        return nodeManager->message()->isConnected();
+        return nodeManager->media()->isConnected();
     });
 }
 

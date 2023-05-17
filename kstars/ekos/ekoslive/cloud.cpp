@@ -39,6 +39,17 @@ Cloud::Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &node
     connect(Options::self(), &Options::EkosLiveCloudChanged, this, &Cloud::updateOptions);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Cloud::isConnected() const
+{
+    return std::any_of(m_NodeManagers.begin(), m_NodeManagers.end(), [](auto & nodeManager)
+    {
+        return nodeManager->cloud() && nodeManager->cloud()->isConnected();
+    });
+}
+
 void Cloud::onConnected()
 {
     auto node = qobject_cast<Node*>(sender());
@@ -46,6 +57,8 @@ void Cloud::onConnected()
         return;
 
     qCInfo(KSTARS_EKOS) << "Connected to Cloud Websocket server at" << node->url().toDisplayString();
+
+    emit connected();
 }
 
 void Cloud::onDisconnected()
