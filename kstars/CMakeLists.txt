@@ -134,6 +134,9 @@ if (INDI_FOUND)
             ekos/capture/customproperties.ui
             ekos/capture/scriptsmanager.ui
             ekos/capture/limits.ui
+            # Exposure Calculator
+            ekos/capture/exposurecalculator/exposurecalculatordialog.ui
+            ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui            
             # Align
             ekos/align/align.ui
             ekos/align/opsastrometry.ui
@@ -227,7 +230,20 @@ if (INDI_FOUND)
             ekos/capture/customproperties.cpp
             ekos/capture/scriptsmanager.cpp
             ekos/capture/placeholderpath.cpp
-
+            
+            # Exposure Calculator
+            ekos/capture/exposurecalculator/exposurecalculatordialog.cpp
+            ekos/capture/exposurecalculator/calculatedgainsubexposuretime.cpp
+            ekos/capture/exposurecalculator/cameraexposureenvelope.cpp
+            ekos/capture/exposurecalculator/cameragainreadmode.cpp
+            ekos/capture/exposurecalculator/cameragainreadnoise.cpp
+            ekos/capture/exposurecalculator/fileutilitycameradata.cpp
+            ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp
+            ekos/capture/exposurecalculator/imagingcameradata.cpp
+            ekos/capture/exposurecalculator/optimalexposuredetail.cpp
+            ekos/capture/exposurecalculator/optimalexposurestack.cpp
+            ekos/capture/exposurecalculator/optimalsubexposurecalculator.cpp
+	        
             # Analyze
             ekos/analyze/analyze.cpp
             ekos/analyze/yaxistool.cpp

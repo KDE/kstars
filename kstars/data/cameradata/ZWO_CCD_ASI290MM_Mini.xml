@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExposureCalculatorCameraData>
+    <CameraDataClassVersion>1</CameraDataClassVersion>
+    <CameraId>ZWO CCD ASI290MM Mini</CameraId>
+    <SensorType>MONOCHROME</SensorType>
+    <GainSelectionType>NORMAL</GainSelectionType>
+    <CameraGainSelections>
+        <GainSelection>0</GainSelection>
+        <GainSelection>350</GainSelection>
+    </CameraGainSelections>
+    <CameraGainReadMode>
+        <GainReadModeNumber>0</GainReadModeNumber>
+        <GainReadModeName>Standard</GainReadModeName>
+        <CameraGainReadNoise>
+            <GainReadNoiseValue>
+                <Gain>0</Gain>
+                <ReadNoise>3.23</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>50</Gain>
+                <ReadNoise>2.66</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>59</Gain>
+                <ReadNoise>2.62</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>60</Gain>
+                <ReadNoise>1.66</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>100</Gain>
+                <ReadNoise>1.45</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>150</Gain>
+                <ReadNoise>1.29</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>200</Gain>
+                <ReadNoise>1.13</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>250</Gain>
+                <ReadNoise>1.11</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>300</Gain>
+                <ReadNoise>1.01</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>350</Gain>
+                <ReadNoise>0.96</ReadNoise>
+            </GainReadNoiseValue>
+        </CameraGainReadNoise>
+    </CameraGainReadMode>
+</ExposureCalculatorCameraData>

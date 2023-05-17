@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExposureCalculatorCameraData>
+    <CameraDataClassVersion>1</CameraDataClassVersion>
+    <CameraId>MI CCD C3</CameraId>
+    <SensorType>MONOCHROME</SensorType>
+    <GainSelectionType>NORMAL</GainSelectionType>
+    <CameraGainSelections>
+        <GainSelection>0</GainSelection>
+        <GainSelection>4030</GainSelection>
+    </CameraGainSelections>
+    <CameraGainReadMode>
+        <GainReadModeNumber>0</GainReadModeNumber>
+        <GainReadModeName>Standard</GainReadModeName>
+        <CameraGainReadNoise>
+            <GainReadNoiseValue>
+                <Gain>0</Gain>
+                <ReadNoise>3.51</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>2749</Gain>
+                <ReadNoise>3.15</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>2750</Gain>
+                <ReadNoise>1.46</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>4030</Gain>
+                <ReadNoise>1.39</ReadNoise>
+            </GainReadNoiseValue>
+        </CameraGainReadNoise>
+    </CameraGainReadMode>
+</ExposureCalculatorCameraData>

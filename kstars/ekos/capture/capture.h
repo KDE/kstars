@@ -517,6 +517,8 @@ class Capture : public QWidget, public Ui::Capture
          */
         void syncDSLRToTargetChip(const QString &model);
 
+		void openExposureCalculatorDialog();
+
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
 
     public slots:
@@ -931,6 +933,7 @@ class Capture : public QWidget, public Ui::Capture
 
         void trainChanged();
 
+
     private:
         // ////////////////////////////////////////////////////////////////////
         // capture process steps
@@ -1328,6 +1331,8 @@ class Capture : public QWidget, public Ui::Capture
         bool FilterEnabled {false};
         bool ExpEnabled {false};
         bool TimeStampEnabled {false};
+
+		
 };
 
 }

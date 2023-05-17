@@ -27,7 +27,7 @@
 #include "indi/indilistener.h"
 #include "oal/observeradd.h"
 #include "ekos/guide/guide.h"
-
+#include "exposurecalculator/exposurecalculatordialog.h"
 #include <basedevice.h>
 
 #include <ekos_capture_debug.h>
@@ -516,6 +516,8 @@ Capture::Capture()
         qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << targetNameT->text() << "because of user edit";
     });
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
+
+	connect(exposureCalcB, &QPushButton::clicked, this, &Capture::openExposureCalculatorDialog);
 
 }
 
@@ -6542,6 +6544,28 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         previewText.replace(separator, "/");
 
     return previewText;
+}
+
+void Capture::openExposureCalculatorDialog(){
+
+	qCInfo(KSTARS_EKOS_CAPTURE) << "Instantiating an Exposure Calculator";
+
+	// Learn how to read these from indi
+	double preferredSkyQuality = 20.5;  
+	double preferredFocalRatio = 6.0;
+
+	if (m_captureDeviceAdaptor->getActiveCamera() != nullptr){
+		qCInfo(KSTARS_EKOS_CAPTURE) << "set ExposureCalculator preferred camera to active camera id: " 
+			<< m_captureDeviceAdaptor->getActiveCamera()->getDeviceName();
+	}
+
+	ExposureCalculatorDialog *anExposureCalculatorDialog = 
+		new ExposureCalculatorDialog(this,preferredSkyQuality, 
+		preferredFocalRatio, 
+		m_captureDeviceAdaptor->getActiveCamera()->getDeviceName());
+	
+	anExposureCalculatorDialog->show();
+
 }
 
 }

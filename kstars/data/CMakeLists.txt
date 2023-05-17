@@ -213,6 +213,8 @@ install(FILES
     DESTINATION ${KSTARS_DATADIR}/kstars/skycultures/inuit
 )
 
+file(GLOB camera_files cameradata/*)
+install( FILES ${camera_files} DESTINATION ${KSTARS_DATADIR}/kstars/cameradata )
 
 add_subdirectory(fr)
 add_subdirectory(nds)

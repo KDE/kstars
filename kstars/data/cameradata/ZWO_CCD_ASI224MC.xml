@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExposureCalculatorCameraData>
+    <CameraDataClassVersion>1</CameraDataClassVersion>
+    <CameraId>ZWO CCD ASI224MC</CameraId>
+    <SensorType>COLOR</SensorType>
+    <GainSelectionType>NORMAL</GainSelectionType>
+    <CameraGainSelections>
+        <GainSelection>0</GainSelection>
+        <GainSelection>300</GainSelection>
+    </CameraGainSelections>
+    <CameraGainReadMode>
+        <GainReadModeNumber>0</GainReadModeNumber>
+        <GainReadModeName>Standard</GainReadModeName>
+        <CameraGainReadNoise>
+            <GainReadNoiseValue>
+                <Gain>0</Gain>
+                <ReadNoise>3.09</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>20</Gain>
+                <ReadNoise>2.71</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>59</Gain>
+                <ReadNoise>2.26</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>60</Gain>
+                <ReadNoise>1.6</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>70</Gain>
+                <ReadNoise>1.54</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>100</Gain>
+                <ReadNoise>1.34</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>150</Gain>
+                <ReadNoise>1.14</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>250</Gain>
+                <ReadNoise>0.93</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>300</Gain>
+                <ReadNoise>0.86</ReadNoise>
+            </GainReadNoiseValue>
+        </CameraGainReadNoise>
+    </CameraGainReadMode>
+</ExposureCalculatorCameraData>
