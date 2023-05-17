@@ -6,8 +6,6 @@
 
 #pragma once
 
-#ifndef OPTIMALEXPOSUREDETAIL_H
-#define OPTIMALEXPOSUREDETAIL_H
 #include <QAbstractItemModel>
 #include <QVector>
 #include "optimalexposurestack.h"
@@ -47,4 +45,3 @@ class OptimalExposureDetail
 }
 QT_END_NAMESPACE
 
-#endif // OPTIMALEXPOSUREDETAIL_H

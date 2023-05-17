@@ -6,11 +6,8 @@
 
 #pragma once
 
-#ifndef CALCULATEDGAINSUBEXPOSURETIME_H
-#define CALCULATEDGAINSUBEXPOSURETIME_H
-
 #include <QAbstractItemModel>
-QT_BEGIN_NAMESPACE
+
 namespace OptimalExposure
 {
 
@@ -33,6 +30,3 @@ class CalculatedGainSubExposureTime
 };
 
 }
-QT_END_NAMESPACE
-
-#endif // CALCULATEDGAINSUBEXPOSURETIME_H

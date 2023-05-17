@@ -1,8 +1,13 @@
-#ifndef GENERICFILTERDATA_H
-#define GENERICFILTERDATA_H
+/*
+    SPDX-FileCopyrightText: 2023 Joseph McGee <joseph.mcgee@sbcglobal.net>
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
+
+#pragma once
+
 #include <QAbstractItemModel>
 
-QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 
@@ -27,4 +32,4 @@ class GenericFilterData
 };
 }
 
-#endif // GENERICFILTERDATA_H
+

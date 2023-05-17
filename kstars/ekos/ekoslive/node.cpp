@@ -89,7 +89,8 @@ void Node::onDisconnected()
 
 void Node::onError(QAbstractSocket::SocketError error)
 {
-    qCritical(KSTARS_EKOS) << m_Name << "Websocket connection error from" << m_URL.toDisplayString() << ":" << m_WebSocket.errorString();
+    qCritical(KSTARS_EKOS) << m_Name << "Websocket connection error from" << m_URL.toDisplayString() << ":" <<
+                           m_WebSocket.errorString();
     if (error == QAbstractSocket::RemoteHostClosedError ||
             error == QAbstractSocket::ConnectionRefusedError)
     {

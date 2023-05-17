@@ -3482,7 +3482,7 @@ void Manager::createRotatorController(const QString &Name)
     if (m_RotatorControllers.contains(Name) == false)
     {
         QSharedPointer<RotatorSettings> newRC(new RotatorSettings(this));
-        m_RotatorControllers[Name]= newRC;
+        m_RotatorControllers[Name] = newRC;
     }
 }
 

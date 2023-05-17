@@ -90,9 +90,9 @@ void CaptureProcessOverlay::updateFrameData()
 void CaptureProcessOverlay::updateTargetDistance(double targetDiff)
 {
     // since the history is read only, we need to delete the last one and add it again.
-    FrameData lastFrame = m_captureHistory.getFrame(m_captureHistory.size()-1);
+    FrameData lastFrame = m_captureHistory.getFrame(m_captureHistory.size() - 1);
     lastFrame.targetdrift = targetDiff;
-    m_captureHistory.deleteFrame(m_captureHistory.size()-1);
+    m_captureHistory.deleteFrame(m_captureHistory.size() - 1);
     m_captureHistory.addFrame(lastFrame);
     updateFrameData();
 }

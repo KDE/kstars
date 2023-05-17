@@ -31,7 +31,7 @@ bool RotatorUtils::m_flippedMount = false;
 
 RotatorUtils::RotatorUtils() {}
 
-RotatorUtils::~RotatorUtils(){}
+RotatorUtils::~RotatorUtils() {}
 
 void RotatorUtils::initRotatorUtils()
 {
@@ -41,7 +41,7 @@ void RotatorUtils::initRotatorUtils()
             continue;
         if ((m_Mount = oneDevice->getMount()))
         {
-            connect(m_Mount, &ISD::Mount::pierSideChanged, [=] (ISD::Mount::PierSide Side)
+            connect(m_Mount, &ISD::Mount::pierSideChanged, [ = ] (ISD::Mount::PierSide Side)
             {
                 if (Side == m_CalPierside)
                     m_flippedMount = false;

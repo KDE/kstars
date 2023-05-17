@@ -67,7 +67,8 @@ GuideTargetPlot::GuideTargetPlot(QWidget *parent) : QCustomPlot (parent)
 
     addGraph();
     graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsNone);
-    graph(GuideGraph::G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(), 10));
+    graph(GuideGraph::G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle, QPen(Qt::yellow, 2), QBrush(),
+            10));
 
     setupNSEWLabels();
 

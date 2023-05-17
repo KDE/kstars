@@ -6,13 +6,10 @@
 
 #pragma once
 
-#ifndef CAMERAEXPOSUREENVELOPE_H
-#define CAMERAEXPOSUREENVELOPE_H
 #include <QAbstractItemModel>
 #include <QVector>
 #include "calculatedgainsubexposuretime.h"
 
-QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 class CameraExposureEnvelope
@@ -37,6 +34,3 @@ class CameraExposureEnvelope
 };
 
 }
-QT_END_NAMESPACE
-
-#endif // CAMERAEXPOSUREENVELOPE_H

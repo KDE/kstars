@@ -1,5 +1,10 @@
-#ifndef CAMERADATAFILEUTILITYDIALOG_H
-#define CAMERADATAFILEUTILITYDIALOG_H
+/*
+    SPDX-FileCopyrightText: 2023 Joseph McGee <joseph.mcgee@sbcglobal.net>
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
+
+#pragma once
 
 #include <QDialog>
 
@@ -19,4 +24,3 @@ private:
     Ui::CameraDataFileUtilityDialog *ui;
 };
 
-#endif // CAMERADATAFILEUTILITYDIALOG_H

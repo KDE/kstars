@@ -6,21 +6,16 @@
 
 #pragma once
 
-#ifndef FILEUTILITYCAMERADATA_H
-#define FILEUTILITYCAMERADATA_H
-
 #include <QAbstractItemModel>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QUrl>
 #include <QTimer>
+#include <QDialog>
 #include "imagingcameradata.h"
-#include "cameragainreadnoise.h"
-#include "fileutilitycameradatadialog.h"
 #include <kspaths.h>
 
-QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 class FileUtilityCameraData
@@ -49,6 +44,3 @@ class FileUtilityCameraData
         QString static const cameraDataRemoteRepository;
 };
 }
-
-QT_END_NAMESPACE
-#endif // FILEUTILITYCAMERADATA_H

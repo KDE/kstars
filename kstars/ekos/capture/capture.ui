@@ -782,7 +782,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Start an optimal sub-exposure calculator</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optimal sub-exposure calculator&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string/>
@@ -2237,7 +2237,6 @@ font-weight:bold;
              <widget class="QLabel" name="frameInfoLabel">
               <property name="font">
                <font>
-                <weight>50</weight>
                 <bold>false</bold>
                </font>
               </property>
@@ -2269,7 +2268,6 @@ font-weight:bold;
               </property>
               <property name="font">
                <font>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -2308,7 +2306,6 @@ font-weight:bold;
               </property>
               <property name="font">
                <font>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>

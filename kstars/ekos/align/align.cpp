@@ -2794,7 +2794,8 @@ void Align::Slew()
     }
     else // inform user about failure
     {
-        appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see notification)", m_TargetCoord.ra().toHMSString(),
+        appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see notification)",
+                           m_TargetCoord.ra().toHMSString(),
                            m_TargetCoord.dec().toDMSString()));
         setState(ALIGN_FAILED);
         emit newStatus(state);

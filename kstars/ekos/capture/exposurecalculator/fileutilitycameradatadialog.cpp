@@ -7,7 +7,7 @@
 #include <QLoggingCategory>
 #include <QDir>
 #include <QFile>
-#include "fileutilitycameradata.h"
+#include "fileutilitycameradatadialog.h"
 #include "ui_fileutilitycameradatadialog.h"
 
 #include <ekos_capture_debug.h>
@@ -16,8 +16,8 @@ FileUtilityCameraDataDialog::FileUtilityCameraDataDialog(
     QWidget *parent,
     const QString &aPreferredCameraId) :
     QDialog(parent),
-    aPreferredCameraId(aPreferredCameraId),
-    ui(new Ui::FileUtilityCameraDataDialog)
+    ui(new Ui::FileUtilityCameraDataDialog),
+    aPreferredCameraId(aPreferredCameraId)
 {
     ui->setupUi(this);
 

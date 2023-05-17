@@ -41,7 +41,8 @@ OpsLogs::OpsLogs() : QFrame(KStars::Instance())
 
     connect(showLogsB, &QPushButton::clicked, []()
     {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("logs")));
+        QDesktopServices::openUrl(QUrl::fromLocalFile(QDir(KSPaths::writableLocation(
+                                      QStandardPaths::AppLocalDataLocation)).filePath("logs")));
     });
 
     for (auto &b : modulesGroup->buttons())

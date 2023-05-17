@@ -1332,6 +1332,11 @@ class Capture : public QWidget, public Ui::Capture
         bool ExpEnabled {false};
         bool TimeStampEnabled {false};
 
+        double m_FocalLength {-1};
+        double m_Aperture {-1};
+        double m_FocalRatio {-1};
+        double m_Reducer = {-1};
+
 		
 };
 

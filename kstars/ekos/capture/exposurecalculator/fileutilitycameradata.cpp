@@ -19,10 +19,12 @@
 #include <QDirIterator>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+
 #include "fileutilitycameradata.h"
+#include "fileutilitycameradatadialog.h"
 #include "imagingcameradata.h"
 #include "cameragainreadnoise.h"
-#include "exposurecalculatordialog.h"
+
 #include <ekos_capture_debug.h>
 #include <kspaths.h>
 

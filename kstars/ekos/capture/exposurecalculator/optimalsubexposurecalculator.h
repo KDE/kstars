@@ -6,8 +6,6 @@
 
 #pragma once
 
-#ifndef OPTIMALSUBEXPOSURECALCULATOR_H
-#define OPTIMALSUBEXPOSURECALCULATOR_H
 #include <QAbstractItemModel>
 #include <QVector>
 #include "imagingcameradata.h"
@@ -15,7 +13,6 @@
 #include "cameraexposureenvelope.h"
 #include "optimalexposuredetail.h"
 
-QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 
@@ -74,6 +71,3 @@ class OptimalSubExposureCalculator
 };
 
 }
-QT_END_NAMESPACE
-
-#endif // OPTIMALSUBEXPOSURECALCULATOR_H

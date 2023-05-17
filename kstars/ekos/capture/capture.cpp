@@ -517,7 +517,7 @@ Capture::Capture()
     });
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
 
-	connect(exposureCalcB, &QPushButton::clicked, this, &Capture::openExposureCalculatorDialog);
+    connect(exposureCalcB, &QPushButton::clicked, this, &Capture::openExposureCalculatorDialog);
 
 }
 
@@ -6458,6 +6458,15 @@ void Capture::refreshOpticalTrain()
         {
             auto scope = OpticalTrainManager::Instance()->getScope(name);
             opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
+
+            m_FocalLength = scope["focal_length"].toDouble(-1);
+            m_Aperture = scope["aperture"].toDouble(-1);
+            m_FocalRatio = scope["focal_ratio"].toDouble(-1);
+            m_Reducer = OpticalTrainManager::Instance()->getReducer(name);
+
+            // DSLR Lens Aperture
+            if (m_Aperture < 0 && m_FocalRatio > 0)
+                m_Aperture = m_FocalLength * m_FocalRatio;
         }
         setCamera(camera);
 
@@ -6546,26 +6555,28 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
     return previewText;
 }
 
-void Capture::openExposureCalculatorDialog(){
+void Capture::openExposureCalculatorDialog()
+{
+    qCInfo(KSTARS_EKOS_CAPTURE) << "Instantiating an Exposure Calculator";
 
-	qCInfo(KSTARS_EKOS_CAPTURE) << "Instantiating an Exposure Calculator";
+    // Learn how to read these from indi
+    double preferredSkyQuality = 20.5;
 
-	// Learn how to read these from indi
-	double preferredSkyQuality = 20.5;  
-	double preferredFocalRatio = 6.0;
+    auto reducedFocalLength = m_Reducer * m_FocalLength;
+    auto reducedFocalRatio = m_FocalRatio > 0 ? m_FocalRatio : reducedFocalLength / m_Aperture;
 
-	if (m_captureDeviceAdaptor->getActiveCamera() != nullptr){
-		qCInfo(KSTARS_EKOS_CAPTURE) << "set ExposureCalculator preferred camera to active camera id: " 
-			<< m_captureDeviceAdaptor->getActiveCamera()->getDeviceName();
-	}
+    if (m_captureDeviceAdaptor->getActiveCamera() != nullptr)
+    {
+        qCInfo(KSTARS_EKOS_CAPTURE) << "set ExposureCalculator preferred camera to active camera id: "
+                                    << m_captureDeviceAdaptor->getActiveCamera()->getDeviceName();
+    }
 
-	ExposureCalculatorDialog *anExposureCalculatorDialog = 
-		new ExposureCalculatorDialog(this,preferredSkyQuality, 
-		preferredFocalRatio, 
-		m_captureDeviceAdaptor->getActiveCamera()->getDeviceName());
-	
-	anExposureCalculatorDialog->show();
-
+    QPointer<ExposureCalculatorDialog> anExposureCalculatorDialog(new ExposureCalculatorDialog(KStars::Instance(),
+            preferredSkyQuality,
+            reducedFocalRatio,
+            m_captureDeviceAdaptor->getActiveCamera()->getDeviceName()));
+    anExposureCalculatorDialog->setAttribute(Qt::WA_DeleteOnClose);
+    anExposureCalculatorDialog->show();
 }
 
 }

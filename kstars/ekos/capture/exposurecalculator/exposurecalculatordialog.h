@@ -6,9 +6,6 @@
 
 #pragma once
 
-#ifndef EXPOSURECALCULATORDIALOG_H
-#define EXPOSURECALCULATORDIALOG_H
-
 #include <QDialog>
 #include "optimalsubexposurecalculator.h"
 
@@ -23,18 +20,19 @@ class ExposureCalculatorDialog : public QDialog
 {
         Q_OBJECT
 
-    public:
-        // ExposureCalculatorDialog(QWidget *parent = nullptr);
+    public:        
         ExposureCalculatorDialog(QWidget *parent = nullptr,
                                  double aPreferredSkyQualityValue = 20.0,
                                  double aPreferredFocalRatioValue = 5.0,
-                                 const QString &aPreferredCameraId = "");
+                                 const QString &aPreferredCameraId = QString());
 
         ~ExposureCalculatorDialog();
 
     public slots:
-        void applyInitialInputs();  // This method is acting as a "fill-in" for initiating the calculator with data from KStars ekos/indi
-        void handleUserAdjustment();  // Change to gain, does not change exposure envelope, but does require recalculation of shot
+        // This method is acting as a "fill-in" for initiating the calculator with data from KStars ekos/indi
+        void applyInitialInputs();
+        // Change to gain, does not change exposure envelope, but does require recalculation of shot
+        void handleUserAdjustment();
 
     private slots:
         void on_downloadCameraB_clicked();
@@ -61,4 +59,3 @@ class ExposureCalculatorDialog : public QDialog
                                    const QString aPreferredCameraId);
 
 };
-#endif // EXPOSURECALCULATORDIALOG_H

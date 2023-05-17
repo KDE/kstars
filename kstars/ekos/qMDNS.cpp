@@ -11,7 +11,7 @@
 #include <QNetworkInterface>
 
 #ifdef Q_OS_LINUX
-    #include <sys/socket.h>
+#include <sys/socket.h>
 #endif
 
 #include "kstars_debug.h"
@@ -60,7 +60,8 @@ const int IP6_LENGTH = IPI_LENGTH + 16;
 /**
  * Encodes the 16-bit \a number as two 8-bit numbers in a byte array
  */
-QByteArray ENCODE_16_BIT (quint16 number) {
+QByteArray ENCODE_16_BIT (quint16 number)
+{
     QByteArray data;
     data.append ((number & 0xff00) >> 8);
     data.append ((number & 0xff));
@@ -70,7 +71,8 @@ QByteArray ENCODE_16_BIT (quint16 number) {
 /**
  * Encodes the 32-bit \a number as four 8-bit numbers
  */
-QByteArray ENCODE_32_BIT (quint32 number) {
+QByteArray ENCODE_32_BIT (quint32 number)
+{
     QByteArray data;
     data.append ((number & 0xff000000UL) >> 24);
     data.append ((number & 0x00ff0000UL) >> 16);
@@ -82,7 +84,8 @@ QByteArray ENCODE_32_BIT (quint32 number) {
 /**
  * Obtains the 16-bit number stored in the \a upper and \a lower 8-bit numbers
  */
-quint16 DECODE_16_BIT (quint8 upper, quint8 lower) {
+quint16 DECODE_16_BIT (quint8 upper, quint8 lower)
+{
     return (quint16) ((upper << 8) | lower);
 }
 
@@ -90,7 +93,8 @@ quint16 DECODE_16_BIT (quint8 upper, quint8 lower) {
  * Binds the given \a socket to the given \a address and \a port.
  * Under GNU/Linux, this function implements a workaround of QTBUG-33419.
  */
-bool BIND (QUdpSocket* socket, const QHostAddress& address, const int port) {
+bool BIND (QUdpSocket* socket, const QHostAddress &address, const int port)
+{
     if (!socket)
         return false;
 
@@ -115,7 +119,8 @@ bool BIND (QUdpSocket* socket, const QHostAddress& address, const int port) {
                          QUdpSocket::ReuseAddressHint);
 }
 
-qMDNS::qMDNS() {
+qMDNS::qMDNS()
+{
     /* Set default TTL to 4500 seconds */
     m_ttl = 4500;
 
@@ -134,7 +139,8 @@ qMDNS::qMDNS() {
         m_IPv6Socket->joinMulticastGroup (IPV6_ADDRESS);
 }
 
-qMDNS::~qMDNS() {
+qMDNS::~qMDNS()
+{
     delete m_IPv4Socket;
     delete m_IPv6Socket;
 }
@@ -142,7 +148,8 @@ qMDNS::~qMDNS() {
 /**
  * Returns the only running instance of this class
  */
-qMDNS* qMDNS::getInstance() {
+qMDNS* qMDNS::getInstance()
+{
     static qMDNS instance;
     return &instance;
 }
@@ -150,14 +157,16 @@ qMDNS* qMDNS::getInstance() {
 /**
  * Returns the mDNS name assigned to the client computer
  */
-QString qMDNS::hostName() const {
+QString qMDNS::hostName() const
+{
     return m_hostName;
 }
 
 /**
  * Ensures that the given \a string is a valid mDNS/DNS address.
  */
-QString qMDNS::getAddress (const QString& string) {
+QString qMDNS::getAddress (const QString &string)
+{
     QString address = string;
 
     if (!string.endsWith (".local") && !string.contains ("."))
@@ -172,7 +181,8 @@ QString qMDNS::getAddress (const QString& string) {
 /**
  * Changes the TTL send to other computers in the mDNS network
  */
-void qMDNS::setTTL (const quint32 ttl) {
+void qMDNS::setTTL (const quint32 ttl)
+{
     m_ttl = ttl;
 }
 
@@ -182,9 +192,11 @@ void qMDNS::setTTL (const quint32 ttl) {
  * packet that requests an AAAA-type Resource Record instead of an A-type
  * Resource Record.
  */
-void qMDNS::lookup (const QString& name) {
+void qMDNS::lookup (const QString &name)
+{
     /* The host name is empty, abort lookup */
-    if (name.isEmpty()) {
+    if (name.isEmpty())
+    {
         qCWarning(KSTARS) << Q_FUNC_INFO << "Empty host name specified";
         return;
     }
@@ -199,13 +211,15 @@ void qMDNS::lookup (const QString& name) {
         return;
 
     /* Check if we are dealing with a normal DNS address */
-    if (!address.endsWith (".local", Qt::CaseInsensitive)) {
+    if (!address.endsWith (".local", Qt::CaseInsensitive))
+    {
         QHostInfo::lookupHost (address, this, SIGNAL (hostFound(QHostInfo)));
         return;
     }
 
     /* Perform a mDNS lookup */
-    else {
+    else
+    {
         QByteArray data;
 
         /* Get the host name and domain */
@@ -213,7 +227,8 @@ void qMDNS::lookup (const QString& name) {
         QString domain = address.split (".").last();
 
         /* Check that domain length is valid */
-        if (host.length() > 255) {
+        if (host.length() > 255)
+        {
             qWarning() << Q_FUNC_INFO << host << "is too long!";
             return;
         }
@@ -256,8 +271,10 @@ void qMDNS::lookup (const QString& name) {
 /**
  * Changes the host name of the client computer
  */
-void qMDNS::setHostName (const QString& name) {
-    if (name.contains (".") && !name.endsWith (".local")) {
+void qMDNS::setHostName (const QString &name)
+{
+    if (name.contains (".") && !name.endsWith (".local"))
+    {
         qWarning() << "Invalid domain name";
         return;
     }
@@ -268,20 +285,24 @@ void qMDNS::setHostName (const QString& name) {
 /**
  * Called when we receive data from a mDNS client on the network.
  */
-void qMDNS::onReadyRead() {
+void qMDNS::onReadyRead()
+{
     QByteArray data;
     QUdpSocket* socket = qobject_cast<QUdpSocket*> (sender());
 
     /* Read data from the socket */
-    if (socket) {
-        while (socket->hasPendingDatagrams()) {
+    if (socket)
+    {
+        while (socket->hasPendingDatagrams())
+        {
             data.resize (socket->pendingDatagramSize());
             socket->readDatagram (data.data(), data.size());
         }
     }
 
     /* Packet is a valid mDNS datagram */
-    if (data.length() > MIN_LENGTH) {
+    if (data.length() > MIN_LENGTH)
+    {
         quint16 flag = DECODE_16_BIT (data.at (2), data.at (3));
 
         if (flag == kQR_Query)
@@ -296,7 +317,8 @@ void qMDNS::onReadyRead() {
  * Reads the given query \a data and instructs the class to send a response
  * packet if the query is looking for the host name assigned to this computer.
  */
-void qMDNS::readQuery (const QByteArray& data) {
+void qMDNS::readQuery (const QByteArray &data)
+{
     /* Query packet is invalid */
     if (data.length() < MIN_LENGTH)
         return;
@@ -309,7 +331,8 @@ void qMDNS::readQuery (const QByteArray& data) {
     /* Read the host name until we stumble with the domain length character */
     QString name;
     int h = n + 1;
-    while (data.at (h) != (char) domainLength) {
+    while (data.at (h) != (char) domainLength)
+    {
         name.append (data.at (h));
         ++h;
     }
@@ -317,7 +340,8 @@ void qMDNS::readQuery (const QByteArray& data) {
     /* Read domain length until we stumble with the FQDN/TLD separator */
     QString domain;
     int d = n + hostLength + 2;
-    while (data.at (d) != kFQDN_Separator) {
+    while (data.at (d) != kFQDN_Separator)
+    {
         domain.append (data.at (d));
         ++d;
     }
@@ -333,8 +357,10 @@ void qMDNS::readQuery (const QByteArray& data) {
 /**
  * Sends the given \a data to both the IPv4 and IPv6 mDNS multicast groups
  */
-void qMDNS::sendPacket (const QByteArray& data) {
-    if (!data.isEmpty()) {
+void qMDNS::sendPacket (const QByteArray &data)
+{
+    if (!data.isEmpty())
+    {
         m_IPv4Socket->writeDatagram (data, IPV4_ADDRESS, MDNS_PORT);
         m_IPv6Socket->writeDatagram (data, IPV6_ADDRESS, MDNS_PORT);
     }
@@ -346,7 +372,8 @@ void qMDNS::sendPacket (const QByteArray& data) {
  * - The remote IPv4
  * - The remote IPv6
  */
-void qMDNS::readResponse (const QByteArray& data) {
+void qMDNS::readResponse (const QByteArray &data)
+{
     if (data.length() < MIN_LENGTH)
         return;
 
@@ -378,8 +405,10 @@ void qMDNS::readResponse (const QByteArray& data) {
  * - Our IPv4 address
  * - Our IPv6 address
  */
-void qMDNS::sendResponse (const quint16 query_id) {
-    if (!hostName().isEmpty() && hostName().endsWith (".local")) {
+void qMDNS::sendResponse (const quint16 query_id)
+{
+    if (!hostName().isEmpty() && hostName().endsWith (".local"))
+    {
         QByteArray data;
 
         /* Get the host name and domain */
@@ -389,8 +418,10 @@ void qMDNS::sendResponse (const quint16 query_id) {
         /* Get local IPs */
         quint32 ipv4 = 0;
         QList<QIPv6Address> ipv6;
-        foreach (QHostAddress address, QNetworkInterface::allAddresses()) {
-            if (!address.isLoopback()) {
+        foreach (QHostAddress address, QNetworkInterface::allAddresses())
+        {
+            if (!address.isLoopback())
+            {
                 if (address.protocol() == QAbstractSocket::IPv4Protocol)
                     ipv4 = (ipv4 == 0 ? address.toIPv4Address() : ipv4);
 
@@ -400,7 +431,8 @@ void qMDNS::sendResponse (const quint16 query_id) {
         }
 
         /* Check that domain length is valid */
-        if (host.length() > 255) {
+        if (host.length() > 255)
+        {
             qCWarning(KSTARS) << Q_FUNC_INFO << host << "is too long!";
             return;
         }
@@ -435,7 +467,8 @@ void qMDNS::sendResponse (const quint16 query_id) {
         data.append (ENCODE_16_BIT (kFQDN_Length));
 
         /* Add IPv6 addresses */
-        foreach (QIPv6Address ip, ipv6) {
+        foreach (QIPv6Address ip, ipv6)
+        {
             data.append (ENCODE_16_BIT (kRecordAAAA));
             data.append (ENCODE_16_BIT (kIN_BitFlush));
             data.append (ENCODE_32_BIT (m_ttl));
@@ -484,7 +517,8 @@ void qMDNS::sendResponse (const quint16 query_id) {
  * extracted, and thus we can replace the domain length with a dot (.) and
  * begin extracting the host name.
  */
-QString qMDNS::getHostNameFromResponse (const QByteArray& data) {
+QString qMDNS::getHostNameFromResponse (const QByteArray &data)
+{
     QList<char> list;
     QString address = "";
 
@@ -492,13 +526,15 @@ QString qMDNS::getHostNameFromResponse (const QByteArray& data) {
     int n = 13;
 
     /* Read the host name until we stumble with the FQDN/TLD separator */
-    while (data.at (n) != kFQDN_Separator) {
+    while (data.at (n) != kFQDN_Separator)
+    {
         list.append (data.at (n));
         ++n;
     }
 
     /* Construct the string backwards (to replace domain length with a dot) */
-    for (int i = 0; i < list.count(); ++i) {
+    for (int i = 0; i < list.count(); ++i)
+    {
         char character = list.at (list.count() - i - 1);
 
         if (character == (char) address.length())
@@ -535,8 +571,9 @@ QString qMDNS::getHostNameFromResponse (const QByteArray& data) {
  * - \c {00 04} Number of address bytes (length in layman's terms)
  * - \c {99 6d 07 5a} IPv4 Address bytes (153, 109, 7, 90)
  */
-QString qMDNS::getIPv4FromResponse (const QByteArray& data,
-                                    const QString& host) {
+QString qMDNS::getIPv4FromResponse (const QByteArray &data,
+                                    const QString &host)
+{
     QString ip = "";
 
     /* n stands for the byte index in which the host name data ends */
@@ -558,7 +595,8 @@ QString qMDNS::getIPv4FromResponse (const QByteArray& data,
     quint8 length = data.at (n + IPI_LENGTH);
 
     /* Append each IPv4 address byte (and decimal dots) to the IP string */
-    for (int i = 1; i < length + 1; ++i) {
+    for (int i = 1; i < length + 1; ++i)
+    {
         ip += QString::number ((quint8) data.at (n + IPI_LENGTH + i));
         ip += (i < length) ? "." : "";
     }
@@ -591,8 +629,9 @@ QString qMDNS::getIPv4FromResponse (const QByteArray& data,
  * - \c {00 10} Number of address bytes (length in layman's terms)
  * - \c {fe 80 00 00 ... 52} IPv6 Address bytes (there are 16 of them)
  */
-QStringList qMDNS::getIPv6FromResponse (const QByteArray& data,
-                                        const QString& host) {
+QStringList qMDNS::getIPv6FromResponse (const QByteArray &data,
+                                        const QString &host)
+{
     QStringList list;
 
     /* Skip the FQDN and IPv4 section */
@@ -600,7 +639,8 @@ QStringList qMDNS::getIPv6FromResponse (const QByteArray& data,
 
     /* Get the IPv6 list */
     bool isIPv6 = true;
-    while (isIPv6) {
+    while (isIPv6)
+    {
         /* Skip FQDN bytes */
         n += 2;
 
@@ -614,13 +654,15 @@ QStringList qMDNS::getIPv6FromResponse (const QByteArray& data,
         isIPv6 = (typeCode == kRecordAAAA && classCode == kIN_BitFlush);
 
         /* IP type and class codes are OK, extract IP */
-        if (isIPv6) {
+        if (isIPv6)
+        {
             /* Skip TTL indicator and obtain the number of address bytes */
             quint8 length = data.at (n + IPI_LENGTH);
 
             /* Append each IPv6 address byte (encoded as hex) to the IP string */
             QString ip = "";
-            for (int i = 1; i < length + 1; ++i) {
+            for (int i = 1; i < length + 1; ++i)
+            {
                 /* Get the hexadecimal representation of the byte */
                 QString byte;
                 byte.setNum ((quint8) data.at (n + i + IPI_LENGTH), 16);
@@ -649,8 +691,9 @@ QStringList qMDNS::getIPv6FromResponse (const QByteArray& data,
  * Obtains the IPv4 and IPv6 addresses from the received data.
  * \note This function will only generate a list with the valid IP addresses.
  */
-QList<QHostAddress> qMDNS::getAddressesFromResponse (const QByteArray& data,
-        const QString& host) {
+QList<QHostAddress> qMDNS::getAddressesFromResponse (const QByteArray &data,
+        const QString &host)
+{
     QList<QHostAddress> list;
 
     /* Add IPv4 address */
@@ -659,7 +702,8 @@ QList<QHostAddress> qMDNS::getAddressesFromResponse (const QByteArray& data,
         list.append (IPv4Address);
 
     /* Add IPv6 addresses */
-    foreach (QString ip, getIPv6FromResponse (data, host)) {
+    foreach (QString ip, getIPv6FromResponse (data, host))
+    {
         QHostAddress address = QHostAddress (ip);
         if (!address.isNull())
             list.append (address);
