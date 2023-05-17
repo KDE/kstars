@@ -492,6 +492,13 @@
       <listitem>
         <para
 ><guilabel
+>Volgen onderbreken</guilabel
+>: stel deze optie in om volgen te onderbreken tijden het doen van autofocus. Een extra controle wordt gedaan om alleen volgen te onderbreken als het wordt gedaan via de primaire telescoop, bijvoorbeeld bij gebruik van een Off Axis Guider. Het doel hiervan is het voorkomen van problemen bij volgen met sterren uit focus tijdens het proces van focussen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
 >Dark Frame</guilabel
 >: Activeer deze optie voor het toepassen van dark-frame aftrekken. Deze optie kan nuttig zijn voor afbeeldingen met veel ruis, waar een eerder opgenomen donker afgetrokken wordt van de focusafbeelding voor verder verwerking.</para>
 
@@ -563,21 +570,30 @@
         <para
 ><guilabel
 >Volledig veld</guilabel
->: ofwel gebruik het volledige veld van de camera of selecteer een subframe rond de ster voor focussen tijdens de procedure autofocus. Bij gebruik van meerdere sterren dan moet deze optie geselecteerd worden.</para>
-      </listitem>
-
-      <listitem>
-        <para
+>: ofwel gebruik het volledige veld van de camera of selecteer een subframe rond de ster voor focussen tijdens de procedure autofocus. Bij gebruik van meerdere sterren dan moet deze optie geselecteerd worden. <itemizedlist>
+	    <listitem>
+	      <para
 ><guilabel
->Annulus</guilabel
->: gebruikt samen met volledig veld, biedt Annulus twee invoervelden die samen een donut over de FOV van de camera definiëren. Sterren die buiten de donut vallen worden uitgesloten van de bewerking. Een binnenwaarde boven 0% veroorzaakt dat sterren in het centrum van de FOV worden uitgesloten. Dit zou nuttig kunnen zijn om gebruik van sterren in het doel van de afbeelding (bijvoorbeeld een melkwegstelsel) te vermeiden voor het focusseren. Een buitenwaarde onder 100% veroorzaakt dat sterren in de randen van de FOV worden uitgesloten tijdens focusseren. Dit zou nuttig kunnen zijn als u geen plat veld hebt naar de randen van uw FOV.</para>
-      </listitem>
-
-      <listitem>
-        <para
+>Alle sterren voor focusseren gebruiken</guilabel
+>: deze optie selecteren als alle sterren in het veld beschouwd moeten worden voor focusseren.</para>
+	    </listitem>
+	    
+	    <listitem>
+              <para
 ><guilabel
->Volgen onderbreken</guilabel
->: stel deze optie in om volgen te onderbreken tijden het doen van autofocus. Een extra controle wordt gedaan om alleen volgen te onderbreken als het wordt gedaan via de primaire telescoop, bijvoorbeeld bij gebruik van een Off Axis Guider. Het doel hiervan is het voorkomen van problemen bij volgen met sterren uit focus tijdens het proces van focussen.</para>
+>Ringmasker</guilabel
+>: gebruikt samen met volledig veld, deze optie levert twee invoervelden die samen een donut over de FOV van de camera definiëren. Sterren die buiten de donut vallen worden uitgesloten van de bewerking. Een binnenwaarde boven 0% veroorzaakt dat sterren in het centrum van de FOV worden uitgesloten. Dit zou nuttig kunnen zijn om gebruik van sterren in het doel van de afbeelding (bijvoorbeeld een melkwegstelsel) te vermeiden voor het focusseren. Een buitenwaarde onder 100% veroorzaakt dat sterren in de randen van de FOV worden uitgesloten tijdens focusseren. Dit zou nuttig kunnen zijn als u geen plat veld hebt naar de randen van uw FOV.</para>
+	    </listitem>
+
+	    <listitem>
+	      <para
+><guilabel
+>Mozaïekmasker</guilabel
+>: Een 3x3 mozaïek bestaat uit vakken uit het afbeeldingscentrum, zijn hoeken en de randen. Deze optie is nuttig als u de prestaties van het optiek wilt inspecteren - u zou dit kunnen weten uit het script PixInsight Aberration Inspector. De vakgrootte kan geconfigureerd worden in procenten van de framebreedte, met de scheiderwaarde is de ruimte tussen de vakken gedefinieerd.</para>
+	    </listitem>
+	    
+	  </itemizedlist>
+	</para>
       </listitem>
 
       <listitem>
