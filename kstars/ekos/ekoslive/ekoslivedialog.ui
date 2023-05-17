@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>365</width>
-    <height>214</height>
+    <width>373</width>
+    <height>206</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -193,75 +193,87 @@
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <property name="spacing">
-        <number>3</number>
-       </property>
        <item>
-        <widget class="QLabel" name="modeLabel">
-         <property name="enabled">
-          <bool>true</bool>
+        <widget class="QCheckBox" name="autoStartCheck">
+         <property name="toolTip">
+          <string>Automatically connect to EkosLive service on startup.</string>
          </property>
          <property name="text">
-          <string>Mode:</string>
+          <string>Auto Start</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="ekosLiveOnlineR">
-         <property name="enabled">
+        <widget class="QLabel" name="onlineIcon">
+         <property name="minimumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../../data/kstars.qrc">:/icons/AlignFailure.svg</pixmap>
+         </property>
+         <property name="scaledContents">
           <bool>true</bool>
          </property>
-         <property name="toolTip">
-          <string>Connect to EkosLive on the Cloud. Requires Internet connection.</string>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="onlineLabel">
+         <property name="styleSheet">
+          <string notr="true">color:gray</string>
          </property>
          <property name="text">
           <string>Online</string>
          </property>
-         <attribute name="buttonGroup">
-          <string notr="true">EkosLiveModeGroup</string>
-         </attribute>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="ekosLiveOfflineR">
-         <property name="enabled">
+        <widget class="QLabel" name="offlineIcon">
+         <property name="minimumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../../data/kstars.qrc">:/icons/AlignFailure.svg</pixmap>
+         </property>
+         <property name="scaledContents">
           <bool>true</bool>
          </property>
-         <property name="toolTip">
-          <string>Connects to EkosLive offline.</string>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="offlineLabel">
+         <property name="styleSheet">
+          <string notr="true">color:gray</string>
          </property>
          <property name="text">
           <string>Offline</string>
          </property>
-         <attribute name="buttonGroup">
-          <string notr="true">EkosLiveModeGroup</string>
-         </attribute>
         </widget>
        </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="autoStartCheck">
-       <property name="toolTip">
-        <string>Automatically connect to EkosLive service on startup.</string>
-       </property>
-       <property name="text">
-        <string>Auto Start</string>
-       </property>
-      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="bottomLayout">
@@ -306,9 +318,8 @@
   <tabstop>password</tabstop>
   <tabstop>rememberCredentialsCheck</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../data/kstars.qrc"/>
+ </resources>
  <connections/>
- <buttongroups>
-  <buttongroup name="EkosLiveModeGroup"/>
- </buttongroups>
 </ui>

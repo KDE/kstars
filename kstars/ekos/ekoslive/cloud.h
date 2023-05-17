@@ -12,6 +12,7 @@
 #include <memory>
 
 #include "ekos/manager.h"
+#include "nodemanager.h"
 
 class FITSView;
 
@@ -22,20 +23,8 @@ class Cloud : public QObject
         Q_OBJECT
 
     public:
-        explicit Cloud(Ekos::Manager * manager);
+        explicit Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &nodeManagers);
         virtual ~Cloud() = default;
-
-        void sendResponse(const QString &command, const QJsonObject &payload);
-        void sendResponse(const QString &command, const QJsonArray &payload);
-
-        void setAuthResponse(const QJsonObject &response)
-        {
-            m_AuthResponse = response;
-        }
-        void setURL(const QUrl &url)
-        {
-            m_URL = url;
-        }
 
         void registerCameras();
 
@@ -49,15 +38,12 @@ class Cloud : public QObject
         void newImage(const QByteArray &image);
 
     public slots:
-        void connectServer();
-        void disconnectServer();
         void updateOptions();
 
     private slots:
         // Connection
         void onConnected();
-        void onDisconnected();
-        void onError(QAbstractSocket::SocketError error);
+        void onDisconnected();        
 
         // Communication
         void onTextReceived(const QString &message);
@@ -70,11 +56,8 @@ class Cloud : public QObject
     private:
         void asyncUpload();
 
-        QWebSocket m_WebSocket;
-        QJsonObject m_AuthResponse;
-        uint16_t m_ReconnectTries {0};
         Ekos::Manager * m_Manager { nullptr };
-        QUrl m_URL;
+        QVector<QSharedPointer<NodeManager>> m_NodeManagers;
         QString m_UUID;
 
         QSharedPointer<FITSData> m_ImageData;
@@ -83,7 +66,6 @@ class Cloud : public QObject
         QString extension;
         QStringList temporaryFiles;
 
-        bool m_isConnected {false};
         bool m_sendBlobs {true};
 
         // Image width for high-bandwidth setting

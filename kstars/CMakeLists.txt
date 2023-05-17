@@ -317,6 +317,8 @@ if (INDI_FOUND)
             ekos/ekoslive/message.cpp
             ekos/ekoslive/media.cpp
             ekos/ekoslive/cloud.cpp
+            ekos/ekoslive/node.cpp
+            ekos/ekoslive/nodemanager.cpp
         )
 
     endif(CFITSIO_FOUND)

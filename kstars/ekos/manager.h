@@ -322,11 +322,10 @@ class Manager : public QDialog, public Ui::Manager
 
         /**
          * @brief setEkosLiveConfig Set EkosLive settings
-         * @param onlineService If true, connect to EkosLive Online Service. Otherwise, EkosLive offline service.
          * @param rememberCredentials Remember username and password for next session.
          * @param autoConnect If true, it will automatically connect to EkosLive service.
          */
-        Q_SCRIPTABLE void setEkosLiveConfig(bool onlineService, bool rememberCredentials, bool autoConnect);
+        Q_SCRIPTABLE void setEkosLiveConfig(bool rememberCredentials, bool autoConnect);
 
         /**
          * @brief setEkosLiveUser Save EkosLive username and password

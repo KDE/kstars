@@ -33,7 +33,6 @@
         <arg name="enabled" type="b" direction="in"/>
     </method>
     <method name="setEkosLiveConfig">
-        <arg name="onlineService" type="b" direction="in"/>
         <arg name="rememberCredentials" type="b" direction="in"/>
         <arg name="autoConnect" type="b" direction="in"/>
     </method>

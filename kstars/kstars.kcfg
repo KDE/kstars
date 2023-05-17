@@ -1564,10 +1564,6 @@
           <label>Start Ekos Live on KStars startup.</label>
           <default>true</default>
        </entry>
-       <entry name="EkosLiveOnline" type="Bool">
-          <label>Whether EkosLive connection mode is online.</label>
-          <default>true</default>
-       </entry>
        <entry name="EkosLiveUsername" type="String">
           <label>EkosLive username</label>
        </entry>

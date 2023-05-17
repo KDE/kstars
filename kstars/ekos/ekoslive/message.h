@@ -15,6 +15,7 @@
 #include "ekos/align/polaralignmentassistant.h"
 #include "ekos/manager.h"
 #include "catalogsdb.h"
+#include "nodemanager.h"
 
 namespace EkosLive
 {
@@ -23,20 +24,10 @@ class Message : public QObject
         Q_OBJECT
 
     public:
-        explicit Message(Ekos::Manager *manager);
+        explicit Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager>> &nodeManagers);
         virtual ~Message() = default;
 
-        void sendResponse(const QString &command, const QJsonObject &payload);
-        void sendResponse(const QString &command, const QJsonArray &payload);
-
-        void setAuthResponse(const QJsonObject &response)
-        {
-            m_AuthResponse = response;
-        }
-        void setURL(const QUrl &url)
-        {
-            m_URL = url;
-        }
+        bool isConnected() const;
 
         // Module Status Updates
         void updateMountStatus(const QJsonObject &status, bool throttle = false);
@@ -62,14 +53,11 @@ class Message : public QObject
     signals:
         void connected();
         void disconnected();
-        void expired();
+        void expired(const QUrl &url);
         void optionsUpdated();
         void resetPolarView();
 
     public slots:
-        void connectServer();
-        void disconnectServer();
-
         // Connection
         void sendConnection();
         void sendModuleState(const QString &name);
@@ -140,8 +128,7 @@ class Message : public QObject
 
         // Connection
         void onConnected();
-        void onDisconnected();
-        void onError(QAbstractSocket::SocketError error);
+        void onDisconnected();        
 
         // Communication
         void onTextReceived(const QString &);
@@ -203,6 +190,11 @@ class Message : public QObject
         void processAstronomyCommands(const QString &command, const QJsonObject &payload);
         KStarsDateTime getNextDawn();
 
+        void sendResponse(const QString &command, const QJsonObject &payload);
+        void sendResponse(const QString &command, const QJsonArray &payload);
+        void sendResponse(const QString &command, const QString &payload);
+        void sendResponse(const QString &command, bool payload);
+
         typedef struct
         {
             int number_integer;
@@ -216,13 +208,9 @@ class Message : public QObject
         void invokeMethod(QObject *context, const QJsonObject &payload);
         bool parseArgument(const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
 
-        QWebSocket m_WebSocket;
-        QJsonObject m_AuthResponse;
-        uint16_t m_ReconnectTries {0};
         Ekos::Manager *m_Manager { nullptr };
-        QUrl m_URL;
+        QVector<QSharedPointer<NodeManager>> m_NodeManagers;
 
-        bool m_isConnected { false };
         bool m_sendBlobs { true};
 
         QMap<int, bool> m_Options;
@@ -245,10 +233,6 @@ class Message : public QObject
             All
         } Direction;
 
-        // Retry every 5 seconds in case remote server is down
-        static const uint16_t RECONNECT_INTERVAL = 5000;
-        // Retry for 1 hour before giving up
-        static const uint16_t RECONNECT_MAX_TRIES = 720;
         // Throttle interval
         static const uint16_t THROTTLE_INTERVAL = 1000;
 };

@@ -34,87 +34,64 @@
 
 namespace EkosLive
 {
-Message::Message(Ekos::Manager *manager): m_Manager(manager), m_DSOManager(CatalogsDB::dso_db_path())
+Message::Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager>> &nodeManagers):
+    m_Manager(manager), m_NodeManagers(nodeManagers), m_DSOManager(CatalogsDB::dso_db_path())
 {
-    connect(&m_WebSocket, &QWebSocket::connected, this, &Message::onConnected);
-    connect(&m_WebSocket, &QWebSocket::disconnected, this, &Message::onDisconnected);
-    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
-            &Message::onError);
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        connect(nodeManager->message(), &Node::connected, this, &Message::onConnected);
+        connect(nodeManager->message(), &Node::disconnected, this, &Message::onDisconnected);
+        connect(nodeManager->message(), &Node::onTextReceived, this, &Message::onTextReceived);
+    }
 
     connect(manager, &Ekos::Manager::newModule, this, &Message::sendModuleState);
 
     m_ThrottleTS = QDateTime::currentDateTime();
 }
 
-void Message::connectServer()
-{
-    QUrl requestURL(m_URL);
-
-    QUrlQuery query;
-    query.addQueryItem("username", m_AuthResponse["username"].toString());
-    query.addQueryItem("token", m_AuthResponse["token"].toString());
-    if (m_AuthResponse.contains("remoteToken"))
-        query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
-    query.addQueryItem("email", m_AuthResponse["email"].toString());
-    query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
-    query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
-    query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
-    query.addQueryItem("type", m_AuthResponse["type"].toString());
-    query.addQueryItem("version", KSTARS_VERSION);
-
-    requestURL.setPath("/message/ekos");
-    requestURL.setQuery(query);
-
-
-    m_WebSocket.open(requestURL);
-
-    qCInfo(KSTARS_EKOS) << "Connecting to Websocket server at" << requestURL.toDisplayString();
-}
-
-void Message::disconnectServer()
-{
-    m_WebSocket.close();
-}
-
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::onConnected()
 {
-    qCInfo(KSTARS_EKOS) << "Connected to Message Websocket server at" << m_URL.toDisplayString();
+    auto node = qobject_cast<Node*>(sender());
+    if (!node)
+        return;
 
-    m_isConnected = true;
-    m_ReconnectTries = 0;
-
-    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Message::onTextReceived, Qt::UniqueConnection);
+    qCInfo(KSTARS_EKOS) << "Connected to Message Websocket server at" << node->url().toDisplayString();
 
     sendConnection();
     sendProfiles();
-
     emit connected();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::onDisconnected()
 {
-    qCInfo(KSTARS_EKOS) << "Disconnected from Message Websocket server.";
-    m_isConnected = false;
-    disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Message::onTextReceived);
-    m_PropertyCache.clear();
+    auto node = qobject_cast<Node*>(sender());
+    if (!node)
+        return;
 
-    emit disconnected();
-}
+    qCInfo(KSTARS_EKOS) << "Disconnected from Message Websocket server at" << node->url().toDisplayString();
 
-void Message::onError(QAbstractSocket::SocketError error)
-{
-    qCritical(KSTARS_EKOS) << "Websocket connection error" << m_WebSocket.errorString();
-    if (error == QAbstractSocket::RemoteHostClosedError ||
-            error == QAbstractSocket::ConnectionRefusedError)
+    if (isConnected() == false)
     {
-        if (m_ReconnectTries++ < RECONNECT_MAX_TRIES)
-            QTimer::singleShot(RECONNECT_INTERVAL, this, &Message::connectServer);
+        m_PropertyCache.clear();
+        emit disconnected();
     }
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::onTextReceived(const QString &message)
 {
+    auto node = qobject_cast<Node*>(sender());
+    if (!node)
+        return;
+
     qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
     QJsonParseError error;
     auto serverMessage = QJsonDocument::fromJson(message.toUtf8(), &error);
@@ -123,15 +100,6 @@ void Message::onTextReceived(const QString &message)
         qCWarning(KSTARS_EKOS) << "Ekos Live Parsing Error" << error.errorString();
         return;
     }
-
-    // TODO add check to verify token!
-    //    const QString serverToken = serverMessage.object().value("token").toString();
-
-    //    if (serverToken != token)
-    //    {
-    //        qCWarning(KSTARS_EKOS) << "Invalid token received from server!" << serverToken;
-    //        return;
-    //    }
 
     const QJsonObject msgObj = serverMessage.object();
     const QString command = msgObj["type"].toString();
@@ -143,7 +111,7 @@ void Message::onTextReceived(const QString &message)
     }
     else if (command == commands[LOGOUT])
     {
-        emit expired();
+        emit expired(node->url());
         return;
     }
     else if (command == commands[SET_CLIENT_STATE])
@@ -259,9 +227,23 @@ void Message::onTextReceived(const QString &message)
 
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Message::isConnected() const
+{
+    return std::any_of(m_NodeManagers.begin(), m_NodeManagers.end(), [](auto & nodeManager)
+    {
+        return nodeManager->message()->isConnected();
+    });
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendStellarSolverProfiles()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject profiles;
@@ -283,9 +265,6 @@ void Message::sendStellarSolverProfiles()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDrivers()
 {
-    if (m_isConnected == false)
-        return;
-
     sendResponse(commands[GET_DRIVERS], DriverManager::Instance()->getDriverList());
 }
 
@@ -294,7 +273,7 @@ void Message::sendDrivers()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDevices()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonArray deviceList;
@@ -320,7 +299,7 @@ void Message::sendDevices()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendTrains()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonArray trains;
@@ -336,7 +315,7 @@ void Message::sendTrains()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendTrainProfiles()
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     auto profiles = Ekos::ProfileSettings::Instance()->getSettings();
@@ -349,8 +328,7 @@ void Message::sendTrainProfiles()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::requestOpticalTrains(bool show)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[TRAIN_CONFIGURATION_REQUESTED]}, {"payload", show}}).toJson(
-        QJsonDocument::Compact));
+    sendResponse(commands[TRAIN_CONFIGURATION_REQUESTED], show);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -358,9 +336,6 @@ void Message::requestOpticalTrains(bool show)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendScopes()
 {
-    if (m_isConnected == false)
-        return;
-
     QJsonArray scopeList;
 
     QList<OAL::Scope *> allScopes;
@@ -377,9 +352,6 @@ void Message::sendScopes()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDSLRLenses()
 {
-    if (m_isConnected == false)
-        return;
-
     QJsonArray dslrList;
 
     QList<OAL::DSLRLens *> allDslrLens;
@@ -856,7 +828,7 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setAlignStatus(Ekos::AlignState newState)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject alignState =
@@ -872,7 +844,7 @@ void Message::setAlignStatus(Ekos::AlignState newState)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setAlignSolution(const QVariantMap &solution)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject alignState =
@@ -1037,7 +1009,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setPAHStage(Ekos::PolarAlignmentAssistant::Stage stage)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (isConnected() == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     Q_UNUSED(stage)
@@ -1066,7 +1038,7 @@ void Message::setPAHStage(Ekos::PolarAlignmentAssistant::Stage stage)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setPAHMessage(const QString &message)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (isConnected() == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QTextDocument doc;
@@ -1084,7 +1056,7 @@ void Message::setPAHMessage(const QString &message)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setPolarResults(QLineF correctionVector, double polarError, double azError, double altError)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (isConnected() == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     this->correctionVector = correctionVector;
@@ -1114,7 +1086,7 @@ void Message::setPolarResults(QLineF correctionVector, double polarError, double
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setUpdatedErrors(double total, double az, double alt)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (isConnected() == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject error =
@@ -1132,7 +1104,7 @@ void Message::setUpdatedErrors(double total, double az, double alt)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setPAHEnabled(bool enabled)
 {
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     QJsonObject polarState =
@@ -1516,8 +1488,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     {
         QJsonObject propObject;
         if (oneDevice->getJSONProperty(payload["property"].toString(), propObject, payload["compact"].toBool(true)))
-            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
-            QJsonDocument::Compact));
+            sendResponse(commands[DEVICE_PROPERTY_GET], propObject);
     }
     // Set specific property
     else if (command == commands[DEVICE_PROPERTY_SET])
@@ -1541,8 +1512,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
             {"properties", properties}
         };
 
-        m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_GET]}, {"payload", response}}).toJson(
-            QJsonDocument::Compact));
+        sendResponse(commands[DEVICE_GET], response);
     }
     // Subscribe to one or more properties
     // When subscribed, the updates are immediately pushed as soon as they are received.
@@ -2131,8 +2101,7 @@ KStarsDateTime Message::getNextDawn()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::requestDSLRInfo(const QString &cameraName)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(
-        QJsonDocument::Compact));
+    sendResponse(commands[DSLR_GET_INFO], cameraName);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2140,8 +2109,7 @@ void Message::requestDSLRInfo(const QString &cameraName)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::requestPortSelection(bool show)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[GET_PROFILE_PORT_SELECTION]}, {"payload", show}}).toJson(
-        QJsonDocument::Compact));
+    sendResponse(commands[GET_PROFILE_PORT_SELECTION], show);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2149,8 +2117,7 @@ void Message::requestPortSelection(bool show)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDialog(const QJsonObject &message)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DIALOG_GET_INFO]}, {"payload", message}}).toJson(
-        QJsonDocument::Compact));
+    sendResponse(commands[DIALOG_GET_INFO], message);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2158,7 +2125,10 @@ void Message::sendDialog(const QJsonObject &message)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendResponse(const QString &command, const QJsonObject &payload)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        nodeManager->message()->sendResponse(command, payload);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2166,7 +2136,32 @@ void Message::sendResponse(const QString &command, const QJsonObject &payload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendResponse(const QString &command, const QJsonArray &payload)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        nodeManager->message()->sendResponse(command, payload);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendResponse(const QString &command, const QString &payload)
+{
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        nodeManager->message()->sendResponse(command, payload);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendResponse(const QString &command, bool payload)
+{
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        nodeManager->message()->sendResponse(command, payload);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2174,9 +2169,6 @@ void Message::sendResponse(const QString &command, const QJsonArray &payload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateMountStatus(const QJsonObject &status, bool throttle)
 {
-    if (m_isConnected == false)
-        return;
-
     if (throttle)
     {
         QDateTime now = QDateTime::currentDateTime();
@@ -2195,9 +2187,6 @@ void Message::updateMountStatus(const QJsonObject &status, bool throttle)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateCaptureStatus(const QJsonObject &status)
 {
-    if (m_isConnected == false)
-        return;
-
     sendResponse(commands[NEW_CAPTURE_STATE], status);
 }
 
@@ -2206,9 +2195,6 @@ void Message::updateCaptureStatus(const QJsonObject &status)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateFocusStatus(const QJsonObject &status)
 {
-    if (m_isConnected == false)
-        return;
-
     sendResponse(commands[NEW_FOCUS_STATE], status);
 }
 
@@ -2217,9 +2203,6 @@ void Message::updateFocusStatus(const QJsonObject &status)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateGuideStatus(const QJsonObject &status)
 {
-    if (m_isConnected == false)
-        return;
-
     sendResponse(commands[NEW_GUIDE_STATE], status);
 }
 
@@ -2228,9 +2211,6 @@ void Message::updateGuideStatus(const QJsonObject &status)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateDomeStatus(const QJsonObject &status)
 {
-    if (m_isConnected == false)
-        return;
-
     sendResponse(commands[NEW_DOME_STATE], status);
 }
 
@@ -2239,9 +2219,6 @@ void Message::updateDomeStatus(const QJsonObject &status)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateCapStatus(const QJsonObject &status)
 {
-    if (m_isConnected == false)
-        return;
-
     sendResponse(commands[NEW_CAP_STATE], status);
 }
 
@@ -2250,14 +2227,12 @@ void Message::updateCapStatus(const QJsonObject &status)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendConnection()
 {
-    if (m_isConnected == false)
-        return;
-
     QJsonObject connectionState =
     {
         {"connected", true},
         {"online", m_Manager->getEkosStartingStatus() == Ekos::Success}
     };
+
     sendResponse(commands[NEW_CONNECTION_STATE], connectionState);
 }
 
@@ -2266,9 +2241,6 @@ void Message::sendConnection()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendStates()
 {
-    if (m_isConnected == false)
-        return;
-
     // Send capture sequence if one exists
     if (m_Manager->captureModule())
     {
@@ -2336,7 +2308,7 @@ void Message::sendStates()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event)
 {
-    if (m_isConnected == false || Options::ekosLiveNotifications() == false)
+    if (Options::ekosLiveNotifications() == false)
         return;
 
     QJsonObject newEvent =
@@ -2355,9 +2327,6 @@ void Message::sendEvent(const QString &message, KSNotification::EventSource sour
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendManualRotatorStatus(double currentPA, double targetPA, double threshold)
 {
-    if (m_isConnected == false)
-        return;
-
     QJsonObject request = {{ "currentPA", currentPA}, {"targetPA", targetPA}, {"threshold", threshold}};
     sendResponse(commands[ALIGN_MANUAL_ROTATOR_STATUS], request);
 }
@@ -2393,8 +2362,7 @@ void Message::processNewProperty(INDI::Property prop)
 
     QJsonObject propObject;
     ISD::propertyToJson(prop, propObject, false);
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_ADD]}, {"payload", propObject}}).toJson(
-        QJsonDocument::Compact));
+    sendResponse(commands[DEVICE_PROPERTY_ADD], propObject);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2408,8 +2376,7 @@ void Message::processDeleteProperty(INDI::Property prop)
         {"name", prop.getName()}
     };
 
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_REMOVE]}, {"payload", payload}}).toJson(
-        QJsonDocument::Compact));
+    sendResponse(commands[DEVICE_PROPERTY_REMOVE], payload);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2417,7 +2384,7 @@ void Message::processDeleteProperty(INDI::Property prop)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processMessage(const QSharedPointer<ISD::GenericDevice> &device, int id)
 {
-    if (m_isConnected == false || Options::ekosLiveNotifications() == false)
+    if (Options::ekosLiveNotifications() == false)
         return;
 
     auto message = QString::fromStdString(device->getBaseDevice().messageQueue(id));
@@ -2427,8 +2394,7 @@ void Message::processMessage(const QSharedPointer<ISD::GenericDevice> &device, i
         {"message", message}
     };
 
-    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_MESSAGE]}, {"payload", payload}}).toJson(
-        QJsonDocument::Compact));
+    sendResponse(commands[DEVICE_MESSAGE], payload);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2450,8 +2416,7 @@ void Message::processUpdateProperty(INDI::Property prop)
                 return;
             }
 
-            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", *propObject}}).toJson(
-                QJsonDocument::Compact));
+            sendResponse(commands[DEVICE_PROPERTY_GET], *propObject);
             m_PropertyCache.insert(prop.getName(), propObject);
         }
     }
@@ -2462,9 +2427,6 @@ void Message::processUpdateProperty(INDI::Property prop)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendModuleState(const QString &name)
 {
-    if (m_isConnected == false)
-        return;
-
     if (name == "Capture")
     {
         QJsonObject captureState = {{ "status", getCaptureStatusString(m_Manager->captureModule()->status(), false)}};
@@ -2627,8 +2589,6 @@ void Message::invokeMethod(QObject *context, const QJsonObject &payload)
             QMetaObject::invokeMethod(context, name, arg1, arg2, arg3, arg4);
             break;
     }
-
-
 }
 
 }

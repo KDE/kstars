@@ -11,8 +11,8 @@
 #include <QtWebSockets/QWebSocket>
 #include <memory>
 
-#include "ekos/ekos.h"
 #include "ekos/manager.h"
+#include "nodemanager.h"
 
 class FITSView;
 
@@ -23,20 +23,12 @@ class Media : public QObject
         Q_OBJECT
 
     public:
-        explicit Media(Ekos::Manager * manager);
+        explicit Media(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &nodeManagers);
         virtual ~Media() = default;
 
+        bool isConnected() const;
         void sendResponse(const QString &command, const QJsonObject &payload);
         void sendResponse(const QString &command, const QJsonArray &payload);
-
-        void setAuthResponse(const QJsonObject &response)
-        {
-            m_AuthResponse = response;
-        }
-        void setURL(const QUrl &url)
-        {
-            m_URL = url;
-        }
 
         void registerCameras();
 
@@ -59,9 +51,6 @@ class Media : public QObject
         void newImage(const QByteArray &image);
 
     public slots:
-        void connectServer();
-        void disconnectServer();
-
         // Capture
         void sendVideoFrame(const QSharedPointer<QImage> &frame);
 
@@ -79,8 +68,7 @@ class Media : public QObject
     private slots:
         // Connection
         void onConnected();
-        void onDisconnected();
-        void onError(QAbstractSocket::SocketError error);
+        void onDisconnected();        
 
         // Communication
         void onTextReceived(const QString &message);
@@ -93,19 +81,14 @@ class Media : public QObject
     private:
         void upload(const QSharedPointer<FITSView> &view);
 
-        QWebSocket m_WebSocket;
-        QJsonObject m_AuthResponse;
-        uint16_t m_ReconnectTries {0};
         Ekos::Manager * m_Manager { nullptr };
-        QUrl m_URL;
+        QVector<QSharedPointer<NodeManager>> m_NodeManagers;
         QString m_UUID;
-
         QString extension;
         QStringList temporaryFiles;
         QLineF correctionVector;
         QSharedPointer<FITSView> m_TemporaryView;
 
-        bool m_isConnected { false };
         bool m_sendBlobs { true};
 
         // Image width for high-bandwidth setting

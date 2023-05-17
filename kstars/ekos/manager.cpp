@@ -3109,9 +3109,9 @@ void Manager::setEkosLiveConnected(bool enabled)
     ekosLiveClient.get()->setConnected(enabled);
 }
 
-void Manager::setEkosLiveConfig(bool onlineService, bool rememberCredentials, bool autoConnect)
+void Manager::setEkosLiveConfig(bool rememberCredentials, bool autoConnect)
 {
-    ekosLiveClient.get()->setConfig(onlineService, rememberCredentials, autoConnect);
+    ekosLiveClient.get()->setConfig(rememberCredentials, autoConnect);
 }
 
 void Manager::setEkosLiveUser(const QString &username, const QString &password)
