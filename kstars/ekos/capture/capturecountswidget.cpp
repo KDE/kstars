@@ -113,6 +113,29 @@ void CaptureCountsWidget::reset()
     sequenceRemainingTime->setText("--:--:--");
 }
 
+namespace
+{
+QString frameLabel(const QString &type, const QString &filter)
+{
+    if (type == "Light")
+    {
+        if (filter.size() == 0)
+            return type;
+        else
+            return filter;
+    }
+    else if (type == "Flat")
+    {
+        if (filter.size() == 0)
+            return type;
+        else
+            return QString("%1 %2").arg(filter).arg(type);
+    }
+    else
+        return type;
+}
+}
+
 void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString filter, const double exptime, const int xBin,
                                        const int yBin, const double gain)
 {
@@ -124,7 +147,7 @@ void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString fi
     }
     else
     {
-        frameInfoLabel->setText(QString("%1 %2").arg(frametype).arg(filter));
+        frameInfoLabel->setText(QString("%1").arg(frameLabel(frametype, filter)));
         gr_frameLabel->setText(frameInfoLabel->text());
         QString details = "";
         if (exptime > 0)
@@ -243,9 +266,9 @@ void CaptureCountsWidget::updateJobProgress(Ekos::SequenceJob *job)
     // display sequence progress in the graphical view
     gr_sequenceProgressBar->setRange(0, job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     gr_sequenceProgressBar->setValue(job->getCompleted());
-    sequenceLabel->setText(QString("%1 %2 (%3/%4)")
-                           .arg(CCDFrameTypeNames[job->getFrameType()])
-                           .arg(job->getCoreProperty(SequenceJob::SJ_Filter).toString())
+    sequenceLabel->setText(QString("%1 (%3/%4)")
+                           .arg(frameLabel(CCDFrameTypeNames[job->getFrameType()],
+                                           job->getCoreProperty(SequenceJob::SJ_Filter).toString()))
                            .arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
     gr_sequenceLabel->setText(sequenceLabel->text());
 }

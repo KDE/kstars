@@ -2437,6 +2437,33 @@ void Capture::captureImage()
 
 }
 
+namespace
+{
+QString frameLabel(CCDFrameType type, const QString &filter)
+{
+    switch(type)
+    {
+        case FRAME_LIGHT:
+            if (filter.size() == 0)
+                return CCDFrameTypeNames[type];
+            else
+                return filter;
+            break;
+        case FRAME_FLAT:
+            if (filter.size() == 0)
+                return CCDFrameTypeNames[type];
+            else
+                return QString("%1 %2").arg(filter).arg(CCDFrameTypeNames[type]);
+            break;
+        case FRAME_BIAS:
+        case FRAME_DARK:
+        case FRAME_NONE:
+        default:
+            return CCDFrameTypeNames[type];
+    }
+}
+}
+
 void Capture::captureStarted(CAPTUREResult rc)
 {
     if (rc != CAPTURE_OK)
@@ -2463,8 +2490,8 @@ void Capture::captureStarted(CAPTUREResult rc)
             lastRemainingFrameTimeMS = ms_left;
             sequenceCountDown.setHMS(0, 0, 0);
             sequenceCountDown = sequenceCountDown.addSecs(getActiveJobRemainingTime());
-            frameInfoLabel->setText(QString("%1 %2 (%L3/%L4):").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
+            frameInfoLabel->setText(QString("%1 (%L3/%L4):").arg(frameLabel(activeJob->getFrameType(),
+                                    activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()))
                                     .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
             // ensure that the download time label is visible
             avgDownloadTime->setVisible(true);
