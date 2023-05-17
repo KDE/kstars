@@ -399,7 +399,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Setting the camera position angle shall move the rotator. The gauge reflects the state ot the rotator. Depending on the accuracy of the rotator there can be some deviation in the ending position angle.&lt;/p&gt;&lt;p&gt;If &lt;span style=&quot; font-weight:700;&quot;&gt;Save Camera Position Angle to Sequence Job&lt;/span&gt; is toggled, any subsequent jobs added to the sequence queue would always rotate to this position angle before capture begins.&lt;/p&gt;&lt;p&gt;The position angle is measured East of North in degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Setting the camera position angle shall move the rotator. The gauge reflects the state of the rotator. Depending on the accuracy of the rotator there can be some deviation in the ending position angle.&lt;/p&gt;&lt;p&gt;If &lt;span style=&quot; font-weight:700;&quot;&gt;Save Camera Position Angle to Sequence Job&lt;/span&gt; is toggled, any subsequent jobs added to the sequence queue would always rotate to this position angle before capture begins.&lt;/p&gt;&lt;p&gt;The position angle is measured East of North in degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Camera Position Angle</string>

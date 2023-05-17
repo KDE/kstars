@@ -532,7 +532,7 @@ class Capture : public QWidget, public Ui::Capture
              * @brief Start the execution of the Capture::SequenceJob list #jobs.
              *
              * Starting the execution of the Capture::SequenceJob list selects the first job
-             * from the ist that may be executed and starts to prepare the job (@see prepareJob()).
+             * from the list that may be executed and starts to prepare the job (@see prepareJob()).
              *
              * Several factors determine, which of the jobs will be selected:
              * - First, the list is searched to find the first job that is marked as idle or aborted.

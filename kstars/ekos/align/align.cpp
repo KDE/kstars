@@ -1478,7 +1478,7 @@ bool Align::captureAndSolve()
     // Let rotate the camera BEFORE taking a capture in [Capture & Solve]
     if (!m_SolveFromFile && m_Rotator && m_Rotator->absoluteAngleState() == IPS_BUSY)
     {
-        appendLogText(i18n("Cannot capture while rotator ist busy. Retrying in %1 seconds...",
+        appendLogText(i18n("Cannot capture while rotator is busy. Retrying in %1 seconds...",
                            CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return false;
