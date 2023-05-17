@@ -2724,12 +2724,14 @@ void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, d
 {
     removeTemporarySession(&temporaryFocusSession);
     QBrush stripe;
-    // Making the interval "time-1 -> time" since adaptive focus is a quick process and want to make it visible.
+
+    // Making the interval "time-4 -> time" since adaptive focus is a quick process and want to make it visible.
+    constexpr int artificialInterval = 4;
     if (filterStripeBrush(filter, &stripe))
-        addSession(time - 1, time, FOCUS_Y, successBrush, &stripe);
+        addSession(time - artificialInterval, time, FOCUS_Y, successBrush, &stripe);
     else
-        addSession(time - 1, time, FOCUS_Y, successBrush, nullptr);
-    auto session = FocusSession(time - 1, time, nullptr,
+        addSession(time - artificialInterval, time, FOCUS_Y, successBrush, nullptr);
+    auto session = FocusSession(time - artificialInterval, time, nullptr,
                                 filter, temperature, tempTicks, altitude, altTicks, totalTicks, position);
     focusSessions.add(session);
     addFocusPosition(position, time);
