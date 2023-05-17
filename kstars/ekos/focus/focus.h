@@ -808,6 +808,24 @@ class Focus : public QWidget, public Ui::Focus
         void AFDisable(QWidget * widget, const bool children);
 
         /**
+         * @brief returns whether the Gain input field is enabled outside of autofocus and
+         * whether logically is should be enabled during AF even though all input widgets are disabled
+         */
+        bool isFocusGainEnabled();
+
+        /**
+         * @brief returns whether the ISO input field is enabled outside of autofocus and
+         * whether logically is should be enabled during AF even though all input widgets are disabled
+         */
+        bool isFocusISOEnabled();
+
+        /**
+         * @brief returns whether the SubFrame input field is enabled outside of autofocus and
+         * whether logically is should be enabled during AF even though all input widgets are disabled
+         */
+        bool isFocusSubFrameEnabled();
+
+        /**
          * @brief adapt the start position based on temperature and altitude
          * @param position is the unadapted focuser position
          * @param AFfilter is the filter to run autofocus on
@@ -982,6 +1000,12 @@ class Focus : public QWidget, public Ui::Focus
         QStringList m_StarMeasureText;
         QStringList m_CurveFitText;
         QStringList m_FocusWalkText;
+
+        // Holds the enabled state of widgets that is used to active functionality in focus
+        // during Autofocus when the input interface is disabled
+        bool m_FocusGainAFEnabled { false };
+        bool m_FocusISOAFEnabled { false };
+        bool m_FocusSubFrameAFEnabled { false };
 
         /****************************
          * Plot variables

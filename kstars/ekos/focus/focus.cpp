@@ -2657,7 +2657,7 @@ void Focus::setHFRComplete()
             syncTrackingBoxPosition();
 
             // Do we need to subframe?
-            if (subFramed == false && focusSubFrame->isEnabled() && focusSubFrame->isChecked())
+            if (subFramed == false && isFocusSubFrameEnabled() && focusSubFrame->isChecked())
             {
                 int offset = (static_cast<double>(focusBoxSize->value()) / subBinX) * 1.5;
                 int subX   = (selectedHFRStar.x - offset) * subBinX;
@@ -4045,8 +4045,12 @@ void Focus::resetButtons()
     if (inAutoFocus)
     {
         // During an Autofocus run we need to disable input widgets to stop the user changing them
-        // We only need to disable the widgets currently enabled and save a QVector of these to be
+        // We need to disable the widgets currently enabled and save a QVector of these to be
         // reinstated once the AF run completes.
+        // Certain widgets (highlighted below) have the isEnabled() property used in the code to
+        // determine functionality. So the isEnabled state for these is saved off before the
+        // interface is disabled and these saved states used to control the code path and preserve
+        // functionality.
         // Since this function can be called several times only load up widgets once
         if (disabledWidgets.empty())
         {
@@ -4056,10 +4060,14 @@ void Focus::resetButtons()
             AFDisable(focuserGroup, true);
             AFDisable(clearDataB, false);
 
-            // JM 2023.05.15: Do not disable these group as it leads to regressions
-            // AFDisable(ccdGroup, false);
-            // AFDisable(tabWidget, false);
+            // In the ccdGroup save the enabled state of Gain and ISO
+            m_FocusGainAFEnabled = focusGain->isEnabled();
+            m_FocusISOAFEnabled = focusISO->isEnabled();
+            AFDisable(ccdGroup, false);
 
+            // In the tabWidget save the enabled state of SubFrame
+            m_FocusSubFrameAFEnabled = focusSubFrame->isEnabled();
+            AFDisable(tabWidget, false);
 
             // Enable the "stop" button so the user can abort an AF run
             stopFocusB->setEnabled(true);
@@ -4123,6 +4131,21 @@ void Focus::AFDisable(QWidget * widget, const bool children)
         widget->setEnabled(false);
         disabledWidgets.push_back(widget);
     }
+}
+
+bool Focus::isFocusGainEnabled()
+{
+    return (inAutoFocus) ? m_FocusGainAFEnabled : focusGain->isEnabled();
+}
+
+bool Focus::isFocusISOEnabled()
+{
+    return (inAutoFocus) ?  m_FocusISOAFEnabled : focusISO->isEnabled();
+}
+
+bool Focus::isFocusSubFrameEnabled()
+{
+    return (inAutoFocus) ? m_FocusSubFrameAFEnabled : focusSubFrame->isEnabled();
 }
 
 void Focus::updateBoxSize(int value)
