@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>598</width>
-    <height>628</height>
+    <width>611</width>
+    <height>640</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -16,7 +16,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="leftLayout">
        <property name="spacing">
         <number>3</number>
@@ -703,6 +703,9 @@
           </item>
           <item row="3" column="2">
            <widget class="QPushButton" name="rotatorB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -1127,7 +1130,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverModeButtonGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverModeButtonGroup"/>
  </buttongroups>
 </ui>

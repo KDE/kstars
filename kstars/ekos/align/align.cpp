@@ -1476,7 +1476,7 @@ bool Align::captureAndSolve()
     }
 
     // Let rotate the camera BEFORE taking a capture in [Capture & Solve]
-    if (!m_SolveFromFile && m_Rotator && (m_Rotator->absoluteAngleState() != IPS_OK))
+    if (!m_SolveFromFile && m_Rotator && m_Rotator->absoluteAngleState() == IPS_BUSY)
     {
         appendLogText(i18n("Cannot capture while rotator ist busy. Retrying in %1 seconds...",
                            CAPTURE_RETRY_DELAY / 1000));
@@ -2073,7 +2073,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         if (m_Rotator != nullptr && m_Rotator->isConnected())
         {
             if (auto absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE"))
-            // if (absAngle && std::isnan(m_TargetPositionAngle) == true)
+                // if (absAngle && std::isnan(m_TargetPositionAngle) == true)
             {
                 sRawAngle = absAngle->at(0)->getValue();
                 double OffsetAngle = RotatorUtils::calcOffsetAngle(sRawAngle, solverPA);
@@ -2275,9 +2275,11 @@ bool Align::checkIfRotationRequired()
             if  (m_Rotator != nullptr && m_Rotator->isConnected())
             {
                 if (std::isnan(m_TargetPositionAngle) == false) // [Load & Slew]
-                {    // Check if image pierside versus versus mount pierside is different ...
+                {
+                    // Check if image pierside versus versus mount pierside is different ...
                     if (RotatorUtils::checkImageFlip())
-                    {   // ... and calculate flipped PA ...
+                    {
+                        // ... and calculate flipped PA ...
                         sRawAngle = RotatorUtils::calcRotatorAngle(m_TargetPositionAngle);
                         m_TargetPositionAngle = RotatorUtils::calcCameraAngle(sRawAngle, true);
                         RotatorUtils::setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
@@ -2654,7 +2656,7 @@ void Align::updateProperty(INDI::Property prop)
         appendLogText(logtext);*/
         // loadSlewTarget defined if activation through [Load & Slew] and rotator just reached position
         if (std::isnan(m_TargetPositionAngle) == false && state == ALIGN_ROTATING && nvp->s == IPS_OK)
-        {      
+        {
             auto diff = fabs(RotatorUtils::DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60;
             qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
                                        << "Target PA:" << m_TargetPositionAngle << "Diff (arcmin):" << diff << "Offset:"
@@ -2668,9 +2670,10 @@ void Align::updateProperty(INDI::Property prop)
                 executeGOTO();
             }
             else
-            {   // Sometimes update of "nvp->s" is a bit slow, so check state again, if it's really ok
-                QTimer::singleShot(300, [=]
-                    {
+            {
+                // Sometimes update of "nvp->s" is a bit slow, so check state again, if it's really ok
+                QTimer::singleShot(300, [ = ]
+                {
                     if (nvp->s == IPS_OK)
                     {
                         appendLogText(i18n("Rotator failed to arrive at the requested position angle (Deviation %1 arcmin).", diff));
@@ -2787,12 +2790,12 @@ void Align::Slew()
     {
         slewStartTimer.start();
         appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", m_TargetCoord.ra().toHMSString(),
-                       m_TargetCoord.dec().toDMSString()));
+                           m_TargetCoord.dec().toDMSString()));
     }
     else // inform user about failure
     {
         appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see notification)", m_TargetCoord.ra().toHMSString(),
-                       m_TargetCoord.dec().toDMSString()));
+                           m_TargetCoord.dec().toDMSString()));
         setState(ALIGN_FAILED);
         emit newStatus(state);
         solveB->setEnabled(true);

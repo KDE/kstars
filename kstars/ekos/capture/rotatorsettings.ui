@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>505</width>
+    <width>500</width>
     <height>450</height>
    </rect>
   </property>
@@ -42,6 +42,9 @@
      </property>
      <item>
       <layout class="QGridLayout" name="gridLayout_6">
+       <property name="spacing">
+        <number>3</number>
+       </property>
        <item row="0" column="0" alignment="Qt::AlignHCenter">
         <widget class="QLabel" name="label_5">
          <property name="maximumSize">
@@ -79,7 +82,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rotator gauge displays the actual camera position angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount of the rotator in order to have a reasonable display.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rotator gauge displays the actual camera position angle (yellow) and the raw rotator angle (gray). Calibrate the rotator by plate solving in the Align module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">selection-background-color: rgb(150, 120, 0);</string>
@@ -177,6 +180,21 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_5">
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="font">
@@ -357,6 +375,21 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
+      <property name="spacing">
+       <number>3</number>
+      </property>
       <item row="0" column="0">
        <widget class="QLabel" name="label_3">
         <property name="maximumSize">
@@ -453,10 +486,25 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
+      <property name="spacing">
+       <number>3</number>
+      </property>
       <item row="0" column="0" colspan="2">
        <widget class="QCheckBox" name="enforceJobPA">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The camera position angle is saved to a sequence capture job. On execution of the job the camera is rotated to the specified position angle .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The camera position angle is saved to a sequence capture job. On execution of the job the camera is rotated to the specified position angle.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Save Camera Position Angle to Sequence Job</string>

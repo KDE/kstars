@@ -704,7 +704,8 @@ bool Capture::setMount(ISD::Mount *device)
 
 void Capture::setRotator(ISD::Rotator * device)
 {
-    if (m_Mount) // rotator initializing depends on present mount process
+    // rotator initializing depends on present mount process
+    if (m_Mount)
     {
         if (!m_Rotator || !(m_Rotator == device))
         {
@@ -2717,7 +2718,6 @@ void Capture::updateCCDTemperature(double value)
 void Capture::updateRotatorAngle(double value)
 {
     IPState RState = m_captureDeviceAdaptor->getRotator()->absoluteAngleState();
-    // appendLogText(i18n("Rotator IPState: #%1 Angle: %2", RState, value));
     if (RState == IPS_OK)
         m_RotatorControlPanel->updateRotator(value);
     else
@@ -2818,7 +2818,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     // Custom Properties
     job->setCustomProperties(customPropertiesDialog->getCustomProperties());
 
-    if (m_captureDeviceAdaptor->getRotator() && m_RotatorControlPanel->isRotationEnforced())
+    if (m_captureDeviceAdaptor->getRotator() && m_RotatorControlPanel && m_RotatorControlPanel->isRotationEnforced())
     {
         job->setTargetRotation(m_RotatorControlPanel->getCameraPA());
     }
@@ -3784,7 +3784,8 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
 {
     XMLEle * ep;
     XMLEle * subEP;
-    m_RotatorControlPanel->setRotationEnforced(false);
+    if (m_RotatorControlPanel)
+        m_RotatorControlPanel->setRotationEnforced(false);
 
     bool isDarkFlat = false;
     m_Scripts.clear();
@@ -3920,7 +3921,7 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
             if (captureISOS)
                 captureISOS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
-        else if (!strcmp(tagXMLEle(ep), "Rotation") && (m_RotatorControlPanel))
+        else if (!strcmp(tagXMLEle(ep), "Rotation") && m_RotatorControlPanel)
         {
             m_RotatorControlPanel->setRotationEnforced(true);
             m_RotatorControlPanel->setCameraPA(cLocale.toDouble(pcdataXMLEle(ep)));
@@ -5521,9 +5522,8 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
     Q_UNUSED(ra)
     Q_UNUSED(de)
     Q_UNUSED(pixscale)
-    if (m_captureDeviceAdaptor->getRotator() == nullptr)
-        return;
-    m_RotatorControlPanel->refresh(solverPA);
+    if (m_captureDeviceAdaptor->getRotator() && m_RotatorControlPanel)
+        m_RotatorControlPanel->refresh(solverPA);
 }
 
 void Capture::setFilterStatus(FilterState filterState)
