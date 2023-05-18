@@ -564,6 +564,10 @@ class CaptureModuleState: public QObject
          */
         void addCapturedFrame(const QString &signature);
         /**
+         * @brief removeCapturedFrameCount Reduce the frame counts for the given signature
+         */
+        void removeCapturedFrameCount(const QString &signature, uint16_t count);
+        /**
          * @brief clearCapturedFramesMap Clear the map of captured frames counts
          */
         void clearCapturedFramesMap()

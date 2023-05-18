@@ -45,6 +45,8 @@ void TestEkosCapture::init()
     KTRY_EKOS_GADGET(QTabWidget, toolsWidget);
     toolsWidget->setCurrentWidget(ekos->captureModule());
     QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), ekos->captureModule(), 1000);
+    // wait 0.5 sec to ensure that the capture module has been initialized
+    QTest::qWait(500);
 }
 
 void TestEkosCapture::cleanup()

@@ -3041,7 +3041,6 @@ bool Capture::removeJob(int index)
     if (index < 0 || index >= m_captureModuleState->allJobs().count())
         return false;
 
-
     queueTable->removeRow(index);
     m_SequenceArray.removeAt(index);
     emit sequenceChanged(m_SequenceArray);
@@ -3050,6 +3049,9 @@ bool Capture::removeJob(int index)
         return true;
 
     SequenceJob * job = m_captureModuleState->allJobs().at(index);
+    // remove completed frame counts from frame count map
+    m_captureModuleState->removeCapturedFrameCount(job->getSignature(), job->getCompleted());
+    // remove the job
     m_captureModuleState->allJobs().removeOne(job);
     if (job == activeJob)
         setActiveJob(nullptr);
