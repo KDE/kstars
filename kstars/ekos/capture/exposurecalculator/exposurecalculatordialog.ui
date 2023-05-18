@@ -373,7 +373,7 @@
      </rect>
     </property>
     <property name="toolTip">
-     <string>Select read mode on cameras with multple read modes.</string>
+     <string>Select read mode on cameras with multiple read modes.</string>
     </property>
    </widget>
    <widget class="QLabel" name="indiCameraReadMode">
