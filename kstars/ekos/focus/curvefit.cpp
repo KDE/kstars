@@ -1707,7 +1707,7 @@ double CurveFitting::calculateR2(CurveFit curveFit)
             }
 
             // Do the actual R2 calculation
-            R2 = calcR2(dataPoints, curvePoints, m_scale, m_useWeights);
+            R2 = calcR2(dataPoints, curvePoints, m_scale, m_dataPoints.useWeights);
             break;
 
         default :
