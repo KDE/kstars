@@ -38,6 +38,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         static void release();
 
         void setProfile(const QSharedPointer<ProfileInfo> &profile);
+        void checkOpticalTrains();
 
         bool exists(uint8_t id) const;
         const QVariantMap getOpticalTrain(uint8_t id) const;
@@ -197,6 +198,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         QSharedPointer<ProfileInfo> m_Profile;
         QList<QVariantMap> m_OpticalTrains;
         QTimer m_CheckMissingDevicesTimer;
+        QTimer m_DelegateTimer;
         QVariantMap *m_CurrentOpticalTrain = nullptr;
 
         // make changes persistent

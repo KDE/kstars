@@ -177,6 +177,15 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
     m_CheckMissingDevicesTimer.setInterval(5000);
     m_CheckMissingDevicesTimer.setSingleShot(true);
     connect(&m_CheckMissingDevicesTimer, &QTimer::timeout, this, &OpticalTrainManager::checkMissingDevices);
+
+    m_DelegateTimer.setInterval(1000);
+    m_DelegateTimer.setSingleShot(true);
+    connect(&m_DelegateTimer, &QTimer::timeout, this, [this]()
+    {
+        if (m_Profile)
+            setProfile(m_Profile);
+    });
+
     initModel();
 }
 
@@ -241,20 +250,32 @@ void OpticalTrainManager::refreshModel()
 ////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
 {
-    // Are we still updating delegates? If yes, return.
-    if (syncDelegatesToDevices())
-    {
-        m_CheckMissingDevicesTimer.start();
-        return;
-    }
+    m_DelegateTimer.stop();
 
-    // Once we're done, let's continue with train generation.
+    // Load optical train model
     if (m_Profile != profile)
     {
         m_Profile = profile;
         refreshModel();
     }
 
+    // Are we still updating delegates? If yes, return.
+    if (syncDelegatesToDevices())
+    {
+        m_CheckMissingDevicesTimer.start();
+
+        // Start delegate timer to ensure no more changes are pending.
+        m_DelegateTimer.start();
+    }
+    else
+        checkOpticalTrains();
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::checkOpticalTrains()
+{
     if (m_OpticalTrains.empty())
     {
         generateOpticalTrains();

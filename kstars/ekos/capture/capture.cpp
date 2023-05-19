@@ -6452,7 +6452,6 @@ void Capture::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 void Capture::refreshOpticalTrain()

@@ -1652,9 +1652,6 @@ void Mount::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
-
-
 }
 
 void Mount::refreshOpticalTrain()

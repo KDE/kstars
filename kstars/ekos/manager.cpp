@@ -3446,7 +3446,6 @@ void Manager::setDeviceReady()
             return;
     }
 
-    //qCInfo(KSTARS_EKOS) << "All devices are ready.";
     for (auto &device : INDIListener::devices())
         syncGenericDevice(device);
 

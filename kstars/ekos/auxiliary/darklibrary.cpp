@@ -1623,7 +1623,6 @@ void DarkLibrary::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

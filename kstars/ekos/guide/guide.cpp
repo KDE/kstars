@@ -3089,7 +3089,6 @@ void Guide::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 void Guide::refreshOpticalTrain()

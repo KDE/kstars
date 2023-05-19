@@ -6628,7 +6628,6 @@ void Focus::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 void Focus::refreshOpticalTrain()

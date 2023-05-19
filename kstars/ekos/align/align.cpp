@@ -3926,7 +3926,6 @@ void Align::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 void Align::refreshOpticalTrain()
