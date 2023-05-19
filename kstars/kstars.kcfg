@@ -794,6 +794,18 @@
          <min>250.</min>
          <max>5000000.</max>
       </entry>
+      <entry name="SkyRotation" type="Double">
+         <label>Angle by which the sky map is rotated</label>
+         <whatsthis>The angle by which the sky map is rotated from its standard orientation (north up if using equatorial coordinates, zenith up if using horizontal coordinates).</whatsthis>
+         <default>0.</default>
+         <min>0.</min>
+         <max>359.9999</max>
+      </entry>
+      <entry name="ErectObserverCorrection" type="Bool">
+         <label>Orients the sky-map to account for an erect observer at the eyepiece</label>
+         <whatsthis>Enable this if you are using your eye at the eyepiece in an altazimuth mounted Newtonian telescope. This accounts for the fact that the observer stands erect as the telescope moves up and down, so that the orientation of the sky map will track what is seen in your eyepiece once it is set up correctly.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="ZoomScrollFactor" type="Double">
          <label>Zoom scroll sensitivity.</label>
          <whatsthis>When zooming in or out, change zoom speed factor by this multiplier.</whatsthis>

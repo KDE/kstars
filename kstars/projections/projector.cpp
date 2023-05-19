@@ -247,8 +247,10 @@ double Projector::findNorthPA(const SkyPoint *o, float x, float y) const
     if (m_vp.useAltAz)
         test.EquatorialToHorizontal(data->lst(), data->geo()->lat());
     Eigen::Vector2f t = toScreenVec(&test);
-    float dx   = t.x() - x;
-    float dy   = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
+    float dx    = t.x() - x;
+    float dy    = y - t.y(); //backwards because QWidget Y-axis increases to the bottom (FIXME: Check)
+    // float dx = dx_ * m_vp.rotationAngle.cos() - dy_ * m_vp.rotationAngle.sin();
+    // float dy = dx_ * m_vp.rotationAngle.sin() + dy_ * m_vp.rotationAngle.cos();
     float north;
     if (dy)
     {
@@ -267,6 +269,39 @@ double Projector::findPA(const SkyObject *o, float x, float y) const
     return (findNorthPA(o, x, y) + o->pa());
 }
 
+// FIXME: There should be a MUCH more efficient way to do this (see EyepieceField for example)
+double Projector::findZenithPA(const SkyPoint *o, float x, float y) const
+{
+    //Find position angle of North using a test point displaced to the north
+    //displace by 100/zoomFactor radians (so distance is always 100 pixels)
+    //this is 5730/zoomFactor degrees
+    KStarsData *data = KStarsData::Instance();
+    double newAlt    = o->alt().Degrees() + 5730.0 / m_vp.zoomFactor;
+    if (newAlt > 90.0)
+        newAlt = 90.0;
+    SkyPoint test;
+    test.setAlt(newAlt);
+    test.setAz(o->az().Degrees());
+    if (!m_vp.useAltAz)
+        test.HorizontalToEquatorial(data->lst(), data->geo()->lat());
+    Eigen::Vector2f t = toScreenVec(&test);
+    float dx    = t.x() - x;
+    float dy    = y - t.y(); //backwards because QWidget Y-axis increases to the bottom (FIXME: Check)
+    // float dx = dx_ * m_vp.rotationAngle.cos() - dy_ * m_vp.rotationAngle.sin();
+    // float dy = dx_ * m_vp.rotationAngle.sin() + dy_ * m_vp.rotationAngle.cos();
+    float zenith;
+    if (dy)
+    {
+        zenith = atan2f(dx, dy) * 180.0 / dms::PI;
+    }
+    else
+    {
+        zenith = (dx > 0.0 ? -90.0 : 90.0);
+    }
+
+    return zenith;
+}
+
 QVector<Eigen::Vector2f> Projector::groundPoly(SkyPoint *labelpoint, bool *drawLabel) const
 {
     QVector<Eigen::Vector2f> ground;
@@ -277,9 +312,9 @@ QVector<Eigen::Vector2f> Projector::groundPoly(SkyPoint *labelpoint, bool *drawL
 
     //daz is 1/2 the width of the sky in degrees
     double daz = 90.;
-    if (m_vp.useAltAz)
+    if (m_vp.useAltAz && m_vp.rotationAngle.reduce().Degrees() == 0.0)
     {
-        daz = 0.5 * m_vp.width * 57.3 / m_vp.zoomFactor; //center to edge, in degrees
+        daz = 0.5 * m_vp.width / (dms::DegToRad * m_vp.zoomFactor); //center to edge, in degrees
         if (type() == Projector::Orthographic)
         {
             daz = daz * 1.4;
@@ -293,6 +328,8 @@ QVector<Eigen::Vector2f> Projector::groundPoly(SkyPoint *labelpoint, bool *drawL
 
     bool allGround = true;
     bool allSky    = true;
+
+    bool inverted = ((m_vp.rotationAngle + 90.0_deg).reduce().Degrees() > 180.);
 
     double inc = 1.0;
     //Add points along horizon
@@ -309,9 +346,9 @@ QVector<Eigen::Vector2f> Projector::groundPoly(SkyPoint *labelpoint, bool *drawL
                 *labelpoint = p;
 
             if (o.y() > 0.)
-                allGround = false;
+                (inverted ? allSky : allGround) = false;
             if (o.y() < m_vp.height)
-                allSky = false;
+                (inverted ? allGround : allSky) = false;
         }
     }
 
@@ -339,9 +376,11 @@ QVector<Eigen::Vector2f> Projector::groundPoly(SkyPoint *labelpoint, bool *drawL
     //FIXME: not just gnomonic
     if (daz < 25.0 || type() == Projector::Gnomonic)
     {
+        const float completion_height = (inverted ?
+                                         -10.f : m_vp.height + 10.f);
         ground.append(Eigen::Vector2f(m_vp.width + 10.f, ground.last().y()));
-        ground.append(Eigen::Vector2f(m_vp.width + 10.f, m_vp.height + 10.f));
-        ground.append(Eigen::Vector2f(-10.f, m_vp.height + 10.f));
+        ground.append(Eigen::Vector2f(m_vp.width + 10.f, completion_height));
+        ground.append(Eigen::Vector2f(-10.f, completion_height));
         ground.append(Eigen::Vector2f(-10.f, ground.first().y()));
     }
     else
@@ -398,8 +437,12 @@ bool Projector::unusablePoint(const QPointF &p) const
         return false;
     //At low zoom, we have to determine whether the point is beyond the sky horizon
     //Convert pixel position to x and y offsets in radians
-    double dx = (0.5 * m_vp.width - p.x()) / m_vp.zoomFactor;
-    double dy = (0.5 * m_vp.height - p.y()) / m_vp.zoomFactor;
+
+    // N.B. Technically, rotation does not affect the dx² + dy²
+    // metric, but we use the derst method for uniformity; this
+    // function is not perf critical
+    auto p_ = derst(p.x(), p.y());
+    double dx = p_[0], dy = p_[1];
     return (dx * dx + dy * dy) > r0 * r0;
 }
 
@@ -412,8 +455,8 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat, bool 
       */
     double sinY0, cosY0;
     //Convert pixel position to x and y offsets in radians
-    double dx = (0.5 * m_vp.width - p.x()) / m_vp.zoomFactor;
-    double dy = (0.5 * m_vp.height - p.y()) / m_vp.zoomFactor;
+    auto p_ = derst(p.x(), p.y());
+    double dx = p_[0], dy = p_[1];
 
     double r = sqrt(dx * dx + dy * dy);
     c.setRadians(projectionL(r));
@@ -527,26 +570,13 @@ Eigen::Vector2f Projector::toScreenVec(const SkyPoint *o, bool oRefract, bool *o
 
     double k = projectionK(c);
 
-    double origX = m_vp.width / 2;
-    double origY = m_vp.height / 2;
+    auto p = rst(k * cosY * sindX, k * (m_cosY0 * sinY - m_sinY0 * cosY * cosdX));
 
-    double x = origX - m_vp.zoomFactor * k * cosY * sindX;
-    double y = origY - m_vp.zoomFactor * k * (m_cosY0 * sinY - m_sinY0 * cosY * cosdX);
 #ifdef KSTARS_LITE
     double skyRotation = SkyMapLite::Instance()->getSkyRotation();
-    if (skyRotation != 0)
-    {
-        dms rotation(skyRotation);
-        double cosT, sinT;
-
-        rotation.SinCos(sinT, cosT);
-
-        double newX = origX + (x - origX) * cosT - (y - origY) * sinT;
-        double newY = origY + (x - origX) * sinT + (y - origY) * cosT;
-
-        x = newX;
-        y = newY;
-    }
+    // FIXME: Port above to change the m_vp.rotationAngle, or
+    // deprecate it
+    Q_ASSERT(false);
 #endif
-    return Eigen::Vector2f(x, y);
+    return p;
 }

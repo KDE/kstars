@@ -38,8 +38,15 @@ void HIPSComponent::draw(SkyPainter *skyp)
     // restart the timer.
 
     // Keep track of zoom level and redraw if changes.
-    double newZoom = Options::zoomFactor();
-    if (std::abs(newZoom - m_LastZoom) == 0. && Options::isTracking() && SkyMap::IsFocused())
+    ViewParams view = SkyMap::Instance()->projector()->viewParams();
+    bool sameView = (
+                        view.width == m_previousViewParams.width &&
+                        view.height == m_previousViewParams.height &&
+                        view.zoomFactor == m_previousViewParams.zoomFactor &&
+                        view.rotationAngle == m_previousViewParams.rotationAngle &&
+                        view.useAltAz == m_previousViewParams.useAltAz
+                    );
+    if (sameView && Options::isTracking() && SkyMap::IsFocused())
     {
         // We can draw the cache when two conditions are met.
         // 1. It is not yet time to re-draw
@@ -65,7 +72,7 @@ void HIPSComponent::draw(SkyPainter *skyp)
     else
         skyp->drawHips(false);
 
-    m_LastZoom = newZoom;
+    m_previousViewParams = view;
 #else
     Q_UNUSED(skyp);
 #endif

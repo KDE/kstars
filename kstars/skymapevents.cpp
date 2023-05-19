@@ -537,6 +537,33 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
         }
     }
 
+    // Are we setting the skymap rotation?
+    if (rotationStart.x() > 0 && rotationStart.y() > 0)
+    {
+        // stop the operation if the user let go of SHIFT
+        if (!(e->modifiers() & Qt::ShiftModifier))
+        {
+            rotationStart = QPoint(); // invalidate
+            rotationStartAngle = dms(); // NaN
+            slewing = false;
+            forceUpdate();
+            return;
+        }
+        else
+        {
+            // Compute the rotation
+            const float start_x = rotationStart.x() - width() / 2.0f;
+            const float start_y = height() / 2.0f - rotationStart.y();
+
+            const float curr_x = e->pos().x() - width() / 2.0f;
+            const float curr_y = height() / 2.0f - e->pos().y();
+
+            const dms angle {(std::atan2(curr_y, curr_x) - std::atan2(start_y, start_x)) / dms::DegToRad };
+            slotSetSkyRotation((rotationStartAngle - angle).Degrees());
+            return;
+        }
+    }
+
     if (projector()->unusablePoint(e->pos()))
         return; // break if point is unusable
 
@@ -686,6 +713,16 @@ void SkyMap::mouseReleaseEvent(QMouseEvent *e)
         slotCancelLegendPreviewMode();
     }
 
+    // Are we setting the skymap rotation?
+    if (rotationStart.x() > 0 && rotationStart.y() > 0)
+    {
+        rotationStart = QPoint(); // invalidate
+        rotationStartAngle = dms(); // NaN
+        slewing = false;
+        forceUpdateNow();
+        return;
+    }
+
     //false if double-clicked, because it's unset there.
     if (mouseButtonDown)
     {
@@ -715,6 +752,17 @@ void SkyMap::mousePressEvent(QMouseEvent *e)
         ZoomRect.moveCenter(e->pos());
         setZoomMouseCursor();
         update(); //refresh without redrawing skymap
+        return;
+    }
+
+    if ((e->modifiers() & Qt::ShiftModifier) && (e->button() == Qt::LeftButton))
+    {
+        // Skymap rotation mode
+        rotationStart = e->pos();
+        rotationStartAngle = dms(Options::skyRotation());
+        slewing = true;
+        setRotationMouseCursor();
+        forceUpdate();
         return;
     }
 

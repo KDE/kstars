@@ -38,11 +38,12 @@ class ViewParams
     public:
         float width, height;
         float zoomFactor;
+        CachingDms rotationAngle;
         bool useRefraction;
         bool useAltAz;
         bool fillGround; ///<If the ground is filled, then points below horizon are invisible
         SkyPoint *focus;
-        ViewParams() : width(0), height(0), zoomFactor(0),
+        ViewParams() : width(0), height(0), zoomFactor(0), rotationAngle(0),
             useRefraction(false), useAltAz(false), fillGround(false),
             focus(nullptr) {}
 };
@@ -227,6 +228,19 @@ class Projector
         double findPA(const SkyObject *o, float x, float y) const;
 
         /**
+         * Determine the on-screen angle of a SkyPoint with respect to Zenith.
+         *
+         * @note Similar to @see findNorthPA
+         * @note It is assumed that EquatorialToHorizontal has been called on @p o
+         *
+         * @description This is determined by constructing a test
+         * point with the same Azimuth but a slightly increased
+         * Altitude, and calculating the angle w.r.t. the Y-axis of
+         * the line connecting the object to its test point.
+         */
+        double findZenithPA(const SkyPoint *o, float x, float y) const;
+
+        /**
          * Get the ground polygon
          * @param labelpoint This point will be set to something suitable for attaching a label
          * @param drawLabel this tells whether to draw a label.
@@ -281,6 +295,48 @@ class Projector
         virtual double cosMaxFieldAngle() const
         {
             return 0;
+        }
+
+        /**
+         * Transform proj (x, y) to screen (x, y) accounting for scale and rotation
+         *
+         * Transforms the Cartesian position given by the projector
+         * algorithm into the screen coordinate by applying the scale
+         * factor, rotation and shift from SkyMap origin
+         *
+         * rst stands for rotate-scale-translate
+         *
+         */
+        inline Eigen::Vector2f rst(double x, double y) const
+        {
+            return
+            {
+                m_vp.width / 2 - m_vp.zoomFactor * (x * m_vp.rotationAngle.cos() - y * m_vp.rotationAngle.sin()),
+                m_vp.height / 2 - m_vp.zoomFactor * (x * m_vp.rotationAngle.sin() + y * m_vp.rotationAngle.cos())
+            };
+        }
+
+        /**
+         * Transform screen (x, y) to projector (x, y) accounting for scale, rotation
+         *
+         * Transforms the Cartesian position on the screen to the
+         * Cartesian position accepted by the projector algorithm by
+         * applying th escale factor, rotation and shift from SkyMap
+         * origin
+         *
+         * rst stands for rotate-scale-translate
+         *
+         * @see rst
+         */
+        inline Eigen::Vector2f derst(double x, double y) const
+        {
+            const double X = (m_vp.width / 2 - x) / m_vp.zoomFactor;
+            const double Y = (m_vp.height / 2 - y) / m_vp.zoomFactor;
+            return
+            {
+                m_vp.rotationAngle.cos() * X + m_vp.rotationAngle.sin() * Y,
+                -m_vp.rotationAngle.sin() * X + m_vp.rotationAngle.cos() * Y
+            };
         }
 
         /**

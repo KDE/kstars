@@ -314,6 +314,11 @@ class dms
 #endif
     }
 
+    /**
+     * @short Convenience method to return tangent of the angle
+     */
+    inline double tan() const { return sin()/cos(); }
+
     /** @short Express the angle in radians.
          * @return the angle in radians (double)
          */

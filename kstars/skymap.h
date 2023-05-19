@@ -12,6 +12,7 @@
 #include "printing/legend.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
+#include "nan.h"
 
 #include <QGraphicsView>
 #include <QtGlobal>
@@ -397,6 +398,9 @@ class SkyMap : public QGraphicsView
         /** Toggle visibility of all infoboxes */
         void slotToggleInfoboxes(bool);
 
+        /** Sets the base sky rotation (before correction) to the given angle */
+        void slotSetSkyRotation(double angle);
+
         /** Step the Focus point toward the Destination point.  Do this iteratively, redrawing the Sky
              * Map after each step, until the Focus point is within 1 step of the Destination point.
              * For the final step, snap directly to Destination, and redraw the map.
@@ -652,6 +656,9 @@ class SkyMap : public QGraphicsView
         /** @short Sets the shape of the mouse cursor to a magnifying glass. */
         void setZoomMouseCursor();
 
+        /** @short Sets the shape of the mouse cursor to a rotation symbol. */
+        void setRotationMouseCursor();
+
         /** Calculate the zoom factor for the given keyboard modifier
              */
         double zoomFactor(const int modifier);
@@ -690,6 +697,16 @@ class SkyMap : public QGraphicsView
         void beginRulerMode(bool starHopRuler); // TODO: Add docs
 
         /**
+         * Determine the rotation angle of the SkyMap
+         *
+         * This is simply Options::skyRotation() if the erect observer
+         * correction is not applicable, but otherwise it is
+         * determined by adding a correction amount dependent on the
+         * focus of the sky map
+         */
+        dms determineSkyRotation();
+
+        /**
          * @short Strart xplanet.
          * @param outputFile Output file path.
          */
@@ -712,6 +729,9 @@ class SkyMap : public QGraphicsView
         // distance. FIXME: Find a better way to do this
         bool starHopDefineMode { false };
         double y0;
+
+        QPoint rotationStart;
+        dms rotationStartAngle;
 
         double m_Scale;
 

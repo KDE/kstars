@@ -69,6 +69,12 @@ class SkyMapDrawAbstract
     void drawSolverFOV(QPainter &psky);
 
     /**
+     * @short Draw north and zenith arrows to show the orientation while rotating the sky map
+     * @param p reference to the QPainter on which to draw (this should be the sky map)
+     */
+    void drawOrientationArrows(QPainter &p);
+
+    /**
         	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
         	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap).
         	*/
