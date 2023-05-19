@@ -2205,6 +2205,10 @@
       <entry name="AlignFilter" type="String">
          <label>Default filter wheel filter in alignment mode</label>
       </entry>      
+      <entry name="AlignUseCurrentFilter" type="Bool">
+         <label>Use currently selected filter in alignment mode.</label>
+         <default>false</default>
+      </entry>      
       <entry name="AstrometryUseRotator" type="Bool">
          <whatsthis>Use rotator when performing load and slew.</whatsthis>
          <default>true</default>

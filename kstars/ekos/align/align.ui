@@ -737,6 +737,16 @@
             </property>
            </widget>
           </item>
+          <item row="5" column="2" colspan="3">
+           <widget class="QCheckBox" name="alignUseCurrentFilter">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked, the currently selected filter will be used for alignment. &lt;/p&gt;&lt;p&gt;If you want to use a certain (fixed) filter for alignment, leave unchecked and select the filter manually.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>use current</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -1130,7 +1140,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverModeButtonGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>

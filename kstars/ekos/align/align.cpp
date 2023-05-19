@@ -205,6 +205,8 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
         trainB->setEnabled(state < ALIGN_PROGRESS);
     });
 
+    connect(alignUseCurrentFilter, &QCheckBox::toggled, this, &Align::checkFilter);
+
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
@@ -3029,18 +3031,25 @@ void Align::checkFilter()
 
     auto isConnected = m_FilterWheel->isConnected();
     FilterPosLabel->setEnabled(isConnected);
-    alignFilter->setEnabled(isConnected);
+    alignFilter->setEnabled(alignUseCurrentFilter->isChecked() == false);
 
     setupFilterManager();
 
     alignFilter->addItems(m_FilterManager->getFilterLabels());
-
     currentFilterPosition = m_FilterManager->getFilterPosition();
 
-    //alignFilter->setCurrentIndex(Options::lockAlignFilterIndex());
-    auto filter = m_Settings["alignFilter"];
-    if (filter.isValid())
-        alignFilter->setCurrentText(filter.toString());
+    if (alignUseCurrentFilter->isChecked())
+    {
+        // use currently selected filter
+        alignFilter->setCurrentIndex(currentFilterPosition - 1);
+    }
+    else
+    {
+        // use the fixed filter
+        auto filter = m_Settings["alignFilter"];
+        if (filter.isValid())
+            alignFilter->setCurrentText(filter.toString());
+    }
 }
 
 void Align::setRotator(ISD::Rotator * Device)
