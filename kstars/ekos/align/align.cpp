@@ -3034,8 +3034,13 @@ void Align::checkFilter()
     setupFilterManager();
 
     alignFilter->addItems(m_FilterManager->getFilterLabels());
+
     currentFilterPosition = m_FilterManager->getFilterPosition();
-    alignFilter->setCurrentIndex(currentFilterPosition - 1);
+
+    //alignFilter->setCurrentIndex(Options::lockAlignFilterIndex());
+    auto filter = m_Settings["alignFilter"];
+    if (filter.isValid())
+        alignFilter->setCurrentText(filter.toString());
 }
 
 void Align::setRotator(ISD::Rotator * Device)
