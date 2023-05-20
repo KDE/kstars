@@ -87,6 +87,9 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         // Calculate the curve fitting goal based on the algorithm parameters and progress
         CurveFitting::FittingGoal getGoal(int numSteps);
 
+        // Get the minimum number of datapoints before attempting the first curve fit
+        int getCurveMinPoints();
+
         // Calc the next step size for Linear1Pass for FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE
         int getNextStepSize();
 
@@ -533,12 +536,11 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const doubl
 
     if (inFirstPass)
     {
-        constexpr int kMinPolynomialPoints = 5;
         constexpr int kNumPolySolutionsRequired = 2;
         constexpr int kNumRestartSolutionsRequired = 3;
-        constexpr double kDecentValue = 3.0;
+        //constexpr double kDecentValue = 3.0;
 
-        if (values.size() >= kMinPolynomialPoints)
+        if (values.size() >= getCurveMinPoints())
         {
             if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
             {
@@ -548,7 +550,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const doubl
                 {
                     // I've found that the first sample can be odd--perhaps due to backlash.
                     // Try again skipping the first sample, if we have sufficient points.
-                    if (values.size() > kMinPolynomialPoints)
+                    if (values.size() > getCurveMinPoints())
                     {
                         PolynomialFit fit2(2, positions.mid(1), values.mid(1));
                         foundFit = fit2.findMinimum(position, 0, params.maxPositionAllowed, &minPos, &minVal);
@@ -558,8 +560,9 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const doubl
             }
             else // Hyperbola or Parabola so use the LM solver
             {
-                params.curveFitting->fitCurve(CurveFitting::FittingGoal::STANDARD, positions, values, weights, pass1Outliers,
-                                              params.curveFit, params.useWeights, params.optimisationDirection);
+                auto goal = getGoal(numSteps);
+                params.curveFitting->fitCurve(goal, positions, values, weights, pass1Outliers, params.curveFit, params.useWeights,
+                                              params.optimisationDirection);
 
                 foundFit = params.curveFitting->findMinMax(position, 0, params.maxPositionAllowed, &minPos, &minVal,
                            static_cast<CurveFitting::CurveFit>(params.curveFit),
@@ -689,10 +692,23 @@ CurveFitting::FittingGoal LinearFocusAlgorithm::getGoal(int numSteps)
 {
     // The classic walk needs the STANDARD curve fitting
     if (params.focusWalk == Focus::FOCUS_WALK_CLASSIC)
-        return CurveFitting::FittingGoal::STANDARD;
+        return (numSteps >= params.initialOutwardSteps) ? CurveFitting::FittingGoal::BEST : CurveFitting::FittingGoal::STANDARD;
 
     // Fixed step walks will use C, except for the last step which should be BEST
     return (numSteps >= params.numSteps) ? CurveFitting::FittingGoal::BEST : CurveFitting::FittingGoal::STANDARD;
+}
+
+// Get the minimum number of points to start fitting a curve
+// The default is 5. Try to get past the minimum so the curve shape is hyperbolic/parabolic
+int LinearFocusAlgorithm::getCurveMinPoints()
+{
+    if (params.focusAlgorithm != Focus::FOCUS_LINEAR1PASS)
+        return 5;
+
+    if (params.focusWalk == Focus::FOCUS_WALK_CLASSIC)
+        return params.initialOutwardSteps + 2;
+
+    return params.numSteps / 2 + 2;
 }
 
 // Process next step for LINEAR1PASS for walks: FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE
@@ -725,8 +741,7 @@ int LinearFocusAlgorithm::linearWalk(int position, double value, const double st
     pass1Weights.push_back(starWeight);
     pass1Outliers.push_back(false);
 
-    constexpr int kMinPolynomialPoints = 5;
-    if (values.size() < kMinPolynomialPoints)
+    if (values.size() < getCurveMinPoints())
     {
         // Don't have enough samples to reliably fit a curve.
         // Simply step the focus in one more time and iterate.

@@ -1732,11 +1732,11 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
     targetChip->setFrameType(FRAME_LIGHT);
     targetChip->setCaptureFilter(FITS_NONE);
 
-    if (focusISO->isEnabled() && focusISO->currentIndex() != -1 &&
+    if (isFocusISOEnabled() && focusISO->currentIndex() != -1 &&
             targetChip->getISOIndex() != focusISO->currentIndex())
         targetChip->setISOIndex(focusISO->currentIndex());
 
-    if (focusGain->isEnabled() && focusGain->value() != GainSpinSpecialValue)
+    if (isFocusGainEnabled() && focusGain->value() != GainSpinSpecialValue)
         m_Camera->setGain(focusGain->value());
 }
 
@@ -2984,7 +2984,7 @@ void Focus::plotLinearFocus()
         double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
 
         linearFocuser->getPass1Measurements(&pass1Positions, &pass1Values, &pass1Weights, &pass1Outliers);
-        if (m_FocusAlgorithm == FOCUS_LINEAR)
+        if (m_FocusAlgorithm == FOCUS_LINEAR || m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
         {
             // TODO: Need to determine whether to change LINEAR over to the LM solver in CurveFitting
             // This will be determined after L1P's first release has been deemed successful.

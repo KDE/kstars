@@ -1084,13 +1084,13 @@
            <item row="7" column="1">
             <widget class="QSpinBox" name="f_AbsoluteFocusPosition">
              <property name="readOnly">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="maximum">
               <number>1000000</number>
              </property>
              <property name="singleStep">
-              <number>1000</number>
+              <number>1</number>
              </property>
             </widget>
            </item>
@@ -1104,7 +1104,7 @@
            <item row="9" column="1">
             <widget class="QDoubleSpinBox" name="f_FocusAltitude">
              <property name="readOnly">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="minimum">
               <double>-1000000.000000000000000</double>
@@ -1192,13 +1192,13 @@
               <bool>true</bool>
              </property>
              <property name="readOnly">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="minimum">
               <double>-1000000.000000000000000</double>
              </property>
              <property name="maximum">
-              <double>100.000000000000000</double>
+              <double>70.000000000000000</double>
              </property>
              <property name="value">
               <double>-1000000.000000000000000</double>

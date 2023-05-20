@@ -579,7 +579,7 @@ void TestFocus::L1PHyperbolaTest()
 
     // Send in the last datapoint to complete the first pass. The focuser will move to the solution
     // found by the curve fitting process.
-    int solution = 10002;
+    int solution = 10000;
     position = focuser->newMeasurement(currentPosition, 5, 1);
     QCOMPARE(position, solution);
 

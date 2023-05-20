@@ -119,14 +119,18 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
     m_FilterView->setItemDelegateForColumn(FM_LOCK_FILTER, lockDelegate);
     lockDelegate->setValues(getLockDelegates());
 
-    // Last AF solution delegate - not editable as set by Autofocus
-    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_SOLUTION, noEditDelegate);
+    // Last AF solution delegate. Set by Autofocus but make editable in case bad data
+    // corrections need to be made
+    lastAFSolutionDelegate = new IntegerDelegate(m_FilterView, 0, 1000000, 1);
+    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_SOLUTION, lastAFSolutionDelegate);
 
-    // Last AF solution temperature and altitude delegates - not editable as set by Autofocus
-    // Display to 2 decimal places
-    noEditDelegate2dp = new NotEditableDelegate2dp(m_FilterView);
-    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_TEMP, noEditDelegate2dp);
-    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_ALT, noEditDelegate2dp);
+    // Last AF solution temperature delegate
+    lastAFTempDelegate = new DoubleDelegate(m_FilterView, -60.0, 60.0, 1.0);
+    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_TEMP, lastAFTempDelegate);
+
+    // Last AF solution altitude delegate
+    lastAFAltDelegate = new DoubleDelegate(m_FilterView, 0.0, 90.0, 1.0);
+    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_ALT, lastAFAltDelegate);
 
     // Ticks / °C delegate
     ticksPerTempDelegate = new DoubleDelegate(m_FilterView, -10000.0, 10000.0, 1.0);

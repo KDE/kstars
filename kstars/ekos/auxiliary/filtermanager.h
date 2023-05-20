@@ -321,10 +321,12 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Delegates
         QPointer<ComboDelegate> lockDelegate;
         QPointer<NotEditableDelegate> noEditDelegate;
-        QPointer<NotEditableDelegate2dp> noEditDelegate2dp;
         QPointer<DoubleDelegate> exposureDelegate;
         QPointer<IntegerDelegate> offsetDelegate;
         QPointer<ToggleDelegate> useAutoFocusDelegate;
+        QPointer<IntegerDelegate> lastAFSolutionDelegate;
+        QPointer<DoubleDelegate> lastAFTempDelegate;
+        QPointer<DoubleDelegate> lastAFAltDelegate;
         QPointer<DoubleDelegate> ticksPerTempDelegate;
         QPointer<DoubleDelegate> ticksPerAltDelegate;
         QPointer<IntegerDelegate> wavelengthDelegate;

@@ -11,7 +11,8 @@ constexpr int NUM_GAUSSIAN_PARAMS = 7;
 // MAX_ITERATIONS is used to limit the number of iterations for the solver.
 // A value needs to be entered that allows a solution to be found without iterating unnecessarily
 // There is a relationship with the tolerance parameters that follow.
-constexpr int MAX_ITERATIONS = 500;
+constexpr int MAX_ITERATIONS_CURVE = 50000;
+constexpr int MAX_ITERATIONS_STARS = 1000;
 // The next 3 parameters are used as tolerance for convergence
 // convergence is achieved if for each datapoint i
 //     dx_i < INEPSABS + (INEPSREL * x_i)
@@ -861,13 +862,15 @@ QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<doub
                                    .arg(xtol).arg(gtol).arg(ftol);
 
         int info = 0;
+        QElapsedTimer timer;
+        timer.start();
         int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
 
         if (status != 0)
         {
             // If the goal was a standard run and it failed then just continue. If we want a best solution then adjust params and retry
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Hyperbola): Failed with status=%1 [%2], retry=%3")
-                                       .arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Hyperbola): Failed after %1ms with status=%2 [%3], retry=%4")
+                                       .arg(timer.elapsed()).arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
             if (goal == BEST)
                 goal = BEST_RETRY;
             else
@@ -880,8 +883,9 @@ QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<doub
             for (int j = 0; j < NUM_HYPERBOLA_PARAMS; j++)
                 vc.push_back(gsl_vector_get(solution, j));
 
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Hyperbola): Solution found after %1 iters (%2). A=%3, B=%4, C=%5, D=%6")
-                                       .arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info)).arg(vc[A_IDX]).arg(vc[B_IDX])
+            qCDebug(KSTARS_EKOS_FOCUS) <<
+                                       QString("LM Solver (Hyperbola): Solution found after %1ms %2 iters (%3). A=%4, B=%5, C=%6, D=%7")
+                                       .arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info)).arg(vc[A_IDX]).arg(vc[B_IDX])
                                        .arg(vc[C_IDX]).arg(vc[D_IDX]);
             break;
         }
@@ -940,7 +944,7 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
         case STANDARD:
             params->solver = gsl_multifit_nlinear_solver_qr;
 
-            *numIters = MAX_ITERATIONS;
+            *numIters = MAX_ITERATIONS_CURVE;
             *xtol = INEPSXTOL;
             *gtol = INEPSGTOL;
             *ftol = INEPSFTOL;
@@ -948,7 +952,7 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
         case BEST:
             params->solver = gsl_multifit_nlinear_solver_cholesky;
 
-            *numIters = MAX_ITERATIONS * 2.0;
+            *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL / 10.0;
             *gtol = INEPSGTOL / 10.0;
             *ftol = INEPSFTOL / 10.0;
@@ -956,7 +960,7 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
         case BEST_RETRY:
             params->solver = gsl_multifit_nlinear_solver_qr;
 
-            *numIters = MAX_ITERATIONS * 2.0;
+            *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL;
             *gtol = INEPSGTOL;
             *ftol = INEPSFTOL;
@@ -1108,13 +1112,15 @@ QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<doubl
                                    .arg(xtol).arg(gtol).arg(ftol);
 
         int info = 0;
+        QElapsedTimer timer;
+        timer.start();
         int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
 
         if (status != 0)
         {
             // If the goal was a standard run and it failed then just continue. If we want a best solution then adjust params and retry
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Parabola): Failed with status=%1 [%2], retry=%3")
-                                       .arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Parabola): Failed after %1ms with status=%2 [%3], retry=%4")
+                                       .arg(timer.elapsed()).arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
             if (goal == BEST)
                 goal = BEST_RETRY;
             else
@@ -1127,8 +1133,8 @@ QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<doubl
             for (int j = 0; j < NUM_PARABOLA_PARAMS; j++)
                 vc.push_back(gsl_vector_get(solution, j));
 
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Parabola): Solution found after %1 iters (%2). A=%3, B=%4, C=%5")
-                                       .arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info)).arg(vc[A_IDX]).arg(vc[B_IDX])
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Parabola): Solution found after %1ms %2 iters (%3). A=%4, B=%5, C=%6")
+                                       .arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info)).arg(vc[A_IDX]).arg(vc[B_IDX])
                                        .arg(vc[C_IDX]);
             break;
         }
@@ -1173,7 +1179,7 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
         case STANDARD:
             params->solver = gsl_multifit_nlinear_solver_cholesky;
 
-            *numIters = MAX_ITERATIONS;
+            *numIters = MAX_ITERATIONS_CURVE;
             *xtol = INEPSXTOL;
             *gtol = INEPSGTOL;
             *ftol = INEPSFTOL;
@@ -1181,7 +1187,7 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
         case BEST:
             params->solver = gsl_multifit_nlinear_solver_cholesky;
 
-            *numIters = MAX_ITERATIONS * 2.0;
+            *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL / 10.0;
             *gtol = INEPSGTOL / 10.0;
             *ftol = INEPSFTOL / 10.0;
@@ -1189,7 +1195,7 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
         case BEST_RETRY:
             params->solver = gsl_multifit_nlinear_solver_qr;
 
-            *numIters = MAX_ITERATIONS * 2.0;
+            *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL;
             *gtol = INEPSGTOL;
             *ftol = INEPSFTOL;
@@ -1342,11 +1348,13 @@ QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams s
                                .arg(xtol).arg(gtol).arg(ftol);
 
     int info = 0;
+    QElapsedTimer timer;
+    timer.start();
     int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
 
     if (status != 0)
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Gaussian): Failed with status=%1 [%2]").arg(status).arg(gsl_strerror(
-                                       status));
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Gaussian): Failed after %1ms with status=%2 [%3]")
+                                   .arg(timer.elapsed()).arg(status).arg(gsl_strerror(status));
     else
     {
         // All good so store the results - parameters A, B, C, D, E, F, G
@@ -1354,8 +1362,8 @@ QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams s
         for (int j = 0; j < NUM_GAUSSIAN_PARAMS; j++)
             vc.push_back(gsl_vector_get(solution, j));
 
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Gaussian): Solution found after %1 iters (%2). A=%3, B=%4, C=%5, "
-                                              "D=%6, E=%7, F=%8, G=%9").arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info))
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Gaussian): Solution found after %1ms %2 iters (%3). A=%4, B=%5, C=%6, "
+                                              "D=%7, E=%8, F=%9, G=%10").arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info))
                                    .arg(vc[A_IDX]).arg(vc[B_IDX]).arg(vc[C_IDX]).arg(vc[D_IDX]).arg(vc[E_IDX])
                                    .arg(vc[F_IDX]).arg(vc[G_IDX]);
     }
@@ -1423,7 +1431,7 @@ void CurveFitting::gauSetupParams(gsl_multifit_nlinear_parameters *params, int *
     // - gsl_multifit_nlinear_solver_mcholesky modified Cholesky more stable than Cholesky
     params->solver = gsl_multifit_nlinear_solver_cholesky;
 
-    *numIters = MAX_ITERATIONS;
+    *numIters = MAX_ITERATIONS_STARS;
     *xtol = 1e-5;
     *gtol = INEPSGTOL;
     *ftol = 1e-5;
