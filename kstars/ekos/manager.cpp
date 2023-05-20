@@ -3015,6 +3015,9 @@ void Manager::connectModules()
         connect(focusProcess.get(), &Ekos::Focus::trainChanged, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendTrainProfiles,
                 Qt::UniqueConnection);
+
+        connect(focusProcess.get(), &Ekos::Focus::autofocusAborted,
+                ekosLiveClient.get()->message(), &EkosLive::Message::autofocusAborted, Qt::UniqueConnection);
     }
 
     // Guide <--> EkosLive Connections

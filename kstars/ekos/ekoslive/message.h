@@ -98,6 +98,9 @@ class Message : public QObject
         void sendPreviewLabel(const QString &preview);
         void sendCaptureSettings(const QJsonObject &settings);
 
+        // Focus
+        void autofocusAborted();
+
         // DSLR
         void requestDSLRInfo(const QString &cameraName);
 
