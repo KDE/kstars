@@ -47,6 +47,9 @@ Message::Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager>> &n
     connect(manager, &Ekos::Manager::newModule, this, &Message::sendModuleState);
 
     m_ThrottleTS = QDateTime::currentDateTime();
+
+    m_PendingPropertiesTimer.setInterval(500);
+    connect(&m_PendingPropertiesTimer, &QTimer::timeout, this, &Message::sendPendingProperties);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +63,7 @@ void Message::onConnected()
 
     qCInfo(KSTARS_EKOS) << "Connected to Message Websocket server at" << node->url().toDisplayString();
 
+    m_PendingPropertiesTimer.start();
     sendConnection();
     sendProfiles();
     emit connected();
@@ -78,7 +82,7 @@ void Message::onDisconnected()
 
     if (isConnected() == false)
     {
-        m_PropertyCache.clear();
+        m_PendingPropertiesTimer.stop();
         emit disconnected();
     }
 }
@@ -1138,7 +1142,6 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
         KStars::Instance()->clearAllViewers();
 
         m_PropertySubscriptions.clear();
-        m_PropertyCache.clear();
     }
     else if (command == commands[ADD_PROFILE])
     {
@@ -1475,7 +1478,6 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     if (device.isEmpty() && command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
     {
         m_PropertySubscriptions.clear();
-        m_PropertyCache.clear();
         return;
     }
 
@@ -2407,19 +2409,28 @@ void Message::processUpdateProperty(INDI::Property prop)
         QSet<QString> subProps = m_PropertySubscriptions[prop.getDeviceName()];
         if (subProps.contains(prop.getName()))
         {
-            auto propObject = new QJsonObject();
-            ISD::propertyToJson(prop, *propObject);
-
-            if (m_PropertyCache.contains(prop.getName()) && *m_PropertyCache[prop.getName()] == *propObject)
-            {
-                delete (propObject);
-                return;
-            }
-
-            sendResponse(commands[DEVICE_PROPERTY_GET], *propObject);
-            m_PropertyCache.insert(prop.getName(), propObject);
+            m_PendingProperties.remove(prop);
+            m_PendingProperties.insert(prop);
         }
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendPendingProperties()
+{
+    for (auto &prop : m_PendingProperties)
+    {
+        if (prop->isValid())
+        {
+            QJsonObject propObject;
+            ISD::propertyToJson(*prop, propObject);
+            sendResponse(commands[DEVICE_PROPERTY_GET], propObject);
+        }
+    }
+
+    m_PendingProperties.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

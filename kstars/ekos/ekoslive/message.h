@@ -195,6 +195,8 @@ class Message : public QObject
         void sendResponse(const QString &command, const QString &payload);
         void sendResponse(const QString &command, bool payload);
 
+        void sendPendingProperties();
+
         typedef struct
         {
             int number_integer;
@@ -220,9 +222,11 @@ class Message : public QObject
         QSize m_ViewSize;
         double m_CurrentZoom {100};
 
+        QSet<INDI::Property *> m_PendingProperties;
+        QTimer m_PendingPropertiesTimer;
+
         QDateTime m_ThrottleTS;
-        CatalogsDB::DBManager m_DSOManager;
-        QCache<QString, QJsonObject> m_PropertyCache;
+        CatalogsDB::DBManager m_DSOManager;        
 
         typedef enum
         {
