@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-20 00:41+0000\n"
+"POT-Creation-Date: 2023-05-21 00:41+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -395,7 +395,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/filtermanager.cpp:1213 ekos/capture/capture.cpp:4114
+#: ekos/auxiliary/filtermanager.cpp:1217 ekos/capture/capture.cpp:4114
 #: ekos/scheduler/scheduler.cpp:4738
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -1425,7 +1425,7 @@ msgstr "minute"
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:534 ekos/opsekos.ui:627
+#: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:585 ekos/opsekos.ui:678
 #, fuzzy, kde-format
 #| msgctxt "seconds"
 #| msgid "secs"
@@ -1938,7 +1938,7 @@ msgstr "Sterre"
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
 #: ekos/analyze/analyze.cpp:2826 ekos/auxiliary/darklibrary.cpp:46
-#: ekos/auxiliary/filtermanager.cpp:956 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/filtermanager.cpp:960 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
@@ -6155,7 +6155,7 @@ msgstr "Bereken"
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3488 ekos/auxiliary/filtermanager.cpp:1332
+#: ekos/align/align.cpp:3488 ekos/auxiliary/filtermanager.cpp:1336
 #: ekos/capture/capture.cpp:5575
 #, kde-format
 msgid "Changing filter to %1..."
@@ -9422,7 +9422,7 @@ msgstr "Ster"
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1853
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:122
-#: ekos/opsekos.ui:505
+#: ekos/opsekos.ui:538
 #, fuzzy, kde-format
 msgid "Capture"
 msgstr "Stoor Beeld"
@@ -10591,7 +10591,7 @@ msgid "Exp. Range:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
-#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1204
+#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1208
 #, fuzzy, kde-format
 msgid "Average"
 msgstr "Ada"
@@ -10902,7 +10902,7 @@ msgstr "Hagen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/auxiliary/darklibrary.ui:1122 ekos/opsekos.ui:541
+#: ekos/auxiliary/darklibrary.ui:1122 ekos/opsekos.ui:592
 #, kde-format
 msgid "° C"
 msgstr ""
@@ -10956,7 +10956,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:60 ekos/auxiliary/filtermanager.cpp:1018
+#: ekos/auxiliary/filtermanager.cpp:60 ekos/auxiliary/filtermanager.cpp:1022
 #: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:940
 #, fuzzy, kde-format
 msgid "Filter"
@@ -10978,7 +10978,7 @@ msgid "Relative offset in steps"
 msgstr "Bereken"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:66 ekos/auxiliary/filtermanager.cpp:1018
+#: ekos/auxiliary/filtermanager.cpp:66 ekos/auxiliary/filtermanager.cpp:1022
 #: ekos/capture/capture.ui:1902
 #, kde-format
 msgid "Offset"
@@ -11001,7 +11001,7 @@ msgstr "Begin Horlosie"
 msgid "Lock specific filter when running Auto Focus"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:74 ekos/auxiliary/filtermanager.cpp:1018
+#: ekos/auxiliary/filtermanager.cpp:74 ekos/auxiliary/filtermanager.cpp:1022
 #, fuzzy, kde-format
 msgid "Lock Filter"
 msgstr "Voeg by Katalogus"
@@ -11074,57 +11074,57 @@ msgstr ""
 msgid "Wavelength"
 msgstr "Dag lengte:"
 
-#: ekos/auxiliary/filtermanager.cpp:524
+#: ekos/auxiliary/filtermanager.cpp:528
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:525
+#: ekos/auxiliary/filtermanager.cpp:529
 #, fuzzy, kde-format
 msgid "Confirm Filter"
 msgstr "Fout Uitveeïng Lêer"
 
-#: ekos/auxiliary/filtermanager.cpp:934
+#: ekos/auxiliary/filtermanager.cpp:938
 #, kde-format
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:1018
+#: ekos/auxiliary/filtermanager.cpp:1022
 #, fuzzy, kde-format
 msgid "# Focus Runs"
 msgstr "Planeet"
 
-#: ekos/auxiliary/filtermanager.cpp:1208
+#: ekos/auxiliary/filtermanager.cpp:1212
 #, fuzzy, kde-format
 msgid "New Offset"
 msgstr "Planeet"
 
-#: ekos/auxiliary/filtermanager.cpp:1244
+#: ekos/auxiliary/filtermanager.cpp:1248
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:1275
+#: ekos/auxiliary/filtermanager.cpp:1279
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:1317
+#: ekos/auxiliary/filtermanager.cpp:1321
 #, fuzzy, kde-format
 msgid "Processing complete."
 msgstr "Bereken"
 
-#: ekos/auxiliary/filtermanager.cpp:1338
+#: ekos/auxiliary/filtermanager.cpp:1342
 #, fuzzy, kde-format
 msgid "Problem changing filter to %1..."
 msgstr "Datum:"
 
-#: ekos/auxiliary/filtermanager.cpp:1347
+#: ekos/auxiliary/filtermanager.cpp:1351
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:1502
+#: ekos/auxiliary/filtermanager.cpp:1506
 #, fuzzy, kde-format
 msgid "Aborting Autofocus..."
 msgstr "Bereken"
@@ -11295,7 +11295,7 @@ msgstr "Voeg by na Lys"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:328 ekos/opsekos.ui:166
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:328 ekos/opsekos.ui:184
 #: ekos/scheduler/framingassistantui.cpp:620
 #, fuzzy, kde-format
 msgid "Scheduler"
@@ -11473,7 +11473,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
-#: ekos/auxiliary/opslogs.ui:315 ekos/opsekos.ui:397
+#: ekos/auxiliary/opslogs.ui:315 ekos/opsekos.ui:415
 #, fuzzy, kde-format
 msgid "Alignment"
 msgstr "Vertoon naam"
@@ -12659,7 +12659,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:726
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:798
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:819 ekos/opsekos.ui:817
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:819 ekos/opsekos.ui:874
 #, no-c-format, kde-format
 msgid "%"
 msgstr ""
@@ -15647,7 +15647,7 @@ msgstr "Bereken"
 msgid "Offline"
 msgstr "Bereken"
 
-#: ekos/ekoslive/message.cpp:925
+#: ekos/ekoslive/message.cpp:929
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Stooring van die beeld %1 gevaal!"
@@ -17749,22 +17749,22 @@ msgstr "Strand"
 msgid "Clear"
 msgstr "Maak skoon"
 
-#: ekos/focus/focusalgorithms.cpp:501
+#: ekos/focus/focusalgorithms.cpp:504
 #, kde-format
 msgid "Called newMeasurement after a solution was found."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:807
+#: ekos/focus/focusalgorithms.cpp:822
 #, fuzzy, kde-format
 msgid "Solution found."
 msgstr "Horisontaal Koördinate"
 
-#: ekos/focus/focusalgorithms.cpp:851
+#: ekos/focus/focusalgorithms.cpp:866
 #, kde-format
 msgid "Too many steps."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:880
+#: ekos/focus/focusalgorithms.cpp:895
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr ""
@@ -19395,7 +19395,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/guide/opsdither.ui:170 ekos/opsekos.ui:444 ekos/opsekos.ui:790
+#: ekos/guide/opsdither.ui:170 ekos/opsekos.ui:477 ekos/opsekos.ui:847
 #, fuzzy, kde-format
 msgid "frames"
 msgstr "Ster Naam"
@@ -21621,68 +21621,68 @@ msgid "TabWidget"
 msgstr "Cambridge"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ekos/opsekos.ui:44
+#: ekos/opsekos.ui:47
 #, fuzzy, kde-format
 msgid "Configuration"
 msgstr "Laaiïng van Informasie Urls"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/opsekos.ui:50
+#: ekos/opsekos.ui:68
 #, fuzzy, kde-format
 msgid "Load device configuration:"
 msgstr "Laaiïng van Informasie Urls"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
-#: ekos/opsekos.ui:57
+#: ekos/opsekos.ui:75
 #, kde-format
 msgid "Ne&ver"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_loadConfigOnConnection)
-#: ekos/opsekos.ui:67
+#: ekos/opsekos.ui:85
 #, fuzzy, kde-format
 msgid "O&n connection"
 msgstr "Bereken"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_loadDefaultConfig)
-#: ekos/opsekos.ui:74
+#: ekos/opsekos.ui:92
 #, kde-format
 msgid "Alwa&ys load defaults"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/opsekos.ui:91
+#: ekos/opsekos.ui:109
 #, fuzzy, kde-format
 msgid "Icons orientation:"
 msgstr " Epoch:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_EkosTopIcons)
 #. i18n: ectx: label, entry (EkosTopIcons), group (Ekos)
-#: ekos/opsekos.ui:98 kstars.kcfg:1538
+#: ekos/opsekos.ui:116 kstars.kcfg:1538
 #, kde-format
 msgid "Ekos modules icons are placed on the top of pages"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosTopIcons)
-#: ekos/opsekos.ui:101
+#: ekos/opsekos.ui:119
 #, fuzzy, kde-format
 msgid "Top"
 msgstr "St:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_EkosLeftIcons)
-#: ekos/opsekos.ui:114
+#: ekos/opsekos.ui:132
 #, kde-format
 msgid "Ekos module icons are placed to the left of pages"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosLeftIcons)
-#: ekos/opsekos.ui:117
+#: ekos/opsekos.ui:135
 #, kde-format
 msgid "&Left"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_independentWindowEkos)
-#: ekos/opsekos.ui:142
+#: ekos/opsekos.ui:160
 #, kde-format
 msgid ""
 "Make Ekos window independent from KStars main window. Requires restart to "
@@ -21692,19 +21692,19 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowEkos)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowFITS)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowINDI)
-#: ekos/opsekos.ui:145 fitsviewer/opsfits.ui:125 indi/opsindi.ui:541
+#: ekos/opsekos.ui:163 fitsviewer/opsfits.ui:125 indi/opsindi.ui:541
 #, kde-format
 msgid "Independent window"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: ekos/opsekos.ui:187
+#: ekos/opsekos.ui:205
 #, fuzzy, kde-format
 msgid "Offsets"
 msgstr "Planeet"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, leadTimeLabel)
-#: ekos/opsekos.ui:211
+#: ekos/opsekos.ui:229
 #, kde-format
 msgid ""
 "<html><head/><body><p>Lead time is the minimum time in minutes between jobs. "
@@ -21715,13 +21715,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, leadTimeLabel)
-#: ekos/opsekos.ui:214
+#: ekos/opsekos.ui:232
 #, fuzzy, kde-format
 msgid "Lead time:"
 msgstr "Sidereal Tyd"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, preDawnLabel)
-#: ekos/opsekos.ui:224
+#: ekos/opsekos.ui:242
 #, kde-format
 msgid ""
 "<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
@@ -21729,13 +21729,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, preDawnLabel)
-#: ekos/opsekos.ui:227
+#: ekos/opsekos.ui:245
 #, kde-format
 msgid "Pre-dawn:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PreemptiveShutdown)
-#: ekos/opsekos.ui:237
+#: ekos/opsekos.ui:255
 #, kde-format
 msgid ""
 "<html><head/><body><p>In case no scheduler job is scheduled for this many "
@@ -21744,19 +21744,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PreemptiveShutdown)
-#: ekos/opsekos.ui:240
+#: ekos/opsekos.ui:258
 #, kde-format
 msgid "Pre-emptive shutdown:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_PreemptiveShutdownTime)
-#: ekos/opsekos.ui:247
+#: ekos/opsekos.ui:265
 #, kde-format
 msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, settingAltitudeCutoffLabel)
-#: ekos/opsekos.ui:254
+#: ekos/opsekos.ui:272
 #, kde-format
 msgid ""
 "<html><body><p>Do not permit jobs to be scheduled less than this many "
@@ -21765,14 +21765,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, settingAltitudeCutoffLabel)
-#: ekos/opsekos.ui:257
+#: ekos/opsekos.ui:275
 #, fuzzy, kde-format
 #| msgid "Altitude:"
 msgid "Setting altitude cutoff:"
 msgstr "Hoogte:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, duskOffsetLabel)
-#: ekos/opsekos.ui:267
+#: ekos/opsekos.ui:285
 #, kde-format
 msgid ""
 "<html><body><p>Offset astronomical dusk by this many hours. This positive or "
@@ -21780,13 +21780,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, duskOffsetLabel)
-#: ekos/opsekos.ui:270
+#: ekos/opsekos.ui:288
 #, fuzzy, kde-format
 msgid "Dusk offset:"
 msgstr "Planeet"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dawnOffsetLabel)
-#: ekos/opsekos.ui:290
+#: ekos/opsekos.ui:308
 #, kde-format
 msgid ""
 "<html><body><p>Offset astronomical dawn by this many hours. This positive or "
@@ -21794,31 +21794,31 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, dawnOffsetLabel)
-#: ekos/opsekos.ui:293
+#: ekos/opsekos.ui:311
 #, fuzzy, kde-format
 msgid "Dawn offset:"
 msgstr "Planeet"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
-#: ekos/opsekos.ui:316
+#: ekos/opsekos.ui:334
 #, fuzzy, kde-format
 msgid "Cleanup"
 msgstr "Maak skoon"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/opsekos.ui:337
+#: ekos/opsekos.ui:355
 #, kde-format
 msgid "After shutdown procedure is successfully executed, stop INDI and Ekos."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/opsekos.ui:340
+#: ekos/opsekos.ui:358
 #, fuzzy, kde-format
 msgid "Stop Ekos after shutdown"
 msgstr "Bereken"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/opsekos.ui:347
+#: ekos/opsekos.ui:365
 #, kde-format
 msgid ""
 "<html><head/><body><p>If the shutdown script terminates INDI server, enable "
@@ -21826,19 +21826,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/opsekos.ui:350
+#: ekos/opsekos.ui:368
 #, kde-format
 msgid "Shutdown script terminates INDI"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
-#: ekos/opsekos.ui:360
+#: ekos/opsekos.ui:378
 #, kde-format
 msgid "Jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RememberJobProgress)
-#: ekos/opsekos.ui:381
+#: ekos/opsekos.ui:399
 #, kde-format
 msgid ""
 "<html><head/><body><p>When processing a scheduled job, resume the sequence "
@@ -21846,7 +21846,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RememberJobProgress)
-#: ekos/opsekos.ui:384
+#: ekos/opsekos.ui:402
 #, kde-format
 msgid "Remember job progress"
 msgstr ""
@@ -21854,13 +21854,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
 #. i18n: ectx: property (text), widget (QLabel, DSSPaddingUnitLabel)
-#: ekos/opsekos.ui:403 options/opsadvanced.ui:163 options/opsadvanced.ui:205
+#: ekos/opsekos.ui:436 options/opsadvanced.ui:163 options/opsadvanced.ui:205
 #, kde-format
 msgid "arcminutes"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
-#: ekos/opsekos.ui:417
+#: ekos/opsekos.ui:450
 #, kde-format
 msgid ""
 "If Align is enabled, scheduler would initiate a realignment procedure before "
@@ -21868,14 +21868,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
-#: ekos/opsekos.ui:420
+#: ekos/opsekos.ui:453
 #, fuzzy, kde-format
 msgid "Force re-alignment before re-starting jobs"
 msgstr "Wissel Sterre"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
-#: ekos/opsekos.ui:427 kstars.kcfg:2777
+#: ekos/opsekos.ui:460 kstars.kcfg:2777
 #, kde-format
 msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
@@ -21883,20 +21883,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/opsekos.ui:430
+#: ekos/opsekos.ui:463
 #, fuzzy, kde-format
 msgid "Verify captured image position every"
 msgstr "Steek weg objekte terwyl beweeg"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelBeforeJob)
-#: ekos/opsekos.ui:437
+#: ekos/opsekos.ui:470
 #, fuzzy, kde-format
 msgid "Reset mount model before starting each job"
 msgstr "Wissel Sterre"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
-#: ekos/opsekos.ui:451 kstars.kcfg:2781
+#: ekos/opsekos.ui:484 kstars.kcfg:2781
 #, kde-format
 msgid ""
 "If captured position exceeds target position by more this many arcminutes, "
@@ -21904,19 +21904,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/opsekos.ui:454
+#: ekos/opsekos.ui:487
 #, kde-format
 msgid "Reset pipeline if verified image delta exceeds"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelOnAlignFail)
-#: ekos/opsekos.ui:461
+#: ekos/opsekos.ui:494
 #, fuzzy, kde-format
 msgid "Reset mount model on alignment failure"
 msgstr "Vertoon naam"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
-#: ekos/opsekos.ui:478
+#: ekos/opsekos.ui:511
 #, kde-format
 msgid ""
 "<html><head/><body><p>If guiding calibration fails then restart alignment "
@@ -21926,14 +21926,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
-#: ekos/opsekos.ui:481
+#: ekos/opsekos.ui:514
 #, fuzzy, kde-format
 msgid "Restart alignment on guiding calibration failure"
 msgstr "Spanje"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ObsListMiscOptions)
-#: ekos/opsekos.ui:526 options/opsadvanced.ui:924
+#: ekos/opsekos.ui:559 options/opsadvanced.ui:924
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Monaco"
@@ -21941,13 +21941,13 @@ msgid "Miscellaneous"
 msgstr "Monako"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
-#: ekos/opsekos.ui:561
+#: ekos/opsekos.ui:612
 #, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: ekos/opsekos.ui:568
+#: ekos/opsekos.ui:619
 #, kde-format
 msgid ""
 "Maximum acceptable difference between requested and measured temperature set "
@@ -21956,13 +21956,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/opsekos.ui:571
+#: ekos/opsekos.ui:622
 #, fuzzy, kde-format
 msgid "Temperature threshold:"
 msgstr "Koördinate"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_13)
-#: ekos/opsekos.ui:594
+#: ekos/opsekos.ui:645
 #, kde-format
 msgid ""
 "Wait this many seconds after guiding is resumed to stabilize the guiding "
@@ -21970,25 +21970,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/opsekos.ui:597
+#: ekos/opsekos.ui:648
 #, fuzzy, kde-format
 msgid "Guiding settle:"
 msgstr "niks"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
-#: ekos/opsekos.ui:604
+#: ekos/opsekos.ui:655
 #, kde-format
 msgid "Cover or uncover telescope dialog timeout in seconds"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/opsekos.ui:607
+#: ekos/opsekos.ui:658
 #, fuzzy, kde-format
 msgid "Dialog timeout:"
 msgstr "Tyd"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
-#: ekos/opsekos.ui:636
+#: ekos/opsekos.ui:687
 #, kde-format
 msgid ""
 "<html><head/><body><p>When starting to process a sequence list, reset all "
@@ -21997,43 +21997,43 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
-#: ekos/opsekos.ui:639
+#: ekos/opsekos.ui:690
 #, fuzzy, kde-format
 msgid "Always reset sequence when starting"
 msgstr "Bereken"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
-#: ekos/opsekos.ui:649
+#: ekos/opsekos.ui:700
 #, fuzzy, kde-format
 msgid "Reset mount model after meridian flip"
 msgstr "Wissel Sterre"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
-#: ekos/opsekos.ui:656
+#: ekos/opsekos.ui:707
 #, kde-format
 msgid "Use flip command if supported by mount"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
-#: ekos/opsekos.ui:665
+#: ekos/opsekos.ui:719
 #, fuzzy, kde-format
 msgid "Display received FITS in the Summary screen preview window."
 msgstr " Welkom na K-sterre "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
-#: ekos/opsekos.ui:668
+#: ekos/opsekos.ui:722
 #, kde-format
 msgid "Summary screen preview"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/opsekos.ui:693
+#: ekos/opsekos.ui:747
 #, kde-format
 msgid "DSLR"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceDSLRPresets)
-#: ekos/opsekos.ui:711
+#: ekos/opsekos.ui:765
 #, kde-format
 msgid ""
 "<html><head/><body><p>Force exposure times to align with DSLR exposure "
@@ -22042,44 +22042,44 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceDSLRPresets)
-#: ekos/opsekos.ui:714
+#: ekos/opsekos.ui:768
 #, kde-format
 msgid "Force DSLR presets"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
-#: ekos/opsekos.ui:721
+#: ekos/opsekos.ui:775
 #, fuzzy, kde-format
 msgid "Display received DSLR images in the Image Viewer"
 msgstr " Welkom na K-sterre "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
-#: ekos/opsekos.ui:724
+#: ekos/opsekos.ui:778
 #, fuzzy, kde-format
 msgid "DSLR image viewer"
 msgstr " Welkom na K-sterre "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearDSLRInfoB)
-#: ekos/opsekos.ui:731
+#: ekos/opsekos.ui:785
 #, kde-format
 msgid "Clear saved DSLR sizes"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDSLRInfoB)
-#: ekos/opsekos.ui:734
+#: ekos/opsekos.ui:788
 #, fuzzy, kde-format
 msgid "Clear DSLR Info"
 msgstr "Maak skoon"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/opsekos.ui:767
+#: ekos/opsekos.ui:821
 #, fuzzy, kde-format
 #| msgid "open cluster"
 msgid "In-Sequence Focus"
 msgstr "open klaster"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: ekos/opsekos.ui:824
+#: ekos/opsekos.ui:881
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set HFR Threshold percentage gain. When an autofocus "
@@ -22092,19 +22092,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/opsekos.ui:827
+#: ekos/opsekos.ui:884
 #, fuzzy, kde-format
 msgid "HFR threshold modifier:"
 msgstr "Leon"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
-#: ekos/opsekos.ui:834
+#: ekos/opsekos.ui:891
 #, kde-format
 msgid "Run in-sequence HFR check after this many frames."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/opsekos.ui:837
+#: ekos/opsekos.ui:894
 #, fuzzy, kde-format
 #| msgid "open cluster"
 msgid "In-sequence HFR check:"
@@ -22112,13 +22112,13 @@ msgstr "open klaster"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_InSequenceCheckFrames)
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
-#: ekos/opsekos.ui:844 kstars.kcfg:1813
+#: ekos/opsekos.ui:901 kstars.kcfg:1813
 #, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseMedianFocus)
-#: ekos/opsekos.ui:859
+#: ekos/opsekos.ui:916
 #, kde-format
 msgid ""
 "<html><head/><body><p>Calculate median focus value after each autofocus "
@@ -22129,13 +22129,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMedianFocus)
-#: ekos/opsekos.ui:862
+#: ekos/opsekos.ui:919
 #, kde-format
 msgid "Use median focus"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveHFRToFile)
-#: ekos/opsekos.ui:869
+#: ekos/opsekos.ui:926
 #, kde-format
 msgid ""
 "<html><head/><body><p>In-sequence HFR threshold value controls when the "
@@ -22149,7 +22149,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveHFRToFile)
-#: ekos/opsekos.ui:872
+#: ekos/opsekos.ui:929
 #, kde-format
 msgid "Save sequence HFR value to file"
 msgstr ""
