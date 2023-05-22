@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-21 00:41+0000\n"
-"PO-Revision-Date: 2023-05-20 10:57+0200\n"
+"PO-Revision-Date: 2023-05-21 16:59+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6705,6 +6705,10 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Indien geactiveerd zal het nu geselecteerde filter "
+"voor uitlijning worden gebruikt. </p><p>Als u een bepaald (vast) filter voor "
+"uitlijning wilt gebruiken, laat dan niet geactiveerd en selecteer handmatig "
+"het filter.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
@@ -32769,6 +32773,11 @@ msgid ""
 "the sky map will track what is seen in your eyepiece once it is set up "
 "correctly."
 msgstr ""
+"Dit inschakelen als u uw oog bij een oogstuk gebruikt in een altazimuth "
+"opgestelde Newtonsche telescoop. Dit houdt rekening met het feit dat de "
+"waarnemer rechtop staat terwijl de telescoop op en neer gaat, zodat de "
+"oriëntatie van de hemelkaart zal volgen wat gezien wordt in uw oogstuk als "
+"het eenmaal juist is ingesteld."
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:810
@@ -66817,6 +66826,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
+"Selecteer dit voor rechtop staand beeld van de hemelkaart, waar noord (in "
+"modus Equatoriale coördinaten) of zenit (in modus Horizontale coördinaten) "
+"verticaal omhoog is.Dit zou de natuurlijke keuze zijn voor een rechtop "
+"staande afbeeldingzoekscoop of beeld met het blote oog."
 
 #: kstarsinit.cpp:724
 #, kde-format
@@ -66827,6 +66840,11 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"Selecteer dit voor een geïnverteerd beeld van de hemelkaart, waar noord (in "
+"modus Equatoriale coördinaten) of zenit (in modus Horizontale coördinaten) "
+"verticaal omlaag is. Dit zou de natuurlijke keuze zijn voor een "
+"geïnverteerde afbeeldingzoekscoop, refractor/cassegrain zonder erector prism "
+"of Dobsonian."
 
 #: kstarsinit.cpp:729
 #, kde-format
@@ -66843,6 +66861,9 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
+"Deze modus wordt automatisch geselecteerd als u handmatig de hemelkaart "
+"draait met een actie Shift + slepen met de muis, om u te informeren dat de "
+"oriëntatie willekeurig is"
 
 #: kstarsinit.cpp:739
 #, kde-format
@@ -66862,6 +66883,13 @@ msgid ""
 "Coordinates. Typically makes sense to combine this with Zenith Down "
 "orientation."
 msgstr ""
+"Deze modus inschakelen als u visueel een Newtonsche telescoop gebruikt op "
+"een altazimuth opstelling. Het zal de oriëntatie van de hemelkaart "
+"corrigeren om rekening te houden met de waarnemer die rechtop blijft terwijl "
+"the telescoop op en neer gaat, anders dan een camera die samen met de "
+"telescoop draait. Dit is alleen zinvol in modus Horizontale coördinaten en "
+"is uitgeschakeld bij gebruik van Equatoriale coördinaten. Dit is typisch "
+"zinvol om dit te combineren met de oriëntatie Zenit omlaag."
 
 #: kstarsinit.cpp:768
 #, kde-format

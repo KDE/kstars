@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-21 00:41+0000\n"
-"PO-Revision-Date: 2023-05-18 06:03+0200\n"
+"PO-Revision-Date: 2023-05-21 05:26+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -6473,10 +6473,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
-#, fuzzy, kde-format
-#| msgid "Current"
+#, kde-format
 msgid "use current"
-msgstr "მიმდინარე"
+msgstr "მიმდინარის გამოყენება"
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
 #: ekos/align/align.ui:756
@@ -10483,7 +10482,7 @@ msgstr ""
 #: tools/obslistwizard.ui:779
 #, kde-format
 msgid "To:"
-msgstr ""
+msgstr "სადამდე:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxExposureSpin)
 #: ekos/auxiliary/darklibrary.ui:441
@@ -14698,7 +14697,7 @@ msgstr ""
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:360
 #, kde-format
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:376
@@ -62898,34 +62897,28 @@ msgid "Enter a field-of-view angle in degrees: "
 msgstr ""
 
 #: kstarsactions.cpp:1693 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
-msgstr "ჩრდილოეთი"
+msgstr "ჩრდილოეთი &ზემოთ"
 
 #: kstarsactions.cpp:1696 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
-msgstr "ნორტონი"
+msgstr "ჩრდილოეთი &ქვემოთ"
 
 #: kstarsactions.cpp:1714 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
-msgstr "&ზენიტი"
+msgstr "&ზენიტი ზემოთ"
 
 #: kstarsactions.cpp:1717 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
-msgstr "&ზენიტი"
+msgstr "ზენიტი &ქვემოთ"
 
 #: kstarsactions.cpp:1875
 #, kde-format
@@ -63344,10 +63337,9 @@ msgid "HiPS All Sky Overlay"
 msgstr ""
 
 #: kstarsinit.cpp:376
-#, fuzzy, kde-format
-#| msgid "Icons orientation:"
+#, kde-format
 msgid "Skymap Orientation"
-msgstr "ხატულების ორიენტაცია:"
+msgstr "ცის რუკის ორიენტაცია"
 
 #: kstarsinit.cpp:382
 #, kde-format
@@ -63812,13 +63804,11 @@ msgid ""
 msgstr ""
 
 #: kstarsinit.cpp:729
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
-msgstr "ბიბლიოთეკა"
+msgstr "თვითნებური"
 
 #: kstarsinit.cpp:733
 #, kde-format
@@ -67618,7 +67608,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sky Quality"
-msgstr ""
+msgstr "ცის ხარისხი"
 
 #: libindi_strings.cpp:442
 #, kde-kuit-format
@@ -71937,11 +71927,10 @@ msgid "Object Details"
 msgstr "ობიექტის დეტალები"
 
 #: skymapdrawabstract.cpp:185
-#, fuzzy, kde-format
-#| msgid "AZ"
+#, kde-format
 msgctxt "Zenith"
 msgid "Z"
-msgstr "AZ"
+msgstr "Z"
 
 #: skyobjects/jupitermoons.cpp:18
 #, kde-format

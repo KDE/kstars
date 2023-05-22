@@ -1942,15 +1942,15 @@
   <para
 >Podeu ajustar diverses opcions de configuració perquè l'orientació del mapa celeste coincideixi amb la vista a través de l'instrument òptic, sempre que (a partir d'aquesta versió) l'instrument no reflecteixi el camp de visió (com es fa amb prismes utilitzats amb els SCT i els refractors). </para>
   <para
->First, pick the coordinate system that matches your mount. For an equatorially mounted instrument, switch to the Equatorial Coordinate mode in the <guimenu
->View</guimenu
-> menu. The option to toggle the coordinate system should read <guilabel
->Switch to Horizontal View (Horizontal Coordinates)</guilabel
-> when the current mode is Equatorial Coordinates. For an altazimuth-mounted instrument or naked-eye viewing, switch to Horizontal Coordinates, so that the option in the <guimenu
->View</guimenu
-> menu reads <guilabel
->Switch to Star Globe View (Equatorial Coordinates)</guilabel
->. This sets the base coordinate system used to render the sky map, and also sets the reference for the orientation of the skymap: zenith or north. </para>
+>Primer, trieu el sistema de coordenades que coincideixi amb la muntura. Per a un instrument muntat equatorialment, canvieu al mode de coordenades equatorials en el menú <guimenu
+>Visualitza</guimenu
+>. L'opció per a commutar el sistema de coordenades hauria de veure's <guilabel
+>Canvia a la vista horitzontal (coordenades horitzontals)</guilabel
+> quan el mode actual sigui coordenades equatorials. Per a un instrument muntat en altazimut o simple vista, canvieu a Coordenades horitzontals, de manera que l'opció en el menú <guimenu
+>Visualitza</guimenu
+> es vegi <guilabel
+>Commuta a la vista de l'esfera celeste (Coordenades equatorials)</guilabel
+>. Això estableix el sistema de coordenades base utilitzat per representar el mapa celeste, i també estableix la referència per a l'orientació del mapa celeste: zenit o nord. </para>
   <para
 >Per a girar el mapa celeste lliurement, podeu mantenir premuda la tecla Maj i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostra la direcció nord i zenit en el punt, i que mostra l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla Maj o el botó del ratolí s'aturarà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu en diferents objectes, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència és el nord quan s'utilitzen coordenades equatorials i el zenit quan s'utilitzen coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. Per a les dues orientacions normals dretes i invertides, el gir es pot establir / restablir utilitzant el submenú <menuchoice
 ><guimenu
@@ -2009,17 +2009,17 @@
 ></listitem>
       <listitem
 ><para
->Eyepiece of a Dobsonian telescope: Choose Horizontal Coordinates, and in the <menuchoice
+>Ocular d'un telescopi Dobsonià: trieu coordenades horitzontals, i en el submenú <menuchoice
 ><guimenu
->View</guimenu
+>Visualitza</guimenu
 ><guisubmenu
->Skymap Orientation</guisubmenu
+>Orientació del mapa celeste</guisubmenu
 ></menuchoice
-> submenu, select <guilabel
->Zenith Down</guilabel
-> and check the <guilabel
->Erect observer correction</guilabel
-> option. Then adjust the orientation manually once to match your telescope eyepiece view, and it should henceforth track it correctly.</para
+>, seleccioneu <guilabel
+>Zenit cap avall</guilabel
+> i marqueu l'opció <guilabel
+>Correcció d'observador dret</guilabel
+>. Després ajusteu l'orientació manualment una vegada per a fer coincidir la vista de l'ocular del telescopi, i d'ara endavant el seguiment hauria de ser correcte.</para
 ></listitem>
     </itemizedlist>
   </para>

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-21 00:41+0000\n"
-"PO-Revision-Date: 2023-05-06 15:44+0100\n"
+"PO-Revision-Date: 2023-05-21 15:20+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -5873,10 +5873,9 @@ msgstr ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 
 #: ekos/align/align.cpp:1483
-#, fuzzy, kde-format
-#| msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
-msgstr "Cannot capture while focus module is busy. Retrying in %1 seconds..."
+msgstr "Cannot capture while rotator is busy. Retrying in %1 seconds..."
 
 #: ekos/align/align.cpp:1501 ekos/align/align.cpp:2905
 #, kde-format
@@ -5916,15 +5915,14 @@ msgid "Solving with blind image position..."
 msgstr "Solving with blind image position..."
 
 #: ekos/align/align.cpp:1843
-#, fuzzy, kde-format
-#| msgid "Failed to save telescope information."
+#, kde-format
 msgid "Loaded image does not have pierside information"
-msgstr "Failed to save telescope information."
+msgstr "Loaded image does not have pierside information"
 
 #: ekos/align/align.cpp:1848
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr ""
+msgstr "Loaded image was taken on pierside %1"
 
 #: ekos/align/align.cpp:1941
 #, kde-format
@@ -5961,10 +5959,9 @@ msgstr "Target is within %1 degrees of solution coordinates."
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
 #: ekos/align/align.cpp:2098
-#, fuzzy, kde-format
-#| msgid "Setting position angle to %1 degrees E of N..."
+#, kde-format
 msgid "Camera position angle is %1 degrees."
-msgstr "Setting position angle to %1 degrees E of N..."
+msgstr "Camera position angle is %1 degrees."
 
 #: ekos/align/align.cpp:2120 ekos/align/align.cpp:2530
 #: ekos/align/align.cpp:2570
@@ -5978,10 +5975,9 @@ msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Maximum number of iterations reached. Solver failed."
 
 #: ekos/align/align.cpp:2171
-#, fuzzy, kde-format
-#| msgid "Target is within acceptable range. Astrometric solver is successful."
+#, kde-format
 msgid "Target is within acceptable range."
-msgstr "Target is within acceptable range. Astrometric solver is successful."
+msgstr "Target is within acceptable range."
 
 #: ekos/align/align.cpp:2232
 #, kde-format
@@ -6000,15 +5996,14 @@ msgstr ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 
 #: ekos/align/align.cpp:2294
-#, fuzzy, kde-format
-#| msgid "Setting position angle to %1 degrees E of N..."
+#, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
-msgstr "Setting position angle to %1 degrees E of N..."
+msgstr "Setting camera position angle to %1 degrees ..."
 
 #: ekos/align/align.cpp:2301
 #, kde-format
 msgid "Camera position angle is within acceptable range."
-msgstr ""
+msgstr "Camera position angle is within acceptable range."
 
 #: ekos/align/align.cpp:2315
 #, kde-format
@@ -6082,22 +6077,18 @@ msgid "Slewing failed."
 msgstr "Slewing failed."
 
 #: ekos/align/align.cpp:2669
-#, fuzzy, kde-format
-#| msgid "Rotator reached target position angle."
+#, kde-format
 msgid "Rotator reached camera position angle."
-msgstr "Rotator reached target position angle."
+msgstr "Rotator reached camera position angle."
 
 #: ekos/align/align.cpp:2681
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator failed to arrive at the requested position angle. Check power, "
-#| "backlash, or obstructions."
+#, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
-"Rotator failed to arrive at the requested position angle. Check power, "
-"backlash, or obstructions."
+"Rotator failed to arrive at the requested position angle (Deviation %1 "
+"arcmin)."
 
 #: ekos/align/align.cpp:2726
 #, kde-format
@@ -6115,12 +6106,13 @@ msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Slewing to target coordinates: RA (%1) DEC (%2)."
 
 #: ekos/align/align.cpp:2799
-#, fuzzy, kde-format
-#| msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
+#, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
-msgstr "Slewing to target coordinates: RA (%1) DEC (%2)."
+msgstr ""
+"Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
+"notification)"
 
 #: ekos/align/align.cpp:2818
 #, kde-format
@@ -6670,13 +6662,15 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>If ticked, the currently selected filter will be used "
+"for alignment. </p><p>If you want to use a certain (fixed) filter for "
+"alignment, leave unticked and select the filter manually.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
-#, fuzzy, kde-format
-#| msgid "Current"
+#, kde-format
 msgid "use current"
-msgstr "Current"
+msgstr "use current"
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
 #: ekos/align/align.ui:756
@@ -10727,35 +10721,29 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the autofocus solution position.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+"<html><head/><body><p>Plot the autofocus solution position.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1385
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "focus"
-msgstr "Focus"
+msgstr "focus"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1398
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature. Click here to view "
-#| "this axis on left-axis values. Double click to update axis.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the autofocus solution position. Click here to "
 "view this axis on left-axis values. Double click to update axis.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Plot the ambient temperature. Click here to view this "
-"axis on left-axis values. Double click to update axis.</p></body></html>"
+"<html><head/><body><p>Plot the autofocus solution position. Click here to "
+"view this axis on left-axis values. Double click to update axis.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
@@ -11403,54 +11391,42 @@ msgid "Lock Filter"
 msgstr "Lock Filter"
 
 #: ekos/auxiliary/filtermanager.cpp:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
-msgstr ""
-"Flat frames are captured at this focus position. It is updated automatically "
-"by focus process if enabled."
+msgstr "Last AF solution. Updated automatically by the autofocus process."
 
 #: ekos/auxiliary/filtermanager.cpp:78
-#, fuzzy, kde-format
-#| msgid "Solution"
+#, kde-format
 msgid "Last AF Solution"
-msgstr "Solution"
+msgstr "Last AF Solution"
 
 #: ekos/auxiliary/filtermanager.cpp:81
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
 "autofocus process."
 msgstr ""
-"Flat frames are captured at this focus position. It is updated automatically "
-"by focus process if enabled."
+"The temperature of the last AF solution. Updated automatically by the "
+"autofocus process."
 
 #: ekos/auxiliary/filtermanager.cpp:82
 #, kde-format
 msgid "Last AF Temp (°C)"
-msgstr ""
+msgstr "Last AF Temp (°C)"
 
 #: ekos/auxiliary/filtermanager.cpp:85
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Flat frames are captured at this focus position. It is updated automatically "
-"by focus process if enabled."
+"The altitude of the last AF solution. Updated automatically by the autofocus "
+"process."
 
 #: ekos/auxiliary/filtermanager.cpp:86
 #, kde-format
 msgid "Last AF Alt (°Alt)"
-msgstr ""
+msgstr "Last AF Alt (°Alt)"
 
 #: ekos/auxiliary/filtermanager.cpp:89
 #, kde-format
@@ -11458,13 +11434,13 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"The number of ticks per °C increase in temperature. +ve for outward focuser "
+"movement"
 
 #: ekos/auxiliary/filtermanager.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks / °C"
-msgstr "Ticks"
+msgstr "Ticks / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:93
 #, kde-format
@@ -11472,22 +11448,23 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"The number of ticks per degree increase in altitude. +ve for outward focuser "
+"movement"
 
 #: ekos/auxiliary/filtermanager.cpp:94
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Ticks / °Alt"
 
 #: ekos/auxiliary/filtermanager.cpp:96
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Mid-point wavelength of filter in nm"
 
 #: ekos/auxiliary/filtermanager.cpp:97
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
-msgstr "Wavelength:"
+msgstr "Wavelength"
 
 #: ekos/auxiliary/filtermanager.cpp:528
 #, kde-format
@@ -11500,55 +11477,49 @@ msgid "Confirm Filter"
 msgstr "Confirm Filter"
 
 #: ekos/auxiliary/filtermanager.cpp:938
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to quit?"
-msgstr "Are you sure you want to cancel?"
+msgstr "Are you sure you want to quit?"
 
 #: ekos/auxiliary/filtermanager.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Focus In"
+#, kde-format
 msgid "# Focus Runs"
-msgstr "Focus In"
+msgstr "# Focus Runs"
 
 #: ekos/auxiliary/filtermanager.cpp:1212
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "New Offset"
-msgstr "Offset"
+msgstr "New Offset"
 
 #: ekos/auxiliary/filtermanager.cpp:1248
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
-msgstr ""
+msgstr "Process stopped. Yes to restart, No to abort"
 
 #: ekos/auxiliary/filtermanager.cpp:1279
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
-msgstr ""
+msgstr "A problem occurred. Yes to retry, No to abort"
 
 #: ekos/auxiliary/filtermanager.cpp:1321
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "Focus complete."
+msgstr "Processing complete."
 
 #: ekos/auxiliary/filtermanager.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Changing filter to %1..."
+msgstr "Problem changing filter to %1..."
 
 #: ekos/auxiliary/filtermanager.cpp:1351
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "Running Autofocus on %1 (%2/%3)..."
 
 #: ekos/auxiliary/filtermanager.cpp:1506
-#, fuzzy, kde-format
-#| msgid "Post filter change Autofocus..."
+#, kde-format
 msgid "Aborting Autofocus..."
-msgstr "Post filter change Autofocus..."
+msgstr "Aborting Autofocus..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -11569,26 +11540,21 @@ msgstr "Filter Wheel"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/filtersettings.ui:84
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
-#| "span> filter focus offset in steps. The offsets are global and are "
-#| "applied when the filter changes.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
 "span> filter offsets in steps either directly in the table or use the Build "
 "Offsets tool.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
-"span> filter focus offset in steps. The offsets are global and are applied "
-"when the filter changes.</p></body></html>"
+"span> filter offsets in steps either directly in the table or use the Build "
+"Offsets tool.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
 #: ekos/auxiliary/filtersettings.ui:100
-#, fuzzy, kde-format
-#| msgid "Offsets"
+#, kde-format
 msgid "Build Offsets"
-msgstr "Offsets"
+msgstr "Build Offsets"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:114
@@ -11606,10 +11572,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:117
-#, fuzzy, kde-format
-#| msgid "Capture flat frames at the same focus as light frames"
+#, kde-format
 msgid "Capture flats at the same focus as lights"
-msgstr "Capture flat frames at the same focus as light frames"
+msgstr "Capture flats at the same focus as lights"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:188
 #, kde-format
@@ -12425,7 +12390,7 @@ msgstr "Port Selector"
 #: ekos/auxiliary/rotatorutils.cpp:56
 #, kde-format
 msgid "Rotator Utilities: Mount %1 is not ready!"
-msgstr ""
+msgstr "Rotator Utilities: Mount %1 is not ready!"
 
 #: ekos/auxiliary/serialportassistant.cpp:94
 #, kde-format
@@ -13948,16 +13913,14 @@ msgid "Wait for Guider < %1\"..."
 msgstr "Wait for Guider < %1\"..."
 
 #: ekos/capture/capture.cpp:3458
-#, fuzzy, kde-format
-#| msgid "Setting rotation to %1 degrees E of N..."
+#, kde-format
 msgid "Setting camera to %1 degrees E of N..."
-msgstr "Setting rotation to %1 degrees E of N..."
+msgstr "Setting camera to %1 degrees E of N..."
 
 #: ekos/capture/capture.cpp:3459
-#, fuzzy, kde-format
-#| msgid "Set Rotator to %1 deg..."
+#, kde-format
 msgid "Set Camera to %1 deg..."
-msgstr "Set Rotator to %1 deg..."
+msgstr "Set Camera to %1 deg..."
 
 #: ekos/capture/capture.cpp:3516
 #, kde-format
@@ -13975,16 +13938,14 @@ msgid "Autofocus failed."
 msgstr "Autofocus failed."
 
 #: ekos/capture/capture.cpp:3586
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Adaptive focus complete."
-msgstr "Focus complete."
+msgstr "Adaptive focus complete."
 
 #: ekos/capture/capture.cpp:3588
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Adaptive focus failed. Continuing..."
-msgstr "Autofocus failed. Aborting exposure..."
+msgstr "Adaptive focus failed. Continuing..."
 
 #: ekos/capture/capture.cpp:3602
 #, kde-format
@@ -14454,10 +14415,10 @@ msgstr "Rotator Control"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
 #: ekos/capture/capture.ui:785
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Optimal sub-exposure calculator</p></body></html>"
-msgstr "<html><head/><body><p>Clear sensor data history</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Optimal sub-exposure calculator</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_15)
 #: ekos/capture/capture.ui:872
@@ -15292,7 +15253,7 @@ msgstr "Post-flip alignment failed. Retrying..."
 #: ekos/capture/capturepreviewwidget.cpp:134
 #, kde-format
 msgid "Delete directly, do not move to trash."
-msgstr ""
+msgstr "Delete directly, do not move to trash."
 
 #: ekos/capture/capturepreviewwidget.cpp:191
 #, kde-format
@@ -15503,42 +15464,37 @@ msgstr "Invalid values. Please set all values."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:26
-#, fuzzy, kde-format
-#| msgid "Time Calculators"
+#, kde-format
 msgid "Sub-Exposure Calculator"
-msgstr "Time Calculators"
+msgstr "Sub-Exposure Calculator"
 
 #. i18n: ectx: property (toolTip), widget (QDialog, ExposureCalculatorDialog)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:29
 #, kde-format
 msgid "An implementation of Dr Robin Glover's exposure calculation"
-msgstr ""
+msgstr "An implementation of Dr Robin Glover's exposure calculation"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:59
 #, kde-format
 msgid "Adjust the balance of the two noise sources"
-msgstr ""
+msgstr "Adjust the balance of the two noise sources"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:72
 #, no-c-format, kde-format
 msgid "Noise Increase (%)"
-msgstr ""
+msgstr "Noise Increase (%)"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
+#, kde-format
 msgid "Potential exposure time graph"
-msgstr "Total Exposure Time (ms)"
+msgstr "Potential exposure time graph"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:111
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Sky Quality"
+#, kde-format
 msgid "Sky Quality"
 msgstr "Sky Quality"
 
@@ -15546,20 +15502,17 @@ msgstr "Sky Quality"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:130
 #, kde-format
 msgid "Adjust the quality of the sky"
-msgstr ""
+msgstr "Adjust the quality of the sky"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:146
-#, fuzzy, kde-format
-#| msgid "Filter port:"
+#, kde-format
 msgid "Filter Bandwidth:"
-msgstr "Filter port:"
+msgstr "Filter Bandwidth:"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:174
-#, fuzzy, kde-format
-#| msgctxt "Camera Gain"
-#| msgid "Gain"
+#, kde-format
 msgid "Gain"
 msgstr "Gain"
 
@@ -15573,13 +15526,13 @@ msgstr "ISO"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:252
 #, kde-format
 msgid "Read noise constant"
-msgstr ""
+msgstr "Read noise constant"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:269
 #, kde-format
 msgid "Bortle Zone Color"
-msgstr ""
+msgstr "Bortle Zone Colour"
 
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
@@ -15592,22 +15545,21 @@ msgstr "Focal Ratio"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:328
-#, fuzzy, kde-format
-#| msgid "Orbit class:"
+#, kde-format
 msgid "Bortle Class:"
-msgstr "Orbit class:"
+msgstr "Bortle Class:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:341
 #, kde-format
 msgid "Apply a compensation for an optical filter"
-msgstr ""
+msgstr "Apply a compensation for an optical filter"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
 #, kde-format
 msgid "Bortle class value"
-msgstr ""
+msgstr "Bortle class value"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:360
@@ -15619,82 +15571,73 @@ msgstr "9"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:376
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
-msgstr ""
+msgstr "Select read mode on cameras with multiple read modes."
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:389
-#, fuzzy, kde-format
-#| msgid "Clear  Model"
+#, kde-format
 msgid "Read Mode"
-msgstr "Clear  Model"
+msgstr "Read Mode"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:429
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
+#, kde-format
 msgid "Exposure Time (sec)"
-msgstr "Total Exposure Time (ms)"
+msgstr "Exposure Time (sec)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:449
-#, fuzzy, kde-format
-#| msgctxt "City in Congo"
-#| msgid "Pointe Noire"
+#, kde-format
 msgid "Shot Noise"
-msgstr "Pointe Noire"
+msgstr "Shot Noise"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:456
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
-msgstr ""
+msgstr "Noise in the sub-exposure from light pollution"
 
 #. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:472
-#, fuzzy, kde-format
-#| msgid "Light Pollution Settings"
+#, kde-format
 msgid "Pollution Electrons"
-msgstr "Light Pollution Settings"
+msgstr "Pollution Electrons"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:479
 #, kde-format
 msgid "Calculated count of light pollution electrons in the sub-exposure."
-msgstr ""
+msgstr "Calculated count of light pollution electrons in the sub-exposure."
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:495
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total Noise"
-msgstr "Total Time:"
+msgstr "Total Noise"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:502
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
-msgstr ""
+msgstr "Total noise in the sub-exposure (light pollution + read-noise)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
 #, kde-format
 msgid "(Future Release) Download additional camera data files"
-msgstr ""
+msgstr "(Future Release) Download additional camera data files"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
-#, fuzzy, kde-format
-#| msgid "Customized DSS Download"
+#, kde-format
 msgid "Camera Data Download"
-msgstr "Customised DSS Download"
+msgstr "Camera Data Download"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:73
-#, fuzzy, kde-format
-#| msgid "Select a camera to disable remote streaming."
+#, kde-format
 msgid "Select all cameras you wish to use:"
-msgstr "Select a camera to disable remote streaming."
+msgstr "Select all cameras you wish to use:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
 #: ekos/capture/limits.ui:14
@@ -15814,10 +15757,9 @@ msgid "In sequence HFR based refocus starting..."
 msgstr "In sequence HFR based refocus starting..."
 
 #: ekos/capture/refocusstate.cpp:74
-#, fuzzy, kde-format
-#| msgid "Adaptive sampling"
+#, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Adaptive sampling"
+msgstr "Adaptive focus starting..."
 
 #: ekos/capture/refocusstate.cpp:93
 #, kde-format
@@ -15845,35 +15787,27 @@ msgstr "N"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, paGauge)
 #: ekos/capture/rotatorsettings.ui:85
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). Calibrate the rotator by "
 "plate solving in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>If the remote computer has astrometry.net installed, "
-"you can run the remote astrometry driver and use it to solve images in Ekos "
-"Align module.</p></body></html>"
+"<html><head/><body><p>The rotator gauge displays the actual camera position "
+"angle (yellow) and the raw rotator angle (grey). Calibrate the rotator by "
+"plate solving in the Align module.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, rotatorGauge)
 #: ekos/capture/rotatorsettings.ui:121
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). To calibrate the rotator, "
 "capture and solve an image in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>If the remote computer has astrometry.net installed, "
-"you can run the remote astrometry driver and use it to solve images in Ekos "
-"Align module.</p></body></html>"
+"<html><head/><body><p>The rotator gauge displays the actual camera position "
+"angle (yellow) and the raw rotator angle (grey). To calibrate the rotator, "
+"capture and solve an image in the Align module.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
 #: ekos/capture/rotatorsettings.ui:147
@@ -15884,6 +15818,10 @@ msgid ""
 "rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
 "of the rotator in order to have a reasonable display.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>The rotator gauge displays the actual camera position "
+"angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the "
+"rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
+"of the rotator in order to have a reasonable display.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QFrame, Parameter)
 #. i18n: ectx: property (toolTip), widget (QGroupBox, LimitGroup)
@@ -15901,13 +15839,16 @@ msgid ""
 "angle) respective to North on pierside WEST or respective to South on "
 "pierside EAST.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>The raw rotator full circle angle of the rotator "
+"device, which is calculated as the difference of the rotator origin (zero "
+"angle) respective to North on pierside WEST or respective to South on "
+"pierside EAST.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:209
-#, fuzzy, kde-format
-#| msgid "Raw Rotator Angle"
+#, kde-format
 msgid "Rotator Angle"
-msgstr "Raw Rotator Angle"
+msgstr "Rotator Angle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/capture/rotatorsettings.ui:221
@@ -15920,50 +15861,48 @@ msgid ""
 "Align module. </p><p>The camera offset is measured in position angle scope "
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>The angle of the camera upright direction (see FOV) "
+"respective to the rotator origin direction. The camera offset is determined "
+"automatically by a <span style=\" font-weight:700;\">Capture &amp; Solve</"
+"span> or a <span style=\" font-weight:700;\">Load &amp; Slew</span> in the "
+"Align module. </p><p>The camera offset is measured in position angle scope "
+"(-179.99° to 180.00°).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:236
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-#| "pointing. Click here to view this axis on left-axis values. Double click "
-#| "to update axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The current pierside of the mount. A red frame "
 "indicates an unknown pierside. This is normal if the mount is parked. </p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-"pointing. Click here to view this axis on left-axis values. Double click to "
-"update axis.</p></body></html>"
+"<html><head/><body><p>The current pierside of the mount. A red frame "
+"indicates an unknown pierside. This is normal if the mount is parked. </p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:239
-#, fuzzy, kde-format
-#| msgid "Current time"
+#, kde-format
 msgid "Current Pierside"
-msgstr "Current time"
+msgstr "Current Pierside"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:261
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Raw rotator Angle</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, MountPierside)
 #: ekos/capture/rotatorsettings.ui:297
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current pierside of the mount</p></body></html>"
-msgstr "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+msgstr "<html><head/><body><p>Current pierside of the mount</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraOffset)
 #: ekos/capture/rotatorsettings.ui:329
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
-msgstr "<html><head/><body><p>You're almost done...</p></body></html>"
+msgstr "<html><head/><body><p>You are almost done...</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:402
@@ -15978,40 +15917,44 @@ msgid ""
 "p><p>The position angle is measured East of North in degrees.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Setting the camera position angle shall move the "
+"rotator. The gauge reflects the state of the rotator. Depending on the "
+"accuracy of the rotator there can be some deviation in the ending position "
+"angle.</p><p>If <span style=\" font-weight:700;\">Save Camera Position Angle "
+"to Sequence Job</span> is toggled, any subsequent jobs added to the sequence "
+"queue would always rotate to this position angle before capture begins.</"
+"p><p>The position angle is measured East of North in degrees.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:405
-#, fuzzy, kde-format
-#| msgid "Target Position Angle"
+#, kde-format
 msgid "Camera Position Angle"
-msgstr "Target Position Angle"
+msgstr "Camera Position Angle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceJobPA)
 #: ekos/capture/rotatorsettings.ui:507
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before sequence capture "
-#| "is started.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The camera position angle is saved to a sequence "
 "capture job. On execution of the job the camera is rotated to the specified "
 "position angle.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Set target position angle before sequence capture is "
-"started.</p></body></html>"
+"<html><head/><body><p>The camera position angle is saved to a sequence "
+"capture job. On execution of the job the camera is rotated to the specified "
+"position angle.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceJobPA)
 #: ekos/capture/rotatorsettings.ui:510
 #, kde-format
 msgid "Save Camera Position Angle to Sequence Job"
-msgstr ""
+msgstr "Save Camera Position Angle to Sequence Job"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:517
-#, fuzzy, kde-format
-#| msgid "Reverse Direction"
+#, kde-format
 msgid "Reverse Direction of Rotator"
-msgstr "Reverse Direction"
+msgstr "Reverse Direction of Rotator"
 
 #: ekos/capture/scriptsmanager.cpp:42
 #, kde-format
@@ -16370,27 +16313,27 @@ msgstr "Focus Options Profile Editor"
 #: ekos/focus/focus.cpp:942
 #, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
-msgstr ""
+msgstr "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 
 #: ekos/focus/focus.cpp:959
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
-msgstr ""
+msgstr "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 
 #: ekos/focus/focus.cpp:968
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
-msgstr ""
+msgstr "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 
 #: ekos/focus/focus.cpp:975
 #, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
-msgstr ""
+msgstr "Adaptive Focus moving from %1 to %2"
 
 #: ekos/focus/focus.cpp:989
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
-msgstr ""
+msgstr "Adaptive Focus unable to move focuser"
 
 #: ekos/focus/focus.cpp:1090
 #, kde-format
@@ -16417,12 +16360,12 @@ msgstr "Autofocus is already running, discarding start request."
 #: ekos/focus/focus.cpp:1117
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
-msgstr ""
+msgstr "Discarding Autofocus start request - AdjustFocus in progress."
 
 #: ekos/focus/focus.cpp:1122
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
-msgstr ""
+msgstr "Discarding Autofocus start request - AdaptiveFocus in progress."
 
 #: ekos/focus/focus.cpp:1262
 #, kde-format
@@ -16442,49 +16385,47 @@ msgstr "Autofocus operation started"
 #: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
-msgstr ""
+msgstr "Adaptive start point, last AF solution outside Max Travel, ignoring"
 
 #: ekos/focus/focus.cpp:1375
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
-msgstr ""
+msgstr "Adaptive start point, no temperature source available"
 
 #: ekos/focus/focus.cpp:1377
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
-msgstr ""
+msgstr "Adaptive start point, no temperature for last AF solution"
 
 #: ekos/focus/focus.cpp:1384
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
-msgstr ""
+msgstr "Adaptive start point, very large temperature delta, ignoring"
 
 #: ekos/focus/focus.cpp:1396
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
-msgstr ""
+msgstr "Adaptive start point, no alt recorded for last AF solution"
 
 #: ekos/focus/focus.cpp:1398
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
-msgstr ""
+msgstr "Adaptive start point, very large altitude delta, ignoring"
 
 #: ekos/focus/focus.cpp:1408
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
-msgstr ""
+msgstr "Adaptive start point, target position is outside Max Travel, ignoring"
 
 #: ekos/focus/focus.cpp:1416
-#, fuzzy, kde-format
-#| msgid "XPlanet View: %1 from %2 on %3"
+#, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
-msgstr "XPlanet View: %1 from %2 on %3"
+msgstr "Adaptive start point [%1] excessive move disallowed"
 
 #: ekos/focus/focus.cpp:1430
-#, fuzzy, kde-format
-#| msgid "XPlanet View: %1 from %2 on %3"
+#, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
-msgstr "XPlanet View: %1 from %2 on %3"
+msgstr "Adapting start point [%1] from %2 to %3"
 
 #: ekos/focus/focus.cpp:1476
 #, kde-format
@@ -16834,6 +16775,26 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
+"Focus Advisor (FA) is designed to help you with focus parameters.\n"
+"It will not necessarily give you the perfect combination of parameters, you "
+"will need to experiment yourself, but it will give you a basic set of "
+"parameters to achieve focus.\n"
+"\n"
+"FA will recommend values for the majority of parameters. A few, however, "
+"will need extra work from you to setup. These are identified below along "
+"with a basic explanation of how to set them.\n"
+"\n"
+"The first step is to set backlash. Your focuser manual will likely explain "
+"how to do this. Once you have a value for backlash for your system, set "
+"either the Backlash field to have the driver perform backlash compensation "
+"or the AF Overscan field to have Autofocus perform backlash compensation. "
+"Set only one field and set the other to 0.\n"
+"\n"
+"The second step is to set Step Size. This can be defaulted from the Critical "
+"Focus Zone (CFZ) for your equipment - so configure this now in the CFZ tab.\n"
+"\n"
+"The third step is to set the Out Step Multiple. Start with the suggested "
+"default."
 
 #: ekos/focus/focus.cpp:6389
 #, kde-format
@@ -16846,6 +16807,13 @@ msgid ""
 "star detection is acceptable. Adjust Out Step Multiple to correspond to this "
 "range of focuser motion."
 msgstr ""
+" You have a scope with a central obstruction so be careful not to move too "
+"far away from focus as stars will appear as donuts and will not be detected "
+"properly. Experiment by finding focus and moving Step Size * Out Step "
+"Multiple ticks away from focus and take a focus frame. Zoom in to observe "
+"star detection. If it is poor then move the focuser back towards focus until "
+"star detection is acceptable. Adjust Out Step Multiple to correspond to this "
+"range of focuser motion."
 
 #: ekos/focus/focus.cpp:6396
 #, kde-format
@@ -16867,12 +16835,27 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"\n"
+"\n"
+"The fourth step is to set the remaining focus parameters to sensible values. "
+"Focus Advisor will suggest values for 4 categories of parameters. Check the "
+"associated Update box to accept these recommendations and press Update "
+"Params.\n"
+"1. Camera Properties - Note you need to ensure Gain is set appropriately, e."
+"g. unity gain.\n"
+"2. Settings Tab: These all have recommendations.\n"
+"3. Process Tab: These all have recommendations.\n"
+"4. Mechanics Tab: Note Step Size and Out Step Multiple are dealt with "
+"above.\n"
+"\n"
+"Now move the focuser to approximate focus and select a broadband filter, e."
+"g. Luminance\n"
+"You are now ready to start an Autofocus run."
 
 #: ekos/focus/focus.cpp:6406
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Focus Advisor"
-msgstr "Focus star"
+msgstr "Focus Advisor"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:170
@@ -17035,47 +17018,39 @@ msgstr "Settings"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, settingsTab)
 #: ekos/focus/focus.ui:916
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
-msgstr "<html><head/><body><p>Delete current frame</p></body></html>"
+msgstr ""
+"<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/focus.ui:942
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"justify\">Overlap between each tile of the "
-#| "mosaic. See the main help icon in the corner of the sky chart.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Aberration inspector style mask with a 3x3 mosaic "
 "formed with tiles from the center, the corners and the edges.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Overlap between each tile of the "
-"mosaic. See the main help icon in the corner of the sky chart.</p></body></"
+"<html><head/><body><p>Aberration inspector style mask with a 3x3 mosaic "
+"formed with tiles from the centre, the corners and the edges.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/focus.ui:945
-#, fuzzy, kde-format
-#| msgid "Mosaic FOV:"
+#, kde-format
 msgid "Mosaic Mask:"
-msgstr "Mosaic FOV:"
+msgstr "Mosaic Mask:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicSpace)
 #: ekos/focus/focus.ui:955
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Size of the separator between the tiles.</p></body></"
 "html>"
 msgstr ""
-"<html><body><p>Size of the subframe to constrain capture to, in pixels.</p></"
-"body></html>"
+"<html><head/><body><p>Size of the separator between the tiles.</p></body></"
+"html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
@@ -17105,36 +17080,33 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>During Full Field focusing, this controls the size of "
+"an Annulus centred at the middle of the sensor to include for processing. "
+"Set inner % to zero to include the centre of the sensor and set outer % to "
+"100 to include the outer edges of the sensor. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
 #: ekos/focus/focus.ui:993
 #, kde-format
 msgid "Ring Mask:"
-msgstr ""
+msgstr "Ring Mask:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1012
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
 msgstr ""
-"<html><body><p>Size of the subframe to constrain capture to, in pixels.</p></"
-"body></html>"
+"<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
 #: ekos/focus/focus.ui:1040
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Wait for this many seconds after moving the focuser "
-"before capturing the next image during Auto Focus.</p></body></html>"
+"<html><head/><body><p>Wait this many seconds after autofocus completes "
+"before resuming guiding.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
@@ -17145,16 +17117,13 @@ msgstr " s"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1053
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subframe around the focus star during the autofocus "
 "procedure.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Maximum travel in steps before the autofocus process "
-"aborts</p></body></html>"
+"<html><head/><body><p>Subframe around the focus star during the autofocus "
+"procedure.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17190,6 +17159,9 @@ msgid ""
 "focusing. The diameter is given as percentage of the image diagonal. Set to "
 "100% to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diameter of the outer circle to be excluded from "
+"focusing. The diameter is given as percentage of the image diagonal. Set to "
+"100% to include the outer edges of the sensor. </p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
@@ -17226,10 +17198,9 @@ msgstr "Dark Frame"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/focus/focus.ui:1154
-#, fuzzy, kde-format
-#| msgid "Guider Settling"
+#, kde-format
 msgid "Guide Settle:"
-msgstr "Guider Settling"
+msgstr "Guide Settle:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1173
@@ -17252,33 +17223,35 @@ msgid ""
 "percentage of the image diagonal. Set to zero to include the centre of the "
 "sensor.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diameter of the inner circle to be excluded from "
+"focusing (e.g. a centred galaxy or star cluster). The diameter is given as "
+"percentage of the image diagonal. Set to zero to include the centre of the "
+"sensor.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1211
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
-msgstr "<html><head/><body><p>Delete current frame</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1215
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels"
-msgstr "pixels"
+msgstr "Pixels"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1220
-#, fuzzy, kde-format
-#| msgid "arc seconds"
+#, kde-format
 msgid "Arc Seconds"
-msgstr "arc seconds"
+msgstr "Arc Seconds"
 
 #. i18n: ectx: property (text), widget (QLabel, focusSpacerLabel)
 #: ekos/focus/focus.ui:1228
 #, kde-format
 msgid "Spacer:"
-msgstr ""
+msgstr "Spacer:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicTileWidth)
 #: ekos/focus/focus.ui:1235
@@ -17289,40 +17262,41 @@ msgid ""
 "the tile size does not exceed one third of the shorter side of the image (in "
 "most cases, it's height).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Tiles are squares with an edge length calculated by "
+"the given percentage of the image width. The percentage is limited such that "
+"the tile size does not exceed one third of the shorter side of the image (in "
+"most cases, it's height).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/focus/focus.ui:1269
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display Units:"
-msgstr "Display"
+msgstr "Display Units:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusNoMaskRB)
 #: ekos/focus/focus.ui:1282
 #, kde-format
 msgid "All stars are used for focusing."
-msgstr ""
+msgstr "All stars are used for focusing."
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusNoMaskRB)
 #: ekos/focus/focus.ui:1285
 #, kde-format
 msgid "Use all stars for focusing"
-msgstr ""
+msgstr "Use all stars for focusing"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1309 ekos/focus/focus.ui:1404
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adaptive Focus"
-msgstr "Adaptive Optics"
+msgstr "Adaptive Focus"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/focus.ui:1357
-#, fuzzy, kde-format
-#| msgid "Max Travel:"
+#, kde-format
 msgid "Max Total Move:"
-msgstr "Max Travel:"
+msgstr "Max Total Move:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMaxMove)
 #: ekos/focus/focus.ui:1376
@@ -17333,72 +17307,71 @@ msgid ""
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>The maximum total Adaptive focuser movement between "
+"Autofocus runs.  If this value is hit,  adaptive focusing is suspended.  The "
+"purpose of this control is to handle runaway adaptive focusing.</p></body></"
+"html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1379 ekos/focus/focus.ui:1446
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid " ticks"
-msgstr "Ticks"
+msgstr " ticks"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1401
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
 "experimental feature.</p></body></html>"
-msgstr "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
+"experimental feature.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1411
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Minimum focuser movement when using Adaptive Focus.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Minimum focuser movement when using Adaptive Focus.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1414
-#, fuzzy, kde-format
-#| msgid "Minimum Move"
+#, kde-format
 msgid "Min Move:"
-msgstr "Minimum Move"
+msgstr "Min Move:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1427
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before sequence capture "
-#| "is started.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Set target position angle before sequence capture is "
-"started.</p></body></html>"
+"<html><head/><body><p>Adapt the Autofocus start position based on filter and "
+"the Adaptive Focus settings. This is an experimental feature.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1430
-#, fuzzy, kde-format
-#| msgid "Auto Start"
+#, kde-format
 msgid "Adapt Start Pos"
-msgstr "Auto Start"
+msgstr "Adapt Start Pos"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1443
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The minimum size of an adaptive focus change that will "
 "be sent to the focuser.</p></body></html>"
-msgstr "<html><head/><body><p>The mount's hour angle value.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>The minimum size of an adaptive focus change that will "
+"be sent to the focuser.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1468
@@ -17408,27 +17381,17 @@ msgstr "Process"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1471
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Maximum travel in steps before the autofocus process "
-"aborts</p></body></html>"
+"<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1506
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). "
-#| "0.8 is a good start. If the minimum is not met, Auto Focus will rerun "
-#| "once to try to improve the R². Currently only available for the Linear 1 "
-#| "Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This "
-#| "feature is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is "
@@ -17437,18 +17400,16 @@ msgid ""
 "when using a Curve Fit of Hyperbola or Parabola. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
-"Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is "
-"a good start. If the minimum is not met, Auto Focus will rerun once to try "
+"Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is "
+"a good start.  If the minimum is not met,  Autofocus will rerun once to try "
 "to improve the R². Currently only available for the Linear 1 Pass algorithm "
-"when using a Curve Fit of Hyperbola or Parabola. This feature is "
-"experimental.</p></body></html>"
+"when using a Curve Fit of Hyperbola or Parabola. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1531
-#, fuzzy, kde-format
-#| msgid "Measured Err:"
+#, kde-format
 msgid "Measure:"
-msgstr "Measured Err:"
+msgstr "Measure:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/focus.ui:1550
@@ -17458,10 +17419,9 @@ msgstr "Detection:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusFramesCountLabel)
 #: ekos/focus/focus.ui:1569
-#, fuzzy, kde-format
-#| msgid "Average over:"
+#, kde-format
 msgid "Average Over:"
-msgstr "Average over:"
+msgstr "Average Over:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusR2LimitLabel)
 #: ekos/focus/focus.ui:1585
@@ -17471,16 +17431,13 @@ msgstr "R² Limit:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1623
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Number of frames to capture in order to average the HFR "
-#| "value at the current focuser position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of frames to capture at the current focuser "
 "position.</p></body></html>"
 msgstr ""
-"<html><body><p>Number of frames to capture in order to average the HFR value "
-"at the current focuser position.</p></body></html>"
+"<html><head/><body><p>Number of frames to capture at the current focuser "
+"position.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1626
@@ -17496,24 +17453,7 @@ msgstr "Curve Fit:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1655
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -17536,24 +17476,22 @@ msgstr ""
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a polynomial fit "
-"of degree 2.  This is currently the default option and currently the only "
+"of degree 2. This is currently the default option and currently the only "
 "option for all Algorithms except Linear 1 Pass.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hyperbola</"
-"span>: Fits a hyperbola to the data points.  This is currently only "
-"available for the Linear 1 Pass Algorithm and is experimental.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Parabola</span>: Fits a parabola to the data points.  This is currently "
-"only available for the Linear 1 Pass Algorithm and is experimental.</li></"
-"ul></body></html>"
+"span>: Fits a hyperbola to the data points. This is currently only available "
+"for the Linear 1 Pass Algorithm.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Parabola</span>: Fits a "
+"parabola to the data points. This is currently only available for the Linear "
+"1 Pass Algorithm.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1662
-#, fuzzy, kde-format
-#| msgid "Quadradic"
+#, kde-format
 msgid "Quadratic"
-msgstr "Quadradic"
+msgstr "Quadratic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1667
@@ -17575,30 +17513,7 @@ msgstr "SEP Profile:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1699
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -17628,27 +17543,33 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: 0px; "
-"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-"\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">SEP:</span> Source Extractor and Photometry, an efficient "
-"source detection method based on Source Extractor (Bertin and Arnouts 1996; "
-"Bertin 2016). See <a href=\"https://joss.theoj.org/papers/10.21105/"
-"joss.00058.pdf\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">SEP: Source Extractor as a library</span></a> in the Journal of Open "
-"Source Software.</li><li style=\" margin-top:12px; margin-bottom:12px; "
+"<html><head/><body><p>Select the Measure to use when fitting a curve for "
+"Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</span>: "
+"Half Flux Radius. Uses an algorithm to calculate the radius of a circle "
+"centred on the star centroid that encapsulates half the star's flux.</li><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Centroid</span>: a source detection "
-"based on estimating star mass around signal peaks.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Gradient</"
-"span>: a single source detection based on the Sobel filter. Initial or full-"
-"field analysis will use SEP instead of this method.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Threshold</"
-"span>: a single source detection based on pixel values. Initial or full-"
-"field analysis will use SEP instead of this method.</li></ul></body></html>"
+"\"><span style=\" font-weight:600;\">HFR Adj</span>: Adjusted Half Flux "
+"Radius. Normalises the HFR for peak intensity. This is an experimental "
+"feature.</li></ul><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">FWHM</span>: Full Width Half Maximum. Curve fits "
+"a PSF to each star centroid and uses the curve to calculate the FWHM. This "
+"is an experimental feature.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\"># Stars</span>: Number of "
+"stars. The number of detected stars at optimum focus will be a maximum. This "
+"is an experimental feature.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
+"power calculation. Uses the Fourier Transform Power approach developed by "
+"Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
+"the power in frequency space [result of the Fourier transform] will be a "
+"maximum. This is an experimental feature.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -17661,30 +17582,25 @@ msgstr "HFR"
 #: ekos/focus/focus.ui:1708
 #, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "HFR Adj"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1713
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM"
 msgstr "FWHM"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1718
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "# Stars"
-msgstr "Stars"
+msgstr "# Stars"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1723
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Mont-Laurier"
+msgstr "Fourier"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1731
@@ -17697,24 +17613,22 @@ msgid ""
 "highlighted on the v-curve. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Check to run an outlier pass when all datapoints have "
+"been taken. The pass uses Peirce's Criteria for outlier threshold detection. "
+"If there are outliers, these are removed and curve fitting rerun. If the R² "
+"is improved by the process then this new dataset is used and outliers "
+"highlighted on the v-curve. This is an experimental feature.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1734
-#, fuzzy, kde-format
-#| msgid "Curve Fit:"
+#, kde-format
 msgid "Refine Curve Fit"
-msgstr "Curve Fit:"
+msgstr "Refine Curve Fit"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1747
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to use the standard deviation of the star HFR "
-#| "as a weighting to the curve fitting algorithm. If unchecked, all data "
-#| "points are given equal weighting. Currently only available when using "
-#| "Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola "
-#| "under the Linear 1 Pass algorithm. This feature is experimental.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR or "
 "FWHM as a weighting to the curve fitting algorithm. If unchecked, all data "
@@ -17722,11 +17636,11 @@ msgid ""
 "Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tick to use the standard deviation of the star HFR as "
-"a weighting to the curve fitting algorithm. If unticked, all data points are "
-"given equal weighting. Currently only available when using Full Field "
-"(multiple stars) and a Curve Fit of Hyperbola or Parabola under the Linear 1 "
-"Pass algorithm. This feature is experimental.</p></body></html>"
+"<html><head/><body><p>Check to use the standard deviation of the star HFR or "
+"FWHM as a weighting to the curve fitting algorithm. If unticked, all data "
+"points are given equal weighting. Currently only available when using Full "
+"Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
+"Linear 1 Pass algorithm. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1750
@@ -17736,36 +17650,7 @@ msgstr "Use Weights"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1763
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated, further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method. Upon "
-#| "crossing to the other side of the V-Curve, polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes. The algorithm can be slow, but it is more "
-#| "resilient to backlash. Start with the focuser positioned near good focus. "
-#| "Set Initial Step Size and Max Travel for the desired sampling interval "
-#| "and range around start focus position. Tolerance should be around 5%.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear 1 Pass</span>: Starts like <span style=\" font-"
-#| "weight:600;\">Linear</span> but after completing the 1st pass, instead of "
-#| "doing a 2nd pass, moves straight to the minimum HFR value calculated. Use "
-#| "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Select focus process algorithm:</p><ul style=\"margin-"
 "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -17800,27 +17685,27 @@ msgstr ""
 "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Iterative</span>: Moves focuser by discreet "
-"steps initially decided by the step size. Once a curve slope is calculated, "
+"steps initially decided by the step size. Once a curve slope is calculated,  "
 "further step sizes are calculated to reach optimal solution. The algorithm "
-"stops when the measured HFR is within percentage tolerance of the minimum "
+"stops when the measured HFR is within percentage Tolerance of the minimum "
 "HFR recorded in the procedure.</li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Polynomial</span>: Starts "
-"with iterative method. Upon crossing to the other side of the V-Curve, "
+"with iterative method.  Upon crossing to the other side of the V-Curve,  "
 "polynomial fitting coefficients along with possible minimum solution are "
 "calculated. This algorithm can be faster than purely iterative approach "
 "given a good data set.</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Linear</span>: Samples focus inward in "
-"a regular fashion, using 2 passes. The algorithm can be slow, but it is more "
-"resilient to backlash. Start with the focuser positioned near good focus. "
-"Set Initial Step Size and Max Travel for the desired sampling interval and "
-"range around start focus position. Tolerance should be around 5%.</li><li "
-"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"a regular fashion, using 2 passes.  The algorithm can be slow, but it is "
+"more resilient to backlash.  Start with the focuser positioned near good "
+"focus.  Set Initial Step Size and Max Travel for the desired sampling "
+"interval and range around start focus position.  Tolerance should be around "
+"5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">Linear 1 Pass</span>: Starts like <span style=\" font-"
 "weight:600;\">Linear</span> but after completing the 1st pass, instead of "
-"doing a 2nd pass, moves straight to the minimum HFR value calculated. Use "
+"doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use "
 "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
@@ -17930,7 +17815,7 @@ msgstr "Bahtinov"
 #: ekos/focus/focus.ui:1857
 #, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/focus.ui:1867
@@ -17943,6 +17828,12 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>The type of PSF to use when Measure is set to FWHM:</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
+"Gaussian. This is an experimental feature.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1911
@@ -18022,16 +17913,13 @@ msgstr "Mechanics"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, mechanicsTab)
 #: ekos/focus/focus.ui:2131
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Update the fits header with the found solution.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the mechanics of moving "
 "the focuser.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Update the fits header with the found solution.</p></"
-"body></html>"
+"<html><head/><body><p>Focus parameters to do with the mechanics of moving "
+"the focuser.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:2169
@@ -18041,31 +17929,27 @@ msgstr "Driver Backlash:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/focus.ui:2191
-#, fuzzy, kde-format
-#| msgid "Initial Step size:"
+#, kde-format
 msgid "Initial Step Size:"
-msgstr "Initial Step size:"
+msgstr "Initial Step Size:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/focus.ui:2207
-#, fuzzy, kde-format
-#| msgid "Focuser port:"
+#, kde-format
 msgid "Focuser Settle:"
-msgstr "Focuser port:"
+msgstr "Focuser Settle:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:2223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
 "before capturing the next image during Auto Focus and after an Adaptive "
 "Focus movement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Wait for this many seconds after moving the focuser "
-"before capturing the next image during Auto Focus.</p></body></html>"
+"<html><head/><body><p>Settle time (in seconds) after moving the focuser "
+"before capturing the next image during Auto Focus and after an Adaptive "
+"Focus movement.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusAdvOutStepMultLabel)
@@ -18076,18 +17960,15 @@ msgstr "Out Step Multiple:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusWalkLabel)
 #: ekos/focus/focus.ui:2264
-#, fuzzy, kde-format
-#| msgctxt "City in Louisiana USA"
-#| msgid "Walker"
+#, kde-format
 msgid "Walk:"
-msgstr "Walker"
+msgstr "Walk:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/focus.ui:2280
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Max Step Size:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:2296
@@ -18099,23 +17980,25 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>For backlash-aware focusers, the amount of backlash to "
+"apply when reversing movement direction. Set to 0 to disable.</"
+"p><p>Typically either Focuser Backlash or AF Overscan is set.</p><p>This "
+"field sets the Indi Focuser Backlash field and can be set either here or on "
+"the Indi Control Panel.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2309
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
 "span> in ticks to cause a noticeable change in HFR value. For timer based "
 "focuser, it is the initial time in milliseconds to move the focuser inward "
 "or outward</p></body></html>"
 msgstr ""
-"<b>Initial</b> step size in ticks to cause a noticeable change in HFR value. "
-"For timer based focuser, it is the initial time in milliseconds to move the "
-"focuser inward or outward"
+"<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
+"span> in ticks to cause a noticeable change in HFR value. For timer based "
+"focuser, it is the initial time in milliseconds to move the focuser inward "
+"or outward</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:2334
@@ -18148,6 +18031,26 @@ msgid ""
 "be effective but is predictable in the number of steps taken. This walk is "
 "experimental.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Select the type of walk for the focuser to take when "
+"using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For <span "
+"style=\" font-weight:600;\">Linear</span> only <span style=\" font-"
+"weight:600;\">Classic</span> is available.</p><p><span style=\" font-"
+"weight:600;\">Classic</span>: Focuser steps out &quot;Out Step "
+"Multiple&quot; steps, takes a frame and then steps in through focus at a "
+"constant step size taking and analysing frames at each step. The exact point "
+"at which the pass stops is dependent on the data so this walk is tolerant of "
+"starting further away from focus, but at the expense of extra steps.</"
+"p><p><span style=\" font-weight:600;\">Fixed Steps</span>: Focuser steps out "
+"half of &quot;Number Steps&quot;, takes a frame and then steps in exactly "
+"&quot;Number Steps&quot;. This walk must be started close to focus to be "
+"effective but is predictable in the number of steps taken. This walk is "
+"experimental.</p><p><span style=\" font-weight:600;\">CFZ Shuffle</span>: "
+"Similar to <span style=\" font-weight:600;\">Fixed Steps</span> except this "
+"walk takes half steps near the focus point to try to give more weight to "
+"points nearer to focus in the curve fitting. As with <span style=\" font-"
+"weight:600;\">Fixed Steps</span> this walk must be started close to focus to "
+"be effective but is predictable in the number of steps taken. This walk is "
+"experimental.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -18161,17 +18064,15 @@ msgstr "Classic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2362
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Steps"
+#, kde-format
 msgid "Fixed Steps"
-msgstr "Steps"
+msgstr "Fixed Steps"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2367
 #, kde-format
 msgid "CFZ Shuffle"
-msgstr ""
+msgstr "CFZ Shuffle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/focus/focus.ui:2384
@@ -18231,6 +18132,12 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Provides backlash overscan in ticks for outward "
+"focuser movements during an Autofocus run. This is in addition to any Driver "
+"Backlash provided by the device driver and set in the Driver Backlash field. "
+"Set to 0 to disable. </p><p>If set, AF Overscan is applied to all focuser "
+"movements initiated by the Focus module.</p><p>Typically either Focuser "
+"Backlash or AF Overscan is set.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:2504
@@ -18250,43 +18157,37 @@ msgstr "Motion Timeout:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/focus.ui:2548
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum time in seconds to wait for a focuser to move to desired position "
-#| "before declaring a timeout."
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"Maximum time in seconds to wait for a focuser to move to desired position "
-"before declaring a timeout."
+"<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
+"move to the desired position before declaring a timeout.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2570
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Number Steps:"
-msgstr "Steps:"
+msgstr "Number Steps:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2586
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Number of digits used to append the sequence number to "
-"the filename.</p></body></html>"
+"<html><head/><body><p>The total number of steps to use when Walk is set to "
+"one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
+"body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2621
 #, kde-format
 msgid "CFZ"
-msgstr ""
+msgstr "CFZ"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2624
@@ -18296,40 +18197,37 @@ msgid ""
 "Zone (CFZ). This is not necessary for Autofocus, but provides useful "
 "information.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Parameters to do with configuring the Critical Focus "
+"Zone (CFZ). This is not necessary for Autofocus, but provides useful "
+"information.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/focus.ui:2693
-#, fuzzy, kde-format
-#| msgid "Tolerance (%):"
+#, kde-format
 msgid "Tolerance (τ):"
-msgstr "Tolerance (%):"
+msgstr "Tolerance (τ):"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZLabel)
 #: ekos/focus/focus.ui:2709
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>CFZ:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/focus.ui:2728
-#, fuzzy, kde-format
-#| msgid "Aperture (mm):"
+#, kde-format
 msgid "Aperture (A):"
-msgstr "Aperture (mm):"
+msgstr "Aperture (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2747
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Check to display the latest guide data and autoscroll "
-"the graph.</p></body></html>"
+"<html><head/><body><p>Check to display the CFZ on the V-curve after a "
+"successful Autofocus run.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -18340,16 +18238,13 @@ msgstr "Display"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/focus.ui:2769
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Select the imaging camera for this optical train.</p></"
-"body></html>"
+"<html><head/><body><p>Set the aperture of your telescope in mm. This is "
+"defaulted from the selected optical train.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -18361,23 +18256,19 @@ msgstr " mm"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZCameraSteps)
 #: ekos/focus/focus.ui:2797
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Select the imaging camera for this optical train.</p></"
-"body></html>"
+"<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
+"optical train.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2813
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>The mount's pier side.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr "<html><head/><body><p>The mount's pier side.</p></body></html>"
+msgstr "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/focus.ui:2832
@@ -18387,31 +18278,31 @@ msgid ""
 "the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Set the tolerance=t value between 0 and 1. This scales "
+"the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2857
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+"<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
+"camera CFZ.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/focus.ui:2873
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Step Size:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2889
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "CFZ Camera:"
-msgstr "Camera:"
+msgstr "CFZ Camera:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/focus.ui:2908
@@ -18424,39 +18315,40 @@ msgid ""
 "background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Set the <span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">focus tolerance, </span>τ<span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2936
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>The mount's pier side.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr "<html><head/><body><p>The mount's pier side.</p></body></html>"
+msgstr "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2952
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/focus.ui:2971
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/focus.ui:2990
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength (λ):"
-msgstr "Wavelength:"
+msgstr "Wavelength (λ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:3006
@@ -18469,73 +18361,54 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Set the step size (in microns) of your focuser. To "
+"calculate this move your focuser from one end of its travel to the other "
+"(being careful not to force the focuser beyond its limits). Measure the "
+"distance the drawtube moves as accurately as you can (e.g. with calipers) "
+"and convert this to microns. Note how many steps you have moved the focuser. "
+"The step size = distance_in_microns / number_steps.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:3009
 #, kde-format
 msgid " μm"
-msgstr ""
+msgstr " μm"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZSeeing)
 #: ekos/focus/focus.ui:3034
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The right ascension (RA) drift error in arc-seconds."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>The right ascension (RA) drift error in arc-seconds.</"
-"p></body></html>"
+"<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3062
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Scale the value axis to the current value range.</p></"
-"body></html>"
+"<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
+"from the currently selected filter and optical train</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3065
-#, fuzzy, kde-format
-#| msgid "Reset to Now"
+#, kde-format
 msgid "Reset To OT"
-msgstr "Reset to Now"
+msgstr "Reset To OT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:3078
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Ratio (f):"
-msgstr "Focal Ratio"
+msgstr "Focal Ratio (f):"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3116
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Critical Focus Zone (CFZ) algorithm:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -18558,101 +18431,92 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
+"<html><head/><body><p>Select the Critical Focus Zone (CFZ) algorithm:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a polynomial fit "
-"of degree 2.  This is currently the default option and currently the only "
-"option for all Algorithms except Linear 1 Pass.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hyperbola</"
-"span>: Fits a hyperbola to the data points.  This is currently only "
-"available for the Linear 1 Pass Algorithm and is experimental.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Parabola</span>: Fits a parabola to the data points.  This is currently "
-"only available for the Linear 1 Pass Algorithm and is experimental.</li></"
-"ul></body></html>"
+"\"><span style=\" font-weight:600;\">Classic</span>: Uses the formula, CFZ = "
+"4.88 t λ f<span style=\" vertical-align:super;\">2.</span>.  Set tolerance, "
+"t=1 for the basic formula. Some have suggested t=1/3 empirically.</li></"
+"ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Wavefront: </span>Uses the "
+"formula, CFZ = 4 t λ f<span style=\" vertical-align:super;\">2</span>.  "
+"Formula derived from wavefront aberration theory. Some have suggested t=1/3 "
+"or even t=1/10.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Gold: </"
+"span>Uses the formula, CFZ = 0.00225 √τ θ f<span style=\" vertical-align:"
+"super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
+"more details.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3128
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavefront"
-msgstr "Wavelength:"
+msgstr "Wavefront"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3133
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Golden"
+#, kde-format
 msgid "Gold"
-msgstr "Golden"
+msgstr "Gold"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3147
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
-msgstr "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
+"optical train.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/focus.ui:3175
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "Final CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3194
 #, kde-format
 msgid "FWHM (θ):"
-msgstr ""
+msgstr "FWHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3210
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the light wavelength to use. This is defaulted "
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Drag the slider to adjust the scale of the Corrections "
-"Graphs relative to the scale of the drift graphs.</p></body></html>"
+"<html><head/><body><p>Set the light wavelength to use. This is defaulted "
+"from the Filter Settings popup for the selected filter. </p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3213
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgid " nm"
-msgstr " mm"
+msgstr " nm"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Divisor"
+#, kde-format
 msgid "Advisor"
-msgstr "Divisor"
+msgstr "Adviser"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3251
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Effective field of View size in arcminutes.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Advisor help utility to assist with setting up "
 "Focus parameters.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Effective field of View size in arcminutes.</p></"
-"body></html>"
+"<html><head/><body><p>Focus Adviser help utility to assist with setting up "
+"Focus parameters.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvOutStepMultiple)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvStepSize)
@@ -18671,10 +18535,9 @@ msgstr "Update"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/focus.ui:3293
-#, fuzzy, kde-format
-#| msgid "Camera && Filter Wheel"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Camera && Filter Wheel"
+msgstr "Camera & Filter Wheel Parameters"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvOutStepMultLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvOutStepMult)
@@ -18690,41 +18553,42 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>A good figure to start with is 5. An exception is if "
+"you have a scope with a central obstruction that turns stars to donuts when "
+"they are out of focus. When this happens the system will struggle to "
+"identify stars correctly. To avoid this situation reduce either the step "
+"size or the number of steps.</p><p>To check this situation, start at focus "
+"and move away by &quot;step size&quot; * &quot;number of steps&quot; steps. "
+"Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
+"as stars or donuts.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3329
-#, fuzzy, kde-format
-#| msgid "Star Filtering Parameters"
+#, kde-format
 msgid "Settings Tab Parameters"
-msgstr "Star Filtering Parameters"
+msgstr "Settings Tab Parameters"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/focus.ui:3352
-#, fuzzy, kde-format
-#| msgid "Reset all parameters"
+#, kde-format
 msgid "Process Tab Parameters"
-msgstr "Reset all parameters"
+msgstr "Process Tab Parameters"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3365
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Update Focus Parameters to Focus Advisor suggestions "
 "where the associated Update box is checked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Maximum travel in steps before the autofocus process "
-"aborts</p></body></html>"
+"<html><head/><body><p>Update Focus Parameters to Focus Adviser suggestions "
+"where the associated Update box is ticked.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3368
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Update GPS"
+#, kde-format
 msgid "Update Params"
-msgstr "Update GPS"
+msgstr "Update Params"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvSteps)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_32)
@@ -18735,44 +18599,41 @@ msgid ""
 "Make sure you configure the CFZ tab to give an appropriate value for your "
 "system.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone. "
+"Make sure you configure the CFZ tab to give an appropriate value for your "
+"system.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/focus.ui:3397
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Focus Advisor:"
-msgstr "Focus star"
+msgstr "Focus Adviser:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/focus.ui:3404
-#, fuzzy, kde-format
-#| msgid "Reset all parameters"
+#, kde-format
 msgid "Mechanics Tab Parameters"
-msgstr "Reset all parameters"
+msgstr "Mechanics Tab Parameters"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:3446
-#, fuzzy, kde-format
-#| msgid "Max Step size:"
+#, kde-format
 msgid "Step Size:"
-msgstr "Max Step size:"
+msgstr "Step Size:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:3478
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+"<html><head/><body><p>Launch the Focus Adviser Help dialog.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:3481
-#, fuzzy, kde-format
-#| msgid "Help"
+#, kde-format
 msgid "Help..."
-msgstr "Help"
+msgstr "Help..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:3572
@@ -18789,55 +18650,51 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
 #: ekos/focus/focus.ui:3633
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Delete current frame</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/focus.ui:3665
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "  FWHM:"
-msgstr "FWHM"
+msgstr "  FWHM:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3678
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Delete current frame</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/focus.ui:3691
-#, fuzzy, kde-format
-#| msgid "Stars: "
+#, kde-format
 msgid "  Stars:"
-msgstr "Stars: "
+msgstr "  Stars:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
 #: ekos/focus/focus.ui:3704
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of stars found in the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Plot the number of stars detected in the captured "
-"images.</p></body></html>"
+"<html><head/><body><p>Number of stars found in the last frame.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/focus/focus.ui:3730
 #, kde-format
 msgid "  Iter:"
-msgstr ""
+msgstr "  Iter:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
 #: ekos/focus/focus.ui:3743
@@ -18847,10 +18704,9 @@ msgstr "<html><body><p>Focuser iteration.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:3778
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile..."
-msgstr "Profile"
+msgstr "Profile..."
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
@@ -18891,36 +18747,24 @@ msgid "Value"
 msgstr "Value"
 
 #: ekos/focus/focushfrvplot.cpp:84
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt "Graphics tooltip; %1 is the Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</td></"
+"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 
 #: ekos/focus/focushfrvplot.cpp:99
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; %1 is the Minimum Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</td></"
+"<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 
 #: ekos/guide/externalguide/linguider.cpp:70
@@ -19572,10 +19416,9 @@ msgstr "Subframe"
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
 #: ekos/guide/guide.ui:271 ekos/guide/manualpulse.ui:14
-#, fuzzy, kde-format
-#| msgid "Manual slew"
+#, kde-format
 msgid "Manual Pulse"
-msgstr "Manual slew"
+msgstr "Manual Pulse"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
 #: ekos/guide/guide.ui:305
@@ -20303,31 +20146,27 @@ msgstr "Magnitude"
 
 #. i18n: ectx: property (text), widget (QPushButton, northPulseB)
 #: ekos/guide/manualpulse.ui:37
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgid "North / DE+"
-msgstr "North"
+msgstr "North / DE+"
 
 #. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:46
 #, kde-format
 msgid "West / RA-"
-msgstr ""
+msgstr "West / RA-"
 
 #. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "East / RA+"
-msgstr ""
+msgstr "East / RA+"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "South"
+#, kde-format
 msgid "South / DE-"
-msgstr "South"
+msgstr "South / DE-"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
@@ -20338,24 +20177,21 @@ msgstr "Pulse:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, pulseDuration)
 #: ekos/guide/manualpulse.ui:93
-#, fuzzy, kde-format
-#| msgid " s"
+#, kde-format
 msgid " ms"
-msgstr " s"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/manualpulse.ui:112
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "RA Offset\":"
-msgstr "X Offset:"
+msgstr "RA Offset\":"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "DE Offset\":"
-msgstr "X Offset:"
+msgstr "DE Offset\":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -31801,52 +31637,50 @@ msgstr "Set magnitude limit for supernovae to be shown on the skymap."
 #: kstars.kcfg:505 kstars.kcfg:510
 #, kde-format
 msgid "Maximum days passed since detection"
-msgstr ""
+msgstr "Maximum days passed since detection"
 
 #. i18n: ectx: whatsthis, entry (SupernovaDetectionAge), group (View)
 #. i18n: ectx: whatsthis, entry (SupernovaDownloadUrl), group (View)
 #: kstars.kcfg:506 kstars.kcfg:511
 #, kde-format
 msgid "Maximum days passed since detection."
-msgstr ""
+msgstr "Maximum days passed since detection."
 
 #. i18n: ectx: label, entry (LimitSupernovaeByZoom), group (View)
 #: kstars.kcfg:516
 #, kde-format
 msgid "Limit Supernovae by zoom limit"
-msgstr ""
+msgstr "Limit Supernovae by zoom limit"
 
 #. i18n: ectx: whatsthis, entry (LimitSupernovaeByZoom), group (View)
 #: kstars.kcfg:517
 #, kde-format
 msgid "Limit Supernovae by zoom limit."
-msgstr ""
+msgstr "Limit Supernovae by zoom limit."
 
 #. i18n: ectx: label, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:521
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only supernovae with host"
-msgstr "Show supernovae"
+msgstr "Show only supernovae with host"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:522
 #, kde-format
 msgid "Show only supernovae for which a host galaxy is given."
-msgstr ""
+msgstr "Show only supernovae for which a host galaxy is given."
 
 #. i18n: ectx: label, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:526
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified supernovae?"
-msgstr "Show supernovae"
+msgstr "Show only classified supernovae?"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:527
 #, kde-format
 msgid "Show only classified supernovae where the supernova type is given."
-msgstr ""
+msgstr "Show only classified supernovae where the supernova type is given."
 
 #. i18n: ectx: label, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:531
@@ -32555,7 +32389,7 @@ msgstr "The zoom level, measured in pixels per radian."
 #: kstars.kcfg:798
 #, kde-format
 msgid "Angle by which the sky map is rotated"
-msgstr ""
+msgstr "Angle by which the sky map is rotated"
 
 #. i18n: ectx: whatsthis, entry (SkyRotation), group (View)
 #: kstars.kcfg:799
@@ -32565,12 +32399,15 @@ msgid ""
 "(north up if using equatorial coordinates, zenith up if using horizontal "
 "coordinates)."
 msgstr ""
+"The angle by which the sky map is rotated from its standard orientation "
+"(north up if using equatorial coordinates, zenith up if using horizontal "
+"coordinates)."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:805
 #, kde-format
 msgid "Orients the sky-map to account for an erect observer at the eyepiece"
-msgstr ""
+msgstr "Orients the sky-map to account for an erect observer at the eyepiece"
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:806
@@ -32582,6 +32419,11 @@ msgid ""
 "the sky map will track what is seen in your eyepiece once it is set up "
 "correctly."
 msgstr ""
+"Enable this if you are using your eye at the eyepiece in an altazimuth "
+"mounted Newtonian telescope. This accounts for the fact that the observer "
+"stands erect as the telescope moves up and down, so that the orientation of "
+"the sky map will track what is seen in your eyepiece once it is set up "
+"correctly."
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:810
@@ -34911,17 +34753,15 @@ msgstr "Calculate position after captures."
 
 #. i18n: ectx: label, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Exposure to use during focus"
-msgstr "Filter exposure time during focus"
+msgstr "Exposure to use during focus"
 
 #. i18n: ectx: whatsthis, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1883
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Specifies the length of exposure to use during focus."
-msgstr "Filter exposure time during focus"
+msgstr "Specifies the length of exposure to use during focus."
 
 #. i18n: ectx: label, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:1887
@@ -35010,6 +34850,8 @@ msgid ""
 "Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 "
 "mosaic style mask"
 msgstr ""
+"Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 "
+"mosaic style mask"
 
 #. i18n: ectx: label, entry (FocusFullFieldInnerRadius), group (Focus)
 #: kstars.kcfg:1927
@@ -35051,13 +34893,13 @@ msgstr ""
 #: kstars.kcfg:1937
 #, kde-format
 msgid "Mosaic filter tile width in percent of the frame width."
-msgstr ""
+msgstr "Mosaic filter tile width in percent of the frame width."
 
 #. i18n: ectx: label, entry (focusMosaicSpace), group (Focus)
 #: kstars.kcfg:1941
 #, kde-format
 msgid "Space between the mosaic elements for the mosaic filter."
-msgstr ""
+msgstr "Space between the mosaic elements for the mosaic filter."
 
 #. i18n: ectx: label, entry (FocusAutoStarEnabled), group (Focus)
 #: kstars.kcfg:1945
@@ -35081,14 +34923,13 @@ msgstr "Wait for this many seconds after resuming guide."
 #: kstars.kcfg:1957
 #, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr ""
+msgstr "Display units for HFR and FWHM"
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:1961
-#, fuzzy, kde-format
-#| msgid "Whether EkosLive connection mode is online."
+#, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Whether EkosLive connection mode is online."
+msgstr "Whether Adaptive Focusing is enabled."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:1965
@@ -35096,6 +34937,7 @@ msgstr "Whether EkosLive connection mode is online."
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
+"When using Adaptive Focusing the minimum allowable focuser move in ticks."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:1969
@@ -35104,6 +34946,8 @@ msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
+"Whether to adapt the focuser starting position at the beginning of an "
+"Autofocus run."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:1973
@@ -35112,6 +34956,8 @@ msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
+"When using Adaptive Focusing the maximum total allowable focuser move in "
+"ticks."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
 #: kstars.kcfg:1978
@@ -35135,44 +34981,44 @@ msgstr "Focus process algorithm"
 #: kstars.kcfg:1989
 #, kde-format
 msgid "The type of curve to fit"
-msgstr ""
+msgstr "The type of curve to fit"
 
 #. i18n: ectx: whatsthis, entry (FocusStarMeasure), group (Focus)
 #: kstars.kcfg:1993
 #, kde-format
 msgid "The type of star measure to use."
-msgstr ""
+msgstr "The type of star measure to use."
 
 #. i18n: ectx: whatsthis, entry (FocusStarPSF), group (Focus)
 #: kstars.kcfg:1997
 #, kde-format
 msgid "The type of star PSF to use if curve fitting star profiles."
-msgstr ""
+msgstr "The type of star PSF to use if curve fitting star profiles."
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:2001
-#, fuzzy, kde-format
-#| msgid "Use weights in the curve fitting process."
+#, kde-format
 msgid "Whether to use weights in the curve fitting process."
-msgstr "Use weights in the curve fitting process."
+msgstr "Whether to use weights in the curve fitting process."
 
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:2005
 #, kde-format
 msgid "The minimum acceptable R2 value of a curve fit."
-msgstr ""
+msgstr "The minimum acceptable R2 value of a curve fit."
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
 #: kstars.kcfg:2009
 #, kde-format
 msgid "Whether to refine the curve fit by looking for and discarding outliers."
 msgstr ""
+"Whether to refine the curve fit by looking for and discarding outliers."
 
 #. i18n: ectx: whatsthis, entry (focusFramesCount), group (Focus)
 #: kstars.kcfg:2013
 #, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
-msgstr ""
+msgstr "How many frames to average over at each step in the Autofocus process."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:2017
@@ -35224,10 +35070,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusWalk), group (Focus)
 #: kstars.kcfg:2039
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "The type of walk the focuser will take during an Autofocus run."
-msgstr "Subframe the focus star during the autofocus procedure."
+msgstr "The type of walk the focuser will take during an Autofocus run."
 
 #. i18n: ectx: whatsthis, entry (FocusSettleTime), group (Focus)
 #: kstars.kcfg:2043
@@ -35264,6 +35109,8 @@ msgid ""
 "The number of steps to move outwards from the start position of an Autofocus "
 "run."
 msgstr ""
+"The number of steps to move outwards from the start position of an Autofocus "
+"run."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2056
@@ -35279,22 +35126,21 @@ msgstr "Set the maximum travel distance of an absolute focuser."
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2061
-#, fuzzy, kde-format
-#| msgid "The maximum solar distance for drawing comets."
+#, kde-format
 msgid "The maximum size of a single step."
-msgstr "The maximum solar distance for drawing comets."
+msgstr "The maximum size of a single step."
 
 #. i18n: ectx: whatsthis, entry (FocusBacklash), group (Focus)
 #: kstars.kcfg:2065
 #, kde-format
 msgid "The amount of driver backlash."
-msgstr ""
+msgstr "The amount of driver backlash."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2069
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr ""
+msgstr "The amount of Autofocus Overscan."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2077
@@ -35310,63 +35156,61 @@ msgstr ""
 #: kstars.kcfg:2082
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr ""
+msgstr "The type of CFZ Algorithm to use."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2086
 #, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
-msgstr ""
+msgstr "The user defined tolerance to use for Classic and Wavefront algos."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2090
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
-msgstr ""
+msgstr "The user defined tolerance to use for the Gold algo."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2094
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
-msgstr ""
+msgstr "Whether to display the CFZ on the v-curve after an Autofocus run."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2098
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr ""
+msgstr "The wavelength in nm to use in the Gold algo."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2102
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "Telescope aperture in mm to use in CFZ calcs."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2106
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "The f# to use in the CFZ algo."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2110
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
-msgstr ""
+msgstr "The total seeing in arc-secs to use in the CFZ algo."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2118
-#, fuzzy, kde-format
-#| msgid "Position angle multiplier"
+#, kde-format
 msgid "Position of FocusSplitter."
-msgstr "Position angle multiplier"
+msgstr "Position of FocusSplitter."
 
 #. i18n: ectx: label, entry (rightLayout), group (Focus)
 #: kstars.kcfg:2121
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Position of rightLayout."
-msgstr "Position of the time InfoBox."
+msgstr "Position of rightLayout."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2126
@@ -35508,10 +35352,9 @@ msgstr "Default filter wheel filter in alignment mode"
 
 #. i18n: ectx: label, entry (AlignUseCurrentFilter), group (Align)
 #: kstars.kcfg:2209
-#, fuzzy, kde-format
-#| msgid "Default filter wheel filter in alignment mode"
+#, kde-format
 msgid "Use currently selected filter in alignment mode."
-msgstr "Default filter wheel filter in alignment mode"
+msgstr "Use currently selected filter in alignment mode."
 
 #. i18n: ectx: whatsthis, entry (AstrometryUseRotator), group (Align)
 #: kstars.kcfg:2213
@@ -36491,10 +36334,9 @@ msgstr "Display the ambient temperature on the Analyse Statistics Plot."
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
 #: kstars.kcfg:2879
-#, fuzzy, kde-format
-#| msgid "Display the focus InfoBox?"
+#, kde-format
 msgid "Display the autofocus solution position."
-msgstr "Display the focus InfoBox?"
+msgstr "Display the autofocus solution position."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
 #: kstars.kcfg:2883
@@ -65598,34 +65440,28 @@ msgid "Enter a field-of-view angle in degrees: "
 msgstr "Enter a field-of-view angle in degrees: "
 
 #: kstarsactions.cpp:1693 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
-msgstr "North"
+msgstr "North &Up"
 
 #: kstarsactions.cpp:1696 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
-msgstr "Norton"
+msgstr "North &Down"
 
 #: kstarsactions.cpp:1714 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
-msgstr "&Zenith"
+msgstr "Zenith &Up"
 
 #: kstarsactions.cpp:1717 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
-msgstr "&Zenith"
+msgstr "Zenith &Down"
 
 #: kstarsactions.cpp:1875
 #, kde-format
@@ -66059,10 +65895,9 @@ msgid "HiPS All Sky Overlay"
 msgstr "HiPS All Sky Overlay"
 
 #: kstarsinit.cpp:376
-#, fuzzy, kde-format
-#| msgid "Skymap Options"
+#, kde-format
 msgid "Skymap Orientation"
-msgstr "Skymap Options"
+msgstr "Skymap Orientation"
 
 #: kstarsinit.cpp:382
 #, kde-format
@@ -66520,6 +66355,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
+"Select this for erect view of the sky map, where north (in Equatorial "
+"Coordinate mode) or zenith (in Horizontal Coordinate mode) is vertically up. "
+"This would be the natural choice for an erect image finder scope or naked-"
+"eye view."
 
 #: kstarsinit.cpp:724
 #, kde-format
@@ -66530,15 +66369,17 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"Select this for inverted view of the sky map, where north (in Equatorial "
+"Coordinate mode) or zenith (in Horizontal Coordinate mode) is vertically "
+"down. This would be the natural choice for an inverted image finder scope, "
+"refractor/cassegrain without erector prism, or Dobsonian."
 
 #: kstarsinit.cpp:729
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
-msgstr "Library"
+msgstr "Arbitrary"
 
 #: kstarsinit.cpp:733
 #, kde-format
@@ -66548,13 +66389,15 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
+"This mode is selected automatically if you manually rotated the sky map "
+"using Shift + Drag mouse action, to inform you that the orientation is "
+"arbitrary"
 
 #: kstarsinit.cpp:739
-#, fuzzy, kde-format
-#| msgid "Target object or direction"
+#, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid "Erect observer correction"
-msgstr "Target object or direction"
+msgstr "Erect observer correction"
 
 #: kstarsinit.cpp:742
 #, kde-format
@@ -66568,6 +66411,13 @@ msgid ""
 "Coordinates. Typically makes sense to combine this with Zenith Down "
 "orientation."
 msgstr ""
+"Enable this mode if you are visually using a Newtonian telescope on an "
+"altazimuth mount. It will correct the orientation of the sky-map to account "
+"for the observer remaining erect as the telescope moves up and down, unlike "
+"a camera which would rotate with the telescope. This only makes sense in "
+"Horizontal Coordinate mode and is disabled when using Equatorial "
+"Coordinates. Typically makes sense to combine this with Zenith Down "
+"orientation."
 
 #: kstarsinit.cpp:768
 #, kde-format
@@ -71650,24 +71500,21 @@ msgstr "Abs. position:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: oal/equipmentwriter.ui:1100
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus alt:"
-msgstr "Focus Out"
+msgstr "Focus alt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1123
-#, fuzzy, kde-format
-#| msgid "Ticks:"
+#, kde-format
 msgid "Ticks per C:"
-msgstr "Ticks:"
+msgstr "Ticks per C:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1140
-#, fuzzy, kde-format
-#| msgid "Ticks:"
+#, kde-format
 msgid "Ticks per Alt:"
-msgstr "Ticks:"
+msgstr "Ticks per Alt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1164
@@ -71683,10 +71530,9 @@ msgstr "Locked filter:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: oal/equipmentwriter.ui:1211
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focus temp:"
-msgstr "Focuser:"
+msgstr "Focus temp:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1258
@@ -73711,7 +73557,7 @@ msgstr "Supernovae Options"
 #: options/opssupernovae.ui:27
 #, kde-format
 msgid "https://indilib.org/jdownloads/kstars/tns-daily.csv"
-msgstr ""
+msgstr "https://indilib.org/jdownloads/kstars/tns-daily.csv"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opssupernovae.ui:47
@@ -73723,7 +73569,7 @@ msgstr "Set the magnitude limit for supernova to show:"
 #: options/opssupernovae.ui:57
 #, kde-format
 msgid "Limit supernovae by zoom limit"
-msgstr ""
+msgstr "Limit supernovae by zoom limit"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSupernovae)
 #: options/opssupernovae.ui:83
@@ -73739,30 +73585,27 @@ msgstr "Set the magnitude limit for supernova alerts:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Download URL"
-msgstr "Download"
+msgstr "Download URL"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
-#, fuzzy, kde-format
-#| msgid "Angle (dd.d)"
+#, kde-format
 msgid "Age (days)"
-msgstr "Angle (dd.d)"
+msgstr "Age (days)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeHostOnly)
 #: options/opssupernovae.ui:137
 #, kde-format
 msgid "Show only SN with host galaxy given"
-msgstr ""
+msgstr "Show only SN with host galaxy given"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeClassifiedOnly)
 #: options/opssupernovae.ui:144
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified Supernovae"
-msgstr "Show supernovae"
+msgstr "Show only classified Supernovae"
 
 #: options/opsterrain.cpp:53
 #, kde-format
@@ -74859,11 +74702,10 @@ msgid "Object Details"
 msgstr "Object Details"
 
 #: skymapdrawabstract.cpp:185
-#, fuzzy, kde-format
-#| msgid "AZ"
+#, kde-format
 msgctxt "Zenith"
 msgid "Z"
-msgstr "AZ"
+msgstr "Z"
 
 #: skyobjects/jupitermoons.cpp:18
 #, kde-format
