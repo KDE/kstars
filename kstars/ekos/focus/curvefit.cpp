@@ -1815,7 +1815,7 @@ QString serializeDoubleVector(const QVector<double> &vector)
 {
     QString str = QString("%1").arg(vector.size());
     for (const double v : vector)
-        str.append(QString(";%1").arg(v));
+        str.append(QString(";%1").arg(v, 0, 'g', 12));
     return str;
 }
 

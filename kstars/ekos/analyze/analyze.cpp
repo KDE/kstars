@@ -2745,8 +2745,12 @@ void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, d
     autofocusStartedTime = -1;
 }
 
-void Analyze::autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &title)
+void Analyze::autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &rawTitle)
 {
+    // Remove commas from the title as they're used as separators in the .analyze file.
+    QString title = rawTitle;
+    title.replace(",", " ");
+
     if (curve.size() == 0)
         saveMessage("AutofocusComplete", QString("%1,%2").arg(filter, points));
     else if (title.size() == 0)
