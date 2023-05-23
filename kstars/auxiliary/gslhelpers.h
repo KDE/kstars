@@ -53,79 +53,79 @@ class stride_iter
         typedef stride_iter self;
 
         // constructors
-        constexpr stride_iter( ) : iter(nullptr), step(0) { }
-        constexpr stride_iter(const self &x) : iter(x.iter), step(x.step) { }
-        constexpr stride_iter(Iter_T x, difference_type n) : iter(x), step(n) { }
+        stride_iter( ) : iter(nullptr), step(0) { }
+        stride_iter(const self &x) : iter(x.iter), step(x.step) { }
+        stride_iter(Iter_T x, difference_type n) : iter(x), step(n) { }
 
         // operators
-        constexpr self &operator++( )
+        self &operator++( )
         {
             iter += step;
             return *this;
         }
-        constexpr self operator++(int)
+        self operator++(int)
         {
             self tmp = *this;
             iter += step;
             return tmp;
         }
-        constexpr self &operator+=(difference_type x)
+        self &operator+=(difference_type x)
         {
             iter += x * step;
             return *this;
         }
-        constexpr self &operator--( )
+        self &operator--( )
         {
             iter -= step;
             return *this;
         }
-        constexpr self operator--(int)
+        self operator--(int)
         {
             self tmp = *this;
             iter -= step;
             return tmp;
         }
-        constexpr self &operator-=(difference_type x)
+        self &operator-=(difference_type x)
         {
             iter -= x * step;
             return *this;
         }
-        constexpr reference operator[](difference_type n)
+        reference operator[](difference_type n)
         {
             return iter[n * step];
         }
-        constexpr reference operator*( )
+        reference operator*( )
         {
             return *iter;
         }
 
         // friend operators
-        constexpr friend bool operator==(const self &x, const self &y)
+        friend bool operator==(const self &x, const self &y)
         {
             assert(x.step == y.step);
             return x.iter == y.iter;
         }
-        constexpr friend bool operator!=(const self &x, const self &y)
+        friend bool operator!=(const self &x, const self &y)
         {
             assert(x.step == y.step);
             return x.iter != y.iter;
         }
-        constexpr friend bool operator<(const self &x, const self &y)
+        friend bool operator<(const self &x, const self &y)
         {
             assert(x.step == y.step);
             return x.iter < y.iter;
         }
-        constexpr friend difference_type operator-(const self &x, const self &y)
+        friend difference_type operator-(const self &x, const self &y)
         {
             assert(x.step == y.step);
             return (x.iter - y.iter) / x.step;
         }
-        constexpr friend self operator+(const self &x, difference_type y)
+        friend self operator+(const self &x, difference_type y)
         {
             assert(x.step == y.step);
             return x += y * x.step;
         }
-        constexpr friend self operator+(difference_type x, const self &y)
+        friend self operator+(difference_type x, const self &y)
         {
             assert(x.step == y.step);
             return y += x * x.step;
@@ -136,7 +136,7 @@ class stride_iter
 };
 
 template< class Iter_T >
-constexpr static stride_iter<Iter_T> make_strided_iter(Iter_T i, typename stride_iter<Iter_T>::difference_type stride)
+static stride_iter<Iter_T> make_strided_iter(Iter_T i, typename stride_iter<Iter_T>::difference_type stride)
 {
     return stride_iter<Iter_T>(i, stride);
 }
