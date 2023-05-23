@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-21 00:41+0000\n"
+"POT-Creation-Date: 2023-05-23 00:42+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -3156,7 +3156,7 @@ msgstr "&Izmijeni"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:911
-#: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:428
+#: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:424
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
 #: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:452
 #: fitsviewer/solveInfo.ui:66
@@ -3859,7 +3859,7 @@ msgstr "0.0 pc"
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:1301 ekos/capture/capture.cpp:1339
-#: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:537 ekos/guide/guide.ui:661
+#: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1185
 #, kde-format
 msgid "--"
@@ -6502,7 +6502,7 @@ msgstr "Automatsko fokusiranje u toku..."
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
 #: ekos/align/align.ui:32 ekos/auxiliary/darklibrary.ui:49
-#: ekos/capture/capture.ui:38 ekos/focus/focus.ui:68 ekos/guide/guide.ui:29
+#: ekos/capture/capture.ui:38 ekos/focus/focus.ui:68 ekos/guide/guide.ui:44
 #: ekos/mount/mount.ui:47
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6543,7 +6543,7 @@ msgstr "Napuni i zakreni..."
 #: ekos/align/align.ui:149 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
 #: ekos/capture/capture.cpp:3425 ekos/focus/focus.ui:456
-#: ekos/guide/guide.ui:138 ekos/manager.cpp:221
+#: ekos/guide/guide.ui:153 ekos/manager.cpp:221
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -6761,7 +6761,7 @@ msgstr "RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
-#: ekos/align/align.ui:524 ekos/guide/guide.ui:658
+#: ekos/align/align.ui:524 ekos/guide/guide.ui:674
 #, kde-format
 msgid "Reducer"
 msgstr ""
@@ -6785,13 +6785,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:562 ekos/focus/focus.ui:790 ekos/guide/guide.ui:405
+#: ekos/align/align.ui:562 ekos/focus/focus.ui:790 ekos/guide/guide.ui:401
 #, kde-format
 msgid "Bin:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:584 ekos/focus/focus.ui:720 ekos/guide/guide.ui:151
+#: ekos/align/align.ui:584 ekos/focus/focus.ui:720 ekos/guide/guide.ui:166
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Show in FITS Viewer"
@@ -6808,7 +6808,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:603 ekos/capture/capture.ui:2207 ekos/guide/guide.ui:225
+#: ekos/align/align.ui:603 ekos/capture/capture.ui:2207 ekos/guide/guide.ui:240
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Dark"
@@ -6867,7 +6867,7 @@ msgstr "Kamera"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:700 ekos/focus/focus.ui:571 ekos/guide/guide.ui:379
+#: ekos/align/align.ui:700 ekos/focus/focus.ui:571 ekos/guide/guide.ui:375
 #, kde-format
 msgid "Exp:"
 msgstr ""
@@ -6949,7 +6949,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, l_02)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/align/align.ui:916 ekos/align/opsastrometry.ui:389
-#: ekos/guide/guide.ui:346 ekos/guide/guide.ui:1231
+#: ekos/guide/guide.ui:342 ekos/guide/guide.ui:1247
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
 #: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:472
 #, kde-format
@@ -8350,7 +8350,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:534
-#: ekos/guide/guide.ui:308 ekos/guide/guide.ui:460
+#: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
 msgid "+"
@@ -8368,8 +8368,8 @@ msgstr "Rješavač  pauziran."
 #. i18n: ectx: property (text), widget (QCheckBox, westRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, southDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:247
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:318
-#: ekos/guide/guide.ui:470 kstarslite/qml/indi/modules/MotionControl.qml:264
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:314
+#: ekos/guide/guide.ui:466 kstarslite/qml/indi/modules/MotionControl.qml:264
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "--"
 msgid "-"
@@ -9850,7 +9850,7 @@ msgstr "Početak"
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1853
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
-#: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:122
+#: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:137
 #: ekos/opsekos.ui:538
 #, kde-format
 msgid "Capture"
@@ -10037,7 +10037,7 @@ msgstr "Poravnanje"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1856 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:248 ekos/manager.cpp:2173
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2173
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
 #, kde-format
@@ -12602,7 +12602,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
 #: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:203
-#: ekos/ekoslive/ekoslivedialog.ui:299 ekos/guide/guide.ui:333
+#: ekos/ekoslive/ekoslivedialog.ui:299 ekos/guide/guide.ui:329
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -12613,7 +12613,7 @@ msgstr "Poveži se"
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
 #: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:171
-#: ekos/guide/guide.ui:395 ekos/manager.ui:583 indi/drivermanager.ui:368
+#: ekos/guide/guide.ui:391 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
@@ -13178,7 +13178,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, deblend_thresh)
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:472 ekos/guide/guide.ui:490
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:472 ekos/guide/guide.ui:486
 #, fuzzy, kde-format
 #| msgid "2"
 msgid "32"
@@ -14579,7 +14579,7 @@ msgstr "Zastoj u sekundama između uzastopnih slika"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:305 ekos/guide/guide.ui:415
+#: ekos/capture/capture.ui:305 ekos/guide/guide.ui:411
 #, kde-format
 msgid "Delay:"
 msgstr "Zastoj:"
@@ -15873,7 +15873,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:292
-#: ekos/guide/guide.ui:668 oal/equipmentwriter.ui:573
+#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:573
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Boca Raton"
@@ -17355,7 +17355,7 @@ msgstr "Automatsko fokusiranje u toku..."
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:511 ekos/focus/focus.ui:568 ekos/guide/guide.ui:376
+#: ekos/focus/focus.ui:511 ekos/focus/focus.ui:568 ekos/guide/guide.ui:372
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds"
@@ -17600,7 +17600,7 @@ msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1119 ekos/guide/guide.ui:369
+#: ekos/focus/focus.ui:1119 ekos/guide/guide.ui:365
 #, kde-format
 msgid "Box:"
 msgstr ""
@@ -19643,13 +19643,13 @@ msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
-#: ekos/guide/guide.ui:80
+#: ekos/guide/guide.ui:95
 #, kde-format
 msgid "Control"
 msgstr "Kontrola"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideAutoStar)
-#: ekos/guide/guide.ui:106
+#: ekos/guide/guide.ui:121
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -19659,21 +19659,21 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideAutoStar)
-#: ekos/guide/guide.ui:109
+#: ekos/guide/guide.ui:124
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Auto Star"
 msgstr "Automatsko razvlacenje"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearCalibrationB)
-#: ekos/guide/guide.ui:173
+#: ekos/guide/guide.ui:188
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Clear calibration data."
 msgstr "Kalibriranje završeno."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
-#: ekos/guide/guide.ui:202
+#: ekos/guide/guide.ui:217
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Manual Red"
@@ -19681,7 +19681,7 @@ msgid "Manual Dither"
 msgstr "Ručno crveno"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
-#: ekos/guide/guide.ui:222
+#: ekos/guide/guide.ui:237
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. If no dark frame is available, a "
@@ -19689,13 +19689,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loopB)
-#: ekos/guide/guide.ui:232
+#: ekos/guide/guide.ui:247
 #, kde-format
 msgid "Loop"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
-#: ekos/guide/guide.ui:261
+#: ekos/guide/guide.ui:276
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
@@ -19707,41 +19707,32 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
-#: ekos/guide/guide.ui:264
+#: ekos/guide/guide.ui:279
 #, kde-format
 msgid "Subframe"
 msgstr "Podokvir"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
-#. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
-#: ekos/guide/guide.ui:271 ekos/guide/manualpulse.ui:14
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Manual Blue"
-msgid "Manual Pulse"
-msgstr "Ručno plavo"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
-#: ekos/guide/guide.ui:305
+#: ekos/guide/guide.ui:301
 #, kde-format
 msgid "East Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, westRAGuideEnabled)
-#: ekos/guide/guide.ui:315
+#: ekos/guide/guide.ui:311
 #, kde-format
 msgid "West Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalConnectB)
-#: ekos/guide/guide.ui:330
+#: ekos/guide/guide.ui:326
 #, fuzzy, kde-format
 #| msgid "Connection to the guide CCD is lost."
 msgid "Connect to external guiding application."
 msgstr "Konekcija sa CCD vodičem je izgubljena."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECGuideEnabled)
-#: ekos/guide/guide.ui:340
+#: ekos/guide/guide.ui:336
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Declination axis"
@@ -19749,7 +19740,7 @@ msgid "Guide Declination Axis"
 msgstr "Osa deklinacije"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: ekos/guide/guide.ui:366
+#: ekos/guide/guide.ui:362
 #, kde-format
 msgid ""
 "Guide star tracking box size. Box size must be set in accordance to the "
@@ -19757,33 +19748,33 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalDisconnectB)
-#: ekos/guide/guide.ui:392
+#: ekos/guide/guide.ui:388
 #, kde-format
 msgid "Disconnect from external guiding application."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
-#: ekos/guide/guide.ui:402
+#: ekos/guide/guide.ui:398
 #, kde-format
 msgid "Apply filter to image after capture to enhance it"
 msgstr "Stavite filter na sliku nakon što je dohvatite da biste je poboljšali"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/guide/guide.ui:412
+#: ekos/guide/guide.ui:408
 #, kde-format
 msgid ""
 "Guide camera binning. It is recommended to set binning to 2x2 or higher."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rAGuideEnabled)
-#: ekos/guide/guide.ui:422
+#: ekos/guide/guide.ui:418
 #, fuzzy, kde-format
 #| msgid "Right Ascension"
 msgid "Guide Right Ascention Axis"
 msgstr "Rektascenzija"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
-#: ekos/guide/guide.ui:435
+#: ekos/guide/guide.ui:431
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Direction"
@@ -19791,40 +19782,40 @@ msgid "Directions"
 msgstr "Usmjerenje"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
-#: ekos/guide/guide.ui:442
+#: ekos/guide/guide.ui:438
 #, fuzzy, kde-format
 #| msgid "Wait for this key to be pressed"
 msgid "Delay next guide exposure this many seconds after a pulse is sent"
 msgstr "Čekaj da ova tipka bude pritisnuta"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, northDECGuideEnabled)
-#: ekos/guide/guide.ui:457
+#: ekos/guide/guide.ui:453
 #, kde-format
 msgid "North Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, southDECGuideEnabled)
-#: ekos/guide/guide.ui:467
+#: ekos/guide/guide.ui:463
 #, fuzzy, kde-format
 #| msgid "Suspend Guiding"
 msgid "South Direction Guiding"
 msgstr "Obustavi navođenje"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:480
+#: ekos/guide/guide.ui:476
 #, kde-format
 msgid "8"
 msgstr "8"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:485
+#: ekos/guide/guide.ui:481
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "16"
 msgstr "1"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:495
+#: ekos/guide/guide.ui:491
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "64x"
@@ -19832,29 +19823,38 @@ msgid "64"
 msgstr "64x"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:500
+#: ekos/guide/guide.ui:496
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "12x"
 msgid "128"
 msgstr "12x"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
+#. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
+#: ekos/guide/guide.ui:504 ekos/guide/manualpulse.ui:14
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Manual Blue"
+msgid "Manual Pulse"
+msgstr "Ručno plavo"
+
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
-#: ekos/guide/guide.ui:513
+#: ekos/guide/guide.ui:529
 #, fuzzy, kde-format
 #| msgid "Save Telescope"
 msgid "Scope / Lens Info"
 msgstr "Spasi teleskop"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FOV)
-#: ekos/guide/guide.ui:534
+#: ekos/guide/guide.ui:550
 #, fuzzy, kde-format
 #| msgid "Field of View:"
 msgid "Field of View (arcmin)"
 msgstr "Polje prikaza:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
-#: ekos/guide/guide.ui:588
+#: ekos/guide/guide.ui:604
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Aperture (mm)"
@@ -19862,80 +19862,80 @@ msgid "Aperture (mm)"
 msgstr "Otvor (mm)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Focal)
-#: ekos/guide/guide.ui:642
+#: ekos/guide/guide.ui:658
 #, fuzzy, kde-format
 msgid "Focal Length (mm)"
 msgstr "Žižna dužina (mm)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
-#: ekos/guide/guide.ui:706
+#: ekos/guide/guide.ui:722
 #, fuzzy, kde-format
 #| msgid "Save Telescope"
 msgid "Guide Info"
 msgstr "Spasi teleskop"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17)
-#: ekos/guide/guide.ui:732
+#: ekos/guide/guide.ui:748
 #, fuzzy, kde-format
 msgid "Pulse Length (ms)"
 msgstr "Žižna dužina (mm)"
 
 #. i18n: ectx: property (text), widget (QLabel, l_16)
-#: ekos/guide/guide.ui:739
+#: ekos/guide/guide.ui:755
 #, fuzzy, kde-format
 msgid "Guiding Delta \""
 msgstr "Maksimalno navodeće odstupanje"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
-#: ekos/guide/guide.ui:751
+#: ekos/guide/guide.ui:767
 #, kde-format
 msgid "Generated RA pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseDEC)
-#: ekos/guide/guide.ui:764
+#: ekos/guide/guide.ui:780
 #, kde-format
 msgid "Generated DEC pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaRA)
-#: ekos/guide/guide.ui:784
+#: ekos/guide/guide.ui:800
 #, kde-format
 msgid "Immediate Guiding RA deviation in arcseconds"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaDEC)
-#: ekos/guide/guide.ui:797
+#: ekos/guide/guide.ui:813
 #, kde-format
 msgid "Immediate Guiding DEC deviation in arcseconds"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_17b)
-#: ekos/guide/guide.ui:812
+#: ekos/guide/guide.ui:828
 #, fuzzy, kde-format
 msgid "Guiding RMS error"
 msgstr "Vodič prekida"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17b)
-#: ekos/guide/guide.ui:815
+#: ekos/guide/guide.ui:831
 #, kde-format
 msgid "RMS\" (RA/DEC)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
-#: ekos/guide/guide.ui:827
+#: ekos/guide/guide.ui:843
 #, fuzzy, kde-format
 msgid "Guiding RA RMS error"
 msgstr "Vodič prekida"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrDEC)
-#: ekos/guide/guide.ui:840
+#: ekos/guide/guide.ui:856
 #, fuzzy, kde-format
 msgid "Guiding DEC RMS error"
 msgstr "Vodič prekida"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/guide/guide.ui:855
+#: ekos/guide/guide.ui:871
 #, fuzzy, kde-format
 #| msgid "Control"
 msgid "Total RMS\""
@@ -19943,20 +19943,20 @@ msgstr "Kontrola"
 
 #. i18n: ectx: property (text), widget (QLabel, l_TotalRMS)
 #. i18n: ectx: property (text), widget (QLabel, l_SNR)
-#: ekos/guide/guide.ui:865 ekos/guide/guide.ui:885
+#: ekos/guide/guide.ui:881 ekos/guide/guide.ui:901
 #, kde-format
 msgid "xxx"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7b)
-#: ekos/guide/guide.ui:875
+#: ekos/guide/guide.ui:891
 #, fuzzy, kde-format
 #| msgid "Guider"
 msgid "Guide SNR"
 msgstr "Vodič"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
-#: ekos/guide/guide.ui:1057
+#: ekos/guide/guide.ui:1073
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -19965,7 +19965,7 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: ekos/guide/guide.ui:1104
+#: ekos/guide/guide.ui:1120
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Driftwood"
@@ -19973,14 +19973,14 @@ msgid "Drift Plot"
 msgstr "Driftwood"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: ekos/guide/guide.ui:1139
+#: ekos/guide/guide.ui:1155
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration Plot"
 msgstr "Kalibracija"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rADisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1195
+#: ekos/guide/guide.ui:1211
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -19989,14 +19989,14 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rADisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1198
+#: ekos/guide/guide.ui:1214
 #, fuzzy, kde-format
 #| msgid "RA"
 msgid "RA "
 msgstr "RA"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1208
+#: ekos/guide/guide.ui:1224
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20006,13 +20006,13 @@ msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #. i18n: ectx: property (text), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1211 ekos/guide/guide.ui:1244
+#: ekos/guide/guide.ui:1227 ekos/guide/guide.ui:1260
 #, kde-format
 msgid "Corr"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dEDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1228
+#: ekos/guide/guide.ui:1244
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20021,7 +20021,7 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1241
+#: ekos/guide/guide.ui:1257
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20030,7 +20030,7 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, sNRDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1261
+#: ekos/guide/guide.ui:1277
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20039,14 +20039,14 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1264
+#: ekos/guide/guide.ui:1280
 #, fuzzy, kde-format
 #| msgid "LSR"
 msgid "SNR"
 msgstr "LSR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rMSDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1274
+#: ekos/guide/guide.ui:1290
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20055,34 +20055,34 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rMSDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1277
+#: ekos/guide/guide.ui:1293
 #, kde-format
 msgid "RMS"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
-#: ekos/guide/guide.ui:1317
+#: ekos/guide/guide.ui:1333
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
-#: ekos/guide/guide.ui:1345
+#: ekos/guide/guide.ui:1361
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/guide/guide.ui:1371
+#: ekos/guide/guide.ui:1387
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Trace:"
 msgstr "Prati"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, guideSlider)
-#: ekos/guide/guide.ui:1378
+#: ekos/guide/guide.ui:1394
 #, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to scroll through guide history while "
@@ -20092,7 +20092,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1394
+#: ekos/guide/guide.ui:1410
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20101,13 +20101,13 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1397
+#: ekos/guide/guide.ui:1413
 #, kde-format
 msgid "Max "
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
-#: ekos/guide/guide.ui:1417
+#: ekos/guide/guide.ui:1433
 #, kde-format
 msgid ""
 "<html><head/><body><p>Autoscale both Guide Graphs to their default scale. If "
@@ -20117,7 +20117,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
-#: ekos/guide/guide.ui:1439
+#: ekos/guide/guide.ui:1455
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20126,7 +20126,7 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
-#: ekos/guide/guide.ui:1461
+#: ekos/guide/guide.ui:1477
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -20134,7 +20134,7 @@ msgid ""
 msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
-#: ekos/guide/guide.ui:1477
+#: ekos/guide/guide.ui:1493
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
