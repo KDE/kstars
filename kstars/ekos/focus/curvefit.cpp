@@ -240,14 +240,14 @@ namespace
 enum { A_IDX = 0, B_IDX, C_IDX, D_IDX, E_IDX, F_IDX, G_IDX };
 
 // hypPhi() is a repeating part of the function calculations for Hyperbolas.
-constexpr double hypPhi(double x, double a, double c)
+double hypPhi(double x, double a, double c)
 {
     return sqrt(1.0 + pow(((x - c) / a), 2.0));
 }
 
 // Function to calculate f(x) for a hyperbola
 // y = b * hypPhi(x, a, c) + d
-constexpr double hypfx(double x, double a, double b, double c, double d)
+double hypfx(double x, double a, double b, double c, double d)
 {
     return b * hypPhi(x, a, c) + d;
 }
@@ -366,7 +366,7 @@ int hypFxx(const gsl_vector* X,  const gsl_vector* v, void* inParams, gsl_vector
 }
 
 // Function to calculate f(x) for a parabola.
-constexpr double parfx(double x, double a, double b, double c)
+double parfx(double x, double a, double b, double c)
 {
     return a + b * pow((x - c), 2.0);
 }
@@ -443,7 +443,7 @@ int parFxx(const gsl_vector* X,  const gsl_vector* v, void* inParams, gsl_vector
 }
 
 // Function to calculate f(x,y) for a 2-D gaussian.
-constexpr double gaufxy(double x, double y, double a, double x0, double y0, double A, double B, double C, double b)
+double gaufxy(double x, double y, double a, double x0, double y0, double A, double B, double C, double b)
 {
     return b + a * exp(-(A * (pow(x - x0, 2.0)) + 2.0 * B * (x - x0) * (y - y0) + C * (pow(y - y0, 2.0))));
 }
