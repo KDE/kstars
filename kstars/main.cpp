@@ -131,9 +131,8 @@ int main(int argc, char *argv[])
                         i18n("Ekos Scheduler & Observatory Improvements"));
     aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com",
                         i18n("FITS, Focus, Guide Improvements"));
-    aboutData.addAuthor(i18n("John Evans"), QString(), "john.e.evans.email@gmail.com ",
+    aboutData.addAuthor(i18n("John Evans"), QString(), "john.e.evans.email@gmail.com",
                         i18n("Focus algorithms"));
-
 
     // Inactive developers
     aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
@@ -182,7 +181,9 @@ int main(int argc, char *argv[])
                         i18n("Splash screen for both regular KStars and KStars Lite."));
     aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port."));
     aboutData.addCredit(i18n("Patrick Molenaar"), i18n("Bahtinov Focus Assistant."));
-    aboutData.addCredit("Transient Name Server TNS", i18n("Supernovae daily updates"));
+    aboutData.addCredit(i18n("Philipp Auersperg-Castell"), i18n("Supernovae daily updates"));
+    aboutData.addCredit(i18n("Tony Schriber"), i18n("Rotator Dialog improvements"));
+    aboutData.addCredit(i18n("Joseph McGee"), i18n("Sub-exposure calculator based on Dr Robin Glover's work"));
 
     KAboutData::setApplicationData(aboutData);
 
