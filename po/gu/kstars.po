@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars-gu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-23 00:42+0000\n"
+"POT-Creation-Date: 2023-05-24 00:42+0000\n"
 "PO-Revision-Date: 2009-07-10 16:23+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -1987,7 +1987,7 @@ msgstr "સ્થિતિ"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2826 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/filtermanager.cpp:960 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -9784,7 +9784,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2828 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2832 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:648
@@ -9794,84 +9794,84 @@ msgstr ""
 msgid "Aborted"
 msgstr "એન્ન અર્બોર"
 
-#: ekos/analyze/analyze.cpp:2830 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2834 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "જોડાઓ"
 
-#: ekos/analyze/analyze.cpp:2832 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Disconnected"
 msgstr "જોડાઓ"
 
-#: ekos/analyze/analyze.cpp:2834 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2838 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:680
 #, fuzzy, kde-format
 msgid "Capturing"
 msgstr "ચિત્ર દર્શક"
 
-#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2838 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Subtracting"
 msgstr "કેન્દ્ર"
 
-#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "નામ:"
 
-#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:28
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selecting star"
 msgstr "તારો પસંદ કરો"
 
-#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Calibrating"
 msgstr "કેન્દ્ર"
 
-#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Calibration error"
 msgstr "કેન્દ્ર"
 
-#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Calibrated"
 msgstr "કેન્દ્ર"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:678
 #, fuzzy, kde-format
 msgid "Guiding"
 msgstr "વાક્ય"
 
-#: ekos/analyze/analyze.cpp:2852 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 msgid "Suspended"
 msgstr "વાક્ય"
 
-#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:34
 #, fuzzy, kde-format
 msgid "Reacquiring"
 msgstr "ચિત્ર દર્શક"
 
-#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -9879,24 +9879,24 @@ msgid "Dithering"
 msgstr "બીજા"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "બીજા"
 
-#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "અમેરિકા/ડાઉસન_ક્રીક"
 
-#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling"

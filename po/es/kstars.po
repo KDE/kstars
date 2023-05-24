@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-23 00:42+0000\n"
-"PO-Revision-Date: 2023-05-20 12:43+0200\n"
+"POT-Creation-Date: 2023-05-24 00:42+0000\n"
+"PO-Revision-Date: 2023-05-23 19:41+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1923,7 +1923,7 @@ msgstr "Estado:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2826 ekos/auxiliary/darklibrary.cpp:46
+#: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/filtermanager.cpp:960 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6734,6 +6734,10 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Si está marcada, se usará el filtro seleccionado para "
+"la alineación.</p><p>Si prefiere usar un filtro determinado (fijo) para la "
+"alineación, deje esta opción sin marcar y seleccione el filtro manualmente.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
@@ -10013,7 +10017,7 @@ msgstr ""
 "estrellas en las imágenes capturadas. Una vez la haya definido, se "
 "detectarán las estrellas de las imágenes que capture."
 
-#: ekos/analyze/analyze.cpp:2828 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2832 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:648
@@ -10021,97 +10025,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Interrumpido"
 
-#: ekos/analyze/analyze.cpp:2830 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2834 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Conectado"
 
-#: ekos/analyze/analyze.cpp:2832 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Desconectado"
 
-#: ekos/analyze/analyze.cpp:2834 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2838 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:680
 #, kde-format
 msgid "Capturing"
 msgstr "Capturando"
 
-#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Iniciando bucle"
 
-#: ekos/analyze/analyze.cpp:2838 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Restando"
 
-#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Dividiendo fotograma"
 
-#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Seleccionando estrella"
 
-#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Calibrando"
 
-#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Error de calibración"
 
-#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Calibrado"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:678
 #, kde-format
 msgid "Guiding"
 msgstr "Guiado"
 
-#: ekos/analyze/analyze.cpp:2852 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Suspendido"
 
-#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Volviendo a obtener"
 
-#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Desviando"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Desvío manual"
 
-#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Error de desvío"
 
-#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Desvío terminado con éxito"
 
-#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Estabilizando"
@@ -10861,14 +10865,12 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the autofocus solution position.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostrar el valor del ángulo horario de la montura.</"
-"p></body></html>"
+"<html><head/><body><p>Dibujar la posición de la solución de enfoque "
+"automático.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1385
@@ -10878,19 +10880,15 @@ msgstr "foco"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1398
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature. Click here to view "
-#| "this axis on left-axis values. Double click to update axis.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the autofocus solution position. Click here to "
 "view this axis on left-axis values. Double click to update axis.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Mostrar la temperatura ambiental. Haga clic aquí para "
-"ver este eje en los valores del eje izquierdo. Haga doble clic para "
-"actualizar el eje.</p></body></html>"
+"<html><head/><body><p>Dibujar la posición de la solución de enfoque "
+"automático. Haga clic aquí para ver este eje en los valores del eje "
+"izquierdo. Haga doble clic para actualizar el eje.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
@@ -14636,12 +14634,10 @@ msgstr "Control del rotador"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
 #: ekos/capture/capture.ui:785
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Optimal sub-exposure calculator</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Borrar el historial de datos del sensor</p></body></"
-"html>"
+"<html><head/><body><p>Calculadora de subexposición óptima</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_15)
 #: ekos/capture/capture.ui:872
@@ -14915,7 +14911,7 @@ msgstr "Fotograma:"
 #: ekos/capture/limits.ui:169 ekos/focus/focus.ui:552
 #, kde-format
 msgid "Number of images to capture"
-msgstr "Número de imágenes a capturar"
+msgstr "Número de imágenes que se deben capturar"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
 #: ekos/capture/capture.ui:1234
@@ -15746,11 +15742,9 @@ msgstr "Aumento de ruido (%)"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
+#, kde-format
 msgid "Potential exposure time graph"
-msgstr "Tiempo total de exposición (ms)"
+msgstr "Gráfico de tiempo de exposición potencial"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:111
@@ -15805,10 +15799,9 @@ msgstr "Relación focal"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:328
-#, fuzzy, kde-format
-#| msgid "Orbit class:"
+#, kde-format
 msgid "Bortle Class:"
-msgstr "Clase de órbita:"
+msgstr "Clase de Bortle:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:341
@@ -15820,7 +15813,7 @@ msgstr "Aplicar una compensación para un filtro óptico"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
 #, kde-format
 msgid "Bortle class value"
-msgstr ""
+msgstr "Valor de clase de Bortle"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:360
@@ -16578,14 +16571,18 @@ msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 msgstr "Enfoque adaptativo: "
 
 #: ekos/focus/focus.cpp:959
-#, fuzzy, kde-format
+#, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
-msgstr "Enfoque adaptativo suspendido."
+msgstr ""
+"Enfoque adaptativo suspendido. El movimiento total excedería el límite "
+"máximo del recorrido."
 
 #: ekos/focus/focus.cpp:968
-#, fuzzy, kde-format
+#, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
-msgstr "Enfoque adaptativo suspendido."
+msgstr ""
+"Enfoque adaptativo suspendido. El movimiento total excedería el límite "
+"adaptativo."
 
 #: ekos/focus/focus.cpp:975
 #, kde-format
@@ -17024,7 +17021,7 @@ msgstr "Fotograma de enfoque"
 #: ekos/focus/focus.cpp:4888
 #, kde-format
 msgid "Capturing image again..."
-msgstr "Volviendo a capturar imagen..."
+msgstr "Volviendo a capturar la imagen..."
 
 #: ekos/focus/focus.cpp:4903
 #, kde-format
@@ -17355,17 +17352,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
 #: ekos/focus/focus.ui:1040
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Esperar estos segundos tras mover el enfocador antes "
-"de capturar la siguiente imagen durante el enfoque automático.</p></body></"
-"html>"
+"<html><head/><body><p>Esperar estos segundos tras después de que se complete "
+"el enfoque automático antes de reanudar el guiado..</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
@@ -17570,14 +17563,13 @@ msgstr " pulsos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1401
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
 "experimental feature.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostrar la temperatura ambiental.</p></body></html>"
+"<html><head/><body><p>Activar el enfoque adaptativo entre subfotogramas. "
+"Esta función es experimental.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1411
@@ -17618,15 +17610,13 @@ msgstr "Inicio automático"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1443
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The minimum size of an adaptive focus change that will "
 "be sent to the focuser.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El valor del ángulo horario de la montura.</p></body></"
-"html>"
+"<html><head/><body><p>El tamaño mínimo de un cambio de enfoque adaptativo "
+"que se enviará al enfocador.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1468
@@ -17636,27 +17626,17 @@ msgstr "Proceso"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1471
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Recorrido máximo en pasos antes de que se interrumpa "
-"el proceso de enfoque automático.</p></body></html>"
+"<html><head/><body><p>Parámetros de enfoque relacionados con el proceso de "
+"enfoque automático.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1506
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). "
-#| "0.8 is a good start. If the minimum is not met, Auto Focus will rerun "
-#| "once to try to improve the R². Currently only available for the Linear 1 "
-#| "Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This "
-#| "feature is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is "
@@ -17670,7 +17650,7 @@ msgstr ""
 "mínimo, el enfoque automático se volverá a ejecutar una vez más para "
 "intentar mejorar el R². Actualmente solo está disponible para el algoritmo "
 "«Lineal de 1 paso» cuando se usa un ajuste de curva de hipérbola o de "
-"parábola. Esta función es experimental.</p></body></html>"
+"parábola.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1531
@@ -17699,16 +17679,13 @@ msgstr "Límite de R²:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1623
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Number of frames to capture in order to average the HFR "
-#| "value at the current focuser position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of frames to capture at the current focuser "
 "position.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Número de fotogramas a capturar para promediar el "
-"valor de HFR en la posición actual del enfocador.</p></body></html>"
+"<html><head/><body><p>Número de fotogramas que se deben capturar en la "
+"posición actual del enfocador.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1626
@@ -36129,10 +36106,9 @@ msgstr "Filtro predeterminado de la rueda de filtros en el modo de alineación"
 
 #. i18n: ectx: label, entry (AlignUseCurrentFilter), group (Align)
 #: kstars.kcfg:2209
-#, fuzzy, kde-format
-#| msgid "Default filter wheel filter in alignment mode"
+#, kde-format
 msgid "Use currently selected filter in alignment mode."
-msgstr "Filtro predeterminado de la rueda de filtros en el modo de alineación"
+msgstr "Usar el filtro seleccionado en el modo de alineación."
 
 #. i18n: ectx: whatsthis, entry (AstrometryUseRotator), group (Align)
 #: kstars.kcfg:2213
@@ -66307,34 +66283,28 @@ msgid "Enter a field-of-view angle in degrees: "
 msgstr "Introducir ángulo del campo visual en grados: "
 
 #: kstarsactions.cpp:1693 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
-msgstr "Norte"
+msgstr "Norte a&rriba"
 
 #: kstarsactions.cpp:1696 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
-msgstr "Norton"
+msgstr "Norte a&bajo"
 
 #: kstarsactions.cpp:1714 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
-msgstr "&Cenit"
+msgstr "C&enit arriba"
 
 #: kstarsactions.cpp:1717 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
-msgstr "&Cenit"
+msgstr "Ce&nit abajo"
 
 #: kstarsactions.cpp:1875
 #, kde-format
@@ -66772,10 +66742,9 @@ msgid "HiPS All Sky Overlay"
 msgstr "Capa HiPS de todo el cielo"
 
 #: kstarsinit.cpp:376
-#, fuzzy, kde-format
-#| msgid "Skymap Options"
+#, kde-format
 msgid "Skymap Orientation"
-msgstr "Opciones del mapa del cielo"
+msgstr "Orientación del mapa del cielo"
 
 #: kstarsinit.cpp:382
 #, kde-format
@@ -75632,11 +75601,10 @@ msgid "Object Details"
 msgstr "Detalles del objeto"
 
 #: skymapdrawabstract.cpp:185
-#, fuzzy, kde-format
-#| msgid "AZ"
+#, kde-format
 msgctxt "Zenith"
 msgid "Z"
-msgstr "AC"
+msgstr "Z"
 
 #: skyobjects/jupitermoons.cpp:18
 #, kde-format
