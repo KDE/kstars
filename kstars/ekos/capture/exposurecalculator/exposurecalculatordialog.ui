@@ -25,9 +25,6 @@
   <property name="windowTitle">
    <string>Sub-Exposure Calculator</string>
   </property>
-  <property name="toolTip">
-   <string>An implementation of Dr Robin Glover's exposure calculation</string>
-  </property>
   <widget class="QFrame" name="exposureCalculatorFrame">
    <property name="enabled">
     <bool>true</bool>
