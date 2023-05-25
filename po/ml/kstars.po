@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-24 00:42+0000\n"
+"POT-Creation-Date: 2023-05-25 00:42+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -5160,7 +5160,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:315
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:312
 #, kde-format
 msgid "Camera"
 msgstr "ക്യാമറ"
@@ -8063,7 +8063,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:534
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -15095,56 +15095,50 @@ msgstr ""
 msgid "Sub-Exposure Calculator"
 msgstr "ശരിക്കുള്ള സമയം"
 
-#. i18n: ectx: property (toolTip), widget (QDialog, ExposureCalculatorDialog)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:29
-#, kde-format
-msgid "An implementation of Dr Robin Glover's exposure calculation"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:59
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:56
 #, kde-format
 msgid "Adjust the balance of the two noise sources"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:72
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:69
 #, no-c-format, kde-format
 msgid "Noise Increase (%)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:85
 #, kde-format
 msgid "Potential exposure time graph"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:111
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
 #, fuzzy, kde-format
 msgid "Sky Quality"
 msgstr "ആകാശ സംസ്കാരം "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:130
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
 #, kde-format
 msgid "Adjust the quality of the sky"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:146
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:143
 #, fuzzy, kde-format
 msgid "Filter Bandwidth:"
 msgstr "ഫയലുകളുടെ നടത്തിപ്പു്"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:174
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:171
 #, kde-format
 msgid "Gain"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:223
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:220
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "SOB"
@@ -15152,13 +15146,13 @@ msgid "ISO"
 msgstr "ഏങ്ങുക"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:252
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:249
 #, kde-format
 msgid "Read noise constant"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:269
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:266
 #, kde-format
 msgid "Bortle Zone Color"
 msgstr ""
@@ -15166,7 +15160,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:292
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
 #: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:573
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -15175,86 +15169,86 @@ msgid "Focal Ratio"
 msgstr "ബോക്കാ റാട്ടണ്‍"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:328
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:325
 #, fuzzy, kde-format
 msgid "Bortle Class:"
 msgstr "ഗ്രഹത്തിന്റെ നിഴല്‍പ്പാടുകള്‍"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:341
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:338
 #, kde-format
 msgid "Apply a compensation for an optical filter"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:354
 #, kde-format
 msgid "Bortle class value"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:360
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
 #, kde-format
 msgid "9"
 msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:376
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:373
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:389
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "Read Mode"
 msgstr "ക്യാമറ"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:429
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
 #, fuzzy, kde-format
 msgid "Exposure Time (sec)"
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:449
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:446
 #, fuzzy, kde-format
 msgid "Shot Noise"
 msgstr "തായ്‌വാന്‍ , പ്രൊവിന്‍സ് ഓഫ് ചൈന"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:456
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:453
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:472
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:469
 #, fuzzy, kde-format
 msgid "Pollution Electrons"
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിന്റെ ആല്‍ബം"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:479
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:476
 #, kde-format
 msgid "Calculated count of light pollution electrons in the sub-exposure."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:495
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:492
 #, fuzzy, kde-format
 msgid "Total Noise"
 msgstr "ശരിക്കുള്ള സമയം"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:502
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:499
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:528
 #, kde-format
 msgid "(Future Release) Download additional camera data files"
 msgstr ""
@@ -74918,271 +74912,296 @@ msgstr "ഭൂമദ്ധ്യരേഖ/അഗ്രകോടി ഉയര്�
 msgid "Focus algorithms"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: main.cpp:139
+#: main.cpp:138
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:140
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:141
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgid "KStars Lite"
 msgstr "കെസ്റ്റാര്‍സ്"
 
-#: main.cpp:144
+#: main.cpp:143
 #, kde-format
 msgid "James Bowlin"
 msgstr "ജേംസ് ബൌലിന്‍"
 
-#: main.cpp:145
+#: main.cpp:144
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "പാബ്ലോ ഡി വിന്‍സന്റ്"
 
-#: main.cpp:146
+#: main.cpp:145
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "തോമസ് കാബെല്‍മാന്‍"
 
-#: main.cpp:147
+#: main.cpp:146
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "ഹൈകോ എവര്‍മാന്‍"
 
-#: main.cpp:149
+#: main.cpp:148
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "കാര്‍സ്റ്റെന്‍ നീഹോസ്"
 
-#: main.cpp:150
+#: main.cpp:149
 #, fuzzy, kde-format
 msgid "Mark Hollomon"
 msgstr "സൂചിത സ്ഥാനം"
 
-#: main.cpp:151
+#: main.cpp:150
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:151
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr ""
 
-#: main.cpp:154
+#: main.cpp:153
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr ""
 
-#: main.cpp:156
+#: main.cpp:155
 #, kde-format
 msgid "Prakash Mohan"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:156
 #, kde-format
 msgid "Victor Cărbune"
 msgstr ""
 
-#: main.cpp:158
+#: main.cpp:157
 #, kde-format
 msgid "Henry de Valence"
 msgstr ""
 
-#: main.cpp:159
+#: main.cpp:158
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr ""
 
-#: main.cpp:161
+#: main.cpp:160
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr ""
 
-#: main.cpp:162
+#: main.cpp:161
 #, kde-format
 msgid "Rishab Arora"
 msgstr ""
 
-#: main.cpp:166
+#: main.cpp:165
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:166
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 
-#: main.cpp:168
+#: main.cpp:167
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:168
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr ""
 
-#: main.cpp:170
+#: main.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alexander City"
 msgid "Andrew Stepanenko"
 msgstr "അലക്സാണ്ടര്‍ സിറ്റി"
 
-#: main.cpp:171
+#: main.cpp:170
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr ""
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr ""
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Artwork"
 msgstr ""
 
-#: main.cpp:174
+#: main.cpp:173
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr ""
 
-#: main.cpp:175
+#: main.cpp:174
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:175
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Bar Harbor"
 msgid "Daniel Holler"
 msgstr "ബാര്‍ ഹാര്‍ബര്‍"
 
-#: main.cpp:177
+#: main.cpp:176
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr ""
 
-#: main.cpp:179
+#: main.cpp:178
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "St. Lucia"
 msgid "Stephane Lucas"
 msgstr "സെയിന്റ് ലുസിയ"
 
-#: main.cpp:180
+#: main.cpp:179
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:181
+#: main.cpp:180
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr ""
 
-#: main.cpp:182
+#: main.cpp:181
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "Jamie Smith"
 msgstr ""
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "KStars OSX Port."
 msgstr ""
 
-#: main.cpp:184
+#: main.cpp:183
 #, fuzzy, kde-format
 msgid "Patrick Molenaar"
 msgstr "എണ്ണം"
 
-#: main.cpp:184
+#: main.cpp:183
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:185
+#: main.cpp:184
+#, kde-format
+msgid "Philipp Auersperg-Castell"
+msgstr ""
+
+#: main.cpp:184
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Anderson"
 msgid "Supernovae daily updates"
 msgstr "ആന്‍ഡര്‍സണ്‍ "
 
-#: main.cpp:194
+#: main.cpp:185
+#, kde-format
+msgid "Tony Schriber"
+msgstr ""
+
+#: main.cpp:185
+#, kde-format
+msgid "Rotator Dialog improvements"
+msgstr ""
+
+#: main.cpp:186
+#, kde-format
+msgid "Joseph McGee"
+msgstr ""
+
+#: main.cpp:186
+#, kde-format
+msgid "Sub-exposure calculator based on Dr Robin Glover's work"
+msgstr ""
+
+#: main.cpp:195
 #, fuzzy, kde-format
 msgid "Dump sky image to file."
 msgstr "ആകാശ സമയം മുന്‍ കൂട്ടിയുള്ളത് "
 
-#: main.cpp:195
+#: main.cpp:196
 #, fuzzy, kde-format
 msgid "Script to execute."
 msgstr "%s പ്രവര്‍ത്തിപ്പിയ്ക്കാനൊരുങ്ങുന്നു.\\n"
 
-#: main.cpp:196
+#: main.cpp:197
 #, fuzzy, kde-format
 msgid "Width of sky image."
 msgstr "ആകാശ സമയം മുന്‍ കൂട്ടിയുള്ളത് "
 
-#: main.cpp:197
+#: main.cpp:198
 #, fuzzy, kde-format
 msgid "Height of sky image."
 msgstr "ആകാശ സമയം മുന്‍ കൂട്ടിയുള്ളത് "
 
-#: main.cpp:198
+#: main.cpp:199
 #, fuzzy, kde-format
 msgid "Date and time."
 msgstr "സമയ വേഗത കുറയ്ക്കുക [J]"
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Start with clock paused."
 msgstr ""
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:238 printing/foveditordialog.cpp:176
+#: main.cpp:239 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr ""
 
-#: main.cpp:296
+#: main.cpp:297
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 
-#: main.cpp:327
+#: main.cpp:328
 #, fuzzy, kde-format
 msgid "Script executed."
 msgstr "ലോക്കല്‍ സ്ക്രിപ്റ്റ്: "
 
-#: main.cpp:331
+#: main.cpp:332
 #, fuzzy, kde-format
 msgid "Could not execute script."
 msgstr "ഡിസ്ക് പകര്‍ത്തുവാന്‍ സാധ്യമായില്ല"
 
-#: main.cpp:355
+#: main.cpp:356
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr ""

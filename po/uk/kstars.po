@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-24 00:42+0000\n"
+"POT-Creation-Date: 2023-05-25 00:42+0000\n"
 "PO-Revision-Date: 2023-05-20 23:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -5079,7 +5079,7 @@ msgstr "Обчислення поля зору"
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:315
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:312
 #, kde-format
 msgid "Camera"
 msgstr "Камера"
@@ -8264,7 +8264,7 @@ msgstr "Додати теку зберігання файлів покажчик
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:534
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -15682,68 +15682,62 @@ msgstr "Некоректні значення. Будь ласка вкажіт�
 msgid "Sub-Exposure Calculator"
 msgstr "Калькулятор підекспозиції"
 
-#. i18n: ectx: property (toolTip), widget (QDialog, ExposureCalculatorDialog)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:29
-#, kde-format
-msgid "An implementation of Dr Robin Glover's exposure calculation"
-msgstr "Реалізація обчислення експозиції за Робіном Гловером"
-
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:59
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:56
 #, kde-format
 msgid "Adjust the balance of the two noise sources"
 msgstr "Скоригувати баланс двох джерел шуму"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:72
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:69
 #, no-c-format, kde-format
 msgid "Noise Increase (%)"
 msgstr "Збільшення шумності (%)"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:85
 #, kde-format
 msgid "Potential exposure time graph"
 msgstr "Графік потенційного часу експонування"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:111
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
 #, kde-format
 msgid "Sky Quality"
 msgstr "Якість неба"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:130
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
 #, kde-format
 msgid "Adjust the quality of the sky"
 msgstr "Скоригувати якість неба"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:146
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:143
 #, kde-format
 msgid "Filter Bandwidth:"
 msgstr "Смуга частот фільтра:"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:174
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:171
 #, kde-format
 msgid "Gain"
 msgstr "Підсилення"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:223
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:220
 #, kde-format
 msgid "ISO"
 msgstr "ISO"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:252
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:249
 #, kde-format
 msgid "Read noise constant"
 msgstr "Стала шуму читання"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:269
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:266
 #, kde-format
 msgid "Bortle Zone Color"
 msgstr "Колір зони Бортля"
@@ -15751,92 +15745,92 @@ msgstr "Колір зони Бортля"
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:292
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
 #: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:573
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Фокальне співвідношення"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:328
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:325
 #, kde-format
 msgid "Bortle Class:"
 msgstr "Клас Бортля:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:341
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:338
 #, kde-format
 msgid "Apply a compensation for an optical filter"
 msgstr "Застосувати компенсацію до оптичного фільтра"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:354
 #, kde-format
 msgid "Bortle class value"
 msgstr "Значення класу Бортля"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:360
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
 #, kde-format
 msgid "9"
 msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:376
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:373
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
 msgstr "Виберіть режим читання для камер із декількома режимами читання."
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:389
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
 #, kde-format
 msgid "Read Mode"
 msgstr "Режим читання"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:429
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
 #, kde-format
 msgid "Exposure Time (sec)"
 msgstr "Час експонування (у секундах)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:449
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:446
 #, kde-format
 msgid "Shot Noise"
 msgstr "Шумність знімка"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:456
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:453
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
 msgstr "Шум у підекспозиції від забруднення світлом"
 
 #. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:472
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:469
 #, kde-format
 msgid "Pollution Electrons"
 msgstr "Електрони забруднення"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:479
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:476
 #, kde-format
 msgid "Calculated count of light pollution electrons in the sub-exposure."
 msgstr "Обчислена кількість електронів забруднення світлом у підекспозиції."
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:495
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:492
 #, kde-format
 msgid "Total Noise"
 msgstr "Загальна шумність"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:502
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:499
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr "Загальний шум у підекспозиції (забруднення світлом + шум читання)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:528
 #, kde-format
 msgid "(Future Release) Download additional camera data files"
 msgstr "(Майбутній випуск) Отримати додаткові файли даних камери"
@@ -71844,266 +71838,291 @@ msgstr "John Evans"
 msgid "Focus algorithms"
 msgstr "Алгоритми фокусування"
 
-#: main.cpp:139
+#: main.cpp:138
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr "Ксаба Кертеш"
 
-#: main.cpp:141
+#: main.cpp:140
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr "Двійковий список астероїдів, база даних віддалених об'єктів і каталоги"
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Артем Федоскін"
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:144
+#: main.cpp:143
 #, kde-format
 msgid "James Bowlin"
 msgstr "Джемс Боулін"
 
-#: main.cpp:145
+#: main.cpp:144
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Пабло де Вісенте"
 
-#: main.cpp:146
+#: main.cpp:145
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Томас Кабельман"
 
-#: main.cpp:147
+#: main.cpp:146
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Хайко Еверманн"
 
-#: main.cpp:149
+#: main.cpp:148
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Карстен Ніегаус"
 
-#: main.cpp:150
+#: main.cpp:149
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Марк Голомон"
 
-#: main.cpp:151
+#: main.cpp:150
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Алєксєй Худяков"
 
-#: main.cpp:152
+#: main.cpp:151
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "Медерік Бокен"
 
-#: main.cpp:154
+#: main.cpp:153
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "Жером Сонрьє"
 
-#: main.cpp:156
+#: main.cpp:155
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Пракаш Мохан"
 
-#: main.cpp:157
+#: main.cpp:156
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Віктор Карбуне"
 
-#: main.cpp:158
+#: main.cpp:157
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Анрі де Валенсе"
 
-#: main.cpp:159
+#: main.cpp:158
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Самікшан Байраг'я"
 
-#: main.cpp:161
+#: main.cpp:160
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Рафаль Куляга"
 
-#: main.cpp:162
+#: main.cpp:161
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Рішаб Арора"
 
-#: main.cpp:166
+#: main.cpp:165
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Валєрій Харітонов"
 
-#: main.cpp:167
+#: main.cpp:166
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr "Перетворення міток з технічними термінами у посилання у документації"
 
-#: main.cpp:168
+#: main.cpp:167
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ана-Марія Константін"
 
-#: main.cpp:169
+#: main.cpp:168
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Технічна документація з астрономії та KStars"
 
-#: main.cpp:170
+#: main.cpp:169
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr "Андрій Степаненко"
 
-#: main.cpp:171
+#: main.cpp:170
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr "Код скеровування, заснований на lin_guider"
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Нуно Пінейро"
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Artwork"
 msgstr "Графічні роботи"
 
-#: main.cpp:174
+#: main.cpp:173
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Уткарш Сімха"
 
-#: main.cpp:175
+#: main.cpp:174
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr "Покращення у виконанні плану спостережень, перехід між зірками тощо"
 
-#: main.cpp:176
+#: main.cpp:175
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Даніель Голлер"
 
-#: main.cpp:177
+#: main.cpp:176
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "Ретельне тестування та пропозиції щодо Ekos/INDI."
 
-#: main.cpp:179
+#: main.cpp:178
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Стефан Лука"
 
-#: main.cpp:180
+#: main.cpp:179
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 "Ретельне тестування та пропозиції щодо засобу планування Ekos. Портування "
 "KStars на OS X."
 
-#: main.cpp:181
+#: main.cpp:180
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Юрій Фабіровський"
 
-#: main.cpp:182
+#: main.cpp:181
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr "Вікно вітання для звичайного KStars і KStars Lite."
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Джеймі Сміт"
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "Портування KStars на OS X."
 
-#: main.cpp:184
+#: main.cpp:183
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Патрік Моленаар"
 
-#: main.cpp:184
+#: main.cpp:183
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr "Помічник фокусування за Бахтіновим."
 
-#: main.cpp:185
+#: main.cpp:184
+#, kde-format
+msgid "Philipp Auersperg-Castell"
+msgstr ""
+
+#: main.cpp:184
 #, kde-format
 msgid "Supernovae daily updates"
 msgstr "Щоденні оновлення даних наднових"
 
-#: main.cpp:194
+#: main.cpp:185
+#, kde-format
+msgid "Tony Schriber"
+msgstr ""
+
+#: main.cpp:185
+#, kde-format
+msgid "Rotator Dialog improvements"
+msgstr ""
+
+#: main.cpp:186
+#, kde-format
+msgid "Joseph McGee"
+msgstr ""
+
+#: main.cpp:186
+#, kde-format
+msgid "Sub-exposure calculator based on Dr Robin Glover's work"
+msgstr ""
+
+#: main.cpp:195
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Зберегти зображення неба до файла."
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Script to execute."
 msgstr "Виконати сценарій."
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Width of sky image."
 msgstr "Ширина зображення неба."
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "Height of sky image."
 msgstr "Висота зображення неба."
 
-#: main.cpp:198
+#: main.cpp:199
 #, kde-format
 msgid "Date and time."
 msgstr "Дата та час."
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Зупинити годинник після запуску."
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Файли FITS, які слід відкрити."
 
-#: main.cpp:238 printing/foveditordialog.cpp:176
+#: main.cpp:239 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Неможливо визначити формат зображення %1; припускається PNG."
 
-#: main.cpp:296
+#: main.cpp:297
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "Наданий рядок дати є некоректним: %1. Використовуємо замість нього системну "
 "дату та час."
 
-#: main.cpp:327
+#: main.cpp:328
 #, kde-format
 msgid "Script executed."
 msgstr "Сценарій виконано."
 
-#: main.cpp:331
+#: main.cpp:332
 #, kde-format
 msgid "Could not execute script."
 msgstr "Не вдається виконати сценарій."
 
-#: main.cpp:355
+#: main.cpp:356
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Використовувати системну дату та час."
@@ -83175,6 +83194,9 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "An implementation of Dr Robin Glover's exposure calculation"
+#~ msgstr "Реалізація обчислення експозиції за Робіном Гловером"
 
 #~ msgid "Username or password is missing."
 #~ msgstr "Не вказано імені користувача або пароля."

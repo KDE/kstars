@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-24 00:42+0000\n"
+"POT-Creation-Date: 2023-05-25 00:42+0000\n"
 "PO-Revision-Date: 2023-02-18 20:36+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -5109,7 +5109,7 @@ msgstr "Calcola CDV"
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:315
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:312
 #, kde-format
 msgid "Camera"
 msgstr "Telecamera"
@@ -8303,7 +8303,7 @@ msgstr "Aggiungi una cartella nella quale vengono salvati i file indice"
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:534
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -15703,26 +15703,20 @@ msgstr "Valori non validi. Impostare tutti i valori."
 msgid "Sub-Exposure Calculator"
 msgstr "Calcolatrici di tempo"
 
-#. i18n: ectx: property (toolTip), widget (QDialog, ExposureCalculatorDialog)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:29
-#, kde-format
-msgid "An implementation of Dr Robin Glover's exposure calculation"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:59
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:56
 #, kde-format
 msgid "Adjust the balance of the two noise sources"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:72
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:69
 #, no-c-format, kde-format
 msgid "Noise Increase (%)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:85
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Total Exposure Time (ms)"
@@ -15730,7 +15724,7 @@ msgid "Potential exposure time graph"
 msgstr "Tempo totale di esposizione (ms)"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:111
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Sky Quality"
@@ -15738,20 +15732,20 @@ msgid "Sky Quality"
 msgstr "Qualità del cielo"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:130
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
 #, kde-format
 msgid "Adjust the quality of the sky"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:146
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:143
 #, fuzzy, kde-format
 #| msgid "Filter port:"
 msgid "Filter Bandwidth:"
 msgstr "Porta dei filtri:"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:174
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:171
 #, fuzzy, kde-format
 #| msgctxt "Camera Gain"
 #| msgid "Gain"
@@ -15759,19 +15753,19 @@ msgid "Gain"
 msgstr "Guadagno"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:223
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:220
 #, kde-format
 msgid "ISO"
 msgstr "ISO"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:252
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:249
 #, kde-format
 msgid "Read noise constant"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:269
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:266
 #, kde-format
 msgid "Bortle Zone Color"
 msgstr ""
@@ -15779,52 +15773,52 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:292
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
 #: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:573
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Rapporto focale"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:328
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:325
 #, fuzzy, kde-format
 #| msgid "Orbit class:"
 msgid "Bortle Class:"
 msgstr "Classe orbitale:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:341
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:338
 #, kde-format
 msgid "Apply a compensation for an optical filter"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:354
 #, kde-format
 msgid "Bortle class value"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:360
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
 #, kde-format
 msgid "9"
 msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:376
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:373
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:389
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
 #, fuzzy, kde-format
 #| msgid "Clear  Model"
 msgid "Read Mode"
 msgstr "Azzera modello"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:429
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Total Exposure Time (ms)"
@@ -15832,7 +15826,7 @@ msgid "Exposure Time (sec)"
 msgstr "Tempo totale di esposizione (ms)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:449
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:446
 #, fuzzy, kde-format
 #| msgctxt "City in Congo"
 #| msgid "Pointe Noire"
@@ -15840,39 +15834,39 @@ msgid "Shot Noise"
 msgstr "Pointe Noire"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:456
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:453
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:472
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:469
 #, fuzzy, kde-format
 #| msgid "Light Pollution Settings"
 msgid "Pollution Electrons"
 msgstr "Impostazioni per l'inquinamento luminoso"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:479
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:476
 #, kde-format
 msgid "Calculated count of light pollution electrons in the sub-exposure."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:495
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:492
 #, fuzzy, kde-format
 #| msgid "Total Time:"
 msgid "Total Noise"
 msgstr "Tempo totale:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:502
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:499
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:528
 #, kde-format
 msgid "(Future Release) Download additional camera data files"
 msgstr ""
@@ -71711,271 +71705,296 @@ msgstr "Oss. Monte Evans"
 msgid "Focus algorithms"
 msgstr "Algoritmo del processo di messa a fuoco"
 
-#: main.cpp:139
+#: main.cpp:138
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr "Csaba Kertesz"
 
-#: main.cpp:141
+#: main.cpp:140
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Artem Fedoskin"
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:144
+#: main.cpp:143
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:145
+#: main.cpp:144
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:146
+#: main.cpp:145
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:147
+#: main.cpp:146
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:149
+#: main.cpp:148
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:150
+#: main.cpp:149
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:151
+#: main.cpp:150
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:152
+#: main.cpp:151
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:154
+#: main.cpp:153
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:156
+#: main.cpp:155
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:157
+#: main.cpp:156
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:158
+#: main.cpp:157
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:159
+#: main.cpp:158
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:161
+#: main.cpp:160
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:162
+#: main.cpp:161
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Rishab Arora"
 
-#: main.cpp:166
+#: main.cpp:165
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:167
+#: main.cpp:166
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 "Conversione delle etichette con termini tecnici in collegamenti alla "
 "documentazione"
 
-#: main.cpp:168
+#: main.cpp:167
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:169
+#: main.cpp:168
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Documentazione tecnica sull'astronomia e KStars"
 
-#: main.cpp:170
+#: main.cpp:169
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr "Andrew Stepanenko"
 
-#: main.cpp:171
+#: main.cpp:170
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr "Codice di guida basato su lin_guider"
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Nuno Pinheiro"
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Artwork"
 msgstr "Grafica"
 
-#: main.cpp:174
+#: main.cpp:173
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Utkarsh Simha"
 
-#: main.cpp:175
+#: main.cpp:174
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 "Miglioramenti all'esecuzione del piano delle osservazioni, allo star hopper "
 "ecc."
 
-#: main.cpp:176
+#: main.cpp:175
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Daniel Holler"
 
-#: main.cpp:177
+#: main.cpp:176
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "Test estensivi e suggerimenti per Ekos/INDI."
 
-#: main.cpp:179
+#: main.cpp:178
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
-#: main.cpp:180
+#: main.cpp:179
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 "Test estensivi e suggerimenti per il pianificatore di Ekos. Conversione per "
 "OSX"
 
-#: main.cpp:181
+#: main.cpp:180
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Yuri Fabirovsky"
 
-#: main.cpp:182
+#: main.cpp:181
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr "Schermata iniziale sia per KStars che per KStars Lite."
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Jamie Smith"
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "Conversione di KStars per OSX."
 
-#: main.cpp:184
+#: main.cpp:183
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Patrick Molenaar"
 
-#: main.cpp:184
+#: main.cpp:183
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:185
+#: main.cpp:184
+#, kde-format
+msgid "Philipp Auersperg-Castell"
+msgstr ""
+
+#: main.cpp:184
 #, fuzzy, kde-format
 #| msgid "Supernovae Update"
 msgid "Supernovae daily updates"
 msgstr "Aggiorna supernove"
 
-#: main.cpp:194
+#: main.cpp:185
+#, kde-format
+msgid "Tony Schriber"
+msgstr ""
+
+#: main.cpp:185
+#, kde-format
+msgid "Rotator Dialog improvements"
+msgstr ""
+
+#: main.cpp:186
+#, kde-format
+msgid "Joseph McGee"
+msgstr ""
+
+#: main.cpp:186
+#, kde-format
+msgid "Sub-exposure calculator based on Dr Robin Glover's work"
+msgstr ""
+
+#: main.cpp:195
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Scarica l'immagine del cielo su file."
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Script to execute."
 msgstr "Script da eseguire."
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Width of sky image."
 msgstr "Larghezza immagine del cielo."
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "Height of sky image."
 msgstr "Altezza immagine del cielo."
 
-#: main.cpp:198
+#: main.cpp:199
 #, kde-format
 msgid "Date and time."
 msgstr "Data e ora."
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Inizia con l'orologio in pausa."
 
-#: main.cpp:202
+#: main.cpp:203
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "File FITS da aprire."
 
-#: main.cpp:238 printing/foveditordialog.cpp:176
+#: main.cpp:239 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Impossibile stabilire il formato di %1, assumo sia PNG."
 
-#: main.cpp:296
+#: main.cpp:297
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "La stringa della data fornita non è valida: %1. Utilizzo quindi data e ora "
 "della CPU."
 
-#: main.cpp:327
+#: main.cpp:328
 #, kde-format
 msgid "Script executed."
 msgstr "Script eseguito."
 
-#: main.cpp:331
+#: main.cpp:332
 #, kde-format
 msgid "Could not execute script."
 msgstr "Impossibile eseguire lo script."
 
-#: main.cpp:355
+#: main.cpp:356
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Utilizzo data e ora della CPU."
