@@ -186,10 +186,11 @@ void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
 QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &imagePrefix)
 {
     CCDFrameType frameType = job->getFrameType();
+    auto placeholderFormat = job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();
     auto filter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
-    auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
-    auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
-    auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
+    auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool() || placeholderFormat.contains("%F");
+    auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool() || placeholderFormat.contains("%e");
+    auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool() || placeholderFormat.contains("%D");
 
     double exposure = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
 
