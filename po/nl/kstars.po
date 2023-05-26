@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-05-21 16:59+0200\n"
+"PO-Revision-Date: 2023-05-25 10:10+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -71683,7 +71683,7 @@ msgstr "Bahtinov Focusassistent."
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
 #, kde-format
@@ -71693,22 +71693,23 @@ msgstr "Dagelijkse update van supernova's"
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Verbeteringen in de dialoog van de rotator"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
+"Rekenmachine voor onderbelichting gebaseerd op werk van Dr Robin Glover"
 
 #: main.cpp:195
 #, kde-format

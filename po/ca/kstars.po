@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-05-20 17:32+0200\n"
+"PO-Revision-Date: 2023-05-25 09:18+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -72335,7 +72335,7 @@ msgstr "Assistent d'enfocament Bahtinov."
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
 #, kde-format
@@ -72345,22 +72345,22 @@ msgstr "Actualitzacions diàries de supernoves"
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Millores del diàleg del rotor"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr ""
+msgstr "Calculadora de subexposició basada en la tasca del Dr. Robin Glover"
 
 #: main.cpp:195
 #, kde-format
@@ -83565,76 +83565,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "An implementation of Dr Robin Glover's exposure calculation"
-#~ msgstr ""
-#~ "Una implementació de la calculadora d'exposició del Dr. Robin Glover"
-
-#~ msgid "Username or password is missing."
-#~ msgstr "Manca el nom d'usuari o la contrasenya."
-
-#~ msgid "Connect to EkosLive on the Cloud. Requires Internet connection."
-#~ msgstr ""
-#~ "Connecta amb l'EkosLive al núvol. Requereix una connexió a Internet."
-
-#~ msgid "Connects to EkosLive offline."
-#~ msgstr "Connecta amb l'EkosLive fora de línia."
-
-#~ msgid "Whether EkosLive connection mode is online."
-#~ msgstr "Si el mode de connexió de l'EkosLive és en línia."
-
-#~ msgid ""
-#~ "Rotator failed to arrive at the requested position angle. Try to reverse "
-#~ "rotation direction in Rotator Settings."
-#~ msgstr ""
-#~ "El rotor no ha pogut arribar a l'angle de posició sol·licitat. Intenteu "
-#~ "invertir la direcció del rotor a la seva configuració."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Set the <span style=\" font-weight:600;\">desired</"
-#~ "span> target position angle for a sequence job. Click OK then add the "
-#~ "sequence job to the sequence queue. When the job is executed, the "
-#~ "position angle is first set to this target value prior to capturing the "
-#~ "image.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Estableix l'angle de posició de l'objectiu <span "
-#~ "style=\" font-weight:600;\">desitjat</span> per a una tasca de seqüència. "
-#~ "Premeu D'acord i després afegiu la tasca de seqüència a la cua de "
-#~ "seqüències. Quan s'executa la tasca, l'angle de posició s'establirà "
-#~ "primer a aquest valor de l'objectiu abans de capturar la imatge.</p></"
-#~ "body></html>"
-
-#~ msgid "Add to Job"
-#~ msgstr "Afegeix a la tasca"
-
-#~ msgid "Reverse rotator direction"
-#~ msgstr "Inverteix la direcció del rotor"
-
-#~ msgid "Raw Angle:"
-#~ msgstr "Angle brut:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Position Angle (PA) is defined as degrees E of N. "
-#~ "Zero degrees indicate frame <span style=\" font-weight:600;\">UP</span> "
-#~ "points directly toward the celestial pole. 90 degrees indicate frame "
-#~ "<span style=\" font-weight:600;\">UP</span> points 90 degrees counter-"
-#~ "clockwise with respect to the celestial pole.</p><p>PA is calculated from "
-#~ "raw rotator angle plus modifiers to match the rotation angle as measured "
-#~ "by astrometry. Enter the modifiers manually or solve an image in the "
-#~ "Align Module to generate them automatically.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>L'angle de posició (AP) es defineix com a graus E "
-#~ "de N. Zero graus indica que el fotograma <span style=\" font-weight:600;"
-#~ "\">AMUNT</span> apunta directament cap al pol celeste. 90 graus indica "
-#~ "que el fotograma <span style=\" font-weight:600;\">AMUNT</span> apunta 90 "
-#~ "graus en sentit antihorari respecte al pol celeste.</p><p>L'AP es calcula "
-#~ "a partir d'un angle brut del rotor més diversos modificadors per a "
-#~ "coincidir amb l'angle de rotació mesurat per l'astrometria. Introduïu "
-#~ "manualment els modificadors o solucioneu una imatge en el mòdul "
-#~ "d'alineació per a generar-lo automàticament.</p></body></html>"
-
-#~ msgid "Position Angle Control"
-#~ msgstr "Control de l'angle de posició"
-
-#~ msgid "Sky Angle:"
-#~ msgstr "Angle del cel:"

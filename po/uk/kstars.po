@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-05-20 23:20+0300\n"
+"PO-Revision-Date: 2023-05-25 09:02+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -72038,7 +72038,7 @@ msgstr "Помічник фокусування за Бахтіновим."
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
 #, kde-format
@@ -72048,22 +72048,23 @@ msgstr "Щоденні оновлення даних наднових"
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Удосконалення у вікні засобу обертання"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
+"Калькулятор підекспозиції на основі роботи д-ра Робіна Ґловера (Robin Glover)"
 
 #: main.cpp:195
 #, kde-format
