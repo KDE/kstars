@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-05-24 11:07+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2023-05-26 07:17+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -72632,7 +72632,7 @@ msgstr "Bahtinov Focus Asistent."
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
 #, kde-format
@@ -72642,22 +72642,22 @@ msgstr "Dnevna posodobitev supernov"
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Izboljšave pogovornega okna Rotator"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr ""
+msgstr "Kalkulator podekspozicijei na podlagi dela Dr. Robina Gloverja"
 
 #: main.cpp:195
 #, kde-format
@@ -83766,6 +83766,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "An implementation of Dr Robin Glover's exposure calculation"
-#~ msgstr "Implementacija izračuna osvetlitve dr. Robina Gloverja"

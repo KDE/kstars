@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-05-22 22:09+0100\n"
+"PO-Revision-Date: 2023-05-26 22:57+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -1186,8 +1186,9 @@ msgstr ""
 "X-POFile-SpellExtra: Flat exposure Filter target sequence nm from Focus\n"
 "X-POFile-SpellExtra: Advisor CFZ donuts PSF Fourier Tan Schulz Peirce\n"
 "X-POFile-SpellExtra: distânciaemmicrons númeropassos Wavefront Iter VAL\n"
-"X-POFile-SpellExtra: MÍN XISF ve Glover altazimutal\n"
+"X-POFile-SpellExtra: MÍN XISF ve Glover altazimutal Philipp Auersperg\n"
 "X-POFile-IgnoreConsistency: int\n"
+"X-POFile-SpellExtra: Castell Schriber McGee\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -73190,7 +73191,7 @@ msgstr "Assistente de Focagem Bahtinov."
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
 #, kde-format
@@ -73200,22 +73201,22 @@ msgstr "Actualizações diárias de supernovas"
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Melhorias na Janela do Rotor"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr ""
+msgstr "Calculadora de sub-exposição com base no trabalho de Robin Glover"
 
 #: main.cpp:195
 #, kde-format
@@ -84368,6 +84369,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid "An implementation of Dr Robin Glover's exposure calculation"
-#~ msgstr "Uma implementação do cálculo da exposição do Dr. Robin Glover"
