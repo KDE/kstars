@@ -19,6 +19,7 @@
 #include "Options.h"
 
 #include "ekos_debug.h"
+#include "kstars.h"
 #include "version.h"
 
 #include <QtConcurrent>
@@ -186,6 +187,64 @@ void Media::onTextReceived(const QString &message)
                     emit newImage(jpegData);
                 }
             }
+        }
+    }
+    else if (command == commands[ASTRO_GET_SKYPOINT_IMAGE])
+    {
+        int level = payload["level"].toInt(5);
+        double zoom = payload["zoom"].toInt(20000);
+        double ra = payload["ra"].toDouble(0);
+        double de = payload["de"].toDouble(0);
+        double width = payload["width"].toDouble(512);
+        double height = payload["height"].toDouble(512);
+
+        QImage centerImage(width, height, QImage::Format_ARGB32_Premultiplied);
+        SkyPoint coords(ra, de);
+        SkyPoint J2000Coord(coords.ra(), coords.dec());
+        J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
+        coords.setRA0(J2000Coord.ra());
+        coords.setDec0(J2000Coord.dec());
+        coords.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+        volatile auto jnowRAString = coords.ra().toHMSString();
+        volatile auto jnowDEString = coords.dec().toDMSString();
+        volatile auto j2000RAString = coords.ra0().toHMSString();
+        volatile auto j2000DEString = coords.dec0().toDMSString();
+
+
+        double fov_w = 0, fov_h = 0;
+        HIPSFinder::Instance()->render(&coords, level, zoom, &centerImage, fov_w, fov_h);
+
+        if (!centerImage.isNull())
+        {
+            // Use seed from name, level, and zoom so that it is unique
+            // even if regenerated again.
+            // Send everything as strings
+            QJsonObject metadata =
+            {
+                {"uuid", "skypoint_hips"},
+                {"name", "skypoint_hips"},
+                {"zoom", zoom},
+                {"resolution", QString("%1x%2").arg(width).arg(height)},
+                {"bin", "1x1"},
+                {"fov_w", QString::number(fov_w)},
+                {"fov_h", QString::number(fov_h)},
+                {"ext", "jpg"}
+            };
+
+            QByteArray jpegData;
+            QBuffer buffer(&jpegData);
+            buffer.open(QIODevice::WriteOnly);
+
+            // First METADATA_PACKET bytes of the binary data is always allocated
+            // to the metadata, the rest to the image data.
+            QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+            meta = meta.leftJustified(METADATA_PACKET, 0);
+            buffer.write(meta);
+            centerImage.save(&buffer, "jpg", 95);
+            buffer.close();
+
+            emit newImage(jpegData);
         }
     }
 }
