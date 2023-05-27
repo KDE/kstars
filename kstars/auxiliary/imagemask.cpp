@@ -108,7 +108,7 @@ bool ImageMosaicMask::isVisible(uint16_t posX, uint16_t posY)
 QPointF ImageMosaicMask::translate(QPointF original)
 {
     int pos = 0;
-    const uint16_t tileWidth = std::lround(m_width * m_tileWidth / 100);
+    const auto tileWidth = std::lround(m_width * m_tileWidth / 100);
     const float spacex = (m_width - 3 * tileWidth - 2 * m_space) / 2;
     const float spacey = (m_height - 3 * tileWidth - 2 * m_space) / 2;
     for (QRect tile : m_tiles)
@@ -156,10 +156,10 @@ void ImageMosaicMask::refresh()
     uint16_t tileWidth = std::lround(m_width * m_tileWidth / 100);
     if (m_width > 0 && m_height > 0)
     {
-        const u_int16_t x1 = std::lround((m_width - tileWidth) / 2);
-        const u_int16_t x2 = m_width - tileWidth - 1;
-        const u_int16_t y1 = std::lround((m_height - tileWidth) / 2);
-        const u_int16_t y2 = m_height - tileWidth - 1;
+        const auto x1 = std::lround((m_width - tileWidth) / 2);
+        const auto x2 = m_width - tileWidth - 1;
+        const auto y1 = std::lround((m_height - tileWidth) / 2);
+        const auto y2 = m_height - tileWidth - 1;
 
         m_tiles.append(QRect(0, 0, tileWidth, tileWidth));
         m_tiles.append(QRect(x1, 0, tileWidth, tileWidth));
