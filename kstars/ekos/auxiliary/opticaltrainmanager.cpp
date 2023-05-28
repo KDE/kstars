@@ -314,8 +314,11 @@ void OpticalTrainManager::generateOpticalTrains()
     // We should have primary train
     addOpticalTrain(true, i18n("Primary"));
     // Check if need secondary train
-    if (m_CameraNames.count() > 2)
+    if (m_CameraNames.count() > 1)
         addOpticalTrain(false, i18n("Secondary"));
+    // Check if need teritary train
+    if (m_CameraNames.count() > 2)
+        addOpticalTrain(false, i18n("Teritary"));
 }
 
 ////////////////////////////////////////////////////////////////////////////
