@@ -136,7 +136,7 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
 
     connect(addB, &QPushButton::clicked, this, [this]()
     {
-        addOpticalTrain(false, i18n("New Train"));
+        addOpticalTrain(m_TrainNames.count(), i18n("New Train"));
         m_OpticalTrainsModel->select();
         refreshModel();
         trainNamesList->setCurrentRow(trainNamesList->count() - 1);
@@ -312,19 +312,19 @@ void OpticalTrainManager::checkOpticalTrains()
 void OpticalTrainManager::generateOpticalTrains()
 {
     // We should have primary train
-    addOpticalTrain(true, i18n("Primary"));
+    addOpticalTrain(0, i18n("Primary"));
     // Check if need secondary train
-    if (m_CameraNames.count() > 1)
-        addOpticalTrain(false, i18n("Secondary"));
+    if (cameraComboBox->count() > 2)
+        addOpticalTrain(1, i18n("Secondary"));
     // Check if need teritary train
-    if (m_CameraNames.count() > 2)
-        addOpticalTrain(false, i18n("Teritary"));
+    if (cameraComboBox->count() > 3)
+        addOpticalTrain(2, i18n("Teritary"));
 }
 
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-QString OpticalTrainManager::addOpticalTrain(bool main, const QString &name)
+QString OpticalTrainManager::addOpticalTrain(uint8_t index, const QString &name)
 {
     QVariantMap train;
     train["profile"] = m_Profile->id;
@@ -343,10 +343,19 @@ QString OpticalTrainManager::addOpticalTrain(bool main, const QString &name)
     if (KStars::Instance()->data()->userdb()->getLastOpticalElement(opticalElement))
         train["scope"] = opticalElement["name"].toString();
 
-    if (main)
-        train["camera"] = cameraComboBox->itemText(cameraComboBox->count() > 1 ? 1 : 0);
-    else
-        train["camera"] = cameraComboBox->itemText(cameraComboBox->count() > 2 ? 2 : 0);
+    train["camera"] = "--";
+    // Primary train
+    if (index == 0 && cameraComboBox->count() > 1)
+        train["camera"] = cameraComboBox->itemText(1);
+    // Any other trains
+    else if (index > 0)
+    {
+        // For 2nd train and beyond, we get the N camera appropiate for this train if one exist.
+        // We add + 1 because first element in combobox is "--"
+        auto cameraIndex = index + 1;
+        if (cameraComboBox->count() >= cameraIndex)
+            train["camera"] = cameraComboBox->itemText(cameraIndex);
+    }
 
     KStarsData::Instance()->userdb()->AddOpticalTrain(train);
     return train["name"].toString();

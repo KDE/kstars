@@ -174,11 +174,11 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
         /**
          * @brief Add a new optical train with the given name
-         * @param main true if it is the primary train, false if it is the guiding train
+         * @param index train index (0, 1, 2..etc)
          * @param name train name
          * @return unique train name
          */
-        QString addOpticalTrain(bool main, const QString &name);
+        QString addOpticalTrain(uint8_t index, const QString &name);
 
         void checkMissingDevices();
 
