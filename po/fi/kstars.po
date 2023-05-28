@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-04-11 16:22+0300\n"
+"PO-Revision-Date: 2023-05-15 16:19+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:23:32+0000\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -134,7 +134,7 @@ msgstr "Paikallinen meridiaani"
 #: auxiliary/colorscheme.cpp:46
 #, kde-format
 msgid "Compass Labels"
-msgstr "Kompassin merkit"
+msgstr "Kompassin selitteet"
 
 #: auxiliary/colorscheme.cpp:47 skycomponents/equatorialcoordinategrid.cpp:20
 #, kde-format
@@ -169,7 +169,7 @@ msgstr "Kohdemerkki"
 #: auxiliary/colorscheme.cpp:53
 #, kde-format
 msgid "User Labels"
-msgstr "Omat merkinnät"
+msgstr "Omat selitteet"
 
 #: auxiliary/colorscheme.cpp:54
 #, kde-format
@@ -184,7 +184,7 @@ msgstr "Kulmaetäisyysmitta"
 #: auxiliary/colorscheme.cpp:56
 #, kde-format
 msgid "Observing List Label"
-msgstr "Havainnointilistan merkki"
+msgstr "Havainnointilistan selite"
 
 #: auxiliary/colorscheme.cpp:57
 #, kde-format
@@ -263,10 +263,9 @@ msgid "HiPS Grid"
 msgstr "HiPS-ruudukko"
 
 #: auxiliary/colorscheme.cpp:69
-#, fuzzy, kde-format
-#| msgid "Object Name"
+#, kde-format
 msgid "FITS Image Object Label"
-msgstr "Kohteen nimi"
+msgstr "FITS-kuvaolion selite"
 
 #: auxiliary/colorscheme.cpp:135 kstarsdata.cpp:1055 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:739
@@ -15635,7 +15634,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "9"
 msgid "9"
 msgstr "9"
 
@@ -23348,6 +23348,8 @@ msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
+"<nobr><b>Selite:</b> %1 &#9473; <b>ajuri:</b> %2 &#9473; <b>ohjelmatiedosto:"
+"</b> %3</nobr>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:807 ekos/profileeditor.ui:369
@@ -28763,12 +28765,12 @@ msgstr ""
 #: indi/customdrivers.cpp:107
 #, kde-format
 msgid "Label already exists. Label must be unique."
-msgstr ""
+msgstr "Selite on jo olemassa. Sen on oltava ainutkertainen."
 
 #: indi/customdrivers.cpp:123
 #, kde-format
 msgid "Failed to add new driver. Is the label unique?"
-msgstr ""
+msgstr "Uutta ajuria ei voitu lisätä. Onko selite ainutkertainen?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: indi/customdrivers.ui:55
@@ -28793,9 +28795,9 @@ msgstr "Ohjelmatiedosto"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/customdrivers.ui:110 tools/flagmanager.ui:84
-#, fuzzy, kde-format
+#, kde-format
 msgid "Label:"
-msgstr "Lev.:"
+msgstr "Selite:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: indi/customdrivers.ui:120
@@ -30189,12 +30191,12 @@ msgstr ""
 #: kspopupmenu.cpp:305 kspopupmenu.cpp:402
 #, kde-format
 msgid "Remove Label"
-msgstr "Poista nimikenttä"
+msgstr "Poista selite"
 
 #: kspopupmenu.cpp:308 kspopupmenu.cpp:407
 #, kde-format
 msgid "Attach Label"
-msgstr "Näytä nimikenttä"
+msgstr "Kytke selite"
 
 #: kspopupmenu.cpp:330
 #, kde-format
@@ -31307,9 +31309,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (HideLabels), group (View)
 #: kstars.kcfg:456
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide object name labels while moving?"
-msgstr "Piilota kohteet siirryttäessä"
+msgstr "Piilotetaanko liikuttaessa kohteen nimi?"
 
 #. i18n: ectx: whatsthis, entry (HideLabels), group (View)
 #: kstars.kcfg:457
@@ -32804,9 +32806,9 @@ msgstr "Vaihda planeettojen nimien näyttö"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyNameColor), group (Colors)
 #: kstars.kcfg:1055
-#, fuzzy, kde-format
+#, kde-format
 msgid "The color for deep-sky object name labels."
-msgstr "Vaihda tähtien nimien näyttö"
+msgstr "Syvän avaruuden kohteen nimien seliteväri."
 
 #. i18n: ectx: label, entry (PlanetNameColor), group (Colors)
 #: kstars.kcfg:1059
@@ -32818,7 +32820,7 @@ msgstr "Vaihda planeettojen nimien näyttö"
 #: kstars.kcfg:1060
 #, kde-format
 msgid "The color for solar system object labels."
-msgstr ""
+msgstr "Aurinkokunnan kohteiden seliteväri."
 
 #. i18n: ectx: label, entry (PlanetTrailColor), group (Colors)
 #: kstars.kcfg:1064
@@ -32895,15 +32897,15 @@ msgstr "Näkymättömien satelliittien väri."
 
 #. i18n: ectx: label, entry (SatLabelColor), group (Colors)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color of satellites labels"
-msgstr "Vaihda planeettojen nimien näyttö"
+msgstr "Satelliittien seliteväri"
 
 #. i18n: ectx: whatsthis, entry (SatLabelColor), group (Colors)
 #: kstars.kcfg:1095
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color of satellites labels."
-msgstr "Vaihda planeettojen nimien näyttö"
+msgstr "Satelliittien seliteväri."
 
 #. i18n: ectx: label, entry (SupernovaColor), group (Colors)
 #: kstars.kcfg:1099
@@ -32933,13 +32935,13 @@ msgstr "Värit"
 #: kstars.kcfg:1109
 #, kde-format
 msgid "Color of user-added labels"
-msgstr ""
+msgstr "Käyttäjän lisäämien selitteiden väri"
 
 #. i18n: ectx: whatsthis, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1110
 #, kde-format
 msgid "The color for user-added object labels."
-msgstr ""
+msgstr "Käyttäjien olioille lisäämien selitteiden väri."
 
 #. i18n: ectx: label, entry (RAGuideColor), group (Colors)
 #: kstars.kcfg:1114
@@ -33053,13 +33055,13 @@ msgstr ""
 #: kstars.kcfg:1165 xplanet/opsxplanet.ui:784
 #, kde-format
 msgid "Show label"
-msgstr "Näytä nimike"
+msgstr "Näytä selite"
 
 #. i18n: ectx: whatsthis, entry (XplanetLabel), group (Xplanet)
 #: kstars.kcfg:1166
 #, kde-format
 msgid "If true, display a label in the upper right corner."
-msgstr ""
+msgstr "Jos asetettu, näytetään yläoikeassa kulmassa selite."
 
 #. i18n: ectx: label, entry (XplanetLabelLocalTime), group (Xplanet)
 #. i18n: ectx: label, entry (XplanetLabelGMT), group (Xplanet)
@@ -33119,9 +33121,9 @@ msgstr "Seliteväri"
 #. i18n: ectx: whatsthis, entry (XplanetColor), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_XplanetColor)
 #: kstars.kcfg:1191 xplanet/opsxplanet.ui:676
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set the color for the label."
-msgstr "Vaihda tähtien nimien näyttö"
+msgstr "Aseta selitteen väri."
 
 #. i18n: ectx: label, entry (XplanetDateFormat), group (Xplanet)
 #: kstars.kcfg:1195
@@ -33533,10 +33535,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1353
-#, fuzzy, kde-format
-#| msgid "Draw constellation names?"
+#, kde-format
 msgid "Draw satellite labels?"
-msgstr "Näytetäänkö tähdistöjen nimet?"
+msgstr "Näytetäänkö satelliiteille selitteet?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1354
@@ -72105,7 +72106,7 @@ msgstr "Suurennoksen määrä:"
 #: options/opsadvanced.ui:466 options/opsadvanced.ui:521
 #, kde-format
 msgid "Show name label of centered object?"
-msgstr "Näytetäänkö kohdistetun kohteen nimikenttä?"
+msgstr "Näytetäänkö selitteessä keskitetyn olion nimi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseAutoLabel)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseHoverLabel)
@@ -72116,21 +72117,21 @@ msgid ""
 "is centered in the display.  You can attach a more persistent label to any "
 "object using the right-click popup menu."
 msgstr ""
-"Jos valittu, näytetään näytön keskellä kohdistettuna olevan kohteen nimi sen "
-"vieressä nimikentässä.  Voit liittää kohteisiin pysyvämmän nimikentän "
-"oikealla hiiripainikkeella avautuvasta ponnahdusvalikosta."
+"Jos valittu, kohteen nimi kytketään hetkellisesti selitteessä, kun kohde on "
+"näytön keskellä. Minkä tahansa olion pysyvämmän selitteen saa näytettyä "
+"oikealla hiiripainikkeella avatuvasta kontekstivalikosta."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAutoLabel)
 #: options/opsadvanced.ui:472
 #, kde-format
 msgid "Attach label to centered object"
-msgstr "Liitä nimikenttä kohdistettuun kohteeseen"
+msgstr "Näytä keskitetystä kohteesta selite"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseHoverLabel)
 #: options/opsadvanced.ui:527
 #, kde-format
 msgid "Attach temporary label when hovering mouse"
-msgstr "Näytä nimi väliaikaisesti hiiren ollessa kohteen päällä"
+msgstr "Näytä hiiren ollessa olion yllä hetkellisesti nimi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:534
@@ -72310,16 +72311,15 @@ msgstr "Aurinkokunnan kohteet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:724
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide object labels while moving?"
-msgstr "Piilota kohteet siirryttäessä"
+msgstr "Piilotetaanko liikuttaessa kohteiden selitteet?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:727
-#, fuzzy, kde-format
-#| msgid "Object Name"
+#, kde-format
 msgid "Object labels"
-msgstr "Kohteen nimi"
+msgstr "Kohteiden selitteet"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideCLines)
 #: options/opsadvanced.ui:737
@@ -72382,9 +72382,9 @@ msgstr "&Havaintoluettelo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ObsListOptions)
 #: options/opsadvanced.ui:830
-#, fuzzy, kde-format
+#, kde-format
 msgid "Observing List Labels"
-msgstr "Havaintoluettelo"
+msgstr "Havaintolistan selitteet"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_ObsListSymbol)
 #: options/opsadvanced.ui:851
@@ -72461,11 +72461,9 @@ msgstr "Näytä ma&gnitudi"
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)
 #: options/opscatalog.ui:201 options/opscatalog.ui:540
 #: options/opssolarsystem.ui:497
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Lake City"
+#, kde-format
 msgid "Label density:"
-msgstr "Lake City"
+msgstr "Selitteiden tiheys:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSky)
 #: options/opscatalog.ui:267
@@ -73015,9 +73013,8 @@ msgid ""
 "Select this to use abbreviations from the International Astronomical Union "
 "as constellation labels"
 msgstr ""
-"Valitse tämä käyttääksesi tähtikartassa International Astronomical Union -"
-"järjestön määrittelemiä tähdistöjen virallisia kolmikirjaimisia "
-"latinankielisiä nimilyhenteitä"
+"Käytä IAU:n (International Astronomical Union) tähdistölyhenteitä "
+"valitsemalla tämä"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
 #: options/opsguides.ui:165
@@ -73273,7 +73270,7 @@ msgstr "Näytä vain näkyvät satelliitit"
 #: options/opssatellites.ui:54
 #, kde-format
 msgid "Show labels"
-msgstr "Näytä nimikkeet"
+msgstr "Näytä selitteet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawSatellitesLikeStars)
 #: options/opssatellites.ui:64
@@ -73362,8 +73359,7 @@ msgstr "Jos valittuna, Mars piirretään tähtikartalle."
 #: options/opssolarsystem.ui:95
 #, kde-format
 msgid "Attach Name labels to the major solar system bodies?"
-msgstr ""
-"Näytetäänkö aurinkokunnan suurten taivaankappaleiden vierellä niiden nimet?"
+msgstr "Näytetäänkö aurinkokunnan päätaivaankappaleista niiden nimet?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowPlanetNames)
 #: options/opssolarsystem.ui:98
@@ -73371,13 +73367,13 @@ msgstr ""
 msgid ""
 "If checked, name labels will be attached to the planets, the Sun and the Moon"
 msgstr ""
-"Jos valittuna, näytetään planeettojen, auringon ja kuun vieressä niiden nimet"
+"Jos valittu, näytetään planeettojen, auringon ja kuun vieressä niiden nimet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPlanetNames)
 #: options/opssolarsystem.ui:101
 #, kde-format
 msgid "Use name labels"
-msgstr "Näytä nimet"
+msgstr "Näytä selitteissä nimet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAllPlanets)
 #: options/opssolarsystem.ui:108
@@ -73582,9 +73578,9 @@ msgid ""
 "vary in brightness in their orbits, so a faint magnitude is not effective in "
 "this case."
 msgstr ""
-"Jos valittuna, näytetään aurinkoa lähellä olevien komeettojen nimet niiden "
+"Jos valittu, aurinkoa lähellä olevien komeettojen nimet näytetään niiden "
 "vieressä. Komeettojen kirkkaus vaihtelee merkittävästi niiden radan eri "
-"vaiheissa, joten niiden magnitudi ei olisi kovinkaan toimiva kriteeri tässä."
+"vaiheissa, joten magnitudi ei olisi kovinkaan toimiva kriteeri tässä."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:372
@@ -73625,18 +73621,15 @@ msgstr "AU:ta"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAsteroidNames)
 #: options/opssolarsystem.ui:465
-#, fuzzy, kde-format
-#| msgid "Attach name labels to bright stars?"
+#, kde-format
 msgid "Attach name labels to asteroids?"
-msgstr "Näytetäänkö kirkkaimpien tähtien nimet?"
+msgstr "Näytetäänkö asteroidien nimet selitteinä?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAsteroidNames)
 #: options/opssolarsystem.ui:468
-#, fuzzy, kde-format
-#| msgid "If checked, then name labels will be attached to bright asteroids"
+#, kde-format
 msgid "If checked, then name labels will be attached to asteroids"
-msgstr ""
-"Jos valittuna, näytetään kirkkaiden pikkuplaneettojen vieressä niiden nimi"
+msgstr "Jos valittu, asteroidien vieressä näytetään niiden nimi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroidNames)
 #: options/opssolarsystem.ui:471
@@ -77518,9 +77511,9 @@ msgid "Icon"
 msgstr "Kuvake"
 
 #: tools/flagmanager.cpp:70
-#, fuzzy, kde-format
+#, kde-format
 msgid "Label"
-msgstr "Lev.:"
+msgstr "Selite"
 
 #: tools/flagmanager.cpp:178
 #, fuzzy, kde-format
@@ -77535,11 +77528,9 @@ msgstr "Kaukoputkea %1 ei ole kytketty. Kytke se ja yritä uudelleen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/flagmanager.ui:101
-#, fuzzy, kde-format
-#| msgctxt "use realistic star colors"
-#| msgid "Real Colors"
+#, kde-format
 msgid "Label color:"
-msgstr "Todelliset värit"
+msgstr "Seliteväri:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: tools/flagmanager.ui:108
@@ -79834,16 +79825,14 @@ msgstr ""
 "tai \"zeniitti\"."
 
 #: tools/scriptbuilder.cpp:178
-#, fuzzy, kde-format
-#| msgid "Add time stamp to the file name"
+#, kde-format
 msgid "Add a name label to the object named %1."
-msgstr "Lisää tiedostonimeen aikaleima"
+msgstr "Lisää kohteelle nimeltä %1 nimen selite."
 
 #: tools/scriptbuilder.cpp:180
-#, fuzzy, kde-format
-#| msgid "Add time stamp to the file name"
+#, kde-format
 msgid "Remove the name label from the object named %1."
-msgstr "Lisää tiedostonimeen aikaleima"
+msgstr "Poista kohteelta nimeltä %1 nimen selite."
 
 #: tools/scriptbuilder.cpp:183
 #, fuzzy, kde-format
@@ -80757,10 +80746,9 @@ msgstr "Tulosta taivaskalenteri"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/skycalendar.ui:86
-#, fuzzy, kde-format
-#| msgid "Use name labels"
+#, kde-format
 msgid "Grids and Labels"
-msgstr "Näytä nimet"
+msgstr "Ruudukot ja selitteet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_GridMonths)
 #: tools/skycalendar.ui:100
@@ -81799,10 +81787,10 @@ msgid "Mollweide"
 msgstr "Mollweide"
 
 #: xplanet/opsxplanet.cpp:40
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Map projection method"
 msgid "Orthographic"
-msgstr "Maantieteelliset"
+msgstr "Ortografinen"
 
 #: xplanet/opsxplanet.cpp:41
 #, fuzzy, kde-format
@@ -81837,16 +81825,16 @@ msgid "FIFO files are not supported on Windows"
 msgstr ""
 
 #: xplanet/opsxplanet.cpp:219
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Config File"
-msgstr "Valitse kentät tiedostosta"
+msgstr "Valitse XPlanet-asetustiedosto"
 
 #: xplanet/opsxplanet.cpp:231
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Star Map File"
-msgstr "Valitse tulostiedoston kentät"
+msgstr "Valitse XPlanet-tähtikarttatiedosto"
 
 #: xplanet/opsxplanet.cpp:244
 #, fuzzy, kde-format
@@ -81886,10 +81874,9 @@ msgstr "Aseta ikkunan leveys"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetWidth)
 #: xplanet/opsxplanet.ui:107
-#, fuzzy, kde-format
-#| msgid "Set the width of window"
+#, kde-format
 msgid "Set the width of the xplanet image"
-msgstr "Aseta ikkunan leveys"
+msgstr "Aseta XPlanet-kuvan leveys"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetHeight)
 #: xplanet/opsxplanet.ui:130
@@ -81899,10 +81886,9 @@ msgstr "Aseta ikkunan korkeus"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetHeight)
 #: xplanet/opsxplanet.ui:133
-#, fuzzy, kde-format
-#| msgid "Set the height of window"
+#, kde-format
 msgid "Set the height of the xplanet image"
-msgstr "Aseta ikkunan korkeus"
+msgstr "Aseta XPlanet-kuvan korkeus"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetTimeout)
 #: xplanet/opsxplanet.ui:162
@@ -81912,17 +81898,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: xplanet/opsxplanet.ui:169
-#, fuzzy, kde-format
-#| msgid "XPlanet Timeout"
+#, kde-format
 msgid "XPlanet timeout:"
-msgstr "XPlanetin aikakatkaisu"
+msgstr "XPlanet-aikakatkaisu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: xplanet/opsxplanet.ui:176
-#, fuzzy, kde-format
-#| msgid "Animation Delay"
+#, kde-format
 msgid "Animation delay:"
-msgstr "Animointiviive"
+msgstr "Animointiviive:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetAnimationDelay)
 #: xplanet/opsxplanet.ui:183
@@ -81950,10 +81934,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:222
-#, fuzzy, kde-format
-#| msgid "KStars FITS Viewer"
+#, kde-format
 msgid "Use FIFO File"
-msgstr "KStarsin FITS-katselin"
+msgstr "Käytä FIFO-tiedostoa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: xplanet/opsxplanet.ui:229
@@ -82060,7 +82043,7 @@ msgstr "Tulostiedoston laatu:"
 #: xplanet/opsxplanet.ui:502
 #, kde-format
 msgid "JPEG Quality"
-msgstr ""
+msgstr "JPEG-laatu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: xplanet/opsxplanet.ui:530
@@ -82084,13 +82067,13 @@ msgstr "Muut aurinkokunnan kohteet"
 #: xplanet/opsxplanet.ui:566
 #, kde-format
 msgid "Labels and markers"
-msgstr ""
+msgstr "Selitteet ja merkit"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: xplanet/opsxplanet.ui:574
-#, fuzzy, kde-format
+#, kde-format
 msgid "Labels"
-msgstr "Lev.:"
+msgstr "Selitteet"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetLabelGMT)
 #: xplanet/opsxplanet.ui:603
@@ -82100,17 +82083,15 @@ msgstr "GMT"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetLabelString)
 #: xplanet/opsxplanet.ui:612
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Lake City"
+#, kde-format
 msgid "Label string:"
-msgstr "Lake City"
+msgstr "Selitejono:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetLabelString)
 #: xplanet/opsxplanet.ui:619
 #, kde-format
 msgid "Specify the text of the first line of the label."
-msgstr ""
+msgstr "Määritä selitetekstin ensirivi."
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetLabelString)
 #: xplanet/opsxplanet.ui:622
@@ -82130,9 +82111,9 @@ msgstr "Päiväyksen muoto:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetDateFormat)
 #: xplanet/opsxplanet.ui:636
-#, fuzzy, kde-format
+#, kde-format
 msgid "Specify the format for the date/time label."
-msgstr "Vaihda tähtien nimien näyttö"
+msgstr "Määritä päiväysselitteen muoto."
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetDateFormat)
 #: xplanet/opsxplanet.ui:639
@@ -82142,14 +82123,15 @@ msgid ""
 "strftime(3).  The default is \"%c %Z\", which shows the date, time, and time "
 "zone in the  locale’s  appropriate date and time representation."
 msgstr ""
+"Määritä päiväysselitteen muoto. Jono välitetään strftimelle(3). Oletus on "
+"”%c %Z” eli päivämäärä, kellonaika ja aikavyöhyke maa-asetusten mukaisessa "
+"esitysasussa."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetFontSize)
 #: xplanet/opsxplanet.ui:649
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Fort Riley"
+#, kde-format
 msgid "Font size:"
-msgstr "Fort Riley"
+msgstr "Fonttikoko:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelLabelPos)
 #: xplanet/opsxplanet.ui:756
@@ -82159,15 +82141,15 @@ msgstr "Selitteen sijainti:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:778
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show label?"
-msgstr "nimi"
+msgstr "Näytetäänkö selite"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:781
 #, kde-format
 msgid "If checked, display a label in the upper right corner."
-msgstr ""
+msgstr "Jos valittu, yläoikeassa kulmassa näytetään selite."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: xplanet/opsxplanet.ui:796
@@ -82278,10 +82260,9 @@ msgstr "Tausta"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetBackground)
 #: xplanet/opsxplanet.ui:1018
-#, fuzzy, kde-format
-#| msgid "Info Box Background"
+#, kde-format
 msgid "Use background?"
-msgstr "Tietokentän tausta"
+msgstr "Käytetäänkö taustaa?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetBackground)
 #: xplanet/opsxplanet.ui:1021

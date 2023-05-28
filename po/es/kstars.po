@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-05-23 19:41+0200\n"
+"PO-Revision-Date: 2023-05-27 02:20+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -15820,13 +15820,13 @@ msgstr "9"
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
+"Seleccionar el modo de lectura en las cámaras con múltiples modos de lectura."
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
-#, fuzzy, kde-format
-#| msgid "Clear  Model"
+#, kde-format
 msgid "Read Mode"
-msgstr "Borrar el modelo"
+msgstr "Modo de lectura"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
@@ -17648,10 +17648,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1531
-#, fuzzy, kde-format
-#| msgid "Measured Err:"
+#, kde-format
 msgid "Measure:"
-msgstr "Error medido:"
+msgstr "Medida:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/focus.ui:1550
@@ -18276,20 +18275,18 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2309
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
 "span> in ticks to cause a noticeable change in HFR value. For timer based "
 "focuser, it is the initial time in milliseconds to move the focuser inward "
 "or outward</p></body></html>"
 msgstr ""
-"Tamaño de paso <b>inicial</b> en tics para causar un cambio perceptible en "
-"el valor HFR. Para enfocadores basados en temporizadores, es el tiempo "
-"inicial en milisegundos para mover el enfocador hacia dentro o hacia fuera."
+"<html><head/><body><p><span style=\" font-weight:600;\">Tamaño de paso "
+"inicial</span> en pulsos para causar un cambio perceptible en el valor HFR. "
+"Para enfocadores basados en temporizadores, es el tiempo inicial en "
+"milisegundos para mover el enfocador hacia dentro o hacia fuera.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:2334
@@ -18422,16 +18419,14 @@ msgstr "Tiempo de espera del movimiento:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/focus.ui:2548
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum time in seconds to wait for a focuser to move to desired position "
-#| "before declaring a timeout."
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"Tiempo máximo en segundos a esperar para que se mueva el enfocador hasta la "
-"posición deseada antes de declarar que se ha agotado."
+"<html><head/><body><p>Tiempo máximo en segundos que se debería esperar para "
+"que se mueva el enfocador hasta la posición deseada antes de declarar que se "
+"ha agotado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2570
@@ -33035,7 +33030,7 @@ msgstr "El nivel de ampliación, medido en píxeles por radián."
 #: kstars.kcfg:798
 #, kde-format
 msgid "Angle by which the sky map is rotated"
-msgstr ""
+msgstr "Ángulo de rotación del mapa del cielo"
 
 #. i18n: ectx: whatsthis, entry (SkyRotation), group (View)
 #: kstars.kcfg:799
@@ -72050,7 +72045,7 @@ msgstr "Asistente de enfoque Bahtinov."
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
 #, kde-format
@@ -72060,22 +72055,23 @@ msgstr "Actualizaciones diarias de supernovas"
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Mejoras en el diálogo del rotador"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
+"Calculadora de subexposición basada en el trabajo del Dr. Robin Glover."
 
 #: main.cpp:195
 #, kde-format
