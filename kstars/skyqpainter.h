@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "ksasteroid.h"
 #include "skypainter.h"
 #include "config-kstars.h"
 
@@ -100,6 +101,7 @@ class SkyQPainter : public SkyPainter, public QPainter
                                        float positionAngle);
         bool drawSupernova(Supernova *sup) override;
         bool drawComet(KSComet *com) override;
+        bool drawAsteroid(KSAsteroid *ast) override;
         /// This function exists so that we can draw other objects (e.g., planets) as point sources.
         virtual void drawPointSource(const QPointF &pos, float size, char sp = 'A');
         bool drawConstellationArtImage(ConstellationsArt *obj) override;

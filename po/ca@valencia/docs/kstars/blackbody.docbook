@@ -41,10 +41,10 @@
 >Afortunadament, és possible construir un cos negre pràcticament perfecte. Es construïx una caixa amb algun material que siga termoconductor, com ara el metall. La caixa haurà d'estar completament tancada per tots costats, de manera que l'interior forme una cavitat que no reba llum des de l'exterior. Aleshores, es fa un xicotet forat en algun punt de la caixa. La llum que isca d'este forat tindrà un pareixent quasi perfecte al de la llum d'un cos negre ideal, a causa de la temperatura de l'aire a l'interior de la caixa. </para>
 
 <para
->A principis del segle XX, els científics Lord Rayleigh i Max Planck (entre altres) estudiaven la radiació dels cossos negres emprant un dispositiu similar. Després de molta faena, Plank fou capaç de descriure perfectament la intensitat de la llum emesa per un cos negre com a una funció de llargària d'ona. A més, fou capaç de descriure com variava l'espectre en canviar la temperatura. El treball d'en Planck sobre la radiació dels cossos negres és una de les àrees de la física que dugueren a la fundació de la meravellosa ciència de la mecànica quàntica, però malauradament açò queda fora de l'objectiu d'este article. </para>
+>A principis del segle XX, els científics Lord Rayleigh i Max Planck (entre altres) estudiaven la radiació dels cossos negres emprant un dispositiu similar. Després de molta faena, Plank fou capaç de descriure perfectament la intensitat de la llum emesa per un cos negre com a una funció de longitud d'ona. A més, fou capaç de descriure com variava l'espectre en canviar la temperatura. El treball d'en Planck sobre la radiació dels cossos negres és una de les àrees de la física que dugueren a la fundació de la meravellosa ciència de la mecànica quàntica, però malauradament açò queda fora de l'objectiu d'este article. </para>
 
 <para
->El que en Planck i els altres descobriren era que a mesura que s'incrementava la temperatura d'un cos negre, la quantitat total de llum emesa per segon també augmentava i la llargària d'ona del màxim d'intensitat de l'espectre canviava cap a colors blavosos (vegeu la figura 1). </para>
+>El que en Planck i els altres descobriren era que a mesura que s'incrementava la temperatura d'un cos negre, la quantitat total de llum emesa per segon també augmentava i la longitud d'ona del màxim d'intensitat de l'espectre canviava cap a colors blavosos (vegeu la figura 1). </para>
 
 <para>
 <mediaobject>
@@ -64,7 +64,7 @@
 >Per exemple, una barra de ferro arriba a estar roent quan s'escalfa a altes temperatures, i el seu color canvia progressivament cap al blau i blanc quan més alta és l'escalfor. </para>
 
 <para
->En 1893, el físic alemany Wilhelm Wien quantificà la relació entre la temperatura d'un cos negre i la llargària d'ona del pic espectral amb la següent equació: </para>
+>En 1893, el físic alemany Wilhelm Wien quantificà la relació entre la temperatura d'un cos negre i la longitud d'ona del pic espectral amb la següent equació: </para>
 
 <para>
 <mediaobject>
@@ -75,10 +75,10 @@
 </para>
 
 <para
->a on T és la temperatura en graus Kelvin. La llei de Wien (també coneguda com la llei del desplaçament de Wien) pot llegir-se amb les següents paraules: la llargària d'ona de l'emissió màxima d'un cos negre és inversament proporcional a la seua temperatura. Açò té sentit, a llargària d'ona més curta (major freqüència) de llum li corresponen fotons de major energia, el qual ens fa esperar que eleve la temperatura de l'objecte. </para>
+>a on T és la temperatura en graus Kelvin. La llei de Wien (també coneguda com la llei del desplaçament de Wien) pot llegir-se amb les següents paraules: la longitud d'ona de l'emissió màxima d'un cos negre és inversament proporcional a la seua temperatura. Açò té sentit, a longitud d'ona més curta (major freqüència) de llum li corresponen fotons de major energia, el qual ens fa esperar que eleve la temperatura de l'objecte. </para>
 
 <para
->Per exemple, el Sol té una temperatura mitjana de 5.800 K, i la seua llargària d'ona d'emissió màxima és donada per: <mediaobject
+>Per exemple, el Sol té una temperatura mitjana de 5.800 K, i la seua longitud d'ona d'emissió màxima és donada per: <mediaobject
 > <imageobject>
 <imagedata fileref="lambda_ex.png" format="PNG"/>
 </imageobject>

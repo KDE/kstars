@@ -29,6 +29,7 @@ Eigen::Vector2f EquirectangularProjector::toScreenVec(const SkyPoint *o, bool oR
 {
     double Y, dX;
     Eigen::Vector2f p;
+    double x, y;
 
     oRefract &= m_vp.useRefraction;
     if (m_vp.useAltAz)
@@ -38,18 +39,20 @@ Eigen::Vector2f EquirectangularProjector::toScreenVec(const SkyPoint *o, bool oR
         Y0 = SkyPoint::refract(m_vp.focus->alt(), oRefract).radians();
         dX = m_vp.focus->az().reduce().radians() - o->az().reduce().radians();
 
-        p[1] = 0.5 * m_vp.height - m_vp.zoomFactor * (Y - Y0);
+        y = (Y - Y0);
     }
     else
     {
         dX   = o->ra().reduce().radians() - m_vp.focus->ra().reduce().radians();
         Y    = o->dec().radians();
-        p[1] = 0.5 * m_vp.height - m_vp.zoomFactor * (Y - m_vp.focus->dec().radians());
+        y = (Y - m_vp.focus->dec().radians());
     }
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
-    p[0] = 0.5 * m_vp.width - m_vp.zoomFactor * dX;
+    x = dX;
+
+    p = rst(x, y);
 
     if (onVisibleHemisphere)
         *onVisibleHemisphere = (p[0] > 0 && p[0] < m_vp.width);
@@ -62,8 +65,9 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const 
     SkyPoint result;
 
     //Convert pixel position to x and y offsets in radians
-    double dx = (0.5 * m_vp.width - p.x()) / m_vp.zoomFactor;
-    double dy = (0.5 * m_vp.height - p.y()) / m_vp.zoomFactor;
+    auto p_ = derst(p.x(), p.y());
+    double dx = p_[0];
+    double dy = p_[1];
 
     if (m_vp.useAltAz)
     {
@@ -92,51 +96,54 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const 
 
 bool EquirectangularProjector::unusablePoint(const QPointF &p) const
 {
-    double dx = (0.5 * m_vp.width - p.x()) / m_vp.zoomFactor;
-    double dy = (0.5 * m_vp.height - p.y()) / m_vp.zoomFactor;
+    auto p_ = derst(p.x(), p.y());
+    double dx = p_[0];
+    double dy = p_[1];
     return (dx * dx > M_PI * M_PI / 4.0) || (dy * dy > M_PI * M_PI / 4.0);
 }
 
 QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoint, bool *drawLabel) const
 {
     float x0 = m_vp.width / 2.;
-    float y0 = m_vp.width / 2.;
     if (m_vp.useAltAz)
     {
-        float dX = m_vp.zoomFactor * M_PI;
-        float dY = m_vp.zoomFactor * M_PI;
+        float dX = M_PI;
+
+        // N.B. alt ranges from -π/2 to π/2, but the focus can be at
+        // either extreme, so the Y-range of the map is actually -π to
+        // π -- asimha
+        float dY = M_PI;
+
         SkyPoint belowFocus;
         belowFocus.setAz(m_vp.focus->az().Degrees());
         belowFocus.setAlt(0.0);
 
+        // Compute the ends of the horizon line
         Eigen::Vector2f obf = toScreenVec(&belowFocus, false);
+        auto obf_derst = derst(obf.x(), obf.y());
+        auto corner1 = rst(obf_derst[0] - dX,
+                           obf_derst[1]);
+        auto corner2 = rst(obf_derst[0] + dX,
+                           obf_derst[1]);
 
-        //If the horizon is off the bottom edge of the screen,
-        //we can return immediately
-        if (obf.y() > m_vp.height)
-        {
-            if (drawLabel)
-                *drawLabel = false;
-            return QVector<Eigen::Vector2f>();
-        }
-
-        //We can also return if the horizon is off the top edge,
-        //as long as the ground poly is not being drawn
-        if (obf.y() < 0. && m_vp.fillGround == false)
-        {
-            if (drawLabel)
-                *drawLabel = false;
-            return QVector<Eigen::Vector2f>();
-        }
+        auto corner3 = rst(obf_derst[0] + dX,
+                           -dY);
+        auto corner4 = rst(obf_derst[0] - dX,
+                           -dY);
 
         QVector<Eigen::Vector2f> ground;
         //Construct the ground polygon, which is a simple rectangle in this case
-        ground << Eigen::Vector2f(x0 - dX, obf.y()) << Eigen::Vector2f(x0 + dX, obf.y()) << Eigen::Vector2f(x0 + dX, y0 + dY)
-               << Eigen::Vector2f(x0 - dX, y0 + dY);
+        ground << corner1
+               << corner2;
+        if (m_vp.fillGround) {
+               ground << corner3
+                      << corner4;
+        }
 
         if (labelpoint)
         {
-            QPointF pLabel(x0 - dX - 50., obf.y());
+            auto pLabel_ = corner2 - 50. * (corner1 - corner2).normalized();
+            QPointF pLabel(pLabel_[0], pLabel_[1]);
             KStarsData *data = KStarsData::Instance();
             *labelpoint      = fromScreen(pLabel, data->lst(), data->geo()->lat());
         }
@@ -147,23 +154,26 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
     }
     else
     {
-        float dX = m_vp.zoomFactor * M_PI / 2;
-        float dY = m_vp.zoomFactor * M_PI / 2;
+        float dX = m_vp.zoomFactor * M_PI; // RA ranges from 0 to 2π, so half-length is π
+        float dY = m_vp.zoomFactor * M_PI;
         QVector<Eigen::Vector2f> ground;
 
         static const QString horizonLabel = i18n("Horizon");
         float marginLeft, marginRight, marginTop, marginBot;
         SkyLabeler::Instance()->getMargins(horizonLabel, &marginLeft, &marginRight, &marginTop, &marginBot);
-        double daz = 90.;
+
+        double daz = 180.;
         double faz = m_vp.focus->az().Degrees();
         double az1 = faz - daz;
         double az2 = faz + daz;
 
+        bool inverted = ((m_vp.rotationAngle + 90.0_deg).reduce().Degrees() > 180.);
         bool allGround = true;
         bool allSky    = true;
 
         double inc = 1.0;
         //Add points along horizon
+        std::vector<Eigen::Vector2f> groundPoints;
         for (double az = az1; az <= az2 + inc; az += inc)
         {
             SkyPoint p   = pointAt(az);
@@ -171,7 +181,7 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
             Eigen::Vector2f o   = toScreenVec(&p, false, &visible);
             if (visible)
             {
-                ground.append(o);
+                groundPoints.push_back(o);
                 //Set the label point if this point is onscreen
                 if (labelpoint && o.x() < marginRight && o.y() > marginTop && o.y() < marginBot)
                     *labelpoint = p;
@@ -183,6 +193,9 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
             }
         }
 
+        if (inverted)
+            std::swap(allGround, allSky);
+
         if (allSky)
         {
             if (drawLabel)
@@ -190,17 +203,29 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
             return QVector<Eigen::Vector2f>();
         }
 
-        if (allGround)
+        const Eigen::Vector2f slope {m_vp.rotationAngle.cos(), m_vp.rotationAngle.sin()};
+        std::sort(groundPoints.begin(), groundPoints.end(), [&](const Eigen::Vector2f & a,
+                  const Eigen::Vector2f & b)
         {
-            ground.clear();
-            ground.append(Eigen::Vector2f(x0 - dX, y0 - dY));
-            ground.append(Eigen::Vector2f(x0 + dX, y0 - dY));
-            ground.append(Eigen::Vector2f(x0 + dX, y0 + dY));
-            ground.append(Eigen::Vector2f(x0 - dX, y0 + dY));
-            if (drawLabel)
-                *drawLabel = false;
-            return ground;
+            return a.dot(slope) < b.dot(slope);
+        });
+
+        for (auto point : groundPoints)
+        {
+            ground.append(point);
         }
+
+        // if (allGround)
+        // {
+        //     ground.clear();
+        //     ground.append(Eigen::Vector2f(x0 - dX, y0 - dY));
+        //     ground.append(Eigen::Vector2f(x0 + dX, y0 - dY));
+        //     ground.append(Eigen::Vector2f(x0 + dX, y0 + dY));
+        //     ground.append(Eigen::Vector2f(x0 - dX, y0 + dY));
+        //     if (drawLabel)
+        //         *drawLabel = false;
+        //     return ground;
+        // }
 
         if (labelpoint)
         {
@@ -211,11 +236,14 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
         if (drawLabel)
             *drawLabel = true;
 
-        //Now add points along the ground
-        ground.append(Eigen::Vector2f(x0 + dX, ground.last().y()));
-        ground.append(Eigen::Vector2f(x0 + dX, y0 + dY));
-        ground.append(Eigen::Vector2f(x0 - dX, y0 + dY));
-        ground.append(Eigen::Vector2f(x0 - dX, ground.first().y()));
+        const auto lat = KStarsData::Instance()->geo()->lat();
+        const Eigen::Vector2f perpendicular {-m_vp.rotationAngle.sin(), m_vp.rotationAngle.cos()};
+        const double sgn = (lat->Degrees() > 0 ? 1. : -1.);
+        if (m_vp.fillGround)
+        {
+            ground.append(groundPoints.back() + perpendicular * sgn * dY);
+            ground.append(groundPoints.front() + perpendicular * sgn * dY);
+        }
         return ground;
     }
 }

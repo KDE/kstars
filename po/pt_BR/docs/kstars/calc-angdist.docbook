@@ -29,7 +29,7 @@
 >coordenadas equatoriais</link
 > do par desejado de pontos para obter o ângulo entre os dois pontos. </para>
 <para
->Existe também um modo em lote para este módulo. No modo em lote, você especifica um nome de arquivo de entrada que contenha quatro números por linha: os valores RA e Dec para os pares de pontos. Alternativamente, você pode especificar um valor simples para qualquer uma das quatro coordenadas no painel da calculadora (os valores correspondentes no arquivo de entrada deverão ser pulados se estiverem especificados na calculadora). </para>
+>Há também um modo em lote para este módulo. No modo em lotes, você especifica um nome de arquivo de entrada que contém um número de parâmetros (até quatro) em cada linha: a ascensão reta inicial (AR), declinação inicial (Dec), ascensão final direita e declinação final. Por padrão, cada linha deve conter quatro números, significando os valores de AR e Dec para pares de pontos. Alternativamente, você pode especificar um valor único para qualquer uma dessas quatro coordenadas no painel da calculadora (os valores correspondentes no arquivo de entrada devem ser ignorados se forem especificados na calculadora). </para>
 <para
 >Uma vez que você tenha especificado o nome do arquivo de entrada e um nome de arquivo de saída, simplesmente pressione o botão <guibutton
 >Executar</guibutton

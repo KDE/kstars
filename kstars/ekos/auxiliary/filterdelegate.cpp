@@ -28,14 +28,15 @@ void UseAutoFocusDelegate::setEditorData(QWidget *, const QModelIndex &index) co
     cb->setChecked(value == 1);
 }
 
-void UseAutoFocusDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &) const
+void UseAutoFocusDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
+        const QModelIndex &) const
 {
     QStyleOptionButton checkboxstyle;
     QRect checkbox_rect = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &checkboxstyle);
 
     //center
     checkboxstyle.rect = option.rect;
-    checkboxstyle.rect.setLeft(option.rect.x() + option.rect.width()/2 - checkbox_rect.width()/2);
+    checkboxstyle.rect.setLeft(option.rect.x() + option.rect.width() / 2 - checkbox_rect.width() / 2);
 
     editor->setGeometry(checkboxstyle.rect);
 }
@@ -51,8 +52,8 @@ void UseAutoFocusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     QStyleOptionButton checkboxstyle;
     QRect checkbox_rect = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &checkboxstyle);
 
-    QRect rect(option.rect.x() + option.rect.width()/2 - checkbox_rect.width()/2,
-               option.rect.y() + option.rect.height()/2 - checkbox_rect.height()/2,
+    QRect rect(option.rect.x() + option.rect.width() / 2 - checkbox_rect.width() / 2,
+               option.rect.y() + option.rect.height() / 2 - checkbox_rect.height() / 2,
                checkbox_rect.width(), checkbox_rect.height());
 
     drawCheck(painter, option, rect, index.data().toBool() ? Qt::Checked : Qt::Unchecked);
@@ -60,7 +61,7 @@ void UseAutoFocusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 }
 
 bool UseAutoFocusDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &,
-                                   const QModelIndex &index)
+                                       const QModelIndex &index)
 {
     if (event->type() == QEvent::MouseButtonRelease)
     {
@@ -174,6 +175,6 @@ void LockDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewI
 
 void LockDelegate::setCurrentFilterList(const QStringList &list)
 {
-     m_FilterList = list;
-     m_FilterList.insert(0, "--");
+    m_FilterList = list;
+    m_FilterList.insert(0, "--");
 }

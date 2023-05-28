@@ -22,6 +22,7 @@ class RefocusState : public QObject
         {
             REFOCUS_NONE,         /* no need to refocus                                 */
             REFOCUS_HFR,          /* refocusing due to HFR (in sequence) value          */
+            REFOCUS_ADAPTIVE,     /* adaptive refocusing (in sequence)                  */
             REFOCUS_TEMPERATURE,  /* refocusing due to temperature change               */
             REFOCUS_TIME_ELAPSED, /* refocusing due to elapsed time since last focusing */
             REFOCUS_POST_MF       /* refocusing after a completed meridian flip         */
@@ -83,6 +84,15 @@ class RefocusState : public QObject
             m_InSequenceFocus = value;
         }
 
+        bool isAdaptiveFocusDone() const
+        {
+            return m_AdaptiveFocusDone;
+        }
+        void setAdaptiveFocusDone(bool value)
+        {
+            m_AdaptiveFocusDone = value;
+        }
+
         uint getInSequenceFocusCounter() const
         {
             return inSequenceFocusCounter;
@@ -138,7 +148,7 @@ class RefocusState : public QObject
          */
         void addHFRValue(const QString &filter);
 
-signals:
+    signals:
         // new log text for the module log window
         void newLog(const QString &text);
 
@@ -152,6 +162,8 @@ signals:
         bool m_AutoFocusReady { false };
         // focusing during the capture sequence
         bool m_InSequenceFocus { false };
+        // adaptive focusing complete
+        bool m_AdaptiveFocusDone { false };
         // counter how many captures to be executed until focusing is triggered
         uint inSequenceFocusCounter { 0 };
         // Temperature change since last focusing

@@ -85,7 +85,7 @@
 
 <sect1 id="settime">
 <title
->Establir el temps</title>
+>Establir l'hora</title>
 <para>
 <indexterm
 ><primary
@@ -93,9 +93,9 @@
 <secondary
 >La simulació del rellotge</secondary
 ></indexterm
->Quan s'inicia el &kstars;, la data i l'hora es prenen del rellotge del sistema de l'ordinador, i el rellotge del &kstars; comença a comptar en sincronització amb el temps real. Si voleu aturar el rellotge, seleccioneu l'element de menú <menuchoice
+>Quan s'inicia el &kstars;, la data i l'hora es prenen del rellotge del sistema de l'ordinador, i el rellotge del &kstars; comença a comptar en sincronització amb l'hora real. Si voleu aturar el rellotge, seleccioneu l'element de menú <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Atura el rellotge</guimenuitem
 ></menuchoice
@@ -111,7 +111,7 @@
 ></indexterm
 >La podeu establir seleccionant l'element de menú <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
 >Estableix la data i l'hora...</guimenuitem
 ></menuchoice
@@ -121,9 +121,9 @@
 >Estableix la data i l'hora</guilabel
 > utilitza un giny estàndard del &kde; per a seleccionar la data, junt amb un botó de selecció de valors per a establir l'hora i els minuts. Si voleu tornar a sincronitzar el rellotge de la simulació amb el de la CPU, simplement seleccioneu l'element de menú <menuchoice
 ><guimenu
->Temps</guimenu
+>Hora</guimenu
 > <guimenuitem
->Estableix l'hora a Ara</guimenuitem
+>Estableix l'hora a ara</guimenuitem
 ></menuchoice
 >.</para>
 
@@ -1397,7 +1397,7 @@
 >Colors</guilabel
 >. </para>
 <para
->Podeu establir el límit de magnitud per a mostrar una supernova, així com un límit de magnitud per a les alertes de supernova utilitzant els botons de selecció de valors. La magnitud limitant és la magnitud aparent més gran d'un objecte en el cel que és visible amb l'ull nu o un telescopi. </para>
+>Podeu establir el límit de magnitud per a mostrar una supernova, així com un límit de magnitud per a les alertes de supernova utilitzant els botons de selecció de valors. La magnitud limitant és la magnitud aparent més gran d'un objecte en el cel que és visible a simple vista o amb un telescopi. </para>
 <para
 >La llista de supernoves recents es pot actualitzar a través de l'element de menú <menuchoice
 ><guimenu
@@ -1721,7 +1721,7 @@
 >Corregeix per a la refracció atmosfèrica</guilabel
 > controla si les posicions dels objectes estan corregides per als efectes de l'atmosfera. A causa que aquesta és una clofolla esfèrica, la llum de l'espai exterior és <quote
 >doblegada</quote
-> en passar a través de l'atmosfera cap als nostres telescopis o ulls en la superfície. Dit efecte és més pronunciat per als objectes a prop de l'horitzó i realment canvia les prediccions de sortida/posta o temps establerts per als objectes en uns quants minuts! De fet, quan <quote
+> en passar a través de l'atmosfera cap als nostres telescopis o ulls en la superfície. Dit efecte és més pronunciat per als objectes a prop de l'horitzó i realment canvia les prediccions de sortida/posta o hores establertes per als objectes en uns quants minuts! De fet, quan <quote
 >veieu</quote
 > una posta de Sol, la posició real d'aquest ja està ven bé per sota de l'horitzó, a efectes de la refracció atmosfèrica sembla com si el Sol encara estigués en el cel! Cal tenir present que la refracció atmosfèrica mai serà aplicada si esteu emprant <guilabel
 >coordenades equatorials</guilabel
@@ -1767,7 +1767,7 @@
 >CPU</abbrev
 > no pot continuar amb la demanda, aleshores la vista apareixerà inactiva o desigual. Per a mitigar-ho, el &kstars; ocultarà certs objectes durant aquestes situacions, sempre que la casella de selecció <guilabel
 >Oculta els objectes en moure</guilabel
-> estigui seleccionada. El temps sobre el qual els objectes restaran ocults és determinat pel botó de selecció de valors <guilabel
+> estigui seleccionada. L'hora sobre la qual els objectes restaran ocults és determinat pel botó de selecció de valors <guilabel
 >Oculta també si el pas temporal és més gran que:</guilabel
 >. Podreu especificar els objectes que s'hauran d'ocultar a la secció <guilabel
 >Configura els objectes a ocultar</guilabel
@@ -1934,5 +1934,94 @@
 </listitem>
 </itemizedlist>
 
+</sect1>
+
+<sect1 id="skymap_orientation">
+  <title
+>Ajustar l'orientació del mapa celeste</title>
+  <para
+>Podeu ajustar diverses opcions de configuració perquè l'orientació del mapa celeste coincideixi amb la vista a través de l'instrument òptic, sempre que (a partir d'aquesta versió) l'instrument no reflecteixi el camp de visió (com es fa amb prismes utilitzats amb els SCT i els refractors). </para>
+  <para
+>Primer, trieu el sistema de coordenades que coincideixi amb la muntura. Per a un instrument muntat equatorialment, canvieu al mode de coordenades equatorials en el menú <guimenu
+>Visualitza</guimenu
+>. L'opció per a commutar el sistema de coordenades hauria de veure's <guilabel
+>Canvia a la vista horitzontal (coordenades horitzontals)</guilabel
+> quan el mode actual sigui coordenades equatorials. Per a un instrument muntat en altazimut o simple vista, canvieu a Coordenades horitzontals, de manera que l'opció en el menú <guimenu
+>Visualitza</guimenu
+> es vegi <guilabel
+>Commuta a la vista de l'esfera celeste (Coordenades equatorials)</guilabel
+>. Això estableix el sistema de coordenades base utilitzat per representar el mapa celeste, i també estableix la referència per a l'orientació del mapa celeste: zenit o nord. </para>
+  <para
+>Per a girar el mapa celeste lliurement, podeu mantenir premuda la tecla Maj i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostra la direcció nord i zenit en el punt, i que mostra l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla Maj o el botó del ratolí s'aturarà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu en diferents objectes, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència és el nord quan s'utilitzen coordenades equatorials i el zenit quan s'utilitzen coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. Per a les dues orientacions normals dretes i invertides, el gir es pot establir / restablir utilitzant el submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>). Seleccioneu «Nord cap avall» o «Zenit cap avall» segons s'apliqui per a establir una orientació de 180 graus. </para>
+  <para
+>Si esteu observant visualment a través de l'ocular d'un instrument, és possible que hàgiu de fer una mica més de correcció. Per al cas comú d'un gran telescopi Dobson (o més generalment un disseny newtonià muntat en una muntura altazimutal), és d'ajuda una correcció addicional sistemàtica. Aquesta correcció s'aplica perquè estem en posició dreta mentre utilitzem el telescopi independentment de l'angle que el tub del telescopi estigui fent amb el terra. Així que mentre movem el telescopi en altitud, cal aplicar una correcció addicional depenent de l'altitud de l'objecte per fer que el mapa celeste coincideixi amb la vista a través de l'ocular. Aquesta correcció s'activa marcant la casella de selecció <guilabel
+>Correcció d'observador dret</guilabel
+> del submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>. Aquesta correcció només té sentit en el mode de coordenades horitzontals i està desactivada quan s'utilitzen coordenades equatorials. </para>
+  <para
+>Finalment, proporcionem alguns exemples de com utilitzar aquests paràmetres en diversos instruments: <itemizedlist>
+      <listitem
+><para
+>Observació a simple vista: Trieu coordenades horitzontals i una orientació <guilabel
+>Zenit cap amunt</guilabel
+> des de <menuchoice
+><guimenu
+>Visualització</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Càmera en un telescopi muntat equatorialment: trieu les coordenades equatorials i ajusteu l'orientació del mapa celeste perquè coincideixi amb la càmera. Com que la muntura apunta a diferents regions del cel, l'orientació s'ha de renderitzar correctament.</para
+></listitem>
+      <listitem
+><para
+>Ús de binoculars: la mateixa configuració que l'observació a simple vista</para
+></listitem>
+      <listitem
+><para
+>Utilitzant un telescopi cercador RACI en un telescopi muntat en altazimut: la mateixa configuració que l'observació a simple vista, excepte que pot ser que hàgiu de modificar l'orientació manualment una vegada si el teniu muntat en un angle</para
+></listitem>
+      <listitem
+><para
+>Utilitzant un telescopi de cerca directa (vista invertida) en un telescopi muntat en altazimut: trieu coordenades horitzontals i una orientació del mapa celeste de <guilabel
+>Zenit cap avall</guilabel
+> en el submenú <menuchoice
+><guimenu
+>Visualització</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+></para
+></listitem>
+      <listitem
+><para
+>Ocular d'un telescopi Dobsonià: trieu coordenades horitzontals, i en el submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>, seleccioneu <guilabel
+>Zenit cap avall</guilabel
+> i marqueu l'opció <guilabel
+>Correcció d'observador dret</guilabel
+>. Després ajusteu l'orientació manualment una vegada per a fer coincidir la vista de l'ocular del telescopi, i d'ara endavant el seguiment hauria de ser correcte.</para
+></listitem>
+    </itemizedlist>
+  </para>
 </sect1
 >&hips; </chapter>

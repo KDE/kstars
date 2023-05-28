@@ -105,7 +105,7 @@
 >. L'ANSVR imita el servidor en línia d'«astrometry.net» en el vostre ordinador local. Per tant, no cal la Internet per a cap consulta d'astrometria. </para>
                     <para
 >Després d'instal·lar el servidor ANSVR i baixar els fitxers d'índex apropiats per a la seua configuració, assegureu-vos que el servidor ANSVR estiga activat i després aneu a les opcions d'alineació d'Ekos, on senzillament podreu canviar l'<guilabel
->URL de la API</guilabel
+>URL de l'API</guilabel
 > per a utilitzar el servidor ANSVR com es mostra a continuació: </para>
                     <screenshot>
                         <screeninfo

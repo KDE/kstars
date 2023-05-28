@@ -76,6 +76,8 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, &ClientManager::updateINDIProperty, this, &INDIListener::updateProperty);
     connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
 
+    connect(cm, &ClientManager::newINDIMessage, this,
+            &INDIListener::processMessage);
     connect(cm, &ClientManager::newINDIUniversalMessage, this,
             &INDIListener::processUniversalMessage);
 }

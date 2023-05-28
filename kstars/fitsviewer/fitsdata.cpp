@@ -22,6 +22,7 @@
 #include "Options.h"
 #include "skymapcomposite.h"
 #include "auxiliary/ksnotification.h"
+#include "auxiliary/robuststatistics.h"
 
 #include <KFormat>
 #include <QApplication>
@@ -38,6 +39,10 @@
 #include <libraw/libraw.h>
 #endif
 
+#ifdef HAVE_XISF
+#include <libxisf.h>
+#endif
+
 #include <cfloat>
 #include <cmath>
 
@@ -51,7 +56,7 @@
 
 QString getTemporaryPath()
 {
-    return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() +
+    return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" +
                 qAppName()).path();
 }
 
@@ -179,8 +184,10 @@ bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension)
     cacheHFR = -1;
     cacheEccentricity = -1;
 
-    if (extension.contains("fit"))
+    if (extension.contains("fit") || extension.contains("fz"))
         return loadFITSImage(buffer, extension);
+    if (extension.contains("xisf"))
+        return loadXISFImage(buffer);
     if (QImageReader::supportedImageFormats().contains(extension.toLatin1()))
         return loadCanonicalImage(buffer, extension);
     else if (RAWFormats.contains(extension))
@@ -210,7 +217,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
                                            QRegularExpression("[-{}]")));
 
-            rc = fp_unpack_file_to_fits(m_Filename.toLocal8Bit().data(), &fptr, fpvar) < 0;
+            rc = fp_unpack_file_to_fits(m_Filename.toLocal8Bit().data(), &fptr, fpvar) == 0;
             if (rc)
             {
                 m_Filename = uncompressedFile;
@@ -438,11 +445,159 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         calculateStats(false, false);
 
     if (m_Mode == FITS_NORMAL || m_Mode == FITS_ALIGN)
-        checkForWCS();
+        loadWCS();
 
     starsSearched = false;
 
     return true;
+}
+
+bool FITSData::loadXISFImage(const QByteArray &buffer)
+{
+    m_HistogramConstructed = false;
+    clearImageBuffers();
+
+#ifdef HAVE_XISF
+    try
+    {
+        LibXISF::XISFReader xisfReader;
+        if (buffer.isEmpty())
+        {
+            xisfReader.open(m_Filename.toLocal8Bit().data());
+        }
+        else
+        {
+            LibXISF::ByteArray byteArray(buffer.constData(), buffer.size());
+            xisfReader.open(byteArray);
+        }
+
+        if (xisfReader.imagesCount() == 0)
+        {
+            m_LastError = i18n("File contain no images");
+            return false;
+        }
+
+        const LibXISF::Image &image = xisfReader.getImage(0);
+
+        switch (image.sampleFormat())
+        {
+            case LibXISF::Image::UInt8:
+                m_Statistics.dataType = TBYTE;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt8);
+                m_FITSBITPIX = TBYTE;
+                break;
+            case LibXISF::Image::UInt16:
+                m_Statistics.dataType = TUSHORT;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt16);
+                m_FITSBITPIX = TUSHORT;
+                break;
+            case LibXISF::Image::UInt32:
+                m_Statistics.dataType = TULONG;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::UInt32);
+                m_FITSBITPIX = TULONG;
+                break;
+            case LibXISF::Image::Float32:
+                m_Statistics.dataType = TFLOAT;
+                m_Statistics.bytesPerPixel = sizeof(LibXISF::Float32);
+                m_FITSBITPIX = TFLOAT;
+                break;
+            default:
+                m_LastError = i18n("Sample format %1 is not supported.", LibXISF::Image::sampleFormatString(image.sampleFormat()).c_str());
+                qCCritical(KSTARS_FITS) << m_LastError;
+                return false;
+        }
+
+        m_Statistics.width = image.width();
+        m_Statistics.height = image.height();
+        m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
+        m_Statistics.channels = image.channelCount();
+        m_Statistics.size = buffer.size();
+        roiCenter.setX(m_Statistics.width / 2);
+        roiCenter.setY(m_Statistics.height / 2);
+        if(m_Statistics.width % 2)
+            roiCenter.setX(roiCenter.x() + 1);
+        if(m_Statistics.height % 2)
+            roiCenter.setY(roiCenter.y() + 1);
+
+        m_HeaderRecords.clear();
+        auto &fitsKeywords = image.fitsKeywords();
+        for(auto &fitsKeyword : fitsKeywords)
+            m_HeaderRecords.push_back({QString::fromStdString(fitsKeyword.name), QString::fromStdString(fitsKeyword.value), QString::fromStdString(fitsKeyword.comment)});
+
+        QVariant value;
+        if (getRecordValue("DATE-OBS", value) && value.isValid())
+        {
+            QDateTime ts = value.toDateTime();
+            m_DateTime = KStarsDateTime(ts.date(), ts.time());
+        }
+
+        m_ImageBufferSize = image.imageDataSize();
+        m_ImageBuffer = new uint8_t[m_ImageBufferSize];
+        std::memcpy(m_ImageBuffer, image.imageData(), m_ImageBufferSize);
+
+        calculateStats(false, false);
+        loadWCS();
+    }
+    catch (LibXISF::Error &error)
+    {
+        m_LastError = i18n("XISF file open error: ") + error.what();
+        return false;
+    }
+    return true;
+#else
+    return false;
+#endif
+
+}
+
+bool FITSData::saveXISFImage(const QString &newFilename)
+{
+#ifdef HAVE_XISF
+    try
+    {
+        LibXISF::XISFWriter xisfWriter;
+        LibXISF::Image image;
+        image.setGeometry(m_Statistics.width, m_Statistics.height, m_Statistics.channels);
+        if (m_Statistics.channels > 1)
+            image.setColorSpace(LibXISF::Image::RGB);
+
+        switch (m_FITSBITPIX)
+        {
+            case BYTE_IMG:
+                image.setSampleFormat(LibXISF::Image::UInt8);
+                break;
+            case USHORT_IMG:
+                image.setSampleFormat(LibXISF::Image::UInt16);
+                break;
+            case ULONG_IMG:
+                image.setSampleFormat(LibXISF::Image::UInt32);
+                break;
+            case FLOAT_IMG:
+                image.setSampleFormat(LibXISF::Image::Float32);
+                break;
+            default:
+                m_LastError = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
+                qCCritical(KSTARS_FITS) << m_LastError;
+                return false;
+        }
+
+        std::memcpy(image.imageData(), m_ImageBuffer, m_ImageBufferSize);
+        for (auto &fitsKeyword : m_HeaderRecords)
+            image.addFITSKeyword({fitsKeyword.key.toUtf8().data(), fitsKeyword.value.toString().toUtf8().data(), fitsKeyword.comment.toUtf8().data()});
+
+        xisfWriter.writeImage(image);
+        xisfWriter.save(newFilename.toLocal8Bit().data());
+        m_Filename = newFilename;
+    }
+    catch (LibXISF::Error &err)
+    {
+        m_LastError = i18n("Error saving XISF image") + err.what();
+        return false;
+    }
+    return true;
+#else
+    return false;
+#endif
 }
 
 bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &extension)
@@ -475,7 +630,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     // Note: This will need to be changed.  I think QT only loads 8 bpp images.
     // Also the depth method gives the total bits per pixel in the image not just the bits per
     // pixel in each channel.
-    const int m_FITSBITPIX = 8;
+    m_FITSBITPIX = BYTE_IMG;
     switch (m_FITSBITPIX)
     {
         case BYTE_IMG:
@@ -771,6 +926,17 @@ bool FITSData::saveImage(const QString &newFilename)
     int status = 0;
     long nelements;
     fitsfile * new_fptr;
+
+    if (ext == "xisf")
+    {
+        if(fptr)
+        {
+            fits_close_file(fptr, &status);
+            fptr = nullptr;
+        }
+        rotCounter = flipHCounter = flipVCounter = 0;
+        return saveXISFImage(newFilename);
+    }
 
     //    if (HasDebayer && m_Filename.isEmpty() == false)
     //    {
@@ -1413,7 +1579,11 @@ void FITSData::calculateMedian(bool roi)
         downsample = (static_cast<double>(medianSize) / maxMedianSize) + 0.999;
         medianSize /= downsample;
     }
-    std::vector<T> samples;
+    // Ideally samples would be declared like this...
+    //std::vector<T> samples;
+    // Unfortunately this doesn't compile on Mac - see the comments in robuststatistics.cpp for more details
+    // So for now declare samples like this...
+    std::vector<int32_t> samples;
     samples.reserve(medianSize);
 
     for (uint8_t n = 0; n < m_Statistics.channels; n++)
@@ -1422,9 +1592,8 @@ void FITSData::calculateMedian(bool roi)
         for (uint32_t upto = 0; upto < (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
                 upto += downsample)
             samples.push_back(oneChannel[upto]);
-        const uint32_t middle = samples.size() / 2;
-        std::nth_element(samples.begin(), samples.begin() + middle, samples.end());
-        roi ? m_ROIStatistics.median[n] = samples[middle] : m_Statistics.median[n] = samples[middle];
+        auto median = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_MEDIAN, samples);
+        roi ? m_ROIStatistics.median[n] = median : m_Statistics.median[n] = median;
     }
 }
 
@@ -1938,22 +2107,19 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
     }
 }
 
-int FITSData::filterStars(const float innerRadius, const float outerRadius)
+int FITSData::filterStars(QSharedPointer<ImageMask> mask)
 {
-    long const sqDiagonal = (long) this->width() * (long) this->width() / 4 + (long) this->height() * (long) this->height() / 4;
-    long const sqInnerRadius = std::lround(sqDiagonal * innerRadius * innerRadius);
-    long const sqOuterRadius = std::lround(sqDiagonal * outerRadius * outerRadius);
-
-    starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(),
-                                     [&](Edge * edge)
+    if (mask.isNull() == false)
     {
-        long const x = edge->x - this->width() / 2;
-        long const y = edge->y - this->height() / 2;
-        long const sqRadius = x * x + y * y;
-        return sqRadius < sqInnerRadius || sqOuterRadius < sqRadius;
-    }), starCenters.end());
+        starCenters.erase(std::remove_if(starCenters.begin(), starCenters.end(),
+                                         [&](Edge * edge)
+        {
+            return (mask->isVisible(edge->x, edge->y) == false);
+        }), starCenters.end());
+    }
 
     return starCenters.count();
+
 }
 
 double FITSData::getHFR(HFRType type)
@@ -2028,41 +2194,33 @@ double FITSData::getHFR(HFRType type)
     if (removeSaturatedStars && numSaturated > 0)
         qCDebug(KSTARS_FITS) << "Removing " << numSaturated << " stars from HFR calculation";
 
-    QVector<double> HFRs;
+    std::vector<double> HFRs;
+
     for (auto center : starCenters)
     {
         if (removeSaturatedStars && center->val > saturationValue) continue;
-        HFRs << center->HFR;
+
+        if (type == HFR_AVERAGE)
+            HFRs.push_back(center->HFR);
+        else
+        {
+            // HFR_ADJ_AVERAGE - so adjust the HFR based on the stars brightness
+            // HFRadj = HFR.erf(sqrt(ln(peak/background)))/(1 - background/peak)
+            // Sanity check inputs to equation blowing up
+            if (m_SkyBackground.mean <= 0.0 || center->val < m_SkyBackground.mean)
+                qCDebug(KSTARS_FITS) << "HFR Adj, sky background " << m_SkyBackground.mean << " star peak " << center->val << " ignoring";
+            else
+            {
+                const double a_div_b = center->val / m_SkyBackground.mean;
+                const double factor = erf(sqrt(log(a_div_b))) / (1 - (1 / a_div_b));
+                HFRs.push_back(center->HFR * factor);
+                qCDebug(KSTARS_FITS) << "HFR Adj, brightness adjusted from " << center->HFR << " to " << center->HFR * factor;
+            }
+        }
     }
-    std::sort(HFRs.begin(), HFRs.end());
 
-    double sum = std::accumulate(HFRs.begin(), HFRs.end(), 0.0);
-    double m =  sum / HFRs.size();
-
-    if (HFRs.size() > 3)
-    {
-        double accum = 0.0;
-        std::for_each (HFRs.begin(), HFRs.end(), [&](const double d)
-        {
-            accum += (d - m) * (d - m);
-        });
-        double stddev = sqrt(accum / (HFRs.size() - 1));
-
-        // Remove stars over 2 standard deviations away.
-        auto end1 = std::remove_if(HFRs.begin(), HFRs.end(), [m, stddev](const double hfr)
-        {
-            return hfr > (m + stddev * 2);
-        });
-        auto end2 = std::remove_if(HFRs.begin(), end1, [m, stddev](const double hfr)
-        {
-            return hfr < (m - stddev * 2);
-        });
-
-        // New mean
-        sum = std::accumulate(HFRs.begin(), end2, 0.0);
-        const int num_remaining = std::distance(HFRs.begin(), end2);
-        if (num_remaining > 0) m = sum / num_remaining;
-    }
+    auto m = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_SIGMACLIPPING,
+             HFRs, 2);
 
     cacheHFR = m;
     cacheHFRType = HFR_AVERAGE;
@@ -2541,78 +2699,7 @@ QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame) const
     return starCentersInSubFrame;
 }
 
-bool FITSData::checkForWCS()
-{
-#ifndef KSTARS_LITE
-#ifdef HAVE_WCSLIB
-
-    int status = 0;
-    char * header = nullptr;
-    int nkeyrec = 0, nreject = 0;
-
-    // Free wcs before re-use
-    if (m_WCSHandle != nullptr)
-    {
-        wcsvfree(&m_nwcs, &m_WCSHandle);
-        m_WCSHandle = nullptr;
-        m_nwcs = 0;
-    }
-
-    if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
-    {
-        char errmsg[512];
-        fits_get_errstatus(status, errmsg);
-        m_LastError = errmsg;
-        return false;
-    }
-
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, 0, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
-    {
-        fits_free_memory(header, &status);
-        header = nullptr;
-        wcsvfree(&m_nwcs, &m_WCSHandle);
-        m_WCSHandle = nullptr;
-        m_nwcs = 0;
-        m_LastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
-        return false;
-    }
-
-    fits_free_memory(header, &status);
-    header = nullptr;
-
-    if (m_WCSHandle == nullptr)
-    {
-        m_LastError = i18n("No world coordinate systems found.");
-        return false;
-    }
-
-    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (m_WCSHandle->crpix[0] == 0)
-    {
-        wcsvfree(&m_nwcs, &m_WCSHandle);
-        m_WCSHandle = nullptr;
-        m_nwcs = 0;
-        m_LastError = i18n("No world coordinate systems found.");
-        return false;
-    }
-
-    cdfix(m_WCSHandle);
-    if ((status = wcsset(m_WCSHandle)) != 0)
-    {
-        wcsvfree(&m_nwcs, &m_WCSHandle);
-        m_WCSHandle = nullptr;
-        m_nwcs = 0;
-        m_LastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
-        return false;
-    }
-
-    HasWCS = true;
-#endif
-#endif
-    return HasWCS;
-}
-
-bool FITSData::loadWCS(bool extras)
+bool FITSData::loadWCS()
 {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 
@@ -2631,22 +2718,42 @@ bool FITSData::loadWCS(bool extras)
 
     qCDebug(KSTARS_FITS) << "Started WCS Data Processing...";
 
+    QByteArray header_str;
     int status = 0;
-    char * header = nullptr;
     int nkeyrec = 0, nreject = 0;
-
-    if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
+    if (fptr)
     {
-        char errmsg[512];
-        fits_get_errstatus(status, errmsg);
-        m_LastError = errmsg;
-        m_WCSState = Failure;
-        return false;
+        char *header = nullptr;
+        if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
+        {
+            char errmsg[512];
+            fits_get_errstatus(status, errmsg);
+            m_LastError = errmsg;
+            m_WCSState = Failure;
+            return false;
+        }
+        header_str = QByteArray(header);
+        fits_free_memory(header, &status);
+    }
+    else
+    {
+        nkeyrec = 1;
+        for(auto &fitsKeyword : m_HeaderRecords)
+        {
+            QByteArray rec;
+            rec.append(fitsKeyword.key.leftJustified(8, ' ').toLatin1());
+            rec.append("= ");
+            rec.append(fitsKeyword.value.toByteArray());
+            rec.append(" / ");
+            rec.append(fitsKeyword.comment.toLatin1());
+            header_str.append(rec.leftJustified(80, ' ', true));
+            nkeyrec++;
+        }
+        header_str.append(QByteArray("END").leftJustified(80));
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, 0, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
+    if ((status = wcspih(header_str.data(), nkeyrec, WCSHDR_all, 0, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
     {
-        fits_free_memory(header, &status);
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
         m_nwcs = 0;
@@ -2654,9 +2761,6 @@ bool FITSData::loadWCS(bool extras)
         m_WCSState = Failure;
         return false;
     }
-
-    fits_free_memory(header, &status);
-    header = nullptr;
 
     if (m_WCSHandle == nullptr)
     {
@@ -2689,7 +2793,6 @@ bool FITSData::loadWCS(bool extras)
 
     m_ObjectsSearched = false;
     m_WCSState = Success;
-    FullWCS = extras;
     HasWCS = true;
 
     qCDebug(KSTARS_FITS) << "Finished WCS Data processing...";

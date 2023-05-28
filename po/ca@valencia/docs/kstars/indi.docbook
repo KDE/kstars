@@ -59,7 +59,7 @@
 ><para
 ><guilabel
 >Client</guilabel
->: El mode client s'utilitza per a connectar a servidors INDI remots que estan executant dispositius INDI. Es poden controlar de manera fluida els dispositius remots com si es tractara de dispositius locals. </para
+>: El mode client s'utilitza per a connectar amb servidors INDI remots que estan executant dispositius INDI. Es poden controlar de manera fluida els dispositius remots com si es tractara de dispositius locals. </para
 ></listitem>
 </orderedlist>
 
@@ -345,7 +345,7 @@
 ></important>
 
 <para
->&kstars; actualitza automàticament la llargària, latitud i el temps del telescopi d'acord amb la configuració actual a &kstars;. Ho podeu activar/desactivar utilitzant la pàgina <guilabel
+>&kstars; actualitza automàticament la longitud, latitud i el temps del telescopi d'acord amb la configuració actual a &kstars;. Ho podeu activar/desactivar utilitzant la pàgina <guilabel
 >INDI</guilabel
 > des de l'element de menú <menuchoice
 ><guimenu
@@ -1121,7 +1121,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 </listitem>
 <listitem>
 <para
->Són correctes els valors de la llargària i latitud del telescopi?</para>
+>Són correctes els valors de la longitud i latitud del telescopi?</para>
 </listitem>
 <listitem>
 <para

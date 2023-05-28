@@ -11,8 +11,8 @@
 >O meridiano local</title>
 <indexterm
 ><primary
->Meridiano local</primary>
-<seealso
+>Meridiano local</primary
+><seealso
 >Hora angular</seealso
 > <seealso
 >Esfera celeste</seealso
@@ -21,11 +21,11 @@
 >O meridiano local é um <link linkend="ai-greatcircle"
 >grande círculo</link
 > imaginário na <link linkend="ai-csphere"
->esfera celestial</link
+>esfera celeste</link
 > que é perpendicular ao <link linkend="ai-horizon"
 >horizonte</link
 > local. Ele passa através do ponto norte do horizonte, pelo <link linkend="ai-cpoles"
->polo celestial</link
+>polo celeste</link
 >, até o <link linkend="ai-zenith"
 >zênite</link
 >, e pelo ponto sul do horizonte. </para

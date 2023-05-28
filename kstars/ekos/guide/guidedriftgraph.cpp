@@ -96,7 +96,7 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     graph(GuideGraph::G_DEC)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
     graph(GuideGraph::G_DEC)->setName("DE");
     graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsLine);
-    
+
     // RA highlighted Point
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
@@ -322,7 +322,8 @@ void GuideDriftGraph::autoScaleGraphs()
 
 void GuideDriftGraph::zoomX(int zoomLevel)
 {
-    double key = (guideElapsedTimer.isValid() || guideTimer.isValid() || guideTimer.isNull()) ? 0 : guideElapsedTimer.elapsed() / 1000.0;
+    double key = (guideElapsedTimer.isValid() || guideTimer.isValid()
+                  || guideTimer.isNull()) ? 0 : guideElapsedTimer.elapsed() / 1000.0;
 
     // The # of seconds displayd on the x-axis of the drift-graph for the various zoom levels.
     static std::vector<int> zoomLevels = {15, 30, 60, 120, 300, 900, 1800, 3600, 7200, 14400};

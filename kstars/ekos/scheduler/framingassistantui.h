@@ -93,7 +93,6 @@ class FramingAssistantUI : public QDialog
 
     private:
 
-        QString sanitize(const QString &name);
         SkyPoint m_CenterPoint;
         Ui::FramingAssistant *ui {nullptr};
 

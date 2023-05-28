@@ -1926,5 +1926,94 @@
 </listitem>
 </itemizedlist>
 
+</sect1>
+
+<sect1 id="skymap_orientation">
+  <title
+>Oriëntatie van de hemelkaart aanpassen</title>
+  <para
+>U kunt verschillende instellingen aanpassen om de oriëntatie van de hemelkaart overeen te laten komen met het beeld door uw optische instrument, aangenomen (vanaf deze versie) dat het instrument het zichtveld niet spiegelt (zoals door prisma's gebruikt met SCT's en refractoren wordt gedaan). </para>
+  <para
+>Ten eerste, kies het coördinatensysteem dat overeenkomt met uw opstelling. Voor een equatoriaal opgesteld instrument, schakel naar de modus Equatoriale coördinaat in het menu <guimenu
+>Beeld</guimenu
+>. De optie om het coördinatensysteem om te schakelen zou er uit moeten zien als <guilabel
+>Schakel naar horizontaal beeld (Horizontale coördinaten)</guilabel
+> wanneer de huidige modus Equatoriale coördinaten is. Voor een altazimuth opgesteld instrument of zien met blote oog, schakelt naar Horizontale coördinaten, zodat de optie in het menu <guimenu
+>Beeld</guimenu
+> er uitziet als <guilabel
+>Schakel naar Sterrenglobe beeld (Equatoriale coördinaten)</guilabel
+>. Dit stelt het basis coördinatensysteem, gebruikt om de hemelkaart te maken, in en ook de referentie voor de oriëntatie van de hemelkaart: zenit of noord. </para>
+  <para
+>Om de hemelkaart vrij te draaien, kunt u de toets Shift indrukken en de muis op de hemelkaart slepen. Een tijdelijke overlay zal verschijnen die de richting noord en zenit aan de punt laat zien, en de hoek toont die ze maken met se verticaal op een linksom manier. De oriëntaties van zenit en noord zullen bijgewerkt worden als u de hemelkaart draait. De toets Shift of de muisknop loslaten zal het draaien stoppen. Tijdens het draaien van de hemelkaart of deze focust op andere objecten, zal de draaiing die u instelt behouden worden als een offset vanaf de referentie richting. De referentie richting is noord bij gebruik van Equatoriale coördinaten en  zenith bij gebruik van Horizontale coördinaten. Voor aandacht trekken is de referentie richting vet en helderder in de tijdelijke overlay. Voor de twee algemene oriëntaties van rechtop en geïnverteerd, kan de draaiing ingesteld / gereset worden met het submenu <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Oriëntatie van hemelkaart</guisubmenu
+></menuchoice
+>. Selecteer "Noord omlaag" of "Zenit omlaag" zoals van toepassing is om een oriëntatie van 180 graden in te stellen. </para>
+  <para
+>Als u op zicht waarneemt door een oogstuk van een instrument, dan moet u misschien enige correctie toepassen. Voor het algemene geval van een grote Dobsonian telescoop (of algemener en Newto-ontwerp opgesteld op een altazimuth opstelling), is een systematische additionele correctie behulpzaam. Deze correctie is van toepassing omdat we rechtop staan bij gebruik van de telescoop onafhankelijk van de hoek die de telescoopbuis maakt met de grond. Dus bij het verplaatsen van de telescoop in hoogte, moet een additionele correctie toegepast worden afhankelijk van de hoogte van het object om de hemelkaart overeen te laten komen met het beeld door het oogstuk. Deze correctie is ingeschakeld door het keuzevakje <guilabel
+>Correctie voor rechtop staande waarnemer</guilabel
+> te activeren in het submenu <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Oriëntatie van hemelkaart</guisubmenu
+></menuchoice
+>. Deze correctie is zinvol in de modus Horizontale coördinaten en is uitgeschakeld bij gebruik van equatoriale coördinaten. </para>
+  <para
+>Tenslotte bieden we enige voorbeelden van hoe deze instellingen voor verschillende instrumenten te gebruiken: <itemizedlist>
+      <listitem
+><para
+>Observeren met het blote oog: kies Horizontale coördinaten en een oriëntatie <guilabel
+>Zenit omhoog</guilabel
+> onder <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Oriëntatie van hemelkaart</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Camera op een equatoriaal opgestelde telescoop: kiese Equatoriale coördinaten en pas de oriëntatie van de hemelkaart aan zodat het overeenkomt met uw camera. Als uw opstelling naar andere regio's van de hemel wijst, zou de oriëntatie juist weer gegeven moeten worden.</para
+></listitem>
+      <listitem
+><para
+>Verrekijker gebruiken: dezelfde instellingen als observeren met het blote oog</para
+></listitem>
+      <listitem
+><para
+>Bij gebruik van een RACI zoekscoop op een altazimuth opgestelde telescopp: Zelfde instellingen als waarnemen met het blote oog, behalve dat u misschien de oriëntatie eenmalig handmatig moet aanpassen als u het met een hoek hebt opgesteld</para
+></listitem>
+      <listitem
+><para
+>Met gebruik van een recht doorgaande (geïnverteerd beeld) zoekscoop op een altazimuth opgestelde telescoop: kies Horizontale coördinaten en een oriëntatie van de hemelkaart <guilabel
+>Zenit omlaag</guilabel
+> in het submenu <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Oriëntatie van hemelkaart</guisubmenu
+></menuchoice
+></para
+></listitem>
+      <listitem
+><para
+>Oogstuk van een Dobsonian telescoop: kies Horizontale coördinaten en in het submenu <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Oriëntatie van de hemelkaart</guisubmenu
+></menuchoice
+>, selecteer <guilabel
+>Zenit omlaag</guilabel
+> en activeer de optie <guilabel
+>Correctie voor rechtop staande waarnemer</guilabel
+>. Pas daarna de oriëntatie eenmalig handmatig aan om het overeen te laten komen met het beeld in uw oogstuk van de telescoop en het zou daarom juist moeten volgen.</para
+></listitem>
+    </itemizedlist>
+  </para>
 </sect1
 >&hips; </chapter>

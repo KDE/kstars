@@ -74,7 +74,7 @@
 </question>
 <answer>
 <para
->Si vous souhaitez utiliser une position qui n'est pas sur la liste, veuillez entrer l'information pertinente (longitude, latitude, nom de ville, nom de province et nom du pays), puis appuyez sur le bouton <guibutton
+>Si vous souhaitez utiliser une position qui n'est pas sur la liste, veuillez saisir l'information pertinente (longitude, latitude, nom de ville, nom de province et nom du pays), puis appuyez sur le bouton <guibutton
 >Ajouter ville</guibutton
 >. Tous les champs doivent être remplis, sauf celui de la province qui est optionnel. Vous pouvez également modifier les valeurs d'une ville existante, en les modifiant simplement dans la fenêtre puis en l'ajoutant à la liste. </para>
 </answer>

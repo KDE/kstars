@@ -260,7 +260,7 @@ bool TestEkosCaptureCount::prepareCapture()
         KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));
 
     // fill the captured frames map that hold the numbers of already taken frames
-    KVERIFY_SUB(fillCapturedFramesMap(capturedFramesMap));
+    KVERIFY_SUB(fillCapturedFramesMap(capturedFramesMap, imagepath));
 
     // fill the map of expected frames
     KVERIFY_SUB(setExpectedFrames(expectedFrames));
@@ -290,7 +290,7 @@ bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondi
     {
         KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, capturedFramesMap, exptime,
                     m_CaptureHelper->getImageLocation()->filePath(target)));
-        KVERIFY_SUB(fillCapturedFramesMap(""));
+        KVERIFY_SUB(fillCapturedFramesMap("", m_CaptureHelper->getImageLocation()->filePath(target)));
         KVERIFY_SUB(setExpectedFrames(capturedFramesMap));
 
         // create the expected frames
@@ -306,7 +306,7 @@ bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondi
     QString imagepath = m_CaptureHelper->getImageLocation()->path() + "/" + target;
 
     KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));
-    KVERIFY_SUB(fillCapturedFramesMap(""));
+    KVERIFY_SUB(fillCapturedFramesMap("", imagepath));
     if (rememberJobProgress)
         KVERIFY_SUB(setExpectedFrames(expectedFrames));
     else
@@ -451,7 +451,7 @@ void TestEkosCaptureCount::prepareTestData(double exptime, QString sequence, QSt
                 << exptime << sequence << capturedFramesMap << expectedFrames << iterations << remember;
 }
 
-bool TestEkosCaptureCount::fillCapturedFramesMap(QString capturedFramesMap)
+bool TestEkosCaptureCount::fillCapturedFramesMap(QString capturedFramesMap, QString imagepath)
 {
     if (capturedFramesMap != "")
     {
@@ -460,7 +460,8 @@ bool TestEkosCaptureCount::fillCapturedFramesMap(QString capturedFramesMap)
             KVERIFY_SUB(value.indexOf(":") > -1);
             QString filter = value.left(value.indexOf(":"));
             int count      = value.right(value.length() - value.indexOf(":") - 1).toInt();
-            Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(m_CaptureHelper->calculateSignature(target, filter),
+            Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(m_CaptureHelper->calculateSignature(target, filter,
+                    imagepath),
                     count);
         }
     }

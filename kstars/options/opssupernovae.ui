@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>334</width>
-    <height>136</height>
+    <width>694</width>
+    <height>270</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -21,31 +21,25 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="1" column="3">
-           <spacer name="horizontalSpacer_2">
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="kcfg_SupernovaDownloadUrl">
+            <property name="text">
+             <string>https://indilib.org/jdownloads/kstars/tns-daily.csv</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <spacer name="verticalSpacer">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>20</width>
+              <height>40</height>
              </size>
             </property>
            </spacer>
-          </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="kcfg_ShowSupernovae">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Show supernovae</string>
-            </property>
-            <property name="tristate">
-             <bool>false</bool>
-            </property>
-           </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label">
@@ -54,23 +48,16 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_2">
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="kcfg_LimitSupernovaeByZoom">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="text">
-             <string>Set the magnitude limit for supernova alerts:</string>
+             <string>Limit supernovae by zoom limit</string>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="kcfg_MagnitudeLimitShowSupernovae">
-            <property name="decimals">
-             <number>0</number>
-            </property>
-            <property name="maximum">
-             <double>30.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>16.000000000000000</double>
+            <property name="tristate">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -87,31 +74,76 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="kcfg_ShowSupernovae">
+            <property name="enabled">
+             <bool>true</bool>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
+            <property name="text">
+             <string>Show supernovae</string>
             </property>
-           </spacer>
+            <property name="tristate">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
-          <item row="1" column="2">
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="kcfg_MagnitudeLimitShowSupernovae">
+            <property name="decimals">
+             <number>0</number>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
+            <property name="maximum">
+             <double>30.000000000000000</double>
             </property>
-           </spacer>
+            <property name="value">
+             <double>16.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Set the magnitude limit for supernova alerts:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Download URL</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Age (days)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QSpinBox" name="kcfg_SupernovaDetectionAge">
+            <property name="maximum">
+             <number>30000</number>
+            </property>
+            <property name="value">
+             <number>60</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="kcfg_SupernovaeHostOnly">
+            <property name="text">
+             <string>Show only SN with host galaxy given</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="kcfg_SupernovaeClassifiedOnly">
+            <property name="text">
+             <string>Show only classified Supernovae</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

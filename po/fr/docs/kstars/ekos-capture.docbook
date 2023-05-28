@@ -23,7 +23,7 @@
         </mediaobject>
     </screenshot>
     <para
->Le module CDD est le module d'acquisition d'images et de vidéos d'Ekos. Il permet l'acquisition d'image unique (aperçu), d'images multiples (file de séquence) et d'enregistrer des vidéos au format <ulink url="https://sites.google.com/site/astropipp/ser-player"
+>Le module Acquisition est le module principal d'acquisition d'images et de vidéos d'Ekos. Il permet l'acquisition d'image unique (aperçu), d'images multiples (file de séquence) et d'enregistrer des vidéos au format <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 > tout en gérant éventuellement une roue à filtres et un rotateur si ces périphériques sont disponibles. </para>
     <sect3 id="capture-ccd-filter-wheel">
@@ -144,7 +144,7 @@
 ><guilabel
 >Calibration</guilabel
 > : pour les trames Dark et Flat, vous pouvez spécifier des options additionnelles expliquées dans la section de la <link linkend="capture-calibration-frames"
->calibrations des trames</link
+>calibration des trames</link
 > ci-dessous. </para>
             </listitem>
             <listitem>
@@ -223,50 +223,104 @@
             <listitem>
                 <para
 ><guilabel
->Préfixe</guilabel
-> : spécifie le préfixe à ajouter au nom généré. Vous pouvez également ajouter le type de trame, le filtre, la durée d'exposition et l'horodatage au format ISO 8601. Par exemple, si vous spécifiez un préfixe <userinput
->M45</userinput
-> et cochez les cases Type et Filtre avec un filtre <guimenuitem
->Rouge</guimenuitem
-> et un type <guimenuitem
->Light</guimenuitem
->, le nom généré ressemblera à : </para>
-                <itemizedlist>
-                    <listitem>
-                        <para
->M45_Light_Rouge_001.fits </para>
-                    </listitem>
-                    <listitem>
-                        <para
->M45_Light_Rouge_002.fits </para>
-                    </listitem>
-                </itemizedlist>
+>Cible</guilabel
+> : le nom de la cible à acquérir, par exemple M42. Peut être préchargée par le module Ordonnanceur ou par sélection dans KStars. </para>
+            </listitem>
+            <listitem>
                 <para
->Si la case <guilabel
->HD</guilabel
-> est cochée, un horodatage sera ajouté au nom de fichier, c'est-à-dire : </para>
+><guilabel
+>Format</guilabel
+> : la chaîne format définit l'emplacement et le nom du fichier des images acquises grâce à l'utilisation d'étiquettes réservées renseignées de l'élément sélectionné à l'heure d'enregistrement. </para>
+                <para
+>Une étiquette est identifiée par le caractère %. Toutes les étiquettes ont la forme d'une seule lettre ainsi qu'une description longue. </para>
+                <para
+>Du texte libre peur être inclus dans la chaîne format, <emphasis role="bold"
+>sauf les caractères % et \</emphasis
+>. Le caractère d'emplacement / peut être utilisé pour définir des dossiers arbitraires. </para>
+                <para
+>Note : les étiquettes sont sensibles à la casse dans leur forme courte et longue. </para>
+                <para
+>Étiquettes réservées disponibles : </para>
                 <itemizedlist>
                     <listitem>
                         <para
->M45_Light_Rouge_001_2016-11-09T23-47-46.fits</para>
+><emphasis role="bold"
+>%f</emphasis
+> ou <emphasis role="bold"
+>%filename</emphasis
+> : le nom du fichier de séquence .seq, sans extension. </para>
                     </listitem>
                     <listitem>
                         <para
->M45_Light_Rouge_002_2016-11-09T23-48-34.fits</para>
+><emphasis role="bold"
+>%D</emphasis
+> ou <emphasis role="bold"
+>%Datetime</emphasis
+> : l'heure et la date courante <emphasis role="bold"
+>au moment de l'enregistrement. N'utilisez cette étiquette que dans la portion du nom de fichier du format, et non dans celle de l'emplacement</emphasis
+>. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%T</emphasis
+> ou <emphasis role="bold"
+>%Type</emphasis
+>: le type de trame &pex; 'Light', 'Bias', 'Dark', 'Flat'… </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%e</emphasis
+> ou <emphasis role="bold"
+>%exposure</emphasis
+>: la durée d'exposition en secondes. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%F</emphasis
+> ou <emphasis role="bold"
+>%Filter</emphasis
+>: le nom du filtre actif. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%t</emphasis
+> ou <emphasis role="bold"
+>%target</emphasis
+>: le nom de la cible. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%s*</emphasis
+> ou <emphasis role="bold"
+>%sequence*</emphasis
+> : l'identifiant de la séquence d'images où * est le nombre de chiffres utilisés (1-9). <emphasis role="bold"
+>Cette étiquette est obligatoire et doit être le dernier élément du format</emphasis
+>. </para>
                     </listitem>
                 </itemizedlist>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Script</guilabel
-> : spécifie un script facultatif à exécuter après chaque acquisition. Le chemin complet du script doit être indiqué et il doit être exécutable. Une valeur de zéro doit être retournée en cas de succès afin de permettre à la séquence de continuer. Si une valeur différente de zéro est retournée par le script, alors la séquence sera interrompue. </para>
+>Bouton de navigation de dossier</guilabel
+> : ouvre une fenêtre permettant de choisir l'emplacement du dossier utilisé dans la chaîne Format. Utilisé lors de la première définition de la tâche d'acquisition. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Répertoire</guilabel
-> : spécifie le dossier local d'enregistrement des images. </para>
+>Aperçu</guilabel
+> : affiche un aperçu du nom de fichier en fonction du format de chaîne défini et des configurations des autre tâches. </para>
+                <para
+>Les étiquettes réservées spécifiées par le fichier de séquence .seq ne peuvent être affichées que lorsque le fichier de séquence a été enregistré. </para>
+                <para
+>L'étiquette horaire est affichée avec l'heure système courante et sera remplacée par l'heure d'enregistrement de l'image. </para>
+                <para
+>L'étiquette de séquence est toujours affichée en tant que première image de la séquence et sera automatiquement incrémentée avec la progression des tâches. </para>
             </listitem>
             <listitem>
                 <para
@@ -311,6 +365,12 @@
 > ou <guimenuitem
 >Les deux</guimenuitem
 >, vous devez indiquer le dossier distant d'enregistrement des images. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Aperçu</guilabel
+> : affiche un aperçu du nom de fichier résultant de la configuration de l'emplacement de la tâche. Le format du nom de fichier des enregistrements à distance est prédéfini (les étiquettes réservées ne peuvent être utilisées). Le numéro de la séquence de fichiers commence toujours à 1 et sera automatiquement incrémenté avec la progression de la séquence. </para>
             </listitem>
         </itemizedlist>
     </sect3>

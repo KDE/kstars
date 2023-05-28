@@ -59,8 +59,8 @@ void TestEkosMeridianFlip::testSimpleMF()
     // slew close to the meridian
     QVERIFY(positionMountForMF(7.0));
 
-    // check if meridian flip runs and completes successfully
-    QVERIFY(checkMFStarted(10));
+    // check if meridian flip runs and completes successfully (15 secs buffer for startup)
+    QVERIFY(checkMFStarted(7 + 15));
 }
 
 
@@ -89,7 +89,7 @@ void TestEkosMeridianFlip::testSimpleMFDelay()
 void TestEkosMeridianFlip::testGuidingMF()
 {
     // prepare the test case and calibrate
-    QVERIFY(prepareMFTestcase(false, false, false));
+    QVERIFY(prepareMFTestcase(false, false));
 
     // slew close to the meridian
     QVERIFY(positionMountForMF(75.0));
@@ -114,16 +114,13 @@ void TestEkosMeridianFlip::testGuidingMF()
 void TestEkosMeridianFlip::testCaptureMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, true, false, false));
+    QVERIFY(prepareCaptureTestcase(10, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
 
     // check if single capture completes correctly
     m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
-    // expect one additional captures to ensure refocusing after the flip
-    if (refocus_checked)
-        m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
 
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, refocus_checked ? 61000 : 21000);
 
@@ -138,7 +135,7 @@ void TestEkosMeridianFlip::testCaptureMF()
 void TestEkosMeridianFlip::testCaptureMFAbortWaiting()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, false, false, false));
+    QVERIFY(prepareCaptureTestcase(10, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -165,7 +162,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortWaiting()
 void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, false, false, false));
+    QVERIFY(prepareCaptureTestcase(10, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -196,7 +193,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 void TestEkosMeridianFlip::testCaptureGuidingMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(20, true, false, false));
+    QVERIFY(prepareCaptureTestcase(20, false, false));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -222,7 +219,7 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
         QSKIP("No astrometry files available to run test");
 
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, false, false));
+    QVERIFY(prepareCaptureTestcase(40, false, false));
 
     // start alignment
     QVERIFY(executeAlignment(5.0));
@@ -252,7 +249,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
         QSKIP("No astrometry files available to run test");
 
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, false, false));
+    QVERIFY(prepareCaptureTestcase(40, false, false));
 
     // execute alignment
     QVERIFY(executeAlignment(5.0));
@@ -276,14 +273,8 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
 
 void TestEkosMeridianFlip::testRefocusAfterMF()
 {
-    // select the option for refocusing after an MF
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->captureModule(), meridianRefocusS, true);
-
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(15, false, false, false));
-
-    // manually set the refocus flag
-    refocus_checked = true;
+    QVERIFY(prepareCaptureTestcase(15, false, false));
 
     // start guiding if configured
     QFETCH(bool, guide);
@@ -314,7 +305,7 @@ void TestEkosMeridianFlip::testRefocusAfterMF()
 
 void TestEkosMeridianFlip::testSimpleMF_data()
 {
-    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Kuwait City"}, {true, false}, {{"Luminance", 6}}, {false}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Kuwait City"}, {true, false}, {{"Luminance", 6}}, {0}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testSimpleMFDelay_data()
@@ -324,18 +315,18 @@ void TestEkosMeridianFlip::testSimpleMFDelay_data()
 
 void TestEkosMeridianFlip::testGuidingMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {false}, {true}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {true}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {false, true}, {false, true}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {0}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortWaiting_data()
 {
     // no tests for focusing and dithering
-    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {false}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {0}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
@@ -345,7 +336,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
 
 void TestEkosMeridianFlip::testCaptureGuidingMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {false, true}, {false, true}, {true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {0}, {true}, {false, true});
 }
 
 void TestEkosMeridianFlip::testCaptureAlignMF_data()
@@ -360,7 +351,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF_data()
 
 void TestEkosMeridianFlip::testRefocusAfterMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {false}, {false, true}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {3}, {false}, {false});
 }
 
 QTEST_KSTARS_WITH_GUIDER_MAIN(TestEkosMeridianFlip)

@@ -8,7 +8,6 @@
 
 #include "media.h"
 #include "commands.h"
-#include "profileinfo.h"
 #include "skymapcomposite.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
@@ -20,6 +19,8 @@
 #include "Options.h"
 
 #include "ekos_debug.h"
+#include "kstars.h"
+#include "version.h"
 
 #include <QtConcurrent>
 #include <KFormat>
@@ -27,13 +28,19 @@
 namespace EkosLive
 {
 
-Media::Media(Ekos::Manager * manager): m_Manager(manager)
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+Media::Media(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &nodeManagers):
+    m_Manager(manager), m_NodeManagers(nodeManagers)
 {
-    connect(&m_WebSocket, &QWebSocket::connected, this, &Media::onConnected);
-    connect(&m_WebSocket, &QWebSocket::disconnected, this, &Media::onDisconnected);
-    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
-            &Media::onError);
-
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        connect(nodeManager->media(), &Node::connected, this, &Media::onConnected);
+        connect(nodeManager->media(), &Node::disconnected, this, &Media::onDisconnected);
+        connect(nodeManager->media(), &Node::onTextReceived, this, &Media::onTextReceived);
+        connect(nodeManager->media(), &Node::onBinaryReceived, this, &Media::onBinaryReceived);
+    }
 
     connect(this, &Media::newMetadata, this, &Media::uploadMetadata);
     connect(this, &Media::newImage, this, [this](const QByteArray & image)
@@ -43,78 +50,57 @@ Media::Media(Ekos::Manager * manager): m_Manager(manager)
     });
 }
 
-void Media::connectServer()
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Media::isConnected() const
 {
-    QUrl requestURL(m_URL);
-
-    QUrlQuery query;
-    query.addQueryItem("username", m_AuthResponse["username"].toString());
-    query.addQueryItem("token", m_AuthResponse["token"].toString());
-    if (m_AuthResponse.contains("remoteToken"))
-        query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
-    if (m_Options[OPTION_SET_CLOUD_STORAGE])
-        query.addQueryItem("cloudEnabled", "true");
-    query.addQueryItem("email", m_AuthResponse["email"].toString());
-    query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
-    query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
-    query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
-    query.addQueryItem("type", m_AuthResponse["type"].toString());
-
-    requestURL.setPath("/media/ekos");
-    requestURL.setQuery(query);
-
-
-    m_WebSocket.open(requestURL);
-
-    qCInfo(KSTARS_EKOS) << "Connecting to Websocket server at" << requestURL.toDisplayString();
+    return std::any_of(m_NodeManagers.begin(), m_NodeManagers.end(), [](auto & nodeManager)
+    {
+        return nodeManager->media()->isConnected();
+    });
 }
 
-void Media::disconnectServer()
-{
-    m_WebSocket.close();
-}
-
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::onConnected()
 {
-    qCInfo(KSTARS_EKOS) << "Connected to media Websocket server at" << m_URL.toDisplayString();
+    auto node = qobject_cast<Node*>(sender());
+    if (!node)
+        return;
 
-    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived, Qt::UniqueConnection);
-    connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived, Qt::UniqueConnection);
-
-    m_isConnected = true;
-    m_ReconnectTries = 0;
+    qCInfo(KSTARS_EKOS) << "Connected to Media Websocket server at" << node->url().toDisplayString();
 
     emit connected();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::onDisconnected()
 {
-    qCInfo(KSTARS_EKOS) << "Disconnected from media Websocket server.";
-    m_isConnected = false;
+    auto node = qobject_cast<Node*>(sender());
+    if (!node)
+        return;
 
-    disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
-    disconnect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
+    qCInfo(KSTARS_EKOS) << "Disconnected from Message Websocket server at" << node->url().toDisplayString();
 
-    m_sendBlobs = true;
-
-    for (const QString &oneFile : temporaryFiles)
-        QFile::remove(oneFile);
-    temporaryFiles.clear();
-
-    emit disconnected();
-}
-
-void Media::onError(QAbstractSocket::SocketError error)
-{
-    qCritical(KSTARS_EKOS) << "Media Websocket connection error" << m_WebSocket.errorString();
-    if (error == QAbstractSocket::RemoteHostClosedError ||
-            error == QAbstractSocket::ConnectionRefusedError)
+    if (isConnected() == false)
     {
-        if (m_ReconnectTries++ < RECONNECT_MAX_TRIES)
-            QTimer::singleShot(RECONNECT_INTERVAL, this, SLOT(connectServer()));
+        m_sendBlobs = true;
+
+        for (const QString &oneFile : temporaryFiles)
+            QFile::remove(oneFile);
+        temporaryFiles.clear();
+
+        emit disconnected();
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::onTextReceived(const QString &message)
 {
     qCInfo(KSTARS_EKOS) << "Media Text Websocket Message" << message;
@@ -203,8 +189,69 @@ void Media::onTextReceived(const QString &message)
             }
         }
     }
+    else if (command == commands[ASTRO_GET_SKYPOINT_IMAGE])
+    {
+        int level = payload["level"].toInt(5);
+        double zoom = payload["zoom"].toInt(20000);
+        double ra = payload["ra"].toDouble(0);
+        double de = payload["de"].toDouble(0);
+        double width = payload["width"].toDouble(512);
+        double height = payload["height"].toDouble(512);
+
+        QImage centerImage(width, height, QImage::Format_ARGB32_Premultiplied);
+        SkyPoint coords(ra, de);
+        SkyPoint J2000Coord(coords.ra(), coords.dec());
+        J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
+        coords.setRA0(J2000Coord.ra());
+        coords.setDec0(J2000Coord.dec());
+        coords.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+        volatile auto jnowRAString = coords.ra().toHMSString();
+        volatile auto jnowDEString = coords.dec().toDMSString();
+        volatile auto j2000RAString = coords.ra0().toHMSString();
+        volatile auto j2000DEString = coords.dec0().toDMSString();
+
+
+        double fov_w = 0, fov_h = 0;
+        HIPSFinder::Instance()->render(&coords, level, zoom, &centerImage, fov_w, fov_h);
+
+        if (!centerImage.isNull())
+        {
+            // Use seed from name, level, and zoom so that it is unique
+            // even if regenerated again.
+            // Send everything as strings
+            QJsonObject metadata =
+            {
+                {"uuid", "skypoint_hips"},
+                {"name", "skypoint_hips"},
+                {"zoom", zoom},
+                {"resolution", QString("%1x%2").arg(width).arg(height)},
+                {"bin", "1x1"},
+                {"fov_w", QString::number(fov_w)},
+                {"fov_h", QString::number(fov_h)},
+                {"ext", "jpg"}
+            };
+
+            QByteArray jpegData;
+            QBuffer buffer(&jpegData);
+            buffer.open(QIODevice::WriteOnly);
+
+            // First METADATA_PACKET bytes of the binary data is always allocated
+            // to the metadata, the rest to the image data.
+            QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+            meta = meta.leftJustified(METADATA_PACKET, 0);
+            buffer.write(meta);
+            centerImage.save(&buffer, "jpg", 95);
+            buffer.close();
+
+            emit newImage(jpegData);
+        }
+    }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::onBinaryReceived(const QByteArray &message)
 {
     // Sometimes this is triggered even though it's a text message
@@ -219,14 +266,20 @@ void Media::onBinaryReceived(const QByteArray &message)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendDarkLibraryData(const QSharedPointer<FITSData> &data)
 {
     sendData(data, "+D");
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     m_UUID = uuid;
@@ -236,9 +289,12 @@ void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
     QtConcurrent::run(this, &Media::upload, m_TemporaryView);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendFile(const QString &filename, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     m_UUID = uuid;
@@ -251,9 +307,12 @@ void Media::sendFile(const QString &filename, const QString &uuid)
     previewImage->loadFile(filename);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendView(const QSharedPointer<FITSView> &view, const QString &uuid)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     m_UUID = uuid;
@@ -261,6 +320,9 @@ void Media::sendView(const QSharedPointer<FITSView> &view, const QString &uuid)
     upload(view);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::upload(const QSharedPointer<FITSView> &view)
 {
     const QString ext = "jpg";
@@ -309,7 +371,7 @@ void Media::upload(const QSharedPointer<FITSView> &view)
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto sendPixmap = (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+");
+    auto sendPixmap = (!Options::ekosLiveHighBandwidth() || m_UUID[0] == "+");
     auto scaleWidth = sendPixmap ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images
@@ -334,6 +396,9 @@ void Media::upload(const QSharedPointer<FITSView> &view)
     emit newImage(jpegData);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
 {
     QString ext = "jpg";
@@ -428,12 +493,15 @@ void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
     emit newImage(jpegData);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false || !frame)
         return;
 
-    int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_WIDTH : HB_VIDEO_WIDTH / 2;
+    int32_t width = Options::ekosLiveHighBandwidth() ? HB_VIDEO_WIDTH : HB_VIDEO_WIDTH / 2;
     QByteArray image;
     QBuffer buffer(&image);
     buffer.open(QIODevice::WriteOnly);
@@ -461,14 +529,17 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
     writer.write(videoImage);
     buffer.close();
 
-    m_WebSocket.sendBinaryMessage(image);
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        nodeManager->media()->sendBinaryMessage(image);
+    }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::registerCameras()
 {
-    if (m_isConnected == false)
-        return;
-
     for(auto &oneDevice : INDIListener::devices())
     {
         auto camera = oneDevice->getCamera();
@@ -480,18 +551,23 @@ void Media::registerCameras()
 void Media::resetPolarView()
 {
     this->correctionVector = QLineF();
-
     m_Manager->alignModule()->zoomAlignView();
 }
 
 void Media::uploadMetadata(const QByteArray &metadata)
 {
-    m_WebSocket.sendTextMessage(metadata);
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        nodeManager->media()->sendTextMessage(metadata);
+    }
 }
 
 void Media::uploadImage(const QByteArray &image)
 {
-    m_WebSocket.sendBinaryMessage(image);
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        nodeManager->media()->sendBinaryMessage(image);
+    }
 }
 
 void Media::processNewBLOB(IBLOB *bp)
@@ -501,7 +577,7 @@ void Media::processNewBLOB(IBLOB *bp)
 
 void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
 {
-    if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
     if (qobject_cast<Ekos::Align*>(sender()) == m_Manager->alignModule())

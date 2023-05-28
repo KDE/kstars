@@ -16,6 +16,7 @@
 class ConstellationsArt;
 class DeepSkyObject;
 class KSComet;
+class KSAsteroid;
 class KSPlanetBase;
 class KSEarthShadow;
 class LineList;
@@ -109,6 +110,13 @@ class SkyPainter
          * @return true if a comet was drawn
          */
         virtual bool drawComet(KSComet *com) = 0;
+
+        /**
+         * @short Draw an asteroid in the sky.
+         * @param ast asteroid to draw
+         * @return true if a asteroid was drawn
+         */
+        virtual bool drawAsteroid(KSAsteroid *ast) = 0;
 
         /**
          * @short Draw a point source (e.g., a star).

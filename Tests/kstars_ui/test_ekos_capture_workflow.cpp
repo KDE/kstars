@@ -253,8 +253,8 @@ void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
     QTest::qWait(2000);
     // create a guide drift
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_SUSPENDED);
-    Ekos::Manager::Instance()->mountModule()->doPulse(RA_INC_DIR, 1000, DEC_INC_DIR, 1000);
-    qCInfo(KSTARS_EKOS_TEST()) << "Sent 1000ms RA+DEC guiding pulses.";
+    Ekos::Manager::Instance()->mountModule()->doPulse(RA_INC_DIR, 2000, DEC_INC_DIR, 2000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Sent 2000ms RA+DEC guiding pulses.";
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 30000);
     // expect that capturing continues

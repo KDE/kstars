@@ -7,20 +7,10 @@
 #include "Options.h"
 
 #include "ekosliveclient.h"
-#include "ekos_debug.h"
 #include "ekos/manager.h"
-#include "ekos/capture/capture.h"
-#include "ekos/mount/mount.h"
-#include "ekos/focus/focus.h"
 
 #include "kspaths.h"
-#include "kstarsdata.h"
-#include "filedownloader.h"
 #include "QProgressIndicator.h"
-
-#include "indi/indilistener.h"
-#include "indi/indicamera.h"
-#include "indi/indifilterwheel.h"
 
 #include <config-kstars.h>
 
@@ -39,10 +29,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 {
     setupUi(this);
 
-    connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
-
-    networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
+    connect(closeB, &QPushButton::clicked, this, &Client::close);
 
     QPixmap im;
     if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "ekoslive.png")))
@@ -54,23 +41,55 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     connectionState->setPixmap(QIcon::fromTheme("state-offline").pixmap(QSize(64, 64)));
 
     username->setText(Options::ekosLiveUsername());
-    connect(username, &QLineEdit::editingFinished, [ = ]()
+    connect(username, &QLineEdit::editingFinished, this, [this]()
     {
         Options::setEkosLiveUsername(username->text());
     });
 
-    connect(connectB, &QPushButton::clicked, [ = ]()
+    // Initialize node managers
+    QSharedPointer<NodeManager> onlineManager(new NodeManager(QUrl("https://live.stellarmate.com"),
+            QUrl("wss://live.stellarmate.com")));
+    connect(onlineManager.get(), &NodeManager::authenticationError, this, [this](const QString & message)
     {
-        if (m_isConnected)
-            disconnectAuthServer();
-        else
-            connectAuthServer();
+        onlineLabel->setToolTip(message);
     });
 
-    connect(password, &QLineEdit::returnPressed, [ = ]()
+    QSharedPointer<NodeManager> offlineManager(new NodeManager(QUrl("http://localhost:3000"), QUrl("ws://localhost:3000")));
+    connect(offlineManager.get(), &NodeManager::authenticationError, this, [this](const QString & message)
+    {
+        offlineLabel->setToolTip(message);
+    });
+
+    m_NodeManagers.append(std::move(onlineManager));
+    m_NodeManagers.append(std::move(offlineManager));
+
+    connect(connectB, &QPushButton::clicked, this, [this]()
+    {
+        if (m_isConnected)
+        {
+            for (auto &oneManager : m_NodeManagers)
+                oneManager->disconnectNodes();
+        }
+        else
+        {
+            for (auto &oneManager : m_NodeManagers)
+            {
+                oneManager->setCredentials(username->text(), password->text());
+                oneManager->authenticate();
+            }
+        }
+    });
+
+    connect(password, &QLineEdit::returnPressed, this, [this]()
     {
         if (!m_isConnected)
-            connectAuthServer();
+        {
+            for (auto &oneManager : m_NodeManagers)
+            {
+                oneManager->setCredentials(username->text(), password->text());
+                oneManager->authenticate();
+            }
+        }
     });
 
     rememberCredentialsCheck->setChecked(Options::rememberCredentials());
@@ -84,65 +103,28 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
         Options::setAutoStartEkosLive(toggled);
     });
 
-    m_serviceURL.setUrl("https://live.stellarmate.com");
-    m_wsURL.setUrl("wss://live.stellarmate.com");
-
-    if (Options::ekosLiveOnline())
-        ekosLiveOnlineR->setChecked(true);
-    else
-        ekosLiveOfflineR->setChecked(true);
-
-    connect(ekosLiveOnlineR, &QRadioButton::toggled, [&](bool toggled)
-    {
-        Options::setEkosLiveOnline(toggled);
-        if (toggled)
-        {
-            m_serviceURL.setUrl("https://live.stellarmate.com");
-            m_wsURL.setUrl("wss://live.stellarmate.com");
-            m_Message->setURL(m_wsURL);
-            m_Media->setURL(m_wsURL);
-            m_Cloud->setURL(m_wsURL);
-        }
-        else
-        {
-            m_serviceURL.setUrl("http://localhost:3000");
-            m_wsURL.setUrl("ws://localhost:3000");
-            m_Message->setURL(m_wsURL);
-            m_Media->setURL(m_wsURL);
-            m_Cloud->setURL(m_wsURL);
-        }
-    }
-           );
-
-    if (Options::ekosLiveOnline() == false)
-    {
-        m_serviceURL.setUrl("http://localhost:3000");
-        m_wsURL.setUrl("ws://localhost:3000");
-    }
-
 #ifdef HAVE_KEYCHAIN
     QKeychain::ReadPasswordJob *job = new QKeychain::ReadPasswordJob(QLatin1String("kstars"));
     job->setAutoDelete(false);
     job->setKey(QLatin1String("ekoslive"));
-    connect(job, &QKeychain::Job::finished, [&](QKeychain::Job * job)
+    connect(job, &QKeychain::Job::finished, this, [&](QKeychain::Job * job)
     {
         if (job->error() == false)
         {
-            //QJsonObject data = QJsonDocument::fromJson(dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1()).object();
-            //const QString usernameText = data["username"].toString();
-            //const QString passwordText = data["password"].toString();
-
             const auto passwordText = dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1();
 
             // Only set and attempt connection if the data is not empty
-            //if (usernameText.isEmpty() == false && passwordText.isEmpty() == false)
             if (passwordText.isEmpty() == false && username->text().isEmpty() == false)
             {
-                //username->setText(usernameText);
                 password->setText(passwordText);
-
                 if (autoStartCheck->isChecked())
-                    connectAuthServer();
+                {
+                    for (auto &oneManager : m_NodeManagers)
+                    {
+                        oneManager->setCredentials(username->text(), password->text());
+                        oneManager->authenticate();
+                    }
+                }
             }
 
         }
@@ -151,31 +133,33 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     job->start();
 #endif
 
-    m_Message = new Message(m_Manager);
-    m_Message->setURL(m_wsURL);
+    m_Message = new Message(m_Manager, m_NodeManagers);
     connect(m_Message, &Message::connected, this, &Client::onConnected);
     connect(m_Message, &Message::disconnected, this, &Client::onDisconnected);
-    connect(m_Message, &Message::expired, [&]()
+    connect(m_Message, &Message::expired, this, [&](const QUrl & url)
     {
         // If token expired, disconnect and reconnect again.
-        disconnectAuthServer();
-        connectAuthServer();
+        for (auto &oneManager : m_NodeManagers)
+        {
+            if (oneManager->wsURL() == url)
+            {
+                oneManager->disconnectNodes();
+                oneManager->setCredentials(username->text(), password->text());
+                oneManager->authenticate();
+            }
+        }
     });
 
-    m_Media = new Media(m_Manager);
-    connect(m_Message, &Message::optionsChanged, m_Media, &Media::setOptions);
-    m_Media->setURL(m_wsURL);
-
-    m_Cloud = new Cloud(m_Manager);
-    connect(m_Message, &Message::optionsChanged, m_Cloud, &Cloud::setOptions);
-    m_Cloud->setURL(m_wsURL);
+    m_Media = new Media(m_Manager, m_NodeManagers);
+    connect(m_Media, &Media::connected, this, &Client::onConnected);
+    m_Cloud = new Cloud(m_Manager, m_NodeManagers);
+    connect(m_Cloud, &Cloud::connected, this, &Client::onConnected);
 }
 
 Client::~Client()
 {
-    m_Message->disconnectServer();
-    m_Media->disconnectServer();
-    m_Cloud->disconnectServer();
+    for (auto &oneManager : m_NodeManagers)
+        oneManager->disconnectNodes();
 }
 
 void Client::onConnected()
@@ -187,19 +171,25 @@ void Client::onConnected()
     connectB->setText(i18n("Disconnect"));
     connectionState->setPixmap(QIcon::fromTheme("state-ok").pixmap(QSize(64, 64)));
 
+    auto disconnected = QIcon(":/icons/AlignFailure.svg").pixmap(QSize(32, 32));
+    auto connected = QIcon(":/icons/AlignSuccess.svg").pixmap(QSize(32, 32));
+
+    onlineLabel->setStyleSheet(m_NodeManagers[0]->isConnected() ? "color:white" : "color:gray");
+    onlineIcon->setPixmap(m_NodeManagers[0]->isConnected() ? connected : disconnected);
+    if (m_NodeManagers[0]->isConnected())
+        onlineLabel->setToolTip(QString());
+
+    offlineLabel->setStyleSheet(m_NodeManagers[1]->isConnected() ? "color:white" : "color:gray");
+    offlineIcon->setPixmap(m_NodeManagers[1]->isConnected() ? connected : disconnected);
+    if (m_NodeManagers[1]->isConnected())
+        offlineLabel->setToolTip(QString());
+
     if (rememberCredentialsCheck->isChecked())
     {
 #ifdef HAVE_KEYCHAIN
-        //        QJsonObject credentials =
-        //        {
-        //            {"username", username->text()},
-        //            {"password", password->text()}
-        //        };
-
         QKeychain::WritePasswordJob *job = new QKeychain::WritePasswordJob(QLatin1String("kstars"));
         job->setAutoDelete(true);
         job->setKey(QLatin1String("ekoslive"));
-        //job->setTextData(QJsonDocument(credentials).toJson());
         job->setTextData(password->text());
         job->start();
 #endif
@@ -211,118 +201,15 @@ void Client::onDisconnected()
     connectionState->setPixmap(QIcon::fromTheme("state-offline").pixmap(QSize(64, 64)));
     m_isConnected = false;
     connectB->setText(i18n("Connect"));
-}
 
-void Client::connectAuthServer()
-{
-    if (username->text().isEmpty() || password->text().isEmpty())
-    {
-        KSNotification::error(i18n("Username or password is missing."));
-        return;
-    }
+    auto disconnected = QIcon(":/icons/AlignFailure.svg").pixmap(QSize(32, 32));
+    auto connected = QIcon(":/icons/AlignSuccess.svg").pixmap(QSize(32, 32));
 
-    pi->startAnimation();
-    authenticate();
-}
+    onlineLabel->setStyleSheet(m_NodeManagers[0]->isConnected() ? "color:white" : "color:gray");
+    onlineIcon->setPixmap(m_NodeManagers[0]->isConnected() ? connected : disconnected);
 
-void Client::disconnectAuthServer()
-{
-    token.clear();
-
-    m_Message->disconnectServer();
-    m_Media->disconnectServer();
-    m_Cloud->disconnectServer();
-
-    modeLabel->setEnabled(true);
-    ekosLiveOnlineR->setEnabled(true);
-    ekosLiveOfflineR->setEnabled(true);
-}
-
-void Client::authenticate()
-{
-    QNetworkRequest request;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    QUrl authURL(m_serviceURL);
-    authURL.setPath("/api/authenticate");
-
-    request.setUrl(authURL);
-
-    QJsonObject json = { {"username", username->text()},
-        {"password", password->text()}
-    };
-
-    auto postData = QJsonDocument(json).toJson(QJsonDocument::Compact);
-
-    networkManager->post(request, postData);
-}
-
-void Client::onResult(QNetworkReply *reply)
-{
-    if (reply->error() != QNetworkReply::NoError)
-    {
-        // If connection refused, retry up to 3 times
-        if (reply->error() == QNetworkReply::ConnectionRefusedError && m_AuthReconnectTries++ < RECONNECT_MAX_TRIES)
-        {
-            reply->deleteLater();
-            QTimer::singleShot(RECONNECT_INTERVAL, this, &Client::connectAuthServer);
-            return;
-        }
-
-        m_AuthReconnectTries = 0;
-        pi->stopAnimation();
-        connectionState->setPixmap(QIcon::fromTheme("state-error").pixmap(QSize(64, 64)));
-        KSNotification::error(i18n("Error authentication with Ekos Live server: %1", reply->errorString()));
-        reply->deleteLater();
-        return;
-    }
-
-    m_AuthReconnectTries = 0;
-    QJsonParseError error;
-    auto response = QJsonDocument::fromJson(reply->readAll(), &error);
-
-    if (error.error != QJsonParseError::NoError)
-    {
-        pi->stopAnimation();
-        connectionState->setPixmap(QIcon::fromTheme("state-error").pixmap(QSize(64, 64)));
-        KSNotification::error(i18n("Error parsing server response: %1", error.errorString()));
-        reply->deleteLater();
-        return;
-    }
-
-    authResponse = response.object();
-
-    if (authResponse["success"].toBool() == false)
-    {
-        pi->stopAnimation();
-        connectionState->setPixmap(QIcon::fromTheme("state-error").pixmap(QSize(64, 64)));
-        KSNotification::error(authResponse["message"].toString());
-        reply->deleteLater();
-        return;
-    }
-
-    token = authResponse["token"].toString();
-
-    m_Message->setAuthResponse(authResponse);
-    m_Message->connectServer();
-
-    m_Media->setAuthResponse(authResponse);
-    m_Media->connectServer();
-
-    // If we are using EkosLive Offline
-    // We need to check for internet connection before we connect to the online web server
-    if (ekosLiveOnlineR->isChecked() || (ekosLiveOfflineR->isChecked() &&
-                                         networkManager->networkAccessible() == QNetworkAccessManager::Accessible))
-    {
-        m_Cloud->setAuthResponse(authResponse);
-        m_Cloud->connectServer();
-    }
-
-    modeLabel->setEnabled(false);
-    ekosLiveOnlineR->setEnabled(false);
-    ekosLiveOfflineR->setEnabled(false);
-
-    reply->deleteLater();
+    offlineLabel->setStyleSheet(m_NodeManagers[1]->isConnected() ? "color:white" : "color:gray");
+    offlineIcon->setPixmap(m_NodeManagers[1]->isConnected() ? connected : disconnected);
 }
 
 void Client::setConnected(bool enabled)
@@ -334,13 +221,9 @@ void Client::setConnected(bool enabled)
     connectB->click();
 }
 
-void Client::setConfig(bool onlineService, bool rememberCredentials, bool autoConnect)
+void Client::setConfig(bool rememberCredentials, bool autoConnect)
 {
-    ekosLiveOnlineR->setChecked(onlineService);
-    ekosLiveOfflineR->setChecked(!onlineService);
-
     rememberCredentialsCheck->setChecked(rememberCredentials);
-
     autoStartCheck->setChecked(autoConnect);
 }
 

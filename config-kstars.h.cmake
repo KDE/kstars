@@ -22,6 +22,9 @@
 /* Define if you have Qt5 Data Visualization */
 #cmakedefine HAVE_DATAVISUALIZATION 1
 
+/* Define if you have LibXISF */
+#cmakedefine HAVE_XISF 1
+
 /* Define if you have StellarSolver */
 #cmakedefine HAVE_STELLARSOLVER 1
 

@@ -20,6 +20,7 @@
 #include "message.h"
 #include "media.h"
 #include "cloud.h"
+#include "nodemanager.h"
 
 #include "ui_ekoslivedialog.h"
 
@@ -55,47 +56,26 @@ class Client : public QDialog, public Ui::EkosLiveDialog
         }
 
         void setConnected(bool enabled);
-        void setConfig(bool onlineService, bool rememberCredentials, bool autoConnect);
+        void setConfig(bool rememberCredentials, bool autoConnect);
         void setUser(const QString &user, const QString &pass);
 
     signals:
         void connected();
-        void disconnected();
+        void disconnected();        
 
-    protected slots:
-        void authenticate();
-        void onResult(QNetworkReply *reply);
-
-    private slots:
-        // Auth Server
-        void connectAuthServer();
-        void disconnectAuthServer();
+    private:
 
         void onConnected();
         void onDisconnected();
 
-    private:
-        QJsonObject authResponse;
-        QWebSocket m_mediaWebSocket;
-        bool m_isConnected { false };
-        Ekos::Manager *m_Manager { nullptr };
-        QNetworkAccessManager *networkManager { nullptr };
+      Ekos::Manager *m_Manager { nullptr };
+      bool m_isConnected {false};
 
-        QProgressIndicator *pi { nullptr };
+      QProgressIndicator *pi { nullptr };
+      QVector<QSharedPointer<NodeManager>> m_NodeManagers;
 
-        QString token;
-        QUrl m_serviceURL;
-        QUrl m_wsURL;
-
-        uint16_t m_AuthReconnectTries {0};
-
-        QPointer<Message> m_Message;
-        QPointer<Media> m_Media;
-        QPointer<Cloud> m_Cloud;
-
-        // Retry every 3 seconds if connection is refused.
-        static const uint16_t RECONNECT_INTERVAL = 3000;
-        // Retry for 3 times before giving up
-        static const uint16_t RECONNECT_MAX_TRIES = 3;
+      QPointer<Message> m_Message;
+      QPointer<Media> m_Media;
+      QPointer<Cloud> m_Cloud;
 };
 }

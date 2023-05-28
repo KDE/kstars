@@ -57,7 +57,7 @@
 <para
 >Par défaut, &kstars; lira les valeurs des options stockées dans votre fichier <filename
 >$KDEHOME/share/config/kstarsrc</filename
-> pour déterminer où l'image doit être centrée, et comment elle est rendue. Cela signifie que vous avez besoin de lancer &kstars; en mode graphique normal, et quitter le programme quand il est réglé avec les options désirées pour la génération des images. Cela n'est pas très flexible, ainsi, nous avons aussi fourni la possibilité d'exécuter un script &DBus; pour &kstars; pour régler la scène avant de générer l'image. Le nom du fichier que vous spécifiez comme argument de script doit être un script &DBus; valide pour &kstars;, comme ceux créés avec le <link linkend="tool-scriptbuilder"
+> pour déterminer où l'image doit être centrée, et comment elle est rendue. Cela signifie que vous avez besoin de lancer &kstars; en mode graphique normal, et quitter le programme quand il est réglé avec les options désirées pour la génération des images. Cela n'est pas très flexible, ainsi, nous avons aussi fourni la possibilité d'exécuter un script &DBus; pour &kstars; pour régler la scène avant de générer l'image. Le nom du fichier que vous spécifiez comme argument de script doit être un script &DBus; valable pour &kstars;, comme ceux créés avec le <link linkend="tool-scriptbuilder"
 >Générateur de scripts</link
 >. Le script peut être utilisé pour déterminer où l'image pointe, déterminer la position géographique, déterminer l'heure et la date, changer le niveau de zoom et ajuster les autres options d'affichage. Certaines des fonctions &DBus; n'ont pas de sens dans un mode non graphique (comme la fonction <function
 >waitForKey()</function

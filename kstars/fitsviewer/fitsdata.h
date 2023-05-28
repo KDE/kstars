@@ -23,6 +23,7 @@
 #include "skybackground.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
+#include "auxiliary/imagemask.h"
 
 #ifdef WIN32
 // This header must be included before fitsio.h to avoid compiler errors with Visual Studio
@@ -80,13 +81,15 @@ class FITSData : public QObject
         explicit FITSData(const QSharedPointer<FITSData> &other);
         ~FITSData() override;
 
-        /** Structure to hold FITS Header records */
-        typedef struct
+        /** Object to hold FITS Header records */
+        struct Record
         {
+            Record() = default;
+            Record(QString k, QString v, QString c) : key(k), value(v), comment(c) {}
             QString key;      /** FITS Header Key */
             QVariant value;   /** FITS Header Value */
             QString comment;  /** FITS Header Comment, if any */
-        } Record;
+        };
 
         typedef enum
         {
@@ -320,8 +323,8 @@ class FITSData : public QObject
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
         //int findSEPStars(QList<Edge*> &, const int8_t &boundary = int8_t()) const;
 
-        // Apply ring filter to searched stars
-        int filterStars(const float innerRadius, const float outerRadius);
+        // filter all stars that are visible through the given mask
+        int filterStars(QSharedPointer<ImageMask> mask);
 
         // Half Flux Radius
         const Edge &getSelectedHFRStar() const
@@ -369,21 +372,13 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         // Check if a particular point exists within the image
         bool contains(const QPointF &point) const;
-        // Check if image has valid WCS header information and set HasWCS accordingly. Call in loadFITS()
-        bool checkForWCS();
         // Does image have valid WCS?
         bool hasWCS()
         {
             return HasWCS;
         }
-        // The WCS can be loaded without pre-computing each pixel's position. This can make certain
-        // operations slow. FullWCS() is true if the pixel positions are pre-calculated.
-        bool fullWCS()
-        {
-            return FullWCS;
-        }
         // Load WCS data
-        bool loadWCS(bool extras = true);
+        bool loadWCS();
         // Get WCS State
         WCSState getWCSState() const
         {
@@ -582,6 +577,10 @@ class FITSData : public QObject
         bool loadCanonicalImage(const QByteArray &buffer, const QString &extension);
         // Load FITS images.
         bool loadFITSImage(const QByteArray &buffer, const QString &extension, const bool isCompressed = false);
+        // Load XISF images.
+        bool loadXISFImage(const QByteArray &buffer);
+        // Save XISF images.
+        bool saveXISFImage(const QString &newFilename);
         // Load RAW images.
         bool loadRAWImage(const QByteArray &buffer, const QString &extension);
 
@@ -661,8 +660,6 @@ class FITSData : public QObject
         StarAlgorithm starAlgorithm { ALGORITHM_GRADIENT };
         /// Do we have WCS keywords in this FITS data?
         bool HasWCS { false };        /// Do we have WCS keywords in this FITS data?
-        /// we can initialize wcs without computing all the image positions.
-        bool FullWCS { false };
         /// Is the image debayarable?
         bool HasDebayer { false };
         /// Buffer to hold fpack uncompressed data

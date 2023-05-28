@@ -22,27 +22,27 @@
 
 class GPTest : public ::testing::Test
 {
-public:
-    GPTest(): random_vector_(11), location_vector_(11), hyper_parameters_(4), extra_parameters_(1)
-    {
-        random_vector_ << -0.1799, -1.4215, -0.2774,  2.6056, 0.6471, -0.4366,
-                       1.3820,  0.4340,  0.8970, -0.7286, -1.7046;
-        location_vector_ << 0, 0.1000, 0.2000, 0.3000, 0.4000, 0.5000, 0.6000,
-                         0.7000, 0.8000, 0.9000, 1.0000;
-        hyper_parameters_ << 1, 2, 1, 2;
-        extra_parameters_ << 5;
+    public:
+        GPTest(): random_vector_(11), location_vector_(11), hyper_parameters_(4), extra_parameters_(1)
+        {
+            random_vector_ << -0.1799, -1.4215, -0.2774,  2.6056, 0.6471, -0.4366,
+                           1.3820,  0.4340,  0.8970, -0.7286, -1.7046;
+            location_vector_ << 0, 0.1000, 0.2000, 0.3000, 0.4000, 0.5000, 0.6000,
+                             0.7000, 0.8000, 0.9000, 1.0000;
+            hyper_parameters_ << 1, 2, 1, 2;
+            extra_parameters_ << 5;
 
-        covariance_function_ = covariance_functions::PeriodicSquareExponential(hyper_parameters_);
-        covariance_function_.setExtraParameters(extra_parameters_);
+            covariance_function_ = covariance_functions::PeriodicSquareExponential(hyper_parameters_);
+            covariance_function_.setExtraParameters(extra_parameters_);
 
-        gp_ = GP(covariance_function_);
-    }
-    GP gp_;
-    Eigen::VectorXd random_vector_;
-    Eigen::VectorXd location_vector_;
-    Eigen::VectorXd hyper_parameters_;
-    Eigen::VectorXd extra_parameters_;
-    covariance_functions::PeriodicSquareExponential covariance_function_;
+            gp_ = GP(covariance_function_);
+        }
+        GP gp_;
+        Eigen::VectorXd random_vector_;
+        Eigen::VectorXd location_vector_;
+        Eigen::VectorXd hyper_parameters_;
+        Eigen::VectorXd extra_parameters_;
+        covariance_functions::PeriodicSquareExponential covariance_function_;
 };
 
 // This test is based on Matlab computations
@@ -127,7 +127,7 @@ TEST_F(GPTest, setCovarianceFunction)
     hyperparams << 0.1, 15, 25, 15, 5000, 700;
 
     GP instance_gp;
-    EXPECT_TRUE(instance_gp.setCovarianceFunction(covariance_functions::PeriodicSquareExponential(hyperparams.segment(1,4))));
+    EXPECT_TRUE(instance_gp.setCovarianceFunction(covariance_functions::PeriodicSquareExponential(hyperparams.segment(1, 4))));
 
     GP instance_gp2 = GP(covariance_functions::PeriodicSquareExponential(Eigen::VectorXd::Zero(4)));
     instance_gp2.setHyperParameters(hyperparams);
@@ -256,12 +256,13 @@ TEST_F(GPTest, CovarianceTest2)
     Eigen::MatrixXd kXX_matlab(3, 3);
 
     kxx_matlab << 8.0000, 3.3046, 2.0043, 1.0803, 0.6553,
-                  3.3046, 8.0000, 3.3046, 2.0043, 1.0803,
-                  2.0043, 3.3046, 8.0000, 3.3046, 2.0043,
-                  1.0803, 2.0043, 3.3046, 8.0000, 3.3046,
-                  0.6553, 1.0803, 2.0043, 3.3046, 8.0000;
+               3.3046, 8.0000, 3.3046, 2.0043, 1.0803,
+               2.0043, 3.3046, 8.0000, 3.3046, 2.0043,
+               1.0803, 2.0043, 3.3046, 8.0000, 3.3046,
+               0.6553, 1.0803, 2.0043, 3.3046, 8.0000;
 
-    kxX_matlab << 8.0000, 2.0043, 0.6553, 3.3046, 3.3046, 1.0803, 2.0043, 8.0000, 2.0043, 1.0803, 3.3046, 3.3046, 0.6553, 2.0043, 8.0000;
+    kxX_matlab << 8.0000, 2.0043, 0.6553, 3.3046, 3.3046, 1.0803, 2.0043, 8.0000, 2.0043, 1.0803, 3.3046, 3.3046, 0.6553,
+               2.0043, 8.0000;
 
     kXX_matlab << 8.0000, 2.0043, 0.6553, 2.0043, 8.0000, 2.0043, 0.6553, 2.0043, 8.0000;
 

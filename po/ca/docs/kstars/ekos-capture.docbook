@@ -226,7 +226,7 @@
                 <para
 ><guilabel
 >Format</guilabel
->: La cadena Format defineix el camí i el nom de fitxer de les imatges capturades mitjançant l'ús d'etiquetes de variables de substitució que s'omplen amb l'element de dades seleccionat en temps de desament. </para>
+>: La cadena Format defineix el camí i el nom de fitxer de les imatges capturades mitjançant l'ús d'etiquetes de variables de substitució que s'omplen amb l'element de dades seleccionat en l'hora de desament. </para>
                 <para
 >Una etiqueta s'identifica amb el caràcter %. Totes les etiquetes tenen una forma curta d'una sola lletra i una forma llarga autodescriptiva. </para>
                 <para

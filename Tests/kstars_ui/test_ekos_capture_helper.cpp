@@ -76,12 +76,14 @@ bool TestEkosCaptureHelper::stopCapturing()
     return true;
 }
 
-QString TestEkosCaptureHelper::calculateSignature(QString target, QString filter)
+QString TestEkosCaptureHelper::calculateSignature(QString target, QString filter, QString fitsDirectory)
 {
     if (target == "")
-        return getImageLocation()->path() + "/Light/" + filter + "/Light";
+        return fitsDirectory + QDir::separator() + "Light" + QDir::separator() + filter + QDir::separator() + "Light_" + filter +
+               "_";
     else
-        return getImageLocation()->path() + "/" + target + "/Light/" + filter + "/" + target + "_Light";
+        return fitsDirectory + QDir::separator() + target + QDir::separator() + "Light" + QDir::separator() + filter +
+               QDir::separator() + target + "_" + "Light_" + filter + "_";
 }
 
 QStringList TestEkosCaptureHelper::searchFITS(const QDir &dir) const
@@ -135,14 +137,14 @@ void TestEkosCaptureHelper::ensureCCDShutter(bool shutter)
 
 QDir *TestEkosCaptureHelper::getImageLocation()
 {
-    if (imageLocation == nullptr || imageLocation->exists())
+    if (imageLocation == nullptr || imageLocation->exists() == false)
         imageLocation = new QDir(destination->path() + "/images");
 
     return imageLocation;
 }
 
 bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory,
-        int delay)
+        int delay, QString format)
 {
     if (sequence == "")
         return true;
@@ -152,11 +154,12 @@ bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequenc
         KVERIFY_SUB(value.indexOf(":") > -1);
         QString filter = value.left(value.indexOf(":"));
         int count      = value.right(value.length() - value.indexOf(":") - 1).toInt();
-        KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), targetNameT, target);
+        Ekos::Manager::Instance()->captureModule()->setTargetName(target);
+        KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), placeholderFormatT, format);
         if (count > 0)
-            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, delay, filter, fitsDirectory + "/%T/%F/%t_%T"));
+            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, delay, filter, fitsDirectory));
         // ensure that no old values are present
-        Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(target, filter), 0);
+        Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(target, filter, fitsDirectory), 0);
     }
 
     return true;

@@ -134,6 +134,9 @@ if (INDI_FOUND)
             ekos/capture/customproperties.ui
             ekos/capture/scriptsmanager.ui
             ekos/capture/limits.ui
+            # Exposure Calculator
+            ekos/capture/exposurecalculator/exposurecalculatordialog.ui
+            ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui            
             # Align
             ekos/align/align.ui
             ekos/align/opsastrometry.ui
@@ -159,6 +162,7 @@ if (INDI_FOUND)
             ekos/guide/opsdither.ui
             ekos/guide/opsgpg.ui
             ekos/guide/manualdither.ui
+            ekos/guide/manualpulse.ui
             ekos/observatory/observatory.ui
             #TODO remove from GIT
             #ekos/guide/guider.ui
@@ -203,6 +207,7 @@ if (INDI_FOUND)
             ekos/auxiliary/filtermanager.cpp
             ekos/auxiliary/tabledelegate.cpp
             ekos/auxiliary/opslogs.cpp
+	    ekos/auxiliary/rotatorutils.cpp
             ekos/auxiliary/stellarsolverprofileeditor.cpp
             ekos/auxiliary/stellarsolverprofile.cpp
             ekos/auxiliary/solverutils.cpp
@@ -225,7 +230,20 @@ if (INDI_FOUND)
             ekos/capture/customproperties.cpp
             ekos/capture/scriptsmanager.cpp
             ekos/capture/placeholderpath.cpp
-
+            
+            # Exposure Calculator
+            ekos/capture/exposurecalculator/exposurecalculatordialog.cpp
+            ekos/capture/exposurecalculator/calculatedgainsubexposuretime.cpp
+            ekos/capture/exposurecalculator/cameraexposureenvelope.cpp
+            ekos/capture/exposurecalculator/cameragainreadmode.cpp
+            ekos/capture/exposurecalculator/cameragainreadnoise.cpp
+            ekos/capture/exposurecalculator/fileutilitycameradata.cpp
+            ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp
+            ekos/capture/exposurecalculator/imagingcameradata.cpp
+            ekos/capture/exposurecalculator/optimalexposuredetail.cpp
+            ekos/capture/exposurecalculator/optimalexposurestack.cpp
+            ekos/capture/exposurecalculator/optimalsubexposurecalculator.cpp
+	        
             # Analyze
             ekos/analyze/analyze.cpp
             ekos/analyze/yaxistool.cpp
@@ -248,6 +266,8 @@ if (INDI_FOUND)
             ekos/focus/polynomialfit.cpp
             ekos/focus/focusstars.cpp
             ekos/focus/curvefit.cpp
+            ekos/focus/focusfwhm.cpp
+            ekos/focus/focusfourierpower.cpp
 
             # Mount
             ekos/mount/mount.cpp
@@ -280,6 +300,7 @@ if (INDI_FOUND)
             ekos/guide/opsgpg.cpp
             ekos/guide/guidedriftgraph.cpp
             ekos/guide/guidetargetplot.cpp
+            ekos/guide/manualpulse.cpp
             # Internal Guide
             ekos/guide/internalguide/gmath.cpp
             ekos/guide/internalguide/guidealgorithms.cpp
@@ -312,6 +333,8 @@ if (INDI_FOUND)
             ekos/ekoslive/message.cpp
             ekos/ekoslive/media.cpp
             ekos/ekoslive/cloud.cpp
+            ekos/ekoslive/node.cpp
+            ekos/ekoslive/nodemanager.cpp
         )
 
     endif(CFITSIO_FOUND)
@@ -516,6 +539,7 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/argzoom.ui
     tools/conjunctions.ui
     tools/eclipsetool.ui
+
     tools/modcalcangdist.ui
     tools/modcalcapcoord.ui
     tools/modcalcaltaz.ui
@@ -835,6 +859,8 @@ set(kstars_extra_SRCS
     auxiliary/ksmessagebox.cpp
     auxiliary/QProgressIndicator.cpp
     auxiliary/ctkrangeslider.cpp
+    auxiliary/gslhelpers.cpp
+    auxiliary/robuststatistics.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -848,6 +874,7 @@ set(kstars_extra_SRCS
 SET(kstars_extra_kstars_SRCS
     auxiliary/thememanager.cpp
     auxiliary/schememanager.cpp
+    auxiliary/imagemask.cpp
     auxiliary/imageviewer.cpp
     auxiliary/xplanetimageviewer.cpp
     auxiliary/fov.cpp
@@ -1330,6 +1357,10 @@ endif (LibRaw_FOUND)
 # Link libnova if found
 if (NOVA_FOUND)
     target_link_libraries(KStarsLib ${NOVA_LIBRARIES})
+endif()
+
+if (LibXISF_FOUND)
+    target_link_libraries(KStarsLib LibXISF::LibXISF)
 endif()
 
 #FIXME Enable OpenGL Later

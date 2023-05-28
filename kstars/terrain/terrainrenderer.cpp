@@ -323,7 +323,9 @@ bool TerrainRenderer::sameView(const Projector *proj, bool forceRefresh)
     const double alt = rationalizeAlt(point.alt().Degrees());
 
     bool ok = view.width == savedViewParams.width &&
+              view.height == savedViewParams.height &&
               view.zoomFactor == savedViewParams.zoomFactor &&
+              view.rotationAngle == savedViewParams.rotationAngle &&
               view.useRefraction == savedViewParams.useRefraction &&
               view.useAltAz == savedViewParams.useAltAz &&
               view.fillGround == savedViewParams.fillGround;

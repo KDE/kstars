@@ -8,6 +8,7 @@
 
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
+#include "focusfwhm.h"
 #include "polynomialfit.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -60,6 +61,9 @@ Focus::Focus()
     // #1 Set the UI
     setupUi(this);
 
+    // #1a Prepare UI
+    prepareGUI();
+
     // #2 Register DBus
     qRegisterMetaType<Ekos::FocusState>("Ekos::FocusState");
     qDBusRegisterMetaType<Ekos::FocusState>();
@@ -84,7 +88,10 @@ Focus::Focus()
     // #8 Init Setting Connection now
     connectSettings();
 
-    connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::calculateHFR);
+    // Display on screen the first tab in the tab widget
+    tabWidget->setCurrentIndex(0);
+
+    connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::starDetectionFinished);
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -127,14 +134,13 @@ Focus::Focus()
     connect(this, &Ekos::Focus::initHFRPlot, HFRPlot, &FocusHFRVPlot::init);
     connect(this, &Ekos::Focus::redrawHFRPlot, HFRPlot, &FocusHFRVPlot::redraw);
     connect(this, &Ekos::Focus::newHFRPlotPosition, HFRPlot, &FocusHFRVPlot::addPosition);
-    // connect signal/slot for adding a new position with errors to be shown as error bars
-    connect(this, &Ekos::Focus::newHFRPlotPositionWithSigma, HFRPlot, &FocusHFRVPlot::addPositionWithSigma);
     connect(this, &Ekos::Focus::drawPolynomial, HFRPlot, &FocusHFRVPlot::drawPolynomial);
     // connect signal/slot for the curve plotting to the V-Curve widget
     connect(this, &Ekos::Focus::drawCurve, HFRPlot, &FocusHFRVPlot::drawCurve);
     connect(this, &Ekos::Focus::setTitle, HFRPlot, &FocusHFRVPlot::setTitle);
-    connect(this, &Ekos::Focus::updateTitle, HFRPlot, &FocusHFRVPlot::updateTitle);
+    connect(this, &Ekos::Focus::finalUpdates, HFRPlot, &FocusHFRVPlot::finalUpdates);
     connect(this, &Ekos::Focus::minimumFound, HFRPlot, &FocusHFRVPlot::drawMinimum);
+    connect(this, &Ekos::Focus::drawCFZ, HFRPlot, &FocusHFRVPlot::drawCFZ);
 
     m_DarkProcessor = new DarkProcessor(this);
     connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Focus::appendLogText);
@@ -154,6 +160,36 @@ Focus::Focus()
     setupOpticalTrainManager();
     // Needs to be done once
     connectFilterManager();
+}
+
+// Do once only preparation of GUI
+void Focus::prepareGUI()
+{
+    // Remove all widgets from the temporary bucket. These will then be loaded as required
+    gridLayoutProcessBucket->removeWidget(focusMultiRowAverageLabel);
+    gridLayoutProcessBucket->removeWidget(focusMultiRowAverage);
+    gridLayoutProcessBucket->removeWidget(focusGaussianSigmaLabel);
+    gridLayoutProcessBucket->removeWidget(focusGaussianSigma);
+    gridLayoutProcessBucket->removeWidget(focusThresholdLabel);
+    gridLayoutProcessBucket->removeWidget(focusThreshold);
+    gridLayoutProcessBucket->removeWidget(focusGaussianKernelSizeLabel);
+    gridLayoutProcessBucket->removeWidget(focusGaussianKernelSize);
+    gridLayoutProcessBucket->removeWidget(focusToleranceLabel);
+    gridLayoutProcessBucket->removeWidget(focusTolerance);
+    delete gridLayoutProcessBucket;
+
+    // Setup the Walk fields. OutSteps and NumSteps are either/or widgets so co-locate them
+    gridLayoutMechanics->replaceWidget(focusOutStepsLabel, focusNumStepsLabel);
+    gridLayoutMechanics->replaceWidget(focusOutSteps, focusNumSteps);
+
+    // Some combo-boxes have changeable values depending on other settings so store the full list of options from the .ui
+    // This helps keep some synchronisation with the .ui
+    for (int i = 0; i < focusStarMeasure->count(); i++)
+        m_StarMeasureText.append(focusStarMeasure->itemText(i));
+    for (int i = 0; i < focusCurveFit->count(); i++)
+        m_CurveFitText.append(focusCurveFit->itemText(i));
+    for (int i = 0; i < focusWalk->count(); i++)
+        m_FocusWalkText.append(focusWalk->itemText(i));
 }
 
 void Focus::loadStellarSolverProfiles()
@@ -220,6 +256,7 @@ void Focus::resetFrame()
             subFramed    = false;
 
             m_FocusView->setTrackingBox(QRect());
+            checkMosaicMaskLimits();
         }
     }
 }
@@ -726,20 +763,20 @@ bool Focus::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            controlGroup->setEnabled(true);
+            focuserGroup->setEnabled(true);
             ccdGroup->setEnabled(true);
             tabWidget->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            controlGroup->setEnabled(false);
+            focuserGroup->setEnabled(false);
             ccdGroup->setEnabled(false);
             tabWidget->setEnabled(false);
         });
     }
 
     auto isConnected = m_Camera && m_Camera->isConnected();
-    controlGroup->setEnabled(isConnected);
+    focuserGroup->setEnabled(isConnected);
     ccdGroup->setEnabled(isConnected);
     tabWidget->setEnabled(isConnected);
 
@@ -749,6 +786,7 @@ bool Focus::setCamera(ISD::Camera *device)
     resetFrame();
 
     checkCamera();
+    checkMosaicMaskLimits();
     return true;
 }
 
@@ -815,6 +853,161 @@ void Focus::setLastFocusTemperature()
     deltaTemperatureLabel->setStyleSheet("color: lightgreen");
 
     emit newFocusTemperatureDelta(0, -1e6);
+}
+
+void Focus::setLastFocusAlt()
+{
+    if (mountAlt < 0.0 || mountAlt > 90.0)
+        m_LastSourceAutofocusAlt = INVALID_VALUE;
+    else
+        m_LastSourceAutofocusAlt = mountAlt;
+}
+
+void Focus::setAdaptiveFocusCounters()
+{
+    m_LastAdaptiveFocusTemperature = m_LastSourceAutofocusTemperature;
+    m_LastAdaptiveFocusAlt = m_LastSourceAutofocusAlt;
+    m_LastAdaptiveFocusTempError = 0.0;
+    m_LastAdaptiveFocusAltError = 0.0;
+}
+
+// adaptiveFocus has been signalled. Check each adaptive dimension to determine whether a focus move is required.
+// Total the movements from each dimension and, if required, adjust focus
+void Focus::adaptiveFocus()
+{
+    double tempTicksDelta = 0.0;
+    double altTicksDelta = 0.0;
+    double currentTemp = INVALID_VALUE;
+    double currentAlt = INVALID_VALUE;
+
+    if (inAutoFocus || inFocusLoop || inAdjustFocus)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called whilst other focus activity in progress. Ignoring.";
+        emit focusAdaptiveComplete(false);
+        return;
+    }
+
+    if (inAdaptiveFocus)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called whilst already inAdaptiveFocus. Ignoring.";
+        emit focusAdaptiveComplete(false);
+        return;
+    }
+
+    if (!focusAdaptive->isChecked())
+    {
+        emit focusAdaptiveComplete(false);
+        return;
+    }
+
+    inAdaptiveFocus = true;
+
+    // Find out if there is anything to do for temperature
+    if (currentTemperatureSourceElement && m_LastSourceAutofocusTemperature != INVALID_VALUE &&
+            m_LastAdaptiveFocusTemperature != INVALID_VALUE)
+    {
+        currentTemp = currentTemperatureSourceElement->value;
+
+        // Get the change in temperature since the last focus adjustment
+        double tempDelta = currentTemp - m_LastAdaptiveFocusTemperature;
+
+        // Scale the temperature delta to number of ticks
+        tempTicksDelta = getAdaptiveTempTicks() * tempDelta;
+    }
+
+    // Now check for altitude
+    if (m_LastSourceAutofocusAlt != INVALID_VALUE && m_LastAdaptiveFocusAlt != INVALID_VALUE)
+    {
+        currentAlt = mountAlt;
+        // Get the change in altitude since the last focus adjustment
+        double altDelta = currentAlt - m_LastAdaptiveFocusAlt;
+
+        // Scale the altitude delta to number of ticks
+        altTicksDelta = getAdaptiveAltTicks() * altDelta;
+    }
+
+    // We calculate the delta ticks as a double but move the focuser in integer ticks so there will be
+    // a decimal under or over movement, dependent on rounding. A single invocation of adaptive focus will
+    // have an error of < 1 tick but we need to keep track of these as adaptive focus will be called many
+    // times between autofocus runs and we don't want these errors to add up to something significant.
+    const double tempTicksPlusLastError = tempTicksDelta + m_LastAdaptiveFocusTempError;
+    m_LastAdaptiveFocusTempTicks = static_cast<int> (round(tempTicksPlusLastError));
+
+    const double altTicksPlusLastError = altTicksDelta + m_LastAdaptiveFocusAltError;
+    m_LastAdaptiveFocusAltTicks = static_cast<int> (round(altTicksPlusLastError));
+
+    m_LastAdaptiveFocusTotalTicks = m_LastAdaptiveFocusTempTicks + m_LastAdaptiveFocusAltTicks;
+    m_LastAdaptiveFocusPosition = currentPosition + m_LastAdaptiveFocusTotalTicks;
+
+    appendLogText(i18n("Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks", m_LastAdaptiveFocusTempTicks,
+                       m_LastAdaptiveFocusAltTicks));
+
+    // Check movement is above user defined minimum
+    if (abs(m_LastAdaptiveFocusTotalTicks) < focusAdaptiveMinMove->value())
+    {
+        emit focusAdaptiveComplete(true);
+        inAdaptiveFocus = false;
+    }
+    else
+    {
+        // Now do some checks that the movement is permitted
+        if (abs(initialFocuserAbsPosition - currentPosition + m_LastAdaptiveFocusTotalTicks) > focusMaxTravel->value())
+        {
+            // We are about to move the focuser beyond adaptive focus max move so don't
+            // Suspend adaptive focusing can always re-enable, if required
+            focusAdaptive->setChecked(false);
+            appendLogText(i18n("Adaptive Focus suspended. Total movement would exceed Max Travel limit"));
+            emit focusAdaptiveComplete(false);
+            inAdaptiveFocus = false;
+        }
+        else if (abs(m_AdaptiveTotalMove + m_LastAdaptiveFocusTotalTicks) > focusAdaptiveMaxMove->value())
+        {
+            // We are about to move the focuser beyond adaptive focus max move so don't
+            // Suspend adaptive focusing. User can always re-enable, if required
+            focusAdaptive->setChecked(false);
+            appendLogText(i18n("Adaptive Focus suspended. Total movement would exceed adaptive limit"));
+            emit focusAdaptiveComplete(false);
+            inAdaptiveFocus = false;
+        }
+        else
+        {
+            // Go ahead and try to move the focuser. First setup an overscan movement
+            appendLogText(i18n("Adaptive Focus moving from %1 to %2", currentPosition,
+                               currentPosition + m_LastAdaptiveFocusTotalTicks));
+            if (changeFocus(m_LastAdaptiveFocusTotalTicks))
+            {
+                // All good so update variables for next time
+                m_LastAdaptiveFocusTemperature = currentTemp;
+                m_LastAdaptiveFocusTempError = tempTicksPlusLastError - static_cast<double> (m_LastAdaptiveFocusTempTicks);
+                m_LastAdaptiveFocusAlt = currentAlt;
+                m_LastAdaptiveFocusAltError = altTicksPlusLastError - static_cast<double> (m_LastAdaptiveFocusAltTicks);
+                m_AdaptiveTotalMove += m_LastAdaptiveFocusTotalTicks;
+            }
+            else
+            {
+                // Problem moving the focuser
+                appendLogText(i18n("Adaptive Focus unable to move focuser"));
+                emit focusAdaptiveComplete(false);
+                inAdaptiveFocus = false;
+            }
+        }
+    }
+}
+
+double Focus::getAdaptiveTempTicks()
+{
+    if (m_FilterManager)
+        return m_FilterManager->getFilterTicksPerTemp(filter());
+    else
+        return 0.0;
+}
+
+double Focus::getAdaptiveAltTicks()
+{
+    if (m_FilterManager)
+        return m_FilterManager->getFilterTicksPerAlt(filter());
+    else
+        return 0.0;
 }
 
 #if 0
@@ -919,6 +1112,16 @@ void Focus::start()
         appendLogText(i18n("Autofocus is already running, discarding start request."));
         return;
     }
+    else if (inAdjustFocus)
+    {
+        appendLogText(i18n("Discarding Autofocus start request - AdjustFocus in progress."));
+        return;
+    }
+    else if (inAdaptiveFocus)
+    {
+        appendLogText(i18n("Discarding Autofocus start request - AdaptiveFocus in progress."));
+        return;
+    }
     else inAutoFocus = true;
 
     m_LastFocusDirection = FOCUS_NONE;
@@ -932,6 +1135,10 @@ void Focus::start()
 
     // Reset focuser reconnect counter
     m_FocuserReconnectCounter = 0;
+
+    // Reset focuser reconnect counter
+    m_FocuserReconnectCounter = 0;
+    m_DebugFocuserCounter = 0;
 
     starsHFR.clear();
 
@@ -967,7 +1174,7 @@ void Focus::start()
     }
 
     focuserAdditionalMovement = 0;
-    HFRFrames.clear();
+    starMeasureFrames.clear();
 
     resetButtons();
 
@@ -980,27 +1187,70 @@ void Focus::start()
 
     clearDataPoints();
     profilePlot->clear();
+    FWHMOut->setText("");
 
-    qCInfo(KSTARS_EKOS_FOCUS)  << "Starting focus with Detection: " << focusDetection->currentText()
-                               << " Algorithm: " << focusAlgorithm->currentText()
-                               << " Box size: " << focusBoxSize->value()
-                               << " Subframe: " << ( focusSubFrame->isChecked() ? "yes" : "no" )
-                               << " Autostar: " << ( focusAutoStarEnabled->isChecked() ? "yes" : "no" )
-                               << " Full frame: " << ( focusUseFullField->isChecked() ? "yes" : "no " )
-                               << " [" << focusFullFieldInnerRadius->value() << "%," << focusFullFieldOuterRadius->value() << "%]"
-                               << " Step Size: " << focusTicks->value()
-                               << " Number Steps " << focusOutSteps->value()
-                               << " Backlash " << focusBacklash->value()
-                               << " AF Overscan " << focusAFOverscan->value()
-                               << " Threshold: " << focusThreshold->value()
-                               << " Gaussian Sigma: " << focusGaussianSigma->value()
-                               << " Gaussian Kernel size: " << focusGaussianKernelSize->value()
-                               << " Multi row average: " << focusMultiRowAverage->value()
-                               << " Tolerance: " << focusTolerance->value()
-                               << " Frames: " << 1 /*focusFramesCount->value()*/ << " Maximum Travel: " << focusMaxTravel->value()
-                               << " Curve Fit: " << focusCurveFit->currentText()
-                               << " Use Weights: " << ( focusUseWeights->isChecked() ? "yes" : "no" )
-                               << " R2 Limit: " << focusR2Limit->value();
+    qCInfo(KSTARS_EKOS_FOCUS)  << "Starting Autofocus on" << focuserLabel->text()
+                               << " Filter:" << filter()
+                               << " Exp:" << focusExposure->value()
+                               << " Bin:" << focusBinning->currentText()
+                               << " Gain:" << focusGain->value()
+                               << " ISO:" << focusISO->currentText();
+    qCInfo(KSTARS_EKOS_FOCUS)  << "Settings Tab."
+                               << " Auto Select Star:" << ( focusAutoStarEnabled->isChecked() ? "yes" : "no" )
+                               << " Dark Frame:" << ( useFocusDarkFrame->isChecked() ? "yes" : "no" )
+                               << " Sub Frame:" << ( focusSubFrame->isChecked() ? "yes" : "no" )
+                               << " Box:" << focusBoxSize->value()
+                               << " Full frame:" << ( focusUseFullField->isChecked() ? "yes" : "no " )
+                               << " Focus Mask: " << (focusNoMaskRB->isChecked() ? "Use all stars" :
+                                       (focusRingMaskRB->isChecked() ? QString("Ring Mask: [%1%, %2%]").
+                                        arg(focusFullFieldInnerRadius->value()).arg(focusFullFieldOuterRadius->value()) :
+                                        QString("Mosaic Mask: [%1%, space=%2px]").
+                                        arg(focusMosaicTileWidth->value()).arg(focusMosaicSpace->value())))
+                               << " Suspend Guiding:" << ( focusSuspendGuiding->isChecked() ? "yes" : "no " )
+                               << " Guide Settle:" << guideSettleTime->value()
+                               << " Display Units:" << focusUnits->currentText()
+                               << " Adaptive Focus:" << ( focusAdaptive->isChecked() ? "yes" : "no" )
+                               << " Min Move:" << focusAdaptiveMinMove->value()
+                               << " Adapt Start:" << ( focusAdaptStart->isChecked() ? "yes" : "no" )
+                               << " Max Total Move:" << focusAdaptiveMaxMove->value();
+    qCInfo(KSTARS_EKOS_FOCUS)  << "Process Tab."
+                               << " Detection:" << focusDetection->currentText()
+                               << " SEP Profile:" << focusSEPProfile->currentText()
+                               << " Algorithm:" << focusAlgorithm->currentText()
+                               << " Curve Fit:" << focusCurveFit->currentText()
+                               << " Measure:" << focusStarMeasure->currentText()
+                               << " PSF:" << focusStarPSF->currentText()
+                               << " Use Weights:" << ( focusUseWeights->isChecked() ? "yes" : "no" )
+                               << " R2 Limit:" << focusR2Limit->value()
+                               << " Refine Curve Fit:" << ( focusRefineCurveFit->isChecked() ? "yes" : "no" )
+                               << " Average Over:" << focusFramesCount->value()
+                               << " Num.of Rows:" << focusMultiRowAverage->value()
+                               << " Sigma:" << focusGaussianSigma->value()
+                               << " Threshold:" << focusThreshold->value()
+                               << " Kernel size:" << focusGaussianKernelSize->value()
+                               << " Tolerance:" << focusTolerance->value();
+    qCInfo(KSTARS_EKOS_FOCUS)  << "Mechanics Tab."
+                               << " Initial Step Size:" << focusTicks->value()
+                               << " Out Step Multiple:" << focusOutSteps->value()
+                               << " Number Steps:" << focusNumSteps->value()
+                               << " Max Travel:" << focusMaxTravel->value()
+                               << " Max Step Size:" << focusMaxSingleStep->value()
+                               << " Driver Backlash:" << focusBacklash->value()
+                               << " AF Overscan:" << focusAFOverscan->value()
+                               << " Focuser Settle:" << focusSettleTime->value()
+                               << " Walk:" << focusWalk->currentText()
+                               << " Capture Timeout:" << focusCaptureTimeout->value()
+                               << " Motion Timeout:" << focusMotionTimeout->value();
+    qCInfo(KSTARS_EKOS_FOCUS)  << "CFZ Tab."
+                               << " Algorithm:" << focusCFZAlgorithm->currentText()
+                               << " Tolerance:" << focusCFZTolerance->value()
+                               << " Tolerance (τ):" << focusCFZTau->value()
+                               << " Display:" << ( focusCFZDisplayVCurve->isChecked() ? "yes" : "no" )
+                               << " Wavelength (λ):" << focusCFZWavelength->value()
+                               << " Aperture (A):" << focusCFZAperture->value()
+                               << " Focal Ratio (f):" << focusCFZFNumber->value()
+                               << " Step Size:" << focusCFZStepSize->value()
+                               << " FWHM (θ):" << focusCFZSeeing->value();
 
     if (currentTemperatureSourceElement)
         emit autofocusStarting(currentTemperatureSourceElement->value, filter());
@@ -1027,40 +1277,165 @@ void Focus::start()
     qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
     emit newStatus(state);
 
-    // Denoise with median filter
-    //defaultScale = FITS_MEDIAN;
-
     KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"), KSNotification::Focus);
 
     // Used for all the focuser types.
     if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
     {
-        const int position = static_cast<int>(currentPosition);
-        auto focusOutSteps = m_Settings["focusOutSteps"];
-        auto focusOutStepsValue = focusOutSteps.isValid() ? focusOutSteps.toDouble() : 0.0;
-        FocusAlgorithmInterface::FocusParams params(
-            focusMaxTravel->value(), focusTicks->value(), position, absMotionMin, absMotionMax,
-            MAXIMUM_ABS_ITERATIONS, focusTolerance->value() / 100.0, filter(),
-            currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
-            focusOutStepsValue,
-            m_FocusAlgorithm, focusBacklash->value(), m_CurveFit, focusUseWeights->isChecked());
+        QString AFfilter;
+        const int position = adaptStartPosition(currentPosition, &AFfilter);
+
+        curveFitting.reset(new CurveFitting());
+
+        FocusAlgorithmInterface::FocusParams params(curveFitting.get(),
+                focusMaxTravel->value(), focusTicks->value(), position, absMotionMin, absMotionMax,
+                MAXIMUM_ABS_ITERATIONS, focusTolerance->value() / 100.0, AFfilter,
+                currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
+                focusOutSteps->value(), focusNumSteps->value(),
+                m_FocusAlgorithm, focusBacklash->value(), m_CurveFit, focusUseWeights->isChecked(),
+                m_StarMeasure, m_StarPSF, focusRefineCurveFit->isChecked(), m_FocusWalk, m_OptDir, m_ScaleCalc);
+
+        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS)
+        {
+            // Curve fitting for stars and FWHM processing
+            starFitting.reset(new CurveFitting());
+            focusFWHM.reset(new FocusFWHM(m_ScaleCalc));
+            focusFourierPower.reset(new FocusFourierPower(m_ScaleCalc));
+        }
+
         if (canAbsMove)
             initialFocuserAbsPosition = position;
         linearFocuser.reset(MakeLinearFocuser(params));
-        curveFitting.reset(new CurveFitting());
         linearRequestedPosition = linearFocuser->initialPosition();
-        const int newPosition = adjustLinearPosition(position, linearRequestedPosition, focusAFOverscan->value());
-        if (newPosition != position)
-        {
-            if (!changeFocus(newPosition - position))
-            {
-                completeFocusProcedure(Ekos::FOCUS_ABORTED);
-            }
-            // Avoid the capture below.
-            return;
-        }
+        if (!changeFocus(linearRequestedPosition - currentPosition))
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
+
+        // Avoid the capture below.
+        return;
     }
     capture();
+}
+
+// Change the start position of an autofocus run based Adaptive Focus settings
+// The start position uses the last successful AF run for the active filter and adapts that position
+// based on the temperature and altitude delta between now and when the last successful AF run happened
+// Only enabled for LINEAR 1 PASS
+int Focus::adaptStartPosition(int position, QString *AFfilter)
+{
+    // If the active filter has no lock then the AF run will happen on this filter so get the start point
+    // Otherwise get the lock filter on which the AF run will happen and get the start point of this filter
+    // An exception is when the BuildOffsets utility is being used as this ignores the lock filter
+    QString filterText;
+    *AFfilter = filter();
+
+    if (!m_FilterManager)
+        return position;
+
+    QString lockFilter = m_FilterManager->getFilterLock(*AFfilter);
+    if (inBuildOffsets || lockFilter == "--" || lockFilter == *AFfilter)
+        filterText = *AFfilter;
+    else
+    {
+        filterText = *AFfilter + " locked to " + lockFilter;
+        *AFfilter = lockFilter;
+    }
+
+    if (m_FocusAlgorithm != FOCUS_LINEAR1PASS)
+        return position;
+
+    if (!focusAdaptStart->isChecked())
+        // Adapt start option disabled
+        return position;
+
+    // Start with the last AF run result for the active filter
+    int lastPos;
+    double lastTemp, lastAlt;
+    if(!m_FilterManager->getFilterAbsoluteFocusDetails(*AFfilter, lastPos, lastTemp, lastAlt))
+        // Unable to get the last AF run information for the filter so just use the currentPosition
+        return position;
+
+    // Only proceed if we have a sensible lastPos
+    if (lastPos <= 0)
+        return position;
+
+    // Do some checks on the lastPos
+    int minTravelLimit = qMax(0.0, currentPosition - focusMaxTravel->value());
+    int maxTravelLimit = qMin(absMotionMax, currentPosition + focusMaxTravel->value());
+    if (lastPos < minTravelLimit || lastPos > maxTravelLimit)
+    {
+        // Looks like there is a potentially dodgy lastPos so just use currentPosition
+        appendLogText(i18n("Adaptive start point, last AF solution outside Max Travel, ignoring"));
+        return position;
+    }
+
+    // Adjust temperature
+    double ticksTemp = 0.0;
+    double tempDelta = 0.0;
+    if (!currentTemperatureSourceElement)
+        appendLogText(i18n("Adaptive start point, no temperature source available"));
+    else if (lastTemp == INVALID_VALUE)
+        appendLogText(i18n("Adaptive start point, no temperature for last AF solution"));
+    else
+    {
+        double currentTemp = currentTemperatureSourceElement->value;
+        tempDelta = currentTemp - lastTemp;
+        if (abs(tempDelta) > 30)
+            // Sanity check on the temperature delta
+            appendLogText(i18n("Adaptive start point, very large temperature delta, ignoring"));
+        else
+            ticksTemp = tempDelta * m_FilterManager->getFilterTicksPerTemp(*AFfilter);
+    }
+
+    // Adjust altitude
+    double ticksAlt = 0.0;
+    double currentAlt = mountAlt;
+    double altDelta = currentAlt - lastAlt;
+
+    // Sanity check on the altitude delta
+    if (lastAlt == INVALID_VALUE)
+        appendLogText(i18n("Adaptive start point, no alt recorded for last AF solution"));
+    else if (abs(altDelta) > 90.0)
+        appendLogText(i18n("Adaptive start point, very large altitude delta, ignoring"));
+    else
+        ticksAlt = altDelta * m_FilterManager->getFilterTicksPerAlt(*AFfilter);
+
+    // We have all the elements to adjust the AF start position so final checks before the move
+    const int ticksTotal = static_cast<int> (round(ticksTemp + ticksAlt));
+    int targetPos = lastPos + ticksTotal;
+    if (targetPos < minTravelLimit || targetPos > maxTravelLimit)
+    {
+        // targetPos is outside Max Travel
+        appendLogText(i18n("Adaptive start point, target position is outside Max Travel, ignoring"));
+        return position;
+    }
+
+    if (abs(targetPos - position) > focusAdaptiveMaxMove->value())
+    {
+        // Disallow excessive movement.
+        // No need to check minimum movement
+        appendLogText(i18n("Adaptive start point [%1] excessive move disallowed", filterText));
+        qCDebug(KSTARS_EKOS_FOCUS) << "Adaptive start point: " << filterText
+                                   << " startPosition: " << position
+                                   << " Last filter position: " << lastPos
+                                   << " Temp delta: " << tempDelta << " Temp ticks: " << ticksTemp
+                                   << " Alt delta: " << altDelta << " Alt ticks: " << ticksAlt
+                                   << " Target position: " << targetPos
+                                   << " Exceeds max allowed move: " << focusAdaptiveMaxMove->value()
+                                   << " Using startPosition.";
+        return position;
+    }
+    else
+    {
+        // All good so report the move
+        appendLogText(i18n("Adapting start point [%1] from %2 to %3", filterText, currentPosition, targetPos));
+        qCDebug(KSTARS_EKOS_FOCUS) << "Adaptive start point: " << filterText
+                                   << " startPosition: " << position
+                                   << " Last filter position: " << lastPos
+                                   << " Temp delta: " << tempDelta << " Temp ticks: " << ticksTemp
+                                   << " Alt delta: " << altDelta << " Alt ticks: " << ticksAlt
+                                   << " Target position: " << targetPos;
+        return targetPos;
+    }
 }
 
 int Focus::adjustLinearPosition(int position, int newPosition, int overscan)
@@ -1146,15 +1521,18 @@ void Focus::stop(Ekos::FocusState completionState)
     m_FocuserReconnectCounter = 0;
 
     opticalTrainCombo->setEnabled(true);
-    inAutoFocus     = false;
+    inAutoFocus = false;
+    inAdjustFocus = false;
+    inAdaptiveFocus = false;
+    inBuildOffsets = false;
     focuserAdditionalMovement = 0;
-    inFocusLoop     = false;
-    captureInProgress  = false;
+    inFocusLoop = false;
+    captureInProgress = false;
     isVShapeSolution = false;
     captureFailureCounter = 0;
-    minimumRequiredHFR = -1;
-    noStarCount        = 0;
-    HFRFrames.clear();
+    minimumRequiredHFR = INVALID_STAR_MEASURE;
+    noStarCount = 0;
+    starMeasureFrames.clear();
 
     // Check if CCD was not removed due to crash or other reasons.
     if (m_Camera)
@@ -1253,33 +1631,41 @@ void Focus::capture(double settleTime)
             return;
         }
 
+        // In "regular" autofocus mode if the chosen filter has an associated lock filter then we need
+        // to swap to the lock filter before running autofocus. However, AF is also called from build
+        // offsets to run AF. In this case we need to ignore the lock filter and use the chosen filter
         int targetPosition = focusFilter->currentIndex() + 1;
-        QString lockedFilter = m_FilterManager->getFilterLock(focusFilter->currentText());
-
-        // We change filter if:
-        // 1. Target position is not equal to current position.
-        // 2. Locked filter of CURRENT filter is a different filter.
-        if (lockedFilter != "--" && lockedFilter != focusFilter->currentText())
+        if (!inBuildOffsets)
         {
-            int lockedFilterIndex = focusFilter->findText(lockedFilter);
-            if (lockedFilterIndex >= 0)
+            QString lockedFilter = m_FilterManager->getFilterLock(filter());
+
+            // We change filter if:
+            // 1. Target position is not equal to current position.
+            // 2. Locked filter of CURRENT filter is a different filter.
+            if (lockedFilter != "--" && lockedFilter != filter())
             {
-                // Go back to this filter one we are done
-                fallbackFilterPending = true;
-                fallbackFilterPosition = targetPosition;
-                targetPosition = lockedFilterIndex + 1;
+                int lockedFilterIndex = focusFilter->findText(lockedFilter);
+                if (lockedFilterIndex >= 0)
+                {
+                    // Go back to this filter once we are done
+                    fallbackFilterPending = true;
+                    fallbackFilterPosition = targetPosition;
+                    targetPosition = lockedFilterIndex + 1;
+                }
             }
         }
 
         filterPositionPending = (targetPosition != currentFilterPosition);
-        // If either the target position is not equal to the current position, OR
         if (filterPositionPending)
         {
+            // Change the filter. When done this will signal to update the focusFilter combo
             // Apply all policies except autofocus since we are already in autofocus module doh.
             m_FilterManager->setFilterPosition(targetPosition,
-                                               static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+                                               static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY));
             return;
         }
+        else if (targetPosition != focusFilter->currentIndex() + 1)
+            focusFilter->setCurrentIndex(targetPosition - 1);
     }
 
     m_FocusView->setProperty("suspended", useFocusDarkFrame->isChecked());
@@ -1311,7 +1697,7 @@ void Focus::capture(double settleTime)
     {
         // Timeout is exposure duration + timeout threshold in seconds
         //long const timeout = lround(ceil(focusExposure->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
-        captureTimeout.start(Options::focusCaptureTimeout() * 1000);
+        captureTimeout.start(focusCaptureTimeout->value() * 1000);
 
         if (inFocusLoop == false)
             appendLogText(i18n("Capturing image..."));
@@ -1346,11 +1732,11 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
     targetChip->setFrameType(FRAME_LIGHT);
     targetChip->setCaptureFilter(FITS_NONE);
 
-    if (focusISO->isEnabled() && focusISO->currentIndex() != -1 &&
+    if (isFocusISOEnabled() && focusISO->currentIndex() != -1 &&
             targetChip->getISOIndex() != focusISO->currentIndex())
         targetChip->setISOIndex(focusISO->currentIndex());
 
-    if (focusGain->isEnabled() && focusGain->value() != GainSpinSpecialValue)
+    if (isFocusGainEnabled() && focusGain->value() != GainSpinSpecialValue)
         m_Camera->setGain(focusGain->value());
 }
 
@@ -1368,14 +1754,13 @@ bool Focus::focusOut(int ms)
     return changeFocus(ms);
 }
 
-// If amount > 0 we focus out, otherwise in.
+// Routine to manage focus movements. All moves are now subject to overscan
+// + amount indicates a movement out; - amount indictaes a movement in
 bool Focus::changeFocus(int amount)
 {
-    const int absAmount = abs(amount);
-
     // Retry capture if we stay at the same position
     // Allow 1 step of tolerance--Have seen stalls with amount==1.
-    if (inAutoFocus && absAmount <= 1)
+    if (inAutoFocus && abs(amount) <= 1)
     {
         capture(focusSettleTime->value());
         return true;
@@ -1395,9 +1780,14 @@ bool Focus::changeFocus(int amount)
         return false;
     }
 
-    const bool focusingOut = amount > 0;
+    const int newPosition = adjustLinearPosition(currentPosition, currentPosition + amount, focusAFOverscan->value());
+    if (newPosition == currentPosition)
+        return true;
+
+    const int newAmount = newPosition - currentPosition;
+    const int absNewAmount = abs(newAmount);
+    const bool focusingOut = newAmount > 0;
     const QString dirStr = focusingOut ? i18n("outward") : i18n("inward");
-    m_LastFocusDirection = focusingOut ? FOCUS_OUT : FOCUS_IN;
 
     if (focusingOut)
         m_Focuser->focusOut();
@@ -1409,21 +1799,21 @@ bool Focus::changeFocus(int amount)
 
     if (canAbsMove)
     {
-        m_LastFocusSteps = currentPosition + amount;
-        m_Focuser->moveAbs(currentPosition + amount);
-        appendLogText(i18n("Focusing %2 by %1 steps...", absAmount, dirStr));
+        m_LastFocusSteps = newPosition;
+        m_Focuser->moveAbs(newPosition);
+        appendLogText(i18n("Focusing %2 by %1 steps...", abs(absNewAmount), dirStr));
     }
     else if (canRelMove)
     {
-        m_LastFocusSteps = absAmount;
-        m_Focuser->moveRel(absAmount);
-        appendLogText(i18np("Focusing %2 by %1 step...", "Focusing %2 by %1 steps...", absAmount, dirStr));
+        m_LastFocusSteps = absNewAmount;
+        m_Focuser->moveRel(absNewAmount);
+        appendLogText(i18np("Focusing %2 by %1 step...", "Focusing %2 by %1 steps...", absNewAmount, dirStr));
     }
     else
     {
-        m_LastFocusSteps = absAmount;
-        m_Focuser->moveByTimer(absAmount);
-        appendLogText(i18n("Focusing %2 by %1 ms...", absAmount, dirStr));
+        m_LastFocusSteps = absNewAmount;
+        m_Focuser->moveByTimer(absNewAmount);
+        appendLogText(i18n("Focusing %2 by %1 ms...", absNewAmount, dirStr));
     }
 
     return true;
@@ -1435,7 +1825,8 @@ bool Focus::changeFocus(int amount)
 void Focus::handleFocusMotionTimeout()
 {
     // handleFocusMotionTimeout is called when the focus motion timer times out. This is only
-    // relevant to AutoFocus runs.
+    // relevant to AutoFocus runs which could be unattended so make an attempt to recover. Other
+    // types of focuser movement issues are logged and the user is expected to take action.
     // If set correctly, say 30 secs, this should only occur when there are comms issues
     // with the focuser.
     // Step 1: Just retry the last requested move. If the issue is a transient one-off issue
@@ -1477,28 +1868,56 @@ void Focus::handleFocusMotionTimeout()
         return;
     }
 
-    // We're about to try to move the focuser so restart the timer
-    m_FocusMotionTimer.start();
-
-    const QString dirStr = m_LastFocusDirection == FOCUS_OUT ? i18n("outward") : i18n("inward");
-    if (canAbsMove)
-    {
-        m_Focuser->moveAbs(m_LastFocusSteps);
+    if (!changeFocus(m_LastFocusSteps - currentPosition))
         appendLogText(i18n("Focus motion timed out (%1). Focusing to %2 steps...", m_FocusMotionTimerCounter, m_LastFocusSteps));
-    }
-    else if (canRelMove)
-    {
-        m_Focuser->moveRel(m_LastFocusSteps);
-        appendLogText(i18n("Focus motion timed out (%1). Focusing %3 by %2 steps...", m_FocusMotionTimerCounter, m_LastFocusSteps,
-                           dirStr));
-    }
+}
+
+void Focus::selectImageMask(const ImageMaskType newMaskType)
+{
+    const bool useFullField = focusUseFullField->isChecked();
+    // mask selection only enabled if full field should be used for focusing
+    focusRingMaskRB->setEnabled(useFullField);
+    focusMosaicMaskRB->setEnabled(useFullField);
+    // ring mask
+    focusFullFieldInnerRadius->setEnabled(useFullField && newMaskType == FOCUS_MASK_RING);
+    focusFullFieldOuterRadius->setEnabled(useFullField && newMaskType == FOCUS_MASK_RING);
+    // aberration inspector mosaic
+    focusMosaicTileWidth->setEnabled(useFullField && newMaskType == FOCUS_MASK_MOSAIC);
+    focusSpacerLabel->setEnabled(useFullField && newMaskType == FOCUS_MASK_MOSAIC);
+    focusMosaicSpace->setEnabled(useFullField && newMaskType == FOCUS_MASK_MOSAIC);
+
+    // create the type specific mask
+    if (newMaskType == FOCUS_MASK_RING)
+        m_FocusView->setImageMask(new ImageRingMask(Options::focusFullFieldInnerRadius() / 100.0,
+                                  Options::focusFullFieldOuterRadius() / 100.0));
+    else if (newMaskType == FOCUS_MASK_MOSAIC)
+        m_FocusView->setImageMask(new ImageMosaicMask(Options::focusMosaicTileWidth(), Options::focusMosaicSpace()));
     else
+        m_FocusView->setImageMask(nullptr);
+
+    checkMosaicMaskLimits();
+    m_currentImageMask = newMaskType;
+}
+
+void Focus::syncImageMaskSelection()
+{
+    QRadioButton *rb = nullptr;
+    if ( (rb = qobject_cast<QRadioButton*>(sender())) && rb->isChecked())
     {
-        m_Focuser->moveByTimer(m_LastFocusSteps);
-        appendLogText(i18n("Focus motion timed out (%1). Focusing %3 by %2 ms...",
-                           m_FocusMotionTimerCounter, m_LastFocusSteps, dirStr));
+        const QString name = rb->objectName();
+        ImageMaskType mask = FOCUS_MASK_NONE;
+
+        if (name == "focusRingMaskRB")
+            mask = FOCUS_MASK_RING;
+        else if (name == "focusMosaicMaskRB")
+            mask = FOCUS_MASK_MOSAIC;
+
+        Options::setFocusMaskType(mask);
+        selectImageMask(mask);
     }
 }
+
+
 
 void Focus::reconnectFocuser(const QString &focuser)
 {
@@ -1553,7 +1972,6 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
         uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
 
-        //targetChip->setCaptureFilter(defaultScale);
         m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
                                  targetChip, m_ImageData, focusExposure->value(), offsetX, offsetY);
         return;
@@ -1563,12 +1981,12 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
     resetButtons();
 }
 
-void Focus::calculateHFR()
+void Focus::starDetectionFinished()
 {
     appendLogText(i18n("Detection complete."));
 
     // Beware as this HFR value is then treated specifically by the graph renderer
-    double hfr = FocusAlgorithmInterface::IGNORED_HFR;
+    double hfr = INVALID_STAR_MEASURE;
 
     if (m_StarFinderWatcher.result() == false)
     {
@@ -1578,12 +1996,10 @@ void Focus::calculateHFR()
     {
         if (focusUseFullField->isChecked())
         {
-            m_FocusView->setStarFilterRange(static_cast <float> (focusFullFieldInnerRadius->value() / 100.0),
-                                            static_cast <float> (focusFullFieldOuterRadius->value() / 100.0));
             m_FocusView->filterStars();
 
             // Get the average HFR of the whole frame
-            hfr = m_ImageData->getHFR(HFR_AVERAGE);
+            hfr = m_ImageData->getHFR(m_StarMeasure == FOCUS_STAR_HFR_ADJ ? HFR_ADJ_AVERAGE : HFR_AVERAGE);
         }
         else
         {
@@ -1602,8 +2018,159 @@ void Focus::calculateHFR()
     }
 
     hfrInProgress = false;
-    resetButtons();
-    setCurrentHFR(hfr);
+    currentHFR = hfr;
+    currentNumStars = m_ImageData->getDetectedStars();
+
+    // Setup with measure we are using (HFR, FWHM, etc)
+    if (!inAutoFocus)
+        currentMeasure = currentHFR;
+    else
+    {
+        if (m_StarMeasure == FOCUS_STAR_NUM_STARS)
+        {
+            currentMeasure = currentNumStars;
+            currentWeight = 1.0;
+        }
+        else if (m_StarMeasure == FOCUS_STAR_FWHM)
+        {
+            getFWHM(&currentFWHM, &currentWeight);
+            currentMeasure = currentFWHM;
+        }
+        else if (m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
+        {
+            getFourierPower(&currentFourierPower, &currentWeight);
+            currentMeasure = currentFourierPower;
+        }
+        else
+        {
+            currentMeasure = currentHFR;
+            QList<Edge*> stars = m_ImageData->getStarCenters();
+            std::vector<double> hfrs(stars.size());
+            std::transform(stars.constBegin(), stars.constEnd(), hfrs.begin(), [](Edge * edge)
+            {
+                return edge->HFR;
+            });
+            currentWeight = calculateStarWeight(focusUseWeights->isChecked(), hfrs);
+        }
+    }
+    setCurrentMeasure();
+}
+
+// The image has been processed for star centroids and HFRs so now process it for star FWHMs
+void Focus::getFWHM(double *FWHM, double *weight)
+{
+    *FWHM = INVALID_STAR_MEASURE;
+    *weight = 0.0;
+
+    auto imageBuffer = m_ImageData->getImageBuffer();
+
+    switch (m_ImageData->getStatistics().dataType)
+    {
+        case TBYTE:
+            focusFWHM->processFWHM(reinterpret_cast<uint8_t const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        case TSHORT: // Don't think short is used as its recorded as unsigned short
+            focusFWHM->processFWHM(reinterpret_cast<short const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        case TUSHORT:
+            focusFWHM->processFWHM(reinterpret_cast<unsigned short const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        case TLONG:  // Don't think long is used as its recorded as unsigned long
+            focusFWHM->processFWHM(reinterpret_cast<long const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        case TULONG:
+            focusFWHM->processFWHM(reinterpret_cast<unsigned long const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        case TFLOAT:
+            focusFWHM->processFWHM(reinterpret_cast<float const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        case TLONGLONG:
+            focusFWHM->processFWHM(reinterpret_cast<long long const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        case TDOUBLE:
+            focusFWHM->processFWHM(reinterpret_cast<double const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            break;
+
+        default:
+            qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
+                                       " Cannot calc FWHM";
+            break;
+    }
+}
+
+// The image has been processed for star centroids and HFRs so now process it for star FWHMs
+void Focus::getFourierPower(double *fourierPower, double *weight)
+{
+    *fourierPower = INVALID_STAR_MEASURE;
+    *weight = 1.0;
+
+    auto imageBuffer = m_ImageData->getImageBuffer();
+
+    switch (m_ImageData->getStatistics().dataType)
+    {
+        case TBYTE:
+            focusFourierPower->processFourierPower(reinterpret_cast<uint8_t const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(),
+                                                   fourierPower, weight);
+            break;
+
+        case TSHORT: // Don't think short is used as its recorded as unsigned short
+            focusFourierPower->processFourierPower(reinterpret_cast<short const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
+                                                   fourierPower, weight);
+            break;
+
+        case TUSHORT:
+            focusFourierPower->processFourierPower(reinterpret_cast<unsigned short const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), fourierPower, weight);
+            break;
+
+        case TLONG:  // Don't think long is used as its recorded as unsigned long
+            focusFourierPower->processFourierPower(reinterpret_cast<long const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
+                                                   fourierPower, weight);
+            break;
+
+        case TULONG:
+            focusFourierPower->processFourierPower(reinterpret_cast<unsigned long const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), fourierPower, weight);
+            break;
+
+        case TFLOAT:
+            focusFourierPower->processFourierPower(reinterpret_cast<float const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
+                                                   fourierPower, weight);
+            break;
+
+        case TLONGLONG:
+            focusFourierPower->processFourierPower(reinterpret_cast<long long const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), fourierPower, weight);
+            break;
+
+        case TDOUBLE:
+            focusFourierPower->processFourierPower(reinterpret_cast<double const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
+                                                   fourierPower, weight);
+            break;
+
+        default:
+            qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
+                                       " Cannot calc Fourier Power";
+            break;
+    }
+}
+
+double Focus::calculateStarWeight(const bool useWeights, const std::vector<double> values)
+{
+    if (!useWeights || values.size() <= 0)
+        // If we can't calculate weight set to 1 = equal weights
+        // Also if we are using numStars as the measure - don't use weights
+        return 1.0f;
+
+    return Mathematics::RobustStatistics::ComputeWeight(m_ScaleCalc, values);
 }
 
 void Focus::analyzeSources()
@@ -1651,83 +2218,82 @@ void Focus::analyzeSources()
     }
 }
 
-bool Focus::appendHFR(double newHFR)
+bool Focus::appendMeasure(double newMeasure)
 {
-    // Add new HFR to existing values, even if invalid
-    HFRFrames.append(newHFR);
+    // Add new star measure (e.g. HFR, FWHM, etc) to existing values, even if invalid
+    starMeasureFrames.append(newMeasure);
 
     // Prepare a work vector with valid HFR values
-    QVector <double> samples(HFRFrames);
-    samples.erase(std::remove_if(samples.begin(), samples.end(), [](const double HFR)
+    QVector <double> samples(starMeasureFrames);
+    samples.erase(std::remove_if(samples.begin(), samples.end(), [](const double measure)
     {
-        return HFR == FocusAlgorithmInterface::IGNORED_HFR;
+        return measure == INVALID_STAR_MEASURE;
     }), samples.end());
 
-    // Perform simple sigma clipping if more than a few samples
-    if (samples.count() > 3)
+    // Consolidate the average star measure. Sigma clips outliers and averages remainder.
+    if (!samples.isEmpty())
     {
-        // Sort all HFRs and extract the median
-        std::sort(samples.begin(), samples.end());
-        const auto median =
-            ((samples.size() % 2) ?
-             samples[samples.size() / 2] :
-             (static_cast<double>(samples[samples.size() / 2 - 1]) + samples[samples.size() / 2]) * .5);
+        currentMeasure = Mathematics::RobustStatistics::ComputeLocation(
+                             Mathematics::RobustStatistics::LOCATION_SIGMACLIPPING, std::vector<double>(samples.begin(), samples.end()));
 
-        // Extract the mean
-        const auto mean = std::accumulate(samples.begin(), samples.end(), .0) / samples.size();
-
-        // Extract the variance
-        double variance = 0;
-        foreach (auto val, samples)
-            variance += (val - mean) * (val - mean);
-
-        // Deduce the standard deviation
-        const double stddev = sqrt(variance / samples.size());
-
-        // Reject those 2 sigma away from median
-        const double sigmaHigh = median + stddev * 2;
-        const double sigmaLow  = median - stddev * 2;
-
-        // FIXME: why is the first value not considered?
-        // FIXME: what if there are less than 3 samples after clipping?
-        QMutableVectorIterator<double> i(samples);
-        while (i.hasNext())
+        switch(m_StarMeasure)
         {
-            auto val = i.next();
-            if (val > sigmaHigh || val < sigmaLow)
-                i.remove();
+            case FOCUS_STAR_HFR:
+            case FOCUS_STAR_HFR_ADJ:
+                currentHFR = currentMeasure;
+                break;
+            case FOCUS_STAR_FWHM:
+                currentFWHM = currentMeasure;
+                break;
+            case FOCUS_STAR_NUM_STARS:
+                currentNumStars = currentMeasure;
+                break;
+            case FOCUS_STAR_FOURIER_POWER:
+                currentFourierPower = currentMeasure;
+                break;
+            default:
+                break;
         }
     }
 
-    // Consolidate the average HFR
-    currentHFR = samples.isEmpty() ? -1 : std::accumulate(samples.begin(), samples.end(), .0) / samples.size();
-
     // Return whether we need more frame based on user requirement
-    return HFRFrames.count() < focusFramesCount->value();
+    return starMeasureFrames.count() < focusFramesCount->value();
 }
 
-void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
+void Focus::settle(const FocusState completionState, const bool autoFocusUsed, const bool buildOffsetsUsed)
 {
     state = completionState;
     if (completionState == Ekos::FOCUS_COMPLETE)
     {
+        if (autoFocusUsed && fallbackFilterPending)
+        {
+            // Save the solution details for the filter used for the AF run before changing
+            // filers to the fallback filter. Details for the fallback filter will be saved once that
+            // filter has been processed and the offset applied
+            m_FilterManager->setFilterAbsoluteFocusDetails(focusFilter->currentIndex(), currentPosition,
+                    m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
+        }
+
         if (autoFocusUsed)
         {
             // Prepare the message for Analyze
-            const int size = hfr_position.size();
+            const int size = plot_position.size();
             QString analysis_results = "";
 
             for (int i = 0; i < size; ++i)
             {
                 analysis_results.append(QString("%1%2|%3")
                                         .arg(i == 0 ? "" : "|" )
-                                        .arg(QString::number(hfr_position[i], 'f', 0))
-                                        .arg(QString::number(hfr_value[i], 'f', 3)));
+                                        .arg(QString::number(plot_position[i], 'f', 0))
+                                        .arg(QString::number(plot_value[i], 'f', 3)));
             }
 
             KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"),
                                   KSNotification::Focus);
-            emit autofocusComplete(filter(), analysis_results);
+            if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && curveFitting != nullptr)
+                emit autofocusComplete(filter(), analysis_results, curveFitting->serialize(), linearFocuser->getTextStatus(R2));
+            else
+                emit autofocusComplete(filter(), analysis_results);
         }
     }
     else
@@ -1751,6 +2317,10 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
     else
         emit newStatus(state);
 
+    if (autoFocusUsed && buildOffsetsUsed)
+        // If we are building filter offsets signal AF run is complete
+        m_FilterManager->autoFocusComplete(state, currentPosition);
+
     resetButtons();
 }
 
@@ -1763,21 +2333,23 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
             if (plot)
                 emit redrawHFRPlot(polynomialFit.get(), currentPosition, currentHFR);
             appendLogText(i18np("Focus procedure completed after %1 iteration.",
-                                "Focus procedure completed after %1 iterations.", hfr_position.count()));
+                                "Focus procedure completed after %1 iterations.", plot_position.count()));
 
             setLastFocusTemperature();
+            setLastFocusAlt();
+            setAdaptiveFocusCounters();
 
             // CR add auto focus position, temperature and filter to log in CSV format
             // this will help with setting up focus offsets and temperature compensation
             qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus values: position," << currentPosition << ", temperature,"
                                       << m_LastSourceAutofocusTemperature << ", filter," << filter()
-                                      << ", HFR," << currentHFR << ", altitude," << mountAlt;
+                                      << ", HFR," << currentHFR << ", altitude," << m_LastSourceAutofocusAlt;
 
             if (m_FocusAlgorithm == FOCUS_POLYNOMIAL)
             {
                 // Add the final polynomial values to the signal sent to Analyze.
-                hfr_position.append(currentPosition);
-                hfr_value.append(currentHFR);
+                plot_position.append(currentPosition);
+                plot_value.append(currentHFR);
             }
 
             appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
@@ -1785,13 +2357,14 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
                                .arg(QString::number(m_LastSourceAutofocusTemperature, 'f', 1))
                                .arg(filter())
                                .arg(QString::number(currentHFR, 'f', 3))
-                               .arg(QString::number(mountAlt, 'f', 1)));
+                               .arg(QString::number(m_LastSourceAutofocusAlt, 'f', 1)));
 
             // Replace user position with optimal position
             absTicksSpin->setValue(currentPosition);
         }
         // In case of failure, go back to last position if the focuser is absolute
-        else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS)
+        else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS
+                 && m_RestartState != RESTART_ABORT)
         {
             // If we're doing in-sequence focusing using an absolute focuser, retry focusing once, starting from last known good position
             bool const retry_focusing = m_RestartState == RESTART_NONE && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
@@ -1820,7 +2393,8 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
                 // immediately retry. The startup process will take the current focuser position
                 // as the start position and so the focuser needs to have arrived at its starting
                 // position before this. So set m_RestartState to log this.
-                resetFocusIteration = 0;
+                // JEE FIXME?
+                //resetFocusIteration = 0;
                 m_RestartState = RESTART_ABORT;
                 return;
             }
@@ -1831,13 +2405,14 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
     }
 
     const bool autoFocusUsed = inAutoFocus;
-
-    // Reset the autofocus flags
-    stop(completionState);
+    const bool inBuildOffsetsUsed = inBuildOffsets;
 
     // Refresh display if needed
     if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && plot)
         emit drawPolynomial(polynomialFit.get(), isVShapeSolution, true);
+
+    // Reset the autofocus flags
+    stop(completionState);
 
     // Enforce settling duration
     int const settleTime = m_GuidingSuspended ? guideSettleTime->value() : 0;
@@ -1845,9 +2420,9 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
     if (settleTime > 0)
         appendLogText(i18n("Settling for %1s...", settleTime));
 
-    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, completionState, autoFocusUsed]()
+    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, completionState, autoFocusUsed, inBuildOffsetsUsed]()
     {
-        settle(completionState, autoFocusUsed);
+        settle(completionState, autoFocusUsed, inBuildOffsetsUsed);
 
         if (settleTime > 0)
             appendLogText(i18n("Settling complete."));
@@ -1864,42 +2439,42 @@ void Focus::resetFocuser()
             currentPosition--;
 
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
-        m_FocusMotionTimer.start();
-        m_Focuser->moveAbs(initialFocuserAbsPosition);
+        changeFocus(initialFocuserAbsPosition - currentPosition);
         /* Restart will be executed by the end-of-move notification from the device if needed by resetFocus */
     }
 }
 
-void Focus::setCurrentHFR(double value)
+void Focus::setCurrentMeasure()
 {
-    currentHFR = value;
-
     // Let's now report the current HFR
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << HFRFrames.count() + 1 << ": Current HFR " << currentHFR << " Num stars "
-                               << (starSelected ? 1 : m_ImageData->getDetectedStars());
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << starMeasureFrames.count() + 1 << ": Current HFR " << currentHFR <<
+                               " Num stars "
+                               << (starSelected ? 1 : currentNumStars);
 
     // Take the new HFR into account, eventually continue to stack samples
-    if (appendHFR(currentHFR))
+    if (appendMeasure(currentMeasure))
     {
         capture();
         return;
     }
-    else HFRFrames.clear();
+    else starMeasureFrames.clear();
 
     // Let signal the current HFR now depending on whether the focuser is absolute or relative
+    // Outside of Focus we continue to rely on HFR and independent of which measure the user selected we always calculate HFR
     if (canAbsMove)
         emit newHFR(currentHFR, currentPosition);
     else
         emit newHFR(currentHFR, -1);
 
-    // Format the HFR value into a string
-    QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
-    HFROut->setText(HFRText);
+    // Format the labels under the V-curve
+    HFROut->setText(QString("%1").arg(currentHFR * getStarUnits(m_StarMeasure, m_StarUnits), 0, 'f', 2));
+    if (m_StarMeasure == FOCUS_STAR_FWHM)
+        FWHMOut->setText(QString("%1").arg(currentFWHM * getStarUnits(m_StarMeasure, m_StarUnits), 0, 'f', 2));
     starsOut->setText(QString("%1").arg(m_ImageData->getDetectedStars()));
     iterOut->setText(QString("%1").arg(absIterations + 1));
 
-    // Display message in case _last_ HFR was negative
-    if (lastHFR == FocusAlgorithmInterface::IGNORED_HFR)
+    // Display message in case _last_ HFR was invalid
+    if (lastHFR == INVALID_STAR_MEASURE)
         appendLogText(i18n("FITS received. No stars detected."));
 
     // If we have a valid HFR value
@@ -1951,14 +2526,14 @@ void Focus::setCurrentHFR(double value)
         // algorithm simulates a position-based system even for timer-based focusers.
         if (inFocusLoop || (inAutoFocus && ! isPositionBased()))
         {
-            int pos = hfr_position.empty() ? 1 : hfr_position.last() + 1;
+            int pos = plot_position.empty() ? 1 : plot_position.last() + 1;
             addPlotPosition(pos, currentHFR);
         }
     }
     else
     {
-        // Let's record an invalid star result - IGNORED_HFR must be suitable as invalid star HFR!
-        QVector3D oneStar(starCenter.x(), starCenter.y(), FocusAlgorithmInterface::IGNORED_HFR);
+        // Let's record an invalid star result
+        QVector3D oneStar(starCenter.x(), starCenter.y(), INVALID_STAR_MEASURE);
         starsHFR.append(oneStar);
     }
 
@@ -1990,7 +2565,8 @@ void Focus::setCaptureComplete()
     }
 
     captureInProgress = false;
-
+    // update the limits from the real values
+    checkMosaicMaskLimits();
 
     // Emit the whole image
     emit newImage(m_FocusView);
@@ -2081,7 +2657,7 @@ void Focus::setHFRComplete()
             syncTrackingBoxPosition();
 
             // Do we need to subframe?
-            if (subFramed == false && focusSubFrame->isEnabled() && focusSubFrame->isChecked())
+            if (subFramed == false && isFocusSubFrameEnabled() && focusSubFrame->isChecked())
             {
                 int offset = (static_cast<double>(focusBoxSize->value()) / subBinX) * 1.5;
                 int subX   = (selectedHFRStar.x - offset) * subBinX;
@@ -2179,7 +2755,7 @@ void Focus::setHFRComplete()
     if (minimumRequiredHFR >= 0)
     {
         // In case we failed to detected, we capture again.
-        if (currentHFR == -1)
+        if (currentHFR == INVALID_STAR_MEASURE)
         {
             if (noStarCount++ < MAX_RECAPTURE_RETRIES)
             {
@@ -2203,7 +2779,7 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR <<
                                        ". Starting AutoFocus...";
-            minimumRequiredHFR = -1;
+            minimumRequiredHFR = INVALID_STAR_MEASURE;
             start();
         }
         // Otherwise, the current HFR is fine and lower than the required minimum HFR so we announce success.
@@ -2211,7 +2787,7 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
                                        ". Autofocus successful.";
-            completeFocusProcedure(Ekos::FOCUS_COMPLETE);
+            completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
         }
 
         // Nothing more for now
@@ -2228,8 +2804,8 @@ void Focus::setHFRComplete()
         dir.mkpath(path);
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
-        QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits.gz";
-        QString filename = path + QDir::separator() + name + QStringLiteral("[compress R 100,100]");
+        QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
         m_ImageData->saveImage(filename);
     }
 
@@ -2269,14 +2845,49 @@ void Focus::setHFRComplete()
         autoFocusRel();
 }
 
+QString Focus::getyAxisLabel(StarMeasure starMeasure)
+{
+    QString str = "HFR";
+    m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
+
+    if (inAutoFocus)
+    {
+        switch (starMeasure)
+        {
+            case FOCUS_STAR_HFR:
+                break;
+            case FOCUS_STAR_HFR_ADJ:
+                str = "HFR Adj";
+                m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
+                break;
+            case FOCUS_STAR_FWHM:
+                str = "FWHM";
+                m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
+                break;
+            case FOCUS_STAR_NUM_STARS:
+                str = "# Stars";
+                break;
+            case FOCUS_STAR_FOURIER_POWER:
+                str = "Fourier Power";
+                break;
+            default:
+                break;
+        }
+    }
+    return str;
+}
+
 void Focus::clearDataPoints()
 {
     maxHFR = 1;
     polynomialFit.reset();
-    hfr_position.clear();
-    hfr_value.clear();
+    plot_position.clear();
+    plot_value.clear();
     isVShapeSolution = false;
-    emit initHFRPlot(inFocusLoop == false && isPositionBased());
+
+    emit initHFRPlot(getyAxisLabel(m_StarMeasure), getStarUnits(m_StarMeasure, m_StarUnits),
+                     m_OptDir == CurveFitting::OPTIMISATION_MINIMISE, focusUseWeights->isChecked(),
+                     inFocusLoop == false && isPositionBased());
 }
 
 bool Focus::autoFocusChecks()
@@ -2289,7 +2900,7 @@ bool Focus::autoFocusChecks()
     }
 
     // No stars detected, try to capture again
-    if (currentHFR == FocusAlgorithmInterface::IGNORED_HFR)
+    if (currentHFR == INVALID_STAR_MEASURE)
     {
         if (noStarCount < MAX_RECAPTURE_RETRIES)
         {
@@ -2300,9 +2911,6 @@ bool Focus::autoFocusChecks()
         }
         else if (m_FocusAlgorithm == FOCUS_LINEAR)
         {
-            // JEE TODO: Linear currently continues if there are no stars
-            // For L1P I think its better to Abort and give control back either to the user or the scheduler
-            // This needs to be revisited to find the best way of dealing with this scenario.
             appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
             noStarCount = 0;
         }
@@ -2326,22 +2934,22 @@ void Focus::plotLinearFocus()
     bool plt = true;
 
     // Get the data to plot.
-    QVector<double> HFRs;
-    QVector<double> sigmas;
+    QVector<double> values, weights;
     QVector<int> positions;
-    linearFocuser->getMeasurements(&positions, &HFRs, &sigmas);
+    linearFocuser->getMeasurements(&positions, &values, &weights);
     const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
 
     // As an optimization for slower machines, e.g. RPi4s, if the points are the same except for
     // the last point, just emit the last point instead of redrawing everything.
-    static QVector<double> lastHFRs;
+    static QVector<double> lastValues;
     static QVector<int> lastPositions;
+
     bool incrementalChange = false;
     if (positions.size() > 1 && positions.size() == lastPositions.size() + 1)
     {
         bool ok = true;
         for (int i = 0; i < positions.size() - 1; ++i)
-            if (positions[i] != lastPositions[i] || HFRs[i] != lastHFRs[i])
+            if (positions[i] != lastPositions[i] || values[i] != lastValues[i])
             {
                 ok = false;
                 break;
@@ -2349,48 +2957,38 @@ void Focus::plotLinearFocus()
         incrementalChange = ok;
     }
     lastPositions = positions;
-    lastHFRs = HFRs;
+    lastValues = values;
 
-    if (params.useWeights)
-    {
-        if (incrementalChange)
-            emit newHFRPlotPositionWithSigma(static_cast<double>(positions.last()), HFRs.last(), sigmas.last(), params.initialStepSize,
-                                             plt);
-        else
-        {
-            emit initHFRPlot(true);
-            for (int i = 0; i < positions.size(); ++i)
-                emit newHFRPlotPositionWithSigma(static_cast<double>(positions[i]), HFRs[i], sigmas[i], params.initialStepSize, plt);
-        }
-    }
+    const bool outlier = false;
+    if (incrementalChange)
+        emit newHFRPlotPosition(static_cast<double>(positions.last()), values.last(), (pow(weights.last(), -0.5)),
+                                outlier, params.initialStepSize, plt);
     else
     {
-        if (incrementalChange)
-            emit newHFRPlotPosition(static_cast<double>(positions.last()), HFRs.last(), params.initialStepSize, plt);
-        else
-        {
-            emit initHFRPlot(true);
-            for (int i = 0; i < positions.size(); ++i)
-                emit newHFRPlotPosition(static_cast<double>(positions[i]), HFRs[i], params.initialStepSize, plt);
-        }
+        emit initHFRPlot(getyAxisLabel(m_StarMeasure), getStarUnits(m_StarMeasure, m_StarUnits),
+                         m_OptDir == CurveFitting::OPTIMISATION_MINIMISE, params.useWeights, plt);
+        for (int i = 0; i < positions.size(); ++i)
+            emit newHFRPlotPosition(static_cast<double>(positions[i]), values[i], (pow(weights.last(), -0.5)),
+                                    outlier, params.initialStepSize, plt);
     }
 
     // Plot the polynomial, if there are enough points.
-    if (HFRs.size() > 3)
+    if (values.size() > 3)
     {
         // The polynomial should only reflect 1st-pass samples.
-        QVector<double> pass1HFRs, pass1Sigmas;
+        QVector<double> pass1Values, pass1Weights;
         QVector<int> pass1Positions;
+        QVector<bool> pass1Outliers;
         double minPosition, minValue;
         double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
         double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
 
-        linearFocuser->getPass1Measurements(&pass1Positions, &pass1HFRs, &pass1Sigmas);
-        if (m_FocusAlgorithm == FOCUS_LINEAR)
+        linearFocuser->getPass1Measurements(&pass1Positions, &pass1Values, &pass1Weights, &pass1Outliers);
+        if (m_FocusAlgorithm == FOCUS_LINEAR || m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
         {
             // TODO: Need to determine whether to change LINEAR over to the LM solver in CurveFitting
             // This will be determined after L1P's first release has been deemed successful.
-            polynomialFit.reset(new PolynomialFit(2, pass1Positions, pass1HFRs));
+            polynomialFit.reset(new PolynomialFit(2, pass1Positions, pass1Values));
 
             if (polynomialFit->findMinimum(params.startPosition, searchMin, searchMax, &minPosition, &minValue))
             {
@@ -2413,9 +3011,8 @@ void Focus::plotLinearFocus()
         }
         else // Linear 1 Pass
         {
-            curveFitting->fitCurve(pass1Positions, pass1HFRs, pass1Sigmas, params.curveFit, params.useWeights);
-
-            if (curveFitting->findMin(params.startPosition, searchMin, searchMax, &minPosition, &minValue, params.curveFit))
+            if (curveFitting->findMinMax(params.startPosition, searchMin, searchMax, &minPosition, &minValue, params.curveFit,
+                                         params.optimisationDirection))
             {
                 R2 = curveFitting->calculateR2(static_cast<CurveFitting::CurveFit>(params.curveFit));
                 emit drawCurve(curveFitting.get(), true, true, plt);
@@ -2433,18 +3030,65 @@ void Focus::plotLinearFocus()
     }
 
     // Linear focuser might change the latest hfr with its relativeHFR scheme.
-    HFROut->setText(QString("%1").arg(linearFocuser->latestHFR(), 0, 'f', 2));
+    HFROut->setText(QString("%1").arg(currentHFR * getStarUnits(m_StarMeasure, m_StarUnits), 0, 'f', 2));
 
     emit setTitle(linearFocuser->getTextStatus(R2));
 
     if (!plt) HFRPlot->replot();
 }
 
+// Get the curve fitting goal
+CurveFitting::FittingGoal Focus::getGoal(int numSteps)
+{
+    // The classic walk needs the STANDARD curve fitting
+    if (m_FocusWalk == FOCUS_WALK_CLASSIC)
+        return CurveFitting::FittingGoal::STANDARD;
+
+    // Fixed step walks will use C, except for the last step which should be BEST
+    return (numSteps >= focusNumSteps->value()) ? CurveFitting::FittingGoal::BEST : CurveFitting::FittingGoal::STANDARD;
+}
+
 // Called after the first pass is complete and we're moving to the final focus position
 // Calculate R2 for the curve and update the graph.
+// Add the CFZ to the graph
 void Focus::plotLinearFinalUpdates()
 {
-    emit updateTitle(linearFocuser->getTextStatus(R2), true);
+    bool plt = true;
+    if (!focusRefineCurveFit->isChecked())
+    {
+        // Display the CFZ on the graph
+        emit drawCFZ(linearFocuser->solution(), linearFocuser->solutionValue(), m_cfzSteps, focusCFZDisplayVCurve->isChecked());
+        // Final updates to the graph title
+        emit finalUpdates(linearFocuser->getTextStatus(R2), plt);
+    }
+    else
+    {
+        // v-curve needs to be redrawn to reflect the data from the refining process
+        // Get the data to plot.
+        QVector<double> pass1Values, pass1Weights;
+        QVector<int> pass1Positions;
+        QVector<bool> pass1Outliers;
+
+        linearFocuser->getPass1Measurements(&pass1Positions, &pass1Values, &pass1Weights, &pass1Outliers);
+        const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
+
+        emit initHFRPlot(getyAxisLabel(m_StarMeasure), getStarUnits(m_StarMeasure, m_StarUnits),
+                         m_OptDir == CurveFitting::OPTIMISATION_MINIMISE, focusUseWeights->isChecked(), plt);
+
+        for (int i = 0; i < pass1Positions.size(); ++i)
+            emit newHFRPlotPosition(static_cast<double>(pass1Positions[i]), pass1Values[i], (pow(pass1Weights[i], -0.5)),
+                                    pass1Outliers[i], params.initialStepSize, plt);
+
+        R2 = curveFitting->calculateR2(static_cast<CurveFitting::CurveFit>(params.curveFit));
+        emit drawCurve(curveFitting.get(), true, true, false);
+
+        // For Linear 1 Pass always display the minimum on the graph
+        emit minimumFound(linearFocuser->solution(), linearFocuser->solutionValue(), plt);
+        // Display the CFZ on the graph
+        emit drawCFZ(linearFocuser->solution(), linearFocuser->solutionValue(), m_cfzSteps, focusCFZDisplayVCurve->isChecked());
+        // Update the graph title
+        emit setTitle(linearFocuser->getTextStatus(R2), plt);
+    }
 }
 
 void Focus::autoFocusLinear()
@@ -2465,22 +3109,19 @@ void Focus::autoFocusLinear()
         }
     }
 
-    addPlotPosition(currentPosition, currentHFR, false);
+    addPlotPosition(currentPosition, currentMeasure, false);
 
     // Only use the relativeHFR algorithm if full field is enabled with one capture/measurement.
     bool useFocusStarsHFR = focusUseFullField->isChecked() && focusFramesCount->value() == 1;
     auto focusStars = useFocusStarsHFR || (m_FocusAlgorithm == FOCUS_LINEAR1PASS) ? &(m_ImageData->getStarCenters()) : nullptr;
-    int nextPosition;
 
-    linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR, focusStars);
-    if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser->isDone())
-        // Linear 1 Pass is done, graph is drawn, so just move to the focus position, and update the graph title.
+    linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentMeasure, currentWeight, focusStars);
+    if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser->isDone() && linearFocuser->solution() != -1)
+        // Linear 1 Pass is done, graph is drawn, so just move to the focus position, and update the graph.
         plotLinearFinalUpdates();
     else
         // Update the graph with the next datapoint, draw the curve, etc.
         plotLinearFocus();
-
-    nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition, focusAFOverscan->value());
 
     if (linearFocuser->isDone())
     {
@@ -2489,7 +3130,7 @@ void Focus::autoFocusLinear()
             // Now test that the curve fit was acceptable. If not retry the focus process using standard retry process
             // R2 check is only available for Linear 1 Pass for Hyperbola and Parabola
             if (m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
-                // Linear only uses Quadratic so need to do the R2 check, just complete
+                // Linear only uses Quadratic so no need to do the R2 check, just complete
                 completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
             else if (R2 >= focusR2Limit->value())
             {
@@ -2523,7 +3164,7 @@ void Focus::autoFocusLinear()
     }
     else
     {
-        const int delta = nextPosition - currentPosition;
+        const int delta = linearRequestedPosition - currentPosition;
 
         if (!changeFocus(delta))
             completeFocusProcedure(Ekos::FOCUS_ABORTED, false);
@@ -2601,6 +3242,7 @@ void Focus::autoFocusAbs()
                 }
             }
 
+            m_LastFocusDirection = (pulseDuration > 0) ? FOCUS_OUT : FOCUS_IN;
             if (!changeFocus(pulseDuration))
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
@@ -2671,10 +3313,10 @@ void Focus::autoFocusAbs()
                 if (HFRInc > 0)
                 {
                     // Remove bad data point and mark fluctuation
-                    if (hfr_position.count() >= 2)
+                    if (plot_position.count() >= 2)
                     {
-                        hfr_position.remove(hfr_position.count() - 2);
-                        hfr_value.remove(hfr_value.count() - 2);
+                        plot_position.remove(plot_position.count() - 2);
+                        plot_value.remove(plot_value.count() - 2);
                     }
                     fluctuations++;
                 }
@@ -2712,11 +3354,11 @@ void Focus::autoFocusAbs()
                         qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus OUT limit to " << focusOutLimit;
                     }
 
-                    if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && hfr_position.count() > 4)
+                    if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && plot_position.count() > 4)
                     {
-                        polynomialFit.reset(new PolynomialFit(2, 5, hfr_position, hfr_value));
-                        double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
-                        double b = *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
+                        polynomialFit.reset(new PolynomialFit(2, 5, plot_position, plot_value));
+                        double a = *std::min_element(plot_position.constBegin(), plot_position.constEnd());
+                        double b = *std::max_element(plot_position.constBegin(), plot_position.constEnd());
                         double min_position = 0, min_hfr = 0;
                         isVShapeSolution = polynomialFit->findMinimum(minHFRPos, a, b, &min_position, &min_hfr);
                         qCDebug(KSTARS_EKOS_FOCUS) << "Found Minimum?" << (isVShapeSolution ? "Yes" : "No");
@@ -2863,7 +3505,7 @@ void Focus::autoFocusAbs()
                 }
             }
 
-            // Now cross your fingers and wait
+            m_LastFocusDirection = (lastDelta > 0) ? FOCUS_OUT : FOCUS_IN;
             if (!changeFocus(lastDelta))
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
@@ -2871,12 +3513,12 @@ void Focus::autoFocusAbs()
     }
 }
 
-void Focus::addPlotPosition(int pos, double hfr, bool plot)
+void Focus::addPlotPosition(int pos, double value, bool plot)
 {
-    hfr_position.append(pos);
-    hfr_value.append(hfr);
+    plot_position.append(pos);
+    plot_value.append(value);
     if (plot)
-        emit newHFRPlotPosition(pos, hfr, pulseDuration);
+        emit newHFRPlotPosition(static_cast<double>(pos), value, 1.0, false, pulseDuration);
 }
 
 void Focus::autoFocusRel()
@@ -2897,7 +3539,7 @@ void Focus::autoFocusRel()
     }
 
     // No stars detected, try to capture again
-    if (currentHFR == FocusAlgorithmInterface::IGNORED_HFR)
+    if (currentHFR == INVALID_STAR_MEASURE)
     {
         if (noStarCount < MAX_RECAPTURE_RETRIES)
         {
@@ -2926,6 +3568,7 @@ void Focus::autoFocusRel()
         case FOCUS_NONE:
             lastHFR = currentHFR;
             minHFR  = 1e6;
+            m_LastFocusDirection = FOCUS_IN;
             changeFocus(-pulseDuration);
             break;
 
@@ -2956,6 +3599,9 @@ void Focus::autoFocusRel()
 
                 if (!changeFocus(m_LastFocusDirection == FOCUS_IN ? pulseDuration : -pulseDuration))
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
+
+                // HFR getting worse so reverse direction
+                m_LastFocusDirection = (m_LastFocusDirection == FOCUS_IN) ? FOCUS_OUT : FOCUS_IN;
             }
             break;
     }
@@ -2973,7 +3619,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         {
             int temp = focuserAdditionalMovement;
             focuserAdditionalMovement = 0;
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Undoing backlash extension. Moving back in by %1").arg(temp);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Undoing overscan extension. Moving back in by %1").arg(temp);
 
             if (!focusIn(temp))
             {
@@ -2981,7 +3627,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
             }
         }
-        else
+        else if (inAutoFocus)
         {
             qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(
                                            currentPosition).arg(focusSettleTime->value());
@@ -3017,9 +3663,9 @@ void Focus::updateProperty(INDI::Property prop)
         if (m_DebugFocuser)
         {
             // Simulate focuser comms issues every 5 moves
-            if (m_DebugFocuserCounter++ >= 5 && m_DebugFocuserCounter <= 1000)
+            if (m_DebugFocuserCounter++ >= 10 && m_DebugFocuserCounter <= 14)
             {
-                if (m_DebugFocuserCounter == 1000)
+                if (m_DebugFocuserCounter == 14)
                     m_DebugFocuserCounter = 0;
                 appendLogText(i18n("Simulate focuser comms failure..."));
                 return;
@@ -3038,37 +3684,27 @@ void Focus::updateProperty(INDI::Property prop)
             // Therefore we ignore it if both value and state are the same as last time.
             // HACK: This would shortcut the autofocus procedure reset, see completeFocusProcedure for the small hack
             if (currentPosition == newPosition && currentPositionState == nvp->s)
-            {
-                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser still at " << currentPosition << ". State: " << pstateStr(
-                                               currentPositionState);
                 return;
-            }
 
             currentPositionState = nvp->s;
 
             if (currentPosition != newPosition)
             {
                 currentPosition = newPosition;
-                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << ". State: " << pstateStr(
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << "State:" << pstateStr(
                                                currentPositionState);
                 absTicksLabel->setText(QString::number(currentPosition));
                 emit absolutePositionChanged(currentPosition);
             }
-            else
-                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser still at " << currentPosition << ". State: " << pstateStr(
-                                               currentPositionState);
         }
-        else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser unable to get focuser position. Last position " << currentPosition << ". State: "
-                                       << pstateStr(nvp->s);
 
         if (nvp->s != IPS_OK)
         {
-            if (inAutoFocus)
+            if (inAutoFocus || inAdjustFocus || inAdaptiveFocus)
             {
                 // We had something back from the focuser but we're not done yet, so
                 // restart motion timer in case focuser gets stuck.
-                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer. State: " << pstateStr(nvp->s);
+                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer...";
                 m_FocusMotionTimer.start();
             }
         }
@@ -3077,20 +3713,42 @@ void Focus::updateProperty(INDI::Property prop)
             // Systematically reset UI when focuser finishes moving
             resetButtons();
 
-            if (adjustFocus)
+            if (inAdjustFocus)
             {
-                adjustFocus = false;
-                m_LastFocusDirection = FOCUS_NONE;
-                emit focusPositionAdjusted();
-                return;
+                if (focuserAdditionalMovement == 0)
+                {
+                    inAdjustFocus = false;
+                    emit focusPositionAdjusted();
+                    return;
+                }
+            }
+
+            if (inAdaptiveFocus)
+            {
+                if (focuserAdditionalMovement == 0)
+                {
+                    inAdaptiveFocus = false;
+                    // Signal Analyze with details of
+                    emit adaptiveFocusComplete(filter(), m_LastAdaptiveFocusTemperature, m_LastAdaptiveFocusTempTicks, m_LastAdaptiveFocusAlt,
+                                               m_LastAdaptiveFocusAltTicks, m_LastAdaptiveFocusTotalTicks, m_LastAdaptiveFocusPosition);
+
+                    QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
+                    {
+                        emit focusAdaptiveComplete(true);
+                    });
+                    return;
+                }
             }
 
             if (m_RestartState == RESTART_NOW && status() != Ekos::FOCUS_ABORTED)
             {
-                m_RestartState = RESTART_NONE;
-                inAutoFocus = false;
-                appendLogText(i18n("Restarting autofocus process..."));
-                start();
+                if (focuserAdditionalMovement == 0)
+                {
+                    m_RestartState = RESTART_NONE;
+                    inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                    appendLogText(i18n("Restarting autofocus process..."));
+                    start();
+                }
             }
             else if (m_RestartState == RESTART_ABORT)
             {
@@ -3098,16 +3756,14 @@ void Focus::updateProperty(INDI::Property prop)
                 // This event means that the focuser has been reset and arrived at its starting point
                 // so we can finish processing the abort. Set inAutoFocus to avoid repeating
                 // processing already done in completeFocusProcedure
-                m_RestartState = RESTART_NONE;
-                inAutoFocus = false;
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
             }
         }
 
-        if (canAbsMove && inAutoFocus)
-        {
+        if (canAbsMove)
             autoFocusProcessPositionChange(nvp->s);
-        }
         else if (nvp->s == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
         return;
@@ -3118,6 +3774,18 @@ void Focus::updateProperty(INDI::Property prop)
 
     if (nvp->isNameMatch("manualfocusdrive"))
     {
+        if (m_DebugFocuser)
+        {
+            // Simulate focuser comms issues every 5 moves
+            if (m_DebugFocuserCounter++ >= 10 && m_DebugFocuserCounter <= 14)
+            {
+                if (m_DebugFocuserCounter == 14)
+                    m_DebugFocuserCounter = 0;
+                appendLogText(i18n("Simulate focuser comms failure..."));
+                return;
+            }
+        }
+
         m_FocusMotionTimer.stop();
 
         INumber *pos = IUFindNumber(nvp, "manualfocusdrive");
@@ -3128,34 +3796,50 @@ void Focus::updateProperty(INDI::Property prop)
             emit absolutePositionChanged(currentPosition);
         }
 
-        if (adjustFocus && nvp->s == IPS_OK)
+        if (inAdjustFocus && nvp->s == IPS_OK)
         {
-            adjustFocus = false;
-            m_LastFocusDirection = FOCUS_NONE;
-            emit focusPositionAdjusted();
-            return;
+            if (focuserAdditionalMovement == 0)
+            {
+                inAdjustFocus = false;
+                emit focusPositionAdjusted();
+                return;
+            }
+        }
+
+        if (inAdaptiveFocus && nvp->s == IPS_OK)
+        {
+            if (focuserAdditionalMovement == 0)
+            {
+                inAdaptiveFocus = false;
+                QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
+                {
+                    emit focusAdaptiveComplete(true);
+                });
+                return;
+            }
         }
 
         // restart if focus movement has finished
         if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = false;
-            appendLogText(i18n("Restarting autofocus process..."));
-            start();
+            if (focuserAdditionalMovement == 0)
+            {
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                appendLogText(i18n("Restarting autofocus process..."));
+                start();
+            }
         }
         else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
         {
             // Abort the autofocus run now the focuser has finished moving to its start position
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = false;
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
+            m_RestartState = RESTART_NONE;
+            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
         }
 
-        if (canRelMove && inAutoFocus)
-        {
+        if (canRelMove)
             autoFocusProcessPositionChange(nvp->s);
-        }
         else if (nvp->s == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
 
@@ -3177,34 +3861,50 @@ void Focus::updateProperty(INDI::Property prop)
             emit absolutePositionChanged(currentPosition);
         }
 
-        if (adjustFocus && nvp->s == IPS_OK)
+        if (inAdjustFocus && nvp->s == IPS_OK)
         {
-            adjustFocus = false;
-            m_LastFocusDirection = FOCUS_NONE;
-            emit focusPositionAdjusted();
-            return;
+            if (focuserAdditionalMovement == 0)
+            {
+                inAdjustFocus = false;
+                emit focusPositionAdjusted();
+                return;
+            }
+        }
+
+        if (inAdaptiveFocus && nvp->s == IPS_OK)
+        {
+            if (focuserAdditionalMovement == 0)
+            {
+                inAdaptiveFocus = false;
+                QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
+                {
+                    emit focusAdaptiveComplete(true);
+                });
+                return;
+            }
         }
 
         // restart if focus movement has finished
         if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = false;
-            appendLogText(i18n("Restarting autofocus process..."));
-            start();
+            if (focuserAdditionalMovement == 0)
+            {
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                appendLogText(i18n("Restarting autofocus process..."));
+                start();
+            }
         }
         else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
         {
             // Abort the autofocus run now the focuser has finished moving to its start position
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = false;
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
+            m_RestartState = RESTART_NONE;
+            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
         }
 
-        if (canRelMove && inAutoFocus)
-        {
+        if (canRelMove)
             autoFocusProcessPositionChange(nvp->s);
-        }
         else if (nvp->s == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
 
@@ -3220,20 +3920,23 @@ void Focus::updateProperty(INDI::Property prop)
         // restart if focus movement has finished
         if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = false;
-            appendLogText(i18n("Restarting autofocus process..."));
-            start();
+            if (focuserAdditionalMovement == 0)
+            {
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                appendLogText(i18n("Restarting autofocus process..."));
+                start();
+            }
         }
         else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
         {
             // Abort the autofocus run now the focuser has finished moving to its start position
-            m_RestartState = RESTART_NONE;
-            inAutoFocus = false;
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
+            m_RestartState = RESTART_NONE;
+            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
         }
 
-        if (canAbsMove == false && canRelMove == false && inAutoFocus)
+        if (canAbsMove == false && canRelMove == false)
         {
             // Used by the linear focus algorithm. Ignored if that's not in use for the timer-focuser.
             INumber *pos = IUFindNumber(nvp, "FOCUS_TIMER_VALUE");
@@ -3310,7 +4013,7 @@ void Focus::startFraming()
     waitStarSelectTimer.stop();
 
     inFocusLoop = true;
-    HFRFrames.clear();
+    starMeasureFrames.clear();
 
     clearDataPoints();
 
@@ -3341,28 +4044,48 @@ void Focus::resetButtons()
 
     if (inAutoFocus)
     {
-        stopFocusB->setEnabled(true);
-        startFocusB->setEnabled(false);
-        startLoopB->setEnabled(false);
-        captureB->setEnabled(false);
-        focusOutB->setEnabled(false);
-        focusInB->setEnabled(false);
-        startGotoB->setEnabled(false);
-        stopGotoB->setEnabled(false);
-        resetFrameB->setEnabled(false);
-        opticalTrainCombo->setEnabled(false);
-        trainB->setEnabled(false);
+        // During an Autofocus run we need to disable input widgets to stop the user changing them
+        // We need to disable the widgets currently enabled and save a QVector of these to be
+        // reinstated once the AF run completes.
+        // Certain widgets (highlighted below) have the isEnabled() property used in the code to
+        // determine functionality. So the isEnabled state for these is saved off before the
+        // interface is disabled and these saved states used to control the code path and preserve
+        // functionality.
+        // Since this function can be called several times only load up widgets once
+        if (disabledWidgets.empty())
+        {
+            AFDisable(trainLabel, false);
+            AFDisable(opticalTrainCombo, false);
+            AFDisable(trainB, false);
+            AFDisable(focuserGroup, true);
+            AFDisable(clearDataB, false);
+
+            // In the ccdGroup save the enabled state of Gain and ISO
+            m_FocusGainAFEnabled = focusGain->isEnabled();
+            m_FocusISOAFEnabled = focusISO->isEnabled();
+            AFDisable(ccdGroup, false);
+
+            // In the tabWidget save the enabled state of SubFrame
+            m_FocusSubFrameAFEnabled = focusSubFrame->isEnabled();
+            AFDisable(tabWidget, false);
+
+            // Enable the "stop" button so the user can abort an AF run
+            stopFocusB->setEnabled(true);
+        }
         return;
     }
 
-    auto enableCaptureButtons = (captureInProgress == false && hfrInProgress == false);
+    // Restore widgets that were disabled when Autofocus started
+    for(int i = 0 ; i < disabledWidgets.size() ; i++)
+        disabledWidgets[i]->setEnabled(true);
+    disabledWidgets.clear();
 
-    opticalTrainCombo->setEnabled(true);
-    trainB->setEnabled(true);
+    auto enableCaptureButtons = (captureInProgress == false && hfrInProgress == false);
 
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
+    focusAutoStarEnabled->setEnabled(enableCaptureButtons && focusUseFullField->isChecked() == false);
 
     if (m_Focuser && m_Focuser->isConnected())
     {
@@ -3384,6 +4107,45 @@ void Focus::resetButtons()
         startGotoB->setEnabled(false);
         stopGotoB->setEnabled(false);
     }
+}
+
+// Disable input widgets during an Autofocus run. Keep a record so after the AF run, widgets can be re-enabled
+void Focus::AFDisable(QWidget * widget, const bool children)
+{
+    if (children)
+    {
+        // The parent widget has been passed in so disable any enabled child widgets
+        for(auto *wid : widget->findChildren<QWidget *>())
+        {
+            if (wid->isEnabled())
+            {
+                wid->setEnabled(false);
+                disabledWidgets.push_back(wid);
+            }
+        }
+
+    }
+    else if (widget->isEnabled())
+    {
+        // Base level widget or group of widgets, so just disable the passed what was passed in
+        widget->setEnabled(false);
+        disabledWidgets.push_back(widget);
+    }
+}
+
+bool Focus::isFocusGainEnabled()
+{
+    return (inAutoFocus) ? m_FocusGainAFEnabled : focusGain->isEnabled();
+}
+
+bool Focus::isFocusISOEnabled()
+{
+    return (inAutoFocus) ?  m_FocusISOAFEnabled : focusISO->isEnabled();
+}
+
+bool Focus::isFocusSubFrameEnabled()
+{
+    return (inAutoFocus) ? m_FocusSubFrameAFEnabled : focusSubFrame->isEnabled();
 }
 
 void Focus::updateBoxSize(int value)
@@ -3548,7 +4310,7 @@ void Focus::focusStarSelected(int x, int y)
 
 void Focus::checkFocus(double requiredHFR)
 {
-    if (inAutoFocus || inFocusLoop)
+    if (inAutoFocus || inFocusLoop || inAdjustFocus || inAdaptiveFocus || inBuildOffsets)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus rejected, focus procedure is already running.";
     }
@@ -3562,6 +4324,19 @@ void Focus::checkFocus(double requiredHFR)
     }
 }
 
+// Start an AF run. This is called from Build Offsets but could be extended in the future
+void Focus::runAutoFocus(bool buildOffsets)
+{
+    if (inAutoFocus || inFocusLoop || inAdjustFocus || inAdaptiveFocus)
+        qCDebug(KSTARS_EKOS_FOCUS) << "runAutoFocus rejected, focus procedure is already running.";
+    else
+    {
+        // Set the inBuildOffsets flag and start the AF run
+        inBuildOffsets = buildOffsets;
+        start();
+    }
+}
+
 void Focus::toggleSubframe(bool enable)
 {
     if (enable == false)
@@ -3570,18 +4345,43 @@ void Focus::toggleSubframe(bool enable)
     starSelected = false;
     starCenter   = QVector3D();
 
-    if (focusUseFullField->isChecked())
-        focusUseFullField->setChecked(!enable);
+    if (enable)
+    {
+        // sub frame focusing
+        focusAutoStarEnabled->setEnabled(true);
+        // disable focus image mask
+        focusNoMaskRB->setChecked(true);
+    }
+    else
+    {
+        // full frame focusing
+        focusAutoStarEnabled->setChecked(false);
+        focusAutoStarEnabled->setEnabled(false);
+    }
+    // update image mask controls
+    selectImageMask(m_currentImageMask);
+    // enable focus mask selection if full field is selected
+    focusRingMaskRB->setEnabled(!enable);
+    focusMosaicMaskRB->setEnabled(!enable);
 
-    if (focusUseFullField->isChecked() && (m_CurveFit == CurveFitting::FOCUS_HYPERBOLA
-                                           || m_CurveFit == CurveFitting::FOCUS_PARABOLA))
-        // Allow focusUseWeights for fullframe and Hyperbola or Parabola
-        focusUseWeights->setEnabled(true);
-    else if (m_CurveFit == CurveFitting::FOCUS_HYPERBOLA || m_CurveFit == CurveFitting::FOCUS_PARABOLA)
+    setUseWeights();
+}
+
+// Set the useWeights widget based on various other user selected parameters
+// 1. weights are only available with the LM solver used by Hyperbola and Parabola
+// 2. weights are only used for multiple stars so only if full frame is selected
+// 3. weights are only used for star measures involving multiple star measures: HFR, HFR_ADJ and FWHM
+void Focus::setUseWeights()
+{
+    if (m_CurveFit == CurveFitting::FOCUS_QUADRATIC || !focusUseFullField->isChecked() || m_StarMeasure == FOCUS_STAR_NUM_STARS
+            || m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
     {
         focusUseWeights->setEnabled(false);
         focusUseWeights->setChecked(false);
     }
+    else
+        focusUseWeights->setEnabled(true);
+
 }
 
 void Focus::setExposure(double value)
@@ -3642,36 +4442,9 @@ void Focus::checkAutoStarTimeout()
 
 void Focus::setAbsoluteFocusTicks()
 {
-    if (m_Focuser == nullptr)
-    {
-        appendLogText(i18n("Error: No Focuser detected."));
-        checkStopFocus(true);
-        return;
-    }
-
-    if (m_Focuser->isConnected() == false)
-    {
-        appendLogText(i18n("Error: Lost connection to Focuser."));
-        checkStopFocus(true);
-        return;
-    }
-
-    qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus ticks to " << absTicksSpin->value();
-
-    m_Focuser->moveAbs(absTicksSpin->value());
+    if (!changeFocus(absTicksSpin->value() - currentPosition))
+        qCDebug(KSTARS_EKOS_FOCUS) << "setAbsoluteFocusTicks unable to move focuser.";
 }
-
-//void Focus::setActiveBinning(int bin)
-//{
-//    activeBin = bin + 1;
-//    Options::setFocusXBin(activeBin);
-//}
-
-// TODO remove from kstars.kcfg
-/*void Focus::setFrames(int value)
-{
-    Options::setFocusFrames(value);
-}*/
 
 void Focus::syncTrackingBoxPosition()
 {
@@ -3732,16 +4505,32 @@ void Focus::showFITSViewer()
 
 void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
 {
-    adjustFocus = true;
+    if (inAdjustFocus)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inAdjustFocus in progress. Ignoring...";
+        return;
+    }
 
-    int relativeOffset = 0;
+    if (inFocusLoop)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inFocusLoop. Ignoring...";
+        return;
 
-    if (useAbsoluteOffset == false)
-        relativeOffset = value;
-    else
-        relativeOffset = value - currentPosition;
+    }
 
-    changeFocus(relativeOffset);
+    if (inAdaptiveFocus)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inAdaptiveFocus. Ignoring...";
+        return;
+    }
+
+    inAdjustFocus = true;
+
+    // Get the new position
+    int newPosition = (useAbsoluteOffset) ? value : value + currentPosition;
+
+    if (!changeFocus(newPosition - currentPosition))
+        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset unable to move focuser";
 }
 
 void Focus::toggleFocusingWidgetFullScreen()
@@ -3878,7 +4667,8 @@ void Focus::setupFilterManager()
             m_FilterManager->setFocusStatus(state);
             if (focusFilter->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
             {
-                m_FilterManager->setFilterAbsoluteFocusPosition(focusFilter->currentIndex(), currentPosition);
+                m_FilterManager->setFilterAbsoluteFocusDetails(focusFilter->currentIndex(), currentPosition,
+                        m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
             }
         }
     });
@@ -3891,6 +4681,7 @@ void Focus::setupFilterManager()
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         // If we are changing filter offset while idle, then check if we need to suspend guiding.
+        // JEE FIXME - need to test this as now not always doing FILTER_OFFSET
         if (filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
         {
             if (m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
@@ -3904,6 +4695,10 @@ void Focus::setupFilterManager()
     // Take action once filter manager completes filter position
     connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
+        // Keep the focusFilter widget consistent with the filter wheel
+        if (focusFilter->currentIndex() != currentFilterPosition - 1)
+            focusFilter->setCurrentIndex(currentFilterPosition - 1);
+
         if (filterPositionPending)
         {
             filterPositionPending = false;
@@ -3925,6 +4720,12 @@ void Focus::setupFilterManager()
 
     // Check focus if required by filter manager
     connect(m_FilterManager.get(), &FilterManager::checkFocus, this, &Focus::checkFocus);
+
+    // Run Autofocus if required by filter manager
+    connect(m_FilterManager.get(), &FilterManager::runAutoFocus, this, &Focus::runAutoFocus);
+
+    // Abort Autofocus if required by filter manager
+    connect(m_FilterManager.get(), &FilterManager::abortAutoFocus, this, &Focus::abort);
 
     // Adjust focus offset
     connect(m_FilterManager.get(), &FilterManager::newFocusOffset, this, &Focus::adjustFocusOffset);
@@ -3949,6 +4750,12 @@ void Focus::setupFilterManager()
     connect(m_FilterManager.get(), &FilterManager::exposureChanged, this, [this]()
     {
         focusExposure->setValue(m_FilterManager->getFilterExposure());
+    });
+
+    // Wavelength Changed
+    connect(m_FilterManager.get(), &FilterManager::wavelengthChanged, this, [this]()
+    {
+        wavelengthChanged();
     });
 }
 
@@ -3991,7 +4798,11 @@ void Focus::connectFilterManager()
     connect(focusFilter, &QComboBox::currentTextChanged, this, [this](const QString & text)
     {
         if (m_FilterManager)
+        {
             focusExposure->setValue(m_FilterManager->getFilterExposure(text));
+            // Update the CFZ for the new filter - force all data back to OT & filter values
+            resetCFZToOT();
+        }
     });
 
 }
@@ -4071,7 +4882,7 @@ void Focus::processCaptureTimeout()
         {
             // Timeout is exposure duration + timeout threshold in seconds
             //long const timeout = lround(ceil(focusExposure->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
-            captureTimeout.start(Options::focusCaptureTimeout() * 1000);
+            captureTimeout.start(focusCaptureTimeout->value() * 1000);
 
             if (inFocusLoop == false)
                 appendLogText(i18n("Capturing image again..."));
@@ -4115,7 +4926,9 @@ void Focus::syncSettings()
     QDoubleSpinBox *dsb = nullptr;
     QSpinBox *sb = nullptr;
     QCheckBox *cb = nullptr;
+    QRadioButton *rb = nullptr;
     QComboBox *cbox = nullptr;
+    QSplitter *s = nullptr;
 
     QString key;
     QVariant value;
@@ -4136,10 +4949,21 @@ void Focus::syncSettings()
         key = cb->objectName();
         value = cb->isChecked();
     }
+    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = rb->objectName();
+        value = rb->isChecked();
+    }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
+    }
+    else if ( (s = qobject_cast<QSplitter*>(sender())))
+    {
+        key = s->objectName();
+        // Convert from the QByteArray to QString using Base64
+        value = QString::fromUtf8(s->saveState().toBase64());
     }
 
     // Save immediately
@@ -4154,6 +4978,20 @@ void Focus::syncSettings()
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, m_Settings);
+
+    // propagate image mask attributes
+    ImageRingMask *ringmask     = dynamic_cast<ImageRingMask *>(m_FocusView->imageMask().get());
+    ImageMosaicMask *mosaicmask = dynamic_cast<ImageMosaicMask *>(m_FocusView->imageMask().get());
+    if (ringmask != nullptr)
+    {
+        ringmask->setInnerRadius(focusFullFieldInnerRadius->value() / 100.0);
+        ringmask->setOuterRadius(focusFullFieldOuterRadius->value() / 100.0);
+    }
+    else if (mosaicmask != nullptr)
+    {
+        mosaicmask->setTileWidth(focusMosaicTileWidth->value());
+        mosaicmask->setSpace(focusMosaicSpace->value());
+    }
 }
 
 void Focus::loadGlobalSettings()
@@ -4175,6 +5013,8 @@ void Focus::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -4187,6 +5027,8 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -4199,6 +5041,8 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -4211,9 +5055,61 @@ void Focus::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
+    // All Splitters
+    for (auto &oneWidget : findChildren<QSplitter*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            // Convert the saved QString to a QByteArray using Base64
+            auto valueBA = QByteArray::fromBase64(value.toString().toUtf8());
+            oneWidget->restoreState(valueBA);
+            settings[key] = valueBA;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+    // select focus mask type
+    ImageMaskType masktype = static_cast<ImageMaskType>(Options::focusMaskType());
+    selectImageMask(masktype);
+    if (masktype == FOCUS_MASK_NONE)
+        focusNoMaskRB->setChecked(true);
+    else if (masktype == FOCUS_MASK_RING)
+        focusRingMaskRB->setChecked(true);
+    else
+        focusMosaicMaskRB->setChecked(true);
+
     m_GlobalSettings = m_Settings = settings;
+}
+
+void Focus::checkMosaicMaskLimits()
+{
+    if (m_Camera == nullptr || m_Camera->isConnected() == false)
+        return;
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+    if (targetChip == nullptr || frameSettings.contains(targetChip) == false)
+        return;
+    QVariantMap settings = frameSettings[targetChip];
+    // determine maximal square size
+    int min = std::min(settings["w"].toInt(), settings["h"].toInt());
+    // now check if the tile size is below this limit
+    focusMosaicTileWidth->setMaximum(100 * min / (3 * settings["w"].toInt()));
 }
 
 void Focus::connectSettings()
@@ -4224,15 +5120,23 @@ void Focus::connectSettings()
 
     // All Double Spin Boxes
     for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
-        connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        connect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Spin Boxes
     for (auto &oneWidget : findChildren<QSpinBox*>())
-        connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        connect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+
+    // All Splitters
+    for (auto &oneWidget : findChildren<QSplitter*>())
+        connect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+    // connect mask selections
+    connect(focusNoMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    connect(focusRingMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    connect(focusMosaicMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
 
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
@@ -4246,15 +5150,23 @@ void Focus::disconnectSettings()
 
     // All Double Spin Boxes
     for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
-        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        disconnect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Spin Boxes
     for (auto &oneWidget : findChildren<QSpinBox*>())
-        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+        disconnect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+
+    // All Splitters
+    for (auto &oneWidget : findChildren<QSplitter*>())
+        disconnect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+    // All Radio Buttons
+    disconnect(focusNoMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    disconnect(focusRingMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
+    disconnect(focusMosaicMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
 
 }
 
@@ -4322,33 +5234,12 @@ void Focus::initConnections()
     // Start continuous capture
     connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
     // Use a subframe when capturing
-    connect(focusSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
+    connect(focusSubFrame, &QRadioButton::toggled, this, &Ekos::Focus::toggleSubframe);
     // Reset frame dimensions to default
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
-    // Sync setting if full field setting is toggled.
-    connect(focusUseFullField, &QCheckBox::toggled, this, [&](bool toggled)
-    {
-        focusFullFieldInnerRadius->setEnabled(toggled);
-        focusFullFieldOuterRadius->setEnabled(toggled);
-        if (toggled)
-        {
-            focusSubFrame->setChecked(false);
-            focusAutoStarEnabled->setChecked(false);
-            if (m_CurveFit == CurveFitting::FOCUS_HYPERBOLA || m_CurveFit == CurveFitting::FOCUS_PARABOLA)
-                // If we are using parabola or hyperbola enable setWeights
-                focusUseWeights->setEnabled(true);
-        }
-        else
-        {
-            // Disable the overlay
-            m_FocusView->setStarFilterRange(0, 1);
-            if (m_CurveFit == CurveFitting::FOCUS_HYPERBOLA || m_CurveFit == CurveFitting::FOCUS_PARABOLA)
-            {
-                focusUseWeights->setEnabled(false);
-                focusUseWeights->setChecked(false);
-            }
-        }
-    });
+
+    // handle frame size changes
+    connect(focusBinning, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::checkMosaicMaskLimits);
 
     // Sync settings if the temperature source selection is updated.
     connect(defaultFocusTemperatureSource, &QComboBox::currentTextChanged, this, &Ekos::Focus::checkTemperatureSource);
@@ -4366,26 +5257,7 @@ void Focus::initConnections()
     // Update the focuser star detection if the detection algorithm selection changes.
     connect(focusDetection, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&](int index)
     {
-        m_FocusDetection = static_cast<StarAlgorithm>(index);
-        focusThreshold->setEnabled(m_FocusDetection == ALGORITHM_THRESHOLD);
-        focusMultiRowAverage->setEnabled(m_FocusDetection == ALGORITHM_BAHTINOV);
-        if (m_FocusDetection == ALGORITHM_BAHTINOV)
-        {
-            // In case of Bahtinov mask uncheck auto select star
-            focusAutoStarEnabled->setChecked(false);
-            focusBoxSize->setMaximum(512);
-        }
-        else
-        {
-            // When not using Bathinov mask, limit box size to 256 and make sure value stays within range.
-            if (focusBoxSize->value() > 256)
-            {
-                // Focus box size changed, update control
-                focusBoxSize->setValue(focusBoxSize->value());
-            }
-            focusBoxSize->setMaximum(256);
-        }
-        focusAutoStarEnabled->setEnabled(m_FocusDetection != ALGORITHM_BAHTINOV);
+        setFocusDetection(static_cast<StarAlgorithm>(index));
     });
 
     // Update the focuser solution algorithm if the selection changes.
@@ -4401,6 +5273,36 @@ void Focus::initConnections()
         setCurveFit(static_cast<CurveFitting::CurveFit>(index));
     });
 
+    // Update the star measure if the selection changes
+    connect(focusStarMeasure, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int index)
+    {
+        setStarMeasure(static_cast<StarMeasure>(index));
+    });
+
+    // Update the star PSF if the selection changes
+    connect(focusStarPSF, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int index)
+    {
+        setStarPSF(static_cast<StarPSF>(index));
+    });
+
+    // Update the units (pixels or arcsecs) if the selection changes
+    connect(focusUnits, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int index)
+    {
+        setStarUnits(static_cast<StarUnits>(index));
+    });
+
+    // Update the walk if the selection changes
+    connect(focusWalk, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int index)
+    {
+        setWalk(static_cast<FocusWalk>(index));
+    });
+
+    // Set the focusAdaptive switch so other modules such as Capture can access it
+    connect(focusAdaptive, &QCheckBox::toggled, this, [&](bool enabled)
+    {
+        Options::setFocusAdaptive(enabled);
+    });
+
     // Reset star center on auto star check toggle
     connect(focusAutoStarEnabled, &QCheckBox::toggled, this, [&](bool enabled)
     {
@@ -4411,6 +5313,94 @@ void Focus::initConnections()
             m_FocusView->setTrackingBox(QRect());
         }
     });
+
+    // CFZ Panel
+    connect(resetToOTB, &QPushButton::clicked, this, &Ekos::Focus::resetCFZToOT);
+
+    connect(focusCFZDisplayVCurve, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this,
+            &Ekos::Focus::calcCFZ);
+
+    connect(focusCFZAlgorithm, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Focus::calcCFZ);
+
+    connect(focusCFZTolerance, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::calcCFZ);
+
+    connect(focusCFZTau, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [ = ](double d)
+    {
+        Q_UNUSED(d);
+        calcCFZ();
+    });
+
+    connect(focusCFZWavelength, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [ = ](int i)
+    {
+        Q_UNUSED(i);
+        calcCFZ();
+    });
+
+    connect(focusCFZFNumber, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [ = ](double d)
+    {
+        Q_UNUSED(d);
+        calcCFZ();
+    });
+
+    connect(focusCFZStepSize, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [ = ](double d)
+    {
+        Q_UNUSED(d);
+        calcCFZ();
+    });
+
+    connect(focusCFZAperture, QOverload<int>::of(&QSpinBox::valueChanged), [ = ](int i)
+    {
+        Q_UNUSED(i);
+        calcCFZ();
+    });
+
+    connect(focusCFZSeeing, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [ = ](double d)
+    {
+        Q_UNUSED(d);
+        calcCFZ();
+    });
+
+    // Focus Advisor Panel
+    connect(focusAdvReset, &QPushButton::clicked, this, &Ekos::Focus::focusAdvisorAction);
+    connect(focusAdvHelp, &QPushButton::clicked, this, &Ekos::Focus::focusAdvisorHelp);
+    // Update the defaulted step size on the FA panel if the CFZ changes
+    connect(FocusCFZFinal, &QLineEdit::textChanged, this, [this]()
+    {
+        focusAdvSteps->setValue(m_cfzSteps);
+    });
+}
+
+void Focus::setFocusDetection(StarAlgorithm starAlgorithm)
+{
+    static bool first = true;
+    if (!first && m_FocusDetection == starAlgorithm)
+        return;
+
+    first = false;
+
+    m_FocusDetection = starAlgorithm;
+
+    // setFocusAlgorithm displays the appropriate widgets for the selection
+    setFocusAlgorithm(m_FocusAlgorithm);
+
+    if (m_FocusDetection == ALGORITHM_BAHTINOV)
+    {
+        // In case of Bahtinov mask uncheck auto select star
+        focusAutoStarEnabled->setChecked(false);
+        focusBoxSize->setMaximum(512);
+    }
+    else
+    {
+        // When not using Bathinov mask, limit box size to 256 and make sure value stays within range.
+        if (focusBoxSize->value() > 256)
+        {
+            // Focus box size changed, update control
+            focusBoxSize->setValue(focusBoxSize->value());
+        }
+        focusBoxSize->setMaximum(256);
+    }
+    focusAutoStarEnabled->setEnabled(m_FocusDetection != ALGORITHM_BAHTINOV);
 }
 
 void Focus::setFocusAlgorithm(Algorithm algorithm)
@@ -4419,73 +5409,1068 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
     switch(algorithm)
     {
         case FOCUS_ITERATIVE:
-            focusOutSteps->setEnabled(false);             // Out step multiple
-            focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                 // Initial Step Size
-            focusMaxSingleStep->setEnabled(true);         // Max Step Size
-            focusTolerance->setEnabled(true);             // Solution tolerance
-            focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
+            // Remove unused widgets from the grid and hide them
+            gridLayoutProcess->removeWidget(focusMultiRowAverageLabel);
+            focusMultiRowAverageLabel->hide();
+            gridLayoutProcess->removeWidget(focusMultiRowAverage);
+            focusMultiRowAverage->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianSigmaLabel);
+            focusGaussianSigmaLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianSigma);
+            focusGaussianSigma->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianKernelSizeLabel);
+            focusGaussianKernelSizeLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianKernelSize);
+            focusGaussianKernelSize->hide();
+
+            gridLayoutProcess->removeWidget(focusStarMeasureLabel);
+            focusStarMeasureLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarMeasure);
+            focusStarMeasure->hide();
+
+            gridLayoutProcess->removeWidget(focusStarPSFLabel);
+            focusStarPSFLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarPSF);
+            focusStarPSF->hide();
+
+            gridLayoutProcess->removeWidget(focusUseWeights);
+            focusUseWeights->hide();
+
+            gridLayoutProcess->removeWidget(focusR2LimitLabel);
+            focusR2LimitLabel->hide();
+            gridLayoutProcess->removeWidget(focusR2Limit);
+            focusR2Limit->hide();
+
+            gridLayoutProcess->removeWidget(focusRefineCurveFit);
+            focusRefineCurveFit->hide();
+            focusRefineCurveFit->setChecked(false);
+
+            gridLayoutProcess->removeWidget(focusToleranceLabel);
+            focusToleranceLabel->hide();
+            gridLayoutProcess->removeWidget(focusTolerance);
+            focusTolerance->hide();
+
+            gridLayoutProcess->removeWidget(focusThresholdLabel);
+            focusThresholdLabel->hide();
+            gridLayoutProcess->removeWidget(focusThreshold);
+            focusThreshold->hide();
+
+            gridLayoutProcess->removeWidget(focusCurveFitLabel);
+            focusCurveFitLabel->hide();
+            gridLayoutProcess->removeWidget(focusCurveFit);
+            focusCurveFit->hide();
+            // Although CurveFit is not used by Iterative setting to Quadratic will configure other widgets
             focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
-            focusAFOverscan->setEnabled(false);           // Overscan off
+
+            // Set Measure to just HFR
+            if (focusStarMeasure->count() != 1)
+            {
+                focusStarMeasure->clear();
+                focusStarMeasure->addItem(m_StarMeasureText.at(FOCUS_STAR_HFR));
+                focusStarMeasure->setCurrentIndex(FOCUS_STAR_HFR);
+            }
+
+            // Add necessary widgets to the grid
+            gridLayoutProcess->addWidget(focusToleranceLabel, 3, 0);
+            focusToleranceLabel->show();
+            gridLayoutProcess->addWidget(focusTolerance, 3, 1);
+            focusTolerance->show();
+
+            gridLayoutProcess->addWidget(focusFramesCountLabel, 3, 2);
+            focusFramesCountLabel->show();
+            gridLayoutProcess->addWidget(focusFramesCount, 3, 3);
+            focusFramesCount->show();
+
+            if (m_FocusDetection == ALGORITHM_THRESHOLD)
+            {
+                gridLayoutProcess->addWidget(focusThresholdLabel, 4, 0);
+                focusThresholdLabel->show();
+                gridLayoutProcess->addWidget(focusThreshold, 4, 1);
+                focusThreshold->show();
+            }
+            else if (m_FocusDetection == ALGORITHM_BAHTINOV)
+            {
+                gridLayoutProcess->addWidget(focusMultiRowAverageLabel, 4, 0);
+                focusMultiRowAverageLabel->show();
+                gridLayoutProcess->addWidget(focusMultiRowAverage, 4, 1);
+                focusMultiRowAverage->show();
+
+                gridLayoutProcess->addWidget(focusGaussianSigmaLabel, 4, 2);
+                focusGaussianSigmaLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianSigma, 4, 3);
+                focusGaussianSigma->show();
+
+                gridLayoutProcess->addWidget(focusGaussianKernelSizeLabel, 5, 0);
+                focusGaussianKernelSizeLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianKernelSize, 5, 1);
+                focusGaussianKernelSize->show();
+            }
+
+            // Settings tab changes
+            // Disable adaptive focus
+            focusAdaptive->setChecked(false);
+            focusAdaptStart->setChecked(false);
+            adaptiveFocusGroup->setEnabled(false);
+
+            // Mechanics tab changes
+            focusMaxSingleStep->setEnabled(true);
+            focusOutSteps->setEnabled(false);
+
+            // Set Walk to just Classic on 1st time through
+            if (focusWalk->count() != 1)
+            {
+                focusWalk->clear();
+                focusWalk->addItem(m_FocusWalkText.at(FOCUS_WALK_CLASSIC));
+                focusWalk->setCurrentIndex(FOCUS_WALK_CLASSIC);
+            }
             break;
 
         case FOCUS_POLYNOMIAL:
-            focusOutSteps->setEnabled(false);             // Out step multiple
-            focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                 // Initial Step Size
-            focusMaxSingleStep->setEnabled(true);         // Max Step Size
-            focusTolerance->setEnabled(true);             // Solution tolerance
-            focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
-            focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
-            focusAFOverscan->setEnabled(false);           // Overscan off
+            // Remove unused widgets from the grid and hide them
+            gridLayoutProcess->removeWidget(focusMultiRowAverageLabel);
+            focusMultiRowAverageLabel->hide();
+            gridLayoutProcess->removeWidget(focusMultiRowAverage);
+            focusMultiRowAverage->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianSigmaLabel);
+            focusGaussianSigmaLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianSigma);
+            focusGaussianSigma->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianKernelSizeLabel);
+            focusGaussianKernelSizeLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianKernelSize);
+            focusGaussianKernelSize->hide();
+
+            gridLayoutProcess->removeWidget(focusStarPSFLabel);
+            focusStarPSFLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarPSF);
+            focusStarPSF->hide();
+
+            gridLayoutProcess->removeWidget(focusUseWeights);
+            focusUseWeights->hide();
+
+            gridLayoutProcess->removeWidget(focusR2LimitLabel);
+            focusR2LimitLabel->hide();
+            gridLayoutProcess->removeWidget(focusR2Limit);
+            focusR2Limit->hide();
+
+            gridLayoutProcess->removeWidget(focusRefineCurveFit);
+            focusRefineCurveFit->hide();
+            focusRefineCurveFit->setChecked(false);
+
+            gridLayoutProcess->removeWidget(focusToleranceLabel);
+            focusToleranceLabel->hide();
+            gridLayoutProcess->removeWidget(focusTolerance);
+            focusTolerance->hide();
+
+            gridLayoutProcess->removeWidget(focusThresholdLabel);
+            focusThresholdLabel->hide();
+            gridLayoutProcess->removeWidget(focusThreshold);
+            focusThreshold->hide();
+
+            // Set Measure to just HFR
+            if (focusStarMeasure->count() != 1)
+            {
+                focusStarMeasure->clear();
+                focusStarMeasure->addItem(m_StarMeasureText.at(FOCUS_STAR_HFR));
+                focusStarMeasure->setCurrentIndex(FOCUS_STAR_HFR);
+            }
+
+            // Add necessary widgets to the grid
+            // Curve fit can only be QUADRATIC so only allow this value
+            gridLayoutProcess->addWidget(focusCurveFitLabel, 1, 2);
+            focusCurveFitLabel->show();
+            gridLayoutProcess->addWidget(focusCurveFit, 1, 3);
+            focusCurveFit->show();
+            if (focusCurveFit->count() != 1)
+            {
+                focusCurveFit->clear();
+                focusCurveFit->addItem(m_CurveFitText.at(CurveFitting::FOCUS_QUADRATIC));
+                focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
+            }
+
+            gridLayoutProcess->addWidget(focusToleranceLabel, 3, 0);
+            focusToleranceLabel->show();
+            gridLayoutProcess->addWidget(focusTolerance, 3, 1);
+            focusTolerance->show();
+
+            gridLayoutProcess->addWidget(focusFramesCountLabel, 3, 2);
+            focusFramesCountLabel->show();
+            gridLayoutProcess->addWidget(focusFramesCount, 3, 3);
+            focusFramesCount->show();
+
+            if (m_FocusDetection == ALGORITHM_THRESHOLD)
+            {
+                gridLayoutProcess->addWidget(focusThresholdLabel, 4, 0);
+                focusThresholdLabel->show();
+                gridLayoutProcess->addWidget(focusThreshold, 4, 1);
+                focusThreshold->show();
+            }
+            else if (m_FocusDetection == ALGORITHM_BAHTINOV)
+            {
+                gridLayoutProcess->addWidget(focusMultiRowAverageLabel, 4, 0);
+                focusMultiRowAverageLabel->show();
+                gridLayoutProcess->addWidget(focusMultiRowAverage, 4, 1);
+                focusMultiRowAverage->show();
+
+                gridLayoutProcess->addWidget(focusGaussianSigmaLabel, 4, 2);
+                focusGaussianSigmaLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianSigma, 4, 3);
+                focusGaussianSigma->show();
+
+                gridLayoutProcess->addWidget(focusGaussianKernelSizeLabel, 5, 0);
+                focusGaussianKernelSizeLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianKernelSize, 5, 1);
+                focusGaussianKernelSize->show();
+            }
+
+            // Settings tab changes
+            // Disable adaptive focus
+            focusAdaptive->setChecked(false);
+            focusAdaptStart->setChecked(false);
+            adaptiveFocusGroup->setEnabled(false);
+
+            // Mechanics tab changes
+            focusMaxSingleStep->setEnabled(true);
+            focusOutSteps->setEnabled(false);
+
+            // Set Walk to just Classic on 1st time through
+            if (focusWalk->count() != 1)
+            {
+                focusWalk->clear();
+                focusWalk->addItem(m_FocusWalkText.at(FOCUS_WALK_CLASSIC));
+                focusWalk->setCurrentIndex(FOCUS_WALK_CLASSIC);
+            }
             break;
 
         case FOCUS_LINEAR:
-            focusOutSteps->setEnabled(true);              // Out step multiple
-            focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                 // Initial Step Size
-            focusMaxSingleStep->setEnabled(false);        // Max Step Size
-            focusTolerance->setEnabled(true);             // Solution tolerance
-            focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
-            focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
-            focusAFOverscan->setEnabled(true);            // Overscan on
+            // Remove unused widgets from the grid and hide them
+            gridLayoutProcess->removeWidget(focusMultiRowAverageLabel);
+            focusMultiRowAverageLabel->hide();
+            gridLayoutProcess->removeWidget(focusMultiRowAverage);
+            focusMultiRowAverage->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianSigmaLabel);
+            focusGaussianSigmaLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianSigma);
+            focusGaussianSigma->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianKernelSizeLabel);
+            focusGaussianKernelSizeLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianKernelSize);
+            focusGaussianKernelSize->hide();
+
+            gridLayoutProcess->removeWidget(focusThresholdLabel);
+            focusThresholdLabel->hide();
+            gridLayoutProcess->removeWidget(focusThreshold);
+            focusThreshold->hide();
+
+            gridLayoutProcess->removeWidget(focusStarPSFLabel);
+            focusStarPSFLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarPSF);
+            focusStarPSF->hide();
+
+            gridLayoutProcess->removeWidget(focusUseWeights);
+            focusUseWeights->hide();
+
+            gridLayoutProcess->removeWidget(focusR2LimitLabel);
+            focusR2LimitLabel->hide();
+            gridLayoutProcess->removeWidget(focusR2Limit);
+            focusR2Limit->hide();
+
+            gridLayoutProcess->removeWidget(focusRefineCurveFit);
+            focusRefineCurveFit->hide();
+            focusRefineCurveFit->setChecked(false);
+
+            // Set Measure to just HFR
+            if (focusStarMeasure->count() != 1)
+            {
+                focusStarMeasure->clear();
+                focusStarMeasure->addItem(m_StarMeasureText.at(FOCUS_STAR_HFR));
+                focusStarMeasure->setCurrentIndex(FOCUS_STAR_HFR);
+            }
+
+            // Add necessary widgets to the grid
+            // For Linear the only allowable CurveFit is Quadratic
+            gridLayoutProcess->addWidget(focusCurveFitLabel, 1, 2);
+            focusCurveFitLabel->show();
+            gridLayoutProcess->addWidget(focusCurveFit, 1, 3);
+            focusCurveFit->show();
+            if (focusCurveFit->count() != 1)
+            {
+                focusCurveFit->clear();
+                focusCurveFit->addItem(m_CurveFitText.at(CurveFitting::FOCUS_QUADRATIC));
+                focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
+            }
+
+            gridLayoutProcess->addWidget(focusToleranceLabel, 3, 0);
+            focusToleranceLabel->show();
+            gridLayoutProcess->addWidget(focusTolerance, 3, 1);
+            focusTolerance->show();
+
+            gridLayoutProcess->addWidget(focusFramesCountLabel, 3, 2);
+            focusFramesCountLabel->show();
+            gridLayoutProcess->addWidget(focusFramesCount, 3, 3);
+            focusFramesCount->show();
+
+            if (m_FocusDetection == ALGORITHM_THRESHOLD)
+            {
+                gridLayoutProcess->addWidget(focusThresholdLabel, 4, 0);
+                focusThresholdLabel->show();
+                gridLayoutProcess->addWidget(focusThreshold, 4, 1);
+                focusThreshold->show();
+            }
+            else if (m_FocusDetection == ALGORITHM_BAHTINOV)
+            {
+                gridLayoutProcess->addWidget(focusMultiRowAverageLabel, 4, 0);
+                focusMultiRowAverageLabel->show();
+                gridLayoutProcess->addWidget(focusMultiRowAverage, 4, 1);
+                focusMultiRowAverage->show();
+
+                gridLayoutProcess->addWidget(focusGaussianSigmaLabel, 4, 2);
+                focusGaussianSigmaLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianSigma, 4, 3);
+                focusGaussianSigma->show();
+
+                gridLayoutProcess->addWidget(focusGaussianKernelSizeLabel, 5, 0);
+                focusGaussianKernelSizeLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianKernelSize, 5, 1);
+                focusGaussianKernelSize->show();
+            }
+
+            // Settings tab changes
+            // Disable adaptive focus
+            focusAdaptive->setChecked(false);
+            focusAdaptStart->setChecked(false);
+            adaptiveFocusGroup->setEnabled(false);
+
+            // Mechanics tab changes
+            focusMaxSingleStep->setEnabled(false);
+            focusOutSteps->setEnabled(true);
+
+            // Set Walk to just Classic on 1st time through
+            if (focusWalk->count() != 1)
+            {
+                focusWalk->clear();
+                focusWalk->addItem(m_FocusWalkText.at(FOCUS_WALK_CLASSIC));
+                focusWalk->setCurrentIndex(FOCUS_WALK_CLASSIC);
+            }
             break;
 
         case FOCUS_LINEAR1PASS:
-            focusOutSteps->setEnabled(true);              // Out step multiple
-            focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                 // Initial Step Size
-            focusMaxSingleStep->setEnabled(false);        // Max Step Size
-            focusTolerance->setEnabled(false);            // Solution tolerance
-            focusCurveFit->setEnabled(true);              // Curve fit
-            focusAFOverscan->setEnabled(true);            // Overscan on
+            // Remove unused widgets from the grid and hide them
+            gridLayoutProcess->removeWidget(focusMultiRowAverageLabel);
+            focusMultiRowAverageLabel->hide();
+            gridLayoutProcess->removeWidget(focusMultiRowAverage);
+            focusMultiRowAverage->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianSigmaLabel);
+            focusGaussianSigmaLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianSigma);
+            focusGaussianSigma->hide();
+
+            gridLayoutProcess->removeWidget(focusGaussianKernelSizeLabel);
+            focusGaussianKernelSizeLabel->hide();
+            gridLayoutProcess->removeWidget(focusGaussianKernelSize);
+            focusGaussianKernelSize->hide();
+
+            gridLayoutProcess->removeWidget(focusThresholdLabel);
+            focusThresholdLabel->hide();
+            gridLayoutProcess->removeWidget(focusThreshold);
+            focusThreshold->hide();
+
+            gridLayoutProcess->removeWidget(focusToleranceLabel);
+            focusToleranceLabel->hide();
+            gridLayoutProcess->removeWidget(focusTolerance);
+            focusTolerance->hide();
+
+            // Setup Measure with all options for detection=SEP and curveFit=HYPERBOLA or PARABOLA
+            // or just HDR otherwise. Reset on 1st time through only
+            if (m_FocusDetection == ALGORITHM_SEP && m_CurveFit != CurveFitting::FOCUS_QUADRATIC)
+            {
+                if (focusStarMeasure->count() != m_StarMeasureText.count())
+                {
+                    focusStarMeasure->clear();
+                    focusStarMeasure->addItems(m_StarMeasureText);
+                    focusStarMeasure->setCurrentIndex(FOCUS_STAR_HFR);
+                }
+            }
+            else if (m_FocusDetection != ALGORITHM_SEP || m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
+            {
+                if (focusStarMeasure->count() != 1)
+                {
+                    focusStarMeasure->clear();
+                    focusStarMeasure->addItem(m_StarMeasureText.at(FOCUS_STAR_HFR));
+                    focusStarMeasure->setCurrentIndex(FOCUS_STAR_HFR);
+                }
+            }
+
+            // Add necessary widgets to the grid
+            // All Curve Fits are available - default to Hyperbola which is the best option
+            gridLayoutProcess->addWidget(focusCurveFitLabel, 1, 2);
+            focusCurveFitLabel->show();
+            gridLayoutProcess->addWidget(focusCurveFit, 1, 3);
+            focusCurveFit->show();
+            if (focusCurveFit->count() != m_CurveFitText.count())
+            {
+                focusCurveFit->clear();
+                focusCurveFit->addItems(m_CurveFitText);
+                focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_HYPERBOLA);
+            }
+
+            gridLayoutProcess->addWidget(focusUseWeights, 3, 0, 1, 2); // Spans 2 columns
+            focusUseWeights->show();
+
+            gridLayoutProcess->addWidget(focusR2LimitLabel, 3, 2);
+            focusR2LimitLabel->show();
+            gridLayoutProcess->addWidget(focusR2Limit, 3, 3);
+            focusR2Limit->show();
+
+            gridLayoutProcess->addWidget(focusRefineCurveFit, 4, 0, 1, 2); // Spans 2 columns
+            focusRefineCurveFit->show();
+
+            gridLayoutProcess->addWidget(focusFramesCountLabel, 4, 2);
+            focusFramesCountLabel->show();
+            gridLayoutProcess->addWidget(focusFramesCount, 4, 3);
+            focusFramesCount->show();
+
+            if (m_FocusDetection == ALGORITHM_THRESHOLD)
+            {
+                gridLayoutProcess->addWidget(focusThresholdLabel, 5, 0);
+                focusThresholdLabel->show();
+                gridLayoutProcess->addWidget(focusThreshold, 5, 1);
+                focusThreshold->show();
+            }
+            else if (m_FocusDetection == ALGORITHM_BAHTINOV)
+            {
+                gridLayoutProcess->addWidget(focusMultiRowAverageLabel, 5, 0);
+                focusMultiRowAverageLabel->show();
+                gridLayoutProcess->addWidget(focusMultiRowAverage, 5, 1);
+                focusMultiRowAverage->show();
+
+                gridLayoutProcess->addWidget(focusGaussianSigmaLabel, 5, 2);
+                focusGaussianSigmaLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianSigma, 5, 3);
+                focusGaussianSigma->show();
+
+                gridLayoutProcess->addWidget(focusGaussianKernelSizeLabel, 6, 0);
+                focusGaussianKernelSizeLabel->show();
+                gridLayoutProcess->addWidget(focusGaussianKernelSize, 6, 1);
+                focusGaussianKernelSize->show();
+            }
+
+            // Settings tab changes
+            // Enable adaptive focus
+            adaptiveFocusGroup->setEnabled(true);
+
+            // Mechanics tab changes
+            // Firstly max Single Step is not used by Linear 1 Pass
+            focusMaxSingleStep->setEnabled(false);
+            focusOutSteps->setEnabled(true);
+
+            // Set Walk to just Classic for Quadratic, all options otherwise
+            if (m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
+            {
+                if (focusWalk->count() != 1)
+                {
+                    focusWalk->clear();
+                    focusWalk->addItem(m_FocusWalkText.at(FOCUS_WALK_CLASSIC));
+                    focusWalk->setCurrentIndex(FOCUS_WALK_CLASSIC);
+                }
+            }
+            else
+            {
+                if (focusWalk->count() != m_FocusWalkText.count())
+                {
+                    focusWalk->clear();
+                    focusWalk->addItems(m_FocusWalkText);
+                    focusWalk->setCurrentIndex(FOCUS_WALK_CLASSIC);
+                }
+            }
             break;
     }
 }
 
 void Focus::setCurveFit(CurveFitting::CurveFit curve)
 {
+    if (focusCurveFit->currentIndex() == -1)
+        return;
+
+    static bool first = true;
+    if (!first && m_CurveFit == curve)
+        return;
+
+    first = false;
+
     m_CurveFit = curve;
+    setFocusAlgorithm(static_cast<Algorithm> (focusAlgorithm->currentIndex()));
+    setUseWeights();
+
     switch(m_CurveFit)
     {
         case CurveFitting::FOCUS_QUADRATIC:
-            focusUseWeights->setEnabled(false);             // Use weights not allowed
-            focusUseWeights->setChecked(false);
-            focusR2Limit->setEnabled(false);                // focusR2Limit not allowed
+            focusR2Limit->setEnabled(false);
+            focusRefineCurveFit->setChecked(false);
+            focusRefineCurveFit->setEnabled(false);
             break;
 
         case CurveFitting::FOCUS_HYPERBOLA:
-            focusUseWeights->setEnabled(
-                focusUseFullField->isChecked());    // Only use weights on multi-stars with analysis (=FullField)
-            focusR2Limit->setEnabled(true);                            // focusR2Limit allowed
+            focusR2Limit->setEnabled(true);      // focusR2Limit allowed
+            focusRefineCurveFit->setEnabled(true);
             break;
 
         case CurveFitting::FOCUS_PARABOLA:
-            focusUseWeights->setEnabled(
-                focusUseFullField->isChecked());    // Only use weights on multi-stars with analysis (=FullField)
-            focusR2Limit->setEnabled(true);                            // focusR2Limit allowed
+            focusR2Limit->setEnabled(true);      // focusR2Limit allowed
+            focusRefineCurveFit->setEnabled(true);
+            break;
+
+        default:
             break;
     }
+}
+
+void Focus::setStarMeasure(StarMeasure starMeasure)
+{
+    if (focusStarMeasure->currentIndex() == -1)
+        return;
+
+    static bool first = true;
+    if (!first && m_StarMeasure == starMeasure)
+        return;
+
+    first = false;
+
+    m_StarMeasure = starMeasure;
+    setFocusAlgorithm(static_cast<Algorithm> (focusAlgorithm->currentIndex()));
+    setUseWeights();
+
+    // So what is the best estimator of scale to use? Not much to choose from analysis on the sim.
+    // Variance is the simplest but isn't robust in the presence of outliers.
+    // MAD is probably better but Sn and Qn are theoretically a little better as they are both efficient and
+    // able to deal with skew. Have picked Sn.
+    switch(m_StarMeasure)
+    {
+        case FOCUS_STAR_HFR:
+            m_OptDir = CurveFitting::OPTIMISATION_MINIMISE;
+            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
+            m_FocusView->setStarsHFREnabled(true);
+
+            // Don't display the PSF widgets
+            gridLayoutProcess->removeWidget(focusStarPSFLabel);
+            focusStarPSFLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarPSF);
+            focusStarPSF->hide();
+            break;
+
+        case FOCUS_STAR_HFR_ADJ:
+            m_OptDir = CurveFitting::OPTIMISATION_MINIMISE;
+            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
+            m_FocusView->setStarsHFREnabled(false);
+
+            // Don't display the PSF widgets
+            gridLayoutProcess->removeWidget(focusStarPSFLabel);
+            focusStarPSFLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarPSF);
+            focusStarPSF->hide();
+            break;
+
+        case FOCUS_STAR_FWHM:
+            m_OptDir = CurveFitting::OPTIMISATION_MINIMISE;
+            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
+            // Ideally the FITSViewer would display FWHM. Until then disable HFRs to avoid confusion
+            m_FocusView->setStarsHFREnabled(false);
+
+            // Display the PSF widgets
+            gridLayoutProcess->addWidget(focusStarPSFLabel, 2, 2);
+            focusStarPSFLabel->show();
+            gridLayoutProcess->addWidget(focusStarPSF, 2, 3);
+            focusStarPSF->show();
+            break;
+
+        case FOCUS_STAR_NUM_STARS:
+            m_OptDir = CurveFitting::OPTIMISATION_MAXIMISE;
+            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
+            m_FocusView->setStarsHFREnabled(true);
+
+            // Don't display the PSF widgets
+            gridLayoutProcess->removeWidget(focusStarPSFLabel);
+            focusStarPSFLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarPSF);
+            focusStarPSF->hide();
+            break;
+
+        case FOCUS_STAR_FOURIER_POWER:
+            m_OptDir = CurveFitting::OPTIMISATION_MAXIMISE;
+            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
+            m_FocusView->setStarsHFREnabled(true);
+
+            // Don't display the PSF widgets
+            gridLayoutProcess->removeWidget(focusStarPSFLabel);
+            focusStarPSFLabel->hide();
+            gridLayoutProcess->removeWidget(focusStarPSF);
+            focusStarPSF->hide();
+            break;
+
+        default:
+            break;
+    }
+}
+
+void Focus::setStarPSF(StarPSF starPSF)
+{
+    m_StarPSF = starPSF;
+}
+
+void Focus::setStarUnits(StarUnits starUnits)
+{
+    m_StarUnits = starUnits;
+}
+
+void Focus::setWalk(FocusWalk walk)
+{
+    if (focusWalk->currentIndex() == -1)
+        return;
+
+    static bool first = true;
+    if (!first && m_FocusWalk == walk)
+        return;
+
+    first = false;
+
+    m_FocusWalk = walk;
+
+    switch(m_FocusWalk)
+    {
+        case FOCUS_WALK_CLASSIC:
+            gridLayoutMechanics->replaceWidget(focusNumStepsLabel, focusOutStepsLabel);
+            focusNumStepsLabel->hide();
+            focusOutStepsLabel->show();
+            gridLayoutMechanics->replaceWidget(focusNumSteps, focusOutSteps);
+            focusNumSteps->hide();
+            focusOutSteps->show();
+            break;
+
+        case FOCUS_WALK_FIXED_STEPS:
+        case FOCUS_WALK_CFZ_SHUFFLE:
+            gridLayoutMechanics->replaceWidget(focusOutStepsLabel, focusNumStepsLabel);
+            focusOutStepsLabel->hide();
+            focusNumStepsLabel->show();
+            gridLayoutMechanics->replaceWidget(focusOutSteps, focusNumSteps);
+            focusOutSteps->hide();
+            focusNumSteps->show();
+            break;
+
+        default:
+            break;
+    }
+}
+
+double Focus::getStarUnits(const StarMeasure starMeasure, const StarUnits starUnits)
+{
+    if (starUnits == FOCUS_UNITS_PIXEL || starMeasure == FOCUS_STAR_NUM_STARS || starMeasure == FOCUS_STAR_FOURIER_POWER)
+        return 1.0;
+    if (m_CcdPixelSizeX <= 0.0 || m_FocalLength <= 0.0)
+        return 1.0;
+
+    // Convert to arcsecs from pixels. PixelSize / FocalLength * 206265
+    return m_CcdPixelSizeX / m_FocalLength * 206.265;
+}
+
+void Focus::calcCFZ()
+{
+    double cfzMicrons, cfzSteps;
+    double cfzCameraSteps = calcCameraCFZ() / focusCFZStepSize->value();
+
+    switch(static_cast<Focus::CFZAlgorithm> (focusCFZAlgorithm->currentIndex()))
+    {
+        case Focus::FOCUS_CFZ_CLASSIC:
+            // CFZ = 4.88 t λ f2
+            cfzMicrons = 4.88f * focusCFZTolerance->value() * focusCFZWavelength->value() / 1000.0f *
+                         pow(focusCFZFNumber->value(), 2.0f);
+            cfzSteps = cfzMicrons / focusCFZStepSize->value();
+            m_cfzSteps = std::round(std::max(cfzSteps, cfzCameraSteps));
+            focusCFZFormula->setText("CFZ = 4.88 t λ f²");
+            focusCFZ->setText(QString("%1 μm").arg(cfzMicrons, 0, 'f', 0));
+            focusCFZSteps->setText(QString("%1 steps").arg(cfzSteps, 0, 'f', 0));
+            FocusCFZCameraSteps->setText(QString("%1 steps").arg(cfzCameraSteps, 0, 'f', 0));
+            FocusCFZFinal->setText(QString("%1 steps").arg(m_cfzSteps, 0, 'f', 0));
+
+            // Remove widgets not relevant to this algo
+            gridLayoutCFZ->removeWidget(focusCFZTauLabel);
+            focusCFZTauLabel->hide();
+            gridLayoutCFZ->removeWidget(focusCFZTau);
+            focusCFZTau->hide();
+            gridLayoutCFZ->removeWidget(focusCFZSeeingLabel);
+            focusCFZSeeingLabel->hide();
+            gridLayoutCFZ->removeWidget(focusCFZSeeing);
+            focusCFZSeeing->hide();
+
+            // Add necessary widgets to the grid
+            gridLayoutCFZ->addWidget(focusCFZToleranceLabel, 1, 0);
+            focusCFZToleranceLabel->show();
+            gridLayoutCFZ->addWidget(focusCFZTolerance, 1, 1);
+            focusCFZTolerance->show();
+            gridLayoutCFZ->addWidget(focusCFZWavelengthLabel, 2, 0);
+            focusCFZWavelengthLabel->show();
+            gridLayoutCFZ->addWidget(focusCFZWavelength, 2, 1);
+            focusCFZWavelength->show();
+            break;
+
+        case Focus::FOCUS_CFZ_WAVEFRONT:
+            // CFZ = 4 t λ f2
+            cfzMicrons = 4.0f * focusCFZTolerance->value() * focusCFZWavelength->value() / 1000.0f * pow(focusCFZFNumber->value(),
+                         2.0f);
+            cfzSteps = cfzMicrons / focusCFZStepSize->value();
+            m_cfzSteps = std::round(std::max(cfzSteps, cfzCameraSteps));
+            focusCFZFormula->setText("CFZ = 4 t λ f²");
+            focusCFZ->setText(QString("%1 μm").arg(cfzMicrons, 0, 'f', 0));
+            focusCFZSteps->setText(QString("%1 steps").arg(cfzSteps, 0, 'f', 0));
+            FocusCFZCameraSteps->setText(QString("%1 steps").arg(cfzCameraSteps, 0, 'f', 0));
+            FocusCFZFinal->setText(QString("%1 steps").arg(m_cfzSteps, 0, 'f', 0));
+
+            // Remove widgets not relevant to this algo
+            gridLayoutCFZ->removeWidget(focusCFZTauLabel);
+            focusCFZTauLabel->hide();
+            gridLayoutCFZ->removeWidget(focusCFZTau);
+            focusCFZTau->hide();
+            gridLayoutCFZ->removeWidget(focusCFZSeeingLabel);
+            focusCFZSeeingLabel->hide();
+            gridLayoutCFZ->removeWidget(focusCFZSeeing);
+            focusCFZSeeing->hide();
+
+            // Add necessary widgets to the grid
+            gridLayoutCFZ->addWidget(focusCFZToleranceLabel, 1, 0);
+            focusCFZToleranceLabel->show();
+            gridLayoutCFZ->addWidget(focusCFZTolerance, 1, 1);
+            focusCFZTolerance->show();
+            gridLayoutCFZ->addWidget(focusCFZWavelengthLabel, 2, 0);
+            focusCFZWavelengthLabel->show();
+            gridLayoutCFZ->addWidget(focusCFZWavelength, 2, 1);
+            focusCFZWavelength->show();
+            break;
+
+        case Focus::FOCUS_CFZ_GOLD:
+            // CFZ = 0.00225 √τ θ f² A
+            cfzMicrons = 0.00225f * pow(focusCFZTau->value(), 0.5f) * focusCFZSeeing->value()
+                         * pow(focusCFZFNumber->value(), 2.0f) * focusCFZAperture->value();
+            cfzSteps = cfzMicrons / focusCFZStepSize->value();
+            m_cfzSteps = std::round(std::max(cfzSteps, cfzCameraSteps));
+            focusCFZFormula->setText("CFZ = 0.00225 √τ θ f² A");
+            focusCFZ->setText(QString("%1 μm").arg(cfzMicrons, 0, 'f', 0));
+            focusCFZSteps->setText(QString("%1 steps").arg(cfzSteps, 0, 'f', 0));
+            FocusCFZCameraSteps->setText(QString("%1 steps").arg(cfzCameraSteps, 0, 'f', 0));
+            FocusCFZFinal->setText(QString("%1 steps").arg(m_cfzSteps, 0, 'f', 0));
+
+            // Remove widgets not relevant to this algo
+            gridLayoutCFZ->removeWidget(focusCFZToleranceLabel);
+            focusCFZToleranceLabel->hide();
+            gridLayoutCFZ->removeWidget(focusCFZTolerance);
+            focusCFZTolerance->hide();
+            gridLayoutCFZ->removeWidget(focusCFZWavelengthLabel);
+            focusCFZWavelengthLabel->hide();
+            gridLayoutCFZ->removeWidget(focusCFZWavelength);
+            focusCFZWavelength->hide();
+
+            // Add necessary widgets to the grid
+            gridLayoutCFZ->addWidget(focusCFZTauLabel, 1, 0);
+            focusCFZTauLabel->show();
+            gridLayoutCFZ->addWidget(focusCFZTau, 1, 1);
+            focusCFZTau->show();
+            gridLayoutCFZ->addWidget(focusCFZSeeingLabel, 2, 0);
+            focusCFZSeeingLabel->show();
+            gridLayoutCFZ->addWidget(focusCFZSeeing, 2, 1);
+            focusCFZSeeing->show();
+            break;
+    }
+    if (linearFocuser != nullptr && linearFocuser->isDone())
+        emit drawCFZ(linearFocuser->solution(), linearFocuser->solutionValue(), m_cfzSteps, focusCFZDisplayVCurve->isChecked());
+}
+
+// Calculate the CFZ of the camera in microns using
+// CFZcamera = pixel_size * f^2 * A
+// pixel_size in microns and A in mm so divide A by 1000.
+double Focus::calcCameraCFZ()
+{
+    return m_CcdPixelSizeX * pow(focusCFZFNumber->value(), 2.0) * focusCFZAperture->value() / 1000.0;
+}
+
+void Focus::wavelengthChanged()
+{
+    // The static data for the wavelength held against the filter has been updated so use the new value
+    if (m_FilterManager)
+    {
+        focusCFZWavelength->setValue(m_FilterManager->getFilterWavelength(filter()));
+        calcCFZ();
+    }
+}
+
+void Focus::resetCFZToOT()
+{
+    // Set the aperture and focal ratio for the scope on the connected optical train
+    focusCFZFNumber->setValue(m_FocalRatio);
+    focusCFZAperture->setValue(m_Aperture);
+
+    // Set the wavelength from the active filter
+    if (m_FilterManager)
+        focusCFZWavelength->setValue(m_FilterManager->getFilterWavelength(filter()));
+    calcCFZ();
+}
+
+// Load up the Focus Advisor recommendations
+void Focus::focusAdvisorSetup()
+{
+    bool longFL = m_FocalLength > 1500;
+    double imageScale = getStarUnits(FOCUS_STAR_HFR, FOCUS_UNITS_ARCSEC);
+    QString str;
+    bool centralObstruction = scopeHasObstruction(m_ScopeType);
+
+    // Set the FA label based on the optical train
+    focusAdvLabel->setText(QString("Recommendations: %1 FL=%2 ImageScale=%3")
+                           .arg(m_ScopeType).arg(m_FocalLength).arg(imageScale, 0, 'f', 2));
+
+    // Step Size - Recommend CFZ
+    focusAdvSteps->setValue(m_cfzSteps);
+
+    // Number steps - start with 5
+    focusAdvOutStepMult->setValue(5);
+    if (centralObstruction)
+        str = "A good figure to start with is 5. You have a scope with a central obstruction that turns stars to donuts when\n"
+              "they are out of focus. When this happens the system will struggle to identify stars correctly. To avoid this reduce\n"
+              "either the step size or the number of steps.\n\n"
+              "To check this situation, start at focus and move away by 'step size' * 'number of steps' steps. Take a focus frame\n"
+              "and zoom in on the fitsviewer to see whether stars appear as stars or donuts.";
+    else
+        str = "A good figure to start with is 5.";
+    focusAdvOutStepMult->setToolTip(str);
+    focusAdvOutStepMultLabel->setToolTip(str);
+
+    // Camera options: exposure and bining
+    str = "Camera & Filter Wheel Parameters:\n";
+    if (longFL)
+    {
+        FAExposure = 4.0;
+        str.append("Exp=4.0\n");
+    }
+    else
+    {
+        FAExposure = 2.0;
+        str.append("Exp=2.0\n");
+    }
+
+    FABinning = "";
+    if (focusBinning->isEnabled())
+    {
+        // Only try and update the binning field if camera supports it (binning field enabled)
+        QString binTarget = (imageScale < 1.0) ? "2x2" : "1x1";
+
+        for (int i = 0; i < focusBinning->count(); i++)
+        {
+            if (focusBinning->itemText(i) == binTarget)
+            {
+                FABinning = binTarget;
+                str.append(QString("Bin=%1\n").arg(binTarget));
+                break;
+            }
+        }
+    }
+
+    str.append("Gain ***Set Manually to Unity Gain***\n");
+    str.append("Filter ***Set Manually***");
+    focusAdvCameraLabel->setToolTip(str);
+
+    // Settings tab
+    str = "Settings Tab Parameters:\n";
+    FAAutoSelectStar = true;
+    str.append("Auto Select Star=on\n");
+
+    FADarkFrame = false;
+    str.append("Dark Frame=off\n");
+
+    FAFullFieldInnerRadius = 0.0;
+    FAFullFieldOuterRadius = 80.0;
+    str.append("Ring Mask 0%-80%\n");
+
+    // Suspend Guilding, Guide Settle and Display Units won't affect Autofocus so don't set
+
+    FAAdaptiveFocus = false;
+    str.append("Adaptive Focus=off\n");
+
+    FAAdaptStartPos = false;
+    str.append("Adapt Start Pos=off");
+
+    focusAdvSettingsLabel->setToolTip(str);
+
+    // Process tab
+    str = "Process Tab Parameters:\n";
+    FAFocusDetection = ALGORITHM_SEP;
+    str.append("Detection=SEP\n");
+
+    FAFocusSEPProfile = "";
+    for (int i = 0; i < focusSEPProfile->count(); i++)
+    {
+        if (focusSEPProfile->itemText(i) == "1-Focus-Default")
+        {
+            FAFocusSEPProfile = "1-Focus-Default";
+            str.append(QString("SEP Profile=%1\n").arg(FAFocusSEPProfile));
+            break;
+        }
+    }
+
+    FAFocusAlgorithm = FOCUS_LINEAR1PASS;
+    str.append("Algorithm=Linear 1 Pass\n");
+
+    FACurveFit = CurveFitting::FOCUS_HYPERBOLA;
+    str.append("Curve Fit=Hyperbola\n");
+
+    FAStarMeasure = FOCUS_STAR_HFR;
+    str.append("Measure=HFR\n");
+
+    FAUseWeights = true;
+    str.append("Use Weights=on\n");
+
+    FAFocusR2Limit = 0.8;
+    str.append("R² Limit=0.8\n");
+
+    FAFocusRefineCurveFit = false;
+    str.append("Refine Curve Fit=off\n");
+
+    FAFocusFramesCount = 1;
+    str.append("Average Over=1");
+
+    focusAdvProcessLabel->setToolTip(str);
+
+    // Mechanics tab
+    str = "Mechanics Tab Parameters:\n";
+    FAFocusWalk = FOCUS_WALK_CLASSIC;
+    str.append("Walk=Classic\n");
+
+    FAFocusSettleTime = 1.0;
+    str.append("Focuser Settle=1\n");
+
+    // Set Max travel to max value - no need to limit it
+    FAFocusMaxTravel = focusMaxTravel->maximum();
+    str.append(QString("Max Travel=%1\n").arg(FAFocusMaxTravel));
+
+    // Driver Backlash and AF Overscan are dealt with separately so inform user to do this
+    str.append("Backlash ***Set Manually***\n");
+    str.append("AF Overscan ***Set Manually***\n");
+
+    FAFocusCaptureTimeout = 30;
+    str.append(QString("Capture Timeout=%1\n").arg(FAFocusCaptureTimeout));
+
+    FAFocusMotionTimeout = 30;
+    str.append(QString("Motion Timeout=%1").arg(FAFocusMotionTimeout));
+
+    focusAdvMechanicsLabel->setToolTip(str);
+}
+
+// Focus Advisor help popup
+void Focus::focusAdvisorHelp()
+{
+    QString str = i18n("Focus Advisor (FA) is designed to help you with focus parameters.\n"
+                       "It will not necessarily give you the perfect combination of parameters, you will "
+                       "need to experiment yourself, but it will give you a basic set of parameters to "
+                       "achieve focus.\n\n"
+                       "FA will recommend values for the majority of parameters. A few, however, will need "
+                       "extra work from you to setup. These are identified below along with a basic explanation "
+                       "of how to set them.\n\n"
+                       "The first step is to set backlash. Your focuser manual will likely explain how to do "
+                       "this. Once you have a value for backlash for your system, set either the Backlash field "
+                       "to have the driver perform backlash compensation or the AF Overscan field to have Autofocus "
+                       "perform backlash compensation. Set only one field and set the other to 0.\n\n"
+                       "The second step is to set Step Size. This can be defaulted from the Critical Focus Zone (CFZ) "
+                       "for your equipment - so configure this now in the CFZ tab.\n\n"
+                       "The third step is to set the Out Step Multiple. Start with the suggested default.");
+
+    if (scopeHasObstruction(m_ScopeType))
+        str.append(i18n(" You have a scope with a central obstruction so be careful not to move too far away from "
+                        "focus as stars will appear as donuts and will not be detected properly. Experiment by "
+                        "finding focus and moving Step Size * Out Step Multiple ticks away from focus and take a "
+                        "focus frame. Zoom in to observe star detection. If it is poor then move the focuser back "
+                        "towards focus until star detection is acceptable. Adjust Out Step Multiple to correspond to "
+                        "this range of focuser motion."));
+
+    str.append(i18n("\n\nThe fourth step is to set the remaining focus parameters to sensible values. Focus Advisor "
+                    "will suggest values for 4 categories of parameters. Check the associated Update box to "
+                    "accept these recommendations and press Update Params.\n"
+                    "1. Camera Properties - Note you need to ensure Gain is set appropriately, e.g. unity gain.\n"
+                    "2. Settings Tab: These all have recommendations.\n"
+                    "3. Process Tab: These all have recommendations.\n"
+                    "4. Mechanics Tab: Note Step Size and Out Step Multiple are dealt with above.\n\n"
+                    "Now move the focuser to approximate focus and select a broadband filter, e.g. Luminance\n"
+                    "You are now ready to start an Autofocus run."));
+
+    KMessageBox::information(nullptr, str, i18n("Focus Advisor"));
+}
+
+// Action the focus params recommendations
+void Focus::focusAdvisorAction()
+{
+    if (focusAdvStepSize->isChecked())
+        focusTicks->setValue(focusAdvSteps->value());
+
+    if (focusAdvOutStepMultiple->isChecked())
+        focusOutSteps->setValue(focusAdvOutStepMult->value());
+
+    if (focusAdvCamera->isChecked())
+    {
+        focusExposure->setValue(FAExposure);
+        if (focusBinning->isEnabled() && FABinning != "")
+            // Only try and update the binning field if camera supports it (binning field enabled)
+            focusBinning->setCurrentText(FABinning);
+    }
+
+    if (focusAdvSettingsTab->isChecked())
+    {
+        // Settings tab
+        useFocusDarkFrame->setChecked(FADarkFrame);
+        focusUseFullField->setChecked(true);
+        focusAutoStarEnabled->setChecked(FAAutoSelectStar);
+        focusFullFieldInnerRadius->setValue(FAFullFieldInnerRadius);
+        focusFullFieldOuterRadius->setValue(FAFullFieldOuterRadius);
+        focusRingMaskRB->setChecked(true);
+        focusAdaptive->setChecked(FAAdaptiveFocus);
+        focusAdaptStart->setChecked(FAAdaptStartPos);
+    }
+
+    if (focusAdvProcessTab->isChecked())
+    {
+        // Process tab
+        focusDetection->setCurrentIndex(FAFocusDetection);
+        if (FAFocusSEPProfile != "")
+            focusSEPProfile->setCurrentText(FAFocusSEPProfile);
+        focusAlgorithm->setCurrentIndex(FAFocusAlgorithm);
+        focusCurveFit->setCurrentIndex(FACurveFit);
+        focusStarMeasure->setCurrentIndex(FAStarMeasure);
+        focusUseWeights->setChecked(FAUseWeights);
+        focusR2Limit->setValue(FAFocusR2Limit);
+        focusRefineCurveFit->setChecked(FAFocusRefineCurveFit);
+        focusFramesCount->setValue(FAFocusFramesCount);
+    }
+
+    if (focusAdvMechanicsTab->isChecked())
+    {
+        focusWalk->setCurrentIndex(FAFocusWalk);
+        focusSettleTime->setValue(FAFocusSettleTime);
+        focusMaxTravel->setValue(FAFocusMaxTravel);
+        focusCaptureTimeout->setValue(FAFocusCaptureTimeout);
+        focusMotionTimeout->setValue(FAFocusMotionTimeout);
+    }
+}
+
+// Returns whether or not the passed in scopeType has a central obstruction or not. The scopeTypes
+// are defined in the equipmentWriter code. It would be better, probably, if that code included
+// a flag for central obstruction, rather than hard coding strings for the scopeType that are compared
+// in this routine.
+bool Focus::scopeHasObstruction(QString scopeType)
+{
+    if (scopeType == "Refractor" || scopeType == "Kutter (Schiefspiegler)")
+        return false;
+    else
+        return true;
 }
 
 void Focus::initView()
@@ -4572,26 +6557,15 @@ void Focus::setAllSettings(const QVariantMap &settings)
         }
     }
 
-    // Sync to options
-    for (auto &key : settings.keys())
-    {
-        auto value = settings[key];
-        // Save immediately
-        Options::self()->setProperty(key.toLatin1(), value);
-        Options::self()->save();
-
-        m_Settings[key] = value;
-        m_GlobalSettings[key] = value;
-    }
-
-    emit settingsUpdated(getAllSettings());
-
-    // Save to optical train specific settings as well
-    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
-    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, m_Settings);
+    m_Settings = settings;
 
     // Restablish connections
     connectSettings();
+
+    // Once settings have been loaded run through routines to set state variables
+    setFocusDetection(static_cast<StarAlgorithm> (focusDetection->currentIndex()));
+    setCurveFit(static_cast<CurveFitting::CurveFit>(focusCurveFit->currentIndex()));
+    setStarMeasure(static_cast<StarMeasure>(focusStarMeasure->currentIndex()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -4654,7 +6628,6 @@ void Focus::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 void Focus::refreshOpticalTrain()
@@ -4662,13 +6635,21 @@ void Focus::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
-    trainB->setEnabled(opticalTrainCombo->count() > 0);
+    trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::FocusOpticalTrain);
 
     if (trainID.isValid())
     {
         auto id = trainID.toUInt();
+
+        // If train not found, select the first one available.
+        if (OpticalTrainManager::Instance()->exists(id) == false)
+        {
+            qCWarning(KSTARS_EKOS_FOCUS) << "Optical train doesn't exist for id" << id;
+            id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
+        }
+
         auto name = OpticalTrainManager::Instance()->name(id);
 
         opticalTrainCombo->setCurrentText(name);
@@ -4681,6 +6662,21 @@ void Focus::refreshOpticalTrain()
         {
             auto scope = OpticalTrainManager::Instance()->getScope(name);
             opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
+            // CFZ and FA use scope parameters in their calcs - so update...
+            m_Aperture = scope["aperture"].toDouble(-1);
+            m_FocalLength = scope["focal_length"].toDouble(-1);
+            m_ScopeType = scope["type"].toString();
+            m_FocalRatio = (m_Aperture > 0.001) ? m_FocalLength / m_Aperture : 0.0f;
+            // Get the pixel size of the active camera for later calculations
+            auto nvp = camera->getNumber("CCD_INFO");
+            if (!nvp)
+                m_CcdPixelSizeX = 0.0;
+            else
+            {
+                auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
+                if (np)
+                    m_CcdPixelSizeX = np->getValue();
+            }
         }
         setCamera(camera);
 
@@ -4694,6 +6690,9 @@ void Focus::refreshOpticalTrain()
             setAllSettings(settings.toJsonObject().toVariantMap());
         else
             m_Settings = m_GlobalSettings;
+        // Update calcs for the CFZ and Focus Advisor based on the new OT
+        resetCFZToOT();
+        focusAdvisorSetup();
     }
 
     opticalTrainCombo->blockSignals(false);

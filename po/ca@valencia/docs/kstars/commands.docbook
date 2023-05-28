@@ -151,7 +151,7 @@
 > <guimenu
 >Temps</guimenu
 > <guimenuitem
->Establix el temps a Ara</guimenuitem
+>Establix el temps a ara</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -1605,7 +1605,7 @@
     <varlistentry>
       <term
 ><guimenuitem
->Mostra el camp AR/Dec del J2000,0</guimenuitem
+>Mostra el camp AR/Dec del J2000.0</guimenuitem
 ></term>
       <listitem
 ><para
@@ -1734,7 +1734,7 @@
 > <guimenu
 >Configuració</guimenu
 > <guimenuitem
->Geogràfic...</guimenuitem
+>Emplaçament geogràfic...</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1817,7 +1817,7 @@
 >, obtindreu la pàgina <guilabel
 >Escolliu l'emplaçament de casa vostra</guilabel
 >. Ací podeu seleccionar l'emplaçament d'inici exacte o una ciutat prop de l'emplaçament d'inici si la vostra ubicació exacta no es troba en la base de dades de ciutats de &kstars;. El fet de navegar per tota la llista no és gaire eficient i per tant, &kstars; proporciona un mètode fàcil d'ús per a la selecció de la ciutat desitjada en poc temps. Podeu filtrar la llista de ciutats amb el nom de la ciutat, província i país. En donar més detalls sobre el vostre emplaçament, la mida de la llista s'anirà reduint a només les millors coincidències. Quan ressalteu una ciutat en la llista de ciutats, els quadros <guilabel
->Llargària:</guilabel
+>Longitud:</guilabel
 > i <guilabel
 >Latitud:</guilabel
 > s'actualitzaran amb la informació exacta de l'emplaçament seleccionat. Quan premeu el botó <guibutton
@@ -1832,7 +1832,7 @@
 >Mode de vista Detalls</guibutton
 > o <guibutton
 >Mode de vista Icones</guibutton
->. També podeu ordenar la llista mitjançant diversos criteris com: el més nou, qualificació, els més descarregats o instal·lats. Açò es pot fer amb facilitat seleccionant una opció utilitzant el botó d'opció. També podeu fer busques utilitzant el quadro de text <guilabel
+>. També podeu ordenar la llista mitjançant diversos criteris com: el més nou, valoració, els més descarregats o instal·lats. Açò es pot fer amb facilitat seleccionant una opció utilitzant el botó d'opció. També podeu fer busques utilitzant el quadro de text <guilabel
 >Busca:</guilabel
 >. Pel que fa a la llista de complements, podeu realitzar diverses accions seleccionant un complement de la llista: el podeu instal·lar o desinstal·lar amb el botó <guibutton
 >Instal·la</guibutton

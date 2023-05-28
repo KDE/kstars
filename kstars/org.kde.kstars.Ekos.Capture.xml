@@ -123,11 +123,7 @@
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
     </signal>
-    <signal name="newSequenceImage">
-        <arg name="filename" type="s" direction="out"/>
-    </signal>
     <signal name="meridianFlipStarted"/>
-    <signal name="meridianFlipCompleted"/>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CaptureState"/>

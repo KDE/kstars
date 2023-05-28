@@ -18,7 +18,8 @@
 
 #include <KLocalizedString>
 
-ProfileScriptDialog::ProfileScriptDialog(const QStringList &drivers, const QByteArray &settings, QWidget *parent) : QDialog(parent)
+ProfileScriptDialog::ProfileScriptDialog(const QStringList &drivers, const QByteArray &settings,
+        QWidget *parent) : QDialog(parent)
 {
     setWindowTitle(i18n("Profile Scripts Editor"));
 

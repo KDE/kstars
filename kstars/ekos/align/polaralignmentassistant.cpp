@@ -207,7 +207,7 @@ void PolarAlignmentAssistant::solverDone(bool timedOut, bool success, const FITS
             const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
             // The 2nd false means don't block. The code below doesn't work if we block
             // because wcsToPixel in updateTriangle() depends on the injectWCS being finished.
-            m_AlignView->injectWCS(solution.orientation, ra, dec, solution.pixscale, eastToTheRight, false, false);
+            m_AlignView->injectWCS(solution.orientation, ra, dec, solution.pixscale, eastToTheRight, false);
             updatePlateSolveTriangle(m_ImageData);
         }
         else
@@ -787,6 +787,14 @@ void PolarAlignmentAssistant::stopPAHProcess()
 {
     if (m_PAHStage == PAH_IDLE)
         return;
+
+    // Only display dialog if user clicked.
+    if ((static_cast<QPushButton *>(sender()) == PAHStopB) && KMessageBox::questionYesNo(KStars::Instance(),
+            i18n("Are you sure you want to stop the polar alignment process?"),
+            i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
+            "restart_PAA_process_dialog") == KMessageBox::No)
+        return;
+
     if (m_PAHStage == PAH_REFRESH)
     {
         setPAHStage(PAH_POST_REFRESH);
@@ -794,12 +802,6 @@ void PolarAlignmentAssistant::stopPAHProcess()
     }
     qCInfo(KSTARS_EKOS_ALIGN) << "Stopping Polar Alignment Assistant process...";
 
-    // Only display dialog if user explicitly restarts
-    if ((static_cast<QPushButton *>(sender()) == PAHStopB) && KMessageBox::questionYesNo(KStars::Instance(),
-            i18n("Are you sure you want to stop the polar alignment process?"),
-            i18n("Polar Alignment Assistant"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-            "restart_PAA_process_dialog") == KMessageBox::No)
-        return;
 
     if (m_CurrentTelescope && m_CurrentTelescope->isInMotion())
         m_CurrentTelescope->abort();
@@ -1076,7 +1078,7 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
         }
         connect(m_AlignView.get(), &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled,
                 Qt::UniqueConnection);
-        m_AlignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
+        m_AlignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight);
         return;
     }
 }

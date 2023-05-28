@@ -39,7 +39,7 @@
 >Coordenades del catàleg</guilabel
 >. De manera alternativa, també podeu establir les coordenades del catàleg seleccionant un objecte utilitzant el diàleg <guilabel
 >Busqueu un objecte</guilabel
->. També podeu especificar ací l'època del catàleg (en general 2.000,0 per a catàlegs amb objectes moderns). Llavors les coordenades de l'objecte per a la data objectiu seran mostrades a la secció <guilabel
+>. També podeu especificar ací l'època del catàleg (en general 2000.0 per a catàlegs amb objectes moderns). Llavors les coordenades de l'objecte per a la data objectiu seran mostrades a la secció <guilabel
 >Coordenades aparents</guilabel
 >. </para>
 </sect2>

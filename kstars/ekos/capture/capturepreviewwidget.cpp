@@ -130,40 +130,58 @@ void CapturePreviewWidget::deleteCurrentFrame()
     QFile *file = new QFile(current.filename);
 
     // prepare a warning dialog
+    // move to trash or delete permanently
+    QCheckBox *permanentlyDeleteCB = new QCheckBox(i18n("Delete directly, do not move to trash."));
+    permanentlyDeleteCB->setChecked(m_permanentlyDelete);
+    KSMessageBox::Instance()->setCheckBox(permanentlyDeleteCB);
+    connect(permanentlyDeleteCB, &QCheckBox::toggled, this, [this](bool checked)
+    {
+        this->m_permanentlyDelete = checked;
+    });
     // Delete
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, pos, file]()
     {
         KSMessageBox::Instance()->disconnect(this);
-
-        if (file->remove() == true)
+        bool success = false;
+        if (this->m_permanentlyDelete == false && (success = file->moveToTrash()))
+        {
+            qCInfo(KSTARS_EKOS_CAPTURE) << overlay->currentFrame().filename << "moved to Trash.";
+        }
+        else if (this->m_permanentlyDelete && (success = file->remove()))
         {
             qCInfo(KSTARS_EKOS_CAPTURE) << overlay->currentFrame().filename << "deleted.";
+        }
+
+        if (success)
+        {
+            // delete it from the history and update the FITS view
+            if (overlay->deleteFrame(pos) && overlay->hasFrames())
+            {
+                m_fitsPreview->loadFile(overlay->currentFrame().filename);
+                // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
+            }
+            else
+            {
+                m_fitsPreview->clearData();
+                overlay->setEnabled(true);
+            }
         }
         else
         {
             qCWarning(KSTARS_EKOS_CAPTURE) << "Deleting" << overlay->currentFrame().filename << "failed!";
             // give up
             overlay->setEnabled(true);
-            return;
         }
-
-        // delete it from the history and update the FITS view
-        if (overlay->deleteFrame(pos) && overlay->hasFrames())
-        {
-            m_fitsPreview->loadFile(overlay->currentFrame().filename);
-            // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
-        }
-        else
-        {
-            m_fitsPreview->clearData();
-            overlay->setEnabled(true);
-        }
+        // clear the check box
+        KSMessageBox::Instance()->setCheckBox(nullptr);
     });
 
     // Cancel
     connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
     {
         KSMessageBox::Instance()->disconnect(this);
+        // clear the check box
+        KSMessageBox::Instance()->setCheckBox(nullptr);
         //do nothing
         overlay->setEnabled(true);
     });
@@ -172,7 +190,7 @@ void CapturePreviewWidget::deleteCurrentFrame()
     QFileInfo fileinfo(current.filename);
     KSMessageBox::Instance()->warningContinueCancel(i18n("Do you really want to delete %1 from the file system?",
             fileinfo.fileName()),
-            i18n("Delete %1", fileinfo.fileName()), 15, false, i18n("Delete"));
+            i18n("Delete %1", fileinfo.fileName()), 0, false, i18n("Delete"));
 
 }
 

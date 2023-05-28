@@ -11,6 +11,7 @@
 
 #include <QPainter>
 #include <QPixmap>
+#include <QPainterPath>
 
 #include "skymapdrawabstract.h"
 #include "skymap.h"
@@ -85,6 +86,8 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
 
     drawZoomBox(p);
 
+    drawOrientationArrows(p);
+
     // FIXME: Maybe we should take care of this differently. Maybe
     // drawOverlays should remain in SkyMap, since it just calls
     // certain drawing functions which are implemented in
@@ -106,6 +109,81 @@ void SkyMapDrawAbstract::drawAngleRuler(QPainter &p)
                                        0)), // FIXME: More ugliness. m_proj should probably be a single-instance class, or we should have our own instance etc.
         m_SkyMap->m_proj->toScreen(m_SkyMap->AngularRuler.point(
                                        1))); // FIXME: Again, AngularRuler should be something better -- maybe a class in itself. After all it's used for more than one thing after we integrate the StarHop feature.
+}
+
+void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
+{
+    if (m_SkyMap->rotationStart.x() > 0 && m_SkyMap->rotationStart.y() > 0)
+    {
+        auto* data = m_KStarsData;
+        const SkyPoint centerSkyPoint = m_SkyMap->m_proj->fromScreen(
+                                            p.viewport().center(),
+                                            data->lst(), data->geo()->lat());
+
+        QPointF centerScreenPoint = p.viewport().center();
+        double northRotation = m_SkyMap->m_proj->findNorthPA(
+                                   &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
+        double zenithRotation = m_SkyMap->m_proj->findZenithPA(
+                                    &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
+
+        QColor overlayColor(data->colorScheme()->colorNamed("CompassColor"));
+        p.setPen(Qt::NoPen);
+        auto drawArrow = [&](double angle, const QString & marker, const float labelRadius, const bool primary)
+        {
+            constexpr float radius = 150.0f; // In pixels
+            const auto fontMetrics = QFontMetricsF(QFont());
+            QTransform transform;
+            QColor color = overlayColor;
+            color.setAlphaF(primary ? 1.0 : 0.75);
+            QPen pen(color, 1.0, primary ? Qt::SolidLine : Qt::DotLine);
+            QBrush brush(color);
+
+            QPainterPath arrowstem;
+            arrowstem.moveTo(0.f, 0.f);
+            arrowstem.lineTo(0.f, -radius + radius / 7.5f);
+            transform.reset();
+            transform.translate(centerScreenPoint.x(), centerScreenPoint.y());
+            transform.rotate(angle);
+            arrowstem = transform.map(arrowstem);
+            p.strokePath(arrowstem, pen);
+
+            QPainterPath arrowhead;
+            arrowhead.moveTo(0.f, 0.f);
+            arrowhead.lineTo(-radius / 30.f, radius / 7.5f);
+            arrowhead.lineTo(radius / 30.f, radius / 7.5f);
+            arrowhead.lineTo(0.f, 0.f);
+            arrowhead.addText(QPointF(-1.1 * fontMetrics.width(marker), radius / 7.5f + 1.2f * fontMetrics.ascent()),
+                              QFont(), marker);
+            transform.translate(0, -radius);
+            arrowhead = transform.map(arrowhead);
+            p.fillPath(arrowhead, brush);
+
+            QRectF angleMarkerRect(centerScreenPoint.x() - labelRadius, centerScreenPoint.y() - labelRadius,
+                                   2.f * labelRadius, 2.f * labelRadius);
+            p.setPen(pen);
+            if (abs(angle) < 0.01)
+            {
+                angle = 0.;
+            }
+            double arcAngle = angle <= 0. ? -angle : 360. - angle;
+            p.drawArc(angleMarkerRect, 90 * 16, int(arcAngle * 16.));
+
+            QPainterPath angleLabel;
+            QString angleLabelText = QString::number(int(round(arcAngle))) + "°";
+            angleLabel.addText(QPointF(-fontMetrics.width(angleLabelText) / 2.f, 1.2f * fontMetrics.ascent()),
+                               QFont(), angleLabelText);
+            transform.reset();
+            transform.translate(centerScreenPoint.x(), centerScreenPoint.y());
+            transform.rotate(angle);
+            transform.translate(0, -labelRadius);
+            transform.rotate(90);
+            angleLabel = transform.map(angleLabel);
+            p.fillPath(angleLabel, brush);
+
+        };
+        drawArrow(northRotation, i18nc("North", "N"), 80.f, !Options::useAltAz());
+        drawArrow(zenithRotation, i18nc("Zenith", "Z"), 40.f, Options::useAltAz());
+    }
 }
 
 void SkyMapDrawAbstract::drawZoomBox(QPainter &p)

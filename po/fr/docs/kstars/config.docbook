@@ -709,9 +709,9 @@
 >Afin d'accélérer la consultation, tous les catalogues activés sont fusionnés dans une table principale. Chaque catalogue possède un nombre de priorité et si plusieurs objets avec le même OID sont demandés, celui dont le catalogue a la plus haute priorité sera chargé. Les objets du catalogue principal sont ensuite dessinés sur le ciel et sont disponibles dans tout &kstars;. </para>
 
 <para
->Pour le moment, la déduplication (l'affectation des OID) n'est gérée que par les outils du <ulink url="https ://invent.kde/vboettcher/kstars-catalogs"
+>Pour le moment, la déduplication (l'affectation des OID) n'est gérée que par les outils du <ulink url="https://invent.kde/vboettcher/kstars-catalogs"
 >dépôt de paquets des catalogues</ulink
->. Le but de cet ensemble d'outils est de pouvoir reproduire la compilation des catalogues dans un environnement homogène. Chaque catalogue est implémenté dans un  <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs/-/blob/master/catalogs/sharpless_2.py"
+>. Le but de cet ensemble d'outils est de pouvoir reproduire la compilation des catalogues dans un environnement homogène. Chaque catalogue est implémenté dans un <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs/-/blob/master/catalogs/sharpless_2.py"
 >module python</ulink
 > et fournit des méthodes standards pour acquérir des données, les analyser et trouver des doublons dans d'autres catalogues. Tous les catalogues téléchargeables sont implémentés de cette manière. Si vous voulez créer votre propre catalogue à mettre à disposition de &kstars;, il est fortement recommandé de le créer comme un paquet dans ce dépôt. Les outils à disposition sont tellement flexibles que cela devrait bien fonctionner pour vous. Pour davantage d'informations sur la manière de procéder, veuillez lire la <ulink url="https://protagon.space/catalogs/"
 >documentation sur les dépôts de catalogues</ulink

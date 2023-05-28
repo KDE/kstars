@@ -358,4 +358,11 @@ double getAvailableRAM();
 
 void setGlobalSettings(const QVariantMap &settings);
 
+/**
+ * @brief sanitize Remove all illegal characters and spaces that can be problematic in file paths across all OSes.
+ * @param text String to sanitize
+ * @return Sanitized text
+ */
+QString sanitize(const QString &text);
+
 } // namespace KSUtils

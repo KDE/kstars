@@ -214,10 +214,10 @@ void SkyPoint::setFromEcliptic(const CachingDms *Obliquity, const dms &EcLong, c
     // Dec.setUsing_asin(sinDec);
 
     // Use Haversine to set declination
-    Dec.setRadians(dms::PI/2.0 - 2.0 * asin(sqrt(0.5 * (
-                                                     1.0 - sinLat * cosObliq
-                                                     - cosLat * sinObliq * sinLong
-                                                     ))));
+    Dec.setRadians(dms::PI / 2.0 - 2.0 * asin(sqrt(0.5 * (
+                       1.0 - sinLat * cosObliq
+                       - cosLat * sinObliq * sinLong
+                   ))));
 }
 
 void SkyPoint::precess(const KSNumbers *num)
@@ -1148,6 +1148,27 @@ double SkyPoint::minAlt(const dms &lat) const
         retval = 180. + retval;
     return retval;
 }
+
+dms SkyPoint::parallacticAngle(const CachingDms &LST, const CachingDms &lat)
+{
+    // N.B. Technically, we could use the form
+    // cos(angle) = (sin(φ) - sin(h) sin(δ))/(cos(h) cos(δ))
+    // where h = altitude, δ = declination, φ = latitude,
+    // and then disambiguate the sign as
+    //  if (az().reduce() < 180°) angle = -angle;
+    // However, acos(...) is inaccurate when cosine is nearly flat, i.e. near 0° and 180°.
+    // It is therefore better to go through some extra pain to use atan2()
+
+    // Therefore we use the form shown in Jean Meeus' book (14.1)
+    dms HA = LST - ra();
+    double tan_lat = lat.sin() / lat.cos();
+    double angle = atan2( // Measured CW on sky map (See Meeus' Fig on Pg 99)
+        HA.sin(),
+        tan_lat * dec().cos() - HA.cos() * dec().sin()
+        );
+    return dms(angle / dms::DegToRad);
+}
+
 
 #ifndef KSTARS_LITE
 QDBusArgument &operator<<(QDBusArgument &argument, const SkyPoint &source)

@@ -97,7 +97,7 @@
 >abans</emphasis
 > d'iniciar la tasca d'observació. Actualment, l'usuari pot seleccionar iniciar tan aviat com sigui possible, <guimenuitem
 >ASAP</guimenuitem
->, o quan l'objectiu estigui a prop o més enllà de la culminació, o a un temps determinat. </para>
+>, o quan l'objectiu estigui a prop o més enllà de la culminació, o a una hora determinada. </para>
             </listitem>
             <listitem>
                 <para
@@ -111,7 +111,7 @@
                 <para
 ><guilabel
 >Condicions de compleció</guilabel
->: Condicions que activen la compleció de la tasca d'observació. La selecció predeterminada és simplement marcar la tasca d'observació com a completada una vegada que s'ha completat el procés de la seqüència. Les condicions addicionals permeten a l'usuari repetir el procés de la seqüència indefinidament o fins a un temps determinat. </para>
+>: Condicions que activen la compleció de la tasca d'observació. La selecció predeterminada és simplement marcar la tasca d'observació com a completada una vegada que s'ha completat el procés de la seqüència. Les condicions addicionals permeten a l'usuari repetir el procés de la seqüència indefinidament o fins a una hora determinada. </para>
             </listitem>
         </itemizedlist>
         <para
@@ -193,9 +193,9 @@
             </listitem>
         </itemizedlist>
         <para
->El programador de l'Ekos només inicia el procediment d'inici una vegada que el temps d'inici de la primera tasca d'observació és propera (el temps de <emphasis
+>El programador de l'Ekos només inicia el procediment d'inici una vegada que l'hora d'inici de la primera tasca d'observació és propera (el temps de <emphasis
 >lliurament</emphasis
-> predeterminat és de 5 minuts abans del temps d'<emphasis
+> predeterminat és de 5 minuts abans de l'hora d'<emphasis
 >inici</emphasis
 >). Un cop finalitzat el procediment d'inici, el programador seleccionarà l'objectiu de la tasca d'observació i iniciarà el procés de la seqüència. Si s'especifica un script d'inici, aquest s'executarà primer. </para>
     </sect3>
@@ -239,7 +239,7 @@
         <title
 >Tancament</title>
         <para
->Un cop finalitzada la tasca d'observació, el programador seleccionarà el següent objectiu. Si encara no ha vençut el pròxim temps programat, la muntura restarà aparcada fins que l'objectiu estigui a punt. A més, si el proper objectiu programat no està previst amb un límit de temps configurable per l'usuari, el programador realitzarà un tancament <emphasis
+>Un cop finalitzada la tasca d'observació, el programador seleccionarà el següent objectiu. Si encara no ha vençut la pròxima hora programada, la muntura restarà aparcada fins que l'objectiu estigui a punt. A més, si el proper objectiu programat no està previst amb un límit de temps configurable per l'usuari, el programador realitzarà un tancament <emphasis
 >preventiu</emphasis
 > per tal de conservar els recursos, i tornarà a executar el procediment d'inici quan venci l'objectiu. </para>
         <para
@@ -276,7 +276,7 @@
                 <para
 ><emphasis role="bold"
 >Avís</emphasis
->: Les condicions meteorològiques no són clares, la vista és insatisfactòria o està parcialment obstruïda, i no és adequada per a l'obtenció de les imatges. Qualsevol altre procés d'obtenció de les imatges serà suspès fins que millori el temps. L'estat meteorològic d'avís no suposa cap perill per a l'equip de l'observatori, de manera que es mantindrà operatiu. El comportament exacte sota l'estat d'avís es pot configurar. </para>
+>: Les condicions meteorològiques no són clares, el «seeing» és insatisfactori o està parcialment obstruïda, i no és adequada per a l'obtenció de les imatges. Qualsevol altre procés d'obtenció de les imatges serà suspès fins que millori el temps. L'estat meteorològic d'avís no suposa cap perill per a l'equip de l'observatori, de manera que es mantindrà operatiu. El comportament exacte sota l'estat d'avís es pot configurar. </para>
             </listitem>
             <listitem>
                 <para

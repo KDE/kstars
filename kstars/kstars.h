@@ -6,6 +6,7 @@
 #pragma once
 
 #include "config-kstars.h"
+#include "nan.h"
 
 #include <KXmlGuiWindow>
 #include <KLocalizedString>
@@ -196,6 +197,8 @@ class KStars : public KXmlGuiWindow
 
         /** Load HIPS information and repopulate menu. */
         void repopulateHIPS();
+
+        void repopulateOrientation();
 
         WIEquipSettings *getWIEquipSettings()
         {
@@ -734,6 +737,9 @@ class KStars : public KXmlGuiWindow
         /** Set the map projection according to the menu selection */
         void slotMapProjection();
 
+        /** Set the orientation parameters of the sky map */
+        void slotSkyMapOrientation();
+
         /** Toggle display of the observing list tool*/
         void slotObsList();
 
@@ -840,6 +846,7 @@ class KStars : public KXmlGuiWindow
         KActionMenu *colorActionMenu { nullptr };
         KActionMenu *fovActionMenu { nullptr };
         KActionMenu *hipsActionMenu { nullptr };
+        KActionMenu *orientationActionMenu { nullptr };
 
         KStarsData *m_KStarsData { nullptr };
         SkyMap *m_SkyMap { nullptr };
@@ -885,6 +892,7 @@ class KStars : public KXmlGuiWindow
         //#endif
 
         QActionGroup *projectionGroup { nullptr };
+        QActionGroup *skymapOrientationGroup { nullptr };
         QActionGroup *cschemeGroup { nullptr };
         QActionGroup *hipsGroup { nullptr };
         QActionGroup *telescopeGroup { nullptr };

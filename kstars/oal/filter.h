@@ -6,19 +6,48 @@
 #pragma once
 
 #include "oal/oal.h"
-
 #include <QString>
+#include "ekos/ekos.h"
+
+#define NULL_FILTER "--"
+
+struct filterProperties
+{
+    QString vendor;
+    QString model;
+    QString type;
+    QString color;
+    int offset;
+    double exposure;
+    bool useAutoFocus;
+    QString lockedFilter;
+    int absFocusPos;
+    double focusTemperature;
+    double focusAltitude;
+    double focusTicksPerTemp;
+    double focusTicksPerAlt;
+    double wavelength;
+
+    filterProperties(QString _vendor, QString _model, QString _type, QString _color,
+                     int _offset = 0, double _exposure = 1.0, bool _useAutoFocus = false, QString _lockedFilter = NULL_FILTER,
+                     int _absFocusPos = 0, double _focusTemperature = Ekos::INVALID_VALUE, double _focusAltitude = Ekos::INVALID_VALUE,
+                     double _focusTicksPerTemp = 0.0, double _focusTicksPerAlt = 0.0, double _wavelength = 500.0) :
+        vendor(_vendor), model(_model), type(_type), color(_color),
+        offset(_offset), exposure(_exposure), useAutoFocus(_useAutoFocus), lockedFilter(_lockedFilter),
+        absFocusPos(_absFocusPos), focusTemperature(_focusTemperature), focusAltitude(_focusAltitude),
+        focusTicksPerTemp(_focusTicksPerTemp), focusTicksPerAlt(_focusTicksPerAlt), wavelength(_wavelength) {}
+};
 
 /**
  * @class OAL::Filter
  *
  * Information of user filters
  */
+
 class OAL::Filter
 {
     public:
-        Filter(const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &color,
-               double exposure, int offset, bool useAutoFocus, const QString &lockedFilter, int absFocusPosition);
+        Filter(const QString &id, const filterProperties *fp);
 
         QString id() const
         {
@@ -91,10 +120,60 @@ class OAL::Filter
             m_AbsoluteFocusPosition = newAbsFocusPos;
         }
 
+        double focusTemperature()
+        {
+            return m_FocusTemperature;
+        }
+        void setFocusTemperature(double newFocusTemperature)
+        {
+            m_FocusTemperature = newFocusTemperature;
+        }
+
+        double focusAltitude()
+        {
+            return m_FocusAltitude;
+        }
+        void setFocusAltitude(double newFocusAltitude)
+        {
+            m_FocusAltitude = newFocusAltitude;
+        }
+
+        double focusTicksPerTemp()
+        {
+            return m_FocusTicksPerTemp;
+        }
+        void setFocusTicksPerTemp(double newFocusTicksPerTemp)
+        {
+            m_FocusTicksPerTemp = newFocusTicksPerTemp;
+        }
+
+        double focusTicksPerAlt()
+        {
+            return m_FocusTicksPerAlt;
+        }
+        void setFocusTicksPerAlt(double newFocusTicksPerAlt)
+        {
+            m_FocusTicksPerAlt = newFocusTicksPerAlt;
+        }
+
+        double wavelength()
+        {
+            return m_Wavelength;
+        }
+        void setWavelength(double newWavelength)
+        {
+            m_Wavelength = newWavelength;
+        }
+
     private:
         QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_LockedFilter;
         int m_Offset { 0 };
         int m_AbsoluteFocusPosition { 0 };
         double m_Exposure { 1.0 };
         bool m_UseAutoFocus { false };
+        double m_FocusTemperature { 0 };
+        double m_FocusAltitude { 0 };
+        double m_FocusTicksPerTemp { 0 };
+        double m_FocusTicksPerAlt { 0 };
+        double m_Wavelength { 0 };
 };

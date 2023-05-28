@@ -731,6 +731,27 @@ class SkyPoint
          */
         double minAlt(const dms &lat) const;
 
+        /**
+         * @short Return the Parallactic Angle
+         *
+         * The parallactic angle is the angle between "up" and
+         * "north". See Jean Meeus' "Astronomical Algorithms" second
+         * edition, Chapter 14 for more details (especially Fig 4 on Pg
+         * 99). The angle returned in this case, between a vector of
+         * increasing altitude and a vector of increasing declination, is
+         * measured in the clockwise sense as seen on the sky.
+         *
+         * @param LST Local Sidereal Time
+         * @param lat Latitude
+         *
+         * @note EquatorialToHorizontal() need not be called before
+         * invoking this, but it is wise to call updateCoords() to ensure
+         * ra() and dec() refer to the right epoch.
+         *
+         * @return the parallactic angle in the clockwise sense
+         */
+        dms parallacticAngle(const CachingDms &LST, const CachingDms &lat);
+
 #ifdef PROFILE_COORDINATE_CONVERSION
         static double cpuTime_EqToHz;
         static long unsigned eqToHzCalls;

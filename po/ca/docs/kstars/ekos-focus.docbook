@@ -79,7 +79,7 @@
         <para
 ><emphasis role="bold"
 >Polinòmic</emphasis
->: A l'algorisme Polinòmic, el procés s'iniciarà en el mode Iteratiu, però una vegada que creuem a l'altre costat de la corba V (una vegada que els valors HFR comencen a augmentar de nou després de disminuir durant un temps), l'Ekos realitzarà un ajust de corba quadràtica per a trobar una solució que preveu la posició HFR mínima possible. Si es troba una solució vàlida, el procés d'enfocament automàtic es considerarà un èxit. Les característiques principals inclouen:</para>
+>: A l'algorisme Polinòmic, el procés s'iniciarà en el mode Iteratiu, però una vegada que creuem a l'altre costat de la corba V (una vegada que els valors HFR comencen a augmentar de nou després de disminuir durant una estona), l'Ekos realitzarà un ajust de corba quadràtica per a trobar una solució que preveu la posició HFR mínima possible. Si es troba una solució vàlida, el procés d'enfocament automàtic es considerarà un èxit. Les característiques principals inclouen:</para>
 
         <itemizedlist>
           <listitem>
@@ -252,7 +252,7 @@
         <para
 ><emphasis role="bold"
 >Basats en el temps</emphasis
->: Els enfocadors basats en el temps sense posició de realimentació que ajusten la posició de l'enfocador movent-se durant una certa qualitat de temps. </para>
+>: Els enfocadors basats en el temps sense posició de realimentació que ajusten la posició de l'enfocador movent-se durant una certa quantitat de temps. </para>
       </listitem>
     </itemizedlist>
 
@@ -490,6 +490,13 @@
       <listitem>
         <para
 ><guilabel
+>Suspèn el guiatge</guilabel
+>: Establiu aquesta opció per suspendre el guiatge durant una execució d'enfocament automàtic. Es fa una comprovació addicional per suspendre només el guiatge si es realitza a través del telescopi primari, per exemple quan s'utilitza un guia fora de l'eix. El propòsit d'això és evitar que el guiatge tingui problemes amb les estrelles desenfocades durant el procés d'enfocament.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
 >Fotograma fosc</guilabel
 >: Marqueu aquesta opció per portar a terme una sostracció de fotograma fosc. Aquesta opció pot ser útil en imatges amb soroll, quan prèviament es pren un fotograma i se sostrau de la imatge enfocada abans de continuar el processament.</para>
 
@@ -561,21 +568,30 @@
         <para
 ><guilabel
 >Camp complet</guilabel
->: Utilitzeu el camp complet de la càmera o seleccioneu un submarc al voltant de l'estrella d'enfocament durant el procediment d'enfocament automàtic. Si s'utilitzen múltiples estrelles, s'haurà de seleccionar aquesta opció.</para>
-      </listitem>
-
-      <listitem>
-        <para
+>: Utilitzeu el camp complet de la càmera o seleccioneu un submarc al voltant de l'estrella d'enfocament durant el procediment d'enfocament automàtic. Si s'utilitzen múltiples estrelles, s'haurà de seleccionar aquesta opció. <itemizedlist>
+	    <listitem>
+	      <para
 ><guilabel
->Anell</guilabel
->: Utilitzat conjuntament amb Camp complet, Anell proporciona dos camps d'entrada que junts defineixen un dònut sobre el CDV de la càmera. Les estrelles que cauen fora del dònut es descompten del processament. Establir un valor interior per sobre del 0% fa que les estrelles del centre del CDV es descartin. Això podria ser útil per evitar l'ús d'estrelles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per sota del 100% fa que les estrelles de les vores del CDV es descartin durant l'enfocament. Això podria ser útil si no teniu cap camp pla a les vores del CDV.</para>
-      </listitem>
-
-      <listitem>
-        <para
+>Usa totes les estrelles per enfocar</guilabel
+>: Seleccioneu aquesta opció si s'han de considerar totes les estrelles del camp per enfocar.</para>
+	    </listitem>
+	    
+	    <listitem>
+              <para
 ><guilabel
->Suspèn el guiatge</guilabel
->: Establiu aquesta opció per suspendre el guiatge durant una execució d'enfocament automàtic. Es fa una comprovació addicional per suspendre només el guiatge si es realitza a través del telescopi primari, per exemple quan s'utilitza un guia fora de l'eix. El propòsit d'això és evitar que el guiatge tingui problemes amb les estrelles desenfocades durant el procés d'enfocament.</para>
+>Màscara d'anell</guilabel
+>: Utilitzat conjuntament amb Camp complet, aquesta opció proporciona dos camps d'entrada que junts defineixen un dònut sobre el CDV de la càmera. Les estrelles que cauen fora del dònut es descompten del processament. Establir un valor interior per sobre del 0% fa que les estrelles del centre del CDV es descartin. Això podria ser útil per evitar l'ús d'estrelles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per sota del 100% fa que les estrelles de les vores del CDV es descartin durant l'enfocament. Això podria ser útil si no teniu cap camp pla a les vores del CDV.</para>
+	    </listitem>
+
+	    <listitem>
+	      <para
+><guilabel
+>Màscara de mosaic</guilabel
+>: Es composa un mosaic de 3x3 amb tessel·les a partir del centre de la imatge, les seves cantonades i de les vores. Aquesta opció és útil si voleu inspeccionar el rendiment de l'òptica: potser ho coneixeu a partir de l'script PixInsight Aberration Inspector. La mida de les tessel·les es pot configurar com un percentatge de l'amplada del fotograma, definint el valor espaiador entre les tessel·les.</para>
+	    </listitem>
+	    
+	  </itemizedlist>
+	</para>
       </listitem>
 
       <listitem>

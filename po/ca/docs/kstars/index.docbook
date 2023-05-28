@@ -340,7 +340,7 @@
 <para
 >La nostra eina <link linkend="tool-calculator"
 >Astrocalculadora</link
-> proporciona accés directe a molts dels algorismes utilitzats internament pel programa, inclosos els convertidors de coordenades i les calculadores de temps. </para>
+> proporciona accés directe a molts dels algorismes utilitzats internament pel programa, inclosos els convertidors de coordenades i les calculadores horàries. </para>
 <para
 >Podeu planejar una sessió d'observació emprant la nostra eina <link linkend="tool-altvstime"
 >Altitud en funció del temps</link

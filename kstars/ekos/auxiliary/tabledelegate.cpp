@@ -128,6 +128,7 @@ QWidget * IntegerDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
         editor->setMaximum(max);
         editor->setSingleStep(step);
     }
+    else
     {
         editor->setMinimum(-10000);
         editor->setMaximum(10000);

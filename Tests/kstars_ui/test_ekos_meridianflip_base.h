@@ -88,33 +88,30 @@ protected:
 
     /**
      * @brief General preparations used both for pure capturing test cases as well as those with the scheduler.
-     * @param initialFocus execute upfront focusing
      * @param guideDeviation select "Abort if Guide Deviation"
      * @param initialGuideDeviation select "Only Start if Guide Deviation <"
      */
-    bool prepareMFTestcase(bool initialFocus, bool guideDeviation, bool initialGuideDeviation);
+    bool prepareMFTestcase(bool guideDeviation, bool initialGuideDeviation);
 
     /**
      * @brief Helper function that reads capture sequence test data, creates entries in the capture module,
      *        executes upfront focusing if necessary and positions the mount close to the meridian.
      * @param secsToMF seconds until the meridian will be crossed
-     * @param initialFocus execute upfront focusing
      * @param guideDeviation select "Abort if Guide Deviation"
      * @param initialGuideDeviation select "Only Start if Guide Deviation <"
      */
-    bool prepareCaptureTestcase(int secsToMF, bool initialFocus, bool guideDeviation, bool initialGuideDeviation);
+    bool prepareCaptureTestcase(int secsToMF, bool guideDeviation, bool initialGuideDeviation);
 
     /**
      * @brief Prepare the scheduler with a single based upon the capture sequences filled
      *        by @see prepareCaptureTestcase(int,bool,bool,bool)
      * @param secsToMF seconds until the meridian will be crossed
-     * @param useFocus use focusing for the scheduler job
      * @param useAlign use alignment for the scheduler job
      * @param completionCondition completion condition for the scheduler
      * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
      * @return true iff preparation was successful
      */
-    bool prepareSchedulerTestcase(int secsToMF, bool useFocus, bool useAlign, Ekos::Scheduler::SchedulerAlgorithm algorithm, SchedulerJob::CompletionCondition completionCondition, int iterations);
+    bool prepareSchedulerTestcase(int secsToMF, bool useAlign, Ekos::Scheduler::SchedulerAlgorithm algorithm, SchedulerJob::CompletionCondition completionCondition, int iterations);
 
     /**
      * @brief Prepare test data iterating over all combination of parameters.
@@ -122,13 +119,12 @@ protected:
      * @param locationList variants of locations
      * @param culminationList variants of upper or lower culmination (upper = true)
      * @param filterList variants of filter parameter tests
-     * @param focusList variants with/without focus tests
-     * @param autofocusList variants with/without HFR autofocus tests
+     * @param focusList variants with/without the focus after flip option selected ( 0=no, 1=refocus, 2=HFR autofocus, 3=after meridian flip)
      * @param guideList variants with/without guiding tests
      * @param ditherList variants with/without dithering tests
      */
     void prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList, QList<std::pair<QString, int> > filterList,
-                         QList<bool> focusList, QList<bool> autofocusList, QList<bool> guideList, QList<bool> ditherList);
+                         QList<int> focusList, QList<bool> guideList, QList<bool> ditherList);
 
     /**
      * @brief Check if guiding and dithering is restarted if required.
@@ -183,10 +179,8 @@ protected:
     // initial focuser position
     int initialFocusPosition = -1;
 
-    // regular focusing on?
+    // focus after meridian flip selected?
     bool refocus_checked = false;
-    // HFR autofocus on?
-    bool autofocus_checked = false;
     // aligning used?
     bool use_aligning = false;
     // regular dithering on?

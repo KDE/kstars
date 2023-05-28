@@ -249,7 +249,10 @@ bool Mount::setMount(ISD::Mount *device)
     }
 
     if (m_Mount)
-        m_Mount->disconnect(this);
+    {
+        m_Mount->disconnect(m_Mount, nullptr, this, nullptr);
+        m_Mount->disconnect(m_Mount, nullptr, mf_state.get(), nullptr);
+    }
 
     m_Mount = device;
 
@@ -1649,9 +1652,6 @@ void Mount::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
-
-
 }
 
 void Mount::refreshOpticalTrain()
@@ -1659,13 +1659,21 @@ void Mount::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
-    trainB->setEnabled(opticalTrainCombo->count() > 0);
+    trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::MountOpticalTrain);
 
     if (trainID.isValid())
     {
         auto id = trainID.toUInt();
+
+        // If train not found, select the first one available.
+        if (OpticalTrainManager::Instance()->exists(id) == false)
+        {
+            qCWarning(KSTARS_EKOS_MOUNT) << "Optical train doesn't exist for id" << id;
+            id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
+        }
+
         auto name = OpticalTrainManager::Instance()->name(id);
 
         opticalTrainCombo->setCurrentText(name);
@@ -2000,7 +2008,7 @@ void Mount::connectSettings()
     connect(mf_state.get(), &MeridianFlipState::slewTelescope, [&](SkyPoint pos)
     {
         if (m_Mount)
-            m_Mount->Slew(&pos);
+            m_Mount->Slew(&pos, (m_Mount->canFlip() && Options::forcedFlip()));
     });
 
     // Train combo box should NOT be synced.

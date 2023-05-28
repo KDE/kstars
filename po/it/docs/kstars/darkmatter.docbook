@@ -71,16 +71,16 @@
 
 <tip>
 <para
->Puoi vedere gli ammassi di galassie studiati dal professor Zwicky per scoprire la materia oscura. Usa la finestra Trova oggetto di KStars (<keycombo
-><keycap
->Ctrl</keycap
-><keycap
+>Puoi vedere gli ammassi di galassie studiati dal professor Zwicky per scoprire la materia oscura. Usa la finestra <guilabel
+>Trova oggetto</guilabel
+> di &kstars; (<keycombo action="simul"
+>&Ctrl;<keycap
 >F</keycap
 ></keycombo
->) e posizionati su <quote
+>) per posizionarti su <quote
 >M 87</quote
-> per trovare l'ammasso della Vergine, e su <quote
+> e trovare l'ammasso della Vergine, e su <quote
 >NGC 4884</quote
-> per trovare l'ammasso della Chioma. Potrebbe essere necessario aumentare lo zoom per vedere le galassie. Nota che l'ammasso della Vergine appare molto più grande nel cielo. In realtà l'ammasso più grande è quello della Chioma, che appare più piccolo solamente perché è più distante. </para>
+> per trovare l'ammasso della Chioma. Potrebbe essere necessario aumentare l'ingrandimento per vedere le galassie. Nota che l'ammasso della Vergine appare molto più grande nel cielo. In realtà l'ammasso più grande è quello della Chioma, che appare più piccolo solo perché è più distante. </para>
 </tip>
 </sect1>

@@ -1984,7 +1984,7 @@
 > : entre en <quote
 >mode distance angulaire</quote
 >. Dans ce mode, une ligne pointillée est dessinée depuis le premier objet ciblé vers la position courante de la souris. Quand vous invoquez le menu contextuel avec le bouton droite de la souris sur un second objet, cela affichera la distance angulaire entre deux objets à proximité du second objet. Vous pouvez actionner la touche <keycap
->Esc</keycap
+>Échap</keycap
 > pour quitter le mode de distance angulaire sans mesurer d'angle. </para
 ></listitem>
 </varlistentry>

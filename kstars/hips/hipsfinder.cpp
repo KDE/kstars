@@ -47,7 +47,8 @@ HIPSFinder::HIPSFinder()
 ///////////////////////////////////////////////////////////////////////////////////////////
 /// Static
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool HIPSFinder::render(SkyPoint *center, uint8_t level, double zoom, QImage *destinationImage, double &fov_w, double &fov_h)
+bool HIPSFinder::render(SkyPoint *center, uint8_t level, double zoom, QImage *destinationImage, double &fov_w,
+                        double &fov_h)
 {
     double ra = center->ra0().radians();
     double de = center->dec0().radians();
@@ -61,8 +62,6 @@ bool HIPSFinder::render(SkyPoint *center, uint8_t level, double zoom, QImage *de
     }
 
     m_RenderedMap.clear();
-
-    //const Projector *m = KStars::Instance()->map()->projector();
 
     // Setup sample projector
     ViewParams viewParams;

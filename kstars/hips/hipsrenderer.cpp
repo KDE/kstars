@@ -93,7 +93,8 @@ bool HIPSRenderer::render(uint16_t w, uint16_t h, QImage *hipsImage, const Proje
         size = HIPSManager::Instance()->getCurrentTileWidth();
 
     bool old = m_scanRender->isBilinearInterpolationEnabled();
-    m_scanRender->setBilinearInterpolationEnabled(Options::hIPSBiLinearInterpolation() && (size >= HIPSManager::Instance()->getCurrentTileWidth() || allSky));
+    m_scanRender->setBilinearInterpolationEnabled(Options::hIPSBiLinearInterpolation()
+            && (size >= HIPSManager::Instance()->getCurrentTileWidth() || allSky));
 
     renderRec(allSky, level, centerPix, hipsImage);
 
@@ -235,8 +236,10 @@ bool HIPSRenderer::renderPix(bool allsky, int level, int pix, QImage *pDest)
             p.drawLine(cornerScreenCoords[1].x(), cornerScreenCoords[1].y(), cornerScreenCoords[2].x(), cornerScreenCoords[2].y());
             p.drawLine(cornerScreenCoords[2].x(), cornerScreenCoords[2].y(), cornerScreenCoords[3].x(), cornerScreenCoords[3].y());
             p.drawLine(cornerScreenCoords[3].x(), cornerScreenCoords[3].y(), cornerScreenCoords[0].x(), cornerScreenCoords[0].y());
-            p.drawText((cornerScreenCoords[0].x() + cornerScreenCoords[1].x() + cornerScreenCoords[2].x() + cornerScreenCoords[3].x()) / 4,
-                       (cornerScreenCoords[0].y() + cornerScreenCoords[1].y() + cornerScreenCoords[2].y() + cornerScreenCoords[3].y()) / 4, QString::number(pix) + " / " + QString::number(level));
+            p.drawText((cornerScreenCoords[0].x() + cornerScreenCoords[1].x() + cornerScreenCoords[2].x() + cornerScreenCoords[3].x()) /
+                       4,
+                       (cornerScreenCoords[0].y() + cornerScreenCoords[1].y() + cornerScreenCoords[2].y() + cornerScreenCoords[3].y()) / 4,
+                       QString::number(pix) + " / " + QString::number(level));
         }
 
         return true;

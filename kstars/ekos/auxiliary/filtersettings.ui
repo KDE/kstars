@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
+    <width>436</width>
     <height>315</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Filter Settings</string>
@@ -68,17 +74,30 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
      <property name="spacing">
       <number>3</number>
      </property>
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set &lt;span style=&quot; font-style:italic;&quot;&gt;relative&lt;/span&gt; filter focus offset in steps. The offsets are global and are applied when the filter changes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set &lt;span style=&quot; font-style:italic;&quot;&gt;relative&lt;/span&gt; filter offsets in steps either directly in the table or use the Build Offsets tool.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buildOffsetsButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Build Offsets</string>
        </property>
       </widget>
      </item>
@@ -95,7 +114,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If using a filter wheel and an absolute position focuser, then always remember the focus position of the autofocus process for light frames in each filter. Before a flat frame is captured, the focuser is moved to the same focus point as light frames.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>Capture flat frames at the same focus as light frames</string>
+        <string>Capture flats at the same focus as lights</string>
        </property>
       </widget>
      </item>

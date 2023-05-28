@@ -372,6 +372,12 @@ void KStars::initActions()
     HIPSManager::Instance()->readSources();
     repopulateHIPS();
 
+    orientationActionMenu = actionCollection()->add<KActionMenu>("skymap_orientation");
+    orientationActionMenu->setText(i18n("Skymap Orientation"));
+    orientationActionMenu->setDelayed(false);
+    orientationActionMenu->setIcon(QIcon::fromTheme("screen-rotate-auto-on"));
+    repopulateOrientation();
+
     actionCollection()->addAction("geolocation", this, SLOT(slotGeoLocator()))
             << i18nc("Location on Earth", "&Geographic...")
             << QIcon::fromTheme("kstars_xplanet")
@@ -691,6 +697,50 @@ void KStars::initActions()
 
     domeGroup->setEnabled(false);
 #endif
+}
+
+void KStars::repopulateOrientation()
+{
+    double rot = dms{Options::skyRotation()}.reduce().Degrees();
+    bool useAltAz = Options::useAltAz();
+    // TODO: Allow adding preset orientations, e.g. for finder scope, main scope etc.
+    orientationActionMenu->menu()->clear();
+    orientationActionMenu->addAction(
+        actionCollection()->addAction(
+            "up_orientation", this, SLOT(slotSkyMapOrientation()))
+        << (useAltAz ? i18nc("Orientation of the sky map", "Zenith &Up") : i18nc("Orientation of the sky map", "North &Up"))
+        << AddToGroup(skymapOrientationGroup)
+        << Checked(rot == 0.)
+        << ToolTip(i18nc("Orientation of the sky map",
+                         "Select this for erect view of the sky map, where north (in Equatorial Coordinate mode) or zenith (in Horizontal Coordinate mode) is vertically up. This would be the natural choice for an erect image finder scope or naked-eye view.")));
+
+    orientationActionMenu->addAction(
+        actionCollection()->addAction(
+            "down_orientation", this, SLOT(slotSkyMapOrientation()))
+        << (useAltAz ? i18nc("Orientation of the sky map", "Zenith &Down") : i18nc("Orientation of the sky map", "North &Down"))
+        << AddToGroup(skymapOrientationGroup)
+        << Checked(rot == 180.)
+        << ToolTip(i18nc("Orientation of the sky map",
+                         "Select this for inverted view of the sky map, where north (in Equatorial Coordinate mode) or zenith (in Horizontal Coordinate mode) is vertically down. This would be the natural choice for an inverted image finder scope, refractor/cassegrain without erector prism, or Dobsonian.")));
+
+    orientationActionMenu->addAction(
+        actionCollection()->addAction(
+            "arbitrary_orientation", this, SLOT(slotSkyMapOrientation()))
+        << i18nc("Orientation of the sky map is arbitrary as it has been adjusted by the user", "Arbitrary")
+        << AddToGroup(skymapOrientationGroup)
+        << Checked(rot != 180. && rot != 0.)
+        << ToolTip(i18nc("Orientation of the sky map",
+                         "This mode is selected automatically if you manually rotated the sky map using Shift + Drag mouse action, to inform you that the orientation is arbitrary")));
+
+
+    orientationActionMenu->addSeparator();
+    QAction *erectObserverAction = newToggleAction(
+                                       actionCollection(), "erect_observer_correction",
+                                       i18nc("Orient sky map for an erect observer", "Erect observer correction"),
+                                       this, SLOT(slotSkyMapOrientation()));
+    erectObserverAction << ToolTip(i18nc("Orient sky map for an erect observer",
+                                         "Enable this mode if you are visually using a Newtonian telescope on an altazimuth mount. It will correct the orientation of the sky-map to account for the observer remaining erect as the telescope moves up and down, unlike a camera which would rotate with the telescope. This only makes sense in Horizontal Coordinate mode and is disabled when using Equatorial Coordinates. Typically makes sense to combine this with Zenith Down orientation."));
+    orientationActionMenu->addAction(erectObserverAction);
 }
 
 void KStars::repopulateFOV()

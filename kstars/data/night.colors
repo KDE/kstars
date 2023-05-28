@@ -31,6 +31,7 @@
 #FF0000 :SatColor
 #640000 :SatLabelColor
 #FFA500 :SupernovaColor
+#F1C232 :AsteroidColor
 #FF8200 :RAGuideError
 #FF0500 :DEGuideError
 #FFFF00 :SolverFOVColor

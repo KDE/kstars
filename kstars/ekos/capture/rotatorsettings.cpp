@@ -1,91 +1,168 @@
 /*
     SPDX-FileCopyrightText: 2017 Jasem Mutlaq <mutlaqja@ikarustech.com>
+                            2022 Toni Schriber
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
+/******************************************************************************************************
+* In 'rotatorGauge' and 'paGauge' all angles are displayed in viewing direction and positiv CCW.
+*******************************************************************************************************/
 
 #include "rotatorsettings.h"
 #include "Options.h"
 #include "fov.h"
 #include "kstarsdata.h"
-#include "ekos/auxiliary/solverutils.h"
 
 #include <indicom.h>
 #include <basedevice.h>
 #include <cmath>
 
+
 RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 
-    rotatorGauge->setFormat("%v");
-    rotatorGauge->setMinimum(0);
-    rotatorGauge->setMaximum(360);
+    m_RotatorUtils.reset(new RotatorUtils());
+    connect(m_RotatorUtils.get(), &RotatorUtils::changedPierside, this, &RotatorSettings::updateGaugeZeroPos);
 
-    connect(rawAngleSlider, &QSlider::valueChanged, this, [this](int angle)
+    // -- Parameter -> ui file
+
+    // -- Camera position angle
+    CameraPA->setKeyboardTracking(false);
+    connect(CameraPA, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,  [ = ](double PAngle)
     {
-        rawAngleSpin->setValue(angle);
+        double RAngle = m_RotatorUtils->calcRotatorAngle(PAngle);
+        RotatorAngle->setValue(RAngle);
+        syncFOV(PAngle);
+        activateRotator(RAngle);
+        CameraPASlider->setSliderPosition(PAngle * 100); // Prevent rounding to integer
+    });
+    connect(CameraPASlider, &QSlider::sliderReleased, this, [this]()
+    {
+        CameraPA->setValue(CameraPASlider->sliderPosition() / 100.0); // Set position angle
+    });
+    connect(CameraPASlider, &QSlider::valueChanged, this, [this](int PAngle100)
+    {
+        double PAngle = PAngle100 / 100;
+        paGauge->setValue(-(PAngle)); // Preview cameraPA in gauge
+        syncFOV(PAngle); // Preview FOV
     });
 
-    connect(positionAngleSlider, &QSlider::valueChanged, this, [this](int angle)
+    // -- Options
+    // enforceJobPA -> header file
+    connect(reverseDirection,  &QCheckBox::toggled, this, [ = ](bool toggled)
     {
-        positionAngleSpin->setValue(angle);
+        commitRotatorDirection(toggled);
     });
 
-    connect(positionAngleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &RotatorSettings::syncPA);
+    // Rotator Gauge
+    rotatorGauge->setFormat("R");   // dummy format
+    rotatorGauge->setMinimum(-360); // display in viewing direction
+    rotatorGauge->setMaximum(0);
+
+    // Polar Angle Gauge
+    paGauge->setFormat("P");        // dummy format
+    paGauge->setMinimum(-181);      // display in viewing direction
+    paGauge->setMaximum(181);
+
+    // Angle Ruler
+    paRuler->plotLayout()->clear();
+    QCPPolarAxisAngular *angularAxis = new QCPPolarAxisAngular(paRuler);
+    angularAxis->removeRadialAxis(angularAxis->radialAxis());
+    QColor TransparentBlack(0, 0, 0, 100);
+    QPen Pen(TransparentBlack, 3);
+    angularAxis->setBasePen(Pen);
+    angularAxis->setTickPen(Pen);
+    angularAxis->setSubTickPen(Pen);
+    angularAxis->setTickLabels(false);
+    angularAxis->setTickLength(10, 10);
+    angularAxis->setSubTickLength(5, 5);
+    paRuler->plotLayout()->addElement(0, 0, angularAxis);
+    paRuler->setBackground(Qt::GlobalColor::transparent);  // transparent background part 1
+    paRuler->setAttribute(Qt::WA_OpaquePaintEvent, false); // transparent background part 2
+    angularAxis->grid()->setAngularPen(QPen(Qt::GlobalColor::transparent)); // no grid
+    paRuler->replot();
+
+    // Parameter Interface
+    CameraPA->setMaximum(180.00);   // uniqueness of angle (-180 = 180)
+    CameraPA->setMinimum(-179.99);
+    RotatorAngle->setButtonSymbols(QAbstractSpinBox::NoButtons);
+    CameraOffset->setValue(Options::pAOffset());
+    CameraOffset->setButtonSymbols(QAbstractSpinBox::NoButtons);
+    MountPierside->setCurrentIndex(ISD::Mount::PIER_UNKNOWN);
+    MountPierside->setDisabled(true);  // only show pierside for information
 }
 
-
-void RotatorSettings::setCurrentRawAngle(double value)
+void RotatorSettings::initRotator(Ekos::CaptureDeviceAdaptor *CaptureDA, QString RName)
 {
-    rawAngleOut->setText(QString::number(value, 'f', 3));
-    rotatorGauge->setValue(value);
-    if (m_RawAngleSynced == false)
+    m_RotatorUtils->initRotatorUtils();
+    // Setting name
+    RotatorName->setText(RName);
+    // Setting angle & gauge
+    m_CaptureDA = CaptureDA;
+    RotatorAngle->setValue(CaptureDA->getRotatorAngle());
+    CameraPA->setValue(m_RotatorUtils->calcCameraAngle(RotatorAngle->value(), false));
+    updateGaugeZeroPos(m_RotatorUtils->getMountPierside());
+}
+
+void RotatorSettings::updateRotator(double RAngle)
+{
+    RotatorAngle->setValue(RAngle);
+    double PAngle = m_RotatorUtils->calcCameraAngle(RAngle, false);
+    CameraPA->setValue(PAngle);
+    updateGauge(RAngle);
+}
+
+void RotatorSettings::updateGauge(double RAngle)
+{
+    rotatorGauge->setValue(-RAngle); // display in viewing direction
+    CurrentRotatorAngle->setText(QString::number(RAngle, 'f', 2));
+    paGauge->setValue(-(m_RotatorUtils->calcCameraAngle(RAngle, false)));
+}
+
+void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
+{
+    if (Pierside == ISD::Mount::PIER_UNKNOWN)
     {
-        rawAngleSlider->setValue(value);
-        m_RawAngleSynced = true;
+        MountPierside->setStyleSheet("QComboBox {border: 1px solid red;}");
     }
-    updatePA();
-}
-
-double RotatorSettings::adjustedOffset()
-{
-    auto offset = Options::pAOffset();
-    auto calibrationPierSide = static_cast<ISD::Mount::PierSide>(Options::pAPierSide());
-    if (calibrationPierSide != ISD::Mount::PIER_UNKNOWN &&
-            m_PierSide != ISD::Mount::PIER_UNKNOWN &&
-            calibrationPierSide != m_PierSide)
-        offset = range360(offset + 180);
-    return offset;
-}
-
-void RotatorSettings::updatePA()
-{
-    // 1. PA = (RawAngle * Multiplier) - Offset
-    // 2. Offset = (RawAngle * Multiplier) - PA
-    // 3. RawAngle = (Offset + PA) / Multiplier
-    double PA = SolverUtils::rangePA((rotatorGauge->value() * Options::pAMultiplier()) - adjustedOffset());
-    positionAngleOut->setText(QString::number(PA, 'f', 3));
-    if (m_PositionAngleSynced == false)
+    else
     {
-        positionAngleSlider->setValue(PA);
-        m_PositionAngleSynced = true;
+        MountPierside->setStyleSheet("QComboBox {}");
     }
+    MountPierside->setCurrentIndex(Pierside);
+    if (Pierside == ISD::Mount::PIER_WEST)
+    {
+        rotatorGauge->setNullPosition(QRoundProgressBar::PositionTop);
+    }
+    else if (Pierside == ISD::Mount::PIER_EAST)
+    {
+        rotatorGauge->setNullPosition(QRoundProgressBar::PositionBottom);
+    }
+    double RAngle = RotatorAngle->value();
+    CameraPA->setValue(m_RotatorUtils->calcCameraAngle(RAngle, false));
+    updateGauge(RAngle);
 }
 
-void RotatorSettings::refresh()
+void RotatorSettings::activateRotator(double Angle)
 {
-    updatePA();
+    m_CaptureDA->setRotatorAngle(&Angle);
 }
 
-void RotatorSettings::setCurrentPierSide(ISD::Mount::PierSide side)
+void RotatorSettings::commitRotatorDirection(bool Reverse)
 {
-    m_PierSide = side;
-    updatePA();
-};
+    m_CaptureDA->reverseRotator(Reverse);
+}
 
-void RotatorSettings::syncPA(double PA)
+void RotatorSettings::refresh(double PAngle) // Call from setAlignResults() in Module Capture
+{
+    CameraPA->setValue(PAngle);
+    syncFOV(PAngle);
+    CameraOffset->setValue(Options::pAOffset());
+}
+
+void RotatorSettings::syncFOV(double PA)
 {
     for (auto oneFOV : KStarsData::Instance()->getTransientFOVs())
     {
@@ -111,3 +188,4 @@ void RotatorSettings::syncPA(double PA)
         }
     }
 }
+

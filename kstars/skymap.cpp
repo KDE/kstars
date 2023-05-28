@@ -51,6 +51,7 @@
 #include <KToolBar>
 
 #include <QBitmap>
+#include <QPainterPath>
 #include <QToolTip>
 #include <QClipboard>
 #include <QInputDialog>
@@ -75,6 +76,37 @@ QBitmap zoomCursorBitmap(int width)
     p.setPen(QPen(Qt::color1, width));
     p.drawEllipse(mx - 7, my - 7, 14, 14);
     p.drawLine(mx + 5, my + 5, mx + 11, my + 11);
+    p.end();
+    return b;
+}
+
+// Draw bitmap for rotation cursor
+QBitmap rotationCursorBitmap(int width)
+{
+    constexpr int size = 32;
+    constexpr int mx = size / 2, my = size / 2;
+    QBitmap b(size, size);
+    b.fill(Qt::color0);
+    const int pad = 4;
+
+    QPainter p;
+    p.begin(&b);
+    p.setPen(QPen(Qt::color1, width));
+
+    QPainterPath arc1;
+    arc1.moveTo(mx, pad);
+    arc1.arcTo(QRect(pad, pad, size - 2 * pad, size - 2 * pad), 90, 90);
+    auto arcEnd1 = arc1.currentPosition();
+    arc1.lineTo(arcEnd1.x() - pad / 2, arcEnd1.y() - pad);
+    p.drawPath(arc1);
+
+    QPainterPath arc2;
+    arc2.moveTo(mx, size - pad);
+    arc2.arcTo(QRect(pad, pad, size - 2 * pad, size - 2 * pad), 270, 90);
+    auto arcEnd2 = arc2.currentPosition();
+    arc2.lineTo(arcEnd2.x() + pad / 2, arcEnd2.y() + pad);
+    p.drawPath(arc2);
+
     p.end();
     return b;
 }
@@ -1167,6 +1199,42 @@ float SkyMap::fov()
     return diagonalPixels / (2 * Options::zoomFactor() * dms::DegToRad);
 }
 
+dms SkyMap::determineSkyRotation()
+{
+    // Note: The erect observer correction accounts for the fact that
+    // an observer remains erect despite the tube of an
+    // Altazmith-mounted Newtonian moving up and down, so an
+    // additional rotation of altitude applies to match the
+    // orientation of the field. This would not apply to a CCD camera
+    // plugged into the same telescope, since the CCD would rotate as
+    // seen from the ground when the telescope moves in altitude.
+    return dms(Options::skyRotation() - (
+                   (Options::erectObserverCorrection() && Options::useAltAz()) ? focus()->alt().Degrees() : 0.0));
+}
+
+void SkyMap::slotSetSkyRotation(double angle)
+{
+    angle = dms(angle).reduce().Degrees();
+    Options::setSkyRotation(angle);
+    KStars *kstars = KStars::Instance();
+    if (kstars)
+    {
+        if (angle == 0.)
+        {
+            kstars->actionCollection()->action("up_orientation")->setChecked(true);
+        }
+        else if (angle == 180.)
+        {
+            kstars->actionCollection()->action("down_orientation")->setChecked(true);
+        }
+        else
+        {
+            kstars->actionCollection()->action("arbitrary_orientation")->setChecked(true);
+        }
+    }
+    forceUpdate();
+}
+
 void SkyMap::setupProjector()
 {
     //Update View Parameters for projection
@@ -1177,6 +1245,7 @@ void SkyMap::setupProjector()
     p.useAltAz      = Options::useAltAz();
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
+    p.rotationAngle = determineSkyRotation();
     p.fillGround    = Options::showGround();
     //Check if we need a new projector
     if (m_proj && Options::projection() == m_proj->type())
@@ -1216,6 +1285,15 @@ void SkyMap::setZoomMouseCursor()
     mouseDragCursor = false;
     QBitmap cursor  = zoomCursorBitmap(2);
     QBitmap mask    = zoomCursorBitmap(4);
+    setCursor(QCursor(cursor, mask));
+}
+
+void SkyMap::setRotationMouseCursor()
+{
+    mouseMoveCursor = false;
+    mouseDragCursor = false;
+    QBitmap cursor = rotationCursorBitmap(2);
+    QBitmap mask   = rotationCursorBitmap(4);
     setCursor(QCursor(cursor, mask));
 }
 

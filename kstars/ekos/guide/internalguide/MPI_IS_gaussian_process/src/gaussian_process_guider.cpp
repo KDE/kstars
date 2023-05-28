@@ -69,21 +69,22 @@ GaussianProcessGuider::GaussianProcessGuider(guide_parameters parameters) :
     hyperparameters[PKPeriodLength] = parameters.PKPeriodLength_;
     SetGPHyperparameters(hyperparameters);
 
-    qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG Parameters: control_gain %1 min_move %2 pred_gain %3 min_for_inf %4 min_for_period %5 pts %6 cpd %7 -- se0L %8 se0V %9 PL %10 PV %11 Se1L %12 se1V %13 ppd %14")
-      .arg(parameters.control_gain_, 6, 'f', 3)
-      .arg(parameters.min_move_, 6, 'f', 3)
-      .arg(parameters.prediction_gain_, 6, 'f', 3)
-      .arg(parameters.min_periods_for_inference_, 6, 'f', 3)
-      .arg(parameters.min_periods_for_period_estimation_, 6, 'f', 3)
-      .arg(parameters.points_for_approximation_)
-      .arg(parameters.compute_period_)
-      .arg(parameters.SE0KLengthScale_, 6, 'f', 3)
-      .arg(parameters.SE0KSignalVariance_, 6, 'f', 3)
-      .arg(parameters.PKLengthScale_, 6, 'f', 3)
-      .arg(parameters.PKSignalVariance_, 6, 'f', 3)
-      .arg(parameters.SE1KLengthScale_, 6, 'f', 3)
-      .arg(parameters.SE1KSignalVariance_, 6, 'f', 3)
-      .arg(parameters.PKPeriodLength_, 6, 'f', 3);
+    qCDebug(KSTARS_EKOS_GUIDE) <<
+                               QString("GPG Parameters: control_gain %1 min_move %2 pred_gain %3 min_for_inf %4 min_for_period %5 pts %6 cpd %7 -- se0L %8 se0V %9 PL %10 PV %11 Se1L %12 se1V %13 ppd %14")
+                               .arg(parameters.control_gain_, 6, 'f', 3)
+                               .arg(parameters.min_move_, 6, 'f', 3)
+                               .arg(parameters.prediction_gain_, 6, 'f', 3)
+                               .arg(parameters.min_periods_for_inference_, 6, 'f', 3)
+                               .arg(parameters.min_periods_for_period_estimation_, 6, 'f', 3)
+                               .arg(parameters.points_for_approximation_)
+                               .arg(parameters.compute_period_)
+                               .arg(parameters.SE0KLengthScale_, 6, 'f', 3)
+                               .arg(parameters.SE0KSignalVariance_, 6, 'f', 3)
+                               .arg(parameters.PKLengthScale_, 6, 'f', 3)
+                               .arg(parameters.PKSignalVariance_, 6, 'f', 3)
+                               .arg(parameters.SE1KLengthScale_, 6, 'f', 3)
+                               .arg(parameters.SE1KSignalVariance_, 6, 'f', 3)
+                               .arg(parameters.PKPeriodLength_, 6, 'f', 3);
 }
 
 GaussianProcessGuider::~GaussianProcessGuider()
@@ -96,8 +97,8 @@ void GaussianProcessGuider::SetTimestamp()
     double delta_measurement_time = std::chrono::duration<double>(current_time - last_time_).count();
     last_time_ = current_time;
     get_last_point().timestamp = std::chrono::duration<double>(current_time - start_time_).count()
-        - (delta_measurement_time / 2.0) // use the midpoint as time stamp
-        + dither_offset_; // correct for the gear time offset from dithering
+                                 - (delta_measurement_time / 2.0) // use the midpoint as time stamp
+                                 + dither_offset_; // correct for the gear time offset from dithering
 }
 
 // adds a new measurement to the circular buffer that holds the data.
@@ -143,15 +144,15 @@ void GaussianProcessGuider::UpdateGP(double prediction_point /*= std::numeric_li
     size_t N = get_number_of_measurements();
 
     // initialize the different vectors needed for the GP
-    Eigen::VectorXd timestamps(N-1);
-    Eigen::VectorXd measurements(N-1);
-    Eigen::VectorXd variances(N-1);
-    Eigen::VectorXd sum_controls(N-1);
+    Eigen::VectorXd timestamps(N - 1);
+    Eigen::VectorXd measurements(N - 1);
+    Eigen::VectorXd variances(N - 1);
+    Eigen::VectorXd sum_controls(N - 1);
 
     double sum_control = 0;
 
     // transfer the data from the circular buffer to the Eigen::Vectors
-    for (size_t i = 0; i < N-1; i++)
+    for (size_t i = 0; i < N - 1; i++)
     {
         sum_control += circular_buffer_data_[i].control; // sum over the control signals
         timestamps(i) = circular_buffer_data_[i].timestamp;
@@ -160,8 +161,8 @@ void GaussianProcessGuider::UpdateGP(double prediction_point /*= std::numeric_li
         sum_controls(i) = sum_control; // store current accumulated control signal
     }
 
-    Eigen::VectorXd gear_error(N-1);
-    Eigen::VectorXd linear_fit(N-1);
+    Eigen::VectorXd gear_error(N - 1);
+    Eigen::VectorXd linear_fit(N - 1);
 
     // calculate the accumulated gear error
     gear_error = sum_controls + measurements; // for each time step, add the residual error
@@ -192,11 +193,11 @@ void GaussianProcessGuider::UpdateGP(double prediction_point /*= std::numeric_li
     feature_matrix.row(1) = timestamps.array(); // timestamps.pow(1)
 
     // this is the inference for linear regression
-    Eigen::VectorXd weights = (feature_matrix*feature_matrix.transpose()
-    + 1e-3*Eigen::Matrix<double, 2, 2>::Identity()).ldlt().solve(feature_matrix*gear_error);
+    Eigen::VectorXd weights = (feature_matrix * feature_matrix.transpose()
+                               + 1e-3 * Eigen::Matrix<double, 2, 2>::Identity()).ldlt().solve(feature_matrix * gear_error);
 
     // calculate the linear regression for all datapoints
-    linear_fit = weights.transpose()*feature_matrix;
+    linear_fit = weights.transpose() * feature_matrix;
 
     // subtract polynomial fit from the data points
     Eigen::VectorXd gear_error_detrend = gear_error - linear_fit;
@@ -277,7 +278,7 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
     if (dithering_active_)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::result(in=%1,snr=%2,ts=%3,ppt=%4) dithering active")
-            .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
+                                   .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
         if (--dither_steps_ <= 0)
         {
             dithering_active_ = false;
@@ -285,18 +286,18 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
         deduceResult(time_step); // just pretend we would do dark guiding...
 
         GPDebug->Log("PPEC rslt(dithering): input = %.2f, final = %.2f",
-            input, parameters.control_gain_ * input);
+                     input, parameters.control_gain_ * input);
 
         qCDebug(KSTARS_EKOS_GUIDE)
-          << QString("PPEC rslt(dithering): input = %1, final = %2")
-          .arg(input, 5, 'f', 2)
-          .arg(parameters.control_gain_ * input, 5, 'f', 2);
+                << QString("PPEC rslt(dithering): input = %1, final = %2")
+                .arg(input, 5, 'f', 2)
+                .arg(parameters.control_gain_ * input, 5, 'f', 2);
 
         return parameters.control_gain_ * input; // ...but apply proportional control
     }
 
     qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::result(in=%1,snr=%2,ts=%3,ppt=%4)")
-        .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
+                               .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
     // the starting time is set at the first call of result after startup or reset
     if (get_number_of_measurements() == 1)
     {
@@ -366,17 +367,18 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
     HandleControls(control_signal_); // already store control signal
 
     GPDebug->Log("PPEC rslt: input = %.2f, final = %.2f, react = %.2f, pred = %.2f, hyst = %.2f, hyst_pct = %.2f, period_length = %.2f",
-        input, control_signal_, parameters.control_gain_ * input, parameters.prediction_gain_ * prediction_, hysteresis_control,
-        hyst_percentage, period_length);
+                 input, control_signal_, parameters.control_gain_ * input, parameters.prediction_gain_ * prediction_, hysteresis_control,
+                 hyst_percentage, period_length);
 
-    qCDebug(KSTARS_EKOS_GUIDE) << QString("PPEC rslt: input = %1, final = %2, react = %3, pred = %4, hyst = %5, hyst_pct = %6, period_length = %7")
-                                  .arg(input, 5, 'f', 2)
-                                  .arg(control_signal_, 5, 'f', 2)
-                                  .arg(parameters.control_gain_ * input, 5, 'f', 2)
-                                  .arg(parameters.prediction_gain_ * prediction_, 5, 'f', 2)
-                                  .arg(hysteresis_control, 5, 'f', 2)
-                                  .arg(hyst_percentage, 5, 'f', 2)
-                                  .arg(period_length, 5, 'f', 2);
+    qCDebug(KSTARS_EKOS_GUIDE) <<
+                               QString("PPEC rslt: input = %1, final = %2, react = %3, pred = %4, hyst = %5, hyst_pct = %6, period_length = %7")
+                               .arg(input, 5, 'f', 2)
+                               .arg(control_signal_, 5, 'f', 2)
+                               .arg(parameters.control_gain_ * input, 5, 'f', 2)
+                               .arg(parameters.prediction_gain_ * prediction_, 5, 'f', 2)
+                               .arg(hysteresis_control, 5, 'f', 2)
+                               .arg(hyst_percentage, 5, 'f', 2)
+                               .arg(period_length, 5, 'f', 2);
     return control_signal_;
 }
 
@@ -387,7 +389,7 @@ double GaussianProcessGuider::deduceResult(double time_step, double prediction_p
     control_signal_ = 0; // no measurement!
     // check if we are allowed to use the GP
     if (get_number_of_measurements() > 10
-        && get_last_point().timestamp > parameters.min_periods_for_inference_ * GetGPHyperparameters()[PKPeriodLength])
+            && get_last_point().timestamp > parameters.min_periods_for_inference_ * GetGPHyperparameters()[PKPeriodLength])
     {
         if (prediction_point < 0.0)
         {
@@ -439,8 +441,8 @@ void GaussianProcessGuider::reset()
 void GaussianProcessGuider::GuidingDithered(double amt, double rate)
 {
     qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::GuidingDithered(amt=%1,rate=%2)")
-       .arg(amt, 6, 'f', 2).arg(rate, 5, 'f', 1);
-  
+                               .arg(amt, 6, 'f', 2).arg(rate, 5, 'f', 1);
+
     // we store the amount of dither in seconds of gear time
     dither_offset_ += amt / rate; // this is the amount of time offset
 
@@ -451,11 +453,11 @@ void GaussianProcessGuider::GuidingDithered(double amt, double rate)
 void GaussianProcessGuider::GuidingDitherSettleDone(bool success)
 {
     qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::GuidingDitherSettleDone(%1)")
-      .arg(success ? "true" : "false");
+                               .arg(success ? "true" : "false");
     if (success)
     {
         dither_steps_ = 1; // the last dither step should always be executed by
-                           // result(), since it corrects for the time difference
+        // result(), since it corrects for the time difference
     }
 }
 
@@ -464,7 +466,7 @@ void GaussianProcessGuider::DirectMoveApplied(double amt, double rate)
     (void) amt; // silence compiler warning while the code below is commented out (HY).
     (void) rate;
     // we store the amount of dither in seconds of gear time
-// todo: validate this:
+    // todo: validate this:
     // dither_offset_ += amt / rate; // this is the amount of time offset
 }
 
@@ -479,11 +481,13 @@ bool GaussianProcessGuider::SetControlGain(double control_gain)
     return false;
 }
 
-bool GaussianProcessGuider::GetBoolComputePeriod() const {
+bool GaussianProcessGuider::GetBoolComputePeriod() const
+{
     return parameters.compute_period_;
 }
 
-bool GaussianProcessGuider::SetBoolComputePeriod(bool active) {
+bool GaussianProcessGuider::SetBoolComputePeriod(bool active)
+{
     parameters.compute_period_ = active;
     return false;
 }
@@ -496,7 +500,7 @@ std::vector<double> GaussianProcessGuider::GetGPHyperparameters() const
     Eigen::VectorXd hyperparameters = hyperparameters_full.tail(NumParameters);
 
     // converts the length-scale of the periodic covariance from standard notation to natural units
-    hyperparameters(PKLengthScale) = std::asin(hyperparameters(PKLengthScale)/4.0)*hyperparameters(PKPeriodLength)/M_PI;
+    hyperparameters(PKLengthScale) = std::asin(hyperparameters(PKLengthScale) / 4.0) * hyperparameters(PKPeriodLength) / M_PI;
 
     // we need to map the Eigen::vector into a std::vector.
     return std::vector<double>(hyperparameters.data(), // the first element is at the array address
@@ -513,8 +517,8 @@ bool GaussianProcessGuider::SetGPHyperparameters(std::vector<double> const &hype
     hyperparameters_eig(SE1KLengthScale) = std::max(hyperparameters_eig(SE1KLengthScale), 1.0);
 
     // converts the length-scale of the periodic covariance from natural units to standard notation
-    hyperparameters_eig(PKLengthScale) = 4*std::sin(hyperparameters_eig(PKLengthScale)
-            *M_PI/hyperparameters_eig(PKPeriodLength));
+    hyperparameters_eig(PKLengthScale) = 4 * std::sin(hyperparameters_eig(PKLengthScale)
+                                         * M_PI / hyperparameters_eig(PKPeriodLength));
 
     // safeguard all parameters from being too small (log conversion)
     hyperparameters_eig = hyperparameters_eig.array().max(1e-10);
@@ -528,52 +532,63 @@ bool GaussianProcessGuider::SetGPHyperparameters(std::vector<double> const &hype
     return false;
 }
 
-double GaussianProcessGuider::GetMinMove() const {
+double GaussianProcessGuider::GetMinMove() const
+{
     return parameters.min_move_;
 }
 
-bool GaussianProcessGuider::SetMinMove(double min_move) {
+bool GaussianProcessGuider::SetMinMove(double min_move)
+{
     parameters.min_move_ = min_move;
     return false;
 }
 
-int GaussianProcessGuider::GetNumPointsForApproximation() const {
+int GaussianProcessGuider::GetNumPointsForApproximation() const
+{
     return parameters.points_for_approximation_;
 }
 
-bool GaussianProcessGuider::SetNumPointsForApproximation(int num_points) {
+bool GaussianProcessGuider::SetNumPointsForApproximation(int num_points)
+{
     parameters.points_for_approximation_ = num_points;
     return false;
 }
 
-double GaussianProcessGuider::GetPeriodLengthsInference() const {
+double GaussianProcessGuider::GetPeriodLengthsInference() const
+{
     return parameters.min_periods_for_inference_;
 }
 
-bool GaussianProcessGuider::SetPeriodLengthsInference(double num_periods) {
+bool GaussianProcessGuider::SetPeriodLengthsInference(double num_periods)
+{
     parameters.min_periods_for_inference_ = num_periods;
     return false;
 }
 
-double GaussianProcessGuider::GetPeriodLengthsPeriodEstimation() const {
+double GaussianProcessGuider::GetPeriodLengthsPeriodEstimation() const
+{
     return parameters.min_periods_for_period_estimation_;
 }
 
-bool GaussianProcessGuider::SetPeriodLengthsPeriodEstimation(double num_periods) {
+bool GaussianProcessGuider::SetPeriodLengthsPeriodEstimation(double num_periods)
+{
     parameters.min_periods_for_period_estimation_ = num_periods;
     return false;
 }
 
-double GaussianProcessGuider::GetPredictionGain() const {
+double GaussianProcessGuider::GetPredictionGain() const
+{
     return parameters.prediction_gain_;
 }
 
-bool GaussianProcessGuider::SetPredictionGain(double prediction_gain) {
+bool GaussianProcessGuider::SetPredictionGain(double prediction_gain)
+{
     parameters.prediction_gain_ = prediction_gain;
     return false;
 }
 
-void GaussianProcessGuider::inject_data_point(double timestamp, double input, double SNR, double control) {
+void GaussianProcessGuider::inject_data_point(double timestamp, double input, double SNR, double control)
+{
     // collect data point content, except for the control signal
     HandleGuiding(input, SNR);
     last_prediction_end_ = timestamp;
@@ -585,7 +600,8 @@ void GaussianProcessGuider::inject_data_point(double timestamp, double input, do
     HandleControls(control); // already store control signal
 }
 
-double GaussianProcessGuider::EstimatePeriodLength(const Eigen::VectorXd& time, const Eigen::VectorXd& data) {
+double GaussianProcessGuider::EstimatePeriodLength(const Eigen::VectorXd &time, const Eigen::VectorXd &data)
+{
     // compute Hamming window to reduce spectral leakage
     Eigen::VectorXd windowed_data = data.array() * math_tools::hamming_window(data.rows()).array();
 
@@ -595,12 +611,12 @@ double GaussianProcessGuider::EstimatePeriodLength(const Eigen::VectorXd& time, 
     Eigen::ArrayXd amplitudes = result.first;
     Eigen::ArrayXd frequencies = result.second;
 
-    double dt = (time(time.rows()-1) - time(0))/(time.rows()-1); // (t_end - t_begin) / num_t
+    double dt = (time(time.rows() - 1) - time(0)) / (time.rows() - 1); // (t_end - t_begin) / num_t
 
     frequencies /= dt; // correct for the average time step width
 
-    Eigen::ArrayXd periods = 1/frequencies.array();
-    amplitudes = (periods > 1500.0).select(0,amplitudes); // set amplitudes to zero for too large periods
+    Eigen::ArrayXd periods = 1 / frequencies.array();
+    amplitudes = (periods > 1500.0).select(0, amplitudes); // set amplitudes to zero for too large periods
 
     assert(amplitudes.size() == frequencies.size());
 
@@ -633,29 +649,32 @@ double GaussianProcessGuider::EstimatePeriodLength(const Eigen::VectorXd& time, 
 
 
         // building feature matrix
-        Eigen::MatrixXd phi(3,3);
+        Eigen::MatrixXd phi(3, 3);
         phi.row(0) = interp_loc.array().pow(2);
         phi.row(1) = interp_loc.array().pow(1);
         phi.row(2) = interp_loc.array().pow(0);
 
         // standard equation for linear regression
-        Eigen::VectorXd w = (phi*phi.transpose()).ldlt().solve(phi*interp_dat);
+        Eigen::VectorXd w = (phi * phi.transpose()).ldlt().solve(phi * interp_dat);
 
         // recovering the maximum from the weights relative to the frequency of the maximum
-        max_frequency = max_frequency - w(1)/(2*w(0))*spread; // note the de-normalization
+        max_frequency = max_frequency - w(1) / (2 * w(0)) * spread; // note the de-normalization
     }
 
 #if SAVE_FFT_DATA_
     {
         std::ofstream outfile;
         outfile.open("spectrum_data.csv", std::ios_base::out);
-        if (outfile) {
+        if (outfile)
+        {
             outfile << "period, amplitude\n";
-            for (int i = 0; i < amplitudes.size(); ++i) {
+            for (int i = 0; i < amplitudes.size(); ++i)
+            {
                 outfile << std::setw(8) << periods[i] << "," << std::setw(8) << amplitudes[i] << "\n";
             }
         }
-        else {
+        else
+        {
             std::cout << "unable to write to file" << std::endl;
         }
         outfile.close();
@@ -676,7 +695,7 @@ void GaussianProcessGuider::UpdatePeriodLength(double period_length)
     // ...and save the day for the users
     if (math_tools::isNaN(period_length))
     {
-            period_length = hypers[PKPeriodLength]; // just use the old value instead
+        period_length = hypers[PKPeriodLength]; // just use the old value instead
     }
 
     // we just apply a simple learning rate to slow down parameter jumps
@@ -685,8 +704,8 @@ void GaussianProcessGuider::UpdatePeriodLength(double period_length)
     SetGPHyperparameters(hypers); // the setter function is needed to convert parameters
 }
 
-Eigen::MatrixXd GaussianProcessGuider::regularize_dataset(const Eigen::VectorXd& timestamps,
-    const Eigen::VectorXd& gear_error, const Eigen::VectorXd& variances)
+Eigen::MatrixXd GaussianProcessGuider::regularize_dataset(const Eigen::VectorXd &timestamps,
+        const Eigen::VectorXd &gear_error, const Eigen::VectorXd &variances)
 {
     size_t N = get_number_of_measurements();
     double grid_interval = GRID_INTERVAL;
@@ -702,7 +721,7 @@ Eigen::MatrixXd GaussianProcessGuider::regularize_dataset(const Eigen::VectorXd&
     Eigen::VectorXd reg_gear_error(grid_size);
     Eigen::VectorXd reg_variances(grid_size);
     int j = 0;
-    for (size_t i = 0; i < N-1; ++i)
+    for (size_t i = 0; i < N - 1; ++i)
     {
         if (timestamps(i) < last_cell_end + grid_interval)
         {
@@ -716,9 +735,9 @@ Eigen::MatrixXd GaussianProcessGuider::regularize_dataset(const Eigen::VectorXd&
             {
                 double inter_timestamp = last_cell_end + grid_interval;
 
-                double proportion = (inter_timestamp-last_timestamp)/(timestamps(i)-last_timestamp);
-                double inter_gear_error = proportion*gear_error(i) + (1-proportion)*last_gear_error;
-                double inter_variance = proportion*variances(i) + (1-proportion)*last_variance;
+                double proportion = (inter_timestamp - last_timestamp) / (timestamps(i) - last_timestamp);
+                double inter_gear_error = proportion * gear_error(i) + (1 - proportion) * last_gear_error;
+                double inter_variance = proportion * variances(i) + (1 - proportion) * last_variance;
 
                 gear_error_sum += (inter_timestamp - last_timestamp) * 0.5 * (last_gear_error + inter_gear_error);
                 variance_sum += (inter_timestamp - last_timestamp) * 0.5 * (last_variance + inter_variance);
@@ -744,7 +763,7 @@ Eigen::MatrixXd GaussianProcessGuider::regularize_dataset(const Eigen::VectorXd&
     }
 
     // We need to output 3 vectors. For simplicity, we join them into a matrix.
-    Eigen::MatrixXd result(3,j);
+    Eigen::MatrixXd result(3, j);
     result.row(0) = reg_timestamps.head(j);
     result.row(1) = reg_gear_error.head(j);
     result.row(2) = reg_variances.head(j);
@@ -772,7 +791,7 @@ void GaussianProcessGuider::save_gp_data() const
     Eigen::VectorXd linear_fit(N - 1);
 
     // transfer the data from the circular buffer to the Eigen::Vectors
-    for (size_t i = 0; i < N-1; i++)
+    for (size_t i = 0; i < N - 1; i++)
     {
         timestamps(i) = circular_buffer_data_[i].timestamp;
         measurements(i) = circular_buffer_data_[i].measurement;
@@ -781,7 +800,7 @@ void GaussianProcessGuider::save_gp_data() const
         sum_controls(i) = circular_buffer_data_[i].control;
         if(i > 0)
         {
-            sum_controls(i) += sum_controls(i-1); // sum over the control signals
+            sum_controls(i) += sum_controls(i - 1); // sum over the control signals
         }
     }
     gear_error = sum_controls + measurements; // for each time step, add the residual error
@@ -796,23 +815,31 @@ void GaussianProcessGuider::save_gp_data() const
     {
         std::ofstream outfile;
         outfile.open("measurement_data.csv", std::ios_base::out);
-        if(outfile) {
+        if(outfile)
+        {
             outfile << "location, output\n";
-            for( int i = 0; i < timestamps.size(); ++i) {
+            for( int i = 0; i < timestamps.size(); ++i)
+            {
                 outfile << std::setw(8) << timestamps[i] << "," << std::setw(8) << gear_error[i] << "\n";
             }
-        } else {
+        }
+        else
+        {
             std::cout << "unable to write to file" << std::endl;
         }
         outfile.close();
 
         outfile.open("gp_data.csv", std::ios_base::out);
-        if(outfile) {
+        if(outfile)
+        {
             outfile << "location, mean, std\n";
-            for( int i = 0; i < locations.size(); ++i) {
+            for( int i = 0; i < locations.size(); ++i)
+            {
                 outfile << std::setw(8) << locations[i] << "," << std::setw(8) << means[i] << "," << std::setw(8) << stds[i] << "\n";
             }
-        } else {
+        }
+        else
+        {
             std::cout << "unable to write to file" << std::endl;
         }
         outfile.close();
@@ -829,16 +856,24 @@ void GaussianProcessGuider::SetLearningRate(double learning_rate)
 
 class NullDebugLog : public GPDebug
 {
-  void Log(const char *fmt, ...) override { (void) fmt; }
+        void Log(const char *fmt, ...) override
+        {
+            (void) fmt;
+        }
 };
 
 class GPDebug *GPDebug = new NullDebugLog();
 
-namespace {
-    // just so the leak checker does not complain
-    struct GPDebugCleanup {
-        ~GPDebugCleanup() { GPDebug::SetGPDebug(nullptr); }
-    } s_cleanup;
+namespace
+{
+// just so the leak checker does not complain
+struct GPDebugCleanup
+{
+    ~GPDebugCleanup()
+    {
+        GPDebug::SetGPDebug(nullptr);
+    }
+} s_cleanup;
 }
 
 void GPDebug::SetGPDebug(GPDebug *logger)

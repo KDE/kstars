@@ -149,12 +149,12 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
 
 void KSAsteroid::findMagnitude(const KSNumbers *)
 {
-    double param     = 5 * log10(rsun() * rearth());
+    double param     = 5.0 * log10(rsun() * rearth());
     double phase_rad = phase().radians();
-    double phi1      = exp(-3.33 * pow(tan(phase_rad / 2), 0.63));
-    double phi2      = exp(-1.87 * pow(tan(phase_rad / 2), 1.22));
+    double phi1      = exp(-3.33 * pow(tan(phase_rad / 2.0), 0.63));
+    double phi2      = exp(-0.187 * pow(tan(phase_rad / 2.0), 1.22));
 
-    setMag(H + param - 2.5 * log((1 - G) * phi1 + G * phi2));
+    setMag(H + param - 2.5 * log10((1.0 - G) * phi1 + G * phi2));
 }
 
 void KSAsteroid::setPerihelion(double perihelion)

@@ -68,15 +68,22 @@ void TestCatalogDownload::testCatalogDownloadWhileUpdating()
             KTELL(step + "Change the first four catalogs installation state");
             KNS3::DownloadWidget * d = KStars::Instance()->findChild<KNS3::DownloadWidget*>("DownloadWidget");
             QList<QToolButton*> wl = d->findChildren<QToolButton*>();
-            wl[1]->setFocus();
-            QTest::keyClick(wl[1], Qt::Key_Space);
-            wl[3]->setFocus();
-            QTest::keyClick(wl[3], Qt::Key_Space);
-            wl[5]->setFocus();
-            QTest::keyClick(wl[5], Qt::Key_Space);
-            wl[7]->setFocus();
-            QTest::keyClick(wl[7], Qt::Key_Space);
-            QTest::qWait(5000);
+            if (wl.count() >= 8)
+            {
+                wl[1]->setFocus();
+                QTest::keyClick(wl[1], Qt::Key_Space);
+                wl[3]->setFocus();
+                QTest::keyClick(wl[3], Qt::Key_Space);
+                wl[5]->setFocus();
+                QTest::keyClick(wl[5], Qt::Key_Space);
+                wl[7]->setFocus();
+                QTest::keyClick(wl[7], Qt::Key_Space);
+                QTest::qWait(5000);
+            }
+            else
+            {
+                KTELL(step + "Failed to load XML providers!");
+            }
             KTELL(step + "Close the Download Dialog, accept all potentiel reinstalls");
             close_message_boxes.start();
             d->parentWidget()->close();

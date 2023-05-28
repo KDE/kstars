@@ -14,10 +14,11 @@
 #endif
 
 Supernova::Supernova(const QString &sName, dms ra, dms dec, const QString &type, const QString &hostGalaxy,
-                     const QString &date, float sRedShift, float sMag)
+                     const QString &date, float sRedShift, float sMag, const QDateTime& _discoveryDate)
     : SkyObject(SkyObject::SUPERNOVA, ra, dec, sMag, sName), type(type), hostGalaxy(hostGalaxy), date(date),
       redShift(sRedShift)
 {
+    this->discoveryDate = _discoveryDate;
 }
 
 Supernova *Supernova::clone() const
@@ -33,4 +34,15 @@ void Supernova::initPopupMenu(KSPopupMenu *pmenu)
 #else
     pmenu->createSupernovaMenu(this);
 #endif
+}
+
+QString Supernova::url() {
+    // usually names are like "SN 2023xyz" or "AT 2023xyz"
+    QString basename;
+    if (!(name().startsWith("19") || name().startsWith("20")))
+        basename = name().mid(3);
+    else
+        basename = name();
+
+    return "https://www.wis-tns.org/object/" + basename;
 }

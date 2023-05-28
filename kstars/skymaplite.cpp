@@ -742,6 +742,7 @@ void SkyMapLite::setupProjector()
     p.useAltAz      = Options::useAltAz();
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
+    p.rotationAngle = Options::skyRotation();
     p.fillGround    = Options::showGround();
 
     //Check if we need a new projector

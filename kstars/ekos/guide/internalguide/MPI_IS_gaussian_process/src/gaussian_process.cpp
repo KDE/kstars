@@ -26,12 +26,12 @@
 // A functor for special orderings
 struct covariance_ordering
 {
-    covariance_ordering(Eigen::VectorXd const& cov) : covariance_(cov){}
+    covariance_ordering(Eigen::VectorXd const &cov) : covariance_(cov) {}
     bool operator()(int a, int b) const
     {
         return (covariance_[a] > covariance_[b]);
     }
-    Eigen::VectorXd const& covariance_;
+    Eigen::VectorXd const &covariance_;
 };
 
 GP::GP() : covFunc_(nullptr), // initialize pointer to null
@@ -50,7 +50,7 @@ GP::GP() : covFunc_(nullptr), // initialize pointer to null
     beta_(Eigen::VectorXd())
 { }
 
-GP::GP(const covariance_functions::CovFunc& covFunc) :
+GP::GP(const covariance_functions::CovFunc &covFunc) :
     covFunc_(covFunc.clone()),
     covFuncProj_(nullptr),
     data_loc_(Eigen::VectorXd()),
@@ -68,7 +68,7 @@ GP::GP(const covariance_functions::CovFunc& covFunc) :
 { }
 
 GP::GP(const double noise_variance,
-       const covariance_functions::CovFunc& covFunc) :
+       const covariance_functions::CovFunc &covFunc) :
     covFunc_(covFunc.clone()),
     covFuncProj_(nullptr),
     data_loc_(Eigen::VectorXd()),
@@ -91,7 +91,7 @@ GP::~GP()
     delete this->covFuncProj_; // tidy up since we are responsible for the covFuncProj.
 }
 
-GP::GP(const GP& that) :
+GP::GP(const GP &that) :
     covFunc_(nullptr), // initialize to nullptr, clone later
     covFuncProj_(nullptr), // initialize to nullptr, clone later
     data_loc_(that.data_loc_),
@@ -111,7 +111,7 @@ GP::GP(const GP& that) :
     covFuncProj_ = that.covFuncProj_->clone();
 }
 
-bool GP::setCovarianceFunction(const covariance_functions::CovFunc& covFunc)
+bool GP::setCovarianceFunction(const covariance_functions::CovFunc &covFunc)
 {
     // can only set the covariance function if training dataset is empty
     if (data_loc_.size() != 0 || data_out_.size() != 0)
@@ -122,7 +122,7 @@ bool GP::setCovarianceFunction(const covariance_functions::CovFunc& covFunc)
     return true;
 }
 
-void GP::enableOutputProjection(const covariance_functions::CovFunc& covFuncProj)
+void GP::enableOutputProjection(const covariance_functions::CovFunc &covFuncProj)
 {
     delete covFuncProj_;// initialized to zero, so delete is safe
     covFuncProj_ = covFuncProj.clone();
@@ -134,7 +134,7 @@ void GP::disableOutputProjection()
     covFuncProj_ = nullptr;
 }
 
-GP& GP::operator=(const GP& that)
+GP &GP::operator=(const GP &that)
 {
     if (this != &that)
     {
@@ -154,14 +154,14 @@ GP& GP::operator=(const GP& that)
     return *this;
 }
 
-Eigen::VectorXd GP::drawSample(const Eigen::VectorXd& locations) const
+Eigen::VectorXd GP::drawSample(const Eigen::VectorXd &locations) const
 {
     return drawSample(locations,
                       math_tools::generate_normal_random_matrix(locations.rows(), locations.cols()));
 }
 
-Eigen::VectorXd GP::drawSample(const Eigen::VectorXd& locations,
-                               const Eigen::VectorXd& random_vector) const
+Eigen::VectorXd GP::drawSample(const Eigen::VectorXd &locations,
+                               const Eigen::VectorXd &random_vector) const
 {
     Eigen::MatrixXd prior_covariance;
     Eigen::MatrixXd kernel_matrix;
@@ -209,7 +209,7 @@ void GP::infer()
     if (data_var_.rows() == 0) // homoscedastic
     {
         gram_matrix_ += (std::exp(2 * log_noise_sd_) + JITTER) *
-                    Eigen::MatrixXd::Identity(gram_matrix_.rows(), gram_matrix_.cols());
+                        Eigen::MatrixXd::Identity(gram_matrix_.rows(), gram_matrix_.cols());
     }
     else // heteroscedastic
     {
@@ -226,7 +226,7 @@ void GP::infer()
     {
         feature_vectors_ = Eigen::MatrixXd(2, data_loc_.rows());
         // precompute necessary matrices for the explicit trend function
-        feature_vectors_.row(0) = Eigen::MatrixXd::Ones(1,data_loc_.rows()); // instead of pow(0)
+        feature_vectors_.row(0) = Eigen::MatrixXd::Ones(1, data_loc_.rows()); // instead of pow(0)
         feature_vectors_.row(1) = data_loc_.array(); // instead of pow(1)
 
         feature_matrix_ = feature_vectors_ * chol_gram_matrix_.solve(feature_vectors_.transpose());
@@ -236,9 +236,9 @@ void GP::infer()
     }
 }
 
-void GP::infer(const Eigen::VectorXd& data_loc,
-               const Eigen::VectorXd& data_out,
-               const Eigen::VectorXd& data_var /* = EigenVectorXd() */)
+void GP::infer(const Eigen::VectorXd &data_loc,
+               const Eigen::VectorXd &data_out,
+               const Eigen::VectorXd &data_var /* = EigenVectorXd() */)
 {
     data_loc_ = data_loc;
     data_out_ = data_out;
@@ -249,10 +249,10 @@ void GP::infer(const Eigen::VectorXd& data_loc,
     infer(); // updates the Gram matrix and its Cholesky decomposition
 }
 
-void GP::inferSD(const Eigen::VectorXd& data_loc,
-            const Eigen::VectorXd& data_out,
-            const int n, const Eigen::VectorXd& data_var /* = EigenVectorXd() */,
-            const double prediction_point /*= std::numeric_limits<double>::quiet_NaN()*/)
+void GP::inferSD(const Eigen::VectorXd &data_loc,
+                 const Eigen::VectorXd &data_out,
+                 const int n, const Eigen::VectorXd &data_var /* = EigenVectorXd() */,
+                 const double prediction_point /*= std::numeric_limits<double>::quiet_NaN()*/)
 {
     Eigen::VectorXd covariance;
 
@@ -272,18 +272,20 @@ void GP::inferSD(const Eigen::VectorXd& data_loc,
 
     // generate index vector
     std::vector<int> index(covariance.size(), 0);
-    for (size_t i = 0 ; i != index.size() ; i++) {
+    for (size_t i = 0 ; i != index.size() ; i++)
+    {
         index[i] = i;
     }
 
     // sort indices with respect to covariance value
     std::sort(index.begin(), index.end(),
-         covariance_ordering(covariance)
-    );
+              covariance_ordering(covariance)
+             );
 
     bool use_var = data_var.rows() > 0; // true means heteroscedastic noise
 
-    if (n < data_loc.rows()) {
+    if (n < data_loc.rows())
+    {
         std::vector<double> loc_arr(n);
         std::vector<double> out_arr(n);
         std::vector<double> var_arr(n);
@@ -298,11 +300,11 @@ void GP::inferSD(const Eigen::VectorXd& data_loc,
             }
         }
 
-        data_loc_ = Eigen::Map<Eigen::VectorXd>(loc_arr.data(),n,1);
-        data_out_ = Eigen::Map<Eigen::VectorXd>(out_arr.data(),n,1);
+        data_loc_ = Eigen::Map<Eigen::VectorXd>(loc_arr.data(), n, 1);
+        data_out_ = Eigen::Map<Eigen::VectorXd>(out_arr.data(), n, 1);
         if (use_var)
         {
-            data_var_ = Eigen::Map<Eigen::VectorXd>(var_arr.data(),n,1);
+            data_var_ = Eigen::Map<Eigen::VectorXd>(var_arr.data(), n, 1);
         }
     }
     else // we can use all points and don't neet to select
@@ -325,7 +327,7 @@ void GP::clearData()
     data_out_ = Eigen::VectorXd();
 }
 
-Eigen::VectorXd GP::predict(const Eigen::VectorXd& locations, Eigen::VectorXd* variances /*=nullptr*/) const
+Eigen::VectorXd GP::predict(const Eigen::VectorXd &locations, Eigen::VectorXd* variances /*=nullptr*/) const
 {
     // The prior covariance matrix (evaluated on test points)
     Eigen::MatrixXd prior_cov = covFunc_->evaluate(locations, locations);
@@ -347,7 +349,7 @@ Eigen::VectorXd GP::predict(const Eigen::VectorXd& locations, Eigen::VectorXd* v
         Eigen::MatrixXd phi(2, locations.rows());
         if (use_explicit_trend_)
         {
-            phi.row(0) = Eigen::MatrixXd::Ones(1,locations.rows()); // instead of pow(0)
+            phi.row(0) = Eigen::MatrixXd::Ones(1, locations.rows()); // instead of pow(0)
             phi.row(1) = locations.array(); // instead of pow(1)
 
             return predict(prior_cov, mixed_cov, phi, variances);
@@ -356,7 +358,7 @@ Eigen::VectorXd GP::predict(const Eigen::VectorXd& locations, Eigen::VectorXd* v
     }
 }
 
-Eigen::VectorXd GP::predictProjected(const Eigen::VectorXd& locations, Eigen::VectorXd* variances /*=nullptr*/) const
+Eigen::VectorXd GP::predictProjected(const Eigen::VectorXd &locations, Eigen::VectorXd* variances /*=nullptr*/) const
 {
     // use the suitable covariance function, depending on whether an
     // output projection is used or not.
@@ -392,7 +394,7 @@ Eigen::VectorXd GP::predictProjected(const Eigen::VectorXd& locations, Eigen::Ve
         if (use_explicit_trend_)
         {
             // calculate the feature vectors for linear regression
-            phi.row(0) = Eigen::MatrixXd::Ones(1,locations.rows()); // instead of pow(0)
+            phi.row(0) = Eigen::MatrixXd::Ones(1, locations.rows()); // instead of pow(0)
             phi.row(1) = locations.array(); // instead of pow(1)
 
             return predict(prior_cov, mixed_cov, phi, variances);
@@ -401,9 +403,9 @@ Eigen::VectorXd GP::predictProjected(const Eigen::VectorXd& locations, Eigen::Ve
     }
 }
 
-Eigen::VectorXd GP::predict(const Eigen::MatrixXd& prior_cov, const Eigen::MatrixXd& mixed_cov,
-                            const Eigen::MatrixXd& phi /*=Eigen::MatrixXd()*/, Eigen::VectorXd* variances /*=nullptr*/)
-                    const
+Eigen::VectorXd GP::predict(const Eigen::MatrixXd &prior_cov, const Eigen::MatrixXd &mixed_cov,
+                            const Eigen::MatrixXd &phi /*=Eigen::MatrixXd()*/, Eigen::VectorXd* variances /*=nullptr*/)
+const
 {
 
     // calculate GP mean from precomputed alpha vector
@@ -439,7 +441,7 @@ Eigen::VectorXd GP::predict(const Eigen::MatrixXd& prior_cov, const Eigen::Matri
     return m;
 }
 
-void GP::setHyperParameters(const Eigen::VectorXd& hyperParameters)
+void GP::setHyperParameters(const Eigen::VectorXd &hyperParameters)
 {
     assert(hyperParameters.rows() == covFunc_->getParameterCount() + covFunc_->getExtraParameterCount() + 1 &&
            "Wrong number of hyperparameters supplied to setHyperParameters()!");

@@ -11,7 +11,7 @@
 <para
 >La calculadora astronòmica del &kstars; proveeix de diversos mòduls que us oferiran accés directe als algoritmes emprats pel programa. Aquests mòduls estan organitzats per assumpte: <itemizedlist
 ><title
->Calculadores de temps</title>
+>Calculadores horàries</title>
 <listitem
 ><para
 ><link linkend="calc-julian"
@@ -21,7 +21,7 @@
 <listitem
 ><para
 ><link linkend="calc-sidereal"
->Temps sideri</link
+>Hora sidèria</link
 ></para
 ></listitem>
 <listitem

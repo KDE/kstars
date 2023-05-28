@@ -10,6 +10,9 @@
 #include <QList>
 #include "focus.h"
 #include "curvefit.h"
+#include "../../auxiliary/robuststatistics.h"
+#include "../../auxiliary/gslhelpers.h"
+#include <gsl/gsl_sf_erf.h>
 
 class Edge;
 
@@ -21,17 +24,15 @@ namespace Ekos
  * @short Interface intender for autofocus algorithms.
  *
  * @author Hy Murveit
- * @version 1.0
+ * @version 1.1
  */
 class FocusAlgorithmInterface
 {
     public:
-        // Invalid HFR result - this value (-1) is compatible with graph renderings
-        static double constexpr IGNORED_HFR = -1;
-
-    public:
         struct FocusParams
         {
+            // Curve Fitting object ptr. Create object if nullptr passed in
+            CurveFitting *curveFitting;
             // Maximum movement from current position allowed for the algorithm.
             int maxTravel;
             // Initial sampling interval for the algorithm.
@@ -52,6 +53,8 @@ class FocusAlgorithmInterface
             double temperature;
             // The number of outward steps taken at the start of the algorithm.
             double initialOutwardSteps;
+            // The number of steps
+            int numSteps;
             // The focus algo
             Focus::Algorithm focusAlgorithm;
             // The user defined focuser backlash value
@@ -61,23 +64,45 @@ class FocusAlgorithmInterface
             CurveFitting::CurveFit curveFit;
             // Whether we want to use weightings of datapoints in the curve fitting process
             bool useWeights;
+            // Which star measure to use, e.g. HFR, FWHM, etc.
+            Focus::StarMeasure starMeasure;
+            // If using FWHM, which PSF to use.
+            Focus::StarPSF starPSF;
+            // After pass1 re-evaluate the curve fit to remove outliers
+            bool refineCurveFit;
+            // The type of focus walk
+            Focus::FocusWalk focusWalk;
+            // Whether we want to minimise or maximise the focus measurement statistic
+            CurveFitting::OptimisationDirection optimisationDirection;
+            // How to assign weights to focus measurements
+            Mathematics::RobustStatistics::ScaleCalculation scaleCalculation;
 
-            FocusParams(int _maxTravel, int _initialStepSize, int _startPosition,
-                        int _minPositionAllowed, int _maxPositionAllowed,
-                        int _maxIterations, double _focusTolerance, const QString &filterName_,
-                        double _temperature, double _initialOutwardSteps, Focus::Algorithm _focusAlgorithm,
-                        int _backlash, CurveFitting::CurveFit _curveFit, bool _useWeights) :
-                maxTravel(_maxTravel), initialStepSize(_initialStepSize),
+            FocusParams(CurveFitting *_curveFitting, int _maxTravel, int _initialStepSize, int _startPosition,
+                        int _minPositionAllowed, int _maxPositionAllowed, int _maxIterations,
+                        double _focusTolerance, const QString &filterName_, double _temperature,
+                        double _initialOutwardSteps, int _numSteps, Focus::Algorithm _focusAlgorithm, int _backlash,
+                        CurveFitting::CurveFit _curveFit, bool _useWeights, Focus::StarMeasure _starMeasure,
+                        Focus::StarPSF _starPSF, bool _refineCurveFit, Focus::FocusWalk _focusWalk,
+                        CurveFitting::OptimisationDirection _optimisationDirection,
+                        Mathematics::RobustStatistics::ScaleCalculation _scaleCalculation) :
+                curveFitting(_curveFitting), maxTravel(_maxTravel), initialStepSize(_initialStepSize),
                 startPosition(_startPosition), minPositionAllowed(_minPositionAllowed),
                 maxPositionAllowed(_maxPositionAllowed), maxIterations(_maxIterations),
                 focusTolerance(_focusTolerance), filterName(filterName_),
-                temperature(_temperature), initialOutwardSteps(_initialOutwardSteps),
+                temperature(_temperature), initialOutwardSteps(_initialOutwardSteps), numSteps(_numSteps),
                 focusAlgorithm(_focusAlgorithm), backlash(_backlash), curveFit(_curveFit),
-                useWeights(_useWeights) {}
+                useWeights(_useWeights), starMeasure(_starMeasure), starPSF(_starPSF),
+                refineCurveFit(_refineCurveFit), focusWalk(_focusWalk),
+                optimisationDirection(_optimisationDirection), scaleCalculation(_scaleCalculation) {}
         };
 
         // Constructor initializes an autofocus algorithm from the input params.
-        FocusAlgorithmInterface(const FocusParams &_params) : params(_params) {}
+        FocusAlgorithmInterface(const FocusParams &_params) : params(_params)
+        {
+            // Either a curve fitting object ptr is passed in or the constructor will create its own
+            if (params.curveFitting == nullptr)
+                params.curveFitting = new CurveFitting();
+        }
         virtual ~FocusAlgorithmInterface() {}
 
         // After construction, this should be called to get the initial position desired by the
@@ -88,7 +113,7 @@ class FocusAlgorithmInterface
         // Pass in the recent measurement. Returns the position for the next measurement,
         // or -1 if the algorithms done or if there's an error.
         // If stars is not nullptr, then the they may be used to modify the HFR value.
-        virtual int newMeasurement(int position, double value, const QList<Edge*> *stars = nullptr) = 0;
+        virtual int newMeasurement(int position, double value, const double starWeight, const QList<Edge*> *stars = nullptr) = 0;
 
         // Returns true if the algorithm has terminated either successfully or in error.
         bool isDone() const
@@ -103,6 +128,13 @@ class FocusAlgorithmInterface
             return focusSolution;
         }
 
+        // Returns the value for best solution. Should be called after isDone() returns true.
+        // Returns -1 if there's an error.
+        double solutionValue() const
+        {
+            return focusValue;
+        }
+
         // Returns human-readable extra error information about why the algorithm is done.
         QString doneReason() const
         {
@@ -115,17 +147,13 @@ class FocusAlgorithmInterface
             return params;
         }
 
-        virtual double latestHFR() const = 0;
+        virtual double latestValue() const = 0;
 
-        virtual void getMeasurements(QVector<int> *positions, QVector<double> *hfrs,
-                                     QVector<double> *sigmas) const = 0;
-        virtual void getPass1Measurements(QVector<int> *positions, QVector<double> *hfrs,
-                                          QVector<double> *sigmas) const = 0;
+        virtual void getMeasurements(QVector<int> *positions, QVector<double> *values, QVector<double> *scale) const = 0;
+        virtual void getPass1Measurements(QVector<int> *positions, QVector<double> *values, QVector<double> *scale,
+                                          QVector<bool> *out) const = 0;
 
         virtual QString getTextStatus(double R2 = 0) const = 0;
-
-        // Curve fitting object
-        CurveFitting curveFit;
 
         // For testing.
         virtual FocusAlgorithmInterface *Copy() = 0;
@@ -134,7 +162,7 @@ class FocusAlgorithmInterface
         FocusParams params;
         bool done = false;
         int focusSolution = -1;
-        double focusHFR = -1;
+        double focusValue = -1;
         QString doneString;
 };
 

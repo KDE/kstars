@@ -688,7 +688,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         updateButtonStatus("toggle_3D_graph", i18n("currentView 3D Graph"), currentView->isStarProfileShown());
         updateButtonStatus("currentView_crosshair", i18n("Cross Hairs"), currentView->isCrosshairShown());
         updateButtonStatus("currentView_clipping", i18n("Clipping"), currentView->isClippingShown());
-        updateButtonStatus("currentView_eq_grid", i18n("Equatorial Gridines"), currentView->isEQGridShown());
+        updateButtonStatus("currentView_eq_grid", i18n("Equatorial Gridlines"), currentView->isEQGridShown());
         updateButtonStatus("currentView_objects", i18n("Objects in Image"), currentView->areObjectsShown());
         updateButtonStatus("currentView_pixel_grid", i18n("Pixel Gridlines"), currentView->isPixelGridShown());
     }
@@ -705,7 +705,7 @@ void FITSViewer::starProfileButtonOff()
 void FITSViewer::openFile()
 {
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Open Image"), lastURL,
-                   "Images (*.fits *.fits.fz *.fit *.fts "
+                   "Images (*.fits *.fits.fz *.fit *.fts *.xisf "
                    "*.jpg *.jpeg *.png *.gif *.bmp "
                    "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
 

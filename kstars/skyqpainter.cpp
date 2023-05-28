@@ -569,6 +569,30 @@ bool SkyQPainter::drawComet(KSComet *com)
     }
 }
 
+bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
+{
+    if (!m_proj->checkVisibility(ast))
+    {
+        return false;
+    }
+
+    bool visible = false;
+    QPointF pos  = m_proj->toScreen(ast, true, &visible);
+
+    if (visible && m_proj->onScreen(pos))
+    {
+	KStarsData *data = KStarsData::Instance();
+
+        setPen(data->colorScheme()->colorNamed("AsteroidColor"));
+        drawLine(QPoint(pos.x() - 1.0, pos.y()), QPoint(pos.x() + 1.0, pos.y()));
+	drawLine(QPoint(pos.x(), pos.y() - 1.0), QPoint(pos.x(), pos.y() + 1.0));
+
+	return true;
+    }
+
+    return false;
+}
+
 bool SkyQPainter::drawPointSource(const SkyPoint *loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
@@ -577,9 +601,8 @@ bool SkyQPainter::drawPointSource(const SkyPoint *loc, float mag, char sp)
 
     bool visible = false;
     QPointF pos  = m_proj->toScreen(loc, true, &visible);
-    if (visible &&
-            m_proj->onScreen(
-                pos)) // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
+    // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
+    if (visible && m_proj->onScreen(pos))
     {
         drawPointSource(pos, starWidth(mag), sp);
         return true;

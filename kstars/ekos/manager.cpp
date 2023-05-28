@@ -20,6 +20,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "ekos/capture/rotatorsettings.h"
 #include "profileeditor.h"
 #include "profilewizard.h"
 #include "indihub.h"
@@ -153,7 +154,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         emit ekosLiveStatusChanged(false);
     });
 
-    // Ekos live client toggle
+    // INDI Control Panel
+    //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
     connect(ekosLiveB, &QPushButton::clicked, this, [&]()
     {
         ekosLiveClient.get()->show();
@@ -530,8 +532,12 @@ void Manager::reset()
 
     for (auto &oneManger : m_FilterManagers)
         oneManger.reset();
-
     m_FilterManagers.clear();
+
+    for (auto &oneController : m_RotatorControllers)
+        oneController.reset();
+    m_RotatorControllers.clear();
+
     DarkLibrary::Release();
     m_PortSelector.reset();
     m_PortSelectorTimer.stop();
@@ -1373,6 +1379,7 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
     connect(device.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::processUpdateProperty,
             Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::interfaceDefined, this, &Ekos::Manager::syncActiveDevices, Qt::UniqueConnection);
+    connect(device.get(), &ISD::GenericDevice::messageUpdated, this, &Ekos::Manager::processMessage, Qt::UniqueConnection);
 
 
 
@@ -1523,6 +1530,8 @@ void Manager::addFocuser(ISD::Focuser *device)
 void Manager::addRotator(ISD::Rotator *device)
 {
     appendLogText(i18n("Rotator %1 is online.", device->getDeviceName()));
+
+    // createRotatorControl(device);
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
@@ -1679,6 +1688,18 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 
     DarkLibrary::Instance()->removeDevice(device);
 
+    // Remove from filter managers
+    for (auto &oneManager : m_FilterManagers)
+    {
+        oneManager->removeDevice(device);
+    }
+
+    // Remove from rotator controllers
+    for (auto &oneController : m_RotatorControllers)
+    {
+        oneController->close();
+    }
+
     appendLogText(i18n("%1 is offline.", device->getDeviceName()));
 
 
@@ -1692,6 +1713,19 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 void Manager::processDeleteProperty(INDI::Property prop)
 {
     ekosLiveClient.get()->message()->processDeleteProperty(prop);
+}
+
+void Manager::processMessage(int id)
+{
+    auto origin = static_cast<ISD::GenericDevice *>(sender());
+    // Shouldn't happen
+    if (!origin)
+        return;
+    QSharedPointer<ISD::GenericDevice> device;
+    if (!INDIListener::findDevice(origin->getDeviceName(), device))
+        return;
+
+    ekosLiveClient.get()->message()->processMessage(device, id);
 }
 
 void Manager::processUpdateProperty(INDI::Property prop)
@@ -1931,7 +1965,7 @@ void Manager::initCapture()
     capturePreview->setEnabled(true);
 
     // display capture status changes
-    connect(captureProcess.get(), &Ekos::Capture::newFilterManagerStatus, capturePreview->captureStatusWidget,
+    connect(captureProcess.get(), &Ekos::Capture::newFilterStatus, capturePreview->captureStatusWidget,
             &LedStatusWidget::setFilterState);
 
     // display target drift
@@ -1995,15 +2029,13 @@ void Manager::initFocus()
     connect(focusProcess.get(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
     connect(focusProcess.get(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
-    // connect signal/slot for adding a new position with errors to be shown as error bars
-    connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPositionWithSigma, focusManager->hfrVPlot,
-            &FocusHFRVPlot::addPositionWithSigma);
     connect(focusProcess.get(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
     connect(focusProcess.get(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
-    connect(focusProcess.get(), &Ekos::Focus::updateTitle, focusManager->hfrVPlot, &FocusHFRVPlot::updateTitle);
+    connect(focusProcess.get(), &Ekos::Focus::finalUpdates, focusManager->hfrVPlot, &FocusHFRVPlot::finalUpdates);
     connect(focusProcess.get(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
     // setup signal/slots for Linear 1 Pass focus algo
     connect(focusProcess.get(), &Ekos::Focus::drawCurve, focusManager->hfrVPlot, &FocusHFRVPlot::drawCurve);
+    connect(focusProcess.get(), &Ekos::Focus::drawCFZ, focusManager->hfrVPlot, &FocusHFRVPlot::drawCFZ);
 
     if (Options::ekosLeftIcons())
     {
@@ -2080,8 +2112,21 @@ void Manager::initMount()
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
     });
     connect(mountProcess->getMeridianFlipState().get(),
-            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, this, [&](const QString & text)
+            &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
     {
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
+        {
+            {"meridianFlipStatus", status},
+        }));
+    });
+    connect(mountProcess->getMeridianFlipState().get(),
+            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
+    {
+        // Throttle this down
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
+        {
+            {"meridianFlipText", text},
+        }), mountProcess->getMeridianFlipState()->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE);
         meridianFlipStatusWidget->setStatus(text);
     });
 
@@ -2458,8 +2503,6 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pi
         {"az", dms::fromString(azOUT->text(), true).Degrees()},
         {"at", dms::fromString(altOUT->text(), true).Degrees()},
         {"ha", ha.Degrees()},
-        {"meridianFlipText", mountProcess->getMeridianFlipState()->getMeridianStatusText()},
-        {"meridianFlipStatus", mountProcess->getMeridianFlipState()->getMeridianFlipMountState()},
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus, true);
@@ -2544,7 +2587,6 @@ void Manager::updateCaptureCountDown()
     QJsonObject status =
     {
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
-        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
 
@@ -2799,6 +2841,15 @@ void Manager::connectModules()
         connect(focusProcess.get(), &Ekos::Focus::newStatus, captureProcess.get(), &Ekos::Capture::setFocusStatus,
                 Qt::UniqueConnection);
 
+        // Perform adaptive focus
+        connect(captureProcess.get(), &Ekos::Capture::adaptiveFocus, focusProcess.get(), &Ekos::Focus::adaptiveFocus,
+                Qt::UniqueConnection);
+
+        // New Adaptive Focus Status
+        connect(focusProcess.get(), &Ekos::Focus::focusAdaptiveComplete, captureProcess.get(),
+                &Ekos::Capture::focusAdaptiveComplete,
+                Qt::UniqueConnection);
+
         // New Focus HFR
         connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
 
@@ -2839,7 +2890,7 @@ void Manager::connectModules()
         connect(captureProcess.get(), &Ekos::Capture::guideAfterMeridianFlip, mountProcess.get(), &Ekos::Mount::resumeAltLimits,
                 Qt::UniqueConnection);
         connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, captureProcess.get(),
-                &Ekos::Capture::meridianFlipStatusChanged, Qt::UniqueConnection);
+                &Ekos::Capture::updateMFMountState, Qt::UniqueConnection);
 
         // Mount Status
         connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.get(), &Ekos::Capture::setMountStatus,
@@ -2964,6 +3015,9 @@ void Manager::connectModules()
         connect(focusProcess.get(), &Ekos::Focus::trainChanged, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendTrainProfiles,
                 Qt::UniqueConnection);
+
+        connect(focusProcess.get(), &Ekos::Focus::autofocusAborted,
+                ekosLiveClient.get()->message(), &EkosLive::Message::autofocusAborted, Qt::UniqueConnection);
     }
 
     // Guide <--> EkosLive Connections
@@ -3025,6 +3079,8 @@ void Manager::connectModules()
     {
         connect(focusProcess.get(), &Ekos::Focus::autofocusComplete,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusComplete, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::adaptiveFocusComplete,
+                analyzeProcess.get(), &Ekos::Analyze::adaptiveFocusComplete, Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::autofocusStarting,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusStarting, Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::autofocusAborted,
@@ -3058,9 +3114,9 @@ void Manager::setEkosLiveConnected(bool enabled)
     ekosLiveClient.get()->setConnected(enabled);
 }
 
-void Manager::setEkosLiveConfig(bool onlineService, bool rememberCredentials, bool autoConnect)
+void Manager::setEkosLiveConfig(bool rememberCredentials, bool autoConnect)
 {
-    ekosLiveClient.get()->setConfig(onlineService, rememberCredentials, autoConnect);
+    ekosLiveClient.get()->setConfig(rememberCredentials, autoConnect);
 }
 
 void Manager::setEkosLiveUser(const QString &username, const QString &password)
@@ -3393,7 +3449,6 @@ void Manager::setDeviceReady()
             return;
     }
 
-    //qCInfo(KSTARS_EKOS) << "All devices are ready.";
     for (auto &device : INDIListener::devices())
         syncGenericDevice(device);
 
@@ -3426,5 +3481,28 @@ bool Manager::getFilterManager(const QString &name, QSharedPointer<FilterManager
     return false;
 }
 
+void Manager::createRotatorController(const QString &Name)
+{
+    if (m_RotatorControllers.contains(Name) == false)
+    {
+        QSharedPointer<RotatorSettings> newRC(new RotatorSettings(this));
+        m_RotatorControllers[Name] = newRC;
+    }
+}
+
+bool Manager::getRotatorController(const QString &Name, QSharedPointer<RotatorSettings> &rs)
+{
+    if (m_RotatorControllers.contains(Name))
+    {
+        rs = m_RotatorControllers[Name];
+        return true;
+    }
+    return false;
+}
+
+bool Manager::existRotatorController()
+{
+    return (!m_RotatorControllers.empty());
+}
 
 }

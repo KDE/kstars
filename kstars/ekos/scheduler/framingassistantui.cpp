@@ -159,7 +159,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     // Set initial target on startup
     if (tiles->operationMode() == MosaicTiles::MODE_PLANNING && SkyMap::IsFocused())
     {
-        auto sanitized = sanitize(SkyMap::Instance()->focusObject()->name());
+        auto sanitized = KSUtils::sanitize(SkyMap::Instance()->focusObject()->name());
         if (sanitized != i18n("unnamed"))
         {
             ui->targetEdit->setText(sanitized);
@@ -178,7 +178,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
         if (sanitized != i18n("unnamed"))
         {
             // Remove illegal characters that can be problematic
-            sanitized = sanitize(sanitized);
+            sanitized = KSUtils::sanitize(sanitized);
             ui->targetEdit->setText(sanitized);
 
             if (m_JobsDirectory.isEmpty())
@@ -536,21 +536,6 @@ void FramingAssistantUI::rewordStepEvery(int v)
         sp->setSuffix(i18n(" (first only)"));
 }
 
-QString FramingAssistantUI::sanitize(const QString &name)
-{
-    QString sanitized = name;
-    if (sanitized != i18n("unnamed"))
-    {
-        // Remove illegal characters that can be problematic
-        sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                    // Remove any two or more __
-                    .replace( QRegularExpression("_{2,}"), "_")
-                    // Remove any _ at the end
-                    .replace( QRegularExpression("_$"), "");
-    }
-    return sanitized;
-}
-
 void FramingAssistantUI::goAndSolve()
 {
     // If user click again before solver did not start while GOTO is pending
@@ -824,7 +809,7 @@ void FramingAssistantUI::selectDirectory()
         if (sanitized.isEmpty() == false && sanitized != i18n("unnamed"))
         {
             // Remove illegal characters that can be problematic
-            sanitized = sanitize(sanitized);
+            sanitized = KSUtils::sanitize(sanitized);
             ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
 
         }
@@ -843,7 +828,7 @@ void FramingAssistantUI::sanitizeTarget()
     if (sanitized != i18n("unnamed"))
     {
         // Remove illegal characters that can be problematic
-        sanitized = sanitize(sanitized);
+        sanitized = KSUtils::sanitize(sanitized);
         ui->targetEdit->blockSignals(true);
         ui->targetEdit->setText(sanitized);
         ui->targetEdit->blockSignals(false);

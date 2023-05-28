@@ -1,3 +1,4 @@
+
 /*
     SPDX-FileCopyrightText: 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
@@ -9,9 +10,12 @@
 #include "ekos/auxiliary/filtermanager.h"
 #include "ui_focus.h"
 #include "focusprofileplot.h"
+#include "focusfwhm.h"
+#include "focusfourierpower.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/auxiliary/darkprocessor.h"
+#include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indicamera.h"
 #include "indi/indifocuser.h"
@@ -56,6 +60,13 @@ class Focus : public QWidget, public Ui::Focus
         typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } Direction;
         typedef enum { FOCUS_MANUAL, FOCUS_AUTO } Type;
         typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR, FOCUS_LINEAR1PASS } Algorithm;
+        typedef enum { FOCUS_CFZ_CLASSIC, FOCUS_CFZ_WAVEFRONT, FOCUS_CFZ_GOLD } CFZAlgorithm;
+        typedef enum { FOCUS_STAR_HFR, FOCUS_STAR_HFR_ADJ, FOCUS_STAR_FWHM, FOCUS_STAR_NUM_STARS, FOCUS_STAR_FOURIER_POWER } StarMeasure;
+        typedef enum { FOCUS_STAR_GAUSSIAN, FOCUS_STAR_MOFFAT } StarPSF;
+        typedef enum { FOCUS_UNITS_PIXEL, FOCUS_UNITS_ARCSEC } StarUnits;
+        typedef enum { FOCUS_WALK_CLASSIC, FOCUS_WALK_FIXED_STEPS, FOCUS_WALK_CFZ_SHUFFLE } FocusWalk;
+
+        typedef enum { FOCUS_MASK_NONE, FOCUS_MASK_RING, FOCUS_MASK_MOSAIC } ImageMaskType;
         //typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
@@ -191,6 +202,12 @@ class Focus : public QWidget, public Ui::Focus
              */
         bool setFilterWheel(ISD::FilterWheel *device);
 
+        /**
+         * @brief setImageMask Select the currently active image mask filtering
+         *        the stars relevant for focusing
+         * @param newImageMask ring mask or aberration inspector style mosaic
+         */
+        void selectImageMask(const ImageMaskType newMaskType);
 
         /**
              * @brief addTemperatureSource Add temperature source to the list of available sources.
@@ -266,6 +283,12 @@ class Focus : public QWidget, public Ui::Focus
              * @param requiredHFR Minimum HFR to trigger autofocus process.
              */
         Q_SCRIPTABLE Q_NOREPLY void checkFocus(double requiredHFR);
+
+        /**
+             * @brief runAutoFocus Run the autofocus process for the currently selected filter
+             * @param policy is the filter policy to use.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void runAutoFocus(bool buildOffsets);
 
         /** @}*/
 
@@ -416,6 +439,11 @@ class Focus : public QWidget, public Ui::Focus
             opticalTrainCombo->setCurrentText(value);
         }
 
+        /**
+         * @brief adaptiveFocus moves the focuser between subframes to stay at focus
+         */
+        void adaptiveFocus();
+
     protected:
         void addPlotPosition(int pos, double hfr, bool plot = true);
 
@@ -444,8 +472,8 @@ class Focus : public QWidget, public Ui::Focus
 
         void setVideoStreamEnabled(bool enabled);
 
-        void calculateHFR();
-        void setCurrentHFR(double value);
+        void starDetectionFinished();
+        void setCurrentMeasure();
 
     signals:
         void newLog(const QString &text);
@@ -455,6 +483,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void absolutePositionChanged(int value);
         void focusPositionAdjusted();
+        void focusAdaptiveComplete(bool success);
 
         void trainChanged();
 
@@ -466,24 +495,22 @@ class Focus : public QWidget, public Ui::Focus
 
         // Signals for Analyze.
         void autofocusStarting(double temperature, const QString &filter);
-        void autofocusComplete(const QString &filter, const QString &points);
+        void autofocusComplete(const QString &filter, const QString &points, const QString &curve = "", const QString &title = "");
         void autofocusAborted(const QString &filter, const QString &points);
+        void adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks, double altitude, int altTicks,
+                                   int totalTicks, int position);
 
         // HFR V curve plot events
         /**
          * @brief initialize the HFR V plot
          * @param showPosition show focuser position (true) or count focus iterations (false)
+         * @param yAxisLabel is the label to display
+         * @param starUnits the units multiplier to display the pixel data
+         * @param minimum whether the curve shape is a minimum or maximum
+         * @param useWeights whether or not to display weights on the graph
+         * @param showPosition show focuser position (true) or show focusing iteration number (false)
          */
-        void initHFRPlot(bool showPosition);
-
-        /**
-          * @brief new HFR plot position
-          * @param pos focuser position
-          * @param hfr measured star HFR value
-          * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
-          *        or the number of ticks in a relative or absolute focuser
-          * */
-        void newHFRPlotPosition(double pos, double hfr, int pulseDuration, bool plot = true);
+        void initHFRPlot(QString str, double starUnits, bool minimum, bool useWeights, bool showPosition);
 
         /**
           * @brief new HFR plot position with sigma
@@ -493,7 +520,7 @@ class Focus : public QWidget, public Ui::Focus
           * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
           *        or the number of ticks in a relative or absolute focuser
           * */
-        void newHFRPlotPositionWithSigma(double pos, double hfr, double sigma, int pulseDuration, bool plot = true);
+        void newHFRPlotPosition(double pos, double hfr, double sigma, bool outlier, int pulseDuration, bool plot = true);
 
         /**
          * @brief draw the approximating polynomial into the HFR V-graph
@@ -519,6 +546,15 @@ class Focus : public QWidget, public Ui::Focus
         void minimumFound(double solutionPosition, double solutionValue, bool plot = true);
 
         /**
+         * @brief Draw Critical Focus Zone on graph
+         * @param solutionPosition focuser position
+         * @param solutionValue HFR value
+         * @param m_cfzSteps the size of the CFZ
+         * @param plt - whether to plot the CFZ
+         */
+        void drawCFZ(double minPosition, double minValue, int m_cfzSteps, bool plt);
+
+        /**
          * @brief redraw the entire HFR plot
          * @param poly pointer to the polynomial approximation
          * @param solutionPosition solution focuser position
@@ -533,10 +569,11 @@ class Focus : public QWidget, public Ui::Focus
         void setTitle(const QString &title, bool plot = true);
 
         /**
-         * @brief update the title on the focus plot
+         * @brief final updates after focus run comopletes on the focus plot
          * @param title
+         * @param plot
          */
-        void updateTitle(const QString &title, bool plot = true);
+        void finalUpdates(const QString &title, bool plot = true);
 
         /**
          * @brief focuserTimedout responding to requests
@@ -571,12 +608,22 @@ class Focus : public QWidget, public Ui::Focus
          * @brief loadSettings Load setting from Options and set them accordingly.
          */
         void loadGlobalSettings();
+        /**
+         * @brief checkMosaicMaskLimits Check if the maximum values configured
+         * for the aberration style mosaic tile sizes fit into the CCD frame size.
+         */
+        void checkMosaicMaskLimits();
 
         /**
          * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
          * global and per-train settings.
          */
         void syncSettings();
+
+        /**
+         * @brief syncImageMaskSelection Store the current mask selection to the settings
+         */
+        void syncImageMaskSelection();
 
         /**
          * @brief syncControl Sync setting to widget. The value depends on the widget type.
@@ -586,6 +633,16 @@ class Focus : public QWidget, public Ui::Focus
          * @return True if sync successful, false otherwise
          */
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
+
+        /**
+         * @brief prepareGUI Perform once only GUI prep processing
+         */
+        void prepareGUI();
+
+        /**
+         * @brief setUseWeights sets the useWeights checkbox
+         */
+        void setUseWeights();
 
         ////////////////////////////////////////////////////////////////////
         /// HFR Plot
@@ -607,6 +664,9 @@ class Focus : public QWidget, public Ui::Focus
         // Linear final updates to the curve
         void plotLinearFinalUpdates();
 
+        // Get the curve fitting goal based on how the algorithm is progressing
+        CurveFitting::FittingGoal getGoal(int numSteps);
+
         /** @brief Helper function determining whether the focuser behaves like a position
          *         based one (vs. a timer based)
          */
@@ -625,14 +685,46 @@ class Focus : public QWidget, public Ui::Focus
          */
         void prepareCapture(ISD::CameraChip *targetChip);
         ////////////////////////////////////////////////////////////////////
-        /// HFR
+        /// HFR / FWHM
         ////////////////////////////////////////////////////////////////////
         void setHFRComplete();
+
+        // Sets the star algorithm and enables/disables various UI inputs.
+        void setFocusDetection(StarAlgorithm starAlgorithm);
 
         // Sets the algorithm and enables/disables various UI inputs.
         void setFocusAlgorithm(Algorithm algorithm);
 
         void setCurveFit(CurveFitting::CurveFit curvefit);
+
+        void setStarMeasure(StarMeasure starMeasure);
+        void setStarPSF(StarPSF starPSF);
+        void setStarUnits(StarUnits starUnits);
+        void setWalk(FocusWalk focusWalk);
+        double calculateStarWeight(const bool useWeights, const std::vector<double> values);
+        bool boxOverlap(const QPair<int, int> b1Start, const QPair<int, int> b1End, const QPair<int, int> b2Start,
+                        const QPair<int, int> b2End);
+        double getStarUnits(const StarMeasure starMeasure, const StarUnits starUnits);
+        // Calculate the CFZ of the current focus camera
+        double calcCameraCFZ();
+
+        // Calculate the CFZ from the screen parameters
+        void calcCFZ();
+
+        // Static data for filter's midpoint wavelength changed so update CFZ
+        void wavelengthChanged();
+
+        // Reset the CFZ parameters from the current Optical Train
+        void resetCFZToOT();
+
+        // Setup the Focus Advisor recommendations
+        void focusAdvisorSetup();
+
+        // Update parameters based on Focus Advisor recommendations
+        void focusAdvisorAction();
+
+        // Update parameters based on Focus Advisor recommendations
+        void focusAdvisorHelp();
 
         // Move the focuser in (negative) or out (positive amount).
         bool changeFocus(int amount);
@@ -640,13 +732,19 @@ class Focus : public QWidget, public Ui::Focus
         // Start up capture, or occasionally move focuser again, after current focus-move accomplished.
         void autoFocusProcessPositionChange(IPState state);
 
-        // For the Linear and L1P algorithms, which always scans in (from higher position to lower position)
+        // For the Linear algorithm, which always scans in (from higher position to lower position)
         // if we notice the new position is higher than the current position (that is, it is the start
         // of a new scan), we adjust the new position to be several steps further out than requested
         // and set focuserAdditionalMovement to the extra motion, so that after this motion completes
         // we will then scan back in (back to the originally requested position). This "overscan dance" is done
         // to reduce backlash on such movement changes and so that we've always focused in before capture.
         int adjustLinearPosition(int position, int newPosition, int overscan);
+
+        // Process the image to get star FWHMs
+        void getFWHM(double *FWHM, double *weight);
+
+        // Process the image to get the Fourier Transform Power
+        void getFourierPower(double *fourierPower, double *weight);
 
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
@@ -659,11 +757,11 @@ class Focus : public QWidget, public Ui::Focus
          */
         void analyzeSources();
 
-        /** @internal Add a new HFR for the current focuser position.
-         * @param newHFR is the new HFR to consider for the current focuser position.
+        /** @internal Add a new star measure (HFR, FWHM, etc) for the current focuser position.
+         * @param newMeasure is the new measure (e.g. HFR, FWHM, etc) to consider for the current focuser position.
          * @return true if a new sample is required, else false.
          */
-        bool appendHFR(double newHFR);
+        bool appendMeasure(double newMeasure);
 
 
         /**
@@ -675,11 +773,17 @@ class Focus : public QWidget, public Ui::Focus
          * @brief activities to be executed after the configured settling time
          * @param completionState state the focuser completed with
          * @param autoFocusUsed is autofocus running?
+         * @param buildOffsetsUsed is autofocus running as a result of build offsets
          */
-        void settle(const FocusState completionState, const bool autoFocusUsed);
+        void settle(const FocusState completionState, const bool autoFocusUsed, const bool buildOffsetsUsed);
 
         void setLastFocusTemperature();
+        void setLastFocusAlt();
         bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);
+
+        void setAdaptiveFocusCounters();
+        double getAdaptiveTempTicks();
+        double getAdaptiveAltTicks();
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
@@ -689,6 +793,52 @@ class Focus : public QWidget, public Ui::Focus
          * that it arrived at the desired destination. If not, we command it again.
          */
         void handleFocusMotionTimeout();
+
+        /**
+         * @brief returns axis label based on measure selected
+         * @param starMeasure the star measure beuing used
+         */
+        QString getyAxisLabel(StarMeasure starMeasure);
+
+        /**
+         * @brief disable input widgets at the start of an AF run
+         * @param the widget to disable
+         * @param whether to disable at the widget level or disable all the children
+         */
+        void AFDisable(QWidget * widget, const bool children);
+
+        /**
+         * @brief returns whether the Gain input field is enabled outside of autofocus and
+         * whether logically is should be enabled during AF even though all input widgets are disabled
+         */
+        bool isFocusGainEnabled();
+
+        /**
+         * @brief returns whether the ISO input field is enabled outside of autofocus and
+         * whether logically is should be enabled during AF even though all input widgets are disabled
+         */
+        bool isFocusISOEnabled();
+
+        /**
+         * @brief returns whether the SubFrame input field is enabled outside of autofocus and
+         * whether logically is should be enabled during AF even though all input widgets are disabled
+         */
+        bool isFocusSubFrameEnabled();
+
+        /**
+         * @brief adapt the start position based on temperature and altitude
+         * @param position is the unadapted focuser position
+         * @param AFfilter is the filter to run autofocus on
+         * @return start position
+         */
+        int adaptStartPosition(int position, QString * AFfilter);
+
+        /**
+         * @brief returns whether the optical train telescope has a central obstruction
+         * @param scopeType is the type of telescope
+         * @return whether scope has an obstruction
+         */
+        bool scopeHasObstruction(QString scopeType);
 
         /// Focuser device needed for focus operation
         ISD::Focuser *m_Focuser { nullptr };
@@ -709,7 +859,8 @@ class Focus : public QWidget, public Ui::Focus
         /// They're generic GDInterface because they could be either ISD::Camera or ISD::FilterWheel or ISD::Weather
         QList<QSharedPointer<ISD::GenericDevice>> m_TemperatureSources;
 
-        /// As the name implies
+        /// Last Focus direction. Used by Iterative and Polynomial. NOTE: this does not take account of overscan
+        /// so, e.g. an outward move will always by FOCUS_OUT even though overscan will move back in
         Direction m_LastFocusDirection { FOCUS_NONE };
         /// Keep track of the last requested steps
         uint32_t m_LastFocusSteps {0};
@@ -721,17 +872,34 @@ class Focus : public QWidget, public Ui::Focus
         Algorithm m_FocusAlgorithm { FOCUS_LINEAR1PASS };
         /// Curve fit, default to Quadratic
         CurveFitting::CurveFit m_CurveFit { CurveFitting::FOCUS_QUADRATIC };
+        /// Star measure to use
+        StarMeasure m_StarMeasure { FOCUS_STAR_HFR };
+        /// PSF to use
+        StarPSF m_StarPSF { FOCUS_STAR_GAUSSIAN };
+        /// Units to use when displaying HFR or FWHM
+        StarUnits m_StarUnits { FOCUS_UNITS_PIXEL };
+        /// Units to use when displaying HFR or FWHM
+        FocusWalk m_FocusWalk { FOCUS_WALK_CLASSIC };
+        /// Are we minimising or maximising?
+        CurveFitting::OptimisationDirection m_OptDir { CurveFitting::OPTIMISATION_MINIMISE };
+        /// The type of statistics to use
+        Mathematics::RobustStatistics::ScaleCalculation m_ScaleCalc { Mathematics::RobustStatistics::SCALE_VARIANCE };
 
-        /*********************
-         * HFR Club variables
-         *********************/
+        /******************************************
+         * "Measure" variables, HFR, FWHM, numStars
+         ******************************************/
 
         /// Current HFR value just fetched from FITS file
-        double currentHFR { 0 };
+        double currentHFR { INVALID_STAR_MEASURE };
+        double currentFWHM { INVALID_STAR_MEASURE };
+        double currentNumStars { INVALID_STAR_MEASURE };
+        double currentFourierPower { INVALID_STAR_MEASURE };
+        double currentMeasure { INVALID_STAR_MEASURE };
+        double currentWeight { 0 };
         /// Last HFR value recorded
         double lastHFR { 0 };
         /// If (currentHFR > deltaHFR) we start the autofocus process.
-        double minimumRequiredHFR { -1 };
+        double minimumRequiredHFR { INVALID_STAR_MEASURE };
         /// Maximum HFR recorded
         double maxHFR { 1 };
         /// Is HFR increasing? We're going away from the sweet spot! If HFRInc=1, we re-capture just to make sure HFR calculations are correct, if HFRInc > 1, we switch directions
@@ -762,6 +930,8 @@ class Focus : public QWidget, public Ui::Focus
         double absMotionMin { 0 };
         /// How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever
         int absIterations { 0 };
+        /// Current image mask
+        ImageMaskType m_currentImageMask = FOCUS_MASK_NONE;
 
         /****************************
          * Misc. variables
@@ -795,15 +965,19 @@ class Focus : public QWidget, public Ui::Focus
         /// Did the user or the auto selection process finish selecting our focus star?
         bool starSelected { false };
         /// Adjust the focus position to a target value
-        bool adjustFocus { false };
+        bool inAdjustFocus { false };
+        /// Focuser is processing an adaptive focus request
+        bool inAdaptiveFocus { false };
+        /// Build offsets is a special case of the Autofocus run
+        bool inBuildOffsets { false };
         // Target frame dimensions
         //int fx,fy,fw,fh;
         /// If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
         int noStarCount { 0 };
         /// Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
         ISD::Camera::UploadMode rememberUploadMode { ISD::Camera::UPLOAD_CLIENT };
-        /// HFR values for captured frames before averages
-        QVector<double> HFRFrames;
+        /// Star measure (e.g. HFR, FWHM, etc) values for captured frames before averages
+        QVector<double> starMeasureFrames;
         // Camera Fast Exposure
         bool m_RememberCameraFastExposure = { false };
         // Future Watch
@@ -822,6 +996,17 @@ class Focus : public QWidget, public Ui::Focus
         ITextVectorProperty *filterName { nullptr };
         INumberVectorProperty *filterSlot { nullptr };
 
+        // Holds the superset of text values in combo-boxes that can have restricted options
+        QStringList m_StarMeasureText;
+        QStringList m_CurveFitText;
+        QStringList m_FocusWalkText;
+
+        // Holds the enabled state of widgets that is used to active functionality in focus
+        // during Autofocus when the input interface is disabled
+        bool m_FocusGainAFEnabled { false };
+        bool m_FocusISOAFEnabled { false };
+        bool m_FocusSubFrameAFEnabled { false };
+
         /****************************
          * Plot variables
          ****************************/
@@ -830,9 +1015,8 @@ class Focus : public QWidget, public Ui::Focus
         double minPos { 1e6 };
         /// Plot maximum positions
         double maxPos { 0 };
-
-        /// HFR V curve plot points
-        QVector<double> hfr_position, hfr_value;
+        /// V curve plot points
+        QVector<double> plot_position, plot_value;
         bool isVShapeSolution = false;
 
         /// State
@@ -866,8 +1050,17 @@ class Focus : public QWidget, public Ui::Focus
         /// Polynomial fitting.
         std::unique_ptr<PolynomialFit> polynomialFit;
 
-        // Curve fitting.
+        // Curve fitting for focuser movement.
         std::unique_ptr<CurveFitting> curveFitting;
+
+        // Curve fitting for stars.
+        std::unique_ptr<CurveFitting> starFitting;
+
+        // FWHM processing.
+        std::unique_ptr<FocusFWHM> focusFWHM;
+
+        // Fourier Transform power processing.
+        std::unique_ptr<FocusFourierPower> focusFourierPower;
 
         // Capture timers
         QTimer captureTimer;
@@ -905,9 +1098,21 @@ class Focus : public QWidget, public Ui::Focus
         //double observatoryTemperature { INVALID_VALUE };
         double m_LastSourceAutofocusTemperature { INVALID_VALUE };
         //TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
+        double m_LastSourceAutofocusAlt { INVALID_VALUE };
 
         // Mount altitude value for logging
         double mountAlt { INVALID_VALUE };
+
+        // Adaptive focusing
+        double m_LastAdaptiveFocusTemperature { INVALID_VALUE };
+        double m_LastAdaptiveFocusAlt { INVALID_VALUE };
+        int m_LastAdaptiveFocusAltTicks { INVALID_VALUE };
+        double m_LastAdaptiveFocusTempError { 0.0 };
+        int m_LastAdaptiveFocusTempTicks { INVALID_VALUE };
+        double m_LastAdaptiveFocusAltError { 0.0 };
+        int m_LastAdaptiveFocusTotalTicks { INVALID_VALUE };
+        int m_LastAdaptiveFocusPosition { INVALID_VALUE };
+        int m_AdaptiveTotalMove { 0 };
 
         static constexpr uint8_t MAXIMUM_FLUCTUATIONS {10};
 
@@ -918,5 +1123,49 @@ class Focus : public QWidget, public Ui::Focus
         QPointer<DarkProcessor> m_DarkProcessor;
 
         QSharedPointer<FilterManager> m_FilterManager;
+
+        // Maintain a list of disabled widgets when Autofocus is running that can be restored at the end of the run
+        QVector <QWidget *> disabledWidgets;
+
+        // Scope parameters of the active optical train
+        double m_Aperture = 0.0f;
+        double m_FocalLength = 0.0f;
+        double m_FocalRatio = 0.0f;
+        double m_CcdPixelSizeX = 0.0f;
+        QString m_ScopeType;
+
+        // CFZ
+        double m_cfzSteps = 0.0f;
+
+        // Focus Advisor
+        // Camera
+        double FAExposure = 0.0f;
+        QString FABinning;
+
+        // Settings tab
+        bool FAAutoSelectStar = true;
+        bool FADarkFrame = false;
+        double FAFullFieldInnerRadius = 0.0;
+        double FAFullFieldOuterRadius = 80.0;
+        bool FAAdaptiveFocus = false;
+        bool FAAdaptStartPos = false;
+
+        // Process tab
+        StarAlgorithm FAFocusDetection = ALGORITHM_SEP;
+        QString FAFocusSEPProfile;
+        Algorithm FAFocusAlgorithm = FOCUS_LINEAR1PASS;
+        CurveFitting::CurveFit FACurveFit = CurveFitting::FOCUS_HYPERBOLA;
+        StarMeasure FAStarMeasure = FOCUS_STAR_HFR;
+        bool FAUseWeights = true;
+        double FAFocusR2Limit = 0.8;
+        bool FAFocusRefineCurveFit = false;
+        int FAFocusFramesCount = 1;
+
+        // Mechanics tab
+        FocusWalk FAFocusWalk = FOCUS_WALK_CLASSIC;
+        double FAFocusSettleTime = 1.0;
+        double FAFocusMaxTravel = 0;
+        int FAFocusCaptureTimeout = 30;
+        int FAFocusMotionTimeout = 30;
 };
 }

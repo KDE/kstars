@@ -74,7 +74,7 @@
 </question>
 <answer>
 <para
->Si voleu utilitzar un emplaçament que no es troba en la llista, introduïu la informació rellevant (llargària, latitud, nom de la ciutat, nom de la província i el nom del país), després premeu el botó <guibutton
+>Si voleu utilitzar un emplaçament que no es troba en la llista, introduïu la informació rellevant (longitud, latitud, nom de la ciutat, nom de la província i el nom del país), després premeu el botó <guibutton
 >Afig la ciutat</guibutton
 >. S'hauran d'emplenar tots els camps, excepte el camp de la província que és opcional. També podeu modificar els valors d'una ciutat existent, senzillament canviant els valors en la finestra, i afegir-los a la llista. </para>
 </answer>

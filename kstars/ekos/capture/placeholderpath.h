@@ -84,8 +84,9 @@ class PlaceholderPath
         /**
          * @brief setGenerateFilenameSettings loads the placeHolderPath with settings from the passed job
          * @param sequence job to be processed
+         * @param targetName name of the target to be captured
          */
-        void setGenerateFilenameSettings(const SequenceJob &job);
+        void setGenerateFilenameSettings(const SequenceJob &job, const QString &targetName);
 
         /**
          * @brief remainingPlaceholders finds placeholder tags in filename
@@ -126,6 +127,13 @@ class PlaceholderPath
          * @return the format string
          */
         static QString defaultFormat(bool useFilter, bool useExposure, bool useTimestamp);
+
+        /**
+         * @brief repairFilename is an emergency method used when an unexpected filename collision is detected.
+         * @param filename the filename which already exists on disk.
+         * @return Returns the repaired filename. If it was unable to repair, it returns the filename passed in.
+         */
+        static QString repairFilename(const QString &filename);
 
     private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.

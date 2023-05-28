@@ -31,7 +31,7 @@ install(FILES
     chart.colors classic.colors moonless-night.colors night.colors
     tips TZrules.dat Interesting.dat PlanetFacts.dat indidrivers.xml
     advinterface.dat catalog.min.json satellites.dat glossary.xml defaultflag.gif
-    OpenNGC.kscat
+    OpenNGC.kscat tns_public_objects.csv
     DESTINATION ${KSTARS_DATADIR}/kstars
 )
 
@@ -213,6 +213,8 @@ install(FILES
     DESTINATION ${KSTARS_DATADIR}/kstars/skycultures/inuit
 )
 
+file(GLOB camera_files cameradata/*)
+install( FILES ${camera_files} DESTINATION ${KSTARS_DATADIR}/kstars/cameradata )
 
 add_subdirectory(fr)
 add_subdirectory(nds)

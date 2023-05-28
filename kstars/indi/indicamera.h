@@ -11,8 +11,7 @@
 
 #include "wsmedia.h"
 #include "auxiliary/imageviewer.h"
-#include "fitsviewer/fitscommon.h"
-#include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsviewer.h"
 #include "ekos/capture/placeholderpath.h"
 
@@ -58,6 +57,7 @@ class Camera : public ConcreteDevice
         {
             BLOB_IMAGE,
             BLOB_FITS,
+            BLOB_XISF,
             BLOB_RAW,
             BLOB_OTHER
         } BType;
@@ -208,7 +208,7 @@ class Camera : public ConcreteDevice
         bool setTelescopeType(TelescopeType type);
 
         // Update FITS Header
-        bool setFITSHeader(const QMap<QString, QString> &values);
+        bool setFITSHeaders(const QList<FITSData::Record> &values);
 
         CameraChip *getChip(CameraChip::ChipType cType);
 

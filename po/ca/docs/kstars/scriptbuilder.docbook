@@ -102,7 +102,7 @@
 ><para
 >Ara que hem pres cura d'apuntar a la Lluna, tot seguit desitgem establir un pas temporal accelerat. Utilitzeu la funció <firstterm
 >setClockScale</firstterm
-> per a això. Afegiu-la a l'script fent doble clic a sobre seu en el Navegador de funcions. El plafó Arguments de la funció contindrà un botó de selecció de valors de pas temporal per a establir-lo al temps desitjat per al rellotge de simulació. Canvieu el pas temporal a 3 hores. </para
+> per a això. Afegiu-la a l'script fent doble clic a sobre seu en el Navegador de funcions. El plafó Arguments de la funció contindrà un botó de selecció de valors de pas temporal per a establir-lo a l'hora desitjada per al rellotge de simulació. Canvieu el pas temporal a 3 hores. </para
 ><para
 >BÉ, hem apuntat a la Lluna i accelerat el rellotge. Ara voldríem ajustar l'script perquè esperi uns pocs segons mentre que es fa el seguiment de la Lluna. Afegiu la funció <firstterm
 >waitFor</firstterm

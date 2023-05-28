@@ -37,6 +37,32 @@ class NotEditableDelegate : public QStyledItemDelegate
         }
 };
 
+// Not editable delegate to display numbers to 2 decimal places
+class NotEditableDelegate2dp : public QStyledItemDelegate
+{
+        Q_OBJECT
+    public:
+        explicit NotEditableDelegate2dp(QObject *parent = nullptr)
+            : QStyledItemDelegate(parent)
+        {}
+
+        QString displayText(const QVariant &value, const QLocale &locale) const
+        {
+            QString str = QString::number(value.toDouble(), 'f', 2);
+            return str;
+        }
+
+    protected:
+        bool editorEvent(QEvent *, QAbstractItemModel *, const QStyleOptionViewItem &, const QModelIndex &) override
+        {
+            return false;
+        }
+        QWidget* createEditor(QWidget *, const QStyleOptionViewItem &, const QModelIndex &) const override
+        {
+            return nullptr;
+        }
+};
+
 class ToggleDelegate : public QItemDelegate
 {
         Q_OBJECT
@@ -55,12 +81,13 @@ class DoubleDelegate : public QStyledItemDelegate
 {
         Q_OBJECT
     public:
-        explicit DoubleDelegate(QObject *parent = nullptr, double min = -1, double max = -1, double step = -1) : QStyledItemDelegate(parent)
-    {
-        this->min = min;
-        this->max = max;
-        this->step = step;
-    }
+        explicit DoubleDelegate(QObject *parent = nullptr, double min = -1, double max = -1,
+                                double step = -1) : QStyledItemDelegate(parent)
+        {
+            this->min = min;
+            this->max = max;
+            this->step = step;
+        }
 
         QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
         void setEditorData(QWidget *editor, const QModelIndex &index) const override;
@@ -75,11 +102,11 @@ class IntegerDelegate : public QStyledItemDelegate
         Q_OBJECT
     public:
         explicit IntegerDelegate(QObject *parent = nullptr, int min = -1, int max = -1, int step = -1) : QStyledItemDelegate(parent)
-    {
-        this->min = min;
-        this->max = max;
-        this->step = step;
-    }
+        {
+            this->min = min;
+            this->max = max;
+            this->step = step;
+        }
 
         QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
         void setEditorData(QWidget *editor, const QModelIndex &index) const override;

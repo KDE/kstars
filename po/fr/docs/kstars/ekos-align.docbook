@@ -32,21 +32,7 @@
         <para
 >Il y a souvent une différence entre l'endroit où le télescope croit pointer et où il pointe vraiment. L'importance de cette différence peut varier de quelques minutes d'arc à quelques degrés. Ekos peut ensuite corriger cette différence soit en synchronisant aux nouvelles coordonnées ou en pivotant vers la cible demandée à l'origine. </para>
         <para
->De plus Ekos fournit deux outils pour mesurer et corriger l'alignement polaire : </para>
-        <itemizedlist>
-            <listitem>
-                <para
-><guilabel
->Outil d'assistance à l'alignement polaire</guilabel
-> : un outil très simple d'utilisation pour mesurer et corriger les erreurs polaires. Il prend trois images près du pôle céleste (proche de Polaris dans l'hémisphère Nord) et calcule ensuite le décalage entre l'axe de la monture et l'axe polaire.  </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Ancien outil d'alignement polaire</guilabel
-> : si Polaris n'est pas visible, cet outil peut être utilisé pour mesurer et corriger les erreurs d'alignement polaire. Il prend quelques images près du méridien et quelques autres à l'est et à l'ouest du méridien. Cela permet à l'utilisateur d'ajuster la monture jusqu'à ce que le mauvais alignement soit minimisé. </para>
-            </listitem>
-        </itemizedlist>
+>De plus, Ekos fournit un outil d'assistant d'alignement polaire pour corriger les erreurs d'alignement polaire. Il prend trois images, se déplace entre elles et calcule le décalage entre l'axe de la monture et l'axe polaire. Il renvoie ensuite à l'opérateur les ajustements en altitude et en azimut nécessaires pour aligner ces axes. Ces images sont typiquement prises près du pôle céleste (près de l'étoile polaire dans l'hémisphère nord) mais elles peuvent être également prises ailleurs, généralement près du méridien et bougeant vers l'est ou l'ouest. </para>
         <para
 >Vous avez besoin au minimum d'une caméra CCD ou d'une webcam et d'un télescope qui gère les commandes de pointage et de synchronisation. La plupart de télescopes trouvés dans le commerce aujourd'hui gère ces commandes. </para>
         <para
@@ -433,13 +419,13 @@
                     </tgroup>
                 </table>
                 <para
->Les paquets Debian conviennent à toute distribution basée sur Debian (Ubuntu, Mint, &etc;). Si vous avez téléchargé les paquets Debian couvrant votre champ de vision, vous pouvez les installer avec votre gestionnaire de paquets favori ou en exécutant la commande suivante : </para>
+>Les paquets Debian conviennent à toute distribution fondée sur Debian (Ubuntu, Mint, &etc;). Si vous avez téléchargé les paquets Debian couvrant votre champ de vision, vous pouvez les installer avec votre gestionnaire de paquets favori ou en exécutant la commande suivante : </para>
                 <para>
                     <command
 >sudo dpkg -i astrometry-data-*.deb</command>
                 </para>
                 <para
->Mais si vous avez téléchargé les fichiers index FITS directement, il vous faudra les copier dans le répertoire <filename role="directory"
+>Mais si vous avez téléchargé les fichiers index FITS directement, il vous faudra les copier dans le dossier <filename role="directory"
 >/usr/share/astrometry/</filename
 >. </para>
                 <note>
@@ -455,13 +441,13 @@
             <title
 >Comment les utiliser ?</title>
             <para
->Le module d'alignement d'Ekos propose de multiples fonctions pour vous aider à réaliser des pointages GOTO précis. Commencez avec votre monture en position parquée (home position), c'est à dire pointant directement vers le pôle céleste. Pour les utilisateurs de l'hémisphère Nord, pointez le télescope aussi près que possible vers l'étoile polaire Polaris. Il n'est pas nécessaire de faire un alignement sur deux ou trois étoiles bien que ça peut être utile pour certains types de montures. Assurez-vous que la mise au point de votre caméra soit réalisée et que les étoiles soient bien résolues. </para>
+>Le module d'alignement d'Ekos propose de multiples fonctions pour vous aider à réaliser des pointages GOTO précis. Commencez avec votre monture en position parquée (home position), c'est-à-dire pointant directement vers le pôle céleste. Pour les utilisateurs de l'hémisphère Nord, pointez le télescope aussi près que possible vers l'étoile polaire Polaris. Il n'est pas nécessaire de faire un alignement sur deux ou trois étoiles bien que ça peut être utile pour certains types de montures. Assurez-vous que la mise au point de votre caméra soit réalisée et que les étoiles soient bien résolues. </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
 >Acquisition &amp; pointage</guilabel
-> : commencer par acquérir une image et déterminez la région du ciel où le télescope est en train de pointer. Les résultats de l'astrométrie incluent les coordonnées équatoriales (AD &amp; DEC) du centre de l'image, ainsi que l'échelle de pixel et la rotation du champ. Selon les réglages des actions du résolveur, les résultats peuvent être utilisés pour synchroniser la monture ou synchroniser et ensuite pointer vers l'endroit de la cible. Par exemple, supposons que vous avez pointé la monture vers Vega et qu'ensuite vous avez utilisé la fonction <emphasis
+> : commencez par acquérir une image et déterminez la région du ciel où le télescope pointe. Les résultats de l'astrométrie incluent les coordonnées équatoriales (AD &amp; DEC) du centre de l'image, ainsi que l'échelle de pixel et la rotation du champ. Selon les réglages des actions du résolveur, les résultats peuvent être utilisés pour synchroniser la monture ou synchroniser et ensuite pointer vers l'endroit de la cible. Par exemple, supposons que vous avez pointé la monture vers Vega et qu'ensuite vous avez utilisé la fonction <emphasis
 >Acquisition &amp; Résoudre</emphasis
 >. Si la position actuelle du télescope est différente de Vega, alors il commencera par se synchroniser aux coordonnées résolues et ensuite Ekos donnera l'ordre à la monture de pointer vers Vega. Après que la rotation soit terminée, le module d'alignement relancera le processus d'<emphasis
 >Acquisition &amp; Résoudre</emphasis
@@ -478,12 +464,6 @@
 ><guilabel
 >Assistant d'alignement polaire</guilabel
 > : un outil simple d'aide à l'alignement polaire pour les montures équatoriales allemandes. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->Ancien outil d'alignement polaire</guilabel
-> : permet de mesurer les erreurs d'alignement polaire pour les situations où la vue d'un pôle céleste (c'est-à-dire Polaris pour l'hémisphère Nord) n'est pas possible. </para>
                 </listitem>
             </itemizedlist>
             <warning>
@@ -597,13 +577,13 @@
                 </mediaobject>
             </screenshot>
             <para
->La plupart des options sont suffisantes par défaut. Si votre installation d'astrometry.net se trouve à un emplacement non standard, vous pouvez modifier les chemins comme nécessaire. </para>
+>La plupart des options sont suffisantes par défaut. Si votre installation d'astrometry.net se trouve à un emplacement non standard, vous pouvez modifier les emplacements comme nécessaire. </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
 >WCS</guilabel
-> : le système de coordonnées mondiales (World-Coordinate-System) est un mécanisme permettant d'intégrer les coordonnées équatoriales à une image. Ainsi, lors de la visualisation d'une image, un survol affiche les coordonnées de chaque pixel. Vous pouvez également cliquer n'importe où dans l'image et ordonner au télescope de pivoter vers ce point. Il est hautement recommandé de conserver cette option. Veuillez noter que cela ne fonctionne que pour les images FITS (les images brutes des APN ne permettent pas ce mécanisme). </para>
+> : le système de coordonnées mondiales (World-Coordinate-System) est un mécanisme permettant d'intégrer les coordonnées équatoriales à une image. Ainsi, lors de l'affichage d'une image, un survol affiche les coordonnées de chaque pixel. Vous pouvez également cliquer n'importe où dans l'image et ordonner au télescope de pivoter vers ce point. Il est hautement recommandé de conserver cette option. Veuillez noter que cela ne fonctionne que pour les images FITS (les images brutes des APN ne permettent pas ce mécanisme). </para>
                 </listitem>
                 <listitem>
                     <para
@@ -710,9 +690,6 @@
         <sect3 id="ekos-align-polaralignment">
             <title
 >Alignement polaire</title>
-            <sect4 id="ekos-align-plar-alignment-assistant">
-                <title
->Assistant d'alignement polaire</title>
                 <para
 >Un des aspects critiques de l'installation d'une monture équatoriale allemande pour l'imagerie longue durée est un alignement polaire aussi précis que possible. Ces montures ont deux axes : l'ascension droite (AD) et la déclinaison (DEC). Idéalement l'axe d'AD devrait être aligné avec l'axe polaire de la sphère céleste. Le travail d'une monture est de suivre le déplacement d'une étoile dans le ciel depuis son lever à l'horizon est jusqu'au passage au méridien puis enfin jusqu'à son coucher vers l'ouest. </para>
 
@@ -751,15 +728,15 @@
                 <para
 >Toutefois, même avec un monture alignée très soigneusement, vous souhaiterez probablement utiliser un guide pour conserver une étoile verrouillée à la même position dans le temps. Malgré tout cela, si l'axe de la monture n'est pas correctement aligné avec le pôle céleste, même un monture mécaniquement parfaite ne permettra pas un suivi dans le temps. Les erreurs de suivi sont proportionnelles à la grandeur de l'erreur d'alignement. Il est par conséquent très important pour les longues poses d'obtenir un alignement le plus précis possible afin de réduire les erreurs résiduelles lors du déplacement dans le ciel. </para>
                 <para
->Avant de démarrer la procédure, pointez la monture le plus près possible du pôle céleste. Si vous habitez l'hémisphère Nord, pointez vers Polaris. </para>
+>Avant le début de la procédure, pointez la monture aussi près que possible vers le pôle céleste avec le contre-poids vers le bas. Si vous habitez dans l'hémisphère nord, pointez vers l'étoile polaire Polaris. Si Polaris n'est pas visible (par exemple masquée par des arbres ou des bâtiments), vous pouvez pointer ailleurs mais de préférence vers le méridien. Assurez-vous qu'il y a au moins 30 à 60 degrés de ciel visible à l'est ou à l'ouest de la position choisie. Choisissez la direction du ciel libre, le nombre de degrés de déplacement pour chaque rotation, la vitesse de rotation et si la monture se déplace automatiquement (ce qui est recommandé) ou manuellement. </para>
                 <para
->L'outil fonctionne en prenant et en résolvant trois images. Après chaque acquisition, la monture tourne d'une quantité fixe et une nouvelle image est prise et résolue. </para>
+>L'outil fonctionne en prenant et en résolvant trois images. Après chaque acquisition, la monture tourne d'une quantité fixe et une nouvelle image est prise et résolue. Si vous choisissez le mode manuel, vous devrez tourner la monture de l'angle choisi. </para>
                 <screenshot>
                     <screeninfo
 >Assistant d'alignement polaire </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_assistant_main.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_main2.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
@@ -767,181 +744,89 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
+
+            <sect4 id="ekos-align-platesolvecorrection">
+                <title
+>Schéma de correction de la résolution</title>
+                
                 <para
->Après la première acquisition, vous pouvez faire pivoter la monture qu'une quantité fixe (par défaut 30 degrés) soit vers l'est soit vers l'ouest. Après avoir fait ces choix, cliquez sur <guibutton
->Suivant</guibutton
-> pour continuer et la monture va pivoter. Une fois la rotation terminée, il vous sera demandé de prendre une nouvelle image sauf si l'option <guilabel
->Mode Auto</guilabel
-> est cochée. Dans le mode automatique, la suite de la procédure se poursuivra avec les mêmes réglages jusqu'à ce que trois images auront été acquises. </para>
-                <para
->Puisque les AD et DEC vraies sont résolues pas astrométrie, on peut construire un cercle unique à partir du centre des solutions d'astrométrie. Le centre du cercle correspond à l'axe de rotation (axe d'ascension droite) et devrait idéalement coïncider avec l'axe du pôle céleste. Toutefois, en cas d'erreur d'alignement, Ekos tracera un vecteur de correction. Ce vecteur de correction peut être positionné n'importe où dans l'image. En cliquant ensuite sur <emphasis
->Rafraîchir</emphasis
->, la caméra va prendre des images en boucle ce qui va vous permettre d'ajuster l'altitude et l'azimut avec les molettes de la montures pour déplacer l'étoile jusqu'à la position désignée par un réticule en croix. Pour vous aider à faire ces corrections, élargissez la vue en cliquant sur bouton plein écran <inlinemediaobject
-><imageobject
-><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject
-></inlinemediaobject
->. </para>
+>Les images affichées ci-dessous montrent le flux de travail quand la technique de correction de la <emphasis
+>résolution</emphasis
+> est utilisée. L'image ci-dessous montre l'affichage après que trois images aient été acquises et résolues. On voit une erreur de 18' en altitude et donc que l'axe de la monture doit être réajustée en fonction. On voit de même une erreur de 15' en azimut et un réajustement de l'axe de la monture vers la droite (vu de derrière le télescope). </para>
                 <screenshot>
                     <screeninfo
->Résultat de l'alignement polaire </screeninfo>
+>Assistant d'alignement polaire </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_alignment_result.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_ps1.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
->Résultat d'alignement polaire</phrase>
+>Assistant d'alignement polaire, flux de travail 1 de la résolution</phrase>
                         </textobject>
                     </mediaobject>
                 </screenshot>
                 <para
->Si votre StellarMate ou votre PC est éloigné de votre monture, vous pouvez utiliser une tablette pour surveiller les images de la caméras tout en effectuant les corrections. Utilisez l'<link linkend="ekos-tutorials-viewer"
->afficheur VNC web de StellarMate</link
-> ou tout autre client VNC installé sur votre tablette pour accéder à StellarMate. Si Ekos tourne sur votre PC, vous pouvez utiliser des applications comme TeamViewer pour parvenir au même résultat. Voici une vidéo montrant comment utiliser l'outil d'assistance à l'alignement polaire. </para>
-                <mediaobject>
-                    <videoobject>
-                        <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/sx6Zz9lNd5Q"
-></videodata>
-                    </videoobject>
-                    <caption>
-                        <para>
+>Si l'erreur est suffisamment petite (&cad; moins d'une minute d'arc), il est inutile de faire des ajustements. Cliquez sur stop et c'est terminé. </para>
+                <para
+>Si vous faites des corrections sur l'axe de votre monture, vous devriez choisir l'approche des ajustements (nous utilisons la résolution dans cet exemple) et précisez le rythme d'acquisition des images pour les mesures d'erreur de l'alignement polaire. L'intervalle de rafraîchissement devrait être fréquent mais il ne fait pas de sens de le rendre plus rapide que ce que le CPU est capable de faire pour les acquisitions et la résolution des images. Nous utilisons un intervalle de 2 secondes dans cet exemple. Ensuite cliquez sur le bouton <guibutton
+>Rafraîchissement</guibutton
+> pour démarrer la procédure de correction. </para>
+                <para
+>Le système procédera à l'acquisition des images, puis ré-estimera l'erreur d'alignement polaire après chaque image. Vous pouvez essayer de diminuer ces erreurs en ajustant les molettes d'altitude et d'azimut de la monture. L'image ci-dessous montre l'écran après que l'erreur en altitude ait été réduite quasiment à zéro. Observez la différence sur la ligne <emphasis
+>Erreur mesurée</emphasis
+> qui montre l'erreur mesurée de départ après l'acquisition de trois images et la ligne de l'<emphasis
+>erreur mise à jour</emphasis
+> qui montre l'estimation de l'erreur actuelle. </para>
+                <screenshot>
+                    <screeninfo
+>Assistant d'alignement polaire </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps2.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
                             <phrase
->Alignement polaire</phrase>
-                        </para>
-                    </caption>
-                </mediaobject>
-            </sect4>
-            <sect4 id="ekos-align-legacy-polar-alignment-workflow">
+>Assistant d'alignement polaire, flux de travail 2 de la résolution</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Ci-dessous, l'opérateur a aussi ajusté l'azimut afin de réduire encore plus l'erreur. Elle est maintenant très petite et la procédure est terminée. L'opérateur doit cliquer sur le bouton stop. </para>
+                <screenshot>
+                    <screeninfo
+>Assistant d'alignement polaire </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps3.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Assistant d'alignement polaire, flux de travail 3 de la résolution</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                </sect4>
+                <sect4 id="ekos-align-move-star-correction">
                 <title
->Marche à suivre de l'alignement polaire à l'ancienne</title>
+>Schéma de correction de déplacement d'étoile</title>
+
                 <para
->Le mode d'alignement polaire permet à Ekos de mesurer et de corriger les erreurs d'alignement polaire. Pour mesurer les erreurs en azimut, pointez votre monture vers une étoile proche du méridien. Si vous habitez l'hémisphère Nord, pointez la monture vers le méridien sud. Cliquez sur le bouton <guibutton
->Mesurer erreur Az</guibutton
-> pour démarrer le processus. Ekos va mesurer la dérive entre deux images et calculer l'erreur. Vous pouvez demander à Ekos de corriger l'erreur en azimut en cliquant sur le bouton <guibutton
->Corriger erreur Az</guibutton
->. Ekos va faire tourner la monture vers une nouvelle direction et vous demander d'ajuster l'azimut avec la molette de la monture jusqu'à ce que l'étoile se trouve au centre du champ de vision. La <link linkend="focus-focuser-group"
->fonction d'acquisition en boucle</link
-> du module de mise au point vous permet de visualiser les images tout en ajustant la position de la monture. </para>
-                <para
->De même, pour mesurer l'erreur en altitude, cliquez sur le bouton <guibutton
->Mesurer erreur Alt</guibutton
->. Vous devez pointer la monture soit à l'est soit à l'ouest et réglez <guilabel
->Direction Altitude</guilabel
-> en fonction. Ekos va prendre deux images et calculer l'erreur. Vous demandez ensuite à Ekos de corriger l'erreur en altitude en cliquant sur le bouton <guibutton
->Corriger erreur Alt</guibutton
->. Comme avec l'erreur en azimut, Ekos va pivoter vers une nouvelle position et vous demandera d'ajuster la position en altitude de la monture avec la molette de la monture jusqu'à ce que l'étoile se trouve au centre du champ de vision. </para>
-                <para
->Après avoir apporté ces correction, il est recommandé de mesurer à nouveau les erreurs en azimut et en altitude pour juger de la différence. Il peut ainsi être nécessaire de réaliser ce processus plus d'une fois pour obtenir un résultat optimal. </para>
-                <para
->Avant de commencer l'outil d'alignement polaire, vous devez terminer la procédure GOTO ci-dessus pour au moins un point dans le ciel. Une fois que la monture est alignée, vous pouvez poursuivre (en faisant l'hypothèse que vous êtes dans l'hémisphère Nord) : </para>
-                <orderedlist>
-                    <listitem>
-                        <para
->Pointez une étoile <emphasis role="bold"
->brillante</emphasis
-> (magnitude 4 ou moins) près du méridien sud (azimut 180). Assurez-vous que l'option <guilabel
->Pivoter vers cible</guilabel
-> est sélectionnée. Cliquez sur le bouton <guibutton
->Acquisition &amp; Résolution</guibutton
->. L'étoile devrait être centrée parfaitement dans votre champ de vision. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Changer le mode pour <guilabel
->Alignement polaire</guilabel
->. Cliquez sur le bouton <guibutton
->Mesurer erreur Az</guibutton
->. Cela vous demandera de pivoter vers une étoile près du méridien sud, ce que nous venons de faire. Cliquez sur le bouton <guibutton
->Continuer</guibutton
->. Ekos va maintenant calculer l'erreur. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->si tout se passe bien, l'erreur est affichée dans une boîte. Pour corriger l'erreur, cliquez sur le bouton <guibutton
->corriger erreur Az</guibutton
->. Ekos va faire pivoter la monture vers un point différent dans le ciel et vous devrez <emphasis
->seulement</emphasis
-> ajuster la molette d'azimut pour centrer l'étoile dans le champ de vision. À nouveau, prenez des images en boucle pour surveiller votre ajustement. Si l'erreur en azimut est trop grande, vous risquez de ne pas voir l'étoile dans le champ de vision du CCD et vous devrez par conséquent faire des ajustements <emphasis
->à l'aveugle</emphasis
-> (ou simplement regarder dans le chercheur) jusqu'à ce que l'étoile entre dans le champ de vision du CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Commencez vos ajustements en azimut jusqu'à ce que l'étoile brillante se trouve aussi près du centre que possible. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Arrêter l'acquisition en boucle en cliquant sur le bouton <guibutton
->Arrêter en boucle</guibutton
-> dans le <link linkend="focus-focuser-group"
->module de mise au point</link
+>Il existe un schéma alternatif pour corriger les erreurs d'alignement polaire. Les deux variations sont <emphasis
+>Déplacement d'étoile &amp; Calcul d'erreur</emphasis
+> et <emphasis
+>Déplacement d'étoile</emphasis
+>. En choisissant ce schéma, le système place un triangle jaune/vert/violet sur l'écran. Il peut être déplacé en cliquant près d'une étoile et le coin jaune/violet se déplace vers cette étoile. L'utilisateur corrige les erreurs d'alignement polaire en ajustant d'abord l'azimut de la monture afin que l'étoile sélectionnée se déplace le long du côté jaune du triangle. Une fois que l'étoile se trouve près du prochain sommet, l'azimut doit être ajusté pour l'étoile se déplace le long du côté vert du triangle. Une fois que l'étoile est sur le sommet vert/violet, la monture est alignée sur la polaire et l'opérateur peut cliquer sur le bouton <emphasis
+>stop</emphasis
 >. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Répétez la procédure <guibutton
->Mesurer erreur Az</guibutton
-> pour s'assurer que l'erreur a bien été corrigée. Vous devrez peut-être répéter la procédure pour s'assurer que le résultat est correct. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Changer le mode pour <guilabel
->GOTO</guilabel
+                  <para
+>La différence entre les deux méthodes réside dans le fait que dans la première le système tente de suivre l'étoile sélectionnée et place un cercle autour d'elle. Il tente également de mettre à jour la ligne <emphasis
+>Erreur mise à jour</emphasis
+>. Si le suivi de l'étoile n'est pas fiable, ignorez-le simplement ou utiliser le schéma <emphasis
+>Déplacement d'étoile</emphasis
+> et déplacez l'étoile visuellement jusqu'à ce qu'elle est près de la cible finale. Un exemple d'utilisation de cette technique est montré dans cette vidéo : <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
+>https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
 >. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Maintenant pivotez la monture vers une étoile <emphasis role="bold"
->brillante</emphasis
-> vers l'horizon ouest ou est mais de préférence au-dessus de 20 degrés d'altitude. Elle doit se trouver aussi près que possible des points cardinaux est (azimut 90) ou ouest (azimut 270). </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Après que la rotation soit terminée, cliquez sur le bouton <guibutton
->Acquisition &amp; Résolution</guibutton
->. L'étoile devrait être en plein centre du champ de vision du CCD. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Changer le mode pour <guilabel
->Alignement polaire</guilabel
->. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Cliquez sur le bouton <guibutton
->Mesurer erreur Alt</guibutton
->. Il vous sera demandé de pivoter vers une étoile de l'horizon est (Azimut 90) ou de l'horizon ouest (azimut 270), ce que nous venons de faire. Cliquez sur le bouton <guibutton
->Continuer</guibutton
->. Ekos va maintenant calculer l'erreur. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Pour corriger l'erreur, cliquez sur le bouton <guibutton
->Corriger erreur Alt</guibutton
->. Ekos va pivoter vers une nouvelle position dans le ciel et vous devrez ensuite ajuster <emphasis role="bold"
->seulement</emphasis
-> la molette d'altitude de la monture pour centrer l'étoile dans le champ de vision. À nouveau, vous pouvez utiliser l'acquisition en boucle pour vous aider à centrer. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Arrêter l'acquisition en boucle une fois que l'objet est centré. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Répétez la procédure <guibutton
->Mesurer erreur Alt</guibutton
-> pour vous assurer que l'erreur a bien été corrigée. Vous devrez peut-être répéter cette procédure pour obtenir un résultat correct. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->L'alignement polaire est maintenant terminé !</para>
-                    </listitem>
-                </orderedlist>
-                <warning>
-                    <para
->La monture peut pivoter vers une position dangereuse et risque de toucher la monture ou un autre équipement. Il faut surveiller attentivement son mouvement. Utilisez à vos risques et périls… </para>
-                </warning>
             </sect4>
         </sect3>
-    </sect2>
+</sect2>

@@ -73,7 +73,7 @@
 <answer>
 <para
 >Se vuoi aggiungere una località che non è nella lista, inserisci le informazioni rilevanti (longitudine, latitudine, nome della città, della provincia e della nazione), quindi premi il pulsante <guibutton
->Aggiungi all'elenco</guibutton
+>Aggiungi città</guibutton
 >: tutti i campi devono essere compilati, tranne quello facoltativo della provincia. Puoi anche modificare i valori di una città esistente semplicemente cambiando i valori nella finestra e poi aggiungerla all'elenco. </para>
 </answer>
 </qandaentry>
@@ -114,7 +114,7 @@
 >Il manuale di &kstars; include il <link linkend="astroinfo"
 >progetto AstroInfo</link
 >, una serie di brevi articoli ipertestuali su argomenti astronomici che possono essere approfonditi e illustrati con &kstars;. AstroInfo è il prodotto degli sforzi di una comunità, come GNUpedia o Everything2. Se vuoi contribuire ad AstroInfo, iscriviti alla nostra mailing list: <email
->kstars-devel@kde.org</email
+>kstars-devel AT kde.org</email
 >. </para>
 </answer>
 </qandaentry>
@@ -126,8 +126,8 @@
 </question>
 <answer>
 <para
->Sì: per avviare &kstars; con una data/ora differente puoi utilizzare l'argomento <quote
->--date</quote
+>Sì: per avviare &kstars; con una data/ora differente puoi utilizzare l'argomento <option
+>--date</option
 > seguito da una stringa del tipo <quote
 >04 Jul 1976 12:30:00</quote
 > </para>
@@ -141,8 +141,8 @@
 </question>
 <answer>
 <para
->Sì: per avviare &kstars; con l'orologio in pausa basta aggiungere l'argomento <quote
->--paused</quote
+>Sì: per avviare &kstars; con l'orologio in pausa basta aggiungere l'argomento <option
+>--paused</option
 > alla riga di comando. </para>
 </answer>
 </qandaentry>
@@ -159,7 +159,7 @@
 >Ecco una lista di alcuni dei fattori che limitano la precisione del programma: <itemizedlist
 > <listitem>
 <para
->Le posizioni dei pianeti sono accurate solo per date distanti fino a 4000 anni circa dall'epoca attuale. Esse sono calcolate tramite un'analisi di Fourier delle orbite, come osservate durante gli ultimi secoli. A scuola abbiamo imparato che i pianeti seguono semplici orbite ellittiche attorno al Sole, ma ciò non è del tutto vero. Lo sarebbe solo se ci fosse un solo pianeta nel Sistema Solare, e se il Sole e il pianeta fossero entrambi masse puntiformi. Nella situazione reale, invece, i pianeti si "strattonano" costantemente l'un l'altro, perturbando leggermente le proprie orbite, inoltre gli effetti di marea inducono anche delle oscillazioni precessionali. In effetti, analisi recenti suggeriscono che le orbite dei pianeti potrebbero anche non essere stabili nel lungo periodo (ovvero milioni o miliardi di anni). Come regola generale ci si può aspettare che la posizione di un pianeta sia accurata entro qualche secondo d'arco tra gli anni 2000 a.C. e 6000 d.C. </para
+>Le posizioni dei pianeti sono accurate solo per date distanti fino a 4000 anni circa dall'epoca attuale. Esse sono calcolate tramite un'analisi di Fourier delle orbite, come osservate durante gli ultimi secoli. A scuola abbiamo imparato che i pianeti seguono semplici orbite ellittiche attorno al Sole, ma ciò non è del tutto vero. Lo sarebbe solo se ci fosse un solo pianeta nel Sistema Solare, e se il Sole e il pianeta fossero entrambi masse puntiformi. Nella situazione reale, invece, i pianeti si "strattonano" costantemente l'un l'altro, perturbando leggermente le proprie orbite, inoltre gli effetti di marea inducono anche delle oscillazioni precessionali. In effetti, analisi recenti suggeriscono che le orbite dei pianeti potrebbero anche non essere stabili nel lungo periodo (&ie; milioni o miliardi di anni). Come regola generale ci si può aspettare che la posizione di un pianeta sia accurata entro qualche secondo d'arco tra gli anni 2000 a.C. e 6000 d.C. </para
 ><para
 >Plutone rappresenta un'eccezione: la sua posizione è forse dieci volte meno precisa rispetto a quella degli altri pianeti. Nonostante ciò, per date vicine all'epoca attuale la posizione è accurata a meno di un secondo d'arco circa. </para
 ><para
@@ -183,7 +183,9 @@
 >GPL</acronym
 >). Quanto alle immagini degli oggetti di Messier, le abbiamo rimosse dalla distribuzione standard per due motivi: per ridurre la dimensione di &kstars; e per problemi di licenza simili con due di esse. Le immagini della mappa celeste sono compresse a una qualità molto inferiore all'originale per cui dubitiamo vi siano veri problemi di copyright, ma abbiamo ottenuto dagli autori permessi espliciti di utilizzo per le poche immagini su cui c'erano dei dubbi (vedi <filename
 >README.images</filename
->). Nonostante ciò, per essere del tutto al sicuro, le abbiamo rimosse dalla distribuzione standard, e abbiamo contrassegnato l'archivio scaricabile come "liberamente disponibile per uso non commerciale". </para>
+>). Nonostante ciò, per essere del tutto al sicuro, le abbiamo rimosse dalla distribuzione standard, e abbiamo contrassegnato l'archivio scaricabile come <quote
+>liberamente disponibile per uso non commerciale</quote
+>. </para>
 </answer>
 </qandaentry>
 
@@ -205,11 +207,15 @@
 </question>
 <answer>
 <para
->Sì, certamente! Presentati sulla nostra mailing list, <email
->kstars-devel@kde.org</email
->. Se vuoi dare una mano con la programmazione, scarica la versione <ulink url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars_KF5"
->&kstars; Git</ulink
-> più recente del codice e comincia a curiosarci. Ci sono parecchi file README che illustrano alcuni dei sottosistemi del programma. Se hai bisogno di idee su cosa fare, consulta il file TODO. Puoi sottoporre patch a kstars-devel, oltre a porre ogni domanda che tu possa avere sul codice. </para
+>Sì, certamente! Presentati sulla nostra mailing list <email
+>kstars-devel AT kde.org</email
+>. Se vuoi dare una mano con la programmazione, scarica la versione <ulink url="https://invent.kde.org/education/kstars"
+>&kstars; &git;</ulink
+> più recente del codice e comincia a curiosarci. Ci sono parecchi file <filename
+>README</filename
+> che illustrano alcuni dei sottosistemi del programma. Se hai bisogno di idee su cosa fare, consulta il file <filename
+>TODO</filename
+>. Puoi sottoporre patch alla lista di distribuzione kstars-devel, oltre a porre ogni domanda che tu possa avere sul codice. </para
 ><para
 >Se programmare non è il tuo forte puoi sempre aiutarci con le traduzioni, con la documentazione, con gli articoli di AstroInfo, coi collegamenti alle pagine Web, con segnalazioni di bug e richieste di funzionalità aggiuntive. </para>
 </answer>

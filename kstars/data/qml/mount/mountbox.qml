@@ -426,12 +426,20 @@ Rectangle {
                 Label
                 {
                     text: xi18n("Reverse")
+                    renderType: Text.QtRendering
                 }
 
                 CheckBox
                 {
                     id: updownReverse
-                    text: xi18n("Up/Down")
+                    style:CheckBoxStyle{
+                        label:Text{
+                            text: xi18n("Up/Down")
+                            renderType: Text.QtRendering
+                            color: "white"
+                        }
+                    }
+
                     objectName: "upDownCheckObject"
                     onClicked: mount.setUpDownReversed(checked)
                 }
@@ -439,7 +447,13 @@ Rectangle {
                 CheckBox
                 {
                     id: leftRightReverse
-                    text: xi18n("Left/Right")
+                    style:CheckBoxStyle{
+                        label:Text{
+                            text: xi18n("Left/Right")
+                            renderType: Text.QtRendering
+                            color: "white"
+                        }
+                    }
                     objectName: "leftRightCheckObject"
                     onClicked: mount.setLeftRightReversed(checked)
                 }
@@ -477,6 +491,7 @@ Rectangle {
                     width: fontMetrics.height * 3.75
                     objectName: "speedLabelObject"
                     text: xi18n("1x")
+                    renderType: Text.QtRendering
                     horizontalAlignment: Text.AlignHCenter
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     Layout.maximumWidth: fontMetrics.height * 3.75
@@ -528,6 +543,7 @@ Rectangle {
                 Label {
                     id: raLabel
                     text: xi18n("RA:")
+                    renderType: Text.QtRendering
                     font.bold: true
                     color: "white"
                     fontSizeMode: Text.Fit
@@ -538,6 +554,7 @@ Rectangle {
                     objectName: "raValueObject"
                     color: coordsColor
                     text: "00:00:00"
+                    renderType: Text.QtRendering
                     Layout.fillWidth: true
                     font.pointSize: 11
                 }
@@ -546,6 +563,7 @@ Rectangle {
                     id: azLabel
                     color: "#ffffff"
                     text: xi18n("AZ:")
+                    renderType: Text.QtRendering
                     Layout.fillWidth: false
                     fontSizeMode: Text.Fit
                     font.bold: true
@@ -556,6 +574,7 @@ Rectangle {
                     objectName: "azValueObject"
                     color: coordsColor
                     text: "00:00:00"
+                    renderType: Text.QtRendering
                     Layout.fillWidth: true
                     font.pointSize: 11
                 }
@@ -564,6 +583,7 @@ Rectangle {
                     id: deLabel
                     color: "#ffffff"
                     text: xi18n("DE:")
+                    renderType: Text.QtRendering
                     fontSizeMode: Text.Fit
                     font.bold: true
                 }
@@ -573,6 +593,7 @@ Rectangle {
                     objectName: "deValueObject"
                     color: coordsColor
                     text: "00:00:00"
+                    renderType: Text.QtRendering
                     Layout.fillWidth: true
                     font.pointSize: 11
                 }
@@ -581,6 +602,7 @@ Rectangle {
                     id: altLabel
                     color: "#ffffff"
                     text: xi18n("AL:")
+                    renderType: Text.QtRendering
                     fontSizeMode: Text.Fit
                     font.bold: true
                 }
@@ -590,6 +612,7 @@ Rectangle {
                     objectName: "altValueObject"
                     color: coordsColor
                     text: "00:00:00"
+                    renderType: Text.QtRendering
                     Layout.fillWidth: true
                     font.pointSize: 11
                 }
@@ -598,6 +621,7 @@ Rectangle {
                     id: haLabel
                     color: "#ffffff"
                     text: xi18n("HA:")
+                    renderType: Text.QtRendering
                     fontSizeMode: Text.Fit
                     font.bold: true
                 }
@@ -607,6 +631,7 @@ Rectangle {
                     objectName: "haValueObject"
                     color: coordsColor
                     text: "00:00:00"
+                    renderType: Text.QtRendering
                     Layout.fillWidth: true
                     font.pointSize: 11
                 }
@@ -615,6 +640,7 @@ Rectangle {
                     id: zaLabel
                     color: "#ffffff"
                     text: xi18n("ZA:")
+                    renderType: Text.QtRendering
                     fontSizeMode: Text.Fit
                     font.bold: true
                 }
@@ -624,6 +650,7 @@ Rectangle {
                     objectName: "zaValueObject"
                     color: coordsColor
                     text: "00:00:00"
+                    renderType: Text.QtRendering
                     Layout.fillWidth: true
                     font.pointSize: 11
                 }
@@ -639,6 +666,7 @@ Rectangle {
                     id: targetLabel
                     color: "#ffffff"
                     text: xi18n("Target:")
+                    renderType: Text.QtRendering
                     verticalAlignment: Text.AlignVCenter
                     Layout.fillHeight: true
                     Layout.fillWidth: false
@@ -650,6 +678,14 @@ Rectangle {
                     id: targetText
                     objectName: "targetTextObject"
                     placeholderText: "Click Find Icon"
+                    style: TextFieldStyle {
+                        textColor: "white"
+                        placeholderTextColor: "gray"
+                        renderType: Text.QtRendering
+                        background: Rectangle {
+                            color: "#202020"
+                        }
+                    }
                     readOnly: true
                     Rectangle
                     {
@@ -699,6 +735,7 @@ Rectangle {
                     objectName: "targetRALabelObject"
                     color: "#ffffff"
                     text: xi18n("RA:")
+                    renderType: Text.QtRendering
                     font.pointSize: 14
                     font.bold: true
                 }
@@ -707,6 +744,14 @@ Rectangle {
                     id: targetRAText
                     objectName: "targetRATextObject"
                     placeholderText: "HH:MM:SS"
+                    style: TextFieldStyle {
+                        textColor: "white"
+                        placeholderTextColor: "gray"
+                        renderType: Text.QtRendering
+                        background: Rectangle {
+                            color: "#202020"
+                        }
+                    }
                     font.pointSize: 14
                     horizontalAlignment: Text.AlignHCenter
                     Layout.minimumWidth: fontMetrics.height * 7
@@ -721,6 +766,7 @@ Rectangle {
                     objectName: "targetDELabelObject"
                     color: "#ffffff"
                     text: xi18n("DE:")
+                    renderType: Text.QtRendering
                     font.pointSize: 14
                     font.bold: true
                 }
@@ -729,6 +775,14 @@ Rectangle {
                     id: targetDEText
                     objectName: "targetDETextObject"
                     placeholderText: "DD:MM:SS"
+                    style: TextFieldStyle {
+                        textColor: "white"
+                        placeholderTextColor: "gray"
+                        renderType: Text.QtRendering
+                        background: Rectangle {
+                            color: "#202020"
+                        }
+                    }
                     font.pointSize: 14
                     width: fontMetrics.height * 7.5
                     horizontalAlignment: Text.AlignHCenter
@@ -743,6 +797,7 @@ Rectangle {
                 Label {
                     id: coordLabel
                     text: xi18n("Type:")
+                    renderType: Text.QtRendering
                 }
 
                 RowLayout
@@ -758,7 +813,13 @@ Rectangle {
                         id: equatorialCheck
                         objectName: "equatorialCheckObject"
                         checked: true
-                        text: xi18n("RA/DE")
+                        style:RadioButtonStyle{
+                            label:Text{
+                                text: xi18n("RA/DE")
+                                renderType: Text.QtRendering
+                                color: "white"
+                            }
+                        }
                         exclusiveGroup: coordGroup
                         onCheckedChanged: {
                             if (checked) {
@@ -793,7 +854,13 @@ Rectangle {
                         id: horizontalCheck
                         exclusiveGroup: coordGroup
                         objectName: "horizontalCheckObject"
-                        text: xi18n("AZ/AL")
+                        style:RadioButtonStyle{
+                            label:Text{
+                                text: xi18n("AZ/AL")
+                                renderType: Text.QtRendering
+                                color: "white"
+                            }
+                        }
                         checked: false
                         onCheckedChanged: {
                             if (checked) {
@@ -827,7 +894,13 @@ Rectangle {
 
                     RadioButton {
                         id: haEquatorialCheck
-                        text: xi18n("HA/DE")
+                        style:RadioButtonStyle{
+                            label:Text{
+                                text: xi18n("HA/DE")
+                                renderType: Text.QtRendering
+                                color: "white"
+                            }
+                        }
                         exclusiveGroup: coordGroup
                         objectName: "haEquatorialCheckObject"
                         checked: false
@@ -865,6 +938,7 @@ Rectangle {
                 Label {
                     id: epochLabel
                     text: xi18n("Epoch:")
+                    renderType: Text.QtRendering
                 }
 
                 RowLayout
@@ -875,14 +949,26 @@ Rectangle {
                         id: jnowCheck
                         objectName: "jnowCheckObject"
                         checked: true
-                        text: xi18n("JNow")
+                        style:RadioButtonStyle{
+                            label:Text{
+                                text: xi18n("JNow")
+                                renderType: Text.QtRendering
+                                color: "white"
+                            }
+                        }
                         exclusiveGroup: epochGroup
                     }
 
                     RadioButton {
                         id: j2000Check
                         objectName: "j2000CheckObject"
-                        text: xi18n("J2000")
+                        style:RadioButtonStyle{
+                            label:Text{
+                                text: xi18n("J2000")
+                                renderType: Text.QtRendering
+                                color: "white"
+                            }
+                        }
                         exclusiveGroup: epochGroup
                     }
                 }
@@ -956,6 +1042,7 @@ Rectangle {
                     id: statusLabel
                     color: "#ffffff"
                     text: xi18n("Status:")
+                    renderType: Text.QtRendering
                     font.pointSize: 12
                     font.bold: true
                 }
@@ -965,6 +1052,7 @@ Rectangle {
                     objectName: "statusTextObject"
                     color: "#ffffff"
                     text: xi18n("Idle")
+                    renderType: Text.QtRendering
                     Layout.fillWidth: true
                     Layout.minimumWidth: fontMetrics.height * 5
                     font.pointSize: 12

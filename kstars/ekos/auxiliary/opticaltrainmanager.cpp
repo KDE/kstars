@@ -136,7 +136,7 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
 
     connect(addB, &QPushButton::clicked, this, [this]()
     {
-        addOpticalTrain(false, i18n("New Train"));
+        addOpticalTrain(m_TrainNames.count(), i18n("New Train"));
         m_OpticalTrainsModel->select();
         refreshModel();
         trainNamesList->setCurrentRow(trainNamesList->count() - 1);
@@ -174,9 +174,18 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
             selectOpticalTrain(trainNamesList->currentItem());
     });
 
-    m_CheckMissingDevicesTimer.setInterval(2000);
+    m_CheckMissingDevicesTimer.setInterval(5000);
     m_CheckMissingDevicesTimer.setSingleShot(true);
     connect(&m_CheckMissingDevicesTimer, &QTimer::timeout, this, &OpticalTrainManager::checkMissingDevices);
+
+    m_DelegateTimer.setInterval(1000);
+    m_DelegateTimer.setSingleShot(true);
+    connect(&m_DelegateTimer, &QTimer::timeout, this, [this]()
+    {
+        if (m_Profile)
+            setProfile(m_Profile);
+    });
+
     initModel();
 }
 
@@ -241,20 +250,32 @@ void OpticalTrainManager::refreshModel()
 ////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
 {
-    // Are we still updating delegates? If yes, return.
-    if (syncDelegatesToDevices())
-    {
-        m_CheckMissingDevicesTimer.start();
-        return;
-    }
+    m_DelegateTimer.stop();
 
-    // Once we're done, let's continue with train generation.
+    // Load optical train model
     if (m_Profile != profile)
     {
         m_Profile = profile;
         refreshModel();
     }
 
+    // Are we still updating delegates? If yes, return.
+    if (syncDelegatesToDevices())
+    {
+        m_CheckMissingDevicesTimer.start();
+
+        // Start delegate timer to ensure no more changes are pending.
+        m_DelegateTimer.start();
+    }
+    else
+        checkOpticalTrains();
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::checkOpticalTrains()
+{
     if (m_OpticalTrains.empty())
     {
         generateOpticalTrains();
@@ -291,16 +312,19 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
 void OpticalTrainManager::generateOpticalTrains()
 {
     // We should have primary train
-    addOpticalTrain(true, i18n("Primary"));
+    addOpticalTrain(0, i18n("Primary"));
     // Check if need secondary train
-    if (m_CameraNames.count() > 2)
-        addOpticalTrain(false, i18n("Secondary"));
+    if (cameraComboBox->count() > 2)
+        addOpticalTrain(1, i18n("Secondary"));
+    // Check if need teritary train
+    if (cameraComboBox->count() > 3)
+        addOpticalTrain(2, i18n("Teritary"));
 }
 
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-QString OpticalTrainManager::addOpticalTrain(bool main, const QString &name)
+QString OpticalTrainManager::addOpticalTrain(uint8_t index, const QString &name)
 {
     QVariantMap train;
     train["profile"] = m_Profile->id;
@@ -319,10 +343,19 @@ QString OpticalTrainManager::addOpticalTrain(bool main, const QString &name)
     if (KStars::Instance()->data()->userdb()->getLastOpticalElement(opticalElement))
         train["scope"] = opticalElement["name"].toString();
 
-    if (main)
-        train["camera"] = cameraComboBox->itemText(cameraComboBox->count() > 1 ? 1 : 0);
-    else
-        train["camera"] = cameraComboBox->itemText(cameraComboBox->count() > 2 ? 2 : 0);
+    train["camera"] = "--";
+    // Primary train
+    if (index == 0 && cameraComboBox->count() > 1)
+        train["camera"] = cameraComboBox->itemText(1);
+    // Any other trains
+    else if (index > 0)
+    {
+        // For 2nd train and beyond, we get the N camera appropiate for this train if one exist.
+        // We add + 1 because first element in combobox is "--"
+        auto cameraIndex = index + 1;
+        if (cameraComboBox->count() >= cameraIndex)
+            train["camera"] = cameraComboBox->itemText(cameraIndex);
+    }
 
     KStarsData::Instance()->userdb()->AddOpticalTrain(train);
     return train["name"].toString();
@@ -583,7 +616,7 @@ bool OpticalTrainManager::selectOpticalTrain(const QString &name)
             filterComboBox->setCurrentText(oneTrain["filterwheel"].toString());
             cameraComboBox->setCurrentText(oneTrain["camera"].toString());
             guiderComboBox->setCurrentText(oneTrain["guider"].toString());
-            removeB->setEnabled(true);
+            removeB->setEnabled(m_OpticalTrains.length() > 1);
             trainConfigBox->setEnabled(true);
             m_Persistent = true;
             return true;
@@ -830,6 +863,20 @@ const QVariantMap OpticalTrainManager::getOpticalTrain(uint8_t id) const
     }
 
     return QVariantMap();
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::exists(uint8_t id) const
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        if (oneTrain["id"].toInt() == id)
+            return true;
+    }
+
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////

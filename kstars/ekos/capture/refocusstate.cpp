@@ -66,6 +66,14 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
         appendLogText(i18n("Refocus after meridian flip"));
         return REFOCUS_POST_MF;
     }
+
+    // 5. no full refocus required so check if adaptive focus is necessary - no need to do both
+    if (!isRefocusing() && Options::focusAdaptive() && !isAdaptiveFocusDone())
+    {
+        setRefocusing(true);
+        appendLogText(i18n("Adaptive focus starting..."));
+        return REFOCUS_ADAPTIVE;
+    }
     // no refocusing necessary
     return REFOCUS_NONE;
 }

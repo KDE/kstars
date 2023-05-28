@@ -28,7 +28,10 @@ LinGuider::LinGuider()
     connect(tcpSocket, SIGNAL(connected()), this, SLOT(onConnected()));
 
     deviationTimer.setInterval(1000);
-    connect(&deviationTimer, &QTimer::timeout, this, [&]() { sendCommand(GET_RA_DEC_DRIFT); });
+    connect(&deviationTimer, &QTimer::timeout, this, [&]()
+    {
+        sendCommand(GET_RA_DEC_DRIFT);
+    });
 }
 
 bool LinGuider::Connect()

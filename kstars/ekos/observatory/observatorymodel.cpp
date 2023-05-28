@@ -21,13 +21,26 @@ ObservatoryModel::ObservatoryModel()
     setWeatherModel(new ObservatoryWeatherModel());
 }
 
-void ObservatoryModel::setDomeModel(ObservatoryDomeModel *model) {
+void ObservatoryModel::setDomeModel(ObservatoryDomeModel *model)
+{
     mDomeModel = model;
     if (model != nullptr)
     {
-        connect(mDomeModel, &ObservatoryDomeModel::newStatus, [this](ISD::Dome::Status s) { Q_UNUSED(s); updateStatus(); });
-        connect(mDomeModel, &ObservatoryDomeModel::newParkStatus, [this](ISD::ParkStatus s) { Q_UNUSED(s); updateStatus(); });
-        connect(mDomeModel, &ObservatoryDomeModel::newShutterStatus, [this](ISD::Dome::ShutterStatus s) { Q_UNUSED(s); updateStatus(); });
+        connect(mDomeModel, &ObservatoryDomeModel::newStatus, [this](ISD::Dome::Status s)
+        {
+            Q_UNUSED(s);
+            updateStatus();
+        });
+        connect(mDomeModel, &ObservatoryDomeModel::newParkStatus, [this](ISD::ParkStatus s)
+        {
+            Q_UNUSED(s);
+            updateStatus();
+        });
+        connect(mDomeModel, &ObservatoryDomeModel::newShutterStatus, [this](ISD::Dome::ShutterStatus s)
+        {
+            Q_UNUSED(s);
+            updateStatus();
+        });
         if (mWeatherModel != nullptr)
             connect(mWeatherModel, &ObservatoryWeatherModel::execute, mDomeModel, &ObservatoryDomeModel::execute);
     }
@@ -40,11 +53,16 @@ void ObservatoryModel::setDomeModel(ObservatoryDomeModel *model) {
     updateStatus();
 }
 
-void ObservatoryModel::setWeatherModel(ObservatoryWeatherModel *model) {
+void ObservatoryModel::setWeatherModel(ObservatoryWeatherModel *model)
+{
     mWeatherModel = model;
     if (model != nullptr)
     {
-        connect(mWeatherModel, &ObservatoryWeatherModel::newStatus, [this](ISD::Weather::Status s) { Q_UNUSED(s); updateStatus(); });
+        connect(mWeatherModel, &ObservatoryWeatherModel::newStatus, [this](ISD::Weather::Status s)
+        {
+            Q_UNUSED(s);
+            updateStatus();
+        });
         if (mDomeModel != nullptr)
         {
             connect(mWeatherModel, &ObservatoryWeatherModel::execute, mDomeModel, &ObservatoryDomeModel::execute);

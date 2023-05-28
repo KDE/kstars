@@ -91,6 +91,17 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent
     m_ReadyTimer->setInterval(250);
     m_ReadyTimer->setSingleShot(true);
     connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::handleTimeout, Qt::UniqueConnection);
+
+    m_TimeUpdateTimer = new QTimer(this);
+    m_TimeUpdateTimer->setInterval(5000);
+    m_TimeUpdateTimer->setSingleShot(true);
+    connect(m_TimeUpdateTimer, &QTimer::timeout, this, &GenericDevice::checkTimeUpdate, Qt::UniqueConnection);
+
+    m_LocationUpdateTimer = new QTimer(this);
+    m_LocationUpdateTimer->setInterval(5000);
+    m_LocationUpdateTimer->setSingleShot(true);
+    connect(m_LocationUpdateTimer, &QTimer::timeout, this, &GenericDevice::checkLocationUpdate, Qt::UniqueConnection);
+
 }
 
 GenericDevice::~GenericDevice()
@@ -110,6 +121,31 @@ void GenericDevice::handleTimeout()
     //m_ReadyTimer->disconnect(this);
     m_Ready = true;
     emit ready();
+}
+
+void GenericDevice::checkTimeUpdate()
+{
+    auto tvp = getProperty("TIME_UTC");
+    if (tvp)
+    {
+        auto timeTP = tvp.getText();
+        // If time still empty, then force update.
+        if (timeTP && timeTP->getPermission() != IP_RO && timeTP->getState() == IPS_IDLE)
+            updateTime();
+    }
+
+}
+
+void GenericDevice::checkLocationUpdate()
+{
+    auto nvp = getProperty("GEOGRAPHIC_COORD");
+    if (nvp)
+    {
+        auto locationNP = nvp.getNumber();
+        // If time still empty, then force update.
+        if (locationNP && locationNP->getPermission() != IP_RO && locationNP->getState() == IPS_IDLE)
+            updateLocation();
+    }
 }
 
 void GenericDevice::registerDBusType()
@@ -205,16 +241,24 @@ void GenericDevice::registerProperty(INDI::Property prop)
             }
         }
     }
-    else if (name == "TIME_UTC" && Options::useTimeUpdate() && Options::useKStarsSource())
+    else if (name == "TIME_UTC" && Options::useTimeUpdate())
     {
         const auto &tvp = prop.getText();
-        if (tvp && tvp->getPermission() != IP_RO)
-            updateTime();
+
+        if (tvp)
+        {
+            if (Options::useKStarsSource() && tvp->getPermission() != IP_RO)
+                updateTime();
+            else
+                m_TimeUpdateTimer->start();
+        }
     }
-    else if (name == "GEOGRAPHIC_COORD" && Options::useGeographicUpdate() && Options::useKStarsSource())
+    else if (name == "GEOGRAPHIC_COORD" && Options::useGeographicUpdate())
     {
-        if (prop.getPermission() != IP_RO)
+        if (Options::useKStarsSource() && prop.getPermission() != IP_RO)
             updateLocation();
+        else
+            m_LocationUpdateTimer->start();
     }
     else if (name == "WATCHDOG_HEARTBEAT")
     {

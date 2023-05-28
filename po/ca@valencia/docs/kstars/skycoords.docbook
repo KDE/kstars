@@ -87,7 +87,7 @@
 >ascensió recta</firstterm
 > (AR per a abreujar). Este mesura l'angle d'un objecte a l'est de l'<acronym
 >equinocci de primavera</acronym
->. A diferència de la llargària, l'ascensió recta habitualment es mesura en hores en comptes de graus, atés que l'aparent rotació del sistema de coordenades equatorials està molt relacionada amb l'<link linkend="ai-sidereal"
+>. A diferència de la longitud, l'ascensió recta habitualment es mesura en hores en comptes de graus, atés que l'aparent rotació del sistema de coordenades equatorials està molt relacionada amb l'<link linkend="ai-sidereal"
 >hora sidèria</link
 > i l'<link linkend="ai-hourangle"
 >angle horari</link
@@ -176,8 +176,8 @@
 > com a pla fonamental. L'eclíptica és el camí que aparenta seguir el Sol a través del cel durant el transcurs d'un any. També és la projecció del pla orbital de la Terra a l'esfera celeste. L'angle latitudinal s'anomena <firstterm
 >latitud eclíptica</firstterm
 > i l'angle longitudinal s'anomena <firstterm
->llargària eclíptica</firstterm
->. Igual que l'ascensió recta en el sistema equatorial, el punt zero de la llargària eclíptica és l'<link linkend="ai-equinox"
+>longitud eclíptica</firstterm
+>. Igual que l'ascensió recta en el sistema equatorial, el punt zero de la longitud eclíptica és l'<link linkend="ai-equinox"
 >equinocci de primavera</link
 >. </para
 ><para
@@ -204,7 +204,7 @@
 > com a pla fonamental. L'angle latitudinal s'anomena <firstterm
 >latitud galàctica</firstterm
 > i l'angle longitudinal s'anomena <firstterm
->llargària galàctica</firstterm
+>longitud galàctica</firstterm
 >. Este sistema de coordenades és d'utilitat per a estudiar la Galàxia pròpia (la nostra). Per exemple, potser voldreu estudiar des de la variació de la densitat de les estreles en funció de la seua latitud galàctica, fins a com varia el disc de la Via Làctia. </para>
 </sect2>
 </sect1>

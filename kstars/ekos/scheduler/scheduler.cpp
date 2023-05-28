@@ -99,13 +99,13 @@ QString ekosStateString(Scheduler::EkosState state)
     switch(state)
     {
         case Scheduler::EKOS_IDLE:
-            return "EKOS_IDLE";
+            return "Ekos is idle";
         case Scheduler::EKOS_STARTING:
-            return "EKOS_STARTING";
+            return "Starting Ekos";
         case Scheduler::EKOS_STOPPING:
-            return "EKOS_STOPPING";
+            return "Stopping Ekos";
         case Scheduler::EKOS_READY:
-            return "EKOS_READY";
+            return "Ekos is ready";
     }
     return QString("????");
 }
@@ -115,15 +115,15 @@ QString indiStateString(Scheduler::INDIState state)
     switch(state)
     {
         case Scheduler::INDI_IDLE:
-            return "INDI_IDLE";
+            return "INDI is idle";
         case Scheduler::INDI_PROPERTY_CHECK:
-            return "INDI_PROPERTY_CHECK";
+            return "Checking INDI properties";
         case Scheduler::INDI_CONNECTING:
-            return "INDI_CONNECTING";
+            return "Connecting to INDI";
         case Scheduler::INDI_DISCONNECTING:
-            return "INDI_DISCONNECTING";
+            return "Disconnecting to INDI";
         case Scheduler::INDI_READY:
-            return "INDI_READY";
+            return "INDIis ready";
     }
     return QString("????");
 }
@@ -133,25 +133,25 @@ QString startupStateString(Scheduler::StartupState state)
     switch(state)
     {
         case Scheduler::STARTUP_IDLE:
-            return "STARTUP_IDLE";
+            return "Startup is idle";
         case Scheduler::STARTUP_SCRIPT:
-            return "STARTUP_SCRIPT";
+            return "Startup running script";
         case Scheduler::STARTUP_UNPARK_DOME:
-            return "STARTUP_UNPARK_DOME";
+            return "Startup unpark dome";
         case Scheduler::STARTUP_UNPARKING_DOME:
-            return "STARTUP_UNPARKING_DOME";
+            return "Startup unparking dome";
         case Scheduler::STARTUP_UNPARK_MOUNT:
-            return "STARTUP_UNPARK_MOUNT";
+            return "Startup unpark mount";
         case Scheduler::STARTUP_UNPARKING_MOUNT:
-            return "STARTUP_UNPARKING_MOUNT";
+            return "Startup unparking mount";
         case Scheduler::STARTUP_UNPARK_CAP:
-            return "STARTUP_UNPARK_CAP";
+            return "Startup remove cap";
         case Scheduler::STARTUP_UNPARKING_CAP:
-            return "STARTUP_UNPARKING_CAP";
+            return "Starup removing cap";
         case Scheduler::STARTUP_ERROR:
-            return "STARTUP_ERROR";
+            return "Startup error";
         case Scheduler::STARTUP_COMPLETE:
-            return "STARTUP_COMPLETE";
+            return "Startup is complete";
     }
     return QString("????");
 }
@@ -161,27 +161,27 @@ QString shutdownStateString(Scheduler::ShutdownState state)
     switch(state)
     {
         case Scheduler::SHUTDOWN_IDLE:
-            return "SHUTDOWN_IDLE";
+            return "Shutdown is idle";
         case Scheduler::SHUTDOWN_PARK_CAP:
-            return "SHUTDOWN_PARK_CAP";
+            return "Shutdown remove cap";
         case Scheduler::SHUTDOWN_PARKING_CAP:
-            return "SHUTDOWN_PARKING_CAP";
+            return "Shutdown removing cap";
         case Scheduler::SHUTDOWN_PARK_MOUNT:
-            return "SHUTDOWN_PARK_MOUNT";
+            return "Shutdown park mount";
         case Scheduler::SHUTDOWN_PARKING_MOUNT:
-            return "SHUTDOWN_PARKING_MOUNT";
+            return "Shutdown parking mount";
         case Scheduler::SHUTDOWN_PARK_DOME:
-            return "SHUTDOWN_PARK_DOME";
+            return "Shutdown park dome";
         case Scheduler::SHUTDOWN_PARKING_DOME:
-            return "SHUTDOWN_PARKING_DOME";
+            return "Shutdown parking dome";
         case Scheduler::SHUTDOWN_SCRIPT:
-            return "SHUTDOWN_SCRIPT";
+            return "Shutdown script";
         case Scheduler::SHUTDOWN_SCRIPT_RUNNING:
-            return "SHUTDOWN_SCRIPT_RUNNING";
+            return "Shutdown script running";
         case Scheduler::SHUTDOWN_ERROR:
-            return "SHUTDOWN_ERROR";
+            return "Shutdown error";
         case Scheduler::SHUTDOWN_COMPLETE:
-            return "SHUTDOWN_COMPLETE";
+            return "Shutdown complete";
     }
     return QString("????");
 }
@@ -191,21 +191,21 @@ QString parkWaitStateString(Scheduler::ParkWaitStatus state)
     switch(state)
     {
         case Scheduler::PARKWAIT_IDLE:
-            return "PARKWAIT_IDLE";
+            return "Park idle";
         case Scheduler::PARKWAIT_PARK:
-            return "PARKWAIT_PARK";
+            return "Park";
         case Scheduler::PARKWAIT_PARKING:
-            return "PARKWAIT_PARKING";
+            return "Parking";
         case Scheduler::PARKWAIT_PARKED:
-            return "PARKWAIT_PARKED";
+            return "Parked";
         case Scheduler::PARKWAIT_UNPARK:
-            return "PARKWAIT_UNPARK";
+            return "Unpark";
         case Scheduler::PARKWAIT_UNPARKING:
-            return "PARKWAIT_UNPARKING";
+            return "Unparking";
         case Scheduler::PARKWAIT_UNPARKED:
-            return "PARKWAIT_UNPARKED";
+            return "Unparked";
         case Scheduler::PARKWAIT_ERROR:
-            return "PARKWAIT_ERROR";
+            return "Park error";
     }
     return QString("????");
 }
@@ -945,8 +945,8 @@ void Scheduler::addObject(SkyObject *object)
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS Image"), dirPath,
-                                          "FITS (*.fits *.fit)");
+    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS/XISF Image"), dirPath,
+                                          "FITS (*.fits *.fit);;XISF (*.xisf)");
     if (fitsURL.isEmpty())
         return;
 
@@ -1897,10 +1897,10 @@ void Scheduler::stop()
 
     state     = SCHEDULER_IDLE;
     emit newStatus(state);
-    ekosState = EKOS_IDLE;
-    indiState = INDI_IDLE;
+    setEkosState(EKOS_IDLE);
+    setIndiState(INDI_IDLE);
 
-    parkWaitState = PARKWAIT_IDLE;
+    setParkWaitState(PARKWAIT_IDLE);
 
     // Only reset startup state to idle if the startup procedure was interrupted before it had the chance to complete.
     // Or if we're doing a soft shutdown
@@ -1912,7 +1912,7 @@ void Scheduler::stop()
             scriptProcess.terminate();
         }
 
-        startupState = STARTUP_IDLE;
+        setStartupState(STARTUP_IDLE);
     }
     // Reset startup state to unparking phase (dome -> mount -> cap)
     // We do not want to run the startup script again but unparking should be checked
@@ -1920,14 +1920,14 @@ void Scheduler::stop()
     else if (startupState == STARTUP_COMPLETE)
     {
         if (unparkDomeCheck->isChecked())
-            startupState = STARTUP_UNPARK_DOME;
+            setStartupState(STARTUP_UNPARK_DOME);
         else if (unparkMountCheck->isChecked())
-            startupState = STARTUP_UNPARK_MOUNT;
+            setStartupState(STARTUP_UNPARK_MOUNT);
         else if (uncapCheck->isChecked())
-            startupState = STARTUP_UNPARK_CAP;
+            setStartupState(STARTUP_UNPARK_CAP);
     }
 
-    shutdownState = SHUTDOWN_IDLE;
+    setShutdownState(SHUTDOWN_IDLE);
 
     setCurrentJob(nullptr);
     captureBatch            = 0;
@@ -3115,14 +3115,14 @@ bool Scheduler::checkEkosState()
         {
             if (m_EkosCommunicationStatus == Ekos::Success)
             {
-                ekosState = EKOS_READY;
+                setEkosState(EKOS_READY);
                 return true;
             }
             else
             {
                 TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "ekosInterface", "start");
                 ekosInterface->call(QDBus::AutoDetect, "start");
-                ekosState = EKOS_STARTING;
+                setEkosState(EKOS_STARTING);
                 startCurrentOperationTimer();
 
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Ekos communication status is" << m_EkosCommunicationStatus << "Starting Ekos...";
@@ -3137,7 +3137,7 @@ bool Scheduler::checkEkosState()
             {
                 appendLogText(i18n("Ekos started."));
                 ekosConnectFailureCount = 0;
-                ekosState = EKOS_READY;
+                setEkosState(EKOS_READY);
                 return true;
             }
             else if (m_EkosCommunicationStatus == Ekos::Error)
@@ -3185,7 +3185,7 @@ bool Scheduler::checkEkosState()
             if (m_EkosCommunicationStatus == Ekos::Idle)
             {
                 appendLogText(i18n("Ekos stopped."));
-                ekosState = EKOS_IDLE;
+                setEkosState(EKOS_IDLE);
                 return true;
             }
         }
@@ -3215,7 +3215,7 @@ bool Scheduler::checkINDIState()
         {
             if (m_INDICommunicationStatus == Ekos::Success)
             {
-                indiState = INDI_PROPERTY_CHECK;
+                setIndiState(INDI_PROPERTY_CHECK);
                 indiConnectFailureCount = 0;
                 qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking INDI Properties...";
             }
@@ -3224,7 +3224,7 @@ bool Scheduler::checkINDIState()
                 qCDebug(KSTARS_EKOS_SCHEDULER) << "Connecting INDI devices...";
                 TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "ekosInterface", "connectDevices");
                 ekosInterface->call(QDBus::AutoDetect, "connectDevices");
-                indiState = INDI_CONNECTING;
+                setIndiState(INDI_CONNECTING);
 
                 startCurrentOperationTimer();
             }
@@ -3236,7 +3236,7 @@ bool Scheduler::checkINDIState()
             if (m_INDICommunicationStatus == Ekos::Success)
             {
                 appendLogText(i18n("INDI devices connected."));
-                indiState = INDI_PROPERTY_CHECK;
+                setIndiState(INDI_PROPERTY_CHECK);
             }
             else if (m_INDICommunicationStatus == Ekos::Error)
             {
@@ -3276,7 +3276,7 @@ bool Scheduler::checkINDIState()
             if (m_INDICommunicationStatus == Ekos::Idle)
             {
                 appendLogText(i18n("INDI devices disconnected."));
-                indiState = INDI_IDLE;
+                setIndiState(INDI_IDLE);
                 return true;
             }
         }
@@ -3349,7 +3349,7 @@ bool Scheduler::checkINDIState()
                     qCWarning(KSTARS_EKOS_SCHEDULER) << "Capture module is not ready yet...";
             }
 
-            indiState = INDI_READY;
+            setIndiState(INDI_READY);
             indiConnectFailureCount = 0;
             return true;
         }
@@ -3388,9 +3388,9 @@ bool Scheduler::checkStartupState()
                     appendLogText(i18n("Ekos is already started, skipping startup script..."));
 
                 if (!currentJob || currentJob->getLightFramesRequired())
-                    startupState = STARTUP_UNPARK_DOME;
+                    setStartupState(STARTUP_UNPARK_DOME);
                 else
-                    startupState = STARTUP_COMPLETE;
+                    setStartupState(STARTUP_COMPLETE);
                 return true;
             }
 
@@ -3404,12 +3404,12 @@ bool Scheduler::checkStartupState()
 
             if (startupScriptURL.isEmpty() == false)
             {
-                startupState = STARTUP_SCRIPT;
+                setStartupState(STARTUP_SCRIPT);
                 executeScript(startupScriptURL.toString(QUrl::PreferLocalFile));
                 return false;
             }
 
-            startupState = STARTUP_UNPARK_DOME;
+            setStartupState(STARTUP_UNPARK_DOME);
             return false;
         }
 
@@ -3425,11 +3425,11 @@ bool Scheduler::checkStartupState()
                 if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
                     unParkDome();
                 else
-                    startupState = STARTUP_UNPARK_MOUNT;
+                    setStartupState(STARTUP_UNPARK_MOUNT);
             }
             else
             {
-                startupState = STARTUP_COMPLETE;
+                setStartupState(STARTUP_COMPLETE);
                 return true;
             }
 
@@ -3443,7 +3443,7 @@ bool Scheduler::checkStartupState()
             if (unparkMountCheck->isEnabled() && unparkMountCheck->isChecked())
                 unParkMount();
             else
-                startupState = STARTUP_UNPARK_CAP;
+                setStartupState(STARTUP_UNPARK_CAP);
             break;
 
         case STARTUP_UNPARKING_MOUNT:
@@ -3454,7 +3454,7 @@ bool Scheduler::checkStartupState()
             if (uncapCheck->isEnabled() && uncapCheck->isChecked())
                 unParkCap();
             else
-                startupState = STARTUP_COMPLETE;
+                setStartupState(STARTUP_COMPLETE);
             break;
 
         case STARTUP_UNPARKING_CAP:
@@ -3512,19 +3512,19 @@ bool Scheduler::checkShutdownState()
             {
                 if (capCheck->isEnabled() && capCheck->isChecked())
                 {
-                    shutdownState = SHUTDOWN_PARK_CAP;
+                    setShutdownState(SHUTDOWN_PARK_CAP);
                     return false;
                 }
 
                 if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
                 {
-                    shutdownState = SHUTDOWN_PARK_MOUNT;
+                    setShutdownState(SHUTDOWN_PARK_MOUNT);
                     return false;
                 }
 
                 if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
                 {
-                    shutdownState = SHUTDOWN_PARK_DOME;
+                    setShutdownState(SHUTDOWN_PARK_DOME);
                     return false;
                 }
             }
@@ -3532,23 +3532,23 @@ bool Scheduler::checkShutdownState()
 
             if (shutdownScriptURL.isEmpty() == false)
             {
-                shutdownState = SHUTDOWN_SCRIPT;
+                setShutdownState(SHUTDOWN_SCRIPT);
                 return false;
             }
 
-            shutdownState = SHUTDOWN_COMPLETE;
+            setShutdownState(SHUTDOWN_COMPLETE);
             return true;
 
         case SHUTDOWN_PARK_CAP:
             if (!isINDIConnected())
             {
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
-                shutdownState = SHUTDOWN_SCRIPT;
+                setShutdownState(SHUTDOWN_SCRIPT);
             }
             else if (capCheck->isEnabled() && capCheck->isChecked())
                 parkCap();
             else
-                shutdownState = SHUTDOWN_PARK_MOUNT;
+                setShutdownState(SHUTDOWN_PARK_MOUNT);
             break;
 
         case SHUTDOWN_PARKING_CAP:
@@ -3559,12 +3559,12 @@ bool Scheduler::checkShutdownState()
             if (!isINDIConnected())
             {
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
-                shutdownState = SHUTDOWN_SCRIPT;
+                setShutdownState(SHUTDOWN_SCRIPT);
             }
             else if (parkMountCheck->isEnabled() && parkMountCheck->isChecked())
                 parkMount();
             else
-                shutdownState = SHUTDOWN_PARK_DOME;
+                setShutdownState(SHUTDOWN_PARK_DOME);
             break;
 
         case SHUTDOWN_PARKING_MOUNT:
@@ -3575,12 +3575,12 @@ bool Scheduler::checkShutdownState()
             if (!isINDIConnected())
             {
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Bypassing shutdown step 'park cap', no INDI connection.";
-                shutdownState = SHUTDOWN_SCRIPT;
+                setShutdownState(SHUTDOWN_SCRIPT);
             }
             else if (parkDomeCheck->isEnabled() && parkDomeCheck->isChecked())
                 parkDome();
             else
-                shutdownState = SHUTDOWN_SCRIPT;
+                setShutdownState(SHUTDOWN_SCRIPT);
             break;
 
         case SHUTDOWN_PARKING_DOME:
@@ -3597,11 +3597,11 @@ bool Scheduler::checkShutdownState()
                     return false;
                 }
 
-                shutdownState = SHUTDOWN_SCRIPT_RUNNING;
+                setShutdownState(SHUTDOWN_SCRIPT_RUNNING);
                 executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
             }
             else
-                shutdownState = SHUTDOWN_COMPLETE;
+                setShutdownState(SHUTDOWN_COMPLETE);
             break;
 
         case SHUTDOWN_SCRIPT_RUNNING:
@@ -3689,9 +3689,9 @@ void Scheduler::checkProcessExit(int exitCode)
     if (exitCode == 0)
     {
         if (startupState == STARTUP_SCRIPT)
-            startupState = STARTUP_UNPARK_DOME;
+            setStartupState(STARTUP_UNPARK_DOME);
         else if (shutdownState == SHUTDOWN_SCRIPT_RUNNING)
-            shutdownState = SHUTDOWN_COMPLETE;
+            setShutdownState(SHUTDOWN_COMPLETE);
 
         return;
     }
@@ -3699,12 +3699,12 @@ void Scheduler::checkProcessExit(int exitCode)
     if (startupState == STARTUP_SCRIPT)
     {
         appendLogText(i18n("Startup script failed, aborting..."));
-        startupState = STARTUP_ERROR;
+        setStartupState(STARTUP_ERROR);
     }
     else if (shutdownState == SHUTDOWN_SCRIPT_RUNNING)
     {
         appendLogText(i18n("Shutdown script failed, aborting..."));
-        shutdownState = SHUTDOWN_ERROR;
+        setShutdownState(SHUTDOWN_ERROR);
     }
 }
 
@@ -4931,7 +4931,7 @@ void Scheduler::startSlew()
     // If the mount was parked by a pause or the end-user, unpark
     if (isMountParked())
     {
-        parkWaitState = PARKWAIT_UNPARK;
+        setParkWaitState(PARKWAIT_UNPARK);
         return;
     }
 
@@ -5664,7 +5664,7 @@ void Scheduler::setSolverAction(Align::GotoMode mode)
 void Scheduler::disconnectINDI()
 {
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Disconnecting INDI...";
-    indiState = INDI_DISCONNECTING;
+    setIndiState(INDI_DISCONNECTING);
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "ekosInterface:call", "disconnectDevices");
     ekosInterface->call(QDBus::AutoDetect, "disconnectDevices");
 }
@@ -5672,7 +5672,7 @@ void Scheduler::disconnectINDI()
 void Scheduler::stopEkos()
 {
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Stopping Ekos...";
-    ekosState               = EKOS_STOPPING;
+    setEkosState(EKOS_STOPPING);
     ekosConnectFailureCount = 0;
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "ekosInterface:call", "stop");
     ekosInterface->call(QDBus::AutoDetect, "stop");
@@ -6174,6 +6174,13 @@ int Scheduler::timeHeuristics(const SchedulerJob *schedJob)
 
 void Scheduler::parkMount()
 {
+    if (mountInterface.isNull())
+    {
+        appendLogText(i18n("Mount park requested but no mounts detected."));
+        setShutdownState(SHUTDOWN_ERROR);
+        return;
+    }
+
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:property", "parkStatus");
     QVariant parkingStatus = mountInterface->property("parkStatus");
     TEST_PRINT(stderr, "  @@@dbus received %d\n", !parkingStatus.isValid() ? -1 : parkingStatus.toInt());
@@ -6183,7 +6190,7 @@ void Scheduler::parkMount()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount parkStatus request received DBUS error: %1").arg(
                                               mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            parkWaitState = PARKWAIT_ERROR;
+            setParkWaitState(PARKWAIT_ERROR);
     }
 
     ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
@@ -6192,9 +6199,9 @@ void Scheduler::parkMount()
     {
         case ISD::PARK_PARKED:
             if (shutdownState == SHUTDOWN_PARK_MOUNT)
-                shutdownState = SHUTDOWN_PARK_DOME;
+                setShutdownState(SHUTDOWN_PARK_DOME);
 
-            parkWaitState = PARKWAIT_PARKED;
+            setParkWaitState(PARKWAIT_PARKED);
             appendLogText(i18n("Mount already parked."));
             break;
 
@@ -6216,7 +6223,7 @@ void Scheduler::parkMount()
                 qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount park request received DBUS error: %1").arg(
                                                       QDBusError::errorString(mountReply.error().type()));
                 if (!manageConnectionLoss())
-                    parkWaitState = PARKWAIT_ERROR;
+                    setParkWaitState(PARKWAIT_ERROR);
             }
             else startCurrentOperationTimer();
         }
@@ -6225,9 +6232,9 @@ void Scheduler::parkMount()
         case ISD::PARK_PARKING:
             //case Mount::PARKING_BUSY:
             if (shutdownState == SHUTDOWN_PARK_MOUNT)
-                shutdownState = SHUTDOWN_PARKING_MOUNT;
+                setShutdownState(SHUTDOWN_PARKING_MOUNT);
 
-            parkWaitState = PARKWAIT_PARKING;
+            setParkWaitState(PARKWAIT_PARKING);
             appendLogText(i18n("Parking mount in progress..."));
             break;
 
@@ -6240,7 +6247,11 @@ void Scheduler::parkMount()
 void Scheduler::unParkMount()
 {
     if (mountInterface.isNull())
+    {
+        appendLogText(i18n("Mount unpark requested but no mounts detected."));
+        setStartupState(STARTUP_ERROR);
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:property", "parkStatus");
     QVariant parkingStatus = mountInterface->property("parkStatus");
@@ -6251,7 +6262,7 @@ void Scheduler::unParkMount()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount parkStatus request received DBUS error: %1").arg(
                                               mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            parkWaitState = PARKWAIT_ERROR;
+            setParkWaitState(PARKWAIT_ERROR);
     }
 
     ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
@@ -6261,9 +6272,9 @@ void Scheduler::unParkMount()
         //case Mount::UNPARKING_OK:
         case ISD::PARK_UNPARKED:
             if (startupState == STARTUP_UNPARK_MOUNT)
-                startupState = STARTUP_UNPARK_CAP;
+                setStartupState(STARTUP_UNPARK_CAP);
 
-            parkWaitState = PARKWAIT_UNPARKED;
+            setParkWaitState(PARKWAIT_UNPARKED);
             appendLogText(i18n("Mount already unparked."));
             break;
 
@@ -6286,7 +6297,7 @@ void Scheduler::unParkMount()
                 qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount unpark request received DBUS error: %1").arg(
                                                       QDBusError::errorString(mountReply.error().type()));
                 if (!manageConnectionLoss())
-                    parkWaitState = PARKWAIT_ERROR;
+                    setParkWaitState(PARKWAIT_ERROR);
             }
             else startCurrentOperationTimer();
         }
@@ -6295,9 +6306,9 @@ void Scheduler::unParkMount()
         //case Mount::UNPARKING_BUSY:
         case ISD::PARK_UNPARKING:
             if (startupState == STARTUP_UNPARK_MOUNT)
-                startupState = STARTUP_UNPARKING_MOUNT;
+                setStartupState(STARTUP_UNPARKING_MOUNT);
 
-            parkWaitState = PARKWAIT_UNPARKING;
+            setParkWaitState(PARKWAIT_UNPARKING);
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Unparking mount in progress...";
             break;
 
@@ -6323,7 +6334,7 @@ void Scheduler::checkMountParkingStatus()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: mount parkStatus request received DBUS error: %1").arg(
                                               mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            parkWaitState = PARKWAIT_ERROR;
+            setParkWaitState(PARKWAIT_ERROR);
     }
 
     ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
@@ -6335,11 +6346,11 @@ void Scheduler::checkMountParkingStatus()
             // If we are starting up, we will unpark the mount in checkParkWaitState soon
             // If we are shutting down and mount is parked, proceed to next step
             if (shutdownState == SHUTDOWN_PARKING_MOUNT)
-                shutdownState = SHUTDOWN_PARK_DOME;
+                setShutdownState(SHUTDOWN_PARK_DOME);
 
             // Update parking engine state
             if (parkWaitState == PARKWAIT_PARKING)
-                parkWaitState = PARKWAIT_PARKED;
+                setParkWaitState(PARKWAIT_PARKED);
 
             appendLogText(i18n("Mount parked."));
             parkingFailureCount = 0;
@@ -6350,11 +6361,11 @@ void Scheduler::checkMountParkingStatus()
             // If we are starting up and mount is unparked, proceed to next step
             // If we are shutting down, we will park the mount in checkParkWaitState soon
             if (startupState == STARTUP_UNPARKING_MOUNT)
-                startupState = STARTUP_UNPARK_CAP;
+                setStartupState(STARTUP_UNPARK_CAP);
 
             // Update parking engine state
             if (parkWaitState == PARKWAIT_UNPARKING)
-                parkWaitState = PARKWAIT_UNPARKED;
+                setParkWaitState(PARKWAIT_UNPARKED);
 
             appendLogText(i18n("Mount unparked."));
             parkingFailureCount = 0;
@@ -6375,7 +6386,7 @@ void Scheduler::checkMountParkingStatus()
                 else
                 {
                     appendLogText(i18n("Warning: mount unpark operation timed out on last attempt."));
-                    parkWaitState = PARKWAIT_ERROR;
+                    setParkWaitState(PARKWAIT_ERROR);
                 }
             }
             else qCInfo(KSTARS_EKOS_SCHEDULER) << "Unparking mount in progress...";
@@ -6395,7 +6406,7 @@ void Scheduler::checkMountParkingStatus()
                 else
                 {
                     appendLogText(i18n("Warning: mount park operation timed out on last attempt."));
-                    parkWaitState = PARKWAIT_ERROR;
+                    setParkWaitState(PARKWAIT_ERROR);
                 }
             }
             else qCInfo(KSTARS_EKOS_SCHEDULER) << "Parking mount in progress...";
@@ -6407,7 +6418,7 @@ void Scheduler::checkMountParkingStatus()
             if (startupState == STARTUP_UNPARKING_MOUNT)
             {
                 appendLogText(i18n("Mount unparking error."));
-                startupState = STARTUP_ERROR;
+                setStartupState(STARTUP_ERROR);
                 parkingFailureCount = 0;
             }
             else if (shutdownState == SHUTDOWN_PARKING_MOUNT)
@@ -6421,7 +6432,7 @@ void Scheduler::checkMountParkingStatus()
                 else
                 {
                     appendLogText(i18n("Mount parking error."));
-                    shutdownState = SHUTDOWN_ERROR;
+                    setShutdownState(SHUTDOWN_ERROR);
                     parkingFailureCount = 0;
                 }
 
@@ -6429,13 +6440,13 @@ void Scheduler::checkMountParkingStatus()
             else if (parkWaitState == PARKWAIT_PARKING)
             {
                 appendLogText(i18n("Mount parking error."));
-                parkWaitState = PARKWAIT_ERROR;
+                setParkWaitState(PARKWAIT_ERROR);
                 parkingFailureCount = 0;
             }
             else if (parkWaitState == PARKWAIT_UNPARKING)
             {
                 appendLogText(i18n("Mount unparking error."));
-                parkWaitState = PARKWAIT_ERROR;
+                setParkWaitState(PARKWAIT_ERROR);
                 parkingFailureCount = 0;
             }
             break;
@@ -6445,17 +6456,17 @@ void Scheduler::checkMountParkingStatus()
         case ISD::PARK_UNKNOWN:
             // Last parking action did not result in an action, so proceed to next step
             if (shutdownState == SHUTDOWN_PARKING_MOUNT)
-                shutdownState = SHUTDOWN_PARK_DOME;
+                setShutdownState(SHUTDOWN_PARK_DOME);
 
             // Last unparking action did not result in an action, so proceed to next step
             if (startupState == STARTUP_UNPARKING_MOUNT)
-                startupState = STARTUP_UNPARK_CAP;
+                setStartupState(STARTUP_UNPARK_CAP);
 
             // Update parking engine state
             if (parkWaitState == PARKWAIT_PARKING)
-                parkWaitState = PARKWAIT_PARKED;
+                setParkWaitState(PARKWAIT_PARKED);
             else if (parkWaitState == PARKWAIT_UNPARKING)
-                parkWaitState = PARKWAIT_UNPARKED;
+                setParkWaitState(PARKWAIT_UNPARKED);
 
             parkingFailureCount = 0;
             break;
@@ -6521,8 +6532,13 @@ bool Scheduler::isMountParked()
 
 void Scheduler::parkDome()
 {
+    // If there is no dome, mark error
     if (domeInterface.isNull())
+    {
+        appendLogText(i18n("Dome park requested but no domes detected."));
+        setShutdownState(SHUTDOWN_ERROR);
         return;
+    }
 
     //QDBusReply<int> const domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
     //Dome::ParkingStatus status = static_cast<Dome::ParkingStatus>(domeReply.value());
@@ -6541,7 +6557,7 @@ void Scheduler::parkDome()
     ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
     if (status != ISD::PARK_PARKED)
     {
-        shutdownState = SHUTDOWN_PARKING_DOME;
+        setShutdownState(SHUTDOWN_PARKING_DOME);
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "domeInterface:call", "park");
         domeInterface->call(QDBus::AutoDetect, "park");
         appendLogText(i18n("Parking dome..."));
@@ -6551,14 +6567,19 @@ void Scheduler::parkDome()
     else
     {
         appendLogText(i18n("Dome already parked."));
-        shutdownState = SHUTDOWN_SCRIPT;
+        setShutdownState(SHUTDOWN_SCRIPT);
     }
 }
 
 void Scheduler::unParkDome()
 {
+    // If there is no dome, mark error
     if (domeInterface.isNull())
+    {
+        appendLogText(i18n("Dome unpark requested but no domes detected."));
+        setStartupState(STARTUP_ERROR);
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "domeInterface:property", "parkStatus");
     QVariant parkingStatus = domeInterface->property("parkStatus");
@@ -6574,7 +6595,7 @@ void Scheduler::unParkDome()
 
     if (static_cast<ISD::ParkStatus>(parkingStatus.toInt()) != ISD::PARK_UNPARKED)
     {
-        startupState = STARTUP_UNPARKING_DOME;
+        setStartupState(STARTUP_UNPARKING_DOME);
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "domeInterface:call", "unpark");
         domeInterface->call(QDBus::AutoDetect, "unpark");
         appendLogText(i18n("Unparking dome..."));
@@ -6584,7 +6605,7 @@ void Scheduler::unParkDome()
     else
     {
         appendLogText(i18n("Dome already unparked."));
-        startupState = STARTUP_UNPARK_MOUNT;
+        setStartupState(STARTUP_UNPARK_MOUNT);
     }
 }
 
@@ -6605,7 +6626,7 @@ void Scheduler::checkDomeParkingStatus()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: dome parkStatus request received DBUS error: %1").arg(
                                               mountInterface->lastError().type());
         if (!manageConnectionLoss())
-            parkWaitState = PARKWAIT_ERROR;
+            setParkWaitState(PARKWAIT_ERROR);
     }
 
     ISD::ParkStatus status = static_cast<ISD::ParkStatus>(parkingStatus.toInt());
@@ -6617,7 +6638,7 @@ void Scheduler::checkDomeParkingStatus()
             {
                 appendLogText(i18n("Dome parked."));
 
-                shutdownState = SHUTDOWN_SCRIPT;
+                setShutdownState(SHUTDOWN_SCRIPT);
             }
             parkingFailureCount = 0;
             break;
@@ -6625,7 +6646,7 @@ void Scheduler::checkDomeParkingStatus()
         case ISD::PARK_UNPARKED:
             if (startupState == STARTUP_UNPARKING_DOME)
             {
-                startupState = STARTUP_UNPARK_MOUNT;
+                setStartupState(STARTUP_UNPARK_MOUNT);
                 appendLogText(i18n("Dome unparked."));
             }
             parkingFailureCount = 0;
@@ -6659,7 +6680,7 @@ void Scheduler::checkDomeParkingStatus()
                 else
                 {
                     appendLogText(i18n("Dome parking error."));
-                    shutdownState = SHUTDOWN_ERROR;
+                    setShutdownState(SHUTDOWN_ERROR);
                     parkingFailureCount = 0;
                 }
             }
@@ -6673,7 +6694,7 @@ void Scheduler::checkDomeParkingStatus()
                 else
                 {
                     appendLogText(i18n("Dome unparking error."));
-                    startupState = STARTUP_ERROR;
+                    setStartupState(STARTUP_ERROR);
                     parkingFailureCount = 0;
                 }
             }
@@ -6709,7 +6730,11 @@ bool Scheduler::isDomeParked()
 void Scheduler::parkCap()
 {
     if (capInterface.isNull())
+    {
+        appendLogText(i18n("Dust cover park requested but no dust covers detected."));
+        setShutdownState(SHUTDOWN_ERROR);
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "dustCapInterface:property", "parkStatus");
     QVariant parkingStatus = capInterface->property("parkStatus");
@@ -6727,7 +6752,7 @@ void Scheduler::parkCap()
 
     if (status != ISD::PARK_PARKED)
     {
-        shutdownState = SHUTDOWN_PARKING_CAP;
+        setShutdownState(SHUTDOWN_PARKING_CAP);
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "distCapInterface:call", "park");
         capInterface->call(QDBus::AutoDetect, "park");
         appendLogText(i18n("Parking Cap..."));
@@ -6737,14 +6762,18 @@ void Scheduler::parkCap()
     else
     {
         appendLogText(i18n("Cap already parked."));
-        shutdownState = SHUTDOWN_PARK_MOUNT;
+        setShutdownState(SHUTDOWN_PARK_MOUNT);
     }
 }
 
 void Scheduler::unParkCap()
 {
     if (capInterface.isNull())
+    {
+        appendLogText(i18n("Dust cover unpark requested but no dust covers detected."));
+        setStartupState(STARTUP_ERROR);
         return;
+    }
 
     TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "dustCapInterface:property", "parkStatus");
     QVariant parkingStatus = capInterface->property("parkStatus");
@@ -6762,7 +6791,7 @@ void Scheduler::unParkCap()
 
     if (status != ISD::PARK_UNPARKED)
     {
-        startupState = STARTUP_UNPARKING_CAP;
+        setStartupState(STARTUP_UNPARKING_CAP);
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "dustCapInterface:call", "unpark");
         capInterface->call(QDBus::AutoDetect, "unpark");
         appendLogText(i18n("Unparking cap..."));
@@ -6772,7 +6801,7 @@ void Scheduler::unParkCap()
     else
     {
         appendLogText(i18n("Cap already unparked."));
-        startupState = STARTUP_COMPLETE;
+        setStartupState(STARTUP_COMPLETE);
     }
 }
 
@@ -6804,7 +6833,7 @@ void Scheduler::checkCapParkingStatus()
             if (shutdownState == SHUTDOWN_PARKING_CAP)
             {
                 appendLogText(i18n("Cap parked."));
-                shutdownState = SHUTDOWN_PARK_MOUNT;
+                setShutdownState(SHUTDOWN_PARK_MOUNT);
             }
             parkingFailureCount = 0;
             break;
@@ -6812,7 +6841,7 @@ void Scheduler::checkCapParkingStatus()
         case ISD::PARK_UNPARKED:
             if (startupState == STARTUP_UNPARKING_CAP)
             {
-                startupState = STARTUP_COMPLETE;
+                setStartupState(STARTUP_COMPLETE);
                 appendLogText(i18n("Cap unparked."));
             }
             parkingFailureCount = 0;
@@ -6839,12 +6868,12 @@ void Scheduler::checkCapParkingStatus()
             if (shutdownState == SHUTDOWN_PARKING_CAP)
             {
                 appendLogText(i18n("Cap parking error."));
-                shutdownState = SHUTDOWN_ERROR;
+                setShutdownState(SHUTDOWN_ERROR);
             }
             else if (startupState == STARTUP_UNPARKING_CAP)
             {
                 appendLogText(i18n("Cap unparking error."));
-                startupState = STARTUP_ERROR;
+                setStartupState(STARTUP_ERROR);
             }
             parkingFailureCount = 0;
             break;
@@ -7218,7 +7247,7 @@ void Scheduler::runStartupProcedure()
             appendLogText(i18n("Warning: executing startup procedure manually..."));
             startupB->setIcon(
                 QIcon::fromTheme("media-playback-stop"));
-            startupState = STARTUP_IDLE;
+            setStartupState(STARTUP_IDLE);
             checkStartupState();
             QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
 
@@ -7266,7 +7295,7 @@ void Scheduler::runStartupProcedure()
                 break;
         }
 
-        startupState = STARTUP_IDLE;
+        setStartupState(STARTUP_IDLE);
 
         appendLogText(i18n("Startup procedure terminated."));
     }
@@ -7289,7 +7318,7 @@ void Scheduler::checkShutdownProcedure()
         else if (shutdownState == SHUTDOWN_ERROR)
             appendLogText(i18n("Manual shutdown procedure terminated due to errors."));
 
-        shutdownState = SHUTDOWN_IDLE;
+        setShutdownState(SHUTDOWN_IDLE);
         shutdownB->setIcon(
             QIcon::fromTheme("media-playback-start"));
     }
@@ -7305,7 +7334,7 @@ void Scheduler::runShutdownProcedure()
             appendLogText(i18n("Warning: executing shutdown procedure manually..."));
             shutdownB->setIcon(
                 QIcon::fromTheme("media-playback-stop"));
-            shutdownState = SHUTDOWN_IDLE;
+            setShutdownState(SHUTDOWN_IDLE);
             checkShutdownState();
             QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));
         });
@@ -7355,7 +7384,7 @@ void Scheduler::runShutdownProcedure()
                 break;
         }
 
-        shutdownState = SHUTDOWN_IDLE;
+        setShutdownState(SHUTDOWN_IDLE);
 
         appendLogText(i18n("Shutdown procedure terminated."));
     }
@@ -8250,7 +8279,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *currentJob)
                           "Parking the mount until the job is ready.",
                           currentJob->getName(), currentJob->getStartupTime().toString()));
 
-        parkWaitState = PARKWAIT_PARK;
+        setParkWaitState(PARKWAIT_PARK);
 
         return false;
     }
@@ -8751,4 +8780,31 @@ bool Scheduler::importMosaic(const QJsonObject &payload)
     QScopedPointer<FramingAssistantUI> assistant(new FramingAssistantUI());
     return assistant->importMosaic(payload);
 }
+
+void Scheduler::setStartupState(StartupState state)
+{
+    startupState = state;
+    jobStatus->setText(startupStateString(state));
+}
+void Scheduler::setShutdownState(ShutdownState state)
+{
+    shutdownState = state;
+    jobStatus->setText(shutdownStateString(state));
+}
+void Scheduler::setEkosState(EkosState state)
+{
+    ekosState = state;
+    jobStatus->setText(ekosStateString(state));
+}
+void Scheduler::setIndiState(INDIState state)
+{
+    indiState = state;
+    jobStatus->setText(indiStateString(state));
+}
+void Scheduler::setParkWaitState(ParkWaitStatus state)
+{
+    parkWaitState = state;
+    jobStatus->setText(parkWaitStateString(state));
+}
+
 }

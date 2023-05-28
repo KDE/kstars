@@ -81,7 +81,7 @@
         <para
 ><emphasis role="bold"
 >Polinòmic</emphasis
->: A l'algorisme Polinòmic, el procés s'iniciarà en el mode Iteratiu, però una vegada que creuem a l'altre costat de la corba V (una vegada que els valors HFR comencen a augmentar de nou després de disminuir durant un temps), Ekos realitzarà un ajust de corba quadràtica per a trobar una solució que preveja la posició HFR mínima possible. Si es troba una solució vàlida, el procés d'enfocament automàtic es considerarà un èxit. Les característiques principals inclouen:</para>
+>: A l'algorisme Polinòmic, el procés s'iniciarà en el mode Iteratiu, però una vegada que creuem a l'altre costat de la corba V (una vegada que els valors HFR comencen a augmentar de nou després de disminuir durant una estona), Ekos realitzarà un ajust de corba quadràtica per a trobar una solució que preveja la posició HFR mínima possible. Si es troba una solució vàlida, el procés d'enfocament automàtic es considerarà un èxit. Les característiques principals inclouen:</para>
 
         <itemizedlist>
           <listitem>
@@ -254,7 +254,7 @@
         <para
 ><emphasis role="bold"
 >Basats en el temps</emphasis
->: Els enfocadors basats en el temps sense posició de realimentació que ajusten la posició de l'enfocador movent-se durant una certa qualitat de temps. </para>
+>: Els enfocadors basats en el temps sense posició de realimentació que ajusten la posició de l'enfocador movent-se durant una certa quantitat de temps. </para>
       </listitem>
     </itemizedlist>
 
@@ -493,7 +493,7 @@
         <para
 ><guilabel
 >Fotograma fosc</guilabel
->: Marqueu esta opció per portar a terme una sostracció del fotograma fosc. Esta opció pot ser útil en imatges amb soroll, quan prèviament es pren un fotograma i se sostrau de la imatge enfocada abans de continuar el processament.</para>
+>: Marqueu esta opció per a portar a terme una sostracció del fotograma fosc. Esta opció pot ser útil en imatges amb soroll, quan prèviament es pren un fotograma i se sostrau de la imatge enfocada abans de continuar el processament.</para>
 
         <para
 >Els fotogrames foscos s'utilitzen per a l'enfocament, l'alineació i el guiatge. Per a més detalls sobre com configurar els fotogrames foscos, vegeu la característica «Biblioteca fosca» en el <link linkend="ekos-capture"
@@ -527,14 +527,14 @@
               <para
 ><emphasis role="bold"
 >Rebot gestionat per l'enfocador</emphasis
->: Si l'enfocador té la capacitat de gestionar el rebot per si mateix, podeu utilitzar esta opció i desactivar la Compensació del rebot de l'AF. De manera alternativa, si és possible, podeu desactivar l'opció de rebot de l'enfocador i activar la Compensació del rebot de l'AF.</para>
+>: Si l'enfocador té la capacitat de gestionar el rebot per si mateix, podeu utilitzar esta opció i desactivar la Compensació del rebot de l'AF. De manera alternativa, si és possible, podeu desactivar l'opció de rebot de l'enfocador i establir la Compensació del rebot de l'AF.</para>
             </listitem>
 
             <listitem>
               <para
 ><emphasis role="bold"
 >Rebot gestionat pel controlador del dispositiu</emphasis
->: Si el controlador del dispositiu té la capacitat de gestionar el rebot per si mateix, podreu utilitzar esta opció i desactivar la Compensació del rebot de l'AF. De manera alternativa, si és possible, podreu desactivar l'opció de rebot del controlador del dispositiu i activar la Compensació del rebot de l'AF.</para>
+>: Si el controlador del dispositiu té la capacitat de gestionar el rebot per si mateix, podreu utilitzar esta opció i desactivar la Compensació del rebot de l'AF. De manera alternativa, si és possible, podreu desactivar l'opció de rebot del controlador del dispositiu i establir la Compensació del rebot de l'AF.</para>
             </listitem>
           </itemizedlist
 > </para>

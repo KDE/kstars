@@ -14,8 +14,16 @@ void ObservatoryDomeModel::initModel(Dome *dome)
 {
     domeInterface = dome;
 
-    connect(domeInterface, &Dome::ready, this, [&]() {initialized = true; emit ready();});
-    connect(domeInterface, &Dome::disconnected, this, [&]() {emit disconnected(); initialized = false;});
+    connect(domeInterface, &Dome::ready, this, [&]()
+    {
+        initialized = true;
+        emit ready();
+    });
+    connect(domeInterface, &Dome::disconnected, this, [&]()
+    {
+        emit disconnected();
+        initialized = false;
+    });
     connect(domeInterface, &Dome::newStatus, this, &ObservatoryDomeModel::newStatus);
     connect(domeInterface, &Dome::newParkStatus, this, &ObservatoryDomeModel::newParkStatus);
     connect(domeInterface, &Dome::newShutterStatus, this, &ObservatoryDomeModel::newShutterStatus);
@@ -120,9 +128,11 @@ bool ObservatoryDomeModel::moveDome(bool moveCW, bool start)
         return false;
 
     if (isRolloffRoof())
-        emit newLog(i18nc("%2 dome or rolloff roof motion %1...", "%2 rolloff roof %1...", moveCW ? i18n("opening") : i18n("closing"), start ? i18n("Start") : i18n("Stop")));
+        emit newLog(i18nc("%2 dome or rolloff roof motion %1...", "%2 rolloff roof %1...",
+                          moveCW ? i18n("opening") : i18n("closing"), start ? i18n("Start") : i18n("Stop")));
     else
-        emit newLog(i18nc("%2 dome or rolloff roof motion %1...", "%2 dome motion %1...", moveCW ? i18n("clockwise") : i18n("counter clockwise"), start ? i18n("Start") : i18n("Stop")));
+        emit newLog(i18nc("%2 dome or rolloff roof motion %1...", "%2 dome motion %1...",
+                          moveCW ? i18n("clockwise") : i18n("counter clockwise"), start ? i18n("Start") : i18n("Stop")));
     return domeInterface->moveDome(moveCW, start);
 }
 

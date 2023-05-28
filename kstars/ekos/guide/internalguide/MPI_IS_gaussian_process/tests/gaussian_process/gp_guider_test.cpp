@@ -21,53 +21,53 @@
 
 class GPGTest : public ::testing::Test
 {
-public:
-    static const double DefaultControlGain; // control gain
-    static const double DefaultPeriodLengthsForInference; // minimal number of period lengths for full prediction
-    static const double DefaultMinMove;
+    public:
+        static const double DefaultControlGain; // control gain
+        static const double DefaultPeriodLengthsForInference; // minimal number of period lengths for full prediction
+        static const double DefaultMinMove;
 
-    static const double DefaultLengthScaleSE0Ker; // length-scale of the long-range SE-kernel
-    static const double DefaultSignalVarianceSE0Ker; // signal variance of the long-range SE-kernel
-    static const double DefaultLengthScalePerKer; // length-scale of the periodic kernel
-    static const double DefaultPeriodLengthPerKer; // P_p, period-length of the periodic kernel
-    static const double DefaultSignalVariancePerKer; // signal variance of the periodic kernel
-    static const double DefaultLengthScaleSE1Ker; // length-scale of the short-range SE-kernel
-    static const double DefaultSignalVarianceSE1Ker; // signal variance of the short range SE-kernel
+        static const double DefaultLengthScaleSE0Ker; // length-scale of the long-range SE-kernel
+        static const double DefaultSignalVarianceSE0Ker; // signal variance of the long-range SE-kernel
+        static const double DefaultLengthScalePerKer; // length-scale of the periodic kernel
+        static const double DefaultPeriodLengthPerKer; // P_p, period-length of the periodic kernel
+        static const double DefaultSignalVariancePerKer; // signal variance of the periodic kernel
+        static const double DefaultLengthScaleSE1Ker; // length-scale of the short-range SE-kernel
+        static const double DefaultSignalVarianceSE1Ker; // signal variance of the short range SE-kernel
 
-    static const double DefaultPeriodLengthsForPeriodEstimation; // minimal number of period lengts for PL estimation
-    static const int    DefaultNumPointsForApproximation; // number of points used in the GP approximation
-    static const double DefaultPredictionGain; // amount of GP prediction to blend in
+        static const double DefaultPeriodLengthsForPeriodEstimation; // minimal number of period lengts for PL estimation
+        static const int    DefaultNumPointsForApproximation; // number of points used in the GP approximation
+        static const double DefaultPredictionGain; // amount of GP prediction to blend in
 
-    static const bool   DefaultComputePeriod;
+        static const bool   DefaultComputePeriod;
 
-    GaussianProcessGuider* GPG;
+        GaussianProcessGuider* GPG;
 
-    GPGTest(): GPG(0)
-    {
-        GaussianProcessGuider::guide_parameters parameters;
-        parameters.control_gain_ = DefaultControlGain;
-        parameters.min_periods_for_inference_ = DefaultPeriodLengthsForInference;
-        parameters.min_move_ = DefaultMinMove;
-        parameters.SE0KLengthScale_ = DefaultLengthScaleSE0Ker;
-        parameters.SE0KSignalVariance_ = DefaultSignalVarianceSE0Ker;
-        parameters.PKLengthScale_ = DefaultLengthScalePerKer;
-        parameters.PKPeriodLength_ = DefaultPeriodLengthPerKer;
-        parameters.PKSignalVariance_ = DefaultSignalVariancePerKer;
-        parameters.SE1KLengthScale_ = DefaultLengthScaleSE1Ker;
-        parameters.SE1KSignalVariance_ = DefaultSignalVarianceSE1Ker;
-        parameters.min_periods_for_period_estimation_ = DefaultPeriodLengthsForPeriodEstimation;
-        parameters.points_for_approximation_ = DefaultNumPointsForApproximation;
-        parameters.prediction_gain_ = DefaultPredictionGain;
-        parameters.compute_period_ = DefaultComputePeriod;
+        GPGTest(): GPG(0)
+        {
+            GaussianProcessGuider::guide_parameters parameters;
+            parameters.control_gain_ = DefaultControlGain;
+            parameters.min_periods_for_inference_ = DefaultPeriodLengthsForInference;
+            parameters.min_move_ = DefaultMinMove;
+            parameters.SE0KLengthScale_ = DefaultLengthScaleSE0Ker;
+            parameters.SE0KSignalVariance_ = DefaultSignalVarianceSE0Ker;
+            parameters.PKLengthScale_ = DefaultLengthScalePerKer;
+            parameters.PKPeriodLength_ = DefaultPeriodLengthPerKer;
+            parameters.PKSignalVariance_ = DefaultSignalVariancePerKer;
+            parameters.SE1KLengthScale_ = DefaultLengthScaleSE1Ker;
+            parameters.SE1KSignalVariance_ = DefaultSignalVarianceSE1Ker;
+            parameters.min_periods_for_period_estimation_ = DefaultPeriodLengthsForPeriodEstimation;
+            parameters.points_for_approximation_ = DefaultNumPointsForApproximation;
+            parameters.prediction_gain_ = DefaultPredictionGain;
+            parameters.compute_period_ = DefaultComputePeriod;
 
-        GPG = new GaussianProcessGuider(parameters);
-        GPG->SetLearningRate(1.0); // disable smooth learning
-    }
+            GPG = new GaussianProcessGuider(parameters);
+            GPG->SetLearningRate(1.0); // disable smooth learning
+        }
 
-    ~GPGTest()
-    {
-        delete GPG;
-    }
+        ~GPGTest()
+        {
+            delete GPG;
+        }
 };
 
 const double GPGTest::DefaultControlGain                   = 0.8; // control gain
@@ -119,12 +119,12 @@ TEST_F(GPGTest, period_identification_test)
 {
     // first: prepare a nice GP with a sine wave
     double period_length = 300;
-    double max_time = 10*period_length;
+    double max_time = 10 * period_length;
     int resolution = 500;
     Eigen::VectorXd timestamps = Eigen::VectorXd::LinSpaced(resolution + 1, 0, max_time);
-    Eigen::VectorXd measurements = 50*(timestamps.array()*2*M_PI/period_length).sin();
-    Eigen::VectorXd controls = 0*measurements;
-    Eigen::VectorXd SNRs = 100*Eigen::VectorXd::Ones(resolution + 1);
+    Eigen::VectorXd measurements = 50 * (timestamps.array() * 2 * M_PI / period_length).sin();
+    Eigen::VectorXd controls = 0 * measurements;
+    Eigen::VectorXd SNRs = 100 * Eigen::VectorXd::Ones(resolution + 1);
 
     // feed data to the GPGuider
     for (int i = 0; i < timestamps.size(); ++i)
@@ -146,11 +146,11 @@ TEST_F(GPGTest, min_move_test)
     // simple min-moves (without GP data)
     EXPECT_NEAR(GPG->result(0.15, 2.0, 3.0), 0, 1e-6);
     GPG->reset();
-    EXPECT_NEAR(GPG->result(0.25, 2.0, 3.0), 0.25*0.8, 1e-6);
+    EXPECT_NEAR(GPG->result(0.25, 2.0, 3.0), 0.25 * 0.8, 1e-6);
     GPG->reset();
     EXPECT_NEAR(GPG->result(-0.15, 2.0, 3.0), 0, 1e-6);
     GPG->reset();
-    EXPECT_NEAR(GPG->result(-0.25, 2.0, 3.0), -0.25*0.8, 1e-6);
+    EXPECT_NEAR(GPG->result(-0.25, 2.0, 3.0), -0.25 * 0.8, 1e-6);
     GPG->reset();
 
     GPG->save_gp_data();
@@ -161,15 +161,15 @@ TEST_F(GPGTest, gp_prediction_test)
 
     // first: prepare a nice GP with a sine wave
     double period_length = 300;
-    double max_time = 5*period_length;
+    double max_time = 5 * period_length;
     int resolution = 600;
     double prediction_length = 3.0;
     Eigen::VectorXd locations(2);
     Eigen::VectorXd predictions(2);
     Eigen::VectorXd timestamps = Eigen::VectorXd::LinSpaced(resolution + 1, 0, max_time);
-    Eigen::VectorXd measurements = 50*(timestamps.array()*2*M_PI/period_length).sin();
-    Eigen::VectorXd controls = 0*measurements;
-    Eigen::VectorXd SNRs = 100*Eigen::VectorXd::Ones(resolution + 1);
+    Eigen::VectorXd measurements = 50 * (timestamps.array() * 2 * M_PI / period_length).sin();
+    Eigen::VectorXd controls = 0 * measurements;
+    Eigen::VectorXd SNRs = 100 * Eigen::VectorXd::Ones(resolution + 1);
 
     // feed data to the GPGuider
     for (int i = 0; i < timestamps.size(); ++i)
@@ -177,9 +177,9 @@ TEST_F(GPGTest, gp_prediction_test)
         GPG->inject_data_point(timestamps[i], measurements[i], SNRs[i], controls[i]);
     }
     locations << max_time, max_time + prediction_length;
-    predictions = 50*(locations.array()*2*M_PI/period_length).sin();
+    predictions = 50 * (locations.array() * 2 * M_PI / period_length).sin();
     // the first case is with an error smaller than min_move_
-    EXPECT_NEAR(GPG->result(0.15, 2.0, prediction_length, max_time), predictions[1]-predictions[0], 2e-1);
+    EXPECT_NEAR(GPG->result(0.15, 2.0, prediction_length, max_time), predictions[1] - predictions[0], 2e-1);
     GPG->reset();
 
     // feed data to the GPGuider
@@ -188,7 +188,7 @@ TEST_F(GPGTest, gp_prediction_test)
         GPG->inject_data_point(timestamps[i], measurements[i], SNRs[i], controls[i]);
     }
     // the first case is with an error larger than min_move_
-    EXPECT_NEAR(GPG->result(0.25, 2.0, prediction_length, max_time), 0.25*0.8+predictions[1]-predictions[0], 2e-1);
+    EXPECT_NEAR(GPG->result(0.25, 2.0, prediction_length, max_time), 0.25 * 0.8 + predictions[1] - predictions[0], 2e-1);
 
     GPG->save_gp_data();
 }
@@ -237,21 +237,22 @@ TEST_F(GPGTest, timer_test)
 }
 
 TEST_F(GPGTest, gp_projection_test)
-{   // this test should fail when output projections are disabled and should pass when they are enabled
+{
+    // this test should fail when output projections are disabled and should pass when they are enabled
 
     // first: prepare a nice GP with a sine wave
     double period_length = 300;
-    double max_time = 5*period_length;
+    double max_time = 5 * period_length;
     int resolution = 600;
     double prediction_length = 3.0;
     Eigen::VectorXd locations(2);
     Eigen::VectorXd predictions(2);
     Eigen::VectorXd timestamps = Eigen::VectorXd::LinSpaced(resolution + 1, 0, max_time);
-    Eigen::VectorXd measurements = 50*(timestamps.array()*2*M_PI/period_length).sin();
-    Eigen::VectorXd controls = 0*measurements;
-    Eigen::VectorXd SNRs = 100*Eigen::VectorXd::Ones(resolution + 1);
+    Eigen::VectorXd measurements = 50 * (timestamps.array() * 2 * M_PI / period_length).sin();
+    Eigen::VectorXd controls = 0 * measurements;
+    Eigen::VectorXd SNRs = 100 * Eigen::VectorXd::Ones(resolution + 1);
 
-    Eigen::VectorXd sine_noise = 5*(timestamps.array()*2*M_PI/26).sin(); // smaller "disturbance" to add
+    Eigen::VectorXd sine_noise = 5 * (timestamps.array() * 2 * M_PI / 26).sin(); // smaller "disturbance" to add
 
     measurements = measurements + sine_noise;
 
@@ -261,32 +262,33 @@ TEST_F(GPGTest, gp_projection_test)
         GPG->inject_data_point(timestamps[i], measurements[i], SNRs[i], controls[i]);
     }
     locations << max_time, max_time + prediction_length;
-    predictions = 50*(locations.array()*2*M_PI/period_length).sin();
+    predictions = 50 * (locations.array() * 2 * M_PI / period_length).sin();
     // the first case is with an error smaller than min_move_
-    EXPECT_NEAR(GPG->result(0.0, 2.0, prediction_length, max_time), predictions[1]-predictions[0], 3e-1);
+    EXPECT_NEAR(GPG->result(0.0, 2.0, prediction_length, max_time), predictions[1] - predictions[0], 3e-1);
     GPG->reset();
 
     GPG->save_gp_data();
 }
 
 TEST_F(GPGTest, linear_drift_identification_test)
-{   // when predicting one period length ahead, only linear drift should show
+{
+    // when predicting one period length ahead, only linear drift should show
 
     // first: prepare a nice GP with a sine wave
     double period_length = 300;
-    double max_time = 3*period_length;
+    double max_time = 3 * period_length;
     int resolution = 300;
     double prediction_length = period_length; // necessary to only see the drift
     Eigen::VectorXd locations(2);
     Eigen::VectorXd predictions(2);
     Eigen::VectorXd timestamps = Eigen::VectorXd::LinSpaced(resolution + 1, 0, max_time);
-    Eigen::VectorXd measurements = 0*timestamps;
-    Eigen::VectorXd sine_data = 50*(timestamps.array()*2*M_PI/period_length).sin();
-    Eigen::VectorXd drift = 0.25*timestamps; // drift to add
+    Eigen::VectorXd measurements = 0 * timestamps;
+    Eigen::VectorXd sine_data = 50 * (timestamps.array() * 2 * M_PI / period_length).sin();
+    Eigen::VectorXd drift = 0.25 * timestamps; // drift to add
     Eigen::VectorXd gear_function = sine_data + drift;
     Eigen::VectorXd controls(timestamps.size());
-    controls << gear_function.tail(gear_function.size()-1) - gear_function.head(gear_function.size()-1), 0;
-    Eigen::VectorXd SNRs = 100*Eigen::VectorXd::Ones(resolution + 1);
+    controls << gear_function.tail(gear_function.size() - 1) - gear_function.head(gear_function.size() - 1), 0;
+    Eigen::VectorXd SNRs = 100 * Eigen::VectorXd::Ones(resolution + 1);
 
     std::vector<double> parameters = GPG->GetGPHyperparameters();
     parameters[SE0KSignalVariance] = 1e-10; // disable long-range SE kernel
@@ -303,31 +305,32 @@ TEST_F(GPGTest, linear_drift_identification_test)
         GPG->inject_data_point(timestamps[i], measurements[i], SNRs[i], controls[i]);
     }
     locations << 5000, 5000 + prediction_length;
-    predictions = 0.25*locations; // only predict linear drift here
+    predictions = 0.25 * locations; // only predict linear drift here
     // the first case is with an error smaller than min_move_
-    EXPECT_NEAR(GPG->result(0.0, 100.0, prediction_length, max_time), predictions[1]-predictions[0], 2e-1);
+    EXPECT_NEAR(GPG->result(0.0, 100.0, prediction_length, max_time), predictions[1] - predictions[0], 2e-1);
 
     GPG->save_gp_data();
 }
 
 TEST_F(GPGTest, data_preparation_test)
-{   // no matter whether the gear function shows up in the controls or in the measurements,
+{
+    // no matter whether the gear function shows up in the controls or in the measurements,
     // the predictions should be identical
 
     // first: prepare a nice GP with a sine wave
     double period_length = 300;
-    double max_time = 3*period_length;
+    double max_time = 3 * period_length;
     int resolution = 200;
     double prediction_length = 3.0;
     Eigen::VectorXd timestamps = Eigen::VectorXd::LinSpaced(resolution + 1, 0, max_time);
     Eigen::VectorXd measurements(timestamps.size());
-    Eigen::VectorXd sine_data = 50*(timestamps.array()*2*M_PI/period_length).sin();
+    Eigen::VectorXd sine_data = 50 * (timestamps.array() * 2 * M_PI / period_length).sin();
     Eigen::VectorXd controls(timestamps.size());
-    Eigen::VectorXd SNRs = 100*Eigen::VectorXd::Ones(resolution + 1);
+    Eigen::VectorXd SNRs = 100 * Eigen::VectorXd::Ones(resolution + 1);
 
     // first option: the error was "compensated" and therefore only shows up in the controls
-    controls << sine_data.tail(sine_data.size()-1) - sine_data.head(sine_data.size()-1), 0;
-    measurements = 0*timestamps;
+    controls << sine_data.tail(sine_data.size() - 1) - sine_data.head(sine_data.size() - 1), 0;
+    measurements = 0 * timestamps;
 
     // feed data to the GPGuider
     for (int i = 0; i < timestamps.size(); ++i)
@@ -338,7 +341,7 @@ TEST_F(GPGTest, data_preparation_test)
     GPG->reset();
 
     // second option: the error is not compensated and therefore visible in the measurement
-    controls = 0*controls;
+    controls = 0 * controls;
     measurements = sine_data;
 
     // feed data to the GPGuider
@@ -388,7 +391,7 @@ TEST_F(GPGTest, real_data_test)
 
     GPG->result(0.0, 25.0, 3.0, time);
 
-    EXPECT_NEAR(GPG->GetGPHyperparameters()[PKPeriodLength],483.0,5);
+    EXPECT_NEAR(GPG->GetGPHyperparameters()[PKPeriodLength], 483.0, 5);
 
     GPG->save_gp_data();
 }
@@ -447,9 +450,9 @@ TEST_F(GPGTest, period_interpolation_test)
     double max_time = 2345;
     int resolution = 527;
     Eigen::VectorXd timestamps = Eigen::VectorXd::LinSpaced(resolution + 1, 0, max_time);
-    Eigen::VectorXd measurements = 50*(timestamps.array()*2*M_PI/period_length).sin();
-    Eigen::VectorXd controls = 0*measurements;
-    Eigen::VectorXd SNRs = 100*Eigen::VectorXd::Ones(resolution + 1);
+    Eigen::VectorXd measurements = 50 * (timestamps.array() * 2 * M_PI / period_length).sin();
+    Eigen::VectorXd controls = 0 * measurements;
+    Eigen::VectorXd SNRs = 100 * Eigen::VectorXd::Ones(resolution + 1);
 
     // feed data to the GPGuider
     for (int i = 0; i < timestamps.size(); ++i)
@@ -472,13 +475,13 @@ TEST_F(GPGTest, data_regularization_test)
 
     // second: mess up the grid of time stamps
     Eigen::VectorXd timestamps(resolution);
-    timestamps << Eigen::VectorXd::LinSpaced(resolution/2, 0, max_time/6),
-        Eigen::VectorXd::LinSpaced(resolution/2, max_time/6 + 0.5, max_time);
-    timestamps += 0.5*math_tools::generate_normal_random_matrix(resolution, 1);
+    timestamps << Eigen::VectorXd::LinSpaced(resolution / 2, 0, max_time / 6),
+               Eigen::VectorXd::LinSpaced(resolution / 2, max_time / 6 + 0.5, max_time);
+    timestamps += 0.5 * math_tools::generate_normal_random_matrix(resolution, 1);
 
-    Eigen::VectorXd measurements = 50*(timestamps.array()*2*M_PI/period_length).sin();
-    Eigen::VectorXd controls = 0*measurements;
-    Eigen::VectorXd SNRs = 100*Eigen::VectorXd::Ones(resolution + 1);
+    Eigen::VectorXd measurements = 50 * (timestamps.array() * 2 * M_PI / period_length).sin();
+    Eigen::VectorXd controls = 0 * measurements;
+    Eigen::VectorXd SNRs = 100 * Eigen::VectorXd::Ones(resolution + 1);
 
     // feed data to the GPGuider
     for (int i = 0; i < timestamps.size(); ++i)
@@ -546,7 +549,7 @@ TEST_F(GPGTest, real_data_test_nan_issue)
 
     for (int i = 0; i < data.cols(); ++i)
     {
-        GPG->inject_data_point(data(0,i), data(1,i), data(3,i), data(2,i));
+        GPG->inject_data_point(data(0, i), data(1, i), data(3, i), data(2, i));
     }
 
     EXPECT_GT(data.cols(), 0) << "dataset was empty or not present";

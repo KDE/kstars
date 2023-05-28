@@ -8,25 +8,25 @@
 > </author>
 </sect1info>
 <title
->O equador celestial</title>
+>O equador celeste</title>
 <indexterm
 ><primary
->Equador celestial</primary>
+>Equador celeste</primary>
 <seealso
 >Coordenadas equatoriais</seealso>
 </indexterm>
 <para
 >O <firstterm
->equador celestial</firstterm
+>equador celeste</firstterm
 > é um <link linkend="ai-greatcircle"
 >grande círculo</link
 > imaginário na <link linkend="ai-csphere"
->esfera celestial</link
->. O equador celestial é o plano fundamental do <link linkend="equatorial"
+>esfera celeste</link
+>. O equador celeste é o plano fundamental do <link linkend="equatorial"
 >sistema de coordenadas equatoriais</link
 >, de modo que ele é definido como o local onde os pontos possuem declinação de zero graus. Ele também é a projeção do equador terrestre no céu. </para>
 <para
->O equador celestial e o <link linkend="ai-ecliptic"
+>O equador celeste e o <link linkend="ai-ecliptic"
 >elíptico</link
 > são configurados em um ângulo de 23,5 graus no céu. Os pontos onde eles se interceptam são os <link linkend="ai-equinox"
 >equinócios</link

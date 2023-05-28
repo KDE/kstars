@@ -23,8 +23,7 @@ class AlignView : public FITSView
         // Calculate WCS header info and update WCS info.
         // If the expensive computations are not included, e.g. extras == false, then there's
         // no reason to block (i.e. use the wcsWatcher). The computations are quick.
-        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight,
-                       bool extras, bool block = true);
+        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, bool block = true);
 
         void drawOverlay(QPainter *, double scale) override;
 

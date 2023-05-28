@@ -118,6 +118,7 @@ void Mount::registerProperty(INDI::Property prop)
     {
         m_canGoto = IUFindSwitch(prop.getSwitch(), "TRACK") != nullptr;
         m_canSync = IUFindSwitch(prop.getSwitch(), "SYNC") != nullptr;
+        m_canFlip = IUFindSwitch(prop.getSwitch(), "FLIP") != nullptr;
     }
     else if (prop.isNameMatch("TELESCOPE_PIER_SIDE"))
     {
@@ -190,6 +191,19 @@ void Mount::updateJ2000Coordinates(SkyPoint *coords)
     coords->setDec0(J2000Coord.dec());
 }
 
+void ISD::Mount::updateTarget()
+{
+    emit newTarget(currentCoords);
+    double maxrad = 0.1;
+    currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoords, maxrad);
+    if (currentObject)
+        emit newTargetName(currentObject->name());
+    // If there is no object, we must clear target as it might give wrong
+    // indication we are still on it.
+    else
+        emit newTargetName(QString());
+}
+
 void Mount::processNumber(INDI::Property prop)
 {
     auto nvp = prop.getNumber();
@@ -231,13 +245,22 @@ void Mount::processNumber(INDI::Property prop)
                 KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"), KSNotification::Mount);
             emit newStatus(currentStatus);
         }
-        else if (EqCoordPreviousState == IPS_BUSY && nvp->getState() == IPS_OK)
+        else if (EqCoordPreviousState == IPS_BUSY && nvp->getState() == IPS_OK && slewDefined())
         {
-            KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
+            if (Options::useExternalSkyMap())
+            {
+                // For external skymaps the only way to determine the target is to take the position where the mount
+                // starts to track
+                updateTarget();
+            }
+            else
+            {
+                // In case that we use KStars as skymap, we intentionally do not communicate the target here, since it
+                // has been set at the beginning of the slew AND we cannot be sure that the position the INDI
+                // mount reports when starting to track is exactly that one where the slew went to.
+                KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
+            }
             emit newStatus(currentStatus);
-            // Hint: we intentionally do not communicate the target here, since it has been communicated
-            // at the beginning of the slew AND we cannot be sure that the position the INDI mount reports
-            // when starting to track is exactly that one where the slew went to.
         }
 
         EqCoordPreviousState = nvp->getState();
@@ -861,19 +884,23 @@ bool Mount::slewDefined()
 
     if (motionSP == nullptr)
         return false;
-
-    // take either the TRACK of the SLEW widget
-    auto slewSW = motionSP->findWidgetByName("TRACK");
-
-    if (slewSW == nullptr)
-        slewSW = motionSP->findWidgetByName("SLEW");
-
-    // a slew is planned if the selected widget is on
-    return (slewSW != nullptr && slewSW->getState() == ISState::ISS_ON);
+    // A slew will happen if either Track, Slew, or Flip
+    // is selected
+    auto sp = motionSP->findOnSwitch();
+    if(sp != nullptr &&
+            (sp->name == std::string("TRACK") ||
+             sp->name == std::string("SLEW") ||
+             sp->name == std::string("FLIP")))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-
-bool Mount::Slew(double ra, double dec)
+bool Mount::Slew(double ra, double dec, bool flip)
 {
     SkyPoint target;
 
@@ -888,17 +915,20 @@ bool Mount::Slew(double ra, double dec)
         target.setDec(dec);
     }
 
-    return Slew(&target);
+    return Slew(&target, flip);
 }
 
-bool Mount::Slew(SkyPoint * ScopeTarget)
+bool Mount::Slew(SkyPoint * ScopeTarget, bool flip)
 {
     auto motionSP = getSwitch("ON_COORD_SET");
 
     if (!motionSP)
         return false;
 
-    auto slewSW = motionSP->findWidgetByName("TRACK");
+    auto slewSW = flip ? motionSP->findWidgetByName("FLIP") : motionSP->findWidgetByName("TRACK");
+
+    if (flip && (!slewSW))
+        slewSW = motionSP->findWidgetByName("TRACK");
 
     if (!slewSW)
         slewSW = motionSP->findWidgetByName("SLEW");

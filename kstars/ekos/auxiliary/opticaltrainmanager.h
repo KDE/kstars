@@ -38,7 +38,9 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         static void release();
 
         void setProfile(const QSharedPointer<ProfileInfo> &profile);
+        void checkOpticalTrains();
 
+        bool exists(uint8_t id) const;
         const QVariantMap getOpticalTrain(uint8_t id) const;
         const QVariantMap getOpticalTrain(const QString &name) const;
         const QList<QVariantMap> &getOpticalTrains() const
@@ -172,11 +174,11 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
         /**
          * @brief Add a new optical train with the given name
-         * @param main true if it is the primary train, false if it is the guiding train
+         * @param index train index (0, 1, 2..etc)
          * @param name train name
          * @return unique train name
          */
-        QString addOpticalTrain(bool main, const QString &name);
+        QString addOpticalTrain(uint8_t index, const QString &name);
 
         void checkMissingDevices();
 
@@ -196,6 +198,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         QSharedPointer<ProfileInfo> m_Profile;
         QList<QVariantMap> m_OpticalTrains;
         QTimer m_CheckMissingDevicesTimer;
+        QTimer m_DelegateTimer;
         QVariantMap *m_CurrentOpticalTrain = nullptr;
 
         // make changes persistent

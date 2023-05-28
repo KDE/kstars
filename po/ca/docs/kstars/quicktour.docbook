@@ -73,7 +73,7 @@
 <secondary
 >Bàsics</secondary
 ></indexterm
->Ara que hem establert el temps i l'emplaçament, donem una ullada al nostre voltant. Podeu fer una panoràmica de la vista emprant les tecles de cursor. Si manteniu premuda la tecla &Maj; abans del desplaçament, augmentarà la velocitat de desplaçament. La vista també es pot desplaçar fent clic i arrossegant amb el ratolí. Cal tenir en compte que durant el desplaçament no es mostraran tots els objectes. Això es fa per a reduir la càrrega de la <acronym
+>Ara que hem establert l'hora i l'emplaçament, donem una ullada al nostre voltant. Podeu fer una panoràmica de la vista emprant les tecles de cursor. Si manteniu premuda la tecla &Maj; abans del desplaçament, augmentarà la velocitat de desplaçament. La vista també es pot desplaçar fent clic i arrossegant amb el ratolí. Cal tenir en compte que durant el desplaçament no es mostraran tots els objectes. Això es fa per a reduir la càrrega de la <acronym
 >CPU</acronym
 > durant el càlcul de les posicions dels objectes, aconseguint un desplaçament més suau (podeu configurar el que s'oculta mentre us desplaceu en la finestra de <link linkend="config"
 >Configuració - &kstars;</link
@@ -226,7 +226,7 @@
 >. </para>
 
 <para
->La secció superior conté algunes línies informatives que no són seleccionables: Els noms de l'objecte («M 42»; «Orion Nebula»), tipus d'objecte («nebulosa gasosa»), i la constel·lació que conté l'objecte («ORIÓ»). Les següents tres línies mostren els temps de sortida, posta i trànsit. Si els temps de sortida i posta diuen «circumpolar», això voldrà dir que l'objecte resta per sota de l'horitzó per a l'emplaçament actual. </para>
+>La secció superior conté algunes línies informatives que no són seleccionables: Els noms de l'objecte («M 42»; «Orion Nebula»), tipus d'objecte («nebulosa gasosa»), i la constel·lació que conté l'objecte («ORIÓ»). Les següents tres línies mostren l'hora de sortida, posta i trànsit. Si l'hora de sortida i posta diuen «circumpolar», això voldrà dir que l'objecte resta per sota de l'horitzó per a l'emplaçament actual. </para>
 <para
 >La secció mitjana conté les accions que es poden realitzar sobre l'objecte, com ara <guimenuitem
 >Centra i segueix</guimenuitem

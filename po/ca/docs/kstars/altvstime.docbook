@@ -55,13 +55,13 @@
 >roda</mousebutton
 > del ratolí. Quan s'allunya la representació gràfica, el nivell de zoom es limitarà automàticament a un valor mínim predeterminat, com els intervals dels eixos són capaços de cobrir tot el gràfic (&ead;, en l'eix vertical, el valor màxim de l'altitud ha de tocar la part superior del marc de la representació gràfica). El mateix principi s'aplica quan es fa una panoràmica de la representació gràfica utilitzant el moviment del ratolí. Per a la panoràmica de la representació gràfica, tot el que heu de fer, és fer clic al punt de la representació gràfica de la qual voleu fer una panoràmica i després arrossegar el ratolí en la direcció desitjada: esquerra, dreta, amunt o avall. </para>
 <para
->Una altra característica útil que ofereix l'eina altitud en funció del temps, és la seva capacitat per a calcular i marcar els temps de Sortida/Posta/Trànsit. Això es pot aconseguir amb una simple pressió d'un dels botons <guibutton
+>Una altra característica útil que ofereix l'eina altitud en funció del temps, és la seva capacitat per a calcular i marcar l'hora de Sortida/Posta/Trànsit. Això es pot aconseguir amb una simple pressió d'un dels botons <guibutton
 >Sortida</guibutton
 >, <guibutton
 >Posta</guibutton
 > o <guibutton
 >Trànsit</guibutton
->. Quan es prem un d'aquests botons, un cercle omplert de color estarà marcat a la corba. El color utilitzat per als punts de la Sortida, Posta i Trànsit són: vermell per a la Sortida, blau per a la Posta i verd per al temps de Trànsit. Per a una manera més intuïtiva d'utilitzar aquests botons, estan marcats amb el color dels seus punts específics. D'aquesta manera, l'usuari podrà entendre amb facilitat la representació gràfica i fer l'associació entre un determinat color i el seu significat. </para>
+>. Quan es prem un d'aquests botons, un cercle omplert de color estarà marcat a la corba. El color utilitzat per als punts de la Sortida, Posta i Trànsit són: vermell per a la Sortida, blau per a la Posta i verd per a l'hora de Trànsit. Per a una manera més intuïtiva d'utilitzar aquests botons, estan marcats amb el color dels seus punts específics. D'aquesta manera, l'usuari podrà entendre amb facilitat la representació gràfica i fer l'associació entre un determinat color i el seu significat. </para>
 <para
 >L'eina altitud en funció del temps proporciona una manera fàcil d'esbrinar l'altitud d'un objecte celeste en un moment determinat de temps utilitzant el botó <guibutton
 >Calcula</guibutton

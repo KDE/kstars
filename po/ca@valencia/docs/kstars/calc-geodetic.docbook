@@ -31,7 +31,7 @@
 >cercle major</link
 > que passe a través dels pols. El <firstterm
 >sistema de coordenades geodèsiques</firstterm
-> té en compte esta forma el·lipsoidal i expressa la posició sobre la superfície de la Terra en coordenades cartesianes (X, Y i Z) o en coordenades geogràfiques (llargària, latitud i elevació). </para>
+> té en compte esta forma el·lipsoidal i expressa la posició sobre la superfície de la Terra en coordenades cartesianes (X, Y i Z) o en coordenades geogràfiques (longitud, latitud i elevació). </para>
 
 <para
 >Per a utilitzar el mòdul, seleccioneu primer quines coordenades s'hauran de prendre com a valors d'entrada en la secció <guilabel

@@ -1112,6 +1112,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         }
 
         // Scheduler and job state and stages
+        void setStartupState(StartupState state);
+        void setShutdownState(ShutdownState state);
+        void setEkosState(EkosState state);
+        void setIndiState(INDIState state);
+        void setParkWaitState(ParkWaitStatus state);
         SchedulerState state { SCHEDULER_IDLE };
         EkosState ekosState { EKOS_IDLE };
         INDIState indiState { INDI_IDLE };

@@ -264,7 +264,7 @@
 >Blau</guilabel
 > en la Dec. Els colors de les línies de l'AR/Dec es poden canviar a l'<link linkend="colors"
 >esquema de color del &kstars;</link
-> al diàleg de configuració. L'eix vertical indica la desviació en segons d'arc des de la posició central de l'estrella guia i l'eix horitzontal indica el temps. Podeu passar el cursor per sobre de la línia per a obtenir la desviació exacta en aquest moment concret. A més, també podeu fer zoom i arrossegar/desplaçar el gràfic per a inspeccionar una regió específica. </para>
+> al diàleg de configuració. L'eix vertical indica la desviació en segons d'arc des de la posició central de l'estrella guia i l'eix horitzontal indica l'hora. Podeu passar el cursor per sobre de la línia per a obtenir la desviació exacta en aquest moment concret. A més, també podeu fer zoom i arrossegar/desplaçar el gràfic per a inspeccionar una regió específica. </para>
         <para
 >L'Ekos pot utilitzar múltiples algorismes per a determinar el centre de la massa de l'estrella guia. De manera predeterminada, l'algorisme intel·ligent és el més adequat per a la majoria de situacions. L'algorisme ràpid es basa en els càlculs de l'HFR. Podeu provar de canviar els algorismes del guiatge si l'Ekos no pot mantenir correctament l'estrella guia dins del quadrat del guiatge. </para>
         <para

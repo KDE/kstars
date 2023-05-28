@@ -50,7 +50,7 @@
 ><guilabel
 >Affichage</guilabel
 > : active ou désactive les cases à cocher <guilabel
->Montrer la grille HiPS</guilabel
+>Afficher la grille HiPS</guilabel
 > et <guilabel
 >Interpolation linéaire</guilabel
 >. L'interpolation est activée par défaut et devrait rendre la superposition plus lisse.</para

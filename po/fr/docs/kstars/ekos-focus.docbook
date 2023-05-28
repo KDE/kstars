@@ -249,8 +249,8 @@
       <listitem>
         <para
 ><emphasis role="bold"
->Basé sur une durée</emphasis
-> : les moteurs de mise au point basés sur une durée n'ont pas de donnée de position mais ajuste la position de mise en se déplaçant pendant une certaine durée.  </para>
+>Fondé sur une durée</emphasis
+> : les moteurs de mise au point fondus sur une durée n'ont pas de donnée de position mais ajuste la position de mise en se déplaçant pendant une certaine durée.  </para>
       </listitem>
     </itemizedlist>
 
@@ -262,7 +262,7 @@
 >Mécaniques</link
 >. Les pas sont comptés en unité d'encoche pour les moteurs de mise au point à position absolue et relative et en <emphasis
 >millisecondes</emphasis
-> pour les moteurs simples ou basés sur le temps. Les boutons <guibutton
+> pour les moteurs simples ou fondés sur le temps. Les boutons <guibutton
 >En avant</guibutton
 > et <guibutton
 >En arrière</guibutton
@@ -293,7 +293,7 @@
     <para
 >Le bouton <guibutton
 >Acquisition image</guibutton
-> démarre l'acquisition d'une image basée sur les réglages du <guilabel
+> démarre l'acquisition d'une image fondée sur les réglages du <guilabel
 >CCD et de la roue à filtres</guilabel
 >. Le bouton <guibutton
 >En boucle</guibutton
@@ -651,21 +651,21 @@
             <para
 ><emphasis role="bold"
 >Centroïde</emphasis
-> : une méthode d'extraction basée sur une estimation de la masse de l'étoile autour du pic du signal.</para>
+> : une méthode d'extraction fondée sur une estimation de la masse de l'étoile autour du pic du signal.</para>
           </listitem>
 
           <listitem>
             <para
 ><emphasis role="bold"
 >Gradient</emphasis
-> : une méthode d'extraction d'une source unique basée sur le filtre de Sobel. </para>
+> : une méthode d'extraction d'une source unique fondée sur le filtre de Sobel. </para>
           </listitem>
 
           <listitem>
             <para
 ><emphasis role="bold"
 >Seuil</emphasis
-> : une méthode d'extraction d'une source unique basée sur la valeur des pixels. </para>
+> : une méthode d'extraction d'une source unique fondée sur la valeur des pixels. </para>
           </listitem>
 
           <listitem>
@@ -872,7 +872,7 @@
         <para
 ><guilabel
 >Taille initiale du pas</guilabel
-> : règle la taille de pas utilisée par différents algorithmes de mise au point. Pour les moteurs de mises au point, cela correspond aux nombres d'encoches ; pour ceux basés sur le temps, cela correspond aux nombre de millisecondes.</para>
+> : règle la taille de pas utilisée par différents algorithmes de mise au point. Pour les moteurs de mises au point, cela correspond aux nombres d'encoches ; pour ceux fondés sur le temps, cela correspond aux nombre de millisecondes.</para>
       </listitem>
 
       <listitem>
@@ -982,7 +982,7 @@
     <para
 >L'affichage de la mise au point affiche une fenêtre de l'afficheur FITS sur la trame prise durant la procédure de mise au point. Il affiche les valeur de l'<guilabel
 >anneau</guilabel
-> superposées sur l'image. Toutes les étoiles détectées par Ekos basées sur les paramètres sélectionnées ont leur HFR affichée à leur côté. </para>
+> superposées sur l'image. Toutes les étoiles détectées par Ekos fondées sur les paramètres sélectionnées ont leur HFR affichée à leur côté. </para>
 
     <para
 >La fenêtre possède les options de l'afficheur FITS suivantes (au haut de la fenêtre) :</para>
@@ -1164,7 +1164,7 @@
         <para
 >Débutez près de la position de mise au point trouvée manuellement. L'option <guibutton
 >En boucle</guibutton
-> permet de visualiser la recherche manuelle d'une mise au point approximative.</para>
+> permet d'afficher la recherche manuelle d'une mise au point approximative.</para>
       </listitem>
 
       <listitem>

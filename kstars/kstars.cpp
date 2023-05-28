@@ -166,6 +166,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     telescopeGroup->setExclusive(false);
     domeGroup       = new QActionGroup(this);
     domeGroup->setExclusive(false);
+    skymapOrientationGroup = new QActionGroup(this);
 
 
     m_KStarsData = KStarsData::Create();
@@ -356,6 +357,8 @@ void KStars::applyConfig(bool doApplyFocus)
     actionCollection()->action("show_flags")->setChecked(Options::showFlags());
     actionCollection()->action("show_supernovae")->setChecked(Options::showSupernovae());
     actionCollection()->action("show_satellites")->setChecked(Options::showSatellites());
+    actionCollection()->action("erect_observer_correction")->setChecked(Options::erectObserverCorrection());
+    actionCollection()->action("erect_observer_correction")->setEnabled(Options::useAltAz());
     statusBar()->setVisible(Options::showStatusBar());
 
     //color scheme

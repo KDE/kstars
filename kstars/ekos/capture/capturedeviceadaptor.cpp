@@ -13,139 +13,144 @@
 
 namespace Ekos
 {
-CaptureDeviceAdaptor::CaptureDeviceAdaptor(QSharedPointer<CaptureModuleState> captureModuleState)
-{
-    m_captureModuleState = captureModuleState;
-}
 
-void CaptureDeviceAdaptor::connectDome()
-{
-    connect(currentSequenceJobState, &SequenceJobState::setDomeParked, this, &CaptureDeviceAdaptor::setDomeParked);
-    connect(this, &CaptureDeviceAdaptor::domeStatusChanged, currentSequenceJobState,
-            &SequenceJobState::domeStatusChanged);
-}
 
-void CaptureDeviceAdaptor::disconnectDome()
+void CaptureDeviceAdaptor::connectDome(SequenceJobState *state)
 {
-    disconnect(currentSequenceJobState, &SequenceJobState::setDomeParked, this, &CaptureDeviceAdaptor::setDomeParked);
-    disconnect(this, &CaptureDeviceAdaptor::domeStatusChanged, currentSequenceJobState,
-               &SequenceJobState::domeStatusChanged);
-}
-
-void CaptureDeviceAdaptor::setCurrentSequenceJobState(SequenceJobState *jobState)
-{
-    currentSequenceJobState = jobState;
-}
-
-void CaptureDeviceAdaptor::setLightBox(ISD::LightBox *device)
-{
-    if (m_ActiveLightBox == device)
+    if (state == nullptr)
         return;
 
-    m_ActiveLightBox = device;
-    if (currentSequenceJobState != nullptr && !currentSequenceJobState->m_CaptureModuleState.isNull())
-    {
-        currentSequenceJobState->m_CaptureModuleState->hasLightBox = (device != nullptr);
-        currentSequenceJobState->m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_UNKNOWN);
-    }
+    connect(state, &SequenceJobState::setDomeParked, this, &CaptureDeviceAdaptor::setDomeParked);
+    connect(this, &CaptureDeviceAdaptor::domeStatusChanged, state, &SequenceJobState::domeStatusChanged);
+}
+
+void CaptureDeviceAdaptor::disconnectDome(SequenceJobState *state)
+{
+    if (state == nullptr)
+        return;
+
+    disconnect(state, &SequenceJobState::setDomeParked, this, &CaptureDeviceAdaptor::setDomeParked);
+    disconnect(this, &CaptureDeviceAdaptor::domeStatusChanged, state, &SequenceJobState::domeStatusChanged);
+}
+
+void CaptureDeviceAdaptor::setCurrentSequenceJobState(QSharedPointer<SequenceJobState> jobState)
+{
+    // clear old connections
+    disconnectDevices(currentSequenceJobState.data());
+    // add new connections
+    connectRotator(jobState.data());
+    connectFilterManager(jobState.data());
+    connectActiveCamera(jobState.data());
+    connectMount(jobState.data());
+    connectDome(jobState.data());
+    connectDustCap(jobState.data());
+    currentSequenceJobState = jobState;
+
 }
 
 void CaptureDeviceAdaptor::setDustCap(ISD::DustCap *device)
 {
-    if (m_ActiveDustCap == device)
-        return;
-
+    disconnectDustCap(currentSequenceJobState.data());
     m_ActiveDustCap = device;
-
-    if (currentSequenceJobState != nullptr && !currentSequenceJobState->m_CaptureModuleState.isNull())
-    {
-        currentSequenceJobState->m_CaptureModuleState->hasDustCap = (device != nullptr);
-        currentSequenceJobState->m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_UNKNOWN);
-    }
+    connectDustCap(currentSequenceJobState.data());
 }
 
-void CaptureDeviceAdaptor::connectDustCap()
+void CaptureDeviceAdaptor::disconnectDevices(SequenceJobState *state)
+{
+    disconnectRotator(state);
+    disconnectFilterManager(state);
+    disconnectActiveCamera(state);
+    disconnectMount(state);
+    disconnectDome(state);
+    disconnectDustCap(state);
+}
+
+
+
+
+
+void CaptureDeviceAdaptor::connectDustCap(SequenceJobState *state)
 {
     if (m_ActiveDustCap != nullptr)
         connect(m_ActiveDustCap, &ISD::DustCap::newStatus, this, &CaptureDeviceAdaptor::dustCapStatusChanged);
 
-    connect(currentSequenceJobState, &SequenceJobState::askManualScopeCover, this,
-            &CaptureDeviceAdaptor::askManualScopeCover);
-    connect(currentSequenceJobState, &SequenceJobState::askManualScopeOpen, this,
-            &CaptureDeviceAdaptor::askManualScopeOpen);
-    connect(currentSequenceJobState, &SequenceJobState::setLightBoxLight, this,
-            &CaptureDeviceAdaptor::setLightBoxLight);
-    connect(currentSequenceJobState, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
+    if (state == nullptr)
+        return;
 
-    connect(this, &CaptureDeviceAdaptor::manualScopeCoverUpdated, currentSequenceJobState,
-            &SequenceJobState::updateManualScopeCover);
-    connect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
-    connect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
-            &SequenceJobState::dustCapStateChanged);
+    connect(state, &SequenceJobState::askManualScopeCover, this, &CaptureDeviceAdaptor::askManualScopeCover);
+    connect(state, &SequenceJobState::askManualScopeOpen, this, &CaptureDeviceAdaptor::askManualScopeOpen);
+    connect(state, &SequenceJobState::setLightBoxLight, this, &CaptureDeviceAdaptor::setLightBoxLight);
+    connect(state, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
+
+    connect(this, &CaptureDeviceAdaptor::manualScopeCoverUpdated, state, &SequenceJobState::updateManualScopeCover);
+    connect(this, &CaptureDeviceAdaptor::lightBoxLight, state, &SequenceJobState::lightBoxLight);
+    connect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, state, &SequenceJobState::dustCapStateChanged);
 }
 
-void CaptureDeviceAdaptor::disconnectDustCap()
+void CaptureDeviceAdaptor::disconnectDustCap(SequenceJobState *state)
 {
     if (m_ActiveDustCap != nullptr)
         disconnect(m_ActiveDustCap, nullptr, this, nullptr);
 
-    disconnect(currentSequenceJobState, &SequenceJobState::askManualScopeCover, this,
-               &CaptureDeviceAdaptor::askManualScopeCover);
-    disconnect(currentSequenceJobState, &SequenceJobState::askManualScopeOpen, this,
-               &CaptureDeviceAdaptor::askManualScopeOpen);
-    disconnect(currentSequenceJobState, &SequenceJobState::setLightBoxLight, this,
-               &CaptureDeviceAdaptor::setLightBoxLight);
-    disconnect(currentSequenceJobState, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
+    if (state == nullptr)
+        return;
 
-    disconnect(this, &CaptureDeviceAdaptor::manualScopeCoverUpdated, currentSequenceJobState,
-               &SequenceJobState::updateManualScopeCover);
-    disconnect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
-    disconnect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
-               &SequenceJobState::dustCapStateChanged);
+    disconnect(state, &SequenceJobState::askManualScopeCover, this, &CaptureDeviceAdaptor::askManualScopeCover);
+    disconnect(state, &SequenceJobState::askManualScopeOpen, this, &CaptureDeviceAdaptor::askManualScopeOpen);
+    disconnect(state, &SequenceJobState::setLightBoxLight, this, &CaptureDeviceAdaptor::setLightBoxLight);
+    disconnect(state, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
+
+    disconnect(this, &CaptureDeviceAdaptor::manualScopeCoverUpdated, state, &SequenceJobState::updateManualScopeCover);
+    disconnect(this, &CaptureDeviceAdaptor::lightBoxLight, state, &SequenceJobState::lightBoxLight);
+    disconnect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, state, &SequenceJobState::dustCapStateChanged);
 }
 
 void CaptureDeviceAdaptor::setMount(ISD::Mount *device)
 {
-    if (m_ActiveTelescope == device)
+    if (m_ActiveMount == device)
         return;
 
     // clean up old connections
-    if (m_ActiveTelescope != nullptr)
-        disconnect(m_ActiveTelescope, nullptr, this, nullptr);
+    if (m_ActiveMount != nullptr)
+    {
+        disconnect(m_ActiveMount, nullptr, this, nullptr);
+        disconnectMount(currentSequenceJobState.data());
+    }
     // connect new device
     if (device != nullptr)
     {
         connect(device, &ISD::Mount::newStatus, this, &CaptureDeviceAdaptor::scopeStatusChanged);
         connect(device, &ISD::Mount::newParkStatus, this, &CaptureDeviceAdaptor::scopeParkStatusChanged);
+        connectMount(currentSequenceJobState.data());
     }
 
-    m_ActiveTelescope = device;
+    m_ActiveMount = device;
 }
 
-void CaptureDeviceAdaptor::connectTelescope()
+void CaptureDeviceAdaptor::connectMount(SequenceJobState *state)
 {
-    connect(currentSequenceJobState, &SequenceJobState::slewTelescope, this, &CaptureDeviceAdaptor::slewTelescope);
-    connect(currentSequenceJobState, &SequenceJobState::setScopeTracking, this,
-            &CaptureDeviceAdaptor::setScopeTracking);
-    connect(currentSequenceJobState, &SequenceJobState::setScopeParked, this, &CaptureDeviceAdaptor::setScopeParked);
+    if (state == nullptr)
+        return;
 
-    connect(this, &CaptureDeviceAdaptor::scopeStatusChanged, currentSequenceJobState,
-            &SequenceJobState::scopeStatusChanged);
-    connect(this, &CaptureDeviceAdaptor::scopeParkStatusChanged, currentSequenceJobState,
-            &SequenceJobState::scopeParkStatusChanged);
+    connect(state, &SequenceJobState::slewTelescope, this, &CaptureDeviceAdaptor::slewTelescope);
+    connect(state, &SequenceJobState::setScopeTracking, this, &CaptureDeviceAdaptor::setScopeTracking);
+    connect(state, &SequenceJobState::setScopeParked, this, &CaptureDeviceAdaptor::setScopeParked);
+
+    connect(this, &CaptureDeviceAdaptor::scopeStatusChanged, state, &SequenceJobState::scopeStatusChanged);
+    connect(this, &CaptureDeviceAdaptor::scopeParkStatusChanged, state, &SequenceJobState::scopeParkStatusChanged);
 }
 
-void CaptureDeviceAdaptor::disconnectTelescope()
+void CaptureDeviceAdaptor::disconnectMount(SequenceJobState *state)
 {
-    disconnect(currentSequenceJobState, &SequenceJobState::slewTelescope, this, &CaptureDeviceAdaptor::slewTelescope);
-    disconnect(currentSequenceJobState, &SequenceJobState::setScopeTracking, this,
-               &CaptureDeviceAdaptor::setScopeTracking);
-    disconnect(currentSequenceJobState, &SequenceJobState::setScopeParked, this, &CaptureDeviceAdaptor::setScopeParked);
+    if (state == nullptr)
+        return;
 
-    disconnect(this, &CaptureDeviceAdaptor::scopeStatusChanged, currentSequenceJobState,
-               &SequenceJobState::scopeStatusChanged);
-    disconnect(this, &CaptureDeviceAdaptor::scopeParkStatusChanged, currentSequenceJobState,
-               &SequenceJobState::scopeParkStatusChanged);
+    disconnect(state, &SequenceJobState::slewTelescope, this, &CaptureDeviceAdaptor::slewTelescope);
+    disconnect(state, &SequenceJobState::setScopeTracking, this, &CaptureDeviceAdaptor::setScopeTracking);
+    disconnect(state, &SequenceJobState::setScopeParked, this, &CaptureDeviceAdaptor::setScopeParked);
+
+    disconnect(this, &CaptureDeviceAdaptor::scopeStatusChanged, state, &SequenceJobState::scopeStatusChanged);
+    disconnect(this, &CaptureDeviceAdaptor::scopeParkStatusChanged, state, &SequenceJobState::scopeParkStatusChanged);
 }
 
 void CaptureDeviceAdaptor::setDome(ISD::Dome *device)
@@ -155,10 +160,16 @@ void CaptureDeviceAdaptor::setDome(ISD::Dome *device)
 
     // clean up old connections
     if (m_ActiveDome != nullptr)
+    {
         disconnect(m_ActiveDome, nullptr, this, nullptr);
+        disconnectDome(currentSequenceJobState.data());
+    }
     // connect new device
     if (device != nullptr)
+    {
         connect(device, &ISD::Dome::newStatus, this, &CaptureDeviceAdaptor::domeStatusChanged);
+        connectDome(currentSequenceJobState.data());
+    }
 
     m_ActiveDome = device;
 }
@@ -170,7 +181,10 @@ void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
 
     // clean up old connections
     if (m_ActiveRotator != nullptr)
+    {
         m_ActiveRotator->disconnect(this);
+        disconnectRotator(currentSequenceJobState.data());
+    }
 
     m_ActiveRotator = device;
 
@@ -181,6 +195,7 @@ void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
                 Qt::UniqueConnection);
         connect(m_ActiveRotator, &ISD::Rotator::reverseToggled, this, &CaptureDeviceAdaptor::rotatorReverseToggled,
                 Qt::UniqueConnection);
+        connectRotator(currentSequenceJobState.data());
 
         emit newRotatorAngle(device->absoluteAngle(), device->absoluteAngleState());
         emit rotatorReverseToggled(device->isReversed());
@@ -188,26 +203,40 @@ void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
     }
 }
 
-void CaptureDeviceAdaptor::connectRotator()
+void CaptureDeviceAdaptor::connectRotator(SequenceJobState *state)
 {
-    connect(this, &CaptureDeviceAdaptor::newRotatorAngle, currentSequenceJobState,
-            &SequenceJobState::setCurrentRotatorPositionAngle, Qt::UniqueConnection);
-    connect(currentSequenceJobState, &SequenceJobState::setRotatorAngle, this,
-            &CaptureDeviceAdaptor::setRotatorAngle);
+    if (state == nullptr)
+        return;
+
+    connect(this, &CaptureDeviceAdaptor::newRotatorAngle, state, &SequenceJobState::setCurrentRotatorPositionAngle,
+            Qt::UniqueConnection);
+    connect(state, &SequenceJobState::setRotatorAngle, this, &CaptureDeviceAdaptor::setRotatorAngle);
 }
 
-void CaptureDeviceAdaptor::disconnectRotator()
+void CaptureDeviceAdaptor::disconnectRotator(SequenceJobState *state)
 {
-    disconnect(currentSequenceJobState, &SequenceJobState::setRotatorAngle, this,
-               &CaptureDeviceAdaptor::setRotatorAngle);
-    disconnect(this, &CaptureDeviceAdaptor::newRotatorAngle, currentSequenceJobState,
-               &SequenceJobState::setCurrentRotatorPositionAngle);
+    if (state == nullptr)
+        return;
+
+    disconnect(state, &SequenceJobState::setRotatorAngle, this, &CaptureDeviceAdaptor::setRotatorAngle);
+    disconnect(this, &CaptureDeviceAdaptor::newRotatorAngle, state, &SequenceJobState::setCurrentRotatorPositionAngle);
 }
 
 void CaptureDeviceAdaptor::setRotatorAngle(double *rawAngle)
 {
     if (m_ActiveRotator != nullptr)
-        m_ActiveRotator->setAbsoluteAngle(*rawAngle);
+        if (!m_ActiveRotator->setAbsoluteAngle(*rawAngle))
+        {
+            qWarning(KSTARS_EKOS_CAPTURE) << "Rotator is not responding!";
+        }
+}
+
+double CaptureDeviceAdaptor::getRotatorAngle()
+{
+    if (m_ActiveRotator != nullptr)
+        return m_ActiveRotator->absoluteAngle();
+    else
+        return 0;
 }
 
 void CaptureDeviceAdaptor::reverseRotator(bool toggled)
@@ -235,6 +264,7 @@ void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
     {
         disconnect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
                    &CaptureDeviceAdaptor::newCCDTemperatureValue);
+        disconnectActiveCamera(currentSequenceJobState.data());
     }
 
     // store the link to the new device
@@ -246,41 +276,70 @@ void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
         // publish device events
         connect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
                 &CaptureDeviceAdaptor::newCCDTemperatureValue, Qt::UniqueConnection);
+        connectActiveCamera(currentSequenceJobState.data());
     }
 }
 
-void CaptureDeviceAdaptor::connectActiveCamera()
+void CaptureDeviceAdaptor::connectActiveCamera(SequenceJobState *state)
 {
+    if (state == nullptr)
+        return;
+
     //connect state machine to device adaptor
-    connect(currentSequenceJobState, &SequenceJobState::setCCDTemperature, this,
-            &CaptureDeviceAdaptor::setCCDTemperature);
-    connect(currentSequenceJobState, &SequenceJobState::setCCDBatchMode, this,
-            &CaptureDeviceAdaptor::enableCCDBatchMode);
-    connect(currentSequenceJobState, &SequenceJobState::queryHasShutter, this,
-            &CaptureDeviceAdaptor::queryHasShutter);
+    connect(state, &SequenceJobState::setCCDTemperature, this, &CaptureDeviceAdaptor::setCCDTemperature);
+    connect(state, &SequenceJobState::setCCDBatchMode, this, &CaptureDeviceAdaptor::enableCCDBatchMode);
+    connect(state, &SequenceJobState::queryHasShutter, this, &CaptureDeviceAdaptor::queryHasShutter);
 
     // forward own events to the state machine
-    connect(this, &CaptureDeviceAdaptor::flatSyncFocusChanged, currentSequenceJobState,
-            &SequenceJobState::flatSyncFocusChanged);
-    connect(this, &CaptureDeviceAdaptor::hasShutter, currentSequenceJobState, &SequenceJobState::hasShutter);
-    connect(this, &CaptureDeviceAdaptor::newCCDTemperatureValue, currentSequenceJobState,
-            &SequenceJobState::setCurrentCCDTemperature, Qt::UniqueConnection);
+    connect(this, &CaptureDeviceAdaptor::flatSyncFocusChanged, state, &SequenceJobState::flatSyncFocusChanged);
+    connect(this, &CaptureDeviceAdaptor::hasShutter, state, &SequenceJobState::hasShutter);
+    connect(this, &CaptureDeviceAdaptor::newCCDTemperatureValue, state, &SequenceJobState::setCurrentCCDTemperature,
+            Qt::UniqueConnection);
 }
 
-void CaptureDeviceAdaptor::disconnectActiveCamera()
+void CaptureDeviceAdaptor::disconnectActiveCamera(SequenceJobState *state)
 {
-    disconnect(currentSequenceJobState, &SequenceJobState::setCCDTemperature, this,
-               &CaptureDeviceAdaptor::setCCDTemperature);
-    disconnect(currentSequenceJobState, &SequenceJobState::setCCDBatchMode, this,
-               &CaptureDeviceAdaptor::enableCCDBatchMode);
-    disconnect(currentSequenceJobState, &SequenceJobState::queryHasShutter, this,
-               &CaptureDeviceAdaptor::queryHasShutter);
+    if (state == nullptr)
+        return;
 
-    disconnect(this, &CaptureDeviceAdaptor::flatSyncFocusChanged, currentSequenceJobState,
-               &SequenceJobState::flatSyncFocusChanged);
-    disconnect(this, &CaptureDeviceAdaptor::hasShutter, currentSequenceJobState, &SequenceJobState::hasShutter);
-    disconnect(this, &CaptureDeviceAdaptor::newCCDTemperatureValue, currentSequenceJobState,
-               &SequenceJobState::setCurrentCCDTemperature);
+    disconnect(state, &SequenceJobState::setCCDTemperature, this, &CaptureDeviceAdaptor::setCCDTemperature);
+    disconnect(state, &SequenceJobState::setCCDBatchMode, this, &CaptureDeviceAdaptor::enableCCDBatchMode);
+    disconnect(state, &SequenceJobState::queryHasShutter, this, &CaptureDeviceAdaptor::queryHasShutter);
+
+    disconnect(this, &CaptureDeviceAdaptor::flatSyncFocusChanged, state, &SequenceJobState::flatSyncFocusChanged);
+    disconnect(this, &CaptureDeviceAdaptor::hasShutter, state, &SequenceJobState::hasShutter);
+    disconnect(this, &CaptureDeviceAdaptor::newCCDTemperatureValue, state, &SequenceJobState::setCurrentCCDTemperature);
+}
+
+void CaptureDeviceAdaptor::connectFilterManager(SequenceJobState *state)
+{
+    if (state == nullptr)
+        return;
+
+    connect(state, &SequenceJobState::changeFilterPosition, this, &CaptureDeviceAdaptor::setFilterPosition);
+    connect(state, &SequenceJobState::readFilterPosition, this, &CaptureDeviceAdaptor::updateFilterPosition);
+    connect(this, &CaptureDeviceAdaptor::filterIdChanged, state, &SequenceJobState::setCurrentFilterID);
+
+    if (m_FilterManager.isNull() == false)
+        connect(m_FilterManager.get(), &FilterManager::newStatus, state, &SequenceJobState::setFilterStatus);
+}
+
+void CaptureDeviceAdaptor::disconnectFilterManager(SequenceJobState *state)
+{
+    if (state == nullptr)
+        return;
+
+    disconnect(state, &SequenceJobState::readFilterPosition, this, &CaptureDeviceAdaptor::updateFilterPosition);
+    disconnect(state, &SequenceJobState::changeFilterPosition, this, &CaptureDeviceAdaptor::setFilterPosition);
+    disconnect(this, &CaptureDeviceAdaptor::filterIdChanged, state, &SequenceJobState::setCurrentFilterID);
+
+    if (m_FilterManager.isNull() == false)
+        disconnect(m_FilterManager.get(), &FilterManager::newStatus, state, &SequenceJobState::setFilterStatus);
+}
+
+void Ekos::CaptureDeviceAdaptor::updateFilterPosition()
+{
+    emit filterIdChanged(m_FilterManager->getFilterPosition());
 }
 
 void CaptureDeviceAdaptor::readCurrentState(CaptureState state)
@@ -326,24 +385,35 @@ void CaptureDeviceAdaptor::abortFastExposure()
         m_ActiveChip->abortExposure();
 }
 
-void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition)
+void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy)
 {
-    if (m_ActiveFilterWheel != nullptr)
-        m_ActiveFilterWheel->setPosition(targetFilterPosition);
+    if (m_FilterManager.isNull() == false && m_ActiveFilterWheel != nullptr)
+        m_FilterManager->setFilterPosition(targetFilterPosition, policy);
 }
 
-void CaptureDeviceAdaptor::setActiveChip(ISD::CameraChip *device)
-{
-    m_ActiveChip = device;
-}
 
-void CaptureDeviceAdaptor::setFilterWheel(ISD::FilterWheel *device)
-{
-    m_ActiveFilterWheel = device;
-}
+
+
 
 void CaptureDeviceAdaptor::setFilterManager(QSharedPointer<FilterManager> device)
 {
+    // avoid doubled definition
+    if (m_FilterManager == device)
+        return;
+
+    // disconnect old filter manager
+    if (m_FilterManager.isNull() == false)
+    {
+        disconnect(m_FilterManager.get(), &FilterManager::ready, this, &CaptureDeviceAdaptor::updateFilterPosition);
+        disconnectFilterManager(currentSequenceJobState.data());
+    }
+    //connect new filter manager
+    if (device.isNull() == false)
+    {
+        connect(device.get(), &FilterManager::ready, this, &CaptureDeviceAdaptor::updateFilterPosition);
+        connectFilterManager(currentSequenceJobState.data());
+    }
+
     m_FilterManager = device;
 }
 
@@ -462,36 +532,36 @@ void CaptureDeviceAdaptor::parkDustCap(bool park)
 
 void CaptureDeviceAdaptor::slewTelescope(SkyPoint &target)
 {
-    if (m_ActiveTelescope != nullptr)
+    if (m_ActiveMount != nullptr)
     {
-        m_ActiveTelescope->Slew(&target);
+        m_ActiveMount->Slew(&target);
         emit scopeStatusChanged(ISD::Mount::MOUNT_SLEWING);
     }
 }
 
 void CaptureDeviceAdaptor::setScopeTracking(bool on)
 {
-    if (m_ActiveTelescope != nullptr)
+    if (m_ActiveMount != nullptr)
     {
-        m_ActiveTelescope->setTrackEnabled(on);
+        m_ActiveMount->setTrackEnabled(on);
         emit scopeStatusChanged(on ? ISD::Mount::MOUNT_TRACKING : ISD::Mount::MOUNT_IDLE);
     }
 }
 
 void CaptureDeviceAdaptor::setScopeParked(bool parked)
 {
-    if (m_ActiveTelescope != nullptr)
+    if (m_ActiveMount != nullptr)
     {
         if (parked == true)
         {
-            if (m_ActiveTelescope->park())
+            if (m_ActiveMount->park())
                 emit scopeStatusChanged(ISD::Mount::MOUNT_PARKING);
             else
                 emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
         else
         {
-            if (m_ActiveTelescope->unpark() == false)
+            if (m_ActiveMount->unpark() == false)
                 emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
     }

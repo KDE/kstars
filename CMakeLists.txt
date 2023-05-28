@@ -3,8 +3,8 @@ cmake_minimum_required (VERSION 3.16.0 FATAL_ERROR)
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 3)
 set (KStars_VERSION_MINOR 6)
-set (KStars_VERSION_REVISION 4)
-set (KSTARS_BUILD_RELEASE "Beta")
+set (KStars_VERSION_REVISION 5)
+set (KSTARS_BUILD_RELEASE "Stable")
 set (CMAKE_CXX_STANDARD 17)
 
 set(QT_MIN_VERSION 5.12.7)
@@ -249,6 +249,11 @@ set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all t
 # Qt5 Data Visualization
 find_package(Qt5DataVisualization)
 MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
+
+# LibXISF
+find_package(LibXISF)
+set_package_properties(LibXISF PROPERTIES DESCRIPTION "Library for loading and saving XISF images" URL "https://nouspiro.space" TYPE OPTIONAL)
+MACRO_BOOL_TO_01(LibXISF_FOUND HAVE_XISF)
 
 ## Astrometry.net
 #find_package(AstrometryNet)

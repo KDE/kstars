@@ -685,14 +685,15 @@ bool FITSTab::saveFile()
 
     if (currentURL.isEmpty())
     {
+        QString selectedFilter;
 #ifdef Q_OS_OSX //For some reason, the other code caused KStars to crash on MacOS
         currentURL =
             QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
-                                        "Images (*.fits *.fits.gz *.fit *.jpg *.jpeg *.png)");
+                                        "Images (*.fits *.fits.gz *.fit *.xisf *.jpg *.jpeg *.png)");
 #else
         currentURL =
             QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
-                                        "FITS (*.fits *.fits.gz *.fit);;JPEG (*.jpg *.jpeg);;PNG (*.png)");
+                                        "FITS (*.fits *.fits.gz *.fit);;XISF (*.xisf);;JPEG (*.jpg *.jpeg);;PNG (*.png)", &selectedFilter);
 #endif
         // if user presses cancel
         if (currentURL.isEmpty())
@@ -701,9 +702,18 @@ bool FITSTab::saveFile()
             return false;
         }
 
-        // If no extension is selected, assume FITS.
+        // If no extension is selected append one
         if (currentURL.toLocalFile().contains('.') == 0)
-            currentURL.setPath(currentURL.toLocalFile() + ".fits");
+        {
+            if (selectedFilter.contains("XISF"))
+                currentURL.setPath(currentURL.toLocalFile() + ".xisf");
+            else if (selectedFilter.contains("JPEG"))
+                currentURL.setPath(currentURL.toLocalFile() + ".jpg");
+            else if (selectedFilter.contains("PNG"))
+                currentURL.setPath(currentURL.toLocalFile() + ".png");
+            else
+                currentURL.setPath(currentURL.toLocalFile() + ".fits");
+        }
     }
 
     if (currentURL.isValid())

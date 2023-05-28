@@ -54,7 +54,7 @@ Guide::Guide() : QWidget()
     opsGuide = new OpsGuide();  // Initialize sub dialog AFTER main dialog
     KPageWidgetItem *page = dialog->addPage(opsGuide, i18n("Guide"));
     page->setIcon(QIcon::fromTheme("kstars_guides"));
-    connect(opsGuide, &OpsGuide::settingsUpdated, [this]()
+    connect(opsGuide, &OpsGuide::settingsUpdated, this, [this]()
     {
         onThresholdChanged(Options::guideAlgorithm());
         configurePHD2Camera();
@@ -187,6 +187,14 @@ Guide::Guide() : QWidget()
         setCaptureComplete();
     });
 
+    m_ManaulPulse = new ManualPulse(this);
+    connect(m_ManaulPulse, &ManualPulse::newSinglePulse, this, &Guide::sendSinglePulse);
+    connect(manualPulseB, &QPushButton::clicked, this, [this]()
+    {
+        m_ManaulPulse->reset();
+        m_ManaulPulse->show();
+    });
+
     loadGlobalSettings();
     connectSettings();
 
@@ -229,7 +237,7 @@ void Guide::guideAfterMeridianFlip()
     guide();
 }
 
-void Guide::resizeEvent(QResizeEvent *event)
+void Guide::resizeEvent(QResizeEvent * event)
 {
     if (event->oldSize().width() != -1)
     {
@@ -305,7 +313,7 @@ QString Guide::setRecommendedExposureValues(QList<double> values)
     return guideExposure->getRecommendedValuesString();
 }
 
-bool Guide::setCamera(ISD::Camera *device)
+bool Guide::setCamera(ISD::Camera * device)
 {
     if (m_Camera && device == m_Camera)
     {
@@ -377,7 +385,7 @@ void Guide::configurePHD2Camera()
     //If this method gives the same result as last time, no need to update the Camera info again.
     //That way the user doesn't see a ton of messages printing about the PHD2 external camera.
     //But lets make sure the blob is set correctly every time.
-    if(lastPHD2CameraName == currentPHD2CameraName)
+    if(m_LastPHD2CameraName == currentPHD2CameraName)
     {
         setExternalGuiderBLOBEnabled(!guideSubframe->isChecked());
         return;
@@ -391,7 +399,9 @@ void Guide::configurePHD2Camera()
     m_Camera = ccdMatch;
 
     //This updates the last camera name for the next time it is checked.
-    lastPHD2CameraName = currentPHD2CameraName;
+    m_LastPHD2CameraName = currentPHD2CameraName;
+
+    m_LastPHD2MountName = phd2Guider->getCurrentMount();
 
     //This sets a boolean that allows you to tell if the PHD2 camera is in Ekos
     phd2Guider->setCurrentCameraIsNotInEkos(m_Camera == nullptr);
@@ -399,7 +409,7 @@ void Guide::configurePHD2Camera()
     if(phd2Guider->isCurrentCameraNotInEkos())
     {
         appendLogText(
-            i18n("PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star Image will be received, but the full external guide frames cannot.",
+            i18n("PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star Image will be received, but the full external guide frames cannot.",
                  phd2Guider->getCurrentCamera()));
         guideSubframe->setEnabled(false);
         //We don't want to actually change the user's subFrame Setting for when a camera really is connected, just check the box to tell the user.
@@ -409,14 +419,14 @@ void Guide::configurePHD2Camera()
     }
 
     appendLogText(
-        i18n("PHD2's current camera: %1, IS connected to Ekos.  You can select whether to use the full external guide frames or just receive the PHD2 Guide Star Image using the SubFrame checkbox.",
+        i18n("PHD2's current camera: %1, is connected to Ekos.  You can select whether to use the full external guide frames or just receive the PHD2 Guide Star Image using the SubFrame checkbox.",
              phd2Guider->getCurrentCamera()));
     guideSubframe->setEnabled(true);
     connect(guideSubframe, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
     guideSubframe->setChecked(guideSubframe->isChecked());
 }
 
-bool Guide::setMount(ISD::Mount *device)
+bool Guide::setMount(ISD::Mount * device)
 {
     if (m_Mount && m_Mount == device)
     {
@@ -667,7 +677,7 @@ void Guide::updateGuideParams()
     }
 }
 
-bool Guide::setGuider(ISD::Guider *device)
+bool Guide::setGuider(ISD::Guider * device)
 {
     if (guiderType != GUIDE_INTERNAL || (m_Guider && device == m_Guider))
         return false;
@@ -693,7 +703,7 @@ bool Guide::setGuider(ISD::Guider *device)
     return true;
 }
 
-bool Guide::setAdaptiveOptics(ISD::AdaptiveOptics *device)
+bool Guide::setAdaptiveOptics(ISD::AdaptiveOptics * device)
 {
     if (guiderType != GUIDE_INTERNAL || (m_AO && device == m_AO))
         return false;
@@ -774,7 +784,7 @@ bool Guide::captureOneFrame()
     return true;
 }
 
-void Guide::prepareCapture(ISD::CameraChip *targetChip)
+void Guide::prepareCapture(ISD::CameraChip * targetChip)
 {
     targetChip->setBatchMode(false);
     targetChip->setCaptureMode(FITS_GUIDE);
@@ -1411,6 +1421,7 @@ void Guide::setMountStatus(ISD::Mount::Status newState)
             captureB->setEnabled(false);
             loopB->setEnabled(false);
             clearCalibrationB->setEnabled(false);
+            manualPulseB->setEnabled(false);
             break;
 
         default:
@@ -1419,6 +1430,7 @@ void Guide::setMountStatus(ISD::Mount::Status newState)
                 captureB->setEnabled(true);
                 loopB->setEnabled(true);
                 clearCalibrationB->setEnabled(true);
+                manualPulseB->setEnabled(true);
             }
     }
 }
@@ -1427,6 +1439,7 @@ void Guide::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSi
 {
     Q_UNUSED(ha);
     m_GuiderInstance->setMountCoords(position, pierSide);
+    m_ManaulPulse->setMountCoords(position);
 }
 
 void Guide::setExposure(double value)
@@ -1511,6 +1524,7 @@ void Guide::setStatus(Ekos::GuideState newState)
 
         case GUIDE_CALIBRATION_SUCCESS:
             appendLogText(i18n("Calibration completed."));
+            manualPulseB->setEnabled(true);
             calibrationComplete = true;
 
             if(guiderType !=
@@ -1522,12 +1536,14 @@ void Guide::setStatus(Ekos::GuideState newState)
         case GUIDE_CALIBRATION_ERROR:
             setBusy(false);
             manualDitherB->setEnabled(false);
+            manualPulseB->setEnabled(true);
             break;
 
         case GUIDE_CALIBRATING:
             clearCalibrationGraphs();
             appendLogText(i18n("Calibration started."));
             setBusy(true);
+            manualPulseB->setEnabled(false);
             break;
 
         case GUIDE_GUIDING:
@@ -1544,7 +1560,6 @@ void Guide::setStatus(Ekos::GuideState newState)
                 driftGraph->refreshColorScheme();
             }
             manualDitherB->setEnabled(true);
-
             break;
 
         case GUIDE_ABORTED:
@@ -1643,7 +1658,7 @@ void Guide::updateProperty(INDI::Property prop)
     }
 }
 
-void Guide::checkExposureValue(ISD::CameraChip *targetChip, double exposure, IPState expState)
+void Guide::checkExposureValue(ISD::CameraChip * targetChip, double exposure, IPState expState)
 {
     // Ignore if not using internal guider, or chip belongs to a different camera.
     if (guiderType != GUIDE_INTERNAL || targetChip->getCCD() != m_Camera)
@@ -3063,12 +3078,17 @@ void Guide::setupOpticalTrainManager()
     });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
+        if (guiderType == GUIDE_PHD2 && m_GuiderInstance->isConnected())
+        {
+            appendLogText(i18n("Cannot change active optical train while PHD2 is connected"));
+            return;
+        }
+
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 void Guide::refreshOpticalTrain()
@@ -3076,13 +3096,21 @@ void Guide::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
-    trainB->setEnabled(opticalTrainCombo->count() > 0);
+    trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::GuideOpticalTrain);
 
     if (trainID.isValid())
     {
         auto id = trainID.toUInt();
+
+        // If train not found, select the first one available.
+        if (OpticalTrainManager::Instance()->exists(id) == false)
+        {
+            qCWarning(KSTARS_EKOS_GUIDE) << "Optical train doesn't exist for id" << id;
+            id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
+        }
+
         auto name = OpticalTrainManager::Instance()->name(id);
 
         opticalTrainCombo->setCurrentText(name);

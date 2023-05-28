@@ -175,6 +175,8 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_RememberSummaryView = Options::useSummaryPreview();
     initView();
 
+    loadGlobalSettings();
+
     connectSettings();
 
     setupOpticalTrainManager();
@@ -264,9 +266,9 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 double diffMap = std::fabs(map["duration"].toDouble() - duration);
                 double diffBest = std::fabs(bestCandidate["duration"].toDouble() - duration);
                 if (diffMap < diffBest)
-                    thisMapScore += 2;
+                    thisMapScore += 5;
                 else if (diffBest < diffMap)
-                    bestCandidateScore += 2;
+                    bestCandidateScore += 5;
             }
 
             // More recent has a higher score than older.
@@ -275,9 +277,9 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 int64_t diffMap  = map["timestamp"].toDateTime().secsTo(now);
                 int64_t diffBest = bestCandidate["timestamp"].toDateTime().secsTo(now);
                 if (diffMap < diffBest)
-                    thisMapScore += 2;
+                    thisMapScore++;
                 else if (diffBest < diffMap)
-                    bestCandidateScore += 2;
+                    bestCandidateScore++;
             }
 
             // Find candidate with closest time in case we have multiple defect maps
@@ -448,11 +450,15 @@ bool DarkLibrary::cacheDefectMapFromFile(const QString &key, const QString &file
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DarkLibrary::cacheDarkFrameFromFile(const QString &filename)
 {
-    QFuture<bool> rc = m_CurrentDarkFrame->loadFromFile(filename);
+    QSharedPointer<FITSData> data;
+    data.reset(new FITSData(FITS_CALIBRATE), &QObject::deleteLater);
+    QFuture<bool> rc = data->loadFromFile(filename);
 
     rc.waitForFinished();
     if (rc.result())
-        m_CachedDarkFrames[filename] = m_CurrentDarkFrame;
+    {
+        m_CachedDarkFrames[filename] = data;
+    }
     else
     {
         emit newLog(i18n("Failed to load dark frame file %1", filename));
@@ -1376,7 +1382,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 
     auto memoryMB = KSUtils::getAvailableRAM() / 1e6;
     if (memoryMB > CACHE_MEMORY_LIMIT)
-        m_CachedDarkFrames[path] = data;
+        cacheDarkFrameFromFile(data->filename());
 
     QVariantMap map;
     map["ccd"]         = metadata["camera"].toString();
@@ -1617,7 +1623,6 @@ void DarkLibrary::setupOpticalTrainManager()
         refreshOpticalTrain();
         emit trainChanged();
     });
-    refreshOpticalTrain();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1628,13 +1633,21 @@ void DarkLibrary::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
-    trainB->setEnabled(opticalTrainCombo->count() > 0);
+    trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::DarkLibraryOpticalTrain);
 
     if (trainID.isValid())
     {
         auto id = trainID.toUInt();
+
+        // If train not found, select the first one available.
+        if (OpticalTrainManager::Instance()->exists(id) == false)
+        {
+            emit newLog(i18n("Optical train doesn't exist for id %1", id));
+            id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
+        }
+
         auto name = OpticalTrainManager::Instance()->name(id);
 
         opticalTrainCombo->setCurrentText(name);
@@ -1658,6 +1671,70 @@ void DarkLibrary::refreshOpticalTrain()
 
     opticalTrainCombo->blockSignals(false);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::loadGlobalSettings()
+{
+    QString key;
+    QVariant value;
+
+    QVariantMap settings;
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+    {
+        if (oneWidget->objectName() == "opticalTrainCombo")
+            continue;
+
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setCurrentText(value.toString());
+            settings[key] = value;
+        }
+    }
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toDouble());
+            settings[key] = value;
+        }
+    }
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toInt());
+            settings[key] = value;
+        }
+    }
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
+    m_GlobalSettings = m_Settings = settings;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///

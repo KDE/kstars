@@ -10,8 +10,8 @@
 
 #pragma once
 
-#include "hipscomponent.h"
 #include "skycomponent.h"
+#include "projections/projector.h"
 
 /**
  * @class HIPSComponent
@@ -34,6 +34,6 @@ class HIPSComponent : public SkyComponent
         QElapsedTimer m_ElapsedTimer, m_RefreshTimer;
         static constexpr uint32_t HIPS_REDRAW_PERIOD {5000};
         static constexpr uint32_t HIPS_REFRESH_PERIOD {2000};
-        double m_LastZoom {1};
+        ViewParams m_previousViewParams;
         QString m_LastFocusedObjectName;
 };

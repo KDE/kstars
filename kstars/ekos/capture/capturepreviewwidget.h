@@ -101,4 +101,8 @@ private:
     SummaryFITSView *m_fitsPreview = nullptr;
     // FITS data overlay
     CaptureProcessOverlay *overlay = nullptr;
+
+    // move to trash or delete finally
+    bool m_permanentlyDelete {false};
+
 };

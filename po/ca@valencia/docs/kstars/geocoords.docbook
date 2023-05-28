@@ -15,7 +15,7 @@
 ></indexterm>
 <indexterm
 ><primary
->Llargària</primary
+>Longitud</primary
 ><see
 >Sistema de coordenades geogràfiques</see
 ></indexterm>
@@ -31,14 +31,14 @@
 >) està alineat amb els eixos de rotació de la Terra. Estos definixen dos angles mesurats des del centre de la Terra. Un d'ells s'anomena <firstterm
 >latitud</firstterm
 >, mesura l'angle entre qualsevol punt i l'Equador. L'altre, anomenat <firstterm
->llargària</firstterm
+>longitud</firstterm
 >, mesura l'angle <emphasis
 >al llarg</emphasis
-> de l'equador des d'un punt arbitrari en la Terra (Greenwich, a Anglaterra està acceptat com el punt de llargària zero en la majoria de <quote
+> de l'equador des d'un punt arbitrari en la Terra (Greenwich, a Anglaterra està acceptat com el punt de longitud zero en la majoria de <quote
 >societats</quote
 > modernes). </para
 ><para
->Per a combinar estos dos angles, es pot especificar qualsevol emplaçament a la Terra. Per exemple, Baltimore, a Maryland (EUA) que té una latitud de 39,3 graus Nord i una llargària de 76,6 graus Oest. De manera que, un vector dibuixat des del centre de la Terra fins a un punt a 39,3 graus per damunt de l'equador i 76,6 graus a l'oest de Greenwich (Anglaterra) passarà per Baltimore. </para
+>Per a combinar estos dos angles, es pot especificar qualsevol emplaçament a la Terra. Per exemple, Baltimore, a Maryland (EUA) que té una latitud de 39,3 graus Nord i una longitud de 76,6 graus Oest. De manera que, un vector dibuixat des del centre de la Terra fins a un punt a 39,3 graus per damunt de l'equador i 76,6 graus a l'oest de Greenwich (Anglaterra) passarà per Baltimore. </para
 ><para
 >L'equador és òbviament una part important d'este sistema de coordenades, atés que representa el <emphasis
 >punt zero</emphasis
@@ -52,17 +52,17 @@
 >paral·lels</firstterm
 >. Tracen cercles sobre la superfície de la Terra, però l'únic paral·lel que és un <link linkend="ai-greatcircle"
 >cercle major</link
-> és l'equador (latitud=0 graus). Les línies de llargària constant s'anomenen <firstterm
+> és l'equador (latitud=0 graus). Les línies de longitud constant s'anomenen <firstterm
 >meridians</firstterm
 >. El meridià que passa per Greenwich és el <firstterm
 >primer meridià</firstterm
-> (llargària=0 graus). A diferència dels paral·lels, tots els meridians són cercles majors, i a més, no són línies paral·leles: encreuen als pols nord i sud. </para>
+> (longitud=0 graus). A diferència dels paral·lels, tots els meridians són cercles majors, i a més, no són línies paral·leles: encreuen als pols nord i sud. </para>
 <tip>
 <para
 >Exercici:</para>
 <para
->Quina és la llargària del pol nord? La seua latitud és de 90 graus nord. </para>
+>Quina és la longitud del pol nord? La seua latitud és de 90 graus nord. </para>
 <para
->Esta és una pregunta amb trampa. La llargària no té sentit al pol nord (i tampoc al pol sud). Té totes les longituds alhora. </para>
+>Esta és una pregunta amb trampa. La longitud no té sentit al pol nord (i tampoc al pol sud). Té totes les longituds alhora. </para>
 </tip>
 </sect1>

@@ -382,7 +382,7 @@ Dialog::Dialog(QWidget *parent) : QDialog(parent)
 
     setWindowTitle(i18nc("@title:window", "Port Selector"));
 #ifdef Q_OS_OSX
-    setWindowFlags(Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 }
 

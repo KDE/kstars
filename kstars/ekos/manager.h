@@ -20,6 +20,7 @@
 #include "auxiliary/portselector.h"
 #include "ksnotification.h"
 #include "auxiliary/opslogs.h"
+#include "ekos/capture/rotatorsettings.h"
 
 #include <QDialog>
 #include <QHash>
@@ -71,6 +72,7 @@ class Align;
 class Guide;
 class Mount;
 class Observatory;
+// class RotatorSettings;
 
 class Manager : public QDialog, public Ui::Manager
 {
@@ -142,6 +144,11 @@ class Manager : public QDialog, public Ui::Manager
         // Filter Manager
         void createFilterManager(ISD::FilterWheel *device);
         bool getFilterManager(const QString &name, QSharedPointer<FilterManager> &fm);
+
+        // Rotator Control
+        void createRotatorController(const QString &Name);
+        bool getRotatorController(const QString &Name, QSharedPointer<RotatorSettings> &rs);
+        bool existRotatorController();
 
         QString getCurrentJobName();
         void announceEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
@@ -315,11 +322,10 @@ class Manager : public QDialog, public Ui::Manager
 
         /**
          * @brief setEkosLiveConfig Set EkosLive settings
-         * @param onlineService If true, connect to EkosLive Online Service. Otherwise, EkosLive offline service.
          * @param rememberCredentials Remember username and password for next session.
          * @param autoConnect If true, it will automatically connect to EkosLive service.
          */
-        Q_SCRIPTABLE void setEkosLiveConfig(bool onlineService, bool rememberCredentials, bool autoConnect);
+        Q_SCRIPTABLE void setEkosLiveConfig(bool rememberCredentials, bool autoConnect);
 
         /**
          * @brief setEkosLiveUser Save EkosLive username and password
@@ -374,6 +380,8 @@ class Manager : public QDialog, public Ui::Manager
         void processNewProperty(INDI::Property);
         void processUpdateProperty(INDI::Property);
         void processDeleteProperty(INDI::Property);
+        void processMessage(int id);
+
 
         void setDeviceReady();
 
@@ -561,6 +569,7 @@ class Manager : public QDialog, public Ui::Manager
         QTimer m_PortSelectorTimer;
 
         QMap<QString, QSharedPointer<FilterManager>> m_FilterManagers;
+        QMap<QString, QSharedPointer<RotatorSettings>> m_RotatorControllers;
 
         // Logs
         QPointer<OpsLogs> opsLogs;

@@ -118,6 +118,7 @@ void INDI_P::initGUI()
     labelLayout->addWidget(labelW);
     PHBox->addWidget(labelWidget, 0, Qt::AlignTop | Qt::AlignLeft);
 
+    labelWidget->setToolTip(label);
     ledStatus->show();
     labelW->show();
 
@@ -159,6 +160,7 @@ void INDI_P::initGUI()
         default:
             break;
     }
+    labelWidget->raise();
 }
 
 void INDI_P::buildSwitchGUI()
@@ -559,7 +561,8 @@ void INDI_P::sendBlob()
 
     bvp->setState(IPS_BUSY);
 
-    pg->getDevice()->getClientManager()->startBlob(bvp->getDeviceName(), bvp->getName(), indi_timestamp());
+    pg->getDevice()->getClientManager()->startBlob(bvp->getDeviceName(), bvp->getName(),
+            QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
 
     for (int i = 0; i < elementList.count(); i++)
     {

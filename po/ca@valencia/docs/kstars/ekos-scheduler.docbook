@@ -75,7 +75,7 @@
                 <para
 ><guilabel
 >Prioritat</guilabel
->: Establix la prioritat de la tasca en l'interval des d'1 fins al 20, on 1 designa la prioritat més alta i 20 la prioritat més baixa. La prioritat s'aplicarà al càlcul del pes utilitzat per a seleccionar el següent objectiu per a la imatge. </para>
+>: Establix la prioritat de la tasca en l'interval des d'1 fins al 20, on 1 designa la prioritat més alta i 20 la prioritat més baixa. La prioritat s'aplicarà al càlcul del pes utilitzat per a seleccionar l'objectiu següent per a la imatge. </para>
             </listitem>
             <listitem>
                 <para
@@ -111,7 +111,7 @@
                 <para
 ><guilabel
 >Condicions de compleció</guilabel
->: Condicions que activen la compleció de la tasca d'observació. La selecció predeterminada és senzillament marcar la tasca d'observació com a completada una vegada que s'ha completat el procés de la seqüència. Les condicions addicionals permeten a l'usuari repetir el procés de la seqüència indefinidament o fins a un temps determinat. </para>
+>: Condicions que activen la compleció de la tasca d'observació. La selecció predeterminada és senzillament marcar la tasca d'observació com a completada una vegada que s'ha completat el procés de la seqüència. Les condicions addicionals permeten a l'usuari repetir el procés de la seqüència indefinidament o fins a una hora determinada. </para>
             </listitem>
         </itemizedlist>
         <para
@@ -193,7 +193,7 @@
             </listitem>
         </itemizedlist>
         <para
->El programador d'Ekos només inicia el procediment d'inici una vegada que el temps d'inici de la primera tasca d'observació és propera (el temps de <emphasis
+>El programador d'Ekos només inicia el procediment d'inici una vegada que el temps d'inici de la primera tasca d'observació és proper (el temps de <emphasis
 >lliurament</emphasis
 > predeterminat és de 5 minuts abans del temps d'<emphasis
 >inici</emphasis
@@ -204,7 +204,7 @@
         <title
 >Adquisició de les dades</title>
         <para
->Depenent de la selecció de l'usuari, el flux de treball típic procedirà de la següent manera: </para>
+>Depenent de la selecció de l'usuari, el flux de treball típic procedirà de la manera següent: </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -239,13 +239,13 @@
         <title
 >Tancament</title>
         <para
->Una vegada finalitzada la tasca d'observació, el programador seleccionarà el següent objectiu. Si encara no ha vençut el pròxim temps programat, la muntura restarà aparcada fins que l'objectiu estiga a punt. A més, si el proper objectiu programat no està previst amb un límit de temps configurable per l'usuari, el programador realitzarà un tancament <emphasis
+>Una vegada finalitzada la tasca d'observació, el programador seleccionarà l'objectiu següent. Si encara no ha vençut el pròxim temps programat, la muntura restarà aparcada fins que l'objectiu estiga a punt. A més, si el proper objectiu programat no està previst amb un límit de temps configurable per l'usuari, el programador realitzarà un tancament <emphasis
 >preventiu</emphasis
 > per tal de conservar els recursos, i tornarà a executar el procediment d'inici quan vença l'objectiu. </para>
         <para
 >Si es produïx un error irrecuperable, l'observatori iniciarà el procediment de tancament. Si hi ha un script de tancament, s'executarà l'últim. </para>
         <para
->El següent vídeo mostra una versió anterior del programador, però els principis bàsics encara s'apliquen hui: </para>
+>El vídeo següent mostra una versió anterior del programador, però els principis bàsics encara s'apliquen hui: </para>
         <mediaobject>
             <videoobject>
                 <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/v8vIXD1kois"
@@ -351,7 +351,7 @@ exit(0)
 > perquè alguns realment tenen equip impressionant i observatoris dedicats per valor de desenes dels milers de dòlars. No obstant açò, molts aficionats poden obtindre imatges estrel·lars amb un camp de gran abast combinant imatges més xicotetes en un sol i gran mosaic. </para>
         <para
 >Sovint estem limitats pel camp de visió de la càmera+telescopi (CDV). En augmentar CDV mitjançant un reductor focal o un tub més curt, obtindrem una cobertura del cel més gran a costa de la resolució espacial. Alhora, molts dels objectius amb un camp de gran abast ocupen múltiples CDV a través del cel. Sense cap canvi en el vostre equip d'astrofotografia, és possible crear una superimatge en mosaic <emphasis
->enganxada</emphasis
+>unida</emphasis
 > a partir de diverses imatges més xicotetes. Hi ha dos passos principals per a aconseguir una superimatge en mosaic: </para>
         <orderedlist>
             <listitem>
@@ -361,7 +361,7 @@ exit(0)
             <listitem>
                 <para
 >Processeu les imatges i <emphasis
->apegueu-les</emphasis
+>uniu-les</emphasis
 > en una superimatge en mosaic. </para>
             </listitem>
         </orderedlist>
@@ -372,9 +372,9 @@ exit(0)
         <para
 >El <guilabel
 >Planificador de mosaic</guilabel
-> en el Planificador d'Ekos crearà múltiples tasques del planificador basant-se en un objectiu central. Per a canviar al planificador, feu clic en el botó <guibutton
+> en el Programador d'Ekos crearà múltiples tasques del programador basant-se en un objectiu central. Per a canviar al planificador, feu clic en el botó <guibutton
 >Planificador de mosaic</guibutton
-> en el Planificador d'Ekos o en la barra d'eines INDI de KStars, tal com s'il·lustra en la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
+> en el Programador d'Ekos o a la barra d'eines INDI de KStars, tal com s'il·lustra en la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
         <orderedlist>
             <listitem>
                 <para
@@ -399,7 +399,7 @@ exit(0)
                 <para
 ><emphasis role="bold"
 >Ajusta la quadrícula</emphasis
->: Seleccioneu la dimensió del quadro del mosaic i el percentatge de superposició. El quadro del mosaic s'actualitzarà en conseqüència sobre el mapa celeste. Ajusteu l'angle de posició perquè coincidisca amb l'orientació desitjada al mosaic en el cel. Si l'angle de posició és diferent de l'orientació habitual de la càmera, és possible que hàgeu de girar la càmera manualment o mitjançant un rotor mecanitzat quan s'executen els treballs del planificador. La transparència del mosaic de manera predeterminada es calcula automàticament, però es pot desactivar i ajustar manualment. Per a calcular el camp del mosaic a partir del nombre de tessel·les, feu clic en el botó <guibutton
+>: Seleccioneu la dimensió del quadro del mosaic i el percentatge de superposició. El quadro del mosaic s'actualitzarà en conseqüència sobre el mapa celeste. Ajusteu l'angle de posició perquè coincidisca amb l'orientació desitjada al mosaic en el cel. Si l'angle de posició és diferent de l'orientació habitual de la càmera, és possible que hàgeu de girar la càmera manualment o mitjançant un rotor mecanitzat quan s'executen les tasques del programador. La transparència del mosaic de manera predeterminada es calcula automàticament, però es pot desactivar i ajustar manualment. Per a calcular el camp del mosaic a partir del nombre de tessel·les, feu clic en el botó <guibutton
 >Cobertura de CDV</guibutton
 >. El quadro del mosaic es pot centrar en el mapa celeste fent clic en el botó <guibutton
 >Torna a centrar</guibutton
@@ -418,7 +418,7 @@ exit(0)
             </mediaobject>
         </screenshot>
         <para
->Una superposició gran farà més fàcil la costura de fotogrames durant el postprocessament, però requerirà més subfinestres per a cobrir l'extensió desitjada. Tanmateix, si ja coneixeu la quantitat mínima de subfotogrames, el vostre algorisme de rebuig s'utilitzarà durant el postprocessament, possiblement voldreu fer augmentar la superposició per a assolir esta quantitat en les àrees cobertes per múltiples subfinestres. Per exemple, una quadrícula en mosaic de 4x4 amb un superposició del 75% tindrà 16 subfotogrames que cobriran la intersecció central, el qual és suficient per al rebuig Sigma «winsorized». Tot i que la pila resultant no té la mateixa alçària en totes les parts del fotograma final, este mètode proporciona control sobre la relació senyal a soroll i permet proporcionar context al vostre objectiu mentre s'exposen un nombre relativament baix de captures. </para>
+>Una superposició gran farà més fàcil unir els fotogrames durant el postprocessament, però requerirà més subfinestres per a cobrir l'extensió desitjada. Tanmateix, si ja coneixeu la quantitat mínima de subfotogrames, el vostre algorisme de rebuig s'utilitzarà durant el postprocessament, possiblement voldreu fer augmentar la superposició per a assolir esta quantitat en les àrees cobertes per múltiples subfinestres. Per exemple, una quadrícula en mosaic de 4x4 amb un superposició del 75% tindrà 16 subfotogrames que cobriran la intersecció central, el qual és suficient per al rebuig Sigma «winsorized». Tot i que la pila resultant no té la mateixa alçària en totes les parts del fotograma final, este mètode proporciona control sobre la relació senyal a soroll i permet proporcionar context al vostre objectiu mentre s'exposen un nombre relativament baix de captures. </para>
         <para
 >El nombre gran dibuixat en el cantó de cada subfinestra en la quadrícula representa l'ordre en què s'han capturat les subfinestres. L'elecció predeterminada en forma de S (oest-est i alternant moviments alts-baixos/baixos-alts), garantix un moviment mínim de la muntura durant l'observació. Desmarqueu <guilabel
 >Moviment mínim de la muntura</guilabel
@@ -427,14 +427,14 @@ exit(0)
 > per a assegurar-vos que les subfinestres cobrisquen correctament l'extensió desitjada del fotograma. </para>
         <screenshot>
             <screeninfo
->Eina de mosaic del planificador - Rotació gran </screeninfo>
+>Eina de mosaic del programador - Rotació gran </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="mosaic_close_pole.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Eina de mosaic del planificador - Rotació gran</phrase>
+>Eina de mosaic del programador - Rotació gran</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -462,9 +462,9 @@ exit(0)
                 <para
 ><emphasis role="bold"
 >Crea tasques</emphasis
->: El pas final és seleccionar el fitxer i el directori de seqüències per a emmagatzemar les imatges. El camp de destinació s'òmpliga automàticament, però es pot canviar segons es desitge. Seleccioneu els passos que cada tasca del planificador haurà d'executar en seqüència (Seguiment -> Enfocament -> Alineació -> Guiatge -> Captura), i ajusteu la freqüència de les rutines d'alineació i enfocament automàtics que s'han d'executar durant l'operació de mosaic. Per exemple, si <guilabel
+>: El pas final és seleccionar el fitxer i el directori de seqüències per a emmagatzemar les imatges. El camp de destinació s'òmpliga automàticament, però es pot canviar segons es desitge. Seleccioneu els passos que cada tasca del programador haurà d'executar en seqüència (Seguiment -> Enfocament -> Alineació -> Guiatge -> Captura), i ajusteu la freqüència de les rutines d'alineació i enfocament automàtics que s'han d'executar durant l'operació de mosaic. Per exemple, si <guilabel
 >Alinea cada</guilabel
-> està establit a 2 tasques dels planificador, llavors la primera tasca executarà l'alineació d'astrometria, mentre que la segona tasca l'ometrà. Quan s'executa la tercera tasca, l'alineació es torna a realitzar i així successivament. </para>
+> està establit a 2 tasques del programador, llavors la primera tasca executarà l'alineació d'astrometria, mentre que la segona tasca l'ometrà. Quan s'executa la tercera tasca, l'alineació es torna a realitzar i així successivament. </para>
             <screenshot>
             <screeninfo
 >Crea tasques </screeninfo>
@@ -484,6 +484,6 @@ exit(0)
         <para
 >Feu clic en <guibutton
 >Crea tasques</guibutton
-> per a generar les tasques del planificador del mosaic i afegir-les a la cua del planificador. </para>
+> per a generar les tasques del programador del mosaic i afegir-les a la cua del planificador. </para>
     </sect3>
 </sect2>

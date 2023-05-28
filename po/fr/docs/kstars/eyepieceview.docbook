@@ -50,13 +50,13 @@
 </para>
 
 <para
->À la première invocation de cet outil, on vous demandera de choisir le champ de vue à utiliser pour montrer la vue. Vous pouvez comparer cette vue avec une vraie image du ciel en cliquant sur le bouton <guibutton
+>À la première invocation de cet outil, on vous demandera de choisir le champ de vue à utiliser pour afficher la vue. Vous pouvez comparer cette vue avec une vraie image du ciel en cliquant sur le bouton <guibutton
 >Chercher image DSS</guibutton
 > pour télécharger une image. Vous pouvez ajuster l'angle de rotation avec le curseur pour que la correspondance soit correcte, ou <guilabel
 >Inverser la vue</guilabel
 > et <guilabel
 >Retourner la vue</guilabel
-> en cochant les cases correspondantes. Sinon vous pouvez utiliser une quantité pré-calculée de rotation en utilisant un des éléments de la liste déroulante <guilabel
+> en cochant les cases correspondantes. Sinon vous pouvez utiliser une quantité précalculée de rotation en utilisant un des éléments de la liste déroulante <guilabel
 >Préréglages</guilabel
 > qui est adapté à différents systèmes optiques.</para>
 
@@ -79,6 +79,6 @@
 <para
 >Pour exporter la vue vers un fichier, cliquez sur <guibutton
 >Exporter</guibutton
->. L'exportation permet d'ajouter des marques pour des graphiques imprimés comme montré ci-dessus et de sauver l'image. </para>
+>. L'exportation permet d'ajouter des marques pour des graphiques imprimés comme montré ci-dessus et de enregistrer l'image. </para>
 
 </sect1>

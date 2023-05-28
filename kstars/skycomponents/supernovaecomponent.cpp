@@ -30,10 +30,27 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 
+#include <zlib.h>
+#include <fstream>
+#include <stdio.h>
+
+#include <csv.h>
+
+gzFile gzopen OF((const char *path, const char *mode));
+
+const QString SupernovaeComponent::tnsDataFilename("tns_public_objects.csv");
+const QString SupernovaeComponent::tnsDataFilenameZip("tns-daily.csv.gz");
+const QString SupernovaeComponent::tnsDataUrl(
+    "https://indilib.org/jdownloads/kstars/tns-daily.csv.gz");
+
 SupernovaeComponent::SupernovaeComponent(SkyComposite *parent) : ListComponent(parent)
 {
     //QtConcurrent::run(this, &SupernovaeComponent::loadData);
-    //loadData();
+    //loadData(); MagnitudeLimitShowSupernovae
+    connect(Options::self(), &Options::SupernovaDownloadUrlChanged, this,
+            &SupernovaeComponent::loadData);
+    connect(Options::self(), &Options::MagnitudeLimitShowSupernovaeChanged, this,
+            &SupernovaeComponent::loadData);
 }
 
 void SupernovaeComponent::update(KSNumbers *num)
@@ -57,85 +74,86 @@ bool SupernovaeComponent::selected()
 
 void SupernovaeComponent::loadData()
 {
+    qDebug() << "SupernovaeComponent::loadData\n";
     qDeleteAll(m_ObjectList);
     m_ObjectList.clear();
 
     objectNames(SkyObject::SUPERNOVA).clear();
     objectLists(SkyObject::SUPERNOVA).clear();
 
-    QString name, type, host, date, ra, de;
-    float z, mag;
+    //QString name, type, host, date, ra, de;
 
-    QString sFileName = KSPaths::locate(QStandardPaths::AppLocalDataLocation, QString("catalog.min.json"));
+    QString sFileName =
+        KSPaths::locate(QStandardPaths::AppLocalDataLocation, QString(tnsDataFilename));
 
-    QFile sNovaFile(sFileName);
+    std::string s;
 
-    if (sNovaFile.open(QIODevice::ReadOnly) == false)
+    try
     {
-        qCritical() << "Unable to open supernova file" << sFileName;
+        io::CSVReader<26, io::trim_chars<' '>, io::double_quote_escape<',', '\"'>,
+                      io::ignore_overflow>
+            in(sFileName.toLocal8Bit());
+        // skip header
+        const char *line = in.next_line();
+        if (line == nullptr)
+        {
+            qCritical() << "file is empty\n";
+            return;
+        }
+
+        std::string id, name, ra_s, dec_s, type;
+        double redshift;
+        std::string host_name;
+        double host_redshift;
+        std::string reporting_group, disc_datasource, classifying_group, assoc_group,
+            disc_internal_name, disc_instrument, classifying_instrument;
+        int tns_at, is_public;
+        std::string end_prop_period;
+        double discovery_mag;
+        std::string discovery_filter, discovery_date_s, sender, remarks,
+            discovery_bibcode, classification_bibcode, ext_catalog;
+
+        int i = 0;
+
+        while (in.read_row(
+            id, name, ra_s, dec_s, type, redshift, host_name, host_redshift,
+            reporting_group, disc_datasource, classifying_group, assoc_group,
+            disc_internal_name, disc_instrument, classifying_instrument, tns_at,
+            is_public, end_prop_period, discovery_mag, discovery_filter, discovery_date_s,
+            sender, remarks, discovery_bibcode, classification_bibcode, ext_catalog))
+        {
+            auto discovery_date =
+                QDateTime::fromString(discovery_date_s.c_str(), Qt::ISODate);
+            QString qname = QString(name.c_str());
+            dms ra(QString(ra_s.c_str()), false);
+            dms dec(QString(dec_s.c_str()), true);
+
+            Supernova *sup = new Supernova(
+                qname, ra, dec, QString(type.c_str()), QString(host_name.c_str()),
+                QString(discovery_date_s.c_str()), redshift, discovery_mag, discovery_date);
+
+//            qDebug() << i++ << ":" << id.c_str() << " " << name.c_str()
+//                     << "mag:" << discovery_mag << "date:" << discovery_date << "\n";
+
+            objectNames(SkyObject::SUPERNOVA).append(QString(name.c_str()));
+
+            appendListObject(sup);
+            objectLists(SkyObject::SUPERNOVA)
+                .append(QPair<QString, const SkyObject *>(qname, sup));
+        }
+
+        qDebug() << i << "supernovae loaded\n";
+        m_DataLoading = false;
+        m_DataLoaded  = true;
+    }
+    catch (io::error::can_not_open_file& ex)
+    {
+        qCritical() << "could not open file " << sFileName.toLocal8Bit() << "\n";
         return;
     }
-
-    QJsonParseError pError;
-    QJsonDocument sNova = QJsonDocument::fromJson(sNovaFile.readAll(), &pError);
-
-    if (pError.error != QJsonParseError::NoError)
-    {
-        qCritical() << "Error parsing json document" << pError.errorString();
-        return;
+    catch (std::exception &ex){
+        qCritical() << "unknown exception happened:" << ex.what() << "\n";
     }
-
-    if (sNova.isArray() == false)
-    {
-        qCCritical(KSTARS) << "Invalid document format! No JSON array.";
-        return;
-    }
-
-    QJsonArray sArray = sNova.array();
-    bool ok           = false;
-
-    for (const auto snValue : sArray)
-    {
-        const QJsonObject propObject = snValue.toObject();
-        mag                          = 99.9;
-        z                            = 0;
-        name.clear();
-        type.clear();
-        host.clear();
-        date.clear();
-
-        if (propObject.contains("ra") == false || propObject.contains("dec") == false)
-            continue;
-        ra = ((propObject["ra"].toArray()[0]).toObject()["value"]).toString();
-        de = ((propObject["dec"].toArray()[0]).toObject()["value"]).toString();
-
-        name = propObject["name"].toString();
-        if (propObject.contains("claimedtype"))
-            type = ((propObject["claimedtype"].toArray()[0]).toObject()["value"]).toString();
-        if (propObject.contains("host"))
-            host = ((propObject["host"].toArray()[0]).toObject()["value"]).toString();
-        if (propObject.contains("discoverdate"))
-            date = ((propObject["discoverdate"].toArray()[0]).toObject()["value"]).toString();
-        if (propObject.contains("redshift"))
-            z = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
-        if (ok == false)
-            z = 99.9;
-        if (propObject.contains("maxappmag"))
-            mag = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
-        if (ok == false)
-            mag = 99.9;
-
-        Supernova *sup =
-            new Supernova(name, dms::fromString(ra, false), dms::fromString(de, true), type, host, date, z, mag);
-
-        objectNames(SkyObject::SUPERNOVA).append(name);
-
-        appendListObject(sup);
-        objectLists(SkyObject::SUPERNOVA).append(QPair<QString, const SkyObject *>(name, sup));
-    }
-
-    m_DataLoading = false;
-    m_DataLoaded = true;
 }
 
 SkyObject *SupernovaeComponent::objectNearest(SkyPoint *p, double &maxrad)
@@ -166,7 +184,8 @@ float SupernovaeComponent::zoomMagnitudeLimit()
     double lgmin = log10(MINZOOM);
     double lgz   = log10(Options::zoomFactor());
 
-    return 14.0 + 2.222 * (lgz - lgmin) + 2.222 * log10(static_cast<double>(Options::starDensity()));
+    return 14.0 + 2.222 * (lgz - lgmin) +
+           2.222 * log10(static_cast<double>(Options::starDensity()));
 }
 
 void SupernovaeComponent::draw(SkyPainter *skyp)
@@ -185,18 +204,35 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
     }
 
     double maglim = zoomMagnitudeLimit();
+    double refage = Options::supernovaDetectionAge();
+    bool hostOnly = Options::supernovaeHostOnly();
+    bool classifiedOnly = Options::supernovaeClassifiedOnly();
 
     for (auto so : m_ObjectList)
     {
         Supernova *sup = dynamic_cast<Supernova *>(so);
         float mag      = sup->mag();
+        float age      = sup->getAgeDays();
+        QString type     = sup->getType();
 
         if (mag > float(Options::magnitudeLimitShowSupernovae()))
             continue;
 
-        //Do not draw if mag>maglim
-        if (mag > maglim)
+        if (age > refage)
             continue;
+
+        // only SN with host galaxy?
+        if (hostOnly && sup->getHostGalaxy() == "")
+            continue;
+
+        // Do not draw if mag>maglim
+        if (mag > maglim && Options::limitSupernovaeByZoom())
+            continue;
+
+        // classified SN only?
+        if (classifiedOnly && type == "")
+            continue;
+
         skyp->drawSupernova(sup);
     }
 }
@@ -234,23 +270,84 @@ void SupernovaeComponent::notifyNewSupernovae()
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
-    delete(downloadJob);
-    downloadJob = new FileDownloader();
+    delete (downloadJob);
+    downloadJob    = new FileDownloader();
+    auto shownames = Options::showSupernovaNames();
+    auto age       = Options::supernovaDetectionAge();
+    QString url    = Options::supernovaDownloadUrl();
+    QString output = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
+                         .filePath(tnsDataFilenameZip);
 
-    downloadJob->setProgressDialogEnabled(true, i18n("Supernovae Update"), i18n("Downloading Supernovae updates..."));
+    if (!url.startsWith("file://"))
+    {
+        qInfo() << "fetching data from web: " << url << "\n";
+        downloadJob->setProgressDialogEnabled(true, i18n("Supernovae Update"),
+                                              i18n("Downloading Supernovae updates..."));
 
-    QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
-    QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+        QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
+        QObject::connect(downloadJob, SIGNAL(error(QString)), this,
+                         SLOT(downloadError(QString)));
 
-    QString output = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("catalog.min.json");
+        downloadJob->setDownloadedFileURL(QUrl::fromLocalFile(output));
+        downloadJob->get(QUrl(url));
+    }
+    else
+    {
+        // if we have a local file as url
+        // copy data manually to target location
+        QString fname = url.right(url.size() - 7);
+        qInfo() << "fetching data from local file at: " << fname << "\n";
+        QFile::remove(fname);
+        auto res = QFile::copy(fname, output);
+        qInfo() << "copy returned: " << res << "\n";
+        // uncompress csv
+        unzipData();
+        // Reload Supernova
+        loadData();
+    }
+}
 
-    downloadJob->setDownloadedFileURL(QUrl::fromLocalFile(output));
+void SupernovaeComponent::unzipData()
+{
+    // TODO: error handling
+    std::string ifpath =
+        QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
+            .filePath(tnsDataFilenameZip)
+            .toStdString();
+    std::string ofpath =
+        QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
+            .filePath(tnsDataFilename)
+            .toStdString();
+    auto fhz  = gzopen(ifpath.c_str(), "rb");
+    auto fout = fopen(ofpath.c_str(), "wb");
 
-    downloadJob->get(QUrl("https://sne.space/astrocats/astrocats/supernovae/output/catalog.min.json"));
+    if (fhz == NULL)
+    {
+        printf("Error: Failed to gzopen %s\n", ifpath.c_str());
+        exit(0);
+    }
+    unsigned char unzipBuffer[8192];
+    unsigned int unzippedBytes;
+    while (true)
+    {
+        unzippedBytes = gzread(fhz, unzipBuffer, 8192);
+        if (unzippedBytes > 0)
+        {
+            fwrite(unzipBuffer, 1, unzippedBytes, fout);
+        }
+        else
+        {
+            break;
+        }
+    }
+    gzclose(fhz);
+    fclose(fout);
 }
 
 void SupernovaeComponent::downloadReady()
 {
+    // uncompress csv
+    unzipData();
     // Reload Supernova
     loadData();
 #ifdef KSTARS_LITE

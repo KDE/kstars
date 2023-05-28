@@ -28,7 +28,7 @@ void FocusManager::updateFocusDetailView()
     if (pos == 1 && focusStarPixmap.get() != nullptr)
     {
         focusStarView->setPixmap(focusStarPixmap.get()->scaled(focusDetailView->width(), focusDetailView->height(),
-                                                               Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                                 Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
 }
 
@@ -50,22 +50,24 @@ void FocusManager::init()
 {
 
     // focus details buttons
-    connect(focusDetailNextButton, &QPushButton::clicked, [this]() {
+    connect(focusDetailNextButton, &QPushButton::clicked, [this]()
+    {
         const int pos = focusDetailView->currentIndex();
         if (pos == 0 || (pos == 1 && focusStarPixmap.get() != nullptr))
-            focusDetailView->setCurrentIndex(pos+1);
+            focusDetailView->setCurrentIndex(pos + 1);
         else if (pos > 0)
             focusDetailView->setCurrentIndex(0);
         updateFocusDetailView();
     });
-    connect(focusDetailPrevButton, &QPushButton::clicked, [this]() {
+    connect(focusDetailPrevButton, &QPushButton::clicked, [this]()
+    {
         const int pos = focusDetailView->currentIndex();
         if (pos == 0 && focusStarPixmap.get() != nullptr)
-            focusDetailView->setCurrentIndex(pos+2);
+            focusDetailView->setCurrentIndex(pos + 2);
         else if (pos == 0)
-            focusDetailView->setCurrentIndex(pos+1);
+            focusDetailView->setCurrentIndex(pos + 1);
         else if (pos > 0)
-            focusDetailView->setCurrentIndex(pos-1);
+            focusDetailView->setCurrentIndex(pos - 1);
         updateFocusDetailView();
     });
 }

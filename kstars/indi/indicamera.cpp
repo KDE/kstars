@@ -552,6 +552,17 @@ bool Camera::generateFilename(bool batch_mode, const QString &extension, QString
     if (currentDir.exists() == false)
         QDir().mkpath(currentDir.path());
 
+    // Check if the file exists. We try not to overwrite capture files.
+    if (QFile::exists(*filename))
+    {
+        QString oldFilename = *filename;
+        *filename = placeholderPath.repairFilename(*filename);
+        if (filename != oldFilename)
+            qCWarning(KSTARS_INDI) << "File over-write detected: changing" << oldFilename << "to" << *filename;
+        else
+            qCWarning(KSTARS_INDI) << "File over-write detected for" << oldFilename << "but could not correct filename";
+    }
+
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
         return false;
@@ -678,6 +689,8 @@ bool Camera::processBLOB(INDI::Property prop)
         BType = BLOB_IMAGE;
     else if (format.contains("fits"))
         BType = BLOB_FITS;
+    else if (format.contains("xisf"))
+        BType = BLOB_XISF;
     else if (RAWFormats.contains(shortFormat))
         BType = BLOB_RAW;
 
@@ -1568,28 +1581,22 @@ bool Camera::stopRecording()
     return true;
 }
 
-bool Camera::setFITSHeader(const QMap<QString, QString> &values)
+bool Camera::setFITSHeaders(const QList<FITSData::Record> &values)
 {
     auto tvp = getText("FITS_HEADER");
 
-    if (!tvp)
+    // Only proceed if FITS header has 3 fields introduced with INDI v2.0.1
+    if (!tvp || tvp->count() < 3)
         return false;
 
-    QMapIterator<QString, QString> i(values);
-
-    while (i.hasNext())
+    for (auto &record : values)
     {
-        i.next();
+        tvp->at(0)->setText(record.key.toLatin1().constData());
+        tvp->at(1)->setText(record.value.toString().toLatin1().constData());
+        tvp->at(2)->setText(record.comment.toLatin1().constData());
 
-        auto headerT = tvp->findWidgetByName(i.key().toLatin1().data());
-
-        if (!headerT)
-            continue;
-
-        headerT->setText(i.value().toLatin1().data());
+        sendNewProperty(tvp);
     }
-
-    sendNewProperty(tvp);
 
     return true;
 }

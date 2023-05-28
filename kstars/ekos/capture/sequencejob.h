@@ -87,8 +87,6 @@ class SequenceJob : public QObject
             // Bool
             SJ_TimeStampPrefixEnabled,
             // QString
-            SJ_TargetName,
-            // QString
             SJ_Filename,
             // Bool
             SJ_DarkFlat,
@@ -110,7 +108,25 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// Capture Fuctions
         ////////////////////////////////////////////////////////////////////////
-        CAPTUREResult capture(bool autofocusReady, FITSMode mode);
+        /**
+         * @brief startCapturing Initialize the camera and start capturing
+         *
+         * This step calls {@see SequenceJobState::initCapture()}, which triggers
+         * all actions before the camera may start to capture. If the initialization
+         * is completed, the sequence job state machine sends the signal
+         * {@see SequenceJobState::initCaptureComplete()} which will trigger the
+         * camera device to finally start capturing ({@see capture()}).
+         *
+         * @param autofocusReady was there a successful focus run previously?
+         * @param mode what is the purpose of capturing?
+         */
+        void startCapturing(bool autofocusReady, FITSMode mode);
+        /**
+         * @brief capture As soon as everything is ready for the camera to start
+         * capturing, this method triggers the camera device to start capturing.
+         * @param mode what is the purpose of capturing?
+         */
+        void capture(FITSMode mode);
         void abort();
         void done();
 
@@ -123,10 +139,6 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// Job Status Functions
         ////////////////////////////////////////////////////////////////////////
-        void setFilterManager(const QSharedPointer<FilterManager> &manager)
-        {
-            m_FilterManager = manager;
-        }
         const QString &getStatusString()
         {
             return StatusStrings()[getStatus()];
@@ -152,10 +164,12 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// State Machine Functions
         ////////////////////////////////////////////////////////////////////////
+        // Create all event connections between the state machine and the command processor
+        void connectDeviceAdaptor();
+        // Disconnect all event connections between the state machine and the command processor
+        void disconnectDeviceAdaptor();
         // Setter: Set Target Filter Name
         void setTargetFilter(int pos, const QString &name);
-        // Setter: Set Current filter slot
-        void setCurrentFilter(int value);
         // Getter: Get Current Filter Slot
         int getCurrentFilter() const;
 
@@ -253,6 +267,11 @@ class SequenceJob : public QObject
             stateMachine->targetTemperature = value;
         }
 
+        void setFocusStatus(FocusState state)
+        {
+            stateMachine->setFocusStatus(state);
+        }
+
         double getTargetStartGuiderDrift() const
         {
             return stateMachine->targetStartGuiderDrift;
@@ -323,9 +342,10 @@ class SequenceJob : public QObject
          */
         void prepareCapture();
         /**
-         * @brief All preparations necessary for capturing are completed
+         * @brief processPrepareComplete All preparations necessary for capturing are completed
+         * @param success true iff preparation succeeded
          */
-        void processPrepareComplete();
+        void processPrepareComplete(bool success = true);
         /**
          * @brief Abort capturing
          */
@@ -341,7 +361,9 @@ class SequenceJob : public QObject
 
     signals:
         // All preparations necessary for capturing are completed
-        void prepareComplete();
+        void prepareComplete(bool success = true);
+        // Manage the result when capturing has been started
+        void captureStarted(CAPTUREResult rc);
         // Abort capturing
         void abortCapture();
         // log entry
@@ -396,16 +418,7 @@ class SequenceJob : public QObject
         /// State machines encapsulating the state of this capture sequence job
         //////////////////////////////////////////////////////////////
         QSharedPointer<CaptureDeviceAdaptor> captureDeviceAdaptor;
-        QSharedPointer<FilterManager> m_FilterManager;
-        SequenceJobState *stateMachine { nullptr };
-        /**
-         * @brief Create all event connections between the state machine and the command processor
-         */
-        void connectDeviceAdaptor();
-        /**
-         * @brief Disconnect all event connections between the state machine and the command processor
-         */
-        void disconnectDeviceAdaptor();
+        QSharedPointer<SequenceJobState> stateMachine;
 
 };
 }

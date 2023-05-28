@@ -19,6 +19,8 @@
 
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/refocusstate.h"
+#include "ekos/auxiliary/filtermanager.h"
+#include "ekos/scheduler/schedulerjob.h"
 
 namespace Ekos
 {
@@ -40,7 +42,8 @@ class CaptureModuleState: public QObject
             ACTION_MOUNT_PARK,          /* Park the mount.                                                                                */
             ACTION_DOME_PARK,           /* Park the dome.                                                                                 */
             ACTION_FLAT_SYNC_FOCUS,     /* Move the focuser to the focus position for the selected filter.                                */
-            ACTION_SCOPE_COVER          /* Ensure that the scope cover (if present) is opened.                                            */
+            ACTION_SCOPE_COVER,         /* Ensure that the scope cover (if present) is opened.                                            */
+            ACTION_AUTOFOCUS            /* Execute autofocus (might be triggered due to filter change).                                   */
         } PrepareActions;
 
         typedef enum
@@ -68,6 +71,13 @@ class CaptureModuleState: public QObject
             CAP_LIGHT_UNKNOWN, /* unknown whether on or off */
             CAP_LIGHT_BUSY     /* light state changing      */
         } LightState;
+
+        typedef enum
+        {
+            CONTINUE_ACTION_NONE,            /* do nothing              */
+            CONTINUE_ACTION_NEXT_EXPOSURE,   /* start next exposure     */
+            CONTINUE_ACTION_CAPTURE_COMPLETE /* recall capture complete */
+        } ContinueAction;
 
         CaptureModuleState(QObject *parent = nullptr);
 
@@ -107,8 +117,7 @@ class CaptureModuleState: public QObject
         {
             MANAUL_COVER_OPEN,
             MANUAL_COVER_CLOSED_LIGHT,
-            MANUAL_COVER_CLOSED_DARK,
-
+            MANUAL_COVER_CLOSED_DARK
         } ManualCoverState;
 
         ManualCoverState m_ManualCoverState { MANAUL_COVER_OPEN };
@@ -144,6 +153,15 @@ class CaptureModuleState: public QObject
             m_StartingCapture = newStartingCapture;
         }
 
+        ContinueAction getContinueAction() const
+        {
+            return m_ContinueAction;
+        }
+        void setContinueAction(ContinueAction newPauseFunction)
+        {
+            m_ContinueAction = newPauseFunction;
+        }
+
         FocusState getFocusState() const
         {
             return m_FocusState;
@@ -157,10 +175,12 @@ class CaptureModuleState: public QObject
         {
             return m_GuideState;
         }
-        void setGuideState(GuideState value)
-        {
-            m_GuideState = value;
-        }
+        void setGuideState(GuideState state);
+
+        // short cut for all guiding states that indicate guiding is on
+        bool isGuidingOn();
+        // short cut for all guiding states that indicate guiding in state GUIDING
+        bool isActivelyGuiding();
 
         QTimer &getCaptureDelayTimer()
         {
@@ -207,10 +227,7 @@ class CaptureModuleState: public QObject
         {
             return m_AlignState;
         }
-        void setAlignState(AlignState value)
-        {
-            m_AlignState = value;
-        }
+        void setAlignState(AlignState value);
 
         FilterState getFilterManagerState() const
         {
@@ -292,14 +309,40 @@ class CaptureModuleState: public QObject
         }
 
 
+        const QString &targetName() const
+        {
+            return m_TargetName;
+        }
+        void setTargetName(const QString &newTargetName)
+        {
+            m_TargetName = newTargetName;
+        }
+
         double getFileHFR() const
         {
             return m_fileHFR;
         }
-
         void setFileHFR(double newFileHFR)
         {
             m_fileHFR = newFileHFR;
+        }
+
+        bool ignoreJobProgress() const
+        {
+            return m_ignoreJobProgress;
+        }
+        void setIgnoreJobProgress(bool value)
+        {
+            m_ignoreJobProgress = value;
+        }
+
+        bool dirty() const
+        {
+            return m_Dirty;
+        }
+        void setDirty(bool value)
+        {
+            m_Dirty = value;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -329,6 +372,31 @@ class CaptureModuleState: public QObject
             m_ditherCounter = Options::ditherFrames();
         }
 
+        /**
+         * @brief checkSeqBoundary Determine the next file number sequence.
+         *        That is, if we have file1.png and file2.png, then the next
+         *        sequence should be file3.png.
+         */
+        void checkSeqBoundary();
+
+        int nextSequenceID() const
+        {
+            return m_nextSequenceID;
+        }
+        void setNextSequenceID(int id)
+        {
+            m_nextSequenceID = id;
+        }
+
+        uint16_t capturedFramesCount(const QString &signature) const
+        {
+            return m_capturedFramesMap[signature];
+        }
+        void setCapturedFramesCount(const QString &signature, uint16_t count)
+        {
+            m_capturedFramesMap[signature] = count;
+        }
+
         // ////////////////////////////////////////////////////////////////////
         // Action checks
         // ////////////////////////////////////////////////////////////////////
@@ -349,18 +417,60 @@ class CaptureModuleState: public QObject
         bool checkDithering();
 
         /**
-             * @brief Check whether a meridian flip has been requested and trigger it
-             * @return true iff a meridian flip has been triggered
-             */
+         * @brief updateMFMountState Handle changes of the meridian flip mount state
+         */
+        void updateMFMountState(MeridianFlipState::MeridianFlipMountState status);
+
+        /**
+         * @brief updateMeridianFlipStage Update the meridian flip stage
+         */
+        void updateMeridianFlipStage(const MeridianFlipState::MFStage &stage);
+
+        /**
+         * @brief checkMeridianFlipActive
+         * @return true iff the meridian flip itself or post flip actions are running
+         */
+        bool checkMeridianFlipActive();
+
+        /**
+         * @brief Check whether a meridian flip has been requested and trigger it
+         * @return true iff a meridian flip has been triggered
+         */
         bool checkMeridianFlipReady();
 
         /**
-             * @brief Check if the mount's flip has been completed and start guiding
-             * if necessary. Starting guiding after the meridian flip works through
-             * the signal {@see startGuidingAfterFlip()}
-             * @return true if guiding needs to start but is not running yet
-             */
+         * @brief checkPostMeridianFlipActions Execute the checks necessary after the mount
+         * has completed the meridian flip.
+         * @return true iff the post meridian flip actions are ongoing, false if completed or not necessary
+         */
+        bool checkPostMeridianFlipActions();
+
+        /**
+         * @brief Check if an alignment needs to be executed after completing
+         * a meridian flip.
+         * @return
+         */
+        bool checkAlignmentAfterFlip();
+
+        /**
+         * @brief Check if the mount's flip has been completed and start guiding
+         * if necessary. Starting guiding after the meridian flip works through
+         * the signal {@see startGuidingAfterFlip()}
+         * @return true if guiding needs to start but is not running yet
+         */
         bool checkGuidingAfterFlip();
+
+        /**
+         * @brief processGuidingFailed React when guiding failed.
+         *
+         * If aguiding has been started before and stopped, capturing aborts except
+         * for the case that either
+         *  - a meridian flip is running
+         *  - a job is running for non light frames
+         *  - capturing is either paused or suspended
+         *  In these case, nothing is done.
+         */
+        void processGuidingFailed();
 
         /**
          * @brief Process changes necessary when the focus state changes.
@@ -383,16 +493,16 @@ class CaptureModuleState: public QObject
         bool startFocusIfRequired();
 
         /**
+         * @brief Start adaptive focus if necessary
+         * @return TRUE if we need adaptive focus, false if not necessary
+         */
+
+        void updateAdaptiveFocusState(bool success);
+
+        /**
          * @brief calculate new HFR threshold based on median value for current selected filter
          */
         void updateHFRThreshold();
-
-        /**
-             * @brief Check if an alignment needs to be executed after completing
-             * a meridian flip.
-             * @return
-             */
-        bool checkAlignmentAfterFlip();
 
         /**
          * @brief Slot that listens to guiding deviations reported by the Guide module.
@@ -408,36 +518,101 @@ class CaptureModuleState: public QObject
 
         void setGuideDeviation(double deviation_rms);
 
+        /**
+         * @brief addDownloadTime Record a new download time
+         */
+        void addDownloadTime(double time);
+
+        /**
+         * @brief averageDownloadTime Determine the average download time
+         * @return
+         */
+        double averageDownloadTime()
+        {
+            return (downloadsCounter == 0 ? 0 : totalDownloadTime / downloadsCounter);
+        }
+
+
+        /**
+         * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
+         * completed flat frames.
+         * @param job Dark flat job
+         * @return True if a matching exposure is found and set, false otherwise.
+         * @warning This only works if the flat frames were captured in the same live session.
+         * If the flat frames were captured in another session (i.e. Ekos restarted), then all automatic exposure
+         * calculation results are discarded since Ekos does not save this information to the sequene file.
+         * Possible solution is to write to a local config file to keep this information persist between sessions.
+         */
+        bool setDarkFlatExposure(SequenceJob *job);
+
+        /**
+         * @brief checkSeqBoundary Determine the next file number sequence.
+         *        That is, if we have file1.png and file2.png, then the next
+         *        sequence should be file3.png.
+         */
+        void checkSeqBoundary(QUrl sequenceURL);
+
+        /**
+         * @brief hasCapturedFramesMap Check if at least one frame has been recorded
+         */
+        bool hasCapturedFramesMap()
+        {
+            return m_capturedFramesMap.count() > 0;
+        }
+        /**
+         * @brief addCapturedFrame Record a captured frame
+         */
+        void addCapturedFrame(const QString &signature);
+        /**
+         * @brief removeCapturedFrameCount Reduce the frame counts for the given signature
+         */
+        void removeCapturedFrameCount(const QString &signature, uint16_t count);
+        /**
+         * @brief clearCapturedFramesMap Clear the map of captured frames counts
+         */
+        void clearCapturedFramesMap()
+        {
+            m_capturedFramesMap.clear();
+        }
 
         bool isCaptureRunning()
         {
             return (m_CaptureState != CAPTURE_IDLE && m_CaptureState != CAPTURE_COMPLETE && m_CaptureState != CAPTURE_ABORTED);
         }
 
-signals:
+    signals:
         // controls for capture execution
         void startCapture();
         void abortCapture();
         void suspendCapture();
+        // mount meridian flip status update event
+        void newMeridianFlipStage(MeridianFlipState::MFStage status);
+        // meridian flip started
+        void meridianFlipStarted();
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();
         // new capture state
         void newStatus(Ekos::CaptureState status);
         // forward new focus status
         void newFocusStatus(FocusState status);
+        // forward new adaptive focus status
+        void newAdaptiveFocusStatus(bool success);
         // check focusing is necessary for the given HFR
         void checkFocus(double hfr);
         // reset the focuser to the last known focus position
         void resetFocus();
+        // signal focus module to perform adaptive focus
+        void adaptiveFocus();
         // abort capturing if fast exposure mode is used
         void abortFastExposure();
         // new HFR focus limit calculated
         void newLimitFocusHFR(double hfr);
         // Select the filter at the given position
-        void newFilterPosition(int targetFilterPosition);
+        void newFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES);
         // new log text for the module log window
         void newLog(const QString &text);
-private:
+
+    private:
         // list of all sequence jobs
         QList<SequenceJob *> m_allJobs;
         // Currently active sequence job.
@@ -452,6 +627,8 @@ private:
         QString m_CurrentFocusFilterName { "--" };
         // HFR value as loaded from the sequence file
         double m_fileHFR { 0 };
+        // Captured Frames Map
+        SchedulerJob::CapturedFramesMap m_capturedFramesMap;
         // are we in the starting phase of capturing?
         bool m_StartingCapture { true };
         // Guide Deviation
@@ -464,6 +641,20 @@ private:
         // for the first capture job that is ready to be executed.
         // @see Capture::start().
         QTimer m_captureDelayTimer;
+        // sum over all recorded list of download times
+        double totalDownloadTime;
+        // number of downloaded frames
+        uint downloadsCounter {0};
+        // next capture sequence ID
+        int m_nextSequenceID { 0 };
+        // how to continue after pausing
+        ContinueAction m_ContinueAction { CONTINUE_ACTION_NONE };
+        // name of the capture target
+        QString m_TargetName;
+        // ignore already captured files
+        bool m_ignoreJobProgress { true };
+        // Set dirty bit to indicate sequence queue file was modified and needs saving.
+        bool m_Dirty { false };
 
 
         // ////////////////////////////////////////////////////////////////////

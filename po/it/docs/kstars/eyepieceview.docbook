@@ -52,12 +52,12 @@
 <para
 >Se lo strumento è stato invocato per la prima volta, esso visualizzerà una finestra da cui selezionare il CDV desiderato del quale si vuole rendere la vista. Per confrontare la vista resa rispetto all'immagine reale del cielo, fai clic sul pulsante <guibutton
 >Recupera immagine DSS</guibutton
-> così da scaricare un'immagine DSS. Puoi regolare manualmente la vista per farla corrispondere al tuo oculare usando il cursore di rotazione oltre le caselle <guilabel
+> così da scaricare un'immagine DSS. Puoi regolare manualmente la vista per farla corrispondere al tuo oculare usando il cursore di rotazione, oltre alle caselle <guilabel
 >Inverti vista</guilabel
 > e <guilabel
 >Ribalta vista</guilabel
->. In alternativa puoi usare un valore precalcolato di rotazione usando una delle <guilabel
->Preimpostazioni</guilabel
+>. In alternativa puoi usare un valore di rotazione precalcolato usando un elemento nella casella a cascata <guilabel
+>Preimpostazioni:</guilabel
 > fatte su misura per i vari sistemi ottici.</para>
 
 <screenshot>

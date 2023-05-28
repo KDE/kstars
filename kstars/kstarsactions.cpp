@@ -1270,7 +1270,7 @@ void KStars::slotOpenFITS()
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
     QUrl fileURL =
         QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Open Image"), path,
-                                    "Images (*.fits *.fits.fz *.fit *.fts "
+                                    "Images (*.fits *.fits.fz *.fit *.fts *.xisf "
                                     "*.jpg *.jpeg *.png *.gif *.bmp "
                                     "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
     if (fileURL.isEmpty())
@@ -1688,6 +1688,15 @@ void KStars::slotCoordSys()
         actionCollection()
         ->action("coordsys")
         ->setText(i18n("Switch to Horizonal View (Horizontal &Coordinates)"));
+        actionCollection()
+        ->action("up_orientation")
+        ->setText(i18nc("Orientation of the sky map", "North &Up"));
+        actionCollection()
+        ->action("down_orientation")
+        ->setText(i18nc("Orientation of the sky map", "North &Down"));
+        actionCollection()
+        ->action("erect_observer_correction")
+        ->setEnabled(false);
     }
     else
     {
@@ -1700,7 +1709,36 @@ void KStars::slotCoordSys()
         actionCollection()
         ->action("coordsys")
         ->setText(i18n("Switch to Star Globe View (Equatorial &Coordinates)"));
+        actionCollection()
+        ->action("up_orientation")
+        ->setText(i18nc("Orientation of the sky map", "Zenith &Up"));
+        actionCollection()
+        ->action("down_orientation")
+        ->setText(i18nc("Orientation of the sky map", "Zenith &Down"));
+        actionCollection()
+        ->action("erect_observer_correction")
+        ->setEnabled(true);
     }
+    map()->forceUpdate();
+}
+
+void KStars::slotSkyMapOrientation()
+{
+    if (sender() == actionCollection()->action("up_orientation"))
+    {
+        Options::setSkyRotation(0.0);
+    }
+    else if (sender() == actionCollection()->action("down_orientation"))
+    {
+        Options::setSkyRotation(180.0);
+    }
+    else
+    {
+        Q_ASSERT(false && "Unhandled orientation action");
+        qCWarning(KSTARS) << "Unhandled orientation action";
+    }
+
+    Options::setErectObserverCorrection(actionCollection()->action("erect_observer_correction")->isChecked());
     map()->forceUpdate();
 }
 

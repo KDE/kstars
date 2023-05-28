@@ -29,7 +29,7 @@
 <itemizedlist>
     <listitem>
         <para
->Controlla il tuo telescopio, il CCD (e la DSLR), la ruota portafiltri, il focheggiatore, la guida, le unità ottiche adattive e altro qualsiasi dispositivo ausiliario compatibile con INDI da Ekos. </para>
+>Controlla il tuo telescopio, la fotocamera (e la DSLR), la ruota portafiltri, il focheggiatore, la guida, le unità ottiche adattive e altro qualsiasi dispositivo ausiliario compatibile con INDI da Ekos. </para>
     </listitem>
     <listitem>
         <para
@@ -41,7 +41,7 @@
     </listitem>
     <listitem>
         <para
-><ulink url="http://knro.blogspot.com/2013/10/demo-of-ekos-alignment-module.html"
+><ulink url="https://knro.blogspot.com/2013/10/demo-of-ekos-alignment-module.html"
 >GOTO estremamente accurati</ulink
 > usando il risolutore astrometry.net (sono supportati risolutori sia in linea che non in linea). </para>
     </listitem>
@@ -55,9 +55,7 @@
     </listitem>
     <listitem>
         <para
->Uso facile dell'<ulink url="https://www.youtube.com/watch?v=sx6Zz9lNd5Q"
->assistante per l'allineamento polare</ulink
->, uno strumento molto veloce ed affidabile per allineare la tua montatura equatoriale alla tedesca! </para>
+>Assistente per l'allineamento polare facile da usare. È uno strumento molto veloce ed affidabile per l'allineamento polare della tua montatura equatoriale alla tedesca. </para>
     </listitem>
     <listitem>
         <para
@@ -103,11 +101,13 @@
     </listitem>
     <listitem>
         <para
->Esporta ed importa insiemi di code di sequenze come file di code di sequenze di Ekos (.esq). </para>
+>Esporta ed importa insiemi di code di sequenze come file di code di sequenze di Ekos (<literal role="extension"
+>.esq</literal
+>). </para>
     </listitem>
     <listitem>
         <para
-><ulink url="http://youtu.be/fg2HDFg_dCE"
+><ulink url="https://www.youtube.com/watch?v=fg2HDFg_dCE"
 >Centra il telescopio in un qualsiasi punto di un'immagine FITS catturata</ulink
 > o in un qualsiasi FITS con un'intestazione per il World Coordinate System (WCS). </para>
     </listitem>
@@ -129,8 +129,8 @@
     </listitem>
     <listitem>
         <para
->Completamente controllabile con script da <ulink url="http://www.freedesktop.org/wiki/Software/dbus/"
->DBus</ulink
+>Completamente controllabile con script da <ulink url="https://freedesktop.org/wiki/Software/dbus/"
+>&DBus;</ulink
 >. </para>
     </listitem>
     <listitem>

@@ -1,7 +1,7 @@
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 # Suitable for builds
-RUN apt update && apt -y install --no-install-recommends software-properties-common
+RUN apt update && apt -y install --no-install-recommends software-properties-common gpg-agent
 RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
 RUN apt update && apt -y install --no-install-recommends \
       gcc-multilib \
@@ -18,7 +18,7 @@ RUN apt update && apt -y install --no-install-recommends \
       libqt5websockets5-dev \
       libqt5svg5-dev \
       libqt5sql5-sqlite \
-      kdoctools-dev \
+      libkf5doctools-dev \
       libkf5config-dev \
       libkf5guiaddons-dev \
       libkf5i18n-dev \
@@ -40,8 +40,11 @@ RUN apt update && apt -y install --no-install-recommends \
       libsecret-1-dev
 
 # Suitable for tests
-RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
+RUN apt update && add-apt-repository ppa:mutlaqja/ppa
 RUN apt update && add-apt-repository ppa:pch/phd2
+
+ENV TZ=Greenwich
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update && apt -y --no-install-recommends install \
       make \
       cmake \
@@ -79,8 +82,7 @@ RUN apt update && apt -y --no-install-recommends install \
       desktop-file-utils \
       libgdk-pixbuf2.0-dev \
       fakeroot \
-      wget \
-      gpg-agent
+      wget
 
 # Saxon
 RUN apt install -y --no-install-recommends \

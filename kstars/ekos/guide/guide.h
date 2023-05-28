@@ -12,6 +12,7 @@
 #include "ekos/ekos.h"
 #include "indi/indicamera.h"
 #include "indi/indimount.h"
+#include "manualpulse.h"
 #include "ekos/auxiliary/darkprocessor.h"
 
 #include <QTime>
@@ -558,7 +559,7 @@ class Guide : public QWidget, public Ui::Guide
         GuideInterface *m_GuiderInstance { nullptr };
 
         //This is for the configure PHD2 camera method.
-        QString lastPHD2CameraName;
+        QString m_LastPHD2CameraName, m_LastPHD2MountName;
         GuiderType guiderType { GUIDE_INTERNAL };
 
         // Star
@@ -639,6 +640,9 @@ class Guide : public QWidget, public Ui::Guide
 
         // Dark Processor
         QPointer<DarkProcessor> m_DarkProcessor;
+
+        // Manual Pulse Dialog
+        QPointer<ManualPulse> m_ManaulPulse;
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };

@@ -53,14 +53,16 @@ SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
 {
     captureDeviceAdaptor = cp;
     // initialize the state machine
-    stateMachine = new SequenceJobState(sharedState);
+    stateMachine.reset(new SequenceJobState(sharedState));
 
     // signal forwarding between this and the state machine
-    connect(this, &SequenceJob::updateGuiderDrift, stateMachine, &SequenceJobState::setCurrentGuiderDrift);
-    connect(stateMachine, &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
-    connect(stateMachine, &SequenceJobState::prepareComplete, this, &SequenceJob::processPrepareComplete);
-    connect(stateMachine, &SequenceJobState::abortCapture, this, &SequenceJob::processAbortCapture);
-    connect(stateMachine, &SequenceJobState::newLog, this, &SequenceJob::newLog);
+    connect(this, &SequenceJob::updateGuiderDrift, stateMachine.data(), &SequenceJobState::setCurrentGuiderDrift);
+    connect(stateMachine.data(), &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
+    connect(stateMachine.data(), &SequenceJobState::prepareComplete, this, &SequenceJob::processPrepareComplete);
+    connect(stateMachine.data(), &SequenceJobState::abortCapture, this, &SequenceJob::processAbortCapture);
+    connect(stateMachine.data(), &SequenceJobState::newLog, this, &SequenceJob::newLog);
+    // start capturing as soon as the capture initialization is complete
+    connect(stateMachine.data(), &SequenceJobState::initCaptureComplete, this, &SequenceJob::capture);
 }
 
 /**
@@ -75,7 +77,7 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
     // set own unconnected state machine
     QSharedPointer<CaptureModuleState> sharedState;
     sharedState.reset(new CaptureModuleState);
-    stateMachine = new SequenceJobState(sharedState);
+    stateMachine.reset(new SequenceJobState(sharedState));
 
     // We expect all data read from the XML to be in the C locale - QLocale::c().
     QLocale cLocale = QLocale::c();
@@ -139,10 +141,6 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
-            subEP = findXMLEle(ep, "RawPrefix");
-            if (subEP)
-                setCoreProperty(SJ_TargetName, QString(pcdataXMLEle(subEP)));
-
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
                 setCoreProperty(SJ_FilterPrefixEnabled, !strcmp("1", pcdataXMLEle(subEP)));
@@ -384,44 +382,37 @@ void SequenceJob::setScript(ScriptTypes type, const QString &value)
 void SequenceJob::connectDeviceAdaptor()
 {
     captureDeviceAdaptor->setCurrentSequenceJobState(stateMachine);
-    captureDeviceAdaptor->connectRotator();
-    captureDeviceAdaptor->connectActiveCamera();
-    captureDeviceAdaptor->connectTelescope();
-    captureDeviceAdaptor->connectDome();
-    captureDeviceAdaptor->connectDustCap();
     // connect state machine with device adaptor
-    connect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
+    connect(stateMachine.data(), &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
             &CaptureDeviceAdaptor::readCurrentState);
-    connect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocus);
+    connect(stateMachine.data(), &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(),
+            &CaptureDeviceAdaptor::flatSyncFocus);
     // connect device adaptor with state machine
-    connect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine,
+    connect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine.data(),
             &SequenceJobState::flatSyncFocusChanged);
 }
 
 void SequenceJob::disconnectDeviceAdaptor()
 {
-    captureDeviceAdaptor->disconnectRotator();
-    captureDeviceAdaptor->disconnectActiveCamera();
-    captureDeviceAdaptor->disconnectTelescope();
-    captureDeviceAdaptor->disconnectDome();
-    captureDeviceAdaptor->disconnectDustCap();
-    disconnect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
+    captureDeviceAdaptor->disconnectDevices(stateMachine.data());
+    disconnect(stateMachine.data(), &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
                &CaptureDeviceAdaptor::readCurrentState);
-    disconnect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(),
+    disconnect(stateMachine.data(), &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(),
                &CaptureDeviceAdaptor::flatSyncFocus);
-    disconnect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine,
+    disconnect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine.data(),
                &SequenceJobState::flatSyncFocusChanged);
 }
 
-CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
+void SequenceJob::startCapturing(bool autofocusReady, FITSMode mode)
+{
+    stateMachine->initCapture(getFrameType(), getCoreProperty(SequenceJob::SJ_Preview).toBool(), autofocusReady, mode);
+}
+
+void SequenceJob::capture(FITSMode mode)
 {
     captureDeviceAdaptor.data()->getActiveChip()->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
     captureDeviceAdaptor.data()->getActiveCamera()->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
     captureDeviceAdaptor.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
-
-    auto placeholderPath = Ekos::PlaceholderPath(getCoreProperty(SJ_LocalDirectory).toString() + "/sequence.esq");
-    placeholderPath.setGenerateFilenameSettings(*this);
-    captureDeviceAdaptor.data()->getActiveCamera()->setPlaceholderPath(placeholderPath);
 
     if (getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
@@ -491,7 +482,8 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     const auto remoteDirectory = getCoreProperty(SJ_RemoteDirectory).toString();
     if (captureDeviceAdaptor.data()->getActiveChip()->isBatchMode() && remoteDirectory.isEmpty() == false)
     {
-        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
+        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(
+                    SJ_DirectoryPostfix).toString());
     }
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
@@ -513,28 +505,9 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
         captureDeviceAdaptor.data()->getActiveCamera()->setOffset(offset);
     }
 
-    const auto frameType = getFrameType();
-    // Only change filters for FLAT and LIGHT frames.
-    // TODO add support for setting a dark filter to block all light
-    if (stateMachine->targetFilterID != INVALID_VALUE && captureDeviceAdaptor.data()->getFilterWheel() != nullptr &&
-            (frameType == FRAME_FLAT || frameType == FRAME_LIGHT))
-    {
-        if (stateMachine->targetFilterID != stateMachine->m_CaptureModuleState->currentFilterID)
-        {
-            emit prepareState(CAPTURE_CHANGING_FILTER);
-
-            FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
-            // Don't perform autofocus on preview or calibration frames or if Autofocus is not ready yet.
-            if (getCoreProperty(SequenceJob::SJ_Preview).toBool() || frameType != FRAME_LIGHT || autofocusReady == false)
-                policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
-
-            m_FilterManager->setFilterPosition(stateMachine->targetFilterID, policy);
-            return CAPTURE_FILTER_BUSY;
-        }
-    }
-
-    // Only attempt to set ROI and Binning if CCD transfer format is FITS
-    if (captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("FITS"))
+    // Only attempt to set ROI and Binning if CCD transfer format is FITS or XISF
+    if (captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("FITS")
+            || captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("XISF"))
     {
         int currentBinX = 1, currentBinY = 1;
         captureDeviceAdaptor.data()->getActiveChip()->getBinning(&currentBinX, &currentBinY);
@@ -547,7 +520,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                 && captureDeviceAdaptor.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
         {
             setStatus(JOB_ERROR);
-            return CAPTURE_BIN_ERROR;
+            emit captureStarted(CAPTURE_BIN_ERROR);
         }
 
         const auto roi = getCoreProperty(SJ_ROI).toRect();
@@ -560,7 +533,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         currentBinX != binning.x()) == false)
         {
             setStatus(JOB_ERROR);
-            return CAPTURE_FRAME_ERROR;
+            emit captureStarted(CAPTURE_FRAME_ERROR);
         }
     }
 
@@ -582,7 +555,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     m_ExposeLeft = exposure;
     captureDeviceAdaptor.data()->getActiveChip()->capture(exposure);
 
-    return CAPTURE_OK;
+    emit captureStarted(CAPTURE_OK);
 }
 
 void SequenceJob::setTargetFilter(int pos, const QString &name)
@@ -615,12 +588,6 @@ void SequenceJob::setCaptureRetires(int value)
 int SequenceJob::getCurrentFilter() const
 {
     return stateMachine->m_CaptureModuleState->currentFilterID;
-}
-
-void SequenceJob::setCurrentFilter(int value)
-{
-    // forward it to the state machine
-    stateMachine->setCurrentFilterID(value);
 }
 
 // Setter: Set upload mode
@@ -717,8 +684,6 @@ QString SequenceJob::getSignature()
 
 void SequenceJob::prepareCapture()
 {
-    // create the event connections
-    connectDeviceAdaptor();
     // simply forward it to the state machine
     switch (getFrameType())
     {
@@ -746,10 +711,9 @@ void SequenceJob::prepareCapture()
     }
 }
 
-void SequenceJob::processPrepareComplete()
+void SequenceJob::processPrepareComplete(bool success)
 {
-    disconnectDeviceAdaptor();
-    emit prepareComplete();
+    emit prepareComplete(success);
 }
 
 void SequenceJob::processAbortCapture()

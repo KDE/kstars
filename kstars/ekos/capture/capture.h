@@ -10,6 +10,7 @@
 #include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
 #include "sequencejobstate.h"
+// #include "ekos/manager.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
 #include "ekos/ekos.h"
@@ -19,8 +20,8 @@
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
-#include "ekos/scheduler/schedulerjob.h"
 #include "ekos/auxiliary/darkprocessor.h"
+#include "ekos/auxiliary/rotatorutils.h"
 #include "dslrinfodialog.h"
 #include "ui_limits.h"
 
@@ -68,6 +69,7 @@ class RotatorSettings;
  */
 namespace Ekos
 {
+
 class SequenceJob;
 
 /**
@@ -107,8 +109,6 @@ class Capture : public QWidget, public Ui::Capture
             LOCAL_PREVIEW,
             REMOTE_PREVIEW
         } FilenamePreviewType;
-
-        typedef IPState (Capture::*PauseFunctionPointer)();
 
         Capture();
         ~Capture();
@@ -360,9 +360,8 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief Add new Rotator
          * @param device pointer to rotator device.
-         * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool setRotator(ISD::Rotator *device);
+        void setRotator(ISD::Rotator *device);
 
         // Restart driver
         void reconnectDriver(const QString &camera, const QString &filterWheel);
@@ -401,6 +400,14 @@ class Capture : public QWidget, public Ui::Capture
         void setOpticalTrain(const QString &value)
         {
             opticalTrainCombo->setCurrentText(value);
+        }
+
+        // ////////////////////////////////////////////////////////////////////
+        // Rotator
+        // ////////////////////////////////////////////////////////////////////
+        const QSharedPointer<RotatorSettings> &RotatorControl() const
+        {
+            return m_RotatorControlPanel;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -510,6 +517,10 @@ class Capture : public QWidget, public Ui::Capture
          */
         void syncDSLRToTargetChip(const QString &model);
 
+		void openExposureCalculatorDialog();
+
+        QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
+
     public slots:
         // ////////////////////////////////////////////////////////////////////
         // Main capturing actions
@@ -523,7 +534,7 @@ class Capture : public QWidget, public Ui::Capture
              * @brief Start the execution of the Capture::SequenceJob list #jobs.
              *
              * Starting the execution of the Capture::SequenceJob list selects the first job
-             * from the ist that may be executed and starts to prepare the job (@see prepareJob()).
+             * from the list that may be executed and starts to prepare the job (@see prepareJob()).
              *
              * Several factors determine, which of the jobs will be selected:
              * - First, the list is searched to find the first job that is marked as idle or aborted.
@@ -600,7 +611,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
         Q_SCRIPTABLE QString getTargetName()
         {
-            return m_TargetName;
+            return m_captureModuleState->targetName();
         }
 
         /** @}*/
@@ -731,6 +742,12 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // slots handling device and module events
         // ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief captureStarted Manage the result when capturing has been started
+         */
+        void captureStarted(CAPTUREResult rc);
+
         /**
              * @brief setGuideDeviation Set the guiding deviation as measured by the guiding module. Abort capture
              *        if deviation exceeds user value. Resume capture if capture was aborted and guiding
@@ -759,6 +776,16 @@ class Capture : public QWidget, public Ui::Capture
          */
         void updateFocusStatus(FocusState state);
 
+        // Adaptive Focus
+        /**
+         * @brief focusAdaptiveComplete Forward the new focus state to the capture module state machine
+         */
+        void focusAdaptiveComplete(bool success);
+
+        /**
+         * @brief updateAdaptiveFocusStatus Handle new focus state
+         */
+
         void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature);
 
         /**
@@ -769,18 +796,22 @@ class Capture : public QWidget, public Ui::Capture
             m_captureModuleState->getRefocusState()->setFocusHFR(newHFR);
         }
 
+        // Filter
+        void setFilterStatus(FilterState filterState);
+
         // Guide
         void setGuideStatus(GuideState state);
 
         // Align
-        void setAlignStatus(AlignState state);
-        void setAlignResults(double orientation, double ra, double de, double pixscale);
+
+        void setAlignStatus(Ekos::AlignState state);
+        void setAlignResults(double solverPA, double ra, double de, double pixscale);
 
         // Update Mount module status
         void setMountStatus(ISD::Mount::Status newState);
 
-        // Meridian flip
-        void meridianFlipStatusChanged(MeridianFlipState::MeridianFlipMountState status);
+        // Meridian flip interface
+        void updateMFMountState(MeridianFlipState::MeridianFlipMountState status);
 
         // ////////////////////////////////////////////////////////////////////
         // Module logging
@@ -867,7 +898,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE void newStatus(CaptureState status);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
-        void newFilterManagerStatus(FilterState state);
+        void newFilterStatus(FilterState state);
 
         void ready();
 
@@ -881,6 +912,7 @@ class Capture : public QWidget, public Ui::Capture
         void checkFocus(double);
         void resetFocus();
         void abortFocus();
+        void adaptiveFocus();
         void suspendGuiding();
         void resumeGuiding();
         void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
@@ -889,7 +921,6 @@ class Capture : public QWidget, public Ui::Capture
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QJsonObject &settings);
         void newLocalPreview(const QString &preview);
-        void newMeridianFlipSetup(bool activate, double hours);
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
 
@@ -901,6 +932,7 @@ class Capture : public QWidget, public Ui::Capture
         void filterManagerUpdated(ISD::FilterWheel *device);
 
         void trainChanged();
+
 
     private:
         // ////////////////////////////////////////////////////////////////////
@@ -989,7 +1021,7 @@ class Capture : public QWidget, public Ui::Capture
          *  5. Is post flip guiding required or running (@see checkGuidingAfterFlip().
          *  6. Is the guiding deviation below the expected limit (@see setGuideDeviation(double,double)).
          *  7. Is dithering required or ongoing (@see checkDithering()).
-         *  8. Is re-focusing required or ongoing (@see startFocusIfRequired()).
+         *  8. Is re-focusing or adaptive focusing required or ongoing (@see startFocusIfRequired()).
          *  9. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
          *
          * If none of this is true, everything is ready and capturing may be started.
@@ -1082,27 +1114,16 @@ class Capture : public QWidget, public Ui::Capture
 
         double setCurrentADU(double value);
 
-        // Execute the meridian flip
-        void setMeridianFlipStage(MeridianFlipState::MFStage stage);
-        void processFlipCompleted();
-
-        void processGuidingFailed();
+        // Propagate meridian flip state changes to the UI
+        void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
 
         // ////////////////////////////////////////////////////////////////////
         // helper functions
         // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief checkSeqBoundary Determine the next file number sequence.
-         *        That is, if we have file1.png and file2.png, then the next
-         *        sequence should be file3.png.
-         */
-        void checkSeqBoundary();
 
         // Filename preview
         void generatePreviewFilename();
         QString previewFilename(FilenamePreviewType = LOCAL_PREVIEW);
-
-        double getEstimatedDownloadTime();
 
         /**
          * @brief Set the currently active sequence job. Use this function to ensure
@@ -1110,20 +1131,9 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setActiveJob(SequenceJob *value);
 
-        /**
-          * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
-          */
-        void setDirty();
-
         void setBusy(bool enable);
 
         /* Capture */
-        /**
-         * @brief updateSequencePrefix Update the prefix for the sequence of images
-         *        to be captured.
-         */
-        void updateSequencePrefix(const QString &newPrefix);
-
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
 
         bool isModelinDSLRInfo(const QString &model);
@@ -1131,11 +1141,6 @@ class Capture : public QWidget, public Ui::Capture
         void createDSLRDialog();
 
         void resetFrameToZero();
-
-        // short cut for all guiding states that indicate guiding is on
-        bool isGuidingOn();
-        // short cut for all guiding states that indicate guiding in state GUIDING
-        bool isActivelyGuiding();
 
         /**
          * @brief generateScriptArguments Generate argument list to pass to capture script
@@ -1149,27 +1154,6 @@ class Capture : public QWidget, public Ui::Capture
          * TODO depending on user feedback.
          */
         QStringList generateScriptArguments() const;
-
-        /**
-         * @brief Determine the overall number of target frames with the same signature.
-         *        Assume capturing RGBLRGB, where in each sequence job there is only one frame.
-         *        For "L" the result will be 1, for "R" it will be 2 etc.
-         * @param frame signature (typically the filter name)
-         * @return
-         */
-        int getTotalFramesCount(QString signature);
-
-        /**
-         * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
-         * completed flat frames.
-         * @param job Dark flat job
-         * @return True if a matching exposure is found and set, false otherwise.
-         * @warning This only works if the flat frames were captured in the same live session.
-         * If the flat frames were captured in another session (i.e. Ekos restarted), then all automatic exposure
-         * calculation results are discarded since Ekos does not save this information to the sequene file.
-         * Possible solution is to write to a local config file to keep this information persist between sessions.
-         */
-        bool setDarkFlatExposure(SequenceJob *job);
 
         /**
          * @brief Sync refocus options to the GUI settings
@@ -1252,8 +1236,6 @@ class Capture : public QWidget, public Ui::Capture
         // Timer for starting the next capture sequence with delay
         // @see startNextExposure()
         QTimer *seqDelayTimer { nullptr };
-        QString seqPrefix;
-        int nextSequenceID { 0 };
         int seqFileCount { 0 };
         bool isBusy { false };
         bool m_isFraming { false };
@@ -1264,15 +1246,12 @@ class Capture : public QWidget, public Ui::Capture
         uint8_t m_DeviceRestartCounter { 0 };
 
         bool useGuideHead { false };
-        bool autoGuideReady { false};
 
-        QString m_TargetName;
         QString m_ObserverName;
 
         // Currently active sequence job.
         // DO NOT SET IT MANUALLY, USE {@see setActiveJob()} INSTEAD!
         SequenceJob *activeJob { nullptr };
-        QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
         QSharedPointer<CaptureModuleState> m_captureModuleState;
 
         QPointer<QDBusInterface> mountInterface;
@@ -1281,7 +1260,6 @@ class Capture : public QWidget, public Ui::Capture
 
         QStringList m_LogText;
         QUrl m_SequenceURL;
-        bool m_Dirty { false };
         bool m_JobUnderEdit { false };
 
         // Fast Exposure
@@ -1303,11 +1281,8 @@ class Capture : public QWidget, public Ui::Capture
         QUrl dirPath;
 
         // Misc
-        bool ignoreJobProgress { true };
         bool suspendGuideOnDownload { false };
         QJsonArray m_SequenceArray;
-
-        PauseFunctionPointer pauseFunction { nullptr };
 
         // CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;
@@ -1331,17 +1306,11 @@ class Capture : public QWidget, public Ui::Capture
         QProcess m_CaptureScript;
         uint8_t m_CaptureScriptType {0};
 
-        // Rotator Settings
-        std::unique_ptr<RotatorSettings> m_RotatorControlPanel;
-
         std::unique_ptr<CustomProperties> customPropertiesDialog;
         std::unique_ptr<DSLRInfo> dslrInfoDialog;
 
         // DSLR Infos
         QList<QMap<QString, QVariant>> DSLRInfos;
-
-        // Captured Frames Map
-        SchedulerJob::CapturedFramesMap capturedFramesMap;
 
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };
@@ -1352,15 +1321,23 @@ class Capture : public QWidget, public Ui::Capture
         std::unique_ptr<Ui::Limits> m_LimitsUI;
         QPointer<QDialog> m_LimitsDialog;
 
-        QList<double> downloadTimes;
         QElapsedTimer m_DownloadTimer;
         QTimer downloadProgressTimer;
         QVariantMap m_Metadata;
 
         QSharedPointer<FilterManager> m_FilterManager;
+        QSharedPointer<RotatorSettings> m_RotatorControlPanel;
 
         bool FilterEnabled {false};
         bool ExpEnabled {false};
         bool TimeStampEnabled {false};
+
+        double m_FocalLength {-1};
+        double m_Aperture {-1};
+        double m_FocalRatio {-1};
+        double m_Reducer = {-1};
+
+		
 };
+
 }

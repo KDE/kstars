@@ -183,10 +183,6 @@ enum COMMANDS
     PAH_SET_ALGORITHM,
 
     // Options
-    OPTION_SET_HIGH_BANDWIDTH,
-    OPTION_SET_IMAGE_TRANSFER,
-    OPTION_SET_NOTIFICATIONS,
-    OPTION_SET_CLOUD_STORAGE,
     OPTION_SET,
     OPTION_GET,
 
@@ -214,6 +210,7 @@ enum COMMANDS
     DEVICE_PROPERTY_REMOVE,
     DEVICE_PROPERTY_SUBSCRIBE,
     DEVICE_PROPERTY_UNSUBSCRIBE,
+    DEVICE_MESSAGE,
 
     // Dialogs
     DIALOG_GET_INFO,
@@ -229,6 +226,7 @@ enum COMMANDS
     ASTRO_GET_OBJECT_INFO,
     ASTRO_GET_OBJECTS_INFO,
     ASTRO_GET_OBJECTS_IMAGE,
+    ASTRO_GET_SKYPOINT_IMAGE,
     ASTRO_GET_OBJECTS_OBSERVABILITY,
     ASTRO_GET_OBJECTS_RISESET,
 
@@ -407,10 +405,6 @@ static QMap<COMMANDS, QString> const commands =
     {PAH_PAH_SET_ZOOM, "polar_set_zoom"},
     {PAH_SET_ALGORITHM, "polar_set_algorithm"},
 
-    {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
-    {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
-    {OPTION_SET_NOTIFICATIONS, "option_set_notifications"},
-    {OPTION_SET_CLOUD_STORAGE, "option_set_cloud_storage"},
     {OPTION_SET, "option_set"},
     {OPTION_GET, "option_get"},
 
@@ -434,6 +428,7 @@ static QMap<COMMANDS, QString> const commands =
     {DEVICE_PROPERTY_REMOVE, "device_property_remove"},
     {DEVICE_PROPERTY_SUBSCRIBE, "device_property_subscribe"},
     {DEVICE_PROPERTY_UNSUBSCRIBE, "device_property_unsubscribe"},
+    {DEVICE_MESSAGE, "device_message"},
 
     {DIALOG_GET_INFO, "dialog_get_info"},
     {DIALOG_GET_RESPONSE, "dialog_get_response"},
@@ -446,6 +441,7 @@ static QMap<COMMANDS, QString> const commands =
     {ASTRO_GET_OBJECT_INFO, "astro_get_object_info"},
     {ASTRO_GET_OBJECTS_INFO, "astro_get_objects_info"},
     {ASTRO_GET_OBJECTS_IMAGE, "astro_get_objects_image"},
+    {ASTRO_GET_SKYPOINT_IMAGE, "astro_get_skypoint_image"},
     {ASTRO_GET_OBJECTS_OBSERVABILITY, "astro_get_objects_observability"},
     {ASTRO_GET_OBJECTS_RISESET, "astro_get_objects_riseset"},
 

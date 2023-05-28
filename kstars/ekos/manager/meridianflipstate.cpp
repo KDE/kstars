@@ -202,14 +202,14 @@ bool MeridianFlipState::checkMeridianFlip(dms lst)
             if (hrsToFlip <= 0)
             {
                 // signal that a flip can be done
-                qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
-                                           lst.toHMSString() <<
-                                           " scope RA=" << currentPosition.position.ra().toHMSString() <<
-                                           " ha=" << ha <<
-                                           ", meridian diff=" << offset <<
-                                           ", hrstoFlip=" << hrsToFlip <<
-                                           ", flipDelayHrs=" << getFlipDelayHrs() <<
-                                           ", " << ISD::Mount::pierSideStateString(currentPosition.pierSide);
+                qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
+                                          lst.toHMSString() <<
+                                          " scope RA=" << currentPosition.position.ra().toHMSString() <<
+                                          " ha=" << ha <<
+                                          ", meridian diff=" << offset <<
+                                          ", hrstoFlip=" << hrsToFlip <<
+                                          ", flipDelayHrs=" << getFlipDelayHrs() <<
+                                          ", " << ISD::Mount::pierSideStateString(currentPosition.pierSide);
 
                 initialPierSide = currentPosition.pierSide;
                 updateMFMountState(MOUNT_FLIP_PLANNED);
@@ -308,7 +308,7 @@ void MeridianFlipState::startMeridianFlip()
     if (m_MountStatus != ISD::Mount::MOUNT_TRACKING)
     {
         // no meridian flip necessary
-        qCDebug(KSTARS_EKOS_MOUNT) << "No meridian flip: mount not tracking";
+        qCInfo(KSTARS_EKOS_MOUNT) << "No meridian flip: mount not tracking";
         return;
     }
 
@@ -386,15 +386,6 @@ void MeridianFlipState::updateMFMountState(MeridianFlipMountState status)
             // ignore accept signal if none was requested
             if (meridianFlipStage != MF_REQUESTED)
                 return;
-            else
-            {
-                // if the mount is not tracking, we go back one step
-                if ( m_hasMount == false || m_MountStatus != ISD::Mount::MOUNT_TRACKING)
-                {
-                    setMeridianFlipMountState(MOUNT_FLIP_PLANNED);
-                    emit newMountMFStatus(MOUNT_FLIP_PLANNED);
-                }
-            }
         }
         // in all other cases, handle it straight forward
         setMeridianFlipMountState(status);
