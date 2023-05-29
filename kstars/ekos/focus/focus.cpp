@@ -6563,9 +6563,11 @@ void Focus::setAllSettings(const QVariantMap &settings)
     connectSettings();
 
     // Once settings have been loaded run through routines to set state variables
+    m_CurveFit = static_cast<CurveFitting::CurveFit> (focusCurveFit->currentIndex());
     setFocusDetection(static_cast<StarAlgorithm> (focusDetection->currentIndex()));
     setCurveFit(static_cast<CurveFitting::CurveFit>(focusCurveFit->currentIndex()));
     setStarMeasure(static_cast<StarMeasure>(focusStarMeasure->currentIndex()));
+    setWalk(static_cast<FocusWalk>(focusWalk->currentIndex()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
