@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-25 00:42+0000\n"
+"POT-Creation-Date: 2023-05-29 00:42+0000\n"
 "PO-Revision-Date: 2023-05-26 07:17+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -466,14 +466,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Shrani sliko"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3762
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3768
 #: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Datoteka z imenom »%1« že obstaja. Ali jo prepišem?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3765
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3771
 #: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1316
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
@@ -2527,7 +2527,7 @@ msgid ""
 "to the Google search engine?"
 msgstr "URL ni veljaven. Ali naj v spletnem brskalniku odprem iskalnik Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3773
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3779
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:3685
 #: ekos/capture/capture.cpp:4123 ekos/guide/guidedriftgraph.cpp:476
@@ -3702,7 +3702,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:916
+#: dialogs/details_data.ui:390 ekos/align/align.cpp:922
 #: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1063
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
@@ -5792,17 +5792,17 @@ msgstr "Počisti točke rešitve"
 msgid "Solver timed out."
 msgstr "Časovna omejitev za reševalnik je potekla."
 
-#: ekos/align/align.cpp:816
+#: ekos/align/align.cpp:822
 #, kde-format
 msgid "Mount does not support syncing."
 msgstr "Naprava ne podpira sinhronizacije."
 
-#: ekos/align/align.cpp:1021
+#: ekos/align/align.cpp:1027
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr "Efektivna goriščna razdalja teleskopa se posodablja na %1 mm."
 
-#: ekos/align/align.cpp:1060
+#: ekos/align/align.cpp:1066
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
@@ -5811,7 +5811,7 @@ msgstr ""
 "Opozorilo! Izračunano vidno polje (%1) je izven meja. Zagotovite, da sta "
 "dolžina teleskopa in velikost slikovnih točk fotoaparata pravilna."
 
-#: ekos/align/align.cpp:1099
+#: ekos/align/align.cpp:1105
 #, fuzzy, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -5822,27 +5822,27 @@ msgstr ""
 "in rešite enkrat za merjenje učinkovitega vidnega polja (VP) ali ročno "
 "vnesite vrednosti.</p><p>Izračunano VP: %1</p>"
 
-#: ekos/align/align.cpp:1108
+#: ekos/align/align.cpp:1114
 #, fuzzy, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Učinkovita velikost zornega kota v kotnih minutah.</p>"
 
-#: ekos/align/align.cpp:1389
+#: ekos/align/align.cpp:1395
 #, kde-format
 msgid "Error: No camera detected."
 msgstr "Napaka: Nobenega fotoaparata ni zaznati."
 
-#: ekos/align/align.cpp:1395
+#: ekos/align/align.cpp:1401
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Napaka: izgubljena povezava s kamero."
 
-#: ekos/align/align.cpp:1396 ekos/align/align.cpp:2237
+#: ekos/align/align.cpp:1402 ekos/align/align.cpp:2243
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Poravnava Astrometry ni uspela"
 
-#: ekos/align/align.cpp:1412
+#: ekos/align/align.cpp:1418
 #, fuzzy, kde-format
 #| msgid ""
 #| "Telescope aperture and focal length are missing. Please check your driver "
@@ -5854,7 +5854,7 @@ msgstr ""
 "Zaslonka in goriščna razdalja daljnogleda manjkata. Preverite nastavitve "
 "vašega gonilnika in poskusite znova."
 
-#: ekos/align/align.cpp:1418
+#: ekos/align/align.cpp:1424
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
@@ -5862,33 +5862,33 @@ msgstr ""
 "Velikost slikovne točke CCD manjka. Preverite nastavitve vašega gonilnika in "
 "poskusite znova."
 
-#: ekos/align/align.cpp:1426
+#: ekos/align/align.cpp:1432
 #, kde-format
 msgid "Error: lost connection to filter wheel."
 msgstr "Napaka: povezava s kolesom s filtri izgubljena."
 
-#: ekos/align/align.cpp:1446 ekos/capture/capture.cpp:3341
+#: ekos/align/align.cpp:1452 ekos/capture/capture.cpp:3341
 #: ekos/capture/capture.cpp:5430 ekos/focus/focus.cpp:4828
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr "Prenos slik je onemogočen za ta fotoaparat. Ali ga želite omogočiti?"
 
-#: ekos/align/align.cpp:1466
+#: ekos/align/align.cpp:1472
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 "V času, ko je modul ostrenja zaseden, ni mogoče zajeti. Znova poskusite čez "
 "%1 s ..."
 
-#: ekos/align/align.cpp:1474
+#: ekos/align/align.cpp:1480
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr ""
 "V času izpostavljenosti CCD ni mogoče zajeti. Znova poskusite čez %1 s ..."
 
-#: ekos/align/align.cpp:1483
+#: ekos/align/align.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
@@ -5896,25 +5896,25 @@ msgstr ""
 "V času, ko je modul ostrenja zaseden, ni mogoče zajeti. Znova poskusite čez "
 "%1 s ..."
 
-#: ekos/align/align.cpp:1501 ekos/align/align.cpp:2905
+#: ekos/align/align.cpp:1507 ekos/align/align.cpp:2911
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Ni odkritega daljinskega gonilnika za astrometrijo, ki bi preklopil na "
 "StellarSolver."
 
-#: ekos/align/align.cpp:1555 ekos/focus/focus.cpp:1703
+#: ekos/align/align.cpp:1561 ekos/focus/focus.cpp:1703
 #, kde-format
 msgid "Capturing image..."
 msgstr "Zajemanje slike ..."
 
-#: ekos/align/align.cpp:1645 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1651 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:2556
 #, kde-format
 msgid "Image received."
 msgstr "Slika prejeta."
 
-#: ekos/align/align.cpp:1753
+#: ekos/align/align.cpp:1759
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -5925,39 +5925,39 @@ msgstr ""
 "nobenih indeksnih datotek.  Prenesite nekaj indeksnih datotek ali dodajte "
 "pravilen imenik na seznam."
 
-#: ekos/align/align.cpp:1812
+#: ekos/align/align.cpp:1818
 #, fuzzy, kde-format
 msgid "Solving with blind image scale..."
 msgstr "Reševanje z lestvico slepe slike ..."
 
-#: ekos/align/align.cpp:1820
+#: ekos/align/align.cpp:1826
 #, fuzzy, kde-format
 msgid "Solving with blind image position..."
 msgstr "Reševanje s položajem slepe slike ..."
 
-#: ekos/align/align.cpp:1843
+#: ekos/align/align.cpp:1849
 #, fuzzy, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr "Naložena slika nima podatkov o piersideu"
 
-#: ekos/align/align.cpp:1848
+#: ekos/align/align.cpp:1854
 #, fuzzy, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr "Naložena slika je bila posneta na pierside %1"
 
-#: ekos/align/align.cpp:1941
+#: ekos/align/align.cpp:1947
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "Reševalnik je zaključil po %1 sekundah."
 
-#: ekos/align/align.cpp:1957
+#: ekos/align/align.cpp:1963
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 "Reševalec: rekt. (%1) dekl. (%2); usmerjenost (%3); merilo sl. točk (%4); "
 "pariteta (%5)"
 
-#: ekos/align/align.cpp:2024
+#: ekos/align/align.cpp:2030
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -5966,7 +5966,7 @@ msgstr ""
 "Podatki WCS so bili posodobljeni. Slike, ki bodo zajete v prihodnosti, bodo "
 "imele veljavne koordinate WCS."
 
-#: ekos/align/align.cpp:2042
+#: ekos/align/align.cpp:2048
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -5975,41 +5975,41 @@ msgstr ""
 "Koordinate rešitve: rekt. (%1) dekl. (%2), koordinate daljnogleda: rekt. "
 "(%3) dekl. (%4), ciljne koordinate rekt. (%5) dekl. (%6)"
 
-#: ekos/align/align.cpp:2053
+#: ekos/align/align.cpp:2059
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Cilj je znotraj %1 stopinj koordinat rešitve."
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2098
+#: ekos/align/align.cpp:2104
 #, fuzzy, kde-format
 #| msgid "Setting position angle to %1 degrees E of N..."
 msgid "Camera position angle is %1 degrees."
 msgstr "Nastavitev položajnega kota na %1 stopinj V od S …"
 
-#: ekos/align/align.cpp:2120 ekos/align/align.cpp:2530
-#: ekos/align/align.cpp:2570
+#: ekos/align/align.cpp:2126 ekos/align/align.cpp:2536
+#: ekos/align/align.cpp:2576
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Poravnava Astrometry se je uspešno zaključila"
 
-#: ekos/align/align.cpp:2142
+#: ekos/align/align.cpp:2148
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Doseženo je bilo največje število ponovitev. Reševalnik je spodletel."
 
-#: ekos/align/align.cpp:2171
+#: ekos/align/align.cpp:2177
 #, fuzzy, kde-format
 #| msgid "Target is within acceptable range. Astrometric solver is successful."
 msgid "Target is within acceptable range."
 msgstr "Cilj je znotraj sprejemljivega območja. Reševalnik je bil uspešen."
 
-#: ekos/align/align.cpp:2232
+#: ekos/align/align.cpp:2238
 #, kde-format
 msgid "Solver Failed."
 msgstr "Reševalnik ni uspel."
 
-#: ekos/align/align.cpp:2235
+#: ekos/align/align.cpp:2241
 #, fuzzy, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6021,39 +6021,39 @@ msgstr ""
 "zavihku Nastavitev -> Dnevniki, če želite dobiti podrobne informacije o "
 "napaki."
 
-#: ekos/align/align.cpp:2294
+#: ekos/align/align.cpp:2300
 #, fuzzy, kde-format
 #| msgid "Setting position angle to %1 degrees E of N..."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Nastavitev položajnega kota na %1 stopinj V od S …"
 
-#: ekos/align/align.cpp:2301
+#: ekos/align/align.cpp:2307
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Kot položaja kamere je v sprejemljivem območju."
 
-#: ekos/align/align.cpp:2315
+#: ekos/align/align.cpp:2321
 #, fuzzy, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Trenutno vrtenje je %1; Ciljno vrtenje je %2; diff: %3"
 
-#: ekos/align/align.cpp:2382
+#: ekos/align/align.cpp:2388
 #, kde-format
 msgid "Refresh is complete."
 msgstr "Osvežitev je končana."
 
-#: ekos/align/align.cpp:2389 ekos/auxiliary/darklibrary.cpp:1421
+#: ekos/align/align.cpp:2395 ekos/auxiliary/darklibrary.cpp:1421
 #: ekos/focus/focus.cpp:1470
 #, kde-format
 msgid "Capture aborted."
 msgstr "Zajem prekinjen."
 
-#: ekos/align/align.cpp:2395
+#: ekos/align/align.cpp:2401
 #, kde-format
 msgid "Solver aborted after %1 seconds."
 msgstr "Reševalnik je prekinil po %1 sekundah."
 
-#: ekos/align/align.cpp:2438 ekos/capture/capture.cpp:2536
+#: ekos/align/align.cpp:2444 ekos/capture/capture.cpp:2536
 #: ekos/focus/focus.cpp:3961 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1900
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
@@ -6062,59 +6062,59 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2501
+#: ekos/align/align.cpp:2507
 #, fuzzy, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "Mount je končal z zamahom blizu nebeškim palicam. Ponovno zajemite, da "
 "preverite."
 
-#: ekos/align/align.cpp:2524
+#: ekos/align/align.cpp:2530
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "Stativ je usklajen s koordinatami rešitve."
 
-#: ekos/align/align.cpp:2559 ekos/align/align.cpp:2589
-#: ekos/align/align.cpp:3897 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2565 ekos/align/align.cpp:2595
+#: ekos/align/align.cpp:3903 ekos/align/polaralignmentassistant.cpp:637
 #, kde-format
 msgid "Settling..."
 msgstr "Nastavitve..."
 
-#: ekos/align/align.cpp:2565
+#: ekos/align/align.cpp:2571
 #, fuzzy, kde-format
 #| msgid "Settling complete."
 msgid "Differential slewing complete."
 msgstr "Poravnava zaključena."
 
-#: ekos/align/align.cpp:2579
+#: ekos/align/align.cpp:2585
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Premikanje zaključeno, a natančnost cilja ni zadostna. Ponovno zaganjanje "
 "reševalnika..."
 
-#: ekos/align/align.cpp:2581
+#: ekos/align/align.cpp:2587
 #, fuzzy, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Premik končan. Reševanje točke poravnave ..."
 
-#: ekos/align/align.cpp:2624 ekos/align/align.cpp:2776
+#: ekos/align/align.cpp:2630 ekos/align/align.cpp:2782
 #, kde-format
 msgid "Syncing failed."
 msgstr "Usklajevanje ni uspelo."
 
-#: ekos/align/align.cpp:2626
+#: ekos/align/align.cpp:2632
 #, kde-format
 msgid "Slewing failed."
 msgstr "Premikanje ni uspelo."
 
-#: ekos/align/align.cpp:2669
+#: ekos/align/align.cpp:2675
 #, fuzzy, kde-format
 #| msgid "Rotator reached target position angle."
 msgid "Rotator reached camera position angle."
 msgstr "Rotator je dosegel ciljni kotni položaj."
 
-#: ekos/align/align.cpp:2681
+#: ekos/align/align.cpp:2687
 #, fuzzy, kde-format
 #| msgid ""
 #| "Rotator failed to arrive at the requested position angle. Check power, "
@@ -6126,22 +6126,22 @@ msgstr ""
 "Rotator ni uspel dospeti na položaj zahtevanega kota. Preverite napajanje, "
 "trenje ali ovire."
 
-#: ekos/align/align.cpp:2726
+#: ekos/align/align.cpp:2732
 #, fuzzy, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Zaznan je premik, prekinjeno bo reševanje …"
 
-#: ekos/align/align.cpp:2770
+#: ekos/align/align.cpp:2776
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Usklajevanje na rekt. (%1) in dekl. (%2)"
 
-#: ekos/align/align.cpp:2794
+#: ekos/align/align.cpp:2800
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Premikanje na koordinate cilja: rekt. (%1) dekl. (%2)."
 
-#: ekos/align/align.cpp:2799
+#: ekos/align/align.cpp:2805
 #, fuzzy, kde-format
 #| msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgid ""
@@ -6149,114 +6149,114 @@ msgid ""
 "notification)"
 msgstr "Premikanje na koordinate cilja: rekt. (%1) dekl. (%2)."
 
-#: ekos/align/align.cpp:2818
+#: ekos/align/align.cpp:2824
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Opravilo Ekos (%1) - Teleskop sinhroniziran"
 
-#: ekos/align/align.cpp:2874
+#: ekos/align/align.cpp:2880
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Naloži sliko"
 
-#: ekos/align/align.cpp:3104
+#: ekos/align/align.cpp:3110
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Svetovni koordinatni sistem (WCS) je omogočen."
 
-#: ekos/align/align.cpp:3109
+#: ekos/align/align.cpp:3115
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Svetovni koordinatni sistem (WCS) je onemogočen."
 
-#: ekos/align/align.cpp:3128
+#: ekos/align/align.cpp:3134
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Napaka zajemanja! Prekinjam..."
 
-#: ekos/align/align.cpp:3133 ekos/capture/capture.cpp:2597
+#: ekos/align/align.cpp:3139 ekos/capture/capture.cpp:2597
 #: ekos/capture/capture.cpp:2665
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Ponovno zaganjanje zajemanja (poskus št. %1)"
 
-#: ekos/align/align.cpp:3253
+#: ekos/align/align.cpp:3259
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Poravnaj okvir"
 
-#: ekos/align/align.cpp:3326
+#: ekos/align/align.cpp:3332
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Možnosti reševalnika"
 
-#: ekos/align/align.cpp:3331
+#: ekos/align/align.cpp:3337
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Zunanji in spletni programi"
 
-#: ekos/align/align.cpp:3335
+#: ekos/align/align.cpp:3341
 #, kde-format
 msgid "Scale & Position"
 msgstr "Merilo in položaj"
 
-#: ekos/align/align.cpp:3339
+#: ekos/align/align.cpp:3345
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Urejevalnik profilov možnosti poravnave"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3357 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3363 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Indeksne datoteke"
 
-#: ekos/align/align.cpp:3422 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3428 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 msgid "dRA (arcsec)"
 msgstr "dRA (ločne s)"
 
-#: ekos/align/align.cpp:3423 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3429 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDE (ločne s)"
 
-#: ekos/align/align.cpp:3469 ekos/capture/capture.cpp:5634
+#: ekos/align/align.cpp:3475 ekos/capture/capture.cpp:5634
 #: ekos/focus/focus.cpp:4717
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operacija filtra ni uspela."
 
-#: ekos/align/align.cpp:3481 ekos/capture/capture.cpp:5570
+#: ekos/align/align.cpp:3487 ekos/capture/capture.cpp:5570
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Spreminjanje izostritve za %1 s..."
 
-#: ekos/align/align.cpp:3488 ekos/auxiliary/filtermanager.cpp:1336
+#: ekos/align/align.cpp:3494 ekos/auxiliary/filtermanager.cpp:1336
 #: ekos/capture/capture.cpp:5575
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Spreminjanje filtra v %1 ..."
 
-#: ekos/align/align.cpp:3493 ekos/capture/capture.cpp:5580
+#: ekos/align/align.cpp:3499 ekos/capture/capture.cpp:5580
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Samodejno ostrenje ob spremembi filtra..."
 
-#: ekos/align/align.cpp:3614
+#: ekos/align/align.cpp:3620
 #, kde-format
 msgid "Invalid FOV."
 msgstr "Neveljavno vidno polje."
 
-#: ekos/align/align.cpp:3749
+#: ekos/align/align.cpp:3755
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Izvozi točke rešitve"
 
-#: ekos/align/align.cpp:3772 ekos/align/mountmodel.cpp:263
+#: ekos/align/align.cpp:3778 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3684
 #: ekos/capture/capture.cpp:4122 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
@@ -6266,14 +6266,14 @@ msgstr "Izvozi točke rešitve"
 msgid "Invalid URL: %1"
 msgstr "Neveljaven URL: %1"
 
-#: ekos/align/align.cpp:3781 ekos/align/mountmodel.cpp:400
+#: ekos/align/align.cpp:3787 ekos/align/mountmodel.cpp:400
 #: ekos/capture/capture.cpp:4145 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7181
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
-#: ekos/align/align.cpp:3782 ekos/align/mountmodel.cpp:283
+#: ekos/align/align.cpp:3788 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3700
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7125
@@ -6291,27 +6291,27 @@ msgstr "V datoteko %1 ni mogoče pisati"
 msgid "Could Not Open File"
 msgstr "Ni bilo mogoče odpreti datoteke"
 
-#: ekos/align/align.cpp:3803
+#: ekos/align/align.cpp:3809
 #, kde-format
 msgid "Error in table structure."
 msgstr "Napaka v strukturi tabele."
 
-#: ekos/align/align.cpp:3812
+#: ekos/align/align.cpp:3818
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Točke rešitve shranjene kot: %1"
 
-#: ekos/align/align.cpp:3826
+#: ekos/align/align.cpp:3832
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Poravnava na pol"
 
-#: ekos/align/align.cpp:4354
+#: ekos/align/align.cpp:4360
 #, kde-format
 msgid "Capture timed out."
 msgstr "Čas zajema je potekel."
 
-#: ekos/align/align.cpp:4363
+#: ekos/align/align.cpp:4369
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Zajem še vedno poteka, poskusite znova čez %1 sekund ..."
@@ -9308,16 +9308,6 @@ msgstr "Model poravnave nosilca za počistitev..."
 msgid "This could cause the telescope to cross the meridian."
 msgstr "To lahko povzroči, da teleskop prečka meridian."
 
-#: ekos/align/polaralignmentassistant.cpp:793
-#, fuzzy, kde-format
-msgid "Are you sure you want to stop the polar alignment process?"
-msgstr "Ali ste prepričani, da želite ustaviti polarni postopek poravnave?"
-
-#: ekos/align/polaralignmentassistant.cpp:794
-#, kde-format
-msgid "Polar Alignment Assistant"
-msgstr "Pomočnik polarne poravnave"
-
 #: ekos/align/polaralignmentassistant.cpp:829
 #, kde-format
 msgid "Parking the mount..."
@@ -12132,7 +12122,12 @@ msgstr "Primarna"
 msgid "Secondary"
 msgstr "Sekundarna"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:942
+#: ekos/auxiliary/opticaltrainmanager.cpp:321
+#, kde-format
+msgid "Teritary"
+msgstr ""
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:954
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12141,7 +12136,7 @@ msgstr ""
 "Zaznana je manjkajoča naprava (%1). Preden nadaljujete, ponovno prilagodite "
 "optične vlake."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:949
+#: ekos/auxiliary/opticaltrainmanager.cpp:961
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -17758,7 +17753,7 @@ msgid ""
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</span>: "
 "Half Flux Radius. Uses an algorithm to calculate the radius of a circle "
-"centred on the star centroid that encapulates half the star's flux.</li><ul "
+"centred on the star centroid that encapsulates half the star's flux.</li><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
@@ -83766,3 +83761,10 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
+
+#, fuzzy
+#~ msgid "Are you sure you want to stop the polar alignment process?"
+#~ msgstr "Ali ste prepričani, da želite ustaviti polarni postopek poravnave?"
+
+#~ msgid "Polar Alignment Assistant"
+#~ msgstr "Pomočnik polarne poravnave"

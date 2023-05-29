@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-25 00:42+0000\n"
-"PO-Revision-Date: 2023-05-24 01:04+0300\n"
+"POT-Creation-Date: 2023-05-29 00:42+0000\n"
+"PO-Revision-Date: 2023-05-28 11:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.07.70\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -461,14 +461,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Görseli Kaydet"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3762
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3768
 #: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "\"%1\" adlı bir dosya halihazırda var. Üzerine yazılsın mı?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3765
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3771
 #: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1316
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
@@ -2563,7 +2563,7 @@ msgstr ""
 "URL geçerli değil. Google arama motorunda\n"
 "bir tarayıcı penceresi açmak ister misiniz?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3773
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3779
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:3685
 #: ekos/capture/capture.cpp:4123 ekos/guide/guidedriftgraph.cpp:476
@@ -3814,7 +3814,7 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:916
+#: dialogs/details_data.ui:390 ekos/align/align.cpp:922
 #: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1063
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
@@ -5936,25 +5936,25 @@ msgstr "Çözüm Noktalarını Temizle"
 msgid "Solver timed out."
 msgstr "Çözücü zaman aşımı."
 
-#: ekos/align/align.cpp:816
+#: ekos/align/align.cpp:822
 #, fuzzy, kde-format
 #| msgid "Telescope does not support syncing."
 msgid "Mount does not support syncing."
 msgstr "Teleskop eş zamanlamayı desteklemiyor."
 
-#: ekos/align/align.cpp:1021
+#: ekos/align/align.cpp:1027
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr ""
 
-#: ekos/align/align.cpp:1060
+#: ekos/align/align.cpp:1066
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr ""
 
-#: ekos/align/align.cpp:1099
+#: ekos/align/align.cpp:1105
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -5962,28 +5962,28 @@ msgid ""
 "p><p>Calculated FOV: %1</p>"
 msgstr ""
 
-#: ekos/align/align.cpp:1108
+#: ekos/align/align.cpp:1114
 #, fuzzy, kde-format
 #| msgid "Desired field-of-view size, in arcminutes"
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "İstediğiniz görüş alanının ark dakika olarak büyüklüğü"
 
-#: ekos/align/align.cpp:1389
+#: ekos/align/align.cpp:1395
 #, kde-format
 msgid "Error: No camera detected."
 msgstr "Hata: Kamera algılanmadı."
 
-#: ekos/align/align.cpp:1395
+#: ekos/align/align.cpp:1401
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Hata: kamerayla bağlantı kesildi."
 
-#: ekos/align/align.cpp:1396 ekos/align/align.cpp:2237
+#: ekos/align/align.cpp:1402 ekos/align/align.cpp:2243
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Astrometri hizalaması başarısız oldu"
 
-#: ekos/align/align.cpp:1412
+#: ekos/align/align.cpp:1418
 #, kde-format
 msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
@@ -5992,61 +5992,61 @@ msgstr ""
 "Teleskop açıklık ve odak uzaklığı eksik. Optik çalışma ayarlarınızı "
 "denetleyin ve yeniden deneyin."
 
-#: ekos/align/align.cpp:1418
+#: ekos/align/align.cpp:1424
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
 msgstr ""
 "CCD piksel boyutu eksik. Sürücü ayarlarınızı denetleyin ve yeniden deneyin."
 
-#: ekos/align/align.cpp:1426
+#: ekos/align/align.cpp:1432
 #, kde-format
 msgid "Error: lost connection to filter wheel."
 msgstr "Hata: filtre tekerleğine bağlantı kesildi."
 
-#: ekos/align/align.cpp:1446 ekos/capture/capture.cpp:3341
+#: ekos/align/align.cpp:1452 ekos/capture/capture.cpp:3341
 #: ekos/capture/capture.cpp:5430 ekos/focus/focus.cpp:4828
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr ""
 
-#: ekos/align/align.cpp:1466
+#: ekos/align/align.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr "Otomatik odaklama yapılıyor..."
 
-#: ekos/align/align.cpp:1474
+#: ekos/align/align.cpp:1480
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr "Otomatik odaklama yapılıyor..."
 
-#: ekos/align/align.cpp:1483
+#: ekos/align/align.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
 msgstr "Otomatik odaklama yapılıyor..."
 
-#: ekos/align/align.cpp:1501 ekos/align/align.cpp:2905
+#: ekos/align/align.cpp:1507 ekos/align/align.cpp:2911
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1555 ekos/focus/focus.cpp:1703
+#: ekos/align/align.cpp:1561 ekos/focus/focus.cpp:1703
 #, kde-format
 msgid "Capturing image..."
 msgstr "Görüntü yakalanıyor..."
 
-#: ekos/align/align.cpp:1645 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1651 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:2556
 #, kde-format
 msgid "Image received."
 msgstr "Görüntü alındı."
 
-#: ekos/align/align.cpp:1753
+#: ekos/align/align.cpp:1759
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -6057,42 +6057,42 @@ msgstr ""
 "bulunamadı. Lütfen bazı dizin dosyalarını indirin veya doğru dizini listeye "
 "ekleyin."
 
-#: ekos/align/align.cpp:1812
+#: ekos/align/align.cpp:1818
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Solving with blind image scale..."
 msgstr "Görüntü yakalanıyor..."
 
-#: ekos/align/align.cpp:1820
+#: ekos/align/align.cpp:1826
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Solving with blind image position..."
 msgstr "Özgün konumuna geri döndürülüyor..."
 
-#: ekos/align/align.cpp:1843
+#: ekos/align/align.cpp:1849
 #, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr ""
 
-#: ekos/align/align.cpp:1848
+#: ekos/align/align.cpp:1854
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr ""
 
-#: ekos/align/align.cpp:1941
+#: ekos/align/align.cpp:1947
 #, fuzzy, kde-format
 #| msgid "Solver completed in %1 second."
 #| msgid_plural "Solver completed in %1 seconds."
 msgid "Solver completed after %1 seconds."
 msgstr "Çözücü %1 saniye içinde tamamlandı."
 
-#: ekos/align/align.cpp:1957
+#: ekos/align/align.cpp:1963
 #, fuzzy, kde-format
 #| msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)"
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr "Çözücü RA (%1) DEC (%2) Yönlendirme (%3) Piksel Ölçeği (%4)"
 
-#: ekos/align/align.cpp:2024
+#: ekos/align/align.cpp:2030
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -6101,49 +6101,49 @@ msgstr ""
 "WCS bilgisi güncellendi. Bu noktadan yakalanacak görüntülerin geçerli WCS "
 "bilgileri olacak."
 
-#: ekos/align/align.cpp:2042
+#: ekos/align/align.cpp:2048
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 
-#: ekos/align/align.cpp:2053
+#: ekos/align/align.cpp:2059
 #, fuzzy, kde-format
 #| msgid "Synchronize the telescope to the solution coordinates"
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Teleskopu, çözüm koordinatlarına eşle"
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2098
+#: ekos/align/align.cpp:2104
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Camera position angle is %1 degrees."
 msgstr "Sıcaklığı %1 C olarak ayarlar..."
 
-#: ekos/align/align.cpp:2120 ekos/align/align.cpp:2530
-#: ekos/align/align.cpp:2570
+#: ekos/align/align.cpp:2126 ekos/align/align.cpp:2536
+#: ekos/align/align.cpp:2576
 #, fuzzy, kde-format
 #| msgid "Post flip re-alignment completed successfully."
 msgid "Astrometry alignment completed successfully"
 msgstr "Döndürme sonra yeniden hizlama başarıyla tamamlandı."
 
-#: ekos/align/align.cpp:2142
+#: ekos/align/align.cpp:2148
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2171
+#: ekos/align/align.cpp:2177
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2232
+#: ekos/align/align.cpp:2238
 #, kde-format
 msgid "Solver Failed."
 msgstr "Çözücü Başarısız."
 
-#: ekos/align/align.cpp:2235
+#: ekos/align/align.cpp:2241
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6151,42 +6151,42 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2294
+#: ekos/align/align.cpp:2300
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Sıcaklığı %1 C olarak ayarlar..."
 
-#: ekos/align/align.cpp:2301
+#: ekos/align/align.cpp:2307
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2315
+#: ekos/align/align.cpp:2321
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2382
+#: ekos/align/align.cpp:2388
 #, fuzzy, kde-format
 #| msgid "%1 slew is complete."
 msgid "Refresh is complete."
 msgstr "%1 sarımı tamamlandı."
 
-#: ekos/align/align.cpp:2389 ekos/auxiliary/darklibrary.cpp:1421
+#: ekos/align/align.cpp:2395 ekos/auxiliary/darklibrary.cpp:1421
 #: ekos/focus/focus.cpp:1470
 #, kde-format
 msgid "Capture aborted."
 msgstr "Yakalama iptal edildi."
 
-#: ekos/align/align.cpp:2395
+#: ekos/align/align.cpp:2401
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
 msgid "Solver aborted after %1 seconds."
 msgstr "Çözücü %1 saniye sonra durduruldu."
 
-#: ekos/align/align.cpp:2438 ekos/capture/capture.cpp:2536
+#: ekos/align/align.cpp:2444 ekos/capture/capture.cpp:2536
 #: ekos/focus/focus.cpp:3961 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1900
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
@@ -6195,83 +6195,83 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2501
+#: ekos/align/align.cpp:2507
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2524
+#: ekos/align/align.cpp:2530
 #, fuzzy, kde-format
 #| msgid "Synchronize the telescope to the solution coordinates"
 msgid "Mount is synced to solution coordinates."
 msgstr "Teleskopu, çözüm koordinatlarına eşle"
 
-#: ekos/align/align.cpp:2559 ekos/align/align.cpp:2589
-#: ekos/align/align.cpp:3897 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2565 ekos/align/align.cpp:2595
+#: ekos/align/align.cpp:3903 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Settling..."
 msgstr "Ayarlar"
 
-#: ekos/align/align.cpp:2565
+#: ekos/align/align.cpp:2571
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Differential slewing complete."
 msgstr "Hizalama tamamlandı"
 
-#: ekos/align/align.cpp:2579
+#: ekos/align/align.cpp:2585
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2581
+#: ekos/align/align.cpp:2587
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2624 ekos/align/align.cpp:2776
+#: ekos/align/align.cpp:2630 ekos/align/align.cpp:2782
 #, kde-format
 msgid "Syncing failed."
 msgstr "Eşzamanlama başarısız oldu."
 
-#: ekos/align/align.cpp:2626
+#: ekos/align/align.cpp:2632
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Slewing failed."
 msgstr "Kıpırdatılıyor..."
 
-#: ekos/align/align.cpp:2669
+#: ekos/align/align.cpp:2675
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "Konum Açısı"
 
-#: ekos/align/align.cpp:2681
+#: ekos/align/align.cpp:2687
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:2726
+#: ekos/align/align.cpp:2732
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Herhangi bir yıldız algılanamadı, tekrar yakalanıyor..."
 
-#: ekos/align/align.cpp:2770
+#: ekos/align/align.cpp:2776
 #, fuzzy, kde-format
 #| msgid "Syncing successful."
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Eşzamanlama başarılı."
 
-#: ekos/align/align.cpp:2794
+#: ekos/align/align.cpp:2800
 #, fuzzy, kde-format
 #| msgid "Slew to the flag coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Bayrak koordinatlarını döndür"
 
-#: ekos/align/align.cpp:2799
+#: ekos/align/align.cpp:2805
 #, fuzzy, kde-format
 #| msgid "Slew to the flag coordinates"
 msgid ""
@@ -6279,128 +6279,128 @@ msgid ""
 "notification)"
 msgstr "Bayrak koordinatlarını döndür"
 
-#: ekos/align/align.cpp:2818
+#: ekos/align/align.cpp:2824
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:2874
+#: ekos/align/align.cpp:2880
 #, fuzzy, kde-format
 #| msgid "Load Image"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Görüntüyü Yükle"
 
-#: ekos/align/align.cpp:3104
+#: ekos/align/align.cpp:3110
 #, fuzzy, kde-format
 #| msgid "World Coordinate System (WCS) is disabled."
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Dünya Koordinat Sistemi (WCS) kapatıldı."
 
-#: ekos/align/align.cpp:3109
+#: ekos/align/align.cpp:3115
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Dünya Koordinat Sistemi (WCS) kapatıldı."
 
-#: ekos/align/align.cpp:3128
+#: ekos/align/align.cpp:3134
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture error. Aborting..."
 msgstr "Yakalama iptal edildi."
 
-#: ekos/align/align.cpp:3133 ekos/capture/capture.cpp:2597
+#: ekos/align/align.cpp:3139 ekos/capture/capture.cpp:2597
 #: ekos/capture/capture.cpp:2665
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Yakalam denemesi #%1 yeniden başlatılıyor"
 
-#: ekos/align/align.cpp:3253
+#: ekos/align/align.cpp:3259
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Hizalama"
 
-#: ekos/align/align.cpp:3326
+#: ekos/align/align.cpp:3332
 #, fuzzy, kde-format
 #| msgid "Plate Solve Options"
 msgid "StellarSolver Options"
 msgstr "Tabaka Çözme Seçenekleri"
 
-#: ekos/align/align.cpp:3331
+#: ekos/align/align.cpp:3337
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3335
+#: ekos/align/align.cpp:3341
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "Konumu Sıfırla"
 
-#: ekos/align/align.cpp:3339
+#: ekos/align/align.cpp:3345
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "Küçük Resim Düzenleyici"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3357 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3363 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Dizin Dosyaları"
 
-#: ekos/align/align.cpp:3422 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3428 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "RA (arcmin)"
 msgid "dRA (arcsec)"
 msgstr "RA (arcmin)"
 
-#: ekos/align/align.cpp:3423 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3429 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcsecs"
 msgid "dDE (arcsec)"
 msgstr "yay saniye"
 
-#: ekos/align/align.cpp:3469 ekos/capture/capture.cpp:5634
+#: ekos/align/align.cpp:3475 ekos/capture/capture.cpp:5634
 #: ekos/focus/focus.cpp:4717
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filtre işlemi başarısız oldu."
 
-#: ekos/align/align.cpp:3481 ekos/capture/capture.cpp:5570
+#: ekos/align/align.cpp:3487 ekos/capture/capture.cpp:5570
 #, fuzzy, kde-format
 #| msgid "Changing filter to %1..."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Süzgeç %1 olarak değiştiriliyor..."
 
-#: ekos/align/align.cpp:3488 ekos/auxiliary/filtermanager.cpp:1336
+#: ekos/align/align.cpp:3494 ekos/auxiliary/filtermanager.cpp:1336
 #: ekos/capture/capture.cpp:5575
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Süzgeç %1 olarak değiştiriliyor..."
 
-#: ekos/align/align.cpp:3493 ekos/capture/capture.cpp:5580
+#: ekos/align/align.cpp:3499 ekos/capture/capture.cpp:5580
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
 msgstr "Otomatik odaklanma tamamlandı"
 
-#: ekos/align/align.cpp:3614
+#: ekos/align/align.cpp:3620
 #, fuzzy, kde-format
 #| msgid "Invalid"
 msgid "Invalid FOV."
 msgstr "Geçersiz"
 
-#: ekos/align/align.cpp:3749
+#: ekos/align/align.cpp:3755
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Tüm yörünge izlerini temizle"
 
-#: ekos/align/align.cpp:3772 ekos/align/mountmodel.cpp:263
+#: ekos/align/align.cpp:3778 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3684
 #: ekos/capture/capture.cpp:4122 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
@@ -6410,14 +6410,14 @@ msgstr "Tüm yörünge izlerini temizle"
 msgid "Invalid URL: %1"
 msgstr "Geçersiz URL: %1"
 
-#: ekos/align/align.cpp:3781 ekos/align/mountmodel.cpp:400
+#: ekos/align/align.cpp:3787 ekos/align/mountmodel.cpp:400
 #: ekos/capture/capture.cpp:4145 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:4759 ekos/scheduler/scheduler.cpp:7181
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "%1 dosyasına yazılamadı"
 
-#: ekos/align/align.cpp:3782 ekos/align/mountmodel.cpp:283
+#: ekos/align/align.cpp:3788 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:3700
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4417
 #: ekos/scheduler/scheduler.cpp:4760 ekos/scheduler/scheduler.cpp:7125
@@ -6435,31 +6435,31 @@ msgstr "%1 dosyasına yazılamadı"
 msgid "Could Not Open File"
 msgstr "Dosya Açılamadı"
 
-#: ekos/align/align.cpp:3803
+#: ekos/align/align.cpp:3809
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Satırlarda hata"
 
-#: ekos/align/align.cpp:3812
+#: ekos/align/align.cpp:3818
 #, fuzzy, kde-format
 #| msgid "Solution Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Çözüm Koordinatları"
 
-#: ekos/align/align.cpp:3826
+#: ekos/align/align.cpp:3832
 #, fuzzy, kde-format
 #| msgid "Polar Alignment Measurement"
 msgid "Polar Alignment"
 msgstr "Kutupsal Hizalama Ölçümü"
 
-#: ekos/align/align.cpp:4354
+#: ekos/align/align.cpp:4360
 #, fuzzy, kde-format
 #| msgid "Capture failed."
 msgid "Capture timed out."
 msgstr "Yakalama başarısız"
 
-#: ekos/align/align.cpp:4363
+#: ekos/align/align.cpp:4369
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -9582,18 +9582,6 @@ msgstr "Güney açısı hizalama hesaplama hatası..."
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Gökyüzü haritasında teleskop konumunu göster"
 
-#: ekos/align/polaralignmentassistant.cpp:793
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
-msgid "Are you sure you want to stop the polar alignment process?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
-
-#: ekos/align/polaralignmentassistant.cpp:794
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Measurement"
-msgid "Polar Alignment Assistant"
-msgstr "Kutupsal Hizalama Ölçümü"
-
 #: ekos/align/polaralignmentassistant.cpp:829
 #, fuzzy, kde-format
 #| msgid "Parking mount..."
@@ -12596,14 +12584,19 @@ msgstr "Birincil"
 msgid "Secondary"
 msgstr "Saniye"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:942
+#: ekos/auxiliary/opticaltrainmanager.cpp:321
+#, kde-format
+msgid "Teritary"
+msgstr ""
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:954
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:949
+#: ekos/auxiliary/opticaltrainmanager.cpp:961
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -18334,7 +18327,7 @@ msgid ""
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</span>: "
 "Half Flux Radius. Uses an algorithm to calculate the radius of a circle "
-"centred on the star centroid that encapulates half the star's flux.</li><ul "
+"centred on the star centroid that encapsulates half the star's flux.</li><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
@@ -66795,13 +66788,13 @@ msgstr "Konumlar"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "NASA Astrophysics Data System (ADS)"
-msgstr "NASA Astrofizik Veri Sistemi (ADS)"
+msgstr "NASA Gökfizik Veri Sistemi (ADS)"
 
 #: kstars_i18n.cpp:4850
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Astronomy and Astrophysics"
-msgstr "Astronomi ve Astrofizik"
+msgstr "Gökbilim ve Gökfizik"
 
 #: kstars_i18n.cpp:4851
 #, kde-kuit-format
@@ -69214,6 +69207,8 @@ msgid ""
 "KStars Lite is a free, open source, cross-platform Astronomy Software "
 "designed for mobile devices."
 msgstr ""
+"K Yıldızlar Lite, taşınabilir aygıtlar için tasarlanmış, ücretsiz, açık "
+"kaynaklı, çapraz platform bir gökbilim yazılımıdır."
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:51
 #, kde-kuit-format
@@ -72969,7 +72964,7 @@ msgstr "Ana-Maria Constantin"
 #: main.cpp:168
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
-msgstr "Astronomi ve K Yıldızlar ile ilgili teknik belgelendirme"
+msgstr "Gökbilim ve K Yıldızlar ile ilgili teknik belgelendirme"
 
 #: main.cpp:169
 #, kde-format
@@ -75377,7 +75372,7 @@ msgid ""
 "Sun, approximately 150 million km"
 msgstr ""
 "Bir kuyruklu yıldza isim etiketi iliştirilmesi için Güneşe olan en fazla "
-"uzaklığını Astronomik Birim (AU) türünden ayarlayın. Bir AU Güneş ile Dünya "
+"uzaklığını Gökbilimsel Birim (AU) türünden ayarlayın. Bir AU Güneş ile Dünya "
 "arasında ki yaklaşık 150 milyon km olan mesafeye eşittir"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
@@ -76920,7 +76915,7 @@ msgid ""
 "%1: National Optical Astronomy Observatories and AURA [free for non-"
 "commercial use]"
 msgstr ""
-"%1: Ulusal Optik Astronomi Gözlemevleri ve AURA [ticari amaç gütmeyen "
+"%1: Ulusal Optik Gökbilim Gözlemevleri ve AURA [ticari amaç gütmeyen "
 "kullanımlara açık]"
 
 #: skyobjects/skyobject.cpp:434
@@ -77160,9 +77155,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar El Kitabı, Astronomi hakkında bir dizi bilgilendirici "
-"makale\n"
-"\t\t\tolan AstroInfo Projesi'ni içerir.\n"
+"\t\t<p>K Yıldızlar El Kitabı, Gökbilim üzerine bir dizi bilgilendirici\n"
+"\t\t\tmakaleler olan AstroInfo Projesi'ni içerir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -77222,7 +77216,7 @@ msgstr ""
 "\t\t<p>K Yıldızlar projesini geliştirmemize yardım edin! Daha fazlasını "
 "öğrenmek için https://edu.kde.org/kstars adresindeki web sitemizi ziyaret "
 "edin ve kstars-devel@kde.org adresindeki posta listemize katılın. Hata "
-"raporları, astronomi teknik bilgi ve bilgisinin katkıları, kod katkıları, "
+"raporları, gökblim teknik bilgi ve bilgisinin katkıları, kod katkıları, "
 "çeviriler ve daha birçok türde katkı ile bize yardımcı olmanızı bekliyoruz!\n"
 "\t\t</p>\n"
 "\t\n"
@@ -77289,7 +77283,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Görüntüyü fare imlecinin bulunduğu konuma merkezlemek için\n"
-"\t\t\tçift tıklayın.  Eğer bir cismi çift tıklarsanız, KStars otomatik "
+"\t\t\tçift tıklayın.  Eğer bir cismi çift tıklarsanız, K Yıldızlar otomatik "
 "olarak\n"
 "\t\t\ttakip etmeye başlar.\n"
 "\t\t</p>\n"
@@ -77427,7 +77421,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Araçlar Çubuğundaki Dönüş Kutusu KStars saatinin kullandığı\n"
+"\t\t<p>Araçlar Çubuğundaki Dönüş Kutusu K Yıldızlar saatinin kullandığı\n"
 "\t\t\tzaman adımını ayarlamanıza imkan verir. Adımı \"1.0 sn\" yapmak "
 "\"gerçek zamanı sağlar.\".\n"
 "\t\t\tNot: negatif değerler zamanı tersine akıtır.\n"
@@ -77540,7 +77534,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars'da yıldızlar öntanımlı olarak gerçek renklerinde gösterilir.\n"
+"\t\t<p>K Yıldızlar'da yıldızlar öntanımlı olarak gerçek renklerinde "
+"gösterilir.\n"
 "\t\t\tBir yıldızın rengi sıcaklığına bağlıdır. Daha soğuk yıldızlar kırmızı "
 "iken,\n"
 "\t\t\tsıcak yıldızlar mavidir.\n"
@@ -77699,12 +77694,12 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars, güçlü bir Gözlem Planlama aracına\t\t\t  (Ctrl + L) sahiptir. "
-"Planlayıcı size, gözlemek\t\t\t  istediğiniz cisimlerin listesini yönetmenize"
-"\t\t\t  yardımcı olur ve bu cisimleri seçerek\t\t\t  bir gözlem oturumu "
-"yaratmanızı sağlar.\t\t\t  Planlayıcı, gözlem zamanı atayabilir\t\t\t  ve "
-"bir alan içinde, kolayca gözlemlenmesi\t\t\t  için bir iş akışı sağlayabilir."
-"</p>\n"
+"\t\t<p>K Yıldızlar, güçlü bir Gözlem Planlama aracına\t\t\t  (Ctrl + L) "
+"sahiptir. Planlayıcı size, gözlemek\t\t\t  istediğiniz cisimlerin listesini "
+"yönetmenize\t\t\t  yardımcı olur ve bu cisimleri seçerek\t\t\t  bir gözlem "
+"oturumu yaratmanızı sağlar.\t\t\t  Planlayıcı, gözlem zamanı atayabilir\t\t"
+"\t  ve bir alan içinde, kolayca gözlemlenmesi\t\t\t  için bir iş akışı "
+"sağlayabilir.</p>\n"
 "\t\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -77717,9 +77712,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars, Ekos adında güçlü bir astrofotograf takımına sahiptir. Ekos, "
-"astrofotograf ekipmanlarını INDI üzerinden yönetmenizi, otomatik odaklama "
-"vb. ve otmatik yakalama dizileri sağlar.\n"
+"\t\t<p>K Yıldızlar, Ekos adında güçlü bir astrofotograf takımına sahiptir. "
+"Ekos, astrofotograf ekipmanlarını INDI üzerinden yönetmenizi, otomatik "
+"odaklama vb. ve otmatik yakalama dizileri sağlar.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -77736,7 +77731,7 @@ msgstr ""
 "\t\t<p>Betik oluşturma aracı size karışık D-Bus betiklerini basit bir GUI\n"
 "\t\t\tkullanarak oluşturma imkanı verir.  Betikler daha sonra komut "
 "satırından\n"
-"\t\t\tveya KStars'ın içinden çalıştırılabilir.\n"
+"\t\t\tveya K Yıldızlar'ın içinden çalıştırılabilir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -77793,8 +77788,8 @@ msgstr ""
 "\t\t<p>Gökyüzü resmini, Dosya menüsü ögesi olan\"Gökyüzü Resmini Kaydet\"'i\n"
 "\t\t\tkullanarak veya Ctrl+I tuşlarına basarak bir dosyaya "
 "aktarabilirsiniz.  \n"
-"\t\t\tBuna ek olarak KStars'ı komut istemi ile çalıştırabilirsiniz ve \"--"
-"dump\" değişkeni a\n"
+"\t\t\tBuna ek olarak K Yıldızlar'ı komut istemi ile çalıştırabilirsiniz ve "
+"\"--dump\" değişkeni a\n"
 "\t\t\tile resmi programı açmaya bile gerek kalmadan diskinize "
 "kaydedebilirsiniz.\n"
 "\t\t\tBu KDE masaüstünüzde devingen masaüstü resimleri oluşturmak için "
@@ -77822,7 +77817,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Kendi özel Cisim Kataloğunuzu eklemek için, KStars düzenleme\n"
+"\t\t<p>Kendi özel Cisim Kataloğunuzu eklemek için, K Yıldızlar düzenleme\n"
 "\t\t\tpenceresindeki Katalog sekmesinden \"Katalog Yükle\"'yi seçin.\n"
 "\t\t\tKatalog Dosyanızı biçimlendirme ile ilgili bilgi için El Kitabına "
 "bakınız .\n"
@@ -77839,10 +77834,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Öntanımlı olarak KStars, NGC ve IC derin gök nesnesi kataloglarıyla "
-"birlikte gelir. Dosya->Yeni Veri İndir seçeneğinden daha birçok kataloğu "
-"indirebilirsiniz. Ayrıca kendi özel kataloglarınızı oluşturabilir ve "
-"ekleyebilirsiniz.\n"
+"\t\t<p>Öntanımlı olarak K Yıldızlar, NGC ve IC derin gök nesnesi "
+"kataloglarıyla birlikte gelir. Dosya->Yeni Veri İndir seçeneğinden daha "
+"birçok kataloğu indirebilirsiniz. Ayrıca kendi özel kataloglarınızı "
+"oluşturabilir ve ekleyebilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -77890,7 +77885,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Onlarca görüntü seçeneğini ayarlayabilirsiniz. Bunun için\n"
-"\t\t\t\"görünüm\" Araç Çubuğu düğmesine basın veya \"Ayarlar->KStars'ı "
+"\t\t\t\"görünüm\" Araç Çubuğu düğmesine basın veya \"Ayarlar->K Yıldızlar'ı "
 "Yapılandır...\"menü ögesini.\n"
 "\t\t\tseçin.\n"
 "\t\t</p>\n"
@@ -78049,8 +78044,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars Düzenleme penceresinin gelişmiş sekmesi KStarsın çalışmasında "
-"ince-ayarlar\n"
+"\t\t<p>K Yıldızlar Düzenleme penceresinin gelişmiş sekmesi K Yıldızların "
+"çalışmasında ince-ayarlar\n"
 "\t\t\t yapmanızı sağlar. Atmosferik ışık kırılmasını düzeltmeyi veya "
 "canlandırılmış\n"
 "\t\t\t döndürmeyi seçip seçmeyeceğinizi belirleyebilirsiniz. Ayrıca,\n"
@@ -78071,8 +78066,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars 100 milyonun üzerinde yıldızı, 13,000 derin-uzay cismini, 88 "
-"takımyıldızını,\n"
+"\t\t<p>K Yıldızlar 100 milyonun üzerinde yıldızı, 13,000 derin-uzay cismini, "
+"88 takımyıldızını,\n"
 "\t\t\ttüm gezegenleri, Güneşi, Ayı, binlerce kuyrukluyıldızı ve küçük "
 "gezegeni, ve\n"
 "\t\t\tSamanyolunu gösterir.\n"
@@ -78104,7 +78099,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStarstaki (gezegenler için) eksen yalpalaması, üğrüm, görüntü  "
+"\t\t<p>K Yıldızlartaki (gezegenler için) eksen yalpalaması, üğrüm, görüntü  "
 "sapması,\n"
 "\t\t\tatmosferik ışık kırılması ve ışığın seyahat süresini de kapsayan cisim "
 "konumları.\n"
@@ -78122,10 +78117,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars içinde, ünlü deney olan genel görecelilik testinin benzetimini "
-"yapabilirsiniz -- KStars, güneş etrafındaki yıldız ışığını soğrulmasını "
-"hesaplayabilir. Güneşin merkezine gelin, gökyüzü haritasını yakınlaştırın ve "
-"'r' tuşuna basarak düzeltmeleri açın/kapatın.\n"
+"\t\t<p>K Yıldızlar içinde, ünlü deney olan genel görecelilik testinin "
+"benzetimini yapabilirsiniz -- K Yıldızlar, güneş etrafındaki yıldız ışığını "
+"soğrulmasını hesaplayabilir. Güneşin merkezine gelin, gökyüzü haritasını "
+"yakınlaştırın ve 'r' tuşuna basarak düzeltmeleri açın/kapatın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -78208,7 +78203,7 @@ msgstr ""
 "\t\t<p>Arada sırada, gezegenler durmuş gibi gözükür ve geçici olarak gece "
 "gökyüzündeki yönlerini değiştirirler. Buna yoz haraket denir. Bunu, dış "
 "gezegene bir iz ekleyerek ve benzetme saatini hızlandırarak (1 gün veya daha "
-"fazla) KStars içinde benzetim yapabilirisiniz.\n"
+"fazla) K Yıldızlar içinde benzetim yapabilirisiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -78259,7 +78254,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Daha yakın yıldızlara olan uzaklık \"Parallaks\" kullanılarak "
-"ölçülür. Astro Info projesinde açıklanmıştır. KStars, bir çok yıldızın "
+"ölçülür. Astro Info projesinde açıklanmıştır. K Yıldızlar, bir çok yıldızın "
 "uzaklıklarını Ayrıntılar penceresinde gösterir. Bu bilgiye erişmek için, "
 "yıldıza sağ tıklayın ve açılan pencerede \"Ayrıntılar\" ı seçin.\n"
 "\t\t</p>\n"
@@ -78296,7 +78291,7 @@ msgstr ""
 "\t\t<p>Sayısallaştırılmış Gökyüzü İncelemesi (DSS) gökyüzünün her bir "
 "bölgesinin fotoğraflarından görüntüleri sayısallaştırır, Mt. Palomar 'daki "
 "Oschin Schmidt telskopu ve UK Schmidt Teleskopu ile yapılmıştır. "
-"Gökyüzününün herhangi bir bölgesindeki DSS görüntülerine, KStars 'a sağ "
+"Gökyüzününün herhangi bir bölgesindeki DSS görüntülerine, K Yıldızlar 'a sağ "
 "tıklayıp, \"DSS Görüntüsünü Göster\" düğmesine tıklarak ulaşılabilir.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -78314,8 +78309,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Edwin Hubble, uzak galaksilerin bizden çok daha yüksek hızlarda "
 "uzaklaşıyor olduğununun ilk ölçümlerini yapmıştı. Bu evrenin genişlemesinin "
-"ilk kanıtlarından. Daha fazlasını KStars El kitabı içindeki AstroInfo "
-"projesinde bulabilirsiniz (Yardım->KStars El Kitabı).\n"
+"ilk kanıtlarından. Daha fazlasını K Yıldızlar El kitabı içindeki AstroInfo "
+"projesinde bulabilirsiniz (Yardım->K Yıldızlar El Kitabı).\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -78903,7 +78898,7 @@ msgid ""
 "UL></QT>"
 msgstr ""
 "<QT><H2>K Yıldızlar Astro Hesaplayıcı</H2><P>K Yıldızlar Astro Hesaplayıcı, "
-"astronomi ile ilgili çeşitli hesaplamalar yapan birkaç <B>modül</b> içerir. "
+"gökbilim ile ilgili çeşitli hesaplamalar yapan birkaç <B>modül</b> içerir. "
 "Modüller birkaç kategori halinde düzenlenmiştir: <UL><LI><B>Zaman "
 "hesaplayıcıları: </B>Zaman sistemleri arasında dönüşüm yapın ve göksel "
 "olayların zamanlamasını tahmin edin</LI><LI><B>Koordinat dönüştürücüler: < /"
@@ -80883,6 +80878,8 @@ msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
+"Belirtilen alan geçersiz. OpenAstronomyLog şeması tabanlı bir XML dosyası "
+"bekleniyordu."
 
 #: tools/observinglist.cpp:954
 #, kde-format
@@ -81721,7 +81718,7 @@ msgid ""
 msgstr ""
 "<html><head></head><body><p>Parlak cisimleri seç</p><p></p><p>Bu sayfada "
 "gözlem listenizi yalnızca verilen bir parlaklığa sahip olan cisimlerle "
-"sınırlandırabilirsiniz.  KStars veri tabanındaki tüm cisimler için "
+"sınırlandırabilirsiniz.  K Yıldızlar veri tabanındaki tüm cisimler için "
 "parlaklıkdeğerine sahip olmadığından bu seçimi dikkatli yapınız.  "
 "Tanımlanmamış birparlaklığa sahip cisimleri dahil etmek isteyip "
 "istemediğinizi belirtmelisiniz.</p><p></p><p>Eğer soluk cisimleri kapsam "
@@ -82438,7 +82435,7 @@ msgstr "harita üzerinde etiketlenmiş en sönük küçük gezegenin parlaklığ
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
 msgstr ""
-"Güneşe (AB-Astronomik Birim olarak) bundan daha yakın olan kuyruklu "
+"Güneşe (AB-Gökbilimsel Birim olarak) bundan daha yakın olan kuyruklu "
 "yıldızlar harita üzerinde etiketlidir."
 
 #: tools/scriptbuilder.cpp:812
@@ -84335,6 +84332,16 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarla."
+
+#, fuzzy
+#~| msgid "Are you sure you want to remove the %1 client?"
+#~ msgid "Are you sure you want to stop the polar alignment process?"
+#~ msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+
+#, fuzzy
+#~| msgid "Polar Alignment Measurement"
+#~ msgid "Polar Alignment Assistant"
+#~ msgstr "Kutupsal Hizalama Ölçümü"
 
 #, fuzzy
 #~| msgid "Ekos connection mode"
