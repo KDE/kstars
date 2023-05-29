@@ -98,7 +98,7 @@
     <p xml:lang="sk">KStars je slobodný, open source, cross platformový astronomický softvér od KDE.</p>
     <p xml:lang="sl">KStars je prosta, odprtokodna astronomska programska oprema, ki teče na več okoljih in izdelana pri KDE.</p>
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
-    <p xml:lang="tr">K Yıldızlar; KDE tarafından ücretsiz olarak lisanslanan, açık kaynaklı, çapraz platform bir Astronomi yazılımıdır.</p>
+    <p xml:lang="tr">K Yıldızlar; KDE tarafından ücretsiz olarak lisanslanan, açık kaynaklı, çapraz platform bir gökbilim yazılımıdır.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
     <p xml:lang="x-test">xxKStars is freely licensed, open source, cross-platform Astronomy Software by KDE.xx</p>
     <p xml:lang="zh-CN">KStars 是 KDE 开发的一款自由开源且跨平台的天文软件。</p>
@@ -150,7 +150,7 @@
     <p xml:lang="sk">Pre študentov a učiteľov, podporuje upraviteľné simulované rýchlosti na zobrazenie fenomén, ktoré nastávajú počas dlhých období, KStars astrokalkulačka na predpovedanie konjunkcií a mnoho bežných astronomických výpočtov.</p>
     <p xml:lang="sl">Za študente in učitelje so na voljo prilagodljive hitrosti simulacije za ogled fenomenov, ki se zgodijo v daljših časovnih obdobjih, ter zvezdno računalo KStars za napovedovanje konjunkcij ter številne pogoste astronomske izračune.</p>
     <p xml:lang="sv">För elever och lärare stöder den justerbar simuleringshastighet för att visa fenomen som inträffar under långa tidsperioder. Kstars astronomiräknare predikterar konjunktioner, och utför många vanliga astronomiska beräkningar.</p>
-    <p xml:lang="tr">Öğrenciler ve öğretmenler için, uzun zaman ölçeklerinde meydana gelen fenomenleri görüntülemek için ayarlanabilir benzetim hızlarını, kavuşumları tahmin etmek için K Yıldızlar Astro Hesaplayıcı'yı ve birçok yaygın astronomik hesaplamayı destekler.</p>
+    <p xml:lang="tr">Öğrenciler ve öğretmenler için, uzun zaman ölçeklerinde meydana gelen fenomenleri görüntülemek için ayarlanabilir benzetim hızlarını, kavuşumları tahmin etmek için K Yıldızlar Astro Hesaplayıcı'yı ve birçok yaygın gökbilimsel hesaplamayı destekler.</p>
     <p xml:lang="uk">Для учнів і вчителів, у програмі передбачено підтримку налаштовуваної швидкості імітації з метою перегляду явищ, які тривають дуже довго, астрономічний калькулятор KStars для розрахунку сполучень та багатьох інших астрономічних обчислень.</p>
     <p xml:lang="x-test">xxFor students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.xx</p>
     <p xml:lang="zh-CN">对于学生和教师而言，KStars 支持对模拟速度进行调整，方便观看时间跨度极大的天文现象。KStars 的天体计算器可以用来预测合的发生时间和进行各种常见的天文学计算。</p>
@@ -237,7 +237,7 @@
     <p xml:lang="sk">Astronomické katalógy:</p>
     <p xml:lang="sl">Astronomski katalogi:</p>
     <p xml:lang="sv">Astronomiska kataloger:</p>
-    <p xml:lang="tr">Astronomik Kataloglar:</p>
+    <p xml:lang="tr">Gökbilimsel Kataloglar:</p>
     <p xml:lang="uk">Каталоги астрономічних даних:</p>
     <p xml:lang="x-test">xxAstronomical Catalogs:xx</p>
     <p xml:lang="zh-CN">天文数据库：</p>
