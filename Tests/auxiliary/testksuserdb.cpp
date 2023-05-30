@@ -32,50 +32,50 @@ void TestKSUserDB::cleanup()
 
 void TestKSUserDB::testInitializeDB()
 {
-    KSUserDB * testDB = new KSUserDB();
+    QScopedPointer<KSUserDB> testDB(new KSUserDB());
     QVERIFY(nullptr != testDB);
 
     // If the KStars folder does not exist, database cannot be initialised
     QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).removeRecursively());
     QVERIFY(!testDB->Initialize());
-    QVERIFY(!QFile(testDB->GetDatabase().databaseName()).exists());
+    auto fullpath = testDB->connectionName();
+    QVERIFY(!QFile(fullpath).exists());
 
     // If the KStars folder has just been created, database can be initialised
     QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).mkpath("."));
     QVERIFY(testDB->Initialize());
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    fullpath = testDB->connectionName();
+    QVERIFY(QFile(fullpath).exists());
 
     // Database can be initialised once again (without change?)
     QVERIFY(testDB->Initialize());
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    QVERIFY(QFile(fullpath).exists());
 
     // If there is garbage in the database and there is no backup, database can be initialised
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    QVERIFY(QFile(fullpath).exists());
     {
-        QFile dbf(testDB->GetDatabase().databaseName());
+        QFile dbf(fullpath);
         QVERIFY(dbf.open(QIODevice::WriteOnly));
         QCOMPARE(dbf.write("garbage", 7), 7);
     }
     QVERIFY(testDB->Initialize());
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    QVERIFY(QFile(fullpath).exists());
 
     // If there is no database file, but there is a backup, database can be initialised
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).rename(testDB->GetDatabase().databaseName() + ".backup"));
+    QVERIFY(QFile(fullpath).exists());
+    QVERIFY(QFile(fullpath).rename(fullpath + ".backup"));
     QVERIFY(testDB->Initialize());
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    QVERIFY(QFile(fullpath).exists());
 
     // If there is garbage in the database but there is a backup, database can be initialised
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
+    QVERIFY(QFile(fullpath).exists());
     {
-        QFile dbf(testDB->GetDatabase().databaseName());
+        QFile dbf(fullpath);
         QVERIFY(dbf.open(QIODevice::WriteOnly));
         QCOMPARE(dbf.write("garbage", 7), 7);
     }
     QVERIFY(testDB->Initialize());
-    QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
-
-    delete testDB;
+    QVERIFY(QFile(fullpath).exists());
 }
 
 void TestKSUserDB::testCreateScopes_data()

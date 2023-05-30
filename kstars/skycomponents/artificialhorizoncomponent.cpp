@@ -161,7 +161,9 @@ void ArtificialHorizon::load(const QList<ArtificialHorizonEntity *> &list)
 
 bool ArtificialHorizonComponent::load()
 {
-    horizon.load(KStarsData::Instance()->userdb()->GetAllHorizons());
+    QList<ArtificialHorizonEntity *> list;
+    KStarsData::Instance()->userdb()->GetAllHorizons(list);
+    horizon.load(list);
 
     foreach (ArtificialHorizonEntity *horizon, *horizon.horizonList())
         appendLine(horizon->list());

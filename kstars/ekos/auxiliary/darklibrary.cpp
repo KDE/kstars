@@ -603,8 +603,7 @@ void DarkLibrary::clearExpired()
     // Anything before this must go
     QDateTime expiredDate = QDateTime::currentDateTime().addDays(darkLibraryDuration->value() * -1);
 
-    QSqlDatabase userdb = QSqlDatabase::database("userdb");
-    userdb.open();
+    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     QSqlTableModel darkframe(nullptr, userdb);
     darkframe.setEditStrategy(QSqlTableModel::OnManualSubmit);
     darkframe.setTable("darkframe");
@@ -628,7 +627,6 @@ void DarkLibrary::clearExpired()
     // And remove them from the database
     darkframe.removeRows(0, darkframe.rowCount());
     darkframe.submitAll();
-    userdb.close();
 
     Ekos::DarkLibrary::Instance()->refreshFromDB();
 
@@ -660,8 +658,7 @@ void DarkLibrary::clearAll()
             KMessageBox::No)
         return;
 
-    QSqlDatabase userdb = QSqlDatabase::database("userdb");
-    userdb.open();
+    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     QSqlTableModel darkframe(nullptr, userdb);
     darkFramesModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     darkframe.setTable("darkframe");
@@ -681,7 +678,6 @@ void DarkLibrary::clearAll()
 
     darkFramesModel->removeRows(0, darkFramesModel->rowCount());
     darkFramesModel->submitAll();
-    userdb.close();
 
     Ekos::DarkLibrary::Instance()->refreshFromDB();
 
@@ -694,7 +690,7 @@ void DarkLibrary::clearAll()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::clearRow(int index)
 {
-    QSqlDatabase userdb = QSqlDatabase::database("userdb");
+    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     if (index < 0)
         index = darkTableView->currentIndex().row();
 
@@ -704,8 +700,6 @@ void DarkLibrary::clearRow(int index)
     QFile::remove(filename);
     if (!defectMap.isEmpty())
         QFile::remove(defectMap);
-
-    userdb.open();
 
     darkFramesModel->removeRow(index);
     darkFramesModel->submitAll();
@@ -779,8 +773,7 @@ void DarkLibrary::refreshDefectMastersList(const QString &camera)
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::reloadDarksFromDatabase()
 {
-    QSqlDatabase userdb = QSqlDatabase::database("userdb");
-    userdb.open();
+    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
 
     const QString camera = m_Camera->getDeviceName();
 
@@ -802,8 +795,6 @@ void DarkLibrary::reloadDarksFromDatabase()
     darkTableView->hideColumn(0);
     // Hide Chip
     darkTableView->hideColumn(2);
-
-    userdb.close();
 
     if (darkFramesModel->rowCount() == 0 && m_CurrentDarkFrame)
     {

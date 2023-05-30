@@ -20,8 +20,7 @@ CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &drivers
 {
     setupUi(this);
 
-    userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "custom_drivers_db");
-    userdb.open();
+    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     model = new QSqlTableModel(this, userdb);
     model->setTable("customdrivers");
 
@@ -55,12 +54,12 @@ CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &drivers
     connect(driverCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated),
             this, &CustomDrivers::syncDriver);
 
-    connect(labelIN, &QLineEdit::textChanged, [&]()
+    connect(labelIN, &QLineEdit::textChanged, this, [&]()
     {
         addDriverB->setEnabled(labelIN->text().isEmpty() == false);
     });
 
-    connect(driversView, &QTableView::pressed, [&]()
+    connect(driversView, &QTableView::pressed, this, [&]()
     {
         removeDriverB->setEnabled(true);
     });

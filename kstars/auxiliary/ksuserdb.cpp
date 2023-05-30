@@ -12,7 +12,6 @@
 #include "linelist.h"
 #include "version.h"
 #include "oal/dslrlens.h"
-#include "ekos/ekos.h"
 
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -30,8 +29,6 @@
 
 KSUserDB::~KSUserDB()
 {
-    m_UserDB.close();
-
     // Backup
     QString current_dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("userdb.sqlite");
     QString backup_dbfile = QDir(KSPaths::writableLocation(
@@ -42,14 +39,6 @@ KSUserDB::~KSUserDB()
 
 bool KSUserDB::Initialize()
 {
-    // Every logged in user has their own db.
-    m_UserDB = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    if (!m_UserDB.isValid())
-    {
-        qCCritical(KSTARS) << "Unable to prepare database of type sqlite!";
-        return false;
-    }
-
     // If the database file does not exist, look for a backup
     // If the database file exists and is empty, look for a backup
     // If the database file exists and has data, use it.
@@ -63,33 +52,43 @@ bool KSUserDB::Initialize()
                                    QStandardPaths::AppLocalDataLocation)).filePath("userdb.sqlite.backup"));
 
     bool const first_run = !dbfile.exists() && !backup_file.exists();
+    m_ConnectionName = dbfile.filePath();
 
-    m_UserDB.setDatabaseName(dbfile.filePath());
+    // Every logged in user has their own db.
+    auto db = QSqlDatabase::addDatabase("QSQLITE", m_ConnectionName);
+    // This would load the SQLITE file
+    db.setDatabaseName(m_ConnectionName);
+
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Unable to prepare database of type sqlite!";
+        return false;
+    }
 
     // If main fails to open and we have no backup, fail
-    if (!m_UserDB.open())
+    if (!db.open())
     {
         if (!backup_file.exists())
         {
             qCCritical(KSTARS) << QString("Failed opening user database '%1'.").arg(dbfile.filePath());
-            qCCritical(KSTARS) << LastError();
+            qCCritical(KSTARS) << db.lastError();
             return false;
         }
     }
 
     // If no main nor backup existed before opening, rebuild
-    if (m_UserDB.isOpen() && first_run)
+    if (db.isOpen() && first_run)
     {
         qCInfo(KSTARS) << "User DB does not exist. New User DB will be created.";
         FirstRun();
     }
 
     // If main appears empty/corrupted, restore if possible or rebuild
-    if (m_UserDB.tables().empty())
+    if (db.tables().empty())
     {
         if (backup_file.exists())
         {
-            m_UserDB.close();
+
             qCWarning(KSTARS) << "Detected corrupted database. Attempting to recover from backup...";
             QFile::remove(dbfile.filePath());
             QFile::copy(backup_file.filePath(), dbfile.filePath());
@@ -106,7 +105,7 @@ bool KSUserDB::Initialize()
     qCDebug(KSTARS) << "Opened the User DB. Ready.";
 
     // Update table if previous version exists
-    QSqlTableModel version(nullptr, m_UserDB);
+    QSqlTableModel version(nullptr, db);
     version.setTable("Version");
     version.select();
     QSqlRecord record = version.record(0);
@@ -119,7 +118,7 @@ bool KSUserDB::Initialize()
     // Update database version to current KStars version
     if (currentDBVersion != SCHEMA_VERSION)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         QString versionQuery = QString("UPDATE Version SET Version=%1").arg(SCHEMA_VERSION);
         if (!query.exec(versionQuery))
             qCWarning(KSTARS) << query.lastError();
@@ -128,7 +127,7 @@ bool KSUserDB::Initialize()
     // If prior to 2.9.4 extend filters table
     if (currentDBVersion < 294)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
 
         qCWarning(KSTARS) << "Detected old format filter table, re-creating...";
         if (!query.exec("DROP table filter"))
@@ -150,7 +149,7 @@ bool KSUserDB::Initialize()
     // If prior to 2.9.5 create fov table
     if (currentDBVersion < 295)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
 
         if (!query.exec("CREATE TABLE effectivefov ( "
                         "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -167,12 +166,12 @@ bool KSUserDB::Initialize()
 
     if (currentDBVersion < 300)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         QString columnQuery = QString("ALTER TABLE profile ADD COLUMN remotedrivers TEXT DEFAULT NULL");
         if (!query.exec(columnQuery))
             qCWarning(KSTARS) << query.lastError();
 
-        if (m_UserDB.tables().contains("customdrivers") == false)
+        if (db.tables().contains("customdrivers") == false)
         {
             if (!query.exec("CREATE TABLE customdrivers ( "
                             "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -189,7 +188,7 @@ bool KSUserDB::Initialize()
     // Add manufacturer
     if (currentDBVersion < 305)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         QString columnQuery = QString("ALTER TABLE customdrivers ADD COLUMN Manufacturer TEXT DEFAULT NULL");
         if (!query.exec(columnQuery))
             qCWarning(KSTARS) << query.lastError();
@@ -198,7 +197,7 @@ bool KSUserDB::Initialize()
     // Add indihub
     if (currentDBVersion < 306)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         QString columnQuery = QString("ALTER TABLE profile ADD COLUMN indihub INTEGER DEFAULT 0");
         if (!query.exec(columnQuery))
             qCWarning(KSTARS) << query.lastError();
@@ -207,7 +206,7 @@ bool KSUserDB::Initialize()
     // Add Defect Map
     if (currentDBVersion < 307)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         // If we are upgrading, remove all previous entries.
         QString clearQuery = QString("DELETE FROM darkframe");
         if (!query.exec(clearQuery))
@@ -220,7 +219,7 @@ bool KSUserDB::Initialize()
     // Add port selector
     if (currentDBVersion < 308)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         QString columnQuery = QString("ALTER TABLE profile ADD COLUMN portselector INTEGER DEFAULT 0");
         if (!query.exec(columnQuery))
             qCWarning(KSTARS) << query.lastError();
@@ -229,7 +228,7 @@ bool KSUserDB::Initialize()
     // Add Gain/ISO to Dark Library
     if (currentDBVersion < 309)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         QString columnQuery = QString("ALTER TABLE darkframe ADD COLUMN gain INTEGER DEFAULT -1");
         if (!query.exec(columnQuery))
             qCWarning(KSTARS) << query.lastError();
@@ -241,7 +240,7 @@ bool KSUserDB::Initialize()
     // Add scripts to profile
     if (currentDBVersion < 310)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         QString columnQuery = QString("ALTER TABLE profile ADD COLUMN scripts TEXT DEFAULT NULL");
         if (!query.exec(columnQuery))
             qCWarning(KSTARS) << query.lastError();
@@ -250,7 +249,7 @@ bool KSUserDB::Initialize()
     // Add optical trains
     if (currentDBVersion < 311)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         if (!query.exec("CREATE TABLE opticaltrains ( "
                         "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                         "profile INTEGER DEFAULT NULL, "
@@ -297,7 +296,7 @@ bool KSUserDB::Initialize()
     // Adjust effective FOV
     if (currentDBVersion < 312)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
 
         if (!query.exec("ALTER TABLE effectivefov ADD COLUMN Train TEXT DEFAULT NULL"))
             qCWarning(KSTARS) << query.lastError();
@@ -310,7 +309,7 @@ bool KSUserDB::Initialize()
     // Add focusTemperature, focusAltitude, focusTicksPerTemp, focusTicksPerAlt and wavelength to filter table
     if (currentDBVersion < 313)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
 
         if (!query.exec("ALTER TABLE filter ADD COLUMN FocusTemperature REAL DEFAULT NULL"))
             qCWarning(KSTARS) << query.lastError();
@@ -324,30 +323,26 @@ bool KSUserDB::Initialize()
             qCWarning(KSTARS) << query.lastError();
     }
 
-    m_UserDB.close();
+
     return true;
 }
 
-QSqlError KSUserDB::LastError()
-{
-    // error description is in QSqlError::text()
-    return m_UserDB.lastError();
-}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::FirstRun()
 {
     if (!RebuildDB())
         return false;
-
-    /*ImportFlags();
-    ImportUsers();
-    ImportEquipment();*/
-
     return true;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::RebuildDB()
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
     qCInfo(KSTARS) << "Rebuilding User Database";
 
     QVector<QString> tables;
@@ -570,7 +565,7 @@ bool KSUserDB::RebuildDB()
 
     for (int i = 0; i < tables.count(); ++i)
     {
-        QSqlQuery query(m_UserDB);
+        QSqlQuery query(db);
         if (!query.exec(tables[i]))
         {
             qCDebug(KSTARS) << query.lastError();
@@ -584,10 +579,20 @@ bool KSUserDB::RebuildDB()
 /*
  * Observer Section
 */
-void KSUserDB::AddObserver(const QString &name, const QString &surname, const QString &contact)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddObserver(const QString &name, const QString &surname, const QString &contact)
 {
-    m_UserDB.open();
-    QSqlTableModel users(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel users(nullptr, db);
     users.setTable("user");
     users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" + surname + "\'");
     users.select();
@@ -611,13 +616,22 @@ void KSUserDB::AddObserver(const QString &name, const QString &surname, const QS
         users.submitAll();
     }
 
-    m_UserDB.close();
+    return true;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::FindObserver(const QString &name, const QString &surname)
 {
-    m_UserDB.open();
-    QSqlTableModel users(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel users(nullptr, db);
     users.setTable("user");
     users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" + surname + "\'");
     users.select();
@@ -625,15 +639,22 @@ bool KSUserDB::FindObserver(const QString &name, const QString &surname)
     int observer_count = users.rowCount();
 
     users.clear();
-    m_UserDB.close();
     return (observer_count > 0);
 }
 
-// TODO(spacetime): This method is currently unused.
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::DeleteObserver(const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel users(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel users(nullptr, db);
     users.setTable("user");
     users.setFilter("id = \'" + id + "\'");
     users.select();
@@ -644,20 +665,24 @@ bool KSUserDB::DeleteObserver(const QString &id)
     int observer_count = users.rowCount();
 
     users.clear();
-    m_UserDB.close();
     return (observer_count > 0);
 }
-QSqlDatabase KSUserDB::GetDatabase()
-{
-    m_UserDB.open();
-    return m_UserDB;
-}
+
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
 {
-    m_UserDB.open();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     observer_list.clear();
-    QSqlTableModel users(nullptr, m_UserDB);
+    QSqlTableModel users(nullptr, db);
     users.setTable("user");
     users.select();
 
@@ -673,7 +698,7 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
     }
 
     users.clear();
-    m_UserDB.close();
+    return true;
 }
 #endif
 
@@ -683,10 +708,16 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
  * @brief KSUserDB::AddDarkFrame Saves a new dark frame data to the database
  * @param oneFrame Map that contains 1 to 1 correspondence with the database table, except for primary key and timestamp.
  */
-void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
+bool KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
 {
-    m_UserDB.open();
-    QSqlTableModel darkframe(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel darkframe(nullptr, db);
     darkframe.setTable("darkframe");
     darkframe.select();
 
@@ -699,18 +730,23 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
 
     darkframe.insertRecord(-1, record);
     darkframe.submitAll();
-
-    m_UserDB.close();
+    return true;
 }
 
 /**
  * @brief KSUserDB::UpdateDarkFrame Updates an existing dark frame record in the data, replace all values matching the supplied ID
  * @param oneFrame dark frame to update. The ID should already exist in the database.
  */
-void KSUserDB::UpdateDarkFrame(const QVariantMap &oneFrame)
+bool KSUserDB::UpdateDarkFrame(const QVariantMap &oneFrame)
 {
-    m_UserDB.open();
-    QSqlTableModel darkframe(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel darkframe(nullptr, db);
     darkframe.setTable("darkframe");
     darkframe.setFilter(QString("id=%1").arg(oneFrame["id"].toInt()));
     darkframe.select();
@@ -721,17 +757,24 @@ void KSUserDB::UpdateDarkFrame(const QVariantMap &oneFrame)
 
     darkframe.setRecord(0, record);
     darkframe.submitAll();
-    m_UserDB.close();
+
+    return true;
 }
 
 /**
  * @brief KSUserDB::DeleteDarkFrame Delete from database a dark frame record that matches the filename field.
  * @param filename filename of dark frame to delete from database.
  */
-void KSUserDB::DeleteDarkFrame(const QString &filename)
+bool KSUserDB::DeleteDarkFrame(const QString &filename)
 {
-    m_UserDB.open();
-    QSqlTableModel darkframe(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel darkframe(nullptr, db);
     darkframe.setTable("darkframe");
     darkframe.setFilter("filename = \'" + filename + "\'");
 
@@ -740,15 +783,24 @@ void KSUserDB::DeleteDarkFrame(const QString &filename)
     darkframe.removeRows(0, 1);
     darkframe.submitAll();
 
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     darkFrames.clear();
 
-    m_UserDB.open();
-    QSqlTableModel darkframe(nullptr, m_UserDB);
+    QSqlTableModel darkframe(nullptr, db);
     darkframe.setTable("darkframe");
     darkframe.select();
 
@@ -762,16 +814,25 @@ void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
         darkFrames.append(recordMap);
     }
 
-    m_UserDB.close();
+    return true;
 }
 
 
 /* Effective FOV Section */
 
-void KSUserDB::AddEffectiveFOV(const QVariantMap &oneFOV)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddEffectiveFOV(const QVariantMap &oneFOV)
 {
-    m_UserDB.open();
-    QSqlTableModel effectivefov(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel effectivefov(nullptr, db);
     effectivefov.setTable("effectivefov");
     effectivefov.select();
 
@@ -787,13 +848,22 @@ void KSUserDB::AddEffectiveFOV(const QVariantMap &oneFOV)
 
     effectivefov.submitAll();
 
-    m_UserDB.close();
+    return true;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::DeleteEffectiveFOV(const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel effectivefov(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel effectivefov(nullptr, db);
     effectivefov.setTable("effectivefov");
     effectivefov.setFilter("id = \'" + id + "\'");
 
@@ -801,18 +871,24 @@ bool KSUserDB::DeleteEffectiveFOV(const QString &id)
 
     effectivefov.removeRows(0, 1);
     effectivefov.submitAll();
-
-    m_UserDB.close();
-
     return true;
 }
 
-void KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     effectiveFOVs.clear();
 
-    m_UserDB.open();
-    QSqlTableModel effectivefov(nullptr, m_UserDB);
+    QSqlTableModel effectivefov(nullptr, db);
     effectivefov.setTable("effectivefov");
     effectivefov.select();
 
@@ -826,15 +902,24 @@ void KSUserDB::GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs)
         effectiveFOVs.append(recordMap);
     }
 
-    m_UserDB.close();
+    return true;
 }
 
 /* Optical Trains Section */
 
-void KSUserDB::AddOpticalTrain(const QVariantMap &oneTrain)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddOpticalTrain(const QVariantMap &oneTrain)
 {
-    m_UserDB.open();
-    QSqlTableModel opticalTrain(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel opticalTrain(nullptr, db);
     opticalTrain.setTable("opticaltrains");
     opticalTrain.select();
 
@@ -849,15 +934,27 @@ void KSUserDB::AddOpticalTrain(const QVariantMap &oneTrain)
     opticalTrain.insertRecord(-1, record);
 
     if (!opticalTrain.submitAll())
+    {
         qCWarning(KSTARS) << opticalTrain.lastError();
+        return false;
+    }
 
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::UpdateOpticalTrain(const QVariantMap &oneTrain, int id)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::UpdateOpticalTrain(const QVariantMap &oneTrain, int id)
 {
-    m_UserDB.open();
-    QSqlTableModel opticalTrain(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel opticalTrain(nullptr, db);
     opticalTrain.setTable("opticaltrains");
     opticalTrain.setFilter(QString("id=%1").arg(id));
     opticalTrain.select();
@@ -870,15 +967,27 @@ void KSUserDB::UpdateOpticalTrain(const QVariantMap &oneTrain, int id)
     opticalTrain.setRecord(0, record);
 
     if (!opticalTrain.submitAll())
+    {
         qCWarning(KSTARS) << opticalTrain.lastError();
+        return false;
+    }
 
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::DeleteOpticalTrain(int id)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::DeleteOpticalTrain(int id)
 {
-    m_UserDB.open();
-    QSqlTableModel opticalTrain(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel opticalTrain(nullptr, db);
     opticalTrain.setTable("opticaltrains");
     opticalTrain.setFilter(QString("id=%1").arg(id));
 
@@ -886,16 +995,24 @@ void KSUserDB::DeleteOpticalTrain(int id)
 
     opticalTrain.removeRows(0, 1);
     opticalTrain.submitAll();
-
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::GetOpticalTrains(uint32_t profileID, QList<QVariantMap> &opticalTrains)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetOpticalTrains(uint32_t profileID, QList<QVariantMap> &opticalTrains)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     opticalTrains.clear();
 
-    m_UserDB.open();
-    QSqlTableModel opticalTrain(nullptr, m_UserDB);
+    QSqlTableModel opticalTrain(nullptr, db);
     opticalTrain.setTable("opticaltrains");
     opticalTrain.setFilter(QString("profile=%1").arg(profileID));
     opticalTrain.select();
@@ -910,15 +1027,24 @@ void KSUserDB::GetOpticalTrains(uint32_t profileID, QList<QVariantMap> &opticalT
         opticalTrains.append(recordMap);
     }
 
-    m_UserDB.close();
+    return true;
 }
 
 /* Driver Alias Section */
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::AddCustomDriver(const QVariantMap &oneDriver)
 {
-    m_UserDB.open();
-    QSqlTableModel CustomDriver(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel CustomDriver(nullptr, db);
     CustomDriver.setTable("customdrivers");
     CustomDriver.select();
 
@@ -936,15 +1062,22 @@ bool KSUserDB::AddCustomDriver(const QVariantMap &oneDriver)
 
     rc = CustomDriver.submitAll();
 
-    m_UserDB.close();
-
     return rc;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::DeleteCustomDriver(const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel CustomDriver(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel CustomDriver(nullptr, db);
     CustomDriver.setTable("customdrivers");
     CustomDriver.setFilter("id = \'" + id + "\'");
 
@@ -953,17 +1086,23 @@ bool KSUserDB::DeleteCustomDriver(const QString &id)
     CustomDriver.removeRows(0, 1);
     CustomDriver.submitAll();
 
-    m_UserDB.close();
-
     return true;
 }
 
-void KSUserDB::GetAllCustomDrivers(QList<QVariantMap> &CustomDrivers)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllCustomDrivers(QList<QVariantMap> &CustomDrivers)
 {
-    CustomDrivers.clear();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    m_UserDB.open();
-    QSqlTableModel CustomDriver(nullptr, m_UserDB);
+    CustomDrivers.clear();
+    QSqlTableModel CustomDriver(nullptr, db);
     CustomDriver.setTable("customdrivers");
     CustomDriver.select();
 
@@ -977,15 +1116,24 @@ void KSUserDB::GetAllCustomDrivers(QList<QVariantMap> &CustomDrivers)
         CustomDrivers.append(recordMap);
     }
 
-    m_UserDB.close();
+    return true;
 }
 
 /* HiPS Section */
 
-void KSUserDB::AddHIPSSource(const QMap<QString, QString> &oneSource)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddHIPSSource(const QMap<QString, QString> &oneSource)
 {
-    m_UserDB.open();
-    QSqlTableModel HIPSSource(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel HIPSSource(nullptr, db);
     HIPSSource.setTable("hips");
     HIPSSource.select();
 
@@ -995,16 +1143,24 @@ void KSUserDB::AddHIPSSource(const QMap<QString, QString> &oneSource)
         record.setValue(iter.key(), iter.value());
 
     HIPSSource.insertRecord(-1, record);
-
     HIPSSource.submitAll();
 
-    m_UserDB.close();
+    return true;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::DeleteHIPSSource(const QString &ID)
 {
-    m_UserDB.open();
-    QSqlTableModel HIPSSource(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel HIPSSource(nullptr, db);
     HIPSSource.setTable("hips");
     HIPSSource.setFilter("ID = \'" + ID + "\'");
 
@@ -1013,17 +1169,23 @@ bool KSUserDB::DeleteHIPSSource(const QString &ID)
     HIPSSource.removeRows(0, 1);
     HIPSSource.submitAll();
 
-    m_UserDB.close();
-
     return true;
 }
 
-void KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
 {
-    HIPSSources.clear();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    m_UserDB.open();
-    QSqlTableModel HIPSSource(nullptr, m_UserDB);
+    HIPSSources.clear();
+    QSqlTableModel HIPSSource(nullptr, db);
     HIPSSource.setTable("hips");
     HIPSSource.select();
 
@@ -1037,16 +1199,25 @@ void KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
         HIPSSources.append(recordMap);
     }
 
-    m_UserDB.close();
+    return true;
 }
 
 
 /* DSLR Section */
 
-void KSUserDB::AddDSLRInfo(const QMap<QString, QVariant> &oneInfo)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddDSLRInfo(const QMap<QString, QVariant> &oneInfo)
 {
-    m_UserDB.open();
-    QSqlTableModel DSLRInfo(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel DSLRInfo(nullptr, db);
     DSLRInfo.setTable("dslr");
     DSLRInfo.select();
 
@@ -1056,31 +1227,46 @@ void KSUserDB::AddDSLRInfo(const QMap<QString, QVariant> &oneInfo)
         record.setValue(iter.key(), iter.value());
 
     DSLRInfo.insertRecord(-1, record);
-
     DSLRInfo.submitAll();
 
-    m_UserDB.close();
+    return true;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::DeleteAllDSLRInfo()
 {
-    m_UserDB.open();
-    QSqlTableModel DSLRInfo(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel DSLRInfo(nullptr, db);
     DSLRInfo.setTable("dslr");
     DSLRInfo.select();
 
     DSLRInfo.removeRows(0, DSLRInfo.rowCount());
     DSLRInfo.submitAll();
 
-    m_UserDB.close();
-
     return true;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool KSUserDB::DeleteDSLRInfo(const QString &model)
 {
-    m_UserDB.open();
-    QSqlTableModel DSLRInfo(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel DSLRInfo(nullptr, db);
     DSLRInfo.setTable("dslr");
     DSLRInfo.setFilter("model = \'" + model + "\'");
 
@@ -1089,17 +1275,24 @@ bool KSUserDB::DeleteDSLRInfo(const QString &model)
     DSLRInfo.removeRows(0, 1);
     DSLRInfo.submitAll();
 
-    m_UserDB.close();
-
     return true;
 }
 
-void KSUserDB::GetAllDSLRInfos(QList<QMap<QString, QVariant>> &DSLRInfos)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllDSLRInfos(QList<QMap<QString, QVariant>> &DSLRInfos)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     DSLRInfos.clear();
 
-    m_UserDB.open();
-    QSqlTableModel DSLRInfo(nullptr, m_UserDB);
+    QSqlTableModel DSLRInfo(nullptr, db);
     DSLRInfo.setTable("dslr");
     DSLRInfo.select();
 
@@ -1113,17 +1306,26 @@ void KSUserDB::GetAllDSLRInfos(QList<QMap<QString, QVariant>> &DSLRInfos)
         DSLRInfos.append(recordMap);
     }
 
-    m_UserDB.close();
+    return true;
 }
 
 /*
  * Flag Section
 */
 
-void KSUserDB::DeleteAllFlags()
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::DeleteAllFlags()
 {
-    m_UserDB.open();
-    QSqlTableModel flags(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel flags(nullptr, db);
     flags.setEditStrategy(QSqlTableModel::OnManualSubmit);
     flags.setTable("flags");
     flags.select();
@@ -1132,14 +1334,24 @@ void KSUserDB::DeleteAllFlags()
     flags.submitAll();
 
     flags.clear();
-    m_UserDB.close();
+
+    return true;
 }
 
-void KSUserDB::AddFlag(const QString &ra, const QString &dec, const QString &epoch, const QString &image_name,
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddFlag(const QString &ra, const QString &dec, const QString &epoch, const QString &image_name,
                        const QString &label, const QString &labelColor)
 {
-    m_UserDB.open();
-    QSqlTableModel flags(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel flags(nullptr, db);
     flags.setTable("flags");
 
     int row = 0;
@@ -1153,15 +1365,22 @@ void KSUserDB::AddFlag(const QString &ra, const QString &dec, const QString &epo
     flags.submitAll();
 
     flags.clear();
-    m_UserDB.close();
+    return true;
 }
 
-QList<QStringList> KSUserDB::GetAllFlags()
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllFlags(QList<QStringList> &flagList)
 {
-    QList<QStringList> flagList;
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    m_UserDB.open();
-    QSqlTableModel flags(nullptr, m_UserDB);
+    QSqlTableModel flags(nullptr, db);
     flags.setTable("flags");
     flags.select();
 
@@ -1186,51 +1405,79 @@ QList<QStringList> KSUserDB::GetAllFlags()
     }
 
     flags.clear();
-    m_UserDB.close();
-    return flagList;
+    return true;
 }
 
 /*
  * Generic Section
  */
-void KSUserDB::DeleteEquipment(const QString &type, const QString &id)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::DeleteEquipment(const QString &type, const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable(type);
     equip.setFilter("id = " + id);
     equip.select();
 
     equip.removeRows(0, equip.rowCount());
     equip.submitAll();
-
     equip.clear();
-    m_UserDB.close();
+
+    return true;
 }
 
-void KSUserDB::DeleteAllEquipment(const QString &type)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::DeleteAllEquipment(const QString &type)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setEditStrategy(QSqlTableModel::OnManualSubmit);
     equip.setTable(type);
     equip.setFilter("id >= 1");
     equip.select();
     equip.removeRows(0, equip.rowCount());
     equip.submitAll();
-
     equip.clear();
-    m_UserDB.close();
+
+    return true;
 }
 
 /*
  * Telescope section
  */
-void KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &type, const double &aperture,
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &type, const double &aperture,
                         const double &focalLength)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("telescope");
 
     QSqlRecord record = equip.record();
@@ -1246,14 +1493,24 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor, const QStri
         qCWarning(KSTARS) << equip.lastError().text();
 
     equip.clear();
-    m_UserDB.close();
+
+    return true;
 }
 
-void KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &type,
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &type,
                         const double &aperture, const double &focalLength, const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("telescope");
     equip.setFilter("id = " + id);
     equip.select();
@@ -1270,15 +1527,26 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor, const QStri
         equip.submitAll();
     }
 
-    m_UserDB.close();
+    return true;
 }
-#ifndef KSTARS_LITE
-void KSUserDB::GetAllScopes(QList<Scope *> &scope_list)
-{
-    scope_list.clear();
 
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+#ifndef KSTARS_LITE
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllScopes(QList<Scope *> &scope_list)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    qDeleteAll(scope_list);
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("telescope");
     equip.select();
 
@@ -1296,17 +1564,27 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list)
     }
 
     equip.clear();
-    m_UserDB.close();
+    return true;
 }
 #endif
 /*
  * Eyepiece section
  */
-void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength, const double &fov,
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength, const double &fov,
                            const QString &fovunit)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("eyepiece");
 
     int row = 0;
@@ -1317,16 +1595,25 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const do
     equip.setData(equip.index(row, 4), fov);
     equip.setData(equip.index(row, 5), fovunit);
     equip.submitAll();
-
     equip.clear();
-    m_UserDB.close();
+
+    return true;
 }
 
-void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength, const double &fov,
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength, const double &fov,
                            const QString &fovunit, const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("eyepiece");
     equip.setFilter("id = " + id);
     equip.select();
@@ -1343,15 +1630,26 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const do
         equip.submitAll();
     }
 
-    m_UserDB.close();
+    return true;
 }
+
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     eyepiece_list.clear();
 
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("eyepiece");
     equip.select();
 
@@ -1370,16 +1668,26 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list)
     }
 
     equip.clear();
-    m_UserDB.close();
+    return true;
 }
 #endif
 /*
  * lens section
  */
-void KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("lens");
 
     int row = 0;
@@ -1390,13 +1698,22 @@ void KSUserDB::AddLens(const QString &vendor, const QString &model, const double
     equip.submitAll();
 
     equip.clear();
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor, const QString &id)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor, const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("lens");
     equip.setFilter("id = " + id);
     equip.select();
@@ -1410,15 +1727,25 @@ void KSUserDB::AddLens(const QString &vendor, const QString &model, const double
         equip.submitAll();
     }
 
-    m_UserDB.close();
+    return true;
 }
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
-{
-    lens_list.clear();
 
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    qDeleteAll(lens_list);
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("lens");
     equip.select();
 
@@ -1434,63 +1761,67 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
     }
 
     equip.clear();
-    m_UserDB.close();
+    return true;
 }
 #endif
 /*
  *  filter section
  */
-void KSUserDB::AddFilter(const filterProperties *fp)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddFilter(const filterProperties *fp)
 {
-    if (m_UserDB.open())
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
     {
-        QSqlTableModel equip(nullptr, m_UserDB);
-        equip.setTable("filter");
-
-        QSqlRecord record = equip.record();
-        record.setValue("Vendor", fp->vendor);
-        record.setValue("Model", fp->model);
-        record.setValue("Type", fp->type);
-        record.setValue("Color", fp->color);
-        record.setValue("Offset", fp->offset);
-        record.setValue("Exposure", fp->exposure);
-        record.setValue("UseAutoFocus", fp->useAutoFocus ? 1 : 0);
-        record.setValue("LockedFilter", fp->lockedFilter);
-        record.setValue("AbsoluteFocusPosition", fp->absFocusPos);
-        record.setValue("FocusTemperature", fp->focusTemperature);
-        record.setValue("FocusAltitude", fp->focusAltitude);
-        record.setValue("FocusTicksPerTemp", fp->focusTicksPerTemp);
-        record.setValue("FocusTicksPerAlt", fp->focusTicksPerAlt);
-        record.setValue("Wavelength", fp->wavelength);
-
-        if (equip.insertRecord(-1, record) == false)
-            qCritical() << __FUNCTION__ << equip.lastError();
-
-
-        /*int row = 0;
-        equip.insertRows(row, 1);
-        equip.setData(equip.index(row, 1), vendor);
-        equip.setData(equip.index(row, 2), model);
-        equip.setData(equip.index(row, 3), type);
-        equip.setData(equip.index(row, 4), offset);
-        equip.setData(equip.index(row, 5), color);
-        equip.setData(equip.index(row, 6), exposure);
-        equip.setData(equip.index(row, 7), lockedFilter);
-        equip.setData(equip.index(row, 8), useAutoFocus ? 1 : 0);
-        */
-        if (equip.submitAll() == false)
-            qCritical() << "AddFilter:" << equip.lastError();
-
-        equip.clear();
-        m_UserDB.close();
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
     }
-    else qCritical() << "Failed opening database connection to add filters.";
+
+    QSqlTableModel equip(nullptr, db);
+    equip.setTable("filter");
+
+    QSqlRecord record = equip.record();
+    record.setValue("Vendor", fp->vendor);
+    record.setValue("Model", fp->model);
+    record.setValue("Type", fp->type);
+    record.setValue("Color", fp->color);
+    record.setValue("Offset", fp->offset);
+    record.setValue("Exposure", fp->exposure);
+    record.setValue("UseAutoFocus", fp->useAutoFocus ? 1 : 0);
+    record.setValue("LockedFilter", fp->lockedFilter);
+    record.setValue("AbsoluteFocusPosition", fp->absFocusPos);
+    record.setValue("FocusTemperature", fp->focusTemperature);
+    record.setValue("FocusAltitude", fp->focusAltitude);
+    record.setValue("FocusTicksPerTemp", fp->focusTicksPerTemp);
+    record.setValue("FocusTicksPerAlt", fp->focusTicksPerAlt);
+    record.setValue("Wavelength", fp->wavelength);
+
+    if (equip.insertRecord(-1, record) == false)
+        qCritical() << __FUNCTION__ << equip.lastError();
+
+    if (equip.submitAll() == false)
+        qCritical() << "AddFilter:" << equip.lastError();
+
+    equip.clear();
+    return true;
 }
 
-void KSUserDB::AddFilter(const filterProperties *fp, const QString &id)
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddFilter(const filterProperties *fp, const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("filter");
     equip.setFilter("id = " + id);
     equip.select();
@@ -1517,14 +1848,25 @@ void KSUserDB::AddFilter(const filterProperties *fp, const QString &id)
             qCritical() << "AddFilter:" << equip.lastError();
     }
 
-    m_UserDB.close();
+    return true;
 }
+
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
 {
-    m_UserDB.open();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     filter_list.clear();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("filter");
     equip.select();
 
@@ -1553,165 +1895,13 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
     }
 
     equip.clear();
-    m_UserDB.close();
-}
-#endif
-#if 0
-bool KSUserDB::ImportFlags()
-{
-    QString flagfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("flags.dat");
-    QFile flagsfile(flagfilename);
-    if (!flagsfile.exists())
-    {
-        return false;  // No upgrade needed. Flags file doesn't exist.
-    }
-
-    QList< QPair<QString, KSParser::DataTypes> > flag_file_sequence;
-    flag_file_sequence.append(qMakePair(QString("RA"), KSParser::D_QSTRING));
-    flag_file_sequence.append(qMakePair(QString("Dec"), KSParser::D_QSTRING));
-    flag_file_sequence.append(qMakePair(QString("epoch"), KSParser::D_QSTRING));
-    flag_file_sequence.append(qMakePair(QString("icon"), KSParser::D_QSTRING));
-    flag_file_sequence.append(qMakePair(QString("label"), KSParser::D_QSTRING));
-    flag_file_sequence.append(qMakePair(QString("color"), KSParser::D_QSTRING));
-    KSParser flagparser(flagfilename, '#', flag_file_sequence, ' ');
-
-    QHash<QString, QVariant> row_content;
-    while (flagparser.HasNextRow())
-    {
-        row_content = flagparser.ReadNextRow();
-        QString ra = row_content["RA"].toString();
-        QString dec = row_content["Dec"].toString();
-        QString epoch = row_content["epoch"].toString();
-        QString icon = row_content["icon"].toString();
-        QString label = row_content["label"].toString();
-        QString color = row_content["color"].toString();
-
-        AddFlag(ra, dec, epoch, icon, label, color);
-    }
-    return true;
-}
-
-bool KSUserDB::ImportUsers()
-{
-    QString usersfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("observerlist.xml");
-    QFile usersfile(usersfilename);
-
-    if (!usersfile.exists())
-    {
-        return false;  // No upgrade needed. Users file doesn't exist.
-    }
-
-    if( ! usersfile.open( QIODevice::ReadOnly ) )
-        return false;
-
-    QXmlStreamReader * reader = new QXmlStreamReader(&usersfile);
-
-    while( ! reader->atEnd() )
-    {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() )
-        {
-            if (reader->name() != "observers")
-                continue;
-
-            //Read all observers
-            while( ! reader->atEnd() )
-            {
-                reader->readNext();
-
-                if( reader->isEndElement() )
-                    break;
-
-                if( reader->isStartElement() )
-                {
-                    // Read single observer
-                    if( reader->name() == "observer" )
-                    {
-                        QString name, surname, contact;
-                        while( ! reader->atEnd() )
-                        {
-                            reader->readNext();
-
-                            if( reader->isEndElement() )
-                                break;
-
-                            if( reader->isStartElement() )
-                            {
-                                if( reader->name() == "name" )
-                                {
-                                    name = reader->readElementText();
-                                }
-                                else if( reader->name() == "surname" )
-                                {
-                                    surname = reader->readElementText();
-                                }
-                                else if( reader->name() == "contact" )
-                                {
-                                    contact = reader->readElementText();
-                                }
-                            }
-                        }
-                        AddObserver(name, surname, contact);
-                    }
-                }
-            }
-        }
-    }
-    delete reader_;
-    usersfile.close();
-    return true;
-}
-
-bool KSUserDB::ImportEquipment()
-{
-    QString equipfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("equipmentlist.xml");
-    QFile equipfile(equipfilename);
-
-    if (!equipfile.exists())
-    {
-        return false;  // No upgrade needed. File doesn't exist.
-    }
-
-    if( ! equipfile.open( QIODevice::ReadOnly ) )
-        return false;
-
-    reader_ = new QXmlStreamReader(&equipfile);
-    while( ! reader_->atEnd() )
-    {
-        reader_->readNext();
-        if( reader_->isStartElement() )
-        {
-            while( ! reader_->atEnd() )
-            {
-                reader_->readNext();
-
-                if( reader_->isEndElement() )
-                    break;
-
-                if( reader_->isStartElement() )
-                {
-                    if( reader_->name() == "scopes" )
-                        readScopes();
-                    else if( reader_->name() == "eyepieces" )
-                        readEyepieces();
-                    else if( reader_->name() == "lenses" )
-                        readLenses();
-                    else if( reader_->name() == "filters" )
-                        readFilters();
-                }
-            }
-        }
-    }
-    delete reader_;
-    equipfile.close();
     return true;
 }
 #endif
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readScopes()
 {
     while (!reader_->atEnd())
@@ -1729,6 +1919,9 @@ void KSUserDB::readScopes()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readEyepieces()
 {
     while (!reader_->atEnd())
@@ -1746,6 +1939,9 @@ void KSUserDB::readEyepieces()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readLenses()
 {
     while (!reader_->atEnd())
@@ -1763,6 +1959,9 @@ void KSUserDB::readLenses()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readFilters()
 {
     while (!reader_->atEnd())
@@ -1780,6 +1979,9 @@ void KSUserDB::readFilters()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readScope()
 {
     QString model, vendor, type;
@@ -1832,6 +2034,9 @@ void KSUserDB::readScope()
     AddScope(model, vendor, type, focalLength, aperture);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readEyepiece()
 {
     QString model, focalLength, vendor, fov, fovUnit;
@@ -1867,6 +2072,9 @@ void KSUserDB::readEyepiece()
     AddEyepiece(vendor, model, focalLength.toDouble(), fov.toDouble(), fovUnit);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readLens()
 {
     QString model, factor, vendor;
@@ -1897,6 +2105,9 @@ void KSUserDB::readLens()
     AddLens(vendor, model, factor.toDouble());
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 void KSUserDB::readFilter()
 {
     filterProperties *fp = new filterProperties("", "", "", "");
@@ -1971,16 +2182,21 @@ void KSUserDB::readFilter()
     AddFilter(fp);
 }
 
-QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
+bool KSUserDB::GetAllHorizons(QList<ArtificialHorizonEntity *> &horizonList)
 {
-    QList<ArtificialHorizonEntity *> horizonList;
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    m_UserDB.open();
-    QSqlTableModel regions(nullptr, m_UserDB);
+    qDeleteAll(horizonList);
+    QSqlTableModel regions(nullptr, db);
     regions.setTable("horizons");
     regions.select();
 
-    QSqlTableModel points(nullptr, m_UserDB);
+    QSqlTableModel points(nullptr, db);
 
     for (int i = 0; i < regions.rowCount(); ++i)
     {
@@ -2021,19 +2237,25 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
     }
 
     regions.clear();
-    m_UserDB.close();
-    return horizonList;
+
+    return true;
 }
 
-void KSUserDB::DeleteAllHorizons()
+bool KSUserDB::DeleteAllHorizons()
 {
-    m_UserDB.open();
-    QSqlTableModel regions(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel regions(nullptr, db);
     regions.setEditStrategy(QSqlTableModel::OnManualSubmit);
     regions.setTable("horizons");
     regions.select();
 
-    QSqlQuery query(m_UserDB);
+    QSqlQuery query(db);
 
     for (int i = 0; i < regions.rowCount(); ++i)
     {
@@ -2047,13 +2269,19 @@ void KSUserDB::DeleteAllHorizons()
     regions.submitAll();
 
     regions.clear();
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
+bool KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 {
-    m_UserDB.open();
-    QSqlTableModel regions(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel regions(nullptr, db);
     regions.setTable("horizons");
 
     regions.select();
@@ -2070,10 +2298,10 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
     regions.clear();
 
     QString tableQuery = QString("CREATE TABLE %1 (Az REAL NOT NULL, Alt REAL NOT NULL)").arg(tableName);
-    QSqlQuery query(m_UserDB);
+    QSqlQuery query(db);
     query.exec(tableQuery);
 
-    QSqlTableModel points(nullptr, m_UserDB);
+    QSqlTableModel points(nullptr, db);
 
     points.setTable(tableName);
 
@@ -2091,16 +2319,21 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 
     points.submitAll();
     points.clear();
-
-    m_UserDB.close();
+    return true;
 }
 
 int KSUserDB::AddProfile(const QString &name)
 {
-    m_UserDB.open();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return -1;
+    }
+
     int id = -1;
 
-    QSqlQuery query(m_UserDB);
+    QSqlQuery query(db);
     bool rc = query.exec(QString("INSERT INTO profile (name) VALUES('%1')").arg(name));
 
     if (rc == false)
@@ -2108,16 +2341,19 @@ int KSUserDB::AddProfile(const QString &name)
     else
         id = query.lastInsertId().toInt();
 
-    m_UserDB.close();
-
     return id;
 }
 
 bool KSUserDB::DeleteProfile(const QSharedPointer<ProfileInfo> &pi)
 {
-    m_UserDB.open();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    QSqlQuery query(m_UserDB);
+    QSqlQuery query(db);
     bool rc;
 
     rc = query.exec("DELETE FROM profile WHERE id=" + QString::number(pi->id));
@@ -2125,16 +2361,21 @@ bool KSUserDB::DeleteProfile(const QSharedPointer<ProfileInfo> &pi)
     if (rc == false)
         qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
 
-    m_UserDB.close();
+
 
     return rc;
 }
 
 bool KSUserDB::PurgeProfile(const QSharedPointer<ProfileInfo> &pi)
 {
-    m_UserDB.open();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    QSqlQuery query(m_UserDB);
+    QSqlQuery query(db);
     bool rc;
 
     rc = query.exec("DELETE FROM profile WHERE id=" + QString::number(pi->id));
@@ -2151,18 +2392,22 @@ bool KSUserDB::PurgeProfile(const QSharedPointer<ProfileInfo> &pi)
     if (rc == false)
         qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
 
-    m_UserDB.close();
-
     return rc;
 }
 
-void KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
+bool KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     // Remove all drivers
     DeleteProfileDrivers(pi);
 
-    m_UserDB.open();
-    QSqlQuery query(m_UserDB);
+    QSqlQuery query(db);
 
     // Clear data
     if (!query.exec(QString("UPDATE profile SET "
@@ -2251,14 +2496,21 @@ void KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
     /*if (pi->customDrivers.isEmpty() == false && !query.exec(QString("INSERT INTO custom_driver (drivers, profile) VALUES('%1',%2)").arg(pi->customDrivers).arg(pi->id)))
         qDebug()  << query.lastQuery() << query.lastError().text();*/
 
-    m_UserDB.close();
+
+    return true;
 }
 
-void KSUserDB::GetAllProfiles(QList<QSharedPointer<ProfileInfo>> &profiles)
+bool KSUserDB::GetAllProfiles(QList<QSharedPointer<ProfileInfo>> &profiles)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     profiles.clear();
-    m_UserDB.open();
-    QSqlTableModel profile(nullptr, m_UserDB);
+    QSqlTableModel profile(nullptr, db);
     profile.setTable("profile");
     profile.select();
 
@@ -2301,14 +2553,19 @@ void KSUserDB::GetAllProfiles(QList<QSharedPointer<ProfileInfo>> &profiles)
         profiles.append(std::move(pi));
     }
 
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::GetProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
+bool KSUserDB::GetProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
 {
-    m_UserDB.open();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    QSqlTableModel driver(nullptr, m_UserDB);
+    QSqlTableModel driver(nullptr, db);
     driver.setTable("driver");
     driver.setFilter("profile=" + QString::number(pi->id));
     if (driver.select() == false)
@@ -2324,7 +2581,7 @@ void KSUserDB::GetProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
     }
 
     driver.clear();
-    m_UserDB.close();
+    return true;
 }
 
 /*void KSUserDB::GetProfileCustomDrivers(ProfileInfo* pi)
@@ -2343,11 +2600,16 @@ void KSUserDB::GetProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
     userdb_.close();
 }*/
 
-void KSUserDB::DeleteProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
+bool KSUserDB::DeleteProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
 {
-    m_UserDB.open();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
 
-    QSqlQuery query(m_UserDB);
+    QSqlQuery query(db);
 
     /*if (!query.exec("DELETE FROM custom_driver WHERE profile=" + QString::number(pi->id)))
         qDebug() << Q_FUNC_INFO << query.lastQuery() << query.lastError().text();*/
@@ -2355,16 +2617,22 @@ void KSUserDB::DeleteProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
     if (!query.exec("DELETE FROM driver WHERE profile=" + QString::number(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
-    m_UserDB.close();
+    return true;
 }
 
 /*
  * DSLR Lens Section
 */
-void KSUserDB::AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio)
+bool KSUserDB::AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("dslrlens");
 
     QSqlRecord record = equip.record();
@@ -2377,14 +2645,22 @@ void KSUserDB::AddDSLRLens(const QString &model, const QString &vendor, const do
         qCritical() << __FUNCTION__ << equip.lastError();
     equip.submitAll();
     equip.clear();
-    m_UserDB.close();
+
+    return true;
+
 }
 
-void KSUserDB::AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio,
+bool KSUserDB::AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio,
                            const QString &id)
 {
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("dslrlens");
     equip.setFilter("id = " + id);
     equip.select();
@@ -2400,15 +2676,22 @@ void KSUserDB::AddDSLRLens(const QString &model, const QString &vendor, const do
         equip.submitAll();
     }
 
-    m_UserDB.close();
+    return true;
 }
+
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllDSLRLenses(QList<OAL::DSLRLens *> &dslrlens_list)
+bool KSUserDB::GetAllDSLRLenses(QList<OAL::DSLRLens *> &dslrlens_list)
 {
     dslrlens_list.clear();
 
-    m_UserDB.open();
-    QSqlTableModel equip(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel equip(nullptr, db);
     equip.setTable("dslrlens");
     equip.select();
 
@@ -2425,7 +2708,8 @@ void KSUserDB::GetAllDSLRLenses(QList<OAL::DSLRLens *> &dslrlens_list)
     }
 
     equip.clear();
-    m_UserDB.close();
+
+    return true;
 }
 #endif
 
@@ -2531,8 +2815,11 @@ QStringList KSUserDB::getOpticalElementNames()
 
 void KSUserDB::AddProfileSettings(uint32_t profile, const QByteArray &settings)
 {
-    m_UserDB.open();
-    QSqlTableModel profileSettings(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+
+    QSqlTableModel profileSettings(nullptr, db);
     profileSettings.setTable("profilesettings");
     profileSettings.select();
 
@@ -2544,13 +2831,16 @@ void KSUserDB::AddProfileSettings(uint32_t profile, const QByteArray &settings)
     if (!profileSettings.submitAll())
         qCWarning(KSTARS) << profileSettings.lastError();
 
-    m_UserDB.close();
+
 }
 
 void KSUserDB::UpdateProfileSettings(uint32_t profile, const QByteArray &settings)
 {
-    m_UserDB.open();
-    QSqlTableModel profileSettings(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+
+    QSqlTableModel profileSettings(nullptr, db);
     profileSettings.setTable("profilesettings");
     profileSettings.setFilter(QString("profile=%1").arg(profile));
     profileSettings.select();
@@ -2561,31 +2851,36 @@ void KSUserDB::UpdateProfileSettings(uint32_t profile, const QByteArray &setting
 
     if (!profileSettings.submitAll())
         qCWarning(KSTARS) << profileSettings.lastError();
-
-    m_UserDB.close();
 }
 
 
 void KSUserDB::DeleteProfileSettings(uint32_t profile)
 {
-    m_UserDB.open();
-    QSqlTableModel profileSettings(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+
+    QSqlTableModel profileSettings(nullptr, db);
     profileSettings.setTable("profilesettings");
     profileSettings.setFilter(QString("profile=%1").arg(profile));
 
     profileSettings.select();
     profileSettings.removeRows(0, profileSettings.rowCount() - 1);
     profileSettings.submitAll();
-
-    m_UserDB.close();
 }
 
 bool KSUserDB::GetProfileSettings(uint32_t profile, QVariantMap &settings)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     settings.clear();
 
-    m_UserDB.open();
-    QSqlTableModel profileSettings(nullptr, m_UserDB);
+    QSqlTableModel profileSettings(nullptr, db);
     profileSettings.setTable("profilesettings");
     profileSettings.setFilter(QString("profile=%1").arg(profile));
     profileSettings.select();
@@ -2599,18 +2894,24 @@ bool KSUserDB::GetProfileSettings(uint32_t profile, QVariantMap &settings)
         if (parserError.error == QJsonParseError::NoError)
         {
             settings = doc.object().toVariantMap();
-            m_UserDB.close();
+
             return true;
         }
     }
-    m_UserDB.close();
+
     return false;
 }
 
-void KSUserDB::AddOpticalTrainSettings(uint32_t train, const QByteArray &settings)
+bool KSUserDB::AddOpticalTrainSettings(uint32_t train, const QByteArray &settings)
 {
-    m_UserDB.open();
-    QSqlTableModel OpticalTrainSettings(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel OpticalTrainSettings(nullptr, db);
     OpticalTrainSettings.setTable("opticaltrainsettings");
     OpticalTrainSettings.select();
 
@@ -2620,15 +2921,24 @@ void KSUserDB::AddOpticalTrainSettings(uint32_t train, const QByteArray &setting
     OpticalTrainSettings.insertRecord(-1, record);
 
     if (!OpticalTrainSettings.submitAll())
+    {
         qCWarning(KSTARS) << OpticalTrainSettings.lastError();
+        return false;
+    }
 
-    m_UserDB.close();
+    return true;
 }
 
-void KSUserDB::UpdateOpticalTrainSettings(uint32_t train, const QByteArray &settings)
+bool KSUserDB::UpdateOpticalTrainSettings(uint32_t train, const QByteArray &settings)
 {
-    m_UserDB.open();
-    QSqlTableModel OpticalTrainSettings(nullptr, m_UserDB);
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel OpticalTrainSettings(nullptr, db);
     OpticalTrainSettings.setTable("opticaltrainsettings");
     OpticalTrainSettings.setFilter(QString("opticaltrain=%1").arg(train));
     OpticalTrainSettings.select();
@@ -2640,26 +2950,34 @@ void KSUserDB::UpdateOpticalTrainSettings(uint32_t train, const QByteArray &sett
     if (!OpticalTrainSettings.submitAll())
         qCWarning(KSTARS) << OpticalTrainSettings.lastError();
 
-    m_UserDB.close();
+    return true;
 }
 
-
-void KSUserDB::DeleteOpticalTrainSettings(uint32_t train)
+bool KSUserDB::DeleteOpticalTrainSettings(uint32_t train)
 {
-    m_UserDB.open();
-    QSqlQuery query(m_UserDB);
-    auto rc = query.exec(QString("DELETE FROM opticaltrainsettings WHERE opticaltrain=%1").arg(train));
-    if (rc == false)
-        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
-    m_UserDB.close();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlQuery query(db);
+    return query.exec(QString("DELETE FROM opticaltrainsettings WHERE opticaltrain=%1").arg(train));
 }
 
 bool KSUserDB::GetOpticalTrainSettings(uint32_t train, QVariantMap &settings)
 {
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
     settings.clear();
 
-    m_UserDB.open();
-    QSqlTableModel OpticalTrainSettings(nullptr, m_UserDB);
+    QSqlTableModel OpticalTrainSettings(nullptr, db);
     OpticalTrainSettings.setTable("OpticalTrainsettings");
     OpticalTrainSettings.setFilter(QString("opticaltrain=%1").arg(train));
     OpticalTrainSettings.select();
@@ -2673,10 +2991,10 @@ bool KSUserDB::GetOpticalTrainSettings(uint32_t train, QVariantMap &settings)
         if (parserError.error == QJsonParseError::NoError)
         {
             settings = doc.object().toVariantMap();
-            m_UserDB.close();
+
             return true;
         }
     }
-    m_UserDB.close();
+
     return false;
 }
