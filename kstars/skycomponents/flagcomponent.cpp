@@ -71,7 +71,8 @@ bool FlagComponent::selected()
 void FlagComponent::loadFromFile()
 {
     bool imageFound = false;
-    QList<QStringList> flagList = KStarsData::Instance()->userdb()->GetAllFlags();
+    QList<QStringList> flagList;
+    KStarsData::Instance()->userdb()->GetAllFlags(flagList);
 
     for (auto &flagEntry : flagList)
     {
@@ -135,13 +136,13 @@ void FlagComponent::saveToFile()
     TODO: This is a really bad way of storing things. Adding one flag shouldn't
     involve writing a new file/table every time. Needs fixing.
     */
-    KStarsData::Instance()->userdb()->DeleteAllFlags();    
+    KStarsData::Instance()->userdb()->DeleteAllFlags();
 
     for (int i = 0; i < size(); ++i)
     {
         KStarsData::Instance()->userdb()->AddFlag(QString::number(epochCoords(i).first),
-                                                  QString::number(epochCoords(i).second), epoch(i),
-                                                  imageName(i).replace(' ', '_'), label(i), labelColor(i).name());
+                QString::number(epochCoords(i).second), epoch(i),
+                imageName(i).replace(' ', '_'), label(i), labelColor(i).name());
     }
 }
 
@@ -186,7 +187,7 @@ void FlagComponent::remove(int index)
     m_Labels.removeAt(index);
     m_LabelColors.removeAt(index);
 
-// request SkyMap update
+    // request SkyMap update
 #ifndef KSTARS_LITE
     SkyMap::Instance()->forceUpdate();
 #endif

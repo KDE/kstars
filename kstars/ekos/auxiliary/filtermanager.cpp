@@ -42,9 +42,10 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
 
     connect(buildOffsetsButton, &QPushButton::clicked, this, &FilterManager::buildFilterOffsets);
 
-    QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(),
-                          QUuid::createUuid().toString());
-    userdb.open();
+    //    QSqlDatabase userdb = QSqlDatabase::cloneDatabase("userdb", QUuid::createUuid().toString());
+    //    userdb.open();
+
+    QSqlDatabase userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
 
     kcfg_FlatSyncFocus->setChecked(Options::flatSyncFocus());
     connect(kcfg_FlatSyncFocus, &QCheckBox::toggled, this, [this]()

@@ -32,7 +32,7 @@ ObserverAdd::ObserverAdd()
 
     // Load the observers list from the file
     loadObservers();
-    QSqlDatabase db       = KStarsData::Instance()->userdb()->GetDatabase();
+    auto db = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     QSqlTableModel *users = new QSqlTableModel(nullptr, db);
     users->setTable("user");
     users->select();
@@ -66,7 +66,7 @@ void ObserverAdd::checkObserverInfo()
 
 void ObserverAdd::slotUpdateModel()
 {
-    QSqlDatabase db       = KStarsData::Instance()->userdb()->GetDatabase();
+    auto db = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     QSqlTableModel *users = new QSqlTableModel(nullptr, db);
     users->setTable("user");
     users->select();
@@ -92,7 +92,7 @@ void ObserverAdd::slotAddObserver()
     if (KStarsData::Instance()->userdb()->FindObserver(ui.Name->text(), ui.Surname->text()))
     {
         if (OAL::warningOverwrite(
-                i18n("Another Observer already exists with the given Name and Surname, Overwrite?")) == KMessageBox::No)
+                    i18n("Another Observer already exists with the given Name and Surname, Overwrite?")) == KMessageBox::No)
             return;
     }
 

@@ -194,8 +194,7 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
 ////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::initModel()
 {
-    QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "opticaltrains_db");
-    userdb.open();
+    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     m_OpticalTrainsModel = new QSqlTableModel(this, userdb);
     connect(m_OpticalTrainsModel, &QSqlTableModel::dataChanged, this, [this]()
     {
