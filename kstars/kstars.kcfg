@@ -1878,6 +1878,10 @@
       </entry>      
    </group>
    <group name="Focus">      
+      <entry name="AbsTicksSpin" type="UInt">
+         <whatsthis>The desired focuser position.</whatsthis>
+         <default>0</default>
+      </entry>
       <entry name="FocusExposure" type="Double">
          <label>Exposure to use during focus</label>
          <whatsthis>Specifies the length of exposure to use during focus.</whatsthis>
@@ -2049,8 +2053,12 @@
          <default>250</default>
       </entry>
       <entry name="FocusOutSteps" type="Double">
-         <whatsthis>The number of steps to move outwards from the start position of an Autofocus run.</whatsthis>
+         <whatsthis>The number of steps to move outwards for a Classic Autofocus run.</whatsthis>
          <default>5</default>
+      </entry>
+      <entry name="focusNumSteps" type="UInt">
+         <whatsthis>The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run.</whatsthis>
+         <default>11</default>
       </entry>
       <entry name="FocusMaxTravel" type="UInt">
          <label>Maximum Focus Travel Distance</label>
@@ -2110,9 +2118,43 @@
          <whatsthis>The total seeing in arc-secs to use in the CFZ algo.</whatsthis>
          <default>3.0</default>
       </entry>
+      <entry name="focusCFZStepSize" type="Double">
+         <whatsthis>The size of a focuser tick in micrometers.</whatsthis>
+         <default>5.0</default>
+      </entry>
 
-
-
+      <entry name="focusAdvSteps" type="UInt">
+         <whatsthis>Focus Advisor recommended step size</whatsthis>
+         <default>1</default>
+      </entry>
+      <entry name="focusAdvOutStepMult" type="UInt">
+         <whatsthis>Focus Advisor recommended Out Step Multiple</whatsthis>
+         <default>5</default>
+      </entry>
+      <entry name="focusAdvStepSize" type="Bool">
+         <whatsthis>Whether to accept Focus Advisor recommendation on Step Size.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="focusAdvOutStepMultiple" type="Bool">
+         <whatsthis>Whether to accept Focus Advisor recommendation on Out Step Multiple.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="focusAdvCamera" type="Bool">
+         <whatsthis>Whether to accept Focus Advisor recommendation on Camera and Filter Wheel Parameters.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="focusAdvSettingsTab" type="Bool">
+         <whatsthis>Whether to accept Focus Advisor recommendation on Settings Tab Parameters.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="focusAdvProcessTab" type="Bool">
+         <whatsthis>Whether to accept Focus Advisor recommendation on Process Tab Parameters.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="focusAdvMechanicsTab" type="Bool">
+         <whatsthis>Whether to accept Focus Advisor recommendation on Mechanics Tab Parameters.</whatsthis>
+         <default>true</default>
+      </entry>
 
       <entry name="FocusSplitter" type="String">
          <label>Position of FocusSplitter.</label>

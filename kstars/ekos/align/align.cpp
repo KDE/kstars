@@ -776,6 +776,12 @@ void Align::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         QTimer::singleShot(1000, this, &Align::checkCamera);
     }
 
+    // Check Remote Astrometry
+    if (m_RemoteParserDevice && m_RemoteParserDevice->getDeviceName() == name)
+    {
+        m_RemoteParserDevice.clear();
+    }
+
     // Check Filter Wheels
     if (m_FilterWheel && m_FilterWheel->getDeviceName() == name)
     {
