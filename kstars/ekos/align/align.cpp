@@ -1718,6 +1718,22 @@ void Align::setCaptureComplete()
 
     solverFOV->setImage(m_AlignView->getDisplayImage());
 
+    // If focus logging is enabled, let's save the frame.
+    if (Options::saveAlignImages())
+    {
+        QDir dir;
+        QDateTime now = KStarsData::Instance()->lt();
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("align/" +
+                       now.toString("yyyy-MM-dd"));
+        dir.mkpath(path);
+        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+        QString name     = "align_frame_" + now.toString("HH-mm-ss") + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
+        if (m_ImageData)
+            m_ImageData->saveImage(filename);
+    }
+
     startSolving();
 }
 

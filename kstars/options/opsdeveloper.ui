@@ -54,6 +54,16 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="kcfg_SaveAlignImages">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save Internal Align frames. Only enable to troubleshoot align by examining frames. This can consume some extra storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Save Align Images</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -77,6 +87,7 @@
  <tabstops>
   <tabstop>kcfg_SaveFocusImages</tabstop>
   <tabstop>kcfg_SaveGuideImages</tabstop>
+  <tabstop>kcfg_SaveAlignImages</tabstop>
  </tabstops>
  <resources/>
  <connections/>
