@@ -2587,7 +2587,8 @@ void Manager::updateCaptureCountDown()
     QJsonObject status =
     {
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
-        {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
+        {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()},
+        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
