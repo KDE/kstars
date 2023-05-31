@@ -1960,7 +1960,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sDEC         = dec;
 
     double elapsed = solverTimer.elapsed() / 1000.0;
-    appendLogText(i18n("Solver completed after %1 seconds.", QString::number(elapsed, 'f', 2)));
+    if (elapsed > 0)
+        appendLogText(i18n("Solver completed after %1 seconds.", QString::number(elapsed, 'f', 2)));
 
     m_AlignTimer.stop();
     if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && m_RemoteParserDevice && remoteParser.get())
