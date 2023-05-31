@@ -4,6 +4,87 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.5 (SUBS):
+
+30e179d01 2023-05-31 Jasem Mutlaq         Fix regressions introduced by MR !793 due to the use of static variables. Using Options statically caused a major regression in retrieving the AppDa..
+2374e48e8 2023-05-31 Jasem Mutlaq         Fix misc clanzy warnings                                                                                                                              
+709a14de5 2023-05-31 Jasem Mutlaq         Make sure elapsed time make sense                                                                                                                     
+dcd5e345a 2023-05-31 Jasem Mutlaq         Remove remote astrometry timer as it conflicts with align timer                                                                                       
+c77a4551d 2023-05-30 Jasem Mutlaq         Add missing ovp parameter                                                                                                                             
+0bd69e351 2023-05-30 Hy Murveit           Add developer option to save align images                                                                                                             
+b6ff9866f 2023-05-30 Jasem Mutlaq         User database simplification to fix Windows crash                                                                                                     
+aa2cab2d1 2023-05-29 John Evans           Draft: LIPPhase2Bugs7 : added missing widgets to kstars.kcfg                                                                                          
+370da55ef 2023-05-28 Jasem Mutlaq         Reset remote astrometry if driver was removed                                                                                                         
+e1f10c183 2023-05-28 Jasem Mutlaq         Comment out the confirmation for PAA dialog since a user may inadvertenly press No and then this choice is remembered in future sessions. Then the u..
+aa0592e9b 2023-05-28 Jasem Mutlaq         Improve support for detecting more complex trains                                                                                                     
+6a6d27782 2023-05-28 Jasem Mutlaq         Add secondary and teritary trains if there are more cameras detected                                                                                  
+b7dac8df2 2023-05-28 Oliver Kellogg       focus.ui focusStarMeasure toolTip (HFR): Fix typo at "encapsulates".                                                                                  
+cf6bd1c91 2023-05-27 Jasem Mutlaq         Fix compile issue on Windows                                                                                                                          
+cb37877e6 2023-05-27 Jasem Mutlaq         preliminary support for skypoint hips                                                                                                                 
+a5042fb20 2023-05-25 John Evans           fix for win64 compile error gslhelpers attempt 2                                                                                                      
+e9eb5cd98 2023-05-25 Jasem Mutlaq         Check placeholder format for placeholders when constructing prefix as this is required for remote files                                               
+3b0384524 2023-05-24 Jasem Mutlaq         Mark as stable for upcoming 3.6.5 release                                                                                                             
+d5e3cf6f2 2023-05-24 Jasem Mutlaq         Update credits                                                                                                                                        
+6fcd034eb 2023-05-24 Jasem Mutlaq         Move tooltip to credits instead                                                                                                                       
+9123fe3f0 2023-05-23 John Evans           constexpr-win64-bug                                                                                                                                   
+64ab91b4f 2023-05-23 John Evans           Bug fix for constexpr on win64                                                                                                                        
+8f9369cec 2023-05-22 Hy Murveit           Fix issue related to Analyze focus graph.                                                                                                             
+40c395962 2023-05-22 Jasem Mutlaq         Move the manual pulse widget button elsewhere as it conflicted with progress indicator                                                                
+8aa97813b 2023-05-20 Jasem Mutlaq         Check for intermediatory focus abort before it is restarted                                                                                           
+cacfd31bf 2023-05-20 Josep M. Ferrer      Fix small typos                                                                                                                                       
+85eab57d0 2023-05-20 Jasem Mutlaq         Restore index to General and reduce layout spacing                                                                                                    
+afe822f20 2023-05-19 Jasem Mutlaq         Send pending properties only every 500ms to throttle down                                                                                             
+c7857817a 2023-05-20 John Evans           L1P Phase2 bugs 5                                                                                                                                     
+72f8cc195 2023-05-19 Wolfgang Reissenberger Switch introduced between dynamic and static filter setting for alignment                                                                             
+103f527eb 2023-05-19 Jasem Mutlaq         Fix most likely cause for invalid train IDs that are not loaded property due to syncDelegatesDevices having pending changes without any more calls t..
+bdba7ccb7 2023-05-19 Jasem Mutlaq         Revert "Fix align not updating filter when it switches."                                                                                              
+d3b1bf84b 2023-05-19 Akarsh Simha         Allow the user to rotate the sky map, and also allow some standard settings like inverted view                                                        
+f0957855c 2023-05-18 Wolfgang Reissenberger Adapt frames counting when removing a sequence job                                                                                                    
+e54866918 2023-05-18 John Evans           L1P Phase 2 Bugs4 - Adjusted focus FWHM parameters to discard less stars                                                                              
+a9c39a7ff 2023-05-17 Hy Murveit           Modify capture labels.                                                                                                                                
+4ca1c52ad 2023-05-18 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+807ee481a 2023-05-17 John Evans           L1P bug fix isEnabled()                                                                                                                               
+0f87d2661 2023-05-17 Hy Murveit           Extend the artificial interval for adaptive focus to 4s.                                                                                              
+6651d7498 2023-05-16 Hy Murveit           Add the autofocus solution and adaptive focus to Analyze.                                                                                             
+c7362f9e8 2023-05-17 Jasem Mutlaq         Multiple fixes for exposure calculators and coding style fixes with astyle                                                                            
+f53ee620e 2023-05-17 Jasem Mutlaq         Fix connection status                                                                                                                                 
+f0c1d9b02 2023-05-17 Joseph McGee         Changes for the implementation of the optimal sub-exposure calculator.                                                                                
+4b51a33aa 2023-05-17 Jasem Mutlaq         Ekoslive multi-node support                                                                                                                           
+6971d668e 2023-05-17 Yuri Chornoivan      Fix minor typos                                                                                                                                       
+d24c7791d 2023-05-17 Jasem Mutlaq         Add protection against unguraded use of rotator control panel. Improve tooltips                                                                       
+9b86ead10 2023-05-16 Jasem Mutlaq         Minor rotator improvements                                                                                                                            
+edc819956 2023-05-16 Hy Murveit           Add L1Pass curve to analyze focus plot                                                                                                                
+45d7bf8ae 2023-05-16 Toni Schriber        improve UI, encapsulation and calculations of 'rotatorsettings'                                                                                       
+7e58f51b2 2023-05-16 John Evans           L1P Phase 2 bug fixes 2                                                                                                                               
+13ad15bc4 2023-05-15 Wolfgang Reissenberger Aberration Inspector for Focusing                                                                                                                     
+06c43c75d 2023-05-15 James Amendolagine   Fix align not updating filter when it switches.                                                                                                       
+3f97b684f 2023-05-15 Jasem Mutlaq         Do not disable settings while focus in progress as it leads to regressions                                                                            
+7731f520f 2023-05-14 Wolfgang Reissenberger Move to trash by default when deleting frames                                                                                                         
+2a9bd8240 2023-05-14 Dušan Poizl          Load WCS info from XISF files                                                                                                                         
+a56e12970 2023-05-14 Philipp Auersperg-Castell option limitSupernovaeByZoom                                                                                                                          
+b2cd362a8 2023-05-13 Jasem Mutlaq         Add manual pulse support to guiding to help with diagnostics                                                                                          
+97191e607 2023-05-13 Wolfgang Reissenberger Checkbox for usage of external sky map                                                                                                                
+f063222a6 2023-05-13 Hy Murveit           Revert compression of saved focus and guide fits files.                                                                                               
+ac38b74ec 2023-05-11 Jasem Mutlaq         Check for filename payload in load and slew                                                                                                           
+e3259c606 2023-05-08 Hy Murveit           Fix PAA bug where stop popup is ignored.                                                                                                              
+fac91080e 2023-05-08 John Evans           bug fix to check for filter wheel before accessing filter wheel properties                                                                            
+669972118 2023-05-08 Yuri Chornoivan      Fix minor typos                                                                                                                                       
+2838e5914 2023-05-07 Yuri Chornoivan      Fix minor typos                                                                                                                                       
+5663a5de5 2023-05-06 John Evans           L1P Phase2                                                                                                                                            
+840363fed 2023-05-04 Wolfgang Reissenberger Refactoring capture module to state machine | attribute cleanup                                                                                       
+53e11b220 2023-05-02 James Amendolagine   Update meridian flip so that it will Call the flip specific command if available.                                                                     
+98092182f 2023-05-01 Hy Murveit           cleanup                                                                                                                                               
+5ac32a4c6 2023-05-02 Hy Murveit           Add a separator when generating filenames if needed                                                                                                   
+55e200dbd 2023-04-29 Hy Murveit           Don't permanently change module's optical train setting when train doesn't exist.                                                                     
+dc74ec565 2023-04-18 Jasem Mutlaq         Send messages to EkosLive                                                                                                                             
+d3e39283c 2023-04-13 Jasem Mutlaq         Fix remote placeholder not getting properly sanitized                                                                                                 
+3f48f16ae 2023-04-12 Jasem Mutlaq         Do not permit optical train change while PHD2 is connected                                                                                            
+3b7649d4f 2023-04-12 Jasem Mutlaq         Fix bug with not setting filter policy prior to filter initializtion which may lead to autofocus when it is not required                              
+fa278c2e8 2023-04-08 Hy Murveit           Update signal/slot code in analyze                                                                                                                    
+6cd080643 2023-04-08 Hy Murveit           Add more scheduler status to scheduler status display                                                                                                 
+9e9f7a24c 2023-04-07 Jasem Mutlaq         Starting KStars 3.6.5 development cycle
+
+
 3.6.4 (XISF):
 
 e27a949d3 2023-04-06 Jasem Mutlaq         Fix typo
