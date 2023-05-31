@@ -100,8 +100,6 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
     m_RemoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
 
     align->appendLogText(i18n("Starting remote solver..."));
-    solverTimer.start();
-
     return true;
 }
 
@@ -251,12 +249,6 @@ void RemoteAstrometryParser::checkStatus(INDI::Property prop)
         emit solverFailed();
         return;
     }
-    // In case the remote solver started solving by listening to ACTIVE_CCD BLOB remotely via snooping
-    // then we need to start the timer.
-    else if (prop.getState() == IPS_BUSY)
-    {
-        solverTimer.restart();
-    }
 }
 
 void RemoteAstrometryParser::checkResults(INDI::Property prop)
@@ -291,8 +283,6 @@ void RemoteAstrometryParser::checkResults(INDI::Property prop)
 
     if (pixscale != -1000 && ra != -1000 && de != -1000 && orientation != -1000)
     {
-        int elapsed = (int)round(solverTimer.elapsed() / 1000.0);
-        align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
         stopSolver();
         emit solverFinished(orientation, ra, de, pixscale, parity != FITSImage::POSITIVE);
     }
