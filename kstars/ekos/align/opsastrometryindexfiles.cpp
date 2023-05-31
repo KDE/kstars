@@ -5,7 +5,6 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "Options.h"
-#include "kspaths.h"
 #include "ksnotification.h"
 
 #include <KConfigDialog>
@@ -202,7 +201,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
             folderDetails->setText(i18n("Downloads Enabled, the directory exists and is writeable."));
         else
             folderDetails->setText(i18n("Downloads Disabled, directory permissions issue."));
-        if(!QFileInfo(folderPath).exists())
+        if(!QFileInfo::exists(folderPath))
             folderDetails->setText(i18n("Downloads Disabled, directory does not exist."));
         astrometryDataDirsToIndex << folderPath;
         openIndexFileDirectory->setEnabled(true);
@@ -211,7 +210,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     //This loop checks all the folders that are supposed to be checked for the files
     //It checks the box if it finds them
-    for(QString astrometryDataDir : astrometryDataDirsToIndex)
+    for(auto &astrometryDataDir : astrometryDataDirsToIndex)
     {
         QDir directory(astrometryDataDir);
         QStringList indexList = directory.entryList(nameFilter);
@@ -227,8 +226,6 @@ void OpsAstrometryIndexFiles::slotUpdate()
             }
         }
     }
-
-
 
     for (auto &checkBox : checkboxes)
     {
@@ -425,7 +422,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
     }
 
     timeoutTimer.disconnect();
-    connect(&timeoutTimer, &QTimer::timeout, [&]()
+    connect(&timeoutTimer, &QTimer::timeout, this, [&]()
     {
         KSNotification::error(
             i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you are not connected."));
@@ -543,7 +540,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         return;
 
     QString astrometryDataDir = indexLocations->currentText();
-    if(!QFileInfo(astrometryDataDir).exists())
+    if(!QFileInfo::exists(astrometryDataDir))
     {
         KSNotification::sorry(
             i18n("The selected Index File directory does not exist.  Please either create it or choose another."));
