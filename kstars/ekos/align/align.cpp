@@ -1870,7 +1870,7 @@ void Align::startSolving()
                 appendLogText(i18n("Loaded image was taken on pierside %1", value.toString()));
                 (value == "WEST") ? m_TargetPierside = ISD::Mount::PIER_WEST : m_TargetPierside = ISD::Mount::PIER_EAST;
             }
-            RotatorUtils::setImagePierside(m_TargetPierside);
+            RotatorUtils::Instance()->Instance()->setImagePierside(m_TargetPierside);
         }
         else
         {
@@ -2101,8 +2101,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 // if (absAngle && std::isnan(m_TargetPositionAngle) == true)
             {
                 sRawAngle = absAngle->at(0)->getValue();
-                double OffsetAngle = RotatorUtils::calcOffsetAngle(sRawAngle, solverPA);
-                RotatorUtils::updateOffset(OffsetAngle);
+                double OffsetAngle = RotatorUtils::Instance()->calcOffsetAngle(sRawAngle, solverPA);
+                RotatorUtils::Instance()->updateOffset(OffsetAngle);
                 // Debug info
                 auto reverseStatus = "Unknown";
                 auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
@@ -2118,7 +2118,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 // newSolverResulta() -> capture: setAlignresult() -> RotatorSettings: refresh()
                 emit newSolverResults(solverPA, ra, dec, pixscale);
                 // appendLogText(i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-                appendLogText(i18n("Camera position angle is %1 degrees.", RotatorUtils::calcCameraAngle(sRawAngle, false)));
+                appendLogText(i18n("Camera position angle is %1 degrees.", RotatorUtils::Instance()->calcCameraAngle(sRawAngle, false)));
             }
         }
     }
@@ -2302,15 +2302,15 @@ bool Align::checkIfRotationRequired()
                 if (std::isnan(m_TargetPositionAngle) == false) // [Load & Slew]
                 {
                     // Check if image pierside versus versus mount pierside is different ...
-                    if (RotatorUtils::checkImageFlip())
+                    if (RotatorUtils::Instance()->Instance()->checkImageFlip())
                     {
                         // ... and calculate flipped PA ...
-                        sRawAngle = RotatorUtils::calcRotatorAngle(m_TargetPositionAngle);
-                        m_TargetPositionAngle = RotatorUtils::calcCameraAngle(sRawAngle, true);
-                        RotatorUtils::setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
+                        sRawAngle = RotatorUtils::Instance()->calcRotatorAngle(m_TargetPositionAngle);
+                        m_TargetPositionAngle = RotatorUtils::Instance()->calcCameraAngle(sRawAngle, true);
+                        RotatorUtils::Instance()->setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
                     }
                     // Go to 'updateProperty()' (where the same check is executed again)
-                    if(fabs(RotatorUtils::DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60 > Options::astrometryRotatorThreshold())
+                    if(fabs(RotatorUtils::Instance()->DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60 > Options::astrometryRotatorThreshold())
                     {
                         // newSolverResults() -> capture: setAlignresult() -> RS: refresh()
                         emit newSolverResults(m_TargetPositionAngle, 0, 0, 0);
@@ -2671,7 +2671,7 @@ void Align::updateProperty(INDI::Property prop)
     else if (prop.isNameMatch("ABS_ROTATOR_ANGLE"))
     {
         auto nvp = prop.getNumber();
-        currentRotatorPA = RotatorUtils::calcCameraAngle(nvp->np[0].value, false);
+        currentRotatorPA = RotatorUtils::Instance()->calcCameraAngle(nvp->np[0].value, false);
         /*QString logtext = "Alignstate: " + QString::number(state)
                         + " IPSstate: " + QString::number(nvp->s)
                         + " Raw Rotator Angle:" + QString::number(nvp->np[0].value)
@@ -2682,7 +2682,7 @@ void Align::updateProperty(INDI::Property prop)
         // loadSlewTarget defined if activation through [Load & Slew] and rotator just reached position
         if (std::isnan(m_TargetPositionAngle) == false && state == ALIGN_ROTATING && nvp->s == IPS_OK)
         {
-            auto diff = fabs(RotatorUtils::DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60;
+            auto diff = fabs(RotatorUtils::Instance()->DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60;
             qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
                                        << "Target PA:" << m_TargetPositionAngle << "Diff (arcmin):" << diff << "Offset:"
                                        << Options::pAOffset();

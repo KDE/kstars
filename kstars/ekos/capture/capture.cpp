@@ -722,7 +722,7 @@ void Capture::setRotator(ISD::Rotator * device)
             {
                 Manager::Instance()->createRotatorController(m_Rotator->getDeviceName());
                 Manager::Instance()->getRotatorController(m_Rotator->getDeviceName(), m_RotatorControlPanel);
-                m_RotatorControlPanel->initRotator(m_captureDeviceAdaptor.get(), m_Rotator->getDeviceName());
+                m_RotatorControlPanel->initRotator(opticalTrainCombo->currentText(), m_captureDeviceAdaptor.get(), m_Rotator->getDeviceName());
                 m_captureDeviceAdaptor->setRotator(device);
                 connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::rotatorReverseToggled,
                         this,
