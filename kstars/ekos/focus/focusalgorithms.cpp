@@ -687,15 +687,24 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const doubl
     return completeIteration(thisStepSize, foundFit, minPos, minVal);
 }
 
-// Get the curve fitting goal
+// Get the curve fitting goal, based on the "walk".
+// Start with STANDARD but at the end of the pass use BEST
 CurveFitting::FittingGoal LinearFocusAlgorithm::getGoal(int numSteps)
 {
-    // The classic walk needs the STANDARD curve fitting
     if (params.focusWalk == Focus::FOCUS_WALK_CLASSIC)
-        return (numSteps >= params.initialOutwardSteps) ? CurveFitting::FittingGoal::BEST : CurveFitting::FittingGoal::STANDARD;
-
-    // Fixed step walks will use C, except for the last step which should be BEST
-    return (numSteps >= params.numSteps) ? CurveFitting::FittingGoal::BEST : CurveFitting::FittingGoal::STANDARD;
+    {
+        if (numSteps > 2.0 * params.initialOutwardSteps)
+            return CurveFitting::FittingGoal::BEST;
+        else
+            return CurveFitting::FittingGoal::STANDARD;
+    }
+    else // FOCUS_WALK_FIXED_STEPS or FOCUS_WALK_CFZ_SHUFFLE
+    {
+        if (numSteps >= params.numSteps)
+            return CurveFitting::FittingGoal::BEST;
+        else
+            return CurveFitting::FittingGoal::STANDARD;
+    }
 }
 
 // Get the minimum number of points to start fitting a curve

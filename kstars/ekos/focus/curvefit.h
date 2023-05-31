@@ -115,8 +115,7 @@ class CurveFitting
         // Start and end define the x,y coordinates of a box around the star start is top left corner, end is bottom right
         template <typename T>
         void fitCurve3D(const T *imageBuffer, const int imageWidth, const QPair<int, int> start, const QPair<int, int> end,
-                        const StarParams starParams,
-                        const CurveFit curveFit, const bool useWeights)
+                        const StarParams &starParams, const CurveFit curveFit, const bool useWeights)
         {
             if (imageBuffer == nullptr)
             {
@@ -223,7 +222,7 @@ class CurveFitting
         QVector<double> parabola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
                                      const QVector<double> data_weights,
                                      bool useWeights, const OptimisationDirection optDir);
-        QVector<double> gaussian_fit(DataPoint3DT data, const StarParams starParams);
+        QVector<double> gaussian_fit(DataPoint3DT data, const StarParams &starParams);
 
         bool minimumQuadratic(double expected, double minPosition, double maxPosition, double *position, double *value);
         bool minMaxHyperbola(double expected, double minPosition, double maxPosition, double *position, double *value,
@@ -242,7 +241,7 @@ class CurveFitting
                           gsl_vector * guess);
         void parSetupParams(FittingGoal goal, gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol,
                             double *ftol);
-        void gauMakeGuess(const StarParams starParams, gsl_vector * guess);
+        void gauMakeGuess(const int attempt, const StarParams &starParams, gsl_vector * guess);
         void gauSetupParams(gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol, double *ftol);
 
         // Get the reason code from the passed in info
