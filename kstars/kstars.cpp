@@ -334,7 +334,7 @@ void KStars::applyConfig(bool doApplyFocus)
     actionCollection()
     ->action("coordsys")
     ->setText(Options::useAltAz() ? i18n("Switch to Star Globe View (Equatorial &Coordinates)") :
-              i18n("Switch to Horizonal View (Horizontal &Coordinates)"));
+              i18n("Switch to Horizontal View (Horizontal &Coordinates)"));
 
     actionCollection()->action("show_time_box")->setChecked(Options::showTimeBox());
     actionCollection()->action("show_location_box")->setChecked(Options::showGeoBox());

@@ -1687,7 +1687,7 @@ void KStars::slotCoordSys()
         }
         actionCollection()
         ->action("coordsys")
-        ->setText(i18n("Switch to Horizonal View (Horizontal &Coordinates)"));
+        ->setText(i18n("Switch to Horizontal View (Horizontal &Coordinates)"));
         actionCollection()
         ->action("up_orientation")
         ->setText(i18nc("Orientation of the sky map", "North &Up"));

@@ -261,7 +261,7 @@ void KStars::initActions()
 
     actionCollection()->addAction("coordsys", this, SLOT(slotCoordSys()))
             << (Options::useAltAz() ? i18n("Switch to Star Globe View (Equatorial &Coordinates)") :
-                i18n("Switch to Horizonal View (Horizontal &Coordinates)"))
+                i18n("Switch to Horizontal View (Horizontal &Coordinates)"))
             << QKeySequence("Space");
 
     actionCollection()->addAction("toggle_terrain", this, SLOT(slotTerrain()))
