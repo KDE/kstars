@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-01 00:42+0000\n"
+"POT-Creation-Date: 2023-06-02 00:43+0000\n"
 "PO-Revision-Date: 2023-05-31 10:17+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -31179,8 +31179,9 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Commuta a la vista de l'esfera celeste (&coordenades equatorials)"
 
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
-#, kde-format
-msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+#, fuzzy, kde-format
+#| msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Commuta a la vista horitzontal (&coordenades horitzontals)"
 
 # skip-rule: kct-box

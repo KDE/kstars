@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-01 00:42+0000\n"
+"POT-Creation-Date: 2023-06-02 00:43+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -31814,7 +31814,7 @@ msgstr "Pasar á vista da esfera celeste (&Coordenadas ecuatoriais)"
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Switch to horizonal view (Horizontal &Coordinates)"
-msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Pasar á vista horizontal (&Coordenadas horizontais)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)

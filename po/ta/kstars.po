@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-01 00:42+0000\n"
+"POT-Creation-Date: 2023-06-02 00:43+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -30283,7 +30283,7 @@ msgstr "மத்திய ஒருங்கிணைப்புகள்"
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Horizontal &Coordinates"
-msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "இடம் வலமான ஒருங்கிணைப்புகள்"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-01 00:42+0000\n"
+"POT-Creation-Date: 2023-06-02 00:43+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -29272,7 +29272,7 @@ msgstr "Amanani akunika indawo ncam &Kumda osembindini wehlabathi"
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Horizontal &Coordinates"
-msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Amanani akunika indawo ncam &Athe tye"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)

@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1652941 $
+# Version: $Revision: 1652989 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-01 00:42+0000\n"
+"POT-Creation-Date: 2023-06-02 00:43+0000\n"
 "PO-Revision-Date: 2023-04-23 11:55+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -31000,8 +31000,9 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Przełą&cz do widoku gwiezdnego globusa (współrzędne równikowe)"
 
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
-#, kde-format
-msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+#, fuzzy, kde-format
+#| msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Przełą&cz do widoku poziomego (współrzędne poziome)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-01 00:42+0000\n"
+"POT-Creation-Date: 2023-06-02 00:43+0000\n"
 "PO-Revision-Date: 2023-05-22 14:01\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -28964,8 +28964,9 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "切换天球仪视角（赤道坐标）(&C)"
 
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
-#, kde-format
-msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+#, fuzzy, kde-format
+#| msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "切换至水平视角（地平坐标）(&C)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)

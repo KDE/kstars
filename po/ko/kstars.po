@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-01 00:42+0000\n"
+"POT-Creation-Date: 2023-06-02 00:43+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -30768,7 +30768,7 @@ msgstr "적도 좌표(&C)"
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Horizontal &Coordinates"
-msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "지평 좌표(&C)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)
