@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-02 00:43+0000\n"
+"POT-Creation-Date: 2023-06-03 00:43+0000\n"
 "PO-Revision-Date: 2023-05-26 07:17+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -11646,7 +11646,7 @@ msgid "Waiting..."
 msgstr "Čakanje ..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:182
+#: ekos/capture/capturemodulestate.cpp:186
 #, kde-format
 msgid "Dithering..."
 msgstr "Razprševanje ..."
@@ -15207,103 +15207,103 @@ msgstr "Ali ima %1 zaslonko?"
 msgid "Dark Exposure"
 msgstr "Osvetlitev teme"
 
-#: ekos/capture/capturemodulestate.cpp:67
+#: ekos/capture/capturemodulestate.cpp:71
 #, kde-format
 msgid "Dithering succeeded."
 msgstr "Razprševanje uspešno."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:74
+#: ekos/capture/capturemodulestate.cpp:78
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "Razprševanje uspešno. Nadaljevanje po %1 sekundah..."
 
-#: ekos/capture/capturemodulestate.cpp:82
+#: ekos/capture/capturemodulestate.cpp:86
 #, kde-format
 msgid "Dither complete."
 msgstr "Razprševanje zaključeno."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:96
+#: ekos/capture/capturemodulestate.cpp:100
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "Opozorilo: Razprševanje ni uspelo. Nadaljevanje po %1 sekundah..."
 
-#: ekos/capture/capturemodulestate.cpp:105
+#: ekos/capture/capturemodulestate.cpp:109
 #, kde-format
 msgid "Warning: Dithering failed."
 msgstr "Opozorilo: Razprševanje ni uspelo."
 
-#: ekos/capture/capturemodulestate.cpp:277
+#: ekos/capture/capturemodulestate.cpp:281
 #, fuzzy, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Meridian flip je uspešno dokončan"
 
-#: ekos/capture/capturemodulestate.cpp:373
+#: ekos/capture/capturemodulestate.cpp:377
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Izvajanje ponovnega umerjanja in vodenja po obratu..."
 
-#: ekos/capture/capturemodulestate.cpp:386
+#: ekos/capture/capturemodulestate.cpp:390
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Napaka umerjanja po obratu čez poldnevnik. Ponovno zaganjanje ..."
 
-#: ekos/capture/capturemodulestate.cpp:406
+#: ekos/capture/capturemodulestate.cpp:410
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped. Aborting..."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Samodejno vodenje zaustavljeno. Prekinjanje ..."
 
-#: ekos/capture/capturemodulestate.cpp:415
+#: ekos/capture/capturemodulestate.cpp:419
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Samodejno vodenje zaustavljeno. Prekinjanje ..."
 
-#: ekos/capture/capturemodulestate.cpp:422
+#: ekos/capture/capturemodulestate.cpp:426
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Napaka umerjanja po obratu čez poldnevnik. Prekinjanje..."
 
-#: ekos/capture/capturemodulestate.cpp:465
+#: ekos/capture/capturemodulestate.cpp:469
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Samodejno ostrenje ni uspelo. Prekinjanje osvetljevanja ..."
 
-#: ekos/capture/capturemodulestate.cpp:612
+#: ekos/capture/capturemodulestate.cpp:616
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Izvajanje ponovne poravnave po obratu..."
 
-#: ekos/capture/capturemodulestate.cpp:643
+#: ekos/capture/capturemodulestate.cpp:647
 #, fuzzy, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Začetni odklon vodenja %1 je še vedno pod mejno vrednostjo %2 kotnih s."
 
-#: ekos/capture/capturemodulestate.cpp:652
+#: ekos/capture/capturemodulestate.cpp:656
 #, fuzzy, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Začetni odklon vodenja %1 še vedno presega mejno vrednost %2 kotnih s."
 
-#: ekos/capture/capturemodulestate.cpp:674
+#: ekos/capture/capturemodulestate.cpp:678
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Umerjanje po obratu čez poldnevnik se je uspešno zaključilo."
 
-#: ekos/capture/capturemodulestate.cpp:688
+#: ekos/capture/capturemodulestate.cpp:692
 #, fuzzy, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
 
-#: ekos/capture/capturemodulestate.cpp:702
+#: ekos/capture/capturemodulestate.cpp:706
 #, fuzzy, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
 
-#: ekos/capture/capturemodulestate.cpp:730
+#: ekos/capture/capturemodulestate.cpp:734
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15315,7 +15315,7 @@ msgstr ""
 "Odstopanje vodenja %1 je sedaj manj kot %2 loč. sekund, nadaljevanje "
 "osvetljevanja v %3 sekundah."
 
-#: ekos/capture/capturemodulestate.cpp:777
+#: ekos/capture/capturemodulestate.cpp:781
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15324,7 +15324,7 @@ msgstr ""
 "Odstopanje vodenja %1 je sedaj manj kot %2 loč. sekund, nadaljevanje "
 "osvetljevanja."
 
-#: ekos/capture/capturemodulestate.cpp:781
+#: ekos/capture/capturemodulestate.cpp:785
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15333,23 +15333,23 @@ msgstr ""
 "Odstopanje vodenja %1 je sedaj manj kot %2 loč. sekund, nadaljevanje "
 "osvetljevanja v %3 sekundah."
 
-#: ekos/capture/capturemodulestate.cpp:796
+#: ekos/capture/capturemodulestate.cpp:800
 #, fuzzy, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
 
-#: ekos/capture/capturemodulestate.cpp:930
+#: ekos/capture/capturemodulestate.cpp:934
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Ponovna poravnava po obratu se je uspešno zaključila."
 
-#: ekos/capture/capturemodulestate.cpp:949
+#: ekos/capture/capturemodulestate.cpp:953
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Poravnava po obratu ni uspela."
 
-#: ekos/capture/capturemodulestate.cpp:954
+#: ekos/capture/capturemodulestate.cpp:958
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Poravnava po obratu ni uspela. Poskušanje znova..."

@@ -1901,7 +1901,7 @@
 
 <screenshot>
 <screeninfo
->Nou símbol del camp de visió</screeninfo>
+>Símbol nou del camp de visió</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="newfov.png" format="PNG"/>
@@ -1934,5 +1934,94 @@
 </listitem>
 </itemizedlist>
 
+</sect1>
+
+<sect1 id="skymap_orientation">
+  <title
+>Ajustar l'orientació del mapa celeste</title>
+  <para
+>Podeu ajustar diverses opcions de configuració perquè l'orientació del mapa celeste coincidisca amb la vista a través de l'instrument òptic, sempre que (a partir d'esta versió) l'instrument no reflectisca el camp de visió (com es fa amb prismes utilitzats amb els SCT i els refractors). </para>
+  <para
+>Primer, trieu el sistema de coordenades que coincidisca amb la muntura. Per a un instrument muntat equatorialment, canvieu al mode de Coordenades equatorials en el menú <guimenu
+>Visualitza</guimenu
+>. S'hauria de veure l'opció per a canviar el sistema de coordenades <guilabel
+>Canvia a la vista horitzontal (coordenades horitzontals)</guilabel
+> quan el mode actual siga coordenades equatorials. Per a un instrument muntat en altazimut o vista senzilla, canvieu a Coordenades horitzontals, de manera que l'opció en el menú <guimenu
+>Visualitza</guimenu
+> es veja <guilabel
+>Canvia a la vista de l'esfera celeste (coordenades equatorials)</guilabel
+>. Açò establirà el sistema de coordenades base utilitzat per a representar el mapa celeste, i també establirà la referència per a l'orientació del mapa celeste: zenit o nord. </para>
+  <para
+>Per a fer girar lliurement el mapa celeste, podeu mantindre premuda la tecla &Maj; i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostrarà la direcció nord i zenit en el punt, i que mostrarà l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla &Maj; o el botó del ratolí, es pararà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu sobre objectes diferents, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència serà el nord quan s'utilitzen les coordenades equatorials i el zenit quan s'utilitzen les coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. Per a les dues orientacions habituals, dret i invertides, el gir es pot establir o restablir utilitzant el submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>). Seleccioneu «Nord cap avall» o «Zenit cap avall» segons s'aplique per a establir una orientació de 180 graus. </para>
+  <para
+>Si esteu observant visualment a través de l'ocular d'un instrument, és possible que hàgeu de fer una mica més de correcció. Per al cas comú d'un telescopi gran de Dobson (o més generalment un disseny newtonià muntat en una muntura altazimutal), ajudarà una correcció addicional sistemàtica. Esta correcció s'aplica perquè estem en posició dreta mentre utilitzem el telescopi independentment de l'angle que tinga el tub del telescopi amb el terra. De manera que mentre movem el telescopi en altitud, cal aplicar una correcció addicional depenent de l'altitud de l'objecte per a fer que el mapa celeste coincidisca amb la vista a través de l'ocular. Esta correcció s'activa marcant la casella de selecció <guilabel
+>Correcció de l'observador estant dret</guilabel
+> des del submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>. Esta correcció només té sentit en el mode de Coordenades horitzontals i estarà desactivada quan s'utilitzen les Coordenades equatorials. </para>
+  <para
+>Finalment, proporcionem alguns exemples de com utilitzar estes opcions de configuració per a diversos instruments: <itemizedlist>
+      <listitem
+><para
+>Observació a simple vista: Seleccioneu Coordenades horitzontals i una orientació de <guilabel
+>Zenit cap amunt</guilabel
+> des del submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Càmera en un telescopi muntat equatorialment: trieu les Coordenades equatorials i ajusteu l'orientació del mapa celeste perquè coincidisca amb la càmera. Com que la muntura apunta a regions diferents del cel, l'orientació s'ha de renderitzar correctament.</para
+></listitem>
+      <listitem
+><para
+>Ús de binoculars: la mateixa configuració que amb l'observació a simple vista.</para
+></listitem>
+      <listitem
+><para
+>Utilitzant un telescopi buscador RACI en un telescopi muntat en altazimut: la mateixa configuració que amb l'observació a simple vista, excepte que pot ser haureu d'ajustar manualment una vegada l'orientació si el teniu muntat en un angle.</para
+></listitem>
+      <listitem
+><para
+>Utilitzant un telescopi de busca directa (vista invertida) en un telescopi muntat en altazimut: trieu Coordenades horitzontals i una orientació del mapa celeste de <guilabel
+>Zenit cap avall</guilabel
+> en el submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Ocular d'un telescopi de Dobson: trieu Coordenades horitzontals, i en el submenú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Orientació del mapa celeste</guisubmenu
+></menuchoice
+>, seleccioneu <guilabel
+>Zenit cap avall</guilabel
+> i marqueu l'opció <guilabel
+>Correcció de l'observador estant dret</guilabel
+>. Després ajusteu manualment una vegada l'orientació per a fer coincidir la vista de l'ocular del telescopi, i d'ara en avant el seguiment hauria de ser correcte.</para
+></listitem>
+    </itemizedlist>
+  </para>
 </sect1
 >&hips; </chapter>

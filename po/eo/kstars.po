@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-02 00:43+0000\n"
-"PO-Revision-Date: 2023-05-31 22:39+0100\n"
+"POT-Creation-Date: 2023-06-03 00:43+0000\n"
+"PO-Revision-Date: 2023-06-02 21:20+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -11599,7 +11599,7 @@ msgid "Waiting..."
 msgstr "Atendas..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:182
+#: ekos/capture/capturemodulestate.cpp:186
 #, kde-format
 msgid "Dithering..."
 msgstr "Malklariĝo..."
@@ -15124,99 +15124,99 @@ msgstr "Ĉu %1 havas ŝutron?"
 msgid "Dark Exposure"
 msgstr "Malhela Ekspozicio"
 
-#: ekos/capture/capturemodulestate.cpp:67
+#: ekos/capture/capturemodulestate.cpp:71
 #, kde-format
 msgid "Dithering succeeded."
 msgstr "Dithering sukcesis."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:74
+#: ekos/capture/capturemodulestate.cpp:78
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "Dither kompleta. Rekomenco post %1 sekundoj..."
 
-#: ekos/capture/capturemodulestate.cpp:82
+#: ekos/capture/capturemodulestate.cpp:86
 #, kde-format
 msgid "Dither complete."
 msgstr "Dither kompleta."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:96
+#: ekos/capture/capturemodulestate.cpp:100
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "Averto: Dithering malsukcesis. Rekomenco post %1 sekundoj..."
 
-#: ekos/capture/capturemodulestate.cpp:105
+#: ekos/capture/capturemodulestate.cpp:109
 #, kde-format
 msgid "Warning: Dithering failed."
 msgstr "Averto: Dithering malsukcesis."
 
-#: ekos/capture/capturemodulestate.cpp:277
+#: ekos/capture/capturemodulestate.cpp:281
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Meridiana turniĝo estas sukcese finita"
 
-#: ekos/capture/capturemodulestate.cpp:373
+#: ekos/capture/capturemodulestate.cpp:377
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Farante post-flip rekalibradon kaj gvidadon..."
 
-#: ekos/capture/capturemodulestate.cpp:386
+#: ekos/capture/capturemodulestate.cpp:390
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Eraro pri kalibrado de post-meridiana inversigo. Rekomencante..."
 
-#: ekos/capture/capturemodulestate.cpp:406
+#: ekos/capture/capturemodulestate.cpp:410
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Aŭtogvidado ĉesis. Atendante la finiĝon de aŭtomata fokuso..."
 
-#: ekos/capture/capturemodulestate.cpp:415
+#: ekos/capture/capturemodulestate.cpp:419
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Aŭtogvidado ĉesis. Abortante..."
 
-#: ekos/capture/capturemodulestate.cpp:422
+#: ekos/capture/capturemodulestate.cpp:426
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Eraro pri kalibrado de afiŝu meridiano. Abortante..."
 
-#: ekos/capture/capturemodulestate.cpp:465
+#: ekos/capture/capturemodulestate.cpp:469
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Aŭtomata fokuso malsukcesis. Ĉesigante malkovron..."
 
-#: ekos/capture/capturemodulestate.cpp:612
+#: ekos/capture/capturemodulestate.cpp:616
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Realigante post-flipa realignigo..."
 
-#: ekos/capture/capturemodulestate.cpp:643
+#: ekos/capture/capturemodulestate.cpp:647
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "Komenca gvida devio %1 sub limvaloro de %2 arksekoj"
 
-#: ekos/capture/capturemodulestate.cpp:652
+#: ekos/capture/capturemodulestate.cpp:656
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Komenca gvida devio %1 superis limvaloron de %2 arksekoj"
 
-#: ekos/capture/capturemodulestate.cpp:674
+#: ekos/capture/capturemodulestate.cpp:678
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Postmeridiana flip-kalibrado kompletigita sukcese."
 
-#: ekos/capture/capturemodulestate.cpp:688
+#: ekos/capture/capturemodulestate.cpp:692
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr "Gvida devio ĉe kapta ekfunkciigo %1 superis la limon %2 arksekoj."
 
-#: ekos/capture/capturemodulestate.cpp:702
+#: ekos/capture/capturemodulestate.cpp:706
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr "Gvida devio ĉe kapta ekfunkciigo %1 sub limvaloro de %2 arksekoj"
 
-#: ekos/capture/capturemodulestate.cpp:730
+#: ekos/capture/capturemodulestate.cpp:734
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -15225,7 +15225,7 @@ msgstr ""
 "Gvid-devio %1 superis limvaloron de %2 arksekoj por %4 sinsekvaj specimenoj, "
 "ĉesigante malkovron kaj atendante gvidilon ĝis %3 sekundoj."
 
-#: ekos/capture/capturemodulestate.cpp:777
+#: ekos/capture/capturemodulestate.cpp:781
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15234,7 +15234,7 @@ msgstr ""
 "Gvida devio %1 nun estas pli malalta ol limvaloro de %2 arksekoj, "
 "rekomencante ekspozicion."
 
-#: ekos/capture/capturemodulestate.cpp:781
+#: ekos/capture/capturemodulestate.cpp:785
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15243,22 +15243,22 @@ msgstr ""
 "Gvida devio %1 nun estas pli malalta ol limvaloro de %2 arksekundoj, "
 "rekomencante ekspozicion en %3 sekundoj."
 
-#: ekos/capture/capturemodulestate.cpp:796
+#: ekos/capture/capturemodulestate.cpp:800
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "Gvida devio %1 estas ankoraŭ pli alta ol limvaloro de %2 arksekoj."
 
-#: ekos/capture/capturemodulestate.cpp:930
+#: ekos/capture/capturemodulestate.cpp:934
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Post-flip re-alignigo kompletigita sukcese."
 
-#: ekos/capture/capturemodulestate.cpp:949
+#: ekos/capture/capturemodulestate.cpp:953
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Post-flipa vicigo malsukcesis."
 
-#: ekos/capture/capturemodulestate.cpp:954
+#: ekos/capture/capturemodulestate.cpp:958
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Post-flipa vicigo malsukcesis. Reprovante..."
@@ -30417,8 +30417,7 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Ŝanĝi al Star Globe View (Ekvatoraj &Koordinatoj)"
 
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
-#, fuzzy, kde-format
-#| msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+#, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Ŝanĝi al Horizontala Vido (Horizontalaj &Koordinatoj)"
 
@@ -78997,7 +78996,14 @@ msgid_plural ""
 "backup, whereby you can later use the Batch Add feature in the Observation "
 "Planner to add them back using internet search."
 msgstr[0] ""
+"%1 objekto ne povis esti trovata en la datumbazo kaj estos forigata el la "
+"observanta dezirlisto. Ni rekomendas ke vi kopiu ĝian nomon kiel savkopion, "
+"ke vi povu aldoni ĝin pli poste."
 msgstr[1] ""
+"%1 objektoj ne povis esti trovataj en la datumbazo kaj estos forigataj el la "
+"observanta dezirlisto. Ni rekomendas ke vi kopiu la detalan liston kiel "
+"savkopion, ke vi poste povu uzi la kapablon de Stapla Aldono en la "
+"Observoplanilo por realdoni ilin uzante interretan serĉon."
 
 #: tools/observinglist.cpp:1163
 #, kde-format
@@ -82290,6 +82296,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Rotator Utilities: Mount %1 is not ready!"
-#~ msgstr "Rotaciilaj Utilaĵoj: Munto %1 ne estas preta!"
