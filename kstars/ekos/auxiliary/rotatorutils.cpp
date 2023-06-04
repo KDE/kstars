@@ -14,47 +14,48 @@
 * - Camera offset PA = calcOffsetAngle(Rotator A, Camera PA)
 *******************************************************************************************************/
 
-#include "solverutils.h"
 #include "rotatorutils.h"
 #include "Options.h"
-#include "auxiliary/ksnotification.h"
+
+#include "opticaltrainmanager.h"
 
 #include <indicom.h>
 #include <basedevice.h>
 #include <cmath>
 
+RotatorUtils * RotatorUtils::m_Instance = nullptr;
 
-ISD::Mount::PierSide RotatorUtils::m_CalPierside = ISD::Mount::PIER_WEST;
-ISD::Mount::PierSide RotatorUtils::m_ImgPierside = ISD::Mount::PIER_UNKNOWN;
-double RotatorUtils::m_Offset = Options::pAOffset();
-bool RotatorUtils::m_flippedMount = false;
+RotatorUtils * RotatorUtils::Instance()
+{
+    if (m_Instance)
+        return m_Instance;
+
+    m_Instance = new RotatorUtils();
+    return m_Instance;
+}
+
+void RotatorUtils::release()
+{
+    delete (m_Instance);
+    m_Instance = nullptr;
+}
 
 RotatorUtils::RotatorUtils() {}
 
 RotatorUtils::~RotatorUtils() {}
 
-void RotatorUtils::initRotatorUtils()
+void RotatorUtils::initRotatorUtils(const QString &train)
 {
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    m_Offset = Options::pAOffset();
+    m_Mount = Ekos::OpticalTrainManager::Instance()->getMount(train);
+
+    if (m_Mount)
     {
-        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
-            continue;
-        if ((m_Mount = oneDevice->getMount()))
+        connect(m_Mount, &ISD::Mount::pierSideChanged, this, [this] (ISD::Mount::PierSide Side)
         {
-            connect(m_Mount, &ISD::Mount::pierSideChanged, [ = ] (ISD::Mount::PierSide Side)
-            {
-                if (Side == m_CalPierside)
-                    m_flippedMount = false;
-                else
-                    m_flippedMount = true;
-                emit(changedPierside(Side));
-            });
-        }
-        else
-        {
-            KSNotification::error(
-                i18n("Rotator Utilities: Mount %1 is not ready!", oneDevice->getDeviceName()));
-        }
+            m_flippedMount = (Side != m_CalPierside);
+            emit changedPierside(Side);
+        });
     }
 }
 

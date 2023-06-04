@@ -79,6 +79,7 @@ void Manager::release()
     ProfileSettings::release();
     OpticalTrainManager::release();
     OpticalTrainSettings::release();
+    RotatorUtils::release();
     delete _Manager;
 }
 
@@ -518,6 +519,7 @@ void Manager::reset()
     ProfileSettings::release();
     OpticalTrainManager::release();
     OpticalTrainSettings::release();
+    RotatorUtils::release();
 
     m_DriverDevicesCount = 0;
 

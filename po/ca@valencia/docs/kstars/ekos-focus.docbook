@@ -492,6 +492,13 @@
       <listitem>
         <para
 ><guilabel
+>Suspén el guiatge</guilabel
+>: Establiu esta opció per a suspendre el guiatge durant una execució d'enfocament automàtic. Es farà una comprovació addicional per a suspendre només el guiatge si es realitza a través del telescopi primari, per exemple quan s'utilitza una guia fora de l'eix. El propòsit d'açò és evitar que el guiatge tinga problemes amb les estreles desenfocades durant el procés d'enfocament.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
 >Fotograma fosc</guilabel
 >: Marqueu esta opció per a portar a terme una sostracció del fotograma fosc. Esta opció pot ser útil en imatges amb soroll, quan prèviament es pren un fotograma i se sostrau de la imatge enfocada abans de continuar el processament.</para>
 
@@ -563,21 +570,30 @@
         <para
 ><guilabel
 >Camp complet</guilabel
->: Utilitzeu el camp complet de la càmera o seleccioneu un submarc al voltant de l'estrela d'enfocament durant el procediment d'enfocament automàtic. Si s'utilitzen múltiples estreles, s'haurà de seleccionar esta opció.</para>
-      </listitem>
-
-      <listitem>
-        <para
+>: Utilitzeu el camp complet de la càmera o seleccioneu un submarc al voltant de l'estrela d'enfocament durant el procediment d'enfocament automàtic. Si s'utilitzen múltiples estreles, s'haurà de seleccionar esta opció. <itemizedlist>
+	    <listitem>
+	      <para
 ><guilabel
->Anell</guilabel
->: Utilitzat conjuntament amb Camp complet, Anell proporciona dos camps d'entrada que junts definixen un dònut sobre CDV de la càmera. Les estreles que queden fora del dònut es descomptaran del processament. Establir un valor interior per damunt del 0% farà que es descarten les estreles en el centre de CDV. Açò podria ser útil per a evitar l'ús d'estreles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per davall del 100% farà que durant l'enfocament es descarten les estreles en les vores de CDV. Açò podria ser útil si no teniu cap camp pla a les vores de CDV.</para>
-      </listitem>
-
-      <listitem>
-        <para
+>Utilitza totes les estreles per a enfocar</guilabel
+>: Seleccioneu esta opció si s'han de considerar totes les estreles del camp per a enfocar.</para>
+	    </listitem>
+	    
+	    <listitem>
+              <para
 ><guilabel
->Suspén el guiatge</guilabel
->: Establiu esta opció per a suspendre el guiatge durant una execució d'enfocament automàtic. Es farà una comprovació addicional per a suspendre només el guiatge si es realitza a través del telescopi primari, per exemple quan s'utilitza una guia fora de l'eix. El propòsit d'açò és evitar que el guiatge tinga problemes amb les estreles desenfocades durant el procés d'enfocament.</para>
+>Màscara d'anell</guilabel
+>: Utilitzada conjuntament amb Camp complet, esta opció proporciona dos camps d'entrada que junts definixen un dònut sobre CDV de la càmera. Les estreles que queden fora del dònut es descomptaran del processament. Establir un valor interior per damunt del 0% farà que es descarten les estreles en el centre de CDV. Açò podria ser útil per a evitar l'ús d'estreles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per davall del 100% farà que durant l'enfocament es descarten les estreles en les vores de CDV. Açò podria ser útil si no teniu cap camp pla a les vores de CDV.</para>
+	    </listitem>
+
+	    <listitem>
+	      <para
+><guilabel
+>Màscara de mosaic</guilabel
+>: Es compon d'un mosaic de 3x3 amb tessel·les a partir del centre de la imatge, les seues cantons i des de les vores. Esta opció és útil si voleu inspeccionar el rendiment de l'òptica: potser ho coneixeu a partir de l'script «PixInsight Aberration Inspector». La mida de les tessel·les es pot configurar com un percentatge de l'amplària del fotograma, definint el valor espaiador entre les tessel·les.</para>
+	    </listitem>
+	    
+	  </itemizedlist>
+	</para>
       </listitem>
 
       <listitem>

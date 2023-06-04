@@ -1952,13 +1952,13 @@
 >Commuta a la vista de l'esfera celeste (Coordenades equatorials)</guilabel
 >. Això estableix el sistema de coordenades base utilitzat per representar el mapa celeste, i també estableix la referència per a l'orientació del mapa celeste: zenit o nord. </para>
   <para
->Per a girar el mapa celeste lliurement, podeu mantenir premuda la tecla Maj i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostra la direcció nord i zenit en el punt, i que mostra l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla Maj o el botó del ratolí s'aturarà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu en diferents objectes, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència és el nord quan s'utilitzen coordenades equatorials i el zenit quan s'utilitzen coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. Per a les dues orientacions normals dretes i invertides, el gir es pot establir / restablir utilitzant el submenú <menuchoice
+>To rotate the sky map freely, you can hold down the Shift key and drag the mouse on the sky map. A temporary overlay will appear showing the direction of north and zenith at the point, and displaying the angle they make with the vertical in a counterclockwise sense. The orientations of zenith and north will update as you rotate the sky map. Letting go of Shift or the mouse button will stop the rotation operation. As you pan the sky map or focus it on different objects, the rotation you set is retained as an offset from the reference direction. The reference direction is north when using Equatorial Coordinates and zenith when using Horizontal Coordinates. As a reminder, the reference direction is solid and brighter in the temporary overlay. For the two common orientations of erect and inverted, the rotation can be set / reset using the <menuchoice
 ><guimenu
->Visualitza</guimenu
+>View</guimenu
 ><guisubmenu
->Orientació del mapa celeste</guisubmenu
+>Skymap Orientation</guisubmenu
 ></menuchoice
->). Seleccioneu «Nord cap avall» o «Zenit cap avall» segons s'apliqui per a establir una orientació de 180 graus. </para>
+> submenu. Select "North Down" or "Zenith Down" as is applicable to set an orientation of 180 degrees. </para>
   <para
 >Si esteu observant visualment a través de l'ocular d'un instrument, és possible que hàgiu de fer una mica més de correcció. Per al cas comú d'un gran telescopi Dobson (o més generalment un disseny newtonià muntat en una muntura altazimutal), és d'ajuda una correcció addicional sistemàtica. Aquesta correcció s'aplica perquè estem en posició dreta mentre utilitzem el telescopi independentment de l'angle que el tub del telescopi estigui fent amb el terra. Així que mentre movem el telescopi en altitud, cal aplicar una correcció addicional depenent de l'altitud de l'objecte per fer que el mapa celeste coincideixi amb la vista a través de l'ocular. Aquesta correcció s'activa marcant la casella de selecció <guilabel
 >Correcció d'observador dret</guilabel

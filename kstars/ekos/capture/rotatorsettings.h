@@ -8,13 +8,8 @@
 #pragma once
 
 #include "ui_rotatorsettings.h"
-#include "indi/indistd.h"
 #include "ekos/capture/capturedeviceadaptor.h"
-#include "ekos/auxiliary/rotatorutils.h"
-#include "indi/indilistener.h"
-#include "ekos/mount/mount.h"
 #include "indi/indimount.h"
-#include "ekos/ekos.h"
 
 #include <QDialog>
 
@@ -26,7 +21,7 @@ public:
 
     explicit RotatorSettings(QWidget *parent);
 
-    void   initRotator(Ekos::CaptureDeviceAdaptor *CaptureDA, QString RotatorName);
+    void   initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, QString RotatorName);
     void   updateRotator(double RAngle);
     void   updateGauge(double Angle);
     void   updateGaugeZeroPos(ISD::Mount::PierSide Pierside);
@@ -38,12 +33,9 @@ public:
     void   refresh(double PAngle);
 
 private:
-
     void   activateRotator(double Angle);
     void   commitRotatorDirection(bool Reverse);
     void   syncFOV(double PA);
 
     Ekos::CaptureDeviceAdaptor *m_CaptureDA {nullptr};
-    QSharedPointer<RotatorUtils> m_RotatorUtils;
-
 };

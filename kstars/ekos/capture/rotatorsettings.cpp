@@ -23,8 +23,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 
-    m_RotatorUtils.reset(new RotatorUtils());
-    connect(m_RotatorUtils.get(), &RotatorUtils::changedPierside, this, &RotatorSettings::updateGaugeZeroPos);
+    connect(RotatorUtils::Instance(), &RotatorUtils::changedPierside, this, &RotatorSettings::updateGaugeZeroPos);
 
     // -- Parameter -> ui file
 
@@ -32,7 +31,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     CameraPA->setKeyboardTracking(false);
     connect(CameraPA, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,  [ = ](double PAngle)
     {
-        double RAngle = m_RotatorUtils->calcRotatorAngle(PAngle);
+        double RAngle = RotatorUtils::Instance()->calcRotatorAngle(PAngle);
         RotatorAngle->setValue(RAngle);
         syncFOV(PAngle);
         activateRotator(RAngle);
@@ -94,22 +93,22 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     MountPierside->setDisabled(true);  // only show pierside for information
 }
 
-void RotatorSettings::initRotator(Ekos::CaptureDeviceAdaptor *CaptureDA, QString RName)
+void RotatorSettings::initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, QString RName)
 {
-    m_RotatorUtils->initRotatorUtils();
+    RotatorUtils::Instance()->initRotatorUtils(train);
     // Setting name
     RotatorName->setText(RName);
     // Setting angle & gauge
     m_CaptureDA = CaptureDA;
     RotatorAngle->setValue(CaptureDA->getRotatorAngle());
-    CameraPA->setValue(m_RotatorUtils->calcCameraAngle(RotatorAngle->value(), false));
-    updateGaugeZeroPos(m_RotatorUtils->getMountPierside());
+    CameraPA->setValue(RotatorUtils::Instance()->calcCameraAngle(RotatorAngle->value(), false));
+    updateGaugeZeroPos(RotatorUtils::Instance()->getMountPierside());
 }
 
 void RotatorSettings::updateRotator(double RAngle)
 {
     RotatorAngle->setValue(RAngle);
-    double PAngle = m_RotatorUtils->calcCameraAngle(RAngle, false);
+    double PAngle = RotatorUtils::Instance()->calcCameraAngle(RAngle, false);
     CameraPA->setValue(PAngle);
     updateGauge(RAngle);
 }
@@ -118,7 +117,7 @@ void RotatorSettings::updateGauge(double RAngle)
 {
     rotatorGauge->setValue(-RAngle); // display in viewing direction
     CurrentRotatorAngle->setText(QString::number(RAngle, 'f', 2));
-    paGauge->setValue(-(m_RotatorUtils->calcCameraAngle(RAngle, false)));
+    paGauge->setValue(-(RotatorUtils::Instance()->calcCameraAngle(RAngle, false)));
 }
 
 void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
@@ -141,7 +140,7 @@ void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
         rotatorGauge->setNullPosition(QRoundProgressBar::PositionBottom);
     }
     double RAngle = RotatorAngle->value();
-    CameraPA->setValue(m_RotatorUtils->calcCameraAngle(RAngle, false));
+    CameraPA->setValue(RotatorUtils::Instance()->calcCameraAngle(RAngle, false));
     updateGauge(RAngle);
 }
 

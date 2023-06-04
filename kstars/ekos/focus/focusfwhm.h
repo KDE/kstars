@@ -114,10 +114,9 @@ class FocusFWHM
                     starParams2.centroid_x += stars[s].start.first;
                     starParams2.centroid_y += stars[s].start.second;
                     double R2 = starFitting->calculateR2(CurveFitting::FOCUS_GAUSSIAN);
-                    if (R2 >= 0.0)
+                    if (R2 >= 0.25)
                     {
-                        // JEE R2 check isn't effective so bypass for now.
-                        // See how user feedback goes. If all OK, remove is completely
+                        // Filter stars - 0.25 works OK on Sim
                         FWHMs.push_back(starParams2.FWHM);
                         R2s.push_back(R2);
 

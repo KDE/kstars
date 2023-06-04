@@ -11,7 +11,7 @@ constexpr int NUM_GAUSSIAN_PARAMS = 7;
 // MAX_ITERATIONS is used to limit the number of iterations for the solver.
 // A value needs to be entered that allows a solution to be found without iterating unnecessarily
 // There is a relationship with the tolerance parameters that follow.
-constexpr int MAX_ITERATIONS_CURVE = 50000;
+constexpr int MAX_ITERATIONS_CURVE = 5000;
 constexpr int MAX_ITERATIONS_STARS = 1000;
 // The next 3 parameters are used as tolerance for convergence
 // convergence is achieved if for each datapoint i
@@ -719,7 +719,6 @@ double CurveFitting::f(double x)
 
 double CurveFitting::f3D(double x, double y)
 {
-    const int order = m_coefficients.size() - 1;
     double z = 0;
     if (m_CurveType == FOCUS_GAUSSIAN && m_coefficients.size() == NUM_GAUSSIAN_PARAMS)
         z = gaufxy(x, y, m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX], m_coefficients[D_IDX],
@@ -837,8 +836,16 @@ QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<doub
                                    .arg(gsl_blas_dnrm2(f));
     };*/
 
-    // We can sometimes have several attempts to solve based on "goal"
-    for (int attempt = 0; attempt < 2; attempt++)
+    // Start a timer to see how long the solve takes.
+    QElapsedTimer timer;
+    timer.start();
+
+    // We can sometimes have several attempts to solve based on "goal" and why the solver failed.
+    // If the goal is STANDARD and we fail to solve then so be it. If the goal is BEST, then retry
+    // with different parameters to really try and get a solution. A special case is if the solver
+    // fails on its first step where we will always retry after adjusting parameters. It helps with
+    // a situation where the solver gets "stuck" failing on first step repeatedly.
+    for (int attempt = 0; attempt < 5; attempt++)
     {
         // Make initial guesses
         hypMakeGuess(attempt, data_x, data_y, optDir, guess);
@@ -862,18 +869,28 @@ QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<doub
                                    .arg(xtol).arg(gtol).arg(ftol);
 
         int info = 0;
-        QElapsedTimer timer;
-        timer.start();
         int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
 
         if (status != 0)
         {
-            // If the goal was a standard run and it failed then just continue. If we want a best solution then adjust params and retry
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Hyperbola): Failed after %1ms with status=%2 [%3], retry=%4")
-                                       .arg(timer.elapsed()).arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
+            // Solver failed so determine whether a retry is required.
+            bool retry = false;
             if (goal == BEST)
+            {
+                // Pull out all the stops to get a solution
+                retry = true;
                 goal = BEST_RETRY;
-            else
+            }
+            else if (status == GSL_EMAXITER && info == GSL_ENOPROG && gsl_multifit_nlinear_niter(w) <= 1)
+                // This is a special case where the solver can't take a first step
+                // So, perturb the initial conditions and have another go.
+                retry = true;
+
+            qCDebug(KSTARS_EKOS_FOCUS) <<
+                                       QString("LM solver (Hyperbola): Failed after %1ms iters=%2 [attempt=%3] with status=%4 [%5] and info=%6 [%7], retry=%8")
+                                       .arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(attempt + 1).arg(status).arg(gsl_strerror(status))
+                                       .arg(info).arg(gsl_strerror(info)).arg(retry);
+            if (!retry)
                 break;
         }
         else
@@ -927,7 +944,6 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
     // - gsl_multifit_nlinear_trs_ddogleg is the double dogleg algorithm
     // - gsl_multifit_nlinear_trs_subspace2D is the 2D subspace algorithm
     params->trs = gsl_multifit_nlinear_trs_lmaccel;
-    params->avmax = 0.5;
 
     // Scale
     // - gsl_multifit_nlinear_scale_more uses. More strategy. Good for problems with parameters with widely different scales
@@ -939,10 +955,14 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
     // - gsl_multifit_nlinear_solver_qr produces reliable results but needs more iterations than Cholesky
     // - gsl_multifit_nlinear_solver_cholesky fast but not as stable as QR
     // - gsl_multifit_nlinear_solver_mcholesky modified Cholesky more stable than Cholesky
+
+    // avmax is the max allowed ratio of 2nd order term (acceleration, a) to the 1st order term (velocity, v)
+    // GSL defaults to 0.75, but suggests reducing it in the case of convergence problems
     switch (goal)
     {
         case STANDARD:
             params->solver = gsl_multifit_nlinear_solver_qr;
+            params->avmax = 0.75;
 
             *numIters = MAX_ITERATIONS_CURVE;
             *xtol = INEPSXTOL;
@@ -951,6 +971,7 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
             break;
         case BEST:
             params->solver = gsl_multifit_nlinear_solver_cholesky;
+            params->avmax = 0.75;
 
             *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL / 10.0;
@@ -959,6 +980,7 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
             break;
         case BEST_RETRY:
             params->solver = gsl_multifit_nlinear_solver_qr;
+            params->avmax = 0.5;
 
             *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL;
@@ -970,16 +992,22 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
     }
 }
 
-// Initialise parameters before starting the solver
+// Initialise parameters before starting the solver. Its important to start with a guess as near to the solution as possible
+// If we found a solution before and we're just adding more datapoints use the last solution as the guess.
+// If we don't have a solution use the datapoints to approximate. Work out the min and max points and use these
+// to find "close" values for the starting point parameters
 void CurveFitting::hypMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
                                 const OptimisationDirection optDir, gsl_vector * guess)
 {
-    if (inX.size() < 1)
+    if (inX.size() < 1 || inX.size() != inY.size())
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Bad call to hypMakeGuess: inX.size=%1, inY.size=%2").arg(inX.size()).arg(inY.size());
         return;
+    }
 
     // If we are retrying then perturb the initial conditions. The hope is that by doing this the solver
     // will be nudged to find a solution this time
-    double perturbation = 1.0 + (attempt * 0.1);
+    double perturbation = 1.0 + pow(-1, attempt) * (attempt * 0.1);
 
     if (!m_FirstSolverRun && (m_LastCurveType == FOCUS_HYPERBOLA) && (m_LastCoefficients.size() == NUM_HYPERBOLA_PARAMS))
     {
@@ -991,43 +1019,83 @@ void CurveFitting::hypMakeGuess(const int attempt, const QVector<double> inX, co
     }
     else
     {
-        // Find min/max position -> good start value for c.
-        // For a minimum b > 0 and b + d > 0
-        // For a maximum b < 0 and b + d > 0
+        double minX = inX[0];
+        double minY = inY[0];
+        double maxX = minX;
+        double maxY = minY;
+        for(int i = 0; i < inX.size(); i++)
+        {
+            if (inY[i] <= 0.0)
+                continue;
+            if(minY <= 0.0 || inY[i] < minY)
+            {
+                minX = inX[i];
+                minY = inY[i];
+            }
+            if(maxY <= 0.0 || inY[i] > maxY)
+            {
+                maxX = inX[i];
+                maxY = inY[i];
+            }
+        }
+        double A, B, C, D;
         if (optDir == OPTIMISATION_MAXIMISE)
         {
-            double maxX = inX[0];
-            double maxY = inY[0];
-            for(int i = 0; i < inX.size(); i++)
-            {
-                if(inY[i] > maxY)
-                {
-                    maxX = inX[i];
-                    maxY = inY[i];
-                }
-            };
-            gsl_vector_set(guess, A_IDX, 1.0 * perturbation);
-            gsl_vector_set(guess, B_IDX, -10.0 * perturbation);
-            gsl_vector_set(guess, C_IDX, maxX * perturbation);
-            gsl_vector_set(guess, D_IDX, (maxY + 10.0) * perturbation);
+            // Hyperbola equation: y = f(x) = b * sqrt(1 + ((x - c) / a) ^2) + d
+            // For a maximum: c = maximum x = x(max)
+            //                b < 0 and b + d > 0
+            // For the array of data, set:
+            // => c = x(max)
+            // Now assume maximum x is near the real curve maximum, so y = b + d
+            // Set b = -d/2. So y(max) = -d/2 + d = d/2.
+            // => d = 2.y(max)
+            // => b = -y(max)
+            // Now look at the minimum y value in the array of datapoints
+            // y(min) = b * sqrt(1 + ((x(min) - c) / a) ^2) + d
+            // (y(min) - d) / b) ^ 2) = 1 + ((x(min) - c) / a) ^2
+            // sqrt((((y(min) - d) / b) ^ 2) - 1) = (x(min) - c) / a
+            // a = (x(min) - c) / sqrt((((y(min) - d) / b) ^ 2) - 1)
+            // use the values for b, c, d obtained above to get:
+            // => a = (x(min) - x(max)) / sqrt((((y(min) - (2.y(max)) / (-y(max))) ^ 2) - 1)
+            double num = minX - maxX;
+            double denom = sqrt(pow((2.0 * maxY - minY) / maxY, 2.0) - 1.0);
+            if(denom <= 0.0)
+                denom = 1.0;
+            A = num / denom * perturbation;
+            B = -maxY * perturbation;
+            C = maxX * perturbation;
+            D = 2.0 * maxY * perturbation;
         }
         else
         {
-            double minX = inX[0];
-            double minY = inY[0];
-            for(int i = 0; i < inX.size(); i++)
-            {
-                if(inY[i] < minY)
-                {
-                    minX = inX[i];
-                    minY = inY[i];
-                }
-            };
-            gsl_vector_set(guess, A_IDX, 1.0 * perturbation);
-            gsl_vector_set(guess, B_IDX, (minY / 2.0) * perturbation);
-            gsl_vector_set(guess, C_IDX, minX * perturbation);
-            gsl_vector_set(guess, D_IDX, (minY / 2.0) * perturbation);
+            // For a minimum: c = minimum x; b > 0 and b + d > 0
+            // For the array of data, set:
+            // => c = x(min)
+            // Now assume minimum x is near the real curve minimum, so y = b + d
+            // => Set b = d = y(min) / 2
+            // Now look at the maximum y value in the array of datapoints
+            // y(max) = b * sqrt(1 + ((x(max) - c) / a) ^2) + d
+            // ((y(max) - d) / b) ^2 = 1 + ((x(max) - c) / a) ^2
+            // a = (x(max) - c) / sqrt((((y(max) - d) / b) ^ 2) - 1)
+            // use the values for b, c, d obtained above to get:
+            // a = (x(max) - x(min)) / sqrt((((y(max) - (y(min) / 2)) / (y(min) / 2)) ^ 2) - 1)
+            double minYdiv2 = (minY / 2.0 <= 0.0) ? 1.0 : minY / 2.0;
+            double num = maxX - minX;
+            double denom = sqrt(pow((maxY - minYdiv2) / minYdiv2, 2.0) - 1.0);
+            if(denom <= 0.0)
+                denom = 1.0;
+            A = num / denom * perturbation;
+            B = minYdiv2 * perturbation;
+            C = minX * perturbation;
+            D = B;
         }
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (hyp) initial params: perturbation=%1, A=%2, B=%3, C=%4, D=%5")
+                                   .arg(perturbation).arg(A).arg(B).arg(C).arg(D);
+
+        gsl_vector_set(guess, A_IDX, A);
+        gsl_vector_set(guess, B_IDX, B);
+        gsl_vector_set(guess, C_IDX, C);
+        gsl_vector_set(guess, D_IDX, D);
     }
 }
 
@@ -1087,8 +1155,16 @@ QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<doubl
                                    .arg(gsl_blas_dnrm2(f));
     };*/
 
-    // We can sometimes have several attempts to solve based on "goal"
-    for (int attempt = 0; attempt < 2; attempt++)
+    // Start a timer to see how long the solve takes.
+    QElapsedTimer timer;
+    timer.start();
+
+    // We can sometimes have several attempts to solve based on "goal" and why the solver failed.
+    // If the goal is STANDARD and we fail to solve then so be it. If the goal is BEST, then retry
+    // with different parameters to really try and get a solution. A special case is if the solver
+    // fails on its first step where we will always retry after adjusting parameters. It helps with
+    // a situation where the solver gets "stuck" failing on first step repeatedly.
+    for (int attempt = 0; attempt < 5; attempt++)
     {
         // Make initial guesses - here we just set all parameters to 1.0
         parMakeGuess(attempt, data_x, data_y, optDir, guess);
@@ -1112,18 +1188,28 @@ QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<doubl
                                    .arg(xtol).arg(gtol).arg(ftol);
 
         int info = 0;
-        QElapsedTimer timer;
-        timer.start();
         int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
 
         if (status != 0)
         {
-            // If the goal was a standard run and it failed then just continue. If we want a best solution then adjust params and retry
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Parabola): Failed after %1ms with status=%2 [%3], retry=%4")
-                                       .arg(timer.elapsed()).arg(status).arg(gsl_strerror(status)).arg((goal == BEST) ? "true" : "false");
+            // Solver failed so determine whether a retry is required.
+            bool retry = false;
             if (goal == BEST)
+            {
+                // Pull out all the stops to get a solution
+                retry = true;
                 goal = BEST_RETRY;
-            else
+            }
+            else if (status == GSL_EMAXITER && info == GSL_ENOPROG && gsl_multifit_nlinear_niter(w) <= 1)
+                // This is a special case where the solver can't take a first step
+                // So, perturb the initial conditions and have another go.
+                retry = true;
+
+            qCDebug(KSTARS_EKOS_FOCUS) <<
+                                       QString("LM solver (Parabola): Failed after %1ms iters=%2 [attempt=%3] with status=%4 [%5] and info=%6 [%7], retry=%8")
+                                       .arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(attempt + 1).arg(status).arg(gsl_strerror(status))
+                                       .arg(info).arg(gsl_strerror(info)).arg(retry);
+            if (!retry)
                 break;
         }
         else
@@ -1162,7 +1248,6 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
     // - gsl_multifit_nlinear_trs_ddogleg is the double dogleg algorithm
     // - gsl_multifit_nlinear_trs_subspace2D is the 2D subspace algorithm
     params->trs = gsl_multifit_nlinear_trs_lmaccel;
-    params->avmax = 0.5;
 
     // Scale
     // - gsl_multifit_nlinear_scale_more uses. More strategy. Good for problems with parameters with widely different scales
@@ -1174,10 +1259,14 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
     // - gsl_multifit_nlinear_solver_qr produces reliable results but needs more iterations than Cholesky
     // - gsl_multifit_nlinear_solver_cholesky fast but not as stable as QR
     // - gsl_multifit_nlinear_solver_mcholesky modified Cholesky more stable than Cholesky
+
+    // avmax is the max allowed ratio of 2nd order term (acceleration, a) to the 1st order term (velocity, v)
+    // GSL defaults to 0.75, but suggests reducing it in the case of convergence problems
     switch (goal)
     {
         case STANDARD:
             params->solver = gsl_multifit_nlinear_solver_cholesky;
+            params->avmax = 0.75;
 
             *numIters = MAX_ITERATIONS_CURVE;
             *xtol = INEPSXTOL;
@@ -1186,6 +1275,7 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
             break;
         case BEST:
             params->solver = gsl_multifit_nlinear_solver_cholesky;
+            params->avmax = 0.75;
 
             *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL / 10.0;
@@ -1194,6 +1284,7 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
             break;
         case BEST_RETRY:
             params->solver = gsl_multifit_nlinear_solver_qr;
+            params->avmax = 0.5;
 
             *numIters = MAX_ITERATIONS_CURVE * 2.0;
             *xtol = INEPSXTOL;
@@ -1205,17 +1296,22 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
     }
 }
 
-// Initialise parameters before starting the solver
+// Initialise parameters before starting the solver. Its important to start with a guess as near to the solution as possible
+// If we found a solution before and we're just adding more datapoints use the last solution as the guess.
+// If we don't have a solution use the datapoints to approximate. Work out the min and max points and use these
+// to find "close" values for the starting point parameters
 void CurveFitting::parMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
-                                const OptimisationDirection optDir,
-                                gsl_vector * guess)
+                                const OptimisationDirection optDir, gsl_vector * guess)
 {
-    if (inX.size() < 1)
+    if (inX.size() < 1 || inX.size() != inY.size())
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Bad call to parMakeGuess: inX.size=%1, inY.size=%2").arg(inX.size()).arg(inY.size());
         return;
+    }
 
     // If we are retrying then perturb the initial conditions. The hope is that by doing this the solver
     // will be nudged to find a solution this time
-    double perturbation = 1.0 + (attempt * 0.1);
+    double perturbation = 1.0 + pow(-1, attempt) * (attempt * 0.1);
 
     if (!m_FirstSolverRun && (m_LastCurveType == FOCUS_PARABOLA) && (m_LastCoefficients.size() == NUM_PARABOLA_PARAMS))
     {
@@ -1226,46 +1322,55 @@ void CurveFitting::parMakeGuess(const int attempt, const QVector<double> inX, co
     }
     else
     {
-        // Find min/max position -> good start value for c.
-        // For a minimum b > 0 and a > 0
-        // For a maximum b < 0 and a > 0
-        // Find min HFD -> good start value for c. a and b need to be positive.
+        double minX = inX[0];
+        double minY = inY[0];
+        double maxX = minX;
+        double maxY = minY;
+        for(int i = 0; i < inX.size(); i++)
+        {
+            if (inY[i] <= 0.0)
+                continue;
+            if(minY <= 0.0 || inY[i] < minY)
+            {
+                minX = inX[i];
+                minY = inY[i];
+            }
+            if(maxY <= 0.0 || inY[i] > maxY)
+            {
+                maxX = inX[i];
+                maxY = inY[i];
+            }
+        }
+        double A, B, C;
         if (optDir == OPTIMISATION_MAXIMISE)
         {
-            double maxX = inX[0];
-            double maxY = inY[0];
-            for(int i = 0; i < inX.size(); i++)
-            {
-                if(inY[i] > maxY)
-                {
-                    maxX = inX[i];
-                    maxY = inY[i];
-                }
-            };
-            gsl_vector_set(guess, A_IDX, 10.0 * perturbation);
-            gsl_vector_set(guess, B_IDX, -1.0 * perturbation);
-            gsl_vector_set(guess, C_IDX, maxX * perturbation);
+            // Equation y = f(x) = a + b((x - c) ^2)
+            // For a maximum b < 0 and a > 0
+            // At the maximum, Xmax = c, Ymax = a
+            // Far from the maximum, b = (Ymin - a) / ((Xmin - c) ^2)
+            A = maxY * perturbation;
+            B = ((minY - maxY) / pow(minX - maxX, 2.0)) * perturbation;
+            C = maxX * perturbation;
         }
         else
         {
-            double minX = inX[0];
-            double minY = inY[0];
-            for(int i = 0; i < inX.size(); i++)
-            {
-                if(inY[i] < minY)
-                {
-                    minX = inX[i];
-                    minY = inY[i];
-                }
-            };
-            gsl_vector_set(guess, A_IDX, 1.0 * perturbation);
-            gsl_vector_set(guess, B_IDX, 1.0 * perturbation);
-            gsl_vector_set(guess, C_IDX, minX * perturbation);
+            // For a minimum b > 0 and a > 0
+            // At the minimum, Xmin = c, Ymin = a
+            // Far from the minimum, b = (Ymax - a) / ((Xmax - c) ^2)
+            A = minY * perturbation;
+            B = ((maxY - minY) / pow(maxX - minX, 2.0)) * perturbation;
+            C = minX * perturbation;
         }
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (par) initial params: perturbation=%1, A=%2, B=%3, C=%4")
+                                   .arg(perturbation).arg(A).arg(B).arg(C);
+
+        gsl_vector_set(guess, A_IDX, A);
+        gsl_vector_set(guess, B_IDX, B);
+        gsl_vector_set(guess, C_IDX, C);
     }
 }
 
-QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams starParams)
+QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams &starParams)
 {
     QVector<double> vc;
 
@@ -1290,40 +1395,50 @@ QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams s
 
     // Allocate the guess vector
     gsl_vector * guess = gsl_vector_alloc(NUM_GAUSSIAN_PARAMS);
-    // Make initial guesses
-    gauMakeGuess(starParams, guess);
-
-    // If using weights load up the GSL vector
+    // Allocate weights vector
     auto weights = gsl_vector_alloc(data.dps.size());
-    if (data.useWeights)
+
+    // Setup a timer to see how long the solve takes
+    QElapsedTimer timer;
+    timer.start();
+
+    // Setup for multiple solve attempts. We won't worry too much if the solver fails as there should be
+    // plenty of stars, but if the solver fails on its first step then adjust parameters and retry as this
+    // is a fast thing to do.
+    for (int attempt = 0; attempt < 5; attempt++)
     {
-        QVectorIterator<DataPT3D> dp(data.dps);
-        int i = 0;
-        while (dp.hasNext())
-            gsl_vector_set(weights, i++, dp.next().weight);
+        // Make initial guesses
+        gauMakeGuess(attempt, starParams, guess);
 
-        gsl_multifit_nlinear_winit(guess, weights, &fdf, w);
-    }
-    else
+        // If using weights load up the GSL vector
+        if (data.useWeights)
+        {
+            QVectorIterator<DataPT3D> dp(data.dps);
+            int i = 0;
+            while (dp.hasNext())
+                gsl_vector_set(weights, i++, dp.next().weight);
 
-        gsl_multifit_nlinear_init(guess, &fdf, w);
+            gsl_multifit_nlinear_winit(guess, weights, &fdf, w);
+        }
+        else
+            gsl_multifit_nlinear_init(guess, &fdf, w);
 
-    // This is the callback used by the LM solver to allow some introspection of each iteration
-    // Useful for debugging but clogs up the log
-    // To activate, uncomment the callback lambda and change the call to gsl_multifit_nlinear_driver
-    /*auto callback = [](const size_t iter, void* _params, const gsl_multifit_nlinear_workspace * w)
-    {
-        gsl_vector *f = gsl_multifit_nlinear_residual(w);
-        gsl_vector *x = gsl_multifit_nlinear_position(w);
-        double rcond;
+        // This is the callback used by the LM solver to allow some introspection of each iteration
+        // Useful for debugging but clogs up the log
+        // To activate, uncomment the callback lambda and change the call to gsl_multifit_nlinear_driver
+        /*auto callback = [](const size_t iter, void* _params, const gsl_multifit_nlinear_workspace * w)
+        {
+            gsl_vector *f = gsl_multifit_nlinear_residual(w);
+            gsl_vector *x = gsl_multifit_nlinear_position(w);
+            double rcond;
 
-        // compute reciprocal condition number of J(x)
-        gsl_multifit_nlinear_rcond(&rcond, w);
+            // compute reciprocal condition number of J(x)
+            gsl_multifit_nlinear_rcond(&rcond, w);
 
-        // ratio of accel component to velocity component
-        double avratio = gsl_multifit_nlinear_avratio(w);
+            // ratio of accel component to velocity component
+            double avratio = gsl_multifit_nlinear_avratio(w);
 
-        qCDebug(KSTARS_EKOS_FOCUS) <<
+            qCDebug(KSTARS_EKOS_FOCUS) <<
                                    QString("iter %1: A = %2, B = %3, C = %4, D = %5, E = %6, F = %7, G = %8 "
                                            "rcond(J) = %9, avratio = %10, |f(x)| = %11")
                                    .arg(iter)
@@ -1338,34 +1453,40 @@ QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams s
                                    .arg(rcond)
                                    .arg(avratio)
                                    .arg(gsl_blas_dnrm2(f));
-    };*/
+        };*/
 
-    gauSetupParams(&params, &numIters, &xtol, &gtol, &ftol);
+        gauSetupParams(&params, &numIters, &xtol, &gtol, &ftol);
 
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("Starting LM solver, fit=gaussian, solver=%1, scale=%2, trs=%3, iters=%4, xtol=%5,"
-                                          "gtol=%6, ftol=%7")
-                               .arg(params.solver->name).arg(params.scale->name).arg(params.trs->name).arg(numIters)
-                               .arg(xtol).arg(gtol).arg(ftol);
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Starting LM solver, fit=gaussian, solver=%1, scale=%2, trs=%3, iters=%4, xtol=%5,"
+                                              "gtol=%6, ftol=%7")
+                                   .arg(params.solver->name).arg(params.scale->name).arg(params.trs->name).arg(numIters)
+                                   .arg(xtol).arg(gtol).arg(ftol);
 
-    int info = 0;
-    QElapsedTimer timer;
-    timer.start();
-    int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
+        int info = 0;
+        int status = gsl_multifit_nlinear_driver(numIters, xtol, gtol, ftol, NULL, NULL, &info, w);
 
-    if (status != 0)
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM solver (Gaussian): Failed after %1ms with status=%2 [%3]")
-                                   .arg(timer.elapsed()).arg(status).arg(gsl_strerror(status));
-    else
-    {
-        // All good so store the results - parameters A, B, C, D, E, F, G
-        auto solution = gsl_multifit_nlinear_position(w);
-        for (int j = 0; j < NUM_GAUSSIAN_PARAMS; j++)
-            vc.push_back(gsl_vector_get(solution, j));
+        if (status != 0)
+        {
+            qCDebug(KSTARS_EKOS_FOCUS) <<
+                                       QString("LM solver (Gaussian): Failed after %1ms iters=%2 [attempt=%3] with status=%4 [%5] and info=%6 [%7]")
+                                       .arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(attempt + 1).arg(status).arg(gsl_strerror(status))
+                                       .arg(info).arg(gsl_strerror(info));
+            if (status != GSL_EMAXITER || info != GSL_ENOPROG || gsl_multifit_nlinear_niter(w) > 1)
+                break;
+        }
+        else
+        {
+            // All good so store the results - parameters A, B, C, D, E, F, G
+            auto solution = gsl_multifit_nlinear_position(w);
+            for (int j = 0; j < NUM_GAUSSIAN_PARAMS; j++)
+                vc.push_back(gsl_vector_get(solution, j));
 
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Gaussian): Solution found after %1ms %2 iters (%3). A=%4, B=%5, C=%6, "
-                                              "D=%7, E=%8, F=%9, G=%10").arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info))
-                                   .arg(vc[A_IDX]).arg(vc[B_IDX]).arg(vc[C_IDX]).arg(vc[D_IDX]).arg(vc[E_IDX])
-                                   .arg(vc[F_IDX]).arg(vc[G_IDX]);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("LM Solver (Gaussian): Solution found after %1ms %2 iters (%3). A=%4, B=%5, C=%6, "
+                                                  "D=%7, E=%8, F=%9, G=%10").arg(timer.elapsed()).arg(gsl_multifit_nlinear_niter(w)).arg(getLMReasonCode(info))
+                                       .arg(vc[A_IDX]).arg(vc[B_IDX]).arg(vc[C_IDX]).arg(vc[D_IDX]).arg(vc[E_IDX])
+                                       .arg(vc[F_IDX]).arg(vc[G_IDX]);
+            break;
+        }
     }
 
     // Free GSL memory
@@ -1379,31 +1500,44 @@ QVector<double> CurveFitting::gaussian_fit(DataPoint3DT data, const StarParams s
     return vc;
 }
 
-// Initialise parameters before starting the solver
-void CurveFitting::gauMakeGuess(const StarParams starParams, gsl_vector * guess)
+// Initialise parameters before starting the solver. Its important to start with a guess as near to the solution as possible
+// Since we have already run some HFR calcs on the star, use these values to calculate the guess
+void CurveFitting::gauMakeGuess(const int attempt, const StarParams &starParams, gsl_vector * guess)
 {
-    // Default from a basic star centred in the area supplied
-    gsl_vector_set(guess, A_IDX, std::max(starParams.peak, 0.0));       // Peak value
-    gsl_vector_set(guess, B_IDX, std::max(starParams.centroid_x, 0.0)); // Centroid x
-    gsl_vector_set(guess, C_IDX, std::max(starParams.centroid_y, 0.0)); // Centroid y
+    // If we are retrying then perturb the initial conditions. The hope is that by doing this the solver
+    // will be nudged to find a solution this time
+    double perturbation = 1.0 + pow(-1, attempt) * (attempt * 0.1);
+
+    // Default from the input star details
+    const double a  = std::max(starParams.peak, 0.0) * perturbation;       // Peak value
+    const double x0 = std::max(starParams.centroid_x, 0.0) * perturbation; // Centroid x
+    const double y0 = std::max(starParams.centroid_y, 0.0) * perturbation; // Centroid y
+    const double b  = std::max(starParams.background, 0.0) * perturbation; // Background
 
     double A = 1.0, B = 0.0, C = 1.0;
     if (starParams.HFR > 0.0)
     {
         // Use 2*HFR value as FWHM along with theta to calc A, B, C
         // FWHM = 2.sqrt(2.ln(2)).sigma
+        // Assume circular symmetry so B = 0
         const double sigma2 = pow(starParams.HFR / (sqrt(2.0 * log(2.0))), 2.0);
         const double costheta2 = pow(cos(starParams.theta), 2.0);
         const double sintheta2 = pow(sin(starParams.theta), 2.0);
 
-        A = (costheta2 + sintheta2) / (2 * sigma2);
-        B = 0.0;
-        C = A;
+        A = C = (costheta2 + sintheta2) / (2 * sigma2) * perturbation;
     }
+
+    qCDebug(KSTARS_EKOS_FOCUS) <<
+                               QString("LM Solver (Gaussian): Guess perturbation=%1, A=%2, B=%3, C=%4, D=%5, E=%6, F=%7, G=%8")
+                               .arg(perturbation).arg(a).arg(x0).arg(y0).arg(A).arg(B).arg(C).arg(b);
+
+    gsl_vector_set(guess, A_IDX, a);
+    gsl_vector_set(guess, B_IDX, x0);
+    gsl_vector_set(guess, C_IDX, y0);
     gsl_vector_set(guess, D_IDX, A);
     gsl_vector_set(guess, E_IDX, B);
     gsl_vector_set(guess, F_IDX, C);
-    gsl_vector_set(guess, G_IDX, std::max(starParams.background, 0.0)); // Background
+    gsl_vector_set(guess, G_IDX, b);
 }
 
 // Setup the parameters for gaussian curve fitting
@@ -1417,7 +1551,10 @@ void CurveFitting::gauSetupParams(gsl_multifit_nlinear_parameters *params, int *
     // - gsl_multifit_nlinear_trs_ddogleg is the double dogleg algorithm
     // - gsl_multifit_nlinear_trs_subspace2D is the 2D subspace algorithm
     params->trs = gsl_multifit_nlinear_trs_lmaccel;
-    params->avmax = 0.5;
+
+    // avmax is the max allowed ratio of 2nd order term (acceleration, a) to the 1st order term (velocity, v)
+    // GSL defaults to 0.75
+    params->avmax = 0.75;
 
     // Scale
     // - gsl_multifit_nlinear_scale_more uses. More strategy. Good for problems with parameters with widely different scales
@@ -1429,7 +1566,7 @@ void CurveFitting::gauSetupParams(gsl_multifit_nlinear_parameters *params, int *
     // - gsl_multifit_nlinear_solver_qr produces reliable results but needs more iterations than Cholesky
     // - gsl_multifit_nlinear_solver_cholesky fast but not as stable as QR
     // - gsl_multifit_nlinear_solver_mcholesky modified Cholesky more stable than Cholesky
-    params->solver = gsl_multifit_nlinear_solver_cholesky;
+    params->solver = gsl_multifit_nlinear_solver_qr;
 
     *numIters = MAX_ITERATIONS_STARS;
     *xtol = 1e-5;
@@ -1611,6 +1748,14 @@ bool CurveFitting::getGaussianParams(StarParams *starParams)
     const double B  = m_coefficients[E_IDX];
     const double C  = m_coefficients[F_IDX];
     const double b  = m_coefficients[G_IDX];
+
+    // Sanity check the coefficients in case the solver produced a bad solution
+    if (a <= 0.0 || b <= 0.0 || x0 <= 0.0 || y0 <= 0.0)
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::getGaussianParams a=%1 b=%2 x0=%3 y0=%4").arg(a).arg(b)
+                                   .arg(x0).arg(y0);
+        return false;
+    }
 
     const double AmC = A - C;
     double theta;

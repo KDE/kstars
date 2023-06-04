@@ -1545,6 +1545,7 @@ bool KSUserDB::GetAllScopes(QList<Scope *> &scope_list)
     }
 
     qDeleteAll(scope_list);
+    scope_list.clear();
 
     QSqlTableModel equip(nullptr, db);
     equip.setTable("telescope");
@@ -1744,6 +1745,7 @@ bool KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
     }
 
     qDeleteAll(lens_list);
+    lens_list.clear();
 
     QSqlTableModel equip(nullptr, db);
     equip.setTable("lens");
@@ -2192,6 +2194,7 @@ bool KSUserDB::GetAllHorizons(QList<ArtificialHorizonEntity *> &horizonList)
     }
 
     qDeleteAll(horizonList);
+    horizonList.clear();
     QSqlTableModel regions(nullptr, db);
     regions.setTable("horizons");
     regions.select();

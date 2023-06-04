@@ -37,9 +37,13 @@ void CaptureModuleState::setCaptureState(CaptureState value)
             break;
     }
 
-    m_CaptureState = value;
-    getMeridianFlipState()->setCaptureState(m_CaptureState);
-    emit newStatus(m_CaptureState);
+    // Only emit status if it changed
+    if (m_CaptureState != value)
+    {
+        m_CaptureState = value;
+        getMeridianFlipState()->setCaptureState(m_CaptureState);
+        emit newStatus(m_CaptureState);
+    }
 }
 
 void CaptureModuleState::setGuideState(GuideState state)

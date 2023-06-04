@@ -6,8 +6,6 @@
 
 #pragma once
 
-#include "indi/indistd.h"
-#include "indi/indilistener.h"
 #include "indi/indimount.h"
 
 class RotatorUtils : public QObject
@@ -15,28 +13,33 @@ class RotatorUtils : public QObject
         Q_OBJECT
 
     public:
-        RotatorUtils();
-        ~RotatorUtils();
+        static RotatorUtils *Instance();
+        static void release();
 
-        void initRotatorUtils();
-        static void   setImageFlip(bool state);
-        static bool   checkImageFlip();
-        static double calcRotatorAngle(double PositionAngle);
-        static double calcCameraAngle(double RotatorAngle, bool flippedImage);
-        static double calcOffsetAngle(double RotatorAngle, double PositionAngle);
-        static void   updateOffset(double Angle);
-        static void   setImagePierside(ISD::Mount::PierSide ImgPierside);
+        void initRotatorUtils(const QString &train);
+        void   setImageFlip(bool state);
+        bool   checkImageFlip();
+        double calcRotatorAngle(double PositionAngle);
+        double calcCameraAngle(double RotatorAngle, bool flippedImage);
+        double calcOffsetAngle(double RotatorAngle, double PositionAngle);
+        void   updateOffset(double Angle);
+        void   setImagePierside(ISD::Mount::PierSide ImgPierside);
         ISD::Mount::PierSide getMountPierside();
-        static double DiffPA(double diff);
+        double DiffPA(double diff);
 
     private:
-        static ISD::Mount::PierSide m_CalPierside;
-        static ISD::Mount::PierSide m_ImgPierside;
-        static double m_Offset;
-        static bool m_flippedMount;
+
+        RotatorUtils();
+        ~RotatorUtils();
+        static RotatorUtils *m_Instance;
+
+        ISD::Mount::PierSide m_CalPierside {ISD::Mount::PIER_WEST};
+        ISD::Mount::PierSide m_ImgPierside {ISD::Mount::PIER_UNKNOWN};
+        double m_Offset {0};
+        bool m_flippedMount {false};
         ISD::Mount *m_Mount {nullptr};
-        static double RangePA(double pa);
-        static double Range360(double r);
+        double RangePA(double pa);
+        double Range360(double r);
 
     signals:
         void   changedPierside(ISD::Mount::PierSide index);

@@ -337,7 +337,7 @@ void SequenceJobState::prepareRotatorCheck()
         if (isInitialized(CaptureModuleState::ACTION_ROTATOR))
         {
             prepareActions[CaptureModuleState::ACTION_ROTATOR] = false;
-            double rawAngle = RotatorUtils::calcRotatorAngle(targetPositionAngle);
+            double rawAngle = RotatorUtils::Instance()->calcRotatorAngle(targetPositionAngle);
             emit prepareState(CAPTURE_SETTING_ROTATOR);
             emit setRotatorAngle(&rawAngle);
         }
@@ -732,7 +732,7 @@ void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
 
 void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPState state)
 {
-    double currentPositionAngle = RotatorUtils::calcCameraAngle(rotatorAngle, false);
+    double currentPositionAngle = RotatorUtils::Instance()->calcCameraAngle(rotatorAngle, false);
 
     if (isInitialized(CaptureModuleState::ACTION_ROTATOR))
     {
