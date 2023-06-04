@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-03 00:43+0000\n"
-"PO-Revision-Date: 2023-05-31 06:00+0200\n"
+"PO-Revision-Date: 2023-06-03 05:36+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -28317,10 +28317,9 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr ""
 
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
-#, fuzzy, kde-format
-#| msgid "Horizontal Coordinates"
+#, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
-msgstr "ჰორიზონტალური კოორდინატები"
+msgstr "ჰორიზონტალურ ხედზე გადართვა (ჰორიზონტალური &კოორდინატები)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:10
