@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-03 00:43+0000\n"
-"PO-Revision-Date: 2023-05-30 00:20+0200\n"
+"PO-Revision-Date: 2023-06-04 20:52+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -16627,48 +16627,53 @@ msgstr "La operación de enfoque automático se ha iniciado"
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
+"Punto de inicio adaptativo; última solución de AF fuera del recorrido "
+"máximo; se ignora"
 
 #: ekos/focus/focus.cpp:1375
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
-msgstr ""
+msgstr "Punto de inicio adaptativo; ninguna fuente de temperatura disponible"
 
 #: ekos/focus/focus.cpp:1377
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
+"Punto de inicio adaptativo; ninguna temperatura para la última solución de AF"
 
 #: ekos/focus/focus.cpp:1384
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
-msgstr ""
+msgstr "Punto de inicio adaptativo; delta de temperatura muy grande; se ignora"
 
 #: ekos/focus/focus.cpp:1396
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
+"Punto de inicio adaptativo; ninguna altitud grabada para la última solución "
+"de AF"
 
 #: ekos/focus/focus.cpp:1398
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
-msgstr ""
+msgstr "Punto de inicio adaptativo; delta de altitud muy grande; se ignora"
 
 #: ekos/focus/focus.cpp:1408
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
+"Punto de inicio adaptativo; posición de destino fuera del recorrido máximo; "
+"se ignora"
 
 #: ekos/focus/focus.cpp:1416
-#, fuzzy, kde-format
-#| msgid "XPlanet View: %1 from %2 on %3"
+#, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
-msgstr "Vista de XPlanet: %1 desde %2 en %3"
+msgstr "Punto de inicio adaptativo [%1] movimiento excesivo no permitido"
 
 #: ekos/focus/focus.cpp:1430
-#, fuzzy, kde-format
-#| msgid "XPlanet View: %1 from %2 on %3"
+#, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
-msgstr "Vista de XPlanet: %1 desde %2 en %3"
+msgstr "Adaptando punto de inicio [%1] de %2 a %3"
 
 #: ekos/focus/focus.cpp:1476
 #, kde-format
@@ -17256,19 +17261,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/focus.ui:942
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"justify\">Overlap between each tile of the "
-#| "mosaic. See the main help icon in the corner of the sky chart.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Aberration inspector style mask with a 3x3 mosaic "
 "formed with tiles from the center, the corners and the edges.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Solapamiento entre cada baldosa del "
-"mosaico. Vea el icono de ayuda principal en la esquina del mapa del cielo.</"
-"p></body></html>"
+"<html><head/><body><p>Máscara de estilo del inspector de aberración con un "
+"mosaico de 3x3 formado con cuadrículas del centro, las esquinas y los bordes."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/focus.ui:945
@@ -17393,6 +17394,9 @@ msgid ""
 "focusing. The diameter is given as percentage of the image diagonal. Set to "
 "100% to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diámetro del círculo exterior que se debe excluir del "
+"enfoque. El diámetro se indica como porcentaje de la diagonal de la imagen. "
+"Use 100% para incluir los bordes exteriores del sensor.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
@@ -17454,6 +17458,10 @@ msgid ""
 "percentage of the image diagonal. Set to zero to include the centre of the "
 "sensor.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diámetro del círculo interior que se debe excluir del "
+"enfoque (por ejemplo, una galaxia o un cúmulo de estrellas centrados). El "
+"diámetro se indica como porcentaje de la diagonal de la imagen. Use 0 para "
+"incluir el centro del sensor.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1211
@@ -17581,10 +17589,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1430
-#, fuzzy, kde-format
-#| msgid "Auto Start"
+#, kde-format
 msgid "Adapt Start Pos"
-msgstr "Inicio automático"
+msgstr "Adaptar posición de inicio"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1443
@@ -17678,24 +17685,7 @@ msgstr "Ajuste de curva:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1655
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -17724,12 +17714,11 @@ msgstr ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Hipérbola</span>: Ajusta una hipérbola "
 "a los puntos de los datos. En la actualidad, solo está disponible para el "
-"algoritmo «Lineal de 1 paso» y es experimental.</li><li style=\"margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Parábola</"
-"span>: Ajusta una parábola a los puntos de los datos. Actualmente solo está "
-"disponible para el algoritmo «Lineal de 1 paso» y es experimental.</li></"
-"ul></body></html>"
+"algoritmo «Lineal de 1 paso».</li><li style=\"margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Parábola</span>: Ajusta una "
+"parábola a los puntos de los datos. Actualmente solo está disponible para el "
+"algoritmo «Lineal de 1 paso».</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1662
@@ -17845,7 +17834,7 @@ msgstr "HFR"
 #: ekos/focus/focus.ui:1708
 #, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "Ajuste de HFR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1713
@@ -17885,14 +17874,7 @@ msgstr "Refinar ajuste de curva"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1747
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to use the standard deviation of the star HFR "
-#| "as a weighting to the curve fitting algorithm. If unchecked, all data "
-#| "points are given equal weighting. Currently only available when using "
-#| "Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola "
-#| "under the Linear 1 Pass algorithm. This feature is experimental.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR or "
 "FWHM as a weighting to the curve fitting algorithm. If unchecked, all data "
@@ -17900,12 +17882,12 @@ msgid ""
 "Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque para usar la desviación estándar de la HFR de "
-"la estrella como ponderación para el algoritmo de ajuste de la curva. Si no "
-"se marca, todos los puntos de datos reciben la misma ponderación. "
-"Actualmente solo está disponible cuando se usa «Campo completo» (múltiples "
-"estrellas) y un ajuste de curva de hipérbola o de parábola bajo el algoritmo "
-"«Lineal de 1 paso». Esta función es experimental.</p></body></html>"
+"<html><head/><body><p>Marque para usar la desviación estándar de la HFR o de "
+"la FWHM de la estrella como ponderación para el algoritmo de ajuste de la "
+"curva. Si no se marca, todos los puntos de datos reciben la misma "
+"ponderación. Actualmente solo está disponible cuando se usa «Campo "
+"completo» (múltiples estrellas) y un ajuste de curva de hipérbola o de "
+"parábola bajo el algoritmo «Lineal de 1 paso».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1750
@@ -18565,6 +18547,12 @@ msgid ""
 "background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Definir la <span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">tolerancia del foco, </span>τ<span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">, como un porcentaje de la visibilidad total.</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2939
@@ -73673,27 +73661,21 @@ msgstr "Guardar imágenes del sistema de guiado"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Save Internal Guider frames. Only enable to "
-#| "troubleshoot guider by examining frames. This can consume a lot of "
-#| "storage space.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Align frames. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guardar fotogramas del sistema de guiado interno. "
-"Actívelo solo para solucionar problemas del sistema de guiado examinando "
-"fotogramas. Esto puede consumir bastante espacio de almacenamiento.</p></"
-"body></html>"
+"<html><head/><body><p>Guardar fotogramas de alineación internos. Actívelo "
+"solo para solucionar problemas de alineación examinando fotogramas. Esto "
+"puede consumir algo de espacio de almacenamiento adicional.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:63
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Save Align Images"
-msgstr "Guardar imágenes del sistema de guiado"
+msgstr "Guardar imágenes de alineación"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
