@@ -394,6 +394,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitssepdetector.cpp
         fitsviewer/fitsbahtinovdetector.cpp
         fitsviewer/fitsskyobject.cpp
+        fitsviewer/fitsstretchui.cpp
         )
     set (fitsui_SRCS
         fitsviewer/fitsheaderdialog.ui
@@ -402,6 +403,7 @@ if (CFITSIO_FOUND)
         indi/streamform.ui
         indi/recordingoptions.ui
         fitsviewer/fitshistogramui.ui
+        fitsviewer/fitsstretchui.ui
         fitsviewer/opsfits.ui
         )
     include_directories(${CFITSIO_INCLUDE_DIR})
@@ -859,6 +861,7 @@ set(kstars_extra_SRCS
     auxiliary/ksmessagebox.cpp
     auxiliary/QProgressIndicator.cpp
     auxiliary/ctkrangeslider.cpp
+    auxiliary/ctk3slider.cpp
     auxiliary/gslhelpers.cpp
     auxiliary/robuststatistics.cpp
     time/simclock.cpp

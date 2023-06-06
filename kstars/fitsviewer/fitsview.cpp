@@ -100,6 +100,7 @@ void FITSView::doStretch(QImage *outputImage)
     {
         // Compute new auto-stretch params.
         stretchParams = stretch.computeParams(m_ImageData->getImageBuffer());
+        emit newStretch(stretchParams);
         tempParams = stretchParams;
     }
     else

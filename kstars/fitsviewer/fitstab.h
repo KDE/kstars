@@ -20,14 +20,13 @@
 #include <QListWidget>
 #include <QLabel>
 #include <QPushButton>
-#include <QSlider>
-
 #include <memory>
 
 class FITSHistogramEditor;
 class FITSView;
 class FITSViewer;
 class FITSData;
+class FITSStretchUI;
 
 /**
  * @brief The FITSTab class holds information on the current view (drawing area) in addition to the undo/redo stacks
@@ -119,12 +118,6 @@ class FITSTab : public QWidget
 
     private:
         bool setupView(FITSMode mode, FITSScale filter);
-
-        QHBoxLayout* setupStretchBar();
-        void setStretchUIValues(bool adjustSliders);
-        void rescaleShadows();
-        void rescaleMidtones();
-
         void processData();
 
         /** Ask user whether he wants to save changes and save if he do. */
@@ -157,14 +150,7 @@ class FITSTab : public QWidget
         QString previewText;
         int uid { 0 };
 
-        // Stretch bar widgets
-        std::unique_ptr<QLabel> shadowsLabel, midtonesLabel, highlightsLabel;
-        std::unique_ptr<QLabel> shadowsVal, midtonesVal, highlightsVal;
-        std::unique_ptr<QSlider> shadowsSlider, midtonesSlider, highlightsSlider;
-        std::unique_ptr<QPushButton> stretchButton, autoButton;
-        float maxShadows {0.5}, maxMidtones {0.5}, maxHighlights {1.0};
-
-        //QFuture<void> histogramFuture;
+        std::unique_ptr<FITSStretchUI> stretchUI;
 
     signals:
         void debayerToggled(bool);
