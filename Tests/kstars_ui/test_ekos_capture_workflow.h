@@ -24,8 +24,10 @@
 //    klick OK
 // open the calibration dialog
 #define KTRY_SELECT_FLAT_METHOD(sourceWidget, preMountPark, preDomePark) do { \
-QTimer::singleShot(1000, capture, [&]() { \
-    QDialog *calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("calibrationOptions"); \
+QTimer::singleShot(5000, capture, [&]() { \
+    QDialog *calibrationOptions = nullptr; \
+    if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("calibrationOptions")) != nullptr);}, 5000)) { \
+        QFAIL(qPrintable("Calibrations options dialog not found!")); } \
     KTRY_GADGET(calibrationOptions, QAbstractButton, sourceWidget); \
     sourceWidget->setChecked(true); \
     KTRY_GADGET(calibrationOptions, QCheckBox, parkMountC);  \
@@ -53,7 +55,7 @@ QTimer::singleShot(1000, capture, [&]() { \
     QVERIFY(nullptr != buttons); \
     QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
 }); \
-KTRY_CAPTURE_CLICK(calibrationB);  } while (false)
+KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), calibrationB);  } while (false)
 
 
 class TestEkosCaptureWorkflow : public QObject
@@ -177,12 +179,12 @@ class TestEkosCaptureWorkflow : public QObject
         void testFlatManualSource_data();
 
         /**
-         * @brief Test capturing flats with a lights panel
+         * @brief Test capturing flats, darks and bias with a lights panel
          */
-        void testFlatLightPanelSource();
+        void testLightPanelSource();
 
-        /** @brief Test data for {@see testFlatLightPanelSource()} */
-        void testFlatLightPanelSource_data();
+        /** @brief Test data for {@see testLightPanelSource()} */
+        void testLightPanelSource_data();
 
         /**
          * @brief Test capturing flats or darks with a dust cap
@@ -203,7 +205,10 @@ class TestEkosCaptureWorkflow : public QObject
         /**
          * @brief Check mount and dome parking before capturing flats.
          */
-        void testFlatPreMountAndDomePark();
+        void testPreMountAndDomePark();
+
+        /** @brief Test data for {@see testFlatPreMountAndDomePark()} */
+        void testPreMountAndDomePark_data();
 
         /**
          * @brief Check the flat capture behavior if "same focus" is selectee
