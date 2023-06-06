@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-03 00:43+0000\n"
-"PO-Revision-Date: 2023-05-26 07:17+0200\n"
+"PO-Revision-Date: 2023-05-31 00:56+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -12122,9 +12122,9 @@ msgid "Secondary"
 msgstr "Sekundarna"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
+#, fuzzy, kde-format
 msgid "Teritary"
-msgstr ""
+msgstr "Terciarni"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -36193,56 +36193,67 @@ msgstr "Širina slikovne točke fotoaparata v mikrometrih."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSteps), group (Focus)
 #: kstars.kcfg:2131
-#, kde-format
+#, fuzzy, kde-format
 msgid "Focus Advisor recommended step size"
-msgstr ""
+msgstr "Priporočena velikost koraka svetovalca ostrine"
 
 #. i18n: ectx: whatsthis, entry (focusAdvOutStepMult), group (Focus)
 #: kstars.kcfg:2135
-#, kde-format
+#, fuzzy, kde-format
 msgid "Focus Advisor recommended Out Step Multiple"
-msgstr ""
+msgstr "Priporočeni večkratnik koraka izstopa svetovalca ostrine"
 
 #. i18n: ectx: whatsthis, entry (focusAdvStepSize), group (Focus)
 #: kstars.kcfg:2139
-#, kde-format
+#, fuzzy, kde-format
 msgid "Whether to accept Focus Advisor recommendation on Step Size."
 msgstr ""
+"Ali želite sprejemati priporočilo svetovalca ostrine glede velikosti korakov."
 
 #. i18n: ectx: whatsthis, entry (focusAdvOutStepMultiple), group (Focus)
 #: kstars.kcfg:2143
-#, kde-format
+#, fuzzy, kde-format
 msgid "Whether to accept Focus Advisor recommendation on Out Step Multiple."
 msgstr ""
+"Ali želite sprejemati priporočila svetovalca ostrine glede večkratnika "
+"koraka izhoda."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCamera), group (Focus)
 #: kstars.kcfg:2147
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
 "Parameters."
 msgstr ""
+"Ali želite sprejemati priporočilo svetovalca ostrine glede parametrov kamere "
+"in kolesa filtra."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSettingsTab), group (Focus)
 #: kstars.kcfg:2151
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
 msgstr ""
+"Ali želite sprejemati priporočilo svetovalca ostrine za parametre na zavihku "
+"Nastavitve."
 
 #. i18n: ectx: whatsthis, entry (focusAdvProcessTab), group (Focus)
 #: kstars.kcfg:2155
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
 msgstr ""
+"Ali želite sprejemati priporočila svetovalca ostrine glede parametrov "
+"zavihka Postopek/Obdelaj."
 
 #. i18n: ectx: whatsthis, entry (focusAdvMechanicsTab), group (Focus)
 #: kstars.kcfg:2159
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Whether to accept Focus Advisor recommendation on Mechanics Tab Parameters."
 msgstr ""
+"Ali želite sprejemati priporočila svetovalca ostrine glede parametrov "
+"zavihka Mehanika."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2164
@@ -83859,10 +83870,3 @@ msgstr "Nastavite barvo ozadja."
 #, fuzzy
 #~ msgid "Rotator Utilities: Mount %1 is not ready!"
 #~ msgstr "Pripomočki rotatorja: stativ %1 ni pripravljen!"
-
-#, fuzzy
-#~ msgid "Are you sure you want to stop the polar alignment process?"
-#~ msgstr "Ali ste prepričani, da želite ustaviti polarni postopek poravnave?"
-
-#~ msgid "Polar Alignment Assistant"
-#~ msgstr "Pomočnik polarne poravnave"

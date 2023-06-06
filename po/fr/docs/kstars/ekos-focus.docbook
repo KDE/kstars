@@ -486,6 +486,13 @@
       <listitem>
         <para
 ><guilabel
+>Suspendre le guidage</guilabel
+> : cocher cette option pour suspendre le guidage durant la procédure de mise au point automatique. Une vérification supplémentaire est faite pour suspendre le guidage que s'il est effectué via le télescope imageur, par exemple lors de l'utilisation d'un guidage par diviseur optique (OAG). La raison est de prévenir le guidage d'avoir des problèmes avec des étoiles dont la mise au point n'est pas faite lors de la procédure de mise au point.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
 >Trame Dark</guilabel
 > : cochez cette option pour réaliser une soustraction d'une trame Dark. Cette option peut être utile pour les images contenant beaucoup de bruit où un Dark est soustrait de l'image de mise au point avant tout autre traitement.</para>
 
@@ -557,21 +564,30 @@
         <para
 ><guilabel
 >Champ complet</guilabel
-> : permet d'utiliser soit le champ complet de la caméra soit une sous-trame autour de l'étoile à mettre au point durant la procédure de mise au point automatique. Cette option doit être sélectionnée lors de l'utilisation de l'option étoiles multiples.</para>
-      </listitem>
-
-      <listitem>
-        <para
+> : permet d'utiliser soit le champ complet de la caméra soit une sous-trame autour de l'étoile à mettre au point durant la procédure de mise au point automatique. Cette option doit être sélectionnée lors de l'utilisation de l'option étoiles multiples. <itemizedlist>
+	    <listitem>
+	      <para
 ><guilabel
->Anneau</guilabel
-> : utilisée conjointement avec l'option Champ complet, cette option fournit deux champs qui définissent une région en forme de beignet qui recouvre le CdV de la caméra. Les étoiles en dehors de cette région ne sont pas prise en compte dans le traitement. En réglant la valeur intérieure au dessus de 0%, les étoiles au centre du CdV sont rejetées. Cela peut être utile pour éviter d'utiliser des étoiles de la cible de l'image (par exemple une galaxie) pour la procédure de mise au point. En réglant la valeur extérieure sous 100%, les étoiles se trouvant sur les bords du CdV sont rejetées. Cela peut être utile si vous ne disposez pas d'une image flat allant jusqu'aux coins du CdV.</para>
-      </listitem>
-
-      <listitem>
-        <para
+>Utiliser toutes les étoiles pour la mise au point</guilabel
+> : choisissez cette option si toutes les étoiles du champ doivent participer à la mise au point.</para>
+	    </listitem>
+	    
+	    <listitem>
+              <para
 ><guilabel
->Suspendre le guidage</guilabel
-> : cocher cette option pour suspendre le guidage durant la procédure de mise au point automatique. Une vérification supplémentaire est faite pour suspendre le guidage que s'il est effectué via le télescope imageur, par exemple lors de l'utilisation d'un guidage par diviseur optique (OAG). La raison est de prévenir le guidage d'avoir des problèmes avec des étoiles dont la mise au point n'est pas faite lors de la procédure de mise au point.</para>
+>Masque annulaire</guilabel
+> : utilisée conjointement avec l'option Champ complet, cette option fournit deux champs qui définissent une région en forme de beignet qui recouvre le CdV de la caméra. Les étoiles en dehors de cette région ne sont pas prise en compte dans le traitement. En réglant la valeur intérieure au dessus de 0 %, les étoiles au centre du CdV sont rejetées. Cela peut être utile pour éviter d'utiliser des étoiles de la cible de l'image (par exemple une galaxie) pour la procédure de mise au point. En réglant la valeur extérieure sous 100 %, les étoiles se trouvant sur les bords du CdV sont rejetées. Cela peut être utile si vous ne disposez pas d'une image flat allant jusqu'aux coins du CdV.</para>
+	    </listitem>
+
+	    <listitem>
+	      <para
+><guilabel
+>Masque de mosaïque</guilabel
+> : une mosaïque 3x3 est composée de tuiles du centre de l'image, de ses coins et de ses côtés. Cette option est utile si vous souhaitez inspecter la performance des optiques - vous connaissez peut-être ceci du script de l'inspecteur d'aberrations de PixInsight.</para>
+	    </listitem>
+	    
+	  </itemizedlist>
+	</para>
       </listitem>
 
       <listitem>
@@ -694,7 +710,7 @@
 >Seuil</guilabel
 > : la valeur en pourcentage du seuil est utilisée pour détecter les étoiles pour l'algorithme de détection <emphasis
 >Seuil</emphasis
->. Augmentez cette valeur pour restreindre le centroïde aux cœurs brillants. Diminuez-là pour inclure les étoiles floues.</para>
+>. Augmentez cette valeur pour restreindre le centroïde aux cœurs brillants. Diminuez-la pour inclure les étoiles floues.</para>
       </listitem>
 
       <listitem>
