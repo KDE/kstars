@@ -416,6 +416,13 @@ class SequenceJobState: public QObject
         IPState checkFlatsLightCoverReady();
 
         /**
+         * @brief Check if the selected dark covers is ready.
+         * @return IPS_OK if cover closed, IPS_BUSY if not and IPS_ALERT if the
+         *         process should be aborted.
+         */
+        IPState checkDarksCoverReady();
+
+        /**
           * @brief Ask the user to place a flat screen onto the telescope
           * @return IPS_OK if cover closed, IPS_BUSY if not and IPS_ALERT if the
           *         process should be aborted.

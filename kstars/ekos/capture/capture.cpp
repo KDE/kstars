@@ -253,7 +253,7 @@ Capture::Capture()
 
     // Start Guide Deviation Value
     m_LimitsUI->startGuiderDriftN->setValue(Options::startGuideDeviation());
-    connect(m_LimitsUI->startGuiderDriftN, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(m_LimitsUI->startGuiderDriftN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setStartGuideDeviation(m_LimitsUI->startGuiderDriftN->value());
     });
@@ -267,7 +267,7 @@ Capture::Capture()
 
     // Guide Deviation Value
     m_LimitsUI->limitGuideDeviationN->setValue(Options::guideDeviation());
-    connect(m_LimitsUI->limitGuideDeviationN, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(m_LimitsUI->limitGuideDeviationN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
     });
@@ -283,7 +283,7 @@ Capture::Capture()
 
     // Autofocus HFR Deviation
     m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
-    connect(m_LimitsUI->limitFocusHFRN, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(m_LimitsUI->limitFocusHFRN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
     });
@@ -301,7 +301,7 @@ Capture::Capture()
 
     // Autofocus temperature Delta
     m_LimitsUI->limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
-    connect(m_LimitsUI->limitFocusDeltaTN, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(m_LimitsUI->limitFocusDeltaTN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
     });
@@ -315,7 +315,7 @@ Capture::Capture()
 
     // Refocus Every Value
     m_LimitsUI->limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
-    connect(m_LimitsUI->limitRefocusN, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(m_LimitsUI->limitRefocusN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
     {
         Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
     });

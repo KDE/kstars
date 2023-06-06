@@ -474,7 +474,7 @@ void TestEkosHelper::prepareFocusModule()
     // select the primary train for focusing
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), opticalTrainCombo, m_primaryTrain);
     // use full field
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), focusUseFullField, true);
+    KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->focusModule(), focusUseFullField, true);
     //initial step size 5000
     KTRY_SET_SPINBOX(Ekos::Manager::Instance()->focusModule(), focusTicks, 5000);
     // max travel 100000
@@ -491,11 +491,13 @@ void TestEkosHelper::prepareFocusModule()
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldInnerRadius, 0.0);
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldOuterRadius, 100.0);
     // try to make focusing fast, precision is not relevant here
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 1.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 3.0);
     // select the Luminance filter
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusFilter, "Luminance");
     // select SEP algorithm for star detection
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusDetection, "SEP");
+    // select HFR a star focus measure
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusStarMeasure, "HFR");
     // set exp time for current filter
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusExposure, 1.0);
     // set exposure times for all filters
