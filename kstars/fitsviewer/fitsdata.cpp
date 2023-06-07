@@ -4313,7 +4313,9 @@ template <typename T> void FITSData::constructHistogramInternal()
         m_HistogramIntensity[n].fill(0, m_HistogramBinCount + 1);
         m_HistogramFrequency[n].fill(0, m_HistogramBinCount + 1);
         m_CumulativeFrequency[n].fill(0, m_HistogramBinCount + 1);
-        m_HistogramBinWidth[n] = qMax(1.0, (m_Statistics.max[n] - m_Statistics.min[n]) / (m_HistogramBinCount - 1));
+        // Distinguish between 0-1.0 ranges and ranges with integer values.
+        const double minBinSize = (m_Statistics.max[n] > 1.1) ? 1.0 : .0001;
+        m_HistogramBinWidth[n] = qMax(minBinSize, (m_Statistics.max[n] - m_Statistics.min[n]) / (m_HistogramBinCount - 1));
     }
 
     QVector<QFuture<void>> futures;
