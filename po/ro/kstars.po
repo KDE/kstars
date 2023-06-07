@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-03 00:43+0000\n"
+"POT-Creation-Date: 2023-06-07 00:42+0000\n"
 "PO-Revision-Date: 2022-02-04 15:32+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -2676,7 +2676,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:3685
 #: ekos/capture/capture.cpp:4123 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4374 ekos/scheduler/scheduler.cpp:4748
-#: fitsviewer/fitstab.cpp:738 tools/scriptbuilder.cpp:830
+#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:928
 #, kde-format
 msgid "Invalid URL"
@@ -6597,7 +6597,7 @@ msgstr "Elimină toate urmele orbitei"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3684
 #: ekos/capture/capture.cpp:4122 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
-#: fitsviewer/fitstab.cpp:737 tools/scriptbuilder.cpp:830
+#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:927
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10428,7 +10428,7 @@ msgstr "&Ajutor"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:373
+#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:126
 #: fitsviewer/fitsviewer.cpp:170 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -15541,7 +15541,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:641
-#: ekos/capture/sequencejobstate.cpp:398
+#: ekos/capture/sequencejobstate.cpp:407
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Dark Exposure"
@@ -16495,95 +16495,95 @@ msgstr "Progres"
 msgid "Complete"
 msgstr "completat"
 
-#: ekos/capture/sequencejobstate.cpp:385
+#: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:386
+#: ekos/capture/sequencejobstate.cpp:395
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Flat Frame"
 msgstr "Utilizează fișier marcator"
 
-#: ekos/capture/sequencejobstate.cpp:397
+#: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:425 ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:471
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dust cap..."
 msgstr "Radiotelescop"
 
-#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:473
-#: ekos/capture/sequencejobstate.cpp:519
+#: ekos/capture/sequencejobstate.cpp:443 ekos/capture/sequencejobstate.cpp:482
+#: ekos/capture/sequencejobstate.cpp:528
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:462 ekos/capture/sequencejobstate.cpp:661
+#: ekos/capture/sequencejobstate.cpp:471 ekos/capture/sequencejobstate.cpp:670
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dust cap..."
 msgstr "Radiotelescop"
 
-#: ekos/capture/sequencejobstate.cpp:473 ekos/capture/sequencejobstate.cpp:519
-#: ekos/capture/sequencejobstate.cpp:646
+#: ekos/capture/sequencejobstate.cpp:482 ekos/capture/sequencejobstate.cpp:528
+#: ekos/capture/sequencejobstate.cpp:655
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:500
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:502 ekos/capture/sequencejobstate.cpp:506
+#: ekos/capture/sequencejobstate.cpp:511 ekos/capture/sequencejobstate.cpp:515
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Caliente"
 
-#: ekos/capture/sequencejobstate.cpp:534
+#: ekos/capture/sequencejobstate.cpp:543
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount failed, aborting..."
 msgstr "Radiotelescop"
 
-#: ekos/capture/sequencejobstate.cpp:544
+#: ekos/capture/sequencejobstate.cpp:553
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Pornire pe:"
 
-#: ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:567
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome failed, aborting..."
 msgstr "Radiotelescop"
 
-#: ekos/capture/sequencejobstate.cpp:568
+#: ekos/capture/sequencejobstate.cpp:577
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Pornire pe:"
 
-#: ekos/capture/sequencejobstate.cpp:822
+#: ekos/capture/sequencejobstate.cpp:831
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:837
+#: ekos/capture/sequencejobstate.cpp:846
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:841
+#: ekos/capture/sequencejobstate.cpp:850
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
@@ -19064,7 +19064,7 @@ msgstr "Fșier arc"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:386
+#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:139
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -19094,7 +19094,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:598
+#: fitsviewer/fitstab.cpp:355
 #, kde-format
 msgid "Value"
 msgstr "Valoare"
@@ -28063,7 +28063,7 @@ msgid "Ready."
 msgstr "Reading"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
-#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:378
+#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:131
 #: fitsviewer/fitsviewer.cpp:135
 #, kde-format
 msgid "FITS Header"
@@ -28120,7 +28120,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:375
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:128
 #: fitsviewer/fitsviewer.cpp:116
 #, kde-format
 msgid "Histogram"
@@ -28175,12 +28175,73 @@ msgstr "Anulează"
 msgid "KStars did not find any active mounts."
 msgstr "Nu am găsit nici un telescop activ."
 
-#: fitsviewer/fitstab.cpp:62
+#. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
+#: fitsviewer/fitsstretchui.ui:87
+#, kde-format
+msgid "Stretch (or disable stretching) the image."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
+#: fitsviewer/fitsstretchui.ui:130 fitsviewer/fitsstretchui.ui:151
+#, kde-format
+msgid "Set shadows value for the image stretch."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
+#: fitsviewer/fitsstretchui.ui:133
+#, kde-format
+msgid "Shadows"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
+#: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
+#, kde-format
+msgid "Set midtones value for the image stretch."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
+#: fitsviewer/fitsstretchui.ui:197
+#, fuzzy, kde-format
+#| msgctxt "Country name"
+#| msgid "Micronesia"
+msgid "Midtones"
+msgstr "Micronesia"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
+#: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
+#, kde-format
+msgid "Set highlights value for the image stretch."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
+#: fitsviewer/fitsstretchui.ui:267
+#, fuzzy, kde-format
+#| msgid "Height:"
+msgid "Highlights"
+msgstr "Înălțime:"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
+#: fitsviewer/fitsstretchui.ui:341
+#, kde-format
+msgid "Enable or disable the histogram display."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
+#: fitsviewer/fitsstretchui.ui:369
+#, fuzzy, kde-format
+#| msgid "Toggle coordinate grid"
+msgid "Automatically find stretch parameter."
+msgstr "Comută afișarea grilei de coordonate"
+
+#: fitsviewer/fitstab.cpp:56
 #, kde-format
 msgid "Save Changes to FITS?"
 msgstr "Salvați modificările FITS?"
 
-#: fitsviewer/fitstab.cpp:63
+#: fitsviewer/fitstab.cpp:57
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -28189,140 +28250,140 @@ msgstr ""
 "Fișierul FITS curent conține modificări nesalvate. Le salvați înainte de a-l "
 "închide?"
 
-#: fitsviewer/fitstab.cpp:383
+#: fitsviewer/fitstab.cpp:136
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Recent Images"
 msgstr "Previzualizare %1"
 
-#: fitsviewer/fitstab.cpp:610
+#: fitsviewer/fitstab.cpp:367
 #, fuzzy, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "D"
 
-#: fitsviewer/fitstab.cpp:691 fitsviewer/fitstab.cpp:695
+#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
 #, fuzzy, kde-format
 #| msgid "Save"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Salvează"
 
-#: fitsviewer/fitstab.cpp:727
+#: fitsviewer/fitstab.cpp:484
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "Eroare la salvarea fișierului FITS: %1"
 
-#: fitsviewer/fitstab.cpp:727
+#: fitsviewer/fitstab.cpp:484
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "Date imagine"
 
-#: fitsviewer/fitstab.cpp:731
+#: fitsviewer/fitstab.cpp:488
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "File saved to %1"
 msgstr "Fișierul FITS salvat în %1"
 
-#: fitsviewer/fitsview.cpp:467 fitsviewer/fitsview.cpp:477
+#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Rescaling image failed."
 msgstr "Salvarea imaginii %1 a eșuat."
 
-#: fitsviewer/fitsview.cpp:659
+#: fitsviewer/fitsview.cpp:660
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1645
+#: fitsviewer/fitsview.cpp:1646
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1662
+#: fitsviewer/fitsview.cpp:1663
 #, fuzzy, kde-format
 #| msgid "UT:"
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "TU:"
 
-#: fitsviewer/fitsview.cpp:2082
+#: fitsviewer/fitsview.cpp:2083
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Finding stars..."
 msgstr "Încărcare stele"
 
-#: fitsviewer/fitsview.cpp:2321
+#: fitsviewer/fitsview.cpp:2322
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2324
+#: fitsviewer/fitsview.cpp:2325
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2327
+#: fitsviewer/fitsview.cpp:2328
 #, fuzzy, kde-format
 #| msgid "&Default Zoom"
 msgid "Default Zoom"
 msgstr "&Perspectivă implicită"
 
-#: fitsviewer/fitsview.cpp:2330
+#: fitsviewer/fitsview.cpp:2331
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2333
+#: fitsviewer/fitsview.cpp:2334
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Toggle Stretch"
 msgstr "Scară automată"
 
-#: fitsviewer/fitsview.cpp:2341 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "Încrucișări"
 
-#: fitsviewer/fitsview.cpp:2345 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Pixel Gridlines"
 msgstr "Arată liniile constelației?"
 
-#: fitsviewer/fitsview.cpp:2350 fitsviewer/fitsview.cpp:2453
+#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgid "Detect Stars in Image"
 msgstr "Deschide FITS..."
 
-#: fitsviewer/fitsview.cpp:2356
+#: fitsviewer/fitsview.cpp:2357
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "View Star Profile"
 msgstr "Fșier arc"
 
-#: fitsviewer/fitsview.cpp:2366 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Coordonate ecuatoriale"
 
-#: fitsviewer/fitsview.cpp:2372 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
 msgstr "Afișează obiectele"
 
-#: fitsviewer/fitsview.cpp:2378
+#: fitsviewer/fitsview.cpp:2379
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid "Center Telescope"

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-03 00:43+0000\n"
+"POT-Creation-Date: 2023-06-07 00:42+0000\n"
 "PO-Revision-Date: 2023-05-24 07:32+0200\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: fr\n"
@@ -2565,7 +2565,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:3685
 #: ekos/capture/capture.cpp:4123 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4374 ekos/scheduler/scheduler.cpp:4748
-#: fitsviewer/fitstab.cpp:738 tools/scriptbuilder.cpp:830
+#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:928
 #, kde-format
 msgid "Invalid URL"
@@ -6320,7 +6320,7 @@ msgstr "Exporter des points de solution"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:3684
 #: ekos/capture/capture.cpp:4122 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4373 ekos/scheduler/scheduler.cpp:4747
-#: fitsviewer/fitstab.cpp:737 tools/scriptbuilder.cpp:830
+#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:927
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10202,7 +10202,7 @@ msgstr "Aide"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:373
+#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:126
 #: fitsviewer/fitsviewer.cpp:170 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -15357,7 +15357,7 @@ msgid "Does %1 have a shutter?"
 msgstr "Est-ce que %1 possède un obturateur ?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:641
-#: ekos/capture/sequencejobstate.cpp:398
+#: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Acquisition des dark"
@@ -16333,84 +16333,84 @@ msgstr "En cours"
 msgid "Complete"
 msgstr "Terminé"
 
-#: ekos/capture/sequencejobstate.cpp:385
+#: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Couvrir le télescope avec une source de lumière uniforme."
 
-#: ekos/capture/sequencejobstate.cpp:386
+#: ekos/capture/sequencejobstate.cpp:395
 #, kde-format
 msgid "Flat Frame"
 msgstr "Flat"
 
-#: ekos/capture/sequencejobstate.cpp:397
+#: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Couvrir le télescope pour faire un dark."
 
-#: ekos/capture/sequencejobstate.cpp:425 ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:471
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Fermeture du capuchon antipoussière…"
 
-#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:473
-#: ekos/capture/sequencejobstate.cpp:519
+#: ekos/capture/sequencejobstate.cpp:443 ekos/capture/sequencejobstate.cpp:482
+#: ekos/capture/sequencejobstate.cpp:528
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Allumer la boîte à flat…"
 
-#: ekos/capture/sequencejobstate.cpp:462 ekos/capture/sequencejobstate.cpp:661
+#: ekos/capture/sequencejobstate.cpp:471 ekos/capture/sequencejobstate.cpp:670
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Ouverture du capuchon antipoussière…"
 
-#: ekos/capture/sequencejobstate.cpp:473 ekos/capture/sequencejobstate.cpp:519
-#: ekos/capture/sequencejobstate.cpp:646
+#: ekos/capture/sequencejobstate.cpp:482 ekos/capture/sequencejobstate.cpp:528
+#: ekos/capture/sequencejobstate.cpp:655
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Éteindre la boîte à flat…"
 
-#: ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:500
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr "Pointer la monture vers la position du mur…"
 
-#: ekos/capture/sequencejobstate.cpp:502 ekos/capture/sequencejobstate.cpp:506
+#: ekos/capture/sequencejobstate.cpp:511 ekos/capture/sequencejobstate.cpp:515
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Pointage terminé vers la position du mur, arrêt du suivi."
 
-#: ekos/capture/sequencejobstate.cpp:534
+#: ekos/capture/sequencejobstate.cpp:543
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Échec du parcage de la monture. Annulation…"
 
-#: ekos/capture/sequencejobstate.cpp:544
+#: ekos/capture/sequencejobstate.cpp:553
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Parcage de la monture avant l'acquisition des trames de calibration…"
 
-#: ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:567
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Échec du parcage du dôme. Annulation…"
 
-#: ekos/capture/sequencejobstate.cpp:568
+#: ekos/capture/sequencejobstate.cpp:577
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Parcage du dôme avant acquisition des trames de calibration…"
 
-#: ekos/capture/sequencejobstate.cpp:822
+#: ekos/capture/sequencejobstate.cpp:831
 #, kde-format
 msgid "Light box on."
 msgstr "Boîte à flat allumée."
 
-#: ekos/capture/sequencejobstate.cpp:837
+#: ekos/capture/sequencejobstate.cpp:846
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Parcage du capuchon antipoussière effectuée."
 
-#: ekos/capture/sequencejobstate.cpp:841
+#: ekos/capture/sequencejobstate.cpp:850
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Ouverture du capuchon antipoussière."
@@ -19141,7 +19141,7 @@ msgstr "Profil…"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:386
+#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:139
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -19170,7 +19170,7 @@ msgstr "La solution est en dehors de la course maximale."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:598
+#: fitsviewer/fitstab.cpp:355
 #, kde-format
 msgid "Value"
 msgstr "Valeur"
@@ -28381,7 +28381,7 @@ msgid "Ready."
 msgstr "Prêt."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
-#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:378
+#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:131
 #: fitsviewer/fitsviewer.cpp:135
 #, kde-format
 msgid "FITS Header"
@@ -28443,7 +28443,7 @@ msgstr ""
 "tr><tr><td>Fréquence « B » : </td><td>%4</td></tr></table>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:375
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:128
 #: fitsviewer/fitsviewer.cpp:116
 #, kde-format
 msgid "Histogram"
@@ -28492,12 +28492,75 @@ msgstr "Continuer la rotation"
 msgid "KStars did not find any active mounts."
 msgstr "KStars n'a trouvé aucune monture active."
 
-#: fitsviewer/fitstab.cpp:62
+#. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
+#: fitsviewer/fitsstretchui.ui:87
+#, kde-format
+msgid "Stretch (or disable stretching) the image."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
+#: fitsviewer/fitsstretchui.ui:130 fitsviewer/fitsstretchui.ui:151
+#, kde-format
+msgid "Set shadows value for the image stretch."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
+#: fitsviewer/fitsstretchui.ui:133
+#, fuzzy, kde-format
+#| msgid "Earth Shadow"
+msgid "Shadows"
+msgstr "Ombre de la terre"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
+#: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
+#, kde-format
+msgid "Set midtones value for the image stretch."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
+#: fitsviewer/fitsstretchui.ui:197
+#, fuzzy, kde-format
+#| msgctxt "Country name"
+#| msgid "Micronesia"
+msgid "Midtones"
+msgstr "Micronésie"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
+#: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
+#, kde-format
+msgid "Set highlights value for the image stretch."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
+#: fitsviewer/fitsstretchui.ui:267
+#, fuzzy, kde-format
+#| msgid "Twilight"
+msgid "Highlights"
+msgstr "Aube"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
+#: fitsviewer/fitsstretchui.ui:341
+#, fuzzy, kde-format
+#| msgid "Enable or Disable the Max Value Cutoff"
+msgid "Enable or disable the histogram display."
+msgstr "Activer ou désactiver le seuil de valeur maximale"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
+#: fitsviewer/fitsstretchui.ui:369
+#, fuzzy, kde-format
+#| msgid "Automatically start the park timer on startup"
+msgid "Automatically find stretch parameter."
+msgstr "Démarrer automatiquement le minuteur de parcage au démarrage"
+
+#: fitsviewer/fitstab.cpp:56
 #, kde-format
 msgid "Save Changes to FITS?"
 msgstr "Enregistrer les changements dans le FITS ?"
 
-#: fitsviewer/fitstab.cpp:63
+#: fitsviewer/fitstab.cpp:57
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -28506,125 +28569,125 @@ msgstr ""
 "Le fichier FITS actuel comporte des changements non enregistrés. Voulez-vous "
 "les enregistrer avant de fermer le fichier ?"
 
-#: fitsviewer/fitstab.cpp:383
+#: fitsviewer/fitstab.cpp:136
 #, kde-format
 msgid "Recent Images"
 msgstr "Images récentes"
 
-#: fitsviewer/fitstab.cpp:610
+#: fitsviewer/fitstab.cpp:367
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:691 fitsviewer/fitstab.cpp:695
+#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Enregistrer FITS"
 
-#: fitsviewer/fitstab.cpp:727
+#: fitsviewer/fitstab.cpp:484
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Erreur lors de l'enregistrement de l'image : %1"
 
-#: fitsviewer/fitstab.cpp:727
+#: fitsviewer/fitstab.cpp:484
 #, kde-format
 msgid "Image Save"
 msgstr "Enregistrement d'image"
 
-#: fitsviewer/fitstab.cpp:731
+#: fitsviewer/fitstab.cpp:488
 #, kde-format
 msgid "File saved to %1"
 msgstr "Fichier enregistré dans %1"
 
-#: fitsviewer/fitsview.cpp:467 fitsviewer/fitsview.cpp:477
+#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "Échec de la mise à l'échelle de l'image."
 
-#: fitsviewer/fitsview.cpp:659
+#: fitsviewer/fitsview.cpp:660
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Impossible de poursuivre le zoom avant à cause d'un mode actif avec "
 "ressources limitées."
 
-#: fitsviewer/fitsview.cpp:1645
+#: fitsviewer/fitsview.cpp:1646
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1662
+#: fitsviewer/fitsview.cpp:1663
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2082
+#: fitsviewer/fitsview.cpp:2083
 #, kde-format
 msgid "Finding stars..."
 msgstr "Recherche d'étoiles en cours…"
 
-#: fitsviewer/fitsview.cpp:2321
+#: fitsviewer/fitsview.cpp:2322
 #, kde-format
 msgid "Zoom In"
 msgstr "Zoom avant"
 
-#: fitsviewer/fitsview.cpp:2324
+#: fitsviewer/fitsview.cpp:2325
 #, kde-format
 msgid "Zoom Out"
 msgstr "Zoom arrière"
 
-#: fitsviewer/fitsview.cpp:2327
+#: fitsviewer/fitsview.cpp:2328
 #, kde-format
 msgid "Default Zoom"
 msgstr "Zoom par défaut"
 
-#: fitsviewer/fitsview.cpp:2330
+#: fitsviewer/fitsview.cpp:2331
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Zoomer pour ajuster"
 
-#: fitsviewer/fitsview.cpp:2333
+#: fitsviewer/fitsview.cpp:2334
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "(Dés)activer le mode d'étirement"
 
-#: fitsviewer/fitsview.cpp:2341 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Afficher les réticules"
 
-#: fitsviewer/fitsview.cpp:2345 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Afficher les lignes de quadrillage en pixels"
 
-#: fitsviewer/fitsview.cpp:2350 fitsviewer/fitsview.cpp:2453
+#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Détecter les étoiles dans cette image"
 
-#: fitsviewer/fitsview.cpp:2356
+#: fitsviewer/fitsview.cpp:2357
 #, kde-format
 msgid "View Star Profile"
 msgstr "Afficher le profil d'une étoile"
 
-#: fitsviewer/fitsview.cpp:2366 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Afficher le quadrillage équatorial"
 
-#: fitsviewer/fitsview.cpp:2372 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Afficher des objets dans une image"
 
-#: fitsviewer/fitsview.cpp:2378
+#: fitsviewer/fitsview.cpp:2379
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centrer le télescope"
