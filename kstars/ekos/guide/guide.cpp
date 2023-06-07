@@ -328,7 +328,7 @@ bool Guide::setCamera(ISD::Camera * device)
 
     if (m_Camera)
     {
-        connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
+        connect(m_Camera, &ISD::Camera::Connected, this, [this]()
         {
             controlGroupBox->setEnabled(true);
         });
@@ -505,7 +505,7 @@ void Guide::checkCamera()
         return;
     }
 
-    connect(m_Camera, &ISD::Camera::updateProperty, this, &Ekos::Guide::updateProperty, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::propertyUpdated, this, &Ekos::Guide::updateProperty, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
     syncCameraInfo();
@@ -3135,8 +3135,6 @@ void Guide::refreshOpticalTrain()
                 starCenter = QVector3D();
 
             camera->setScopeInfo(m_FocalLength * m_Reducer, m_Aperture);
-
-            auto scope = OpticalTrainManager::Instance()->getScope(name);
             opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
         }
         setCamera(camera);
