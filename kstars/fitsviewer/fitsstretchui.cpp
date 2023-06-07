@@ -66,13 +66,63 @@ void FITSStretchUI::setupButtons()
 
 void FITSStretchUI::setupHistoPlot()
 {
-    histoPlot->setBackground(QBrush(Qt::black));
+    histoPlot->setBackground(QBrush(QColor(25, 25, 25)));
     setupAxisDefaults(histoPlot->yAxis);
     setupAxisDefaults(histoPlot->xAxis);
     histoPlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
     histoPlot->setMaximumHeight(75);
     histoPlot->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     histoPlot->setVisible(false);
+
+    connect(histoPlot, &QCustomPlot::mouseDoubleClick, this, &FITSStretchUI::onHistoDoubleClick);
+    connect(histoPlot, &QCustomPlot::mouseMove, this, &FITSStretchUI::onHistoMouseMove);
+}
+
+void FITSStretchUI::onHistoDoubleClick(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+    if (!m_View || !m_View->imageData() || !m_View->imageData()->isHistogramConstructed()) return;
+    const double histogramSize = m_View->imageData()->getHistogramFrequency(0).size();
+    histoPlot->xAxis->setRange(0, histogramSize);
+    histoPlot->replot();
+}
+
+// This creates 1-channel or RGB tooltips on this histogram.
+void FITSStretchUI::onHistoMouseMove(QMouseEvent *event)
+{
+    const auto image = m_View->imageData();
+    if (!image->isHistogramConstructed())
+        return;
+
+    const int histoBin = histoPlot->xAxis->pixelToCoord(event->x());
+    const bool rgbHistogram = (image->channels() > 1);
+    const int numPixels = image->width() * image->height();
+    const int histogramSize = image->getHistogramFrequency(0).size();
+    QString tip = "";
+    if (histoBin >= 0 && histoBin < histogramSize)
+    {
+        for (int c = 0; c < image->channels(); ++c)
+        {
+            const double binWidth = image->getHistogramBinWidth(c);
+            const double lowRange = binWidth * histoBin;
+            const double highRange = binWidth * (histoBin + 1);
+            if (rgbHistogram)
+                tip.append(QString("<font color=\"%1\">").arg(c == 0 ? "red" : (c == 1) ? "lightgreen" : "lightblue"));
+
+            if (image->getMax(c) > 1.1)
+                tip.append(QString("%1 %2 %3: ").arg(lowRange, 0, 'f', 0).arg(QChar(0x2192)).arg(highRange, 0, 'f', 0));
+            else
+                tip.append(QString("%1 %2 %3: ").arg(lowRange, 0, 'f', 4).arg(QChar(0x2192)).arg(highRange, 0, 'f', 4));
+
+            const int count = image->getHistogramFrequency(c)[histoBin];
+            const double percentage = count * 100.0 / (double) numPixels;
+            tip.append(QString("%1 %2%").arg(count).arg(percentage, 0, 'f', 2));
+            if (rgbHistogram)
+                tip.append("</font><br/>");
+        }
+    }
+    if (tip.size() > 0)
+        QToolTip::showText(event->globalPos(), tip, nullptr, QRect(), 10000);
 }
 
 void FITSStretchUI::setupHistoSlider()
@@ -335,9 +385,11 @@ void FITSStretchUI::generateHistogram()
         {
             histoPlot->addGraph(histoPlot->xAxis, histoPlot->yAxis);
             auto graph = histoPlot->graph(i);
+            graph->setLineStyle(QCPGraph::lsStepLeft);
             graph->setVisible(true);
-            const int opacity = (nChannels == 1) ? 255 : 150;
-            auto color = i == 0 ? QColor(255, 0, 0, opacity) : ((i == 1) ? QColor(0, 255, 0, opacity) : QColor(0, 0, 255, opacity));
+            QColor color = Qt::lightGray;
+            if (nChannels > 1)
+                color = i == 0 ? QColor(255, 0, 0) : ((i == 1) ? QColor(0, 255, 0, 225) : QColor(0, 0, 255, 175));
             graph->setBrush(QBrush(color));
             graph->setPen(QPen(color));
             const QVector<double> &h = m_View->imageData()->getHistogramFrequency(i);

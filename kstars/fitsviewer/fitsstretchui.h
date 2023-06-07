@@ -29,6 +29,8 @@ class FITSStretchUI : public QWidget, public Ui::FITSStretchUI
         void setupHistoSlider();
         void setStretchUIValues(const StretchParams1Channel &params);
         void setupConnections();
+        void onHistoDoubleClick(QMouseEvent *event);
+        void onHistoMouseMove(QMouseEvent *event);
 
         QCPItemLine * setCursor(int position);
         void setCursors(const StretchParams &params);
