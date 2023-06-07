@@ -145,7 +145,7 @@ void KStars::initActions()
     // ==== File menu ================
     ka = new QAction(QIcon::fromTheme("favorites"), i18n("Download New Data..."), this);
     connect(ka, &QAction::triggered, this, &KStars::slotDownload);
-    ka->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
+    actionCollection()->setDefaultShortcut(ka, QKeySequence(Qt::CTRL + Qt::Key_N));
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
@@ -539,9 +539,9 @@ void KStars::initActions()
     actionCollection()->addAction("timestep_control", wa) << i18n("Time step control");
     const auto unitbox = m_TimeStepBox->unitbox();
     ka = actionCollection()->addAction("timestep_increase_units", unitbox->increaseUnitsAction());
-    ka->setShortcut(QKeySequence(Qt::Key_Plus));
+    actionCollection()->setDefaultShortcut(ka, QKeySequence(Qt::Key_Plus));
     ka = actionCollection()->addAction("timestep_decrease_units", unitbox->decreaseUnitsAction());
-    ka->setShortcut(QKeySequence(Qt::Key_Underscore));
+    actionCollection()->setDefaultShortcut(ka, QKeySequence(Qt::Key_Underscore));
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT(slotViewToolBar()))

@@ -74,25 +74,19 @@ bool SupernovaeComponent::selected()
 
 void SupernovaeComponent::loadData()
 {
-    qDebug() << "SupernovaeComponent::loadData\n";
     qDeleteAll(m_ObjectList);
     m_ObjectList.clear();
 
     objectNames(SkyObject::SUPERNOVA).clear();
     objectLists(SkyObject::SUPERNOVA).clear();
 
-    //QString name, type, host, date, ra, de;
-
-    QString sFileName =
-        KSPaths::locate(QStandardPaths::AppLocalDataLocation, QString(tnsDataFilename));
-
-    std::string s;
+    auto sFileName = KSPaths::locate(QStandardPaths::AppLocalDataLocation, QString(tnsDataFilename));
 
     try
     {
         io::CSVReader<26, io::trim_chars<' '>, io::double_quote_escape<',', '\"'>,
-                      io::ignore_overflow>
-            in(sFileName.toLocal8Bit());
+        io::ignore_overflow>
+        in(sFileName.toLocal8Bit());
         // skip header
         const char *line = in.next_line();
         if (line == nullptr)
@@ -113,14 +107,12 @@ void SupernovaeComponent::loadData()
         std::string discovery_filter, discovery_date_s, sender, remarks,
             discovery_bibcode, classification_bibcode, ext_catalog;
 
-        int i = 0;
-
         while (in.read_row(
-            id, name, ra_s, dec_s, type, redshift, host_name, host_redshift,
-            reporting_group, disc_datasource, classifying_group, assoc_group,
-            disc_internal_name, disc_instrument, classifying_instrument, tns_at,
-            is_public, end_prop_period, discovery_mag, discovery_filter, discovery_date_s,
-            sender, remarks, discovery_bibcode, classification_bibcode, ext_catalog))
+                    id, name, ra_s, dec_s, type, redshift, host_name, host_redshift,
+                    reporting_group, disc_datasource, classifying_group, assoc_group,
+                    disc_internal_name, disc_instrument, classifying_instrument, tns_at,
+                    is_public, end_prop_period, discovery_mag, discovery_filter, discovery_date_s,
+                    sender, remarks, discovery_bibcode, classification_bibcode, ext_catalog))
         {
             auto discovery_date =
                 QDateTime::fromString(discovery_date_s.c_str(), Qt::ISODate);
@@ -132,27 +124,24 @@ void SupernovaeComponent::loadData()
                 qname, ra, dec, QString(type.c_str()), QString(host_name.c_str()),
                 QString(discovery_date_s.c_str()), redshift, discovery_mag, discovery_date);
 
-//            qDebug() << i++ << ":" << id.c_str() << " " << name.c_str()
-//                     << "mag:" << discovery_mag << "date:" << discovery_date << "\n";
-
             objectNames(SkyObject::SUPERNOVA).append(QString(name.c_str()));
 
             appendListObject(sup);
             objectLists(SkyObject::SUPERNOVA)
-                .append(QPair<QString, const SkyObject *>(qname, sup));
+            .append(QPair<QString, const SkyObject *>(qname, sup));
         }
 
-        qDebug() << i << "supernovae loaded\n";
         m_DataLoading = false;
         m_DataLoaded  = true;
     }
-    catch (io::error::can_not_open_file& ex)
+    catch (io::error::can_not_open_file &ex)
     {
-        qCritical() << "could not open file " << sFileName.toLocal8Bit() << "\n";
+        qCCritical(KSTARS) << "could not open file " << sFileName.toLocal8Bit() << "\n";
         return;
     }
-    catch (std::exception &ex){
-        qCritical() << "unknown exception happened:" << ex.what() << "\n";
+    catch (std::exception &ex)
+    {
+        qCCritical(KSTARS) << "unknown exception happened:" << ex.what() << "\n";
     }
 }
 
@@ -164,7 +153,7 @@ SkyObject *SupernovaeComponent::objectNearest(SkyPoint *p, double &maxrad)
     SkyObject *oBest = nullptr;
     double rBest     = maxrad;
 
-    for (auto so : m_ObjectList)
+    for (auto &so : m_ObjectList)
     {
         double r = so->angularDistanceTo(p).Degrees();
         //qDebug()<<r;
@@ -276,7 +265,7 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
     auto age       = Options::supernovaDetectionAge();
     QString url    = Options::supernovaDownloadUrl();
     QString output = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
-                         .filePath(tnsDataFilenameZip);
+                     .filePath(tnsDataFilenameZip);
 
     if (!url.startsWith("file://"))
     {
@@ -312,12 +301,12 @@ void SupernovaeComponent::unzipData()
     // TODO: error handling
     std::string ifpath =
         QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
-            .filePath(tnsDataFilenameZip)
-            .toStdString();
+        .filePath(tnsDataFilenameZip)
+        .toStdString();
     std::string ofpath =
         QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
-            .filePath(tnsDataFilename)
-            .toStdString();
+        .filePath(tnsDataFilename)
+        .toStdString();
     auto fhz  = gzopen(ifpath.c_str(), "rb");
     auto fout = fopen(ofpath.c_str(), "wb");
 
