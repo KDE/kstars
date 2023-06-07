@@ -93,7 +93,7 @@ void Message::onDisconnected()
 void Message::onTextReceived(const QString &message)
 {
     auto node = qobject_cast<Node*>(sender());
-    if (!node)
+    if (!node || message.isEmpty())
         return;
 
     qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
