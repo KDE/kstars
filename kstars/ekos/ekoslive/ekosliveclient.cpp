@@ -10,6 +10,7 @@
 #include "ekos/manager.h"
 
 #include "kspaths.h"
+#include "ekos_debug.h"
 #include "QProgressIndicator.h"
 
 #include <config-kstars.h>
@@ -126,7 +127,11 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
                     }
                 }
             }
-
+        }
+        else
+        {
+            if (autoStartCheck->isChecked())
+                qCWarning(KSTARS_EKOS) << "Failed to automatically connect due to missing EkosLive credentials:" << job->errorString();
         }
         job->deleteLater();
     });
