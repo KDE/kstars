@@ -368,7 +368,7 @@ void KStars::slotSetTelescopeEnabled(bool enable)
     telescopeGroup->setEnabled(enable);
     if (enable == false)
     {
-        for (QAction *a : telescopeGroup->actions())
+        for (auto &a : telescopeGroup->actions())
         {
             a->setChecked(false);
         }
@@ -380,7 +380,7 @@ void KStars::slotSetDomeEnabled(bool enable)
     domeGroup->setEnabled(enable);
     if (enable == false)
     {
-        for (QAction *a : domeGroup->actions())
+        for (auto &a : domeGroup->actions())
         {
             a->setChecked(false);
         }
