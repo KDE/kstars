@@ -769,11 +769,20 @@ int LinearFocusAlgorithm::linearWalk(int position, double value, const double st
             foundFit = params.curveFitting->findMinMax(position, 0, params.maxPositionAllowed, &minPos, &minVal,
                        static_cast<CurveFitting::CurveFit>(params.curveFit), params.optimisationDirection);
 
-            if (!foundFit)
-                qCDebug(KSTARS_EKOS_FOCUS) << QString("linearWalk failed to fit curve");
-
             if (numSteps >= params.numSteps)
-                return finishFirstPass(static_cast<int>(round(minPos)), minVal);
+            {
+                // linearWalk has now completed either successfully (foundFit=true) or not
+                if (foundFit)
+                    return finishFirstPass(static_cast<int>(round(minPos)), minVal);
+                else
+                {
+                    done = true;
+                    doneString = i18n("Failed to fit curve to data.");
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearWalk: %1").arg(doneString);
+                    debugLog();
+                    return -1;
+                }
+            }
         }
     }
 
