@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-07 00:42+0000\n"
-"PO-Revision-Date: 2023-06-02 09:31+0300\n"
+"POT-Creation-Date: 2023-06-08 00:42+0000\n"
+"PO-Revision-Date: 2023-06-07 16:21+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -12483,7 +12483,7 @@ msgstr "Порт"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:203
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:208
 #: ekos/ekoslive/ekoslivedialog.ui:299 ekos/guide/guide.ui:329
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12494,7 +12494,7 @@ msgstr "З'єднатися"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:171
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:176
 #: ekos/guide/guide.ui:391 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -28311,64 +28311,58 @@ msgstr "KStars не знайдено жодного активного лафе�
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
 msgid "Stretch (or disable stretching) the image."
-msgstr ""
+msgstr "Розтягнути (або вимкнути розтягування) зображення."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
 #: fitsviewer/fitsstretchui.ui:130 fitsviewer/fitsstretchui.ui:151
 #, kde-format
 msgid "Set shadows value for the image stretch."
-msgstr ""
+msgstr "Встановити значення темних тонів для розтягування зображення."
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "Тінь Землі"
+msgstr "Темні тони"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
 #: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
 #, kde-format
 msgid "Set midtones value for the image stretch."
-msgstr ""
+msgstr "Встановити значення середніх тонів для розтягування зображення."
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "Мікронезія"
+msgstr "Середні тони"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
 #: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
 #, kde-format
 msgid "Set highlights value for the image stretch."
-msgstr ""
+msgstr "Встановити значення світлих тонів для розтягування зображення."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgid "Twilight"
+#, kde-format
 msgid "Highlights"
-msgstr "Сутінки"
+msgstr "Світлі тони"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
-#, fuzzy, kde-format
-#| msgid "Enable or Disable the Max Value Cutoff"
+#, kde-format
 msgid "Enable or disable the histogram display."
-msgstr "Увімкнути або вимкнути обрізання максимальних значень"
+msgstr "Увімкнути або вимкнути показ гістограми."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
-#| msgid "Automatically start the park timer on startup"
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Автоматично запускати таймер паркування при запуску"
+msgstr "Автоматично визначити параметр розтягування."
 
 #: fitsviewer/fitstab.cpp:56
 #, kde-format
@@ -75647,17 +75641,17 @@ msgstr "Завантажуються зірки"
 msgid "Please wait while re-indexing stars..."
 msgstr "Будь ласка, зачекайте до завершення переіндексування зірок…"
 
-#: skycomponents/supernovaecomponent.cpp:284
+#: skycomponents/supernovaecomponent.cpp:273
 #, kde-format
 msgid "Supernovae Update"
 msgstr "Оновлення даних наднових"
 
-#: skycomponents/supernovaecomponent.cpp:285
+#: skycomponents/supernovaecomponent.cpp:274
 #, kde-format
 msgid "Downloading Supernovae updates..."
 msgstr "Отримуємо оновлення даних щодо наднових…"
 
-#: skycomponents/supernovaecomponent.cpp:363
+#: skycomponents/supernovaecomponent.cpp:352
 #, kde-format
 msgid "Error downloading supernova data: %1"
 msgstr "Помилка під час спроби отримати дані наднових: %1"

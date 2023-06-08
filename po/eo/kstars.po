@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-07 00:42+0000\n"
-"PO-Revision-Date: 2023-06-02 21:20+0100\n"
+"POT-Creation-Date: 2023-06-08 00:42+0000\n"
+"PO-Revision-Date: 2023-06-07 21:45+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -6667,6 +6667,9 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se markite, la nuntempe elektita filtrilo estos uzata "
+"por vicigo. </p><p>Se vi volas uzi certan (fiksan) filtrilon por vicigo, "
+"lasu nemarkita kaj elektu la filtrilon permane.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
@@ -12075,7 +12078,7 @@ msgstr "Sekundara"
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
 #, kde-format
 msgid "Teritary"
-msgstr ""
+msgstr "Terciara"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -12370,7 +12373,7 @@ msgstr "Konektejo"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:203
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:208
 #: ekos/ekoslive/ekoslivedialog.ui:299 ekos/guide/guide.ui:329
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12381,7 +12384,7 @@ msgstr "Konekti"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:171
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:176
 #: ekos/guide/guide.ui:391 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -14613,7 +14616,7 @@ msgstr ""
 "<html><head/><body><p>Formato estas uzata por difini la bilddosiernomojn per "
 "uzo de loktenilaj etikedoj.</p><ul style=\"margin-top: 0px; margin-bottom: "
 "0px; ; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-"\" margin-top:12px; margin-bottom:0px; margin-left:0px; marĝeno -right:0px; -"
+"\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
 "qt-block-indent:0; text-indent:0px;\">Anstataŭilo<span style=\" font-"
 "weight:700;\"> %f</span> aŭ <span style= \" font-weight:700;\">%filename</"
 "span>: La nomo de la .esq-dosiero, sen etendo.</li><li style=\" margin-"
@@ -15723,7 +15726,7 @@ msgstr ""
 #: ekos/capture/limits.ui:188
 #, kde-format
 msgid "Autofocus if ΔT°  >"
-msgstr "Aŭtomata fokuso se ΔT° >"
+msgstr "Aŭtomata fokuso se ΔT°  >"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/capture/limits.ui:217
@@ -15875,6 +15878,12 @@ msgid ""
 "Align module. </p><p>The camera offset is measured in position angle scope "
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>La angulo de la fotila vertikala direkto (vidu FOV) "
+"respektive al la rotatora origindirekto. La fotila deŝovo estas determinita "
+"aŭtomate per <span style=\" font-weight:700;\">Kapti & Solvi</span> aŭ <span "
+"style=\" font-weight:700;\">Ŝargi & Turni</span> en la modulo Align. </"
+"p><p>La fotila deŝovo estas mezurita laŭ pozicio-angula amplekso (-179,99° "
+"ĝis 180,00°).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:236
@@ -15926,6 +15935,14 @@ msgid ""
 "p><p>The position angle is measured East of North in degrees.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Agordo de la fotila pozicio-angulo movos la "
+"rotaciilon. La mezurilo reflektas la staton de la rotaciilo. Depende de la "
+"precizeco de la rotaciilo povas esti ia devio en la fina pozicio-angulo.</"
+"p><p>Se <span style=\" font-weight:700;\">Konservi Fotilan Pozician Angulon "
+"al Sekvenca Labortasko</span> estas ŝanĝita, ĉiuj postaj laboroj aldonitaj "
+"al la sekvencovico ĉiam turniĝus al ĉi tiu pozicia angulo antaŭ ol la kapto "
+"komenciĝas.</p><p>La pozicia angulo estas mezurita oriente de Nordo en "
+"gradoj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:405
@@ -16652,7 +16669,7 @@ msgstr "Trovita polinoma solvo @ %1"
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
-"Fokulilo ne povas movi plu, limoj de aparatoj atingis. Aŭtomata fokuso "
+"Fokusilo ne povas movi plu, limoj de aparatoj atingis. Aŭtomata fokuso "
 "ĉesigita."
 
 #: ekos/focus/focus.cpp:3445
@@ -16784,6 +16801,27 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
+"Focus Advisor (FA) estas desegnita por helpi vin pri fokusaj parametroj.\n"
+"Ĝi ne nepre donos al vi la perfektan kombinaĵon de parametroj, vi devos mem "
+"eksperimenti, sed ĝi donos al vi bazan aron da parametroj por atingi "
+"fokuson.\n"
+"\n"
+"FA rekomendos valorojn por la plimulto de parametroj. Kelkaj, tamen, bezonos "
+"kroman laboron de vi por aranĝi. Ĉi tiuj estas identigitaj sube kune kun "
+"baza klarigo pri kiel agordi ilin.\n"
+"\n"
+"La unua paŝo estas agordi kontraŭreagon. Via fokusa manlibro verŝajne "
+"klarigos kiel fari tion. Post kiam vi havas valoron por kontraŭreago por via "
+"sistemo, agordu aŭ la kampon Backlash por ke la pelilo realigu kontraŭreagon "
+"kompenson aŭ la AF Overscan kampon por ke Aŭtomatfokuso realigu "
+"kontraŭreagon kompenson. Agordu nur unu kampon kaj agordu la alian al 0.\n"
+"\n"
+"La dua paŝo estas agordi Paŝograndon. Ĉi tio povas esti defaŭlta de la "
+"Kritika Fokuso-Zono (CFZ) por via ekipaĵo - do agordu ĉi tion nun en la "
+"langeto CFZ.\n"
+"\n"
+"La tria paŝo estas agordi la Eksterpaŝan Multoblon. Komencu kun la proponita "
+"defaŭlto."
 
 #: ekos/focus/focus.cpp:6389
 #, kde-format
@@ -16796,6 +16834,13 @@ msgid ""
 "star detection is acceptable. Adjust Out Step Multiple to correspond to this "
 "range of focuser motion."
 msgstr ""
+"Vi havas amplekson kun centra obstrukco, do atentu ne tro malproksimiĝi de "
+"fokuso ĉar steloj aperos kiel benkoj kaj ne estos detektitaj ĝuste. "
+"Eksperimentu per trovado de fokuso kaj movo de Paŝo Grandeco * Eksterpaŝo "
+"Multoblaj tikoj for de fokuso kaj prenu fokusan kadron. Zomu por observi "
+"stel-detekton. Se ĝi estas malbona tiam movu la fokusilon reen al fokuso ĝis "
+"steldetekto estas akceptebla. Alĝustigu Out Step Multiple por respondi al ĉi "
+"tiu gamo de fokusilmovo."
 
 #: ekos/focus/focus.cpp:6396
 #, kde-format
@@ -16817,6 +16862,22 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"\n"
+"\n"
+"La kvara paŝo estas agordi la ceterajn fokusajn parametrojn al prudentaj "
+"valoroj. Focus Advisor sugestos valorojn por 4 kategorioj da parametroj. "
+"Marku la rilatan Ĝisdatigu skatolon por akcepti ĉi tiujn rekomendojn kaj "
+"premu Ĝisdatigi Params.\n"
+"1. Fotilaj Propraĵoj - Notu, ke vi devas certigi, ke Gajno estas agordita "
+"taŭge, ekz. unueco gajno.\n"
+"2. Langeto Agordoj: Ĉi tiuj ĉiuj havas rekomendojn.\n"
+"3. Proceza langeto: Ĉi tiuj ĉiuj havas rekomendojn.\n"
+"4. Mekanika langeto: Notu Paŝa Grandeco kaj Eksterpaŝa Multoblaj estas "
+"traktataj supre.\n"
+"\n"
+"Nun movu la fokusilon al proksimuma fokuso kaj elektu larĝbendan filtrilon, "
+"ekz. Lumineco\n"
+"Vi nun pretas komenci Aŭtomatfokusan rulon."
 
 #: ekos/focus/focus.cpp:6406
 #, kde-format
@@ -16910,7 +16971,7 @@ msgstr "Tempo de ekspozicio en sekundoj"
 #: ekos/focus/focus.ui:536
 #, kde-format
 msgid "Focuser temperature source"
-msgstr "Fokulilo temperaturo fonto"
+msgstr "Fokusilo temperaturo fonto"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:539
@@ -17046,6 +17107,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dum Plena Kampa fokuso, ĉi tio kontrolas la grandecon "
+"de Anulo centrita meze de la sensilo por inkluzivi por prilaborado. Agordu "
+"internan % al nulo por inkluzivi la centron de la sensilo kaj starigu "
+"eksteran % al 100 por inkluzivi la eksterajn randojn de la sensilo. </p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
 #: ekos/focus/focus.ui:993
@@ -17122,6 +17188,9 @@ msgid ""
 "focusing. The diameter is given as percentage of the image diagonal. Set to "
 "100% to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diametro de la ekstera cirklo esti ekskludita de "
+"fokuso. La diametro estas donita kiel procento de la bilda diagonalo. Agordu "
+"al 100% por inkluzivi la eksterajn randojn de la sensilo. </p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
@@ -17218,6 +17287,10 @@ msgid ""
 "the tile size does not exceed one third of the shorter side of the image (in "
 "most cases, it's height).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kaheloj estas kvadratoj kun randolongo kalkulita per "
+"la donita procento de la bildlarĝo. La procento estas limigita tiel ke la "
+"kahela grandeco ne superas trionon de la pli mallonga flanko de la bildo "
+"(plej ofte ĝi estas alteco).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/focus/focus.ui:1269
@@ -17259,6 +17332,10 @@ msgid ""
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>La maksimuma totala Adaptiva fokusilmovo inter "
+"Aŭtofokusaj ruloj. Se ĉi tiu valoro estas trafita, adapta fokuso estas "
+"suspendita. La celo de ĉi tiu kontrolo estas trakti senbridan adaptan "
+"fokuson.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
@@ -17564,6 +17641,13 @@ msgid ""
 "highlighted on the v-curve. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Marku por ruli eksterordinaran paŝon kiam ĉiuj "
+"datumpunktoj estas prenitaj. La enirpermesilo uzas la Kriteriojn de Peirce "
+"por eksterordinara sojla detekto. Se ekzistas eksteruloj, tiuj estas "
+"forigitaj kaj kurba konvena ripetiĝo. Se la R² estas plibonigita per la "
+"procezo tiam ĉi tiu nova datumaro estas uzata kaj eksterordinaraĵoj "
+"elstarigitaj sur la v-kurbo. Ĉi tio estas eksperimenta kapablo.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1734
@@ -17774,6 +17858,12 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>La tipo de PSF por uzi kiam Mezuro estas agordita al "
+"FWHM:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right: 0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Gaŭsa</span>: Uzas 2D "
+"Gaŭsan. Ĉi tio estas eksperimenta trajto.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1911
@@ -17920,6 +18010,11 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Por kontraŭreago-konsciaj fokusiloj, la kvanto de "
+"kontraŭreago aplikata kiam renversas movdirekton. Agordu al 0 por malŝalti.</"
+"p><p>Tipe aŭ Focuser Backlash aŭ AF Overscan estas agordita.</p><p>Ĉi tiu "
+"kampo fiksas la kampon Indi Focuser Backlash kaj povas esti agordita aŭ ĉi "
+"tie aŭ sur la Indi Kontrolpanelo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2309
@@ -17966,6 +18061,27 @@ msgid ""
 "be effective but is predictable in the number of steps taken. This walk is "
 "experimental.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Elektu la tipon de irado por ke la fokusilo faru dum "
+"uzado de <span style=\" font-weight:600;\">Lineara 1 Paso</span>. Por <span "
+"style=\" font-weight:600;\">Linia</span> nur <span style=\" font-weight:600;"
+"\">Klasika</span> estas disponebla.</p><p><span style=\" font-weight:600;"
+"\">Klasika</span>: Fokusilo elpaŝas \"Elpaŝi Multoblaj\" paŝojn, prenas "
+"kadron kaj poste enpaŝas tra fokuso ĉe konstanta paŝograndeco prenanta kaj "
+"analizante kadroj ĉe ĉiu paŝo. La preciza punkto ĉe kiu la enirpermesilo "
+"ĉesas dependas de la datumoj do ĉi tiu promenado estas tolerema komenci pli "
+"for de fokuso, sed koste de kromaj paŝoj.</p><p><span style=\" font-weight: "
+"600;\">Fiksaj Paŝoj</span>: Fokusilo elpaŝas duonon de \"Nombraj Paŝoj\", "
+"prenas kadron kaj poste paŝas ĝuste en \"Nombro-Paŝoj\". Ĉi tiu promenado "
+"devas esti komencita proksime al fokuso por esti efika sed estas "
+"antaŭvidebla en la nombro da paŝoj faritaj. Ĉi tiu promenado estas "
+"eksperimenta.</p><p><span style=\" font-weight:600;\">CFZ-Miksado</span>: "
+"Simila al <span style=\" font-weight:600;\">Fiksaj Paŝoj</span> krom ĉi tiu "
+"promenado faras duonajn paŝojn proksime de la fokuspunkto por provi doni pli "
+"da pezo al punktoj pli proksimaj al fokuso en la kurba ĝustigo. Kiel ĉe "
+"<span style=\" font-weight:600;\">Fiksaj Paŝoj</span> ĉi tiu promenado devas "
+"esti komencita proksime al fokuso por esti efika sed estas antaŭvidebla en "
+"la nombro da paŝoj faritaj. Ĉi tiu promenado estas eksperimenta.</p><p><br/"
+"></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -18047,6 +18163,13 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Provizas kontraŭreagan troskanadon en tiktakoj por "
+"eksteraj fokusaj movoj dum Aŭtomatfokusa kuro. Ĉi tio estas aldone al iu ajn "
+"Pelila Kontraŭreago provizita de la aparata pelilo kaj agordita en la kampo "
+"Pelila Kontraŭreago. Agordu al 0 por malŝalti. </p><p>Se agordita, AF "
+"Overscan estas aplikata al ĉiuj fokusilmovoj iniciatitaj de la Fokuso-modulo."
+"</p><p>Tipe aŭ Focuser Backlash aŭ AF Overscan estas agordita.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:2504
@@ -18106,6 +18229,9 @@ msgid ""
 "Zone (CFZ). This is not necessary for Autofocus, but provides useful "
 "information.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Parametroj rilataj al agordo de la Kritika Fokuso-Zono "
+"(CFZ). Ĉi tio ne estas necesa por Aŭtomata fokuso, sed provizas utilajn "
+"informojn.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/focus.ui:2696
@@ -26993,7 +27119,7 @@ msgstr ""
 "<html><head/><body><p>Difinu kio devus okazi kiam tasko eniras eraron aŭ "
 "ĉesas:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin -left: "
 "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
-"margin-bottom:0px; margin-left:0px; margin-dekstra :0px; -qt-block-indent:0; "
+"margin-bottom:0px; margin-left:0px; margin-right :0px; -qt-block-indent:0; "
 "text-indent:0px;\"><span style=\" font-weight:600;\">Ne replanu</span>: Ne "
 "rekomencu la taskon en kazo de eraro aŭ ĉesigo.</li><li style=\" margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block -"
@@ -27693,10 +27819,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "Tera Ombro"
+msgstr "Ombroj"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
@@ -27707,11 +27832,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "Mikronezio"
+msgstr "Meztonoj"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
@@ -27722,24 +27845,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgid "Twilight"
+#, kde-format
 msgid "Highlights"
-msgstr "Krepusko"
+msgstr "Prilumoj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
-#, fuzzy, kde-format
-#| msgid "Enable or Disable the Max Value Cutoff"
+#, kde-format
 msgid "Enable or disable the histogram display."
-msgstr "Ebligi aŭ Malebligi la Maksimuman Valor-Detranĉon"
+msgstr "Ebligi aŭ malebligi la histograman elmontron."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
-#| msgid "Automatically start the park timer on startup"
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Aŭtomate lanĉi la parkumtempigilon ĉe ekfunkciigo"
+msgstr "Aŭtomate trovi streĉparametron."
 
 #: fitsviewer/fitstab.cpp:56
 #, kde-format
@@ -28322,9 +28442,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Ebligi limigitan rimedreĝimon por malŝalti ajnajn "
 "rimedintensajn operaciojn:</p><ul style=\"margin-top: 0px; margin-bottom: "
-"0px; margin- maldekstre: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
-"style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right: "
-"0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
 "\">Aŭtomata debayer</span>: Bayeritaj bildoj ne estos debayeritaj. Nur "
 "grizskalaj bildoj estas montritaj.</li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text -"
@@ -34789,7 +34909,7 @@ msgstr "Specifas gajnvaloron de CCD dum fokusado se subtenata de fotilo."
 #: kstars.kcfg:1905
 #, kde-format
 msgid "Default Focuser Camera ISO value"
-msgstr "Defaŭlta Fokulilo-ISO-valoro"
+msgstr "Defaŭlta Fokusilo-ISO-valoro"
 
 #. i18n: ectx: label, entry (DefaultFocusTemperatureSource), group (Focus)
 #: kstars.kcfg:1908
@@ -74703,17 +74823,17 @@ msgstr "Ŝargante stelojn"
 msgid "Please wait while re-indexing stars..."
 msgstr "Bonvolu atendi dum reindeksado de steloj..."
 
-#: skycomponents/supernovaecomponent.cpp:284
+#: skycomponents/supernovaecomponent.cpp:273
 #, kde-format
 msgid "Supernovae Update"
 msgstr "Ĝisdatigo de Supernovaoj"
 
-#: skycomponents/supernovaecomponent.cpp:285
+#: skycomponents/supernovaecomponent.cpp:274
 #, kde-format
 msgid "Downloading Supernovae updates..."
 msgstr "Elŝutante ĝisdatigojn de Supernovae..."
 
-#: skycomponents/supernovaecomponent.cpp:363
+#: skycomponents/supernovaecomponent.cpp:352
 #, kde-format
 msgid "Error downloading supernova data: %1"
 msgstr "Eraro dum elŝuto de supernovaj datumoj: %1"

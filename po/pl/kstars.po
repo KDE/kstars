@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1653341 $
+# Version: $Revision: 1653412 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-07 00:42+0000\n"
+"POT-Creation-Date: 2023-06-08 00:42+0000\n"
 "PO-Revision-Date: 2023-04-23 11:55+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -12469,7 +12469,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:203
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:208
 #: ekos/ekoslive/ekoslivedialog.ui:299 ekos/guide/guide.ui:329
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12480,7 +12480,7 @@ msgstr "Połącz"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:171
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:176
 #: ekos/guide/guide.ui:391 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -75397,17 +75397,17 @@ msgstr "Wczytywanie gwiazd"
 msgid "Please wait while re-indexing stars..."
 msgstr "Proszę czekać, trwa ponownej indeksowanie gwiazd..."
 
-#: skycomponents/supernovaecomponent.cpp:284
+#: skycomponents/supernovaecomponent.cpp:273
 #, kde-format
 msgid "Supernovae Update"
 msgstr "Uaktualnienia supernowych"
 
-#: skycomponents/supernovaecomponent.cpp:285
+#: skycomponents/supernovaecomponent.cpp:274
 #, kde-format
 msgid "Downloading Supernovae updates..."
 msgstr "Pobieranie uaktualnień supernowych..."
 
-#: skycomponents/supernovaecomponent.cpp:363
+#: skycomponents/supernovaecomponent.cpp:352
 #, kde-format
 msgid "Error downloading supernova data: %1"
 msgstr "Błąd pobierania danych supernowych: %1"

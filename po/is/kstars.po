@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-07 00:42+0000\n"
+"POT-Creation-Date: 2023-06-08 00:42+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -12110,7 +12110,7 @@ msgstr "Gátt"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:203
+#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:208
 #: ekos/ekoslive/ekoslivedialog.ui:299 ekos/guide/guide.ui:329
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12121,7 +12121,7 @@ msgstr "Tengjast"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:171
+#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:176
 #: ekos/guide/guide.ui:391 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, fuzzy, kde-format, kde-kuit-format
@@ -79013,18 +79013,18 @@ msgstr "Finna hlut"
 msgid "Please wait while re-indexing stars..."
 msgstr ""
 
-#: skycomponents/supernovaecomponent.cpp:284
+#: skycomponents/supernovaecomponent.cpp:273
 #, fuzzy, kde-format
 #| msgid "supernova remnant"
 msgid "Supernovae Update"
 msgstr "leifar sprengistjörnu"
 
-#: skycomponents/supernovaecomponent.cpp:285
+#: skycomponents/supernovaecomponent.cpp:274
 #, fuzzy, kde-format
 msgid "Downloading Supernovae updates..."
 msgstr "Hleð inn KStars..."
 
-#: skycomponents/supernovaecomponent.cpp:363
+#: skycomponents/supernovaecomponent.cpp:352
 #, fuzzy, kde-format
 msgid "Error downloading supernova data: %1"
 msgstr "Gat ekki vistað mynd: %1 "
