@@ -364,13 +364,16 @@ SampleStatistics ComputeSampleStatistics(std::vector<double> data,
 [[using gnu : pure]]
 constexpr double ConvertScaleToWeight(const ScaleCalculation scaleMethod, double scale)
 {
+    // If the passed in scale is zero or near zero return a very small weight rather than infinity.
+    // This fixes the situation where, e.g. there is a single datapoint so scale is zero and
+    // weighting this datapoint with infinite weight is incorrect (and breaks the LM solver)
     switch (scaleMethod)
     {
         // Variance, biweight midvariance are variances.
         case SCALE_VARIANCE:
             [[fallthrough]];
         case SCALE_BWMV:
-            return 1 / scale;
+            return (scale < 1e-10) ? 1e-10 : 1 / scale;
         // MAD, Sn, Qn and Pn estimators are all calibrated to estimate the standard deviation of Gaussians.
         case SCALE_MAD:
             [[fallthrough]];
@@ -379,7 +382,7 @@ constexpr double ConvertScaleToWeight(const ScaleCalculation scaleMethod, double
         case SCALE_QESTIMATOR:
             [[fallthrough]];
         case SCALE_PESTIMATOR:
-            return 1 / (scale * scale);
+            return (scale < 1e-10) ? 1e-10 : 1 / (scale * scale);
     }
     return -1;
 }
