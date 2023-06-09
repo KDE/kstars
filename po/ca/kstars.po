@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:42+0000\n"
+"POT-Creation-Date: 2023-06-09 00:43+0000\n"
 "PO-Revision-Date: 2023-06-07 11:03+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -17450,11 +17450,12 @@ msgstr " s"
 #: ekos/focus/focus.ui:1053
 #, kde-format
 msgid ""
-"<html><head/><body><p>Subframe around the focus star during the autofocus "
-"procedure.</p></body></html>"
+"<html><head/><body><p>Select Sub Frame to make focus to use a single star "
+"(note: Full Field uses multiple stars).  In this mode the Auto Select Star "
+"checkbox becomes active to allow either Ekos to select a star (when checked) "
+"or to allow the user to manually select the star in FitsViewer (when "
+"unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Submarc al voltant de l'estrella enfocada durant el "
-"procediment d'enfocament automàtic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17466,15 +17467,11 @@ msgstr "Submarc"
 #: ekos/focus/focus.ui:1069
 #, kde-format
 msgid ""
-"<html><head/><body><p>Measure average HFR from all stars combined in a full "
-"frame. This method defaults to the Centroid detection, but can use SEP "
-"detection too. Its performance decreases as the number of stars increases.</"
-"p></body></html>"
+"<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
+"(note: Sub Frame uses a single star).  In this mode Ekos will automatically "
+"select multiple stars during Autofocus and,  for example,  average the HFR "
+"of all stars detected to perform focus. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mesura la mitjana de l'HFR de totes les estrelles "
-"combinades en un fotograma complet. Aquest mètode està predeterminat per a "
-"la detecció de centroide, però també pot usar la detecció SEP. El seu "
-"rendiment disminueix quan el nombre d'estrelles creix.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17537,9 +17534,11 @@ msgstr "Posicionament de la guia:"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1173
 #, kde-format
-msgid "Automatically select the best focus star from the image"
+msgid ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
-"Selecció automàtica de la millor estrella de la imatge per a enfocar-la"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -19088,17 +19087,23 @@ msgstr "Neteja"
 msgid "Called newMeasurement after a solution was found."
 msgstr "S'ha cridat «newMeasurement» després de trobar una solució."
 
-#: ekos/focus/focusalgorithms.cpp:831
+#: ekos/focus/focusalgorithms.cpp:780
+#, fuzzy, kde-format
+#| msgid "Failed to load dark data."
+msgid "Failed to fit curve to data."
+msgstr "Ha fallat en carregar les dades fosques."
+
+#: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
 msgid "Solution found."
 msgstr "S'ha trobat una solució."
 
-#: ekos/focus/focusalgorithms.cpp:875
+#: ekos/focus/focusalgorithms.cpp:884
 #, kde-format
 msgid "Too many steps."
 msgstr "Hi ha massa passos."
 
-#: ekos/focus/focusalgorithms.cpp:904
+#: ekos/focus/focusalgorithms.cpp:913
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr "La solució està fora del recorregut màxim."
@@ -83720,3 +83725,25 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
+
+#~ msgid ""
+#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
+#~ "procedure.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Submarc al voltant de l'estrella enfocada durant el "
+#~ "procediment d'enfocament automàtic.</p></body></html>"
+
+#~ msgid ""
+#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
+#~ "full frame. This method defaults to the Centroid detection, but can use "
+#~ "SEP detection too. Its performance decreases as the number of stars "
+#~ "increases.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Mesura la mitjana de l'HFR de totes les estrelles "
+#~ "combinades en un fotograma complet. Aquest mètode està predeterminat per "
+#~ "a la detecció de centroide, però també pot usar la detecció SEP. El seu "
+#~ "rendiment disminueix quan el nombre d'estrelles creix.</p></body></html>"
+
+#~ msgid "Automatically select the best focus star from the image"
+#~ msgstr ""
+#~ "Selecció automàtica de la millor estrella de la imatge per a enfocar-la"

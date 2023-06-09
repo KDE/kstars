@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:42+0000\n"
-"PO-Revision-Date: 2023-06-03 05:36+0200\n"
+"POT-Creation-Date: 2023-06-09 00:43+0000\n"
+"PO-Revision-Date: 2023-06-08 06:00+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1225,6 +1225,8 @@ msgid ""
 "XPlanet Latitude, Longitude, and object radius in %. This is only valid when "
 "viewing the object from the same object"
 msgstr ""
+"XPlanet-ის გრძედი, განედი და ობიექტის რადიუსი %-ში. მოქმედია მხოლოდ მაშინ, "
+"როცა ობიექტს იგივე ობიექტიდან ათვალიერებთ"
 
 #: auxiliary/xplanetimageviewer.cpp:259
 #, kde-format
@@ -16130,11 +16132,12 @@ msgstr " წმ"
 #: ekos/focus/focus.ui:1053
 #, kde-format
 msgid ""
-"<html><head/><body><p>Subframe around the focus star during the autofocus "
-"procedure.</p></body></html>"
+"<html><head/><body><p>Select Sub Frame to make focus to use a single star "
+"(note: Full Field uses multiple stars).  In this mode the Auto Select Star "
+"checkbox becomes active to allow either Ekos to select a star (when checked) "
+"or to allow the user to manually select the star in FitsViewer (when "
+"unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ქვეკადრი ფოკუსში მყოფი ვარსკვლავის გარშემო ავტოფოკუსის "
-"პროცედურისას.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -16146,10 +16149,10 @@ msgstr "ქვეკადრი"
 #: ekos/focus/focus.ui:1069
 #, kde-format
 msgid ""
-"<html><head/><body><p>Measure average HFR from all stars combined in a full "
-"frame. This method defaults to the Centroid detection, but can use SEP "
-"detection too. Its performance decreases as the number of stars increases.</"
-"p></body></html>"
+"<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
+"(note: Sub Frame uses a single star).  In this mode Ekos will automatically "
+"select multiple stars during Autofocus and,  for example,  average the HFR "
+"of all stars detected to perform focus. </p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
@@ -16209,7 +16212,10 @@ msgstr "გიდის გადაღება:"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1173
 #, kde-format
-msgid "Automatically select the best focus star from the image"
+msgid ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
@@ -17497,17 +17503,23 @@ msgstr "სუფთა ცა"
 msgid "Called newMeasurement after a solution was found."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:831
+#: ekos/focus/focusalgorithms.cpp:780
+#, fuzzy, kde-format
+#| msgid "Failed to find solver settings."
+msgid "Failed to fit curve to data."
+msgstr "ამომხსნელის პარამეტრების პოვნის შეცდომა."
+
+#: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
 msgid "Solution found."
 msgstr "ამოხსნა ნაპოვნია."
 
-#: ekos/focus/focusalgorithms.cpp:875
+#: ekos/focus/focusalgorithms.cpp:884
 #, kde-format
 msgid "Too many steps."
 msgstr "მეტისმეტად ბევრი ბიჯი."
 
-#: ekos/focus/focusalgorithms.cpp:904
+#: ekos/focus/focusalgorithms.cpp:913
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr ""
@@ -25757,10 +25769,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "დედამიწის ჩრდილი"
+msgstr "ჩრდილები"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
@@ -25771,11 +25782,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "მიკრონეზია"
+msgstr "შუატონები"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
@@ -25786,10 +25795,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Highlights"
-msgstr "სიმაღლე"
+msgstr "გამოკვეთები"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
@@ -78825,6 +78833,13 @@ msgstr "ფონის ფერი:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "ფონის ფერის დაყენება."
+
+#~ msgid ""
+#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
+#~ "procedure.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>ქვეკადრი ფოკუსში მყოფი ვარსკვლავის გარშემო "
+#~ "ავტოფოკუსის პროცედურისას.</p></body></html>"
 
 #~ msgid "Username or password is missing."
 #~ msgstr "აკლია მომხმარებელი/პაროლი."

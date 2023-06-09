@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:42+0000\n"
-"PO-Revision-Date: 2023-06-07 21:45+0100\n"
+"POT-Creation-Date: 2023-06-09 00:43+0000\n"
+"PO-Revision-Date: 2023-06-08 19:23+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -17148,11 +17148,12 @@ msgstr " s"
 #: ekos/focus/focus.ui:1053
 #, kde-format
 msgid ""
-"<html><head/><body><p>Subframe around the focus star during the autofocus "
-"procedure.</p></body></html>"
+"<html><head/><body><p>Select Sub Frame to make focus to use a single star "
+"(note: Full Field uses multiple stars).  In this mode the Auto Select Star "
+"checkbox becomes active to allow either Ekos to select a star (when checked) "
+"or to allow the user to manually select the star in FitsViewer (when "
+"unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Subkadro ĉirkaŭ la fokusstelo dum la aŭtofokusa "
-"proceduro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17164,15 +17165,11 @@ msgstr "Subkadro"
 #: ekos/focus/focus.ui:1069
 #, kde-format
 msgid ""
-"<html><head/><body><p>Measure average HFR from all stars combined in a full "
-"frame. This method defaults to the Centroid detection, but can use SEP "
-"detection too. Its performance decreases as the number of stars increases.</"
-"p></body></html>"
+"<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
+"(note: Sub Frame uses a single star).  In this mode Ekos will automatically "
+"select multiple stars during Autofocus and,  for example,  average the HFR "
+"of all stars detected to perform focus. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mezuru averaĝan HFR de ĉiuj steloj kombinitaj en plena "
-"kadro. Ĉi tiu metodo defaŭlte al la Centroida detekto, sed ankaŭ povas uzi "
-"SEP-detekto. Ĝia rendimento malpliiĝas, kiam la nombro da steloj pliiĝas.</"
-"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17234,8 +17231,11 @@ msgstr "Gvidila Stabiliĝo:"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1173
 #, kde-format
-msgid "Automatically select the best focus star from the image"
-msgstr "Aŭtomate elekti la plej bonan fokusan stelon el la bildo"
+msgid ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -18310,6 +18310,9 @@ msgid ""
 "the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Agordu la valoron de tolerance=t inter 0 kaj 1. Ĉi tio "
+"skalas la klasikan CFZ-kalkulon de 4,88 λ f<span style=\" vertical-align:"
+"super;\">2</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2860
@@ -18390,6 +18393,12 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Agordu la paŝograndecon (en mikronoj) de via fokusilo. "
+"Por kalkuli ĉi tion, movu vian fokusilon de unu fino de ĝia vojaĝo al la "
+"alia (atente ne devigi la fokusilon preter ĝiaj limoj). Mezuru la distancon, "
+"kiun la tirtubo movas kiel eble plej precize (ekz. per kalibro) kaj konvertu "
+"ĉi tion al mikronoj. Notu kiom da paŝoj vi movis la fokusilon. La paŝogrando "
+"= distanco_en_mikronoj / nombro_paŝoj.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:3012
@@ -18577,6 +18586,14 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bona kvanto por komenci estas 5. Escepto estas se vi "
+"havas amplekson kun centra obstrukco, kiu igas stelojn benjetojn kiam ili "
+"estas malfokusaj. Kiam tio okazas, la sistemo luktos por ĝuste identigi "
+"stelojn. Por eviti ĉi tiun situacion reduktu aŭ la paŝograndon aŭ la nombron "
+"da paŝoj.</p><p>Por kontroli ĉi tiun situacion, komencu ĉe fokuso kaj "
+"malproksimiĝu per \"paŝa grandeco\" * \"nombro da paŝoj\". Prenu fokusan "
+"kadron kaj zomu sur la fitsviewer por vidi ĉu steloj aperas kiel steloj aŭ "
+"benjetoj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3332
@@ -18615,6 +18632,9 @@ msgid ""
 "Make sure you configure the CFZ tab to give an appropriate value for your "
 "system.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Paŝa grandeco povas esti defaŭlta al la Kritika Fokusa "
+"Zono. Certigu, ke vi agordas la langeton CFZ por doni taŭgan valoron por via "
+"sistemo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/focus.ui:3400
@@ -18738,17 +18758,23 @@ msgstr "Forviŝi"
 msgid "Called newMeasurement after a solution was found."
 msgstr "Nomita novaMezurado post kiam solvo estis trovita."
 
-#: ekos/focus/focusalgorithms.cpp:831
+#: ekos/focus/focusalgorithms.cpp:780
+#, fuzzy, kde-format
+#| msgid "Failed to load dark data."
+msgid "Failed to fit curve to data."
+msgstr "Malsukcesis ŝargi malhelajn datumojn."
+
+#: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
 msgid "Solution found."
 msgstr "Solvo trovita."
 
-#: ekos/focus/focusalgorithms.cpp:875
+#: ekos/focus/focusalgorithms.cpp:884
 #, kde-format
 msgid "Too many steps."
 msgstr "Tro da paŝoj."
 
-#: ekos/focus/focusalgorithms.cpp:904
+#: ekos/focus/focusalgorithms.cpp:913
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr "Solvo kuŝas ekster max vojaĝado."
@@ -19259,8 +19285,8 @@ msgstr "Dithering en progreso."
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Post-ŝanceliĝa stabiliĝo dum %1 sekundo..."
+msgstr[1] "Post-ŝanceliĝa stabiliĝo dum %1 sekundoj..."
 
 #: ekos/guide/guide.cpp:1593
 #, kde-format
@@ -27808,14 +27834,14 @@ msgstr "KStars ne trovis aktivajn muntaĵojn."
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
 msgid "Stretch (or disable stretching) the image."
-msgstr ""
+msgstr "Streĉi (aŭ malŝalti streĉi) la bildon."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
 #: fitsviewer/fitsstretchui.ui:130 fitsviewer/fitsstretchui.ui:151
 #, kde-format
 msgid "Set shadows value for the image stretch."
-msgstr ""
+msgstr "Meti ombrovaloron por la bilda streĉado."
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
@@ -27828,7 +27854,7 @@ msgstr "Ombroj"
 #: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
 #, kde-format
 msgid "Set midtones value for the image stretch."
-msgstr ""
+msgstr "Meti meztonan valoron por la bilda streĉado."
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
@@ -27841,7 +27867,7 @@ msgstr "Meztonoj"
 #: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
 #, kde-format
 msgid "Set highlights value for the image stretch."
-msgstr ""
+msgstr "Meti prilumvaloron por la bilda streĉado."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
@@ -32482,7 +32508,7 @@ msgstr "La zomnivelo, mezurita en rastrumeroj per radiano."
 #: kstars.kcfg:798
 #, kde-format
 msgid "Angle by which the sky map is rotated"
-msgstr ""
+msgstr "Angulo per kiu la ĉielmapo estas rotaciita"
 
 #. i18n: ectx: whatsthis, entry (SkyRotation), group (View)
 #: kstars.kcfg:799
@@ -32492,12 +32518,16 @@ msgid ""
 "(north up if using equatorial coordinates, zenith up if using horizontal "
 "coordinates)."
 msgstr ""
+"La angulo laŭ kiu la ĉielmapo estas rotaciita de sia norma orientiĝo (norde "
+"supren se oni uzas ekvatorajn koordinatojn, zeniton supren se oni uzas "
+"horizontalajn koordinatojn)."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:805
 #, kde-format
 msgid "Orients the sky-map to account for an erect observer at the eyepiece"
 msgstr ""
+"Orientas la ĉielmapon por respondeci pri rekta observanto ĉe la okulario"
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:806
@@ -32509,6 +32539,11 @@ msgid ""
 "the sky map will track what is seen in your eyepiece once it is set up "
 "correctly."
 msgstr ""
+"Ebligu ĉi tion se vi uzas vian okulon ĉe la okulario en altazimuta muntita "
+"neŭtona teleskopo. Ĉi tio respondecas pri la fakto, ke la observanto staras "
+"rekte dum la teleskopo moviĝas supren kaj malsupren, tiel ke la orientiĝo de "
+"la ĉielmapo spuros tion, kion oni vidas en via okulario post kiam ĝi estas "
+"ĝuste agordita."
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:810
@@ -34967,6 +35002,8 @@ msgid ""
 "Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 "
 "mosaic style mask"
 msgstr ""
+"Fokusa masko-tipo: 0 = Ĉiuj steloj uzataj dum fokusado, 1 = ringa masko, 2 = "
+"3x3 mozaiko-stila masko"
 
 #. i18n: ectx: label, entry (FocusFullFieldInnerRadius), group (Focus)
 #: kstars.kcfg:1935
@@ -35052,6 +35089,8 @@ msgstr "Ĉu Sinadapta Fokusado estas ebligita."
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
+"Kiam vi uzas Adaptan Fokusadon, la minimuma permesebla fokusilo moviĝas en "
+"skaleroj."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:1977
@@ -35060,6 +35099,7 @@ msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
+"Ĉu adapti la komencan pozicion de la fokusilo komence de Aŭtomata fokuso."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:1981
@@ -35068,6 +35108,8 @@ msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
+"Kiam vi uzas Adaptive Focusing, la maksimuma totala permesebla fokusila "
+"moviĝo en skaleroj."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
 #: kstars.kcfg:1986
@@ -35216,7 +35258,7 @@ msgstr ""
 #: kstars.kcfg:2060
 #, kde-format
 msgid "The number of steps to move outwards for a Classic Autofocus run."
-msgstr ""
+msgstr "La nombro da paŝoj por moviĝi eksteren por Klasika Aŭtofokusa rulo."
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2064
@@ -35224,6 +35266,7 @@ msgstr ""
 msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
+"La totala nombro da paŝoj por Fiksa Paŝo aŭ CFZ Shuffle Autofocus rulado."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2068
@@ -35350,6 +35393,8 @@ msgid ""
 "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
 "Parameters."
 msgstr ""
+"Ĉu akcepti rekomendon de Focus Advisor pri Fotilaj kaj Filtrilaj Radaj "
+"Parametroj."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSettingsTab), group (Focus)
 #: kstars.kcfg:2151
@@ -35357,13 +35402,14 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
 msgstr ""
+"Ĉu akcepti rekomendon de Focus Advisor pri parametroj en agordolangeto."
 
 #. i18n: ectx: whatsthis, entry (focusAdvProcessTab), group (Focus)
 #: kstars.kcfg:2155
 #, kde-format
 msgid ""
 "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
-msgstr ""
+msgstr "Ĉu akcepti rekomendon de Focus Advisor pri Process Tab Parameters."
 
 #. i18n: ectx: whatsthis, entry (focusAdvMechanicsTab), group (Focus)
 #: kstars.kcfg:2159
@@ -35371,6 +35417,7 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Mechanics Tab Parameters."
 msgstr ""
+"Ĉu akcepti rekomendon de Fokuso-Konsilisto pri Mekanikaj Tab Parametroj."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2164
@@ -66543,6 +66590,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
+"Elektu ĉi tion por rekta vido de la ĉielmapo, kie nordo (en Ekvatora "
+"Koordinata reĝimo) aŭ zenito (en Horizontala Koordinata reĝimo) estas "
+"vertikale supre. Ĉi tio estus la natura elekto por rekta bildtrovilo aŭ "
+"nudokula vido."
 
 #: kstarsinit.cpp:724
 #, kde-format
@@ -66553,6 +66604,10 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"Elektu ĉi tion por inversa vido de la ĉielmapo, kie nordo (en Ekvatora "
+"Koordinata reĝimo) aŭ zenito (en Horizontala Koordinata reĝimo) estas "
+"vertikale malsupre. Tio estus la natura elekto por inversa bildtroviloskopo, "
+"refraktor/cassegrain sen erectorprismo, aŭ Dobsonian."
 
 #: kstarsinit.cpp:729
 #, kde-format
@@ -66569,6 +66624,8 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
+"Ĉi tiu reĝimo estas elektita aŭtomate se vi mane turnis la ĉielmapon per Maj "
+"+ Trenu musa ago, por informi vin, ke la orientiĝo estas arbitra."
 
 #: kstarsinit.cpp:739
 #, kde-format
@@ -66588,6 +66645,13 @@ msgid ""
 "Coordinates. Typically makes sense to combine this with Zenith Down "
 "orientation."
 msgstr ""
+"Ebligu ĉi tiun reĝimon se vi videble uzas neŭtonan teleskopon sur altazimuta "
+"muntaĵo. Ĝi korektos la orientiĝon de la ĉielmapo por respondeci pri la "
+"observanto restanta vertikala kiam la teleskopo moviĝas supren kaj "
+"malsupren, male al fotilo kiu rotacius kun la teleskopo. Ĉi tio nur havas "
+"sencon en Horizontala Koordinato-reĝimo kaj estas malŝaltita kiam vi uzas "
+"Ekvatorajn Koordinatojn. Kutime havas sencon kombini ĉi tion kun Zenith Down-"
+"orientiĝo."
 
 #: kstarsinit.cpp:768
 #, kde-format
@@ -71385,7 +71449,7 @@ msgstr "Bahtinov Focus Asistanto."
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
 #, kde-format
@@ -71395,27 +71459,27 @@ msgstr "Ĉiutagaj ĝisdatigoj de supernovaoj"
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Plibonigoj de Rotator Dialog"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr ""
+msgstr "Sub-eksponkalkulilo surbaze de la laboro de Dr Robin Glover"
 
 #: main.cpp:195
 #, kde-format
 msgid "Dump sky image to file."
-msgstr "Forĵetu ĉielbildon al dosiero."
+msgstr "Elĵeto de ĉielbildo al dosiero."
 
 #: main.cpp:196
 #, kde-format
@@ -82479,3 +82543,24 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
+
+#~ msgid ""
+#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
+#~ "procedure.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Subkadro ĉirkaŭ la fokusstelo dum la aŭtofokusa "
+#~ "proceduro.</p></body></html>"
+
+#~ msgid ""
+#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
+#~ "full frame. This method defaults to the Centroid detection, but can use "
+#~ "SEP detection too. Its performance decreases as the number of stars "
+#~ "increases.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Mezuru averaĝan HFR de ĉiuj steloj kombinitaj en "
+#~ "plena kadro. Ĉi tiu metodo defaŭlte al la Centroida detekto, sed ankaŭ "
+#~ "povas uzi SEP-detekto. Ĝia rendimento malpliiĝas, kiam la nombro da "
+#~ "steloj pliiĝas.</p></body></html>"
+
+#~ msgid "Automatically select the best focus star from the image"
+#~ msgstr "Aŭtomate elekti la plej bonan fokusan stelon el la bildo"

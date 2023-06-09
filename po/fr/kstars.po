@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:42+0000\n"
+"POT-Creation-Date: 2023-06-09 00:43+0000\n"
 "PO-Revision-Date: 2023-05-24 07:32+0200\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: fr\n"
@@ -17486,16 +17486,14 @@ msgstr " s"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1053
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
-"<html><head/><body><p>Subframe around the focus star during the autofocus "
-"procedure.</p></body></html>"
+"<html><head/><body><p>Select Sub Frame to make focus to use a single star "
+"(note: Full Field uses multiple stars).  In this mode the Auto Select Star "
+"checkbox becomes active to allow either Ekos to select a star (when checked) "
+"or to allow the user to manually select the star in FitsViewer (when "
+"unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Trajet maximal en pas avant que le processus de mise "
-"au point automatique ne soit annulé.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17507,16 +17505,11 @@ msgstr "Sous-trame"
 #: ekos/focus/focus.ui:1069
 #, kde-format
 msgid ""
-"<html><head/><body><p>Measure average HFR from all stars combined in a full "
-"frame. This method defaults to the Centroid detection, but can use SEP "
-"detection too. Its performance decreases as the number of stars increases.</"
-"p></body></html>"
+"<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
+"(note: Sub Frame uses a single star).  In this mode Ekos will automatically "
+"select multiple stars during Autofocus and,  for example,  average the HFR "
+"of all stars detected to perform focus. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mesurer le « HFR » moyen de toutes les étoiles "
-"combinées dans une image complète. Cette méthode prend par défaut la "
-"détection centroïde, mais peut également utiliser la détection « SEP ». Sa "
-"performance diminue à mesure que le nombre d'étoiles augmente.</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17575,9 +17568,11 @@ msgstr "Stabilisation du guidage"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1173
 #, kde-format
-msgid "Automatically select the best focus star from the image"
+msgid ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
-"Sélectionne automatiquement la meilleure étoile à focaliser dans l'image."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -19153,17 +19148,23 @@ msgstr "Effacer"
 msgid "Called newMeasurement after a solution was found."
 msgstr "Appel à une nouvelle mesure une fois la solution trouvée."
 
-#: ekos/focus/focusalgorithms.cpp:831
+#: ekos/focus/focusalgorithms.cpp:780
+#, fuzzy, kde-format
+#| msgid "Failed to load dark data."
+msgid "Failed to fit curve to data."
+msgstr "Impossible de charger le dark."
+
+#: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
 msgid "Solution found."
 msgstr "Solution trouvée."
 
-#: ekos/focus/focusalgorithms.cpp:875
+#: ekos/focus/focusalgorithms.cpp:884
 #, kde-format
 msgid "Too many steps."
 msgstr "Trop d'étapes."
 
-#: ekos/focus/focusalgorithms.cpp:904
+#: ekos/focus/focusalgorithms.cpp:913
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr "La solution est en dehors de la course maximale."
@@ -83891,6 +83892,33 @@ msgstr "Couleur de l'arrière plan"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Sélectionnez la couleur de fond."
+
+#, fuzzy
+#~| msgid ""
+#~| "<html><head/><body><p>Maximum travel in steps before the autofocus "
+#~| "process aborts</p></body></html>"
+#~ msgid ""
+#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
+#~ "procedure.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Trajet maximal en pas avant que le processus de "
+#~ "mise au point automatique ne soit annulé.</p></body></html>"
+
+#~ msgid ""
+#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
+#~ "full frame. This method defaults to the Centroid detection, but can use "
+#~ "SEP detection too. Its performance decreases as the number of stars "
+#~ "increases.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Mesurer le « HFR » moyen de toutes les étoiles "
+#~ "combinées dans une image complète. Cette méthode prend par défaut la "
+#~ "détection centroïde, mais peut également utiliser la détection « SEP ». "
+#~ "Sa performance diminue à mesure que le nombre d'étoiles augmente.</p></"
+#~ "body></html>"
+
+#~ msgid "Automatically select the best focus star from the image"
+#~ msgstr ""
+#~ "Sélectionne automatiquement la meilleure étoile à focaliser dans l'image."
 
 #~ msgid "Are you sure you want to stop the polar alignment process?"
 #~ msgstr "Voulez-vous vraiment arrêter le processus d'alignement polaire ?"

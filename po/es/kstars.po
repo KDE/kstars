@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:42+0000\n"
-"PO-Revision-Date: 2023-06-04 20:52+0200\n"
+"POT-Creation-Date: 2023-06-09 00:43+0000\n"
+"PO-Revision-Date: 2023-06-09 01:03+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -17348,16 +17348,14 @@ msgstr " s"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1053
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
-"<html><head/><body><p>Subframe around the focus star during the autofocus "
-"procedure.</p></body></html>"
+"<html><head/><body><p>Select Sub Frame to make focus to use a single star "
+"(note: Full Field uses multiple stars).  In this mode the Auto Select Star "
+"checkbox becomes active to allow either Ekos to select a star (when checked) "
+"or to allow the user to manually select the star in FitsViewer (when "
+"unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Recorrido máximo en pasos antes de que se interrumpa "
-"el proceso de enfoque automático.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17369,16 +17367,11 @@ msgstr "Dividir fotograma"
 #: ekos/focus/focus.ui:1069
 #, kde-format
 msgid ""
-"<html><head/><body><p>Measure average HFR from all stars combined in a full "
-"frame. This method defaults to the Centroid detection, but can use SEP "
-"detection too. Its performance decreases as the number of stars increases.</"
-"p></body></html>"
+"<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
+"(note: Sub Frame uses a single star).  In this mode Ekos will automatically "
+"select multiple stars during Autofocus and,  for example,  average the HFR "
+"of all stars detected to perform focus. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Medir la HFR media desde todas las estrellas "
-"combinadas en un fotograma completo. Este método usa por omisión la "
-"detección centroide, pero también puede usar la detección SEP. Su "
-"rendimiento decae a medida que aumenta el número de estrellas.</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17440,8 +17433,11 @@ msgstr "Estabilización del guiado:"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1173
 #, kde-format
-msgid "Automatically select the best focus star from the image"
-msgstr "Seleccionar automáticamente la mejor estrella enfocada de la imagen"
+msgid ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -18956,17 +18952,23 @@ msgstr "Borrar"
 msgid "Called newMeasurement after a solution was found."
 msgstr "Se ha llamado a «newMeasurement» tras encontrar una solución."
 
-#: ekos/focus/focusalgorithms.cpp:831
+#: ekos/focus/focusalgorithms.cpp:780
+#, fuzzy, kde-format
+#| msgid "Failed to load dark data."
+msgid "Failed to fit curve to data."
+msgstr "Ha fallado la carga de datos oscuros."
+
+#: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
 msgid "Solution found."
 msgstr "Solución encontrada."
 
-#: ekos/focus/focusalgorithms.cpp:875
+#: ekos/focus/focusalgorithms.cpp:884
 #, kde-format
 msgid "Too many steps."
 msgstr "Demasiados pasos."
 
-#: ekos/focus/focusalgorithms.cpp:904
+#: ekos/focus/focusalgorithms.cpp:913
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr "La solución se encuentra fuera del recorrido máximo."
@@ -28300,10 +28302,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "Sombra de la Tierra"
+msgstr "Sombras"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
@@ -28314,11 +28315,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "Micronesia"
+msgstr "Tonos medios"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
@@ -83388,6 +83387,32 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
+
+#, fuzzy
+#~| msgid ""
+#~| "<html><head/><body><p>Maximum travel in steps before the autofocus "
+#~| "process aborts</p></body></html>"
+#~ msgid ""
+#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
+#~ "procedure.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Recorrido máximo en pasos antes de que se "
+#~ "interrumpa el proceso de enfoque automático.</p></body></html>"
+
+#~ msgid ""
+#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
+#~ "full frame. This method defaults to the Centroid detection, but can use "
+#~ "SEP detection too. Its performance decreases as the number of stars "
+#~ "increases.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Medir la HFR media desde todas las estrellas "
+#~ "combinadas en un fotograma completo. Este método usa por omisión la "
+#~ "detección centroide, pero también puede usar la detección SEP. Su "
+#~ "rendimiento decae a medida que aumenta el número de estrellas.</p></"
+#~ "body></html>"
+
+#~ msgid "Automatically select the best focus star from the image"
+#~ msgstr "Seleccionar automáticamente la mejor estrella enfocada de la imagen"
 
 #~ msgid "Rotator Utilities: Mount %1 is not ready!"
 #~ msgstr "Utilidades del rotador: La montura %1 no está preparada."

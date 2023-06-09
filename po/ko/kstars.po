@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:42+0000\n"
+"POT-Creation-Date: 2023-06-09 00:43+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -17364,12 +17364,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1053
-#, fuzzy, kde-format
-#| msgid "Use the specified configuration file."
+#, kde-format
 msgid ""
-"<html><head/><body><p>Subframe around the focus star during the autofocus "
-"procedure.</p></body></html>"
-msgstr "지정된 설정 파일 사용."
+"<html><head/><body><p>Select Sub Frame to make focus to use a single star "
+"(note: Full Field uses multiple stars).  In this mode the Auto Select Star "
+"checkbox becomes active to allow either Ekos to select a star (when checked) "
+"or to allow the user to manually select the star in FitsViewer (when "
+"unchecked).</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17380,14 +17382,13 @@ msgstr "이름:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1069
-#, fuzzy, kde-format
-#| msgid "Use the specified configuration file."
+#, kde-format
 msgid ""
-"<html><head/><body><p>Measure average HFR from all stars combined in a full "
-"frame. This method defaults to the Centroid detection, but can use SEP "
-"detection too. Its performance decreases as the number of stars increases.</"
-"p></body></html>"
-msgstr "지정된 설정 파일 사용."
+"<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
+"(note: Sub Frame uses a single star).  In this mode Ekos will automatically "
+"select multiple stars during Autofocus and,  for example,  average the HFR "
+"of all stars detected to perform focus. </p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17450,10 +17451,12 @@ msgstr "현재 색상 설정"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1173
-#, fuzzy, kde-format
-#| msgid "Toggle coordinate grid"
-msgid "Automatically select the best focus star from the image"
-msgstr "좌표 격자 보이기 토글"
+#, kde-format
+msgid ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -18799,18 +18802,24 @@ msgstr "지우기"
 msgid "Called newMeasurement after a solution was found."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:831
+#: ekos/focus/focusalgorithms.cpp:780
+#, fuzzy, kde-format
+#| msgid "Failed to load image at %1"
+msgid "Failed to fit curve to data."
+msgstr "%1의 이미지를 불러올 수 없음"
+
+#: ekos/focus/focusalgorithms.cpp:840
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution found."
 msgstr "지평 좌표"
 
-#: ekos/focus/focusalgorithms.cpp:875
+#: ekos/focus/focusalgorithms.cpp:884
 #, kde-format
 msgid "Too many steps."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:904
+#: ekos/focus/focusalgorithms.cpp:913
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr ""
@@ -83022,6 +83031,27 @@ msgstr "배경색:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "배경색 설정"
+
+#, fuzzy
+#~| msgid "Use the specified configuration file."
+#~ msgid ""
+#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
+#~ "procedure.</p></body></html>"
+#~ msgstr "지정된 설정 파일 사용."
+
+#, fuzzy
+#~| msgid "Use the specified configuration file."
+#~ msgid ""
+#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
+#~ "full frame. This method defaults to the Centroid detection, but can use "
+#~ "SEP detection too. Its performance decreases as the number of stars "
+#~ "increases.</p></body></html>"
+#~ msgstr "지정된 설정 파일 사용."
+
+#, fuzzy
+#~| msgid "Toggle coordinate grid"
+#~ msgid "Automatically select the best focus star from the image"
+#~ msgstr "좌표 격자 보이기 토글"
 
 #, fuzzy
 #~| msgid "Are you sure you want to remove the %1 client?"
