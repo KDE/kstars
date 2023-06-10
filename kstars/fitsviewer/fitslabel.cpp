@@ -106,6 +106,7 @@ void FITSLabel::leaveEvent(QEvent *e)
 {
     Q_UNUSED(e)
     view->updateMagnifyingGlass(-1, -1);
+    emit mouseOverPixel(-1, -1);
 }
 
 /**
@@ -192,6 +193,8 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     // Range is 0 to dim-1 when accessing array
     x -= 1;
     y -= 1;
+
+    emit mouseOverPixel(x, y);
 
     int index = y * m_Width + x;
     QString stringValue;

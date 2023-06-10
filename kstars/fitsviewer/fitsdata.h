@@ -463,6 +463,9 @@ class FITSData : public QObject
             return m_HistogramFrequency[channel];
         }
 
+        // Returns the histogram bin for the pixel at location x,y in the given channel.
+        int32_t histogramBin(int x, int y, int channel) const;
+
         /**
          * @brief getJMIndex Overall contrast of the image used in find centeroid algorithm. i.e. is the image diffuse?
          * @return Value of JMIndex
@@ -472,7 +475,7 @@ class FITSData : public QObject
             return m_JMIndex;
         }
 
-        bool isHistogramConstructed()
+        bool isHistogramConstructed() const
         {
             return m_HistogramConstructed;
         }
@@ -639,6 +642,8 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
         template <typename T>  void constructHistogramInternal();
+        template <typename T> int32_t histogramBinInternal(T value, int channel) const;
+        template <typename T> int32_t histogramBinInternal(int x, int y, int channel) const;
 
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };

@@ -474,6 +474,7 @@ class FITSView : public QScrollArea
         void setRubberBand(QRect rect);
         void showRubberBand(bool on = false);
         void zoomRubberBand(double scale);
+        void mouseOverPixel(int x, int y);
 
         friend class FITSLabel;
 };

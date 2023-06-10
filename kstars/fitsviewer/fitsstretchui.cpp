@@ -256,6 +256,34 @@ void FITSStretchUI::setStretchUIValues(const StretchParams1Channel &params)
 
 void FITSStretchUI::setupConnections()
 {
+    connect(m_View.get(), &FITSView::mouseOverPixel, [ this ](int x, int y)
+    {
+        if (pixelCursors.size() != m_View->imageData()->channels())
+            pixelCursors.fill(nullptr, m_View->imageData()->channels());
+
+        if (!m_View || !m_View->imageData() || !m_View->imageData()->isHistogramConstructed()) return;
+        auto image = m_View->imageData();
+        const int nChannels = m_View->imageData()->channels();
+        for (int c = 0; c < nChannels; ++c)
+        {
+            if (pixelCursors[c] != nullptr)
+            {
+                histoPlot->removeItem(pixelCursors[c]);
+                pixelCursors[c] = nullptr;
+            }
+            if (x < 0 || y < 0 || x >= m_View->imageData()->width() ||
+                    y >= m_View->imageData()->height())
+                continue;
+            int32_t bin = image->histogramBin(x, y, c);
+            QColor color = Qt::darkGray;
+            if (nChannels > 1)
+                color = c == 0 ? QColor(255, 10, 65) : ((c == 1) ? QColor(144, 238, 144, 225) : QColor(173, 216, 230, 175));
+
+            pixelCursors[c] = setCursor(bin, QPen(color, 2, Qt::SolidLine));
+        }
+        histoPlot->replot();
+    });
+
     connect(highlightsVal, &QDoubleSpinBox::editingFinished, [ this ]()
     {
         StretchParams params = m_View->getStretchParams();
@@ -341,23 +369,24 @@ double toHistogramPosition(double position, const QSharedPointer<FITSData> &data
 }
 
 // Adds a vertical line on the histogram plot (the cursor for the min or max slider).
-QCPItemLine * FITSStretchUI::setCursor(int position)
+QCPItemLine * FITSStretchUI::setCursor(int position, const QPen &pen)
 {
     QCPItemLine *line = new QCPItemLine(histoPlot);
-    line->setPen(QPen(Qt::white, 1, Qt::DotLine));
+    line->setPen(pen);
     const double top = histoPlot->yAxis->range().upper;
     const double bottom = histoPlot->yAxis->range().lower;
-    line->start->setCoords(position, bottom);
-    line->end->setCoords(position, top);
+    line->start->setCoords(position + .5, bottom);
+    line->end->setCoords(position + .5, top);
     return line;
 }
 
 void FITSStretchUI::setCursors(const StretchParams &params)
 {
+    const QPen pen(Qt::white, 1, Qt::DotLine);
     removeCursors();
     auto data = m_View->imageData();
-    minCursor = setCursor(toHistogramPosition(params.grey_red.shadows, data));
-    maxCursor = setCursor(toHistogramPosition(params.grey_red.highlights, data));
+    minCursor = setCursor(toHistogramPosition(params.grey_red.shadows, data), pen);
+    maxCursor = setCursor(toHistogramPosition(params.grey_red.highlights, data), pen);
 }
 
 void FITSStretchUI::removeCursors()

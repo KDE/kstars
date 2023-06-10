@@ -4298,6 +4298,66 @@ void FITSData::constructHistogram()
     }
 }
 
+template <typename T> int32_t FITSData::histogramBinInternal(T value, int channel) const
+{
+    return qMax(static_cast<T>(0), qMin(static_cast<T>(m_HistogramBinCount),
+                                        static_cast<T>(rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
+}
+
+template <typename T> int32_t FITSData::histogramBinInternal(int x, int y, int channel) const
+{
+    if (!m_ImageBuffer || !isHistogramConstructed())
+        return 0;
+    uint32_t samples = m_Statistics.width * m_Statistics.height;
+    uint32_t offset = channel * samples;
+    auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
+    int index = y * m_Statistics.width + x;
+    const T &sample = buffer[index + offset];
+    return histogramBinInternal(sample, channel);
+}
+
+int32_t FITSData::histogramBin(int x, int y, int channel) const
+{
+    switch (m_Statistics.dataType)
+    {
+        case TBYTE:
+            return histogramBinInternal<uint8_t>(x, y, channel);
+            break;
+
+        case TSHORT:
+            return histogramBinInternal<int16_t>(x, y, channel);
+            break;
+
+        case TUSHORT:
+            return histogramBinInternal<uint16_t>(x, y, channel);
+            break;
+
+        case TLONG:
+            return histogramBinInternal<int32_t>(x, y, channel);
+            break;
+
+        case TULONG:
+            return histogramBinInternal<uint32_t>(x, y, channel);
+            break;
+
+        case TFLOAT:
+            return histogramBinInternal<float>(x, y, channel);
+            break;
+
+        case TLONGLONG:
+            return histogramBinInternal<int64_t>(x, y, channel);
+            break;
+
+        case TDOUBLE:
+            return histogramBinInternal<double>(x, y, channel);
+            break;
+
+        default:
+            return 0;
+            break;
+    }
+}
+
 template <typename T> void FITSData::constructHistogramInternal()
 {
     auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
@@ -4337,8 +4397,7 @@ template <typename T> void FITSData::constructHistogramInternal()
 
             for (uint32_t i = 0; i < samples; i += sampleBy)
             {
-                int32_t id = qMax(static_cast<T>(0), qMin(static_cast<T>(m_HistogramBinCount),
-                                  static_cast<T>(rint((buffer[i + offset] - m_Statistics.min[n]) / m_HistogramBinWidth[n]))));
+                int32_t id = histogramBinInternal<T>(buffer[i + offset], n);
                 m_HistogramFrequency[n][id] += sampleBy;
             }
         }));

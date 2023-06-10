@@ -32,13 +32,13 @@ class FITSStretchUI : public QWidget, public Ui::FITSStretchUI
         void onHistoDoubleClick(QMouseEvent *event);
         void onHistoMouseMove(QMouseEvent *event);
 
-        QCPItemLine * setCursor(int position);
+        QCPItemLine * setCursor(int position, const QPen &pen);
         void setCursors(const StretchParams &params);
         void removeCursors();
-
 
         QSharedPointer<FITSView> m_View;
         QCPItemLine *minCursor = nullptr;
         QCPItemLine *maxCursor = nullptr;
+        QVector<QCPItemLine*> pixelCursors;
 };
 
