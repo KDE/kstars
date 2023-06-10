@@ -225,24 +225,23 @@ void DarkProcessor::denoise(int trainID, ISD::CameraChip *m_TargetChip, const QS
                             double duration, uint16_t offsetX, uint16_t offsetY)
 {
     info = {trainID, m_TargetChip, targetData, duration, offsetX, offsetY};
-    QFuture<bool> result = QtConcurrent::run(this, &DarkProcessor::denoiseInternal);
+
+    auto useDefect = false;
+    // Get the train settings
+    OpticalTrainSettings::Instance()->setOpticalTrainID(trainID);
+    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::DarkLibrary);
+    if (settings.isValid())
+        useDefect = settings.toMap().contains("preferDefectsRadio");
+
+    QFuture<bool> result = QtConcurrent::run(this, &DarkProcessor::denoiseInternal, useDefect);
     m_Watcher.setFuture(result);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-bool DarkProcessor::denoiseInternal()
+bool DarkProcessor::denoiseInternal(bool useDefect)
 {
-    auto train = info.trainID;
-    auto useDefect = false;
-
-    // Get the train settings
-    OpticalTrainSettings::Instance()->setOpticalTrainID(train);
-    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::DarkLibrary);
-    if (settings.isValid())
-        useDefect = settings.toMap().contains("preferDefectsRadio");
-
     // Check if we have preference for defect map
     // If yes, check if defect map exists
     // If not, we check if we have regular dark frame as backup.
