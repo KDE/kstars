@@ -47,7 +47,7 @@ class DarkProcessor : public QObject
     private:
 
         // Denoise Internal
-        bool denoiseInternal();
+        bool denoiseInternal(bool useDefect);
         void processDenoiseResult();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
