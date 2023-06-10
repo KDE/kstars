@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-06-07 16:21+0300\n"
+"PO-Revision-Date: 2023-06-09 17:38+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -17383,6 +17383,11 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Виберіть підкадр для використання під час фокусування "
+"окремої зірки (зауваження: алгоритм повного поля використовує декілька "
+"зірок). У цьому режимі стає активним пункт автоматичного вибору зірки, щоб "
+"або Ekos вибрав зірку (якщо позначено), або користувач вибрав зірку у засобі "
+"перегляду FITS вручну (якщо не позначено).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17399,6 +17404,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Виберіть «Повне поле», щоб засіб фокусування "
+"використав декілька зірок (зауваження: при виборі варіанта «Підкадр» буде "
+"використано одну зірку). У цьому режимі Ekos автоматично вибиратиме декілька "
+"зірок під час автофокусування і, наприклад, для фокусування буде використано "
+"середній РПП для усіх зірок.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17466,6 +17476,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Цим пунктом можна буде скористатися, якщо вибрано "
+"варіант «Підкадр». Позначте, щоб дозволити Ekos вибрати для фокусування одну "
+"зірку; зніміть позначку, щоб дозволити користувачеві вибрати зірку у засобі "
+"перегляду FITS.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -19017,10 +19031,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "Називатиметься newMeasurement після визначення розв'язку."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "Не вдалося завантажити дані темного зображення."
+msgstr "Не вдалося апроксимувати дані кривою."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format

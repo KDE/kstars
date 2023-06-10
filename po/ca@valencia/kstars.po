@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-06-07 11:49+0200\n"
+"PO-Revision-Date: 2023-06-09 20:33+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -13007,8 +13007,8 @@ msgid ""
 "A variable to store the fwhm in pixels used to generate the convolution "
 "filter for star detection."
 msgstr ""
-"Una variable per a emmagatzemar «fwhm» en píxels utilitzada per a generar el "
-"filtre de convolució per a la detecció d'estreles."
+"Una variable per a emmagatzemar el FWHM en píxels utilitzada per a generar "
+"el filtre de convolució per a la detecció d'estreles."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:376
@@ -17419,7 +17419,7 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Durant l'enfocament de camp complet, açò controla la "
+"<html><head/><body><p>Durant l'enfocament de «Camp complet», açò controla la "
 "mida d'un anell centrat al mig del sensor per a incloure'l per al seu "
 "processament. Establiu el % intern a zero per a incloure el centre del "
 "sensor i establiu el % extern a 100 per a incloure les vores exteriors del "
@@ -17464,6 +17464,12 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccioneu «Submarc» per a fer que l'enfocament "
+"utilitze una sola estrela (nota: «Camp complet» utilitza múltiples "
+"estreles). En este mode, la casella de selecció «Selecció automàtica de "
+"l'estrela» s'activarà per a permetre que Ekos seleccione una estrela (quan "
+"està marcada) o per a permetre que l'usuari la seleccione manualment en el "
+"Visor FITS (quan no està marcada).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17480,6 +17486,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccioneu «Camp complet» per a permetre que "
+"l'enfocament utilitze múltiples estreles (nota: «Submarc» utilitza una sola "
+"estrela). En este mode, Ekos seleccionarà automàticament múltiples estreles "
+"durant l'enfocament automàtic i, per exemple, per a fer l'enfocament farà "
+"una mitjana de l'HFR de totes les estreles detectades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17547,6 +17558,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta opció només estarà activa quan seleccioneu "
+"«Submarc». Marqueu-la per a permetre que Ekos seleccione una sola estrela "
+"per a l'enfocament. Desmarqueu-la per a permetre que l'usuari seleccione "
+"l'estrela que s'utilitzarà en el Visor FITS.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -19094,10 +19109,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "S'ha cridat «newMeasurement» després de trobar una solució."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "No s'han pogut carregar les dades fosques."
+msgstr "No s'ha pogut ajustar la corba a les dades."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
@@ -83755,25 +83769,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
-#~ "procedure.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Submarc al voltant de l'estrela enfocada durant el "
-#~ "procediment d'enfocament automàtic.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
-#~ "full frame. This method defaults to the Centroid detection, but can use "
-#~ "SEP detection too. Its performance decreases as the number of stars "
-#~ "increases.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Mesura la mitjana de l'HFR de totes les estreles "
-#~ "combinades en un fotograma complet. Este mètode és predeterminat per a la "
-#~ "detecció de centroide, però també pot utilitzar la detecció SEP. El seu "
-#~ "rendiment disminuïx quan el nombre d'estreles crix.</p></body></html>"
-
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr ""
-#~ "Selecció automàtica de la millor estrela de la imatge per a enfocar-la"

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-06-07 10:32+0200\n"
+"PO-Revision-Date: 2023-06-09 11:02+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17261,6 +17261,12 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Subframe selecteren om focusseren een enkele ster te "
+"laten gebruiken (noot: volledig veld gebruikt meerdere sterren).  In deze "
+"modus wordt het keuzevakje Automatisch ster selecteren actief om ofwel Ekos "
+"een ster te laten selecteren (indien geactiveerd) of om de gebruiker "
+"handmatig de ster in FitsViewer (indien niet geactiveerd) te laten "
+"selecteren.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17277,6 +17283,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Volledig veld selecteren om focusseren de meerdere "
+"sterren te laten gebruiken (noot: Subframe gebruikt een enkele ster).  In "
+"deze modus zal Ekos automatisch meerdere sterren selecteren tijdens "
+"Autofocus en, bijvoorbeeld, de HFR, van alle sterren gedetecteerd om "
+"focusseren uit voeren, te middelen. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17344,6 +17355,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Deze optie is alleen actief wanneer Subframe is "
+"geselecteerd.  Activeren om Ekos een enkele ster te laten selecteren voor "
+"focusseren; deactiveer om de gebruiker de ster te laten selecteren om in "
+"FitsViewer te gebruiken.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -18883,10 +18898,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "newMeasurement aangeroepen na vinden van een oplossing.."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "Laden van dark-gegevens is mislukt."
+msgstr "De kromme aan de gegevens laten passen is mislukt."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format

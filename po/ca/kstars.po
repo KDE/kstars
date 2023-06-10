@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-06-07 11:03+0200\n"
+"PO-Revision-Date: 2023-06-09 10:09+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -17456,6 +17456,13 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><body><p>Seleccioneu el submarc per a fer que "
+"l'enfocament utilitzi una única estrella (nota: el camp complet utilitza "
+"diverses estrelles). En aquest mode, la casella de selecció «Selecció "
+"automàtica d'estrelles» esdevé activa per a permetre a l'Ekos seleccionar "
+"una estrella (quan està marcada) o permetre a l'usuari seleccionar "
+"manualment l'estrella al visualitzador Fits (quan no està marcada).</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17472,6 +17479,12 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Selecciona el camp complet per permetre que "
+"l'enfocament utilitzi diverses estrelles (nota: submarc utilitza una única "
+"estrella). En aquest mode, l'Ekos seleccionarà automàticament diverses "
+"estrelles durant l'enfocament automàtic i, per exemple, la mitjana de l'HFR "
+"de totes les estrelles detectades per a realitzar l'enfocament. </p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17539,6 +17552,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Aquesta opció només està activa quan se selecciona "
+"Submarc. Marqueu-ho per a permetre que l'Ekos seleccioni una única estrella "
+"per a l'enfocament; desmarqueu-ho per a permetre que l'usuari seleccioni "
+"l'estrella a usar al visualitzador Fits.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -17979,8 +17996,8 @@ msgstr ""
 "<html><head/><body><p>Marqueu-ho per utilitzar la desviació estàndard de "
 "l'estrella HFR o FWHM com a ponderació de l'algorisme d'ajust de la corba. "
 "Si no està marcat, tots els punts de dades tenen la mateixa ponderació. "
-"Actualment només està disponible quan s'utilitza el camp complet (estrelles "
-"múltiples) i un ajust de corba d'hipèrbola o paràbola a l'algorisme lineal "
+"Actualment només està disponible quan s'utilitza el camp complet (diverses "
+"estrelles) i un ajust de corba d'hipèrbola o paràbola a l'algorisme lineal "
 "d'1 pas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
@@ -19088,10 +19105,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "S'ha cridat «newMeasurement» després de trobar una solució."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "Ha fallat en carregar les dades fosques."
+msgstr "Ha fallat en ajustar la corba a les dades."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
@@ -28401,7 +28417,7 @@ msgstr "El KStars no ha pogut trobar cap muntura activa."
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
 msgid "Stretch (or disable stretching) the image."
-msgstr "Estira (o desactiva l'estirament de) la imatge"
+msgstr "Estira (o desactiva l'estirament de) la imatge."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)

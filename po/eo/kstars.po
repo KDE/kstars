@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-06-08 19:23+0100\n"
+"PO-Revision-Date: 2023-06-09 12:40+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -17154,6 +17154,11 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Elektu Subkadron por igi fokusadon uzi unusolan stelon "
+"(noto: Plena Kampo uzas plurajn stelojn). En ĉi tiu reĝimo la markobutono "
+"Aŭtomata Elekto de Stelo fariĝas aktiva por permesi aŭ Ekos elekti stelon "
+"(kiam markite) aŭ permesi al la uzanto mane elekti la stelon en FitsViewer "
+"(kiam malmarkite).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17170,6 +17175,10 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Elektu Plenan Kampon por permesi al fokuso uzi plurajn "
+"stelojn (noto: Subkadro uzas ununuran stelon). En ĉi tiu reĝimo Ekos "
+"aŭtomate elektos plurajn stelojn dum Aŭtomata fokuso kaj, ekzemple, averaĝos "
+"la HFR de ĉiuj steloj detektitaj por efektivigi fokuson. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17236,6 +17245,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ĉi tiu opcio estas aktiva nur kiam Subkadro estas "
+"elektita. Marku por permesi al Ekos elekti ununuran stelon por fokuso; "
+"malmarku por permesi al la uzanto elekti la stelon por uzi en FitsViewer.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -17252,6 +17265,10 @@ msgid ""
 "percentage of the image diagonal. Set to zero to include the centre of the "
 "sensor.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diametro de la interna rondo esti ekskludita de fokuso "
+"(ekz. centrita galaksio aŭ stelamaso). La diametro estas donita kiel "
+"procento de la bilda diagonalo. Agordu al nulo por inkluzivi la centron de "
+"la sensilo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1211
@@ -18759,10 +18776,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "Nomita novaMezurado post kiam solvo estis trovita."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "Malsukcesis ŝargi malhelajn datumojn."
+msgstr "Malsukcesis konformigi kurbon al datumoj."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
@@ -20032,7 +20048,11 @@ msgid_plural ""
 "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible "
 "mount or backlash problems..."
 msgstr[0] ""
+"Guide RA: Amplekso ne povas antingi la startpunkton post %1 iteracio. Eblaj "
+"problemoj pri munto aŭ kontraŭreago..."
 msgstr[1] ""
+"GUIDE_RA: Amplekso ne povas antingi la startpunkton post %1 iteracioj. Eblaj "
+"problemoj pri munto aŭ kontraŭreago..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:354
 #, kde-format
@@ -20083,7 +20103,11 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
+"GUIDE_DEC: Amplekso ne povas antingi la startpunkton post %1 iteracio.\n"
+"Eblaj problemoj pri munto aŭ kontraŭreago..."
 msgstr[1] ""
+"GUIDE_DEC: Amplekso ne povas antingi la startpunkton post %1 iteracioj.\n"
+"Eblaj problemoj pri munto aŭ kontraŭreago..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:511
 #, kde-format
@@ -82543,24 +82567,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
-#~ "procedure.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Subkadro ĉirkaŭ la fokusstelo dum la aŭtofokusa "
-#~ "proceduro.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
-#~ "full frame. This method defaults to the Centroid detection, but can use "
-#~ "SEP detection too. Its performance decreases as the number of stars "
-#~ "increases.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Mezuru averaĝan HFR de ĉiuj steloj kombinitaj en "
-#~ "plena kadro. Ĉi tiu metodo defaŭlte al la Centroida detekto, sed ankaŭ "
-#~ "povas uzi SEP-detekto. Ĝia rendimento malpliiĝas, kiam la nombro da "
-#~ "steloj pliiĝas.</p></body></html>"
-
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr "Aŭtomate elekti la plej bonan fokusan stelon el la bildo"

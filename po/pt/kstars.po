@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-06-02 09:46+0100\n"
+"PO-Revision-Date: 2023-06-09 23:17+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -20155,10 +20155,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "Foi invocado o 'newMeasurement' após ser encontrada uma solução."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "Não foi possível carregar os dados escuros."
+msgstr "Não foi possível ajustar a curva aos dados."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
@@ -29458,10 +29457,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "Sombra da Terra"
+msgstr "Sombras"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
@@ -29472,11 +29470,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "Micronésia"
+msgstr "Meios-tons"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
@@ -29487,24 +29483,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgid "Twilight"
+#, kde-format
 msgid "Highlights"
-msgstr "Madrugada"
+msgstr "Tons claros"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
-#, fuzzy, kde-format
-#| msgid "Enable or Disable the Max Value Cutoff"
+#, kde-format
 msgid "Enable or disable the histogram display."
-msgstr "Activar ou Desactivar o Valor Máximo de Corte"
+msgstr "Activar ou desactivar a visualização do histograma."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
-#| msgid "Automatically start the park timer on startup"
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Iniciar automaticamente o temporizador do bloqueio no arranque"
+msgstr "Desconrir automaticamente o parâmetro de esticamento."
 
 #: fitsviewer/fitstab.cpp:56
 #, kde-format
@@ -84536,24 +84529,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
-#~ "procedure.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Sub-moldura em torno da estrela de focagem durante "
-#~ "o procedimento de focagem automática.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
-#~ "full frame. This method defaults to the Centroid detection, but can use "
-#~ "SEP detection too. Its performance decreases as the number of stars "
-#~ "increases.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Medir o HFR médio de todas as estrelas combinadas "
-#~ "numa imagem completa. Este método usa por omissão a detecção do "
-#~ "Centróide, mas também poderá usar a detecção do SEP. A performance "
-#~ "diminui à medida que o número de estrelas aumenta.</p></body></html>"
-
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr "Seleccionar automaticamente a melhor estrela a focar na imagem"
