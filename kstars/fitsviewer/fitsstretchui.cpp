@@ -98,16 +98,17 @@ void FITSStretchUI::onHistoMouseMove(QMouseEvent *event)
     const int numPixels = image->width() * image->height();
     const int histogramSize = image->getHistogramBinCount();
     const int histoBin = std::max(0, std::min(histogramSize - 1,
-                                  static_cast<int>(0.5 + histoPlot->xAxis->pixelToCoord(event->x()))));
+                                  static_cast<int>(histoPlot->xAxis->pixelToCoord(event->x()))));
 
     QString tip = "";
     if (histoBin >= 0 && histoBin < histogramSize)
     {
         for (int c = 0; c < image->channels(); ++c)
         {
-            const double binWidth = image->getHistogramBinWidth(c);
-            const double lowRange = image->getStatistics().min[c] + binWidth * histoBin;
-            const double highRange = image->getStatistics().min[c] + binWidth * (histoBin + 1);
+            const QVector<double> &intervals = image->getHistogramIntensity(c);
+            const double lowRange = intervals[histoBin];
+            const double highRange = lowRange + image->getHistogramBinWidth(c);
+
             if (rgbHistogram)
                 tip.append(QString("<font color=\"%1\">").arg(c == 0 ? "red" : (c == 1) ? "lightgreen" : "lightblue"));
 
@@ -364,7 +365,6 @@ double toHistogramPosition(double position, const QSharedPointer<FITSData> &data
 {
     if (!data->isHistogramConstructed())
         return 0;
-    const QVector<double> &h = data->getHistogramFrequency(0);
     const double size = data->getHistogramBinCount();
     return position * size;
 }

@@ -450,10 +450,14 @@ class FITSData : public QObject
             return m_HistogramBinWidth[channel];
         }
 
+        // Returns a vector with the counts (y-axis values) for the histogram.
         const QVector<uint32_t> &getCumulativeFrequency(uint8_t channel = 0) const
         {
             return m_CumulativeFrequency[channel];
         }
+        // Returns a vector with the values (x-axis values) for the histogram.
+        // The value returned is the low end of the histogram interval.
+        // The high end is this intensity plus the value returned by getHistogramBinWidth().
         const QVector<double> &getHistogramIntensity(uint8_t channel = 0) const
         {
             return m_HistogramIntensity[channel];
