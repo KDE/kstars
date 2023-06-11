@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-11 00:42+0000\n"
 "PO-Revision-Date: 2009-04-22 00:00+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -3821,7 +3821,7 @@ msgstr "फाइल %1 खोलि नहि सकल"
 msgid "No connected mounts found."
 msgstr "डिसकनेक्ट करू"
 
-#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:433
+#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:436
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
@@ -11468,7 +11468,7 @@ msgstr "उद्भासन:"
 msgid "Double click to load dark frame"
 msgstr "चित्र सहेजबामे विफल"
 
-#: ekos/auxiliary/darkprocessor.cpp:269 ekos/auxiliary/darkprocessor.cpp:277
+#: ekos/auxiliary/darkprocessor.cpp:268 ekos/auxiliary/darkprocessor.cpp:276
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -27792,21 +27792,21 @@ msgstr ""
 msgid "Apply"
 msgstr "लागू करू (&A)"
 
-#: fitsviewer/fitslabel.cpp:281
+#: fitsviewer/fitslabel.cpp:284
 #, fuzzy, kde-format
 #| msgid "Size:"
 msgctxt "Half Flux Radius"
 msgid "HFR: %1"
 msgstr "आकार:"
 
-#: fitsviewer/fitslabel.cpp:339 tools/whatsinteresting/wiview.cpp:332
+#: fitsviewer/fitslabel.cpp:342 tools/whatsinteresting/wiview.cpp:332
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Aalborg"
 msgid "Continue Slew"
 msgstr "अलबर्ग"
 
-#: fitsviewer/fitslabel.cpp:422 fitsviewer/fitslabel.cpp:449
+#: fitsviewer/fitslabel.cpp:425 fitsviewer/fitslabel.cpp:452
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr ""
@@ -27924,90 +27924,90 @@ msgstr "चित्र"
 msgid "File saved to %1"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
+#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Rescaling image failed."
 msgstr "आन"
 
-#: fitsviewer/fitsview.cpp:660
+#: fitsviewer/fitsview.cpp:661
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1646
+#: fitsviewer/fitsview.cpp:1647
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1663
+#: fitsviewer/fitsview.cpp:1664
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2083
+#: fitsviewer/fitsview.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Finding stars..."
 msgstr "स्कोप"
 
-#: fitsviewer/fitsview.cpp:2322
+#: fitsviewer/fitsview.cpp:2323
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2326
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2329
 #, fuzzy, kde-format
 #| msgctxt "use default color scheme"
 #| msgid "Default Colors"
 msgid "Default Zoom"
 msgstr "मूलभूत रँग"
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2332
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2335
 #, fuzzy, kde-format
 #| msgid "Colors"
 msgid "Toggle Stretch"
 msgstr "रँग"
 
-#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
 #, fuzzy, kde-format
 #| msgctxt "Region/state name (optional, rarely needs a translation)"
 #| msgid "Manitoba"
 msgid "Show Pixel Gridlines"
 msgstr "मैनीटोबा"
 
-#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
+#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
 #, fuzzy, kde-format
 #| msgid "Delete"
 msgid "Detect Stars in Image"
 msgstr "मेटाबू"
 
-#: fitsviewer/fitsview.cpp:2357
+#: fitsviewer/fitsview.cpp:2358
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Recife"
 msgid "View Star Profile"
 msgstr "रिसाइफ"
 
-#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
@@ -28015,14 +28015,14 @@ msgstr "रिसाइफ"
 msgid "Show Equatorial Gridlines"
 msgstr "भूमध्यरेखीय गायना"
 
-#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, fuzzy, kde-format
 #| msgid "File name:"
 msgid "Show Objects in Image"
 msgstr "फाइल नाम:"
 
-#: fitsviewer/fitsview.cpp:2379
+#: fitsviewer/fitsview.cpp:2380
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Center Telescope"

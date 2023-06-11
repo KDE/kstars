@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-11 00:42+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -3679,7 +3679,7 @@ msgstr "GStreamer ഫയല്‍ ഔട്ട്പുട്ട് നിര്
 msgid "No connected mounts found."
 msgstr "CD-ROM ഡ്രൈവുകള്‍ ലഭ്യമല്ല"
 
-#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:433
+#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:436
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
@@ -11078,7 +11078,7 @@ msgstr "വിതരണ പട്ടിക"
 msgid "Double click to load dark frame"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/auxiliary/darkprocessor.cpp:269 ekos/auxiliary/darkprocessor.cpp:277
+#: ekos/auxiliary/darkprocessor.cpp:268 ekos/auxiliary/darkprocessor.cpp:276
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -26645,21 +26645,21 @@ msgstr ""
 msgid "Apply"
 msgstr "വ്യത്യാസങ്ങള്‍ പ്രാബല്യത്തില്‍ വരാന്‍."
 
-#: fitsviewer/fitslabel.cpp:281
+#: fitsviewer/fitslabel.cpp:284
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgctxt "Half Flux Radius"
 msgid "HFR: %1"
 msgstr "സൂര്യാസ്തമനം: %1"
 
-#: fitsviewer/fitslabel.cpp:339 tools/whatsinteresting/wiview.cpp:332
+#: fitsviewer/fitslabel.cpp:342 tools/whatsinteresting/wiview.cpp:332
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arborg"
 msgid "Continue Slew"
 msgstr "ആര്‍ബര്‍ഗ്"
 
-#: fitsviewer/fitslabel.cpp:422 fitsviewer/fitslabel.cpp:449
+#: fitsviewer/fitslabel.cpp:425 fitsviewer/fitslabel.cpp:452
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr ""
@@ -26769,94 +26769,94 @@ msgstr "_ഔട്ട്പുട്ട് ഫോര്‍മാറ്റ്:"
 msgid "File saved to %1"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
+#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
 #, fuzzy, kde-format
 msgid "Rescaling image failed."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: fitsviewer/fitsview.cpp:660
+#: fitsviewer/fitsview.cpp:661
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1646
+#: fitsviewer/fitsview.cpp:1647
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1663
+#: fitsviewer/fitsview.cpp:1664
 #, fuzzy, kde-format
 #| msgid "UT:"
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "UT:"
 
-#: fitsviewer/fitsview.cpp:2083
+#: fitsviewer/fitsview.cpp:2084
 #, fuzzy, kde-format
 msgid "Finding stars..."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: fitsviewer/fitsview.cpp:2322
+#: fitsviewer/fitsview.cpp:2323
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2326
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2329
 #, fuzzy, kde-format
 msgid "Default Zoom"
 msgstr "മാനുഷിക പര്‍വ്വതീകരണം: "
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2332
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2335
 #, fuzzy, kde-format
 msgid "Toggle Stretch"
 msgstr "ചന്ദ്ര മാപനം"
 
-#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
 #, fuzzy, kde-format
 msgid "Show Cross Hairs"
 msgstr "<b>ഗാനങ്ങളുടെ പേരു്</b>"
 
-#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
 #, fuzzy, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "നക്ഷത്രരാശിയുടെ കലാരൂപത്തിന്റെ തീവ്രത"
 
-#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
+#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
 #, fuzzy, kde-format
 msgid "Detect Stars in Image"
 msgstr "_ഫോള്‍ഡര്‍ തുറക്കുക"
 
-#: fitsviewer/fitsview.cpp:2357
+#: fitsviewer/fitsview.cpp:2358
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arrecife"
 msgid "View Star Profile"
 msgstr "അര്രസീഫ്"
 
-#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, fuzzy, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "ഭൂമദ്ധ്യരേഖാ ചട്ടക്കൂട്"
 
-#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, fuzzy, kde-format
 msgid "Show Objects in Image"
 msgstr "ഫയലിന്റെ _പേരു്:"
 
-#: fitsviewer/fitsview.cpp:2379
+#: fitsviewer/fitsview.cpp:2380
 #, fuzzy, kde-format
 msgid "Center Telescope"
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"

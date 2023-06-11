@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-11 00:42+0000\n"
 "PO-Revision-Date: 2023-06-09 10:09+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3633,7 +3633,7 @@ msgstr "No s'ha pogut actualitzar el registre d'usuaris."
 msgid "No connected mounts found."
 msgstr "No s'ha trobat cap muntura connectada."
 
-#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:433
+#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:436
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
@@ -11499,7 +11499,7 @@ msgstr "Neteja els caducats"
 msgid "Double click to load dark frame"
 msgstr "Feu doble clic per a carregar un fotograma fosc"
 
-#: ekos/auxiliary/darkprocessor.cpp:269 ekos/auxiliary/darkprocessor.cpp:277
+#: ekos/auxiliary/darkprocessor.cpp:268 ekos/auxiliary/darkprocessor.cpp:276
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -28397,18 +28397,18 @@ msgstr "B"
 msgid "Apply"
 msgstr "Aplica"
 
-#: fitsviewer/fitslabel.cpp:281
+#: fitsviewer/fitslabel.cpp:284
 #, kde-format
 msgctxt "Half Flux Radius"
 msgid "HFR: %1"
 msgstr "HFR: %1"
 
-#: fitsviewer/fitslabel.cpp:339 tools/whatsinteresting/wiview.cpp:332
+#: fitsviewer/fitslabel.cpp:342 tools/whatsinteresting/wiview.cpp:332
 #, kde-format
 msgid "Continue Slew"
 msgstr "Continua l'orientació"
 
-#: fitsviewer/fitslabel.cpp:422 fitsviewer/fitslabel.cpp:449
+#: fitsviewer/fitslabel.cpp:425 fitsviewer/fitslabel.cpp:452
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr "El KStars no ha pogut trobar cap muntura activa."
@@ -28517,91 +28517,91 @@ msgstr "Desament de la imatge"
 msgid "File saved to %1"
 msgstr "El fitxer s'ha desat a %1"
 
-#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
+#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "El canvi d'escala de la imatge ha fallat."
 
-#: fitsviewer/fitsview.cpp:660
+#: fitsviewer/fitsview.cpp:661
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "No es pot fer més zoom a causa d'un mode actiu de recursos limitats."
 
-#: fitsviewer/fitsview.cpp:1646
+#: fitsviewer/fitsview.cpp:1647
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "PNC"
 
-#: fitsviewer/fitsview.cpp:1663
+#: fitsviewer/fitsview.cpp:1664
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "PSC"
 
-#: fitsviewer/fitsview.cpp:2083
+#: fitsviewer/fitsview.cpp:2084
 #, kde-format
 msgid "Finding stars..."
 msgstr "S'estan cercant les estrelles..."
 
-#: fitsviewer/fitsview.cpp:2322
+#: fitsviewer/fitsview.cpp:2323
 #, kde-format
 msgid "Zoom In"
 msgstr "Apropa"
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2326
 #, kde-format
 msgid "Zoom Out"
 msgstr "Allunya"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2329
 #, kde-format
 msgid "Default Zoom"
 msgstr "Zoom predeterminat"
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2332
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Zoom fins que ajusti"
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2335
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Alterna l'estirament"
 
-#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Mostra el punt de mira"
 
-#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostra les línies de la quadrícula de píxels"
 
-#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
+#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Detecta les estrelles a la imatge"
 
-#: fitsviewer/fitsview.cpp:2357
+#: fitsviewer/fitsview.cpp:2358
 #, kde-format
 msgid "View Star Profile"
 msgstr "Perfil de vista d'estrella"
 
-#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostra les línies de la quadrícula equatorial"
 
-#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostra els objectes a la imatge"
 
-#: fitsviewer/fitsview.cpp:2379
+#: fitsviewer/fitsview.cpp:2380
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centra el telescopi"

@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1653466 $
+# Version: $Revision: 1653610 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-04-23 11:55+0200\n"
+"POT-Creation-Date: 2023-06-11 00:42+0000\n"
+"PO-Revision-Date: 2023-06-10 10:02+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -3609,7 +3609,7 @@ msgstr "Nie można uaktualnić dziennika użytkownika."
 msgid "No connected mounts found."
 msgstr "Nie znaleziono żadnych podłączonych montaży."
 
-#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:433
+#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:436
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
@@ -6716,7 +6716,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Current"
 msgid "use current"
-msgstr "Bieżący:"
+msgstr "Użyj bieżącej"
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
 #: ekos/align/align.ui:756
@@ -10798,26 +10798,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1385
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "focus"
-msgstr "Skupienie"
+msgstr "aktywny element"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1398
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature. Click here to view "
-#| "this axis on left-axis values. Double click to update axis.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plot the autofocus solution position. Click here to "
 "view this axis on left-axis values. Double click to update axis.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Narysuj temperaturę otoczenia. Naciśnij tutaj, aby "
-"obejrzeć tę oś na wartościach osi lewej. Naciśnij dwukrotnie, aby uaktualnić "
-"oś.</p></body></html>"
+"<html><head/><body><p>Narysuj położenie rozwiązania samoogniskowania. "
+"Naciśnij tutaj, aby obejrzeć tę oś po stronie lewej. Naciśnij dwukrotnie, "
+"aby uaktualnić oś.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
@@ -11403,7 +11398,7 @@ msgstr "Wyczyść wygasłe"
 msgid "Double click to load dark frame"
 msgstr "Naciśnij dwukrtonie, aby wczytać ciemną klatkę"
 
-#: ekos/auxiliary/darkprocessor.cpp:269 ekos/auxiliary/darkprocessor.cpp:277
+#: ekos/auxiliary/darkprocessor.cpp:268 ekos/auxiliary/darkprocessor.cpp:276
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -11545,8 +11540,7 @@ msgid "Mid-point wavelength of filter in nm"
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:98
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
 msgstr "Długość fali:"
 
@@ -11564,7 +11558,7 @@ msgstr "Potwierdź filtr"
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to cancel?"
 msgid "Are you sure you want to quit?"
-msgstr "Czy na pewno zaniechać?"
+msgstr "Czy na pewno chcesz zakończyć?"
 
 #: ekos/auxiliary/filtermanager.cpp:1023
 #, fuzzy, kde-format
@@ -11630,19 +11624,15 @@ msgstr "Koło filtra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/filtersettings.ui:84
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
-#| "span> filter focus offset in steps. The offsets are global and are "
-#| "applied when the filter changes.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
 "span> filter offsets in steps either directly in the table or use the Build "
 "Offsets tool.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ustaw <span style=\" font-style:italic;\">względne</"
-"span> przesunięcie ogniskowej z filtrem w krokach. Przesunięcia są globalne "
-"i stosowane w chwilach zmiany filtra.</p></body></html>"
+"span> przesunięcie filtra w krokach podanych albo bezpośrednio albo w "
+"tabeli. Możesz także użyć narzędzia Tworzenia Przesunięć.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
 #: ekos/auxiliary/filtersettings.ui:100
@@ -15632,9 +15622,7 @@ msgstr "Całkowity czas naświetlenia (ms)"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Sky Quality"
+#, kde-format
 msgid "Sky Quality"
 msgstr "Jakość nieba"
 
@@ -15946,35 +15934,27 @@ msgstr "N"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, paGauge)
 #: ekos/capture/rotatorsettings.ui:85
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). Calibrate the rotator by "
 "plate solving in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Jeśli zdalny komputer ma wgrane astrometry.net, to "
-"możesz uruchomić zdalny sterownik astronometry i użyć go do rozwiązywania "
-"obrazów w module wyrównywania Ekos.</p></body></html>"
+"<html><head/><body><p>Miernik obrotnicy pokazuje bieżące kąt położenia "
+"aparatu (żółty) oraz obrotnicy (szary). Skalibruj obrotnicę na podstawie "
+"fotoastronometrii w członie Wyrównywania.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, rotatorGauge)
 #: ekos/capture/rotatorsettings.ui:121
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). To calibrate the rotator, "
 "capture and solve an image in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Jeśli zdalny komputer ma wgrane astrometry.net, to "
-"możesz uruchomić zdalny sterownik astronometry i użyć go do rozwiązywania "
-"obrazów w module wyrównywania Ekos.</p></body></html>"
+"<html><head/><body><p>Miernik obrotnicy pokazuje bieżące kąt położenia "
+"aparatu (żółty) oraz obrotnicy (szary). Aby skalibrować obrotnicę, zrzuć i "
+"rozwiąż obraz w członie Wyrównywania.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
 #: ekos/capture/rotatorsettings.ui:147
@@ -16024,19 +16004,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:236
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-#| "pointing. Click here to view this axis on left-axis values. Double click "
-#| "to update axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The current pierside of the mount. A red frame "
 "indicates an unknown pierside. This is normal if the mount is parked. </p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Strona doku montażu (lewa) -> w którą wskazuje montaż. "
-"Naciśnij tutaj, aby obejrzeć tę oś na wartościach osi lewej. Naciśnij "
-"dwukrotnie, aby uaktualnić oś.</p></body></html>"
+"<html><head/><body><p>Bieżąca strona doku montażu. Czerwona ramka oznacza "
+"nieznaną stronę doku. Jest to oczekiwane, gdy montaż jest zaparkowany. </p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:239
@@ -16050,7 +16026,7 @@ msgstr "Bieżący czas"
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p><br/></p></body></html>"
 msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "Nieprzetworzony kąt obrotnicy"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, MountPierside)
 #: ekos/capture/rotatorsettings.ui:297
@@ -16091,17 +16067,15 @@ msgstr "Docelowy kąt położenia"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceJobPA)
 #: ekos/capture/rotatorsettings.ui:507
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before sequence capture "
-#| "is started.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The camera position angle is saved to a sequence "
 "capture job. On execution of the job the camera is rotated to the specified "
 "position angle.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ustaw docelowy kąt położenia przed rozpoczęciem "
-"czynności przechwytywania.</p></body></html>"
+"<html><head/><body><p>Kąt położenia aparatu jest zapisywany w zadaniu "
+"zrzucania w ciągu. Przy wykonywaniu zadania, aparat  jest obracany do danego "
+"kąta położenia.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceJobPA)
 #: ekos/capture/rotatorsettings.ui:510
@@ -17173,19 +17147,14 @@ msgstr "<html><head/><body><p>Usuń bieżącą klatkę</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/focus.ui:942
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"justify\">Overlap between each tile of the "
-#| "mosaic. See the main help icon in the corner of the sky chart.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Aberration inspector style mask with a 3x3 mosaic "
 "formed with tiles from the center, the corners and the edges.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Nakładaj pomiędzy każdą kratką "
-"mozaiki. Zobacz ikonę głównej pomocy w narożniku mapy nieba.</p></body></"
-"html>"
+"<html><head/><body><p>Maska stylu inspektora aberracji o mozaice 3x3 "
+"utworzonej z pól ze środka, narożników i krawędzi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/focus.ui:945
@@ -17390,10 +17359,9 @@ msgstr "<html><head/><body><p>Usuń bieżącą klatkę</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1215
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels"
-msgstr "piksele"
+msgstr "Piksele"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1220
@@ -17404,9 +17372,9 @@ msgstr "sekundy kątowe"
 
 #. i18n: ectx: property (text), widget (QLabel, focusSpacerLabel)
 #: ekos/focus/focus.ui:1228
-#, kde-format
+#, fuzzy, kde-format
 msgid "Spacer:"
-msgstr ""
+msgstr "Odstęp"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicTileWidth)
 #: ekos/focus/focus.ui:1235
@@ -17423,7 +17391,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Display"
 msgid "Display Units:"
-msgstr "Wyświetlanie"
+msgstr "Wyświetl jednostki"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusNoMaskRB)
 #: ekos/focus/focus.ui:1282
@@ -17499,17 +17467,15 @@ msgstr "Najmniejszy ruch"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1427
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before sequence capture "
-#| "is started.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Ustaw docelowy kąt położenia przed rozpoczęciem "
-"czynności przechwytywania.</p></body></html>"
+"<html><head/><body><p>Dostosuj położenie początkowe samoogniskowania na "
+"podstawie ustawień filtra i Dostosowującego się Ogniskowania. Funkcjonalność "
+"nadal w trakcie rozwoju.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1430
@@ -17550,14 +17516,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1506
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). "
-#| "0.8 is a good start. If the minimum is not met, Auto Focus will rerun "
-#| "once to try to improve the R². Currently only available for the Linear 1 "
-#| "Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This "
-#| "feature is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is "
@@ -17570,15 +17529,14 @@ msgstr ""
 "dopasowanie). Na początek dobrze ustawić 0,8 . Jeśli minimum nie jest "
 "spełnione, to samoogniskowanie nastąpi ponownie jeden raz, aby polepszyć R². "
 "Obecnie jest to dostępne dla algorytmu linowego jednoprzejściowego przy "
-"używaniu dopasowywania krzywej hiperbolicznej lub parabolicznej. Funkcja ta "
-"jest eksperymentalna.</p></body>"
+"używaniu dopasowywania krzywej hiperbolicznej lub parabolicznej.</p></body>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1531
 #, fuzzy, kde-format
 #| msgid "Measured Err:"
 msgid "Measure:"
-msgstr "Pomierzony błąd:"
+msgstr "Metrum"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/focus.ui:1550
@@ -17626,24 +17584,7 @@ msgstr "Wpasowanie krzywej:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1655
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -17671,12 +17612,12 @@ msgstr ""
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
 "\">Hiperbola</span>: Dopasowuje hiperbolę do punktów danych.  Jest to "
-"obecnie dostępne tylko dla algorytmu liniowego, jednoprzejściowego i jest "
-"eksperymentalne.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Parabola</span>: Dopasowuje parabolę do punktów "
-"danych.  Jest to obecnie dostępne tylko dla algorytmu liniowego, "
-"jednoprzejściowego i jest eksperymentalne.</li></ul></body></html>"
+"obecnie dostępne tylko dla algorytmu liniowego, jednoprzejściowego.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Parabola</span>: Dopasowuje parabolę do punktów danych.  Jest "
+"to obecnie dostępne tylko dla algorytmu liniowego, jednoprzejściowego.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1662
@@ -17705,30 +17646,7 @@ msgstr "Profil SEP:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1699
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -17758,28 +17676,35 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Sposób wykrywania gwiazd:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">SEP:</span> Wydobywacz źródła i fotometria, "
-"sprawne wykrywanie źródła oparte na wydobywaczu źródła (Bertin oraz Arnouts "
-"1996; Bertin 2016). Zobacz <a href=\"https://joss.theoj.org/papers/10.21105/"
-"joss.00058.pdf\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">SEP: Wydobywacz źródła jako biblioteka</span></a> w dzienniku "
-"otwartoźródłowego oprogramowania.</li><li style=\" margin-top:12px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Centroida</span>: wykrywanie "
-"źródła oparte na szacowaniu masy gwiazdy wokół szczytów sygnałów.</li><li "
-"style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Wybierz miarę do użycia przy wpasowywaniu krzywej dla "
+"jednorazowego liniowego przejścia:</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Gradient</span>: wykrywanie pojedynczego źródła oparte na "
-"filtrze Sobel. Analiza wstępna lub pełnego pola będzie używać SEP zamiast "
-"tego sposobu.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Próg</span>: wykrywanie pojedynczego źródła "
-"oparte na wartościach pikseli. Analiza wstępna lub pełnego pola będzie "
-"używać SEP zamiast tego sposobu.</li></ul></body></html>"
+"weight:600;\">HFR</span>: (ang. Half Flux Radius). Używa algorytmu do "
+"obliczenia promienia okręgu wyśrodkowanego na centroidzie gwiazdy, który "
+"obejmuje połówkę strumieni gwiazdy.</li><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">HFR Adj</span>: (ang. Adjusted Half Flux Radius). Normalizuje "
+"HFR do natężenia szczytu. Jest to eksperymentalna funkcjonalność.</li></"
+"ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">FWHM</span>: (ang. Full Width Half Maximum). Krzywa wpasowuje "
+"się do PSF dla każdej centroidy gwiazdy i używa tej krzywej do obliczenia "
+"FWHM. Jest to eksperymentalna funkcjonalność.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"># gwiazd</"
+"span>: Liczba gwiazd. Liczba wykrytych gwiazd przy optymalnym zogniskowaniu "
+"będzie największa. Jest to eksperymentalna funkcjonalność.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Furier</"
+"span>: Obliczenia mocy Furiera. Używa podejścia Transformaty Mocy Furiera "
+"opracowanego przez Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  "
+"Przy optymalnym zogniskowaniu moc w domenie częstotliwości [wynik "
+"transformaty Furiera] będzie największa. Jest to eksperymentalna "
+"funkcjonalność.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -17796,9 +17721,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1713
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM"
 msgstr "FWHM"
 
@@ -17811,11 +17734,9 @@ msgstr "Gwiazdy"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1723
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Mont-Laurier"
+msgstr "Fouriera"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1731
@@ -17838,14 +17759,7 @@ msgstr "Wpasowanie krzywej:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1747
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to use the standard deviation of the star HFR "
-#| "as a weighting to the curve fitting algorithm. If unchecked, all data "
-#| "points are given equal weighting. Currently only available when using "
-#| "Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola "
-#| "under the Linear 1 Pass algorithm. This feature is experimental.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR or "
 "FWHM as a weighting to the curve fitting algorithm. If unchecked, all data "
@@ -17853,12 +17767,12 @@ msgid ""
 "Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zaznacz, aby użyć odchylenia standardowego HFR gwiazdy "
-"jako czynnika ważącego w algorytmie wpasowywania krzywej. Gdy oznaczone, to "
-"wszystkim punktom danych nadane są te same wagi. Obecnie dostępne tylko "
-"wtedy, gdy używasz Pełnego Pola (wiele gwiazd) i wpasowywania hiperbol lub "
-"parabol pod algorytmem linowym o jednokrotnym przejściu. Ta funkcja jest "
-"jeszcze niedopracowana.</p></body></html>"
+"<html><head/><body><p>Zaznacz, aby użyć odchylenia standardowego HFR lub "
+"FWHM gwiazdy jako czynnika ważącego w algorytmie wpasowywania krzywej. Gdy "
+"oznaczone, to wszystkim punktom danych nadane są te same wagi. Obecnie "
+"dostępne tylko wtedy, gdy używasz Pełnego Pola (wiele gwiazd) i wpasowywania "
+"hiperbol lub parabol pod algorytmem linowym o jednokrotnym przejściu.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1750
@@ -17868,36 +17782,7 @@ msgstr "Użyj wag"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1763
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated, further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method. Upon "
-#| "crossing to the other side of the V-Curve, polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes. The algorithm can be slow, but it is more "
-#| "resilient to backlash. Start with the focuser positioned near good focus. "
-#| "Set Initial Step Size and Max Travel for the desired sampling interval "
-#| "and range around start focus position. Tolerance should be around 5%.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear 1 Pass</span>: Starts like <span style=\" font-"
-#| "weight:600;\">Linear</span> but after completing the 1st pass, instead of "
-#| "doing a 2nd pass, moves straight to the minimum HFR value calculated. Use "
-#| "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Select focus process algorithm:</p><ul style=\"margin-"
 "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -18190,18 +18075,15 @@ msgstr "Port ogniskowania:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:2223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
 "before capturing the next image during Auto Focus and after an Adaptive "
 "Focus movement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Odczekaj tyle sekund przed przesunięciem urządzenia "
-"ogniskującego przed przechwyceniem kolejnego obrazu przy użyciu samo-"
-"ogniskowania.</p></body></html>"
+"<html><head/><body><p>Czas ustalenia (w sekundach) do odczekania przed "
+"poruszeniem układu ogniskującego do zrzucenia kolejnego obrazu w trybie "
+"samoogniskowania i po ruchu dostosowującym ogniskującą.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusAdvOutStepMultLabel)
@@ -18216,14 +18098,14 @@ msgstr "Mnożnik kroku na zewnątrz:"
 #| msgctxt "City in Louisiana USA"
 #| msgid "Walker"
 msgid "Walk:"
-msgstr "Walker"
+msgstr "Pieszo %1 (%2)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/focus.ui:2280
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p><br/></p></body></html>"
 msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "Maks. rozmiar kroku:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:2296
@@ -18238,21 +18120,18 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2309
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
 "span> in ticks to cause a noticeable change in HFR value. For timer based "
 "focuser, it is the initial time in milliseconds to move the focuser inward "
 "or outward</p></body></html>"
 msgstr ""
-"<b>Początkowy</b> rozmiar początkowego kroku liczony w kresach, który "
-"spowoduje zauważalną zmianę w wartości HFR. Dla układów ogniskujących "
-"opartych na czasomierzach, est to początkowy czas w milisekundach do "
-"wysunięcia/wycofania układu ogniskującego"
+"<html><head/><body><p><span style=\" font-weight:600;\">Rozmiar początkowego "
+"kroku</span>  liczony w kresach, który spowoduje zauważalną zmianę w "
+"wartości HFR. Dla układów ogniskujących opartych na czasomierzach, est to "
+"początkowy czas w milisekundach do wysunięcia/wycofania układu "
+"ogniskującego</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:2334
@@ -18388,16 +18267,14 @@ msgstr "Czas oczekiwania na ruch:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/focus.ui:2548
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum time in seconds to wait for a focuser to move to desired position "
-#| "before declaring a timeout."
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"Czas oczekiwania w sekundach na przemieszczenie się układu ogniskującego do "
-"żądanego połączenia, przed zgłoszeniem przekroczenia czasu oczekiwania."
+"<html><head/><body><p>Czas oczekiwania w sekundach na przemieszczenie się "
+"układu ogniskującego do żądanego położenia, przed zgłoszeniem przekroczenia "
+"czasu oczekiwania.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2570
@@ -18408,17 +18285,15 @@ msgstr "Kroki:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2586
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Liczba cyfr szeregu dopisywana do nazwy pliku.</p></"
-"body></html>"
+"<html><head/><body><p>Całkowita liczba kroków do użycia, gdy Chód jest "
+"ustawiony na stałą liczbę kroków, a algorytm to jednorazowe przejście "
+"liniowe.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2624
@@ -18543,7 +18418,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p><br/></p></body></html>"
 msgid "<html><head/><body><p>Step Size:</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "Rozmiar kroku:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2892
@@ -18630,16 +18505,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3065
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Skalowanie osi wartości do bieżącego zakresu wartości."
-"</p></body></html>"
+"<html><head/><body><p>Wyzeruj długość fali, przesłonę, liczbę ogniskową do "
+"wartości z obecnie zaznaczonego filtra i układu optycznego</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3068
@@ -18657,24 +18529,7 @@ msgstr "Szybkość ogniskowej"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2.  This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data "
-#| "points.  This is currently only available for the Linear 1 Pass Algorithm "
-#| "and is experimental.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\"><span style=\" font-weight:600;\">Parabola</span>: Fits a parabola to "
-#| "the data points.  This is currently only available for the Linear 1 Pass "
-#| "Algorithm and is experimental.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Critical Focus Zone (CFZ) algorithm:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -18697,22 +18552,27 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Wybierz rodzaj krzywej, którą dopasować do danych:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Kwadratowa</span>: Używa wielomianowego "
-"dopasowania o stopni 2. Jest to obecnie domyślne ustawienie i jedyne dla "
-"wszystkich algorytmów poza liniowym jednoprzejściowym.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"<html><head/><body><p>Wybierz algorytm Critical Focus Zone (CFZ):</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Klasyczny</span>: Używa równania, CFZ = "
+"4.88 t λ f<span style=\" vertical-align:super;\">2.</span>.  Ustaw "
+"tolerancję, t=1 dla podstawowego równania. Niektórzy zalecali t=1/3 na "
+"podstawie doświadczeń.</li></ul><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Hiperbola</span>: Dopasowuje hiperbolę do punktów danych.  Jest to "
-"obecnie dostępne tylko dla algorytmu liniowego, jednoprzejściowego i jest "
-"eksperymentalne.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"\">Wavefront: </span>Używa równania, CFZ = 4 t λ f<span style=\" vertical-"
+"align:super;\">2</span>.  Równianie wyprowadzone z teorii aberracji "
+"wavefront. Niektórzy zalecali t=1/3 lub nawet t=1/10.</li></ul><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Parabola</span>: Dopasowuje parabolę do punktów "
-"danych.  Jest to obecnie dostępne tylko dla algorytmu liniowego, "
-"jednoprzejściowego i jest eksperymentalne.</li></ul></body></html>"
+"style=\" font-weight:600;\">Gold: </span>Używa równania, CFZ = 0.00225 √τ θ "
+"f<span style=\" vertical-align:super;\">2. </span>A.  Po więcej szczegółów "
+"zajrzyj na http://www.goldastro.com/goldfocus/ncfz.php.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3131
@@ -18727,7 +18587,7 @@ msgstr "Długość fali:"
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Golden"
 msgid "Gold"
-msgstr "Golden"
+msgstr "Złoto"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3150
@@ -18754,24 +18614,20 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3213
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the light wavelength to use. This is defaulted "
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Przesuń suwakiem, aby dostosować skalę wykresów "
-"poprawek względem skali wykresów dryfu.</p></body></html>"
+"<html><head/><body><p>Ustaw żądaną długość fali światła. Została ona pobrana "
+"domyślnie z okna Ustawień Filtra dla zaznaczonego filtra. </p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3216
 #, fuzzy, kde-format
 #| msgid " mm"
 msgid " nm"
-msgstr " mm"
+msgstr "nm"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3251
@@ -18848,16 +18704,14 @@ msgstr "Wyzeruj wszystkie parametry"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3368
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Update Focus Parameters to Focus Advisor suggestions "
 "where the associated Update box is checked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Największa droga w krokach przed przerwaniem czynności "
-"samoogniskowania</p></body></html>"
+"<html><head/><body><p>Uaktualnij Parametry Ogniskowej do tych doradzanych "
+"przez Doradcę Ogniskowej, gdy zaznaczono powiązane pole uaktualnienia.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3371
@@ -18896,7 +18750,7 @@ msgstr "Wyzeruj wszystkie parametry"
 #, fuzzy, kde-format
 #| msgid "Max Step size:"
 msgid "Step Size:"
-msgstr "Maks. rozmiar kroku:"
+msgstr "Rozmiar kroku:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/focus.ui:3481
@@ -18960,7 +18814,7 @@ msgstr "<html><head/><body><p>Usuń bieżącą klatkę</p></body></html>"
 #, fuzzy, kde-format
 #| msgid "Stars: "
 msgid "  Stars:"
-msgstr "Gwiazdy: "
+msgstr "Gwiazdy"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
 #: ekos/focus/focus.ui:3707
@@ -20506,10 +20360,9 @@ msgstr "Puls:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, pulseDuration)
 #: ekos/guide/manualpulse.ui:93
-#, fuzzy, kde-format
-#| msgid " s"
+#, kde-format
 msgid " ms"
-msgstr " s"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/manualpulse.ui:112
@@ -28231,18 +28084,18 @@ msgstr "B"
 msgid "Apply"
 msgstr "Zastosuj"
 
-#: fitsviewer/fitslabel.cpp:281
+#: fitsviewer/fitslabel.cpp:284
 #, kde-format
 msgctxt "Half Flux Radius"
 msgid "HFR: %1"
 msgstr "HFR: %1"
 
-#: fitsviewer/fitslabel.cpp:339 tools/whatsinteresting/wiview.cpp:332
+#: fitsviewer/fitslabel.cpp:342 tools/whatsinteresting/wiview.cpp:332
 #, kde-format
 msgid "Continue Slew"
 msgstr "Kontynuuj obrót"
 
-#: fitsviewer/fitslabel.cpp:422 fitsviewer/fitslabel.cpp:449
+#: fitsviewer/fitslabel.cpp:425 fitsviewer/fitslabel.cpp:452
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr "KStars nie znalazł żadnych dostępnych montaży."
@@ -28262,10 +28115,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "Cień ziemi"
+msgstr "Cienie"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
@@ -28280,7 +28132,7 @@ msgstr ""
 #| msgctxt "Country name"
 #| msgid "Micronesia"
 msgid "Midtones"
-msgstr "Mikronezja"
+msgstr "Odcienie średnie"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
@@ -28294,7 +28146,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Twilight"
 msgid "Highlights"
-msgstr "Półzmrok"
+msgstr "Główne zmiany"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
@@ -28355,92 +28207,92 @@ msgstr "Zapisywanie obrazu"
 msgid "File saved to %1"
 msgstr "Plik zapisano do %1"
 
-#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
+#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "Nie udało się przeskalowanie obrazu."
 
-#: fitsviewer/fitsview.cpp:660
+#: fitsviewer/fitsview.cpp:661
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Nie można powiększyć bardziej ze względu na tryb ograniczonych zasobów."
 
-#: fitsviewer/fitsview.cpp:1646
+#: fitsviewer/fitsview.cpp:1647
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1663
+#: fitsviewer/fitsview.cpp:1664
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2083
+#: fitsviewer/fitsview.cpp:2084
 #, kde-format
 msgid "Finding stars..."
 msgstr "Znajdywanie gwiazd..."
 
-#: fitsviewer/fitsview.cpp:2322
+#: fitsviewer/fitsview.cpp:2323
 #, kde-format
 msgid "Zoom In"
 msgstr "Powiększ"
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2326
 #, kde-format
 msgid "Zoom Out"
 msgstr "Pomniejsz"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2329
 #, kde-format
 msgid "Default Zoom"
 msgstr "Domyślne powiększenie"
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2332
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Powiększ, aby dopasować"
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2335
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Przełącz rozciąganie"
 
-#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Pokaż celowniki"
 
-#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Pokaż pikselowe siatki"
 
-#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
+#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Wykryj gwiazdy na obrazie"
 
-#: fitsviewer/fitsview.cpp:2357
+#: fitsviewer/fitsview.cpp:2358
 #, kde-format
 msgid "View Star Profile"
 msgstr "Zobacz profil gwiazdy"
 
-#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Pokaż równikowe siatki"
 
-#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Pokaż obiekty na obrazie"
 
-#: fitsviewer/fitsview.cpp:2379
+#: fitsviewer/fitsview.cpp:2380
 #, kde-format
 msgid "Center Telescope"
 msgstr "Wyśrodkuj teleskop"
@@ -73491,19 +73343,15 @@ msgstr "Zapisz obrazy naprowadzania"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Save Internal Guider frames. Only enable to "
-#| "troubleshoot guider by examining frames. This can consume a lot of "
-#| "storage space.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Align frames. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zapisz ramki wewnętrznego naprowadzania. Włącz tylko w "
-"celu rozwiązywania problemów z naprowadzaniem poprzez sprawdzanie ramek. "
-"Może to zajmować dużo miejsca w pamięci .</p></body></html>"
+"<html><head/><body><p>Zapisz ramki wewnętrznego wyrównywania. Włącz tylko w "
+"celu rozwiązywania problemów z wyrównywaniem poprzez sprawdzanie ramek. Może "
+"to zająć dużo miejsca w pamięci .</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:63
@@ -74380,10 +74228,9 @@ msgstr "Graniczna wielkość zgłaszanych supernowych:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Download URL"
-msgstr "Pobierz"
+msgstr "Adres URL pobierania"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
@@ -75511,11 +75358,10 @@ msgid "Object Details"
 msgstr "Dane obiektu"
 
 #: skymapdrawabstract.cpp:185
-#, fuzzy, kde-format
-#| msgid "AZ"
+#, kde-format
 msgctxt "Zenith"
 msgid "Z"
-msgstr "AZ"
+msgstr "Z"
 
 #: skyobjects/jupitermoons.cpp:18
 #, kde-format

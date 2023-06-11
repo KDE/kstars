@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-11 00:42+0000\n"
 "PO-Revision-Date: 2023-05-22 14:01\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3539,7 +3539,7 @@ msgstr "未能更新用户日志。"
 msgid "No connected mounts found."
 msgstr "未找到已连接的支架。"
 
-#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:433
+#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:436
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
@@ -10933,7 +10933,7 @@ msgstr "清除过期的"
 msgid "Double click to load dark frame"
 msgstr "双击来加载暗场"
 
-#: ekos/auxiliary/darkprocessor.cpp:269 ekos/auxiliary/darkprocessor.cpp:277
+#: ekos/auxiliary/darkprocessor.cpp:268 ekos/auxiliary/darkprocessor.cpp:276
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -26285,18 +26285,18 @@ msgstr "B"
 msgid "Apply"
 msgstr "执行"
 
-#: fitsviewer/fitslabel.cpp:281
+#: fitsviewer/fitslabel.cpp:284
 #, kde-format
 msgctxt "Half Flux Radius"
 msgid "HFR: %1"
 msgstr "HFR：%1"
 
-#: fitsviewer/fitslabel.cpp:339 tools/whatsinteresting/wiview.cpp:332
+#: fitsviewer/fitslabel.cpp:342 tools/whatsinteresting/wiview.cpp:332
 #, kde-format
 msgid "Continue Slew"
 msgstr "继续转动"
 
-#: fitsviewer/fitslabel.cpp:422 fitsviewer/fitslabel.cpp:449
+#: fitsviewer/fitslabel.cpp:425 fitsviewer/fitslabel.cpp:452
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr ""
@@ -26408,91 +26408,91 @@ msgstr "保存图像"
 msgid "File saved to %1"
 msgstr "文件保存到 %1"
 
-#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
+#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "缩放图像失败。"
 
-#: fitsviewer/fitsview.cpp:660
+#: fitsviewer/fitsview.cpp:661
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "已启用资源限制模式，无法进一步放大。"
 
-#: fitsviewer/fitsview.cpp:1646
+#: fitsviewer/fitsview.cpp:1647
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1663
+#: fitsviewer/fitsview.cpp:1664
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2083
+#: fitsviewer/fitsview.cpp:2084
 #, kde-format
 msgid "Finding stars..."
 msgstr "查找星点..."
 
-#: fitsviewer/fitsview.cpp:2322
+#: fitsviewer/fitsview.cpp:2323
 #, kde-format
 msgid "Zoom In"
 msgstr "放大"
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2326
 #, kde-format
 msgid "Zoom Out"
 msgstr "缩小"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2329
 #, kde-format
 msgid "Default Zoom"
 msgstr "默认缩放"
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2332
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "缩放以适应"
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2335
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "切换图像拉伸"
 
-#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "显示十字线"
 
-#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "显示像素网格线"
 
-#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
+#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "检测图像中的星点"
 
-#: fitsviewer/fitsview.cpp:2357
+#: fitsviewer/fitsview.cpp:2358
 #, kde-format
 msgid "View Star Profile"
 msgstr "查看星点资料"
 
-#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "显示赤道网格线"
 
-#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "使用图像来显示对象"
 
-#: fitsviewer/fitsview.cpp:2379
+#: fitsviewer/fitsview.cpp:2380
 #, kde-format
 msgid "Center Telescope"
 msgstr "居中望远镜"

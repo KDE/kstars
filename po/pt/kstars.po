@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-09 00:43+0000\n"
-"PO-Revision-Date: 2023-06-09 23:17+0100\n"
+"POT-Creation-Date: 2023-06-11 00:42+0000\n"
+"PO-Revision-Date: 2023-06-10 10:25+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -4780,7 +4780,7 @@ msgstr "Não foi possível actualizar o registo do utilizador."
 msgid "No connected mounts found."
 msgstr "Não foram encontradas montagens ligadas."
 
-#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:433
+#: dialogs/detaildialog.cpp:1118 fitsviewer/fitslabel.cpp:436
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
@@ -12604,7 +12604,7 @@ msgstr "Limpar os Expirados"
 msgid "Double click to load dark frame"
 msgstr "Faça duplo-click para carregar a imagem escura"
 
-#: ekos/auxiliary/darkprocessor.cpp:269 ekos/auxiliary/darkprocessor.cpp:277
+#: ekos/auxiliary/darkprocessor.cpp:268 ekos/auxiliary/darkprocessor.cpp:276
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -18524,6 +18524,12 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione a Sub-Imagem para fazer com que a focagem "
+"use uma única estrela (nota: o Campo Completo usa várias estrelas). Neste "
+"modo, a opção de Auto-Seleccionar a Estrela fica activa para permite que o "
+"Ekos seleccione uma estrela (quando assinalada) ou permitir ao utilizador "
+"seleccionar manualmente a estrela no Visualizador do FITS (quando desligada)."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -18540,6 +18546,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione o Campo Completo para permitir à focagem "
+"usar várias estrelas (nota: a Sub-Imagem usa uma única estrela). Neste modo, "
+"o Ekos irá seleccionar automaticamente várias estrelas durante a Focagem "
+"Automática e, por exemplo, irá calcular o HFR médio de todas as estrelas "
+"detectadas para efectuar a focagem. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -18606,6 +18617,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta opção só fica activa quando a Sub-Imagem está "
+"seleccionada. Assinale para permitir ao Ekos seleccionar uma única estrela "
+"na focagem; desligue para permitir ao utilizador seleccionar a estrela a "
+"usar no Visualizador do FITS.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -29426,18 +29441,18 @@ msgstr "B"
 msgid "Apply"
 msgstr "Aplicar"
 
-#: fitsviewer/fitslabel.cpp:281
+#: fitsviewer/fitslabel.cpp:284
 #, kde-format
 msgctxt "Half Flux Radius"
 msgid "HFR: %1"
 msgstr "HFR: %1"
 
-#: fitsviewer/fitslabel.cpp:339 tools/whatsinteresting/wiview.cpp:332
+#: fitsviewer/fitslabel.cpp:342 tools/whatsinteresting/wiview.cpp:332
 #, kde-format
 msgid "Continue Slew"
 msgstr "Continuar a Deslocação"
 
-#: fitsviewer/fitslabel.cpp:422 fitsviewer/fitslabel.cpp:449
+#: fitsviewer/fitslabel.cpp:425 fitsviewer/fitslabel.cpp:452
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr "O KStars não encontrou quaisquer montagens activas."
@@ -29446,7 +29461,7 @@ msgstr "O KStars não encontrou quaisquer montagens activas."
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
 msgid "Stretch (or disable stretching) the image."
-msgstr ""
+msgstr "Esticar (ou desactivar o esticamento) a imagem."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
@@ -29454,6 +29469,7 @@ msgstr ""
 #, kde-format
 msgid "Set shadows value for the image stretch."
 msgstr ""
+"Definir o valor dos tons escuros (sombras) para o esticamento da imagem."
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
@@ -29466,7 +29482,7 @@ msgstr "Sombras"
 #: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
 #, kde-format
 msgid "Set midtones value for the image stretch."
-msgstr ""
+msgstr "Definir o valor dos tons intermédios para o esticamento da imagem."
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
@@ -29479,7 +29495,7 @@ msgstr "Meios-tons"
 #: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
 #, kde-format
 msgid "Set highlights value for the image stretch."
-msgstr ""
+msgstr "Definir o valor dos tons claros para o esticamento da imagem."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
@@ -29497,7 +29513,7 @@ msgstr "Activar ou desactivar a visualização do histograma."
 #: fitsviewer/fitsstretchui.ui:369
 #, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Desconrir automaticamente o parâmetro de esticamento."
+msgstr "Descobrir automaticamente o parâmetro de esticamento."
 
 #: fitsviewer/fitstab.cpp:56
 #, kde-format
@@ -29545,92 +29561,92 @@ msgstr "Gravação da Imagem"
 msgid "File saved to %1"
 msgstr "O ficheiro foi gravado em %1"
 
-#: fitsviewer/fitsview.cpp:468 fitsviewer/fitsview.cpp:478
+#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "A mudança de escala da imagem falhou."
 
-#: fitsviewer/fitsview.cpp:660
+#: fitsviewer/fitsview.cpp:661
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Não é possível ampliar mais, devido ao modo activo de recursos limitados."
 
-#: fitsviewer/fitsview.cpp:1646
+#: fitsviewer/fitsview.cpp:1647
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "PNC"
 
-#: fitsviewer/fitsview.cpp:1663
+#: fitsviewer/fitsview.cpp:1664
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "PSC"
 
-#: fitsviewer/fitsview.cpp:2083
+#: fitsviewer/fitsview.cpp:2084
 #, kde-format
 msgid "Finding stars..."
 msgstr "A procurar as estrelas..."
 
-#: fitsviewer/fitsview.cpp:2322
+#: fitsviewer/fitsview.cpp:2323
 #, kde-format
 msgid "Zoom In"
 msgstr "Ampliar"
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2326
 #, kde-format
 msgid "Zoom Out"
 msgstr "Reduzir"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2329
 #, kde-format
 msgid "Default Zoom"
 msgstr "Ampliação Predefinida"
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2332
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Ampliar para Caber"
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2335
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Comutar o Ajuste de Tamanho"
 
-#: fitsviewer/fitsview.cpp:2342 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Mostrar a Mira"
 
-#: fitsviewer/fitsview.cpp:2346 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostrar a Grelha de Pontos"
 
-#: fitsviewer/fitsview.cpp:2351 fitsviewer/fitsview.cpp:2454
+#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Detectar Estrelas na Imagem"
 
-#: fitsviewer/fitsview.cpp:2357
+#: fitsviewer/fitsview.cpp:2358
 #, kde-format
 msgid "View Star Profile"
 msgstr "Ver o Perfil da Estrela"
 
-#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
 #: fitsviewer/fitsviewer.cpp:969
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostrar as Grelhas Equatoriais"
 
-#: fitsviewer/fitsview.cpp:2373 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
 #: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostrar os Objectos na Imagem"
 
-#: fitsviewer/fitsview.cpp:2379
+#: fitsviewer/fitsview.cpp:2380
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centrar o Telescópio"
