@@ -462,6 +462,10 @@ class FITSData : public QObject
         {
             return m_HistogramFrequency[channel];
         }
+        int getHistogramBinCount() const
+        {
+            return m_HistogramBinCount;
+        }
 
         // Returns the histogram bin for the pixel at location x,y in the given channel.
         int32_t histogramBin(int x, int y, int channel) const;

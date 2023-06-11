@@ -82,8 +82,8 @@ void FITSStretchUI::onHistoDoubleClick(QMouseEvent *event)
 {
     Q_UNUSED(event);
     if (!m_View || !m_View->imageData() || !m_View->imageData()->isHistogramConstructed()) return;
-    const double histogramSize = m_View->imageData()->getHistogramFrequency(0).size();
-    histoPlot->xAxis->setRange(0, histogramSize);
+    const double histogramSize = m_View->imageData()->getHistogramBinCount();
+    histoPlot->xAxis->setRange(0, histogramSize + 1);
     histoPlot->replot();
 }
 
@@ -94,18 +94,20 @@ void FITSStretchUI::onHistoMouseMove(QMouseEvent *event)
     if (!image->isHistogramConstructed())
         return;
 
-    const int histoBin = histoPlot->xAxis->pixelToCoord(event->x());
     const bool rgbHistogram = (image->channels() > 1);
     const int numPixels = image->width() * image->height();
-    const int histogramSize = image->getHistogramFrequency(0).size();
+    const int histogramSize = image->getHistogramBinCount();
+    const int histoBin = std::max(0, std::min(histogramSize - 1,
+                                  static_cast<int>(0.5 + histoPlot->xAxis->pixelToCoord(event->x()))));
+
     QString tip = "";
     if (histoBin >= 0 && histoBin < histogramSize)
     {
         for (int c = 0; c < image->channels(); ++c)
         {
             const double binWidth = image->getHistogramBinWidth(c);
-            const double lowRange = binWidth * histoBin;
-            const double highRange = binWidth * (histoBin + 1);
+            const double lowRange = image->getStatistics().min[c] + binWidth * histoBin;
+            const double highRange = image->getStatistics().min[c] + binWidth * (histoBin + 1);
             if (rgbHistogram)
                 tip.append(QString("<font color=\"%1\">").arg(c == 0 ? "red" : (c == 1) ? "lightgreen" : "lightblue"));
 
@@ -363,7 +365,7 @@ double toHistogramPosition(double position, const QSharedPointer<FITSData> &data
     if (!data->isHistogramConstructed())
         return 0;
     const QVector<double> &h = data->getHistogramFrequency(0);
-    const double size = h.size();
+    const double size = data->getHistogramBinCount();
     return position * size;
 }
 }
@@ -422,10 +424,12 @@ void FITSStretchUI::generateHistogram()
             graph->setBrush(QBrush(color));
             graph->setPen(QPen(color));
             const QVector<double> &h = m_View->imageData()->getHistogramFrequency(i);
-            for (int j = 0; j < h.size(); ++j)
+            const int size = m_View->imageData()->getHistogramBinCount();
+            for (int j = 0; j < size; ++j)
                 graph->addData(j, log(h[j] + 1));
         }
         histoPlot->rescaleAxes();
+        histoPlot->xAxis->setRange(0, m_View->imageData()->getHistogramBinCount() + 1);
     }
 
     histoPlot->setInteractions(QCP::iRangeZoom | QCP::iRangeDrag);
@@ -440,12 +444,11 @@ void FITSStretchUI::generateHistogram()
             [ = ](const QCPRange & newRange)
     {
         if (!m_View || !m_View->imageData() || !m_View->imageData()->isHistogramConstructed()) return;
-        const double histogramSize = m_View->imageData()->getHistogramFrequency(0).size();
-
+        const double histogramSize = m_View->imageData()->getHistogramBinCount();
         double tLower = newRange.lower;
         double tUpper = newRange.upper;
         if (tLower < 0) tLower = 0;
-        if (tUpper > histogramSize) tUpper = histogramSize;
+        if (tUpper > histogramSize + 1) tUpper = histogramSize + 1;
         if (tLower != newRange.lower || tUpper != newRange.upper)
             histoPlot->xAxis->setRange(tLower, tUpper);
     });
