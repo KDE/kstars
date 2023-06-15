@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-11 00:42+0000\n"
+"POT-Creation-Date: 2023-06-15 00:42+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -39452,142 +39452,144 @@ msgid "Al Manamah"
 msgstr "المنامة"
 
 #: kstars_i18n.cpp:740
+#, fuzzy, kde-kuit-format
+#| msgctxt "City in Spain"
+#| msgid "Alicante"
+msgctxt "City in Spain"
+msgid "Alacant"
+msgstr "أليكانتي"
+
+#: kstars_i18n.cpp:741
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Alameda"
 msgstr "ألاميدا"
 
-#: kstars_i18n.cpp:741
+#: kstars_i18n.cpp:742
 #, kde-kuit-format
 msgctxt "City in Nevada USA"
 msgid "Alamo"
 msgstr "ألامو"
 
-#: kstars_i18n.cpp:742
+#: kstars_i18n.cpp:743
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Alamogordo"
 msgstr "ألاموغوردو"
 
-#: kstars_i18n.cpp:743
+#: kstars_i18n.cpp:744
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Albacete"
 msgstr "البسيط"
 
-#: kstars_i18n.cpp:744
+#: kstars_i18n.cpp:745
 #, kde-kuit-format
 msgctxt "City in Georgia USA"
 msgid "Albany"
 msgstr "ألباني"
 
-#: kstars_i18n.cpp:745
+#: kstars_i18n.cpp:746
 #, kde-kuit-format
 msgctxt "City in New York USA"
 msgid "Albany"
 msgstr "ألباني"
 
-#: kstars_i18n.cpp:746
+#: kstars_i18n.cpp:747
 #, kde-kuit-format
 msgctxt "City in Oregon USA"
 msgid "Albany"
 msgstr "ألباني"
 
-#: kstars_i18n.cpp:747
+#: kstars_i18n.cpp:748
 #, kde-kuit-format
 msgctxt "City in Idaho USA"
 msgid "Albion"
 msgstr "ألبيون"
 
-#: kstars_i18n.cpp:748
+#: kstars_i18n.cpp:749
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Albuquerque"
 msgstr "ألباكركي"
 
-#: kstars_i18n.cpp:749
+#: kstars_i18n.cpp:750
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alcalá de Henares"
 msgstr "ألكالا دي إيناريس"
 
-#: kstars_i18n.cpp:750
+#: kstars_i18n.cpp:751
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Alcoa"
 msgstr "ألكوا"
 
-#: kstars_i18n.cpp:751
+#: kstars_i18n.cpp:752
 #, kde-kuit-format
 msgctxt "City in United Kingdom"
 msgid "Aldermaston"
 msgstr "الدرمستون"
 
-#: kstars_i18n.cpp:752
+#: kstars_i18n.cpp:753
 #, kde-kuit-format
 msgctxt "City in Nunavut Canada"
 msgid "Alert"
 msgstr "ألرت"
 
-#: kstars_i18n.cpp:753
+#: kstars_i18n.cpp:754
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Alessandria"
 msgstr "ألساندريا"
 
-#: kstars_i18n.cpp:754
+#: kstars_i18n.cpp:755
 #, kde-kuit-format
 msgctxt "City in Alabama USA"
 msgid "Alexander City"
 msgstr "ألكسندر سيتي"
 
-#: kstars_i18n.cpp:755
+#: kstars_i18n.cpp:756
 #, kde-kuit-format
 msgctxt "City in Egypt"
 msgid "Alexandria"
 msgstr "الإسكندرية"
 
-#: kstars_i18n.cpp:756
+#: kstars_i18n.cpp:757
 #, kde-kuit-format
 msgctxt "City in Louisiana USA"
 msgid "Alexandria"
 msgstr "الإسكندرية"
 
-#: kstars_i18n.cpp:757
+#: kstars_i18n.cpp:758
 #, kde-kuit-format
 msgctxt "City in Virginia USA"
 msgid "Alexandria"
 msgstr "الإسكندرية"
 
-#: kstars_i18n.cpp:758
+#: kstars_i18n.cpp:759
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Alexis Creek"
 msgstr "أليكسس لوف"
 
-#: kstars_i18n.cpp:759
+#: kstars_i18n.cpp:760
 #, kde-kuit-format
 msgctxt "City in Algeria"
 msgid "Algiers"
 msgstr "الجزائر"
 
-#: kstars_i18n.cpp:760
+#: kstars_i18n.cpp:761
 #, kde-kuit-format
 msgctxt "City in Canada"
 msgid "Algonquin"
 msgstr "ألغانكوئين"
 
-#: kstars_i18n.cpp:761
+#: kstars_i18n.cpp:762
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Alhambra"
 msgstr "الحمبرا"
-
-#: kstars_i18n.cpp:762
-#, kde-kuit-format
-msgctxt "City in Spain"
-msgid "Alicante"
-msgstr "أليكانتي"
 
 #: kstars_i18n.cpp:763
 #, kde-kuit-format
@@ -42380,9 +42382,11 @@ msgid "Casselman"
 msgstr "كاسيلمان"
 
 #: kstars_i18n.cpp:1228
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "City in Spain"
+#| msgid "Castellon de la Plana"
 msgctxt "City in Spain"
-msgid "Castellon de la Plana"
+msgid "Castelló de la Plana"
 msgstr "كاستيون دي لا بلانا"
 
 #: kstars_i18n.cpp:1229
@@ -44637,111 +44641,111 @@ msgstr ""
 
 #: kstars_i18n.cpp:1604
 #, kde-kuit-format
-msgctxt "City in Spain"
-msgid "Elche"
-msgstr "ألش"
-
-#: kstars_i18n.cpp:1605
-#, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Eldorado"
 msgstr "إلدورادو"
 
-#: kstars_i18n.cpp:1606
+#: kstars_i18n.cpp:1605
 #, kde-kuit-format
 msgctxt "City in Iowa USA"
 msgid "Eldridge"
 msgstr "إلدريدج"
 
-#: kstars_i18n.cpp:1607
+#: kstars_i18n.cpp:1606
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Elgin"
 msgstr "إلغن"
 
-#: kstars_i18n.cpp:1608
+#: kstars_i18n.cpp:1607
 #, kde-kuit-format
 msgctxt "City in New Jersey USA"
 msgid "Elizabeth"
 msgstr "إليزابيث"
 
-#: kstars_i18n.cpp:1609
+#: kstars_i18n.cpp:1608
 #, kde-kuit-format
 msgctxt "City in North Carolina USA"
 msgid "Elizabeth City"
 msgstr "إليزابيث سيتي"
 
-#: kstars_i18n.cpp:1610
+#: kstars_i18n.cpp:1609
 #, kde-kuit-format
 msgctxt "City in Kentucky USA"
 msgid "Elizabethtown"
 msgstr "إليزابيث تاون"
 
-#: kstars_i18n.cpp:1611
+#: kstars_i18n.cpp:1610
 #, kde-kuit-format
 msgctxt "City in Oklahoma USA"
 msgid "Elk City"
 msgstr "إلك سيتي"
 
-#: kstars_i18n.cpp:1612
+#: kstars_i18n.cpp:1611
 #, kde-kuit-format
 msgctxt "City in South Dakota USA"
 msgid "Elk Point"
 msgstr "إلك بوينت"
 
-#: kstars_i18n.cpp:1613
+#: kstars_i18n.cpp:1612
 #, kde-kuit-format
 msgctxt "City in Indiana USA"
 msgid "Elkhart"
 msgstr "إلكهارت"
 
-#: kstars_i18n.cpp:1614
+#: kstars_i18n.cpp:1613
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Elkhart"
 msgstr "إلكهارت"
 
-#: kstars_i18n.cpp:1615
+#: kstars_i18n.cpp:1614
 #, kde-kuit-format
 msgctxt "City in West Virginia USA"
 msgid "Elkins"
 msgstr "إلكنز"
 
-#: kstars_i18n.cpp:1616
+#: kstars_i18n.cpp:1615
 #, kde-kuit-format
 msgctxt "City in Nevada USA"
 msgid "Elko"
 msgstr "إلكو"
 
-#: kstars_i18n.cpp:1617
+#: kstars_i18n.cpp:1616
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Elliot Lake"
 msgstr "إليوت لايك"
 
-#: kstars_i18n.cpp:1618
+#: kstars_i18n.cpp:1617
 #, kde-kuit-format
 msgctxt "City in New York USA"
 msgid "Elmira"
 msgstr "إلميرا"
 
-#: kstars_i18n.cpp:1619
+#: kstars_i18n.cpp:1618
 #, kde-kuit-format
 msgctxt "City in Delaware USA"
 msgid "Elsmere"
 msgstr "إلسمير"
 
-#: kstars_i18n.cpp:1620
+#: kstars_i18n.cpp:1619
 #, kde-kuit-format
 msgctxt "City in Estonia"
 msgid "Elva"
 msgstr "إيلفا"
 
-#: kstars_i18n.cpp:1621
+#: kstars_i18n.cpp:1620
 #, kde-kuit-format
 msgctxt "City in Pennsylvania USA"
 msgid "Elverson"
 msgstr "إلفيرسون"
+
+#: kstars_i18n.cpp:1621
+#, fuzzy, kde-kuit-format
+msgctxt "City in Spain"
+msgid "Elx"
+msgstr "EXP"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -45226,7 +45230,7 @@ msgstr "فورستفيل"
 #: kstars_i18n.cpp:1702
 #, kde-kuit-format
 msgctxt "City in Italy"
-msgid "Forli`"
+msgid "Forlì"
 msgstr ""
 
 #: kstars_i18n.cpp:1703
@@ -45867,57 +45871,59 @@ msgstr "جيرالدتون"
 
 #: kstars_i18n.cpp:1809
 #, kde-kuit-format
-msgctxt "City in Spain"
-msgid "Gerona"
-msgstr "جيرونا"
-
-#: kstars_i18n.cpp:1810
-#, kde-kuit-format
 msgctxt "City in Chungnam South Korea"
 msgid "Geumsan"
 msgstr "غمسان"
 
-#: kstars_i18n.cpp:1811
+#: kstars_i18n.cpp:1810
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Ghost Lake"
 msgstr ""
 
-#: kstars_i18n.cpp:1812
+#: kstars_i18n.cpp:1811
 #, kde-kuit-format
 msgctxt "City in United Kingdom"
 msgid "Gibraltar"
 msgstr "جبل طارق"
 
-#: kstars_i18n.cpp:1813
+#: kstars_i18n.cpp:1812
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Gift Lake"
 msgstr ""
 
-#: kstars_i18n.cpp:1814
+#: kstars_i18n.cpp:1813
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Gijón"
 msgstr "خيخون"
 
-#: kstars_i18n.cpp:1815
+#: kstars_i18n.cpp:1814
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Gila Bend"
 msgstr "غيلا بيند"
 
-#: kstars_i18n.cpp:1816
+#: kstars_i18n.cpp:1815
 #, kde-kuit-format
 msgctxt "City in Wyoming USA"
 msgid "Gillette"
 msgstr "جيليت"
 
-#: kstars_i18n.cpp:1817
+#: kstars_i18n.cpp:1816
 #, kde-kuit-format
 msgctxt "City in Manitoba Canada"
 msgid "Gimli"
 msgstr ""
+
+#: kstars_i18n.cpp:1817
+#, fuzzy, kde-kuit-format
+#| msgctxt "City in Spain"
+#| msgid "Gerona"
+msgctxt "City in Spain"
+msgid "Girona"
+msgstr "جيرونا"
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -49605,303 +49611,303 @@ msgstr ""
 
 #: kstars_i18n.cpp:2432
 #, kde-kuit-format
+msgctxt "City in Spain"
+msgid "Lleida"
+msgstr ""
+
+#: kstars_i18n.cpp:2433
+#, kde-kuit-format
 msgctxt "City in Botswana"
 msgid "Lobatsi"
 msgstr ""
 
-#: kstars_i18n.cpp:2433
+#: kstars_i18n.cpp:2434
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Lockwood Valley"
 msgstr "لوكوود فالي"
 
-#: kstars_i18n.cpp:2434
+#: kstars_i18n.cpp:2435
 #, kde-kuit-format
 msgctxt "City in Utah USA"
 msgid "Logan"
 msgstr "لوغان"
 
-#: kstars_i18n.cpp:2435
+#: kstars_i18n.cpp:2436
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Logroño"
 msgstr "لوغرونيو"
 
-#: kstars_i18n.cpp:2436
+#: kstars_i18n.cpp:2437
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Loiano"
 msgstr "لويانو"
 
-#: kstars_i18n.cpp:2437
+#: kstars_i18n.cpp:2438
 #, kde-kuit-format
 msgctxt "City in Estonia"
 msgid "Loksa"
 msgstr ""
 
-#: kstars_i18n.cpp:2438
+#: kstars_i18n.cpp:2439
 #, kde-kuit-format
 msgctxt "City in Montana USA"
 msgid "Lolo"
 msgstr "مانويل أورتيز توريبيو"
 
-#: kstars_i18n.cpp:2439
+#: kstars_i18n.cpp:2440
 #, kde-kuit-format
 msgctxt "City in Slovakia"
 msgid "Lomnicky stit"
 msgstr ""
 
-#: kstars_i18n.cpp:2440
+#: kstars_i18n.cpp:2441
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Lompoc"
 msgstr "لومبوك"
 
-#: kstars_i18n.cpp:2441
+#: kstars_i18n.cpp:2442
 #, kde-kuit-format
 msgctxt "City in Togo"
 msgid "Lomé"
 msgstr "لومي"
 
-#: kstars_i18n.cpp:2442
+#: kstars_i18n.cpp:2443
 #, kde-kuit-format
 msgctxt "City in United Kingdom"
 msgid "London"
 msgstr "لندن"
 
-#: kstars_i18n.cpp:2443
+#: kstars_i18n.cpp:2444
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "London"
 msgstr "لندن"
 
-#: kstars_i18n.cpp:2444
+#: kstars_i18n.cpp:2445
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Long Beach"
 msgstr "لونغ بيتش"
 
-#: kstars_i18n.cpp:2445
-#, kde-kuit-format
-msgctxt "City in Texas USA"
-msgid "Longview"
-msgstr "لونغفيو"
-
 #: kstars_i18n.cpp:2446
 #, kde-kuit-format
-msgctxt "City in Washington USA"
+msgctxt "City in Texas USA"
 msgid "Longview"
 msgstr "لونغفيو"
 
 #: kstars_i18n.cpp:2447
 #, kde-kuit-format
+msgctxt "City in Washington USA"
+msgid "Longview"
+msgstr "لونغفيو"
+
+#: kstars_i18n.cpp:2448
+#, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "Lorain"
 msgstr "لورين"
 
-#: kstars_i18n.cpp:2448
+#: kstars_i18n.cpp:2449
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Lordsburg"
 msgstr "لوردزبورغ"
 
-#: kstars_i18n.cpp:2449
+#: kstars_i18n.cpp:2450
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Los Alamos"
 msgstr "لوس ألاموس"
 
-#: kstars_i18n.cpp:2450
+#: kstars_i18n.cpp:2451
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Los Altos Hills"
 msgstr "لوس ألتوس هيلس"
 
-#: kstars_i18n.cpp:2451
+#: kstars_i18n.cpp:2452
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Los Angeles"
 msgstr "لوس أنجلوس"
 
-#: kstars_i18n.cpp:2452
+#: kstars_i18n.cpp:2453
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Lost Maples State Natural Area (Vanderpool)"
 msgstr ""
 
-#: kstars_i18n.cpp:2453
+#: kstars_i18n.cpp:2454
 #, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "Louisbourg"
 msgstr "لويسبورغ"
 
-#: kstars_i18n.cpp:2454
+#: kstars_i18n.cpp:2455
 #, kde-kuit-format
 msgctxt "City in Georgia USA"
 msgid "Louisville"
 msgstr "لويفيل"
 
-#: kstars_i18n.cpp:2455
+#: kstars_i18n.cpp:2456
 #, kde-kuit-format
 msgctxt "City in Kentucky USA"
 msgid "Louisville"
 msgstr "لويفيل"
 
-#: kstars_i18n.cpp:2456
+#: kstars_i18n.cpp:2457
 #, kde-kuit-format
 msgctxt "City in Egypt"
 msgid "Louxor"
 msgstr ""
 
-#: kstars_i18n.cpp:2457
+#: kstars_i18n.cpp:2458
 #, kde-kuit-format
 msgctxt "City in Colorado USA"
 msgid "Loveland"
 msgstr "لوفلاند"
 
-#: kstars_i18n.cpp:2458
+#: kstars_i18n.cpp:2459
 #, kde-kuit-format
 msgctxt "City in Nevada USA"
 msgid "Lovelock"
 msgstr "لوفلوك"
 
-#: kstars_i18n.cpp:2459
+#: kstars_i18n.cpp:2460
 #, kde-kuit-format
 msgctxt "City in Massachusetts USA"
 msgid "Lowell"
 msgstr "لويل"
 
-#: kstars_i18n.cpp:2460
+#: kstars_i18n.cpp:2461
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Lowell Obs."
 msgstr "مرصد لويل"
 
-#: kstars_i18n.cpp:2461
+#: kstars_i18n.cpp:2462
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Lowther"
 msgstr "وثر"
 
-#: kstars_i18n.cpp:2462
+#: kstars_i18n.cpp:2463
 #, kde-kuit-format
 msgctxt "City in Angola"
 msgid "Luanda"
 msgstr "لواندا"
 
-#: kstars_i18n.cpp:2463
+#: kstars_i18n.cpp:2464
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Lubbock"
 msgstr "لوبوك"
 
-#: kstars_i18n.cpp:2464
+#: kstars_i18n.cpp:2465
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Lucca"
 msgstr "لكة"
 
-#: kstars_i18n.cpp:2465
+#: kstars_i18n.cpp:2466
 #, kde-kuit-format
 msgctxt "City in Germany"
 msgid "Ludwigshafen"
 msgstr "لودفيغسهافن"
 
-#: kstars_i18n.cpp:2466
+#: kstars_i18n.cpp:2467
 #, kde-kuit-format
 msgctxt "City in Angola"
 msgid "Luena"
 msgstr "وينا"
 
-#: kstars_i18n.cpp:2467
+#: kstars_i18n.cpp:2468
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Lugans'k"
 msgstr ""
 
-#: kstars_i18n.cpp:2468
+#: kstars_i18n.cpp:2469
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lugo"
 msgstr "لوغو"
 
-#: kstars_i18n.cpp:2469
+#: kstars_i18n.cpp:2470
 #, kde-kuit-format
 msgctxt "City in Sweden"
 msgid "Luleå"
 msgstr "لوليو"
 
-#: kstars_i18n.cpp:2470
+#: kstars_i18n.cpp:2471
 #, kde-kuit-format
 msgctxt "City in Sweden"
 msgid "Lund"
 msgstr "لوند"
 
-#: kstars_i18n.cpp:2471
+#: kstars_i18n.cpp:2472
 #, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "Lunenburg"
 msgstr "لونينبورغ"
 
-#: kstars_i18n.cpp:2472
+#: kstars_i18n.cpp:2473
 #, kde-kuit-format
 msgctxt "City in Zambia"
 msgid "Lusaka"
 msgstr "لوساكا"
 
-#: kstars_i18n.cpp:2473
+#: kstars_i18n.cpp:2474
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Luts'k"
 msgstr "لوتسك"
 
-#: kstars_i18n.cpp:2474
+#: kstars_i18n.cpp:2475
 #, kde-kuit-format
 msgctxt "City in Luxembourg"
 msgid "Luxembourg City"
 msgstr "لوكسمبورغ"
 
-#: kstars_i18n.cpp:2475
+#: kstars_i18n.cpp:2476
 #, kde-kuit-format
 msgctxt "City in Virginia USA"
 msgid "Lynchburg"
 msgstr "لينتشبورغ"
 
-#: kstars_i18n.cpp:2476
+#: kstars_i18n.cpp:2477
 #, kde-kuit-format
 msgctxt "City in Washington USA"
 msgid "Lynden"
 msgstr "لايندين"
 
-#: kstars_i18n.cpp:2477
+#: kstars_i18n.cpp:2478
 #, kde-kuit-format
 msgctxt "City in Massachusetts USA"
 msgid "Lynn"
 msgstr "لين"
 
-#: kstars_i18n.cpp:2478
+#: kstars_i18n.cpp:2479
 #, kde-kuit-format
 msgctxt "City in Florida USA"
 msgid "Lynn Haven"
 msgstr "لاين هافن"
 
-#: kstars_i18n.cpp:2479
+#: kstars_i18n.cpp:2480
 #, kde-kuit-format
 msgctxt "City in Rhône France"
 msgid "Lyon"
 msgstr "ليون"
 
-#: kstars_i18n.cpp:2480
+#: kstars_i18n.cpp:2481
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Lytton"
 msgstr "ليتون سميث"
-
-#: kstars_i18n.cpp:2481
-#, kde-kuit-format
-msgctxt "City in Spain"
-msgid "Lérida"
-msgstr "يريدا"
 
 #: kstars_i18n.cpp:2482
 #, kde-kuit-format
@@ -58244,10 +58250,12 @@ msgid "Valverde"
 msgstr "فالفيردي"
 
 #: kstars_i18n.cpp:3872
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "City in Spain"
+#| msgid "Palencia"
 msgctxt "City in Spain"
-msgid "Valéncia"
-msgstr ""
+msgid "València"
+msgstr "بالنثيا"
 
 #: kstars_i18n.cpp:3873
 #, kde-kuit-format
@@ -80839,6 +80847,14 @@ msgstr "لون الخلفية:"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "الـ اللّون لـ الخلفية."
+
+#~ msgctxt "City in Spain"
+#~ msgid "Elche"
+#~ msgstr "ألش"
+
+#~ msgctxt "City in Spain"
+#~ msgid "Lérida"
+#~ msgstr "يريدا"
 
 #, fuzzy
 #~ msgid ""

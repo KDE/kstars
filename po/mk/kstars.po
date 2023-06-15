@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-11 00:42+0000\n"
+"POT-Creation-Date: 2023-06-15 00:42+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -39659,12 +39659,20 @@ msgstr "Ал Манама"
 #: kstars_i18n.cpp:740
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Alicante"
+msgctxt "City in Spain"
+msgid "Alacant"
+msgstr "Аликанте"
+
+#: kstars_i18n.cpp:741
+#, fuzzy, kde-kuit-format
+#| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alameda"
 msgctxt "City in California USA"
 msgid "Alameda"
 msgstr "Аламеда"
 
-#: kstars_i18n.cpp:741
+#: kstars_i18n.cpp:742
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alamo"
@@ -39672,7 +39680,7 @@ msgctxt "City in Nevada USA"
 msgid "Alamo"
 msgstr "Аламо"
 
-#: kstars_i18n.cpp:742
+#: kstars_i18n.cpp:743
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alamogordo"
@@ -39680,13 +39688,13 @@ msgctxt "City in New Mexico USA"
 msgid "Alamogordo"
 msgstr "Аламогордо"
 
-#: kstars_i18n.cpp:743
+#: kstars_i18n.cpp:744
 #, fuzzy, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Albacete"
 msgstr "Албасет"
 
-#: kstars_i18n.cpp:744
+#: kstars_i18n.cpp:745
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Albany"
@@ -39694,7 +39702,7 @@ msgctxt "City in Georgia USA"
 msgid "Albany"
 msgstr "Албани"
 
-#: kstars_i18n.cpp:745
+#: kstars_i18n.cpp:746
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Albany"
@@ -39702,7 +39710,7 @@ msgctxt "City in New York USA"
 msgid "Albany"
 msgstr "Албани"
 
-#: kstars_i18n.cpp:746
+#: kstars_i18n.cpp:747
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Albany"
@@ -39710,7 +39718,7 @@ msgctxt "City in Oregon USA"
 msgid "Albany"
 msgstr "Албани"
 
-#: kstars_i18n.cpp:747
+#: kstars_i18n.cpp:748
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Albion"
@@ -39718,7 +39726,7 @@ msgctxt "City in Idaho USA"
 msgid "Albion"
 msgstr "Албион"
 
-#: kstars_i18n.cpp:748
+#: kstars_i18n.cpp:749
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Albuquerque"
@@ -39726,7 +39734,7 @@ msgctxt "City in New Mexico USA"
 msgid "Albuquerque"
 msgstr "Албукерки"
 
-#: kstars_i18n.cpp:749
+#: kstars_i18n.cpp:750
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alcalá de Henares"
@@ -39734,7 +39742,7 @@ msgctxt "City in Spain"
 msgid "Alcalá de Henares"
 msgstr "Алкала де Енарес"
 
-#: kstars_i18n.cpp:750
+#: kstars_i18n.cpp:751
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alcoa"
@@ -39742,7 +39750,7 @@ msgctxt "City in Tennessee USA"
 msgid "Alcoa"
 msgstr "Алкола"
 
-#: kstars_i18n.cpp:751
+#: kstars_i18n.cpp:752
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Aldermaston"
@@ -39750,7 +39758,7 @@ msgctxt "City in United Kingdom"
 msgid "Aldermaston"
 msgstr "Алдермастон"
 
-#: kstars_i18n.cpp:752
+#: kstars_i18n.cpp:753
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alert"
@@ -39758,7 +39766,7 @@ msgctxt "City in Nunavut Canada"
 msgid "Alert"
 msgstr "Алерт"
 
-#: kstars_i18n.cpp:753
+#: kstars_i18n.cpp:754
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alessandria"
@@ -39766,7 +39774,7 @@ msgctxt "City in Italy"
 msgid "Alessandria"
 msgstr "Алесандрија"
 
-#: kstars_i18n.cpp:754
+#: kstars_i18n.cpp:755
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alexander City"
@@ -39774,7 +39782,7 @@ msgctxt "City in Alabama USA"
 msgid "Alexander City"
 msgstr "Александер Сити"
 
-#: kstars_i18n.cpp:755
+#: kstars_i18n.cpp:756
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alexandria"
@@ -39782,7 +39790,7 @@ msgctxt "City in Egypt"
 msgid "Alexandria"
 msgstr "Александрија"
 
-#: kstars_i18n.cpp:756
+#: kstars_i18n.cpp:757
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alexandria"
@@ -39790,7 +39798,7 @@ msgctxt "City in Louisiana USA"
 msgid "Alexandria"
 msgstr "Александрија"
 
-#: kstars_i18n.cpp:757
+#: kstars_i18n.cpp:758
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alexandria"
@@ -39798,13 +39806,13 @@ msgctxt "City in Virginia USA"
 msgid "Alexandria"
 msgstr "Александрија"
 
-#: kstars_i18n.cpp:758
+#: kstars_i18n.cpp:759
 #, fuzzy, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Alexis Creek"
 msgstr "Батл Крик"
 
-#: kstars_i18n.cpp:759
+#: kstars_i18n.cpp:760
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Algiers"
@@ -39812,7 +39820,7 @@ msgctxt "City in Algeria"
 msgid "Algiers"
 msgstr "Алжир"
 
-#: kstars_i18n.cpp:760
+#: kstars_i18n.cpp:761
 #, fuzzy, kde-kuit-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Algeria"
@@ -39820,21 +39828,13 @@ msgctxt "City in Canada"
 msgid "Algonquin"
 msgstr "Алжир"
 
-#: kstars_i18n.cpp:761
+#: kstars_i18n.cpp:762
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alhambra"
 msgctxt "City in California USA"
 msgid "Alhambra"
 msgstr "Алхамбра"
-
-#: kstars_i18n.cpp:762
-#, fuzzy, kde-kuit-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Alicante"
-msgctxt "City in Spain"
-msgid "Alicante"
-msgstr "Аликанте"
 
 #: kstars_i18n.cpp:763
 #, fuzzy, kde-kuit-format
@@ -43301,7 +43301,7 @@ msgstr "Касел"
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Castellon de la Plana"
 msgctxt "City in Spain"
-msgid "Castellon de la Plana"
+msgid "Castelló de la Plana"
 msgstr "Кастелон де ла Плана"
 
 #: kstars_i18n.cpp:1229
@@ -46117,20 +46117,12 @@ msgstr "Ебро"
 #: kstars_i18n.cpp:1604
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Elche"
-msgctxt "City in Spain"
-msgid "Elche"
-msgstr "Елке"
-
-#: kstars_i18n.cpp:1605
-#, fuzzy, kde-kuit-format
-#| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Eldorado"
 msgctxt "City in Illinois USA"
 msgid "Eldorado"
 msgstr "Елдорадо"
 
-#: kstars_i18n.cpp:1606
+#: kstars_i18n.cpp:1605
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Eldridge"
@@ -46138,7 +46130,7 @@ msgctxt "City in Iowa USA"
 msgid "Eldridge"
 msgstr "Елдриџ"
 
-#: kstars_i18n.cpp:1607
+#: kstars_i18n.cpp:1606
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elgin"
@@ -46146,7 +46138,7 @@ msgctxt "City in Illinois USA"
 msgid "Elgin"
 msgstr "Елгин"
 
-#: kstars_i18n.cpp:1608
+#: kstars_i18n.cpp:1607
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elizabeth"
@@ -46154,7 +46146,7 @@ msgctxt "City in New Jersey USA"
 msgid "Elizabeth"
 msgstr "Елизабет"
 
-#: kstars_i18n.cpp:1609
+#: kstars_i18n.cpp:1608
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elizabeth City"
@@ -46162,7 +46154,7 @@ msgctxt "City in North Carolina USA"
 msgid "Elizabeth City"
 msgstr "Елизабет Сити"
 
-#: kstars_i18n.cpp:1610
+#: kstars_i18n.cpp:1609
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elizabethtown"
@@ -46170,7 +46162,7 @@ msgctxt "City in Kentucky USA"
 msgid "Elizabethtown"
 msgstr "Елизабеттаун"
 
-#: kstars_i18n.cpp:1611
+#: kstars_i18n.cpp:1610
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elk City"
@@ -46178,7 +46170,7 @@ msgctxt "City in Oklahoma USA"
 msgid "Elk City"
 msgstr "Елк Сити"
 
-#: kstars_i18n.cpp:1612
+#: kstars_i18n.cpp:1611
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elk Point"
@@ -46186,7 +46178,7 @@ msgctxt "City in South Dakota USA"
 msgid "Elk Point"
 msgstr "Елк Поинт"
 
-#: kstars_i18n.cpp:1613
+#: kstars_i18n.cpp:1612
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elkhart"
@@ -46194,7 +46186,7 @@ msgctxt "City in Indiana USA"
 msgid "Elkhart"
 msgstr "Елкхарт"
 
-#: kstars_i18n.cpp:1614
+#: kstars_i18n.cpp:1613
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elkhart"
@@ -46202,7 +46194,7 @@ msgctxt "City in Texas USA"
 msgid "Elkhart"
 msgstr "Елкхарт"
 
-#: kstars_i18n.cpp:1615
+#: kstars_i18n.cpp:1614
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elkins"
@@ -46210,7 +46202,7 @@ msgctxt "City in West Virginia USA"
 msgid "Elkins"
 msgstr "Елкинс"
 
-#: kstars_i18n.cpp:1616
+#: kstars_i18n.cpp:1615
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elko"
@@ -46218,13 +46210,13 @@ msgctxt "City in Nevada USA"
 msgid "Elko"
 msgstr "Елко"
 
-#: kstars_i18n.cpp:1617
+#: kstars_i18n.cpp:1616
 #, fuzzy, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Elliot Lake"
 msgstr "Уреди врска"
 
-#: kstars_i18n.cpp:1618
+#: kstars_i18n.cpp:1617
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elmira"
@@ -46232,7 +46224,7 @@ msgctxt "City in New York USA"
 msgid "Elmira"
 msgstr "Елмира"
 
-#: kstars_i18n.cpp:1619
+#: kstars_i18n.cpp:1618
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elsmere"
@@ -46240,7 +46232,7 @@ msgctxt "City in Delaware USA"
 msgid "Elsmere"
 msgstr "Елсмере"
 
-#: kstars_i18n.cpp:1620
+#: kstars_i18n.cpp:1619
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elva"
@@ -46248,13 +46240,19 @@ msgctxt "City in Estonia"
 msgid "Elva"
 msgstr "Елва"
 
-#: kstars_i18n.cpp:1621
+#: kstars_i18n.cpp:1620
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Elverson"
 msgctxt "City in Pennsylvania USA"
 msgid "Elverson"
 msgstr "Елверсон"
+
+#: kstars_i18n.cpp:1621
+#, fuzzy, kde-kuit-format
+msgctxt "City in Spain"
+msgid "Elx"
+msgstr "Екватор"
 
 #: kstars_i18n.cpp:1622
 #, fuzzy, kde-kuit-format
@@ -46871,7 +46869,7 @@ msgstr "Барнсвил"
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Florala"
 msgctxt "City in Italy"
-msgid "Forli`"
+msgid "Forlì"
 msgstr "Florala"
 
 #: kstars_i18n.cpp:1703
@@ -47678,26 +47676,18 @@ msgstr "Galveston"
 #: kstars_i18n.cpp:1809
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Gerona"
-msgctxt "City in Spain"
-msgid "Gerona"
-msgstr "Gerona"
-
-#: kstars_i18n.cpp:1810
-#, fuzzy, kde-kuit-format
-#| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Geomsan"
 msgctxt "City in Chungnam South Korea"
 msgid "Geumsan"
 msgstr "Geomsan"
 
-#: kstars_i18n.cpp:1811
+#: kstars_i18n.cpp:1810
 #, fuzzy, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Ghost Lake"
 msgstr "Moses Lake"
 
-#: kstars_i18n.cpp:1812
+#: kstars_i18n.cpp:1811
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gibraltar"
@@ -47705,19 +47695,19 @@ msgctxt "City in United Kingdom"
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: kstars_i18n.cpp:1813
+#: kstars_i18n.cpp:1812
 #, fuzzy, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Gift Lake"
 msgstr "Девилс Лејк"
 
-#: kstars_i18n.cpp:1814
+#: kstars_i18n.cpp:1813
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Gijón"
 msgstr ""
 
-#: kstars_i18n.cpp:1815
+#: kstars_i18n.cpp:1814
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gila Bend"
@@ -47725,7 +47715,7 @@ msgctxt "City in Arizona USA"
 msgid "Gila Bend"
 msgstr "Gila Bend"
 
-#: kstars_i18n.cpp:1816
+#: kstars_i18n.cpp:1815
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gillette"
@@ -47733,11 +47723,19 @@ msgctxt "City in Wyoming USA"
 msgid "Gillette"
 msgstr "Gillette"
 
-#: kstars_i18n.cpp:1817
+#: kstars_i18n.cpp:1816
 #, fuzzy, kde-kuit-format
 msgctxt "City in Manitoba Canada"
 msgid "Gimli"
 msgstr "Gumi"
+
+#: kstars_i18n.cpp:1817
+#, fuzzy, kde-kuit-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Gerona"
+msgctxt "City in Spain"
+msgid "Girona"
+msgstr "Gerona"
 
 #: kstars_i18n.cpp:1818
 #, fuzzy, kde-kuit-format
@@ -52312,12 +52310,18 @@ msgid "Llano del Hato"
 msgstr ""
 
 #: kstars_i18n.cpp:2432
+#, kde-kuit-format
+msgctxt "City in Spain"
+msgid "Lleida"
+msgstr ""
+
+#: kstars_i18n.cpp:2433
 #, fuzzy, kde-kuit-format
 msgctxt "City in Botswana"
 msgid "Lobatsi"
 msgstr "Лахти"
 
-#: kstars_i18n.cpp:2433
+#: kstars_i18n.cpp:2434
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lockwood Valley"
@@ -52325,7 +52329,7 @@ msgctxt "City in California USA"
 msgid "Lockwood Valley"
 msgstr "Локвуд Вали"
 
-#: kstars_i18n.cpp:2434
+#: kstars_i18n.cpp:2435
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Logan"
@@ -52333,13 +52337,13 @@ msgctxt "City in Utah USA"
 msgid "Logan"
 msgstr "Логан"
 
-#: kstars_i18n.cpp:2435
+#: kstars_i18n.cpp:2436
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Logroño"
 msgstr ""
 
-#: kstars_i18n.cpp:2436
+#: kstars_i18n.cpp:2437
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Logan"
@@ -52347,7 +52351,7 @@ msgctxt "City in Italy"
 msgid "Loiano"
 msgstr "Логан"
 
-#: kstars_i18n.cpp:2437
+#: kstars_i18n.cpp:2438
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Loksa"
@@ -52355,7 +52359,7 @@ msgctxt "City in Estonia"
 msgid "Loksa"
 msgstr "Локса"
 
-#: kstars_i18n.cpp:2438
+#: kstars_i18n.cpp:2439
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lolo"
@@ -52363,13 +52367,13 @@ msgctxt "City in Montana USA"
 msgid "Lolo"
 msgstr "Лоло"
 
-#: kstars_i18n.cpp:2439
+#: kstars_i18n.cpp:2440
 #, fuzzy, kde-kuit-format
 msgctxt "City in Slovakia"
 msgid "Lomnicky stit"
 msgstr "Локса"
 
-#: kstars_i18n.cpp:2440
+#: kstars_i18n.cpp:2441
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lompoc"
@@ -52377,13 +52381,13 @@ msgctxt "City in California USA"
 msgid "Lompoc"
 msgstr "Ломпок"
 
-#: kstars_i18n.cpp:2441
+#: kstars_i18n.cpp:2442
 #, fuzzy, kde-kuit-format
 msgctxt "City in Togo"
 msgid "Lomé"
 msgstr "Ломпок"
 
-#: kstars_i18n.cpp:2442
+#: kstars_i18n.cpp:2443
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "London"
@@ -52391,7 +52395,7 @@ msgctxt "City in United Kingdom"
 msgid "London"
 msgstr "Лондон"
 
-#: kstars_i18n.cpp:2443
+#: kstars_i18n.cpp:2444
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "London"
@@ -52399,7 +52403,7 @@ msgctxt "City in Ontario Canada"
 msgid "London"
 msgstr "Лондон"
 
-#: kstars_i18n.cpp:2444
+#: kstars_i18n.cpp:2445
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Long Beach"
@@ -52407,7 +52411,7 @@ msgctxt "City in California USA"
 msgid "Long Beach"
 msgstr "Лонг Бич"
 
-#: kstars_i18n.cpp:2445
+#: kstars_i18n.cpp:2446
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Longview"
@@ -52415,7 +52419,7 @@ msgctxt "City in Texas USA"
 msgid "Longview"
 msgstr "Лонгвју"
 
-#: kstars_i18n.cpp:2446
+#: kstars_i18n.cpp:2447
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Longview"
@@ -52423,7 +52427,7 @@ msgctxt "City in Washington USA"
 msgid "Longview"
 msgstr "Лонгвју"
 
-#: kstars_i18n.cpp:2447
+#: kstars_i18n.cpp:2448
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lorain"
@@ -52431,7 +52435,7 @@ msgctxt "City in Ohio USA"
 msgid "Lorain"
 msgstr "Лорејн"
 
-#: kstars_i18n.cpp:2448
+#: kstars_i18n.cpp:2449
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lordsburg"
@@ -52439,7 +52443,7 @@ msgctxt "City in New Mexico USA"
 msgid "Lordsburg"
 msgstr "Лордсбург"
 
-#: kstars_i18n.cpp:2449
+#: kstars_i18n.cpp:2450
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Los Alamos"
@@ -52447,7 +52451,7 @@ msgctxt "City in New Mexico USA"
 msgid "Los Alamos"
 msgstr "Лос Аламос"
 
-#: kstars_i18n.cpp:2450
+#: kstars_i18n.cpp:2451
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Los Altos Hills"
@@ -52455,7 +52459,7 @@ msgctxt "City in California USA"
 msgid "Los Altos Hills"
 msgstr "Los Altos Hills"
 
-#: kstars_i18n.cpp:2451
+#: kstars_i18n.cpp:2452
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Los Angeles"
@@ -52463,19 +52467,19 @@ msgctxt "City in California USA"
 msgid "Los Angeles"
 msgstr "Los Angeles"
 
-#: kstars_i18n.cpp:2452
+#: kstars_i18n.cpp:2453
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Lost Maples State Natural Area (Vanderpool)"
 msgstr ""
 
-#: kstars_i18n.cpp:2453
+#: kstars_i18n.cpp:2454
 #, fuzzy, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "Louisbourg"
 msgstr "Дуизбург"
 
-#: kstars_i18n.cpp:2454
+#: kstars_i18n.cpp:2455
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Louisville"
@@ -52483,7 +52487,7 @@ msgctxt "City in Georgia USA"
 msgid "Louisville"
 msgstr "Louisville"
 
-#: kstars_i18n.cpp:2455
+#: kstars_i18n.cpp:2456
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Louisville"
@@ -52491,13 +52495,13 @@ msgctxt "City in Kentucky USA"
 msgid "Louisville"
 msgstr "Louisville"
 
-#: kstars_i18n.cpp:2456
+#: kstars_i18n.cpp:2457
 #, fuzzy, kde-kuit-format
 msgctxt "City in Egypt"
 msgid "Louxor"
 msgstr "Лоло"
 
-#: kstars_i18n.cpp:2457
+#: kstars_i18n.cpp:2458
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Loveland"
@@ -52505,7 +52509,7 @@ msgctxt "City in Colorado USA"
 msgid "Loveland"
 msgstr "Loveland"
 
-#: kstars_i18n.cpp:2458
+#: kstars_i18n.cpp:2459
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lovelock"
@@ -52513,7 +52517,7 @@ msgctxt "City in Nevada USA"
 msgid "Lovelock"
 msgstr "Lovelock"
 
-#: kstars_i18n.cpp:2459
+#: kstars_i18n.cpp:2460
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lowell"
@@ -52521,25 +52525,25 @@ msgctxt "City in Massachusetts USA"
 msgid "Lowell"
 msgstr "Lowell"
 
-#: kstars_i18n.cpp:2460
+#: kstars_i18n.cpp:2461
 #, fuzzy, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Lowell Obs."
 msgstr "Lowell"
 
-#: kstars_i18n.cpp:2461
+#: kstars_i18n.cpp:2462
 #, fuzzy, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Lowther"
 msgstr "Прикажи име"
 
-#: kstars_i18n.cpp:2462
+#: kstars_i18n.cpp:2463
 #, fuzzy, kde-kuit-format
 msgctxt "City in Angola"
 msgid "Luanda"
 msgstr "Lund"
 
-#: kstars_i18n.cpp:2463
+#: kstars_i18n.cpp:2464
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lubbock"
@@ -52547,13 +52551,13 @@ msgctxt "City in Texas USA"
 msgid "Lubbock"
 msgstr "Lubbock"
 
-#: kstars_i18n.cpp:2464
+#: kstars_i18n.cpp:2465
 #, fuzzy, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Lucca"
 msgstr "Accra"
 
-#: kstars_i18n.cpp:2465
+#: kstars_i18n.cpp:2466
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Ludwigshafen"
@@ -52561,13 +52565,13 @@ msgctxt "City in Germany"
 msgid "Ludwigshafen"
 msgstr "Ludwigshafen"
 
-#: kstars_i18n.cpp:2466
+#: kstars_i18n.cpp:2467
 #, fuzzy, kde-kuit-format
 msgctxt "City in Angola"
 msgid "Luena"
 msgstr "Mena"
 
-#: kstars_i18n.cpp:2467
+#: kstars_i18n.cpp:2468
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Leganés"
@@ -52575,7 +52579,7 @@ msgctxt "City in Ukraine"
 msgid "Lugans'k"
 msgstr "Лежане"
 
-#: kstars_i18n.cpp:2468
+#: kstars_i18n.cpp:2469
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lugo"
@@ -52583,13 +52587,13 @@ msgctxt "City in Spain"
 msgid "Lugo"
 msgstr "Lugo"
 
-#: kstars_i18n.cpp:2469
+#: kstars_i18n.cpp:2470
 #, fuzzy, kde-kuit-format
 msgctxt "City in Sweden"
 msgid "Luleå"
 msgstr "Thule"
 
-#: kstars_i18n.cpp:2470
+#: kstars_i18n.cpp:2471
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lund"
@@ -52597,13 +52601,13 @@ msgctxt "City in Sweden"
 msgid "Lund"
 msgstr "Lund"
 
-#: kstars_i18n.cpp:2471
+#: kstars_i18n.cpp:2472
 #, fuzzy, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "Lunenburg"
 msgstr "Ликсембург"
 
-#: kstars_i18n.cpp:2472
+#: kstars_i18n.cpp:2473
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lusaka"
@@ -52611,7 +52615,7 @@ msgctxt "City in Zambia"
 msgid "Lusaka"
 msgstr "Lusaka"
 
-#: kstars_i18n.cpp:2473
+#: kstars_i18n.cpp:2474
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lusaka"
@@ -52619,7 +52623,7 @@ msgctxt "City in Ukraine"
 msgid "Luts'k"
 msgstr "Lusaka"
 
-#: kstars_i18n.cpp:2474
+#: kstars_i18n.cpp:2475
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Luxembourg City"
@@ -52627,7 +52631,7 @@ msgctxt "City in Luxembourg"
 msgid "Luxembourg City"
 msgstr "Luxembourg City"
 
-#: kstars_i18n.cpp:2475
+#: kstars_i18n.cpp:2476
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lynchburg"
@@ -52635,7 +52639,7 @@ msgctxt "City in Virginia USA"
 msgid "Lynchburg"
 msgstr "Lynchburg"
 
-#: kstars_i18n.cpp:2476
+#: kstars_i18n.cpp:2477
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lynden"
@@ -52643,7 +52647,7 @@ msgctxt "City in Washington USA"
 msgid "Lynden"
 msgstr "Lynden"
 
-#: kstars_i18n.cpp:2477
+#: kstars_i18n.cpp:2478
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lynn"
@@ -52651,7 +52655,7 @@ msgctxt "City in Massachusetts USA"
 msgid "Lynn"
 msgstr "Lynn"
 
-#: kstars_i18n.cpp:2478
+#: kstars_i18n.cpp:2479
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lynn Haven"
@@ -52659,7 +52663,7 @@ msgctxt "City in Florida USA"
 msgid "Lynn Haven"
 msgstr "Lynn Haven"
 
-#: kstars_i18n.cpp:2479
+#: kstars_i18n.cpp:2480
 #, fuzzy, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lyon"
@@ -52667,19 +52671,11 @@ msgctxt "City in Rhône France"
 msgid "Lyon"
 msgstr "Lyon"
 
-#: kstars_i18n.cpp:2480
+#: kstars_i18n.cpp:2481
 #, fuzzy, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Lytton"
 msgstr "Лејтон"
-
-#: kstars_i18n.cpp:2481
-#, fuzzy, kde-kuit-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Lérida"
-msgctxt "City in Spain"
-msgid "Lérida"
-msgstr "Lérida"
 
 #: kstars_i18n.cpp:2482
 #, fuzzy, kde-kuit-format
@@ -62860,7 +62856,7 @@ msgstr "Valdez"
 #: kstars_i18n.cpp:3872
 #, fuzzy, kde-kuit-format
 msgctxt "City in Spain"
-msgid "Valéncia"
+msgid "València"
 msgstr "València"
 
 #: kstars_i18n.cpp:3873
@@ -86977,6 +86973,20 @@ msgstr "Ѕвезден графикон"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Скриј ги објектите додека се движат"
+
+#, fuzzy
+#~| msgctxt "City name (optional, probably does not need a translation)"
+#~| msgid "Elche"
+#~ msgctxt "City in Spain"
+#~ msgid "Elche"
+#~ msgstr "Елке"
+
+#, fuzzy
+#~| msgctxt "City name (optional, probably does not need a translation)"
+#~| msgid "Lérida"
+#~ msgctxt "City in Spain"
+#~ msgid "Lérida"
+#~ msgstr "Lérida"
 
 #, fuzzy
 #~ msgid ""
