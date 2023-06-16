@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-06-09 17:38+0300\n"
+"PO-Revision-Date: 2023-06-15 08:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -41440,9 +41440,7 @@ msgid "Al Manamah"
 msgstr "Манама"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
 msgstr "Аліканте"
@@ -44370,9 +44368,7 @@ msgid "Casselman"
 msgstr "Кассельман"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
 msgstr "Кастельйон-де-ла-Плана"
@@ -46730,11 +46726,10 @@ msgid "Elverson"
 msgstr "Елверсон"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Експ."
+msgstr "Ельче"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -47217,9 +47212,7 @@ msgid "Forestville"
 msgstr "Форествілль"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
 msgstr "Форлі"
@@ -47909,12 +47902,10 @@ msgid "Gimli"
 msgstr "Гімлі"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
-msgstr "Жерона"
+msgstr "Жирона"
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -51604,7 +51595,7 @@ msgstr "Льяно-дель-Ато"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Льєда"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -60241,9 +60232,7 @@ msgid "Valverde"
 msgstr "Валверде"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
 msgstr "Валенсія"

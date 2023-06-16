@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-06-10 10:25+0100\n"
+"PO-Revision-Date: 2023-06-15 11:49+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -1188,7 +1188,8 @@ msgstr ""
 "X-POFile-SpellExtra: distânciaemmicrons númeropassos Wavefront Iter VAL\n"
 "X-POFile-SpellExtra: MÍN XISF ve Glover altazimutal Philipp Auersperg\n"
 "X-POFile-IgnoreConsistency: int\n"
-"X-POFile-SpellExtra: Castell Schriber McGee\n"
+"X-POFile-SpellExtra: Castell Schriber McGee Castelló Elx Forlì Girona\n"
+"X-POFile-SpellExtra: Lleida\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -42595,9 +42596,7 @@ msgid "Al Manamah"
 msgstr "Al Manamah"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
 msgstr "Alicante"
@@ -45525,12 +45524,10 @@ msgid "Casselman"
 msgstr "Casselman"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
-msgstr "Castellon de la Plana"
+msgstr "Castelló de la Plana"
 
 #: kstars_i18n.cpp:1229
 #, kde-kuit-format
@@ -47885,11 +47882,10 @@ msgid "Elverson"
 msgstr "Elverson"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Exp"
+msgstr "Elx"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -48372,12 +48368,10 @@ msgid "Forestville"
 msgstr "Forestville"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
-msgstr "Forli`"
+msgstr "Forlì"
 
 #: kstars_i18n.cpp:1703
 #, kde-kuit-format
@@ -49064,12 +49058,10 @@ msgid "Gimli"
 msgstr "Gimli"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
-msgstr "Gerona"
+msgstr "Girona"
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -52759,7 +52751,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lleida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -61396,9 +61388,7 @@ msgid "Valverde"
 msgstr "Valverde"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
 msgstr "Valência"
@@ -84556,11 +84546,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgctxt "City in Spain"
-#~ msgid "Elche"
-#~ msgstr "Elche"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Lérida"
-#~ msgstr "Lérida"

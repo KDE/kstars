@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-06-14 08:51+0200\n"
+"PO-Revision-Date: 2023-06-15 08:58+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -41668,9 +41668,7 @@ msgid "Al Manamah"
 msgstr "Al Manamah"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
 msgstr "Alacant"
@@ -44603,9 +44601,7 @@ msgid "Casselman"
 msgstr "Casselman"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
 msgstr "Castelló de la Plana"
@@ -46968,11 +46964,10 @@ msgid "Elverson"
 msgstr "Elverson"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Exp"
+msgstr "Elx"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -47454,11 +47449,8 @@ msgctxt "City in Quebec Canada"
 msgid "Forestville"
 msgstr "Forestville"
 
-# skip-rule: rst-italic2
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
 msgstr "Forlì"
@@ -48149,9 +48141,7 @@ msgid "Gimli"
 msgstr "Gimli"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
 msgstr "Girona"
@@ -51853,7 +51843,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lleida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -60510,9 +60500,7 @@ msgid "Valverde"
 msgstr "Valverde"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
 msgstr "València"
@@ -83751,33 +83739,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgctxt "City in Spain"
-#~ msgid "Elche"
-#~ msgstr "Elx"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Lérida"
-#~ msgstr "Lleida"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
-#~ "procedure.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Submarc al voltant de l'estrella enfocada durant el "
-#~ "procediment d'enfocament automàtic.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
-#~ "full frame. This method defaults to the Centroid detection, but can use "
-#~ "SEP detection too. Its performance decreases as the number of stars "
-#~ "increases.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Mesura la mitjana de l'HFR de totes les estrelles "
-#~ "combinades en un fotograma complet. Aquest mètode està predeterminat per "
-#~ "a la detecció de centroide, però també pot usar la detecció SEP. El seu "
-#~ "rendiment disminueix quan el nombre d'estrelles creix.</p></body></html>"
-
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr ""
-#~ "Selecció automàtica de la millor estrella de la imatge per a enfocar-la"
