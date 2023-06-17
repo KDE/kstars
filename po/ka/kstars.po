@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-06-10 06:33+0200\n"
+"PO-Revision-Date: 2023-06-16 06:38+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -38078,12 +38078,10 @@ msgid "Al Manamah"
 msgstr "მანამა"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
-msgstr "ალიკანტე"
+msgstr "ალაკანტი"
 
 #: kstars_i18n.cpp:741
 #, kde-kuit-format
@@ -41008,12 +41006,10 @@ msgid "Casselman"
 msgstr "კესელმანი"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
-msgstr "კასტელიონ-დე-ლა-პლანა"
+msgstr "კასტელო-დე-ლა-პლანა"
 
 #: kstars_i18n.cpp:1229
 #, kde-kuit-format
@@ -43854,9 +43850,7 @@ msgid "Forestville"
 msgstr "ფორესტვილი"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
 msgstr "ფორლი"
@@ -44546,9 +44540,7 @@ msgid "Gimli"
 msgstr "გიმლი"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
 msgstr "ჟირონა"
@@ -48241,7 +48233,7 @@ msgstr "ლიანო დელ ჰატო"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "ლერიდა"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -56878,9 +56870,7 @@ msgid "Valverde"
 msgstr "ვალვერდე"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
 msgstr "ვალენსია"
