@@ -315,9 +315,9 @@ void OpticalTrainManager::generateOpticalTrains()
     // Check if need secondary train
     if (cameraComboBox->count() > 2)
         addOpticalTrain(1, i18n("Secondary"));
-    // Check if need teritary train
+    // Check if need tertiary train
     if (cameraComboBox->count() > 3)
-        addOpticalTrain(2, i18n("Teritary"));
+        addOpticalTrain(2, i18n("Tertiary"));
 }
 
 ////////////////////////////////////////////////////////////////////////////
