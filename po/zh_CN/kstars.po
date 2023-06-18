@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-05-22 14:01\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
+"PO-Revision-Date: 2023-06-17 04:11\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2175,6 +2175,8 @@ msgid ""
 "guess the contents of the fields from the text. The result is just a guess, "
 "so please verify the coordinates and the other information."
 msgstr ""
+"复制粘贴一个对象和数据混合的文本，KStars 会尝试从文本中猜测字段的内容。结果只"
+"是猜测，所以请验证坐标和其他信息。"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, AddCatalogObject)
 #: dialogs/addcatalogobject.ui:14
@@ -2211,7 +2213,7 @@ msgstr ""
 #: dialogs/addcatalogobject.ui:50
 #, kde-format
 msgid "RA / Dec (J2000):"
-msgstr ""
+msgstr "赤经/赤经 (J2000)："
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/addcatalogobject.ui:72
@@ -2322,6 +2324,8 @@ msgid ""
 "This feature allows you to copy-paste a piece of text from e.g. a website or "
 "another app and magically try to infer the contents of this form from it."
 msgstr ""
+"此功能允许您复制粘贴一段文本，比如：从一个网站或另一个应用程序，并尝试从它推"
+"断此表单的内容。"
 
 #. i18n: ectx: property (text), widget (QPushButton, guessFromTextButton)
 #: dialogs/addcatalogobject.ui:254
@@ -5707,7 +5711,7 @@ msgstr "有效望远镜焦距已更新为 %1 毫米。"
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
-msgstr ""
+msgstr "警告！计算所得视野已经超界 (%1)，请确保望远镜焦距和相机像素大小正确。"
 
 #: ekos/align/align.cpp:1105
 #, kde-format
@@ -5744,7 +5748,7 @@ msgstr "Astrometry 对齐失败"
 msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
 "train settings and try again."
-msgstr ""
+msgstr "望远镜光圈及焦距设置缺失，请检查您的设置并重试。"
 
 #: ekos/align/align.cpp:1424
 #, kde-format
@@ -5778,7 +5782,7 @@ msgstr "CCD 曝光正在进行时无法拍摄。 %1 秒后重试..."
 #: ekos/align/align.cpp:1489
 #, kde-format
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
-msgstr ""
+msgstr "无法拍摄，因为旋转模块正在工作，请在 %1 秒后重试..."
 
 #: ekos/align/align.cpp:1507 ekos/align/align.cpp:2928
 #, kde-format
@@ -5819,12 +5823,12 @@ msgstr "正在进行未知图像位置的解析..."
 #: ekos/align/align.cpp:1865
 #, kde-format
 msgid "Loaded image does not have pierside information"
-msgstr ""
+msgstr "加载的图像没有码头信息"
 
 #: ekos/align/align.cpp:1870
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr ""
+msgstr "加载的图像被带到码头 %1"
 
 #: ekos/align/align.cpp:1964
 #, kde-format
@@ -5849,6 +5853,8 @@ msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
+"解决方案坐标：RA(%1) DEC(%2) 望远镜坐标：RA(%3) DEC(%4) 目标坐标：RA(%5) "
+"DEC(%6)"
 
 #: ekos/align/align.cpp:2076
 #, kde-format
@@ -5859,7 +5865,7 @@ msgstr "目标在解析坐标 %1 度范围内。"
 #: ekos/align/align.cpp:2121
 #, kde-format
 msgid "Camera position angle is %1 degrees."
-msgstr ""
+msgstr "相机位置角是 %1 度。"
 
 #: ekos/align/align.cpp:2143 ekos/align/align.cpp:2553
 #: ekos/align/align.cpp:2593
@@ -5875,7 +5881,7 @@ msgstr "达到最大迭代次数。解析失败。"
 #: ekos/align/align.cpp:2194
 #, kde-format
 msgid "Target is within acceptable range."
-msgstr ""
+msgstr "目标在可接受的范围内。"
 
 #: ekos/align/align.cpp:2255
 #, kde-format
@@ -5895,17 +5901,17 @@ msgstr ""
 #: ekos/align/align.cpp:2317
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
-msgstr ""
+msgstr "设置相机位置角为 %1 度..."
 
 #: ekos/align/align.cpp:2324
 #, kde-format
 msgid "Camera position angle is within acceptable range."
-msgstr ""
+msgstr "相机位置角在可接受范围内。"
 
 #: ekos/align/align.cpp:2338
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
-msgstr ""
+msgstr "当前 PA %1；目标 PA %2；改变量：%3"
 
 #: ekos/align/align.cpp:2405
 #, kde-format
@@ -5940,7 +5946,7 @@ msgstr "赤道仪完成旋转至天极附近。请再次拍摄进行验证。"
 #: ekos/align/align.cpp:2547
 #, kde-format
 msgid "Mount is synced to solution coordinates."
-msgstr ""
+msgstr "赤道仪已同步到解决方案坐标。"
 
 #: ekos/align/align.cpp:2582 ekos/align/align.cpp:2612
 #: ekos/align/align.cpp:3920 ekos/align/polaralignmentassistant.cpp:637
@@ -5951,7 +5957,7 @@ msgstr "安定..."
 #: ekos/align/align.cpp:2588
 #, kde-format
 msgid "Differential slewing complete."
-msgstr ""
+msgstr "较差转动已完成。"
 
 #: ekos/align/align.cpp:2602
 #, kde-format
@@ -5976,14 +5982,14 @@ msgstr "旋转失败。"
 #: ekos/align/align.cpp:2692
 #, kde-format
 msgid "Rotator reached camera position angle."
-msgstr ""
+msgstr "旋转模块已经到达相机位置角。"
 
 #: ekos/align/align.cpp:2704
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
-msgstr ""
+msgstr "旋转模块未能到达请求的位置角度 (偏差 %1 弧分)。"
 
 #: ekos/align/align.cpp:2749
 #, kde-format
@@ -6005,7 +6011,7 @@ msgstr "转动到目标坐标： 赤经（%1）赤纬（%2）。"
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
-msgstr ""
+msgstr "旋转到目标坐标：RA(%1) DEC(%2) 被拒绝 (见通知)"
 
 #: ekos/align/align.cpp:2841
 #, kde-format
@@ -6376,7 +6382,7 @@ msgstr ""
 #: ekos/align/align.ui:450
 #, kde-format
 msgid "Position angle in degrees, East of North"
-msgstr ""
+msgstr "以度表示的位置角，东北方向"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/align/align.ui:470
@@ -6546,12 +6552,15 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>如果选中，当前选择的筛选器将用于校准。</p><p>如果您想要"
+"使用特定 (固定的) 过滤器进行校准，请不选中当前复选框并手动选择筛选器。</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
 #, kde-format
 msgid "use current"
-msgstr ""
+msgstr "使用当前设定"
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
 #: ekos/align/align.ui:756
@@ -7356,7 +7365,7 @@ msgstr "叠加"
 msgid ""
 "<html><head/><body><p>Automatically park mount after completing Polar "
 "Alignment Assistant Tools.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>完成极轴对齐辅助工具后自动归位</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
@@ -7396,12 +7405,15 @@ msgid ""
 "is asked to manually rotate the camera until the desired position angle is "
 "reached.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>在使用负载 &amp; 旋转时使用自动或手动旋转控制。为了自动"
+"控制，机械化旋转器被命令旋转以匹配所需的位置角度。为了手动控制，用户被要求手"
+"动旋转相机直到达到所需的位置角。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:310
 #, kde-format
 msgid "Automatic && Manual Rotator Control"
-msgstr ""
+msgstr "自动或手动旋转模块控制"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -11650,9 +11662,10 @@ msgid "Secondary"
 msgstr "次要的"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
-msgid "Teritary"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Tertiary"
+msgstr "水平"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -16742,30 +16755,7 @@ msgstr "SEP 配置："
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1699
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -16795,27 +16785,6 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>星点检测方法：</p><ul style=\"margin-top: 0px; margin-"
-"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
-"style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">SEP:</span> Source Extractor and Photometry, an efficient "
-"source detection method based on Source Extractor (Bertin and Arnouts 1996; "
-"Bertin 2016). See <a href=\"https://joss.theoj.org/papers/10.21105/"
-"joss.00058.pdf\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">SEP: Source Extractor as a library</span></a> in the Journal of Open "
-"Source Software.</li><li style=\" margin-top:12px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">质心</span>： a source detection based "
-"on estimating star mass around signal peaks.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">梯度</span>:："
-"a single source detection based on the Sobel filter. Initial or full-field "
-"analysis will use SEP instead of this method.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">阈值</span>： "
-"a single source detection based on pixel values. Initial or full-field "
-"analysis will use SEP instead of this method.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -17794,10 +17763,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "找到解后调用 newMeasurement。"
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "加载暗场数据失败。"
+msgstr ""
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
@@ -26316,10 +26284,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "地球阴影"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
@@ -26330,11 +26297,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "密克罗尼西亚"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
@@ -26345,24 +26310,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgid "Twilight"
+#, kde-format
 msgid "Highlights"
-msgstr "曙暮光"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
-#, fuzzy, kde-format
-#| msgid "Enable or Disable the Max Value Cutoff"
+#, kde-format
 msgid "Enable or disable the histogram display."
-msgstr "启用或禁用最大值截断"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
-#| msgid "Automatically start the park timer on startup"
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "开机时自动启动归位计时器"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:56
 #, kde-format
@@ -29037,10 +28999,9 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "切换天球仪视角（赤道坐标）(&C)"
 
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
-#, fuzzy, kde-format
-#| msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+#, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
-msgstr "切换至水平视角（地平坐标）(&C)"
+msgstr ""
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:10
@@ -32347,10 +32308,9 @@ msgstr "保存内部导星图像到磁盘吗？"
 
 #. i18n: ectx: label, entry (SaveAlignImages), group (General)
 #: kstars.kcfg:1429
-#, fuzzy, kde-format
-#| msgid "Save Internal Guider images on disk?"
+#, kde-format
 msgid "Save Internal Align images on disk?"
-msgstr "保存内部导星图像到磁盘吗？"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1433
@@ -33063,10 +33023,9 @@ msgstr "计算拍摄后的方位。"
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Desired absolute focus position"
+#, kde-format
 msgid "The desired focuser position."
-msgstr "绝对焦点位置"
+msgstr ""
 
 #. i18n: ectx: label, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1890
@@ -33493,10 +33452,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2126
-#, fuzzy, kde-format
-#| msgid "Camera pixel size width in micrometers."
+#, kde-format
 msgid "The size of a focuser tick in micrometers."
-msgstr "相机像素宽度大小（微米）"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusAdvSteps), group (Focus)
 #: kstars.kcfg:2131
@@ -38762,12 +38720,10 @@ msgid "Al Manamah"
 msgstr "麦纳麦"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
-msgstr "阿利坎特"
+msgstr ""
 
 #: kstars_i18n.cpp:741
 #, kde-kuit-format
@@ -41692,12 +41648,10 @@ msgid "Casselman"
 msgstr "卡斯尔曼"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
-msgstr "卡斯特利翁德德拉普拉纳"
+msgstr ""
 
 #: kstars_i18n.cpp:1229
 #, kde-kuit-format
@@ -44052,11 +44006,10 @@ msgid "Elverson"
 msgstr "埃尔弗森"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "曝光"
+msgstr ""
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -44539,12 +44492,10 @@ msgid "Forestville"
 msgstr "福里斯特维尔"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
-msgstr "福尔利"
+msgstr ""
 
 #: kstars_i18n.cpp:1703
 #, kde-kuit-format
@@ -45231,12 +45182,10 @@ msgid "Gimli"
 msgstr "吉姆利"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
-msgstr "赫罗纳"
+msgstr ""
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -57563,12 +57512,10 @@ msgid "Valverde"
 msgstr "巴尔韦德"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
-msgstr "瓦仑西亚"
+msgstr ""
 
 #: kstars_i18n.cpp:3873
 #, kde-kuit-format
@@ -70927,25 +70874,18 @@ msgstr "保存导星图像"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
-#| "autofocus by examining frames. This can consume a lot of storage space.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Align frames. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>保存对焦图像。仅当需要通过检查图像来排除自动焦点故障时"
-"启用。因为这可能消耗大量存储空间。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:63
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Save Align Images"
-msgstr "保存导星图像"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -79877,29 +79817,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Elche"
-#~ msgstr "埃尔切"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Lérida"
-#~ msgstr "莱里达"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
-#~ "full frame. This method defaults to the Centroid detection, but can use "
-#~ "SEP detection too. Its performance decreases as the number of stars "
-#~ "increases.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>测量全视场内所有星点的平均 HFR。 此方法默认检测矩"
-#~ "心，或进行 SEP 检测。 其性能随着星数的增加而下降。</p></body></html>"
-
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr "从图像中自动选择最佳对焦星点"
-
-#~ msgid "Are you sure you want to stop the polar alignment process?"
-#~ msgstr "你确定你想要中止极轴校准?"
-
-#~ msgid "Polar Alignment Assistant"
-#~ msgstr "极轴校准助手"

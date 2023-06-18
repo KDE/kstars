@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1653878 $
+# Version: $Revision: 1654056 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-06-10 10:02+0200\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
+"PO-Revision-Date: 2023-06-17 09:16+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -11475,16 +11475,13 @@ msgid "Last AF Solution"
 msgstr "Rozwiązanie"
 
 #: ekos/auxiliary/filtermanager.cpp:82
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
 "autofocus process."
 msgstr ""
-"Płaskie klatki są przechwytywane przy tym położeniu ogniskowej. Jest "
-"uaktualniania sama przez działanie ogniskowania, jeśli zostało włączone."
+"Temperatura ostatniego rozwiązania AF. Uaktualniana samoczynnie w trakcie "
+"samoogniskowania."
 
 #: ekos/auxiliary/filtermanager.cpp:83
 #, kde-format
@@ -11492,16 +11489,13 @@ msgid "Last AF Temp (°C)"
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:86
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Płaskie klatki są przechwytywane przy tym położeniu ogniskowej. Jest "
-"uaktualniania sama przez działanie ogniskowania, jeśli zostało włączone."
+"Wysokość ostatniego rozwiązania AF. Uaktualniana samoczynnie w trakcie "
+"samoogniskowania."
 
 #: ekos/auxiliary/filtermanager.cpp:87
 #, kde-format
@@ -12158,9 +12152,10 @@ msgid "Secondary"
 msgstr "Drugi"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
-msgid "Teritary"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Tertiary"
+msgstr "Pionowy"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -16001,6 +15996,12 @@ msgid ""
 "Align module. </p><p>The camera offset is measured in position angle scope "
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kąt kierunku prostopadłego aparatu (zobacz Pole "
+"Widzenia) względem kierunku początku obrotnicy. Odsunięcie aparatu jest "
+"ustalane samoczynnie przez <span style=\" font-weight:700;\">Zrzuć &amp; "
+"Rozwiąż</span> lub <span style=\" font-weight:700;\">Wczytaj &amp; Obróć</"
+"span> w członie Wyrównującym. </p><p>Odsunięcie aparatu jest mierzone w "
+"zakresie kąta położenia(-179.99° do 180.00°).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:236
@@ -16057,6 +16058,14 @@ msgid ""
 "p><p>The position angle is measured East of North in degrees.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Ustawienie kąta położenia aparatu powinno przesunąć "
+"obrotnicę. Miernik odzwierciedla stan obrotnicy. W zależności od dokładności "
+"obrotnicy, mogą występować pewne odchylenia w kącie położenia końcowego. </"
+"p><p>Jeśli zaznaczone jest <span style=\" font-weight:700;\">Zapisz Kąt "
+"Położenia Aparatu do Zadania w Ciągu</span>, to każde kolejne zadanie dodane "
+"do kolejki ciągu, zawsze spowoduje obrót do tego kąta położenie przed "
+"wykonaniem zrzutu.</p><p>Kąt położenia jest mierzony do północnego wschodu w "
+"stopniach.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:405
@@ -16937,6 +16946,28 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
+"Doradca Ostrości (DO) został stworzony, aby pomóc ustawić parametry "
+"ogniskowania.\n"
+"Niekoniecznie wskaże doskonałe połączenie parametrów, nadal trzeba będzie "
+"przeprowadzić kilka prób, lecz wskaże podstawowy zestaw parametrów do "
+"osiągnięcia ostrości.\n"
+"\n"
+"DO doradzi wartości dla większości parametrów. Niektóre z nich będą jednak "
+"wymagały od ciebie dodatkowej pracy. Zostały one zebrane poniżej z "
+"podstawowym wyjaśnieniem nt. ich ustawiania.\n"
+"\n"
+"Pierwszym krokiem jest ustawienie luzu. Podręcznik od twojego układu "
+"ogniskującego prawdopodobnie opisuje jak to zrobić. Gdy już będziesz miał "
+"wartość luzu dla twojego systemu, ustaw albo pole luzu, aby napęd wykonywał "
+"kompensację luzu lub pole Nadskanowania SO, aby układ ogniskujący wykonywał "
+"kompensację luzu. Ustaw tylko jedno pole, a drugie pozostaw pustym.\n"
+"\n"
+"Drugim krokiem jest ustawienie Rozmiaru Kroku. Wartością domyślną może być "
+"Critical Focus Zone (CFZ, z ang. Krytyczny Obszar Ogniskowej) dla twojego "
+"sprzętu - więc ustawe to teraz na karcie CFZ.\n"
+"\n"
+"Trzecim krokiem jest ustawienie Wielokrotności Kroku Oddalającego. "
+"Rozpocznij od doradzanej wartości."
 
 #: ekos/focus/focus.cpp:6389
 #, kde-format
@@ -16949,6 +16980,14 @@ msgid ""
 "star detection is acceptable. Adjust Out Step Multiple to correspond to this "
 "range of focuser motion."
 msgstr ""
+" Masz obiektyw z przeszkodą w środku, więc uważaj, aby nie oddalić się "
+"zbytnio od ostrości, bo gwiazdy będą wyglądać jak pierścienie i nie zostaną "
+"poprawnie wykryte. Próbuj znaleźć ostrość poruszając się o Rozmiar Kroku * "
+"Wielokrotność Kroku Oddalającego od ostrości i zrzuć klatkę. Przybliż ją, "
+"aby zobaczyć wykrytą gwiazdę. Jeśli jest słabo wykryta, to skieruj układ "
+"ogniskujący z powrotem w kierunku ostrości, aż wykrycie gwiazdy będzie na "
+"zadowalającym poziomie. Dostosuj Wielokrotność Kroku Oddalającego, aby "
+"odpowiadała ona temu zakresowi ruchu układu ogniskującego."
 
 #: ekos/focus/focus.cpp:6396
 #, kde-format
@@ -16970,6 +17009,22 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"\n"
+"\n"
+"Czwartym krokiem jest ustawienie pozostałych parametrów ostrości na sensowne "
+"wartości. Doradca Ostrości zaleci wartości dla 4 kategorii parametrów. "
+"Sprawdź przypisane pole Uaktualniania, aby zatwierdzić te zalecenia i "
+"naciśnij Uaktualnij Parametry.\n"
+"1. Właściwości Aparatu - Pamiętaj, aby zapewnij odpowiednie ustawienie "
+"Wzmocnienia, np. jednostkowe wzmocnienie.\n"
+"2. Karta Ustawień: Wszystkie parametry tutaj mają swoje zalecenia.\n"
+"3. Karta Procesu: Wszystkie parametry tutaj mają swoje zalecenia.\n"
+"4. Karta Mechaniki: Pamiętaj, że Rozmiar Kroku oraz Wielokrotność Kroku "
+"Oddalającego są ustawiane powyżej.\n"
+"\n"
+"Teraz skieruj układ ogniskujący do przybliżonej ostrości i wybierz filtr "
+"szerokopasmowy, np. Luminancji\n"
+"Jesteś gotowy, aby rozpocząć czynność samoogniskowania."
 
 #: ekos/focus/focus.cpp:6406
 #, fuzzy, kde-format
@@ -17165,16 +17220,13 @@ msgstr "Pole widzenia mozaiki:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicSpace)
 #: ekos/focus/focus.ui:955
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Size of the separator between the tiles.</p></body></"
 "html>"
 msgstr ""
-"<html><body><p>Rozmiar podklatki (w pikselach) do której ograniczyć "
-"przechwytywanie.</p></body></html>"
+"<html><head/><body><p>Rozmiar rozdzielacza pomiędzy kratkami.</p></body></"
+"html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
@@ -17224,17 +17276,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
 #: ekos/focus/focus.ui:1040
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Odczekaj tyle sekund przed przesunięciem urządzenia "
-"ogniskującego przed przechwyceniem kolejnego obrazu przy użyciu samo-"
-"ogniskowania.</p></body></html>"
+"<html><head/><body><p>Odczekaj tyle sekund przed po ukończeniu "
+"samoogniskowania do wznowienia naprowadzania.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
@@ -17441,22 +17489,23 @@ msgstr "Podziałki"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.ui:1401
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
 "experimental feature.</p></body></html>"
-msgstr "<html><head/><body><p>Narysuj temperaturę otoczenia.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Włącz Dostosowujące się Ogniskowanie pomiędzy "
+"podklatkami. Funkcjonalność nadal w trakcie rozwoju.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1411
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Minimum focuser movement when using Adaptive Focus.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Przybliż widok na osi X</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Najmniejszy ruch układu ogniskującego przy użyciu "
+"Dostosowującej się Ogniskowej.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/focus.ui:1414
@@ -17486,14 +17535,13 @@ msgstr "Auto Start"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/focus.ui:1443
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The minimum size of an adaptive focus change that will "
 "be sent to the focuser.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Wartość kąta godzinowego montażu.</p></body></html>"
+"<html><head/><body><p>Najmniejszy rozmiar zmiany dostosowującej się "
+"ogniskowej, która zostanie wysłana do układu ogniskującego.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1468
@@ -17503,16 +17551,13 @@ msgstr "Proces"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1471
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Największa droga w krokach przed przerwaniem czynności "
-"samoogniskowania</p></body></html>"
+"<html><head/><body><p>Parametry ogniskowej powiązane czynnością "
+"samoogniskowania.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1506
@@ -17559,16 +17604,13 @@ msgstr "Granica R²:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1623
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Number of frames to capture in order to average the HFR "
-#| "value at the current focuser position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of frames to capture at the current focuser "
 "position.</p></body></html>"
 msgstr ""
-"<html><body><p>Liczba klatek do przechwycenia, aby uśrednić wartość HFR w "
-"bieżącym położeniu układu ogniskującego.</p></body></html>"
+"<html><head/><body><p>Liczba klatek do zrucenia w bieżącym położeniu układu "
+"ogniskującego.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/focus.ui:1626
@@ -17749,6 +17791,14 @@ msgid ""
 "highlighted on the v-curve. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Zaznacz, aby rozpocząć przejście wykrywania punktów "
+"odstających po zrzuceniu wszystkich punktów danych. Przejście to używa "
+"Kryterium Peirce do ustawienia progu wykrywania punktów odstających. Jeśli "
+"istnieją punkty odstające, to zostaną one usunięte ponownym wykonaniem "
+"wpasowania krzywej. Jeśli R² zostanie poprawiony przez tę czynność to ten "
+"nowy zestaw danych zostanie użyty, a punkty odstające zostaną podświetlone "
+"na krzywej V. Ta funkcjonalność nie jest jeszcze dopracowana.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1734
@@ -17963,6 +18013,12 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Rodzaj używanego PSF, gdy Pomiar jest ustawiony na "
+"FWHM:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Gausa</span>: Używa 2D "
+"Gausa. Ta funkcjonalność jest jeszcze niedopracowana.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1911
@@ -18042,16 +18098,13 @@ msgstr "Mechanika"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, mechanicsTab)
 #: ekos/focus/focus.ui:2131
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Update the fits header with the found solution.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the mechanics of moving "
 "the focuser.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Uaktualnij nagłówek fits przy pomocy znalezionego "
-"rozwiązania.</p></body></html>"
+"<html><head/><body><p>Parametry ogniskowej powiązane z mechaniką "
+"poruszającego się układu ogniskującego.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:2169
@@ -18164,6 +18217,29 @@ msgid ""
 "be effective but is predictable in the number of steps taken. This walk is "
 "experimental.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Wybierz rodzaj chodu używanego przez układ "
+"ogniskujący, gdy używane jest <span style=\" font-weight:600;\">pojedyncze "
+"liniowe przejście</span>.  Dla <span style=\" font-weight:600;\">Linowego</"
+"span> dostępny jest tylko <span style=\" font-weight:600;\">Klasyczny</span>."
+"</p><p><span style=\" font-weight:600;\">Klasyczny</span>: Układ ogniskujący "
+"oddala się o &quot;Wielokrotności kroku oddalającego&quot;, zrzuca klatkę "
+"przybliża się o stały krok, zrzucając i analizując klatki na każdym kroku. "
+"Dokładny punkt, przy którym to przejście się zatrzymuje, jest zależny od "
+"danych, więc ten rodzaj chodu jest tolerancyjny na rozpoczęcie dużo dalej od "
+"bycia zogniskowanym, lecz kosztem dodatkowych kroków.</p><p><span style=\" "
+"font-weight:600;\">Stałe korki</span>: Układ ogniskujący oddala się o połowę "
+"&quot;Liczby Kroków&quot;, zrzuca klatkę, a następnie przybliża się "
+"dokładnie o &quot;Liczbę Kroków&quot;. Ten rodzaj chodu musi rozpocząć się "
+"blisko bycia zogniskowanym, aby się udał, lecz jest przewidywalny w liczbie "
+"wykonanych kroków. Ten rodzaj chodu jest jeszcze niedopracowywany.</"
+"p><p><span style=\" font-weight:600;\">Tasowanie CFZ</span>: Podobny do "
+"<span style=\" font-weight:600;\">Stałych kroków</span> z takim wyjątkiem, "
+"że wykonuje połowę kroków w pobliżu punktu ogniskowej i próbuje nadać trochę "
+"więcej wagi punktom bliżej punktu bycia zogniskowanym w dopasowywaniu "
+"krzywej. Podobnie jak ze <span style=\" font-weight:600;\">Stałymi Krokami</"
+"span> ten chód musi rozpocząć się blisko bycia zogniskowanym, aby się udał, "
+"lecz jest przewidywalny w liczbie wykonanych kroków. Ten rodzaj chodu jest "
+"jeszcze niedopracowywany.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -18248,6 +18324,13 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zapewnia luz nadskanowania w kresach dla ruchu "
+"oddalającego układu ogniskującego podczas samoogniskowania. Jest to dodatek "
+"do luzu napędu zapewnionego przez napęd urządzenia i ustawionego w polu Luz "
+"Napędu. Ustaw na 0, aby wyłączyć. </p><p>Po\n"
+"ustawieniu, Nadskan SO jest nakładany na wszystkie ruchy układu "
+"ogniskującego rozpoczęte przez człon ogniskujący.</p><p>Zazwyczaj ustawiony "
+"jest albo Luz Układu Ogniskującego albo Nadskan SO.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:2504
@@ -18333,16 +18416,13 @@ msgstr "Przysłona (mm):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2750
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zaznacz, aby wyświetlić najświeższe dane naprowadzania "
-"i samoczynnie przewinąć wykres.</p></body></html>"
+"<html><head/><body><p>Zaznacz, aby pokazać CFZ na krzywej V po pomyślnym "
+"sammoogniskowaniu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -18353,16 +18433,13 @@ msgstr "Wyświetlanie"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/focus.ui:2772
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Wybierz aparat zrzucający obraz dla tego układu "
-"optycznego.</p></body></html>"
+"<html><head/><body><p>Ustaw rozmiar przysłony swojego teleskopu w mm. "
+"Domyślnie jest ustawiona ta z wybranego układu optycznego.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -18374,16 +18451,13 @@ msgstr " mm"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZCameraSteps)
 #: ekos/focus/focus.ui:2800
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Wybierz aparat zrzucający obraz dla tego układu "
-"optycznego.</p></body></html>"
+"<html><head/><body><p>CFZ aparatu (granica rozdzielczości) została włączona "
+"w układzie optycznym.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2816
@@ -18403,15 +18477,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2860
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Czyszczenie wszystkich ostatnich danych naprowdzania.</"
-"p></body></html>"
+"<html><head/><body><p>Końcowe CFZ jest większe niż obliczone CFZ oraz CFZ "
+"aparatu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/focus.ui:2876
@@ -18438,6 +18510,12 @@ msgid ""
 "background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Ustaw <span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\">tolerancję ostrości, </span>τ<span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\"> jako procent całkowitego widoku.</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/focus.ui:2939
@@ -18448,16 +18526,13 @@ msgstr "<html><head/><body><p>Prawie gotowe...</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/focus.ui:2955
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cel: <span style=\" color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/focus.ui:2974
@@ -18483,6 +18558,13 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ustaw rozmiar kroku (w mikrometrach) układu "
+"ogniskującego. Aby to obliczyć, ustaw swój układ ogniskujący od jednego "
+"skraju swojej drogi do drugiego (uważając przy tym, aby nie wymusić ruchu "
+"poza jego zakres). Pomierz odległość jaką przebyła rura tak dokładnie jak to "
+"możliwe (np. suwmiarką) i przekształć to na mikrometry. Zwróć uwagę na "
+"liczbę kroków, o którą przesunąłeś układ ogniskujący. Rozmiar korku = "
+"odległość_w_mikrometrach / liczba_kroków.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:3012
@@ -18591,14 +18673,13 @@ msgstr "Złoto"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3150
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Usuń zaznaczony układ optyczny.</p></body></html>"
+"<html><head/><body><p>Ustaw używaną wartość F#. Domyślnie jest ustawiona ta "
+"z wybranego układu optycznego.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/focus.ui:3178
@@ -18639,16 +18720,13 @@ msgstr "Podzielnik"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, advisorTab)
 #: ekos/focus/focus.ui:3254
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Effective field of View size in arcminutes.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Advisor help utility to assist with setting up "
 "Focus parameters.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rozmiar efektywnego pola widzenia w minutach kątowych."
-"</p></body></html>"
+"<html><head/><body><p>Doradca Ogniskowej, którego zadaniem jest pomoc w "
+"ustawieniu parametrów ogniskowej.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvOutStepMultiple)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvStepSize)
@@ -18686,6 +18764,15 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dobrą wartością na początek jest 5. Wyjątkiem jest, "
+"gdy masz obiektyw z przeszkodą na jego środku, która zamienia gwiazdy na "
+"pierścienie, gdy nie złapano na nich ostrości. Gdy to nastąpi, to system "
+"będzie miał trudności, aby poprawnie rozpoznawać gwiazdy. Aby tego uniknąć, "
+"albo ogranicz rozmiar kroku, albo liczbę kroków.</p><p>Aby sprawdzić czy "
+"dotyczy to ciebie, rozpocznij od stanu ostrości i oddal się o &quot;rozmiar "
+"korku &quot; * &quot;liczba kroków&quot;. Zrzuć klatkę i przybliż ją w "
+"przeglądarce fits, aby zobaczyć, czy gwiazdy wyglądają jak gwiazdy, czy jak "
+"pierścienie.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3332
@@ -18802,12 +18889,13 @@ msgstr "FWHM"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3681
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Usuń bieżącą klatkę</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Uśredniona wartość FWHM z ostatniej klatki.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/focus.ui:3694
@@ -18818,16 +18906,13 @@ msgstr "Gwiazdy"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
 #: ekos/focus/focus.ui:3707
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of stars found in the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Narysuj liczbę wykrytych gwiazd na przechwyconych "
-"obrazach.</p></body></html>"
+"<html><head/><body><p>Liczba gwiazd znalezionych w ostatniej klatce.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/focus/focus.ui:3733
@@ -18893,36 +18978,24 @@ msgid "Value"
 msgstr "Wartość"
 
 #: ekos/focus/focushfrvplot.cpp:84
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt "Graphics tooltip; %1 is the Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</td></"
+"<table><tr><td>POŁ:   </td><td>%1</td></tr><tr><td>WAR:   </td><td>%2</td></"
 "tr></table>"
 
 #: ekos/focus/focushfrvplot.cpp:99
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "HFR graphics tooltip; %1 is the Focus Position; %2 is the Half Flux "
-#| "Radius;"
-#| msgid ""
-#| "<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; %1 is the Minimum Focus Position; %2 is the Focus Value;"
 msgid ""
 "<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>POS:   </td><td>%1</td></tr><tr><td>HFR:   </td><td>%2</td></"
+"<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>WAR:   </td><td>%2</td></"
 "tr></table>"
 
 #: ekos/guide/externalguide/linguider.cpp:70
@@ -67000,6 +67073,12 @@ msgid ""
 "Coordinates. Typically makes sense to combine this with Zenith Down "
 "orientation."
 msgstr ""
+"Włącz ten tryb, jeśli wzrokowo używasz teleskopu Newtona na montażu "
+"altazimuth. Poprawi to kierunek mapy nieba biorąc pod uwagę wzniesienie "
+"obserwatora przy ruchu teleskopu w górę i w dół, w odróżnieniu od aparatu, "
+"które obracałby się wraz z teleskopem. Ma to sens jedynie w trybie "
+"Współrzędnych Poziomych i jest wyłączone w trybie Współrzędnych Równikowych. "
+"Zazwyczaj sensownie jest połączyć to z kierunkiem Zenitu w Dół."
 
 #: kstarsinit.cpp:768
 #, kde-format

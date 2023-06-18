@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -12155,9 +12155,10 @@ msgid "Secondary"
 msgstr "سېكۇنت"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
-msgid "Teritary"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Tertiary"
+msgstr "تىك"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format

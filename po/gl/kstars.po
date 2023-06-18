@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -12537,9 +12537,10 @@ msgid "Secondary"
 msgstr "Segundos"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
-msgid "Teritary"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Tertiary"
+msgstr "Vertical"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format

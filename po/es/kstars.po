@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-06-14 20:08+0200\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
+"PO-Revision-Date: 2023-06-17 15:21+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6484,14 +6484,14 @@ msgid ""
 "milliseconds before capturing the next image."
 msgstr ""
 "Cuando el telescopio termine de moverse, esperar estos milisegundos hasta "
-"que se posicione antes de capturar la siguiente imagen."
+"que se estabilice antes de capturar la siguiente imagen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/align/align.ui:301 ekos/guide/opsdither.ui:65
 #, kde-format
 msgid "Settle"
-msgstr "Posicionar"
+msgstr "Estabilizar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:338
@@ -9267,7 +9267,7 @@ msgstr "Primera rotación"
 #: ekos/align/polaralignmentassistant.cpp:32
 #, kde-format
 msgid "First Settle"
-msgstr "Primer posicionamiento"
+msgstr "Primera estabilización"
 
 #: ekos/align/polaralignmentassistant.cpp:33
 #, kde-format
@@ -9287,7 +9287,7 @@ msgstr "Segunda rotación"
 #: ekos/align/polaralignmentassistant.cpp:36
 #, kde-format
 msgid "Second Settle"
-msgstr "Segundo posicionamiento"
+msgstr "Segunda estabilización"
 
 #: ekos/align/polaralignmentassistant.cpp:37
 #, kde-format
@@ -12221,9 +12221,10 @@ msgid "Secondary"
 msgstr "Secundario"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
-msgid "Teritary"
-msgstr "Terciario"
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Tertiary"
+msgstr "Vertical"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -17071,6 +17072,30 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
+"El asesor de enfoque (FA) está diseñado para ayudarle con los parámetros de "
+"enfoque.\n"
+"No necesariamente le dará la combinación perfecta de parámetros. Tendrá que "
+"experimentar usted mismo, pero le proporcionará un conjunto básico de "
+"parámetros para lograr el enfoque.\n"
+"\n"
+"FA recomendará valores para la mayoría de los parámetros. No obstante, "
+"algunos de ellos necesitarán de un trabajo de configuración adicional por su "
+"parte. Dichos parámetros se identifican a continuación junto con una "
+"explicación básica sobre cómo configurarlos.\n"
+"\n"
+"El primer paso es definir el rebote. Es probable que el manual de su "
+"enfocador le indique cómo hacerlo. Tras conseguir un valor de rebote para su "
+"sistema, defina uno de los campos «Rebote» (para que el controlador realice "
+"la compensación de rebote) o «Sobreexploración de AF» (para que el enfoque "
+"automático realice la compensación de rebote). Defina solo uno de esos "
+"campos y use el valor 0 para el otro.\n"
+"\n"
+"El segundo paso es definir el tamaño del paso. Se puede usar el valor "
+"predeterminado de la zona de enfoque crítica (CFZ) de su equipo (por lo que "
+"debería configurarla ahora en la pestaña CFZ).\n"
+"\n"
+"El tercer paso es definir el múltiplo de pasos de salida. Empiece con el "
+"valor que se sugiere por omisión."
 
 #: ekos/focus/focus.cpp:6389
 #, kde-format
@@ -17113,6 +17138,23 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"\n"
+"\n"
+"El cuarto paso es ajustar el resto de parámetros de enfoque a valores "
+"razonables. El asesor de enfoque sugerirá valores para 4 categorías de "
+"parámetros. Marque la casilla «Actualizar» asociada para aceptar dichas "
+"recomendaciones y pulse «Actualizar parámetros».\n"
+"1. Propiedades de la cámara (tenga en cuenta que deberá asegurar que "
+"«Ganancia» está ajustada de forma apropiada; por ejemplo, ganancia "
+"unitaria).\n"
+"2. Pestaña de «Preferencias»: todos sus parámetros poseen recomendaciones.\n"
+"3. Pestaña de «Proceso»: todos sus parámetros poseen recomendaciones.\n"
+"4. Pestaña de «Mecánica»: recuerde que el «Tamaño del paso» y el «Múltiplo "
+"de paso de salida» se tratan como se ha dicho anteriormente.\n"
+"\n"
+"Ahora mueva el enfocador a un enfoque aproximado y seleccione un filtro de "
+"banda ancha (por ejemplo, luminancia).\n"
+"Ya está preparado para iniciar una ejecución de enfoque automático."
 
 #: ekos/focus/focus.cpp:6406
 #, kde-format
@@ -17344,6 +17386,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Durante el enfoque de campo completo, esto controla el "
+"tamaño de un anillo centrado en el centro del sensor para incluirlo en el "
+"procesamiento. Defina el porcentaje interior a cero para incluir el centro "
+"del sensor. Defina el porcentaje exterior a 100 para incluir los bordes "
+"exteriores del sensor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
 #: ekos/focus/focus.ui:993
@@ -17600,17 +17647,15 @@ msgstr "Movimiento mínimo:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1427
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before sequence capture "
-#| "is started.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Definir el ángulo de la posición de destino antes de "
-"iniciar la captura de secuencias.</p></body></html>"
+"<html><head/><body><p>Adaptar la posición de inicio del enfoque automático "
+"según el filtro y la configuración del enfoque adaptativo. Esta función es "
+"experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/focus.ui:1430
@@ -18187,16 +18232,13 @@ msgstr "Mecánica"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, mechanicsTab)
 #: ekos/focus/focus.ui:2131
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Update the fits header with the found solution.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus parameters to do with the mechanics of moving "
 "the focuser.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Actualizar la cabecera FITS con la solución encontrada."
-"</p></body></html>"
+"<html><head/><body><p>Parámetros de enfoque relacionados con la mecánica del "
+"movimiento del enfocador.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/focus.ui:2169
@@ -18212,25 +18254,21 @@ msgstr "Tamaño del paso inicial:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/focus.ui:2207
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focuser Settle:"
-msgstr "Enfocador:"
+msgstr "Estabilización del enfocador:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/focus.ui:2223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
 "before capturing the next image during Auto Focus and after an Adaptive "
 "Focus movement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Esperar estos segundos tras mover el enfocador antes "
-"de capturar la siguiente imagen durante el enfoque automático.</p></body></"
-"html>"
+"<html><head/><body><p>Tiempo de estabilización (en segundos) tras mover el "
+"enfocador antes de capturar la siguiente imagen durante el enfoque "
+"automático y tras un movimiento de enfoque adaptativo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusAdvOutStepMultLabel)
@@ -18475,16 +18513,13 @@ msgstr "Apertura (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/focus.ui:2750
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar los últimos datos de guiado y "
-"desplazar automáticamente el gráfico.</p></body></html>"
+"<html><head/><body><p>Marque esto para mostrar la CFZ en la curva V tras una "
+"ejecución de enfoque automático con éxito.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
@@ -18495,16 +18530,14 @@ msgstr "Mostrar"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/focus.ui:2772
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccione la cámara de captura de imágenes para este "
-"tren óptico.</p></body></html>"
+"<html><head/><body><p>Defina la apertura de su telescopio en mm. Este valor "
+"usa el predeterminado que proporciona el tren óptico seleccionado.</p></"
+"body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -18538,6 +18571,9 @@ msgid ""
 "the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ajuste el valor de tolerancia (t) entre 0 y 1. Esto "
+"escala el cálculo clásico de la CFZ de 4,88 λ f<span style=\" vertical-align:"
+"super;\">2</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZFinal)
 #: ekos/focus/focus.ui:2860
@@ -19191,7 +19227,7 @@ msgstr "PHD2: Calibración terminada."
 #: ekos/guide/externalguide/phd2.cpp:355
 #, kde-format
 msgid "PHD2: Waiting for guiding to settle."
-msgstr "PHD2: Esperando que el guiado se posicione."
+msgstr "PHD2: Esperando que el guiado se estabilice."
 
 #: ekos/guide/externalguide/phd2.cpp:378
 #, kde-format
@@ -20720,7 +20756,7 @@ msgid ""
 "considered settled (PHD2 only).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Distancia máxima permitida para que el desvío se "
-"considere posicionado (solo PHD2).</p></body></html>"
+"considere estabilizado (solo PHD2).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/opsdither.ui:99
@@ -20737,7 +20773,7 @@ msgid ""
 "Maximum allowable distance for guiding to be considered settled (PHD2 only)."
 msgstr ""
 "Distancia máxima permitida para considerar que el sistema de guiado se ha "
-"posicionado (solo PHD2)."
+"estabilizado (solo PHD2)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/guide/opsdither.ui:140
@@ -23614,7 +23650,7 @@ msgstr ""
 #: ekos/opsekos.ui:648
 #, kde-format
 msgid "Guiding settle:"
-msgstr "Posicionamiento de guiado:"
+msgstr "Estabilización del guiado:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/opsekos.ui:655
@@ -36773,13 +36809,13 @@ msgstr "Desviar tras este número de fotogramas."
 msgid "Maximum distance (pixels) for guiding to be considered settled."
 msgstr ""
 "Distancia máxima (en píxeles) para considerar que el sistema de guiado se ha "
-"posicionado."
+"estabilizado."
 
 #. i18n: ectx: label, entry (DitherTimeout), group (Guide)
 #: kstars.kcfg:2547
 #, kde-format
 msgid "Time limit (seconds) on dithering to settle down."
-msgstr "Límite de tiempo (en segundos) para que el desvío se posicione."
+msgstr "Límite de tiempo (en segundos) para que el desvío se estabilice."
 
 #. i18n: ectx: label, entry (DitherMaxIterations), group (Guide)
 #: kstars.kcfg:2551
@@ -83429,6 +83465,9 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
+
+#~ msgid "Teritary"
+#~ msgstr "Terciario"
 
 #~ msgctxt "City in Spain"
 #~ msgid "Elche"

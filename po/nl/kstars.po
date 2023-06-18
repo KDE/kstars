@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
 "PO-Revision-Date: 2023-06-15 10:26+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -12137,9 +12137,10 @@ msgid "Secondary"
 msgstr "Secondair"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
-msgid "Teritary"
-msgstr "Tertiair"
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Tertiary"
+msgstr "Verticaal"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -83072,6 +83073,9 @@ msgstr "Achtergrondkleur:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
+
+#~ msgid "Teritary"
+#~ msgstr "Tertiair"
 
 #~ msgctxt "City in Spain"
 #~ msgid "Elche"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
-"PO-Revision-Date: 2023-05-27 13:07+0100\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
+"PO-Revision-Date: 2023-06-17 12:23+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -12058,9 +12058,10 @@ msgid "Secondary"
 msgstr "Secondary"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, kde-format
-msgid "Teritary"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Tertiary"
+msgstr "Vertical"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -17108,6 +17109,11 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Select Sub Frame to make focus to use a single star "
+"(note: Full Field uses multiple stars).  In this mode the Auto Select Star "
+"tick box becomes active to allow either Ekos to select a star (when ticked) "
+"or to allow the user to manually select the star in FitsViewer (when not "
+"ticked).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17124,6 +17130,10 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
+"(note: Sub Frame uses a single star).  In this mode Ekos will automatically "
+"select multiple stars during Autofocus and,  for example,  average the HFR "
+"of all stars detected to perform focus. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17190,6 +17200,9 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; untick to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -17496,36 +17509,7 @@ msgstr "SEP Profile:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1699
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the Measure to use when fitting a curve for "
-#| "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-#| "span>: Half Flux Radius. Uses an algorithm to calculate the radius of a "
-#| "circle centred on the star centroid that encapulates half the star's flux."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
-#| "span>: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. "
-#| "This is an experimental feature.</li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</"
-#| "span>: Full Width Half Maximum. Curve fits a PSF to each star centroid "
-#| "and uses the curve to calculate the FWHM. This is an experimental feature."
-#| "</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\"># Stars</span>: Number of stars. The number of "
-#| "detected stars at optimum focus will be a maximum. This is an "
-#| "experimental feature.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
-#| "power calculation. Uses the Fourier Transform Power approach developed by "
-#| "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
-#| "the power in frequency space [result of the fourier transform] will be a "
-#| "maximum. This is an experimental feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -18737,10 +18721,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "Called newMeasurement after a solution was found."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "Failed to load dark data."
+msgstr "Failed to fit curve to data."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
@@ -27800,64 +27783,58 @@ msgstr "KStars did not find any active mounts."
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
 msgid "Stretch (or disable stretching) the image."
-msgstr ""
+msgstr "Stretch (or disable stretching) the image."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
 #: fitsviewer/fitsstretchui.ui:130 fitsviewer/fitsstretchui.ui:151
 #, kde-format
 msgid "Set shadows value for the image stretch."
-msgstr ""
+msgstr "Set shadows value for the image stretch."
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "Earth Shadow"
+msgstr "Shadows"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
 #: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
 #, kde-format
 msgid "Set midtones value for the image stretch."
-msgstr ""
+msgstr "Set midtones value for the image stretch."
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "Micronesia"
+msgstr "Midtones"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
 #: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
 #, kde-format
 msgid "Set highlights value for the image stretch."
-msgstr ""
+msgstr "Set highlights value for the image stretch."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgid "Twilight"
+#, kde-format
 msgid "Highlights"
-msgstr "Twilight"
+msgstr "Highlights"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
-#, fuzzy, kde-format
-#| msgid "Enable or Disable the Max Value Cutoff"
+#, kde-format
 msgid "Enable or disable the histogram display."
-msgstr "Enable or Disable the Max Value Cut-off"
+msgstr "Enable or disable the histogram display."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
-#| msgid "Automatically start the park timer on startup"
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Automatically start the park timer on startup"
+msgstr "Automatically find stretch parameter."
 
 #: fitsviewer/fitstab.cpp:56
 #, kde-format
@@ -30593,10 +30570,9 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Switch to Star Globe View (Equatorial &Coordinates)"
 
 #: kstars.cpp:337 kstarsactions.cpp:1690 kstarsinit.cpp:264
-#, fuzzy, kde-format
-#| msgid "Switch to Horizonal View (Horizontal &Coordinates)"
+#, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
-msgstr "Switch to Horizonal View (Horizontal &Coordinates)"
+msgstr "Switch to Horizontal View (Horizontal &Coordinates)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:10
@@ -34075,10 +34051,9 @@ msgstr "Save Internal Guider images on disk?"
 
 #. i18n: ectx: label, entry (SaveAlignImages), group (General)
 #: kstars.kcfg:1429
-#, fuzzy, kde-format
-#| msgid "Save Internal Guider images on disk?"
+#, kde-format
 msgid "Save Internal Align images on disk?"
-msgstr "Save Internal Guider images on disk?"
+msgstr "Save Internal Align images on disk?"
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1433
@@ -34842,10 +34817,9 @@ msgstr "Calculate position after captures."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Desired absolute focus position"
+#, kde-format
 msgid "The desired focuser position."
-msgstr "Desired absolute focus position"
+msgstr "The desired focuser position."
 
 #. i18n: ectx: label, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:1890
@@ -35200,26 +35174,17 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusOutSteps), group (Focus)
 #: kstars.kcfg:2060
-#, fuzzy, kde-format
-#| msgid ""
-#| "The number of steps to move outwards from the start position of an "
-#| "Autofocus run."
+#, kde-format
 msgid "The number of steps to move outwards for a Classic Autofocus run."
-msgstr ""
-"The number of steps to move outwards from the start position of an Autofocus "
-"run."
+msgstr "The number of steps to move outwards for a Classic Autofocus run."
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2064
-#, fuzzy, kde-format
-#| msgid ""
-#| "The number of steps to move outwards from the start position of an "
-#| "Autofocus run."
+#, kde-format
 msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
-"The number of steps to move outwards from the start position of an Autofocus "
-"run."
+"The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2068
@@ -35311,34 +35276,33 @@ msgstr "The total seeing in arc-secs to use in the CFZ algo."
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2126
-#, fuzzy, kde-format
-#| msgid "Camera pixel size width in micrometers."
+#, kde-format
 msgid "The size of a focuser tick in micrometers."
-msgstr "Camera pixel size width in micrometers."
+msgstr "The size of a focuser tick in micrometers."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSteps), group (Focus)
 #: kstars.kcfg:2131
 #, kde-format
 msgid "Focus Advisor recommended step size"
-msgstr ""
+msgstr "Focus Adviser recommended step size"
 
 #. i18n: ectx: whatsthis, entry (focusAdvOutStepMult), group (Focus)
 #: kstars.kcfg:2135
 #, kde-format
 msgid "Focus Advisor recommended Out Step Multiple"
-msgstr ""
+msgstr "Focus Adviser recommended Out Step Multiple"
 
 #. i18n: ectx: whatsthis, entry (focusAdvStepSize), group (Focus)
 #: kstars.kcfg:2139
 #, kde-format
 msgid "Whether to accept Focus Advisor recommendation on Step Size."
-msgstr ""
+msgstr "Whether to accept Focus Adviser recommendation on Step Size."
 
 #. i18n: ectx: whatsthis, entry (focusAdvOutStepMultiple), group (Focus)
 #: kstars.kcfg:2143
 #, kde-format
 msgid "Whether to accept Focus Advisor recommendation on Out Step Multiple."
-msgstr ""
+msgstr "Whether to accept Focus Adviser recommendation on Out Step Multiple."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCamera), group (Focus)
 #: kstars.kcfg:2147
@@ -35347,6 +35311,8 @@ msgid ""
 "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
 "Parameters."
 msgstr ""
+"Whether to accept Focus Adviser recommendation on Camera and Filter Wheel "
+"Parameters."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSettingsTab), group (Focus)
 #: kstars.kcfg:2151
@@ -35354,6 +35320,7 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
 msgstr ""
+"Whether to accept Focus Adviser recommendation on Settings Tab Parameters."
 
 #. i18n: ectx: whatsthis, entry (focusAdvProcessTab), group (Focus)
 #: kstars.kcfg:2155
@@ -35361,6 +35328,7 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
 msgstr ""
+"Whether to accept Focus Adviser recommendation on Process Tab Parameters."
 
 #. i18n: ectx: whatsthis, entry (focusAdvMechanicsTab), group (Focus)
 #: kstars.kcfg:2159
@@ -35368,6 +35336,7 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Mechanics Tab Parameters."
 msgstr ""
+"Whether to accept Focus Adviser recommendation on Mechanics Tab Parameters."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2164
@@ -40647,12 +40616,10 @@ msgid "Al Manamah"
 msgstr "Al Manamah"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
-msgstr "Alicante"
+msgstr "Alacant"
 
 #: kstars_i18n.cpp:741
 #, kde-kuit-format
@@ -43577,12 +43544,10 @@ msgid "Casselman"
 msgstr "Casselman"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
-msgstr "Castellon de la Plana"
+msgstr "Castelló de la Plana"
 
 #: kstars_i18n.cpp:1229
 #, kde-kuit-format
@@ -45937,11 +45902,10 @@ msgid "Elverson"
 msgstr "Elverson"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Exp"
+msgstr "Elx"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -46424,12 +46388,10 @@ msgid "Forestville"
 msgstr "Forestville"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
-msgstr "Forli`"
+msgstr "Forlì"
 
 #: kstars_i18n.cpp:1703
 #, kde-kuit-format
@@ -47116,12 +47078,10 @@ msgid "Gimli"
 msgstr "Gimli"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
-msgstr "Gerona"
+msgstr "Girona"
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -50811,7 +50771,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lleida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -59448,12 +59408,10 @@ msgid "Valverde"
 msgstr "Valverde"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
-msgstr "Valéncia"
+msgstr "València"
 
 #: kstars_i18n.cpp:3873
 #, kde-kuit-format
@@ -72926,26 +72884,21 @@ msgstr "Save Guider Images"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Save Internal Guider frames. Only enable to "
-#| "troubleshoot guider by examining frames. This can consume a lot of "
-#| "storage space.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Align frames. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Save Internal Guider frames. Only enable to "
-"troubleshoot guider by examining frames. This can consume a lot of storage "
+"<html><head/><body><p>Save Internal Align frames. Only enable to "
+"troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:63
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Save Align Images"
-msgstr "Save Guider Images"
+msgstr "Save Align Images"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -82457,6 +82410,9 @@ msgstr "Background colour:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Set the colour for the background."
+
+#~ msgid "Teritary"
+#~ msgstr "Teritary"
 
 #~ msgctxt "City in Spain"
 #~ msgid "Elche"

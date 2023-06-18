@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:42+0000\n"
+"POT-Creation-Date: 2023-06-18 00:43+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -11833,7 +11833,7 @@ msgstr "ไปยังแฟ้ม..."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
 #, kde-format
-msgid "Teritary"
+msgid "Tertiary"
 msgstr ""
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
