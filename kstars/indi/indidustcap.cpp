@@ -6,7 +6,7 @@
 
 #include <basedevice.h>
 #include <KLocalizedString>
-#include <QtDBus/qdbusmetatype.h>
+#include <qdbusmetatype.h>
 
 #include "indidustcap.h"
 #include "dustcapadaptor.h"

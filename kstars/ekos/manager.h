@@ -24,7 +24,6 @@
 
 #include <QDialog>
 #include <QHash>
-#include <QtDBus/QtDBus>
 
 #include <memory>
 

@@ -16,7 +16,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QQuickItem>
-#include <QtTest>
+#include <QTest>
 #include <QQueue>
 
 #include "ekos/align/align.h"

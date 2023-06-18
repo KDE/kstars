@@ -9,6 +9,8 @@
 #include "kspaths.h"
 #include "auxiliary/kspaths.h"
 
+#include <QDirIterator>
+
 #ifdef KSTARS_LITE
 #include <QStandardPaths>
 #include <QImage>

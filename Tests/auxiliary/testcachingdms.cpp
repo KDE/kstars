@@ -8,7 +8,7 @@
 
 #include "auxiliary/cachingdms.h"
 
-#include <QtTest>
+#include <QTest>
 
 #include <ctime>
 #include <cstdlib>

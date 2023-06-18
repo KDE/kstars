@@ -7,7 +7,7 @@
 #ifndef TESTFOV_H
 #define TESTFOV_H
 
-#include <QtTest>
+#include <QTest>
 #include <QObject>
 
 class TestFOV : public QObject

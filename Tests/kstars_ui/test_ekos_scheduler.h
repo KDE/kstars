@@ -17,7 +17,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
-#include <QtTest>
+#include <QTest>
 
 /** @brief Helper to retrieve a gadget in the Scheduler tab specifically.
  * @param klass is the class of the gadget to look for.

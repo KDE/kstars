@@ -17,6 +17,7 @@
 #include <QTemporaryFile>
 #include <QStatusBar>
 #include <QSvgGenerator>
+#include <QApplication>
 
 ImageExporter::ImageExporter(QObject *parent) : QObject(parent), m_includeLegend(false), m_Size(nullptr)
 {

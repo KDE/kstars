@@ -12,7 +12,7 @@
 #include "test_ekos_helper.h"
 #include "indi/indimount.h"
 
-#include <QtTest/QtTest>
+#include <QTest>
 #include <QObject>
 
 class MountSimulator;

@@ -24,7 +24,7 @@
 
 #include <QFuture>
 #include <QtConcurrentRun>
-#include <QtTest>
+#include <QTest>
 #include <QPoint>
 #include <QModelIndex>
 

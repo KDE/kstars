@@ -7,7 +7,6 @@
 #ifndef ANALYZE_H
 #define ANALYZE_H
 
-#include <QtDBus>
 #include <memory>
 #include "qcustomplot.h"
 #include "ekos/ekos.h"

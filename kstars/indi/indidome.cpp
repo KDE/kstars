@@ -8,7 +8,7 @@
 #include <KActionCollection>
 #include <KNotification>
 #include <QAction>
-#include <QtDBus/qdbusmetatype.h>
+#include <qdbusmetatype.h>
 
 #include "indidome.h"
 #include "kstars.h"

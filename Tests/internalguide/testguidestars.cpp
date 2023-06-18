@@ -7,7 +7,7 @@
 #include "../indi/indiproperty.h"
 #include "ekos/guide/internalguide/guidestars.h"
 
-#include <QtTest>
+#include <QTest>
 
 #include <QObject>
 

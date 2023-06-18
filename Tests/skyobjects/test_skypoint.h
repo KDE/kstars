@@ -7,7 +7,7 @@
 #ifndef TEST_SKYPOINT_H
 #define TEST_SKYPOINT_H
 
-#include <QtTest/QtTest>
+#include <QTest>
 #include <QDebug>
 
 #define UNIT_TEST

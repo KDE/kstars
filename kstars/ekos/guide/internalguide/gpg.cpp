@@ -13,6 +13,8 @@
 
 #include "calibration.h"
 
+#include <QElapsedTimer>
+
 namespace
 {
 

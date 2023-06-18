@@ -8,12 +8,10 @@
 
 #include "kstarsdatetime.h"
 
-#ifndef KSTARS_LITE
-#include <QtDBus/QtDBus>
-#endif
 #include <QTime>
 #include <QElapsedTimer>
 #include <QTimer>
+#include <qtdbusglobal.h>
 
 /** @class SimClock
 	*@short kstars simulation clock

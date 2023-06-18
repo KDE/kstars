@@ -7,7 +7,7 @@
 #ifndef TESTKSUSERDB_H
 #define TESTKSUSERDB_H
 
-#include <QtTest>
+#include <QTest>
 #include <QObject>
 
 class TestKSUserDB : public QObject

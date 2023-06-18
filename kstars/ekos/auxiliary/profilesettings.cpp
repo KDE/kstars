@@ -11,6 +11,8 @@
 #include "kstarsdata.h"
 #include "ksuserdb.h"
 
+#include <QJsonDocument>
+
 namespace Ekos
 {
 

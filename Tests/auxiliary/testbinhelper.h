@@ -7,7 +7,7 @@
 #ifndef TESTBINHELPER_H
 #define TESTBINHELPER_H
 
-#include <QtTest>
+#include <QTest>
 #include <QObject>
 
 class TestBinHelper : public QObject

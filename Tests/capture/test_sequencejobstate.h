@@ -9,7 +9,7 @@
 #pragma once
 
 #include "ekos/capture/sequencejobstate.h"
-#include <QtTest/QtTest>
+#include <QTest>
 
 class TestAdapter;
 

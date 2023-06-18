@@ -34,6 +34,7 @@
 
 #include <QDesktopServices>
 #include <QDir>
+#include <QDirIterator>
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo,
                            QWidget *parent)

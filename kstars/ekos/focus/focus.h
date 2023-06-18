@@ -23,7 +23,6 @@
 #include "indi/indiweather.h"
 #include "indi/indimount.h"
 
-#include <QtDBus/QtDBus>
 #include <parameters.h>
 
 namespace Ekos

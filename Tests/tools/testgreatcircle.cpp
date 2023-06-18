@@ -9,7 +9,8 @@
  */
 
 #include <QObject>
-#include <QtTest>
+#include <QTest>
+#include <cmath>
 #include <memory>
 
 #include "greatcircle.h"

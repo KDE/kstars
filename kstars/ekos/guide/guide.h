@@ -17,7 +17,6 @@
 
 #include <QTime>
 #include <QTimer>
-#include <QtDBus>
 
 #include <random>
 

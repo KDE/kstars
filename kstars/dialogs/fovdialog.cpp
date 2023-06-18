@@ -16,6 +16,8 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QLineEdit>
+#include <QDBusReply>
+#include <QDBusInterface>
 
 #include <KActionCollection>
 #include <KLocalizedString>

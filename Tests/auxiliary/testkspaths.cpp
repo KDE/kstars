@@ -1,3 +1,4 @@
+#include <QTemporaryFile>
 #include "testkspaths.h"
 
 #include "../testhelpers.h"

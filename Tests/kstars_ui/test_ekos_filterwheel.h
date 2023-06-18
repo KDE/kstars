@@ -18,7 +18,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
-#include <QtTest>
+#include <QTest>
 
 /** @brief Helper to show the Capture tab
  */

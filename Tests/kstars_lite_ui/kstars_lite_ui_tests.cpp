@@ -12,7 +12,7 @@
 
 #include <QFuture>
 #include <QtConcurrentRun>
-#include <QtTest/QtTest>
+#include <QTest>
 
 #include <time.h>
 #include <unistd.h>

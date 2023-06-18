@@ -13,6 +13,8 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
+#include <QDirIterator>
+
 SkyObjItem::SkyObjItem(SkyObject *so)
     : m_Name(so->name()), m_LongName(so->longname()), m_TypeName(so->typeName()), m_So(so)
 {

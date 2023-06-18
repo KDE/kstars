@@ -16,7 +16,7 @@
 #include "ekos/capture/placeholderpath.h"
 #include "Options.h"
 
-#include <QtTest>
+#include <QTest>
 #include <memory>
 
 #include <QObject>

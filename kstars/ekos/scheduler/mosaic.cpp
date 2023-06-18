@@ -16,6 +16,8 @@
 
 #include "ekos_scheduler_debug.h"
 
+#include <QDBusReply>
+
 namespace Ekos
 {
 

@@ -26,9 +26,9 @@
 #include <KConfigDialog>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
-#include <QtDBus/qtdbusglobal.h>
+#include <qtdbusglobal.h>
 #else
-#include <QtDBus/qdbusmacros.h>
+#include <qdbusmacros.h>
 #endif
 
 #include <stellarsolver.h>

@@ -7,7 +7,7 @@
 #ifndef TEST_STAROBJECT_H
 #define TEST_STAROBJECT_H
 
-#include <QtTest/QtTest>
+#include <QTest>
 #include <QDebug>
 
 #define UNIT_TEST

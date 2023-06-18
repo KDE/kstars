@@ -9,6 +9,7 @@
 #include <QSqlDriver>
 #include <QSqlRecord>
 #include <QMutexLocker>
+#include <QTemporaryDir>
 #include <qsqldatabase.h>
 #include "cachingdms.h"
 #include "catalogsdb.h"

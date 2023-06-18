@@ -7,7 +7,7 @@
 #ifndef TESTCOLORSCHEME_H
 #define TESTCOLORSCHEME_H
 
-#include <QtTest>
+#include <QTest>
 #include <QObject>
 
 class TestColorScheme : public QObject

@@ -23,6 +23,11 @@
 #include <QGestureEvent>
 #include <QPinchGesture>
 
+#ifndef Q_OS_WIN
+#include<QFutureWatcher>
+#endif
+
+
 class QLabel;
 /**
  * @class XPlanetImageLabel

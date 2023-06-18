@@ -7,7 +7,7 @@
 #ifndef TEST_POLEAXIS_H
 #define TEST_POLEAXIS_H
 
-#include <QtTest/QtTest>
+#include <QTest>
 #include <QDebug>
 #include <QString>
 

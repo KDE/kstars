@@ -8,8 +8,9 @@
 
 #pragma once
 
-#include <QtCore>
-#include <QtGui>
+#include <QImage>
+#include <QColor>
+#include <QPointF>
 
 #define MAX_BK_SCANLINES      32000
 
