@@ -2541,12 +2541,12 @@ void Guide::nonGuidedDither()
                                "de_polarity:" << decPolarity;
 
     bool rc = sendMultiPulse(raPolarity > 0 ? RA_INC_DIR : RA_DEC_DIR, raMsec, decPolarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR,
-                             decMsec, StartCaptureAfterPulses);
+                             decMsec, DontCaptureAfterPulses);
 
     if (rc)
     {
         qCInfo(KSTARS_EKOS_GUIDE) << "Non-guiding dither successful.";
-        QTimer::singleShot( (raMsec > decMsec ? raMsec : decMsec) + Options::ditherSettle() * 1000 + 100, [this]()
+        QTimer::singleShot( (raMsec > decMsec ? raMsec : decMsec) + Options::ditherSettle() * 1000 + 100, this, [this]()
         {
             emit newStatus(GUIDE_DITHERING_SUCCESS);
             m_State = GUIDE_IDLE;
