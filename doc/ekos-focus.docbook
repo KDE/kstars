@@ -53,7 +53,7 @@
     is recommended to allow Ekos to select a set of stars. </para>
 
     <para> Ekos supports 4 different focus algorithms: Linear 1 Pass, Linear,
-    Iterative, Polynominal. Linear 1 Pass is the recommended algorithm. </para>
+    Iterative, Polynomial. Linear 1 Pass is the recommended algorithm. </para>
 
     <itemizedlist>
       <listitem>
@@ -560,7 +560,7 @@
                   <listitem>
 		    <para>Correcting image tilt: especially large sensors are very sensitive to
 		      incorrect distance and tilting of the sensor. In such cases, the image
-		      shows aberration, expecially in the image corners. If all corners show the same
+		      shows aberration, especially in the image corners. If all corners show the same
 		      effect, the distance needs to be corrected. If the aberrations in the corners
 		    differ, this is typically the result of a tilted sensor.</para>
                   </listitem>
@@ -863,7 +863,7 @@
 
     <listitem>
       <para> <guilabel>PSF</guilabel>: If <guilabel>Measure</guilabel> is set to FWHM, then the PSF
-      widget can be selected for use in fitting a surface to the star. At pressent just Gaussian is
+      widget can be selected for use in fitting a surface to the star. At present just Gaussian is
       supported.</para>
     </listitem>
 
@@ -1248,7 +1248,7 @@
     <para> <guilabel>Step Size</guilabel>: This must be input by the user (as it cannot be calculated by Ekos). It relates how far
     1 tick moves the focal plane in microns. </para>
     <para> For a refractor this is how far the drawtube moves when the focuser is moved by 1 tick. You might be able to get this
-    value from the spefication of your focuser (how many ticks for a complete revolution of your focuser) and the thread pitch of
+    value from the specification of your focuser (how many ticks for a complete revolution of your focuser) and the thread pitch of
     your telescope drawtube along with any gearing involved.</para>
     <para> Alternatively, you can measure how far the drawtube moves from end to end (be careful not to force the drawtube) with
     a set of calipers or a ruler. By subtracting the furthest "in" position (in ticks) from the furthest "out" position (in ticks) you
@@ -1405,12 +1405,12 @@
           reduciung the number of Autofocus runs and therefore reducing the time spent autofocusing.</para>
 
           <para> In order to use this feature it is necessary to work out the relative focus position between all filters that you
-          wish to use this functionality for. For examplke, if Lum and Red have the same focus position (they are parfocal) but Green
+          wish to use this functionality for. For example, if Lum and Red have the same focus position (they are parfocal) but Green
           focuses 300 ticks further out than Lum (or Red) then setup Offsets for Lum, Red and Grren as 0, 0, 300 as shown above. If a
           sequence is created to take 10 subframes of Lum, then 10 Red, then 10 Green, then at the start, since Lum has
           <guilabel>Auto Focus</guilabel> checked, an Autofocus will be run on Lum and the 10 subs taken. Capture will then switch
           filters to Red. Since Red has <guilabel>Auto Focus</guilabel> unchecked no Autofocus will happen and Ekos will look to the
-          Offsets between Red and Lum. In this case 0 - 0 = 0. So the focuser will not be moved and Copture will take 10 subs of Red.
+          Offsets between Red and Lum. In this case 0 - 0 = 0. So the focuser will not be moved and Capture will take 10 subs of Red.
           Then Capture will swap from Red to Green. Again, Green has <guilabel>Auto Focus</guilabel> unchecked no Autofocus will happen
           and Ekos will look to the Offsets between Green and Red. In this case 300 - 0 = 300. So Focus will adjust the focus position
           by +300 (move the focuser out by 300 ticks). Capture will then take the 10 Green subs.</para>
@@ -1772,7 +1772,7 @@
     is selected then error bars are indicated on each datapoint that correspond to the standard deviation in measured value.</para>
 
     <para> The units of the y-axis depend on the selected focus Measure. For example, for HFR, the y-axis will either be in Pixels
-    or Arc Sseconds depending on how <guilabel>Display Units</guilabel> is set.</para>
+    or Arc seconds depending on how <guilabel>Display Units</guilabel> is set.</para>
 
     <para> If <guilabel>Refine Curve Fit</guilabel> is selected, Focus will check for and potentially exclude outlying datapoonts.
     In this case datapoints 1, 5 and 7 were excluded.</para>
@@ -2067,7 +2067,7 @@
 
     <para> Currently Ekos supports a simple linear relationship between temperature, or altitude, and ticks. In the future,
     if there is demand, more sophisticated relationships could be supported. A linear relationship will deliver the majority
-    of the benefit of AF and is fairly straight-forward to adminster. More complex relationships could be more accurate but
+    of the benefit of AF and is fairly straight-forward to administer. More complex relationships could be more accurate but
     come with more complex administration. Note also that more complex focus point vs temperature relationships will likely
     be more or less linear for small changes in temperature.</para>
 
@@ -2088,7 +2088,7 @@
     to use Analyze to review how AF had moved the focus over 1 hour. If things are spot on, then where ever AF had positioned
     the focuser after 1 hour would match the Autofocus result. Where there is a discrepancy, it will be because of randomness
     in the Autofocus result and miscalibration in the AF <guilabel>Ticks / °C</guilabel>. By doing this regularly you will build
-    knowledge of your equipment and be able to fine tune AF. Below is a screenshot of Analze configured for Focus where you can
+    knowledge of your equipment and be able to fine tune AF. Below is a screenshot of Analyze configured for Focus where you can
     see how Focus position changes throughout the imaging session:
     <screenshot>
       <screeninfo> Focus Analyze </screeninfo>
