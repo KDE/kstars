@@ -2055,7 +2055,7 @@ msgstr "Catálogo de Sharpless"
 #: data/qml/whatisinteresting/wiview.qml:1484
 #, kde-kuit-format
 msgid "No Items to display"
-msgstr "Non hai elementos para mostrar"
+msgstr "Non hai elementos para amosar"
 
 #: data/qml/whatisinteresting/wiview.qml:912
 #: data/qml/whatisinteresting/wiview.qml:936
@@ -2150,7 +2150,7 @@ msgstr ""
 "ou información de Wikipedia para o obxecto mostraranse tamén. En caso "
 "contrario pode descargalas usando a icona de descarga. Se amplía a anchura "
 "de «Que hai de interesante» o que se mostra cambiará dinamicamente para "
-"mostrar a información de xeito máis cómodo. Consulte a descrición de embaixo "
+"amosar a información de xeito máis cómodo. Consulte a descrición de embaixo "
 "para máis información sobre o que fan os botóns inferiores."
 
 #: data/qml/whatisinteresting/wiview.qml:1620
@@ -2172,7 +2172,7 @@ msgid ""
 "information about it."
 msgstr ""
 "Este botón activará e desactivará o modo de inspector. Neste modo pode "
-"premer calquera obxecto do mapa e «Que hai de interesante» mostrará "
+"premer calquera obxecto do mapa e «Que hai de interesante» amosará "
 "información del."
 
 #: data/qml/whatisinteresting/wiview.qml:1664
@@ -2195,11 +2195,11 @@ msgid ""
 "current observing equipment, and the current sky conditions based on the "
 "What's Interesting Settings."
 msgstr ""
-"Este botón conmutará se filtrar a lista para mostrar só os obxectos visíbeis "
-"actualmente nunha lista ou mostrar todos os obxectos da lista. A "
-"visibilidade determínase segundo a data e hora actuais de KStars, o equipo "
-"de observación actual e as condicións actuais do ceo segundo a configuración "
-"de «Que hai de interesante»."
+"Este botón conmutará se filtrar a lista para amosar só os obxectos visíbeis "
+"actualmente nunha lista ou amosar todos os obxectos da lista. A visibilidade "
+"determínase segundo a data e hora actuais de KStars, o equipo de observación "
+"actual e as condicións actuais do ceo segundo a configuración de «Que hai de "
+"interesante»."
 
 #: data/qml/whatisinteresting/wiview.qml:1708
 #, kde-kuit-format
@@ -2210,8 +2210,8 @@ msgid ""
 "objects are considered 'interesting' if they appear on the KStars "
 "'interesting' list."
 msgstr ""
-"Este botón conmutará se filtrar a lista para mostrar só obxectos "
-"«interesantes» ou para mostrar calquera obxecto da lista. Esta opción só se "
+"Este botón conmutará se filtrar a lista para amosar só obxectos "
+"«interesantes» ou para amosar calquera obxecto da lista. Esta opción só se "
 "aplica a listas de galaxias, de nebulosas e de cúmulos. Os obxectos "
 "considéranse «interesantes» se aparecen na lista de «interesantes» de KStars."
 
@@ -2552,7 +2552,7 @@ msgstr "Engadir un URL personalizado a %1"
 #: dialogs/addlinkdialog.cpp:46 dialogs/addlinkdialog.cpp:72
 #, kde-format
 msgid "Show image of "
-msgstr "Mostrar a imaxe de"
+msgstr "Amosar a imaxe de"
 
 #: dialogs/addlinkdialog.cpp:59
 #, kde-format
@@ -2587,7 +2587,7 @@ msgstr "Non examinar"
 #: dialogs/addlinkdialog.cpp:74
 #, kde-format
 msgid "Show webpage about "
-msgstr "Mostrar a páxina web sobre"
+msgstr "Amosar a páxina web sobre"
 
 #: dialogs/addlinkdialog.h:38
 #, kde-format
@@ -2641,7 +2641,7 @@ msgstr "URL:"
 #: dialogs/addlinkdialog.ui:94
 #, kde-format
 msgid "The URL which will be displayed by this item"
-msgstr "O URL que mostrará este elemento"
+msgstr "O URL que amosará este elemento"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, URLButton)
 #: dialogs/addlinkdialog.ui:127
@@ -6782,7 +6782,7 @@ msgstr "Bin:"
 #: ekos/align/align.ui:584 ekos/focus/focus.ui:720 ekos/guide/guide.ui:166
 #, kde-format
 msgid "Show in FITS Viewer"
-msgstr "Mostrar no visor de FITS"
+msgstr "Amosar no visor de FITS"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #: ekos/align/align.ui:600
@@ -7560,7 +7560,7 @@ msgid ""
 "Display the alignment points on the skymap as flags.  Clicking it again will "
 "remove the flags.  The flags will not be saved."
 msgstr ""
-"Mostrar os puntos de aliñamento no mapa celeste como bandeiras. Premelo de "
+"Amosar os puntos de aliñamento no mapa celeste como bandeiras. Premelo de "
 "novo retirará as bandeiras. As bandeiras non se gardarán."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAlignB)
@@ -7749,7 +7749,7 @@ msgstr "SCM"
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
-"Mostrar as imaxes FITS recibidas sobre o rectángulo do campo de visión do "
+"Amosar as imaxes FITS recibidas sobre o rectángulo do campo de visión do "
 "resolvedor no mapa celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
@@ -12493,7 +12493,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:494 indi/opsindi.ui:522
 #, kde-format
 msgid "Display INDI status messages in the status bar"
-msgstr "Mostrar as mensaxes de estado do INDI na barra de estado"
+msgstr "Amosar as mensaxes de estado do INDI na barra de estado"
 
 #. i18n: ectx: property (statusTip), widget (QCheckBox, kcfg_showINDIMessages)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_showINDIMessages)
@@ -12502,7 +12502,7 @@ msgstr "Mostrar as mensaxes de estado do INDI na barra de estado"
 #, kde-format
 msgid "Display incoming INDI status messages in KStars status bar"
 msgstr ""
-"Mostrar as mensaxes de estado entrantes do INDI na barra de estado de KStars"
+"Amosar as mensaxes de estado entrantes do INDI na barra de estado de KStars"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:503 indi/opsindi.ui:531
@@ -13036,7 +13036,7 @@ msgstr "Retirar a regra"
 #: ekos/auxiliary/serialportassistant.ui:182
 #, kde-format
 msgid "Display on detecting unmapped ports"
-msgstr "Mostrar ao detectar portos sen asociar"
+msgstr "Amosar ao detectar portos sen asociar"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextB)
 #: ekos/auxiliary/serialportassistant.ui:205 indi/telescopewizard.ui:97
@@ -14334,12 +14334,12 @@ msgstr "Descargando…"
 #: ekos/capture/capture.cpp:2773
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
-msgstr "Debe estabelecer un directorio remoto para os modos local e ambos."
+msgstr "Debe definir un directorio remoto para os modos local e ambos."
 
 #: ekos/capture/capture.cpp:2779
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
-msgstr "Debe estabelecer un directorio local para os modos cliente e ambos."
+msgstr "Debe definir un directorio local para os modos cliente e ambos."
 
 #: ekos/capture/capture.cpp:2917 ekos/capture/capture.cpp:2920
 #, fuzzy, kde-format
@@ -15974,12 +15974,12 @@ msgid ""
 "Properties</span> section. Click <span style=\" font-weight:600;\">Apply</"
 "span> to record the property values.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccionar propiedades personalizadas para "
-"estabelecer cando o traballo da secuencia se execute en modo por lotes. Tras "
-"definir o valor de propiedade desexado no panel de control de INDI, engádao "
-"á sección das <span style=\" font-weight:600;\">propiedades do traballo</"
-"span>. Prema <span style=\" font-weight:600;\">Aplicar</span> para gravar os "
-"valores das propiedades.</p></body></html>"
+"<html><head/><body><p>Seleccionar propiedades personalizadas para definir "
+"cando o traballo da secuencia se execute en modo por lotes. Tras definir o "
+"valor de propiedade desexado no panel de control de INDI, engádao á sección "
+"das <span style=\" font-weight:600;\">propiedades do traballo</span>. Prema "
+"<span style=\" font-weight:600;\">Aplicar</span> para gravar os valores das "
+"propiedades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/customproperties.ui:34
@@ -19604,12 +19604,12 @@ msgstr "Non se puido procesar a posición da estrela."
 #: ekos/guide/externalguide/linguider.cpp:188
 #, kde-format
 msgid "Failed to set guider reticle position."
-msgstr "Non se puido estabelecer a posición da retícula da guía."
+msgstr "Non se puido definir a posición da retícula da guía."
 
 #: ekos/guide/externalguide/linguider.cpp:200
 #, kde-format
 msgid "Failed to set guider square position."
-msgstr "Non se puido estabelecer a posición cadrada da guía."
+msgstr "Non se puido definir a posición cadrada da guía."
 
 #: ekos/guide/externalguide/linguider.cpp:226
 #, kde-format
@@ -19629,7 +19629,7 @@ msgstr "Non se puido obter a deriva de α e δ."
 #: ekos/guide/externalguide/linguider.cpp:267
 #, kde-format
 msgid "Failed to set dither range."
-msgstr "Non se puido estabelecer o intervalo de tramado."
+msgstr "Non se puido definir o intervalo de tramado."
 
 #: ekos/guide/externalguide/phd2.cpp:134
 #, kde-format
@@ -20612,8 +20612,8 @@ msgid ""
 "autoscroll the graph.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Arrastra o control desprazábel para desprazarte polo "
-"historial da guía mentres se mostran os puntos de erro de α e δ en ambos "
-"gráficos. Arrastrar ao extremo dereito configurará os gráficos para mostrar "
+"historial da guía mentres se amosan os puntos de erro de α e δ en ambos "
+"gráficos. Arrastrar ao extremo dereito configurará os gráficos para amosar "
 "os últimos datos da guía e desprazar automaticamente o gráfico.</p></body></"
 "html>"
 
@@ -20624,7 +20624,7 @@ msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
 "the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marcar para mostrar os últimos datos da guía e "
+"<html><head/><body><p>Marcar para amosar os últimos datos da guía e "
 "desprazar automaticamente o gráfico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
@@ -23731,7 +23731,7 @@ msgid ""
 "sensor name to display its data over time.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Datos actuais dos sensores meteorolóxicos. Prema o "
-"nome dun sensor para mostrar os seus datos ao longo do tempo.</p></body></"
+"nome dun sensor para amosar os seus datos ao longo do tempo.</p></body></"
 "html>"
 
 #: ekos/observatory/observatorydomemodel.cpp:57
@@ -24292,7 +24292,7 @@ msgstr ""
 #, kde-format
 msgid "Display received FITS in the Summary screen preview window."
 msgstr ""
-"Mostrar os FITS recibidos na xanela de vista previa da pantalla de resumo."
+"Amosar os FITS recibidos na xanela de vista previa da pantalla de resumo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:722
@@ -24331,7 +24331,7 @@ msgstr "Forzar as predefinicións de DSLR"
 #: ekos/opsekos.ui:775
 #, kde-format
 msgid "Display received DSLR images in the Image Viewer"
-msgstr "Mostrar as imaxes DSLR recibidas no visor de imaxes"
+msgstr "Amosar as imaxes DSLR recibidas no visor de imaxes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/opsekos.ui:778
@@ -26927,7 +26927,8 @@ msgid ""
 "minutes safety margin), marking idle."
 msgstr ""
 "O traballo «%3» está chegando ao límite de %1 do ascenso do crepúsculo "
-"astronómico (con %2 minutos de marxe de seguranza), marcouse como desocupado."
+"astronómico (con %2 minutos de marxe de seguridade), marcouse como "
+"desocupado."
 
 #: ekos/scheduler/scheduler.cpp:4019 ekos/scheduler/scheduler.cpp:7847
 #, kde-format
@@ -29120,7 +29121,7 @@ msgstr "Estirón automático"
 #: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
-msgstr "Mostrar as miras"
+msgstr "Amosar as miras"
 
 #: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
 #, kde-format
@@ -29147,7 +29148,7 @@ msgstr "Mostras as liñas da grade ecuatorial"
 #: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid "Show Objects in Image"
-msgstr "Mostrar os obxectos na imaxe"
+msgstr "Amosar os obxectos na imaxe"
 
 #: fitsviewer/fitsview.cpp:2380
 #, kde-format
@@ -29324,7 +29325,7 @@ msgstr "Agochar %1"
 #: fitsviewer/fitsviewer.cpp:951
 #, kde-format
 msgid "Show %1"
-msgstr "Mostrar %1"
+msgstr "Amosar %1"
 
 #: fitsviewer/fitsviewer.cpp:975
 #, kde-format
@@ -29359,7 +29360,7 @@ msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
-"Mostrar os obxectos na imaxe\n"
+"Amosar os obxectos na imaxe\n"
 "*Non hai información de SCM*"
 
 #: fitsviewer/fitsviewer.cpp:1021 fitsviewer/fitsviewer.cpp:1163
@@ -29411,7 +29412,7 @@ msgstr "&Aparencia"
 #: fitsviewer/opsfits.ui:51
 #, kde-format
 msgid "Automatically display received images in the FITS Viewer"
-msgstr "Mostrar automaticamente as imaxes recibidas no visor de FITS."
+msgstr "Amosar automaticamente as imaxes recibidas no visor de FITS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useFITSViewer)
 #: fitsviewer/opsfits.ui:54
@@ -29428,7 +29429,7 @@ msgid ""
 "Display all captured FITS images in a single tab instead of multiple tabs "
 "per image."
 msgstr ""
-"Mostrar todas as imaxes FITS capturadas nun único separador en vez de usar "
+"Amosar todas as imaxes FITS capturadas nun único separador en vez de usar "
 "varios separadores por imaxe."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singlePreviewFITS)
@@ -29445,7 +29446,7 @@ msgid ""
 "Display captured FITS images from all cameras in a single FITS Viewer window "
 "instead of a dedicated window to each camera."
 msgstr ""
-"Mostrar as imaxes FITS capturadas de todas as cámaras nunha única xanela do "
+"Amosar as imaxes FITS capturadas de todas as cámaras nunha única xanela do "
 "visor de FITS en vez de usar xanelas independentes para cada cámara."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
@@ -29462,7 +29463,7 @@ msgid ""
 "Display opened FITS images in a single FITS Viewer window instead of a "
 "dedicated window to each file."
 msgstr ""
-"Mostrar as imaxes FITS abertas nunha única xanela do visor de FITS en vez de "
+"Amosar as imaxes FITS abertas nunha única xanela do visor de FITS en vez de "
 "usar xanelas independentes para cada ficheiro."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowOpenedFITS)
@@ -29879,7 +29880,7 @@ msgstr "Conmutar o recorte"
 #: fitsviewer/starprofileviewer.cpp:87
 #, kde-format
 msgid "Sets the Minimum Value on the graph"
-msgstr "Estabelece o valor mínimo do gráfico"
+msgstr "Define o valor mínimo do gráfico"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/starprofileviewer.cpp:89 fitsviewer/statform.ui:86
@@ -29890,7 +29891,7 @@ msgstr "Mín"
 #: fitsviewer/starprofileviewer.cpp:92
 #, kde-format
 msgid "Sets the Maximum Value on the graph"
-msgstr "Estabelece o valor máximo do gráfico"
+msgstr "Define o valor máximo do gráfico"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/starprofileviewer.cpp:94 fitsviewer/statform.ui:91
@@ -29902,7 +29903,7 @@ msgstr "Máx"
 #, kde-format
 msgid "Sets the Cuttoff Maximum for eliminating hot pixels and bright stars."
 msgstr ""
-"Estabelece o máximo de recorte para eliminar píxeles quentes e estrelas "
+"Define o máximo de recorte para eliminar píxeles quentes e estrelas "
 "brillantes."
 
 #: fitsviewer/starprofileviewer.cpp:99
@@ -30215,7 +30216,7 @@ msgstr "Mostrar a grade de HiPS"
 #: hips/opshipsdisplay.ui:24
 #, kde-format
 msgid "Show HiPS While Panning"
-msgstr "Mostrar HiPS durante o desprazamento"
+msgstr "Amosar HiPS durante o desprazamento"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSBiLinearInterpolation)
 #: hips/opshipsdisplay.ui:31
@@ -30783,7 +30784,7 @@ msgstr "Hora"
 #: kstarslite/qml/indi/modules/KSINDITextField.qml:32
 #, kde-format, kde-kuit-format
 msgid "Set"
-msgstr "Estabelecer"
+msgstr "Definir"
 
 #: indi/indiproperty.cpp:292
 #, kde-format
@@ -31088,7 +31089,7 @@ msgstr "Porto:"
 #: indi/opsindi.ui:503
 #, kde-format
 msgid "Display the telescope position on the sky map"
-msgstr "Mostrar a posición do telescopio no mapa celeste"
+msgstr "Amosar a posición do telescopio no mapa celeste"
 
 #. i18n: ectx: property (statusTip), widget (QCheckBox, kcfg_showTargetCrosshair)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_showTargetCrosshair)
@@ -31098,7 +31099,7 @@ msgid ""
 "Display a telescope marker on the sky map in order to track the telescope "
 "motion across the sky."
 msgstr ""
-"Mostrar un sinal de telescopio no mapa celeste para seguir o movemento do "
+"Amosar un sinal de telescopio no mapa celeste para seguir o movemento do "
 "telescopio polo ceo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showTargetCrosshair)
@@ -31113,7 +31114,7 @@ msgstr "Cruceiro do &telescopio"
 #, kde-format
 msgid "Show INDI messages as desktop notifications instead of dialogs."
 msgstr ""
-"Mostrar as mensaxes de INDI como notificacións de escritorio en vez de "
+"Amosar as mensaxes de INDI como notificacións de escritorio en vez de "
 "diálogos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_messageNotificationINDI)
@@ -31652,13 +31653,13 @@ msgstr "Ceo baleiro"
 #, kde-format
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
-msgstr "Mostrar unha imaxe da SDSS"
+msgstr "Amosar unha imaxe da SDSS"
 
 #: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:591
 #, kde-format
 msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
-msgstr "Mostrar unha imaxe da DSS"
+msgstr "Amosar unha imaxe da DSS"
 
 #: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:912
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
@@ -31853,7 +31854,7 @@ msgstr "Buscar satélites"
 #: kspopupmenu.cpp:688
 #, kde-format
 msgid "Goto && Set As Parking Position"
-msgstr "Ir e estabelecer como posición de estacionamento"
+msgstr "Ir e definir como posición de estacionamento"
 
 #: kspopupmenu.cpp:695
 #, kde-format
@@ -31976,7 +31977,7 @@ msgstr "Conmutar a visibilidade de todos os paneis informativos."
 #: kstars.kcfg:45
 #, kde-format
 msgid "Display the time InfoBox?"
-msgstr "Quere mostrar o panel da hora?"
+msgstr "Quere amosar o panel da hora?"
 
 #. i18n: ectx: whatsthis, entry (ShowTimeBox), group (GUI)
 #: kstars.kcfg:46
@@ -31988,7 +31989,7 @@ msgstr "Conmutar a visibilidade do panel da hora."
 #: kstars.kcfg:50
 #, kde-format
 msgid "Display the focus InfoBox?"
-msgstr "Quere mostrar o panel de foco?"
+msgstr "Quere amosar o panel de foco?"
 
 #. i18n: ectx: whatsthis, entry (ShowFocusBox), group (GUI)
 #: kstars.kcfg:51
@@ -32000,7 +32001,7 @@ msgstr "Conmutar a visibilidade do panel de foco."
 #: kstars.kcfg:55
 #, kde-format
 msgid "Display the geographic InfoBox?"
-msgstr "Quere mostrar o panel de información xeográfica?"
+msgstr "Quere amosar o panel de información xeográfica?"
 
 #. i18n: ectx: whatsthis, entry (ShowGeoBox), group (GUI)
 #: kstars.kcfg:56
@@ -32061,7 +32062,7 @@ msgstr ""
 #: kstars.kcfg:81
 #, kde-format
 msgid "Display the statusbar?"
-msgstr "Quere mostrar a barra de estado?"
+msgstr "Quere amosar a barra de estado?"
 
 #. i18n: ectx: whatsthis, entry (ShowStatusBar), group (GUI)
 #: kstars.kcfg:82
@@ -32073,7 +32074,7 @@ msgstr "Conmutar a visibilidade da barra de estado."
 #: kstars.kcfg:86
 #, kde-format
 msgid "Display Alt/Az coordinates in the statusbar?"
-msgstr "Quere mostrar as coordenadas de A/a na barra de estado?"
+msgstr "Quere amosar as coordenadas de A/a na barra de estado?"
 
 #. i18n: ectx: whatsthis, entry (ShowAltAzField), group (GUI)
 #: kstars.kcfg:87
@@ -32090,7 +32091,7 @@ msgstr ""
 #, kde-format
 msgid "Display RA/Dec coordinates in the statusbar?"
 msgstr ""
-"Quere mostrar as coordenadas de ascensión recta (α) e declinación (δ) na "
+"Quere amosar as coordenadas de ascensión recta (α) e declinación (δ) na "
 "barra de estado?"
 
 #. i18n: ectx: whatsthis, entry (ShowRADecField), group (GUI)
@@ -32108,8 +32109,8 @@ msgstr ""
 #, kde-format
 msgid "Display J2000.0 RA/Dec coordinates in the statusbar?"
 msgstr ""
-"Quere mostrar as coordenadas de ascensión recta (α) e declinación (δ) "
-"J2000.0 na barra de estado?"
+"Quere amosar as coordenadas de ascensión recta (α) e declinación (δ) J2000.0 "
+"na barra de estado?"
 
 #. i18n: ectx: whatsthis, entry (ShowJ2000RADecField), group (GUI)
 #: kstars.kcfg:97
@@ -32125,7 +32126,7 @@ msgstr ""
 #: kstars.kcfg:101
 #, kde-format
 msgid "Display CCD sensor angular size on the sky map?"
-msgstr "Mostrar o tamaño angular do sensor de CCD no mapa celeste?"
+msgstr "Amosar o tamaño angular do sensor de CCD no mapa celeste?"
 
 #. i18n: ectx: label, entry (WindowWidth), group (GUI)
 #: kstars.kcfg:105
@@ -32168,7 +32169,7 @@ msgstr "Lista dos nomes dos ficheiros de catálogos de obxectos personalizados."
 #: kstars.kcfg:128
 #, kde-format
 msgid "List of toggles for displaying custom object catalogs."
-msgstr "Lista de opcións para mostrar catálogos de obxectos personalizados."
+msgstr "Lista de opcións para amosar catálogos de obxectos personalizados."
 
 #. i18n: ectx: whatsthis, entry (ShowCatalog), group (Catalogs)
 #: kstars.kcfg:129
@@ -32179,19 +32180,19 @@ msgid ""
 msgstr ""
 "Unha lista de enteiros que conmutan a presentación de cada catálogo de "
 "obxectos personalizados (calquera valor distinto de cero indica que se "
-"mostrarán os obxectos dese catálogo)."
+"amosarán os obxectos dese catálogo)."
 
 #. i18n: ectx: label, entry (ShowCatalogNames), group (Catalogs)
 #: kstars.kcfg:132
 #, kde-format
 msgid "List for displaying custom object catalogs."
-msgstr "Lista para mostrar catálogos de obxectos personalizados."
+msgstr "Lista para amosar catálogos de obxectos personalizados."
 
 #. i18n: ectx: whatsthis, entry (ShowCatalogNames), group (Catalogs)
 #: kstars.kcfg:133
 #, kde-format
 msgid "List of names for which custom catalogs are to be displayed."
-msgstr "Lista de nomes dos que se desexa mostrar os catálogos personalizados."
+msgstr "Lista de nomes dos que se desexa amosar os catálogos personalizados."
 
 #. i18n: ectx: label, entry (ResolveNamesOnline), group (Catalogs)
 #: kstars.kcfg:136
@@ -32299,13 +32300,13 @@ msgstr ""
 #: kstars.kcfg:192
 #, kde-format
 msgid "Display INDI messages in the statusbar?"
-msgstr "Quere mostrar as mensaxes do INDI na barra de estado?"
+msgstr "Quere amosar as mensaxes do INDI na barra de estado?"
 
 #. i18n: ectx: whatsthis, entry (showINDIMessages), group (indi)
 #: kstars.kcfg:193
 #, kde-format
 msgid "Toggle display of INDI messages in the KStars statusbar."
-msgstr "Conmutar o mostrar as mensaxes do INDI na barra de estado de KStars."
+msgstr "Conmutar o amosar as mensaxes do INDI na barra de estado de KStars."
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:197
@@ -32323,19 +32324,19 @@ msgstr "Notificacións de mensaxes de INDI"
 #: kstars.kcfg:206
 #, kde-format
 msgid "Use KStars time and location for synchronization?"
-msgstr "Quere empregar a hora e lugar de KStars na sincronización?"
+msgstr "Quere usar a hora e lugar de KStars na sincronización?"
 
 #. i18n: ectx: label, entry (useMountSource), group (indi)
 #: kstars.kcfg:210
 #, kde-format
 msgid "Use mount time and location for synchronization?"
-msgstr "Quere empregar a hora e lugar da montura na sincronización?"
+msgstr "Quere usar a hora e lugar da montura na sincronización?"
 
 #. i18n: ectx: label, entry (useGPSSource), group (indi)
 #: kstars.kcfg:214
 #, kde-format
 msgid "Use GPS time and location for synchronization?"
-msgstr "Quere empregar a hora e lugar do GPS na sincronización?"
+msgstr "Quere usar a hora e lugar do GPS na sincronización?"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:218
@@ -32605,7 +32606,7 @@ msgstr ""
 #: kstars.kcfg:361
 #, kde-format
 msgid "Use animated slewing effects when changing focus position?"
-msgstr "Empregar efectos de rotación animados ao cambiar a posición do foco?"
+msgstr "Usar efectos de rotación animados ao cambiar a posición do foco?"
 
 #. i18n: ectx: whatsthis, entry (UseAnimatedSlewing), group (View)
 #: kstars.kcfg:362
@@ -32868,7 +32869,7 @@ msgstr "Quere agochar os obxectos extra mentres se move?"
 #, kde-format
 msgid "Toggle whether extra objects are hidden while the display is in motion."
 msgstr ""
-"Indica se deben mostrarse os obxectos extra cando a vista estea en movemento."
+"Indica se deben amosarse os obxectos extra cando a vista estea en movemento."
 
 #. i18n: ectx: label, entry (HidePlanets), group (View)
 #: kstars.kcfg:446
@@ -32925,19 +32926,19 @@ msgstr "Debuxar os asteroides no mapa celeste?"
 #: kstars.kcfg:462
 #, kde-format
 msgid "Toggle whether asteroids are drawn in the sky map."
-msgstr "Indica se deben mostrarse os asteroides no mapa celeste."
+msgstr "Indica se deben amosarse os asteroides no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowAsteroidNames), group (View)
 #: kstars.kcfg:466
 #, kde-format
 msgid "Label asteroid names in the sky map?"
-msgstr "Mostrar os nomes dos asteroides no mapa celeste?"
+msgstr "Amosar os nomes dos asteroides no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowAsteroidNames), group (View)
 #: kstars.kcfg:467
 #, kde-format
 msgid "Toggle whether asteroid name labels are drawn in the sky map."
-msgstr "Indica se deben mostrarse os nomes dos asteroides no mapa celeste."
+msgstr "Indica se deben amosarse os nomes dos asteroides no mapa celeste."
 
 #. i18n: ectx: label, entry (OrbitalElementsAutoUpdate), group (View)
 #: kstars.kcfg:471
@@ -32953,13 +32954,13 @@ msgstr ""
 #: kstars.kcfg:475
 #, kde-format
 msgid "Draw comets in the sky map?"
-msgstr "Mostrar os cometas no mapa celeste?"
+msgstr "Amosar os cometas no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowComets), group (View)
 #: kstars.kcfg:476
 #, kde-format
 msgid "Toggle whether comets are drawn in the sky map."
-msgstr "Indica se deben mostrarse os cometas no mapa celeste."
+msgstr "Indica se deben amosarse os cometas no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowCometComas), group (View)
 #: kstars.kcfg:480
@@ -32971,50 +32972,50 @@ msgstr "Debuxar os comas de cometas no mapa celeste?"
 #: kstars.kcfg:481
 #, kde-format
 msgid "Toggle whether comet comas are drawn in the sky map."
-msgstr "Indica se deben mostrarse os comas dos cometas no mapa celeste."
+msgstr "Indica se deben amosarse os comas dos cometas no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowCometNames), group (View)
 #: kstars.kcfg:485
 #, kde-format
 msgid "Label comet names in the sky map?"
-msgstr "Mostrar os nomes dos cometas no mapa celeste?"
+msgstr "Amosar os nomes dos cometas no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowCometNames), group (View)
 #: kstars.kcfg:486
 #, kde-format
 msgid "Toggle whether comet name labels are drawn in the sky map."
-msgstr "Indica se deben mostrarse os nomes dos cometas no mapa celeste."
+msgstr "Indica se deben amosarse os nomes dos cometas no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:490
 #, kde-format
 msgid "Draw supernovae in the sky map?"
-msgstr "Mostrar as supernovas no mapa celeste?"
+msgstr "Amosar as supernovas no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:491
 #, kde-format
 msgid "Toggle whether supernovae are drawn in the sky map."
-msgstr "Indica se deben mostrarse as supernovas no mapa celeste."
+msgstr "Indica se deben amosarse as supernovas no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:495
 #, kde-format
 msgid "Label Supernova Names in the sky map?"
-msgstr "Mostrar os nomes das supernovas no mapa celeste?"
+msgstr "Amosar os nomes das supernovas no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:496
 #, kde-format
 msgid "Toggle whether supernova name labels are drawn in the sky map."
-msgstr "Indica se deben mostrarse os nomes das supernovas no mapa celeste."
+msgstr "Indica se deben amosarse os nomes das supernovas no mapa celeste."
 
 #. i18n: ectx: label, entry (MagnitudeLimitShowSupernovae), group (View)
 #: kstars.kcfg:500
 #, kde-format
 msgid "Set magnitude limit for supernovae to be shown on the skymap"
 msgstr ""
-"Configurar o límite de magnitude mínima para mostrar as supernovas no mapa "
+"Configurar o límite de magnitude mínima para amosar as supernovas no mapa "
 "estelar"
 
 #. i18n: ectx: whatsthis, entry (MagnitudeLimitShowSupernovae), group (View)
@@ -33022,7 +33023,7 @@ msgstr ""
 #, kde-format
 msgid "Set magnitude limit for supernovae to be shown on the skymap."
 msgstr ""
-"Configurar o límite de magnitude mínima para mostrar as supernovas no mapa "
+"Configurar o límite de magnitude mínima para amosar as supernovas no mapa "
 "estelar."
 
 #. i18n: ectx: label, entry (SupernovaDetectionAge), group (View)
@@ -33081,7 +33082,7 @@ msgstr ""
 #: kstars.kcfg:531
 #, kde-format
 msgid "Show supernova alerts?"
-msgstr "Mostrar as alertas de supernova?"
+msgstr "Amosar as alertas de supernova?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:532
@@ -33105,14 +33106,14 @@ msgstr "Configurar o límite de magnitude mínima para alertar de supernovas."
 #: kstars.kcfg:541
 #, kde-format
 msgid "Draw constellation boundaries in the sky map?"
-msgstr "Mostrar os limiares das constelacións no mapa celeste?"
+msgstr "Amosar os limiares das constelacións no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowCBounds), group (View)
 #: kstars.kcfg:542
 #, kde-format
 msgid "Toggle whether constellation boundaries are drawn in the sky map."
 msgstr ""
-"Indica se deben mostrarse os limiares das constelacións no mapa celeste."
+"Indica se deben amosarse os limiares das constelacións no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowHighlightedCBound), group (View)
 #: kstars.kcfg:546
@@ -33134,81 +33135,81 @@ msgstr ""
 #: kstars.kcfg:551
 #, kde-format
 msgid "Draw constellation lines in the sky map?"
-msgstr "Mostrar as liñas das constelacións no mapa celeste?"
+msgstr "Amosar as liñas das constelacións no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowCLines), group (View)
 #: kstars.kcfg:552
 #, kde-format
 msgid "Toggle whether constellation lines are drawn in the sky map."
-msgstr "Indica se deben mostrarse as liñas das constelacións no mapa celeste."
+msgstr "Indica se deben amosarse as liñas das constelacións no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowConstellationArt), group (View)
 #: kstars.kcfg:556
 #, kde-format
 msgid "Draw constellation art in the sky map?"
-msgstr "Mostrar os símbolos das constelacións no mapa celeste?"
+msgstr "Amosar os símbolos das constelacións no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowConstellationArt), group (View)
 #: kstars.kcfg:557
 #, kde-format
 msgid "Toggle whether constellation art drawn in the sky map."
 msgstr ""
-"Indica se deben mostrarse os símbolos das constelacións no mapa celeste."
+"Indica se deben amosarse os símbolos das constelacións no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowCNames), group (View)
 #: kstars.kcfg:561
 #, kde-format
 msgid "Draw constellation names in the sky map?"
-msgstr "Mostrar os nomes das constelacións no mapa celeste?"
+msgstr "Amosar os nomes das constelacións no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowCNames), group (View)
 #: kstars.kcfg:562
 #, kde-format
 msgid "Toggle whether constellation name labels are drawn in the sky map."
-msgstr "Indica se deben mostrarse os nomes das constelacións no mapa celeste."
+msgstr "Indica se deben amosarse os nomes das constelacións no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowDeepSky), group (View)
 #: kstars.kcfg:566
 #, kde-format
 msgid "Draw \"deep sky\" objects in the sky map?"
-msgstr "Mostrar os obxectos do «espazo profundo» no mapa celeste?"
+msgstr "Amosar os obxectos do «espazo profundo» no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSky), group (View)
 #: kstars.kcfg:567
 #, kde-format
 msgid "Toggle whether deep-sky objects are drawn in the sky map."
-msgstr "Indica se deben mostrarse os obxectos afastados no mapa celeste."
+msgstr "Indica se deben amosarse os obxectos afastados no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowEcliptic), group (View)
 #: kstars.kcfg:571
 #, kde-format
 msgid "Draw ecliptic line in the sky map?"
-msgstr "Mostrar a curva da eclíptica no mapa celeste?"
+msgstr "Amosar a curva da eclíptica no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowEcliptic), group (View)
 #: kstars.kcfg:572
 #, kde-format
 msgid "Toggle whether the ecliptic line is drawn in the sky map."
-msgstr "Indica se debe mostrarse a eclíptica no mapa celeste."
+msgstr "Indica se debe amosarse a eclíptica no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowEquator), group (View)
 #: kstars.kcfg:576
 #, kde-format
 msgid "Draw equator line in the sky map?"
-msgstr "Mostrar o ecuador no mapa celeste?"
+msgstr "Amosar o ecuador no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowEquator), group (View)
 #: kstars.kcfg:577
 #, kde-format
 msgid "Toggle whether the equator line is drawn in the sky map."
-msgstr "Indica se debe mostrarse o ecuador no mapa celeste."
+msgstr "Indica se debe amosarse o ecuador no mapa celeste."
 
 #. i18n: ectx: label, entry (AutoSelectGrid), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoSelectGrid)
 #: kstars.kcfg:581 options/opsguides.ui:262
 #, kde-format
 msgid "Draw grids according to active coordinate system?"
-msgstr "Mostrar as grades seguindo o sistema de coordenadas activo?"
+msgstr "Amosar as grades seguindo o sistema de coordenadas activo?"
 
 #. i18n: ectx: whatsthis, entry (AutoSelectGrid), group (View)
 #: kstars.kcfg:582
@@ -33224,14 +33225,14 @@ msgstr ""
 #: kstars.kcfg:586
 #, kde-format
 msgid "Draw equatorial coordinate grid in the sky map?"
-msgstr "Mostrar a grade de coordenadas ecuatoriais no mapa celeste?"
+msgstr "Amosar a grade de coordenadas ecuatoriais no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowEquatorialGrid), group (View)
 #: kstars.kcfg:587
 #, kde-format
 msgid "Toggle whether the equatorial coordinate grid is drawn in the sky map."
 msgstr ""
-"Indica se debe mostrarse a grade de coordenadas ecuatoriais no mapa celeste."
+"Indica se debe amosarse a grade de coordenadas ecuatoriais no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowHorizontalGrid), group (View)
 #: kstars.kcfg:591
@@ -33244,25 +33245,25 @@ msgstr "Debuxar a grade de coordenadas horizontais no mapa celeste?"
 #, kde-format
 msgid "Toggle whether the horizontal coordinate grid is drawn in the sky map."
 msgstr ""
-"Indica se debe mostrarse a grade de coordenadas horizontais no mapa celeste."
+"Indica se debe amosarse a grade de coordenadas horizontais no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowLocalMeridian), group (View)
 #: kstars.kcfg:596
 #, kde-format
 msgid "Draw local meridian line in the sky map?"
-msgstr "Mostrar a liña do meridiano local no mapa celeste?"
+msgstr "Amosar a liña do meridiano local no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowLocalMeridian), group (View)
 #: kstars.kcfg:597
 #, kde-format
 msgid "Toggle whether the local meridian line is drawn in the sky map."
-msgstr "Indica se debe mostrarse a liña do meridiano local no mapa celeste."
+msgstr "Indica se debe amosarse a liña do meridiano local no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowGround), group (View)
 #: kstars.kcfg:601
 #, kde-format
 msgid "Draw opaque ground in the sky map?"
-msgstr "Mostrar chan opaco no mapa celeste?"
+msgstr "Amosar chan opaco no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowGround), group (View)
 #: kstars.kcfg:602
@@ -33274,37 +33275,37 @@ msgstr "Indica se a rexión baixo o horizonte é opaca ou non."
 #: kstars.kcfg:606
 #, kde-format
 msgid "Draw horizon line in the sky map?"
-msgstr "Mostrar a liña do horizonte no mapa celeste?"
+msgstr "Amosar a liña do horizonte no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowHorizon), group (View)
 #: kstars.kcfg:607
 #, kde-format
 msgid "Toggle whether the horizon line is drawn in the sky map."
-msgstr "Indica se debe mostrarse a liña do horizonte no mapa celeste."
+msgstr "Indica se debe amosarse a liña do horizonte no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowFlags), group (View)
 #: kstars.kcfg:611
 #, kde-format
 msgid "Draw flags in the sky map?"
-msgstr "Mostrar as bandeiras no mapa celeste?"
+msgstr "Amosar as bandeiras no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowFlags), group (View)
 #: kstars.kcfg:612
 #, kde-format
 msgid "Toggle whether flags are drawn in the sky map."
-msgstr "Indica se se deben mostrar as bandeiras no mapa celeste."
+msgstr "Indica se se deben amosar as bandeiras no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:616
 #, kde-format
 msgid "Draw extra deep-sky objects in the sky map?"
-msgstr "Mostrar obxectos afastados adicionais no mapa celeste?"
+msgstr "Amosar obxectos afastados adicionais no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowOther), group (View)
 #: kstars.kcfg:617
 #, kde-format
 msgid "Toggle whether extra objects are drawn in the sky map."
-msgstr "Indica se deben mostrarse obxectos adicionais no mapa celeste."
+msgstr "Indica se deben amosarse obxectos adicionais no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowMilkyWay), group (View)
 #: kstars.kcfg:621
@@ -33316,15 +33317,14 @@ msgstr "Debuxar o contorno da Vía Láctea?"
 #: kstars.kcfg:622
 #, kde-format
 msgid "Toggle whether the Milky Way contour is drawn in the sky map."
-msgstr "Indica se debe mostrarse o contorno da Vía Láctea no mapa celeste."
+msgstr "Indica se debe amosarse o contorno da Vía Láctea no mapa celeste."
 
 #. i18n: ectx: label, entry (FillMilkyWay), group (View)
 #: kstars.kcfg:626
 #, kde-format
 msgid "Fill Milky Way contour? (false means use outline only)"
 msgstr ""
-"Encher o contorno da Vía Láctea? (falso indica que só se empregará o "
-"contorno)"
+"Encher o contorno da Vía Láctea? (falso indica que só se usará o contorno)"
 
 #. i18n: ectx: whatsthis, entry (FillMilkyWay), group (View)
 #: kstars.kcfg:627
@@ -33334,7 +33334,7 @@ msgid ""
 "the Milky Way is shown as an outline."
 msgstr ""
 "Indica se debe preencherse o contorno da Vía Láctea. Se non escolle esta "
-"opción, mostrarase só o contorno da Vía Láctea."
+"opción, amosarase só o contorno da Vía Láctea."
 
 #. i18n: ectx: label, entry (ShowSolarSystem), group (View)
 #: kstars.kcfg:631
@@ -33349,14 +33349,14 @@ msgid ""
 "Meta-option to control whether all major planets (and the Sun and Moon) are "
 "drawn in the sky map."
 msgstr ""
-"Unha metaopción para controlar se mostrar os principais planetas (xunto co "
+"Unha metaopción para controlar se amosar os principais planetas (xunto co "
 "Sol e a Lúa) no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:636
 #, kde-format
 msgid "Draw planets as images in the sky map?"
-msgstr "Mostrar os planetas como imaxes no mapa celeste?"
+msgstr "Amosar os planetas como imaxes no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:637
@@ -33365,8 +33365,8 @@ msgid ""
 "Toggle whether major planets (and the Sun and Moon) are rendered as images "
 "in the sky map."
 msgstr ""
-"Indica se deben mostrarse imaxes dos principais planetas (e o Sol e a Lúa) "
-"no mapa."
+"Indica se deben amosarse imaxes dos principais planetas (e o Sol e a Lúa) no "
+"mapa."
 
 #. i18n: ectx: label, entry (ShowPlanetNames), group (View)
 #: kstars.kcfg:641
@@ -33381,140 +33381,140 @@ msgid ""
 "Toggle whether major planets (and the Sun and Moon) are labeled in the sky "
 "map."
 msgstr ""
-"Indica se deben mostrarse lendas cos nomes dos planetas principais (e o Sol "
-"e a Lúa) no mapa."
+"Indica se deben amosarse lendas cos nomes dos planetas principais (e o Sol e "
+"a Lúa) no mapa."
 
 #. i18n: ectx: label, entry (ShowSun), group (View)
 #: kstars.kcfg:646
 #, kde-format
 msgid "Draw Sun in the sky map?"
-msgstr "Mostrar o Sol no mapa celeste?"
+msgstr "Amosar o Sol no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowSun), group (View)
 #: kstars.kcfg:647
 #, kde-format
 msgid "Toggle whether the Sun is drawn in the sky map."
-msgstr "Indica se debe mostrarse o Sol no mapa."
+msgstr "Indica se debe amosarse o Sol no mapa."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:651
 #, kde-format
 msgid "Draw Moon in the sky map?"
-msgstr "Mostrar a Lúa no mapa celeste?"
+msgstr "Amosar a Lúa no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowMoon), group (View)
 #: kstars.kcfg:652
 #, kde-format
 msgid "Toggle whether the Moon is drawn in the sky map."
-msgstr "Indica se debe mostrarse a Lúa no mapa celeste."
+msgstr "Indica se debe amosarse a Lúa no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:656
 #, kde-format
 msgid "Draw Mercury in the sky map?"
-msgstr "Mostrar Mercurio no mapa?"
+msgstr "Amosar Mercurio no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowMercury), group (View)
 #: kstars.kcfg:657
 #, kde-format
 msgid "Toggle whether Mercury is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta Mercurio no mapa."
+msgstr "Indica se debe amosarse o planeta Mercurio no mapa."
 
 #. i18n: ectx: label, entry (ShowVenus), group (View)
 #: kstars.kcfg:661
 #, kde-format
 msgid "Draw Venus in the sky map?"
-msgstr "Mostrar Venus no mapa?"
+msgstr "Amosar Venus no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowVenus), group (View)
 #: kstars.kcfg:662
 #, kde-format
 msgid "Toggle whether Venus is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta Venus no mapa."
+msgstr "Indica se debe amosarse o planeta Venus no mapa."
 
 #. i18n: ectx: label, entry (ShowMars), group (View)
 #: kstars.kcfg:666
 #, kde-format
 msgid "Draw Mars in the sky map?"
-msgstr "Mostrar Marte no mapa?"
+msgstr "Amosar Marte no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowMars), group (View)
 #: kstars.kcfg:667
 #, kde-format
 msgid "Toggle whether Mars is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta Marte no mapa."
+msgstr "Indica se debe amosarse o planeta Marte no mapa."
 
 #. i18n: ectx: label, entry (ShowJupiter), group (View)
 #: kstars.kcfg:671
 #, kde-format
 msgid "Draw Jupiter in the sky map?"
-msgstr "Mostrar Xúpiter no mapa?"
+msgstr "Amosar Xúpiter no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowJupiter), group (View)
 #: kstars.kcfg:672
 #, kde-format
 msgid "Toggle whether Jupiter is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta Xúpiter no mapa."
+msgstr "Indica se debe amosarse o planeta Xúpiter no mapa."
 
 #. i18n: ectx: label, entry (ShowSaturn), group (View)
 #: kstars.kcfg:676
 #, kde-format
 msgid "Draw Saturn in the sky map?"
-msgstr "Mostrar Saturno no mapa?"
+msgstr "Amosar Saturno no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowSaturn), group (View)
 #: kstars.kcfg:677
 #, kde-format
 msgid "Toggle whether Saturn is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta Saturno no mapa."
+msgstr "Indica se debe amosarse o planeta Saturno no mapa."
 
 #. i18n: ectx: label, entry (ShowUranus), group (View)
 #: kstars.kcfg:681
 #, kde-format
 msgid "Draw Uranus in the sky map?"
-msgstr "Mostrar Urano no mapa?"
+msgstr "Amosar Urano no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowUranus), group (View)
 #: kstars.kcfg:682
 #, kde-format
 msgid "Toggle whether Uranus is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta Urano no mapa."
+msgstr "Indica se debe amosarse o planeta Urano no mapa."
 
 #. i18n: ectx: label, entry (ShowNeptune), group (View)
 #: kstars.kcfg:686
 #, kde-format
 msgid "Draw Neptune in the sky map?"
-msgstr "Mostrar Neptuno no mapa?"
+msgstr "Amosar Neptuno no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowNeptune), group (View)
 #: kstars.kcfg:687
 #, kde-format
 msgid "Toggle whether Neptune is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta Neptuno no mapa."
+msgstr "Indica se debe amosarse o planeta Neptuno no mapa."
 
 #. i18n: ectx: label, entry (ShowPluto), group (View)
 #: kstars.kcfg:691
 #, kde-format
 msgid "Draw Pluto in the sky map?"
-msgstr "Mostrar Plutón no mapa?"
+msgstr "Amosar Plutón no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowPluto), group (View)
 #: kstars.kcfg:692
 #, kde-format
 msgid "Toggle whether Pluto is drawn in the sky map."
-msgstr "Indica se debe mostrarse o planeta anano Plutón no mapa."
+msgstr "Indica se debe amosarse o planeta anano Plutón no mapa."
 
 #. i18n: ectx: label, entry (ShowStars), group (View)
 #: kstars.kcfg:696
 #, kde-format
 msgid "Draw stars in the sky map?"
-msgstr "Mostrar as estrelas no mapa?"
+msgstr "Amosar as estrelas no mapa?"
 
 #. i18n: ectx: whatsthis, entry (ShowStars), group (View)
 #: kstars.kcfg:697
 #, kde-format
 msgid "Toggle whether stars are drawn in the sky map."
-msgstr "Indica se deben mostrarse as estrelas no mapa celeste."
+msgstr "Indica se deben amosarse as estrelas no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowStarMagnitudes), group (View)
 #: kstars.kcfg:701
@@ -33540,13 +33540,13 @@ msgstr "Indicar os nomes das estrelas no mapa celeste?"
 #: kstars.kcfg:707
 #, kde-format
 msgid "Toggle whether star name labels are shown in the sky map."
-msgstr "Indica se debe mostrar lendas cos nomes das estrelas no mapa celeste."
+msgstr "Indica se debe amosar lendas cos nomes das estrelas no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:711
 #, kde-format
 msgid "Label deep-sky object magnitudes in the sky map?"
-msgstr "Mostrar as magnitudes dos obxectos do espazo profundo no mapa celeste?"
+msgstr "Amosar as magnitudes dos obxectos do espazo profundo no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:712
@@ -33562,14 +33562,14 @@ msgstr ""
 #: kstars.kcfg:716
 #, kde-format
 msgid "Label deep-sky objects in the sky map?"
-msgstr "Mostrar os nomes dos obxectos afastados no mapa celeste?"
+msgstr "Amosar os nomes dos obxectos afastados no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:717
 #, kde-format
 msgid "Toggle whether deep-sky object name labels are shown in the sky map."
 msgstr ""
-"Indica se debe mostrar lendas cos nomes dos obxectos afastados no mapa "
+"Indica se debe amosar lendas cos nomes dos obxectos afastados no mapa "
 "celeste."
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
@@ -33681,8 +33681,8 @@ msgid ""
 "Display the sky with horizontal coordinates (when false, equatorial "
 "coordinates will be used)."
 msgstr ""
-"Mostrar o ceo con coordenadas horizontais (se non se escolle, empregaranse "
-"as ecuatoriais)."
+"Amosar o ceo con coordenadas horizontais (se non se escolle, empregaranse as "
+"ecuatoriais)."
 
 #. i18n: ectx: label, entry (UseAutoLabel), group (View)
 #: kstars.kcfg:761
@@ -33727,8 +33727,7 @@ msgstr "Engadir unha etiqueta persoal ao pasar co rato?"
 msgid ""
 "Toggle whether the object under the mouse cursor gets a transient name label."
 msgstr ""
-"Indica se debe mostrarse unha lenda co nome do obxecto que estea baixo o "
-"rato."
+"Indica se debe amosarse unha lenda co nome do obxecto que estea baixo o rato."
 
 #. i18n: ectx: label, entry (UseRefraction), group (View)
 #: kstars.kcfg:776
@@ -33771,7 +33770,7 @@ msgstr ""
 #: kstars.kcfg:786
 #, kde-format
 msgid "Use antialiasing when drawing the screen?"
-msgstr "Empregar suavización ao debuxar a pantalla?"
+msgstr "Usar suavización ao debuxar a pantalla?"
 
 #. i18n: ectx: whatsthis, entry (UseAntialias), group (View)
 #: kstars.kcfg:787
@@ -33853,7 +33852,7 @@ msgstr "Límite de visibilidade dos asteroides"
 #: kstars.kcfg:818
 #, kde-format
 msgid "The faint magnitude limit for drawing asteroids."
-msgstr "O límite de magnitude mínima para mostrar os asteroides."
+msgstr "O límite de magnitude mínima para amosar os asteroides."
 
 #. i18n: ectx: label, entry (MagLimitAsteroidDownload), group (View)
 #: kstars.kcfg:822
@@ -33920,7 +33919,7 @@ msgstr ""
 #: kstars.kcfg:842
 #, kde-format
 msgid "Show deep-sky objects of unknown magnitude"
-msgstr "Mostrar os obxectos afastados de magnitude descoñecida."
+msgstr "Amosar os obxectos afastados de magnitude descoñecida."
 
 #. i18n: ectx: whatsthis, entry (ShowUnknownMagObjects), group (View)
 #: kstars.kcfg:843
@@ -33951,7 +33950,7 @@ msgstr "Límite de visibilidade das estrelas"
 #, kde-format
 msgid "The faint magnitude limit for drawing stars, when fully zoomed in."
 msgstr ""
-"O límite de magnitude para mostrar as estrelas cando a ampliación é completa."
+"O límite de magnitude para amosar as estrelas cando a ampliación é completa."
 
 #. i18n: ectx: label, entry (StarDensity), group (View)
 #: kstars.kcfg:857
@@ -34007,7 +34006,7 @@ msgstr "A densidade relativa das lendas cos nomes e/ou magnitudes das estrelas"
 #, kde-format
 msgid "The relative density for drawing star name and magnitude labels."
 msgstr ""
-"A densidade relativa para mostrar lendas cos nomes e magnitudes das estrelas."
+"A densidade relativa para amosar lendas cos nomes e magnitudes das estrelas."
 
 #. i18n: ectx: label, entry (DeepSkyLabelDensity), group (View)
 #: kstars.kcfg:879
@@ -34022,15 +34021,14 @@ msgstr ""
 msgid ""
 "The relative density for drawing deep-sky object name and magnitude labels."
 msgstr ""
-"A densidade relativa para mostrar lendas cos nomes e magnitudes dos obxectos "
+"A densidade relativa para amosar lendas cos nomes e magnitudes dos obxectos "
 "afastados."
 
 #. i18n: ectx: label, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:884
 #, kde-format
 msgid "Show long names in deep-sky object name labels?"
-msgstr ""
-"Mostrar os nomes longos nas etiquetas dos nomes dos obxectos afastados?"
+msgstr "Amosar os nomes longos nas etiquetas dos nomes dos obxectos afastados?"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:885
@@ -34039,7 +34037,7 @@ msgid ""
 "If true, long names (common names) for deep-sky objects are shown in the "
 "labels."
 msgstr ""
-"Se é verdadeiro, mostrar os nomes longos (nomes comúns) dos obxectos "
+"Se é verdadeiro, amosar os nomes longos (nomes comúns) dos obxectos "
 "afastados nas súas etiquetas."
 
 #. i18n: ectx: label, entry (LabelFontScaling), group (View)
@@ -34096,8 +34094,7 @@ msgstr "O estado do reloxo (parado ou non)"
 #: kstars.kcfg:911
 #, kde-format
 msgid "Use symbols to label observing list objects"
-msgstr ""
-"Empregar unha lenda con símbolos para os obxectos da lista de observación"
+msgstr "Usar unha lenda con símbolos para os obxectos da lista de observación"
 
 #. i18n: ectx: whatsthis, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:912
@@ -34110,7 +34107,7 @@ msgstr "Os obxectos na lista de observación realzaranse cun símbolo."
 #: kstars.kcfg:916
 #, kde-format
 msgid "Use text to label observing list objects"
-msgstr "Empregar unha lenda de texto para os obxectos da lista de observación"
+msgstr "Usar unha lenda de texto para os obxectos da lista de observación"
 
 #. i18n: ectx: whatsthis, entry (ObsListText), group (ObservingList)
 #: kstars.kcfg:917
@@ -34730,32 +34727,32 @@ msgstr "Altura da xanela do xplanet"
 #: kstars.kcfg:1165 xplanet/opsxplanet.ui:784
 #, kde-format
 msgid "Show label"
-msgstr "Mostrar a etiqueta"
+msgstr "Amosar a etiqueta"
 
 #. i18n: ectx: whatsthis, entry (XplanetLabel), group (Xplanet)
 #: kstars.kcfg:1166
 #, kde-format
 msgid "If true, display a label in the upper right corner."
-msgstr "Se é verdadeiro, mostrar unha etiqueta no recanto superior dereito."
+msgstr "Se é verdadeiro, amosar unha etiqueta no recanto superior dereito."
 
 #. i18n: ectx: label, entry (XplanetLabelLocalTime), group (Xplanet)
 #. i18n: ectx: label, entry (XplanetLabelGMT), group (Xplanet)
 #: kstars.kcfg:1170 kstars.kcfg:1175
 #, kde-format
 msgid "Show GMT label"
-msgstr "Mostrar a etiqueta GMT"
+msgstr "Amosar a etiqueta GMT"
 
 #. i18n: ectx: whatsthis, entry (XplanetLabelLocalTime), group (Xplanet)
 #: kstars.kcfg:1171
 #, kde-format
 msgid "Show local time."
-msgstr "Mostrar a hora local."
+msgstr "Amosar a hora local."
 
 #. i18n: ectx: whatsthis, entry (XplanetLabelGMT), group (Xplanet)
 #: kstars.kcfg:1176
 #, kde-format
 msgid "Show GMT instead of local time."
-msgstr "Mostrar a hora GMT no canto da local."
+msgstr "Amosar a hora GMT no canto da local."
 
 #. i18n: ectx: label, entry (XplanetLabelString), group (Xplanet)
 #: kstars.kcfg:1180
@@ -34941,14 +34938,14 @@ msgid ""
 "option is specified, although shadows will still be drawn."
 msgstr ""
 "De maneira predeterminada non hai proxección. Se se indica esta opción, non "
-"se mostran varios corpos, aínda que si as súas sombras."
+"se amosan varios corpos, aínda que si as súas sombras."
 
 #. i18n: ectx: label, entry (XplanetBackground), group (Xplanet)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetBackground)
 #: kstars.kcfg:1246 xplanet/opsxplanet.ui:1024
 #, kde-format
 msgid "Use background"
-msgstr "Empregar un fondo"
+msgstr "Usar un fondo"
 
 #. i18n: ectx: whatsthis, entry (XplanetBackground), group (Xplanet)
 #: kstars.kcfg:1247
@@ -34958,21 +34955,21 @@ msgid ""
 "it. This option is only meaningful with the -projection option. A color may "
 "also be supplied."
 msgstr ""
-"Empregar un ficheiro como imaxe de fondo, co planeta que se quere sobrepor "
-"sobre el. Esta opción só ten sentido coa opción -projection. Tamén se pode "
-"indicar unha cor."
+"Usar un ficheiro como imaxe de fondo, co planeta que se quere sobrepor sobre "
+"el. Esta opción só ten sentido coa opción -projection. Tamén se pode indicar "
+"unha cor."
 
 #. i18n: ectx: label, entry (XplanetBackgroundImage), group (Xplanet)
 #: kstars.kcfg:1251
 #, kde-format
 msgid "Use background image"
-msgstr "Empregar unha imaxe de fondo"
+msgstr "Usar unha imaxe de fondo"
 
 #. i18n: ectx: whatsthis, entry (XplanetBackgroundImage), group (Xplanet)
 #: kstars.kcfg:1252
 #, kde-format
 msgid "Use a file as the background image."
-msgstr "Empregar un ficheiro como imaxe de fondo."
+msgstr "Usar un ficheiro como imaxe de fondo."
 
 #. i18n: ectx: label, entry (XplanetBackgroundImagePath), group (Xplanet)
 #: kstars.kcfg:1256
@@ -34990,13 +34987,13 @@ msgstr "A ruta á imaxe de fondo."
 #: kstars.kcfg:1261
 #, kde-format
 msgid "Use background color"
-msgstr "Empregar unha cor de fondo"
+msgstr "Usar unha cor de fondo"
 
 #. i18n: ectx: whatsthis, entry (XplanetBackgroundColor), group (Xplanet)
 #: kstars.kcfg:1262
 #, kde-format
 msgid "Use a color as the background."
-msgstr "Empregar unha cor como fondo."
+msgstr "Usar unha cor como fondo."
 
 #. i18n: ectx: label, entry (XplanetBackgroundColorValue), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_XplanetBackgroundColorValue)
@@ -35041,8 +35038,8 @@ msgstr "Ficheiro arc"
 #, kde-format
 msgid "If checked, use an arc file to be plotted against the background stars."
 msgstr ""
-"Marque esta opción para empregar un ficheiro arc para debuxar contra as "
-"estrelas do fondo."
+"Marque esta opción para usar un ficheiro arc para debuxar contra as estrelas "
+"do fondo."
 
 #. i18n: ectx: label, entry (XplanetArcFilePath), group (Xplanet)
 #: kstars.kcfg:1281
@@ -35067,7 +35064,7 @@ msgstr "Ficheiro de configuración"
 #: kstars.kcfg:1287
 #, kde-format
 msgid "If checked, use a config file."
-msgstr "Marque esta opción para empregar un ficheiro de configuración."
+msgstr "Marque esta opción para usar un ficheiro de configuración."
 
 #. i18n: ectx: label, entry (XplanetConfigFilePath), group (Xplanet)
 #: kstars.kcfg:1291
@@ -35079,7 +35076,7 @@ msgstr "Ruta ao ficheiro de configuración"
 #: kstars.kcfg:1292
 #, kde-format
 msgid "Use the specified configuration file."
-msgstr "Empregar o ficheiro de configuración indicado."
+msgstr "Usar o ficheiro de configuración indicado."
 
 #. i18n: ectx: label, entry (XplanetFOV), group (Xplanet)
 #: kstars.kcfg:1296
@@ -35093,20 +35090,20 @@ msgstr "Empregar o FOV do kstars"
 #: kstars.kcfg:1297 xplanet/opsxplanet.ui:239
 #, kde-format
 msgid "If checked, use kstars's FOV."
-msgstr "Marque esta opción para empregar o FOV do kstars."
+msgstr "Marque esta opción para usar o FOV do kstars."
 
 #. i18n: ectx: label, entry (XplanetMarkerFile), group (Xplanet)
 #: kstars.kcfg:1301
 #, kde-format
 msgid "Use marker file"
-msgstr "Empregar un ficheiro de marcadores"
+msgstr "Usar un ficheiro de marcadores"
 
 #. i18n: ectx: whatsthis, entry (XplanetMarkerFile), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetMarkerFile)
 #: kstars.kcfg:1302 xplanet/opsxplanet.ui:810
 #, kde-format
 msgid "If checked, use the specified marker file."
-msgstr "Marque esta opción para empregar o ficheiro de marcadores indicado."
+msgstr "Marque esta opción para usar o ficheiro de marcadores indicado."
 
 #. i18n: ectx: label, entry (XplanetMarkerFilePath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetMarkerFilePath)
@@ -35123,7 +35120,7 @@ msgid ""
 "background stars."
 msgstr ""
 "Indica un ficheiro que conteña datos de marcadores definidos polo usuario "
-"para mostrar contra as estrelas do fondo."
+"para amosar contra as estrelas do fondo."
 
 #. i18n: ectx: label, entry (XplanetMarkerBounds), group (Xplanet)
 #: kstars.kcfg:1311
@@ -35168,8 +35165,8 @@ msgstr "Mapa estelar"
 #, kde-format
 msgid "If checked, use star map file to draw the background stars."
 msgstr ""
-"Marque esta opción para empregar un ficheiro cun mapa estelar para debuxar "
-"as estrelas do fondo."
+"Marque esta opción para usar un ficheiro cun mapa estelar para debuxar as "
+"estrelas do fondo."
 
 #. i18n: ectx: label, entry (XplanetStarmapPath), group (Xplanet)
 #. i18n: ectx: whatsthis, entry (XplanetStarmapPath), group (Xplanet)
@@ -35195,27 +35192,27 @@ msgid ""
 "This option is only used when creating JPEG images. The quality can range "
 "from 0 to 100. The default value is 80."
 msgstr ""
-"Esta opción só se emprega ao crear imaxes JPEG. A calidade pode variar entre "
-"0 e 100. De maneira predeterminada é 80."
+"Esta opción só se usa ao crear imaxes JPEG. A calidade pode variar entre 0 e "
+"100. De maneira predeterminada é 80."
 
 #. i18n: ectx: label, entry (ShowSatellites), group (Satellites)
 #: kstars.kcfg:1338
 #, kde-format
 msgid "Draw satellites in the sky map?"
-msgstr "Mostrar os satélites no mapa celeste?"
+msgstr "Amosar os satélites no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellites), group (Satellites)
 #. i18n: ectx: whatsthis, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1339 kstars.kcfg:1344
 #, kde-format
 msgid "Toggle whether satellite tracks are drawn in the sky map."
-msgstr "Indica se deben mostrarse os traxectos dos satélites no mapa celeste."
+msgstr "Indica se deben amosarse os traxectos dos satélites no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1343
 #, kde-format
 msgid "Draw only visible satellites in the sky map"
-msgstr "Mostrar só os satélites visíbeis no mapa celeste"
+msgstr "Amosar só os satélites visíbeis no mapa celeste"
 
 #. i18n: ectx: label, entry (DrawSatellitesLikeStars), group (Satellites)
 #. i18n: ectx: whatsthis, entry (DrawSatellitesLikeStars), group (Satellites)
@@ -35232,13 +35229,13 @@ msgstr ""
 #: kstars.kcfg:1353
 #, kde-format
 msgid "Draw satellite labels?"
-msgstr "Mostrar os nomes dos satélites?"
+msgstr "Amosar os nomes dos satélites?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1354
 #, kde-format
 msgid "Toggle whether satellite labels are drawn in the sky map."
-msgstr "Indica se deben mostrarse os nomes dos satélites no mapa celeste."
+msgstr "Indica se deben amosarse os nomes dos satélites no mapa celeste."
 
 #. i18n: ectx: label, entry (SelectedSatellites), group (Satellites)
 #: kstars.kcfg:1358
@@ -35289,7 +35286,7 @@ msgstr ""
 "a partir das coordenadas do catálogo (é dicir, aplicación das correccións da "
 "precesión, nutación e aberración) cada vez que se redebuxa o mapa. Isto fai "
 "que o procesamento sexa máis lento cando hai moitas estrelas que xestionar, "
-"pero está máis libre de fallos. Existen fallos coñecidos ao mostrar as "
+"pero está máis libre de fallos. Existen fallos coñecidos ao amosar as "
 "estrelas cando se evita este recálculo."
 
 #. i18n: ectx: label, entry (DefaultDSSImageSize), group (General)
@@ -35465,7 +35462,7 @@ msgstr "Rexistrar a actividade do módulo de observatorio de Ekos."
 #: kstars.kcfg:1451
 #, kde-format
 msgid "Display every image captured in a FITS Viewer window."
-msgstr "Mostrar todas as imaxes capturadas nunha xanela do visor de FITS."
+msgstr "Amosar todas as imaxes capturadas nunha xanela do visor de FITS."
 
 #. i18n: ectx: label, entry (singlePreviewFITS), group (FITSViewer)
 #: kstars.kcfg:1455
@@ -35477,7 +35474,7 @@ msgstr "Previsualizar os FITS nun único separador?"
 #: kstars.kcfg:1460
 #, kde-format
 msgid "Display all captured FITS in one window?"
-msgstr "Mostrar todos os FITS capturados nunha única xanela?"
+msgstr "Amosar todos os FITS capturados nunha única xanela?"
 
 #. i18n: ectx: whatsthis, entry (singleWindowCapturedFITS), group (FITSViewer)
 #: kstars.kcfg:1461
@@ -35486,7 +35483,7 @@ msgid ""
 "Display all captured FITS images in a single FITS Viewer window. By default "
 "each camera create its own FITS Viewer instance"
 msgstr ""
-"Mostrar todas as imaxes FITS capturadas nunha única xanela do visor de FITS. "
+"Amosar todas as imaxes FITS capturadas nunha única xanela do visor de FITS. "
 "De maneira predeterminada, cada cámara crea a súa propia instancia do visor "
 "de FITS."
 
@@ -35494,14 +35491,14 @@ msgstr ""
 #: kstars.kcfg:1465
 #, kde-format
 msgid "Display all opened FITS in one window?"
-msgstr "Mostrar todos os FITS abertos nunha única xanela?"
+msgstr "Amosar todos os FITS abertos nunha única xanela?"
 
 #. i18n: ectx: whatsthis, entry (singleWindowOpenedFITS), group (FITSViewer)
 #: kstars.kcfg:1466
 #, kde-format
 msgid "Display all opened FITS images in a single FITS Viewer window."
 msgstr ""
-"Mostrar todas as imaxes FITS abertas nunha única xanela do visor de FITS."
+"Amosar todas as imaxes FITS abertas nunha única xanela do visor de FITS."
 
 #. i18n: ectx: whatsthis, entry (focusFITSOnNewImage), group (FITSViewer)
 #: kstars.kcfg:1470
@@ -35970,7 +35967,7 @@ msgid ""
 "Sets the time interval before forced autofocus attempts during a capture "
 "sequence."
 msgstr ""
-"Estabelece o intervalo de tempo ata que se forcen os intentos de enfoque "
+"Define o intervalo de tempo ata que se forcen os intentos de enfoque "
 "automático durante a secuencia de captura."
 
 #. i18n: ectx: label, entry (RefocusAfterMeridianFlip), group (Capture)
@@ -36172,7 +36169,7 @@ msgid ""
 "Display every image captured sequence image in the Ekos summary screen "
 "preview window."
 msgstr ""
-"Mostrar todas as imaxes de secuencia capturadas na xanela de vista previa da "
+"Amosar todas as imaxes de secuencia capturadas na xanela de vista previa da "
 "pantalla de resumo de Ekos."
 
 #. i18n: ectx: label, entry (useDSLRImageViewer), group (Capture)
@@ -36180,7 +36177,7 @@ msgstr ""
 #, kde-format
 msgid "Display every captured DSLR image in the Image Viewer window."
 msgstr ""
-"Mostrar todas as imaxes de DSLR capturadas na xanela do visor de imaxes."
+"Amosar todas as imaxes de DSLR capturadas na xanela do visor de imaxes."
 
 #. i18n: ectx: label, entry (ForceDSLRPresets), group (Capture)
 #: kstars.kcfg:1850
@@ -36988,7 +36985,7 @@ msgstr ""
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map."
 msgstr ""
-"Mostrar as imaxes FITS recibidas sobre o rectángulo do campo de visión do "
+"Amosar as imaxes FITS recibidas sobre o rectángulo do campo de visión do "
 "resolvedor no mapa celeste."
 
 #. i18n: ectx: label, entry (AstrometryDifferentialSlewing), group (Align)
@@ -37565,25 +37562,25 @@ msgstr "Limiar de precisión para os gráficos de guía."
 #: kstars.kcfg:2678
 #, kde-format
 msgid "Display the RA Plot on the Guide Drift Graphics."
-msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
+msgstr "Amosar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: label, entry (DEDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2682
 #, kde-format
 msgid "Display the DEC Plot on the Guide Drift Graphics."
-msgstr "Mostrar o gráfico de δ nos gráficos de deriva de guía."
+msgstr "Amosar o gráfico de δ nos gráficos de deriva de guía."
 
 #. i18n: ectx: label, entry (RACorrDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2686
 #, kde-format
 msgid "Display the RA Corrections Plot on the Guide Drift Graphics."
-msgstr "Mostrar o gráfico de correccións de α nos gráficos de deriva de guía."
+msgstr "Amosar o gráfico de correccións de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: label, entry (DECorrDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2690
 #, kde-format
 msgid "Display the DEC Corrections Plot on the Guide Drift Graphics."
-msgstr "Mostrar o gráfico de correccións de δ nos gráficos de deriva de guía."
+msgstr "Amosar o gráfico de correccións de δ nos gráficos de deriva de guía."
 
 #. i18n: ectx: label, entry (SNRDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2694
@@ -38137,7 +38134,7 @@ msgstr "Usar interpolación bilinear ao renderizar imaxes HiPS?"
 #: kstars.kcfg:3031
 #, kde-format
 msgid "Show HiPS grid on the sky map."
-msgstr "Mostrar a grade de HiPS no mapa celeste."
+msgstr "Amosar a grade de HiPS no mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
 #: kstars.kcfg:3035
@@ -65008,193 +65005,193 @@ msgstr "Xúpiter e Io (HST)"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image"
-msgstr "Mostrar a imaxe do APOD"
+msgstr "Amosar a imaxe do APOD"
 
 #: kstars_i18n.cpp:4512
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image (Radar)"
-msgstr "Mostrar a imaxe do APOD (Radar)"
+msgstr "Amosar a imaxe do APOD (Radar)"
 
 #: kstars_i18n.cpp:4513
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image (Venera lander)"
-msgstr "Mostrar a imaxe do APOD (explorador de Venera)"
+msgstr "Amosar a imaxe do APOD (explorador de Venera)"
 
 #: kstars_i18n.cpp:4514
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Collage of Saturn and moons"
-msgstr "Mostrar Saturno e as súas lúas"
+msgstr "Amosar Saturno e as súas lúas"
 
 #: kstars_i18n.cpp:4515
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image"
-msgstr "Mostrar a imaxe do HST"
+msgstr "Amosar a imaxe do HST"
 
 #: kstars_i18n.cpp:4516
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1995)"
-msgstr "Mostrar a imaxe do HST (1995)"
+msgstr "Amosar a imaxe do HST (1995)"
 
 #: kstars_i18n.cpp:4517
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1996)"
-msgstr "Mostrar a imaxe do HST (1996)"
+msgstr "Amosar a imaxe do HST (1996)"
 
 #: kstars_i18n.cpp:4518
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1998)"
-msgstr "Mostrar a imaxe do HST (1998)"
+msgstr "Amosar a imaxe do HST (1998)"
 
 #: kstars_i18n.cpp:4519
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1999)"
-msgstr "Mostrar a imaxe do HST (1999)"
+msgstr "Amosar a imaxe do HST (1999)"
 
 #: kstars_i18n.cpp:4520
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2001)"
-msgstr "Mostrar a imaxe do HST (2001)"
+msgstr "Amosar a imaxe do HST (2001)"
 
 #: kstars_i18n.cpp:4521
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2002)"
-msgstr "Mostrar a imaxe do HST (2002)"
+msgstr "Amosar a imaxe do HST (2002)"
 
 #: kstars_i18n.cpp:4522
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2003)"
-msgstr "Mostrar a imaxe do HST (2003)"
+msgstr "Amosar a imaxe do HST (2003)"
 
 #: kstars_i18n.cpp:4523
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2004)"
-msgstr "Mostrar a imaxe do HST (2004)"
+msgstr "Amosar a imaxe do HST (2004)"
 
 #: kstars_i18n.cpp:4524
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Aurora)"
-msgstr "Mostrar a imaxe do HST (Aurora)"
+msgstr "Amosar a imaxe do HST (Aurora)"
 
 #: kstars_i18n.cpp:4525
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (detail)"
-msgstr "Mostrar a imaxe do HST (detalle)"
+msgstr "Amosar a imaxe do HST (detalle)"
 
 #: kstars_i18n.cpp:4526
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Detail)"
-msgstr "Mostrar a imaxe do HST (Detalle)"
+msgstr "Amosar a imaxe do HST (Detalle)"
 
 #: kstars_i18n.cpp:4527
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Hubble V)"
-msgstr "Mostrar a imaxe do HST (Hubble V)"
+msgstr "Amosar a imaxe do HST (Hubble V)"
 
 #: kstars_i18n.cpp:4528
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Hubble X)"
-msgstr "Mostrar a imaxe do HST (Hubble X)"
+msgstr "Amosar a imaxe do HST (Hubble X)"
 
 #: kstars_i18n.cpp:4529
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (SN 2004dj)"
-msgstr "Mostrar a imaxe do HST (SN 2004dj)"
+msgstr "Amosar a imaxe do HST (SN 2004dj)"
 
 #: kstars_i18n.cpp:4530
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (stars in M 31)"
-msgstr "Mostrar a imaxe do HST (estrelas de M 31)"
+msgstr "Amosar a imaxe do HST (estrelas de M 31)"
 
 #: kstars_i18n.cpp:4531
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST (Rings and Moons)"
-msgstr "Mostrar a imaxe do HST (aneis e lúas)"
+msgstr "Amosar a imaxe do HST (aneis e lúas)"
 
 #: kstars_i18n.cpp:4532
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show KPNO AOP Image"
-msgstr "Mostrar a imaxe AOP do KPNO"
+msgstr "Amosar a imaxe AOP do KPNO"
 
 #: kstars_i18n.cpp:4533
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show MGS Image"
-msgstr "Mostrar a imaxe da MGS"
+msgstr "Amosar a imaxe da MGS"
 
 #: kstars_i18n.cpp:4534
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NASA Mosaic"
-msgstr "Mostrar mosaico da NASA"
+msgstr "Amosar mosaico da NASA"
 
 #: kstars_i18n.cpp:4535
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image"
-msgstr "Mostrar a imaxe da NOAO"
+msgstr "Amosar a imaxe da NOAO"
 
 #: kstars_i18n.cpp:4536
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image (Halpha)"
-msgstr "Mostrar a imaxe da NOAO (Halpha)"
+msgstr "Amosar a imaxe da NOAO (Halpha)"
 
 #: kstars_i18n.cpp:4537
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image (Optical)"
-msgstr "Mostrar a imaxe da NOAO (Óptica)"
+msgstr "Amosar a imaxe da NOAO (Óptica)"
 
 #: kstars_i18n.cpp:4538
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show SEDS Image"
-msgstr "Mostrar a imaxe de SEDS"
+msgstr "Amosar a imaxe de SEDS"
 
 #: kstars_i18n.cpp:4539
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Spitzer Image"
-msgstr "Mostrar a imaxe de Spitzer"
+msgstr "Amosar a imaxe de Spitzer"
 
 #: kstars_i18n.cpp:4540
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Sun Image"
-msgstr "Mostrar a imaxe do Sol"
+msgstr "Amosar a imaxe do Sol"
 
 #: kstars_i18n.cpp:4541
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Viking Lander Image"
-msgstr "Mostrar a imaxe da Viking Lander"
+msgstr "Amosar a imaxe da Viking Lander"
 
 #: kstars_i18n.cpp:4542
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Voyager 1 Image"
-msgstr "Mostrar a imaxe da Voyager 1"
+msgstr "Amosar a imaxe da Voyager 1"
 
 #: kstars_i18n.cpp:4543
 #, kde-kuit-format
@@ -67294,9 +67291,9 @@ msgid ""
 "uses a white background. Would you like to temporarily switch to the Star "
 "Chart color scheme for printing?"
 msgstr ""
-"Pode aforrar tinta de impresora empregando o esquema de cores «Carta "
-"estelar», que utiliza un fondo branco. Quere cambiar temporalmente para ese "
-"esquema de cores para imprimir?"
+"Pode aforrar tinta de impresora usando o esquema de cores «Carta estelar», "
+"que utiliza un fondo branco. Quere cambiar temporalmente para ese esquema de "
+"cores para imprimir?"
 
 #: kstarsactions.cpp:1435
 #, kde-format
@@ -67728,55 +67725,55 @@ msgstr "&Gnomónica"
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
-msgstr "Mostrar paneis &informativos"
+msgstr "Amosar paneis &informativos"
 
 #: kstarsinit.cpp:299
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
-msgstr "Mostrar caixa de &tempo"
+msgstr "Amosar caixa de &tempo"
 
 #: kstarsinit.cpp:306
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
-msgstr "Mostrar caixa de &foco"
+msgstr "Amosar caixa de &foco"
 
 #: kstarsinit.cpp:313
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
-msgstr "Mostrar caixa de &localización"
+msgstr "Amosar caixa de &localización"
 
 #: kstarsinit.cpp:320
 #, kde-format
 msgid "Show Main Toolbar"
-msgstr "Mostrar a barra de ferramentas principal"
+msgstr "Amosar a barra de ferramentas principal"
 
 #: kstarsinit.cpp:322
 #, kde-format
 msgid "Show View Toolbar"
-msgstr "Mostrar a barra de ferramentas de vistas"
+msgstr "Amosar a barra de ferramentas de vistas"
 
 #: kstarsinit.cpp:326
 #, kde-format
 msgid "Show Statusbar"
-msgstr "Mostrar a barra de estado"
+msgstr "Amosar a barra de estado"
 
 #: kstarsinit.cpp:327
 #, kde-format
 msgid "Show Az/Alt Field"
-msgstr "Mostrar o campo A/a"
+msgstr "Amosar o campo A/a"
 
 #: kstarsinit.cpp:328
 #, kde-format
 msgid "Show RA/Dec Field"
-msgstr "Mostrar o campo de α/δ"
+msgstr "Amosar o campo de α/δ"
 
 #: kstarsinit.cpp:329
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
-msgstr "Mostrar o campo de α/δ J2000.0"
+msgstr "Amosar o campo de α/δ J2000.0"
 
 #: kstarsinit.cpp:337
 #, kde-format
@@ -67970,11 +67967,11 @@ msgid ""
 "For time steps larger than 10 minutes, frames are displayed at an interval "
 "of 'X'."
 msgstr ""
-"Emprega isto para configurar a velocidade á que flúe o tempo na simulación.\n"
+"Usa isto para configurar a velocidade á que flúe o tempo na simulación.\n"
 "Nos pasos de tempo «X» de ata 10 minutos, o tempo pasa á velocidade de «X» "
 "por segundo.\n"
-"En pasos de tempo maiores de 10 minutos, as imaxes móstranse nun intervalo "
-"de «X»."
+"En pasos de tempo maiores de 10 minutos, as imaxes amósanse nun intervalo de "
+"«X»."
 
 #: kstarsinit.cpp:539
 #, kde-format
@@ -68653,7 +68650,7 @@ msgstr ""
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:96
 #, kde-kuit-format
 msgid "Failed to set location"
-msgstr "Non se puido estabelecer o lugar"
+msgstr "Non se puido definir o lugar"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:71
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:100
@@ -68665,7 +68662,7 @@ msgstr "Estabeleceuse o lugar"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:102
 #, kde-kuit-format
 msgid "Could not set your location"
-msgstr "Non se puido estabelecer o seu lugar"
+msgstr "Non se puido definir o seu lugar"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:76
 #, kde-kuit-format
@@ -68799,7 +68796,7 @@ msgstr "Non se puido editar a cidade"
 #: kstarslite/qml/dialogs/LocationDialog.qml:14
 #, kde-kuit-format
 msgid "Set Geolocation"
-msgstr "Estabelecer o lugar xeográfico"
+msgstr "Definir o lugar xeográfico"
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:39
 #, kde-kuit-format
@@ -68834,17 +68831,17 @@ msgstr "Ver o recurso"
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:58
 #, kde-kuit-format
 msgid "Set as my location"
-msgstr "Estabelecer como o meu lugar"
+msgstr "Definir como o meu lugar"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:61
 #, kde-kuit-format
 msgid "Set %1 as the current location"
-msgstr "Estabelecer %1 como o lugar actual"
+msgstr "Definir %1 como o lugar actual"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:63
 #, kde-kuit-format
 msgid "Could not set as the current location"
-msgstr "Non se puido estabelecer como o lugar actual"
+msgstr "Non se puido definir como o lugar actual"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:70
 #, kde-kuit-format
@@ -69501,12 +69498,12 @@ msgid ""
 "time and start time simulation"
 msgstr ""
 "Tocar esta frecha permítelle acceder ao menú inferior desde o que pode "
-"estabelecer a hora e a hora de inicio da simulación"
+"definir a hora e a hora de inicio da simulación"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep5.qml:18
 #, kde-kuit-format
 msgid "Set Location"
-msgstr "Estabelecer o lugar"
+msgstr "Definir o lugar"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep5.qml:19
 #, kde-kuit-format
@@ -72051,25 +72048,25 @@ msgstr "Serie"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Set Register"
-msgstr "Estabelecer o rexistro"
+msgstr "Definir o rexistro"
 
 #: libindi_strings.cpp:422
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Set home"
-msgstr "Estabelecer o lar"
+msgstr "Definir o lar"
 
 #: libindi_strings.cpp:423
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Set register"
-msgstr "Estabelecer o rexistro"
+msgstr "Definir o rexistro"
 
 #: libindi_strings.cpp:424
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Set"
-msgstr "Estabelecer"
+msgstr "Definir"
 
 #: libindi_strings.cpp:425
 #, kde-kuit-format
@@ -73912,7 +73909,7 @@ msgstr ""
 "a partir das coordenadas do catálogo (é dicir, aplicación das correccións da "
 "precesión, nutación e aberración) cada vez que se redebuxa o mapa. Isto fai "
 "que o procesamento sexa máis lento cando hai moitas estrelas que xestionar, "
-"pero está máis libre de fallos. Existen fallos coñecidos ao mostrar as "
+"pero está máis libre de fallos. Existen fallos coñecidos ao amosar as "
 "estrelas cando se evita este recálculo."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageryGroupBox)
@@ -73986,7 +73983,7 @@ msgstr "Velocidade de ampliación:"
 #: options/opsadvanced.ui:466 options/opsadvanced.ui:521
 #, kde-format
 msgid "Show name label of centered object?"
-msgstr "Mostrar unha lenda co nome do obxecto centrado?"
+msgstr "Amosar unha lenda co nome do obxecto centrado?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseAutoLabel)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseHoverLabel)
@@ -74077,7 +74074,7 @@ msgstr "Cursor predeterminado:"
 #: options/opsadvanced.ui:590
 #, kde-format
 msgid "Show slewing motion when focus changes?"
-msgstr "Quere mostrar unha animación ao cambiar o foco?"
+msgstr "Quere amosar unha animación ao cambiar o foco?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:593
@@ -74169,7 +74166,7 @@ msgstr "Mostrar estrelas menos visíbeis que"
 #, kde-format
 msgid "Stars fainter than this will not be drawn while the map is moving."
 msgstr ""
-"As estrelas menos visíbeis que isto non son mostradas cando o mapa estea en "
+"As estrelas menos visíbeis que isto non son amosadas cando o mapa estea en "
 "movemento."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HidePlanets)
@@ -74338,13 +74335,13 @@ msgstr "Densidade das estrelas:"
 #: options/opscatalog.ui:129
 #, kde-format
 msgid "Show &name"
-msgstr "Mostrar o &nome"
+msgstr "Amosar o &nome"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowStarMagnitudes)
 #: options/opscatalog.ui:139
 #, kde-format
 msgid "Show ma&gnitude"
-msgstr "Mostrar a &magnitude"
+msgstr "Amosar a &magnitude"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelDensity)
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)
@@ -74377,19 +74374,19 @@ msgstr ""
 #: options/opscatalog.ui:428
 #, kde-format
 msgid "Show na&me"
-msgstr "Mostrar o no&me"
+msgstr "Amosar o no&me"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DeepSkyLongLabels)
 #: options/opscatalog.ui:461
 #, kde-format
 msgid "Show &long names"
-msgstr "Mostrar os nomes &longos"
+msgstr "Amosar os nomes &longos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSkyMagnitudes)
 #: options/opscatalog.ui:507
 #, kde-format
 msgid "Show magni&tude"
-msgstr "Mostrar a magni&tude"
+msgstr "Amosar a magni&tude"
 
 #. i18n: ectx: property (text), widget (QPushButton, manageButton)
 #: options/opscatalog.ui:593
@@ -74504,7 +74501,7 @@ msgstr ""
 #: options/opscatalog.ui:736
 #, kde-format
 msgid "Show objects of unknown magnitude"
-msgstr "Mostrar os obxectos de magnitude descoñecida."
+msgstr "Amosar os obxectos de magnitude descoñecida."
 
 #: options/opscolors.cpp:61 tools/scriptbuilder.cpp:744
 #, kde-format
@@ -74650,9 +74647,9 @@ msgid ""
 "color.  You may also choose to draw the stars as solid white, red, or black "
 "circles, to match the needs of your overall color scheme."
 msgstr ""
-"Hai catro formas de mostrar as estrelas no mapa. De maneira predeterminada, "
+"Hai catro formas de amosar as estrelas no mapa. De maneira predeterminada, "
 "as estrelas son círculos cun núcleo branco e un contorno pintado para "
-"reflectir a cor real da estrela. Tamén se pode optar por mostrar as estrelas "
+"reflectir a cor real da estrela. Tamén se pode optar por amosar as estrelas "
 "como círculos brancos, vermellos ou negros, segundo as necesidades do "
 "esquema de cores global."
 
@@ -74828,7 +74825,7 @@ msgstr "Imaxe do guieiro"
 #: options/opsguides.ui:23
 #, kde-format
 msgid "Show constellation lines?"
-msgstr "Quere mostrar as liñas das constelacións?"
+msgstr "Quere amosar as liñas das constelacións?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:26
@@ -74885,14 +74882,14 @@ msgstr "Realzar os limiares da constelación central"
 #: options/opsguides.ui:88
 #, kde-format
 msgid "Draw constellation names?"
-msgstr "Quere mostrar os nomes das constelacións?"
+msgstr "Quere amosar os nomes das constelacións?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCNames)
 #: options/opsguides.ui:91
 #, kde-format
 msgid "If checked, constellation names will be drawn on the sky map."
 msgstr ""
-"Marque esta opción para que se mostren os nomes das constelacións no mapa "
+"Marque esta opción para que se amosen os nomes das constelacións no mapa "
 "celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCNames)
@@ -74982,7 +74979,7 @@ msgid ""
 "great circle on the sky that the Sun appears to follow over the course of "
 "one year.  All other solar system bodies roughly follow the ecliptic as well."
 msgstr ""
-"Marque esta opción para que a eclíptica se mostre no mapa celeste. A "
+"Marque esta opción para que a eclíptica se amose no mapa celeste. A "
 "eclíptica é unha grande circunferencia no ceo que o Sol parece percorrer no "
 "decurso dun ano. Todos os outros corpos do sistema solar tamén seguen a "
 "eclíptica."
@@ -75022,7 +75019,7 @@ msgstr "Quere ver o horizonte?"
 msgid ""
 "If checked, a line representing the local horizon will be drawn on the map."
 msgstr ""
-"Marque esta opción para que se mostre unha liña que represente o horizonte "
+"Marque esta opción para que se amose unha liña que represente o horizonte "
 "local no mapa."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizon)
@@ -75043,7 +75040,7 @@ msgstr "Quere ver o contorno da Vía Láctea?"
 msgid ""
 "If checked, a contour representing the Milky Way will be drawn on the sky map"
 msgstr ""
-"Marque esta opción para que se mostre no mapa un contorno que representa a "
+"Marque esta opción para que se amose no mapa un contorno que representa a "
 "Vía Láctea"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowMilkyWay)
@@ -75073,7 +75070,7 @@ msgstr "Escoller automaticamente a grade de coordenadas"
 #: options/opsguides.ui:278
 #, kde-format
 msgid "Draw flags?"
-msgstr "Mostrar as bandeiras?"
+msgstr "Amosar as bandeiras?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowFlags)
 #: options/opsguides.ui:281
@@ -75085,7 +75082,7 @@ msgstr "Marque esta opción para que se debuxen bandeiras no mapa celeste."
 #: options/opsguides.ui:294
 #, kde-format
 msgid "Draw equatorial coordinate grid?"
-msgstr "Mostrar a grade de coordenadas ecuatoriais?"
+msgstr "Amosar a grade de coordenadas ecuatoriais?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:297
@@ -75094,7 +75091,7 @@ msgid ""
 "If checked, a grid of lines will be drawn every 2 hours in Right Ascension "
 "and every 20 degrees in Declination."
 msgstr ""
-"Marque esta opción para mostrar unha grade de liñas a cada dúas horas na "
+"Marque esta opción para amosar unha grade de liñas a cada dúas horas na "
 "ascensión recta (α) e a cada 20 graos na declinación (δ)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquatorialGrid)
@@ -75116,7 +75113,7 @@ msgid ""
 "If checked, a grid of lines will be drawn every 30 degrees in Azimuth and "
 "every 20 degrees in Altitude."
 msgstr ""
-"Marque esta opción para que se mostre unha grade de liñas a cada 30 graos no "
+"Marque esta opción para que se amose unha grade de liñas a cada 30 graos no "
 "acimut e a cada 20 graos na altitude."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizontalGrid)
@@ -75197,25 +75194,25 @@ msgstr "Ver as opcións"
 #: options/opssatellites.ui:30
 #, kde-format
 msgid "Show satellites"
-msgstr "Mostrar os satélites"
+msgstr "Amosar os satélites"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowVisibleSatellites)
 #: options/opssatellites.ui:40
 #, kde-format
 msgid "Show only visible satellites"
-msgstr "Mostrar só os satélites visíbeis"
+msgstr "Amosar só os satélites visíbeis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSatellitesLabels)
 #: options/opssatellites.ui:54
 #, kde-format
 msgid "Show labels"
-msgstr "Mostrar as etiquetas"
+msgstr "Amosar as etiquetas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawSatellitesLikeStars)
 #: options/opssatellites.ui:64
 #, kde-format
 msgid "Draw satellites like stars"
-msgstr "Mostrar os satélites como estrelas"
+msgstr "Amosar os satélites como estrelas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: options/opssatellites.ui:79
@@ -75240,7 +75237,7 @@ msgstr "Actualizar os TLE"
 #: options/opssolarsystem.ui:32
 #, kde-format
 msgid "Show solar system objects"
-msgstr "Mostrar os obxectos do Sistema Solar"
+msgstr "Amosar os obxectos do Sistema Solar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, MajorBodiesBox)
 #: options/opssolarsystem.ui:42
@@ -75252,7 +75249,7 @@ msgstr "O Sol, a Lúa e os planetas"
 #: options/opssolarsystem.ui:50
 #, kde-format
 msgid "Draw Saturn?"
-msgstr "Quere que se mostre Saturno?"
+msgstr "Quere que se amose Saturno?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSaturn)
 #: options/opssolarsystem.ui:53
@@ -75264,7 +75261,7 @@ msgstr "Marque esta opción para que Saturno se debuxe no mapa."
 #: options/opssolarsystem.ui:66
 #, kde-format
 msgid "Draw major bodies as images?"
-msgstr "Quere que se mostren os corpos principais como imaxes?"
+msgstr "Quere que se amosen os corpos principais como imaxes?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowPlanetImages)
 #: options/opssolarsystem.ui:69
@@ -75273,8 +75270,8 @@ msgid ""
 "If checked, then the planets, the Sun and the Moon will be shown as bitmap "
 "images on the map"
 msgstr ""
-"Marque esta opción para que os planetas, o Sol e a Lúa se mostren como "
-"imaxes de mapa de bits no mapa."
+"Marque esta opción para que os planetas, o Sol e a Lúa se amosen como imaxes "
+"de mapa de bits no mapa."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPlanetImages)
 #: options/opssolarsystem.ui:72
@@ -75286,7 +75283,7 @@ msgstr "Utilizar imaxes"
 #: options/opssolarsystem.ui:79
 #, kde-format
 msgid "Draw Mars?"
-msgstr "Quere mostrar Marte?"
+msgstr "Quere amosar Marte?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowMars)
 #: options/opssolarsystem.ui:82
@@ -75362,7 +75359,7 @@ msgstr "Non escoller nada"
 #: options/opssolarsystem.ui:134
 #, kde-format
 msgid "Draw Venus?"
-msgstr "Quere mostrar Venus?"
+msgstr "Quere amosar Venus?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowVenus)
 #: options/opssolarsystem.ui:137
@@ -75374,7 +75371,7 @@ msgstr "Marque esta opción para que Venus se debuxe no mapa."
 #: options/opssolarsystem.ui:150
 #, kde-format
 msgid "Draw the Sun?"
-msgstr "Quere mostrar o Sol?"
+msgstr "Quere amosar o Sol?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSun)
 #: options/opssolarsystem.ui:153
@@ -75392,7 +75389,7 @@ msgstr "O sol"
 #: options/opssolarsystem.ui:166
 #, kde-format
 msgid "Draw Jupiter?"
-msgstr "Quere mostrar Xúpiter?"
+msgstr "Quere amosar Xúpiter?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:169
@@ -75404,7 +75401,7 @@ msgstr "Marque esta opción para que Xúpiter se debuxe no mapa."
 #: options/opssolarsystem.ui:182
 #, kde-format
 msgid "Draw the Moon?"
-msgstr "Quere mostrar a Lúa?"
+msgstr "Quere amosar a Lúa?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowMoon)
 #: options/opssolarsystem.ui:185
@@ -75422,7 +75419,7 @@ msgstr "A Lúa"
 #: options/opssolarsystem.ui:198
 #, kde-format
 msgid "Draw Mercury?"
-msgstr "Quere mostrar Mercurio?"
+msgstr "Quere amosar Mercurio?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:201
@@ -75434,7 +75431,7 @@ msgstr "Marque esta opción para que Mercurio se debuxe no mapa."
 #: options/opssolarsystem.ui:214
 #, kde-format
 msgid "Draw Neptune?"
-msgstr "Quere mostrar Neptuno?"
+msgstr "Quere amosar Neptuno?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowNeptune)
 #: options/opssolarsystem.ui:217
@@ -75446,7 +75443,7 @@ msgstr "Marque esta opción para que Neptuno se debuxe no mapa."
 #: options/opssolarsystem.ui:246
 #, kde-format
 msgid "Draw Uranus?"
-msgstr "Quere mostrar Urano?"
+msgstr "Quere amosar Urano?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowUranus)
 #: options/opssolarsystem.ui:249
@@ -75471,7 +75468,7 @@ msgstr "Descargar os asteroides máis brillantes que"
 #: options/opssolarsystem.ui:298
 #, kde-format
 msgid "Draw asteroids?"
-msgstr "Quere mostrar os asteroides?"
+msgstr "Quere amosar os asteroides?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAsteroids)
 #: options/opssolarsystem.ui:301
@@ -75483,7 +75480,7 @@ msgstr "Marque esta opción para que os asteroides se debuxen no mapa."
 #: options/opssolarsystem.ui:314
 #, kde-format
 msgid "Draw comets?"
-msgstr "Quere mostrar os cometas?"
+msgstr "Quere amosar os cometas?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowComets)
 #: options/opssolarsystem.ui:317
@@ -75509,7 +75506,7 @@ msgstr "Mostrar os asteroides máis brillantes que"
 #: options/opssolarsystem.ui:366
 #, kde-format
 msgid "Show names of comets near the Sun"
-msgstr "Mostrar os nomes dos cometas que estean preto do Sol"
+msgstr "Amosar os nomes dos cometas que estean preto do Sol"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:369
@@ -75540,7 +75537,7 @@ msgstr "Indica a magnitude mínima para debuxar os asteroides"
 #: options/opssolarsystem.ui:428
 #, kde-format
 msgid "Maximum distance for comet names"
-msgstr "Distancia máxima para mostrar os nomes dos cometa"
+msgstr "Distancia máxima para amosar os nomes dos cometa"
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, kcfg_MaxRadCometName)
 #: options/opssolarsystem.ui:431
@@ -75576,7 +75573,7 @@ msgstr "Marque esta opción para que se conecten lendas co nome dos asteroides."
 #: options/opssolarsystem.ui:471
 #, kde-format
 msgid "Show names"
-msgstr "Mostrar os nomes"
+msgstr "Amosar os nomes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometComas)
 #: options/opssolarsystem.ui:506
@@ -75624,7 +75621,7 @@ msgstr ""
 #: options/opssolarsystem.ui:553
 #, kde-format
 msgid "Always show trail when tracking a solar system body"
-msgstr "Mostrar sempre os rastros ao seguir un corpo do sistema solar"
+msgstr "Amosar sempre os rastros ao seguir un corpo do sistema solar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FadePlanetTrails)
 #: options/opssolarsystem.ui:565
@@ -75706,7 +75703,7 @@ msgstr ""
 #: options/opssupernovae.ui:83
 #, kde-format
 msgid "Show supernovae"
-msgstr "Mostrar as supernovas"
+msgstr "Amosar as supernovas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opssupernovae.ui:106
@@ -76037,7 +76034,7 @@ msgid ""
 "settings or use manual capture mode."
 msgstr ""
 "O saltador de estrelas devolveu unha ruta baleira. Recomendamos cambiar as "
-"opcións de salto entre estrelas ou empregar o modo de captura manual."
+"opcións de salto entre estrelas ou usar o modo de captura manual."
 
 #: printing/printingwizard.cpp:222
 #, kde-format
@@ -76222,7 +76219,7 @@ msgstr ""
 #: printing/pwizfovconfig.ui:126
 #, kde-format
 msgid "Use \"Sky Chart\" color scheme"
-msgstr "Empregar o esquema de cores «Carta celeste»"
+msgstr "Usar o esquema de cores «Carta celeste»"
 
 #. i18n: ectx: property (text), widget (QCheckBox, overrideShapeBox)
 #: printing/pwizfovconfig.ui:136
@@ -76247,7 +76244,7 @@ msgstr ""
 #: printing/pwizfovconfig.ui:179
 #, kde-format
 msgid "Use alpha-blended background"
-msgstr "Empregar un fondo de fusión de alfa"
+msgstr "Usar un fondo de fusión de alfa"
 
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #: printing/pwizfovconfig.ui:188
@@ -76342,7 +76339,7 @@ msgstr "Apuntar o obxecto no mapa celeste"
 #: printing/pwizfovsh.ui:205 printing/pwizobjectselection.ui:232
 #, kde-format
 msgid "Show details..."
-msgstr "Mostrar os detalles…"
+msgstr "Amosar os detalles…"
 
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #: printing/pwizfovsh.ui:242
@@ -76843,17 +76840,17 @@ msgstr "Saltador estelar: Escolle un campo de visión"
 #: skymap.cpp:727
 #, kde-format
 msgid "FOV to use for star hopping:"
-msgstr "FOV que empregar para o salto estelar:"
+msgstr "FOV que usar para o salto estelar:"
 
 #: skymap.cpp:734
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
-msgstr "Saltador estelar: Insire o campo de visión que empregar"
+msgstr "Saltador estelar: Insire o campo de visión que usar"
 
 #: skymap.cpp:735
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
-msgstr "FOV que empregar para o salto estelar (en minutos de arco):"
+msgstr "FOV que usar para o salto estelar (en minutos de arco):"
 
 #: skymap.cpp:902
 #, kde-format
@@ -77050,7 +77047,7 @@ msgstr "Tipo descoñecido"
 #: skyobjects/skyobject.cpp:399
 #, kde-format
 msgid "Show HST Image"
-msgstr "Mostrar a imaxe do HST"
+msgstr "Amosar a imaxe do HST"
 
 #: skyobjects/skyobject.cpp:401
 #, kde-format
@@ -77062,7 +77059,7 @@ msgstr ""
 #: skyobjects/skyobject.cpp:405
 #, kde-format
 msgid "Show Spitzer Image"
-msgstr "Mostrar a imaxe do Spitzer"
+msgstr "Amosar a imaxe do Spitzer"
 
 #: skyobjects/skyobject.cpp:407
 #, kde-format
@@ -77074,7 +77071,7 @@ msgstr ""
 #: skyobjects/skyobject.cpp:411
 #, kde-format
 msgid "Show SEDS Image"
-msgstr "Mostrar a imaxe do SEDS"
+msgstr "Amosar a imaxe do SEDS"
 
 #: skyobjects/skyobject.cpp:413
 #, kde-format
@@ -77084,7 +77081,7 @@ msgstr "%1: SEDS, http://www.seds.org [gratuíto para fins non comerciais]"
 #: skyobjects/skyobject.cpp:417
 #, kde-format
 msgid "Show KPNO AOP Image"
-msgstr "Mostrar a imaxe do AOP do KPNO"
+msgstr "Amosar a imaxe do AOP do KPNO"
 
 #: skyobjects/skyobject.cpp:419
 #, kde-format
@@ -77098,7 +77095,7 @@ msgstr ""
 #: skyobjects/skyobject.cpp:425
 #, kde-format
 msgid "Show NOAO Image"
-msgstr "Mostrar a imaxe dos NOAO"
+msgstr "Amosar a imaxe dos NOAO"
 
 #: skyobjects/skyobject.cpp:428
 #, kde-format
@@ -77121,7 +77118,7 @@ msgstr ""
 #: skyobjects/skyobject.cpp:440
 #, kde-format
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Amosar"
 
 #: skyobjects/skyobject.h:25
 #, kde-format
@@ -77131,7 +77128,7 @@ msgstr "obxecto sen nome"
 #: skyobjects/skypoint.cpp:622
 #, kde-format
 msgid "lat and LST parameters should only be used in KSPlanetBase objects."
-msgstr "O parámetros lat e LST só deben empregarse en obxectos KSPlanetBase."
+msgstr "O parámetros lat e LST só deben usarse en obxectos KSPlanetBase."
 
 #: skyobjects/starobject.cpp:579
 #, kde-format
@@ -77290,7 +77287,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Pódense localizar obxectos no ceo polo nome.\n"
-"\t\tEmprega Ctrl+F, o elemento de menú «Foco->Atopar un obxecto» ou\n"
+"\t\tUsa Ctrl+F, o elemento de menú «Foco->Atopar un obxecto» ou\n"
 "\t\to botón «Atopar» da barra de ferramentas.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -77365,7 +77362,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Existen tres paneis informativos na pantalla que mostran datos\n"
+"\t\t<p>Existen tres paneis informativos na pantalla que amosan datos\n"
 "\t\t\trelacionados coa hora/data, a localización xeográfica e a\n"
 "\t\t\tposición actual no ceo (o foco)? Pódense arrastrar eses paneis co\n"
 "\t\t\trato e agochalos cun duplo-clic.\n"
@@ -77724,7 +77721,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>De maneira predeterminada, as estrelas en KStars son mostradas con "
+"\t\t<p>De maneira predeterminada, as estrelas en KStars son amosadas con "
 "cores realistas.\n"
 "\t\t\tA cor dunha estrela depende da temperatura; as estrelas máis frías "
 "son\n"
@@ -77932,7 +77929,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>A ferramenta do Visor do sistema solar (Ctrl+Y) mostra un panorama\n"
-"\t\t\txeral do sistema solar, mostrando as posicións dos planetas máis\n"
+"\t\t\txeral do sistema solar, amosando as posicións dos planetas máis\n"
 "\t\t\timportantes para a data actual da simulación.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -78036,7 +78033,7 @@ msgstr ""
 "\t\t<p>De maneira predeterminada, KStars inclúe un catálogo de estrelas que "
 "cubre case todas as que teñen unha magnitude inferior ou igual a 8. Pode "
 "descargar catálogos adicionais de estrelas (Tycho-2 e USNO NOMAD) para "
-"mostrar ata 100 millón de estrelas de magnitudes ata 16 usando «Ficheiro → "
+"amosar ata 100 millón de estrelas de magnitudes ata 16 usando «Ficheiro → "
 "Descargar datos novos».\n"
 "\t\t</p>\n"
 "\t\n"
@@ -78097,7 +78094,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>As barras de ferramentas poden agocharse ou mostrarse usando\n"
+"\t\t<p>As barras de ferramentas poden agocharse ou amosarse usando\n"
 "\t\t\to elemento de menú «Configuración->Barras de ferramentas»\n"
 "\t\t</p>\n"
 "\t\n"
@@ -78228,7 +78225,7 @@ msgstr ""
 "axustar o\n"
 "\t\t\tcomportamento de KStars. Pódense indicar correccións atmosféricas de\n"
 "\t\t\trefracción e animación do movemento. Pódese escoller tamén que\n"
-"\t\t\tobxectos mostrar cando a pantalla estea en movemento.\n"
+"\t\t\tobxectos amosar cando a pantalla estea en movemento.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -78475,7 +78472,7 @@ msgstr ""
 "todas as rexións celestes, capturadas co telescopio Oschin Schmidt do Monte "
 "Palomar, e co telescopio Schmidt do Reino Unido. Para acceder á imaxe de DSS "
 "de case calquera rexión celeste desde KStars, faga clic dereito no mapa "
-"celeste e seleccione «Mostrar unha imaxe da DSS».\n"
+"celeste e seleccione «Amosar unha imaxe da DSS».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -78863,7 +78860,7 @@ msgstr ""
 #: tools/argprintimage.ui:22
 #, kde-format
 msgid "Show print dialog"
-msgstr "Mostrar o diálogo de impresión"
+msgstr "Amosar o diálogo de impresión"
 
 #. i18n: ectx: property (text), widget (QCheckBox, UseChartColors)
 #: tools/argprintimage.ui:29
@@ -79052,7 +79049,7 @@ msgstr ""
 "A execución do programa estará en pausa ata que o usuario prema a tecla aquí "
 "indicada.\n"
 "\n"
-"Por agora só poden empregarse teclas simples; non se poden usar as teclas "
+"Por agora só poden usarse teclas simples; non se poden usar as teclas "
 "modificadoras como Ctrl ou Maiúsculas. Escribe «space» para indicar a barra "
 "espazadora, ou usa a propia tecla."
 
@@ -79347,8 +79344,8 @@ msgid ""
 "Maximum separation entered is not a valid angle. Use the What's this help "
 "feature for information on how to enter a valid angle"
 msgstr ""
-"A separación máxima que se inseriu non é un ángulo correcto. Empregue a "
-"axuda «Que é isto» para información sobre como inserir un ángulo correcto"
+"A separación máxima que se inseriu non é un ángulo correcto. Use a axuda "
+"«Que é isto» para información sobre como inserir un ángulo correcto"
 
 #: tools/conjunctions.cpp:261
 #, kde-format
@@ -79428,7 +79425,7 @@ msgstr "Que comecen o:"
 #: tools/conjunctions.ui:88
 #, kde-format
 msgid "Show conjunctions/oppositions for:"
-msgstr "Mostrar as conxuncións/oposicións en:"
+msgstr "Amosar as conxuncións/oposicións en:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/conjunctions.ui:101 tools/eclipsetool.ui:35
@@ -79465,7 +79462,7 @@ msgstr "Ver en SkyMap"
 #: tools/eclipsetool.cpp:133
 #, kde-format
 msgid "Show Details"
-msgstr "Mostrar os detalles"
+msgstr "Amosar os detalles"
 
 #: tools/eclipsetool.cpp:190
 #, kde-format
@@ -79498,7 +79495,7 @@ msgstr "Non se puideron exportar."
 #: tools/eclipsetool.ui:89
 #, kde-format
 msgid "Show eclipses for:"
-msgstr "Mostrar os eclipses de:"
+msgstr "Amosar os eclipses de:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/eclipsetool.ui:191
@@ -80137,7 +80134,7 @@ msgstr "00h 00m 00.0s"
 #: tools/modcalcapcoord.ui:596
 #, kde-format
 msgid "Show in Output File"
-msgstr "Mostrar no ficheiro de saída"
+msgstr "Amosar no ficheiro de saída"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allRadioBatch)
 #. i18n: ectx: property (text), widget (QRadioButton, AllRadioBatch)
@@ -81486,12 +81483,12 @@ msgstr "Vista ocular"
 #: tools/obslistpopupmenu.cpp:66
 #, kde-format
 msgid "Show SDSS image"
-msgstr "Mostrar unha imaxe da SDSS"
+msgstr "Amosar unha imaxe da SDSS"
 
 #: tools/obslistpopupmenu.cpp:67
 #, kde-format
 msgid "Show DSS image"
-msgstr "Mostrar unha imaxe da DSS"
+msgstr "Amosar unha imaxe da DSS"
 
 #: tools/obslistpopupmenu.cpp:68
 #, kde-format
@@ -81501,7 +81498,7 @@ msgstr "Personalizar a descarga de DSS"
 #: tools/obslistpopupmenu.cpp:70
 #, kde-format
 msgid "Show images from web "
-msgstr "Mostrar imaxes da web "
+msgstr "Amosar imaxes da web "
 
 #: tools/obslistpopupmenu.cpp:76
 #, kde-format
@@ -81616,9 +81613,9 @@ msgstr ""
 "<html><head></head><body><p>Escoller os obxectos segundo o tipo</p> <p></p> "
 "<p>Realce na lista de embaixo os tipos de obxecto que quere incluír na lista "
 "de observación. Pode escoller máis dun elemento. Os botóns da dereita poden "
-"empregarse para facer rápido algunhas escollas habituais.</p> <p></p> "
-"<p>Cando remate, prema o botón <span style=\" font-weight:600;\">Seguinte</"
-"span>.</p></body></html>"
+"usarse para facer rápido algunhas escollas habituais.</p> <p></p> <p>Cando "
+"remate, prema o botón <span style=\" font-weight:600;\">Seguinte</span>.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AllButton)
 #: tools/obslistwizard.ui:170
@@ -81724,10 +81721,10 @@ msgid ""
 msgstr ""
 "<html><head></head><body><p>Escoller os obxectos dunha ou varias "
 "constelacións</p> <p></p> <p>Realce na lista de embaixo as constelacións que "
-"quere empregar na lista de observación. Só se incluirán na lista de "
-"observación aqueles obxectos que ocupen as constelacións escollidas.</p> "
-"<p></p> <p>Cando remate, prema <span style=\" font-weight:600;\">Seguinte</"
-"span> para continuar.</p></body></html>"
+"quere usar na lista de observación. Só se incluirán na lista de observación "
+"aqueles obxectos que ocupen as constelacións escollidas.</p> <p></p> "
+"<p>Cando remate, prema <span style=\" font-weight:600;\">Seguinte</span> "
+"para continuar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RectangularRegionText)
 #: tools/obslistwizard.ui:428
@@ -82146,8 +82143,8 @@ msgid ""
 "printing."
 msgstr ""
 "Imprimir a imaxe do ceo nunha impresora ou ficheiro. Se %1 for verdadeiro, "
-"móstrase o diálogo de impresión. Se %2 for verdadeiro, emprégase o esquema "
-"de cores Carta estelar para a impresión."
+"amósase o diálogo de impresión. Se %2 for verdadeiro, úsase o esquema de "
+"cores Carta estelar para a impresión."
 
 #: tools/scriptbuilder.cpp:234
 #, kde-format
@@ -82263,7 +82260,7 @@ msgstr "Conmutar a visibilidade da barra de vistas"
 #: tools/scriptbuilder.cpp:450
 #, kde-format
 msgid "Show Objects"
-msgstr "Mostrar os obxectos"
+msgstr "Amosar os obxectos"
 
 #: tools/scriptbuilder.cpp:451
 #, kde-format
@@ -82283,62 +82280,62 @@ msgstr "Conmutar a visibilidade de todos os corpos do Sistema Solar"
 #: tools/scriptbuilder.cpp:464
 #, kde-format
 msgid "Toggle display of Sun"
-msgstr "Indica se debe mostrarse o Sol"
+msgstr "Indica se debe amosarse o Sol"
 
 #: tools/scriptbuilder.cpp:467
 #, kde-format
 msgid "Toggle display of Moon"
-msgstr "Indica se debe mostrarse a Lúa"
+msgstr "Indica se debe amosarse a Lúa"
 
 #: tools/scriptbuilder.cpp:470
 #, kde-format
 msgid "Toggle display of Mercury"
-msgstr "Indica se debe mostrarse Mercurio"
+msgstr "Indica se debe amosarse Mercurio"
 
 #: tools/scriptbuilder.cpp:473
 #, kde-format
 msgid "Toggle display of Venus"
-msgstr "Indica se debe mostrarse Venus"
+msgstr "Indica se debe amosarse Venus"
 
 #: tools/scriptbuilder.cpp:476
 #, kde-format
 msgid "Toggle display of Mars"
-msgstr "Indica se debe mostrarse Marte"
+msgstr "Indica se debe amosarse Marte"
 
 #: tools/scriptbuilder.cpp:479
 #, kde-format
 msgid "Toggle display of Jupiter"
-msgstr "Indica se debe mostrarse Xúpiter"
+msgstr "Indica se debe amosarse Xúpiter"
 
 #: tools/scriptbuilder.cpp:482
 #, kde-format
 msgid "Toggle display of Saturn"
-msgstr "Indica se debe mostrarse Saturno"
+msgstr "Indica se debe amosarse Saturno"
 
 #: tools/scriptbuilder.cpp:485
 #, kde-format
 msgid "Toggle display of Uranus"
-msgstr "Indica se debe mostrarse Urano"
+msgstr "Indica se debe amosarse Urano"
 
 #: tools/scriptbuilder.cpp:488
 #, kde-format
 msgid "Toggle display of Neptune"
-msgstr "Indica se debe mostrarse Neptuno"
+msgstr "Indica se debe amosarse Neptuno"
 
 #: tools/scriptbuilder.cpp:494
 #, kde-format
 msgid "Toggle display of Asteroids"
-msgstr "Indica se deben mostrarse os asteroides"
+msgstr "Indica se deben amosarse os asteroides"
 
 #: tools/scriptbuilder.cpp:497
 #, kde-format
 msgid "Toggle display of Comets"
-msgstr "Indica se deben mostrarse os cometas"
+msgstr "Indica se deben amosarse os cometas"
 
 #: tools/scriptbuilder.cpp:517
 #, kde-format
 msgid "Show Other"
-msgstr "Mostrar os outros"
+msgstr "Amosar os outros"
 
 #: tools/scriptbuilder.cpp:518
 #, kde-format
@@ -82388,47 +82385,47 @@ msgstr "Conmutar o chan opaco"
 #: tools/scriptbuilder.cpp:545
 #, kde-format
 msgid "Toggle display of star name labels"
-msgstr "Indica se deben mostrarse os nomes das estrelas"
+msgstr "Indica se deben amosarse os nomes das estrelas"
 
 #: tools/scriptbuilder.cpp:548
 #, kde-format
 msgid "Toggle display of star magnitude labels"
-msgstr "Indica se deben mostrarse as magnitudes das estrelas"
+msgstr "Indica se deben amosarse as magnitudes das estrelas"
 
 #: tools/scriptbuilder.cpp:551
 #, kde-format
 msgid "Toggle display of asteroid name labels"
-msgstr "Indica se deben mostrarse os nomes dos asteroides"
+msgstr "Indica se deben amosarse os nomes dos asteroides"
 
 #: tools/scriptbuilder.cpp:554
 #, kde-format
 msgid "Toggle display of comet name labels"
-msgstr "Indica se deben mostrarse os nomes dos cometas"
+msgstr "Indica se deben amosarse os nomes dos cometas"
 
 #: tools/scriptbuilder.cpp:557
 #, kde-format
 msgid "Toggle display of planet name labels"
-msgstr "Indica se deben mostrarse os nomes dos planetas"
+msgstr "Indica se deben amosarse os nomes dos planetas"
 
 #: tools/scriptbuilder.cpp:560
 #, kde-format
 msgid "Toggle display of planet images"
-msgstr "Indica se deben mostrarse as imaxes dos planetas"
+msgstr "Indica se deben amosarse as imaxes dos planetas"
 
 #: tools/scriptbuilder.cpp:581
 #, kde-format
 msgid "Show Latin constellation names"
-msgstr "Mostrar os nomes das constelacións en latín"
+msgstr "Amosar os nomes das constelacións en latín"
 
 #: tools/scriptbuilder.cpp:584
 #, kde-format
 msgid "Show constellation names in local language"
-msgstr "Mostrar os nomes de constelacións no idioma local"
+msgstr "Amosar os nomes de constelacións no idioma local"
 
 #: tools/scriptbuilder.cpp:587
 #, kde-format
 msgid "Show IAU-standard constellation abbreviations"
-msgstr "Mostrar as abreviaturas das constelacións do estándar IAU"
+msgstr "Amosar as abreviaturas das constelacións do estándar IAU"
 
 #: tools/scriptbuilder.cpp:595
 #, kde-format
@@ -82439,7 +82436,7 @@ msgstr "Agochar os elementos"
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
 msgstr ""
-"Indica se deben mostrarse os obxectos agochados cando a vista estea en "
+"Indica se deben amosarse os obxectos agochados cando a vista estea en "
 "movemento"
 
 #: tools/scriptbuilder.cpp:599
@@ -82869,7 +82866,7 @@ msgid ""
 "some brief documentation about the function."
 msgstr ""
 "Se houber algunha función realzada no Navegador de funcións, esta zona "
-"mostrará documentación resumida sobre a función."
+"amosará documentación resumida sobre a función."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ScriptName)
 #: tools/scriptnamedialog.ui:29
@@ -83349,7 +83346,7 @@ msgstr "Cambiar o lugar…"
 #: tools/wutdialog.ui:105
 #, kde-format
 msgid "Show objects which are up:"
-msgstr "Mostrar os obxectos que se vexan:"
+msgstr "Amosar os obxectos que se vexan:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:121
@@ -83402,7 +83399,7 @@ msgstr "A calquera hora desta noite"
 #: tools/wutdialog.ui:146
 #, kde-format
 msgid "Show objects brighter than magnitude:"
-msgstr "Mostrar os obxectos máis brillantes que a magnitude:"
+msgstr "Amosar os obxectos máis brillantes que a magnitude:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:202
@@ -84074,7 +84071,7 @@ msgstr "Indica a anchura da xanela"
 #: xplanet/opsxplanet.ui:107
 #, kde-format
 msgid "Set the width of the xplanet image"
-msgstr "Estabelecer a anchura da imaxe de XPlanet"
+msgstr "Definir a anchura da imaxe de XPlanet"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetHeight)
 #: xplanet/opsxplanet.ui:130
@@ -84086,7 +84083,7 @@ msgstr "Indica a altura da xanela"
 #: xplanet/opsxplanet.ui:133
 #, kde-format
 msgid "Set the height of the xplanet image"
-msgstr "Estabelecer a altura da imaxe de XPlanet"
+msgstr "Definir a altura da imaxe de XPlanet"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetTimeout)
 #: xplanet/opsxplanet.ui:162
@@ -84156,13 +84153,13 @@ msgstr "(garda na memoria en vez de no disco duro)"
 #: xplanet/opsxplanet.ui:236
 #, kde-format
 msgid "Use kstars's FOV?"
-msgstr "Empregar o FOV do kstars?"
+msgstr "Usar o FOV do kstars?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetFOV)
 #: xplanet/opsxplanet.ui:242
 #, kde-format
 msgid "Use kstars's FOV"
-msgstr "Empregar o FOV do kstars"
+msgstr "Usar o FOV do kstars"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetMagnitude)
 #: xplanet/opsxplanet.ui:249
@@ -84192,13 +84189,13 @@ msgstr "Ruta ao ficheiro de configuración"
 #: xplanet/opsxplanet.ui:302
 #, kde-format
 msgid "Use the specified configuration file"
-msgstr "Empregar o ficheiro de configuración indicado"
+msgstr "Usar o ficheiro de configuración indicado"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetStarmap)
 #: xplanet/opsxplanet.ui:330
 #, kde-format
 msgid "Use custom star map?"
-msgstr "Empregar un mapa celeste personalizado?"
+msgstr "Usar un mapa celeste personalizado?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetStarmap)
 #: xplanet/opsxplanet.ui:336
@@ -84357,14 +84354,14 @@ msgstr "Posición da etiqueta:"
 #: xplanet/opsxplanet.ui:778
 #, kde-format
 msgid "Show label?"
-msgstr "Mostrar a etiqueta?"
+msgstr "Amosar a etiqueta?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:781
 #, kde-format
 msgid "If checked, display a label in the upper right corner."
 msgstr ""
-"Marque esta opción para mostrar unha etiqueta no recuncho superior dereito."
+"Marque esta opción para amosar unha etiqueta no recuncho superior dereito."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: xplanet/opsxplanet.ui:796
@@ -84376,13 +84373,13 @@ msgstr "Marcadores"
 #: xplanet/opsxplanet.ui:807
 #, kde-format
 msgid "Use marker file?"
-msgstr "Empregar un ficheiro de marcadores?"
+msgstr "Usar un ficheiro de marcadores?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetMarkerFile)
 #: xplanet/opsxplanet.ui:813
 #, kde-format
 msgid "Use marker file:"
-msgstr "Empregar este ficheiro de marcadores:"
+msgstr "Usar este ficheiro de marcadores:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetMarkerFilePath)
 #: xplanet/opsxplanet.ui:823
@@ -84392,7 +84389,7 @@ msgid ""
 "background stars."
 msgstr ""
 "Indica un ficheiro que conteña os datos de marcadores definidos polo usuario "
-"para mostrar contra as estrelas do fondo."
+"para amosar contra as estrelas do fondo."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetMarkerBounds)
 #: xplanet/opsxplanet.ui:830
@@ -84475,7 +84472,7 @@ msgid ""
 "option is specified, although shadows will still be drawn."
 msgstr ""
 "De maneira predeterminada non hai proxección. Se se indica esta opción, non "
-"se mostran varios corpos, aínda que si as súas sombras."
+"se amosan varios corpos, aínda que si as súas sombras."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxBackground)
 #: xplanet/opsxplanet.ui:1010
@@ -84487,13 +84484,13 @@ msgstr "Fondo"
 #: xplanet/opsxplanet.ui:1018
 #, kde-format
 msgid "Use background?"
-msgstr "Empregar un fondo?"
+msgstr "Usar un fondo?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetBackground)
 #: xplanet/opsxplanet.ui:1021
 #, kde-format
 msgid "If checked, use a file or a color as background."
-msgstr "Marque esta opción para empregar un ficheiro ou unha cor como fondo."
+msgstr "Marque esta opción para usar un ficheiro ou unha cor como fondo."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetBackgroundImage)
 #: xplanet/opsxplanet.ui:1033
@@ -84505,7 +84502,7 @@ msgstr "Imaxe de fondo:"
 #: xplanet/opsxplanet.ui:1043
 #, kde-format
 msgid "Use this file as the background image"
-msgstr "Empregar este ficheiro como imaxe de fondo"
+msgstr "Usar este ficheiro como imaxe de fondo"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetBackgroundImagePath)
 #: xplanet/opsxplanet.ui:1046

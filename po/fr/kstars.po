@@ -17,14 +17,15 @@
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
 # MORELLI <robert.morelli@laposte.net>, 2022.
 # Steve <stax@ik.me>, 2022, 2023.
+# Thomas Vergnaud <thomas.vergnaud@mailo.eu>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-19 00:42+0000\n"
-"PO-Revision-Date: 2023-06-17 10:14+0200\n"
-"Last-Translator: Steve <stax@ik.me>\n"
-"Language-Team: fr\n"
+"PO-Revision-Date: 2023-06-18 20:58+0200\n"
+"Last-Translator: Thomas Vergnaud <thomas.vergnaud@mailo.eu>\n"
+"Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -41768,9 +41769,7 @@ msgid "Al Manamah"
 msgstr "Manama"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
 msgstr "Alicante"
@@ -44698,9 +44697,7 @@ msgid "Casselman"
 msgstr "Casselman"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
 msgstr "Castellón de la Plana"
@@ -47058,11 +47055,10 @@ msgid "Elverson"
 msgstr "Elverson"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Durée"
+msgstr "Elche"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -47545,9 +47541,7 @@ msgid "Forestville"
 msgstr "Forestville"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
 msgstr "Forli"
@@ -48237,9 +48231,7 @@ msgid "Gimli"
 msgstr "Gimli"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
 msgstr "Gérone"
@@ -51932,7 +51924,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lleida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -60569,12 +60561,10 @@ msgid "Valverde"
 msgstr "Valverde"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
-msgstr "Valéncia"
+msgstr "Valence"
 
 #: kstars_i18n.cpp:3873
 #, kde-kuit-format
@@ -66525,11 +66515,7 @@ msgstr ""
 "désactivés."
 
 #: kstarsactions.cpp:446
-#, fuzzy, kde-format
-#| msgid ""
-#| "Due to a known issue in the kde frameworks, updating already downloaded "
-#| "items is currently not possible. <br> Please uninstall and reinstall them "
-#| "to update."
+#, kde-format
 msgid ""
 "Due to a known issue in the kde frameworks, updating already downloaded "
 "items is currently not possible. <br> Please uninstall and reinstall them to "
@@ -66537,7 +66523,7 @@ msgid ""
 msgstr ""
 "En raison d'un problème connu dans les environnements de développement de "
 "KDE, la mise à jour des éléments déjà téléchargés est actuellement "
-"impossible. <br>Veuillez les désinstaller et les réinstaller pour les mettre "
+"impossible.<br>Veuillez les désinstaller et les réinstaller pour les mettre "
 "à jour."
 
 #: kstarsactions.cpp:479

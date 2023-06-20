@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-19 00:42+0000\n"
-"PO-Revision-Date: 2023-06-16 06:38+0200\n"
+"PO-Revision-Date: 2023-06-19 06:03+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -11440,10 +11440,9 @@ msgid "Secondary"
 msgstr "მეორადი"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Tertiary"
-msgstr "ვერტიკალური"
+msgstr "მესამეული"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
