@@ -10,6 +10,7 @@
 #include "ekos/manager.h"
 
 #include "kspaths.h"
+#include "Options.h"
 #include "ekos_debug.h"
 #include "QProgressIndicator.h"
 
@@ -48,14 +49,14 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     });
 
     // Initialize node managers
-    QSharedPointer<NodeManager> onlineManager(new NodeManager(QUrl("https://live.stellarmate.com"),
-            QUrl("wss://live.stellarmate.com")));
+    QSharedPointer<NodeManager> onlineManager(new NodeManager(NodeManager::Message | NodeManager::Media | NodeManager::Cloud));
     connect(onlineManager.get(), &NodeManager::authenticationError, this, [this](const QString & message)
     {
         onlineLabel->setToolTip(message);
     });
 
-    QSharedPointer<NodeManager> offlineManager(new NodeManager(QUrl("http://localhost:3000"), QUrl("ws://localhost:3000")));
+    QSharedPointer<NodeManager> offlineManager(new NodeManager(NodeManager::Message | NodeManager::Media));
+
     connect(offlineManager.get(), &NodeManager::authenticationError, this, [this](const QString & message)
     {
         offlineLabel->setToolTip(message);
@@ -63,7 +64,9 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
     m_NodeManagers.append(std::move(onlineManager));
     m_NodeManagers.append(std::move(offlineManager));
+    syncURLs();
 
+    connect(selectServersB, &QPushButton::clicked, this, &Client::showSelectServersDialog);
     connect(connectB, &QPushButton::clicked, this, [this]()
     {
         if (m_isConnected)
@@ -146,7 +149,7 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
         // If token expired, disconnect and reconnect again.
         for (auto &oneManager : m_NodeManagers)
         {
-            if (oneManager->wsURL() == url)
+            if (oneManager->property("websocketURL").toUrl() == url)
             {
                 oneManager->disconnectNodes();
                 oneManager->setCredentials(username->text(), password->text());
@@ -184,6 +187,7 @@ void Client::onConnected()
     if (m_NodeManagers[0]->isConnected())
         onlineLabel->setToolTip(QString());
 
+    selectServersB->setEnabled(false);
     offlineLabel->setStyleSheet(m_NodeManagers[1]->isConnected() ? "color:white" : "color:gray");
     offlineIcon->setPixmap(m_NodeManagers[1]->isConnected() ? connected : disconnected);
     if (m_NodeManagers[1]->isConnected())
@@ -215,6 +219,8 @@ void Client::onDisconnected()
 
     offlineLabel->setStyleSheet(m_NodeManagers[1]->isConnected() ? "color:white" : "color:gray");
     offlineIcon->setPixmap(m_NodeManagers[1]->isConnected() ? connected : disconnected);
+
+    selectServersB->setEnabled(true);
 }
 
 void Client::setConnected(bool enabled)
@@ -240,4 +246,46 @@ void Client::setUser(const QString &user, const QString &pass)
     password->setText(pass);
 }
 
+void Client::showSelectServersDialog()
+{
+    QDialog dialog(this);
+    dialog.setMinimumWidth(300);
+    dialog.setWindowTitle(i18nc("@title:window", "Select EkosLive Servers"));
+
+    QLabel offline(i18n("Offline:"));
+    QLabel online(i18n("Online:"));
+
+    QLineEdit offlineEdit(&dialog);
+    QLineEdit onlineEdit(&dialog);
+    offlineEdit.setText(Options::ekosLiveOfflineServer());
+    onlineEdit.setText(Options::ekosLiveOnlineServer());
+
+    QFormLayout * layout = new QFormLayout;
+    layout->addRow(&offline, &offlineEdit);
+    layout->addRow(&online, &onlineEdit);
+    dialog.setLayout(layout);
+    dialog.exec();
+
+    Options::setEkosLiveOfflineServer(offlineEdit.text());
+    Options::setEkosLiveOnlineServer(onlineEdit.text());
+
+    syncURLs();
+}
+
+void Client::syncURLs()
+{
+    auto onlineSSL = QUrl(Options::ekosLiveOnlineServer()).scheme() == "https";
+    auto onlineURL = QUrl(Options::ekosLiveOnlineServer()).url(QUrl::RemoveScheme);
+    if (onlineSSL)
+        m_NodeManagers[Online]->setURLs(QUrl("https:" + onlineURL), QUrl("wss:" + onlineURL));
+    else
+        m_NodeManagers[Online]->setURLs(QUrl("http:" + onlineURL), QUrl("ws:" + onlineURL));
+
+    auto offlineSSL = QUrl(Options::ekosLiveOfflineServer()).scheme() == "https";
+    auto offlineURL = QUrl(Options::ekosLiveOfflineServer()).url(QUrl::RemoveScheme);
+    if (offlineSSL)
+        m_NodeManagers[Offline]->setURLs(QUrl("https:" + offlineURL), QUrl("wss:" + offlineURL));
+    else
+        m_NodeManagers[Offline]->setURLs(QUrl("http:" + offlineURL), QUrl("ws:" + offlineURL));
+}
 }

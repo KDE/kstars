@@ -21,25 +21,33 @@ namespace EkosLive
 {
 class NodeManager : public QObject
 {
-        Q_OBJECT
+    Q_PROPERTY(QUrl serviceURL MEMBER m_ServiceURL)
+    Q_PROPERTY(QUrl websocketURL MEMBER m_WebsocketURL)
+    Q_OBJECT
 
     public:
-        explicit NodeManager(const QUrl &serviceURL, const QUrl &wsURL);
+        explicit NodeManager(uint32_t mask);
         virtual ~NodeManager() = default;
 
         bool isConnected() const;
-        const QUrl &serviceURL() const {return m_ServiceURL;}
-        const QUrl &wsURL() const {return m_WSURL;}
 
+        typedef enum
+        {
+            Message = 1 << 0,
+            Media   = 1 << 1,
+            Cloud   = 1 << 2
+        } Channels;
+
+        void setURLs(const QUrl &service, const QUrl &websocket);
         void setCredentials(const QString &username, const QString &password);
         void setAuthResponse(const QJsonObject &response)
         {
             m_AuthResponse = response;
         }
 
-        Node *message() {return m_Nodes["message"];}
-        Node *media() {return m_Nodes["media"];}
-        Node *cloud() {return m_Nodes.contains("cloud") ? m_Nodes["cloud"] : nullptr;}
+        Node *message() {return m_Nodes[Message];}
+        Node *media() {return m_Nodes[Media];}
+        Node *cloud() {return m_Nodes.contains(Cloud) ? m_Nodes[Cloud] : nullptr;}
 
     signals:
         void connected();
@@ -59,11 +67,11 @@ class NodeManager : public QObject
       private:
         QJsonObject m_AuthResponse;
         uint16_t m_ReconnectTries {0};
-        QUrl m_ServiceURL, m_WSURL;
+        QUrl m_ServiceURL, m_WebsocketURL;
         QString m_Username, m_Password;
 
         QPointer<QNetworkAccessManager> m_NetworkManager;
-        QMap<QString, Node*> m_Nodes;
+        QMap<Channels, Node*> m_Nodes;
 
         // Retry every 5 seconds in case remote server is down
         static const uint16_t RECONNECT_INTERVAL = 5000;

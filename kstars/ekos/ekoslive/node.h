@@ -16,12 +16,15 @@ namespace EkosLive
 {
 class Node : public QObject
 {
-        Q_OBJECT
+    Q_PROPERTY(QString name MEMBER m_Name)
+    Q_PROPERTY(QUrl url MEMBER m_URL READ url)
+    Q_OBJECT
 
     public:
-        explicit Node(const QUrl &url, const QString &name);
+        explicit Node(const QString &name);
         virtual ~Node() = default;
 
+        const QUrl url() const {return m_URL;}
         void sendResponse(const QString &command, const QJsonObject &payload);
         void sendResponse(const QString &command, const QJsonArray &payload);
         void sendResponse(const QString &command, const QString &payload);
@@ -29,10 +32,7 @@ class Node : public QObject
 
         void sendTextMessage(const QString &message);
         void sendBinaryMessage(const QByteArray &message);
-        bool isConnected() const {return m_isConnected;}
-
-        const QString &name() const {return m_Name;};
-        const QUrl &url() const {return m_URL;}
+        bool isConnected() const {return m_isConnected;}        
 
         void setAuthResponse(const QJsonObject &response)
         {

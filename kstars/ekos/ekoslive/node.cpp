@@ -23,7 +23,7 @@
 
 namespace EkosLive
 {
-Node::Node(const QUrl &url, const QString &name) : m_URL(url), m_Name(name)
+Node::Node(const QString &name) : m_Name(name)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Node::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Node::onDisconnected);
