@@ -146,7 +146,7 @@ void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
 
 void RotatorSettings::activateRotator(double Angle)
 {
-    m_CaptureDA->setRotatorAngle(&Angle);
+    m_CaptureDA->setRotatorAngle(Angle);
 }
 
 void RotatorSettings::commitRotatorDirection(bool Reverse)

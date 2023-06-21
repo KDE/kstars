@@ -317,7 +317,7 @@ void SequenceJobState::prepareRotatorCheck()
             prepareActions[CaptureModuleState::ACTION_ROTATOR] = false;
             double rawAngle = RotatorUtils::Instance()->calcRotatorAngle(targetPositionAngle);
             emit prepareState(CAPTURE_SETTING_ROTATOR);
-            emit setRotatorAngle(&rawAngle);
+            emit setRotatorAngle(rawAngle);
         }
         // trigger setting current value first if not initialized
         else

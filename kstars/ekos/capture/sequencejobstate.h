@@ -268,7 +268,7 @@ class SequenceJobState: public QObject
         // Capture initialization complete(d)
         void initCaptureComplete(FITSMode mode);
         // change the rotator angle
-        void setRotatorAngle(double *rawAngle);
+        void setRotatorAngle(double rawAngle);
         // ask for the current filter position
         void readFilterPosition();
         // Change the filter to the given position and the filter change policy
