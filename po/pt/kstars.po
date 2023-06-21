@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-19 00:42+0000\n"
-"PO-Revision-Date: 2023-06-15 11:49+0100\n"
+"PO-Revision-Date: 2023-06-21 00:42+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -13352,10 +13352,9 @@ msgid "Secondary"
 msgstr "Secundário"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Tertiary"
-msgstr "Vertical"
+msgstr "Terciário"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -84547,6 +84546,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid "Teritary"
-#~ msgstr "Terciário"
