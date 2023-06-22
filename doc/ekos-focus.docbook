@@ -832,7 +832,7 @@
       </listitem>
 
       <listitem>
-        <para> <emphasis role="bold"># Stars</emphasis>: This ia an experimental feature that
+        <para> <emphasis role="bold"># Stars</emphasis>: This is an experimental feature that
         calculates the number of stars in the image and uses this number as the focus measure.
         The idea is that as you move nearer focus so more stars become detectable.</para>
 
@@ -900,7 +900,7 @@
       1 Pass focus algorithm and Curve Fits of Hyperbola and Parabola. If this option is checked then at the end
       of the sweep of datapoints, Ekos fits a curve and measures the R². It then applies Peirce's Criterion
       based on Gould's methodology for outlier identification. See <ulink
-      url="https://en.wikipedia.org/wiki/Peirce%27s_criterion">Peirce's Criterian</ulink> for details incl
+      url="https://en.wikipedia.org/wiki/Peirce%27s_criterion">Peirce's Criterion</ulink> for details incl
       Peirce's original paper and Gould's paper which are both referenced in the notes. If Peirce's Criterion
       detects 1 or more outliers then another curve fit is attempted with the outliers removed. Again the R²
       is calculated and compared with the original curve fit R². If the R² is better, then the latest run is used,
@@ -1196,7 +1196,7 @@
   </listitem>
 
   <listitem>
-    <para> <guilabel>Tolerance</guilabel>: This is used by Classic and Wavwfront algorithms and is a scaling factor
+    <para> <guilabel>Tolerance</guilabel>: This is used by Classic and Wavefront algorithms and is a scaling factor
     between 0 and 1.</para>
     <para> For the Classic algorithm, Goldman and Megdal suggest 1/3.</para>
     <para> For the Wavefront algorithm, some have suggested 1/3 or even 1/10.</para>
@@ -1402,11 +1402,11 @@
         <listitem>
           <para> <emphasis role="bold">Use Offsets</emphasis>: It is possible to use filter offsets to adjust focus when swapping
           between filters, without running Autofocus. This requires some setup work ahead of time but has the advantage of
-          reduciung the number of Autofocus runs and therefore reducing the time spent autofocusing.</para>
+          reducing the number of Autofocus runs and therefore reducing the time spent autofocusing.</para>
 
           <para> In order to use this feature it is necessary to work out the relative focus position between all filters that you
           wish to use this functionality for. For example, if Lum and Red have the same focus position (they are parfocal) but Green
-          focuses 300 ticks further out than Lum (or Red) then setup Offsets for Lum, Red and Grren as 0, 0, 300 as shown above. If a
+          focuses 300 ticks further out than Lum (or Red) then setup Offsets for Lum, Red and Green as 0, 0, 300 as shown above. If a
           sequence is created to take 10 subframes of Lum, then 10 Red, then 10 Green, then at the start, since Lum has
           <guilabel>Auto Focus</guilabel> checked, an Autofocus will be run on Lum and the 10 subs taken. Capture will then switch
           filters to Red. Since Red has <guilabel>Auto Focus</guilabel> unchecked no Autofocus will happen and Ekos will look to the
@@ -1774,7 +1774,7 @@
     <para> The units of the y-axis depend on the selected focus Measure. For example, for HFR, the y-axis will either be in Pixels
     or Arc seconds depending on how <guilabel>Display Units</guilabel> is set.</para>
 
-    <para> If <guilabel>Refine Curve Fit</guilabel> is selected, Focus will check for and potentially exclude outlying datapoonts.
+    <para> If <guilabel>Refine Curve Fit</guilabel> is selected, Focus will check for and potentially exclude outlying datapoints.
     In this case datapoints 1, 5 and 7 were excluded.</para>
 
     <para> Under the V-Curve a number of parameters are displayed:</para>
@@ -1825,7 +1825,7 @@
     <para> Here is a V-Curve when Measure is set to Fourier:
     <screenshot><screeninfo> V-Curve Fourier</screeninfo><mediaobject><imageobject>
       <imagedata fileref="focus_vcurve_fourier.png" format="PNG" width="50%"/></imageobject><textobject>
-      <phrase>Focus V-Curve Fourierj</phrase></textobject></mediaobject></screenshot></para>
+      <phrase>Focus V-Curve Fourier</phrase></textobject></mediaobject></screenshot></para>
 
     <para> When Framing, the graph format changes to that of a "time series" where horizontal axis denotes the frame number.
     This is to aid you in the framing process as you can see how Measure, in this case HFR, changes between frames. </para>
