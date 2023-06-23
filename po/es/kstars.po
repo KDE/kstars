@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:44+0000\n"
-"PO-Revision-Date: 2023-06-17 15:21+0200\n"
+"PO-Revision-Date: 2023-06-23 01:20+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -12221,10 +12221,9 @@ msgid "Secondary"
 msgstr "Secundario"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Tertiary"
-msgstr "Vertical"
+msgstr "Terciario"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -16483,23 +16482,20 @@ msgid "Loading"
 msgstr "Cargando"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
-msgstr "Servicio Ekos Live"
+msgstr "Seleccionar servidores de Ekos Live"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Offline"
+#, kde-format
 msgid "Offline:"
-msgstr "Sin conexión"
+msgstr "Sin conexión:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
-#, fuzzy, kde-format
-#| msgid "Online"
+#, kde-format
 msgid "Online:"
-msgstr "Con conexión"
+msgstr "Con conexión:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosLiveB)
@@ -18386,7 +18382,7 @@ msgstr "Pasos fijos"
 #: ekos/focus/focus.ui:2367
 #, kde-format
 msgid "CFZ Shuffle"
-msgstr ""
+msgstr "Desordenar CFZ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/focus/focus.ui:2384
@@ -19037,10 +19033,9 @@ msgid "Called newMeasurement after a solution was found."
 msgstr "Se ha llamado a «newMeasurement» tras encontrar una solución."
 
 #: ekos/focus/focusalgorithms.cpp:780
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Failed to fit curve to data."
-msgstr "Ha fallado la carga de datos oscuros."
+msgstr "Ha fallado el ajuste de la curva a los datos."
 
 #: ekos/focus/focusalgorithms.cpp:840
 #, kde-format
@@ -41532,9 +41527,7 @@ msgid "Al Manamah"
 msgstr "Manama"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
 msgstr "Alicante"
@@ -44462,9 +44455,7 @@ msgid "Casselman"
 msgstr "Casselman"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
 msgstr "Castellón de la Plana"
@@ -46822,11 +46813,10 @@ msgid "Elverson"
 msgstr "Elverson"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Exp"
+msgstr "Elche"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -47309,9 +47299,7 @@ msgid "Forestville"
 msgstr "Forestville"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
 msgstr "Forlì"
@@ -48001,9 +47989,7 @@ msgid "Gimli"
 msgstr "Gimli"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
 msgstr "Gerona"
@@ -51696,7 +51682,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lérida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -60333,9 +60319,7 @@ msgid "Valverde"
 msgstr "Valverde"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
 msgstr "Valencia"

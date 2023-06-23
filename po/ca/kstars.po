@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:44+0000\n"
-"PO-Revision-Date: 2023-06-21 18:36+0200\n"
+"PO-Revision-Date: 2023-06-22 10:37+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -16507,23 +16507,20 @@ msgid "Loading"
 msgstr "Carregant"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
-msgstr "Servei Ekos Live"
+msgstr "Selecció dels servidors Ekos Live"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Offline"
+#, kde-format
 msgid "Offline:"
-msgstr "Desconnectat"
+msgstr "Desconnectat:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
-#, fuzzy, kde-format
-#| msgid "Online"
+#, kde-format
 msgid "Online:"
-msgstr "Connectat"
+msgstr "Connectat:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosLiveB)
@@ -16560,7 +16557,7 @@ msgstr "Nom d'usuari:"
 #: ekos/ekoslive/ekoslivedialog.ui:199
 #, kde-format
 msgid "Automatically connect to EkosLive service on startup."
-msgstr "Connecta automàticament amb el servei EkosLive en iniciar."
+msgstr "Connecta automàticament amb el servei Ekos Live en iniciar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoStartCheck)
 #: ekos/ekoslive/ekoslivedialog.ui:202
@@ -35206,21 +35203,19 @@ msgstr "Inicia l'Ekos Live en iniciar el KStars."
 #: kstars.kcfg:1584
 #, kde-format
 msgid "EkosLive username"
-msgstr "Nom d'usuari de l'EkosLive"
+msgstr "Nom d'usuari de l'Ekos Live"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1587
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Offline Server"
-msgstr "Servei Ekos Live"
+msgstr "Servei desconnectat Ekos Live"
 
 #. i18n: ectx: label, entry (EkosLiveOnlineServer), group (EkosLive)
 #: kstars.kcfg:1591
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Online Server"
-msgstr "Servei Ekos Live"
+msgstr "Servidor connectat Ekos Live"
 
 #. i18n: ectx: label, entry (shutterfulCCDs), group (DarkLibrary)
 #: kstars.kcfg:1616
