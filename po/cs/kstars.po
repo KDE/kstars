@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:44+0000\n"
-"PO-Revision-Date: 2023-06-22 15:58+0200\n"
+"PO-Revision-Date: 2023-06-23 13:38+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -15349,12 +15349,12 @@ msgstr ""
 #: ekos/ekoslive/ekosliveclient.cpp:255
 #, kde-format
 msgid "Offline:"
-msgstr ""
+msgstr "Odpojen:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
 msgid "Online:"
-msgstr ""
+msgstr "Online:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosLiveB)
@@ -38152,7 +38152,7 @@ msgstr "Al Manamah"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
-msgstr ""
+msgstr "Alacant"
 
 #: kstars_i18n.cpp:741
 #, kde-kuit-format
@@ -41080,7 +41080,7 @@ msgstr "Casselman"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
-msgstr ""
+msgstr "Castelló de la Plana"
 
 #: kstars_i18n.cpp:1229
 #, kde-kuit-format
@@ -43438,7 +43438,7 @@ msgstr "Elverson"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr ""
+msgstr "Elx"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -43924,7 +43924,7 @@ msgstr "Forestville"
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
-msgstr ""
+msgstr "Forlì"
 
 #: kstars_i18n.cpp:1703
 #, kde-kuit-format
@@ -44614,7 +44614,7 @@ msgstr "Gimli"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
-msgstr ""
+msgstr "Girona"
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -48304,7 +48304,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lleida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -56944,7 +56944,7 @@ msgstr "Valverde"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
-msgstr ""
+msgstr "València"
 
 #: kstars_i18n.cpp:3873
 #, kde-kuit-format

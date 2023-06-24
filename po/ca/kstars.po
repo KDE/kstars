@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:44+0000\n"
-"PO-Revision-Date: 2023-06-22 10:37+0200\n"
+"PO-Revision-Date: 2023-06-23 19:58+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11557,7 +11557,7 @@ msgstr "Bloqueja el filtre específic en executar l'enfocament automàtic"
 #: ekos/auxiliary/filtermanager.cpp:75 ekos/auxiliary/filtermanager.cpp:1023
 #, kde-format
 msgid "Lock Filter"
-msgstr "Bloqueja el filtre"
+msgstr "Bloqueig de filtre"
 
 #: ekos/auxiliary/filtermanager.cpp:78
 #, kde-format
@@ -11725,7 +11725,7 @@ msgstr ""
 #: ekos/auxiliary/filtersettings.ui:100
 #, kde-format
 msgid "Build Offsets"
-msgstr "Desplaçaments de construcció"
+msgstr "Construcció de desplaçaments"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:114
@@ -16648,7 +16648,7 @@ msgstr "No s'ha connectat cap CCD."
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
-"El pas del pols inicial és massa baix. Augmenteu la mida dels pas a %1 o "
+"El pas del pols inicial és massa baix. Augmenteu la mida del pas a %1 o "
 "més..."
 
 #: ekos/focus/focus.cpp:1112
@@ -18787,7 +18787,7 @@ msgstr ""
 #: ekos/focus/focus.ui:3068
 #, kde-format
 msgid "Reset To OT"
-msgstr "Restableix a OT"
+msgstr "Restableix al TO"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:3081
@@ -18837,7 +18837,7 @@ msgstr ""
 "li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
 "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Or: </span>Usa la fórmula, "
+"indent:0px;\"><span style=\" font-weight:600;\">Gold: </span>Usa la fórmula, "
 "ZCE = 0,00225 √τ θ f<span style=\" vertical-align:super;\">2. </span>A. "
 "Vegeu http://www.goldastro.com/goldfocus/ncfz.php per a més detalls.</li></"
 "ul></body></html>"
@@ -18848,11 +18848,12 @@ msgstr ""
 msgid "Wavefront"
 msgstr "Front d'ona"
 
+# Es refereix a Gold Astro (https://www.goldastro.com/goldfocus/ncfz.php)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3136
 #, kde-format
 msgid "Gold"
-msgstr "Or"
+msgstr "Gold"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3150
@@ -36214,7 +36215,7 @@ msgstr ""
 #: kstars.kcfg:2110
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
-msgstr "Tolerància definida per l'usuari a usar per a l'algorisme or."
+msgstr "Tolerància definida per l'usuari a usar per a l'algorisme Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2114
@@ -36228,7 +36229,7 @@ msgstr ""
 #: kstars.kcfg:2118
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr "La longitud d'ona en nm per utilitzar en l'algorisme or."
+msgstr "La longitud d'ona en nm per utilitzar en l'algorisme Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2122

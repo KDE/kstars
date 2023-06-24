@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:44+0000\n"
-"PO-Revision-Date: 2023-06-21 00:42+0100\n"
+"PO-Revision-Date: 2023-06-24 01:43+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -17587,23 +17587,20 @@ msgid "Loading"
 msgstr "A carregar"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
-msgstr "Serviço Ekos Live"
+msgstr "Seleccionar os Servidores do EkosLive"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Offline"
+#, kde-format
 msgid "Offline:"
-msgstr "Desligado"
+msgstr "Desligado:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
-#, fuzzy, kde-format
-#| msgid "Online"
+#, kde-format
 msgid "Online:"
-msgstr "Ligado"
+msgstr "Ligado:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosLiveB)
@@ -36168,17 +36165,15 @@ msgstr "Utilizador do EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1587
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Offline Server"
-msgstr "Serviço Ekos Live"
+msgstr "Serviço Desligado do EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOnlineServer), group (EkosLive)
 #: kstars.kcfg:1591
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Online Server"
-msgstr "Serviço Ekos Live"
+msgstr "Serviço Ligado do EkosLive"
 
 #. i18n: ectx: label, entry (shutterfulCCDs), group (DarkLibrary)
 #: kstars.kcfg:1616

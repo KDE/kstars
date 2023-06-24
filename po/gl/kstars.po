@@ -2147,7 +2147,7 @@ msgstr ""
 "ver a simple vista e obxectos que requiren un telescopio. Está pensado tanto "
 "para astrónomos principiantes como para astrónomos avanzados. Se preme unha "
 "categoría ou un catálogo aparecerá unha lista de obxectos. Se ten miniaturas "
-"ou información de Wikipedia para o obxecto mostraranse tamén. En caso "
+"ou información de Wikipedia para o obxecto amosaranse tamén. En caso "
 "contrario pode descargalas usando a icona de descarga. Se amplía a anchura "
 "de «Que hai de interesante» o que se mostra cambiará dinamicamente para "
 "amosar a información de xeito máis cómodo. Consulte a descrición de embaixo "
@@ -6922,7 +6922,7 @@ msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
 "Load and Slew Tool, and the Mount Model Tool will be displayed below."
 msgstr ""
-"Embaixo mostraranse os resultados das solucións astrométricas da ferramenta "
+"Embaixo amosaranse os resultados das solucións astrométricas da ferramenta "
 "de capturar e resolver, da ferramenta de cargar e mover, e da ferramenta de "
 "modelo de montura."
 
@@ -14259,7 +14259,7 @@ msgstr ""
 #: ekos/capture/capture.cpp:2101
 #, kde-format
 msgid "Executing post capture script %1"
-msgstr "Executando o script de post-captura %1"
+msgstr "Executando o guión de post-captura %1"
 
 #: ekos/capture/capture.cpp:2130
 #, fuzzy, kde-format
@@ -14639,7 +14639,7 @@ msgstr "O script post-captura rematou co código %1."
 #: ekos/capture/capture.cpp:5379
 #, kde-format
 msgid "Post capture script finished with code %1."
-msgstr "O script post-captura rematou co código %1."
+msgstr "O guión post-captura rematou co código %1."
 
 #: ekos/capture/capture.cpp:5389
 #, kde-format
@@ -24081,9 +24081,8 @@ msgid ""
 "<html><head/><body><p>If the shutdown script terminates INDI server, enable "
 "this option so that no disconnection errors are generated.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Se o script de apagado detén o servidor de INDI, "
-"active esta opción para que non se xeren erros de desconexión.</p></body></"
-"html>"
+"<html><head/><body><p>Se o guión de apagado detén o servidor de INDI, active "
+"esta opción para que non se xeren erros de desconexión.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/opsekos.ui:368
@@ -26553,12 +26552,12 @@ msgstr "Iniciar o planificador"
 #: ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
-msgstr "Aviso: o URL de script de inicio %1 non é válido."
+msgstr "Aviso: o URL de guión de inicio %1 non é válido."
 
 #: ekos/scheduler/scheduler.cpp:2004
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
-msgstr "Aviso: o URL de script de apagamento %1 non é válido."
+msgstr "Aviso: o URL de guión de apagamento %1 non é válido."
 
 #: ekos/scheduler/scheduler.cpp:2033
 #, kde-format
@@ -26865,7 +26864,7 @@ msgstr "O observatorio está en proceso de acendemento."
 #: ekos/scheduler/scheduler.cpp:3388
 #, kde-format
 msgid "Ekos is already started, skipping startup script..."
-msgstr "Ekos xa se iniciou, saltando o script de inicio…"
+msgstr "Ekos xa se iniciou, saltando o guión de inicio…"
 
 #: ekos/scheduler/scheduler.cpp:3485
 #, kde-format
@@ -26893,17 +26892,17 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:3666
 #, kde-format
 msgid "Executing script %1..."
-msgstr "Executando o script %1…"
+msgstr "Executando o guión %1…"
 
 #: ekos/scheduler/scheduler.cpp:3701
 #, kde-format
 msgid "Startup script failed, aborting..."
-msgstr "O script de inicio fallou, interrompendo…"
+msgstr "O guión de inicio fallou, interrompendo…"
 
 #: ekos/scheduler/scheduler.cpp:3706
 #, kde-format
 msgid "Shutdown script failed, aborting..."
-msgstr "O script de apagamento fallou, interrompendo…"
+msgstr "O guión de apagamento fallou, interrompendo…"
 
 #: ekos/scheduler/scheduler.cpp:3736
 #, kde-format
@@ -28168,7 +28167,7 @@ msgid ""
 "procedures (e.g. parking), if selected, are completed.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Procedemento de apagamento para executar despois de "
-"completar todas as tarefas planificadas. O script execútase <span style=\" "
+"completar todas as tarefas planificadas. O guión execútase <span style=\" "
 "font-weight:600; text-decoration: underline;\">despois</span> de completar "
 "os procedementos de apagamento seleccionados, como o de estacionamento.</p></"
 "body></html>"
@@ -28348,9 +28347,9 @@ msgid ""
 "scope), if selected, are executed.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Proceso de inicio para executar antes de iniciar Ekos. "
-"O script execútase <span style=\" font-weight:600; text-decoration: "
-"underline;\">antes</span> de executarse os procedementos de inicio "
-"selecionados, como por exemplo desestacionar o telescopio.</p></body></html>"
+"O guión execútase <span style=\" font-weight:600; text-decoration: underline;"
+"\">antes</span> de executarse os procedementos de inicio selecionados, como "
+"por exemplo desestacionar o telescopio.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
 #: ekos/scheduler/scheduler.ui:2104
@@ -29975,17 +29974,17 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:148
 #, kde-format
 msgid "Shows the x, y coordinates of star centers in the frame"
-msgstr "Mostra as coordenadas x, y dos centros das estrelas no fotograma"
+msgstr "Amosa as coordenadas x, y dos centros das estrelas no fotograma"
 
 #: fitsviewer/starprofileviewer.cpp:152
 #, kde-format
 msgid "Shows the HFR of stars in the frame"
-msgstr "Mostra o HFR das estrelas no fotograma"
+msgstr "Amosa o HFR das estrelas no fotograma"
 
 #: fitsviewer/starprofileviewer.cpp:166
 #, kde-format
 msgid "Shows the peak values of star centers in the frame"
-msgstr "Mostra os valores pico dos centros das estrelas no fotograma"
+msgstr "Amosa os valores pico dos centros das estrelas no fotograma"
 
 #: fitsviewer/starprofileviewer.cpp:170
 #, kde-format
@@ -33700,7 +33699,7 @@ msgid ""
 "Display the sky with horizontal coordinates (when false, equatorial "
 "coordinates will be used)."
 msgstr ""
-"Amosar o ceo con coordenadas horizontais (se non se escolle, empregaranse as "
+"Amosar o ceo con coordenadas horizontais (se non se escolle, usaranse as "
 "ecuatoriais)."
 
 #. i18n: ectx: label, entry (UseAutoLabel), group (View)
@@ -37655,7 +37654,7 @@ msgstr "Tras executar o proceso de apagado, apagar INDI e Ekos."
 msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
 msgstr ""
-"Se o script de apagamento, se existe, temina o servidor de INDI no proceso."
+"Se o guión de apagamento, se existe, temina o servidor de INDI no proceso."
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
 #: kstars.kcfg:2728
@@ -67272,7 +67271,7 @@ msgstr "Exportar a imaxe"
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
-msgstr "Scripts de KStars (*.kstars)"
+msgstr "Guións de KStars (*.kstars)"
 
 #: kstarsactions.cpp:1355
 #, kde-format
@@ -67292,15 +67291,15 @@ msgid ""
 "properly, and it may even contain malicious code. Would you like to execute "
 "it anyway?"
 msgstr ""
-"O script escollido contén elementos non recoñecidos, o que indica que non se "
-"creou co construtor de scripts de KStars. Este script pode non funcionar "
+"O guión escollido contén elementos non recoñecidos, o que indica que non se "
+"creou co construtor de guións de KStars. Este script pode non funcionar "
 "correctamente e incluso pode conter código malicioso. Quéreo executar aínda "
 "así?"
 
 #: kstarsactions.cpp:1393
 #, kde-format
 msgid "Script Validation Failed"
-msgstr "Fallou a validación do script"
+msgstr "Fallou a validación do guión"
 
 #: kstarsactions.cpp:1393
 #, kde-format
@@ -67310,12 +67309,12 @@ msgstr "Executar aínda así"
 #: kstarsactions.cpp:1400
 #, kde-format
 msgid "Running script: %1"
-msgstr "Estase a executar o script: %1"
+msgstr "Estase a executar o guión: %1"
 
 #: kstarsactions.cpp:1418
 #, kde-format
 msgid "Script finished."
-msgstr "Rematou o script."
+msgstr "Rematou o guión."
 
 #: kstarsactions.cpp:1430
 #, kde-format
@@ -67631,7 +67630,7 @@ msgstr "&Gardar a imaxe do ceo…"
 #: kstarsinit.cpp:167
 #, kde-format
 msgid "&Run Script..."
-msgstr "Executa&r un script…"
+msgstr "Executa&r un guión…"
 
 #: kstarsinit.cpp:171
 #, fuzzy, kde-format
@@ -67926,7 +67925,7 @@ msgstr "Calendario celeste"
 #: kstarsinit.cpp:463
 #, kde-format
 msgid "Script Builder"
-msgstr "Construtor de scripts"
+msgstr "Construtor de guións"
 
 #: kstarsinit.cpp:471
 #, fuzzy, kde-format
@@ -67988,7 +67987,7 @@ msgstr "Panel de control de INDI…"
 #: kstarsinit.cpp:522
 #, kde-format
 msgid "Displays the Tip of the Day"
-msgstr "Mostra a Suxestión do día"
+msgstr "Amosa a Suxestión do día"
 
 #: kstarsinit.cpp:530
 #, kde-format
@@ -73295,12 +73294,12 @@ msgstr ""
 #: main.cpp:328
 #, kde-format
 msgid "Script executed."
-msgstr "Executouse o script."
+msgstr "Executouse o guión."
 
 #: main.cpp:332
 #, kde-format
 msgid "Could not execute script."
-msgstr "Non se puido executar o script."
+msgstr "Non se puido executar o guión."
 
 #: main.cpp:356
 #, kde-format
@@ -77944,7 +77943,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>O Construtor de scripts permite crear scripts complexos de\n"
+"\t\t<p>O Construtor de guións permite crear scripts complexos de\n"
 "\t\t\tDCOP cunha interface simple. Os programas pódense executar\n"
 "\t\t\tmáis tarde na liña de ordes ou dentro de KStars.\n"
 "\t\t</p>\n"
@@ -82123,7 +82122,7 @@ msgstr "Axustar o reloxo do sistema para a hora local especificada."
 #: tools/scriptbuilder.cpp:207
 #, kde-format
 msgid "Pause script execution for specified number of seconds."
-msgstr "Deter a execución do script durante os segundos que se indican."
+msgstr "Deter a execución do guión durante os segundos que se indican."
 
 #: tools/scriptbuilder.cpp:209
 #, kde-format
@@ -82131,7 +82130,7 @@ msgid ""
 "Halt script execution until the specified key is pressed.  Only single-key "
 "strokes are possible; use 'space' for the spacebar."
 msgstr ""
-"Parar a execución do script ata se premer a tecla indicada. Só se admiten "
+"Parar a execución do guión ata se premer a tecla indicada. Só se admiten "
 "eventos dunha única tecla, utiliza «space» para a barra espazadora."
 
 #: tools/scriptbuilder.cpp:213
@@ -82651,7 +82650,7 @@ msgstr "Produciuse un erro na descarga"
 #: tools/scriptbuilder.cpp:946
 #, kde-format
 msgid "Save Changes to Script?"
-msgstr "Quere gardar os cambios do script?"
+msgstr "Quere gardar os cambios do guión?"
 
 #: tools/scriptbuilder.cpp:947
 #, kde-format
@@ -82659,12 +82658,12 @@ msgid ""
 "The current script has unsaved changes.  Would you like to save before "
 "closing it?"
 msgstr ""
-"O script actual ten cambios non gardados. Quere gardalos antes de pechalo?"
+"O guión actual ten cambios non gardados. Quere gardalos antes de pechalo?"
 
 #: tools/scriptbuilder.cpp:1109
 #, kde-format
 msgid "Could not parse script.  Line was: %1"
-msgstr "Non se puido procesar o script. A liña foi a: %1"
+msgstr "Non se puido procesar o guión. A liña foi a: %1"
 
 #: tools/scriptbuilder.cpp:1520 tools/scriptbuilder.cpp:1524
 #: tools/scriptbuilder.cpp:1578 tools/scriptbuilder.cpp:2004
@@ -82694,7 +82693,7 @@ msgstr ""
 #: tools/scriptbuilder.ui:67
 #, kde-format
 msgid "New Script"
-msgstr "Novo script"
+msgstr "Novo guión"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: tools/scriptbuilder.ui:70
@@ -82703,8 +82702,8 @@ msgid ""
 "Discards current script and starts a new one.  Will prompt to save any "
 "unsaved changes in the current script."
 msgstr ""
-"Descarta o script actual e comeza un novo. Preguntará se se desexan gardar "
-"os cambios do script actual."
+"Descarta o guión actual e comeza un novo. Preguntará se se desexan gardar os "
+"cambios do guión actual."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:101
@@ -82720,14 +82719,14 @@ msgid ""
 "Opens an existing script.  Will prompt to save any unsaved changes in the "
 "current script."
 msgstr ""
-"Abre un script existente. Preguntará se se desexan gardar os cambiosdo "
-"script actual."
+"Abre un guión existente. Preguntará se se desexan gardar os cambiosdo script "
+"actual."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:135
 #, kde-format
 msgid "Save Script"
-msgstr "Gardar o script"
+msgstr "Gardar o guión"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:138
@@ -82736,14 +82735,14 @@ msgid ""
 "Save the current script.  If the script has not been saved before, this is "
 "equivalent to \"Save As...\""
 msgstr ""
-"Garda o script actual. Se non se gardou anteriormente, isto é equivalente a "
+"Garda o guión actual. Se non se gardou anteriormente, isto é equivalente a "
 "«Gardar como…»"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveAsButton)
 #: tools/scriptbuilder.ui:169
 #, kde-format
 msgid "Save Script As..."
-msgstr "Gardar o script como…"
+msgstr "Gardar o guión como…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveAsButton)
 #: tools/scriptbuilder.ui:172
@@ -82752,14 +82751,14 @@ msgid ""
 "Saves the script to a file, allowing you to first specify the filename and a "
 "name for the script."
 msgstr ""
-"Garda o script nun ficheiro, permitindo primeiro indicar o nome do ficheiro "
-"e do script."
+"Garda o guión nun ficheiro, permitindo primeiro indicar o nome do ficheiro e "
+"do guión."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:197
 #, kde-format
 msgid "Test Script"
-msgstr "Probar o script"
+msgstr "Probar o guión"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:200
@@ -82768,8 +82767,8 @@ msgid ""
 "Executes the script in the KStars main window.  You may want to reposition "
 "the Script Builder tool so that the Sky map is visible.  "
 msgstr ""
-"Executa o script na xanela principal de KStars. Quizais queiras recolocar de "
-"novo o Construtor de scripts para que o mapa celeste estea visíbel. "
+"Executa o guión na xanela principal de KStars. Quizais queiras recolocar de "
+"novo o Construtor de guións para que o mapa celeste estea visíbel. "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/scriptbuilder.ui:235
@@ -82786,7 +82785,7 @@ msgid ""
 "arguments below.  Use the action buttons at right to copy, remove, or change "
 "the position of the selected command.  "
 msgstr ""
-"Isto mostra a lista de ordes presentes no script actual. Se realza algunha "
+"Isto amosa a lista de ordes presentes no guión actual. Se realza algunha "
 "orde, aparecerá en baixo un trebello onde has poder indicar os argumentos. "
 "Utiliza os botóns de acción da dereita para copiar, retirar ou cambiar a "
 "posición da orde escollida. "
@@ -82855,7 +82854,7 @@ msgid ""
 "move it up one position in the script."
 msgstr ""
 "Se houber algunha función realzada no «Script actual», este botón súbea unha "
-"posición no script."
+"posición no guión."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DownButton)
 #: tools/scriptbuilder.ui:404
@@ -82871,7 +82870,7 @@ msgid ""
 "move it down one position in the script."
 msgstr ""
 "Se houber algunha función realzada no «Script actual», este botón báixaa "
-"unha posición no script."
+"unha posición no guión."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/scriptbuilder.ui:434
@@ -82905,7 +82904,7 @@ msgstr ""
 #: tools/scriptnamedialog.ui:29
 #, kde-format
 msgid "Enter name for the script"
-msgstr "Insire o nome do script"
+msgstr "Insire o nome do guión"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ScriptName)
 #: tools/scriptnamedialog.ui:32
@@ -82914,7 +82913,7 @@ msgid ""
 "Enter a name for the script.  This is not the file name, just a short "
 "descriptive line of text."
 msgstr ""
-"Insire un nome para o script. Este non é o nome do ficheiro, só un breve "
+"Insire un nome para o guión. Este non é o nome do ficheiro, só un breve "
 "texto descritivo."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AuthorName)
@@ -82927,7 +82926,7 @@ msgstr "Insire o nome do autor"
 #: tools/scriptnamedialog.ui:52
 #, kde-format
 msgid "Script name:"
-msgstr "Nome do script:"
+msgstr "Nome do guión:"
 
 #: tools/skycalendar.cpp:45
 #, fuzzy, kde-format
@@ -83444,7 +83443,7 @@ msgstr "Hora da ascensión lunar"
 #: tools/wutdialog.ui:205
 #, kde-format
 msgid "Displays the time at which the moon rises on the selected date."
-msgstr "Mostra a hora de ascensión da Lúa na data escollida."
+msgstr "Amosa a hora de ascensión da Lúa na data escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:208
@@ -83463,7 +83462,7 @@ msgstr "A duración da noite na data escollida"
 #, kde-format
 msgid "Displays the duration between sunset and sunrise for the selected date."
 msgstr ""
-"Mostra a duración entre a ascensión e o ocaso do sol para a data escollida."
+"Amosa a duración entre a ascensión e o ocaso do sol para a data escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, NightDurationLabel)
 #: tools/wutdialog.ui:233
@@ -83481,7 +83480,7 @@ msgstr "Hora do ocaso solar"
 #: tools/wutdialog.ui:255
 #, kde-format
 msgid "Displays the time of sunset for the selected date."
-msgstr "Mostra a hora de ocaso solar na data escollida."
+msgstr "Amosa a hora de ocaso solar na data escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, SunSetLabel)
 #: tools/wutdialog.ui:258
@@ -83499,7 +83498,7 @@ msgstr "Hora do ocaso lunar"
 #: tools/wutdialog.ui:280
 #, kde-format
 msgid "Displays the time at which the moon sets on the selected date."
-msgstr "Mostra a hora de ocaso da Lúa para a data escollida."
+msgstr "Amosa a hora de ocaso da Lúa para a data escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, MoonSetLabel)
 #: tools/wutdialog.ui:283
@@ -83517,7 +83516,7 @@ msgstr "Hora do orto helíaco"
 #: tools/wutdialog.ui:305
 #, kde-format
 msgid "Displays the time of sunrise for the selected date."
-msgstr "Mostra a hora de ascensión do sol na data escollida."
+msgstr "Amosa a hora de ascensión do sol na data escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, SunRiseLabel)
 #: tools/wutdialog.ui:308
@@ -83535,7 +83534,7 @@ msgstr "A fracción iluminada da Lúa"
 #: tools/wutdialog.ui:330
 #, kde-format
 msgid "Displays the illumination fraction of the Moon for the selected date."
-msgstr "Mostra a fracción de iluminación da Lúa na data escollida."
+msgstr "Amosa a fracción de iluminación da Lúa na data escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, MoonIllumLabel)
 #: tools/wutdialog.ui:333
@@ -83568,7 +83567,7 @@ msgid ""
 "Displays the time at which the highlighted object rises above the horizon on "
 "the selected date."
 msgstr ""
-"Mostra a hora á cal o obxecto realzado se eleva acima do horizonte na data "
+"Amosa a hora á cal o obxecto realzado se eleva acima do horizonte na data "
 "escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, ObjectRiseLabel)
@@ -83584,7 +83583,7 @@ msgid ""
 "Displays the time at which the highlighted object transits across the local "
 "meridian on the selected date."
 msgstr ""
-"Mostra a hora á cal o obxecto realzado pasa polo meridiano local na data "
+"Amosa a hora á cal o obxecto realzado pasa polo meridiano local na data "
 "escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, ObjectTransitLabel)
@@ -83600,7 +83599,7 @@ msgid ""
 "Displays the time at which the highlighted object sets below the horizon on "
 "the selected date."
 msgstr ""
-"Mostra a hora á cal o obxecto realzado pasa para baixo do horizonte na data "
+"Amosa a hora á cal o obxecto realzado pasa para baixo do horizonte na data "
 "escollida."
 
 #. i18n: ectx: property (text), widget (QLabel, ObjectSetLabel)
