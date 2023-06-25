@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:44+0000\n"
-"PO-Revision-Date: 2023-06-23 01:20+0200\n"
+"PO-Revision-Date: 2023-06-25 01:10+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18478,17 +18478,15 @@ msgstr "Número de pasos:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/focus.ui:2586
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Número de dígitos usados para añadir el número de "
-"secuencia al nombre de archivo.</p></body></html>"
+"<html><head/><body><p>El número total de pasos que se debe usar cuando el "
+"recorrido está definido a uno de los números fijos de recorridos de pasos y "
+"el algoritmo es «Lineal de 1 paso».</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2624
@@ -18688,16 +18686,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3065
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Escalar el eje de valores al intervalo de valores "
-"actual.</p></body></html>"
+"<html><head/><body><p>Restablecer la longitud de onda, la apertura y la "
+"relación focal a los valores del filtro y del tren óptico seleccionados.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3068
@@ -35034,17 +35030,15 @@ msgstr "Nombre de usuario de EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1587
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Offline Server"
-msgstr "Servicio Ekos Live"
+msgstr "Servidor de EkosLive sin conexión"
 
 #. i18n: ectx: label, entry (EkosLiveOnlineServer), group (EkosLive)
 #: kstars.kcfg:1591
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Online Server"
-msgstr "Servicio Ekos Live"
+msgstr "Servidor de EkosLive en línea"
 
 #. i18n: ectx: label, entry (shutterfulCCDs), group (DarkLibrary)
 #: kstars.kcfg:1616
@@ -35973,14 +35967,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusOutSteps), group (Focus)
 #: kstars.kcfg:2068
-#, fuzzy, kde-format
-#| msgid ""
-#| "The number of steps to move outwards from the start position of an "
-#| "Autofocus run."
+#, kde-format
 msgid "The number of steps to move outwards for a Classic Autofocus run."
 msgstr ""
-"El número de pasos para mover hacia afuera desde la posición de inicio de "
-"una ejecución de enfoque automático."
+"El número de pasos a mover hacia afuera para una ejecución de enfoque "
+"automático clásica."
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2072
@@ -36022,7 +36013,7 @@ msgstr ""
 #: kstars.kcfg:2089
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr ""
+msgstr "La cantidad de sobreexploración de enfoque automático."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2097
@@ -36061,6 +36052,8 @@ msgstr ""
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
 msgstr ""
+"Controla si se debe mostrar la CFZ en la curva V tras una ejecución de "
+"enfoque automático."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2118

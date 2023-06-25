@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1654326 $
+# Version: $Revision: 1654540 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:44+0000\n"
-"PO-Revision-Date: 2023-06-17 09:16+0200\n"
+"PO-Revision-Date: 2023-06-24 07:07+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -15960,6 +15960,11 @@ msgid ""
 "rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
 "of the rotator in order to have a reasonable display.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Wskaźnik obrotnicy wyświetla bieżący kąt położenia "
+"aparatu (żółty) i nieprzeliczony kąt obrotnicy (szary). Upewnij się, że masz "
+"skalibrowaną obrotnicę (synchronizując kąt obrotnicy z zerem po zachodniej "
+"stronie doku) po świeżym zamontowaniu obrotnicy, aby mieć sensowny widok.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QFrame, Parameter)
 #. i18n: ectx: property (toolTip), widget (QGroupBox, LimitGroup)
@@ -15977,6 +15982,10 @@ msgid ""
 "angle) respective to North on pierside WEST or respective to South on "
 "pierside EAST.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Nieprzeliczony kąt pełnego koła obrotnicy urządzenia "
+"obrotnicy, który jest przeliczany jako różnica położenia początkowego "
+"obrotnicy (kąt zerowy) względem północy po zachodniej stronie doku lub "
+"względem południa po wschodniej stronie doku.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:209
@@ -17275,6 +17284,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Podczas ogniskowania w trybie Pełnego Pola, steruje to "
+"rozmiarem Pierścienia Kołowego wyśrodkowanego na środku czujnika tak, aby "
+"uwzględnić go w przeliczeniach. Ustaw wewnętrzny % na zero, aby uwzględnić "
+"środek czujnika i ustaw zewnętrzny % na 100, aby uwzględnić zewnętrzne "
+"krawędzie czujnika. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
 #: ekos/focus/focus.ui:993
@@ -17320,6 +17334,11 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zaznacz Podklatę, aby ostrość używała pojedynczej "
+"gwiazdy(uwaga: Pełne Pole używa wielu gwiazd).  W tym trybie zaznaczone jest "
+"pole Sam Wybierz Gwiazdę, aby umożliwić Ekosowi wybór gwiazdy (gdy tak "
+"zaznaczono) albo umożliwić użytkownikowi ręczny wybór gwiazdy w Przeglądarce "
+"Fits (gdy tak nie zaznaczono).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
@@ -17336,6 +17355,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zaznacz Pełne Pole, aby umożliwić układowi "
+"ogniskującemu użycie wielu gwiazd (uwaga: Podklatka używa pojedynczej "
+"gwiazdy).  W tym trybie Ekos sam wybierze wiele gwiazd podczas "
+"samoogniskowania oraz, na przykład, uśredni HFR wszystkich wykrytych gwiazd, "
+"aby wykonać ogniskowanie. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17452,6 +17476,10 @@ msgid ""
 "the tile size does not exceed one third of the shorter side of the image (in "
 "most cases, it's height).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kratki są kwadratami z długością krawędzi obliczoną "
+"jako dany procent szerokości obrazu. Procent jest ograniczony w ten sposób, "
+"że rozmiar kratki nie przekracza jednej trzeciej krótszej krawędzi obrazu (w "
+"większości przypadków jest to wysokość).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/focus/focus.ui:1269
@@ -18189,6 +18217,11 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dla układów ogniskujących świadomych luzów, ilość luzu "
+"do nałożenia przy odwróceniu kierunku ruchu. Ustaw na 0, aby wyłączyć.</"
+"p><p>Zazwyczaj ustawiony jest albo Luz Układu Ogniskującego albo Nadskan SO."
+"</p><p>To pole ustawia pole Luzu Układu Ogniskującego Indi i można je "
+"ustawić albo tutaj albo w Panelu Sterowania Indi.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2309
@@ -32923,6 +32956,11 @@ msgid ""
 "the sky map will track what is seen in your eyepiece once it is set up "
 "correctly."
 msgstr ""
+"Zaznacz to, jeśli używasz oko w okularze w teleskopie Newtonowskim "
+"zamontowanym na altazymut. Uwzględni to fakt, że obserwator jest "
+"wyprostowany, gdy teleskop porusza się w górę i w dół po to, aby kierunek "
+"mapy nieba śledził to, co jest widziane w okularze, gdy zostanie on "
+"ustawiony poprawnie."
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:810
@@ -67068,6 +67106,11 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"Zaznacz dla odwróconego widoku mapy nieba, gdzie północ (w trybie "
+"Współrzędnych Równoleżnikowych) lub zenit (w trybie Współrzędnych Poziomych) "
+"jest pionowo w dół. Będzie to naturalny wybór dla obróconego obrazu "
+"teleskopie znajdującym, refraktorze, odbłyśniku Cassegrain bez wznoszącej "
+"pryzmy lub Dobsonianie."
 
 #: kstarsinit.cpp:729
 #, fuzzy, kde-format
