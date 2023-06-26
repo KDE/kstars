@@ -1184,7 +1184,7 @@
 
       <listitem>
         <para> <emphasis role="bold">Gold</emphasis>: This method is based on work done by Gold Astro and presented
-        <ulink url="http://www.goldastro.com/goldfocus/ncfz.php">here</ulink>.</para>
+        <ulink url="https://www.goldastro.com/goldfocus/ncfz.php">here</ulink>.</para>
         <screenshot>
           <screeninfo> Focus Mechanics </screeninfo>
           <mediaobject> <imageobject> <imagedata fileref="focus_cfz_gold.png" format="PNG" width="50%"/>
@@ -1205,7 +1205,7 @@
   <listitem>
     <para> <guilabel>Tolerance (τ)</guilabel>: This is used by the Gold algorithm and is a focus tolerance as a percentage of
     total seeing. The Gold website suggests 3-5% for a good focuser or 1-2% for a top quality focuser. See the
-    <ulink url="http://www.goldastro.com/goldfocus/ncfz.php">Gold Astro website</ulink> for more details.</para>
+    <ulink url="https://www.goldastro.com/goldfocus/ncfz.php">Gold Astro website</ulink> for more details.</para>
   </listitem>
 
   <listitem>
@@ -1236,7 +1236,7 @@
   <listitem>
     <para> <guilabel>FWHM (θ)</guilabel>: This is used by the Gold Algorithm and is the total seeing. This is the combined
     contribution of the diffraction limit of your telescope and the astronomical seeing. The
-    <ulink url="http://www.goldastro.com/goldfocus/ncfz.php">Gold Astro website</ulink> describes how you might approximate
+    <ulink url="https://www.goldastro.com/goldfocus/ncfz.php">Gold Astro website</ulink> describes how you might approximate
     the total once you have values for the individual contributions.</para>
   </listitem>
 
