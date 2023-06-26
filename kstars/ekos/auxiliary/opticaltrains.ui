@@ -300,7 +300,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the device that receives the guiding correction pulses. This can be one of the following devices:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mount&lt;/span&gt;: If the Mount can receive guiding correction pulses, then it is best to select it so that the pulses are directly sent to the mount. This is the recommended option.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ST4&lt;/span&gt;: If using an ST4 cable between the guide camera and mount, then you should select the Guide Camera as the Guider.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Dedicated Guider&lt;/span&gt;: If using a dedicated guider interface device (like Shoestring GPUSB) then select it as the Guider.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Guider:</string>
+          <string>Guide Via:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
