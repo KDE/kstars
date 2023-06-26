@@ -81,7 +81,7 @@ public:
     // set the current CCD temperature
     void setCCDTemperature(double value);
     // set the current camera rotator position
-    void setRotatorAngle(double *value);
+    void setRotatorAngle(double value);
 
     // flag if capture preparation is completed
     bool isCapturePreparationComplete = false;
