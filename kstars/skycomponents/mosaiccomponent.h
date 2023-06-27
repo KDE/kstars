@@ -8,6 +8,7 @@
 #pragma once
 
 #include "skycomponent.h"
+#include <QSharedPointer>
 
 class MosaicTiles;
 

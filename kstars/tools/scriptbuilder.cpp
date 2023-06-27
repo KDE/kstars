@@ -31,6 +31,8 @@
 #include <QTextStream>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QTemporaryFile>
+#include <QProcess>
 #include <QDebug>
 
 #include <sys/stat.h>

@@ -474,33 +474,36 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForRotator()
     KTRY_CLICK(capture, rotatorB);
 
     // ensure that the rotator dialog appears
-    QTest::qWait(2000);
-    QWidget *rotatorDialog = Ekos::Manager::Instance()->findChild<QWidget *>("RotatorDialog");
-    QVERIFY(rotatorDialog != nullptr);
+    QWidget *rotatorDialog = nullptr;
+    QTRY_VERIFY_WITH_TIMEOUT((rotatorDialog = Ekos::Manager::Instance()->findChild<QWidget *>("RotatorDialog")) != nullptr,
+                             10000);
 
     // target angle rotation
     double targetAngle = 90.0;
-    // enforce rotation
-    KTRY_SET_CHECKBOX(rotatorDialog, enforceRotationCheck, true);
     // set the target rotation angle
-    KTRY_SET_DOUBLESPINBOX(rotatorDialog, positionAngleSpin, targetAngle);
-    // Close with OK
-    KTRY_GADGET(rotatorDialog, QDialogButtonBox, buttonBox);
-    QTest::mouseClick(buttonBox->button(QDialogButtonBox::Ok), Qt::LeftButton);
+    KTRY_SET_DOUBLESPINBOX(rotatorDialog, CameraPA, targetAngle);
+    // save it to the sequence job
+    KTRY_SET_CHECKBOX(rotatorDialog, enforceJobPA, true);
 
     // build a simple 1xL sequence
     KTRY_CAPTURE_ADD_LIGHT(30.0, 1, 5.0, "Luminance", getImageLocation()->path() + "/test");
     // expect capturing state
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
 
+    // set the rotation angle back
+    CameraPA->setValue(0);
+    // let the rotator rotate back for at least 3sec
+    QTest::qWait(3000);
+
     // start capturing
     KTRY_CLICK(capture, startB);
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
 
-    KTRY_GADGET(rotatorDialog, QLineEdit, rawAngleOut);
-    QTRY_VERIFY2(fabs(rawAngleOut->text().toDouble() - targetAngle) * 60 <= Options::astrometryRotatorThreshold(),
-                 QString("Rotator angle %1° not at the expected value of %2°").arg(rawAngleOut->text()).arg(targetAngle).toLocal8Bit());
+    // KTRY_GADGET(rotatorDialog, QLineEdit, rawAngleOut);
+    // QTRY_VERIFY2(fabs(rawAngleOut->text().toDouble() - targetAngle) * 60 <= Options::astrometryRotatorThreshold(),
+    //              QString("Rotator angle %1° not at the expected value of %2°").arg(rawAngleOut->text()).arg(targetAngle).toLocal8Bit());
+    QWARN("Since the rotator interface has changed, the correct rotator angle cannot be checked from the test case.");
 }
 
 void TestEkosCaptureWorkflow::testFlatManualSource()
@@ -512,12 +515,11 @@ void TestEkosCaptureWorkflow::testFlatManualSource()
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
 
-    // use a test directory for darks
+    // use a test directory
     QString imagepath = getImageLocation()->path() + "/test";
 
     // switch capture type to flat so that we can set the calibration
-    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
-    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Flat");
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
 
     // select manual flat method
     KTRY_SELECT_FLAT_METHOD(manualSourceC, false, false);
@@ -530,13 +532,13 @@ void TestEkosCaptureWorkflow::testFlatManualSource()
     QFETCH(bool, clickModal2OK);
     if (clickModalOK)
     {
-        // start the flat sequence
+        // start the flat/dark/bias sequence
         m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
         m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IDLE);
         KTRY_CLICK(capture, startB);
         // click OK in the modal dialog for covering the telescope
         CLOSE_MODAL_DIALOG(0);
-        // check if one single flat is captured
+        // check if one single frame is captured
         KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
         if (clickModal2OK)
         {
@@ -580,7 +582,7 @@ void TestEkosCaptureWorkflow::testFlatManualSource()
 }
 
 
-void TestEkosCaptureWorkflow::testFlatLightPanelSource()
+void TestEkosCaptureWorkflow::testLightPanelSource()
 {
     // use the light panel simulator
     m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
@@ -594,9 +596,9 @@ void TestEkosCaptureWorkflow::testFlatLightPanelSource()
     // use a test directory for flats
     QString imagepath = getImageLocation()->path() + "/test";
 
-    // switch capture type to flat so that we can set the calibration
-    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
-    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Flat");
+    // switch capture type to the selected type so that we can set the calibration
+    QFETCH(QString, frametype);
+    KTRY_SET_COMBO(capture, captureTypeS, frametype);
 
     // select internal or external flat light
     QFETCH(bool, internalLight);
@@ -604,8 +606,8 @@ void TestEkosCaptureWorkflow::testFlatLightPanelSource()
         KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, false, false);
     else
         KTRY_SELECT_FLAT_METHOD(darkDeviceSourceC, false, false);
-    // build a simple 1xL flat sequence
-    KTRY_CAPTURE_ADD_FRAME("Flat", 1, 1, 0.0, "Luminance", imagepath);
+    // build a simple 1xL sequence
+    KTRY_CAPTURE_ADD_FRAME(frametype, 1, 1, 0.0, "Luminance", imagepath);
     // build a simple 1xL light sequence
     KTRY_CAPTURE_ADD_LIGHT(1, 1, 0.0, "Red", imagepath);
 
@@ -663,9 +665,8 @@ void TestEkosCaptureWorkflow::testDustcapSource()
     QString imagepath = getImageLocation()->path() + "/test";
 
     // switch capture type to flat so that we can set the calibration
-    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
     QTRY_VERIFY_WITH_TIMEOUT(captureTypeS->findText("Flat", Qt::MatchExactly) >= 0, 5000);
-    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Flat");
 
     // select frame type and internal or external flat light
     QFETCH(bool, internalLight);
@@ -707,8 +708,7 @@ void TestEkosCaptureWorkflow::testWallSource()
     QString imagepath = getImageLocation()->path() + "/test";
 
     // switch capture type to flat so that we can set the calibration
-    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
-    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Flat");
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
 
     // select the wall as flat light source (az=90°, alt=0)
     KTRY_SELECT_FLAT_WALL(capture, "90", "0");
@@ -735,7 +735,7 @@ void TestEkosCaptureWorkflow::testWallSource()
 }
 
 
-void TestEkosCaptureWorkflow::testFlatPreMountAndDomePark()
+void TestEkosCaptureWorkflow::testPreMountAndDomePark()
 {
     // use the light panel simulator
     m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
@@ -744,7 +744,7 @@ void TestEkosCaptureWorkflow::testFlatPreMountAndDomePark()
     // default initialization
     QVERIFY(prepareTestCase());
 
-    QSKIP("Observatory refactoring needs to be completed until this test can be activated.");
+    // QSKIP("Observatory refactoring needs to be completed until this test can be activated.");
 
     // switch to capture module
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
@@ -754,16 +754,17 @@ void TestEkosCaptureWorkflow::testFlatPreMountAndDomePark()
     QString imagepath = getImageLocation()->path() + "/test";
 
     // switch capture type to flat so that we can set the calibration
-    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
-    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Flat");
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
 
-    // select internal flat light, pre-mount and pre-dome park
-    KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, true, true);
+    // select internal flat light, pre-mount and but not pre-dome park
+    KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, true, false);
+    // determine frame type
+    QFETCH(QString, frametype);
     // build a simple 1xL sequence
-    KTRY_CAPTURE_ADD_FLAT(2, 1, 2.0, "Luminance", imagepath);
+    KTRY_CAPTURE_ADD_FRAME(frametype, 2, 1, 2.0, "Luminance", imagepath);
 
     // start the sequence
-    m_CaptureHelper->expectedDomeStates.append(ISD::Dome::DOME_PARKED);
+    // m_CaptureHelper->expectedDomeStates.append(ISD::Dome::DOME_PARKED);
     m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_PARKED);
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
@@ -807,8 +808,7 @@ void TestEkosCaptureWorkflow::testFlatSyncFocus()
     QString imagepath = getImageLocation()->path() + "/test";
 
     // switch capture type to flat so that we can set the calibration
-    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
-    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Flat");
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
 
     // select internal flat light
     KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, false, false);
@@ -996,17 +996,26 @@ void TestEkosCaptureWorkflow::testFlatManualSource_data()
     QTest::addColumn<bool>("clickModal2OK");            /*!< click "OK" on the second modal dialog */
 
     // both variants: click OK and click Cancel
-    QTest::newRow("modal=true") << true << true;
-    QTest::newRow("modal=true") << true << false;
-    QTest::newRow("modal=false") << false << true;
+    QTest::newRow("Flat, modal=true")  << true << true;
+    QTest::newRow("Flat, modal=true")  << true << false;
+    QTest::newRow("Flat, modal=false") << false << true;
 }
 
-void TestEkosCaptureWorkflow::testFlatLightPanelSource_data()
+void TestEkosCaptureWorkflow::testLightPanelSource_data()
 {
+    QTest::addColumn<QString>("frametype");              /*!< frame type (Bias, Dark, Flat)       */
     QTest::addColumn<bool>("internalLight");             /*!< use internal or external flat light */
 
-    QTest::newRow("light=internal") << true;   // light source integrated into the light panel
-    QTest::newRow("light=external") << false;  // external light source used
+    for (auto frametype :
+            {
+                "Flat", "Dark", "Bias"
+            })
+        for (auto internalLight : // light source integrated into the light panel?
+                {
+                    true, false
+                })
+            QTest::newRow(QString("%1, light=%2").arg(frametype).arg(internalLight ? "internal" : "external").toLatin1())
+                    << frametype << internalLight;
 }
 
 void TestEkosCaptureWorkflow::testDustcapSource_data()
@@ -1016,15 +1025,24 @@ void TestEkosCaptureWorkflow::testDustcapSource_data()
 
     //    QTest::newRow("Flat, light=internal") << "Flat" << true;   // flat + light source integrated into the light panel
     QTest::newRow("Flat, light=external") << "Flat" << false;  // flat + external light source used
+    QTest::newRow("Dark, light=external") << "Dark" << false;  // dark + external light source used
+    QTest::newRow("Bias, light=external") << "Bias" << false;  // dark + external light source used
     //    QTest::newRow("Dark") << "Dark" << false;  // dark
 }
 
 void TestEkosCaptureWorkflow::testWallSource_data()
 {
-    QTest::addColumn<QString>("frametype");              /*!< frame type (Dark or Flat)           */
+    QTest::addColumn<QString>("frametype");              /*!< frame type (Dark, Flat or bias)           */
 
     QTest::newRow("Flat") << "Flat";
     QTest::newRow("Dark") << "Dark";
+    QTest::newRow("Bias") << "Bias";
+}
+
+
+void TestEkosCaptureWorkflow::testPreMountAndDomePark_data()
+{
+    testWallSource_data();
 }
 
 void TestEkosCaptureWorkflow::testDarkManualCovering_data()

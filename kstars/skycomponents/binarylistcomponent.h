@@ -7,6 +7,7 @@
 #pragma once
 
 #include <QDataStream>
+#include <QDebug>
 
 #include "listcomponent.h"
 #include "binarylistcomponent.h"

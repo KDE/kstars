@@ -16,6 +16,7 @@
 #include <QSqlQuery>
 #include <QMutex>
 #include <QObject>
+#include <QThread>
 
 #include "polyfills/qstring_hash.h"
 #include <unordered_map>

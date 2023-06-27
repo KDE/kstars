@@ -4,7 +4,7 @@
 #include "config-kstars.h"
 
 #include <QObject>
-#include <QtTest>
+#include <QTest>
 #include <QStandardPaths>
 
 #include "kstars.h"

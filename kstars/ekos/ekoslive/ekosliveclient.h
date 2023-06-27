@@ -55,16 +55,26 @@ class Client : public QDialog, public Ui::EkosLiveDialog
             return m_Cloud;
         }
 
+        // Current supported server types
+        enum
+        {
+            Online,
+            Offline
+        };
+
         void setConnected(bool enabled);
+        void syncURLs();
         void setConfig(bool rememberCredentials, bool autoConnect);
         void setUser(const QString &user, const QString &pass);
+
+    protected:
+        void showSelectServersDialog();
 
     signals:
         void connected();
         void disconnected();        
 
     private:
-
         void onConnected();
         void onDisconnected();
 

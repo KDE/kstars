@@ -16,7 +16,7 @@
 #include <QComboBox>
 #include <QTimer>
 #include <QPushButton>
-#include <QtTest>
+#include <QTest>
 #include "ekos/manager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 

@@ -67,4 +67,5 @@ class FITSLabel : public QLabel
         void pointSelected(int x, int y);
         void markerSelected(int x, int y);
         void rectangleSelected(QPoint p1, QPoint p2,bool refreshCenter);
+        void mouseOverPixel(int x, int y);
 };

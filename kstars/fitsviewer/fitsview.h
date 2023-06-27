@@ -462,6 +462,7 @@ class FITSView : public QScrollArea
 
     signals:
         void newStatus(const QString &msg, FITSBar id);
+        void newStretch(const StretchParams &params);
         void debayerToggled(bool);
         void wcsToggled(bool);
         void actionUpdated(const QString &name, bool enable);
@@ -473,6 +474,7 @@ class FITSView : public QScrollArea
         void setRubberBand(QRect rect);
         void showRubberBand(bool on = false);
         void zoomRubberBand(double scale);
+        void mouseOverPixel(int x, int y);
 
         friend class FITSLabel;
 };

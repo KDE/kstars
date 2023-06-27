@@ -18,6 +18,8 @@
 #include "skymapcomposite.h"
 #include "ksparser.h"
 
+#include <QDBusReply>
+
 namespace Ekos
 {
 

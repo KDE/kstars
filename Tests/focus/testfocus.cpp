@@ -6,7 +6,7 @@
 
 #include "ekos/focus/focusalgorithms.h"
 
-#include <QtTest>
+#include <QTest>
 #include <memory>
 
 #include <QObject>

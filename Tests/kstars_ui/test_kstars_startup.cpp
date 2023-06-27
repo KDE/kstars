@@ -8,7 +8,7 @@
 #include "config-kstars.h"
 
 #include <QObject>
-#include <QtTest>
+#include <QTest>
 #include <QDialogButtonBox>
 #include <QtConcurrent>
 

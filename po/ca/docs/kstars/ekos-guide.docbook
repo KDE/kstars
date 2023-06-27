@@ -460,7 +460,7 @@
             <para
 >L'Ekos desa les dades de registre de la guia en CSV, el qual pot ser útil per a l'anàlisi del rendiment de la muntura sota <filename
 >~/.local/share/kstars/guide_log.txt</filename
->. Aquest registre només estarà disponible quan s'utilitzi el sistema de guiatge incorporat. </para>
+>. Aquest registre només estarà disponible quan s'utilitzi el sistema de guiatge integrat. </para>
         </note>
     </sect3>
 </sect2>

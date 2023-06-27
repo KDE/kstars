@@ -20,7 +20,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
-#include <QtTest>
+#include <QTest>
 #include <QDialog>
 
 /** @brief Helper to retrieve a gadget in the Mount tab specifically.

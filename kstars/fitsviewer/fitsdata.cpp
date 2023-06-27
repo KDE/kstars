@@ -4298,6 +4298,66 @@ void FITSData::constructHistogram()
     }
 }
 
+template <typename T> int32_t FITSData::histogramBinInternal(T value, int channel) const
+{
+    return qMax(static_cast<T>(0), qMin(static_cast<T>(m_HistogramBinCount),
+                                        static_cast<T>(rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
+}
+
+template <typename T> int32_t FITSData::histogramBinInternal(int x, int y, int channel) const
+{
+    if (!m_ImageBuffer || !isHistogramConstructed())
+        return 0;
+    uint32_t samples = m_Statistics.width * m_Statistics.height;
+    uint32_t offset = channel * samples;
+    auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
+    int index = y * m_Statistics.width + x;
+    const T &sample = buffer[index + offset];
+    return histogramBinInternal(sample, channel);
+}
+
+int32_t FITSData::histogramBin(int x, int y, int channel) const
+{
+    switch (m_Statistics.dataType)
+    {
+        case TBYTE:
+            return histogramBinInternal<uint8_t>(x, y, channel);
+            break;
+
+        case TSHORT:
+            return histogramBinInternal<int16_t>(x, y, channel);
+            break;
+
+        case TUSHORT:
+            return histogramBinInternal<uint16_t>(x, y, channel);
+            break;
+
+        case TLONG:
+            return histogramBinInternal<int32_t>(x, y, channel);
+            break;
+
+        case TULONG:
+            return histogramBinInternal<uint32_t>(x, y, channel);
+            break;
+
+        case TFLOAT:
+            return histogramBinInternal<float>(x, y, channel);
+            break;
+
+        case TLONGLONG:
+            return histogramBinInternal<int64_t>(x, y, channel);
+            break;
+
+        case TDOUBLE:
+            return histogramBinInternal<double>(x, y, channel);
+            break;
+
+        default:
+            return 0;
+            break;
+    }
+}
+
 template <typename T> void FITSData::constructHistogramInternal()
 {
     auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
@@ -4313,7 +4373,9 @@ template <typename T> void FITSData::constructHistogramInternal()
         m_HistogramIntensity[n].fill(0, m_HistogramBinCount + 1);
         m_HistogramFrequency[n].fill(0, m_HistogramBinCount + 1);
         m_CumulativeFrequency[n].fill(0, m_HistogramBinCount + 1);
-        m_HistogramBinWidth[n] = qMax(1.0, (m_Statistics.max[n] - m_Statistics.min[n]) / (m_HistogramBinCount - 1));
+        // Distinguish between 0-1.0 ranges and ranges with integer values.
+        const double minBinSize = (m_Statistics.max[n] > 1.1) ? 1.0 : .0001;
+        m_HistogramBinWidth[n] = qMax(minBinSize, (m_Statistics.max[n] - m_Statistics.min[n]) / m_HistogramBinCount);
     }
 
     QVector<QFuture<void>> futures;
@@ -4335,8 +4397,7 @@ template <typename T> void FITSData::constructHistogramInternal()
 
             for (uint32_t i = 0; i < samples; i += sampleBy)
             {
-                int32_t id = qMax(static_cast<T>(0), qMin(static_cast<T>(m_HistogramBinCount),
-                                  static_cast<T>(rint((buffer[i + offset] - m_Statistics.min[n]) / m_HistogramBinWidth[n]))));
+                int32_t id = histogramBinInternal<T>(buffer[i + offset], n);
                 m_HistogramFrequency[n][id] += sampleBy;
             }
         }));
@@ -4364,72 +4425,6 @@ template <typename T> void FITSData::constructHistogramInternal()
         future.waitForFinished();
 
     futures.clear();
-
-#if 0
-    for (int n = 0; n < m_Statistics.channels; n++)
-    {
-        futures.append(QtConcurrent::run([ = ]()
-        {
-            double median[3] = {0};
-            //const bool cutoffSpikes = ui->hideSaturated->isChecked();
-            const uint32_t halfCumulative = m_CumulativeFrequency[n][m_HistogramBinCount - 1] / 2;
-
-            // Find which bin contains the median.
-            int median_bin = -1;
-            for (int i = 0; i < m_HistogramBinCount; i++)
-            {
-                if (m_CumulativeFrequency[n][i] > halfCumulative)
-                {
-                    median_bin = i;
-                    break;
-                }
-            }
-
-            if (median_bin >= 0)
-            {
-                // The number of items in the median bin
-                const uint32_t median_bin_size = m_HistogramFrequency[n][median_bin] / sampleBy;
-                if (median_bin_size > 0)
-                {
-                    // The median is this element inside the sorted median_bin;
-                    const uint32_t samples_before_median_bin = median_bin == 0 ? 0 : m_CumulativeFrequency[n][median_bin - 1];
-                    uint32_t median_position = (halfCumulative - samples_before_median_bin) / sampleBy;
-
-                    if (median_position >= median_bin_size)
-                        median_position = median_bin_size - 1;
-                    if (median_position >= 0 && median_position < median_bin_size)
-                    {
-                        // Fill a vector with the values in the median bin (sampled by sampleBy).
-                        std::vector<T> median_bin_samples(median_bin_size);
-                        uint32_t upto = 0;
-                        const uint32_t offset = n * samples;
-                        for (uint32_t i = 0; i < samples; i += sampleBy)
-                        {
-                            if (upto >= median_bin_size) break;
-                            const int32_t id = rint((buffer[i + offset] - m_Statistics.min[n]) / m_HistogramBinWidth[n]);
-                            if (id == median_bin)
-                                median_bin_samples[upto++] = buffer[i + offset];
-                        }
-                        // Get the Nth value using N = the median position.
-                        if (upto > 0)
-                        {
-                            if (median_position >= upto) median_position = upto - 1;
-                            std::nth_element(median_bin_samples.begin(), median_bin_samples.begin() + median_position,
-                                             median_bin_samples.begin() + upto);
-                            median[n] = median_bin_samples[median_position];
-                        }
-                    }
-                }
-            }
-
-            setMedian(median[n], n);
-
-        }));
-    }
-
-    for (QFuture<void> future : futures)
-        future.waitForFinished();
-#endif
 
     // Custom index to indicate the overall contrast of the image
     if (m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount / 4] > 0)

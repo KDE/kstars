@@ -17,7 +17,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
-#include <QtTest>
+#include <QTest>
 #include <QSystemTrayIcon>
 
 /** @brief Helper to show the Focus tab

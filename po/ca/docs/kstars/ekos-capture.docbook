@@ -42,7 +42,7 @@
                 <para
 ><guilabel
 >AC</guilabel
->: Seleccioneu el dispositiu actiu de la roda de filtres. Si la vostra càmera té una roda de filtres incorporada, el dispositiu serà el mateix que la càmera. </para>
+>: Seleccioneu el dispositiu actiu de la roda de filtres. Si la vostra càmera té una roda de filtres integrada, el dispositiu serà el mateix que la càmera. </para>
             </listitem>
             <listitem>
                 <para
@@ -423,7 +423,7 @@
 >Cua de seqüències</title>
 
         <para
->La cua de seqüències és el nucli primari del mòdul per a la captura de l'Ekos. Aquí és on podreu planificar i executar les tasques utilitzant el potent editor incorporat de la cua de seqüències. Per a afegir una tasca, simplement seleccioneu tots els paràmetres des de la configuració de la captura i el fitxer tal com s'ha indicat anteriorment. Un cop seleccionats els paràmetres desitjats, feu clic al botó <inlinemediaobject
+>La cua de seqüències és el nucli primari del mòdul per a la captura de l'Ekos. Aquí és on podreu planificar i executar les tasques utilitzant el potent editor integrat de la cua de seqüències. Per a afegir una tasca, simplement seleccioneu tots els paràmetres des de la configuració de la captura i el fitxer tal com s'ha indicat anteriorment. Un cop seleccionats els paràmetres desitjats, feu clic al botó <inlinemediaobject
 ><imageobject
 ><imagedata fileref="list-add.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -513,104 +513,6 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
-
-    <sect3 id="capture-filter-settings">
-        <title
->Configuració del filtre</title>
-
-        <screenshot>
-            <screeninfo
->Cua del filtre </screeninfo>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="filter_settings.png" format="PNG"/>
-                </imageobject>
-                <textobject>
-                    <phrase
->Cua del filtre</phrase>
-                </textobject>
-            </mediaobject>
-        </screenshot>
-
-        <para
->Feu clic a la icona del filtre <inlinemediaobject
-><imageobject
-><imagedata fileref="view-filter.png" format="PNG"/></imageobject
-></inlinemediaobject
-> que hi ha al costat de la casella de selecció de la roda de filtres per a obrir el diàleg de configuració del filtre. Si utilitzeu filtres que no són parafocals i que requereixen una quantitat específica de desplaçament de l'enfocament per tal d'obtenir resultats adequats, establiu en el diàleg tots els desplaçaments relatius a l'enfocament. </para>
-        <para
->Configureu les opcions de cada filtre individualment: </para>
-        <orderedlist>
-            <listitem>
-                <para
-><guilabel
->Filtre</guilabel
->: Nom del filtre. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Exposició</guilabel
->: Estableix el temps d'exposició utilitzat quan es realitza l'enfocament sota aquest filtre. De manera predeterminada, està establert a 1 segon. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Desplaçament</guilabel
->: Estableix desplaçaments relatius. L'Ekos ordenarà un canvi en el desplaçament de l'enfocament si hi ha una diferència entre els desplaçaments actuals i els filtres de l'objectiu. Per exemple, tenint en compte els valors de la imatge d'exemple, si el filtre actual està establert a <emphasis
->Vermell</emphasis
-> i el següent filtre és <emphasis
->Verd</emphasis
->, l'Ekos ordenarà a l'enfocador que faci un «Enfoca endins» en +300 marques. Els desplaçaments positius de l'enfocament relatiu denoten «Enfoca enfora», mentre els valors negatius denoten «Enfoca endins». </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Enfocament automàtic</guilabel
->: Marqueu aquesta opció en el procés inicial de l'enfocament automàtic sempre que el filtre es canviï a aquest filtre. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Bloqueja el filtre</guilabel
->: Estableix que el filtre s'ha d'establir i <emphasis
->bloquejar</emphasis
-> quan es realitza l'enfocament automàtic per a aquest filtre. </para>
-            </listitem>
-        </orderedlist>
-        <para
->Ara agafarem un exemple. Suposem que la seqüència de captura s'està executant i que el filtre actual és <guilabel
->Verd</guilabel
->, de manera que el desplaçament relatiu ja s'ha establert a +300. La següent imatge a la seqüència utilitza Hydrogen Alpha (H_Alpha), de manera que, abans que l'Ekos capturi el següent fotograma, es produiran les següents accions: </para>
-        <itemizedlist>
-            <listitem>
-                <para
->Atès que s'especifica lluminositat com el filtre bloquejat i l'enfocament automàtic està marcat, el filtre es canviarà a lluminositat. </para>
-            </listitem>
-            <listitem>
-                <para
->S'ha aplicat un desplaçament de l'enfocament de -300, ja que el filtre anterior <guilabel
->Verd</guilabel
-> es va moure +300 anteriorment. </para>
-            </listitem>
-            <listitem>
-                <para
->S'ha iniciat el procés per a l'enfocament automàtic. </para>
-            </listitem>
-            <listitem>
-                <para
->Un cop completat l'enfocament automàtic, el filtre es canvia a H_Alpha. </para>
-            </listitem>
-            <listitem>
-                <para
->S'ha aplicat un desplaçament de l'enfocament de -1200. </para>
-            </listitem>
-            <listitem>
-                <para
->S'ha reprès la seqüència de captura. </para>
-            </listitem>
-        </itemizedlist>
     </sect3>
 
     <sect3 id="capture-fits-viewer">
@@ -727,7 +629,7 @@
                         <listitem>
                             <para
 ><guilabel
->Funda de protecció amb llum plana incorporada</guilabel
+>Funda de protecció amb llum plana integrada</guilabel
 >: Si s'utilitza una funda de protecció amb una font de llum integrada (&pex;, FlipFlat). Per als fotogrames foscos i polaritzats, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, tanqueu la funda de protecció i enceneu la font de llum.</para>
                         </listitem>
                         <listitem>

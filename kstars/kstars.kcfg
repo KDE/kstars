@@ -1583,6 +1583,14 @@
        <entry name="EkosLiveUsername" type="String">
           <label>EkosLive username</label>
        </entry>
+       <entry name="EkosLiveOfflineServer" type="String">
+          <label>EkosLive Offline Server</label>
+          <default>http://localhost:3000</default>
+       </entry>
+       <entry name="EkosLiveOnlineServer" type="String">
+          <label>EkosLive Online Server</label>
+          <default>https://live.stellarmate.com</default>
+       </entry>
        <entry name="EkosLiveSound" type="Bool">
           <default>true</default>
        </entry>

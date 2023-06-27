@@ -1050,7 +1050,7 @@
              <item row="1" column="1" colspan="2">
               <widget class="QRadioButton" name="focusSubFrame">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe around the focus star during the autofocus procedure.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select Sub Frame to make focus to use a single star (note: Full Field uses multiple stars).  In this mode the Auto Select Star checkbox becomes active to allow either Ekos to select a star (when checked) or to allow the user to manually select the star in FitsViewer (when unchecked).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
                 <string>Sub Frame</string>
@@ -1066,7 +1066,7 @@
              <item row="1" column="0">
               <widget class="QRadioButton" name="focusUseFullField">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select Full Field to allow focus to use multiple stars (note: Sub Frame uses a single star).  In this mode Ekos will automatically select multiple stars during Autofocus and,  for example,  average the HFR of all stars detected to perform focus. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
                 <string>Full Field</string>
@@ -1170,7 +1170,7 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Automatically select the best focus star from the image</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This option is only active when Sub Frame is selected.  Check to allow Ekos to select a single star for focus; uncheck to allow the user to select the star to use in FitsViewer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
                 <string>Auto Select Star</string>
@@ -1696,7 +1696,7 @@
              <item row="2" column="1">
               <widget class="QComboBox" name="focusStarMeasure">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the Measure to use when fitting a curve for Linear 1 Pass:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;HFR&lt;/span&gt;: Half Flux Radius. Uses an algorithm to calculate the radius of a circle centred on the star centroid that encapulates half the star's flux.&lt;/li&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;HFR Adj&lt;/span&gt;: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. This is an experimental feature.&lt;/li&gt;&lt;/ul&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;FWHM&lt;/span&gt;: Full Width Half Maximum. Curve fits a PSF to each star centroid and uses the curve to calculate the FWHM. This is an experimental feature.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;# Stars&lt;/span&gt;: Number of stars. The number of detected stars at optimum focus will be a maximum. This is an experimental feature.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Fourier&lt;/span&gt;: Fourier power calculation. Uses the Fourier Transform Power approach developed by Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus the power in frequency space [result of the fourier transform] will be a maximum. This is an experimental feature.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the Measure to use when fitting a curve for Linear 1 Pass:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;HFR&lt;/span&gt;: Half Flux Radius. Uses an algorithm to calculate the radius of a circle centred on the star centroid that encapsulates half the star's flux.&lt;/li&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;HFR Adj&lt;/span&gt;: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. This is an experimental feature.&lt;/li&gt;&lt;/ul&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;FWHM&lt;/span&gt;: Full Width Half Maximum. Curve fits a PSF to each star centroid and uses the curve to calculate the FWHM. This is an experimental feature.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;# Stars&lt;/span&gt;: Number of stars. The number of detected stars at optimum focus will be a maximum. This is an experimental feature.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Fourier&lt;/span&gt;: Fourier power calculation. Uses the Fourier Transform Power approach developed by Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus the power in frequency space [result of the fourier transform] will be a maximum. This is an experimental feature.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <item>
                 <property name="text">
@@ -3876,7 +3876,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="focusMaskBG"/>
   <buttongroup name="focusFieldBG"/>
+  <buttongroup name="focusMaskBG"/>
  </buttongroups>
 </ui>

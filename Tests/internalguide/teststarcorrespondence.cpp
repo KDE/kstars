@@ -6,7 +6,7 @@
 
 #include "ekos/guide/internalguide/starcorrespondence.h"
 
-#include <QtTest>
+#include <QTest>
 
 #include <QObject>
 

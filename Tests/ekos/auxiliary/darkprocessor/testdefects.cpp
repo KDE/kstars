@@ -5,7 +5,7 @@
 */
 
 
-#include <QtTest>
+#include <QTest>
 #include <memory>
 
 #include <QObject>

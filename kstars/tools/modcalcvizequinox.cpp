@@ -18,6 +18,7 @@
 #include <KPlotPoint>
 
 #include <cmath>
+#include <QtMath>
 
 modCalcEquinox::modCalcEquinox(QWidget *parentSplit) : QFrame(parentSplit), dSpring(), dSummer(), dAutumn(), dWinter()
 {

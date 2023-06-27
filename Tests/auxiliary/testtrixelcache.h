@@ -4,7 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include <QtTest/QtTest>
+#include <QTest>
 #include <QtConcurrent/QtConcurrentRun>
 #include <qtestcase.h>
 #include "trixelcache.h"

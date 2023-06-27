@@ -19,7 +19,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
-#include <QtTest>
+#include <QTest>
 
 
 class TestEkosCapture : public QObject

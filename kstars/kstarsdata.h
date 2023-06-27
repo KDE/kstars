@@ -23,6 +23,7 @@
 #include <QList>
 #include <QMap>
 #include <QKeySequence>
+#include <QMutex>
 
 #include <iostream>
 #include <memory>

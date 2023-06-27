@@ -8,7 +8,7 @@
 
 #include "auxiliary/dms.h"
 
-#include <QtTest>
+#include <QTest>
 
 TestDMS::TestDMS() : QObject()
 {

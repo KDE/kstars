@@ -7,7 +7,7 @@
 #ifndef TESTGEOLOCATION_H
 #define TESTGEOLOCATION_H
 
-#include <QtTest>
+#include <QTest>
 #include <QObject>
 
 class TestGeolocation : public QObject

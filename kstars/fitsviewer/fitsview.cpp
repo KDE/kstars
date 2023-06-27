@@ -100,6 +100,7 @@ void FITSView::doStretch(QImage *outputImage)
     {
         // Compute new auto-stretch params.
         stretchParams = stretch.computeParams(m_ImageData->getImageBuffer());
+        emit newStretch(stretchParams);
         tempParams = stretchParams;
     }
     else
@@ -201,6 +202,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     m_ImageFrame = new FITSLabel(this);
     m_ImageFrame->setMouseTracking(true);
     connect(m_ImageFrame, &FITSLabel::newStatus, this, &FITSView::newStatus);
+    connect(m_ImageFrame, &FITSLabel::mouseOverPixel, this, &FITSView::mouseOverPixel);
     connect(m_ImageFrame, &FITSLabel::pointSelected, this, &FITSView::processPointSelection);
     connect(m_ImageFrame, &FITSLabel::markerSelected, this, &FITSView::processMarkerSelection);
     connect(m_ImageFrame, &FITSLabel::rectangleSelected, this, &FITSView::processRectangle);

@@ -117,7 +117,7 @@ public:
         /**
          * @brief Set the rotator's angle
          */
-        void setRotatorAngle(double *rawAngle);
+        void setRotatorAngle(double rawAngle);
 
         /**
          * @brief Get the rotator's angle

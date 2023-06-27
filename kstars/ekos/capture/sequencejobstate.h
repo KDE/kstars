@@ -268,7 +268,7 @@ class SequenceJobState: public QObject
         // Capture initialization complete(d)
         void initCaptureComplete(FITSMode mode);
         // change the rotator angle
-        void setRotatorAngle(double *rawAngle);
+        void setRotatorAngle(double rawAngle);
         // ask for the current filter position
         void readFilterPosition();
         // Change the filter to the given position and the filter change policy
@@ -414,6 +414,13 @@ class SequenceJobState: public QObject
          *         process should be aborted.
          */
         IPState checkFlatsLightCoverReady();
+
+        /**
+         * @brief Check if the selected dark covers is ready.
+         * @return IPS_OK if cover closed, IPS_BUSY if not and IPS_ALERT if the
+         *         process should be aborted.
+         */
+        IPState checkDarksCoverReady();
 
         /**
           * @brief Ask the user to place a flat screen onto the telescope

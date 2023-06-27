@@ -328,7 +328,7 @@ bool Guide::setCamera(ISD::Camera * device)
 
     if (m_Camera)
     {
-        connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
+        connect(m_Camera, &ISD::Camera::Connected, this, [this]()
         {
             controlGroupBox->setEnabled(true);
         });
@@ -505,7 +505,7 @@ void Guide::checkCamera()
         return;
     }
 
-    connect(m_Camera, &ISD::Camera::updateProperty, this, &Ekos::Guide::updateProperty, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::propertyUpdated, this, &Ekos::Guide::updateProperty, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
     syncCameraInfo();
@@ -2541,12 +2541,12 @@ void Guide::nonGuidedDither()
                                "de_polarity:" << decPolarity;
 
     bool rc = sendMultiPulse(raPolarity > 0 ? RA_INC_DIR : RA_DEC_DIR, raMsec, decPolarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR,
-                             decMsec, StartCaptureAfterPulses);
+                             decMsec, DontCaptureAfterPulses);
 
     if (rc)
     {
         qCInfo(KSTARS_EKOS_GUIDE) << "Non-guiding dither successful.";
-        QTimer::singleShot( (raMsec > decMsec ? raMsec : decMsec) + Options::ditherSettle() * 1000 + 100, [this]()
+        QTimer::singleShot( (raMsec > decMsec ? raMsec : decMsec) + Options::ditherSettle() * 1000 + 100, this, [this]()
         {
             emit newStatus(GUIDE_DITHERING_SUCCESS);
             m_State = GUIDE_IDLE;
@@ -3135,8 +3135,6 @@ void Guide::refreshOpticalTrain()
                 starCenter = QVector3D();
 
             camera->setScopeInfo(m_FocalLength * m_Reducer, m_Aperture);
-
-            auto scope = OpticalTrainManager::Instance()->getScope(name);
             opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
         }
         setCamera(camera);

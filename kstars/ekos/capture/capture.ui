@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>811</width>
+    <width>815</width>
     <height>539</height>
    </rect>
   </property>
@@ -756,7 +756,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset theme="screen-rotate-auto-on">
+               <iconset theme="rotation-allowed">
                 <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
@@ -2237,6 +2237,7 @@ font-weight:bold;
              <widget class="QLabel" name="frameInfoLabel">
               <property name="font">
                <font>
+                <weight>50</weight>
                 <bold>false</bold>
                </font>
               </property>
@@ -2268,6 +2269,7 @@ font-weight:bold;
               </property>
               <property name="font">
                <font>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -2306,6 +2308,7 @@ font-weight:bold;
               </property>
               <property name="font">
                <font>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>

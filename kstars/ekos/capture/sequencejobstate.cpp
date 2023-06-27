@@ -185,51 +185,29 @@ void SequenceJobState::checkAllActionsReady()
                         emit prepareComplete();
                     }
                     break;
+                // darks and bias frames are handled in the same way
                 case FRAME_DARK:
+                case FRAME_BIAS:
                     if (!areActionsReady())
                         return;
 
-                    // 1. check if the CCD has a shutter
-                    if (checkHasShutter() != IPS_OK)
+                    // 1. check if the scope is covered appropriately
+                    if (checkDarksCoverReady() != IPS_OK)
                         return;
-                    switch (flatFieldSource)
-                    {
-                        // All these are manual when it comes to dark frames
-                        case SOURCE_MANUAL:
-                        case SOURCE_DAWN_DUSK:
-                            // For cameras without a shutter, we need to ask the user to cover the telescope
-                            // if the telescope is not already covered.
-                            if (checkManualCoverReady(false) != IPS_OK)
-                                return;
-                            break;
-                        case SOURCE_FLATCAP:
-                        case SOURCE_DARKCAP:
-                            if (checkDustCapReady(FRAME_DARK) != IPS_OK)
-                                return;
-                            break;
 
-                        case SOURCE_WALL:
-                            if (checkWallPositionReady(FRAME_DARK) != IPS_OK)
-                                return;
-                            break;
-                    }
+                    // 2. Light source ready, now check if we need to perform mount prepark
+                    if (checkPreMountParkReady() != IPS_OK)
+                        return;
+
+                    // 3. Check if we need to perform dome prepark
+                    if (checkPreDomeParkReady() != IPS_OK)
+                        return;
 
                     // avoid doubled events
                     if (m_PreparationState == PREP_BUSY)
                     {
                         m_PreparationState = PREP_COMPLETED;
                         emit prepareComplete();
-                    }
-                    break;
-                case FRAME_BIAS:
-                    if (areActionsReady())
-                    {
-                        // avoid doubled events
-                        if (m_PreparationState == PREP_BUSY)
-                        {
-                            m_PreparationState = PREP_COMPLETED;
-                            emit prepareComplete();
-                        }
                     }
                     break;
                 default:
@@ -339,7 +317,7 @@ void SequenceJobState::prepareRotatorCheck()
             prepareActions[CaptureModuleState::ACTION_ROTATOR] = false;
             double rawAngle = RotatorUtils::Instance()->calcRotatorAngle(targetPositionAngle);
             emit prepareState(CAPTURE_SETTING_ROTATOR);
-            emit setRotatorAngle(&rawAngle);
+            emit setRotatorAngle(rawAngle);
         }
         // trigger setting current value first if not initialized
         else
@@ -368,6 +346,37 @@ IPState SequenceJobState::checkFlatsLightCoverReady()
             break;
         case SOURCE_DARKCAP:
             result = checkDustCapReady(FRAME_FLAT);
+            break;
+    }
+    return result;
+}
+
+IPState SequenceJobState::checkDarksCoverReady()
+{
+    IPState result = IPS_OK;
+
+    // 1. check if the CCD has a shutter
+    result = checkHasShutter();
+    if (result != IPS_OK)
+        return result;
+
+    // 2. check if the selected cover is ready for darks
+    switch (flatFieldSource)
+    {
+        // All these are manual when it comes to dark frames
+        case SOURCE_MANUAL:
+        case SOURCE_DAWN_DUSK:
+            // For cameras without a shutter, we need to ask the user to cover the telescope
+            // if the telescope is not already covered.
+            result = checkManualCoverReady(false);
+            break;
+        case SOURCE_FLATCAP:
+        case SOURCE_DARKCAP:
+            result = checkDustCapReady(FRAME_DARK);
+            break;
+
+        case SOURCE_WALL:
+            result = checkWallPositionReady(FRAME_DARK);
             break;
     }
     return result;

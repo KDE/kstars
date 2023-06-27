@@ -17,6 +17,8 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 
+#include <QJsonDocument>
+
 #include <kstars_debug.h>
 
 /*

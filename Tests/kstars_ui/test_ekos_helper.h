@@ -106,7 +106,7 @@ do {\
  * @warning Fails the test if the gadget "name" of class "klass" does not exist in the Mount module
  */
 #define KTRY_GADGET(module, klass, name) klass * const name = module->findChild<klass*>(#name); \
-    QVERIFY2(name != nullptr, QString(#klass " '%1' does not exist and cannot be used").arg(#name).toStdString().c_str())
+    QTRY_VERIFY2_WITH_TIMEOUT(name != nullptr, QString(#klass " '%1' does not exist and cannot be used").arg(#name).toStdString().c_str(), 10000)
 
 /** @brief Helper to retrieve a gadget from a certain module view (subroutine version).
  * @param module KStars module that holds the checkox
@@ -241,7 +241,7 @@ do {\
  * @param value value the combo box should be set
  */
 #define KTRY_SET_COMBO(module, combo, value) \
-    KTRY_GADGET(module, QComboBox, combo); combo->setCurrentText(value); QVERIFY(combo->currentText() == value)
+    KTRY_GADGET(module, QComboBox, combo); combo->setCurrentText(value); QTRY_VERIFY_WITH_TIMEOUT(combo->currentText() == value, 1000)
 
 /** @brief Helper to set a combo box by index and verify whether it succeeded
  * @param module KStars module that holds the combo box

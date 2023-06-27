@@ -12,7 +12,7 @@
 
 #include <QList>
 #ifndef KSTARS_LITE
-#include <QtDBus/QtDBus>
+#include <QDBusArgument>
 #endif
 
 //#define PROFILE_COORDINATE_CONVERSION

@@ -450,10 +450,14 @@ class FITSData : public QObject
             return m_HistogramBinWidth[channel];
         }
 
+        // Returns a vector with the counts (y-axis values) for the histogram.
         const QVector<uint32_t> &getCumulativeFrequency(uint8_t channel = 0) const
         {
             return m_CumulativeFrequency[channel];
         }
+        // Returns a vector with the values (x-axis values) for the histogram.
+        // The value returned is the low end of the histogram interval.
+        // The high end is this intensity plus the value returned by getHistogramBinWidth().
         const QVector<double> &getHistogramIntensity(uint8_t channel = 0) const
         {
             return m_HistogramIntensity[channel];
@@ -462,6 +466,13 @@ class FITSData : public QObject
         {
             return m_HistogramFrequency[channel];
         }
+        int getHistogramBinCount() const
+        {
+            return m_HistogramBinCount;
+        }
+
+        // Returns the histogram bin for the pixel at location x,y in the given channel.
+        int32_t histogramBin(int x, int y, int channel) const;
 
         /**
          * @brief getJMIndex Overall contrast of the image used in find centeroid algorithm. i.e. is the image diffuse?
@@ -472,7 +483,7 @@ class FITSData : public QObject
             return m_JMIndex;
         }
 
-        bool isHistogramConstructed()
+        bool isHistogramConstructed() const
         {
             return m_HistogramConstructed;
         }
@@ -639,6 +650,8 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
         template <typename T>  void constructHistogramInternal();
+        template <typename T> int32_t histogramBinInternal(T value, int channel) const;
+        template <typename T> int32_t histogramBinInternal(int x, int y, int channel) const;
 
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };

@@ -9,7 +9,7 @@
  */
 
 #include <QObject>
-#include <QtTest>
+#include <QTest>
 #include <memory>
 
 #include "artificialhorizoncomponent.h"

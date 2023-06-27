@@ -14,7 +14,7 @@
 #if defined(HAVE_INDI)
 
 #include <KActionCollection>
-#include <QtTest>
+#include <QTest>
 #include "kstars.h"
 #include "ekos/manager.h"
 #include "test_kstars_startup.h"

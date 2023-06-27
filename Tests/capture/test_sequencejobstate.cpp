@@ -66,15 +66,33 @@ void TestSequenceJobState::testPrepareLightFrames_data()
     QTest::addColumn<double>("angle_delta");     /*!< difference between current and target rotator angle */
 
     // iterate over all combinations
-    for (bool preview : {false, true})
-        for (bool rotate : {false, true})
-            for (bool temperature : {false, true})
-                for (bool guiding : {false, true})
-                    for (double delta_t : {-21.0, 0.0})
-                        for (double delta_r : {45.0, 0.0})
-                            QTest::newRow(QString("preview=%4 enforce rotate=%1, temperature=%2, guiding=%3, delta_t=%5, delta_rot=%6")
-                                          .arg(rotate).arg(temperature).arg(guiding).arg(preview).arg(delta_t).arg(delta_r).toLocal8Bit())
-                                    << preview << rotate << temperature << guiding << delta_t << delta_r;
+    for (bool preview :
+            {
+                false, true
+            })
+        for (bool rotate :
+                {
+                    false, true
+                })
+            for (bool temperature :
+                    {
+                        false, true
+                    })
+                for (bool guiding :
+                        {
+                            false, true
+                        })
+                    for (double delta_t :
+                            {
+                                -21.0, 0.0
+                                })
+                        for (double delta_r :
+                    {
+                        45.0, 0.0
+                    })
+    QTest::newRow(QString("preview=%4 enforce rotate=%1, temperature=%2, guiding=%3, delta_t=%5, delta_rot=%6")
+                  .arg(rotate).arg(temperature).arg(guiding).arg(preview).arg(delta_t).arg(delta_r).toLocal8Bit())
+            << preview << rotate << temperature << guiding << delta_t << delta_r;
 }
 
 /* *********************************************************************************
@@ -126,7 +144,8 @@ TestAdapter::TestAdapter()
     temperatureTimer = new QTimer(this);
     temperatureTimer->setInterval(200);
     temperatureTimer->setSingleShot(false);
-    connect(temperatureTimer, &QTimer::timeout, this, [this]() {
+    connect(temperatureTimer, &QTimer::timeout, this, [this]()
+    {
         if (std::abs(m_ccdtemperature - m_targetccdtemp) > std::numeric_limits<double>::epsilon())
         {
             // decrease gap by 1 deg or less
@@ -143,7 +162,8 @@ TestAdapter::TestAdapter()
     rotatorTimer = new QTimer(this);
     rotatorTimer->setInterval(200);
     rotatorTimer->setSingleShot(false);
-    connect(rotatorTimer, &QTimer::timeout, this, [this]() {
+    connect(rotatorTimer, &QTimer::timeout, this, [this]()
+    {
         if (std::abs(m_rotatorangle - m_targetrotatorangle) > std::numeric_limits<double>::epsilon())
         {
             // decrease gap by 10 deg or less
@@ -160,7 +180,8 @@ TestAdapter::TestAdapter()
     guidingTimer = new QTimer(this);
     guidingTimer->setInterval(200);
     guidingTimer->setSingleShot(false);
-    connect(guidingTimer, &QTimer::timeout, this, [this]() {
+    connect(guidingTimer, &QTimer::timeout, this, [this]()
+    {
         if (m_guiding_dev > m_target_guiding_dev)
         {
             m_guiding_dev /= 2;
@@ -196,10 +217,10 @@ void TestAdapter::setCCDTemperature(double value)
         temperatureTimer->start();
 }
 
-void TestAdapter::setRotatorAngle(double *value)
+void TestAdapter::setRotatorAngle(double value)
 {
     // set the new target
-    m_targetrotatorangle = *value;
+    m_targetrotatorangle = value;
     // start timer if not already running
     if (! rotatorTimer->isActive())
         rotatorTimer->start();

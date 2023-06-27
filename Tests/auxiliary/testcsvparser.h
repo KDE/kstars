@@ -8,7 +8,7 @@
 
 #include "ksparser.h"
 
-#include <QtTest>
+#include <QTest>
 
 class TestCSVParser : public QObject
 {

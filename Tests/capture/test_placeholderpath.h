@@ -7,7 +7,7 @@
 #ifndef TEST_PLACEHOLDERPATH_H
 #define TEST_PLACEHOLDERPATH_H
 
-#include <QtTest/QtTest>
+#include <QTest>
 #include <QDebug>
 
 #define UNIT_TEST

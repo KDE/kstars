@@ -9,7 +9,7 @@
 #include "ksparser.h"
 
 #include <QDebug>
-#include <QtTest>
+#include <QTest>
 
 class TestFWParser : public QObject
 {

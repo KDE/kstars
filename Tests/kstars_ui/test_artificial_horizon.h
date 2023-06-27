@@ -14,7 +14,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QCheckBox>
-#include <QtTest>
+#include <QTest>
 
 #include "skypoint.h"
 #include "typedef.h"

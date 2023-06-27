@@ -6,7 +6,8 @@
 
 #include "ekos/focus/focusstars.h"
 
-#include <QtTest>
+#include <QTest>
+#include <cmath>
 #include <memory>
 
 #include <QObject>

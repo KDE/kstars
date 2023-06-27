@@ -26,23 +26,35 @@ namespace EkosLive
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-NodeManager::NodeManager(const QUrl &serviceURL, const QUrl &wsURL) :
-    m_ServiceURL(serviceURL), m_WSURL(wsURL)
+NodeManager::NodeManager(uint32_t mask)
 {
     m_NetworkManager = new QNetworkAccessManager(this);
     connect(m_NetworkManager, &QNetworkAccessManager::finished, this, &NodeManager::onResult);
 
     // Configure nodes
-    m_Nodes["message"] = new Node(wsURL, "message");
-    m_Nodes["media"] = new Node(wsURL, "media");
-    if (serviceURL.url().contains("live"))
-        m_Nodes["cloud"] = new Node(wsURL, "cloud");
+    if (mask & Message)
+        m_Nodes[Message] = new Node("message");
+    if (mask & Media)
+        m_Nodes[Media] = new Node("media");
+    if (mask & Cloud)
+        m_Nodes[Cloud] = new Node("cloud");
 
     for (auto &node : m_Nodes)
     {
         connect(node, &Node::connected, this, &NodeManager::setConnected);
         connect(node, &Node::disconnected, this, &NodeManager::setDisconnected);
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void NodeManager::setURLs(const QUrl &service, const QUrl &websocket)
+{
+    m_ServiceURL = service;
+    m_WebsocketURL = websocket;
+    for (auto &node : m_Nodes)
+        node->setProperty("url", m_WebsocketURL);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -167,6 +179,10 @@ void NodeManager::onResult(QNetworkReply *reply)
         reply->deleteLater();
         return;
     }
+
+    // Cloud only supported for plan_id = 1
+    if (m_AuthResponse["plan_id"].toString("2") == "2")
+        m_Nodes.remove(Cloud);
 
     for (auto &node : m_Nodes)
     {

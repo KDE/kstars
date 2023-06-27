@@ -6,7 +6,7 @@
 
 #include "ekos/guide/internalguide/calibrationprocess.h"
 
-#include <QtTest>
+#include <QTest>
 #include <QObject>
 
 #include "Options.h"
