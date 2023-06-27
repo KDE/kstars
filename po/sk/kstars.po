@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-26 00:42+0000\n"
+"POT-Creation-Date: 2023-06-27 00:43+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -3963,7 +3963,7 @@ msgstr "Albedo:"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2367
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2370
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -12590,9 +12590,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:303
-#, kde-format
-msgid "Guider:"
-msgstr "Guider:"
+#, fuzzy, kde-format
+#| msgid "Guide:"
+msgid "Guide Via:"
+msgstr "Vodidlo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:323
@@ -14049,7 +14050,7 @@ msgid "CCD capture stopped"
 msgstr "Zachytenie predčasne ukončené."
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2244
+#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 #| msgid "Expose:"
 msgid "Expose (-/-):"
@@ -15279,7 +15280,7 @@ msgstr "1 sekunda zostáva:"
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2275 ekos/capture/capture.ui:2313
+#: ekos/capture/capture.ui:2277 ekos/capture/capture.ui:2316
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -15292,21 +15293,21 @@ msgid "--:--:--"
 msgstr "--:--:--"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2295
+#: ekos/capture/capture.ui:2297
 #, fuzzy, kde-format
 #| msgid "<b>Port:</b>"
 msgid "<b>Progress</b>"
 msgstr "<b>Port:</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2323
+#: ekos/capture/capture.ui:2326
 #, fuzzy, kde-format
 #| msgid "Downloading"
 msgid "Avg. Download:"
 msgstr "Stiahnuť"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2333
+#: ekos/capture/capture.ui:2336
 #, fuzzy, kde-format
 #| msgctxt "second"
 #| msgid "sec"
@@ -15314,7 +15315,7 @@ msgid "sec"
 msgstr "sek"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2357
+#: ekos/capture/capture.ui:2360
 #, fuzzy, kde-format
 #| msgid "Target:"
 msgid "Target drift:"
@@ -15324,7 +15325,7 @@ msgstr "Cieľ:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZSeeing)
-#: ekos/capture/capture.ui:2377 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2380 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102 ekos/focus/focus.ui:3040
 #, kde-format
 msgid "\""
@@ -84032,6 +84033,9 @@ msgstr "Farba pozadia:"
 msgid "Set the color for the background."
 msgstr "Nastavte farbu pre pozadie."
 
+#~ msgid "Guider:"
+#~ msgstr "Guider:"
+
 #~ msgctxt "City in Spain"
 #~ msgid "Elche"
 #~ msgstr "Elche"
@@ -84623,9 +84627,6 @@ msgstr "Nastavte farbu pre pozadie."
 #~| msgid "Primghar"
 #~ msgid "Primary:"
 #~ msgstr "Primárna"
-
-#~ msgid "Guide:"
-#~ msgstr "Vodidlo:"
 
 #~ msgid "Lens"
 #~ msgstr "Š&ošovka"

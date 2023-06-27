@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-26 00:42+0000\n"
+"POT-Creation-Date: 2023-06-27 00:43+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -3914,7 +3914,7 @@ msgstr "അല്‍ബിറോ"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2367
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2370
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -11998,7 +11998,7 @@ msgstr ""
 #: ekos/auxiliary/opticaltrains.ui:303
 #, fuzzy, kde-format
 #| msgid "string"
-msgid "Guider:"
+msgid "Guide Via:"
 msgstr "string"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -13395,7 +13395,7 @@ msgid "CCD capture stopped"
 msgstr "അവ്യക്ത ചിത്രം"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2244
+#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Castor"
@@ -14545,7 +14545,7 @@ msgstr "നക്ഷത്രരാശിയുടെ പടം ലോഡ് ച
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2275 ekos/capture/capture.ui:2313
+#: ekos/capture/capture.ui:2277 ekos/capture/capture.ui:2316
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -14558,19 +14558,19 @@ msgid "--:--:--"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2295
+#: ekos/capture/capture.ui:2297
 #, fuzzy, kde-format
 msgid "<b>Progress</b>"
 msgstr "തീയതിയും സമയവും"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2323
+#: ekos/capture/capture.ui:2326
 #, fuzzy, kde-format
 msgid "Avg. Download:"
 msgstr "_ഡേറ്റാ സിഡി നിര്‍മ്മിക്കുക"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2333
+#: ekos/capture/capture.ui:2336
 #, fuzzy, kde-format
 #| msgctxt "second"
 #| msgid "sec"
@@ -14578,7 +14578,7 @@ msgid "sec"
 msgstr "സെക്കന്റ്"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2357
+#: ekos/capture/capture.ui:2360
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Argentia"
@@ -14589,7 +14589,7 @@ msgstr "അര്‍ജെന്റിയ"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZSeeing)
-#: ekos/capture/capture.ui:2377 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2380 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102 ekos/focus/focus.ui:3040
 #, kde-format
 msgid "\""
@@ -85649,6 +85649,11 @@ msgid "Set the color for the background."
 msgstr ""
 
 #, fuzzy
+#~| msgid "string"
+#~ msgid "Guider:"
+#~ msgstr "string"
+
+#, fuzzy
 #~ msgid ""
 #~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
 #~ "procedure.</p></body></html>"
@@ -85984,11 +85989,6 @@ msgstr ""
 #~| msgid "Carman"
 #~ msgid "Primary:"
 #~ msgstr "കാര്‍മന്‍"
-
-#, fuzzy
-#~| msgid "string"
-#~ msgid "Guide:"
-#~ msgstr "string"
 
 #, fuzzy
 #~| msgid "Venus"

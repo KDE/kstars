@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-26 00:42+0000\n"
+"POT-Creation-Date: 2023-06-27 00:43+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -4000,7 +4000,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2367
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2370
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -12336,7 +12336,7 @@ msgstr ""
 #: ekos/auxiliary/opticaltrains.ui:303
 #, fuzzy, kde-format
 #| msgid "Guide"
-msgid "Guider:"
+msgid "Guide Via:"
 msgstr "يېتەكچى"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
@@ -13780,7 +13780,7 @@ msgid "CCD capture stopped"
 msgstr "تۇت"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2244
+#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
@@ -15000,7 +15000,7 @@ msgstr "سۈرەت"
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2275 ekos/capture/capture.ui:2313
+#: ekos/capture/capture.ui:2277 ekos/capture/capture.ui:2316
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -15013,14 +15013,14 @@ msgid "--:--:--"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2295
+#: ekos/capture/capture.ui:2297
 #, fuzzy, kde-format
 #| msgid "Progress"
 msgid "<b>Progress</b>"
 msgstr "سۈرئەت"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2323
+#: ekos/capture/capture.ui:2326
 #, fuzzy, kde-format
 #| msgctxt "City in New Zealand"
 #| msgid "Dunedin"
@@ -15028,7 +15028,7 @@ msgid "Avg. Download:"
 msgstr "دۇنېدىن"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2333
+#: ekos/capture/capture.ui:2336
 #, fuzzy, kde-format
 #| msgctxt "second"
 #| msgid "sec"
@@ -15036,7 +15036,7 @@ msgid "sec"
 msgstr "سېكۇنت"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2357
+#: ekos/capture/capture.ui:2360
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Argentia"
@@ -15047,7 +15047,7 @@ msgstr "ئارگېنتىيە"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZSeeing)
-#: ekos/capture/capture.ui:2377 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2380 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102 ekos/focus/focus.ui:3040
 #, kde-format
 msgid "\""
@@ -87644,6 +87644,11 @@ msgid "Set the color for the background."
 msgstr ""
 
 #, fuzzy
+#~| msgid "Guide"
+#~ msgid "Guider:"
+#~ msgstr "يېتەكچى"
+
+#, fuzzy
 #~| msgctxt "City in Spain"
 #~| msgid "Lérida"
 #~ msgctxt "City in Spain"
@@ -87982,11 +87987,6 @@ msgstr ""
 #~| msgid "Geographic Coordinates"
 #~ msgid "Primary:"
 #~ msgstr "جۇغراپىيىلىك كوئوردېناتلار"
-
-#, fuzzy
-#~| msgid "Guide"
-#~ msgid "Guide:"
-#~ msgstr "يېتەكچى"
 
 #, fuzzy
 #~| msgid "Add New"

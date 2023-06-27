@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-26 00:42+0000\n"
-"PO-Revision-Date: 2023-06-25 15:10+0200\n"
+"POT-Creation-Date: 2023-06-27 00:43+0000\n"
+"PO-Revision-Date: 2023-06-26 10:42+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3835,7 +3835,7 @@ msgstr "Albedo:"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2367
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2370
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -12342,9 +12342,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:303
-#, kde-format
-msgid "Guider:"
-msgstr "Volger:"
+#, fuzzy, kde-format
+#| msgid "Guide:"
+msgid "Guide Via:"
+msgstr "Volgtelescoop:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:323
@@ -13807,7 +13808,7 @@ msgid "CCD capture stopped"
 msgstr "CCD-opname gestopt"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2244
+#: ekos/capture/capture.cpp:1055 ekos/capture/capture.ui:2245
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "Belichten (-/-):"
@@ -15021,7 +15022,7 @@ msgstr "totaal resterend:"
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2275 ekos/capture/capture.ui:2313
+#: ekos/capture/capture.ui:2277 ekos/capture/capture.ui:2316
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -15034,25 +15035,25 @@ msgid "--:--:--"
 msgstr "--:--:--"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2295
+#: ekos/capture/capture.ui:2297
 #, kde-format
 msgid "<b>Progress</b>"
 msgstr "<b>Voortgang</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2323
+#: ekos/capture/capture.ui:2326
 #, kde-format
 msgid "Avg. Download:"
 msgstr "Avg. Download:"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2333
+#: ekos/capture/capture.ui:2336
 #, kde-format
 msgid "sec"
 msgstr "sec"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2357
+#: ekos/capture/capture.ui:2360
 #, kde-format
 msgid "Target drift:"
 msgstr "Drift van doel:"
@@ -15061,7 +15062,7 @@ msgstr "Drift van doel:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZSeeing)
-#: ekos/capture/capture.ui:2377 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2380 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102 ekos/focus/focus.ui:3040
 #, kde-format
 msgid "\""
@@ -17683,36 +17684,7 @@ msgstr "SEP profiel:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1699
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the Measure to use when fitting a curve for "
-#| "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-#| "span>: Half Flux Radius. Uses an algorithm to calculate the radius of a "
-#| "circle centred on the star centroid that encapulates half the star's flux."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
-#| "span>: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. "
-#| "This is an experimental feature.</li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</"
-#| "span>: Full Width Half Maximum. Curve fits a PSF to each star centroid "
-#| "and uses the curve to calculate the FWHM. This is an experimental feature."
-#| "</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\"># Stars</span>: Number of stars. The number of "
-#| "detected stars at optimum focus will be a maximum. This is an "
-#| "experimental feature.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
-#| "power calculation. Uses the Fourier Transform Power approach developed by "
-#| "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
-#| "the power in frequency space [result of the fourier transform] will be a "
-#| "maximum. This is an experimental feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -83130,6 +83102,9 @@ msgstr "Achtergrondkleur:"
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
 
+#~ msgid "Guider:"
+#~ msgstr "Volger:"
+
 #~ msgid "Teritary"
 #~ msgstr "Tertiair"
 
@@ -83861,9 +83836,6 @@ msgstr "Instellen van de kleur van de achtergrond."
 
 #~ msgid "Primary:"
 #~ msgstr "Primair:"
-
-#~ msgid "Guide:"
-#~ msgstr "Volgtelescoop:"
 
 #~ msgid "Lens"
 #~ msgstr "Lens"

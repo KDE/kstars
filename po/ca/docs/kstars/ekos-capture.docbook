@@ -42,7 +42,7 @@
                 <para
 ><guilabel
 >AC</guilabel
->: Seleccioneu el dispositiu actiu de la roda de filtres. Si la vostra càmera té una roda de filtres incorporada, el dispositiu serà el mateix que la càmera. </para>
+>: Seleccioneu el dispositiu actiu de la roda de filtres. Si la vostra càmera té una roda de filtres integrada, el dispositiu serà el mateix que la càmera. </para>
             </listitem>
             <listitem>
                 <para
@@ -423,7 +423,7 @@
 >Cua de seqüències</title>
 
         <para
->La cua de seqüències és el nucli primari del mòdul per a la captura de l'Ekos. Aquí és on podreu planificar i executar les tasques utilitzant el potent editor incorporat de la cua de seqüències. Per a afegir una tasca, simplement seleccioneu tots els paràmetres des de la configuració de la captura i el fitxer tal com s'ha indicat anteriorment. Un cop seleccionats els paràmetres desitjats, feu clic al botó <inlinemediaobject
+>La cua de seqüències és el nucli primari del mòdul per a la captura de l'Ekos. Aquí és on podreu planificar i executar les tasques utilitzant el potent editor integrat de la cua de seqüències. Per a afegir una tasca, simplement seleccioneu tots els paràmetres des de la configuració de la captura i el fitxer tal com s'ha indicat anteriorment. Un cop seleccionats els paràmetres desitjats, feu clic al botó <inlinemediaobject
 ><imageobject
 ><imagedata fileref="list-add.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -629,7 +629,7 @@
                         <listitem>
                             <para
 ><guilabel
->Funda de protecció amb llum plana incorporada</guilabel
+>Funda de protecció amb llum plana integrada</guilabel
 >: Si s'utilitza una funda de protecció amb una font de llum integrada (&pex;, FlipFlat). Per als fotogrames foscos i polaritzats, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, tanqueu la funda de protecció i enceneu la font de llum.</para>
                         </listitem>
                         <listitem>
