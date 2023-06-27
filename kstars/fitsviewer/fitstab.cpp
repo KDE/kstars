@@ -35,7 +35,7 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
     statWidget = new QDialog(this);
     fitsHeaderDialog = new QDialog(this);
     m_HistogramEditor = new FITSHistogramEditor(this);
-    connect(m_HistogramEditor, &FITSHistogramEditor::newHistogramCommand, this, [this](FITSHistogramCommand * command)
+    connect(m_HistogramEditor, &FITSHistogramEditor::newHistogramCommand, [this](FITSHistogramCommand * command)
     {
         undoStack->push(command);
     });
@@ -56,11 +56,10 @@ void FITSTab::saveUnsaved()
     QString caption = i18n("Save Changes to FITS?");
     QString message = i18n("The current FITS file has unsaved changes.  Would you like to save before closing it?");
 
-    auto response = KMessageBox::warningTwoActionsCancel(nullptr, message, caption, KStandardGuiItem::save(),
-                    KStandardGuiItem::discard());
-    if (response == KMessageBox::PrimaryAction)
+    int ans = KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+    if (ans == KMessageBox::Yes)
         saveFile();
-    else if (response == KMessageBox::SecondaryAction)
+    if (ans == KMessageBox::No)
     {
         undoStack->clear();
         modifyFITSState();
