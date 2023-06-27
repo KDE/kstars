@@ -6555,6 +6555,14 @@ void Focus::setAllSettings(const QVariantMap &settings)
             syncControl(settings, name, checkbox);
             continue;
         }
+
+        // Radio button
+        auto radioButton = findChild<QRadioButton*>(name);
+        if (radioButton)
+        {
+            syncControl(settings, name, radioButton);
+            continue;
+        }
     }
 
     m_Settings = settings;
@@ -6579,6 +6587,7 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;
     QComboBox *pComboBox = nullptr;
+    QRadioButton *pRadioButton = nullptr;
     bool ok = false;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
@@ -6610,6 +6619,12 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const QString value = settings[key].toString();
         pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pRadioButton->setChecked(value);
         return true;
     }
 
