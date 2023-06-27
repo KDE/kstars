@@ -14,6 +14,7 @@
 #include "indiapi.h"
 #include "indi/indistd.h"
 #include "indi/indidustcap.h"
+#include "indi/indicamera.h"
 #include "indi/indimount.h"
 #include "indi/indidome.h"
 
@@ -21,6 +22,11 @@
 #include "ekos/capture/refocusstate.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/scheduler/schedulerjob.h"
+#include "fitsviewer/fitsdata.h"
+
+// Wait 3-minutes as maximum beyond exposure
+// value.
+#define CAPTURE_TIMEOUT_THRESHOLD  180000
 
 namespace Ekos
 {
@@ -79,6 +85,21 @@ class CaptureModuleState: public QObject
             CONTINUE_ACTION_CAPTURE_COMPLETE /* recall capture complete */
         } ContinueAction;
 
+        /* Result when starting to capture {@see SequenceJob::capture(bool, FITSMode)}. */
+        typedef enum
+        {
+            CAPTURE_OK,               /* Starting a new capture succeeded.                                          */
+            CAPTURE_FRAME_ERROR,      /* Setting frame parameters failed, capture not started.                      */
+            CAPTURE_BIN_ERROR,        /* Setting binning parameters failed, capture not started.                    */
+            CAPTURE_FOCUS_ERROR,      /* NOT USED.                                                                  */
+        } CAPTUREResult;
+
+    /* Interval with double lower and upper bound */
+    typedef struct
+    {
+        double min, max;
+    } DoubleRange;
+
         CaptureModuleState(QObject *parent = nullptr);
 
         // ////////////////////////////////////////////////////////////////////
@@ -93,10 +114,28 @@ class CaptureModuleState: public QObject
         {
             return m_activeJob;
         }
-        void setActiveJob(SequenceJob *value)
+        void setActiveJob(SequenceJob *value);
+
+        const QUrl &sequenceURL() const
         {
-            m_activeJob = value;
-        };
+            return m_SequenceURL;
+        }
+        void setSequenceURL(const QUrl &newSequenceURL)
+        {
+            m_SequenceURL = newSequenceURL;
+        }
+
+        // ////////////////////////////////////////////////////////////////////
+        // pointer to last captured frame
+        // ////////////////////////////////////////////////////////////////////
+        QSharedPointer<FITSData> imageData()
+        {
+            return m_ImageData;
+        }
+        void setImageData(QSharedPointer<FITSData> newImageData)
+        {
+            m_ImageData = newImageData;
+        }
 
         // ////////////////////////////////////////////////////////////////////
         // capture attributes
@@ -182,16 +221,14 @@ class CaptureModuleState: public QObject
         // short cut for all guiding states that indicate guiding in state GUIDING
         bool isActivelyGuiding();
 
-        QTimer &getCaptureDelayTimer()
+        bool useGuideHead() const
         {
-            return m_captureDelayTimer;
+            return m_useGuideHead;
         }
-
-        QTimer &getGuideDeviationTimer()
+        void setUseGuideHead(bool value)
         {
-            return m_guideDeviationTimer;
+            m_useGuideHead = value;
         }
-
         bool isGuidingDeviationDetected() const
         {
             return m_GuidingDeviationDetected;
@@ -199,6 +236,15 @@ class CaptureModuleState: public QObject
         void setGuidingDeviationDetected(bool newDeviationDetected)
         {
             m_GuidingDeviationDetected = newDeviationDetected;
+        }
+
+        bool suspendGuidingOnDownload() const
+        {
+            return m_SuspendGuidingOnDownload;
+        }
+        void setSuspendGuidingOnDownload(bool value)
+        {
+            m_SuspendGuidingOnDownload = value;
         }
 
         int SpikesDetected() const
@@ -308,7 +354,6 @@ class CaptureModuleState: public QObject
             return m_refocusState;
         }
 
-
         const QString &targetName() const
         {
             return m_TargetName;
@@ -316,6 +361,15 @@ class CaptureModuleState: public QObject
         void setTargetName(const QString &newTargetName)
         {
             m_TargetName = newTargetName;
+        }
+
+        const QString &observerName() const
+        {
+            return m_ObserverName;
+        }
+        void setObserverName(const QString &newObserverName)
+        {
+            m_ObserverName = newObserverName;
         }
 
         double getFileHFR() const
@@ -336,6 +390,15 @@ class CaptureModuleState: public QObject
             m_ignoreJobProgress = value;
         }
 
+        bool isRememberFastExposure() const
+        {
+            return m_RememberFastExposure;
+        }
+        void setRememberFastExposure(bool value)
+        {
+            m_RememberFastExposure = value;
+        }
+
         bool dirty() const
         {
             return m_Dirty;
@@ -343,6 +406,30 @@ class CaptureModuleState: public QObject
         void setDirty(bool value)
         {
             m_Dirty = value;
+        }
+
+        bool isBusy() const
+        {
+            return m_Busy;
+        }
+        void setBusy(bool busy);
+
+        bool isLooping() const
+        {
+            return m_Looping;
+        }
+        void setLooping(bool newLooping)
+        {
+            m_Looping = newLooping;
+        }
+
+        QJsonArray &getSequence()
+        {
+            return m_SequenceArray;
+        }
+        void setSequence(const QJsonArray &value)
+        {
+            m_SequenceArray = value;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -395,6 +482,50 @@ class CaptureModuleState: public QObject
         void setCapturedFramesCount(const QString &signature, uint16_t count)
         {
             m_capturedFramesMap[signature] = count;
+        }
+
+        // ////////////////////////////////////////////////////////////////////
+        // Timers
+        // ////////////////////////////////////////////////////////////////////
+        QTimer &getCaptureDelayTimer()
+        {
+            return m_captureDelayTimer;
+        }
+        QTimer &getCaptureTimeout()
+        {
+            return m_captureTimeout;
+        }
+        uint8_t captureTimeoutCounter() const
+        {
+            return m_CaptureTimeoutCounter;
+        }
+        void setCaptureTimeoutCounter(uint8_t value)
+        {
+            m_CaptureTimeoutCounter = value;
+        }
+        uint8_t deviceRestartCounter() const
+        {
+            return m_DeviceRestartCounter;
+        }
+        void setDeviceRestartCounter(uint8_t value)
+        {
+            m_DeviceRestartCounter = value;
+        }
+        QTimer &downloadProgressTimer()
+        {
+            return m_downloadProgressTimer;
+        }
+        QElapsedTimer &downloadTimer()
+        {
+            return m_DownloadTimer;
+        }
+        QTimer &getSeqDelayTimer()
+        {
+            return m_seqDelayTimer;
+        }
+        QTimer &getGuideDeviationTimer()
+        {
+            return m_guideDeviationTimer;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -580,15 +711,57 @@ class CaptureModuleState: public QObject
             return (m_CaptureState != CAPTURE_IDLE && m_CaptureState != CAPTURE_COMPLETE && m_CaptureState != CAPTURE_ABORTED);
         }
 
+        ScriptTypes captureScriptType() const
+        {
+            return m_CaptureScriptType;
+        }
+        void setCaptureScriptType(ScriptTypes value)
+        {
+            m_CaptureScriptType = value;
+        }
+        double targetADUTolerance() const
+        {
+            return m_TargetADUTolerance;
+        }
+        void setTargetADUTolerance(double newTargetADUTolerance)
+        {
+            m_TargetADUTolerance = newTargetADUTolerance;
+        }
+        const DoubleRange &exposureRange() const
+        {
+            return m_ExposureRange;
+        }
+        void setExposureRange(double min, double max)
+        {
+            m_ExposureRange.min = min;
+            m_ExposureRange.max = max;
+        }
+
+        QMap<ISD::CameraChip *, QVariantMap> &frameSettings()
+        {
+            return m_frameSettings;
+        }
+        void setFrameSettings(const QMap<ISD::CameraChip *, QVariantMap> &value)
+        {
+            m_frameSettings = value;
+        }
+
+
     signals:
         // controls for capture execution
+        void captureBusy(bool busy);
         void startCapture();
         void abortCapture();
         void suspendCapture();
+        void executeActiveJob();
+        void updatePrepareState(CaptureState state);
+        void captureStarted(CAPTUREResult rc);
         // mount meridian flip status update event
         void newMeridianFlipStage(MeridianFlipState::MFStage status);
         // meridian flip started
         void meridianFlipStarted();
+        // new guiding deviation measured
+        void newGuiderDrift(double deviation_rms);
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();
         // new capture state
@@ -612,11 +785,17 @@ class CaptureModuleState: public QObject
         // new log text for the module log window
         void newLog(const QString &text);
 
-    private:
+private:
         // list of all sequence jobs
         QList<SequenceJob *> m_allJobs;
+        // file URL of the current capture sequence
+        QUrl m_SequenceURL;
         // Currently active sequence job.
         SequenceJob *m_activeJob { nullptr };
+        // pointer to the image data
+        QSharedPointer<FITSData> m_ImageData;
+        // CCD Chip frame settings
+        QMap<ISD::CameraChip *, QVariantMap> m_frameSettings;
 
         // current filter position
         // TODO: check why we have both currentFilterID and this, seems redundant
@@ -631,8 +810,12 @@ class CaptureModuleState: public QObject
         SchedulerJob::CapturedFramesMap m_capturedFramesMap;
         // are we in the starting phase of capturing?
         bool m_StartingCapture { true };
+        // Does the camera have a dedicated guiding chip?
+        bool m_useGuideHead { false };
         // Guide Deviation
         bool m_GuidingDeviationDetected { false };
+        // suspend guiding when downloading a captured image
+        bool m_SuspendGuidingOnDownload { false };
         // Guiding spikes
         int m_SpikesDetected { 0 };
         // Timer for guiding recovery
@@ -641,8 +824,19 @@ class CaptureModuleState: public QObject
         // for the first capture job that is ready to be executed.
         // @see Capture::start().
         QTimer m_captureDelayTimer;
+        // Capture timeout timer
+        QTimer m_captureTimeout;
+        uint8_t m_CaptureTimeoutCounter { 0 };
+        uint8_t m_DeviceRestartCounter { 0 };
+        // Timer for starting the next capture sequence with delay
+        // @see Capture::startNextExposure()
+        QTimer m_seqDelayTimer;
+        // timer for updating the download progress
+        QTimer m_downloadProgressTimer;
+        // timer measuring the download time
+        QElapsedTimer m_DownloadTimer;
         // sum over all recorded list of download times
-        double totalDownloadTime;
+        double totalDownloadTime {0};
         // number of downloaded frames
         uint downloadsCounter {0};
         // next capture sequence ID
@@ -651,11 +845,26 @@ class CaptureModuleState: public QObject
         ContinueAction m_ContinueAction { CONTINUE_ACTION_NONE };
         // name of the capture target
         QString m_TargetName;
+        // name of the observer
+        QString m_ObserverName;
         // ignore already captured files
         bool m_ignoreJobProgress { true };
+        // Fast Exposure
+        bool m_RememberFastExposure {false};
         // Set dirty bit to indicate sequence queue file was modified and needs saving.
         bool m_Dirty { false };
-
+        // Capturing (incl. preparation actions) is active
+        bool m_Busy { false };
+        // preview loop running
+        bool m_Looping { false };
+        // script type of the currently running script
+        ScriptTypes m_CaptureScriptType { SCRIPT_N };
+        // Flat field automation
+        double m_TargetADUTolerance { 1000 };
+        // Allowed camera exposure times
+        DoubleRange m_ExposureRange;
+        // Misc
+        QJsonArray m_SequenceArray;
 
         // ////////////////////////////////////////////////////////////////////
         // device states

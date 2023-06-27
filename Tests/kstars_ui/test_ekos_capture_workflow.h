@@ -133,8 +133,11 @@ class TestEkosCaptureWorkflow : public QObject
         /** @brief Test data for @see testCaptureRefocusAbort() */
         void testCaptureRefocusAbort_data();
 
-        /** @brief Test whether a pre-capture script is executed before a capture is executed */
-        void testPreCaptureScriptExecution();
+        /** @brief Test whether a pre/post-job/capture scripts are executed as expected */
+        void testCaptureScriptsExecution();
+
+        /** @brief Test data for @see testCaptureScriptsExecution() */
+        void testCaptureScriptsExecution_data();
 
         /**
          * @brief Test if capture continues where it had been suspended by a
@@ -230,7 +233,6 @@ class TestEkosCaptureWorkflow : public QObject
          * @brief Test capturing a simple darks library
          */
         void testDarksLibrary();
-
 };
 
 #endif // HAVE_INDI

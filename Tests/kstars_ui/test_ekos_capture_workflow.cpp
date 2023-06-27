@@ -132,10 +132,13 @@ void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
     Ekos::Capture *capture = manager->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_FOCUSING);
     KTRY_CLICK(capture, startB);
     // focusing must have started 60 secs + exposure time + 10 secs delay
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
                                      60000 + 10000 + 1000 * capture->captureExposureN->value());
+    // the capture module must change to focusing subsequently
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 5000);
     // now abort capturing
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_ABORTED);
     capture->abort();
@@ -143,11 +146,12 @@ void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 10000);
 }
 
-void TestEkosCaptureWorkflow::testPreCaptureScriptExecution()
+void TestEkosCaptureWorkflow::testCaptureScriptsExecution()
 {
     // default initialization
     QVERIFY(prepareTestCase());
 
+    QFETCH(bool, pausing);
     // static test with three exposures
     int count = 3;
     // switch to capture module
@@ -156,54 +160,63 @@ void TestEkosCaptureWorkflow::testPreCaptureScriptExecution()
 
     // add target to path to emulate the behavior of the scheduler
     QString imagepath = getImageLocation()->path() + "/test";
-    KTRY_CAPTURE_CONFIGURE_LIGHT(2.0, count, 0.0, "Luminance", imagepath);
 
-    // create pre-capture script
-    KTELL("Destination path : " + destination->path());
-    QString precapture_script = destination->path() + "/precapture.sh";
-    QString precapture_log    = destination->path() + "/precapture.log";
-    // create a script that reads the number from its log file, increases it by 1 and outputs it to the logfile
-    // with this script we can count how often it has been executed
-    QStringList script_content({"#!/bin/sh",
-                                QString("nr=`head -1 %1|| echo 0` 2> /dev/null").arg(precapture_log),
-                                QString("nr=$(($nr+1))\necho $nr > %1").arg(precapture_log)});
-    // create executable pre-capture script
-    QVERIFY2(m_CaptureHelper->writeFile(precapture_script, script_content,
-                                        QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner),
-             "Creating precapture script failed!");
-
-    QMap<Ekos::ScriptTypes, QString> scripts;
-    scripts.insert(Ekos::SCRIPT_PRE_CAPTURE, precapture_script);
+    // create executable scripts
+    m_CaptureHelper->createAllCaptureScripts(destination);
 
     // setup scripts - starts as thread since clicking on capture blocks
     bool success = false;
-    QTimer::singleShot(1000, capture, [&] {success = m_CaptureHelper->fillScriptManagerDialog(scripts);});
+    QTimer::singleShot(1000, capture, [&] {success = m_CaptureHelper->fillScriptManagerDialog(m_CaptureHelper->getScripts());});
     // open script manager
     KTRY_CLICK(capture, scriptManagerB);
     // verify if script configuration succeeded
     QVERIFY2(success, "Scripts set up failed!");
 
-    // create capture sequence
-    KTRY_CAPTURE_GADGET(QTableWidget, queueTable);
+    // create capture sequences
+    KTRY_CAPTURE_CONFIGURE_LIGHT(2.0, count, 0.0, "Luminance", imagepath);
+    KTRY_CAPTURE_CLICK(addToQueueB);
+    KTRY_CAPTURE_CONFIGURE_LIGHT(2.0, count, 0.0, "Red", imagepath);
     KTRY_CAPTURE_CLICK(addToQueueB);
     // check if row has been added
-    QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == 1, 1000);
-    // wait until completed
-    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
+    KTRY_CAPTURE_GADGET(QTableWidget, queueTable);
+    QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == 2, 1000);
+    // wait to pause when second frame is running
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
     // start capture
     KTRY_CLICK(capture, startB);
+    if (pausing)
+    {
+        // wait for first frame to be completed
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 15000);
+        m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PAUSED);
+        QTest::qWait(1500);
+        // press pause
+        KTRY_CLICK(capture, pauseB);
+        // wait until paused
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 15000);
+        // prepare next stage
+        m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+        m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PAUSED);
+        QTest::qWait(3000);
+        // press continue
+        KTRY_CLICK(capture, startB);
+        QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.size() <= 1, 15000);
+        QTest::qWait(500);
+        // press pause
+        KTRY_CLICK(capture, pauseB);
+        // wait until paused
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 15000);
+        // press continue
+        QTest::qWait(3000);
+        KTRY_CLICK(capture, startB);
+    }
+    // wait until completed
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
     // wait that all frames have been taken
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 30000);
 
     // check the log file if it holds the expected number
-    QFile logfile(precapture_log);
-    logfile.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream in(&logfile);
-    QString countstr = in.readLine();
-    logfile.close();
-    QVERIFY2(countstr.toInt() == count,
-             QString("Pre-capture script not executed as often as expected: %1 expected, %2 detected.")
-             .arg(count).arg(countstr).toLocal8Bit());
+    QVERIFY(m_CaptureHelper->checkScriptRuns(count, 2));
 }
 
 void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
@@ -983,6 +996,13 @@ void TestEkosCaptureWorkflow::testCaptureRefocusTemperature_data()
 void TestEkosCaptureWorkflow::testCaptureRefocusAbort_data()
 {
     prepareTestData(31.0, {"Luminance:3"});
+}
+
+void TestEkosCaptureWorkflow::testCaptureScriptsExecution_data()
+{
+    QTest::addColumn<bool>("pausing");             /*!< pause between capturing */
+    QTest::newRow("pausing=false") << false;
+    QTest::newRow("pausing=true") << true;
 }
 
 void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture_data()

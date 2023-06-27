@@ -222,6 +222,11 @@ class SequenceJob : public QObject
         bool getJobProgressIgnored() const;
 
         /**
+         * @brief updateDeviceStates Update for all used device types whether there
+         * is one connected.
+         */
+        void updateDeviceStates();
+        /**
          * @brief Set the light box device
          */
         void setLightBox(ISD::LightBox *lightBox);
@@ -363,7 +368,7 @@ class SequenceJob : public QObject
         // All preparations necessary for capturing are completed
         void prepareComplete(bool success = true);
         // Manage the result when capturing has been started
-        void captureStarted(CAPTUREResult rc);
+        void captureStarted(CaptureModuleState::CAPTUREResult rc);
         // Abort capturing
         void abortCapture();
         // log entry

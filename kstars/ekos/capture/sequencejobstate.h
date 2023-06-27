@@ -29,15 +29,6 @@ typedef enum
     JOB_DONE      /* Job completed.                  */
 } JOBStatus;
 
-/* Result when starting to capture {@see SequenceJob::capture(bool, FITSMode)}. */
-typedef enum
-{
-    CAPTURE_OK,               /* Starting a new capture succeeded.                                          */
-    CAPTURE_FRAME_ERROR,      /* Setting frame parameters failed, capture not started.                      */
-    CAPTURE_BIN_ERROR,        /* Setting binning parameters failed, capture not started.                    */
-    CAPTURE_FOCUS_ERROR,      /* NOT USED.                                                                  */
-} CAPTUREResult;
-
 class SequenceJobState: public QObject
 {
         Q_OBJECT

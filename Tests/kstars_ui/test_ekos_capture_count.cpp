@@ -67,10 +67,10 @@ void TestEkosCaptureCount::testSchedulerCapture()
     KTRY_CLICK(Ekos::Manager::Instance()->schedulerModule(), startB);
 
     KTELL("Ensure that the scheduler has started capturing");
-    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.size() == 0, 120000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.size() == 0, 600000);
 
     KTELL("Wait for Scheduler to finish capturing");
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedSchedulerStates, 120000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedSchedulerStates, 600000);
 
     KTELL("Verify whether all frames are captured as expected");
     QVERIFY2(checkCapturedFrames(), "Capturing did not produce the expected amount of frames.");
@@ -106,10 +106,10 @@ void TestEkosCaptureCount::testSchedulerCapture_data()
     prepareTestData(0.1, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:2,Red:1,Green:1,Blue:1",
                     "Luminance:13,Red:2,Green:2,Blue:2", 3);
 #else
-    prepareTestData(0.1, "Red:2,Green:2,Blue:2", "Red:2,Green:1,Blue:2", "Green:1");
-    prepareTestData(0.1, "Red:1,Green:1,Blue:1,Red:1,Green:1,Blue:1", "Red:2,Green:1,Blue:2", "Green:1");
-    prepareTestData(0.1, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:4,Green:1,Blue:1", "Luminance:1,Red:1");
-    prepareTestData(0.1, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:5,Red:1,Green:1,Blue:1",
+    prepareTestData(1.0, "Red:2,Green:2,Blue:2", "Red:2,Green:1,Blue:2", "Green:1");
+    prepareTestData(1.0, "Red:1,Green:1,Blue:1,Red:1,Green:1,Blue:1", "Red:2,Green:1,Blue:2", "Green:1");
+    prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:4,Green:1,Blue:1", "Luminance:1,Red:1");
+    prepareTestData(1.0, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:5,Red:1,Green:1,Blue:1",
                     "Luminance:10,Red:2,Green:2,Blue:2", 3);
 #endif
 }
@@ -146,6 +146,8 @@ void TestEkosCaptureCount::initTestCase()
     KMessageBox::saveDontShowAgainYesNo("astronomical_twilight_warning", KMessageBox::ButtonCode::No);
     // close the optical trains manager
     Ekos::OpticalTrainManager::Instance()->close();
+    // wait for protile to settle
+    QTest::qWait(1000);
 }
 
 void TestEkosCaptureCount::cleanupTestCase()
@@ -224,7 +226,7 @@ bool TestEkosCaptureCount::executeCapturing()
 
     // wait for finish capturing
     // ensure that the scheduler has started capturing
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.size() == 0, 120000));
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates.size() == 0, 600000);
 
     // verify whether all frames are captured as expected
     KWRAP_SUB(QVERIFY2(checkCapturedFrames(), "Capturing did not produce the expected amount of frames."));

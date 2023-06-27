@@ -601,6 +601,8 @@ Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QSt
     return nullptr;
 }
 
+
+
 OAL::Scope *TestEkosHelper::getScope(TestEkosHelper::ScopeType type)
 {
     switch (type)
@@ -900,6 +902,8 @@ void TestEkosHelper::init()
     dithered = false;
     // disable dithering by default
     Options::setDitherEnabled(false);
+    // clear the script map
+    scripts.clear();
 }
 void TestEkosHelper::cleanup()
 {
@@ -948,6 +952,80 @@ bool TestEkosHelper::writeFile(const QString &filename, const QStringList &lines
         return true;
     }
     return false;
+}
+
+bool TestEkosHelper::createCountingScript(Ekos::ScriptTypes scripttype, const QString scriptname)
+{
+    QString logfilename = scriptname;
+    logfilename.replace(scriptname.lastIndexOf(".sh"), 3, ".log");
+    QStringList script_content({"#!/bin/sh",
+                                QString("nr=`head -1 %1|| echo 0` 2> /dev/null").arg(logfilename),
+                                QString("nr=$(($nr+1))\necho $nr > %1").arg(logfilename)});
+    // create executable script
+    bool result = writeFile(scriptname, script_content,
+                            QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+    scripts.insert(scripttype, scriptname);
+    // clear log file
+    QFile logfile(logfilename);
+    result |= logfile.remove();
+    // ready
+    return result;
+}
+
+bool TestEkosHelper::createAllCaptureScripts(QTemporaryDir *destination)
+{
+    KWRAP_SUB(QVERIFY2(createCountingScript(Ekos::SCRIPT_PRE_JOB,
+                                            destination->path() + "/prejob.sh"), "Creating pre-job script failed!"));
+    KWRAP_SUB(QVERIFY2(createCountingScript(Ekos::SCRIPT_PRE_CAPTURE,
+                                            destination->path() + "/precapture.sh"), "Creating pre-capture script failed!"));
+    KWRAP_SUB(QVERIFY2(createCountingScript(Ekos::SCRIPT_POST_CAPTURE,
+                                            destination->path() + "/postcapture.sh"), "Creating post-capture script failed!"));
+    KWRAP_SUB(QVERIFY2(createCountingScript(Ekos::SCRIPT_POST_JOB,
+                                            destination->path() + "/postjob.sh"), "Creating post-job script failed!"));
+    // everything succeeded
+    return true;
+}
+
+int TestEkosHelper::countScriptRuns(Ekos::ScriptTypes scripttype)
+{
+    if (scripts.contains(scripttype))
+    {
+        QString scriptname = scripts[scripttype];
+        QString logfilename = scriptname;
+        logfilename.replace(scriptname.lastIndexOf(".sh"), 3, ".log");
+        QFile logfile(logfilename);
+        logfile.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream in(&logfile);
+        QString countstr = in.readLine();
+        logfile.close();
+        return countstr.toInt();
+    }
+    else
+        // no script found
+        return -1;
+}
+
+bool TestEkosHelper::checkScriptRuns(int captures_per_sequence, int sequences)
+{
+    // check the log file if it holds the expected number
+    int runs = countScriptRuns(Ekos::SCRIPT_PRE_JOB);
+    KWRAP_SUB(QVERIFY2(runs == sequences,
+                       QString("Pre-job script not executed as often as expected: %1 expected, %2 detected.")
+                       .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+    runs = countScriptRuns(Ekos::SCRIPT_PRE_CAPTURE);
+    KWRAP_SUB( QVERIFY2(runs == sequences * captures_per_sequence,
+                        QString("Pre-capture script not executed as often as expected: %1 expected, %2 detected.")
+                        .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+    runs = countScriptRuns(Ekos::SCRIPT_POST_JOB);
+    KWRAP_SUB(QVERIFY2(runs == sequences,
+                       QString("Post-job script not executed as often as expected: %1 expected, %2 detected.")
+                       .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+    runs = countScriptRuns(Ekos::SCRIPT_POST_CAPTURE);
+    KWRAP_SUB(QVERIFY2(runs == sequences * captures_per_sequence,
+                       QString("Post-capture script not executed as often as expected: %1 expected, %2 detected.")
+                       .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+    // everything succeeded
+    return true;
 }
 
 /* *********************************************************************************

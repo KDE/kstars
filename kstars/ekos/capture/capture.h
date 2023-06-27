@@ -7,6 +7,7 @@
 #pragma once
 
 #include "ui_capture.h"
+#include "captureprocess.h"
 #include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
 #include "sequencejobstate.h"
@@ -88,7 +89,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Capture")
         Q_PROPERTY(Ekos::CaptureState status READ status NOTIFY newStatus)
         Q_PROPERTY(QString targetName READ getTargetName WRITE setTargetName)
-        Q_PROPERTY(QString observerName MEMBER m_ObserverName)
+        Q_PROPERTY(QString observerName READ getObserverName WRITE setObserverName)
         Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
         Q_PROPERTY(QString camera READ camera)
         Q_PROPERTY(QString filterWheel READ filterWheel)
@@ -97,12 +98,6 @@ class Capture : public QWidget, public Ui::Capture
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
     public:
-        typedef enum
-        {
-            ADU_LEAST_SQUARES,
-            ADU_POLYNOMIAL
-        } ADUAlgorithm;
-
         typedef enum
         {
             NOT_PREVIEW,
@@ -440,7 +435,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         const QJsonArray &getSequence() const
         {
-            return m_SequenceArray;
+            return m_captureModuleState->getSequence();
         }
 
         /**
@@ -614,6 +609,16 @@ class Capture : public QWidget, public Ui::Capture
             return m_captureModuleState->targetName();
         }
 
+        /** DBus interface function
+         * @brief Set the observer name.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void setObserverName(const QString &value);
+        Q_SCRIPTABLE QString getObserverName()
+        {
+            return m_captureModuleState->observerName();
+        }
+
+
         /** @}*/
 
         // ////////////////////////////////////////////////////////////////////
@@ -746,7 +751,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief captureStarted Manage the result when capturing has been started
          */
-        void captureStarted(CAPTUREResult rc);
+        void captureStarted(CaptureModuleState::CAPTUREResult rc);
 
         /**
              * @brief setGuideDeviation Set the guiding deviation as measured by the guiding module. Abort capture
@@ -840,10 +845,6 @@ class Capture : public QWidget, public Ui::Capture
         bool selectJob(QModelIndex i);
         void editJob(QModelIndex i);
         void resetJobEdit();
-        /**
-         * @brief executeJob Start the execution of #activeJob by initiating updatePreCaptureCalibrationStatus().
-         */
-        void executeJob();
 
         // Flat field
         void openCalibrationDialog();
@@ -869,9 +870,6 @@ class Capture : public QWidget, public Ui::Capture
 
         // Script Manager
         void handleScriptsManager();
-
-        // capture scripts
-        void scriptFinished(int exitCode, QProcess::ExitStatus status);
 
         void setVideoStreamEnabled(bool enabled);
 
@@ -901,12 +899,6 @@ class Capture : public QWidget, public Ui::Capture
         void newFilterStatus(FilterState state);
 
         void ready();
-
-        // signals to the sequence job
-        void prepareCapture();
-
-        // device status
-        void newGuiderDrift(double deviation_rms);
 
         // communication with other modules
         void checkFocus(double);
@@ -939,180 +931,30 @@ class Capture : public QWidget, public Ui::Capture
         // capture process steps
         // ////////////////////////////////////////////////////////////////////
         /**
-             * @brief captureImage Initiates image capture in the active job.
-             */
-        void captureImage();
-
-        /**
-             * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
-             * @param bp pointer to blob containing FITS data
-             */
-        void processData(const QSharedPointer<FITSData> &data);
-
-
-        /**
-             * @brief Connect or disconnect the camera device
-             * @param connection flag if connect (=true) or disconnect (=false)
-             */
-        void connectCamera(bool connection);
-
-        /**
-         * @brief processPreCaptureCalibrationStage Execute the tasks that need to be completed before capturing may start.
-         *
-         * For light frames, checkLightFramePendingTasks() is called.
-         *
-         * @return IPS_OK if all necessary tasks have been completed
+         * @brief captureImageStarted Image capturing for the active job has started.
          */
-        IPState processPreCaptureCalibrationStage();
-        bool processPostCaptureCalibrationStage();
+        void captureImageStarted();
 
         /**
-         * @brief updatePreCaptureCalibrationStatusThis is a wrapping loop for processPreCaptureCalibrationStage(),
-         *        which contains all checks before captureImage() may be called.
-         *
-         * If processPreCaptureCalibrationStage() returns IPS_OK (i.e. everything is ready so that
-         * capturing may be started), captureImage() is called. Otherwise, it waits for a second and
-         * calls itself again.
+         * @brief jobPreparationStarted Preparation actions for the current active job have beenstarted.
          */
-        void updatePreCaptureCalibrationStatus();
+        void jobExecutionPreparationStarted();
 
         /**
-         * @brief prepareJob Update the counters of existing frames and continue with prepareActiveJob(), if there exist less
-         *        images than targeted. If enough images exist, continue with processJobCompletion().
+         * @brief jobPrepared Select the job that is currently in preparation.
          */
-        void prepareJob(SequenceJob *job);
+        void jobPrepared(SequenceJob *job);
 
         /**
-         * @brief prepareActiveJobStage1 Check for pre job script to execute. If none, move to stage 2
+         * @brief imageCapturingCompleted Capturing a single frame completed
          */
-        void prepareActiveJobStage1();
-        /**
-         * @brief prepareActiveJobStage2 Reset #calibrationStage and continue with preparePreCaptureActions().
-         */
-        void prepareActiveJobStage2();
+        void imageCapturingCompleted();
 
         /**
-         * @brief preparePreCaptureActions Trigger setting the filter, temperature, (if existing) the rotator angle and
-         *        let the #activeJob execute the preparation actions before a capture may
-         *        take place (@see SequenceJob::prepareCapture()).
-         *
-         * After triggering the settings, this method returns. This mechanism is slightly tricky, since it
-         * asynchronous and event based and works as collaboration between Capture and SequenceJob. Capture has
-         * the connection to devices and SequenceJob knows the target values.
-         *
-         * Each time Capture receives an updated value - e.g. the current CCD temperature
-         * (@see updateCCDTemperature()) - it informs the #activeJob about the current CCD temperature.
-         * SequenceJob checks, if it has reached the target value and if yes, sets this action as as completed.
-         *
-         * As soon as all actions are completed, SequenceJob emits a prepareComplete() event, which triggers
-         * executeJob() from the Capture module.
+         * @brief processFITSfinished processing new FITS data received from camera finished.
+         * @param success true iff processing was successful
          */
-        void preparePreCaptureActions();
-
-        /**
-         * @brief Check all tasks that might be pending before capturing may start.
-         *
-         * The following checks are executed:
-         *  1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
-         *  2. Has pausing been initiated (@see checkPausing()).
-         *  3. Is a meridian flip already running (@see m_MeridianFlipState->checkMeridianFlipRunning()) or ready
-         *     for execution (@see m_captureModuleState->checkMeridianFlipReady()).
-         *  4. Is a post meridian flip alignment running (@see checkAlignmentAfterFlip()).
-         *  5. Is post flip guiding required or running (@see checkGuidingAfterFlip().
-         *  6. Is the guiding deviation below the expected limit (@see setGuideDeviation(double,double)).
-         *  7. Is dithering required or ongoing (@see checkDithering()).
-         *  8. Is re-focusing or adaptive focusing required or ongoing (@see startFocusIfRequired()).
-         *  9. Has guiding been resumed and needs to be restarted (@see resumeGuiding())
-         *
-         * If none of this is true, everything is ready and capturing may be started.
-         *
-         * @return IPS_OK iff no task is pending, IPS_BUSY otherwise (or IPS_ALERT if a problem occured)
-         */
-        IPState checkLightFramePendingTasks();
-
-        /**
-         * @brief Manage the capture process after a captured image has been successfully downloaded from the camera.
-         *
-         * When a image frame has been captured and downloaded successfully, send the image to the client (if configured)
-         * and execute the book keeping for the captured frame. After this, either processJobCompletion() is executed
-         * in case that the job is completed, and resumeSequence() otherwise.
-         *
-         * Book keeping means:
-         * - increase / decrease the counters for focusing and dithering
-         * - increase the frame counter
-         * - update the average download time
-         *
-         * @return IPS_BUSY if pausing is requested, IPS_OK otherwise.
-         */
-        IPState setCaptureComplete();
-
-        /**
-         * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
-         * if yes, we run it and wait until it is done before we move to stage2
-         */
-        void processJobCompletionStage1();
-
-        /**
-         * @brief processJobCompletionStage2 Stop execution of the current sequence and check whether there exists a next sequence
-         *        and start it, if there is a next one to be started (@see resumeSequence()).
-         */
-        void processJobCompletionStage2();
-
-        /**
-         * @brief checkNextExposure Try to start capturing the next exposure (@see startNextExposure()).
-         *        If startNextExposure() returns, that there are still some jobs pending,
-         *        we wait for 1 second and retry to start it again.
-         *        If one of the pending preparation jobs has problems, the looping stops.
-         */
-        void checkNextExposure();
-
-        // check if a pause has been planned
-        bool checkPausing();
-
-        /**
-         * @brief resumeSequence Try to continue capturing.
-         *
-         * Take the active job, if there is one, or search for the next one that is either
-         * idle or aborted. If a new job is selected, call prepareJob(*SequenceJob) to prepare it and
-         * resume guiding (TODO: is this not part of the preparation?). If the current job is still active,
-         * initiate checkNextExposure().
-         *
-         * @return IPS_OK if there is a job that may be continued, IPS_BUSY otherwise.
-         */
-        IPState resumeSequence();
-
-        /**
-         * @brief startNextExposure Ensure that all pending preparation tasks are be completed (focusing, dithering, etc.)
-         *        and start the next exposure.
-         *
-         * Checks of pending preparations depends upon the frame type:
-         *
-         * - For light frames, pending preparations like focusing, dithering etc. needs
-         *   to be checked before each single frame capture. efore starting to capture the next light frame,
-         *   checkLightFramePendingTasks() is called to check if all pending preparation tasks have
-         *   been completed successfully. As soon as this is the case, the sequence timer
-         *   #seqTimer is started to wait the configured delay and starts capturing the next image.
-         *
-         * - For bias, dark and flat frames, preparation jobs are only executed when starting a sequence.
-         *   Hence, for these frames we directly start the sequence timer #seqTimer.
-         *
-         * @return IPS_OK, iff all pending preparation jobs are completed (@see checkLightFramePendingTasks()).
-         *         In that case, the #seqTimer is started to wait for the configured settling delay and then
-         *         capture the next image (@see Capture::captureImage). In case that a pending task aborted,
-         *         IPS_IDLE is returned.
-         */
-        IPState startNextExposure();
-
-        // If exposure timed out, let's handle it.
-        void processCaptureTimeout();
-
-        /**
-         * @brief processCaptureError Handle when image capture fails
-         * @param type error type
-         */
-        void processCaptureError(ISD::Camera::ErrorType type);
-
-        double setCurrentADU(double value);
+        void processingFITSfinished(bool success);
 
         // Propagate meridian flip state changes to the UI
         void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
@@ -1125,17 +967,9 @@ class Capture : public QWidget, public Ui::Capture
         void generatePreviewFilename();
         QString previewFilename(FilenamePreviewType = LOCAL_PREVIEW);
 
-        /**
-         * @brief Set the currently active sequence job. Use this function to ensure
-         *        that everything is cleaned up properly.
-         */
-        void setActiveJob(SequenceJob *value);
-
         void setBusy(bool enable);
 
         /* Capture */
-        void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
-
         bool isModelinDSLRInfo(const QString &model);
 
         void createDSLRDialog();
@@ -1143,22 +977,17 @@ class Capture : public QWidget, public Ui::Capture
         void resetFrameToZero();
 
         /**
-         * @brief generateScriptArguments Generate argument list to pass to capture script
-         * @return generates argument list consisting of one argument -metadata followed by JSON-formatted key:value pair:
-         * -ts UNIX timestamp
-         * -image full path to captured image (if any)
-         * -size size of file in bytes (if any)
-         * -job {name, index}
-         * -capture {name, index}
-         * -filter
-         * TODO depending on user feedback.
-         */
-        QStringList generateScriptArguments() const;
-
-        /**
          * @brief Sync refocus options to the GUI settings
          */
         void syncRefocusOptionsFromGUI();
+
+        /**
+         * @brief changeSequenceValue Change a single sequence in the sequence array
+         * @param index position in the array
+         * @param key sequence key
+         * @param value new sequence value
+         */
+        void changeSequenceValue(int index, QString key, QString value);
 
         // ////////////////////////////////////////////////////////////////////
         // UI controls
@@ -1233,43 +1062,16 @@ class Capture : public QWidget, public Ui::Capture
         // time left for the current sequence
         QTime sequenceCountDown;
 
-        // Timer for starting the next capture sequence with delay
-        // @see startNextExposure()
-        QTimer *seqDelayTimer { nullptr };
-        int seqFileCount { 0 };
-        bool isBusy { false };
-        bool m_isFraming { false };
-
-        // Capture timeout timer
-        QTimer captureTimeout;
-        uint8_t m_CaptureTimeoutCounter { 0 };
-        uint8_t m_DeviceRestartCounter { 0 };
-
-        bool useGuideHead { false };
-
-        QString m_ObserverName;
-
-        // Currently active sequence job.
-        // DO NOT SET IT MANUALLY, USE {@see setActiveJob()} INSTEAD!
-        SequenceJob *activeJob { nullptr };
+        QPointer<CaptureProcess> m_captureProcess;
         QSharedPointer<CaptureModuleState> m_captureModuleState;
 
         QPointer<QDBusInterface> mountInterface;
 
-        QSharedPointer<FITSData> m_ImageData;
-
         QStringList m_LogText;
-        QUrl m_SequenceURL;
         bool m_JobUnderEdit { false };
 
-        // Fast Exposure
-        bool m_RememberFastExposure {false};
-
         // Flat field automation
-        QVector<double> ExpRaw, ADURaw;
         double targetADU { 0 };
-        double targetADUTolerance { 1000 };
-        ADUAlgorithm targetADUAlgorithm { ADU_LEAST_SQUARES};
         SkyPoint wallCoord;
         bool preMountPark { false };
         bool preDomePark { false };
@@ -1279,13 +1081,6 @@ class Capture : public QWidget, public Ui::Capture
         QMap<ScriptTypes, QString> m_Scripts;
 
         QUrl dirPath;
-
-        // Misc
-        bool suspendGuideOnDownload { false };
-        QJsonArray m_SequenceArray;
-
-        // CCD Chip frame settings
-        QMap<ISD::CameraChip *, QVariantMap> frameSettings;
 
         /// CCD device needed for focus operation
         ISD::Camera *m_Camera { nullptr };
@@ -1302,10 +1097,6 @@ class Capture : public QWidget, public Ui::Capture
         /// Mount
         ISD::Mount *m_Mount { nullptr };
 
-        // Post capture script
-        QProcess m_CaptureScript;
-        uint8_t m_CaptureScriptType {0};
-
         std::unique_ptr<CustomProperties> customPropertiesDialog;
         std::unique_ptr<DSLRInfo> dslrInfoDialog;
 
@@ -1317,12 +1108,9 @@ class Capture : public QWidget, public Ui::Capture
         double OffsetSpinSpecialValue { INVALID_VALUE };
 
         // Dark Processor
-        QPointer<DarkProcessor> m_DarkProcessor;
         std::unique_ptr<Ui::Limits> m_LimitsUI;
         QPointer<QDialog> m_LimitsDialog;
 
-        QElapsedTimer m_DownloadTimer;
-        QTimer downloadProgressTimer;
         QVariantMap m_Metadata;
 
         QSharedPointer<FilterManager> m_FilterManager;
@@ -1337,7 +1125,6 @@ class Capture : public QWidget, public Ui::Capture
         double m_FocalRatio {-1};
         double m_Reducer = {-1};
 
-		
 };
 
 }
