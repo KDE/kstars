@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
-"PO-Revision-Date: 2023-06-23 13:38+0200\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
+"PO-Revision-Date: 2023-06-28 15:38+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -11647,10 +11647,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:303
-#, fuzzy, kde-format
-#| msgid "Guider:"
+#, kde-format
 msgid "Guide Via:"
-msgstr "Guider:"
+msgstr "Vodítko přes:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:323
@@ -14358,10 +14357,9 @@ msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
 #: ekos/capture/captureprocess.cpp:1122
-#, fuzzy, kde-format
-#| msgid "Running script: %1"
+#, kde-format
 msgid "Executing capture script %1"
-msgstr "Běží skript: %1"
+msgstr "Spouštím zachytávací skript %1"
 
 #: ekos/capture/captureprocess.cpp:1137
 #, kde-format
@@ -21847,18 +21845,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Vnitřní"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr ""

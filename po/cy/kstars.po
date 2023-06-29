@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -23246,18 +23246,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Vernal"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Bridgeport"

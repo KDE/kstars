@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -24042,20 +24042,20 @@ msgstr ""
 msgid "Internal"
 msgstr "Vnútorný"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, fuzzy, kde-format
 #| msgid "Artwork"
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Grafický dizajn"
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, fuzzy, kde-format
 #| msgid "Starting profile on remote INDI Web Manager..."
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Spúšťam profil na vzdialenom webovom správcovi INDI..."
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, fuzzy, kde-format
 #| msgid "INDI Web Manager port"
 msgid "Found INDI Web Manager at %1"

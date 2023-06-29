@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
-"PO-Revision-Date: 2023-06-27 21:59+0300\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
+"PO-Revision-Date: 2023-06-28 09:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -15374,10 +15374,9 @@ msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "УВАГА: у %2 лишилися потенційно невідомі замінники %1"
 
 #: ekos/capture/captureprocess.cpp:1122
-#, fuzzy, kde-format
-#| msgid "Executing pre capture script %1"
+#, kde-format
 msgid "Executing capture script %1"
-msgstr "Виконуємо скрипт до захоплення зображення, %1"
+msgstr "Виконуємо скрипт захоплення зображення, %1"
 
 #: ekos/capture/captureprocess.cpp:1137
 #, kde-format
@@ -23898,18 +23897,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Вбудований"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Виконуємо пошуку у мережі"
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Шукаємо засоби вебкерування INDI у мережі…"
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Знайдено засіб вебкерування INDI — %1"

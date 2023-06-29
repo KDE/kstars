@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -24388,20 +24388,20 @@ msgstr ""
 msgid "Internal"
 msgstr "Аралық"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, fuzzy, kde-format
 #| msgid "Artwork"
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Көркемдету"
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Қашық INDI тоғыс келтіргіш құрылғының атауы."
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, fuzzy, kde-format
 #| msgid "INDI Filter port"
 msgid "Found INDI Web Manager at %1"

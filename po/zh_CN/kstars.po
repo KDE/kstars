@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
 "PO-Revision-Date: 2023-06-17 04:11\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -22314,18 +22314,18 @@ msgstr ""
 msgid "Internal"
 msgstr "内置"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "扫描网络"
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "正在网络上扫描 INDI Web 管理器..."
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "在 %1 找到 INDI Web 管理器"

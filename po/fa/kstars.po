@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
 "PO-Revision-Date: 2012-01-12 17:10+0330\n"
 "Last-Translator: Mohammad Reza Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <>\n"
@@ -23693,19 +23693,19 @@ msgstr ""
 msgid "Internal"
 msgstr "ورنال"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Scanning network for INDI Web Managers..."
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, fuzzy, kde-format
 #| msgid "INDI Video port"
 msgid "Found INDI Web Manager at %1"

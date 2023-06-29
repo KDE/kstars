@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
-"PO-Revision-Date: 2023-06-27 18:37+0200\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
+"PO-Revision-Date: 2023-06-28 14:50+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -15441,10 +15441,9 @@ msgstr ""
 "AVÍS: Queden %1 variables de substitució o potencialment desconegudes a %2"
 
 #: ekos/capture/captureprocess.cpp:1122
-#, fuzzy, kde-format
-#| msgid "Executing pre capture script %1"
+#, kde-format
 msgid "Executing capture script %1"
-msgstr "S'està executant l'script %1 anterior a la captura"
+msgstr "S'està executant l'script de captura %1"
 
 #: ekos/capture/captureprocess.cpp:1137
 #, kde-format
@@ -20068,7 +20067,7 @@ msgid ""
 "<html><head/><body><p>Display the RA graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic AR al traçat dels gràfics de la "
+"<html><head/><body><p>Mostra el gràfic AR en el traçat dels gràfics de la "
 "deriva.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rADisplayedOnGuideGraph)
@@ -20084,7 +20083,7 @@ msgid ""
 "<html><head/><body><p>Display the RA Corrections graph in the Drift Graphics "
 "plot.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic de correccions AR al traçat dels "
+"<html><head/><body><p>Mostra el gràfic de correccions AR en el traçat dels "
 "gràfics de la deriva.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
@@ -20101,7 +20100,7 @@ msgid ""
 "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic Dec al traçat dels gràfics de la "
+"<html><head/><body><p>Mostra el gràfic Dec en el traçat dels gràfics de la "
 "deriva.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
@@ -20111,7 +20110,7 @@ msgid ""
 "<html><head/><body><p>Display the DEC Corrections graph in the Drift "
 "Graphics plot.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic de correccions Dec al traçat dels "
+"<html><head/><body><p>Mostra el gràfic de correccions Dec en el traçat dels "
 "gràfics de la deriva.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, sNRDisplayedOnGuideGraph)
@@ -20121,7 +20120,7 @@ msgid ""
 "<html><head/><body><p>Display SNR graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic SNR al traçat dels gràfics de la "
+"<html><head/><body><p>Mostra el gràfic SNR en el traçat dels gràfics de la "
 "deriva.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
@@ -20137,7 +20136,7 @@ msgid ""
 "<html><head/><body><p>Display RMS graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic RMS al traçat dels gràfics de la "
+"<html><head/><body><p>Mostra el gràfic RMS en el traçat dels gràfics de la "
 "deriva.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rMSDisplayedOnGuideGraph)
@@ -20237,9 +20236,9 @@ msgid ""
 "The number represents the radius of the green concentric circle in "
 "arcseconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Establix la precisió desitjada del guiatge al traçat "
-"de la deriva. El nombre representa el radi del cercle verd concèntric en "
-"segons d'arc.</p></body></html>"
+"<html><head/><body><p>Establix la precisió desitjada del guiatge en el "
+"traçat de la deriva. El nombre representa el radi del cercle verd concèntric "
+"en segons d'arc.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:66
 #, kde-format
@@ -23979,18 +23978,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Intern"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Exploreu la xarxa"
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "S'està explorant la xarxa buscant Gestors Web d'INDI..."
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "S'ha trobat un Gestor Web d'INDI a %1"
@@ -36197,8 +36196,7 @@ msgstr ""
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
 msgstr ""
-"La tolerància definida per l'usuari que s'utilitzarà per a l'algorisme "
-"«Gold»."
+"La tolerància definida per l'usuari que s'utilitzarà per a l'algorisme Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2114
@@ -37078,39 +37076,42 @@ msgstr "Llindar de precisió per als gràfics del guiatge."
 #: kstars.kcfg:2686
 #, kde-format
 msgid "Display the RA Plot on the Guide Drift Graphics."
-msgstr "Visualitza el traçat AR als gràfics de la deriva del guiatge."
+msgstr "Visualitza el traçat AR en els gràfics de la deriva del guiatge."
 
 #. i18n: ectx: label, entry (DEDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2690
 #, kde-format
 msgid "Display the DEC Plot on the Guide Drift Graphics."
-msgstr "Visualitza el traçat Dec als gràfics de la deriva del guiatge."
+msgstr "Visualitza el traçat Dec en els gràfics de la deriva del guiatge."
 
 #. i18n: ectx: label, entry (RACorrDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2694
 #, kde-format
 msgid "Display the RA Corrections Plot on the Guide Drift Graphics."
 msgstr ""
-"Visualitza el traçat de correccions AR als gràfics de la deriva del guiatge."
+"Visualitza el traçat de correccions AR en els gràfics de la deriva del "
+"guiatge."
 
 #. i18n: ectx: label, entry (DECorrDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2698
 #, kde-format
 msgid "Display the DEC Corrections Plot on the Guide Drift Graphics."
 msgstr ""
-"Visualitza el traçat de correccions Dec als gràfics de la deriva del guiatge."
+"Visualitza el traçat de correccions Dec en els gràfics de la deriva del "
+"guiatge."
 
 #. i18n: ectx: label, entry (SNRDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2702
 #, kde-format
 msgid "Display the SNR Plot on the Guide Drift Graphics."
-msgstr "Visualitza el traçat SNR als gràfics de la deriva del guiatge."
+msgstr "Visualitza el traçat SNR en els gràfics de la deriva del guiatge."
 
 #. i18n: ectx: label, entry (RMSDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:2706
 #, kde-format
 msgid "Display the RMS Error Plot on the Guide Drift Graphics."
-msgstr "Visualitza el traçat d'error RMS als gràfics de la deriva del guiatge."
+msgstr ""
+"Visualitza el traçat d'error RMS en els gràfics de la deriva del guiatge."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:2712
@@ -37478,7 +37479,7 @@ msgstr ""
 #: kstars.kcfg:2913
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
-msgstr "Mostra l'HFR al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra l'HFR en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
 #: kstars.kcfg:2917
@@ -37487,7 +37488,7 @@ msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
 "Plot."
 msgstr ""
-"Mostra el nombre d'estreles en la captura sobre el traçat d'estadístiques de "
+"Mostra el nombre d'estreles en la captura en el traçat d'estadístiques de "
 "l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
@@ -37496,8 +37497,8 @@ msgstr ""
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
 msgstr ""
-"Mostra el valor de la mediana simple de la captura al traçat d'estadístiques "
-"de l'anàlisi."
+"Mostra el valor de la mediana simple de la captura en el traçat "
+"d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
 #: kstars.kcfg:2925
@@ -37506,7 +37507,7 @@ msgid ""
 "Display the median eccentricity for the stars in the capture on the Analyze "
 "Statistics Plot."
 msgstr ""
-"Mostra l'excentricitat mediana de les estreles en la captura sobre el traçat "
+"Mostra l'excentricitat mediana de les estreles en la captura en el traçat "
 "d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
@@ -37528,7 +37529,7 @@ msgstr "Mostra la posició de la solució d'enfocament automàtic."
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
 msgstr ""
-"Mostra el nombre d'estreles («NumStars») al traçat d'estadístiques de "
+"Mostra el nombre d'estreles («NumStars») en el traçat d'estadístiques de "
 "l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
@@ -37536,50 +37537,50 @@ msgstr ""
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
 msgstr ""
-"Mostra el fons del cel («SkyBackground») al traçat d'estadístiques de "
+"Mostra el fons del cel («SkyBackground») en el traçat d'estadístiques de "
 "l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
 #: kstars.kcfg:2945
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
-msgstr "Mostra l'SNR al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra l'SNR en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
 #: kstars.kcfg:2949
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
-msgstr "Mostra l'AR al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra l'AR en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
 #: kstars.kcfg:2953
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
-msgstr "Mostra la Dec al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra la Dec en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
 #: kstars.kcfg:2957
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
-msgstr "Mostra els polsos AR al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra els polsos AR en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
 #: kstars.kcfg:2961
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
-msgstr "Mostra els polsos Dec al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra els polsos Dec en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
 #: kstars.kcfg:2965
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
-msgstr "Mostra la deriva al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra la deriva en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
 #: kstars.kcfg:2969
 #, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
-msgstr "Mostra l'error RMS al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra l'error RMS en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
 #: kstars.kcfg:2973
@@ -37589,46 +37590,47 @@ msgid ""
 "solved captured image on the Analyze plot."
 msgstr ""
 "Mostra la distància en segons d'arc entre la posició de l'objectiu i la "
-"imatge capturada de la placa solucionada al traçat de l'anàlisi."
+"imatge capturada de la placa solucionada en el traçat de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
 #: kstars.kcfg:2977
 #, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr ""
-"Mostra l'error RMS (durant la captura) al traçat d'estadístiques de "
+"Mostra l'error RMS (durant la captura) en el traçat d'estadístiques de "
 "l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
 #: kstars.kcfg:2981
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
-msgstr "Mostra l'AR de la muntura al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra l'AR de la muntura en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
 #: kstars.kcfg:2985
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
-msgstr "Mostra la Dec de la muntura al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra la Dec de la muntura en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
 #: kstars.kcfg:2989
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr ""
-"Mostra l'angle horari de la muntura al traçat d'estadístiques de l'anàlisi."
+"Mostra l'angle horari de la muntura en el traçat d'estadístiques de "
+"l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
 #: kstars.kcfg:2993
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
-msgstr "Mostra l'azimut al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra l'azimut en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
 #: kstars.kcfg:2997
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
-msgstr "Mostra l'altitud al traçat d'estadístiques de l'anàlisi."
+msgstr "Mostra l'altitud en el traçat d'estadístiques de l'anàlisi."
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
 #: kstars.kcfg:3001
@@ -83783,15 +83785,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Executing post capture script %1"
-#~ msgstr "S'està executant l'script %1 posterior a la captura"
-
-#~ msgid "Executing post job script %1"
-#~ msgstr "S'està executant l'script %1 posterior a la tasca"
-
-#~ msgid "Executing pre job script %1"
-#~ msgstr "S'està executant l'script %1 anterior a la tasca"
-
-#~ msgid "Resuming sequence..."
-#~ msgstr "Es reprén la seqüència..."

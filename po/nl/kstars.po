@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-28 00:43+0000\n"
-"PO-Revision-Date: 2023-06-27 11:48+0200\n"
+"POT-Creation-Date: 2023-06-29 00:42+0000\n"
+"PO-Revision-Date: 2023-06-28 11:22+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15281,10 +15281,9 @@ msgstr ""
 "WAARSCHUWING: overblijvende en potentieel onbekende plaatshouders %1 in %2"
 
 #: ekos/capture/captureprocess.cpp:1122
-#, fuzzy, kde-format
-#| msgid "Executing pre capture script %1"
+#, kde-format
 msgid "Executing capture script %1"
-msgstr "Script %1 voor vóór de opname wordt uitgevoerd..."
+msgstr "Script %1 voor het opnemen wordt uitgevoerd"
 
 #: ekos/capture/captureprocess.cpp:1137
 #, kde-format
@@ -23709,18 +23708,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Inter"
 
-#: ekos/profileeditor.cpp:897
+#: ekos/profileeditor.cpp:898
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Netwerk nalopen"
 
-#: ekos/profileeditor.cpp:898
+#: ekos/profileeditor.cpp:899
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Netwerk nalopen naar INDI Web Managers..."
 
-#: ekos/profileeditor.cpp:962
+#: ekos/profileeditor.cpp:963
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "INDI Web Manager gevonden op %1"
