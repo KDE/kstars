@@ -532,6 +532,13 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         QIcon::fromTheme("media-playback-start"));
     shutdownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    // 2023-06-27 sterne-jaeger: For simplicity reasons, the repeat option
+    // for all sequences is only active of we do consider the past
+    repeatSequenceCB->setEnabled(Options::rememberJobProgress() == false);
+    repeatSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
+    repeatSequenceCB->setChecked(Options::schedulerRepeatSequences());
+    repeatSequenceLimit->setValue(Options::schedulerRepeatSequencesLimit());
+
     connect(startupB, &QPushButton::clicked, this, &Scheduler::runStartupProcedure);
     connect(shutdownB, &QPushButton::clicked, this, &Scheduler::runShutdownProcedure);
 
@@ -681,6 +688,14 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(minAltitude, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         Options::setSchedulerAltitudeValue(minAltitude->value());
+    });
+    connect(repeatSequenceCB, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerRepeatSequences(checked);
+    });
+    connect(repeatSequenceLimit, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]()
+    {
+        Options::setSchedulerRepeatSequencesLimit(repeatSequenceLimit->value());
     });
 
     // restore default values for error handling strategy
@@ -902,6 +917,8 @@ void Scheduler::applyConfig()
 {
     calculateDawnDusk();
     updateNightTime();
+    repeatSequenceCB->setEnabled(Options::rememberJobProgress() == false);
+    repeatSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
 
     if (SCHEDULER_RUNNING != state)
     {
@@ -3797,7 +3814,23 @@ bool Scheduler::checkStatus()
         // #2.4 If not in shutdown state, evaluate the jobs
         evaluateJobs(false);
 
-        // #2.5 If there is no current job after evaluation, shutdown
+        // #2.5 check if all jobs have completed and repeat is set
+        if (nullptr == currentJob && checkRepeatSequence())
+        {
+            // Reset all jobs
+            resetJobs();
+            // Re-evaluate all jobs to check whether there is at least one that might be executed
+            evaluateJobs(false);
+            // if there is an executable job, restart;
+            if (currentJob)
+            {
+                repeatSequenceCounter++;
+                appendLogText(i18n("Starting job sequence iteration #%1", repeatSequenceCounter + 1));
+                return true;
+            }
+        }
+
+        // #2.6 If there is no current job after evaluation, shutdown
         if (nullptr == currentJob)
         {
             checkShutdownState();
@@ -6885,7 +6918,18 @@ void Scheduler::checkCapParkingStatus()
 
 void Scheduler::startJobEvaluation()
 {
-    // Reset current job
+    // Reset all jobs
+    resetJobs();
+
+    // reset the iterations counter
+    repeatSequenceCounter = 0;
+
+    // And evaluate all pending jobs per the conditions set in each
+    evaluateJobs(true);
+}
+
+void Ekos::Scheduler::resetJobs()
+{
     setCurrentJob(nullptr);
 
     // Reset ALL scheduler jobs to IDLE and force-reset their completed count - no effect when progress is kept
@@ -6897,9 +6941,6 @@ void Scheduler::startJobEvaluation()
 
     // Unconditionally update the capture storage
     updateCompletedJobsCount(true);
-
-    // And evaluate all pending jobs per the conditions set in each
-    evaluateJobs(true);
 }
 
 void Scheduler::sortJobsPerAltitude()

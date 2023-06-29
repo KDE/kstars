@@ -798,6 +798,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluationOnly);
 
         /**
+         * @brief resetJobs Reset all jobs counters
+         */
+        void resetJobs();
+
+        /**
              * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
              * checkJobStatus slot will be connected in order to figure the exact state of the current job each second
              * @param value
@@ -988,6 +993,19 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         // Returns true if the job is storing its captures on the same machine as the scheduler.
         bool canCountCaptures(const SchedulerJob &job);
+
+        /**
+         * @brief checkRepeatSequence Check if the entire job sequence might be repeated
+         * @return true if the checkbox is set and the number of iterations is below the
+         * configured threshold
+         */
+        bool checkRepeatSequence()
+        {
+            return repeatSequenceCB->isEnabled() && repeatSequenceCB->isChecked() &&
+                    (repeatSequenceLimit->value() == 0 || repeatSequenceCounter < repeatSequenceLimit->value());
+        }
+
+        int repeatSequenceCounter = 0;
 
         Ekos::Scheduler *ui { nullptr };
         //DBus interfaces

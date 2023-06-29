@@ -522,7 +522,16 @@
                   <blue>0</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
               </active>
               <inactive>
                <colorrole role="WindowText">
@@ -551,7 +560,16 @@
                   <blue>0</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
               </inactive>
               <disabled>
                <colorrole role="WindowText">
@@ -580,7 +598,16 @@
                   <blue>162</blue>
                  </color>
                 </brush>
-               </colorrole>               
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
               </disabled>
              </palette>
             </property>
@@ -1209,6 +1236,45 @@ font-weight:bold;
               <string>Greedy</string>
              </property>
             </item>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="repeatSequenceCB">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Repeat all scheduled jobs as soon as all jobs have been completed. This option is only available if the &amp;quot;Remember job progress&amp;quot; option in Ekos &amp;gt; Scheduler is not selected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Repeat after completion</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="repeatSequenceLimit">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Limit number of iterations the scheduler will repeat the entire job sequence. If set to 0, the jobs are repeated until for none of the jobs its constraints are met.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="suffix">
+             <string> times</string>
+            </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
            </widget>
           </item>
           <item>
@@ -2304,6 +2370,7 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="errorHandlingButtonGroup"/>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
@@ -2316,16 +2383,15 @@ font-weight:bold;
    </property>
   </buttongroup>
   <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>
