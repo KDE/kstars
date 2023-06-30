@@ -515,7 +515,7 @@ Rectangle {
                 columns: 4
 
                 MouseArea {
-                    anchors.fill: parent
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     property bool toggle: false
                     onClicked: {
                         if (toggle) {
