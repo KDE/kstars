@@ -1029,7 +1029,7 @@
         applicable here as well.</para>
 
         <para> The difference between CFZ Shuffle and Fixed Steps is that near the center of the sweep (which
-        should be around the Critical Focus Zone (CFZ) the algorithm takes steps of half the specified size.</para>
+        should be around the Critical Focus Zone (CFZ)) the algorithm takes steps of half the specified size.</para>
       </listitem>
     </itemizedlist>
     </para>
@@ -1255,7 +1255,7 @@
     have how many ticks moved the drawtube the distance you measured. From this you can calculate the distance in microns a single
     tick moves the drawtube.</para>
     <para> Other types of telescope will have other ways to adjust the focal plane, for example, by moving the primary or
-    secondary mirrors. You will need to either get the Step Size from the documentation for your equipment of work out how to
+    secondary mirrors. You will need to either get the Step Size from the documentation for your equipment or work out how to
     measure it in a way that are consistent with that described above.</para>
   </listitem>
 
