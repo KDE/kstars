@@ -688,6 +688,10 @@ class SchedulerJob
         {
             m_UpdateGraphics = update;
         }
+        static bool graphicsUpdatesEnabled()
+        {
+            return(m_UpdateGraphics);
+        }
 
         // Clear the cache that keeps results for getNextPossibleStartTime().
         void clearCache()

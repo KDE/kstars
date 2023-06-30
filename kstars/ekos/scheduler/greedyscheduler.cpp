@@ -526,7 +526,8 @@ void GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDateTim
         // or if we've simply run too long.
         if (!simTime.isValid()) break;
         if (endTime.isValid() && simTime.secsTo(endTime) < 0) break;
-        if (++iterations > 20) break;
+
+        if (++iterations > std::max(20, numStartupCandidates)) break;
     }
 
     // This simulation has been run using a deep-copy of the jobs list, so as not to interfere with

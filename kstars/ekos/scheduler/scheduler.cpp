@@ -292,10 +292,17 @@ void Scheduler::init()
 // Setup the main loop and start.
 void Scheduler::start()
 {
+
+    foreach (auto j, jobs)
+        j->enableGraphicsUpdates(false);
+
     // New scheduler session shouldn't inherit ABORT or ERROR states from the last one.
     foreach (auto j, jobs)
         j->setState(SchedulerJob::JOB_IDLE);
     init();
+    foreach (auto j, jobs)
+        j->enableGraphicsUpdates(true);
+
     iterate();
 }
 
@@ -566,6 +573,11 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
             &Scheduler::queueTableSelectionChanged);
     connect(queueTable, &QAbstractItemView::clicked, this, &Scheduler::clickQueueTable);
     connect(queueTable, &QAbstractItemView::doubleClicked, this, &Scheduler::loadJob);
+
+
+    // These connections are looking for changes in the rows queueTable is displaying.
+    connect(queueTable->verticalScrollBar(), &QScrollBar::valueChanged, this, &Scheduler::updateTable);
+    connect(queueTable->verticalScrollBar(), &QAbstractSlider::rangeChanged, this, &Scheduler::updateTable);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -1287,6 +1299,9 @@ void Scheduler::saveJob()
         queueTable->insertRow(currentRow);
     }
 
+    const bool savedUpdate = job->graphicsUpdatesEnabled();
+    job->enableGraphicsUpdates(false);
+
     /* Configure or reconfigure the observation job */
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
@@ -1353,6 +1368,7 @@ void Scheduler::saveJob()
 
     // Warn user if a duplicated job is in the list - same target, same sequence
     // FIXME: Those duplicated jobs are not necessarily processed in the order they appear in the list!
+    int numWarnings = 0;
     foreach (SchedulerJob *a_job, jobs)
     {
         if (a_job == job)
@@ -1380,6 +1396,13 @@ void Scheduler::saveJob()
                     appendLogText(i18n("Warning: job '%1' at row %2 might require a specific startup time or a different priority, "
                                        "as currently they will start in order of insertion in the table",
                                        job->getName(), currentRow));
+            }
+
+            // Don't need to warn over and over.
+            if (++numWarnings >= 1)
+            {
+                appendLogText(i18n("Skipped checking for duplicates."));
+                break;
             }
         }
     }
@@ -1442,6 +1465,8 @@ void Scheduler::saveJob()
     setJobManipulation(true, true);
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow + 1);
+    job->enableGraphicsUpdates(savedUpdate);
+    job->updateJobCells();
 
     watchJobChanges(true);
 
@@ -1765,6 +1790,12 @@ void Scheduler::moveJobDown()
     evaluateJobs(true);
 }
 
+void Scheduler::updateTable()
+{
+    foreach (SchedulerJob* job, jobs)
+        job->updateJobCells();
+}
+
 void Scheduler::setJobStatusCells(int row)
 {
     if (row < 0 || jobs.size() <= row)
@@ -1860,6 +1891,7 @@ void Scheduler::removeJob()
     mDirty = true;
     evaluateJobs(true);
     emit jobsUpdated(getJSONJobs());
+    updateTable();
 }
 
 void Scheduler::removeOneJob(int index)
@@ -6926,6 +6958,8 @@ void Scheduler::startJobEvaluation()
 
     // And evaluate all pending jobs per the conditions set in each
     evaluateJobs(true);
+
+    updateTable();
 }
 
 void Ekos::Scheduler::resetJobs()

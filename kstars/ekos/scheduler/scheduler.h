@@ -531,6 +531,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void setJobStatusCells(int row);
 
+        /** @internal Update table cells for all jobs.
+         */
+        void updateTable();
+
     protected slots:
 
         /**
