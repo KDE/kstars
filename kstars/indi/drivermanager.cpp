@@ -674,6 +674,7 @@ void DriverManager::setClientTerminated(const QString &message)
 
     updateMenuActions();
     updateLocalTab();
+    updateClientTab();
 }
 
 void DriverManager::setServerStarted()
