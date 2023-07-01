@@ -477,6 +477,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         bool saveScheduler(const QUrl &fileURL);
 
+        /** Update table cells for all jobs.
+         */
+        void updateTable(); // For framing assistant
+
+
     private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -530,10 +535,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param row is an integer indexing the row to associate cells from, and also the index of the job in the job list..
          */
         void setJobStatusCells(int row);
-
-        /** @internal Update table cells for all jobs.
-         */
-        void updateTable();
 
     protected slots:
 

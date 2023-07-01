@@ -620,8 +620,7 @@ void FramingAssistantUI::createJobs()
     scheduler->saveScheduler(QUrl::fromLocalFile(schedulerListFile));
     accept();
     Ekos::Manager::Instance()->activateModule(i18n("Scheduler"), true);
-
-
+    scheduler->updateTable();
 }
 
 void FramingAssistantUI::setMountState(ISD::Mount::Status value)
