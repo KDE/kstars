@@ -2536,6 +2536,12 @@ void Capture::jobPrepared(SequenceJob * job)
 
 void Capture::jobExecutionPreparationStarted()
 {
+    if (m_captureModuleState->getActiveJob() == nullptr)
+    {
+        // this should never happen
+        qWarning(KSTARS_EKOS_CAPTURE) << "jobExecutionPreparationStarted with null m_captureModuleState->getActiveJob().";
+        return;
+    }
     if (m_captureModuleState->getActiveJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
         startB->setIcon(
