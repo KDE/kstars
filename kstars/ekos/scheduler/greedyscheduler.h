@@ -155,7 +155,8 @@ class GreedyScheduler : public QObject
 
         // Simulate the running of the scheduler from time to endTime.
         // Used to find which jobs will be run in the future.
-        void simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time,
+        // Returns the end time of the simulation.
+        QDateTime simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time,
                       const QDateTime &endTime = QDateTime(),
                       const QMap<QString, uint16_t> *capturedFramesCount = nullptr);
 

@@ -304,7 +304,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @param job Target
         */
         static void setupJob(
-            SchedulerJob &job, const QString &name, int priority, const dms &ra,
+            SchedulerJob &job, const QString &name, const QString &group, int priority, const dms &ra,
             const dms &dec, double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl,
             SchedulerJob::StartupCondition startup, const QDateTime &startupTime, int16_t startupOffset,
             SchedulerJob::CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
@@ -974,11 +974,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param schedJob scheduler job for which these calculations are done
          * @param capture_map map signature -> frame count that will be handed over to the capture module to control that a single iteration
          *        of the scheduler job creates as many frames as possible, but does not exceed the expected ones.
+         * @param completedIterations How many times has the job completed its capture sequence (for repeated jobs).
          * @return total number of captured frames, truncated to the maximal number of frames the scheduler job could produce
          */
         static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected,
                                               const SchedulerJob::CapturedFramesMap &capturedFramesCount,
-                                              SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map);
+                                              SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map,
+                                              int &completedIterations);
 
         int getCompletedFiles(const QString &path);
 
@@ -1007,10 +1009,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
         bool checkRepeatSequence()
         {
             return repeatSequenceCB->isEnabled() && repeatSequenceCB->isChecked() &&
-                    (repeatSequenceLimit->value() == 0 || repeatSequenceCounter < repeatSequenceLimit->value());
+                    (executionSequenceLimit->value() == 0 || sequenceExecutionCounter < executionSequenceLimit->value());
         }
 
-        int repeatSequenceCounter = 0;
+        int sequenceExecutionCounter = 1;
 
         Ekos::Scheduler *ui { nullptr };
         //DBus interfaces

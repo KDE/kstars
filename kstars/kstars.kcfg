@@ -2911,8 +2911,8 @@
          <label>Restart sequences as soon as all sequences have been completed.</label>
          <default>false</default>
       </entry>
-      <entry name="SchedulerRepeatSequencesLimit" type="Double">
-         <label>Limit how many times the scheduler should repeat executing all sequences.</label>
+      <entry name="SchedulerExecutionSequencesLimit" type="UInt">
+         <label>Limit how many times the scheduler should execute all sequences.</label>
          <default>0</default>
       </entry>
    </group>

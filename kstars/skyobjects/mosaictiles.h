@@ -167,6 +167,21 @@ class MosaicTiles : public SkyObject
         {
             m_TargetName = value;
         }
+        const QString &group() const {return m_Group;}
+        void setGroup(const QString &value)
+        {
+            m_Group = value;
+        }
+        const QString &completionCondition(QString *arg) const {
+            *arg = m_CompletionConditionArg;
+            return m_CompletionCondition;
+        }
+        void setCompletionCondition(const QString &value, const QString &arg = "")
+        {
+            m_CompletionCondition = value;
+            m_CompletionConditionArg = arg;
+        }
+
         const QString &sequenceFile() const {return m_SequenceFile;}
         void setSequenceFile(const QString &value)
         {
@@ -219,6 +234,9 @@ class MosaicTiles : public SkyObject
         int m_PainterAlpha {50};
         bool m_PainterAlphaAuto {true};
         QString m_TargetName;
+        QString m_Group;
+        QString m_CompletionCondition;
+        QString m_CompletionConditionArg;
         QString m_SequenceFile;
         QString m_OutputDirectory;
         int m_FocusEveryN {1};

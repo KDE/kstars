@@ -168,6 +168,17 @@ void SchedulerJob::setName(const QString &value)
     updateJobCells();
 }
 
+void SchedulerJob::setGroup(const QString &value)
+{
+    group = value;
+    updateJobCells();
+}
+
+void SchedulerJob::setCompletedIterations(int value)
+{
+    completedIterations = value;
+}
+
 KStarsDateTime SchedulerJob::getLocalTime()
 {
     return Ekos::Scheduler::getLocalTime();

@@ -273,6 +273,24 @@ class SchedulerJob
         void setName(const QString &value);
         /** @} */
 
+        /** @brief Group the scheduler job belongs to. */
+        /** @{ */
+        QString getGroup() const
+        {
+            return group;
+        }
+        void setGroup(const QString &value);
+        /** @} */
+
+        /** @brief Iteration the scheduler job has achieved. This only makes sense for jobs that repeat. */
+        /** @{ */
+        int getCompletedIterations() const
+        {
+            return completedIterations;
+        }
+        void setCompletedIterations(int value);
+        /** @} */
+
         /** @brief Shortcut to widget cell for job name in the job queue table. */
         /** @{ */
         QTableWidgetItem *getNameCell() const
@@ -433,6 +451,39 @@ class SchedulerJob
         }
         void setEstimatedTime(const int64_t &value);
         /** @} */
+
+        /** @brief Estimation of the time the job will take to process each repeat. */
+        /** @{ */
+        int64_t getEstimatedTimePerRepeat() const
+        {
+            return estimatedTimePerRepeat;
+        }
+        void setEstimatedTimePerRepeat(const int64_t &value)
+        {
+            estimatedTimePerRepeat = value;
+        }
+
+        /** @brief Estimation of the time the job will take at startup. */
+        /** @{ */
+        int64_t getEstimatedStartupTime() const
+        {
+            return estimatedStartupTime;
+        }
+        void setEstimatedStartupTime(const int64_t &value)
+        {
+            estimatedStartupTime = value;
+        }
+
+        /** @brief Estimation of the time the job will take to process each repeat. */
+        /** @{ */
+        int64_t getEstimatedTimeLeftThisRepeat() const
+        {
+            return estimatedTimeLeftThisRepeat;
+        }
+        void setEstimatedTimeLeftThisRepeat(const int64_t &value)
+        {
+            estimatedTimeLeftThisRepeat = value;
+        }
 
         /** @brief Shortcut to widget cell for estimated time in the job queue table. */
         /** @{ */
@@ -740,6 +791,8 @@ class SchedulerJob
         /** @} */
 
         QString name;
+        QString group;
+        int completedIterations { 0 };
         SkyPoint targetCoords;
         double m_PositionAngle { -1 };
         JOBStatus state { JOB_IDLE };
@@ -809,6 +862,9 @@ class SchedulerJob
         int16_t culminationOffset { 0 };
         uint8_t priority { 10 };
         int64_t estimatedTime { -1 };
+        int64_t estimatedTimePerRepeat { 0 };
+        int64_t estimatedStartupTime { 0 };
+        int64_t estimatedTimeLeftThisRepeat { 0 };
         int64_t leadTime { 0 };
         uint16_t repeatsRequired { 1 };
         uint16_t repeatsRemaining { 1 };

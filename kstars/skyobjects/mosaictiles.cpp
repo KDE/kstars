@@ -109,6 +109,14 @@ bool MosaicTiles::fromXML(const QString &filename)
                         const char *subTag = tagXMLEle(subEP);
                         if (!strcmp(subTag, "Target"))
                             setTargetName(pcdataXMLEle(subEP));
+                        else if (!strcmp(subTag, "Group"))
+                            setGroup(pcdataXMLEle(subEP));
+                        else if (!strcmp(subTag, "FinishSequence"))
+                            setCompletionCondition(subTag);
+                        else if (!strcmp(subTag, "FinishRepeat"))
+                            setCompletionCondition(subTag, pcdataXMLEle(subEP));
+                        else if (!strcmp(subTag, "FinishSLoop"))
+                            setCompletionCondition(subTag);
                         else if (!strcmp(subTag, "Sequence"))
                             setSequenceFile(pcdataXMLEle(subEP));
                         else if (!strcmp(subTag, "Directory"))

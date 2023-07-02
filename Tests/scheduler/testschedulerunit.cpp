@@ -178,7 +178,8 @@ void TestSchedulerUnit::runSetupJob(
     Scheduler::setLocalTime(localTime);
     QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
 
-    Scheduler::setupJob(job, name, priority, ra, dec, ut.djd(), positionAngle,
+    QString group = "";
+    Scheduler::setupJob(job, name, group, priority, ra, dec, ut.djd(), positionAngle,
                         sequenceUrl, fitsUrl,
                         sCond, sTime, sOffset,
                         eCond, eTime, eReps,
