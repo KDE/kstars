@@ -15,7 +15,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "mosaic.h"
 #include "Options.h"
 #include "scheduleradaptor.h"
 #include "schedulerjob.h"
@@ -7143,118 +7142,6 @@ void Scheduler::setAlgorithm(int algIndex)
 Scheduler::SchedulerAlgorithm Scheduler::getAlgorithm() const
 {
     return static_cast<SchedulerAlgorithm>(Options::schedulerAlgorithm());
-}
-
-void Scheduler::startMosaicTool()
-{
-    bool raOk = false, decOk = false;
-    dms ra(raBox->createDms(&raOk));
-    dms dec(decBox->createDms(&decOk));
-
-    if (raOk == false)
-    {
-        appendLogText(i18n("Warning: RA value %1 is invalid.", raBox->text()));
-        return;
-    }
-
-    if (decOk == false)
-    {
-        appendLogText(i18n("Warning: DEC value %1 is invalid.", decBox->text()));
-        return;
-    }
-
-    SkyPoint center;
-    center.setRA0(ra);
-    center.setDec0(dec);
-
-    Mosaic mosaicTool(nameEdit->text(), center, Ekos::Manager::Instance());
-
-    if (mosaicTool.exec() == QDialog::Accepted)
-    {
-        // #1 Edit Sequence File ---> Not needed as of 2016-09-12 since Scheduler can send Target Name to Capture module it will append it to root dir
-        // #1.1 Set prefix to Target-Part_#
-        // #1.2 Set directory to output/Target-Part_#
-
-        // #2 Save all sequence files in Jobs dir
-        // #3 Set as current Sequence file
-        // #4 Change Target name to Target-Part_#
-        // #5 Update J2000 coords
-        // #6 Repeat and save Ekos Scheduler List in the output directory
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "Job accepted with # " << mosaicTool.getJobs().size() << " jobs and fits dir "
-                                       << mosaicTool.getJobsDir();
-
-        QString outputDir  = mosaicTool.getJobsDir();
-        QString targetName = nameEdit->text().simplified();
-
-        // Sanitize name
-        targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-                     // Remove any two or more __
-                     .replace( QRegularExpression("_{2,}"), "_")
-                     // Remove any _ at the end
-                     .replace( QRegularExpression("_$"), "");
-
-        int batchCount     = 1;
-
-        XMLEle *root = getSequenceJobRoot(sequenceURL.toLocalFile());
-        if (root == nullptr)
-            return;
-
-        // Delete any prior jobs before saving
-        if (!jobs.empty())
-        {
-            if (KMessageBox::questionYesNo(nullptr,
-                                           i18n("Do you want to keep the existing jobs in the mosaic schedule?")) == KMessageBox::No)
-            {
-                qDeleteAll(jobs);
-                jobs.clear();
-                while (queueTable->rowCount() > 0)
-                    queueTable->removeRow(0);
-            }
-        }
-
-        // We do not want FITS image for mosaic job since each job has its own calculated center
-        QString fitsFileBackup = fitsEdit->text();
-        fitsEdit->clear();
-
-        foreach (auto oneJob, mosaicTool.getJobs())
-        {
-            QString prefix = QString("%1-Part_%2").arg(targetName).arg(batchCount++);
-            prefix.replace(' ', '-');
-            const QString group = QString("%1_Mosaic").arg(targetName);
-            nameEdit->setText(prefix);
-            groupEdit->setText(group);
-            if (createJobSequence(root, prefix, outputDir) == false)
-                return;
-
-            QString filename = QString("%1/%2.esq").arg(outputDir, prefix);
-            sequenceEdit->setText(filename);
-            sequenceURL = QUrl::fromLocalFile(filename);
-
-            raBox->show(oneJob.center.ra0());
-            decBox->show(oneJob.center.dec0());
-            positionAngleSpin->setValue(oneJob.rotation);
-
-            alignStepCheck->setChecked(oneJob.doAlign);
-            focusStepCheck->setChecked(oneJob.doFocus);
-
-            saveJob();
-        }
-
-        delXMLEle(root);
-
-        QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir, targetName)));
-
-        if (saveScheduler(mosaicURL))
-        {
-            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.toLocalFile()));
-        }
-        else
-        {
-            appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.toLocalFile()));
-        }
-
-        fitsEdit->setText(fitsFileBackup);
-    }
 }
 
 XMLEle * Scheduler::getSequenceJobRoot(const QString &filename) const

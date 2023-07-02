@@ -742,11 +742,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void startJobEvaluation();
 
         /**
-             * @brief startMosaicTool Start Mosaic tool and create jobs if necessary.
-             */
-        void startMosaicTool();
-
-        /**
              * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
              */
         void checkTwilightWarning(bool enabled);
