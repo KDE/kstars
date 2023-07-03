@@ -810,9 +810,11 @@ bool FilterManager::syncAbsoluteFocusPosition(int index)
         return false;
     }
 
-    int absFocusPos = m_ActiveFilters[index]->absoluteFocusPosition();
+    // By default filter absolute focus offset is zero
+    // JM 2023.07.03: So if it is zero, we return immediately.
+    auto absFocusPos = m_ActiveFilters[index]->absoluteFocusPosition();
 
-    if (m_FocusAbsPosition == absFocusPos)
+    if (m_FocusAbsPosition == absFocusPos || absFocusPos <= 0)
     {
         m_FocusAbsPositionPending = false;
         return true;
