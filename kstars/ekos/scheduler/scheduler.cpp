@@ -5290,8 +5290,12 @@ void Scheduler::findNextJob()
         /* If the job is about to repeat, decrease its repeat count and reset its start time */
         if (currentJob->getRepeatsRemaining() > 0)
         {
-            currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining() - 1);
-            currentJob->setCompletedIterations(currentJob->getCompletedIterations() + 1);
+            // If we can remember job progress, this is done in estimateJobTime()
+            if (!Options::rememberJobProgress())
+            {
+                currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining() - 1);
+                currentJob->setCompletedIterations(currentJob->getCompletedIterations() + 1);
+            }
             currentJob->setStartupTime(QDateTime());
         }
 
@@ -5376,8 +5380,12 @@ void Scheduler::findNextJob()
         if ((currentJob->getCompletionCondition() == SchedulerJob::FINISH_REPEAT) &&
                 (currentJob->getRepeatsRemaining() > 1))
         {
-            currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining() - 1);
-            currentJob->setCompletedIterations(currentJob->getCompletedIterations() + 1);
+            // If we can remember job progress, this is done in estimateJobTime()
+            if (!Options::rememberJobProgress())
+            {
+                currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining() - 1);
+                currentJob->setCompletedIterations(currentJob->getCompletedIterations() + 1);
+            }
             currentJob->setStartupTime(QDateTime());
         }
 
