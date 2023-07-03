@@ -483,15 +483,15 @@ class TestEkosHelper : public QObject
          */
         void prepareAlignmentModule();
 
-    /**
-     * @brief Helper function that ensures that capturing works in a test environment
-     */
-    void prepareCaptureModule();
+        /**
+         * @brief Helper function that ensures that capturing works in a test environment
+         */
+        void prepareCaptureModule();
 
-    /**
-     * @brief Helper function that ensures that focusing works in a test environment
-     */
-    void prepareFocusModule();
+        /**
+         * @brief Helper function that ensures that focusing works in a test environment
+         */
+        void prepareFocusModule();
 
         /**
          * @brief Helper function that ensures that guiding works in a test environment
@@ -577,6 +577,37 @@ class TestEkosHelper : public QObject
                        QFileDevice::Permissions permissions = QFileDevice::ReadOwner | QFileDevice::WriteOwner);
 
         /**
+         * @brief createCountingScript create a script that reads the number from its log file,
+         * increases it by 1 and outputs it to the logfile. With this script we can count
+         *  how often it has been executed.
+         * @param scriptname full path to the script file
+         * @param logfilename full path to the log file the script will produce
+         * @return true iff file creation succeeds
+         */
+        bool createCountingScript(Ekos::ScriptTypes, const QString scriptname);
+
+        /**
+         * @brief createAllCaptureScripts Create all pre-/post job/capture scripts
+         * @param directory where the scripts should be located
+         */
+        bool createAllCaptureScripts(QTemporaryDir *destination);
+
+        /**
+         * @brief countScriptRuns Utility that extracts the number of test script runs from its log file.
+         * @param scripttype script type, its name will be extracted from {@see #scripts}
+         * @return counter from the log file
+         */
+        int countScriptRuns(Ekos::ScriptTypes scripttype);
+
+        /**
+         * @brief checkScriptRuns Check if the configured pre- and post scripts have been running correctly
+         * @param captures_per_sequence number of captures per sequence (all sequences must have the identical
+         * number)
+         * @param sequences number of capture sequences
+         */
+        bool checkScriptRuns(int captures_per_sequence, int sequences);
+
+        /**
          * @brief Retrieve the current alignment status.
          */
         inline Ekos::AlignState getAlignStatus()
@@ -633,6 +664,10 @@ class TestEkosHelper : public QObject
             return m_DomeStatus;
         }
 
+        const QMap<Ekos::ScriptTypes, QString> &getScripts() const
+        {
+            return scripts;
+        }
         /**
          * @brief Connect to read all modules state changes
          */
@@ -641,7 +676,7 @@ class TestEkosHelper : public QObject
         /**
          * @brief Search for a certain scope in the database and create it if necessary
          * @param model scope model
-         * łparam vendor scope vendor
+         * @param vendor scope vendor
          * @param type scope type (refractor, newton, ...
          * @param aperture scope aperture in mm
          * @param focallenght focal length in mm
@@ -649,7 +684,7 @@ class TestEkosHelper : public QObject
          */
         Scope *createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght);
 
-    private:
+private:
         // current mount status
         ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };
 
@@ -676,6 +711,9 @@ class TestEkosHelper : public QObject
 
         // current scheduler status
         Ekos::SchedulerState m_SchedulerStatus { Ekos::SCHEDULER_IDLE };
+
+        // pre- and post sequence / capture execution scripts
+        QMap<Ekos::ScriptTypes, QString> scripts;
 
         /**
          * @brief Slot to track the align status of the mount

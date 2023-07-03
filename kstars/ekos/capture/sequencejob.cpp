@@ -520,7 +520,7 @@ void SequenceJob::capture(FITSMode mode)
                 && captureDeviceAdaptor.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
         {
             setStatus(JOB_ERROR);
-            emit captureStarted(CAPTURE_BIN_ERROR);
+            emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
         }
 
         const auto roi = getCoreProperty(SJ_ROI).toRect();
@@ -533,7 +533,7 @@ void SequenceJob::capture(FITSMode mode)
                         currentBinX != binning.x()) == false)
         {
             setStatus(JOB_ERROR);
-            emit captureStarted(CAPTURE_FRAME_ERROR);
+            emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
         }
     }
 
@@ -555,7 +555,7 @@ void SequenceJob::capture(FITSMode mode)
     m_ExposeLeft = exposure;
     captureDeviceAdaptor.data()->getActiveChip()->capture(exposure);
 
-    emit captureStarted(CAPTURE_OK);
+    emit captureStarted(CaptureModuleState::CAPTURE_OK);
 }
 
 void SequenceJob::setTargetFilter(int pos, const QString &name)
@@ -642,6 +642,15 @@ void SequenceJob::setJobProgressIgnored(bool value)
 bool SequenceJob::getJobProgressIgnored() const
 {
     return m_JobProgressIgnored;
+}
+
+void SequenceJob::updateDeviceStates()
+{
+    setLightBox(captureDeviceAdaptor->getLightBox());
+    addMount(captureDeviceAdaptor->getMount());
+    setDome(captureDeviceAdaptor->getDome());
+    setDustCap(captureDeviceAdaptor->getDustCap());
+
 }
 
 void SequenceJob::setLightBox(ISD::LightBox *lightBox)

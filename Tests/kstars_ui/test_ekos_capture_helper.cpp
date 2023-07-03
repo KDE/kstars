@@ -50,7 +50,7 @@ bool TestEkosCaptureHelper::startCapturing(bool checkCapturing)
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->captureModule(), startB);
 
     // check if capturing has started
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedCaptureStates, 5000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedCaptureStates, 120000);
     // all checks succeeded
     return true;
 }

@@ -92,6 +92,10 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     else
         m_currentFrame.iso = "";
 
+    // add it to the overlay
+    overlay->addFrameData(m_currentFrame);
+    overlay->setVisible(true);
+
     // load frame
     if (m_fitsPreview != nullptr && Options::useSummaryPreview())
         m_fitsPreview->loadData(data);
@@ -236,16 +240,8 @@ void CapturePreviewWidget::reset()
 
 void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status)
 {
+    // forward to sub widgets
     captureStatusWidget->setCaptureState(status);
-
-    // update the data of the overlay
-    if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
-    {
-        overlay->addFrameData(m_currentFrame);
-        overlay->setVisible(true);
-    }
-
-    // forward to sub widget
     captureCountsWidget->updateCaptureStatus(status);
 }
 

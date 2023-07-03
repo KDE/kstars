@@ -16,11 +16,64 @@ namespace Ekos
 CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
 {
     m_refocusState.reset(new RefocusState());
+    m_TargetADUTolerance = Options::calibrationADUValueTolerance();
     connect(m_refocusState.get(), &RefocusState::newLog, this, &CaptureModuleState::newLog);
+}
+
+void CaptureModuleState::setActiveJob(SequenceJob *value)
+{
+    // do nothing if active job is not changed
+    if (m_activeJob == value)
+        return;
+
+    // clear existing job connections
+    if (m_activeJob != nullptr)
+    {
+        disconnect(this, nullptr, m_activeJob, nullptr);
+        disconnect(m_activeJob, nullptr, this, nullptr);
+        // ensure that the device adaptor does not send any new events
+        m_activeJob->disconnectDeviceAdaptor();
+    }
+
+    // set the new value
+    m_activeJob = value;
+
+    // create job connections
+    if (m_activeJob != nullptr)
+    {
+        // connect job with device adaptor events
+        m_activeJob->connectDeviceAdaptor();
+        // forward signals to the sequence job
+        connect(this, &CaptureModuleState::newGuiderDrift, m_activeJob, &SequenceJob::updateGuiderDrift);
+        // react upon sequence job signals
+        connect(m_activeJob, &SequenceJob::prepareState, this, &CaptureModuleState::updatePrepareState);
+        connect(m_activeJob, &SequenceJob::prepareComplete, this, [this](bool success)
+        {
+            if (success)
+            {
+                setCaptureState(CAPTURE_PROGRESS);
+                emit executeActiveJob();
+            }
+            else
+            {
+                qWarning(KSTARS_EKOS_CAPTURE) << "Capture preparation failed, aborting.";
+                setCaptureState(CAPTURE_ABORTED);
+                emit abortCapture();
+            }
+        }, Qt::UniqueConnection);
+        connect(m_activeJob, &SequenceJob::abortCapture, this, &CaptureModuleState::abortCapture);
+        connect(m_activeJob, &SequenceJob::captureStarted, this, &CaptureModuleState::captureStarted);
+        connect(m_activeJob, &SequenceJob::newLog, this, &CaptureModuleState::newLog);
+        // forward the devices and attributes
+        m_activeJob->updateDeviceStates();
+        m_activeJob->setAutoFocusReady(getRefocusState()->isAutoFocusReady());
+    }
+
 }
 
 void CaptureModuleState::setCaptureState(CaptureState value)
 {
+    bool pause_planned = false;
     // handle new capture state
     switch (value)
     {
@@ -31,7 +84,10 @@ void CaptureModuleState::setCaptureState(CaptureState value)
             if (mf_state->getMeridianFlipStage() == MeridianFlipState::MF_REQUESTED)
                 mf_state->updateMeridianFlipStage(MeridianFlipState::MF_READY);
             break;
-
+        case CAPTURE_IMAGE_RECEIVED:
+            // remember pause planning before receiving an image
+            pause_planned = (m_CaptureState == CAPTURE_PAUSE_PLANNED);
+            break;
         default:
             // do nothing
             break;
@@ -43,6 +99,12 @@ void CaptureModuleState::setCaptureState(CaptureState value)
         m_CaptureState = value;
         getMeridianFlipState()->setCaptureState(m_CaptureState);
         emit newStatus(m_CaptureState);
+        // reset to planned state if necessary
+        if (pause_planned)
+        {
+            m_CaptureState = CAPTURE_PAUSE_PLANNED;
+            emit newStatus(m_CaptureState);
+        }
     }
 }
 
@@ -158,6 +220,12 @@ void CaptureModuleState::setMeridianFlipState(QSharedPointer<MeridianFlipState> 
     mf_state = state;
 }
 
+void CaptureModuleState::setBusy(bool busy)
+{
+    m_Busy = busy;
+    emit captureBusy(busy);
+}
+
 void CaptureModuleState::decreaseDitherCounter()
 {
     if (m_ditherCounter > 0)
@@ -228,7 +296,7 @@ void CaptureModuleState::updateMFMountState(MeridianFlipState::MeridianFlipMount
 
         case MeridianFlipState::MOUNT_FLIP_RUNNING:
             updateMeridianFlipStage(MeridianFlipState::MF_INITIATED);
-            emit newStatus(CAPTURE_MERIDIAN_FLIP);
+            setCaptureState(CAPTURE_MERIDIAN_FLIP);
             break;
 
         case MeridianFlipState::MOUNT_FLIP_COMPLETED:
@@ -628,6 +696,9 @@ bool CaptureModuleState::checkAlignmentAfterFlip()
 
 void CaptureModuleState::setGuideDeviation(double deviation_rms)
 {
+    // communicate the new guiding deviation
+    emit newGuiderDrift(deviation_rms);
+
     const QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
 
     // if guiding deviations occur and no job is active, check if a meridian flip is ready to be executed
@@ -878,12 +949,6 @@ void CaptureModuleState::removeCapturedFrameCount(const QString &signature, uint
             m_capturedFramesMap.remove(signature);
     }
 }
-
-
-
-
-
-
 
 void CaptureModuleState::appendLogText(const QString &message)
 {

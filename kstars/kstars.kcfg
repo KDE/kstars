@@ -2907,6 +2907,14 @@
          <label>Default scheduler checkbox for job twilight constraints.</label>
          <default>true</default>
       </entry>
+      <entry name="SchedulerRepeatSequences" type="Bool">
+         <label>Restart sequences as soon as all sequences have been completed.</label>
+         <default>false</default>
+      </entry>
+      <entry name="SchedulerExecutionSequencesLimit" type="UInt">
+         <label>Limit how many times the scheduler should execute all sequences.</label>
+         <default>0</default>
+      </entry>
    </group>
    <group name="Analyze">
     <entry name="AnalyzeHFR" type="Bool">

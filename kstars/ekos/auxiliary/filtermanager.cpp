@@ -806,8 +806,11 @@ bool FilterManager::syncAbsoluteFocusPosition(int index)
 {
     if (index < 0 || index > m_ActiveFilters.count())
     {
+        // We've been asked to set the focus position but something's wrong because
+        // the passed in filter index is bad. Give up and return true - returning false
+        // just results in an infinite retry loop.
         qCWarning(KSTARS_INDI) << __FUNCTION__ << "index" << index << "is out of bounds.";
-        return false;
+        return true;
     }
 
     int absFocusPos = m_ActiveFilters[index]->absoluteFocusPosition();

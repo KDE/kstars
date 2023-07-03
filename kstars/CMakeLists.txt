@@ -121,7 +121,6 @@ if (INDI_FOUND)
             ekos/analyze/yaxistool.ui
             # Scheduler
             ekos/scheduler/scheduler.ui
-            ekos/scheduler/mosaic.ui
             ekos/scheduler/framingassistant.ui
             # Capture
             ekos/capture/capture.ui
@@ -217,6 +216,7 @@ if (INDI_FOUND)
 
             # Capture
             ekos/capture/capture.cpp
+            ekos/capture/captureprocess.cpp
             ekos/capture/capturemodulestate.cpp
             ekos/capture/capturedeviceadaptor.cpp
             ekos/capture/capturepreviewwidget.cpp
@@ -251,7 +251,6 @@ if (INDI_FOUND)
             # Scheduler
             ekos/scheduler/schedulerjob.cpp
             ekos/scheduler/scheduler.cpp
-            ekos/scheduler/mosaic.cpp
             ekos/scheduler/framingassistantui.cpp
             ekos/scheduler/mosaictilesmanager.cpp
             ekos/scheduler/mosaictilesmodel.cpp

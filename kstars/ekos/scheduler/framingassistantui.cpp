@@ -52,6 +52,19 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     ui->mosaicHSpin->setValue(tiles->gridSize().height());
     ui->overlapSpin->setValue(tiles->overlap());
 
+    ui->groupEdit->setText(tiles->group());
+    QString completionVal, completionArg;
+    completionVal = tiles->completionCondition(&completionArg);
+    if (completionVal == "FinishSequence")
+        ui->sequenceCompletionR->setChecked(true);
+    else if (completionVal == "FinishRepeat")
+    {
+        ui->repeatCompletionR->setChecked(true);
+        ui->repeatsSpin->setValue(completionArg.toInt());
+    }
+    else if (completionVal == "FinishLoop")
+        ui->loopCompletionR->setChecked(true);
+
     if (tiles->operationMode() == MosaicTiles::MODE_OPERATION)
     {
         m_CenterPoint = *tiles.data();
@@ -565,17 +578,39 @@ void FramingAssistantUI::createJobs()
     auto sequence = ui->sequenceEdit->text();
     auto outputDirectory = ui->directoryEdit->text();
     auto target = ui->targetEdit->text();
+    auto group = ui->groupEdit->text();
 
     tiles->setTargetName(target);
+    tiles->setGroup(group);
     tiles->setOutputDirectory(outputDirectory);
     tiles->setSequenceFile(sequence);
     tiles->setFocusEveryN(ui->focusEvery->value());
     tiles->setAlignEveryN(ui->alignEvery->value());
     tiles->setStepChecks(ui->trackStepCheck->isChecked(), ui->focusStepCheck->isChecked(),
                          ui->alignStepCheck->isChecked(), ui->guideStepCheck->isChecked());
+
+    if (ui->sequenceCompletionR->isChecked())
+        tiles->setCompletionCondition("FinishSequence", "");
+    else if (ui->loopCompletionR->isChecked())
+        tiles->setCompletionCondition("FinishLoop", "");
+    else if (ui->repeatCompletionR->isChecked())
+        tiles->setCompletionCondition("FinishRepeat", QString("%1").arg(ui->repeatsSpin->value()));
+
     tiles->setPositionAngle(ui->positionAngleSpin->value());
     // Start by removing any jobs.
     scheduler->removeAllJobs();
+
+    QString completionVal, completionArg;
+
+    // Completion values are for all tiles.
+    completionVal = tiles->completionCondition(&completionArg);
+    QJsonObject completionSettings;
+    if (completionVal == "FinishSequence")
+        completionSettings = {{"sequenceCheck", true}};
+    else if (completionVal == "FinishRepeat")
+        completionSettings = {{"repeatCheck", true}, {"repeatRuns", completionArg.toInt()}};
+    else if (completionVal == "FinishLoop")
+        completionSettings = {{"loopCheck", true}};
 
     int batchCount = 0;
     for (auto oneTile : tiles->tiles())
@@ -601,6 +636,7 @@ void FramingAssistantUI::createJobs()
         QJsonObject settings =
         {
             {"target", oneTarget},
+            {"group", tiles->group()},
             {"ra", oneTile->skyCenter.ra0().toHMSString()},
             {"dec", oneTile->skyCenter.dec0().toDMSString()},
             {"pa", tiles->positionAngle()},
@@ -612,6 +648,7 @@ void FramingAssistantUI::createJobs()
         };
 
         scheduler->setPrimarySettings(settings);
+        scheduler->setJobCompletionConditions(completionSettings);
 
         scheduler->saveJob();
     }
@@ -620,8 +657,7 @@ void FramingAssistantUI::createJobs()
     scheduler->saveScheduler(QUrl::fromLocalFile(schedulerListFile));
     accept();
     Ekos::Manager::Instance()->activateModule(i18n("Scheduler"), true);
-
-
+    scheduler->updateTable();
 }
 
 void FramingAssistantUI::setMountState(ISD::Mount::Status value)

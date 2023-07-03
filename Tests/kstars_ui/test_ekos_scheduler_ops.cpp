@@ -1164,10 +1164,16 @@ bool checkSchedule(const QVector<SPlan> &ref, const QList<Ekos::GreedyScheduler:
     {
         QDateTime startTime = QDateTime::fromString(ref[i].start, "yyyy/MM/dd hh:mm");
         QDateTime stopTime = QDateTime::fromString(ref[i].stop, "yyyy/MM/dd hh:mm");
-        if (!startTime.isValid()) return false;
-        if (!stopTime.isValid()) return false;
-        if (!schedule[i].startTime.isValid()) return false;
-        if (!schedule[i].stopTime.isValid()) return false;
+        if (!startTime.isValid() || !stopTime.isValid())
+        {
+            qCInfo(KSTARS_EKOS_TEST) << QString("Reference start or stop time invalid: %1 %2").arg(ref[i].start).arg(ref[i].stop);
+            return false;
+        }
+        if (!schedule[i].startTime.isValid() || !schedule[i].stopTime.isValid())
+        {
+            qCInfo(KSTARS_EKOS_TEST) << QString("Scheduled start or stop time %1 invalid.").arg(i);
+            return false;
+        }
 
         if ((ref[i].name != schedule[i].job->getName()) ||
                 (std::abs(schedule[i].startTime.secsTo(startTime)) > tolerance) ||
@@ -1290,6 +1296,83 @@ void TestEkosSchedulerOps::testGreedy()
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:21"},
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:53"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:52"}},
+    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+}
+
+void TestEkosSchedulerOps::testGroups()
+{
+    // Allow 5minutes of slop in the schedule. The scheduler simulates every 2 minutes,
+    // so 5 minutes is a little more than 2 of these timesteps.
+    constexpr int checkScheduleTolerance = 300;
+
+    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+
+    // Setup geo and an artificial horizon.
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    ArtificialHorizon shutdownHorizon;
+    addHorizonConstraint(&shutdownHorizon, "h", true, QVector<double>({175, 200}), QVector<double>({70, 70}));
+    SchedulerJob::setHorizon(&shutdownHorizon);
+    // Start the scheduler about 9pm local
+    const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), Qt::UTC);
+    initTimeGeo(geo, startUTime);
+
+    // About a 30-minute job
+    auto schedJob30minutes = QVector<TestEkosSchedulerHelper::CaptureJob>(
+    {{180, 4, "Red", "."}, {180, 6, "Blue", "."}});
+
+    TestEkosSchedulerHelper::StartupCondition asapStartupCondition, atStartupCondition;
+    TestEkosSchedulerHelper::CompletionCondition finishCompletionCondition, loopCompletionCondition;
+    TestEkosSchedulerHelper::CompletionCondition repeat2CompletionCondition, atCompletionCondition;
+    asapStartupCondition.type = SchedulerJob::START_ASAP;
+    finishCompletionCondition.type = SchedulerJob::FINISH_SEQUENCE;
+    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
+    repeat2CompletionCondition.type = SchedulerJob::FINISH_REPEAT;
+    repeat2CompletionCondition.repeat = 2;
+
+    // Write the scheduler and sequence files.
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    // Create 3 jobs in the same group, of the same target, each should last ~30 minutes (not counting repetitions).
+    // the first job just runs the 30-minute sequence, the 2nd repeats forever, the 3rd repeats twice.
+    // Given the grouping we should see jobs scheduled about every 30 minutes
+    // orderdc as: J1, J2, J3, J2 (skips the completed J1), J3, J2 (looing forever as J3 is now done).
+    loadGreedySchedule(true, "Altair", asapStartupCondition, finishCompletionCondition, dir, schedJob30minutes, 30);
+    scheduler->getJobs().last()->setName("J1finish");
+    scheduler->getJobs().last()->setGroup("group1");
+    loadGreedySchedule(false, "Altair", asapStartupCondition, loopCompletionCondition, dir, schedJob30minutes, 30);
+    scheduler->getJobs().last()->setName("J2loop");
+    scheduler->getJobs().last()->setGroup("group1");
+    loadGreedySchedule(false, "Altair", asapStartupCondition, repeat2CompletionCondition, dir, schedJob30minutes, 30);
+    scheduler->getJobs().last()->setName("J3repeat2");
+    scheduler->getJobs().last()->setGroup("group1");
+    scheduler->evaluateJobs(false);
+
+    QVERIFY(checkSchedule(
+    {
+        {"J1finish",  "2021/06/13 23:34", "2021/06/14 00:10"},
+        {"J2loop",    "2021/06/14 00:11", "2021/06/14 00:47"},
+        {"J3repeat2", "2021/06/14 00:48", "2021/06/14 01:24"},
+        {"J2loop",    "2021/06/14 01:25", "2021/06/14 01:55"},
+        {"J3repeat2", "2021/06/14 01:56", "2021/06/14 02:26"},
+        {"J2loop",    "2021/06/14 02:27", "2021/06/14 03:19"},
+        {"J2loop",    "2021/06/14 23:31", "2021/06/15 03:15"}},
+    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+
+    // Now do the same thing, but this time disable the group scheduling (by not assigning groups).
+    // This time J1 should run then J2 will just run/repeat forever.
+    loadGreedySchedule(true, "Altair", asapStartupCondition, finishCompletionCondition, dir, schedJob30minutes, 30);
+    scheduler->getJobs().last()->setName("J1finish");
+    loadGreedySchedule(false, "Altair", asapStartupCondition, loopCompletionCondition, dir, schedJob30minutes, 30);
+    scheduler->getJobs().last()->setName("J2loop");
+    loadGreedySchedule(false, "Altair", asapStartupCondition, repeat2CompletionCondition, dir, schedJob30minutes, 30);
+    scheduler->getJobs().last()->setName("J3repeat2");
+    scheduler->evaluateJobs(false);
+
+    QVERIFY(checkSchedule(
+    {
+        {"J1finish",  "2021/06/13 23:34", "2021/06/14 00:10"},
+        {"J2loop",    "2021/06/14 00:11", "2021/06/14 03:19"},
+        {"J2loop",    "2021/06/14 23:30", "2021/06/15 03:16"}},
     scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 }
 
@@ -1715,12 +1798,30 @@ void TestEkosSchedulerOps::testGreedyMessier()
         {"M 29", "2022/03/08 00:46", "2022/03/08 00:57"},
         {"M 5",  "2022/03/08 00:58", "2022/03/08 01:08"},
         {"M 12", "2022/03/08 01:09", "2022/03/08 01:20"},
-        {"M 27", "2022/03/08 01:23", "2022/03/08 01:33"},
-        {"M 10", "2022/03/08 01:34", "2022/03/08 01:45"},
-        {"M 14", "2022/03/08 01:46", "2022/03/08 01:56"},
-        {"M 4",  "2022/03/08 02:05", "2022/03/08 02:16"},
-        {"M 9",  "2022/03/08 02:17", "2022/03/08 02:27"},
-        {"M 11", "2022/03/08 02:40", "2022/03/08 02:51"}
+        {"M 27", "2022/03/08 01:23", "2022/03/08 01:34"},
+        {"M 10", "2022/03/08 01:35", "2022/03/08 01:45"},
+        {"M 14", "2022/03/08 01:46", "2022/03/08 01:57"},
+        {"M 4",  "2022/03/08 02:04", "2022/03/08 02:14"},
+        {"M 9",  "2022/03/08 02:15", "2022/03/08 02:26"},
+        {"M 11", "2022/03/08 02:39", "2022/03/08 02:49"},
+        {"M 19", "2022/03/08 02:50", "2022/03/08 03:01"},
+        {"M 26", "2022/03/08 03:02", "2022/03/08 03:12"},
+        {"M 16", "2022/03/08 03:13", "2022/03/08 03:24"},
+        {"M 23", "2022/03/08 03:25", "2022/03/08 03:35"},
+        {"M 17", "2022/03/08 03:36", "2022/03/08 03:47"},
+        {"M 15", "2022/03/08 03:50", "2022/03/08 04:01"},
+        {"M 18", "2022/03/08 04:02", "2022/03/08 04:12"},
+        {"M 24", "2022/03/08 04:13", "2022/03/08 04:24"},
+        {"M 21", "2022/03/08 04:25", "2022/03/08 04:35"},
+        {"M 20", "2022/03/08 04:36", "2022/03/08 04:47"},
+        {"M 2",  "2022/03/08 04:56", "2022/03/08 05:04"},
+        {"M 25", "2022/03/09 03:21", "2022/03/09 03:32"},
+        {"M 8",  "2022/03/09 03:33", "2022/03/09 03:43"},
+        {"M 28", "2022/03/09 03:49", "2022/03/09 04:00"},
+        {"M 6",  "2022/03/09 04:03", "2022/03/09 04:14"},
+        {"M 22", "2022/03/09 04:15", "2022/03/09 04:25"},
+        {"M 2",  "2022/03/09 04:51", "2022/03/09 04:54"},
+        {"M 7",  "2022/03/09 04:55", "2022/03/09 05:01"}
     };
     QVERIFY(checkSchedule(scheduleMinAlt0, scheduler->getGreedyScheduler()->getSchedule(), 300));
 

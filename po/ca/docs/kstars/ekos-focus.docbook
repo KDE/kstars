@@ -1145,7 +1145,7 @@
 > lineal d'1 pas. Es tracta d'una variació de passos fixos, de manera que els comentaris en aquest camí també són aplicables aquí.</para>
 
         <para
->La diferència entre Barreja ZCE i Passos fixos és que prop del centre de l'escombrat (que hauria d'estar al voltant de la Zona crítica d'enfocament (ZCE) l'algoritme pren passos de la meitat de la mida especificada.</para>
+>La diferència entre Barreja ZCE i Passos fixos és que prop del centre de l'escombrat (que hauria d'estar al voltant de la Zona crítica d'enfocament (ZCE)) l'algoritme pren passos de la meitat de la mida especificada.</para>
       </listitem>
     </itemizedlist>
     </para>
@@ -1463,7 +1463,7 @@
     <para
 >Alternativament, podeu mesurar fins a quin punt el tubes mou d'extrem a extrem (teniu cura de no forçar el tub) amb un conjunt de peus de rei o un regle. En restar la posició «interior» més llunyana (en marques) de la posició «exterior» més llunyana (en marques) tindreu quantes marques s'ha mogut el tub la distància que heu mesurat. A partir d'aquí podreu calcular la distància en micres que una sola marca mou el tub.</para>
     <para
->Altres tipus de telescopis tindran altres maneres d'ajustar el pla focal, per exemple, movent els miralls primaris o secundaris. Haureu d'obtenir la mida del pas a la documentació del vostre equip per saber com mesurar-lo d'una manera coherent amb la descrita anteriorment.</para>
+>Altres tipus de telescopis tindran altres maneres d'ajustar el pla focal, per exemple, movent els miralls primaris o secundaris. Haureu d'obtenir la mida del pas a la documentació del vostre equip o trobar com mesurar-ho d'una manera coherent amb la descrita anteriorment.</para>
   </listitem>
 
   <listitem>

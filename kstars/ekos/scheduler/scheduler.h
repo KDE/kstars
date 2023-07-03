@@ -304,7 +304,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @param job Target
         */
         static void setupJob(
-            SchedulerJob &job, const QString &name, int priority, const dms &ra,
+            SchedulerJob &job, const QString &name, const QString &group, int priority, const dms &ra,
             const dms &dec, double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl,
             SchedulerJob::StartupCondition startup, const QDateTime &startupTime, int16_t startupOffset,
             SchedulerJob::CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
@@ -476,6 +476,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @return true on success, false on failure.
              */
         bool saveScheduler(const QUrl &fileURL);
+
+        /** Update table cells for all jobs.
+         */
+        void updateTable(); // For framing assistant
+
 
     private:
         /**
@@ -737,11 +742,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void startJobEvaluation();
 
         /**
-             * @brief startMosaicTool Start Mosaic tool and create jobs if necessary.
-             */
-        void startMosaicTool();
-
-        /**
              * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
              */
         void checkTwilightWarning(bool enabled);
@@ -796,6 +796,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         void evaluateJobs(bool evaluateOnly);
         void processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluationOnly);
+
+        /**
+         * @brief resetJobs Reset all jobs counters
+         */
+        void resetJobs();
 
         /**
              * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
@@ -964,11 +969,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param schedJob scheduler job for which these calculations are done
          * @param capture_map map signature -> frame count that will be handed over to the capture module to control that a single iteration
          *        of the scheduler job creates as many frames as possible, but does not exceed the expected ones.
+         * @param completedIterations How many times has the job completed its capture sequence (for repeated jobs).
          * @return total number of captured frames, truncated to the maximal number of frames the scheduler job could produce
          */
         static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected,
                                               const SchedulerJob::CapturedFramesMap &capturedFramesCount,
-                                              SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map);
+                                              SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map,
+                                              int &completedIterations);
 
         int getCompletedFiles(const QString &path);
 
@@ -988,6 +995,19 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         // Returns true if the job is storing its captures on the same machine as the scheduler.
         bool canCountCaptures(const SchedulerJob &job);
+
+        /**
+         * @brief checkRepeatSequence Check if the entire job sequence might be repeated
+         * @return true if the checkbox is set and the number of iterations is below the
+         * configured threshold
+         */
+        bool checkRepeatSequence()
+        {
+            return repeatSequenceCB->isEnabled() && repeatSequenceCB->isChecked() &&
+                    (executionSequenceLimit->value() == 0 || sequenceExecutionCounter < executionSequenceLimit->value());
+        }
+
+        int sequenceExecutionCounter = 1;
 
         Ekos::Scheduler *ui { nullptr };
         //DBus interfaces

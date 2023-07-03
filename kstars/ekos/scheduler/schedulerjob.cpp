@@ -168,6 +168,17 @@ void SchedulerJob::setName(const QString &value)
     updateJobCells();
 }
 
+void SchedulerJob::setGroup(const QString &value)
+{
+    group = value;
+    updateJobCells();
+}
+
+void SchedulerJob::setCompletedIterations(int value)
+{
+    completedIterations = value;
+}
+
 KStarsDateTime SchedulerJob::getLocalTime()
 {
     return Ekos::Scheduler::getLocalTime();
@@ -621,6 +632,18 @@ void SchedulerJob::setPositionAngle(double value)
 void SchedulerJob::updateJobCells()
 {
     if (!m_UpdateGraphics) return;
+
+    // Only in testing.
+    if (!nameCell) return;
+
+    // Only update rows if they are visible.
+    const auto table = nameCell->tableWidget();
+    const int topRow = table->rowAt(0);
+    const int bottomRow = table->rowAt(table->height());
+    const int row = nameCell->row();
+    if (topRow >= 0 && bottomRow >= 0 && (row < topRow || row > bottomRow))
+        return;
+
     if (nullptr != nameCell)
     {
         nameCell->setText(name);

@@ -808,6 +808,7 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->externalGuideHost->setText(profile["remote_guiding_host"].toString(("localhost")));
     ui->externalGuideHost->setText(profile["remote_guiding_port"].toString());
     ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
+    ui->remoteDrivers->setText(profile["remote"].toString(ui->remoteDrivers->text()));
 
     m_INDIHub = profile["indihub"].toInt(m_INDIHub);
 
