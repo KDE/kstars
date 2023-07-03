@@ -587,7 +587,7 @@ IPState SequenceJobState::checkFlatSyncFocus()
     // check already running?
     if (flatSyncStatus == FS_BUSY)
     {
-        QTimer::singleShot(1000, [&]
+        QTimer::singleShot(1000, this, [this]
         {
             // wait for one second and repeat the request again
             emit flatSyncFocus(targetFilterID);
