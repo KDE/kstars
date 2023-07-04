@@ -58,13 +58,13 @@
         </itemizedlist>
 
     </sect3>
-    <sect3 id="scheduling-algorthm">
+    <sect3 id="scheduling-algorithm">
         <title>Scheduling Algorithm</title>
         <para>
           The Scheduler table (above) lists jobs in order of priority, with higher jobs (on lower-numbered rows) having higher priority than jobs further down the list (with higher-numbered rows). 
         </para>
         <para>
-          The Scheduler regularly plans (an re-plans) which jobs should be run, and when. It can start executing a given job, and then later preempt that job for a new one. It can become idle if no jobs can be run (e.g. in daylight), and sleep until such a time that it becomes active again. Its aim is to keep the equipment as busy as possible, while respecting the scheduler-table's priorties. Here's how it works.
+          The Scheduler regularly plans (an re-plans) which jobs should be run, and when. It can start executing a given job, and then later preempt that job for a new one. It can become idle if no jobs can be run (e.g. in daylight), and sleep until such a time that it becomes active again. Its aim is to keep the equipment as busy as possible, while respecting the scheduler-table's priorities. Here's how it works.
         </para>
         <para>
           When the scheduler starts (or when it replans, which it does every second while active), it looks through the entire list of jobs, starting at the highest priority job, and working its way down to the lowest priority one if necessary. When it finds a job that can run, it starts that job, possibly preempting the currently running job. A jobs can run if it's constraints are met, e.g. the target is not blocked by the local terrain, it meets the minimum altitude constraint, it has not already completed all the desired imaging, ...
