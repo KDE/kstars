@@ -914,6 +914,7 @@ void SchedulerJob::reset()
 
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
+    completedIterations = 0;
     updateJobCells();
     clearCache();
 }
