@@ -58,24 +58,24 @@
         </itemizedlist>
 
     </sect3>
-    <sect3 id="scheduling-algorthm">
+    <sect3 id="scheduling-algorithm">
         <title>Scheduling Algorithm</title>
         <para>
           The Scheduler table (above) lists jobs in order of priority, with higher jobs (on lower-numbered rows) having higher priority than jobs further down the list (with higher-numbered rows). 
         </para>
         <para>
-          The Scheduler regularly plans (an re-plans) which jobs should be run, and when. It can start executing a given job, and then later preempt that job for a new one. It can become idle if no jobs can be run (e.g. in daylight), and sleep until such a time that it becomes active again. Its aim is to keep the equipment as busy as possible, while respecting the scheduler-table's priorties. Here's how it works.
+          The Scheduler regularly plans (an re-plans) which jobs should be run, and when. It can start executing a given job, and then later preempt that job for a new one. It can become idle if no jobs can be run (e.g. in daylight), and sleep until such a time that it becomes active again. Its aim is to keep the equipment as busy as possible, while respecting the scheduler-table's priorities. Here's how it works.
         </para>
         <para>
           When the scheduler starts (or when it replans, which it does every second while active), it looks through the entire list of jobs, starting at the highest priority job, and working its way down to the lowest priority one if necessary. When it finds a job that can run, it starts that job, possibly preempting the currently running job. A jobs can run if it's constraints are met, e.g. the target is not blocked by the local terrain, it meets the minimum altitude constraint, it has not already completed all the desired imaging, ...
         </para>
-    </sect3>
     <para>
       The algorithm shows its projected next start times and stop times for all job in the Scheduler table. It also shows its estimate of times jobs will run during the next 48 hours in the log panel at the bottom of the window. See the screenshot of the scheduler window at the top of this section.
         </para>
         <para>
           The scheduling algorithm described in the above paragraph is known as the Greedy Scheduling algorithm. It is the recommended one to use. In previous versions of Ekos, there was another "Classic scheduling algorithm" which is currently being phased out. That scheme could not preempt running jobs, and thus did not makes as much use of the equipment as the Greedy Algorithm. 
         </para>
+    </sect3>
     <sect3 id="scheduler-files">
         <title>Scheduler Files (.esq)</title>
         <para>

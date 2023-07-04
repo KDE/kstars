@@ -177,6 +177,8 @@ void SchedulerJob::setGroup(const QString &value)
 void SchedulerJob::setCompletedIterations(int value)
 {
     completedIterations = value;
+    if (completionCondition == FINISH_REPEAT)
+        setRepeatsRemaining(getRepeatsRequired() - completedIterations);
 }
 
 KStarsDateTime SchedulerJob::getLocalTime()
@@ -912,6 +914,7 @@ void SchedulerJob::reset()
 
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
+    completedIterations = 0;
     updateJobCells();
     clearCache();
 }
