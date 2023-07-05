@@ -25,7 +25,7 @@ msgstr ""
 "#-#-#-#-#  kstars.po (kstars)  #-#-#-#-#\n"
 "#-#-#-#-#  kstars.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "X-Generator: Lokalize 1.2\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "#-#-#-#-#  kstars.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -3024,6 +3024,7 @@ msgstr "چشم‌پوشی"
 msgid "%1 Object"
 msgid_plural "%1 Objects"
 msgstr[0] "شیء"
+msgstr[1] ""
 
 #: dialogs/catalogcsvimport.cpp:184
 #, kde-format
@@ -5082,10 +5083,11 @@ msgstr "قاعده زمان ذخیره‌سازیهای روشنی روز:"
 
 #: dialogs/locationdialog.cpp:148 dialogs/locationdialog.cpp:208
 #: dialogs/locationdialog.cpp:514
-#, kde-format
+#, fuzzy, kde-format
 msgid "One city matches search criteria"
 msgid_plural "%1 cities match search criteria"
 msgstr[0] "%1 شهر با معیارهای جستجو تطبیق می‌کند"
+msgstr[1] ""
 
 #: dialogs/locationdialog.cpp:296
 #, fuzzy, kde-format
@@ -7352,6 +7354,7 @@ msgstr ""
 msgid "Solver completed in %1 second."
 msgid_plural "Solver completed in %1 seconds."
 msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/align/manualrotator.cpp:51 ekos/align/manualrotator.cpp:56
 #: ekos/align/manualrotator.cpp:57
@@ -14484,6 +14487,7 @@ msgstr "تنظیم دمای تراشه CCD هدف‌."
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CCDFWGroup)
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
@@ -16951,6 +16955,7 @@ msgstr "تمرکز بر: "
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "تمرکز بر: "
+msgstr[1] ""
 
 #: ekos/focus/focus.cpp:1816
 #, fuzzy, kde-format
@@ -17016,6 +17021,7 @@ msgstr "برگزیدن مختصات ورودی"
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "تکمیل"
+msgstr[1] ""
 
 #: ekos/focus/focus.cpp:2421
 #, fuzzy, kde-format
@@ -19514,6 +19520,7 @@ msgstr "گوس کریک"
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/guide/guide.cpp:1593
 #, fuzzy, kde-format
@@ -20248,6 +20255,7 @@ msgid_plural ""
 "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible "
 "mount or backlash problems..."
 msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:354
 #, fuzzy, kde-format
@@ -20303,6 +20311,7 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:511
 #, fuzzy, kde-format
@@ -22690,6 +22699,7 @@ msgstr "چستر"
 msgid "%1 second remaining"
 msgid_plural "%1 seconds remaining"
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: ectx: property (text), widget (QLabel, motionLabel)
 #: ekos/observatory/observatory.ui:141
@@ -24529,6 +24539,7 @@ msgstr "برگزیدن نام پرونده‌ها"
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
 msgstr[0] "شورین"
+msgstr[1] ""
 
 #: ekos/scheduler/framingassistant.cpp:541
 #: ekos/scheduler/framingassistantui.cpp:551
@@ -25938,12 +25949,14 @@ msgstr "%1، برخط است."
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
 msgstr[0] "تکمیل"
+msgstr[1] ""
 
 #: ekos/scheduler/scheduler.cpp:5367 ekos/scheduler/scheduler.cpp:5410
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
 msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/scheduler/scheduler.cpp:5414
 #, kde-format
@@ -25956,6 +25969,7 @@ msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
 "Job '%1' stopping, reached completion time with #%2 batches done."
 msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/scheduler/scheduler.cpp:5464
 #, kde-format
@@ -25963,6 +25977,7 @@ msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
 "Job '%1' completed #%2 batches before completion time, restarted."
 msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/scheduler/scheduler.cpp:5509
 #, fuzzy, kde-format
@@ -28104,6 +28119,7 @@ msgstr "به مشاهده‌گر KStars FITS خوش آمدید"
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "ستاره"
+msgstr[1] ""
 
 #: fitsviewer/fitsviewer.cpp:383
 #, fuzzy, kde-format
@@ -28111,6 +28127,7 @@ msgstr[0] "ستاره"
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "ستاره"
+msgstr[1] ""
 
 #: fitsviewer/fitsviewer.cpp:569
 #, kde-format
@@ -82485,6 +82502,7 @@ msgstr "پرونده را نتوانست حذف کند: %1"
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."
 msgstr[0] "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
+msgstr[1] ""
 
 #: skycomponents/cometscomponent.cpp:83
 #, fuzzy, kde-format
@@ -86965,6 +86983,7 @@ msgstr ""
 msgid "Batch add: %1 object not found"
 msgid_plural "Batch add: %1 objects not found"
 msgstr[0] "شیئی با نام %1 یافت نشد"
+msgstr[1] ""
 
 #: tools/observinglist.cpp:809
 #, kde-format
@@ -86975,6 +86994,7 @@ msgid_plural ""
 "%1 objects could not be found in the database or resolved, and hence could "
 "not be added. See the details for more."
 msgstr[0] ""
+msgstr[1] ""
 
 #: tools/observinglist.cpp:883
 #, fuzzy, kde-format
@@ -87073,6 +87093,7 @@ msgstr ""
 msgid "Observing wishlist truncated: %1 object not found"
 msgid_plural "Observing wishlist truncated: %1 objects not found"
 msgstr[0] ""
+msgstr[1] ""
 
 #: tools/observinglist.cpp:1150
 #, kde-format
@@ -87086,6 +87107,7 @@ msgid_plural ""
 "backup, whereby you can later use the Batch Add feature in the Observation "
 "Planner to add them back using internet search."
 msgstr[0] ""
+msgstr[1] ""
 
 #: tools/observinglist.cpp:1163
 #, fuzzy, kde-format
@@ -87510,10 +87532,11 @@ msgid "Illegal circle specified, no region selection possible."
 msgstr "دایره غیرمجاز مشخص شد، گزینش منطقه ممکن نیست."
 
 #: tools/obslistwizard.cpp:545
-#, kde-format
+#, fuzzy, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
 msgstr[0] "فهرست مشاهده شما در حال حاضر دارای %1 شیء است."
+msgstr[1] ""
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: tools/obslistwizard.ui:42

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-04 00:44+0000\n"
-"PO-Revision-Date: 2023-06-30 05:30+0100\n"
+"PO-Revision-Date: 2023-07-04 08:09+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -25106,11 +25106,9 @@ msgstr "Fari aŭtomatan fokuson antaŭ ol procedi al la sekva paŝo."
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: ekos/scheduler/framingassistant.ui:1497 ekos/scheduler/scheduler.ui:344
-#, fuzzy, kde-format
-#| msgctxt "Toggle the opaque fill of the ground polygon in the display"
-#| msgid "Ground"
+#, kde-format
 msgid "Group:"
-msgstr "Tero"
+msgstr "Grupo:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
 #: ekos/scheduler/framingassistant.ui:1509
@@ -25125,10 +25123,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1538
-#, fuzzy, kde-format
-#| msgid "Job Completion Conditions"
+#, kde-format
 msgid "Completion Condition:"
-msgstr "Kondiĉoj de Taskoplenumo"
+msgstr "Plenumkondiĉo:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
@@ -26719,24 +26716,19 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
 #: ekos/scheduler/scheduler.ui:1286
-#, fuzzy, kde-format
-#| msgid "Reset status of all jobs"
+#, kde-format
 msgid "Repeat all jobs"
-msgstr "Restarigi staton de ĉiuj taskoj"
+msgstr "Ripeti ĉiujn taskojn"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
 #: ekos/scheduler/scheduler.ui:1293
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Limit number of iterations the scheduler will "
-#| "repeat the entire job sequence. If set to 0, the jobs are repeated until "
-#| "for none of the jobs its constraints are met.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Limit number of iterations the scheduler will execute "
 "the entire job sequence. If set to 0, the jobs are repeated until for none "
 "of the jobs its constraints are met.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Limnombro de iteracioj kiujn la planilo ripetos la "
+"<html><head/><body><p>Limnombro de iteracioj kiujn la planilo ruligos la "
 "tutan tasksekvencon. Se metita al 0, la taskoj estas ripetataj ĝis kiam por "
 "neniuj el la taskoj ĝiaj limigoj estas plenumataj.</p></body></html>"
 
@@ -36454,12 +36446,9 @@ msgstr "Rekomenci sekvencojn tuj post kiam ĉiuj sekvencoj estis plenumitaj."
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
 #: kstars.kcfg:2915
-#, fuzzy, kde-format
-#| msgid ""
-#| "Limit how many times the scheduler should repeat executing all sequences."
+#, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
-msgstr ""
-"Limigi kiom da fojoj la planilo ripetu la plenumadon de ĉiuj sekvencoj."
+msgstr "Limigi kiom da fojoj la planilo ruligu ĉiujn sekvencojn."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:2921
@@ -82483,161 +82472,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Mosaic Job Creator"
-#~ msgstr "Mozaiko Ijob Kreinto"
-
-#~ msgid "↓ Equipment"
-#~ msgstr "↓ Ekipaĵo"
-
-#~ msgid "↓ FOV"
-#~ msgstr "↓ FOV"
-
-#~ msgid "↓ Jobs"
-#~ msgstr "↓ Taskoj"
-
-#~ msgid "↓ Output"
-#~ msgstr "↓ Eligo"
-
-#~ msgid ""
-#~ "<html><head/><body><p align=\"justify\">Total number of Scheduler jobs "
-#~ "required to cover the mosaic field, and that the tool will produce.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p align=\"justify\">Sumo de Scheduler-taskoj necesaj "
-#~ "por kovri la mozaikan kampon, kaj ke la ilo produktos.</p></body></html>"
-
-#~ msgid ""
-#~ "Number of scheduler jobs required to capture the mosaic image. Click "
-#~ "update to calculate it"
-#~ msgstr ""
-#~ "Nombro de horarlaboroj necesaj por kapti la mozaikan bildon. Alklaku "
-#~ "ĝisdatigon por kalkuli ĝin"
-
-#~ msgid "Job Count:"
-#~ msgstr "Nombro de taskoj:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>This sky chart shows the expected distribution of "
-#~ "mosaic tiles.</p><p><span style=\" font-style:italic;\">Note:</span> this "
-#~ "version of the Mosaic Tool uses a simple plane projection and lacks "
-#~ "precision when declination is higher than 70 degrees. Carefully overlap "
-#~ "your tiles to avoid holes.</p><p>• The setting &quot;Overlap&quot; "
-#~ "controls how tiles are overlaid, its effect can be seen with "
-#~ "transparency. Tiles are then distributed as a grid from setting &quot;"
-#~ "Mosaic Grid&quot;. They are rendered in transparent green and match the "
-#~ "field of the camera from setting &quot;Camera FOV&quot;.</p><p>• The "
-#~ "extent of the mosaic field matches the setting &quot;Mosaic FOV&quot; and "
-#~ "is rendered as a red background to help you fill holes by adjusting "
-#~ "overlap.</p><p>• The job options allow you to execute the mount alignment "
-#~ "or the focus adjustment once out of several iterations only. This checks "
-#~ "or doesn't check the relevant Scheduler job steps. You may leave those to "
-#~ "zero if you use a mount model in Align or configure periodic re-focus in "
-#~ "Capture.</p><p>• Top-right numbers in tiles indicate the order in which "
-#~ "Scheduler jobs will be created. Setting targets are captured first, from "
-#~ "west to east. Center numbers indicate the coordinates of the target of "
-#~ "the job that will be generated for each tile. Bottom numbers indicate the "
-#~ "angle those tiles are shifted compared to the center of the mosaic.</"
-#~ "p><p>The suggested order of actions is to:</p><p>1. Fetch or enter "
-#~ "equipment information.<br/>2. Configure the tile overlap.<br/>3. "
-#~ "Configure the extent of the mosaic by adjusting its grid.<br/>4. Adjust "
-#~ "the alignment and focus job options.<br/>5. Choose an output folder, "
-#~ "where sequence and scheduler job lists will be written.<br/>6. Accept the "
-#~ "dialog.</p><p>Use the overlap percentage to control the area over which "
-#~ "adjacent tiles may be stitched:</p><p>• <span style=\" font-weight:600;"
-#~ "\">0-10%</span> if you plan to register your frames over a synthetic "
-#~ "field built from catalog stars.</p><p>• <span style=\" font-weight:600;"
-#~ "\">10-20%</span> if you plan to stitch adjacent frames by aligning the "
-#~ "stars in their overlapping sky patches.</p><p>• <span style=\" font-"
-#~ "weight:600;\">50-80%</span> if you plan to process a single stack with "
-#~ "the frames produced by the mosaic jobs.</p><p align=\"justify\">Changing "
-#~ "the overlap value immediately updates the number of tiles in order to "
-#~ "cover the mosaic field entirely. The generated tiles may thus cover more "
-#~ "field than required. For this reason, the overlap should be the first "
-#~ "setting to consider. To recompute the field covered by the mosaic from "
-#~ "the number of tiles considering the current overlap, click 'Cover FOV'.</"
-#~ "p><p align=\"justify\">When processing a single stack, <span style=\" "
-#~ "font-weight:600;\">50%</span> and <span style=\" font-weight:600;\">75%</"
-#~ "span> are interesting overlap values. You may want to increase these "
-#~ "slightly to work around tile rotation, apply cropping while capturing or "
-#~ "before stacking, or avoid flat frame calibration artifacts on borders. If "
-#~ "your sequence contains a single exposure, configure the mosaic to achieve "
-#~ "a minimum of 13 layers at the center of the mosaic, as this will allow "
-#~ "stacking with the winsorized sigma rejection method. As illustrations:</"
-#~ "p><p align=\"justify\">• A 5x5 mosaic with an overlap of 80% has 25 "
-#~ "subframes at its center.<br/>• A 4x4 mosaic with an overlap of 75% has 16 "
-#~ "subframes at its center.<br/>• A 3x3 mosaic with an overlap of 66.6% has "
-#~ "9 subframes at its center, and will require two passes.</p><p align="
-#~ "\"justify\">Note that overlapped mosaic tiles may suffer from large-scale "
-#~ "gradients, which will require additional processing after calibration and "
-#~ "before stacking. Thus, capture mosaics in really dark skies and avoid "
-#~ "placing your object of interest on the border of a tile.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Ĉi tiu ĉiela diagramo montras la atendatan "
-#~ "distribuon de mozaikaj kaheloj.</p><p><span style=\" font-style:italic;"
-#~ "\">Noto:</span> ĉi tiu versio de la Mozaika Ilo uzas simplan ebenan "
-#~ "projekcion kaj mankas precizeco kiam deklinacio estas pli alta ol 70 "
-#~ "gradoj. Zorge interkovru viajn kahelojn por eviti truojn.</p><p>• La "
-#~ "agordo &quot;Interkovro&quot; regas kiel kaheloj estas supermetitaj, ĝia "
-#~ "efiko videblas per travidebleco. Kaheloj tiam estas distribuitaj kiel "
-#~ "krado de fikso &quot;Mozaic Grid&quot;. Ili estas bildigitaj en "
-#~ "travidebla verdo kaj kongruas kun la kampo de la fotilo de agordo &quot;"
-#~ "Kamera FOV&quot;.</p><p>• La amplekso de la mozaika kampo kongruas kun la "
-#~ "agordo &quot;Mozaiko FOV&quot; kaj estas prezentita kiel ruĝa fono por "
-#~ "helpi vi plenigas truojn per alĝustigo de interkovro.</p><p>• La "
-#~ "taskopcioj permesas al vi efektivigi la muntan vicigon aŭ la fokusan "
-#~ "alĝustigon unufoje el pluraj ripetoj nur. Ĉi tio kontrolas aŭ ne "
-#~ "kontrolas la koncernajn taskopaŝojn de Scheduler. Vi povas lasi tiujn al "
-#~ "nulo se vi uzas muntan modelon en Align aŭ agordas periodan re-fokuson en "
-#~ "Capture.</p><p>• Supre-dekstraj nombroj en kaheloj indikas la ordon en "
-#~ "kiu Scheduler-taskoj estos kreitaj. Fiksaj celoj estas kaptitaj unue, de "
-#~ "okcidento al oriento. Centraj nombroj indikas la koordinatojn de la celo "
-#~ "de la tasko, kiu estos generita por ĉiu kahelo. Malsupraj nombroj indikas "
-#~ "la angulon, ke tiuj kaheloj estas ŝovita kompare kun la centro de la "
-#~ "mozaiko.</p><p>La proponita ordo de agoj estas:</p><p>1. Prenu aŭ enigu "
-#~ "informojn pri ekipaĵo.<br/>2. Agordi la interkovron de kaheloj.<br/>3. "
-#~ "Agordu la amplekson de la mozaiko ĝustigante ĝian kradon.<br/>4. "
-#~ "Alĝustigu la vicigon kaj fokusajn taskopciojn.<br/>5. Elektu "
-#~ "eligdosierujon, kie sekvencoj kaj planilaj tasklistoj estos skribitaj.<br/"
-#~ ">6. Akceptu la dialogon.</p><p>Uzu la interkovran procenton por kontroli "
-#~ "la areon super kiu apudaj kaheloj povas esti kudritaj:</p><p>• <span "
-#~ "style=\" font-weight:600;\"> 0-10%</span> se vi planas registri viajn "
-#~ "kadrojn per sinteza kampo konstruita el katalogaj steloj.</p><p>• <span "
-#~ "style=\" font-weight:600;\">10-20 %</span> se vi planas kudri apudajn "
-#~ "kadrojn vicigante la stelojn en iliaj interkovritaj ĉielaj makuloj.</"
-#~ "p><p>• <span style=\" font-weight:600;\">50-80%</span> se vi planas "
-#~ "prilabori ununuran stakon kun la kadroj produktitaj de la mozaikaj taskoj."
-#~ "</p><p align=\"justify\">Ŝanĝi la interkovran valoron tuj ĝisdatigas la "
-#~ "nombron da kaheloj por kovri la mozaikon kampo tute. La generitaj kaheloj "
-#~ "povas tiel kovri pli da kampo ol bezonata. Tial, la interkovro devus esti "
-#~ "la unua agordo por konsideri. Por rekalkuli la kampon kovritan de la "
-#~ "mozaiko el la nombro da kaheloj konsiderante la nunan interkovron, "
-#~ "alklaku 'Kovri FOV'.</p><p align=\"justify\">Dum prilaborado de ununura "
-#~ "stako, <span style=\" font-weight:600;\">50%</span> kaj <span style=\" "
-#~ "font-weight:600;\">75%</span> estas interesaj interkovraj valoroj. Vi "
-#~ "eble volas pliigi ĉi tiujn iomete por labori ĉirkaŭ kahela rotacio, "
-#~ "apliki tondadon dum kaptado aŭ antaŭ stakigado, aŭ eviti platframajn "
-#~ "kalibrajn artefaktojn sur limoj. Se via sekvenco enhavas ununuran "
-#~ "malkovron, agordu la mozaikon por atingi minimumon de 13 tavoloj en la "
-#~ "centro de la mozaiko, ĉar ĉi tio permesos stakigi kun la winsorigita "
-#~ "sigma malakceptometodo. Kiel ilustraĵoj:</p><p align=\"justify\">• "
-#~ "Mozaiko 5x5 kun interkovro de 80% havas 25 subkadrojn en sia centro.<br/"
-#~ ">• Mozaiko 4x4 kun interkovro de 75% havas 16 subkadroj en sia centro.<br/"
-#~ ">• Mozaiko 3x3 kun interkovro de 66.6% havas 9 subkadrojn en sia centro, "
-#~ "kaj postulos du enirpermesilojn.</p><p align=\"justify\">Rimarku, ke "
-#~ "imbrikita mozaiko kaheloj povas suferi de grandskalaj gradientoj, kiuj "
-#~ "postulos plian prilaboradon post kalibrado kaj antaŭ stakigado. Tiel, "
-#~ "kaptu mozaikojn en vere malhela ĉielo kaj evitu meti vian interesan "
-#~ "objekton sur la rando de kahelo.</p></body></html>"
-
-#~ msgid "Do you want to keep the existing jobs in the mosaic schedule?"
-#~ msgstr "Ĉu vi volas konservi la ekzistantajn taskojn en la mozaika horaro?"
-
-#~ msgid "Mosaic file %1 saved successfully."
-#~ msgstr "Mozaika dosiero %1 sukcese konservita."
-
-#~ msgid "Error saving mosaic file %1. Please reload job."
-#~ msgstr "Eraro dum konservado de mozaiko dosiero %1. Bonvolu reŝargi taskon."
-
-#~ msgid "Repeat after completion"
-#~ msgstr "Ripeti post kompletiĝo"
