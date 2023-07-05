@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-04 00:44+0000\n"
-"PO-Revision-Date: 2023-07-01 08:13+0200\n"
+"PO-Revision-Date: 2023-07-04 08:33+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -23259,11 +23259,9 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: ekos/scheduler/framingassistant.ui:1497 ekos/scheduler/scheduler.ui:344
-#, fuzzy, kde-format
-#| msgctxt "Toggle the opaque fill of the ground polygon in the display"
-#| msgid "Ground"
+#, kde-format
 msgid "Group:"
-msgstr "მიწა"
+msgstr "ჯგუფი:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
 #: ekos/scheduler/framingassistant.ui:1509
@@ -23278,10 +23276,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1538
-#, fuzzy, kde-format
-#| msgid "Delete Confirmation"
+#, kde-format
 msgid "Completion Condition:"
-msgstr "წაშლის დადასტურება"
+msgstr "დასრულების პირობა:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
@@ -24764,10 +24761,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
 #: ekos/scheduler/scheduler.ui:1286
-#, fuzzy, kde-format
-#| msgid "Clear all logs"
+#, kde-format
 msgid "Repeat all jobs"
-msgstr "ჟურნალის სრული გასუფთავება"
+msgstr "ყველა დავალების გამეორება"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
 #: ekos/scheduler/scheduler.ui:1293
