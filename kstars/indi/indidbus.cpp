@@ -27,16 +27,16 @@ INDIDBus::INDIDBus(QObject *parent) : QObject(parent)
 
 bool INDIDBus::start(int port, const QStringList &drivers)
 {
-    QList<DriverInfo *> newDrivers;
+    QList<QSharedPointer<DriverInfo>> newDrivers;
 
     for (auto &driver : drivers)
     {
-        DriverInfo *drv = DriverManager::Instance()->findDriverByExec(driver);
+        auto drv = DriverManager::Instance()->findDriverByExec(driver);
 
         if (drv == nullptr)
             continue;
 
-        DriverInfo *di = new DriverInfo(QString("%1").arg(driver));
+        QSharedPointer<DriverInfo> di(new DriverInfo(QString("%1").arg(driver)));
         di->setHostParameters("localhost", port);
         di->setDriverSource(EM_XML);
         di->setExecutable(driver);
@@ -52,9 +52,9 @@ bool INDIDBus::start(int port, const QStringList &drivers)
 
 bool INDIDBus::stop(const QString &port)
 {
-    QList<DriverInfo *> stopDrivers;
+    QList<QSharedPointer<DriverInfo>> stopDrivers;
 
-    foreach (DriverInfo *di, DriverManager::Instance()->getDrivers())
+    foreach (QSharedPointer<DriverInfo>di, DriverManager::Instance()->getDrivers())
     {
         if (di->getClientState() && di->getPort() == port)
             stopDrivers.append(di);
@@ -68,17 +68,15 @@ bool INDIDBus::stop(const QString &port)
 
     DriverManager::Instance()->stopDevices(stopDrivers);
 
-    foreach (DriverInfo *di, stopDrivers)
+    for (auto &di : stopDrivers)
         DriverManager::Instance()->removeDriver(di);
-
-    qDeleteAll(stopDrivers);
 
     return true;
 }
 
 bool INDIDBus::connect(const QString &host, int port)
 {
-    DriverInfo *remote_indi = new DriverInfo(QString("INDI Remote Host"));
+    QSharedPointer<DriverInfo> remote_indi(new DriverInfo(QString("INDI Remote Host")));
 
     remote_indi->setHostParameters(host, port);
 

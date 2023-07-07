@@ -76,6 +76,8 @@ DriverManager *DriverManager::Instance()
     {
         _DriverManager = new DriverManager(KStars::Instance());
         _INDIDBus = new INDIDBus(KStars::Instance());
+
+        qRegisterMetaType<QSharedPointer<DriverInfo>>("QSharedPointer<DriverInfo>");
     }
 
     return _DriverManager;
@@ -142,43 +144,39 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 DriverManager::~DriverManager()
 {
     clearServers();
-    qDeleteAll(driversList);
 }
 
-void DriverManager::processDeviceStatus(DriverInfo *dv)
+void DriverManager::processDeviceStatus(const QSharedPointer<DriverInfo> &driver)
 {
-    if (dv == nullptr)
-        return;
-
-    if (dv->getDriverSource() == GENERATED_SOURCE)
+    if (driver.isNull() || driver->getDriverSource() == GENERATED_SOURCE)
         return;
 
     QString currentDriver;
     ServerMode mode        = connectionMode;
-    ServerManager *manager = dv->getServerManager();
+    ServerManager *manager = driver->getServerManager();
     bool dState            = false;
     bool cState            = false;
 
-    if (dv->getDriverSource() != HOST_SOURCE)
+    if (driver->getDriverSource() != HOST_SOURCE)
     {
         if (ui->localTreeWidget->currentItem())
             currentDriver = ui->localTreeWidget->currentItem()->text(LOCAL_NAME_COLUMN);
 
         for (auto &item : ui->localTreeWidget->findItems(
-                    dv->getLabel(), Qt::MatchExactly | Qt::MatchRecursive))
+                    driver->getLabel(), Qt::MatchExactly | Qt::MatchRecursive))
         {
-            item->setText(LOCAL_VERSION_COLUMN, dv->getVersion());
+            item->setText(LOCAL_VERSION_COLUMN, driver->getVersion());
 
             if (manager)
                 mode = manager->getMode();
 
-            dState = dv->getServerState();
-            cState = dv->getClientState() && dState;
+            dState = driver->getServerState();
+            cState = driver->getClientState() && dState;
 
             bool locallyAvailable = false;
-            if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+            if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
                 locallyAvailable =
-                    dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+                    driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
 
             switch (mode)
             {
@@ -207,7 +205,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                     else
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                        item->setText(LOCAL_PORT_COLUMN, QString::number(dv->getUserPort()));
+                        item->setText(LOCAL_PORT_COLUMN, QString::number(driver->getUserPort()));
                     }
 
                     break;
@@ -238,7 +236,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                     else
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                        const auto port = dv->getUserPort() == -1 ? QString() : QString::number(dv->getUserPort());
+                        const auto port = driver->getUserPort() == -1 ? QString() : QString::number(driver->getUserPort());
                         item->setText(LOCAL_PORT_COLUMN, port);
                     }
 
@@ -246,19 +244,19 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
             }
 
             // Only update the log if the current driver is selected
-            if (currentDriver == dv->getLabel())
+            if (currentDriver == driver->getLabel())
             {
                 ui->serverLogText->clear();
-                ui->serverLogText->append(dv->getServerBuffer());
+                ui->serverLogText->append(driver->getServerBuffer());
             }
         }
     }
     else
     {
-        for (auto &item : ui->clientTreeWidget->findItems(dv->getName(), Qt::MatchExactly,
+        for (auto &item : ui->clientTreeWidget->findItems(driver->getName(), Qt::MatchExactly,
                 HOST_NAME_COLUMN))
         {
-            if (dv->getClientState())
+            if (driver->getClientState())
             {
                 item->setIcon(HOST_STATUS_COLUMN, ui->connected);
                 ui->connectHostB->setEnabled(false);
@@ -274,17 +272,18 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
     }
 }
 
-void DriverManager::getUniqueHosts(const QList<DriverInfo *> &dList,  QList<QList<DriverInfo *>> &uHosts)
+void DriverManager::getUniqueHosts(const QList<QSharedPointer<DriverInfo>> &dList,
+                                   QList<QList<QSharedPointer<DriverInfo>>> &uHosts)
 {
     bool found = false;
 
     // Iterate over all drivers
-    for (DriverInfo *dv : dList)
+    for (auto &dv : dList)
     {
-        QList<DriverInfo *> uList;
+        QList<QSharedPointer<DriverInfo>> uList;
 
         // Let's see for drivers with identical hosts and ports
-        for (DriverInfo *idv : dList)
+        for (auto &idv : dList)
         {
             // If we get a match between port and hostname, we add it to the list
             if ((dv->getHost() == idv->getHost() && dv->getPort() == idv->getPort()))
@@ -300,7 +299,7 @@ void DriverManager::getUniqueHosts(const QList<DriverInfo *> &dList,  QList<QLis
                         continue;
                     else
                     {
-                        QList<DriverInfo *> stopList;
+                        QList<QSharedPointer<DriverInfo>> stopList;
                         stopList.append(dv);
                         stopDevices(stopList);
                     }
@@ -311,7 +310,7 @@ void DriverManager::getUniqueHosts(const QList<DriverInfo *> &dList,  QList<QLis
                 // Check to see if the driver already been added elsewhere
                 for (auto &qdi : uHosts)
                 {
-                    for (DriverInfo *di : qdi)
+                    for (QSharedPointer<DriverInfo>di : qdi)
                     {
                         if (di == idv)
                         {
@@ -331,12 +330,12 @@ void DriverManager::getUniqueHosts(const QList<DriverInfo *> &dList,  QList<QLis
     }
 }
 
-void DriverManager::startDevices(QList<DriverInfo *> &dList)
+void DriverManager::startDevices(const QList<QSharedPointer<DriverInfo>> &dList)
 {
     ServerManager *serverManager = nullptr;
     int port = -1;
 
-    QList<QList<DriverInfo *>> uHosts;
+    QList<QList<QSharedPointer<DriverInfo>>> uHosts;
     getUniqueHosts(dList, uHosts);
 
     qCDebug(KSTARS_INDI) << "INDI: Starting local drivers...";
@@ -387,11 +386,11 @@ void DriverManager::startLocalDrivers(ServerManager *serverManager)
     QtConcurrent::run(serverManager, &ServerManager::startDriver, serverManager->pendingDrivers().first());
 }
 
-void DriverManager::processDriverStartup(DriverInfo *dv)
+void DriverManager::processDriverStartup(const QSharedPointer<DriverInfo> &driver)
 {
-    emit driverStarted(dv);
+    emit driverStarted(driver);
 
-    auto manager = dv->getServerManager();
+    auto manager = driver->getServerManager();
     // Do we have more pending drivers?
     if (manager->pendingDrivers().count() > 0)
     {
@@ -409,15 +408,15 @@ void DriverManager::processDriverStartup(DriverInfo *dv)
     startClientManager(manager->managedDrivers(), manager->getHost(), manager->getPort());
 }
 
-void DriverManager::processDriverFailure(DriverInfo *dv, const QString &message)
+void DriverManager::processDriverFailure(const QSharedPointer<DriverInfo> &driver, const QString &message)
 {
-    emit driverFailed(dv, message);
+    emit driverFailed(driver, message);
 
-    qCWarning(KSTARS_INDI) << "Driver" << dv->getName() << "failed to start. Retrying in 5 seconds...";
+    qCWarning(KSTARS_INDI) << "Driver" << driver->getName() << "failed to start. Retrying in 5 seconds...";
 
-    QTimer::singleShot(5000, this, [dv]()
+    QTimer::singleShot(5000, this, [driver]()
     {
-        auto manager = dv->getServerManager();
+        auto manager = driver->getServerManager();
         // Do we have more pending drivers?
         if (manager->pendingDrivers().count() > 0)
         {
@@ -427,7 +426,7 @@ void DriverManager::processDriverFailure(DriverInfo *dv, const QString &message)
     });
 }
 
-void DriverManager::startClientManager(const QList<DriverInfo *> &qdv, const QString &host, int port)
+void DriverManager::startClientManager(const QList<QSharedPointer<DriverInfo>> &qdv, const QString &host, int port)
 {
     auto clientManager = new ClientManager();
 
@@ -446,12 +445,12 @@ void DriverManager::startClientManager(const QList<DriverInfo *> &qdv, const QSt
     clientManager->establishConnection();
 }
 
-void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
+void DriverManager::stopDevices(const QList<QSharedPointer<DriverInfo>> &dList)
 {
     qCDebug(KSTARS_INDI) << "INDI: Stopping local drivers...";
 
     // #1 Disconnect all clients
-    for (DriverInfo *dv : dList)
+    for (QSharedPointer<DriverInfo>dv : dList)
     {
         ClientManager *cm = dv->getClientManager();
 
@@ -474,7 +473,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
     }
 
     // #2 Disconnect all servers
-    for (DriverInfo *dv : dList)
+    for (QSharedPointer<DriverInfo>dv : dList)
     {
         ServerManager *sm = dv->getServerManager();
 
@@ -534,9 +533,9 @@ void DriverManager::activateHostDisconnection()
     processRemoteTree(false);
 }
 
-ClientManager *DriverManager::getClientManager(DriverInfo *dv)
+ClientManager *DriverManager::getClientManager(const QSharedPointer<DriverInfo> &driver)
 {
-    return dv->getClientManager();
+    return driver->getClientManager();
 }
 
 void DriverManager::updateLocalTab()
@@ -574,7 +573,7 @@ void DriverManager::updateClientTab()
 
 void DriverManager::processLocalTree(bool dState)
 {
-    QList<DriverInfo *> processed_devices;
+    QList<QSharedPointer<DriverInfo>> processed_devices;
 
     int port;
     bool portOK = false;
@@ -766,14 +765,14 @@ void DriverManager::processRemoteTree(bool dState)
     }
 }
 
-void DriverManager::connectRemoteHost(DriverInfo *dv)
+void DriverManager::connectRemoteHost(const QSharedPointer<DriverInfo> &driver)
 {
-    auto host = dv->getHost();
-    auto port = dv->getPort();
+    auto host = driver->getHost();
+    auto port = driver->getPort();
 
     auto clientManager = new ClientManager();
 
-    clientManager->appendManagedDriver(dv);
+    clientManager->appendManagedDriver(driver);
 
     connect(clientManager, &ClientManager::started, this, &DriverManager::setClientStarted, Qt::UniqueConnection);
     connect(clientManager, &ClientManager::failed, this, &DriverManager::setClientFailed, Qt::UniqueConnection);
@@ -803,13 +802,13 @@ void DriverManager::setClientStarted()
     emit clientStarted(clientManager->getHost(), clientManager->getPort());
 }
 
-bool DriverManager::disconnectRemoteHost(DriverInfo *dv)
+bool DriverManager::disconnectRemoteHost(const QSharedPointer<DriverInfo> &driver)
 {
-    ClientManager *clientManager = dv->getClientManager();
+    ClientManager *clientManager = driver->getClientManager();
 
     if (clientManager)
     {
-        clientManager->removeManagedDriver(dv);
+        clientManager->removeManagedDriver(driver);
         clientManager->disconnectAll();
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
@@ -944,16 +943,19 @@ bool DriverManager::readINDIHosts()
 
             hPort = QString(valuXMLAtt(ap));
 
-            DriverInfo *dv = new DriverInfo(hName);
+            QSharedPointer<DriverInfo> dv(new DriverInfo(hName));
             dv->setHostParameters(hHost, hPort.toInt());
             dv->setDriverSource(HOST_SOURCE);
 
-            connect(dv, &DriverInfo::deviceStateChanged, this, &DriverManager::processDeviceStatus);
+            connect(dv.get(), &DriverInfo::deviceStateChanged, this, [dv, this]()
+            {
+                processDeviceStatus(dv);
+            });
 
             driversList.append(dv);
 
             QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget, lastGroup);
-            lastGroup             = item;
+            lastGroup = item;
             item->setIcon(HOST_STATUS_COLUMN, ui->disconnected);
             item->setText(HOST_NAME_COLUMN, hName);
             item->setText(HOST_PORT_COLUMN, hPort);
@@ -1124,7 +1126,6 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup,
 {
     XMLAtt *ap;
     XMLEle *el;
-    DriverInfo *dv;
     QString label;
     QString driver;
     QString version;
@@ -1165,15 +1166,6 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup,
     if (ap)
         skel = valuXMLAtt(ap);
 
-    // Let's look for telescope-specific attributes: focal length and aperture
-    //    ap = findXMLAtt(root, "focal_length");
-    //    if (ap)
-    //    {
-    //        focal_length = QString(valuXMLAtt(ap)).toDouble();
-    //        if (focal_length > 0)
-    //            vMap.insert("TELESCOPE_FOCAL_LENGTH", focal_length);
-    //    }
-
     // Find MDPD: Multiple Devices Per Driver
     ap = findXMLAtt(root, "mdpd");
     if (ap)
@@ -1182,14 +1174,6 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup,
         mdpd      = (QString(valuXMLAtt(ap)) == QString("true")) ? true : false;
         vMap.insert("mdpd", mdpd);
     }
-
-    //    ap = findXMLAtt(root, "aperture");
-    //    if (ap)
-    //    {
-    //        aperture = QString(valuXMLAtt(ap)).toDouble();
-    //        if (aperture > 0)
-    //            vMap.insert("TELESCOPE_APERTURE", aperture);
-    //    }
 
     el = findXMLEle(root, "driver");
 
@@ -1238,7 +1222,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup,
     if (groupType == KSTARS_TELESCOPE && driversStringList.contains(driver) == false)
         driversStringList.append(driver);
 
-    dv = new DriverInfo(name);
+    QSharedPointer<DriverInfo> dv(new DriverInfo(name));
 
     dv->setLabel(label);
     dv->setVersion(version);
@@ -1250,7 +1234,10 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup,
     dv->setUserPort(port.isEmpty() ? 7624 : port.toInt());
     dv->setAuxInfo(vMap);
 
-    connect(dv, &DriverInfo::deviceStateChanged, this, &DriverManager::processDeviceStatus);
+    connect(dv.get(), &DriverInfo::deviceStateChanged, this, [dv, this]()
+    {
+        processDeviceStatus(dv);
+    });
 
     driversList.append(dv);
 
@@ -1277,7 +1264,7 @@ void DriverManager::updateCustomDrivers()
 {
     for (const QVariantMap &oneDriver : m_CustomDrivers->customDrivers())
     {
-        DriverInfo *dv = new DriverInfo(oneDriver["Name"].toString());
+        QSharedPointer<DriverInfo> dv(new DriverInfo(oneDriver["Name"].toString()));
         dv->setLabel(oneDriver["Label"].toString());
         dv->setUniqueLabel(dv->getLabel());
         dv->setExecutable(oneDriver["Exec"].toString());
@@ -1306,7 +1293,7 @@ void DriverManager::updateCustomDrivers()
     QTreeWidgetItem *group     = nullptr;
     QTreeWidgetItem *widgetDev = nullptr;
     QVariantMap vMap;
-    DriverInfo *drv = nullptr;
+    QSharedPointer<DriverInfo>drv = nullptr;
 
     // Find if the group already exists
     QList<QTreeWidgetItem *> treeList = ui->localTreeWidget->findItems("Telescopes", Qt::MatchExactly);
@@ -1348,7 +1335,7 @@ void DriverManager::updateCustomDrivers()
         device->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
         device->setText(LOCAL_VERSION_COLUMN, QString(version));
 
-        DriverInfo *dv = new DriverInfo(name);
+        QSharedPointer<DriverInfo>dv = new DriverInfo(name);
 
         dv->setLabel(label);
         dv->setExecutable(driver);
@@ -1368,7 +1355,7 @@ void DriverManager::updateCustomDrivers()
     }
 
     // Find custom telescope to REMOVE
-    foreach (DriverInfo *dev, driversList)
+    foreach (QSharedPointer<DriverInfo>dev, driversList)
     {
         // If it's from primary xml file or it is in a running state, continue.
         if (dev->getDriverSource() != EM_XML || dev->getClientState())
@@ -1404,14 +1391,13 @@ void DriverManager::addINDIHost()
 
     if (hostConfDialog.exec() == QDialog::Accepted)
     {
-        DriverInfo *hostItem = new DriverInfo(hostConf.nameIN->text());
+        QSharedPointer<DriverInfo> hostItem(new DriverInfo(hostConf.nameIN->text()));
 
         hostConf.portnumber->text().toInt(&portOk);
 
         if (portOk == false)
         {
             KSNotification::error(i18n("Error: the port number is invalid."));
-            delete hostItem;
             return;
         }
 
@@ -1420,19 +1406,21 @@ void DriverManager::addINDIHost()
 
         //search for duplicates
         //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-        foreach (DriverInfo *host, driversList)
+        foreach (QSharedPointer<DriverInfo>host, driversList)
             if (hostItem->getName() == host->getName() &&
                     hostItem->getPort() == host->getPort())
             {
                 KSNotification::error(i18n("Host: %1 Port: %2 already exists.",
                                            hostItem->getName(), hostItem->getPort()));
-                delete hostItem;
                 return;
             }
 
         hostItem->setDriverSource(HOST_SOURCE);
 
-        connect(hostItem, &DriverInfo::deviceStateChanged, this, &DriverManager::processDeviceStatus);
+        connect(hostItem.get(), &DriverInfo::deviceStateChanged, this, [hostItem, this]()
+        {
+            processDeviceStatus(hostItem);
+        });
 
         driversList.append(hostItem);
 
@@ -1487,7 +1475,7 @@ void DriverManager::removeINDIHost()
     if (ui->clientTreeWidget->currentItem() == nullptr)
         return;
 
-    foreach (DriverInfo *host, driversList)
+    foreach (QSharedPointer<DriverInfo>host, driversList)
         if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) ==
                 host->getName() &&
                 ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN).toInt() ==
@@ -1509,7 +1497,6 @@ void DriverManager::removeINDIHost()
                 return;
 
             driversList.removeOne(host);
-            delete host;
             delete (ui->clientTreeWidget->currentItem());
             break;
         }
@@ -1537,7 +1524,7 @@ void DriverManager::saveHosts()
     QTextStream outstream(&file);
 
     //for (uint i= 0; i < ksw->data()->INDIHostsList.count(); i++)
-    foreach (DriverInfo *host, driversList)
+    foreach (QSharedPointer<DriverInfo>host, driversList)
     {
         if (host->getDriverSource() != HOST_SOURCE)
             continue;
@@ -1556,37 +1543,43 @@ void DriverManager::saveHosts()
     file.close();
 }
 
-DriverInfo *DriverManager::findDriverByName(const QString &name)
+QSharedPointer<DriverInfo> DriverManager::findDriverByName(const QString &name)
 {
-    for (auto &dv : driversList)
+    auto driver = std::find_if(driversList.begin(), driversList.end(), [name](auto & oneDriver)
     {
-        if (dv->getName() == name)
-            return dv;
-    }
+        return oneDriver->getName() == name;
+    });
 
-    return nullptr;
+    if (driver != driversList.end())
+        return *driver;
+    else
+        return QSharedPointer<DriverInfo>();
 }
 
-DriverInfo *DriverManager::findDriverByLabel(const QString &label)
+QSharedPointer<DriverInfo> DriverManager::findDriverByLabel(const QString &label)
 {
-    for (auto &dv : driversList)
+    auto driver = std::find_if(driversList.begin(), driversList.end(), [label](auto & oneDriver)
     {
-        if (dv->getLabel() == label)
-            return dv;
-    }
+        return oneDriver->getLabel() == label;
+    });
 
-    return nullptr;
+    if (driver != driversList.end())
+        return *driver;
+    else
+        return QSharedPointer<DriverInfo>();
 }
 
-DriverInfo *DriverManager::findDriverByExec(const QString &exec)
+QSharedPointer<DriverInfo> DriverManager::findDriverByExec(const QString &exec)
 {
-    for (auto &dv : driversList)
+    auto driver = std::find_if(driversList.begin(), driversList.end(), [exec](auto & oneDriver)
     {
-        if (dv->getExecutable() == exec)
-            return dv;
-    }
+        return oneDriver->getLabel() == exec;
+    });
 
-    return nullptr;
+    if (driver != driversList.end())
+        return *driver;
+    else
+        return QSharedPointer<DriverInfo>();
 }
 
 QString DriverManager::getUniqueDeviceLabel(const QString &label)
@@ -1620,13 +1613,13 @@ QJsonArray DriverManager::getDriverList() const
     return driverArray;
 }
 
-bool DriverManager::restartDriver(DriverInfo *dv)
+bool DriverManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
 {
     for (auto &oneServer : servers)
     {
-        if (oneServer->contains(dv))
+        if (oneServer->contains(driver))
         {
-            return oneServer->restartDriver(dv);
+            return oneServer->restartDriver(driver);
         }
     }
 

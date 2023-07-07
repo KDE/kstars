@@ -27,7 +27,7 @@ class CustomDrivers : public QDialog, public Ui::CustomDrivers
     Q_OBJECT
 
   public:
-    explicit CustomDrivers(QWidget *parent, const QList<DriverInfo *> &driversList);
+    explicit CustomDrivers(QWidget *parent, const QList<QSharedPointer<DriverInfo>> &driversList);
     ~CustomDrivers();
 
     const QList<QVariantMap> & customDrivers() const { return m_CustomDrivers; }
@@ -41,7 +41,7 @@ class CustomDrivers : public QDialog, public Ui::CustomDrivers
   private:            
 
     QList<QVariantMap> m_CustomDrivers;
-    const QList<DriverInfo *> &m_DriversList;
+    const QList<QSharedPointer<DriverInfo>> &m_DriversList;
 
     QSqlDatabase userdb;
     QPointer<QSqlTableModel> model;

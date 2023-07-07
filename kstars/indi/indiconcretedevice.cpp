@@ -142,7 +142,7 @@ INDI::Property ConcreteDevice::getProperty(const QString &name) const
     return m_Parent->getProperty(name);
 }
 
-DriverInfo * ConcreteDevice::getDriverInfo() const
+const QSharedPointer<DriverInfo> &ConcreteDevice::getDriverInfo() const
 {
     return m_Parent->getDriverInfo();
 }

@@ -159,9 +159,9 @@ bool syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi)
     while (i.hasNext())
     {
         QString name       = i.next().value();
-        DriverInfo *driver = DriverManager::Instance()->findDriverByName(name);
+        auto driver = DriverManager::Instance()->findDriverByName(name);
 
-        if (driver == nullptr)
+        if (driver->isEmpty())
             driver = DriverManager::Instance()->findDriverByLabel(name);
         if (driver && driver->getDriverSource() == CUSTOM_SOURCE)
             customDriversLabels << driver->getLabel();
@@ -207,9 +207,9 @@ bool areDriversRunning(const QSharedPointer<ProfileInfo> &pi)
         while (i.hasNext())
         {
             QString name       = i.next().value();
-            DriverInfo *driver = DriverManager::Instance()->findDriverByName(name);
+            auto driver = DriverManager::Instance()->findDriverByName(name);
 
-            if (driver == nullptr)
+            if (driver.isNull())
                 driver = DriverManager::Instance()->findDriverByLabel(name);
             if (driver)
                 piExecDrivers << driver->getExecutable();
@@ -289,7 +289,7 @@ bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
     {
         if (pi->drivers["Guider"] == pi->drivers["CCD"])
         {
-            DriverInfo *guiderInfo = nullptr;
+            QSharedPointer<DriverInfo>guiderInfo = nullptr;
             if ((guiderInfo = DriverManager::Instance()->findDriverByName(pi->drivers["Guider"])) == nullptr)
             {
                 if ((guiderInfo = DriverManager::Instance()->findDriverByLabel(pi->drivers["Guider"])) == nullptr)

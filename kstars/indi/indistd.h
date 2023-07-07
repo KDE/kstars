@@ -145,7 +145,7 @@ class GenericDevice : public GDInterface
         virtual void processMessage(int messageID) override;
 
         virtual const QString &getDeviceName() const;
-        virtual DriverInfo *getDriverInfo() const
+        virtual const QSharedPointer<DriverInfo> &getDriverInfo() const
         {
             return m_DriverInfo;
         }
@@ -291,7 +291,7 @@ class GenericDevice : public GDInterface
         bool m_Connected { false };
         bool m_Ready {false};
         QString m_Name;
-        DriverInfo *m_DriverInfo { nullptr };
+        QSharedPointer<DriverInfo> m_DriverInfo;
         DeviceInfo *m_DeviceInfo { nullptr };
         INDI::BaseDevice m_BaseDevice;
         ClientManager *m_ClientManager { nullptr };

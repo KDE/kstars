@@ -46,26 +46,26 @@ class ServerManager : public QObject
             return port;
         }
 
-        void setPendingDrivers(QList<DriverInfo *> drivers)
+        void setPendingDrivers(QList<QSharedPointer<DriverInfo>> drivers)
         {
             m_PendingDrivers = drivers;
         }
-        const QList<DriverInfo *> &pendingDrivers() const
+        const QList<QSharedPointer<DriverInfo>> &pendingDrivers() const
         {
             return m_PendingDrivers;
         }
 
-        void startDriver(DriverInfo *dv);
-        void stopDriver(DriverInfo *dv);
-        bool restartDriver(DriverInfo *dv);
+        void startDriver(const QSharedPointer<DriverInfo> &driver);
+        void stopDriver(const QSharedPointer<DriverInfo> &driver);
+        bool restartDriver(const QSharedPointer<DriverInfo> &driver);
 
-        const QList<DriverInfo *> &managedDrivers() const
+        const QList<QSharedPointer<DriverInfo>> &managedDrivers() const
         {
             return m_ManagedDrivers;
         }
-        bool contains(DriverInfo *dv)
+        bool contains(const QSharedPointer<DriverInfo> &driver)
         {
-            return m_ManagedDrivers.contains(dv);
+            return m_ManagedDrivers.contains(driver);
         }
 
         void setMode(ServerMode inMode)
@@ -99,9 +99,9 @@ class ServerManager : public QObject
 
         ServerMode mode { SERVER_CLIENT };
 
-        QList<DriverInfo *> m_ManagedDrivers;
+        QList<QSharedPointer<DriverInfo>> m_ManagedDrivers;
 
-        QList<DriverInfo *> m_PendingDrivers;
+        QList<QSharedPointer<DriverInfo>> m_PendingDrivers;
 
         QFile indiFIFO;
 
@@ -115,8 +115,8 @@ class ServerManager : public QObject
         void newServerLog();
 
         // Driver Signals
-        void driverStarted(DriverInfo *driver);
-        void driverStopped(DriverInfo *driver);
-        void driverRestarted(DriverInfo *driver);
-        void driverFailed(DriverInfo *driver, const QString &message);
+        void driverStarted(const QSharedPointer<DriverInfo> &driver);
+        void driverStopped(const QSharedPointer<DriverInfo> &driver);
+        void driverRestarted(const QSharedPointer<DriverInfo> &driver);
+        void driverFailed(const QSharedPointer<DriverInfo> &driver, const QString &message);
 };

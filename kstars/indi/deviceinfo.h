@@ -20,15 +20,15 @@
 class DeviceInfo
 {
     public:
-        DeviceInfo(DriverInfo *parent, INDI::BaseDevice ibd);
+        DeviceInfo(const QSharedPointer<DriverInfo> &, INDI::BaseDevice ibd);
 
         const QString  &getDeviceName() const
         {
             return m_Name;
         }
-        DriverInfo *getDriverInfo()
+        const QSharedPointer<DriverInfo> &getDriverInfo()
         {
-            return drv;
+            return m_Driver;
         }
         INDI::BaseDevice getBaseDevice()
         {
@@ -36,7 +36,7 @@ class DeviceInfo
         }
 
     private:
-        DriverInfo *drv;
+        QSharedPointer<DriverInfo> m_Driver;
         INDI::BaseDevice dp;
         QString m_Name;
 };

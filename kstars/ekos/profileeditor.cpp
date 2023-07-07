@@ -493,18 +493,18 @@ void ProfileEditor::setPi(const QSharedPointer<ProfileInfo> &newProfile)
     m_INDIHub = pi->indihub;
 }
 
-QString ProfileEditor::getTooltip(DriverInfo *dv)
+QString ProfileEditor::getTooltip(const QSharedPointer<DriverInfo> &driver)
 {
     bool locallyAvailable = false;
-    if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
-        locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+    if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+        locallyAvailable = driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
     QString toolTipText;
     if (!locallyAvailable)
         toolTipText = i18n(
                           "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
     else
         toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>",
-                           dv->getLabel(), dv->getName(), dv->getExecutable());
+                           driver->getLabel(), driver->getName(), driver->getExecutable());
 
     return toolTipText;
 }
@@ -585,12 +585,12 @@ void ProfileEditor::loadDrivers()
     populateManufacturerCombo(m_Aux3Model, ui->aux3Combo, selectedAux3, isLocal, auxFamily);
     populateManufacturerCombo(m_Aux4Model, ui->aux4Combo, selectedAux4, isLocal, auxFamily);
 
-    for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
+    for (QSharedPointer<DriverInfo>driver : DriverManager::Instance()->getDrivers())
     {
         bool locallyAvailable = false;
         QIcon icon;
-        if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
-            locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+        if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+            locallyAvailable = driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
         if (!locallyAvailable)
         {
             if (ui->localMode->isChecked())
@@ -599,16 +599,16 @@ void ProfileEditor::loadDrivers()
                 icon = remoteIcon;
         }
 
-        QString toolTipText = getTooltip(dv);
+        QString toolTipText = getTooltip(driver);
 
-        switch (dv->getType())
+        switch (driver->getType())
         {
             case KSTARS_CCD:
                 break;
 
             case KSTARS_ADAPTIVE_OPTICS:
             {
-                ui->AOCombo->addItem(icon, dv->getLabel());
+                ui->AOCombo->addItem(icon, driver->getLabel());
                 ui->AOCombo->setItemData(ui->AOCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
@@ -618,21 +618,21 @@ void ProfileEditor::loadDrivers()
 
             case KSTARS_FILTER:
             {
-                ui->filterCombo->addItem(icon, dv->getLabel());
+                ui->filterCombo->addItem(icon, driver->getLabel());
                 ui->filterCombo->setItemData(ui->filterCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_DOME:
             {
-                ui->domeCombo->addItem(icon, dv->getLabel());
+                ui->domeCombo->addItem(icon, driver->getLabel());
                 ui->domeCombo->setItemData(ui->domeCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_WEATHER:
             {
-                ui->weatherCombo->addItem(icon, dv->getLabel());
+                ui->weatherCombo->addItem(icon, driver->getLabel());
                 ui->weatherCombo->setItemData(ui->weatherCombo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
@@ -1004,12 +1004,12 @@ void ProfileEditor::populateManufacturerCombo(QStandardItemModel *model, QComboB
     {
         QStandardItem *selectedItem = nullptr;
         model->appendRow(new QStandardItem("--"));
-        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
+        for (QSharedPointer<DriverInfo>driver : DriverManager::Instance()->getDrivers())
         {
-            if (!families.contains(dv->getType()))
+            if (!families.contains(driver->getType()))
                 continue;
 
-            QString manufacturer = dv->manufacturer();
+            QString manufacturer = driver->manufacturer();
             QList<QStandardItem*> manufacturers = model->findItems(manufacturer);
 
             QStandardItem *parentItem = nullptr;
@@ -1024,10 +1024,10 @@ void ProfileEditor::populateManufacturerCombo(QStandardItemModel *model, QComboB
                 parentItem = manufacturers.first();
             }
 
-            QStandardItem *item = new QStandardItem(dv->getLabel());
-            item->setData(getTooltip(dv), Qt::ToolTipRole);
+            QStandardItem *item = new QStandardItem(driver->getLabel());
+            item->setData(getTooltip(driver), Qt::ToolTipRole);
             parentItem->appendRow(item);
-            if (selectedDriver == dv->getLabel())
+            if (selectedDriver == driver->getLabel())
                 selectedItem = item;
         }
         QTreeView *view = new QTreeView(this);
@@ -1058,18 +1058,18 @@ void ProfileEditor::populateManufacturerCombo(QStandardItemModel *model, QComboB
         combo->setView(new QListView(this));
         model->appendRow(new QStandardItem("--"));
         QIcon icon;
-        for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
+        for (QSharedPointer<DriverInfo>driver : DriverManager::Instance()->getDrivers())
         {
-            if (!families.contains(dv->getType()))
+            if (!families.contains(driver->getType()))
                 continue;
 
             bool locallyAvailable = false;
-            if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
-                locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+            if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+                locallyAvailable = driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
             icon = locallyAvailable ? QIcon() : remoteIcon;
 
-            QStandardItem *mount = new QStandardItem(icon, dv->getLabel());
-            mount->setData(getTooltip(dv), Qt::ToolTipRole);
+            QStandardItem *mount = new QStandardItem(icon, driver->getLabel());
+            mount->setData(getTooltip(driver), Qt::ToolTipRole);
             model->appendRow(mount);
         }
         combo->setModel(model);

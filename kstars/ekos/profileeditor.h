@@ -66,7 +66,7 @@ class ProfileEditor : public QDialog
     private:
         void populateManufacturerCombo(QStandardItemModel *model, QComboBox *combo, const QString &selectedDriver, bool isLocal,
                                        const QList<DeviceFamily> &families);
-        QString getTooltip(DriverInfo *dv);
+        QString getTooltip(const QSharedPointer<DriverInfo> &driver);
         void scanIP(const QString &ip);
         void clearAllRequests();
 

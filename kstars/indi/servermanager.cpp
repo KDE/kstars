@@ -138,19 +138,19 @@ void ServerManager::insertEnvironmentPath(QProcessEnvironment *env, const QStrin
         env->insert(variable, QDir(environmentPath).absolutePath());
 }
 
-void ServerManager::startDriver(DriverInfo *dv)
+void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
 {
     QTextStream out(&indiFIFO);
 
     // Check for duplicates within existing clients
-    if (dv->getUniqueLabel().isEmpty() && dv->getLabel().isEmpty() == false)
-        dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getLabel()));
+    if (driver->getUniqueLabel().isEmpty() && driver->getLabel().isEmpty() == false)
+        driver->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(driver->getLabel()));
 
     // Check for duplicates within managed drivers
-    if (dv->getUniqueLabel().isEmpty() == false)
+    if (driver->getUniqueLabel().isEmpty() == false)
     {
         QString uniqueLabel;
-        QString label = dv->getUniqueLabel();
+        QString label = driver->getUniqueLabel();
         int nset = std::count_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [label](auto & oneDriver)
         {
             return label == oneDriver->getUniqueLabel();
@@ -158,12 +158,12 @@ void ServerManager::startDriver(DriverInfo *dv)
         if (nset > 0)
         {
             uniqueLabel = QString("%1 %2").arg(label).arg(nset + 1);
-            dv->setUniqueLabel(uniqueLabel);
+            driver->setUniqueLabel(uniqueLabel);
         }
     }
 
-    m_ManagedDrivers.append(dv);
-    dv->setServerManager(this);
+    m_ManagedDrivers.append(driver);
+    driver->setServerManager(this);
 
     QString driversDir    = Options::indiDriversDir();
     QString indiServerDir = QFileInfo(Options::indiServer()).dir().path();
@@ -175,13 +175,13 @@ void ServerManager::startDriver(DriverInfo *dv)
         driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
 #endif
 
-    QJsonObject startupRule = dv->startupRule();
+    QJsonObject startupRule = driver->startupRule();
     auto PreDelay = startupRule["PreDelay"].toInt(0);
 
     // Sleep for PreDelay seconds if required.
     if (PreDelay > 0)
     {
-        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing pre-driver delay for" << PreDelay << "second(s)";
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-driver delay for" << PreDelay << "second(s)";
         std::this_thread::sleep_for(std::chrono::seconds(PreDelay));
     }
 
@@ -194,21 +194,21 @@ void ServerManager::startDriver(DriverInfo *dv)
         QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
                          &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
-        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing pre-driver script" << PreScript;
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-driver script" << PreScript;
         script.start(PreScript, QStringList());
         loop.exec();
 
         if (script.exitCode() != 0)
         {
-            emit driverFailed(dv, i18n("Pre driver startup script failed with exit code: %1", script.exitCode()));
+            emit driverFailed(driver, i18n("Pre driver startup script failed with exit code: %1", script.exitCode()));
             return;
         }
     }
 
     // Remote host?
-    if (dv->getRemoteHost().isEmpty() == false)
+    if (driver->getRemoteHost().isEmpty() == false)
     {
-        QString driverString = dv->getName() + "@" + dv->getRemoteHost() + ":" + dv->getRemotePort();
+        QString driverString = driver->getName() + "@" + driver->getRemoteHost() + ":" + driver->getRemotePort();
         qCDebug(KSTARS_INDI) << "Starting Remote INDI Driver" << driverString;
         out << "start " << driverString << Qt::endl;
         out.flush();
@@ -220,30 +220,30 @@ void ServerManager::startDriver(DriverInfo *dv)
         paths << "/usr/bin"
               << "/usr/local/bin" << driversDir << indiServerDir;
 
-        if (QStandardPaths::findExecutable(dv->getExecutable()).isEmpty())
+        if (QStandardPaths::findExecutable(driver->getExecutable()).isEmpty())
         {
-            if (QStandardPaths::findExecutable(dv->getExecutable(), paths).isEmpty())
+            if (QStandardPaths::findExecutable(driver->getExecutable(), paths).isEmpty())
             {
-                emit driverFailed(dv, i18n("Driver %1 was not found on the system. Please make sure the package that "
-                                           "provides the '%1' binary is installed.",
-                                           dv->getExecutable()));
+                emit driverFailed(driver, i18n("Driver %1 was not found on the system. Please make sure the package that "
+                                               "provides the '%1' binary is installed.",
+                                               driver->getExecutable()));
                 return;
             }
         }
 
-        qCDebug(KSTARS_INDI) << "Starting INDI Driver" << dv->getExecutable();
+        qCDebug(KSTARS_INDI) << "Starting INDI Driver" << driver->getExecutable();
 
-        out << "start " << dv->getExecutable();
-        if (dv->getUniqueLabel().isEmpty() == false)
-            out << " -n \"" << dv->getUniqueLabel() << "\"";
-        if (dv->getSkeletonFile().isEmpty() == false)
-            out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
+        out << "start " << driver->getExecutable();
+        if (driver->getUniqueLabel().isEmpty() == false)
+            out << " -n \"" << driver->getUniqueLabel() << "\"";
+        if (driver->getSkeletonFile().isEmpty() == false)
+            out << " -s \"" << driversDir << QDir::separator() << driver->getSkeletonFile() << "\"";
         out << Qt::endl;
         out.flush();
 
-        dv->setServerState(true);
+        driver->setServerState(true);
 
-        dv->setPort(port);
+        driver->setPort(port);
     }
 
     auto PostDelay = startupRule["PostDelay"].toInt(0);
@@ -251,7 +251,7 @@ void ServerManager::startDriver(DriverInfo *dv)
     // Sleep for PostDelay seconds if required.
     if (PostDelay > 0)
     {
-        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing post-driver delay for" << PreDelay << "second(s)";
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver delay for" << PreDelay << "second(s)";
         std::this_thread::sleep_for(std::chrono::seconds(PostDelay));
     }
 
@@ -264,63 +264,63 @@ void ServerManager::startDriver(DriverInfo *dv)
         QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
                          &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
-        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing post-driver script" << PreScript;
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver script" << PreScript;
         script.start(PostScript, QStringList());
         loop.exec();
 
         if (script.exitCode() != 0)
         {
-            emit driverFailed(dv, i18n("Post driver startup script failed with exit code: %1", script.exitCode()));
+            emit driverFailed(driver, i18n("Post driver startup script failed with exit code: %1", script.exitCode()));
             return;
         }
     }
 
     // Remove driver from pending list.
-    m_PendingDrivers.erase(std::remove_if(m_PendingDrivers.begin(), m_PendingDrivers.end(), [dv](const auto & oneDriver)
+    m_PendingDrivers.erase(std::remove_if(m_PendingDrivers.begin(), m_PendingDrivers.end(), [driver](const auto & oneDriver)
     {
-        return dv == oneDriver;
+        return driver == oneDriver;
     }), m_PendingDrivers.end());
-    emit driverStarted(dv);
+    emit driverStarted(driver);
 }
 
-void ServerManager::stopDriver(DriverInfo *dv)
+void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
 {
     QTextStream out(&indiFIFO);
 
-    m_ManagedDrivers.removeOne(dv);
+    m_ManagedDrivers.removeOne(driver);
 
-    qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << dv->getExecutable();
+    qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << driver->getExecutable();
 
-    if (dv->getUniqueLabel().isEmpty() == false)
-        out << "stop " << dv->getExecutable() << " -n \"" << dv->getUniqueLabel() << "\"";
+    if (driver->getUniqueLabel().isEmpty() == false)
+        out << "stop " << driver->getExecutable() << " -n \"" << driver->getUniqueLabel() << "\"";
     else
-        out << "stop " << dv->getExecutable();
+        out << "stop " << driver->getExecutable();
     out << Qt::endl;
     out.flush();
-    dv->setServerState(false);
-    dv->setPort(dv->getUserPort());
+    driver->setServerState(false);
+    driver->setPort(driver->getUserPort());
 
-    emit driverStopped(dv);
+    emit driverStopped(driver);
 }
 
 
-bool ServerManager::restartDriver(DriverInfo *dv)
+bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
 {
-    ClientManager *cm = dv->getClientManager();
+    ClientManager *cm = driver->getClientManager();
 
     // N.B. This MUST be called BEFORE stopping driver below
     // Since it requires the driver device pointer.
-    cm->removeManagedDriver(dv);
+    cm->removeManagedDriver(driver);
 
     // Stop driver.
-    stopDriver(dv);
+    stopDriver(driver);
 
     // Wait 1 second before starting the driver again.
-    QTimer::singleShot(1000, this, [this, dv, cm]()
+    QTimer::singleShot(1000, this, [this, driver, cm]()
     {
-        cm->appendManagedDriver(dv);
-        m_ManagedDrivers.append(dv);
-        dv->setServerManager(this);
+        cm->appendManagedDriver(driver);
+        m_ManagedDrivers.append(driver);
+        driver->setServerManager(this);
 
         QTextStream out(&indiFIFO);
 
@@ -336,9 +336,9 @@ bool ServerManager::restartDriver(DriverInfo *dv)
             indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 #endif
 
-        if (dv->getRemoteHost().isEmpty() == false)
+        if (driver->getRemoteHost().isEmpty() == false)
         {
-            QString driverString = dv->getName() + "@" + dv->getRemoteHost() + ":" + dv->getRemotePort();
+            QString driverString = driver->getName() + "@" + driver->getRemoteHost() + ":" + driver->getRemotePort();
             qCDebug(KSTARS_INDI) << "Restarting Remote INDI Driver" << driverString;
             out << "start " << driverString;
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -354,22 +354,22 @@ bool ServerManager::restartDriver(DriverInfo *dv)
             paths << "/usr/bin"
                   << "/usr/local/bin" << driversDir << indiServerDir;
 
-            qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getExecutable();
+            qCDebug(KSTARS_INDI) << "Starting INDI Driver " << driver->getExecutable();
 
-            out << "start " << dv->getExecutable();
-            if (dv->getUniqueLabel().isEmpty() == false)
-                out << " -n \"" << dv->getUniqueLabel() << "\"";
-            if (dv->getSkeletonFile().isEmpty() == false)
-                out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
+            out << "start " << driver->getExecutable();
+            if (driver->getUniqueLabel().isEmpty() == false)
+                out << " -n \"" << driver->getUniqueLabel() << "\"";
+            if (driver->getSkeletonFile().isEmpty() == false)
+                out << " -s \"" << driversDir << QDir::separator() << driver->getSkeletonFile() << "\"";
             out << Qt::endl;
             out.flush();
 
-            dv->setServerState(true);
-            dv->setPort(port);
+            driver->setServerState(true);
+            driver->setPort(port);
         }
     });
 
-    emit driverRestarted(dv);
+    emit driverRestarted(driver);
     return true;
 }
 
@@ -433,7 +433,7 @@ void ServerManager::processStandardError()
         //KSNotification::info(i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
 
         auto crashedDriver = std::find_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(),
-                                          [driverExec](DriverInfo * dv)
+                                          [driverExec](QSharedPointer<DriverInfo> dv)
         {
             return dv->getExecutable() == driverExec;
         });
