@@ -26,13 +26,13 @@
       <title
 >Introducció</title>
         <para
->The Ekos Scheduler is an important component of your imaging workflow. It connects to INDI, starts and stops all the other Ekos modules, schedules jobs according to their constraints and priorities, monitors those jobs as they execute, and then safely brings down the system when jobs are done, or before dawn. Whether you are running multi-day imaging sessions for multiple targets, or simply trying to image a single target for a few hours, it is advisable to have the Scheduler control your imaging sessions. </para>
+>El programador de l'Ekos és un component important del vostre flux de treball amb les imatges. Connecta amb INDI, inicia i atura tots els altres mòduls de l'Ekos, programa les tasques d'acord amb les seves restriccions i prioritats, controla aquestes tasques mentre s'executen i després atura el sistema amb seguretat quan s'han fet les tasques, o abans de l'alba. Ja sigui que esteu executant sessions d'imatge de diversos dies per a múltiples objectius, o simplement intentant fer imatges d'un únic objectiu durant poques hores, és aconsellable que el programador controli les vostres sessions d'imatge. </para>
     </sect3>
     <sect3 id="scheduler-table">
         <title
 >Taula del programador</title>
         <para
->The heart of the Scheduler is a table displaying the list of Scheduler jobs the user wants to run. Associated with each jobs are attributes (mostly described in the settings section below). The attributes describe the name of the job, where the telescope should be pointed when imaging that job, a description of what types of images should be captured, constraints about when the jobs should run (&eg; altitude, twilight, moon, landscape blockages, &etc;), things that need to be done before and after the job is run, and strategies for dealing with errors. </para>
+>El cor del programador és una taula que mostra la llista de tasques del programador que l'usuari vol executar. Associats amb cada tasca hi ha atributs (la majoria descrits a la secció de configuració de sota). Els atributs descriuen el nom de la tasca, on cal apuntar el telescopi quan crea imatges per a aquesta tasca, una descripció de quins tipus d'imatges s'han de capturar, restriccions sobre quan s'han d'executar les tasques (&pex;, altitud, crepuscle, lluna, bloquejos del paisatge, &etc;), coses que cal fer abans i després de l'execució de la tasca, i estratègies per fer front als errors. </para>
         <para
 >Podeu afegir, suprimir, modificar o canviar l'ordre de les files a la taula del programador. </para>
         <itemizedlist>
@@ -75,13 +75,13 @@
         <para
 >La taula del programador (a dalt) llista les tasques en ordre de prioritat, amb les tasques més altes (en files amb nombres més baixos) que tenen més prioritat que les tasques més avall de la llista (amb files amb nombres més alts). </para>
         <para
->The Scheduler regularly plans (and re-plans) which jobs should be run, and when. It can start executing a given job, and then later preempt that job for a new one. It can become idle if no jobs can be run (&eg; in daylight), and sleep until such a time that it becomes active again. Its aim is to keep the equipment as busy as possible, while respecting the scheduler-table's priorities. Here's how it works. </para>
+>El programador planifica regularment (i replanifica) quines tasques s'han d'executar, i quan. Pot començar a executar una tasca determinada, i després avançar-la per una de nova. Pot quedar-se inactiu si no es poden executar tasques (&pex;, a la llum del dia), i dormir fins que torni a estar actiu. El seu objectiu és mantenir l'equip el més ocupat possible, respectant les prioritats de la taula de programació. Així és com funciona. </para>
         <para
->When the scheduler starts (or when it replans, which it does every second while active), it looks through the entire list of jobs, starting at the highest priority job, and working its way down to the lowest priority one if necessary. When it finds a job that can run, it starts that job, possibly preempting the currently running job. A jobs can run if its constraints are met, &eg; the target is not blocked by the local terrain, it meets the minimum altitude constraint, it has not already completed all the desired imaging, ... </para>
+>Quan s'inicia el planificador (o quan replanifica, que ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la tasca de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, comença aquesta tasca, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es compleixen les seves restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, compleix la restricció d'altitud mínima, no ha completat totes les imatges desitjades,... </para>
     <para
 >L'algoritme mostra les hores d'inici i les hores d'aturada previstes per a totes les tasques a la taula del programador. També mostra la seva estimació de les vegades que les tasques s'executaran durant les pròximes 48 hores en el panell de registre a la part inferior de la finestra. Vegeu la captura de pantalla de la finestra del planificador a la part superior d'aquesta secció. </para>
         <para
->The scheduling algorithm described in the above paragraph is known as the Greedy Scheduling algorithm. It is the recommended one to use. In previous versions of Ekos, there was another "Classic scheduling algorithm" which is currently being phased out. That scheme could not preempt running jobs, and thus did not make as much use of the equipment as the Greedy Algorithm. </para>
+>L'algorisme de planificació descrit en el paràgraf anterior es coneix com l'algorisme de planificació voraç. És el que es recomana utilitzar. En versions anteriors de l'Ekos, hi havia un altre «algorisme de planificació clàssica» que s'està eliminant gradualment. Aquest esquema no podia avançar-se a les tasques en funcionament, i per tant no feia tant ús de l'equip com l'algorisme voraç. </para>
     </sect3>
     <sect3 id="scheduler-files">
         <title
@@ -211,21 +211,21 @@
         <para
 >Aquesta característica us permet executar dues o més tasques del programador amb aproximadament la mateixa prioritat, de manera que si totes dues fossin executables, avançarien gairebé a la mateixa velocitat. Això pot ser aplicable, per exemple, a tasques que mostrin les diverses tessel·les en un mosaic, però generalment és aplicable a qualsevol conjunt de tasques. </para>
         <para
->Normally the (Greedy) scheduler's job priority is set by the row the job is listed in the Scheduler's job table. Jobs on rows closer to the top run with higher priority than jobs lower down. Thus, if a job on row 2 (Job2) uses <guilabel
->Repeat Until Terminated</guilabel
->, and that job's running constraints are satisfied, a lower down job (&eg; Job3) will not be scheduled to run. </para>
+>Normalment, la prioritat de les tasques del programador (voraç) s'estableix per la fila que la tasca es llista a la taula de tasques del programador. Les tasques en files més properes a la part superior s'executen amb prioritat més alta que les tasques més baixes. Per tant, si una tasca a la fila 2 (Job2) utilitza <guilabel
+>Repeteix fins que finalitzi</guilabel
+>, i s'han satisfet les restriccions d'execució de la tasca, no es programarà que s'executi una tasca més baixa (&pex;, Job3). </para>
         <para
->If you wish to alternate jobs, you can assign each of the jobs the same <guilabel
->group</guilabel
-> name, and give the jobs one of the repeating finish conditions (&eg; Repeat for N times, or Repeat Until Terminated). With that setup, jobs in the same group will cede to each other if they have completed more 'Repeat Iterations' than the other job. So, if Job2 with group "MyGroup" completes its 2nd iteration, and Job3 with the same group name has only completed 0 or 1 iterations, when the time comes to schedule Job2, Job3 will run instead. </para>
+>Si voleu alternar les tasques, podeu assignar a cadascuna de les tasques el mateix nom de <guilabel
+>grup</guilabel
+>, i donar a les tasques una de les condicions de finalització repetides (&pex;, Repeteix N vegades o Repeteix fins que finalitzi). Amb aquesta configuració, les tasques del mateix grup cediran entre elles si han completat més «Iteracions de repetició» que les altres tasques. Per tant, si el Job2 amb el grup «MyGroup» completa la seva segona iteració, i el Job3 amb el mateix nom de grup només ha completat 0 o 1 iteracions, quan arribi el moment de programar el Job2, el Job3 s'executarà. </para>
         <para
->Practically speaking, imagine you had a 6-panel mosaic you wanted to alternate. You might give all of those jobs the same group name, make them all &eg; "Repeat for 5 times". Then, they would run in lock-step. The cadence of job switching would be controlled by the length of the sequence file assigned to each of those jobs. You wouldn't want to make the cadence too short (&eg; capturing one 2-minute image), as there is overhead in switching jobs. For instance, starting jobs may involved aligning, starting guiding, and even focusing. </para>
+>Pràcticament parlant, imagineu que tenia un mosaic de sis plafons que voleu alternar. Podríeu donar a tots aquestes tasques el mateix nom de grup, feu-los tots, &pex;, «Repeteix 5 vegades». Llavors s'executarien en un pas de bloqueig. La cadència de commutació de tasques es controlaria per la longitud del fitxer de seqüència assignat a cada un d'aquestes tasques. No voldreu fer la cadència massa curta (&pex;, capturar una imatge de 2 minuts), ja que hi ha sobrecàrrega en canviar de tasca. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i fins i tot centrar. </para>
        </sect4>
        <sect4 id="repeat-all-jobs">
         <title
 >Repeteix totes les tasques</title>
         <para
->There is a checkbox and number input right below the Scheduler jobs table that allows you to repeat the entire schedule N times. This can be used to alternate a few jobs. You can just list the jobs on the scheduler, set it to repeat N times, and the jobs will repeat. However, this change is incompatible with 'Remember job progress (above) and unavailable if Remember Job Progress is checked. (Note: Remember Job Progress is recommended.) </para>
+>Hi ha una casella de selecció i una entrada de números just a sota de la taula de tasques del programador que permet repetir la planificació completa N vegades. Això es pot utilitzar per alternar entre tasques. Podeu llistar les tasques en el programador, establir-les per repetir N vegades, i les tasques es repetiran. No obstant això, aquest canvi és incompatible amb «Recorda el progrés de la tasca» (a dalt) i no està disponible si es marca «Recorda el progrés de la tasca». (Nota: Es recomana recordar el progrés de la tasca). </para>
        </sect4>
     </sect3>
     <sect3 id="workflow">

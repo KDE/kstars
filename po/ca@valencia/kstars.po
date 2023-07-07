@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-04 00:44+0000\n"
-"PO-Revision-Date: 2023-07-03 19:31+0200\n"
+"PO-Revision-Date: 2023-07-06 16:43+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -17003,7 +17003,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:3909 ekos/focus/focus.cpp:3953
 #, kde-format
 msgid "Focuser error, check INDI panel."
-msgstr "S'ha produït un error de l'enfocador, comproveu el tauler d'INDI."
+msgstr "S'ha produït un error de l'enfocador, comproveu el quadro d'INDI."
 
 #: ekos/focus/focus.cpp:3670 ekos/focus/focus.cpp:3784
 #, kde-format
@@ -37379,7 +37379,7 @@ msgstr ""
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr ""
-"Limita el nombre de vegades que el planificador haurà d'executar totes les "
+"Limita el nombre de vegades que el programador haurà d'executar totes les "
 "seqüències."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
