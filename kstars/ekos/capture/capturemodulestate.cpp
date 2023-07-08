@@ -798,15 +798,14 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
             else
             {
                 // Require several consecutive spikes to fail.
-                constexpr int CONSECUTIVE_SPIKES_TO_FAIL = 3;
-                if (increaseSpikesDetected() < CONSECUTIVE_SPIKES_TO_FAIL)
+                if (increaseSpikesDetected() < Options::guideDeviationReps())
                     return;
 
                 appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive samples, "
                                    "suspending exposure and waiting for guider up to %3 seconds.",
                                    deviationText, Options::guideDeviation(),
                                    QString("%L1").arg(getGuideDeviationTimer().interval() / 1000.0, 0, 'f', 3),
-                                   CONSECUTIVE_SPIKES_TO_FAIL));
+                                   Options::guideDeviationReps()));
 
                 emit suspendCapture();
 

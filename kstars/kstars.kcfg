@@ -1707,6 +1707,11 @@
          <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>
          <default>2</default>
       </entry>
+      <entry name="GuideDeviationReps" type="UInt">
+         <label>Number of consecutive samples guide deviation needs to be high to abort capture.</label>
+         <whatsthis>Sets the number of consecutive samples guide deviation needs to be hight to abort capture.</whatsthis>
+         <default>3</default>
+      </entry>
       <entry name="StartGuideDeviation" type="Double">
          <label>Default maximum permittable guide deviation before capture start</label>
          <whatsthis>If guide deviation exceeds this limit before capture start, starting an exposure will be suspended until the deviation is within this limit.</whatsthis>

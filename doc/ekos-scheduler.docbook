@@ -21,13 +21,13 @@
     <sect3 id="ekos-scheduler-introduction">
       <title>Introduction</title>
         <para>
-          The Ekos Scheduler is an important component of you imaging workflow. It connects to INDI, starts and stops all the other Ekos modules, schedules jobs according to their constraints and priorities, monitors those jobs as they execute, and then safely brings down the system when jobs are done, or before dawn. Whether you are running multi-day imaging sessions for multiple targets, or simplying trying to image a single target for a few hours, it is advisable to have the Scheduler control your imaging sessions.
+          The Ekos Scheduler is an important component of your imaging workflow. It connects to INDI, starts and stops all the other Ekos modules, schedules jobs according to their constraints and priorities, monitors those jobs as they execute, and then safely brings down the system when jobs are done, or before dawn. Whether you are running multi-day imaging sessions for multiple targets, or simply trying to image a single target for a few hours, it is advisable to have the Scheduler control your imaging sessions.
         </para>
     </sect3>
     <sect3 id="scheduler-table">
         <title>Scheduler Table</title>
         <para>
-          The heart of the Scheduler is a table displaying the list of Scheduler jobs the user wants to run. Associated with each jobs are attributes (mostly described in the settings section below). The attributes describe the name of the job, where the telescope should be pointed when imaging that job, a description of what types of images should be captured, constraints about when the jobs should run (e.g. altitude, twilight, moon, landscape blockages, etc), things that need to be done before and after the job is run, and strategies for dealing with errors.
+          The heart of the Scheduler is a table displaying the list of Scheduler jobs the user wants to run. Associated with each jobs are attributes (mostly described in the settings section below). The attributes describe the name of the job, where the telescope should be pointed when imaging that job, a description of what types of images should be captured, constraints about when the jobs should run (&eg; altitude, twilight, moon, landscape blockages, &etc;), things that need to be done before and after the job is run, and strategies for dealing with errors.
         </para>
         <para>
           You can add, delete, modify or change the order of rows in the Scheduler table. 
@@ -64,16 +64,16 @@
           The Scheduler table (above) lists jobs in order of priority, with higher jobs (on lower-numbered rows) having higher priority than jobs further down the list (with higher-numbered rows). 
         </para>
         <para>
-          The Scheduler regularly plans (an re-plans) which jobs should be run, and when. It can start executing a given job, and then later preempt that job for a new one. It can become idle if no jobs can be run (e.g. in daylight), and sleep until such a time that it becomes active again. Its aim is to keep the equipment as busy as possible, while respecting the scheduler-table's priorities. Here's how it works.
+          The Scheduler regularly plans (and re-plans) which jobs should be run, and when. It can start executing a given job, and then later preempt that job for a new one. It can become idle if no jobs can be run (&eg; in daylight), and sleep until such a time that it becomes active again. Its aim is to keep the equipment as busy as possible, while respecting the scheduler-table's priorities. Here's how it works.
         </para>
         <para>
-          When the scheduler starts (or when it replans, which it does every second while active), it looks through the entire list of jobs, starting at the highest priority job, and working its way down to the lowest priority one if necessary. When it finds a job that can run, it starts that job, possibly preempting the currently running job. A jobs can run if it's constraints are met, e.g. the target is not blocked by the local terrain, it meets the minimum altitude constraint, it has not already completed all the desired imaging, ...
+          When the scheduler starts (or when it replans, which it does every second while active), it looks through the entire list of jobs, starting at the highest priority job, and working its way down to the lowest priority one if necessary. When it finds a job that can run, it starts that job, possibly preempting the currently running job. A jobs can run if its constraints are met, &eg; the target is not blocked by the local terrain, it meets the minimum altitude constraint, it has not already completed all the desired imaging, ...
         </para>
     <para>
       The algorithm shows its projected next start times and stop times for all job in the Scheduler table. It also shows its estimate of times jobs will run during the next 48 hours in the log panel at the bottom of the window. See the screenshot of the scheduler window at the top of this section.
         </para>
         <para>
-          The scheduling algorithm described in the above paragraph is known as the Greedy Scheduling algorithm. It is the recommended one to use. In previous versions of Ekos, there was another "Classic scheduling algorithm" which is currently being phased out. That scheme could not preempt running jobs, and thus did not makes as much use of the equipment as the Greedy Algorithm. 
+          The scheduling algorithm described in the above paragraph is known as the Greedy Scheduling algorithm. It is the recommended one to use. In previous versions of Ekos, there was another "Classic scheduling algorithm" which is currently being phased out. That scheme could not preempt running jobs, and thus did not make as much use of the equipment as the Greedy Algorithm. 
         </para>
     </sect3>
     <sect3 id="scheduler-files">
@@ -171,18 +171,18 @@ A possibly confusing side-effect of <guilabel>Remember job progress</guilabel> i
           This feature allows you to run two or more scheduler jobs at roughly the same priority, such that if they were both runnable, they would progress at roughly the same rate.  This may be applicable, for example, to jobs imaging the multiple tiles in a mosaic, but is generally applicable to any set of jobs.
         </para>
         <para>
-          Normally the (Greedy) scheduler's job priority is set by the row the job is listed in the Scheduler's job table. Jobs on rows closer to the top run with higher priority than jobs lower down. Thus, if a job on row 2 (Job2) uses <guilabel>Repeat Until Terminated</guilabel>, and that job's running constraints are satisfied, a lower down job (e.g. Job3) will not be scheduled to run.
+          Normally the (Greedy) scheduler's job priority is set by the row the job is listed in the Scheduler's job table. Jobs on rows closer to the top run with higher priority than jobs lower down. Thus, if a job on row 2 (Job2) uses <guilabel>Repeat Until Terminated</guilabel>, and that job's running constraints are satisfied, a lower down job (&eg; Job3) will not be scheduled to run.
         </para>
-        <para>If you wish to alternate jobs, you can assign each of the jobs the same <guilabel>group</guilabel> name, and give the jobs one of the repeating finish conditions (e.g. Repeat for N times, or Repeat Until Terminated). With that setup, jobs in the same group will cede to each other if they have completed more 'Repeat Iterations' than the other job. So, if Job2 with group "MyGroup" completes its 2nd iteration, and Job3 with the same group name has only completed 0 or 1 iterations, when the time comes to schedule Job2, Job3 will run instead.
+        <para>If you wish to alternate jobs, you can assign each of the jobs the same <guilabel>group</guilabel> name, and give the jobs one of the repeating finish conditions (&eg; Repeat for N times, or Repeat Until Terminated). With that setup, jobs in the same group will cede to each other if they have completed more 'Repeat Iterations' than the other job. So, if Job2 with group "MyGroup" completes its 2nd iteration, and Job3 with the same group name has only completed 0 or 1 iterations, when the time comes to schedule Job2, Job3 will run instead.
         </para>
         <para>
-Practically speaking, imagine you had a 6-panel mosaic you wanted to alternate.  You might give all of those jobs the same group name, make them all e.g. "Repeat for 5 times". Then, they would run in lock-step. The cadence of job switching would be controlled by the length of the sequence file assigned to each of those jobs. You wouldn't want to make the cadence too short (e.g. capturing one 2-minute image), as there is overhead in switching jobs. For instance, starting jobs may involved aligning, starting guiding, and even focusing.          
+Practically speaking, imagine you had a 6-panel mosaic you wanted to alternate.  You might give all of those jobs the same group name, make them all &eg; "Repeat for 5 times". Then, they would run in lock-step. The cadence of job switching would be controlled by the length of the sequence file assigned to each of those jobs. You wouldn't want to make the cadence too short (&eg; capturing one 2-minute image), as there is overhead in switching jobs. For instance, starting jobs may involved aligning, starting guiding, and even focusing.          
         </para>
        </sect4>
        <sect4 id="repeat-all-jobs">
         <title>Repeat all jobs</title>
         <para>
-There is a checkbox and number input right below the Schuduler jobs table that allows you to repeat the entire schedule N times.  This can be used to alternate a few jobs. You can just list the jobs on the scheduler, set it to repeat N times, and the jobs will repeat. However, this change is incompatible with 'Remember job progress (above) and unavailable if Remember Job Progress is checked. (Note: Remember Job Progress is recommended.)
+There is a checkbox and number input right below the Scheduler jobs table that allows you to repeat the entire schedule N times.  This can be used to alternate a few jobs. You can just list the jobs on the scheduler, set it to repeat N times, and the jobs will repeat. However, this change is incompatible with 'Remember job progress (above) and unavailable if Remember Job Progress is checked. (Note: Remember Job Progress is recommended.)
         </para>
        </sect4>
     </sect3>

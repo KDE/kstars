@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-04 00:44+0000\n"
-"PO-Revision-Date: 2023-07-04 08:09+0100\n"
+"PO-Revision-Date: 2023-07-05 07:27+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -25120,6 +25120,11 @@ msgid ""
 "completion conditions. Otherwise leave empty. Only applies to the Greedy "
 "scheduler algorithm.</p></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"justify\">Elektu grupnomon. Utila se vi volas "
+"ke la mozaiktaskoj ripetiĝu kune--asignu grupnomon al ili, kaj donu al ili "
+"<i>repeat for N (N=2 or more)</i> aŭ <i>repeat until terminated</i> "
+"kompletigajn kondiĉojn. Alikaze lasu malplena. Nur aplikiĝas al la Avara "
+"planil-algoritmo.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1538
@@ -25372,7 +25377,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:1405
 #, kde-format
 msgid "Skipped checking for duplicates."
-msgstr ""
+msgstr "Preterlasis kontrolon por duoblaĵoj."
 
 #: ekos/scheduler/scheduler.cpp:1593
 #, kde-format
@@ -26551,6 +26556,11 @@ msgid ""
 "conditions. Otherwise leave empty. Only applies to the Greedy scheduler "
 "algorithm.</p></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"justify\">Elektu grupnomon. Utila se vi volas "
+"ke pluraj taskoj ripetiĝu kune--asignu la saman grupnomon, kaj donu al ili "
+"<i>repeat for N</i> aŭ <i>repeat until terminated</i> kompletigajn "
+"kondiĉojn. Alikaze lasu malplena. Nur aplikiĝas al la Avara planil-algoritmo."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447

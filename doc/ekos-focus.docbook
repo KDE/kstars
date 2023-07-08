@@ -2027,14 +2027,14 @@
       <listitem>
         <para> Temperature. All the components of the imaging system will be affected by changes in ambient temperature.
         The most obvious will be the telescope tube. Typically this will expand as temperature increases and contract as
-        it descreases. This will affect the focus point. But also the optical path the light from the imaged target takes
+        it decreases. This will affect the focus point. But also the optical path the light from the imaged target takes
         through the atmosphere and through the imaging components of the telescope will be affected by temperature and
         therefore will affect the focus point.</para>
 
         <para> It is necessary to have a reliable source of temperature information available to the focus module in order
         to use the temperature feature of AF.</para>
 
-        <para> Where the temperature source is located is, of course, upto the user. Given the changes in temperature effect
+        <para> Where the temperature source is located is, of course, up to the user. Given the changes in temperature effect
         many components it is not obvious where the best location would be. Some experimentation may be required to get
         the best results but as a guide, the source should be near the imaging train but not near any heating effect of
         electrical equipment that would say, heat the temperature source but not the optical train. Consistency of location
