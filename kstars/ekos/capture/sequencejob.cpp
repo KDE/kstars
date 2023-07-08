@@ -6,9 +6,6 @@
 
 #include "sequencejob.h"
 
-#include "indi/driverinfo.h"
-#include "indi/clientmanager.h"
-
 #include <KNotifications/KNotification>
 #include <ekos_capture_debug.h>
 

@@ -18,8 +18,6 @@
 #include "ksnotification.h"
 #include "indi/indiwebmanager.h"
 #include "serialportassistant.h"
-#include "indi/clientmanager.h"
-#include "indi/driverinfo.h"
 #include "ekos_debug.h"
 #include "kspaths.h"
 #include "Options.h"
