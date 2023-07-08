@@ -229,9 +229,6 @@ void ClientManager::removeManagedDriver(const QSharedPointer<DriverInfo> &driver
         // #3 Remove device from Driver Info
         driver->removeDevice(di);
     }
-
-    if (driver->getDriverSource() == GENERATED_SOURCE)
-        driver->deleteLater();
 }
 
 void ClientManager::serverConnected()
