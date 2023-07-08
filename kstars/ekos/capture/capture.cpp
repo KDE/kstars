@@ -126,7 +126,6 @@ Capture::Capture()
         Options::setAutoDark(darkB->isChecked());
     });
 
-
     connect(restartCameraB, &QPushButton::clicked, this, [this]()
     {
         if (m_Camera)
@@ -265,6 +264,12 @@ Capture::Capture()
     connect(m_LimitsUI->limitGuideDeviationN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
+    });
+
+    m_LimitsUI->limitGuideDeviationRepsN->setValue(static_cast<int>(Options::guideDeviationReps()));
+    connect(m_LimitsUI->limitGuideDeviationRepsN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
+    {
+        Options::setGuideDeviationReps(static_cast<uint>(m_LimitsUI->limitGuideDeviationRepsN->value()));
     });
 
     // Autofocus HFR Check
