@@ -1709,7 +1709,7 @@
       </entry>
       <entry name="GuideDeviationReps" type="UInt">
          <label>Number of consecutive samples guide deviation needs to be high to abort capture.</label>
-         <whatsthis>Sets the number of consecutive samples guide deviation needs to be hight to abort capture.</whatsthis>
+         <whatsthis>Sets the number of consecutive samples guide deviation needs to be high to abort capture.</whatsthis>
          <default>3</default>
       </entry>
       <entry name="StartGuideDeviation" type="Double">
