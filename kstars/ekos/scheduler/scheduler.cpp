@@ -731,11 +731,15 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         Options::setErrorHandlingStrategyDelay(value);
     });
 
+    // Retiring the Classic algorithm.
+    if (Options::schedulerAlgorithm() != ALGORITHM_GREEDY)
+    {
+        appendLogText(i18n("Warning: The Classic scheduler algorithm has been retired. Switching you to the Greedy algorithm."));
+        Options::setSchedulerAlgorithm(ALGORITHM_GREEDY);
+    }
+
     // restore default values for scheduler algorithm
-    schedulerAlgorithmCombo->setCurrentIndex(Options::schedulerAlgorithm());
     setAlgorithm(Options::schedulerAlgorithm());
-    connect(schedulerAlgorithmCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
-            this, &Scheduler::setAlgorithm);
 
     connect(copySkyCenterB, &QPushButton::clicked, this, [this]()
     {
@@ -789,7 +793,6 @@ void Scheduler::watchJobChanges(bool enable)
     QComboBox * const comboBoxes[] =
     {
         schedulerProfileCombo,
-        schedulerAlgorithmCombo
     };
 
     QButtonGroup * const buttonGroups[] =
@@ -7117,9 +7120,13 @@ void Scheduler::setErrorHandlingStrategy(Scheduler::ErrorHandlingStrategy strate
 // or activated(int) to an enum.
 void Scheduler::setAlgorithm(int algIndex)
 {
+    if (algIndex != ALGORITHM_GREEDY)
+    {
+        appendLogText(i18n("Warning: The Classic scheduler algorithm has been retired. Switching you to the Greedy algorithm."));
+        algIndex = ALGORITHM_GREEDY;
+    }
     Options::setSchedulerAlgorithm(algIndex);
-    if (schedulerAlgorithmCombo->currentIndex() != algIndex)
-        schedulerAlgorithmCombo->setCurrentIndex(algIndex);
+
     if (algIndex == ALGORITHM_GREEDY)
     {
         queueTable->setColumnHidden(SCORE_COLUMN, true);
@@ -8570,7 +8577,6 @@ void Scheduler::setPrimarySettings(const QJsonObject &settings)
     syncControl(settings, "focus", focusStepCheck);
     syncControl(settings, "align", alignStepCheck);
     syncControl(settings, "guide", guideStepCheck);
-    syncControl(settings, "algorithm", schedulerAlgorithmCombo);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -8792,7 +8798,7 @@ QJsonObject Scheduler::getSchedulerSettings()
 
     QJsonObject schedulerSettings =
     {
-        {"algorithm", schedulerAlgorithmCombo->currentIndex()},
+        {"algorithm", ALGORITHM_GREEDY},
         {"state", state},
         {"trackStepCheck", trackStepCheck->isChecked()},
         {"focusStepCheck", focusStepCheck->isChecked()},

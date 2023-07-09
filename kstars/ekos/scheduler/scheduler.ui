@@ -1239,29 +1239,6 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="schedulerAlgorithmCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Classic&lt;/span&gt;: Start jobs that meet the constraints by priority and score.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Greedy&lt;/span&gt;: Always attempt to run a job. It picks the highest priority job that can run according to its constraints. Priority is assigned according to row in table above. Higher row has higher priority. It will interrupt running jobs if a higher priority job can run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>Classic</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Greedy</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
            <spacer name="horizontalSpacer_4">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
