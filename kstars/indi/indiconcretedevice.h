@@ -80,7 +80,7 @@ class ConcreteDevice : public GDInterface
 
         INDI::Property getProperty(const QString &name) const;
         Properties getProperties() const;
-        DriverInfo *getDriverInfo() const;
+        const QSharedPointer<DriverInfo> &getDriverInfo() const;
         bool setConfig(INDIConfig tConfig);
         bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
                            double *step) const;

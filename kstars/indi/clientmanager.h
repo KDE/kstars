@@ -41,21 +41,21 @@ class ClientManager : public QObject, public INDI::BaseClient
 
     public:
         ClientManager();
-        virtual ~ClientManager() override = default;
+        virtual ~ClientManager() = default;
 
         /**
          * @brief appendManagedDriver Add driver to pool of managed drivers by this client manager.
          * @param dv pointer to driver info instance.
          * @note This function is ALWAYS called from the main KStars thread.
          */
-        void appendManagedDriver(DriverInfo *dv);
+        void appendManagedDriver(const QSharedPointer<DriverInfo> &driver);
 
         /**
          * @brief removeManagedDriver Remove managed driver from pool of drivers managed by this client manager.
          * @param dv pointer to driver info instance.
          * @note This function is ALWAYS called from the main KStars thread.
          */
-        void removeManagedDriver(DriverInfo *dv);
+        void removeManagedDriver(const QSharedPointer<DriverInfo> &driver);
 
         /**
          * @brief disconnectAll Disconnect from server and disconnect all BLOB Managers.
@@ -75,12 +75,12 @@ class ClientManager : public QObject, public INDI::BaseClient
             return sManager;
         }
 
-        DriverInfo *findDriverInfoByName(const QString &name);
-        DriverInfo *findDriverInfoByLabel(const QString &label);
+        const QSharedPointer<DriverInfo> &findDriverInfoByName(const QString &name);
+        const QSharedPointer<DriverInfo> &findDriverInfoByLabel(const QString &label);
 
-        bool isDriverManaged(DriverInfo *);
+        bool isDriverManaged(const QSharedPointer<DriverInfo> &driver);
 
-        QList<DriverInfo *> getManagedDrivers() const;
+        const QList<QSharedPointer<DriverInfo>> &getManagedDrivers() const;
 
         void establishConnection();
 
@@ -101,7 +101,7 @@ class ClientManager : public QObject, public INDI::BaseClient
     private:
         void processNewProperty(INDI::Property prop);
         void processRemoveBLOBManager(const QString &device, const QString &property);
-        QList<DriverInfo *> m_ManagedDrivers;
+        QList<QSharedPointer<DriverInfo>> m_ManagedDrivers;
         QList<BlobManager *> blobManagers;
         ServerManager *sManager { nullptr };
 

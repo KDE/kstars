@@ -6,9 +6,9 @@
 
 #include "deviceinfo.h"
 
-DeviceInfo::DeviceInfo(DriverInfo *parent, INDI::BaseDevice ibd)
+DeviceInfo::DeviceInfo(const QSharedPointer<DriverInfo> &parent, INDI::BaseDevice ibd)
 {
-    drv = parent;
+    m_Driver = parent;
     dp  = ibd;
     m_Name = ibd.getDeviceName();
 }

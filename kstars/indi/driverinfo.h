@@ -49,10 +49,10 @@ class DriverInfo : public QObject
 
     public:
         explicit DriverInfo(const QString &inName);
-        explicit DriverInfo(DriverInfo *di);
+        explicit DriverInfo(DriverInfo *driver);
         ~DriverInfo() override;
 
-        DriverInfo *clone(bool resetClone = true);
+        QSharedPointer<DriverInfo> clone(bool resetClone = true);
 
         QJsonObject toJson() const
         {
@@ -297,5 +297,5 @@ class DriverInfo : public QObject
         QJsonObject m_StartupRule;
 
     signals:
-        void deviceStateChanged(DriverInfo *);
+        void deviceStateChanged();
 };

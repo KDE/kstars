@@ -613,8 +613,6 @@ void Manager::start()
         return;
     }
 
-    if (m_LocalMode)
-        qDeleteAll(managedDrivers);
     managedDrivers.clear();
 
     // If clock was paused, unpaused it and sync time
@@ -662,13 +660,13 @@ void Manager::start()
     // For locally running INDI server
     if (m_LocalMode)
     {
-        DriverInfo * drv = driversList.value(m_CurrentProfile->mount());
+        auto drv = driversList.value(m_CurrentProfile->mount());
 
-        if (drv != nullptr)
+        if (!drv.isNull())
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(m_CurrentProfile->ccd());
-        if (drv != nullptr)
+        if (!drv.isNull())
         {
             managedDrivers.append(drv->clone());
             haveCCD = true;
@@ -677,7 +675,7 @@ void Manager::start()
         Options::setGuiderType(m_CurrentProfile->guidertype);
 
         drv = driversList.value(m_CurrentProfile->guider());
-        if (drv != nullptr)
+        if (!drv.isNull())
         {
             haveGuider = true;
 
@@ -691,7 +689,7 @@ void Manager::start()
             {
                 if (checkUniqueBinaryDriver( driversList.value(m_CurrentProfile->ccd()), drv))
                 {
-                    drv = nullptr;
+                    drv.clear();
                 }
                 else
                 {
@@ -699,39 +697,39 @@ void Manager::start()
                 }
             }
 
-            if (drv)
+            if (!drv.isNull())
                 managedDrivers.append(drv->clone());
         }
 
         drv = driversList.value(m_CurrentProfile->ao());
-        if (drv != nullptr)
+        if (!drv.isNull())
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(m_CurrentProfile->filter());
-        if (drv != nullptr)
+        if (!drv.isNull())
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(m_CurrentProfile->focuser());
-        if (drv != nullptr)
+        if (!drv.isNull())
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(m_CurrentProfile->dome());
-        if (drv != nullptr)
+        if (!drv.isNull())
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(m_CurrentProfile->weather());
-        if (drv != nullptr)
+        if (!drv.isNull())
             managedDrivers.append(drv->clone());
 
         drv = driversList.value(m_CurrentProfile->aux1());
-        if (drv != nullptr)
+        if (!drv.isNull())
         {
             if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
                     !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
                 managedDrivers.append(drv->clone());
         }
         drv = driversList.value(m_CurrentProfile->aux2());
-        if (drv != nullptr)
+        if (!drv.isNull())
         {
             if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
                     !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
@@ -739,7 +737,7 @@ void Manager::start()
         }
 
         drv = driversList.value(m_CurrentProfile->aux3());
-        if (drv != nullptr)
+        if (!drv.isNull())
         {
             if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
                     !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
@@ -747,7 +745,7 @@ void Manager::start()
         }
 
         drv = driversList.value(m_CurrentProfile->aux4());
-        if (drv != nullptr)
+        if (!drv.isNull())
         {
             if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
                     !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
@@ -792,7 +790,7 @@ void Manager::start()
                         port = location[1];
                 }
 
-                DriverInfo * dv = new DriverInfo(name);
+                QSharedPointer<DriverInfo> dv(new DriverInfo(name));
                 dv->setRemoteHost(host);
                 dv->setRemotePort(port);
 
@@ -819,7 +817,7 @@ void Manager::start()
     }
     else
     {
-        DriverInfo * remote_indi = new DriverInfo(QString("Ekos Remote Host"));
+        QSharedPointer<DriverInfo> remote_indi(new DriverInfo(QString("Ekos Remote Host")));
 
         remote_indi->setHostParameters(m_CurrentProfile->host, m_CurrentProfile->port);
 
@@ -835,7 +833,6 @@ void Manager::start()
         if (haveCCD == false && haveGuider == false && m_CurrentProfile->remotedrivers.isEmpty())
         {
             KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
-            delete (remote_indi);
             m_DriverDevicesCount = 0;
             m_ekosStatus = Ekos::Error;
             emit ekosStatusChanged(m_ekosStatus);
@@ -847,7 +844,7 @@ void Manager::start()
 
 
     // Prioritize profile script drivers over other drivers
-    QList<DriverInfo *> sortedList;
+    QList<QSharedPointer<DriverInfo>> sortedList;
     for (const auto &oneRule : qAsConst(profileScripts))
     {
         auto matchingDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(), [oneRule](const auto & oneDriver)
@@ -1110,8 +1107,6 @@ void Manager::setServerFailed(const QString &host, int port, const QString &mess
 {
     Q_UNUSED(host)
     Q_UNUSED(port)
-    //INDIListener::Instance()->disconnect(this);
-    qDeleteAll(managedDrivers);
     managedDrivers.clear();
     m_ekosStatus = Ekos::Error;
     emit ekosStatusChanged(m_ekosStatus);
@@ -3218,7 +3213,8 @@ void Manager::syncActiveDevices()
     }
 }
 
-bool Manager::checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * secondaryDriver)
+bool Manager::checkUniqueBinaryDriver(const QSharedPointer<DriverInfo> &primaryDriver,
+                                      const QSharedPointer<DriverInfo> &secondaryDriver)
 {
     if (!primaryDriver || !secondaryDriver)
         return false;

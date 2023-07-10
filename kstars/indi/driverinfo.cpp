@@ -24,33 +24,33 @@ DriverInfo::DriverInfo(const QString &inName)
     userPort = -1;
 }
 
-DriverInfo::DriverInfo(DriverInfo *di)
+DriverInfo::DriverInfo(DriverInfo *driver)
 {
-    name          = di->getName();
-    label         = di->getLabel();
-    uniqueLabel   = di->getUniqueLabel();
-    exec          = di->getExecutable();
-    version       = di->getVersion();
-    m_Manufacturer = di->manufacturer();
-    userPort      = di->getUserPort();
-    skelFile      = di->getSkeletonFile();
-    port          = di->getPort();
-    hostname      = di->getHost();
-    remotePort    = di->getRemotePort();
-    remoteHostname = di->getRemoteHost();
-    type          = di->getType();
-    serverState   = di->getServerState();
-    clientState   = di->getClientState();
-    driverSource  = di->getDriverSource();
-    serverManager = di->getServerManager();
-    clientManager = di->getClientManager();
-    auxInfo       = di->getAuxInfo();
-    devices       = di->getDevices();
+    name          = driver->getName();
+    label         = driver->getLabel();
+    uniqueLabel   = driver->getUniqueLabel();
+    exec          = driver->getExecutable();
+    version       = driver->getVersion();
+    m_Manufacturer = driver->manufacturer();
+    userPort      = driver->getUserPort();
+    skelFile      = driver->getSkeletonFile();
+    port          = driver->getPort();
+    hostname      = driver->getHost();
+    remotePort    = driver->getRemotePort();
+    remoteHostname = driver->getRemoteHost();
+    type          = driver->getType();
+    serverState   = driver->getServerState();
+    clientState   = driver->getClientState();
+    driverSource  = driver->getDriverSource();
+    serverManager = driver->getServerManager();
+    clientManager = driver->getClientManager();
+    auxInfo       = driver->getAuxInfo();
+    devices       = driver->getDevices();
 }
 
-DriverInfo *DriverInfo::clone(bool resetClone)
+QSharedPointer<DriverInfo> DriverInfo::clone(bool resetClone)
 {
-    DriverInfo * clone = new DriverInfo(this);
+    QSharedPointer<DriverInfo> clone(new DriverInfo(this));
     if (resetClone)
     {
         clone->reset();
@@ -90,13 +90,11 @@ void DriverInfo::setServerState(bool inState)
     if (serverState == false)
         serverManager = nullptr;
 
-    emit deviceStateChanged(this);
+    emit deviceStateChanged();
 }
 
 void DriverInfo::setClientState(bool inState)
 {
-    //qDebug() << Q_FUNC_INFO << "Request to change " << name << " client status to " << (inState ? "True" : "False") << Qt::endl;
-
     if (inState == clientState)
         return;
 
@@ -105,9 +103,7 @@ void DriverInfo::setClientState(bool inState)
     if (clientState == false)
         clientManager = nullptr;
 
-    //qDebug() << Q_FUNC_INFO << "Client state for this device changed, calling device state changed signal " << Qt::endl;
-
-    emit deviceStateChanged(this);
+    emit deviceStateChanged();
 }
 
 void DriverInfo::addDevice(DeviceInfo *idv)

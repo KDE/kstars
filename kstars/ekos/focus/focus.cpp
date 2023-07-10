@@ -5102,14 +5102,21 @@ void Focus::checkMosaicMaskLimits()
 {
     if (m_Camera == nullptr || m_Camera->isConnected() == false)
         return;
-    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     if (targetChip == nullptr || frameSettings.contains(targetChip) == false)
         return;
-    QVariantMap settings = frameSettings[targetChip];
+    auto settings = frameSettings[targetChip];
+
+    // Watch out for invalid values.
+    auto width = settings["w"].toInt();
+    auto height = settings["h"].toInt();
+    if (width == 0 || height == 0)
+        return;
+
     // determine maximal square size
-    int min = std::min(settings["w"].toInt(), settings["h"].toInt());
+    auto min = std::min(width, height);
     // now check if the tile size is below this limit
-    focusMosaicTileWidth->setMaximum(100 * min / (3 * settings["w"].toInt()));
+    focusMosaicTileWidth->setMaximum(100 * min / (3 * width));
 }
 
 void Focus::connectSettings()

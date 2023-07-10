@@ -3861,6 +3861,7 @@ void Align::setupManualRotator()
     connect(m_ManualRotator, &Ekos::ManualRotator::rejected, this, [this]()
     {
         m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
+        stop(ALIGN_IDLE);
     });
 }
 

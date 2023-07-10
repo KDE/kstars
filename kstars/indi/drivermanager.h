@@ -98,13 +98,13 @@ class DriverManager : public QDialog
         void processLocalTree(bool dState);
         void processRemoteTree(bool dState);
 
-        DriverInfo *findDriverByName(const QString &name);
-        DriverInfo *findDriverByLabel(const QString &label);
-        DriverInfo *findDriverByExec(const QString &exec);
+        QSharedPointer<DriverInfo> findDriverByName(const QString &name);
+        QSharedPointer<DriverInfo> findDriverByLabel(const QString &label);
+        QSharedPointer<DriverInfo> findDriverByExec(const QString &exec);
 
-        ClientManager *getClientManager(DriverInfo *dv);
+        ClientManager *getClientManager(const QSharedPointer<DriverInfo> &driver);
 
-        const QList<DriverInfo *> &getDrivers() const
+        const QList<QSharedPointer<DriverInfo>> &getDrivers() const
         {
             return driversList;
         }
@@ -127,34 +127,34 @@ class DriverManager : public QDialog
          * @param dList list of driver to examine
          * @param uHosts List of unique hosts, each with a group of drivers that belong to it.
          */
-        void getUniqueHosts(const QList<DriverInfo *> &dList, QList<QList<DriverInfo *>> &uHosts);
+        void getUniqueHosts(const QList<QSharedPointer<DriverInfo>> &dList, QList<QList<QSharedPointer<DriverInfo>>> &uHosts);
 
-        void addDriver(DriverInfo *di)
+        void addDriver(const QSharedPointer<DriverInfo> &driver)
         {
-            driversList.append(di);
+            driversList.append(driver);
         }
-        void removeDriver(DriverInfo *di)
+        void removeDriver(const QSharedPointer<DriverInfo> &driver)
         {
-            driversList.removeOne(di);
+            driversList.removeOne(driver);
         }
 
-        void startDevices(QList<DriverInfo *> &dList);
-        void stopDevices(const QList<DriverInfo *> &dList);
+        void startDevices(const QList<QSharedPointer<DriverInfo> > &dList);
+        void stopDevices(const QList<QSharedPointer<DriverInfo>> &dList);
         void stopAllDevices()
         {
             stopDevices(driversList);
         }
-        bool restartDriver(DriverInfo *dv);
+        bool restartDriver(const QSharedPointer<DriverInfo> &driver);
 
-        void connectRemoteHost(DriverInfo *dv);
-        bool disconnectRemoteHost(DriverInfo *dv);
+        void connectRemoteHost(const QSharedPointer<DriverInfo> &driver);
+        bool disconnectRemoteHost(const QSharedPointer<DriverInfo> &driver);
 
         QString getUniqueDeviceLabel(const QString &label);
 
-        void startClientManager(const QList<DriverInfo *> &qdv, const QString &host, int port);
+        void startClientManager(const QList<QSharedPointer<DriverInfo>> &qdv, const QString &host, int port);
         void startLocalDrivers(ServerManager *serverManager);
-        void processDriverStartup(DriverInfo *dv);
-        void processDriverFailure(DriverInfo *dv, const QString &message);
+        void processDriverStartup(const QSharedPointer<DriverInfo> &driver);
+        void processDriverFailure(const QSharedPointer<DriverInfo> &driver, const QString &message);
 
         void disconnectClients();
         void clearServers();
@@ -174,7 +174,7 @@ class DriverManager : public QDialog
         //DriverInfo::XMLSource xmlSource;
         DriverSource driverSource;
         DriverManagerUI *ui { nullptr };
-        QList<DriverInfo *> driversList;
+        QList<QSharedPointer<DriverInfo>> driversList;
         QList<ServerManager *> servers;
         QList<ClientManager *> clients;
         QStringList driversStringList;
@@ -205,7 +205,7 @@ class DriverManager : public QDialog
         void setServerFailed(const QString &message);
         void setServerTerminated(const QString &message);
 
-        void processDeviceStatus(DriverInfo *dv);
+        void processDeviceStatus(const QSharedPointer<DriverInfo> &driver);
 
         void showCustomDrivers()
         {
@@ -232,8 +232,8 @@ class DriverManager : public QDialog
         void clientTerminated(const QString &host, int port, const QString &message);
 
         // Driver Signals
-        void driverStarted(DriverInfo *driver);
-        void driverFailed(DriverInfo *driver, const QString &message);
-        void driverStopped(DriverInfo *driver);
-        void driverRestarted(DriverInfo *driver);
+        void driverStarted(const QSharedPointer<DriverInfo> &driver);
+        void driverFailed(const QSharedPointer<DriverInfo> &driver, const QString &message);
+        void driverStopped(const QSharedPointer<DriverInfo> &driver);
+        void driverRestarted(const QSharedPointer<DriverInfo> &driver);
 };

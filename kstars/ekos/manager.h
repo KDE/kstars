@@ -507,15 +507,15 @@ class Manager : public QDialog, public Ui::Manager
         // Check if the driver binary must be one only to avoid duplicate instances
         // Some driver binaries support multiple devices per binary
         // so we only need to start a single instance to handle them all.
-        bool checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * secondaryDriver);
+        bool checkUniqueBinaryDriver(const QSharedPointer<DriverInfo> &primaryDriver, const QSharedPointer<DriverInfo> &secondaryDriver);
 
         // Containers
 
         // All Drivers
-        QHash<QString, DriverInfo *> driversList;
+        QHash<QString, QSharedPointer<DriverInfo>> driversList;
 
         // All managed drivers
-        QList<DriverInfo *> managedDrivers;
+        QList<QSharedPointer<DriverInfo>> managedDrivers;
 
         // Smart pointers for the various Ekos Modules
         std::unique_ptr<Capture> captureProcess;

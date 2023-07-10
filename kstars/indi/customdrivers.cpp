@@ -15,7 +15,7 @@
 #include "ksnotification.h"
 
 
-CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &driversList) : QDialog(parent),
+CustomDrivers::CustomDrivers(QWidget *parent, const QList<QSharedPointer<DriverInfo>> &driversList) : QDialog(parent),
     m_DriversList(driversList)
 {
     setupUi(this);
@@ -83,7 +83,7 @@ void CustomDrivers::syncDriver()
 {
     const QString currentDriverLabel = driverCombo->currentText();
 
-    for (const DriverInfo *oneDriver : m_DriversList)
+    for (const QSharedPointer<DriverInfo>oneDriver : m_DriversList)
     {
         if (currentDriverLabel == oneDriver->getLabel())
         {
@@ -99,7 +99,7 @@ void CustomDrivers::syncDriver()
 void CustomDrivers::addDriver()
 {
     // Make sure label is unique in canonical drivers
-    for (const DriverInfo *oneDriver : m_DriversList)
+    for (auto &oneDriver : m_DriversList)
     {
         if (labelIN->text() == oneDriver->getLabel())
         {
