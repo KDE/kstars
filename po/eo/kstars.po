@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:43+0000\n"
-"PO-Revision-Date: 2023-07-05 07:27+0100\n"
+"PO-Revision-Date: 2023-07-10 09:11+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -15644,16 +15644,15 @@ msgstr "Gvidlimoj"
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:76 ekos/capture/limits.ui:121
 #: ekos/capture/limits.ui:131
-#, fuzzy, kde-format
-#| msgid "Abort sequence if guiding deviation exceed this value"
+#, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
-msgstr "Ĉesu sekvencon se gvida devio superas ĉi tiun valoron"
+msgstr ""
+"Ĉesi sekvencon se gvida devio superas ĉi tiun valoron N sinsekvajn fojojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitGuideDeviationS)
 #: ekos/capture/limits.ui:79
-#, fuzzy, kde-format
-#| msgid "Abort if Guiding Deviation >"
+#, kde-format
 msgid "Abort if Guide Deviation >"
 msgstr "Ĉesi se Gvida Devio >"
 
