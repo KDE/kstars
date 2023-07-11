@@ -207,6 +207,7 @@ class Message : public QObject
             double number_double;
             bool boolean;
             QString text;
+            QUrl url;
         } SimpleTypes;
 
         QObject *findObject(const QString &name);
