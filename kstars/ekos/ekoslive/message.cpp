@@ -2510,6 +2510,25 @@ void Message::sendModuleState(const QString &name)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+QObject *Message::findObject(const QString &name)
+{
+    QObject *object {nullptr};
+    // Try Manager first
+    object = m_Manager->findChild<QObject *>(name);
+    if (object)
+        return object;
+    // Then INDI Listener
+    object = INDIListener::Instance()->findChild<QObject *>(name);
+    if (object)
+        return object;
+    // Finally KStars
+    object = KStars::Instance()->findChild<QObject *>(name);
+    return object;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 bool Message::parseArgument(const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types)
 {
     QGenericArgument genericArgument;
@@ -2558,30 +2577,22 @@ bool Message::parseArgument(const QVariant &arg, QGenericArgument &genericArg, S
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-QObject *Message::findObject(const QString &name)
-{
-    QObject *object {nullptr};
-    // Try Manager first
-    object = m_Manager->findChild<QObject *>(name);
-    if (object)
-        return object;
-    // Then INDI Listener
-    object = INDIListener::Instance()->findChild<QObject *>(name);
-    if (object)
-        return object;
-    // Finally KStars
-    object = KStars::Instance()->findChild<QObject *>(name);
-    return object;
-}
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 void Message::invokeMethod(QObject *context, const QJsonObject &payload)
 {
+    static const QRegularExpression re("^(?:http(?:s)?|file|ftp)://");
+
     QGenericArgument arg1, arg2, arg3, arg4;
     SimpleTypes types1, types2, types3, types4;
     uint8_t validArgs = 0;
     auto map = payload.toVariantMap();
+
+    // Fix arg types
+    for (auto &value : map)
+    {
+        // Must explicitly change QString to QUrl
+        if (value.type() == QVariant::String && re.match(value.toString()).hasMatch())
+            value.convert(QMetaType::QUrl);
+    }
 
     auto name = map["name"].toString().toLatin1();
 
