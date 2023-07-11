@@ -2544,6 +2544,10 @@ bool Message::parseArgument(const QVariant &arg, QGenericArgument &genericArg, S
             types.text = arg.toString();
             genericArg = Q_ARG(QString, types.text);
             return true;
+        case QVariant::Type::Url:
+            types.url = arg.toUrl();
+            genericArg = Q_ARG(QUrl, types.url);
+            return true;
         default:
             break;
     }
