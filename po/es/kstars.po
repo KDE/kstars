@@ -18,14 +18,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:43+0000\n"
-"PO-Revision-Date: 2023-07-09 12:38+0200\n"
+"PO-Revision-Date: 2023-07-10 20:06+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -15869,9 +15869,7 @@ msgstr "Límites de guiado"
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:76 ekos/capture/limits.ui:121
 #: ekos/capture/limits.ui:131
-#, fuzzy, kde-format
-#| msgid ""
-#| "Abort sequence if guiding deviation exceed this value N consecutivetimes"
+#, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
 msgstr ""
@@ -17948,6 +17946,13 @@ msgid ""
 "highlighted on the v-curve. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Marque para ejecutar un paso de valores atípicos "
+"cuando se hayan tomado todos los puntos de datos. El paso usa los «Criterios "
+"de Peirce» para la detección de umbrales atípicos. Si hay valores atípicos, "
+"estos se eliminan y se vuelve a ejecutar el ajuste de la curva. Si el "
+"proceso mejora el R², se usa este nuevo conjunto de datos y se resaltan los "
+"valores atípicos en la curva V. Esta función es experimental.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1734
@@ -18699,10 +18704,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3068
-#, fuzzy, kde-format
-#| msgid "Reset to Now"
+#, kde-format
 msgid "Reset To OT"
-msgstr "Reiniciar tiempo a ahora"
+msgstr "Reiniciar a OT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:3081
@@ -18897,6 +18901,10 @@ msgid ""
 "Make sure you configure the CFZ tab to give an appropriate value for your "
 "system.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>El tamaño del paso se puede establecer al valor "
+"predeterminado de la zona de enfoque crítica. Asegúrese de configurar la "
+"pestaña «CFZ» para proporcionar un valor apropiado para su sistema.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/focus.ui:3400
@@ -20507,17 +20515,15 @@ msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/manualpulse.ui:112
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "RA Offset\":"
-msgstr "Desplazamiento X:"
+msgstr "Desplazamiento AR\":"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "DE Offset\":"
-msgstr "Desplazamiento X:"
+msgstr "Desplazamiento DE\":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -25658,6 +25664,8 @@ msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
+"Advertencia: El algoritmo «Clásico» del programador se ha retirado. Se "
+"cambia al algoritmo «Voraz»."
 
 #: ekos/scheduler/scheduler.cpp:980
 #, kde-format
@@ -27177,19 +27185,16 @@ msgstr "Repetir todos los trabajos"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
 #: ekos/scheduler/scheduler.ui:1270
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The camera position angle is saved to a sequence "
-#| "capture job. On execution of the job the camera is rotated to the "
-#| "specified position angle.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Limit number of iterations the scheduler will execute "
 "the entire job sequence. If set to 0, the jobs are repeated until for none "
 "of the jobs its constraints are met.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El ángulo de posición de la cámara se guarda en un "
-"trabajo de captura de secuencia. Al ejecutar el trabajo, la cámara gira al "
-"ángulo de posición indicado.</p></body></html>"
+"<html><head/><body><p>Número límite de iteraciones que el programador "
+"ejecutará toda la secuencia de trabajo. Si se define a 0, los trabajos se "
+"repiten hasta que para ninguno de los trabajos se cumplan sus restricciones."
+"</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, executionSequenceLimit)
 #: ekos/scheduler/scheduler.ui:1273
@@ -35086,6 +35091,8 @@ msgid ""
 "Number of consecutive samples guide deviation needs to be high to abort "
 "capture."
 msgstr ""
+"Número de muestras consecutivas que debe superar la desviación de guiado "
+"para interrumpir la captura."
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1712
@@ -35094,6 +35101,8 @@ msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
 msgstr ""
+"Define el número de muestras consecutivas que debe superar la desviación de "
+"guiado para interrumpir la captura."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1716
@@ -35577,6 +35586,8 @@ msgid ""
 "Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 "
 "mosaic style mask"
 msgstr ""
+"Tipo de máscara de enfoque: 0 = se usan todas las estrellas al enfocar, 1 = "
+"máscara de anillo, 2 = máscara de estilo mosaico 3x3."
 
 #. i18n: ectx: label, entry (FocusFullFieldInnerRadius), group (Focus)
 #: kstars.kcfg:1948
@@ -35722,6 +35733,8 @@ msgstr "El tipo de medida de estrellas que se debe usar."
 #, kde-format
 msgid "The type of star PSF to use if curve fitting star profiles."
 msgstr ""
+"El tipo de PSF de la estrella que se debe usar si la curva se ajusta a los "
+"perfiles de estrellas."
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:2022
@@ -35846,15 +35859,12 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2077
-#, fuzzy, kde-format
-#| msgid ""
-#| "The number of steps to move outwards from the start position of an "
-#| "Autofocus run."
+#, kde-format
 msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
-"El número de pasos para mover hacia afuera desde la posición de inicio de "
-"una ejecución de enfoque automático."
+"El número total de pasos para una ejecución de enfoque automático de pasos "
+"fijos o de CFZ aleatoria."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2081

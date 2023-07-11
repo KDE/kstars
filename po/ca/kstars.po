@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:43+0000\n"
-"PO-Revision-Date: 2023-07-09 10:55+0200\n"
+"PO-Revision-Date: 2023-07-10 09:29+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -15893,9 +15893,7 @@ msgstr "Límits del guiatge"
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:76 ekos/capture/limits.ui:121
 #: ekos/capture/limits.ui:131
-#, fuzzy, kde-format
-#| msgid ""
-#| "Abort sequence if guiding deviation exceed this value N consecutivetimes"
+#, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
 msgstr ""
@@ -25734,6 +25732,8 @@ msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
+"Avís: L'algorisme Clàssic del programador s'ha retirat. S'ha canviat per "
+"l'algorisme Voraç."
 
 #: ekos/scheduler/scheduler.cpp:980
 #, kde-format
@@ -35268,10 +35268,7 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1712
-#, fuzzy, kde-format
-#| msgid ""
-#| "Sets the number of consecutive samples guide deviation needs to be hight "
-#| "to abort capture."
+#, kde-format
 msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
@@ -83665,24 +83662,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid ""
-#~ "<html><head/><body><p><span style=\" font-weight:600;\">Classic</span>: "
-#~ "Start jobs that meet the constraints by priority and score.</p><p><span "
-#~ "style=\" font-weight:600;\">Greedy</span>: Always attempt to run a job. "
-#~ "It picks the highest priority job that can run according to its "
-#~ "constraints. Priority is assigned according to row in table above. Higher "
-#~ "row has higher priority. It will interrupt running jobs if a higher "
-#~ "priority job can run.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p><span style=\"font-weight:600;\">Clàssic</span>: "
-#~ "Comença la tasca que compleix les restriccions per prioritat i puntuació."
-#~ "</p><p><span style=\"font-weight:600;\">Voraç</span>: Intenta executar "
-#~ "una tasca sempre. Tria las tasca amb la prioritat més alta que pot "
-#~ "executar segons les seves restriccions. La prioritat s'assigna segons la "
-#~ "fila en la taula anterior. La fila més alta té una prioritat més alta. "
-#~ "Interromprà les tasques en execució si es pot executar una tasca amb una "
-#~ "prioritat més alta.</p></body></html>"
-
-#~ msgid "Greedy"
-#~ msgstr "Voraç"

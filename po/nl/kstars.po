@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:43+0000\n"
-"PO-Revision-Date: 2023-07-09 14:28+0200\n"
+"PO-Revision-Date: 2023-07-10 11:23+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15731,9 +15731,7 @@ msgstr "Volgergrenzen"
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:76 ekos/capture/limits.ui:121
 #: ekos/capture/limits.ui:131
-#, fuzzy, kde-format
-#| msgid ""
-#| "Abort sequence if guiding deviation exceed this value N consecutivetimes"
+#, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
 msgstr ""
@@ -25449,6 +25447,8 @@ msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
+"Waarschuwing: het klassieke planner-algoritme is met pensioen. U wordt "
+"omgeschakeld naar het Greedy-algoritme."
 
 #: ekos/scheduler/scheduler.cpp:980
 #, kde-format
@@ -34772,15 +34772,12 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1712
-#, fuzzy, kde-format
-#| msgid ""
-#| "Sets the number of consecutive samples guide deviation needs to be hight "
-#| "to abort capture."
+#, kde-format
 msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
 msgstr ""
-"Stelt het aantal opeenvolgende samples van afwijkingen van volgen in dat "
+"Stelt het aantal opeenvolgende samples van afwijkingen van volgen in, dat "
 "hoog moet zijn om opnemen af te breken."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)

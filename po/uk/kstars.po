@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:43+0000\n"
-"PO-Revision-Date: 2023-07-09 09:09+0300\n"
+"PO-Revision-Date: 2023-07-10 09:45+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -25657,6 +25657,8 @@ msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
+"Попередження: класичний алгоритм планування вважається застарілим. "
+"Перемикаємося на «жадібний» алгоритм."
 
 #: ekos/scheduler/scheduler.cpp:980
 #, kde-format
