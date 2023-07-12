@@ -612,7 +612,7 @@ const QPointer<FITSViewer> &KStars::createFITSViewer()
     {
         QPointer<FITSViewer> newFITSViewer = new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance());
 
-        connect(newFITSViewer.data(), &FITSViewer::destroyed, [ = ]()
+        connect(newFITSViewer.data(), &FITSViewer::destroyed, this, [ = ]()
         {
             m_FITSViewers.removeOne(newFITSViewer);
         });
