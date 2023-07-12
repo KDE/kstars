@@ -171,6 +171,10 @@ class Camera : public ConcreteDevice
             return m_EncodingFormats;
         }
 
+        // FITS Viewer Stretch values
+        // TODO: Need to remove all FITSViewer related functions from INDI::Camera
+        Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
+
         // Capture Format
         const QStringList &getCaptureFormats() const
         {
@@ -229,7 +233,6 @@ class Camera : public ConcreteDevice
         }
 
     public slots:
-        //void FITSViewerDestroyed();
         void StreamWindowHidden();
         // Blob manager
         void setBLOBManager(const char *device, INDI::Property prop);
@@ -258,6 +261,7 @@ class Camera : public ConcreteDevice
         bool writeImageFile(const QString &filename, INDI::Property prop, bool is_fits);
         bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
         // Creates or finds the FITSViewer.
+        // TODO: Need to remove all FITSViewer related functions from INDI::Camera
         QPointer<FITSViewer> getFITSViewer();
         void handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop, QSharedPointer<FITSData> data);
 

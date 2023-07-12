@@ -155,6 +155,7 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         vlayout->addWidget(fitsSplitter);
 
         stretchUI.reset(new FITSStretchUI(m_View, nullptr));
+        connect(stretchUI.get(), &FITSStretchUI::newStretchValue, this, &FITSTab::newStretchValue);
         vlayout->addWidget(stretchUI.get());
 
         connect(fitsSplitter, &QSplitter::splitterMoved, m_HistogramEditor, &FITSHistogramEditor::resizePlot);
@@ -530,4 +531,10 @@ void FITSTab::tabPositionUpdated()
     emit newStatus(QString("%1%").arg(m_View->getCurrentZoom()), FITS_ZOOM);
     emit newStatus(QString("%1x%2").arg(m_View->imageData()->width()).arg(m_View->imageData()->height()),
                    FITS_RESOLUTION);
+}
+
+void FITSTab::setStretchValues(double shadows, double midtones, double highlights)
+{
+    if (stretchUI)
+        stretchUI->setStretchValues(shadows, midtones, highlights);
 }

@@ -18,6 +18,7 @@
 //#include "ekos/manager.h"
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitstab.h"
 #endif
 
 #include <KNotifications/KNotification>
@@ -1826,9 +1827,22 @@ bool Camera::WriteImageFileInternal(const QString &filename, char *buffer, const
 
 QString Camera::getCaptureFormat() const
 {
-    if (m_CaptureFormatIndex < 0 || m_CaptureFormats.isEmpty() || m_CaptureFormatIndex > m_CaptureFormats.size())
+    if (m_CaptureFormatIndex < 0 || m_CaptureFormats.isEmpty() || m_CaptureFormatIndex >= m_CaptureFormats.size())
         return QLatin1String("NA");
 
     return m_CaptureFormats[m_CaptureFormatIndex];
+}
+
+void Camera::setStretchValues(double shadows, double midtones, double highlights)
+{
+    if (Options::useFITSViewer() == false || normalTabID < 0)
+        return;
+
+    auto tab = getFITSViewer()->getTabs().at(normalTabID);
+
+    if (!tab)
+        return;
+
+    tab->setStretchValues(shadows, midtones, highlights);
 }
 }

@@ -90,6 +90,8 @@ class FITSTab : public QWidget
         void histoFITS();
         void statFITS();
 
+        Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
+
         void setUID(int newID)
         {
             uid = newID;
@@ -158,4 +160,5 @@ class FITSTab : public QWidget
         void changeStatus(bool clean, const QUrl &imageUrl);
         void loaded();
         void failed(const QString &errorMessage);
+        void newStretchValue(double shadows, double midtones, double highlights);
 };

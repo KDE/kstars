@@ -138,7 +138,7 @@ void FITSStretchUI::setupHistoSlider()
     histoSlider->setMidPosition(HISTO_SLIDER_MAX / 2);
     histoSlider->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
-    connect(histoSlider, &ctk3Slider::minimumPositionChanged, [ = ](int value)
+    connect(histoSlider, &ctk3Slider::minimumPositionChanged, this, [ = ](int value)
     {
         StretchParams params = m_View->getStretchParams();
         const double shadowValue = value / HISTO_SLIDER_MAX;
@@ -160,7 +160,7 @@ void FITSStretchUI::setupHistoSlider()
             histoPlot->replot();
         }
     });
-    connect(histoSlider, &ctk3Slider::maximumPositionChanged, [ = ](int value)
+    connect(histoSlider, &ctk3Slider::maximumPositionChanged, this, [ = ](int value)
     {
         StretchParams params = m_View->getStretchParams();
         const double highValue = value / HISTO_SLIDER_MAX;
@@ -174,7 +174,7 @@ void FITSStretchUI::setupHistoSlider()
             histoPlot->replot();
         }
     });
-    connect(histoSlider, &ctk3Slider::midPositionChanged, [ = ](int value)
+    connect(histoSlider, &ctk3Slider::midPositionChanged, this, [ = ](int value)
     {
         StretchParams params = m_View->getStretchParams();
         const double midValue = midValueFcn(value);
@@ -191,7 +191,7 @@ void FITSStretchUI::setupHistoSlider()
     // then when the sliders are dragged, the stretched image is rendered in lower resolution.
     // However when the dragging is done (and the mouse is released) we want to end by rendering
     // in full resolution.
-    connect(histoSlider, &ctk3Slider::released, [ = ](int minValue, int midValue, int maxValue)
+    connect(histoSlider, &ctk3Slider::released, this, [ = ](int minValue, int midValue, int maxValue)
     {
         StretchParams params = m_View->getStretchParams();
         const double shadowValue = minValue / HISTO_SLIDER_MAX;
@@ -255,11 +255,13 @@ void FITSStretchUI::setStretchUIValues(const StretchParams1Channel &params)
     highlightsVal->setEnabled(stretchActive);
     highlightsLabel->setEnabled(stretchActive);
     histoSlider->setEnabled(stretchActive);
+
+    emit newStretchValue(params.shadows, params.midtones, params.highlights);
 }
 
 void FITSStretchUI::setupConnections()
 {
-    connect(m_View.get(), &FITSView::mouseOverPixel, [ this ](int x, int y)
+    connect(m_View.get(), &FITSView::mouseOverPixel, this, [ this ](int x, int y)
     {
         if (pixelCursors.size() != m_View->imageData()->channels())
             pixelCursors.fill(nullptr, m_View->imageData()->channels());
@@ -287,7 +289,7 @@ void FITSStretchUI::setupConnections()
         histoPlot->replot();
     });
 
-    connect(highlightsVal, &QDoubleSpinBox::editingFinished, [ this ]()
+    connect(highlightsVal, &QDoubleSpinBox::editingFinished, this, [ this ]()
     {
         StretchParams params = m_View->getStretchParams();
         params.grey_red.highlights = highlightsVal->value();
@@ -295,9 +297,10 @@ void FITSStretchUI::setupConnections()
         m_View->setStretchParams(params);
         histoSlider->setMaximumValue(params.grey_red.highlights * HISTO_SLIDER_MAX);
         histoPlot->replot();
+        emit newStretchValue(params.grey_red.shadows, params.grey_red.midtones, params.grey_red.highlights);
     });
 
-    connect(midtonesVal, &QDoubleSpinBox::editingFinished, [ this ]()
+    connect(midtonesVal, &QDoubleSpinBox::editingFinished, this, [ this ]()
     {
         StretchParams params = m_View->getStretchParams();
         params.grey_red.midtones = midtonesVal->value();
@@ -305,9 +308,10 @@ void FITSStretchUI::setupConnections()
         m_View->setStretchParams(params);
         histoSlider->setMidValue(invertMidValueFcn(params.grey_red.midtones));
         histoPlot->replot();
+        emit newStretchValue(params.grey_red.shadows, params.grey_red.midtones, params.grey_red.highlights);
     });
 
-    connect(shadowsVal, &QDoubleSpinBox::editingFinished, [ this ]()
+    connect(shadowsVal, &QDoubleSpinBox::editingFinished, this, [ this ]()
     {
         StretchParams params = m_View->getStretchParams();
         params.grey_red.shadows = shadowsVal->value();
@@ -315,15 +319,16 @@ void FITSStretchUI::setupConnections()
         m_View->setStretchParams(params);
         histoSlider->setMinimumValue(params.grey_red.shadows * HISTO_SLIDER_MAX);
         histoPlot->replot();
+        emit newStretchValue(params.grey_red.shadows, params.grey_red.midtones, params.grey_red.highlights);
     });
 
-    connect(stretchButton, &QPushButton::clicked, [ = ]()
+    connect(stretchButton, &QPushButton::clicked, this, [ = ]()
     {
         // This will toggle whether we're currently stretching.
         m_View->setStretch(!m_View->isImageStretched());
     });
 
-    connect(autoButton, &QPushButton::clicked, [ = ]()
+    connect(autoButton, &QPushButton::clicked, this, [ = ]()
     {
         // If we're not currently using automatic stretch parameters, turn that on.
         // If we're already using automatic parameters, don't do anything.
@@ -335,20 +340,20 @@ void FITSStretchUI::setupConnections()
         setStretchUIValues(m_View->getStretchParams().grey_red);
     });
 
-    connect(toggleHistoButton, &QPushButton::clicked, [ = ]()
+    connect(toggleHistoButton, &QPushButton::clicked, this, [ = ]()
     {
         histoPlot->setVisible(!histoPlot->isVisible());
     });
 
     // This is mostly useful right at the start, when the image is displayed without any user interaction.
     // Check for slider-in-use, as we don't wont to rescale while the user is active.
-    connect(m_View.get(), &FITSView::newStatus, [ = ](const QString & unused)
+    connect(m_View.get(), &FITSView::newStatus, this, [ = ](const QString & unused)
     {
         Q_UNUSED(unused);
         setStretchUIValues(m_View->getStretchParams().grey_red);
     });
 
-    connect(m_View.get(), &FITSView::newStretch, [ = ](const StretchParams & params)
+    connect(m_View.get(), &FITSView::newStretch, this, [ = ](const StretchParams & params)
     {
         histoSlider->setMinimumValue(params.grey_red.shadows * HISTO_SLIDER_MAX);
         histoSlider->setMaximumValue(params.grey_red.highlights * HISTO_SLIDER_MAX);
@@ -426,7 +431,7 @@ void FITSStretchUI::generateHistogram()
             const QVector<double> &h = m_View->imageData()->getHistogramFrequency(i);
             const int size = m_View->imageData()->getHistogramBinCount();
             for (int j = 0; j < size; ++j)
-                graph->addData(j, log(h[j] + 1));
+                graph->addData(j, log1p(h[j]));
         }
         histoPlot->rescaleAxes();
         histoPlot->xAxis->setRange(0, m_View->imageData()->getHistogramBinCount() + 1);
@@ -440,7 +445,7 @@ void FITSStretchUI::generateHistogram()
 
     // This controls the x-axis zoom in/out on the histogram plot.
     // It doesn't allow the x-axis to go less than 0, or more than the number of histogram bins.
-    connect(histoPlot->xAxis, QOverload<const QCPRange &>::of(&QCPAxis::rangeChanged),
+    connect(histoPlot->xAxis, QOverload<const QCPRange &>::of(&QCPAxis::rangeChanged), this,
             [ = ](const QCPRange & newRange)
     {
         if (!m_View || !m_View->imageData() || !m_View->imageData()->isHistogramConstructed()) return;
@@ -452,4 +457,19 @@ void FITSStretchUI::generateHistogram()
         if (tLower != newRange.lower || tUpper != newRange.upper)
             histoPlot->xAxis->setRange(tLower, tUpper);
     });
+}
+
+void FITSStretchUI::setStretchValues(double shadows, double midtones, double highlights)
+{
+    StretchParams params = m_View->getStretchParams();
+    params.grey_red.shadows = shadows;
+    params.grey_red.midtones = midtones;
+    params.grey_red.highlights = highlights;
+    setCursors(params);
+    m_View->setPreviewSampling(0);
+    m_View->setStretchParams(params);
+    histoSlider->setMinimumValue(params.grey_red.shadows * HISTO_SLIDER_MAX);
+    histoSlider->setMidValue(invertMidValueFcn(params.grey_red.midtones));
+    histoSlider->setMaximumValue(params.grey_red.highlights * HISTO_SLIDER_MAX);
+    histoPlot->replot();
 }
