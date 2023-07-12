@@ -159,6 +159,7 @@ class FITSTab : public QWidget
         void newStatus(const QString &msg, FITSBar id);
         void changeStatus(bool clean, const QUrl &imageUrl);
         void loaded();
+        void updated();
         void failed(const QString &errorMessage);
         void newStretchValue(double shadows, double midtones, double highlights);
 };

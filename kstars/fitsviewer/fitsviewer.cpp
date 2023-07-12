@@ -413,9 +413,15 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
     tab->setPreviewText(previewText);
 
     // Connect tab signals
+    tab->disconnect(this);
     connect(tab, &FITSTab::newStatus, this, &FITSViewer::updateStatusBar);
     connect(tab, &FITSTab::changeStatus, this, &FITSViewer::updateTabStatus);
     connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);
+    connect(tab, &FITSTab::updated, this, [this]()
+    {
+        auto oneTab = qobject_cast<FITSTab*>(sender());
+        emit updated(fitsTabs.indexOf(oneTab));
+    });
     // Connect tab view signals
     connect(tab->getView().get(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
     connect(tab->getView().get(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);

@@ -468,6 +468,7 @@ class FITSView : public QScrollArea
         void actionUpdated(const QString &name, bool enable);
         void trackingStarSelected(int x, int y);
         void loaded();
+        void updated();
         void failed(const QString &error);
         void starProfileWindowClosed();
         void rectangleUpdated(QRect roi);

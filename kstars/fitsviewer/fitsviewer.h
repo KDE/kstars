@@ -155,6 +155,7 @@ class FITSViewer : public KXmlGuiWindow
     signals:
         void trackingStarSelected(int x, int y);
         void loaded(int tabUID);
+        void updated(int tabUID);
         void closed(int tabUID);
         void failed(const QString &errorMessage);
 };

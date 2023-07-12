@@ -656,6 +656,16 @@ QPointer<FITSViewer> Camera::getFITSViewer()
         m_FITSViewerWindow.clear();
     });
 
+    connect(m_FITSViewerWindow, &FITSViewer::updated, this, [this](int tabUID)
+    {
+        auto tab = getFITSViewer()->getTabs().at(tabUID);
+        if (tab)
+        {
+            auto view = tab->getView();
+            emit newView(view);
+        }
+    });
+
     return m_FITSViewerWindow;
 }
 

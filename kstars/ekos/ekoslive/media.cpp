@@ -540,11 +540,21 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::registerCameras()
 {
+    static const QRegularExpression re("[-{}]");
     for(auto &oneDevice : INDIListener::devices())
     {
         auto camera = oneDevice->getCamera();
         if (camera)
-            connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
+        {
+            camera->disconnect(this);
+            connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame);
+            connect(camera, &ISD::Camera::newView, this, [this](const QSharedPointer<FITSView> &view)
+            {
+                QString uuid = QUuid::createUuid().toString();
+                uuid = uuid.remove(re);
+                sendView(view, uuid);
+            });
+        }
     }
 }
 
@@ -570,7 +580,7 @@ void Media::uploadImage(const QByteArray &image)
     }
 }
 
-void Media::processNewBLOB(IBLOB *bp)
+void Media::processNewBLOB(IBLOB * bp)
 {
     Q_UNUSED(bp)
 }

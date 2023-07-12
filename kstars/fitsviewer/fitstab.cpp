@@ -163,6 +163,7 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         setLayout(vlayout);
         connect(m_View.get(), &FITSView::newStatus, this, &FITSTab::newStatus);
         connect(m_View.get(), &FITSView::debayerToggled, this, &FITSTab::debayerToggled);
+        connect(m_View.get(), &FITSView::updated, this, &FITSTab::updated);
 
         // On Failure to load
         connect(m_View.get(), &FITSView::failed, this, &FITSTab::failed);
@@ -177,18 +178,20 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter)
 {
     // check if the address points to an appropriate address
-    if (imageURL.isEmpty() || !imageURL.isValid() || !QFileInfo(imageURL.toLocalFile()).exists())
+    if (imageURL.isEmpty() || !imageURL.isValid() || !QFileInfo::exists(imageURL.toLocalFile()))
         return;
 
     if (setupView(mode, filter))
     {
 
         // On Success loading image
-        connect(m_View.get(), &FITSView::loaded, [&]()
+        connect(m_View.get(), &FITSView::loaded, this, [&]()
         {
             processData();
             emit loaded();
         });
+
+        connect(m_View.get(), &FITSView::updated, this, &FITSTab::updated);
     }
     else
         // update tab text

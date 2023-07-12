@@ -246,13 +246,17 @@ class Camera : public ConcreteDevice
         void newGuideStarData(ISD::CameraChip *chip, double dx, double dy, double fit);
         void newBLOBManager(INDI::Property prop);
         void newRemoteFile(QString);
+        void coolerToggled(bool enabled);
+        void error(ErrorType type);
+        // Video
         void videoStreamToggled(bool enabled);
         void videoRecordToggled(bool enabled);
         void newFPS(double instantFPS, double averageFPS);
         void newVideoFrame(const QSharedPointer<QImage> &frame);
-        void coolerToggled(bool enabled);
-        void error(ErrorType type);
+        // Data
         void newImage(const QSharedPointer<FITSData> &data);
+        // View
+        void newView(const QSharedPointer<FITSView> &view);
 
     private:
         void processStream(INDI::Property prop);

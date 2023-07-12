@@ -801,6 +801,8 @@ void FITSView::updateFrame(bool now)
         else
             updateFrameSmallImage();
 
+        if (m_StretchingInProgress == false)
+            emit updated();
     }
     else
         m_UpdateFrameTimer.start();
