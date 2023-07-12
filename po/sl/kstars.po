@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:43+0000\n"
-"PO-Revision-Date: 2023-07-05 00:02+0200\n"
+"PO-Revision-Date: 2023-07-10 09:41+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -15791,7 +15791,7 @@ msgstr "Odstopanje vodenja <"
 #: ekos/capture/limits.ui:134
 #, kde-format
 msgid "consecutive times"
-msgstr ""
+msgstr "zaporedno-krat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:160
@@ -25716,6 +25716,8 @@ msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
+"Opozorilo: algoritem klasičnega razporejevalnika je bil ukinjen. Prehajamo "
+"na pohlepni algoritem (angl. Greedy)."
 
 #: ekos/scheduler/scheduler.cpp:980
 #, fuzzy, kde-format
@@ -35300,6 +35302,8 @@ msgid ""
 "Number of consecutive samples guide deviation needs to be high to abort "
 "capture."
 msgstr ""
+"Število zaporednih vzorcev, pri katerih mora biti odstopanje vodila veliko, "
+"da se snemanje oz. zajem prekine."
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1712
@@ -35308,6 +35312,8 @@ msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
 msgstr ""
+"Določi število zaporednih vzorcev, pri katerih mora biti odstopanje vodila "
+"visoko, da se zajem prekine."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1716
@@ -83891,24 +83897,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p><span style=\" font-weight:600;\">Classic</span>: "
-#~ "Start jobs that meet the constraints by priority and score.</p><p><span "
-#~ "style=\" font-weight:600;\">Greedy</span>: Always attempt to run a job. "
-#~ "It picks the highest priority job that can run according to its "
-#~ "constraints. Priority is assigned according to row in table above. Higher "
-#~ "row has higher priority. It will interrupt running jobs if a higher "
-#~ "priority job can run.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p><span style=\" font-weight:600;\">Klasično</span>: "
-#~ "začnite z opravili, ki izpolnjujejo pogoje glede prioritete in ocene.</"
-#~ "p><p><span style=\" font-weight:600;\">Požrešno</span>: vedno poskušaj "
-#~ "izvesti opravilo. Izbere nalogo z najvišjo prioriteto, ki se lahko izvaja "
-#~ "v skladu s svojimi omejitvami. To bo prekinilo izvajanje drugih opravil, "
-#~ "če gre za opravilo z višjo prioriteto.</p></body></html>"
-
-#, fuzzy
-#~ msgid "Greedy"
-#~ msgstr "Požrešno"
