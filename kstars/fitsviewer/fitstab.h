@@ -161,5 +161,4 @@ class FITSTab : public QWidget
         void loaded();
         void updated();
         void failed(const QString &errorMessage);
-        void newStretchValue(double shadows, double midtones, double highlights);
 };

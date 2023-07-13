@@ -22,9 +22,6 @@ class FITSStretchUI : public QWidget, public Ui::FITSStretchUI
         void generateHistogram();
         void setStretchValues(double shadows, double midtones, double highlights);
 
-   signals:
-      void newStretchValue(double shadows, double midtones, double highlights);
-
     private:
         void setupButtons();
         void setupHistoPlot();

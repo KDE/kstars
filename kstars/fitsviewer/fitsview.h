@@ -452,6 +452,9 @@ class FITSView : public QScrollArea
         int magnifyingGlassY { -1 };
         bool showMagnifyingGlass { false };
         bool m_Suspended {false};
+        // Schedule updated when we have changes that adds
+        // information to the view (not just zoom)
+        bool m_QueueUpdate {false};
 
         QMutex updateMutex;
 

@@ -656,16 +656,6 @@ QPointer<FITSViewer> Camera::getFITSViewer()
         m_FITSViewerWindow.clear();
     });
 
-    connect(m_FITSViewerWindow, &FITSViewer::updated, this, [this](int tabUID)
-    {
-        auto tab = getFITSViewer()->getTabs().at(tabUID);
-        if (tab)
-        {
-            auto view = tab->getView();
-            emit newView(view);
-        }
-    });
-
     return m_FITSViewerWindow;
 }
 
@@ -937,6 +927,22 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::
                     }
 
                     success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
+
+                    // Setup any necessary connections
+                    auto tab = getFITSViewer()->getTabs().at(tabIndex);
+                    if (tab && captureMode == FITS_NORMAL)
+                    {
+                        auto view = tab->getView();
+                        if (view)
+                        {
+                            emit newView(view);
+                            view->disconnect(this);
+                            connect(view.get(), &FITSView::updated, this, [this, view]()
+                            {
+                                emit newView(view);
+                            });
+                        }
+                    }
                 }
                 else
                     success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter, captureMode);
@@ -1854,5 +1860,21 @@ void Camera::setStretchValues(double shadows, double midtones, double highlights
         return;
 
     tab->setStretchValues(shadows, midtones, highlights);
+}
+
+void Camera::setAutotretch()
+{
+    if (Options::useFITSViewer() == false || normalTabID < 0)
+        return;
+
+    auto tab = getFITSViewer()->getTabs().at(normalTabID);
+
+    if (!tab)
+        return;
+
+    auto view = tab->getView();
+
+    if (!view->getAutoStretch())
+        view->setAutoStretchParams();
 }
 }

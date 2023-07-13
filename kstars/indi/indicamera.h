@@ -174,6 +174,7 @@ class Camera : public ConcreteDevice
         // FITS Viewer Stretch values
         // TODO: Need to remove all FITSViewer related functions from INDI::Camera
         Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
+        Q_SCRIPTABLE void setAutotretch();
 
         // Capture Format
         const QStringList &getCaptureFormats() const

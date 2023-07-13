@@ -126,7 +126,10 @@ void FITSView::setStretchParams(const StretchParams &params)
     stretchImage = true;
 
     if (m_ImageFrame && rescale(ZOOM_KEEP_LEVEL))
+    {
+        m_QueueUpdate = true;
         updateFrame(true);
+    }
 }
 
 // Turn on or off stretching, and if on, use whatever parameters are currently stored.
@@ -136,7 +139,10 @@ void FITSView::setStretch(bool onOff)
     {
         stretchImage = onOff;
         if (m_ImageFrame && rescale(ZOOM_KEEP_LEVEL))
+        {
+            m_QueueUpdate = true;
             updateFrame(true);
+        }
     }
 }
 
@@ -146,7 +152,10 @@ void FITSView::setAutoStretchParams()
     stretchImage = true;
     autoStretch = true;
     if (m_ImageFrame && rescale(ZOOM_KEEP_LEVEL))
+    {
+        m_QueueUpdate = true;
         updateFrame(true);
+    }
 }
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), m_ZoomFactor(1.2)
@@ -507,6 +516,7 @@ bool FITSView::processData()
     }
 
     // Fore immediate load of frame for first load.
+    m_QueueUpdate = true;
     updateFrame(true);
     return true;
 }
@@ -801,8 +811,11 @@ void FITSView::updateFrame(bool now)
         else
             updateFrameSmallImage();
 
-        if (m_StretchingInProgress == false)
+        if (m_QueueUpdate && m_StretchingInProgress == false)
+        {
+            m_QueueUpdate = false;
             emit updated();
+        }
     }
     else
         m_UpdateFrameTimer.start();

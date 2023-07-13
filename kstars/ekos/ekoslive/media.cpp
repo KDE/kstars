@@ -342,6 +342,8 @@ void Media::upload(const QSharedPointer<FITSView> &view)
     imageData->getRecordValue("FOCALLEN", focal_length);
     imageData->getRecordValue("APTDIA", aperture);
 
+    auto stretchParameters = view->getStretchParams();
+
     // Account for binning
     const double binned_pixel = pixel_size.toDouble() * xbin.toInt();
     // Send everything as strings
@@ -361,6 +363,9 @@ void Media::upload(const QSharedPointer<FITSView> &view)
         {"aperture", aperture.toString()},
         {"gain", gain.toString()},
         {"pixel_size", QString::number(binned_pixel, 'f', 4)},
+        {"shadows", stretchParameters.grey_red.shadows},
+        {"midtones", stretchParameters.grey_red.midtones},
+        {"highlights", stretchParameters.grey_red.highlights},
         {"ext", ext}
     };
 

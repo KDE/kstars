@@ -255,8 +255,6 @@ void FITSStretchUI::setStretchUIValues(const StretchParams1Channel &params)
     highlightsVal->setEnabled(stretchActive);
     highlightsLabel->setEnabled(stretchActive);
     histoSlider->setEnabled(stretchActive);
-
-    emit newStretchValue(params.shadows, params.midtones, params.highlights);
 }
 
 void FITSStretchUI::setupConnections()
@@ -297,7 +295,6 @@ void FITSStretchUI::setupConnections()
         m_View->setStretchParams(params);
         histoSlider->setMaximumValue(params.grey_red.highlights * HISTO_SLIDER_MAX);
         histoPlot->replot();
-        emit newStretchValue(params.grey_red.shadows, params.grey_red.midtones, params.grey_red.highlights);
     });
 
     connect(midtonesVal, &QDoubleSpinBox::editingFinished, this, [ this ]()
@@ -308,7 +305,6 @@ void FITSStretchUI::setupConnections()
         m_View->setStretchParams(params);
         histoSlider->setMidValue(invertMidValueFcn(params.grey_red.midtones));
         histoPlot->replot();
-        emit newStretchValue(params.grey_red.shadows, params.grey_red.midtones, params.grey_red.highlights);
     });
 
     connect(shadowsVal, &QDoubleSpinBox::editingFinished, this, [ this ]()
@@ -319,7 +315,6 @@ void FITSStretchUI::setupConnections()
         m_View->setStretchParams(params);
         histoSlider->setMinimumValue(params.grey_red.shadows * HISTO_SLIDER_MAX);
         histoPlot->replot();
-        emit newStretchValue(params.grey_red.shadows, params.grey_red.midtones, params.grey_red.highlights);
     });
 
     connect(stretchButton, &QPushButton::clicked, this, [ = ]()

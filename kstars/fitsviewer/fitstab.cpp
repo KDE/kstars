@@ -155,7 +155,6 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         vlayout->addWidget(fitsSplitter);
 
         stretchUI.reset(new FITSStretchUI(m_View, nullptr));
-        connect(stretchUI.get(), &FITSStretchUI::newStretchValue, this, &FITSTab::newStretchValue);
         vlayout->addWidget(stretchUI.get());
 
         connect(fitsSplitter, &QSplitter::splitterMoved, m_HistogramEditor, &FITSHistogramEditor::resizePlot);
