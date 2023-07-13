@@ -171,6 +171,11 @@ class Camera : public ConcreteDevice
             return m_EncodingFormats;
         }
 
+        // FITS Viewer Stretch values
+        // TODO: Need to remove all FITSViewer related functions from INDI::Camera
+        Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
+        Q_SCRIPTABLE void setAutotretch();
+
         // Capture Format
         const QStringList &getCaptureFormats() const
         {
@@ -229,7 +234,6 @@ class Camera : public ConcreteDevice
         }
 
     public slots:
-        //void FITSViewerDestroyed();
         void StreamWindowHidden();
         // Blob manager
         void setBLOBManager(const char *device, INDI::Property prop);
@@ -243,13 +247,17 @@ class Camera : public ConcreteDevice
         void newGuideStarData(ISD::CameraChip *chip, double dx, double dy, double fit);
         void newBLOBManager(INDI::Property prop);
         void newRemoteFile(QString);
+        void coolerToggled(bool enabled);
+        void error(ErrorType type);
+        // Video
         void videoStreamToggled(bool enabled);
         void videoRecordToggled(bool enabled);
         void newFPS(double instantFPS, double averageFPS);
         void newVideoFrame(const QSharedPointer<QImage> &frame);
-        void coolerToggled(bool enabled);
-        void error(ErrorType type);
+        // Data
         void newImage(const QSharedPointer<FITSData> &data);
+        // View
+        void newView(const QSharedPointer<FITSView> &view);
 
     private:
         void processStream(INDI::Property prop);
@@ -258,6 +266,7 @@ class Camera : public ConcreteDevice
         bool writeImageFile(const QString &filename, INDI::Property prop, bool is_fits);
         bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
         // Creates or finds the FITSViewer.
+        // TODO: Need to remove all FITSViewer related functions from INDI::Camera
         QPointer<FITSViewer> getFITSViewer();
         void handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop, QSharedPointer<FITSData> data);
 

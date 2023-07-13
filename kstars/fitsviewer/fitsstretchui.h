@@ -20,8 +20,7 @@ class FITSStretchUI : public QWidget, public Ui::FITSStretchUI
         FITSStretchUI(const QSharedPointer<FITSView> &view, QWidget * parent = nullptr);
 
         void generateHistogram();
-
-    public slots:
+        void setStretchValues(double shadows, double midtones, double highlights);
 
     private:
         void setupButtons();

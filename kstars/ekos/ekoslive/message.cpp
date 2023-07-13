@@ -2510,11 +2510,30 @@ void Message::sendModuleState(const QString &name)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool Message::parseArgument(const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types)
+QObject *Message::findObject(const QString &name)
+{
+    QObject *object {nullptr};
+    // Try Manager first
+    object = m_Manager->findChild<QObject *>(name);
+    if (object)
+        return object;
+    // Then INDI Listener
+    object = INDIListener::Instance()->findChild<QObject *>(name);
+    if (object)
+        return object;
+    // Finally KStars
+    object = KStars::Instance()->findChild<QObject *>(name);
+    return object;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types)
 {
     QGenericArgument genericArgument;
 
-    switch (arg.type())
+    switch (type)
     {
         case QVariant::Type::Int:
             types.number_integer = arg.toInt();
@@ -2558,63 +2577,53 @@ bool Message::parseArgument(const QVariant &arg, QGenericArgument &genericArg, S
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-QObject *Message::findObject(const QString &name)
-{
-    QObject *object {nullptr};
-    // Try Manager first
-    object = m_Manager->findChild<QObject *>(name);
-    if (object)
-        return object;
-    // Then INDI Listener
-    object = INDIListener::Instance()->findChild<QObject *>(name);
-    if (object)
-        return object;
-    // Finally KStars
-    object = KStars::Instance()->findChild<QObject *>(name);
-    return object;
-}
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 void Message::invokeMethod(QObject *context, const QJsonObject &payload)
 {
-    QGenericArgument arg1, arg2, arg3, arg4;
-    SimpleTypes types1, types2, types3, types4;
-    uint8_t validArgs = 0;
-    auto map = payload.toVariantMap();
+    QList<QGenericArgument> argsList;
+    QList<SimpleTypes> typesList;
 
-    auto name = map["name"].toString().toLatin1();
+    auto name = payload["name"].toString().toLatin1();
 
-    if (map.contains("arg1"))
+    if (payload.contains("args"))
     {
-        if (parseArgument(map["arg1"], arg1, types1))
-            validArgs++;
+        QJsonArray args = payload["args"].toArray();
+
+        for (auto oneArg : args)
+        {
+            auto argObject = oneArg.toObject();
+            QGenericArgument genericArgument;
+            SimpleTypes genericType;
+            argsList.append(genericArgument);
+            typesList.append(genericType);
+            if (parseArgument(static_cast<QVariant::Type>(argObject["type"].toInt()), argObject["value"].toVariant(), argsList.back(),
+                              typesList.last()) == false)
+            {
+                argsList.pop_back();
+                typesList.pop_back();
+            }
+        }
+
+        switch (argsList.size())
+        {
+            case 1:
+                QMetaObject::invokeMethod(context, name, argsList[0]);
+                break;
+            case 2:
+                QMetaObject::invokeMethod(context, name, argsList[0], argsList[1]);
+                break;
+            case 3:
+                QMetaObject::invokeMethod(context, name, argsList[0], argsList[1], argsList[2]);
+                break;
+            case 4:
+                QMetaObject::invokeMethod(context, name, argsList[0], argsList[1], argsList[2], argsList[3]);
+                break;
+            default:
+                break;
+        }
     }
-    if (map.contains("arg2") && parseArgument(map["arg2"], arg1, types2))
-        validArgs++;
-    if (map.contains("arg3") && parseArgument(map["arg3"], arg1, types3))
-        validArgs++;
-    if (map.contains("arg4") && parseArgument(map["arg4"], arg1, types4))
-        validArgs++;
-
-    switch (validArgs)
+    else
     {
-        // No arguments
-        case 0:
-            QMetaObject::invokeMethod(context, name);
-            break;
-        case 1:
-            QMetaObject::invokeMethod(context, name, arg1);
-            break;
-        case 2:
-            QMetaObject::invokeMethod(context, name, arg1, arg2);
-            break;
-        case 3:
-            QMetaObject::invokeMethod(context, name, arg1, arg2, arg3);
-            break;
-        case 4:
-            QMetaObject::invokeMethod(context, name, arg1, arg2, arg3, arg4);
-            break;
+        QMetaObject::invokeMethod(context, name);
     }
 }
 

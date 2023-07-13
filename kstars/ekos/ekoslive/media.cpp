@@ -342,6 +342,8 @@ void Media::upload(const QSharedPointer<FITSView> &view)
     imageData->getRecordValue("FOCALLEN", focal_length);
     imageData->getRecordValue("APTDIA", aperture);
 
+    auto stretchParameters = view->getStretchParams();
+
     // Account for binning
     const double binned_pixel = pixel_size.toDouble() * xbin.toInt();
     // Send everything as strings
@@ -361,6 +363,9 @@ void Media::upload(const QSharedPointer<FITSView> &view)
         {"aperture", aperture.toString()},
         {"gain", gain.toString()},
         {"pixel_size", QString::number(binned_pixel, 'f', 4)},
+        {"shadows", stretchParameters.grey_red.shadows},
+        {"midtones", stretchParameters.grey_red.midtones},
+        {"highlights", stretchParameters.grey_red.highlights},
         {"ext", ext}
     };
 
@@ -540,11 +545,21 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::registerCameras()
 {
+    static const QRegularExpression re("[-{}]");
     for(auto &oneDevice : INDIListener::devices())
     {
         auto camera = oneDevice->getCamera();
         if (camera)
-            connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
+        {
+            camera->disconnect(this);
+            connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame);
+            connect(camera, &ISD::Camera::newView, this, [this](const QSharedPointer<FITSView> &view)
+            {
+                QString uuid = QUuid::createUuid().toString();
+                uuid = uuid.remove(re);
+                sendView(view, uuid);
+            });
+        }
     }
 }
 
@@ -570,7 +585,7 @@ void Media::uploadImage(const QByteArray &image)
     }
 }
 
-void Media::processNewBLOB(IBLOB *bp)
+void Media::processNewBLOB(IBLOB * bp)
 {
     Q_UNUSED(bp)
 }

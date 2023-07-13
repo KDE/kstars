@@ -475,11 +475,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @param path path of a file
              * @return true on success, false on failure.
              */
-        bool saveScheduler(const QUrl &fileURL);
+        Q_SCRIPTABLE bool saveScheduler(const QUrl &fileURL);
 
         /** Update table cells for all jobs.
+         *  For framing assistant
          */
-        void updateTable(); // For framing assistant
+        void updateTable();
 
 
     private:

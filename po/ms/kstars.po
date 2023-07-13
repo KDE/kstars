@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:43+0000\n"
+"POT-Creation-Date: 2023-07-13 00:42+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -2454,7 +2454,7 @@ msgstr "URL ialah seperti hingga?"
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
 #: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:499 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2745,7 +2745,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:925
+#: fitsviewer/fitsviewer.cpp:610 indi/indicamera.cpp:936
 #, fuzzy, kde-format
 msgid "Preview"
 msgstr "Pilihan Pralihat"
@@ -6059,7 +6059,7 @@ msgstr "Kosongkan"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
 #: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, fuzzy, kde-format
 msgid "Invalid URL: %1"
@@ -9401,7 +9401,7 @@ msgstr "Tidak dapat memadam konteks fail untuk %s"
 #: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:441
 #, kde-format
 msgid "Focus"
 msgstr ""
@@ -9409,7 +9409,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:449
 #, fuzzy, kde-format
 msgid "Align"
 msgstr "Pada Ahli:"
@@ -9422,7 +9422,7 @@ msgstr "Pada Ahli:"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:445
 #, kde-format
 msgid "Guide"
 msgstr ""
@@ -17566,7 +17566,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:355
+#: fitsviewer/fitstab.cpp:359
 #, kde-format
 msgid "Value"
 msgstr "Nilai"
@@ -25346,7 +25346,7 @@ msgstr "Selesai"
 msgid "Normal"
 msgstr "Bandar nama"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:431
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:437
 #, fuzzy, kde-format
 msgid "Calibrate"
 msgstr "Bandar nama"
@@ -25625,8 +25625,8 @@ msgid "Y Offset:"
 msgstr "masa :"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:473
-#: fitsviewer/fitsviewer.cpp:1237
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:479
+#: fitsviewer/fitsviewer.cpp:1243
 #, fuzzy, kde-format
 msgid "Ready."
 msgstr "Bandar nama"
@@ -25813,29 +25813,29 @@ msgstr "fail seperti hingga?"
 msgid "Recent Images"
 msgstr "Pralihat"
 
-#: fitsviewer/fitstab.cpp:367
+#: fitsviewer/fitstab.cpp:371
 #, fuzzy, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "Pertama inci Buang"
 
-#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
+#: fitsviewer/fitstab.cpp:452 fitsviewer/fitstab.cpp:456
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Simp&an"
 
-#: fitsviewer/fitstab.cpp:484
+#: fitsviewer/fitstab.cpp:488
 #, fuzzy, kde-format
 msgid "Image save error: %1"
 msgstr "Tidak dapat memuatkan fail!"
 
-#: fitsviewer/fitstab.cpp:484
+#: fitsviewer/fitstab.cpp:488
 #, fuzzy, kde-format
 msgid "Image Save"
 msgstr "Format imej natif GIMP"
 
-#: fitsviewer/fitstab.cpp:488
+#: fitsviewer/fitstab.cpp:492
 #, fuzzy, kde-format
 msgid "File saved to %1"
 msgstr "Tidak dapat memuatkan fail!"
@@ -25850,81 +25850,81 @@ msgstr "Gagal untuk muatkan imej \"%1\"\n"
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1647
+#: fitsviewer/fitsview.cpp:1649
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1664
+#: fitsviewer/fitsview.cpp:1666
 #, fuzzy, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "Bulan terbit & Bulan terbenam (UT)"
 
-#: fitsviewer/fitsview.cpp:2084
+#: fitsviewer/fitsview.cpp:2086
 #, fuzzy, kde-format
 msgid "Finding stars..."
 msgstr "Padanan kurungan"
 
-#: fitsviewer/fitsview.cpp:2323
+#: fitsviewer/fitsview.cpp:2325
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2326
+#: fitsviewer/fitsview.cpp:2328
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2329
+#: fitsviewer/fitsview.cpp:2331
 #, fuzzy, kde-format
 msgid "Default Zoom"
 msgstr "default:LTR"
 
-#: fitsviewer/fitsview.cpp:2332
+#: fitsviewer/fitsview.cpp:2334
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2335
+#: fitsviewer/fitsview.cpp:2337
 #, fuzzy, kde-format
 msgid "Toggle Stretch"
 msgstr "Auto _Pilih"
 
-#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2345 fitsviewer/fitsviewer.cpp:210
 #, fuzzy, kde-format
 msgid "Show Cross Hairs"
 msgstr "Pusat Konfigurasi Menu"
 
-#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2349 fitsviewer/fitsviewer.cpp:223
 #, fuzzy, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Jangan papar dua baris bantuan"
 
-#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
+#: fitsviewer/fitsview.cpp:2354 fitsviewer/fitsview.cpp:2457
 #, fuzzy, kde-format
 msgid "Detect Stars in Image"
 msgstr "tidak dapat membuka %s!\n"
 
-#: fitsviewer/fitsview.cpp:2358
+#: fitsviewer/fitsview.cpp:2360
 #, fuzzy, kde-format
 msgid "View Star Profile"
 msgstr "Bandar nama"
 
-#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:969
+#: fitsviewer/fitsview.cpp:2370 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:975
 #, fuzzy, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Kordinat Bulan"
 
-#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:971
+#: fitsviewer/fitsview.cpp:2376 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsviewer.cpp:977
 #, fuzzy, kde-format
 msgid "Show Objects in Image"
 msgstr "Papar _Bantuan"
 
-#: fitsviewer/fitsview.cpp:2380
+#: fitsviewer/fitsview.cpp:2382
 #, fuzzy, kde-format
 msgid "Center Telescope"
 msgstr "Nama sudah digunakan"
@@ -25995,7 +25995,7 @@ msgstr "Statistik:"
 msgid "Show Clipping"
 msgstr "dialog telah dibatalkan"
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:980
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:986
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -26007,13 +26007,13 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1210
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1216
 #, fuzzy, kde-format
 msgid "Mark Stars"
 msgstr "Bandar nama"
 
-#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:702
-#: fitsviewer/fitsviewer.cpp:1202
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:708
+#: fitsviewer/fitsviewer.cpp:1208
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -26038,115 +26038,115 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "Star Voyager"
 msgstr[1] "Star Voyager"
 
-#: fitsviewer/fitsviewer.cpp:569
+#: fitsviewer/fitsviewer.cpp:575
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:688
+#: fitsviewer/fitsviewer.cpp:694
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1123
+#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1129
 #, fuzzy, kde-format
 msgid "Cross Hairs"
 msgstr "Pusat Konfigurasi Menu"
 
-#: fitsviewer/fitsviewer.cpp:690 fitsviewer/fitsviewer.cpp:1137
+#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1143
 #, fuzzy, kde-format
 msgid "Clipping"
 msgstr "Negara nama"
 
-#: fitsviewer/fitsviewer.cpp:691 fitsviewer/fitsviewer.cpp:1150
+#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1156
 #, fuzzy, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Kordinat Bulan"
 
-#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1176
+#: fitsviewer/fitsviewer.cpp:698 fitsviewer/fitsviewer.cpp:1182
 #, fuzzy, kde-format
 msgid "Objects in Image"
 msgstr "Papar _Bantuan"
 
-#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1189
+#: fitsviewer/fitsviewer.cpp:699 fitsviewer/fitsviewer.cpp:1195
 #, fuzzy, kde-format
 msgid "Pixel Gridlines"
 msgstr "Jangan papar dua baris bantuan"
 
-#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:713 kstarsactions.cpp:1272
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "tidak dapat membuka %s!\n"
 
-#: fitsviewer/fitsviewer.cpp:946
+#: fitsviewer/fitsviewer.cpp:952
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:951
+#: fitsviewer/fitsviewer.cpp:957
 #, fuzzy, kde-format
 msgid "Show %1"
 msgstr "Papar _Bantuan"
 
-#: fitsviewer/fitsviewer.cpp:975
+#: fitsviewer/fitsviewer.cpp:981
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*Ready*"
 msgstr "Nama sudah digunakan"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:992
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:988
+#: fitsviewer/fitsviewer.cpp:994
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*No WCS Info*"
 msgstr "Nama sudah digunakan"
 
-#: fitsviewer/fitsviewer.cpp:990
+#: fitsviewer/fitsviewer.cpp:996
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1021 fitsviewer/fitsviewer.cpp:1163
+#: fitsviewer/fitsviewer.cpp:1027 fitsviewer/fitsviewer.cpp:1169
 #, fuzzy, kde-format
 msgid "Selection Rectangle"
 msgstr "Kaedah Masukan"
 
-#: fitsviewer/fitsviewer.cpp:1050 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1056 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "Saiz:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1058 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:66
 #, fuzzy, kde-format
 msgid "Width"
 msgstr "Lebar:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1059 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1065 fitsviewer/statform.ui:71
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Height"
 msgstr "Tinggi:"
 
-#: fitsviewer/fitsviewer.cpp:1215
+#: fitsviewer/fitsviewer.cpp:1221
 #, fuzzy, kde-format
 msgid "Unmark Stars"
 msgstr "Bandar nama"
 
-#: fitsviewer/fitsviewer.cpp:1231
+#: fitsviewer/fitsviewer.cpp:1237
 #, fuzzy, kde-format
 msgid "Processing %1..."
 msgstr "Pada Ahli:"
@@ -27205,39 +27205,39 @@ msgid ""
 "from the Device Manager in the devices menu."
 msgstr "Tidak larian Kepada Peranti Pengurus inci."
 
-#: indi/indicamera.cpp:440
+#: indi/indicamera.cpp:441
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr ""
 
-#: indi/indicamera.cpp:445
+#: indi/indicamera.cpp:446
 #, kde-format
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:745
+#: indi/indicamera.cpp:756
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:747
+#: indi/indicamera.cpp:758
 #, fuzzy, kde-format
 msgid "Image Write Failed"
 msgstr "Memulakan proses perakaunan: "
 
-#: indi/indicamera.cpp:758
+#: indi/indicamera.cpp:769
 #, fuzzy, kde-format
 msgid "%1 file saved to %2"
 msgstr "Tidak dapat memuatkan fail!"
 
-#: indi/indicamera.cpp:765
+#: indi/indicamera.cpp:776
 #, fuzzy, kde-format
 msgid "Image file is received"
 msgstr "Memulakan proses perakaunan: "
 
-#: indi/indicamera.cpp:922
+#: indi/indicamera.cpp:933
 #, fuzzy, kde-format
 msgid "%1 Preview"
 msgstr "Pilihan Pralihat"

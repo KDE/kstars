@@ -452,6 +452,9 @@ class FITSView : public QScrollArea
         int magnifyingGlassY { -1 };
         bool showMagnifyingGlass { false };
         bool m_Suspended {false};
+        // Schedule updated when we have changes that adds
+        // information to the view (not just zoom)
+        bool m_QueueUpdate {false};
 
         QMutex updateMutex;
 
@@ -468,6 +471,7 @@ class FITSView : public QScrollArea
         void actionUpdated(const QString &name, bool enable);
         void trackingStarSelected(int x, int y);
         void loaded();
+        void updated();
         void failed(const QString &error);
         void starProfileWindowClosed();
         void rectangleUpdated(QRect roi);

@@ -212,7 +212,7 @@ class Message : public QObject
 
         QObject *findObject(const QString &name);
         void invokeMethod(QObject *context, const QJsonObject &payload);
-        bool parseArgument(const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
+        bool parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
 
         Ekos::Manager *m_Manager { nullptr };
         QVector<QSharedPointer<NodeManager>> m_NodeManagers;

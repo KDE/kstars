@@ -18,6 +18,7 @@
 //#include "ekos/manager.h"
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitstab.h"
 #endif
 
 #include <KNotifications/KNotification>
@@ -926,6 +927,18 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::
                     }
 
                     success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
+
+                    //Setup any necessary connections
+                    auto tab = getFITSViewer()->tabs().at(tabIndex);
+                    if (tab && captureMode == FITS_NORMAL)
+                    {
+                        tab->disconnect(this);
+                        connect(tab.get(), &FITSTab::updated, this, [this]
+                        {
+                            auto tab = qobject_cast<FITSTab *>(sender());
+                            emit newView(tab->getView());
+                        });
+                    }
                 }
                 else
                     success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter, captureMode);
@@ -1826,9 +1839,38 @@ bool Camera::WriteImageFileInternal(const QString &filename, char *buffer, const
 
 QString Camera::getCaptureFormat() const
 {
-    if (m_CaptureFormatIndex < 0 || m_CaptureFormats.isEmpty() || m_CaptureFormatIndex > m_CaptureFormats.size())
+    if (m_CaptureFormatIndex < 0 || m_CaptureFormats.isEmpty() || m_CaptureFormatIndex >= m_CaptureFormats.size())
         return QLatin1String("NA");
 
     return m_CaptureFormats[m_CaptureFormatIndex];
+}
+
+void Camera::setStretchValues(double shadows, double midtones, double highlights)
+{
+    if (Options::useFITSViewer() == false || normalTabID < 0)
+        return;
+
+    auto tab = getFITSViewer()->tabs().at(normalTabID);
+
+    if (!tab)
+        return;
+
+    tab->setStretchValues(shadows, midtones, highlights);
+}
+
+void Camera::setAutotretch()
+{
+    if (Options::useFITSViewer() == false || normalTabID < 0)
+        return;
+
+    auto tab = getFITSViewer()->tabs().at(normalTabID);
+
+    if (!tab)
+        return;
+
+    auto view = tab->getView();
+
+    if (!view->getAutoStretch())
+        view->setAutoStretchParams();
 }
 }
