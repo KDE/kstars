@@ -74,11 +74,11 @@ class FITSViewer : public KXmlGuiWindow
 
         bool empty() const
         {
-            return fitsTabs.empty();
+            return m_Tabs.empty();
         }
-        QList<FITSTab *> getTabs()
+        const QList<QSharedPointer<FITSTab>> tabs() const
         {
-            return fitsTabs;
+            return m_Tabs;
         }
         bool getView(int fitsUID, QSharedPointer<FITSView> &view);
         bool getCurrentView(QSharedPointer<FITSView> &view);
@@ -134,9 +134,9 @@ class FITSViewer : public KXmlGuiWindow
     private:
         void updateButtonStatus(const QString &action, const QString &item, bool showing);
         // Shared utilites between the standard and "FromData" addFITS and updateFITS.
-        bool addFITSCommon(FITSTab *tab, const QUrl &imageName,
+        bool addFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &imageName,
                            FITSMode mode, const QString &previewText);
-        bool updateFITSCommon(FITSTab *tab, const QUrl &imageName);
+        bool updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &imageName);
 
         QTabWidget *fitsTabWidget { nullptr };
         QUndoGroup *undoGroup { nullptr };
@@ -145,10 +145,10 @@ class FITSViewer : public KXmlGuiWindow
         QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsHFR, fitsClip;
         QAction *saveFileAction { nullptr };
         QAction *saveFileAsAction { nullptr };
-        QList<FITSTab *> fitsTabs;
+        QList<QSharedPointer<FITSTab>> m_Tabs;
         int fitsID { 0 };
         bool markStars { false };
-        QMap<int, FITSTab *> fitsMap;
+        QMap<int, QSharedPointer<FITSTab>> fitsMap;
         QUrl lastURL;
         KActionMenu *roiActionMenu { nullptr };
         KActionMenu* roiMenu { nullptr };

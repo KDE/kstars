@@ -928,20 +928,16 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::
 
                     success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
 
-                    // Setup any necessary connections
-                    auto tab = getFITSViewer()->getTabs().at(tabIndex);
+                    //Setup any necessary connections
+                    auto tab = getFITSViewer()->tabs().at(tabIndex);
                     if (tab && captureMode == FITS_NORMAL)
                     {
-                        auto view = tab->getView();
-                        if (view)
+                        tab->disconnect(this);
+                        connect(tab.get(), &FITSTab::updated, this, [this]
                         {
-                            emit newView(view);
-                            view->disconnect(this);
-                            connect(view.get(), &FITSView::updated, this, [this, view]()
-                            {
-                                emit newView(view);
-                            });
-                        }
+                            auto tab = qobject_cast<FITSTab *>(sender());
+                            emit newView(tab->getView());
+                        });
                     }
                 }
                 else
@@ -1854,7 +1850,7 @@ void Camera::setStretchValues(double shadows, double midtones, double highlights
     if (Options::useFITSViewer() == false || normalTabID < 0)
         return;
 
-    auto tab = getFITSViewer()->getTabs().at(normalTabID);
+    auto tab = getFITSViewer()->tabs().at(normalTabID);
 
     if (!tab)
         return;
@@ -1867,7 +1863,7 @@ void Camera::setAutotretch()
     if (Options::useFITSViewer() == false || normalTabID < 0)
         return;
 
-    auto tab = getFITSViewer()->getTabs().at(normalTabID);
+    auto tab = getFITSViewer()->tabs().at(normalTabID);
 
     if (!tab)
         return;

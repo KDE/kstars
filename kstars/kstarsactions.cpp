@@ -313,7 +313,7 @@ void KStars::slotINDIToolBar()
         {
             for (auto &view : m_FITSViewers)
             {
-                if (view->getTabs().empty() == false)
+                if (view->tabs().empty() == false)
                 {
                     view->raise();
                     view->activateWindow();
