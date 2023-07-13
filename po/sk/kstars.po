@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:43+0000\n"
+"POT-Creation-Date: 2023-07-13 00:42+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -2586,7 +2586,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
 #: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:499 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2900,7 +2900,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:925
+#: fitsviewer/fitsviewer.cpp:610 indi/indicamera.cpp:936
 #, kde-format
 msgid "Preview"
 msgstr "Náhľad"
@@ -6440,7 +6440,7 @@ msgstr "Vyčistiť všetky body"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
 #: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10090,7 +10090,7 @@ msgstr "Nepodarilo sa odstrániť súbor: %1"
 #: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:441
 #, kde-format
 msgid "Focus"
 msgstr "Zameranie"
@@ -10098,7 +10098,7 @@ msgstr "Zameranie"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:449
 #, kde-format
 msgid "Align"
 msgstr "Zarovnať"
@@ -10111,7 +10111,7 @@ msgstr "Zarovnať"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:445
 #, kde-format
 msgid "Guide"
 msgstr "Usmerňovať"
@@ -19135,7 +19135,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:355
+#: fitsviewer/fitstab.cpp:359
 #, kde-format
 msgid "Value"
 msgstr "Hodnota"
@@ -27878,7 +27878,7 @@ msgstr "Zarovnanie dokončené"
 msgid "Normal"
 msgstr "Norman"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:431
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:437
 #, kde-format
 msgid "Calibrate"
 msgstr "Kalibrovať"
@@ -28179,8 +28179,8 @@ msgid "Y Offset:"
 msgstr "Posun Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:473
-#: fitsviewer/fitsviewer.cpp:1237
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:479
+#: fitsviewer/fitsviewer.cpp:1243
 #, kde-format
 msgid "Ready."
 msgstr "Pripravený."
@@ -28377,34 +28377,34 @@ msgstr ""
 msgid "Recent Images"
 msgstr "Referenčné obrázky:"
 
-#: fitsviewer/fitstab.cpp:367
+#: fitsviewer/fitstab.cpp:371
 #, fuzzy, kde-format
 #| msgid "RA"
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
+#: fitsviewer/fitstab.cpp:452 fitsviewer/fitstab.cpp:456
 #, fuzzy, kde-format
 #| msgid "Save FITS"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Uložiť FITS"
 
-#: fitsviewer/fitstab.cpp:484
+#: fitsviewer/fitstab.cpp:488
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "Chyba pri ukladaní súboru: %1"
 
-#: fitsviewer/fitstab.cpp:484
+#: fitsviewer/fitstab.cpp:488
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "Údaje obrázka"
 
-#: fitsviewer/fitstab.cpp:488
+#: fitsviewer/fitstab.cpp:492
 #, kde-format
 msgid "File saved to %1"
 msgstr "Súbor uložený do %1"
@@ -28420,7 +28420,7 @@ msgstr "Uloženie obrázku zlyhalo %1."
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1647
+#: fitsviewer/fitsview.cpp:1649
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "NGC"
@@ -28428,7 +28428,7 @@ msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NGC"
 
-#: fitsviewer/fitsview.cpp:1664
+#: fitsviewer/fitsview.cpp:1666
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "NGC"
@@ -28436,77 +28436,77 @@ msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "NGC"
 
-#: fitsviewer/fitsview.cpp:2084
+#: fitsviewer/fitsview.cpp:2086
 #, kde-format
 msgid "Finding stars..."
 msgstr "Hľadanie hviezd..."
 
-#: fitsviewer/fitsview.cpp:2323
+#: fitsviewer/fitsview.cpp:2325
 #, fuzzy, kde-format
 msgid "Zoom In"
 msgstr "Priblížiť"
 
-#: fitsviewer/fitsview.cpp:2326
+#: fitsviewer/fitsview.cpp:2328
 #, fuzzy, kde-format
 #| msgid "Zoom To Fit"
 msgid "Zoom Out"
 msgstr "Oddialiť"
 
-#: fitsviewer/fitsview.cpp:2329
+#: fitsviewer/fitsview.cpp:2331
 #, kde-format
 msgid "Default Zoom"
 msgstr "Štandardný zoom"
 
-#: fitsviewer/fitsview.cpp:2332
+#: fitsviewer/fitsview.cpp:2334
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Prispôsobiť veľkosti"
 
-#: fitsviewer/fitsview.cpp:2335
+#: fitsviewer/fitsview.cpp:2337
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Toggle Stretch"
 msgstr "Automatické roztiahnutie"
 
-#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2345 fitsviewer/fitsviewer.cpp:210
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "Nitkový kríž"
 
-#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2349 fitsviewer/fitsviewer.cpp:223
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Pixel Gridlines"
 msgstr "Zobraziť satelity"
 
-#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
+#: fitsviewer/fitsview.cpp:2354 fitsviewer/fitsview.cpp:2457
 #, fuzzy, kde-format
 #| msgid "Select FITS Image"
 msgid "Detect Stars in Image"
 msgstr "Vybrať obrázok FITS"
 
-#: fitsviewer/fitsview.cpp:2358
+#: fitsviewer/fitsview.cpp:2360
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "View Star Profile"
 msgstr "Oblúkový súbor"
 
-#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:969
+#: fitsviewer/fitsview.cpp:2370 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:975
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Rovníkové súradnice"
 
-#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:971
+#: fitsviewer/fitsview.cpp:2376 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsviewer.cpp:977
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
 msgstr "Zobraziť objekty"
 
-#: fitsviewer/fitsview.cpp:2380
+#: fitsviewer/fitsview.cpp:2382
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid "Center Telescope"
@@ -28580,7 +28580,7 @@ msgstr "Štatistiky"
 msgid "Show Clipping"
 msgstr "Zobraziť dialóg pre tlač"
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:980
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:986
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28594,13 +28594,13 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr "Prispôsobiť veľkosti"
 
-#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1210
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1216
 #, kde-format
 msgid "Mark Stars"
 msgstr "Označiť hviezdy"
 
-#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:702
-#: fitsviewer/fitsviewer.cpp:1202
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:708
+#: fitsviewer/fitsviewer.cpp:1208
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -28630,66 +28630,66 @@ msgstr[0] "%1 hviezda"
 msgstr[1] "%1 hviezda"
 msgstr[2] "%1 hviezda"
 
-#: fitsviewer/fitsviewer.cpp:569
+#: fitsviewer/fitsviewer.cpp:575
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:688
+#: fitsviewer/fitsviewer.cpp:694
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1123
+#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1129
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "Nitkový kríž"
 
-#: fitsviewer/fitsviewer.cpp:690 fitsviewer/fitsviewer.cpp:1137
+#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1143
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Filipíny"
 
-#: fitsviewer/fitsviewer.cpp:691 fitsviewer/fitsviewer.cpp:1150
+#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1156
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Rovníkové súradnice"
 
-#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1176
+#: fitsviewer/fitsviewer.cpp:698 fitsviewer/fitsviewer.cpp:1182
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Zobraziť objekty"
 
-#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1189
+#: fitsviewer/fitsviewer.cpp:699 fitsviewer/fitsviewer.cpp:1195
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Pixel Gridlines"
 msgstr "Zobraziť satelity"
 
-#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:713 kstarsactions.cpp:1272
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Otvoriť obrázok FITS"
 
-#: fitsviewer/fitsviewer.cpp:946
+#: fitsviewer/fitsviewer.cpp:952
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:951
+#: fitsviewer/fitsviewer.cpp:957
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "Show"
 
-#: fitsviewer/fitsviewer.cpp:975
+#: fitsviewer/fitsviewer.cpp:981
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -28697,7 +28697,7 @@ msgid ""
 "*Ready*"
 msgstr "Centrum v teleskope"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:992
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -28706,7 +28706,7 @@ msgstr ""
 "Zobraziť rovníkové mriežky\n"
 "*žiadne WCS info*"
 
-#: fitsviewer/fitsviewer.cpp:988
+#: fitsviewer/fitsviewer.cpp:994
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -28714,7 +28714,7 @@ msgid ""
 "*No WCS Info*"
 msgstr "Centrum v teleskope"
 
-#: fitsviewer/fitsviewer.cpp:990
+#: fitsviewer/fitsviewer.cpp:996
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -28723,19 +28723,19 @@ msgstr ""
 "Zobraziť objekty v obrázku\n"
 "*žiadne WCS info*"
 
-#: fitsviewer/fitsviewer.cpp:1021 fitsviewer/fitsviewer.cpp:1163
+#: fitsviewer/fitsviewer.cpp:1027 fitsviewer/fitsviewer.cpp:1169
 #, fuzzy, kde-format
 #| msgid "Select begin star:"
 msgid "Selection Rectangle"
 msgstr "Vybrať začiatočnú hviezdu:"
 
-#: fitsviewer/fitsviewer.cpp:1050 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1056 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Veľkosť"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1058 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:66
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Width"
@@ -28743,19 +28743,19 @@ msgid "Width"
 msgstr "Šírka"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1059 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1065 fitsviewer/statform.ui:71
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Height"
 msgid "Height"
 msgstr "Výška"
 
-#: fitsviewer/fitsviewer.cpp:1215
+#: fitsviewer/fitsviewer.cpp:1221
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Odznačiť hviezdy"
 
-#: fitsviewer/fitsviewer.cpp:1231
+#: fitsviewer/fitsviewer.cpp:1237
 #, kde-format
 msgid "Processing %1..."
 msgstr "Spracúva sa %1..."
@@ -29917,41 +29917,41 @@ msgstr ""
 "Momentálne nebeží žiadne zariadenie INDI. Ak ich chcete spustiť, vyberte "
 "zariadenia v Správcovi zariadení v menu zariadení."
 
-#: indi/indicamera.cpp:440
+#: indi/indicamera.cpp:441
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr "Záznam videa zastavený"
 
-#: indi/indicamera.cpp:445
+#: indi/indicamera.cpp:446
 #, kde-format
 msgid "Video Recording Started"
 msgstr "Záznam videa spustený"
 
-#: indi/indicamera.cpp:745
+#: indi/indicamera.cpp:756
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:747
+#: indi/indicamera.cpp:758
 #, fuzzy, kde-format
 #| msgid "Image received."
 msgid "Image Write Failed"
 msgstr "Obrázok prijatý."
 
-#: indi/indicamera.cpp:758
+#: indi/indicamera.cpp:769
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "Súbor %1 uložený do %2"
 
-#: indi/indicamera.cpp:765
+#: indi/indicamera.cpp:776
 #, fuzzy, kde-format
 #| msgid "FITS file is received"
 msgid "Image file is received"
 msgstr "FITS súbor bol prijatý"
 
-#: indi/indicamera.cpp:922
+#: indi/indicamera.cpp:933
 #, kde-format
 msgid "%1 Preview"
 msgstr "Náhľad %1"

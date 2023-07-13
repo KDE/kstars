@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:43+0000\n"
+"POT-Creation-Date: 2023-07-13 00:42+0000\n"
 "PO-Revision-Date: 2023-07-10 17:51+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2561,7 +2561,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
 #: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:499 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2854,7 +2854,7 @@ msgstr "Tipus de mapatge"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:604 indi/indicamera.cpp:925
+#: fitsviewer/fitsviewer.cpp:610 indi/indicamera.cpp:936
 #, kde-format
 msgid "Preview"
 msgstr "Vista prèvia"
@@ -6301,7 +6301,7 @@ msgstr "Exporteu els punts de la solució"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
 #: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -9955,7 +9955,7 @@ msgstr "No s'ha pogut trobar el fitxer d'imatge: %1"
 #: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:435
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:441
 #, kde-format
 msgid "Focus"
 msgstr "Enfocament"
@@ -9963,7 +9963,7 @@ msgstr "Enfocament"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:443
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:449
 #, kde-format
 msgid "Align"
 msgstr "Alinea"
@@ -9976,7 +9976,7 @@ msgstr "Alinea"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:439
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:445
 #, kde-format
 msgid "Guide"
 msgstr "Guia"
@@ -19133,7 +19133,7 @@ msgstr "La solució es troba fora del recorregut màxim."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:355
+#: fitsviewer/fitstab.cpp:359
 #, kde-format
 msgid "Value"
 msgstr "Valor"
@@ -27889,7 +27889,7 @@ msgstr "S'ha completat el guiatge"
 msgid "Normal"
 msgstr "Normal"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:431
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:437
 #, kde-format
 msgid "Calibrate"
 msgstr "Calibra"
@@ -28176,8 +28176,8 @@ msgid "Y Offset:"
 msgstr "Desplaçament Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:473
-#: fitsviewer/fitsviewer.cpp:1237
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:479
+#: fitsviewer/fitsviewer.cpp:1243
 #, kde-format
 msgid "Ready."
 msgstr "Preparat."
@@ -28370,29 +28370,29 @@ msgstr ""
 msgid "Recent Images"
 msgstr "Imatges recents"
 
-#: fitsviewer/fitstab.cpp:367
+#: fitsviewer/fitstab.cpp:371
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
+#: fitsviewer/fitstab.cpp:452 fitsviewer/fitstab.cpp:456
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Guardeu FITS"
 
-#: fitsviewer/fitstab.cpp:484
+#: fitsviewer/fitstab.cpp:488
 #, kde-format
 msgid "Image save error: %1"
 msgstr "S'ha produït un error en guardar la imatge: %1"
 
-#: fitsviewer/fitstab.cpp:484
+#: fitsviewer/fitstab.cpp:488
 #, kde-format
 msgid "Image Save"
 msgstr "Guardeu la imatge"
 
-#: fitsviewer/fitstab.cpp:488
+#: fitsviewer/fitstab.cpp:492
 #, kde-format
 msgid "File saved to %1"
 msgstr "El fitxer s'ha guardat a %1"
@@ -28407,81 +28407,81 @@ msgstr "El canvi d'escala de la imatge ha fallat."
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "No es pot fer més zoom a causa d'un mode actiu de recursos limitats."
 
-#: fitsviewer/fitsview.cpp:1647
+#: fitsviewer/fitsview.cpp:1649
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "PNC"
 
-#: fitsviewer/fitsview.cpp:1664
+#: fitsviewer/fitsview.cpp:1666
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "PSC"
 
-#: fitsviewer/fitsview.cpp:2084
+#: fitsviewer/fitsview.cpp:2086
 #, kde-format
 msgid "Finding stars..."
 msgstr "S'estan buscant les estreles..."
 
-#: fitsviewer/fitsview.cpp:2323
+#: fitsviewer/fitsview.cpp:2325
 #, kde-format
 msgid "Zoom In"
 msgstr "Acosta"
 
-#: fitsviewer/fitsview.cpp:2326
+#: fitsviewer/fitsview.cpp:2328
 #, kde-format
 msgid "Zoom Out"
 msgstr "Allunya"
 
-#: fitsviewer/fitsview.cpp:2329
+#: fitsviewer/fitsview.cpp:2331
 #, kde-format
 msgid "Default Zoom"
 msgstr "Zoom predeterminat"
 
-#: fitsviewer/fitsview.cpp:2332
+#: fitsviewer/fitsview.cpp:2334
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Zoom fins que ajuste"
 
-#: fitsviewer/fitsview.cpp:2335
+#: fitsviewer/fitsview.cpp:2337
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Alterna l'estirament"
 
-#: fitsviewer/fitsview.cpp:2343 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2345 fitsviewer/fitsviewer.cpp:210
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Mostra el punt de mira"
 
-#: fitsviewer/fitsview.cpp:2347 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2349 fitsviewer/fitsviewer.cpp:223
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostra les línies de la quadrícula de píxels"
 
-#: fitsviewer/fitsview.cpp:2352 fitsviewer/fitsview.cpp:2455
+#: fitsviewer/fitsview.cpp:2354 fitsviewer/fitsview.cpp:2457
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Detecta les estreles en la imatge"
 
-#: fitsviewer/fitsview.cpp:2358
+#: fitsviewer/fitsview.cpp:2360
 #, kde-format
 msgid "View Star Profile"
 msgstr "Veure el perfil d'una estrela"
 
-#: fitsviewer/fitsview.cpp:2368 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:969
+#: fitsviewer/fitsview.cpp:2370 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:975
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostra les línies de la quadrícula equatorial"
 
-#: fitsviewer/fitsview.cpp:2374 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:971
+#: fitsviewer/fitsview.cpp:2376 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsviewer.cpp:977
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostra els objectes en la imatge"
 
-#: fitsviewer/fitsview.cpp:2380
+#: fitsviewer/fitsview.cpp:2382
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centra el telescopi"
@@ -28552,7 +28552,7 @@ msgstr "Estadístiques de &selecció"
 msgid "Show Clipping"
 msgstr "Mostra el retallat"
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:980
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:986
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28566,13 +28566,13 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr "Zoom fins que ajuste"
 
-#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1210
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1216
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marca estreles"
 
-#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:702
-#: fitsviewer/fitsviewer.cpp:1202
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:708
+#: fitsviewer/fitsviewer.cpp:1208
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Visualitza el gràfic en 3D"
@@ -28597,58 +28597,58 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "HFR:%2, %1 estrela."
 msgstr[1] "HFR:%2, %1 estreles."
 
-#: fitsviewer/fitsviewer.cpp:569
+#: fitsviewer/fitsviewer.cpp:575
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "No s'ha pogut trobar la pestanya amb l'UID %1 en el visor FITS"
 
-#: fitsviewer/fitsviewer.cpp:688
+#: fitsviewer/fitsviewer.cpp:694
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "Gràfic en 3D de la vista actual"
 
-#: fitsviewer/fitsviewer.cpp:689 fitsviewer/fitsviewer.cpp:1123
+#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1129
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Punt de mira"
 
-#: fitsviewer/fitsviewer.cpp:690 fitsviewer/fitsviewer.cpp:1137
+#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1143
 #, kde-format
 msgid "Clipping"
 msgstr "Retallat"
 
-#: fitsviewer/fitsviewer.cpp:691 fitsviewer/fitsviewer.cpp:1150
+#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1156
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Línies de la quadrícula equatorial"
 
-#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1176
+#: fitsviewer/fitsviewer.cpp:698 fitsviewer/fitsviewer.cpp:1182
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objectes en la imatge"
 
-#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1189
+#: fitsviewer/fitsviewer.cpp:699 fitsviewer/fitsviewer.cpp:1195
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Línies de la quadrícula de píxels"
 
-#: fitsviewer/fitsviewer.cpp:707 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:713 kstarsactions.cpp:1272
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Obriu una imatge"
 
-#: fitsviewer/fitsviewer.cpp:946
+#: fitsviewer/fitsviewer.cpp:952
 #, kde-format
 msgid "Hide %1"
 msgstr "Oculta %1"
 
-#: fitsviewer/fitsviewer.cpp:951
+#: fitsviewer/fitsviewer.cpp:957
 #, kde-format
 msgid "Show %1"
 msgstr "Mostra %1"
 
-#: fitsviewer/fitsviewer.cpp:975
+#: fitsviewer/fitsviewer.cpp:981
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28657,7 +28657,7 @@ msgstr ""
 "Centra el telescopi\n"
 "*Preparat*"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:992
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -28666,7 +28666,7 @@ msgstr ""
 "Mostra les línies de la quadrícula equatorial\n"
 "*Sense informació WCS*"
 
-#: fitsviewer/fitsviewer.cpp:988
+#: fitsviewer/fitsviewer.cpp:994
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28675,7 +28675,7 @@ msgstr ""
 "Centra el telescopi\n"
 "*Sense informació WCS*"
 
-#: fitsviewer/fitsviewer.cpp:990
+#: fitsviewer/fitsviewer.cpp:996
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -28684,34 +28684,34 @@ msgstr ""
 "Mostra els objectes en la imatge\n"
 "*Sense informació WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1021 fitsviewer/fitsviewer.cpp:1163
+#: fitsviewer/fitsviewer.cpp:1027 fitsviewer/fitsviewer.cpp:1169
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Rectangle de selecció"
 
-#: fitsviewer/fitsviewer.cpp:1050 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1056 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Mida"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1058 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:66
 #, kde-format
 msgid "Width"
 msgstr "Amplària"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1059 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1065 fitsviewer/statform.ui:71
 #, kde-format
 msgid "Height"
 msgstr "Alçària"
 
-#: fitsviewer/fitsviewer.cpp:1215
+#: fitsviewer/fitsviewer.cpp:1221
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Desmarca estreles"
 
-#: fitsviewer/fitsviewer.cpp:1231
+#: fitsviewer/fitsviewer.cpp:1237
 #, kde-format
 msgid "Processing %1..."
 msgstr "S'està processant %1..."
@@ -29837,17 +29837,17 @@ msgstr ""
 "Actualment no hi ha dispositius INDI en marxa. Per a iniciar-los, "
 "seleccioneu-los des del Gestor de dispositius en el submenú Dispositius."
 
-#: indi/indicamera.cpp:440
+#: indi/indicamera.cpp:441
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr "S'ha parat la gravació de vídeo"
 
-#: indi/indicamera.cpp:445
+#: indi/indicamera.cpp:446
 #, kde-format
 msgid "Video Recording Started"
 msgstr "Ha començat la gravació de vídeo"
 
-#: indi/indicamera.cpp:745
+#: indi/indicamera.cpp:756
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -29856,22 +29856,22 @@ msgstr ""
 "No s'ha pogut escriure la imatge a %1\n"
 "Comproveu la carpeta, el nom de fitxer i els permisos."
 
-#: indi/indicamera.cpp:747
+#: indi/indicamera.cpp:758
 #, kde-format
 msgid "Image Write Failed"
 msgstr "No s'ha pogut escriure la imatge"
 
-#: indi/indicamera.cpp:758
+#: indi/indicamera.cpp:769
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "El fitxer %1 s'ha guardat a %2"
 
-#: indi/indicamera.cpp:765
+#: indi/indicamera.cpp:776
 #, kde-format
 msgid "Image file is received"
 msgstr "S'ha rebut un fitxer d'imatge"
 
-#: indi/indicamera.cpp:922
+#: indi/indicamera.cpp:933
 #, kde-format
 msgid "%1 Preview"
 msgstr "Vista prèvia %1"
