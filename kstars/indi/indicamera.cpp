@@ -1858,7 +1858,7 @@ void Camera::setStretchValues(double shadows, double midtones, double highlights
     tab->setStretchValues(shadows, midtones, highlights);
 }
 
-void Camera::setAutotretch()
+void Camera::setAutoStretch()
 {
     if (Options::useFITSViewer() == false || normalTabID < 0)
         return;
