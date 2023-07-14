@@ -83,6 +83,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         QJsonObject toJSON();
         void setFilterData(const QJsonObject &settings);
 
+        void createFilterModel();
         void refreshFilterModel();
 
         QStringList getFilterLabels(bool forceRefresh = false);
