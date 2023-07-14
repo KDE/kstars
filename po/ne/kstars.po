@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-13 00:42+0000\n"
+"POT-Creation-Date: 2023-07-14 00:42+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -2662,7 +2662,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
 #: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:499 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2981,7 +2981,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:610 indi/indicamera.cpp:936
+#: fitsviewer/fitsviewer.cpp:590 indi/indicamera.cpp:926
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Preview"
@@ -6601,7 +6601,7 @@ msgstr "सबै कक्ष मार्ग खाली गर्नुह�
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
 #: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:497 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10150,7 +10150,7 @@ msgstr "फाइल मेट्न सकेन: %1"
 #: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:441
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:421
 #, kde-format
 msgid "Focus"
 msgstr ""
@@ -10158,7 +10158,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:449
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:429
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Align"
@@ -10172,7 +10172,7 @@ msgstr "फोकस गरिएको: "
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:445
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide"
@@ -19093,7 +19093,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:359
+#: fitsviewer/fitstab.cpp:358
 #, kde-format
 msgid "Value"
 msgstr "मान"
@@ -21974,22 +21974,22 @@ msgstr ""
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2703
+#: ekos/manager.cpp:2709
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2711
+#: ekos/manager.cpp:2717
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2739
+#: ekos/manager.cpp:2745
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2751
+#: ekos/manager.cpp:2757
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -27641,7 +27641,7 @@ msgstr "पूरा भएको"
 msgid "Normal"
 msgstr "नोरमान"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:437
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:417
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -27949,8 +27949,8 @@ msgid "Y Offset:"
 msgstr "UT अफसेट:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:479
-#: fitsviewer/fitsviewer.cpp:1243
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:459
+#: fitsviewer/fitsviewer.cpp:1222
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Reading"
@@ -28152,7 +28152,7 @@ msgstr ""
 msgid "Recent Images"
 msgstr "%1 को पूर्वावलोकन"
 
-#: fitsviewer/fitstab.cpp:371
+#: fitsviewer/fitstab.cpp:370
 #, fuzzy, kde-format
 #| msgctxt "First letter in 'Remove'"
 #| msgid "R"
@@ -28160,128 +28160,128 @@ msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:452 fitsviewer/fitstab.cpp:456
+#: fitsviewer/fitstab.cpp:451 fitsviewer/fitstab.cpp:455
 #, fuzzy, kde-format
 #| msgid "Save"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "बचत गर्नुहोस्"
 
-#: fitsviewer/fitstab.cpp:488
+#: fitsviewer/fitstab.cpp:487
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "FITS फाइलले त्रुटि बचत गर्दछ: %1"
 
-#: fitsviewer/fitstab.cpp:488
+#: fitsviewer/fitstab.cpp:487
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Save"
 msgstr "छवि ढाँचा"
 
-#: fitsviewer/fitstab.cpp:492
+#: fitsviewer/fitstab.cpp:491
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "File saved to %1"
 msgstr "%1 मा FITS फाइल बचत गरियो"
 
-#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
+#: fitsviewer/fitsview.cpp:478 fitsviewer/fitsview.cpp:488
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Rescaling image failed."
 msgstr "छवि %1 को बचत असफल भयो ।"
 
-#: fitsviewer/fitsview.cpp:661
+#: fitsviewer/fitsview.cpp:671
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1649
+#: fitsviewer/fitsview.cpp:1662
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1666
+#: fitsviewer/fitsview.cpp:1679
 #, fuzzy, kde-format
 #| msgid "UT:"
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "UT:"
 
-#: fitsviewer/fitsview.cpp:2086
+#: fitsviewer/fitsview.cpp:2099
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid "Finding stars..."
 msgstr "स्काइ वस्तुहरू लोड गर्दै"
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2338
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2341
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2344
 #, fuzzy, kde-format
 #| msgid "&Default Zoom"
 msgid "Default Zoom"
 msgstr "पूर्वानिर्धारित जूम"
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2347
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2337
+#: fitsviewer/fitsview.cpp:2350
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Toggle Stretch"
 msgstr "स्वत: मापन"
 
-#: fitsviewer/fitsview.cpp:2345 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2358 fitsviewer/fitsviewer.cpp:210
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "क्रसहेयर"
 
-#: fitsviewer/fitsview.cpp:2349 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2362 fitsviewer/fitsviewer.cpp:223
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Pixel Gridlines"
 msgstr "तारामण्डल रेखा देखाउनुहुन्छ ?"
 
-#: fitsviewer/fitsview.cpp:2354 fitsviewer/fitsview.cpp:2457
+#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsview.cpp:2470
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgid "Detect Stars in Image"
 msgstr "फिट्स खोल्नुहोस्..."
 
-#: fitsviewer/fitsview.cpp:2360
+#: fitsviewer/fitsview.cpp:2373
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arrecife"
 msgid "View Star Profile"
 msgstr "अर्रेसिफे"
 
-#: fitsviewer/fitsview.cpp:2370 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:975
+#: fitsviewer/fitsview.cpp:2383 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:954
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "भूमध्यवर्ती समकक्ष"
 
-#: fitsviewer/fitsview.cpp:2376 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:977
+#: fitsviewer/fitsview.cpp:2389 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsviewer.cpp:956
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
 msgstr "वस्तु देखाउनुहोस्"
 
-#: fitsviewer/fitsview.cpp:2382
+#: fitsviewer/fitsview.cpp:2395
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid "Center Telescope"
@@ -28368,7 +28368,7 @@ msgstr "तथ्याङ्क"
 msgid "Show Clipping"
 msgstr "मुद्रण संवाद देखाउनुहोस्"
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:965
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28380,15 +28380,15 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1216
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1195
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Merkers"
 msgid "Mark Stars"
 msgstr "मर्कर्स"
 
-#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:708
-#: fitsviewer/fitsviewer.cpp:1208
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:688
+#: fitsviewer/fitsviewer.cpp:1187
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -28400,7 +28400,7 @@ msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "केडीई स्टार फिट्स दर्शकलाई स्वागत छ"
 
-#: fitsviewer/fitsviewer.cpp:377
+#: fitsviewer/fitsviewer.cpp:362
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -28408,7 +28408,7 @@ msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "तारा"
 msgstr[1] "तारा"
 
-#: fitsviewer/fitsviewer.cpp:383
+#: fitsviewer/fitsviewer.cpp:368
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2, %1 star."
@@ -28416,66 +28416,66 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "तारा"
 msgstr[1] "तारा"
 
-#: fitsviewer/fitsviewer.cpp:575
+#: fitsviewer/fitsviewer.cpp:555
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:694
+#: fitsviewer/fitsviewer.cpp:674
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1129
+#: fitsviewer/fitsviewer.cpp:675 fitsviewer/fitsviewer.cpp:1108
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "क्रसहेयर"
 
-#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1143
+#: fitsviewer/fitsviewer.cpp:676 fitsviewer/fitsviewer.cpp:1122
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "फिलिपिन्स"
 
-#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1156
+#: fitsviewer/fitsviewer.cpp:677 fitsviewer/fitsviewer.cpp:1135
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "भूमध्यवर्ती समकक्ष"
 
-#: fitsviewer/fitsviewer.cpp:698 fitsviewer/fitsviewer.cpp:1182
+#: fitsviewer/fitsviewer.cpp:678 fitsviewer/fitsviewer.cpp:1161
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "वस्तु देखाउनुहोस्"
 
-#: fitsviewer/fitsviewer.cpp:699 fitsviewer/fitsviewer.cpp:1195
+#: fitsviewer/fitsviewer.cpp:679 fitsviewer/fitsviewer.cpp:1174
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Pixel Gridlines"
 msgstr "तारामण्डल रेखा देखाउनुहुन्छ ?"
 
-#: fitsviewer/fitsviewer.cpp:713 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:693 kstarsactions.cpp:1272
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "फिट्स खोल्नुहोस्..."
 
-#: fitsviewer/fitsviewer.cpp:952
+#: fitsviewer/fitsviewer.cpp:931
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:957
+#: fitsviewer/fitsviewer.cpp:936
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "देखाउनुहोस्"
 
-#: fitsviewer/fitsviewer.cpp:981
+#: fitsviewer/fitsviewer.cpp:960
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -28483,14 +28483,14 @@ msgid ""
 "*Ready*"
 msgstr "कार्यक्षेत्रमा केन्द्रिकृत गर्नुहोस्"
 
-#: fitsviewer/fitsviewer.cpp:992
+#: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:994
+#: fitsviewer/fitsviewer.cpp:973
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -28498,47 +28498,47 @@ msgid ""
 "*No WCS Info*"
 msgstr "कार्यक्षेत्रमा केन्द्रिकृत गर्नुहोस्"
 
-#: fitsviewer/fitsviewer.cpp:996
+#: fitsviewer/fitsviewer.cpp:975
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1027 fitsviewer/fitsviewer.cpp:1169
+#: fitsviewer/fitsviewer.cpp:1006 fitsviewer/fitsviewer.cpp:1148
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selection Rectangle"
 msgstr "एउटा तारा चयन गर्नुहोस्"
 
-#: fitsviewer/fitsviewer.cpp:1056 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1035 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "साइज:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1043 fitsviewer/statform.ui:66
 #, fuzzy, kde-format
 #| msgid "Width:"
 msgid "Width"
 msgstr "चौडाइ:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1065 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1044 fitsviewer/statform.ui:71
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Height"
 msgstr "उचाइ:"
 
-#: fitsviewer/fitsviewer.cpp:1221
+#: fitsviewer/fitsviewer.cpp:1200
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Merkers"
 msgid "Unmark Stars"
 msgstr "मर्कर्स"
 
-#: fitsviewer/fitsviewer.cpp:1237
+#: fitsviewer/fitsviewer.cpp:1216
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Processing %1..."
@@ -29705,32 +29705,32 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:756
+#: indi/indicamera.cpp:746
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:758
+#: indi/indicamera.cpp:748
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image Write Failed"
 msgstr "छवि ग्रहण गर्नुहोस्"
 
-#: indi/indicamera.cpp:769
+#: indi/indicamera.cpp:759
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "%1 file saved to %2"
 msgstr "%1 मा FITS फाइल बचत गरियो"
 
-#: indi/indicamera.cpp:776
+#: indi/indicamera.cpp:766
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image file is received"
 msgstr "छवि ग्रहण गर्नुहोस्"
 
-#: indi/indicamera.cpp:933
+#: indi/indicamera.cpp:923
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "%1 Preview"
