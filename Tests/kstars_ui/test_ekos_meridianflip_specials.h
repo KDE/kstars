@@ -87,8 +87,16 @@ private slots:
      */
     void testCaptureRealignMF();
 
-    /** @brief Test data for @see testRelignMF() */
+    /** @brief Test data for @see testCaptureRealignMF() */
     void testCaptureRealignMF_data();
+
+    /**
+     * @brief Test if failed re-alignment after a meridian flip is retried and handled appropriately
+     */
+    void testCapturePostRealignmentFailedHandling();
+
+    /** @brief Test data for @see testCapturePostRealignmentFailedHandling() */
+    void testCapturePostRealignmentFailedHandling_data();
 
 };
 
