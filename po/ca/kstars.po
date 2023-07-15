@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-14 00:42+0000\n"
+"POT-Creation-Date: 2023-07-15 00:42+0000\n"
 "PO-Revision-Date: 2023-07-10 09:29+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -411,7 +411,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/filtermanager.cpp:1223 ekos/capture/capture.cpp:3183
+#: ekos/auxiliary/filtermanager.cpp:1229 ekos/capture/capture.cpp:3183
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -1934,7 +1934,7 @@ msgstr "Estat:"
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
 #: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/darklibrary.cpp:46
-#: ekos/auxiliary/filtermanager.cpp:966 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/filtermanager.cpp:972 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
@@ -6273,7 +6273,7 @@ msgstr "Ha fallat l'operació del filtre."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Canvia el desplaçament de l'enfocament en %1 passos..."
 
-#: ekos/align/align.cpp:3511 ekos/auxiliary/filtermanager.cpp:1342
+#: ekos/align/align.cpp:3511 ekos/auxiliary/filtermanager.cpp:1348
 #: ekos/capture/capture.cpp:4190
 #, kde-format
 msgid "Changing filter to %1..."
@@ -11129,7 +11129,7 @@ msgid "Exp. Range:"
 msgstr "Interval d'exp.:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
-#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1214
+#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1220
 #, kde-format
 msgid "Average"
 msgstr "Mitjana"
@@ -11507,68 +11507,69 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:61 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:109 ekos/auxiliary/filtermanager.cpp:1034
 #: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:940
 #, kde-format
 msgid "Filter"
 msgstr "Filtre"
 
-#: ekos/auxiliary/filtermanager.cpp:63
+#: ekos/auxiliary/filtermanager.cpp:111
 #, kde-format
 msgid "Filter exposure time during focus"
 msgstr "Temps d'exposició del filtre durant l'enfocament"
 
-#: ekos/auxiliary/filtermanager.cpp:64 ekos/capture/capturecountswidget.cpp:154
+#: ekos/auxiliary/filtermanager.cpp:112
+#: ekos/capture/capturecountswidget.cpp:154
 #, kde-format
 msgid "Exposure"
 msgstr "Exposició"
 
-#: ekos/auxiliary/filtermanager.cpp:66
+#: ekos/auxiliary/filtermanager.cpp:114
 #, kde-format
 msgid "Relative offset in steps"
 msgstr "Desplaçament relatiu en passos"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:67 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:115 ekos/auxiliary/filtermanager.cpp:1034
 #: ekos/capture/capture.ui:1902
 #, kde-format
 msgid "Offset"
 msgstr "Desplaçament"
 
-#: ekos/auxiliary/filtermanager.cpp:69
+#: ekos/auxiliary/filtermanager.cpp:117
 #, kde-format
 msgid "Start Auto Focus when filter is activated"
 msgstr "Inicia l'enfocament automàtic quan s'activi el filtre"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:71 ekos/ekos.h:162 ekos/focus/focus.ui:285
+#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:285
 #, kde-format
 msgid "Auto Focus"
 msgstr "Enfocament automàtic"
 
-#: ekos/auxiliary/filtermanager.cpp:73
+#: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
 msgid "Lock specific filter when running Auto Focus"
 msgstr "Bloqueja el filtre específic en executar l'enfocament automàtic"
 
-#: ekos/auxiliary/filtermanager.cpp:75 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:123 ekos/auxiliary/filtermanager.cpp:1034
 #, kde-format
 msgid "Lock Filter"
 msgstr "Bloqueig de filtre"
 
-#: ekos/auxiliary/filtermanager.cpp:78
+#: ekos/auxiliary/filtermanager.cpp:126
 #, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
 "Darrera solució d'EA. El procés d'enfocament automàtic l'ha actualitzat "
 "automàticament."
 
-#: ekos/auxiliary/filtermanager.cpp:79
+#: ekos/auxiliary/filtermanager.cpp:127
 #, kde-format
 msgid "Last AF Solution"
 msgstr "Darrera solució d'EA"
 
-#: ekos/auxiliary/filtermanager.cpp:82
+#: ekos/auxiliary/filtermanager.cpp:130
 #, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
@@ -11577,12 +11578,12 @@ msgstr ""
 "La temperatura de la darrera solució d'EA. El procés d'enfocament automàtic "
 "l'ha actualitzat automàticament."
 
-#: ekos/auxiliary/filtermanager.cpp:83
+#: ekos/auxiliary/filtermanager.cpp:131
 #, kde-format
 msgid "Last AF Temp (°C)"
 msgstr "Temp. (°C) del darrer EA"
 
-#: ekos/auxiliary/filtermanager.cpp:86
+#: ekos/auxiliary/filtermanager.cpp:134
 #, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
@@ -11591,12 +11592,12 @@ msgstr ""
 "L'altitud de la darrera solució d'EA. El procés d'enfocament automàtic l'ha "
 "actualitzat automàticament."
 
-#: ekos/auxiliary/filtermanager.cpp:87
+#: ekos/auxiliary/filtermanager.cpp:135
 #, kde-format
 msgid "Last AF Alt (°Alt)"
 msgstr "Alt. (°Alt) del darrer EA"
 
-#: ekos/auxiliary/filtermanager.cpp:90
+#: ekos/auxiliary/filtermanager.cpp:138
 #, kde-format
 msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
@@ -11605,12 +11606,12 @@ msgstr ""
 "El nombre de marques per °C d'augment en la temperatura. «+ve» per a un "
 "moviment cap a fora de l'enfocador"
 
-#: ekos/auxiliary/filtermanager.cpp:91
+#: ekos/auxiliary/filtermanager.cpp:139
 #, kde-format
 msgid "Ticks / °C"
 msgstr "Marques / °C"
 
-#: ekos/auxiliary/filtermanager.cpp:94
+#: ekos/auxiliary/filtermanager.cpp:142
 #, kde-format
 msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
@@ -11619,72 +11620,72 @@ msgstr ""
 "El nombre de marques per grau d'augment en l'altitud. «+ve» per a un "
 "moviment cap a fora de l'enfocador"
 
-#: ekos/auxiliary/filtermanager.cpp:95
+#: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid "Ticks / °Alt"
 msgstr "Marques / °Alt"
 
-#: ekos/auxiliary/filtermanager.cpp:97
+#: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
 msgstr "Longitud d'ona del punt mitjà del filtre en nm"
 
-#: ekos/auxiliary/filtermanager.cpp:98
+#: ekos/auxiliary/filtermanager.cpp:146
 #, kde-format
 msgid "Wavelength"
 msgstr "Longitud d'ona"
 
-#: ekos/auxiliary/filtermanager.cpp:529
+#: ekos/auxiliary/filtermanager.cpp:535
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Estableix el filtre a %1. Està establert el filtre?"
 
-#: ekos/auxiliary/filtermanager.cpp:530
+#: ekos/auxiliary/filtermanager.cpp:536
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Confirmació del filtre"
 
-#: ekos/auxiliary/filtermanager.cpp:944
+#: ekos/auxiliary/filtermanager.cpp:950
 #, kde-format
 msgid "Are you sure you want to quit?"
 msgstr "Segur que voleu sortir?"
 
-#: ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:1034
 #, kde-format
 msgid "# Focus Runs"
 msgstr "Nom. d'execucions d'enfocament"
 
-#: ekos/auxiliary/filtermanager.cpp:1218
+#: ekos/auxiliary/filtermanager.cpp:1224
 #, kde-format
 msgid "New Offset"
 msgstr "Desplaçament nou"
 
-#: ekos/auxiliary/filtermanager.cpp:1254
+#: ekos/auxiliary/filtermanager.cpp:1260
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
 msgstr "S'ha aturat el procés. Sí per a reiniciar, No per a interrompre"
 
-#: ekos/auxiliary/filtermanager.cpp:1285
+#: ekos/auxiliary/filtermanager.cpp:1291
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
 msgstr "S'ha produït un problema. Sí per a reintentar-ho, No per a interrompre"
 
-#: ekos/auxiliary/filtermanager.cpp:1327
+#: ekos/auxiliary/filtermanager.cpp:1333
 #, kde-format
 msgid "Processing complete."
 msgstr "S'ha completat el processament."
 
-#: ekos/auxiliary/filtermanager.cpp:1348
+#: ekos/auxiliary/filtermanager.cpp:1354
 #, kde-format
 msgid "Problem changing filter to %1..."
 msgstr "Problema en canviar el filtre a %1..."
 
-#: ekos/auxiliary/filtermanager.cpp:1357
+#: ekos/auxiliary/filtermanager.cpp:1363
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr "S'està executant l'enfocament automàtic en %1 (%2/%3)..."
 
-#: ekos/auxiliary/filtermanager.cpp:1512
+#: ekos/auxiliary/filtermanager.cpp:1518
 #, kde-format
 msgid "Aborting Autofocus..."
 msgstr "S'està interrompent l'enfocament automàtic..."

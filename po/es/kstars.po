@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-14 00:42+0000\n"
-"PO-Revision-Date: 2023-07-10 20:06+0200\n"
+"POT-Creation-Date: 2023-07-15 00:42+0000\n"
+"PO-Revision-Date: 2023-07-15 00:59+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -408,7 +408,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/filtermanager.cpp:1223 ekos/capture/capture.cpp:3183
+#: ekos/auxiliary/filtermanager.cpp:1229 ekos/capture/capture.cpp:3183
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -1923,7 +1923,7 @@ msgstr "Estado:"
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
 #: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/darklibrary.cpp:46
-#: ekos/auxiliary/filtermanager.cpp:966 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/filtermanager.cpp:972 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
@@ -6259,7 +6259,7 @@ msgstr "La operación de filtrado ha fallado."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Cambiando el desplazamiento de enfoque en %1 pasos..."
 
-#: ekos/align/align.cpp:3511 ekos/auxiliary/filtermanager.cpp:1342
+#: ekos/align/align.cpp:3511 ekos/auxiliary/filtermanager.cpp:1348
 #: ekos/capture/capture.cpp:4190
 #, kde-format
 msgid "Changing filter to %1..."
@@ -11102,7 +11102,7 @@ msgid "Exp. Range:"
 msgstr "Intervalo de exposición:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
-#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1214
+#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1220
 #, kde-format
 msgid "Average"
 msgstr "Promedio"
@@ -11481,68 +11481,69 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:61 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:109 ekos/auxiliary/filtermanager.cpp:1034
 #: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:940
 #, kde-format
 msgid "Filter"
 msgstr "Filtro"
 
-#: ekos/auxiliary/filtermanager.cpp:63
+#: ekos/auxiliary/filtermanager.cpp:111
 #, kde-format
 msgid "Filter exposure time during focus"
 msgstr "Tiempo de exposición del filtro durante el enfoque"
 
-#: ekos/auxiliary/filtermanager.cpp:64 ekos/capture/capturecountswidget.cpp:154
+#: ekos/auxiliary/filtermanager.cpp:112
+#: ekos/capture/capturecountswidget.cpp:154
 #, kde-format
 msgid "Exposure"
 msgstr "Exposición"
 
-#: ekos/auxiliary/filtermanager.cpp:66
+#: ekos/auxiliary/filtermanager.cpp:114
 #, kde-format
 msgid "Relative offset in steps"
 msgstr "Desplazamiento relativo en pasos"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:67 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:115 ekos/auxiliary/filtermanager.cpp:1034
 #: ekos/capture/capture.ui:1902
 #, kde-format
 msgid "Offset"
 msgstr "Desplazamiento"
 
-#: ekos/auxiliary/filtermanager.cpp:69
+#: ekos/auxiliary/filtermanager.cpp:117
 #, kde-format
 msgid "Start Auto Focus when filter is activated"
 msgstr "Iniciar enfoque automático al activar un filtro"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:71 ekos/ekos.h:162 ekos/focus/focus.ui:285
+#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:285
 #, kde-format
 msgid "Auto Focus"
 msgstr "Enfoque automático"
 
-#: ekos/auxiliary/filtermanager.cpp:73
+#: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
 msgid "Lock specific filter when running Auto Focus"
 msgstr "Bloquear el filtro específico al ejecutar el enfoque automático"
 
-#: ekos/auxiliary/filtermanager.cpp:75 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:123 ekos/auxiliary/filtermanager.cpp:1034
 #, kde-format
 msgid "Lock Filter"
 msgstr "Bloquear filtro"
 
-#: ekos/auxiliary/filtermanager.cpp:78
+#: ekos/auxiliary/filtermanager.cpp:126
 #, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
 "Última solución de AF. Actualizada automáticamente por el proceso de enfoque "
 "automático."
 
-#: ekos/auxiliary/filtermanager.cpp:79
+#: ekos/auxiliary/filtermanager.cpp:127
 #, kde-format
 msgid "Last AF Solution"
 msgstr "Última solución de AF"
 
-#: ekos/auxiliary/filtermanager.cpp:82
+#: ekos/auxiliary/filtermanager.cpp:130
 #, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
@@ -11551,12 +11552,12 @@ msgstr ""
 "La temperatura de la última solución de AF. Actualizada automáticamente por "
 "el proceso de enfoque automático."
 
-#: ekos/auxiliary/filtermanager.cpp:83
+#: ekos/auxiliary/filtermanager.cpp:131
 #, kde-format
 msgid "Last AF Temp (°C)"
 msgstr "Temperatura de la última solución de AF (°C)"
 
-#: ekos/auxiliary/filtermanager.cpp:86
+#: ekos/auxiliary/filtermanager.cpp:134
 #, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
@@ -11565,12 +11566,12 @@ msgstr ""
 "La altitud de la última solución de AF. Actualizada automáticamente por el "
 "proceso de enfoque automático."
 
-#: ekos/auxiliary/filtermanager.cpp:87
+#: ekos/auxiliary/filtermanager.cpp:135
 #, kde-format
 msgid "Last AF Alt (°Alt)"
 msgstr "Altitud de la última solución de AF (°Alt)"
 
-#: ekos/auxiliary/filtermanager.cpp:90
+#: ekos/auxiliary/filtermanager.cpp:138
 #, kde-format
 msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
@@ -11579,12 +11580,12 @@ msgstr ""
 "El número de pulsos por aumento de °C en la temperatura. +ve para el "
 "movimiento hacia afuera del enfocador."
 
-#: ekos/auxiliary/filtermanager.cpp:91
+#: ekos/auxiliary/filtermanager.cpp:139
 #, kde-format
 msgid "Ticks / °C"
 msgstr "Pulsos / °C"
 
-#: ekos/auxiliary/filtermanager.cpp:94
+#: ekos/auxiliary/filtermanager.cpp:142
 #, kde-format
 msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
@@ -11593,74 +11594,74 @@ msgstr ""
 "El número de pulsos por aumento de grado en altitud. +ve para el movimiento "
 "hacia afuera del enfocador."
 
-#: ekos/auxiliary/filtermanager.cpp:95
+#: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid "Ticks / °Alt"
 msgstr "Pulsos / °Alt"
 
-#: ekos/auxiliary/filtermanager.cpp:97
+#: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
 msgstr "Longitud de onda del punto medio del filtro en nm"
 
-#: ekos/auxiliary/filtermanager.cpp:98
+#: ekos/auxiliary/filtermanager.cpp:146
 #, kde-format
 msgid "Wavelength"
 msgstr "Longitud de onda"
 
-#: ekos/auxiliary/filtermanager.cpp:529
+#: ekos/auxiliary/filtermanager.cpp:535
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Definir el filtro a %1. ¿Está definido el filtro?"
 
-#: ekos/auxiliary/filtermanager.cpp:530
+#: ekos/auxiliary/filtermanager.cpp:536
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Confirmar el filtro"
 
-#: ekos/auxiliary/filtermanager.cpp:944
+#: ekos/auxiliary/filtermanager.cpp:950
 #, kde-format
 msgid "Are you sure you want to quit?"
 msgstr "¿Seguro que desea salir?"
 
-#: ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:1034
 #, kde-format
 msgid "# Focus Runs"
 msgstr "# ejecuciones de enfoque"
 
-#: ekos/auxiliary/filtermanager.cpp:1218
+#: ekos/auxiliary/filtermanager.cpp:1224
 #, kde-format
 msgid "New Offset"
 msgstr "Nuevo desplazamiento"
 
-#: ekos/auxiliary/filtermanager.cpp:1254
+#: ekos/auxiliary/filtermanager.cpp:1260
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
 msgstr "Proceso detenido. «Sí» para reiniciar, «No» para interrumpir."
 
-#: ekos/auxiliary/filtermanager.cpp:1285
+#: ekos/auxiliary/filtermanager.cpp:1291
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
 msgstr ""
 "Ha ocurrido un problema. «Sí» para volver a intentarlo, «No» para "
 "interrumpir."
 
-#: ekos/auxiliary/filtermanager.cpp:1327
+#: ekos/auxiliary/filtermanager.cpp:1333
 #, kde-format
 msgid "Processing complete."
 msgstr "Procesamiento completado."
 
-#: ekos/auxiliary/filtermanager.cpp:1348
+#: ekos/auxiliary/filtermanager.cpp:1354
 #, kde-format
 msgid "Problem changing filter to %1..."
 msgstr "Ha ocurrido un problema al cambiar el filtro a %1..."
 
-#: ekos/auxiliary/filtermanager.cpp:1357
+#: ekos/auxiliary/filtermanager.cpp:1363
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr "Ejecutando enfoque automático en %1 (%2/%3)..."
 
-#: ekos/auxiliary/filtermanager.cpp:1512
+#: ekos/auxiliary/filtermanager.cpp:1518
 #, kde-format
 msgid "Aborting Autofocus..."
 msgstr "Interrumpiendo enfoque automático..."
@@ -18324,6 +18325,12 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Para enfocadores que tienen en cuenta el rebote, la "
+"cantidad de rebote a aplicar cuando se invierte la dirección del movimiento. "
+"Defínala a 0 para desactivarla.</p><p>Por lo general, se define el rebote "
+"del enfocador o la sobreexploración de AF.</p><p>Este campo define el campo "
+"de rebote del enfocador de Indi y se puede definir aquí o en el panel de "
+"control de Indi.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2309
@@ -18371,6 +18378,28 @@ msgid ""
 "be effective but is predictable in the number of steps taken. This walk is "
 "experimental.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione el tipo de recorrido que debe realizar el "
+"enfocador cuando se usa <span style=\" font-weight:600;\">Lineal de 1 paso</"
+"span>. Para <span style=\" font-weight:600;\">Lineal</span> solo está "
+"disponible <span style=\" font-weight:600;\">Clásico</span>.</p><p><span "
+"style=\" font-weight:600;\">Clásico</span>: El enfocador sale «Múltiplo de "
+"pasos de salida» pasos, captura un fotograma y luego avanza a través del "
+"enfoque a un tamaño de paso constante tomando y analizando fotogramas a cada "
+"paso. El punto exacto al que se detiene cada paso depende de los datos, por "
+"lo que este recorrido permite comenzar más allá del foco, aunque a expensas "
+"de pasos adicionales.</p><p><span style=\" font-weight:600;\">Pasos fijos</"
+"span>: El enfocador sale a la mitad de «Número de pasos», captura un "
+"fotograma y luego avanza exactamente «Número de pasos». Este recorrido debe "
+"comenzar cerca del foco para que sea efectivo, aunque es predecible en el "
+"número de pasos realizados. Este recorrido es experimental.</p><p><span "
+"style=\" font-weight:600;\">Desordenar CFZ</span>: Similar a <span style=\" "
+"font-weight:600;\">Pasos fijos</span>, excepto que este recorrido realiza la "
+"mitad de pasos cerca del punto de enfoque para tratar de dar más peso a los "
+"puntos que están más cerca del foco en el ajuste de la curva. Al igual que "
+"con <span style=\" font-weight:600;\">Pasos fijos</span>, este recorrido "
+"debe empezar cerca del foco para que sea efectivo, aunque es predecible en "
+"el número de pasos realizados. Este recorrido es experimental.</p><p><br/></"
+"p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -18450,6 +18479,14 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Proporciona una sobreexploración de rebotes en las "
+"marcas para los movimientos del enfocador hacia afuera durante una ejecución "
+"de enfoque automático. Esto se suma a cualquier contragolpe del controlador "
+"proporcionado por el controlador del dispositivo y definido en el campo "
+"«Rebotes del controlador». Use el valor 0 para desactivarlo.</p><p>Si se "
+"define, la sobreexploración de AF se aplica a todos los movimientos del "
+"enfocador iniciados por el módulo «Enfoque».</p><p>Por lo general, se define "
+"el rebote del enfocador o la sobreexploración de AF.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:2504
@@ -18674,6 +18711,13 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Defina el tamaño del paso (en micras) de su enfocador. "
+"Para calcularlo, mueva el enfocador de un extremo de su recorrido al otro "
+"(teniendo cuidado de no forzarlo más allá de sus límites). Mida la distancia "
+"que se mueve el tubo extensible con la mayor precisión posible (por ejemplo, "
+"con calibradores) y conviértala a micras. Tenga en cuenta el número de pasos "
+"que se ha movido el enfocador. El tamaño del paso es igual a la distancia en "
+"micras dividida por el número de pasos.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:3012
@@ -18862,6 +18906,15 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Un buen número para empezar es 5. Una excepción es si "
+"tiene un telescopio con una obstrucción central que convierte las estrellas "
+"en rosquillas cuando están fuera del foco. Cuando esto sucede, el sistema "
+"tendrá dificultades para identificar las estrellas correctamente. Para "
+"evitar esta situación, reduzca el tamaño del paso o el número de pasos.</"
+"p><p>Para comprobar esta situación, empiece en el foco y mueva hacia afuera "
+"«tamaño de paso» * «número de pasos». Tome fotograma de enfoque y amplíe en "
+"el visor FITS para ver si las estrellas aparecen como estrellas o como "
+"rosquillas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3332
@@ -25508,6 +25561,12 @@ msgid ""
 "completion conditions. Otherwise leave empty. Only applies to the Greedy "
 "scheduler algorithm.</p></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"justify\">Seleccione un nombre para el grupo. "
+"Resulta útil si desea que los trabajos del mosaico se repitan juntos: "
+"asígneles un nombre de grupo y proporcione las condiciones de finalización "
+"<i>repetir N veces (N=2 o más)</i> o <i>repetir hasta que terminen</i>. En "
+"caso contrario, déjelo vacío. Solo se aplica al algoritmo «Voraz» del "
+"planificador.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1538
@@ -27044,6 +27103,12 @@ msgid ""
 "conditions. Otherwise leave empty. Only applies to the Greedy scheduler "
 "algorithm.</p></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"justify\">Seleccione un nombre para el grupo. "
+"Resulta útil si desea que varios trabajos se repitan juntos: asígneles el "
+"mismo nombre de grupo y proporcione las condiciones de finalización "
+"<i>repetir N veces</i> o <i>repetir hasta que terminen</i>. En caso "
+"contrario, déjelo vacío. Solo se aplica al algoritmo «Voraz» del "
+"planificador.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -27176,6 +27241,10 @@ msgid ""
 "progress&quot; option in Ekos &gt; Scheduler is not selected.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Repetir todos los trabajos programados tan pronto como "
+"se hayan completado todos los trabajos. Esta opción solo está disponible "
+"cuando no está seleccionada la opción de Ekos «Recordar el avance de los "
+"trabajos» &gt; Planificador.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
 #: ekos/scheduler/scheduler.ui:1263
@@ -33024,6 +33093,11 @@ msgid ""
 "the sky map will track what is seen in your eyepiece once it is set up "
 "correctly."
 msgstr ""
+"Active esto si está usando su ojo en el ocular en un telescopio newtoniano "
+"en una montura altacimutal. Esto tiene en cuenta el hecho de que el "
+"observador permanece erguido mientras el telescopio se mueve hacia arriba y "
+"hacia abajo, de modo que la orientación del mapa del cielo seguirá lo que se "
+"ve en el ocular una vez que esté configurado correctamente."
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:810
@@ -67299,6 +67373,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
+"Seleccione esto para una vista erecta del mapa del cielo, donde el norte (en "
+"el modo de coordenadas ecuatoriales) o el cenit (en el modo de coordenadas "
+"horizontales) está verticalmente arriba. Esta sería la elección natural para "
+"un telescopio buscador de imágenes erecto o para la visión a ojo desnudo."
 
 #: kstarsinit.cpp:724
 #, kde-format
@@ -67309,6 +67387,11 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"Seleccione esto para una vista invertida del mapa del cielo, donde el norte "
+"(en el modo de coordenadas ecuatoriales) o el cenit (en el modo de "
+"coordenadas horizontales) está verticalmente abajo. Esta sería la elección "
+"natural para un telescopio buscador de imágenes invertidas, refractor o "
+"Cassegrain sin prisma erector, o telescopio Dobson."
 
 #: kstarsinit.cpp:729
 #, kde-format
@@ -67347,6 +67430,13 @@ msgid ""
 "Coordinates. Typically makes sense to combine this with Zenith Down "
 "orientation."
 msgstr ""
+"Active este modo si está usando visualmente un telescopio newtoniano en una "
+"montura altacimutal. Corregirá la orientación del mapa del cielo para tener "
+"en cuenta que el observador permanece erguido mientras el telescopio se "
+"mueve hacia arriba y hacia abajo, a diferencia de una cámara que rotaría con "
+"el telescopio. Esto solo tiene sentido en el modo de coordenadas "
+"horizontales y está desactivado cuando se usan las coordenadas ecuatoriales. "
+"Por lo general, tiene sentido combinar esto con la orientación «Cenit abajo»."
 
 #: kstarsinit.cpp:768
 #, kde-format
