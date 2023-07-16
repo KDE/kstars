@@ -489,6 +489,14 @@ void HIPSManager::setOfflineLevels(const QStringList &value)
         }
     }
 
+    // In case we don't have offline maps, fill all levels with 1
+    if (m_OfflineLevelsMap.isEmpty())
+    {
+        for (int i = 3; i < 9; i++)
+            m_OfflineLevelsMap[i] = 1;
+        return;
+    }
+
     // Now let's map all the missing levels, if any
     for (int i = 3; i < 9; i++)
     {
