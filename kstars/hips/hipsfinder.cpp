@@ -139,7 +139,7 @@ bool HIPSFinder::renderFOV(SkyPoint *center, double fov_radius, double rotation,
     double fov    = m_Projector->fov() * width / height;
 
     // Find suitable level for current FOV
-    while( level < HIPSManager::Instance()->getCurrentOrder() && fov < minfov)
+    while(fov < minfov)
     {
         minfov /= 2;
         level++;
