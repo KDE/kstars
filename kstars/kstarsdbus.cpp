@@ -1035,21 +1035,7 @@ void KStars::openFITS(const QUrl &imageURL)
 #ifndef HAVE_CFITSIO
     qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
 #else
-    QPointer<FITSViewer> fv = createFITSViewer();
-    //    auto m_Loaded = std::make_shared<QMetaObject::Connection>();
-    //    *m_Loaded = connect(fv.get(), &FITSViewer::loaded, [fv, m_Loaded]()
-    //    {
-    //        fv->show();
-
-    //        QObject::disconnect(*m_Loaded);
-    //    });
-
-    //    auto m_Failed = std::make_shared<QMetaObject::Connection>();
-    //    *m_Failed = connect(fv.get(), &FITSViewer::failed, [fv, m_Failed]()
-    //    {
-    //        QObject::disconnect(*m_Failed);
-    //    });
-
+    QSharedPointer<FITSViewer> fv = createFITSViewer();
     fv->loadFile(imageURL);
 #endif
 }

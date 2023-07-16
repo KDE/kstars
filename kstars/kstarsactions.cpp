@@ -1279,8 +1279,8 @@ void KStars::slotOpenFITS()
     // Remember last directory
     path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
-    QPointer<FITSViewer> fv = createFITSViewer();
-    connect(fv, &FITSViewer::failed, [ &, fv](const QString & errorMessage)
+    QSharedPointer<FITSViewer> fv = createFITSViewer();
+    connect(fv.get(), &FITSViewer::failed, [ &, fv](const QString & errorMessage)
     {
         KSNotification::error(errorMessage, i18n("Open FITS"), 10);
         fv->close();

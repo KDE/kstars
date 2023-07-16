@@ -175,6 +175,7 @@ class Camera : public ConcreteDevice
         // TODO: Need to remove all FITSViewer related functions from INDI::Camera
         Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
         Q_SCRIPTABLE void setAutoStretch();
+        Q_SCRIPTABLE void toggleHiPSOverlay();
 
         // Capture Format
         const QStringList &getCaptureFormats() const
@@ -267,7 +268,7 @@ class Camera : public ConcreteDevice
         bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
         // Creates or finds the FITSViewer.
         // TODO: Need to remove all FITSViewer related functions from INDI::Camera
-        QPointer<FITSViewer> getFITSViewer();
+        QSharedPointer<FITSViewer> getFITSViewer();
         void handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop, QSharedPointer<FITSData> data);
 
         bool ISOMode { true };
@@ -309,7 +310,7 @@ class Camera : public ConcreteDevice
         INumber *offsetN { nullptr };
         IPerm offsetPerm { IP_RO };
 
-        QPointer<FITSViewer> m_FITSViewerWindow;
+        QSharedPointer<FITSViewer> m_FITSViewerWindow;
         QPointer<ImageViewer> m_ImageViewerWindow;
 
         QDateTime m_LastNotificationTS;

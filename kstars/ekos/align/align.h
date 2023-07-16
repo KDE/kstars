@@ -854,7 +854,7 @@ class Align : public QWidget, public Ui::Align
         QSharedPointer<AlignView> m_AlignView;
 
         // FITS Viewer in case user want to display in it instead of internal view
-        QPointer<FITSViewer> fv;
+        QSharedPointer<FITSViewer> fv;
 
         QUrl alignURL;
         QUrl alignURLPath;

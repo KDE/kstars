@@ -634,7 +634,7 @@ class Guide : public QWidget, public Ui::Guide
         QPointer<InternalGuider> internalGuider;
         QPointer<PHD2> phd2Guider;
         QPointer<LinGuider> linGuider;
-        QPointer<FITSViewer> fv;
+        QSharedPointer<FITSViewer> fv;
         QSharedPointer<FITSData> m_ImageData;
 
         // Dark Processor

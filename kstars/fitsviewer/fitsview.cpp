@@ -223,12 +223,16 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(Options::self(), &Options::HIPSOpacityChanged, this, [this]()
     {
         if (showHiPSOverlay)
+        {
+            m_QueueUpdate = true;
             updateFrame();
+        }
     });
     connect(Options::self(), &Options::HIPSOffsetXChanged, this, [this]()
     {
         if (showHiPSOverlay)
         {
+            m_QueueUpdate = true;
             m_HiPSOverlayPixmap = QPixmap();
             updateFrame();
         }
@@ -237,6 +241,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     {
         if (showHiPSOverlay)
         {
+            m_QueueUpdate = true;
             m_HiPSOverlayPixmap = QPixmap();
             updateFrame();
         }
@@ -1550,7 +1555,8 @@ void FITSView::drawHiPSOverlay(QPainter * painter, double scale)
 
         m_ImageData->pixelToWCS(QPointF(0, 0), startPoint);
         m_ImageData->pixelToWCS(QPointF(width - 1, height - 1), endPoint);
-        m_ImageData->pixelToWCS(QPointF( (width - Options::hIPSOffsetX()) / 2.0, (height - Options::hIPSOffsetY()) / 2.0), centerPoint);
+        m_ImageData->pixelToWCS(QPointF( (width - Options::hIPSOffsetX()) / 2.0, (height - Options::hIPSOffsetY()) / 2.0),
+                                centerPoint);
 
         startPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
         endPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
@@ -2003,7 +2009,10 @@ void FITSView::toggleHiPSOverlay()
     }
 
     if (m_ImageFrame)
+    {
+        m_QueueUpdate = true;
         updateFrame();
+    }
 }
 
 void FITSView::toggleSelectionMode()
