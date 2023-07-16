@@ -50,7 +50,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     {
         setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
         connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this,
-                this, &FITSViewer::changeAlwaysOnTop(Qt::ApplicationState)));
+                SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
     }
 #endif
 
@@ -269,15 +269,15 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setIcon(QIcon::fromTheme("star_profile", QIcon(":/icons/star_profile.svg")));
     action->setText(i18n("View 3D Graph"));
     action->setCheckable(true);
-    connect(action, &QAction::triggered, this, &FITSViewer::toggle3DGraph()));
+    connect(action, &QAction::triggered, this, &FITSViewer::toggle3DGraph);
 #endif
 
 
     int filterCounter = 1;
 
-for (auto &filter : FITSViewer::filterTypes)
-{
-    action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
+    for (auto &filter : FITSViewer::filterTypes)
+    {
+        action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
         action->setText(i18n(filter.toUtf8().constData()));
         connect(action, &QAction::triggered, this, [this, filterCounter] { applyFilter(filterCounter);});
         filterCounter++;
