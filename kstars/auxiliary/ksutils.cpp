@@ -1834,4 +1834,44 @@ QString sanitize(const QString &text)
     return sanitized;
 }
 
+double rangePA(double pa)
+{
+    while (pa > 180)
+        pa -= 360;
+    while (pa < -180)
+        pa += 360;
+    return pa;
+}
+
+double range360(double r)
+{
+    double res = r;
+    while (res < 0.00)
+        res += 360.00;
+    while (res > 359.99)  // uniqueness of angle (360 = 0)
+        res -= 360.00;
+    return res;
+}
+
+double rotationToPositionAngle(double value)
+{
+    double pa = value + 180;
+    while (pa > 180)
+        pa -= 360;
+    while (pa < -180)
+        pa += 360;
+    return pa;
+}
+
+double positionAngleToRotation(double value)
+{
+    double rotation = value - 180;
+    while (rotation > 180)
+        rotation -= 360;
+    while (rotation < -180)
+        rotation += 360;
+    return rotation;
+}
+
+
 } // namespace KSUtils

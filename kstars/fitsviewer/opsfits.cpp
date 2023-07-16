@@ -44,6 +44,21 @@ OpsFITS::OpsFITS() : QFrame(KStars::Instance())
         if (toggled)
             kcfg_LimitedResourcesMode->setChecked(false);
     });
+    hipsOpacity->setValue(Options::hIPSOpacity() * 100);
+    connect(hipsOpacity, &QSlider::valueChanged, this, [](int value)
+    {
+        Options::setHIPSOpacity(value / 100.0);
+    });
+    hipsOffsetX->setValue(Options::hIPSOffsetX());
+    connect(hipsOffsetX, QOverload<int>::of(&QSpinBox::valueChanged), this, [](int value)
+    {
+        Options::setHIPSOffsetX(value);
+    });
+    connect(hipsOffsetY, QOverload<int>::of(&QSpinBox::valueChanged), this, [](int value)
+    {
+        Options::setHIPSOffsetY(value);
+    });
+
 #ifdef HAVE_STELLARSOLVER
     setupHFROptions();
 #else

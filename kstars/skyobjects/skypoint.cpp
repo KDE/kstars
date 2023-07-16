@@ -520,13 +520,13 @@ void SkyPoint::aberrate(const KSNumbers *num, bool reverse)
         // check this expression
 
         double dRA = (K / cosDec) * (
-            cosRA * cosOb * (e * cosP - cosL)
-            + sinRA * (e * sinP - sinL)
-            );
+                         cosRA * cosOb * (e * cosP - cosL)
+                         + sinRA * (e * sinP - sinL)
+                     );
         double dDec = K * (
-            (sinOb * cosDec - cosOb * sinDec * sinRA) * (e * cosP - cosL)
-            + cosRA * sinDec * (e * sinP - sinL)
-            );
+                          (sinOb * cosDec - cosOb * sinDec * sinRA) * (e * cosP - cosL)
+                          + cosRA * sinDec * (e * sinP - sinL)
+                      );
 
         // N.B. Meeus points out that the result has the same units as
         // K, so the corrections are in degrees.
@@ -1163,9 +1163,9 @@ dms SkyPoint::parallacticAngle(const CachingDms &LST, const CachingDms &lat)
     dms HA = LST - ra();
     double tan_lat = lat.sin() / lat.cos();
     double angle = atan2( // Measured CW on sky map (See Meeus' Fig on Pg 99)
-        HA.sin(),
-        tan_lat * dec().cos() - HA.cos() * dec().sin()
-        );
+                       HA.sin(),
+                       tan_lat * dec().cos() - HA.cos() * dec().sin()
+                   );
     return dms(angle / dms::DegToRad);
 }
 

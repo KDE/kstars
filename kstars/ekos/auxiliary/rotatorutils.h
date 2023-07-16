@@ -28,7 +28,6 @@ class RotatorUtils : public QObject
         double DiffPA(double diff);
 
     private:
-
         RotatorUtils();
         ~RotatorUtils();
         static RotatorUtils *m_Instance;
@@ -38,8 +37,6 @@ class RotatorUtils : public QObject
         double m_Offset {0};
         bool m_flippedMount {false};
         ISD::Mount *m_Mount {nullptr};
-        double RangePA(double pa);
-        double Range360(double r);
 
     signals:
         void   changedPierside(ISD::Mount::PierSide index);

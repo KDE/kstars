@@ -40,27 +40,7 @@ class SolverUtils : public QObject
         void abort();
 
         void setHealpix(int indexToUse = -1, int healpixToUse = -1);
-        void getSolutionHealpix(int *indexUsed, int *healpixUsed) const;
-
-        /**
-         * @brief rotationToPositionAngle Convert from astrometry.net rotation to PA
-         * @param value rotation in degrees (-180 to +180)
-         * @return Position angle in degrees (-180 to +180)
-         */
-        static double rotationToPositionAngle(double value);
-
-        /** @brief rotationToPositionAngle Convert from position angle to astrometry.net rotation
-         * @param value Position angle in degrees (-180 to +180)
-         * @return rotation in degrees (-180 to +180)
-         */
-        static double positionAngleToRotation(double value);
-
-        /**
-         * @brief rangePA Limit any angle to fall between -180 to +180 degrees for position angle
-         * @param value angle
-         * @return angle limited to -180 to +180
-         */
-        static double rangePA(double value);
+        void getSolutionHealpix(int *indexUsed, int *healpixUsed) const;        
 
     signals:
         void done(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);

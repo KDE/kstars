@@ -10,12 +10,13 @@
 
 #include "fitsdata.h"
 #include "fitslabel.h"
-#include "kspopupmenu.h"
+#include "hips/hipsfinder.h"
 #include "kstarsdata.h"
+
 #include "ksutils.h"
 #include "Options.h"
 #include "skymap.h"
-#include "fits_debug.h"
+
 #include "stretch.h"
 
 #ifdef HAVE_STELLARSOLVER
@@ -219,7 +220,27 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(this, &FITSView::showRubberBand, m_ImageFrame, &FITSLabel::showRubberBand);
     connect(this, &FITSView::zoomRubberBand, m_ImageFrame, &FITSLabel::zoomRubberBand);
 
-
+    connect(Options::self(), &Options::HIPSOpacityChanged, this, [this]()
+    {
+        if (showHiPSOverlay)
+            updateFrame();
+    });
+    connect(Options::self(), &Options::HIPSOffsetXChanged, this, [this]()
+    {
+        if (showHiPSOverlay)
+        {
+            m_HiPSOverlayPixmap = QPixmap();
+            updateFrame();
+        }
+    });
+    connect(Options::self(), &Options::HIPSOffsetYChanged, this, [this]()
+    {
+        if (showHiPSOverlay)
+        {
+            m_HiPSOverlayPixmap = QPixmap();
+            updateFrame();
+        }
+    });
 
     connect(&wcsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::syncWCSState);
 
@@ -389,6 +410,8 @@ bool FITSView::loadData(const QSharedPointer<FITSData> &data)
     filterStack.push(FITS_NONE);
     if (filter != FITS_NONE)
         filterStack.push(filter);
+
+    m_HiPSOverlayPixmap = QPixmap();
 
     // Takes control of the objects passed in.
     m_ImageData = data;
@@ -1119,6 +1142,11 @@ void FITSView::drawOverlay(QPainter * painter, double scale)
 {
     painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+    if (showHiPSOverlay)
+        drawHiPSOverlay(painter, scale);
+#endif
+
     if (trackingBoxEnabled && getCursorMode() != FITSView::scopeCursor)
         drawTrackingBox(painter, scale);
 
@@ -1147,7 +1175,6 @@ void FITSView::drawOverlay(QPainter * painter, double scale)
 
     if (showMagnifyingGlass)
         drawMagnifyingGlass(painter, scale);
-
 }
 
 // Draws a 100% resolution image rectangle around the mouse position.
@@ -1508,6 +1535,46 @@ void FITSView::drawObjectNames(QPainter * painter, double scale)
         painter->drawText(listObject->x() * scale + 10, listObject->y() * scale + 10, listObject->skyObject()->name());
     }
 }
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+void FITSView::drawHiPSOverlay(QPainter * painter, double scale)
+{
+    if (m_HiPSOverlayPixmap.isNull())
+    {
+        auto width = m_ImageData->width();
+        auto height = m_ImageData->height();
+        QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
+        SkyPoint startPoint;
+        SkyPoint endPoint;
+        SkyPoint centerPoint;
+
+        m_ImageData->pixelToWCS(QPointF(0, 0), startPoint);
+        m_ImageData->pixelToWCS(QPointF(width - 1, height - 1), endPoint);
+        m_ImageData->pixelToWCS(QPointF( (width - Options::hIPSOffsetX()) / 2.0, (height - Options::hIPSOffsetY()) / 2.0), centerPoint);
+
+        startPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
+        endPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
+        centerPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
+
+        auto fov_radius = startPoint.angularDistanceTo(&endPoint).Degrees() / 2;
+        QVariant PA (0.0);
+        m_ImageData->getRecordValue("CROTA1", PA);
+
+        auto rotation = 180 - PA.toDouble();
+        if (rotation > 360)
+            rotation -= 360;
+
+        if (HIPSFinder::Instance()->renderFOV(&centerPoint, fov_radius, rotation, &image) == false)
+            return;
+        m_HiPSOverlayPixmap = QPixmap::fromImage(image);
+    }
+
+    Q_UNUSED(scale);
+    painter->setOpacity(Options::hIPSOpacity());
+    painter->drawPixmap(0, 0, m_HiPSOverlayPixmap);
+    painter->setOpacity(1);
+}
+#endif
 
 /**
 This method will paint EQ Gridlines in an overlay if there is WCS data present.
@@ -1892,6 +1959,11 @@ bool FITSView::isPixelGridShown()
     return showPixelGrid;
 }
 
+bool FITSView::isHiPSOverlayShown()
+{
+    return showHiPSOverlay;
+}
+
 void FITSView::toggleCrosshair()
 {
     showCrosshair = !showCrosshair;
@@ -1907,6 +1979,21 @@ void FITSView::toggleClipping()
 void FITSView::toggleEQGrid()
 {
     showEQGrid = !showEQGrid;
+
+    if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
+    {
+        QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS);
+        wcsWatcher.setFuture(future);
+        return;
+    }
+
+    if (m_ImageFrame)
+        updateFrame();
+}
+
+void FITSView::toggleHiPSOverlay()
+{
+    showHiPSOverlay = !showHiPSOverlay;
 
     if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
@@ -2311,6 +2398,8 @@ void FITSView::syncWCSState()
         toggleObjectsAction->setEnabled(hasWCS);
     if (centerTelescopeAction != nullptr)
         centerTelescopeAction->setEnabled(hasWCS);
+    if (toggleHiPSOverlayAction != nullptr)
+        toggleHiPSOverlayAction->setEnabled(hasWCS);
 }
 
 void FITSView::createFloatingToolBar()
@@ -2380,21 +2469,27 @@ void FITSView::createFloatingToolBar()
 
         toggleEQGridAction =
             floatingToolBar->addAction(QIcon::fromTheme("kstars_grid"),
-                                       i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
+                                       i18n("Show Equatorial Gridlines"), this, &FITSView::toggleEQGrid);
         toggleEQGridAction->setCheckable(true);
         toggleEQGridAction->setEnabled(false);
 
         toggleObjectsAction =
             floatingToolBar->addAction(QIcon::fromTheme("help-hint"),
-                                       i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
+                                       i18n("Show Objects in Image"), this, &FITSView::toggleObjects);
         toggleObjectsAction->setCheckable(true);
-        toggleEQGridAction->setEnabled(false);
+        toggleObjectsAction->setEnabled(false);
 
         centerTelescopeAction =
             floatingToolBar->addAction(QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg")),
-                                       i18n("Center Telescope"), this, SLOT(centerTelescope()));
+                                       i18n("Center Telescope"), this, &FITSView::centerTelescope);
         centerTelescopeAction->setCheckable(true);
         centerTelescopeAction->setEnabled(false);
+
+        toggleHiPSOverlayAction =
+            floatingToolBar->addAction(QIcon::fromTheme("pixelate"),
+                                       i18n("Show HiPS Overlay"), this, &FITSView::toggleHiPSOverlay);
+        toggleHiPSOverlayAction->setCheckable(true);
+        toggleHiPSOverlayAction->setEnabled(false);
     }
 }
 

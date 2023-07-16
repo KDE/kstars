@@ -528,7 +528,7 @@ void FramingAssistantUI::fetchINDIInformation()
         QList<double> const values = solutionReply.value();
         if (values[0] > INVALID_VALUE)
         {
-            m_PA = SolverUtils::rotationToPositionAngle(values[0]);
+            m_PA = KSUtils::rotationToPositionAngle(values[0]);
             ui->positionAngleSpin->setValue(m_PA);
         }
     }

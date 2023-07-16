@@ -33,6 +33,16 @@ class HIPSFinder
          * @return True if successful, false otherwise.
          */
         bool render(SkyPoint *center, uint8_t level, double zoom, QImage *destinationImage, double &fov_w, double &fov_h);
+
+        /**
+         * @brief render Renders an image at the specified center with the specific FOV and rotation. It is an improved version of render() above.
+         * @param center Sky point of image center.
+         * @param fov_radius Field of View radius in degrees.
+         * @param rotation orientation in the sky map
+         * @param destinationImage Pointer to an already initialized QImage
+         * @return True if successful, false otherwise.
+         */
+        bool renderFOV(SkyPoint *center, double fov_radius, double rotation, QImage *destinationImage);
         void renderRec(uint8_t level, int pix, QImage *destinationImage);
         bool renderPix(int level, int pix, QImage *destinationImage);
 

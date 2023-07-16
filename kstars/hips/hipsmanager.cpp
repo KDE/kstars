@@ -45,13 +45,13 @@ HIPSManager *HIPSManager::Instance()
     {
         _HIPSManager = new HIPSManager();
 
+        // We should read offline sources on startup
+        QDir hipsDirectory(Options::hIPSOfflinePath());
+        auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+        HIPSManager::Instance()->setOfflineLevels(orders);
+
         if (Options::hIPSUseOfflineSource())
-        {
-            QDir hipsDirectory(Options::hIPSOfflinePath());
-            auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-            HIPSManager::Instance()->setOfflineLevels(orders);
             _HIPSManager->setCurrentSource("Offline");
-        }
     }
 
     return _HIPSManager;
@@ -510,6 +510,11 @@ void HIPSManager::setOfflineLevels(const QStringList &value)
 int HIPSManager::getUsableLevel(int level) const
 {
     return Options::hIPSUseOfflineSource() ? m_OfflineLevelsMap[level] : level;
+}
+
+int HIPSManager::getUsableOfflineLevel(int level) const
+{
+    return m_OfflineLevelsMap[level];
 }
 
 void RemoveTimer::setKey(const pixCacheKey_t &key)

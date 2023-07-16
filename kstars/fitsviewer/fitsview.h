@@ -130,10 +130,12 @@ class FITSView : public QScrollArea
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
         void drawEQGrid(QPainter *, double scale);
+        void drawHiPSOverlay(QPainter *painter, double scale);
 #endif
         void drawObjectNames(QPainter *painter, double scale);
         void drawPixelGrid(QPainter *painter, double scale);
         void drawMagnifyingGlass(QPainter *painter, double scale);
+
         bool isImageStretched();
         bool isCrosshairShown();
         bool isClippingShown();
@@ -141,6 +143,7 @@ class FITSView : public QScrollArea
         bool isEQGridShown();
         bool isSelectionRectShown();
         bool isPixelGridShown();
+        bool isHiPSOverlayShown();
         bool imageHasWCS();
 
         // Setup the graphics.
@@ -289,6 +292,9 @@ class FITSView : public QScrollArea
         void togglePixelGrid();
         void toggleCrosshair();
 
+        // HiPS
+        void toggleHiPSOverlay();
+
         //Selection Rectngle
         void toggleSelectionMode();
 
@@ -389,6 +395,7 @@ class FITSView : public QScrollArea
         bool showObjects { false };
         bool showEQGrid { false };
         bool showPixelGrid { false };
+        bool showHiPSOverlay { false };
         bool showStarsHFR { false };
         bool showClipping { false };
 
@@ -434,6 +441,7 @@ class FITSView : public QScrollArea
         bool trackingBoxEnabled { false };
         QRect trackingBox;
         QPixmap trackingBoxPixmap;
+        QPixmap m_HiPSOverlayPixmap;
 
         // Scope pixmap
         QPixmap redScopePixmap;
@@ -446,6 +454,7 @@ class FITSView : public QScrollArea
         QAction *toggleStarsAction { nullptr };
         QAction *toggleProfileAction { nullptr };
         QAction *toggleStretchAction { nullptr };
+        QAction *toggleHiPSOverlayAction { nullptr };
 
         // State for the magnifying glass overlay.
         int magnifyingGlassX { -1 };
