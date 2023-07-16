@@ -929,11 +929,11 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::
                     success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
 
                     //Setup any necessary connections
-                    auto tab = getFITSViewer()->tabs().at(tabIndex);
-                    if (tab && captureMode == FITS_NORMAL)
+                    auto tabs = getFITSViewer()->tabs();
+                    if (tabIndex < tabs.size() && captureMode == FITS_NORMAL)
                     {
-                        tab->disconnect(this);
-                        connect(tab.get(), &FITSTab::updated, this, [this]
+                        tabs[tabIndex]->disconnect(this);
+                        connect(tabs[tabIndex].get(), &FITSTab::updated, this, [this]
                         {
                             auto tab = qobject_cast<FITSTab *>(sender());
                             emit newView(tab->getView());
