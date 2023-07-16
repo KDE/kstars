@@ -42,16 +42,64 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
 
     connect(buildOffsetsButton, &QPushButton::clicked, this, &FilterManager::buildFilterOffsets);
 
-    //    QSqlDatabase userdb = QSqlDatabase::cloneDatabase("userdb", QUuid::createUuid().toString());
-    //    userdb.open();
-
-    QSqlDatabase userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
-
     kcfg_FlatSyncFocus->setChecked(Options::flatSyncFocus());
     connect(kcfg_FlatSyncFocus, &QCheckBox::toggled, this, [this]()
     {
         Options::setFlatSyncFocus(kcfg_FlatSyncFocus->isChecked());
     });
+
+    createFilterModel();
+
+    // No Edit delegate
+    noEditDelegate = new NotEditableDelegate(m_FilterView);
+    m_FilterView->setItemDelegateForColumn(FM_LABEL, noEditDelegate);
+
+    // Exposure delegate
+    exposureDelegate = new DoubleDelegate(m_FilterView, 0.001, 3600, 1);
+    m_FilterView->setItemDelegateForColumn(FM_EXPOSURE, exposureDelegate);
+
+    // Offset delegate
+    offsetDelegate = new IntegerDelegate(m_FilterView, -10000, 10000, 1);
+    m_FilterView->setItemDelegateForColumn(FM_OFFSET, offsetDelegate);
+
+    // Auto Focus delegate
+    useAutoFocusDelegate = new ToggleDelegate(m_FilterView);
+    m_FilterView->setItemDelegateForColumn(FM_AUTO_FOCUS, useAutoFocusDelegate);
+
+    // Set Delegates
+    lockDelegate = new ComboDelegate(m_FilterView);
+    m_FilterView->setItemDelegateForColumn(FM_LOCK_FILTER, lockDelegate);
+    lockDelegate->setValues(getLockDelegates());
+
+    // Last AF solution delegate. Set by Autofocus but make editable in case bad data
+    // corrections need to be made
+    lastAFSolutionDelegate = new IntegerDelegate(m_FilterView, 0, 1000000, 1);
+    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_SOLUTION, lastAFSolutionDelegate);
+
+    // Last AF solution temperature delegate
+    lastAFTempDelegate = new DoubleDelegate(m_FilterView, -60.0, 60.0, 1.0);
+    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_TEMP, lastAFTempDelegate);
+
+    // Last AF solution altitude delegate
+    lastAFAltDelegate = new DoubleDelegate(m_FilterView, 0.0, 90.0, 1.0);
+    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_ALT, lastAFAltDelegate);
+
+    // Ticks / °C delegate
+    ticksPerTempDelegate = new DoubleDelegate(m_FilterView, -10000.0, 10000.0, 1.0);
+    m_FilterView->setItemDelegateForColumn(FM_TICKS_PER_TEMP, ticksPerTempDelegate);
+
+    // Ticks / °Altitude delegate
+    ticksPerAltDelegate = new DoubleDelegate(m_FilterView, -10000.0, 10000.0, 1.0);
+    m_FilterView->setItemDelegateForColumn(FM_TICKS_PER_ALT, ticksPerAltDelegate);
+
+    // Wavelength delegate
+    wavelengthDelegate = new IntegerDelegate(m_FilterView, 200, 1000, 50);
+    m_FilterView->setItemDelegateForColumn(FM_WAVELENGTH, wavelengthDelegate);
+}
+
+void FilterManager::createFilterModel()
+{
+    QSqlDatabase userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
 
     m_FilterModel = new QSqlTableModel(this, userdb);
     m_FilterView->setModel(m_FilterModel);
@@ -99,52 +147,6 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
 
     connect(m_FilterModel, &QSqlTableModel::dataChanged, this, &FilterManager::updated);
 
-    // No Edit delegate
-    noEditDelegate = new NotEditableDelegate(m_FilterView);
-    m_FilterView->setItemDelegateForColumn(FM_LABEL, noEditDelegate);
-
-    // Exposure delegate
-    exposureDelegate = new DoubleDelegate(m_FilterView, 0.001, 3600, 1);
-    m_FilterView->setItemDelegateForColumn(FM_EXPOSURE, exposureDelegate);
-
-    // Offset delegate
-    offsetDelegate = new IntegerDelegate(m_FilterView, -10000, 10000, 1);
-    m_FilterView->setItemDelegateForColumn(FM_OFFSET, offsetDelegate);
-
-    // Auto Focus delegate
-    useAutoFocusDelegate = new ToggleDelegate(m_FilterView);
-    m_FilterView->setItemDelegateForColumn(FM_AUTO_FOCUS, useAutoFocusDelegate);
-
-    // Set Delegates
-    lockDelegate = new ComboDelegate(m_FilterView);
-    m_FilterView->setItemDelegateForColumn(FM_LOCK_FILTER, lockDelegate);
-    lockDelegate->setValues(getLockDelegates());
-
-    // Last AF solution delegate. Set by Autofocus but make editable in case bad data
-    // corrections need to be made
-    lastAFSolutionDelegate = new IntegerDelegate(m_FilterView, 0, 1000000, 1);
-    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_SOLUTION, lastAFSolutionDelegate);
-
-    // Last AF solution temperature delegate
-    lastAFTempDelegate = new DoubleDelegate(m_FilterView, -60.0, 60.0, 1.0);
-    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_TEMP, lastAFTempDelegate);
-
-    // Last AF solution altitude delegate
-    lastAFAltDelegate = new DoubleDelegate(m_FilterView, 0.0, 90.0, 1.0);
-    m_FilterView->setItemDelegateForColumn(FM_LAST_AF_ALT, lastAFAltDelegate);
-
-    // Ticks / °C delegate
-    ticksPerTempDelegate = new DoubleDelegate(m_FilterView, -10000.0, 10000.0, 1.0);
-    m_FilterView->setItemDelegateForColumn(FM_TICKS_PER_TEMP, ticksPerTempDelegate);
-
-    // Ticks / °Altitude delegate
-    ticksPerAltDelegate = new DoubleDelegate(m_FilterView, -10000.0, 10000.0, 1.0);
-    m_FilterView->setItemDelegateForColumn(FM_TICKS_PER_ALT, ticksPerAltDelegate);
-
-    // Wavelength delegate
-    wavelengthDelegate = new IntegerDelegate(m_FilterView, 200, 1000, 50);
-    m_FilterView->setItemDelegateForColumn(FM_WAVELENGTH, wavelengthDelegate);
-
     connect(m_FilterModel, &QSqlTableModel::dataChanged, this, [this](const QModelIndex & topLeft, const QModelIndex &,
             const QVector<int> &)
     {
@@ -186,6 +188,10 @@ void FilterManager::refreshFilterModel()
 {
     if (m_FilterWheel == nullptr || m_currentFilterLabels.empty())
         return;
+
+    // In case filter model was cleared due to a device disconnect
+    if (m_FilterModel == nullptr)
+        createFilterModel();
 
     QString vendor(m_FilterWheel->getDeviceName());
     m_FilterModel->setFilter(QString("vendor='%1'").arg(vendor));

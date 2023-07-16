@@ -318,7 +318,6 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool guideDe
 }
 
 bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useAlign,
-        Ekos::Scheduler::SchedulerAlgorithm algorithm,
         SchedulerJob::CompletionCondition completionCondition, int iterations)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
@@ -355,8 +354,7 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useAl
     KTRY_SET_CHECKBOX_SUB(scheduler, guideStepCheck, guide);
     // ignore twilight
     KTRY_SET_CHECKBOX_SUB(scheduler, twilightCheck, false);
-    // select algorithm
-    KTRY_SET_COMBO_INDEX_SUB(scheduler, schedulerAlgorithmCombo, algorithm);
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {0}, {false}, {false});
     // disable remember job progress
     Options::setRememberJobProgress(false);
     // disable INDI stopping after scheduler finished

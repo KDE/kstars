@@ -1020,10 +1020,8 @@ void CaptureModuleState::setAlignState(AlignState value)
                 else
                 {
                     appendLogText(i18n("Post-flip alignment failed. Retrying..."));
-
-                    setCaptureState(CAPTURE_ALIGNING);
-
-                    updateMeridianFlipStage(MeridianFlipState::MF_ALIGNING);
+                    // set back the stage
+                    updateMeridianFlipStage(MeridianFlipState::MF_COMPLETED);
                 }
             }
             break;

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-13 00:42+0000\n"
+"POT-Creation-Date: 2023-07-15 00:42+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -409,7 +409,7 @@ msgstr "反轉影像顏色。需要加強對比時有用。只會影響顯示，
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/filtermanager.cpp:1223 ekos/capture/capture.cpp:3183
+#: ekos/auxiliary/filtermanager.cpp:1229 ekos/capture/capture.cpp:3183
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -1984,7 +1984,7 @@ msgstr "狀態："
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
 #: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/darklibrary.cpp:46
-#: ekos/auxiliary/filtermanager.cpp:966 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/filtermanager.cpp:972 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
@@ -2590,7 +2590,7 @@ msgstr "此網址不合法。您要開啟瀏覽器視窗並進入 Google 搜尋�
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
 #: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:499 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2901,7 +2901,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:610 indi/indicamera.cpp:936
+#: fitsviewer/fitsviewer.cpp:590 indi/indicamera.cpp:926
 #, kde-format
 msgid "Preview"
 msgstr "預覽"
@@ -6366,7 +6366,7 @@ msgstr "自動校正失敗。"
 msgid "Changing focus offset by %1 steps..."
 msgstr "變更過濾器為 %1..."
 
-#: ekos/align/align.cpp:3511 ekos/auxiliary/filtermanager.cpp:1342
+#: ekos/align/align.cpp:3511 ekos/auxiliary/filtermanager.cpp:1348
 #: ekos/capture/capture.cpp:4190
 #, kde-format
 msgid "Changing filter to %1..."
@@ -6395,7 +6395,7 @@ msgstr "清除所有的軌跡"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
 #: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:497 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10103,7 +10103,7 @@ msgstr "無法刪除檔案：%1"
 #: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:441
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:421
 #, kde-format
 msgid "Focus"
 msgstr "焦點"
@@ -10111,7 +10111,7 @@ msgstr "焦點"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:449
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:429
 #, kde-format
 msgid "Align"
 msgstr "對齊"
@@ -10124,7 +10124,7 @@ msgstr "對齊"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:445
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
 #, kde-format
 msgid "Guide"
 msgstr "導引"
@@ -11333,7 +11333,7 @@ msgid "Exp. Range:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
-#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1214
+#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1220
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Anchorage"
@@ -11728,24 +11728,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:61 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:109 ekos/auxiliary/filtermanager.cpp:1034
 #: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:940
 #, kde-format
 msgid "Filter"
 msgstr "過濾器"
 
-#: ekos/auxiliary/filtermanager.cpp:63
+#: ekos/auxiliary/filtermanager.cpp:111
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Filter exposure time during focus"
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/auxiliary/filtermanager.cpp:64 ekos/capture/capturecountswidget.cpp:154
+#: ekos/auxiliary/filtermanager.cpp:112
+#: ekos/capture/capturecountswidget.cpp:154
 #, kde-format
 msgid "Exposure"
 msgstr "曝光"
 
-#: ekos/auxiliary/filtermanager.cpp:66
+#: ekos/auxiliary/filtermanager.cpp:114
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Relative Position"
@@ -11753,165 +11754,165 @@ msgid "Relative offset in steps"
 msgstr "相對位置"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:67 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:115 ekos/auxiliary/filtermanager.cpp:1034
 #: ekos/capture/capture.ui:1902
 #, kde-format
 msgid "Offset"
 msgstr "位移"
 
-#: ekos/auxiliary/filtermanager.cpp:69
+#: ekos/auxiliary/filtermanager.cpp:117
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Start Auto Focus when filter is activated"
 msgstr "自動對焦已完成。"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:71 ekos/ekos.h:162 ekos/focus/focus.ui:285
+#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:285
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Auto Focus"
 msgstr "開始聚焦"
 
-#: ekos/auxiliary/filtermanager.cpp:73
+#: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
 msgid "Lock specific filter when running Auto Focus"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:75 ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:123 ekos/auxiliary/filtermanager.cpp:1034
 #, kde-format
 msgid "Lock Filter"
 msgstr "鎖定過濾器"
 
-#: ekos/auxiliary/filtermanager.cpp:78
+#: ekos/auxiliary/filtermanager.cpp:126
 #, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:79
+#: ekos/auxiliary/filtermanager.cpp:127
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Motion"
 msgid "Last AF Solution"
 msgstr "移動"
 
-#: ekos/auxiliary/filtermanager.cpp:82
+#: ekos/auxiliary/filtermanager.cpp:130
 #, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
 "autofocus process."
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:83
+#: ekos/auxiliary/filtermanager.cpp:131
 #, kde-format
 msgid "Last AF Temp (°C)"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:86
+#: ekos/auxiliary/filtermanager.cpp:134
 #, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:87
+#: ekos/auxiliary/filtermanager.cpp:135
 #, kde-format
 msgid "Last AF Alt (°Alt)"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:90
+#: ekos/auxiliary/filtermanager.cpp:138
 #, kde-format
 msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:91
+#: ekos/auxiliary/filtermanager.cpp:139
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Ticks"
 msgid "Ticks / °C"
 msgstr "步調"
 
-#: ekos/auxiliary/filtermanager.cpp:94
+#: ekos/auxiliary/filtermanager.cpp:142
 #, kde-format
 msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:95
+#: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid "Ticks / °Alt"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:97
+#: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:98
+#: ekos/auxiliary/filtermanager.cpp:146
 #, fuzzy, kde-format
 #| msgid "Wavelength:"
 msgid "Wavelength"
 msgstr "波長："
 
-#: ekos/auxiliary/filtermanager.cpp:529
+#: ekos/auxiliary/filtermanager.cpp:535
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:530
+#: ekos/auxiliary/filtermanager.cpp:536
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Filter"
 msgstr "設定檔"
 
-#: ekos/auxiliary/filtermanager.cpp:944
+#: ekos/auxiliary/filtermanager.cpp:950
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to cancel?"
 msgid "Are you sure you want to quit?"
 msgstr "您確定要取消嗎？"
 
-#: ekos/auxiliary/filtermanager.cpp:1028
+#: ekos/auxiliary/filtermanager.cpp:1034
 #, fuzzy, kde-format
 #| msgid "Focus In"
 msgid "# Focus Runs"
 msgstr "對內聚焦"
 
-#: ekos/auxiliary/filtermanager.cpp:1218
+#: ekos/auxiliary/filtermanager.cpp:1224
 #, fuzzy, kde-format
 #| msgid "Offset"
 msgid "New Offset"
 msgstr "位移"
 
-#: ekos/auxiliary/filtermanager.cpp:1254
+#: ekos/auxiliary/filtermanager.cpp:1260
 #, kde-format
 msgid "Process stopped. Yes to restart, No to abort"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:1285
+#: ekos/auxiliary/filtermanager.cpp:1291
 #, kde-format
 msgid "A problem occurred. Yes to retry, No to abort"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:1327
+#: ekos/auxiliary/filtermanager.cpp:1333
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Processing complete."
 msgstr "自動對焦已完成。"
 
-#: ekos/auxiliary/filtermanager.cpp:1348
+#: ekos/auxiliary/filtermanager.cpp:1354
 #, fuzzy, kde-format
 #| msgid "Changing filter to %1..."
 msgid "Problem changing filter to %1..."
 msgstr "變更過濾器為 %1..."
 
-#: ekos/auxiliary/filtermanager.cpp:1357
+#: ekos/auxiliary/filtermanager.cpp:1363
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:1512
+#: ekos/auxiliary/filtermanager.cpp:1518
 #, fuzzy, kde-format
 #| msgid "Calibrating..."
 msgid "Aborting Autofocus..."
@@ -19584,7 +19585,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:359
+#: fitsviewer/fitstab.cpp:358
 #, kde-format
 msgid "Value"
 msgstr "數值"
@@ -22655,22 +22656,22 @@ msgstr ""
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2703
+#: ekos/manager.cpp:2709
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2711
+#: ekos/manager.cpp:2717
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2739
+#: ekos/manager.cpp:2745
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2751
+#: ekos/manager.cpp:2757
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -28514,7 +28515,7 @@ msgstr "已完成"
 msgid "Normal"
 msgstr "Norman"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:437
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:417
 #, kde-format
 msgid "Calibrate"
 msgstr "校正"
@@ -28814,8 +28815,8 @@ msgid "Y Offset:"
 msgstr "Y 位移："
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:479
-#: fitsviewer/fitsviewer.cpp:1243
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:459
+#: fitsviewer/fitsviewer.cpp:1222
 #, kde-format
 msgid "Ready."
 msgstr "就緒。"
@@ -29015,50 +29016,50 @@ msgstr "目前的 FITS 檔中有未儲存的變更。您要在關閉前先儲存
 msgid "Recent Images"
 msgstr "參考影像："
 
-#: fitsviewer/fitstab.cpp:371
+#: fitsviewer/fitstab.cpp:370
 #, fuzzy, kde-format
 #| msgid "RA"
 msgctxt "Red"
 msgid "R"
 msgstr "赤經"
 
-#: fitsviewer/fitstab.cpp:452 fitsviewer/fitstab.cpp:456
+#: fitsviewer/fitstab.cpp:451 fitsviewer/fitstab.cpp:455
 #, fuzzy, kde-format
 #| msgid "Save FITS"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "儲存 FITS"
 
-#: fitsviewer/fitstab.cpp:488
+#: fitsviewer/fitstab.cpp:487
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "FITS 檔案儲存錯誤：%1"
 
-#: fitsviewer/fitstab.cpp:488
+#: fitsviewer/fitstab.cpp:487
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "影像資料"
 
-#: fitsviewer/fitstab.cpp:492
+#: fitsviewer/fitstab.cpp:491
 #, kde-format
 msgid "File saved to %1"
 msgstr "檔案已儲存到 %1"
 
-#: fitsviewer/fitsview.cpp:469 fitsviewer/fitsview.cpp:479
+#: fitsviewer/fitsview.cpp:478 fitsviewer/fitsview.cpp:488
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Rescaling image failed."
 msgstr "儲存影像 %1 失敗。"
 
-#: fitsviewer/fitsview.cpp:661
+#: fitsviewer/fitsview.cpp:671
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1649
+#: fitsviewer/fitsview.cpp:1662
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "NGC"
@@ -29066,7 +29067,7 @@ msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NGC"
 
-#: fitsviewer/fitsview.cpp:1666
+#: fitsviewer/fitsview.cpp:1679
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "NGC"
@@ -29074,77 +29075,77 @@ msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "NGC"
 
-#: fitsviewer/fitsview.cpp:2086
+#: fitsviewer/fitsview.cpp:2099
 #, kde-format
 msgid "Finding stars..."
 msgstr "搜尋星體中..."
 
-#: fitsviewer/fitsview.cpp:2325
+#: fitsviewer/fitsview.cpp:2338
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2341
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2331
+#: fitsviewer/fitsview.cpp:2344
 #, fuzzy, kde-format
 #| msgid "&Default Zoom"
 msgid "Default Zoom"
 msgstr "預設縮放(&D)"
 
-#: fitsviewer/fitsview.cpp:2334
+#: fitsviewer/fitsview.cpp:2347
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2337
+#: fitsviewer/fitsview.cpp:2350
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Toggle Stretch"
 msgstr "自動延伸"
 
-#: fitsviewer/fitsview.cpp:2345 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2358 fitsviewer/fitsviewer.cpp:210
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "十字型"
 
-#: fitsviewer/fitsview.cpp:2349 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2362 fitsviewer/fitsviewer.cpp:223
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Pixel Gridlines"
 msgstr "顯示衛星"
 
-#: fitsviewer/fitsview.cpp:2354 fitsviewer/fitsview.cpp:2457
+#: fitsviewer/fitsview.cpp:2367 fitsviewer/fitsview.cpp:2470
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgid "Detect Stars in Image"
 msgstr "開啟 FITS 影像"
 
-#: fitsviewer/fitsview.cpp:2360
+#: fitsviewer/fitsview.cpp:2373
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "View Star Profile"
 msgstr "Arc 檔"
 
-#: fitsviewer/fitsview.cpp:2370 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:975
+#: fitsviewer/fitsview.cpp:2383 fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:954
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "赤道座標"
 
-#: fitsviewer/fitsview.cpp:2376 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:977
+#: fitsviewer/fitsview.cpp:2389 fitsviewer/fitsviewer.cpp:236
+#: fitsviewer/fitsviewer.cpp:956
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
 msgstr "顯示物件"
 
-#: fitsviewer/fitsview.cpp:2382
+#: fitsviewer/fitsview.cpp:2395
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid "Center Telescope"
@@ -29220,7 +29221,7 @@ msgstr "統計"
 msgid "Show Clipping"
 msgstr "顯示列印對話框"
 
-#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:243 fitsviewer/fitsviewer.cpp:965
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -29232,13 +29233,13 @@ msgstr ""
 msgid "Zoom To Fit"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1216
+#: fitsviewer/fitsviewer.cpp:255 fitsviewer/fitsviewer.cpp:1195
 #, kde-format
 msgid "Mark Stars"
 msgstr "標記星體"
 
-#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:708
-#: fitsviewer/fitsviewer.cpp:1208
+#: fitsviewer/fitsviewer.cpp:263 fitsviewer/fitsviewer.cpp:688
+#: fitsviewer/fitsviewer.cpp:1187
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -29250,80 +29251,80 @@ msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "KStars FITS 檢視器"
 
-#: fitsviewer/fitsviewer.cpp:377
+#: fitsviewer/fitsviewer.cpp:362
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "星球"
 
-#: fitsviewer/fitsviewer.cpp:383
+#: fitsviewer/fitsviewer.cpp:368
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "星球"
 
-#: fitsviewer/fitsviewer.cpp:575
+#: fitsviewer/fitsviewer.cpp:555
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:694
+#: fitsviewer/fitsviewer.cpp:674
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1129
+#: fitsviewer/fitsviewer.cpp:675 fitsviewer/fitsviewer.cpp:1108
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "十字型"
 
-#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1143
+#: fitsviewer/fitsviewer.cpp:676 fitsviewer/fitsviewer.cpp:1122
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Philippines（菲律賓）"
 
-#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1156
+#: fitsviewer/fitsviewer.cpp:677 fitsviewer/fitsviewer.cpp:1135
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "赤道座標"
 
-#: fitsviewer/fitsviewer.cpp:698 fitsviewer/fitsviewer.cpp:1182
+#: fitsviewer/fitsviewer.cpp:678 fitsviewer/fitsviewer.cpp:1161
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "顯示物件"
 
-#: fitsviewer/fitsviewer.cpp:699 fitsviewer/fitsviewer.cpp:1195
+#: fitsviewer/fitsviewer.cpp:679 fitsviewer/fitsviewer.cpp:1174
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Pixel Gridlines"
 msgstr "顯示衛星"
 
-#: fitsviewer/fitsviewer.cpp:713 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:693 kstarsactions.cpp:1272
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "開啟 FITS 影像"
 
-#: fitsviewer/fitsviewer.cpp:952
+#: fitsviewer/fitsviewer.cpp:931
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:957
+#: fitsviewer/fitsviewer.cpp:936
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "顯示"
 
-#: fitsviewer/fitsviewer.cpp:981
+#: fitsviewer/fitsviewer.cpp:960
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -29331,14 +29332,14 @@ msgid ""
 "*Ready*"
 msgstr "置於望遠鏡中央"
 
-#: fitsviewer/fitsviewer.cpp:992
+#: fitsviewer/fitsviewer.cpp:971
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:994
+#: fitsviewer/fitsviewer.cpp:973
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -29346,27 +29347,27 @@ msgid ""
 "*No WCS Info*"
 msgstr "置於望遠鏡中央"
 
-#: fitsviewer/fitsviewer.cpp:996
+#: fitsviewer/fitsviewer.cpp:975
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1027 fitsviewer/fitsviewer.cpp:1169
+#: fitsviewer/fitsviewer.cpp:1006 fitsviewer/fitsviewer.cpp:1148
 #, fuzzy, kde-format
 #| msgid "Select begin star:"
 msgid "Selection Rectangle"
 msgstr "選擇開始的星體："
 
-#: fitsviewer/fitsviewer.cpp:1056 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1035 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "大小："
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1043 fitsviewer/statform.ui:66
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Width"
@@ -29374,19 +29375,19 @@ msgid "Width"
 msgstr "寬度"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1065 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1044 fitsviewer/statform.ui:71
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Height"
 msgid "Height"
 msgstr "高度"
 
-#: fitsviewer/fitsviewer.cpp:1221
+#: fitsviewer/fitsviewer.cpp:1200
 #, kde-format
 msgid "Unmark Stars"
 msgstr "未標記星體"
 
-#: fitsviewer/fitsviewer.cpp:1237
+#: fitsviewer/fitsviewer.cpp:1216
 #, kde-format
 msgid "Processing %1..."
 msgstr "%1 處理中..."
@@ -30615,31 +30616,31 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:756
+#: indi/indicamera.cpp:746
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:758
+#: indi/indicamera.cpp:748
 #, fuzzy, kde-format
 #| msgid "Image received."
 msgid "Image Write Failed"
 msgstr "影像已接收。"
 
-#: indi/indicamera.cpp:769
+#: indi/indicamera.cpp:759
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "%1 已儲存到 %2"
 
-#: indi/indicamera.cpp:776
+#: indi/indicamera.cpp:766
 #, fuzzy, kde-format
 #| msgid "When FITS is received."
 msgid "Image file is received"
 msgstr "當接收到 FITS 影像時。"
 
-#: indi/indicamera.cpp:933
+#: indi/indicamera.cpp:923
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 預覽"
