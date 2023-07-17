@@ -492,13 +492,13 @@ void HIPSManager::setOfflineLevels(const QStringList &value)
     // In case we don't have offline maps, fill all levels with 1
     if (m_OfflineLevelsMap.isEmpty())
     {
-        for (int i = 3; i < 9; i++)
+        for (int i = 0; i <= 20; i++)
             m_OfflineLevelsMap[i] = 1;
         return;
     }
 
     // Now let's map all the missing levels, if any
-    for (int i = 3; i < 9; i++)
+    for (int i = 0; i <= 20; i++)
     {
         // Find closest level
         if (m_OfflineLevelsMap.contains(i) == false)
