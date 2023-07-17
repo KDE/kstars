@@ -646,15 +646,15 @@ QSharedPointer<FITSViewer> Camera::getFITSViewer()
     });
 
     // If FITS viewer was completed closed. Reset everything
-    //    connect(m_FITSViewerWindow.get(), &FITSViewer::destroyed, this, [this]()
-    //    {
-    //        normalTabID = -1;
-    //        calibrationTabID = -1;
-    //        focusTabID = -1;
-    //        guideTabID = -1;
-    //        alignTabID = -1;
-    //        m_FITSViewerWindow.clear();
-    //    });
+    connect(m_FITSViewerWindow.get(), &FITSViewer::destroyed, this, [this]()
+    {
+        normalTabID = -1;
+        calibrationTabID = -1;
+        focusTabID = -1;
+        guideTabID = -1;
+        alignTabID = -1;
+        m_FITSViewerWindow.clear();
+    });
 
     return m_FITSViewerWindow;
 }
@@ -932,6 +932,7 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::
                     auto tabs = getFITSViewer()->tabs();
                     if (tabIndex < tabs.size() && captureMode == FITS_NORMAL)
                     {
+                        emit newView(tabs[tabIndex]->getView());
                         tabs[tabIndex]->disconnect(this);
                         connect(tabs[tabIndex].get(), &FITSTab::updated, this, [this]
                         {
