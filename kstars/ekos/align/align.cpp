@@ -2105,7 +2105,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 RotatorUtils::Instance()->updateOffset(OffsetAngle);
                 // Debug info
                 auto reverseStatus = "Unknown";
-                auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
+                auto reverseProperty = m_Rotator->getSwitch("ROTATOR_REVERSE");
                 if (reverseProperty)
                 {
                     if (reverseProperty->at(0)->getState() == ISS_ON)
