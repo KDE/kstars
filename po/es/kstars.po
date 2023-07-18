@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-17 00:43+0000\n"
-"PO-Revision-Date: 2023-07-15 00:59+0200\n"
+"PO-Revision-Date: 2023-07-17 12:01+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -28477,10 +28477,9 @@ msgid "Center Telescope"
 msgstr "Centrar el telescopio"
 
 #: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
-#, fuzzy, kde-format
-#| msgid "Show HiPS grid"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "Mostrar la cuadrícula HiPS"
+msgstr "Mostrar la capa HiPS"
 
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
@@ -28629,10 +28628,9 @@ msgid "Pixel Gridlines"
 msgstr "Cuadrícula de píxeles"
 
 #: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
-#, fuzzy, kde-format
-#| msgid "HiPS All Sky Overlay"
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "Capa HiPS de todo el cielo"
+msgstr "Capa HiPS"
 
 #: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
 #, kde-format
@@ -28812,17 +28810,15 @@ msgstr "Hacer que la ventana del visor FITS sea independiente de KStars"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "HiPS Opacity:"
-msgstr "Actualización de HiPS"
+msgstr "Opacidad de HiPS:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "Desplazamiento X:"
+msgstr "Desplazamiento de HiPS:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -34881,19 +34877,19 @@ msgstr ""
 #: kstars.kcfg:1510
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Opacidad de la capa HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "Desplazamiento en X de la capa HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Desplazamiento en Y de la capa HiPS"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1524

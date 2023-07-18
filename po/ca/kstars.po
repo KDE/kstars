@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-17 00:43+0000\n"
-"PO-Revision-Date: 2023-07-10 09:29+0200\n"
+"PO-Revision-Date: 2023-07-17 12:40+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -254,7 +254,7 @@ msgstr "Sensor CDV"
 #: auxiliary/colorscheme.cpp:68
 #, kde-format
 msgid "HiPS Grid"
-msgstr "Quadrícula HiPS"
+msgstr "Quadrícula del HiPS"
 
 #: auxiliary/colorscheme.cpp:69
 #, kde-format
@@ -28477,10 +28477,9 @@ msgid "Center Telescope"
 msgstr "Centra el telescopi"
 
 #: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
-#, fuzzy, kde-format
-#| msgid "Show HiPS grid"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "Mostra la quadrícula HiPS"
+msgstr "Mostra la superposició del HiPS"
 
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
@@ -28629,10 +28628,9 @@ msgid "Pixel Gridlines"
 msgstr "Línies de la quadrícula de píxels"
 
 #: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
-#, fuzzy, kde-format
-#| msgid "HiPS All Sky Overlay"
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "Totes les superposicions del cel de HiPS"
+msgstr "Superposició del HiPS"
 
 #: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
 #, kde-format
@@ -28815,17 +28813,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "HiPS Opacity:"
-msgstr "Actualitza el HiPS"
+msgstr "Opacitat del HiPS:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "Desplaçament X:"
+msgstr "Desplaçament del HiPS:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -29469,7 +29465,7 @@ msgstr "Error en baixar els orígens HiPS: %1"
 msgid "Cache space on hard disk used to store HiPS images."
 msgstr ""
 "Espai de la memòria cau al disc dur que s'usa per a emmagatzemar les imatges "
-"HiPS."
+"del HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
@@ -29491,7 +29487,7 @@ msgstr "MB"
 msgid "Cache space in RAM used to store HiPS images."
 msgstr ""
 "Espai de la memòria cau a la RAM que s'usa per a emmagatzemar les imatges "
-"HiPS."
+"del HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -29519,7 +29515,7 @@ msgstr "Origen del DSS fora de línia"
 #: hips/opshipsdisplay.ui:17
 #, kde-format
 msgid "Show HiPS grid"
-msgstr "Mostra la quadrícula HiPS"
+msgstr "Mostra la quadrícula del HiPS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSPanning)
 #: hips/opshipsdisplay.ui:24
@@ -34985,19 +34981,19 @@ msgstr ""
 #: kstars.kcfg:1510
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Opacitat de la superposició del HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "Desplaçament X de la superposició del HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Desplaçament Y de la superposició del HiPS"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1524
@@ -37623,7 +37619,7 @@ msgstr "El port del darrer gestor web emprat"
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
 "Mida en MB de la memòria cau RAM que s'usa per a emmagatzemar les imatges "
-"HiPS a la memòria cau."
+"del HiPS a la memòria cau."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
 #: kstars.kcfg:3052
@@ -37631,25 +37627,25 @@ msgstr ""
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
 "Mida en MB de la memòria cau al disc dur que s'usa per a emmagatzemar les "
-"imatges HiPS a la memòria cau."
+"imatges del HiPS a la memòria cau."
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
 #: kstars.kcfg:3056
 #, kde-format
 msgid "HIPS source catalog title."
-msgstr "Títol del catàleg d'origen HiPS."
+msgstr "Títol del catàleg d'origen del HiPS."
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
 #: kstars.kcfg:3060
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
-msgstr "Uso interpolació bilineal quan es representin les imatges HiPS?"
+msgstr "Uso interpolació bilineal quan es representin les imatges del HiPS?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
 #: kstars.kcfg:3064
 #, kde-format
 msgid "Show HiPS grid on the sky map."
-msgstr "Mostra la quadrícula HiPS en el mapa celeste."
+msgstr "Mostra la quadrícula del HiPS en el mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
 #: kstars.kcfg:3068
@@ -37661,13 +37657,13 @@ msgstr "Torna a dibuixar el HiPS mentre es fa la panoràmica."
 #: kstars.kcfg:3072
 #, kde-format
 msgid "Draw HiPS sources in the sky map?"
-msgstr "Voleu dibuixar els orígens HiPS en el mapa celeste?"
+msgstr "Voleu dibuixar els orígens del HiPS en el mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
 #: kstars.kcfg:3073
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
-msgstr "Estableix si es dibuixen o no els orígens HiPS en el mapa celeste."
+msgstr "Estableix si es dibuixen o no els orígens del HiPS en el mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
 #: kstars.kcfg:3077
@@ -67104,7 +67100,7 @@ msgstr "Símbols del &CDV"
 #: kstarsinit.cpp:369
 #, kde-format
 msgid "HiPS All Sky Overlay"
-msgstr "Totes les superposicions del cel de HiPS"
+msgstr "Totes les superposicions del cel del HiPS"
 
 #: kstarsinit.cpp:376
 #, kde-format
@@ -67642,7 +67638,7 @@ msgstr "Edita els símbols del CDV..."
 #: kstarsinit.cpp:803
 #, kde-format
 msgid "HiPS Settings..."
-msgstr "Configuració HiPS..."
+msgstr "Configuració del HiPS..."
 
 #: kstarsinit.cpp:810
 #, kde-format

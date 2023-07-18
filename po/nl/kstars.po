@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-17 00:43+0000\n"
-"PO-Revision-Date: 2023-07-10 11:23+0200\n"
+"PO-Revision-Date: 2023-07-17 11:17+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -28120,10 +28120,9 @@ msgid "Center Telescope"
 msgstr "Telescoop centreren"
 
 #: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
-#, fuzzy, kde-format
-#| msgid "Show HiPS grid"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "HiPS-rooster tonen"
+msgstr "HiPS-overlegvel tonen"
 
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
@@ -28272,10 +28271,9 @@ msgid "Pixel Gridlines"
 msgstr "Pixel roosterlijnen"
 
 #: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
-#, fuzzy, kde-format
-#| msgid "HiPS All Sky Overlay"
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "HIPS-overlegvel hele hemel"
+msgstr "HIPS-overlegvel"
 
 #: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
 #, kde-format
@@ -28456,17 +28454,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "HiPS Opacity:"
-msgstr "HiPS -update"
+msgstr "HiPS-dekking"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "X Offset:"
+msgstr "HiPS-offset:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -34495,19 +34491,19 @@ msgstr ""
 #: kstars.kcfg:1510
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Dekking HIPS-overlegvel"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "X-offset van HIPS-overlegvel"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Y-offset van HIPS-overlegvel"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1524
