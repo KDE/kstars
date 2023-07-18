@@ -1200,37 +1200,37 @@ QString PolarAlignmentAssistant::getPAHMessage() const
         case PAH_FIND_CP:
             return introText->text();
         case PAH_FIRST_CAPTURE:
-            return "<p>The assistant requires three images to find a solution.  Ekos is now capturing the first image...</p>";
+            return i18n("<p>The assistant requires three images to find a solution.  Ekos is now capturing the first image...</p>");
         case PAH_FIRST_SOLVE:
-            return "<p>Solving the <i>first</i> image...</p>";
+            return i18n("<p>Solving the <i>first</i> image...</p>");
         case PAH_FIRST_ROTATE:
-            return "<p>Executing the <i>first</i> mount rotation...</p>";
+            return i18n("<p>Executing the <i>first</i> mount rotation...</p>");
         case PAH_FIRST_SETTLE:
-            return "<p>Settling after the <i>first</i> mount rotation.</p>";
+            return i18n("<p>Settling after the <i>first</i> mount rotation.</p>");
         case PAH_SECOND_SETTLE:
-            return "<p>Settling after the <i>second</i> mount rotation.</p>";
+            return i18n("<p>Settling after the <i>second</i> mount rotation.</p>");
         case PAH_SECOND_CAPTURE:
-            return "<p>Capturing the second image...</p>";
+            return i18n("<p>Capturing the second image...</p>");
         case PAH_SECOND_SOLVE:
-            return "<p>Solving the <i>second</i> image...</p>";
+            return i18n("<p>Solving the <i>second</i> image...</p>");
         case PAH_SECOND_ROTATE:
-            return "<p>Executing the <i>second</i> mount rotation...</p>";
+            return i18n("<p>Executing the <i>second</i> mount rotation...</p>");
         case PAH_THIRD_CAPTURE:
-            return "<p>Capturing the <i>third</i> and final image...</p>";
+            return i18n("<p>Capturing the <i>third</i> and final image...</p>");
         case PAH_THIRD_SOLVE:
-            return "<p>Solving the <i>third</i> image...</p>";
+            return i18n("<p>Solving the <i>third</i> image...</p>");
         case PAH_STAR_SELECT:
             if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
-                return "<p>Choose your exposure time & select an adjustment method. Then click <i>refresh</i> to begin adjustments.</p>";
+                return i18n("<p>Choose your exposure time & select an adjustment method. Then click <i>refresh</i> to begin adjustments.</p>");
             else
-                return "<p>Choose your exposure time & select an adjustment method. Click <i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom in and select a bright star</i> to reposition the correction vector. Use the <i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>";
+                return i18n("<p>Choose your exposure time & select an adjustment method. Click <i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom in and select a bright star</i> to reposition the correction vector. Use the <i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>");
         case PAH_REFRESH:
             if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
-                return "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar alignment error.</p><p>Be patient, plate solving can be affected by knob movement. Consider using results after 2 images.  Click <i>Stop</i> when the you're finished.</p>";
+                return i18n("<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar alignment error.</p><p>Be patient, plate solving can be affected by knob movement. Consider using results after 2 images.  Click <i>Stop</i> when the you're finished.</p>");
             else
-                return "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow line, then adjust the <i>Azimuth knob</i> to move it along the Green line until the selected star is centered within the crosshair.</p><p>Click <i>Stop</i> when the star is centered.</p>";
-        case PAH_POST_REFRESH:
-            return "";
+                return i18n("<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow line, then adjust the <i>Azimuth knob</i> to move it along the Green line until the selected star is centered within the crosshair.</p><p>Click <i>Stop</i> when the star is centered.</p>");
+        default:
+            break;
     }
 
     return QString();
