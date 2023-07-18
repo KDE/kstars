@@ -5074,6 +5074,7 @@ void Focus::loadGlobalSettings()
         else
             qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
+
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
     {
@@ -5140,6 +5141,11 @@ void Focus::connectSettings()
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         connect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+
+    // Radio buttons (except mask radio buttons)
+    connect(focusSubFrame, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
+    connect(focusUseFullField, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
+
     // connect mask selections
     connect(focusNoMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
     connect(focusRingMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
@@ -5170,11 +5176,13 @@ void Focus::disconnectSettings()
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         disconnect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+
     // All Radio Buttons
+    disconnect(focusSubFrame, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
+    disconnect(focusUseFullField, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
     disconnect(focusNoMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
     disconnect(focusRingMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
     disconnect(focusMosaicMaskRB, &QRadioButton::toggled, this, &Ekos::Focus::syncImageMaskSelection);
-
 }
 
 
@@ -6517,6 +6525,14 @@ QVariantMap Focus::getAllSettings() const
     for (auto &oneWidget : findChildren<QCheckBox*>())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
+    // All Splitters
+    for (auto &oneWidget : findChildren<QSplitter*>())
+        settings.insert(oneWidget->objectName(), QString::fromUtf8(oneWidget->saveState().toBase64()));
+
+    // All Radio Buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
     return settings;
 }
 
@@ -6563,6 +6579,14 @@ void Focus::setAllSettings(const QVariantMap &settings)
             continue;
         }
 
+        // Splitters
+        auto splitter = findChild<QSplitter*>(name);
+        if (splitter)
+        {
+            syncControl(settings, name, splitter);
+            continue;
+        }
+
         // Radio button
         auto radioButton = findChild<QRadioButton*>(name);
         if (radioButton)
@@ -6594,6 +6618,7 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;
     QComboBox *pComboBox = nullptr;
+    QSplitter *pSplitter = nullptr;
     QRadioButton *pRadioButton = nullptr;
     bool ok = false;
 
@@ -6626,6 +6651,12 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const QString value = settings[key].toString();
         pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pSplitter = qobject_cast<QSplitter *>(widget)))
+    {
+        const auto value = QByteArray::fromBase64(settings[key].toString().toUtf8());
+        pSplitter->restoreState(value);
         return true;
     }
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
