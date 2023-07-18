@@ -78,6 +78,7 @@
         <Action name="view_clipping"/>
         <Action name="view_eq_grid" />
         <Action name="view_objects" />
+        <Action name="view_hips_overlay" />
         <Action name="center_telescope" />
 
         <Separator/>
@@ -85,7 +86,7 @@
 	
 <ToolBar noMerge="1" name="processToolBar" iconText="icononly"><text>Process ToolBar</text>
         <Separator/>
-	<Action name="image_histogram" />
+        <Action name="image_histogram" />
         <Action name="image_stats" />
         <Action name="image_stretch" />
         <Action name="image_roi_stats" />

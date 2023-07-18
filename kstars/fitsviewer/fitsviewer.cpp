@@ -94,38 +94,38 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
     statusBar()->insertPermanentWidget(FITS_LED, &led);
 
-    QAction *action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
+    QAction *action = actionCollection()->addAction("rotate_right", this, &FITSViewer::rotateCW);
 
     action->setText(i18n("Rotate Right"));
     action->setIcon(QIcon::fromTheme("object-rotate-right"));
 
-    action = actionCollection()->addAction("rotate_left", this, SLOT(rotateCCW()));
+    action = actionCollection()->addAction("rotate_left", this, &FITSViewer::rotateCCW);
     action->setText(i18n("Rotate Left"));
     action->setIcon(QIcon::fromTheme("object-rotate-left"));
 
-    action = actionCollection()->addAction("flip_horizontal", this, SLOT(flipHorizontal()));
+    action = actionCollection()->addAction("flip_horizontal", this, &FITSViewer::flipHorizontal);
     action->setText(i18n("Flip Horizontal"));
     action->setIcon(
         QIcon::fromTheme("object-flip-horizontal"));
 
-    action = actionCollection()->addAction("flip_vertical", this, SLOT(flipVertical()));
+    action = actionCollection()->addAction("flip_vertical", this, &FITSViewer::flipVertical);
     action->setText(i18n("Flip Vertical"));
     action->setIcon(QIcon::fromTheme("object-flip-vertical"));
 
     action = actionCollection()->addAction("image_histogram");
     action->setText(i18n("Histogram"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(histoFITS()));
+    connect(action, &QAction::triggered, this, &FITSViewer::histoFITS);
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_T));
 
     action->setIcon(QIcon(":/icons/histogram.png"));
 
-    action = KStandardAction::open(this, SLOT(openFile()), actionCollection());
+    action = KStandardAction::open(this, &FITSViewer::openFile, actionCollection());
     action->setIcon(QIcon::fromTheme("document-open"));
 
-    saveFileAction = KStandardAction::save(this, SLOT(saveFile()), actionCollection());
+    saveFileAction = KStandardAction::save(this, &FITSViewer::saveFile, actionCollection());
     saveFileAction->setIcon(QIcon::fromTheme("document-save"));
 
-    saveFileAsAction = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
+    saveFileAsAction = KStandardAction::saveAs(this, &FITSViewer::saveFileAs, actionCollection());
     saveFileAsAction->setIcon(
         QIcon::fromTheme("document-save_as"));
 
@@ -133,42 +133,42 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_H));
     action->setIcon(QIcon::fromTheme("document-properties"));
     action->setText(i18n("FITS Header"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(headerFITS()));
+    connect(action, &QAction::triggered, this, &FITSViewer::headerFITS);
 
     action = actionCollection()->addAction("fits_debayer");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_D));
     action->setIcon(QIcon::fromTheme("view-preview"));
     action->setText(i18n("Debayer..."));
-    connect(action, SIGNAL(triggered(bool)), SLOT(debayerFITS()));
+    connect(action, &QAction::triggered, this, &FITSViewer::debayerFITS);
 
-    action = KStandardAction::close(this, SLOT(close()), actionCollection());
+    action = KStandardAction::close(this, &FITSViewer::close, actionCollection());
     action->setIcon(QIcon::fromTheme("window-close"));
 
-    action = KStandardAction::copy(this, SLOT(copyFITS()), actionCollection());
+    action = KStandardAction::copy(this, &FITSViewer::copyFITS, actionCollection());
     action->setIcon(QIcon::fromTheme("edit-copy"));
 
-    action = KStandardAction::zoomIn(this, SLOT(ZoomIn()), actionCollection());
+    action = KStandardAction::zoomIn(this, &FITSViewer::ZoomIn, actionCollection());
     action->setIcon(QIcon::fromTheme("zoom-in"));
 
-    action = KStandardAction::zoomOut(this, SLOT(ZoomOut()), actionCollection());
+    action = KStandardAction::zoomOut(this, &FITSViewer::ZoomOut, actionCollection());
     action->setIcon(QIcon::fromTheme("zoom-out"));
 
-    action = KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
+    action = KStandardAction::actualSize(this, &FITSViewer::ZoomDefault, actionCollection());
     action->setIcon(QIcon::fromTheme("zoom-fit-best"));
 
-    QAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
+    QAction *kundo = KStandardAction::undo(undoGroup, &QUndoGroup::undo, actionCollection());
     kundo->setIcon(QIcon::fromTheme("edit-undo"));
 
-    QAction *kredo = KStandardAction::redo(undoGroup, SLOT(redo()), actionCollection());
+    QAction *kredo = KStandardAction::redo(undoGroup, &QUndoGroup::redo, actionCollection());
     kredo->setIcon(QIcon::fromTheme("edit-redo"));
 
-    connect(undoGroup, SIGNAL(canUndoChanged(bool)), kundo, SLOT(setEnabled(bool)));
-    connect(undoGroup, SIGNAL(canRedoChanged(bool)), kredo, SLOT(setEnabled(bool)));
+    connect(undoGroup, &QUndoGroup::canUndoChanged, kundo, &QAction::setEnabled);
+    connect(undoGroup, &QUndoGroup::canRedoChanged, kredo, &QAction::setEnabled);
 
     action = actionCollection()->addAction("image_stats");
     action->setIcon(QIcon::fromTheme("view-statistics"));
     action->setText(i18n("Statistics"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
+    connect(action, &QAction::triggered, this, &FITSViewer::statFITS);
 
     action = actionCollection()->addAction("image_roi_stats");
 
@@ -209,60 +209,67 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setIcon(QIcon::fromTheme("crosshairs"));
     action->setText(i18n("Show Cross Hairs"));
     action->setCheckable(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(toggleCrossHair()));
+    connect(action, &QAction::triggered, this, &FITSViewer::toggleCrossHair);
 
     action = actionCollection()->addAction("view_clipping");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_L));
     action->setIcon(QIcon::fromTheme("media-record"));
     action->setText(i18n("Show Clipping"));
     action->setCheckable(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(toggleClipping()));
+    connect(action, &QAction::triggered, this, &FITSViewer::toggleClipping);
 
     action = actionCollection()->addAction("view_pixel_grid");
     action->setIcon(QIcon::fromTheme("map-flat"));
     action->setText(i18n("Show Pixel Gridlines"));
     action->setCheckable(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(togglePixelGrid()));
+    connect(action, &QAction::triggered, this, &FITSViewer::togglePixelGrid);
 
     action = actionCollection()->addAction("view_eq_grid");
     action->setIcon(QIcon::fromTheme("kstars_grid"));
     action->setText(i18n("Show Equatorial Gridlines"));
     action->setCheckable(true);
     action->setDisabled(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(toggleEQGrid()));
+    connect(action, &QAction::triggered, this, &FITSViewer::toggleEQGrid);
 
     action = actionCollection()->addAction("view_objects");
     action->setIcon(QIcon::fromTheme("help-hint"));
     action->setText(i18n("Show Objects in Image"));
     action->setCheckable(true);
     action->setDisabled(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(toggleObjects()));
+    connect(action, &QAction::triggered, this, &FITSViewer::toggleObjects);
+
+    action = actionCollection()->addAction("view_hips_overlay");
+    action->setIcon(QIcon::fromTheme("pixelate"));
+    action->setText(i18n("Show HiPS Overlay"));
+    action->setCheckable(true);
+    action->setDisabled(true);
+    connect(action, &QAction::triggered, this, &FITSViewer::toggleHiPSOverlay);
 
     action = actionCollection()->addAction("center_telescope");
     action->setIcon(QIcon(":/icons/center_telescope.svg"));
     action->setText(i18n("Center Telescope\n*No Telescopes Detected*"));
     action->setDisabled(true);
     action->setCheckable(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(centerTelescope()));
+    connect(action, &QAction::triggered, this, &FITSViewer::centerTelescope);
 
     action = actionCollection()->addAction("view_zoom_fit");
     action->setIcon(QIcon::fromTheme("zoom-fit-width"));
     action->setText(i18n("Zoom To Fit"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(ZoomToFit()));
+    connect(action, &QAction::triggered, this, &FITSViewer::ZoomToFit);
 
     action = actionCollection()->addAction("mark_stars");
     action->setIcon(QIcon::fromTheme("glstarbase", QIcon(":/icons/glstarbase.png")));
     action->setText(i18n("Mark Stars"));
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_A));
     action->setCheckable(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
+    connect(action, &QAction::triggered, this, &FITSViewer::toggleStars);
 
 #ifdef HAVE_DATAVISUALIZATION
     action = actionCollection()->addAction("toggle_3D_graph");
     action->setIcon(QIcon::fromTheme("star_profile", QIcon(":/icons/star_profile.svg")));
     action->setText(i18n("View 3D Graph"));
     action->setCheckable(true);
-    connect(action, SIGNAL(triggered(bool)), SLOT(toggle3DGraph()));
+    connect(action, &QAction::triggered, this, &FITSViewer::toggle3DGraph);
 #endif
 
 
@@ -672,11 +679,12 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     if (getCurrentView(currentView))
     {
         updateButtonStatus("toggle_3D_graph", i18n("currentView 3D Graph"), currentView->isStarProfileShown());
-        updateButtonStatus("currentView_crosshair", i18n("Cross Hairs"), currentView->isCrosshairShown());
-        updateButtonStatus("currentView_clipping", i18n("Clipping"), currentView->isClippingShown());
-        updateButtonStatus("currentView_eq_grid", i18n("Equatorial Gridlines"), currentView->isEQGridShown());
-        updateButtonStatus("currentView_objects", i18n("Objects in Image"), currentView->areObjectsShown());
-        updateButtonStatus("currentView_pixel_grid", i18n("Pixel Gridlines"), currentView->isPixelGridShown());
+        updateButtonStatus("view_crosshair", i18n("Cross Hairs"), currentView->isCrosshairShown());
+        updateButtonStatus("view_clipping", i18n("Clipping"), currentView->isClippingShown());
+        updateButtonStatus("view_eq_grid", i18n("Equatorial Gridlines"), currentView->isEQGridShown());
+        updateButtonStatus("view_objects", i18n("Objects in Image"), currentView->areObjectsShown());
+        updateButtonStatus("view_pixel_grid", i18n("Pixel Gridlines"), currentView->isPixelGridShown());
+        updateButtonStatus("view_hips_overlay", i18n("HiPS Overlay"), currentView->isHiPSOverlayShown());
     }
 
     updateScopeButton();
@@ -964,6 +972,7 @@ void FITSViewer::updateWCSFunctions()
             actionCollection()->action("center_telescope")->setDisabled(true);
             actionCollection()->action("center_telescope")->setText(i18n("Center Telescope\n*No Telescopes Detected*"));
         }
+        actionCollection()->action("view_hips_overlay")->setDisabled(false);
     }
     else
     {
@@ -973,6 +982,7 @@ void FITSViewer::updateWCSFunctions()
         actionCollection()->action("center_telescope")->setText(i18n("Center Telescope\n*No WCS Info*"));
         actionCollection()->action("view_objects")->setDisabled(true);
         actionCollection()->action("view_objects")->setText(i18n("Show Objects in Image\n*No WCS Info*"));
+        actionCollection()->action("view_hips_overlay")->setDisabled(true);
     }
 }
 
@@ -1133,6 +1143,19 @@ void FITSViewer::toggleEQGrid()
 
     currentView->toggleEQGrid();
     updateButtonStatus("view_eq_grid", i18n("Equatorial Gridlines"), currentView->isEQGridShown());
+}
+
+void FITSViewer::toggleHiPSOverlay()
+{
+    if (m_Tabs.empty())
+        return;
+
+    QSharedPointer<FITSView> currentView;
+    if (!getCurrentView(currentView))
+        return;
+
+    currentView->toggleHiPSOverlay();
+    updateButtonStatus("view_hips_overlay", i18n("HiPS Overlay"), currentView->isHiPSOverlayShown());
 }
 
 void FITSViewer::toggleSelectionMode()

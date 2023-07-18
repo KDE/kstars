@@ -201,32 +201,3 @@ void SolverUtils::solverTimeout()
         QFile::remove(m_TemporaryFilename);
     m_TemporaryFilename.clear();
 }
-
-double SolverUtils::rotationToPositionAngle(double value)
-{
-    double pa = value + 180;
-    while (pa > 180)
-        pa -= 360;
-    while (pa < -180)
-        pa += 360;
-    return pa;
-}
-
-double SolverUtils::positionAngleToRotation(double value)
-{
-    double rotation = value - 180;
-    while (rotation > 180)
-        rotation -= 360;
-    while (rotation < -180)
-        rotation += 360;
-    return rotation;
-}
-
-double SolverUtils::rangePA(double pa)
-{
-    while (pa > 180)
-        pa -= 360;
-    while (pa < -180)
-        pa += 360;
-    return pa;
-}

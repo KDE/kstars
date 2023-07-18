@@ -376,26 +376,16 @@ void Media::upload(const QSharedPointer<FITSView> &view)
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto sendPixmap = (!Options::ekosLiveHighBandwidth() || m_UUID[0] == "+");
-    auto scaleWidth = sendPixmap ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
+    auto fastImage = (!Options::ekosLiveHighBandwidth() || m_UUID[0] == "+");
+    auto scaleWidth = fastImage ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images
     // Except for dark frames +D
-    if (sendPixmap)
-    {
-        QPixmap scaledImage = view->getDisplayPixmap().width() > scaleWidth ?
-                              view->getDisplayPixmap().scaledToWidth(scaleWidth, Qt::FastTransformation) :
-                              view->getDisplayPixmap();
-        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
-    }
-    // For high bandwidth images
-    else
-    {
-        QImage scaledImage =  view->getDisplayImage().width() > scaleWidth ?
-                              view->getDisplayImage().scaledToWidth(scaleWidth, Qt::SmoothTransformation) :
-                              view->getDisplayImage();
-        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
-    }
+    QPixmap scaledImage = view->getDisplayPixmap().width() > scaleWidth ?
+                          view->getDisplayPixmap().scaledToWidth(scaleWidth, fastImage ? Qt::FastTransformation : Qt::SmoothTransformation) :
+                          view->getDisplayPixmap();
+    scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
+
     buffer.close();
 
     emit newImage(jpegData);

@@ -68,6 +68,7 @@ class HIPSManager : public QObject
             return m_hipsSources;
         }
         int getUsableLevel(int level) const;
+        int getUsableOfflineLevel(int level) const;
         PixCache *getCache();
         qint64 getDiscCacheSize() const;
         const QString &getCurrentFormat() const

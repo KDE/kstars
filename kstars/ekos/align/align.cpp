@@ -2014,7 +2014,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // TODO 2019-11-06 JM: KStars needs to support "upside-down" displays since this is a hack.
     // Because astrometry reads image upside-down (bottom to top), the orientation is rotated 180 degrees when compared to PA
     // PA = Orientation + 180
-    double solverPA = SolverUtils::rotationToPositionAngle(orientation);
+    double solverPA = KSUtils::rotationToPositionAngle(orientation);
     solverFOV->setCenter(m_AlignCoord);
     solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
@@ -2105,7 +2105,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 RotatorUtils::Instance()->updateOffset(OffsetAngle);
                 // Debug info
                 auto reverseStatus = "Unknown";
-                auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
+                auto reverseProperty = m_Rotator->getSwitch("ROTATOR_REVERSE");
                 if (reverseProperty)
                 {
                     if (reverseProperty->at(0)->getState() == ISS_ON)
@@ -2332,7 +2332,7 @@ bool Align::checkIfRotationRequired()
                 double current = currentRotatorPA;
                 double target = m_TargetPositionAngle;
 
-                double diff = SolverUtils::rangePA(current - target);
+                double diff = KSUtils::rangePA(current - target);
                 double threshold = Options::astrometryRotatorThreshold() / 60.0;
 
                 appendLogText(i18n("Current PA is %1; Target PA is %2; diff: %3", current, target, diff));
@@ -3235,7 +3235,7 @@ void Align::setCaptureStatus(CaptureState newState)
         // expected after MF so that we do not end up with reversed camera rotation
         case CAPTURE_MERIDIAN_FLIP:
             if (std::isnan(m_TargetPositionAngle) == false)
-                m_TargetPositionAngle = SolverUtils::rangePA(m_TargetPositionAngle + 180.0);
+                m_TargetPositionAngle = KSUtils::rangePA(m_TargetPositionAngle + 180.0);
             break;
         default:
             break;

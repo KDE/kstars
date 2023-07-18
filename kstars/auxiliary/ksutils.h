@@ -365,4 +365,31 @@ void setGlobalSettings(const QVariantMap &settings);
  */
 QString sanitize(const QString &text);
 
+/**
+ * @brief rangePA Limit position angle to -180 to +180 range
+ * @param pa Position angle
+ * @return limited position angle
+ */
+double rangePA(double pa);
+
+/**
+ * @brief range360 Limit angle to be in 0 to 360 range
+ * @param r angle in degrees
+ * @return Limited angle in degrees
+ */
+double range360(double r);
+
+/**
+         * @brief rotationToPositionAngle Convert from astrometry.net rotation to PA
+         * @param value rotation in degrees (-180 to +180)
+         * @return Position angle in degrees (-180 to +180)
+         */
+double rotationToPositionAngle(double value);
+
+/** @brief rotationToPositionAngle Convert from position angle to astrometry.net rotation
+         * @param value Position angle in degrees (-180 to +180)
+         * @return rotation in degrees (-180 to +180)
+         */
+double positionAngleToRotation(double value);
+
 } // namespace KSUtils

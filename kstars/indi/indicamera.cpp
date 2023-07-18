@@ -619,10 +619,10 @@ bool Camera::writeImageFile(const QString &filename, INDI::Property prop, bool i
 // Get or Create FITSViewer if we are using FITSViewer
 // or if capture mode is calibrate since for now we are forced to open the file in the viewer
 // this should be fixed in the future and should only use FITSData
-QPointer<FITSViewer> Camera::getFITSViewer()
+QSharedPointer<FITSViewer> Camera::getFITSViewer()
 {
     // if the FITS viewer exists, return it
-    if (m_FITSViewerWindow != nullptr && ! m_FITSViewerWindow.isNull())
+    if (!m_FITSViewerWindow.isNull() && ! m_FITSViewerWindow.isNull())
         return m_FITSViewerWindow;
 
     // otherwise, create it
@@ -631,7 +631,7 @@ QPointer<FITSViewer> Camera::getFITSViewer()
     m_FITSViewerWindow = KStars::Instance()->createFITSViewer();
 
     // Check if ONE tab of the viewer was closed.
-    connect(m_FITSViewerWindow, &FITSViewer::closed, this, [this](int tabIndex)
+    connect(m_FITSViewerWindow.get(), &FITSViewer::closed, this, [this](int tabIndex)
     {
         if (tabIndex == normalTabID)
             normalTabID = -1;
@@ -646,7 +646,7 @@ QPointer<FITSViewer> Camera::getFITSViewer()
     });
 
     // If FITS viewer was completed closed. Reset everything
-    connect(m_FITSViewerWindow, &FITSViewer::destroyed, this, [this]()
+    connect(m_FITSViewerWindow.get(), &FITSViewer::destroyed, this, [this]()
     {
         normalTabID = -1;
         calibrationTabID = -1;
@@ -929,11 +929,12 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::
                     success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
 
                     //Setup any necessary connections
-                    auto tab = getFITSViewer()->tabs().at(tabIndex);
-                    if (tab && captureMode == FITS_NORMAL)
+                    auto tabs = getFITSViewer()->tabs();
+                    if (tabIndex < tabs.size() && captureMode == FITS_NORMAL)
                     {
-                        tab->disconnect(this);
-                        connect(tab.get(), &FITSTab::updated, this, [this]
+                        emit newView(tabs[tabIndex]->getView());
+                        tabs[tabIndex]->disconnect(this);
+                        connect(tabs[tabIndex].get(), &FITSTab::updated, this, [this]
                         {
                             auto tab = qobject_cast<FITSTab *>(sender());
                             emit newView(tab->getView());
@@ -1872,5 +1873,20 @@ void Camera::setAutoStretch()
 
     if (!view->getAutoStretch())
         view->setAutoStretchParams();
+}
+
+void Camera::toggleHiPSOverlay()
+{
+    if (Options::useFITSViewer() == false || normalTabID < 0)
+        return;
+
+    auto tab = getFITSViewer()->tabs().at(normalTabID);
+
+    if (!tab)
+        return;
+
+    auto view = tab->getView();
+
+    view->toggleHiPSOverlay();
 }
 }

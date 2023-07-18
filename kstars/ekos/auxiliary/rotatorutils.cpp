@@ -65,7 +65,7 @@ double RotatorUtils::calcRotatorAngle(double PositionAngle)
     {
         PositionAngle += 180;
     }
-    return Range360(PositionAngle - m_Offset);
+    return KSUtils::range360(PositionAngle - m_Offset);
 }
 
 double RotatorUtils::calcCameraAngle(double RotatorAngle, bool flippedImage)
@@ -91,7 +91,7 @@ double RotatorUtils::calcCameraAngle(double RotatorAngle, bool flippedImage)
         }
 
     }
-    return RangePA(PositionAngle);
+    return KSUtils::rangePA(PositionAngle);
 }
 
 double RotatorUtils::calcOffsetAngle(double RotatorAngle, double PositionAngle)
@@ -109,7 +109,7 @@ double RotatorUtils::calcOffsetAngle(double RotatorAngle, double PositionAngle)
     {
         OffsetAngle -= 180;
     }
-    return RangePA(OffsetAngle);
+    return KSUtils::rangePA(OffsetAngle);
 }
 
 void RotatorUtils::updateOffset(double Angle)
@@ -136,29 +136,6 @@ bool RotatorUtils::checkImageFlip()
         if (!m_flippedMount != (m_ImgPierside == m_CalPierside)) // XOR
             flipped = true;
     return flipped;
-}
-
-// Redefiniton of 'rangePA'
-double RotatorUtils::RangePA(double pa)
-{
-    {
-        while (pa > 180.00)
-            pa -= 360;
-        while (pa <= -179.99) // uniqueness of angle (-180 = 180)
-            pa += 360;
-        return pa;
-    }
-}
-
-// Redefiniton of 'range360'
-double RotatorUtils::Range360(double r)
-{
-    double res = r;
-    while (res < 0.00)
-        res += 360.00;
-    while (res > 359.99)  // uniqueness of angle (360 = 0)
-        res -= 360.00;
-    return res;
 }
 
 double RotatorUtils::DiffPA(double diff)

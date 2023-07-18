@@ -10,9 +10,6 @@
 
 #include "kstars_debug.h"
 #include "Options.h"
-#include "skymap.h"
-#include "kstars.h"
-#include "skyqpainter.h"
 #include "kspaths.h"
 #include "projections/projector.h"
 #include "projections/lambertprojector.h"
@@ -100,6 +97,67 @@ bool HIPSFinder::render(SkyPoint *center, uint8_t level, double zoom, QImage *de
 
     return !m_RenderedMap.isEmpty();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
+/// Static
+///////////////////////////////////////////////////////////////////////////////////////////
+bool HIPSFinder::renderFOV(SkyPoint *center, double fov_radius, double rotation, QImage *destinationImage)
+{
+    double ra = center->ra0().radians();
+    double de = center->dec0().radians();
+    // do we need this? or updateCoords?
+    //center.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
+
+    if (std::isnan(ra) || std::isnan(de))
+    {
+        qCWarning(KSTARS) << "NAN Center, HiPS rendering failed.";
+        return false;
+    }
+
+    m_RenderedMap.clear();
+
+    auto width = destinationImage->width();
+    auto height = destinationImage->height();
+    auto zoom = sqrt(width * width + height * height) / (fov_radius * 2 * M_PI / 180.0);
+
+    // Setup sample projector
+    ViewParams viewParams;
+    viewParams.width = width;
+    viewParams.height = height;
+    viewParams.fillGround = false;
+    viewParams.useAltAz = false;
+    viewParams.zoomFactor = zoom;
+    viewParams.rotationAngle = dms(rotation);
+    viewParams.focus = center;
+
+    m_Projector.reset(new LambertProjector(viewParams));
+
+    uint8_t level = 1;
+
+    // Min FOV in Degrees
+    double minfov = 58.5;
+    double fov    = m_Projector->fov() * width / height;
+
+    // Find suitable level for current FOV
+    while(fov < minfov)
+    {
+        minfov /= 2;
+        level++;
+    }
+
+    // We need this in case of offline storage missing a few levels.
+    level = HIPSManager::Instance()->getUsableOfflineLevel(level);
+
+    // Get the ID of the face at this level containing the coordinates.
+    int centerPix = m_HEALpix->getPix(level, ra, de);
+
+    m_ScanRender->setBilinearInterpolationEnabled(Options::hIPSBiLinearInterpolation());
+
+    renderRec(level, centerPix, destinationImage);
+
+    return !m_RenderedMap.isEmpty();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 /// Static
