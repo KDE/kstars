@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-17 00:43+0000\n"
+"POT-Creation-Date: 2023-07-19 00:45+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -9468,6 +9468,97 @@ msgstr "Datums/Laiks/Vieta"
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "Ikdienas saules attēli"
 
+#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
+#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.ui:212
+#, kde-format
+msgid ""
+"<p>The assistant requires three images to find a solution.  Ekos is now "
+"capturing the first image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1205
+#, kde-format
+msgid "<p>Solving the <i>first</i> image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1207
+#, kde-format
+msgid "<p>Executing the <i>first</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1209
+#, kde-format
+msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1211
+#, kde-format
+msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1213
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgid "<p>Capturing the second image...</p>"
+msgstr "Tvert"
+
+#: ekos/align/polaralignmentassistant.cpp:1215
+#, fuzzy, kde-format
+#| msgid "Saving of the image %1 failed."
+msgid "<p>Solving the <i>second</i> image...</p>"
+msgstr "Attēla %1 saglabāšana neizdevās."
+
+#: ekos/align/polaralignmentassistant.cpp:1217
+#, kde-format
+msgid "<p>Executing the <i>second</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1219
+#, kde-format
+msgid "<p>Capturing the <i>third</i> and final image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1221
+#, fuzzy, kde-format
+#| msgid "Saving of the image %1 failed."
+msgid "<p>Solving the <i>third</i> image...</p>"
+msgstr "Attēla %1 saglabāšana neizdevās."
+
+#: ekos/align/polaralignmentassistant.cpp:1224
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Then click "
+"<i>refresh</i> to begin adjustments.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1226
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Click "
+"<i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom "
+"in and select a bright star</i> to reposition the correction vector. Use the "
+"<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1229
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
+"alignment error.</p><p>Be patient, plate solving can be affected by knob "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"you're finished.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1231
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
+"line, then adjust the <i>Azimuth knob</i> to move it along the Green line "
+"until the selected star is centered within the crosshair.</p><p>Click "
+"<i>Stop</i> when the star is centered.</p>"
+msgstr ""
+
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
@@ -9562,14 +9653,6 @@ msgstr ""
 #| msgid "Manual"
 msgid "Manual slew"
 msgstr "Pašrocīgi"
-
-#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.ui:212
-#, kde-format
-msgid ""
-"<p>The assistant requires three images to find a solution.  Ekos is now "
-"capturing the first image...</p>"
-msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:262
@@ -16973,14 +17056,14 @@ msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 
-#: ekos/focus/focus.cpp:5188
+#: ekos/focus/focus.cpp:5196
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Izņemt pēdas"
 
-#: ekos/focus/focus.cpp:6380
+#: ekos/focus/focus.cpp:6388
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17005,7 +17088,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6396
+#: ekos/focus/focus.cpp:6404
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17017,7 +17100,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6403
+#: ekos/focus/focus.cpp:6411
 #, kde-format
 msgid ""
 "\n"
@@ -17038,7 +17121,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6413
+#: ekos/focus/focus.cpp:6421
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Focus Advisor"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-17 00:43+0000\n"
-"PO-Revision-Date: 2023-07-10 17:51+0200\n"
+"POT-Creation-Date: 2023-07-19 00:45+0000\n"
+"PO-Revision-Date: 2023-07-18 14:27+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -253,7 +253,7 @@ msgstr "Sensor CDV"
 #: auxiliary/colorscheme.cpp:68
 #, kde-format
 msgid "HiPS Grid"
-msgstr "Quadrícula HiPS"
+msgstr "Quadrícula de HiPS"
 
 #: auxiliary/colorscheme.cpp:69
 #, kde-format
@@ -9478,6 +9478,99 @@ msgstr ""
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: No s'ha pogut trobar l'eix de l'AR. Se ix."
 
+#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
+#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.ui:212
+#, kde-format
+msgid ""
+"<p>The assistant requires three images to find a solution.  Ekos is now "
+"capturing the first image...</p>"
+msgstr ""
+"<p>L'assistent requerix tres imatges per a trobar una solució. Ekos ara està "
+"capturant la primera imatge...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1205
+#, kde-format
+msgid "<p>Solving the <i>first</i> image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1207
+#, kde-format
+msgid "<p>Executing the <i>first</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1209
+#, kde-format
+msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1211
+#, kde-format
+msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1213
+#, fuzzy, kde-format
+#| msgid "Capturing %1-second %2 image..."
+msgid "<p>Capturing the second image...</p>"
+msgstr "S'està capturant la imatge %2 en %1 segons..."
+
+#: ekos/align/polaralignmentassistant.cpp:1215
+#, fuzzy, kde-format
+#| msgid "Solving with blind image scale..."
+msgid "<p>Solving the <i>second</i> image...</p>"
+msgstr "S'està solucionant amb una escala d'imatge cega..."
+
+#: ekos/align/polaralignmentassistant.cpp:1217
+#, kde-format
+msgid "<p>Executing the <i>second</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1219
+#, kde-format
+msgid "<p>Capturing the <i>third</i> and final image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1221
+#, fuzzy, kde-format
+#| msgid "Solving with blind image scale..."
+msgid "<p>Solving the <i>third</i> image...</p>"
+msgstr "S'està solucionant amb una escala d'imatge cega..."
+
+#: ekos/align/polaralignmentassistant.cpp:1224
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Then click "
+"<i>refresh</i> to begin adjustments.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1226
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Click "
+"<i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom "
+"in and select a bright star</i> to reposition the correction vector. Use the "
+"<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1229
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
+"alignment error.</p><p>Be patient, plate solving can be affected by knob "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"you're finished.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1231
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
+"line, then adjust the <i>Azimuth knob</i> to move it along the Green line "
+"until the selected star is centered within the crosshair.</p><p>Click "
+"<i>Stop</i> when the star is centered.</p>"
+msgstr ""
+
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
@@ -9579,16 +9672,6 @@ msgstr "Canvia l'orientació manual a les muntures no GOTO"
 #, kde-format
 msgid "Manual slew"
 msgstr "Orientació manual"
-
-#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.ui:212
-#, kde-format
-msgid ""
-"<p>The assistant requires three images to find a solution.  Ekos is now "
-"capturing the first image...</p>"
-msgstr ""
-"<p>L'assistent requerix tres imatges per a trobar una solució. Ekos ara està "
-"capturant la primera imatge...</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:262
@@ -17083,13 +17166,13 @@ msgstr "Fallada de l'exposició. S'interromp..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Fallada de l'exposició. Es reinicia l'exposició..."
 
-#: ekos/focus/focus.cpp:5188
+#: ekos/focus/focus.cpp:5196
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil relatiu"
 
-#: ekos/focus/focus.cpp:6380
+#: ekos/focus/focus.cpp:6388
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17136,7 +17219,7 @@ msgstr ""
 "El tercer pas és establir el multiplicador del pas exterior. Comenceu amb el "
 "valor predeterminat suggerit."
 
-#: ekos/focus/focus.cpp:6396
+#: ekos/focus/focus.cpp:6404
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17157,7 +17240,7 @@ msgstr ""
 "«Múltiples passos enfora:» fins que es corresponga amb este interval de "
 "moviment de l'enfocador."
 
-#: ekos/focus/focus.cpp:6403
+#: ekos/focus/focus.cpp:6411
 #, kde-format
 msgid ""
 "\n"
@@ -17194,7 +17277,7 @@ msgstr ""
 "de banda ampla, p. ex. Luminància\n"
 "Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:6413
+#: ekos/focus/focus.cpp:6421
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Assessor d'enfocament"
@@ -28488,10 +28571,9 @@ msgid "Center Telescope"
 msgstr "Centra el telescopi"
 
 #: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
-#, fuzzy, kde-format
-#| msgid "Show HiPS grid"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "Mostra la quadrícula HiPS"
+msgstr "Mostra la superposició de HiPS"
 
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
@@ -28640,10 +28722,9 @@ msgid "Pixel Gridlines"
 msgstr "Línies de la quadrícula de píxels"
 
 #: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
-#, fuzzy, kde-format
-#| msgid "HiPS All Sky Overlay"
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "Totes les superposicions del cel de HiPS"
+msgstr "Superposició de HiPS"
 
 #: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
 #, kde-format
@@ -28823,17 +28904,15 @@ msgstr "Fes que la finestra del visor FITS siga independent de KStars"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "HiPS Opacity:"
-msgstr "Actualitza HiPS"
+msgstr "Opacitat de HiPS:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "Desplaçament X:"
+msgstr "Desplaçament de HiPS:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -29475,7 +29554,7 @@ msgstr "S'ha produït un error en baixar els orígens HiPS: %1"
 msgid "Cache space on hard disk used to store HiPS images."
 msgstr ""
 "Espai de la memòria cau en el disc dur que s'utilitza per a emmagatzemar les "
-"imatges HiPS."
+"imatges de HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
@@ -29497,7 +29576,7 @@ msgstr "MB"
 msgid "Cache space in RAM used to store HiPS images."
 msgstr ""
 "Espai de la memòria cau a la RAM que s'utilitza per a emmagatzemar les "
-"imatges HiPS."
+"imatges de HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -29525,7 +29604,7 @@ msgstr "Origen del DSS fora de línia"
 #: hips/opshipsdisplay.ui:17
 #, kde-format
 msgid "Show HiPS grid"
-msgstr "Mostra la quadrícula HiPS"
+msgstr "Mostra la quadrícula de HiPS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSPanning)
 #: hips/opshipsdisplay.ui:24
@@ -34985,19 +35064,19 @@ msgstr ""
 #: kstars.kcfg:1510
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Opacitat de la superposició de HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "Desplaçament X de la superposició de HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Desplaçament Y de la superposició de HiPS"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1524
@@ -37636,7 +37715,7 @@ msgstr "El port de l'últim gestor web emprat"
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
 "Mida en MB de la memòria cau RAM que s'utilitza per a emmagatzemar les "
-"imatges HiPS a la memòria cau."
+"imatges de HiPS a la memòria cau."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
 #: kstars.kcfg:3052
@@ -37644,25 +37723,26 @@ msgstr ""
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
 "Mida en MB de la memòria cau en el disc dur que s'utilitza per a "
-"emmagatzemar les imatges HiPS a la memòria cau."
+"emmagatzemar les imatges de HiPS a la memòria cau."
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
 #: kstars.kcfg:3056
 #, kde-format
 msgid "HIPS source catalog title."
-msgstr "Títol del catàleg d'origen HiPS."
+msgstr "Títol del catàleg d'origen de HiPS."
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
 #: kstars.kcfg:3060
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
-msgstr "Utilitze interpolació bilineal quan es representen les imatges HiPS?"
+msgstr ""
+"Utilitze interpolació bilineal quan es representen les imatges de HiPS?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
 #: kstars.kcfg:3064
 #, kde-format
 msgid "Show HiPS grid on the sky map."
-msgstr "Mostra la quadrícula HiPS en el mapa celeste."
+msgstr "Mostra la quadrícula de HiPS en el mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
 #: kstars.kcfg:3068
@@ -37674,13 +37754,13 @@ msgstr "Torna a dibuixar HiPS mentre es fa la panoràmica."
 #: kstars.kcfg:3072
 #, kde-format
 msgid "Draw HiPS sources in the sky map?"
-msgstr "Voleu dibuixar els orígens HiPS en el mapa celeste?"
+msgstr "Voleu dibuixar els orígens de HiPS en el mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
 #: kstars.kcfg:3073
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
-msgstr "Establix si es dibuixen o no els orígens HiPS en el mapa celeste."
+msgstr "Establix si es dibuixen o no els orígens de HiPS en el mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
 #: kstars.kcfg:3077
@@ -67685,7 +67765,7 @@ msgstr "Edita els símbols de CDV..."
 #: kstarsinit.cpp:803
 #, kde-format
 msgid "HiPS Settings..."
-msgstr "Configuració HiPS..."
+msgstr "Configureu HiPS..."
 
 #: kstarsinit.cpp:810
 #, kde-format
@@ -69344,7 +69424,7 @@ msgstr "Nom de la configuració"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Configuration"
-msgstr "Configuració"
+msgstr "Configureu"
 
 #: libindi_strings.cpp:83
 #, kde-kuit-format

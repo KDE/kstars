@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1655971 $
+# Version: $Revision: 1656151 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-17 00:43+0000\n"
+"POT-Creation-Date: 2023-07-19 00:45+0000\n"
 "PO-Revision-Date: 2023-07-08 08:53+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -9387,6 +9387,103 @@ msgstr ""
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Nie udało się znaleźć osi RA. Kończenie."
 
+#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
+#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.ui:212
+#, kde-format
+msgid ""
+"<p>The assistant requires three images to find a solution.  Ekos is now "
+"capturing the first image...</p>"
+msgstr ""
+"<p>Pomocnik wymaga trzech obrazów do znalezienia rozwiązania. Ekos właśnie "
+"przechwytuje pierwszy obraz...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1205
+#, fuzzy, kde-format
+#| msgid "<p>Solving the first image...</p>"
+msgid "<p>Solving the <i>first</i> image...</p>"
+msgstr "<p>Rozwiązywanie pierwszego obrazu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1207
+#, fuzzy, kde-format
+#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+msgid "<p>Executing the <i>first</i> mount rotation...</p>"
+msgstr "<p>Wykonywanie <i>drugiego</i>obrotu montażu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1209
+#, fuzzy, kde-format
+#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
+msgstr "<p>Wykonywanie <i>drugiego</i>obrotu montażu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1211
+#, fuzzy, kde-format
+#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
+msgstr "<p>Wykonywanie <i>drugiego</i>obrotu montażu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1213
+#, kde-format
+msgid "<p>Capturing the second image...</p>"
+msgstr "<p>Przechwytywanie drugiego obrazu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1215
+#, fuzzy, kde-format
+#| msgid "<p>Solving the second image...</p>"
+msgid "<p>Solving the <i>second</i> image...</p>"
+msgstr "<p>Rozwiązywanie drugiego obrazu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1217
+#, fuzzy, kde-format
+#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+msgid "<p>Executing the <i>second</i> mount rotation...</p>"
+msgstr "<p>Wykonywanie <i>drugiego</i>obrotu montażu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1219
+#, kde-format
+msgid "<p>Capturing the <i>third</i> and final image...</p>"
+msgstr "<p>Przechwytywanie <i>trzeciego</i> i końcowego obrazu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1221
+#, fuzzy, kde-format
+#| msgid "<p>Solving the third image...</p>"
+msgid "<p>Solving the <i>third</i> image...</p>"
+msgstr "<p>Rozwiązywanie trzeciego obrazu...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1224
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Then click "
+"<i>refresh</i> to begin adjustments.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1226
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Click "
+"<i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom "
+"in and select a bright star</i> to reposition the correction vector. Use the "
+"<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1229
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
+"alignment error.</p><p>Be patient, plate solving can be affected by knob "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"you're finished.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1231
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
+"line, then adjust the <i>Azimuth knob</i> to move it along the Green line "
+"until the selected star is centered within the crosshair.</p><p>Click "
+"<i>Stop</i> when the star is centered.</p>"
+msgstr ""
+
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
@@ -9486,16 +9583,6 @@ msgstr "Przełącz na ręczne obracanie z montażami nie-GOTO"
 #, kde-format
 msgid "Manual slew"
 msgstr "Ręczny obrót"
-
-#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.ui:212
-#, kde-format
-msgid ""
-"<p>The assistant requires three images to find a solution.  Ekos is now "
-"capturing the first image...</p>"
-msgstr ""
-"<p>Pomocnik wymaga trzech obrazów do znalezienia rozwiązania. Ekos właśnie "
-"przechwytuje pierwszy obraz...</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:262
@@ -16897,13 +16984,13 @@ msgstr "Niepowodzenie naświetlenia. Przerywanie..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Niepowodzenie naświetlenia. Ponowne naświetlanie..."
 
-#: ekos/focus/focus.cpp:5188
+#: ekos/focus/focus.cpp:5196
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Profil względny"
 
-#: ekos/focus/focus.cpp:6380
+#: ekos/focus/focus.cpp:6388
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -16950,7 +17037,7 @@ msgstr ""
 "Trzecim krokiem jest ustawienie Wielokrotności Kroku Oddalającego. "
 "Rozpocznij od doradzanej wartości."
 
-#: ekos/focus/focus.cpp:6396
+#: ekos/focus/focus.cpp:6404
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -16970,7 +17057,7 @@ msgstr ""
 "zadowalającym poziomie. Dostosuj Wielokrotność Kroku Oddalającego, aby "
 "odpowiadała ona temu zakresowi ruchu układu ogniskującego."
 
-#: ekos/focus/focus.cpp:6403
+#: ekos/focus/focus.cpp:6411
 #, kde-format
 msgid ""
 "\n"
@@ -17007,7 +17094,7 @@ msgstr ""
 "szerokopasmowy, np. Luminancji\n"
 "Jesteś gotowy, aby rozpocząć czynność samoogniskowania."
 
-#: ekos/focus/focus.cpp:6413
+#: ekos/focus/focus.cpp:6421
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Doradca ogniskowej"
@@ -83995,15 +84082,6 @@ msgstr "Ustaw barwę tła."
 #~ "<p>Wykonywanie <span style=\" font-style:italic;\">pierwszego</span> "
 #~ "obrotu montażu...</p>"
 
-#~ msgid "<p>Capturing the second image...</p>"
-#~ msgstr "<p>Przechwytywanie drugiego obrazu...</p>"
-
-#~ msgid "<p>Executing the <i>second </i>mount rotation...</p>"
-#~ msgstr "<p>Wykonywanie <i>drugiego</i>obrotu montażu...</p>"
-
-#~ msgid "<p>Capturing the <i>third</i> and final image...</p>"
-#~ msgstr "<p>Przechwytywanie <i>trzeciego</i> i końcowego obrazu...</p>"
-
 #~ msgid "Error Occurred"
 #~ msgstr "Wystąpił błąd"
 
@@ -84069,15 +84147,6 @@ msgstr "Ustaw barwę tła."
 
 #~ msgid "Update PA Error"
 #~ msgstr "Uaktualnij błąd PA"
-
-#~ msgid "<p>Solving the first image...</p>"
-#~ msgstr "<p>Rozwiązywanie pierwszego obrazu...</p>"
-
-#~ msgid "<p>Solving the second image...</p>"
-#~ msgstr "<p>Rozwiązywanie drugiego obrazu...</p>"
-
-#~ msgid "<p>Solving the third image...</p>"
-#~ msgstr "<p>Rozwiązywanie trzeciego obrazu...</p>"
 
 #~ msgid "<p>Calculating WCS for the first image...</p>"
 #~ msgstr "<p>Obliczanie WCS dla pierwszego obrazu...</p>"

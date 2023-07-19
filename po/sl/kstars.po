@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-17 00:43+0000\n"
-"PO-Revision-Date: 2023-07-10 09:41+0200\n"
+"POT-Creation-Date: 2023-07-19 00:45+0000\n"
+"PO-Revision-Date: 2023-07-18 08:09+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -9380,6 +9380,97 @@ msgstr ""
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Ni uspelo najti centra osi RA."
 
+#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
+#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.ui:212
+#, fuzzy, kde-format
+msgid ""
+"<p>The assistant requires three images to find a solution.  Ekos is now "
+"capturing the first image...</p>"
+msgstr ""
+"<p>Pomočnik zahteva tri slike, da najde rešitev.  Ekos zdaj ujame prvo "
+"podobo...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1205
+#, kde-format
+msgid "<p>Solving the <i>first</i> image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1207
+#, kde-format
+msgid "<p>Executing the <i>first</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1209
+#, kde-format
+msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1211
+#, kde-format
+msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1213
+#, fuzzy, kde-format
+#| msgid "Capturing %1-second %2 image..."
+msgid "<p>Capturing the second image...</p>"
+msgstr "Zajemanje slike %1-sekund %2..."
+
+#: ekos/align/polaralignmentassistant.cpp:1215
+#, fuzzy, kde-format
+msgid "<p>Solving the <i>second</i> image...</p>"
+msgstr "Reševanje z lestvico slepe slike ..."
+
+#: ekos/align/polaralignmentassistant.cpp:1217
+#, kde-format
+msgid "<p>Executing the <i>second</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1219
+#, kde-format
+msgid "<p>Capturing the <i>third</i> and final image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1221
+#, fuzzy, kde-format
+msgid "<p>Solving the <i>third</i> image...</p>"
+msgstr "Reševanje z lestvico slepe slike ..."
+
+#: ekos/align/polaralignmentassistant.cpp:1224
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Then click "
+"<i>refresh</i> to begin adjustments.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1226
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Click "
+"<i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom "
+"in and select a bright star</i> to reposition the correction vector. Use the "
+"<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1229
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
+"alignment error.</p><p>Be patient, plate solving can be affected by knob "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"you're finished.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1231
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
+"line, then adjust the <i>Azimuth knob</i> to move it along the Green line "
+"until the selected star is centered within the crosshair.</p><p>Click "
+"<i>Stop</i> when the star is centered.</p>"
+msgstr ""
+
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, fuzzy, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
@@ -9478,16 +9569,6 @@ msgstr "Preklopite za ročno zamašanje z ne-GOTO nosilci"
 #, fuzzy, kde-format
 msgid "Manual slew"
 msgstr "Ročni zamah"
-
-#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.ui:212
-#, fuzzy, kde-format
-msgid ""
-"<p>The assistant requires three images to find a solution.  Ekos is now "
-"capturing the first image...</p>"
-msgstr ""
-"<p>Pomočnik zahteva tri slike, da najde rešitev.  Ekos zdaj ujame prvo "
-"podobo...</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:262
@@ -16927,13 +17008,13 @@ msgstr "Napaka ekspozicije. Prekinitev ..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Osvetljevanje ni uspelo. Ponovno zaganjanje osvetljevanja..."
 
-#: ekos/focus/focus.cpp:5188
+#: ekos/focus/focus.cpp:5196
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Relativni profil"
 
-#: ekos/focus/focus.cpp:6380
+#: ekos/focus/focus.cpp:6388
 #, fuzzy, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -16981,7 +17062,7 @@ msgstr ""
 "Tretji korak je nastavitev večkratnega koraka izhoda. Začnite s predlagano "
 "privzeto vrednostjo."
 
-#: ekos/focus/focus.cpp:6396
+#: ekos/focus/focus.cpp:6404
 #, fuzzy, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17001,7 +17082,7 @@ msgstr ""
 "Prilagodite Večkratni izhodni korak, da ustreza temu območju gibanja "
 "ostrilnika."
 
-#: ekos/focus/focus.cpp:6403
+#: ekos/focus/focus.cpp:6411
 #, fuzzy, kde-format
 msgid ""
 "\n"
@@ -17037,7 +17118,7 @@ msgstr ""
 "filter, npr. Svetilnost\n"
 "Zdaj ste pripravljeni za začetek samodejnega ostrenja."
 
-#: ekos/focus/focus.cpp:6413
+#: ekos/focus/focus.cpp:6421
 #, fuzzy, kde-format
 msgid "Focus Advisor"
 msgstr "Zvezda v žarišču"
@@ -35023,19 +35104,19 @@ msgstr ""
 #: kstars.kcfg:1510
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Prekrivnost prekrivanja HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "Odmik X prekrivanja HPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Odmik Y prekrivanja HPS"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1524
