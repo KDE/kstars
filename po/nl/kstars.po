@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-19 00:45+0000\n"
-"PO-Revision-Date: 2023-07-17 11:17+0200\n"
+"PO-Revision-Date: 2023-07-19 10:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -9406,34 +9406,24 @@ msgstr ""
 "nu de eerste afbeelding...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1205
-#, fuzzy, kde-format
-#| msgid "<p>Solving the first image...</p>"
+#, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
-msgstr "<p>De eerste afbeelding wordt opgelost...</p>"
+msgstr "<p>De <i>eerste</i> afbeelding wordt opgelost...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1207
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
-msgstr ""
-"<p>De <span style=\" font-style:italic;\">tweede </span> draai van de "
-"opstelling wordt gedaan...</p>"
+msgstr "<p>De <i>eerste</i> draai van de opstelling wordt gedaan...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1209
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
-msgstr ""
-"<p>De <span style=\" font-style:italic;\">tweede </span> draai van de "
-"opstelling wordt gedaan...</p>"
+msgstr "<p>Settelen na de <i>eerste</i> draai van de opstelling.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1211
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
-msgstr ""
-"<p>De <span style=\" font-style:italic;\">tweede </span> draai van de "
-"opstelling wordt gedaan...</p>"
+msgstr "<p>Settelen na de <i>tweede</i> draai van de opstelling.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1213
 #, kde-format
@@ -9441,18 +9431,14 @@ msgid "<p>Capturing the second image...</p>"
 msgstr "<p>De tweede opname wordt gemaakt...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1215
-#, fuzzy, kde-format
-#| msgid "<p>Solving the second image...</p>"
+#, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
-msgstr "<p>De tweede opname wordt opgelost...</p>"
+msgstr "<p>De <i>tweede</i> opname wordt opgelost...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1217
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
-msgstr ""
-"<p>De <span style=\" font-style:italic;\">tweede </span> draai van de "
-"opstelling wordt gedaan...</p>"
+msgstr "<p>De <i>tweede</i> draai van de opstelling wordt gedaan...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1219
 #, kde-format
@@ -9460,10 +9446,9 @@ msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>De derde opname wordt gemaakt...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1221
-#, fuzzy, kde-format
-#| msgid "<p>Solving the third image...</p>"
+#, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
-msgstr "<p>De derde opname wordt opgelost...</p>"
+msgstr "<p>De <i>derde</i> opname wordt opgelost...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1224
 #, kde-format
@@ -9471,6 +9456,8 @@ msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
+"<p>Kies uw belichtingstijd & selecteer een methode voor aanpassen. Klik "
+"daarna op <i>vernieuwen</i> om aanpassingen te beginnen.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1226
 #, kde-format
@@ -9480,6 +9467,12 @@ msgid ""
 "in and select a bright star</i> to reposition the correction vector. Use the "
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
+"<p>Kies uw belichtingstijd & selecteer een methode voor aanpassen. Klik "
+"daarna op <i>vernieuwen</i> om aanpassingen te beginnen.</p><p>De "
+"correctiedriehoek is hier boven geplot. <i>Zoom in en selecteer een heldere "
+"ster</i> om de correctievector opnieuw te positioneren. Gebruik de methode "
+"<i>SterVerplaatsen & Fout berekenen</i> om de overblijvende fout te schatten."
+"</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1229
 #, kde-format
@@ -9489,6 +9482,10 @@ msgid ""
 "movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
 "you're finished.</p>"
 msgstr ""
+"<p>Pas de <i>knoppen Hoogte en Azimuth</i> aan om de fout in polaire "
+"uitlijning te verminderen.</p><p>Wees geduldig, plaat oplossen kan invloed "
+"hebben op bewegen van de knop. Overweeg de resultaten na 2 afbeeldingen te "
+"gebruiken.  Klik op <i>Stop</i> wanneer u klaar bent.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1231
 #, kde-format
@@ -9498,6 +9495,10 @@ msgid ""
 "until the selected star is centered within the crosshair.</p><p>Click "
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
+"<p>Pas de <i>knop Hoogte</i> aan om de ster langs de gele lijn te "
+"verplaatsen, pas daarna de <i>knop Azimuth</i> aan om het langs de groene "
+"lijn te verplaatsen totdat de geselecteerde ster gecentreerd is binnen de "
+"kruisdraad.</p><p>Klik op <i>Stop</i> wanneer de ster gecentreerd is.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format

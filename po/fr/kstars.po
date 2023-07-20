@@ -9509,7 +9509,8 @@ msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>Exécution de la <i>seconde </i> rotation de la monture...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1213
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<p>Capturing the second image...</p>"
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>Capture de la seconde image...</p>"
 
@@ -9526,7 +9527,8 @@ msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>Exécution de la <i>seconde </i> rotation de la monture...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1219
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Capture de la <i>troisième</i> et dernière image...</p>"
 
