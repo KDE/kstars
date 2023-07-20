@@ -392,6 +392,30 @@ QString KStars::getOption(const QString &name)
         return QString();
 }
 
+QString KStars::getFocusInformationXML()
+{
+    QString output;
+    QXmlStreamWriter stream(&output);
+    SkyPoint* focus = map()->focus();
+    Q_ASSERT(!!focus);
+    stream.setAutoFormatting(true);
+    stream.writeStartDocument();
+    stream.writeStartElement("focus");
+    stream.writeTextElement("FOV_Degrees", QString::number(map()->fov()));
+    stream.writeTextElement("RA_JNow_Degrees", QString::number(focus->ra().Degrees()));
+    stream.writeTextElement("Dec_JNow_Degrees", QString::number(focus->dec().Degrees()));
+    stream.writeTextElement("RA_JNow_HMS", focus->ra().toHMSString());
+    stream.writeTextElement("Dec_JNow_DMS", focus->dec().toDMSString());
+    stream.writeTextElement("Altitude_Degrees", QString::number(focus->alt().Degrees()));
+    stream.writeTextElement("Azimuth_Degrees", QString::number(focus->az().Degrees()));
+    stream.writeTextElement("Altitude_DMS", focus->alt().toDMSString());
+    stream.writeTextElement("Azimuth_DMS", focus->az().toDMSString());
+    stream.writeTextElement("Focused_Object", map()->focusObject() ? map()->focusObject()->name() : QString());
+    stream.writeEndElement(); // focus
+    stream.writeEndDocument();
+    return output;
+}
+
 void KStars::changeViewOption(const QString &op, const QString &val)
 {
     bool bOk(false), dOk(false);
