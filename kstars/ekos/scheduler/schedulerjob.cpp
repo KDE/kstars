@@ -1606,7 +1606,7 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
     // We do not consider job state here. It is the responsibility of the caller
     // to filter for that, if desired.
 
-    if (SchedulerJob::START_AT == getFileStartupCondition())
+    if (!runningJob && SchedulerJob::START_AT == getFileStartupCondition())
     {
         int secondsFromNow = ltWhen.secsTo(getFileStartupTime());
         if (secondsFromNow < -500)
