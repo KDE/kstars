@@ -2591,7 +2591,8 @@ void Manager::updateCaptureCountDown()
     {
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()},
-        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()}
+        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()},
+        {"ovl", capturePreview->captureCountsWidget->gr_overallLabel->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
