@@ -366,6 +366,7 @@ void Media::upload(const QSharedPointer<FITSView> &view)
         {"shadows", stretchParameters.grey_red.shadows},
         {"midtones", stretchParameters.grey_red.midtones},
         {"highlights", stretchParameters.grey_red.highlights},
+        {"hasWCS", imageData->hasWCS()},
         {"ext", ext}
     };
 

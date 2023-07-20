@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-17 00:43+0000\n"
-"PO-Revision-Date: 2023-07-03 11:38\n"
+"POT-Creation-Date: 2023-07-19 00:45+0000\n"
+"PO-Revision-Date: 2023-07-18 11:11\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -9128,6 +9128,97 @@ msgstr "无法处理世界坐标系统： %1。再试一次。"
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA：找不到赤经轴。退出。"
 
+#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
+#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.ui:212
+#, kde-format
+msgid ""
+"<p>The assistant requires three images to find a solution.  Ekos is now "
+"capturing the first image...</p>"
+msgstr "<p>助手需要三张图像才能定位。Ekos 现在正在抓取第一张图像...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1205
+#, kde-format
+msgid "<p>Solving the <i>first</i> image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1207
+#, kde-format
+msgid "<p>Executing the <i>first</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1209
+#, kde-format
+msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1211
+#, kde-format
+msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1213
+#, fuzzy, kde-format
+#| msgid "Capturing %1-second %2 image..."
+msgid "<p>Capturing the second image...</p>"
+msgstr "正在拍摄 %1-秒 %2 图像..."
+
+#: ekos/align/polaralignmentassistant.cpp:1215
+#, fuzzy, kde-format
+#| msgid "Solving with blind image scale..."
+msgid "<p>Solving the <i>second</i> image...</p>"
+msgstr "正在进行未知图像尺寸的解析..."
+
+#: ekos/align/polaralignmentassistant.cpp:1217
+#, kde-format
+msgid "<p>Executing the <i>second</i> mount rotation...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1219
+#, kde-format
+msgid "<p>Capturing the <i>third</i> and final image...</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1221
+#, fuzzy, kde-format
+#| msgid "Solving with blind image scale..."
+msgid "<p>Solving the <i>third</i> image...</p>"
+msgstr "正在进行未知图像尺寸的解析..."
+
+#: ekos/align/polaralignmentassistant.cpp:1224
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Then click "
+"<i>refresh</i> to begin adjustments.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1226
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Click "
+"<i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom "
+"in and select a bright star</i> to reposition the correction vector. Use the "
+"<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1229
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
+"alignment error.</p><p>Be patient, plate solving can be affected by knob "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"you're finished.</p>"
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:1231
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
+"line, then adjust the <i>Azimuth knob</i> to move it along the Green line "
+"until the selected star is centered within the crosshair.</p><p>Click "
+"<i>Stop</i> when the star is centered.</p>"
+msgstr ""
+
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
@@ -9227,14 +9318,6 @@ msgstr "切换到无 GOTO 赤道仪"
 #, kde-format
 msgid "Manual slew"
 msgstr "手动旋转"
-
-#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.ui:212
-#, kde-format
-msgid ""
-"<p>The assistant requires three images to find a solution.  Ekos is now "
-"capturing the first image...</p>"
-msgstr "<p>助手需要三张图像才能定位。Ekos 现在正在抓取第一张图像...</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:262
@@ -15052,18 +15135,16 @@ msgstr "导星限制条件"
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:76 ekos/capture/limits.ui:121
 #: ekos/capture/limits.ui:131
-#, fuzzy, kde-format
-#| msgid "Abort sequence if guiding deviation exceed this value"
+#, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
-msgstr "导星偏移超过此值时中止序列"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitGuideDeviationS)
 #: ekos/capture/limits.ui:79
-#, fuzzy, kde-format
-#| msgid "Abort if Guiding Deviation >"
+#, kde-format
 msgid "Abort if Guide Deviation >"
-msgstr "中止条件：如果导星偏差 大于"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, startGuiderDriftS)
 #: ekos/capture/limits.ui:92
@@ -16121,13 +16202,13 @@ msgstr "曝光失败，中止中..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "曝光失败。重启曝光…"
 
-#: ekos/focus/focus.cpp:5188
+#: ekos/focus/focus.cpp:5196
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "相关配置"
 
-#: ekos/focus/focus.cpp:6380
+#: ekos/focus/focus.cpp:6388
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -16152,7 +16233,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6396
+#: ekos/focus/focus.cpp:6404
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -16164,7 +16245,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6403
+#: ekos/focus/focus.cpp:6411
 #, kde-format
 msgid ""
 "\n"
@@ -16185,7 +16266,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6413
+#: ekos/focus/focus.cpp:6421
 #, kde-format
 msgid "Focus Advisor"
 msgstr ""
@@ -23773,11 +23854,9 @@ msgstr "继续下一步前进行自动对焦。"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: ekos/scheduler/framingassistant.ui:1497 ekos/scheduler/scheduler.ui:344
-#, fuzzy, kde-format
-#| msgctxt "Toggle the opaque fill of the ground polygon in the display"
-#| msgid "Ground"
+#, kde-format
 msgid "Group:"
-msgstr "地平圈"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
 #: ekos/scheduler/framingassistant.ui:1509
@@ -23792,10 +23871,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1538
-#, fuzzy, kde-format
-#| msgid "Job Completion Conditions"
+#, kde-format
 msgid "Completion Condition:"
-msgstr "作业完成条件"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
@@ -25277,10 +25355,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
 #: ekos/scheduler/scheduler.ui:1263
-#, fuzzy, kde-format
-#| msgid "Reset status of all jobs"
+#, kde-format
 msgid "Repeat all jobs"
-msgstr "重置所有作业的状态"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
 #: ekos/scheduler/scheduler.ui:1270
@@ -26410,10 +26487,9 @@ msgid "Center Telescope"
 msgstr "居中望远镜"
 
 #: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
-#, fuzzy, kde-format
-#| msgid "Show HiPS grid"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "显示 HiPS 网格"
+msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
@@ -26560,10 +26636,9 @@ msgid "Pixel Gridlines"
 msgstr "像素网格线"
 
 #: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
-#, fuzzy, kde-format
-#| msgid "HiPS All Sky Overlay"
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "HiPS 全天覆盖"
+msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
 #, kde-format
@@ -26740,17 +26815,15 @@ msgstr "使 FITS 查看器窗口从 KStars 独立出来"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "HiPS Opacity:"
-msgstr "HiPS 更新"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "X 偏移量："
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -79862,46 +79935,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Greedy"
-#~ msgstr "激进"
-
-#~ msgid "Mosaic Job Creator"
-#~ msgstr "马赛克作业创建"
-
-#~ msgid "↓ Equipment"
-#~ msgstr "↓ 设备"
-
-#~ msgid "↓ FOV"
-#~ msgstr "↓ 视场"
-
-#~ msgid "↓ Jobs"
-#~ msgstr "↓ 作业"
-
-#~ msgid "↓ Output"
-#~ msgstr "↓ 输出"
-
-#~ msgid ""
-#~ "<html><head/><body><p align=\"justify\">Total number of Scheduler jobs "
-#~ "required to cover the mosaic field, and that the tool will produce.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p align=\"justify\">覆盖拼图视场所需的调度器作业总数，"
-#~ "该工具将会生成。</p></body></html>"
-
-#~ msgid ""
-#~ "Number of scheduler jobs required to capture the mosaic image. Click "
-#~ "update to calculate it"
-#~ msgstr "拍摄拼图所需的调度器作业数。点击更新进行计算"
-
-#~ msgid "Job Count:"
-#~ msgstr "作业计数:"
-
-#~ msgid "Do you want to keep the existing jobs in the mosaic schedule?"
-#~ msgstr "您想保留现有作业到拼图规划器中吗？"
-
-#~ msgid "Mosaic file %1 saved successfully."
-#~ msgstr "马赛克文件 %1 保存成功。"
-
-#~ msgid "Error saving mosaic file %1. Please reload job."
-#~ msgstr "保存马赛克文件 %1 时出错。请重新加载作业。"

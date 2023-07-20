@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-17 00:43+0000\n"
-"PO-Revision-Date: 2023-07-17 12:40+0300\n"
+"POT-Creation-Date: 2023-07-19 00:45+0000\n"
+"PO-Revision-Date: 2023-07-19 21:03+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -9478,6 +9478,112 @@ msgstr ""
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Ha fallat en trobar l'eix de l'AR. Se surt."
 
+#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
+#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.ui:212
+#, kde-format
+msgid ""
+"<p>The assistant requires three images to find a solution.  Ekos is now "
+"capturing the first image...</p>"
+msgstr ""
+"<p>L'assistent requereix tres imatges per a trobar una solució. L'Ekos ara "
+"està capturant la primera imatge...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1205
+#, kde-format
+msgid "<p>Solving the <i>first</i> image...</p>"
+msgstr "<p>S'està resolent la <i>primera</i> imatge...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1207
+#, kde-format
+msgid "<p>Executing the <i>first</i> mount rotation...</p>"
+msgstr "<p>S'està executant el <i>primer</i> gir de la muntura...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1209
+#, kde-format
+msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
+msgstr "<p>Posicionament després del <i>primer</i> gir de la muntura...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1211
+#, kde-format
+msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
+msgstr "<p>Posicionament després del <i>segon</i> gir de la muntura...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1213
+#, kde-format
+msgid "<p>Capturing the second image...</p>"
+msgstr "<p>S'està capturant la segona imatge...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1215
+#, kde-format
+msgid "<p>Solving the <i>second</i> image...</p>"
+msgstr "<p>S'està resolent la <i>segona</i> imatge...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1217
+#, kde-format
+msgid "<p>Executing the <i>second</i> mount rotation...</p>"
+msgstr "<p>S'està executant el <i>segon</i> gir de la muntura...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1219
+#, kde-format
+msgid "<p>Capturing the <i>third</i> and final image...</p>"
+msgstr "<p>S'està capturant la <i>tercera</i> imatge i final...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1221
+#, kde-format
+msgid "<p>Solving the <i>third</i> image...</p>"
+msgstr "<p>S'està resolent la <i>tercera</i> imatge...</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1224
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Then click "
+"<i>refresh</i> to begin adjustments.</p>"
+msgstr ""
+"<p>Trieu el temps d'exposició i seleccioneu un mètode d'ajust. Després feu "
+"clic a <i>actualitza</i> per a començar els ajustos.</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1226
+#, kde-format
+msgid ""
+"<p>Choose your exposure time & select an adjustment method. Click "
+"<i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom "
+"in and select a bright star</i> to reposition the correction vector. Use the "
+"<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
+msgstr ""
+"<p>Trieu el temps d'exposició i seleccioneu un mètode d'ajust. Després feu "
+"clic a <i>actualitza</i> per a començar.</p><p>El triangle de correcció es "
+"traça a sobre. <i>Amplieu i seleccioneu una estrella brillant</i> per a "
+"tornar a posicionar el vector de correcció. Useu el mètode <i>Estrella en "
+"moviment i error de càlcul</i> per a estimar l'error romanent.</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1229
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
+"alignment error.</p><p>Be patient, plate solving can be affected by knob "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"you're finished.</p>"
+msgstr ""
+"<p>Ajusteu les <i>rodes d´altitud i azimut</i> de la muntura per a reduir "
+"l'error d'alineació a la polar.</p><p>Tingueu paciència, la solució de la "
+"placa pot estar afectada pel moviment de la roda. Considereu fer servir els "
+"resultat després de 2 imatges. Feu clic a <i>Atura</i> quan hàgiu acabat.</p>"
+
+#: ekos/align/polaralignmentassistant.cpp:1231
+#, kde-format
+msgid ""
+"<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
+"line, then adjust the <i>Azimuth knob</i> to move it along the Green line "
+"until the selected star is centered within the crosshair.</p><p>Click "
+"<i>Stop</i> when the star is centered.</p>"
+msgstr ""
+"<p>Ajusteu la <i>roda d'altitud</i> de la muntura per a moure l'estrella al "
+"llarg de la línia groga, després ajusteu la <i>roda d'azimut</i> per a moure-"
+"la al llarg de la línia verda fins que l'estrella seleccionada se centri en "
+"el punt de mira.</p><p>Feu clic a <i>Atura</i> quan l'estrella estigui "
+"centrada.</p>"
+
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
@@ -9579,16 +9685,6 @@ msgstr "Commuta l'orientació manual a les muntures no GOTO"
 #, kde-format
 msgid "Manual slew"
 msgstr "Orientació manual"
-
-#. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.ui:212
-#, kde-format
-msgid ""
-"<p>The assistant requires three images to find a solution.  Ekos is now "
-"capturing the first image...</p>"
-msgstr ""
-"<p>L'assistent requereix tres imatges per a trobar una solució. L'Ekos ara "
-"està capturant la primera imatge...</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:262
@@ -17074,13 +17170,13 @@ msgstr "Fallada de l'exposició. S'interromp..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Fallada de l'exposició. Es reinicia l'exposició..."
 
-#: ekos/focus/focus.cpp:5188
+#: ekos/focus/focus.cpp:5196
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil relatiu"
 
-#: ekos/focus/focus.cpp:6380
+#: ekos/focus/focus.cpp:6388
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17128,7 +17224,7 @@ msgstr ""
 "El tercer pas és establir el multiplicador de pas exterior. Comenceu amb el "
 "valor predeterminat suggerit."
 
-#: ekos/focus/focus.cpp:6396
+#: ekos/focus/focus.cpp:6404
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17149,7 +17245,7 @@ msgstr ""
 "multiplicador de pas exterior per a correspondre a aquest interval de "
 "moviment de l'enfocador."
 
-#: ekos/focus/focus.cpp:6403
+#: ekos/focus/focus.cpp:6411
 #, kde-format
 msgid ""
 "\n"
@@ -17186,7 +17282,7 @@ msgstr ""
 "banda ampla, p. ex. Luminància\n"
 "Ara esteu preparat/da per iniciar una execució d'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:6413
+#: ekos/focus/focus.cpp:6421
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Assessor d'enfocament"
