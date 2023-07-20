@@ -159,5 +159,6 @@ class FITSViewer : public KXmlGuiWindow
         void loaded(int tabUID);
         void closed(int tabUID);
         void failed(const QString &errorMessage);
+        void terminated();
 
 };

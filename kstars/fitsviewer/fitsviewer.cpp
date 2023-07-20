@@ -327,7 +327,7 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
         }
     }
 
-    //emit terminated();
+    emit terminated();
 }
 
 void FITSViewer::hideEvent(QHideEvent * /*event*/)

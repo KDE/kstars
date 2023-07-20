@@ -607,6 +607,10 @@ const QSharedPointer<FITSViewer> &KStars::createFITSViewer()
     {
         QSharedPointer<FITSViewer> newFITSViewer(new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance()));
         m_FITSViewers.append(newFITSViewer);
+        connect(newFITSViewer.get(), &FITSViewer::terminated, this, [ & ]()
+        {
+            m_FITSViewers.removeOne(newFITSViewer);
+        });
         return m_FITSViewers.constLast();
     }
 }
@@ -616,21 +620,16 @@ const QSharedPointer<FITSViewer> &KStars::genericFITSViewer()
     if (m_GenericFITSViewer.isNull())
     {
         m_GenericFITSViewer.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : this));
-        //m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
+        connect(m_GenericFITSViewer.get(), &FITSViewer::terminated, this, [this]()
+        {
+            m_FITSViewers.removeOne(m_GenericFITSViewer);
+            m_GenericFITSViewer.clear();
+        });
         m_FITSViewers.append(m_GenericFITSViewer);
     }
 
     return m_GenericFITSViewer;
 }
-
-//void KStars::addFITSViewer(const QSharedPointer<FITSViewer> &fv)
-//{
-//    m_FITSViewers.append(fv);
-//    connect(fv.data(), &FITSViewer::terminated, [ = ]()
-//    {
-//        m_FITSViewers.removeOne(fv);
-//    });
-//}
 
 void KStars::clearAllViewers()
 {

@@ -646,7 +646,7 @@ QSharedPointer<FITSViewer> Camera::getFITSViewer()
     });
 
     // If FITS viewer was completed closed. Reset everything
-    connect(m_FITSViewerWindow.get(), &FITSViewer::destroyed, this, [this]()
+    connect(m_FITSViewerWindow.get(), &FITSViewer::terminated, this, [this]()
     {
         normalTabID = -1;
         calibrationTabID = -1;
