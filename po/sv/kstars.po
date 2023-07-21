@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-19 00:45+0000\n"
+"POT-Creation-Date: 2023-07-21 00:44+0000\n"
 "PO-Revision-Date: 2022-06-15 22:27+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -402,7 +402,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
-#: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
+#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:727
 #: options/opscolors.ui:204
 #, kde-format, kde-kuit-format
 msgid "Save"
@@ -453,14 +453,14 @@ msgid "Save Image"
 msgstr "Spara bild"
 
 #: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3785
-#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1315
+#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1314
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "En fil med namn \"%1\" finns redan. Skriv över den?"
 
 #: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3788
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1316
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -1820,7 +1820,7 @@ msgstr "Mål:"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/capture.ui:813
-#: oal/equipmentwriter.ui:195 oal/equipmentwriter.ui:1005 oal/execute.ui:146
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:1008 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
@@ -2519,7 +2519,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
 #: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2812,7 +2812,7 @@ msgstr "Typavbildning"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:597 indi/indicamera.cpp:926
+#: fitsviewer/fitsviewer.cpp:607 indi/indicamera.cpp:926
 #, kde-format
 msgid "Preview"
 msgstr "Förhandsgranskning"
@@ -2984,8 +2984,8 @@ msgstr "Redigera..."
 #. i18n: ectx: property (text), widget (QPushButton, RemovePreset)
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 indi/customdrivers.ui:154 indi/drivermanager.ui:311
-#: oal/equipmentwriter.ui:429 oal/equipmentwriter.ui:928
-#: oal/equipmentwriter.ui:1265 options/opscolors.ui:230
+#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:931
+#: oal/equipmentwriter.ui:1268 options/opscolors.ui:230
 #, kde-format
 msgid "Remove"
 msgstr "Ta bort"
@@ -3025,7 +3025,7 @@ msgstr "Skapa eller redigera katalog"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetColor)
 #: dialogs/catalogeditform.ui:79 dialogs/newfov.ui:1246
-#: oal/equipmentwriter.ui:1015 xplanet/opsxplanet.ui:666
+#: oal/equipmentwriter.ui:1018 xplanet/opsxplanet.ui:666
 #, kde-format
 msgid "Color:"
 msgstr "Färg:"
@@ -3152,7 +3152,7 @@ msgstr "Underhållsansvarig"
 #. i18n: ectx: property (text), widget (QCheckBox, f_UseAutoFocus)
 #: dialogs/catalogsdbui.cpp:121 dialogs/catalogsdbui.cpp:135
 #: dialogs/catalogsdbui.ui:73 ekos/observatory/observatory.ui:370
-#: oal/equipmentwriter.ui:1171
+#: oal/equipmentwriter.ui:1174
 #, kde-format
 msgid "Enable"
 msgstr "Aktivera"
@@ -3697,7 +3697,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:1288 ekos/capture/capture.cpp:1326
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
-#: indi/streamform.ui:368 oal/equipmentwriter.ui:1185
+#: indi/streamform.ui:368 oal/equipmentwriter.ui:1188
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -4894,7 +4894,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
-#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:363
+#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:366
 #, kde-format
 msgid "Eyepiece"
 msgstr "Okular"
@@ -4939,9 +4939,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #. i18n: ectx: property (text), widget (QLabel, binoApertureUnit)
 #: dialogs/newfov.ui:134 dialogs/newfov.ui:193 dialogs/newfov.ui:477
-#: oal/equipmentwriter.ui:173 oal/equipmentwriter.ui:229
-#: oal/equipmentwriter.ui:445 oal/equipmentwriter.ui:619
-#: oal/equipmentwriter.ui:675 tools/whatsinteresting/wiequipsettings.ui:213
+#: oal/equipmentwriter.ui:176 oal/equipmentwriter.ui:232
+#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:622
+#: oal/equipmentwriter.ui:678 tools/whatsinteresting/wiequipsettings.ui:213
 #, kde-format
 msgid "mm"
 msgstr "mm"
@@ -5238,7 +5238,7 @@ msgstr "m"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9_3)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1157
+#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1160
 #, kde-format
 msgid "Wavelength:"
 msgstr "Våglängd:"
@@ -6247,7 +6247,7 @@ msgstr "Exportera lösningspunkter"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
 #: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:497 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -6265,7 +6265,7 @@ msgstr "Kan inte skriva till filen %1"
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
 #: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
 #: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1364 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1363 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6526,11 +6526,15 @@ msgstr "FL:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:477
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Active telescope supplied (effective) focal length "
+#| "in millimeters. Update telescope focal length to match the effective "
+#| "focal length to speed up plate solving.</p></body></html>"
 msgid ""
-"<html><head/><body><p>Active telescope supplied (effective) focal length in "
-"millimeters. Update telescope focal length to match the effective focal "
-"length to speed up plate solving.</p></body></html>"
+"<html><head/><body><p>Active telescope raw (effective) focal length in "
+"millimeters. This is the raw focal length without any reducers or barlows. "
+"The effective focal length is measured from plate-solving.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Det aktiva teleskopets (effektiva) fokallängd i "
 "millimeter. Uppdatera teleskopets fokallängd så att den motsvarar den "
@@ -6545,10 +6549,15 @@ msgstr "F/:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
 #: ekos/align/align.ui:494
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Active telescope calculated (effective) focal "
+#| "ratio. The effective focal ratio is measured from astrometry.</p></body></"
+#| "html>"
 msgid ""
 "<html><head/><body><p>Active telescope calculated (effective) focal ratio. "
-"The effective focal ratio is measured from astrometry.</p></body></html>"
+"The effective focal ratio is measured from astrometry without taking into "
+"account any reducers or barlows.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Det aktiva teleskopets beräknade (effektiva) "
 "fokalförhållande. Det effektiva fokalförhållandet är beräknat från "
@@ -6562,11 +6571,11 @@ msgid "R:"
 msgstr "RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
-#. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
-#: ekos/align/align.ui:524 ekos/guide/guide.ui:674
-#, kde-format
-msgid "Reducer"
-msgstr ""
+#: ekos/align/align.ui:524
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+msgstr "<html><head/><body><p>Portväljare för enheter</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
 #: ekos/align/align.ui:534
@@ -9946,7 +9955,7 @@ msgstr "Kunde inte hitta bildfil: %1"
 #: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:428
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
 msgid "Focus"
 msgstr "Fokus"
@@ -9954,7 +9963,7 @@ msgstr "Fokus"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:436
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
 msgid "Align"
 msgstr "Rikta"
@@ -9967,7 +9976,7 @@ msgstr "Rikta"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:432
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
 msgid "Guide"
 msgstr "Hjälplinjer"
@@ -10184,8 +10193,8 @@ msgstr "Hjälp"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:126
-#: fitsviewer/fitsviewer.cpp:170 fitsviewer/solveInfo.ui:14
+#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:123
+#: fitsviewer/fitsviewer.cpp:173 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -11271,7 +11280,7 @@ msgstr "Tid:"
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel_2)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:529
-#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1025
+#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1028
 #, kde-format
 msgid "Exposure:"
 msgstr "Exponering:"
@@ -11506,7 +11515,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/filtermanager.cpp:109 ekos/auxiliary/filtermanager.cpp:1034
-#: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:940
+#: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:943
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
@@ -13497,7 +13506,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1806 kstarsinit.cpp:783
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1805 kstarsinit.cpp:783
 #: kstarsinit.cpp:784 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
@@ -14397,7 +14406,7 @@ msgstr "Kameraposition"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
-#: oal/equipmentwriter.ui:1054
+#: oal/equipmentwriter.ui:1057
 #, kde-format
 msgid "Offset:"
 msgstr "Position:"
@@ -15766,7 +15775,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
-#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:573
+#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:576
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Fokalförhållande"
@@ -19064,7 +19073,7 @@ msgstr "Profil"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:139
+#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:136
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -19099,7 +19108,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:358
+#: fitsviewer/fitstab.cpp:355
 #, kde-format
 msgid "Value"
 msgstr "Värde"
@@ -19933,6 +19942,12 @@ msgstr "Öppningsdiameter (mm)"
 #, kde-format
 msgid "Focal Length (mm)"
 msgstr "Fokallängd (mm)"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
+#: ekos/guide/guide.ui:674
+#, kde-format
+msgid "Reducer"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
 #: ekos/guide/guide.ui:722
@@ -22078,22 +22093,22 @@ msgstr "Platsinformation uppdaterad till %1."
 msgid "Failed to update site location to %1. City not found."
 msgstr "Misslyckades uppdatera platsinformation till %1. Staden hittades inte."
 
-#: ekos/manager.cpp:2709
+#: ekos/manager.cpp:2710
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:2717
+#: ekos/manager.cpp:2718
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:2745
+#: ekos/manager.cpp:2746
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 igen ..."
 
-#: ekos/manager.cpp:2757
+#: ekos/manager.cpp:2758
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 igen ..."
@@ -22572,7 +22587,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:499
+#: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:502
 #, kde-format
 msgid "deg"
 msgstr "grader"
@@ -24998,7 +25013,7 @@ msgstr "Stativets fokallängd i millimeter"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/scheduler/framingassistant.ui:284 oal/equipmentwriter.ui:129
-#: oal/equipmentwriter.ui:462
+#: oal/equipmentwriter.ui:465
 #, kde-format
 msgid "Focal length:"
 msgstr "Fokallängd:"
@@ -27789,7 +27804,7 @@ msgstr "Guidning färdig"
 msgid "Normal"
 msgstr "Normal"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:424
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:426
 #, kde-format
 msgid "Calibrate"
 msgstr "Kalibrera"
@@ -28084,14 +28099,14 @@ msgstr "Y-position:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:466
-#: fitsviewer/fitsviewer.cpp:1245
+#: fitsviewer/fitsviewer.cpp:1255
 #, kde-format
 msgid "Ready."
 msgstr "Redo."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
-#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:131
-#: fitsviewer/fitsviewer.cpp:135
+#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:128
+#: fitsviewer/fitsviewer.cpp:138
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS-huvud"
@@ -28151,8 +28166,8 @@ msgstr ""
 "frekvens:   </td><td>%4</td></tr></table>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:128
-#: fitsviewer/fitsviewer.cpp:116
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:125
+#: fitsviewer/fitsviewer.cpp:119
 #, kde-format
 msgid "Histogram"
 msgstr "Histogram"
@@ -28264,12 +28279,12 @@ msgstr "Aktivera eller inaktivera maximalt gränsvärde"
 msgid "Automatically find stretch parameter."
 msgstr "Starta automatiskt parkeringstidtagning vid start"
 
-#: fitsviewer/fitstab.cpp:56
+#: fitsviewer/fitstab.cpp:53
 #, kde-format
 msgid "Save Changes to FITS?"
 msgstr "Spara ändringar av FITS?"
 
-#: fitsviewer/fitstab.cpp:57
+#: fitsviewer/fitstab.cpp:54
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -28277,34 +28292,34 @@ msgid ""
 msgstr ""
 "Nuvarande FITS-fil har osparade ändringar. Vill du spara innan den stängs?"
 
-#: fitsviewer/fitstab.cpp:136
+#: fitsviewer/fitstab.cpp:133
 #, kde-format
 msgid "Recent Images"
 msgstr "Senaste bilder"
 
-#: fitsviewer/fitstab.cpp:370
+#: fitsviewer/fitstab.cpp:367
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:451 fitsviewer/fitstab.cpp:455
+#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Spara FITS"
 
-#: fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:484
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Fel när bild skulle sparas: %1"
 
-#: fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:484
 #, kde-format
 msgid "Image Save"
 msgstr "Spara bild"
 
-#: fitsviewer/fitstab.cpp:491
+#: fitsviewer/fitstab.cpp:488
 #, kde-format
 msgid "File saved to %1"
 msgstr "Fil sparad till %1"
@@ -28361,12 +28376,12 @@ msgstr "Anpassa"
 msgid "Toggle Stretch"
 msgstr "Ändra utsträckning"
 
-#: fitsviewer/fitsview.cpp:2456 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2456 fitsviewer/fitsviewer.cpp:213
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Visa hårkors"
 
-#: fitsviewer/fitsview.cpp:2460 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2460 fitsviewer/fitsviewer.cpp:226
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Visa bildpunktshjälplinjer"
@@ -28381,14 +28396,14 @@ msgstr "Detektera stjärnor på bild"
 msgid "View Star Profile"
 msgstr "Visa stjärnprofil"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:962
+#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsviewer.cpp:972
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Visa ekvatoriella hjälplinjer"
 
-#: fitsviewer/fitsview.cpp:2487 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:964
+#: fitsviewer/fitsview.cpp:2487 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsviewer.cpp:974
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Visa objekt på bild"
@@ -28398,7 +28413,7 @@ msgstr "Visa objekt på bild"
 msgid "Center Telescope"
 msgstr "Centrera teleskop"
 
-#: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:246
 #, fuzzy, kde-format
 #| msgid "Show HiPS grid"
 msgid "Show HiPS Overlay"
@@ -28435,43 +28450,43 @@ msgstr "Median"
 msgid "Gaussian blur"
 msgstr "Gaussisk oskärpa"
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:99
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:102
 #, kde-format
 msgid "Rotate Right"
 msgstr "Rotera åt höger"
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:103
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:106
 #, kde-format
 msgid "Rotate Left"
 msgstr "Rotera åt vänster"
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:107
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:110
 #, kde-format
 msgid "Flip Horizontal"
 msgstr "Vänd horisontellt"
 
-#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:112
+#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:115
 #, kde-format
 msgid "Flip Vertical"
 msgstr "Vänd vertikalt"
 
-#: fitsviewer/fitsviewer.cpp:141
+#: fitsviewer/fitsviewer.cpp:144
 #, kde-format
 msgid "Debayer..."
 msgstr "Bayer-borttagning..."
 
-#: fitsviewer/fitsviewer.cpp:176
+#: fitsviewer/fitsviewer.cpp:179
 #, fuzzy, kde-format
 #| msgid "Statistics"
 msgid "&Selection Statistics"
 msgstr "Statistik"
 
-#: fitsviewer/fitsviewer.cpp:217
+#: fitsviewer/fitsviewer.cpp:220
 #, kde-format
 msgid "Show Clipping"
 msgstr "Visa beskärning"
 
-#: fitsviewer/fitsviewer.cpp:250 fitsviewer/fitsviewer.cpp:973
+#: fitsviewer/fitsviewer.cpp:253 fitsviewer/fitsviewer.cpp:983
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28480,101 +28495,101 @@ msgstr ""
 "Centrera teleskop\n"
 "*Inga teleskop detekterade*"
 
-#: fitsviewer/fitsviewer.cpp:257
+#: fitsviewer/fitsviewer.cpp:260
 #, kde-format
 msgid "Zoom To Fit"
 msgstr "Anpassa"
 
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1218
+#: fitsviewer/fitsviewer.cpp:265 fitsviewer/fitsviewer.cpp:1228
 #, kde-format
 msgid "Mark Stars"
 msgstr "Markera stjärnor"
 
-#: fitsviewer/fitsviewer.cpp:270 fitsviewer/fitsviewer.cpp:696
-#: fitsviewer/fitsviewer.cpp:1210
+#: fitsviewer/fitsviewer.cpp:273 fitsviewer/fitsviewer.cpp:706
+#: fitsviewer/fitsviewer.cpp:1220
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Visa tredimensionellt diagram"
 
-#: fitsviewer/fitsviewer.cpp:290
+#: fitsviewer/fitsviewer.cpp:293
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Kstars FITS-visning"
 
-#: fitsviewer/fitsviewer.cpp:369
+#: fitsviewer/fitsviewer.cpp:371
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "HFR:%2 Exc:%3 %1 stjärna."
 msgstr[1] "HFR:%2 Exc:%3 %1 stjärnor."
 
-#: fitsviewer/fitsviewer.cpp:375
+#: fitsviewer/fitsviewer.cpp:377
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "HFR:%2, %1 stjärna."
 msgstr[1] "HFR:%2, %1 stjärnor."
 
-#: fitsviewer/fitsviewer.cpp:562
+#: fitsviewer/fitsviewer.cpp:572
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:681
+#: fitsviewer/fitsviewer.cpp:691
 #, fuzzy, kde-format
 #| msgid "View 3D Graph"
 msgid "currentView 3D Graph"
 msgstr "Visa tredimensionellt diagram"
 
-#: fitsviewer/fitsviewer.cpp:682 fitsviewer/fitsviewer.cpp:1118
+#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1128
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Hårkors"
 
-#: fitsviewer/fitsviewer.cpp:683 fitsviewer/fitsviewer.cpp:1132
+#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1142
 #, kde-format
 msgid "Clipping"
 msgstr "Beskärning"
 
-#: fitsviewer/fitsviewer.cpp:684 fitsviewer/fitsviewer.cpp:1145
+#: fitsviewer/fitsviewer.cpp:694 fitsviewer/fitsviewer.cpp:1155
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Ekvatoriella hjälplinjer"
 
-#: fitsviewer/fitsviewer.cpp:685 fitsviewer/fitsviewer.cpp:1184
+#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1194
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objekt på bilden"
 
-#: fitsviewer/fitsviewer.cpp:686 fitsviewer/fitsviewer.cpp:1197
+#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1207
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Bildpunktshjälplinjer"
 
-#: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
+#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1168
 #, fuzzy, kde-format
 #| msgid "HiPS All Sky Overlay"
 msgid "HiPS Overlay"
 msgstr "Fullständig HIPS-himmelsöverlagring"
 
-#: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1272
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Öppna bild"
 
-#: fitsviewer/fitsviewer.cpp:939
+#: fitsviewer/fitsviewer.cpp:949
 #, kde-format
 msgid "Hide %1"
 msgstr "Dölj %1"
 
-#: fitsviewer/fitsviewer.cpp:944
+#: fitsviewer/fitsviewer.cpp:954
 #, kde-format
 msgid "Show %1"
 msgstr "Visa %1"
 
-#: fitsviewer/fitsviewer.cpp:968
+#: fitsviewer/fitsviewer.cpp:978
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28583,7 +28598,7 @@ msgstr ""
 "Centrera teleskop\n"
 "*Redo*"
 
-#: fitsviewer/fitsviewer.cpp:980
+#: fitsviewer/fitsviewer.cpp:990
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -28592,7 +28607,7 @@ msgstr ""
 "Visa ekvatoriella hjälplinjer\n"
 "*Ingen information om världskoordinatsystem*"
 
-#: fitsviewer/fitsviewer.cpp:982
+#: fitsviewer/fitsviewer.cpp:992
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28601,7 +28616,7 @@ msgstr ""
 "Centrera teleskop\n"
 "*Ingen information om världskoordinatsystem*"
 
-#: fitsviewer/fitsviewer.cpp:984
+#: fitsviewer/fitsviewer.cpp:994
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -28610,35 +28625,35 @@ msgstr ""
 "Visa objekt i bild\n"
 "*Ingen information om världskoordinatsystem*"
 
-#: fitsviewer/fitsviewer.cpp:1016 fitsviewer/fitsviewer.cpp:1171
+#: fitsviewer/fitsviewer.cpp:1026 fitsviewer/fitsviewer.cpp:1181
 #, fuzzy, kde-format
 #| msgid "Selecting star"
 msgid "Selection Rectangle"
 msgstr "Väljer stjärna"
 
-#: fitsviewer/fitsviewer.cpp:1045 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1055 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Storlek"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1053 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1063 fitsviewer/statform.ui:66
 #, kde-format
 msgid "Width"
 msgstr "Bredd"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1054 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:71
 #, kde-format
 msgid "Height"
 msgstr "Höjd"
 
-#: fitsviewer/fitsviewer.cpp:1223
+#: fitsviewer/fitsviewer.cpp:1233
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Avmarkera stjärnor"
 
-#: fitsviewer/fitsviewer.cpp:1239
+#: fitsviewer/fitsviewer.cpp:1249
 #, kde-format
 msgid "Processing %1..."
 msgstr "Behandlar %1..."
@@ -29551,8 +29566,8 @@ msgstr "Tillverkare:"
 #. i18n: ectx: property (text), widget (QPushButton, NewEyepiece)
 #. i18n: ectx: property (text), widget (QPushButton, NewLens)
 #. i18n: ectx: property (text), widget (QPushButton, NewFilter)
-#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:415
-#: oal/equipmentwriter.ui:914 oal/equipmentwriter.ui:1251
+#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:418
+#: oal/equipmentwriter.ui:917 oal/equipmentwriter.ui:1254
 #, kde-format
 msgid "Add New"
 msgstr "Lägg till ny"
@@ -31039,17 +31054,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "Kstars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1542 skymap.cpp:427
+#: kstars.cpp:323 kstarsactions.cpp:1541 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Stoppa &följning"
 
-#: kstars.cpp:331 kstarsactions.cpp:1711 kstarsinit.cpp:263
+#: kstars.cpp:331 kstarsactions.cpp:1710 kstarsinit.cpp:263
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Byt till stjärnglob (ekvatoriella &koordinater)"
 
-#: kstars.cpp:332 kstarsactions.cpp:1690 kstarsinit.cpp:264
+#: kstars.cpp:332 kstarsactions.cpp:1689 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Switch to Horizonal View (Horizontal &Coordinates)"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -66079,12 +66094,12 @@ msgstr "XPlanet"
 msgid "Developer"
 msgstr "Utvecklare"
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1923 kstarsinit.cpp:268
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:268
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Dölj terräng"
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1923 kstarsinit.cpp:269
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:269
 #, kde-format
 msgid "Show Terrain"
 msgstr "Visa terräng"
@@ -66094,30 +66109,30 @@ msgstr "Visa terräng"
 msgid "Open FITS"
 msgstr "Öppna FITS"
 
-#: kstarsactions.cpp:1301
+#: kstarsactions.cpp:1300
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Exportera bild"
 
-#: kstarsactions.cpp:1347 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1346 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "Kstars-skript (*.kstars)"
 
-#: kstarsactions.cpp:1355
+#: kstarsactions.cpp:1354
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "Att köra fjärrskript stöds inte."
 
-#: kstarsactions.cpp:1363 oal/execute.cpp:319 tools/observinglist.cpp:909
+#: kstarsactions.cpp:1362 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Kunde inte öppna filen %1"
 
-#: kstarsactions.cpp:1388
+#: kstarsactions.cpp:1387
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -66130,27 +66145,27 @@ msgstr ""
 "fungerar riktigt, och det kan till och med innehålla uppsåtligt skadlig kod. "
 "Vill du köra det ändå?"
 
-#: kstarsactions.cpp:1393
+#: kstarsactions.cpp:1392
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Validering av skript misslyckades"
 
-#: kstarsactions.cpp:1393
+#: kstarsactions.cpp:1392
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Kör ändå"
 
-#: kstarsactions.cpp:1400
+#: kstarsactions.cpp:1399
 #, kde-format
 msgid "Running script: %1"
 msgstr "Kör skript: %1"
 
-#: kstarsactions.cpp:1418
+#: kstarsactions.cpp:1417
 #, kde-format
 msgid "Script finished."
 msgstr "Skript klart."
 
-#: kstarsactions.cpp:1430
+#: kstarsactions.cpp:1429
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -66161,56 +66176,56 @@ msgstr ""
 "\", som använder en vit bakgrund. Vill du tillfälligt byta till färgschemat "
 "Stjärnkarta för utskrift?"
 
-#: kstarsactions.cpp:1435
+#: kstarsactions.cpp:1434
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Byt till färgschemat Stjärnkarta?"
 
-#: kstarsactions.cpp:1436
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Byt färgschema"
 
-#: kstarsactions.cpp:1436
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Byt inte"
 
-#: kstarsactions.cpp:1519 kstarsinit.cpp:236
+#: kstarsactions.cpp:1518 kstarsinit.cpp:236
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Koppla in &följning"
 
-#: kstarsactions.cpp:1633
+#: kstarsactions.cpp:1632
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Ungefärligt synfält: %1 grader"
 
-#: kstarsactions.cpp:1638
+#: kstarsactions.cpp:1637
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Ungefärligt synfält: %1 bågminuter"
 
-#: kstarsactions.cpp:1644
+#: kstarsactions.cpp:1643
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Ungefärligt synfält: %1 bågsekunder"
 
-#: kstarsactions.cpp:1661
+#: kstarsactions.cpp:1660
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Skriv in önskad synfältsvinkel"
 
-#: kstarsactions.cpp:1662
+#: kstarsactions.cpp:1661
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Skriv in en synfältsvinkel i grader: "
 
-#: kstarsactions.cpp:1693 kstarsinit.cpp:711
+#: kstarsactions.cpp:1692 kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -66218,7 +66233,7 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Norr"
 
-#: kstarsactions.cpp:1696 kstarsinit.cpp:720
+#: kstarsactions.cpp:1695 kstarsinit.cpp:720
 #, fuzzy, kde-format
 #| msgctxt "City in Kansas USA"
 #| msgid "Norton"
@@ -66226,31 +66241,31 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norton"
 
-#: kstarsactions.cpp:1714 kstarsinit.cpp:711
+#: kstarsactions.cpp:1713 kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Zenit"
 
-#: kstarsactions.cpp:1717 kstarsinit.cpp:720
+#: kstarsactions.cpp:1716 kstarsinit.cpp:720
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "&Zenit"
 
-#: kstarsactions.cpp:1875
+#: kstarsactions.cpp:1874
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr "Försök att bestämma från bild"
 
-#: kstarsactions.cpp:1877
+#: kstarsactions.cpp:1876
 #, kde-format
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "Okularets synfält: Välj ett synfält"
 
-#: kstarsactions.cpp:1878
+#: kstarsactions.cpp:1877
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr "Synfält att återge okular för:"
@@ -66436,7 +66451,7 @@ msgstr "sydväst"
 msgid "northwest"
 msgstr "nordväst"
 
-#: kstarsdbus.cpp:994
+#: kstarsdbus.cpp:1018
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"
@@ -72092,9 +72107,9 @@ msgstr "Teleskop"
 #. i18n: ectx: property (text), widget (QLabel, label3_3)
 #. i18n: ectx: property (text), widget (QLabel, label3_2)
 #. i18n: ectx: property (text), widget (QLabel, label4)
-#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:376
-#: oal/equipmentwriter.ui:590 oal/equipmentwriter.ui:843
-#: oal/equipmentwriter.ui:968
+#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:379
+#: oal/equipmentwriter.ui:593 oal/equipmentwriter.ui:846
+#: oal/equipmentwriter.ui:971
 #, kde-format
 msgid "Id:"
 msgstr "Id:"
@@ -72147,9 +72162,9 @@ msgstr "Ritchey-Chretien"
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, scopeModelText)
-#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:390
-#: oal/equipmentwriter.ui:697 oal/equipmentwriter.ui:890
-#: oal/equipmentwriter.ui:995 tools/whatsinteresting/wiequipsettings.ui:107
+#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:393
+#: oal/equipmentwriter.ui:700 oal/equipmentwriter.ui:893
+#: oal/equipmentwriter.ui:998 tools/whatsinteresting/wiequipsettings.ui:107
 #, kde-format
 msgid "Model:"
 msgstr "Modell:"
@@ -72159,93 +72174,102 @@ msgstr "Modell:"
 #. i18n: ectx: property (text), widget (QLabel, label31_2)
 #. i18n: ectx: property (text), widget (QLabel, label31)
 #. i18n: ectx: property (text), widget (QLabel, label5)
-#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:383
-#: oal/equipmentwriter.ui:641 oal/equipmentwriter.ui:860
-#: oal/equipmentwriter.ui:985
+#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:386
+#: oal/equipmentwriter.ui:644 oal/equipmentwriter.ui:863
+#: oal/equipmentwriter.ui:988
 #, kde-format
 msgid "Vendor:"
 msgstr "Tillverkare:"
 
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
+#: oal/equipmentwriter.ui:157
+#, fuzzy, kde-format
+#| msgid "Telescope focal length in millimeters."
+msgid ""
+"Official telescope focal length in millimeters without any reducers or "
+"barlows"
+msgstr "Teleskopets fokallängd i millimeter."
+
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
-#: oal/equipmentwriter.ui:251 tools/whatsinteresting/wiequipsettings.ui:121
+#: oal/equipmentwriter.ui:254 tools/whatsinteresting/wiequipsettings.ui:121
 #, kde-format
 msgid "Aperture:"
 msgstr "Öppningsdiameter:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddScope)
-#: oal/equipmentwriter.ui:285
+#: oal/equipmentwriter.ui:288
 #, kde-format
 msgid "Save telescope information"
 msgstr "Spara teleskopinformation"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
-#: oal/equipmentwriter.ui:318
+#: oal/equipmentwriter.ui:321
 #, kde-format
 msgid "Clear data and add a new telescope"
 msgstr "Rensa data och lägg till ett nytt teleskop"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveScope)
-#: oal/equipmentwriter.ui:338
+#: oal/equipmentwriter.ui:341
 #, kde-format
 msgid "Remove current telescope"
 msgstr "Ta bort nuvarande teleskop"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: oal/equipmentwriter.ui:369
+#: oal/equipmentwriter.ui:372
 #, kde-format
 msgid "Unit:"
 msgstr "Enhet:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddEyepiece)
-#: oal/equipmentwriter.ui:422
+#: oal/equipmentwriter.ui:425
 #, kde-format
 msgid "Save Eyepiece"
 msgstr "Spara okular"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: oal/equipmentwriter.ui:438
+#: oal/equipmentwriter.ui:441
 #, kde-format
 msgid "Apparent FOV:"
 msgstr "Skenbart synfält:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: oal/equipmentwriter.ui:504
+#: oal/equipmentwriter.ui:507
 #, kde-format
 msgid "rad"
 msgstr "radianer"
 
 #. i18n: ectx: attribute (title), widget (QWidget, DSLRLens)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: oal/equipmentwriter.ui:526 oal/equipmentwriter.ui:558
+#: oal/equipmentwriter.ui:529 oal/equipmentwriter.ui:561
 #, fuzzy, kde-format
 #| msgid "Save Lens"
 msgid "DSLR Lens"
 msgstr "Spara lins"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
-#: oal/equipmentwriter.ui:570
+#: oal/equipmentwriter.ui:573
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Toggle Rotator control</p></body></html>"
 msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
 msgstr "<html><head/><body><p>Slå om rotatörskontroll</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: oal/equipmentwriter.ui:597
+#: oal/equipmentwriter.ui:600
 #, fuzzy, kde-format
 #| msgid "Focal Length:"
 msgid "Focal Length"
 msgstr "Fokallängd:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
-#: oal/equipmentwriter.ui:721
+#: oal/equipmentwriter.ui:724
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr "<html><head/><body><p>Rensa sensordatahistorik</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
-#: oal/equipmentwriter.ui:754
+#: oal/equipmentwriter.ui:757
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
 msgid ""
@@ -72253,97 +72277,97 @@ msgid ""
 msgstr "<html><head/><body><p>Rensa sensordatahistorik</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
-#: oal/equipmentwriter.ui:774
+#: oal/equipmentwriter.ui:777
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
 msgstr "<html><head/><body><p>Ta bort aktuell bildruta</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
-#: oal/equipmentwriter.ui:799
+#: oal/equipmentwriter.ui:802
 #, fuzzy, kde-format
 #| msgid "Save Lens"
 msgid "Barlow Lens"
 msgstr "Spara lins"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: oal/equipmentwriter.ui:831
+#: oal/equipmentwriter.ui:834
 #, kde-format
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr "Skriv in information om Barlow/Shapley-linser"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:870
+#: oal/equipmentwriter.ui:873
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
 msgstr "Förstoringsgrad för Barlow/Shapley-lins"
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:873
+#: oal/equipmentwriter.ui:876
 #, kde-format
 msgid "Factor:"
 msgstr "Faktor:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddLens)
-#: oal/equipmentwriter.ui:921
+#: oal/equipmentwriter.ui:924
 #, kde-format
 msgid "Save Lens"
 msgstr "Spara lins"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
-#: oal/equipmentwriter.ui:1051
+#: oal/equipmentwriter.ui:1054
 #, kde-format
 msgid "Filter focus offset"
 msgstr "Filtrets fokuseringsposition"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: oal/equipmentwriter.ui:1080
+#: oal/equipmentwriter.ui:1083
 #, kde-format
 msgid "Abs. position:"
 msgstr "Absolut position:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: oal/equipmentwriter.ui:1100
+#: oal/equipmentwriter.ui:1103
 #, fuzzy, kde-format
 #| msgid "Focus Out"
 msgid "Focus alt:"
 msgstr "Fokusera ut"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: oal/equipmentwriter.ui:1123
+#: oal/equipmentwriter.ui:1126
 #, fuzzy, kde-format
 #| msgid "Ticks:"
 msgid "Ticks per C:"
 msgstr "Tick:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: oal/equipmentwriter.ui:1140
+#: oal/equipmentwriter.ui:1143
 #, fuzzy, kde-format
 #| msgid "Ticks:"
 msgid "Ticks per Alt:"
 msgstr "Tick:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: oal/equipmentwriter.ui:1164
+#: oal/equipmentwriter.ui:1167
 #, kde-format
 msgid "Auto focus:"
 msgstr "Automatisk fokusering:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: oal/equipmentwriter.ui:1178
+#: oal/equipmentwriter.ui:1181
 #, kde-format
 msgid "Locked filter:"
 msgstr "Låst filter:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: oal/equipmentwriter.ui:1211
+#: oal/equipmentwriter.ui:1214
 #, fuzzy, kde-format
 #| msgid "Focuser:"
 msgid "Focus temp:"
 msgstr "Fokuseringsenhet:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
-#: oal/equipmentwriter.ui:1258
+#: oal/equipmentwriter.ui:1261
 #, kde-format
 msgid "Save Filter"
 msgstr "Spara filter"

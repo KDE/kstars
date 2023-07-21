@@ -767,7 +767,7 @@
                     </mediaobject>
                 </screenshot>
                 <para
->Si l'erreur est suffisamment petite (&cad; moins d'une minute d'arc), il est inutile de faire des ajustements. Cliquez sur stop et c'est terminé. </para>
+>Si l'erreur est suffisamment petite (moins d'une minute d'arc), il est inutile de faire des ajustements. Cliquez sur stop et c'est terminé. </para>
                 <para
 >Si vous faites des corrections sur l'axe de votre monture, vous devriez choisir l'approche des ajustements (nous utilisons la résolution dans cet exemple) et précisez le rythme d'acquisition des images pour les mesures d'erreur de l'alignement polaire. L'intervalle de rafraîchissement devrait être fréquent mais il ne fait pas de sens de le rendre plus rapide que ce que le CPU est capable de faire pour les acquisitions et la résolution des images. Nous utilisons un intervalle de 2 secondes dans cet exemple. Ensuite cliquez sur le bouton <guibutton
 >Rafraîchissement</guibutton

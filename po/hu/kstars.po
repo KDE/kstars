@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-19 00:45+0000\n"
+"POT-Creation-Date: 2023-07-21 00:44+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -407,7 +407,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
-#: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
+#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:727
 #: options/opscolors.ui:204
 #, kde-format, kde-kuit-format
 msgid "Save"
@@ -458,14 +458,14 @@ msgid "Save Image"
 msgstr "Kép mentése"
 
 #: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3785
-#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1315
+#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1314
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Már létezik \"%1\" nevű fájl. Felül szeretné írni?"
 
 #: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3788
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1316
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -1836,7 +1836,7 @@ msgstr "Cél:"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/capture.ui:813
-#: oal/equipmentwriter.ui:195 oal/equipmentwriter.ui:1005 oal/execute.ui:146
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:1008 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
@@ -2533,7 +2533,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
 #: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2845,7 +2845,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:597 indi/indicamera.cpp:926
+#: fitsviewer/fitsviewer.cpp:607 indi/indicamera.cpp:926
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Preview"
@@ -3030,8 +3030,8 @@ msgstr "Szerkesztés…"
 #. i18n: ectx: property (text), widget (QPushButton, RemovePreset)
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 indi/customdrivers.ui:154 indi/drivermanager.ui:311
-#: oal/equipmentwriter.ui:429 oal/equipmentwriter.ui:928
-#: oal/equipmentwriter.ui:1265 options/opscolors.ui:230
+#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:931
+#: oal/equipmentwriter.ui:1268 options/opscolors.ui:230
 #, kde-format
 msgid "Remove"
 msgstr "Eltávolítás"
@@ -3076,7 +3076,7 @@ msgstr "Zászló törlése"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetColor)
 #: dialogs/catalogeditform.ui:79 dialogs/newfov.ui:1246
-#: oal/equipmentwriter.ui:1015 xplanet/opsxplanet.ui:666
+#: oal/equipmentwriter.ui:1018 xplanet/opsxplanet.ui:666
 #, kde-format
 msgid "Color:"
 msgstr "Szín:"
@@ -3221,7 +3221,7 @@ msgstr "Jelenlegi karbantartó"
 #. i18n: ectx: property (text), widget (QCheckBox, f_UseAutoFocus)
 #: dialogs/catalogsdbui.cpp:121 dialogs/catalogsdbui.cpp:135
 #: dialogs/catalogsdbui.ui:73 ekos/observatory/observatory.ui:370
-#: oal/equipmentwriter.ui:1171
+#: oal/equipmentwriter.ui:1174
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Disable"
@@ -3808,7 +3808,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:1288 ekos/capture/capture.cpp:1326
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
-#: indi/streamform.ui:368 oal/equipmentwriter.ui:1185
+#: indi/streamform.ui:368 oal/equipmentwriter.ui:1188
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -5030,7 +5030,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
-#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:363
+#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:366
 #, kde-format
 msgid "Eyepiece"
 msgstr "Okulár"
@@ -5075,9 +5075,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #. i18n: ectx: property (text), widget (QLabel, binoApertureUnit)
 #: dialogs/newfov.ui:134 dialogs/newfov.ui:193 dialogs/newfov.ui:477
-#: oal/equipmentwriter.ui:173 oal/equipmentwriter.ui:229
-#: oal/equipmentwriter.ui:445 oal/equipmentwriter.ui:619
-#: oal/equipmentwriter.ui:675 tools/whatsinteresting/wiequipsettings.ui:213
+#: oal/equipmentwriter.ui:176 oal/equipmentwriter.ui:232
+#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:622
+#: oal/equipmentwriter.ui:678 tools/whatsinteresting/wiequipsettings.ui:213
 #, kde-format
 msgid "mm"
 msgstr "mm"
@@ -5380,7 +5380,7 @@ msgstr "m"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9_3)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1157
+#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1160
 #, kde-format
 msgid "Wavelength:"
 msgstr "Hullámhossz:"
@@ -6420,7 +6420,7 @@ msgstr "Az összes nyomvonal törlése"
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
 #: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:497 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -6438,7 +6438,7 @@ msgstr "A(z) %1 fájl nem írható"
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
 #: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
 #: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1364 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1363 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6715,9 +6715,9 @@ msgstr "Ra:"
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
-"<html><head/><body><p>Active telescope supplied (effective) focal length in "
-"millimeters. Update telescope focal length to match the effective focal "
-"length to speed up plate solving.</p></body></html>"
+"<html><head/><body><p>Active telescope raw (effective) focal length in "
+"millimeters. This is the raw focal length without any reducers or barlows. "
+"The effective focal length is measured from plate-solving.</p></body></html>"
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
@@ -6733,7 +6733,8 @@ msgstr "NY"
 #| msgid "Use the specified configuration file"
 msgid ""
 "<html><head/><body><p>Active telescope calculated (effective) focal ratio. "
-"The effective focal ratio is measured from astrometry.</p></body></html>"
+"The effective focal ratio is measured from astrometry without taking into "
+"account any reducers or barlows.</p></body></html>"
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -6744,11 +6745,11 @@ msgid "R:"
 msgstr "Ra:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
-#. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
-#: ekos/align/align.ui:524 ekos/guide/guide.ui:674
-#, kde-format
-msgid "Reducer"
-msgstr ""
+#: ekos/align/align.ui:524
+#, fuzzy, kde-format
+#| msgid "Use the specified configuration file"
+msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
 #: ekos/align/align.ui:534
@@ -10076,7 +10077,7 @@ msgstr "A következő fájl törlése nem sikerült: %1"
 #: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:428
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
 msgid "Focus"
 msgstr "Fókusz"
@@ -10084,7 +10085,7 @@ msgstr "Fókusz"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:436
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
 msgid "Align"
 msgstr "Igazítás"
@@ -10097,7 +10098,7 @@ msgstr "Igazítás"
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:432
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
 msgid "Guide"
 msgstr "Vezetés"
@@ -10330,8 +10331,8 @@ msgstr "&Súgó"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:126
-#: fitsviewer/fitsviewer.cpp:170 fitsviewer/solveInfo.ui:14
+#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:123
+#: fitsviewer/fitsviewer.cpp:173 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -11362,7 +11363,7 @@ msgstr "Idő:"
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel_2)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:529
-#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1025
+#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1028
 #, kde-format
 msgid "Exposure:"
 msgstr "Expozíció:"
@@ -11602,7 +11603,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/filtermanager.cpp:109 ekos/auxiliary/filtermanager.cpp:1034
-#: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:940
+#: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:943
 #, kde-format
 msgid "Filter"
 msgstr "Szűrő"
@@ -13611,7 +13612,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1806 kstarsinit.cpp:783
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1805 kstarsinit.cpp:783
 #: kstarsinit.cpp:784 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
@@ -14562,7 +14563,7 @@ msgstr "UT-eltolás:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
-#: oal/equipmentwriter.ui:1054
+#: oal/equipmentwriter.ui:1057
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Offset"
@@ -15881,7 +15882,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
-#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:573
+#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:576
 #, fuzzy, kde-format
 #| msgctxt "City in Florida USA"
 #| msgid "Boca Raton"
@@ -19021,7 +19022,7 @@ msgstr "Ív fájl:"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:139
+#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:136
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -19057,7 +19058,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:358
+#: fitsviewer/fitstab.cpp:355
 #, kde-format
 msgid "Value"
 msgstr "Érték"
@@ -19934,6 +19935,12 @@ msgstr "Apertúra, mm"
 #, kde-format
 msgid "Focal Length (mm)"
 msgstr "Fókusztávolság (mm)."
+
+#. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
+#: ekos/guide/guide.ui:674
+#, kde-format
+msgid "Reducer"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
 #: ekos/guide/guide.ui:722
@@ -21944,22 +21951,22 @@ msgstr ""
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2709
+#: ekos/manager.cpp:2710
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2717
+#: ekos/manager.cpp:2718
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2745
+#: ekos/manager.cpp:2746
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2757
+#: ekos/manager.cpp:2758
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -22471,7 +22478,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:499
+#: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:502
 #, kde-format
 msgid "deg"
 msgstr "fok"
@@ -24876,7 +24883,7 @@ msgstr "A teleszkóp fókuszának hossza (milliméterben)"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/scheduler/framingassistant.ui:284 oal/equipmentwriter.ui:129
-#: oal/equipmentwriter.ui:462
+#: oal/equipmentwriter.ui:465
 #, kde-format
 msgid "Focal length:"
 msgstr "Fókusztávolság:"
@@ -27598,7 +27605,7 @@ msgstr "befejezve"
 msgid "Normal"
 msgstr "Norman"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:424
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:426
 #, kde-format
 msgid "Calibrate"
 msgstr "Kalibrálás"
@@ -27913,14 +27920,14 @@ msgstr "Y eltolás:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:466
-#: fitsviewer/fitsviewer.cpp:1245
+#: fitsviewer/fitsviewer.cpp:1255
 #, kde-format
 msgid "Ready."
 msgstr "Kész."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
-#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:131
-#: fitsviewer/fitsviewer.cpp:135
+#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:128
+#: fitsviewer/fitsviewer.cpp:138
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS-fejléc"
@@ -27976,8 +27983,8 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:128
-#: fitsviewer/fitsviewer.cpp:116
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:125
+#: fitsviewer/fitsviewer.cpp:119
 #, kde-format
 msgid "Histogram"
 msgstr "Hisztogram"
@@ -28093,12 +28100,12 @@ msgstr ""
 msgid "Automatically find stretch parameter."
 msgstr "Automatikusan válasszon koordinátarácsot"
 
-#: fitsviewer/fitstab.cpp:56
+#: fitsviewer/fitstab.cpp:53
 #, kde-format
 msgid "Save Changes to FITS?"
 msgstr "El szeretné menteni a módosításokat a FITS-be?"
 
-#: fitsviewer/fitstab.cpp:57
+#: fitsviewer/fitstab.cpp:54
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -28107,13 +28114,13 @@ msgstr ""
 "Az aktuális FITS-fájl nem mentett módosításokat tartalmaz. El szeretné "
 "menteni a fájlt bezárás előtt?"
 
-#: fitsviewer/fitstab.cpp:136
+#: fitsviewer/fitstab.cpp:133
 #, fuzzy, kde-format
 #| msgid "Preferred Imagery"
 msgid "Recent Images"
 msgstr "Hivatkozási képek"
 
-#: fitsviewer/fitstab.cpp:370
+#: fitsviewer/fitstab.cpp:367
 #, fuzzy, kde-format
 #| msgctxt "First letter in 'Remove'"
 #| msgid "R"
@@ -28121,27 +28128,27 @@ msgctxt "Red"
 msgid "R"
 msgstr "E"
 
-#: fitsviewer/fitstab.cpp:451 fitsviewer/fitstab.cpp:455
+#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
 #, fuzzy, kde-format
 #| msgid "Save"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Mentés"
 
-#: fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:484
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "Mentési hiba történt egy FITS-fájlnál: %1"
 
-#: fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:484
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "Kép adat"
 
-#: fitsviewer/fitstab.cpp:491
+#: fitsviewer/fitstab.cpp:488
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "File saved to %1"
@@ -28207,13 +28214,13 @@ msgstr ""
 msgid "Toggle Stretch"
 msgstr "Automatikus skálázás"
 
-#: fitsviewer/fitsview.cpp:2456 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2456 fitsviewer/fitsviewer.cpp:213
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "Célkereszt"
 
-#: fitsviewer/fitsview.cpp:2460 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2460 fitsviewer/fitsviewer.cpp:226
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Pixel Gridlines"
@@ -28232,15 +28239,15 @@ msgstr "FITS megnyitása..."
 msgid "View Star Profile"
 msgstr "Ív fájl:"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:962
+#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsviewer.cpp:972
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Ekvatoriális koordináták"
 
-#: fitsviewer/fitsview.cpp:2487 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:964
+#: fitsviewer/fitsview.cpp:2487 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsviewer.cpp:974
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -28252,7 +28259,7 @@ msgstr "Az objektumok megjelenítése"
 msgid "Center Telescope"
 msgstr "Középpontba állítás a teleszkópon"
 
-#: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:246
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show HiPS Overlay"
@@ -28291,76 +28298,76 @@ msgstr "Meriden"
 msgid "Gaussian blur"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:99
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:102
 #, kde-format
 msgid "Rotate Right"
 msgstr "Forgatás jobbra"
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:103
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:106
 #, kde-format
 msgid "Rotate Left"
 msgstr "Forgatás balra"
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:107
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:110
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgid "Flip Horizontal"
 msgstr "Vízszintes"
 
-#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:112
+#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:115
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Flip Vertical"
 msgstr "Függőleges"
 
-#: fitsviewer/fitsviewer.cpp:141
+#: fitsviewer/fitsviewer.cpp:144
 #, kde-format
 msgid "Debayer..."
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:176
+#: fitsviewer/fitsviewer.cpp:179
 #, fuzzy, kde-format
 #| msgid "Statistics"
 msgid "&Selection Statistics"
 msgstr "Statisztika"
 
-#: fitsviewer/fitsviewer.cpp:217
+#: fitsviewer/fitsviewer.cpp:220
 #, fuzzy, kde-format
 #| msgid "Show print dialog"
 msgid "Show Clipping"
 msgstr "Nyomtatási párbeszédablak megjelenítése"
 
-#: fitsviewer/fitsviewer.cpp:250 fitsviewer/fitsviewer.cpp:973
+#: fitsviewer/fitsviewer.cpp:253 fitsviewer/fitsviewer.cpp:983
 #, kde-format
 msgid ""
 "Center Telescope\n"
 "*No Telescopes Detected*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:257
+#: fitsviewer/fitsviewer.cpp:260
 #, kde-format
 msgid "Zoom To Fit"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1218
+#: fitsviewer/fitsviewer.cpp:265 fitsviewer/fitsviewer.cpp:1228
 #, kde-format
 msgid "Mark Stars"
 msgstr "Csillag jelölő"
 
-#: fitsviewer/fitsviewer.cpp:270 fitsviewer/fitsviewer.cpp:696
-#: fitsviewer/fitsviewer.cpp:1210
+#: fitsviewer/fitsviewer.cpp:273 fitsviewer/fitsviewer.cpp:706
+#: fitsviewer/fitsviewer.cpp:1220
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:290
+#: fitsviewer/fitsviewer.cpp:293
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "KStars FITS-nézegető"
 
-#: fitsviewer/fitsviewer.cpp:369
+#: fitsviewer/fitsviewer.cpp:371
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -28368,7 +28375,7 @@ msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "csillag"
 msgstr[1] "csillag"
 
-#: fitsviewer/fitsviewer.cpp:375
+#: fitsviewer/fitsviewer.cpp:377
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2, %1 star."
@@ -28376,71 +28383,71 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "csillag"
 msgstr[1] "csillag"
 
-#: fitsviewer/fitsviewer.cpp:562
+#: fitsviewer/fitsviewer.cpp:572
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:681
+#: fitsviewer/fitsviewer.cpp:691
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:682 fitsviewer/fitsviewer.cpp:1118
+#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1128
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "Célkereszt"
 
-#: fitsviewer/fitsviewer.cpp:683 fitsviewer/fitsviewer.cpp:1132
+#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1142
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Fülöp-szigetek"
 
-#: fitsviewer/fitsviewer.cpp:684 fitsviewer/fitsviewer.cpp:1145
+#: fitsviewer/fitsviewer.cpp:694 fitsviewer/fitsviewer.cpp:1155
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Ekvatoriális koordináták"
 
-#: fitsviewer/fitsviewer.cpp:685 fitsviewer/fitsviewer.cpp:1184
+#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1194
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Az objektumok megjelenítése"
 
-#: fitsviewer/fitsviewer.cpp:686 fitsviewer/fitsviewer.cpp:1197
+#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1207
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Pixel Gridlines"
 msgstr "Műholdak megjelenítése"
 
-#: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
+#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1168
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1272
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "FITS megnyitása..."
 
-#: fitsviewer/fitsviewer.cpp:939
+#: fitsviewer/fitsviewer.cpp:949
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:944
+#: fitsviewer/fitsviewer.cpp:954
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "Megjelenítés"
 
-#: fitsviewer/fitsviewer.cpp:968
+#: fitsviewer/fitsviewer.cpp:978
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -28448,14 +28455,14 @@ msgid ""
 "*Ready*"
 msgstr "Középpontba állítás a teleszkópon"
 
-#: fitsviewer/fitsviewer.cpp:980
+#: fitsviewer/fitsviewer.cpp:990
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:982
+#: fitsviewer/fitsviewer.cpp:992
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -28463,27 +28470,27 @@ msgid ""
 "*No WCS Info*"
 msgstr "Középpontba állítás a teleszkópon"
 
-#: fitsviewer/fitsviewer.cpp:984
+#: fitsviewer/fitsviewer.cpp:994
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1016 fitsviewer/fitsviewer.cpp:1171
+#: fitsviewer/fitsviewer.cpp:1026 fitsviewer/fitsviewer.cpp:1181
 #, fuzzy, kde-format
 #| msgid "Select begin star:"
 msgid "Selection Rectangle"
 msgstr "Csillag kiválasztása"
 
-#: fitsviewer/fitsviewer.cpp:1045 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1055 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "Méret:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1053 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1063 fitsviewer/statform.ui:66
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Width"
@@ -28491,20 +28498,20 @@ msgid "Width"
 msgstr "Szélesség:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1054 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:71
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Height"
 msgid "Height"
 msgstr "Magasság:"
 
-#: fitsviewer/fitsviewer.cpp:1223
+#: fitsviewer/fitsviewer.cpp:1233
 #, fuzzy, kde-format
 #| msgid "Mark Stars"
 msgid "Unmark Stars"
 msgstr "Csillag jelölő"
 
-#: fitsviewer/fitsviewer.cpp:1239
+#: fitsviewer/fitsviewer.cpp:1249
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
@@ -29456,8 +29463,8 @@ msgstr "Kézi Vörös"
 #. i18n: ectx: property (text), widget (QPushButton, NewEyepiece)
 #. i18n: ectx: property (text), widget (QPushButton, NewLens)
 #. i18n: ectx: property (text), widget (QPushButton, NewFilter)
-#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:415
-#: oal/equipmentwriter.ui:914 oal/equipmentwriter.ui:1251
+#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:418
+#: oal/equipmentwriter.ui:917 oal/equipmentwriter.ui:1254
 #, kde-format
 msgid "Add New"
 msgstr "Új hozzáadása"
@@ -31039,18 +31046,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1542 skymap.cpp:427
+#: kstars.cpp:323 kstarsactions.cpp:1541 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "A követés &leállítása"
 
-#: kstars.cpp:331 kstarsactions.cpp:1711 kstarsinit.cpp:263
+#: kstars.cpp:331 kstarsactions.cpp:1710 kstarsinit.cpp:263
 #, fuzzy, kde-format
 #| msgid "Switch to star globe view (Equatorial &Coordinates)"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Nézetváltás - E&gyenlítői koordináták"
 
-#: kstars.cpp:332 kstarsactions.cpp:1690 kstarsinit.cpp:264
+#: kstars.cpp:332 kstarsactions.cpp:1689 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Switch to horizonal view (Horizontal &Coordinates)"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -71051,14 +71058,14 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr "Revelstoke"
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1923 kstarsinit.cpp:268
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:268
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "Terrassa"
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1923 kstarsinit.cpp:269
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:269
 #, fuzzy, kde-format
 #| msgid "Show details..."
 msgid "Show Terrain"
@@ -71070,32 +71077,32 @@ msgstr "Részletek megjelenítése…"
 msgid "Open FITS"
 msgstr "FITS megnyitása..."
 
-#: kstarsactions.cpp:1301
+#: kstarsactions.cpp:1300
 #, fuzzy, kde-format
 #| msgid "Export image"
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Kép exportálása"
 
-#: kstarsactions.cpp:1347 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1346 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "KStars Szcriptek (*.kstars)"
 
-#: kstarsactions.cpp:1355
+#: kstarsactions.cpp:1354
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Executing remote scripts is not supported."
 msgstr "Autofókusz folyamatban..."
 
-#: kstarsactions.cpp:1363 oal/execute.cpp:319 tools/observinglist.cpp:909
+#: kstarsactions.cpp:1362 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Nem sikerült megnyitni a(z) %1 nevű fájlt"
 
-#: kstarsactions.cpp:1388
+#: kstarsactions.cpp:1387
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -71108,27 +71115,27 @@ msgstr ""
 "nem fog jól működni, sőt akár adatbiztonságot veszélyeztető kódot is "
 "tartalmazhat. Biztosan végre szeretné hajtani?"
 
-#: kstarsactions.cpp:1393
+#: kstarsactions.cpp:1392
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "A szkript ellenőrzése nem sikerült"
 
-#: kstarsactions.cpp:1393
+#: kstarsactions.cpp:1392
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Igen, végrehajtás"
 
-#: kstarsactions.cpp:1400
+#: kstarsactions.cpp:1399
 #, kde-format
 msgid "Running script: %1"
 msgstr "Szkript futtatása: %1"
 
-#: kstarsactions.cpp:1418
+#: kstarsactions.cpp:1417
 #, kde-format
 msgid "Script finished."
 msgstr "A szkript befejeződött."
 
-#: kstarsactions.cpp:1430
+#: kstarsactions.cpp:1429
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -71139,63 +71146,63 @@ msgstr ""
 "színösszeállítást, melynél a háttér fehérre van állítva. Át szeretne váltani "
 "átmenetileg erre a színösszeállításra?"
 
-#: kstarsactions.cpp:1435
+#: kstarsactions.cpp:1434
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Át szeretne váltani a csillagtérkép-színekre?"
 
-#: kstarsactions.cpp:1436
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Más színösszeállítás"
 
-#: kstarsactions.cpp:1436
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Nem kell váltani"
 
-#: kstarsactions.cpp:1519 kstarsinit.cpp:236
+#: kstarsactions.cpp:1518 kstarsinit.cpp:236
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "A követés elke&zdése"
 
-#: kstarsactions.cpp:1633
+#: kstarsactions.cpp:1632
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1638
+#: kstarsactions.cpp:1637
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1644
+#: kstarsactions.cpp:1643
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1661
+#: kstarsactions.cpp:1660
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "A kívánt látómező-szög"
 
-#: kstarsactions.cpp:1662
+#: kstarsactions.cpp:1661
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Írja be a látómező-szöget fokban: "
 
-#: kstarsactions.cpp:1693 kstarsinit.cpp:711
+#: kstarsactions.cpp:1692 kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Észak"
 
-#: kstarsactions.cpp:1696 kstarsinit.cpp:720
+#: kstarsactions.cpp:1695 kstarsinit.cpp:720
 #, fuzzy, kde-format
 #| msgctxt "City in Kansas USA"
 #| msgid "Norton"
@@ -71203,32 +71210,32 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norton"
 
-#: kstarsactions.cpp:1714 kstarsinit.cpp:711
+#: kstarsactions.cpp:1713 kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Zenit"
 
-#: kstarsactions.cpp:1717 kstarsinit.cpp:720
+#: kstarsactions.cpp:1716 kstarsinit.cpp:720
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "&Zenit"
 
-#: kstarsactions.cpp:1875
+#: kstarsactions.cpp:1874
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr ""
 
-#: kstarsactions.cpp:1877
+#: kstarsactions.cpp:1876
 #, fuzzy, kde-format
 #| msgid "Select a shape for the field-of-view symbol"
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "Válassza ki a látómező szimbólumát"
 
-#: kstarsactions.cpp:1878
+#: kstarsactions.cpp:1877
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr ""
@@ -71422,7 +71429,7 @@ msgstr "délnyugat"
 msgid "northwest"
 msgstr "északnyugat"
 
-#: kstarsdbus.cpp:994
+#: kstarsdbus.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Print Sky"
 msgctxt "@title:window"
@@ -77555,9 +77562,9 @@ msgstr "Teleszkóp"
 #. i18n: ectx: property (text), widget (QLabel, label3_3)
 #. i18n: ectx: property (text), widget (QLabel, label3_2)
 #. i18n: ectx: property (text), widget (QLabel, label4)
-#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:376
-#: oal/equipmentwriter.ui:590 oal/equipmentwriter.ui:843
-#: oal/equipmentwriter.ui:968
+#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:379
+#: oal/equipmentwriter.ui:593 oal/equipmentwriter.ui:846
+#: oal/equipmentwriter.ui:971
 #, kde-format
 msgid "Id:"
 msgstr "Azonosító:"
@@ -77610,9 +77617,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, scopeModelText)
-#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:390
-#: oal/equipmentwriter.ui:697 oal/equipmentwriter.ui:890
-#: oal/equipmentwriter.ui:995 tools/whatsinteresting/wiequipsettings.ui:107
+#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:393
+#: oal/equipmentwriter.ui:700 oal/equipmentwriter.ui:893
+#: oal/equipmentwriter.ui:998 tools/whatsinteresting/wiequipsettings.ui:107
 #, kde-format
 msgid "Model:"
 msgstr "Modell:"
@@ -77622,96 +77629,105 @@ msgstr "Modell:"
 #. i18n: ectx: property (text), widget (QLabel, label31_2)
 #. i18n: ectx: property (text), widget (QLabel, label31)
 #. i18n: ectx: property (text), widget (QLabel, label5)
-#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:383
-#: oal/equipmentwriter.ui:641 oal/equipmentwriter.ui:860
-#: oal/equipmentwriter.ui:985
+#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:386
+#: oal/equipmentwriter.ui:644 oal/equipmentwriter.ui:863
+#: oal/equipmentwriter.ui:988
 #, kde-format
 msgid "Vendor:"
 msgstr "Gyártó:"
 
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
+#: oal/equipmentwriter.ui:157
+#, fuzzy, kde-format
+#| msgid "Telescope focal length, in millimeters"
+msgid ""
+"Official telescope focal length in millimeters without any reducers or "
+"barlows"
+msgstr "A teleszkóp fókuszának hossza (milliméterben)"
+
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
-#: oal/equipmentwriter.ui:251 tools/whatsinteresting/wiequipsettings.ui:121
+#: oal/equipmentwriter.ui:254 tools/whatsinteresting/wiequipsettings.ui:121
 #, kde-format
 msgid "Aperture:"
 msgstr "Apertúra:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddScope)
-#: oal/equipmentwriter.ui:285
+#: oal/equipmentwriter.ui:288
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Save telescope information"
 msgstr "Nem sikerült betölteni egy képet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
-#: oal/equipmentwriter.ui:318
+#: oal/equipmentwriter.ui:321
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Clear data and add a new telescope"
 msgstr "Teleszkóp"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveScope)
-#: oal/equipmentwriter.ui:338
+#: oal/equipmentwriter.ui:341
 #, fuzzy, kde-format
 #| msgid "Save Telescope"
 msgid "Remove current telescope"
 msgstr "Teleszkóp mentése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: oal/equipmentwriter.ui:369
+#: oal/equipmentwriter.ui:372
 #, kde-format
 msgid "Unit:"
 msgstr "Egység:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddEyepiece)
-#: oal/equipmentwriter.ui:422
+#: oal/equipmentwriter.ui:425
 #, kde-format
 msgid "Save Eyepiece"
 msgstr "okulár mentése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: oal/equipmentwriter.ui:438
+#: oal/equipmentwriter.ui:441
 #, kde-format
 msgid "Apparent FOV:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: oal/equipmentwriter.ui:504
+#: oal/equipmentwriter.ui:507
 #, kde-format
 msgid "rad"
 msgstr "rad"
 
 #. i18n: ectx: attribute (title), widget (QWidget, DSLRLens)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: oal/equipmentwriter.ui:526 oal/equipmentwriter.ui:558
+#: oal/equipmentwriter.ui:529 oal/equipmentwriter.ui:561
 #, fuzzy, kde-format
 #| msgid "Save Lens"
 msgid "DSLR Lens"
 msgstr "Lencsék mentése"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
-#: oal/equipmentwriter.ui:570
+#: oal/equipmentwriter.ui:573
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: oal/equipmentwriter.ui:597
+#: oal/equipmentwriter.ui:600
 #, fuzzy, kde-format
 #| msgid "Focal Length:"
 msgid "Focal Length"
 msgstr "Fókusztávolság:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
-#: oal/equipmentwriter.ui:721
+#: oal/equipmentwriter.ui:724
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
-#: oal/equipmentwriter.ui:754
+#: oal/equipmentwriter.ui:757
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -77719,45 +77735,45 @@ msgid ""
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
-#: oal/equipmentwriter.ui:774
+#: oal/equipmentwriter.ui:777
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
-#: oal/equipmentwriter.ui:799
+#: oal/equipmentwriter.ui:802
 #, fuzzy, kde-format
 #| msgid "Save Lens"
 msgid "Barlow Lens"
 msgstr "Lencsék mentése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: oal/equipmentwriter.ui:831
+#: oal/equipmentwriter.ui:834
 #, kde-format
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:870
+#: oal/equipmentwriter.ui:873
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:873
+#: oal/equipmentwriter.ui:876
 #, kde-format
 msgid "Factor:"
 msgstr "Faktor"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddLens)
-#: oal/equipmentwriter.ui:921
+#: oal/equipmentwriter.ui:924
 #, kde-format
 msgid "Save Lens"
 msgstr "Lencsék mentése"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
-#: oal/equipmentwriter.ui:1051
+#: oal/equipmentwriter.ui:1054
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Filter Count"
@@ -77765,7 +77781,7 @@ msgid "Filter focus offset"
 msgstr "Szűrő számláló"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: oal/equipmentwriter.ui:1080
+#: oal/equipmentwriter.ui:1083
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Absolute Position"
@@ -77773,14 +77789,14 @@ msgid "Abs. position:"
 msgstr "Abszolút pozíció "
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: oal/equipmentwriter.ui:1100
+#: oal/equipmentwriter.ui:1103
 #, fuzzy, kde-format
 #| msgid "Focus Out"
 msgid "Focus alt:"
 msgstr "Fókuszon kikapcsolva"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: oal/equipmentwriter.ui:1123
+#: oal/equipmentwriter.ui:1126
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Ticks"
@@ -77788,7 +77804,7 @@ msgid "Ticks per C:"
 msgstr "osztások"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: oal/equipmentwriter.ui:1140
+#: oal/equipmentwriter.ui:1143
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Ticks"
@@ -77796,28 +77812,28 @@ msgid "Ticks per Alt:"
 msgstr "osztások"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: oal/equipmentwriter.ui:1164
+#: oal/equipmentwriter.ui:1167
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Auto focus:"
 msgstr "Fókusz indítása"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: oal/equipmentwriter.ui:1178
+#: oal/equipmentwriter.ui:1181
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Locked filter:"
 msgstr "Szűrő"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: oal/equipmentwriter.ui:1211
+#: oal/equipmentwriter.ui:1214
 #, fuzzy, kde-format
 #| msgid "Focuser:"
 msgid "Focus temp:"
 msgstr "Fókuszáló:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
-#: oal/equipmentwriter.ui:1258
+#: oal/equipmentwriter.ui:1261
 #, kde-format
 msgid "Save Filter"
 msgstr "Szűrő mentése"
