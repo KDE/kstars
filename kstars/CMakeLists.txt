@@ -168,6 +168,7 @@ if (INDI_FOUND)
             #ekos/guide/rcalibration.ui
             # Auxiliary
             ekos/auxiliary/filtersettings.ui
+            ekos/auxiliary/buildfilteroffsets.ui
             ekos/auxiliary/opslogs.ui
             ekos/auxiliary/serialportassistant.ui
             ekos/auxiliary/stellarsolverprofileeditor.ui
@@ -204,6 +205,7 @@ if (INDI_FOUND)
             ekos/auxiliary/profilesettings.cpp
             ekos/auxiliary/opticaltrainsettings.cpp
             ekos/auxiliary/filtermanager.cpp
+            ekos/auxiliary/buildfilteroffsets.cpp
             ekos/auxiliary/tabledelegate.cpp
             ekos/auxiliary/opslogs.cpp
 	    ekos/auxiliary/rotatorutils.cpp

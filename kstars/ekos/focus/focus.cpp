@@ -1495,8 +1495,6 @@ void Focus::meridianFlipStarted()
     int old = resetFocusIteration;
     // abort focusing
     abort();
-    // try to shift the focuser back to its initial position
-    resetFocuser();
     // restore iteration counter
     resetFocusIteration = old;
 }
@@ -1509,6 +1507,8 @@ void Focus::abort()
 
     checkStopFocus(true);
     appendLogText(i18n("Autofocus aborted."));
+    // try to shift the focuser back to its initial position
+    resetFocuser();
 }
 
 void Focus::stop(Ekos::FocusState completionState)
@@ -2319,7 +2319,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
 
     if (autoFocusUsed && buildOffsetsUsed)
         // If we are building filter offsets signal AF run is complete
-        m_FilterManager->autoFocusComplete(state, currentPosition);
+        m_FilterManager->autoFocusComplete(state, currentPosition, m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
 
     resetButtons();
 }

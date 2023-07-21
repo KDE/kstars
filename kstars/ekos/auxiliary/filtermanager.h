@@ -13,13 +13,9 @@
 #include <indi/indifocuser.h>
 #include <oal/filter.h>
 
-#include <QDialog>
-#include <QSqlDatabase>
 #include <QQueue>
 #include <QPointer>
 #include <QStandardItemModel>
-#include <QProgressBar>
-#include <QStatusBar>
 
 class QSqlTableModel;
 class ComboDelegate;
@@ -35,6 +31,10 @@ namespace Ekos
 class FilterManager : public QDialog, public Ui::FilterSettings
 {
         Q_OBJECT
+
+        // BuildFilterOffsets is a friend class so it can access methods in FilterManager
+        friend class BuildFilterOffsets;
+
     public:
 
         typedef enum
@@ -60,23 +60,6 @@ class FilterManager : public QDialog, public Ui::FilterSettings
             FM_TICKS_PER_ALT,
             FM_WAVELENGTH
         };
-
-        enum
-        {
-            BFO_FILTER = 0,
-            BFO_OFFSET,
-            BFO_LOCK,
-            BFO_NUM_FOCUS_RUNS,
-            BFO_AF_RUN_1
-        };
-
-        typedef enum
-        {
-            BFO_INIT,
-            BFO_RUN,
-            BFO_SAVE,
-            BFO_STOP
-        } BFOButtonState;
 
         FilterManager(QWidget *parent = nullptr);
 
@@ -197,11 +180,10 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void applyFilterFocusPolicies();
 
         /**
-         * @brief autoFocusComplete Used by build filter offsets to process the completion of an AF run.
-         * @param completionState was the AF run successful
-         * @param currentPosition If the AF run was successful this is the focus point
+         * @brief buildFilterOffsets Launch the Build Filter Offsets utility
+         * @param FM pointer to the FilterManager
          */
-        void autoFocusComplete(FocusState completionState, int currentPosition);
+        void buildFilterOffsets();
 
     public slots:
         // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
@@ -225,6 +207,12 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         }
         // Inti filter property after connection
         void refreshFilterProperties();
+        // Signal from BuildFilterOffsets to run Autofocus. Pass onto Focus
+        void signalRunAutoFocus(bool buildFilterOffsets);
+        // Signal from BuildFilterOffsets to abort AF run. Pass onto Focus
+        void signalAbortAutoFocus();
+        // Signal from Focus that Autofocus has completed - used by BuildFilterOffsets utility
+        void autoFocusComplete(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
 
     signals:
         // Emitted only when there is a change in the filter slot number
@@ -255,11 +243,12 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void ticksPerAltChanged();
         // Filter wavelength changed
         void wavelengthChanged();
+        // Pass on Autofocus completed signal to Build Filter Offsets
+        void autoFocusDone(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
 
     private slots:
         void updateProperty(INDI::Property prop);
         void processDisconnect();
-        void itemChanged(QStandardItem *item);
 
     private:
 
@@ -336,71 +325,6 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         FilterPolicy m_Policy = { ALL_POLICIES };
 
         bool m_ConfirmationPending { false };
-
-        // The following functions and members relate to the Build Filter Offsets dialog
-
-        typedef struct
-        {
-            QString color;
-            bool changeFilter;
-            int numAFRun;
-        } buildOffsetsQItem;
-
-        // Function to initialise resources for the build filter offsers dialog
-        void initBuildFilterOffsets();
-        // Setup the table widget
-        void setupBuildFilterOffsetsTable();
-        // Set the buttons state
-        void setBuildFilterOffsetsButtons(BFOButtonState state);
-        // Function to manage Build Offsets Dialog
-        void buildFilterOffsets();
-        // Function to setup the work required to build the offsets
-        void buildTheOffsets();
-        // Function to stop in-flight processing, e.g AF runs
-        void stopProcessing();
-        // Function to persist the calculated filter offsets
-        void saveTheOffsets();
-        // Function to confirm user wants to close the dialog without saving results
-        void close();
-        // When all automated processing is  complete allow some cells to be editable
-        void setCellsEditable();
-        // Function to call Autofocus to build the filter offsets
-        void runBuildOffsets();
-        // Function to process a filter change event
-        void buildTheOffsetsTaskComplete();
-        // Resize the dialog
-        void buildOffsetsDialogResize();
-        // Calculate the average of the AF runs
-        void calculateAFAverage(int row, int col);
-        // Calculate the new offset for the filter
-        void calculateOffset(int row);
-        // Process the passed in Q item
-        void processQItem(buildOffsetsQItem qitem);
-
-        QStandardItemModel *m_BFOModel;
-        QTableView *m_BFOView;
-
-        QVector <QString> m_lockFilters, m_dependantFilters;
-        QVector <int> m_dependantOffset;
-
-        //buildOffsetsQItem m_qItem;
-
-        QQueue<buildOffsetsQItem> m_buildOffsetsQ;
-        buildOffsetsQItem m_qItemInProgress;
-        QDialog *m_buildOffsetsDialog;
-        QDialogButtonBox *m_buildOffsetButtonBox;
-        QProgressBar *m_buildOffsetsProgressBar;
-        QStatusBar *m_StatusBar;
-
-        bool m_inBuildOffsets { false };
-        int m_rowIdx { 0 };
-        int m_colIdx { 0 };
-        QPushButton *m_runButton;
-        QPushButton *m_stopButton;
-        bool m_problemFlag { false };
-        bool m_stopFlag { false };
-        bool m_abortAFPending { false };
-        bool m_tableInEditMode {false};
 };
 
 }
