@@ -1023,14 +1023,17 @@ void Align::calculateEffectiveFocalLength(double newFOVW)
 
     if (focal_diff > 1)
     {
-        effectiveFocalLength = new_focal_length / m_Reducer;
-        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", effectiveFocalLength));
+        m_EffectiveFocalLength = new_focal_length / m_Reducer;
+        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", m_EffectiveFocalLength));
     }
 }
 
 void Align::calculateFOV()
 {
     auto reducedFocalLength = m_Reducer * m_FocalLength;
+    auto reducecdEffectiveFocalLength = m_Reducer * m_EffectiveFocalLength;
+    auto reducedFocalRatio = m_Reducer * m_FocalRatio;
+
     if (m_FocalRatio > 0)
     {
         // The forumla is in radians, must convert to degrees.
@@ -1068,23 +1071,23 @@ void Align::calculateFOV()
         return;
     }
 
-    FocalLengthOut->setText(QString("%1 (%2)").arg(m_FocalLength, 0, 'f', 1).
-                            arg(effectiveFocalLength > 0 ? effectiveFocalLength : m_FocalLength, 0, 'f', 1));
+    FocalLengthOut->setText(QString("%1 (%2)").arg(reducedFocalLength, 0, 'f', 1).
+                            arg(m_EffectiveFocalLength > 0 ? reducecdEffectiveFocalLength : reducedFocalLength, 0, 'f', 1));
     // DSLR
     if (m_FocalRatio > 0)
-        FocalRatioOut->setText(QString("%1 (%2)").arg(m_FocalRatio, 0, 'f', 1).
-                               arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_Aperture : m_FocalRatio, 0,
+        FocalRatioOut->setText(QString("%1 (%2)").arg(reducedFocalRatio, 0, 'f', 1).
+                               arg(m_EffectiveFocalLength > 0 ? reducecdEffectiveFocalLength / m_Aperture : reducedFocalRatio, 0,
                                    'f', 1));
     // Telescope
     else if (m_Aperture > 0)
-        FocalRatioOut->setText(QString("%1 (%2)").arg(m_FocalLength / m_Aperture, 0, 'f', 1).
-                               arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_Aperture : m_FocalLength / m_Aperture, 0,
+        FocalRatioOut->setText(QString("%1 (%2)").arg(reducedFocalLength / m_Aperture, 0, 'f', 1).
+                               arg(m_EffectiveFocalLength > 0 ? reducecdEffectiveFocalLength / m_Aperture : reducedFocalLength / m_Aperture, 0,
                                    'f', 1));
     ReducerOut->setText(QString("%1x").arg(m_Reducer, 0, 'f', 2));
 
-    if (effectiveFocalLength > 0)
+    if (m_EffectiveFocalLength > 0)
     {
-        double focal_diff = std::fabs(effectiveFocalLength  - m_FocalLength);
+        double focal_diff = std::fabs(m_EffectiveFocalLength  - m_FocalLength);
         if (focal_diff < 5)
             FocalLengthOut->setStyleSheet("color:green");
         else if (focal_diff < 15)
@@ -2310,7 +2313,8 @@ bool Align::checkIfRotationRequired()
                         RotatorUtils::Instance()->setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
                     }
                     // Go to 'updateProperty()' (where the same check is executed again)
-                    if(fabs(RotatorUtils::Instance()->DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60 > Options::astrometryRotatorThreshold())
+                    if(fabs(RotatorUtils::Instance()->DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60 >
+                            Options::astrometryRotatorThreshold())
                     {
                         // newSolverResults() -> capture: setAlignresult() -> RS: refresh()
                         emit newSolverResults(m_TargetPositionAngle, 0, 0, 0);

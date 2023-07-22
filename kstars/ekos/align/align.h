@@ -882,7 +882,7 @@ class Align : public QWidget, public Ui::Align
         QCPCurve *concentricRings { nullptr };
 
         // Telescope Settings
-        double effectiveFocalLength = -1;
+        double m_EffectiveFocalLength = -1;
         bool m_isRateSynced = false;
         bool domeReady = true;
 

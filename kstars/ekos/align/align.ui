@@ -474,7 +474,7 @@
           <item row="4" column="1">
            <widget class="QLineEdit" name="FocalLengthOut">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Active telescope raw (effective) focal length in millimeters. This is the raw focal length without any reducers or barlows. The effective focal length is measured from plate-solving.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculated telescope (effective) focal length in millimeters. The effective focal length is measured from plate-solving.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="readOnly">
              <bool>true</bool>
@@ -491,7 +491,7 @@
           <item row="4" column="3">
            <widget class="QLineEdit" name="FocalRatioOut">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Active telescope calculated (effective) focal ratio. The effective focal ratio is measured from astrometry without taking into account any reducers or barlows.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculated telescope (effective) focal ratio. The effective focal ratio is measured from astrometry.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="readOnly">
              <bool>true</bool>
