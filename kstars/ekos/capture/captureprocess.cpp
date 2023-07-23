@@ -544,8 +544,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
     }
 
     // If image is client or both, let's process it.
-    if (activeCamera()
-            && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+    if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
 
         if (m_State->getCaptureState() == CAPTURE_IDLE || m_State->getCaptureState() == CAPTURE_ABORTED)
@@ -614,13 +613,22 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
 
         // set image metadata
         updateImageMetadataAction(m_State->imageData());
-        // image has been received and processed successfully.
-        m_State->setCaptureState(CAPTURE_IMAGE_RECEIVED);
-        // processing finished successfully
-        imageCapturingCompleted();
-        // hand over to the capture module
-        emit processingFITSfinished(true);
     }
+
+    // image has been received and processed successfully.
+    m_State->setCaptureState(CAPTURE_IMAGE_RECEIVED);
+    // processing finished successfully
+    imageCapturingCompleted();
+    // hand over to the capture module
+    emit processingFITSfinished(true);
+}
+
+void CaptureProcess::processNewRemoteFile(QString file)
+{
+    emit newLog(i18n("Remote image saved to %1", file));
+    // call processing steps without image data if the image is stored only remotely
+    if (activeCamera() && activeCamera()->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+        processFITSData(nullptr);
 }
 
 void CaptureProcess::imageCapturingCompleted()
@@ -1503,19 +1511,18 @@ void CaptureProcess::connectCamera(bool connection)
     if (connection)
     {
         // TODO: do not simply forward the newExposureValue
-        connect(activeCamera(), &ISD::Camera::newExposureValue, this,
-                &CaptureProcess::newExposureValue, Qt::UniqueConnection);
-        connect(activeCamera(), &ISD::Camera::newImage, this, &CaptureProcess::processFITSData,
-                Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::newExposureValue, this, &CaptureProcess::newExposureValue, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::newImage, this, &CaptureProcess::processFITSData, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CaptureProcess::processNewRemoteFile, Qt::UniqueConnection);
         //connect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
         connect(activeCamera(), &ISD::Camera::ready, this, &CaptureProcess::cameraReady);
     }
     else
     {
         // TODO: do not simply forward the newExposureValue
-        disconnect(activeCamera(), &ISD::Camera::newExposureValue, this,
-                   &CaptureProcess::newExposureValue);
+        disconnect(activeCamera(), &ISD::Camera::newExposureValue, this, &CaptureProcess::newExposureValue);
         disconnect(activeCamera(), &ISD::Camera::newImage, this, &CaptureProcess::processFITSData);
+        disconnect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CaptureProcess::processNewRemoteFile);
         //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Capture::setGeneratedPreviewFITS);
         disconnect(activeCamera(), &ISD::Camera::ready, this, &CaptureProcess::cameraReady);
     }

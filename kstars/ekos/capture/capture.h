@@ -860,11 +860,6 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         void setExposureProgress(ISD::CameraChip *tChip, double value, IPState state);
 
-        /**
-         * @brief setNewRemoteFile Report a new remote file
-         */
-        void setNewRemoteFile(QString file);
-
         // AutoGuide
         void checkGuideDeviationTimeout();
 
