@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-24 07:27+0000\n"
-"PO-Revision-Date: 2023-07-22 18:27+0300\n"
+"PO-Revision-Date: 2023-07-24 20:02+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6582,21 +6582,15 @@ msgstr "DF:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:477
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope raw (effective) focal length in "
-#| "millimeters. This is the raw focal length without any reducers or "
-#| "barlows. The effective focal length is measured from plate-solving.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal length in "
 "millimeters. The effective focal length is measured from plate-solving.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Distància focal bruta (efectiva) del telescopi actiu, "
-"en mil·límetres. Aquesta és la distància focal bruta sense cap reductor o "
-"barlow. La distància focal efectiva es mesura a partir de la solució de les "
-"plaques.</p></body></html>"
+"<html><head/><body><p>Distància focal calculada (efectiva) del telescopi, en "
+"mil·límetres. La distància focal efectiva es mesura a partir de la solució "
+"de les plaques.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/align/align.ui:487
@@ -6606,18 +6600,14 @@ msgstr "F/:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
 #: ekos/align/align.ui:494
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope calculated (effective) focal "
-#| "ratio. The effective focal ratio is measured from astrometry without "
-#| "taking into account any reducers or barlows.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
 "effective focal ratio is measured from astrometry.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Relació focal calculada (efectiva) del telescopi "
-"actiu. La relació focal efectiva està mesurada a partir de l'astrometria "
-"sense tenir en compte cap reductor ni barlow.</p></body></html>"
+"actiu. La relació focal efectiva està mesurada a partir de l'astrometria.</"
+"p></body></html>"
 
 # R=Reducer -> R=Reductor
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -83955,10 +83945,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "Process stopped. Yes to restart, No to abort"
-#~ msgstr "S'ha aturat el procés. Sí per a reiniciar, No per a interrompre"
-
-#~ msgid "A problem occurred. Yes to retry, No to abort"
-#~ msgstr ""
-#~ "S'ha produït un problema. Sí per a reintentar-ho, No per a interrompre"

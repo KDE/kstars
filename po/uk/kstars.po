@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-24 07:27+0000\n"
-"PO-Revision-Date: 2023-07-22 09:01+0300\n"
+"PO-Revision-Date: 2023-07-24 16:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -6527,21 +6527,15 @@ msgstr "ФВ:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:477
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope raw (effective) focal length in "
-#| "millimeters. This is the raw focal length without any reducers or "
-#| "barlows. The effective focal length is measured from plate-solving.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal length in "
 "millimeters. The effective focal length is measured from plate-solving.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Питома (ефективна) фокусна відстань активного "
-"телескопа у міліметрах. Це стандартна фокусна відстань без зменшувачів і "
-"лінз Барлоу. Ефективну фокусну відстань вимірюють з результатів "
-"розв'язування зображення.</p></body></html>"
+"<html><head/><body><p>Обчислена (ефективна) фокусна відстань у міліметрах. "
+"Ефективну фокусну відстань вимірюють з результатів розв'язування зображення."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/align/align.ui:487
@@ -6551,18 +6545,14 @@ msgstr "F/:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
 #: ekos/align/align.ui:494
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope calculated (effective) focal "
-#| "ratio. The effective focal ratio is measured from astrometry without "
-#| "taking into account any reducers or barlows.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
 "effective focal ratio is measured from astrometry.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Обчислене (ефективне) фокусне число активного "
-"телескопа. Ефективне фокусне число вимірюється на основі даних астрометрії "
-"без врахування зменшувачів або лінз Барлоу.</p></body></html>"
+"<html><head/><body><p>Обчислене (ефективне) фокусне число телескопа. "
+"Ефективне фокусне число вимірюється на основі даних астрометрії.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/align.ui:517
