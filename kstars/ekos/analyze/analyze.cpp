@@ -2827,45 +2827,45 @@ namespace
 // TODO: move to ekos.h/cpp?
 Ekos::GuideState stringToGuideState(const QString &str)
 {
-    if (str == I18N_NOOP("Idle"))
+    if (str == i18n("Idle"))
         return GUIDE_IDLE;
-    else if (str == I18N_NOOP("Aborted"))
+    else if (str == i18n("Aborted"))
         return GUIDE_ABORTED;
-    else if (str == I18N_NOOP("Connected"))
+    else if (str == i18n("Connected"))
         return GUIDE_CONNECTED;
-    else if (str == I18N_NOOP("Disconnected"))
+    else if (str == i18n("Disconnected"))
         return GUIDE_DISCONNECTED;
-    else if (str == I18N_NOOP("Capturing"))
+    else if (str == i18n("Capturing"))
         return GUIDE_CAPTURE;
-    else if (str == I18N_NOOP("Looping"))
+    else if (str == i18n("Looping"))
         return GUIDE_LOOPING;
-    else if (str == I18N_NOOP("Subtracting"))
+    else if (str == i18n("Subtracting"))
         return GUIDE_DARK;
-    else if (str == I18N_NOOP("Subframing"))
+    else if (str == i18n("Subframing"))
         return GUIDE_SUBFRAME;
-    else if (str == I18N_NOOP("Selecting star"))
+    else if (str == i18n("Selecting star"))
         return GUIDE_STAR_SELECT;
-    else if (str == I18N_NOOP("Calibrating"))
+    else if (str == i18n("Calibrating"))
         return GUIDE_CALIBRATING;
-    else if (str == I18N_NOOP("Calibration error"))
+    else if (str == i18n("Calibration error"))
         return GUIDE_CALIBRATION_ERROR;
-    else if (str == I18N_NOOP("Calibrated"))
+    else if (str == i18n("Calibrated"))
         return GUIDE_CALIBRATION_SUCCESS;
-    else if (str == I18N_NOOP("Guiding"))
+    else if (str == i18n("Guiding"))
         return GUIDE_GUIDING;
-    else if (str == I18N_NOOP("Suspended"))
+    else if (str == i18n("Suspended"))
         return GUIDE_SUSPENDED;
-    else if (str == I18N_NOOP("Reacquiring"))
+    else if (str == i18n("Reacquiring"))
         return GUIDE_REACQUIRE;
-    else if (str == I18N_NOOP("Dithering"))
+    else if (str == i18n("Dithering"))
         return GUIDE_DITHERING;
-    else if (str == I18N_NOOP("Manual Dithering"))
+    else if (str == i18n("Manual Dithering"))
         return GUIDE_MANUAL_DITHERING;
-    else if (str == I18N_NOOP("Dithering error"))
+    else if (str == i18n("Dithering error"))
         return GUIDE_DITHERING_ERROR;
-    else if (str == I18N_NOOP("Dithering successful"))
+    else if (str == i18n("Dithering successful"))
         return GUIDE_DITHERING_SUCCESS;
-    else if (str == I18N_NOOP("Settling"))
+    else if (str == i18n("Settling"))
         return GUIDE_DITHERING_SETTLE;
     else
         return GUIDE_IDLE;
@@ -3056,7 +3056,7 @@ AlignState convertAlignState(const QString &str)
 {
     for (int i = 0; i < alignStates.size(); ++i)
     {
-        if (str == alignStates[i])
+        if (str == i18n(alignStates[i]))
             return static_cast<AlignState>(i);
     }
     return ALIGN_IDLE;
