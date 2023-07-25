@@ -562,7 +562,7 @@ bool FilterManager::executeOperationQueue()
             state = FILTER_AUTOFOCUS;
             qCDebug(KSTARS) << "FilterManager.cpp is triggering autofocus.";
             emit newStatus(state);
-            emit checkFocus(0.01);
+            emit runAutoFocus(false);
             break;
 
         default:
@@ -798,7 +798,7 @@ void FilterManager::setFocusStatus(Ekos::FocusState focusState)
                     return;
                 }
                 // Restart again
-                emit checkFocus(0.01);
+                emit runAutoFocus(false);
                 break;
 
             default:

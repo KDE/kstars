@@ -2830,8 +2830,12 @@ void Manager::connectModules()
     // Capture <---> Focus connections
     if (captureProcess && focusProcess)
     {
-        // Check focus HFR value
+        // Check focus HFR value and if above threshold parameter, run autoFocus
         connect(captureProcess.get(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus,
+                Qt::UniqueConnection);
+
+        // Run autoFocus
+        connect(captureProcess.get(), &Ekos::Capture::runAutoFocus, focusProcess.get(), &Ekos::Focus::runAutoFocus,
                 Qt::UniqueConnection);
 
         // Reset Focus

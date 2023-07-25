@@ -772,6 +772,8 @@ class CaptureModuleState: public QObject
         void newAdaptiveFocusStatus(bool success);
         // check focusing is necessary for the given HFR
         void checkFocus(double hfr);
+        // run Autofocus
+        void runAutoFocus(bool);
         // reset the focuser to the last known focus position
         void resetFocus();
         // signal focus module to perform adaptive focus

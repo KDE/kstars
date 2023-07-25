@@ -227,8 +227,6 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void failed();
         // Status signal
         void newStatus(Ekos::FilterState state);
-        // Check Focus
-        void checkFocus(double);
         // Run AutoFocus
         void runAutoFocus(bool buildOffsets);
         // Abort AutoFocus

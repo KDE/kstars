@@ -512,7 +512,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void syncDSLRToTargetChip(const QString &model);
 
-		void openExposureCalculatorDialog();
+        void openExposureCalculatorDialog();
 
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
 
@@ -897,6 +897,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // communication with other modules
         void checkFocus(double);
+        void runAutoFocus(bool);
         void resetFocus();
         void abortFocus();
         void adaptiveFocus();
