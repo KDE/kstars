@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-24 07:27+0000\n"
+"POT-Creation-Date: 2023-07-26 00:42+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -403,7 +403,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:3176
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:3177
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2530,8 +2530,8 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2745
-#: ekos/capture/capture.cpp:3185 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2746
+#: ekos/capture/capture.cpp:3186 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
@@ -3806,7 +3806,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:1287 ekos/capture/capture.cpp:1325
+#: ekos/capture/capture.cpp:1288 ekos/capture/capture.cpp:1326
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1191
 #, kde-format
@@ -6019,8 +6019,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr "Hiba: Megszakadt a kapcsolat a fókuszálóval"
 
-#: ekos/align/align.cpp:1455 ekos/capture/capture.cpp:4036
-#: ekos/capture/captureprocess.cpp:216 ekos/focus/focus.cpp:4828
+#: ekos/align/align.cpp:1455 ekos/capture/capture.cpp:4037
+#: ekos/capture/captureprocess.cpp:216 ekos/focus/focus.cpp:4829
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6050,13 +6050,13 @@ msgstr "Autofókusz folyamatban..."
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1564 ekos/focus/focus.cpp:1703
+#: ekos/align/align.cpp:1564 ekos/focus/focus.cpp:1726
 #, kde-format
 msgid "Capturing image..."
 msgstr "Képek készítés..."
 
 #: ekos/align/align.cpp:1654 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2556
+#: ekos/focus/focus.cpp:2577
 #, fuzzy, kde-format
 #| msgid "Image captured..."
 msgid "Image received."
@@ -6185,7 +6185,7 @@ msgid "Refresh is complete."
 msgstr "%1 elérhető."
 
 #: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1412
-#: ekos/focus/focus.cpp:1470
+#: ekos/focus/focus.cpp:1493
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6197,8 +6197,8 @@ msgstr "A kép lementése"
 msgid "Solver aborted after %1 seconds."
 msgstr "A FITS-fájl el lett mentve %1 néven"
 
-#: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1965
-#: ekos/focus/focus.cpp:3961 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
+#: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1966
+#: ekos/focus/focus.cpp:3966 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:917
 #, kde-format
@@ -6322,7 +6322,7 @@ msgstr "Koordinátarendszer a kimeneti fájlhoz"
 msgid "Capture error. Aborting..."
 msgstr "A kép lementése"
 
-#: ekos/align/align.cpp:3160 ekos/capture/capture.cpp:2027
+#: ekos/align/align.cpp:3160 ekos/capture/capture.cpp:2028
 #: ekos/capture/captureprocess.cpp:1260
 #, kde-format
 msgid "Restarting capture attempt #%1"
@@ -6379,25 +6379,25 @@ msgstr "RA (szögperc)"
 msgid "dDE (arcsec)"
 msgstr "szögmásodperc"
 
-#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:4237
-#: ekos/focus/focus.cpp:4717
+#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:4238
+#: ekos/focus/focus.cpp:4721
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Kalibrálás"
 
-#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:4173
+#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:4174
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3515 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:4178
+#: ekos/capture/capture.cpp:4179
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:4183
+#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:4184
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
@@ -6417,8 +6417,8 @@ msgid "Export Solution Points"
 msgstr "Az összes nyomvonal törlése"
 
 #: ekos/align/align.cpp:3799 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2744
-#: ekos/capture/capture.cpp:3184 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2745
+#: ekos/capture/capture.cpp:3185 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
 #: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6427,14 +6427,14 @@ msgid "Invalid URL: %1"
 msgstr "Érvénytelen URL: %1"
 
 #: ekos/align/align.cpp:3808 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:3207 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/capture/capture.cpp:3208 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:4830 ekos/scheduler/scheduler.cpp:7226
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "A(z) %1 fájl nem írható"
 
 #: ekos/align/align.cpp:3809 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2760
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2761
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
 #: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
 #: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
@@ -6526,7 +6526,7 @@ msgstr "Katalógus betöltése..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:149 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:2547 ekos/focus/focus.ui:456
+#: ekos/capture/capture.cpp:2548 ekos/focus/focus.ui:456
 #: ekos/guide/guide.ui:153 ekos/manager.cpp:222
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -7102,14 +7102,14 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Megfigyelési lista"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2759
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2760
 #: ekos/scheduler/scheduler.cpp:4485 ekos/scheduler/scheduler.cpp:7169
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
 msgstr "Nem sikerült megnyitni a(z) „%1” fájlt"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2786
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2787
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7717,7 +7717,7 @@ msgstr "Automatikus skálázás"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:4918
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:4919
 #: ekos/focus/focus.ui:1895
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
@@ -12019,7 +12019,7 @@ msgstr "Autofókusz kész"
 msgid "Aligning..."
 msgstr "Fut…"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1869
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1870
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating..."
@@ -14045,52 +14045,52 @@ msgstr "Számláló:"
 msgid "Park Dome"
 msgstr "A szkript mentése"
 
-#: ekos/capture/capture.cpp:227 ekos/capture/capture.cpp:3610
+#: ekos/capture/capture.cpp:227 ekos/capture/capture.cpp:3611
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "Képsorozat felvétele..."
 
-#: ekos/capture/capture.cpp:228 ekos/capture/capture.cpp:3611
+#: ekos/capture/capture.cpp:228 ekos/capture/capture.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
 msgstr "Képsorozat felvétele..."
 
-#: ekos/capture/capture.cpp:767
+#: ekos/capture/capture.cpp:768
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/capture.cpp:774
+#: ekos/capture/capture.cpp:775
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/capture.cpp:778
+#: ekos/capture/capture.cpp:779
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "Sor"
 
-#: ekos/capture/capture.cpp:788 ekos/capture/capture.cpp:931
+#: ekos/capture/capture.cpp:789 ekos/capture/capture.cpp:932
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "Sor"
 
-#: ekos/capture/capture.cpp:795
+#: ekos/capture/capture.cpp:796
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Sequence resumed."
 msgstr "Vezetés indítása"
 
-#: ekos/capture/capture.cpp:879
+#: ekos/capture/capture.cpp:880
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
 
-#: ekos/capture/capture.cpp:888
+#: ekos/capture/capture.cpp:889
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -14098,284 +14098,284 @@ msgid ""
 "restart capturing?"
 msgstr "Biztosan szeretné eltávolítani ezt a linket: %1?"
 
-#: ekos/capture/capture.cpp:889 ekos/capture/capture.cpp:3395
+#: ekos/capture/capture.cpp:890 ekos/capture/capture.cpp:3396
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "A pozíció alaphelyzetbe hozása"
 
-#: ekos/capture/capture.cpp:903
+#: ekos/capture/capture.cpp:904
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/capture.cpp:937
+#: ekos/capture/capture.cpp:938
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:939
+#: ekos/capture/capture.cpp:940
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:941
+#: ekos/capture/capture.cpp:942
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:980
+#: ekos/capture/capture.cpp:981
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "CCD capture suspended"
 msgstr "Szupernóva beállítások"
 
-#: ekos/capture/capture.cpp:985
+#: ekos/capture/capture.cpp:986
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture complete"
 msgstr "A kép lementése"
 
-#: ekos/capture/capture.cpp:990
+#: ekos/capture/capture.cpp:991
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture aborted"
 msgstr "A kép lementése"
 
-#: ekos/capture/capture.cpp:995
+#: ekos/capture/capture.cpp:996
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture stopped"
 msgstr "A kép lementése"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1063 ekos/capture/capture.ui:2245
+#: ekos/capture/capture.cpp:1064 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 #| msgid "Expose:"
 msgid "Expose (-/-):"
 msgstr "Expozíció:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1074 ekos/capture/capture.ui:2072
+#: ekos/capture/capture.cpp:1075 ekos/capture/capture.ui:2072
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Start Sequence"
 msgstr "Sor"
 
-#: ekos/capture/capture.cpp:1794
+#: ekos/capture/capture.cpp:1795
 #, fuzzy, kde-format
 #| msgctxt "City in Massachusetts USA"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "Framingham"
 
-#: ekos/capture/capture.cpp:1805
+#: ekos/capture/capture.cpp:1806
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Captured image received"
 msgstr "Képsorozat rögzítése"
 
-#: ekos/capture/capture.cpp:1820 ekos/capture/capture.cpp:1957
+#: ekos/capture/capture.cpp:1821 ekos/capture/capture.cpp:1958
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1837
+#: ekos/capture/capture.cpp:1838
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot start framing while focus module is busy."
 msgstr "Autofókusz folyamatban..."
 
-#: ekos/capture/capture.cpp:1842
+#: ekos/capture/capture.cpp:1843
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting framing..."
 msgstr "Kezdete:"
 
-#: ekos/capture/capture.cpp:1913
+#: ekos/capture/capture.cpp:1914
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing %1-second %2 image..."
 msgstr "Képek készítés..."
 
-#: ekos/capture/capture.cpp:1947
+#: ekos/capture/capture.cpp:1948
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to set sub frame."
 msgstr "Nem sikerült betölteni egy képet"
 
-#: ekos/capture/capture.cpp:1952
+#: ekos/capture/capture.cpp:1953
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to set binning."
 msgstr "Nem sikerült betölteni egy képet"
 
-#: ekos/capture/capture.cpp:2019 ekos/capture/captureprocess.cpp:1252
+#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1252
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2052
+#: ekos/capture/capture.cpp:2053
 #, kde-format
 msgid "Downloading..."
 msgstr "Letöltés…"
 
-#: ekos/capture/capture.cpp:2111
+#: ekos/capture/capture.cpp:2112
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2117
+#: ekos/capture/capture.cpp:2118
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2255 ekos/capture/capture.cpp:2258
+#: ekos/capture/capture.cpp:2256 ekos/capture/capture.cpp:2259
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Flat"
 msgstr "Jelölő fájl használata"
 
-#: ekos/capture/capture.cpp:2334
+#: ekos/capture/capture.cpp:2335
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2565
+#: ekos/capture/capture.cpp:2566
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "A cél CCD-csip hőmérsékletének beállítása."
 
-#: ekos/capture/capture.cpp:2566
+#: ekos/capture/capture.cpp:2567
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "A cél CCD-csip hőmérsékletének beállítása."
 
-#: ekos/capture/capture.cpp:2570
+#: ekos/capture/capture.cpp:2571
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Vezetés indítása"
 
-#: ekos/capture/capture.cpp:2572
+#: ekos/capture/capture.cpp:2573
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2577
+#: ekos/capture/capture.cpp:2578
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "A cél CCD-csip hőmérsékletének beállítása."
 
-#: ekos/capture/capture.cpp:2578
+#: ekos/capture/capture.cpp:2579
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "A hely beállítása..."
 
-#: ekos/capture/capture.cpp:2621 ekos/capture/capture.cpp:2622
+#: ekos/capture/capture.cpp:2622 ekos/capture/capture.cpp:2623
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus complete."
 msgstr "Autofókusz kész"
 
-#: ekos/capture/capture.cpp:2626
+#: ekos/capture/capture.cpp:2627
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus failed."
 msgstr "Autofókusz kész"
 
-#: ekos/capture/capture.cpp:2640
+#: ekos/capture/capture.cpp:2641
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Adaptive focus complete."
 msgstr "Autofókusz kész"
 
-#: ekos/capture/capture.cpp:2642
+#: ekos/capture/capture.cpp:2643
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Adaptive focus failed. Continuing..."
 msgstr "Autofókusz folyamatban..."
 
-#: ekos/capture/capture.cpp:2656
+#: ekos/capture/capture.cpp:2657
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2661
+#: ekos/capture/capture.cpp:2662
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian Flip..."
 msgstr "A FITS &automatikus megjelenítése"
 
-#: ekos/capture/capture.cpp:2662
+#: ekos/capture/capture.cpp:2663
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip started"
 msgstr "A FITS &automatikus megjelenítése"
 
-#: ekos/capture/capture.cpp:2666
+#: ekos/capture/capture.cpp:2667
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "befejezve"
 
-#: ekos/capture/capture.cpp:2726 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:2727 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Alapértelmezett FITS-könyvtár"
 
-#: ekos/capture/capture.cpp:2736
+#: ekos/capture/capture.cpp:2737
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Megfigyelési lista"
 
-#: ekos/capture/capture.cpp:2847
+#: ekos/capture/capture.cpp:2848
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2936
+#: ekos/capture/capture.cpp:2937
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr "%1 elérhető."
 
-#: ekos/capture/capture.cpp:3155
+#: ekos/capture/capture.cpp:3156
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Képsorozat felvétele..."
 
-#: ekos/capture/capture.cpp:3176
+#: ekos/capture/capture.cpp:3177
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3208
+#: ekos/capture/capture.cpp:3209
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "Nem sikerült megnyitni a(z) %1 nevű fájlt"
 
-#: ekos/capture/capture.cpp:3228
+#: ekos/capture/capture.cpp:3229
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14383,146 +14383,146 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3371
+#: ekos/capture/capture.cpp:3372
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence queue saved to %1"
 msgstr "A FITS-fájl el lett mentve %1 néven"
 
-#: ekos/capture/capture.cpp:3395
+#: ekos/capture/capture.cpp:3396
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Biztosan szeretné eltávolítani ezt a linket: %1?"
 
-#: ekos/capture/capture.cpp:3589
+#: ekos/capture/capture.cpp:3590
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "Link módosítása..."
 
-#: ekos/capture/capture.cpp:3592 ekos/scheduler/scheduler.cpp:1676
+#: ekos/capture/capture.cpp:3593 ekos/scheduler/scheduler.cpp:1676
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3593
+#: ekos/capture/capture.cpp:3594
 #, fuzzy, kde-format
 #| msgid "Save changes"
 msgid "Cancel job changes."
 msgstr "Változások mentése"
 
-#: ekos/capture/capture.cpp:3605
+#: ekos/capture/capture.cpp:3606
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
 msgstr "Link módosítása..."
 
-#: ekos/capture/capture.cpp:3846
+#: ekos/capture/capture.cpp:3847
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Guide module timed out."
 msgstr "Vezetés indítása"
 
-#: ekos/capture/capture.cpp:3989
+#: ekos/capture/capture.cpp:3990
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Wall coordinates are invalid."
 msgstr "Látszólagos koordináták:"
 
-#: ekos/capture/capture.cpp:4037 ekos/capture/captureprocess.cpp:217
+#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:217
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
 msgstr "Képformátum"
 
-#: ekos/capture/capture.cpp:4112
+#: ekos/capture/capture.cpp:4113
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Megfigyelő"
 
-#: ekos/capture/capture.cpp:4114
+#: ekos/capture/capture.cpp:4115
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgid "Current Observer:"
 msgstr "Megfigyelő"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:4125 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:4126 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "Megfigyelő"
 
-#: ekos/capture/capture.cpp:4190
+#: ekos/capture/capture.cpp:4191
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "A FITS-fájl el lett mentve %1 néven"
 
-#: ekos/capture/capture.cpp:4568
+#: ekos/capture/capture.cpp:4569
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Reset %1 configuration to default?"
 msgstr "A megadott beállítófájl használata"
 
-#: ekos/capture/capture.cpp:4570
+#: ekos/capture/capture.cpp:4571
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Confirmation"
 msgstr "Beállítás"
 
-#: ekos/capture/capture.cpp:4586
+#: ekos/capture/capture.cpp:4587
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4586
+#: ekos/capture/capture.cpp:4587
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4879
+#: ekos/capture/capture.cpp:4880
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Biztosan el szeretné távolítani a(z) %1 klienst?"
 
-#: ekos/capture/capture.cpp:4880
+#: ekos/capture/capture.cpp:4881
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Restart"
 msgid "Driver Restart"
 msgstr "Újraindítás"
 
-#: ekos/capture/capture.cpp:4910
+#: ekos/capture/capture.cpp:4911
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4916
+#: ekos/capture/capture.cpp:4917
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4924
+#: ekos/capture/capture.cpp:4925
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4934
+#: ekos/capture/capture.cpp:4935
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "A cél CCD-csip hőmérsékletének beállítása."
 
-#: ekos/capture/capture.cpp:4965
+#: ekos/capture/capture.cpp:4966
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15688,14 +15688,14 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1199 ekos/focus/focus.cpp:4870
+#: ekos/capture/captureprocess.cpp:1199 ekos/focus/focus.cpp:4871
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr ""
 "A kamera/CCD exponálásának elkezdése. Az időtartam másodpercben értendő."
 
-#: ekos/capture/captureprocess.cpp:1222 ekos/focus/focus.cpp:4875
+#: ekos/capture/captureprocess.cpp:1222 ekos/focus/focus.cpp:4876
 #: ekos/guide/guide.cpp:892
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
@@ -16871,12 +16871,12 @@ msgstr "Várakozik"
 msgid "Focus Options Profile Editor"
 msgstr "Előnézet-szerkesztő"
 
-#: ekos/focus/focus.cpp:942
+#: ekos/focus/focus.cpp:946
 #, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 msgstr ""
 
-#: ekos/focus/focus.cpp:959
+#: ekos/focus/focus.cpp:960
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
@@ -16886,179 +16886,179 @@ msgstr ""
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
 
-#: ekos/focus/focus.cpp:975
+#: ekos/focus/focus.cpp:974
 #, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:989
+#: ekos/focus/focus.cpp:988
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1090
+#: ekos/focus/focus.cpp:1113
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No Focuser connected."
 msgstr "Az INDI eszköz portjának beállítása."
 
-#: ekos/focus/focus.cpp:1097 ekos/focus/focus.cpp:4009
+#: ekos/focus/focus.cpp:1120 ekos/focus/focus.cpp:4014
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No CCD connected."
 msgstr "Az INDI eszköz portjának beállítása."
 
-#: ekos/focus/focus.cpp:1104
+#: ekos/focus/focus.cpp:1127
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1112
+#: ekos/focus/focus.cpp:1135
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1117
+#: ekos/focus/focus.cpp:1140
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1122
+#: ekos/focus/focus.cpp:1145
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1262
+#: ekos/focus/focus.cpp:1285
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr "Autofókusz folyamatban..."
 
-#: ekos/focus/focus.cpp:1264
+#: ekos/focus/focus.cpp:1287
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1280
+#: ekos/focus/focus.cpp:1303
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation started"
 msgstr "Autofókusz opciók"
 
-#: ekos/focus/focus.cpp:1367
+#: ekos/focus/focus.cpp:1390
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1375
+#: ekos/focus/focus.cpp:1398
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1377
+#: ekos/focus/focus.cpp:1400
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1384
+#: ekos/focus/focus.cpp:1407
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1396
+#: ekos/focus/focus.cpp:1419
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1398
+#: ekos/focus/focus.cpp:1421
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1408
+#: ekos/focus/focus.cpp:1431
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1416
+#: ekos/focus/focus.cpp:1439
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "A bolygó neve"
 
-#: ekos/focus/focus.cpp:1430
+#: ekos/focus/focus.cpp:1453
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "A bolygó neve"
 
-#: ekos/focus/focus.cpp:1476
+#: ekos/focus/focus.cpp:1499
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Detection in progress, please wait."
 msgstr "Dome Creek"
 
-#: ekos/focus/focus.cpp:1509
+#: ekos/focus/focus.cpp:1532
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus aborted."
 msgstr "Autofókusz kész"
 
-#: ekos/focus/focus.cpp:1595
+#: ekos/focus/focus.cpp:1618
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1602
+#: ekos/focus/focus.cpp:1625
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Camera."
 msgstr "Hiba: Megszakadt a kapcsolat a fókuszálóval"
 
-#: ekos/focus/focus.cpp:1623
+#: ekos/focus/focus.cpp:1646
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1629
+#: ekos/focus/focus.cpp:1652
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Hiba: Megszakadt a kapcsolat a fókuszálóval"
 
-#: ekos/focus/focus.cpp:1771
+#: ekos/focus/focus.cpp:1794
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1778
+#: ekos/focus/focus.cpp:1801
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Hiba: Megszakadt a kapcsolat a fókuszálóval"
 
-#: ekos/focus/focus.cpp:1790
+#: ekos/focus/focus.cpp:1813
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "outward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1790
+#: ekos/focus/focus.cpp:1813
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1804
+#: ekos/focus/focus.cpp:1827
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
 msgid "Focusing %2 by %1 steps..."
 msgstr "Fókusz be"
 
-#: ekos/focus/focus.cpp:1810
+#: ekos/focus/focus.cpp:1833
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
@@ -17067,70 +17067,70 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Fókusz be"
 msgstr[1] "Fókusz be"
 
-#: ekos/focus/focus.cpp:1816
+#: ekos/focus/focus.cpp:1839
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
 msgid "Focusing %2 by %1 ms..."
 msgstr "Fókusz be"
 
-#: ekos/focus/focus.cpp:1854
+#: ekos/focus/focus.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr ""
 "A kamera/CCD exponálásának elkezdése. Az időtartam másodpercben értendő."
 
-#: ekos/focus/focus.cpp:1861
+#: ekos/focus/focus.cpp:1884
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Fókusz be"
 
-#: ekos/focus/focus.cpp:1872
+#: ekos/focus/focus.cpp:1895
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Fókusz be"
 
-#: ekos/focus/focus.cpp:1928
+#: ekos/focus/focus.cpp:1951
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1937
+#: ekos/focus/focus.cpp:1960
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "A kép lementése"
 
-#: ekos/focus/focus.cpp:1986
+#: ekos/focus/focus.cpp:2009
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "befejezve"
 
-#: ekos/focus/focus.cpp:2178
+#: ekos/focus/focus.cpp:2201
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Detecting sources..."
 msgstr "Letöltés…"
 
-#: ekos/focus/focus.cpp:2291
+#: ekos/focus/focus.cpp:2314
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "Bemeneti koordináták"
 
-#: ekos/focus/focus.cpp:2303
+#: ekos/focus/focus.cpp:2326
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation failed"
 msgstr "Autofókusz opciók"
 
-#: ekos/focus/focus.cpp:2335
+#: ekos/focus/focus.cpp:2358
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus procedure completed after %1 iteration."
@@ -17138,187 +17138,187 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Autofókusz kész"
 msgstr[1] "Autofókusz kész"
 
-#: ekos/focus/focus.cpp:2421
+#: ekos/focus/focus.cpp:2442
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "&Beállítások"
 
-#: ekos/focus/focus.cpp:2428
+#: ekos/focus/focus.cpp:2449
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "befejezve"
 
-#: ekos/focus/focus.cpp:2441
+#: ekos/focus/focus.cpp:2462
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2478
+#: ekos/focus/focus.cpp:2499
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS kép fogadva. Nem találtam csillagot"
 
-#: ekos/focus/focus.cpp:2633
+#: ekos/focus/focus.cpp:2654
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2729
+#: ekos/focus/focus.cpp:2750
 #, fuzzy, kde-format
 #| msgid "Automatically select coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "Automatikusan válasszon koordinátarácsot"
 
-#: ekos/focus/focus.cpp:2762
+#: ekos/focus/focus.cpp:2783
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Nem találtam csillagot, újra próbálkozás..."
 
-#: ekos/focus/focus.cpp:2897
+#: ekos/focus/focus.cpp:2918
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2908 ekos/focus/focus.cpp:3547
+#: ekos/focus/focus.cpp:2929 ekos/focus/focus.cpp:3568
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Nem találtam csillagot, újra próbálkozás..."
 
-#: ekos/focus/focus.cpp:2914 ekos/focus/focus.cpp:3553
+#: ekos/focus/focus.cpp:2935 ekos/focus/focus.cpp:3574
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Nem sikerült betölteni egy képet"
 
-#: ekos/focus/focus.cpp:2919 ekos/focus/focus.cpp:3558
+#: ekos/focus/focus.cpp:2940 ekos/focus/focus.cpp:3579
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3145
+#: ekos/focus/focus.cpp:3166
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3152
+#: ekos/focus/focus.cpp:3173
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3195
+#: ekos/focus/focus.cpp:3216
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS kép fogadva. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3197
+#: ekos/focus/focus.cpp:3218
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS kép fogadva. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3258
+#: ekos/focus/focus.cpp:3279
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3265
+#: ekos/focus/focus.cpp:3286
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3370
+#: ekos/focus/focus.cpp:3391
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3455
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3445
+#: ekos/focus/focus.cpp:3466
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3455
+#: ekos/focus/focus.cpp:3476
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3484
+#: ekos/focus/focus.cpp:3505
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3532
+#: ekos/focus/focus.cpp:3553
 #, fuzzy, kde-format
 #| msgid "FITS received. HFR %1. Delta (%2%)"
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS kép fogadva. HFR %1. Delta (%2%)"
 
-#: ekos/focus/focus.cpp:3536
+#: ekos/focus/focus.cpp:3557
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3626 ekos/focus/focus.cpp:3639
-#: ekos/focus/focus.cpp:3768 ekos/focus/focus.cpp:3844
-#: ekos/focus/focus.cpp:3909 ekos/focus/focus.cpp:3953
+#: ekos/focus/focus.cpp:3647 ekos/focus/focus.cpp:3660
+#: ekos/focus/focus.cpp:3781 ekos/focus/focus.cpp:3853
+#: ekos/focus/focus.cpp:3914 ekos/focus/focus.cpp:3958
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Fókuszáló hiba. Ellenőrizd az INDI panelt."
 
-#: ekos/focus/focus.cpp:3670 ekos/focus/focus.cpp:3784
+#: ekos/focus/focus.cpp:3691 ekos/focus/focus.cpp:3797
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Simulate focuser comms failure..."
 msgstr "Autofókusz kész"
 
-#: ekos/focus/focus.cpp:3749 ekos/focus/focus.cpp:3829
-#: ekos/focus/focus.cpp:3894 ekos/focus/focus.cpp:3927
+#: ekos/focus/focus.cpp:3762 ekos/focus/focus.cpp:3838
+#: ekos/focus/focus.cpp:3899 ekos/focus/focus.cpp:3932
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Restarting autofocus process..."
 msgstr "Autofókusz folyamatban..."
 
-#: ekos/focus/focus.cpp:4027
+#: ekos/focus/focus.cpp:4032
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Folyamatos exponálás kezdése..."
 
-#: ekos/focus/focus.cpp:4291
+#: ekos/focus/focus.cpp:4296
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4296
+#: ekos/focus/focus.cpp:4301
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Focus star is selected."
 msgstr "%1 csillag felismerve."
 
-#: ekos/focus/focus.cpp:4426
+#: ekos/focus/focus.cpp:4431
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Using last known position..."
 msgstr "Nem találtam csillagot, újra próbálkozás..."
 
-#: ekos/focus/focus.cpp:4432
+#: ekos/focus/focus.cpp:4437
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Aborting..."
 msgstr "Nem találtam csillagot, újra próbálkozás..."
 
-#: ekos/focus/focus.cpp:4547
+#: ekos/focus/focus.cpp:4552
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus Timer"
@@ -17326,39 +17326,39 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Fókuszáló időzítő"
 
-#: ekos/focus/focus.cpp:4888
+#: ekos/focus/focus.cpp:4889
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing image again..."
 msgstr "Képek készítés..."
 
-#: ekos/focus/focus.cpp:4903
+#: ekos/focus/focus.cpp:4904
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "Nem sikerült betölteni egy képet"
 
-#: ekos/focus/focus.cpp:4913
+#: ekos/focus/focus.cpp:4914
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr ""
 "A kamera/CCD exponálásának elkezdése. Az időtartam másodpercben értendő."
 
-#: ekos/focus/focus.cpp:4918
+#: ekos/focus/focus.cpp:4919
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Autofókusz folyamatban..."
 
-#: ekos/focus/focus.cpp:5196
+#: ekos/focus/focus.cpp:5197
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "A nyomvonal eltávolítása"
 
-#: ekos/focus/focus.cpp:6388
+#: ekos/focus/focus.cpp:6389
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17383,7 +17383,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6404
+#: ekos/focus/focus.cpp:6405
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17395,7 +17395,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6411
+#: ekos/focus/focus.cpp:6412
 #, kde-format
 msgid ""
 "\n"
@@ -17416,7 +17416,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6421
+#: ekos/focus/focus.cpp:6422
 #, fuzzy, kde-format
 #| msgid "Focus Out"
 msgid "Focus Advisor"
