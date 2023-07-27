@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-26 00:42+0000\n"
-"PO-Revision-Date: 2023-07-23 20:29+0200\n"
+"POT-Creation-Date: 2023-07-27 00:42+0000\n"
+"PO-Revision-Date: 2023-07-26 15:46+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1940,7 +1940,7 @@ msgstr "Estat:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:572 ekos/manager/guidemanager.cpp:130
+#: ekos/manager.cpp:572 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1299
 #: ekos/scheduler/schedulerjob.cpp:667 ekos/scheduler/schedulerjob.cpp:691
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
@@ -6584,20 +6584,14 @@ msgstr "DF:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:477
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope raw (effective) focal length in "
-#| "millimeters. This is the raw focal length without any reducers or "
-#| "barlows. The effective focal length is measured from plate-solving.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal length in "
 "millimeters. The effective focal length is measured from plate-solving.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Distància focal en brut (efectiva) del telescopi "
-"actiu, en mil·límetres. Esta és la distància focal en brut sense cap "
-"reductor o Barlow. La distància focal efectiva es mesura a partir de la "
+"<html><head/><body><p>Distància focal calculada (efectiva) del telescopi "
+"actiu, en mil·límetres. La distància focal efectiva es mesura a partir de la "
 "solució de les plaques.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
@@ -6608,18 +6602,14 @@ msgstr "F/:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
 #: ekos/align/align.ui:494
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope calculated (effective) focal "
-#| "ratio. The effective focal ratio is measured from astrometry without "
-#| "taking into account any reducers or barlows.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
 "effective focal ratio is measured from astrometry.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Relació focal (efectiva) calculada del telescopi "
-"actiu. La relació focal efectiva està mesurada a partir de l'astrometria "
-"sense tindre en compte cap reductor ni Barlow.</p></body></html>"
+"actiu. La relació focal efectiva està mesurada a partir de l'astrometria.</"
+"p></body></html>"
 
 # R=Reducer -> R=Reductor
 #. i18n: ectx: property (text), widget (QLabel, label)
