@@ -230,6 +230,8 @@
         dialog to view and potentially change the optical trains.</para>
       </listitem>
     </itemizedlist>
+
+    <para> Focus parameters are saved per Optical Train automatically.</para>
   </sect3>
 
   <sect3 id="focus-focuser-group">
@@ -287,14 +289,27 @@
     <guibutton>Initial Step Size</guibutton> field in the
     <link linkend="focus-mechanics">Mechanics</link> tab.</para>
 
-    <para> The Steps fields will initially contain the starting point in ticks
-    for the focuser. As the focuser moves, the left field will update to
-    reflect the focuser's current position. The right field will initially
-    contain the starting position of the focuser but will update each time a
-    successful Autofocus run completes, to keep a last good focus position. In
-    addition you can set the right field to whatever value you like, and use
-    the <guibutton>Goto</guibutton> button to move the focuser to this
-    position.</para>
+    <para> The Steps fields has 2 parts:</para>
+    <itemizedlist>
+      <listitem>
+        <para> <emphasis role="bold">Left Hand Steps</emphasis>: Current focuser position. This is
+        output only and is updated as the focuser moves to reflect the current position.</para>
+      </listitem>
+
+      <listitem>
+        <para> <emphasis role="bold">Right Hand Steps</emphasis>: This is input and allows the user
+        to enter a desired position. When the <guibutton>Goto</guibutton> button is pressed, the
+        focuser is moved from its current position to the position indicated in this field. </para>
+      </listitem>
+    </itemizedlist>
+
+    <para> On startup, the Left Hand Steps will show the current focuser position. The Right Hand Steps
+    field is defaulted from the Optical Train saved settings. This is useful, for example, if
+    you have several Optical Trains that use the same focuser but solve at different positions. In
+    this case, the Right Hand Steps will contain the last persisted value for this field for
+    the selected Optical Train. So, after swapping equipment and selecting the Optical Train, if the
+    user presses the <guibutton>Goto</guibutton> button then the focuser will be moved to a
+    good place to start focusing from.</para>
 
     <para> The <guibutton>Goto Focus Position</guibutton> button moves the
     focuser to the position in the righthand Steps field. </para>
@@ -1539,7 +1554,7 @@
           </screeninfo>
           <mediaobject>
               <imageobject>
-                  <imagedata fileref="build_filter_offsets.png" format="PNG" width="25%"/>
+                  <imagedata fileref="build_filter_offsets.png" format="PNG" width="33%"/>
               </imageobject>
               <textobject>
                   <phrase>Build Filter Offsets</phrase>
@@ -1558,12 +1573,14 @@
       </para>
       <para>
           To start with, configure settings for each filter in the table in the Filter Settings popup and then launch
-          Build Filter Offsets. The popup is launched with a table of filters.
+          Build Filter Offsets. The popup is launched with a table of data with the following columns.
       </para>
       <itemizedlist>
           <listitem>
               <para>
-                  <guilabel>Filter</guilabel>: Filter Name.
+                  <guilabel>Filter</guilabel>: Filter Name. The first filter has an "*" after the filter name, "Lum *" in the above example.
+                  This means that Lum is the reference filter against which offsets for other filters will be measured. Double click another
+                  Filter Name to make that filter the reference filter.
               </para>
           </listitem>
           <listitem>
@@ -1579,7 +1596,7 @@
           <listitem>
               <para>
                   <guilabel># Focus Runs</guilabel>: The number of focus runs for this filter. The default is 5.
-                  To exclude a filter from the process set this field to zero.
+                  To exclude a filter from the process set this field to zero. Note, the reference filter must have at least 1 run.
               </para>
           </listitem>
       </itemizedlist>
@@ -1591,8 +1608,13 @@
           Press the <guilabel>Stop</guilabel> button to stop the process at any time.
       </para>
       <para>
-          Let's take an example where we have 4 filters: Lum, Sii, Ha and Oiii. We have run the process with
-          5 runs for Lum, Sii and Ha and 0 for Oiii (effectively excluding this filter from the process). In this
+          Toggle the <guilabel>Adapt Focus</guilabel> checkbox at any point in the processing to switch between measured Autofocus results
+          and results after Adaptive Focus adjustments have been applied. See the <link linkend="focus-adaptive">Adaptive Focus</link> section
+          for more details on what Adaptive Focus is.
+      </para>
+      <para>
+          Let's take an example where we have 7 filters: Lum, Red, Green, Blue, Sii, Ha and Oiii. The 8th slot in the filter wheel is marked
+          as Blank. The process has completed 5 runs for all filters, 0 for Blank (effectively excluding Blank from the process). In this
           case 8 extra columns have been created in the table.
       </para>
       <screenshot>
@@ -1635,17 +1657,18 @@
       </itemizedlist>
       <para>
           At this stage, it is recommended to review the AF runs to make sure they are all good. For example, lets
-          assume we are unhappy with the 5th AF run on Ha. In this case we could either:</para>
+          assume we are unhappy with the 2nd AF run on Oiii. In this case we could either:</para>
           <itemizedlist>
             <listitem>
-              <para> Edit AF Run 5 and set the value to whatever value you want.</para>
+              <para> Edit AF Run 2 and set the value to whatever value we want.</para>
             </listitem>
             <listitem>
-              <para> Edit the New Offset column and set the value.</para>
+              <para> Edit the New Offset column and set the value directly (bypassing the logic to calculate it).</para>
             </listitem>
             <listitem>
-              <para> Discard the AF Run 5 by setting the value to 0 (see below). In this case, the Average and New Offset
-              for Ha is recalculated based on AF Run 1-4.</para>
+              <para> Discard the AF Run 2 by setting the value to 0 (see below). In this case, the Average and New Offset
+              for Oiii is recalculated based on AF Runs 1, 3, 4, 5. In the example below the new Average and New Offsets are
+              calculated and displayed.</para>
             </listitem>
           </itemizedlist>
       <screenshot>
@@ -1677,7 +1700,66 @@
               </para>
           </listitem>
       </itemizedlist>
-  </sect3>
+      <para>
+          If the <guilabel>Adapt Focus</guilabel> box is checked, the AF Runs are updated for Adaptive Focus. See the
+          <link linkend="focus-adaptive">Adaptive Focus</link> section for more details on the theory of Adaptive Focus.The first AF run
+          (in this example AF Run 1 on Lum) is the basis for the Adaptations. So the temperature and altitude of AF Run 1 on Lum is used as
+          the basis for all the other AF Runs and the data is adapted back to what the AF solution would have been, had it been run at the
+          temperature and altitude of AF Run 1 on Lum.
+      </para>
+      <para>
+          In this example, Adaptive Focus is setup for Altitude adjustments on the Red filter only in Filter Settings. So the
+          Adapted AF Run values are the same as the unadapted values for all the other filters.
+      </para>
+
+      <screenshot>
+        <screeninfo>
+            Build Filter Offsets
+        </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="build_filter_offsets4.png" format="PNG" width="50%"/>
+            </imageobject>
+            <textobject>
+                <phrase>Build Filter Offsets</phrase>
+            </textobject>
+        </mediaobject>
+      </screenshot>
+      <para>
+          If you hover the mouse over an AF Run it will show a tooltip Adaptive Focus Explainer. In the example, the mouse if hovering over
+          AF Run 1 on Red. The 1st row of the Explainer shows the measured Autofocus result for that run (36683), adaptations for Temperature (0.0C) and Altitude (0.2 degrees Alt).
+          The 2nd row of the Explainer shows the Adaptations: 206 total, 0 temperature, 205.9 altitude. The 3rd row shows the Adapted Position
+          of 36889.
+      </para>
+      <para>
+          The user can toggle between Adapt Focus or raw values. Whichever values are displayed in the grid will be the values that are saved.
+      </para>
+      <para>
+          Here are some tips for using this utility:
+          <itemizedlist>
+            <listitem><para> Start by making sure the area of the sky you are running Build Filter Offsets on works well for Autofocus. Aiming
+            high in the sky will result in shooting through less atmosphere with smaller, tighter stars. Make sure there are enough stars in the
+            frame. Avoid Meridian Flips during the process. Track the same area during the process so each run is using more or less the
+            same set of stars. Although the facility to use Adapt Focus is available to adjust for environmental changes such as temperature
+            and altitude try to minimise these changes over the course of running the utility by selecting an appropriate area
+            of the sky.</para></listitem>
+
+            <listitem><para> Make sure your equipment is in thermal equilibrium before starting. Calculate roughly how long the utility will
+            take which is the total number of AF runs * time for a single AF run. Try to make sure that the conditions will remain as
+            consistent as possible during this time, e.g. there is enough time before dawn, the moon won't affect focusing of some images
+            more than others, the target won't drop below your horizon during the process, etc.</para></listitem>
+
+            <listitem><para> Connfigure the utility for # Focus Runs (5 is a good start), reference filter (e.g. Lum) and Adapt Focus
+            setting. Run the utility to completion.</para></listitem>
+
+            <listitem><para> Review the results. For each filter review each AF run looking for outliers. For each outlier decide what to
+            do, e.g. remove from processing by setting to 0. If there are filters for which you are unhappy with the results, uncheck the
+            Save checkbox for those filters.</para></listitem>
+
+            <listitem><para> When happy, press Save to save the filter offsets to Filter Settings for future use.</para></listitem>
+            </itemizedlist>
+      </para>
+</sect3>
 
   <sect3 id="focus-display">
     <title>Focus Display</title>
@@ -2006,8 +2088,8 @@
     change) triggers an Autofocus run.</para>
 
     <para> The idea of AF is to adjust focus as environmental factors change to try to take each subframe
-    as close as possible to optimum focus. The effect is like performing an Autofocus run before but without the
-    overhead of doing the run.</para>
+    as close as possible to optimum focus. Ideally, the effect of Adaptive Focus is like performing an Autofocus run before
+    each subframe but without the overhead of actually doing the run.</para>
 
     <para> AF works as a complement to the various triggers for Autofocus that are available in Ekos now. So
     it is not necessary to change the Autofocus triggers when starting to use AF. Indeed, at the start, given
@@ -2107,6 +2189,8 @@
     the number of ticks to move the focuser. In this example, the focuser was moved inward by 9 ticks on 2 separate occasions,
     starting at 36580, before moving to 36571 and then to 36562 as shown on the Focus Tab in the Current Position widget and in
     the message box.</para>
+
+    <para> The Adaptive Focus concept has been build into the <link linkend="build-filter-offsets">Build Offsets</link> tool.</para>
   </sect3>
 
 
