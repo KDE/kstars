@@ -1749,7 +1749,7 @@
             consistent as possible during this time, e.g. there is enough time before dawn, the moon won't affect focusing of some images
             more than others, the target won't drop below your horizon during the process, etc.</para></listitem>
 
-            <listitem><para> Connfigure the utility for # Focus Runs (5 is a good start), reference filter (e.g. Lum) and Adapt Focus
+            <listitem><para> Configure the utility for # Focus Runs (5 is a good start), reference filter (e.g. Lum) and Adapt Focus
             setting. Run the utility to completion.</para></listitem>
 
             <listitem><para> Review the results. For each filter review each AF run looking for outliers. For each outlier decide what to
