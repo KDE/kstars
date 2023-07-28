@@ -1702,7 +1702,7 @@
       </itemizedlist>
       <para>
           If the <guilabel>Adapt Focus</guilabel> box is checked, the AF Runs are updated for Adaptive Focus. See the
-          <link linkend="focus-adaptive">Adaptive Focus</link> section for more details on the theory of Adaptive Focus.The first AF run
+          <link linkend="focus-adaptive">Adaptive Focus</link> section for more details on the theory of Adaptive Focus. The first AF run
           (in this example AF Run 1 on Lum) is the basis for the Adaptations. So the temperature and altitude of AF Run 1 on Lum is used as
           the basis for all the other AF Runs and the data is adapted back to what the AF solution would have been, had it been run at the
           temperature and altitude of AF Run 1 on Lum.
@@ -1726,7 +1726,7 @@
         </mediaobject>
       </screenshot>
       <para>
-          If you hover the mouse over an AF Run it will show a tooltip Adaptive Focus Explainer. In the example, the mouse if hovering over
+          If you hover the mouse over an AF Run it will show a tooltip Adaptive Focus Explainer. In the example, the mouse is hovering over
           AF Run 1 on Red. The 1st row of the Explainer shows the measured Autofocus result for that run (36683), adaptations for Temperature (0.0C) and Altitude (0.2 degrees Alt).
           The 2nd row of the Explainer shows the Adaptations: 206 total, 0 temperature, 205.9 altitude. The 3rd row shows the Adapted Position
           of 36889.
@@ -2190,7 +2190,7 @@
     starting at 36580, before moving to 36571 and then to 36562 as shown on the Focus Tab in the Current Position widget and in
     the message box.</para>
 
-    <para> The Adaptive Focus concept has been build into the <link linkend="build-filter-offsets">Build Offsets</link> tool.</para>
+    <para> The Adaptive Focus concept has been built into the <link linkend="build-filter-offsets">Build Offsets</link> tool.</para>
   </sect3>
 
 
