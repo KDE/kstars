@@ -1069,14 +1069,15 @@ IPState CaptureProcess::updateCompletedCaptureCountersAction()
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
     m_State->addCapturedFrame(activeJob()->getSignature());
 
+    // report that the image has been received
+    emit newLog(i18n("Received image %1 out of %2.", activeJob()->getCompleted(),
+                     activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+
     return IPS_OK;
 }
 
 IPState CaptureProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageData)
 {
-    emit newLog(i18n("Received image %1 out of %2.", activeJob()->getCompleted(),
-                     activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
-
     double hfr = -1, eccentricity = -1;
     int numStars = -1, median = -1;
     QString filename;
