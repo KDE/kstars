@@ -14,6 +14,10 @@
 #include "ksnotification.h"
 #include <ekos_capture_debug.h>
 
+#ifdef HAVE_STELLARSOLVER
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#endif
+
 namespace Ekos
 {
 CaptureProcess::CaptureProcess(QSharedPointer<CaptureModuleState> newModuleState,
@@ -1082,6 +1086,14 @@ IPState CaptureProcess::updateImageMetadataAction(QSharedPointer<FITSData> image
         if (Options::autoHFR() && imageData && !imageData->areStarsSearched() && imageData->getRecordValue("FRAME", frameType)
                 && frameType.toString() == "Light")
         {
+#ifdef HAVE_STELLARSOLVER
+            // Don't use the StellarSolver defaults (which allow very small stars).
+            // Use the HFR profile--which the user can modify.
+            QVariantMap extractionSettings;
+            extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
+            extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
+            imageData->setSourceExtractorSettings(extractionSettings);
+#endif
             QFuture<bool> result = imageData->findStars(ALGORITHM_SEP);
             result.waitForFinished();
         }
