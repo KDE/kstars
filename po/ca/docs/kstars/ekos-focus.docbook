@@ -205,6 +205,9 @@
 >: Obre el diàleg del tren òptic per a veure i canviar potencialment els trens òptics.</para>
       </listitem>
     </itemizedlist>
+
+    <para
+>Els paràmetres d'enfocament es desen automàticament per cada tren òptic.</para>
   </sect3>
 
   <sect3 id="focus-focuser-group">
@@ -284,9 +287,29 @@
 >.</para>
 
     <para
->Els camps Passos inicialment contindran el punt de partida en marques per a l'enfocador. A mesura que l'enfocador es mou, el camp esquerre s'actualitzarà per reflectir la posició actual de l'enfocador. El camp dret inicialment contindrà la posició d'inici de l'enfocador, però s'actualitzarà cada vegada que es completi una execució d'enfocament automàtic reeixida, per mantenir una última posició d'enfocament correcta. A més, podeu establir el camp dret a qualsevol valor que vulgueu, i utilitzeu el botó <guibutton
+>Els camps Passos tenen 2 parts:</para>
+    <itemizedlist>
+      <listitem>
+        <para
+><emphasis role="bold"
+>Passos de mà esquerra</emphasis
+>: Posició actual de l'enfocador. Aquest només és de sortida i s'actualitza a mesura que l'enfocador es mou per a reflectir la posició actual.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Passos de mà dreta</emphasis
+>: Aquest és d'entrada i permet a l'usuari introduir una posició desitjada. Quan es prem el botó <guibutton
 >Ves a</guibutton
-> per a moure l'enfocador a aquesta posició.</para>
+>, l'enfocador es mou des de la seva posició actual a la posició indicada en aquest camp. </para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>En iniciar, els passos de la mà esquerra mostraran la posició actual de l'enfocador. El camp passos de la mà dreta està predeterminat a partir de la configuració desada del tren òptic. Això és útil, per exemple, si teniu diversos trens òptics que utilitzen el mateix enfocador però resolen en posicions diferents. En aquest cas, els passos de la mà dreta contindran l'últim valor persistent per a aquest camp per al tren òptic seleccionat. Per tant, després d'intercanviar l'equip i seleccionar el tren òptic, si l'usuari prem el botó <guibutton
+>Ves a</guibutton
+> llavors l'enfocador es mourà a un bon lloc per començar a enfocar.</para>
 
     <para
 >El botó <guibutton
@@ -1829,7 +1852,7 @@
 >Construcció de desplaçaments de filtres </screeninfo>
           <mediaobject>
               <imageobject>
-                  <imagedata fileref="build_filter_offsets.png" format="PNG" width="25%"/>
+                  <imagedata fileref="build_filter_offsets.png" format="PNG" width="33%"/>
               </imageobject>
               <textobject>
                   <phrase
@@ -1849,13 +1872,13 @@
 >Nota: Aquesta utilitat no s'ha d'executar durant una sessió de processament d'imatges, ja que pren el control exclusiu del procés de focus mentre s'està executant.</emphasis>
       </para>
       <para
->Per començar, configureu els paràmetres de cada filtre de la taula a la finestra emergent Configuració del filtre i després inicieu Construcció de desplaçaments de filtres. La finestra emergent es llança amb una taula de filtres. </para>
+>Per començar, configureu els paràmetres de cada filtre de la taula a la finestra emergent Configuració del filtre i després inicieu Construcció de desplaçaments de filtres. La finestra emergent es llança amb una taula de dades amb les columnes següents. </para>
       <itemizedlist>
           <listitem>
               <para
 ><guilabel
 >Filtre</guilabel
->: Nom del filtre. </para>
+>: Nom del filtre. El primer filtre té un «*» després del nom del filtre, «Lum *» a l'exemple anterior. Això vol dir que Lum és el filtre de referència amb el qual es mesuraran el desplaçament d'altres filtres. Feu doble clic a un altre nom del filtre per a fer que sigui el filtre de referència. </para>
           </listitem>
           <listitem>
               <para
@@ -1873,7 +1896,7 @@
               <para
 ><guilabel
 >Nom. d'execucions d'enfocament</guilabel
->: El nombre d'enfocaments que s'executen per a aquest filtre. El valor predeterminat és 5. Per a excloure un filtre del procés establiu aquest camp a zero. </para>
+>: El nombre d'enfocaments que s'executen per a aquest filtre. El valor predeterminat és 5. Per a excloure un filtre del procés establiu aquest camp a zero. Tingueu en compte que el filtre de referència ha de tenir almenys 1 execució. </para>
           </listitem>
       </itemizedlist>
       <para
@@ -1887,7 +1910,13 @@
 >Atura</guilabel
 > per aturar el procés en qualsevol moment. </para>
       <para
->Posem un exemple on tenim 4 filtres: Lum, Sii, Ha i Oiii. Hem executat el procés amb 5 execucions per Lum, Sii i Ha i 0 per Oiii (excloent aquest filtre del procés). En aquest cas s'han creat 8 columnes addicionals a la taula. </para>
+>Alterna la casella de selecció <guilabel
+>Adapta el focus</guilabel
+> en qualsevol punt del procés per canviar entre els resultats mesurats de l'enfocament automàtic i els resultats després d'aplicar els ajustos de l'enfocament adaptatiu. Vegeu la secció <link linkend="focus-adaptive"
+>Enfocament adaptatiu</link
+> per a més detalls sobre què és l'enfocament adaptatiu. </para>
+      <para
+>Posem un exemple on tenim 7 filtres: Lum, Vermell, Verd, Blau, Sii, Ha i Oiii. El 8è sòcol a la roda de filtres està marcat com a Blanc. El procés ha completat 5 execucions per a tots els filtres, 0 pel blanc (excloent efectivament el blanc del procés). En aquest cas s'han creat 8 columnes addicionals a la taula. </para>
       <screenshot>
           <screeninfo
 >Construcció de desplaçaments de filtres </screeninfo>
@@ -1924,19 +1953,19 @@
           </listitem>
       </itemizedlist>
       <para
->En aquesta etapa es recomana revisar les execucions d'EA per assegurar-se que totes són bones. Per exemple, suposem que estem descontents amb la 5a execució de l'EA a Ha. En aquest cas podríem:</para>
+>En aquesta etapa es recomana revisar les execucions d'EA per assegurar-se que totes són bones. Per exemple, suposem que estem descontents amb la 2a execució de l'EA a Oiii. En aquest cas podríem:</para>
           <itemizedlist>
             <listitem>
               <para
->Editeu l'execució d'EA 5 i establiu el valor al valor que vulgueu.</para>
+>Editeu l'execució d'EA 2 i establiu el valor al valor que vulgueu.</para>
             </listitem>
             <listitem>
               <para
->Editeu la columna Desplaçament nou i establiu el valor.</para>
+>Editeu la columna Desplaçament nou i establiu directament el valor (obviant la lògica de calcular-lo).</para>
             </listitem>
             <listitem>
               <para
->Descarteu l'execució d'EA 5 establint el valor a 0 (vegeu a sota). En aquest cas, la mitjana i el desplaçament nou de l'Ha es recalcula basant-se en les execucions d'EA 1-4.</para>
+>Descarteu l'execució d'EA 2 establint el valor a 0 (vegeu a sota). En aquest cas, la mitjana i el desplaçament nou de l'Oiii es recalcula basant-se en les execucions d'EA 1, 3, 4, 5. A l'exemple de sota es calculen i es mostren la mitjana nova i els desplaçaments nous.</para>
             </listitem>
           </itemizedlist>
       <screenshot>
@@ -1966,7 +1995,61 @@
 >Tanca: L'eina Construcció de desplaçaments de filtres es tanca sense desar cap dada. </para>
           </listitem>
       </itemizedlist>
-  </sect3>
+      <para
+>Si està marcada la casella <guilabel
+>Enfocament adaptatiu</guilabel
+>, les execucions de l'AF s'actualitzen per a l'enfocament adaptatiu. Vegeu la secció d'<link linkend="focus-adaptive"
+>enfocament adaptatiu</link
+> per a més detalls sobre la teoria de l'enfocament adaptatiu. La primera execució de l'AF (en aquest exemple execució d'EA 1 sobre Lum) és la base de les adaptacions. Per tant, la temperatura i l'altitud de l'execució d'EA 1 a Lum s'utilitza com a base per a totes les altres execucions d'EA i les dades s'adapten al que hauria estat la solució d'EA, si s'hagués executat a la temperatura i altitud de l'execució d'EA 1 a Lum. </para>
+      <para
+>En aquest exemple, l'enfocament adaptatiu està configurat per als ajustaments de l'altitud en el filtre vermell només a la configuració del filtre. Per tant, els valors d'execució d'EA adaptat són els mateixos que els valors no adaptats per a tots els altres filtres. </para>
+
+      <screenshot>
+        <screeninfo
+>Construcció de desplaçaments de filtres </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="build_filter_offsets4.png" format="PNG" width="50%"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Construcció de desplaçaments de filtres</phrase>
+            </textobject>
+        </mediaobject>
+      </screenshot>
+      <para
+>Si passeu el ratolí per sobre d'una execució d'EA, es mostrarà un consell d'eina de l'Explicador d'enfocament adaptatiu. En l'exemple, el ratolí es passa per sobre de l'execució d'EA 1 sobre el vermell. La 1a fila de l'Explicador mostra el resultat de l'enfocament automàtic mesurat d'aquesta execució (36683), les adaptacions de la temperatura (0,0 C) i l'altitud (0,2 graus Alt). La segona fila de l'Explicador mostra les adaptacions: 206 total, 0 temperatura, 205,9 altitud. La tercera fila mostra la posició adaptada de 36889. </para>
+      <para
+>L'usuari pot commutar entre focus adaptatiu o els valors en brut. Els valors que es mostren a la graella seran els que es desin. </para>
+      <para
+>Aquí hi ha alguns consells per a fer servir aquesta utilitat: <itemizedlist>
+            <listitem
+><para
+>Comenceu assegurant-vos que l'àrea del cel on esteu executant la construcció dels desplaçaments de filtre funciona bé per a l'enfocament automàtic. Si es mira alt en el cel, es dispararà a través de menys atmosfera amb estrelles més petites i més estretes. Assegureu-vos que hi ha prou estrelles al fotograma. Eviteu la inversió del meridià durant el procés. Seguiu la mateixa àrea durant el procés, de manera que cada execució utilitzi més o menys el mateix conjunt d'estrelles. Tot i que la facilitat per utilitzar l'enfocament adaptatiu està disponible per ajustar per canvis ambientals com la temperatura i l'altitud, intenteu minimitzar aquests canvis en el curs de la utilitat mitjançant la selecció d'una àrea apropiada del cel.</para
+></listitem>
+
+            <listitem
+><para
+>Assegureu-vos que el vostre equip estigui en equilibri tèrmic abans de començar. Calculeu aproximadament quant de temps trigarà la utilitat, el qual és el nombre total d'execucions d'EA * temps per a una única execució d'EA. Intenteu assegurar que les condicions es mantinguin tan coherents com sigui possible durant aquest temps, p. ex. hi ha prou temps abans de l'alba, la lluna no afecti el focus d'algunes imatges més que d'altres, l'objectiu no caurà per sota de l'horitzó durant el procés, etc.</para
+></listitem>
+
+            <listitem
+><para
+>Configure the utility for # Focus Runs (5 is a good start), reference filter (e.g. Lum) and Adapt Focus setting. Run the utility to completion.</para
+></listitem>
+
+            <listitem
+><para
+>Reviseu els resultats. Per a cada revisió de filtre, cada execució d'EA cercant valors atípics. Per a cada atípic decidiu què fer, p. ex. eliminar el processament establint-lo a 0. Si hi ha filtres pels quals no us satisfan els resultats, desmarqueu la casella de selecció Desa per a aquests filtres.</para
+></listitem>
+
+            <listitem
+><para
+>Quan estigueu satisfet, premeu Desa per a desar els desplaçaments dels filtres a la configuració del filtre per a un ús futur.</para
+></listitem>
+            </itemizedlist>
+      </para>
+</sect3>
 
   <sect3 id="focus-display">
     <title
@@ -2445,7 +2528,7 @@
 >L'Ekos admet el concepte d'enfocament adaptatiu (EA). Sense EA, un pla de processament d'imatges típic començaria amb una execució d'enfocament automàtic, després una seqüència de submarcs, després una execució d'enfocament automàtic, etc. Les execucions d'enfocament automàtic es desencadenarien per una sèrie de factors com l'hora, el canvi de filtre, el canvi de temperatura, etc. Bàsicament, quan una seqüència executa submarcs s'està allunyant lleugerament de l'enfocament òptim fins que un llindar (p. ex. canvi de temperatura) desencadena una execució d'enfocament automàtic.</para>
 
     <para
->La idea de l'EA és ajustar l'enfocament a mesura que canvien els factors ambientals per intentar aproximar cada submarc el més possible a l'enfocament òptim. L'efecte és com realitzar abans una execució d'enfocament automàtic, però sense la sobrecàrrega de fer l'execució.</para>
+>La idea de l'EA és ajustar l'enfocament a mesura que canvien els factors ambientals per intentar aproximar cada submarc el més possible a l'enfocament òptim. Idealment, l'efecte de l'enfocament adaptatiu és com realitzar una execució d'enfocament automàtic abans de cada submarc, però sense la sobrecàrrega de fer realment l'execució.</para>
 
     <para
 >L'EA funciona com a complement dels diversos activadors per a l'enfocament automàtic que ara estan disponibles a l'Ekos. Per tant, no és necessari canviar els activadors d'enfocament automàtic quan es comença a utilitzar l'EA. De fet, al principi, atès que l'EA és una característica experimental, no es recomana relaxar les condicions d'enfocament automàtic quan s'utilitza l'EA. No obstant això, amb el temps, a mesura que creix la confiança en l'EA, seria possible fer menys enfocament automàtic (i per tant, més processament d'imatges). Però de qualsevol manera, cada submarc hauria d'estar més enfocat quan s'utilitza l'EA, sempre que estigui configurat correctament. </para>
@@ -2545,6 +2628,11 @@
 >La captura de pantalla a la part superior d'aquesta secció mostra un exemple. <guilabel
 >Marques / °C</guilabel
 > s'estableix a 9. S'ha executat l'enfocament automàtic, i s'ha resolt a 36580 a 10C. Després s'ha executat una seqüència simple de 5 submarcs. La temperatura s'ha fixat primer a 9C i després a 8C. Després de completar cada submarc, l'Ekos ha realitzat una execució d'enfocament adaptatiu i on s'ha produït un canvi de temperatura s'ha calculat el nombre de marques per a moure l'enfocador. En aquest exemple, l'enfocador s'ha mogut cap endins 9 marques en 2 ocasions separades, començant pel 36580, abans de passar al 36571 i després al 36562 com es mostra a la pestanya enfocament en el giny Posició actual i al quadre de missatges.</para>
+
+    <para
+>El concepte d'enfocament adaptatiu s'ha incorporat a l'eina <link linkend="build-filter-offsets"
+>Construcció de desplaçaments</link
+>.</para>
   </sect3>
 
 

@@ -6379,10 +6379,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
 #: ekos/align/align.ui:524
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
-msgstr "<html><head/><body><p>Výběr portu zařízení</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
 #: ekos/align/align.ui:534
@@ -9019,10 +9018,9 @@ msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr ""
 
 #: ekos/align/polaralignmentassistant.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "<p>Capturing the second image...</p>"
-msgstr "Zachytávám obrázek..."
+msgstr ""
 
 #: ekos/align/polaralignmentassistant.cpp:1215
 #, kde-format
@@ -10431,10 +10429,9 @@ msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr ""
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to quit?"
+#, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
-msgstr "Opravdu si přejete skončit?"
+msgstr ""
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
 #, kde-format
@@ -10516,19 +10513,17 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:45
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Výběr portu zařízení</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:48
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "Adapt Focus"
-msgstr "Zaměření"
+msgstr ""
 
 #: ekos/auxiliary/darklibrary.cpp:83
 #, kde-format
@@ -26201,10 +26196,9 @@ msgid "Pixel Gridlines"
 msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1168
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "Překrytí"
+msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1272
 #, kde-format
@@ -26375,10 +26369,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "Posun X:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -69182,12 +69175,11 @@ msgstr "Dodavatel:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
 #: oal/equipmentwriter.ui:157
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid ""
 "Official telescope focal length in millimeters without any reducers or "
 "barlows"
-msgstr "Ohnisková vzdálenost dalekohledu v milimetrech."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
