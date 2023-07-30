@@ -988,6 +988,20 @@ void addDetailsRow(QTableWidget *table, const QString &col1, const QColor &color
     table->setRowCount(row + 1);
 
     QTableWidgetItem *item = new QTableWidgetItem();
+    if (col1 == "Filename")
+    {
+        // Special case filenames--they tend to be too long and get elided.
+        QFont ft = item->font();
+        ft.setPointSizeF(8.0);
+        item->setFont(ft);
+        item->setText(col2);
+        item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        item->setForeground(color2);
+        table->setItem(row, 0, item);
+        table->setSpan(row, 0, 1, 3);
+        return;
+    }
+
     item->setText(col1);
     item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     item->setForeground(color1);
