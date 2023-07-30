@@ -1820,7 +1820,7 @@ void Align::startSolving()
 
         if(type == SSolver::SOLVER_ONLINEASTROMETRY )
         {
-            QString filename = QDir::tempPath() + QString("/solver%1.jpg").arg(QUuid::createUuid().toString().remove(
+            QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
                                    QRegularExpression("[-{}]")));
             m_AlignView->saveImage(filename);
 
