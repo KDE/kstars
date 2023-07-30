@@ -59,6 +59,8 @@ class FITSData : public QObject
 
         // Name of FITS file
         Q_PROPERTY(QString filename READ filename)
+        // Extension
+        Q_PROPERTY(QString extension READ extension)
         // Size of file in bytes
         Q_PROPERTY(qint64 size READ size)
         // Width in pixels
@@ -515,6 +517,11 @@ class FITSData : public QObject
         {
             return m_isCompressed;
         }
+        // Extension
+        const QString &extension() const
+        {
+            return m_Extension;
+        }
 
         // Horizontal flip counter. We keep count to rotate WCS keywords on save
         int getFlipHCounter() const;
@@ -582,18 +589,18 @@ class FITSData : public QObject
          * @param Buffer pointer to image data. If buffer is emtpy, read from disk (m_Filename).
          * @return true if successfully loaded, false otherwise.
          */
-        bool privateLoad(const QByteArray &buffer, const QString &extension);
+        bool privateLoad(const QByteArray &buffer);
 
         // Load Qt-supported images.
-        bool loadCanonicalImage(const QByteArray &buffer, const QString &extension);
+        bool loadCanonicalImage(const QByteArray &buffer);
         // Load FITS images.
-        bool loadFITSImage(const QByteArray &buffer, const QString &extension, const bool isCompressed = false);
+        bool loadFITSImage(const QByteArray &buffer, const bool isCompressed = false);
         // Load XISF images.
         bool loadXISFImage(const QByteArray &buffer);
         // Save XISF images.
         bool saveXISFImage(const QString &newFilename);
         // Load RAW images.
-        bool loadRAWImage(const QByteArray &buffer, const QString &extension);
+        bool loadRAWImage(const QByteArray &buffer);
 
         void rotWCSFITS(int angle, int mirror);
         void calculateMinMax(bool refresh = false, bool roi = false);
@@ -679,7 +686,7 @@ class FITSData : public QObject
         uint8_t *m_PackBuffer {nullptr};
 
         /// Our very own file name
-        QString m_Filename, m_compressedFilename;
+        QString m_Filename, m_compressedFilename, m_Extension;
         /// FITS Mode (Normal, WCS, Guide, Focus..etc)
         FITSMode m_Mode;
         // FITS Observed UTC date time
