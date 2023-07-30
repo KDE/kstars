@@ -4663,6 +4663,7 @@ void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         m_Camera->disconnect(this);
         m_Camera = nullptr;
         m_captureDeviceAdaptor->setActiveCamera(nullptr);
+        m_captureDeviceAdaptor->setActiveChip(nullptr);
 
         QSharedPointer<ISD::GenericDevice> generic;
         if (INDIListener::findDevice(name, generic))

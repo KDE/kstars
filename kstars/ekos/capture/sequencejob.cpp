@@ -275,9 +275,13 @@ void SequenceJob::resetStatus(JOBStatus status)
 void SequenceJob::abort()
 {
     setStatus(JOB_ABORTED);
-    if (captureDeviceAdaptor.data()->getActiveChip()->canAbort())
-        captureDeviceAdaptor.data()->getActiveChip()->abortExposure();
-    captureDeviceAdaptor.data()->getActiveChip()->setBatchMode(false);
+    auto activeChip = captureDeviceAdaptor.data()->getActiveChip();
+    if (activeChip)
+    {
+        if (activeChip->canAbort())
+            activeChip->abortExposure();
+        activeChip->setBatchMode(false);
+    }
 }
 
 void SequenceJob::done()
@@ -407,33 +411,38 @@ void SequenceJob::startCapturing(bool autofocusReady, FITSMode mode)
 
 void SequenceJob::capture(FITSMode mode)
 {
-    captureDeviceAdaptor.data()->getActiveChip()->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
-    captureDeviceAdaptor.data()->getActiveCamera()->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
-    captureDeviceAdaptor.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
+    auto activeCamera = captureDeviceAdaptor.data()->getActiveCamera();
+    auto activeChip = captureDeviceAdaptor.data()->getActiveChip();
+    if (!activeCamera || !activeChip)
+        return;
+
+    activeChip->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
+    activeCamera->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
+    activeCamera->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
 
     if (getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
-        if (captureDeviceAdaptor.data()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
-            captureDeviceAdaptor.data()->getActiveCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
+        if (activeCamera->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+            activeCamera->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
     }
     else
-        captureDeviceAdaptor.data()->getActiveCamera()->setUploadMode(m_UploadMode);
+        activeCamera->setUploadMode(m_UploadMode);
 
     QMapIterator<QString, QMap<QString, QVariant>> i(m_CustomProperties);
     while (i.hasNext())
     {
         i.next();
-        INDI::Property *customProp = captureDeviceAdaptor.data()->getActiveCamera()->getProperty(i.key());
+        auto customProp = activeCamera->getProperty(i.key());
         if (customProp)
         {
             QMap<QString, QVariant> elements = i.value();
             QMapIterator<QString, QVariant> j(elements);
 
-            switch (customProp->getType())
+            switch (customProp.getType())
             {
                 case INDI_SWITCH:
                 {
-                    auto sp = customProp->getSwitch();
+                    auto sp = customProp.getSwitch();
                     while (j.hasNext())
                     {
                         j.next();
@@ -441,12 +450,12 @@ void SequenceJob::capture(FITSMode mode)
                         if (oneSwitch)
                             oneSwitch->setState(static_cast<ISState>(j.value().toInt()));
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewProperty(sp);
+                    activeCamera->sendNewProperty(sp);
                 }
                 break;
                 case INDI_TEXT:
                 {
-                    auto tp = customProp->getText();
+                    auto tp = customProp.getText();
                     while (j.hasNext())
                     {
                         j.next();
@@ -454,12 +463,12 @@ void SequenceJob::capture(FITSMode mode)
                         if (oneText)
                             oneText->setText(j.value().toString().toLatin1().constData());
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewProperty(tp);
+                    activeCamera->sendNewProperty(tp);
                 }
                 break;
                 case INDI_NUMBER:
                 {
-                    auto np = customProp->getNumber();
+                    auto np = customProp.getNumber();
                     while (j.hasNext())
                     {
                         j.next();
@@ -467,7 +476,7 @@ void SequenceJob::capture(FITSMode mode)
                         if (oneNumber)
                             oneNumber->setValue(j.value().toDouble());
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewProperty(np);
+                    activeCamera->sendNewProperty(np);
                 }
                 break;
                 default:
@@ -477,44 +486,42 @@ void SequenceJob::capture(FITSMode mode)
     }
 
     const auto remoteDirectory = getCoreProperty(SJ_RemoteDirectory).toString();
-    if (captureDeviceAdaptor.data()->getActiveChip()->isBatchMode() && remoteDirectory.isEmpty() == false)
+    if (activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
     {
-        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(
-                    SJ_DirectoryPostfix).toString());
+        activeCamera->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
     }
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
     if (ISOIndex != -1)
     {
-        if (ISOIndex != captureDeviceAdaptor.data()->getActiveChip()->getISOIndex())
-            captureDeviceAdaptor.data()->getActiveChip()->setISOIndex(ISOIndex);
+        if (ISOIndex != activeChip->getISOIndex())
+            activeChip->setISOIndex(ISOIndex);
     }
 
     const auto gain = getCoreProperty(SJ_Gain).toDouble();
     if (gain >= 0)
     {
-        captureDeviceAdaptor.data()->getActiveCamera()->setGain(gain);
+        activeCamera->setGain(gain);
     }
 
     const auto offset = getCoreProperty(SJ_Offset).toDouble();
     if (offset >= 0)
     {
-        captureDeviceAdaptor.data()->getActiveCamera()->setOffset(offset);
+        activeCamera->setOffset(offset);
     }
 
     // Only attempt to set ROI and Binning if CCD transfer format is FITS or XISF
-    if (captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("FITS")
-            || captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("XISF"))
+    if (activeCamera->getEncodingFormat() == QLatin1String("FITS")
+            || activeCamera->getEncodingFormat() == QLatin1String("XISF"))
     {
         int currentBinX = 1, currentBinY = 1;
-        captureDeviceAdaptor.data()->getActiveChip()->getBinning(&currentBinX, &currentBinY);
+        activeChip->getBinning(&currentBinX, &currentBinY);
 
         const auto binning = getCoreProperty(SJ_Binning).toPoint();
         // N.B. Always set binning _before_ setting frame because if the subframed image
         // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
         // So setting binning first always ensures this will work.
-        if (captureDeviceAdaptor.data()->getActiveChip()->canBin()
-                && captureDeviceAdaptor.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
+        if (activeChip->canBin() && activeChip->setBinning(binning.x(), binning.y()) == false)
         {
             setStatus(JOB_ERROR);
             emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
@@ -522,35 +529,35 @@ void SequenceJob::capture(FITSMode mode)
 
         const auto roi = getCoreProperty(SJ_ROI).toRect();
 
-        if ((roi.width() > 0 && roi.height() > 0) && captureDeviceAdaptor.data()->getActiveChip()->canSubframe()
-                && captureDeviceAdaptor.data()->getActiveChip()->setFrame(roi.x(),
-                        roi.y(),
-                        roi.width(),
-                        roi.height(),
-                        currentBinX != binning.x()) == false)
+        if ((roi.width() > 0 && roi.height() > 0) && activeChip->canSubframe()
+                && activeChip->setFrame(roi.x(),
+                                        roi.y(),
+                                        roi.width(),
+                                        roi.height(),
+                                        currentBinX != binning.x()) == false)
         {
             setStatus(JOB_ERROR);
             emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
         }
     }
 
-    captureDeviceAdaptor.data()->getActiveCamera()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
-    captureDeviceAdaptor.data()->getActiveCamera()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
-    captureDeviceAdaptor.data()->getActiveChip()->setFrameType(getFrameType());
+    activeCamera->setCaptureFormat(getCoreProperty(SJ_Format).toString());
+    activeCamera->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
+    activeChip->setFrameType(getFrameType());
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
     // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already
     // saved to disk and since no extra processing is required, FITSData is not loaded up with the data.
     // But in case of automatically calculated flat frames, we need FITSData.
     // Therefore, we need to explicitly set mode to FITS_CALIBRATE so that FITSData is generated.
-    captureDeviceAdaptor.data()->getActiveChip()->setCaptureMode(mode);
-    captureDeviceAdaptor.data()->getActiveChip()->setCaptureFilter(FITS_NONE);
+    activeChip->setCaptureMode(mode);
+    activeChip->setCaptureFilter(FITS_NONE);
 
     setStatus(getStatus());
 
     const auto exposure = getCoreProperty(SJ_Exposure).toDouble();
     m_ExposeLeft = exposure;
-    captureDeviceAdaptor.data()->getActiveChip()->capture(exposure);
+    activeChip->capture(exposure);
 
     emit captureStarted(CaptureModuleState::CAPTURE_OK);
 }
