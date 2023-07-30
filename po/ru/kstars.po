@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-27 00:42+0000\n"
+"POT-Creation-Date: 2023-07-30 00:41+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -6071,7 +6071,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Ошибка: потеряно соединение с колесом фильтров."
 
 #: ekos/align/align.cpp:1455 ekos/capture/capture.cpp:4037
-#: ekos/capture/captureprocess.cpp:216 ekos/focus/focus.cpp:4829
+#: ekos/capture/captureprocess.cpp:220 ekos/focus/focus.cpp:4829
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6376,7 +6376,7 @@ msgid "Capture error. Aborting..."
 msgstr "Захват прерван."
 
 #: ekos/align/align.cpp:3160 ekos/capture/capture.cpp:2028
-#: ekos/capture/captureprocess.cpp:1260
+#: ekos/capture/captureprocess.cpp:1273
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -14727,7 +14727,7 @@ msgstr "Не удалось установить область кадра."
 msgid "Failed to set binning."
 msgstr "Не удалось установить биннинг."
 
-#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1252
+#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1265
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error syncing telescope info. Check INDI control panel for more details."
@@ -14939,7 +14939,7 @@ msgstr "Истекло время гидирования."
 msgid "Wall coordinates are invalid."
 msgstr "Видимые координаты:"
 
-#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:217
+#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:221
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
@@ -16217,71 +16217,71 @@ msgstr "Удалить"
 msgid "Target: "
 msgstr "Сарджент"
 
-#: ekos/capture/captureprocess.cpp:80
+#: ekos/capture/captureprocess.cpp:84
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:81
+#: ekos/capture/captureprocess.cpp:85
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "Панель просмотра"
 
-#: ekos/capture/captureprocess.cpp:165
+#: ekos/capture/captureprocess.cpp:169
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:178
+#: ekos/capture/captureprocess.cpp:182
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:375
+#: ekos/capture/captureprocess.cpp:379
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Autoguiding resumed."
 msgstr "Гидирование возобновлено."
 
-#: ekos/capture/captureprocess.cpp:628
+#: ekos/capture/captureprocess.cpp:632
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Файл данных сохранён в %1"
 
-#: ekos/capture/captureprocess.cpp:727
+#: ekos/capture/captureprocess.cpp:731
 #, fuzzy, kde-format
 #| msgid "Guiding suspended."
 msgid "Autoguiding suspended."
 msgstr "Гидирование приостановлено."
 
-#: ekos/capture/captureprocess.cpp:756
+#: ekos/capture/captureprocess.cpp:760
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:821
+#: ekos/capture/captureprocess.cpp:825
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "CCD capture sequence completed"
 msgstr "Параметры сверхновых"
 
-#: ekos/capture/captureprocess.cpp:878
+#: ekos/capture/captureprocess.cpp:882
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Ошибка: потеряно соединение с ПЗС."
 
-#: ekos/capture/captureprocess.cpp:907
+#: ekos/capture/captureprocess.cpp:911
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1020
+#: ekos/capture/captureprocess.cpp:1024
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
@@ -16291,94 +16291,94 @@ msgstr ""
 msgid "Received image %1 out of %2."
 msgstr "Получено изображение %1 из %2."
 
-#: ekos/capture/captureprocess.cpp:1093
+#: ekos/capture/captureprocess.cpp:1106
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Захватить изображение"
 
-#: ekos/capture/captureprocess.cpp:1098
+#: ekos/capture/captureprocess.cpp:1111
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1130
+#: ekos/capture/captureprocess.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Выполняется сценарий: %1"
 
-#: ekos/capture/captureprocess.cpp:1145
+#: ekos/capture/captureprocess.cpp:1158
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1153
+#: ekos/capture/captureprocess.cpp:1166
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1165
+#: ekos/capture/captureprocess.cpp:1178
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Processing meridian flip..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/capture/captureprocess.cpp:1175
+#: ekos/capture/captureprocess.cpp:1188
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1180
+#: ekos/capture/captureprocess.cpp:1193
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1199 ekos/focus/focus.cpp:4871
+#: ekos/capture/captureprocess.cpp:1212 ekos/focus/focus.cpp:4871
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Выдержка камеры/ПЗС в секундах."
 
-#: ekos/capture/captureprocess.cpp:1222 ekos/focus/focus.cpp:4876
+#: ekos/capture/captureprocess.cpp:1235 ekos/focus/focus.cpp:4876
 #: ekos/guide/guide.cpp:892
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Автофокусировка не удалась. Прерывание экспозиции..."
 
-#: ekos/capture/captureprocess.cpp:1311
+#: ekos/capture/captureprocess.cpp:1324
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1322
+#: ekos/capture/captureprocess.cpp:1335
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1% Next exposure is %2 seconds."
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Текущее ADU составляет %1%. Следующая экспозиция %2 секунд."
 
-#: ekos/capture/captureprocess.cpp:1344
+#: ekos/capture/captureprocess.cpp:1357
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1377
+#: ekos/capture/captureprocess.cpp:1390
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1385
+#: ekos/capture/captureprocess.cpp:1398
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1% Next exposure is %2 seconds."
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Текущее ADU составляет %1%. Следующая экспозиция %2 секунд."
 
-#: ekos/capture/captureprocess.cpp:1536
+#: ekos/capture/captureprocess.cpp:1549
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Sequence paused."
@@ -78058,19 +78058,19 @@ msgstr "Загрузка звёзд"
 msgid "Please wait while re-indexing stars..."
 msgstr "Дождитесь переиндексации звёзд..."
 
-#: skycomponents/supernovaecomponent.cpp:273
+#: skycomponents/supernovaecomponent.cpp:271
 #, fuzzy, kde-format
 #| msgid "Supernovae"
 msgid "Supernovae Update"
 msgstr "Сверхновые"
 
-#: skycomponents/supernovaecomponent.cpp:274
+#: skycomponents/supernovaecomponent.cpp:272
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Downloading Supernovae updates..."
 msgstr "Загрузка с сервера..."
 
-#: skycomponents/supernovaecomponent.cpp:352
+#: skycomponents/supernovaecomponent.cpp:350
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error downloading supernova data: %1"

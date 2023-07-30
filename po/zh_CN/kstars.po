@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-27 00:42+0000\n"
+"POT-Creation-Date: 2023-07-30 00:41+0000\n"
 "PO-Revision-Date: 2023-07-23 12:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5761,7 +5761,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "错误：与滤镜轮的连接中断。"
 
 #: ekos/align/align.cpp:1455 ekos/capture/capture.cpp:4037
-#: ekos/capture/captureprocess.cpp:216 ekos/focus/focus.cpp:4829
+#: ekos/capture/captureprocess.cpp:220 ekos/focus/focus.cpp:4829
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6039,7 +6039,7 @@ msgid "Capture error. Aborting..."
 msgstr "拍摄失败。中止..."
 
 #: ekos/align/align.cpp:3160 ekos/capture/capture.cpp:2028
-#: ekos/capture/captureprocess.cpp:1260
+#: ekos/capture/captureprocess.cpp:1273
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "尝试重新启动拍摄 #%1"
@@ -13474,7 +13474,7 @@ msgstr "设置子帧失败。"
 msgid "Failed to set binning."
 msgstr "设置合并像素失败。"
 
-#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1252
+#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1265
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
@@ -13664,7 +13664,7 @@ msgstr "导星模块超时。"
 msgid "Wall coordinates are invalid."
 msgstr "墙坐标无效。"
 
-#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:217
+#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:221
 #, kde-format
 msgid "Image Transfer"
 msgstr "图像传输"
@@ -14722,67 +14722,67 @@ msgstr "删除"
 msgid "Target: "
 msgstr "目标: "
 
-#: ekos/capture/captureprocess.cpp:80
+#: ekos/capture/captureprocess.cpp:84
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr "无用于预览的视图。是否已启用 FITS 查看器？"
 
-#: ekos/capture/captureprocess.cpp:81
+#: ekos/capture/captureprocess.cpp:85
 #, kde-format
 msgid "Display preview"
 msgstr "显示预览"
 
-#: ekos/capture/captureprocess.cpp:165
+#: ekos/capture/captureprocess.cpp:169
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr "作业需要 %1秒的图像 %2 张，已经拍摄 %3/%4 ，无需运行。"
 
-#: ekos/capture/captureprocess.cpp:178
+#: ekos/capture/captureprocess.cpp:182
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr "作业需要 %1秒图像 %2 张，已经拍摄 %3/%4 帧并将被处理。"
 
-#: ekos/capture/captureprocess.cpp:375
+#: ekos/capture/captureprocess.cpp:379
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "自动导星恢复。"
 
-#: ekos/capture/captureprocess.cpp:628
+#: ekos/capture/captureprocess.cpp:632
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "远程图像保存到 %1"
 
-#: ekos/capture/captureprocess.cpp:727
+#: ekos/capture/captureprocess.cpp:731
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "暂停导星。"
 
-#: ekos/capture/captureprocess.cpp:756
+#: ekos/capture/captureprocess.cpp:760
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "警告： 校准过程被提前终止。"
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:821
+#: ekos/capture/captureprocess.cpp:825
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD 拍摄队列完毕"
 
-#: ekos/capture/captureprocess.cpp:878
+#: ekos/capture/captureprocess.cpp:882
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "错误：与 CCD 的连接中断。"
 
-#: ekos/capture/captureprocess.cpp:907
+#: ekos/capture/captureprocess.cpp:911
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "非 FITS 图像无法计算 ADU 强度。"
 
-#: ekos/capture/captureprocess.cpp:1020
+#: ekos/capture/captureprocess.cpp:1024
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "下载时间: %1 s, 新下载时间预估: %2 s."
@@ -14792,87 +14792,87 @@ msgstr "下载时间: %1 s, 新下载时间预估: %2 s."
 msgid "Received image %1 out of %2."
 msgstr "接收到图像 %2 张中的 %1 张。"
 
-#: ekos/capture/captureprocess.cpp:1093
+#: ekos/capture/captureprocess.cpp:1106
 #, kde-format
 msgid "Captured %1"
 msgstr "已拍摄 %1"
 
-#: ekos/capture/captureprocess.cpp:1098
+#: ekos/capture/captureprocess.cpp:1111
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "警告：遗留着可能在 %2 的未知占位符  %1 "
 
-#: ekos/capture/captureprocess.cpp:1130
+#: ekos/capture/captureprocess.cpp:1143
 #, kde-format
 msgid "Executing capture script %1"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1145
+#: ekos/capture/captureprocess.cpp:1158
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "预拍摄脚本以代码 %1 完成"
 
-#: ekos/capture/captureprocess.cpp:1153
+#: ekos/capture/captureprocess.cpp:1166
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "后拍摄脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1165
+#: ekos/capture/captureprocess.cpp:1178
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "正在中天翻转..."
 
-#: ekos/capture/captureprocess.cpp:1175
+#: ekos/capture/captureprocess.cpp:1188
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "预作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1180
+#: ekos/capture/captureprocess.cpp:1193
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "后作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1199 ekos/focus/focus.cpp:4871
+#: ekos/capture/captureprocess.cpp:1212 ekos/focus/focus.cpp:4871
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "曝光超时。终止..."
 
-#: ekos/capture/captureprocess.cpp:1222 ekos/focus/focus.cpp:4876
+#: ekos/capture/captureprocess.cpp:1235 ekos/focus/focus.cpp:4876
 #: ekos/guide/guide.cpp:892
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
 
-#: ekos/capture/captureprocess.cpp:1311
+#: ekos/capture/captureprocess.cpp:1324
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr "平场校准失败，需要的 ADU 是 %2 但捕获图像仅为 %1位。"
 
-#: ekos/capture/captureprocess.cpp:1322
+#: ekos/capture/captureprocess.cpp:1335
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "当前图像已饱和(%1)，下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:1344
+#: ekos/capture/captureprocess.cpp:1357
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "当前 ADU %1 在目标 ADU 容忍范围内。"
 
-#: ekos/capture/captureprocess.cpp:1377
+#: ekos/capture/captureprocess.cpp:1390
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
 
-#: ekos/capture/captureprocess.cpp:1385
+#: ekos/capture/captureprocess.cpp:1398
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:1536
+#: ekos/capture/captureprocess.cpp:1549
 #, kde-format
 msgid "Sequence paused."
 msgstr "序列已暂停。"
@@ -72928,17 +72928,17 @@ msgstr "正在加载恒星"
 msgid "Please wait while re-indexing stars..."
 msgstr "请等待，正在重新索引星体..."
 
-#: skycomponents/supernovaecomponent.cpp:273
+#: skycomponents/supernovaecomponent.cpp:271
 #, kde-format
 msgid "Supernovae Update"
 msgstr "超新星更新"
 
-#: skycomponents/supernovaecomponent.cpp:274
+#: skycomponents/supernovaecomponent.cpp:272
 #, kde-format
 msgid "Downloading Supernovae updates..."
 msgstr "正在下载超新星更新..."
 
-#: skycomponents/supernovaecomponent.cpp:352
+#: skycomponents/supernovaecomponent.cpp:350
 #, kde-format
 msgid "Error downloading supernova data: %1"
 msgstr "下载超新星数据时出错： %1"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-27 00:42+0000\n"
+"POT-Creation-Date: 2023-07-30 00:41+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -6009,7 +6009,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Erro: perdeuse a conexión á roda de filtros."
 
 #: ekos/align/align.cpp:1455 ekos/capture/capture.cpp:4037
-#: ekos/capture/captureprocess.cpp:216 ekos/focus/focus.cpp:4829
+#: ekos/capture/captureprocess.cpp:220 ekos/focus/focus.cpp:4829
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6330,7 +6330,7 @@ msgid "Capture error. Aborting..."
 msgstr "Erro de captura. Interrompendo…"
 
 #: ekos/align/align.cpp:3160 ekos/capture/capture.cpp:2028
-#: ekos/capture/captureprocess.cpp:1260
+#: ekos/capture/captureprocess.cpp:1273
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando o intento de captura número %1."
@@ -14473,7 +14473,7 @@ msgstr "Non se puido configurar o sub fotograma."
 msgid "Failed to set binning."
 msgstr "Non se puido configurar a eliminación de ruído (binning)."
 
-#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1252
+#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1265
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
@@ -14679,7 +14679,7 @@ msgstr "Esgotouse o tempo límite do módulo de guía."
 msgid "Wall coordinates are invalid."
 msgstr "As coordenadas da parede son incorrectas."
 
-#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:217
+#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:221
 #, kde-format
 msgid "Image Transfer"
 msgstr "Transferencia de imaxe"
@@ -15868,18 +15868,18 @@ msgstr "Eliminar"
 msgid "Target: "
 msgstr "Destino:"
 
-#: ekos/capture/captureprocess.cpp:80
+#: ekos/capture/captureprocess.cpp:84
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:81
+#: ekos/capture/captureprocess.cpp:85
 #, fuzzy, kde-format
 #| msgid "Print preview"
 msgid "Display preview"
 msgstr "Vista previa"
 
-#: ekos/capture/captureprocess.cpp:165
+#: ekos/capture/captureprocess.cpp:169
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -15888,7 +15888,7 @@ msgstr ""
 "O traballo require %2 imaxes de %1 segundos, xa ten %3/%4 capturas e non "
 "necesita executarse."
 
-#: ekos/capture/captureprocess.cpp:178
+#: ekos/capture/captureprocess.cpp:182
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -15897,43 +15897,43 @@ msgstr ""
 "O traballo require %2 imaxes de %1 segundos, ten %3/%4 fotogramas capturados "
 "e procesarase."
 
-#: ekos/capture/captureprocess.cpp:375
+#: ekos/capture/captureprocess.cpp:379
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Continuouse o guiado automático."
 
-#: ekos/capture/captureprocess.cpp:628
+#: ekos/capture/captureprocess.cpp:632
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "A imaxe remota gardouse en %1"
 
-#: ekos/capture/captureprocess.cpp:727
+#: ekos/capture/captureprocess.cpp:731
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Suspendeuse o guiado automático."
 
-#: ekos/capture/captureprocess.cpp:756
+#: ekos/capture/captureprocess.cpp:760
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Aviso: o proceso de calibración rematouse de maneira prematura."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:821
+#: ekos/capture/captureprocess.cpp:825
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "Completouse a secuencia de captura do CCD."
 
-#: ekos/capture/captureprocess.cpp:878
+#: ekos/capture/captureprocess.cpp:882
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Erro: Perdeuse a conexión ao dispositivo de carga acoplada (CCD)."
 
-#: ekos/capture/captureprocess.cpp:907
+#: ekos/capture/captureprocess.cpp:911
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Non se poden calcular os niveis de ADU en imaxes non FITS."
 
-#: ekos/capture/captureprocess.cpp:1020
+#: ekos/capture/captureprocess.cpp:1024
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
@@ -15943,63 +15943,63 @@ msgstr ""
 msgid "Received image %1 out of %2."
 msgstr "Recibiuse a imaxe %1 de %2."
 
-#: ekos/capture/captureprocess.cpp:1093
+#: ekos/capture/captureprocess.cpp:1106
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Capturar"
 
-#: ekos/capture/captureprocess.cpp:1098
+#: ekos/capture/captureprocess.cpp:1111
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1130
+#: ekos/capture/captureprocess.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Executing post capture script %1"
 msgid "Executing capture script %1"
 msgstr "Executando o script de post-captura %1"
 
-#: ekos/capture/captureprocess.cpp:1145
+#: ekos/capture/captureprocess.cpp:1158
 #, fuzzy, kde-format
 #| msgid "Post capture script finished with code %1."
 msgid "Pre capture script finished with code %1."
 msgstr "O script post-captura rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1153
+#: ekos/capture/captureprocess.cpp:1166
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "O guión post-captura rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1165
+#: ekos/capture/captureprocess.cpp:1178
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Procesando a volta do meridiano…"
 
-#: ekos/capture/captureprocess.cpp:1175
+#: ekos/capture/captureprocess.cpp:1188
 #, fuzzy, kde-format
 #| msgid "Post capture script finished with code %1."
 msgid "Pre job script finished with code %1."
 msgstr "O script post-captura rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1180
+#: ekos/capture/captureprocess.cpp:1193
 #, fuzzy, kde-format
 #| msgid "Post capture script finished with code %1."
 msgid "Post job script finished with code %1."
 msgstr "O script post-captura rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1199 ekos/focus/focus.cpp:4871
+#: ekos/capture/captureprocess.cpp:1212 ekos/focus/focus.cpp:4871
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Tempo límite de exposición. Interrompendo…"
 
-#: ekos/capture/captureprocess.cpp:1222 ekos/focus/focus.cpp:4876
+#: ekos/capture/captureprocess.cpp:1235 ekos/focus/focus.cpp:4876
 #: ekos/guide/guide.cpp:892
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "A exposición fallou. Reiniciándoa…"
 
-#: ekos/capture/captureprocess.cpp:1311
+#: ekos/capture/captureprocess.cpp:1324
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16008,20 +16008,20 @@ msgstr ""
 "A calibración plana fallou. A imaxe capturada é de só %1 bits, mentres que a "
 "ADU solicitada é de %2."
 
-#: ekos/capture/captureprocess.cpp:1322
+#: ekos/capture/captureprocess.cpp:1335
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "A imaxe actual está saturada (%1). A seguinte exposición dura %2 segundos."
 
-#: ekos/capture/captureprocess.cpp:1344
+#: ekos/capture/captureprocess.cpp:1357
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "A conversión de analóxico a dixital (ADU) é %1, que está dentro do intervalo "
 "de tolerancia de destino."
 
-#: ekos/capture/captureprocess.cpp:1377
+#: ekos/capture/captureprocess.cpp:1390
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16030,14 +16030,14 @@ msgstr ""
 "Non se pode calcular unha configuración de exposición óptima. Proceda "
 "manualmente."
 
-#: ekos/capture/captureprocess.cpp:1385
+#: ekos/capture/captureprocess.cpp:1398
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 "A conversión de analóxico a dixital (ADU) actual está ao %1. A seguinte "
 "exposición será en %2 segundos."
 
-#: ekos/capture/captureprocess.cpp:1536
+#: ekos/capture/captureprocess.cpp:1549
 #, kde-format
 msgid "Sequence paused."
 msgstr "Púxose en pausa a secuencia."
@@ -76999,17 +76999,17 @@ msgstr "Estanse a cargar as estrelas"
 msgid "Please wait while re-indexing stars..."
 msgstr "Indexando de novo as estrelas…"
 
-#: skycomponents/supernovaecomponent.cpp:273
+#: skycomponents/supernovaecomponent.cpp:271
 #, kde-format
 msgid "Supernovae Update"
 msgstr "Actualización de supernovas"
 
-#: skycomponents/supernovaecomponent.cpp:274
+#: skycomponents/supernovaecomponent.cpp:272
 #, kde-format
 msgid "Downloading Supernovae updates..."
 msgstr "Descargando as actualizacións de supernovas…"
 
-#: skycomponents/supernovaecomponent.cpp:352
+#: skycomponents/supernovaecomponent.cpp:350
 #, fuzzy, kde-format
 #| msgid "Error downloading asteroids data: %1"
 msgid "Error downloading supernova data: %1"
