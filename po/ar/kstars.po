@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:41+0000\n"
+"POT-Creation-Date: 2023-07-31 00:42+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -722,7 +722,7 @@ msgstr "خطا في قراءة ملف الاسترومتي الداخلي"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "خطا في كتابة ملف الاسترومتي الداخلي"
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:726
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:723
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1910,7 +1910,7 @@ msgstr "الحالة:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:2844 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -2504,7 +2504,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2746
+#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2746
 #: ekos/capture/capture.cpp:3186 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
@@ -5299,7 +5299,7 @@ msgstr "احسب HPBW"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newfov.ui:1017 dialogs/newfov.ui:1027 dialogs/newfov.ui:1034
-#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:285
+#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:291
 #, kde-format
 msgid "arcmin"
 msgstr "‎دقيقة قوسية‎"
@@ -5990,7 +5990,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "%1 على الخط"
 
-#: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1412
+#: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1411
 #: ekos/focus/focus.cpp:1493
 #, fuzzy, kde-format
 msgid "Capture aborted."
@@ -6612,7 +6612,7 @@ msgstr "EXP"
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/align/align.ui:716 ekos/align/opsalign.ui:257
+#: ekos/align/align.ui:716 ekos/align/opsalign.ui:263
 #: ekos/capture/rotatorsettings.ui:20
 #, fuzzy, kde-format
 msgid "Rotator Settings"
@@ -7269,13 +7269,53 @@ msgstr "ساراتوف"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Enable limited resource mode to turn off any "
+#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-weight:600;\">Auto Debayer</span>: Bayered images will not be "
+#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
+#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
+#| "span>: World Coordinate System data will not be processed. WCS maps sky "
+#| "coordinates to image coordinates. Equatorial grid lines, object "
+#| "identification, and telescope slew within an image are disabled.</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
+#| "grayscale images are shown.</li></ul></body></html>"
 msgid ""
-"Options for the method of Star Extraction.  Internal SEP uses an internal "
-"library in KStars, External Sextractor requires an external program, and "
-"Built In uses whatever default Star Extraction process your selected solving "
-"method uses."
+"<html><head/><body><p align=\"center\">Options for the method of Star "
+"Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Internal SEP uses an internal library in KStars.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">External Sextractor "
+"requires an external program.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Built In Method uses whatever default Star Extraction process "
+"your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
+"<html dir=rtl><head/><body><p>مكّن نمط الموارد المحدودة من إيقاف أي عملية "
+"تستهلك موارد النظام بشكل مكثف:</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">بناء الألوان التلقائي</span>: الصور ذات البناء اللوني الغير "
+"كامل لن يتم معالجتها. ستعرض فقط الصور ذات التدرج الرمادي.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">نظام "
+"الإحداثيات العالمي التلقائي</span>: بيانات نظام الإحداثيات العالمي لن تُعالج. "
+"نظام الإحداثيات العالمي (WCS) يطابق الإحداثيات السماوية على إحداثيات الصورة. "
+"شبكة الإحداثيات الاستوائية وتعريف الجرم وتدوير التلسكوب في الصورة لن يمكّن.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">مصفوفة البيانات الثلاثية</span>: الصور ذات الثلاث قنوات RGB لن "
+"تعالج. ستظهر فقط الصور ذات التدرج الرمادي.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -7300,14 +7340,17 @@ msgstr ""
 #: ekos/align/opsalign.ui:94
 #, kde-format
 msgid ""
-"Selects the method of plate solving with the StellarSolver Library.  The "
-"StellarSolver option uses StellarSolver's internal build of Astrometry.net "
-"and requires no external programs.  Local Astrometry uses a local "
-"installation of command line astrometry.net on Linux and Mac or ANSVR on "
-"Windows.  Local Watney uses a local installation of the Watney Astrometry "
-"Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-"program.  And Online uses either astrometry.net over the internet or ANSVR "
-"on a nearby computer."
+"<html><head/><body><p align=\"center\">Selects the method of plate solving "
+"with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
+"StellarSolver's internal build of Astrometry.net and requires no external "
+"programs. </li><li>'Local Astrometry' uses a local installation of command "
+"line astrometry.net on Linux and Mac or ANSVR on Windows. </li><li>'Local "
+"ASTAP' uses a local installation of the ASTAP program. </li><li>'Local "
+"Watney' uses a local installation of the Watney Astrometry Solver Program.</"
+"li><li>'Online' uses either astrometry.net over the internet or ANSVR on a "
+"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwith "
+"is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
+"Solver'.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
@@ -7364,20 +7407,20 @@ msgid "Selects the Options Profile to use for Plate Solving"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
-#: ekos/align/opsalign.ui:191
+#: ekos/align/opsalign.ui:197
 #, kde-format
 msgid ""
 "Opens the currently selected Options Profile in the Options Profile Editor"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/align/opsalign.ui:206
+#: ekos/align/opsalign.ui:212
 #, fuzzy, kde-format
 msgid "Alignment Options"
 msgstr "مركّز على:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:224
+#: ekos/align/opsalign.ui:230
 #, kde-format
 msgid ""
 "enable World Coordinate System (WCS). WCS is used to encode RA/DEC "
@@ -7385,25 +7428,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:227
+#: ekos/align/opsalign.ui:233
 #, fuzzy, kde-format
 msgid "WCS"
 msgstr "S"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:234
+#: ekos/align/opsalign.ui:240
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:237 tools/eyepiecefield.cpp:77
+#: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
 #, kde-format
 msgid "Overlay"
 msgstr "طبّق الصورة"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PAHAutoPark)
-#: ekos/align/opsalign.ui:244
+#: ekos/align/opsalign.ui:250
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Do you want to select additional services?</p></"
@@ -7415,21 +7458,21 @@ msgstr "<html><head/><body><p>هل تريد أن تختار خدمات إضاف�
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
-#: ekos/align/opsalign.ui:247 ekos/mount/mount.ui:426
+#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:426
 #, fuzzy, kde-format
 msgid "Auto Park"
 msgstr "تحجيم تلقائي"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:4919
+#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:4920
 #: ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
 msgstr "العتبة:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
-#: ekos/align/opsalign.ui:272
+#: ekos/align/opsalign.ui:278
 #, kde-format
 msgid ""
 "<html><head/><body><p>Rotator threshold in arc-minutes when using Load &amp; "
@@ -7439,7 +7482,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:307
+#: ekos/align/opsalign.ui:313
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use automatic or manual rotation control when using "
@@ -7450,7 +7493,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:310
+#: ekos/align/opsalign.ui:316
 #, fuzzy, kde-format
 msgid "Automatic && Manual Rotator Control"
 msgstr "مونتريال"
@@ -8959,20 +9002,6 @@ msgstr "مفتاح و‌ب‌ت API:"
 msgid "API Key:"
 msgstr "مفتاح و‌ب‌ت API:"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:261
-#, kde-format
-msgid ""
-"Use JPEG format, instead of FITS, to upload images to the online astrometry."
-"net service"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:264
-#, fuzzy, kde-format
-msgid "Upload JPG"
-msgstr "الارسال"
-
 #: ekos/align/polaralignmentassistant.cpp:28
 #, fuzzy, kde-format
 #| msgid "Capture"
@@ -9568,7 +9597,7 @@ msgstr "ابدأ"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1853
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1867
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:137
 #: ekos/opsekos.ui:538
@@ -9709,7 +9738,7 @@ msgstr "ملفات PNG (*.png)"
 msgid "Set an alternate base directory for your captured images"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1151
+#: ekos/analyze/analyze.cpp:1165
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not find image file: %1"
@@ -9718,7 +9747,7 @@ msgstr "لم يمكن حذف الملف: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1868 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
@@ -9727,7 +9756,7 @@ msgid "Focus"
 msgstr "التركيز البؤري"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
+#: ekos/analyze/analyze.cpp:1869 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
@@ -9738,7 +9767,7 @@ msgstr "حاذِ إلى"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1856 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1870 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9747,7 +9776,7 @@ msgstr "حاذِ إلى"
 msgid "Guide"
 msgstr "التوجيه"
 
-#: ekos/analyze/analyze.cpp:1857
+#: ekos/analyze/analyze.cpp:1871
 #, kde-format
 msgid "Flip"
 msgstr "اعكس"
@@ -9756,7 +9785,7 @@ msgstr "اعكس"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1858 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1872 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2099 ekos/manager.ui:665
 #, kde-format
@@ -9764,12 +9793,12 @@ msgid "Mount"
 msgstr "الحامل"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1859 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1873 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr "وظيفة"
 
-#: ekos/analyze/analyze.cpp:2113
+#: ekos/analyze/analyze.cpp:2127
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9777,7 +9806,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2129
+#: ekos/analyze/analyze.cpp:2143
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9785,7 +9814,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2832 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2846 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:673
@@ -9793,97 +9822,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "أُجهض"
 
-#: ekos/analyze/analyze.cpp:2834 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "متّصل"
 
-#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "قطع الاتصال"
 
-#: ekos/analyze/analyze.cpp:2838 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2852 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:705
 #, fuzzy, kde-format
 msgid "Capturing"
 msgstr "سجّل صورة"
 
-#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:26
 #, fuzzy, kde-format
 msgid "Subtracting"
 msgstr "العميل"
 
-#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:27
 #, fuzzy, kde-format
 msgid "Subframing"
 msgstr "الاسم:"
 
-#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:28
 #, fuzzy, kde-format
 msgid "Selecting star"
 msgstr "انتقِ a نجم"
 
-#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 msgid "Calibrating"
 msgstr "العميل"
 
-#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:30
 #, fuzzy, kde-format
 msgid "Calibration error"
 msgstr "العميل"
 
-#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:31
 #, fuzzy, kde-format
 msgid "Calibrated"
 msgstr "العميل"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:703
 #, kde-format
 msgid "Guiding"
 msgstr "التوجيه"
 
-#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2870 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "مُعلَّق"
 
-#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:34
 #, fuzzy, kde-format
 msgid "Reacquiring"
 msgstr "سجّل صورة"
 
-#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 msgid "Dithering"
 msgstr "أخرى"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 msgid "Manual Dithering"
 msgstr "أخرى"
 
-#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "القبة الجدول"
 
-#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2880 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2882 ekos/ekos.h:39
 #, fuzzy, kde-format
 msgid "Settling"
 msgstr "رسوب"
@@ -10861,39 +10890,39 @@ msgstr ""
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "هل تريد حذف العميل %1؟"
 
-#: ekos/auxiliary/darklibrary.cpp:1214
+#: ekos/auxiliary/darklibrary.cpp:1213
 #, kde-format
 msgid "In progress..."
 msgstr "جاري..."
 
-#: ekos/auxiliary/darklibrary.cpp:1370
+#: ekos/auxiliary/darklibrary.cpp:1369
 #, fuzzy, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "فشل في تحميل الصورة "
 
-#: ekos/auxiliary/darklibrary.cpp:1391
+#: ekos/auxiliary/darklibrary.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "تم حفظ الى الملف %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1416
+#: ekos/auxiliary/darklibrary.cpp:1415
 #, fuzzy, kde-format
 msgid "Capture completed."
 msgstr "سجّل صورة"
 
-#: ekos/auxiliary/darklibrary.cpp:1443
+#: ekos/auxiliary/darklibrary.cpp:1442
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Defect map saved to %1"
 msgstr "تم حفظ الى الملف %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1463
+#: ekos/auxiliary/darklibrary.cpp:1462
 #, fuzzy, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "لم أتمكن من فتح الملف %1."
 
-#: ekos/auxiliary/darklibrary.cpp:1638
+#: ekos/auxiliary/darklibrary.cpp:1637
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""
@@ -13839,42 +13868,42 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4880
+#: ekos/capture/capture.cpp:4881
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "هل تريد حذف العميل %1؟"
 
-#: ekos/capture/capture.cpp:4881
+#: ekos/capture/capture.cpp:4882
 #, fuzzy, kde-format
 msgid "Driver Restart"
 msgstr "نجم"
 
-#: ekos/capture/capture.cpp:4911
+#: ekos/capture/capture.cpp:4912
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4917
+#: ekos/capture/capture.cpp:4918
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4925
+#: ekos/capture/capture.cpp:4926
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4935
+#: ekos/capture/capture.cpp:4936
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "ضبط هدف رقاقة [رقاقات]."
 
-#: ekos/capture/capture.cpp:4966
+#: ekos/capture/capture.cpp:4967
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -26622,191 +26651,191 @@ msgstr "عادي"
 msgid "Calibrate"
 msgstr "عاير"
 
-#: fitsviewer/fitsdata.cpp:239
+#: fitsviewer/fitsdata.cpp:240
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1."
 msgstr "خطأ: لم يتم حفظ الصورة: %1"
 
-#: fitsviewer/fitsdata.cpp:252
+#: fitsviewer/fitsdata.cpp:253
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:268
+#: fitsviewer/fitsdata.cpp:269
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error opening fits file %1 : %2"
 msgstr "خطأ: لم يتم حفظ الصورة: %1"
 
-#: fitsviewer/fitsdata.cpp:281
+#: fitsviewer/fitsdata.cpp:282
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1"
 msgstr "خطأ: لم يتم حفظ الصورة: %1"
 
-#: fitsviewer/fitsdata.cpp:293
+#: fitsviewer/fitsdata.cpp:294
 #, fuzzy, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "لم أتمكن من فتح الملف %1."
 
-#: fitsviewer/fitsdata.cpp:300
+#: fitsviewer/fitsdata.cpp:301
 #, fuzzy, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "ملفّ فتح خطأ 1"
 
-#: fitsviewer/fitsdata.cpp:314
+#: fitsviewer/fitsdata.cpp:315
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:360 fitsviewer/fitsdata.cpp:579
+#: fitsviewer/fitsdata.cpp:361 fitsviewer/fitsdata.cpp:580
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:370
+#: fitsviewer/fitsdata.cpp:371
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:415
+#: fitsviewer/fitsdata.cpp:416
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading image: %1"
 msgstr "خطأ: لم يتم حفظ الصورة: %1"
 
-#: fitsviewer/fitsdata.cpp:476
+#: fitsviewer/fitsdata.cpp:477
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "File contain no images"
 msgstr "فشل في تحميل الصورة "
 
-#: fitsviewer/fitsdata.cpp:505
+#: fitsviewer/fitsdata.cpp:506
 #, fuzzy, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "مكتمل"
 
-#: fitsviewer/fitsdata.cpp:543
+#: fitsviewer/fitsdata.cpp:544
 #, fuzzy, kde-format
 #| msgid "File write error."
 msgid "XISF file open error: "
 msgstr "خطأ كتابة الملف."
 
-#: fitsviewer/fitsdata.cpp:594
+#: fitsviewer/fitsdata.cpp:595
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error saving XISF image"
 msgstr "خطأ: لم يتم حفظ الصورة: %1"
 
-#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:801
+#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:798
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:740
+#: fitsviewer/fitsdata.cpp:737
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "تعذّر فتح الملفّ %1: %2"
 
-#: fitsviewer/fitsdata.cpp:753
+#: fitsviewer/fitsdata.cpp:750
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "لم يمكن فتح الملف: %1"
 
-#: fitsviewer/fitsdata.cpp:764
+#: fitsviewer/fitsdata.cpp:761
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:771
+#: fitsviewer/fitsdata.cpp:768
 #, fuzzy, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "لا يستطيع كتابة إلى مستخدم سجل ملفّ"
 
-#: fitsviewer/fitsdata.cpp:779
+#: fitsviewer/fitsdata.cpp:776
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:922
+#: fitsviewer/fitsdata.cpp:919
 #, fuzzy, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "مكتمل"
 
-#: fitsviewer/fitsdata.cpp:982
+#: fitsviewer/fitsdata.cpp:979
 #, fuzzy, kde-format
 msgid "Failed to close file: %1"
 msgstr "لم أتمكن من فتح الملف %1."
 
-#: fitsviewer/fitsdata.cpp:989
+#: fitsviewer/fitsdata.cpp:986
 #, fuzzy, kde-format
 msgid "Failed to create file: %1"
 msgstr "فشل إنشاء الملفّ..."
 
-#: fitsviewer/fitsdata.cpp:1004
+#: fitsviewer/fitsdata.cpp:1001
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to create image: %1"
 msgstr "فشل في تحميل الصورة "
 
-#: fitsviewer/fitsdata.cpp:1013 fitsviewer/fitsdata.cpp:1020
+#: fitsviewer/fitsdata.cpp:1010 fitsviewer/fitsdata.cpp:1017
 #, fuzzy, kde-format
 msgid "Failed to update key: %1"
 msgstr "فشل في تحميل الصورة "
 
-#: fitsviewer/fitsdata.cpp:1109
+#: fitsviewer/fitsdata.cpp:1106
 #, fuzzy, kde-format
 msgid "Failed to update date: %1"
 msgstr "فشل في تحميل الصورة "
 
-#: fitsviewer/fitsdata.cpp:1118
+#: fitsviewer/fitsdata.cpp:1115
 #, fuzzy, kde-format
 msgid "Failed to update history: %1"
 msgstr "فشل في تحميل الصورة "
 
-#: fitsviewer/fitsdata.cpp:1140
+#: fitsviewer/fitsdata.cpp:1137
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to write image: %1"
 msgstr "فشل في تحميل الصورة "
 
-#: fitsviewer/fitsdata.cpp:2767 fitsviewer/fitsdata.cpp:2778
-#: fitsviewer/fitsdata.cpp:2814 fitsviewer/fitsdata.cpp:2850
-#: fitsviewer/fitsdata.cpp:2897
+#: fitsviewer/fitsdata.cpp:2764 fitsviewer/fitsdata.cpp:2775
+#: fitsviewer/fitsdata.cpp:2811 fitsviewer/fitsdata.cpp:2847
+#: fitsviewer/fitsdata.cpp:2894
 #, fuzzy, kde-format
 msgid "No world coordinate systems found."
 msgstr "إستعمل أفقي تنسيق نظام?"
 
-#: fitsviewer/fitsdata.cpp:3619
+#: fitsviewer/fitsdata.cpp:3616
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3652
+#: fitsviewer/fitsdata.cpp:3649
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3683
+#: fitsviewer/fitsdata.cpp:3680
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3751 fitsviewer/fitsdata.cpp:3798
-#: fitsviewer/fitsdata.cpp:3843 fitsviewer/fitsdata.cpp:3890
+#: fitsviewer/fitsdata.cpp:3748 fitsviewer/fitsdata.cpp:3795
+#: fitsviewer/fitsdata.cpp:3840 fitsviewer/fitsdata.cpp:3887
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3761 fitsviewer/fitsdata.cpp:3853
+#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3850
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3781 fitsviewer/fitsdata.cpp:3873
+#: fitsviewer/fitsdata.cpp:3778 fitsviewer/fitsdata.cpp:3870
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -81077,6 +81106,10 @@ msgstr "لون الخلفية:"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "الـ اللّون لـ الخلفية."
+
+#, fuzzy
+#~ msgid "Upload JPG"
+#~ msgstr "الارسال"
 
 #~ msgid "Greedy"
 #~ msgstr "جشع"

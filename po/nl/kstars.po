@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:41+0000\n"
+"POT-Creation-Date: 2023-07-31 00:42+0000\n"
 "PO-Revision-Date: 2023-07-24 12:04+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -723,7 +723,7 @@ msgstr "Leesfout instellingenbestand Astrometry."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Schrijffout intern instellingenbestand voor Astrometry."
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:726
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:723
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1912,7 +1912,7 @@ msgstr "Status:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:2844 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -2536,7 +2536,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2746
+#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2746
 #: ekos/capture/capture.cpp:3186 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
@@ -5315,7 +5315,7 @@ msgstr "Berekenen bundelbreedte"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newfov.ui:1017 dialogs/newfov.ui:1027 dialogs/newfov.ui:1034
-#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:285
+#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:291
 #, kde-format
 msgid "arcmin"
 msgstr "boogmin"
@@ -6052,7 +6052,7 @@ msgstr "Huidige PA is %1; Doel-PA is %2; verschil: %3"
 msgid "Refresh is complete."
 msgstr "Verversen is voltooid."
 
-#: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1412
+#: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1411
 #: ekos/focus/focus.cpp:1493
 #, kde-format
 msgid "Capture aborted."
@@ -6681,7 +6681,7 @@ msgstr "Bel.:"
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/align/align.ui:716 ekos/align/opsalign.ui:257
+#: ekos/align/align.ui:716 ekos/align/opsalign.ui:263
 #: ekos/capture/rotatorsettings.ui:20
 #, kde-format
 msgid "Rotator Settings"
@@ -7418,17 +7418,54 @@ msgstr "Methode bronextractie"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Enable limited resource mode to turn off any "
+#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
+#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
+#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
+#| "span>: World Coordinate System data will not be processed. WCS maps sky "
+#| "coordinates to image coordinates. Equatorial grid lines, object "
+#| "identification, and telescope slew within an image are disabled.</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
+#| "grayscale images are shown.</li></ul></body></html>"
 msgid ""
-"Options for the method of Star Extraction.  Internal SEP uses an internal "
-"library in KStars, External Sextractor requires an external program, and "
-"Built In uses whatever default Star Extraction process your selected solving "
-"method uses."
+"<html><head/><body><p align=\"center\">Options for the method of Star "
+"Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Internal SEP uses an internal library in KStars.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">External Sextractor "
+"requires an external program.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Built In Method uses whatever default Star Extraction process "
+"your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
-"Opties voor de methode van sterextractie. Interne SEP gebruikt een interne "
-"bibliotheek in KStars, voor externe extractie is een extern programma nodig, "
-"en Ingbouwd gebruikt een standaard sterextractieproces van de door u gekozen "
-"methode."
+"<html><head/><body><p>Beperkte bronnen inschakelen om bewerkelijke operaties "
+"uit te schakelen:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto debayer</"
+"span>: ge-bayerde afbeeldingen worden niet ontbayerd. Afbeeldingen worden "
+"alleen grijs weergegeven.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</span>: World "
+"Coordinate System-gegevens worden niet verwerkt. Hemelcoördinaten in WCS-"
+"kaarten naar afbeeldingscoördinaten. Equatoriale roosterlijnen, object-"
+"identificatie, en telescoopverplaatsingen binnen in een afbeelding zijn "
+"uitgeschakeld.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">3D Kubus</span>: RGB-afbeeldingen worden niet "
+"verwerkt. Afbeeldingen worden alleen in grijs getoond.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -7450,16 +7487,28 @@ msgstr "Ingebouwde methode voor oplosser"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:94
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Selects the method of plate solving with the StellarSolver Library.  The "
+#| "StellarSolver option uses StellarSolver's internal build of Astrometry."
+#| "net and requires no external programs.  Local Astrometry uses a local "
+#| "installation of command line astrometry.net on Linux and Mac or ANSVR on "
+#| "Windows.  Local Watney uses a local installation of the Watney Astrometry "
+#| "Solver Program.  Local ASTAP uses a local installation of the ASTAP "
+#| "program.  And Online uses either astrometry.net over the internet or "
+#| "ANSVR on a nearby computer."
 msgid ""
-"Selects the method of plate solving with the StellarSolver Library.  The "
-"StellarSolver option uses StellarSolver's internal build of Astrometry.net "
-"and requires no external programs.  Local Astrometry uses a local "
-"installation of command line astrometry.net on Linux and Mac or ANSVR on "
-"Windows.  Local Watney uses a local installation of the Watney Astrometry "
-"Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-"program.  And Online uses either astrometry.net over the internet or ANSVR "
-"on a nearby computer."
+"<html><head/><body><p align=\"center\">Selects the method of plate solving "
+"with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
+"StellarSolver's internal build of Astrometry.net and requires no external "
+"programs. </li><li>'Local Astrometry' uses a local installation of command "
+"line astrometry.net on Linux and Mac or ANSVR on Windows. </li><li>'Local "
+"ASTAP' uses a local installation of the ASTAP program. </li><li>'Local "
+"Watney' uses a local installation of the Watney Astrometry Solver Program.</"
+"li><li>'Online' uses either astrometry.net over the internet or ANSVR on a "
+"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwith "
+"is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
+"Solver'.</li></ul></body></html>"
 msgstr ""
 "Selecteert de methode voor plaatoplossing met de StellarSolver Library. Met "
 "de optie StellarSolver wordt het in  Astrometry.net intern ingebouwde "
@@ -7520,7 +7569,7 @@ msgid "Selects the Options Profile to use for Plate Solving"
 msgstr "Selecteer opties profiel voor oplossen van platen"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
-#: ekos/align/opsalign.ui:191
+#: ekos/align/opsalign.ui:197
 #, kde-format
 msgid ""
 "Opens the currently selected Options Profile in the Options Profile Editor"
@@ -7529,13 +7578,13 @@ msgstr ""
 "Optiesprofiel"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/align/opsalign.ui:206
+#: ekos/align/opsalign.ui:212
 #, kde-format
 msgid "Alignment Options"
 msgstr "Opties Uitlijnen"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:224
+#: ekos/align/opsalign.ui:230
 #, kde-format
 msgid ""
 "enable World Coordinate System (WCS). WCS is used to encode RA/DEC "
@@ -7546,26 +7595,26 @@ msgstr ""
 "afbeeldingen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:227
+#: ekos/align/opsalign.ui:233
 #, kde-format
 msgid "WCS"
 msgstr "WCS"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:234
+#: ekos/align/opsalign.ui:240
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
 "Toon ontvangen FITS-afbeeldingen in rechthoek oplosser GV in de hemelkaart "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:237 tools/eyepiecefield.cpp:77
+#: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
 #, kde-format
 msgid "Overlay"
 msgstr "Laag"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PAHAutoPark)
-#: ekos/align/opsalign.ui:244
+#: ekos/align/opsalign.ui:250
 #, kde-format
 msgid ""
 "<html><head/><body><p>Automatically park mount after completing Polar "
@@ -7576,21 +7625,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
-#: ekos/align/opsalign.ui:247 ekos/mount/mount.ui:426
+#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:426
 #, kde-format
 msgid "Auto Park"
 msgstr "Autoparkeren"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:4919
+#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:4920
 #: ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
 msgstr "Drempelwaarde:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
-#: ekos/align/opsalign.ui:272
+#: ekos/align/opsalign.ui:278
 #, kde-format
 msgid ""
 "<html><head/><body><p>Rotator threshold in arc-minutes when using Load &amp; "
@@ -7604,7 +7653,7 @@ msgstr ""
 "beschouwd als gelukt.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:307
+#: ekos/align/opsalign.ui:313
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use automatic or manual rotation control when using "
@@ -7621,7 +7670,7 @@ msgstr ""
 "bereikt.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:310
+#: ekos/align/opsalign.ui:316
 #, kde-format
 msgid "Automatic && Manual Rotator Control"
 msgstr "Automatische && handmatige rotatorbesturing"
@@ -9177,22 +9226,6 @@ msgstr "API Key"
 msgid "API Key:"
 msgstr "API Key (sleutel):"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:261
-#, kde-format
-msgid ""
-"Use JPEG format, instead of FITS, to upload images to the online astrometry."
-"net service"
-msgstr ""
-"Gebruik JPEG-formaat, in plaats van FITS, bij het uploaden van afbeeldingen "
-"naar de online astrometry.net dienst"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:264
-#, kde-format
-msgid "Upload JPG"
-msgstr "Uploaden JPG"
-
 #: ekos/align/polaralignmentassistant.cpp:28
 #, kde-format
 msgid "First Capture"
@@ -9810,7 +9843,7 @@ msgstr "Start"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1853
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1867
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:137
 #: ekos/opsekos.ui:538
@@ -9950,7 +9983,7 @@ msgstr "Alle bestanden (*)"
 msgid "Set an alternate base directory for your captured images"
 msgstr "Stel een alternatieve basismap in voor de opnames"
 
-#: ekos/analyze/analyze.cpp:1151
+#: ekos/analyze/analyze.cpp:1165
 #, kde-format
 msgid "Could not find image file: %1"
 msgstr "Kon afbeeldingsbestand: %1 niet vinden"
@@ -9958,7 +9991,7 @@ msgstr "Kon afbeeldingsbestand: %1 niet vinden"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1868 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
@@ -9967,7 +10000,7 @@ msgid "Focus"
 msgstr "Scherpstellen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
+#: ekos/analyze/analyze.cpp:1869 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
@@ -9978,7 +10011,7 @@ msgstr "Uitlijnen"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1856 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1870 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9987,7 +10020,7 @@ msgstr "Uitlijnen"
 msgid "Guide"
 msgstr "Volger"
 
-#: ekos/analyze/analyze.cpp:1857
+#: ekos/analyze/analyze.cpp:1871
 #, kde-format
 msgid "Flip"
 msgstr "Flip"
@@ -9996,7 +10029,7 @@ msgstr "Flip"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1858 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1872 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2099 ekos/manager.ui:665
 #, kde-format
@@ -10004,12 +10037,12 @@ msgid "Mount"
 msgstr "Opstelling"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1859 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1873 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr "Job"
 
-#: ekos/analyze/analyze.cpp:2113
+#: ekos/analyze/analyze.cpp:2127
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10020,7 +10053,7 @@ msgstr ""
 "niet aangezet. Zonder deze optie  worden geen waarden berekend voor de HFR. "
 "Zodra ingesteld, worden voor nieuwe opnamen de HFR's berekend."
 
-#: ekos/analyze/analyze.cpp:2129
+#: ekos/analyze/analyze.cpp:2143
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10032,7 +10065,7 @@ msgstr ""
 "afbeelding. Zodra ingesteld, worden voor nieuwe opnamen hun sterren "
 "gedetecteerd."
 
-#: ekos/analyze/analyze.cpp:2832 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2846 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:673
@@ -10040,97 +10073,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Afgebroken"
 
-#: ekos/analyze/analyze.cpp:2834 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Verbonden"
 
-#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Verbinding verbroken"
 
-#: ekos/analyze/analyze.cpp:2838 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2852 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:705
 #, kde-format
 msgid "Capturing"
 msgstr "Vastleggen"
 
-#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Lusdoorloop"
 
-#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Aftrekken"
 
-#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Subframen"
 
-#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Ster selecteren"
 
-#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Kalibreren"
 
-#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Kalibratie fout"
 
-#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Gecalibreerd"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:703
 #, kde-format
 msgid "Guiding"
 msgstr "Volgen"
 
-#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2870 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Opgehouden"
 
-#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Herverkrijgen"
 
-#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Ditheren"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Handmatig ditheren"
 
-#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Ditheren fout"
 
-#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2880 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Ditheren gelukt"
 
-#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2882 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Instelling"
@@ -11225,37 +11258,37 @@ msgstr "Afbeeldingen %1/%2 ontvangen."
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Wilt u werkelijk alle donker-frames-afbeeldingen en gegevens wissen?"
 
-#: ekos/auxiliary/darklibrary.cpp:1214
+#: ekos/auxiliary/darklibrary.cpp:1213
 #, kde-format
 msgid "In progress..."
 msgstr "In uitvoering..."
 
-#: ekos/auxiliary/darklibrary.cpp:1370
+#: ekos/auxiliary/darklibrary.cpp:1369
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Hoofdframe opslaan is mislukt: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1391
+#: ekos/auxiliary/darklibrary.cpp:1390
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Hoofd-donker opgeslagen in %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1416
+#: ekos/auxiliary/darklibrary.cpp:1415
 #, kde-format
 msgid "Capture completed."
 msgstr "Opnemen voltooid."
 
-#: ekos/auxiliary/darklibrary.cpp:1443
+#: ekos/auxiliary/darklibrary.cpp:1442
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Defectenkaart opgeslagen in %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1463
+#: ekos/auxiliary/darklibrary.cpp:1462
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Defectenkaart opslaan naar %1 is mislukt."
 
-#: ekos/auxiliary/darklibrary.cpp:1638
+#: ekos/auxiliary/darklibrary.cpp:1637
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Optische trein bestaat niet voor id %1"
@@ -14313,23 +14346,23 @@ msgstr "Koeler is aan"
 msgid "Cooler is off"
 msgstr "Koeler is uit"
 
-#: ekos/capture/capture.cpp:4880
+#: ekos/capture/capture.cpp:4881
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Wilt u echt cameradriver %1 herstarten?"
 
-#: ekos/capture/capture.cpp:4881
+#: ekos/capture/capture.cpp:4882
 #, kde-format
 msgid "Driver Restart"
 msgstr "Driver herstarten"
 
-#: ekos/capture/capture.cpp:4911
+#: ekos/capture/capture.cpp:4912
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "Helling (C/min):"
 
-#: ekos/capture/capture.cpp:4917
+#: ekos/capture/capture.cpp:4918
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
@@ -14338,18 +14371,18 @@ msgstr ""
 "Maximale temperatuurwijziging per minuut bij koelen of verwarmen van de "
 "camera. Op nul zetten om uit te schakelen."
 
-#: ekos/capture/capture.cpp:4925
+#: ekos/capture/capture.cpp:4926
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr "Maximaal verschil tussen camera en doeltemperaturen."
 
-#: ekos/capture/capture.cpp:4935
+#: ekos/capture/capture.cpp:4936
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Temperatuurregulering instellen"
 
-#: ekos/capture/capture.cpp:4966
+#: ekos/capture/capture.cpp:4967
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -27759,182 +27792,182 @@ msgstr "Normaal"
 msgid "Calibrate"
 msgstr "Calibreren"
 
-#: fitsviewer/fitsdata.cpp:239
+#: fitsviewer/fitsdata.cpp:240
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Fout bij lezen fits-buffer: %1."
 
-#: fitsviewer/fitsdata.cpp:252
+#: fitsviewer/fitsdata.cpp:253
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Uitpakken ingepakte aanpassingen is mislukt"
 
-#: fitsviewer/fitsdata.cpp:268
+#: fitsviewer/fitsdata.cpp:269
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Fout bij openen fits-bestand %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:281
+#: fitsviewer/fitsdata.cpp:282
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Fout bij lezen fits-buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:293
+#: fitsviewer/fitsdata.cpp:294
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Kon afbeelding HDU niet vinden: %1"
 
-#: fitsviewer/fitsdata.cpp:300
+#: fitsviewer/fitsdata.cpp:301
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Fout bij openen FITS-bestand (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:314
+#: fitsviewer/fitsdata.cpp:315
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D FITS-afbeeldingen worden in KStars niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:360 fitsviewer/fitsdata.cpp:579
+#: fitsviewer/fitsdata.cpp:361 fitsviewer/fitsdata.cpp:580
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bitdiepte %1 wordt niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:370
+#: fitsviewer/fitsdata.cpp:371
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Afbeelding heeft onjuiste afmetingen %1x%2"
 
-#: fitsviewer/fitsdata.cpp:415
+#: fitsviewer/fitsdata.cpp:416
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Fout bij inlezen afbeelding: %1"
 
-#: fitsviewer/fitsdata.cpp:476
+#: fitsviewer/fitsdata.cpp:477
 #, kde-format
 msgid "File contain no images"
 msgstr "Bestand bevat geen afbeeldingen"
 
-#: fitsviewer/fitsdata.cpp:505
+#: fitsviewer/fitsdata.cpp:506
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Sampleformaat %1 wordt niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:543
+#: fitsviewer/fitsdata.cpp:544
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Fout bij openen van XISF-bestand: "
 
-#: fitsviewer/fitsdata.cpp:594
+#: fitsviewer/fitsdata.cpp:595
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Fout bij opslaan van XISF-afbeelding."
 
-#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:801
+#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:798
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: niet genoeg geheugen voor image_buffer-kanaal. Gevraagd: %1 bytes "
 
-#: fitsviewer/fitsdata.cpp:740
+#: fitsviewer/fitsdata.cpp:737
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Kan bestand %1 niet openen: %2"
 
-#: fitsviewer/fitsdata.cpp:753
+#: fitsviewer/fitsdata.cpp:750
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Kan buffer %1 niet openen:"
 
-#: fitsviewer/fitsdata.cpp:764
+#: fitsviewer/fitsdata.cpp:761
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Kan niet unpack_ thumb %1"
 
-#: fitsviewer/fitsdata.cpp:771
+#: fitsviewer/fitsdata.cpp:768
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Kan niet dc_rawproces: %1"
 
-#: fitsviewer/fitsdata.cpp:779
+#: fitsviewer/fitsdata.cpp:776
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Kan niet in geheugen inlezen: %1"
 
-#: fitsviewer/fitsdata.cpp:922
+#: fitsviewer/fitsdata.cpp:919
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Opslaan gecomprimeerde bestanden wordt niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:982
+#: fitsviewer/fitsdata.cpp:979
 #, kde-format
 msgid "Failed to close file: %1"
 msgstr "Sluiten van bestand is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:989
+#: fitsviewer/fitsdata.cpp:986
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Bestand aanmaken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:1004
+#: fitsviewer/fitsdata.cpp:1001
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Afbeelding maken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:1013 fitsviewer/fitsdata.cpp:1020
+#: fitsviewer/fitsdata.cpp:1010 fitsviewer/fitsdata.cpp:1017
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Sleutel bijwerken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:1109
+#: fitsviewer/fitsdata.cpp:1106
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Datum bijwerken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:1118
+#: fitsviewer/fitsdata.cpp:1115
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Geschiedenis bijwerken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:1140
+#: fitsviewer/fitsdata.cpp:1137
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Afbeelding schrijven is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:2767 fitsviewer/fitsdata.cpp:2778
-#: fitsviewer/fitsdata.cpp:2814 fitsviewer/fitsdata.cpp:2850
-#: fitsviewer/fitsdata.cpp:2897
+#: fitsviewer/fitsdata.cpp:2764 fitsviewer/fitsdata.cpp:2775
+#: fitsviewer/fitsdata.cpp:2811 fitsviewer/fitsdata.cpp:2847
+#: fitsviewer/fitsdata.cpp:2894
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Geen wereld coördinatensystemen gevonden."
 
-#: fitsviewer/fitsdata.cpp:3619
+#: fitsviewer/fitsdata.cpp:3616
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Alleen 8 en 16 bits bayer-afbeeldingen worden ondersteund."
 
-#: fitsviewer/fitsdata.cpp:3652
+#: fitsviewer/fitsdata.cpp:3649
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Niet ondersteund bayerpatroon %1."
 
-#: fitsviewer/fitsdata.cpp:3683
+#: fitsviewer/fitsdata.cpp:3680
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Niet ondersteunde bayer offsets %1 %2."
 
-#: fitsviewer/fitsdata.cpp:3751 fitsviewer/fitsdata.cpp:3798
-#: fitsviewer/fitsdata.cpp:3843 fitsviewer/fitsdata.cpp:3890
+#: fitsviewer/fitsdata.cpp:3748 fitsviewer/fitsdata.cpp:3795
+#: fitsviewer/fitsdata.cpp:3840 fitsviewer/fitsdata.cpp:3887
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:3761 fitsviewer/fitsdata.cpp:3853
+#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3850
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer."
 
-#: fitsviewer/fitsdata.cpp:3781 fitsviewer/fitsdata.cpp:3873
+#: fitsviewer/fitsdata.cpp:3778 fitsviewer/fitsdata.cpp:3870
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Ontbayeren mislukt (%1)"
@@ -83275,6 +83308,27 @@ msgstr "Achtergrondkleur:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
+
+#~ msgid ""
+#~ "Options for the method of Star Extraction.  Internal SEP uses an internal "
+#~ "library in KStars, External Sextractor requires an external program, and "
+#~ "Built In uses whatever default Star Extraction process your selected "
+#~ "solving method uses."
+#~ msgstr ""
+#~ "Opties voor de methode van sterextractie. Interne SEP gebruikt een "
+#~ "interne bibliotheek in KStars, voor externe extractie is een extern "
+#~ "programma nodig, en Ingbouwd gebruikt een standaard sterextractieproces "
+#~ "van de door u gekozen methode."
+
+#~ msgid ""
+#~ "Use JPEG format, instead of FITS, to upload images to the online "
+#~ "astrometry.net service"
+#~ msgstr ""
+#~ "Gebruik JPEG-formaat, in plaats van FITS, bij het uploaden van "
+#~ "afbeeldingen naar de online astrometry.net dienst"
+
+#~ msgid "Upload JPG"
+#~ msgstr "Uploaden JPG"
 
 #~ msgid "Process stopped. Yes to restart, No to abort"
 #~ msgstr "Proces gestopt. Ja om opnieuw te starten, Nee om af te breken"

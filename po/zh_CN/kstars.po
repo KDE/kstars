@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:41+0000\n"
-"PO-Revision-Date: 2023-07-23 12:28\n"
+"POT-Creation-Date: 2023-07-31 00:42+0000\n"
+"PO-Revision-Date: 2023-07-30 07:09\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -710,7 +710,7 @@ msgstr "Astrometry 配置文件读取错误。"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "内部 Astrometry 配置文件写错误。"
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:726
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:723
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1875,7 +1875,7 @@ msgstr "状态："
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:2844 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -2473,7 +2473,7 @@ msgstr "该 URL 无效。您是否想要打开浏览器窗口用 Google 搜索�
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2746
+#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2746
 #: ekos/capture/capture.cpp:3186 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
@@ -5211,7 +5211,7 @@ msgstr "计算半功率波束宽"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newfov.ui:1017 dialogs/newfov.ui:1027 dialogs/newfov.ui:1034
-#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:285
+#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:291
 #, kde-format
 msgid "arcmin"
 msgstr "角分"
@@ -5917,7 +5917,7 @@ msgstr "当前 PA %1；目标 PA %2；改变量：%3"
 msgid "Refresh is complete."
 msgstr "刷新完成。"
 
-#: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1412
+#: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1411
 #: ekos/focus/focus.cpp:1493
 #, kde-format
 msgid "Capture aborted."
@@ -6391,17 +6391,12 @@ msgstr "焦距："
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:477
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"justify\">Focal length of the telescope to "
-#| "use for the mosaic.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal length in "
 "millimeters. The effective focal length is measured from plate-solving.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">用于拼图的望远镜的焦距。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/align/align.ui:487
@@ -6411,16 +6406,11 @@ msgstr "光圈："
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
 #: ekos/align/align.ui:494
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
 "effective focal ratio is measured from astrometry.</p></body></html>"
 msgstr ""
-"<html><head/> <body><p>最大望远镜的高度角限制。如果望远镜超过此限制，它将被命"
-"令停止。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/align.ui:517
@@ -6534,7 +6524,7 @@ msgstr "曝光："
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/align/align.ui:716 ekos/align/opsalign.ui:257
+#: ekos/align/align.ui:716 ekos/align/opsalign.ui:263
 #: ekos/capture/rotatorsettings.ui:20
 #, kde-format
 msgid "Rotator Settings"
@@ -7229,15 +7219,50 @@ msgstr "星点提取方法"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Enable limited resource mode to turn off any "
+#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
+#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
+#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
+#| "span>: World Coordinate System data will not be processed. WCS maps sky "
+#| "coordinates to image coordinates. Equatorial grid lines, object "
+#| "identification, and telescope slew within an image are disabled.</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
+#| "grayscale images are shown.</li></ul></body></html>"
 msgid ""
-"Options for the method of Star Extraction.  Internal SEP uses an internal "
-"library in KStars, External Sextractor requires an external program, and "
-"Built In uses whatever default Star Extraction process your selected solving "
-"method uses."
+"<html><head/><body><p align=\"center\">Options for the method of Star "
+"Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Internal SEP uses an internal library in KStars.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">External Sextractor "
+"requires an external program.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Built In Method uses whatever default Star Extraction process "
+"your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
-"关于星点提取方法的选项。 “内部SEP” 使用 KStars 的内部库，“外部 Sextractor ”需"
-"要另外的外部程序 ，“内置”使用您选中的解析方法中默认的星点提取方法。"
+"<html><head/><body><p>启用资源限制模式来关闭任何资源密集型操作：</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">自动解拜尔</span>: 将不会被解拜尔图像。 "
+"只显示灰度图像。</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">自动 WCS</span>: 将不会被处理世界坐标系统数据。 "
+"WCS maps sky coordinates to image coordinates. 将禁用图像中的赤道网格线、天体"
+"标识和望远镜转动。</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">3D 立方体</span>: 将不会被处理RGB 图"
+"像。 只显示灰度图像。</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -7259,16 +7284,28 @@ msgstr "解析器的内置方法"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:94
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Selects the method of plate solving with the StellarSolver Library.  The "
+#| "StellarSolver option uses StellarSolver's internal build of Astrometry."
+#| "net and requires no external programs.  Local Astrometry uses a local "
+#| "installation of command line astrometry.net on Linux and Mac or ANSVR on "
+#| "Windows.  Local Watney uses a local installation of the Watney Astrometry "
+#| "Solver Program.  Local ASTAP uses a local installation of the ASTAP "
+#| "program.  And Online uses either astrometry.net over the internet or "
+#| "ANSVR on a nearby computer."
 msgid ""
-"Selects the method of plate solving with the StellarSolver Library.  The "
-"StellarSolver option uses StellarSolver's internal build of Astrometry.net "
-"and requires no external programs.  Local Astrometry uses a local "
-"installation of command line astrometry.net on Linux and Mac or ANSVR on "
-"Windows.  Local Watney uses a local installation of the Watney Astrometry "
-"Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-"program.  And Online uses either astrometry.net over the internet or ANSVR "
-"on a nearby computer."
+"<html><head/><body><p align=\"center\">Selects the method of plate solving "
+"with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
+"StellarSolver's internal build of Astrometry.net and requires no external "
+"programs. </li><li>'Local Astrometry' uses a local installation of command "
+"line astrometry.net on Linux and Mac or ANSVR on Windows. </li><li>'Local "
+"ASTAP' uses a local installation of the ASTAP program. </li><li>'Local "
+"Watney' uses a local installation of the Watney Astrometry Solver Program.</"
+"li><li>'Online' uses either astrometry.net over the internet or ANSVR on a "
+"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwith "
+"is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
+"Solver'.</li></ul></body></html>"
 msgstr ""
 "从 StellarSolver 库里选择解析方法。“StellarSolver”选项使用 StellarSolver 内建"
 "的Astrometry.net，而无需外部程序。“本地 Astrometry”选项使用 Linux 和 Mac 上本"
@@ -7325,20 +7362,20 @@ msgid "Selects the Options Profile to use for Plate Solving"
 msgstr "请选择用于解析的配置文件"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
-#: ekos/align/opsalign.ui:191
+#: ekos/align/opsalign.ui:197
 #, kde-format
 msgid ""
 "Opens the currently selected Options Profile in the Options Profile Editor"
 msgstr "在配置文件编辑器中打开当前选中的配置文件"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/align/opsalign.ui:206
+#: ekos/align/opsalign.ui:212
 #, kde-format
 msgid "Alignment Options"
 msgstr "校准选项"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:224
+#: ekos/align/opsalign.ui:230
 #, kde-format
 msgid ""
 "enable World Coordinate System (WCS). WCS is used to encode RA/DEC "
@@ -7346,25 +7383,25 @@ msgid ""
 msgstr "使用世界坐标系统 (WCS)。WCS 用于编码 CCD 图像中的 赤经/赤纬 坐标。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:227
+#: ekos/align/opsalign.ui:233
 #, kde-format
 msgid "WCS"
 msgstr "WCS"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:234
+#: ekos/align/opsalign.ui:240
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr "在星图上的视场符号方框旁显示接收到的 FITS 图像"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:237 tools/eyepiecefield.cpp:77
+#: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
 #, kde-format
 msgid "Overlay"
 msgstr "叠加"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PAHAutoPark)
-#: ekos/align/opsalign.ui:244
+#: ekos/align/opsalign.ui:250
 #, kde-format
 msgid ""
 "<html><head/><body><p>Automatically park mount after completing Polar "
@@ -7373,21 +7410,21 @@ msgstr "<html><head/><body><p>完成极轴对齐辅助工具后自动归位</p><
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
-#: ekos/align/opsalign.ui:247 ekos/mount/mount.ui:426
+#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:426
 #, kde-format
 msgid "Auto Park"
 msgstr "自动归位"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:4919
+#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:4920
 #: ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
 msgstr "阈值："
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
-#: ekos/align/opsalign.ui:272
+#: ekos/align/opsalign.ui:278
 #, kde-format
 msgid ""
 "<html><head/><body><p>Rotator threshold in arc-minutes when using Load &amp; "
@@ -7400,7 +7437,7 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:307
+#: ekos/align/opsalign.ui:313
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use automatic or manual rotation control when using "
@@ -7414,7 +7451,7 @@ msgstr ""
 "动旋转相机直到达到所需的位置角。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:310
+#: ekos/align/opsalign.ui:316
 #, kde-format
 msgid "Automatic && Manual Rotator Control"
 msgstr "自动或手动旋转模块控制"
@@ -8926,21 +8963,6 @@ msgstr "API Key"
 msgid "API Key:"
 msgstr "API Key："
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:261
-#, kde-format
-msgid ""
-"Use JPEG format, instead of FITS, to upload images to the online astrometry."
-"net service"
-msgstr ""
-"使用 astromenety.net 在线解析服务时，用 JPEG 文件代替 FITS 文件来进行上传。"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:264
-#, kde-format
-msgid "Upload JPG"
-msgstr "上传 JPG"
-
 #: ekos/align/polaralignmentassistant.cpp:28
 #, kde-format
 msgid "First Capture"
@@ -9515,7 +9537,7 @@ msgstr "启动"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1853
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1867
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:137
 #: ekos/opsekos.ui:538
@@ -9652,7 +9674,7 @@ msgstr "所有文件(*)"
 msgid "Set an alternate base directory for your captured images"
 msgstr "为你拍的图设置另外的目录"
 
-#: ekos/analyze/analyze.cpp:1151
+#: ekos/analyze/analyze.cpp:1165
 #, kde-format
 msgid "Could not find image file: %1"
 msgstr "找不到图像 %1"
@@ -9660,7 +9682,7 @@ msgstr "找不到图像 %1"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1868 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
@@ -9669,7 +9691,7 @@ msgid "Focus"
 msgstr "对焦"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
+#: ekos/analyze/analyze.cpp:1869 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
@@ -9680,7 +9702,7 @@ msgstr "对准"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1856 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1870 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
@@ -9689,7 +9711,7 @@ msgstr "对准"
 msgid "Guide"
 msgstr "导星"
 
-#: ekos/analyze/analyze.cpp:1857
+#: ekos/analyze/analyze.cpp:1871
 #, kde-format
 msgid "Flip"
 msgstr "翻转"
@@ -9698,7 +9720,7 @@ msgstr "翻转"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1858 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1872 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2099 ekos/manager.ui:665
 #, kde-format
@@ -9706,12 +9728,12 @@ msgid "Mount"
 msgstr "支架"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1859 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1873 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr "任务"
 
-#: ekos/analyze/analyze.cpp:2113
+#: ekos/analyze/analyze.cpp:2127
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9721,7 +9743,7 @@ msgstr ""
 "未设置 KStars FITS 选项菜单中的“自动计算 HFR”选项， 将不会有 HFR 值。设置后，"
 "将计算出新拍摄图像的 HFR。"
 
-#: ekos/analyze/analyze.cpp:2129
+#: ekos/analyze/analyze.cpp:2143
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -9731,7 +9753,7 @@ msgstr ""
 "未设置 KStars FITS 选项菜单中的“自动计算 HFR”选项， 无法获知拍摄图像中的星点"
 "数。设置后，将会探测新拍摄图像中的星点。"
 
-#: ekos/analyze/analyze.cpp:2832 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2846 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:673
@@ -9739,97 +9761,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "中止"
 
-#: ekos/analyze/analyze.cpp:2834 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "已连接"
 
-#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "已断开连接"
 
-#: ekos/analyze/analyze.cpp:2838 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2852 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:705
 #, kde-format
 msgid "Capturing"
 msgstr "正在捕获"
 
-#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "循环"
 
-#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "减去"
 
-#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "子帧"
 
-#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "选择恒星"
 
-#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "校准"
 
-#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "校准错误"
 
-#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "已校准"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:703
 #, kde-format
 msgid "Guiding"
 msgstr "导星中"
 
-#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2870 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "已暂停"
 
-#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "重新获取中"
 
-#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "像素偏移"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "手动抖动中"
 
-#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "像素偏移错误"
 
-#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2880 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "像素偏移成功"
 
-#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2882 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "稳定"
@@ -10787,37 +10809,37 @@ msgstr "收到 %1/%2 图像。"
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "您确定要删除所有暗场和数据吗？"
 
-#: ekos/auxiliary/darklibrary.cpp:1214
+#: ekos/auxiliary/darklibrary.cpp:1213
 #, kde-format
 msgid "In progress..."
 msgstr "进行中..."
 
-#: ekos/auxiliary/darklibrary.cpp:1370
+#: ekos/auxiliary/darklibrary.cpp:1369
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "保存 master frame 失败： %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1391
+#: ekos/auxiliary/darklibrary.cpp:1390
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "主暗场保存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1416
+#: ekos/auxiliary/darklibrary.cpp:1415
 #, kde-format
 msgid "Capture completed."
 msgstr "拍摄完成。"
 
-#: ekos/auxiliary/darklibrary.cpp:1443
+#: ekos/auxiliary/darklibrary.cpp:1442
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Defect map 保存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1463
+#: ekos/auxiliary/darklibrary.cpp:1462
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "保存 defect map %1 失败"
 
-#: ekos/auxiliary/darklibrary.cpp:1638
+#: ekos/auxiliary/darklibrary.cpp:1637
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""
@@ -13711,41 +13733,41 @@ msgstr "制冷已打开"
 msgid "Cooler is off"
 msgstr "制冷已关闭"
 
-#: ekos/capture/capture.cpp:4880
+#: ekos/capture/capture.cpp:4881
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "您确定要重新启动相机 %1 驱动吗？"
 
-#: ekos/capture/capture.cpp:4881
+#: ekos/capture/capture.cpp:4882
 #, kde-format
 msgid "Driver Restart"
 msgstr "重启设备"
 
-#: ekos/capture/capture.cpp:4911
+#: ekos/capture/capture.cpp:4912
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "温度梯度(度/分)"
 
-#: ekos/capture/capture.cpp:4917
+#: ekos/capture/capture.cpp:4918
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr "冷却或加热摄像头时，每分钟最大温度变化。设置为零以禁用。"
 
-#: ekos/capture/capture.cpp:4925
+#: ekos/capture/capture.cpp:4926
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr "相机温度与目标温度的最大温差"
 
-#: ekos/capture/capture.cpp:4935
+#: ekos/capture/capture.cpp:4936
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "设置温度管控"
 
-#: ekos/capture/capture.cpp:4966
+#: ekos/capture/capture.cpp:4967
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -26020,181 +26042,181 @@ msgstr "标准"
 msgid "Calibrate"
 msgstr "校准"
 
-#: fitsviewer/fitsdata.cpp:239
+#: fitsviewer/fitsdata.cpp:240
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:252
+#: fitsviewer/fitsdata.cpp:253
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "解包压缩的 fits 文件失败"
 
-#: fitsviewer/fitsdata.cpp:268
+#: fitsviewer/fitsdata.cpp:269
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:281
+#: fitsviewer/fitsdata.cpp:282
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:293
+#: fitsviewer/fitsdata.cpp:294
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:300
+#: fitsviewer/fitsdata.cpp:301
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:314
+#: fitsviewer/fitsdata.cpp:315
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "KStars 不支持 1D FITS 图像。"
 
-#: fitsviewer/fitsdata.cpp:360 fitsviewer/fitsdata.cpp:579
+#: fitsviewer/fitsdata.cpp:361 fitsviewer/fitsdata.cpp:580
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "不支持位深 %1。"
 
-#: fitsviewer/fitsdata.cpp:370
+#: fitsviewer/fitsdata.cpp:371
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "图像尺寸无效 %1x%2"
 
-#: fitsviewer/fitsdata.cpp:415
+#: fitsviewer/fitsdata.cpp:416
 #, kde-format
 msgid "Error reading image: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:476
+#: fitsviewer/fitsdata.cpp:477
 #, kde-format
 msgid "File contain no images"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:505
+#: fitsviewer/fitsdata.cpp:506
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:543
+#: fitsviewer/fitsdata.cpp:544
 #, kde-format
 msgid "XISF file open error: "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:594
+#: fitsviewer/fitsdata.cpp:595
 #, kde-format
 msgid "Error saving XISF image"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:801
+#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:798
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:740
+#: fitsviewer/fitsdata.cpp:737
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "无法打开文件 %1：%2"
 
-#: fitsviewer/fitsdata.cpp:753
+#: fitsviewer/fitsdata.cpp:750
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "无法打开缓冲： %1"
 
-#: fitsviewer/fitsdata.cpp:764
+#: fitsviewer/fitsdata.cpp:761
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "无法解压缩略图： %1"
 
-#: fitsviewer/fitsdata.cpp:771
+#: fitsviewer/fitsdata.cpp:768
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "无法 dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:779
+#: fitsviewer/fitsdata.cpp:776
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "无法加载到内存： %1"
 
-#: fitsviewer/fitsdata.cpp:922
+#: fitsviewer/fitsdata.cpp:919
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "不支持保存为压缩文件。"
 
-#: fitsviewer/fitsdata.cpp:982
+#: fitsviewer/fitsdata.cpp:979
 #, kde-format
 msgid "Failed to close file: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:989
+#: fitsviewer/fitsdata.cpp:986
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1004
+#: fitsviewer/fitsdata.cpp:1001
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1013 fitsviewer/fitsdata.cpp:1020
+#: fitsviewer/fitsdata.cpp:1010 fitsviewer/fitsdata.cpp:1017
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1109
+#: fitsviewer/fitsdata.cpp:1106
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1118
+#: fitsviewer/fitsdata.cpp:1115
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1140
+#: fitsviewer/fitsdata.cpp:1137
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2767 fitsviewer/fitsdata.cpp:2778
-#: fitsviewer/fitsdata.cpp:2814 fitsviewer/fitsdata.cpp:2850
-#: fitsviewer/fitsdata.cpp:2897
+#: fitsviewer/fitsdata.cpp:2764 fitsviewer/fitsdata.cpp:2775
+#: fitsviewer/fitsdata.cpp:2811 fitsviewer/fitsdata.cpp:2847
+#: fitsviewer/fitsdata.cpp:2894
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "未能找到世界坐标系统。"
 
-#: fitsviewer/fitsdata.cpp:3619
+#: fitsviewer/fitsdata.cpp:3616
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "只支持 8 和 16 位拜耳图像。"
 
-#: fitsviewer/fitsdata.cpp:3652
+#: fitsviewer/fitsdata.cpp:3649
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "不支持的拜耳模式 %1。"
 
-#: fitsviewer/fitsdata.cpp:3683
+#: fitsviewer/fitsdata.cpp:3680
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "不支持的拜耳偏移 %1 %2。"
 
-#: fitsviewer/fitsdata.cpp:3751 fitsviewer/fitsdata.cpp:3798
-#: fitsviewer/fitsdata.cpp:3843 fitsviewer/fitsdata.cpp:3890
+#: fitsviewer/fitsdata.cpp:3748 fitsviewer/fitsdata.cpp:3795
+#: fitsviewer/fitsdata.cpp:3840 fitsviewer/fitsdata.cpp:3887
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "无法为临时拜耳缓冲区分配内存：%1"
 
-#: fitsviewer/fitsdata.cpp:3761 fitsviewer/fitsdata.cpp:3853
+#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3850
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "无法为临时拜耳缓冲区分配内存。"
 
-#: fitsviewer/fitsdata.cpp:3781 fitsviewer/fitsdata.cpp:3873
+#: fitsviewer/fitsdata.cpp:3778 fitsviewer/fitsdata.cpp:3870
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "解拜耳失败 (%1)"
@@ -80063,3 +80085,22 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
+
+#~ msgid ""
+#~ "Options for the method of Star Extraction.  Internal SEP uses an internal "
+#~ "library in KStars, External Sextractor requires an external program, and "
+#~ "Built In uses whatever default Star Extraction process your selected "
+#~ "solving method uses."
+#~ msgstr ""
+#~ "关于星点提取方法的选项。 “内部SEP” 使用 KStars 的内部库，“外部 Sextractor "
+#~ "”需要另外的外部程序 ，“内置”使用您选中的解析方法中默认的星点提取方法。"
+
+#~ msgid ""
+#~ "Use JPEG format, instead of FITS, to upload images to the online "
+#~ "astrometry.net service"
+#~ msgstr ""
+#~ "使用 astromenety.net 在线解析服务时，用 JPEG 文件代替 FITS 文件来进行上"
+#~ "传。"
+
+#~ msgid "Upload JPG"
+#~ msgstr "上传 JPG"
