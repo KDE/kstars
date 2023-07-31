@@ -599,7 +599,7 @@ bool CaptureModuleState::startFocusIfRequired()
     {
         case RefocusState::REFOCUS_HFR:
             m_refocusState->resetInSequenceFocusCounter();
-            emit checkFocus(Options::hFRDeviation() == 0.0 ? 0.1 : Options::hFRDeviation());
+            (Options::hFRDeviation() == 0.0) ? emit runAutoFocus(false) : emit checkFocus(Options::hFRDeviation());
             qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
             break;
         case RefocusState::REFOCUS_ADAPTIVE:
@@ -615,7 +615,7 @@ bool CaptureModuleState::startFocusIfRequired()
                 emit resetFocus();
 
             // force refocus
-            emit checkFocus(0.1);
+            emit runAutoFocus(false);
             // restart in sequence counting
             m_refocusState->resetInSequenceFocusCounter();
             qCDebug(KSTARS_EKOS_CAPTURE) << "Refocusing started...";

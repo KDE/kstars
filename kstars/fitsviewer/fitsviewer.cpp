@@ -54,6 +54,9 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     }
 #endif
 
+    // Since QSharedPointer is managing it, do not delete automatically.
+    setAttribute(Qt::WA_DeleteOnClose, false);
+
     fitsTabWidget   = new QTabWidget(this);
     undoGroup = new QUndoGroup(this);
 
@@ -308,7 +311,6 @@ void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
 
 FITSViewer::~FITSViewer()
 {
-    fitsTabWidget->disconnect();
 }
 
 void FITSViewer::closeEvent(QCloseEvent * /*event*/)
@@ -445,8 +447,6 @@ bool FITSViewer::addFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &i
 
     undoGroup->addStack(tab->getUndoStack());
 
-    m_Tabs.push_back(tab);
-
     fitsMap[fitsID] = tab;
 
     fitsTabWidget->setCurrentWidget(tab.get());
@@ -481,23 +481,27 @@ void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter
 
     QSharedPointer<FITSTab> tab(new FITSTab(this));
 
-    connect(tab.get(), &FITSTab::failed, this, [&](const QString & errorMessage)
+    m_Tabs.push_back(tab);
+
+    connect(tab.get(), &FITSTab::failed, this, [ this ](const QString & errorMessage)
     {
         QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
+        m_Tabs.removeLast();
+        emit failed(errorMessage);
         if (m_Tabs.size() == 0)
         {
             // Close FITS Viewer and let KStars know it is no longer needed in memory.
             close();
         }
-
-        emit failed(errorMessage);
     });
 
     connect(tab.get(), &FITSTab::loaded, this, [ = ]()
     {
-        if (addFITSCommon(tab, imageName, mode, previewText))
+        if (addFITSCommon(m_Tabs.last(), imageName, mode, previewText))
             emit loaded(fitsID++);
+        else
+            m_Tabs.removeLast();
     });
 
     tab->loadFile(imageName, mode, filter);
@@ -511,22 +515,28 @@ bool FITSViewer::loadData(const QSharedPointer<FITSData> &data, const QUrl &imag
 
     QSharedPointer<FITSTab> tab(new FITSTab(this));
 
+    m_Tabs.push_back(tab);
+
     if (!tab->loadData(data, mode, filter))
     {
         auto errorMessage = tab->getView()->imageData()->getLastError();
         QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
+        m_Tabs.removeLast();
+        emit failed(errorMessage);
         if (m_Tabs.size() == 0)
         {
             // Close FITS Viewer and let KStars know it is no longer needed in memory.
             close();
         }
-        emit failed(errorMessage);
         return false;
     }
 
     if (!addFITSCommon(tab, imageName, mode, previewText))
+    {
+        m_Tabs.removeLast();
         return false;
+    }
 
     *tab_uid = fitsID++;
     return true;

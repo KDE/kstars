@@ -36,8 +36,6 @@
 
 #include <csv.h>
 
-gzFile gzopen OF((const char *path, const char *mode));
-
 const QString SupernovaeComponent::tnsDataFilename("tns_public_objects.csv");
 const QString SupernovaeComponent::tnsDataFilenameZip("tns-daily.csv.gz");
 const QString SupernovaeComponent::tnsDataUrl(

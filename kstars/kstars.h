@@ -330,8 +330,13 @@ class KStars : public KXmlGuiWindow
         /** DBUS interface function.
              * @param name the name of the option to query
              * @return the current value of the named option
+             * @note Deprecated because it's not clear how to list the options
              */
-        Q_SCRIPTABLE QString getOption(const QString &name);
+        Q_DECL_DEPRECATED Q_SCRIPTABLE QString getOption(const QString &name);
+
+        /** DBUS interface function. Get the focus information as XML.
+         */
+        Q_SCRIPTABLE QString getFocusInformationXML();
 
         /** DBUS interface function.  Read config file.
              * This function is useful for restoring the user settings from the config file,

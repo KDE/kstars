@@ -146,6 +146,12 @@ public:
     void processFITSData(const QSharedPointer<FITSData> &data);
 
     /**
+     * @brief setNewRemoteFile A new image has been stored as remote file
+     * @param file local file path
+     */
+    void processNewRemoteFile(QString file);
+
+    /**
      * @brief processCaptureCompleted Manage the capture process after a captured image has been successfully downloaded from the camera.
      *
      * When a image frame has been captured and downloaded successfully, send the image to the client (if configured)

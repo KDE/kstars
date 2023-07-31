@@ -672,7 +672,9 @@ void Focus::checkFocuser()
         absTicksLabel->setEnabled(true);
         startGotoB->setEnabled(true);
 
-        absTicksSpin->setValue(currentPosition);
+        // Now that Optical Trains are managing settings, no need to set absTicksSpin, except if it has a bad value
+        if (absTicksSpin->value() <= 0)
+            absTicksSpin->setValue(currentPosition);
     }
     else
     {
@@ -733,8 +735,9 @@ void Focus::checkFocuser()
                 m_Focuser->setBacklash(value);
             }
         });
-
-
+        // Re-esablish connection to sync settings. Only need to reconnect if the focuser
+        // has backlash as the value can't be changed if the focuser doesn't have the backlash property.
+        connect(focusBacklash, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
     }
     else
     {
@@ -883,20 +886,21 @@ void Focus::adaptiveFocus()
     if (inAutoFocus || inFocusLoop || inAdjustFocus)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called whilst other focus activity in progress. Ignoring.";
-        emit focusAdaptiveComplete(false);
+        adaptiveFocusAdmin(false, false, false);
         return;
     }
 
     if (inAdaptiveFocus)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called whilst already inAdaptiveFocus. Ignoring.";
-        emit focusAdaptiveComplete(false);
+        adaptiveFocusAdmin(false, false, false);
         return;
     }
 
     if (!focusAdaptive->isChecked())
     {
-        emit focusAdaptiveComplete(false);
+        qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called but focusAdaptive->isChecked is false. Ignoring.";
+        adaptiveFocusAdmin(false, false, false);
         return;
     }
 
@@ -944,10 +948,7 @@ void Focus::adaptiveFocus()
 
     // Check movement is above user defined minimum
     if (abs(m_LastAdaptiveFocusTotalTicks) < focusAdaptiveMinMove->value())
-    {
-        emit focusAdaptiveComplete(true);
-        inAdaptiveFocus = false;
-    }
+        adaptiveFocusAdmin(true, true, false);
     else
     {
         // Now do some checks that the movement is permitted
@@ -957,8 +958,7 @@ void Focus::adaptiveFocus()
             // Suspend adaptive focusing can always re-enable, if required
             focusAdaptive->setChecked(false);
             appendLogText(i18n("Adaptive Focus suspended. Total movement would exceed Max Travel limit"));
-            emit focusAdaptiveComplete(false);
-            inAdaptiveFocus = false;
+            adaptiveFocusAdmin(true, false, false);
         }
         else if (abs(m_AdaptiveTotalMove + m_LastAdaptiveFocusTotalTicks) > focusAdaptiveMaxMove->value())
         {
@@ -966,12 +966,11 @@ void Focus::adaptiveFocus()
             // Suspend adaptive focusing. User can always re-enable, if required
             focusAdaptive->setChecked(false);
             appendLogText(i18n("Adaptive Focus suspended. Total movement would exceed adaptive limit"));
-            emit focusAdaptiveComplete(false);
-            inAdaptiveFocus = false;
+            adaptiveFocusAdmin(true, false, false);
         }
         else
         {
-            // Go ahead and try to move the focuser. First setup an overscan movement
+            // Go ahead and try to move the focuser. Admin tasks will be completed when the focuser move completes
             appendLogText(i18n("Adaptive Focus moving from %1 to %2", currentPosition,
                                currentPosition + m_LastAdaptiveFocusTotalTicks));
             if (changeFocus(m_LastAdaptiveFocusTotalTicks))
@@ -987,11 +986,35 @@ void Focus::adaptiveFocus()
             {
                 // Problem moving the focuser
                 appendLogText(i18n("Adaptive Focus unable to move focuser"));
-                emit focusAdaptiveComplete(false);
-                inAdaptiveFocus = false;
+                adaptiveFocusAdmin(true, false, false);
             }
         }
     }
+}
+
+// When adaptiveFocus succeeds the focuser is moved and admin tasks are performed to inform other modules that adaptiveFocus is complete
+void Focus::adaptiveFocusAdmin(const bool resetFlag, const bool success, const bool focuserMoved)
+{
+    // Reset member variable inAdaptiveFocus
+    if (resetFlag)
+        inAdaptiveFocus = false;
+
+    // Signal Capture
+    if (focuserMoved)
+    {
+        // Focuser was moved so honour the focuser settle time after movement.
+        QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
+        {
+            emit focusAdaptiveComplete(true);
+        });
+    }
+    else
+        emit focusAdaptiveComplete(success);
+
+    // Signal Analyze if success (both for focuser moves and zero moves)
+    if (success)
+        emit adaptiveFocusComplete(filter(), m_LastAdaptiveFocusTemperature, m_LastAdaptiveFocusTempTicks, m_LastAdaptiveFocusAlt,
+                                   m_LastAdaptiveFocusAltTicks, m_LastAdaptiveFocusTotalTicks, currentPosition);
 }
 
 double Focus::getAdaptiveTempTicks()
@@ -1495,8 +1518,6 @@ void Focus::meridianFlipStarted()
     int old = resetFocusIteration;
     // abort focusing
     abort();
-    // try to shift the focuser back to its initial position
-    resetFocuser();
     // restore iteration counter
     resetFocusIteration = old;
 }
@@ -1509,6 +1530,8 @@ void Focus::abort()
 
     checkStopFocus(true);
     appendLogText(i18n("Autofocus aborted."));
+    // try to shift the focuser back to its initial position
+    resetFocuser();
 }
 
 void Focus::stop(Ekos::FocusState completionState)
@@ -2319,7 +2342,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
 
     if (autoFocusUsed && buildOffsetsUsed)
         // If we are building filter offsets signal AF run is complete
-        m_FilterManager->autoFocusComplete(state, currentPosition);
+        m_FilterManager->autoFocusComplete(state, currentPosition, m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
 
     resetButtons();
 }
@@ -2393,8 +2416,6 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
                 // immediately retry. The startup process will take the current focuser position
                 // as the start position and so the focuser needs to have arrived at its starting
                 // position before this. So set m_RestartState to log this.
-                // JEE FIXME?
-                //resetFocusIteration = 0;
                 m_RestartState = RESTART_ABORT;
                 return;
             }
@@ -3727,15 +3748,7 @@ void Focus::updateProperty(INDI::Property prop)
             {
                 if (focuserAdditionalMovement == 0)
                 {
-                    inAdaptiveFocus = false;
-                    // Signal Analyze with details of
-                    emit adaptiveFocusComplete(filter(), m_LastAdaptiveFocusTemperature, m_LastAdaptiveFocusTempTicks, m_LastAdaptiveFocusAlt,
-                                               m_LastAdaptiveFocusAltTicks, m_LastAdaptiveFocusTotalTicks, m_LastAdaptiveFocusPosition);
-
-                    QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
-                    {
-                        emit focusAdaptiveComplete(true);
-                    });
+                    adaptiveFocusAdmin(true, true, true);
                     return;
                 }
             }
@@ -3810,11 +3823,7 @@ void Focus::updateProperty(INDI::Property prop)
         {
             if (focuserAdditionalMovement == 0)
             {
-                inAdaptiveFocus = false;
-                QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
-                {
-                    emit focusAdaptiveComplete(true);
-                });
+                adaptiveFocusAdmin(true, true, true);
                 return;
             }
         }
@@ -3875,11 +3884,7 @@ void Focus::updateProperty(INDI::Property prop)
         {
             if (focuserAdditionalMovement == 0)
             {
-                inAdaptiveFocus = false;
-                QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
-                {
-                    emit focusAdaptiveComplete(true);
-                });
+                adaptiveFocusAdmin(true, true, true);
                 return;
             }
         }
@@ -4327,7 +4332,7 @@ void Focus::checkFocus(double requiredHFR)
 // Start an AF run. This is called from Build Offsets but could be extended in the future
 void Focus::runAutoFocus(bool buildOffsets)
 {
-    if (inAutoFocus || inFocusLoop || inAdjustFocus || inAdaptiveFocus)
+    if (inAutoFocus || inFocusLoop || inAdjustFocus || inAdaptiveFocus || inBuildOffsets)
         qCDebug(KSTARS_EKOS_FOCUS) << "runAutoFocus rejected, focus procedure is already running.";
     else
     {
@@ -4681,7 +4686,6 @@ void Focus::setupFilterManager()
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         // If we are changing filter offset while idle, then check if we need to suspend guiding.
-        // JEE FIXME - need to test this as now not always doing FILTER_OFFSET
         if (filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
         {
             if (m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
@@ -4717,9 +4721,6 @@ void Focus::setupFilterManager()
         appendLogText(i18n("Filter operation failed."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
     });
-
-    // Check focus if required by filter manager
-    connect(m_FilterManager.get(), &FilterManager::checkFocus, this, &Focus::checkFocus);
 
     // Run Autofocus if required by filter manager
     connect(m_FilterManager.get(), &FilterManager::runAutoFocus, this, &Focus::runAutoFocus);
@@ -6620,7 +6621,7 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     QComboBox *pComboBox = nullptr;
     QSplitter *pSplitter = nullptr;
     QRadioButton *pRadioButton = nullptr;
-    bool ok = false;
+    bool ok = true;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
     {
@@ -6709,19 +6710,46 @@ void Focus::refreshOpticalTrain()
 
         opticalTrainCombo->setCurrentText(name);
 
+        // Load train settings
+        // This needs to be done near the start of this function as methods further down
+        // cause settings to be updated, which in turn interferes with the persistence and
+        // setup of settings in OpticalTrainSettings
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
+        else
+            m_Settings = m_GlobalSettings;
+
         auto focuser = OpticalTrainManager::Instance()->getFocuser(name);
         setFocuser(focuser);
+
+        auto scope = OpticalTrainManager::Instance()->getScope(name);
+
+        // CFZ and FA use scope parameters in their calcs - so update...
+        m_Aperture = scope["aperture"].toDouble(-1);
+        m_FocalLength = scope["focal_length"].toDouble(-1);
+        m_FocalRatio = scope["focal_ratio"].toDouble(-1);
+        m_ScopeType = scope["type"].toString();
+        m_Reducer = OpticalTrainManager::Instance()->getReducer(name);
+
+        // Adjust telescope FL and F# for any reducer
+        if (m_Reducer > 0.0)
+            m_FocalLength *= m_Reducer;
+
+        // Use the adjusted focal length to calculate an adjusted focal ratio
+        if (m_FocalRatio <= 0.0)
+            // For a scope, FL and aperture are specified so calc the F#
+            m_FocalRatio = (m_Aperture > 0.001) ? m_FocalLength / m_Aperture : 0.0f;
+        else if (m_Aperture < 0.0)
+            // DSLR Lens. FL and F# are specified so calc the aperture
+            m_Aperture = m_FocalLength / m_FocalRatio;
 
         auto camera = OpticalTrainManager::Instance()->getCamera(name);
         if (camera)
         {
-            auto scope = OpticalTrainManager::Instance()->getScope(name);
             opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
-            // CFZ and FA use scope parameters in their calcs - so update...
-            m_Aperture = scope["aperture"].toDouble(-1);
-            m_FocalLength = scope["focal_length"].toDouble(-1);
-            m_ScopeType = scope["type"].toString();
-            m_FocalRatio = (m_Aperture > 0.001) ? m_FocalLength / m_Aperture : 0.0f;
+
             // Get the pixel size of the active camera for later calculations
             auto nvp = camera->getNumber("CCD_INFO");
             if (!nvp)
@@ -6738,13 +6766,6 @@ void Focus::refreshOpticalTrain()
         auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
         setFilterWheel(filterWheel);
 
-        // Load train settings
-        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
-        if (settings.isValid())
-            setAllSettings(settings.toJsonObject().toVariantMap());
-        else
-            m_Settings = m_GlobalSettings;
         // Update calcs for the CFZ and Focus Advisor based on the new OT
         resetCFZToOT();
         focusAdvisorSetup();

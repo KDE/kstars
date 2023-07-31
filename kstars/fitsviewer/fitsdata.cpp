@@ -152,17 +152,18 @@ void FITSData::loadCommon(const QString &inFilename)
 bool FITSData::loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename)
 {
     loadCommon(inFilename);
+    m_Extension = extension;
     qCDebug(KSTARS_FITS) << "Reading file buffer (" << KFormat().formatByteSize(buffer.size()) << ")";
-    return privateLoad(buffer, extension);
+    return privateLoad(buffer);
 }
 
 QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
 {
     loadCommon(inFilename);
     QFileInfo info(m_Filename);
-    QString extension = info.completeSuffix().toLower();
+    m_Extension = info.completeSuffix().toLower();
     qCDebug(KSTARS_FITS) << "Loading file " << m_Filename;
-    return QtConcurrent::run(this, &FITSData::privateLoad, QByteArray(), extension);
+    return QtConcurrent::run(this, &FITSData::privateLoad, QByteArray());
 }
 
 namespace
@@ -178,32 +179,32 @@ QString fitsErrorToString(int status)
 }
 }
 
-bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension)
+bool FITSData::privateLoad(const QByteArray &buffer)
 {
     m_isTemporary = m_Filename.startsWith(KSPaths::writableLocation(QStandardPaths::TempLocation));
     cacheHFR = -1;
     cacheEccentricity = -1;
 
-    if (extension.contains("fit") || extension.contains("fz"))
-        return loadFITSImage(buffer, extension);
-    if (extension.contains("xisf"))
+    if (m_Extension.contains("fit") || m_Extension.contains("fz"))
+        return loadFITSImage(buffer);
+    if (m_Extension.contains("xisf"))
         return loadXISFImage(buffer);
-    if (QImageReader::supportedImageFormats().contains(extension.toLatin1()))
-        return loadCanonicalImage(buffer, extension);
-    else if (RAWFormats.contains(extension))
-        return loadRAWImage(buffer, extension);
+    if (QImageReader::supportedImageFormats().contains(m_Extension.toLatin1()))
+        return loadCanonicalImage(buffer);
+    else if (RAWFormats.contains(m_Extension))
+        return loadRAWImage(buffer);
 
     return false;
 }
 
-bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension, const bool isCompressed)
+bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
 {
     int status = 0, anynull = 0;
     long naxes[3];
 
     m_HistogramConstructed = false;
 
-    if (extension.contains(".fz") || isCompressed)
+    if (m_Extension.contains(".fz") || isCompressed)
     {
         fpstate fpvar;
         fp_init (&fpvar);
@@ -306,7 +307,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     {
         loadCommon(m_Filename);
         qCDebug(KSTARS_FITS) << "Image is compressed. Reloading...";
-        return loadFITSImage(buffer, extension, true);
+        return loadFITSImage(buffer, true);
     }
 
     if (m_Statistics.ndim < 2)
@@ -600,13 +601,12 @@ bool FITSData::saveXISFImage(const QString &newFilename)
 #endif
 }
 
-bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &extension)
+bool FITSData::loadCanonicalImage(const QByteArray &buffer)
 {
     QImage imageFromFile;
     if (!buffer.isEmpty())
     {
-        if(!imageFromFile.loadFromData(reinterpret_cast<const uint8_t*>(buffer.data()), buffer.size(),
-                                       extension.toLatin1().constData()))
+        if(!imageFromFile.loadFromData(reinterpret_cast<const uint8_t*>(buffer.data()), buffer.size()))
         {
             qCCritical(KSTARS_FITS) << "Failed to open image.";
             return false;
@@ -717,11 +717,8 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     return true;
 }
 
-bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension)
+bool FITSData::loadRAWImage(const QByteArray &buffer)
 {
-    // TODO need to add error popups as well later on
-    Q_UNUSED(extension);
-
 #if !defined(KSTARS_LITE) && !defined(HAVE_LIBRAW)
     m_LastError = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
     return false;

@@ -1473,7 +1473,7 @@
 >Stellarium</ulink
 >. Les détails de la création d'image sont les mêmes que pour &kstars;. </para>
 <para
->L'utilisateur prend d'abord une image à 360° en projection équirectangulaire depuis approximativement le même point de vue que son télescope. Ce type d'image peut être prise avec l'App de caméra de Google, ou l'App Youtube de Google, avec son téléphone portable ou tout autre application de caméra. L'utilisateur doit ensuite modifier l'image pour rendre le ciel transparent et l'enregistrer dans le format PNG. Enfin, il doit déterminer où est le nord dans l'image pour l'aligner avec le nord de la carte du ciel. Une fois tout ceci terminé, la carte du ciel peut simuler la vision locale du ciel en incluant le terrain local. </para>
+>L'utilisateur prend d'abord une image à 360° en projection équirectangulaire depuis approximativement le même point de vue que son télescope. Ce type d'image peut être prise avec l'App de l'appareil photo de Google, ou l'App Youtube de Google, avec son téléphone portable ou tout autre application de l'appareil photo. L'utilisateur doit ensuite modifier l'image pour rendre le ciel transparent et l'enregistrer dans le format PNG. Enfin, il doit déterminer où est le nord dans l'image pour l'aligner avec le nord de la carte du ciel. Une fois tout ceci terminé, la carte du ciel peut simuler la vision locale du ciel en incluant le terrain local. </para>
 <para
 >Une fois l'image créée, il faut la charger via la page <guilabel
 >Terrain</guilabel
@@ -1585,13 +1585,13 @@
 <para
 >Veuillez cocher la case <guilabel
 >Utiliser l'afficheur FITS</guilabel
-> si vous souhaitez afficher automatiquement les images FITS reçues de votre caméra dans l'afficheur FITS. </para>
+> si vous souhaitez afficher automatiquement les images FITS reçues dans l'afficheur FITS. </para>
 <para
 >La case <guilabel
 >Onglet d'affichage simple</guilabel
 > permet d'afficher toutes les images FITS dans un seul onglet plutôt que de multiples onglets par image. La case <guilabel
 >Fenêtre d'acquisition unique</guilabel
-> permet d'afficher toutes les images FITS de toutes les caméras dans une seule fenêtre plutôt que dans une fenêtre dédiée pour chaque caméra. La case <guilabel
+> permet d'afficher toutes les images FITS de tous les appareils pjoto dans une seule fenêtre plutôt que dans une fenêtre dédiée pour chaque appareil photo. La case <guilabel
 >Ouverture d'une fenêtre unique</guilabel
 > permet d'afficher les images FITS ouvertes dans une fenêtre d'affichage FITS unique plutôt que dans une fenêtre dédiée à chaque fichier et enfin <guilabel
 >Fenêtre indépendante</guilabel
@@ -1926,5 +1926,94 @@
 </listitem>
 </itemizedlist>
 
+</sect1>
+
+<sect1 id="skymap_orientation">
+  <title
+>Ajustement de l'orientation de la carte du ciel</title>
+  <para
+>Vous pouvez ajuster différents réglages pour que l'orientation de la carte du ciel soit la même que la vue à travers votre instrument optique, à condition que l'instrument ne copie pas le champ de vision (ce que font les prismes utilisés dans les télescopes de Schmidt-Cassegrain (SCT) et les réfracteurs). </para>
+  <para
+>Commencez par choisir le système de coordonnées qui correspond à votre monture. Pour une monture équatoriale, passez en mode Coordonnées Équatoriales dans le menu <guimenu
+>Affichage</guimenu
+>. Cette option est nommée <guilabel
+>Passer en coordonnées horizontales</guilabel
+> quand le mode actif est en coordonnées équatoriales. Pour un instrument monté en alt-azimutale ou une observation à l'œil nu, passez aux coordonnées horizontales dans le menu <guimenu
+>Affichage</guimenu
+> avec l'option <guilabel
+>Passez en coordonnées horizontales</guilabel
+>. Cette opération fixe le système de coordonnées de base utilisé pour l'affichage de la carte du ciel ainsi que la référence pour son orientation, soit zénith ou nord. </para>
+  <para
+>Vous pouvez effectuer une rotation libre en gardant enfoncée la touche &Maj; et en glissant la souris sur la carte du ciel. Une superposition temporaire apparaîtra montrant la direction du nord et du zénith à ce point et affichera leur angle avec la verticale dans le sens antihoraire. L'orientation du zénith et du nord sera actualisée lorsque vous effectuerez une rotation de la carte du ciel. L'opération se terminera dès que vous relâcherez la touche &Maj;. La rotation fixée sera conservée en tant que décalage par rapport à la direction de référence, même lorsque vous déplacerez la carte du ciel ou zoomer sur différents objets. La direction de référence est le nord lorsque vous utilisez les coordonnées équatoriales et le zénith pour les coordonnées horizontales. Pour rappel, la direction de référence est représentée par un trait plein et de couleur vive dans la superposition temporaire. La rotation peut être réglée pour ces deux orientations communes dans les sous-menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Orientation de la carte du ciel</guisubmenu
+></menuchoice
+>. Choisissez « Nord en bas » ou « Zénith en bas » en fonction du système de coordonnées utilisé pour régler une orientation de 180 degrés. </para>
+  <para
+>Si vous observez à l'œil nu à travers un oculaire d'un instrument, il se peut que vous deviez faire quelques corrections supplémentaires. Pour le cas commun d'un télescope de Dobson (ou plus généralement un Newton monté sur une monture alt-azimutale), une correction supplémentaire systématique est nécessaire. Elle s'applique parce que l'observateur se tient debout lors de l'observation indépendamment de l'angle du tube du télescope par rapport au sol. Ainsi, à mesure que l'on bouge le télescope en élévation, il est nécessaire d'appliquer une correction dépendante de l'altitude de l'objet pour que la carte du ciel corresponde à la vue à travers l'oculaire. Cette correction est activée en cochant la case <guilabel
+>Correction observateur debout</guilabel
+> dans le sous-menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Orientation de la carte du ciel</guisubmenu
+></menuchoice
+>. Cette correction ne fait sens que dans le mode de coordonnées horizontales et est par conséquent désactivée en coordonnées équatoriales. </para>
+  <para
+>Voici quelques exemples d'utilisation de ces réglages pour différents instruments : <itemizedlist>
+      <listitem
+><para
+>Observation à l'œil nu : choisissez les coordonnées horizontales et une orientation <guilabel
+>Zénith en haut</guilabel
+> dans le sous-menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Orientation de la carte du ciel</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Appareil photo monté sur une monture équatoriale : choisissez les coordonnées équatoriales et ajustez l'orientation de la carte du ciel pour qu'elle corresponde à votre appareil photo. À mesure que votre monture point vers différentes régions du ciel, l'orientation devrait s'ajuster correctement.</para
+></listitem>
+      <listitem
+><para
+>Utilisation de jumelles : utilisez les mêmes réglages que pour l'observation à l'œil nu.</para
+></listitem>
+      <listitem
+><para
+>Chercheur redresseur d'image à angle droit sur une monture alt-azimutale : utilisez les mêmes réglages que pour l'observation à l'œil nu, sauf qu'il vous faudra peut-être ajuster l'orientation une fois si elle est montée à un angle.</para
+></listitem>
+      <listitem
+><para
+>Chercheur inversé sur une monture alt-azimutale : choisissez les coordonnées horizontales et une orientation de la carte du ciel avec <guilabel
+>Zénith en bas</guilabel
+> dans le sous-menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Orientation de la carte du ciel</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Oculaire d'un télescope de Dobson : choisissez les coordonnées horizontales, et dans le sous-menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Orientation de la carte du ciel</guisubmenu
+></menuchoice
+>, choisissez <guilabel
+>Zénith en bas</guilabel
+> et cochez l'option <guilabel
+>Correction observateur debout</guilabel
+>. Ensuite ajustez l'orientation manuellement une fois pour correspondre la vue de l'oculaire et le suivi devrait fonctionner.</para
+></listitem>
+    </itemizedlist>
+  </para>
 </sect1
 >&hips; </chapter>

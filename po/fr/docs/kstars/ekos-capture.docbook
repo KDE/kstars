@@ -266,7 +266,7 @@
 >%T</emphasis
 > ou <emphasis role="bold"
 >%Type</emphasis
->: le type de trame &pex; 'Light', 'Bias', 'Dark', 'Flat'… </para>
+>: le type de trame, par exemple 'Light', 'Bias', 'Dark', 'Flat'… </para>
                     </listitem>
                     <listitem>
                         <para

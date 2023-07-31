@@ -519,7 +519,7 @@ void DarkLibrary::updateProperty(INDI::Property prop)
 
     auto bp = prop.getBLOB()->at(0);
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
-    if (!m_CurrentDarkFrame->loadFromBuffer(buffer, "fits"))
+    if (!m_CurrentDarkFrame->loadFromBuffer(buffer, bp->getFormat()))
     {
         m_FileLabel->setText(i18n("Failed to process dark data."));
         return;
@@ -1179,7 +1179,6 @@ void DarkLibrary::generateDarkJobs()
                     settings["gain"] = captureGainN->value();
                 if (captureISOS->isEnabled())
                     settings["iso"] = captureISOS->currentIndex();
-                settings["transferFormat"] = 0;
 
                 QString directory = prefix + QString("sequence_%1").arg(sequence);
                 QJsonObject fileSettings;
@@ -1362,7 +1361,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
     QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("darks/darkframe_" + ts +
-                   ".fits");
+                   data->extension());
 
     data->calculateStats(true);
     if (!data->saveImage(path))

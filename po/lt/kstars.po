@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-19 00:45+0000\n"
+"POT-Creation-Date: 2023-07-31 00:42+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -418,11 +418,11 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/filtermanager.cpp:1229 ekos/capture/capture.cpp:3183
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:3177
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
-#: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
+#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:730
 #: options/opscolors.ui:204
 #, kde-format, kde-kuit-format
 msgid "Save"
@@ -477,15 +477,15 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Įrašyti paveikslėlį"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3785
-#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1315
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3789
+#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1314
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Failas pavadinimu „%1“ jau egzistuoja. Perrašyti failą?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3788
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1316
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3792
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1315
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -746,7 +746,7 @@ msgstr "Naudoti nurodytą konfigūracijos failą"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:726
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:723
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1898,7 +1898,7 @@ msgstr "Sargas"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/capture.ui:813
-#: oal/equipmentwriter.ui:195 oal/equipmentwriter.ui:1005 oal/execute.ui:146
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:1011 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
@@ -1979,12 +1979,12 @@ msgstr "Būsena"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2830 ekos/auxiliary/darklibrary.cpp:46
-#: ekos/auxiliary/filtermanager.cpp:972 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/analyze/analyze.cpp:2844 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:572 ekos/manager/guidemanager.cpp:130
+#: ekos/manager.cpp:572 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1299
 #: ekos/scheduler/schedulerjob.cpp:667 ekos/scheduler/schedulerjob.cpp:691
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
@@ -2586,12 +2586,12 @@ msgstr ""
 "Neteisingas URL. Ar interneto naršyklėje\n"
 "atverti Google paieškos sistemos tinklapį?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3796
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1152 ekos/capture/capture.cpp:2752
-#: ekos/capture/capture.cpp:3192 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2746
+#: ekos/capture/capture.cpp:3186 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
-#: fitsviewer/fitstab.cpp:498 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2905,7 +2905,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
-#: fitsviewer/fitsviewer.cpp:597 indi/indicamera.cpp:926
+#: fitsviewer/fitsviewer.cpp:607 indi/indicamera.cpp:926
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Preview"
@@ -3088,8 +3088,8 @@ msgstr "Keisti..."
 #. i18n: ectx: property (text), widget (QPushButton, RemovePreset)
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 indi/customdrivers.ui:154 indi/drivermanager.ui:311
-#: oal/equipmentwriter.ui:429 oal/equipmentwriter.ui:928
-#: oal/equipmentwriter.ui:1265 options/opscolors.ui:230
+#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:934
+#: oal/equipmentwriter.ui:1271 options/opscolors.ui:230
 #, kde-format
 msgid "Remove"
 msgstr "Pašalinti"
@@ -3134,7 +3134,7 @@ msgstr "Trinti visus paveikslėlius"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetColor)
 #: dialogs/catalogeditform.ui:79 dialogs/newfov.ui:1246
-#: oal/equipmentwriter.ui:1015 xplanet/opsxplanet.ui:666
+#: oal/equipmentwriter.ui:1021 xplanet/opsxplanet.ui:666
 #, kde-format
 msgid "Color:"
 msgstr "Spalva:"
@@ -3278,7 +3278,7 @@ msgstr "Dabartinis prižiūrėtojas"
 #. i18n: ectx: property (text), widget (QCheckBox, f_UseAutoFocus)
 #: dialogs/catalogsdbui.cpp:121 dialogs/catalogsdbui.cpp:135
 #: dialogs/catalogsdbui.ui:73 ekos/observatory/observatory.ui:370
-#: oal/equipmentwriter.ui:1171
+#: oal/equipmentwriter.ui:1177
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Disable"
@@ -3858,7 +3858,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:1288 ekos/capture/capture.cpp:1326
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
-#: indi/streamform.ui:368 oal/equipmentwriter.ui:1185
+#: indi/streamform.ui:368 oal/equipmentwriter.ui:1191
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -5095,7 +5095,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
-#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:363
+#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:366
 #, kde-format
 msgid "Eyepiece"
 msgstr "Okuliaras"
@@ -5140,9 +5140,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #. i18n: ectx: property (text), widget (QLabel, binoApertureUnit)
 #: dialogs/newfov.ui:134 dialogs/newfov.ui:193 dialogs/newfov.ui:477
-#: oal/equipmentwriter.ui:173 oal/equipmentwriter.ui:229
-#: oal/equipmentwriter.ui:445 oal/equipmentwriter.ui:619
-#: oal/equipmentwriter.ui:675 tools/whatsinteresting/wiequipsettings.ui:213
+#: oal/equipmentwriter.ui:176 oal/equipmentwriter.ui:232
+#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:625
+#: oal/equipmentwriter.ui:681 tools/whatsinteresting/wiequipsettings.ui:213
 #, kde-format
 msgid "mm"
 msgstr "mm"
@@ -5445,7 +5445,7 @@ msgstr "m"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9_3)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1157
+#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "Wavelength:"
 msgstr "Bangos ilgis:"
@@ -5493,7 +5493,7 @@ msgstr "Apskaičiuoti HPBW"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newfov.ui:1017 dialogs/newfov.ui:1027 dialogs/newfov.ui:1034
-#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:285
+#: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:291
 #, kde-format
 msgid "arcmin"
 msgstr "′"
@@ -6014,14 +6014,14 @@ msgstr ""
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr ""
 
-#: ekos/align/align.cpp:1066
+#: ekos/align/align.cpp:1069
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr ""
 
-#: ekos/align/align.cpp:1105
+#: ekos/align/align.cpp:1108
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -6029,30 +6029,30 @@ msgid ""
 "p><p>Calculated FOV: %1</p>"
 msgstr ""
 
-#: ekos/align/align.cpp:1114
+#: ekos/align/align.cpp:1117
 #, fuzzy, kde-format
 #| msgid "Desired field-of-view size, in arcminutes"
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "Reikiamas regos laukas, laipsnio minutėmis"
 
-#: ekos/align/align.cpp:1395
+#: ekos/align/align.cpp:1398
 #, kde-format
 msgid "Error: No camera detected."
 msgstr ""
 
-#: ekos/align/align.cpp:1401
+#: ekos/align/align.cpp:1404
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: lost connection to camera."
 msgstr "Ryšys"
 
-#: ekos/align/align.cpp:1402 ekos/align/align.cpp:2260
+#: ekos/align/align.cpp:1405 ekos/align/align.cpp:2263
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Astrometry alignment failed"
 msgstr "Lygiavimas"
 
-#: ekos/align/align.cpp:1418
+#: ekos/align/align.cpp:1421
 #, fuzzy, kde-format
 #| msgid ""
 #| "Sorry. KStars failed to detect any attached telescopes, please check your "
@@ -6064,7 +6064,7 @@ msgstr ""
 "KStars nepavyko rasti prijungto ar prijungtų teleskopų, patikrinkite "
 "nuostatas ir bandykite vėl."
 
-#: ekos/align/align.cpp:1424
+#: ekos/align/align.cpp:1427
 #, fuzzy, kde-format
 #| msgid ""
 #| "Sorry. KStars failed to detect any attached telescopes, please check your "
@@ -6075,54 +6075,54 @@ msgstr ""
 "KStars nepavyko rasti prijungto ar prijungtų teleskopų, patikrinkite "
 "nuostatas ir bandykite vėl."
 
-#: ekos/align/align.cpp:1432
+#: ekos/align/align.cpp:1435
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: lost connection to filter wheel."
 msgstr "Ryšys"
 
-#: ekos/align/align.cpp:1452 ekos/capture/capture.cpp:4048
-#: ekos/capture/captureprocess.cpp:216 ekos/focus/focus.cpp:4828
+#: ekos/align/align.cpp:1455 ekos/capture/capture.cpp:4037
+#: ekos/capture/captureprocess.cpp:220 ekos/focus/focus.cpp:4829
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr ""
 
-#: ekos/align/align.cpp:1472
+#: ekos/align/align.cpp:1475
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 
-#: ekos/align/align.cpp:1480
+#: ekos/align/align.cpp:1483
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr ""
 
-#: ekos/align/align.cpp:1489
+#: ekos/align/align.cpp:1492
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/align/align.cpp:1507 ekos/align/align.cpp:2928
+#: ekos/align/align.cpp:1510 ekos/align/align.cpp:2932
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1561 ekos/focus/focus.cpp:1703
+#: ekos/align/align.cpp:1564 ekos/focus/focus.cpp:1726
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image..."
 msgstr "Įkeliami paveikslai..."
 
-#: ekos/align/align.cpp:1651 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2556
+#: ekos/align/align.cpp:1654 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/focus/focus.cpp:2577
 #, kde-format
 msgid "Image received."
 msgstr "Paveikslas gautas."
 
-#: ekos/align/align.cpp:1775
+#: ekos/align/align.cpp:1778
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -6130,91 +6130,91 @@ msgid ""
 "to the list."
 msgstr ""
 
-#: ekos/align/align.cpp:1834
+#: ekos/align/align.cpp:1837
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Solving with blind image scale..."
 msgstr "Įkeliami paveikslai..."
 
-#: ekos/align/align.cpp:1842
+#: ekos/align/align.cpp:1845
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Solving with blind image position..."
 msgstr "Įkeliami paveikslai..."
 
-#: ekos/align/align.cpp:1865
+#: ekos/align/align.cpp:1868
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Loaded image does not have pierside information"
 msgstr "Nepavyko įkelti paveikslo"
 
-#: ekos/align/align.cpp:1870
+#: ekos/align/align.cpp:1873
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr ""
 
-#: ekos/align/align.cpp:1964
+#: ekos/align/align.cpp:1967
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Solver completed after %1 seconds."
 msgstr "baigta"
 
-#: ekos/align/align.cpp:1980
+#: ekos/align/align.cpp:1983
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 
-#: ekos/align/align.cpp:2047
+#: ekos/align/align.cpp:2050
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
 
-#: ekos/align/align.cpp:2065
+#: ekos/align/align.cpp:2068
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 
-#: ekos/align/align.cpp:2076
+#: ekos/align/align.cpp:2079
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Žvaigždėlapyje rodyti kur link nukreiptas teleskopas"
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2121
+#: ekos/align/align.cpp:2124
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Camera position angle is %1 degrees."
 msgstr "Keičia CCD lusto užduotąją temperatūrą."
 
-#: ekos/align/align.cpp:2143 ekos/align/align.cpp:2553
-#: ekos/align/align.cpp:2593
+#: ekos/align/align.cpp:2146 ekos/align/align.cpp:2557
+#: ekos/align/align.cpp:2597
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Astrometry alignment completed successfully"
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/align/align.cpp:2165
+#: ekos/align/align.cpp:2168
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2194
+#: ekos/align/align.cpp:2197
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2255
+#: ekos/align/align.cpp:2258
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Failed."
 msgstr "Nerodyti regos lauko"
 
-#: ekos/align/align.cpp:2258
+#: ekos/align/align.cpp:2261
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6222,43 +6222,43 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2317
+#: ekos/align/align.cpp:2321
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Keičia CCD lusto užduotąją temperatūrą."
 
-#: ekos/align/align.cpp:2324
+#: ekos/align/align.cpp:2328
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2338
+#: ekos/align/align.cpp:2342
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2405
+#: ekos/align/align.cpp:2409
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Refresh is complete."
 msgstr "%1 prisijungęs."
 
-#: ekos/align/align.cpp:2412 ekos/auxiliary/darklibrary.cpp:1412
-#: ekos/focus/focus.cpp:1470
+#: ekos/align/align.cpp:2416 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/focus/focus.cpp:1493
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
 msgstr "Gauti paveikslą"
 
-#: ekos/align/align.cpp:2418
+#: ekos/align/align.cpp:2422
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Solver aborted after %1 seconds."
 msgstr "FITS failas įrašytas į %1"
 
-#: ekos/align/align.cpp:2461 ekos/capture/capture.cpp:1966
-#: ekos/focus/focus.cpp:3961 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
+#: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1966
+#: ekos/focus/focus.cpp:3966 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:917
 #, kde-format
@@ -6266,85 +6266,85 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2524
+#: ekos/align/align.cpp:2528
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2547
+#: ekos/align/align.cpp:2551
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Mount is synced to solution coordinates."
 msgstr "Žvaigždėlapyje rodyti kur link nukreiptas teleskopas"
 
-#: ekos/align/align.cpp:2582 ekos/align/align.cpp:2612
-#: ekos/align/align.cpp:3921 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2586 ekos/align/align.cpp:2616
+#: ekos/align/align.cpp:3925 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling..."
 msgstr "Nuostatos"
 
-#: ekos/align/align.cpp:2588
+#: ekos/align/align.cpp:2592
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Differential slewing complete."
 msgstr "baigta"
 
-#: ekos/align/align.cpp:2602
+#: ekos/align/align.cpp:2606
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2604
+#: ekos/align/align.cpp:2608
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2647 ekos/align/align.cpp:2799
+#: ekos/align/align.cpp:2651 ekos/align/align.cpp:2803
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2649
+#: ekos/align/align.cpp:2653
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Slewing failed."
 msgstr "Papildymas"
 
-#: ekos/align/align.cpp:2692
+#: ekos/align/align.cpp:2696
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "Pozicinis kampas"
 
-#: ekos/align/align.cpp:2704
+#: ekos/align/align.cpp:2708
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:2749
+#: ekos/align/align.cpp:2753
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Slew detected, suspend solving..."
 msgstr "Prasideda:"
 
-#: ekos/align/align.cpp:2793
+#: ekos/align/align.cpp:2797
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/align/align.cpp:2817
+#: ekos/align/align.cpp:2821
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/align/align.cpp:2822
+#: ekos/align/align.cpp:2826
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid ""
@@ -6352,43 +6352,43 @@ msgid ""
 "notification)"
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/align/align.cpp:2841
+#: ekos/align/align.cpp:2845
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:2897
+#: ekos/align/align.cpp:2901
 #, fuzzy, kde-format
 #| msgid "Load Image"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Įkelti paveikslėlį"
 
-#: ekos/align/align.cpp:3127
+#: ekos/align/align.cpp:3131
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Parinkite koordinačių sistemą išvesties failui"
 
-#: ekos/align/align.cpp:3132
+#: ekos/align/align.cpp:3136
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Parinkite koordinačių sistemą išvesties failui"
 
-#: ekos/align/align.cpp:3151
+#: ekos/align/align.cpp:3155
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture error. Aborting..."
 msgstr "Gauti paveikslą"
 
-#: ekos/align/align.cpp:3156 ekos/capture/capture.cpp:2028
-#: ekos/capture/captureprocess.cpp:1252
+#: ekos/align/align.cpp:3160 ekos/capture/capture.cpp:2028
+#: ekos/capture/captureprocess.cpp:1273
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3276
+#: ekos/align/align.cpp:3280
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Alignment"
@@ -6396,108 +6396,108 @@ msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Lygiavimas"
 
-#: ekos/align/align.cpp:3349
+#: ekos/align/align.cpp:3353
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "StellarSolver Options"
 msgstr "Žvaigždynų pavadinimų nuostatos"
 
-#: ekos/align/align.cpp:3354
+#: ekos/align/align.cpp:3358
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3358
+#: ekos/align/align.cpp:3362
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "Atstatyti poziciją"
 
-#: ekos/align/align.cpp:3362
+#: ekos/align/align.cpp:3366
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "Miniatiūros rengyklė"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3380 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3384 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Input File:"
 msgid "Index Files"
 msgstr "Įvesties failas:"
 
-#: ekos/align/align.cpp:3445 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3449 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgid "arcmin"
 msgid "dRA (arcsec)"
 msgstr "′"
 
-#: ekos/align/align.cpp:3446 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3450 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcseconds"
 msgid "dDE (arcsec)"
 msgstr "laipsnio sekundėmis"
 
-#: ekos/align/align.cpp:3492 ekos/capture/capture.cpp:4249
-#: ekos/focus/focus.cpp:4717
+#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:4238
+#: ekos/focus/focus.cpp:4721
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Kalibravimas"
 
-#: ekos/align/align.cpp:3504 ekos/capture/capture.cpp:4185
+#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:4174
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3511 ekos/auxiliary/filtermanager.cpp:1348
-#: ekos/capture/capture.cpp:4190
+#: ekos/align/align.cpp:3515 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/capture/capture.cpp:4179
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3516 ekos/capture/capture.cpp:4195
+#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:4184
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
 msgstr "baigta"
 
-#: ekos/align/align.cpp:3637
+#: ekos/align/align.cpp:3641
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "Neteisingas URL"
 
-#: ekos/align/align.cpp:3772
+#: ekos/align/align.cpp:3776
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Pašalinti visus orbitų pėdsakus"
 
-#: ekos/align/align.cpp:3795 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2751
-#: ekos/capture/capture.cpp:3191 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/align.cpp:3799 ekos/align/mountmodel.cpp:263
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2745
+#: ekos/capture/capture.cpp:3185 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
-#: fitsviewer/fitstab.cpp:497 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
 msgstr "Klaidingas URL: %1"
 
-#: ekos/align/align.cpp:3804 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:3214 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/align/align.cpp:3808 ekos/align/mountmodel.cpp:400
+#: ekos/capture/capture.cpp:3208 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:4830 ekos/scheduler/scheduler.cpp:7226
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Nepavyksta įrašyti į failą %1"
 
-#: ekos/align/align.cpp:3805 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2767
+#: ekos/align/align.cpp:3809 ekos/align/mountmodel.cpp:283
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2761
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
 #: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
 #: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1364 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1363 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6510,31 +6510,31 @@ msgstr "Nepavyksta įrašyti į failą %1"
 msgid "Could Not Open File"
 msgstr "Nepavyksta atverti failo"
 
-#: ekos/align/align.cpp:3826
+#: ekos/align/align.cpp:3830
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Klaidos eilutėse"
 
-#: ekos/align/align.cpp:3835
+#: ekos/align/align.cpp:3839
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Horizontaliosios koordinatės"
 
-#: ekos/align/align.cpp:3849
+#: ekos/align/align.cpp:3853
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Polar Alignment"
 msgstr "Lygiavimas"
 
-#: ekos/align/align.cpp:4378
+#: ekos/align/align.cpp:4382
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "Gauti paveikslą"
 
-#: ekos/align/align.cpp:4387
+#: ekos/align/align.cpp:4391
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -6585,7 +6585,7 @@ msgstr "Įkelti katalogą..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:149 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:2554 ekos/focus/focus.ui:456
+#: ekos/capture/capture.cpp:2548 ekos/focus/focus.ui:456
 #: ekos/guide/guide.ui:153 ekos/manager.cpp:222
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -6773,9 +6773,9 @@ msgstr "Rekascensija:"
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
-"<html><head/><body><p>Active telescope supplied (effective) focal length in "
-"millimeters. Update telescope focal length to match the effective focal "
-"length to speed up plate solving.</p></body></html>"
+"<html><head/><body><p>Calculated telescope (effective) focal length in "
+"millimeters. The effective focal length is measured from plate-solving.</p></"
+"body></html>"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
@@ -6791,8 +6791,8 @@ msgstr "V"
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
-"<html><head/><body><p>Active telescope calculated (effective) focal ratio. "
-"The effective focal ratio is measured from astrometry.</p></body></html>"
+"<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
+"effective focal ratio is measured from astrometry.</p></body></html>"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -6803,11 +6803,11 @@ msgid "R:"
 msgstr "Rekascensija:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
-#. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
-#: ekos/align/align.ui:524 ekos/guide/guide.ui:674
-#, kde-format
-msgid "Reducer"
-msgstr ""
+#: ekos/align/align.ui:524
+#, fuzzy, kde-format
+#| msgid "Use the specified configuration file"
+msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
 #: ekos/align/align.ui:534
@@ -6920,7 +6920,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/align/align.ui:716 ekos/align/opsalign.ui:257
+#: ekos/align/align.ui:716 ekos/align/opsalign.ui:263
 #: ekos/capture/rotatorsettings.ui:20
 #, fuzzy, kde-format
 #| msgid "Current color settings"
@@ -7162,14 +7162,14 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Stebimųjų sąrašas"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2766
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2760
 #: ekos/scheduler/scheduler.cpp:4485 ekos/scheduler/scheduler.cpp:7169
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
 msgstr "Nepavyko atverti „%1“ failo."
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2793
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2787
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7613,10 +7613,17 @@ msgstr "Saratovas"
 #: ekos/align/opsalign.ui:72
 #, kde-format
 msgid ""
-"Options for the method of Star Extraction.  Internal SEP uses an internal "
-"library in KStars, External Sextractor requires an external program, and "
-"Built In uses whatever default Star Extraction process your selected solving "
-"method uses."
+"<html><head/><body><p align=\"center\">Options for the method of Star "
+"Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Internal SEP uses an internal library in KStars.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">External Sextractor "
+"requires an external program.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Built In Method uses whatever default Star Extraction process "
+"your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
@@ -7643,14 +7650,17 @@ msgstr ""
 #: ekos/align/opsalign.ui:94
 #, kde-format
 msgid ""
-"Selects the method of plate solving with the StellarSolver Library.  The "
-"StellarSolver option uses StellarSolver's internal build of Astrometry.net "
-"and requires no external programs.  Local Astrometry uses a local "
-"installation of command line astrometry.net on Linux and Mac or ANSVR on "
-"Windows.  Local Watney uses a local installation of the Watney Astrometry "
-"Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-"program.  And Online uses either astrometry.net over the internet or ANSVR "
-"on a nearby computer."
+"<html><head/><body><p align=\"center\">Selects the method of plate solving "
+"with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
+"StellarSolver's internal build of Astrometry.net and requires no external "
+"programs. </li><li>'Local Astrometry' uses a local installation of command "
+"line astrometry.net on Linux and Mac or ANSVR on Windows. </li><li>'Local "
+"ASTAP' uses a local installation of the ASTAP program. </li><li>'Local "
+"Watney' uses a local installation of the Watney Astrometry Solver Program.</"
+"li><li>'Online' uses either astrometry.net over the internet or ANSVR on a "
+"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwith "
+"is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
+"Solver'.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
@@ -7710,14 +7720,14 @@ msgid "Selects the Options Profile to use for Plate Solving"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
-#: ekos/align/opsalign.ui:191
+#: ekos/align/opsalign.ui:197
 #, kde-format
 msgid ""
 "Opens the currently selected Options Profile in the Options Profile Editor"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/align/opsalign.ui:206
+#: ekos/align/opsalign.ui:212
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Alignment"
@@ -7725,7 +7735,7 @@ msgid "Alignment Options"
 msgstr "Lygiavimas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:224
+#: ekos/align/opsalign.ui:230
 #, kde-format
 msgid ""
 "enable World Coordinate System (WCS). WCS is used to encode RA/DEC "
@@ -7733,26 +7743,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverWCS)
-#: ekos/align/opsalign.ui:227
+#: ekos/align/opsalign.ui:233
 #, fuzzy, kde-format
 #| msgid "CSV"
 msgid "WCS"
 msgstr "CSV"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:234
+#: ekos/align/opsalign.ui:240
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:237 tools/eyepiecefield.cpp:77
+#: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
 #, kde-format
 msgid "Overlay"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PAHAutoPark)
-#: ekos/align/opsalign.ui:244
+#: ekos/align/opsalign.ui:250
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -7762,7 +7772,7 @@ msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
-#: ekos/align/opsalign.ui:247 ekos/mount/mount.ui:426
+#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:426
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Auto Park"
@@ -7770,7 +7780,7 @@ msgstr "Automatinė skalė"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:4930
+#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:4920
 #: ekos/focus/focus.ui:1895
 #, fuzzy, kde-format
 #| msgid "Filter:"
@@ -7778,7 +7788,7 @@ msgid "Threshold:"
 msgstr "Filtras:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
-#: ekos/align/opsalign.ui:272
+#: ekos/align/opsalign.ui:278
 #, kde-format
 msgid ""
 "<html><head/><body><p>Rotator threshold in arc-minutes when using Load &amp; "
@@ -7788,7 +7798,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:307
+#: ekos/align/opsalign.ui:313
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use automatic or manual rotation control when using "
@@ -7799,7 +7809,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseRotator)
-#: ekos/align/opsalign.ui:310
+#: ekos/align/opsalign.ui:316
 #, fuzzy, kde-format
 msgid "Automatic && Manual Rotator Control"
 msgstr "Monrealis"
@@ -7923,7 +7933,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseImageScale)
 #. i18n: ectx: label, entry (AstrometryUseImageScale), group (Align)
-#: ekos/align/opsastrometry.ui:57 kstars.kcfg:2328
+#: ekos/align/opsastrometry.ui:57 kstars.kcfg:2333
 #, kde-format
 msgid ""
 "Set image scale to speed up solver as it does not have to search index files "
@@ -8070,7 +8080,7 @@ msgstr "Žvaigždynų pavadinimų nuostatos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUsePosition)
 #. i18n: ectx: label, entry (AstrometryUsePosition), group (Align)
-#: ekos/align/opsastrometry.ui:322 kstars.kcfg:2358
+#: ekos/align/opsastrometry.ui:322 kstars.kcfg:2363
 #, kde-format
 msgid ""
 "Set estimated position to speed up astrometry solver as it does not have to "
@@ -8088,7 +8098,7 @@ msgstr "Atstatyti poziciją"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AstrometryRadius), group (Align)
 #: ekos/align/opsastrometry.ui:344 ekos/align/opsastrometry.ui:451
-#: kstars.kcfg:2372
+#: kstars.kcfg:2377
 #, kde-format
 msgid ""
 "The Search Radius for the Estimated Telescope/Image Field Position in "
@@ -9335,21 +9345,6 @@ msgstr "API raktas"
 msgid "API Key:"
 msgstr "API raktas"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:261
-#, kde-format
-msgid ""
-"Use JPEG format, instead of FITS, to upload images to the online astrometry."
-"net service"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseJPEG)
-#: ekos/align/opsprograms.ui:264
-#, fuzzy, kde-format
-#| msgid "Upload"
-msgid "Upload JPG"
-msgstr "Nusiųsti"
-
 #: ekos/align/polaralignmentassistant.cpp:28
 #, fuzzy, kde-format
 #| msgid "Capture"
@@ -9947,7 +9942,7 @@ msgstr "Pradėti"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1853
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1867
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:137
 #: ekos/opsekos.ui:538
@@ -10096,7 +10091,7 @@ msgstr "Pažymėkite failų pavadinimus"
 msgid "Set an alternate base directory for your captured images"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1151
+#: ekos/analyze/analyze.cpp:1165
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not find image file: %1"
@@ -10105,18 +10100,18 @@ msgstr "Nepavyksta pašalinti failo: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
-#: ekos/analyze/analyze.cpp:1854 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1868 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:428
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, fuzzy, kde-format
 msgid "Focus"
 msgstr "Fokusas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1855 ekos/manager.cpp:1990
+#: ekos/analyze/analyze.cpp:1869 ekos/manager.cpp:1990
 #: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:436
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Align"
@@ -10126,16 +10121,16 @@ msgstr "Lygiavimas"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
-#: ekos/analyze/analyze.cpp:1856 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1870 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:432
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
 msgid "Guide"
 msgstr "Orientyras"
 
-#: ekos/analyze/analyze.cpp:1857
+#: ekos/analyze/analyze.cpp:1871
 #, fuzzy, kde-format
 msgid "Flip"
 msgstr "Apžvalga"
@@ -10144,7 +10139,7 @@ msgstr "Apžvalga"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1858 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1872 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2099 ekos/manager.ui:665
 #, fuzzy, kde-format
@@ -10153,12 +10148,12 @@ msgid "Mount"
 msgstr "Montuoti"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1859 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1873 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2113
+#: ekos/analyze/analyze.cpp:2127
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10166,7 +10161,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2129
+#: ekos/analyze/analyze.cpp:2143
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10174,7 +10169,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2832 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2846 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:673
@@ -10182,88 +10177,88 @@ msgstr ""
 msgid "Aborted"
 msgstr "Nutraukta"
 
-#: ekos/analyze/analyze.cpp:2834 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "Užmegzti ryšį"
 
-#: ekos/analyze/analyze.cpp:2836 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "Nutraukti ryšį"
 
-#: ekos/analyze/analyze.cpp:2838 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2852 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:705
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capturing"
 msgstr "Įrašyti"
 
-#: ekos/analyze/analyze.cpp:2840 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2842 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Subtracting"
 msgstr "Kalibravimas"
 
-#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "Pavadinimas:"
 
-#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:28
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selecting star"
 msgstr "Parinkite žvaigždę"
 
-#: ekos/analyze/analyze.cpp:2848 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating"
 msgstr "Kalibravimas"
 
-#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration error"
 msgstr "Kalibravimas"
 
-#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgid "Calibrate"
 msgid "Calibrated"
 msgstr "Kalibruoti"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:703
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
 msgstr "Vedikliai"
 
-#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2870 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspended"
 msgstr "Vedikliai"
 
-#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Reacquiring"
 msgstr "Įrašyti"
 
-#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10271,24 +10266,24 @@ msgid "Dithering"
 msgstr "Papildymas"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "Papildymas"
 
-#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "Stebimųjų sąrašas"
 
-#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2880 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2882 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
@@ -10359,8 +10354,8 @@ msgstr "Ži&nynas"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:126
-#: fitsviewer/fitsviewer.cpp:170 fitsviewer/solveInfo.ui:14
+#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:123
+#: fitsviewer/fitsviewer.cpp:173 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -11063,6 +11058,200 @@ msgstr "Išsaugoti pakeitimus"
 msgid "Use Default Limits"
 msgstr "Numatyta"
 
+#: ekos/auxiliary/buildfilteroffsets.cpp:134
+#, fuzzy, kde-format
+#| msgid "Are you sure you want to remove %1?"
+msgid "Are you sure you want to quit?"
+msgstr "Ar iš tikro pašalinti %1?"
+
+#. i18n: ectx: property (text), widget (QTableWidget, queueTable)
+#. i18n: ectx: attribute (title), widget (QWidget, Filter)
+#: ekos/auxiliary/buildfilteroffsets.cpp:177
+#: ekos/auxiliary/filtermanager.cpp:109 ekos/capture/capture.ui:1872
+#: oal/equipmentwriter.ui:946
+#, kde-format
+msgid "Filter"
+msgstr "Filtras"
+
+#. i18n: ectx: property (text), widget (QTableWidget, queueTable)
+#: ekos/auxiliary/buildfilteroffsets.cpp:177
+#: ekos/auxiliary/filtermanager.cpp:115 ekos/capture/capture.ui:1902
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Offset"
+msgid "Offset"
+msgstr "Poslinkis"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:177
+#: ekos/auxiliary/filtermanager.cpp:123
+#, fuzzy, kde-format
+#| msgid "Filter"
+msgid "Lock Filter"
+msgstr "Filtras"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:177
+#, fuzzy, kde-format
+#| msgid "Batch Mode"
+msgid "# Focus Runs"
+msgstr "Automatizuotas režimas"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:183
+#, kde-format
+msgid "Filter. * indicates reference filter. Double click to change"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:185
+#, kde-format
+msgid "# Focus Runs. Set per filter. 0 to ignore"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:322
+#, kde-format
+msgid "AF Run %1"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:325
+#, kde-format
+msgid ""
+"AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
+"from average."
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
+#: ekos/auxiliary/buildfilteroffsets.cpp:331 ekos/auxiliary/darklibrary.ui:221
+#, kde-format
+msgid "Average"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:333
+#, kde-format
+msgid "AF Average (mean)."
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:336
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Offset"
+msgid "New Offset"
+msgstr "Poslinkis"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:339
+#, kde-format
+msgid "New Offset. Calculated relative to Filter with *. Can be edited."
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:346
+#, kde-format
+msgid "Save. Check to save the New Offset for the associated Filter."
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:376
+#, fuzzy, kde-format
+#| msgid "Are you sure you want to remove %1?"
+msgid "Are you sure you want to stop Build Filter Offsets?"
+msgstr "Ar iš tikro pašalinti %1?"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:376
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Offset"
+msgid "Stop Build Filter Offsets"
+msgstr "Poslinkis"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:407
+#, kde-format
+msgid ""
+"An unexpected problem occurred.\n"
+"Stop Build Filter Offsets, or Cancel to retry?"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:408
+#, kde-format
+msgid "Build Filter Offsets Unexpected Problem"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:451
+#, fuzzy, kde-format
+#| msgid "completed"
+msgid "Processing complete."
+msgstr "baigta"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:472
+#, fuzzy, kde-format
+#| msgid "Change Date..."
+msgid "Problem changing filter to %1..."
+msgstr "Keisti datą..."
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:481
+#, kde-format
+msgid "Running Autofocus on %1 (%2/%3)..."
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:611
+#, kde-format
+msgid "(ΔT=%1)"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:612
+#: ekos/auxiliary/buildfilteroffsets.cpp:615
+#, fuzzy, kde-format
+msgid "(%1 ticks)"
+msgstr "Džeksonas"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:614
+#, kde-format
+msgid "(ΔAlt=%1)"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:621
+#, kde-format
+msgctxt ""
+"Graphics tooltip; colume 1 is a header, column 2 is focus position, column 3 "
+"is temperature in °C, colunm 4 is altitude in °AltRow 1 is the headers, row "
+"2 is the measured position, row 3 are the adaptations for temperature and "
+"altitude, row 4 is adapted position"
+msgid ""
+"<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
+"padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
+"caption { text-align: center; vertical-align: top; font-weight: bold; "
+"margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+"align=top>Adapt Focus Explainer</caption><tr><th></th><th>Position</"
+"th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr><tr><th>Measured "
+"Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr><tr><th>Adaptations</"
+"th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
+"td></tr></table></body>"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:731
+#, fuzzy, kde-format
+#| msgid "Calibration"
+msgid "Aborting Autofocus..."
+msgstr "Kalibravimas"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, buildOffsetsDialog)
+#: ekos/auxiliary/buildfilteroffsets.ui:23
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Offset"
+msgid "Build Filter Offsets"
+msgstr "Poslinkis"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, buildOffsetsAdaptFocus)
+#: ekos/auxiliary/buildfilteroffsets.ui:45
+#, fuzzy, kde-format
+#| msgid "Use the specified configuration file"
+msgid ""
+"<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</p></"
+"body></html>"
+msgstr "Naudoti nurodytą konfigūracijos failą"
+
+#. i18n: ectx: property (text), widget (QCheckBox, buildOffsetsAdaptFocus)
+#: ekos/auxiliary/buildfilteroffsets.ui:48
+#, fuzzy, kde-format
+#| msgid "Stars"
+msgid "Adapt Focus"
+msgstr "Žvaigždės"
+
 #: ekos/auxiliary/darklibrary.cpp:83
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
@@ -11128,43 +11317,43 @@ msgstr ""
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Ar iš tikro norite pašalinti klientą %1?"
 
-#: ekos/auxiliary/darklibrary.cpp:1214
+#: ekos/auxiliary/darklibrary.cpp:1213
 #, fuzzy, kde-format
 #| msgid "In Progress"
 msgid "In progress..."
 msgstr "Vykdoma"
 
-#: ekos/auxiliary/darklibrary.cpp:1370
+#: ekos/auxiliary/darklibrary.cpp:1369
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save master frame: %1"
 msgstr "Nepavyko įkelti paveikslo"
 
-#: ekos/auxiliary/darklibrary.cpp:1391
+#: ekos/auxiliary/darklibrary.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "Duomenys įrašyti į %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1416
+#: ekos/auxiliary/darklibrary.cpp:1415
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture completed."
 msgstr "Gauti paveikslą"
 
-#: ekos/auxiliary/darklibrary.cpp:1443
+#: ekos/auxiliary/darklibrary.cpp:1442
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Defect map saved to %1"
 msgstr "Duomenys įrašyti į %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1463
+#: ekos/auxiliary/darklibrary.cpp:1462
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "Nepavyko atverti failo: „%1“"
 
-#: ekos/auxiliary/darklibrary.cpp:1638
+#: ekos/auxiliary/darklibrary.cpp:1637
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""
@@ -11227,12 +11416,6 @@ msgstr "Menongue"
 #: ekos/auxiliary/darklibrary.ui:213
 #, kde-format
 msgid "Exp. Range:"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
-#: ekos/auxiliary/darklibrary.ui:221 ekos/auxiliary/filtermanager.cpp:1220
-#, kde-format
-msgid "Average"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -11374,7 +11557,7 @@ msgstr "Laikas:"
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel_2)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:529
-#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1025
+#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1031
 #, kde-format
 msgid "Exposure:"
 msgstr "Išlaikymas:"
@@ -11606,14 +11789,6 @@ msgid ""
 "wizard in Capture module."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:109 ekos/auxiliary/filtermanager.cpp:1034
-#: ekos/capture/capture.ui:1872 oal/equipmentwriter.ui:940
-#, kde-format
-msgid "Filter"
-msgstr "Filtras"
-
 #: ekos/auxiliary/filtermanager.cpp:111
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
@@ -11633,15 +11808,6 @@ msgstr "Išlaikymas"
 msgid "Relative offset in steps"
 msgstr "Atstatyti poziciją"
 
-#. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:115 ekos/auxiliary/filtermanager.cpp:1034
-#: ekos/capture/capture.ui:1902
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
-msgid "Offset"
-msgstr "Poslinkis"
-
 #: ekos/auxiliary/filtermanager.cpp:117
 #, fuzzy, kde-format
 #| msgid "completed"
@@ -11659,12 +11825,6 @@ msgstr "Žvaigždės"
 #, kde-format
 msgid "Lock specific filter when running Auto Focus"
 msgstr ""
-
-#: ekos/auxiliary/filtermanager.cpp:123 ekos/auxiliary/filtermanager.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Filter"
-msgid "Lock Filter"
-msgstr "Filtras"
 
 #: ekos/auxiliary/filtermanager.cpp:126
 #, kde-format
@@ -11747,58 +11907,6 @@ msgstr ""
 #| msgid "Config file"
 msgid "Confirm Filter"
 msgstr "Naudoti konfigūracijos failą"
-
-#: ekos/auxiliary/filtermanager.cpp:950
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove %1?"
-msgid "Are you sure you want to quit?"
-msgstr "Ar iš tikro pašalinti %1?"
-
-#: ekos/auxiliary/filtermanager.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Batch Mode"
-msgid "# Focus Runs"
-msgstr "Automatizuotas režimas"
-
-#: ekos/auxiliary/filtermanager.cpp:1224
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
-msgid "New Offset"
-msgstr "Poslinkis"
-
-#: ekos/auxiliary/filtermanager.cpp:1260
-#, kde-format
-msgid "Process stopped. Yes to restart, No to abort"
-msgstr ""
-
-#: ekos/auxiliary/filtermanager.cpp:1291
-#, kde-format
-msgid "A problem occurred. Yes to retry, No to abort"
-msgstr ""
-
-#: ekos/auxiliary/filtermanager.cpp:1333
-#, fuzzy, kde-format
-#| msgid "completed"
-msgid "Processing complete."
-msgstr "baigta"
-
-#: ekos/auxiliary/filtermanager.cpp:1354
-#, fuzzy, kde-format
-#| msgid "Change Date..."
-msgid "Problem changing filter to %1..."
-msgstr "Keisti datą..."
-
-#: ekos/auxiliary/filtermanager.cpp:1363
-#, kde-format
-msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
-
-#: ekos/auxiliary/filtermanager.cpp:1518
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Aborting Autofocus..."
-msgstr "Kalibravimas"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -13592,7 +13700,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1806 kstarsinit.cpp:783
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1805 kstarsinit.cpp:783
 #: kstarsinit.cpp:784 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
@@ -13900,51 +14008,51 @@ msgstr "Montuoti"
 msgid "Park Dome"
 msgstr "Nukreipti teleskopą"
 
-#: ekos/capture/capture.cpp:227 ekos/capture/capture.cpp:3617
+#: ekos/capture/capture.cpp:227 ekos/capture/capture.cpp:3611
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:228 ekos/capture/capture.cpp:3618
+#: ekos/capture/capture.cpp:228 ekos/capture/capture.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Select object from a list"
 msgid "Remove job from sequence queue"
 msgstr "Parinkite objektą iš sąrašo"
 
-#: ekos/capture/capture.cpp:767
+#: ekos/capture/capture.cpp:768
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/capture.cpp:774
+#: ekos/capture/capture.cpp:775
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/capture.cpp:778
+#: ekos/capture/capture.cpp:779
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "Dažnis:"
 
-#: ekos/capture/capture.cpp:788 ekos/capture/capture.cpp:931
+#: ekos/capture/capture.cpp:789 ekos/capture/capture.cpp:932
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "Dažnis:"
 
-#: ekos/capture/capture.cpp:795
+#: ekos/capture/capture.cpp:796
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Sequence resumed."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/capture.cpp:879
+#: ekos/capture/capture.cpp:880
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
 
-#: ekos/capture/capture.cpp:888
+#: ekos/capture/capture.cpp:889
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -13952,72 +14060,72 @@ msgid ""
 "restart capturing?"
 msgstr "Ar tikrai pašalinti saitą %1?"
 
-#: ekos/capture/capture.cpp:889 ekos/capture/capture.cpp:3402
+#: ekos/capture/capture.cpp:890 ekos/capture/capture.cpp:3396
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "Atstatyti poziciją"
 
-#: ekos/capture/capture.cpp:903
+#: ekos/capture/capture.cpp:904
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/capture.cpp:937
+#: ekos/capture/capture.cpp:938
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:939
+#: ekos/capture/capture.cpp:940
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:941
+#: ekos/capture/capture.cpp:942
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:980
+#: ekos/capture/capture.cpp:981
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture suspended"
 msgstr "Supernovos liekanos"
 
-#: ekos/capture/capture.cpp:985
+#: ekos/capture/capture.cpp:986
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture complete"
 msgstr "Gauti paveikslą"
 
-#: ekos/capture/capture.cpp:990
+#: ekos/capture/capture.cpp:991
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture aborted"
 msgstr "Gauti paveikslą"
 
-#: ekos/capture/capture.cpp:995
+#: ekos/capture/capture.cpp:996
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture stopped"
 msgstr "Gauti paveikslą"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1063 ekos/capture/capture.ui:2245
+#: ekos/capture/capture.cpp:1064 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
 msgstr "Išlaikymas:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1074 ekos/capture/capture.ui:2072
+#: ekos/capture/capture.cpp:1075 ekos/capture/capture.ui:2072
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Start Sequence"
@@ -14069,163 +14177,163 @@ msgstr "Nepavyko įkelti paveikslo"
 msgid "Failed to set binning."
 msgstr "Nepavyko įkelti paveikslo"
 
-#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1244
+#: ekos/capture/capture.cpp:2020 ekos/capture/captureprocess.cpp:1265
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2059
+#: ekos/capture/capture.cpp:2053
 #, kde-format
 msgid "Downloading..."
 msgstr "Atsiunčiama..."
 
-#: ekos/capture/capture.cpp:2118
+#: ekos/capture/capture.cpp:2112
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2124
+#: ekos/capture/capture.cpp:2118
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2262 ekos/capture/capture.cpp:2265
+#: ekos/capture/capture.cpp:2256 ekos/capture/capture.cpp:2259
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Flat"
 msgstr "Naudoti žymeklių failą"
 
-#: ekos/capture/capture.cpp:2341
+#: ekos/capture/capture.cpp:2335
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2572
+#: ekos/capture/capture.cpp:2566
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "Keičia CCD lusto užduotąją temperatūrą."
 
-#: ekos/capture/capture.cpp:2573
+#: ekos/capture/capture.cpp:2567
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "Keičia CCD lusto užduotąją temperatūrą."
 
-#: ekos/capture/capture.cpp:2577
+#: ekos/capture/capture.cpp:2571
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/capture.cpp:2579
+#: ekos/capture/capture.cpp:2573
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2584
+#: ekos/capture/capture.cpp:2578
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Keičia CCD lusto užduotąją temperatūrą."
 
-#: ekos/capture/capture.cpp:2585
+#: ekos/capture/capture.cpp:2579
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "Nustatyti vietovę..."
 
-#: ekos/capture/capture.cpp:2628 ekos/capture/capture.cpp:2629
+#: ekos/capture/capture.cpp:2622 ekos/capture/capture.cpp:2623
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete."
 msgstr "baigta"
 
-#: ekos/capture/capture.cpp:2633
+#: ekos/capture/capture.cpp:2627
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus failed."
 msgstr "baigta"
 
-#: ekos/capture/capture.cpp:2647
+#: ekos/capture/capture.cpp:2641
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Adaptive focus complete."
 msgstr "baigta"
 
-#: ekos/capture/capture.cpp:2649
+#: ekos/capture/capture.cpp:2643
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Adaptive focus failed. Continuing..."
 msgstr "Nepavyko atverti failo: „%1“"
 
-#: ekos/capture/capture.cpp:2663
+#: ekos/capture/capture.cpp:2657
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2668
+#: ekos/capture/capture.cpp:2662
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "Mičiganas"
 
-#: ekos/capture/capture.cpp:2669
+#: ekos/capture/capture.cpp:2663
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "Mičiganas"
 
-#: ekos/capture/capture.cpp:2673
+#: ekos/capture/capture.cpp:2667
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "baigta"
 
-#: ekos/capture/capture.cpp:2733 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:2727 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS numatytasis aplankas"
 
-#: ekos/capture/capture.cpp:2743
+#: ekos/capture/capture.cpp:2737
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Stebimųjų sąrašas"
 
-#: ekos/capture/capture.cpp:2854
+#: ekos/capture/capture.cpp:2848
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2943
+#: ekos/capture/capture.cpp:2937
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr "%1 prisijungęs."
 
-#: ekos/capture/capture.cpp:3162
+#: ekos/capture/capture.cpp:3156
 #, fuzzy, kde-format
 #| msgid "Select object from a list"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Parinkite objektą iš sąrašo"
 
-#: ekos/capture/capture.cpp:3183
+#: ekos/capture/capture.cpp:3177
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3215
+#: ekos/capture/capture.cpp:3209
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "Neina atverti failo %1"
 
-#: ekos/capture/capture.cpp:3235
+#: ekos/capture/capture.cpp:3229
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14233,149 +14341,143 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3378
+#: ekos/capture/capture.cpp:3372
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence queue saved to %1"
 msgstr "FITS failas įrašytas į %1"
 
-#: ekos/capture/capture.cpp:3402
+#: ekos/capture/capture.cpp:3396
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ar tikrai pašalinti saitą %1?"
 
-#: ekos/capture/capture.cpp:3596
+#: ekos/capture/capture.cpp:3590
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "Keisti saitą..."
 
-#: ekos/capture/capture.cpp:3599 ekos/scheduler/scheduler.cpp:1676
+#: ekos/capture/capture.cpp:3593 ekos/scheduler/scheduler.cpp:1676
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3600
+#: ekos/capture/capture.cpp:3594
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "Išsaugoti pakeitimus"
 
-#: ekos/capture/capture.cpp:3612
+#: ekos/capture/capture.cpp:3606
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
 msgstr "Keisti saitą..."
 
-#: ekos/capture/capture.cpp:3853
+#: ekos/capture/capture.cpp:3847
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Guide module timed out."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/capture.cpp:3996
+#: ekos/capture/capture.cpp:3990
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Wall coordinates are invalid."
 msgstr "Matomos koordinatės:"
 
-#: ekos/capture/capture.cpp:4027
-#, fuzzy, kde-format
-#| msgid "Data file saved to %1"
-msgid "Remote image saved to %1"
-msgstr "Duomenys įrašyti į %1"
-
-#: ekos/capture/capture.cpp:4049 ekos/capture/captureprocess.cpp:217
+#: ekos/capture/capture.cpp:4038 ekos/capture/captureprocess.cpp:221
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
 msgstr "Paveikslo formatas"
 
-#: ekos/capture/capture.cpp:4124
+#: ekos/capture/capture.cpp:4113
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Stebėtojas"
 
-#: ekos/capture/capture.cpp:4126
+#: ekos/capture/capture.cpp:4115
 #, fuzzy, kde-format
 msgid "Current Observer:"
 msgstr "Stebėtojas"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:4137 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:4126 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "Stebėtojas"
 
-#: ekos/capture/capture.cpp:4202
+#: ekos/capture/capture.cpp:4191
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "FITS failas įrašytas į %1"
 
-#: ekos/capture/capture.cpp:4580
+#: ekos/capture/capture.cpp:4569
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Reset %1 configuration to default?"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
-#: ekos/capture/capture.cpp:4582
+#: ekos/capture/capture.cpp:4571
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "Konfigūracija"
 
-#: ekos/capture/capture.cpp:4598
+#: ekos/capture/capture.cpp:4587
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4598
+#: ekos/capture/capture.cpp:4587
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4891
+#: ekos/capture/capture.cpp:4881
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Ar iš tikro norite pašalinti klientą %1?"
 
-#: ekos/capture/capture.cpp:4892
+#: ekos/capture/capture.cpp:4882
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "Paleisti iš naujo"
 
-#: ekos/capture/capture.cpp:4922
+#: ekos/capture/capture.cpp:4912
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4928
+#: ekos/capture/capture.cpp:4918
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4936
+#: ekos/capture/capture.cpp:4926
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4946
+#: ekos/capture/capture.cpp:4936
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Keičia CCD lusto užduotąją temperatūrą."
 
-#: ekos/capture/capture.cpp:4977
+#: ekos/capture/capture.cpp:4967
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -14531,7 +14633,7 @@ msgstr "UTC poslinkis"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
-#: oal/equipmentwriter.ui:1054
+#: oal/equipmentwriter.ui:1060
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Offset"
@@ -15428,160 +15530,166 @@ msgstr "Pašalinti"
 msgid "Target: "
 msgstr "Sargas"
 
-#: ekos/capture/captureprocess.cpp:80
+#: ekos/capture/captureprocess.cpp:84
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:81
+#: ekos/capture/captureprocess.cpp:85
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "Spaudinio peržiūra"
 
-#: ekos/capture/captureprocess.cpp:165
+#: ekos/capture/captureprocess.cpp:169
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:178
+#: ekos/capture/captureprocess.cpp:182
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:375
+#: ekos/capture/captureprocess.cpp:379
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding resumed."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/captureprocess.cpp:719
+#: ekos/capture/captureprocess.cpp:632
+#, fuzzy, kde-format
+#| msgid "Data file saved to %1"
+msgid "Remote image saved to %1"
+msgstr "Duomenys įrašyti į %1"
+
+#: ekos/capture/captureprocess.cpp:731
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/captureprocess.cpp:748
+#: ekos/capture/captureprocess.cpp:760
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:813
+#: ekos/capture/captureprocess.cpp:825
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "Supernovos liekanos"
 
-#: ekos/capture/captureprocess.cpp:870
+#: ekos/capture/captureprocess.cpp:882
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "Ryšys"
 
-#: ekos/capture/captureprocess.cpp:899
+#: ekos/capture/captureprocess.cpp:911
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1012
+#: ekos/capture/captureprocess.cpp:1024
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1065
+#: ekos/capture/captureprocess.cpp:1073
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1085
+#: ekos/capture/captureprocess.cpp:1106
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Įrašyti"
 
-#: ekos/capture/captureprocess.cpp:1090
+#: ekos/capture/captureprocess.cpp:1111
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1122
+#: ekos/capture/captureprocess.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Vykdomas scenarijus: %1"
 
-#: ekos/capture/captureprocess.cpp:1137
+#: ekos/capture/captureprocess.cpp:1158
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1145
+#: ekos/capture/captureprocess.cpp:1166
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1157
+#: ekos/capture/captureprocess.cpp:1178
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "Mičiganas"
 
-#: ekos/capture/captureprocess.cpp:1167
+#: ekos/capture/captureprocess.cpp:1188
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1172
+#: ekos/capture/captureprocess.cpp:1193
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1191 ekos/focus/focus.cpp:4870
+#: ekos/capture/captureprocess.cpp:1212 ekos/focus/focus.cpp:4871
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
-#: ekos/capture/captureprocess.cpp:1214 ekos/focus/focus.cpp:4875
+#: ekos/capture/captureprocess.cpp:1235 ekos/focus/focus.cpp:4876
 #: ekos/guide/guide.cpp:892
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
-#: ekos/capture/captureprocess.cpp:1303
+#: ekos/capture/captureprocess.cpp:1324
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1314
+#: ekos/capture/captureprocess.cpp:1335
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1336
+#: ekos/capture/captureprocess.cpp:1357
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1369
+#: ekos/capture/captureprocess.cpp:1390
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1377
+#: ekos/capture/captureprocess.cpp:1398
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1529
+#: ekos/capture/captureprocess.cpp:1549
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
@@ -15844,7 +15952,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
-#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:573
+#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:576
 #, fuzzy, kde-format
 #| msgid "Local time:"
 msgid "Focal Ratio"
@@ -16688,12 +16796,12 @@ msgstr "Laisvas."
 msgid "Focus Options Profile Editor"
 msgstr "Miniatiūros rengyklė"
 
-#: ekos/focus/focus.cpp:942
+#: ekos/focus/focus.cpp:946
 #, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 msgstr ""
 
-#: ekos/focus/focus.cpp:959
+#: ekos/focus/focus.cpp:960
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
@@ -16703,177 +16811,177 @@ msgstr ""
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
 
-#: ekos/focus/focus.cpp:975
+#: ekos/focus/focus.cpp:974
 #, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:989
+#: ekos/focus/focus.cpp:988
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1090
+#: ekos/focus/focus.cpp:1113
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No Focuser connected."
 msgstr "Nustato INDI įrenginio ryšio prievadą."
 
-#: ekos/focus/focus.cpp:1097 ekos/focus/focus.cpp:4009
+#: ekos/focus/focus.cpp:1120 ekos/focus/focus.cpp:4014
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No CCD connected."
 msgstr "Nustato INDI įrenginio ryšio prievadą."
 
-#: ekos/focus/focus.cpp:1104
+#: ekos/focus/focus.cpp:1127
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1112
+#: ekos/focus/focus.cpp:1135
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1117
+#: ekos/focus/focus.cpp:1140
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1122
+#: ekos/focus/focus.cpp:1145
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1262
+#: ekos/focus/focus.cpp:1285
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1264
+#: ekos/focus/focus.cpp:1287
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1280
+#: ekos/focus/focus.cpp:1303
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation started"
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/focus/focus.cpp:1367
+#: ekos/focus/focus.cpp:1390
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1375
+#: ekos/focus/focus.cpp:1398
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1377
+#: ekos/focus/focus.cpp:1400
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1384
+#: ekos/focus/focus.cpp:1407
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1396
+#: ekos/focus/focus.cpp:1419
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1398
+#: ekos/focus/focus.cpp:1421
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1408
+#: ekos/focus/focus.cpp:1431
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1416
+#: ekos/focus/focus.cpp:1439
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Planetos pavadinimas"
 
-#: ekos/focus/focus.cpp:1430
+#: ekos/focus/focus.cpp:1453
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Planetos pavadinimas"
 
-#: ekos/focus/focus.cpp:1476
+#: ekos/focus/focus.cpp:1499
 #, fuzzy, kde-format
 msgid "Detection in progress, please wait."
 msgstr "Stebimųjų sąrašas"
 
-#: ekos/focus/focus.cpp:1511
+#: ekos/focus/focus.cpp:1532
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus aborted."
 msgstr "baigta"
 
-#: ekos/focus/focus.cpp:1595
+#: ekos/focus/focus.cpp:1618
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1602
+#: ekos/focus/focus.cpp:1625
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Camera."
 msgstr "Ryšys"
 
-#: ekos/focus/focus.cpp:1623
+#: ekos/focus/focus.cpp:1646
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1629
+#: ekos/focus/focus.cpp:1652
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Ryšys"
 
-#: ekos/focus/focus.cpp:1771
+#: ekos/focus/focus.cpp:1794
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1778
+#: ekos/focus/focus.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Focuser."
 msgstr "Ryšys"
 
-#: ekos/focus/focus.cpp:1790
+#: ekos/focus/focus.cpp:1813
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Leeuwarden"
 msgid "outward"
 msgstr "Leuvardenas"
 
-#: ekos/focus/focus.cpp:1790
+#: ekos/focus/focus.cpp:1813
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Leeuwarden"
 msgid "inward"
 msgstr "Leuvardenas"
 
-#: ekos/focus/focus.cpp:1804
+#: ekos/focus/focus.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focusing %2 by %1 steps..."
 msgstr "Automatizuotas režimas"
 
-#: ekos/focus/focus.cpp:1810
+#: ekos/focus/focus.cpp:1833
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focusing %2 by %1 step..."
@@ -16883,66 +16991,66 @@ msgstr[1] "Automatizuotas režimas"
 msgstr[2] "Automatizuotas režimas"
 msgstr[3] "Automatizuotas režimas"
 
-#: ekos/focus/focus.cpp:1816
+#: ekos/focus/focus.cpp:1839
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focusing %2 by %1 ms..."
 msgstr "Automatizuotas režimas"
 
-#: ekos/focus/focus.cpp:1854
+#: ekos/focus/focus.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
-#: ekos/focus/focus.cpp:1861
+#: ekos/focus/focus.cpp:1884
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Automatizuotas režimas"
 
-#: ekos/focus/focus.cpp:1872
+#: ekos/focus/focus.cpp:1895
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Automatizuotas režimas"
 
-#: ekos/focus/focus.cpp:1928
+#: ekos/focus/focus.cpp:1951
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1937
+#: ekos/focus/focus.cpp:1960
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Gauti paveikslą"
 
-#: ekos/focus/focus.cpp:1986
+#: ekos/focus/focus.cpp:2009
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "baigta"
 
-#: ekos/focus/focus.cpp:2178
+#: ekos/focus/focus.cpp:2201
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Detecting sources..."
 msgstr "Atsiunčiama..."
 
-#: ekos/focus/focus.cpp:2291
+#: ekos/focus/focus.cpp:2314
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/focus/focus.cpp:2303
+#: ekos/focus/focus.cpp:2326
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation failed"
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/focus/focus.cpp:2335
+#: ekos/focus/focus.cpp:2358
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus procedure completed after %1 iteration."
@@ -16952,221 +17060,221 @@ msgstr[1] "baigta"
 msgstr[2] "baigta"
 msgstr[3] "baigta"
 
-#: ekos/focus/focus.cpp:2421
+#: ekos/focus/focus.cpp:2442
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "Nuostatos"
 
-#: ekos/focus/focus.cpp:2428
+#: ekos/focus/focus.cpp:2449
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "baigta"
 
-#: ekos/focus/focus.cpp:2441
+#: ekos/focus/focus.cpp:2462
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2478
+#: ekos/focus/focus.cpp:2499
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2633
+#: ekos/focus/focus.cpp:2654
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2729
+#: ekos/focus/focus.cpp:2750
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "Ar rodyti koordinačių tinklelį"
 
-#: ekos/focus/focus.cpp:2762
+#: ekos/focus/focus.cpp:2783
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2897
+#: ekos/focus/focus.cpp:2918
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2908 ekos/focus/focus.cpp:3547
+#: ekos/focus/focus.cpp:2929 ekos/focus/focus.cpp:3568
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2914 ekos/focus/focus.cpp:3553
+#: ekos/focus/focus.cpp:2935 ekos/focus/focus.cpp:3574
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Nepavyko įkelti paveikslo"
 
-#: ekos/focus/focus.cpp:2919 ekos/focus/focus.cpp:3558
+#: ekos/focus/focus.cpp:2940 ekos/focus/focus.cpp:3579
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3145
+#: ekos/focus/focus.cpp:3166
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3152
+#: ekos/focus/focus.cpp:3173
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3195
+#: ekos/focus/focus.cpp:3216
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3197
+#: ekos/focus/focus.cpp:3218
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3258
+#: ekos/focus/focus.cpp:3279
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3265
+#: ekos/focus/focus.cpp:3286
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3370
+#: ekos/focus/focus.cpp:3391
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3455
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3445
+#: ekos/focus/focus.cpp:3466
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3455
+#: ekos/focus/focus.cpp:3476
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3484
+#: ekos/focus/focus.cpp:3505
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3532
+#: ekos/focus/focus.cpp:3553
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3536
+#: ekos/focus/focus.cpp:3557
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3626 ekos/focus/focus.cpp:3639
-#: ekos/focus/focus.cpp:3768 ekos/focus/focus.cpp:3844
-#: ekos/focus/focus.cpp:3909 ekos/focus/focus.cpp:3953
+#: ekos/focus/focus.cpp:3647 ekos/focus/focus.cpp:3660
+#: ekos/focus/focus.cpp:3781 ekos/focus/focus.cpp:3853
+#: ekos/focus/focus.cpp:3914 ekos/focus/focus.cpp:3958
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3670 ekos/focus/focus.cpp:3784
+#: ekos/focus/focus.cpp:3691 ekos/focus/focus.cpp:3797
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Simulate focuser comms failure..."
 msgstr "baigta"
 
-#: ekos/focus/focus.cpp:3749 ekos/focus/focus.cpp:3829
-#: ekos/focus/focus.cpp:3894 ekos/focus/focus.cpp:3927
+#: ekos/focus/focus.cpp:3762 ekos/focus/focus.cpp:3838
+#: ekos/focus/focus.cpp:3899 ekos/focus/focus.cpp:3932
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Restarting autofocus process..."
 msgstr "Prasideda:"
 
-#: ekos/focus/focus.cpp:4027
+#: ekos/focus/focus.cpp:4032
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting continuous exposure..."
 msgstr "Prasideda:"
 
-#: ekos/focus/focus.cpp:4291
+#: ekos/focus/focus.cpp:4296
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4296
+#: ekos/focus/focus.cpp:4301
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Focus star is selected."
 msgstr "Nėra pažymėtų objektų."
 
-#: ekos/focus/focus.cpp:4426
+#: ekos/focus/focus.cpp:4431
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4432
+#: ekos/focus/focus.cpp:4437
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4547
+#: ekos/focus/focus.cpp:4552
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Automatizuotas režimas"
 
-#: ekos/focus/focus.cpp:4888
+#: ekos/focus/focus.cpp:4889
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image again..."
 msgstr "Įkeliami paveikslai..."
 
-#: ekos/focus/focus.cpp:4903
+#: ekos/focus/focus.cpp:4904
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "Nepavyko įkelti paveikslo"
 
-#: ekos/focus/focus.cpp:4913
+#: ekos/focus/focus.cpp:4914
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
-#: ekos/focus/focus.cpp:4918
+#: ekos/focus/focus.cpp:4919
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
-#: ekos/focus/focus.cpp:5196
+#: ekos/focus/focus.cpp:5197
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Pašalinti pėdsaką"
 
-#: ekos/focus/focus.cpp:6388
+#: ekos/focus/focus.cpp:6389
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17191,7 +17299,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6404
+#: ekos/focus/focus.cpp:6405
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17203,7 +17311,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6411
+#: ekos/focus/focus.cpp:6412
 #, kde-format
 msgid ""
 "\n"
@@ -17224,7 +17332,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6421
+#: ekos/focus/focus.cpp:6422
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus Advisor"
@@ -18916,7 +19024,7 @@ msgstr "Naudoti lankų failą"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:139
+#: ekos/focus/focus.ui:3788 ekos/manager.ui:957 fitsviewer/fitstab.cpp:136
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -18952,7 +19060,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:358
+#: fitsviewer/fitstab.cpp:355
 #, kde-format
 msgid "Value"
 msgstr "Vertė"
@@ -19801,6 +19909,12 @@ msgstr "Skersmuo:"
 msgid "Focal Length (mm)"
 msgstr "Židinio nuotolis 35 mm"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
+#: ekos/guide/guide.ui:674
+#, kde-format
+msgid "Reducer"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
 #: ekos/guide/guide.ui:722
 #, fuzzy, kde-format
@@ -20495,7 +20609,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationMaxMove)
 #. i18n: ectx: label, entry (CalibrationMaxMove), group (Guide)
-#: ekos/guide/opscalibration.ui:122 kstars.kcfg:2488
+#: ekos/guide/opscalibration.ui:122 kstars.kcfg:2493
 #, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
 msgstr ""
@@ -20508,7 +20622,7 @@ msgstr "Permatomas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideAutoSquareSizeEnabled)
 #. i18n: ectx: label, entry (GuideAutoSquareSizeEnabled), group (Guide)
-#: ekos/guide/opscalibration.ui:156 kstars.kcfg:2504
+#: ekos/guide/opscalibration.ui:156 kstars.kcfg:2509
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Automatically select the square size based on the selected star width."
@@ -20634,7 +20748,7 @@ msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
-#: ekos/guide/opscalibration.ui:411 kstars.kcfg:2769
+#: ekos/guide/opscalibration.ui:411 kstars.kcfg:2774
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr ""
@@ -20648,7 +20762,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherSettle)
 #. i18n: ectx: label, entry (DitherSettle), group (Guide)
-#: ekos/guide/opsdither.ui:62 ekos/guide/opsdither.ui:147 kstars.kcfg:2564
+#: ekos/guide/opsdither.ui:62 ekos/guide/opsdither.ui:147 kstars.kcfg:2569
 #, kde-format
 msgid ""
 "After dither is successful, wait for this many seconds before proceeding."
@@ -21364,7 +21478,7 @@ msgstr "Algoritmas"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_MinDetectionsSEPMultistar)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: label, entry (MinDetectionsSEPMultistar), group (Guide)
-#: ekos/guide/opsguide.ui:524 ekos/guide/opsguide.ui:576 kstars.kcfg:2528
+#: ekos/guide/opsguide.ui:524 ekos/guide/opsguide.ui:576 kstars.kcfg:2533
 #, kde-format
 msgid "Minimum number of stars detected for SEP MultiStar to initialize."
 msgstr ""
@@ -21794,22 +21908,22 @@ msgstr ""
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2709
+#: ekos/manager.cpp:2710
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2717
+#: ekos/manager.cpp:2718
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2745
+#: ekos/manager.cpp:2746
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2757
+#: ekos/manager.cpp:2758
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -22307,7 +22421,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:499
+#: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:502
 #, kde-format
 msgid "deg"
 msgstr "laipsniai"
@@ -23332,7 +23446,7 @@ msgstr "Mičiganas"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
-#: ekos/opsekos.ui:460 kstars.kcfg:2848
+#: ekos/opsekos.ui:460 kstars.kcfg:2853
 #, kde-format
 msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
@@ -23354,7 +23468,7 @@ msgstr "Mičiganas"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
-#: ekos/opsekos.ui:484 kstars.kcfg:2852
+#: ekos/opsekos.ui:484 kstars.kcfg:2857
 #, kde-format
 msgid ""
 "If captured position exceeds target position by more this many arcminutes, "
@@ -24657,7 +24771,7 @@ msgstr "Teleskopo židinio nuotolis, milimetrais"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/scheduler/framingassistant.ui:284 oal/equipmentwriter.ui:129
-#: oal/equipmentwriter.ui:462
+#: oal/equipmentwriter.ui:465
 #, fuzzy, kde-format
 #| msgid "Focal Length:"
 msgid "Focal length:"
@@ -27340,208 +27454,208 @@ msgstr "baigta"
 msgid "Normal"
 msgstr "Vokietija"
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:424
+#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:426
 #, kde-format
 msgid "Calibrate"
 msgstr "Kalibruoti"
 
-#: fitsviewer/fitsdata.cpp:239
+#: fitsviewer/fitsdata.cpp:240
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1."
 msgstr "Klaida: neina įrašyti paveikslo: %1 "
 
-#: fitsviewer/fitsdata.cpp:252
+#: fitsviewer/fitsdata.cpp:253
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:268
+#: fitsviewer/fitsdata.cpp:269
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error opening fits file %1 : %2"
 msgstr "Klaida: neina įrašyti paveikslo: %1 "
 
-#: fitsviewer/fitsdata.cpp:281
+#: fitsviewer/fitsdata.cpp:282
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1"
 msgstr "Klaida: neina įrašyti paveikslo: %1 "
 
-#: fitsviewer/fitsdata.cpp:293
+#: fitsviewer/fitsdata.cpp:294
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "Neina atverti failo %1."
 
-#: fitsviewer/fitsdata.cpp:300
+#: fitsviewer/fitsdata.cpp:301
 #, fuzzy, kde-format
 #| msgid "FITS file open error: %1"
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Klaida atveriant FITS failą: %1"
 
-#: fitsviewer/fitsdata.cpp:314
+#: fitsviewer/fitsdata.cpp:315
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:360 fitsviewer/fitsdata.cpp:579
+#: fitsviewer/fitsdata.cpp:361 fitsviewer/fitsdata.cpp:580
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:370
+#: fitsviewer/fitsdata.cpp:371
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:415
+#: fitsviewer/fitsdata.cpp:416
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading image: %1"
 msgstr "Klaida: neina įrašyti paveikslo: %1 "
 
-#: fitsviewer/fitsdata.cpp:476
+#: fitsviewer/fitsdata.cpp:477
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "File contain no images"
 msgstr "Nepavyko įkelti paveikslo"
 
-#: fitsviewer/fitsdata.cpp:505
+#: fitsviewer/fitsdata.cpp:506
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Sample format %1 is not supported."
 msgstr "baigta"
 
-#: fitsviewer/fitsdata.cpp:543
+#: fitsviewer/fitsdata.cpp:544
 #, fuzzy, kde-format
 #| msgid "Write Error"
 msgid "XISF file open error: "
 msgstr "Rašymo klaida"
 
-#: fitsviewer/fitsdata.cpp:594
+#: fitsviewer/fitsdata.cpp:595
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error saving XISF image"
 msgstr "Klaida: neina įrašyti paveikslo: %1 "
 
-#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:801
+#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:798
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:740
+#: fitsviewer/fitsdata.cpp:737
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1 for reading"
 msgid "Cannot open file %1: %2"
 msgstr "Nepavyksta atverti failo %1 skaitymui."
 
-#: fitsviewer/fitsdata.cpp:753
+#: fitsviewer/fitsdata.cpp:750
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1 for reading"
 msgid "Cannot open buffer: %1"
 msgstr "Nepavyksta atverti failo %1 skaitymui."
 
-#: fitsviewer/fitsdata.cpp:764
+#: fitsviewer/fitsdata.cpp:761
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:771
+#: fitsviewer/fitsdata.cpp:768
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot dcraw_process: %1"
 msgstr "Neina rašyti į naudotojo žurnalo failą"
 
-#: fitsviewer/fitsdata.cpp:779
+#: fitsviewer/fitsdata.cpp:776
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:922
+#: fitsviewer/fitsdata.cpp:919
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Saving compressed files is not supported."
 msgstr "baigta"
 
-#: fitsviewer/fitsdata.cpp:982
+#: fitsviewer/fitsdata.cpp:979
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to close file: %1"
 msgstr "Nepavyko atverti failo: „%1“"
 
-#: fitsviewer/fitsdata.cpp:989
+#: fitsviewer/fitsdata.cpp:986
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "Nepavyko atverti failo: „%1“"
 
-#: fitsviewer/fitsdata.cpp:1004
+#: fitsviewer/fitsdata.cpp:1001
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "Nepavyko įkelti paveikslo iš %1"
 
-#: fitsviewer/fitsdata.cpp:1013 fitsviewer/fitsdata.cpp:1020
+#: fitsviewer/fitsdata.cpp:1010 fitsviewer/fitsdata.cpp:1017
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to update key: %1"
 msgstr "Nepavyko įkelti paveikslo"
 
-#: fitsviewer/fitsdata.cpp:1109
+#: fitsviewer/fitsdata.cpp:1106
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "Nepavyko įkelti paveikslo iš %1"
 
-#: fitsviewer/fitsdata.cpp:1118
+#: fitsviewer/fitsdata.cpp:1115
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to update history: %1"
 msgstr "Nepavyko įkelti paveikslo"
 
-#: fitsviewer/fitsdata.cpp:1140
+#: fitsviewer/fitsdata.cpp:1137
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "Nepavyko įkelti paveikslo iš %1"
 
-#: fitsviewer/fitsdata.cpp:2767 fitsviewer/fitsdata.cpp:2778
-#: fitsviewer/fitsdata.cpp:2814 fitsviewer/fitsdata.cpp:2850
-#: fitsviewer/fitsdata.cpp:2897
+#: fitsviewer/fitsdata.cpp:2764 fitsviewer/fitsdata.cpp:2775
+#: fitsviewer/fitsdata.cpp:2811 fitsviewer/fitsdata.cpp:2847
+#: fitsviewer/fitsdata.cpp:2894
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "Naudoti horizontaliąją koordinačių sistemą?"
 
-#: fitsviewer/fitsdata.cpp:3619
+#: fitsviewer/fitsdata.cpp:3616
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3652
+#: fitsviewer/fitsdata.cpp:3649
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3683
+#: fitsviewer/fitsdata.cpp:3680
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3751 fitsviewer/fitsdata.cpp:3798
-#: fitsviewer/fitsdata.cpp:3843 fitsviewer/fitsdata.cpp:3890
+#: fitsviewer/fitsdata.cpp:3748 fitsviewer/fitsdata.cpp:3795
+#: fitsviewer/fitsdata.cpp:3840 fitsviewer/fitsdata.cpp:3887
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3761 fitsviewer/fitsdata.cpp:3853
+#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3850
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3781 fitsviewer/fitsdata.cpp:3873
+#: fitsviewer/fitsdata.cpp:3778 fitsviewer/fitsdata.cpp:3870
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -27652,7 +27766,7 @@ msgstr "Poslinkis"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:466
-#: fitsviewer/fitsviewer.cpp:1245
+#: fitsviewer/fitsviewer.cpp:1255
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Aladin"
@@ -27660,8 +27774,8 @@ msgid "Ready."
 msgstr "Skaitymas"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
-#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:131
-#: fitsviewer/fitsviewer.cpp:135
+#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:128
+#: fitsviewer/fitsviewer.cpp:138
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS antraštė"
@@ -27717,8 +27831,8 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:128
-#: fitsviewer/fitsviewer.cpp:116
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:125
+#: fitsviewer/fitsviewer.cpp:119
 #, kde-format
 msgid "Histogram"
 msgstr "Histograma"
@@ -27831,12 +27945,12 @@ msgstr ""
 msgid "Automatically find stretch parameter."
 msgstr "Ar rodyti koordinačių tinklelį"
 
-#: fitsviewer/fitstab.cpp:56
+#: fitsviewer/fitstab.cpp:53
 #, kde-format
 msgid "Save Changes to FITS?"
 msgstr "Įrašyti FITS pakeitimus?"
 
-#: fitsviewer/fitstab.cpp:57
+#: fitsviewer/fitstab.cpp:54
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -27845,39 +27959,39 @@ msgstr ""
 "Dabartiniame FITS faile yra neįrašytų pakeitimų. Įrašyti pakeitimus prieš "
 "užveriant failą?"
 
-#: fitsviewer/fitstab.cpp:136
+#: fitsviewer/fitstab.cpp:133
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Recent Images"
 msgstr "%1 peržiūra"
 
-#: fitsviewer/fitstab.cpp:370
+#: fitsviewer/fitstab.cpp:367
 #, fuzzy, kde-format
 #| msgid "RA"
 msgctxt "Red"
 msgid "R"
 msgstr "Rektascensija"
 
-#: fitsviewer/fitstab.cpp:451 fitsviewer/fitstab.cpp:455
+#: fitsviewer/fitstab.cpp:448 fitsviewer/fitstab.cpp:452
 #, fuzzy, kde-format
 #| msgid "Save"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Įrašyti"
 
-#: fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:484
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "Įrašant FITS failą įvyko klaida: %1"
 
-#: fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:484
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Save"
 msgstr "Paveikslo duomenys"
 
-#: fitsviewer/fitstab.cpp:491
+#: fitsviewer/fitstab.cpp:488
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "File saved to %1"
@@ -27941,13 +28055,13 @@ msgstr ""
 msgid "Toggle Stretch"
 msgstr "Automatinė skalė"
 
-#: fitsviewer/fitsview.cpp:2456 fitsviewer/fitsviewer.cpp:210
+#: fitsviewer/fitsview.cpp:2456 fitsviewer/fitsviewer.cpp:213
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "Taikiklis"
 
-#: fitsviewer/fitsview.cpp:2460 fitsviewer/fitsviewer.cpp:223
+#: fitsviewer/fitsview.cpp:2460 fitsviewer/fitsviewer.cpp:226
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Pixel Gridlines"
@@ -27965,15 +28079,15 @@ msgstr "Atverti FITS..."
 msgid "View Star Profile"
 msgstr "Naudoti lankų failą"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:229
-#: fitsviewer/fitsviewer.cpp:962
+#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsviewer.cpp:972
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Pusiaujinės koordinatės"
 
-#: fitsviewer/fitsview.cpp:2487 fitsviewer/fitsviewer.cpp:236
-#: fitsviewer/fitsviewer.cpp:964
+#: fitsviewer/fitsview.cpp:2487 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsviewer.cpp:974
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -27985,7 +28099,7 @@ msgstr "Rodyti objektus"
 msgid "Center Telescope"
 msgstr "Nukreipti teleskopą"
 
-#: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:246
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show HiPS Overlay"
@@ -28023,79 +28137,79 @@ msgstr "Mičiganas"
 msgid "Gaussian blur"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:99
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:102
 #, fuzzy, kde-format
 #| msgid "Bottom right"
 msgid "Rotate Right"
 msgstr "Sukti į dešinę"
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:103
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:106
 #, fuzzy, kde-format
 msgid "Rotate Left"
 msgstr "Sukti į kairę"
 
-#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:107
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:110
 #, fuzzy, kde-format
 #| msgid "Horizontal "
 msgid "Flip Horizontal"
 msgstr "Horizontaliosios "
 
-#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:112
+#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:115
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
 msgid "Flip Vertical"
 msgstr "Regimieji spinduliai"
 
-#: fitsviewer/fitsviewer.cpp:141
+#: fitsviewer/fitsviewer.cpp:144
 #, kde-format
 msgid "Debayer..."
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:176
+#: fitsviewer/fitsviewer.cpp:179
 #, fuzzy, kde-format
 #| msgid "Statistics"
 msgid "&Selection Statistics"
 msgstr "Statistika"
 
-#: fitsviewer/fitsviewer.cpp:217
+#: fitsviewer/fitsviewer.cpp:220
 #, fuzzy, kde-format
 #| msgid "Show print dialog"
 msgid "Show Clipping"
 msgstr "Rodyti spausdinimo dialogą"
 
-#: fitsviewer/fitsviewer.cpp:250 fitsviewer/fitsviewer.cpp:973
+#: fitsviewer/fitsviewer.cpp:253 fitsviewer/fitsviewer.cpp:983
 #, kde-format
 msgid ""
 "Center Telescope\n"
 "*No Telescopes Detected*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:257
+#: fitsviewer/fitsviewer.cpp:260
 #, kde-format
 msgid "Zoom To Fit"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1218
+#: fitsviewer/fitsviewer.cpp:265 fitsviewer/fitsviewer.cpp:1228
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Mark Stars"
 msgstr "Žymekliai"
 
-#: fitsviewer/fitsviewer.cpp:270 fitsviewer/fitsviewer.cpp:696
-#: fitsviewer/fitsviewer.cpp:1210
+#: fitsviewer/fitsviewer.cpp:273 fitsviewer/fitsviewer.cpp:706
+#: fitsviewer/fitsviewer.cpp:1220
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:290
+#: fitsviewer/fitsviewer.cpp:293
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Jus sveikina KStars FITS žiūryklė"
 
-#: fitsviewer/fitsviewer.cpp:369
+#: fitsviewer/fitsviewer.cpp:371
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -28105,7 +28219,7 @@ msgstr[1] "žvaigždė"
 msgstr[2] "žvaigždė"
 msgstr[3] "žvaigždė"
 
-#: fitsviewer/fitsviewer.cpp:375
+#: fitsviewer/fitsviewer.cpp:377
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2, %1 star."
@@ -28115,71 +28229,71 @@ msgstr[1] "žvaigždė"
 msgstr[2] "žvaigždė"
 msgstr[3] "žvaigždė"
 
-#: fitsviewer/fitsviewer.cpp:562
+#: fitsviewer/fitsviewer.cpp:572
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:681
+#: fitsviewer/fitsviewer.cpp:691
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:682 fitsviewer/fitsviewer.cpp:1118
+#: fitsviewer/fitsviewer.cpp:692 fitsviewer/fitsviewer.cpp:1128
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "Taikiklis"
 
-#: fitsviewer/fitsviewer.cpp:683 fitsviewer/fitsviewer.cpp:1132
+#: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1142
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Filipinai"
 
-#: fitsviewer/fitsviewer.cpp:684 fitsviewer/fitsviewer.cpp:1145
+#: fitsviewer/fitsviewer.cpp:694 fitsviewer/fitsviewer.cpp:1155
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Pusiaujinės koordinatės"
 
-#: fitsviewer/fitsviewer.cpp:685 fitsviewer/fitsviewer.cpp:1184
+#: fitsviewer/fitsviewer.cpp:695 fitsviewer/fitsviewer.cpp:1194
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Rodyti objektus"
 
-#: fitsviewer/fitsviewer.cpp:686 fitsviewer/fitsviewer.cpp:1197
+#: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1207
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Pixel Gridlines"
 msgstr "Rodyti žvaigždynų linijas?"
 
-#: fitsviewer/fitsviewer.cpp:687 fitsviewer/fitsviewer.cpp:1158
+#: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1168
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:701 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1272
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Atverti FITS..."
 
-#: fitsviewer/fitsviewer.cpp:939
+#: fitsviewer/fitsviewer.cpp:949
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:944
+#: fitsviewer/fitsviewer.cpp:954
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "Rodyti"
 
-#: fitsviewer/fitsviewer.cpp:968
+#: fitsviewer/fitsviewer.cpp:978
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -28187,14 +28301,14 @@ msgid ""
 "*Ready*"
 msgstr "Nukreipti teleskopą"
 
-#: fitsviewer/fitsviewer.cpp:980
+#: fitsviewer/fitsviewer.cpp:990
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:982
+#: fitsviewer/fitsviewer.cpp:992
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -28202,27 +28316,27 @@ msgid ""
 "*No WCS Info*"
 msgstr "Nukreipti teleskopą"
 
-#: fitsviewer/fitsviewer.cpp:984
+#: fitsviewer/fitsviewer.cpp:994
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1016 fitsviewer/fitsviewer.cpp:1171
+#: fitsviewer/fitsviewer.cpp:1026 fitsviewer/fitsviewer.cpp:1181
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selection Rectangle"
 msgstr "Parinkite žvaigždę"
 
-#: fitsviewer/fitsviewer.cpp:1045 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1055 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "Dydis:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1053 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1063 fitsviewer/statform.ui:66
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Width"
@@ -28230,20 +28344,20 @@ msgid "Width"
 msgstr "Plotis"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1054 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:71
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Height"
 msgid "Height"
 msgstr "Aukštis"
 
-#: fitsviewer/fitsviewer.cpp:1223
+#: fitsviewer/fitsviewer.cpp:1233
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Unmark Stars"
 msgstr "Žymekliai"
 
-#: fitsviewer/fitsviewer.cpp:1239
+#: fitsviewer/fitsviewer.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Processing %1..."
@@ -29182,8 +29296,8 @@ msgstr "Vanuatu"
 #. i18n: ectx: property (text), widget (QPushButton, NewEyepiece)
 #. i18n: ectx: property (text), widget (QPushButton, NewLens)
 #. i18n: ectx: property (text), widget (QPushButton, NewFilter)
-#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:415
-#: oal/equipmentwriter.ui:914 oal/equipmentwriter.ui:1251
+#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:418
+#: oal/equipmentwriter.ui:920 oal/equipmentwriter.ui:1257
 #, kde-format
 msgid "Add New"
 msgstr "Pridėti naują"
@@ -30746,18 +30860,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1542 skymap.cpp:427
+#: kstars.cpp:323 kstarsactions.cpp:1541 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Nebe&sekti"
 
-#: kstars.cpp:331 kstarsactions.cpp:1711 kstarsinit.cpp:263
+#: kstars.cpp:331 kstarsactions.cpp:1710 kstarsinit.cpp:263
 #, fuzzy, kde-format
 #| msgid "Equatorial &Coordinates"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "&Pusiaujo koordinatės"
 
-#: kstars.cpp:332 kstarsactions.cpp:1690 kstarsinit.cpp:264
+#: kstars.cpp:332 kstarsactions.cpp:1689 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Horizontal &Coordinates"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -35664,60 +35778,66 @@ msgstr "Pozicinis kampas"
 msgid "Position of rightLayout."
 msgstr "Laiko informacinio laukelio vieta."
 
+#. i18n: ectx: whatsthis, entry (adaptFocusBFO), group (Focus)
+#: kstars.kcfg:2195
+#, kde-format
+msgid "Whether to use Adaptive Focus in the Build Filter Offsets utility."
+msgstr ""
+
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
-#: kstars.kcfg:2197
+#: kstars.kcfg:2202
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Internal or External Sextractor for Focusing."
 msgstr "INDI serveris:"
 
 #. i18n: ectx: label, entry (FocusOptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2201
+#: kstars.kcfg:2206
 #, kde-format
 msgid "Options Profile for Sextraction when Focusing."
 msgstr ""
 
 #. i18n: ectx: label, entry (HFRSextractorType), group (StellarSolver)
-#: kstars.kcfg:2205
+#: kstars.kcfg:2210
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Internal or External Sextractor to compute subs HFR."
 msgstr "INDI serveris:"
 
 #. i18n: ectx: label, entry (HFROptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2209
+#: kstars.kcfg:2214
 #, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
-#: kstars.kcfg:2213
+#: kstars.kcfg:2218
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Internal or External Sextractor for Guiding."
 msgstr "INDI serveris:"
 
 #. i18n: ectx: label, entry (GuideOptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2217
+#: kstars.kcfg:2222
 #, kde-format
 msgid "Options Profile for Sextraction when Guiding."
 msgstr ""
 
 #. i18n: ectx: label, entry (SolveSextractorType), group (StellarSolver)
-#: kstars.kcfg:2221
+#: kstars.kcfg:2226
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Internal, External, or BuiltIn Sextractor for Solving."
 msgstr "INDI serveris:"
 
 #. i18n: ectx: label, entry (SolverMode), group (StellarSolver)
-#: kstars.kcfg:2225
+#: kstars.kcfg:2230
 #, kde-format
 msgid "Local (0) or Remote (1) solver."
 msgstr ""
 
 #. i18n: ectx: label, entry (SolverType), group (StellarSolver)
-#: kstars.kcfg:2229
+#: kstars.kcfg:2234
 #, kde-format
 msgid ""
 "Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for "
@@ -35725,57 +35845,57 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SolveOptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2233
+#: kstars.kcfg:2238
 #, kde-format
 msgid "Options Profile for Solving."
 msgstr ""
 
 #. i18n: ectx: label, entry (LoggerLevel), group (StellarSolver)
-#: kstars.kcfg:2237
+#: kstars.kcfg:2242
 #, kde-format
 msgid "Level of verbosity in the log."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryLogToFile), group (StellarSolver)
-#: kstars.kcfg:2241
+#: kstars.kcfg:2246
 #, kde-format
 msgid "Whether to log to a file instead."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryLogFilepath), group (StellarSolver)
-#: kstars.kcfg:2245
+#: kstars.kcfg:2250
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
-#: kstars.kcfg:2249
+#: kstars.kcfg:2254
 #, kde-format
 msgid "List of index folder paths."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryIndexFolderList), group (StellarSolver)
-#: kstars.kcfg:2250
+#: kstars.kcfg:2255
 #, kde-format
 msgid "List of folders in which astrometry Index Files can be found."
 msgstr ""
 
 #. i18n: ectx: label, entry (AlignExposure), group (Align)
-#: kstars.kcfg:2256
+#: kstars.kcfg:2261
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Default alignment exposure value"
 msgstr "Numatytasis FITS aplankas:"
 
 #. i18n: ectx: whatsthis, entry (AlignExposure), group (Align)
-#: kstars.kcfg:2257
+#: kstars.kcfg:2262
 #, kde-format
 msgid ""
 "Specifies exposure value of camera in seconds when performing plate solving."
 msgstr ""
 
 #. i18n: ectx: label, entry (AlignBinning), group (Align)
-#: kstars.kcfg:2261
+#: kstars.kcfg:2266
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
@@ -35783,7 +35903,7 @@ msgid "Default camera binning in alignment mode"
 msgstr "Regimieji spinduliai"
 
 #. i18n: ectx: label, entry (AlignGain), group (Align)
-#: kstars.kcfg:2265
+#: kstars.kcfg:2270
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
@@ -35791,40 +35911,40 @@ msgid "Default camera gain in alignment mode"
 msgstr "Regimieji spinduliai"
 
 #. i18n: ectx: label, entry (AlignISO), group (Align)
-#: kstars.kcfg:2269
+#: kstars.kcfg:2274
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Default camera ISO in alignment mode"
 msgstr "Numatytasis FITS aplankas:"
 
 #. i18n: ectx: label, entry (AlignDarkFrame), group (Align)
-#: kstars.kcfg:2273
+#: kstars.kcfg:2278
 #, kde-format
 msgid "Take a dark frame and subtract it before running astrometry operation."
 msgstr ""
 
 #. i18n: ectx: label, entry (AlignFilter), group (Align)
-#: kstars.kcfg:2277
+#: kstars.kcfg:2282
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Default filter wheel filter in alignment mode"
 msgstr "Numatytasis FITS aplankas:"
 
 #. i18n: ectx: label, entry (AlignUseCurrentFilter), group (Align)
-#: kstars.kcfg:2280
+#: kstars.kcfg:2285
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Use currently selected filter in alignment mode."
 msgstr "Numatytasis FITS aplankas:"
 
 #. i18n: ectx: whatsthis, entry (AstrometryUseRotator), group (Align)
-#: kstars.kcfg:2284
+#: kstars.kcfg:2289
 #, kde-format
 msgid "Use rotator when performing load and slew."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryRotatorThreshold), group (Align)
-#: kstars.kcfg:2288
+#: kstars.kcfg:2293
 #, kde-format
 msgid ""
 "Threshold between measured and FITS position angles in arcminutes to "
@@ -35832,13 +35952,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
-#: kstars.kcfg:2292
+#: kstars.kcfg:2297
 #, kde-format
 msgid "Action to take if solver if successful (Sync, Slew to Target, or None)"
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
-#: kstars.kcfg:2296
+#: kstars.kcfg:2301
 #, kde-format
 msgid ""
 "World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in "
@@ -35846,13 +35966,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometrySolverOverlay), group (Align)
-#: kstars.kcfg:2300
+#: kstars.kcfg:2305
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryDifferentialSlewing), group (Align)
-#: kstars.kcfg:2304
+#: kstars.kcfg:2309
 #, kde-format
 msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
@@ -35860,14 +35980,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AlignAccuracyThreshold), group (Align)
-#: kstars.kcfg:2308
+#: kstars.kcfg:2313
 #, kde-format
 msgid ""
 "Accuracy threshold in arcseconds between solution and target coordinates."
 msgstr ""
 
 #. i18n: ectx: label, entry (AlignSettlingTime), group (Align)
-#: kstars.kcfg:2312
+#: kstars.kcfg:2317
 #, kde-format
 msgid ""
 "Time to wait in milliseconds after telescope slewing is complete before "
@@ -35875,7 +35995,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryUseNoFITS2FITS), group (Align)
-#: kstars.kcfg:2316
+#: kstars.kcfg:2321
 #, kde-format
 msgid ""
 "Do not sanitize FITS. This option should only be checked if astrometry.net "
@@ -35883,7 +36003,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryUseResort), group (Align)
-#: kstars.kcfg:2320
+#: kstars.kcfg:2325
 #, kde-format
 msgid ""
 "Check this option if your image does not have much nebulosity. If it does "
@@ -35891,7 +36011,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryUseNoVerify), group (Align)
-#: kstars.kcfg:2324
+#: kstars.kcfg:2329
 #, kde-format
 msgid ""
 "This will prevent the solver from looking at an already existing WCS Header "
@@ -35900,148 +36020,148 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryImageScaleLow), group (Align)
-#: kstars.kcfg:2332
+#: kstars.kcfg:2337
 #, kde-format
 msgid "Lower image scale."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryImageScaleHigh), group (Align)
-#: kstars.kcfg:2335
+#: kstars.kcfg:2340
 #, fuzzy, kde-format
 #| msgid "Use images"
 msgid "Upper image scale."
 msgstr "Rodyti paveikslėlius"
 
 #. i18n: ectx: label, entry (AstrometryAutoUpdateImageScale), group (Align)
-#: kstars.kcfg:2338
+#: kstars.kcfg:2343
 #, kde-format
 msgid ""
 "Automatically update image scale when CCD or Mount parameters are updated."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryImageScaleUnits), group (Align)
-#: kstars.kcfg:2342
+#: kstars.kcfg:2347
 #, kde-format
 msgid ""
 "Image scale units in arcminutes (aw), degrees (dw), or arcsec per pixel (app)"
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryUseDownsample), group (Align)
-#: kstars.kcfg:2346
+#: kstars.kcfg:2351
 #, kde-format
 msgid "Downsample the image to shrink its size and speed up the solver."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryDownsample), group (Align)
-#: kstars.kcfg:2350
+#: kstars.kcfg:2355
 #, fuzzy, kde-format
 #| msgid "Delete all Images"
 msgid "Downsample factor"
 msgstr "Trinti visus paveikslėlius"
 
 #. i18n: ectx: label, entry (AstrometryAutoDownsample), group (Align)
-#: kstars.kcfg:2354
+#: kstars.kcfg:2359
 #, fuzzy, kde-format
 #| msgid "Automatically updates time and date?"
 msgid "Automatically downsample based on image size."
 msgstr "Automatiškai naujinti datą ir laiką?"
 
 #. i18n: ectx: label, entry (AstrometryPositionRA), group (Align)
-#: kstars.kcfg:2362
+#: kstars.kcfg:2367
 #, kde-format
 msgid ""
 "User supplied Right Ascension value in degrees to be passed to the solver."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryPositionDE), group (Align)
-#: kstars.kcfg:2365
+#: kstars.kcfg:2370
 #, kde-format
 msgid "User supplied declination value in degrees to be passed to the solver."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryAutoUpdatePosition), group (Align)
-#: kstars.kcfg:2368
+#: kstars.kcfg:2373
 #, kde-format
 msgid ""
 "Automatically update position coordinates when mounts completes slewing."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryDetectParity), group (Align)
-#: kstars.kcfg:2376
+#: kstars.kcfg:2381
 #, kde-format
 msgid "Detect parity and reuse it to speed up solver."
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryCustomOptions), group (Align)
-#: kstars.kcfg:2380
+#: kstars.kcfg:2385
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Additional optional astrometry.net options"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: label, entry (AstrometrySolverBinary), group (Align)
-#: kstars.kcfg:2383
+#: kstars.kcfg:2388
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "astrometry.net solve-field binary"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: whatsthis, entry (AstrometrySolverBinary), group (Align)
-#: kstars.kcfg:2384
+#: kstars.kcfg:2389
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Path to astrometry.net solver location."
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: label, entry (AstrometryWCSInfo), group (Align)
-#: kstars.kcfg:2388
+#: kstars.kcfg:2393
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "astrometry.net wcsinfo binary"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: whatsthis, entry (AstrometryWCSInfo), group (Align)
-#: kstars.kcfg:2389
+#: kstars.kcfg:2394
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Path to astrometry.net wcsinfo location."
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: label, entry (AstrometryConfFile), group (Align)
-#: kstars.kcfg:2393
+#: kstars.kcfg:2398
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "astrometry.net configuration file"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: whatsthis, entry (AstrometryConfFile), group (Align)
-#: kstars.kcfg:2394
+#: kstars.kcfg:2399
 #, kde-format
 msgid "Path to astrometry.net file location."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SextractorBinary), group (Align)
-#: kstars.kcfg:2399
+#: kstars.kcfg:2404
 #, kde-format
 msgid "Path to the Sextractor executable."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (WatneyBinary), group (Align)
-#: kstars.kcfg:2404
+#: kstars.kcfg:2409
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Path to the Watney Solver executable."
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: label, entry (AstrometryAPIKey), group (Align)
-#: kstars.kcfg:2408
+#: kstars.kcfg:2413
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "astrometry.net API Key"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: whatsthis, entry (AstrometryAPIKey), group (Align)
-#: kstars.kcfg:2409
+#: kstars.kcfg:2414
 #, kde-format
 msgid ""
 "Key to access astrometry.net online web services. You must register with "
@@ -36049,14 +36169,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryAPIURL), group (Align)
-#: kstars.kcfg:2413
+#: kstars.kcfg:2418
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "astrometry.net API URL"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: label, entry (AstrometryUseJPEG), group (Align)
-#: kstars.kcfg:2417
+#: kstars.kcfg:2422
 #, kde-format
 msgid ""
 "Use JPEG format, instead of FITS, to upload images to the astrometry.net "
@@ -36064,39 +36184,39 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryTimeout), group (Align)
-#: kstars.kcfg:2421
+#: kstars.kcfg:2426
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Timeout in seconds to wait for astrometry solver to complete."
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: label, entry (PAHMountSpeed), group (Align)
-#: kstars.kcfg:2425
+#: kstars.kcfg:2430
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Speed to set mount in Polar Alignment Assistant Tool."
 msgstr "Lygiavimas"
 
 #. i18n: ectx: label, entry (PAHRotaion), group (Align)
-#: kstars.kcfg:2428
+#: kstars.kcfg:2433
 #, kde-format
 msgid "Rotate mount by this many degrees during polar alignment."
 msgstr ""
 
 #. i18n: ectx: label, entry (PAHRefreshAlgorithm), group (Align)
-#: kstars.kcfg:2432
+#: kstars.kcfg:2437
 #, kde-format
 msgid "The algorithm used for polar-align refresh."
 msgstr ""
 
 #. i18n: ectx: label, entry (PAHDirection), group (Align)
-#: kstars.kcfg:2435
+#: kstars.kcfg:2440
 #, kde-format
 msgid "Mount rotation direction during polar alignment."
 msgstr ""
 
 #. i18n: ectx: label, entry (PAHAutoPark), group (Align)
-#: kstars.kcfg:2438
+#: kstars.kcfg:2443
 #, kde-format
 msgid ""
 "Automatically park the mount after Polar Alignment Assistant Tool is "
@@ -36104,35 +36224,35 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (PAHManualSlew), group (Align)
-#: kstars.kcfg:2442
+#: kstars.kcfg:2447
 #, kde-format
 msgid ""
 "User should manually rotate the mount about its axis during polar alignment."
 msgstr ""
 
 #. i18n: ectx: label, entry (PAHExposure), group (Align)
-#: kstars.kcfg:2446
+#: kstars.kcfg:2451
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Polar Alignment Assistant exposure duration in seconds."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
 #. i18n: ectx: label, entry (GuideExposure), group (Guide)
-#: kstars.kcfg:2452
+#: kstars.kcfg:2457
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Guider exposure duration in seconds."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
 #. i18n: ectx: label, entry (GuideDelay), group (Guide)
-#: kstars.kcfg:2456
+#: kstars.kcfg:2461
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Delay next exposure by this many seconds."
 msgstr "Pradeda kameros/CCD išlaikymą. Trukmė nurodoma sekundėmis."
 
 #. i18n: ectx: label, entry (GuiderType), group (Guide)
-#: kstars.kcfg:2460
+#: kstars.kcfg:2465
 #, kde-format
 msgid ""
 "Which guider process to utilize for guiding (0 Internal Guider, 1 PHD2, 2 "
@@ -36140,7 +36260,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideAlgorithm), group (Guide)
-#: kstars.kcfg:2464
+#: kstars.kcfg:2469
 #, kde-format
 msgid ""
 "Which Algorithm to use track guide square (0 smart, 1 SEP, 2 fast, 3 "
@@ -36148,31 +36268,31 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
-#: kstars.kcfg:2468
+#: kstars.kcfg:2473
 #, kde-format
 msgid "Host name of external PHD2 service"
 msgstr ""
 
 #. i18n: ectx: label, entry (PHD2Port), group (Guide)
-#: kstars.kcfg:2472
+#: kstars.kcfg:2477
 #, kde-format
 msgid "PHD2 Event Monitoring Port"
 msgstr ""
 
 #. i18n: ectx: label, entry (LinGuiderHost), group (Guide)
-#: kstars.kcfg:2476
+#: kstars.kcfg:2481
 #, kde-format
 msgid "Host name of external lin_guider service"
 msgstr ""
 
 #. i18n: ectx: label, entry (LinGuiderPort), group (Guide)
-#: kstars.kcfg:2480
+#: kstars.kcfg:2485
 #, kde-format
 msgid "Lin_guider Event Monitoring Port"
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationPulseDuration), group (Guide)
-#: kstars.kcfg:2484
+#: kstars.kcfg:2489
 #, kde-format
 msgid ""
 "Pulse duration in milliseconds used for guiding pulses during calibration "
@@ -36180,69 +36300,69 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideSquareSize), group (Guide)
-#: kstars.kcfg:2492
+#: kstars.kcfg:2497
 #, kde-format
 msgid "Guide square size selection in pixels."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideBinning), group (Guide)
-#: kstars.kcfg:2496
+#: kstars.kcfg:2501
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Guide binning."
 msgstr "Nepavyko įkelti paveikslo"
 
 #. i18n: ectx: label, entry (GuideAutoStar), group (Guide)
-#: kstars.kcfg:2500
+#: kstars.kcfg:2505
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Automatically select calibration star and perform calibration."
 msgstr "Ar rodyti koordinačių tinklelį"
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
-#: kstars.kcfg:2508
+#: kstars.kcfg:2513
 #, kde-format
 msgid "Number of automode iterations for calibration process."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideLostStarTimeout), group (Guide)
-#: kstars.kcfg:2512
+#: kstars.kcfg:2517
 #, kde-format
 msgid "When star tracking is lost, wait this many seconds before aborting."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideCalibrationTimeout), group (Guide)
-#: kstars.kcfg:2516
+#: kstars.kcfg:2521
 #, kde-format
 msgid "When calibration starts, wait this many seconds before aborting."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideMaxDeltaRMS), group (Guide)
-#: kstars.kcfg:2520
+#: kstars.kcfg:2525
 #, kde-format
 msgid "Maximum delta RMS permitted while guiding before aborting."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideMaxHFR), group (Guide)
-#: kstars.kcfg:2524
+#: kstars.kcfg:2529
 #, kde-format
 msgid "Maximum HFR permitted for SEP MultiStar guide star."
 msgstr ""
 
 #. i18n: ectx: label, entry (MaxMultistarReferenceStars), group (Guide)
-#: kstars.kcfg:2532
+#: kstars.kcfg:2537
 #, kde-format
 msgid "Maximum number of SEP MultiStar number of stars used as references."
 msgstr ""
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
-#: kstars.kcfg:2536
+#: kstars.kcfg:2541
 #, kde-format
 msgid "Use both axes to perform calibration."
 msgstr ""
 
 #. i18n: ectx: label, entry (UseGuideHead), group (Guide)
-#: kstars.kcfg:2540
+#: kstars.kcfg:2545
 #, kde-format
 msgid ""
 "Use the guider chip for guiding from cameras that have a dedicated guider "
@@ -36250,26 +36370,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SaveGuideLog), group (Guide)
-#: kstars.kcfg:2544
+#: kstars.kcfg:2549
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Automatically save internal guider user logs."
 msgstr "Ar rodyti koordinačių tinklelį"
 
 #. i18n: ectx: label, entry (GuideDarkFrame), group (Guide)
-#: kstars.kcfg:2548
+#: kstars.kcfg:2553
 #, kde-format
 msgid "Take dark frame for autoguider images."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuideSubframe), group (Guide)
-#: kstars.kcfg:2552
+#: kstars.kcfg:2557
 #, kde-format
 msgid "Subframe guide image around selected region"
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherPixels), group (Guide)
-#: kstars.kcfg:2556
+#: kstars.kcfg:2561
 #, kde-format
 msgid ""
 "How many pixels to move between subsequent exposures under auto dithering "
@@ -36277,44 +36397,44 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherFrames), group (Guide)
-#: kstars.kcfg:2560
+#: kstars.kcfg:2565
 #, kde-format
 msgid "Dither after this many frames."
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherThreshold), group (Guide)
-#: kstars.kcfg:2568
+#: kstars.kcfg:2573
 #, kde-format
 msgid "Maximum distance (pixels) for guiding to be considered settled."
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherTimeout), group (Guide)
-#: kstars.kcfg:2572
+#: kstars.kcfg:2577
 #, kde-format
 msgid "Time limit (seconds) on dithering to settle down."
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherMaxIterations), group (Guide)
-#: kstars.kcfg:2576
+#: kstars.kcfg:2581
 #, kde-format
 msgid "How many dithering attempts to undertake before giving up."
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherNoGuidingPulse), group (Guide)
-#: kstars.kcfg:2580
+#: kstars.kcfg:2585
 #, kde-format
 msgid "Pulse length in milliseconds used for non-guiding dither."
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherFailAbortsAutoGuide), group (Guide)
-#: kstars.kcfg:2584
+#: kstars.kcfg:2589
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "If dithering fails then abort autoguide."
 msgstr "Įkeliamos žvaigždės"
 
 #. i18n: ectx: label, entry (DitherWithOnePulse), group (Guide)
-#: kstars.kcfg:2588
+#: kstars.kcfg:2593
 #, kde-format
 msgid ""
 "Dithering amount is randomly generated, pulses are sent, but the resultant "
@@ -36325,174 +36445,174 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherEnabled), group (Guide)
-#: kstars.kcfg:2592
+#: kstars.kcfg:2597
 #, kde-format
 msgid "Use Auto Dithering when guiding."
 msgstr ""
 
 #. i18n: ectx: label, entry (DitherNoGuiding), group (Guide)
-#: kstars.kcfg:2596
+#: kstars.kcfg:2601
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Perform dithering even when not guiding."
 msgstr "Įkeliamos žvaigždės"
 
 #. i18n: ectx: label, entry (RAGuideEnabled), group (Guide)
-#: kstars.kcfg:2600
+#: kstars.kcfg:2605
 #, kde-format
 msgid "Enable autoguiding in the RA axis."
 msgstr ""
 
 #. i18n: ectx: label, entry (DECGuideEnabled), group (Guide)
-#: kstars.kcfg:2604
+#: kstars.kcfg:2609
 #, kde-format
 msgid "Enable autoguiding in the DEC axis."
 msgstr ""
 
 #. i18n: ectx: label, entry (NorthDECGuideEnabled), group (Guide)
-#: kstars.kcfg:2608
+#: kstars.kcfg:2613
 #, kde-format
 msgid "Enable North autoguiding in the DEC axis."
 msgstr ""
 
 #. i18n: ectx: label, entry (SouthDECGuideEnabled), group (Guide)
-#: kstars.kcfg:2612
+#: kstars.kcfg:2617
 #, kde-format
 msgid "Enable South autoguiding in the DEC axis."
 msgstr ""
 
 #. i18n: ectx: label, entry (EastRAGuideEnabled), group (Guide)
-#: kstars.kcfg:2616
+#: kstars.kcfg:2621
 #, kde-format
 msgid "Enable East autoguiding in the RA axis."
 msgstr ""
 
 #. i18n: ectx: label, entry (WestRAGuideEnabled), group (Guide)
-#: kstars.kcfg:2620
+#: kstars.kcfg:2625
 #, kde-format
 msgid "Enable West autoguiding in the RA axis."
 msgstr ""
 
 #. i18n: ectx: label, entry (GuiderAccuracyThreshold), group (Guide)
-#: kstars.kcfg:2699
+#: kstars.kcfg:2704
 #, kde-format
 msgid "Accuracy threshold for the Guide Graphs."
 msgstr ""
 
 #. i18n: ectx: label, entry (RADisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:2703
+#: kstars.kcfg:2708
 #, kde-format
 msgid "Display the RA Plot on the Guide Drift Graphics."
 msgstr ""
 
 #. i18n: ectx: label, entry (DEDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:2707
+#: kstars.kcfg:2712
 #, kde-format
 msgid "Display the DEC Plot on the Guide Drift Graphics."
 msgstr ""
 
 #. i18n: ectx: label, entry (RACorrDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:2711
+#: kstars.kcfg:2716
 #, kde-format
 msgid "Display the RA Corrections Plot on the Guide Drift Graphics."
 msgstr ""
 
 #. i18n: ectx: label, entry (DECorrDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:2715
+#: kstars.kcfg:2720
 #, kde-format
 msgid "Display the DEC Corrections Plot on the Guide Drift Graphics."
 msgstr ""
 
 #. i18n: ectx: label, entry (SNRDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:2719
+#: kstars.kcfg:2724
 #, kde-format
 msgid "Display the SNR Plot on the Guide Drift Graphics."
 msgstr ""
 
 #. i18n: ectx: label, entry (RMSDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:2723
+#: kstars.kcfg:2728
 #, kde-format
 msgid "Display the RMS Error Plot on the Guide Drift Graphics."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
-#: kstars.kcfg:2729
+#: kstars.kcfg:2734
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler algorithm"
 msgstr "FITS failas įrašytas į %1"
 
 #. i18n: ectx: whatsthis, entry (SchedulerLogging), group (Scheduler)
-#: kstars.kcfg:2733
+#: kstars.kcfg:2738
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "Log Ekos Scheduler Module activity."
 msgstr "Stebimųjų sąrašas"
 
 #. i18n: ectx: label, entry (StopEkosAfterShutdown), group (Scheduler)
-#: kstars.kcfg:2737
+#: kstars.kcfg:2742
 #, kde-format
 msgid ""
 "After shutdown procedure is successfully executed, shutdown INDI and Ekos."
 msgstr ""
 
 #. i18n: ectx: label, entry (ShutdownScriptTerminatesINDI), group (Scheduler)
-#: kstars.kcfg:2741
+#: kstars.kcfg:2746
 #, kde-format
 msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
 msgstr ""
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
-#: kstars.kcfg:2745
+#: kstars.kcfg:2750
 #, kde-format
 msgid "Perform pre-emptive shutdown if no jobs are due for a number of hours."
 msgstr ""
 
 #. i18n: ectx: label, entry (ResetMountModelOnAlignFail), group (Scheduler)
-#: kstars.kcfg:2749
+#: kstars.kcfg:2754
 #, kde-format
 msgid "Reset mount model in case of alignment failure."
 msgstr ""
 
 #. i18n: ectx: label, entry (ResetMountModelBeforeJob), group (Scheduler)
-#: kstars.kcfg:2753
+#: kstars.kcfg:2758
 #, fuzzy, kde-format
 msgid "Reset mount model before starting each job."
 msgstr "Mičiganas"
 
 #. i18n: ectx: label, entry (ResetGuideCalibration), group (Scheduler)
-#: kstars.kcfg:2757
+#: kstars.kcfg:2762
 #, fuzzy, kde-format
 msgid "Always Reset guiding calibration before starting each job."
 msgstr "Mičiganas"
 
 #. i18n: ectx: label, entry (ForceAlignmentBeforeJob), group (Scheduler)
-#: kstars.kcfg:2761
+#: kstars.kcfg:2766
 #, fuzzy, kde-format
 msgid "Force alignment before starting or restarting each job."
 msgstr "Mičiganas"
 
 #. i18n: ectx: label, entry (ReuseGuideCalibration), group (Scheduler)
-#: kstars.kcfg:2765
+#: kstars.kcfg:2770
 #, fuzzy, kde-format
 msgid "Guider may re-use guiding calibration if one is available."
 msgstr "Mičiganas"
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
-#: kstars.kcfg:2773
+#: kstars.kcfg:2778
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
 msgstr ""
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
-#: kstars.kcfg:2777
+#: kstars.kcfg:2782
 #, fuzzy, kde-format
 msgid "Last Calibration serialized."
 msgstr "Klientas"
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
-#: kstars.kcfg:2780
+#: kstars.kcfg:2785
 #, kde-format
 msgid ""
 "If guiding calibration fails, run alignment process again before proceeding "
@@ -36500,7 +36620,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (PreemptiveShutdownTime), group (Scheduler)
-#: kstars.kcfg:2784
+#: kstars.kcfg:2789
 #, kde-format
 msgid ""
 "Maximum number of hours before the next job is due to trigger a pre-emptive "
@@ -36508,7 +36628,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (RememberJobProgress), group (Scheduler)
-#: kstars.kcfg:2788
+#: kstars.kcfg:2793
 #, kde-format
 msgid ""
 "When processing a scheduled job, resume the sequence starting from the last "
@@ -36516,13 +36636,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
-#: kstars.kcfg:2792
+#: kstars.kcfg:2797
 #, kde-format
 msgid "Minimum time between jobs in minutes."
 msgstr ""
 
 #. i18n: ectx: label, entry (PreDawnTime), group (Scheduler)
-#: kstars.kcfg:2796
+#: kstars.kcfg:2801
 #, kde-format
 msgid ""
 "Do not permit jobs to be scheduled or executed past this many minutes before "
@@ -36530,7 +36650,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SettingAltitudeCutoff), group (Scheduler)
-#: kstars.kcfg:2800
+#: kstars.kcfg:2805
 #, kde-format
 msgid ""
 "Do not permit jobs to be scheduled less than this many degrees before the "
@@ -36538,7 +36658,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (DawnOffset), group (Scheduler)
-#: kstars.kcfg:2804
+#: kstars.kcfg:2809
 #, kde-format
 msgid ""
 "Offset astronomical dawn by this many hours to relax twilight restriction "
@@ -36546,7 +36666,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (DuskOffset), group (Scheduler)
-#: kstars.kcfg:2808
+#: kstars.kcfg:2813
 #, kde-format
 msgid ""
 "Offset astronomical dusk by this many hours to relax twilight restriction "
@@ -36554,50 +36674,50 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (TelescopeFocalLength), group (Scheduler)
-#: kstars.kcfg:2812
+#: kstars.kcfg:2817
 #, fuzzy, kde-format
 #| msgid "Telescope focal length, in millimeters"
 msgid "Telescope focal length in millimeters."
 msgstr "Teleskopo židinio nuotolis, milimetrais"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
-#: kstars.kcfg:2816
+#: kstars.kcfg:2821
 #, kde-format
 msgid "Camera pixel size width in micrometers."
 msgstr ""
 
 #. i18n: ectx: label, entry (CameraPixelHeight), group (Scheduler)
-#: kstars.kcfg:2820
+#: kstars.kcfg:2825
 #, kde-format
 msgid "Camera pixel size height in micrometers."
 msgstr ""
 
 #. i18n: ectx: label, entry (CameraWidth), group (Scheduler)
-#: kstars.kcfg:2824
+#: kstars.kcfg:2829
 #, kde-format
 msgid "Camera Width in pixels."
 msgstr ""
 
 #. i18n: ectx: label, entry (CameraHeight), group (Scheduler)
-#: kstars.kcfg:2828
+#: kstars.kcfg:2833
 #, kde-format
 msgid "Camera Height in pixels."
 msgstr ""
 
 #. i18n: ectx: label, entry (CameraRotation), group (Scheduler)
-#: kstars.kcfg:2832
+#: kstars.kcfg:2837
 #, kde-format
 msgid "Position angle of the camera with respect to north."
 msgstr ""
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategy), group (Scheduler)
-#: kstars.kcfg:2836
+#: kstars.kcfg:2841
 #, kde-format
 msgid "Strategy how to react, when a job aborts or steps into an error."
 msgstr ""
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategyDelay), group (Scheduler)
-#: kstars.kcfg:2840
+#: kstars.kcfg:2845
 #, kde-format
 msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
@@ -36605,140 +36725,140 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
-#: kstars.kcfg:2844
+#: kstars.kcfg:2849
 #, kde-format
 msgid "Re-schedule jobs that ran into errors."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerParkDome), group (Scheduler)
-#: kstars.kcfg:2856
+#: kstars.kcfg:2861
 #, kde-format
 msgid "Default scheduler checkbox for parking dome on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerParkMount), group (Scheduler)
-#: kstars.kcfg:2860
+#: kstars.kcfg:2865
 #, kde-format
 msgid "Default scheduler checkbox for parking mount on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerCloseDustCover), group (Scheduler)
-#: kstars.kcfg:2864
+#: kstars.kcfg:2869
 #, kde-format
 msgid "Default scheduler checkbox for closing dust cover on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWarmCCD), group (Scheduler)
-#: kstars.kcfg:2868
+#: kstars.kcfg:2873
 #, kde-format
 msgid "Default scheduler checkbox for warming the CCD on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerUnparkDome), group (Scheduler)
-#: kstars.kcfg:2872
+#: kstars.kcfg:2877
 #, kde-format
 msgid "Default scheduler checkbox for unparking dome on startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerUnparkMount), group (Scheduler)
-#: kstars.kcfg:2876
+#: kstars.kcfg:2881
 #, kde-format
 msgid "Default scheduler checkbox for unparking mount on startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerOpenDustCover), group (Scheduler)
-#: kstars.kcfg:2880
+#: kstars.kcfg:2885
 #, kde-format
 msgid "Default scheduler checkbox for opening dust cover on startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
-#: kstars.kcfg:2884
+#: kstars.kcfg:2889
 #, kde-format
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
-#: kstars.kcfg:2888
+#: kstars.kcfg:2893
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
-#: kstars.kcfg:2892
+#: kstars.kcfg:2897
 #, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
-#: kstars.kcfg:2896
+#: kstars.kcfg:2901
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)
-#: kstars.kcfg:2900
+#: kstars.kcfg:2905
 #, kde-format
 msgid "Default scheduler checkbox for job altitude constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAltitudeValue), group (Scheduler)
-#: kstars.kcfg:2904
+#: kstars.kcfg:2909
 #, kde-format
 msgid "Default scheduler job altitude constraint."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerHorizon), group (Scheduler)
-#: kstars.kcfg:2908
+#: kstars.kcfg:2913
 #, fuzzy, kde-format
 #| msgid "The color for the coordinate grid lines."
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr "Koordinačių tinklelio linijų spalva."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
-#: kstars.kcfg:2912
+#: kstars.kcfg:2917
 #, kde-format
 msgid "Default scheduler checkbox for job moon separation constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
-#: kstars.kcfg:2916
+#: kstars.kcfg:2921
 #, kde-format
 msgid "Default scheduler job moon separation constraint."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
-#: kstars.kcfg:2920
+#: kstars.kcfg:2925
 #, kde-format
 msgid "Default scheduler checkbox for job weather constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
-#: kstars.kcfg:2924
+#: kstars.kcfg:2929
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
-#: kstars.kcfg:2928
+#: kstars.kcfg:2933
 #, kde-format
 msgid "Restart sequences as soon as all sequences have been completed."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
-#: kstars.kcfg:2932
+#: kstars.kcfg:2937
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
-#: kstars.kcfg:2938
+#: kstars.kcfg:2943
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
-#: kstars.kcfg:2942
+#: kstars.kcfg:2947
 #, kde-format
 msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
@@ -36746,14 +36866,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
-#: kstars.kcfg:2946
+#: kstars.kcfg:2951
 #, kde-format
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
-#: kstars.kcfg:2950
+#: kstars.kcfg:2955
 #, kde-format
 msgid ""
 "Display the median eccentricity for the stars in the capture on the Analyze "
@@ -36761,74 +36881,74 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
-#: kstars.kcfg:2954
+#: kstars.kcfg:2959
 #, kde-format
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
-#: kstars.kcfg:2958
+#: kstars.kcfg:2963
 #, fuzzy, kde-format
 #| msgid "Display the focus InfoBox?"
 msgid "Display the autofocus solution position."
 msgstr "Rodyti fokuso informacinį laukelį?"
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
-#: kstars.kcfg:2962
+#: kstars.kcfg:2967
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
-#: kstars.kcfg:2966
+#: kstars.kcfg:2971
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
-#: kstars.kcfg:2970
+#: kstars.kcfg:2975
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
-#: kstars.kcfg:2974
+#: kstars.kcfg:2979
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
-#: kstars.kcfg:2978
+#: kstars.kcfg:2983
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
-#: kstars.kcfg:2982
+#: kstars.kcfg:2987
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
-#: kstars.kcfg:2986
+#: kstars.kcfg:2991
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
-#: kstars.kcfg:2990
+#: kstars.kcfg:2995
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
-#: kstars.kcfg:2994
+#: kstars.kcfg:2999
 #, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
-#: kstars.kcfg:2998
+#: kstars.kcfg:3003
 #, kde-format
 msgid ""
 "Display the arc-seconds distance between the target position and the plate-"
@@ -36836,268 +36956,268 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
-#: kstars.kcfg:3002
+#: kstars.kcfg:3007
 #, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
-#: kstars.kcfg:3006
+#: kstars.kcfg:3011
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
-#: kstars.kcfg:3010
+#: kstars.kcfg:3015
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
-#: kstars.kcfg:3014
+#: kstars.kcfg:3019
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
-#: kstars.kcfg:3018
+#: kstars.kcfg:3023
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
-#: kstars.kcfg:3022
+#: kstars.kcfg:3027
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
-#: kstars.kcfg:3026
+#: kstars.kcfg:3031
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
-#: kstars.kcfg:3030
+#: kstars.kcfg:3035
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr ""
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
-#: kstars.kcfg:3035
+#: kstars.kcfg:3040
 #, kde-format
 msgid "The address of last used server"
 msgstr ""
 
 #. i18n: ectx: label, entry (LastServerPort), group (INDI Lite)
-#: kstars.kcfg:3038
+#: kstars.kcfg:3043
 #, kde-format
 msgid "The port of last used server"
 msgstr ""
 
 #. i18n: ectx: label, entry (LastWebManagerPort), group (INDI Lite)
-#: kstars.kcfg:3042
+#: kstars.kcfg:3047
 #, kde-format
 msgid "The port of last used Web Manager"
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSMemoryCache), group (HIPS)
-#: kstars.kcfg:3048
+#: kstars.kcfg:3053
 #, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
-#: kstars.kcfg:3052
+#: kstars.kcfg:3057
 #, kde-format
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
-#: kstars.kcfg:3056
+#: kstars.kcfg:3061
 #, kde-format
 msgid "HIPS source catalog title."
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
-#: kstars.kcfg:3060
+#: kstars.kcfg:3065
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
-#: kstars.kcfg:3064
+#: kstars.kcfg:3069
 #, fuzzy, kde-format
 #| msgid "Draw Sun in the sky map?"
 msgid "Show HiPS grid on the sky map."
 msgstr "Žvaigždėlapyje rodyti Saulę?"
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
-#: kstars.kcfg:3068
+#: kstars.kcfg:3073
 #, kde-format
 msgid "Redraw HiPS while panning."
 msgstr ""
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3072
+#: kstars.kcfg:3077
 #, fuzzy, kde-format
 #| msgid "Draw stars in the sky map?"
 msgid "Draw HiPS sources in the sky map?"
 msgstr "Žvaigždėlapyje rodyti žvaigždes?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3073
+#: kstars.kcfg:3078
 #, fuzzy, kde-format
 #| msgid "Toggle whether stars are drawn in the sky map."
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
 msgstr "Nurodykite, žvaigždėlapyje rodyti žvaigždes ar ne."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
-#: kstars.kcfg:3077
+#: kstars.kcfg:3082
 #, kde-format
 msgid "Use offline storage to load HiPS?"
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
-#: kstars.kcfg:3081
+#: kstars.kcfg:3086
 #, kde-format
 msgid "HIPS offline full path."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3086
+#: kstars.kcfg:3091
 #, fuzzy, kde-format
 #| msgid "Invalid Filename"
 msgid "Terrain Filename."
 msgstr "Klaidingas failo pavadinimas"
 
 #. i18n: ectx: whatsthis, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3087
+#: kstars.kcfg:3092
 #, kde-format
 msgid "Terrain source filename."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3091
+#: kstars.kcfg:3096
 #, kde-format
 msgid "Terrain Azimuth Correction."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3092
+#: kstars.kcfg:3097
 #, kde-format
 msgid "Terrain source azimuth correction."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3096
+#: kstars.kcfg:3101
 #, kde-format
 msgid "Terrain Altitude Correction."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3097
+#: kstars.kcfg:3102
 #, kde-format
 msgid "Terrain source altitude correction."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3101
+#: kstars.kcfg:3106
 #, fuzzy, kde-format
 #| msgid "Delete all Images"
 msgid "Terrain Downsampling"
 msgstr "Trinti visus paveikslėlius"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3102
+#: kstars.kcfg:3107
 #, kde-format
 msgid "Speed quality tradeoff for rendering the terrain image."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3106
+#: kstars.kcfg:3111
 #, kde-format
 msgid "Terrain While panning."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3107
+#: kstars.kcfg:3112
 #, kde-format
 msgid "Redraw terrain while panning."
 msgstr ""
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3111
+#: kstars.kcfg:3116
 #, fuzzy, kde-format
 #| msgid "Draw Saturn?"
 msgid "Draw terrain"
 msgstr "Rodyti Saturną?"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3112
+#: kstars.kcfg:3117
 #, fuzzy, kde-format
 #| msgid "Toggle whether the Sun is drawn in the sky map."
 msgid "Toggle whether the terrain is drawn in the sky map."
 msgstr "Nurodykite, žvaigždėlapyje rodyti Saulę ar ne."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
-#: kstars.kcfg:3116
+#: kstars.kcfg:3121
 #, kde-format
 msgid "Terrain Skip Speedup"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3117 kstars.kcfg:3122
+#: kstars.kcfg:3122 kstars.kcfg:3127
 #, kde-format
 msgid "Enable a one of the terrain drawing speedups."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3121
+#: kstars.kcfg:3126
 #, kde-format
 msgid "Terrain Transparency Speedup."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3126
+#: kstars.kcfg:3131
 #, kde-format
 msgid "Terrain Smooth Pixels."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3127
+#: kstars.kcfg:3132
 #, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
 msgstr ""
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
-#: kstars.kcfg:3133
+#: kstars.kcfg:3138
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Default observatory module weather source."
 msgstr "Numatytasis FITS aplankas:"
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
-#: kstars.kcfg:3136
+#: kstars.kcfg:3141
 #, kde-format
 msgid "Will be reacted upon warnings?"
 msgstr ""
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
-#: kstars.kcfg:3140
+#: kstars.kcfg:3145
 #, kde-format
 msgid "Will be reacted upon alerts?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
-#: kstars.kcfg:3144
+#: kstars.kcfg:3149
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
-#: kstars.kcfg:3148
+#: kstars.kcfg:3153
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
 msgstr ""
@@ -37105,63 +37225,63 @@ msgstr ""
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertStopScheduler), group (Observatory)
-#: kstars.kcfg:3152 kstars.kcfg:3164 kstars.kcfg:3168
+#: kstars.kcfg:3157 kstars.kcfg:3169 kstars.kcfg:3173
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
-#: kstars.kcfg:3156
+#: kstars.kcfg:3161
 #, kde-format
 msgid "Delay for reacting upon a weather warning."
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
-#: kstars.kcfg:3160
+#: kstars.kcfg:3165
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
-#: kstars.kcfg:3172
+#: kstars.kcfg:3177
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
 msgstr ""
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
-#: kstars.kcfg:3176
+#: kstars.kcfg:3181
 #, kde-format
 msgid "Dome status relevant for the Observatory status."
 msgstr ""
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
-#: kstars.kcfg:3180
+#: kstars.kcfg:3185
 #, kde-format
 msgid "Shutter status relevant for the Observatory status."
 msgstr ""
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
-#: kstars.kcfg:3184
+#: kstars.kcfg:3189
 #, kde-format
 msgid "Weather status relevant for the Observatory status."
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
-#: kstars.kcfg:3188
+#: kstars.kcfg:3193
 #, fuzzy, kde-format
 #| msgid "Set the color named %1 to the value %2."
 msgid "Scale the sensor graph value axis to the values range."
 msgstr "Spalvos, pavadinimu %1, vertę pakeičia į %2."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
-#: kstars.kcfg:3194
+#: kstars.kcfg:3199
 #, kde-format
 msgid "Full path to the ASTAP executable."
 msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
-#: kstars.kcfg:3198 kstars.kcfg:3202
+#: kstars.kcfg:3203 kstars.kcfg:3207
 #, kde-format
 msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
@@ -37170,7 +37290,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
-#: kstars.kcfg:3206 kstars.kcfg:3210
+#: kstars.kcfg:3211 kstars.kcfg:3215
 #, kde-format
 msgid ""
 "The program will search in a square spiral around the start position up to "
@@ -37178,25 +37298,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
-#: kstars.kcfg:3214
+#: kstars.kcfg:3219
 #, kde-format
 msgid "Update the fits header with the found solution."
 msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
-#: kstars.kcfg:3218
+#: kstars.kcfg:3223
 #, kde-format
 msgid "Increase search window size."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
-#: kstars.kcfg:3224
+#: kstars.kcfg:3229
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
-#: kstars.kcfg:3228
+#: kstars.kcfg:3233
 #, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr ""
@@ -69654,14 +69774,14 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr ""
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1923 kstarsinit.cpp:268
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:268
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Ferrara"
 msgid "Hide Terrain"
 msgstr "Ferara"
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1923 kstarsinit.cpp:269
+#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:269
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
@@ -69674,31 +69794,31 @@ msgstr "Rodyti detales"
 msgid "Open FITS"
 msgstr "Atverti FITS..."
 
-#: kstarsactions.cpp:1301
+#: kstarsactions.cpp:1300
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Kastoras"
 
-#: kstarsactions.cpp:1347 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1346 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr ""
 
-#: kstarsactions.cpp:1355
+#: kstarsactions.cpp:1354
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Executing remote scripts is not supported."
 msgstr "baigta"
 
-#: kstarsactions.cpp:1363 oal/execute.cpp:319 tools/observinglist.cpp:909
+#: kstarsactions.cpp:1362 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Neina atverti failo %1"
 
-#: kstarsactions.cpp:1388
+#: kstarsactions.cpp:1387
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -69710,27 +69830,27 @@ msgstr ""
 "sukurtas ne su KStars scenarijaus rengykle. Šis scenarijus gali funkcionuoti "
 "netinkamai, be to, jame gali būti kenkėjiškas kodas. Vis tiek jį paleisti?"
 
-#: kstarsactions.cpp:1393
+#: kstarsactions.cpp:1392
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Scenarijaus patikra žlugo"
 
-#: kstarsactions.cpp:1393
+#: kstarsactions.cpp:1392
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Nepaisant to, paleisti"
 
-#: kstarsactions.cpp:1400
+#: kstarsactions.cpp:1399
 #, kde-format
 msgid "Running script: %1"
 msgstr "Vykdomas scenarijus: %1"
 
-#: kstarsactions.cpp:1418
+#: kstarsactions.cpp:1417
 #, kde-format
 msgid "Script finished."
 msgstr "Scenarijus baigtas"
 
-#: kstarsactions.cpp:1430
+#: kstarsactions.cpp:1429
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -69741,56 +69861,56 @@ msgstr ""
 "taupomas spausdintuvo dažas. Ar spausdinant spalvų derinį laikinai pakeisti "
 "į „Žvaigždėlapis“?"
 
-#: kstarsactions.cpp:1435
+#: kstarsactions.cpp:1434
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Spalvų derinį pakeisti į „Žvaigždėlapis“?"
 
-#: kstarsactions.cpp:1436
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Keisti spalvų derinį"
 
-#: kstarsactions.cpp:1436
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Nekeisti"
 
-#: kstarsactions.cpp:1519 kstarsinit.cpp:236
+#: kstarsactions.cpp:1518 kstarsinit.cpp:236
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Pradėti &sekimą"
 
-#: kstarsactions.cpp:1633
+#: kstarsactions.cpp:1632
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1638
+#: kstarsactions.cpp:1637
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1644
+#: kstarsactions.cpp:1643
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1661
+#: kstarsactions.cpp:1660
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Įveskite norimą regėjimo lauko kampą"
 
-#: kstarsactions.cpp:1662
+#: kstarsactions.cpp:1661
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Regėjimo lauko kampą įveskite laipsniais: "
 
-#: kstarsactions.cpp:1693 kstarsinit.cpp:711
+#: kstarsactions.cpp:1692 kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -69798,7 +69918,7 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Šiaurė"
 
-#: kstarsactions.cpp:1696 kstarsinit.cpp:720
+#: kstarsactions.cpp:1695 kstarsinit.cpp:720
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -69806,32 +69926,32 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Šiaurė"
 
-#: kstarsactions.cpp:1714 kstarsinit.cpp:711
+#: kstarsactions.cpp:1713 kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Zenitas"
 
-#: kstarsactions.cpp:1717 kstarsinit.cpp:720
+#: kstarsactions.cpp:1716 kstarsinit.cpp:720
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "&Zenitas"
 
-#: kstarsactions.cpp:1875
+#: kstarsactions.cpp:1874
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr ""
 
-#: kstarsactions.cpp:1877
+#: kstarsactions.cpp:1876
 #, fuzzy, kde-format
 #| msgid "Select a shape for the field-of-view symbol"
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "Parinkite regos lauko simbolio formą"
 
-#: kstarsactions.cpp:1878
+#: kstarsactions.cpp:1877
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr ""
@@ -70012,7 +70132,7 @@ msgstr "pietvakariai"
 msgid "northwest"
 msgstr "šiaurės vakarai"
 
-#: kstarsdbus.cpp:994
+#: kstarsdbus.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Print Sky"
 msgctxt "@title:window"
@@ -76175,9 +76295,9 @@ msgstr "Teleskopas"
 #. i18n: ectx: property (text), widget (QLabel, label3_3)
 #. i18n: ectx: property (text), widget (QLabel, label3_2)
 #. i18n: ectx: property (text), widget (QLabel, label4)
-#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:376
-#: oal/equipmentwriter.ui:590 oal/equipmentwriter.ui:843
-#: oal/equipmentwriter.ui:968
+#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:379
+#: oal/equipmentwriter.ui:593 oal/equipmentwriter.ui:849
+#: oal/equipmentwriter.ui:974
 #, kde-format
 msgid "Id:"
 msgstr "Id:"
@@ -76230,9 +76350,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, scopeModelText)
-#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:390
-#: oal/equipmentwriter.ui:697 oal/equipmentwriter.ui:890
-#: oal/equipmentwriter.ui:995 tools/whatsinteresting/wiequipsettings.ui:107
+#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:393
+#: oal/equipmentwriter.ui:703 oal/equipmentwriter.ui:896
+#: oal/equipmentwriter.ui:1001 tools/whatsinteresting/wiequipsettings.ui:107
 #, kde-format
 msgid "Model:"
 msgstr "Modelis:"
@@ -76242,94 +76362,103 @@ msgstr "Modelis:"
 #. i18n: ectx: property (text), widget (QLabel, label31_2)
 #. i18n: ectx: property (text), widget (QLabel, label31)
 #. i18n: ectx: property (text), widget (QLabel, label5)
-#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:383
-#: oal/equipmentwriter.ui:641 oal/equipmentwriter.ui:860
-#: oal/equipmentwriter.ui:985
+#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:386
+#: oal/equipmentwriter.ui:647 oal/equipmentwriter.ui:866
+#: oal/equipmentwriter.ui:991
 #, kde-format
 msgid "Vendor:"
 msgstr "Tiekėjas:"
 
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
+#: oal/equipmentwriter.ui:157
+#, fuzzy, kde-format
+#| msgid "Telescope focal length, in millimeters"
+msgid ""
+"Official telescope focal length in millimeters without any reducers or "
+"barlows"
+msgstr "Teleskopo židinio nuotolis, milimetrais"
+
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
-#: oal/equipmentwriter.ui:251 tools/whatsinteresting/wiequipsettings.ui:121
+#: oal/equipmentwriter.ui:254 tools/whatsinteresting/wiequipsettings.ui:121
 #, kde-format
 msgid "Aperture:"
 msgstr "Skersmuo:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddScope)
-#: oal/equipmentwriter.ui:285
+#: oal/equipmentwriter.ui:288
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Save telescope information"
 msgstr "Nepavyko įkelti paveikslo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
-#: oal/equipmentwriter.ui:318
+#: oal/equipmentwriter.ui:321
 #, fuzzy, kde-format
 msgid "Clear data and add a new telescope"
 msgstr "Teleskopas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveScope)
-#: oal/equipmentwriter.ui:338
+#: oal/equipmentwriter.ui:341
 #, fuzzy, kde-format
 #| msgid "Save Telescope"
 msgid "Remove current telescope"
 msgstr "Įrašyti teleskopą"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: oal/equipmentwriter.ui:369
+#: oal/equipmentwriter.ui:372
 #, kde-format
 msgid "Unit:"
 msgstr "Vienetas:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddEyepiece)
-#: oal/equipmentwriter.ui:422
+#: oal/equipmentwriter.ui:425
 #, fuzzy, kde-format
 msgid "Save Eyepiece"
 msgstr "Okuliaras"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: oal/equipmentwriter.ui:438
+#: oal/equipmentwriter.ui:441
 #, kde-format
 msgid "Apparent FOV:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: oal/equipmentwriter.ui:504
+#: oal/equipmentwriter.ui:507
 #, kde-format
 msgid "rad"
 msgstr "radianai"
 
 #. i18n: ectx: attribute (title), widget (QWidget, DSLRLens)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: oal/equipmentwriter.ui:526 oal/equipmentwriter.ui:558
+#: oal/equipmentwriter.ui:529 oal/equipmentwriter.ui:561
 #, fuzzy, kde-format
 msgid "DSLR Lens"
 msgstr "Solt Leik Sitis"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
-#: oal/equipmentwriter.ui:570
+#: oal/equipmentwriter.ui:573
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: oal/equipmentwriter.ui:597
+#: oal/equipmentwriter.ui:600
 #, fuzzy, kde-format
 #| msgid "Focal Length:"
 msgid "Focal Length"
 msgstr "Židinio nuotolis:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
-#: oal/equipmentwriter.ui:721
+#: oal/equipmentwriter.ui:727
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
-#: oal/equipmentwriter.ui:754
+#: oal/equipmentwriter.ui:760
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -76337,98 +76466,98 @@ msgid ""
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
-#: oal/equipmentwriter.ui:774
+#: oal/equipmentwriter.ui:780
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
 msgstr "Naudoti nurodytą konfigūracijos failą"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
-#: oal/equipmentwriter.ui:799
+#: oal/equipmentwriter.ui:805
 #, fuzzy, kde-format
 msgid "Barlow Lens"
 msgstr "Solt Leik Sitis"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: oal/equipmentwriter.ui:831
+#: oal/equipmentwriter.ui:837
 #, kde-format
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:870
+#: oal/equipmentwriter.ui:876
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:873
+#: oal/equipmentwriter.ui:879
 #, kde-format
 msgid "Factor:"
 msgstr "Veiksnys:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddLens)
-#: oal/equipmentwriter.ui:921
+#: oal/equipmentwriter.ui:927
 #, fuzzy, kde-format
 msgid "Save Lens"
 msgstr "Solt Leik Sitis"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
-#: oal/equipmentwriter.ui:1051
+#: oal/equipmentwriter.ui:1057
 #, fuzzy, kde-format
 #| msgid "Filter:"
 msgid "Filter focus offset"
 msgstr "Filtras:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: oal/equipmentwriter.ui:1080
+#: oal/equipmentwriter.ui:1086
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Abs. position:"
 msgstr "Atstatyti poziciją"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: oal/equipmentwriter.ui:1100
+#: oal/equipmentwriter.ui:1106
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus alt:"
 msgstr "Automatizuotas režimas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: oal/equipmentwriter.ui:1123
+#: oal/equipmentwriter.ui:1129
 #, fuzzy, kde-format
 msgid "Ticks per C:"
 msgstr "Džeksonas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: oal/equipmentwriter.ui:1140
+#: oal/equipmentwriter.ui:1146
 #, fuzzy, kde-format
 msgid "Ticks per Alt:"
 msgstr "Džeksonas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: oal/equipmentwriter.ui:1164
+#: oal/equipmentwriter.ui:1170
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Auto focus:"
 msgstr "Žvaigždės"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: oal/equipmentwriter.ui:1178
+#: oal/equipmentwriter.ui:1184
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Locked filter:"
 msgstr "Filtras"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: oal/equipmentwriter.ui:1211
+#: oal/equipmentwriter.ui:1217
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus temp:"
 msgstr "Automatizuotas režimas"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
-#: oal/equipmentwriter.ui:1258
+#: oal/equipmentwriter.ui:1264
 #, fuzzy, kde-format
 msgid "Save Filter"
 msgstr "Filtras"
@@ -79594,19 +79723,19 @@ msgstr "Įkeliamos žvaigždės"
 msgid "Please wait while re-indexing stars..."
 msgstr "Luktelėkite kol iš naujo indeksuojamos žvaigždės..."
 
-#: skycomponents/supernovaecomponent.cpp:273
+#: skycomponents/supernovaecomponent.cpp:271
 #, fuzzy, kde-format
 #| msgid "Supernovae"
 msgid "Supernovae Update"
 msgstr "Supernova"
 
-#: skycomponents/supernovaecomponent.cpp:274
+#: skycomponents/supernovaecomponent.cpp:272
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Downloading Supernovae updates..."
 msgstr "Atsiunčiama..."
 
-#: skycomponents/supernovaecomponent.cpp:352
+#: skycomponents/supernovaecomponent.cpp:350
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error downloading supernova data: %1"
@@ -87342,6 +87471,11 @@ msgstr "Fono spalva:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Foną spalvinti šia spalva."
+
+#, fuzzy
+#~| msgid "Upload"
+#~ msgid "Upload JPG"
+#~ msgstr "Nusiųsti"
 
 #, fuzzy
 #~| msgctxt "Country name"

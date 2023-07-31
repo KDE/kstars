@@ -281,6 +281,11 @@ void FOV::draw(QPainter &p, float zoomFactor)
             {
                 int fontSize = pixelSizeX / 15;
                 fontSize *= 14.0 / name().count();
+
+                // Don't let the font size get larger than the vertical space allotted.
+                const int maxYPixelSize = (14.0 / 15.0) * (pixelSizeY / 8);
+                fontSize = std::min(maxYPixelSize, fontSize);
+
                 if (fontSize <= 4)
                     break;
 
@@ -291,6 +296,14 @@ void FOV::draw(QPainter &p, float zoomFactor)
                 QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,
                                pixelSizeX / 10);
                 p.drawText(nameRect, Qt::AlignCenter, name());
+
+                // Maybe make the font size smaller for the field-of-view dimensions.
+                QString fovString = QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1), QString::number(m_sizeY, 'f', 1));
+                int fovFontSize = (pixelSizeX / 15) * (14.0 / fovString.count());
+                fovFontSize = std::min(maxYPixelSize, fovFontSize);
+                fontSize = std::min(fovFontSize, fontSize);
+                font.setPixelSize(fontSize);
+                p.setFont(font);
 
                 QRect sizeRect(targetRect.center().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,
                                pixelSizeX / 10);

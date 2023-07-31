@@ -1698,16 +1698,16 @@ QJsonObject SchedulerJob::toJson() const
         {"completedCount", completedCount},
         {"minAltitude", minAltitude},
         {"minMoonSeparation", minMoonSeparation},
-        // Warning: Qt JSON does not natively support 64bit integers
-        {"estimatedTime", static_cast<double>(estimatedTime)},
         {"culminationOffset", culminationOffset},
         {"priority", priority},
-        // Warning: Qt JSON does not natively support 64bit integers
-        {"leadTime", static_cast<double>(leadTime)},
         {"repeatsRequired", repeatsRequired},
         {"repeatsRemaining", repeatsRemaining},
         {"inSequenceFocus", inSequenceFocus},
         {"score", score},
-
+        {"startupTime", startupCell ? startupCell->text() : "--"},
+        {"leadTime", leadTimeCell ? leadTimeCell->text() : "--"},
+        {"estimatedTime", estimatedTimeCell ? estimatedTimeCell->text() : "--"},
+        {"completionTime", completionCell ? completionCell->text() : "--"},
+        {"altitude", altitudeCell ? altitudeCell->text() : "--"},
     };
 }

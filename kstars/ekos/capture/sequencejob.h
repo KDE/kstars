@@ -375,7 +375,6 @@ class SequenceJob : public QObject
         void newLog(QString);
 
         void prepareState(CaptureState state);
-        void checkFocus();
         // signals to be forwarded to the state machine
         void prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
         // update the current guiding deviation

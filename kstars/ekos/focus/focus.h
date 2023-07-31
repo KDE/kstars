@@ -783,6 +783,7 @@ class Focus : public QWidget, public Ui::Focus
         void setAdaptiveFocusCounters();
         double getAdaptiveTempTicks();
         double getAdaptiveAltTicks();
+        void adaptiveFocusAdmin(const bool resetFlag, const bool success, const bool focuserMoved);
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
@@ -1130,6 +1131,7 @@ class Focus : public QWidget, public Ui::Focus
         double m_Aperture = 0.0f;
         double m_FocalLength = 0.0f;
         double m_FocalRatio = 0.0f;
+        double m_Reducer = 0.0f;
         double m_CcdPixelSizeX = 0.0f;
         QString m_ScopeType;
 

@@ -461,6 +461,7 @@ Capture::Capture()
     connect(m_captureModuleState.data(), &CaptureModuleState::newLog, this, &Capture::appendLogText);
     connect(m_captureModuleState.data(), &CaptureModuleState::newStatus, this, &Capture::newStatus);
     connect(m_captureModuleState.data(), &CaptureModuleState::checkFocus, this, &Capture::checkFocus);
+    connect(m_captureModuleState.data(), &CaptureModuleState::runAutoFocus, this, &Capture::runAutoFocus);
     connect(m_captureModuleState.data(), &CaptureModuleState::resetFocus, this, &Capture::resetFocus);
     connect(m_captureModuleState.data(), &CaptureModuleState::adaptiveFocus, this, &Capture::adaptiveFocus);
     connect(m_captureModuleState.data(), &CaptureModuleState::guideAfterMeridianFlip, this,
@@ -1171,7 +1172,6 @@ void Capture::checkCamera()
 
     connect(m_Camera, &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
-    connect(m_Camera, &ISD::Camera::newRemoteFile, this, &Capture::setNewRemoteFile, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
     connect(m_Camera, &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError, Qt::UniqueConnection);
@@ -2038,16 +2038,6 @@ void Capture::setExposureProgress(ISD::CameraChip * tChip, double value, IPState
         m_captureModuleState->getActiveJob()->setCaptureRetires(0);
         m_captureModuleState->getActiveJob()->setExposeLeft(0);
 
-        if (m_captureDeviceAdaptor->getActiveCamera()
-                && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
-        {
-            if (m_captureModuleState->getActiveJob()->getStatus() == JOB_BUSY)
-            {
-                processingFITSfinished(false);
-                return;
-            }
-        }
-
         //if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CameraChip::GUIDE_CCD) == guideChip)
         if (m_captureModuleState->getGuideState() == GUIDE_GUIDING && Options::guiderType() == 0
                 && m_captureModuleState->suspendGuidingOnDownload())
@@ -2056,12 +2046,16 @@ void Capture::setExposureProgress(ISD::CameraChip * tChip, double value, IPState
             emit suspendGuiding();
         }
 
-        captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
+        // start the download timer only when an image will be received
+        if (m_captureDeviceAdaptor->getActiveCamera()
+                && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+        {
+            captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
 
-        //This will start the clock to see how long the download takes.
-        m_captureModuleState->downloadTimer().start();
-        m_captureModuleState->downloadProgressTimer().start();
-
+            //This will start the clock to see how long the download takes.
+            m_captureModuleState->downloadTimer().start();
+            m_captureModuleState->downloadProgressTimer().start();
+        }
 
         //disconnect(m_Camera, &ISD::Camera::newExposureValue(ISD::CameraChip*,double,IPState)), this, &Capture::updateCaptureProgress(ISD::CameraChip*,double,IPState)));
     }
@@ -4022,11 +4016,6 @@ void Capture::openCalibrationDialog()
     }
 }
 
-void Capture::setNewRemoteFile(QString file)
-{
-    appendLogText(i18n("Remote image saved to %1", file));
-}
-
 void Capture::toggleVideo(bool enabled)
 {
     if (m_captureDeviceAdaptor->getActiveCamera() == nullptr)
@@ -4674,6 +4663,7 @@ void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         m_Camera->disconnect(this);
         m_Camera = nullptr;
         m_captureDeviceAdaptor->setActiveCamera(nullptr);
+        m_captureDeviceAdaptor->setActiveChip(nullptr);
 
         QSharedPointer<ISD::GenericDevice> generic;
         if (INDIListener::findDevice(name, generic))

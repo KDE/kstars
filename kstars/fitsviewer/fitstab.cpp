@@ -35,7 +35,7 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
     statWidget = new QDialog(this);
     fitsHeaderDialog = new QDialog(this);
     m_HistogramEditor = new FITSHistogramEditor(this);
-    connect(m_HistogramEditor, &FITSHistogramEditor::newHistogramCommand, [this](FITSHistogramCommand * command)
+    connect(m_HistogramEditor, &FITSHistogramEditor::newHistogramCommand, this, [this](FITSHistogramCommand * command)
     {
         undoStack->push(command);
     });
@@ -43,9 +43,6 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 
 FITSTab::~FITSTab()
 {
-    // Make sure it's done
-    //histogramFuture.waitForFinished();
-    //disconnect();
 }
 
 void FITSTab::saveUnsaved()

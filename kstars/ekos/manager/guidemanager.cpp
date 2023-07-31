@@ -90,6 +90,11 @@ void GuideManager::init(Guide *guideProcess)
     connect(guideProcess->guiderAccuracyThreshold, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
             targetPlot,
             &GuideTargetPlot::buildTarget);
+    connect(guideProcess->guideDataClearB, &QPushButton::clicked, [this]()
+    {
+        driftGraph->clear();
+        targetPlot->clear();
+    });
 }
 
 

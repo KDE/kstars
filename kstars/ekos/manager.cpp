@@ -2591,7 +2591,8 @@ void Manager::updateCaptureCountDown()
     {
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()},
-        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()}
+        {"ovp", capturePreview->captureCountsWidget->gr_overallProgressBar->value()},
+        {"ovl", capturePreview->captureCountsWidget->gr_overallLabel->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
@@ -2829,8 +2830,12 @@ void Manager::connectModules()
     // Capture <---> Focus connections
     if (captureProcess && focusProcess)
     {
-        // Check focus HFR value
+        // Check focus HFR value and if above threshold parameter, run autoFocus
         connect(captureProcess.get(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus,
+                Qt::UniqueConnection);
+
+        // Run autoFocus
+        connect(captureProcess.get(), &Ekos::Capture::runAutoFocus, focusProcess.get(), &Ekos::Focus::runAutoFocus,
                 Qt::UniqueConnection);
 
         // Reset Focus

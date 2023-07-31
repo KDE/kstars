@@ -2191,6 +2191,11 @@
       <entry name="rightLayout" type="String">
          <label>Position of rightLayout.</label>
       </entry>
+      <entry name="adaptFocusBFO" type="Bool">
+         <whatsthis>Whether to use Adaptive Focus in the Build Filter Offsets utility.</whatsthis>
+         <default>false</default>
+      </entry>
+
    </group>
    <group name="StellarSolver">
       <entry name="FocusSextractorType" type="UInt">

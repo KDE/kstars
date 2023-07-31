@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>426</width>
-    <height>536</height>
+    <height>547</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
@@ -32,7 +32,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -152,6 +152,9 @@
                </property>
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>Official telescope focal length in millimeters without any reducers or barlows</string>
                </property>
                <property name="minimum">
                 <double>0.000000000000000</double>
@@ -606,7 +609,10 @@
                 <double>10.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>300.000000000000000</double>
+                <double>3000.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>50.000000000000000</double>
                </property>
                <property name="value">
                 <double>24.000000000000000</double>

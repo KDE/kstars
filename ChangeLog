@@ -4,6 +4,131 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.6 (GREEDY):
+
+d19108b68 2023-07-31 Jasem Mutlaq         Add missing time info
+fd9ca7837 2023-07-30 Valentin Boettcher   update default open ngc catalog to the 2023 version
+c8711579a 2023-07-30 Hy Murveit           Make analyze filename display fit better
+2cbbfba27 2023-07-30 Jasem Mutlaq         When a camera is removed, reset active chip to nullptr. Check if we have a valid active camera and chip in sequence job
+e16ec17c0 2023-07-30 Toni Schriber        Change default image format for online astrometry from JPG to FITS
+8b365baa2 2023-07-30 Jasem Mutlaq         Dark library should use whatever format selected by the user. Fixes #244
+386db7a17 2023-07-30 Jasem Mutlaq         INDI drivers sync
+088798eae 2023-07-29 Wolfgang Reissenberger Reporting of captured image corrected
+55b3637a0 2023-07-25 Andreas Sturmlechner Drop superfluous definition
+85bcddf3e 2023-07-29 Hy Murveit           Analyze/Capture stats were using default StellarSolver values. Now HFRProfiles.
+81129ae4f 2023-07-28 Yuri Chornoivan      Fix minor typos
+c35758934 2023-07-28 Yuri Chornoivan      Fix minor typo
+bf59e1a3a 2023-07-27 John Evans           updated focus section of manual for 3.6.6
+af220f3be 2023-07-26 Wolfgang Reissenberger Bug fix clearing guiding graph also on manager tab
+1fbb90d62 2023-07-25 Hy Murveit           Fix Analyze i18n inconsistency when writing/reading align & guide states.
+5dab3c217 2023-07-25 John Evans           Focus fixes 10
+1ae40efe2 2023-07-25 Hy Murveit           Do not let the fontsize for FOV markers get larger than the allotted vertical space.
+4af6f49ff 2023-07-23 Wolfgang Reissenberger Bug fix for handling remotely stored images
+7acaf6d60 2023-07-22 Jasem Mutlaq         Display reduced focal length and focal ratios
+e11d92604 2023-07-22 Jasem Mutlaq         Update DSLR lens range to allow longer focal lengths
+8c4d33bb1 2023-07-21 John Evans           BuildFilterOffsets refactor
+ee40d388e 2023-07-20 Akarsh Simha         Add DBus methods to query what KStars is currently centered on
+368b2b838 2023-07-21 Jasem Mutlaq         Update tooltips to avoid user confusion
+57db672c1 2023-07-20 Jasem Mutlaq         Fix crash when closing FITS viewer due to lambda capturing the shared pointer
+7ec241953 2023-07-20 Jasem Mutlaq         send overall label
+ca0dfd510 2023-07-20 Jasem Mutlaq         Add hasWCS to metadata
+eaea6ddd2 2023-07-20 Jasem Mutlaq         Fix crash when multiple instances of FITSViewer is used. Since migrating to QSharedPointer, need to clear the reference when the window is closed an..
+39978a612 2023-07-20 Hy Murveit           Fix bug where greedy scheduler would terminate StartAt jobs
+a7839dc70 2023-07-18 John Evans           Focus: persist radio button settings
+e221f0bb5 2023-07-18 Jasem Mutlaq         Translate PAH messages. Fixes #250
+25198770d 2023-07-18 Toni Schriber        Correct permutated name of rotator reverse switch
+90d14972b 2023-07-17 Jasem Mutlaq         Fix tab IDs after FITSViewer is destroyed
+5467649c4 2023-07-17 Jasem Mutlaq         Cover the whole range of HIPS 0 to 20th order
+b6f26355d 2023-07-16 Jasem Mutlaq         Use QSharedPointer for FITSViewer
+63b3c2026 2023-07-16 Jasem Mutlaq         Fix MacOS compile issues
+2fad01da9 2023-07-16 Jasem Mutlaq         Fix crash when offline hips is not found
+3239cf62c 2023-07-16 Jasem Mutlaq         Fix crash when tab is out of bound
+c5a5fa2bd 2023-07-16 Jasem Mutlaq         Do not check current order for offline hips
+29c010239 2023-07-16 Jasem Mutlaq         HiPS FITS Viewer overlay
+725947f68 2023-07-15 Jasem Mutlaq         Fix filter manager crash in case a device was removed and then add again
+bfe392c79 2023-07-14 Wolfgang Reissenberger Failed alignment after a meridian flip blocks capturing
+9ba62a314 2023-07-14 Jasem Mutlaq         Fix typo
+48f165e5b 2023-07-13 Jasem Mutlaq         Migrate FITSTab to QSharedPointer
+e3d0d6bf5 2023-07-13 Jasem Mutlaq         Simplify updated signal and add autostretch scriptable toggle
+8767c1700 2023-07-13 Jasem Mutlaq         Add a signal on image update
+3eaf2d520 2023-07-13 Jasem Mutlaq         Fix warning
+295d83d06 2023-07-12 Jasem Mutlaq         Add ability to remote set stretch values
+da80c7a45 2023-07-11 Jasem Mutlaq         Explicitly convert to QUrl from String when applicable
+c8218e0e6 2023-07-11 Jasem Mutlaq         Make saveScheduler scriptable
+4bbbdef52 2023-07-11 Jasem Mutlaq         Process Url for invoke method
+1d9a87858 2023-07-09 Yuri Chornoivan      Fix minor typo
+acaef0610 2023-07-09 Hy Murveit           Retire classic scheduler algorithm--but keep code for now.
+74a9b7907 2023-07-08 Hy Murveit           fix tooltip typo
+5721e6103 2023-07-08 Jasem Mutlaq         Fix QSharedPointer semantics
+a23ad8fb1 2023-07-08 Jasem Mutlaq         Fix crash
+165efa8ef 2023-07-08 Jasem Mutlaq         Remove unnecessary headers
+3b7e5ed7f 2023-07-07 Jasem Mutlaq         Use QSharedPointer for DriverInfo
+1d8a62e94 2023-07-08 Toni Schriber        Evoke stop state of align module after canceling manual rotator
+14147ef71 2023-07-08 Hy Murveit           Allow user to specificy number of consecutive high-guide-deviation frames...
+8c97889c0 2023-07-06 Yuri Chornoivan      Fix minor typos
+3525b0b4e 2023-07-05 Yuri Chornoivan      Fix minor typos
+802f093a9 2023-07-04 Yuri Chornoivan      Remove executable bit
+ccbee55ba 2023-07-04 Yuri Chornoivan      Fix minor typos
+179c4d0cf 2023-07-04 Yuri Chornoivan      Fix XML
+66c111a70 2023-07-04 Hy Murveit           Another finsih-repeat bugfix--re no RememberProgress and job reset.
+d9f7e46b0 2023-07-03 Hy Murveit           fix scheduler finish-repeat bug
+48523b97b 2023-07-03 Jasem Mutlaq         If there is no focus offset requested then return immediately
+829ccaf4b 2023-07-03 Jasem Mutlaq         Fix warning
+50f904ee8 2023-07-03 Hy Murveit           Update scheduler handbook section.
+9ae7b00dd 2023-07-02 Hy Murveit           Add test for scheduler groups.
+1e5747a68 2023-07-02 Hy Murveit           Remove dead code: mosaic.ui mosaic.cpp mosaic.h
+7a1be9a4f 2023-07-02 Hy Murveit           Add groups to greedy scheduling
+e2a51afab 2023-07-01 John Evans           Fixed bug taking flats when "flats same as lights" option checked
+623045502 2023-07-01 Hy Murveit           Fix display bug in previous speedup MR
+94c81b812 2023-06-30 Yuri Chornoivan      Fix minor typos
+8ac0664a9 2023-06-30 Hy Murveit           Speedup scheduler with large number of jobs
+7ccd8b57d 2023-06-30 Jasem Mutlaq         Fix QML warning
+18b91a1bb 2023-06-30 Jasem Mutlaq         Update client tab on client terminal
+e42566083 2023-06-29 Wolfgang Reissenberger Scheduler option for repeating the entire schedule
+05fc60ee7 2023-06-28 Jasem Mutlaq         Set remote drivers field in add profile
+cb7ef7ef6 2023-06-27 Wolfgang Reissenberger Refactoring capture module | process extraction
+7b9f085ba 2023-06-27 Jasem Mutlaq         Revert "Update to new KF5 standards"
+3f6799d1c 2023-06-27 Jasem Mutlaq         Support radio buttons in settings
+d23bfe791 2023-06-27 Jasem Mutlaq         Update to new KF5 standards
+d69ad255b 2023-06-26 Josep M. Ferrer      Use of https protocol for links instead of http
+71d371a42 2023-06-26 Toni Schriber        replace rotator button icon
+87fb6fc59 2023-06-26 Jasem Mutlaq         Fix test case
+7ca9523aa 2023-06-26 Jasem Mutlaq         Use guide via to avoid confusion
+59adda9c0 2023-06-25 Yuri Chornoivan      Fix minor typo
+99158d070 2023-06-22 Yuri Chornoivan      Fix minor typos
+e117e41e7 2023-06-21 Jasem Mutlaq         Do not hardcode the server URLs
+12d9d3819 2023-06-21 Jasem Mutlaq         Add more logging for rotator and do not use pointer in set angle
+a32a54542 2023-06-20 Yuri Chornoivan      Fix minor typos
+312643c3e 2023-06-19 John Evans           L1PPhase2 Focus Updates to Handbook
+d7b314e60 2023-06-19 Jasem Mutlaq         Do not capture after non-guide dither since a camera is not required nor expected
+d958ca4a9 2023-06-18 Johnny Jazeix        Simplify includes with using class include instead of module
+cddc55888 2023-06-17 Johnny Jazeix        fix Teritary -> Tertiary
+355bf52ec 2023-06-16 Jasem Mutlaq         Fix cloud plan id
+0f7329c47 2023-06-14 Antoni Bella Pérez   City fixes to her local language
+dd01692c6 2023-06-12 Jasem Mutlaq         INDI Drivers sync
+fbbab14a5 2023-06-11 Hy Murveit           histogram touchup
+9e36ff401 2023-06-10 Hy Murveit           Histogram bugfixes. Remove dead code.
+8162fe893 2023-06-09 Hy Murveit           Mousing over image puts cursor in histogram
+71095146d 2023-06-10 Jasem Mutlaq         Fix calling database in a different thread
+a8cdb3eb3 2023-06-10 Jasem Mutlaq         Fix setting font size to zero
+942d8b143 2023-06-04 Valentin Boettcher   tell the linker to remove unnecessary symbols from the python module
+02381eea2 2023-06-08 John Evans           L1P Phase2 Bugs9
+c9f3b5790 2023-06-07 Jasem Mutlaq         Improve logging and disable unnecessary logs
+d588c90bf 2023-06-07 Jasem Mutlaq         Fix KF5 warnings
+708a4cbf5 2023-06-07 Jasem Mutlaq         Fix missing signal issue
+a60bcdabd 2023-06-07 Hy Murveit           Add histogram tooltips
+f0f518f13 2023-06-06 Hy Murveit           Fix bug computing histograms for float/double images.
+8f5b2a59d 2023-06-06 Wolfgang Reissenberger Bugfix parking for darks and bias frames
+2878f8b65 2023-06-06 Hy Murveit           Add histogram stretch controls to fitstab
+b83de3431 2023-05-31 Heiko Becker         Fix build without INDI
+0626a7914 2023-06-02 Jasem Mutlaq         Only emit status change if state actually changed
+b60ea464a 2023-06-01 Antoni Bella Pérez   l10n: minor fixes
+06eea8e05 2023-06-01 Jasem Mutlaq         Must clear list to prevent crash
+0200b4865 2023-06-01 Jasem Mutlaq         Starting 3.6.6 development cycle
+0edbf8eec 2023-05-31 Jasem Mutlaq         3.6.5 changelog
+8e64183e8 2023-05-31 John Evans           L1PPhase2Bugs8: Better Curve Fitting
+
+
 3.6.5 (SUBS):
 
 30e179d01 2023-05-31 Jasem Mutlaq         Fix regressions introduced by MR !793 due to the use of static variables. Using Options statically caused a major regression in retrieving the AppDa..
