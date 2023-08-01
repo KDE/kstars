@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-31 00:42+0000\n"
+"POT-Creation-Date: 2023-08-01 00:41+0000\n"
 "PO-Revision-Date: 2023-06-18 20:58+0200\n"
 "Last-Translator: Thomas Vergnaud <thomas.vergnaud@mailo.eu>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -7588,7 +7588,7 @@ msgid ""
 "ASTAP' uses a local installation of the ASTAP program. </li><li>'Local "
 "Watney' uses a local installation of the Watney Astrometry Solver Program.</"
 "li><li>'Online' uses either astrometry.net over the internet or ANSVR on a "
-"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwith "
+"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwidth "
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
@@ -9527,56 +9527,49 @@ msgstr ""
 "maintenant en cours d'acquisition de la première image…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1205
-#, fuzzy, kde-format
-#| msgid "<p>Solving the first image...</p>"
+#, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
-msgstr "<p>Résolution de la première image...</p>"
+msgstr "<p>Résolution de la <i>première</i> image…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1207
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
-msgstr "<p>Exécution de la <i>seconde </i> rotation de la monture...</p>"
+msgstr "<p>Exécution de la <i>première</i> rotation de la monture…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1209
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
-msgstr "<p>Exécution de la <i>seconde </i> rotation de la monture...</p>"
+msgstr "<p>Stabilisation après la <i>première</i> rotation de la monture…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1211
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
-msgstr "<p>Exécution de la <i>seconde </i> rotation de la monture...</p>"
+msgstr "<p>Stabilisation après la <i>deuxième</i> rotation de la monture…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1213
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
-msgstr "<p>Capture de la seconde image...</p>"
+msgstr "<p>Acquisition de la <i>deuxième</i> image…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1215
-#, fuzzy, kde-format
-#| msgid "<p>Solving the second image...</p>"
+#, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
-msgstr "<p>Résolution de la seconde image...</p>"
+msgstr "<p>Résolution de la <i>deuxième</i> image…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1217
-#, fuzzy, kde-format
-#| msgid "<p>Executing the <i>second </i>mount rotation...</p>"
+#, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
-msgstr "<p>Exécution de la <i>seconde </i> rotation de la monture...</p>"
+msgstr "<p>Exécution de la <i>deuxième</i> rotation de la monture…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1219
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
-msgstr "<p>Capture de la <i>troisième</i> et dernière image...</p>"
+msgstr "<p>Acquisition de la <i>troisième</i> et dernière image…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1221
-#, fuzzy, kde-format
-#| msgid "<p>Solving the third image...</p>"
+#, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
-msgstr "<p>Résolution de la troisième image...</p>"
+msgstr "<p>Résolution de la <i>troisième</i> image…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1224
 #, kde-format
@@ -9584,6 +9577,8 @@ msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
+"<p>Veuillez choisir la durée d'exposition et une méthode d'ajustement. "
+"Ensuite cliquez sur <i>Rafraîchir</i> pour lancer l'ajustement</p>."
 
 #: ekos/align/polaralignmentassistant.cpp:1226
 #, kde-format
@@ -9593,6 +9588,11 @@ msgid ""
 "in and select a bright star</i> to reposition the correction vector. Use the "
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
+"<p>Veuillez choisir la durée d'exposition et une méthode d'ajustement. "
+"Ensuite cliquez sur <i>Rafraîchir</i> pour commencer</p>.<p>Le triangle de "
+"correction est tracé dessus. <i>Zoomez et sélectionnez une étoile lumineuse</"
+"i> pour repositionner le vecteur de correction. Utilisez la méthode "
+"<i>MoveStar & Calc Error</i> pour estimer l'erreur résiduel</p>."
 
 #: ekos/align/polaralignmentassistant.cpp:1229
 #, kde-format
@@ -9602,6 +9602,11 @@ msgid ""
 "movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
 "you're finished.</p>"
 msgstr ""
+"<p>Ajustez les <i>boutons de réglages de l'altitude et de l'azimut</i> de la "
+"monture pour réduire l'erreur d'alignement polaire.</p><p></p>Soyez patient, "
+"la résolution peut être affectée par les mouvements des boutons. N'utilisez "
+"les résultats qu'après deux images. Cliquez sur <i>Arrêter</i> pour terminer "
+"l'opération.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1231
 #, kde-format
@@ -9611,6 +9616,10 @@ msgid ""
 "until the selected star is centered within the crosshair.</p><p>Click "
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
+"<p>Ajustez le <i>bouton d'altitude</i> pour déplacer l'étoile le long de la "
+"ligne jaune, puis ajustez le <i>bouton d'azimut</i> pour la déplacer le long "
+"de la ligne verte jusqu'à ce que l'étoile se trouve au centre de la croix.</"
+"p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
@@ -12485,10 +12494,9 @@ msgid "Secondary"
 msgstr "Télescope guide"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:320
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Tertiary"
-msgstr "Verticale"
+msgstr "Tertiaire"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:953
 #, kde-format
@@ -12689,10 +12697,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:303
-#, fuzzy, kde-format
-#| msgid "Guide:"
+#, kde-format
 msgid "Guide Via:"
-msgstr "Guide"
+msgstr "Guider via "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:323
@@ -15682,10 +15689,9 @@ msgstr ""
 "AVERTISSEMENT : espaces %1 restants et potentiellement inconnus dans %2"
 
 #: ekos/capture/captureprocess.cpp:1143
-#, fuzzy, kde-format
-#| msgid "Executing pre capture script %1"
+#, kde-format
 msgid "Executing capture script %1"
-msgstr "Exécution du script de préacquisition %1"
+msgstr "Exécution du script d'acquisition %1"
 
 #: ekos/capture/captureprocess.cpp:1158
 #, kde-format
@@ -16141,18 +16147,18 @@ msgstr "Conditions de guidage"
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:76 ekos/capture/limits.ui:121
 #: ekos/capture/limits.ui:131
-#, fuzzy, kde-format
-#| msgid "Abort sequence if guiding deviation exceed this value"
+#, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
-msgstr "Annuler la séquence si la dérive de guidage dépasse cette valeur."
+msgstr ""
+"Annuler la séquence si la dérive de guidage dépasse cette valeur N fois "
+"consécutives."
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitGuideDeviationS)
 #: ekos/capture/limits.ui:79
-#, fuzzy, kde-format
-#| msgid "Abort if Guiding Deviation >"
+#, kde-format
 msgid "Abort if Guide Deviation >"
-msgstr "Annuler si la déviation de guidage est >"
+msgstr "Annuler si la déviation du guide est >"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, startGuiderDriftS)
 #: ekos/capture/limits.ui:92
@@ -16174,7 +16180,7 @@ msgstr "Démarrer si la déviation de guidage est <"
 #: ekos/capture/limits.ui:134
 #, kde-format
 msgid "consecutive times"
-msgstr ""
+msgstr "fois consécutives"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:160
@@ -16741,21 +16747,18 @@ msgid "Loading"
 msgstr "Téléchargement en cours"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
-msgstr "Service Ekos Live"
+msgstr "Choisissez les serveurs EkosLive"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Offline"
+#, kde-format
 msgid "Offline:"
 msgstr "Hors ligne"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
-#, fuzzy, kde-format
-#| msgid "Online"
+#, kde-format
 msgid "Online:"
 msgstr "En ligne"
 
@@ -18128,36 +18131,7 @@ msgstr "Profil SEP"
 # unreviewed-context
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1699
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the Measure to use when fitting a curve for "
-#| "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-#| "span>: Half Flux Radius. Uses an algorithm to calculate the radius of a "
-#| "circle centred on the star centroid that encapulates half the star's flux."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
-#| "span>: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. "
-#| "This is an experimental feature.</li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</"
-#| "span>: Full Width Half Maximum. Curve fits a PSF to each star centroid "
-#| "and uses the curve to calculate the FWHM. This is an experimental feature."
-#| "</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\"># Stars</span>: Number of stars. The number of "
-#| "detected stars at optimum focus will be a maximum. This is an "
-#| "experimental feature.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
-#| "power calculation. Uses the Fourier Transform Power approach developed by "
-#| "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
-#| "the power in frequency space [result of the fourier transform] will be a "
-#| "maximum. This is an experimental feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -18208,15 +18182,7 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\"># d'étoiles</span> : Nombre d'étoiles. Le nombre "
 "d'étoiles détectées à la position optimale de mise au point sera un maximum. "
-"Cette fonctionnalité est encore expérimentale.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Fourier</"
-"span> : Calcul de puissance de Fourier. Utilise l'approche de la transformée "
-"de puissance de Fourier développée par Tan et Schulz dans https://arxiv.org/"
-"pdf/2201.12466.pdf. À la position de la mise au point optimale, la puissance "
-"dans l'espace des fréquences (résultat de la transformée de Fourier) sera un "
-"maximum. Cette fonctionnalité est encore expérimentale.</li></ul></body></"
-"html>"
+"Cette fonctionnalité est encore expérimentale.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -25894,11 +25860,9 @@ msgstr "Réaliser la mise au point avant de démarrer la prochaine étape."
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: ekos/scheduler/framingassistant.ui:1497 ekos/scheduler/scheduler.ui:344
-#, fuzzy, kde-format
-#| msgctxt "Toggle the opaque fill of the ground polygon in the display"
-#| msgid "Ground"
+#, kde-format
 msgid "Group:"
-msgstr "Sol"
+msgstr "Groupe"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
 #: ekos/scheduler/framingassistant.ui:1509
@@ -25910,13 +25874,18 @@ msgid ""
 "completion conditions. Otherwise leave empty. Only applies to the Greedy "
 "scheduler algorithm.</p></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"justify\">Choisissez un nom pour le groupe. "
+"Cela est utile si vous souhaitez que les tâches de mosaïque se répètent "
+"ensemble. Assignez leur un nom de groupe et donnez leur la condition "
+"d'achèvement <i>Répéter pour N (N=2 ou plus)</i> ou <i>Répéter jusqu'à "
+"achèvement</i>. Sinon, laissez vide. Ne s'applique que pour l'algorithme "
+"Greedy.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1538
-#, fuzzy, kde-format
-#| msgid "Job Completion Conditions"
+#, kde-format
 msgid "Completion Condition:"
-msgstr "Conditions de fin de la tâche"
+msgstr "Conditions d'achèvement"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
@@ -26068,6 +26037,8 @@ msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
+"Avertissement : l'algorithme Classique a été retiré. Passage à l'algorithme "
+"Greedy."
 
 #: ekos/scheduler/scheduler.cpp:980
 #, kde-format
@@ -26179,7 +26150,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:1408
 #, kde-format
 msgid "Skipped checking for duplicates."
-msgstr ""
+msgstr "Recherch de de doublons ignorée."
 
 #: ekos/scheduler/scheduler.cpp:1596
 #, kde-format
@@ -26594,10 +26565,9 @@ msgid "Shutdown procedure failed, aborting..."
 msgstr "Échec de la procédure d'arrêt. Annulation en cours…"
 
 #: ekos/scheduler/scheduler.cpp:3864
-#, fuzzy, kde-format
-#| msgid "Solver iteration #%1"
+#, kde-format
 msgid "Starting job sequence iteration #%1"
-msgstr "Itération #%1 du résolveur"
+msgstr "Démarrage de l'itération #%1 de la séquence de tâches"
 
 #: ekos/scheduler/scheduler.cpp:3973
 #, kde-format
@@ -27436,6 +27406,12 @@ msgid ""
 "conditions. Otherwise leave empty. Only applies to the Greedy scheduler "
 "algorithm.</p></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"justify\">Choisissez un nom pour le groupe. "
+"Cela est utile si vous souhaitez que les tâches de mosaïque se répètent "
+"ensemble. Assignez leurs un nom de groupe et donnez leurs la condition "
+"d'achèvement <i>Répéter pour N (N=2 ou plus)</i> ou <i>Répéter jusqu'à "
+"achèvement</>. Sinon, laissez vide. Ne s'applique que pour l'algorithme "
+"Greedy.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -27569,37 +27545,35 @@ msgid ""
 "progress&quot; option in Ekos &gt; Scheduler is not selected.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Répéter toutes les tâches planifiées dès que toutes "
+"les tâches sont terminées. Cette option n'est disponible que si l'option "
+"&quot;Se rappeler de la progression de la tâche&quot; dans Ekos n'est pas "
+"sélectionnée</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
 #: ekos/scheduler/scheduler.ui:1263
-#, fuzzy, kde-format
-#| msgid "Reset status of all jobs"
+#, kde-format
 msgid "Repeat all jobs"
-msgstr "Réinitialiser l'état de toutes les tâches"
+msgstr "Répéter toutes les tâches"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
 #: ekos/scheduler/scheduler.ui:1270
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The camera position angle is saved to a sequence "
-#| "capture job. On execution of the job the camera is rotated to the "
-#| "specified position angle.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Limit number of iterations the scheduler will execute "
 "the entire job sequence. If set to 0, the jobs are repeated until for none "
 "of the jobs its constraints are met.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>L'angle de position de l'appareil est enregistré dans "
-"la séquence de la tâche d'acquisition. Dès que la tâche d'acquisition "
-"démarre, l'appareil pivotera à l'angle de position spécifié.</p></body></"
-"html>"
+"<html><head/><body><p>Limiter le nombre d'itérations du planificateur "
+"réalisera pour l'ensemble de la séquence de tâches. Si réglé à 0, les tâches "
+"seront répétées jusqu'à ce qu'aucune des tâches ne rencontre une contrainte."
+"</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, executionSequenceLimit)
 #: ekos/scheduler/scheduler.ui:1273
-#, fuzzy, kde-format
-#| msgid "Set time"
+#, kde-format
 msgid " times"
-msgstr "Heure du coucher"
+msgstr " fois"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/scheduler.ui:1333
@@ -28801,10 +28775,9 @@ msgid "Center Telescope"
 msgstr "Centrer le télescope"
 
 #: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:246
-#, fuzzy, kde-format
-#| msgid "Show HiPS grid"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "Afficher la grille HiPS"
+msgstr "Afficher la superposition HiPS"
 
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
@@ -28953,8 +28926,7 @@ msgid "Pixel Gridlines"
 msgstr "Lignes de quadrillage en pixels"
 
 #: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1168
-#, fuzzy, kde-format
-#| msgid "HiPS All Sky Overlay"
+#, kde-format
 msgid "HiPS Overlay"
 msgstr "Superposition HiPS"
 
@@ -29139,17 +29111,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "HiPS Opacity:"
-msgstr "Mise à jour de HiPS"
+msgstr "Opacité de la superposition HiPS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "Décalage en X"
+msgstr "Décalage de la superposition HiPS"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -35318,19 +35288,19 @@ msgstr ""
 #: kstars.kcfg:1510
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Opacité de la superposition HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "Décalage horizontal de la superposition HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Décalage verticale de la superposition HiPS"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1524
@@ -35444,17 +35414,15 @@ msgstr "Nom d'utilisateur « EkosLive »"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1599
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Offline Server"
-msgstr "Service Ekos Live"
+msgstr "Serveur hors-ligne de EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOnlineServer), group (EkosLive)
 #: kstars.kcfg:1603
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Online Server"
-msgstr "Service Ekos Live"
+msgstr "Serveur en ligne de EkosLive"
 
 #. i18n: ectx: label, entry (shutterfulCCDs), group (DarkLibrary)
 #: kstars.kcfg:1628
@@ -35647,6 +35615,8 @@ msgid ""
 "Number of consecutive samples guide deviation needs to be high to abort "
 "capture."
 msgstr ""
+"Nombre de déviations consécutives des échantillons du guide pour abandonner "
+"l'acquisition."
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1724
@@ -35655,6 +35625,8 @@ msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
 msgstr ""
+"Règle le nombre de déviations consécutives des échantillons du guide pour "
+"abandonner l'acquisition."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1728
@@ -37788,20 +37760,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
 #: kstars.kcfg:2933
-#, fuzzy, kde-format
-#| msgid ""
-#| "Re-schedule aborted jobs as soon as all executable jobs are either "
-#| "completed or aborted."
+#, kde-format
 msgid "Restart sequences as soon as all sequences have been completed."
-msgstr ""
-"Replanifier les tâches annulées, dès que toutes les tâches exécutables sont "
-"soit terminées soit annulées."
+msgstr "Redémarrer les séquences dès que toutes les séquences sont terminées."
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
 #: kstars.kcfg:2937
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr ""
+"Limiter le nombre d'exécution de toutes les séquences du planificateur."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:2943

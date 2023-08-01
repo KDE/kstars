@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-31 00:42+0000\n"
-"PO-Revision-Date: 2023-07-22 12:42+0300\n"
+"POT-Creation-Date: 2023-08-01 00:41+0000\n"
+"PO-Revision-Date: 2023-08-01 01:16+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.07.70\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -109,7 +109,7 @@ msgstr "Ekvator"
 #: skycomponents/ecliptic.cpp:21
 #, kde-format
 msgid "Ecliptic"
-msgstr "Tutulum"
+msgstr "Tutulumsal"
 
 #: auxiliary/colorscheme.cpp:44 kstarslite/qml/modules/TopMenu.qml:256
 #: projections/equirectangularprojector.cpp:161 projections/projector.cpp:309
@@ -2054,9 +2054,7 @@ msgid " Auto     Track   "
 msgstr ""
 
 #: data/qml/whatisinteresting/wiview.qml:1063
-#, fuzzy, kde-kuit-format
-#| msgctxt "Move the telescope to an object or location"
-#| msgid "Slew Telescope"
+#, kde-kuit-format
 msgid "Slew Telescope"
 msgstr "Teleskopu Çevir"
 
@@ -2253,24 +2251,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/addcatalogobject.ui:50
-#, fuzzy, kde-format
-#| msgctxt "Declination"
-#| msgid "Dec (J2000)"
+#, kde-format
 msgid "RA / Dec (J2000):"
-msgstr "Dec (J2000)"
+msgstr "RA / Dec (J2000):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/addcatalogobject.ui:72
 #, kde-format
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: dialogs/addcatalogobject.ui:91
-#, fuzzy, kde-format
-#| msgid "Star Magnitudes:"
+#, kde-format
 msgid "Apparent magnitude:"
-msgstr "Yıldız Parlaklıkları:"
+msgstr "Görünen büyüklük:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:110
@@ -2505,7 +2500,7 @@ msgstr "Kataloğu farklı kaydet:"
 #: dialogs/addcatdialog.ui:373
 #, kde-format
 msgid "Enter a name for the catalog"
-msgstr "Katalog için bir isim girin"
+msgstr "Katalog için bir ad gir"
 
 #: dialogs/addlinkdialog.cpp:30
 #, fuzzy, kde-format
@@ -2654,10 +2649,9 @@ msgid "Default"
 msgstr "Öntanımlı"
 
 #: dialogs/catalogcoloreditor.cpp:138
-#, fuzzy, kde-format
-#| msgid "Could not export image"
+#, kde-format
 msgid "Could not insert new colors.<br>"
-msgstr "Resim dışa aktarılamadı"
+msgstr "Yeni renkler eklenemedi.<br>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogColorEditor)
 #: dialogs/catalogcoloreditor.ui:14
@@ -3006,7 +3000,7 @@ msgstr ""
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:458
 #, kde-format
 msgid "Object"
-msgstr "Cisim"
+msgstr "Nesne"
 
 #. i18n: ectx: property (text), widget (QPushButton, edit_object)
 #. i18n: ectx: property (text), widget (QPushButton, EditButton)
@@ -3245,10 +3239,9 @@ msgid "Catalog"
 msgstr "Kataloglar"
 
 #: dialogs/catalogsdbui.cpp:190
-#, fuzzy, kde-format
-#| msgid "Could not export image"
+#, kde-format
 msgid "Could not export the catalog.<br>%1"
-msgstr "Resim dışa aktarılamadı"
+msgstr "Katalog dışa aktarılamadı.<br>%1"
 
 #: dialogs/catalogsdbui.cpp:231
 #, fuzzy, kde-format
@@ -3324,11 +3317,10 @@ msgid "More..."
 msgstr "Morehead"
 
 #: dialogs/detaildialog.cpp:58
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgctxt "@title:window"
 msgid "Object Details"
-msgstr "Cisim Özellikleri"
+msgstr "Nesne Ayrıntıları"
 
 #. i18n: ectx: attribute (title), widget (QWidget, generalTab)
 #. i18n: ectx: property (title), widget (QGroupBox, generalGroup)
@@ -3677,18 +3669,16 @@ msgstr "%1 dosyası silinemedi"
 #: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
-#, fuzzy, kde-format
-#| msgid "No object named %1 found."
+#, kde-format
 msgid "No connected mounts found."
-msgstr "%1 isimli bir cisim bulunamadı."
+msgstr "Bağlı kaide bulunamadı."
 
 #: dialogs/detaildialog.cpp:1119 fitsviewer/fitslabel.cpp:436
 #: kstarsactions.cpp:286 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
-#, fuzzy, kde-format
-#| msgid "Telescope %1 is offline. Please connect and retry again."
+#, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
-msgstr "%1 teleskopu çevrimdışı. Lütfen bağlanıp tekrar deneyin."
+msgstr "%1 kaidesi çevrimdışı. Lütfen bağlayıp yeniden deneyin."
 
 #: dialogs/detaildialog.cpp:1131
 #, kde-format
@@ -3698,10 +3688,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/detaildialog.cpp:1211 dialogs/detaildialog.cpp:1220
-#, fuzzy, kde-format
-#| msgid "Unable to save image: %1 "
+#, kde-format
 msgid "Unable to save image to %1"
-msgstr "Resim kaydedilemedi: %1 "
+msgstr "Görsel %1 konumuna kaydedilemiyor"
 
 #: dialogs/detaildialog.cpp:1212 dialogs/detaildialog.cpp:1221
 #, kde-format
@@ -3958,7 +3947,7 @@ msgstr "Bilgi Bağlantıları"
 #: dialogs/details_links.ui:110 kstarslite/qml/dialogs/DetailsDialog.qml:393
 #, kde-format, kde-kuit-format
 msgid "Image Links"
-msgstr "Resim Bağlantıları"
+msgstr "Görsel Bağlantıları"
 
 #. i18n: ectx: property (text), widget (QPushButton, ViewButton)
 #: dialogs/details_links.ui:143
@@ -4231,7 +4220,7 @@ msgstr "Alt sağ köşe"
 #: dialogs/exportimagedialog.cpp:126
 #, kde-format
 msgid "Could not export image"
-msgstr "Resim dışa aktarılamadı"
+msgstr "Görsel dışa aktarılamadı"
 
 #. i18n: ectx: property (title), widget (QGroupBox, legendGroupBox)
 #: dialogs/exportimagedialog.ui:17
@@ -4349,12 +4338,12 @@ msgstr "hiçbiri"
 #: dialogs/finddialog.cpp:494
 #, kde-format
 msgid "No object named %1 found."
-msgstr "%1 isimli bir cisim bulunamadı."
+msgstr "%1 adlı bir nesne bulunamadı."
 
 #: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "Bad object name"
-msgstr "Hatalı cisim adı"
+msgstr "Hatalı nesne adı"
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #: dialogs/finddialog.ui:49
@@ -5001,8 +4990,8 @@ msgid ""
 "The name of the field-of-view (FOV) symbol.  This name appears in the FOV "
 "menu and in the \"Edit FOV Symbols\" tool."
 msgstr ""
-"Görüş alanı (FOV) simgesinin ismi. Bu isim FOV seçenekler listesinde ve "
-"\"FOV Simgelerini Düzenle\" aracında görünecek."
+"Görüş alanı (FOV) sembolünün adı. Bu ad, Görüş Alanı menüsünde ve \"Görüş "
+"Alanı Sembolleri\" aracında görünür."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
@@ -5201,18 +5190,17 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a camera mounted on a telescope."
 msgstr ""
-"Teleskopun odak uzaklığını milimetre türünden giriniz.\n"
+"Teleskop odak uzaklığını milimetre türünden girin.\n"
 "\n"
-"Burası bir teleskopa montajlanmış kameranın görüş alanına karşılık gelen "
-"görüş alanı (FOV) simgesini tanımlamak için gerekli olan veri alanlarından "
+"Bu, bir teleskop üzerine monte edilmiş bir kameranın görüş alanıyla eşleşen "
+"bir görüş alanı (FOV) sembolü tanımlamak için gereken veri alanlarından "
 "biridir."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/newfov.ui:484
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "Camera W:"
-msgstr "Kamera:"
+msgstr "Kamera W:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_11)
@@ -5240,10 +5228,9 @@ msgstr "piksel"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9)
 #: dialogs/newfov.ui:528
-#, fuzzy, kde-format
-#| msgid "Pixel Size:"
+#, kde-format
 msgid "Pixel W:"
-msgstr "Piksel Boyutu:"
+msgstr "Piksel W:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraPixelSizeW)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraPixelSizeH)
@@ -5251,7 +5238,7 @@ msgstr "Piksel Boyutu:"
 #: dialogs/newfov.ui:538 dialogs/newfov.ui:569 dialogs/newfov.ui:894
 #, kde-format
 msgid "Size of chip or film, in millimeters"
-msgstr "Yonga veya filmin milimetre olarak boyutu"
+msgstr "Yonga veya filmin milimetre türünden boyutu"
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, cameraPixelSizeW)
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, cameraPixelSizeH)
@@ -5264,10 +5251,10 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a camera mounted on a telescope."
 msgstr ""
-"CCD yonganın veya film negatifinin fiziksel boyutunu giriniz.\n"
+"CCD yongasının veya film negatifinin fiziksel boyutunu girin.\n"
 "\n"
-"Burası bir teleskopa montajlanmış kameranın görüş alanına karşılık gelen "
-"görüş alanı (FOV) simgesini tanımlamak için gerekli olan veri alanlarından "
+"Bu, bir teleskop üzerine monte edilmiş bir kameranın görüş alanıyla eşleşen "
+"bir görüş alanı (FOV) sembolü tanımlamak için gereken veri alanlarından "
 "biridir."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_3_2)
@@ -5902,10 +5889,9 @@ msgid "Solver timed out."
 msgstr "Çözücü zaman aşımı."
 
 #: ekos/align/align.cpp:822
-#, fuzzy, kde-format
-#| msgid "Telescope does not support syncing."
+#, kde-format
 msgid "Mount does not support syncing."
-msgstr "Teleskop eş zamanlamayı desteklemiyor."
+msgstr "Kaide eşzamanlama desteklemiyor."
 
 #: ekos/align/align.cpp:1027
 #, kde-format
@@ -6164,12 +6150,13 @@ msgstr "%1 %2"
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
+"Kaide, göksel kutbun yakınında çevirmeyi tamamladı. Doğrulamak için yeniden "
+"yakalayın."
 
 #: ekos/align/align.cpp:2551
-#, fuzzy, kde-format
-#| msgid "Synchronize the telescope to the solution coordinates"
+#, kde-format
 msgid "Mount is synced to solution coordinates."
-msgstr "Teleskopu, çözüm koordinatlarına eşle"
+msgstr "Kaide, çözüm koordinatlarıyla eşzamanlanır."
 
 #: ekos/align/align.cpp:2586 ekos/align/align.cpp:2616
 #: ekos/align/align.cpp:3925 ekos/align/polaralignmentassistant.cpp:637
@@ -6179,20 +6166,21 @@ msgid "Settling..."
 msgstr "Ayarlar"
 
 #: ekos/align/align.cpp:2592
-#, fuzzy, kde-format
-#| msgid "Align complete"
+#, kde-format
 msgid "Differential slewing complete."
-msgstr "Hizalama tamamlandı"
+msgstr "Diferansiyel çevirme tamamlandı."
 
 #: ekos/align/align.cpp:2606
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
+"Çevirme tamamlandı. Hedef doğruluğu karşılanmadı, çözücü yeniden "
+"çalıştırılıyor..."
 
 #: ekos/align/align.cpp:2608
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
-msgstr ""
+msgstr "Çevirme tamamlandı. Hizalama Noktası çözülüyor..."
 
 #: ekos/align/align.cpp:2651 ekos/align/align.cpp:2803
 #, kde-format
@@ -6200,10 +6188,9 @@ msgid "Syncing failed."
 msgstr "Eşzamanlama başarısız oldu."
 
 #: ekos/align/align.cpp:2653
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Slewing failed."
-msgstr "Kıpırdatılıyor..."
+msgstr "Çevirme başarısız oldu."
 
 #: ekos/align/align.cpp:2696
 #, fuzzy, kde-format
@@ -6219,10 +6206,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/align.cpp:2753
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Slew detected, suspend solving..."
-msgstr "Herhangi bir yıldız algılanamadı, tekrar yakalanıyor..."
+msgstr "Çevirme algılandı; çözme askıya alınıyor..."
 
 #: ekos/align/align.cpp:2797
 #, fuzzy, kde-format
@@ -6231,18 +6217,18 @@ msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Eşzamanlama başarılı."
 
 #: ekos/align/align.cpp:2821
-#, fuzzy, kde-format
-#| msgid "Slew to the flag coordinates"
+#, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
-msgstr "Bayrak koordinatlarını döndür"
+msgstr "Hedef koordinatlara çevriliyor: RA (%1) DEC (%2)."
 
 #: ekos/align/align.cpp:2826
-#, fuzzy, kde-format
-#| msgid "Slew to the flag coordinates"
+#, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
-msgstr "Bayrak koordinatlarını döndür"
+msgstr ""
+"Hedef koordinatlara çevriliyor: RA (%1) DEC (%2) reddedildi (bildirime "
+"bakın)."
 
 #: ekos/align/align.cpp:2845
 #, kde-format
@@ -6304,10 +6290,9 @@ msgid "Scale & Position"
 msgstr "Konumu Sıfırla"
 
 #: ekos/align/align.cpp:3366
-#, fuzzy, kde-format
-#| msgid "Thumbnail Editor"
+#, kde-format
 msgid "Align Options Profiles Editor"
-msgstr "Küçük Resim Düzenleyici"
+msgstr "Hizalama Seçenekleri Profilleri Düzenleyicisi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/align.cpp:3384 ekos/align/opsastrometryindexfiles.ui:329
@@ -6459,13 +6444,14 @@ msgstr "Yakala ve Çözümle"
 #, kde-format
 msgid "Load a FITS image and solve. Slew mount to image central coordinates."
 msgstr ""
-"Bir FITS resmi yükle ve çöz. Resim merkez koordinatları için yuvayı döndür."
+"Bir FITS görseli yükleyin ve çözün. Kaideyi görsel merkezi koordinatlarına "
+"çevirin."
 
 #. i18n: ectx: property (text), widget (QPushButton, loadSlewB)
 #: ekos/align/align.ui:137
 #, kde-format
 msgid "Load && Slew..."
-msgstr "Yükle ve Sar..."
+msgstr "Yükle ve Çevir..."
 
 #. i18n: ectx: property (text), widget (QPushButton, stopB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStopB)
@@ -6520,15 +6506,14 @@ msgid ""
 "Synchronize the telescope to the solution coordinates and then slew to the "
 "target coordinates"
 msgstr ""
-"Teleskopu çözüm koordinatlarına senkronize edin ve ardından hedef "
-"koordinatlara döndürün"
+"Teleskopu çözüm koordinatlarına eşzamanlayın ve ardından hedef koordinatlara "
+"çevirin"
 
 #. i18n: ectx: property (text), widget (QRadioButton, slewR)
 #: ekos/align/align.ui:213
-#, fuzzy, kde-format
-#| msgid "Slew to Target"
+#, kde-format
 msgid "S&lew to Target"
-msgstr "Hedefe Döndür"
+msgstr "Hedefe Ç&evir"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, nothingR)
 #: ekos/align/align.ui:223
@@ -6568,6 +6553,8 @@ msgid ""
 "After telescope completes slewing, wait until it settles for this many "
 "milliseconds before capturing the next image."
 msgstr ""
+"Teleskop çevrilmeyi tamamladıktan sonra, bir sonraki görseli yakalamadan "
+"önce bu kadar milisaniye kadar bekleyin."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -6878,6 +6865,8 @@ msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
 "Load and Slew Tool, and the Mount Model Tool will be displayed below."
 msgstr ""
+"Yakalama ve Çözme Aracı, Yükleme ve Çevirme Aracı ve Kaide Modeli Aracı'ndan "
+"elde edilen Astrometrik Çözümler sonuçları aşağıda görüntülenir."
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QLabel, label_15)
@@ -7416,6 +7405,9 @@ msgid ""
 "and DE for a position you would like the telescope to slew to when doing the "
 "mount model routine."
 msgstr ""
+"Hizalama listesine boş bir satır ekleyin, böylece kaide modeli yordamını "
+"yaparken teleskopun çevrilmesini istediğiniz bir konum için elle bir RA ve "
+"DE ekleyebilirsiniz."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
 #: ekos/align/mountmodel.ui:397
@@ -7425,19 +7417,20 @@ msgid ""
 "and DEC automatically that you would like the telescope to slew to when "
 "doing the mount model routine."
 msgstr ""
+"Kaide modeli yordamını yaparken teleskopun dönmesini istediğiniz bir RA ve "
+"DEC'i otomatik olarak almak üzere bir nesne seçebilmeniz için Nesne Bul "
+"iletişim kutusunu açın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
 #: ekos/align/mountmodel.ui:419
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "Sort the alignment points, starting with the point closest to the current "
 "telescope position, to try to minimize the distance between each slew."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Her çevrilme arasındaki uzaklığı en aza indirmeye çalışmak için geçerli "
+"teleskop konumuna en yakın noktadan başlayarak hizalama noktalarını "
+"sıralayın."
 
 #. i18n: ectx: property (toolTip), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:444
@@ -7518,6 +7511,10 @@ msgid ""
 "off.  If it was stopped or it had finished it will start the routine over "
 "again."
 msgstr ""
+"Kaide modeli yordamını başlatın veya duraklatın. Hizalama modülündeki "
+"ayarları kullanarak yukarıdaki tablodaki noktalar listesine dönecek ve "
+"astrometrik olarak çözecektir. Yordam daha önce duraklatılmışsa kaldığı "
+"yerden sürecektir. Durdurulduysa veya bittiyse yordamı yeniden başlatır."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopAlignB)
 #: ekos/align/mountmodel.ui:592
@@ -7594,7 +7591,7 @@ msgid ""
 "ASTAP' uses a local installation of the ASTAP program. </li><li>'Local "
 "Watney' uses a local installation of the Watney Astrometry Solver Program.</"
 "li><li>'Online' uses either astrometry.net over the internet or ANSVR on a "
-"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwith "
+"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwidth "
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
@@ -7733,6 +7730,10 @@ msgid ""
 "angle is below this value, the Load &amp; Slew operation is considered "
 "successful.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Yükle ve Çevir kullanılırken yay-dakika türünden "
+"döndürücü eşiği. Ölçülen konum açısı ile FITS konum açısı arasındaki fark bu "
+"değerin altındaysa Yükle ve Çevir işlemi başarılı kabul edilir.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:313
@@ -7744,6 +7745,11 @@ msgid ""
 "is asked to manually rotate the camera until the desired position angle is "
 "reached.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Yükle ve Çevir kullanırken otomatik veya elle döndürme "
+"denetimini kullanın. Otomatik kontrol için, mekanize döndürücüye istenen "
+"konum açısına uyacak şekilde dönmesi komutu verilir. Elle denetim için "
+"kullanıcıdan istenen konum açısına ulaşılana kadar kamerayı elle döndürmesi "
+"istenir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:316
@@ -8185,14 +8191,11 @@ msgstr "4"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryAutoUpdatePosition)
 #: ekos/align/opsastrometry.ui:505
-#, fuzzy, kde-format
-#| msgid ""
-#| "Automatically update the solver's RA & Declination coordinates after "
-#| "telescope slew is completed."
+#, kde-format
 msgid "Automatically update position coordinates when mount completes slewing."
 msgstr ""
-"Teleskopun dönmesi tamamlandıktan sonra, çözücünün RA ve Eğim "
-"koordinatlarını otomatik olarak güncelle."
+"Kaide çevirmeyi tamamladığında konum koordinatlarını otomatik olarak "
+"güncelleyin."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, positionWarningLabel)
 #: ekos/align/opsastrometry.ui:536
@@ -8207,12 +8210,15 @@ msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
 "correct for discrepancies. This is useful on some mounts (e.g. Paramount)."
 msgstr ""
+"Hedefe Çevir seçiliyken Eşzamanlama kullanmayın. Farklılıkları düzeltmek "
+"için diferansiyel çevirme kullanın. Bu, bazı kaidelerde kullanışlıdır (örn. "
+"Paramount)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDifferentialSlewing)
 #: ekos/align/opsastrometry.ui:560
 #, kde-format
 msgid "Use differential slewing instead of syncing"
-msgstr ""
+msgstr "Eşzamanlama yerine diferansiyel çevirme kullan"
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #, kde-format
@@ -9793,15 +9799,13 @@ msgstr "Hız:"
 #: ekos/align/polaralignmentassistant.ui:168
 #, kde-format
 msgid "Toggle for manual slewing with non-GOTO mounts"
-msgstr ""
+msgstr "GOTO olmayan kaidelerde elle çevirme için açma/kapatma anahtarı"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:171
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Manual Blue"
+#, kde-format
 msgid "Manual slew"
-msgstr "Elle Mavi"
+msgstr "Elle çevir"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:262
@@ -10012,11 +10016,9 @@ msgstr "çözücü:"
 #: ekos/align/polaralignwidget.ui:117 ekos/align/polaralignwidget.ui:237
 #: kstarslite/qml/modules/helpers/TelescopeControl.qml:22
 #: kstarslite/qml/modules/menus/ContextMenu.qml:130
-#, fuzzy, kde-format, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew"
+#, kde-format, kde-kuit-format
 msgid "Slew"
-msgstr "Döndürme"
+msgstr "Çevir"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
 #: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:324
@@ -10087,11 +10089,9 @@ msgstr "Peking"
 
 #: ekos/analyze/analyze.cpp:128 ekos/analyze/analyze.cpp:147 ekos/ekos.h:140
 #: ekos/scheduler/schedulerjob.cpp:692 indi/indimount.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew"
+#, kde-format
 msgid "Slewing"
-msgstr "Döndürme"
+msgstr "Çevirmek"
 
 #: ekos/analyze/analyze.cpp:130 ekos/analyze/analyze.cpp:149
 #: indi/indimount.cpp:31
@@ -14201,6 +14201,8 @@ msgid ""
 "Slew mount to the specified Azimuth/Altitude coordinates before taking flat "
 "field images"
 msgstr ""
+"Düz alan görselleri çekmeden önce kaideyi belirtilen Azimut/Rakım "
+"koordinatlarına döndür"
 
 #. i18n: ectx: property (text), widget (QRadioButton, wallSourceC)
 #: ekos/capture/calibrationoptions.ui:78
@@ -16690,6 +16692,12 @@ msgid ""
 "Align module. </p><p>The camera offset is measured in position angle scope "
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Döndürücü orijin yönüne göre kamera dik yönünün açısı "
+"(bkz. Görüş Alanı). Kamera ofseti, Hizalama modülünde otomatik olarak bir "
+"<span style=\" font-weight:700;\">Yakala ve Çöz</span> veya bir <span style="
+"\" font-weight:700;\">Yükle ve Çevir</span> tarafından belirlenir. </"
+"p><p>Kamera ofseti, konum açısı kapsamında ölçülür (-179,99°'den 180,00°'e)."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:236
@@ -16936,16 +16944,14 @@ msgid "Turn light box light off..."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:500
-#, fuzzy, kde-format
-#| msgid "Slewing back to original position..."
+#, kde-format
 msgid "Mount slewing to wall position..."
-msgstr "Özgün konumuna geri döndürülüyor..."
+msgstr "Kaide, duvar konumuna çevriliyor..."
 
 #: ekos/capture/sequencejobstate.cpp:511 ekos/capture/sequencejobstate.cpp:515
-#, fuzzy, kde-format
-#| msgid "Calibration completed."
+#, kde-format
 msgid "Slew to wall position complete, stop tracking."
-msgstr "Kalibrasyon tamamlandı."
+msgstr "Duvar konumuna çevirme tamamlandı; izlemeyi durdurun."
 
 #: ekos/capture/sequencejobstate.cpp:543
 #, fuzzy, kde-format
@@ -20194,10 +20200,9 @@ msgid "Mount is parking. Aborting guide..."
 msgstr "Mount Ekar"
 
 #: ekos/guide/guide.cpp:1407
-#, fuzzy, kde-format
-#| msgid "Slewing back to original position..."
+#, kde-format
 msgid "Mount is slewing. Aborting guide..."
-msgstr "Özgün konumuna geri döndürülüyor..."
+msgstr "Kaide çevriliyor. Kılavuz iptal ediliyor..."
 
 #: ekos/guide/guide.cpp:1470
 #, fuzzy, kde-format
@@ -21471,10 +21476,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
-#| msgid "Automatic Calibration"
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr "Otomatik Kalibrasyon"
+msgstr "Her Bir Kaide Çevirmeden Sonra Kılavuz Kalibrasyonunu Sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -21485,6 +21489,11 @@ msgid ""
 "automatically determined from your mount. The \"Reset Guide on Slew\" option "
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kalibrasyonları saklayın ve yeniden kullanmayı "
+"deneyin. Bu, yalnızca iskele tarafı kaidenizden otomatik olarak "
+"belirlenebiliyorsa meridyenin zıt taraflarında çalışır. Bunun denenmesi için "
+"yukarıdaki \"Çevirmede Kılavuzu Sıfırla\" seçeneğinin işareti "
+"kaldırılmalıdır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
@@ -84705,7 +84714,7 @@ msgstr "Arka plan kullanılsın mı?"
 #: xplanet/opsxplanet.ui:1021
 #, kde-format
 msgid "If checked, use a file or a color as background."
-msgstr "Bu seçilirse, arka plan olarak bir dosya veya renk kullanılır."
+msgstr "Bu işaretliyse arka plan olarak bir dosya veya renk kullanın."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetBackgroundImage)
 #: xplanet/opsxplanet.ui:1033
@@ -84717,13 +84726,13 @@ msgstr "Arka plan görseli:"
 #: xplanet/opsxplanet.ui:1043
 #, kde-format
 msgid "Use this file as the background image"
-msgstr "Bu dosyayı arka plan resmi olarak kullan"
+msgstr "Bu dosyayı arka plan görseli olarak kullan"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetBackgroundImagePath)
 #: xplanet/opsxplanet.ui:1046
 #, kde-format
 msgid "Enter here the path of background image file."
-msgstr "Buraya arka plan resmi dosyasının yolunu girin."
+msgstr "Arka plan görseli dosyasının yolunu buraya girin."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetBackgroundColor)
 #: xplanet/opsxplanet.ui:1057
@@ -84735,272 +84744,4 @@ msgstr "Arka plan rengi:"
 #: xplanet/opsxplanet.ui:1070
 #, kde-format
 msgid "Set the color for the background."
-msgstr "Arka plan rengini ayarla."
-
-#~ msgid ""
-#~ "Use JPEG format, instead of FITS, to upload images to the online "
-#~ "astrometry.net service"
-#~ msgstr ""
-#~ "Görüntüleri çevrim içi astronemtry.net hizmetine yüklemek için, FITS "
-#~ "yerine JPEG biçimini kullanın"
-
-#~ msgid "Upload JPG"
-#~ msgstr "JPG Karşıya Yükle"
-
-#, fuzzy
-#~| msgctxt "City in Colorado USA"
-#~| msgid "Greeley"
-#~ msgid "Greedy"
-#~ msgstr "Greeley"
-
-#, fuzzy
-#~| msgid "1. Equipment"
-#~ msgid "↓ Equipment"
-#~ msgstr "1. Ekipman"
-
-#, fuzzy
-#~| msgid "No FOV"
-#~ msgid "↓ FOV"
-#~ msgstr "Görüş Alanı yok"
-
-#, fuzzy
-#~| msgid "3. Output"
-#~ msgid "↓ Output"
-#~ msgstr "3. Çıktı"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Enforce temperature value before capturing an "
-#~| "image</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p align=\"justify\">Total number of Scheduler jobs "
-#~ "required to cover the mosaic field, and that the tool will produce.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini "
-#~ "ayarla</p></body></html>"
-
-#, fuzzy
-#~| msgid "Count:"
-#~ msgid "Job Count:"
-#~ msgstr "Sayı:"
-
-#, fuzzy
-#~| msgid "Telescope info updated successfully."
-#~ msgid "Mosaic file %1 saved successfully."
-#~ msgstr "Teleskop bilgisi başarıyla güncellendi."
-
-#, fuzzy
-#~| msgid "Supernovae options"
-#~ msgid "Repeat after completion"
-#~ msgstr "Süpernova seçenekleri"
-
-#, fuzzy
-#~| msgid "Executing script %1 ..."
-#~ msgid "Executing post capture script %1"
-#~ msgstr "Çalışan betik %1 ..."
-
-#, fuzzy
-#~| msgid "Executing script %1 ..."
-#~ msgid "Executing post job script %1"
-#~ msgstr "Çalışan betik %1 ..."
-
-#, fuzzy
-#~| msgid "Executing script %1 ..."
-#~ msgid "Executing pre job script %1"
-#~ msgstr "Çalışan betik %1 ..."
-
-#, fuzzy
-#~| msgid "Sequence:"
-#~ msgid "Resuming sequence..."
-#~ msgstr "Seri:"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Elche"
-#~ msgstr "Elche"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Lérida"
-#~ msgstr "Lérida"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Enforce temperature value before capturing an "
-#~| "image</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
-#~ "procedure.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini "
-#~ "ayarla</p></body></html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Enforce temperature value before capturing an "
-#~| "image</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
-#~ "full frame. This method defaults to the Centroid detection, but can use "
-#~ "SEP detection too. Its performance decreases as the number of stars "
-#~ "increases.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini "
-#~ "ayarla</p></body></html>"
-
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr "Görüntüden en iyi odaklı yıldızı otomatik olarak seç"
-
-#, fuzzy
-#~| msgid "Are you sure you want to remove the %1 client?"
-#~ msgid "Are you sure you want to stop the polar alignment process?"
-#~ msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
-
-#, fuzzy
-#~| msgid "Polar Alignment Measurement"
-#~ msgid "Polar Alignment Assistant"
-#~ msgstr "Kutupsal Hizalama Ölçümü"
-
-#, fuzzy
-#~| msgid "Ekos connection mode"
-#~ msgid "Whether EkosLive connection mode is online."
-#~ msgstr "Ekos bağlantı kipi"
-
-#, fuzzy
-#~| msgid "Add to List"
-#~ msgid "Add to Job"
-#~ msgstr "Listeye Ekle"
-
-#, fuzzy
-#~| msgid "Target object or direction"
-#~ msgid "Reverse rotator direction"
-#~ msgstr "Hedef cisim ya da doğrultu"
-
-#, fuzzy
-#~| msgid "Angle:"
-#~ msgid "Raw Angle:"
-#~ msgstr "Açı:"
-
-#, fuzzy
-#~| msgid "Position Angle"
-#~ msgid "Position Angle Control"
-#~ msgstr "Konum Açısı"
-
-#, fuzzy
-#~| msgid "Angle:"
-#~ msgid "Sky Angle:"
-#~ msgstr "Açı:"
-
-#~ msgid "Subframe around the focus star during the autofocus procedure"
-#~ msgstr ""
-#~ "Otomatik odaklama yöntemi sırasında odak yıldızını çevresindeki alt "
-#~ "görüntü karesi"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Enforce temperature value before capturing an "
-#~| "image</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
-#~ "slews and syncs.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini "
-#~ "ayarla</p></body></html>"
-
-#, fuzzy
-#~| msgid "Star map"
-#~ msgid "KStars Sky Map"
-#~ msgstr "Yıldız haritası"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use an external planetarium software to control "
-#~ "mount slews and syncs.</p><p><span style=\" font-weight:600;\">WARNING</"
-#~ "span>: this feature is experimental!</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bağlantı dönüşlerini ve eşzamanlamalarını "
-#~ "denetlemek için dış bir gökevi yazılımı kullanın.</p><p><span style=\" "
-#~ "font-weight:600;\">UYARI</span>: Bu, deneysel bir özelliktir!</p></body></"
-#~ "html>"
-
-#, fuzzy
-#~| msgid "Declination of focus position"
-#~ msgid "Flat Focus Position"
-#~ msgstr "Odak konumunun Dik Açıklığı"
-
-#, fuzzy
-#~| msgid "Focusing inward..."
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
-#~ msgstr "İçe doğru odaklanıyor..."
-
-#, fuzzy
-#~| msgid "Focusing inward..."
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
-#~ msgstr "İçe doğru odaklanıyor..."
-
-#, fuzzy
-#~| msgctxt "City in Washington USA"
-#~| msgid "Seattle"
-#~ msgid "Settle:"
-#~ msgstr "Seattle"
-
-#, fuzzy
-#~| msgid "HFR:"
-#~ msgid "HFR: "
-#~ msgstr "HFR:"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Enforce temperature value before capturing an "
-#~| "image</p></body></html>"
-#~ msgid ""
-#~ "<html><body><p>HFR value in pixels consolidated at the current focuser "
-#~ "position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini "
-#~ "ayarla</p></body></html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Enforce temperature value before capturing an "
-#~| "image</p></body></html>"
-#~ msgid ""
-#~ "<html><body><p>Number of stars used for HFR computation at the current "
-#~ "focuser position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini "
-#~ "ayarla</p></body></html>"
-
-#, fuzzy
-#~| msgid "Iterations"
-#~ msgid "Iteration: "
-#~ msgstr "Yinelemeler"
-
-#, fuzzy
-#~| msgid "Remove Trail"
-#~ msgid "Relative Profile..."
-#~ msgstr "Yol Kaldır"
-
-#~ msgid "Clear Data"
-#~ msgstr "Veriyi Temizle"
-
-#, fuzzy
-#~| msgid "Steps:"
-#~ msgid "Initial Focus Out Steps"
-#~ msgstr "Adımlar:"
-
-#, fuzzy
-#~| msgid "Number of images to capture"
-#~ msgid "Number of focus frames to average for HFR calculations."
-#~ msgstr "Yakalanacak resim sayısı"
-
-#, fuzzy
-#~| msgid "Default alignment exposure value"
-#~ msgid "Default focus exposure time when no filters are used."
-#~ msgstr "Öntanımlı hizalama poz değeri"
-
-#, fuzzy
-#~| msgid "Resource Type"
-#~ msgid "Curve Type."
-#~ msgstr "Kaynak Türü"
-
-#~ msgid "Equatorial Gridines"
-#~ msgstr "Ekvator Izgaraları"
+msgstr "Arka plan rengini ayarlayın."
