@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QPointer>
 
 FindDialog *FindDialog::m_Instance = nullptr;
 

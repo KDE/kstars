@@ -18,6 +18,7 @@
 #include <QLineEdit>
 #include <QDBusReply>
 #include <QDBusInterface>
+#include <QPointer>
 
 #include <KActionCollection>
 #include <KLocalizedString>
