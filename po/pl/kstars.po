@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1657150 $
+# Version: $Revision: 1657240 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-31 00:42+0000\n"
+"POT-Creation-Date: 2023-08-01 00:41+0000\n"
 "PO-Revision-Date: 2023-07-08 08:53+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -7513,7 +7513,7 @@ msgid ""
 "ASTAP' uses a local installation of the ASTAP program. </li><li>'Local "
 "Watney' uses a local installation of the Watney Astrometry Solver Program.</"
 "li><li>'Online' uses either astrometry.net over the internet or ANSVR on a "
-"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwith "
+"nearby computer. <span style=\" font-weight:600;\">Note</span>: If bandwidth "
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
