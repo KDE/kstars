@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QFrame>
 #include <QPainter>
+#include <QPointer>
 #include <QTextStream>
 #include <QPaintEvent>
 #include <QDebug>

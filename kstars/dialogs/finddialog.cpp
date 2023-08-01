@@ -20,6 +20,7 @@
 #include "catalogscomponent.h"
 #include <KMessageBox>
 
+#include <QPointer>
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
 #include <QTimer>
