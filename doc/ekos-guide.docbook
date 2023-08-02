@@ -21,81 +21,85 @@
     <sect3 id="guide-Introduction">
         <title>Introduction</title>
         <para>
-            Ekos Guide Module enables autoguiding capability using either the powerful built-in guider, or at your option, external guiding via <ulink url="https://openphdguiding.org/">PHD2</ulink> or <ulink url="https://sourceforge.net/projects/linguider/">lin_guider</ulink>. Using the internal guiding, guider CCD frames are captured and sent to Ekos for analysis. Depending on the deviations of the guide star from its lock position, guiding pulses corrections are sent to your mount <guilabel>Via</guilabel> any device that supports ST4 ports. Alternatively, you may send the corrections to your mount <emphasis>directly</emphasis>, if supported by the mount driver. Most of the &GUI; options in the Guide Module are well documented so just hover your mouse over an item and a tooltip will popup with helpful information.
+            The Ekos Guide Module performs autoguiding using either the powerful built-in guider, or at your option, external guiding via <ulink url="https://openphdguiding.org/">PHD2</ulink> or <ulink url="https://sourceforge.net/projects/linguider/">lin_guider</ulink>. Using the internal guiding, guider camera frames are captured and sent to Ekos for analysis. Depending on the deviations of the stars from their lock positions, guiding pulses corrections are sent to your mount's RA and DEC axes motors. Most of the &GUI; options in the Guide Module are well documented so just hover your mouse over an item and a tooltip will popup with helpful information.
         </para>
-        <para>
-            To perform guiding, you need to select a Guider CCD in <link linkend="ekos-profile-wizard">Ekos Profile Setup</link>. The telescope aperture and focal length must be set in the telescope driver. If the Guider CCD is attached to a separate Guide Scope, you must also set the Guide Scope's <guilabel>Focal Length</guilabel> and <guilabel>Aperture</guilabel>. You can set these values under the <guilabel>Options</guilabel> tab of the <link linkend="indi-telescope-setup">telescope driver</link> or from the Mount module. Autoguiding is a two-step process: Calibration &amp; Guiding.
-        </para>
-        <mediaobject>
-            <videoobject>
-                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/aza2fGIF7YE"/>
-            </videoobject>
-            <caption>
-                <para>
-                    <phrase>Guiding introduction</phrase>
-                </para>
-            </caption>
-        </mediaobject>
-        <para>
-            During the two processes, you must set the following:
-        </para>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <guilabel>Guider</guilabel>: Select the Guider CCD.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Via</guilabel>: Selects which device receives the autoguiding correction pulses from Ekos. Usually, guider CCDs have an ST4 port. If you are using the guider's ST4 to autoguide your telescope, set the guider driver in the <guilabel>Via</guilabel> combo box. The guider CCD will receive the correction pulses from Ekos and will relay them to the mount via the ST4 port. Alternatively, some telescopes support pulse commands and you can select the telescope to be a receiver of the Ekos correction pulses.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Exposure</guilabel>: CCD Exposure in seconds.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Binning</guilabel>: CCD Binning.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Box</guilabel>: Size of the box enclosing the guide star. Select a suitable size that is neither too large or too small for the selected star.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Effects</guilabel>: Specify filter to be applied to the image to enhance it.
-                </para>
-            </listitem>
-        </itemizedlist>
     </sect3>
 
-    <sect3 id="guide-dark-frames">
-        <title>Dark Frames</title>
-        <para>
-            Dark frames are <emphasis>immensely</emphasis> helpful in reducing noises in your guide frames. It is highly recommended to take dark frames before you begin and calibration or guiding procedure. To take a dark frame, check the <guilabel>Dark</guilabel> checkbox and then click <guibutton>Capture</guibutton>. For the first time this is performed, Ekos will ask you about your camera shutter. If your camera does not have a shutter, then Ekos will warn you anytime you take a dark frame to cover your camera/telescope before proceeding with the capture. On the other hand, if the camera already includes a shutter, then Ekos will directly proceed with taking the dark frame. All dark frames are automatically saved to Ekos Dark Frame Library. By default, the Dark Library keeps reusing dark frames for 30 days after which it will capture new dark frames. This value is configurable and can be adjusted in <link linkend="ekos">Ekos settings</link> in the &kstars; settings dialog.
-        </para>
+    <sect3 id="guide-Setup">
+        <title>Setup</title>
         <screenshot>
             <screeninfo>
-                Ekos Dark frames library
+                Ekos Profile Guider Selection
             </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="dark_library.png" format="PNG"/>
+                    <imagedata fileref="ekos_profile_guide.png" format="PNG"/>
                 </imageobject>
                 <textobject>
-                    <phrase>Ekos Dark frames library</phrase>
+                    <phrase>Ekos Profile Guider Selection</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
         <para>
-            It is recommended to take dark frames covering several binning and exposure values so that they may be reused transparently by Ekos whenever needed.
+            To perform guiding, you need (one time) to select a Guider in the Profile Editor for the profile you will be using. In the profile editor, choose Internal for the Ekos internal guider, or PHD2.
         </para>
+        <screenshot>
+            <screeninfo>
+              Ekos Guider Optical Train
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_optical_train.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Ekos Guider Optical Train</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+            To perform guiding, you also need to set up your guiding optical train. This 2nd optical train is almost always different from the one you are using with capture/align/focus. See the image above for an example guider optical train configuration. Note that the telescope chosen is the guiding scope, which may be the same as your main telescope if you are using an OAG (off-axis-guiding) or ONAG guiding scheme. The camera selected is, of course, your guiding camera. The Guide Via should be your mount, assuming you are sending guide pulses directly to your mount, or the name of the ST4 device (e.g. your camera) should you be using ST4 guide pulses.
+        </para>
+        <para>
+          Please look at the main guider page shown at the start of this Guider section. There are many parameters that also can be adjusted, some of which are listed below. 
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <guilabel>Exposure</guilabel>: On the main guiding page you can adjust the guiding exposure time. After the guide-camera completes the exposure, the guide algorithm computes and sends the guide pulses to the mount, then it waits a user-configurable delay, and then then begins its next exposure.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Binning</guilabel>: Pixel binning for the guide image. It usually makes sense to bin the pixels 2x2. The algorithms can still find sub-pixel star positions and send proper guide pulses to the mount.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Box</guilabel>: This only is applicable to guide algorithms other than MultiStar, and MultiStar is the recommended guiding scheme. Size of the box enclosing the guide star. Select a suitable size that is neither too large or too small for the selected star.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Directions</guilabel>: Typically you want to keep all the directions boxes checked. Unchecking them will disable guiding in those directions. For instance it is possible to disable DEC guiding in the North direction.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Dark</guilabel>: Check this to enable dark-frame corrections to your guiding image. See below.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Clear Calibration</guilabel>: Check this to delete your calibration data. See the calibration section below.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Subframe, AutoStar</guilabel>: These only apply to guide algorithms other than MultiStar, and MultiStar is the recommended guiding scheme. 
+                </para>
+            </listitem>
+        </itemizedlist>
     </sect3>
-
     <sect3 id="guide-calibration">
         <title>Calibration</title>
 
@@ -113,40 +117,71 @@
             </mediaobject>
         </screenshot>
         <para>
-            In the calibration phase, you need to capture an image, select a guide star, and click <guibutton>Guide</guibutton> to begin the calibration process. If calibration was already completed successfully before, then the autoguiding process shall begin immediately, otherwise, it would start the calibration process. If <guilabel>Auto Star</guilabel> is checked, then you are only required to click <guibutton>Capture</guibutton> and Ekos will automatically select the best-fit guide star in the image and continues the calibration process automatically. If <guilabel>Auto Star</guilabel> is disabled, Ekos will try to automatically highlight the best guide star in the field. You need to confirm or change the selection before you can start the calibration process. The calibration options are:
+          Autoguiding is a two-step process: Calibration &amp; Guiding. Calibration is needed for the scheme to understand the camera's orientation, relative to the RA and DEC axes, and also the effects of guide pulses (e.g. how much a 100ms RA guide pulse will typically move the RA axis). Once it estimates these values, the guider can correct the mount's position effectively. You can see calibrated values for those parameters in the above image in the "Calibrated Values" section.
+        </para>
+        <para>
+          Similar to other guiders, we recommend that you carefully calibrate once, and then only re-calibrate when necessary. It is necessary to re-calibrate when the camera is moved (e.g. rotate) relative to the mount. It should not be necessary to calibrate every time you slew the mount.  You should calibrate when pointing near the Meridian and along the Celestial Equator (probably just West of it). Guiding (and guide calibration) is problematic near the pole--it probably won't work. <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf">This slide show</ulink> contains good advice on how to calibrate the Internal Guider and/or PHD2.
+        </para>
+        <para>
+          The important options on the calibration options page (above) are:
         </para>
         <itemizedlist>
             <listitem>
                 <para>
-                    <guilabel>Pulse</guilabel>: The duration of pulses in milliseconds to be sent to the mount. This value should be large enough to cause a noticeable movement in the guide star. If you increase the value and you do not notice any movement of the guide star, then this suggests possible mount issues such as jamming or connection issues via the ST4 cable.
+                    <guilabel>Pulse Size</guilabel>: should be large enough to move your image a few pixels.
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Two axis</guilabel>: Check if you want the calibration process makes calibration in both RA &amp; DEC. If unchecked, the calibration is only performed in RA.
+                    <guilabel>Re-using Calibration</guilabel>: There are two checkboxes related to keeping your calibration. We recommend checking "Store and re-use guide calibration when possible", and un-checking "Reset Guide Calibration After Each Mount Slew".
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Auto Star</guilabel>: If checked, Ekos will attempt to select the best guide star in the frame and begins the calibration process automatically.
+                    <guilabel>Reverse DEC...</guilabel>: It is also important to check or un-check (it is mount dependent) "Reverse DEC on pier-side change when re-using calibration". To find out the right setting for your mount, you need to successfully calibrate on one pier side, make sure guiding is working well on that side, then switch to the other side. Guide for a minute or two. If DEC runs away, then you probably have the wrong setting for the "Reverse DEC..." checkbox.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Max Move, Iterations</guilabel>: We recommend you keep iterations large (e.g. 10) and Max Move large (e.g. 20+ pixels). This way you should get a good estimate of the guiding calibration parameters. Calibration should be something you do rarely, so it is best to take a little extra time and get right.
                 </para>
             </listitem>
         </itemizedlist>
         <para>
-            The reticle position is the guide star position selected by you (or by the auto selection) in the captured guider image. You should select a star that is not close to the edge. If the image is not clear, you may select different <guilabel>Effects</guilabel> to enhance it.
-        </para>
+          To (re)calibrate, clear your calibration on the main guiding page, and then simply click on the <guibutton>Guide</guibutton> button. Note that if calibration was already completed successfully before, and you didn't clear the calibration, and you are re-using calibrations, then the autoguiding process will begin immediately, otherwise, it will start the calibration process. 
+       </para>
         <para>
-            Ekos begins the calibration process by sending pulses to move the mount in RA and DEC. If the calibration process fails due to short drift, try increasing the pulse duration. To clear calibration, click the trash bin icon next to the <guibutton>Guide</guibutton> button.
+            Ekos begins the calibration process by sending pulses to move the mount in RA and DEC. It pulses out the RA axis, then pulses it back in. After that it moves a little in DEC to clear and backlash that might exist, and then pulses out and back in for DEC. To view this graphically, click on the "Calibration Plot" subtab on the main guiding page.
         </para>
-        <warning>
+        <sect4 id="guide-calibration-failures">
+        <title>Calibration Failures</title>
             <para>
                 Calibration can fail for a variety of reasons. To improve the chances of success, try the tips below.
             </para>
-        </warning>
         <itemizedlist>
             <listitem>
                 <para>
-                    <guilabel>Better Polar Alignment</guilabel>: This is critical to the success of any astrophotography session. Perform a quick polar alignment with a polar scope (if available) or by using Ekos <link linkend="ekos-align-polaralignment">Polar Alignment procedure</link> in the <guilabel>Align</guilabel> module.
+                    Bad sky conditions. If your sky condition are not great, it may not be worth fighting guiding/calibration.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Guide camera focus. 
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Leave algorithm to the default value (<guimenuitem>SEP MultiStar</guimenuitem>) in the Guide Option tab.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Try the "Guide-Default" SEP star-detection parameters (in the Guide Option tab) and adjust them if necessary. 
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <guilabel>Better Polar Alignment</guilabel>: This is critical to the success of any astrophotography session. Use the Ekos <link linkend="ekos-align-polaralignment">Polar Alignment procedure</link> in the <guilabel>Align</guilabel> module.
                 </para>
             </listitem>
             <listitem>
@@ -156,37 +191,12 @@
             </listitem>
             <listitem>
                 <para>
-                    Prefer to use ST4 cable between guide-camera and mount over using mount pulse commands.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Select different filter (&eg; High contrast) and see if that makes a difference to bring down the noise.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Smaller Square Size.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
                     Take dark frames to reduce noise.
                 </para>
             </listitem>
-            <listitem>
-                <para>
-                    Play with DEC Proportional Gain or disable DEC control completely and see the difference.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Leave algorithm to the default value (<guimenuitem>Smart</guimenuitem>).
-                </para>
-            </listitem>
         </itemizedlist>
+    </sect4>
     </sect3>
-
     <sect3 id="guide-guiding">
         <title>Guiding</title>
 
@@ -204,72 +214,63 @@
             </mediaobject>
         </screenshot>
         <para>
-            Once the calibration process is completed successfully, the guiding shall begin automatically hereafter. The guiding performance is displayed in the <guilabel>Drift Graphics</guilabel> region where <guilabel>Green</guilabel> reflects deviations in RA and <guilabel>Blue</guilabel> deviations in DEC. The colors of the RA/DE lines can be changed in <link linkend="colors">&kstars; color scheme</link> in &kstars; settings dialog. The vertical axis denotes the deviation in arcsecs from the guide star central position and the horizontal axis denotes time. You can hover over the line to get the exact deviation at this particular point in time. Furthermore, you can also zoom and drag/pan the graph to inspect a specific region of the graph.
+            Once the calibration process is completed successfully, guiding begins automatically. The guiding performance is displayed in the <guilabel>Drift Graphics</guilabel> region where <guilabel>Green</guilabel> reflects deviations in RA and <guilabel>Blue</guilabel> deviations in DEC. The colors of the RA/DE lines can be changed in <link linkend="colors">&kstars; color scheme</link> in &kstars; settings dialog. The vertical axis denotes the deviation in arcsecs from the lock position and the horizontal axis denotes time. You can hover over the line to get the exact deviation at this particular point in time. You can also zoom and drag/pan the graph to inspect a specific region of the graph. Another convenient place to examine guiding performance is in the Analyze tab.
         </para>
         <para>
-            Ekos can utilize multiple algorithms to determine the center of mass of the guide star. By default, the <emphasis>smart</emphasis> algorithm is suited best for most situation. The <emphasis>fast</emphasis> algorithm is based on HFR calculations. You can try switching guiding algorithms if Ekos cannot keep of the guide star within the guiding square properly.
+            Ekos can utilize multiple algorithms to determine the drift from the (original) lock position, but by far the most accurate is the (default) SEP MultiStar algorithm. It uses the detected position of many stars (in the above settings, up to 50) to determine its best estimate for the current drift. It is dependent on accurate star detection. Thus, it may be important to adjust star-detection parameters. Start with the default Guide-Default SEP profile, and optionally edit its parameters if you feel stars are not being detected accurately.
         </para>
         <para>
-            The info region displays information on the telescope &amp; FOV, in addition to the deviations from the guide star along with the correction pulses sent to the mount. The RMS value for each axis is displayed along with the total RMS value in arcsecs. The internal guider employs <ulink url="https://en.wikipedia.org/wiki/PID_controller">PID controller</ulink> to correct the mount tracking. Currently, the <emphasis>only</emphasis> the proportional and integral gains are utilized within the algorithm, so adjusting it should affect the length of the generated pulses sent to the mount in milliseconds.
-        </para>
-        <para>
-            To enable automatic dithering between frames, make sure to check the <guilabel>Dither</guilabel> checkbox. By default, Ekos should dither (&ie; move) the guiding box by up to 3 pixels after each frame captured in <link linkend="ekos-capture">Ekos Capture Module</link>. The motion duration and direction are randomized. Since the guiding performance can oscillate immediately after dithering, you can set the appropriate <guilabel>Settle</guilabel> duration to wait after dither is complete before resuming the capture process. In rare cases where the dithering process can get stuck in an endless loop, set the appropriate <guilabel>Timeout</guilabel> to abort the process. But even if dithering fails, you can select whether this failure should terminate the autoguiding process or not. Toggle <guilabel>Abort Autoguide on failure</guilabel> to select the desired behavior.
-        </para>
-        <para>
-            Non-guide dithering is also supported. This is useful when no guide camera is available or when performing short exposures. In this case, the mount can be commanded to dither in a random direction for up to the pulse specified in the <guilabel>Non-Guide Dither Pulse</guilabel> option.
-        </para>
-        <para>
-            Ekos supports multiple guiding methods: Internal, PHD2, and LinGuider. You need to select the desired guider in your Ekos equipment profile:
+          Here are some of the parameters you may want to adjust. Again, good advice in choosing parameters is available on the internet, e.g. from <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf">the above slideshow</ulink>.
         </para>
         <itemizedlist>
             <listitem>
                 <para>
-                    <guilabel>Internal Guider</guilabel>: Use Ekos internal guider. This is the default and recommended option.
+                    Aggressiveness. How quickly you want the guider to correct the error. Values of 0.5 or 0.6 are usually best (i.e. correcting about half the observed error). Unintuitively, it seems that correcting 100% of the error can cause poor performance as the guider will often oscillate with overcorrections.
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>PHD2</guilabel>: Use PHD2 as the external guider. If selected, specify the host and port of the PHD2. Leave to default values if Ekos and PHD2 are running on the same machine.
+                    Algorithm. we strongly recommend you use the most up-to-date algorith: SEP MultiStar. Pretty much the only reason not to would be if you can't get your SEP star-detection to perform adequately.
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>LinGuider</guilabel>: Use LinGuider as the external guider. If selected, specify the host and port of the LinGuider. Leave to default values if Ekos and LinGuider are running on the same machine.
+                    SEP Profile. Start with Guide-Default, though you may choose others if you have very large or small stars (in terms of number of pixels in diameter).
                 </para>
             </listitem>
         </itemizedlist>
     </sect3>
+    <sect3 id="guide-dithering">
+        <title>Dithering</title>
 
-    <sect3 id="guide-direction-control">
-        <title>Guiding Direction Control</title>
         <screenshot>
             <screeninfo>
-                Guiding Direction Control
+                Dithering Settings
             </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="ekos_profile_guider_select.png" format="PNG"/>
+                    <imagedata fileref="ekos_guide_dithering_settings.png" format="PNG"/>
                 </imageobject>
                 <textobject>
-                    <phrase>Guiding Direction Control</phrase>
+                    <phrase>Dithering Settings</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
         <para>
-            You can fine-tune the guiding performance in the Control Section. The autoguide process works like a <ulink url="https://en.wikipedia.org/wiki/PID_controller">PID controller</ulink> when sending correction commands to the mount. You can alter the Proportional and Integral gains to improve the guiding performance if necessary. By default, guiding corrective pulses are sent to both mount axis in all directions: positive and negative. You can fine-tune control by selecting which axis shall receive corrective guiding pulses and within each axis, you can indicate which direction <guilabel>(Positive) +</guilabel> or <guilabel>Negative (-)</guilabel> receives the guiding pulses. For example, for the Declination axis, the <guilabel>+</guilabel> direction is North and <guilabel>-</guilabel> is South.
+            To enable automatic dithering between frames, make sure to check the <guilabel>Dither</guilabel> checkbox. By default, Ekos should dither (&ie; move) the guiding box by up to 3 pixels after every N frames captured in <link linkend="ekos-capture">Ekos Capture Module</link>. The motion duration and direction are randomized. Since the guiding performance can oscillate immediately after dithering, you can set the appropriate <guilabel>Settle</guilabel> duration to wait after dither is complete before resuming the capture process. In rare cases where the dithering process can get stuck in an endless loop, set the appropriate <guilabel>Timeout</guilabel> to abort the process. But even if dithering fails, you can select whether this failure should terminate the autoguiding process or not. Toggle <guilabel>Abort Autoguide on failure</guilabel> to select the desired behavior.
         </para>
-    </sect3>
-
-    <sect3 id="guide-guiding-rate">
-        <title>Guiding Rate</title>
         <para>
-            Each mount has a particular guiding rate in (x15"/sec) and usually ranges from 0.1x, to 1.0x with 0.5x being a common value used by many mounts. The default guiding rate is 0.5x sidereal, which is equivalent to a proportional gain of 133.33. Therefore, set the guiding rate value to whatever value used by your mount, and Ekos shall display the <emphasis>recommended</emphasis> proportional gain value that you may set in the proportional gain field under the <guilabel>Control Parameters</guilabel>. Setting this value <emphasis>does not</emphasis> change your mount guiding rate! You must change your mount guiding rate either via the <link linkend="indi-telescope-setup">INDI driver</link>, if supported, or via the hand controller.
+          Dithing does not result in a long wander from the original target position. Ekos keeps track of the original and current target positions, and moves the target back towards the original target should the position have drifted too far.
+        </para>
+        <para>
+            One-pulse dithering is an interesting quicker option which sends a pulse to dither, but does not verify that the dither reached its desired location. It is possible that the dithering for any given dither isn't as much as desired, but the overall effect should be good.
+        </para>
+        <para>
+            Non-guide dithering is also supported. This is useful when no guide camera is available or when performing short exposures. In this case, the mount can be commanded to dither in a random direction for up to the pulse specified in the <guilabel>Non-Guide Dither Pulse</guilabel> option.
         </para>
     </sect3>
-
     <sect3 id="guide-drift-graphics">
         <title>Drift Graphics</title>
-
         <screenshot>
             <screeninfo>
                 Drift Graphics
@@ -305,11 +306,49 @@
 
     <sect3 id="guide-gpg">
         <title>Guiding with GPG</title>
+        <screenshot>
+            <screeninfo>
+                GPG Guiding
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_gpg_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Guiding with GPG</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para>
-            The internal guider can use predictive and adaptive guiding by enabling GPG guiding. This adaptively models the periodic error of the mount, and adds its predicted contribution to each guide pulse. Optionally, by enabling Dark Guiding, it can output the predicted corrections much faster than the guide camera exposure rate, effectively performing periodic error correction and allowing longer guide camera exposures.
+            With GPG guiding, the internal guider uses predictive and adaptive guiding for the RA axis. This adaptively models the periodic error of the mount, and adds its predicted contribution to each guide pulse. 
+        </para>
+        <para>
+          The main settings to consider are Major Period and Estimate Period. If you know the worm period for your mount, perhaps by examining <ulink url="g/phd2/wiki/Mount-Worm-Period-Info">this table</ulink>, then uncheck Estimate Period, and enter your known Major Period. If not, then check Estimate Period.  Intra-frame dark guiding can be used to "spread out the GPG prediction. For instance, if you guide at 5s, you can set the dark guiding interval to 1s and its prediction is pulsed every second, but the guiding drift correction would be sent every 5s. In this way, it outputs the predicted corrections much faster than the guide camera exposure rate, effectively performing periodic error correction and allowing longer guide camera exposures. All the other parameters are best left to defaults.
         </para>
     </sect3>
-
+    <sect3 id="guide-dark-frames">
+        <title>Dark Frames</title>
+        <para>
+            Dark frames can be helpful to reduce noise in your guide frames. If you choose to use this option, then it is recommended that you take dark frames before you begin your calibration or guiding procedure. To take a dark frame, check the <guilabel>Dark</guilabel> checkbox and then click <guibutton>Capture</guibutton>. For the first time this is performed, Ekos will ask you about your camera shutter. If your camera does not have a shutter, then Ekos will warn you anytime you take a dark frame to cover your camera/telescope before proceeding with the capture. On the other hand, if the camera already includes a shutter, then Ekos will directly proceed with taking the dark frame. All dark frames are automatically saved to Ekos Dark Frame Library. By default, the Dark Library keeps reusing dark frames for 30 days after which it will capture new dark frames. This value is configurable and can be adjusted in <link linkend="ekos">Ekos settings</link> in the &kstars; settings dialog.
+        </para>
+        <screenshot>
+            <screeninfo>
+                Ekos Dark frames library
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="dark_library.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Ekos Dark frames library</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+            It is recommended to take dark frames covering several binning and exposure values so that they may be reused transparently by Ekos whenever needed.
+        </para>
+    </sect3>
+    
     <sect3 id="guide-phd2-support">
         <title>PHD2 Support</title>
         <para>
@@ -333,12 +372,13 @@
             If PHD2 is selected, the <guibutton>Connect</guibutton> and <guibutton>Disconnect</guibutton> buttons are enabled to allow you to establish a connection with the PHD2 server. You can control PHD2 exposure and DEC guide settings. When clicking <guibutton>Guide</guibutton>, PHD2 should perform all the required actions to start the guiding process. PHD2 <emphasis role="bold">must</emphasis> be started and configured <emphasis>before</emphasis> Ekos.
         </para>
         <para>
-            After launching PHD2, select your INDI equipment and set their options. From Ekos, connect to PHD2 by clicking the <guibutton>Connect</guibutton> button. On startup, Ekos will attempt to automatically connect to PHD2. Once the connection is established, you may begin the guiding immediately by click on the <guibutton>Guide</guibutton> button. PHD2 shall perform calibration if necessary. If dithering is selected, PHD2 shall be commanded to dither given the offset pixels indicated and once guiding is settled and stable, the capture process in Ekos shall resume.
+            After launching PHD2, select your INDI equipment and set their options. From Ekos, connect to PHD2 by clicking the <guibutton>Connect</guibutton> button. On startup, Ekos will attempt to automatically connect to PHD2. Once the connection is established, you may begin the guiding immediately by click on the <guibutton>Guide</guibutton> button. PHD2 performs calibration if necessary. If dithering is selected, PHD2 is commanded to dither given the offset pixels indicated, and once guiding is settled and stable, the capture process in Ekos resumes.
         </para>
-        <note>
-            <para>
-                Ekos saves a CSV guide log data that can be useful for analysis of the mount's performance under <filename>~/.local/share/kstars/guide_log.txt</filename>. This log is only available when using the built-in guider.
-            </para>
-        </note>
+    </sect3>
+    <sect3 id="guide-logs">
+        <title>Guiding Logs</title>
+        <para>
+            Ekos' internal guider saves a CSV guide log in PHD2 format data that can be useful for analysis of the mount's performance. In Linux this is stored under <filename>~/.local/share/kstars/guidelogs/</filename>. This log is only available when using Ekos' internal guider. It should be compatible with <ulink url="https://openphdguiding.org/phd2-log-viewer/">PHD2's guide log viewer</ulink>.
+        </para>
     </sect3>
 </sect2>

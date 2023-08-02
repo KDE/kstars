@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-01 00:41+0000\n"
-"PO-Revision-Date: 2023-08-01 01:16+0300\n"
+"PO-Revision-Date: 2023-08-02 01:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -828,7 +828,7 @@ msgstr "Kırpma bölgesi: [%1,%2  %3 x %4]"
 #: auxiliary/thumbnaileditor.ui:13
 #, kde-format
 msgid "Thumbnail Editor"
-msgstr "Küçük Görsel Düzenleyici"
+msgstr "Küçük Görsel Düzenleyicisi"
 
 #. i18n: ectx: property (text), widget (QLabel, CropLabel)
 #: auxiliary/thumbnaileditor.ui:43
@@ -872,7 +872,7 @@ msgstr "Küçük Görsel Seç"
 #: auxiliary/thumbnailpicker.ui:14
 #, kde-format
 msgid "Thumbnail Picker"
-msgstr "Küçük Görsel Seçici"
+msgstr "Küçük Görsel Seçicisi"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:69
@@ -4638,7 +4638,7 @@ msgstr "F Numarası: "
 #: dialogs/fovdialog.ui:13
 #, kde-format
 msgid "Edit FOV Symbols"
-msgstr "Görüş Alanı Simgelerini Düzenle"
+msgstr "Görüş Alanı Sembollerini Düzenle"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:54
@@ -17226,10 +17226,9 @@ msgid "Idle."
 msgstr "Boşta."
 
 #: ekos/focus/focus.cpp:124
-#, fuzzy, kde-format
-#| msgid "Thumbnail Editor"
+#, kde-format
 msgid "Focus Options Profile Editor"
-msgstr "Küçük Resim Düzenleyici"
+msgstr "Odak Seçenekleri Profilleri Düzenleyicisi"
 
 #: ekos/focus/focus.cpp:946
 #, kde-format
@@ -22042,10 +22041,9 @@ msgid "Num Periods for Period Estimate"
 msgstr ""
 
 #: ekos/guide/opsguide.cpp:41
-#, fuzzy, kde-format
-#| msgid "Thumbnail Editor"
+#, kde-format
 msgid "Guide Options Profile Editor"
-msgstr "Küçük Resim Düzenleyici"
+msgstr "Kılavuz Seçenekleri Profilleri Düzenleyicisi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
 #: ekos/guide/opsguide.ui:32
@@ -24720,11 +24718,10 @@ msgid "Save sequence HFR value to file"
 msgstr "Ekos Seri Kuyruğunu Kaydet"
 
 #: ekos/profileeditor.cpp:47
-#, fuzzy, kde-format
-#| msgid "Thumbnail Editor"
+#, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
-msgstr "Küçük Resim Düzenleyici"
+msgstr "Profil Düzenleyicisi"
 
 #: ekos/profileeditor.cpp:115
 #, fuzzy, kde-format
@@ -25240,10 +25237,9 @@ msgid "Select Post Driver Startup Script"
 msgstr "Başlangıç Betiği Seç"
 
 #: ekos/profilescriptdialog.cpp:24
-#, fuzzy, kde-format
-#| msgid "Thumbnail Editor"
+#, kde-format
 msgid "Profile Scripts Editor"
-msgstr "Küçük Resim Düzenleyici"
+msgstr "Profil Betikleri Düzenleyicisi"
 
 #: ekos/profilescriptdialog.cpp:34
 #, fuzzy, kde-format
@@ -32813,17 +32809,13 @@ msgstr "Seçili FOV göstergelerinin adı"
 
 #. i18n: ectx: whatsthis, entry (FOVNames), group (View)
 #: kstars.kcfg:377
-#, fuzzy, kde-format
-#| msgid ""
-#| "The names of the currently selected field-of-view indicators.  The list "
-#| "of defined FOV indicator names is listed in the \"Settings|FOV Symbols\" "
-#| "menu."
+#, kde-format
 msgid ""
 "The names of the currently selected field-of-view indicators. The list of "
 "defined FOV indicator names is listed in the \"Settings|FOV Symbols\" menu."
 msgstr ""
-"Şu an seçili olan görüş-alanı göstergelerinin adları.  Tanımlanmış FOV "
-"göstergeleri isim listesi \"Ayarlar|FOV Simgeleri\" menüsündedir."
+"Seçili olan görüş alanı göstergelerinin adları. Tanımlı Görüş Alanı gösterge "
+"adlarının listesi \"Ayarlar|Görüş Alanı Sembolleri\" menüsünde listelenir."
 
 #. i18n: ectx: label, entry (FadePlanetTrails), group (View)
 #: kstars.kcfg:381
@@ -67940,7 +67932,7 @@ msgstr "&Aysız Gece"
 #: kstarsinit.cpp:361
 #, kde-format
 msgid "&FOV Symbols"
-msgstr "&FOV Simgeleri"
+msgstr "&Görüş Alanı Sembolleri"
 
 #: kstarsinit.cpp:369
 #, fuzzy, kde-format
@@ -68494,7 +68486,7 @@ msgstr ""
 #: kstarsinit.cpp:768
 #, kde-format
 msgid "Edit FOV Symbols..."
-msgstr "FOV simgelerini düzenle..."
+msgstr "Görüş Alanı Sembollerini Düzenle..."
 
 #: kstarsinit.cpp:803
 #, fuzzy, kde-format
@@ -69166,7 +69158,7 @@ msgstr "Renk Şemaları"
 #: kstarslite/qml/main.qml:432
 #, kde-kuit-format
 msgid "FOV Symbols"
-msgstr "FOV Sembolleri"
+msgstr "Görüş Alanı Sembolleri"
 
 #: kstarslite/qml/modules/helpers/TelescopeControl.qml:28
 #: kstarslite/qml/modules/menus/ContextMenu.qml:136
@@ -76130,8 +76122,7 @@ msgid "Date, time and location: "
 msgstr "Tarih, saat ve konum: "
 
 #: printing/foveditordialog.cpp:28
-#, fuzzy, kde-format
-#| msgid "Field of View Snapshot Browser"
+#, kde-format
 msgctxt "@title:window"
 msgid "Field of View Snapshot Browser"
 msgstr "Görüş Alanı Anlık Görüntü Tarayıcısı"
@@ -76513,14 +76504,14 @@ msgid ""
 "p>\n"
 "<p>Press <b>Next</b> when done.</p>"
 msgstr ""
-"<p>Elle görüş alanı yakalama yöntemi, kullanıcı ilgilendiği alanı haritada "
-"ortalar, sonra gökyüzü parçalarının anlık görüntülerini, etkin FOV sembolü "
-"içinde yakalar.</p>\n"
-"<p>Bu kipteyken, <b>Yukarı</b> ve <b>Aşağı</b> düğmelerine basarak, FOV "
-"sembollerini değiştirebilirsiniz. Anlık görüntüler <b>K</b> tuşuna basarak "
-"yakalanabilir. Bittiğinde, <b>Escape</b> tuşuna basıp Yazdırma Sihirbazı 'na "
-"geri dönebilirsiniz.</p>\n"
-"<p>Bittiğinde <b>İleri</b> tuşuna basın.</p>"
+"<p>Elle görüş alanı yakalama yönteminde, kullanıcı gökyüzü haritasını bir "
+"ilgi noktasına odaklar, ardından etkin görüş alanı sembolü içindeki gökyüzü "
+"parçalarının anlık görüntülerini yakalar.</p>\n"
+"<p>Görüş Alanı sembollerini değiştirmek için görüntü yakalama kipinin "
+"alanındayken <b>Sayfa Yukarı</b> ve <b>Sayfa Aşağı</b> düğmelerine basın. "
+"Ekran görüntüleri <b>K</b> düğmesine basarak yakalanır. Bittiğinde, Yazdırma "
+"Sihirbazı'na dönmek için <b>Vazgeç</b> düğmesine basın.</p>\n"
+"<p>İşiniz bittiğinde <b>Sonraki</b> düğmesiyle ilerleyin.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton)
 #. i18n: ectx: property (text), widget (QPushButton, captureButton)
@@ -78415,10 +78406,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Ayarlar->FOV Symbolleri menüsündern FOV Düzenleyiciyi kullanarak\n"
-"\t\t\tkendi görüş-alanı (FOV) simgelerinizi yapabilirsiniz.  Yeni "
-"simgelerinizin\n"
-"\t\t\taçısal büyüklüğünü, şeklini ve rengini ayarlayabilirsiniz.\n"
+"\t\t<p>Ayarlar -> Görüş Alanı Sembolleri menüsünden Görüş Alanı\n"
+"\t\t\tDüzenleyicisini kullanarak kendi görüş alanı (FOV) sembollerinizi "
+"oluşturabilirsiniz.\n"
+"\t\t\tYeni sembollerinizin açısal boyutunu, şeklini ve rengini "
+"ayarlayabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -78438,8 +78430,8 @@ msgstr ""
 "algılayıcınızın boyutuyla eşleşen bir görüş alanı (FOV) sembolü "
 "oluşturabilirsiniz. Ardından, görüntüleme alanınıza neyin sığdığını görmek "
 "için Görüş Alanı sembolünün yönünü kameranızın yönüne uyacak şekilde "
-"ayarlayabilirsiniz. Görüş Alanı Düzenleyicisine, Ayarlar->Görüş Alanı "
-"Simgeleri menüsünden erişilebilir.\n"
+"ayarlayabilirsiniz. Görüş Alanı Düzenleyicisine, Ayarlar -> Görüş Alanı "
+"Sembolleri menüsünden erişilebilir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -81452,7 +81444,7 @@ msgstr "Tüm Görselleri Sil"
 #: tools/observinglist.cpp:1622
 #, kde-format
 msgid "Image Chooser"
-msgstr "Görsel Seçici"
+msgstr "Görsel Seçicisi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:77
@@ -83096,7 +83088,7 @@ msgstr "Fonksiyon Değişkenleri"
 #: tools/scriptbuilder.ui:465
 #, kde-format
 msgid "Function Browser"
-msgstr "Fonksiyon Tarayıcısı"
+msgstr "İşlev Tarayıcısı"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, FuncDoc)
 #: tools/scriptbuilder.ui:512
