@@ -147,7 +147,7 @@ Comment[tr]=Kendiliğinden odaklama işlemi başarıyla tamamlandı
 Comment[uk]=Дію з автофокусування успішно виконано
 Comment[zh_CN]=自动对焦操作成功完成
 Comment[zh_TW]=自動對焦操作成功完成
-Sound=KDE-KStars-Finish-Success.ogg
+Sound=outcome-success
 Action=Sound
 [Event/FocusFailed]
 Name=Autofocus Failure
@@ -206,7 +206,7 @@ Comment[tr]=Kendiliğinden odaklama işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати дію з автофокусування — помилки
 Comment[zh_CN]=自动对焦操作失败，出现错误
 Comment[zh_TW]=自動對焦操作發生錯誤
-Sound=KDE-KStars-Sys-App-Error-Serious.ogg
+Sound=dialog-error-serious
 Action=Sound
 [Event/AlignSuccessful]
 Name=Alignment Success
@@ -266,7 +266,7 @@ Comment[tr]=Gök ölçümü hizalaması başarıyla tamamlandı
 Comment[uk]=Астрометричне вирівнювання успішно завершено.
 Comment[zh_CN]=Astrometry 对准成功完成
 Comment[zh_TW]=對準夜空成功
-Sound=KDE-KStars-Finish-Success.ogg
+Sound=outcome-success
 Action=Sound
 [Event/AlignFailed]
 Name=Alignment Failure
@@ -327,7 +327,7 @@ Comment[tr]=Gök ölçümü hizalaması başarısız oldu
 Comment[uk]=Не вдалося виконати астрометричне вирівнювання — помилки
 Comment[zh_CN]=Ast 对准失败，发生错误
 Comment[zh_TW]=對準夜空失敗
-Sound=KDE-KStars-Sys-App-Error-Serious.ogg
+Sound=dialog-error-serious
 Action=Sound
 [Event/CalibrationSuccessful]
 Name=Calibration Success
@@ -388,7 +388,7 @@ Comment[tr]=Kalibrasyon işlemi başarıyla tamamlandı
 Comment[uk]=Калібрування наведення успішно виконано
 Comment[zh_CN]=已成功完成导星校准
 Comment[zh_TW]=校正已成功完成
-Sound=KDE-KStars-Finish-Success.ogg
+Sound=outcome-success
 Action=Sound
 [Event/CalibrationFailed]
 Name=Calibration Failure
@@ -447,7 +447,7 @@ Comment[tr]=Kalibrasyon işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати калібування наведення — помилки
 Comment[zh_CN]=导星校准失败，出现错误
 Comment[zh_TW]=校正時發生錯誤
-Sound=KDE-KStars-Sys-App-Error-Serious.ogg
+Sound=dialog-error-serious
 Action=Sound
 [Event/GuideFailed]
 Name=Guiding Failure
@@ -506,7 +506,7 @@ Comment[tr]=Kendiliğinden kılavuzluk işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати автоматичне наведення — помилки
 Comment[zh_CN]=自动导星失败，出现错误
 Comment[zh_TW]=自動導引時發生錯誤
-Sound=KDE-KStars-Sys-App-Error-Serious.ogg
+Sound=dialog-error-serious
 Action=Sound
 [Event/CaptureSuccessful]
 Name=Capture Success
@@ -565,7 +565,7 @@ Comment[tr]=CCD Yakalama başarıyla tamamlandı
 Comment[uk]=Захоплення з ПЗЗ виконано успішно
 Comment[zh_CN]=CCD 拍摄完毕
 Comment[zh_TW]=CCD 擷取已成功完成
-Sound=KDE-KStars-Finish-Success.ogg
+Sound=outcome-success
 Action=Sound
 [Event/CaptureFailed]
 Name=Capture Failure
@@ -624,7 +624,7 @@ Comment[tr]=CCD yakalama işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати захоплення зображень з ПЗЗ — помилки
 Comment[zh_CN]=CCD 拍摄失败，出现错误
 Comment[zh_TW]=CCD 擷取時發生錯誤
-Sound=KDE-KStars-Sys-App-Error-Serious.ogg
+Sound=dialog-error-serious
 Action=Sound
 [Event/FITSReceived]
 Name=FITS Received
@@ -683,7 +683,7 @@ Comment[tr]=FITS dosyası alındı
 Comment[uk]=Отримано файл FITS
 Comment[zh_CN]=收到 FITS 文件
 Comment[zh_TW]=FITS 檔已接收
-Sound=KDE-KStars-FITS-Received.ogg
+Sound=dialog-information
 Action=Sound
 [Event/WeatherWarning]
 Name=Weather Warning
@@ -742,7 +742,7 @@ Comment[tr]=Hava koşulları uyarı bölgesinde
 Comment[uk]=Погодні умови близькі до несприятливих
 Comment[zh_CN]=天气条件在警戒区
 Comment[zh_TW]=天氣條件在警告範圍內
-Sound=KDE-KStars-Warning.ogg
+Sound=dialog-warning
 Action=Sound
 [Event/WeatherAlert]
 Name=Weather Alert
@@ -801,7 +801,7 @@ Comment[tr]=Hava koşulları kritiktir. Gözlemevinin kapatılması yakındır.
 Comment[uk]=Погодні умови є критичними. Вимикання обсерваторії не уникнути.
 Comment[zh_CN]=天气恶劣。立即关闭天文台
 Comment[zh_TW]=天氣條件極不佳。天文台將即刻關閉。
-Sound=KDE-KStars-Alert.ogg
+Sound=dialog-warning
 Action=Sound
 [Event/ObservatoryStartup]
 Name=Observatory Startup
@@ -944,7 +944,7 @@ Name[tr]=Zamanlayıcı Kesildi
 Name[uk]=Планування перервано
 Name[zh_CN]=调度器中止
 Name[zh_TW]=排程器已中止
-Sound=KDE-KStars-Alert.ogg
+Sound=dialog-warning
 Action=Sound
 [Event/SchedulerSleeping]
 Name=Scheduler Sleeping
@@ -2113,7 +2113,7 @@ Name[sv]=Tagen bild mottagen
 Name[tr]=Yakalanan görsel alındı
 Name[uk]=Отримано захоплене зображення
 Name[zh_CN]=收到拍摄的图像
-Sound=KDE-KStars-Sys-App-Message.ogg
+Sound=camera-shutter
 Action=Sound
 [Event/KnownIssue]
 Name=Known Issue
