@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-01 00:41+0000\n"
+"POT-Creation-Date: 2023-08-03 00:41+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -177,7 +177,7 @@ msgid "Visible Satellites"
 msgstr "Aangaande die Maan Beelde"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:241
-#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:47
+#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
 #: kstarsactions.cpp:1105 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, fuzzy, kde-format, kde-kuit-format
@@ -190,7 +190,7 @@ msgid "Satellites Labels"
 msgstr "Koop"
 
 #: auxiliary/colorscheme.cpp:61 data/qml/whatisinteresting/wiview.qml:526
-#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:46
+#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
 #: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, fuzzy, kde-format, kde-kuit-format
@@ -201,7 +201,7 @@ msgstr "Horison"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroids)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:358
-#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:44
+#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:45
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
 #: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:285
 #: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
@@ -1969,7 +1969,7 @@ msgstr "Planete"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:274
-#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:36
+#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:37
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 tools/conjunctions.cpp:95
 #: tools/obslistwizard.cpp:405 tools/obslistwizard.cpp:449
@@ -1979,7 +1979,7 @@ msgid "Stars"
 msgstr "Sterre"
 
 #: data/qml/whatisinteresting/wiview.qml:305
-#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:45
+#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:46
 #: kstarslite/dialogs/finddialoglite.cpp:35 tools/wutdialog.cpp:100
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Constellations"
@@ -1993,7 +1993,7 @@ msgstr "Aangaande die Maan Beelde"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowComets)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:391
-#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:43
+#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
 #: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:284
 #: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
@@ -2004,7 +2004,7 @@ msgstr "Bereken"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:424
-#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:42
+#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
 #: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
 #: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
@@ -4219,13 +4219,13 @@ msgstr "Onbekende Tipe"
 msgid "Legend position:"
 msgstr "Bereken"
 
-#: dialogs/finddialog.cpp:35 kstarslite/dialogs/finddialoglite.cpp:25
+#: dialogs/finddialog.cpp:36 kstarslite/dialogs/finddialoglite.cpp:25
 #: tools/conjunctions.cpp:94
 #, kde-format
 msgid "Any"
 msgstr "Enige"
 
-#: dialogs/finddialog.cpp:37 kstarsactions.cpp:1102 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1102 kstarsinit.cpp:467
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -4233,82 +4233,82 @@ msgstr "Enige"
 msgid "Solar System"
 msgstr "Steek weg objekte terwyl beweeg"
 
-#: dialogs/finddialog.cpp:38 kstarslite/dialogs/finddialoglite.cpp:28
+#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:28
 #: tools/conjunctions.cpp:100
 #, kde-format
 msgid "Open Clusters"
 msgstr "Open Klusters"
 
-#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:29
+#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:29
 #: tools/conjunctions.cpp:101
 #, fuzzy, kde-format
 msgid "Globular Clusters"
 msgstr "Willekeurige teken. Klusters"
 
-#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:30
+#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:30
 #: tools/conjunctions.cpp:102
 #, fuzzy, kde-format
 msgid "Gaseous Nebulae"
 msgstr "Lynx"
 
-#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:31
+#: dialogs/finddialog.cpp:42 kstarslite/dialogs/finddialoglite.cpp:31
 #: tools/conjunctions.cpp:103
 #, fuzzy, kde-format
 msgid "Planetary Nebulae"
 msgstr "Planeet Naam"
 
-#: dialogs/finddialog.cpp:73
+#: dialogs/finddialog.cpp:74
 #, fuzzy, kde-format
 #| msgid "Find Object"
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "Soek Voorwerp"
 
-#: dialogs/finddialog.cpp:87
+#: dialogs/finddialog.cpp:88
 #, fuzzy, kde-format
 msgid "Details..."
 msgstr "Details"
 
-#: dialogs/finddialog.cpp:191
+#: dialogs/finddialog.cpp:192
 #, fuzzy, kde-format
 msgid "Andromeda Galaxy"
 msgstr "Leo"
 
-#: dialogs/finddialog.cpp:197
+#: dialogs/finddialog.cpp:198
 #, fuzzy, kde-format
 msgid "Aldebaran"
 msgstr "Ada"
 
-#: dialogs/finddialog.cpp:204
+#: dialogs/finddialog.cpp:205
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Aaltje"
 msgstr "Alt"
 
-#: dialogs/finddialog.cpp:210
+#: dialogs/finddialog.cpp:211
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr ""
 
-#: dialogs/finddialog.cpp:324
+#: dialogs/finddialog.cpp:325
 #, kde-format
 msgid "Search the Internet for %1"
 msgstr ""
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:326
 #, fuzzy, kde-format
 #| msgid "nothing"
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "niks"
 
-#: dialogs/finddialog.cpp:494
+#: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Nee voorwerp genaamd %1 gevind."
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:496
 #, kde-format
 msgid "Bad object name"
 msgstr "Slegte voorwerp naam"
@@ -4472,121 +4472,121 @@ msgstr ""
 msgid "Alt (apparent):"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:79
+#: dialogs/fovdialog.cpp:80
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set FOV Indicator"
 msgstr " Epoch:"
 
-#: dialogs/fovdialog.cpp:179
+#: dialogs/fovdialog.cpp:180
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "New FOV Indicator"
 msgstr " Epoch:"
 
-#: dialogs/fovdialog.cpp:237
+#: dialogs/fovdialog.cpp:238
 #, fuzzy, kde-format
 msgctxt "Specify the apparent field of view (AFOV) manually"
 msgid "Specify AFOV"
 msgstr "Datum:"
 
-#: dialogs/fovdialog.cpp:238
+#: dialogs/fovdialog.cpp:239
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ramsden (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:239
+#: dialogs/fovdialog.cpp:240
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Orthoscopic (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:240
+#: dialogs/fovdialog.cpp:241
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ploessl (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:241
+#: dialogs/fovdialog.cpp:242
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Erfle (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:242
+#: dialogs/fovdialog.cpp:243
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Radian"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:243
+#: dialogs/fovdialog.cpp:244
 #, fuzzy, kde-format
 #| msgid "Horizon"
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Baader Hyperion"
 msgstr "Horison"
 
-#: dialogs/fovdialog.cpp:244
+#: dialogs/fovdialog.cpp:245
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Panoptic"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:245
+#: dialogs/fovdialog.cpp:246
 #, fuzzy, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Delos"
 msgstr "Planeet"
 
-#: dialogs/fovdialog.cpp:246
+#: dialogs/fovdialog.cpp:247
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Meade UWA"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:247
+#: dialogs/fovdialog.cpp:248
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Nagler"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:248
+#: dialogs/fovdialog.cpp:249
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Ethos (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:252
+#: dialogs/fovdialog.cpp:253
 #, fuzzy, kde-format
 msgid "1000 yards"
 msgstr "Bereken"
 
-#: dialogs/fovdialog.cpp:253
+#: dialogs/fovdialog.cpp:254
 #, fuzzy, kde-format
 msgid "1000 meters"
 msgstr "Bereken"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelUnits)
-#: dialogs/fovdialog.cpp:261 dialogs/newfov.ui:732
+#: dialogs/fovdialog.cpp:262 dialogs/newfov.ui:732
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Delta"
 msgid "feet"
 msgstr "Delta"
 
-#: dialogs/fovdialog.cpp:261
+#: dialogs/fovdialog.cpp:262
 #, fuzzy, kde-format
 msgid "meters"
 msgstr "Bereken"
 
-#: dialogs/fovdialog.cpp:396
+#: dialogs/fovdialog.cpp:397
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Telescope Focal Length Calculator"
 msgstr "Planeet"
 
-#: dialogs/fovdialog.cpp:413
+#: dialogs/fovdialog.cpp:414
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Hammond"
@@ -4594,17 +4594,17 @@ msgctxt "millimeters"
 msgid "mm"
 msgstr "Hammond"
 
-#: dialogs/fovdialog.cpp:414
+#: dialogs/fovdialog.cpp:415
 #, kde-format
 msgid "inch"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:416
+#: dialogs/fovdialog.cpp:417
 #, fuzzy, kde-format
 msgid "Aperture diameter: "
 msgstr "Koördinate"
 
-#: dialogs/fovdialog.cpp:419
+#: dialogs/fovdialog.cpp:420
 #, fuzzy, kde-format
 msgctxt "F-Number or F-Ratio of optical system"
 msgid "F-Number: "

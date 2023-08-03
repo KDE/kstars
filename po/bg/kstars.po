@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-01 00:41+0000\n"
+"POT-Creation-Date: 2023-08-03 00:41+0000\n"
 "PO-Revision-Date: 2021-01-13 13:17+0200\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@ludost.net>\n"
@@ -178,7 +178,7 @@ msgid "Visible Satellites"
 msgstr "Видими спътници"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:241
-#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:47
+#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
 #: kstarsactions.cpp:1105 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
@@ -191,7 +191,7 @@ msgid "Satellites Labels"
 msgstr "Етикети на спътници"
 
 #: auxiliary/colorscheme.cpp:61 data/qml/whatisinteresting/wiview.qml:526
-#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:46
+#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
 #: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
@@ -201,7 +201,7 @@ msgstr "Свръхнови"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroids)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:358
-#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:44
+#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:45
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
 #: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:285
 #: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
@@ -1905,7 +1905,7 @@ msgstr "Планети"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:274
-#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:36
+#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:37
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 tools/conjunctions.cpp:95
 #: tools/obslistwizard.cpp:405 tools/obslistwizard.cpp:449
@@ -1915,7 +1915,7 @@ msgid "Stars"
 msgstr "Звезди"
 
 #: data/qml/whatisinteresting/wiview.qml:305
-#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:45
+#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:46
 #: kstarslite/dialogs/finddialoglite.cpp:35 tools/wutdialog.cpp:100
 #, kde-format, kde-kuit-format
 msgid "Constellations"
@@ -1929,7 +1929,7 @@ msgstr "Име на далечен небесен обект"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowComets)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:391
-#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:43
+#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
 #: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:284
 #: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
@@ -1940,7 +1940,7 @@ msgstr "Комети"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:424
-#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:42
+#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
 #: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
 #: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
@@ -4099,13 +4099,13 @@ msgstr "Вид легенда:"
 msgid "Legend position:"
 msgstr "Разположение на легендата:"
 
-#: dialogs/finddialog.cpp:35 kstarslite/dialogs/finddialoglite.cpp:25
+#: dialogs/finddialog.cpp:36 kstarslite/dialogs/finddialoglite.cpp:25
 #: tools/conjunctions.cpp:94
 #, kde-format
 msgid "Any"
 msgstr "Всякакви"
 
-#: dialogs/finddialog.cpp:37 kstarsactions.cpp:1102 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1102 kstarsinit.cpp:467
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -4113,78 +4113,78 @@ msgstr "Всякакви"
 msgid "Solar System"
 msgstr "Слънчева система"
 
-#: dialogs/finddialog.cpp:38 kstarslite/dialogs/finddialoglite.cpp:28
+#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:28
 #: tools/conjunctions.cpp:100
 #, kde-format
 msgid "Open Clusters"
 msgstr "Разсеяни купове"
 
-#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:29
+#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:29
 #: tools/conjunctions.cpp:101
 #, kde-format
 msgid "Globular Clusters"
 msgstr "Кълбовидни купове"
 
-#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:30
+#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:30
 #: tools/conjunctions.cpp:102
 #, kde-format
 msgid "Gaseous Nebulae"
 msgstr "Газови мъглявини"
 
-#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:31
+#: dialogs/finddialog.cpp:42 kstarslite/dialogs/finddialoglite.cpp:31
 #: tools/conjunctions.cpp:103
 #, kde-format
 msgid "Planetary Nebulae"
 msgstr "Планетарни мъглявини"
 
-#: dialogs/finddialog.cpp:73
+#: dialogs/finddialog.cpp:74
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "Търсене на обект"
 
-#: dialogs/finddialog.cpp:87
+#: dialogs/finddialog.cpp:88
 #, kde-format
 msgid "Details..."
 msgstr "Подробности..."
 
-#: dialogs/finddialog.cpp:191
+#: dialogs/finddialog.cpp:192
 #, kde-format
 msgid "Andromeda Galaxy"
 msgstr "Галактика Андромеда"
 
-#: dialogs/finddialog.cpp:197
+#: dialogs/finddialog.cpp:198
 #, kde-format
 msgid "Aldebaran"
 msgstr "Алдѐбаран"
 
-#: dialogs/finddialog.cpp:204
+#: dialogs/finddialog.cpp:205
 #, fuzzy, kde-format
 msgid "Aaltje"
 msgstr "Височина:"
 
-#: dialogs/finddialog.cpp:210
+#: dialogs/finddialog.cpp:211
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr ""
 
-#: dialogs/finddialog.cpp:324
+#: dialogs/finddialog.cpp:325
 #, fuzzy, kde-format
 msgid "Search the Internet for %1"
 msgstr "Резултати от търсенето:"
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:326
 #, fuzzy, kde-format
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "нищо"
 
-#: dialogs/finddialog.cpp:494
+#: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Не е намерен обект с име %1."
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:496
 #, kde-format
 msgid "Bad object name"
 msgstr "Грешно име на обект"
@@ -4336,134 +4336,134 @@ msgstr ""
 msgid "Alt (apparent):"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:79
+#: dialogs/fovdialog.cpp:80
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set FOV Indicator"
 msgstr "Очертание на зрителното поле"
 
-#: dialogs/fovdialog.cpp:179
+#: dialogs/fovdialog.cpp:180
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "New FOV Indicator"
 msgstr "Нова рамка на зрителното поле"
 
-#: dialogs/fovdialog.cpp:237
+#: dialogs/fovdialog.cpp:238
 #, fuzzy, kde-format
 msgctxt "Specify the apparent field of view (AFOV) manually"
 msgid "Specify AFOV"
 msgstr "Зрително поле на окуляра:"
 
-#: dialogs/fovdialog.cpp:238
+#: dialogs/fovdialog.cpp:239
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ramsden (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:239
+#: dialogs/fovdialog.cpp:240
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Orthoscopic (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:240
+#: dialogs/fovdialog.cpp:241
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ploessl (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:241
+#: dialogs/fovdialog.cpp:242
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Erfle (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:242
+#: dialogs/fovdialog.cpp:243
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Radian"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:243
+#: dialogs/fovdialog.cpp:244
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Baader Hyperion"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:244
+#: dialogs/fovdialog.cpp:245
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Panoptic"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:245
+#: dialogs/fovdialog.cpp:246
 #, fuzzy, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Delos"
 msgstr "Телескопи:"
 
-#: dialogs/fovdialog.cpp:246
+#: dialogs/fovdialog.cpp:247
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Meade UWA"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:247
+#: dialogs/fovdialog.cpp:248
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Nagler"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:248
+#: dialogs/fovdialog.cpp:249
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Ethos (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:252
+#: dialogs/fovdialog.cpp:253
 #, kde-format
 msgid "1000 yards"
 msgstr "1000 ярда"
 
-#: dialogs/fovdialog.cpp:253
+#: dialogs/fovdialog.cpp:254
 #, kde-format
 msgid "1000 meters"
 msgstr "1000 метра"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelUnits)
-#: dialogs/fovdialog.cpp:261 dialogs/newfov.ui:732
+#: dialogs/fovdialog.cpp:262 dialogs/newfov.ui:732
 #, kde-format
 msgid "feet"
 msgstr "футове"
 
-#: dialogs/fovdialog.cpp:261
+#: dialogs/fovdialog.cpp:262
 #, kde-format
 msgid "meters"
 msgstr "метри"
 
-#: dialogs/fovdialog.cpp:396
+#: dialogs/fovdialog.cpp:397
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Telescope Focal Length Calculator"
 msgstr "Фокусно разстояние на телескопа:"
 
-#: dialogs/fovdialog.cpp:413
+#: dialogs/fovdialog.cpp:414
 #, kde-format
 msgctxt "millimeters"
 msgid "mm"
 msgstr "мм"
 
-#: dialogs/fovdialog.cpp:414
+#: dialogs/fovdialog.cpp:415
 #, kde-format
 msgid "inch"
 msgstr "инч"
 
-#: dialogs/fovdialog.cpp:416
+#: dialogs/fovdialog.cpp:417
 #, fuzzy, kde-format
 msgid "Aperture diameter: "
 msgstr "Апертура:"
 
-#: dialogs/fovdialog.cpp:419
+#: dialogs/fovdialog.cpp:420
 #, fuzzy, kde-format
 msgctxt "F-Number or F-Ratio of optical system"
 msgid "F-Number: "
@@ -79617,207 +79617,3 @@ msgstr "Цвят на фона:"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Избледняване на траекториите до фоновия цвят"
-
-#, fuzzy
-#~ msgid "Upload JPG"
-#~ msgstr "Качване"
-
-#, fuzzy
-#~ msgid "Greedy"
-#~ msgstr "Грийли"
-
-#, fuzzy
-#~ msgid "↓ Equipment"
-#~ msgstr "1. Оборудване"
-
-#, fuzzy
-#~ msgid "↓ FOV"
-#~ msgstr "Без зрително поле"
-
-#, fuzzy
-#~ msgid "↓ Output"
-#~ msgstr "3. Изход"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p align=\"justify\">Total number of Scheduler jobs "
-#~ "required to cover the mosaic field, and that the tool will produce.</p></"
-#~ "body></html>"
-#~ msgstr "Съвпадащи обекти:"
-
-#, fuzzy
-#~ msgid "Job Count:"
-#~ msgstr "Брой:"
-
-#, fuzzy
-#~ msgid "Mosaic file %1 saved successfully."
-#~ msgstr "Входни координати"
-
-#, fuzzy
-#~ msgid "Repeat after completion"
-#~ msgstr "Свръхнови"
-
-#, fuzzy
-#~ msgid "Executing post capture script %1"
-#~ msgstr "Изпълнение на скрипт: %1"
-
-#, fuzzy
-#~ msgid "Executing post job script %1"
-#~ msgstr "Изпълнение на скрипт: %1"
-
-#, fuzzy
-#~ msgid "Executing pre job script %1"
-#~ msgstr "Изпълнение на скрипт: %1"
-
-#, fuzzy
-#~ msgid "Resuming sequence..."
-#~ msgstr "Честота:"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
-#~ "procedure.</p></body></html>"
-#~ msgstr "Съвпадащи обекти:"
-
-#, fuzzy
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr "Координатна мрежа"
-
-#, fuzzy
-#~ msgid "Are you sure you want to stop the polar alignment process?"
-#~ msgstr "Сигурни ли сте, че искате клиентът %1 да бъде премахнат?"
-
-#, fuzzy
-#~ msgid "Polar Alignment Assistant"
-#~ msgstr "В изпълнение..."
-
-#, fuzzy
-#~ msgid "Whether EkosLive connection mode is online."
-#~ msgstr "Свързване"
-
-#, fuzzy
-#~| msgid "Add to List"
-#~ msgid "Add to Job"
-#~ msgstr "Добавяне към списък"
-
-#, fuzzy
-#~| msgid "Target object or direction"
-#~ msgid "Reverse rotator direction"
-#~ msgstr "Краен обект или посока"
-
-#, fuzzy
-#~| msgid "Angle:"
-#~ msgid "Raw Angle:"
-#~ msgstr "Ъгъл:"
-
-#, fuzzy
-#~ msgid "Position Angle Control"
-#~ msgstr "Ъгъл на позицията"
-
-#, fuzzy
-#~| msgid "Angle:"
-#~ msgid "Sky Angle:"
-#~ msgstr "Ъгъл:"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
-#~ "slews and syncs.</p></body></html>"
-#~ msgstr "Съвпадащи обекти:"
-
-#, fuzzy
-#~ msgid "KStars Sky Map"
-#~ msgstr "Име на звезда"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Use an external planetarium software to control "
-#~ "mount slews and syncs.</p><p><span style=\" font-weight:600;\">WARNING</"
-#~ "span>: this feature is experimental!</p></body></html>"
-#~ msgstr "Съвпадащи обекти:"
-
-#, fuzzy
-#~ msgid "Flat Focus Position"
-#~ msgstr "Ректасценазия"
-
-#, fuzzy
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
-#~ msgstr "Фонов режим"
-
-#, fuzzy
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
-#~ msgstr "Фонов режим"
-
-#, fuzzy
-#~ msgid "Settle:"
-#~ msgstr "Сиатъл"
-
-#, fuzzy
-#~ msgid "HFR: "
-#~ msgstr "HFR:"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><body><p>HFR value in pixels consolidated at the current focuser "
-#~ "position.</p></body></html>"
-#~ msgstr "Съвпадащи обекти:"
-
-#, fuzzy
-#~ msgid "Iteration: "
-#~ msgstr "Начало"
-
-#, fuzzy
-#~ msgid "Relative Profile..."
-#~ msgstr "Скриване на траекторията"
-
-#, fuzzy
-#~ msgid "Clear Data"
-#~ msgstr "Изчистване на списъка"
-
-#, fuzzy
-#~ msgid "Initial Focus Out Steps"
-#~ msgstr "Стъпка:"
-
-#, fuzzy
-#~ msgid "Number of focus frames to average for HFR calculations."
-#~ msgstr "Брой на изображенията"
-
-#, fuzzy
-#~ msgid "Default focus exposure time when no filters are used."
-#~ msgstr "Директорията с файлове FITS по подразбиране:"
-
-#, fuzzy
-#~ msgid "Curve Type."
-#~ msgstr "Тип на ресурса"
-
-#, fuzzy
-#~ msgid "Equatorial Gridines"
-#~ msgstr "Екваториални координати"
-
-#, fuzzy
-#~| msgid "Local Time"
-#~ msgid "Local preview"
-#~ msgstr "Местно време"
-
-#, fuzzy
-#~| msgid "Preview"
-#~ msgid "Preview:"
-#~ msgstr "Преглед"
-
-#, fuzzy
-#~ msgid "Remote preview"
-#~ msgstr "Скриване на траекторията"
-
-#, fuzzy
-#~ msgid "AF Backlash Comp"
-#~ msgstr "Фон"
-
-#, fuzzy
-#~ msgid "Backlash:"
-#~ msgstr "Фон"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>The combined RA and DEC drift error in arc-seconds."
-#~ "</p></body></html>"
-#~ msgstr "Съвпадащи обекти:"

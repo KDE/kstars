@@ -230,7 +230,7 @@
             </listitem>
             <listitem>
                 <para>
-                    Algorithm. we strongly recommend you use the most up-to-date algorith: SEP MultiStar. Pretty much the only reason not to would be if you can't get your SEP star-detection to perform adequately.
+                    Algorithm. We strongly recommend you use the most up-to-date algorithm: SEP MultiStar. Pretty much the only reason not to would be if you can't get your SEP star-detection to perform adequately.
                 </para>
             </listitem>
             <listitem>
@@ -260,7 +260,7 @@
             To enable automatic dithering between frames, make sure to check the <guilabel>Dither</guilabel> checkbox. By default, Ekos should dither (&ie; move) the guiding box by up to 3 pixels after every N frames captured in <link linkend="ekos-capture">Ekos Capture Module</link>. The motion duration and direction are randomized. Since the guiding performance can oscillate immediately after dithering, you can set the appropriate <guilabel>Settle</guilabel> duration to wait after dither is complete before resuming the capture process. In rare cases where the dithering process can get stuck in an endless loop, set the appropriate <guilabel>Timeout</guilabel> to abort the process. But even if dithering fails, you can select whether this failure should terminate the autoguiding process or not. Toggle <guilabel>Abort Autoguide on failure</guilabel> to select the desired behavior.
         </para>
         <para>
-          Dithing does not result in a long wander from the original target position. Ekos keeps track of the original and current target positions, and moves the target back towards the original target should the position have drifted too far.
+          Dithering does not result in a long wander from the original target position. Ekos keeps track of the original and current target positions, and moves the target back towards the original target should the position have drifted too far.
         </para>
         <para>
             One-pulse dithering is an interesting quicker option which sends a pulse to dither, but does not verify that the dither reached its desired location. It is possible that the dithering for any given dither isn't as much as desired, but the overall effect should be good.
