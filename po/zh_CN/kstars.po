@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-01 00:41+0000\n"
-"PO-Revision-Date: 2023-07-30 07:09\n"
+"POT-Creation-Date: 2023-08-03 00:41+0000\n"
+"PO-Revision-Date: 2023-08-02 12:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -179,7 +179,7 @@ msgid "Visible Satellites"
 msgstr "可见卫星"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:241
-#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:47
+#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
 #: kstarsactions.cpp:1105 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
@@ -192,7 +192,7 @@ msgid "Satellites Labels"
 msgstr "卫星标签"
 
 #: auxiliary/colorscheme.cpp:61 data/qml/whatisinteresting/wiview.qml:526
-#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:46
+#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
 #: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
@@ -202,7 +202,7 @@ msgstr "超新星"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroids)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:358
-#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:44
+#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:45
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
 #: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:285
 #: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
@@ -1908,7 +1908,7 @@ msgstr "行星"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:274
-#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:36
+#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:37
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 tools/conjunctions.cpp:95
 #: tools/obslistwizard.cpp:405 tools/obslistwizard.cpp:449
@@ -1918,7 +1918,7 @@ msgid "Stars"
 msgstr "恒星"
 
 #: data/qml/whatisinteresting/wiview.qml:305
-#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:45
+#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:46
 #: kstarslite/dialogs/finddialoglite.cpp:35 tools/wutdialog.cpp:100
 #, kde-format, kde-kuit-format
 msgid "Constellations"
@@ -1932,7 +1932,7 @@ msgstr "深空天体"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowComets)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:391
-#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:43
+#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
 #: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:284
 #: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
@@ -1943,7 +1943,7 @@ msgstr "彗星"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:424
-#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:42
+#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
 #: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
 #: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
@@ -4120,13 +4120,13 @@ msgstr "图例类型："
 msgid "Legend position:"
 msgstr "图例位置："
 
-#: dialogs/finddialog.cpp:35 kstarslite/dialogs/finddialoglite.cpp:25
+#: dialogs/finddialog.cpp:36 kstarslite/dialogs/finddialoglite.cpp:25
 #: tools/conjunctions.cpp:94
 #, kde-format
 msgid "Any"
 msgstr "任意"
 
-#: dialogs/finddialog.cpp:37 kstarsactions.cpp:1102 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1102 kstarsinit.cpp:467
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -4134,78 +4134,78 @@ msgstr "任意"
 msgid "Solar System"
 msgstr "太阳系"
 
-#: dialogs/finddialog.cpp:38 kstarslite/dialogs/finddialoglite.cpp:28
+#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:28
 #: tools/conjunctions.cpp:100
 #, kde-format
 msgid "Open Clusters"
 msgstr "疏散星团"
 
-#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:29
+#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:29
 #: tools/conjunctions.cpp:101
 #, kde-format
 msgid "Globular Clusters"
 msgstr "球状星团"
 
-#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:30
+#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:30
 #: tools/conjunctions.cpp:102
 #, kde-format
 msgid "Gaseous Nebulae"
 msgstr "气体星云"
 
-#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:31
+#: dialogs/finddialog.cpp:42 kstarslite/dialogs/finddialoglite.cpp:31
 #: tools/conjunctions.cpp:103
 #, kde-format
 msgid "Planetary Nebulae"
 msgstr "行星状星云"
 
-#: dialogs/finddialog.cpp:73
+#: dialogs/finddialog.cpp:74
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "查找天体"
 
-#: dialogs/finddialog.cpp:87
+#: dialogs/finddialog.cpp:88
 #, kde-format
 msgid "Details..."
 msgstr "详情..."
 
-#: dialogs/finddialog.cpp:191
+#: dialogs/finddialog.cpp:192
 #, kde-format
 msgid "Andromeda Galaxy"
 msgstr "仙女座星系"
 
-#: dialogs/finddialog.cpp:197
+#: dialogs/finddialog.cpp:198
 #, kde-format
 msgid "Aldebaran"
 msgstr "毕宿五(Aldebaran)"
 
-#: dialogs/finddialog.cpp:204
+#: dialogs/finddialog.cpp:205
 #, kde-format
 msgid "Aaltje"
 msgstr "小行星677 Aaltje"
 
-#: dialogs/finddialog.cpp:210
+#: dialogs/finddialog.cpp:211
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr "1989 W1彗星"
 
-#: dialogs/finddialog.cpp:324
+#: dialogs/finddialog.cpp:325
 #, kde-format
 msgid "Search the Internet for %1"
 msgstr "在线搜索 %1"
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:326
 #, kde-format
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "(无)"
 
-#: dialogs/finddialog.cpp:494
+#: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "No object named %1 found."
 msgstr "未找到名为 %1 的天体。"
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:496
 #, kde-format
 msgid "Bad object name"
 msgstr "无效的天体名称"
@@ -4357,134 +4357,134 @@ msgstr "高度。折射改正后则为视高度。"
 msgid "Alt (apparent):"
 msgstr "视高度:"
 
-#: dialogs/fovdialog.cpp:79
+#: dialogs/fovdialog.cpp:80
 #, kde-format
 msgctxt "@title:window"
 msgid "Set FOV Indicator"
 msgstr "设定视场指示器"
 
-#: dialogs/fovdialog.cpp:179
+#: dialogs/fovdialog.cpp:180
 #, kde-format
 msgctxt "@title:window"
 msgid "New FOV Indicator"
 msgstr "新建视场指示器"
 
-#: dialogs/fovdialog.cpp:237
+#: dialogs/fovdialog.cpp:238
 #, kde-format
 msgctxt "Specify the apparent field of view (AFOV) manually"
 msgid "Specify AFOV"
 msgstr "指定表观视场(AFOV)"
 
-#: dialogs/fovdialog.cpp:238
+#: dialogs/fovdialog.cpp:239
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ramsden (Typical)"
 msgstr "Ramsden (Typical)"
 
-#: dialogs/fovdialog.cpp:239
+#: dialogs/fovdialog.cpp:240
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Orthoscopic (Typical)"
 msgstr "Orthoscopic (Typical)"
 
-#: dialogs/fovdialog.cpp:240
+#: dialogs/fovdialog.cpp:241
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ploessl (Typical)"
 msgstr "Ploessl (Typical)"
 
-#: dialogs/fovdialog.cpp:241
+#: dialogs/fovdialog.cpp:242
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Erfle (Typical)"
 msgstr "Erfle (Typical)"
 
-#: dialogs/fovdialog.cpp:242
+#: dialogs/fovdialog.cpp:243
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Radian"
 msgstr "Tele Vue Radian"
 
-#: dialogs/fovdialog.cpp:243
+#: dialogs/fovdialog.cpp:244
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Baader Hyperion"
 msgstr "Baader Hyperion"
 
-#: dialogs/fovdialog.cpp:244
+#: dialogs/fovdialog.cpp:245
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Panoptic"
 msgstr "Tele Vue Panoptic"
 
-#: dialogs/fovdialog.cpp:245
+#: dialogs/fovdialog.cpp:246
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Delos"
 msgstr "Tele Vue Delos"
 
-#: dialogs/fovdialog.cpp:246
+#: dialogs/fovdialog.cpp:247
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Meade UWA"
 msgstr "Meade UWA"
 
-#: dialogs/fovdialog.cpp:247
+#: dialogs/fovdialog.cpp:248
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Nagler"
 msgstr "Tele Vue Nagler"
 
-#: dialogs/fovdialog.cpp:248
+#: dialogs/fovdialog.cpp:249
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Ethos (Typical)"
 msgstr "Tele Vue Ethos (Typical)"
 
-#: dialogs/fovdialog.cpp:252
+#: dialogs/fovdialog.cpp:253
 #, kde-format
 msgid "1000 yards"
 msgstr "一千码"
 
-#: dialogs/fovdialog.cpp:253
+#: dialogs/fovdialog.cpp:254
 #, kde-format
 msgid "1000 meters"
 msgstr "一千米"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelUnits)
-#: dialogs/fovdialog.cpp:261 dialogs/newfov.ui:732
+#: dialogs/fovdialog.cpp:262 dialogs/newfov.ui:732
 #, kde-format
 msgid "feet"
 msgstr "英尺"
 
-#: dialogs/fovdialog.cpp:261
+#: dialogs/fovdialog.cpp:262
 #, kde-format
 msgid "meters"
 msgstr "米"
 
-#: dialogs/fovdialog.cpp:396
+#: dialogs/fovdialog.cpp:397
 #, kde-format
 msgctxt "@title:window"
 msgid "Telescope Focal Length Calculator"
 msgstr "望远镜焦距计算器"
 
-#: dialogs/fovdialog.cpp:413
+#: dialogs/fovdialog.cpp:414
 #, kde-format
 msgctxt "millimeters"
 msgid "mm"
 msgstr "毫米"
 
-#: dialogs/fovdialog.cpp:414
+#: dialogs/fovdialog.cpp:415
 #, kde-format
 msgid "inch"
 msgstr "英寸"
 
-#: dialogs/fovdialog.cpp:416
+#: dialogs/fovdialog.cpp:417
 #, kde-format
 msgid "Aperture diameter: "
 msgstr "口径："
 
-#: dialogs/fovdialog.cpp:419
+#: dialogs/fovdialog.cpp:420
 #, kde-format
 msgctxt "F-Number or F-Ratio of optical system"
 msgid "F-Number: "
@@ -7219,24 +7219,7 @@ msgstr "星点提取方法"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable limited resource mode to turn off any "
-#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
-#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
-#| "span>: World Coordinate System data will not be processed. WCS maps sky "
-#| "coordinates to image coordinates. Equatorial grid lines, object "
-#| "identification, and telescope slew within an image are disabled.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
-#| "grayscale images are shown.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Options for the method of Star "
 "Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
@@ -7250,19 +7233,6 @@ msgid ""
 "indent:0px;\">Built In Method uses whatever default Star Extraction process "
 "your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>启用资源限制模式来关闭任何资源密集型操作：</p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">自动解拜尔</span>: 将不会被解拜尔图像。 "
-"只显示灰度图像。</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">自动 WCS</span>: 将不会被处理世界坐标系统数据。 "
-"WCS maps sky coordinates to image coordinates. 将禁用图像中的赤道网格线、天体"
-"标识和望远镜转动。</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">3D 立方体</span>: 将不会被处理RGB 图"
-"像。 只显示灰度图像。</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -7284,16 +7254,7 @@ msgstr "解析器的内置方法"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:94
-#, fuzzy, kde-format
-#| msgid ""
-#| "Selects the method of plate solving with the StellarSolver Library.  The "
-#| "StellarSolver option uses StellarSolver's internal build of Astrometry."
-#| "net and requires no external programs.  Local Astrometry uses a local "
-#| "installation of command line astrometry.net on Linux and Mac or ANSVR on "
-#| "Windows.  Local Watney uses a local installation of the Watney Astrometry "
-#| "Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-#| "program.  And Online uses either astrometry.net over the internet or "
-#| "ANSVR on a nearby computer."
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Selects the method of plate solving "
 "with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
@@ -7307,11 +7268,6 @@ msgid ""
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
-"从 StellarSolver 库里选择解析方法。“StellarSolver”选项使用 StellarSolver 内建"
-"的Astrometry.net，而无需外部程序。“本地 Astrometry”选项使用 Linux 和 Mac 上本"
-"地安装的命令行版本 Astrometry.net 或 Windows 上的 ANSVR 。“本地 Watney” 选项"
-"使用本地安装的 Watney 天体解析器。 “ASTAP”选项使用本地安装的 ASTAP 程序。 "
-"而“在线”选项使用联网的 astrometry.net 或附近的计算机上运行的 ANSVR。"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:98
@@ -80085,22 +80041,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "Options for the method of Star Extraction.  Internal SEP uses an internal "
-#~ "library in KStars, External Sextractor requires an external program, and "
-#~ "Built In uses whatever default Star Extraction process your selected "
-#~ "solving method uses."
-#~ msgstr ""
-#~ "关于星点提取方法的选项。 “内部SEP” 使用 KStars 的内部库，“外部 Sextractor "
-#~ "”需要另外的外部程序 ，“内置”使用您选中的解析方法中默认的星点提取方法。"
-
-#~ msgid ""
-#~ "Use JPEG format, instead of FITS, to upload images to the online "
-#~ "astrometry.net service"
-#~ msgstr ""
-#~ "使用 astromenety.net 在线解析服务时，用 JPEG 文件代替 FITS 文件来进行上"
-#~ "传。"
-
-#~ msgid "Upload JPG"
-#~ msgstr "上传 JPG"

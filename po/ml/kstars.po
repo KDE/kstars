@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-01 00:41+0000\n"
+"POT-Creation-Date: 2023-08-03 00:41+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -179,7 +179,7 @@ msgid "Visible Satellites"
 msgstr "<b>ഗാനങ്ങളുടെ പേരു്</b>"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:241
-#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:47
+#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
 #: kstarsactions.cpp:1105 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, fuzzy, kde-format, kde-kuit-format
@@ -192,7 +192,7 @@ msgid "Satellites Labels"
 msgstr "<b>ഗാനങ്ങളുടെ പേരു്</b>"
 
 #: auxiliary/colorscheme.cpp:61 data/qml/whatisinteresting/wiview.qml:526
-#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:46
+#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
 #: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, fuzzy, kde-format, kde-kuit-format
@@ -204,7 +204,7 @@ msgstr "ആന്‍ഡര്‍സണ്‍ "
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroids)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:358
-#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:44
+#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:45
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
 #: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:285
 #: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
@@ -2005,7 +2005,7 @@ msgstr "ഗ്രഹങ്ങള്‍"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:274
-#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:36
+#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:37
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 tools/conjunctions.cpp:95
 #: tools/obslistwizard.cpp:405 tools/obslistwizard.cpp:449
@@ -2015,7 +2015,7 @@ msgid "Stars"
 msgstr "നക്ഷത്രങ്ങള്‍"
 
 #: data/qml/whatisinteresting/wiview.qml:305
-#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:45
+#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:46
 #: kstarslite/dialogs/finddialoglite.cpp:35 tools/wutdialog.cpp:100
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Constellations"
@@ -2029,7 +2029,7 @@ msgstr "ഫയലിന്റെ _പേരു്:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowComets)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:391
-#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:43
+#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
 #: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:284
 #: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
@@ -2040,7 +2040,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:424
-#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:42
+#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
 #: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
 #: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
@@ -4279,7 +4279,7 @@ msgstr "വര്‍ണ്ണരാജി ഗണം: "
 msgid "Legend position:"
 msgstr "എത്ര കാന്തിമാനം വരെയുള്ളതിനു പേര് കാണിക്കണം: "
 
-#: dialogs/finddialog.cpp:35 kstarslite/dialogs/finddialoglite.cpp:25
+#: dialogs/finddialog.cpp:36 kstarslite/dialogs/finddialoglite.cpp:25
 #: tools/conjunctions.cpp:94
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -4287,7 +4287,7 @@ msgstr "എത്ര കാന്തിമാനം വരെയുള്ളത�
 msgid "Any"
 msgstr "അല്‍ബനി"
 
-#: dialogs/finddialog.cpp:37 kstarsactions.cpp:1102 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1102 kstarsinit.cpp:467
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -4295,85 +4295,85 @@ msgstr "അല്‍ബനി"
 msgid "Solar System"
 msgstr "സൌരയൂഥം"
 
-#: dialogs/finddialog.cpp:38 kstarslite/dialogs/finddialoglite.cpp:28
+#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:28
 #: tools/conjunctions.cpp:100
 #, fuzzy, kde-format
 msgid "Open Clusters"
 msgstr "_ഫോള്‍ഡര്‍ തുറക്കുക"
 
-#: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:29
+#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:29
 #: tools/conjunctions.cpp:101
 #, fuzzy, kde-format
 msgid "Globular Clusters"
 msgstr "നക്ഷത്രം തിളങ്ങുന്നതിന്റെ മാനം :"
 
-#: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:30
+#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:30
 #: tools/conjunctions.cpp:102
 #, fuzzy, kde-format
 msgid "Gaseous Nebulae"
 msgstr "നെബുലാ വൃത്തങ്ങള്‍"
 
-#: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:31
+#: dialogs/finddialog.cpp:42 kstarslite/dialogs/finddialoglite.cpp:31
 #: tools/conjunctions.cpp:103
 #, fuzzy, kde-format
 msgid "Planetary Nebulae"
 msgstr "നെബുലാ വൃത്തങ്ങള്‍"
 
-#: dialogs/finddialog.cpp:73
+#: dialogs/finddialog.cpp:74
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "ഖഗോളവസ്തുവിനെ തിരയല്‍"
 
-#: dialogs/finddialog.cpp:87
+#: dialogs/finddialog.cpp:88
 #, fuzzy, kde-format
 msgid "Details..."
 msgstr "ഫയലിന്റെ _പേരു്:"
 
-#: dialogs/finddialog.cpp:191
+#: dialogs/finddialog.cpp:192
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Calgary"
 msgid "Andromeda Galaxy"
 msgstr "കാല്‍ഗറി"
 
-#: dialogs/finddialog.cpp:197
+#: dialogs/finddialog.cpp:198
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Aldebaran"
 msgid "Aldebaran"
 msgstr "ആള്‍ഡെബറാന്‍"
 
-#: dialogs/finddialog.cpp:204
+#: dialogs/finddialog.cpp:205
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Aaltje"
 msgstr "Alt"
 
-#: dialogs/finddialog.cpp:210
+#: dialogs/finddialog.cpp:211
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr ""
 
-#: dialogs/finddialog.cpp:324
+#: dialogs/finddialog.cpp:325
 #, fuzzy, kde-format
 msgid "Search the Internet for %1"
 msgstr "ഖഗോളവസ്തുവിനെ തിരയല്‍"
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:326
 #, fuzzy, kde-format
 #| msgid "nothing"
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "ഒന്നുമില്ല"
 
-#: dialogs/finddialog.cpp:494
+#: dialogs/finddialog.cpp:495
 #, fuzzy, kde-format
 msgid "No object named %1 found."
 msgstr "CD-ROM ഡ്രൈവുകള്‍ ലഭ്യമല്ല"
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:496
 #, fuzzy, kde-format
 msgid "Bad object name"
 msgstr "പേരിന്റെ നീളം അധികമാണ്"
@@ -4526,55 +4526,55 @@ msgstr ""
 msgid "Alt (apparent):"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:79
+#: dialogs/fovdialog.cpp:80
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set FOV Indicator"
 msgstr "സമയ മേഖല ഉറപ്പിക്കുക: "
 
-#: dialogs/fovdialog.cpp:179
+#: dialogs/fovdialog.cpp:180
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "New FOV Indicator"
 msgstr "പാപുവ ന്യൂ ഗിനിയ"
 
-#: dialogs/fovdialog.cpp:237
+#: dialogs/fovdialog.cpp:238
 #, fuzzy, kde-format
 msgctxt "Specify the apparent field of view (AFOV) manually"
 msgid "Specify AFOV"
 msgstr "<b>ഉപകരണം</b>"
 
-#: dialogs/fovdialog.cpp:238
+#: dialogs/fovdialog.cpp:239
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ramsden (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:239
+#: dialogs/fovdialog.cpp:240
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Orthoscopic (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:240
+#: dialogs/fovdialog.cpp:241
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ploessl (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:241
+#: dialogs/fovdialog.cpp:242
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Erfle (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:242
+#: dialogs/fovdialog.cpp:243
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Radian"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:243
+#: dialogs/fovdialog.cpp:244
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Anderson"
@@ -4582,87 +4582,87 @@ msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Baader Hyperion"
 msgstr "ആന്‍ഡര്‍സണ്‍ "
 
-#: dialogs/fovdialog.cpp:244
+#: dialogs/fovdialog.cpp:245
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Panoptic"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:245
+#: dialogs/fovdialog.cpp:246
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Delos"
 msgstr "ടെലസ്കോപ്പ്"
 
-#: dialogs/fovdialog.cpp:246
+#: dialogs/fovdialog.cpp:247
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Meade UWA"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:247
+#: dialogs/fovdialog.cpp:248
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Nagler"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:248
+#: dialogs/fovdialog.cpp:249
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Tele Vue Ethos (Typical)"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:252
+#: dialogs/fovdialog.cpp:253
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "1000 yards"
 msgstr "മദ്ധ്യം"
 
-#: dialogs/fovdialog.cpp:253
+#: dialogs/fovdialog.cpp:254
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "1000 meters"
 msgstr "മദ്ധ്യം"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelUnits)
-#: dialogs/fovdialog.cpp:261 dialogs/newfov.ui:732
+#: dialogs/fovdialog.cpp:262 dialogs/newfov.ui:732
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Belleterre"
 msgid "feet"
 msgstr "ബെല്ലെടെര്‍"
 
-#: dialogs/fovdialog.cpp:261
+#: dialogs/fovdialog.cpp:262
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "meters"
 msgstr "മദ്ധ്യം"
 
-#: dialogs/fovdialog.cpp:396
+#: dialogs/fovdialog.cpp:397
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Telescope Focal Length Calculator"
 msgstr "സാധാരണ ഗുണഗണങ്ങള്‍"
 
-#: dialogs/fovdialog.cpp:413
+#: dialogs/fovdialog.cpp:414
 #, fuzzy, kde-format
 #| msgid "mm"
 msgctxt "millimeters"
 msgid "mm"
 msgstr "mm"
 
-#: dialogs/fovdialog.cpp:414
+#: dialogs/fovdialog.cpp:415
 #, kde-format
 msgid "inch"
 msgstr ""
 
-#: dialogs/fovdialog.cpp:416
+#: dialogs/fovdialog.cpp:417
 #, fuzzy, kde-format
 msgid "Aperture diameter: "
 msgstr "ഇന്‍പുട്ട് ഡിവൈസുകള്‍"
 
-#: dialogs/fovdialog.cpp:419
+#: dialogs/fovdialog.cpp:420
 #, fuzzy, kde-format
 #| msgid "ID Number"
 msgctxt "F-Number or F-Ratio of optical system"
