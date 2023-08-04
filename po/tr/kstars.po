@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-03 00:41+0000\n"
-"PO-Revision-Date: 2023-08-02 01:11+0300\n"
+"PO-Revision-Date: 2023-08-04 00:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -73,7 +73,7 @@ msgstr "Gezegen Adı"
 #, kde-format
 msgctxt "Constellation Name"
 msgid "Constell. Name"
-msgstr "Takımyıldızı Adı"
+msgstr "Takımyıldız Adı"
 
 #: auxiliary/colorscheme.cpp:36
 #, kde-format
@@ -91,7 +91,7 @@ msgstr "Takımyıldız Sınırı"
 #, kde-format
 msgctxt "Highlighted Constellation Boundary"
 msgid "Constell. Boundary Highlight"
-msgstr "Takımyıldız Sınır Vurgulaması"
+msgstr "Takımyıldız Sınırı Vurgulaması"
 
 #: auxiliary/colorscheme.cpp:40
 #, kde-format
@@ -39408,7 +39408,7 @@ msgstr "KÖPEK"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "EARTH GOD'S TEMPLE"
-msgstr "YER TANRI'NIN TAPINAĞI"
+msgstr "YER TANRISI'NIN TAPINAĞI"
 
 #: kstars_i18n.cpp:147
 #, kde-kuit-format
@@ -39738,13 +39738,13 @@ msgstr "SÜRÜ"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "PAIR OF STARS"
-msgstr "ÇİFT Yıldız"
+msgstr "YILDIZ ÇİFTİ"
 
 #: kstars_i18n.cpp:203
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "KHANUWY FISH"
-msgstr "KHANUWY BALIĞI"
+msgstr "HANİ BALIĞI"
 
 #: kstars_i18n.cpp:205
 #, kde-kuit-format
@@ -39768,13 +39768,13 @@ msgstr "KENEMET"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CHEMATY"
-msgstr "CHEMATY"
+msgstr "ÇEMATİ"
 
 #: kstars_i18n.cpp:209
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WATY BEKETY"
-msgstr "WATY BEKETY"
+msgstr "VATİ BEKETİ"
 
 #: kstars_i18n.cpp:210
 #, kde-kuit-format
@@ -39786,13 +39786,13 @@ msgstr "KOYUN"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "STARS OF WATER"
-msgstr "SU YıldızLARI"
+msgstr "SU YILDIZLARI"
 
 #: kstars_i18n.cpp:212
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "C Inuit"
-msgstr "C İnüvit dili "
+msgstr "C İnüvit Dili "
 
 #: kstars_i18n.cpp:213
 #, kde-kuit-format
@@ -39930,7 +39930,7 @@ msgstr "KAFA KESİLMESİ"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "JUDGE"
-msgstr "HAKİM"
+msgstr "YARGIÇ"
 
 #: kstars_i18n.cpp:237
 #, kde-kuit-format
@@ -40800,7 +40800,7 @@ msgstr "YAY"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "STAR OF WOLF"
-msgstr "KURT YıldızI"
+msgstr "KURT YILDIZI"
 
 #: kstars_i18n.cpp:393
 #, kde-kuit-format
@@ -41751,219 +41751,190 @@ msgid "C Western (sternenkarten.com)"
 msgstr ""
 
 #: kstars_i18n.cpp:638
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "SERPENS CAPUT"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SERPENS"
-msgstr "YILAN BAŞI"
+msgstr "YILANLAR"
 
 #: kstars_i18n.cpp:651
-#, fuzzy, kde-kuit-format
-#| msgid "Asterism"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "C Asterisms"
-msgstr "Yıldız Kümesi"
+msgstr "C Yıldız Kümeleri"
 
 #: kstars_i18n.cpp:652
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "TRIANGLE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SPRING TRIANGLE"
-msgstr "ÜÇGEN"
+msgstr "FİLİZ ÜÇGENİ"
 
 #: kstars_i18n.cpp:653
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "DIAMOND OF VIRGO"
-msgstr ""
+msgstr "BAŞAK ELMASI"
 
 #: kstars_i18n.cpp:654
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "TRIANGLE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SUMMER TRIANGLE"
-msgstr "ÜÇGEN"
+msgstr "YAZ ÜÇGENİ"
 
 #: kstars_i18n.cpp:655
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "GREAT SQUARE OF PEGASUS"
-msgstr ""
+msgstr "KANATLI ATIN BÜYÜK MEYDANI"
 
 #: kstars_i18n.cpp:656
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "TRIANGLE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WINTER TRIANGLE"
-msgstr "ÜÇGEN"
+msgstr "KIŞ ÜÇGENİ"
 
 #: kstars_i18n.cpp:657
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WINTER HEXAGON"
-msgstr ""
+msgstr "KIŞ ALTIGENİ"
 
 #: kstars_i18n.cpp:658
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "WOMAN'S BED"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "ORION'S BELT"
-msgstr "KADININ YATAĞI"
+msgstr "AVCININ KUŞAĞI"
 
 #: kstars_i18n.cpp:659
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "TEAPOT"
-msgstr ""
+msgstr "DEMLİK"
 
 #: kstars_i18n.cpp:660
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "DIPPER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "BIG DIPPER"
-msgstr "KEPÇE"
+msgstr "BÜYÜK KEPÇE"
 
 #: kstars_i18n.cpp:661
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "NORTHERN DIPPER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "LITTLE DIPPER"
-msgstr "KUZEY KEPÇESİ"
+msgstr "KÜÇÜK KEPÇE"
 
 #: kstars_i18n.cpp:662
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "CASSIOPEIA"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CASSIOPEIA W"
-msgstr "KRALİÇE"
+msgstr "BATI KRALİÇESİ"
 
 #: kstars_i18n.cpp:663
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "MAUI'S FISHHOOK"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FISH HOOK"
-msgstr "MAUI'NİN OLTASI"
+msgstr "OLTA"
 
 #: kstars_i18n.cpp:664
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "NORTHERN RIVER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "NORTHERN CROSS"
-msgstr "KUZEY IRMAĞI"
+msgstr "KUZEY GEÇİTİ"
 
 #: kstars_i18n.cpp:665
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SICKLE"
-msgstr ""
+msgstr "ORAK"
 
 #: kstars_i18n.cpp:666
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "SOUTHERN RIVER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SOUTHERN CROSS"
-msgstr "GÜNEY IRMAĞI"
+msgstr "GÜNEY GEÇİTİ"
 
 #: kstars_i18n.cpp:667
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FALSE CROSS"
-msgstr ""
+msgstr "SAHTE GEÇİT"
 
 #: kstars_i18n.cpp:668
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "DIAMOND CROSS"
-msgstr ""
+msgstr "ELMAS GEÇİTİ"
 
 #: kstars_i18n.cpp:669
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "COAT HANGER"
-msgstr ""
+msgstr "ASKILIK"
 
 #: kstars_i18n.cpp:670
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "KEMBLE'S CASCADE"
-msgstr ""
+msgstr "KEMBLE'IN ÇAĞLAYANI"
 
 #: kstars_i18n.cpp:671
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "HYADES"
-msgstr ""
+msgstr "BOĞA"
 
 #: kstars_i18n.cpp:672
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "CEPHEUS"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CEPHEUS HOUSE"
-msgstr "KRAL"
+msgstr "KRAL EVİ"
 
 #: kstars_i18n.cpp:673
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "WHETSTONE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "KEYSTONE"
-msgstr "BİLEĞİ TAŞI"
+msgstr "KİLİT TAŞI"
 
 #: kstars_i18n.cpp:674
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "LOZENGE"
-msgstr ""
+msgstr "BAKLAVA"
 
 #: kstars_i18n.cpp:676
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "JOB'S COFFIN"
-msgstr ""
+msgstr "JOB'UN TABUTU"
 
 #: kstars_i18n.cpp:677
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "PONIATOWSKI'S BULL"
-msgstr ""
+msgstr "PONYATOVSKİ'NİN BOĞASI"
 
 #: kstars_i18n.cpp:678
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CIRCLET"
-msgstr ""
+msgstr "ÇEMBERCİK"
 
 #: kstars_i18n.cpp:679
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "AQUARIUS"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "Y OF AQUARIUS"
-msgstr "KOVA"
+msgstr "KOVANIN Y'Sİ"
 
 #: kstars_i18n.cpp:680
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WHALE'S HEAD"
-msgstr ""
+msgstr "BALİNANIN KAFASI"
 
 #: kstars_i18n.cpp:681
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "THE SAIL"
-msgstr ""
+msgstr "YELKEN"
 
 #: kstars_i18n.cpp:686 kstars_i18n.cpp:698
 #, kde-kuit-format
@@ -41975,37 +41946,37 @@ msgstr "Batılı"
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Chinese"
-msgstr "Çince"
+msgstr "Çin"
 
 #: kstars_i18n.cpp:688
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Egyptian"
-msgstr "Mısır dili"
+msgstr "Mısır"
 
 #: kstars_i18n.cpp:689
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Inuit"
-msgstr "İnüvit dili "
+msgstr "İnüvit"
 
 #: kstars_i18n.cpp:690
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Korean"
-msgstr "Korece"
+msgstr "Kore"
 
 #: kstars_i18n.cpp:691
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Lakota"
-msgstr "Lakotaca"
+msgstr "Lakota"
 
 #: kstars_i18n.cpp:692
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Maori"
-msgstr "Maori Dili"
+msgstr "Maori"
 
 #: kstars_i18n.cpp:693
 #, kde-kuit-format
@@ -42017,13 +41988,13 @@ msgstr "Navaro"
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Norse"
-msgstr "Norveççe"
+msgstr "İskandinav"
 
 #: kstars_i18n.cpp:695
 #, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Polynesian"
-msgstr "Polinezyaca"
+msgstr "Polonezya"
 
 #: kstars_i18n.cpp:696
 #, kde-kuit-format
@@ -42038,11 +42009,10 @@ msgid "Tongan"
 msgstr "Tongan"
 
 #: kstars_i18n.cpp:699
-#, fuzzy, kde-kuit-format
-#| msgid "Asterism"
+#, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Asterisms"
-msgstr "Yıldız Kümesi"
+msgstr "Yıldız Kümeleri"
 
 #: kstars_i18n.cpp:700
 #, kde-kuit-format
@@ -42282,15 +42252,13 @@ msgstr "Al Jawf"
 #, kde-kuit-format
 msgctxt "City in Bahrain"
 msgid "Al Manamah"
-msgstr "Al Manamah"
+msgstr "Manama"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
-msgstr "Alicante"
+msgstr "Alacant"
 
 #: kstars_i18n.cpp:741
 #, kde-kuit-format
@@ -42410,7 +42378,7 @@ msgstr "Alexis Creek"
 #, kde-kuit-format
 msgctxt "City in Algeria"
 msgid "Algiers"
-msgstr "Algiers"
+msgstr "Cezayir"
 
 #: kstars_i18n.cpp:761
 #, kde-kuit-format
@@ -42602,7 +42570,7 @@ msgstr "Anaconda"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Anadyr"
-msgstr "Anadyr"
+msgstr "Anadır"
 
 #: kstars_i18n.cpp:793
 #, kde-kuit-format
@@ -42647,9 +42615,7 @@ msgid "Anderson AFB"
 msgstr "Anderson AFB"
 
 #: kstars_i18n.cpp:800
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Andong"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Andong"
 msgstr "Andong"
@@ -42772,7 +42738,7 @@ msgstr "Appleton"
 #, kde-kuit-format
 msgctxt "City in Jordan"
 msgid "Aqaba"
-msgstr "Aqaba"
+msgstr "Akabe"
 
 #: kstars_i18n.cpp:821
 #, kde-kuit-format
@@ -42799,12 +42765,10 @@ msgid "Archenhold"
 msgstr "Archenhold"
 
 #: kstars_i18n.cpp:825
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Alaska USA"
-#| msgid "Denali National Park"
+#, kde-kuit-format
 msgctxt "City in Utah USA"
 msgid "Arches National Park (IDS)"
-msgstr "Denali Ulusal Parkı"
+msgstr "Arches Ulusal Parkı (IDS)"
 
 #: kstars_i18n.cpp:826
 #, kde-kuit-format
@@ -42834,7 +42798,7 @@ msgstr "Arezzo"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "Argentia"
-msgstr "Arjantin"
+msgstr "Argentia"
 
 #: kstars_i18n.cpp:831
 #, kde-kuit-format
@@ -42858,7 +42822,7 @@ msgstr "Arkadelphia"
 #, kde-kuit-format
 msgctxt "City in North-West Region Russia"
 msgid "Arkhangelsk"
-msgstr "Arkhangelsk"
+msgstr "Arhangelsk"
 
 #: kstars_i18n.cpp:835
 #, kde-kuit-format
@@ -42978,7 +42942,7 @@ msgstr "Asiago"
 #, kde-kuit-format
 msgctxt "City in Eritrea"
 msgid "Asmera"
-msgstr "Asmera"
+msgstr "Asmara"
 
 #: kstars_i18n.cpp:855
 #, kde-kuit-format
@@ -42990,7 +42954,7 @@ msgstr "Aspen"
 #, kde-kuit-format
 msgctxt "City in Eritrea"
 msgid "Assab"
-msgstr "Assab"
+msgstr "Aseb"
 
 #: kstars_i18n.cpp:857
 #, kde-kuit-format
@@ -43014,7 +42978,7 @@ msgstr "Asuncion"
 #, kde-kuit-format
 msgctxt "City in Egypt"
 msgid "Aswan"
-msgstr "Aswan"
+msgstr "Asuan"
 
 #: kstars_i18n.cpp:861
 #, kde-kuit-format
@@ -43038,13 +43002,13 @@ msgstr "Athabasca"
 #, kde-kuit-format
 msgctxt "City in Greece"
 msgid "Athens"
-msgstr "Athens"
+msgstr "Atina"
 
 #: kstars_i18n.cpp:865
 #, kde-kuit-format
 msgctxt "City in Georgia USA"
 msgid "Athens"
-msgstr "Atina"
+msgstr "Athens"
 
 #: kstars_i18n.cpp:866
 #, kde-kuit-format
@@ -43053,9 +43017,7 @@ msgid "Athens"
 msgstr "Athens"
 
 #: kstars_i18n.cpp:867
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Greece"
-#| msgid "Athens"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Athens"
 msgstr "Athens"
@@ -43214,7 +43176,7 @@ msgstr "Ayase"
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Aztec"
-msgstr "Aztek"
+msgstr "Aztec"
 
 #: kstars_i18n.cpp:894
 #, kde-kuit-format
@@ -43328,7 +43290,7 @@ msgstr "Bali"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Balmorhea SP (Toyahvale)"
-msgstr ""
+msgstr "Balmorhea SP (Toyahvale)"
 
 #: kstars_i18n.cpp:913
 #, kde-kuit-format
@@ -43358,13 +43320,13 @@ msgstr "Bancroft"
 #, kde-kuit-format
 msgctxt "City in Iran"
 msgid "Bandar Abbass"
-msgstr "Bandar Abbass"
+msgstr "Bender Abbas"
 
 #: kstars_i18n.cpp:918
 #, kde-kuit-format
 msgctxt "City in Iran"
 msgid "Bandar Lengeh"
-msgstr "Bandar Lengeh"
+msgstr "Bender Lenge"
 
 #: kstars_i18n.cpp:919
 #, kde-kuit-format
@@ -43424,7 +43386,7 @@ msgstr "Banjul"
 #, kde-kuit-format
 msgctxt "City in Maine USA"
 msgid "Bar Harbor"
-msgstr "Bar Limanı"
+msgstr "Bar Harbor"
 
 #: kstars_i18n.cpp:929
 #, kde-kuit-format
@@ -43538,7 +43500,7 @@ msgstr "Barton"
 #, kde-kuit-format
 msgctxt "City in Iraq"
 msgid "Basrah"
-msgstr "Basrah"
+msgstr "Basra"
 
 #: kstars_i18n.cpp:948
 #, kde-kuit-format
@@ -43616,7 +43578,7 @@ msgstr "Baytown"
 #, kde-kuit-format
 msgctxt "City in Israel"
 msgid "Be'er Sheva"
-msgstr "Be'er Sheva"
+msgstr "Beerşeba"
 
 #: kstars_i18n.cpp:961
 #, kde-kuit-format
@@ -43796,7 +43758,7 @@ msgstr "Bellingham"
 #, kde-kuit-format
 msgctxt "City in Vermont USA"
 msgid "Bellows Falls"
-msgstr "Bellows Şelaleleri"
+msgstr "Bellows Falls"
 
 #: kstars_i18n.cpp:991
 #, kde-kuit-format
@@ -43814,7 +43776,7 @@ msgstr "Bend"
 #, kde-kuit-format
 msgctxt "City in Somalia"
 msgid "Bender Cassim"
-msgstr "Bender Cassim"
+msgstr "Bosaso"
 
 #: kstars_i18n.cpp:994
 #, kde-kuit-format
@@ -43940,31 +43902,31 @@ msgstr "Big Bear Solar Obs."
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Big Bend Ranch SP (Marfa) IDS"
-msgstr ""
+msgstr "Big Bend Ranch SP (Marfa) IDS"
 
 #: kstars_i18n.cpp:1015
 #, kde-kuit-format
 msgctxt "City in Florida USA"
 msgid "Big Cypress National Preserve (Ochopee) IDS"
-msgstr ""
+msgstr "Big Cypress National Preserve (Ochopee) IDS"
 
 #: kstars_i18n.cpp:1016
 #, kde-kuit-format
 msgctxt "City in Alaska USA"
 msgid "Big Delta"
-msgstr "Büyük Delta"
+msgstr "Big Delta"
 
 #: kstars_i18n.cpp:1017
 #, kde-kuit-format
 msgctxt "City in Alaska USA"
 msgid "Big Lake"
-msgstr "Büyük Göl"
+msgstr "Big Lake"
 
 #: kstars_i18n.cpp:1018
 #, kde-kuit-format
 msgctxt "City in Saskatchewan Canada"
 msgid "Big River"
-msgstr "Büyük Nehir"
+msgstr "Big River"
 
 #: kstars_i18n.cpp:1019
 #, kde-kuit-format
@@ -44024,7 +43986,7 @@ msgstr "Birmingham"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Birobidzhan"
-msgstr "Birobidzhan"
+msgstr "Birobican"
 
 #: kstars_i18n.cpp:1029
 #, kde-kuit-format
@@ -44072,7 +44034,7 @@ msgstr "Black Birch"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Black Gap WMA (Marathon) IDS"
-msgstr ""
+msgstr "Black Gap WMA (Marathon) IDS"
 
 #: kstars_i18n.cpp:1037
 #, kde-kuit-format
@@ -44090,7 +44052,7 @@ msgstr "Blackwell"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Blanco SP (Blanco)"
-msgstr ""
+msgstr "Blanco SP (Blanco)"
 
 #: kstars_i18n.cpp:1040
 #, kde-kuit-format
@@ -44156,7 +44118,7 @@ msgstr "Bluff"
 #, kde-kuit-format
 msgctxt "City in Israel"
 msgid "Bnei Brak"
-msgstr "Bnei Brak"
+msgstr "Bney Brak"
 
 #: kstars_i18n.cpp:1051
 #, kde-kuit-format
@@ -44183,9 +44145,7 @@ msgid "Bodo"
 msgstr "Bodo"
 
 #: kstars_i18n.cpp:1055
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Boeun"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Boeun"
 msgstr "Boeun"
@@ -44434,7 +44394,7 @@ msgstr "Brantford"
 #, kde-kuit-format
 msgctxt "City in Brazil"
 msgid "Brasilia"
-msgstr "Brezilya"
+msgstr "Brasilia"
 
 #: kstars_i18n.cpp:1097
 #, kde-kuit-format
@@ -44458,7 +44418,7 @@ msgstr "Braunschweig"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Brazos Bend SP (Needville)"
-msgstr ""
+msgstr "Brazos Bend SP (Needville)"
 
 #: kstars_i18n.cpp:1101
 #, kde-kuit-format
@@ -44632,7 +44592,7 @@ msgstr "Brooks"
 #, kde-kuit-format
 msgctxt "City in Delaware USA"
 msgid "Brookside Park"
-msgstr "Brookside Parkı"
+msgstr "Brookside Park"
 
 #: kstars_i18n.cpp:1130
 #, kde-kuit-format
@@ -44668,12 +44628,10 @@ msgstr "Bryansk"
 #, kde-kuit-format
 msgctxt "City in Utah USA"
 msgid "Bryce Canyon National Park (Tropic) IDS"
-msgstr ""
+msgstr "Bryce Canyon Ulusal Parkı (Tropic) IDS"
 
 #: kstars_i18n.cpp:1136
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Buan"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Buan"
 msgstr "Buan"
@@ -44814,7 +44772,7 @@ msgstr "Burns"
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Burns Lake"
-msgstr "Burns Gölü"
+msgstr "Burns Lake"
 
 #: kstars_i18n.cpp:1160
 #, kde-kuit-format
@@ -44847,9 +44805,7 @@ msgid "Butterworth"
 msgstr "Butterworth"
 
 #: kstars_i18n.cpp:1165
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungnam Korea"
-#| msgid "Buyeo"
+#, kde-kuit-format
 msgctxt "City in Chungnam South Korea"
 msgid "Buyeo"
 msgstr "Buyeo"
@@ -44948,7 +44904,7 @@ msgstr "Caliente"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Caliper Lake"
-msgstr "Caliper Gölü"
+msgstr "Caliper Lake"
 
 #: kstars_i18n.cpp:1182
 #, kde-kuit-format
@@ -45020,7 +44976,7 @@ msgstr "Cannes"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Canoga Park"
-msgstr "Canoga Parkı"
+msgstr "Canoga Park"
 
 #: kstars_i18n.cpp:1194
 #, kde-kuit-format
@@ -45092,7 +45048,7 @@ msgstr "Cape Town"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Caprock Canyon SP (Quitaque)"
-msgstr ""
+msgstr "Caprock Canyon SP (Quitaque)"
 
 #: kstars_i18n.cpp:1206
 #, kde-kuit-format
@@ -45227,9 +45183,7 @@ msgid "Casselman"
 msgstr "Casselman"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
 msgstr "Castellon de la Plana"
@@ -45340,7 +45294,7 @@ msgstr "Ceuta"
 #, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "Chagrin Falls"
-msgstr "Chagrin Şelaleleri"
+msgstr "Chagrin Falls"
 
 #: kstars_i18n.cpp:1247
 #, kde-kuit-format
@@ -45355,12 +45309,10 @@ msgid "Chandler"
 msgstr "Chandler"
 
 #: kstars_i18n.cpp:1249
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gangwon"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Changwon"
-msgstr "Gangwon"
+msgstr "Çanguon"
 
 #: kstars_i18n.cpp:1250
 #, kde-kuit-format
@@ -45444,7 +45396,7 @@ msgstr "Chattanooga"
 #, kde-kuit-format
 msgctxt "City in Volga Region Russia"
 msgid "Cheboksary"
-msgstr "Cheboksary"
+msgstr "Şupaşkar"
 
 #: kstars_i18n.cpp:1264
 #, kde-kuit-format
@@ -45456,7 +45408,7 @@ msgstr "Cheltenham"
 #, kde-kuit-format
 msgctxt "City in Ural Russia"
 msgid "Chelyabinsk"
-msgstr "Chelyabinsk"
+msgstr "Çelyabinsk"
 
 #: kstars_i18n.cpp:1266
 #, kde-kuit-format
@@ -45468,23 +45420,19 @@ msgstr "Chemnitz"
 #, kde-kuit-format
 msgctxt "City in India"
 msgid "Chennai"
-msgstr "Chennai"
+msgstr "Çennay"
 
 #: kstars_i18n.cpp:1268
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Cheongju"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Cheongju"
-msgstr "Cheongju"
+msgstr "Çeongju"
 
 #: kstars_i18n.cpp:1269
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Cheorwon"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Cheorwon"
-msgstr "Cheorwon"
+msgstr "Çeoruon"
 
 #: kstars_i18n.cpp:1270
 #, kde-kuit-format
@@ -45502,31 +45450,31 @@ msgstr "Cherbourg"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Cherkasy"
-msgstr "Cherkasy"
+msgstr "Çerkası"
 
 #: kstars_i18n.cpp:1273
 #, kde-kuit-format
 msgctxt "City in South Region Russia"
 msgid "Cherkessk"
-msgstr "Cherkessk"
+msgstr "Çerkessk"
 
 #: kstars_i18n.cpp:1274
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Chernihiv"
-msgstr "Chernihiv"
+msgstr "Çernigiv"
 
 #: kstars_i18n.cpp:1275
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Chernivtsi"
-msgstr "Chernivtsi"
+msgstr "Çernivtsi"
 
 #: kstars_i18n.cpp:1276
 #, kde-kuit-format
 msgctxt "City in Oklahoma USA"
 msgid "Cherokee"
-msgstr "Çeroki"
+msgstr "Cherokee"
 
 #: kstars_i18n.cpp:1277
 #, kde-kuit-format
@@ -45658,19 +45606,19 @@ msgstr "Chisimayu"
 #, kde-kuit-format
 msgctxt "City in Siberia Russia"
 msgid "Chita"
-msgstr "Chita"
+msgstr "Çita"
 
 #: kstars_i18n.cpp:1299
 #, kde-kuit-format
 msgctxt "City in Japan"
 msgid "Chitose"
-msgstr "Chitose"
+msgstr "Çitose"
 
 #: kstars_i18n.cpp:1300
 #, kde-kuit-format
 msgctxt "City in Bangladesh"
 msgid "Chittagong"
-msgstr "Chittagong"
+msgstr "Çittagong"
 
 #: kstars_i18n.cpp:1301
 #, kde-kuit-format
@@ -45703,28 +45651,22 @@ msgid "Chula Vista"
 msgstr "Chula Vista"
 
 #: kstars_i18n.cpp:1306
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Chuncheon"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Chuncheon"
-msgstr "Chuncheon"
+msgstr "Çunçeon"
 
 #: kstars_i18n.cpp:1307
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Chungju"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Chungju"
-msgstr "Chungju"
+msgstr "Çungju"
 
 #: kstars_i18n.cpp:1308
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Chupungryeong"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Chupungryeong"
-msgstr "Chupungryeong"
+msgstr "Çupungryeong"
 
 #: kstars_i18n.cpp:1309
 #, kde-kuit-format
@@ -45745,12 +45687,10 @@ msgid "Chuuk"
 msgstr "Chuuk"
 
 #: kstars_i18n.cpp:1312
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Ch'ongjin"
+#, kde-kuit-format
 msgctxt "City in Hambuk North Korea"
 msgid "Chŏngjin"
-msgstr "Ch'ongjin"
+msgstr "Çongjin"
 
 #: kstars_i18n.cpp:1313
 #, kde-kuit-format
@@ -46020,7 +45960,7 @@ msgstr "Collegedale"
 #, kde-kuit-format
 msgctxt "City in Germany"
 msgid "Cologne"
-msgstr "Cologne"
+msgstr "Köln"
 
 #: kstars_i18n.cpp:1358
 #, kde-kuit-format
@@ -46038,7 +45978,7 @@ msgstr "Colon"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Colorado Bend SP (Bend)"
-msgstr ""
+msgstr "Colorado Bend SP (Bend)"
 
 #: kstars_i18n.cpp:1361
 #, kde-kuit-format
@@ -46050,7 +45990,7 @@ msgstr "Colorado Springs"
 #, kde-kuit-format
 msgctxt "City in Missouri USA"
 msgid "Columbia"
-msgstr "Kolombiya"
+msgstr "Columbia"
 
 #: kstars_i18n.cpp:1363
 #, kde-kuit-format
@@ -46068,7 +46008,7 @@ msgstr "Columbia"
 #, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "Columbia Station"
-msgstr "Kolombiya İstasyonu"
+msgstr "Columbia Station"
 
 #: kstars_i18n.cpp:1366
 #, kde-kuit-format
@@ -46176,7 +46116,7 @@ msgstr "Kopenhag"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Copper Breaks SP (Quanah) IDS"
-msgstr ""
+msgstr "Copper Breaks SP (Quanah) IDS"
 
 #: kstars_i18n.cpp:1384
 #, kde-kuit-format
@@ -46434,34 +46374,28 @@ msgstr "Cádiz"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Córdoba"
-msgstr "Córdoba"
+msgstr "Kurtuba"
 
 #: kstars_i18n.cpp:1427
 #, kde-kuit-format
 msgctxt "City in Bangladesh"
 msgid "Dacca"
-msgstr "Dacca"
+msgstr "Dakka"
 
 #: kstars_i18n.cpp:1428
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Daegu"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Daegu"
 msgstr "Daegu"
 
 #: kstars_i18n.cpp:1429
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Daegwallyeong"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Daegwallyeong"
-msgstr "Daegwallyeong"
+msgstr "Daeguallyeong"
 
 #: kstars_i18n.cpp:1430
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Daejeon"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Daejeon"
 msgstr "Daejeon"
@@ -46476,7 +46410,7 @@ msgstr "Dakar"
 #, kde-kuit-format
 msgctxt "City in Western sahara"
 msgid "Dakhla"
-msgstr "Dakhla"
+msgstr "Dahile"
 
 #: kstars_i18n.cpp:1433
 #, kde-kuit-format
@@ -46500,7 +46434,7 @@ msgstr "Daly City"
 #, kde-kuit-format
 msgctxt "City in Syria"
 msgid "Damascus"
-msgstr "Damascus"
+msgstr "Şam"
 
 #: kstars_i18n.cpp:1437
 #, kde-kuit-format
@@ -46539,9 +46473,7 @@ msgid "Danville"
 msgstr "Danville"
 
 #: kstars_i18n.cpp:1443
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in South Korea"
-#| msgid "Danyang"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Danyang"
 msgstr "Danyang"
@@ -46556,7 +46488,7 @@ msgstr "Dapaong"
 #, kde-kuit-format
 msgctxt "City in Tanzania"
 msgid "Dar es Salaam"
-msgstr "Dar es Salaam"
+msgstr "Darüsselam"
 
 #: kstars_i18n.cpp:1446
 #, kde-kuit-format
@@ -46592,7 +46524,7 @@ msgstr "Davidson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Davis Mountains SP (Fort Davis) IDS"
-msgstr ""
+msgstr "Davis Mountains SP (Fort Davis) IDS"
 
 #: kstars_i18n.cpp:1452
 #, kde-kuit-format
@@ -46664,7 +46596,7 @@ msgstr "Dearborn Obs."
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Death Valley"
-msgstr "Ölüm Vadisi"
+msgstr "Death Valley"
 
 #: kstars_i18n.cpp:1464
 #, kde-kuit-format
@@ -46730,7 +46662,7 @@ msgstr "Delta"
 #, kde-kuit-format
 msgctxt "City in Alaska USA"
 msgid "Delta Junction"
-msgstr "Delta Birleşimi"
+msgstr "Delta Junction"
 
 #: kstars_i18n.cpp:1475
 #, kde-kuit-format
@@ -46742,7 +46674,7 @@ msgstr "Demmitt"
 #, kde-kuit-format
 msgctxt "City in Alaska USA"
 msgid "Denali National Park"
-msgstr "Denali Ulusal Parkı"
+msgstr "Denali National Park"
 
 #: kstars_i18n.cpp:1477
 #, kde-kuit-format
@@ -46814,13 +46746,13 @@ msgstr "Devils Lake"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Devils River State Natural Area (Del Rio) IDS"
-msgstr ""
+msgstr "Devils River State Natural Area (Del Rio) IDS"
 
 #: kstars_i18n.cpp:1489
 #, kde-kuit-format
 msgctxt "City in Saudi Arabia"
 msgid "Dhahran"
-msgstr "Dhahran"
+msgstr "Dahran"
 
 #: kstars_i18n.cpp:1490
 #, kde-kuit-format
@@ -46892,25 +46824,25 @@ msgstr "Diyarbakır"
 #, kde-kuit-format
 msgctxt "City in Indonesia"
 msgid "Djakarta"
-msgstr "Djakarta"
+msgstr "Cakarta"
 
 #: kstars_i18n.cpp:1502
 #, kde-kuit-format
 msgctxt "City in Tunisia"
 msgid "Djerba"
-msgstr "Djerba"
+msgstr "Jerba"
 
 #: kstars_i18n.cpp:1503
 #, kde-kuit-format
 msgctxt "City in Djibouti"
 msgid "Djibouti"
-msgstr "Djibouti"
+msgstr "Cibuti"
 
 #: kstars_i18n.cpp:1504
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Dnipropetropsk"
-msgstr "Dnipropetropsk"
+msgstr "Dnipro"
 
 #: kstars_i18n.cpp:1505
 #, kde-kuit-format
@@ -46937,9 +46869,7 @@ msgid "Doha"
 msgstr "Doha"
 
 #: kstars_i18n.cpp:1509
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyengnam Korea"
-#| msgid "Dokdo"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Dokdo"
 msgstr "Dokdo"
@@ -46972,20 +46902,16 @@ msgstr "Donegal"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Donets'k"
-msgstr "Donets'k"
+msgstr "Donetsk"
 
 #: kstars_i18n.cpp:1515
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Dongducheon"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Dongducheon"
-msgstr "Dongducheon"
+msgstr "Dongduçeon"
 
 #: kstars_i18n.cpp:1516
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Donghae"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Donghae"
 msgstr "Donghae"
@@ -46994,7 +46920,7 @@ msgstr "Donghae"
 #, kde-kuit-format
 msgctxt "City in Saskatchewan Canada"
 msgid "Dore Lake"
-msgstr "Dore Gölü"
+msgstr "Dore Lake"
 
 #: kstars_i18n.cpp:1518
 #, kde-kuit-format
@@ -47228,7 +47154,7 @@ msgstr "Dwingeloo Obs."
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Dyer Observatory"
-msgstr "Dyer Gözlemevi"
+msgstr "Dyer Observatory"
 
 #: kstars_i18n.cpp:1557
 #, kde-kuit-format
@@ -47258,7 +47184,7 @@ msgstr "Eagle Nehri"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Ear Falls"
-msgstr "Ear Şelaleleri"
+msgstr "Ear Falls"
 
 #: kstars_i18n.cpp:1562
 #, kde-kuit-format
@@ -47270,19 +47196,19 @@ msgstr "Earlton"
 #, kde-kuit-format
 msgctxt "City in Massachusetts USA"
 msgid "East Boston"
-msgstr "Doğu Boston"
+msgstr "East Boston"
 
 #: kstars_i18n.cpp:1564
 #, kde-kuit-format
 msgctxt "City in New Jersey USA"
 msgid "East Brunswick"
-msgstr "Doğu Brunswick"
+msgstr "East Brunswick"
 
 #: kstars_i18n.cpp:1565
 #, kde-kuit-format
 msgctxt "City in Michigan USA"
 msgid "East Lansing"
-msgstr "Doğu Lansing"
+msgstr "East Lansing"
 
 #: kstars_i18n.cpp:1566
 #, kde-kuit-format
@@ -47306,31 +47232,31 @@ msgstr "Doğu Los Angeles"
 #, kde-kuit-format
 msgctxt "City in New Jersey USA"
 msgid "East Orange"
-msgstr "Doğu Orange"
+msgstr "East Orange"
 
 #: kstars_i18n.cpp:1570
 #, kde-kuit-format
 msgctxt "City in Georgia USA"
 msgid "East Point"
-msgstr "Doğu Point"
+msgstr "East Point"
 
 #: kstars_i18n.cpp:1571
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "East St. Louis"
-msgstr "Doğu St. Louis"
+msgstr "East St. Louis"
 
 #: kstars_i18n.cpp:1572
 #, kde-kuit-format
 msgctxt "City in Pennsylvania USA"
 msgid "East Stroudsburg"
-msgstr "Doğu Stroudsburg"
+msgstr "East Stroudsburg"
 
 #: kstars_i18n.cpp:1573
 #, kde-kuit-format
 msgctxt "City in Washington USA"
 msgid "East Wenatchee"
-msgstr "Doğu Wenatchee"
+msgstr "East Wenatchee"
 
 #: kstars_i18n.cpp:1574
 #, kde-kuit-format
@@ -47456,7 +47382,7 @@ msgstr "Ekaterinburg"
 #, kde-kuit-format
 msgctxt "City in Western sahara"
 msgid "El Aaiun"
-msgstr "El Aaiun"
+msgstr "Laayoune"
 
 #: kstars_i18n.cpp:1595
 #, kde-kuit-format
@@ -47474,7 +47400,7 @@ msgstr "El Dorado"
 #, kde-kuit-format
 msgctxt "City in Sudan"
 msgid "El Fasher"
-msgstr "El Fasher"
+msgstr "Faşir"
 
 #: kstars_i18n.cpp:1598
 #, kde-kuit-format
@@ -47492,7 +47418,7 @@ msgstr "El Monte"
 #, kde-kuit-format
 msgctxt "City in Sudan"
 msgid "El Obeid"
-msgstr "El Obeid"
+msgstr "Ubeyd"
 
 #: kstars_i18n.cpp:1601
 #, kde-kuit-format
@@ -47504,7 +47430,7 @@ msgstr "El Paso"
 #, kde-kuit-format
 msgctxt "City in Egypt"
 msgid "El fayum"
-msgstr "El fayum"
+msgstr "Feyyum"
 
 #: kstars_i18n.cpp:1603
 #, kde-kuit-format
@@ -47567,9 +47493,7 @@ msgid "Elkhart"
 msgstr "Elkhart"
 
 #: kstars_i18n.cpp:1613
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Indiana USA"
-#| msgid "Elkhart"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Elkhart"
 msgstr "Elkhart"
@@ -47590,7 +47514,7 @@ msgstr "Elko"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Elliot Lake"
-msgstr "Elliot Gölü"
+msgstr "Elliot Lake"
 
 #: kstars_i18n.cpp:1617
 #, kde-kuit-format
@@ -47617,11 +47541,10 @@ msgid "Elverson"
 msgstr "Elverson"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Exp"
+msgstr "Elx"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -47639,7 +47562,7 @@ msgstr "Emerson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Enchanted Rock State Natural Area (Fredricksburg) IDS"
-msgstr ""
+msgstr "Enchanted Rock State Natural Area (Fredricksburg) IDS"
 
 #: kstars_i18n.cpp:1625
 #, kde-kuit-format
@@ -47729,7 +47652,7 @@ msgstr "Escondido"
 #, kde-kuit-format
 msgctxt "City in Iran"
 msgid "Esfahan"
-msgstr "Esfahan"
+msgstr "İsfahan"
 
 #: kstars_i18n.cpp:1640
 #, kde-kuit-format
@@ -47855,7 +47778,7 @@ msgstr "Exeter"
 #, kde-kuit-format
 msgctxt "City in Mauritania"
 msgid "F'Dérik"
-msgstr "F'Dérik"
+msgstr "Fderik"
 
 #: kstars_i18n.cpp:1661
 #, kde-kuit-format
@@ -47933,7 +47856,7 @@ msgstr "Falcon"
 #, kde-kuit-format
 msgctxt "City in Manitoba Canada"
 msgid "Falcon Lake"
-msgstr "Falcon Gölü"
+msgstr "Falcon Lake"
 
 #: kstars_i18n.cpp:1674
 #, kde-kuit-format
@@ -48041,7 +47964,7 @@ msgstr "Florala"
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Florence"
-msgstr "Florence"
+msgstr "Floransa"
 
 #: kstars_i18n.cpp:1692
 #, kde-kuit-format
@@ -48095,7 +48018,7 @@ msgstr "Fond du Lac"
 #, kde-kuit-format
 msgctxt "City in Hawaii USA"
 msgid "Ford Island"
-msgstr "Ford Adası"
+msgstr "Ford Island"
 
 #: kstars_i18n.cpp:1701
 #, kde-kuit-format
@@ -48104,9 +48027,7 @@ msgid "Forestville"
 msgstr "Forestville"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
 msgstr "Forli`"
@@ -48343,7 +48264,7 @@ msgstr "Franklin"
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Fraser Lake"
-msgstr "Fraser Gölü"
+msgstr "Fraser Lake"
 
 #: kstars_i18n.cpp:1742
 #, kde-kuit-format
@@ -48499,7 +48420,7 @@ msgstr "GMRT"
 #, kde-kuit-format
 msgctxt "City in Tunisia"
 msgid "Gabes"
-msgstr "Gabes"
+msgstr "Gabis"
 
 #: kstars_i18n.cpp:1768
 #, kde-kuit-format
@@ -48562,17 +48483,13 @@ msgid "Gander"
 msgstr "Gander"
 
 #: kstars_i18n.cpp:1778
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Incheon Korea"
-#| msgid "Ganghwa"
+#, kde-kuit-format
 msgctxt "City in Incheon South Korea"
 msgid "Ganghwa"
-msgstr "Ganghwa"
+msgstr "Ganghua"
 
 #: kstars_i18n.cpp:1779
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Gangneung"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Gangneung"
 msgstr "Gangneung"
@@ -48587,7 +48504,7 @@ msgstr "Gao"
 #, kde-kuit-format
 msgctxt "City in Algeria"
 msgid "Gardaia"
-msgstr "Gardaia"
+msgstr "Gardaya"
 
 #: kstars_i18n.cpp:1782
 #, kde-kuit-format
@@ -48701,20 +48618,16 @@ msgstr "Geneva"
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Genoa"
-msgstr "Genoa"
+msgstr "Cenova"
 
 #: kstars_i18n.cpp:1801
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Geochang"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Geochang"
-msgstr "Geochang"
+msgstr "Geoçang"
 
 #: kstars_i18n.cpp:1802
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Geoje"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Geoje"
 msgstr "Geoje"
@@ -48756,18 +48669,16 @@ msgid "Geraldton"
 msgstr "Geraldton"
 
 #: kstars_i18n.cpp:1809
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungnam Korea"
-#| msgid "Geomsan"
+#, kde-kuit-format
 msgctxt "City in Chungnam South Korea"
 msgid "Geumsan"
-msgstr "Geomsan"
+msgstr "Geumsan"
 
 #: kstars_i18n.cpp:1810
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Ghost Lake"
-msgstr "Ghost Gölü"
+msgstr "Ghost Lake"
 
 #: kstars_i18n.cpp:1811
 #, kde-kuit-format
@@ -48806,12 +48717,10 @@ msgid "Gimli"
 msgstr "Gimli"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
-msgstr "Gerona"
+msgstr "Girona"
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -48910,9 +48819,7 @@ msgid "Gogama"
 msgstr "Gogama"
 
 #: kstars_i18n.cpp:1834
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Goheung"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Goheung"
 msgstr "Goheung"
@@ -48957,7 +48864,7 @@ msgstr "Goose Creek"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Gore Bay"
-msgstr "Gore Koyu"
+msgstr "Gore Bay"
 
 #: kstars_i18n.cpp:1842
 #, kde-kuit-format
@@ -49047,7 +48954,7 @@ msgstr "Grand Forks"
 #, kde-kuit-format
 msgctxt "City in Nebraska USA"
 msgid "Grand Island"
-msgstr "Grand Adası"
+msgstr "Grand Island"
 
 #: kstars_i18n.cpp:1857
 #, kde-kuit-format
@@ -49101,7 +49008,7 @@ msgstr "Grangeville"
 #, kde-kuit-format
 msgctxt "City in Minnesota USA"
 msgid "Granite Falls"
-msgstr "Granit Şelaleleri"
+msgstr "Granit Falls"
 
 #: kstars_i18n.cpp:1866
 #, kde-kuit-format
@@ -49113,13 +49020,13 @@ msgstr "Grants Pass"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Grass Valley"
-msgstr "Grass Vadisi"
+msgstr "Grass Valley"
 
 #: kstars_i18n.cpp:1868
 #, kde-kuit-format
 msgctxt "City in Montana USA"
 msgid "Great Falls"
-msgstr "Great Şelalesi"
+msgstr "Great Falls"
 
 #: kstars_i18n.cpp:1869
 #, kde-kuit-format
@@ -49275,7 +49182,7 @@ msgstr "Groveton"
 #, kde-kuit-format
 msgctxt "City in South Region Russia"
 msgid "Grozny"
-msgstr "Grozny"
+msgstr "Grozni"
 
 #: kstars_i18n.cpp:1895
 #, kde-kuit-format
@@ -49287,7 +49194,7 @@ msgstr "Guadalajara"
 #, kde-kuit-format
 msgctxt "City in Cuba"
 msgid "Guantanamo Bay"
-msgstr "Guantanomo Koyu"
+msgstr "Guantanomo Bay"
 
 #: kstars_i18n.cpp:1897
 #, kde-kuit-format
@@ -49326,17 +49233,13 @@ msgid "Gull Bay"
 msgstr "Gull Koyu"
 
 #: kstars_i18n.cpp:1903
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Gumi"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Gumi"
 msgstr "Gumi"
 
 #: kstars_i18n.cpp:1904
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Gunsan"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Gunsan"
 msgstr "Gunsan"
@@ -49345,7 +49248,7 @@ msgstr "Gunsan"
 #, kde-kuit-format
 msgctxt "City in India"
 msgid "Gurushikhar"
-msgstr "Gurushikhar"
+msgstr "Guruşihar"
 
 #: kstars_i18n.cpp:1906
 #, kde-kuit-format
@@ -49360,12 +49263,10 @@ msgid "Guysborough"
 msgstr "Guysborough"
 
 #: kstars_i18n.cpp:1908
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Gwangju"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Gwangju"
-msgstr "Gwangju"
+msgstr "Guangju"
 
 #: kstars_i18n.cpp:1909
 #, kde-kuit-format
@@ -49416,17 +49317,13 @@ msgid "Haderslev"
 msgstr "Haderslev"
 
 #: kstars_i18n.cpp:1917
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Hadong"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Hadong"
 msgstr "Hadong"
 
 #: kstars_i18n.cpp:1918
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Haenam"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Haenam"
 msgstr "Haenam"
@@ -49447,7 +49344,7 @@ msgstr "Hagerstown"
 #, kde-kuit-format
 msgctxt "City in Israel"
 msgid "Haifa"
-msgstr "Haifa"
+msgstr "Hayfa"
 
 #: kstars_i18n.cpp:1922
 #, kde-kuit-format
@@ -49594,12 +49491,10 @@ msgid "Hao"
 msgstr "Hao"
 
 #: kstars_i18n.cpp:1946
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Hapcheon"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Hapcheon"
-msgstr "Hapcheon"
+msgstr "Hapçeon"
 
 #: kstars_i18n.cpp:1947
 #, kde-kuit-format
@@ -49701,7 +49596,7 @@ msgstr "Harvey"
 #, kde-kuit-format
 msgctxt "City in Algeria"
 msgid "Hassi Messaoud"
-msgstr "Hassi Messaoud"
+msgstr "Hessi Messaud"
 
 #: kstars_i18n.cpp:1964
 #, kde-kuit-format
@@ -49833,7 +49728,7 @@ msgstr "Helsinki"
 #, kde-kuit-format
 msgctxt "City in Egypt"
 msgid "Helwan"
-msgstr "Helwan"
+msgstr "Helvan"
 
 #: kstars_i18n.cpp:1986
 #, kde-kuit-format
@@ -49878,9 +49773,7 @@ msgid "Herstmonceux"
 msgstr "Herstmonceux"
 
 #: kstars_i18n.cpp:1993
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Heuksando"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Heuksando"
 msgstr "Heuksando"
@@ -49967,7 +49860,7 @@ msgstr "Hilo"
 #, kde-kuit-format
 msgctxt "City in Bavaria Germany"
 msgid "Hilpoltstein"
-msgstr ""
+msgstr "Hilpoltstein"
 
 #: kstars_i18n.cpp:2008
 #, kde-kuit-format
@@ -50084,12 +49977,10 @@ msgid "Hong Kong"
 msgstr "Hong Kong"
 
 #: kstars_i18n.cpp:2027
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Hongcheon"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Hongcheon"
-msgstr "Hongcheon"
+msgstr "Hongçeon"
 
 #: kstars_i18n.cpp:2028
 #, kde-kuit-format
@@ -50290,9 +50181,7 @@ msgid "Hyltebruk"
 msgstr "Hyltebruk"
 
 #: kstars_i18n.cpp:2061
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Hungnam"
+#, kde-kuit-format
 msgctxt "City in Hamnam North Korea"
 msgid "Hŭngnam"
 msgstr "Hungnam"
@@ -50304,18 +50193,16 @@ msgid "Ibadan"
 msgstr "Ibadan"
 
 #: kstars_i18n.cpp:2063
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Icheon"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Icheon"
-msgstr "Icheon"
+msgstr "İçeon"
 
 #: kstars_i18n.cpp:2064
 #, kde-kuit-format
 msgctxt "City in Idaho USA"
 msgid "Idaho Falls"
-msgstr "Idaho Şelalesi"
+msgstr "Idaho Falls"
 
 #: kstars_i18n.cpp:2065
 #, kde-kuit-format
@@ -50330,20 +50217,16 @@ msgid "Ile-a-la-Crosse"
 msgstr "Ile-A-la-Crosse"
 
 #: kstars_i18n.cpp:2067
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Imsil"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Imsil"
-msgstr "Imsil"
+msgstr "İmsil"
 
 #: kstars_i18n.cpp:2068
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Incheon"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Incheon"
-msgstr "Incheon"
+msgstr "İnçeon"
 
 #: kstars_i18n.cpp:2069
 #, kde-kuit-format
@@ -50433,19 +50316,19 @@ msgstr "Iqaluit"
 #, kde-kuit-format
 msgctxt "City in Siberia Russia"
 msgid "Irkutsk"
-msgstr "Irkutsk"
+msgstr "İrkutsk"
 
 #: kstars_i18n.cpp:2084
 #, kde-kuit-format
 msgctxt "City in Michigan USA"
 msgid "Iron River"
-msgstr "Iron Nehri"
+msgstr "Iron River"
 
 #: kstars_i18n.cpp:2085
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Iroquois Falls"
-msgstr "Iroquois Şelaleleri"
+msgstr "Iroquois Falls"
 
 #: kstars_i18n.cpp:2086
 #, kde-kuit-format
@@ -50499,13 +50382,13 @@ msgstr "Itapetinga"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Ivano-Frankivs'k"
-msgstr "Ivano-Frankivs'k"
+msgstr "İvano-Frankivsk"
 
 #: kstars_i18n.cpp:2095
 #, kde-kuit-format
 msgctxt "City in Central Region Russia"
 msgid "Ivanovo"
-msgstr "Ivanovo"
+msgstr "İvanovo"
 
 #: kstars_i18n.cpp:2096
 #, kde-kuit-format
@@ -50517,7 +50400,7 @@ msgstr "Izana"
 #, kde-kuit-format
 msgctxt "City in Volga Region Russia"
 msgid "Izhevsk"
-msgstr "Izhevsk"
+msgstr "İjevsk"
 
 #: kstars_i18n.cpp:2098
 #, kde-kuit-format
@@ -50580,17 +50463,13 @@ msgid "Janesville"
 msgstr "Janesville"
 
 #: kstars_i18n.cpp:2108
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Jangheung"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Jangheung"
 msgstr "Jangheung"
 
 #: kstars_i18n.cpp:2109
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Jangsu"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Jangsu"
 msgstr "Jangsu"
@@ -50614,18 +50493,16 @@ msgid "Jaén"
 msgstr "Jaen"
 
 #: kstars_i18n.cpp:2113
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Jecheon"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Jecheon"
-msgstr "Jecheon"
+msgstr "Jeçeon"
 
 #: kstars_i18n.cpp:2114
 #, kde-kuit-format
 msgctxt "City in Saudi Arabia"
 msgid "Jeddah"
-msgstr "Jeddah"
+msgstr "Cidde"
 
 #: kstars_i18n.cpp:2115
 #, kde-kuit-format
@@ -50634,9 +50511,7 @@ msgid "Jefferson City"
 msgstr "Jefferson City"
 
 #: kstars_i18n.cpp:2116
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Jeju"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Jeju"
 msgstr "Jeju"
@@ -50654,17 +50529,13 @@ msgid "Jensen Beach"
 msgstr "Jensen Beach"
 
 #: kstars_i18n.cpp:2119
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Jeongeup"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Jeongeup"
 msgstr "Jeongeup"
 
 #: kstars_i18n.cpp:2120
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Jeonju"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Jeonju"
 msgstr "Jeonju"
@@ -50694,9 +50565,7 @@ msgid "Jinja"
 msgstr "Jinja"
 
 #: kstars_i18n.cpp:2125
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Jinju"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Jinju"
 msgstr "Jinju"
@@ -50783,7 +50652,7 @@ msgstr "Jõhvi"
 #, kde-kuit-format
 msgctxt "City in Afghanistan"
 msgid "Kabul"
-msgstr "Kabul"
+msgstr "Kabil"
 
 #: kstars_i18n.cpp:2140
 #, kde-kuit-format
@@ -50804,9 +50673,7 @@ msgid "Kaena Point"
 msgstr "Kaena Point"
 
 #: kstars_i18n.cpp:2143
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Kaesong"
+#, kde-kuit-format
 msgctxt "City in North Korea"
 msgid "Kaesŏng"
 msgstr "Kaesong"
@@ -50827,7 +50694,7 @@ msgstr "Kailua Kona"
 #, kde-kuit-format
 msgctxt "City in Tunisia"
 msgid "Kairouan"
-msgstr "Kairouan"
+msgstr "Kayravan"
 
 #: kstars_i18n.cpp:2147
 #, kde-kuit-format
@@ -51001,7 +50868,7 @@ msgstr "Kapuskasing"
 #, kde-kuit-format
 msgctxt "City in Pakistan"
 msgid "Karachi"
-msgstr "Karachi"
+msgstr "Karaçi"
 
 #: kstars_i18n.cpp:2176
 #, kde-kuit-format
@@ -51199,49 +51066,49 @@ msgstr "Kettering"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Khabarovsk"
-msgstr "Khabarovsk"
+msgstr "Habarovsk"
 
 #: kstars_i18n.cpp:2209
 #, kde-kuit-format
 msgctxt "City in Greece"
 msgid "Khaniá"
-msgstr "Khaniá"
+msgstr "Hanya"
 
 #: kstars_i18n.cpp:2210
 #, kde-kuit-format
 msgctxt "City in Ural Russia"
 msgid "Khanty-Mansiysk"
-msgstr "Khanty-Mansiysk"
+msgstr "Hantı-Mansiysk"
 
 #: kstars_i18n.cpp:2211
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Kharkiv"
-msgstr "Kharkiv"
+msgstr "Harkiv"
 
 #: kstars_i18n.cpp:2212
 #, kde-kuit-format
 msgctxt "City in Sudan"
 msgid "Khartoum"
-msgstr "Khartoum"
+msgstr "Hartum"
 
 #: kstars_i18n.cpp:2213
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Kherson"
-msgstr "Kherson"
+msgstr "Herson"
 
 #: kstars_i18n.cpp:2214
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Khmel'nyts'kyi"
-msgstr "Khmel'nyts'kyi"
+msgstr "Hmelnitskiy"
 
 #: kstars_i18n.cpp:2215
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Kickapoo Cavern  SP (Bracketville)"
-msgstr ""
+msgstr "Kickapoo Cavern SP (Bracketville)"
 
 #: kstars_i18n.cpp:2216
 #, kde-kuit-format
@@ -51286,12 +51153,10 @@ msgid "Kimball"
 msgstr "Kimball"
 
 #: kstars_i18n.cpp:2223
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Kimch'aek"
+#, kde-kuit-format
 msgctxt "City in Hambuk North Korea"
 msgid "Kimchaek"
-msgstr "Kimch'aek"
+msgstr "Kimçaek"
 
 #: kstars_i18n.cpp:2224
 #, kde-kuit-format
@@ -51525,7 +51390,7 @@ msgstr "Kolding"
 #, kde-kuit-format
 msgctxt "City in India"
 msgid "Kolkata"
-msgstr "Kolkata"
+msgstr "Kalküta"
 
 #: kstars_i18n.cpp:2263
 #, kde-kuit-format
@@ -51675,7 +51540,7 @@ msgstr "Kwajalein Atoll"
 #, kde-kuit-format
 msgctxt "City in Japan"
 msgid "Kwasan"
-msgstr "Kwasan"
+msgstr "Kuasan"
 
 #: kstars_i18n.cpp:2288
 #, kde-kuit-format
@@ -51699,7 +51564,7 @@ msgstr "Kyoto"
 #, kde-kuit-format
 msgctxt "City in Siberia Russia"
 msgid "Kyzyl"
-msgstr "Kyzyl"
+msgstr "Kızıl"
 
 #: kstars_i18n.cpp:2292
 #, kde-kuit-format
@@ -51723,7 +51588,7 @@ msgstr "L'Etape"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "L'viv"
-msgstr "L'viv"
+msgstr "Lviv"
 
 #: kstars_i18n.cpp:2296
 #, kde-kuit-format
@@ -51891,7 +51756,7 @@ msgstr "Lagos"
 #, kde-kuit-format
 msgctxt "City in Pakistan"
 msgid "Lahore"
-msgstr "Lahore"
+msgstr "Lahor"
 
 #: kstars_i18n.cpp:2324
 #, kde-kuit-format
@@ -52221,7 +52086,7 @@ msgstr "Leck"
 #, kde-kuit-format
 msgctxt "City in Lebanon"
 msgid "Lee"
-msgstr "Lee"
+msgstr "Li"
 
 #: kstars_i18n.cpp:2379
 #, kde-kuit-format
@@ -52533,7 +52398,7 @@ msgstr "Livorno"
 #, kde-kuit-format
 msgctxt "City in Slovenia"
 msgid "Ljubljana"
-msgstr "Ljubljana"
+msgstr "Lübliyana"
 
 #: kstars_i18n.cpp:2431
 #, kde-kuit-format
@@ -52545,7 +52410,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lleida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -52557,7 +52422,7 @@ msgstr "Lobatsi"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Lockwood Valley"
-msgstr "Lockwood Vadisi"
+msgstr "Lockwood Valley"
 
 #: kstars_i18n.cpp:2435
 #, kde-kuit-format
@@ -52611,13 +52476,13 @@ msgstr "Lomé"
 #, kde-kuit-format
 msgctxt "City in United Kingdom"
 msgid "London"
-msgstr "London"
+msgstr "Londra"
 
 #: kstars_i18n.cpp:2444
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "London"
-msgstr "Londra"
+msgstr "London"
 
 #: kstars_i18n.cpp:2445
 #, kde-kuit-format
@@ -52671,7 +52536,7 @@ msgstr "Los Angeles"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Lost Maples State Natural Area (Vanderpool)"
-msgstr ""
+msgstr "Lost Maples State Natural Area (Vanderpool)"
 
 #: kstars_i18n.cpp:2454
 #, kde-kuit-format
@@ -52695,7 +52560,7 @@ msgstr "Louisville"
 #, kde-kuit-format
 msgctxt "City in Egypt"
 msgid "Louxor"
-msgstr "Louxor"
+msgstr "Luhor"
 
 #: kstars_i18n.cpp:2458
 #, kde-kuit-format
@@ -52761,7 +52626,7 @@ msgstr "Luena"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Lugans'k"
-msgstr "Lugans'k"
+msgstr "Lugansk"
 
 #: kstars_i18n.cpp:2469
 #, kde-kuit-format
@@ -52797,7 +52662,7 @@ msgstr "Lusaka"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Luts'k"
-msgstr "Luts'k"
+msgstr "Lutsk"
 
 #: kstars_i18n.cpp:2475
 #, kde-kuit-format
@@ -52848,9 +52713,7 @@ msgid "Lübeck"
 msgstr "Lübeck"
 
 #: kstars_i18n.cpp:2483
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Pyungbuk Korea"
-#| msgid "Maando"
+#, kde-kuit-format
 msgctxt "City in Pyŏngbuk North Korea"
 msgid "Maando"
 msgstr "Maando"
@@ -53129,7 +52992,7 @@ msgstr "Manhattan"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Manhattan Beach"
-msgstr "Manhattan Sahili"
+msgstr "Manhattan Beach"
 
 #: kstars_i18n.cpp:2530
 #, kde-kuit-format
@@ -53222,9 +53085,7 @@ msgid "Maputo"
 msgstr "Maputo"
 
 #: kstars_i18n.cpp:2545
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeju Korea"
-#| msgid "Marado"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Marado"
 msgstr "Marado"
@@ -53245,7 +53106,7 @@ msgstr "Marbach"
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Mariana Lake"
-msgstr "Mariana Gölü"
+msgstr "Mariana Lake"
 
 #: kstars_i18n.cpp:2549
 #, kde-kuit-format
@@ -53323,7 +53184,7 @@ msgstr "Marquette"
 #, kde-kuit-format
 msgctxt "City in Morocco"
 msgid "Marrakech"
-msgstr "Marrakech"
+msgstr "Marakeş"
 
 #: kstars_i18n.cpp:2562
 #, kde-kuit-format
@@ -53383,7 +53244,7 @@ msgstr "Massa"
 #, kde-kuit-format
 msgctxt "City in Eritrea"
 msgid "Massawa"
-msgstr "Massawa"
+msgstr "Massava"
 
 #: kstars_i18n.cpp:2572
 #, kde-kuit-format
@@ -53575,7 +53436,7 @@ msgstr "Meat Cove"
 #, kde-kuit-format
 msgctxt "City in Tunisia"
 msgid "Medenine"
-msgstr "Medenine"
+msgstr "Medenin"
 
 #: kstars_i18n.cpp:2604
 #, kde-kuit-format
@@ -53851,7 +53712,7 @@ msgstr "Meuselwitz"
 #, kde-kuit-format
 msgctxt "City in Missouri USA"
 msgid "Mexico"
-msgstr "Meksika"
+msgstr "Mexico"
 
 #: kstars_i18n.cpp:2650
 #, kde-kuit-format
@@ -54121,12 +53982,10 @@ msgstr "Miramichi"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Mirnyi"
-msgstr "Mirnyi"
+msgstr "Mirni"
 
 #: kstars_i18n.cpp:2695
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Miryang"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Miryang"
 msgstr "Miryang"
@@ -54219,12 +54078,10 @@ msgstr "Moers"
 #, kde-kuit-format
 msgctxt "City in Somalia"
 msgid "Mogadishu"
-msgstr "Mogadishu"
+msgstr "Mogadişu"
 
 #: kstars_i18n.cpp:2711
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Mokpo"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Mokpo"
 msgstr "Mokpo"
@@ -54371,7 +54228,7 @@ msgstr "Montmagny"
 #, kde-kuit-format
 msgctxt "City in New York USA"
 msgid "Montour Falls"
-msgstr "Montour Şelaleleri"
+msgstr "Montour Falls"
 
 #: kstars_i18n.cpp:2736
 #, kde-kuit-format
@@ -54401,13 +54258,13 @@ msgstr "Montreal"
 #, kde-kuit-format
 msgctxt "City in Saskatchewan Canada"
 msgid "Montreal Lake"
-msgstr "Montreal Gölü"
+msgstr "Montreal Lake"
 
 #: kstars_i18n.cpp:2741
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Montreal River"
-msgstr "Montreal Nehri"
+msgstr "Montreal River"
 
 #: kstars_i18n.cpp:2742
 #, kde-kuit-format
@@ -54425,7 +54282,7 @@ msgstr "Moose Jaw"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Moose River"
-msgstr "Moose Nehri"
+msgstr "Moose River"
 
 #: kstars_i18n.cpp:2745
 #, kde-kuit-format
@@ -54515,7 +54372,7 @@ msgstr "Moscow"
 #, kde-kuit-format
 msgctxt "City in Washington USA"
 msgid "Moses Lake"
-msgstr "Moses Gölü"
+msgstr "Moses Lake"
 
 #: kstars_i18n.cpp:2760
 #, kde-kuit-format
@@ -54626,9 +54483,7 @@ msgid "Moville"
 msgstr "Moville"
 
 #: kstars_i18n.cpp:2778
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Muan"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Muan"
 msgstr "Muan"
@@ -54658,9 +54513,7 @@ msgid "Muncy"
 msgstr "Muncy"
 
 #: kstars_i18n.cpp:2783
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Mungyeong"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Mungyeong"
 msgstr "Mungyeong"
@@ -54741,7 +54594,7 @@ msgstr "Mwanza"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Mykolaiv"
-msgstr "Mykolaiv"
+msgstr "Mıkolayiv"
 
 #: kstars_i18n.cpp:2797
 #, kde-kuit-format
@@ -54861,12 +54714,10 @@ msgstr "Nakusp"
 #, kde-kuit-format
 msgctxt "City in South Region Russia"
 msgid "Nal'chik"
-msgstr "Nal'chik"
+msgstr "Nalçik"
 
 #: kstars_i18n.cpp:2817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Namhae"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Namhae"
 msgstr "Namhae"
@@ -54896,9 +54747,7 @@ msgid "Nampula"
 msgstr "Nampula"
 
 #: kstars_i18n.cpp:2822
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Namwon"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Namwon"
 msgstr "Namwon"
@@ -54949,7 +54798,7 @@ msgstr "Napierville"
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Naples"
-msgstr "Naples"
+msgstr "Napoli"
 
 #: kstars_i18n.cpp:2831
 #, kde-kuit-format
@@ -55024,12 +54873,10 @@ msgid "Ndola"
 msgstr "Ndola"
 
 #: kstars_i18n.cpp:2843
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Jecheon"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Neches"
-msgstr "Jecheon"
+msgstr "Neches"
 
 #: kstars_i18n.cpp:2844
 #, kde-kuit-format
@@ -55323,7 +55170,7 @@ msgstr "Nice"
 #, kde-kuit-format
 msgctxt "City in Cyprus"
 msgid "Nicosia"
-msgstr "Nicosia"
+msgstr "Lefkoşa"
 
 #: kstars_i18n.cpp:2893
 #, kde-kuit-format
@@ -55353,7 +55200,7 @@ msgstr "Nitro"
 #, kde-kuit-format
 msgctxt "City in Volga Region Russia"
 msgid "Nizhnii Novgorod"
-msgstr "Nizhnii Novgorod"
+msgstr "Nijniy Novgorod"
 
 #: kstars_i18n.cpp:2898
 #, kde-kuit-format
@@ -55407,19 +55254,19 @@ msgstr "Norman"
 #, kde-kuit-format
 msgctxt "City in Saskatchewan Canada"
 msgid "North Battleford"
-msgstr "Kuzey Battleford"
+msgstr "North Battleford"
 
 #: kstars_i18n.cpp:2907
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "North Bay"
-msgstr "Kuzey Bay"
+msgstr "North Bay"
 
 #: kstars_i18n.cpp:2908
 #, kde-kuit-format
 msgctxt "City in New York USA"
 msgid "North Bellmore"
-msgstr "Kuzey Bellmore"
+msgstr "North Bellmore"
 
 #: kstars_i18n.cpp:2909
 #, kde-kuit-format
@@ -55431,13 +55278,13 @@ msgstr "North Cape May"
 #, kde-kuit-format
 msgctxt "City in South Carolina USA"
 msgid "North Charleston"
-msgstr "Kuzey Charleston"
+msgstr "North Charleston"
 
 #: kstars_i18n.cpp:2911
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "North Hollywood"
-msgstr "Kuzey Hollywood"
+msgstr "North Hollywood"
 
 #: kstars_i18n.cpp:2912
 #, kde-kuit-format
@@ -55449,25 +55296,25 @@ msgstr "Kuzey Las Vegas"
 #, kde-kuit-format
 msgctxt "City in Iowa USA"
 msgid "North Liberty Obs."
-msgstr "Kuzey Liberty Obs."
+msgstr "North Liberty Obs."
 
 #: kstars_i18n.cpp:2914
 #, kde-kuit-format
 msgctxt "City in Arkansas USA"
 msgid "North Little Rock"
-msgstr "Kuzey Little Rock"
+msgstr "North Little Rock"
 
 #: kstars_i18n.cpp:2915
 #, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "North Olmstead"
-msgstr "Kuzey Olmstead"
+msgstr "North Olmstead"
 
 #: kstars_i18n.cpp:2916
 #, kde-kuit-format
 msgctxt "City in Nebraska USA"
 msgid "North Platte"
-msgstr "Kuzey Platte"
+msgstr "North Platte"
 
 #: kstars_i18n.cpp:2917
 #, kde-kuit-format
@@ -55533,7 +55380,7 @@ msgstr "Nottingham"
 #, kde-kuit-format
 msgctxt "City in Mauritania"
 msgid "Nouakchott"
-msgstr "Nouakchott"
+msgstr "Nuakşot"
 
 #: kstars_i18n.cpp:2928
 #, kde-kuit-format
@@ -55707,7 +55554,7 @@ msgstr "Odense"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Odessa"
-msgstr "Odessa"
+msgstr "Odesa"
 
 #: kstars_i18n.cpp:2957
 #, kde-kuit-format
@@ -55755,7 +55602,7 @@ msgstr "Okayama"
 #, kde-kuit-format
 msgctxt "City in Japan"
 msgid "Okinawa"
-msgstr "Okinawa"
+msgstr "Okinaua"
 
 #: kstars_i18n.cpp:2965
 #, kde-kuit-format
@@ -55845,7 +55692,7 @@ msgstr "Oostende"
 #, kde-kuit-format
 msgctxt "City in India"
 msgid "Ooty"
-msgstr "Ooty"
+msgstr "Uti"
 
 #: kstars_i18n.cpp:2980
 #, kde-kuit-format
@@ -56013,7 +55860,7 @@ msgstr "Ouagadougou"
 #, kde-kuit-format
 msgctxt "City in Morocco"
 msgid "Ouarzazate"
-msgstr "Ouarzazate"
+msgstr "Varzazat"
 
 #: kstars_i18n.cpp:3008
 #, kde-kuit-format
@@ -56091,7 +55938,7 @@ msgstr "Oyen"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Oymiakon"
-msgstr "Oymiakon"
+msgstr "Oymyakon"
 
 #: kstars_i18n.cpp:3021
 #, kde-kuit-format
@@ -56184,12 +56031,10 @@ msgid "Palermo"
 msgstr "Palermo"
 
 #: kstars_i18n.cpp:3036
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "Valentine"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Palestine"
-msgstr "Valentine"
+msgstr "Palestine"
 
 #: kstars_i18n.cpp:3037
 #, kde-kuit-format
@@ -56399,7 +56244,7 @@ msgstr "Pearce"
 #, kde-kuit-format
 msgctxt "City in Russia"
 msgid "Pechory"
-msgstr "Pechory"
+msgstr "Peçorı"
 
 #: kstars_i18n.cpp:3072
 #, kde-kuit-format
@@ -56525,13 +56370,13 @@ msgstr "Pescara"
 #, kde-kuit-format
 msgctxt "City in Pakistan"
 msgid "Peshawar"
-msgstr "Peshawar"
+msgstr "Peşaver"
 
 #: kstars_i18n.cpp:3093
 #, kde-kuit-format
 msgctxt "City in Israel"
 msgid "Petach Tikva"
-msgstr "Petach Tikva"
+msgstr "Petah Tikva"
 
 #: kstars_i18n.cpp:3094
 #, kde-kuit-format
@@ -56561,7 +56406,7 @@ msgstr "Petersburg"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Petropavlovsk-Kamchatskiy"
-msgstr "Petropavlovsk-Kamchatskiy"
+msgstr "Petropavlovsk-Kamçatskiy"
 
 #: kstars_i18n.cpp:3099
 #, kde-kuit-format
@@ -56792,9 +56637,7 @@ msgid "Podor"
 msgstr "Podor"
 
 #: kstars_i18n.cpp:3137
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Pohang"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Pohang"
 msgstr "Pohang"
@@ -56983,7 +56826,7 @@ msgstr "Port Salerno"
 #, kde-kuit-format
 msgctxt "City in Sudan"
 msgid "Port Soudan"
-msgstr "Port Soudan"
+msgstr "Port Sudan"
 
 #: kstars_i18n.cpp:3169
 #, kde-kuit-format
@@ -57115,7 +56958,7 @@ msgstr "Poznan"
 #, kde-kuit-format
 msgctxt "City in Croatia"
 msgid "Požega"
-msgstr "Požega"
+msgstr "Pojega"
 
 #: kstars_i18n.cpp:3191
 #, kde-kuit-format
@@ -57163,19 +57006,19 @@ msgstr "Primghar"
 #, kde-kuit-format
 msgctxt "City in Saskatchewan Canada"
 msgid "Prince Albert"
-msgstr "Prens Albert"
+msgstr "Prince Albert"
 
 #: kstars_i18n.cpp:3199
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Prince George"
-msgstr "Prens George"
+msgstr "Prince George"
 
 #: kstars_i18n.cpp:3200
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Prince Rupert"
-msgstr "Prens Rupert"
+msgstr "Prince Rupert"
 
 #: kstars_i18n.cpp:3201
 #, kde-kuit-format
@@ -57235,7 +57078,7 @@ msgstr "Providence"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Provideniya Bay"
-msgstr "Provideniya Bay"
+msgstr "Buhta Provideniya"
 
 #: kstars_i18n.cpp:3211
 #, kde-kuit-format
@@ -57322,12 +57165,10 @@ msgid "Puyallup"
 msgstr "Puyallup"
 
 #: kstars_i18n.cpp:3225
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "P'yongyang"
+#, kde-kuit-format
 msgctxt "City in North Korea"
 msgid "Pyongyang"
-msgstr "P'yongyang"
+msgstr "Pyongyang"
 
 #: kstars_i18n.cpp:3226
 #, kde-kuit-format
@@ -57399,7 +57240,7 @@ msgstr "Quito"
 #, kde-kuit-format
 msgctxt "City in Algeria"
 msgid "Qustantinah"
-msgstr "Qustantinah"
+msgstr "Kostantine"
 
 #: kstars_i18n.cpp:3238
 #, kde-kuit-format
@@ -57411,7 +57252,7 @@ msgstr "R.M. Aller de S. de Compostela"
 #, kde-kuit-format
 msgctxt "City in Israel"
 msgid "Ra'anana"
-msgstr "Ra'anana"
+msgstr "Raanana"
 
 #: kstars_i18n.cpp:3240
 #, kde-kuit-format
@@ -57489,7 +57330,7 @@ msgstr "Rangeley"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Ranger Lake"
-msgstr "Ranger Gölü"
+msgstr "Ranger Lake"
 
 #: kstars_i18n.cpp:3253
 #, kde-kuit-format
@@ -57525,7 +57366,7 @@ msgstr "Ravenna"
 #, kde-kuit-format
 msgctxt "City in Pakistan"
 msgid "Rawalpindi"
-msgstr "Rawalpindi"
+msgstr "Ravalpindi"
 
 #: kstars_i18n.cpp:3259
 #, kde-kuit-format
@@ -58179,13 +58020,13 @@ msgstr "Sabadell"
 #, kde-kuit-format
 msgctxt "City in Ahmadi Kuwait"
 msgid "Sabahiya"
-msgstr "Sabahiya"
+msgstr "Sabahiye"
 
 #: kstars_i18n.cpp:3368
 #, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "Sable Island"
-msgstr "Sable Adası"
+msgstr "Sable Island"
 
 #: kstars_i18n.cpp:3369
 #, kde-kuit-format
@@ -58203,7 +58044,7 @@ msgstr "Sacramento"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Saganaga Lake"
-msgstr "Saganaga Gölü"
+msgstr "Saganaga Lake"
 
 #: kstars_i18n.cpp:3372
 #, kde-kuit-format
@@ -58293,7 +58134,7 @@ msgstr "Sainte-Adele"
 #, kde-kuit-format
 msgctxt "City in US Territory"
 msgid "Saipan Island"
-msgstr "Saipan Adası"
+msgstr "Saipan Island"
 
 #: kstars_i18n.cpp:3387
 #, kde-kuit-format
@@ -58425,7 +58266,7 @@ msgstr "Samara"
 #, kde-kuit-format
 msgctxt "City in Iraq"
 msgid "Samarrah"
-msgstr "Samarrah"
+msgstr "Samarra"
 
 #: kstars_i18n.cpp:3409
 #, kde-kuit-format
@@ -58524,12 +58365,10 @@ msgid "San Sebastián de la Gomera"
 msgstr "San Sebastián de la Gomera"
 
 #: kstars_i18n.cpp:3425
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Sancheong"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Sancheong"
-msgstr "Sancheong"
+msgstr "Sançeong"
 
 #: kstars_i18n.cpp:3426
 #, kde-kuit-format
@@ -58709,7 +58548,7 @@ msgstr "Sassari"
 #, kde-kuit-format
 msgctxt "City in Algeria"
 msgid "Satif"
-msgstr "Satif"
+msgstr "Setif"
 
 #: kstars_i18n.cpp:3456
 #, kde-kuit-format
@@ -58739,7 +58578,7 @@ msgstr "Savannah"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Savant Lake"
-msgstr "Savant Gölü"
+msgstr "Savant Lake"
 
 #: kstars_i18n.cpp:3461
 #, kde-kuit-format
@@ -58868,36 +58707,28 @@ msgid "Senneterre"
 msgstr "Senneterre"
 
 #: kstars_i18n.cpp:3482
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeju Korea"
-#| msgid "Seogwipo"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Seogwipo"
-msgstr "Seogwipo"
+msgstr "Seoguipo"
 
 #: kstars_i18n.cpp:3483
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeju Korea"
-#| msgid "Seongsanpo"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Seongsanpo"
 msgstr "Seongsanpo"
 
 #: kstars_i18n.cpp:3484
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungnam Korea"
-#| msgid "Seosan"
+#, kde-kuit-format
 msgctxt "City in Chungnam South Korea"
 msgid "Seosan"
 msgstr "Seosan"
 
 #: kstars_i18n.cpp:3485
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Seoul"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Seoul"
-msgstr "Seoul"
+msgstr "Seul"
 
 #: kstars_i18n.cpp:3486
 #, kde-kuit-format
@@ -58927,7 +58758,7 @@ msgstr "Seward"
 #, kde-kuit-format
 msgctxt "City in Madina Saudi Arabia"
 msgid "Sewerqia"
-msgstr ""
+msgstr "Severkiye"
 
 #: kstars_i18n.cpp:3491
 #, kde-kuit-format
@@ -58939,7 +58770,7 @@ msgstr "Seymour"
 #, kde-kuit-format
 msgctxt "City in Tunisia"
 msgid "Sfax"
-msgstr "Sfax"
+msgstr "Safakes"
 
 #: kstars_i18n.cpp:3493
 #, kde-kuit-format
@@ -59053,7 +58884,7 @@ msgstr "Shippagan"
 #, kde-kuit-format
 msgctxt "City in Iran"
 msgid "Shiraz"
-msgstr "Shiraz"
+msgstr "Şiraz"
 
 #: kstars_i18n.cpp:3512
 #, kde-kuit-format
@@ -59158,9 +58989,7 @@ msgid "Singapore"
 msgstr "Singapur"
 
 #: kstars_i18n.cpp:3529
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Sinuiju"
+#, kde-kuit-format
 msgctxt "City in Pyŏngbuk North Korea"
 msgid "Sinuiju"
 msgstr "Sinuiju"
@@ -59175,7 +59004,7 @@ msgstr "Sioux City"
 #, kde-kuit-format
 msgctxt "City in South Dakota USA"
 msgid "Sioux Falls"
-msgstr "Sioux Şelalesi"
+msgstr "Sioux Falls"
 
 #: kstars_i18n.cpp:3532
 #, kde-kuit-format
@@ -59247,7 +59076,7 @@ msgstr "Skokie"
 #, kde-kuit-format
 msgctxt "City in Macedonia"
 msgid "Skopje"
-msgstr "Skopje"
+msgstr "Üsküp"
 
 #: kstars_i18n.cpp:3544
 #, kde-kuit-format
@@ -59259,13 +59088,13 @@ msgstr "Slagelse"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Slate Falls"
-msgstr "Slate Şelalesi"
+msgstr "Slate Falls"
 
 #: kstars_i18n.cpp:3546
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Slave Lake"
-msgstr "Slave Gölü"
+msgstr "Slave Lake"
 
 #: kstars_i18n.cpp:3547
 #, kde-kuit-format
@@ -59277,19 +59106,19 @@ msgstr "Slidell"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Slocum"
-msgstr ""
+msgstr "Slocum"
 
 #: kstars_i18n.cpp:3549
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Smiths Falls"
-msgstr "Smiths Şelalesi"
+msgstr "Smiths Falls"
 
 #: kstars_i18n.cpp:3550
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Smoky Lake"
-msgstr "Smoky Gölü"
+msgstr "Smoky Lake"
 
 #: kstars_i18n.cpp:3551
 #, kde-kuit-format
@@ -59301,7 +59130,7 @@ msgstr "Smolensk"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Smooth Rock Falls"
-msgstr "Smooth Rock Şelalesi"
+msgstr "Smooth Rock Falls"
 
 #: kstars_i18n.cpp:3553
 #, kde-kuit-format
@@ -59313,7 +59142,7 @@ msgstr "Smyrna"
 #, kde-kuit-format
 msgctxt "City in South Region Russia"
 msgid "Sochi"
-msgstr "Sochi"
+msgstr "Soçi"
 
 #: kstars_i18n.cpp:3555
 #, kde-kuit-format
@@ -59340,12 +59169,10 @@ msgid "Sofia"
 msgstr "Sofya"
 
 #: kstars_i18n.cpp:3559
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Sokcho"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Sokcho"
-msgstr "Sokcho"
+msgstr "Sokço"
 
 #: kstars_i18n.cpp:3560
 #, kde-kuit-format
@@ -59453,7 +59280,7 @@ msgstr "South Kauai VORTAC"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "South Llano River SP (Llano) IDS"
-msgstr ""
+msgstr "South Llano River SP (Llano) IDS"
 
 #: kstars_i18n.cpp:3578
 #, kde-kuit-format
@@ -59741,7 +59568,7 @@ msgstr "St. Petersburg"
 #, kde-kuit-format
 msgctxt "City in North-West Region Russia"
 msgid "St. Petersburg"
-msgstr "St. Petersburg"
+msgstr "Sankt Peterburg"
 
 #: kstars_i18n.cpp:3626
 #, kde-kuit-format
@@ -59807,7 +59634,7 @@ msgstr "Stavanger"
 #, kde-kuit-format
 msgctxt "City in South Region Russia"
 msgid "Stavropol'"
-msgstr "Stavropol'"
+msgstr "Stavropol"
 
 #: kstars_i18n.cpp:3637
 #, kde-kuit-format
@@ -59975,7 +59802,7 @@ msgstr "Sumter"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Sumy"
-msgstr "Sumy"
+msgstr "Sumı"
 
 #: kstars_i18n.cpp:3665
 #, kde-kuit-format
@@ -59984,12 +59811,10 @@ msgid "Sun Valley"
 msgstr "Sun Valley"
 
 #: kstars_i18n.cpp:3666
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Suncheon"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Suncheon"
-msgstr "Suncheon"
+msgstr "Sunçeon"
 
 #: kstars_i18n.cpp:3667
 #, kde-kuit-format
@@ -60046,12 +59871,10 @@ msgid "Suure-Jaani"
 msgstr "Suure-Jaani"
 
 #: kstars_i18n.cpp:3676
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Suwon"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Suwon"
-msgstr "Suwon"
+msgstr "Suuon"
 
 #: kstars_i18n.cpp:3677
 #, kde-kuit-format
@@ -60087,7 +59910,7 @@ msgstr "Swift Current"
 #, kde-kuit-format
 msgctxt "City in New South Wales Australia"
 msgid "Sydney"
-msgstr "Sydney"
+msgstr "Sidney"
 
 #: kstars_i18n.cpp:3683
 #, kde-kuit-format
@@ -60153,7 +59976,7 @@ msgstr "Taber"
 #, kde-kuit-format
 msgctxt "City in Iran"
 msgid "Tabriz"
-msgstr "Tibriz"
+msgstr "Tebriz"
 
 #: kstars_i18n.cpp:3694
 #, kde-kuit-format
@@ -60174,9 +59997,7 @@ msgid "Tadoussac"
 msgstr "Tadoussac"
 
 #: kstars_i18n.cpp:3697
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Taebaek"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Taebaek"
 msgstr "Taebaek"
@@ -60305,7 +60126,7 @@ msgstr "Tatabánya"
 #, kde-kuit-format
 msgctxt "City in Tunisia"
 msgid "Tataouine"
-msgstr "Tataouine"
+msgstr "Tatavin"
 
 #: kstars_i18n.cpp:3719
 #, kde-kuit-format
@@ -60377,7 +60198,7 @@ msgstr "Terni"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Ternopil'"
-msgstr "Ternopil'"
+msgstr "Ternopil"
 
 #: kstars_i18n.cpp:3731
 #, kde-kuit-format
@@ -60449,7 +60270,7 @@ msgstr "Thessalon"
 #, kde-kuit-format
 msgctxt "City in Greece"
 msgid "Thessaloníki"
-msgstr "Thessaloníki"
+msgstr "Selanik"
 
 #: kstars_i18n.cpp:3743
 #, kde-kuit-format
@@ -60551,13 +60372,13 @@ msgstr "Tinak"
 #, kde-kuit-format
 msgctxt "City in Algeria"
 msgid "Tindouf"
-msgstr "Tindouf"
+msgstr "Tinduf"
 
 #: kstars_i18n.cpp:3760
 #, kde-kuit-format
 msgctxt "City in US Territory"
 msgid "Tinian Island"
-msgstr "Tinian Adası"
+msgstr "Tinian Island"
 
 #: kstars_i18n.cpp:3761
 #, kde-kuit-format
@@ -60638,9 +60459,7 @@ msgid "Tomsk"
 msgstr "Tomsk"
 
 #: kstars_i18n.cpp:3774
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Tongyeong"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Tongyeong"
 msgstr "Tongyeong"
@@ -60697,13 +60516,13 @@ msgstr "Townsville"
 #, kde-kuit-format
 msgctxt "City in Japan"
 msgid "Toyokawa"
-msgstr "Toyokawa"
+msgstr "Toyokaua"
 
 #: kstars_i18n.cpp:3784
 #, kde-kuit-format
 msgctxt "City in Tunisia"
 msgid "Tozeur"
-msgstr "Tozeur"
+msgstr "Tuzer"
 
 #: kstars_i18n.cpp:3785
 #, kde-kuit-format
@@ -60889,13 +60708,13 @@ msgstr "Tuscaloosa"
 #, kde-kuit-format
 msgctxt "City in Central Region Russia"
 msgid "Tver'"
-msgstr "Tver'"
+msgstr "Tver"
 
 #: kstars_i18n.cpp:3816
 #, kde-kuit-format
 msgctxt "City in Idaho USA"
 msgid "Twin Falls"
-msgstr "Twin Şelalesi"
+msgstr "Twin Falls"
 
 #: kstars_i18n.cpp:3817
 #, kde-kuit-format
@@ -60913,7 +60732,7 @@ msgstr "Tyler"
 #, kde-kuit-format
 msgctxt "City in Ural Russia"
 msgid "Tyumen'"
-msgstr "Tyumen'"
+msgstr "Tümen"
 
 #: kstars_i18n.cpp:3820
 #, kde-kuit-format
@@ -60976,9 +60795,7 @@ msgid "Ufa"
 msgstr "Ufa"
 
 #: kstars_i18n.cpp:3830
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Uiseong"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Uiseong"
 msgstr "Uiseong"
@@ -61002,17 +60819,13 @@ msgid "Ulan-Ude"
 msgstr "Ulan-Ude"
 
 #: kstars_i18n.cpp:3834
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Uljin"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Uljin"
 msgstr "Uljin"
 
 #: kstars_i18n.cpp:3835
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Ulleungdo"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Ulleungdo"
 msgstr "Ulleungdo"
@@ -61024,9 +60837,7 @@ msgid "Ulm"
 msgstr "Ulm"
 
 #: kstars_i18n.cpp:3837
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Ulsan"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Ulsan"
 msgstr "Ulsan"
@@ -61107,7 +60918,7 @@ msgstr "Urbana"
 #, kde-kuit-format
 msgctxt "City in Siberia Russia"
 msgid "Ust'-Ordynsky"
-msgstr "Ust'-Ordynsky"
+msgstr "Ust-Ordınski"
 
 #: kstars_i18n.cpp:3851
 #, kde-kuit-format
@@ -61131,7 +60942,7 @@ msgstr "Utrecht"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Uzhhorod"
-msgstr "Uzhhorod"
+msgstr "Ujhorod"
 
 #: kstars_i18n.cpp:3855
 #, kde-kuit-format
@@ -61236,12 +61047,10 @@ msgid "Valverde"
 msgstr "Valverde"
 
 #: kstars_i18n.cpp:3872
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
-msgstr "Valéncia"
+msgstr "Valensiya"
 
 #: kstars_i18n.cpp:3873
 #, kde-kuit-format
@@ -61295,7 +61104,7 @@ msgstr "Vantaa"
 #, kde-kuit-format
 msgctxt "City in Croatia"
 msgid "Varaždin"
-msgstr "Varaždin"
+msgstr "Varajdin"
 
 #: kstars_i18n.cpp:3882
 #, kde-kuit-format
@@ -61307,7 +61116,7 @@ msgstr "Varde"
 #, kde-kuit-format
 msgctxt "City in Poland"
 msgid "Varsovia"
-msgstr "Varşova"
+msgstr "Varsovia"
 
 #: kstars_i18n.cpp:3884
 #, kde-kuit-format
@@ -61337,13 +61146,13 @@ msgstr "Vejle"
 #, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Venice"
-msgstr "Venice"
+msgstr "Venedik"
 
 #: kstars_i18n.cpp:3889
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Venice"
-msgstr "Venedik"
+msgstr "Venice"
 
 #: kstars_i18n.cpp:3890
 #, kde-kuit-format
@@ -61397,7 +61206,7 @@ msgstr "Verona"
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Very Large Array"
-msgstr "Pek Büyük Diziliş"
+msgstr "Very Large Array"
 
 #: kstars_i18n.cpp:3899
 #, kde-kuit-format
@@ -61433,7 +61242,7 @@ msgstr "Victoria"
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Victoria"
-msgstr "Viktoria"
+msgstr "Victoria"
 
 #: kstars_i18n.cpp:3905
 #, kde-kuit-format
@@ -61481,7 +61290,7 @@ msgstr "Vilna"
 #, kde-kuit-format
 msgctxt "City in Lithuania"
 msgid "Vilnius"
-msgstr "Vilnius"
+msgstr "Vilnüs"
 
 #: kstars_i18n.cpp:3913
 #, kde-kuit-format
@@ -61499,7 +61308,7 @@ msgstr "Vinkovci"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Vinnytsia"
-msgstr "Vinnytsia"
+msgstr "Vinnıtsia"
 
 #: kstars_i18n.cpp:3916
 #, kde-kuit-format
@@ -61601,19 +61410,19 @@ msgstr "Waco"
 #, kde-kuit-format
 msgctxt "City in Sudan"
 msgid "Wad Medani"
-msgstr "Wad Medani"
+msgstr "Vad Medeni"
 
 #: kstars_i18n.cpp:3933
 #, kde-kuit-format
 msgctxt "City in Sudan"
 msgid "Wadi-Halfa"
-msgstr "Wadi-Halfa"
+msgstr "Vadi Halfa"
 
 #: kstars_i18n.cpp:3934
 #, kde-kuit-format
 msgctxt "City in Kuwait"
 msgid "Wafra"
-msgstr "Wafra"
+msgstr "Vafra"
 
 #: kstars_i18n.cpp:3935
 #, kde-kuit-format
@@ -61661,7 +61470,7 @@ msgstr "Waipahu"
 #, kde-kuit-format
 msgctxt "City in US Territory"
 msgid "Wake Island"
-msgstr "Wake Adası"
+msgstr "Wake Island"
 
 #: kstars_i18n.cpp:3943
 #, kde-kuit-format
@@ -61724,12 +61533,10 @@ msgid "Wandering River"
 msgstr "Wandering Nehri"
 
 #: kstars_i18n.cpp:3953
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Wando"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Wando"
-msgstr "Wando"
+msgstr "Uando"
 
 #: kstars_i18n.cpp:3954
 #, kde-kuit-format
@@ -62089,7 +61896,7 @@ msgstr "White Plains"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "White River"
-msgstr "White Nehri"
+msgstr "White River"
 
 #: kstars_i18n.cpp:4014
 #, kde-kuit-format
@@ -62131,7 +61938,7 @@ msgstr "Wichita"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Wichita Falls"
-msgstr "Wichita Şelalesi"
+msgstr "Wichita Falls"
 
 #: kstars_i18n.cpp:4021
 #, kde-kuit-format
@@ -62350,20 +62157,16 @@ msgid "Wolseley"
 msgstr "Wolseley"
 
 #: kstars_i18n.cpp:4057
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Wonju"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Wonju"
-msgstr "Wonju"
+msgstr "Uonju"
 
 #: kstars_i18n.cpp:4058
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Wonsan"
+#, kde-kuit-format
 msgctxt "City in Kangwon North Korea"
 msgid "Wonsan"
-msgstr "Wonsan"
+msgstr "Uonsan"
 
 #: kstars_i18n.cpp:4059
 #, kde-kuit-format
@@ -62492,9 +62295,7 @@ msgid "Yamoussoukro"
 msgstr "Yamoussoukro"
 
 #: kstars_i18n.cpp:4080
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Yangpyeong"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Yangpyeong"
 msgstr "Yangpyeong"
@@ -62515,7 +62316,7 @@ msgstr "Yaounde"
 #, kde-kuit-format
 msgctxt "City in Micronesia"
 msgid "Yap Island"
-msgstr "Yap Adası"
+msgstr "Yap Island"
 
 #: kstars_i18n.cpp:4084
 #, kde-kuit-format
@@ -62548,41 +62349,31 @@ msgid "Yellowknife"
 msgstr "Yellowknife"
 
 #: kstars_i18n.cpp:4089
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Yeongcheon"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Yeongcheon"
-msgstr "Yeongcheon"
+msgstr "Yeongçeon"
 
 #: kstars_i18n.cpp:4090
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Yeongdeok"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Yeongdeok"
 msgstr "Yeongdeok"
 
 #: kstars_i18n.cpp:4091
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Yeongju"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Yeongju"
 msgstr "Yeongju"
 
 #: kstars_i18n.cpp:4092
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Yeongwol"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Yeongwol"
 msgstr "Yeongwol"
 
 #: kstars_i18n.cpp:4093
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Yeosu"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Yeosu"
 msgstr "Yeosu"
@@ -62627,7 +62418,7 @@ msgstr "Yorktown Heights"
 #, kde-kuit-format
 msgctxt "City in Volga Region Russia"
 msgid "Yoshkar Ola"
-msgstr "Yoshkar Ola"
+msgstr "Yoşkar Ola"
 
 #: kstars_i18n.cpp:4101
 #, kde-kuit-format
@@ -62654,9 +62445,7 @@ msgid "Yuma"
 msgstr "Yuma"
 
 #: kstars_i18n.cpp:4105
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Hambuk Korea"
-#| msgid "Yupojin"
+#, kde-kuit-format
 msgctxt "City in Hambuk North Korea"
 msgid "Yupojin"
 msgstr "Yupojin"
@@ -62665,7 +62454,7 @@ msgstr "Yupojin"
 #, kde-kuit-format
 msgctxt "City in Far East Russia"
 msgid "Yuzhno-Sakhalinsk"
-msgstr "Yuzhno-Sakhalinsk"
+msgstr "Yujno-Sahalinsk"
 
 #: kstars_i18n.cpp:4107
 #, kde-kuit-format
@@ -62701,7 +62490,7 @@ msgstr "Zanzibar"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Zaporizhia"
-msgstr "Zaporizhia"
+msgstr "Zaporijia"
 
 #: kstars_i18n.cpp:4113
 #, kde-kuit-format
@@ -62725,19 +62514,19 @@ msgstr "Zduny"
 #, kde-kuit-format
 msgctxt "City in Russia"
 msgid "Zelenchukskaya"
-msgstr "Zelenchukskaya"
+msgstr "Zelençukskaya"
 
 #: kstars_i18n.cpp:4117
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Zhovkva"
-msgstr "Zhovkva"
+msgstr "Jovkva"
 
 #: kstars_i18n.cpp:4118
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Zhytomyr"
-msgstr "Zhytomyr"
+msgstr "Jıtomır"
 
 #: kstars_i18n.cpp:4119
 #, kde-kuit-format
@@ -62797,7 +62586,7 @@ msgstr "ACT"
 #, kde-kuit-format
 msgctxt "Region/state in Kuwait"
 msgid "Ahmadi"
-msgstr "Ahmadi"
+msgstr "Ahmedi"
 
 #: kstars_i18n.cpp:4129
 #, kde-kuit-format
@@ -62833,7 +62622,7 @@ msgstr "Alpes de Haute Provence"
 #, kde-kuit-format
 msgctxt "Region/state in India"
 msgid "Andhra Pradesh"
-msgstr "Andhra Pradesh"
+msgstr "Andra Pradeş"
 
 #: kstars_i18n.cpp:4135
 #, kde-kuit-format
@@ -62872,12 +62661,10 @@ msgid "Bas-Rhin"
 msgstr "Bas-Rhin"
 
 #: kstars_i18n.cpp:4141
-#, fuzzy, kde-kuit-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Bavaria"
+#, kde-kuit-format
 msgctxt "Region/state in Germany"
 msgid "Bavaria"
-msgstr "Bavaria"
+msgstr "Bavyera"
 
 #: kstars_i18n.cpp:4142
 #, kde-kuit-format
@@ -62964,20 +62751,16 @@ msgid "Christmas Island"
 msgstr "Christmas Adası"
 
 #: kstars_i18n.cpp:4156
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Chungbuk"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Chungbuk"
-msgstr "Chungbuk"
+msgstr "Çungbuk"
 
 #: kstars_i18n.cpp:4157
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Chungnam"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Chungnam"
-msgstr "Chungnam"
+msgstr "Çungnam"
 
 #: kstars_i18n.cpp:4158
 #, kde-kuit-format
@@ -63088,12 +62871,10 @@ msgid "Fyn"
 msgstr "Fyn"
 
 #: kstars_i18n.cpp:4176
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gangwon"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gangwon"
-msgstr "Gangwon"
+msgstr "Ganguon"
 
 #: kstars_i18n.cpp:4177
 #, kde-kuit-format
@@ -63132,25 +62913,19 @@ msgid "Guernsey"
 msgstr "Guernsey"
 
 #: kstars_i18n.cpp:4183
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gyeongbuk"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gyeongbuk"
 msgstr "Gyeongbuk"
 
 #: kstars_i18n.cpp:4184
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gyeonggi"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gyeonggi"
 msgstr "Gyeonggi"
 
 #: kstars_i18n.cpp:4185
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gyeongnam"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gyeongnam"
 msgstr "Gyeongnam"
@@ -63168,9 +62943,7 @@ msgid "Hajdú-Bihar"
 msgstr "Hajdú-Bihar"
 
 #: kstars_i18n.cpp:4188
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Hambuk"
+#, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Hambuk"
 msgstr "Hambuk"
@@ -63179,7 +62952,7 @@ msgstr "Hambuk"
 #, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Hamnam"
-msgstr ""
+msgstr "Hamnam"
 
 #: kstars_i18n.cpp:4190
 #, kde-kuit-format
@@ -63251,7 +63024,7 @@ msgstr "Heves"
 #, kde-kuit-format
 msgctxt "Region/state in USA"
 msgid "Idaho"
-msgstr "Idaho"
+msgstr "İdaho"
 
 #: kstars_i18n.cpp:4202
 #, kde-kuit-format
@@ -63266,12 +63039,10 @@ msgid "Illinois"
 msgstr "Illinois"
 
 #: kstars_i18n.cpp:4204
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Incheon"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Incheon"
-msgstr "Incheon"
+msgstr "İnçeon"
 
 #: kstars_i18n.cpp:4205
 #, kde-kuit-format
@@ -63298,25 +63069,19 @@ msgid "Isère"
 msgstr "Isère"
 
 #: kstars_i18n.cpp:4209
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Jeju"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Jeju"
 msgstr "Jeju"
 
 #: kstars_i18n.cpp:4210
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Jeonbuk"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Jeonbuk"
 msgstr "Jeonbuk"
 
 #: kstars_i18n.cpp:4211
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Jeonnam"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Jeonnam"
 msgstr "Jeonnam"
@@ -63334,12 +63099,10 @@ msgid "Jász-Nagykun-Szolnok"
 msgstr "Jász-Nagykun-Szolnok"
 
 #: kstars_i18n.cpp:4214
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gangwon"
+#, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Kangwon"
-msgstr "Gangwon"
+msgstr "Kanguon"
 
 #: kstars_i18n.cpp:4215
 #, kde-kuit-format
@@ -63414,12 +63177,10 @@ msgid "Madeira"
 msgstr "Madeira"
 
 #: kstars_i18n.cpp:4227
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Alabama USA"
-#| msgid "Madison"
+#, kde-kuit-format
 msgctxt "Region/state in Saudi Arabia"
 msgid "Madina"
-msgstr "Madison"
+msgstr "Medine"
 
 #: kstars_i18n.cpp:4228
 #, kde-kuit-format
@@ -63551,7 +63312,7 @@ msgstr "New Brunswick"
 #, kde-kuit-format
 msgctxt "Region/state in France"
 msgid "New Caledonia"
-msgstr "Yeni Kaledonya"
+msgstr "New Kaledonya"
 
 #: kstars_i18n.cpp:4250
 #, kde-kuit-format
@@ -63575,7 +63336,7 @@ msgstr "New Mexico"
 #, kde-kuit-format
 msgctxt "Region/state in Australia"
 msgid "New South Wales"
-msgstr "Yeni Güney Galler"
+msgstr "New Güney Galler"
 
 #: kstars_i18n.cpp:4254
 #, kde-kuit-format
@@ -63617,7 +63378,7 @@ msgstr "Kuzey Dakota"
 #, kde-kuit-format
 msgctxt "Region/state in Russia"
 msgid "North-West Region"
-msgstr "Kuzey Batı Bölgesi"
+msgstr "Kuzeybatı Bölgesi"
 
 #: kstars_i18n.cpp:4261
 #, kde-kuit-format
@@ -63635,7 +63396,7 @@ msgstr "Kuzey Toprakları"
 #, kde-kuit-format
 msgctxt "Region/state in Canada"
 msgid "Northwest Territories"
-msgstr "Kuzey Batı Toprakları"
+msgstr "Kuzeybatı Toprakları"
 
 #: kstars_i18n.cpp:4264
 #, kde-kuit-format
@@ -63734,12 +63495,10 @@ msgid "Pyrénées atlantiques"
 msgstr "Pyrénées atlantiques"
 
 #: kstars_i18n.cpp:4280
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Pyungbuk"
+#, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Pyŏngbuk"
-msgstr "Pyungbuk"
+msgstr "Pyongbuk"
 
 #: kstars_i18n.cpp:4281
 #, kde-kuit-format
@@ -63829,7 +63588,7 @@ msgstr "Güney Bölgesi"
 #, kde-kuit-format
 msgctxt "Region/state in France"
 msgid "St-Pierre and Miquelon"
-msgstr "St. Pierre ve Miquelon"
+msgstr "St. Pierre and Miquelon"
 
 #: kstars_i18n.cpp:4296
 #, kde-kuit-format
@@ -63949,13 +63708,13 @@ msgstr "Galler"
 #, kde-kuit-format
 msgctxt "Region/state in USA"
 msgid "Washington"
-msgstr "Washington"
+msgstr "Vaşington"
 
 #: kstars_i18n.cpp:4316
 #, kde-kuit-format
 msgctxt "Region/state in USA"
 msgid "Washington, DC"
-msgstr "Washington, DC"
+msgstr "Vaşington, DC"
 
 #: kstars_i18n.cpp:4317
 #, kde-kuit-format
@@ -64117,7 +63876,7 @@ msgstr "Bolivya"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Bosnia and Herzegovina"
-msgstr "Bosna Hersek"
+msgstr "Bosna-Hersek"
 
 #: kstars_i18n.cpp:4344
 #, kde-kuit-format
@@ -64183,7 +63942,7 @@ msgstr "Cape Verde"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Cayman Islands"
-msgstr "Cayman Adaları"
+msgstr "Kayman Adaları"
 
 #: kstars_i18n.cpp:4355
 #, kde-kuit-format
@@ -64273,7 +64032,7 @@ msgstr "Danimarka"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Djibouti"
-msgstr "Djibouti"
+msgstr "Cibuti"
 
 #: kstars_i18n.cpp:4370
 #, kde-kuit-format
@@ -64321,7 +64080,7 @@ msgstr "Estonya"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Ethiopia"
-msgstr "Etyopya"
+msgstr "Etiyopya"
 
 #: kstars_i18n.cpp:4378
 #, kde-kuit-format
@@ -64357,7 +64116,7 @@ msgstr "Fransız Guyanası"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "French Polynesia"
-msgstr "Fransız Polinezyası"
+msgstr "Fransız Polonezyası"
 
 #: kstars_i18n.cpp:4384
 #, kde-kuit-format
@@ -64369,7 +64128,7 @@ msgstr "Gabon"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Gambia"
-msgstr "Gambia"
+msgstr "Gambiya"
 
 #: kstars_i18n.cpp:4386
 #, kde-kuit-format
@@ -64417,7 +64176,7 @@ msgstr "Gine"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Guinea Bissau"
-msgstr "Guinea Bissau"
+msgstr "Gine Bissau"
 
 #: kstars_i18n.cpp:4394
 #, kde-kuit-format
@@ -64507,7 +64266,7 @@ msgstr "İtalya"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Ivory coast"
-msgstr "Fildişi Sahilleri"
+msgstr "Fildişi Sahili"
 
 #: kstars_i18n.cpp:4409
 #, kde-kuit-format
@@ -64927,7 +64686,7 @@ msgstr "Sudan"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Swaziland"
-msgstr "Svaziland"
+msgstr "Suaziland"
 
 #: kstars_i18n.cpp:4479
 #, kde-kuit-format
@@ -64993,7 +64752,7 @@ msgstr "Türkiye"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Turks and Caicos Islands"
-msgstr "Türk ve Kaykos Adaları"
+msgstr "Turks ve Caicos Adaları"
 
 #: kstars_i18n.cpp:4490
 #, kde-kuit-format
@@ -65059,7 +64818,7 @@ msgstr "Vatikan"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Venezuela"
-msgstr "Venezuella"
+msgstr "Venezuela"
 
 #: kstars_i18n.cpp:4501
 #, kde-kuit-format
@@ -65101,7 +64860,7 @@ msgstr "Zimbabve"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Comet Impact Scars (HST)"
-msgstr "Kuyruklu yıldız çarpması izleri (HST)"
+msgstr "Kuyruklu Yıldız Çarpması İzleri (HST)"
 
 #: kstars_i18n.cpp:4508
 #, kde-kuit-format
@@ -65125,139 +64884,139 @@ msgstr "Jüpiter ve İo (HST)"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image"
-msgstr "APOD Resmini Göster"
+msgstr "APOD Görselini Göster"
 
 #: kstars_i18n.cpp:4512
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image (Radar)"
-msgstr "APOD Resmini Göster (Radar)"
+msgstr "APOD Görselini Göster (Radar)"
 
 #: kstars_i18n.cpp:4513
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image (Venera lander)"
-msgstr "APOD Resmini Göster (Venera sondası)"
+msgstr "APOD Görselini Göster (Venera sondası)"
 
 #: kstars_i18n.cpp:4514
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Collage of Saturn and moons"
-msgstr "Satürn ve aylarını kolaj olarak göster"
+msgstr "Satürn ve Aylarının Kolajını Göster"
 
 #: kstars_i18n.cpp:4515
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image"
-msgstr "HST Resmini Göster"
+msgstr "HST Görselini Göster"
 
 #: kstars_i18n.cpp:4516
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1995)"
-msgstr "HST Resmini Göster (1995)"
+msgstr "HST Görselini Göster (1995)"
 
 #: kstars_i18n.cpp:4517
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1996)"
-msgstr "HST Resmini Göster (1996)"
+msgstr "HST Görselini Göster (1996)"
 
 #: kstars_i18n.cpp:4518
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1998)"
-msgstr "HST Resmini Göster (1998)"
+msgstr "HST Görselini Göster (1998)"
 
 #: kstars_i18n.cpp:4519
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1999)"
-msgstr "HST Resmini Göster (1999)"
+msgstr "HST Görselini Göster (1999)"
 
 #: kstars_i18n.cpp:4520
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2001)"
-msgstr "HST Resmini Göster (2001)"
+msgstr "HST Görselini Göster (2001)"
 
 #: kstars_i18n.cpp:4521
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2002)"
-msgstr "HST Resmini Göster (2002)"
+msgstr "HST Görselini Göster (2002)"
 
 #: kstars_i18n.cpp:4522
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2003)"
-msgstr "HST Resmini Göster (2003)"
+msgstr "HST Görselini Göster (2003)"
 
 #: kstars_i18n.cpp:4523
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2004)"
-msgstr "HST Resmini Göster (2004)"
+msgstr "HST Görselini Göster (2004)"
 
 #: kstars_i18n.cpp:4524
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Aurora)"
-msgstr "HST Resmini Göster (Aurora)"
+msgstr "HST Görselini Göster (Aurora)"
 
 #: kstars_i18n.cpp:4525
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (detail)"
-msgstr "HST Resmini Göster (Ayrıntı)"
+msgstr "HST Görselini Göster (Ayrıntı)"
 
 #: kstars_i18n.cpp:4526
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Detail)"
-msgstr "HST Resmini Göster (Ayrıntı)"
+msgstr "HST Görselini Göster (Ayrıntı)"
 
 #: kstars_i18n.cpp:4527
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Hubble V)"
-msgstr "HST Resmini Göster (Hubble V)"
+msgstr "HST Görselini Göster (Hubble V)"
 
 #: kstars_i18n.cpp:4528
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Hubble X)"
-msgstr "HST Resmini Göster (Hubble X)"
+msgstr "HST Görselini Göster (Hubble X)"
 
 #: kstars_i18n.cpp:4529
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (SN 2004dj)"
-msgstr "HST Resmini Göster (SN 2004dj)"
+msgstr "HST Görselini Göster (SN 2004dj)"
 
 #: kstars_i18n.cpp:4530
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (stars in M 31)"
-msgstr "HST Resmini Göster (M 31 deki yıldızlar)"
+msgstr "HST Görselini Göster (M 31 deki yıldızlar)"
 
 #: kstars_i18n.cpp:4531
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST (Rings and Moons)"
-msgstr "HST Göster  (Halkalar ve Aylar)"
+msgstr "HST'yi Göster (Halkalar ve Aylar)"
 
 #: kstars_i18n.cpp:4532
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show KPNO AOP Image"
-msgstr "KPNO AOP Resmini Göster"
+msgstr "KPNO AOP Görselini Göster"
 
 #: kstars_i18n.cpp:4533
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show MGS Image"
-msgstr "MGS Resmini Göster"
+msgstr "MGS Görselini Göster"
 
 #: kstars_i18n.cpp:4534
 #, kde-kuit-format
@@ -65269,61 +65028,61 @@ msgstr "NASA Mozayiğini Göster"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image"
-msgstr "NOAO Resmini Göster"
+msgstr "NOAO Görselini Göster"
 
 #: kstars_i18n.cpp:4536
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image (Halpha)"
-msgstr "NOAO Resmini Göster (Halfa)"
+msgstr "NOAO Görselini Göster (Halfa)"
 
 #: kstars_i18n.cpp:4537
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image (Optical)"
-msgstr "NOAO Resmini Göster (Optik)"
+msgstr "NOAO Görselini Göster (Optik)"
 
 #: kstars_i18n.cpp:4538
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show SEDS Image"
-msgstr "SEDS Resmini Göster"
+msgstr "SEDS Görselini Göster"
 
 #: kstars_i18n.cpp:4539
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Spitzer Image"
-msgstr "Spitzer Resmini Göster"
+msgstr "Spitzer Görselini Göster"
 
 #: kstars_i18n.cpp:4540
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Sun Image"
-msgstr "Güneş Resmini Göster"
+msgstr "Güneş Görselini Göster"
 
 #: kstars_i18n.cpp:4541
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Viking Lander Image"
-msgstr "Viking Sondası Resmini Göster"
+msgstr "Viking Sondası Görselini Göster"
 
 #: kstars_i18n.cpp:4542
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Voyager 1 Image"
-msgstr "Voyager 1 Resmini Göster"
+msgstr "Voyager 1 Görselini Göster"
 
 #: kstars_i18n.cpp:4543
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Total Eclipse Image"
-msgstr "Tam Tutulma Resmini Göster"
+msgstr "Tam Tutulma Görseli"
 
 #: kstars_i18n.cpp:4544
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Triple Eclipse (HST)"
-msgstr "Üçlü Tutulma"
+msgstr "Üçlü Tutulma (HST)"
 
 #: kstars_i18n.cpp:4545
 #, kde-kuit-format
@@ -65332,26 +65091,22 @@ msgid "Comet Shoemaker-Levy 9"
 msgstr "Shoemaker-Levy 9 Kuyruklu Yıldızı"
 
 #: kstars_i18n.cpp:4546
-#, fuzzy, kde-kuit-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Comet Shoemaker-Levy 9"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Comet Shoemaker–Levy 9 Wikipedia page"
-msgstr "Shoemaker-Levy 9 Kuyruklu Yıldızı"
+msgstr "Shoemaker-Levy 9 Kuyruklu Yıldızı Vikipedi Sayfası"
 
 #: kstars_i18n.cpp:4547
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Daily Solar Images"
-msgstr "Günlük Güneş Resimleri"
+msgstr "Günlük Güneş Görselleri"
 
 #: kstars_i18n.cpp:4548
-#, fuzzy, kde-kuit-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Total Eclipse Image"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Eclipse page"
-msgstr "Tam Tutulma Resmini Göster"
+msgstr "NASA Tutulma Sayfası"
 
 #: kstars_i18n.cpp:4549
 #, kde-kuit-format
@@ -65360,37 +65115,34 @@ msgid "NASA Mars Missions"
 msgstr "NASA Mars Görevleri"
 
 #: kstars_i18n.cpp:4550
-#, fuzzy, kde-kuit-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "NASA Mars Missions"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Science Mariner missions"
-msgstr "NASA Mars Görevleri"
+msgstr "NASA Science Mariner Görevleri"
 
 #: kstars_i18n.cpp:4551
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Solar System Exploration Page"
-msgstr ""
+msgstr "NASA Güneş Sistemi Keşif Sayfası"
 
 #: kstars_i18n.cpp:4552
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Sun-Earth Days page"
-msgstr ""
+msgstr "NASA Güneş-Dünya Günleri Sayfası"
 
 #: kstars_i18n.cpp:4553
-#, fuzzy, kde-kuit-format
-#| msgid "Minor Planets"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Nine Planets Page"
-msgstr "Küçük Gezegenler"
+msgstr "Dokuz Gezegen Sayfası"
 
 #: kstars_i18n.cpp:4554
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "SEDS Information Page"
-msgstr "SEDS Bilgi Edinme Sayfası"
+msgstr "SEDS Bilgi Sayfası"
 
 #: kstars_i18n.cpp:4555
 #, kde-kuit-format
@@ -65408,7 +65160,7 @@ msgstr "Cassini Görevi"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The \"face\" on Mars"
-msgstr "Marstaki \"yüz\""
+msgstr "Marstaki \"Yüz\""
 
 #: kstars_i18n.cpp:4558
 #, kde-kuit-format
@@ -65450,7 +65202,7 @@ msgstr "Tüm Mars Kataloğu"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Welcome to Mars!"
-msgstr "Mars'a hoş geldiniz!"
+msgstr "Mars'a Hoş Geldiniz!"
 
 #: kstars_i18n.cpp:4565
 #, kde-kuit-format
@@ -65468,7 +65220,7 @@ msgstr "Akyıldız"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Canopus"
-msgstr "Canopus"
+msgstr "Yıldırak"
 
 #: kstars_i18n.cpp:4568
 #, kde-kuit-format
@@ -65480,7 +65232,7 @@ msgstr "Arktürüs"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Rigel Kentaurus"
-msgstr "Rigel Kentaurus"
+msgstr "Sentor Ayak"
 
 #: kstars_i18n.cpp:4570
 #, kde-kuit-format
@@ -65492,7 +65244,7 @@ msgstr "Vega"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Capella"
-msgstr "Kapella"
+msgstr "Şapel"
 
 #: kstars_i18n.cpp:4572
 #, kde-kuit-format
@@ -65558,7 +65310,7 @@ msgstr "Akrep Yüreği"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Pollux"
-msgstr "Polluks "
+msgstr "Polluks"
 
 #: kstars_i18n.cpp:4583
 #, kde-kuit-format
@@ -65636,7 +65388,7 @@ msgstr "Alnilam"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Al Na'ir"
-msgstr "Al Na'ir"
+msgstr "El Nayır"
 
 #: kstars_i18n.cpp:4596
 #, kde-kuit-format
@@ -65744,7 +65496,7 @@ msgstr "Hamel"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Al Gieba"
-msgstr "Al Gieba"
+msgstr "Gıybet"
 
 #: kstars_i18n.cpp:4614
 #, kde-kuit-format
@@ -65852,7 +65604,7 @@ msgstr "Sadr"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Suhail"
-msgstr "Suhail"
+msgstr "Süheyl"
 
 #: kstars_i18n.cpp:4632
 #, kde-kuit-format
@@ -65954,7 +65706,7 @@ msgstr "Gienah"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Markab"
-msgstr "Markab"
+msgstr "Eşek"
 
 #: kstars_i18n.cpp:4649
 #, kde-kuit-format
@@ -66062,7 +65814,7 @@ msgstr "Yed Prior"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Na'ir al Saif"
-msgstr "Na'ir al Saif"
+msgstr "Nayır El Saif"
 
 #: kstars_i18n.cpp:4667
 #, kde-kuit-format
@@ -66224,7 +65976,7 @@ msgstr "Pherkab"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Al Dhanab"
-msgstr "Al Dhanab"
+msgstr "El Deneb"
 
 #: kstars_i18n.cpp:4694
 #, kde-kuit-format
@@ -66284,7 +66036,7 @@ msgstr "Altais"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Al Nair"
-msgstr "Al Nair"
+msgstr "El Nayır"
 
 #: kstars_i18n.cpp:4704
 #, kde-kuit-format
@@ -66365,12 +66117,10 @@ msgid "Asmidiske"
 msgstr "Asmidiske"
 
 #: kstars_i18n.cpp:4717
-#, fuzzy, kde-kuit-format
-#| msgctxt "star name"
-#| msgid "Seginus"
+#, kde-kuit-format
 msgctxt "star name"
 msgid "Segin"
-msgstr "Seginus"
+msgstr "Segin"
 
 #: kstars_i18n.cpp:4718
 #, kde-kuit-format
@@ -66502,7 +66252,7 @@ msgstr "Al Giedi"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Zawijah"
-msgstr "Zawijah"
+msgstr "Zevce"
 
 #: kstars_i18n.cpp:4740
 #, kde-kuit-format
@@ -66808,7 +66558,7 @@ msgstr "Tansık"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Last Launches"
-msgstr "Son Çalışanlar"
+msgstr "Son Fırlatmalar"
 
 #: kstars_i18n.cpp:4791
 #, kde-kuit-format
@@ -66844,13 +66594,13 @@ msgstr "GOES"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Earth Resources"
-msgstr "Dünya Kaynakları"
+msgstr "Dünya Özkaynakları"
 
 #: kstars_i18n.cpp:4797
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Search & Rescue (SARSAT)"
-msgstr "Arama Kurtarma (SARSAT)"
+msgstr "Arama-Kurtarma (SARSAT)"
 
 #: kstars_i18n.cpp:4798
 #, kde-kuit-format
@@ -66868,7 +66618,7 @@ msgstr "İzleme ve Veri Geçişi Uydu Sistemi (TDRSS)"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Geostationary"
-msgstr "Geostationary"
+msgstr "Yerinde Duran"
 
 #: kstars_i18n.cpp:4801
 #, kde-kuit-format
@@ -66976,7 +66726,7 @@ msgstr "Uzay ve Yer Bilimi"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Geodetic"
-msgstr "Jeodezik"
+msgstr "Yersel"
 
 #: kstars_i18n.cpp:4819
 #, kde-kuit-format
@@ -67018,43 +66768,43 @@ msgstr "Çeşitli"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental GPS"
-msgstr "Tamamlayıcı GPS"
+msgstr "GPS Ek"
 
 #: kstars_i18n.cpp:4826
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental GLONASS"
-msgstr "Tamamlayıcı GLONASS"
+msgstr "GLONASS Ek"
 
 #: kstars_i18n.cpp:4827
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental METEOSAT"
-msgstr "Tamamlayıcı METEOSAT"
+msgstr "METEOSAT Ek"
 
 #: kstars_i18n.cpp:4828
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental INTELSAT"
-msgstr "Tamamlayıcı INTELSAT"
+msgstr "INTELSAT Ek"
 
 #: kstars_i18n.cpp:4829
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental ORBCOMM"
-msgstr "Yardımcı ORBCOMM"
+msgstr "ORBCOMM Ek"
 
 #: kstars_i18n.cpp:4830
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Simbad"
-msgstr "Simbad"
+msgstr "Sinbad"
 
 #: kstars_i18n.cpp:4831
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Aladin"
-msgstr "Aladin"
+msgstr "Alaaddin"
 
 #: kstars_i18n.cpp:4832
 #, kde-kuit-format
@@ -67066,13 +66816,13 @@ msgstr "Skyview"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Gamma-ray"
-msgstr "Gama-ışını"
+msgstr "Gama Işını"
 
 #: kstars_i18n.cpp:4834
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "X-ray"
-msgstr "X-ışını"
+msgstr "X Işını"
 
 #: kstars_i18n.cpp:4835
 #, kde-kuit-format
@@ -67084,7 +66834,7 @@ msgstr "EUV"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "UV"
-msgstr "UV"
+msgstr "Morötesi"
 
 #: kstars_i18n.cpp:4837
 #, kde-kuit-format
@@ -67114,19 +66864,19 @@ msgstr "Yüksek Enerji Astrofizik Arşivi (HEASARC)"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Recent X-Ray Missions"
-msgstr "Yakın Geçmişteki X-Işını Görevleri"
+msgstr "Yakın Geçmişteki X Işını Görevleri"
 
 #: kstars_i18n.cpp:4842
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Past X-ray Mission"
-msgstr "Geçmiş X-Işını Görevleri"
+msgstr "Geçmiş X Işını Görevleri"
 
 #: kstars_i18n.cpp:4843
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Gamma-Ray Missions"
-msgstr "Gama-Işını Görevleri"
+msgstr "Gama Işını Görevleri"
 
 #: kstars_i18n.cpp:4844
 #, kde-kuit-format
@@ -67144,7 +66894,7 @@ msgstr "Beğenilen Katalog Seçimleri"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Multiwavelength Catalogs"
-msgstr "Çoklu dalgaboyu Katalogları"
+msgstr "Çoklu Dalga Boyu Katalogları"
 
 #: kstars_i18n.cpp:4847
 #, kde-kuit-format
