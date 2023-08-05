@@ -236,9 +236,9 @@
                 <para
 >Du texte libre peur être inclus dans la chaîne format, <emphasis role="bold"
 >sauf les caractères % et \</emphasis
->. Le caractère d'emplacement / peut être utilisé pour définir des dossiers arbitraires. </para>
+>. Le caractère d'emplacement / peut être utilisé pour définir des dossiers arbitraires. </para>
                 <para
->Note : les étiquettes sont sensibles à la casse dans leur forme courte et longue. </para>
+>Remarque : les étiquettes sont sensibles à la casse dans leur forme courte et longue. </para>
                 <para
 >Étiquettes réservées disponibles : </para>
                 <itemizedlist>
@@ -427,7 +427,7 @@
 >File d'attente des séquences</title>
 
         <para
->La file d'attente des séquences est la plateforme principale du module d'acquisition d'Ekos. C'est l'endroit où vous planifiez et exécutez les tâches en utilisant le puissant ordonnanceur intégré. Pour ajouter une tâche, il suffit de sélectionner tous les paramètres des réglages de l'acquisition et du nommage de fichier comme indiqué ci-dessus. Ensuite, cliquez sur le bouton d'ajout <inlinemediaobject
+>La file d'attente des séquences est la plate-forme principale du module d'acquisition d'Ekos. C'est l'endroit où vous planifiez et exécutez les tâches en utilisant le puissant ordonnanceur intégré. Pour ajouter une tâche, il suffit de sélectionner tous les paramètres des réglages de l'acquisition et du nommage de fichier comme indiqué ci-dessus. Ensuite, cliquez sur le bouton d'ajout <inlinemediaobject
 ><imageobject
 ><imagedata fileref="list-add.png" format="PNG"/></imageobject
 ></inlinemediaobject
