@@ -2665,9 +2665,7 @@
 <para
 >Chacune des actions sur le clavier effectue une action sur l'<firstterm
 >objet sélectionné</firstterm
->. L'objet sélectionné est le dernier objet sur lequel on a cliqué (identifié dans la barre d'état). Autrement, si vous maintenez enfoncée la touche <keycap
->&Maj;</keycap
->, l'action sera effectuée sur l'objet centré.</para>
+>. L'objet sélectionné est le dernier objet sur lequel on a cliqué (identifié dans la barre d'état). Autrement, si vous maintenez enfoncée la touche &Maj;, l'action sera effectuée sur l'objet centré.</para>
 
 <variablelist>
 <varlistentry>

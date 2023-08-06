@@ -26,7 +26,7 @@
       <title
 >Introduction</title>
         <para
->L'ordonnanceur d'Ekos est un composant important dans le flux de travail de l'imagerie. Il se connecte à INDI, démarre et arrête tous les autres modules d'Ekos, organise les tâches en tenant compte des contraintes et priorités, les surveille  lorsqu'elles sont exécutées et arrête le système de manière sécurisée quand elles sont terminées ou avant l'aube. Que vous imagiez plusieurs cibles sur plusieurs nuits ou simplement une seule cible pendant quelques heures, il est conseillé d'utiliser l'ordonnanceur pour contrôler les sessions d'imagerie. </para>
+>L'ordonnanceur d'Ekos est un composant important dans le flux de travail de l'imagerie. Il se connecte à INDI, démarre et arrête tous les autres modules d'Ekos, organise les tâches en tenant compte des contraintes et priorités, les surveille lorsqu'elles sont exécutées et arrête le système de manière sécurisée quand elles sont terminées ou avant l'aube. Que vous imagiez plusieurs cibles sur plusieurs nuits ou simplement une seule cible pendant quelques heures, il est conseillé d'utiliser l'ordonnanceur pour contrôler les sessions d'imagerie. </para>
     </sect3>
     <sect3 id="scheduler-table">
         <title
@@ -75,7 +75,7 @@
         <para
 >La table ci-dessus dresse la liste des tâches par ordre de priorité, avec les tâches plus haute (de numéro de ligne plus basse) ayant la plus haute priorité que celles plus bas dans la liste (de numéro de ligne plus haut). </para>
         <para
->L'ordonnanceur revoit régulièrement l'ordre des tâches et le moment où elles doivent être lancées. Il peut lancer une tâche puis plus tard, temporairement la mettre en pause en faveur d'une autre. Il peut devenir inactif si aucune tâche ne peut être lancée (&eg; durant le jour) et rester dans cet état jusqu'à ce qu'une tâche peut être lancée. Le but est de garder l'équipement le plus occupé possible tout en respectant les priorités de la table. Voici comment il fonctionne. </para>
+>L'ordonnanceur revoit régulièrement l'ordre des tâches et le moment où elles doivent être lancées. Il peut lancer une tâche puis plus tard, temporairement la mettre en pause en faveur d'une autre. Il peut devenir inactif si aucune tâche ne peut être lancée (&eg; durant le jour) et rester dans cet état jusqu'à ce qu'une tâche peut être lancée. Le but est de conserver l'équipement le plus occupé possible tout en respectant les priorités de la table. Voici comment il fonctionne. </para>
         <para
 >Quand l'ordonnanceur démarre (ou quand il revoit ses plans, ce qu'il fait toutes les secondes quand il est actif), il passe à travers toute la liste de tâches, en commençant par celle de plus haute priorité, jusqu'à celle de plus basse priorité. Quand il trouve une tâche qui peut être lancée, il le fait, même s'il doit même en pause une tâche en cours. Une tâche peut être lancée que si elle rempli toutes les contraintes, &eg;, la cible n'est pas bloquée par l'environnement (un arbre par exemple) et qu'elle satisfait la contrainte d'altitude minimale ou encore qu'elle n'a pas terminé toutes les acquisitions souhaitées. </para>
     <para
@@ -217,7 +217,7 @@
         <title
 >Répétez toutes les tâches</title>
         <para
->Il existe une case à cocher et un champ nombre juste sous la table de tâches qui permet de répéter la programmation entière N fois. Cela peut être utilisé pour alterner quelques tâches. Il suffit de lister les tâches sur l'ordonnanceur, régler pour répéter N fois et les tâches se répéteront. Toutefois, ce changement est incompatible avec l'option « Se souvenir de la progression » et indisponible si cette option est cochée. (Note : cette option est recommandée). </para>
+>Il existe une case à cocher et un champ nombre juste sous la table de tâches qui permet de répéter la programmation entière N fois. Cela peut être utilisé pour alterner quelques tâches. Il suffit de lister les tâches sur l'ordonnanceur, régler pour répéter N fois et les tâches se répéteront. Toutefois, ce changement est incompatible avec l'option « Se souvenir de la progression » et indisponible si cette option est cochée. (Remarque : cette option est recommandée). </para>
        </sect4>
     </sect3>
     <sect3 id="workflow">

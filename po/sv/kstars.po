@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 00:41+0000\n"
-"PO-Revision-Date: 2023-08-02 21:53+0200\n"
+"POT-Creation-Date: 2023-08-05 00:41+0000\n"
+"PO-Revision-Date: 2023-08-05 07:20+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -9443,7 +9443,7 @@ msgstr ""
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
 "alignment error.</p><p>Be patient, plate solving can be affected by knob "
-"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when "
 "you're finished.</p>"
 msgstr ""
 "<p>Justera stativets <i>elevation- och azimutreglage</i> för att reducera "
@@ -13051,7 +13051,7 @@ msgid ""
 "A variable to store the fwhm in pixels used to generate the convolution "
 "filter for star detection."
 msgstr ""
-"En variabel för att lagra FWHM i bildpunkter som används för att skapa "
+"En variabel för att lagra FBHM i bildpunkter som används för att skapa "
 "faltningsfiltret för stjärndetektering."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
@@ -13112,7 +13112,7 @@ msgstr "Kron-faktor"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:420
 #, kde-format
 msgid "Conv FWHM"
-msgstr "Konv FWHM"
+msgstr "Konv FBHM"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:427
@@ -13136,8 +13136,8 @@ msgid ""
 msgstr ""
 "Typ av faltningsfilter som SEP lägger till i bilden innan stjärnextrahering. "
 "Filtren är jämförbara med filtren som ingår i en installation av SExtractor, "
-"men har flexibilitet att ändra FWHM. Standardfiltret är det snabbaste "
-"filtret, men ändras INTE med FWHM-inställning, och är därför bäst för små "
+"men har flexibilitet att ändra FBHM. Standardfiltret är det snabbaste "
+"filtret, men ändras INTE med FBHM-inställning, och är därför bäst för små "
 "stjärnor. Det Gaussiska filtret är bäst för detektering av svaga objekt. "
 "Filtret Mexikansk hatt är bra i trånga stjärnfält eller i närhet av "
 "nebulosor. Filtret Cylinderhatt är bra för utsträckta objekt med svag "
@@ -14007,7 +14007,7 @@ msgstr "Tar %1-sekunders %2 bild..."
 #: ekos/capture/capture.cpp:1948
 #, kde-format
 msgid "Failed to set sub frame."
-msgstr "Misslyckades ställa in delruta."
+msgstr "Misslyckades ställa in delbild"
 
 #: ekos/capture/capture.cpp:1953
 #, kde-format
@@ -17069,11 +17069,11 @@ msgstr ""
 "dock extra arbete från dig för att ställa in. De identifieras nedan "
 "tillsammans med en enkel förklaring om hur de kan ställas in.\n"
 "\n"
-"Det första steget är att ställa in glapp. Fokuseringsenhetens handbok "
-"förklarar troligen hur det kan göras. När du väl har ett värde på glappet i "
-"systemet, ställ antingen in glappfältet för att låta drivenheten utföra "
-"glappkompensering eller AF-översvepfältet automatisk fokusering utföra "
-"glappkompensering. Ställ bara in ett fält, och låt det andra vara 0.\n"
+"Det första steget är att ställa in spelet. Fokuseringsenhetens handbok "
+"förklarar troligen hur det kan göras. När du väl har ett värde på spelet i "
+"systemet, ställ då antingen in spelfältet för att låta drivenheten utföra "
+"spelkompensering eller AF-översvepfältet automatisk fokusering utföra "
+"spelkompensering. Ställ bara in ett fält, och låt det andra vara 0.\n"
 "\n"
 "Det andra steget är att ställa in stegstorleken. Det kan få sitt normalvärde "
 "från utrustningens kritiska fokuseringszon (KFZ), så ställ in den nu under "
@@ -17094,7 +17094,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 " Du har ett teleskop med en central blockering så var försiktig med att gå "
-"för långt bort från fokus, eftersom stjärnor då visas som munkar och inte "
+"för långt bort från fokus, eftersom stjärnor då visas som ringar och inte "
 "kan detekteras riktigt. Experimentera genom att hitta fokus och flytta "
 "stegstorlek * multipel för utåtsteg tick bort från fokus och ta en "
 "fokuseringsbild. Zooma in för att observera stjärndetekteringen. Om den är "
@@ -17321,6 +17321,8 @@ msgid ""
 "formed with tiles from the center, the corners and the edges.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Masktyp för aberrationsinspektion med en 3 x 3 mosaik "
+"skapad med plattor från centrum, hörnen och kanterna.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/focus.ui:945
@@ -17335,7 +17337,7 @@ msgid ""
 "<html><head/><body><p>Size of the separator between the tiles.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Storlek på mellanrummet mellan rutorna.</p></body></"
+"<html><head/><body><p>Storlek på mellanrummet mellan plattorna.</p></body></"
 "html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
@@ -17366,6 +17368,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Vid fokusering av hela fältet bestämmer det här "
+"storleken på en ring centrerad i mitten av sensorn att inkludera för "
+"bearbetning. Ställ in inre procentvärde till noll för att inkludera sensorns "
+"mitt och ställ in yttre procentvärde till 100 för att inkludera sensorns "
+"ytterkanter.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
 #: ekos/focus/focus.ui:993
@@ -17406,12 +17413,18 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj delbild så att fokuseringen använder en enda "
+"stjärna (observera att Hela fältet använder flera stjärnor). I detta fall "
+"blir kryssrutan Välj stjärna automatiskt aktiv för att tillåta Ekos att "
+"antingen välja en stjärna (när den är markerad) eller för att låta "
+"användaren manuellt välja stjärnan i FITS-visningen (när den är avmarkerad)."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1056
 #, kde-format
 msgid "Sub Frame"
-msgstr "Delbildruta"
+msgstr "Delbild"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1069
@@ -17422,6 +17435,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj Hela fältet för att tillåta fokuseringen att "
+"använda flera stjärnor (observera att Delbild använder en enda stjärna). I "
+"detta fall väljer Ekos automatiskt flera stjärnor under automatisk "
+"fokusering och tar exempelvis medelvärdet av HFR för alla stjärnor som "
+"detekterats för att utföra fokuseringen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1072
@@ -17488,6 +17506,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Alternativet är bara aktivt när Delbild används. "
+"Markera för att tillåta Ekos att välja en enda stjärna för fokusering. "
+"Avmarkera för att tillåta användaren att välja stjärnan som ska användas i "
+"FITS-visningen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1176
@@ -17514,7 +17536,7 @@ msgstr ""
 #, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Visningsenheter för HFR och FWHM.</p></body></html>"
+"<html><head/><body><p>Visningsenheter för HFR och FBHM.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1215
@@ -17543,6 +17565,10 @@ msgid ""
 "the tile size does not exceed one third of the shorter side of the image (in "
 "most cases, it's height).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Plattor är fyrkanter med en kantlängd beräknad från "
+"det givna procentvärdet av bildens bredd. Procentvärdet är begränsad så att "
+"plattstorleken inte överstiger en tredjedel av bildens kortare sida (i de "
+"flesta fall är det höjden).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/focus/focus.ui:1269
@@ -17584,6 +17610,10 @@ msgid ""
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Den maximala totala adaptiva fokuseringsrörelsen "
+"mellanautomatiska fokuseringar. Om värdet uppnås, avbryts adaptiv "
+"fokusering. Syftet med kontrollen är att hantera skenande adaptiv fokusering."
+"</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
@@ -17672,6 +17702,12 @@ msgid ""
 "to improve the R². Currently only available for the Linear 1 Pass algorithm "
 "when using a Curve Fit of Hyperbola or Parabola. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ställ in minimum för acceptabla R² när en automatisk "
+"fokusering utförs. Värdet är mellan 0 (ingen anpassning) och 1 (perfekt "
+"anpassning). 0,8 är en bra start. Om miniminivån inte uppfylls, utförs "
+"automatisk fokusering igen en gång för att försöka förbättra R². För "
+"närvarande bara tillgängligt för algoritmen Engångslinjär vid kurvanpassning "
+"av hyperbel eller parabel.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/focus.ui:1531
@@ -17739,6 +17775,22 @@ msgid ""
 "parabola to the data points. This is currently only available for the Linear "
 "1 Pass Algorithm.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj typ av kurva som ska anpassas till data:</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Kvadratisk</span>: Använder en "
+"polynomanpassning av grad 2. Det är för närvarande standardalternativ och "
+"det enda alternativet för alla algoritmer utom Engångslinjär.</li><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Hyperbel</span>: Anpassar en hyperbel till datapunkterna. Det är för "
+"närvarande endast tillgängligt för algoritmen Engångslinjär.</li><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Parabel</span>: Anpassar en parabel till datapunkterna. Det är för "
+"närvarande endast tillgängligt för algoritmen Engångslinjär.</li></ul></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1662
@@ -17796,6 +17848,34 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj mått att använda när en kurva anpassas för "
+"Engångslinjär:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</span>: "
+"Halv flödesradie. Använder en algoritm för att beräkna en cirkelradie "
+"centrerad på stjärnans tyngdpunkt som omfattar stjärnans halva flöde.</"
+"li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Justerad HFR</span>: "
+"Justerad halv flödesradie. Normaliserar HFR för toppintensitet. Detta är en "
+"experimentell funktion.</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">FBHM</span>: Full bredd "
+"halva maximum. Kurvanpassar en PSF till varje stjärnas tyngdpunkt och "
+"använder kurvan för att beräkna FBHM. Detta är en experimentell funktion.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Antal stjärnor</span>: Antal stjärnor. Antalet detekterade "
+"stjärnor vid optimal fokusering är maximalt. Detta är en experimentell "
+"funktion.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Fourier</span>: Fourier effektberäkning. "
+"Använder Fouriertransform metoden utvecklad av Tan och Schulz i https://"
+"arxiv.org/pdf/2201.12466.pdf.  Vid optimal fokusering är effekten i "
+"frekvensrymden (Fouriertransformens resultat) maximal . Detta är en "
+"experimentell funktion.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -17808,19 +17888,19 @@ msgstr "HFR"
 #: ekos/focus/focus.ui:1708
 #, kde-format
 msgid "HFR Adj"
-msgstr "HFR-justering"
+msgstr "Justerad HFR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1713
 #, kde-format
 msgid "FWHM"
-msgstr "FWHM"
+msgstr "FBHM"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1718
 #, kde-format
 msgid "# Stars"
-msgstr "# Stjärnor"
+msgstr "Antal Stjärnor"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1723
@@ -17839,6 +17919,12 @@ msgid ""
 "highlighted on the v-curve. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Markera för att utföra ett extremvärdespass när alla "
+"datapunkter har samlats in. Passet använder Peirces kriterium för att "
+"detektera avvikande tröskelvärden. Om det finns extremvärden tas dessa bort "
+"och kurvanpassning utförs igen. Om R² förbättras av processen används den "
+"nya datauppsättning, och extremvärden markeras på v-kurvan. Detta är en "
+"experimentell funktion.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/focus.ui:1734
@@ -17856,6 +17942,12 @@ msgid ""
 "Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att använda standardavvikelsen för "
+"stjärnans HFR eller FBHM som en viktning för kurvanpassningsalgoritmen. Om "
+"avmarkerat, ges alla datapunkter samma vikt. För närvarande bara "
+"tillgängligt när du använder Hela fältet (flera stjärnor) och en "
+"kurvanpassning av hyperbel eller parabel med algoritmen Engångslinjär.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1750
@@ -17895,6 +17987,34 @@ msgid ""
 "doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use "
 "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj fokuseringsprocessens algoritm:</p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Iterative</span>: Flyttar fokuseringsenheten med "
+"diskreta steg som initialt bestäms av stegstorleken. När kurvans lutning väl "
+"har beräknats, beräknas ytterligare stegstorlekar för att nå en optimal "
+"lösning. Algoritmen stannar när uppmätt HFR är inom procentuell tolerans av "
+"den lägsta HFR som registrerats i proceduren.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Polynomisk</"
+"span>: Börjar med den iterativa metoden. Vid övergång till andra sidan av v-"
+"kurvan, beräknas polynomiska anpassningskoefficienter tillsammans med möjlig "
+"minimal lösning. Algoritmen kan vara snabbare än en rent iterativ metod "
+"given en bra datauppsättning.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Linjär</span>: Samplar fokus "
+"inåt på ett vanligt sätt, i två omgångar. Algoritmen kan vara långsam, men "
+"den är mer motståndskraftig mot spel. Börja med fokuseringsenheten nära bra "
+"fokus. Ställ in Initial stegstorlek och Maximal rörelse för önskat "
+"samplingsintervall och intervall omkring ursprunglig fokuseringsposition. "
+"Toleransen bör vara cirka 5 %.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Engångslinjär</span>: Börjar "
+"som <span style=\" font-weight:600;\">Linjär</span> men går direkt till det "
+"minimala HFR-värdet som beräknats efter att ha slutfört första omgången, "
+"istället för att fortsätta till den andra omgången, . Använd kurvanpassning "
+"för hyperbel eller parabel.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1770
@@ -17918,7 +18038,7 @@ msgstr "Linjär"
 #: ekos/focus/focus.ui:1785
 #, kde-format
 msgid "Linear 1 Pass"
-msgstr "Linjär 1 pass"
+msgstr "Engångslinjär"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/focus.ui:1816
@@ -17957,7 +18077,7 @@ msgstr ""
 "color:#0000ff;\">SEP: Source Extractor as a library</span></a> i Journal of "
 "Open Source Software.</li><li style=\" margin-top:12px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Centroid</span>: en källdetektering "
+"\"><span style=\" font-weight:600;\">Tyngdpunkt</span>: en källdetektering "
 "baserad på uppskattning av stjärnans massa omkring signaltoppar.</li><li "
 "style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
@@ -17979,7 +18099,7 @@ msgstr "Gradient"
 #: ekos/focus/focus.ui:1828
 #, kde-format
 msgid "Centroid"
-msgstr "Centroid"
+msgstr "Tyngdpunkt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/focus.ui:1833
@@ -18017,7 +18137,7 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>PSF-typ att använda när Mät är inställd till FWHM:</"
+"<html><head/><body><p>PSF-typ att använda när Mät är inställd till FBHM:</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
 "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
@@ -18116,7 +18236,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2169
 #, kde-format
 msgid "Driver Backlash:"
-msgstr "Drivenhetens glapp:"
+msgstr "Drivenhetens spel:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/focus.ui:2191
@@ -18153,7 +18273,7 @@ msgstr "Multipel för utåtsteg:"
 #: ekos/focus/focus.ui:2264
 #, kde-format
 msgid "Walk:"
-msgstr "Gå:"
+msgstr "Gångsätt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/focus.ui:2280
@@ -18171,6 +18291,11 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>För spelmedvetna fokuseringsenheter, storleken på "
+"spelet att använda när rörelseriktningen ändras. Ställ in till 0 för att "
+"inaktivera.</p><p>Typiskt anges antingen fokuseringsenhetens spel eller AF-"
+"översvep.</p><p>Fältet anger INDI-fokuseringsenhetens spelfält och kan "
+"antingen ställas in här eller med INDI-inställningsrutan."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/focus.ui:2309
@@ -18217,6 +18342,26 @@ msgid ""
 "be effective but is predictable in the number of steps taken. This walk is "
 "experimental.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj fokuseringsenhetens gångsätt vid användning av "
+"<span style=\" font-weight:600;\">Engångslinjär</span>.  För <span style=\" "
+"font-weight:600;\">Linjär</span> är bara <span style=\" font-weight:600;"
+"\">Klassisk</span> tillgänglig.</p><p><span style=\" font-weight:600;"
+"\">Klassisk</span>: Focuser går &quot;Multipel för utåtsteg&quot; steg utåt, "
+"tar en bild och går sedan inåt förbi fokus med en konstant stegstorlek som "
+"tar och analyserar bilder vid varje steg. Den exakta punkten där omgången "
+"stannar beror på data, så detta gångsätt tolererar att börja längre bort "
+"från fokus, men på bekostnad av extra steg.</p><p><span style=\" font-"
+"weight:600;\">Fasta steg</span>: Fokuseringsenheten stegar utåt halva &quot;"
+"Antal steg&quot;, tar en bild och stegar sedan inåt exakt &quot;Antal "
+"steg&quot;. Gångsättet måste påbörjas nära fokus för att vara effektivt men "
+"är förutsägbart när det gäller antal tagna steg. Detta gångsätt är "
+"experimentellt.</p><p><span style=\" font-weight:600;\">KFZ -gång</span>: "
+"Liknar <span style=\" font-weight:600;\">Fasta steg</span> utom att "
+"gångsättet tar halva steg nära fokus för att ge större vikt till punkter "
+"nära fokus i kurvanpassningen. Liksom med <span style=\" font-weight:600;"
+"\">Fasta steg</span> måste gångsättet påbörjas nära fokus för att vara "
+"effektiv, men är förutsägbar när det gäller antal tagna steg. Detta gångsätt "
+"är experimentellt.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -18236,7 +18381,7 @@ msgstr "Fasta steg"
 #: ekos/focus/focus.ui:2367
 #, kde-format
 msgid "CFZ Shuffle"
-msgstr "KFZ-omflyttning"
+msgstr "KFZ-gång"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/focus/focus.ui:2384
@@ -18297,6 +18442,13 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Anger spelets översvep i tick för utåtriktade "
+"fokuseringsrörelser vid automatisk fokusering. Det är ett tillägg till "
+"eventuellt drivenhetsspel som tillhandahålls av drivrutinen och som ställs "
+"in i fältet Drivenhetens spel. Ställ in till 0 för att inaktivera. </p><p>Om "
+"angivet, gäller AF-översvep alla fokuseringsrörelser initierade av "
+"fokuseringsmodulen.</p><p>Typiskt anges antingen fokuseringsenhetens spel "
+"eller AF-översvep.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/focus.ui:2504
@@ -18340,7 +18492,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Totalt antal steg att använda när Gå är inställt till "
-"ett av de fasta stegantalen och algoritmen är Linjär 1 pass.</p></body></"
+"ett av de fasta stegantalen och algoritmen är Engångslinjär.</p></body></"
 "html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
@@ -18520,6 +18672,13 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ställ in fokuseringsenhets stegstorleken (i mikron). "
+"För att beräkna den, flytta fokuseringsenheten från ena änden av dess "
+"rörelseområde till den andra (var noga med att inte tvinga "
+"fokuseringsenheten utanför dess gränser). Mät avståndet som mekanismen rör "
+"sig så noggrant som möjligt (t.ex. med ett skjutmått) och omvandla till "
+"mikron. Notera hur många steg du har flyttat fokuseringsenheten. Stegstorlek "
+"= avstånd i mikron / antal steg.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/focus.ui:3012
@@ -18534,7 +18693,7 @@ msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Totalt synbar FWHM (i bågsekunder).</p></body></html>"
+"<html><head/><body><p>Totalt synbar FBHM (i bågsekunder).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3065
@@ -18583,6 +18742,26 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj algoritm för kritisk fokuseringszon (KFZ):</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Klassisk</span>: Använder formeln KFZ = "
+"4,88 t λ f<span style=\" vertical-align:super;\">2.</span>. Ange tolerans t "
+"= 1 för grundformeln. Vissa har empiriskt föreslagit t = 1/3.</li></ul><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Vågfront: </span>Använder formeln KFZ = "
+"4 t λ f<span style=\" vertical-align:super;\">2</span>.  Formeln är härledd "
+"från vågfrontsaberrationsteori. Vissa har föreslagit t = 1/3 eller till och "
+"med t = 1/10.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Gold: </"
+"span>Använder formeln KFZ = 0,00225 √τ θ f<span style=\" vertical-align:"
+"super;\">2. </span>A.  Se http://www.goldastro.com/goldfocus/ncfz.php för "
+"ytterligare information.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3131
@@ -18594,7 +18773,7 @@ msgstr "Vågfront"
 #: ekos/focus/focus.ui:3136
 #, kde-format
 msgid "Gold"
-msgstr "Guld"
+msgstr "Gold"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3150
@@ -18616,7 +18795,7 @@ msgstr "Slutlig KFZ:"
 #: ekos/focus/focus.ui:3197
 #, kde-format
 msgid "FWHM (θ):"
-msgstr "FWHM (θ):"
+msgstr "FBHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/focus.ui:3213
@@ -18686,6 +18865,14 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>En bra siffra att börja med är 5. Ett undantag är om "
+"teleskopet har en central blockering som förvandlar stjärnor till ringar när "
+"de är ur fokus. När detta inträffar måste systemet kämpa för att identifiera "
+"stjärnor korrekt. Minska antingen stegstorleken eller antalet steg för att "
+"undvika situationen.</p><p>För att undersöka situationen, börja i fokus och "
+"stega med &quot;stegstorlek&quot; * &quot;antal steg&quot;. Ta en "
+"fokuseringsbild och zooma in med FITS-visningen för att se om stjärnor visas "
+"som stjärnor eller ringar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3332
@@ -18789,7 +18976,7 @@ msgstr ""
 #: ekos/focus/focus.ui:3668
 #, kde-format
 msgid "  FWHM:"
-msgstr "  FWHM:"
+msgstr "  FBHM:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
 #: ekos/focus/focus.ui:3681
@@ -18798,7 +18985,7 @@ msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>FWHM-medelvärde från den senaste bildrutan.</p></"
+"<html><head/><body><p>FBHM-medelvärde från den senaste bildrutan.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -20107,7 +20294,7 @@ msgid ""
 "backlash problems."
 msgstr ""
 "Kalibrering förkastad. Stjärndriften är för kort. Kontrollera problem med "
-"stativ, kabel eller glapp."
+"stativ, kabel eller spel."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:248
 #, kde-format
@@ -20134,15 +20321,15 @@ msgid_plural ""
 "mount or backlash problems..."
 msgstr[0] ""
 "Guidning i RA: Teleskopet kan inte nå startpunkten efter %1 iteration. "
-"Möjligt problem med stativ eller glapp..."
+"Möjligt problem med stativ eller spel..."
 msgstr[1] ""
 "Guidning i RA: Teleskopet kan inte nå startpunkten efter %1 iterationer. "
-"Möjligt problem med stativ eller drivning..."
+"Möjligt problem med stativ eller spel..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:354
 #, kde-format
 msgid "DEC backlash..."
-msgstr "DEK-glapp..."
+msgstr "DEK-spel..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:367
 #: ekos/guide/internalguide/calibrationprocess.cpp:420
@@ -20160,7 +20347,7 @@ msgstr "Kalibrering misslyckades: Avdrift för kort."
 #: ekos/guide/internalguide/calibrationprocess.cpp:423
 #, kde-format
 msgid "Calibrating DEC Backlash"
-msgstr "Kalibrerar DEK-glapp"
+msgstr "Kalibrerar DEK-spel"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:432
 #, kde-format
@@ -20188,11 +20375,11 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"Guidning i DEK: Teleskopet kan inte nå startpunkten efter %1 iteration.\n"
-"Möjligt problem med stativ eller glapp..."
+"Guidning i Dek: Teleskopet kan inte nå startpunkten efter %1 iteration.\n"
+"Möjligt problem med stativ eller spel..."
 msgstr[1] ""
-"Guidning i DEK: Teleskopet kan inte nå startpunkten efter %1 iterationer.\n"
-"Möjligt problem med stativ eller glapp..."
+"Guidning i Dek: Teleskopet kan inte nå startpunkten efter %1 iterationer.\n"
+"Möjligt problem med stativ eller spel..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:511
 #, kde-format
@@ -20467,14 +20654,14 @@ msgid ""
 "<html><head/><body><p>Remove the effect of DEC backlash when calibrating "
 "guider.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ta bort effekten av DEK-glapp när guidning kalibreras."
-"</p></body></html>"
+"<html><head/><body><p>Ta bort effekten av Dek-spel när guidning kalibreras.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:372
 #, kde-format
 msgid "Remove DEC backlash in guide calibration"
-msgstr "Ta bort DEK-glapp i guidningskalibrering"
+msgstr "Ta bort Dek-spel i guidningskalibrering"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
@@ -20764,6 +20951,12 @@ msgid ""
 "the worse periodic error of your mount, the greater the ratio between guide "
 "exposure and dark guiding interval."
 msgstr ""
+"Maximal tid mellan prediktiva korrigeringar medan guidningsbilder tas. Det "
+"kan vara i storleksordningen 1 sekund eller mindre, med mycket längre "
+"guidningsexponeringar. De exakta värdena och förhållandet mellan dem beror i "
+"stor utsträckning på stativet och miljöförhållandena. Men generellt, ju "
+"värre stativets periodiskt fel är, desto större förhållande mellan "
+"guidningsexponering och mörkt guidningsintervall."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/guide/opsgpg.ui:132
@@ -20902,6 +21095,19 @@ msgid ""
 "ul><p>This should probably be several\n"
 "          times larger than the major period.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Långdistanskärnans längdskala i sekunder.</"
+"p><p>Parametern tar hänsyn till det periodiska felets långsiktiga avdrift, "
+"med skalan över flera huvudperioder. Det kan exempelvis orsakas av:</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent:1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0;text-indent:0px;"
+"\">Harmonisk interaktion mellan kugghjulen i hela kuggkedjan,</li><li style="
+"\"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Ändrad last på grund av gravitation,</"
+"li><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px;-qt-block-indent:0; text-indent:0px;\">Termiska variationer.</li></"
+"ul><p>Den ska troligen vara flera gånger större än huvudperioden.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas0a)
 #: ekos/guide/opsgpg.ui:355
@@ -20920,6 +21126,9 @@ msgid ""
 "variance means a larger change in error, on\n"
 "          average.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Långdistanskärnans signalvarians.</p><p>Beskriver hur "
+"mycket felet förändras över den långsiktiga tidsskalan. Större varians "
+"innebär i medeltal en större förändring av felet.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas1a)
 #: ekos/guide/opsgpg.ui:395
@@ -20940,6 +21149,12 @@ msgid ""
 "          components; a shorter length-scale means it has more.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Periodiska kärnans längdskala, i sekunder.</"
+"p><p>Beskriver hur snabbt felet ändras inom en enskild period. Det kan ses "
+"som bruskomponentens våglängd, och ovanför den blir bruset oförutsägbart. En "
+"större längdskala betyder att det förutsägbara felet har färre högfrekventa "
+"komponenter. En kortare längdskala betyder att den har fler.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas2a)
 #: ekos/guide/opsgpg.ui:433
@@ -20957,6 +21172,9 @@ msgid ""
 "          much the error changes during the periodic length scale.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Periodiska kärnans signalvarians.</p><p>Detta "
+"beskriver hur mycket felet förändras över den periodiska längdskalan.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas3a)
 #: ekos/guide/opsgpg.ui:467
@@ -20988,6 +21206,19 @@ msgid ""
 "indent:0; text-indent:0px;\">Swinging or dragging\n"
 "          cables.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Längdskala för kortdistanskärnan i sekunder.</p><p>Det "
+"är ett mått på icke-periodiskt kortdistansbrus, orsakat av saker som:</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent:1;\"><li style=\" margin-top:12px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0;text-indent:0px;"
+"\">Smuts i kuggkedjan,</li><li style=\" margin-top:12px; margin-bottom:12px;"
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Vindbyar,</li><li style=\"margin-top:12px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0;text-indent:0px;"
+"\">Strukturella vibrationer, såsom fotsteg eller trafik,</li><li style=\" "
+"margin-top:12px;margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Svängande eller släpande kablar.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas4a)
 #: ekos/guide/opsgpg.ui:510
@@ -21005,9 +21236,8 @@ msgid ""
 "in the short-term length\n"
 "          scale.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Kortdistanskärnans signalvarians.\n"
-"</p><p><br/></p><p>Hur mycket kortdistansbrus ändras\n"
-"kortsiktigt.</p></body></html>"
+"<html><head/><body><p>Kortdistanskärnans signalvarians.</p><p><br/></"
+"p><p>Hur mycket kortdistansbrus ändras kortsiktigt.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas5a)
 #: ekos/guide/opsgpg.ui:551
@@ -24673,7 +24903,7 @@ msgstr "↓ Välj rutnät"
 #: ekos/scheduler/framingassistant.ui:396
 #, kde-format
 msgid "Adjust tiles transparency"
-msgstr "Justera rutornas genomskinlighet"
+msgstr "Justera plattornas genomskinlighet"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/scheduler/framingassistant.ui:415
@@ -24702,7 +24932,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Kamerans fälthöjd i bågminuter.</"
 "p><p align=\"justify\">Värdet beräknas från utrustningsinformationen,  och "
-"definierar höjden på fältet som täcks av ett element i mosaiken.</p></body></"
+"definierar höjden på fältet som täcks av en platta i mosaiken.</p></body></"
 "html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraHFOVSpin)
@@ -24740,7 +24970,7 @@ msgid ""
 "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
 "moves minimally between jobs (S-shape).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>När markerat, ordnas mosaikelement så att stativet "
+"<html><head/><body><p>När markerat, ordnas mosaikplattorna så att stativet "
 "flyttas minimalt mellan jobb (S-form).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
@@ -24760,7 +24990,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Minimal fälthöjd som mosaiken måste "
 "täcka, i bågminuter</p><p align=\"justify\">Att ändra värdet ändrar "
-"omedelbart antal element i mosaikhöjden.</p></html>"
+"omedelbart antal plattor i mosaikens höjd.</p></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/scheduler/framingassistant.ui:565
@@ -24770,7 +25000,7 @@ msgid ""
 "number of tiles.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Beräkna om mosaikfältet från antal "
-"element.</p></body></html>"
+"plattor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
 #: ekos/scheduler/framingassistant.ui:568
@@ -24786,9 +25016,9 @@ msgid ""
 "</p><p align=\"justify\">Modifying this value immediately changes the width "
 "of the field covered by the mosaic.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Antal element i mosaikbredden.</p><p "
-"align=\"justify\">Att ändra värdet ändrar omedelbart bredden på fältet som "
-"täcks av mosaiken.</p></body></html>"
+"<html><head/><body><p align=\"justify\">Antal plattor i mosaikens bredd.</"
+"p><p align=\"justify\">Att ändra värdet ändrar omedelbart bredden på fältet "
+"som täcks av mosaiken.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicWSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicHSpin)
@@ -24814,7 +25044,7 @@ msgstr "Överlappning:"
 #: ekos/scheduler/framingassistant.ui:641
 #, kde-format
 msgid "Tile Transparency:"
-msgstr "Rutornas genomskinlighet:"
+msgstr "Plattornas genomskinlighet:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
 #: ekos/scheduler/framingassistant.ui:657
@@ -24837,9 +25067,9 @@ msgid ""
 "</p><p align=\"justify\">Modifying this value immediately changes the height "
 "of the field covered by the mosaic.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Antal element i mosaikhöjden.</p><p "
-"align=\"justify\">Att ändra värdet ändrar omedelbart höjden på fältet som "
-"täcks av mosaiken.</p></body></html>"
+"<html><head/><body><p align=\"justify\">Antal plattor i mosaikens höjd.</"
+"p><p align=\"justify\">Att ändra värdet ändrar omedelbart höjden på fältet "
+"som täcks av mosaiken.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
@@ -24866,8 +25096,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Kamerans fältbredd i bågminuter.</"
 "p><p align=\"justify\">Värdet beräknas från utrustningsinformationen,  och "
-"definierar bredden på fältet som täcks av ett element i mosaiken.</p></"
-"body></html>"
+"definierar bredden på fältet som täcks av en platta i mosaiken.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, transparencyAuto)
 #: ekos/scheduler/framingassistant.ui:782
@@ -24887,7 +25117,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Minimal fältbredd som mosaiken måste "
 "täcka, i bågminuter.</p><p align=\"justify\">Att ändra värdet ändrar "
-"omedelbart antal element i mosaikbredden.</p></body></html>"
+"omedelbart antal plattor i mosaikens bredd.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, overlapSpin)
 #: ekos/scheduler/framingassistant.ui:851
@@ -24897,7 +25127,7 @@ msgid ""
 "mosaic. See the main help icon in the corner of the sky chart.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Överlappa mellan varje ruta i "
+"<html><head/><body><p align=\"justify\">Överlappa mellan varje platta i "
 "mosaiken. Se den huvudsakliga hjälpikonen i hörnet på himmelsdiagrammet.</"
 "p></body></html>"
 
@@ -28328,7 +28558,7 @@ msgstr "Fokusera när en bild tas emot"
 #: fitsviewer/opsfits.ui:122
 #, kde-format
 msgid "Make FITS Viewer window independent from KStars"
-msgstr "Gör FITS-visarens fönster oberoende av Kstars"
+msgstr "Gör FITS-visningens fönster oberoende av Kstars"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
@@ -34210,7 +34440,7 @@ msgstr "Flytta FITS-visningsfönstret överst när en ny bild tas emot."
 #: kstars.kcfg:1474
 #, kde-format
 msgid "Make FITS Viewer window independent of KStars main window"
-msgstr "Gör FITS-visarens fönster oberoende av Kstars huvudfönster"
+msgstr "Gör FITS-visningens fönster oberoende av Kstars huvudfönster"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1478
@@ -35053,7 +35283,7 @@ msgid ""
 "performance decreases as the number of stars increases."
 msgstr ""
 "Mät HFR-medelvärdet från alla stjärnor kombinerade på en hel bildruta. "
-"Metoden använder normalt centroiddetektering, men kan också använda SEP-"
+"Metoden använder normalt tyngdpunktsdetektering, men kan också använda SEP-"
 "detektering. Dess prestanda minskar när antal stjärnor ökar."
 
 #. i18n: ectx: label, entry (FocusMaskType), group (Focus)
@@ -35106,7 +35336,7 @@ msgstr ""
 #: kstars.kcfg:1970
 #, kde-format
 msgid "Mosaic filter tile width in percent of the frame width."
-msgstr "Mosaikfiltrets rutbredd i procent av bildramens bredd."
+msgstr "Mosaikfiltrets plattbredd i procent av bildramens bredd."
 
 #. i18n: ectx: label, entry (focusMosaicSpace), group (Focus)
 #: kstars.kcfg:1974
@@ -35136,7 +35366,7 @@ msgstr "Vänta så här många sekunder efter guidning återupptas."
 #: kstars.kcfg:1990
 #, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr "Visningsenheter för HFR och FWHM"
+msgstr "Visningsenheter för HFR och FBHM"
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:1994
@@ -35291,7 +35521,7 @@ msgstr ""
 #, kde-format
 msgid "The type of walk the focuser will take during an Autofocus run."
 msgstr ""
-"Gångtyp som fokuseringsenheten ska använda under automatisk fokusering."
+"Gångsätt som fokuseringsenheten ska använda under automatisk fokusering."
 
 #. i18n: ectx: whatsthis, entry (FocusSettleTime), group (Focus)
 #: kstars.kcfg:2076
@@ -35333,8 +35563,7 @@ msgstr "Antal steg att gå utåt för en klassisk automatisk fokusering."
 msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
-"Totalt antal steg för en automatisk fokusering med fasta steg eller KFZ-"
-"omflyttning."
+"Totalt antal steg för en automatisk fokusering med fasta steg eller KFZ-gång."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2093
@@ -35358,7 +35587,7 @@ msgstr "Maximal storlek för ett enskilt steg."
 #: kstars.kcfg:2102
 #, kde-format
 msgid "The amount of driver backlash."
-msgstr "Storleken på drivenhetens glapp."
+msgstr "Storleken på drivenhetens spel."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2106
@@ -36367,7 +36596,7 @@ msgstr ""
 #: kstars.kcfg:2778
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
-msgstr "Ta bort DEK-glapp när guidningen kalibreras."
+msgstr "Ta bort Dek-spel när guidningen kalibreras."
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
 #: kstars.kcfg:2782
@@ -68095,7 +68324,7 @@ msgstr "Elevation G:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt/Dec Anti-backlash"
-msgstr "Elev/dek antiglapp"
+msgstr "Elev/dek antispel"
 
 #: libindi_strings.cpp:27
 #, kde-kuit-format
@@ -68167,7 +68396,7 @@ msgstr "Azimut G:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Az/Ra Anti-backlash"
-msgstr "Azimut/rekt antiglapp"
+msgstr "Azimut/rekt antispel"
 
 #: libindi_strings.cpp:39
 #, kde-kuit-format
@@ -68185,7 +68414,7 @@ msgstr "Bakgrundsbelysning"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Backlash"
-msgstr "Glapp"
+msgstr "Spel"
 
 #: libindi_strings.cpp:42
 #, kde-kuit-format
@@ -68821,13 +69050,13 @@ msgstr "FITS-huvud"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FWHM (arcseconds)"
-msgstr "Fullbredd halva maximum (bågsekunder)"
+msgstr "FBHM (bågsekunder)"
 
 #: libindi_strings.cpp:150
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FWHM"
-msgstr "Fullbredd halva maximum"
+msgstr "FBHM"
 
 #: libindi_strings.cpp:151
 #, kde-kuit-format

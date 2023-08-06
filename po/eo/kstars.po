@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 00:41+0000\n"
-"PO-Revision-Date: 2023-07-25 22:32+0100\n"
+"POT-Creation-Date: 2023-08-05 00:41+0000\n"
+"PO-Revision-Date: 2023-08-05 10:03+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -7379,24 +7379,7 @@ msgstr "Fonta Eltira Metodo"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable limited resource mode to turn off any "
-#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
-#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
-#| "span>: World Coordinate System data will not be processed. WCS maps sky "
-#| "coordinates to image coordinates. Equatorial grid lines, object "
-#| "identification, and telescope slew within an image are disabled.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
-#| "grayscale images are shown.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Options for the method of Star "
 "Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
@@ -7410,22 +7393,17 @@ msgid ""
 "indent:0px;\">Built In Method uses whatever default Star Extraction process "
 "your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Ebligi limigitan rimedreĝimon por malŝalti ajnajn "
-"rimedintensajn operaciojn:</p><ul style=\"margin-top: 0px; margin-bottom: "
-"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
-"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Aŭtomata debayer</span>: Bayeritaj bildoj ne estos debayeritaj. Nur "
-"grizskalaj bildoj estas montritaj.</li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text -"
-"indent:0px;\"><span style=\" font-weight:600;\">Aŭtomata WCS</span>: datumoj "
-"de Monda Koordinatejo ne estos prilaboritaj. WCS mapas ĉielkoordinatojn al "
-"bildaj koordinatoj. Ekvatoraj kradlinioj, identigo de objektoj kaj teleskopo "
-"ene de bildo estas malŝaltitaj.</li><li style=\" margin-top:0px; margin-"
+"<html><head/><body><p align=\"center\">Opcioj por la metodo de "
+"Stelekstraktado</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Interna SEP uzas internan bibliotekon en KStars."
+"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Eksterna Sekstraktilo "
+"postulas a eksternan programon.</li><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">3D-Kubo</span>: RGB-bildoj "
-"ne estos prilaboritaj. Nur grizskalaj bildoj estas montrataj.</li></ul></"
-"body></html>"
+"indent:0px;\">Enkonstruita Methodo uzas kiun ajn defaŭltan Stelekstraktadan "
+"procezon kiun via elektita Solvadmetodo uzas.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -7447,16 +7425,7 @@ msgstr "Enkonstruita metodo por solvanto"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:94
-#, fuzzy, kde-format
-#| msgid ""
-#| "Selects the method of plate solving with the StellarSolver Library.  The "
-#| "StellarSolver option uses StellarSolver's internal build of Astrometry."
-#| "net and requires no external programs.  Local Astrometry uses a local "
-#| "installation of command line astrometry.net on Linux and Mac or ANSVR on "
-#| "Windows.  Local Watney uses a local installation of the Watney Astrometry "
-#| "Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-#| "program.  And Online uses either astrometry.net over the internet or "
-#| "ANSVR on a nearby computer."
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Selects the method of plate solving "
 "with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
@@ -7470,13 +7439,17 @@ msgid ""
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
-"Elektas la metodon de pletsolvado kun la Biblioteko StellarSolver. La opcio "
-"StellarSolver uzas la internan konstruon de StellarSolver de Astrometry.net "
-"kaj postulas neniujn eksterajn programojn. Loka Astrometrio uzas lokan "
-"instaladon de komandlinio astrometry.net en Linukso kaj Mac aŭ ANSVR en "
-"Vindozo. Loka Watney uzas lokan instalaĵon de la Watney Astrometry Solver "
-"Program. Loka ASTAP uzas lokan instalaĵon de la ASTAP-programo. Kaj Online "
-"uzas aŭ astrometry.net tra la interreto aŭ ANSVR sur proksima komputilo."
+"<html><head/><body><p align=\"center\">Elektas la metodon de pletsolvado kun "
+"la Biblioteko StellarSolver.</p><ul><li>Opcio 'Interna SEP' uzas la internan "
+"konstruon de StellarSolver de Astrometry.net kaj postulas neniujn eksterajn "
+"programojn.</li><li>'Loka Astrometrio' uzas lokan instaladon de komandlinio "
+"astrometry.net en Linukso kaj Mac aŭ ANSVR en Vindozo.</li><li>'Loka ASTAP' "
+"uzas lokan instalon de la programo ASTAP.</li><li>'Loka Watney' uzas lokan "
+"instalaĵon de la Watney Astrometry Solver-programo.</li><li>'Online' uzas aŭ "
+"astrometry.net tra la interreto aŭ ANSVR sur proksima komputilo. <span style="
+"\" font-weight:600;\">Rimarku</span>: Se bendolarĝo estas zorgo, konsideru "
+"uzi 'Interna SEP' anstataŭ 'Enkonstruita Metodo de Solvilo'.</li></ul></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:98
@@ -9443,15 +9416,23 @@ msgid ""
 "in and select a bright star</i> to reposition the correction vector. Use the "
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
+"<p>Elektu vian ekspontempon kaj elektu alĝustigmetodon. Klaku <i>Refreŝigi</"
+"i> por komenci.</p><p>Korektotriangulo estas grafikita supre. <i>Zomu kaj "
+"elektu helan stelon</i>por repozicii la korektovektoron. Uzu la<i>MoveStar & "
+"Calc Error</i>-metodon por taksi la restantan eraron.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1229
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
 "alignment error.</p><p>Be patient, plate solving can be affected by knob "
-"movement. Consider using results after 2 images.  Click <i>Stop</i> when the "
+"movement. Consider using results after 2 images.  Click <i>Stop</i> when "
 "you're finished.</p>"
 msgstr ""
+"<p>Alĝustigu la <i>Altecajn kaj Azimutajn butonojn</i> de muntaĵo por "
+"redukti la polusan eraron de vicigo.</p><p>Estu pacienca, la pletsolvado "
+"povas esti tuŝita de butona movado. Konsideru uzi rezultojn post 2 bildoj. "
+"Alklaku <i>Halti</i> kiam vi finis.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1231
 #, kde-format
@@ -9461,6 +9442,10 @@ msgid ""
 "until the selected star is centered within the crosshair.</p><p>Click "
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
+"<p>Alĝustigu la <i>Altecbutonon</i> de muntaĵo por movi la stelon laŭ la "
+"flava linio, tiam alĝustigu la <i>Azimutan butonon</i> por movi ĝin laŭ la "
+"Verda linio ĝis la elektita stelo estas centrita en la kruchalo.</"
+"p><p>Alklaku <i>Halti</i> kiam la stelo estas centrita.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
@@ -11084,6 +11069,15 @@ msgid ""
 "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
 "td></tr></table></body>"
 msgstr ""
+"<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
+"padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
+"caption { text-align: center; vertical-align: top; font-weight: bold; "
+"margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+"align=top>Fokus-Adapta Klarigilo</caption><tr><th></th><th>Pozicio</"
+"th><th>Temperaturo (°C)</th><th>Alteco (°Alt)</th></tr><tr><th>Mezurita Poz</"
+"th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr><tr><th>Adaptiĝoj</th><td>%6</"
+"td><td>%7</td><td>%8</td></tr><tr><th>Adaptita Poz</th><td>%9</td></tr></"
+"table></body>"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:731
 #, kde-format
@@ -34431,19 +34425,19 @@ msgstr ""
 #: kstars.kcfg:1510
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Opakeco de HiPS-plustavolo"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "X-Deŝovo de HiPS-plustavolo"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Y-Deŝovo de HiPS-plustavolo"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1524
@@ -82781,24 +82775,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "Options for the method of Star Extraction.  Internal SEP uses an internal "
-#~ "library in KStars, External Sextractor requires an external program, and "
-#~ "Built In uses whatever default Star Extraction process your selected "
-#~ "solving method uses."
-#~ msgstr ""
-#~ "Opcioj por la metodo de Stela Eltiro. Interna SEP uzas internan "
-#~ "bibliotekon en KStars, External Sextractor postulas eksteran programon, "
-#~ "kaj Built In uzas ajnan defaŭltan Star Extraction-procezon, kiun via "
-#~ "elektita solvmetodo uzas."
-
-#~ msgid ""
-#~ "Use JPEG format, instead of FITS, to upload images to the online "
-#~ "astrometry.net service"
-#~ msgstr ""
-#~ "Uzi JPEG-formaton, anstataŭ FITS, por alŝuti bildojn al la reta servo "
-#~ "astrometry.net"
-
-#~ msgid "Upload JPG"
-#~ msgstr "Alŝuti JPG"
