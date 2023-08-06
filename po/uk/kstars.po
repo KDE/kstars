@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-05 00:41+0000\n"
-"PO-Revision-Date: 2023-08-01 09:38+0300\n"
+"PO-Revision-Date: 2023-08-05 08:37+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -9503,12 +9503,7 @@ msgstr ""
 "i> для оцінки залишкової похибки.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1229
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
-#| "alignment error.</p><p>Be patient, plate solving can be affected by knob "
-#| "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
-#| "the you're finished.</p>"
+#, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
 "alignment error.</p><p>Be patient, plate solving can be affected by knob "

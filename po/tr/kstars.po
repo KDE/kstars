@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-05 00:41+0000\n"
-"PO-Revision-Date: 2023-08-04 00:58+0300\n"
+"PO-Revision-Date: 2023-08-05 21:29+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -66972,13 +66972,13 @@ msgstr "KOPERNİK"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Images"
-msgstr "Resimler"
+msgstr "Görseller"
 
 #: kstars_i18n.cpp:4860
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Spectra"
-msgstr "Işık dağılımı"
+msgstr "Spektrumlar"
 
 #: kstars_i18n.cpp:4861
 #, kde-kuit-format
@@ -66989,7 +66989,7 @@ msgstr "Diğer"
 #: kstarsactions.cpp:206
 #, kde-format
 msgid "Refraction effects disabled"
-msgstr "Kırılma efekti devre dışı bırakıldı"
+msgstr "Kırılma efektleri devre dışı bırakıldı"
 
 #: kstarsactions.cpp:207
 #, kde-format
@@ -66997,7 +66997,7 @@ msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
 "disabled."
 msgstr ""
-"Ufuk kapatıldığı zaman, ışık kırılması etkileri de geçiçi olarak devre dışı "
+"Ufuk kapatıldığında, ışık kırılması efektleri de geçiçi olarak devre dışı "
 "bırakılır."
 
 #: kstarsactions.cpp:446
@@ -67007,21 +67007,25 @@ msgid ""
 "items is currently not possible. <br> Please uninstall and reinstall them to "
 "update."
 msgstr ""
+"KDE Frameworks içindeki bilinen bir sorundan dolayı, halihazırda indirilmiş "
+"ögelerin güncellenmesi şu an için olanaklı değil.<br>Güncellemek için lütfen "
+"onları kaldırın ve yeniden kurun."
 
 #: kstarsactions.cpp:479
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
-msgstr ""
+msgstr "\"%1\" kataloğu hasar görmüş."
 
 #: kstarsactions.cpp:487
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
+"\"%1\" kataloğu hasar görmüş.<br>id=%2 bekleniyordu; ancak id=%3 alındı"
 
 #: kstarsactions.cpp:497
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
-msgstr ""
+msgstr "\"%1\" kataloğu içe aktarılamadı.<br>%2"
 
 #: kstarsactions.cpp:551
 #, kde-format
@@ -67031,7 +67035,7 @@ msgstr "Işık Kirliliği Ayarları"
 #: kstarsactions.cpp:553
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
-msgstr "Donanım Ayarları - Donanım Türü ve Parametreleri"
+msgstr "Ekipman Ayarları - Ekipman Türü ve Parametreleri"
 
 #: kstarsactions.cpp:662 kstarsactions.cpp:699 kstarsactions.cpp:742
 #: kstarsactions.cpp:781
@@ -67040,8 +67044,8 @@ msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
 "'indiserver' binary is installed."
 msgstr ""
-"INDI sunucusu bulunamıyor. 'indiserver' tarafından sağlanan paketin "
-"kurulduğundan emin olun."
+"INDI sunucusu bulunamadı. Lütfen 'indiserver' ikilisini sağlayan paketin "
+"kurulu olduğundan emin olun."
 
 #: kstarsactions.cpp:716
 #, kde-format
@@ -67049,12 +67053,14 @@ msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
+"INDI Aygıt Yöneticisi yalnızca gelişmiş teknik kullanıcılar tarafından "
+"kullanılmalıdır. Ekos ile kullanılamaz. Hâlâ INDI aygıt yöneticisini açmak "
+"istiyor musunuz?"
 
 #: kstarsactions.cpp:719
-#, fuzzy, kde-format
-#| msgid "Device Manager"
+#, kde-format
 msgid "INDI Device Manager"
-msgstr "Aygıt Yöneticisi"
+msgstr "INDI Aygıt Yöneticisi"
 
 #: kstarsactions.cpp:1099
 #, kde-format
@@ -67067,48 +67073,40 @@ msgid "Guides"
 msgstr "Kılavuzlar"
 
 #: kstarsactions.cpp:1114
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Terrassa"
+#, kde-format
 msgid "Terrain"
-msgstr "Terrassa"
+msgstr "Arazi"
 
 #: kstarsactions.cpp:1142
 #, kde-format
 msgid "Xplanet"
-msgstr "Xgezegeni"
+msgstr "Xplanet"
 
 #: kstarsactions.cpp:1148
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Penelope"
+#, kde-format
 msgid "Developer"
-msgstr "Penelope"
+msgstr "Geliştirici"
 
 #: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:268
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Terrassa"
+#, kde-format
 msgid "Hide Terrain"
-msgstr "Terrassa"
+msgstr "Araziyi Gizle"
 
 #: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:269
-#, fuzzy, kde-format
-#| msgid "Show details..."
+#, kde-format
 msgid "Show Terrain"
-msgstr "Ayrıntıları göster..."
+msgstr "Araziyi Göster"
 
 #: kstarsactions.cpp:1285
 #, kde-format
 msgid "Open FITS"
-msgstr "FITS Aç"
+msgstr "FITS'i Aç"
 
 #: kstarsactions.cpp:1300
-#, fuzzy, kde-format
-#| msgid "Export Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
-msgstr "Görüntüyü Dışa Aktar"
+msgstr "Görseli Dışa Aktar"
 
 #: kstarsactions.cpp:1346 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
@@ -67118,10 +67116,9 @@ msgid "KStars Scripts (*.kstars)"
 msgstr "K Yıldızlar Betikleri (*.kstars)"
 
 #: kstarsactions.cpp:1354
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Executing remote scripts is not supported."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "Uzak betikleri yürütmek desteklenmiyor."
 
 #: kstarsactions.cpp:1362 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
@@ -67143,7 +67140,7 @@ msgstr ""
 #: kstarsactions.cpp:1392
 #, kde-format
 msgid "Script Validation Failed"
-msgstr "Betik Doğrulaması Başarısız Oldu"
+msgstr "Betik Doğrulaması Başarısız"
 
 #: kstarsactions.cpp:1392
 #, kde-format
@@ -67153,7 +67150,7 @@ msgstr "Yine de Çalıştır"
 #: kstarsactions.cpp:1399
 #, kde-format
 msgid "Running script: %1"
-msgstr "Çalışan betik: %1"
+msgstr "Betik çalıştırılıyor: %1"
 
 #: kstarsactions.cpp:1417
 #, kde-format
@@ -67167,19 +67164,19 @@ msgid ""
 "uses a white background. Would you like to temporarily switch to the Star "
 "Chart color scheme for printing?"
 msgstr ""
-"Beyaz arka plan kullanan \"Yıldız Haritası\" renk düzenini kullanarak "
+"Beyaz arka plan kullanan \"Yıldız Haritası\" renk şemasını kullanarak "
 "mürekkep tasarrufu yapabilirsiniz. Baskı için geçici olarak Yıldız Haritası "
-"renk düzenine geçiş yapmak ister misiniz."
+"renk şemasına geçiş yapmak ister misiniz?"
 
 #: kstarsactions.cpp:1434
 #, kde-format
 msgid "Switch to Star Chart Colors?"
-msgstr "Yıldız Haritası Renklerine geçilsin mi?"
+msgstr "Yıldız Haritası renklerine geçilsin mi?"
 
 #: kstarsactions.cpp:1435
 #, kde-format
 msgid "Switch Color Scheme"
-msgstr "Renk Düzenini Değiştir"
+msgstr "Renk Şemasını Değiştir"
 
 #: kstarsactions.cpp:1435
 #, kde-format
@@ -67189,88 +67186,80 @@ msgstr "Değiştirme"
 #: kstarsactions.cpp:1518 kstarsinit.cpp:236
 #, kde-format
 msgid "Engage &Tracking"
-msgstr "İzlemeyi &Devreye al"
+msgstr "İzlemeyi &Devreye Al"
 
 #: kstarsactions.cpp:1632
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
-msgstr "Yaklaşık FOV: %1 derece"
+msgstr "Yaklaşık görüş alanı: %1 derece"
 
 #: kstarsactions.cpp:1637
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
-msgstr "Yaklaşık FOV: %1 yay dakika"
+msgstr "Yaklaşık görüş alanı: %1 yay dakika"
 
 #: kstarsactions.cpp:1643
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
-msgstr "Yaklaşık FOV: %1 yay saniye"
+msgstr "Yaklaşık görüş alanı: %1 yay saniye"
 
 #: kstarsactions.cpp:1660
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
-msgstr "Gerekli Görüş Alanı Açısını giriniz "
+msgstr "Arzu Edilen Görüş Alanı Açısını Gir"
 
 #: kstarsactions.cpp:1661
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
-msgstr "Görüş Alanı Açısını derece olarak giriniz :"
+msgstr "Derece türünden bir görüş alanı açısı girin: "
 
 #: kstarsactions.cpp:1692 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
-msgstr "Kuzey"
+msgstr "Kuzey &Yukarı"
 
 #: kstarsactions.cpp:1695 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
-msgstr "Norton"
+msgstr "Kuzey &Aşağı"
 
 #: kstarsactions.cpp:1713 kstarsinit.cpp:711
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
-msgstr "&Başucu"
+msgstr "Başucu &Yukarı"
 
 #: kstarsactions.cpp:1716 kstarsinit.cpp:720
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
-msgstr "&Başucu"
+msgstr "Başucu &Aşağı"
 
 #: kstarsactions.cpp:1874
 #, kde-format
 msgid "Attempt to determine from image"
-msgstr ""
+msgstr "Görselden belirlemeye çalış"
 
 #: kstarsactions.cpp:1876
-#, fuzzy, kde-format
-#| msgid "Star Hopper: Choose a field-of-view"
+#, kde-format
 msgid "Eyepiece View: Choose a field-of-view"
-msgstr "Yıldız Sekmesi: Bir görüş alanı seç"
+msgstr "Göz merceği görünümü: Bir görüş alanı seç"
 
 #: kstarsactions.cpp:1877
 #, kde-format
 msgid "FOV to render eyepiece view for:"
-msgstr ""
+msgstr "Göz merceği görünümünün sunulacağı görüş alanı:"
 
 #: kstarsdata.cpp:47
-#, fuzzy, kde-format
-#| msgid "Critical File Not Found: %1"
+#, kde-format
 msgid "Critical File not Found: %1"
-msgstr "Önemli bir dosya bulunamadı:%1"
+msgstr "Kritik dosya bulunamadı: %1"
 
 #: kstarsdata.cpp:48
 #, kde-format
@@ -67292,53 +67281,54 @@ msgstr ""
 #: kstarsdata.cpp:54
 #, kde-format
 msgid "Critical File Not Found: %1"
-msgstr "Önemli bir dosya bulunamadı:%1"
+msgstr "Kritik dosya bulunamadı: %1"
 
 #: kstarsdata.cpp:134
 #, kde-format
 msgid "Reading time zone rules"
-msgstr "Zaman dilimi cetvelleri okunuyor"
+msgstr "Zaman dilimi kuralları okunuyor"
 
 #: kstarsdata.cpp:142
 #, kde-format
 msgid "Upgrade existing user city db to support geographic elevation."
 msgstr ""
+"Coğrafi yükseltileri desteklemek için var olan kullanıcı şehir veritabanını "
+"güncelleyin."
 
 #: kstarsdata.cpp:160
 #, kde-format
 msgid "Adding \"Elevation\" column to city table."
-msgstr ""
+msgstr "Şehir tablosuna \"Yükselti\" sütünu ekleniyor."
 
 #: kstarsdata.cpp:174
 #, kde-format
 msgid "City table already contains \"Elevation\"."
-msgstr ""
+msgstr "Şehir tablosunda \"Yükselti\" halihazırda var."
 
 #: kstarsdata.cpp:179
-#, fuzzy, kde-format
-#| msgid "This city already exists in the database."
+#, kde-format
 msgid "City table missing from database."
-msgstr "Bu şehir zaten veritabanında var."
+msgstr "Veritabanından şehir tablosu eksik."
 
 #: kstarsdata.cpp:185
 #, kde-format
 msgid "Loading city data"
-msgstr "Kent verisi yükleniyor"
+msgstr "Şehir verisi yükleniyor"
 
 #: kstarsdata.cpp:193
 #, kde-format
 msgid "Loading User Information"
-msgstr "Kullanıcı Bilgisi Yükleme"
+msgstr "Kullanıcı bilgisi yükleniyor"
 
 #: kstarsdata.cpp:197
 #, kde-format
 msgid "Loading sky objects"
-msgstr "Göyüzü cisimleri yükleniyor"
+msgstr "Gökyüzü nesneleri yükleniyor"
 
 #: kstarsdata.cpp:202
 #, kde-format
 msgid "Loading Image URLs"
-msgstr "Resim web sayfaları yükleniyor"
+msgstr "Görsel URL'leri yükleniyor"
 
 #: kstarsdata.cpp:793
 #, kde-format
@@ -67349,22 +67339,27 @@ msgid ""
 "file may get truncated if KStars writes to the file later. Press Cancel to "
 "instead abort now and manually fix the problem. "
 msgstr ""
+"Kullanıcı notları günlük dosyası %1, %2 konumunda başlayan girdinin "
+"açılışında hatalı biçimlendirilmiş. K Yıldızlar, bu dosyayı tam olarak "
+"okumadan da çalışabilir. K Yıldızlar'ı, kısımsal okuma başarılı olursa olsun "
+"çalıştırmak için Sürdür'e basın. K Yıldızlar dosyaya daha sonra yazarsa "
+"dosya yarıda kesilebilir. Bunun yerine şimdi iptal etmek ve sorunu elle "
+"düzeltmek için İptal'e basın."
 
 #: kstarsdata.cpp:798
-#, fuzzy, kde-format
-#| msgid "Invalid file: %1"
+#, kde-format
 msgid "Malformed file %1"
-msgstr "Geçersiz dosya: %1"
+msgstr "Hatalı oluşturulmuş dosya: %1"
 
 #: kstarsdata.cpp:1143
 #, kde-format
 msgid "Could not set time: %1 / %2 / %3 ; %4:%5:%6"
-msgstr "Saat ayarlanamadı: %1 / %2 / %3 ; %4:%5:%6"
+msgstr "Zaman ayarlanamadı: %1 / %2 / %3 ; %4:%5:%6"
 
 #: kstarsdata.cpp:1472
 #, kde-format
 msgid "Could not set location named %1, %2, %3"
-msgstr "%1, %2, %3 isimli konum ayarlanamadı"
+msgstr "%1, %2, %3 adlı konum ayarlanamadı"
 
 #: kstarsdata.cpp:1552 kstarslite/dialogs/detaildialoglite.cpp:686
 #, kde-format
@@ -67372,8 +67367,8 @@ msgid ""
 "Custom image-links file could not be opened.\n"
 "Link cannot be recorded for future sessions."
 msgstr ""
-"Özel resim-bağlantı dosyası açılamadı.\n"
-"Bağlantı gelecek oturumlar için kaydedilmedi."
+"Özel görsel bağlantıları dosyası açılamadı.\n"
+"Bağlantı, sonraki oturumlar için kaydedilemez."
 
 #: kstarsdata.cpp:1554 kstarslite/dialogs/detaildialoglite.cpp:711
 #, kde-format
@@ -67381,19 +67376,19 @@ msgid ""
 "Custom information-links file could not be opened.\n"
 "Link cannot be recorded for future sessions."
 msgstr ""
-"Özel bilgilendirme-bağlantı dosyası açılamadı.\n"
-"Bağlantı gelecek oturumlar için kaydedilmedi."
+"Özel bilgi bağlantıları dosyası açılamadı.\n"
+"Bağlantı, sonraki oturumlar için kaydedilemez."
 
 #: kstarsdata.cpp:1654 kstarsdata.cpp:1676
 #, kde-format
 msgid "Userdata at index %1 does not exist."
-msgstr ""
+msgstr "%1 indeksinde kullanıcı bilgisi yok."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
 #: kstarsdbus.cpp:78 tools/arglooktoward.ui:92
 #, kde-format
 msgid "zenith"
-msgstr "doruk"
+msgstr "başucu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
 #: kstarsdbus.cpp:82 tools/arglooktoward.ui:52
@@ -67444,8 +67439,7 @@ msgid "northwest"
 msgstr "kuzeybatı"
 
 #: kstarsdbus.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Print Sky"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "Gözyüzünü Yazdır"
@@ -67458,71 +67452,64 @@ msgstr "Yeni Veri İndir..."
 #: kstarsinit.cpp:149
 #, kde-format
 msgid "Downloads new data"
-msgstr "Yeni veri indiriliyor"
+msgstr "Yeni veri indirir"
 
 #: kstarsinit.cpp:156
-#, fuzzy, kde-format
-#| msgid "Open FITS..."
+#, kde-format
 msgid "Open Image..."
-msgstr "FITS Aç..."
+msgstr "Görsel Aç..."
 
 #: kstarsinit.cpp:160
 #, kde-format
 msgid "&Save Sky Image..."
-msgstr "Gökyüzü Resmini &Kaydet..."
+msgstr "Gökyüzü Görselini &Kaydet..."
 
 #: kstarsinit.cpp:167
 #, kde-format
 msgid "&Run Script..."
-msgstr "&Programı Çalıştır..."
+msgstr "&Betik Çalıştır..."
 
 #: kstarsinit.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "start Printing Wizard"
-#| msgid "Printing &Wizard"
+#, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
-msgstr "&Yazdırma Sihirbazı"
+msgstr "Yazdırma &Sihirbazı..."
 
 #: kstarsinit.cpp:180
 #, kde-format
 msgid "Set Time to &Now"
-msgstr "&Zamanı Şimdiye Ayarla"
+msgstr "Zamanı &Şimdiye Ayarla"
 
 #: kstarsinit.cpp:184
 #, kde-format
 msgctxt "set Clock to New Time"
 msgid "&Set Time..."
-msgstr "&Zamanı Ayarla..."
+msgstr "Zamanı &Ayarla..."
 
 #: kstarsinit.cpp:188
 #, kde-format
 msgid "Stop &Clock"
-msgstr "S&aati Durdur"
+msgstr "&Saati Durdur"
 
 #: kstarsinit.cpp:211
-#, fuzzy, kde-format
-#| msgid "Run clock"
+#, kde-format
 msgid "Resume Clock"
-msgstr "Saati çalıştır"
+msgstr "Saati Sürdür"
 
 #: kstarsinit.cpp:211
-#, fuzzy, kde-format
-#| msgid "Stop &Clock"
+#, kde-format
 msgid "Stop Clock"
-msgstr "S&aati Durdur"
+msgstr "Saati Durdur"
 
 #: kstarsinit.cpp:217
-#, fuzzy, kde-format
-#| msgid "Advance one step forward in time"
+#, kde-format
 msgid "Advance One Step Forward in Time"
-msgstr "Zaman içinde bir adım öne ilerle"
+msgstr "Zamanda Bir Adım İleri Git"
 
 #: kstarsinit.cpp:221
-#, fuzzy, kde-format
-#| msgid "Advance one step backward in time"
+#, kde-format
 msgid "Advance One Step Backward in Time"
-msgstr "Zaman içinde bir adım geri gel"
+msgstr "Zamanda Bir Adım Geri Git"
 
 #: kstarsinit.cpp:226
 #, kde-format
@@ -67552,32 +67539,32 @@ msgstr "&Batı"
 #: kstarsinit.cpp:233
 #, kde-format
 msgid "&Find Object..."
-msgstr "Nesneyi &Bul..."
+msgstr "Nesne &Bul..."
 
 #: kstarsinit.cpp:240
 #, kde-format
 msgid "Set Coordinates &Manually..."
-msgstr "Koordinatları &El İle Ayarla..."
+msgstr "Koordinatları &Elle Ayarla..."
 
 #: kstarsinit.cpp:252
 #, kde-format
 msgid "&Default Zoom"
-msgstr "Ö&ntanımlı Odaklama"
+msgstr "&Öntanımlı Yakınlaştırma"
 
 #: kstarsinit.cpp:255
 #, kde-format
 msgid "&Zoom to Angular Size..."
-msgstr "&Açısal Boyuta Yakınlaştır..."
+msgstr "Açısal Boyuta &Yakınlaştır..."
 
 #: kstarsinit.cpp:273
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
-msgstr "&Lambert Güneyaçısal Eşdeğer-alan"
+msgstr "&Lambert Güneyaçısal Eşit Alan"
 
 #: kstarsinit.cpp:276
 #, kde-format
 msgid "&Azimuthal Equidistant"
-msgstr "&Güneyaçısal Eşituzaklık"
+msgstr "&Güneyaçısal Eşit Uzaklık"
 
 #: kstarsinit.cpp:279
 #, kde-format
@@ -67597,7 +67584,7 @@ msgstr "&Stereografik"
 #: kstarsinit.cpp:288
 #, kde-format
 msgid "&Gnomonic"
-msgstr "&Nomonik"
+msgstr "&Gnomik"
 
 #: kstarsinit.cpp:294
 #, kde-format
@@ -67636,12 +67623,12 @@ msgstr "Görünüm Araç Çubuğunu Göster"
 #: kstarsinit.cpp:326
 #, kde-format
 msgid "Show Statusbar"
-msgstr "Durum çubuğunu Göster"
+msgstr "Durum Çubuğunu Göster"
 
 #: kstarsinit.cpp:327
 #, kde-format
 msgid "Show Az/Alt Field"
-msgstr " Ga/Yü Alanını Göster"
+msgstr "Ga/Yü Alanını Göster"
 
 #: kstarsinit.cpp:328
 #, kde-format
@@ -67649,10 +67636,9 @@ msgid "Show RA/Dec Field"
 msgstr "SA/DA Alanını Göster"
 
 #: kstarsinit.cpp:329
-#, fuzzy, kde-format
-#| msgid "Show RA/Dec Field"
+#, kde-format
 msgid "Show J2000.0 RA/Dec Field"
-msgstr "SA/DA Alanını Göster"
+msgstr "J2000.0 SA/DA Alanını Göster"
 
 #: kstarsinit.cpp:337
 #, kde-format
@@ -67685,16 +67671,14 @@ msgid "&FOV Symbols"
 msgstr "&Görüş Alanı Sembolleri"
 
 #: kstarsinit.cpp:369
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "HiPS All Sky Overlay"
-msgstr "Kutupsal Hizalama"
+msgstr "HiPS Tüm Gökyüzü Kaplaması"
 
 #: kstarsinit.cpp:376
-#, fuzzy, kde-format
-#| msgid "Skymap Options"
+#, kde-format
 msgid "Skymap Orientation"
-msgstr "Gökyüzü Haritası Seçenekleri"
+msgstr "Gökyüzü Haritası Yönelimi"
 
 #: kstarsinit.cpp:382
 #, kde-format
@@ -67708,33 +67692,29 @@ msgid "Startup Wizard..."
 msgstr "Başlangıç Sihirbazı..."
 
 #: kstarsinit.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Deep Sky Catalogs"
+#, kde-format
 msgid "Manage DSO Catalogs"
-msgstr "Derin Gökyüzü Katalogları"
+msgstr "DSO Kataloglarını Yönet"
 
 #: kstarsinit.cpp:408
-#, fuzzy, kde-format
-#| msgid "Update comets orbital elements"
+#, kde-format
 msgid "Update Comets Orbital Elements"
-msgstr "Kuyruklu yıldız yörünce cisimlerini güncelle"
+msgstr "Kuyruklu Yıldız Yörüngesel Ögelerini Güncelle"
 
 #: kstarsinit.cpp:410
 #, kde-format
 msgid "Update Asteroids Orbital Elements"
-msgstr "Asteroidlerin Yörünge Ögelerini Güncelle"
+msgstr "Asteroit Yörünge Ögelerini Güncelle"
 
 #: kstarsinit.cpp:412
-#, fuzzy, kde-format
-#| msgid "Update Recent Supernovae data"
+#, kde-format
 msgid "Update Recent Supernovae Data"
-msgstr "Son Supernove verisini güncelle"
+msgstr "Güncel Üstnova Verisini Güncelle"
 
 #: kstarsinit.cpp:414
 #, kde-format
 msgid "Update Satellites Orbital Elements"
-msgstr "Uyduların Yörünge Ögelerini Güncelle"
+msgstr "Uydular Yörünge Ögelerini Güncelle"
 
 #: kstarsinit.cpp:418
 #, kde-format
@@ -67750,18 +67730,17 @@ msgstr "Gözlem Planlayıcısı"
 #: kstarsinit.cpp:431 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
 #, kde-format
 msgid "Altitude vs. Time"
-msgstr "Yüksekliğe karşı Zaman"
+msgstr "Yükseklik-Zaman Oranı"
 
 #: kstarsinit.cpp:434
 #, kde-format
 msgid "What's up Tonight"
-msgstr "Bu Gece Neler Olacak"
+msgstr "Bu Gece Ne Var"
 
 #: kstarsinit.cpp:443
-#, fuzzy, kde-format
-#| msgid "Solar System Viewer"
+#, kde-format
 msgid "XPlanet Solar System Simulator"
-msgstr "Güneş Sistemi Görüntüleyici"
+msgstr "XPlanet Güneş Sistemi Benzetimcisi"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
 #: kstarsinit.cpp:445 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
@@ -67772,7 +67751,7 @@ msgstr "Gökyüzü Takvimi"
 #: kstarsinit.cpp:463
 #, kde-format
 msgid "Script Builder"
-msgstr "Betik Oluşturucu"
+msgstr "Betik Yapıcısı"
 
 #: kstarsinit.cpp:471
 #, kde-format
@@ -67788,30 +67767,27 @@ msgstr "Bayraklar"
 #: kstarsinit.cpp:477
 #, kde-format
 msgid "List your &Equipment..."
-msgstr "&Donanımlarınızı Listele..."
+msgstr "&Ekipmanını Listele..."
 
 #: kstarsinit.cpp:479
-#, fuzzy, kde-format
-#| msgid "Manage Observers"
+#, kde-format
 msgid "Manage Observer..."
-msgstr "Gözlemcileri Yönet"
+msgstr "Gözlemciyi Yönet..."
 
 #: kstarsinit.cpp:483
 #, kde-format
 msgid "Artificial Horizon..."
-msgstr ""
+msgstr "Yapay Ufuk..."
 
 #: kstarsinit.cpp:487
-#, fuzzy, kde-format
-#| msgid "Execute the session Plan..."
+#, kde-format
 msgid "Execute the Session Plan..."
-msgstr "Oturum planını çalıştır..."
+msgstr "Oturum Planını Yürüt..."
 
 #: kstarsinit.cpp:491
-#, fuzzy, kde-format
-#| msgid "Hour angle:"
+#, kde-format
 msgid "Polaris Hour Angle..."
-msgstr "Saat açısı:"
+msgstr "Kutup Yıldızı Saati Açısı..."
 
 #: kstarsinit.cpp:498
 #, kde-format
@@ -67824,10 +67800,9 @@ msgid "Device Manager..."
 msgstr "Aygıt Yöneticisi..."
 
 #: kstarsinit.cpp:507
-#, fuzzy, kde-format
-#| msgid "Telescope Properties..."
+#, kde-format
 msgid "Custom Drivers..."
-msgstr "Teleskop Özellikleri..."
+msgstr "Özel Sürücüler..."
 
 #: kstarsinit.cpp:510
 #, kde-format
@@ -67837,7 +67812,7 @@ msgstr "INDI Denetim Masası..."
 #: kstarsinit.cpp:522
 #, kde-format
 msgid "Displays the Tip of the Day"
-msgstr "Günün İpucunu Gösterir"
+msgstr "Günün İpucunu Görüntüler"
 
 #: kstarsinit.cpp:530
 #, kde-format
@@ -67849,11 +67824,10 @@ msgid ""
 "For time steps larger than 10 minutes, frames are displayed at an interval "
 "of 'X'."
 msgstr ""
-"Simülasyon zaman akış hızını değiştirmek için bunu kullanın.\n"
-"Zaman 'X' inin 10 dakikaya kadar artırılması durumunda, zaman saniyede 'X' "
-"kadar geçecektir.\n"
-"Zaman 'X' inin 10 dakikadan büyük olması durumunda, Çerçeveler 'X' "
-"aralığında görüntülenecektir."
+"Benzetimin akış hızını ayarlamak için bunu kullanın.\n"
+"10 dakikaya kadar olan 'X' zaman adımı için, zaman saniyede 'X' oranında "
+"geçer.\n"
+"10 dakikadan büyük zaman adımları için kareler 'X' aralığında görüntülenir."
 
 #: kstarsinit.cpp:539
 #, kde-format
@@ -67880,7 +67854,7 @@ msgstr "Derin Gökyüzü"
 #: kstarsinit.cpp:554
 #, kde-format
 msgid "Toggle deep sky objects"
-msgstr "Derin gökyüzü cisimlerini aç/kapat"
+msgstr "Derin gökyüzü nesnelerini aç/kapat"
 
 #: kstarsinit.cpp:556
 #, kde-format
@@ -67891,7 +67865,7 @@ msgstr "Güneş Sistemi"
 #: kstarsinit.cpp:558
 #, kde-format
 msgid "Toggle Solar system objects"
-msgstr "Güneş Sistemi cisimlerini aç/kapat"
+msgstr "Güneş sistemi nesnelerini aç/kapat"
 
 #: kstarsinit.cpp:560
 #, kde-format
@@ -67908,12 +67882,12 @@ msgstr "Takımyıldız çizgilerini aç/kapat"
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
-msgstr "Takımyıldız Adı"
+msgstr "Takımyıldız Adları"
 
 #: kstarsinit.cpp:566
 #, kde-format
 msgid "Toggle constellation names"
-msgstr "Takımyıldız isimlerini aç/kapat"
+msgstr "Takımyıldız adlarını aç/kapat"
 
 #: kstarsinit.cpp:568
 #, kde-format
@@ -67930,13 +67904,12 @@ msgstr "Takımyıldız sınırlarını aç/kapat"
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
-msgstr ""
+msgstr "Takımyıldız Sanatı (BETA)"
 
 #: kstarsinit.cpp:574
-#, fuzzy, kde-kuit-format
-#| msgid "Toggle constellation names"
+#, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
-msgstr "Takımyıldız isimlerini aç/kapat"
+msgstr "Takımyıldız sanatını aç/kapat (BETA)"
 
 #: kstarsinit.cpp:576
 #, kde-format
@@ -67947,29 +67920,29 @@ msgstr "Samanyolu"
 #: kstarsinit.cpp:578
 #, kde-format
 msgid "Toggle milky way"
-msgstr "Samanyolunu aç/kapat"
+msgstr "Samanyolu'nu aç/kapat"
 
 #: kstarsinit.cpp:580
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
-msgstr "Ekvatoryal koord. ızgarası"
+msgstr "Ekvatoryal Koordinatlar Izgarası"
 
 #: kstarsinit.cpp:582
 #, kde-format
 msgid "Toggle equatorial coordinate grid"
-msgstr "Ekvatoryal koordinat ızgarasını aç/kapat"
+msgstr "Ekvatoryal koordinatlar ızgarasını aç/kapat"
 
 #: kstarsinit.cpp:584
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
-msgstr "Yatay koordinat ızgarası"
+msgstr "Yatay Koordinatlar Izgarası"
 
 #: kstarsinit.cpp:586
 #, kde-format
 msgid "Toggle horizontal coordinate grid"
-msgstr "Yatay koordinat ızgarasını aç/kapat"
+msgstr "Yatay koordinatlar ızgarasını aç/kapat"
 
 #: kstarsinit.cpp:588
 #, kde-format
@@ -68008,12 +67981,12 @@ msgstr "Uyduları aç/kapat"
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
-msgstr "Süpernovalar"
+msgstr "Üstnovalar"
 
 #: kstarsinit.cpp:602
 #, kde-format
 msgid "Toggle supernovae"
-msgstr "Süpernovaları aç/kapat"
+msgstr "Üstnovaları aç/kapat"
 
 #: kstarsinit.cpp:604
 #, kde-format
@@ -68024,24 +67997,21 @@ msgstr "İlginç Neler Var"
 #: kstarsinit.cpp:606
 #, kde-format
 msgid "Toggle What's Interesting"
-msgstr "İlginç Neler Var'ı Aç/Kapat"
+msgstr "İlginç Neler Var'ı aç/kapat"
 
 #: kstarsinit.cpp:611
-#, fuzzy, kde-format
-#| msgid "Ekos"
+#, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Ekos"
 
 #: kstarsinit.cpp:613
-#, fuzzy, kde-format
-#| msgid "Toggle stars"
+#, kde-format
 msgid "Toggle Ekos"
-msgstr "Yıldızları aç/kapat"
+msgstr "Ekos'u aç/kapat"
 
 #: kstarsinit.cpp:615
-#, fuzzy, kde-format
-#| msgid "INDI Control Panel"
+#, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "INDI Denetim Masası"
@@ -68049,19 +68019,18 @@ msgstr "INDI Denetim Masası"
 #: kstarsinit.cpp:617
 #, kde-format
 msgid "Toggle INDI Control Panel"
-msgstr "INDI Denetim Masasını Değiştir"
+msgstr "INDI Denetim Masası'nı aç/kapat"
 
 #: kstarsinit.cpp:620
-#, fuzzy, kde-format
-#| msgid "KStars FITS Viewer"
+#, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
-msgstr "KStart FITS Görüntüleyici"
+msgstr "FITS Görüntüleyicisi"
 
 #: kstarsinit.cpp:622
 #, kde-format
 msgid "Toggle FITS Viewer"
-msgstr "FITS Görüntüleyici Değiştir"
+msgstr "FITS Görüntüleyicisi'ni aç/kapat"
 
 #: kstarsinit.cpp:626
 #, kde-format
@@ -68072,108 +68041,90 @@ msgstr "Algılayıcı Görüş Alanı"
 #: kstarsinit.cpp:628
 #, kde-format
 msgid "Toggle Sensor FOV"
-msgstr "Algılayıcı Görüş Alanını Aç/Kapat"
+msgstr "Algılayıcı Görüş Alanı'nı aç/kapat"
 
 #: kstarsinit.cpp:633
-#, fuzzy, kde-format
-#| msgid "Hopping FOV:"
+#, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
-msgstr "Sekme FOV:"
+msgstr "Mozaik Panel"
 
 #: kstarsinit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Toggle INDI Control Panel"
+#, kde-format
 msgid "Toggle Mosaic Panel"
-msgstr "INDI Denetim Masasını Değiştir"
+msgstr "Mozaik Panel'i aç/kapat"
 
 #: kstarsinit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Movement Control"
+#, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
-msgstr "Haraket Denetimi"
+msgstr "Kaide Denetimi"
 
 #: kstarsinit.cpp:642
-#, fuzzy, kde-format
-#| msgid "Toggle INDI Control Panel"
+#, kde-format
 msgid "Toggle Mount Control Panel"
-msgstr "INDI Denetim Masasını Değiştir"
+msgstr "Kaide Denetim Masası'nı aç/kapat"
 
 #: kstarsinit.cpp:646
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
-msgstr "Teleskopta ortala"
+msgstr "Teleskopu Ortala"
 
 #: kstarsinit.cpp:648
-#, fuzzy, kde-format
-#| msgid "Radio Telescope diameter:"
+#, kde-format
 msgid "Toggle Lock Telescope Center"
-msgstr "Radyo Teleskop çapı:"
+msgstr "Teleskopu Merkez Kilidini Aç/Kapat"
 
 #: kstarsinit.cpp:652
-#, fuzzy, kde-format
-#| msgid "Radio Telescope diameter:"
+#, kde-format
 msgid "Toggle Telescope Tracking"
-msgstr "Radyo Teleskop çapı:"
+msgstr "Teleskop İzlemeyi Aç/Kapat"
 
 #: kstarsinit.cpp:656
-#, fuzzy, kde-format
-#| msgid "Slew map to object"
+#, kde-format
 msgid "Slew telescope to the focused object"
-msgstr "Haritayı cisme döndür"
+msgstr "Teleskopu odaklanan nesneye çevir"
 
 #: kstarsinit.cpp:660
-#, fuzzy, kde-format
-#| msgid "Slew map to object"
+#, kde-format
 msgid "Sync telescope to the focused object"
-msgstr "Haritayı cisme döndür"
+msgstr "Teleskopu odaklanan nesneye eşzamanla"
 
 #: kstarsinit.cpp:664
-#, fuzzy, kde-format
-#| msgid "Telescope"
+#, kde-format
 msgid "Abort telescope motions"
-msgstr "Teleskop"
+msgstr "Teleskop hareketlerini iptal et"
 
 #: kstarsinit.cpp:669
-#, fuzzy, kde-format
-#| msgid "Primary Telescope"
+#, kde-format
 msgid "Park telescope"
-msgstr "Ana Teleskop"
+msgstr "Teleskopu park et"
 
 #: kstarsinit.cpp:673
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgid "Unpark telescope"
-msgstr "Teleskopta ortala"
+msgstr "Teleskopu parktan çıkar"
 
 #: kstarsinit.cpp:679
-#, fuzzy, kde-format
-#| msgid "Slew the telescope to the target coordinates"
+#, kde-format
 msgid "Slew the telescope to the mouse pointer position"
-msgstr "Teleskopu, hedef koordinatlarına döndür"
+msgstr "Teleskopu fare işaretçisi konumuna çevir"
 
 #: kstarsinit.cpp:682
-#, fuzzy, kde-format
-#| msgid "Synchronize the telescope to the solution coordinates"
+#, kde-format
 msgid "Sync the telescope to the mouse pointer position"
-msgstr "Teleskopu, çözüm koordinatlarına eşle"
+msgstr "Teleskopu fare işaretçisi konumuna eşzamanla"
 
 #: kstarsinit.cpp:689
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Park Scope"
+#, kde-format
 msgid "Park dome"
-msgstr "Park Kapsamı"
+msgstr "Kubbeyi park et"
 
 #: kstarsinit.cpp:693
-#, fuzzy, kde-format
-#| msgid "UnPark"
+#, kde-format
 msgid "Unpark dome"
-msgstr "Parktan Çık"
+msgstr "Kubbeyi parktan çıkar"
 
 #: kstarsinit.cpp:715
 #, kde-format
@@ -68184,6 +68135,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
+"Kuzeyin (Ekvator Koordinat kipinde) veya başucun (Yatay Koordinat kipinde) "
+"dikey olarak yukarıda olduğu gökyüzü haritasının dik görünümü için bunu "
+"seçin. Bu, dik bir görsel bulucu kapsamı veya çıplak gözle görünüm için "
+"doğal bir seçim olacaktır."
 
 #: kstarsinit.cpp:724
 #, kde-format
@@ -68194,15 +68149,17 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"Kuzeyin (Ekvator Koordinatı kipinde) veya başucun (Yatay Koordinat kipinde) "
+"dikey olarak aşağıda olduğu gökyüzü haritasının ters görünümü için bunu "
+"seçin. Bu, ters görsel bulucu dürbünü, erektör prizmasız ışık kırıcı/"
+"Cassegrain veya Dobsonian için doğal seçim olacaktır."
 
 #: kstarsinit.cpp:729
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
-msgstr "Kitaplık"
+msgstr "Keyfi"
 
 #: kstarsinit.cpp:733
 #, kde-format
@@ -68212,13 +68169,15 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
+"Bu kip, yönlendirmenin isteğe bağlı olduğunu size bildirmek için Üst "
+"Karakter + Sürükle fare eylemini kullanarak gökyüzü haritasını elle "
+"döndürdüyseniz kendiliğinden seçilir."
 
 #: kstarsinit.cpp:739
-#, fuzzy, kde-format
-#| msgid "Target object or direction"
+#, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid "Erect observer correction"
-msgstr "Hedef cisim ya da doğrultu"
+msgstr "Erekte gözlemci düzeltmesi"
 
 #: kstarsinit.cpp:742
 #, kde-format
@@ -68232,6 +68191,12 @@ msgid ""
 "Coordinates. Typically makes sense to combine this with Zenith Down "
 "orientation."
 msgstr ""
+"Bir güneyaçısal yuvada görsel olarak bir Newton teleskobu kullanıyorsanız bu "
+"kipi etkinleştirin. Teleskopla birlikte dönen bir kameranın aksine, teleskop "
+"yukarı ve aşağı hareket ederken gözlemcinin erekte kalmasını hesaba katmak "
+"için gökyüzü haritasının yönünü düzeltecektir. Bu yalnızca Yatay Koordinat "
+"kipinde mantıklıdır ve Ekvator Koordinatları kullanılırken devre dışı "
+"bırakılır. Genellikle bunu Başucu Aşağı yönüyle birleştirmek mantıklıdır."
 
 #: kstarsinit.cpp:768
 #, kde-format
@@ -68239,27 +68204,25 @@ msgid "Edit FOV Symbols..."
 msgstr "Görüş Alanı Sembollerini Düzenle..."
 
 #: kstarsinit.cpp:803
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "HiPS Settings..."
-msgstr "Benzetici Ayarları"
+msgstr "HiPS Ayarları..."
 
 #: kstarsinit.cpp:810
 #, kde-format
 msgid " Welcome to KStars "
-msgstr " K Yıldızlar'a Hoş Geldiniz "
+msgstr " K Yıldızlar'a hoş geldiniz "
 
 #: kstarsinit.cpp:909 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
-msgstr "hiçbiri"
+msgstr "hiçbir şey"
 
 #: kstarsinit.cpp:964 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
-msgstr "Başlangıç konumu ufkun altında kalıyor"
+msgstr "Başlangıç Konumu Ufkun Altında"
 
 #: kstarsinit.cpp:966 kstarsliteinit.cpp:122
 #, kde-format
@@ -68293,7 +68256,7 @@ msgstr "Sürüm: %1"
 #: kstarslite.cpp:116
 #, kde-format
 msgid "Build: %1"
-msgstr ""
+msgstr "Yapı: %1"
 
 #: kstarslite.cpp:117
 #, kde-format
@@ -68318,10 +68281,9 @@ msgid "Dec (%1):"
 msgstr "DA (%1):"
 
 #: kstarslite/dialogs/finddialoglite.cpp:187
-#, fuzzy, kde-format
-#| msgid "Complete."
+#, kde-format
 msgid "Not Implemented."
-msgstr "Tamamlanma."
+msgstr "Gerçekleştirilmemiş."
 
 #: kstarslite/qml/dialogs/AboutDialog.qml:16
 #, kde-kuit-format
@@ -68336,7 +68298,7 @@ msgstr "K Yıldızlar"
 #: kstarslite/qml/dialogs/AboutDialog.qml:37 main.cpp:48
 #, kde-format, kde-kuit-format
 msgid "Desktop Planetarium"
-msgstr "Masaüstündeki Samanyolu Sistemi"
+msgstr "Masaüstü Gökevi"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-kuit-format
@@ -68344,70 +68306,59 @@ msgid "Distance"
 msgstr "Uzaklık"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:148
-#, fuzzy, kde-kuit-format
-#| msgid "B - V index:"
+#, kde-kuit-format
 msgid "B - V Index"
-msgstr "B - V indeksi:"
+msgstr "B - V İndeksi"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:158
-#, fuzzy, kde-kuit-format
-#| msgid "Illumination:"
+#, kde-kuit-format
 msgid "Illumination"
-msgstr "Aydınlanma:"
+msgstr "Aydınlanma"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:163
-#, fuzzy, kde-kuit-format
-#| msgid "Perihelion:"
+#, kde-kuit-format
 msgid "Perihelion"
-msgstr "Günberi:"
+msgstr "Günberi"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:168
-#, fuzzy, kde-kuit-format
-#| msgid "Orbit ID"
+#, kde-kuit-format
 msgid "OrbitID"
-msgstr "Yörünge ID"
+msgstr "Yörünge Kimliği"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:178
-#, fuzzy, kde-kuit-format
-#| msgid "Diameter:"
+#, kde-kuit-format
 msgid "Diameter"
-msgstr "Çap:"
+msgstr "Çap"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:183
-#, fuzzy, kde-kuit-format
-#| msgid "Rotation period:"
+#, kde-kuit-format
 msgid "Rotation period"
-msgstr "Dönme dönemi:"
+msgstr "Dönme periyodu"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:188
-#, fuzzy, kde-kuit-format
-#| msgid "Earth MOID:"
+#, kde-kuit-format
 msgid "EarthMOID"
-msgstr "Dünya MOID:"
+msgstr "Dünya MOID'si"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:193
-#, fuzzy, kde-kuit-format
-#| msgid "Orbit class:"
+#, kde-kuit-format
 msgid "OrbitClass"
-msgstr "Yörünge sınıfı:"
+msgstr "Yörünge Sınıfı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:198
-#, fuzzy, kde-kuit-format
-#| msgid "Albedo:"
+#, kde-kuit-format
 msgid "Albedo"
-msgstr "Aklık:"
+msgstr "Aklık"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:203
-#, fuzzy, kde-kuit-format
-#| msgid "Dimensions:"
+#, kde-kuit-format
 msgid "Dimensions"
-msgstr "Boyutlar:"
+msgstr "Boyutlar"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:208
-#, fuzzy, kde-kuit-format
-#| msgid "Period:"
+#, kde-kuit-format
 msgid "Period"
-msgstr "Dönüm:"
+msgstr "Periyot"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:254
 #, kde-kuit-format
@@ -68422,7 +68373,7 @@ msgstr "Dec (J2000.0)"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:274
 #, kde-kuit-format
 msgid "Hour angle"
-msgstr "Hour angle"
+msgstr "Saat açısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:279
 #, kde-kuit-format
@@ -68432,13 +68383,12 @@ msgstr "Hava kütlesi"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:292
 #, kde-kuit-format
 msgid "Rise time"
-msgstr "Yükselme saati"
+msgstr "Yükselme zamanı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:297
-#, fuzzy, kde-kuit-format
-#| msgid "Transit time:"
+#, kde-kuit-format
 msgid "Transit time"
-msgstr "Geçiş zamanı:"
+msgstr "Geçiş zamanı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:302
 #, kde-kuit-format
@@ -68446,22 +68396,19 @@ msgid "Set time"
 msgstr "Zamanı ayarla"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:307
-#, fuzzy, kde-kuit-format
-#| msgid "Azimuth at rise:"
+#, kde-kuit-format
 msgid "Azimuth at rise"
-msgstr "Yükselme anında güney açısı:"
+msgstr "Yükselme anında güneyaçısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:312
-#, fuzzy, kde-kuit-format
-#| msgid "Azimuth at set:"
+#, kde-kuit-format
 msgid "Azimuth at transit"
-msgstr "Batma anında güney açısı:"
+msgstr "Geçiş anında güneyaçısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:317
-#, fuzzy, kde-kuit-format
-#| msgid "Azimuth at set:"
+#, kde-kuit-format
 msgid "Azimuth at set"
-msgstr "Batma anında güney açısı:"
+msgstr "Batma anında güneyaçısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:421
 #, kde-kuit-format
@@ -68469,22 +68416,19 @@ msgid "Add Link"
 msgstr "Bağlantı Ekle"
 
 #: kstarslite/qml/dialogs/FindDialog.qml:14
-#, fuzzy, kde-kuit-format
-#| msgid "Find Object"
+#, kde-kuit-format
 msgid "Find an Object"
-msgstr "Cismi Bul"
+msgstr "Bir Nesne Bul"
 
 #: kstarslite/qml/dialogs/FindDialog.qml:37
-#, fuzzy, kde-kuit-format
-#| msgid "Filter by name:"
+#, kde-kuit-format
 msgid "Filter by name: "
-msgstr "İsme göre filtrele:"
+msgstr "Ada göre süz: "
 
 #: kstarslite/qml/dialogs/FindDialog.qml:54
-#, fuzzy, kde-kuit-format
-#| msgid "Filter by type:"
+#, kde-kuit-format
 msgid "Filter by type: "
-msgstr "Tipe göre filtrele:"
+msgstr "Türe göre süz: "
 
 #: kstarslite/qml/dialogs/FindDialog.qml:100
 #, kde-kuit-format
@@ -68492,16 +68436,14 @@ msgid "Search in internet"
 msgstr "İnternette ara"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "Edit Link"
+#, kde-kuit-format
 msgid "%1 - Edit Link"
-msgstr "Bağlantı Düzenle"
+msgstr "%1 - Bağlantıyı Düzenle"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "Add Link..."
+#, kde-kuit-format
 msgid "%1 - Add a Link"
-msgstr "Bağlantı Ekle..."
+msgstr "%1 - Bir Bağlantı Ekle"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:68
@@ -68525,7 +68467,7 @@ msgstr "Ekle"
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:91
 #, kde-kuit-format
 msgid "Please, fill in URL and Description"
-msgstr ""
+msgstr "Lütfen URL ve açıklama alanlarını doldurun"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
 #, kde-kuit-format
@@ -68533,10 +68475,9 @@ msgid "Edit location"
 msgstr "Konumu düzenle"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "View location"
-msgstr "konumu ayarla"
+msgstr "Konumu görüntüle"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
 #, kde-kuit-format
@@ -68544,25 +68485,24 @@ msgid "Add location"
 msgstr "Konum ekle"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:20
-#, fuzzy, kde-kuit-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-kuit-format
 msgid "Please, wait while we are fetching coordinates"
-msgstr "Yıldızlar yeniden dizinlenirken lütfen bekleyin..."
+msgstr "Koordinatlar getirilirken lütfen bekleyin"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:58
 #, kde-kuit-format
 msgid "Default city"
-msgstr "Default city"
+msgstr "Öntanımlı şehir"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:59
 #, kde-kuit-format
 msgid "Default province"
-msgstr "Varsayılan il"
+msgstr "Öntanımlı il"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:60
 #, kde-kuit-format
 msgid "Default country"
-msgstr "Varsayılan ülke"
+msgstr "Öntanımlı ülke"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:62
 #, kde-kuit-format
@@ -68570,6 +68510,8 @@ msgid ""
 "Could not fetch location name (check your Internet connection). Added with "
 "default name"
 msgstr ""
+"Konum adı getirilemedi (internet bağlantınızı denetleyin). Öntanımlı adla "
+"eklendi"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:66
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:96
@@ -68579,10 +68521,9 @@ msgstr "Konum ayarlanamadı"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:71
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:100
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Successfully set your location"
-msgstr "konumu ayarla"
+msgstr "Konum başarıyla ayarlandı"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:73
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:102
@@ -68596,6 +68537,8 @@ msgid ""
 "Could not fetch location name (check your Internet connection). Set default "
 "name"
 msgstr ""
+"Konum adı getirilemedi (internet bağlantınızı denetleyin). Öntanımlı ad "
+"ayarlandı"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:148
 #, kde-kuit-format
@@ -68603,47 +68546,49 @@ msgid ""
 "No location service (GPS, cellular service, etc.) is available.\n"
 "Please, switch on the location service, and retry"
 msgstr ""
+"Kullanılabilir konum hizmeti yok (GPS, hücresel veri vb.).\n"
+"Konum hizmetlerini açıp yeniden deneyin"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:150
 #, kde-kuit-format
 msgid "Unknown error occurred. Please contact the application developer."
 msgstr ""
+"Bilinmeyen bir hata oluştu. Lütfen uygulama geliştiricisiyle iletişime geçin."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:160
 #, kde-kuit-format
 msgid "Timeout occurred. Try again."
-msgstr "Zaman aşımı oluştu. Tekrar deneyin."
+msgstr "Zaman aşımı oluştu. Yeniden deneyin."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:175
-#, fuzzy, kde-kuit-format
-#| msgid "Random latitude and longitude"
+#, kde-kuit-format
 msgid "Found your longitude and altitude"
-msgstr "Rasgele enlem ve boylam"
+msgstr "Enleminiz ve boylamınız bulundu"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:185
 #, kde-kuit-format
 msgid "Please, wait while we are retrieving location name"
-msgstr "Lütfen konum adını alırken bekleyin"
+msgstr "Lütfen konum adı getirilirken bekleyin"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:247
 #, kde-kuit-format
 msgid "City: "
-msgstr "Şehir:"
+msgstr "Şehir: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:260
 #, kde-kuit-format
 msgid "Province: "
-msgstr "Vilayet:"
+msgstr "İl: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:273
 #, kde-kuit-format
 msgid "Country: "
-msgstr "Ülke:"
+msgstr "Ülke: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:294
 #, kde-kuit-format
 msgid "Latitude: "
-msgstr "Enlem:"
+msgstr "Enlem: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
@@ -68651,16 +68596,14 @@ msgid "Longitude: "
 msgstr "Boylam: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
-#, fuzzy, kde-kuit-format
-#| msgid "UT offset:"
+#, kde-kuit-format
 msgid "UT offset: "
-msgstr "EZ karşılığı:"
+msgstr "EZ ofseti: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:334
-#, fuzzy, kde-kuit-format
-#| msgid "DST rule:"
+#, kde-kuit-format
 msgid "DST rule: "
-msgstr "Yaz saati standartı:"
+msgstr "Yaz saati kuralı: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:352
 #: kstarslite/qml/dialogs/LocationDialog.qml:139
@@ -68671,34 +68614,34 @@ msgstr "GPS'den ayarla"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:378
 #, kde-kuit-format
 msgid "Please, fill in the city"
-msgstr "Lütfen şehri doldurun"
+msgstr "Lütfen şehir alanını doldurun"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:381
 #, kde-kuit-format
 msgid "Please, fill in the country"
-msgstr "Lütfen ülkeyi yazınız"
+msgstr "Lütfen ülke alanını doldurun"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:384
 #, kde-kuit-format
 msgid "Please, fill in the latitude"
-msgstr "Lütfen enlemi giriniz"
+msgstr "Lütfen enlem alanını doldurun"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:387
 #, kde-kuit-format
 msgid "Please, fill in the longitude"
-msgstr "Lütfen boylamı yazınız"
+msgstr "Lütfen boylam alanını doldurun"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:392
 #, kde-kuit-format
 msgid "Either the longitude or the latitude values are not valid"
-msgstr ""
+msgstr "Ya enlem ya da boylam verisi geçerli değil"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:398
 #, kde-kuit-format
 msgid ""
 "This location already exists. Change either the city, the province or the "
 "country"
-msgstr ""
+msgstr "Bu konum halihazırda var. Ya şehri ya ili ya da ülkeyi değiştirin"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:414
 #, kde-kuit-format
@@ -68723,22 +68666,22 @@ msgstr "Coğrafi Konumu Ayarla"
 #: kstarslite/qml/dialogs/LocationDialog.qml:39
 #, kde-kuit-format
 msgid "Current Location: "
-msgstr "Mevcut konum:"
+msgstr "Şu anki konum: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:63
 #, kde-kuit-format
 msgid "City filter: "
-msgstr "Şehir filtresi:"
+msgstr "Şehir süzgeci: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:78
 #, kde-kuit-format
 msgid "Province filter: "
-msgstr ""
+msgstr "İl süzgeci: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:94
 #, kde-kuit-format
 msgid "Country filter: "
-msgstr "Ülke filtresi:"
+msgstr "Ülke süzgeci: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:127
 #, kde-kuit-format
@@ -68748,7 +68691,7 @@ msgstr "Konum Ekle"
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:36
 #, kde-kuit-format
 msgid "View resource"
-msgstr ""
+msgstr "Özkaynağı görüntüle"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:58
 #, kde-kuit-format
@@ -68758,18 +68701,17 @@ msgstr "Konumum olarak ayarla"
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:61
 #, kde-kuit-format
 msgid "Set %1 as the current location"
-msgstr "%1 mevcut konum olarak ayarla"
+msgstr "%1 konumunu şu anki konum olarak ayarla"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:63
-#, fuzzy, kde-kuit-format
-#| msgid "Could not parse "
+#, kde-kuit-format
 msgid "Could not set as the current location"
-msgstr "Ayrıştırılamadı"
+msgstr "Şu anki konum olarak ayarlanamadı"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:70
 #, kde-kuit-format
 msgid "View"
-msgstr "Görünüm"
+msgstr "Görüntüle"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:85
 #, kde-kuit-format
@@ -68779,7 +68721,7 @@ msgstr "%1 konumu silindi"
 #: kstarslite/qml/indi/ImagePreview.qml:15
 #, kde-kuit-format
 msgid "Image Preview - %1"
-msgstr "Görüntü Önizleme - %1"
+msgstr "Görsel Önizlemesi - %1"
 
 #: kstarslite/qml/indi/ImagePreview.qml:36
 #, kde-kuit-format
@@ -68789,7 +68731,7 @@ msgstr "Farklı Kaydet"
 #: kstarslite/qml/indi/INDIControlPanel.qml:58
 #, kde-kuit-format
 msgid "IP Address or Hostname"
-msgstr "IP Adresi veya Ana Bilgisayar Adı"
+msgstr "IP Adresi veya Makine Adı"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:69
 #, kde-kuit-format
@@ -68797,20 +68739,19 @@ msgid "xxx.xxx.xxx.xxx"
 msgstr "xxx.xxx.xxx.xxx"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:85
-#, fuzzy, kde-kuit-format
-#| msgid "Device Manager"
+#, kde-kuit-format
 msgid "Web Manager Port"
-msgstr "Aygıt Yöneticisi"
+msgstr "Web Yöneticisi Kapısı"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:111
 #, kde-kuit-format
 msgid "Get Status"
-msgstr "Durum Al"
+msgstr "Durumu Al"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:132
 #, kde-kuit-format
 msgid "Active Profile:"
-msgstr "Aktif Profil:"
+msgstr "Etkin profil:"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:160
 #, kde-kuit-format
@@ -68820,45 +68761,42 @@ msgstr "Profil: %1"
 #: kstarslite/qml/indi/INDIControlPanel.qml:177
 #, kde-kuit-format
 msgid "Manage Profiles"
-msgstr "Manage Profiles"
+msgstr "Profilleri Yönet"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:186
 #, kde-kuit-format
 msgid "Server Port"
-msgstr "Sunucu Portu"
+msgstr "Sunucu Kapısı"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:197
-#, fuzzy, kde-kuit-format
-#| msgid "INDI Server Start Port"
+#, kde-kuit-format
 msgid "INDI Server Port"
-msgstr "INDI Sunucusu Başlangıç Portu"
+msgstr "INDI Sunucusu Kapısı"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:217
 #, kde-kuit-format
 msgid "Successfully connected to the server"
-msgstr ""
+msgstr "Sunucuya başarıyla bağlanıldı"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:219
-#, fuzzy, kde-kuit-format
-#| msgid "Name of the remote INDI focuser device."
+#, kde-kuit-format
 msgid "Could not connect to the server"
-msgstr "Uzak INDI uzaklayıcı aygıtının adı."
+msgstr "Sunucuya bağlanılamadı"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:235
-#, fuzzy, kde-kuit-format
-#| msgid "Connect"
+#, kde-kuit-format
 msgid "Connected to %1"
-msgstr "Bağlan"
+msgstr "Bağlandı: %1"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:252
 #, kde-kuit-format
 msgid "Available Devices"
-msgstr "Kullanılabilir Cihazlar"
+msgstr "Kullanılabilir Aygıtlar"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:298
 #, kde-kuit-format
 msgid "Disconnect INDI"
-msgstr "INDI bağlantısını kes"
+msgstr "INDI Bağlantısını Kes"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:62
 #, kde-kuit-format
@@ -68893,7 +68831,7 @@ msgstr "GD"
 #: kstarslite/qml/indi/modules/MotionControl.qml:271
 #, kde-kuit-format
 msgid "Slew rate: "
-msgstr "Dönüş oranı:"
+msgstr "Çevirme hızı: "
 
 #: kstarslite/qml/main.qml:430
 #, kde-kuit-format
@@ -68914,12 +68852,12 @@ msgstr "Görüş Alanı Sembolleri"
 #: kstarslite/qml/modules/menus/ContextMenu.qml:136
 #, kde-kuit-format
 msgid "Sync"
-msgstr "Eşle"
+msgstr "Eşzamanla"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:162
 #, kde-format
 msgid "0 secs"
-msgstr "0 sn"
+msgstr "0 san"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:163
 #, kde-format
@@ -69139,91 +69077,77 @@ msgstr "100 yıl"
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:28
 #, kde-kuit-format
 msgid "%1 are toggled on"
-msgstr ""
+msgstr "%1 açık"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:30
-#, fuzzy, kde-kuit-format
-#| msgid "%1 is online."
+#, kde-kuit-format
 msgid "%1 is toggled on"
-msgstr "%1 çevrimiçi."
+msgstr "%1 açık"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:34
 #, kde-kuit-format
 msgid "%1 are toggled off"
-msgstr ""
+msgstr "%1 kapalı"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:36
-#, fuzzy, kde-kuit-format
-#| msgid "%1 is online."
+#, kde-kuit-format
 msgid "%1 is toggled off"
-msgstr "%1 çevrimiçi."
+msgstr "%1 kapalı"
 
 #: kstarslite/qml/modules/menus/ContextMenu.qml:40
 #, kde-kuit-format
 msgid "Empty Sky"
-msgstr "Boş gökyüzü"
+msgstr "Boş Gökyüzü"
 
 #: kstarslite/qml/modules/menus/ContextMenu.qml:61
-#, fuzzy, kde-kuit-format
-#| msgid "Center && Track"
+#, kde-kuit-format
 msgid "Center and Track"
 msgstr "Ortala ve İzle"
 
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:56
-#, fuzzy, kde-kuit-format
-#| msgctxt "use 'star chart' color scheme"
-#| msgid "Star Chart"
+#, kde-kuit-format
 msgid "Star Chart"
 msgstr "Yıldız Haritası"
 
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:57
-#, fuzzy, kde-kuit-format
-#| msgctxt "use 'night vision' color scheme"
-#| msgid "Night Vision"
+#, kde-kuit-format
 msgid "Night Vision"
-msgstr "Gece Görüş"
+msgstr "Gece Görüşü"
 
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:58
-#, fuzzy, kde-kuit-format
-#| msgctxt "use 'moonless night' color scheme"
-#| msgid "Moonless Night"
+#, kde-kuit-format
 msgid "Moonless Night"
 msgstr "Aysız Gece"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:34
 #, kde-kuit-format
 msgid "Lambert (Default)"
-msgstr ""
+msgstr "Lambert (Öntanımlı)"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:35
-#, fuzzy, kde-kuit-format
-#| msgid "&Azimuthal Equidistant"
+#, kde-kuit-format
 msgid "Azimuthal Equidistant"
-msgstr "&Güneyaçısal Eşituzaklık"
+msgstr "Güneyaçısal Eşit Uzaklık"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
 #, kde-kuit-format
 msgid "Orthographic"
-msgstr "Ortografik"
+msgstr "Dikçizgisel"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:37
-#, fuzzy, kde-kuit-format
-#| msgid "&Equirectangular"
+#, kde-kuit-format
 msgid "Equirectangular"
-msgstr "&Eşdikdörtgensel"
+msgstr "Eşdikdörtgensel"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:38
-#, fuzzy, kde-kuit-format
-#| msgid "&Stereographic"
+#, kde-kuit-format
 msgid "Stereographic"
-msgstr "&Stereografik"
+msgstr "Stereografik"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "Map projection method"
-#| msgid "Gnomonic"
+#, kde-kuit-format
 msgid "Gnomonic"
-msgstr "Nomonik"
+msgstr "Gnomik"
 
 #. i18n: ectx: property (text), widget (QPushButton, SetTime)
 #: kstarslite/qml/modules/TimePage.qml:13 tools/observinglist.ui:525
@@ -69259,7 +69183,7 @@ msgstr "Saat"
 #: kstarslite/qml/modules/TimePage.qml:479
 #, kde-kuit-format
 msgid "Min."
-msgstr "dk."
+msgstr "Dak."
 
 #: kstarslite/qml/modules/TopMenu.qml:116
 #, kde-kuit-format
@@ -69269,24 +69193,23 @@ msgstr "Otomatik kip"
 #: kstarslite/qml/modules/TopMenu.qml:150
 #, kde-kuit-format
 msgid "DeepSky Objects"
-msgstr "Derin uzay Cisimleri"
+msgstr "Derin Uzay Nesneleri"
 
 #: kstarslite/qml/modules/TopMenu.qml:187
 #: skycomponents/constellationlines.cpp:24
 #, kde-format, kde-kuit-format
 msgid "Constellation Lines"
-msgstr "Takımyıldız çizgileri"
+msgstr "Takımyıldız Çizgileri"
 
 #: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:580
 #, kde-format, kde-kuit-format
 msgid "Constellation Names"
-msgstr "Takımyıldızı İsimleri"
+msgstr "Takımyıldız Adları"
 
 #: kstarslite/qml/modules/TopMenu.qml:206
-#, fuzzy, kde-kuit-format
-#| msgid "Constellation"
+#, kde-kuit-format
 msgid "Constellation Art"
-msgstr "Takımyıldızlar"
+msgstr "Takımyıldız Sanatı"
 
 #: kstarslite/qml/modules/TopMenu.qml:217
 #, kde-kuit-format
@@ -69311,17 +69234,17 @@ msgstr "Yatay Izgara"
 #: kstarslite/qml/modules/tutorial/TutorialExitPopup.qml:27
 #, kde-kuit-format
 msgid "Are you sure you want to exit tutorial?"
-msgstr "Eğiticiden çıkmak istediğinizden emin misiniz?"
+msgstr "Öğreticiden çıkmak istediğinizden emin misiniz?"
 
 #: kstarslite/qml/modules/tutorial/TutorialPane.qml:45
 #, kde-kuit-format
 msgid "Exit"
-msgstr ""
+msgstr "Çık"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:36
 #, kde-kuit-format
 msgid "Welcome to KStars Lite"
-msgstr "K Yıldızlar Temel'e Hoş Geldiniz"
+msgstr "K Yıldızlar Temel'e hoş geldiniz"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:44
 #, kde-kuit-format
@@ -69329,25 +69252,24 @@ msgid ""
 "KStars Lite is a free, open source, cross-platform Astronomy Software "
 "designed for mobile devices."
 msgstr ""
-"K Yıldızlar Lite, taşınabilir aygıtlar için tasarlanmış, ücretsiz, açık "
+"K Yıldızlar Temel, taşınabilir aygıtlar için tasarlanmış, ücretsiz, açık "
 "kaynaklı, çapraz platform bir gökbilim yazılımıdır."
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:51
 #, kde-kuit-format
 msgid "A quick tutorial will introduce you to main functions of KStars Lite"
 msgstr ""
+"Hızlı bir öğretici, size K Yıldızlar Temel'in ana işlevlerini tanıtacaktır."
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:66
 #, kde-kuit-format
 msgid "Start tutorial"
-msgstr "Eğiticiyi başlat"
+msgstr "Öğreticiyi Başlat"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:35
-#, fuzzy, kde-kuit-format
-#| msgctxt "Satellite group name"
-#| msgid "Globalstar"
+#, kde-kuit-format
 msgid "Global Drawer"
-msgstr "Globalstar"
+msgstr "Global Çekmece"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:36
 #, kde-kuit-format
@@ -69355,11 +69277,13 @@ msgid ""
 "By swiping from left to right on any page of KStars Lite you can access "
 "global drawer"
 msgstr ""
+"K Yıldızlar Temel'in herhangi bir sayfasında soldan sağa kaydırarak global "
+"çekmeceye erişebilirsiniz"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:28
 #, kde-kuit-format
 msgid "Context Drawer"
-msgstr ""
+msgstr "Bağlam Çekmecesi"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:29
 #, kde-kuit-format
@@ -69367,6 +69291,8 @@ msgid ""
 "By swiping from right to left you can access context drawer with functions "
 "related to Sky Map. This menu is available only on Sky Map."
 msgstr ""
+"Sağdan sola kaydırarak, Gökyüzü Haritası ile ilgili işlevlere sahip bağlam "
+"çekmecesine erişebilirsiniz. Bu menü sadece Gökyüzü Haritasında vardır."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:30
 #, kde-kuit-format
@@ -69379,6 +69305,8 @@ msgid ""
 "By tapping on this arrow you can access top menu from which you can control "
 "visibility of different sky objects"
 msgstr ""
+"Bu oka dokunarak, farklı gökyüzü nesnelerinin görünürlüğünü kontrol "
+"edebileceğiniz üst menüye erişebilirsiniz."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:25
 #, kde-kuit-format
@@ -69391,6 +69319,8 @@ msgid ""
 "By tapping on this arrow you can access bottom menu from which you can set "
 "time and start time simulation"
 msgstr ""
+"Bu oka dokunarak, zamanı ayarlayabileceğiniz ve zaman benzetimini "
+"başlatabileceğiniz alt menüye erişebilirsiniz."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep5.qml:18
 #, kde-kuit-format
@@ -69404,6 +69334,9 @@ msgid ""
 "almost over. The last step to do is to set your location (you can do that "
 "either manually or from GPS). Click next to proceed."
 msgstr ""
+"K Yıldızlar Temel'deki ilk adımlarınız için tebrikler. Öğreticiniz neredeyse "
+"bitmek üzere. Yapmanız gereken son adım, konumunuzu ayarlamaktır (bunu elle "
+"veya GPS ile yapabilirsiniz). Sürdürmek için Sonraki'yi tıklayın."
 
 #: kstarslite/skyitems/horizonitem.cpp:22
 #: skycomponents/horizoncomponent.cpp:111
@@ -69526,19 +69459,19 @@ msgstr "Hareketi İptal Et"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort Slew"
-msgstr "Döndürmeyi İptal Et"
+msgstr "Çevirmeyi İptal Et"
 
 #: libindi_strings.cpp:16
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort Slew/Track"
-msgstr "Döndürmeyi/İzlemeyi İptal Et"
+msgstr "Çevirmeyi/İzlemeyi İptal Et"
 
 #: libindi_strings.cpp:17
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort"
-msgstr "İptal"
+msgstr "İptal Et"
 
 #: libindi_strings.cpp:18
 #, kde-kuit-format
@@ -69592,7 +69525,7 @@ msgstr "Alt  D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt/Dec Anti-backlash"
-msgstr "Alt/Dec Anti-boşluk"
+msgstr "Alt/Dec Geri Tepme Karşıtı"
 
 #: libindi_strings.cpp:27
 #, kde-kuit-format
@@ -73296,7 +73229,7 @@ msgstr "Kimlik:"
 #: oal/equipmentwriter.ui:84 tools/eyepiecefield.cpp:105
 #, kde-format
 msgid "Refractor"
-msgstr "Işık kırıcı"
+msgstr "Işık Kırıcı"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Type)
 #: oal/equipmentwriter.ui:89

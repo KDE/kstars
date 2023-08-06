@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-05 00:41+0000\n"
-"PO-Revision-Date: 2023-08-01 18:28+0200\n"
+"PO-Revision-Date: 2023-08-05 11:23+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -9562,12 +9562,7 @@ msgstr ""
 "moviment i error de càlcul</i> per a estimar l'error romanent.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1229
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
-#| "alignment error.</p><p>Be patient, plate solving can be affected by knob "
-#| "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
-#| "the you're finished.</p>"
+#, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
 "alignment error.</p><p>Be patient, plate solving can be affected by knob "
