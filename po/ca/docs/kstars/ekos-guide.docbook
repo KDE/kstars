@@ -375,7 +375,7 @@
         <para
 >Amb el guiatge GPG, el sistema de guiatge intern utilitza el guiatge predictiu i adaptatiu de l'eix AR. Això modela adaptativament l'error periòdic de la muntura, i afegeix la seva contribució predita a cada pols guia. </para>
         <para
->Els paràmetres principals a considerar són el període major i el període estimat. Si coneixeu el període del cuc per a la muntura, potser examinant <ulink url="g/phd2/wiki/Mount-Worm-Period-Info"
+>Els paràmetres principals a considerar són el període major i el període estimat. Si coneixeu el període del cuc per a la muntura, potser examinant <ulink url="https://github.com/OpenPHDGuiding/phd2/wiki/Mount-Worm-Period-Info"
 >aquesta taula</ulink
 >, desmarqueu el període estimat i introduïu el període principal conegut. Si no, marqueu el període estimat. El guiatge fosc intra-fotograma es pot fer servir per a dispersar la predicció GPG. Per exemple, si es guia a 5s, es pot establir l'interval de guiatge fosc a 1s i la seva predicció es polsa cada segon, però la correcció de la deriva del guiatge s'enviaria cada 5s. D'aquesta manera, emet les correccions predites molt més ràpid que la velocitat d'exposició de la càmera guia, realitzant efectivament la correcció periòdica d'errors i permetent exposicions de la càmera guia més llargues. És millor deixar tots els altres paràmetres als valors predeterminats. </para>
     </sect3>
