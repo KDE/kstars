@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-05 00:41+0000\n"
-"PO-Revision-Date: 2023-08-05 11:23+0200\n"
+"PO-Revision-Date: 2023-08-07 22:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6175,6 +6175,7 @@ msgstr "Se sincronitza amb l'AR (%1) Dec (%2)"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Orientat a les coordenades de l'objectiu: AR (%1) Dec (%2)."
 
+# skip-rule: punctuation-period-no
 #: ekos/align/align.cpp:2826
 #, kde-format
 msgid ""
@@ -9235,7 +9236,7 @@ msgstr "Binari del Watney:"
 #: ekos/align/opsprograms.ui:188
 #, kde-format
 msgid "Watney Program binary path"
-msgstr "Camí del binari del programa Watney:"
+msgstr "Camí del binari del programa Watney"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/opsprograms.ui:201
@@ -12868,6 +12869,7 @@ msgstr "PID"
 msgid "Link"
 msgstr "Enllaç"
 
+# skip-rule: punctuation-period-no
 #: ekos/auxiliary/serialportassistant.cpp:206
 #, kde-format
 msgid "Serial #"
@@ -13433,6 +13435,7 @@ msgstr ""
 "<a href = \"https://sep.readthedocs.io/en/v1.0.x/api/sep.sum_ellipse.html"
 "\">Paràmetres de fotometria</a>"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:560
 #, kde-format
@@ -13478,6 +13481,7 @@ msgstr "Sub Pix"
 msgid "The subpixel sampling factor for star extraction"
 msgstr "El factor de mostreig de subpíxel per a l'extracció d'estrelles"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:614
 #, kde-format
@@ -13601,18 +13605,21 @@ msgstr ""
 "La mida mínima de les estrelles a incloure a la llista final en píxels "
 "basada en l'eix semimajor i el semimenor"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:760
 #, kde-format
 msgid "Max Ellipse"
 msgstr "El·lipse màx."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:767
 #, kde-format
 msgid "Min Size"
 msgstr "Mida mín."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:774
 #, kde-format
@@ -13649,6 +13656,7 @@ msgstr "Retalla les més brillants"
 msgid "a/b"
 msgstr "a/b"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_54)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:840
 #, kde-format
@@ -14151,7 +14159,7 @@ msgstr "S'ha suspès la captura del CCD"
 #: ekos/capture/capture.cpp:986
 #, kde-format
 msgid "CCD capture complete"
-msgstr "Captura completada del CCD."
+msgstr "Captura completada del CCD"
 
 #: ekos/capture/capture.cpp:991
 #, kde-format
@@ -15491,7 +15499,7 @@ msgstr ""
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "La desviació del guiatge en iniciar la captura %1 està per sota del valor "
-"límit de %2 segons d'arc."
+"límit de %2 segons d'arc"
 
 #: ekos/capture/capturemodulestate.cpp:804
 #, kde-format
@@ -16822,6 +16830,7 @@ msgstr ""
 "Enfocament adaptatiu: delta de la temp. %1 marques; delta de l'alt. %2 "
 "marques"
 
+# skip-rule: punctuation-period-no
 #: ekos/focus/focus.cpp:960
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
@@ -17363,7 +17372,7 @@ msgid ""
 "star detection is acceptable. Adjust Out Step Multiple to correspond to this "
 "range of focuser motion."
 msgstr ""
-"Teniu un telescopi amb una obstrucció central, per tant, aneu amb compte de "
+" Teniu un telescopi amb una obstrucció central, per tant, aneu amb compte de "
 "no allunyar-vos massa del focus, ja que les estrelles apareixeran com a "
 "dònuts i no es detectaran correctament. Experimenteu cercant el focus i "
 "movent la mida del pas * multiplicador de pas exterior algunes marques lluny "
@@ -22125,7 +22134,7 @@ msgstr "Ha fallat en connectar amb el servidor INDI remot %1:%2"
 #: ekos/manager.cpp:1061
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
-msgstr "Ha fallat en connectar amb el servidor INDI remot %1:%2."
+msgstr "Ha fallat en connectar amb el servidor INDI remot %1:%2"
 
 #: ekos/manager.cpp:1074
 #, kde-format
@@ -29530,11 +29539,13 @@ msgstr "Frontal alt"
 msgid "Overhead"
 msgstr "Sobreelevat"
 
+# skip-rule: punctuation-period-no
 #: fitsviewer/starprofileviewer.cpp:186
 #, kde-format
 msgid "Iso. L"
 msgstr "Iso. esq."
 
+# skip-rule: punctuation-period-no
 #: fitsviewer/starprofileviewer.cpp:187
 #, kde-format
 msgid "Iso. R"
@@ -29645,6 +29656,7 @@ msgstr "Bitpix"
 msgid "Mean"
 msgstr "Mitjana"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:106
 #, kde-format
@@ -29918,7 +29930,7 @@ msgstr "No es pot engegar el servidor INDI: error de port."
 #: indi/drivermanager.cpp:365
 #, kde-format
 msgid "Failed to create local INDI server"
-msgstr "Ha fallat en crear el servidor INDI local."
+msgstr "Ha fallat en crear el servidor INDI local"
 
 #: indi/drivermanager.cpp:604 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
@@ -68636,6 +68648,7 @@ msgstr "12 h"
 msgid "0 days"
 msgstr "0 dies"
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:186
 #, kde-format
 msgid "1 sid day"
@@ -68666,11 +68679,13 @@ msgstr "5 dies"
 msgid "1 week"
 msgstr "1 setmana"
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:192
 #, kde-format
 msgid "2 wks"
 msgstr "2 setm."
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:193
 #, kde-format
 msgid "3 wks"
@@ -69792,12 +69807,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Duty cycle"
 msgstr "Cicle de treball"
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:126
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ Coord"
 msgstr "Coord. Eq."
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:127
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -69864,6 +69881,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Encoder"
 msgstr "Codificador"
 
+# skip-rule: punctuation-period-no
 # Nota: PE=Periodic Error
 #: libindi_strings.cpp:138
 #, kde-kuit-format
@@ -69871,6 +69889,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "EQ PE"
 msgstr "EP eq."
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:139
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -70238,6 +70257,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Frames"
 msgstr "Fotogrames"
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:201
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -70761,24 +70781,28 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Max"
 msgstr "Màx"
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:289
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Height"
 msgstr "Alçada màx."
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:290
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Position"
 msgstr "Posició màx."
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:291
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Width"
 msgstr "Amplada màx."
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:292
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -72308,12 +72332,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "manual"
 msgstr "manual"
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:546
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "max Alt"
 msgstr "Alt màx."
 
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:547
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -72882,7 +72908,7 @@ msgid ""
 "barlows"
 msgstr ""
 "Distància focal oficial del telescopi, en mil·límetres, sense cap reductor "
-"ni barlow."
+"ni barlow"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
@@ -83252,6 +83278,7 @@ msgctxt "hours"
 msgid "hrs"
 msgstr "h"
 
+# skip-rule: punctuation-period-no
 #: widgets/timespinbox.cpp:142
 #, kde-format
 msgctxt "sidereal day"
@@ -83268,6 +83295,7 @@ msgstr "dia"
 msgid "week"
 msgstr "setmana"
 
+# skip-rule: punctuation-period-no
 #: widgets/timespinbox.cpp:148 widgets/timespinbox.cpp:149
 #, kde-format
 msgctxt "weeks"

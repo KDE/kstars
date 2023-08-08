@@ -2581,7 +2581,7 @@ msgstr "천체"
 #: dialogs/addlinkdialog.ui:22
 #, kde-format
 msgid "Resource Type"
-msgstr "자원 형태"
+msgstr "리소스 형태"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ImageRadio)
 #: dialogs/addlinkdialog.ui:34
@@ -2601,7 +2601,7 @@ msgstr "정보"
 #: dialogs/addlinkdialog.ui:59
 #, kde-format
 msgid "Text describing the linked resource"
-msgstr "링크된 자원을 설명하는 텍스트"
+msgstr "링크된 리소스를 설명하는 텍스트"
 
 #. i18n: ectx: property (text), widget (QLabel, DescLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -3969,7 +3969,7 @@ msgstr "온라인 데이터베이스 선택"
 #: dialogs/details_links.ui:13
 #, kde-format
 msgid "Details - Resource Links"
-msgstr "자세히 - 자원 링크"
+msgstr "자세히 - 리소스 링크"
 
 #. i18n: ectx: property (text), widget (QLabel, InfoTitle)
 #: dialogs/details_links.ui:47 kstarslite/qml/dialogs/DetailsDialog.qml:357
@@ -3987,7 +3987,7 @@ msgstr "이미지 링크"
 #: dialogs/details_links.ui:143
 #, kde-format
 msgid "View Resource"
-msgstr "자원 보기"
+msgstr "리소스 보기"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddLinkButton)
 #: dialogs/details_links.ui:150
