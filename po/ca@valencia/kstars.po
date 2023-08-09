@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-05 00:41+0000\n"
-"PO-Revision-Date: 2023-08-05 19:21+0200\n"
+"PO-Revision-Date: 2023-08-08 23:21+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -17350,7 +17350,7 @@ msgstr ""
 "El primer pas és establir el rebot. El manual de l'enfocador probablement "
 "explicarà com fer-ho. Una vegada es tinga un valor per al rebot del sistema, "
 "establiu el camp de rebot perquè el controlador realitze la compensació o el "
-"camp d'EA excessiu perquè l'enfocament automàtic realitze la compensació. "
+"camp d'EA excessiva perquè l'enfocament automàtic realitze la compensació. "
 "Establiu només un camp i deixeu l'altre a 0.\n"
 "\n"
 "El segon pas és establir la mida del pas. Açò es pot predeterminar des de la "
@@ -18585,7 +18585,7 @@ msgstr ""
 "<html><head/><body><p>Per a enfocadors amb compensació del rebot, la "
 "quantitat de rebot que s'aplicarà en invertir la direcció del moviment. "
 "Establiu-lo a 0 per a desactivar-ho.</p><p>Normalment s'establix el «Rebot» "
-"o l'«EA excessiu:» de l'enfocador.</p><p>Este camp establix el rebot de "
+"o l'«EA excessiva:» de l'enfocador.</p><p>Este camp establix el rebot de "
 "l'enfocador d'INDI i es pot establir ací o en el Quadro de control INDI.</"
 "p></body></html>"
 
@@ -18608,7 +18608,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2334
 #, kde-format
 msgid "AF Overscan:"
-msgstr "EA excessiu:"
+msgstr "EA excessiva:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
 #: ekos/focus/focus.ui:2353
@@ -18740,8 +18740,8 @@ msgstr ""
 "automàtic. Açò és a més de qualsevol reacció proporcionada pel controlador "
 "del dispositiu i establida en el camp «Compensació de rebot del "
 "controlador:». Establiu-lo a 0 per a desactivar. </p><p>Si s'establix, l'«EA "
-"excessiu:» s'aplicarà a tots els moviments d'enfocament iniciats pel mòdul "
-"d'enfocament.</p><p>Normalment s'establix el «Rebot» o l'«EA excessiu:» de "
+"excessiva:» s'aplicarà a tots els moviments d'enfocament iniciats pel mòdul "
+"d'enfocament.</p><p>Normalment s'establix el «Rebot» o l'«EA excessiva:» de "
 "l'enfocador.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
@@ -29923,7 +29923,7 @@ msgstr "No es pot iniciar el servidor INDI: error de port."
 #: indi/drivermanager.cpp:365
 #, kde-format
 msgid "Failed to create local INDI server"
-msgstr "No s'ha pogut crear el servidor INDI local."
+msgstr "No s'ha pogut crear el servidor INDI local"
 
 #: indi/drivermanager.cpp:604 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
@@ -37005,8 +37005,7 @@ msgid ""
 "threshold, 4 no threshold, 5 SEP multistar)."
 msgstr ""
 "L'algorisme que s'utilitzarà per al seguiment del quadrat de guia (0 "
-"intel·ligent, 1 SEP, 2 ràpid, 3 llindar, 4 sense llindar, 5 multiestrela "
-"SEP)."
+"intel·ligent, 1 SEP, 2 ràpid, 3 llindar, 4 sense llindar, 5 SEP MultiStar)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2473
@@ -72922,7 +72921,7 @@ msgid ""
 "barlows"
 msgstr ""
 "Distància focal oficial del telescopi, en mil·límetres, sense cap reductor "
-"ni Barlow."
+"ni Barlow"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
