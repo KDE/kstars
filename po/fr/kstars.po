@@ -18,13 +18,14 @@
 # MORELLI <robert.morelli@laposte.net>, 2022.
 # Steve <stax@ik.me>, 2022, 2023.
 # Thomas Vergnaud <thomas.vergnaud@mailo.eu>, 2023.
+# Johnny Jazeix <jazeix@gmail.com>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: kstars_3.6.5\n"
+"Project-Id-Version: kstars_3.6.6\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-05 00:41+0000\n"
-"PO-Revision-Date: 2023-06-18 20:58+0200\n"
-"Last-Translator: Thomas Vergnaud <thomas.vergnaud@mailo.eu>\n"
+"PO-Revision-Date: 2023-08-08 21:44+0200\n"
+"Last-Translator: Johnny Jazeix <jazeix@gmail.com>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.3\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -6591,20 +6592,15 @@ msgstr "LF"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:477
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope supplied (effective) focal length "
-#| "in millimeters. Update telescope focal length to match the effective "
-#| "focal length to speed up plate solving.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal length in "
 "millimeters. The effective focal length is measured from plate-solving.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Longueur focale fournie par le télescope actif en "
-"millimètres. Mettre à jour la longueur focale du télescope pour qu'elle "
-"corresponde à la longueur focale réelle afin d'accélérer la résolution "
-"astrométrique.</p></body></html>"
+"<html><head/><body><p>Longueur focale calculée (véritable) du télescope en "
+"millimètres. Elle est calculée à partir de la résolution astrométrique.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/align/align.ui:487
@@ -6614,16 +6610,12 @@ msgstr "F/D"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
 #: ekos/align/align.ui:494
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope calculated (effective) focal "
-#| "ratio. The effective focal ratio is measured from astrometry.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
 "effective focal ratio is measured from astrometry.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rapport F/D calculé pour le télescope actif. Ce "
+"<html><head/><body><p>Rapport F/D calculé (véritable) du télescope. Ce "
 "rapport effectif est mesuré par astrométrie.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -6634,11 +6626,10 @@ msgstr "D"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
 #: ekos/align/align.ui:524
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sélecteur de ports de périphérique.</p></body></html>"
+"<html><head/><body><p>Réducteur ou facteur de Barlow.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
 #: ekos/align/align.ui:534
@@ -6805,9 +6796,9 @@ msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
 "Load and Slew Tool, and the Mount Model Tool will be displayed below."
 msgstr ""
-"Les résultats des solutions d'astrométrie des outils « Acquisition &amp; "
-"résolution », « Charger &amp; Pointer » et « Modélisation de la monture » "
-"seront affichés ci-dessous."
+"Les résultats des solutions d'astrométrie des outils « Acquisition & "
+"Résolution », « Charger & Pointer » et « Modélisation de la monture » seront "
+"affichés ci-dessous."
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QLabel, label_15)
@@ -7499,24 +7490,7 @@ msgstr "Méthode d'extraction de sources"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable limited resource mode to turn off any "
-#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
-#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
-#| "span>: World Coordinate System data will not be processed. WCS maps sky "
-#| "coordinates to image coordinates. Equatorial grid lines, object "
-#| "identification, and telescope slew within an image are disabled.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
-#| "grayscale images are shown.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Options for the method of Star "
 "Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
@@ -7530,24 +7504,18 @@ msgid ""
 "indent:0px;\">Built In Method uses whatever default Star Extraction process "
 "your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Activez le mode ressources limitées pour désactiver "
-"toutes les opérations gourmandes en ressources : </p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Auto debayer</span>: les images bayérisées ne "
-"seront pas débayérisées. Seules les images en niveau de gris sont affichées."
-"</li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">Auto WCS</span>: les données du système de coordonnées "
-"mondiales ne seront pas traitées. Le WCS fait correspondre les coordonnées "
-"du ciel aux coordonnées de l'image. Les lignes de la grille équatoriale, "
-"l'identification des objets et la rotation du télescope dans une image sont "
-"désactivées.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">3D Cube</span> : les images RVB ne seront pas "
-"traitées. Seules les images en niveaux de gris sont affichées.</li></ul></"
-"body></html>"
+"<html><head/><body><p align=\"center\">Options pour la méthode d'extraction "
+"d'étoile</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Le SEP interne utilise une bibliothèque interne de KStars."
+"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Le Sextractor externe "
+"requiert un programme externe.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">La méthode intégrée utilise la méthode par défaut que le "
+"processus d'extraction d'étoile utilise pour la résolution astrométrique.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -7559,7 +7527,7 @@ msgstr "SEP interne"
 #: ekos/align/opsalign.ui:81
 #, kde-format
 msgid "External SExtractor"
-msgstr " Programme SExtractor externe"
+msgstr "Programme SExtractor externe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:86
@@ -7569,16 +7537,7 @@ msgstr "Méthode intégrée pour le résolveur"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:94
-#, fuzzy, kde-format
-#| msgid ""
-#| "Selects the method of plate solving with the StellarSolver Library.  The "
-#| "StellarSolver option uses StellarSolver's internal build of Astrometry."
-#| "net and requires no external programs.  Local Astrometry uses a local "
-#| "installation of command line astrometry.net on Linux and Mac or ANSVR on "
-#| "Windows.  Local Watney uses a local installation of the Watney Astrometry "
-#| "Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-#| "program.  And Online uses either astrometry.net over the internet or "
-#| "ANSVR on a nearby computer."
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Selects the method of plate solving "
 "with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
@@ -7592,16 +7551,19 @@ msgid ""
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
-"Sélectionne la méthode de résolution par plaque avec la bibliothèque "
-"« StellarSolver ». L'option « StellarSolver » utilise la compilation interne "
-"de « StellarSolver » d'Astrometry.net et ne nécessite aucun programme "
-"externe. L'astrométrie locale utilise une installation locale en ligne de "
-"commandes pour « astrometry.net » sous Linux et Mac ou avec « ANSVR » sous "
-"Windows. « Watney local » utilise une installation locale du programme de "
-"résolveur d'astrométrie Watney. La bibliothèque « ASTAP » utilise une "
-"installation locale du programme « ASTAP ». Enfin, la version en ligne "
-"utilise soit « astrometry.net » sur Internet, soit « ANSVR » sur un "
-"ordinateur voisin."
+"<html><head/><body><p align=\"center\">Sélectionne la méthode de résolution "
+"astrométrique pour la bibliothèque StellarSolver</p><ul><li>L'option « SEP "
+"interne » utilise une version interne de Astrometry.net et ne requiert aucun "
+"programme externe.</li><li>L'option « Astrometry local » utilise une version "
+"locale de l'outil en ligne de commandes de Astrometry.net sur Linux et Mac "
+"ou ANSVR sur Windows.</li><li>L'option « ASTAP local » utilise une "
+"installation locale du programme ASTAP.</li><li>L'option « Watney local » "
+"utilise une installation locale du programme de résolution Watney.</"
+"li><li>L'option « En ligne » utilise la version en ligne de Astrometry.net "
+"ou ANSVR sur un ordinateur proche. <span style=\" font-weight:600;"
+"\">Remarque</span> : si la bande passante peut représenter un problème, la "
+"méthode « SEP interne » peut s'avérer un meilleur choix que la méthode "
+"intégrée pour le résolveur.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:98
@@ -9595,12 +9557,7 @@ msgstr ""
 "<i>MoveStar & Calc Error</i> pour estimer l'erreur résiduel</p>."
 
 #: ekos/align/polaralignmentassistant.cpp:1229
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
-#| "alignment error.</p><p>Be patient, plate solving can be affected by knob "
-#| "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
-#| "the you're finished.</p>"
+#, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
 "alignment error.</p><p>Be patient, plate solving can be affected by knob "
@@ -11149,17 +11106,17 @@ msgstr "Nombre de passe pour la mise au point automatique"
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
 msgstr ""
+"Le filtre. * indique le filtre de référence. Double-cliquer pour modifier."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:185
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
-msgstr ""
+msgstr "# de passe de mise au point. Régler par filtre. 0 pour ignorer"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:322
-#, fuzzy, kde-format
-#| msgid "Run : %1"
+#, kde-format
 msgid "AF Run %1"
-msgstr "Lancer : %1"
+msgstr "Passe de mise au point automatique %1"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:325
 #, kde-format
@@ -11167,6 +11124,8 @@ msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
 "from average."
 msgstr ""
+"Passe de mise au point automatique %1. Peut être calculer automatiquement "
+"mais peut être modifier. Régler à 0 pour l'exclure de la moyenne."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #: ekos/auxiliary/buildfilteroffsets.cpp:331 ekos/auxiliary/darklibrary.ui:221
@@ -11175,11 +11134,9 @@ msgid "Average"
 msgstr "Moyenne"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Average (1 sec.)"
+#, kde-format
 msgid "AF Average (mean)."
-msgstr "Moyenne (1 sec.)"
+msgstr "Moyenne de la mise au point automatique (moyenne)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:336
 #, kde-format
@@ -11190,23 +11147,25 @@ msgstr "Nouveau décalage"
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
 msgstr ""
+"Nouveau décalage. Calculé relativement au filtre noté *. Peut être modifié."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:346
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr ""
+"Enregistrer. Cochez pour enregistrer le nouveau décalage pour le filtre "
+"associé."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to quit?"
+#, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
-msgstr "Voulez-vous vraiment quitter ?"
+msgstr ""
+"Voulez-vous vraiment la procédure de construction des décalages de filtres ?"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
-#, fuzzy, kde-format
-#| msgid "Build Offsets"
+#, kde-format
 msgid "Stop Build Filter Offsets"
-msgstr "Construire les décalages"
+msgstr "Arrêter la procédure de construction des décalages de filtres"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:407
 #, kde-format
@@ -11214,11 +11173,15 @@ msgid ""
 "An unexpected problem occurred.\n"
 "Stop Build Filter Offsets, or Cancel to retry?"
 msgstr ""
+"Un problème inattendu est arrivé.\n"
+"Arrêter la procédure de construction des décalage de filtre, ou Annuler pour "
+"réessayer ?"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:408
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
 msgstr ""
+"Problème inattendu de la procédure de construction des décalages de filtre"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:451
 #, kde-format
@@ -11238,19 +11201,18 @@ msgstr "Exécution de la mise au point automatique de %1 (%2/%3)…"
 #: ekos/auxiliary/buildfilteroffsets.cpp:611
 #, kde-format
 msgid "(ΔT=%1)"
-msgstr ""
+msgstr "(ΔT=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:612
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
-#, fuzzy, kde-format
-#| msgid " ticks"
+#, kde-format
 msgid "(%1 ticks)"
-msgstr " pas"
+msgstr "(%1 pas)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
 msgid "(ΔAlt=%1)"
-msgstr ""
+msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
 #, kde-format
@@ -11270,6 +11232,15 @@ msgid ""
 "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
 "td></tr></table></body>"
 msgstr ""
+"<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
+"padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
+"caption { text-align: center; vertical-align: top; font-weight: bold; "
+"margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+"align=top>Explication de l'adaptation de mise au point</caption><tr><th></"
+"th><th>Position</th><th>Température (°C)</th><th>Altitude (°Alt)</th></"
+"tr><tr><th>Position mesurée</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></"
+"tr><tr><th>Adaptations</th><td>%6</td><td>%7</td><td>%8</td></"
+"tr><tr><th>Position adaptée</th><td>%9</td></tr></table></body>"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:731
 #, kde-format
@@ -11278,30 +11249,25 @@ msgstr "Abandon de la mise au point automatique…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, buildOffsetsDialog)
 #: ekos/auxiliary/buildfilteroffsets.ui:23
-#, fuzzy, kde-format
-#| msgid "Build Offsets"
+#, kde-format
 msgid "Build Filter Offsets"
-msgstr "Construire les décalages"
+msgstr "Construire les décalages de filtre"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
-#| "successful Autofocus run.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Cochez pour afficher la CFZ sur la courbe en V après "
-"une passe réussie de la mise au point automatique.</p></body></html>"
+"<html><head/><body><p>Cochez pour appliquer la mise au point adaptative aux "
+"passes de mise au point automatique.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:48
-#, fuzzy, kde-format
-#| msgid "Adaptive Focus"
+#, kde-format
 msgid "Adapt Focus"
-msgstr "Mise au point adaptative"
+msgstr "Adapter la Mise au point"
 
 #: ekos/auxiliary/darklibrary.cpp:83
 #, kde-format
@@ -18597,13 +18563,13 @@ msgstr "Multiple du pas extérieur"
 #: ekos/focus/focus.ui:2264
 #, kde-format
 msgid "Walk:"
-msgstr "Marcher"
+msgstr "Marche"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/focus.ui:2280
 #, kde-format
 msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-msgstr "<html><head/><body><p>Taille maximale du pas :</p></body></html>"
+msgstr "<html><head/><body><p>Taille maximale du pas</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/focus.ui:2296
@@ -18855,7 +18821,7 @@ msgstr "Tolérance (τ)"
 #: ekos/focus/focus.ui:2712
 #, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p>CFZ :<br/></p></body></html>"
+msgstr "<html><head/><body><p>CFZ<br/></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/focus.ui:2731
@@ -18939,7 +18905,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2876
 #, kde-format
 msgid "<html><head/><body><p>Step Size:</p></body></html>"
-msgstr "<html><head/><body><p>Taille de pas :</p></body></html>"
+msgstr "<html><head/><body><p>Taille de pas</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/focus.ui:2892
@@ -19123,7 +19089,7 @@ msgstr ""
 #: ekos/focus/focus.ui:3178
 #, kde-format
 msgid "Final CFZ:"
-msgstr "CFZ finale :"
+msgstr "CFZ finale"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/focus.ui:3197
@@ -22895,7 +22861,7 @@ msgstr ""
 #: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:502
 #, kde-format
 msgid "deg"
-msgstr "deg"
+msgstr "degrés"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearParkingB)
 #: ekos/mount/mount.ui:367
@@ -36591,6 +36557,8 @@ msgstr "Position de rightLayout."
 #, kde-format
 msgid "Whether to use Adaptive Focus in the Build Filter Offsets utility."
 msgstr ""
+"S'il faut utiliser la mise au point adaptative dans l'utilitaire de "
+"construction des décalages de filtres."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2202
@@ -72938,12 +72906,13 @@ msgstr "Fabricant"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
 #: oal/equipmentwriter.ui:157
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid ""
 "Official telescope focal length in millimeters without any reducers or "
 "barlows"
-msgstr "Longueur focale du télescope, en millimètres."
+msgstr ""
+"Longueur focale constructeur du télescope en millimètres sans aucun "
+"réducteur ou lentille de Barlow."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
