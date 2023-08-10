@@ -32,7 +32,7 @@
         <title
 >Table de l'ordonnanceur</title>
         <para
->Le cœur de l'ordonnanceur est une table affichant la liste des tâches prévues par l'opérateur. À chaque tâche est associée des attributs (décrits dans la section de configuration ci-dessous). Les attributs sont le nom de la tâche, la position vers laquelle le télescope doit pointer pour cette tâche, une description des types d'images à acquérir, les contraintes de la tâche (&eg; l'altitude, le crépuscule, la lune, les obstructions du paysage, &etc;), ainsi que toutes les choses qui doivent être accomplies avant et après la tâche, ainsi que les stratégies à adopter en cas d'erreurs. </para>
+>Le cœur de l'ordonnanceur est une table affichant la liste des tâches prévues par l'opérateur. À chaque tâche est associée des attributs (décrits dans la section de configuration ci-dessous). Les attributs sont le nom de la tâche, la position vers laquelle le télescope doit pointer pour cette tâche, une description des types d'images à acquérir, les contraintes de la tâche (&pex; l'altitude, le crépuscule, la lune, les obstructions du paysage, &etc;), ainsi que toutes les choses qui doivent être accomplies avant et après la tâche, ainsi que les stratégies à adopter en cas d'erreurs. </para>
         <para
 >Vous pouvez ajouter, supprimer, modifier ou changer l'ordre des tâches dans la tables de l'ordonnanceur. </para>
         <itemizedlist>
@@ -75,9 +75,9 @@
         <para
 >La table ci-dessus dresse la liste des tâches par ordre de priorité, avec les tâches plus haute (de numéro de ligne plus basse) ayant la plus haute priorité que celles plus bas dans la liste (de numéro de ligne plus haut). </para>
         <para
->L'ordonnanceur revoit régulièrement l'ordre des tâches et le moment où elles doivent être lancées. Il peut lancer une tâche puis plus tard, temporairement la mettre en pause en faveur d'une autre. Il peut devenir inactif si aucune tâche ne peut être lancée (&eg; durant le jour) et rester dans cet état jusqu'à ce qu'une tâche peut être lancée. Le but est de conserver l'équipement le plus occupé possible tout en respectant les priorités de la table. Voici comment il fonctionne. </para>
+>L'ordonnanceur revoit régulièrement l'ordre des tâches et le moment où elles doivent être lancées. Il peut lancer une tâche puis plus tard, temporairement la mettre en pause en faveur d'une autre. Il peut devenir inactif si aucune tâche ne peut être lancée (&pex; durant le jour) et rester dans cet état jusqu'à ce qu'une tâche peut être lancée. Le but est de conserver l'équipement le plus occupé possible tout en respectant les priorités de la table. Voici comment il fonctionne. </para>
         <para
->Quand l'ordonnanceur démarre (ou quand il revoit ses plans, ce qu'il fait toutes les secondes quand il est actif), il passe à travers toute la liste de tâches, en commençant par celle de plus haute priorité, jusqu'à celle de plus basse priorité. Quand il trouve une tâche qui peut être lancée, il le fait, même s'il doit même en pause une tâche en cours. Une tâche peut être lancée que si elle rempli toutes les contraintes, &eg;, la cible n'est pas bloquée par l'environnement (un arbre par exemple) et qu'elle satisfait la contrainte d'altitude minimale ou encore qu'elle n'a pas terminé toutes les acquisitions souhaitées. </para>
+>Quand l'ordonnanceur démarre (ou quand il revoit ses plans, ce qu'il fait toutes les secondes quand il est actif), il passe à travers toute la liste de tâches, en commençant par celle de plus haute priorité, jusqu'à celle de plus basse priorité. Quand il trouve une tâche qui peut être lancée, il le fait, même s'il doit même en pause une tâche en cours. Une tâche peut être lancée que si elle rempli toutes les contraintes, &pex;, la cible n'est pas bloquée par l'environnement (un arbre par exemple) et qu'elle satisfait la contrainte d'altitude minimale ou encore qu'elle n'a pas terminé toutes les acquisitions souhaitées. </para>
     <para
 >L'algorithme montre l'heure projetée de départ et d'arrêt pour toutes les tâches de la table de l'ordonnanceur. Il affiche également une estimation de la durée d'exécution pour les 48 prochaines heures dans le panneau de journalisation situé au bas de la fenêtre. Veuillez voir la capture d'écran au début de cette section. </para>
         <para
@@ -205,13 +205,13 @@
         <para
 >La priorité de l'ordonnanceur Greedy est normalement déterminée par la position de la ligne dans la table des tâches. Celles se trouvant vers le haut ont une priorité plus haute que celle vers le bas de la table. Ainsi, si une tâche est sur la ligne 2 (tâche 2) et dont l'option <guilabel
 >Répéter jusqu'à achèvement</guilabel
-> est activée, et que toutes les contraintes sont satisfaites, une tâche plus bas dans la liste (&eg; tâche 3) ne sera pas prévue pour exécution. </para>
+> est activée, et que toutes les contraintes sont satisfaites, une tâche plus bas dans la liste (&pex; tâche 3) ne sera pas prévue pour exécution. </para>
         <para
 >Si vous souhaitez alterner les tâches, vous pouvez attribuer chaque tâche au même nom de <guilabel
 >groupe</guilabel
-> et donner aux tâches une des conditions d'achèvement (&eg; Répéter N fois ou Répéter jusqu'à achèvement). Ainsi configurées, les tâches dans le même groupe laisseront la place aux autres tâches si elles ont terminées plus d'itérations que les autre autres tâches. Ainsi si la tâche 2 du groupe « MonGroupe » termine sa deuxième itération et que la tâche 3 du même groupe n'a terminé que 0 ou 1 itération, quand viendra le moment de programmer la tâche 2, ce sera la tâche 3 qui sera exécutée. </para>
+> et donner aux tâches une des conditions d'achèvement (&pex; Répéter N fois ou Répéter jusqu'à achèvement). Ainsi configurées, les tâches dans le même groupe laisseront la place aux autres tâches si elles ont terminées plus d'itérations que les autre autres tâches. Ainsi si la tâche 2 du groupe « MonGroupe » termine sa deuxième itération et que la tâche 3 du même groupe n'a terminé que 0 ou 1 itération, quand viendra le moment de programmer la tâche 2, ce sera la tâche 3 qui sera exécutée. </para>
         <para
->Dans la pratique, imaginez que vous une mosaïque à 6 panneaux que vous souhaitez alterner. Vous pouvez mettre chaque tâche dans le même groupe et les faire se répéter par exemple 5 fois. Ensuite, elles s'exécuteront en pas fixe. La cadence de changement sera contrôlée par la longueur du fichier de séquence attribué à chaque tâche. Vous ne voulez pas avoir une cadence trop courte (&eg; pose de 2 minutes), parce que les changements impliquent plusieurs opérations telles que l'alignement, le guidage et la mise au point. </para>
+>Dans la pratique, imaginez que vous une mosaïque à 6 panneaux que vous souhaitez alterner. Vous pouvez mettre chaque tâche dans le même groupe et les faire se répéter par exemple 5 fois. Ensuite, elles s'exécuteront en pas fixe. La cadence de changement sera contrôlée par la longueur du fichier de séquence attribué à chaque tâche. Vous ne voulez pas avoir une cadence trop courte (&pex; pose de 2 minutes), parce que les changements impliquent plusieurs opérations telles que l'alignement, le guidage et la mise au point. </para>
        </sect4>
        <sect4 id="repeat-all-jobs">
         <title
