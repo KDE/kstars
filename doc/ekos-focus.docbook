@@ -2043,7 +2043,7 @@
 
       <listitem>
         <para> <emphasis role="bold">AF Overscan</emphasis>: The Focus module can manage Backlash itself by over scanning
-        outward motions by the value in the <guilabel>AF Overscan</guilabel> field. For <guilabel>example, if <guilabel>AF Overscan</guilabel>
+        outward motions by the value in the <guilabel>AF Overscan</guilabel> field. For example, if <guilabel>AF Overscan</guilabel>
         is set to 40 then whenever Focus moves the focuser outwards, it does this as a 2-step process. Firstly it moves the
         focuser 40 ticks past where it wants to end up; secondly it moves back in by 40 ticks.</para>
 
