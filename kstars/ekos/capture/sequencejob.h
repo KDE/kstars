@@ -70,8 +70,6 @@ class SequenceJob : public QObject
             SJ_Offset,
             // QString
             SJ_LocalDirectory,
-            // Bool
-            SJ_UsingPlaceholders,
             // QString
             SJ_PlaceholderFormat,
             // Uint
@@ -80,12 +78,6 @@ class SequenceJob : public QObject
             SJ_RemoteDirectory,
             // QString
             SJ_DirectoryPostfix,
-            // Bool
-            SJ_FilterPrefixEnabled,
-            // Bool
-            SJ_ExpPrefixEnabled,
-            // Bool
-            SJ_TimeStampPrefixEnabled,
             // QString
             SJ_Filename,
             // Bool
@@ -172,6 +164,8 @@ class SequenceJob : public QObject
         void setTargetFilter(int pos, const QString &name);
         // Getter: Get Current Filter Slot
         int getCurrentFilter() const;
+        // Retrieve the pier side from the state
+        ISD::Mount::PierSide getPierSide() const;
 
         ////////////////////////////////////////////////////////////////////////
         /// GUI Related Functions
@@ -263,7 +257,7 @@ class SequenceJob : public QObject
             return stateMachine->targetFilterID;
         }
 
-        double getTargetTemperature()
+        double getTargetTemperature() const
         {
             return stateMachine->targetTemperature;
         }

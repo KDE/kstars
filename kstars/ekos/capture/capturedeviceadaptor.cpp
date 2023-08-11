@@ -120,6 +120,7 @@ void CaptureDeviceAdaptor::setMount(ISD::Mount *device)
     if (device != nullptr)
     {
         connect(device, &ISD::Mount::newStatus, this, &CaptureDeviceAdaptor::scopeStatusChanged);
+        connect(device, &ISD::Mount::pierSideChanged, this, &CaptureDeviceAdaptor::pierSideChanged);
         connect(device, &ISD::Mount::newParkStatus, this, &CaptureDeviceAdaptor::scopeParkStatusChanged);
         connectMount(currentSequenceJobState.data());
     }

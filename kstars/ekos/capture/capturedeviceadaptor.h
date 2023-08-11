@@ -254,7 +254,11 @@ signals:
          */
         void scopeStatusChanged(ISD::Mount::Status status);
         /**
-         * @brief telescope status change
+         * @brief telescope pier side change
+         */
+        void pierSideChanged(ISD::Mount::PierSide pierside);
+        /**
+         * @brief telescope park status change
          */
         void scopeParkStatusChanged(ISD::ParkStatus status);
         /**

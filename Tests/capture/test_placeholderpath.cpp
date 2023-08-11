@@ -599,10 +599,10 @@ void TestPlaceholderPath::testFlexibleNamingGlob_data()
     }
     QTest::addRow("D")  << "1" << "" << "" << "%D" << "1" <<
                         "/tmp/kstars/\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d_(?<id>\\d+).fits";
-    QTest::addRow("s1") << ""  << "1" << "" << "" << "1" << "/tmp/kstars/_(?<id>\\d+).fits";
-    QTest::addRow("s2") << ""  << "1" << "" << "" << "2" << "/tmp/kstars/_(?<id>\\d+).fits";
-    QTest::addRow("s3") << ""  << "1" << "" << "" << "3" << "/tmp/kstars/_(?<id>\\d+).fits";
-    QTest::addRow("s4") << ""  << "1" << "" << "" << "4" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s1") << "0"  << "1" << "" << "" << "1" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s2") << "0"  << "1" << "" << "" << "2" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s3") << "0"  << "1" << "" << "" << "3" << "/tmp/kstars/_(?<id>\\d+).fits";
+    QTest::addRow("s4") << "0"  << "1" << "" << "" << "4" << "/tmp/kstars/_(?<id>\\d+).fits";
 #endif
 }
 

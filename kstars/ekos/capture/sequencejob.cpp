@@ -36,10 +36,7 @@ SequenceJob::SequenceJob()
     m_CoreProperties[SJ_Delay] = -1;
     m_CoreProperties[SJ_Binning] = QPoint(1, 1);
     m_CoreProperties[SJ_ROI] = QRect(0, 0, 0, 0);
-    m_CoreProperties[SJ_ExpPrefixEnabled] = false;
-    m_CoreProperties[SJ_TimeStampPrefixEnabled] = false;
     m_CoreProperties[SJ_EnforceTemperature] = false;
-    m_CoreProperties[SJ_FilterPrefixEnabled] = false;
     m_CoreProperties[SJ_DarkFlat] = false;
     m_CoreProperties[SJ_GuiderActive] = false;
     m_CoreProperties[SJ_Encoding] = "FITS";
@@ -84,10 +81,6 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
     };
 
-    // by default, we assume that no placeholders are used unless
-    // the corresponding tag is found
-    setCoreProperty(SJ_UsingPlaceholders, false);
-
     setFrameType(FRAME_NONE);
     setCoreProperty(SJ_Exposure, 0);
     /* Reset light frame presence flag before enumerating */
@@ -110,12 +103,10 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
         {
             setCoreProperty(SJ_PlaceholderFormat, pcdataXMLEle(ep));
-            setCoreProperty(SJ_UsingPlaceholders, true);
         }
         else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
         {
             setCoreProperty(SJ_PlaceholderSuffix, pcdataXMLEle(ep));
-            setCoreProperty(SJ_UsingPlaceholders, true);
         }
         else if (!strcmp(tagXMLEle(ep), "Encoding"))
         {
@@ -138,18 +129,21 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
+            bool filterEnabled = false, expEnabled = false, tsEnabled = false;
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
-                setCoreProperty(SJ_FilterPrefixEnabled, !strcmp("1", pcdataXMLEle(subEP)));
+                filterEnabled = !strcmp("1", pcdataXMLEle(subEP));
 
             subEP = findXMLEle(ep, "ExpEnabled");
             if (subEP)
-                setCoreProperty(SJ_ExpPrefixEnabled, (!strcmp("1", pcdataXMLEle(subEP))));
+                expEnabled = !strcmp("1", pcdataXMLEle(subEP));
 
             subEP = findXMLEle(ep, "TimeStampEnabled");
             if (subEP)
-                setCoreProperty(SJ_TimeStampPrefixEnabled, (!strcmp("1", pcdataXMLEle(subEP))));
+                tsEnabled = !strcmp("1", pcdataXMLEle(subEP));
 
+            // build default format
+            setCoreProperty(SJ_PlaceholderFormat, PlaceholderPath::defaultFormat(filterEnabled, expEnabled, tsEnabled));
         }
         else if (!strcmp(tagXMLEle(ep), "Count"))
         {
@@ -417,7 +411,6 @@ void SequenceJob::capture(FITSMode mode)
         return;
 
     activeChip->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
-    activeCamera->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
     activeCamera->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
 
     if (getCoreProperty(SequenceJob::SJ_Preview).toBool())
@@ -592,6 +585,11 @@ void SequenceJob::setCaptureRetires(int value)
 int SequenceJob::getCurrentFilter() const
 {
     return stateMachine->m_CaptureModuleState->currentFilterID;
+}
+
+ISD::Mount::PierSide SequenceJob::getPierSide() const
+{
+    return stateMachine->m_CaptureModuleState->getPierSide();
 }
 
 // Setter: Set upload mode
