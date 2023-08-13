@@ -95,7 +95,7 @@ QString TestEkosSchedulerHelper::getEsqContent(QVector<TestEkosSchedulerHelper::
     {
         result += QString("<Job><Exposure>%1</Exposure><Binning><X>1</X><Y>1</Y>"
                           "</Binning><Frame><X>0</X><Y>0</Y><W>1280</W><H>1024</H></Frame><Temperature force='false'>0</Temperature>"
-                          "<Filter>%3</Filter><Type>Light</Type><Prefix><RawPrefix></RawPrefix><FilterEnabled>0</FilterEnabled>"
+                          "<Filter>%3</Filter><Type>Light</Type><Prefix><RawPrefix></RawPrefix><FilterEnabled>1</FilterEnabled>"
                           "<ExpEnabled>0</ExpEnabled><TimeStampEnabled>0</TimeStampEnabled></Prefix>"
                           "<Count>%2</Count><Delay>0</Delay><FITSDirectory>%4</FITSDirectory><UploadMode>0</UploadMode>"
                           "<Encoding>FITS</Encoding><Properties></Properties><Calibration><FlatSource><Type>Manual</Type>"

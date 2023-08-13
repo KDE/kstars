@@ -328,6 +328,15 @@ class CaptureModuleState: public QObject
             m_scopeState = value;
         }
 
+        ISD::Mount::PierSide getPierSide() const
+        {
+            return m_pierSide;
+        }
+        void setPierSide(ISD::Mount::PierSide value)
+        {
+            m_pierSide = value;
+        }
+
         ISD::ParkStatus getScopeParkState() const
         {
             return m_scopeParkState;
@@ -880,6 +889,7 @@ private:
         LightState m_lightBoxLightState { CAP_LIGHT_UNKNOWN };
         CapState m_dustCapState { CAP_UNKNOWN };
         ISD::Mount::Status m_scopeState { ISD::Mount::MOUNT_IDLE };
+        ISD::Mount::PierSide m_pierSide { ISD::Mount::PIER_UNKNOWN };
         ISD::ParkStatus m_scopeParkState { ISD::PARK_UNKNOWN };
         ISD::Dome::Status m_domeState { ISD::Dome::DOME_IDLE };
 

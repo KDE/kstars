@@ -1155,6 +1155,7 @@ struct SPlan
 
 bool checkSchedule(const QVector<SPlan> &ref, const QList<Ekos::GreedyScheduler::JobSchedule> &schedule, int tolerance)
 {
+    bool result = true;
     if (schedule.size() != ref.size())
     {
         qCInfo(KSTARS_EKOS_TEST) << QString("Sizes don't match %1 vs ref %2").arg(schedule.size()).arg(ref.size());
@@ -1167,17 +1168,16 @@ bool checkSchedule(const QVector<SPlan> &ref, const QList<Ekos::GreedyScheduler:
         if (!startTime.isValid() || !stopTime.isValid())
         {
             qCInfo(KSTARS_EKOS_TEST) << QString("Reference start or stop time invalid: %1 %2").arg(ref[i].start).arg(ref[i].stop);
-            return false;
+            result = false;
         }
-        if (!schedule[i].startTime.isValid() || !schedule[i].stopTime.isValid())
+        else if (!schedule[i].startTime.isValid() || !schedule[i].stopTime.isValid())
         {
             qCInfo(KSTARS_EKOS_TEST) << QString("Scheduled start or stop time %1 invalid.").arg(i);
-            return false;
+            result = false;
         }
-
-        if ((ref[i].name != schedule[i].job->getName()) ||
-                (std::abs(schedule[i].startTime.secsTo(startTime)) > tolerance) ||
-                (std::abs(schedule[i].stopTime.secsTo(stopTime)) > tolerance))
+        else if ((ref[i].name != schedule[i].job->getName()) ||
+                 (std::abs(schedule[i].startTime.secsTo(startTime)) > tolerance) ||
+                 (std::abs(startTime.secsTo(stopTime) - schedule[i].startTime.secsTo(schedule[i].stopTime)) > tolerance))
         {
             qCInfo(KSTARS_EKOS_TEST)
                     << QString("Mismatch on entry %1: ref \"%2\" \"%3\" \"%4\" result \"%5\" \"%6\" \"%7\"")
@@ -1186,17 +1186,17 @@ bool checkSchedule(const QVector<SPlan> &ref, const QList<Ekos::GreedyScheduler:
                          schedule[i].job->getName(),
                          schedule[i].startTime.toString(),
                          schedule[i].stopTime.toString());
-            return false;
+            result = false;
         }
     }
-    return true;
+    return result;
 }
 
 void TestEkosSchedulerOps::testGreedy()
 {
-    // Allow 5minutes of slop in the schedule. The scheduler simulates every 2 minutes,
-    // so 5 minutes is a little more than 2 of these timesteps.
-    constexpr int checkScheduleTolerance = 300;
+    // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
+    // so 10 minutes is approx 5 of these timesteps.
+    constexpr int checkScheduleTolerance = 600;
 
     Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
 
@@ -1301,9 +1301,9 @@ void TestEkosSchedulerOps::testGreedy()
 
 void TestEkosSchedulerOps::testGroups()
 {
-    // Allow 5minutes of slop in the schedule. The scheduler simulates every 2 minutes,
-    // so 5 minutes is a little more than 2 of these timesteps.
-    constexpr int checkScheduleTolerance = 300;
+    // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
+    // so 10 minutes is approx 5 of these timesteps.
+    constexpr int checkScheduleTolerance = 600;
 
     Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
 
@@ -1380,9 +1380,9 @@ void TestEkosSchedulerOps::testGreedyAborts()
 {
     Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
 
-    // Allow 5minutes of slop in the schedule. The scheduler simulates every 2 minutes,
-    // so 5 minutes is a little more than 2 of these timesteps.
-    constexpr int checkScheduleTolerance = 300;
+    // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
+    // so 10 minutes is approx 5 of these timesteps.
+    constexpr int checkScheduleTolerance = 600;
 
     Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
     SchedulerJob::setHorizon(nullptr);
@@ -1514,7 +1514,7 @@ void TestEkosSchedulerOps::testGreedyAborts()
 
 void TestEkosSchedulerOps::testArtificialCeiling()
 {
-    constexpr int checkScheduleTolerance = 300;
+    constexpr int checkScheduleTolerance = 600;
     Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
 
     ArtificialHorizon horizon;

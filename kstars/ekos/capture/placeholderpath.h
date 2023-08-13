@@ -22,6 +22,22 @@ class SequenceJob;
 class PlaceholderPath
 {
     public:
+        typedef enum
+        {
+            PP_FORMAT,     // QString
+            PP_SUFFIX,     // uint
+            PP_DIRECTORY,  // QString
+            PP_TARGETNAME, // QString
+            PP_FRAMETYPE,  // CCDFrameType (uint)
+            PP_DARKFLAT,   // bool
+            PP_EXPOSURE,   // double
+            PP_FILTER,     // QString
+            PP_GAIN,       // double
+            PP_OFFSET,     // double
+            PP_PIERSIDE,   // ISD::Mount::PierSide (int)
+            PP_TEMPERATURE // double
+        } PathProperty;
+
         PlaceholderPath(const QString &seqFilename);
         PlaceholderPath();
         ~PlaceholderPath();
@@ -135,11 +151,23 @@ class PlaceholderPath
          */
         static QString repairFilename(const QString &filename);
 
-    private:
+        // shortcuts
+        static bool isFilterEnabled(const QString format)
+        {
+            return format.contains("%F");
+        }
+        static bool isExpEnabled(const QString format)
+        {
+            return format.contains("%e");
+        }
+        static bool isTsEnabled(const QString format)
+        {
+            return format.contains("%D");
+        }
+
+private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.
-        QString generateFilename(const QString &directory, const QString &format, uint formatSuffix, const QString &rawFilePrefix,
-                                 const bool isDarkFlat, const QString &filter, const CCDFrameType &frameType,
-                                 const double exposure, const bool batch_mode, const int nextSequenceID, const QString &extension,
+        QString generateFilename(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool batch_mode, const int nextSequenceID, const QString &extension,
                                  const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
 
         QString getFrameType(CCDFrameType frameType) const
@@ -151,19 +179,19 @@ class PlaceholderPath
             return "";
         }
 
+        // properties that will be used for substitutions
+        QMap<PathProperty, QVariant> m_PathPropertyMap;
+        const QVariant getPathProperty(PathProperty prop) const
+        {
+            return m_PathPropertyMap[prop];
+        }
+        void setPathProperty(PathProperty prop, QVariant value)
+        {
+            m_PathPropertyMap[prop] = value;
+        }
+
         QMap<CCDFrameType, QString> m_frameTypes;
         QFileInfo m_seqFilename;
-        QString m_format;
-        QString m_Directory;
-        uint m_formatSuffix {3};
-        bool m_tsEnabled { false };
-        bool m_filterPrefixEnabled { false };
-        bool m_expPrefixEnabled { false };
-        bool m_DarkFlat {false};
-        QString m_filter;
-        CCDFrameType m_frameType { FRAME_LIGHT };
-        double m_exposure { -1 };
-        QString m_targetName;
 };
 
 }

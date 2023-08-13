@@ -108,10 +108,6 @@ class Camera : public ConcreteDevice
         bool setScopeInfo(double focalLength, double aperture);
 
         // Utility functions
-        void setISOMode(bool enable)
-        {
-            ISOMode = enable;
-        }
         void setSeqPrefix(const QString &preFix)
         {
             seqPrefix = preFix;
@@ -271,7 +267,6 @@ class Camera : public ConcreteDevice
         QSharedPointer<FITSViewer> getFITSViewer();
         void handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop, QSharedPointer<FITSData> data);
 
-        bool ISOMode { true };
         bool HasGuideHead { false };
         bool HasCooler { false };
         bool CanCool { false };

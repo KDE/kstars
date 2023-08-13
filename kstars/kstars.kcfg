@@ -1889,18 +1889,6 @@
          <label>Cover or uncover telescope dialog timeout in seconds.</label>
          <default>60</default>
       </entry>
-      <entry name="fileSettingsUseFilter" type="Bool">
-         <label>Add the filter name to the capture file name.</label>
-         <default>false</default>
-      </entry>
-      <entry name="fileSettingsUseDuration" type="Bool">
-         <label>Add the capture duration to the capture file name.</label>
-         <default>false</default>
-      </entry>
-      <entry name="fileSettingsUseTimestamp" type="Bool">
-         <label>Add the capture timestamp to the capture file name.</label>
-         <default>false</default>
-      </entry>
       <entry name="CapturePosition" type="Bool">
          <label>Calculate position after captures.</label>
          <default>false</default>

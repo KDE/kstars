@@ -2437,10 +2437,10 @@
         <para
 ><emphasis role="bold"
 >Sense rebot</emphasis
->: Si teniu la sort de tenir una configuració sense rebot, llavors tindria sentit desactivar (establir a zero) la <guibutton
->Compensació de rebot del dispositiu</guibutton
-> i la <guibutton
->Sobreexploració de l'EA</guibutton
+>: Si teniu la sort de tenir una configuració sense rebot, llavors tindria sentit desactivar (establir a zero) la <guilabel
+>Compensació de rebot del controlador</guilabel
+> i la <guilabel
+>Sobreexploració de l'EA</guilabel
 >.</para>
       </listitem>
 
@@ -2448,10 +2448,10 @@
         <para
 ><emphasis role="bold"
 >Rebot gestionat per l'enfocador</emphasis
->: Si l'enfocador té la capacitat de gestionar el rebot per si mateix, podeu utilitzar aquesta funcionalitat i desactivar (establir a zero) la <guibutton
->Compensació de rebot del dispositiu</guibutton
-> i la <guibutton
->Sobreexploració de l'EA</guibutton
+>: Si l'enfocador té la capacitat de gestionar el rebot per si mateix, podeu utilitzar aquesta funcionalitat i desactivar (establir a zero) la <guilabel
+>Compensació de rebot del controlador</guilabel
+> i la <guilabel
+>Sobreexploració de l'EA</guilabel
 >. Alternativament, si és possible, podeu desactivar la funcionalitat del rebot de l'enfocador i fer servir el controlador del dispositiu o la sobreexploració de l'EA per a gestionar el rebot.</para>
       </listitem>
 
@@ -2459,11 +2459,15 @@
         <para
 ><emphasis role="bold"
 >Rebot gestionat pel controlador del dispositiu</emphasis
->: Si el controlador del dispositiu té la capacitat de gestionar el rebot per si mateix, podeu utilitzar aquesta funcionalitat i desactivar la sobreexploració de l'EA. Alternativament, si és possible, podeu desactivar la funcionalitat del rebot del controlador del dispositiu i activar la sobreexploració de l'EA.</para>
+>: Si el controlador del dispositiu té la capacitat de gestionar el rebot, podeu utilitzar aquesta funcionalitat i desactivar la <guilabel
+>Sobreexploració de l'EA</guilabel
+> (establir a zero). Alternativament, si és possible, podeu desactivar la funcionalitat del rebot del controlador del dispositiu i activar la <guilabel
+>Sobreexploració de l'EA</guilabel
+>.</para>
 
         <para
->Per a saber si el controlador del dispositiu admet la compensació del rebot, comproveu el camp <guibutton
->Compensació de rebot del dispositiu</guibutton
+>Per a saber si el controlador del dispositiu admet la compensació del rebot, comproveu el camp <guilabel
+>Compensació de rebot del controlador</guilabel
 >. Si està activat i podeu establir valors, el controlador admet la compensació del rebot. Si el camp està desactivat, el controlador no admet l'admet.</para>
       </listitem>
 
@@ -2471,33 +2475,33 @@
         <para
 ><emphasis role="bold"
 >Sobreexploració de l'EA</emphasis
->: El mòdul d'enfocament pot gestionar el rebot propi mitjançant la sobreexploració dels moviments cap a fora pel valor en el camp <guibutton
->Sobreexploració de l'EA</guibutton
->. Per exemple, si <guibutton
->Sobreexploració de l'EA</guibutton
+>: El mòdul d'enfocament pot gestionar el rebot propi mitjançant la sobreexploració dels moviments cap a fora pel valor en el camp <guilabel
+>Sobreexploració de l'EA</guilabel
+>. Per exemple, si <guilabel
+>Sobreexploració de l'EA</guilabel
 > s'estableix a 40, llavors quan el focus mou l'enfocador cap a fora, ho fa com un procés de 2 passos. En primer lloc, mou l'enfocador 40 marques més enllà d'on vol acabar; en segon lloc, torna enrere 40 marques.</para>
 
         <para
->L'avantatge de <guibutton
->Sobreexploració de l'EA</guibutton
-> és que no cal conèixer exactament el rebot, només cal establir la <guibutton
->Sobreexploració de l'EA</guibutton
-> &gt;= rebot. Així, per exemple, si mesureu el rebot com al voltant de 60 marques, llavors podreu establir la <guibutton
->Sobreexploració de l'EA</guibutton
+>L'avantatge de <guilabel
+>Sobreexploració de l'EA</guilabel
+> és que no cal conèixer exactament el rebot, només cal establir la <guilabel
+>Sobreexploració de l'EA</guilabel
+> &gt;= rebot. Així, per exemple, si mesureu el rebot com al voltant de 60 marques, llavors podreu establir la <guilabel
+>Sobreexploració de l'EA</guilabel
 > a 80.</para>
 
         <para
->La <guibutton
->Sobreexploració de l'EA</guibutton
-> també és útil on el rebot no és exactament predictible. Per exemple, si les mesures de rebot proporcionen valors lleugerament diferents, p. ex. 61, 60, 59 marques,llavors utilitzant la <guibutton
->Sobreexploració de l'EA</guibutton
-> aquesta incoherència es pot neutralitzar efectivament. Si utilitzeu <guibutton
->Rebot de l'enfocador</guibutton
+>La <guilabel
+>Sobreexploració de l'EA</guilabel
+> també és útil on el rebot no és exactament predictible. Per exemple, si les mesures de rebot proporcionen valors lleugerament diferents, p. ex. 61, 60, 59 marques,llavors utilitzant la <guilabel
+>Sobreexploració de l'EA</guilabel
+> aquesta incoherència es pot neutralitzar efectivament. Si utilitzeu <guilabel
+>Rebot de l'enfocador</guilabel
 > probablement fareu una mitjana de les lectures i establireu el valor a 60. A vegades, això absorbirà correctament tot el rebot; a vegades serà una mica curt; i a vegades es corregirà massa.</para>
 
         <para
->Tots els moviments de l'enfocador gestionats pel Focus tindran aplicada la <guibutton
->Sobreexploració de l'EA</guibutton
+>Tots els moviments de l'enfocador gestionats pel Focus tindran aplicada la <guilabel
+>Sobreexploració de l'EA</guilabel
 >, incloent Pas enfora, Ves, Execució d'enfocament automàtic, moviments Pos. d'inici adaptativa i prendre fotogrames foscos a la mateixa posició que els fotogrames de llum.</para>
       </listitem>
     </itemizedlist>

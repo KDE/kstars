@@ -9,6 +9,7 @@
 #include <QList>
 #include "../fitsviewer/fitsstardetector.h"
 #include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsdata.h"
 #include "auxiliary/imagemask.h"
 #include "curvefit.h"
 #include "../ekos.h"

@@ -2021,43 +2021,43 @@
     <itemizedlist>
       <listitem>
         <para> <emphasis role="bold">No Backlash</emphasis>: If you are fortunate enough to have a setup with no backlash then it would
-        make sense to set <guibutton>Device Backlash</guibutton> and <guibutton>AF Overscan</guibutton> off (set to zero).</para>
+        make sense to set <guilabel>Driver Backlash</guilabel> and <guilabel>AF Overscan</guilabel> off (set to zero).</para>
       </listitem>
 
       <listitem>
         <para> <emphasis role="bold">Backlash Managed by Focuser</emphasis>: If your focuser had the ability to manage backlash itself
-        then you can use this facility and turn <guibutton>Device Backlash</guibutton> and <guibutton>AF Overscan</guibutton> off
+        then you can use this facility and turn <guilabel>Driver Backlash</guilabel> and <guilabel>AF Overscan</guilabel> off
         (set to zero). Alternatively, if it's possible, you could turn off the focuser's backlash facility and use either the
         Device Driver or AF Overscan to manage backlash.</para>
       </listitem>
 
       <listitem>
         <para> <emphasis role="bold">Backlash Managed by Device Driver</emphasis>: If your device driver has the ability to
-        manage backlash then you can use this facility and turn off AF Overscan (set to zero). Alternatively,
-        you could turn off the device driver's backlash facility and set AF Overscan.</para>
+        manage backlash then you can use this facility and turn off <guilabel>AF Overscan</guilabel> (set to zero). Alternatively,
+        you could turn off the device driver's backlash facility and set <guilabel>AF Overscan</guilabel>.</para>
 
-        <para> To know whether the device driver supports backlash, check the <guibutton>Device Backlash</guibutton> field.
+        <para> To know whether the device driver supports backlash, check the <guilabel>Driver Backlash</guilabel> field.
         If it is enabled and you can set values then the driver supports Backlash. If the field is disabled then the driver
         does not support Backlash.</para>
       </listitem>
 
       <listitem>
         <para> <emphasis role="bold">AF Overscan</emphasis>: The Focus module can manage Backlash itself by over scanning
-        outward motions by the value in the <guibutton>AF Overscan</guibutton> field. For example, if <guibutton>AF Overscan</guibutton>
+        outward motions by the value in the <guilabel>AF Overscan</guilabel> field. For example, if <guilabel>AF Overscan</guilabel>
         is set to 40 then whenever Focus moves the focuser outwards, it does this as a 2-step process. Firstly it moves the
         focuser 40 ticks past where it wants to end up; secondly it moves back in by 40 ticks.</para>
 
-        <para> The advantage of <guibutton>AF Overscan</guibutton> is that you do not need to know Backlash exactly, you just need
-        to set the <guibutton>AF Overscan</guibutton> &gt;= backlash. So, for example, if you measure backlash as around 60 ticks
-        then you could set <guibutton>AF Overscan</guibutton> to 80.</para>
+        <para> The advantage of <guilabel>AF Overscan</guilabel> is that you do not need to know Backlash exactly, you just need
+        to set the <guilabel>AF Overscan</guilabel> &gt;= backlash. So, for example, if you measure backlash as around 60 ticks
+        then you could set <guilabel>AF Overscan</guilabel> to 80.</para>
 
-        <para> <guibutton>AF Overscan</guibutton> is also useful where Backlash is not exactly predictable. For example, if Backlash
-        measurements yield slightly different values, e.g. 61, 60, 59 ticks then by using <guibutton>AF Overscan</guibutton> this
-        inconsistency can be effectively neutralised. Were you to use <guibutton>Focuser Backlash</guibutton> you would probably
+        <para> <guilabel>AF Overscan</guilabel> is also useful where Backlash is not exactly predictable. For example, if Backlash
+        measurements yield slightly different values, e.g. 61, 60, 59 ticks then by using <guilabel>AF Overscan</guilabel> this
+        inconsistency can be effectively neutralised. Were you to use <guilabel>Focuser Backlash</guilabel> you would probably
         average the readings and set the value to 60. Sometimes this will correctly take up all the backlash; sometimes it will
         be a little short; and sometimes it will over correct.</para>
 
-        <para> All focuser movements managed by Focus will have <guibutton>AF Overscan</guibutton> applied, including Step Out, Goto,
+        <para> All focuser movements managed by Focus will have <guilabel>AF Overscan</guilabel> applied, including Step Out, Goto,
         Autofocus runs, Adaptive Focus movements, Adapt Start Pos movements and Take flats at the same position as lights.</para>
       </listitem>
     </itemizedlist>

@@ -320,15 +320,6 @@ Capture::Capture()
         Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
     });
 
-    // File settings: filter name
-    FilterEnabled = Options::fileSettingsUseFilter();
-
-    // File settings: duration
-    ExpEnabled = Options::fileSettingsUseDuration();
-
-    // File settings: timestamp
-    TimeStampEnabled = Options::fileSettingsUseTimestamp();
-
     // Refocus after meridian flip
     m_LimitsUI->meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
     connect(m_LimitsUI->meridianRefocusS, &QCheckBox::toggled, [](bool checked)
@@ -494,6 +485,8 @@ Capture::Capture()
             m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::setFilterPosition);
     connect(m_captureModuleState.data(), &CaptureModuleState::abortFastExposure,
             m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::abortFastExposure);
+    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::pierSideChanged,
+            m_captureModuleState.data(), &CaptureModuleState::setPierSide);
 
     setupOpticalTrainManager();
 
@@ -2132,7 +2125,6 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
     job->setCoreProperty(SequenceJob::SJ_DarkFlat, isDarkFlat);
-    job->setCoreProperty(SequenceJob::SJ_UsingPlaceholders, true);
 
     if (captureISOS)
         job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
@@ -2161,9 +2153,6 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     job->setWallCoord(wallCoord);
     job->setCoreProperty(SequenceJob::SJ_TargetADU, targetADU);
     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, m_captureModuleState->targetADUTolerance());
-    job->setCoreProperty(SequenceJob::SJ_FilterPrefixEnabled, FilterEnabled);
-    job->setCoreProperty(SequenceJob::SJ_ExpPrefixEnabled, ExpEnabled);
-    job->setCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled, TimeStampEnabled);
     job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
 
     job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
@@ -2882,7 +2871,6 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
     bool isDarkFlat = false;
     m_Scripts.clear();
     QLocale cLocale = QLocale::c();
-    bool foundPlaceholderFormat = false;
 
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
@@ -2952,15 +2940,18 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
                 if (strcmp(pcdataXMLEle(subEP), "") != 0)
                     qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(subEP));
             }
+            bool filterEnabled = false, expEnabled = false, tsEnabled = false;
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
-                FilterEnabled = !strcmp("1", pcdataXMLEle(subEP));
+                filterEnabled = !strcmp("1", pcdataXMLEle(subEP));
             subEP = findXMLEle(ep, "ExpEnabled");
             if (subEP)
-                ExpEnabled = !strcmp("1", pcdataXMLEle(subEP));
+                expEnabled = !strcmp("1", pcdataXMLEle(subEP));
             subEP = findXMLEle(ep, "TimeStampEnabled");
             if (subEP)
-                TimeStampEnabled = !strcmp("1", pcdataXMLEle(subEP));
+                tsEnabled = !strcmp("1", pcdataXMLEle(subEP));
+            // build default format
+            placeholderFormatT->setText(PlaceholderPath::defaultFormat(filterEnabled, expEnabled, tsEnabled));
         }
         else if (!strcmp(tagXMLEle(ep), "Count"))
         {
@@ -2993,12 +2984,10 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
         else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
         {
             placeholderFormatT->setText(pcdataXMLEle(ep));
-            foundPlaceholderFormat = true;
         }
         else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
         {
             formatSuffixN->setValue(cLocale.toUInt(pcdataXMLEle(ep)));
-            foundPlaceholderFormat = true;
         }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
@@ -3130,9 +3119,6 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
         }
     }
 
-    if (!foundPlaceholderFormat)
-        placeholderFormatT->setText(PlaceholderPath::defaultFormat(FilterEnabled, ExpEnabled, TimeStampEnabled));
-
     addJob(false, isDarkFlat);
 
     return true;
@@ -3239,9 +3225,6 @@ bool Capture::saveSequenceQueue(const QString &path)
               << Qt::endl;
     for (auto &job : m_captureModuleState->allJobs())
     {
-        auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
-        auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
-        auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
         auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
         outstream << "<Job>" << Qt::endl;
@@ -3267,11 +3250,6 @@ bool Capture::saveSequenceQueue(const QString &path)
         if (job->getTargetFilter() >= 0)
             outstream << "<Filter>" << job->getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << Qt::endl;
         outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << Qt::endl;
-        outstream << "<Prefix>" << Qt::endl;
-        outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << Qt::endl;
-        outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << Qt::endl;
-        outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << Qt::endl;
-        outstream << "</Prefix>" << Qt::endl;
         outstream << "<Count>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Count).toInt()) << "</Count>" << Qt::endl;
         // ms to seconds
         outstream << "<Delay>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0) << "</Delay>" <<

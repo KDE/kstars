@@ -425,11 +425,11 @@ void MosaicTiles::draw(QPainter *painter)
                 painter->setBrush(m_TextBrush);
                 painter->setPen(m_TextPen);
 
-                defaultFont.setPointSize(qMax(1., 8 * pixelScale * m_CameraFOV.width() / 60.));
+                defaultFont.setPointSize(qMax(1., 4 * pixelScale * m_CameraFOV.width() / 60.));
                 painter->setFont(defaultFont);
                 painter->drawText(oneRect, Qt::AlignRight | Qt::AlignTop, QString("%1.").arg(tile->index));
 
-                defaultFont.setPointSize(qMax(1., 5 * pixelScale * m_CameraFOV.width() / 60.));
+                defaultFont.setPointSize(qMax(1., 4 * pixelScale * m_CameraFOV.width() / 60.));
                 painter->setFont(defaultFont);
                 painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignVCenter, QString("%1\n%2")
                                   .arg(tile->skyCenter.ra0().toHMSString(), tile->skyCenter.dec0().toDMSString()));

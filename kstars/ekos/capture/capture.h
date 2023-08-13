@@ -1112,10 +1112,6 @@ class Capture : public QWidget, public Ui::Capture
         QSharedPointer<FilterManager> m_FilterManager;
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;
 
-        bool FilterEnabled {false};
-        bool ExpEnabled {false};
-        bool TimeStampEnabled {false};
-
         double m_FocalLength {-1};
         double m_Aperture {-1};
         double m_FocalRatio {-1};
