@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-12 00:41+0000\n"
-"PO-Revision-Date: 2023-08-12 18:23+0200\n"
+"PO-Revision-Date: 2023-08-13 11:51+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -10955,12 +10955,12 @@ msgstr "Position"
 #: ekos/auxiliary/filtermanager.cpp:123
 #, kde-format
 msgid "Lock Filter"
-msgstr "Låsningsfilter"
+msgstr "Låst filter"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #, kde-format
 msgid "# Focus Runs"
-msgstr "# Fokuseringskörningar"
+msgstr "Antal fokuseringskörningar"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:183
 #, kde-format
@@ -10970,7 +10970,7 @@ msgstr "Filter. * anger referensfilter. Dubbelklicka för att ändra"
 #: ekos/auxiliary/buildfilteroffsets.cpp:185
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
-msgstr "# Fokuseringskörningar: ange per filter, 0 för att ignorera"
+msgstr "Antal fokuseringskörningar: ange per filter, 0 för att ignorera"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:322
 #, kde-format
@@ -14259,12 +14259,12 @@ msgstr "Kylenhet är av"
 #: ekos/capture/capture.cpp:4859
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
-msgstr "Är du säker på att du vill starta om kamerans drivenhet %1?"
+msgstr "Är du säker på att du vill starta om kamerans drivrutin %1?"
 
 #: ekos/capture/capture.cpp:4860
 #, kde-format
 msgid "Driver Restart"
-msgstr "Starta om drivenhet"
+msgstr "Starta om drivrutin"
 
 #: ekos/capture/capture.cpp:4890
 #, kde-format
@@ -14775,7 +14775,7 @@ msgstr "Antal bilder att ta"
 #: ekos/capture/capture.ui:1234
 #, kde-format
 msgid "Restart camera driver"
-msgstr "Starta om kamerans drivenhet"
+msgstr "Starta om kamerans drivrutin"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
 #: ekos/capture/capture.ui:1266
@@ -16799,7 +16799,7 @@ msgstr ""
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Tidsgräns för fokuseringsrörelse har gått ut (%1). Startar om "
-"fokuseringsdrivenhet %2"
+"fokuseringsdrivrutin %2"
 
 #: ekos/focus/focus.cpp:1895
 #, kde-format
@@ -17100,7 +17100,7 @@ msgstr ""
 "\n"
 "Det första steget är att ställa in spelet. Fokuseringsenhetens handbok "
 "förklarar troligen hur det kan göras. När du väl har ett värde på spelet i "
-"systemet, ställ då antingen in spelfältet för att låta drivenheten utföra "
+"systemet, ställ då antingen in spelfältet för att låta drivrutinen utföra "
 "spelkompensering eller AF-översvepfältet automatisk fokusering utföra "
 "spelkompensering. Ställ bara in ett fält, och låt det andra vara 0.\n"
 "\n"
@@ -18265,7 +18265,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2169
 #, kde-format
 msgid "Driver Backlash:"
-msgstr "Drivenhetens spel:"
+msgstr "Drivrutinens spel:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/focus.ui:2191
@@ -18473,8 +18473,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Anger spelets översvep i tick för utåtriktade "
 "fokuseringsrörelser vid automatisk fokusering. Det är ett tillägg till "
-"eventuellt drivenhetsspel som tillhandahålls av drivrutinen och som ställs "
-"in i fältet Drivenhetens spel. Ställ in till 0 för att inaktivera. </p><p>Om "
+"eventuellt drivrutinspel som tillhandahålls av drivrutinen och som ställs in "
+"i fältet Drivrutinens spel. Ställ in till 0 för att inaktivera. </p><p>Om "
 "angivet, gäller AF-översvep alla fokuseringsrörelser initierade av "
 "fokuseringsmodulen.</p><p>Typiskt anges antingen fokuseringsenhetens spel "
 "eller AF-översvep.</p></body></html>"
@@ -18738,7 +18738,7 @@ msgstr ""
 #: ekos/focus/focus.ui:3068
 #, kde-format
 msgid "Reset To OT"
-msgstr "Återställ till OT"
+msgstr "Återställ till optik"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/focus.ui:3081
@@ -35598,7 +35598,7 @@ msgstr "Maximal storlek för ett enskilt steg."
 #: kstars.kcfg:2090
 #, kde-format
 msgid "The amount of driver backlash."
-msgstr "Storleken på drivenhetens spel."
+msgstr "Storleken på drivrutinens spel."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2094
@@ -72144,7 +72144,7 @@ msgstr "Fokuseringsalternativ:"
 #: oal/equipmentwriter.ui:1129
 #, kde-format
 msgid "Ticks per C:"
-msgstr "Tick per C:"
+msgstr "Tick per °C:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1146
