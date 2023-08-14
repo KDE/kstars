@@ -33,6 +33,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
 
     // Initial optics information is taken from Ekos options
     ui->focalLenSpin->setValue(Options::telescopeFocalLength());
+    ui->focalReducerSpin->setValue(Options::telescopeFocalReducer());
     ui->pixelWSizeSpin->setValue(Options::cameraPixelWidth());
     ui->pixelHSizeSpin->setValue(Options::cameraPixelHeight());
     ui->cameraWSpin->setValue(Options::cameraWidth());
@@ -254,6 +255,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     // Scope optics information
     // - Changing the optics configuration changes the FOV, which changes the target field dimensions
     connect(ui->focalLenSpin, &QDoubleSpinBox::editingFinished, this, &Ekos::FramingAssistantUI::calculateFOV);
+    connect(ui->focalReducerSpin, &QDoubleSpinBox::editingFinished, this, &Ekos::FramingAssistantUI::calculateFOV);
     connect(ui->cameraWSpin, &QSpinBox::editingFinished, this, &Ekos::FramingAssistantUI::calculateFOV);
     connect(ui->cameraHSpin, &QSpinBox::editingFinished, this, &Ekos::FramingAssistantUI::calculateFOV);
     connect(ui->pixelWSizeSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
@@ -364,17 +366,19 @@ void FramingAssistantUI::calculateFOV()
     ui->targetHFOVSpin->setMinimum(ui->cameraHFOVSpin->value());
 
     Options::setTelescopeFocalLength(ui->focalLenSpin->value());
+    Options::setTelescopeFocalReducer(ui->focalReducerSpin->value());
     Options::setCameraPixelWidth(ui->pixelWSizeSpin->value());
     Options::setCameraPixelHeight(ui->pixelHSizeSpin->value());
     Options::setCameraWidth(ui->cameraWSpin->value());
     Options::setCameraHeight(ui->cameraHSpin->value());
     Options::setCameraRotation(ui->positionAngleSpin->value());
 
+    auto reducedFocalLength = ui->focalLenSpin->value() * ui->focalReducerSpin->value();
     // Calculate FOV in arcmins
     const auto fov_x = 206264.8062470963552 * ui->cameraWSpin->value() * ui->pixelWSizeSpin->value() / 60000.0 /
-                       ui->focalLenSpin->value();
+                       reducedFocalLength;
     const auto fov_y = 206264.8062470963552 * ui->cameraHSpin->value() * ui->pixelHSizeSpin->value() / 60000.0 /
-                       ui->focalLenSpin->value();
+                       reducedFocalLength;
 
     ui->cameraWFOVSpin->setValue(fov_x);
     ui->cameraHFOVSpin->setValue(fov_y);
@@ -519,7 +523,9 @@ void FramingAssistantUI::fetchINDIInformation()
     {
         QList<double> const values = telescopeReply.value();
         m_FocalLength = values[0];
+        m_FocalReducer = values[2];
         ui->focalLenSpin->setValue(m_FocalLength);
+        ui->focalReducerSpin->setValue(m_FocalReducer);
     }
 
     QDBusReply<QList<double>> solutionReply = alignInterface.call("getSolutionResult");

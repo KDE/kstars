@@ -975,7 +975,7 @@ QList<double> Align::telescopeInfo()
 {
     QList<double> result;
 
-    result << m_FocalLength << m_Aperture;
+    result << m_FocalLength << m_Aperture << m_Reducer;
 
     return result;
 }

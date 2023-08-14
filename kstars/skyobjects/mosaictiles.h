@@ -96,6 +96,10 @@ class MosaicTiles : public SkyObject
         {
             return m_FocalLength;
         }
+        double focalReducer() const
+        {
+            return m_FocalReducer;
+        }
         double positionAngle() const
         {
             return m_PositionAngle;
@@ -131,6 +135,10 @@ class MosaicTiles : public SkyObject
         void setFocalLength(double value)
         {
             m_FocalLength = value;
+        }
+        void setFocalReducer(double value)
+        {
+            m_FocalReducer = value;
         }
         void setPositionAngle(double value);
         void setCameraSize(const QSize &value)
@@ -225,6 +233,7 @@ class MosaicTiles : public SkyObject
 
         // Overall properties
         double m_FocalLength {0};
+        double m_FocalReducer {1};
         QSize m_CameraSize;
         QSizeF m_PixelSize, m_CameraFOV, m_MosaicFOV;
         QSize m_GridSize {1, 1};

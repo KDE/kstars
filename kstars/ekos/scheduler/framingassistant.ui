@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>473</width>
-    <height>417</height>
+    <width>448</width>
+    <height>406</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,228 +62,239 @@
          <property name="title">
           <string>↓ Confirm Equipment</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <item row="2" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QGridLayout" name="gridLayout">
             <property name="spacing">
              <number>3</number>
             </property>
-            <item>
-             <widget class="QLabel" name="label_14">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="toolTip">
+               <string>Mount focal length in millimeters</string>
+              </property>
               <property name="text">
-               <string>H</string>
+               <string>Focal length:</string>
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="pixelHSizeSpin">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+            <item row="0" column="1">
+             <widget class="QDoubleSpinBox" name="focalLenSpin">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Height of a single camera photosite, in micrometers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Focal length of the telescope to use for the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="suffix">
-               <string> µm</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="toolTip">
-             <string>Camera frame width and height in pixels</string>
-            </property>
-            <property name="text">
-             <string>Camera:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QPushButton" name="fetchB">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Fetch equipment information from the Ekos active profile, if any.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Fetch</string>
-            </property>
-            <property name="icon">
-             <iconset theme="download">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QDoubleSpinBox" name="focalLenSpin">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Focal length of the telescope to use for the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="suffix">
-             <string> mm</string>
-            </property>
-            <property name="minimum">
-             <double>0.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>10000.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>0.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_11">
-            <property name="toolTip">
-             <string>Camera pixel size in microns</string>
-            </property>
-            <property name="text">
-             <string>Pixel Size:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_10">
-              <property name="text">
-               <string>H</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="cameraHSpin">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Height of the frame produced by the camera, in pixels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="suffix">
-               <string> pix</string>
-              </property>
-              <property name="minimum">
-               <number>0</number>
-              </property>
-              <property name="maximum">
-               <number>10000</number>
-              </property>
-              <property name="value">
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_9">
-              <property name="text">
-               <string>W</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="cameraWSpin">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Width of the frame produced by the camera, in pixels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="suffix">
-               <string> pix</string>
-              </property>
-              <property name="minimum">
-               <number>0</number>
-              </property>
-              <property name="maximum">
-               <number>10000</number>
-              </property>
-              <property name="value">
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>W</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="pixelWSizeSpin">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Width of a single camera photosite, in micrometers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="suffix">
-               <string> µm</string>
+               <string> mm</string>
               </property>
               <property name="minimum">
                <double>0.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10000.000000000000000</double>
               </property>
               <property name="value">
                <double>0.000000000000000</double>
               </property>
              </widget>
             </item>
+            <item row="0" column="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_17">
+              <item>
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>Reducer:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="focalReducerSpin">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimum">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>3.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="toolTip">
+               <string>Camera frame width and height in pixels</string>
+              </property>
+              <property name="text">
+               <string>Camera:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>W</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="cameraWSpin">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Width of the frame produced by the camera, in pixels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="suffix">
+                 <string> pix</string>
+                </property>
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>H</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="cameraHSpin">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Height of the frame produced by the camera, in pixels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="suffix">
+                 <string> pix</string>
+                </property>
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="toolTip">
+               <string>Camera pixel size in microns</string>
+              </property>
+              <property name="text">
+               <string>Pixel Size:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>W</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="pixelWSizeSpin">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Width of a single camera photosite, in micrometers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="suffix">
+                 <string> µm</string>
+                </property>
+                <property name="minimum">
+                 <double>0.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="2" column="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>H</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="pixelHSizeSpin">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Height of a single camera photosite, in micrometers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="suffix">
+                 <string> µm</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
            </layout>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>Mount focal length in millimeters</string>
-            </property>
-            <property name="text">
-             <string>Focal length:</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </widget>
@@ -315,6 +326,20 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="fetchB">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Fetch equipment information from the Ekos active profile, if any.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>Fetch</string>
+           </property>
+           <property name="icon">
+            <iconset theme="download">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="nextToSelectGridB">
@@ -1506,7 +1531,7 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Select a group name. Useful if you want the mosaic jobs to repeat together--assign them a group name, and give them &lt;i&gt;repeat for N (N=2 or more)&lt;/i&gt; or &lt;i&gt;repeat until terminated&lt;/i&gt; completion conditions. Otherwise leave empty. Only applies to the Greedy scheduler algorithm.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Select a group name. Useful if you want the mosaic jobs to repeat together--assign them a group name, and give them &lt;span style=&quot; font-style:italic;&quot;&gt;repeat for N (N=2 or more)&lt;/span&gt; or &lt;span style=&quot; font-style:italic;&quot;&gt;repeat until terminated&lt;/span&gt; completion conditions. Otherwise leave empty.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
@@ -1697,6 +1722,7 @@
  </customwidgets>
  <tabstops>
   <tabstop>focalLenSpin</tabstop>
+  <tabstop>focalReducerSpin</tabstop>
   <tabstop>cameraWSpin</tabstop>
   <tabstop>cameraHSpin</tabstop>
   <tabstop>pixelWSizeSpin</tabstop>
@@ -1708,28 +1734,38 @@
   <tabstop>mosaicHSpin</tabstop>
   <tabstop>targetWFOVSpin</tabstop>
   <tabstop>targetHFOVSpin</tabstop>
-  <tabstop>resetB</tabstop>
+  <tabstop>positionAngleSpin</tabstop>
   <tabstop>transparencySlider</tabstop>
   <tabstop>transparencyAuto</tabstop>
   <tabstop>reverseOddRows</tabstop>
   <tabstop>backToEquipmentB</tabstop>
+  <tabstop>importB</tabstop>
+  <tabstop>recenterB</tabstop>
   <tabstop>nextToAdjustGrid</tabstop>
-  <tabstop>nextToJobsB</tabstop>
-  <tabstop>goSolveB</tabstop>
-  <tabstop>backToSelectGrid</tabstop>
   <tabstop>raBox</tabstop>
   <tabstop>decBox</tabstop>
+  <tabstop>backToSelectGrid</tabstop>
+  <tabstop>goSolveB</tabstop>
+  <tabstop>nextToJobsB</tabstop>
   <tabstop>targetEdit</tabstop>
   <tabstop>sequenceEdit</tabstop>
+  <tabstop>loadSequenceB</tabstop>
   <tabstop>directoryEdit</tabstop>
+  <tabstop>selectJobsDirB</tabstop>
+  <tabstop>trackStepCheck</tabstop>
+  <tabstop>focusStepCheck</tabstop>
   <tabstop>alignStepCheck</tabstop>
   <tabstop>guideStepCheck</tabstop>
   <tabstop>alignEvery</tabstop>
   <tabstop>focusEvery</tabstop>
-  <tabstop>createJobsB</tabstop>
+  <tabstop>groupEdit</tabstop>
+  <tabstop>sequenceCompletionR</tabstop>
+  <tabstop>repeatCompletionR</tabstop>
+  <tabstop>repeatsSpin</tabstop>
+  <tabstop>loopCompletionR</tabstop>
   <tabstop>backToAdjustGridB</tabstop>
-  <tabstop>loadSequenceB</tabstop>
-  <tabstop>selectJobsDirB</tabstop>
+  <tabstop>createJobsB</tabstop>
+  <tabstop>resetB</tabstop>
  </tabstops>
  <resources/>
  <connections/>
