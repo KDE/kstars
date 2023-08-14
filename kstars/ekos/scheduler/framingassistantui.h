@@ -106,6 +106,7 @@ class FramingAssistantUI : public QDialog
 
         // Equipment
         double m_FocalLength {0};
+        double m_FocalReducer {1};
         QSize m_CameraSize;
         QSizeF m_PixelSize, m_cameraFOV, m_MosaicFOV;
         QSize m_GridSize {1, 1};
