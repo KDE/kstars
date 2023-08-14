@@ -249,89 +249,89 @@ class SequenceJob : public QObject
          */
         JOBStatus getStatus()
         {
-            return stateMachine->getStatus();
+            return state->getStatus();
         }
 
         int getTargetFilter()
         {
-            return stateMachine->targetFilterID;
+            return state->targetFilterID;
         }
 
         double getTargetTemperature() const
         {
-            return stateMachine->targetTemperature;
+            return state->targetTemperature;
         }
         void setTargetTemperature(double value)
         {
-            stateMachine->targetTemperature = value;
+            state->targetTemperature = value;
         }
 
-        void setFocusStatus(FocusState state)
+        void setFocusStatus(FocusState value)
         {
-            stateMachine->setFocusStatus(state);
+            state->setFocusStatus(value);
         }
 
         double getTargetStartGuiderDrift() const
         {
-            return stateMachine->targetStartGuiderDrift;
+            return state->targetStartGuiderDrift;
         }
         void setTargetStartGuiderDrift(double value)
         {
-            stateMachine->targetStartGuiderDrift = value;
+            state->targetStartGuiderDrift = value;
         }
 
         double getTargetRotation() const
         {
-            return stateMachine->targetPositionAngle;
+            return state->targetPositionAngle;
         }
         void setTargetRotation(double value)
         {
-            stateMachine->targetPositionAngle = value;
+            state->targetPositionAngle = value;
         }
 
         bool getPreMountPark() const
         {
-            return stateMachine->preMountPark;
+            return state->preMountPark;
         }
         void setPreMountPark(bool value)
         {
-            stateMachine->preMountPark = value;
+            state->preMountPark = value;
         }
 
         bool getPreDomePark() const
         {
-            return stateMachine->preDomePark;
+            return state->preDomePark;
         }
         void setPreDomePark(bool value)
         {
-            stateMachine->preDomePark = value;
+            state->preDomePark = value;
         }
 
         SequenceJobState::CalibrationStage getCalibrationStage() const
         {
-            return stateMachine->calibrationStage;
+            return state->calibrationStage;
         }
         void setCalibrationStage(SequenceJobState::CalibrationStage value)
         {
-            stateMachine->calibrationStage = value;
+            state->calibrationStage = value;
         }
 
         SequenceJobState::PreparationState getPreparationState() const
         {
-            return stateMachine->m_PreparationState;
+            return state->m_PreparationState;
         }
         void setPreparationState(SequenceJobState::PreparationState value)
         {
-            stateMachine->m_PreparationState = value;
+            state->m_PreparationState = value;
         }
 
         bool getAutoFocusReady() const
         {
-            return stateMachine->autoFocusReady;
+            return state->autoFocusReady;
         }
         void setAutoFocusReady(bool value)
         {
-            stateMachine->autoFocusReady = value;
+            state->autoFocusReady = value;
         }
 
         /**
@@ -415,8 +415,8 @@ class SequenceJob : public QObject
         //////////////////////////////////////////////////////////////
         /// State machines encapsulating the state of this capture sequence job
         //////////////////////////////////////////////////////////////
-        QSharedPointer<CaptureDeviceAdaptor> captureDeviceAdaptor;
-        QSharedPointer<SequenceJobState> stateMachine;
+        QSharedPointer<CaptureDeviceAdaptor> devices;
+        QSharedPointer<SequenceJobState> state;
 
 };
 }

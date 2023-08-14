@@ -26,30 +26,30 @@ CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
     connect(overlay->deleteCurrentFrameButton, &QPushButton::clicked, this, &CapturePreviewWidget::deleteCurrentFrame);
 }
 
-void CapturePreviewWidget::shareCaptureProcess(Ekos::Capture *process)
+void CapturePreviewWidget::shareCaptureModule(Ekos::Capture *module)
 {
-    captureProcess = process;
-    captureCountsWidget->shareCaptureProcess(process);
+    captureModule = module;
+    captureCountsWidget->shareCaptureProcess(module);
 
-    if (captureProcess != nullptr)
+    if (captureModule != nullptr)
     {
-        connect(captureProcess, &Ekos::Capture::newDownloadProgress, captureCountsWidget,
+        connect(captureModule, &Ekos::Capture::newDownloadProgress, captureCountsWidget,
                 &CaptureCountsWidget::updateDownloadProgress);
-        connect(captureProcess, &Ekos::Capture::newExposureProgress, captureCountsWidget,
+        connect(captureModule, &Ekos::Capture::newExposureProgress, captureCountsWidget,
                 &CaptureCountsWidget::updateExposureProgress);
     }
 }
 
-void CapturePreviewWidget::shareSchedulerProcess(Ekos::Scheduler *process)
+void CapturePreviewWidget::shareSchedulerModule(Ekos::Scheduler *module)
 {
-    schedulerProcess = process;
-    captureCountsWidget->shareSchedulerProcess(process);
+    schedulerModule = module;
+    captureCountsWidget->shareSchedulerProcess(module);
 }
 
-void CapturePreviewWidget::shareMountProcess(Ekos::Mount *process)
+void CapturePreviewWidget::shareMountModule(Ekos::Mount *module)
 {
-    mountProcess = process;
-    connect(mountProcess, &Ekos::Mount::newTargetName, this, [this](const QString & name)
+    mountModule = module;
+    connect(mountModule, &Ekos::Mount::newTargetName, this, [this](const QString & name)
     {
         m_mountTarget = name;
     });
@@ -68,8 +68,8 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     m_currentFrame.frameType = job->getFrameType();
     if (job->getFrameType() == FRAME_LIGHT)
     {
-        if (schedulerProcess != nullptr && schedulerProcess->getCurrentJob() != nullptr)
-            m_currentFrame.target = schedulerProcess->getCurrentJob()->getName();
+        if (schedulerModule != nullptr && schedulerModule->getCurrentJob() != nullptr)
+            m_currentFrame.target = schedulerModule->getCurrentJob()->getName();
         else
             m_currentFrame.target = m_mountTarget;
     }
@@ -87,8 +87,8 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     m_currentFrame.height      = data->height();
 
     const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
-    if (ISOIndex >= 0 && ISOIndex <= captureProcess->captureISOS->count())
-        m_currentFrame.iso = captureProcess->captureISOS->itemText(ISOIndex);
+    if (ISOIndex >= 0 && ISOIndex <= captureModule->captureISOS->count())
+        m_currentFrame.iso = captureModule->captureISOS->itemText(ISOIndex);
     else
         m_currentFrame.iso = "";
 

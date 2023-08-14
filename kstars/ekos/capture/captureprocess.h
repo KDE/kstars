@@ -16,6 +16,84 @@
 
 namespace Ekos
 {
+/**
+ * @class CaptureProcess
+ * @brief The CaptureProcess class holds the entire business logic to control capturing execution.
+ *
+ * Capture Execution
+ * =================
+ * Executing the sequence jobs is a complex process (explained here for light frames) and works roughly
+ * as follows and starts by calling {@see Capture#start()} either from the scheduler, by DBUS or by
+ * pressing the start button:
+ * 1. Select the next sequence job to be executed ({@see Capture#findNextPendingJob()}
+ * 2. Prepare the selected job
+ *    - update the counters of captured frames ({@see #prepareJob(SequenceJob *)})
+ *    - execute the pre job script, if existing ({@see #prepareActiveJobStage1()})
+ *    - set temperature, rotator angle and wait (if required) for the initial guiding
+ *      deviation being below the configured threshold ({@see #prepareJobExecution()})
+ *      and wait until these parameters are OK.
+ * 3. Prepare capturing a single frame
+ *    We still need to do some preparation steps before capturing starts.
+ *    - {@see #executeJob()} is the starting point, which simply sets the capture state
+ *      to "busy" and sets the FITS attributes to the camera
+ *    - Check all tasks that need to be completed before capturing may start (post meridian
+ *      flip actions, guiding deviation, dithering, re-focusing, ..., see {@see #checkLightFramePendingTasks()}
+ * 4. Capture a single frame
+ *    - Initiate capturing (set diverse settings of {@see #activeCamera()} (see {@see #captureImage})
+ *    - hand over the control of capturing to the sequence job ({@see SequenceJob#startCapturing()})
+ *    - Select the correct filter (@see SequenceJobState#prepareTargetFilter()}
+ *    - As soon as the correct filter is set, the sequence job state will send the event
+ *      {@see SequenceJobState::initCaptureComplete()}, which will finally call trigger
+ *      {@see SequenceJob::capture()}
+ * 5. Listen upon capturing progress
+ *    - listen to the event {@see ISD::Camera::newExposureValue}, update the remaining
+ *      time and wait until the INDI state changes from busy to OK
+ *    - start the download timer to measure download times
+ *    - listen to the event {@see ISD::Camera::newImage} and start processing the FITS image
+ *      as soon as it has been recieved
+ * 6. Process received image
+ *    - update the FITS image meta data {@see #updateImageMetadataAction()}
+ *    - update time calculation and counters and execute post capture script ({@see imageCapturingCompleted()})
+ * 7. Check how to continue the sequence execution ({@see resumeSequence()})
+ *    - if the current sequence job isn't completed,
+ *      - execute the post capture script
+ *      - start next exposure (similar to 3.) ({@see startNextExposure()})
+ *        TODO: check why we need this separate method and cannot use {@see updatePreCaptureCalibrationStatus()}
+ *    - if the current sequence is complete,
+ *      - execute the post sequence script ({@see processJobCompletion1()})
+ *      - stop the current sequence job ({@see processJobCompletion2()})
+ *      - recall {@see resumeSequence()}, which calls {@see startNextJob()}
+ *      - if there is another job to be executed, jump to 2., otherwise Capture is completed
+ *        by sending a stopCapture(CAPTURE_COMPLETE) event
+ *
+ *  Autofocus
+ *  =========
+ *  Capture has three ways that trigger autofocus during a capturing sequence: HFR based, temperature drift based,
+ *  timer based and post meridian flip based. Each time the capture execution reaches the preparation of caturing
+ *  a single frame (3. above) (see {@see CaptureModuleState#startFocusIfRequired()} and
+ *  {@see RefocusState#checkFocusRequired()}).
+ *
+ *  Meridian Flip
+ *  =============
+ *  The meridian flip itself is executed by the Mount module and is controlled by
+ *  (see {@see MeridianFlipState}). Nevertheless, the Capture module plays an
+ *  important rule in the meridian flip:
+ *  1. Accept a flip to be executed
+ *     As soon as a meridian flip has been planned (informed through
+ *     {@see #updateMFMountState(MeridianFlipState::MeridianFlipMountState)}, the meridian flip state is set
+ *     to MF_REQUESTED.
+ *     - If capturing is running the state remains in this state until the frame has been captured. As soon as
+ *       the capturing state changes to id, suspended or aborted (see {@see CaptureModuleState::setCaptureState(CaptureState)}),
+ *       the meridian flip state is set to MF_ACCEPTED (see {@see MeridianFlipState::updateMeridianFlipStage(const MFStage)}).
+ *       This is triggered from {@see #checkLightFramePendingTasks()}, i.e. this function is looping once per second until
+ *       the meridian flip has been completed.
+ *     - If capturing is not running, the latter happens immediately.
+ *     Now the meridian flip is started.
+ *  2. Post MF actions
+ *     As soon as the meridian flip has been completed (and the Capture module is waiting for it), the Capture module
+ *     takes over the control and executes all necessary tasks: aligning, re-focusing, guiding, etc. This happens all through
+ *     {@see #checkLightFramePendingTasks()}. As soon as all has recovered, capturing continues.
+ */
 class CaptureProcess : public QObject
 {
     Q_OBJECT
@@ -30,13 +108,99 @@ public:
     CaptureProcess(QSharedPointer<CaptureModuleState> newModuleState, QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor);
 
     // ////////////////////////////////////////////////////////////////////
+    // handle connectivity to modules and devices
+    // ////////////////////////////////////////////////////////////////////
+    /**
+     * @brief setMount Connect to the given mount device (and deconnect the old one
+     * if existing)
+     * @param device pointer to Mount device.
+     * @return True if added successfully, false if duplicate or failed to add.
+    */
+    bool setMount(ISD::Mount *device);
+
+    /**
+     * @brief setRotator Connect to the given rotator device (and deconnect
+     *  the old one if existing)
+     * @param device pointer to rotator INDI device
+     * @return True if added successfully, false if duplicate or failed to add.
+     */
+    bool setRotator(ISD::Rotator * device);
+
+    /**
+     * @brief setDustCap Connect to the given dust cap device (and deconnect
+     * the old one if existing)
+     * @param device pointer to dust cap INDI device
+     * @return True if added successfully, false if duplicate or failed to add.
+     */
+    bool setDustCap(ISD::DustCap *device);
+
+    /**
+     * @brief setLightBox Connect to the given dust cap device (and deconnect
+     * the old one if existing)
+     * @param device pointer to light box INDI device.
+     * @return True if added successfully, false if duplicate or failed to add.
+    */
+    bool setLightBox(ISD::LightBox *device);
+
+    /**
+     * @brief setCamera Connect to the given camera device (and deconnect
+     * the old one if existing)
+     * @param device pointer to camera INDI device.
+     * @return True if added successfully, false if duplicate or failed to add.
+    */
+    bool setCamera(ISD::Camera *device);
+    /**
+      * @brief Connect or disconnect the camera device
+      * @param connection flag if connect (=true) or disconnect (=false)
+      */
+    void setCamera(bool connection);
+
+    /**
+     * @brief setFilterWheel Connect to the given filter wheel device (and deconnect
+     * the old one if existing)
+     * @param device pointer to filter wheel INDI device.
+     * @return True if added successfully, false if duplicate or failed to add.
+    */
+    bool setFilterWheel(ISD::FilterWheel *device);
+
+    /**
+     * Toggle video streaming if supported by the device.
+     * @param enabled Set to true to start video streaming, false to stop it if active.
+     */
+    void toggleVideo(bool enabled);
+
+    // ////////////////////////////////////////////////////////////////////
     // capturing process steps
     // ////////////////////////////////////////////////////////////////////
 
     /**
-     * @brief startCapture Start capturing.
+     * @brief toggleSequence Toggle sequence state depending on its current state.
+     * 1. If paused, then resume sequence.
+     * 2. If idle or completed, then start sequence.
+     * 3. Otherwise, abort current sequence.
      */
-    void startCapture();
+    void toggleSequence();
+
+    /**
+     * @brief stopCapturing Stopiing the entire capturing state
+     * (envelope for aborting, suspending, pausing, ...)
+     * @param targetState state capturing should be having afterwards
+     */
+    void stopCapturing(CaptureState targetState);
+
+    /**
+     * @brief pauseCapturing Pauses capturing as soon as the current
+     * capture is complete.
+     */
+    void pauseCapturing();
+
+    /**
+     * @brief startJob Start the execution of a selected sequence job:
+     * - Initialize the state for capture preparation ({@see CaptureModuleState#initCapturePreparation()}
+     * - Prepare the selected job ({@see #prepareJob(SequenceJob *)})
+     * @param job selected sequence job
+     */
+    void startJob(SequenceJob *job);
 
     /**
      * @brief prepareJob Update the counters of existing frames and continue with prepareActiveJob(), if there exist less
@@ -52,11 +216,6 @@ public:
      * @brief prepareActiveJobStage2 Reset #calibrationStage and continue with preparePreCaptureActions().
      */
     void prepareActiveJobStage2();
-
-    /**
-     * @brief executeJob Start the execution of #activeJob by initiating updatePreCaptureCalibrationStatus().
-     */
-    void executeJob();
 
     /**
      * @brief preparePreCaptureActions Trigger setting the filter, temperature, (if existing) the rotator angle and
@@ -75,6 +234,17 @@ public:
      * executeJob() from the CaptureProcess.
      */
     void prepareJobExecution();
+
+    /**
+     * @brief executeJob Start the execution of #activeJob by initiating updatePreCaptureCalibrationStatus().
+     */
+    void executeJob();
+
+    /**
+     * @brief refreshOpticalTrain Refresh the devices from the optical train configuration
+     * @param name name of the optical train configuration
+     */
+    void refreshOpticalTrain(QString name);
 
     /**
      * @brief Check all tasks that might be pending before capturing may start.
@@ -96,6 +266,31 @@ public:
      * @return IPS_OK iff no task is pending, IPS_BUSY otherwise (or IPS_ALERT if a problem occured)
      */
     IPState checkLightFramePendingTasks();
+
+
+    /**
+     * @brief updatePreCaptureCalibrationStatus This is a wrapping loop for processPreCaptureCalibrationStage(),
+     *        which contains all checks before captureImage() may be called.
+     *
+     * If processPreCaptureCalibrationStage() returns IPS_OK (i.e. everything is ready so that
+     * capturing may be started), captureImage() is called. Otherwise, it waits for a second and
+     * calls itself again.
+     */
+    void updatePreCaptureCalibrationStatus();
+
+    /**
+     * @brief processPreCaptureCalibrationStage Execute the tasks that need to be completed before capturing may start.
+     *
+     * For light frames, checkLightFramePendingTasks() is called.
+     *
+     * @return IPS_OK if all necessary tasks have been completed
+     */
+    IPState processPreCaptureCalibrationStage();
+
+    /**
+     * @brief captureStarted Manage the result when capturing has been started
+     */
+    void captureStarted(CaptureModuleState::CAPTUREResult rc);
 
     /**
      * @brief checkNextExposure Try to start capturing the next exposure (@see startNextExposure()).
@@ -170,30 +365,17 @@ public:
     IPState processCaptureCompleted();
 
     /**
-     * @brief Manage the capture process after a captured image has been successfully downloaded from the camera.
+     * @brief Manage the capture process after a captured image has been successfully downloaded
+     * from the camera.
      *
+     * - stop timers for timeout and download progress
+     * - update the download time calculation
+     * - update captured frames counters ({@see updateCompletedCaptureCountersAction()})
+     * - check flat calibration (for flats only)
+     * - execute the post capture script (if existing)
+     * - resume the sequence ({@see resumeSequence()})
      */
     void imageCapturingCompleted();
-
-
-    /**
-     * @brief processPreCaptureCalibrationStage Execute the tasks that need to be completed before capturing may start.
-     *
-     * For light frames, checkLightFramePendingTasks() is called.
-     *
-     * @return IPS_OK if all necessary tasks have been completed
-     */
-    IPState processPreCaptureCalibrationStage();
-
-    /**
-     * @brief updatePreCaptureCalibrationStatusThis is a wrapping loop for processPreCaptureCalibrationStage(),
-     *        which contains all checks before captureImage() may be called.
-     *
-     * If processPreCaptureCalibrationStage() returns IPS_OK (i.e. everything is ready so that
-     * capturing may be started), captureImage() is called. Otherwise, it waits for a second and
-     * calls itself again.
-     */
-    void updatePreCaptureCalibrationStatus();
 
     /**
      * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
@@ -220,6 +402,11 @@ public:
      */
     void captureImage();
 
+    /**
+     * @brief resetFrame Reset frame settings of the camera
+     */
+    void resetFrame();
+
     // ////////////////////////////////////////////////////////////////////
     // capturing actions
     // ////////////////////////////////////////////////////////////////////
@@ -229,6 +416,12 @@ public:
      * the camera device.
      */
     void setExposureProgress(ISD::CameraChip *tChip, double value, IPState state);
+
+    /**
+     * @brief setDownloadProgress update the Capture Module and Summary
+     *        Screen's estimate of how much time is left in the download
+     */
+    void setDownloadProgress();
 
     /**
      * @brief continueFramingAction If framing is running, start the next capture sequence
@@ -273,6 +466,34 @@ public:
     void scriptFinished(int exitCode, QProcess::ExitStatus status);
 
     /**
+     * @brief setCamera select camera device
+     * @param name Name of the camera device
+    */
+    void selectCamera(QString name);
+
+    /**
+     * @brief configureCamera Refreshes the CCD information in the capture module.
+     */
+    void checkCamera();
+
+    /**
+     * @brief syncDSLRToTargetChip Syncs INDI driver CCD_INFO property to the DSLR values.
+     * This include Max width, height, and pixel sizes.
+     * @param model Name of camera driver in the DSLR database.
+     */
+    void syncDSLRToTargetChip(const QString &model);
+
+    /**
+     * @brief reconnectDriver Reconnect the camera driver
+     */
+    void reconnectCameraDriver(const QString &camera, const QString &filterWheel);
+
+    /**
+     * @brief Generic method for removing any connected device.
+     */
+    void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
+
+    /**
      * @brief processCaptureTimeout If exposure timed out, let's handle it.
      */
     void processCaptureTimeout();
@@ -305,11 +526,16 @@ public:
     void clearFlatCache();
 
     /**
-         * @brief Connect or disconnect the camera device
-         * @param connection flag if connect (=true) or disconnect (=false)
-         */
-    void connectCamera(bool connection);
+     * @brief updateTelescopeInfo Update the scope information in the camera's
+     * INDI driver.
+     */
+    void updateTelescopeInfo();
 
+    /**
+     * @brief updateFilterInfo Update the filter information in the INDI
+     * drivers of the current camera and dust cap
+     */
+    void updateFilterInfo();
 
     // ////////////////////////////////////////////////////////////////////
     // helper functions
@@ -321,6 +547,11 @@ public:
      * @return true iff capturing has been paused
      */
     bool checkPausing(CaptureModuleState::ContinueAction continueAction);
+
+    /**
+     * @brief findExecutableJob find next job to be executed
+     */
+    SequenceJob *findNextPendingJob();
 
     //  Based on  John Burkardt LLSQ (LGPL)
     void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
@@ -338,6 +569,26 @@ public:
      */
     QStringList generateScriptArguments() const;
 
+    /**
+     * @brief Does the CCD has a cooler control (On/Off) ?
+     */
+    bool hasCoolerControl();
+
+    /**
+     * @brief Set the CCD cooler ON/OFF
+     *
+     */
+    bool setCoolerControl(bool enable);
+
+    /**
+     * @brief restartCamera Restarts the INDI driver associated with a camera. Remote and Local drivers are supported.
+     * @param name Name of camera to restart. If a driver defined multiple cameras, they would be removed and added again
+     * after driver restart.
+     * @note Restarting camera should only be used as a last resort when it comes completely unresponsive. Due the complex
+     * nature of driver interactions with Ekos, restarting cameras can lead to unexpected behavior.
+     */
+    void restartCamera(const QString &name);
+
     // ////////////////////////////////////////////////////////////////////
     // attributes access
     // ////////////////////////////////////////////////////////////////////
@@ -348,21 +599,33 @@ public:
 
 signals:
     // controls for capture execution
+    void startCapture();
     void stopCapture(CaptureState targetState = CAPTURE_IDLE);
+    void captureAborted(double exposureSeconds);
+    void captureStopped();
     void syncGUIToJob(SequenceJob *job);
+    void updateFrameProperties(int reset);
     void jobExecutionPreparationStarted();
     void jobPrepared(SequenceJob *job);
     void captureImageStarted();
+    void captureRunning();
+    void newExposureProgress(SequenceJob *job);
+    void newDownloadProgress(double downloadTimeLeft);
+    void downloadingFrame();
+    void updateCaptureCountDown(int deltaMS);
     void darkFrameCompleted();
     void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
     void cameraReady();
-    void newExposureValue(ISD::CameraChip * tChip, double value, IPState state);
+    void refreshCamera();
+    void refreshCameraSettings();
+    void refreshFilterSettings();
     void processingFITSfinished(bool success);
-    void reconnectDriver(const QString &camera, const QString &filterWheel);
+    void rotatorReverseToggled(bool enabled);
     // communication with other modules
     void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
     void suspendGuiding();
     void resumeGuiding();
+    void abortFocus();
     void captureComplete(const QVariantMap &metadata);
     void sequenceChanged(const QJsonArray &sequence);
     void driverTimedout(const QString &deviceName);

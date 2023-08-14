@@ -46,31 +46,31 @@ public:
         {
             m_ActiveLightBox = device;
         }
-        ISD::LightBox *getLightBox()
+        ISD::LightBox *lightBox()
         {
             return m_ActiveLightBox;
         }
 
         void setDustCap(ISD::DustCap *device);
-        ISD::DustCap *getDustCap()
+        ISD::DustCap *dustCap()
         {
             return m_ActiveDustCap;
         }
 
         void setMount(ISD::Mount *device);
-        ISD::Mount *getMount()
+        ISD::Mount *mount()
         {
             return m_ActiveMount;
         }
 
         void setDome(ISD::Dome *device);
-        ISD::Dome *getDome()
+        ISD::Dome *dome()
         {
             return m_ActiveDome;
         }
 
         void setRotator(ISD::Rotator *device);
-        ISD::Rotator *getRotator()
+        ISD::Rotator *rotator()
         {
             return m_ActiveRotator;
         }
@@ -90,11 +90,14 @@ public:
             return m_ActiveChip;
         }
 
-        void setFilterWheel(ISD::FilterWheel *device)
+        // FIXME add support for guide head, not implemented yet
+        void addGuideHead(ISD::Camera *device)
         {
-            m_ActiveFilterWheel = device;
+            Q_UNUSED(device)
         }
-        ISD::FilterWheel *getFilterWheel()
+
+        void setFilterWheel(ISD::FilterWheel *device);
+        ISD::FilterWheel *filterWheel()
         {
             return m_ActiveFilterWheel;
         }
@@ -226,9 +229,24 @@ signals:
          */
         void filterIdChanged(int id);
         /**
+         * @brief newCamera A new camera has been set
+         * @param name device name (empty if none)
+         */
+        void newCamera(QString name);
+        /**
+         * @brief CameraConnected signal if the camera got connected
+         * @param connected is it connected?
+         */
+        void CameraConnected(bool connected);
+        /**
          * @brief Update for the CCD temperature
          */
         void newCCDTemperatureValue(double value);
+        /**
+         * @brief newRotator A new rotator has been set
+         * @param name device name (empty if none)
+         */
+        void newRotator(QString name);
         /**
          * @brief Update for the rotator's angle
          */
@@ -237,6 +255,16 @@ signals:
          * @brief Update for the rotator reverse status
          */
         void rotatorReverseToggled(bool enabled);
+        /**
+         * @brief newFilterWheel A new filter wheel has been set
+         * @param name device name (empty if none)
+         */
+        void newFilterWheel(QString name);
+        /**
+         * @brief FilterWheelConnected signal if the filter wheel got connected
+         * @param connected is it connected?
+         */
+        void FilterWheelConnected(bool connected);
         /**
          * @brief Cover for the scope with a flats light source (light is true) or dark (light is false)
          */

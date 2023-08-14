@@ -342,11 +342,8 @@ void FilterManager::refreshFilterProperties()
     m_FilterPositionProperty = m_FilterWheel->getNumber("FILTER_SLOT");
     m_FilterConfirmSet = m_FilterWheel->getSwitch("CONFIRM_FILTER_SET");
 
-    m_currentFilterPosition = getFilterPosition(true);
-    m_currentFilterLabels = getFilterLabels(true);
-
-    if (m_currentFilterLabels.isEmpty() == false)
-        refreshFilterModel();
+    refreshFilterLabels();
+    refreshFilterPosition();
 
     if (m_currentFilterPosition >= 1 && m_currentFilterPosition <= m_ActiveFilters.count())
         lastFilterOffset = m_ActiveFilters[m_currentFilterPosition - 1]->offset();
@@ -374,6 +371,33 @@ int FilterManager::getFilterPosition(bool forceRefresh)
         return m_currentFilterPosition;
 
     return static_cast<int>(m_FilterPositionProperty->np[0].value);
+}
+
+void FilterManager::refreshFilterLabels()
+{
+    QList filters = getFilterLabels(true);
+
+    if (filters != m_currentFilterLabels)
+    {
+        m_currentFilterLabels = filters;
+        refreshFilterModel();
+
+        emit labelsChanged(filters);
+
+        // refresh position after filter changes
+        refreshFilterPosition();
+    }
+}
+
+void FilterManager::refreshFilterPosition()
+{
+
+    int pos = getFilterPosition(true);
+    if (pos != m_currentFilterPosition)
+    {
+        m_currentFilterPosition = pos;
+        emit positionChanged(pos);
+    }
 }
 
 bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
@@ -410,16 +434,7 @@ void FilterManager::updateProperty(INDI::Property prop)
         auto tvp = prop.getText();
         m_FilterNameProperty = tvp;
 
-        QStringList newFilterLabels = getFilterLabels(true);
-
-        if (newFilterLabels != m_currentFilterLabels)
-        {
-            m_currentFilterLabels = newFilterLabels;
-
-            refreshFilterModel();
-
-            emit labelsChanged(newFilterLabels);
-        }
+        refreshFilterLabels();
     }
     else if (prop.isNameMatch("FILTER_SLOT"))
     {
@@ -428,12 +443,7 @@ void FilterManager::updateProperty(INDI::Property prop)
             return;
 
         m_FilterPositionProperty = nvp;
-
-        if (m_currentFilterPosition != static_cast<int>(m_FilterPositionProperty->np[0].value))
-        {
-            m_currentFilterPosition = static_cast<int>(m_FilterPositionProperty->np[0].value);
-            emit positionChanged(m_currentFilterPosition);
-        }
+        refreshFilterPosition();
 
         if (state == FILTER_CHANGE)
             executeOperationQueue();
