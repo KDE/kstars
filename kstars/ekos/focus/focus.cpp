@@ -1528,10 +1528,13 @@ void Focus::abort()
     if (state <= FOCUS_ABORTED)
         return;
 
+    bool focusLoop = inFocusLoop;
     checkStopFocus(true);
     appendLogText(i18n("Autofocus aborted."));
-    // try to shift the focuser back to its initial position
-    resetFocuser();
+    if (!focusLoop)
+        // For looping leave focuser where it is
+        // Otherwise try to shift the focuser back to its initial position
+        resetFocuser();
 }
 
 void Focus::stop(Ekos::FocusState completionState)
