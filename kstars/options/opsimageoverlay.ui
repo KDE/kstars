@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
-    <height>500</height>
+    <width>431</width>
+    <height>493</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="imageOverlayVerticalLayout_2">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="ImageOverlayBox">
      <property name="maximumSize">
@@ -20,51 +35,29 @@
       </size>
      </property>
      <property name="title">
-      <string>Image Overlay Options</string>
+      <string>Settings</string>
      </property>
      <layout class="QVBoxLayout">
-        <item>
-         <layout class="QHBoxLayout" name="imageOverlayDirLayout">
-          <item>
-           <widget class="QLabel" name="imageOverlayFileLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="whatsThis">
-             <string>The image overlay directory used.</string>
-            </property>
-            <property name="text">
-             <string>Image overlay directory:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="kcfg_ImageOverlayDirectory">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="imageOverlayShowDirButton">
-            <property name="styleSheet">
-             <string notr="true">font-weight:bold;</string>
-            </property>
-            <property name="text">
-             <string>Open Directory</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
+      <property name="spacing">
+       <number>3</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item>
        <layout class="QVBoxLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item>
          <widget class="QCheckBox" name="kcfg_ShowImageOverlays">
           <property name="text">
@@ -74,16 +67,19 @@
         </item>
         <item>
          <widget class="QCheckBox" name="kcfg_ShowSelectedImageOverlay">
-          <property name="text">
-           <string>Center SkyMap on selection</string>
-          </property>
           <property name="toolTip">
            <string>Center SkyMap over the selected overlay image in the table below (if it's solved).</string>
+          </property>
+          <property name="text">
+           <string>Center SkyMap on selection</string>
           </property>
          </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="imageOverlayMaxDimensionLayout">
+          <property name="spacing">
+           <number>3</number>
+          </property>
           <item>
            <widget class="QLabel" name="imageOverlayMaxDimensionLabel">
             <property name="sizePolicy">
@@ -138,6 +134,50 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="imageOverlayShowDirButton">
+            <property name="toolTip">
+             <string>Open overlay directory. Copy or move images to this directory to process them.</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>Overlay Directory</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="refreshB">
+            <property name="minimumSize">
+             <size>
+              <width>28</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>28</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Refresh</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="system-reboot"/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>28</width>
+              <height>28</height>
+             </size>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -151,6 +191,21 @@
       <string>Image Overlays</string>
      </property>
      <layout class="QVBoxLayout" name="ImageOverlayTableLayout">
+      <property name="spacing">
+       <number>3</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item>
        <widget class="QTableWidget" name="imageOverlayTable">
         <property name="sizePolicy">
@@ -169,6 +224,9 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="imageOverlayButtonLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item>
          <widget class="QPushButton" name="solveButton">
           <property name="maximumSize">
@@ -197,7 +255,7 @@
            <string>Selects the Options Profile (from Align) to use for Plate Solving</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>-1</number>
           </property>
          </widget>
         </item>
@@ -229,16 +287,16 @@
            <string>Default arcsec/px scale to use in solving. 0 is none. Would use what's in table if there.</string>
           </property>
           <property name="minimum">
-           <double>0.0</double>
+           <double>0.000000000000000</double>
           </property>
           <property name="maximum">
-           <double>100.0</double>
+           <double>100.000000000000000</double>
           </property>
           <property name="singleStep">
-           <double>0.1</double>
+           <double>0.100000000000000</double>
           </property>
           <property name="value">
-           <double>0</double>
+           <double>0.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -334,7 +392,6 @@
  <tabstops>
   <tabstop>kcfg_ShowImageOverlays</tabstop>
   <tabstop>kcfg_ImageOverlayMaxDimension</tabstop>
-  <tabstop>kcfg_ImageOverlayDirectory</tabstop>
   <tabstop>kcfg_ShowSelectedImageOverlay</tabstop>
   <tabstop>kcfg_ImageOverlayTimeout</tabstop>
   <tabstop>kcfg_ImageOverlayDefaultScale</tabstop>

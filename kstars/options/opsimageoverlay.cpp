@@ -93,7 +93,6 @@ void OpsImageOverlay::syncOptions()
     kcfg_ShowImageOverlays->setChecked(Options::showImageOverlays());
     kcfg_ImageOverlayMaxDimension->setValue(Options::imageOverlayMaxDimension());
     kcfg_ImageOverlayTimeout->setValue(Options::imageOverlayTimeout());
-    kcfg_ImageOverlayDirectory->setText(KStarsData::Instance()->skyComposite()->imageOverlay()->directory());
     kcfg_ImageOverlayDefaultScale->setValue(Options::imageOverlayDefaultScale());
 }
 
