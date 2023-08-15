@@ -59,7 +59,7 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
         return REFOCUS_HFR;
     }
 
-    // 4. check if most meridian flip refocusing is necessary
+    // 4. check if post meridian flip refocusing is necessary
     if (!isRefocusing() && isRefocusAfterMeridianFlip())
     {
         setRefocusing(true);

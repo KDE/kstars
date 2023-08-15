@@ -2805,6 +2805,10 @@
          <label>Telescope focal length in millimeters.</label>
          <default>0</default>
       </entry>
+      <entry name="TelescopeFocalReducer" type="Double">
+         <label>Focal Reducer ratio</label>
+         <default>1</default>
+      </entry>
       <entry name="CameraPixelWidth" type="Double">
          <label>Camera pixel size width in micrometers.</label>
          <default>0</default>

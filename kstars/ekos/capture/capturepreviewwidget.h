@@ -25,9 +25,9 @@ class CapturePreviewWidget : public QWidget, public Ui::CapturePreviewWidget
 public:
     explicit CapturePreviewWidget(QWidget *parent = nullptr);
 
-    void shareCaptureProcess(Ekos::Capture *process);
-    void shareSchedulerProcess(Ekos::Scheduler *process);
-    void shareMountProcess(Ekos::Mount *process);
+    void shareCaptureModule(Ekos::Capture *module);
+    void shareSchedulerModule(Ekos::Scheduler *module);
+    void shareMountModule(Ekos::Mount *module);
 
     /**
      * @brief display information about the currently running job
@@ -87,9 +87,9 @@ public slots:
     void updateCaptureCountDown(int delta);
 
 private:
-    Ekos::Scheduler *schedulerProcess = nullptr;
-    Ekos::Capture *captureProcess = nullptr;
-    Ekos::Mount *mountProcess = nullptr;
+    Ekos::Scheduler *schedulerModule = nullptr;
+    Ekos::Capture *captureModule = nullptr;
+    Ekos::Mount *mountModule = nullptr;
 
     // cache frame data
     CaptureProcessOverlay::FrameData m_currentFrame;

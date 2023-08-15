@@ -536,6 +536,10 @@ void TestEkosCaptureWorkflow::testFlatManualSource()
 
     // select manual flat method
     KTRY_SELECT_FLAT_METHOD(manualSourceC, false, false);
+    // ensure that the filter wheel is configured
+    KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo);
+    // wait until filter combo box is filled
+    QTRY_VERIFY_WITH_TIMEOUT(FilterPosCombo->count() > 0, 60000);
     // build a simple 1xL flat sequence
     KTRY_CAPTURE_ADD_FRAME("Flat", 1, 1, 0.0, "Luminance", imagepath);
     // build a simple 1xL light sequence

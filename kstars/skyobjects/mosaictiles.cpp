@@ -8,7 +8,6 @@
 
 #include "mosaictiles.h"
 #include "kstarsdata.h"
-#include "kstars.h"
 #include "Options.h"
 
 MosaicTiles::MosaicTiles() : SkyObject()
@@ -24,6 +23,7 @@ MosaicTiles::MosaicTiles() : SkyObject()
     m_TextPen.setWidth(2);
 
     m_FocalLength = Options::telescopeFocalLength();
+    m_FocalReducer = Options::telescopeFocalReducer();
     m_CameraSize.setWidth(Options::cameraWidth());
     m_CameraSize.setHeight(Options::cameraHeight());
     m_PixelSize.setWidth(Options::cameraPixelWidth());
@@ -480,11 +480,12 @@ QSize MosaicTiles::mosaicFOVToGrid() const
 
 QSizeF MosaicTiles::calculateCameraFOV() const
 {
+    auto reducedFocalLength = m_FocalLength * m_FocalReducer;
     // Calculate FOV in arcmins
     double const fov_x =
-        206264.8062470963552 * m_CameraSize.width() * m_PixelSize.width() / 60000.0 / m_FocalLength;
+        206264.8062470963552 * m_CameraSize.width() * m_PixelSize.width() / 60000.0 / reducedFocalLength;
     double const fov_y =
-        206264.8062470963552 * m_CameraSize.height() * m_PixelSize.height() / 60000.0 / m_FocalLength;
+        206264.8062470963552 * m_CameraSize.height() * m_PixelSize.height() / 60000.0 / reducedFocalLength;
     return QSizeF(fov_x, fov_y);
 }
 

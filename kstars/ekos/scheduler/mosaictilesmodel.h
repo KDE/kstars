@@ -21,6 +21,7 @@ class MosaicTilesModel : public QObject
 {
         Q_OBJECT
         Q_PROPERTY(double focalLength MEMBER m_FocalLength READ focalLength WRITE setFocalLength NOTIFY focalLengthChanged)
+        Q_PROPERTY(double focalReducer MEMBER m_FocalReducer READ focalReducer WRITE setFocalReducer NOTIFY focalReducerChanged)
         Q_PROPERTY(double positionAngle MEMBER m_PositionAngle READ positionAngle WRITE setPositionAngle NOTIFY positionAngleChanged)
         Q_PROPERTY(QSize cameraSize MEMBER m_CameraSize READ cameraSize WRITE setCameraSize NOTIFY cameraSizeChanged)
         Q_PROPERTY(QSizeF pixelSize MEMBER m_PixelSize READ pixelSize WRITE setPixelSize NOTIFY pixelSizeChanged)
@@ -95,6 +96,7 @@ class MosaicTilesModel : public QObject
 
         // Return Sky Point
         double focalLength() const {return m_FocalLength;}
+        double focalReducer() const {return m_FocalReducer;}
         double positionAngle() const {return m_PositionAngle;}
         QSize cameraSize() const {return m_CameraSize;}
         QSizeF pixelSize() const {return m_PixelSize;}
@@ -105,6 +107,7 @@ class MosaicTilesModel : public QObject
 
         // Setters
         void setFocalLength(double value) {m_FocalLength = value;}
+        void setFocalReducer(double value) {m_FocalReducer = value;}
         void setPositionAngle(double value);
         void setCameraSize(const QSize &value) { m_CameraSize = value;}
         void setPixelSize(const QSizeF &value) { m_PixelSize = value;}
@@ -121,6 +124,7 @@ class MosaicTilesModel : public QObject
 
     signals:
         void focalLengthChanged();
+        void focalReducerChanged();
         void cameraSizeChanged();
         void pixelSizeChanged();
         void pixelScaleChanged();
@@ -133,6 +137,7 @@ class MosaicTilesModel : public QObject
 
         // Overall properties
         double m_FocalLength {0};
+        double m_FocalReducer {1};
         QSize m_CameraSize;
         QSizeF m_PixelSize, m_PixelScale, m_cameraFOV, m_MosaicFOV;
         QSize m_GridSize {1,1};

@@ -174,6 +174,15 @@ class CaptureModuleState: public QObject
         // ////////////////////////////////////////////////////////////////////
         ShutterStatus shutterStatus { SHUTTER_UNKNOWN };
 
+
+        // ////////////////////////////////////////////////////////////////////
+        // state changes
+        // ////////////////////////////////////////////////////////////////////
+        /**
+         * @brief captureStarted The preparation to capture have been started.
+         */
+        void initCapturePreparation();
+
         // ////////////////////////////////////////////////////////////////////
         // state accessors
         // ////////////////////////////////////////////////////////////////////
@@ -310,6 +319,33 @@ class CaptureModuleState: public QObject
             m_lightBoxLightState = value;
         }
 
+        bool lightBoxLightEnabled() const
+        {
+            return m_lightBoxLightEnabled;
+        }
+        void setLightBoxLightEnabled(bool value)
+        {
+            m_lightBoxLightEnabled = value;
+        }
+
+        bool preMountPark() const
+        {
+            return m_preMountPark;
+        }
+        void setPreMountPark(bool value)
+        {
+            m_preMountPark = value;
+        }
+
+        bool preDomePark() const
+        {
+            return m_preDomePark;
+        }
+        void setPreDomePark(bool value)
+        {
+            m_preDomePark = value;
+        }
+
         CapState getDustCapState() const
         {
             return m_dustCapState;
@@ -367,19 +403,13 @@ class CaptureModuleState: public QObject
         {
             return m_TargetName;
         }
-        void setTargetName(const QString &newTargetName)
-        {
-            m_TargetName = newTargetName;
-        }
+        void setTargetName(const QString &value);
 
         const QString &observerName() const
         {
             return m_ObserverName;
         }
-        void setObserverName(const QString &newObserverName)
-        {
-            m_ObserverName = newObserverName;
-        }
+        void setObserverName(const QString &value);
 
         double getFileHFR() const
         {
@@ -488,9 +518,15 @@ class CaptureModuleState: public QObject
         {
             return m_capturedFramesMap[signature];
         }
-        void setCapturedFramesCount(const QString &signature, uint16_t count)
+        void setCapturedFramesCount(const QString &signature, uint16_t count);
+
+        double lastRemainingFrameTimeMS() const
         {
-            m_capturedFramesMap[signature] = count;
+            return m_lastRemainingFrameTimeMS;
+        }
+        void setLastRemainingFrameTimeMS(double value)
+        {
+            m_lastRemainingFrameTimeMS = value;
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -536,6 +572,32 @@ class CaptureModuleState: public QObject
         {
             return m_guideDeviationTimer;
         }
+
+        QTime &imageCountDown()
+        {
+            return m_imageCountDown;
+        }
+        void imageCountDownAddMSecs(int value)
+        {
+            m_imageCountDown = m_imageCountDown.addMSecs(value);
+        }
+
+        QTime &sequenceCountDown()
+        {
+            return m_sequenceCountDown;
+        }
+        void sequenceCountDownAddMSecs(int value)
+        {
+            m_sequenceCountDown = m_sequenceCountDown.addMSecs(value);
+        }
+
+        /**
+         * @brief changeSequenceValue Change a single sequence in the sequence array
+         * @param index position in the array
+         * @param key sequence key
+         * @param value new sequence value
+         */
+        void changeSequenceValue(int index, QString key, QString value);
 
         // ////////////////////////////////////////////////////////////////////
         // Action checks
@@ -593,6 +655,11 @@ class CaptureModuleState: public QObject
         bool checkAlignmentAfterFlip();
 
         /**
+         * @brief checkGuideDeviationTimeout Handle timeout when no guide deviation has been received.
+         */
+        void checkGuideDeviationTimeout();
+
+        /**
          * @brief Check if the mount's flip has been completed and start guiding
          * if necessary. Starting guiding after the meridian flip works through
          * the signal {@see startGuidingAfterFlip()}
@@ -627,7 +694,7 @@ class CaptureModuleState: public QObject
         }
 
         /**
-         * @brief Start focusing if necessary
+         * @brief Start focusing if necessary (see {@see RefocusState#checkFocusRequired()}).
          * @return TRUE if we need to run focusing, false if not necessary
          */
         bool startFocusIfRequired();
@@ -672,7 +739,6 @@ class CaptureModuleState: public QObject
             return (downloadsCounter == 0 ? 0 : totalDownloadTime / downloadsCounter);
         }
 
-
         /**
          * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
          * completed flat frames.
@@ -691,6 +757,101 @@ class CaptureModuleState: public QObject
          *        sequence should be file3.png.
          */
         void checkSeqBoundary(QUrl sequenceURL);
+
+        /**
+         * @brief isModelinDSLRInfo Check if the DSLR model is already known
+         */
+        bool isModelinDSLRInfo(const QString &model);
+
+        // ////////////////////////////////////////////////////////////////////
+        // Helper functions
+        // ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief activeJobID Determine the ID of the currently active job
+         */
+        int activeJobID();
+
+        /**
+         * @brief pPendingJobCount Returns the number of pending uncompleted jobs in the sequence queue.
+         */
+        int pendingJobCount();
+
+        /**
+         * @brief getJobState Returns the job state (Idle, In Progress, Error, Aborted, Complete)
+         * @param id job number. Job IDs start from 0 to N-1.
+         */
+
+        QString jobState(int id);
+
+        /**
+          * @brief jobFilterName Returns the job filter name.
+          * @param id job number. Job IDs start from 0 to N-1.
+          */
+        QString jobFilterName(int id);
+
+        /**
+         * @param id job number. Job IDs start from 0 to N-1.
+         * @return Returns the frame type (light, dark, ...) of the job.
+         */
+        CCDFrameType jobFrameType(int id);
+
+        /**
+         *  @brief jobImageProgress Returns The number of images completed capture in the job.
+         * @param id job number. Job IDs start from 0 to N-1.
+         */
+        int jobImageProgress(int id);
+
+        /**
+         * @param id job number. Job IDs start from 0 to N-1.
+         * @return Returns the total number of images to capture in the job.
+         */
+        int jobImageCount(int id);
+
+        /**
+         * @param id job number. Job IDs start from 0 to N-1.
+         * @return Returns the number of seconds left in an exposure operation.
+         */
+        double jobExposureProgress(int id);
+
+        /**
+         * @param id job number. Job IDs start from 0 to N-1.
+         * @return Returns the total requested exposure duration in the job.
+         */
+        double jobExposureDuration(int id);
+
+        /**
+          * @return Returns the percentage of completed captures in all active jobs
+          */
+        double progressPercentage();
+
+        /**
+         * @return Returns time left in seconds until active job is estimated to be complete.
+         */
+        int activeJobRemainingTime();
+
+        /**
+         * @return Returns overall time left in seconds until all jobs are estimated to be complete
+         */
+        int overallRemainingTime();
+
+        /**
+         * Returns the overall sequence queue status. If there are no jobs pending, it returns "Invalid". If all jobs are idle, it returns "Idle". If all jobs are complete, it returns "Complete". If one or more jobs are aborted
+         * it returns "Aborted" unless it was temporarily aborted due to guiding deviations, then it would return "Suspended". If one or more jobs have errors, it returns "Error". If any jobs is under progress, returns "Running".
+         */
+        QString sequenceQueueStatus();
+
+        /**
+         * @brief getCalibrationSettings Get Calibration settings
+         * @return settings as JSON object
+         */
+        QJsonObject calibrationSettings();
+
+        /**
+         * @brief setCalibrationSettings Set Calibration settings
+         * @param settings as JSON object
+         */
+        void setCalibrationSettings(const QJsonObject &settings);
 
         /**
          * @brief hasCapturedFramesMap Check if at least one frame has been recorded
@@ -728,13 +889,29 @@ class CaptureModuleState: public QObject
         {
             m_CaptureScriptType = value;
         }
+                double targetADU() const
+        {
+            return m_targetADU;
+        }
+        void setTargetADU(double value)
+        {
+            m_targetADU = value;
+        }
         double targetADUTolerance() const
         {
             return m_TargetADUTolerance;
         }
-        void setTargetADUTolerance(double newTargetADUTolerance)
+        void setTargetADUTolerance(double value)
         {
-            m_TargetADUTolerance = newTargetADUTolerance;
+            m_TargetADUTolerance = value;
+        }        
+        SkyPoint &wallCoord()
+        {
+            return m_wallCoord;
+        }
+        void setWallCoord(SkyPoint value)
+        {
+            m_wallCoord = value;
         }
         const DoubleRange &exposureRange() const
         {
@@ -755,6 +932,36 @@ class CaptureModuleState: public QObject
             m_frameSettings = value;
         }
 
+        FlatFieldDuration flatFieldDuration() const
+        {
+            return m_flatFieldDuration;
+        }
+        void setFlatFieldDuration(FlatFieldDuration value)
+        {
+            m_flatFieldDuration = value;
+        }
+
+        FlatFieldSource flatFieldSource() const
+        {
+            return m_flatFieldSource;
+        }
+        void setFlatFieldSource(FlatFieldSource value)
+        {
+            m_flatFieldSource = value;
+        }
+
+        QList<QMap<QString, QVariant> > &DSLRInfos()
+        {
+            return m_DSLRInfos;
+        }
+        QMap<ScriptTypes, QString> &scripts()
+        {
+            return m_Scripts;
+        }
+        void setScripts(QMap<ScriptTypes, QString> value)
+        {
+            m_Scripts = value;
+        }
 
     signals:
         // controls for capture execution
@@ -765,6 +972,8 @@ class CaptureModuleState: public QObject
         void executeActiveJob();
         void updatePrepareState(CaptureState state);
         void captureStarted(CAPTUREResult rc);
+        // new target to be captured
+        void newTargetName(QString name);
         // mount meridian flip status update event
         void newMeridianFlipStage(MeridianFlipState::MFStage status);
         // meridian flip started
@@ -793,6 +1002,8 @@ class CaptureModuleState: public QObject
         void newLimitFocusHFR(double hfr);
         // Select the filter at the given position
         void newFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES);
+        // capture sequence status changes
+        void sequenceChanged(const QJsonArray &sequence);
         // new log text for the module log window
         void newLog(const QString &text);
 
@@ -807,6 +1018,8 @@ private:
         QSharedPointer<FITSData> m_ImageData;
         // CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> m_frameSettings;
+        // DSLR Infos
+        QList<QMap<QString, QVariant>> m_DSLRInfos;
 
         // current filter position
         // TODO: check why we have both currentFilterID and this, seems redundant
@@ -815,6 +1028,8 @@ private:
         QString m_CurrentFilterName { "--" };
         // holds the filter name used for focusing or "--" if the current one is used
         QString m_CurrentFocusFilterName { "--" };
+        // pre/post capture/sequence scripts
+        QMap<ScriptTypes, QString> m_Scripts;
         // HFR value as loaded from the sequence file
         double m_fileHFR { 0 };
         // Captured Frames Map
@@ -839,9 +1054,14 @@ private:
         QTimer m_captureTimeout;
         uint8_t m_CaptureTimeoutCounter { 0 };
         uint8_t m_DeviceRestartCounter { 0 };
+        // time left of the current exposure
+        QTime m_imageCountDown;
+        double m_lastRemainingFrameTimeMS;
         // Timer for starting the next capture sequence with delay
         // @see Capture::startNextExposure()
         QTimer m_seqDelayTimer;
+        // time left for the current sequence
+        QTime m_sequenceCountDown;
         // timer for updating the download progress
         QTimer m_downloadProgressTimer;
         // timer measuring the download time
@@ -872,6 +1092,13 @@ private:
         ScriptTypes m_CaptureScriptType { SCRIPT_N };
         // Flat field automation
         double m_TargetADUTolerance { 1000 };
+        double m_targetADU { 0 };
+        SkyPoint m_wallCoord;
+        bool m_preMountPark { false };
+        bool m_preDomePark { false };
+        FlatFieldDuration m_flatFieldDuration { DURATION_MANUAL };
+        FlatFieldSource m_flatFieldSource { SOURCE_MANUAL };
+        bool m_lightBoxLightEnabled { false };
         // Allowed camera exposure times
         DoubleRange m_ExposureRange;
         // Misc

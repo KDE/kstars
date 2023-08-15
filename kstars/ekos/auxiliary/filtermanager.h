@@ -70,8 +70,15 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void refreshFilterModel();
 
         QStringList getFilterLabels(bool forceRefresh = false);
-
         int getFilterPosition(bool forceRefresh = false);
+        /**
+         * @brief refreshFilterLabels Update the filter labels from the device and signal changes.
+         */
+        void refreshFilterLabels();
+        /**
+         * @brief refreshFilterPos Update the filter wheel position and signal changes.
+         */
+        void refreshFilterPosition();
 
         // The target position and offset
         int getTargetFilterPosition()

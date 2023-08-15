@@ -198,10 +198,12 @@ void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
                 Qt::UniqueConnection);
         connectRotator(currentSequenceJobState.data());
 
-        emit newRotatorAngle(device->absoluteAngle(), device->absoluteAngleState());
-        emit rotatorReverseToggled(device->isReversed());
-
+        emit newRotator(device->getDeviceName());
     }
+    else
+        // no rotator present
+        emit newRotator("");
+
 }
 
 void CaptureDeviceAdaptor::connectRotator(SequenceJobState *state)
@@ -265,9 +267,9 @@ void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
     // disconnect device events if the new device is not empty
     if (m_ActiveCamera != nullptr)
     {
-        disconnect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
-                   &CaptureDeviceAdaptor::newCCDTemperatureValue);
+        m_ActiveCamera->disconnect(this);
         disconnectActiveCamera(currentSequenceJobState.data());
+
     }
 
     // store the link to the new device
@@ -279,8 +281,51 @@ void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
         // publish device events
         connect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
                 &CaptureDeviceAdaptor::newCCDTemperatureValue, Qt::UniqueConnection);
-        connectActiveCamera(currentSequenceJobState.data());
+        connect(m_ActiveCamera, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            emit CameraConnected(true);
+        });
+        connect(m_ActiveCamera, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            emit CameraConnected(false);
+        });
+
+        if (m_ActiveCamera->hasGuideHead())
+            addGuideHead(device);
     }
+    connectActiveCamera(currentSequenceJobState.data());
+
+    // communicate new camera
+    emit newCamera(device == nullptr ? "" : device->getDeviceName());
+}
+
+void CaptureDeviceAdaptor::setFilterWheel(ISD::FilterWheel *device)
+{
+    if (m_ActiveFilterWheel == device)
+        return;
+
+    // disconnect device events if the new device is not empty
+    if (m_ActiveFilterWheel != nullptr)
+        m_ActiveFilterWheel->disconnect(this);
+
+    // store the link to the new device
+    m_ActiveFilterWheel = device;
+
+    // connect device events if the new device is not empty
+    if (m_ActiveFilterWheel != nullptr)
+    {
+        connect(m_ActiveFilterWheel, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            emit FilterWheelConnected(true);
+        });
+        connect(m_ActiveFilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            emit FilterWheelConnected(false);
+        });
+    }
+
+    // communicate new device
+    emit newFilterWheel(device == nullptr ? "" : device->getDeviceName());
 }
 
 void CaptureDeviceAdaptor::connectActiveCamera(SequenceJobState *state)

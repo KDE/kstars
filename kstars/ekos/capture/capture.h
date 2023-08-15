@@ -76,10 +76,22 @@ class SequenceJob;
 /**
  *@class Capture
  *@short Captures single or sequence of images from a CCD.
- * The capture class support capturing single or multiple images from a CCD, it provides a powerful sequence queue with filter wheel selection. Any sequence queue can be saved as Ekos Sequence Queue (.esq).
- * All image capture operations are saved as Sequence Jobs that encapsulate all the different options in a capture process. The user may select in sequence autofocusing by setting a maximum HFR limit. When the limit
- * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
+ * The capture class support capturing single or multiple images from a CCD, it provides a
+ * powerful sequence queue with filter selection. Any sequence queue can be saved as
+ * Ekos Sequence Queue (.esq). All image capture operations are saved as Sequence Jobs
+ * that encapsulate all the different options in a capture process. The user may select in
+ * sequence autofocusing by setting limits for HFR, execution time or temperature delta. When the limit
+ * is exceeded, it automatically trigger autofocus operation. The capture process can also be
+ * linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
  * the guiding deviation resume to acceptable levels and the capture operation is resumed.
+ *
+ * Controlling the capturing execution is a complex process, that is controlled by
+ * these classes:
+ * - this class, that controll the UI and is the interface for all DBUS functions
+ * - {@see CaptureModuleState} holds all state informations
+ * - {@see CaptureProcess} holds the business logic that controls the process
+ * For ore details about the capturing execution process, please visit {@see CaptureProcess}.
+ *
  *@author Jasem Mutlaq
  *@version 1.4
  */
@@ -142,7 +154,10 @@ class Capture : public QWidget, public Ui::Capture
              * Returns the overall sequence queue status. If there are no jobs pending, it returns "Invalid". If all jobs are idle, it returns "Idle". If all jobs are complete, it returns "Complete". If one or more jobs are aborted
              * it returns "Aborted" unless it was temporarily aborted due to guiding deviations, then it would return "Suspended". If one or more jobs have errors, it returns "Error". If any jobs is under progress, returns "Running".
              */
-        Q_SCRIPTABLE QString getSequenceQueueStatus();
+        Q_SCRIPTABLE QString getSequenceQueueStatus()
+        {
+            return state()->sequenceQueueStatus();
+        }
 
         /** DBUS interface function.
              * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
@@ -174,88 +189,130 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Does the CCD has a cooler control (On/Off) ?
              */
-        Q_SCRIPTABLE bool hasCoolerControl();
+        Q_SCRIPTABLE bool hasCoolerControl()
+        {
+            return process()->hasCoolerControl();
+        }
 
         /** DBUS interface function.
              * Set the CCD cooler ON/OFF
              *
              */
-        Q_SCRIPTABLE bool setCoolerControl(bool enable);
+        Q_SCRIPTABLE bool setCoolerControl(bool enable)
+        {
+            return process()->setCoolerControl(enable);
+        }
 
         /** DBUS interface function.
              * @return Returns the percentage of completed captures in all active jobs
              */
-        Q_SCRIPTABLE double getProgressPercentage();
+        Q_SCRIPTABLE double getProgressPercentage()
+        {
+            return state()->progressPercentage();
+        }
 
         /** DBUS interface function.
              * @return Returns the number of jobs in the sequence queue.
              */
         Q_SCRIPTABLE int getJobCount()
         {
-            return m_captureModuleState->allJobs().count();
+            return state()->allJobs().count();
         }
 
         /** DBUS interface function.
              * @return Returns the number of pending uncompleted jobs in the sequence queue.
              */
-        Q_SCRIPTABLE int getPendingJobCount();
+        Q_SCRIPTABLE int getPendingJobCount()
+        {
+            return state()->pendingJobCount();
+        }
 
         /** DBUS interface function.
              * @return Returns ID of current active job if any, or -1 if there are no active jobs.
              */
-        Q_SCRIPTABLE int getActiveJobID();
+        Q_SCRIPTABLE int getActiveJobID()
+        {
+            return state()->activeJobID();
+        }
 
         /** DBUS interface function.
              * @return Returns time left in seconds until active job is estimated to be complete.
              */
-        Q_SCRIPTABLE int getActiveJobRemainingTime();
+        Q_SCRIPTABLE int getActiveJobRemainingTime()
+        {
+            return state()->activeJobRemainingTime();
+        }
 
         /** DBUS interface function.
              * @return Returns overall time left in seconds until all jobs are estimated to be complete
              */
-        Q_SCRIPTABLE int getOverallRemainingTime();
+        Q_SCRIPTABLE int getOverallRemainingTime()
+        {
+            return state()->overallRemainingTime();
+        }
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns the job state (Idle, In Progress, Error, Aborted, Complete)
              */
-        Q_SCRIPTABLE QString getJobState(int id);
+        Q_SCRIPTABLE QString getJobState(int id)
+        {
+            return state()->jobState(id);
+        }
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns the job filter name.
              */
-        Q_SCRIPTABLE QString getJobFilterName(int id);
+        Q_SCRIPTABLE QString getJobFilterName(int id)
+        {
+            return state()->jobFilterName(id);
+        }
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns The number of images completed capture in the job.
              */
-        Q_SCRIPTABLE int getJobImageProgress(int id);
+        Q_SCRIPTABLE int getJobImageProgress(int id)
+        {
+            return state()->jobImageProgress(id);
+        }
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns the total number of images to capture in the job.
              */
-        Q_SCRIPTABLE int getJobImageCount(int id);
+        Q_SCRIPTABLE int getJobImageCount(int id)
+        {
+            return state()->jobImageCount(id);
+        }
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns the number of seconds left in an exposure operation.
              */
-        Q_SCRIPTABLE double getJobExposureProgress(int id);
+        Q_SCRIPTABLE double getJobExposureProgress(int id)
+        {
+            return state()->jobExposureProgress(id);
+        }
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns the total requested exposure duration in the job.
              */
-        Q_SCRIPTABLE double getJobExposureDuration(int id);
+        Q_SCRIPTABLE double getJobExposureDuration(int id)
+        {
+            return state()->jobExposureDuration(id);
+        }
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns the frame type (light, dark, ...) of the job.
              */
-        Q_SCRIPTABLE CCDFrameType getJobFrameType(int id);
+        Q_SCRIPTABLE CCDFrameType getJobFrameType(int id)
+        {
+            return state()->jobFrameType(id);
+        }
 
         /** DBUS interface function.
              * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.
@@ -274,7 +331,10 @@ class Capture : public QWidget, public Ui::Capture
              * is set to 1, then we continue to capture frame #2 even though the number of completed images is already
              * larger than required count (5). It is mostly used in conjunction with Ekos Scheduler.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count);
+        Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count)
+        {
+            state()->setCapturedFramesCount(signature, static_cast<ushort>(count));
+        };
 
 
         /** DBUS interface function.
@@ -298,7 +358,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE CaptureState status()
         {
-            return m_captureModuleState->getCaptureState();
+            return state()->getCaptureState();
         }
         /** @} end of group CaptureDBusInterface */
 
@@ -312,59 +372,27 @@ class Capture : public QWidget, public Ui::Capture
          * @param device pointer to camera device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool setCamera(ISD::Camera *device);
-
-        // FIXME add support for guide head, not implemented yet
-        void addGuideHead(ISD::Camera *device);
+        bool updateCamera();
 
         /**
          * @brief Add new Filter Wheel
-         * @param device pointer to filter wheel device.
-         * @return True if added successfully, false if duplicate or failed to add.
+         * @param name device name of the new filter wheel
         */
-        bool setFilterWheel(ISD::FilterWheel *device);
-
-        /**
-         * @brief Add new Dome
-         * @param device pointer to Dome device.
-         * @return True if added successfully, false if duplicate or failed to add.
-        */
-        bool setDome(ISD::Dome *device);
-
-        /**
-         * @brief Add new Dust Cap
-         * @param device pointer to Dust Cap device.
-         * @return True if added successfully, false if duplicate or failed to add.
-        */
-        bool setDustCap(ISD::DustCap *device);
-
-        /**
-         * @brief Add new Light Box
-         * @param device pointer to Light Box device.
-         * @return True if added successfully, false if duplicate or failed to add.
-        */
-        bool setLightBox(ISD::LightBox *device);
-
-        /**
-         * @brief Add new Mount
-         * @param device pointer to Mount device.
-         * @return True if added successfully, false if duplicate or failed to add.
-        */
-        bool setMount(ISD::Mount *device);
+        void setFilterWheel(QString name);
 
         /**
          * @brief Add new Rotator
-         * @param device pointer to rotator device.
+         * @param name name of the new rotator
         */
-        void setRotator(ISD::Rotator *device);
-
-        // Restart driver
-        void reconnectDriver(const QString &camera, const QString &filterWheel);
+        void setRotator(QString name);
 
         /**
          * @brief Generic method for removing any connected device.
          */
-        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
+        {
+            process()->removeDevice(device);
+        }
 
         /**
          * @brief registerNewModule Register an Ekos module as it arrives via DBus
@@ -378,9 +406,7 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
 
         void syncFrameType(const QString &name);
-        void syncTelescopeInfo();
         void syncCameraInfo();
-        void syncFilterInfo();
 
         // ////////////////////////////////////////////////////////////////////
         // Optical Train handling
@@ -418,7 +444,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief checkFilter Refreshes the filter wheel information in the capture module.
          */
-        void checkFilter();
+        void refreshFilterSettings();
 
         /**
          * @brief shortcut for updating the current filter information for the state machine
@@ -435,7 +461,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         const QJsonArray &getSequence() const
         {
-            return m_captureModuleState->getSequence();
+            return state()->getSequence();
         }
 
         /**
@@ -465,12 +491,19 @@ class Capture : public QWidget, public Ui::Capture
          * @brief setCalibrationSettings Set Calibration settings
          * @param settings as JSON object
          */
-        void setCalibrationSettings(const QJsonObject &settings);
+        void setCalibrationSettings(const QJsonObject &settings)
+        {
+            state()->setCalibrationSettings(settings);
+        }
+
         /**
          * @brief getCalibrationSettings Get Calibration settings
          * @return settings as JSON object
          */
-        QJsonObject getCalibrationSettings();
+        QJsonObject getCalibrationSettings()
+        {
+            return state()->calibrationSettings();
+        }
 
         /**
          * @brief setLimitSettings Set limit settings
@@ -504,13 +537,6 @@ class Capture : public QWidget, public Ui::Capture
          * @param pixelH Pizel vertical size in microns
          */
         void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
-
-        /**
-         * @brief syncDSLRToTargetChip Syncs INDI driver CCD_INFO property to the DSLR values.
-         * This include Max width, height, and pixel sizes.
-         * @param model Name of camera driver in the DSLR database.
-         */
-        void syncDSLRToTargetChip(const QString &model);
 
         void openExposureCalculatorDialog();
 
@@ -549,7 +575,10 @@ class Capture : public QWidget, public Ui::Capture
              *        CAPTURE_SUSPEND: capture suspended and waiting to be restarted
              * @param targetState status of the job after stop
              */
-        Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE);
+        Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE)
+        {
+            process()->stopCapturing(targetState);
+        };
 
         /** DBUS interface function.
              * Aborts all jobs and mark current state as ABORTED. It simply calls stop(CAPTURE_ABORTED)
@@ -588,45 +617,63 @@ class Capture : public QWidget, public Ui::Capture
              * Toggle video streaming if supported by the device.
              * @param enabled Set to true to start video streaming, false to stop it if active.
              */
-        Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled);
+        Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled)
+        {
+            process()->toggleVideo(enabled);
+        };
 
 
         /** DBus interface function
          * @brief restartCamera Restarts the INDI driver associated with a camera. Remote and Local drivers are supported.
          * @param name Name of camera to restart. If a driver defined multiple cameras, they would be removed and added again
          * after driver restart.
-         * @note Restarting camera should only be used as a last resort when it comes completely unresponsive. Due the complex
-         * nature of driver interactions with Ekos, restarting cameras can lead to unexpected behavior.
          */
-        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name);
+        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name)
+        {
+            process()->restartCamera(name);
+        };
 
         /** DBus interface function
          * @brief Set the name of the target to be captured.
          */
-        Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
+        Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName)
+        {
+            state()->setTargetName(newTargetName);
+        };
         Q_SCRIPTABLE QString getTargetName()
         {
-            return m_captureModuleState->targetName();
+            return state()->targetName();
         }
 
         /** DBus interface function
          * @brief Set the observer name.
          */
-        Q_SCRIPTABLE Q_NOREPLY void setObserverName(const QString &value);
+        Q_SCRIPTABLE Q_NOREPLY void setObserverName(const QString &value)
+        {
+            state()->setObserverName(value);
+        };
         Q_SCRIPTABLE QString getObserverName()
         {
-            return m_captureModuleState->observerName();
+            return state()->observerName();
         }
 
 
         /** @}*/
 
+        /**
+         * @brief process shortcut for the process engine
+         */
+        QPointer<CaptureProcess> process() const
+        {
+            return m_captureProcess;
+        }
+
         // ////////////////////////////////////////////////////////////////////
-        // Capture actons
+        // Capture actions
         // ////////////////////////////////////////////////////////////////////
         /**
-             * @brief captureOne Capture one preview image
-             */
+         * @brief captureOne Capture one preview image
+         */
         void captureOne();
 
         /**
@@ -678,7 +725,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
              * @brief checkCamera Refreshes the CCD information in the capture module.
              */
-        void checkCamera();
+        void refreshCameraSettings();
 
 
         /**
@@ -699,8 +746,11 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief MeridianFlipState Access to the meridian flip state machine
          */
-        QSharedPointer<MeridianFlipState> getMeridianFlipState();
-        void setMeridianFlipState(QSharedPointer<MeridianFlipState> state);
+        QSharedPointer<MeridianFlipState> getMeridianFlipState()
+        {
+            return state()->getMeridianFlipState();
+        }
+        void setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate);
 
         // ////////////////////////////////////////////////////////////////////
         // UI controls
@@ -737,9 +787,21 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /**
+         * @brief updateTargetName React upon a new capture target name
+         */
+        void newTargetName(const QString &name);
+
+        /**
          * @brief showTemperatureRegulation Toggle temperature regulation dialog which sets temperature ramp and threshold
          */
         void showTemperatureRegulation();
+
+        /**
+         * @brief updateStartButtons Update the start and the pause button to new states of capturing
+         * @param start start capturing
+         * @param pause pause capturing
+         */
+        void updateStartButtons(bool start, bool pause = false);
 
         // Clear Camera Configuration
         void clearCameraConfiguration();
@@ -751,7 +813,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief captureStarted Manage the result when capturing has been started
          */
-        void captureStarted(CaptureModuleState::CAPTUREResult rc);
+        void captureStarted();
 
         /**
              * @brief setGuideDeviation Set the guiding deviation as measured by the guiding module. Abort capture
@@ -774,18 +836,22 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief setFocusStatus Forward the new focus state to the capture module state machine
          */
-        void setFocusStatus(FocusState state);
+        void setFocusStatus(FocusState newstate);
 
         /**
          * @brief updateFocusStatus Handle new focus state
          */
-        void updateFocusStatus(FocusState state);
+        void updateFocusStatus(FocusState newstate);
 
         // Adaptive Focus
         /**
          * @brief focusAdaptiveComplete Forward the new focus state to the capture module state machine
          */
-        void focusAdaptiveComplete(bool success);
+        void focusAdaptiveComplete(bool success)
+        {
+            // directly forward it to the state machine
+            state()->updateAdaptiveFocusState(success);
+        }
 
         /**
          * @brief updateAdaptiveFocusStatus Handle new focus state
@@ -798,25 +864,22 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setHFR(double newHFR, int)
         {
-            m_captureModuleState->getRefocusState()->setFocusHFR(newHFR);
+            state()->getRefocusState()->setFocusHFR(newHFR);
         }
 
         // Filter
         void setFilterStatus(FilterState filterState);
 
         // Guide
-        void setGuideStatus(GuideState state);
+        void setGuideStatus(GuideState newstate);
 
         // Align
 
-        void setAlignStatus(Ekos::AlignState state);
+        void setAlignStatus(Ekos::AlignState newstate);
         void setAlignResults(double solverPA, double ra, double de, double pixscale);
 
         // Update Mount module status
         void setMountStatus(ISD::Mount::Status newState);
-
-        // Meridian flip interface
-        void updateMFMountState(MeridianFlipState::MeridianFlipMountState status);
 
         // ////////////////////////////////////////////////////////////////////
         // Module logging
@@ -831,7 +894,6 @@ class Capture : public QWidget, public Ui::Capture
         // UI controls
         // ////////////////////////////////////////////////////////////////////
         void checkFrameType(int index);
-        void resetFrame();
         void updateCaptureCountDown(int deltaMillis);
         void saveFITSDirectory();
 
@@ -858,10 +920,6 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // slots handling device and module events
         // ////////////////////////////////////////////////////////////////////
-        void setExposureProgress(ISD::CameraChip *tChip, double value, IPState state);
-
-        // AutoGuide
-        void checkGuideDeviationTimeout();
 
         // Script Manager
         void handleScriptsManager();
@@ -882,7 +940,7 @@ class Capture : public QWidget, public Ui::Capture
          * @brief setDownloadProgress update the Capture Module and Summary
          *        Screen's estimate of how much time is left in the download
          */
-        void setDownloadProgress();
+        void updateDownloadProgress(double downloadTimeLeft);
 
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
@@ -947,6 +1005,11 @@ class Capture : public QWidget, public Ui::Capture
         void imageCapturingCompleted();
 
         /**
+         * @brief captureStopped Capturing has stopped
+         */
+        void captureStopped();
+
+        /**
          * @brief processFITSfinished processing new FITS data received from camera finished.
          * @param success true iff processing was successful
          */
@@ -959,6 +1022,32 @@ class Capture : public QWidget, public Ui::Capture
         // helper functions
         // ////////////////////////////////////////////////////////////////////
 
+        /**
+         * @brief findExecutableJob find next job to be executed
+         */
+        SequenceJob *findNextPendingJob();
+
+        // shortcut for the module state
+        QSharedPointer<CaptureModuleState> state() const
+        {
+            return m_captureModuleState;
+        }
+        // shortcut to device adapter
+        QSharedPointer<CaptureDeviceAdaptor> devices()
+        {
+            return m_captureDeviceAdaptor;
+        }
+        // shortcut for the active job
+        SequenceJob *activeJob() const
+        {
+            return state()->getActiveJob();
+        }
+        // Shortcut to the active camera held in the device adaptor
+        ISD::Camera *activeCamera()
+        {
+            return m_captureDeviceAdaptor->getActiveCamera();
+        }
+
         // Filename preview
         void generatePreviewFilename();
         QString previewFilename(FilenamePreviewType = LOCAL_PREVIEW);
@@ -966,8 +1055,6 @@ class Capture : public QWidget, public Ui::Capture
         void setBusy(bool enable);
 
         /* Capture */
-        bool isModelinDSLRInfo(const QString &model);
-
         void createDSLRDialog();
 
         void resetFrameToZero();
@@ -978,12 +1065,20 @@ class Capture : public QWidget, public Ui::Capture
         void syncRefocusOptionsFromGUI();
 
         /**
-         * @brief changeSequenceValue Change a single sequence in the sequence array
-         * @param index position in the array
-         * @param key sequence key
-         * @param value new sequence value
+         * @brief currentScope Retrieve the scope parameters from the optical train.
          */
-        void changeSequenceValue(int index, QString key, QString value);
+        QJsonObject currentScope();
+
+        /**
+         * @brief currentReducer Retrieve the reducer parameters from the optical train.
+         */
+        double currentReducer();
+
+        /**
+         * @brief currentAperture Determine the current aperture
+         * @return
+         */
+        double currentAperture();
 
         // ////////////////////////////////////////////////////////////////////
         // UI controls
@@ -1052,11 +1147,6 @@ class Capture : public QWidget, public Ui::Capture
         double seqExpose { 0 };
         int seqTotalCount;
         int seqCurrentCount { 0 };
-        // time left of the current exposure
-        QTime imageCountDown;
-        double lastRemainingFrameTimeMS;
-        // time left for the current sequence
-        QTime sequenceCountDown;
 
         QPointer<CaptureProcess> m_captureProcess;
         QSharedPointer<CaptureModuleState> m_captureModuleState;
@@ -1067,37 +1157,12 @@ class Capture : public QWidget, public Ui::Capture
         bool m_JobUnderEdit { false };
 
         // Flat field automation
-        double targetADU { 0 };
-        SkyPoint wallCoord;
-        bool preMountPark { false };
-        bool preDomePark { false };
-        FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
-        FlatFieldSource flatFieldSource { SOURCE_MANUAL };
-        bool lightBoxLightEnabled { false };
         QMap<ScriptTypes, QString> m_Scripts;
 
         QUrl dirPath;
 
-        /// CCD device needed for focus operation
-        ISD::Camera *m_Camera { nullptr };
-        /// Optional device filter
-        ISD::FilterWheel *m_FilterWheel { nullptr };
-        /// Dust Cap
-        ISD::DustCap *m_DustCap { nullptr };
-        /// LightBox
-        ISD::LightBox *m_LightBox { nullptr };
-        /// Rotator
-        ISD::Rotator *m_Rotator { nullptr };
-        /// Dome
-        ISD::Dome *m_Dome { nullptr };
-        /// Mount
-        ISD::Mount *m_Mount { nullptr };
-
         std::unique_ptr<CustomProperties> customPropertiesDialog;
         std::unique_ptr<DSLRInfo> dslrInfoDialog;
-
-        // DSLR Infos
-        QList<QMap<QString, QVariant>> DSLRInfos;
 
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };
@@ -1111,11 +1176,6 @@ class Capture : public QWidget, public Ui::Capture
 
         QSharedPointer<FilterManager> m_FilterManager;
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;
-
-        double m_FocalLength {-1};
-        double m_Aperture {-1};
-        double m_FocalRatio {-1};
-        double m_Reducer = {-1};
 
 };
 

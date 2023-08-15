@@ -11,6 +11,8 @@
 #include "ksnotification.h"
 #include <ekos_capture_debug.h>
 
+#define GD_TIMER_TIMEOUT    60000
+
 namespace Ekos
 {
 CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
@@ -18,6 +20,15 @@ CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
     m_refocusState.reset(new RefocusState());
     m_TargetADUTolerance = Options::calibrationADUValueTolerance();
     connect(m_refocusState.get(), &RefocusState::newLog, this, &CaptureModuleState::newLog);
+
+    getGuideDeviationTimer().setInterval(GD_TIMER_TIMEOUT);
+    connect(&m_guideDeviationTimer, &QTimer::timeout, this, &CaptureModuleState::checkGuideDeviationTimeout);
+
+    setFlatFieldSource(static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex()));
+    setFlatFieldDuration(static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex()));
+    wallCoord().setAz(Options::calibrationWallAz());
+    wallCoord().setAlt(Options::calibrationWallAlt());
+    setTargetADU(Options::calibrationADUValue());
 }
 
 void CaptureModuleState::setActiveJob(SequenceJob *value)
@@ -68,6 +79,56 @@ void CaptureModuleState::setActiveJob(SequenceJob *value)
         m_activeJob->updateDeviceStates();
         m_activeJob->setAutoFocusReady(getRefocusState()->isAutoFocusReady());
     }
+
+}
+
+int CaptureModuleState::activeJobID()
+{
+    if (m_activeJob == nullptr)
+        return -1;
+
+    for (int i = 0; i < allJobs().count(); i++)
+    {
+        if (m_activeJob == allJobs().at(i))
+            return i;
+    }
+
+    return -1;
+
+}
+
+void CaptureModuleState::initCapturePreparation()
+{
+    setStartingCapture(false);
+
+    // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
+    setIgnoreJobProgress(!hasCapturedFramesMap() && Options::alwaysResetSequenceWhenStarting());
+
+    // Refocus timer should not be reset on deviation error
+    if (isGuidingDeviationDetected() == false && getCaptureState() != CAPTURE_SUSPENDED)
+    {
+        // start timer to measure time until next forced refocus
+        getRefocusState()->startRefocusTimer();
+    }
+
+    // Only reset these counters if we are NOT restarting from deviation errors
+    // So when starting a new job or fresh then we reset them.
+    if (isGuidingDeviationDetected() == false)
+    {
+        resetDitherCounter();
+        getRefocusState()->resetInSequenceFocusCounter();
+        getRefocusState()->setAdaptiveFocusDone(false);
+    }
+
+    setGuidingDeviationDetected(false);
+    resetSpikesDetected();
+
+    setCaptureState(CAPTURE_PROGRESS);
+    setBusy(true);
+
+    if (Options::enforceGuideDeviation() && isGuidingOn() == false)
+        emit newLog(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
+
 
 }
 
@@ -215,9 +276,29 @@ void CaptureModuleState::setMeridianFlipState(QSharedPointer<MeridianFlipState> 
 {
     // clear old state machine
     if (! mf_state.isNull())
+    {
+        mf_state->disconnect(this);
         mf_state->deleteLater();
+    }
 
     mf_state = state;
+    connect(mf_state.data(), &Ekos::MeridianFlipState::newMountMFStatus, this, &Ekos::CaptureModuleState::updateMFMountState,
+            Qt::UniqueConnection);
+}
+
+void CaptureModuleState::setTargetName(const QString &value)
+{
+    if (isCaptureRunning() == false)
+    {
+        m_TargetName = value;
+        emit newTargetName(value);
+    }
+}
+
+void CaptureModuleState::setObserverName(const QString &value)
+{
+    m_ObserverName = value;
+    Options::setDefaultObserver(value);
 }
 
 void CaptureModuleState::setBusy(bool busy)
@@ -511,6 +592,7 @@ void CaptureModuleState::updateAdaptiveFocusState(bool success)
         m_activeJob->setAutoFocusReady(true);
 
     setFocusState(FOCUS_COMPLETE);
+    emit newLog(i18n(success ? "Adaptive focus complete." : "Adaptive focus failed. Continuing..."));
 }
 
 void CaptureModuleState::updateFocusState(FocusState state)
@@ -692,6 +774,22 @@ bool CaptureModuleState::checkAlignmentAfterFlip()
     else
         // in all other cases, do not touch
         return false;
+}
+
+void CaptureModuleState::checkGuideDeviationTimeout()
+{
+    if (m_activeJob && m_activeJob->getStatus() == JOB_ABORTED
+            && isGuidingDeviationDetected())
+    {
+        appendLogText(i18n("Guide module timed out."));
+        setGuidingDeviationDetected(false);
+
+        // If capture was suspended, it should be aborted (failed) now.
+        if (m_CaptureState == CAPTURE_SUSPENDED)
+        {
+            setCaptureState(CAPTURE_ABORTED);
+        }
+    }
 }
 
 void CaptureModuleState::setGuideDeviation(double deviation_rms)
@@ -879,6 +977,228 @@ void CaptureModuleState::addDownloadTime(double time)
     downloadsCounter++;
 }
 
+int CaptureModuleState::pendingJobCount()
+{
+    int completedJobs = 0;
+
+    foreach (SequenceJob * job, allJobs())
+    {
+        if (job->getStatus() == JOB_DONE)
+            completedJobs++;
+    }
+
+    return (allJobs().count() - completedJobs);
+
+}
+
+QString CaptureModuleState::jobState(int id)
+{
+    if (id < allJobs().count())
+    {
+        SequenceJob * job = allJobs().at(id);
+        return job->getStatusString();
+    }
+
+    return QString();
+
+}
+
+QString CaptureModuleState::jobFilterName(int id)
+{
+    if (id < allJobs().count())
+    {
+        SequenceJob * job = allJobs().at(id);
+        return job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+    }
+
+    return QString();
+
+}
+
+CCDFrameType CaptureModuleState::jobFrameType(int id)
+{
+    if (id < allJobs().count())
+    {
+        SequenceJob * job = allJobs().at(id);
+        return job->getFrameType();
+    }
+
+    return FRAME_NONE;
+}
+
+int CaptureModuleState::jobImageProgress(int id)
+{
+    if (id < allJobs().count())
+    {
+        SequenceJob * job = allJobs().at(id);
+        return job->getCompleted();
+    }
+
+    return -1;
+}
+
+int CaptureModuleState::jobImageCount(int id)
+{
+    if (id < allJobs().count())
+    {
+        SequenceJob * job = allJobs().at(id);
+        return job->getCoreProperty(SequenceJob::SJ_Count).toInt();
+    }
+
+    return -1;
+}
+
+double CaptureModuleState::jobExposureProgress(int id)
+{
+    if (id < allJobs().count())
+    {
+        SequenceJob * job = allJobs().at(id);
+        return job->getExposeLeft();
+    }
+
+    return -1;
+}
+
+double CaptureModuleState::jobExposureDuration(int id)
+{
+    if (id < allJobs().count())
+    {
+        SequenceJob * job = allJobs().at(id);
+        return job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    }
+
+    return -1;
+}
+
+double CaptureModuleState::progressPercentage()
+{
+    int totalImageCount     = 0;
+    int totalImageCompleted = 0;
+
+    foreach (SequenceJob * job, allJobs())
+    {
+        totalImageCount += job->getCoreProperty(SequenceJob::SJ_Count).toInt();
+        totalImageCompleted += job->getCompleted();
+    }
+
+    if (totalImageCount != 0)
+        return ((static_cast<double>(totalImageCompleted) / totalImageCount) * 100.0);
+    else
+        return -1;
+}
+
+int CaptureModuleState::activeJobRemainingTime()
+{
+    if (m_activeJob == nullptr)
+        return -1;
+
+    return m_activeJob->getJobRemainingTime(averageDownloadTime());
+}
+
+int CaptureModuleState::overallRemainingTime()
+{
+    int remaining = 0;
+    double estimatedDownloadTime = averageDownloadTime();
+
+    foreach (SequenceJob * job, allJobs())
+        remaining += job->getJobRemainingTime(estimatedDownloadTime);
+
+    return remaining;
+}
+
+QString CaptureModuleState::sequenceQueueStatus()
+{
+    if (allJobs().count() == 0)
+        return "Invalid";
+
+    if (isBusy())
+        return "Running";
+
+    int idle = 0, error = 0, complete = 0, aborted = 0, running = 0;
+
+    foreach (SequenceJob * job, allJobs())
+    {
+        switch (job->getStatus())
+        {
+            case JOB_ABORTED:
+                aborted++;
+                break;
+            case JOB_BUSY:
+                running++;
+                break;
+            case JOB_DONE:
+                complete++;
+                break;
+            case JOB_ERROR:
+                error++;
+                break;
+            case JOB_IDLE:
+                idle++;
+                break;
+        }
+    }
+
+    if (error > 0)
+        return "Error";
+
+    if (aborted > 0)
+    {
+        if (m_CaptureState == CAPTURE_SUSPENDED)
+            return "Suspended";
+        else
+            return "Aborted";
+    }
+
+    if (running > 0)
+        return "Running";
+
+    if (idle == allJobs().count())
+        return "Idle";
+
+    if (complete == allJobs().count())
+        return "Complete";
+
+    return "Invalid";
+}
+
+QJsonObject CaptureModuleState::calibrationSettings()
+{
+    QJsonObject settings =
+    {
+        {"source", flatFieldSource()},
+        {"duration", flatFieldDuration()},
+        {"az", wallCoord().az().Degrees()},
+        {"al", wallCoord().alt().Degrees()},
+        {"adu", targetADU()},
+        {"tolerance", targetADUTolerance()},
+        {"parkMount", preMountPark()},
+        {"parkDome", preDomePark()},
+    };
+
+    return settings;
+}
+
+void CaptureModuleState::setCalibrationSettings(const QJsonObject &settings)
+{
+    const int source = settings["source"].toInt(flatFieldSource());
+    const int duration = settings["duration"].toInt(flatFieldDuration());
+    const double az = settings["az"].toDouble(wallCoord().az().Degrees());
+    const double al = settings["al"].toDouble(wallCoord().alt().Degrees());
+    const int adu = settings["adu"].toInt(static_cast<int>(std::round(targetADU())));
+    const int tolerance = settings["tolerance"].toInt(static_cast<int>(std::round(targetADUTolerance())));
+    const bool parkMount = settings["parkMount"].toBool(preMountPark());
+    const bool parkDome = settings["parkDome"].toBool(preDomePark());
+
+    setFlatFieldSource(static_cast<FlatFieldSource>(source));
+    setFlatFieldDuration(static_cast<FlatFieldDuration>(duration));
+    wallCoord().setAz(az);
+    wallCoord().setAlt(al);
+    setTargetADU(adu);
+    setTargetADUTolerance(tolerance);
+    setPreMountPark(parkMount);
+    setPreDomePark(parkDome);
+}
+
 bool CaptureModuleState::setDarkFlatExposure(SequenceJob *job)
 {
     const auto darkFlatFilter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
@@ -927,6 +1247,35 @@ void CaptureModuleState::checkSeqBoundary(QUrl sequenceURL)
     setNextSequenceID(placeholderPath.checkSeqBoundary(*getActiveJob(), targetName()));
 }
 
+bool CaptureModuleState::isModelinDSLRInfo(const QString &model)
+{
+    auto pos = std::find_if(m_DSLRInfos.begin(), m_DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
+    {
+        return (oneDSLRInfo["Model"] == model);
+    });
+
+    return (pos != m_DSLRInfos.end());
+}
+
+void CaptureModuleState::setCapturedFramesCount(const QString &signature, uint16_t count)
+{
+    m_capturedFramesMap[signature] = count;
+    qCDebug(KSTARS_EKOS_CAPTURE) <<
+                                 QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
+    // Scheduler's captured frame map overrides the progress option of the Capture module
+    setIgnoreJobProgress(false);
+}
+
+void CaptureModuleState::changeSequenceValue(int index, QString key, QString value)
+{
+    QJsonArray seqArray = getSequence();
+    QJsonObject oneSequence = seqArray[index].toObject();
+    oneSequence[key] = value;
+    seqArray.replace(index, oneSequence);
+    setSequence(seqArray);
+    emit sequenceChanged(seqArray);
+}
+
 void CaptureModuleState::addCapturedFrame(const QString &signature)
 {
     SchedulerJob::CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
@@ -948,6 +1297,8 @@ void CaptureModuleState::removeCapturedFrameCount(const QString &signature, uint
             m_capturedFramesMap.remove(signature);
     }
 }
+
+
 
 void CaptureModuleState::appendLogText(const QString &message)
 {

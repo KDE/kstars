@@ -31,7 +31,11 @@ class RefocusState : public QObject
         explicit RefocusState(QObject *parent = nullptr): QObject{parent} {}
 
         /**
-         * @brief Check if focusing is necessary
+         * @brief Check if focusing is necessary:
+         * 1. time limit based
+         * 2. temperature based
+         * 3. HFR based in sequence
+         * 4. post meridian flip         *
          */
         RefocusReason checkFocusRequired();
 
