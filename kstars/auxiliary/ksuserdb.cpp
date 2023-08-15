@@ -12,6 +12,7 @@
 #include "linelist.h"
 #include "version.h"
 #include "oal/dslrlens.h"
+#include "imageoverlaycomponent.h"
 
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -2324,6 +2325,148 @@ bool KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 
     points.submitAll();
     points.clear();
+    return true;
+}
+
+void KSUserDB::CreateImageOverlayTableIfNecessary()
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    QString command = "CREATE TABLE IF NOT EXISTS imageOverlays ( "
+                      "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                      "filename TEXT NOT NULL,"
+                      "enabled INTEGER DEFAULT 0,"
+                      "nickname TEXT DEFAULT NULL,"
+                      "status INTEGER DEFAULT 0,"
+                      "orientation REAL DEFAULT 0.0,"
+                      "ra REAL DEFAULT 0.0,"
+                      "dec REAL DEFAULT 0.0,"
+                      "pixelsPerArcsec REAL DEFAULT 0.0,"
+                      "eastToTheRight INTEGER DEFAULT 0,"
+                      "width INTEGER DEFAULT 0,"
+                      "height INTEGER DEFAULT 0)";
+    QSqlQuery query(db);
+    if (!query.exec(command))
+    {
+        qCDebug(KSTARS) << query.lastError();
+        qCDebug(KSTARS) << query.executedQuery();
+    }
+}
+
+bool KSUserDB::DeleteAllImageOverlays()
+{
+    CreateImageOverlayTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel overlays(nullptr, db);
+    overlays.setTable("imageOverlays");
+    overlays.setFilter("id >= 1");
+    overlays.select();
+    overlays.removeRows(0, overlays.rowCount());
+    overlays.submitAll();
+
+    QSqlQuery query(db);
+    QString dropQuery = QString("DROP TABLE imageOverlays");
+    if (!query.exec(dropQuery))
+        qCWarning(KSTARS) << query.lastError().text();
+
+    return true;
+}
+
+bool KSUserDB::AddImageOverlay(const ImageOverlay &overlay)
+{
+    CreateImageOverlayTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel overlays(nullptr, db);
+    overlays.setTable("imageOverlays");
+    overlays.setFilter("filename LIKE \'" + overlay.m_Filename + "\'");
+    overlays.select();
+
+    if (overlays.rowCount() > 0)
+    {
+        QSqlRecord record = overlays.record(0);
+        record.setValue("filename", overlay.m_Filename);
+        record.setValue("enabled", static_cast<int>(overlay.m_Enabled));
+        record.setValue("nickname", overlay.m_Nickname);
+        record.setValue("status", static_cast<int>(overlay.m_Status));
+        record.setValue("orientation", overlay.m_Orientation);
+        record.setValue("ra", overlay.m_RA);
+        record.setValue("dec", overlay.m_DEC);
+        record.setValue("pixelsPerArcsec", overlay.m_ArcsecPerPixel);
+        record.setValue("eastToTheRight", static_cast<int>(overlay.m_EastToTheRight));
+        record.setValue("width", overlay.m_Width);
+        record.setValue("height", overlay.m_Height);
+        overlays.setRecord(0, record);
+        overlays.submitAll();
+    }
+    else
+    {
+        int row = 0;
+        overlays.insertRows(row, 1);
+
+        overlays.setData(overlays.index(row, 1), overlay.m_Filename);  // row,0 is autoincerement ID
+        overlays.setData(overlays.index(row, 2), static_cast<int>(overlay.m_Enabled));
+        overlays.setData(overlays.index(row, 3), overlay.m_Nickname);
+        overlays.setData(overlays.index(row, 4), static_cast<int>(overlay.m_Status));
+        overlays.setData(overlays.index(row, 5), overlay.m_Orientation);
+        overlays.setData(overlays.index(row, 6), overlay.m_RA);
+        overlays.setData(overlays.index(row, 7), overlay.m_DEC);
+        overlays.setData(overlays.index(row, 8), overlay.m_ArcsecPerPixel);
+        overlays.setData(overlays.index(row, 9), static_cast<int>(overlay.m_EastToTheRight));
+        overlays.setData(overlays.index(row, 10), overlay.m_Width);
+        overlays.setData(overlays.index(row, 11), overlay.m_Height);
+        overlays.submitAll();
+    }
+    return true;
+}
+
+bool KSUserDB::GetAllImageOverlays(QList<ImageOverlay> *imageOverlayList)
+{
+    CreateImageOverlayTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    imageOverlayList->clear();
+    QSqlTableModel overlays(nullptr, db);
+    overlays.setTable("imageOverlays");
+    overlays.select();
+
+    for (int i = 0; i < overlays.rowCount(); ++i)
+    {
+        QSqlRecord record         = overlays.record(i);
+
+        const QString filename        = record.value("filename").toString();
+        const bool    enabled         = static_cast<bool>(record.value("enabled").toInt());
+        const QString nickname        = record.value("nickname").toString();
+        const ImageOverlay::Status status
+            = static_cast<ImageOverlay::Status>(record.value("status").toInt());
+        const double  orientation     = record.value("orientation").toDouble();
+        const double  ra              = record.value("ra").toDouble();
+        const double  dec             = record.value("dec").toDouble();
+        const double  pixelsPerArcsec = record.value("pixelsPerArcsec").toDouble();
+        const bool    eastToTheRight  = static_cast<bool>(record.value("eastToTheRight").toInt());
+        const int     width           = record.value("width").toInt();
+        const int     height          = record.value("height").toInt();
+        ImageOverlay o(filename, enabled, nickname, status, orientation, ra, dec, pixelsPerArcsec,
+                       eastToTheRight, width, height);
+        imageOverlayList->append(o);
+    }
+
+    overlays.clear();
     return true;
 }
 

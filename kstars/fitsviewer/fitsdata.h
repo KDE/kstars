@@ -567,6 +567,8 @@ class FITSData : public QObject
 
         QString getLastError() const;
 
+        static bool readableFilename(const QString &filename);
+
     signals:
         void converted(QImage);
 

@@ -19,6 +19,7 @@ class QSize;
 class QMessageBox;
 class HIPSRenderer;
 class TerrainRenderer;
+class ImageOverlay;
 class KSEarthShadow;
 
 /**
@@ -110,6 +111,7 @@ class SkyQPainter : public SkyPainter, public QPainter
 #endif
         bool drawHips(bool useCache = false) override;
         bool drawTerrain(bool useCache = false) override;
+        bool drawImageOverlay(const QList<ImageOverlay> *imageOverlays, bool useCache = false) override;
 
     private:
         QPaintDevice *m_pd{ nullptr };

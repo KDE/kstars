@@ -29,6 +29,7 @@ class SkyObject;
 class SkyPoint;
 class Supernova;
 class CatalogObject;
+class ImageOverlay;
 
 /**
  * @short Draws things on the sky, without regard to backend.
@@ -192,11 +193,18 @@ class SkyPainter
         virtual bool drawHips(bool useCache = false) = 0;
 
         /**
-         * @brief drawHips Draw the Terrain
+         * @brief drawTerrain Draw the Terrain
          * @param useCache if True, try to re-use last generated image instead of rendering a new image.
          * @return true if it was drawn
          */
         virtual bool drawTerrain(bool useCache = false) = 0;
+
+        /**
+         * @brief drawImageOverlay Draws a user-supplied image onto the skymap
+         * @param useCache if True, try to re-use last generated image instead of rendering a new image.
+         * @return true if it was drawn
+         */
+        virtual bool drawImageOverlay(const QList<ImageOverlay> *imageOverlays, bool useCache = false) = 0;
 
     private:
         float m_sizeMagLim{ 10.0f };

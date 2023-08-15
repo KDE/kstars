@@ -23,6 +23,7 @@
 
 class LineList;
 class ArtificialHorizonEntity;
+class ImageOverlay;
 
 /**
  * @brief Single class to delegate all User database I/O
@@ -147,10 +148,27 @@ class KSUserDB
          ********************************* Horizon ******************************
          ************************************************************************/
 
-        // Jasem: Add API doc
+        /** @brief Deletes all artificial horizon rows from the database **/
         bool DeleteAllHorizons();
+
+        /** @brief Adds a new artificial horizon row into the database **/
         bool AddHorizon(ArtificialHorizonEntity *horizon);
+
+        /** @brief Gets all the artificial horizon rows from the database **/
         bool GetAllHorizons(QList<ArtificialHorizonEntity *> &horizonList);
+
+        /************************************************************************
+         ****************************** ImageOverlay ****************************
+         ************************************************************************/
+
+        /** @brief Deletes all image overlay rows from the database **/
+        bool DeleteAllImageOverlays();
+
+        /** @brief Adds a new image overlay row into the database **/
+        bool AddImageOverlay(const ImageOverlay &overlay);
+
+        /** @brief Gets all the image overlay rows from the database **/
+        bool GetAllImageOverlays(QList<ImageOverlay> *imageOverlayList);
 
         /************************************************************************
          ********************************* Flags ********************************
@@ -432,6 +450,9 @@ class KSUserDB
          * @return bool
          **/
         bool FirstRun();
+
+        /** @brief creates the image overlay table if it doesn't already exist **/
+        void CreateImageOverlayTableIfNecessary();
 
 #if 0
         /**
