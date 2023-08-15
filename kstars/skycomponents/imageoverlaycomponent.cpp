@@ -41,22 +41,9 @@ enum ColumnIndex
     NUM_COLUMNS
 };
 
-QStringList HeaderNames =
-{
-    "Filename",
-    //    "", "Nickname",
-    "Status", "RA", "DEC", "A-S/px", "Angle",
-    "Width", "Height", "EastRight"
-};
-
-// These needs to be syncronized with enum Status
+// These needs to be syncronized with enum Status and initializeGui::StatusNames().
 constexpr int UNPROCESSED_INDEX = 0;
 constexpr int OK_INDEX = 4;
-QStringList StatusNames =
-{
-    "Unprocessed", "Bad File", "Solve Failed", "Error", "OK"
-};
-
 
 // Helper to create the image overlay table.
 // Start the table, displaying the heading and timing information, common to all sessions.
@@ -67,6 +54,14 @@ void setupTable(QTableWidget *table)
     table->setColumnCount(NUM_COLUMNS);
     table->setShowGrid(false);
     table->setWordWrap(true);
+
+    QStringList HeaderNames =
+    {
+        i18n("Filename"),
+        //    "", "Nickname",
+        i18n("Status"), i18n("RA"), i18n("DEC"), i18n("A-S/px"), i18n("Angle"),
+        i18n("Width"), i18n("Height"), i18n("EastRight")
+    };
     table->setHorizontalHeaderLabels(HeaderNames);
 }
 
@@ -164,7 +159,8 @@ void ImageOverlayComponent::cellChanged(int row, int col)
         if (!raOK)
         {
             item->setText(dms(overlay.m_RA).toHMSString());
-            updateStatusDisplay(QString("Bad RA string entered for %1. Reset to original value.").arg(overlay.m_Filename));
+            QString msg = i18n("Bad RA string entered for %1. Reset to original value.", overlay.m_Filename);
+            updateStatusDisplay(msg);
         }
         else
             // Re-format the user-entered value.
@@ -177,7 +173,8 @@ void ImageOverlayComponent::cellChanged(int row, int col)
         if (!decOK)
         {
             item->setText(toDecString(overlay.m_DEC));
-            updateStatusDisplay(QString("Bad DEC string entered for %1. Reset to original value.").arg(overlay.m_Filename));
+            QString msg = i18n("Bad DEC string entered for %1. Reset to original value.", overlay.m_Filename);
+            updateStatusDisplay(msg);
         }
         else
             item->setText(toDecString(decDMS));
@@ -189,8 +186,8 @@ void ImageOverlayComponent::cellChanged(int row, int col)
         if (!angleOK || angle > 360 || angle < -360)
         {
             item->setText(QString("%1").arg(overlay.m_Orientation, 0, 'f', 2));
-            updateStatusDisplay(QString("Bad orientation angle string entered for %1. Reset to original value.").arg(
-                                    overlay.m_Filename));
+            QString msg = i18n("Bad orientation angle string entered for %1. Reset to original value.", overlay.m_Filename);
+            updateStatusDisplay(msg);
         }
     }
     else if (col == ARCSEC_PER_PIXEL_COL)
@@ -200,8 +197,8 @@ void ImageOverlayComponent::cellChanged(int row, int col)
         if (!scaleOK || scale < 0 || scale > 1000)
         {
             item->setText(QString("%1").arg(overlay.m_ArcsecPerPixel, 0, 'f', 2));
-            updateStatusDisplay(QString("Bad orientation angle string entered for %1. Reset to original value.").arg(
-                                    overlay.m_Filename));
+            QString msg = i18n("Bad scale angle string entered for %1. Reset to original value.", overlay.m_Filename);
+            updateStatusDisplay(msg);
         }
     }
     connect(m_ImageOverlayTable, &QTableWidget::cellChanged, this, &ImageOverlayComponent::cellChanged, Qt::UniqueConnection);
@@ -230,7 +227,8 @@ void ImageOverlayComponent::statusCellChanged(int row)
         const bool raOK = raDMS.setFromString(raItem->text(), !useHMS);
         if (!raOK || raDMS.Degrees() == 0)
         {
-            updateStatusDisplay(QString("Cannot set status to OK. Legal non-0 RA value required."));
+            QString msg = i18n("Cannot set status to OK. Legal non-0 RA value required.");
+            updateStatusDisplay(msg);
             failed = true;
         }
 
@@ -240,7 +238,8 @@ void ImageOverlayComponent::statusCellChanged(int row)
         const bool decOK = decDMS.setFromString(decItem->text());
         if (!decOK)
         {
-            updateStatusDisplay(QString("Cannot set status to OK. Legal non-0 DEC value required."));
+            QString msg = i18n("Cannot set status to OK. Legal non-0 DEC value required.");
+            updateStatusDisplay(msg);
             failed = true;
         }
 
@@ -250,7 +249,8 @@ void ImageOverlayComponent::statusCellChanged(int row)
         const double angle = angleItem->text().toDouble(&angleOK);
         if (!angleOK || angle > 360 || angle < -360)
         {
-            updateStatusDisplay(QString("Cannot set status to OK. Legal non-0 DEC value required."));
+            QString msg = i18n("Cannot set status to OK. Legal orientation value required.");
+            updateStatusDisplay(msg);
             failed = true;
         }
 
@@ -260,7 +260,8 @@ void ImageOverlayComponent::statusCellChanged(int row)
         const double scale = scaleItem->text().toDouble(&scaleOK);
         if (!scaleOK || scale < 0 || scale > 1000)
         {
-            updateStatusDisplay(QString("Cannot set status to OK. Legal non-0 DEC value required."));
+            QString msg = i18n("Cannot set status to OK. Legal non-0 a-s/px value required.");
+            updateStatusDisplay(msg);
             failed = true;
         }
 
@@ -289,7 +290,8 @@ void ImageOverlayComponent::statusCellChanged(int row)
                 m_Overlays[row].m_Img.reset(img);
             }
             saveToUserDB();
-            updateStatusDisplay(QString("Stored OK status for %1.").arg(m_Overlays[row].m_Filename));
+            QString msg = i18n("Stored OK status for %1.", m_Overlays[row].m_Filename);
+            updateStatusDisplay(msg);
         }
     }
     connect(m_ImageOverlayTable, &QTableWidget::cellChanged, this, &ImageOverlayComponent::cellChanged, Qt::UniqueConnection);
@@ -337,7 +339,7 @@ void ImageOverlayComponent::setWidgets(QTableWidget *table, QPlainTextEdit *stat
     m_SolveButton = solveButton;
     m_TableGroupBox = tableGroupBox;
     m_SolverProfile = solverProfile;
-    solveButton->setText("Solve");
+    solveButton->setText(i18n("Solve"));
 
     m_StatusDisplay = statusDisplay;
     setupTable(table);
@@ -381,7 +383,7 @@ void ImageOverlayComponent::updateTable()
 {
     // Get the list of files from the image overlay directory.
     QDir directory(m_Directory);
-    updateStatusDisplay(QString("Updating from directory: %1").arg(m_Directory));
+    updateStatusDisplay(i18n("Updating from directory: %1", m_Directory));
     QStringList images = directory.entryList(QStringList() << "*", QDir::Files);
     QSet<QString> imageFiles;
     foreach(QString filename, images)
@@ -430,10 +432,9 @@ void ImageOverlayComponent::updateTable()
             numNew++;
         }
     }
-    updateStatusDisplay(QString("%1 overlays (%2 new, %3 deleted) %4 solved")
-                        .arg(m_Overlays.size()).arg(numNew).arg(numDeleted).arg(numAvailable()));
-    m_TableGroupBox->setTitle(QString("Image Overlays.  %1 images, %2 available.")
-                              .arg(m_Overlays.size()).arg(numAvailable()));
+    updateStatusDisplay(i18n("%1 overlays (%2 new, %3 deleted) %4 solved", m_Overlays.size(), numNew, numDeleted,
+                             numAvailable()));
+    m_TableGroupBox->setTitle(i18n("Image Overlays.  %1 images, %2 available.", m_Overlays.size(), numAvailable()));
 
     initializeGui();
     saveToUserDB();
@@ -446,13 +447,13 @@ void ImageOverlayComponent::loadAllImageFiles()
 
 void ImageOverlayComponent::loadImageFileLoop()
 {
-    updateStatusDisplay(QString("Loading image files..."));
+    updateStatusDisplay(i18n("Loading image files..."));
     while (loadImageFile());
     int num = 0;
     for (const auto &o : m_Overlays)
         if (o.m_Img.get() != nullptr)
             num++;
-    updateStatusDisplay(QString("%1 image files loaded.").arg(num));
+    updateStatusDisplay(i18n("%1 image files loaded.", num));
     // Restore editing for the table.
     m_ImageOverlayTable->setEditTriggers(m_EditTriggers);
     m_Initialized = true;
@@ -512,6 +513,10 @@ void ImageOverlayComponent::initializeGui()
         // False: The user can't edit filename.
         setupTableItem(m_ImageOverlayTable, row, FILENAME_COL, overlay.m_Filename, false);
 
+        QStringList StatusNames =
+        {
+            i18n("Unprocessed"), i18n("Bad File"), i18n("Solve Failed"), i18n("Error"), i18n("OK")
+        };
         QComboBox *statusBox = new QComboBox();
         for (int i = 0; i < ImageOverlay::NUM_STATUS; ++i)
             statusBox->addItem(StatusNames[i]);
@@ -533,8 +538,8 @@ void ImageOverlayComponent::initializeGui()
         setupTableItem(m_ImageOverlayTable, row, HEIGHT_COL, QString("%1").arg(overlay.m_Height), false);
 
         QComboBox *mirroredBox = new QComboBox();
-        mirroredBox->addItem("West-Right");
-        mirroredBox->addItem("East-Right");
+        mirroredBox->addItem(i18n("West-Right"));
+        mirroredBox->addItem(i18n("East-Right"));
         connect(mirroredBox, QOverload<int>::of(&QComboBox::activated), this, [row](int newIndex)
         {
             Q_UNUSED(row);
@@ -547,8 +552,7 @@ void ImageOverlayComponent::initializeGui()
         row++;
     }
     m_ImageOverlayTable->resizeColumnsToContents();
-    m_TableGroupBox->setTitle(QString("Image Overlays.  %1 images, %2 available.")
-                              .arg(m_Overlays.size()).arg(numAvailable()));
+    m_TableGroupBox->setTitle(i18n("Image Overlays.  %1 images, %2 available.", m_Overlays.size(), numAvailable()));
     connect(m_ImageOverlayTable, &QTableWidget::cellChanged, this, &ImageOverlayComponent::cellChanged, Qt::UniqueConnection);
 
 }
@@ -578,7 +582,7 @@ void ImageOverlayComponent::saveToUserDB()
 void ImageOverlayComponent::solveImage(const QString &filename)
 {
     if (!m_Initialized) return;
-    m_SolveButton->setText("Abort");
+    m_SolveButton->setText(i18n("Abort"));
     const int solverTimeout = Options::imageOverlayTimeout();
     auto profiles = Ekos::getDefaultAlignOptionsProfiles();
     auto parameters = profiles.at(m_SolverProfile->currentIndex());
@@ -589,9 +593,9 @@ void ImageOverlayComponent::solveImage(const QString &filename)
     connect(m_Solver.get(), &SolverUtils::done, this, &ImageOverlayComponent::solverDone, Qt::UniqueConnection);
 
     if (m_RowsToSolve.size() > 1)
-        updateStatusDisplay(QString("Solving: %1. %2 in queue.").arg(filename).arg(m_RowsToSolve.size()));
+        updateStatusDisplay(i18n("Solving: %1. %2 in queue.", filename, m_RowsToSolve.size()));
     else
-        updateStatusDisplay(QString("Solving: %1.").arg(filename));
+        updateStatusDisplay(i18n("Solving: %1.", filename));
 
     // If the user added some RA/DEC/Scale values to the table, they will be used in the solve
     // (but aren't remembered in the DB unless the solve is successful).
@@ -656,12 +660,12 @@ void ImageOverlayComponent::show()
         {
             if (m_Overlays[row].m_Status != ImageOverlay::AVAILABLE)
             {
-                updateStatusDisplay(QString("Can't show %1. Not plate solved.").arg(m_Overlays[row].m_Filename));
+                updateStatusDisplay(i18n("Can't show %1. Not plate solved.", m_Overlays[row].m_Filename));
                 return;
             }
             if (m_Overlays[row].m_Img.get() == nullptr)
             {
-                updateStatusDisplay(QString("Can't show %1. Image not loaded.").arg(m_Overlays[row].m_Filename));
+                updateStatusDisplay(i18n("Can't show %1. Image not loaded.", m_Overlays[row].m_Filename));
                 return;
             }
             const double ra = m_Overlays[row].m_RA;
@@ -694,14 +698,14 @@ void ImageOverlayComponent::abortSolving()
     m_RowsToSolve.clear();
     if (m_Solver)
         m_Solver->abort();
-    updateStatusDisplay(QString("Solving aborted."));
-    m_SolveButton->setText("Solve");
+    updateStatusDisplay(i18n("Solving aborted."));
+    m_SolveButton->setText(i18n("Solve"));
 }
 
 void ImageOverlayComponent::startSolving()
 {
     if (!m_Initialized) return;
-    if (m_SolveButton->text() == "Abort")
+    if (m_SolveButton->text() == i18n("Abort"))
     {
         abortSolving();
         return;
@@ -729,7 +733,7 @@ void ImageOverlayComponent::startSolving()
                 if ((m_Overlays[row].m_Status == ImageOverlay::AVAILABLE) &&
                         !shouldSolveAnyway(m_ImageOverlayTable, row))
                 {
-                    updateStatusDisplay(QString("Skipping already solved: %1.").arg(m_Overlays[row].m_Filename));
+                    updateStatusDisplay(i18n("Skipping already solved: %1.", m_Overlays[row].m_Filename));
                     continue;
                 }
                 selectedRows.insert(row);
@@ -748,7 +752,7 @@ void ImageOverlayComponent::startSolving()
         if ((m_Overlays[row].m_Status == ImageOverlay::AVAILABLE) &&
                 !shouldSolveAnyway(m_ImageOverlayTable, row))
         {
-            updateStatusDisplay(QString("%1 already solved. Skipping.").arg(filename));
+            updateStatusDisplay(i18n("%1 already solved. Skipping.", filename));
             m_RowsToSolve.removeFirst();
             if (m_RowsToSolve.size() > 0)
                 startSolving();
@@ -768,14 +772,14 @@ void ImageOverlayComponent::reload()
     //updateTable();
     // Problem with reload is it can crash kstars if the image load loop is running, or
     // if something else is messing with m_Overlays. Need mutex protection.
-    updateStatusDisplay(QString("Reload not yet implemented. Currently you need to restart KStars to do this."));
+    updateStatusDisplay(i18n("Reload not yet implemented. Currently you need to restart KStars to do this."));
 }
 
 void ImageOverlayComponent::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution,
                                        double elapsedSeconds)
 {
     disconnect(m_Solver.get(), &SolverUtils::done, this, &ImageOverlayComponent::solverDone);
-    m_SolveButton->setText("Solve");
+    m_SolveButton->setText(i18n("Solve"));
     if (m_RowsToSolve.size() == 0)
         return;
 
@@ -785,13 +789,13 @@ void ImageOverlayComponent::solverDone(bool timedOut, bool success, const FITSIm
     QComboBox *statusItem = dynamic_cast<QComboBox*>(m_ImageOverlayTable->cellWidget(solverRow, STATUS_COL));
     if (timedOut)
     {
-        updateStatusDisplay(QString("Solver timed out in %1s").arg(elapsedSeconds, 0, 'f', 1));
+        updateStatusDisplay(i18n("Solver timed out in %1s", elapsedSeconds, 0, 'f', 1));
         m_Overlays[solverRow].m_Status = ImageOverlay::PLATE_SOLVE_FAILURE;
         statusItem->setCurrentIndex(static_cast<int>(m_Overlays[solverRow].m_Status));
     }
     else if (!success)
     {
-        updateStatusDisplay(QString("Solver failed in %1s").arg(elapsedSeconds, 0, 'f', 1));
+        updateStatusDisplay(i18n("Solver failed in %1s", elapsedSeconds, 0, 'f', 1));
         m_Overlays[solverRow].m_Status = ImageOverlay::PLATE_SOLVE_FAILURE;
         statusItem->setCurrentIndex(static_cast<int>(m_Overlays[solverRow].m_Status));
     }
@@ -804,13 +808,13 @@ void ImageOverlayComponent::solverDone(bool timedOut, bool success, const FITSIm
         m_Overlays[solverRow].m_EastToTheRight = solution.parity;
         m_Overlays[solverRow].m_Status = ImageOverlay::AVAILABLE;
 
-        updateStatusDisplay(QString("Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5")
-                            .arg(elapsedSeconds, 0, 'f', 1)
-                            .arg(solution.ra, 0, 'f', 2)
-                            .arg(solution.dec, 0, 'f', 2)
-                            .arg(solution.pixscale, 0, 'f', 2)
-                            .arg(solution.orientation, 0, 'f', 2)
-                           );
+        QString msg = i18n("Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5",
+                           QString::number(elapsedSeconds, 'f', 1),
+                           QString::number(solution.ra, 'f', 2),
+                           QString::number(solution.dec, 'f', 2),
+                           QString::number(solution.pixscale, 'f', 2),
+                           QString::number(solution.orientation, 'f', 2));
+        updateStatusDisplay(msg);
 
         // Store the new values in the table.
         auto overlay = m_Overlays[solverRow];
@@ -836,8 +840,7 @@ void ImageOverlayComponent::solverDone(bool timedOut, bool success, const FITSIm
         startSolving();
     else
     {
-        updateStatusDisplay(QString("Done solving. %1 available.").arg(numAvailable()));
-        m_TableGroupBox->setTitle(QString("Image Overlays.  %1 images, %2 available.")
-                                  .arg(m_Overlays.size()).arg(numAvailable()));
+        updateStatusDisplay(i18n("Done solving. %1 available.", numAvailable()));
+        m_TableGroupBox->setTitle(i18n("Image Overlays.  %1 images, %2 available.", m_Overlays.size(), numAvailable()));
     }
 }
