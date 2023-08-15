@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-12 00:41+0000\n"
+"POT-Creation-Date: 2023-08-15 00:41+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -408,7 +408,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:3163
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2531
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -576,7 +576,7 @@ msgid "Error"
 msgstr "Chyba"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/scheduler/framingassistantui.cpp:761
+#: ekos/scheduler/framingassistantui.cpp:767
 #, fuzzy, kde-format
 msgid "Sorry"
 msgstr "Ľutujeme"
@@ -761,10 +761,10 @@ msgstr "Nemôžem rozbaliť miniatúru %1: %2"
 msgid "Cannot write %s %1: %2"
 msgstr "Nie je možné zapísať do súboru záznamu používateľa"
 
-#: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:178
-#: ekos/scheduler/framingassistantui.cpp:193
-#: ekos/scheduler/framingassistantui.cpp:847
-#: ekos/scheduler/framingassistantui.cpp:866 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:179
+#: ekos/scheduler/framingassistantui.cpp:194
+#: ekos/scheduler/framingassistantui.cpp:853
+#: ekos/scheduler/framingassistantui.cpp:872 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -2583,8 +2583,8 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2735
-#: ekos/capture/capture.cpp:3172 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2113
+#: ekos/capture/capture.cpp:2540 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
@@ -3841,7 +3841,7 @@ msgstr "0.0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:1281 ekos/capture/capture.cpp:1319
+#: ekos/capture/capture.cpp:847 ekos/capture/capture.cpp:885
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1191
 #, kde-format
@@ -6035,8 +6035,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr "Chyba: Stratené spojenie na koliesko filtra."
 
-#: ekos/align/align.cpp:1455 ekos/capture/capture.cpp:4015
-#: ekos/capture/captureprocess.cpp:220 ekos/focus/focus.cpp:4829
+#: ekos/align/align.cpp:1455 ekos/capture/captureprocess.cpp:170
+#: ekos/capture/captureprocess.cpp:496 ekos/focus/focus.cpp:4832
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6066,13 +6066,13 @@ msgstr "Prebieha automatické ostrenie..."
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1564 ekos/focus/focus.cpp:1726
+#: ekos/align/align.cpp:1564 ekos/focus/focus.cpp:1729
 #, kde-format
 msgid "Capturing image..."
 msgstr "Snímam obrázok..."
 
 #: ekos/align/align.cpp:1654 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2577
+#: ekos/focus/focus.cpp:2580
 #, kde-format
 msgid "Image received."
 msgstr "Obrázok prijatý."
@@ -6220,8 +6220,8 @@ msgstr "Zachytenie predčasne ukončené."
 msgid "Solver aborted after %1 seconds."
 msgstr "Riešiteľ predčasne ukončený po %1 sekunde."
 
-#: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1959
-#: ekos/focus/focus.cpp:3966 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
+#: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1443
+#: ekos/focus/focus.cpp:3969 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:917
 #, kde-format
@@ -6342,8 +6342,8 @@ msgstr "World Coordinate System (WCS) je zakázaný."
 msgid "Capture error. Aborting..."
 msgstr "Chyba zachytenia! Prerušujem..."
 
-#: ekos/align/align.cpp:3160 ekos/capture/capture.cpp:2021
-#: ekos/capture/captureprocess.cpp:1273
+#: ekos/align/align.cpp:3160 ekos/capture/captureprocess.cpp:1375
+#: ekos/capture/captureprocess.cpp:1871
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Pokus o reštartovanie #%1"
@@ -6398,26 +6398,26 @@ msgstr "RA (uhlové minúty)"
 msgid "dDE (arcsec)"
 msgstr "arcsec"
 
-#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:4216
-#: ekos/focus/focus.cpp:4721
+#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:3319
+#: ekos/focus/focus.cpp:4724
 #, fuzzy, kde-format
 #| msgid "%1 calibration failed!"
 msgid "Filter operation failed."
 msgstr "Kalibrácia %1 zlyhala!"
 
-#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:4152
+#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:3255
 #, fuzzy, kde-format
 #| msgid "Changing filter to %1..."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Mením filter na %1..."
 
 #: ekos/align/align.cpp:3515 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:4157
+#: ekos/capture/capture.cpp:3260
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Mením filter na %1..."
 
-#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:4162
+#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:3265
 #, fuzzy, kde-format
 #| msgid "Autofocus on Filter Change"
 msgid "Auto focus on filter change..."
@@ -6437,8 +6437,8 @@ msgid "Export Solution Points"
 msgstr "Vyčistiť všetky body"
 
 #: ekos/align/align.cpp:3799 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2734
-#: ekos/capture/capture.cpp:3171 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2112
+#: ekos/capture/capture.cpp:2539 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
 #: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6447,14 +6447,14 @@ msgid "Invalid URL: %1"
 msgstr "Neplatné URL: %1"
 
 #: ekos/align/align.cpp:3808 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:3194 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/capture/capture.cpp:2562 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:4830 ekos/scheduler/scheduler.cpp:7226
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Nemôžem zapisovať do súboru %1"
 
 #: ekos/align/align.cpp:3809 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2750
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2128
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
 #: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
 #: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
@@ -6546,8 +6546,7 @@ msgstr "Načítať && Natočiť..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:149 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/capture/capture.cpp:2537 ekos/focus/focus.ui:456
-#: ekos/guide/guide.ui:153 ekos/manager.cpp:222
+#: ekos/focus/focus.ui:456 ekos/guide/guide.ui:153 ekos/manager.cpp:222
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -7131,13 +7130,13 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Otvoriť zoznam plánovača Ekos"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2749
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2127
 #: ekos/scheduler/scheduler.cpp:4485 ekos/scheduler/scheduler.cpp:7169
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Nedá sa otvoriť súbor %1"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2776
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2154
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7765,7 +7764,7 @@ msgstr "Auto hviezda"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:4898
+#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:3804
 #: ekos/focus/focus.ui:1895
 #, fuzzy, kde-format
 #| msgid "Threshold"
@@ -7998,16 +7997,16 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_42)
-#. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
+#. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, cameraHFOVLabel)
 #. i18n: ectx: property (text), widget (QLabel, targetFOVHLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/align/opsastrometry.ui:105 ekos/scheduler/framingassistant.ui:89
-#: ekos/scheduler/framingassistant.ui:172
-#: ekos/scheduler/framingassistant.ui:439
-#: ekos/scheduler/framingassistant.ui:526
-#: ekos/scheduler/framingassistant.ui:678
+#: ekos/align/opsastrometry.ui:105 ekos/scheduler/framingassistant.ui:190
+#: ekos/scheduler/framingassistant.ui:275
+#: ekos/scheduler/framingassistant.ui:464
+#: ekos/scheduler/framingassistant.ui:551
+#: ekos/scheduler/framingassistant.ui:703
 #, kde-format
 msgid "H"
 msgstr "H"
@@ -10170,7 +10169,7 @@ msgstr "Nepodarilo sa odstrániť súbor: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1868 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
-#: ekos/scheduler/framingassistant.ui:1465 ekos/scheduler/scheduler.ui:279
+#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
 msgid "Focus"
@@ -10178,7 +10177,7 @@ msgstr "Zameranie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1869 ekos/manager.cpp:1990
-#: ekos/scheduler/framingassistant.ui:1237 ekos/scheduler/scheduler.ui:232
+#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
 msgid "Align"
@@ -10191,7 +10190,7 @@ msgstr "Zarovnať"
 #: ekos/analyze/analyze.cpp:1870 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
-#: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
+#: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
 msgid "Guide"
@@ -12025,12 +12024,12 @@ msgstr ""
 msgid "Wavelength"
 msgstr "Vlnová dĺžka:"
 
-#: ekos/auxiliary/filtermanager.cpp:535
+#: ekos/auxiliary/filtermanager.cpp:545
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:536
+#: ekos/auxiliary/filtermanager.cpp:546
 #, fuzzy, kde-format
 #| msgid "Confirm Delete"
 msgid "Confirm Filter"
@@ -12113,7 +12112,7 @@ msgid "Waiting..."
 msgstr "Čakám..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:254
+#: ekos/capture/capturemodulestate.cpp:335
 #, kde-format
 msgid "Dithering..."
 msgstr "Rozptyľovanie..."
@@ -12134,7 +12133,7 @@ msgstr "Automaticky zamerať pri zmene filtra"
 msgid "Aligning..."
 msgstr "Zarovnávam..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1863
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1392
 #, kde-format
 msgid "Calibrating..."
 msgstr "Kalibrácia..."
@@ -12222,7 +12221,7 @@ msgstr "Záznam aktivity modulu zaostrenia Ekos"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:329 ekos/opsekos.ui:184
-#: ekos/scheduler/framingassistantui.cpp:659
+#: ekos/scheduler/framingassistantui.cpp:665
 #, kde-format
 msgid "Scheduler"
 msgstr "Plánovač"
@@ -12701,7 +12700,7 @@ msgstr "<html><head/><body><p>Preemptívne hodiny vypnutia</p></body></html>"
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/auxiliary/opticaltrains.ui:188 ekos/capture/capture.ui:1478
-#: ekos/scheduler/framingassistant.ui:117
+#: ekos/scheduler/framingassistant.ui:139
 #, kde-format
 msgid "Camera:"
 msgstr "Fotoaparát:"
@@ -14134,335 +14133,219 @@ msgstr "Parkovať montáž"
 msgid "Park Dome"
 msgstr "Parkovať kupolu"
 
-#: ekos/capture/capture.cpp:227 ekos/capture/capture.cpp:3589
+#: ekos/capture/capture.cpp:221 ekos/capture/capture.cpp:2957
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Pridať úlohu do fronty sekvencií"
 
-#: ekos/capture/capture.cpp:228 ekos/capture/capture.cpp:3590
+#: ekos/capture/capture.cpp:222 ekos/capture/capture.cpp:2958
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Odstrániť úlohu z fronty sekvencie"
 
-#: ekos/capture/capture.cpp:761
+#: ekos/capture/capture.cpp:468
 #, kde-format
-msgid "Pausing only possible while frame capture is running."
-msgstr ""
+msgid "Downloading..."
+msgstr "Sťahujem ..."
 
-#: ekos/capture/capture.cpp:768
-#, kde-format
-msgid "Sequence shall be paused after current exposure is complete."
-msgstr ""
-
-#: ekos/capture/capture.cpp:772
-#, fuzzy, kde-format
-#| msgid "Sequence"
-msgid "Resume Sequence"
-msgstr "Sekvencia"
-
-#: ekos/capture/capture.cpp:782 ekos/capture/capture.cpp:925
-#, fuzzy, kde-format
-#| msgid "&Start Sequence"
-msgid "Stop Sequence"
-msgstr "Spustiť sekvenciu"
-
-#: ekos/capture/capture.cpp:789
-#, fuzzy, kde-format
-#| msgid "Sequence Queue"
-msgid "Sequence resumed."
-msgstr "Rad postupnosti"
-
-#: ekos/capture/capture.cpp:873
+#: ekos/capture/capture.cpp:651
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
 "Nenájdené žiadne čakajúce úlohy. Prosím, pridajte úlohu do poradia vo fronte."
 
-#: ekos/capture/capture.cpp:882
-#, kde-format
-msgid ""
-"All jobs are complete. Do you want to reset the status of all jobs and "
-"restart capturing?"
-msgstr ""
-"Všetky úlohy sú ukončené. Naozaj chcete vynulovať stav všetkých úloh a "
-"reštartovať zachytávanie?"
-
-#: ekos/capture/capture.cpp:883 ekos/capture/capture.cpp:3374
-#, kde-format
-msgid "Reset job status"
-msgstr "Vynulovať stav úlohy"
-
-#: ekos/capture/capture.cpp:897
-#, kde-format
-msgid ""
-"Warning: option \"Always Reset Sequence When Starting\" is enabled and "
-"resets the sequence counts."
-msgstr ""
-
-#: ekos/capture/capture.cpp:931
-#, kde-format
-msgid ""
-"Warning: Guide deviation is selected but autoguide process was not started."
-msgstr ""
-
-#: ekos/capture/capture.cpp:933
+#: ekos/capture/capture.cpp:656
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:935
+#: ekos/capture/capture.cpp:658
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:974
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
-msgid "CCD capture suspended"
-msgstr "Sekvencia zachytenia CCD ukončená"
-
-#: ekos/capture/capture.cpp:979
-#, fuzzy, kde-format
-#| msgid "Capture aborted."
-msgid "CCD capture complete"
-msgstr "Zachytenie predčasne ukončené."
-
-#: ekos/capture/capture.cpp:984
-#, fuzzy, kde-format
-#| msgid "Capture aborted."
-msgid "CCD capture aborted"
-msgstr "Zachytenie predčasne ukončené."
-
-#: ekos/capture/capture.cpp:989
-#, fuzzy, kde-format
-#| msgid "Capture aborted."
-msgid "CCD capture stopped"
-msgstr "Zachytenie predčasne ukončené."
-
-#. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1057 ekos/capture/capture.ui:2245
-#, fuzzy, kde-format
-#| msgid "Expose:"
-msgid "Expose (-/-):"
-msgstr "Exponovať:"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1068 ekos/capture/capture.ui:2072
-#, kde-format
-msgid "Start Sequence"
-msgstr "Spustiť sekvenciu"
-
-#: ekos/capture/capture.cpp:1788
+#: ekos/capture/capture.cpp:1307
 #, fuzzy, kde-format
 #| msgctxt "City in Massachusetts USA"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "Framingham"
 
-#: ekos/capture/capture.cpp:1799
+#: ekos/capture/capture.cpp:1318
 #, fuzzy, kde-format
 #| msgid "Image received."
 msgid "Captured image received"
 msgstr "Obrázok prijatý."
 
-#: ekos/capture/capture.cpp:1814 ekos/capture/capture.cpp:1951
+#. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
+#: ekos/capture/capture.cpp:1336 ekos/capture/capture.ui:2245
+#, fuzzy, kde-format
+#| msgid "Expose:"
+msgid "Expose (-/-):"
+msgstr "Exponovať:"
+
+#: ekos/capture/capture.cpp:1348 ekos/capture/captureprocess.cpp:729
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Nemôžem zachytiť, kým je modul zaostrenia zaneprázdnený."
 
-#: ekos/capture/capture.cpp:1831
+#: ekos/capture/capture.cpp:1360
 #, fuzzy, kde-format
 #| msgid "Cannot capture while focus module is busy."
 msgid "Cannot start framing while focus module is busy."
 msgstr "Nemôžem zachytiť, kým je modul zaostrenia zaneprázdnený."
 
-#: ekos/capture/capture.cpp:1836
+#: ekos/capture/capture.cpp:1365
 #, fuzzy, kde-format
 #| msgid "Starting solver..."
 msgid "Starting framing..."
 msgstr "Spúšťanie riešiteľa..."
 
-#: ekos/capture/capture.cpp:1907
+#: ekos/capture/capture.cpp:1426
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing %1-second %2 image..."
 msgstr "Snímam obrázok..."
 
-#: ekos/capture/capture.cpp:1941
-#, kde-format
-msgid "Failed to set sub frame."
-msgstr "Zlyhalo nastavenie náhradnej snímky."
-
-#: ekos/capture/capture.cpp:1946
-#, kde-format
-msgid "Failed to set binning."
-msgstr "Zlyhalo nastavenie analýzy chybovosti."
-
-#: ekos/capture/capture.cpp:2013 ekos/capture/captureprocess.cpp:1265
-#, fuzzy, kde-format
-#| msgid ""
-#| "INDI devices failed to connect. Check INDI control panel for details."
-msgid "Capture failed. Check INDI Control Panel for details."
-msgstr ""
-"Zlyhalo pripojenie INDI zariadení. Skontrolujte ovládací panel INDI pre "
-"podrobnosti."
-
-#: ekos/capture/capture.cpp:2046
-#, kde-format
-msgid "Downloading..."
-msgstr "Sťahujem ..."
-
-#: ekos/capture/capture.cpp:2105
+#: ekos/capture/capture.cpp:1511
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2111
+#: ekos/capture/capture.cpp:1517
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2245 ekos/capture/capture.cpp:2248
+#: ekos/capture/capture.cpp:1651 ekos/capture/capture.cpp:1654
 #, fuzzy, kde-format
 #| msgid "Dark Frame"
 msgid "Dark Flat"
 msgstr "Tmavá snímka"
 
-#: ekos/capture/capture.cpp:2324
+#: ekos/capture/capture.cpp:1730
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "Zmeny úlohy #%1 použité."
 
-#: ekos/capture/capture.cpp:2555
+#: ekos/capture/capture.cpp:1963
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Setting temperature to %1 °C..."
 msgstr "Nastavujem teplotu na %1 C..."
 
-#: ekos/capture/capture.cpp:2556
+#: ekos/capture/capture.cpp:1964
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Set Temp to %1 °C..."
 msgstr "Nastavujem teplotu na %1 C..."
 
-#: ekos/capture/capture.cpp:2560
+#: ekos/capture/capture.cpp:1968
 #, fuzzy, kde-format
 #| msgid "PHD2: Guiding Resumed."
 msgid "Waiting for guide drift below %1\"..."
 msgstr "PHD2: Navádzanie obnovené."
 
-#: ekos/capture/capture.cpp:2562
+#: ekos/capture/capture.cpp:1970
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2567
+#: ekos/capture/capture.cpp:1975
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Nastavujem teplotu na %1 C..."
 
-#: ekos/capture/capture.cpp:2568
+#: ekos/capture/capture.cpp:1976
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "Nastaviť polohu..."
 
-#: ekos/capture/capture.cpp:2611 ekos/capture/capture.cpp:2612
+#: ekos/capture/capture.cpp:2019 ekos/capture/capture.cpp:2020
 #, kde-format
 msgid "Focus complete."
 msgstr "Zaostrenie dokončené."
 
-#: ekos/capture/capture.cpp:2616
+#: ekos/capture/capture.cpp:2024
 #, fuzzy, kde-format
 #| msgid "Autofocus on Filter Change"
 msgid "Autofocus failed."
 msgstr "Automaticky zamerať pri zmene filtra"
 
-#: ekos/capture/capture.cpp:2630
-#, fuzzy, kde-format
-#| msgid "Focus complete."
-msgid "Adaptive focus complete."
-msgstr "Zaostrenie dokončené."
-
-#: ekos/capture/capture.cpp:2632
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
-msgid "Adaptive focus failed. Continuing..."
-msgstr "Automatické ostrenie zlyhalo. Prerušenie expozície..."
-
-#: ekos/capture/capture.cpp:2646
+#: ekos/capture/capture.cpp:2046
 #, kde-format
 msgid "Paused..."
 msgstr "Zastavený..."
 
-#: ekos/capture/capture.cpp:2651
+#: ekos/capture/capture.cpp:2051
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Prevrátenie meridiánu..."
 
-#: ekos/capture/capture.cpp:2652
+#: ekos/capture/capture.cpp:2052
 #, fuzzy, kde-format
 #| msgid "Meridian Flip"
 msgid "Meridian flip started"
 msgstr "Meridiánové preloženie spustené"
 
-#: ekos/capture/capture.cpp:2656
+#: ekos/capture/capture.cpp:2056
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Flip complete."
 msgstr "Zarovnanie dokončené"
 
-#: ekos/capture/capture.cpp:2716 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:2094 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 #| msgid "FITS Save Directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Adresár ukladania FITS"
 
-#: ekos/capture/capture.cpp:2726
+#: ekos/capture/capture.cpp:2104
 #, fuzzy, kde-format
 #| msgid "Open Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Otvoriť rad postupnosti Ekos"
 
-#: ekos/capture/capture.cpp:2837
+#: ekos/capture/capture.cpp:2215
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2925
+#: ekos/capture/capture.cpp:2303
 #, fuzzy, kde-format
 #| msgid "%1 focusing failed!"
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr "Zameranie %1 zlyhalo!"
 
-#: ekos/capture/capture.cpp:3142
+#: ekos/capture/capture.cpp:2510
 #, fuzzy, kde-format
 #| msgid "Save Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Uložiť rad postupnosti Ekos"
 
-#: ekos/capture/capture.cpp:3163
+#: ekos/capture/capture.cpp:2531
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Zlyhalo uloženie fronty sekvencií"
 
-#: ekos/capture/capture.cpp:3195
+#: ekos/capture/capture.cpp:2563
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "Nepodarilo sa otvoriť súbor"
 
-#: ekos/capture/capture.cpp:3215
+#: ekos/capture/capture.cpp:2583
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14470,128 +14353,108 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3350
+#: ekos/capture/capture.cpp:2718
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Fronta sekvencií uložená do %1"
 
-#: ekos/capture/capture.cpp:3374
+#: ekos/capture/capture.cpp:2742
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Naozaj chcete vynulovať stav všetkých úloh?"
 
-#: ekos/capture/capture.cpp:3568
+#: ekos/capture/capture.cpp:2742 ekos/capture/captureprocess.cpp:2271
+#, kde-format
+msgid "Reset job status"
+msgstr "Vynulovať stav úlohy"
+
+#: ekos/capture/capture.cpp:2936
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Upravujem úlohu #%1..."
 
-#: ekos/capture/capture.cpp:3571 ekos/scheduler/scheduler.cpp:1676
+#: ekos/capture/capture.cpp:2939 ekos/scheduler/scheduler.cpp:1676
 #, kde-format
 msgid "Apply job changes."
 msgstr "Použiť zmeny úlohy."
 
-#: ekos/capture/capture.cpp:3572
+#: ekos/capture/capture.cpp:2940
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Zrušiť zmeny úloh."
 
-#: ekos/capture/capture.cpp:3584
+#: ekos/capture/capture.cpp:2952
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Úprava úlohy zrušená."
 
-#: ekos/capture/capture.cpp:3825
-#, fuzzy, kde-format
-#| msgid "Guiding timed out."
-msgid "Guide module timed out."
-msgstr "Navádzanie vypršalo."
-
-#: ekos/capture/capture.cpp:3968
+#: ekos/capture/capture.cpp:3105
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Súradnice steny sú neplatné."
 
-#: ekos/capture/capture.cpp:4016 ekos/capture/captureprocess.cpp:221
-#, fuzzy, kde-format
-#| msgid "Image Format"
-msgid "Image Transfer"
-msgstr "Formát obrázku"
-
-#: ekos/capture/capture.cpp:4091
+#: ekos/capture/capture.cpp:3194
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Pozorovateľ:"
 
-#: ekos/capture/capture.cpp:4093
+#: ekos/capture/capture.cpp:3196
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgid "Current Observer:"
 msgstr "Pozorovateľ:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:4104 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:3207 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Spravovať pozorovateľov"
 
-#: ekos/capture/capture.cpp:4169
+#: ekos/capture/capture.cpp:3272
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Filter set to %1."
 msgstr "Súbor uložený do %1"
 
-#: ekos/capture/capture.cpp:4547
+#: ekos/capture/capture.cpp:3594
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Reset %1 configuration to default?"
 msgstr "Použiť určený konfiguračný súbor"
 
-#: ekos/capture/capture.cpp:4549
+#: ekos/capture/capture.cpp:3596
 #, kde-format
 msgid "Confirmation"
 msgstr "Potvrdenie"
 
-#: ekos/capture/capture.cpp:4565
+#: ekos/capture/capture.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Cooler:"
 msgid "Cooler is on"
 msgstr "Chladič:"
 
-#: ekos/capture/capture.cpp:4565
+#: ekos/capture/capture.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Cooler:"
 msgid "Cooler is off"
 msgstr "Chladič:"
 
-#: ekos/capture/capture.cpp:4859
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
-msgid "Are you sure you want to restart %1 camera driver?"
-msgstr "Naozaj chcete odstrániť klienta %1?"
-
-#: ekos/capture/capture.cpp:4860
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
-msgid "Driver Restart"
-msgstr "Reštart"
-
-#: ekos/capture/capture.cpp:4890
+#: ekos/capture/capture.cpp:3796
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4896
+#: ekos/capture/capture.cpp:3802
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4904
+#: ekos/capture/capture.cpp:3810
 #, fuzzy, kde-format
 #| msgid ""
 #| "Maximum acceptable difference between requested and measured temperature "
@@ -14600,14 +14463,26 @@ msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 "Maximálny akceptovateľný rozdiel medzi žiadaným a meraným teplotným bodom."
 
-#: ekos/capture/capture.cpp:4914
+#: ekos/capture/capture.cpp:3820
 #, fuzzy, kde-format
 #| msgid "Setting Temperature"
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Nastavujem teplotu"
 
-#: ekos/capture/capture.cpp:4945
+#: ekos/capture/capture.cpp:3838
+#, fuzzy, kde-format
+#| msgid "&Start Sequence"
+msgid "Stop Sequence"
+msgstr "Spustiť sekvenciu"
+
+#: ekos/capture/capture.cpp:3844
+#, fuzzy, kde-format
+#| msgid "Sequence"
+msgid "Resume Sequence"
+msgstr "Sekvencia"
+
+#: ekos/capture/capture.cpp:3869
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15221,6 +15096,12 @@ msgstr "Spúšťanie na:"
 msgid "Live Video"
 msgstr "Živé video"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, startB)
+#: ekos/capture/capture.ui:2072
+#, kde-format
+msgid "Start Sequence"
+msgstr "Spustiť sekvenciu"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
 #: ekos/capture/capture.ui:2106
 #, fuzzy, kde-format
@@ -15465,7 +15346,7 @@ msgstr "Miestny čas:"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:510
+#: ekos/capture/capturedeviceadaptor.cpp:555
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -15475,99 +15356,117 @@ msgstr ""
 "Ak navádzacia kamera nie je vybavená uzávierkou, zakryť teleskop alebo "
 "kameru, za účelom získania tmavej expozície."
 
-#: ekos/capture/capturedeviceadaptor.cpp:511
+#: ekos/capture/capturedeviceadaptor.cpp:556
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope Covered"
 msgstr "Súradnice teleskopu"
 
-#: ekos/capture/capturedeviceadaptor.cpp:643
+#: ekos/capture/capturedeviceadaptor.cpp:688
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:644
+#: ekos/capture/capturedeviceadaptor.cpp:689
 #: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Tmavá expozícia"
 
-#: ekos/capture/capturemodulestate.cpp:133
+#: ekos/capture/capturemodulestate.cpp:130
+#, kde-format
+msgid ""
+"Warning: Guide deviation is selected but autoguide process was not started."
+msgstr ""
+
+#: ekos/capture/capturemodulestate.cpp:194
 #, fuzzy, kde-format
 #| msgid "Dithering"
 msgid "Dithering succeeded."
 msgstr "Rozptyľovanie"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:140
+#: ekos/capture/capturemodulestate.cpp:201
 #, fuzzy, kde-format
 #| msgid "Solver completed in %1 second."
 #| msgid_plural "Solver completed in %1 seconds."
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "Riešiteľ skončil za %1 sekundu."
 
-#: ekos/capture/capturemodulestate.cpp:148
+#: ekos/capture/capturemodulestate.cpp:209
 #, kde-format
 msgid "Dither complete."
 msgstr "Rozptyľovanie dokončené."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:162
+#: ekos/capture/capturemodulestate.cpp:223
 #, fuzzy, kde-format
 #| msgid "Dithering failed. Autoguiding aborted."
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "Rozptyľovanie zlyhalo. Automatické navádzanie prerušené."
 
-#: ekos/capture/capturemodulestate.cpp:171
+#: ekos/capture/capturemodulestate.cpp:232
 #, fuzzy, kde-format
 #| msgid "Dithering"
 msgid "Warning: Dithering failed."
 msgstr "Rozptyľovanie"
 
-#: ekos/capture/capturemodulestate.cpp:349
+#: ekos/capture/capturemodulestate.cpp:430
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:445
+#: ekos/capture/capturemodulestate.cpp:526
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Vykonávam novú kalibráciu a navádzanie po prevrátení meridiánu..."
 
-#: ekos/capture/capturemodulestate.cpp:458
+#: ekos/capture/capturemodulestate.cpp:539
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Kalibrácia po prevrátení meridiánu vykonaná úspešne."
 
-#: ekos/capture/capturemodulestate.cpp:478
+#: ekos/capture/capturemodulestate.cpp:559
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped. Aborting..."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Automatické navádzanie zastavené. Prerušujem..."
 
-#: ekos/capture/capturemodulestate.cpp:487
+#: ekos/capture/capturemodulestate.cpp:568
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Automatické navádzanie zastavené. Prerušujem..."
 
-#: ekos/capture/capturemodulestate.cpp:494
+#: ekos/capture/capturemodulestate.cpp:575
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Kalibrácia po prevrátení meridiánu vykonaná úspešne."
 
-#: ekos/capture/capturemodulestate.cpp:537
+#: ekos/capture/capturemodulestate.cpp:595
+#, fuzzy, kde-format
+#| msgid "Focus complete."
+msgid "Adaptive focus complete."
+msgstr "Zaostrenie dokončené."
+
+#: ekos/capture/capturemodulestate.cpp:619
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Automatické ostrenie zlyhalo. Prerušenie expozície..."
 
-#: ekos/capture/capturemodulestate.cpp:684
+#: ekos/capture/capturemodulestate.cpp:766
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Vykonáva sa nové zarovnanie po prevrátení..."
 
-#: ekos/capture/capturemodulestate.cpp:718
+#: ekos/capture/capturemodulestate.cpp:784
+#, fuzzy, kde-format
+#| msgid "Guiding timed out."
+msgid "Guide module timed out."
+msgstr "Navádzanie vypršalo."
+
+#: ekos/capture/capturemodulestate.cpp:816
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15577,7 +15476,7 @@ msgstr ""
 "Navádzacia odchýlka %1 je nižšia ako hraničná hodnota %2 uhlové sekundy, "
 "pokračovanie expozície."
 
-#: ekos/capture/capturemodulestate.cpp:727
+#: ekos/capture/capturemodulestate.cpp:825
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15587,12 +15486,12 @@ msgstr ""
 "Navádzacia odchýlka %1 je nižšia ako hraničná hodnota %2 uhlové sekundy, "
 "pokračovanie expozície."
 
-#: ekos/capture/capturemodulestate.cpp:749
+#: ekos/capture/capturemodulestate.cpp:847
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Kalibrácia po prevrátení meridiánu vykonaná úspešne."
 
-#: ekos/capture/capturemodulestate.cpp:763
+#: ekos/capture/capturemodulestate.cpp:861
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15602,7 +15501,7 @@ msgstr ""
 "Navádzacia odchýlka %1 je nižšia ako hraničná hodnota %2 uhlové sekundy, "
 "pokračovanie expozície."
 
-#: ekos/capture/capturemodulestate.cpp:777
+#: ekos/capture/capturemodulestate.cpp:875
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15612,7 +15511,7 @@ msgstr ""
 "Navádzacia odchýlka %1 je nižšia ako hraničná hodnota %2 uhlové sekundy, "
 "pokračovanie expozície."
 
-#: ekos/capture/capturemodulestate.cpp:804
+#: ekos/capture/capturemodulestate.cpp:902
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -15624,7 +15523,7 @@ msgstr ""
 "Navádzacia odchýlka %1 prekročila hraničnú hodnotu %2 uhlové sekundy, "
 "prerušenie expozície..."
 
-#: ekos/capture/capturemodulestate.cpp:851
+#: ekos/capture/capturemodulestate.cpp:949
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15633,7 +15532,7 @@ msgstr ""
 "Navádzacia odchýlka %1 je nižšia ako hraničná hodnota %2 uhlové sekundy, "
 "pokračovanie expozície."
 
-#: ekos/capture/capturemodulestate.cpp:855
+#: ekos/capture/capturemodulestate.cpp:953
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15642,7 +15541,7 @@ msgstr ""
 "Navádzacia odchýlka %1 je nižšia ako hraničná hodnota %2 uhlových sekúnd, "
 "pokračovanie expozície o %3 sekúnd."
 
-#: ekos/capture/capturemodulestate.cpp:870
+#: ekos/capture/capturemodulestate.cpp:968
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15652,18 +15551,18 @@ msgstr ""
 "Navádzacia odchýlka %1 je nižšia ako hraničná hodnota %2 uhlové sekundy, "
 "pokračovanie expozície."
 
-#: ekos/capture/capturemodulestate.cpp:998
+#: ekos/capture/capturemodulestate.cpp:1349
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Nové zarovnanie po prevrátení skončilo úspešne."
 
-#: ekos/capture/capturemodulestate.cpp:1017
+#: ekos/capture/capturemodulestate.cpp:1368
 #, fuzzy, kde-format
 #| msgid "%1 alignment failed!"
 msgid "Post-flip alignment failed."
 msgstr "Zarovnanie %1 zlyhalo!"
 
-#: ekos/capture/capturemodulestate.cpp:1022
+#: ekos/capture/capturemodulestate.cpp:1373
 #, fuzzy, kde-format
 #| msgid "%1 alignment failed!"
 msgid "Post-flip alignment failed. Retrying..."
@@ -15702,153 +15601,218 @@ msgstr "Odstrániť"
 msgid "Target: "
 msgstr "Cieľ:"
 
-#: ekos/capture/captureprocess.cpp:84
+#: ekos/capture/captureprocess.cpp:171 ekos/capture/captureprocess.cpp:497
+#, fuzzy, kde-format
+#| msgid "Image Format"
+msgid "Image Transfer"
+msgstr "Formát obrázku"
+
+#: ekos/capture/captureprocess.cpp:190
+#, fuzzy, kde-format
+#| msgid "Sequence Queue"
+msgid "Sequence resumed."
+msgstr "Rad postupnosti"
+
+#: ekos/capture/captureprocess.cpp:233
+#, fuzzy, kde-format
+#| msgid "CCD capture sequence completed"
+msgid "CCD capture suspended"
+msgstr "Sekvencia zachytenia CCD ukončená"
+
+#: ekos/capture/captureprocess.cpp:238
+#, fuzzy, kde-format
+#| msgid "Capture aborted."
+msgid "CCD capture complete"
+msgstr "Zachytenie predčasne ukončené."
+
+#: ekos/capture/captureprocess.cpp:243
+#, fuzzy, kde-format
+#| msgid "Capture aborted."
+msgid "CCD capture aborted"
+msgstr "Zachytenie predčasne ukončené."
+
+#: ekos/capture/captureprocess.cpp:248
+#, fuzzy, kde-format
+#| msgid "Capture aborted."
+msgid "CCD capture stopped"
+msgstr "Zachytenie predčasne ukončené."
+
+#: ekos/capture/captureprocess.cpp:322
+#, kde-format
+msgid "Pausing only possible while frame capture is running."
+msgstr ""
+
+#: ekos/capture/captureprocess.cpp:329
+#, kde-format
+msgid "Sequence shall be paused after current exposure is complete."
+msgstr ""
+
+#: ekos/capture/captureprocess.cpp:360
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:85
+#: ekos/capture/captureprocess.cpp:361
 #, fuzzy, kde-format
 #| msgid "Print preview"
 msgid "Display preview"
 msgstr "Náhľad tlače"
 
-#: ekos/capture/captureprocess.cpp:169
+#: ekos/capture/captureprocess.cpp:445
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:182
+#: ekos/capture/captureprocess.cpp:458
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:379
+#: ekos/capture/captureprocess.cpp:677
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Autoguiding resumed."
 msgstr "Navádzanie hviezd opäť začaté."
 
-#: ekos/capture/captureprocess.cpp:632
+#: ekos/capture/captureprocess.cpp:719
+#, kde-format
+msgid "Failed to set sub frame."
+msgstr "Zlyhalo nastavenie náhradnej snímky."
+
+#: ekos/capture/captureprocess.cpp:724
+#, kde-format
+msgid "Failed to set binning."
+msgstr "Zlyhalo nastavenie analýzy chybovosti."
+
+#: ekos/capture/captureprocess.cpp:976
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Vzdialený obrázok uložený do %1"
 
-#: ekos/capture/captureprocess.cpp:731
+#: ekos/capture/captureprocess.cpp:1075
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Automatické navádzanie pozastavené."
 
-#: ekos/capture/captureprocess.cpp:760
+#: ekos/capture/captureprocess.cpp:1104
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:825
+#: ekos/capture/captureprocess.cpp:1169
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "Sekvencia zachytenia CCD ukončená"
 
-#: ekos/capture/captureprocess.cpp:882
+#: ekos/capture/captureprocess.cpp:1226
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Chyba: Strata pripojenia na CCD."
 
-#: ekos/capture/captureprocess.cpp:911
+#: ekos/capture/captureprocess.cpp:1255
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1024
+#: ekos/capture/captureprocess.cpp:1367 ekos/capture/captureprocess.cpp:1863
+#, fuzzy, kde-format
+#| msgid ""
+#| "INDI devices failed to connect. Check INDI control panel for details."
+msgid "Capture failed. Check INDI Control Panel for details."
+msgstr ""
+"Zlyhalo pripojenie INDI zariadení. Skontrolujte ovládací panel INDI pre "
+"podrobnosti."
+
+#: ekos/capture/captureprocess.cpp:1468
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1073
+#: ekos/capture/captureprocess.cpp:1517
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Prijatý obrázok %1 mimo %2."
 
-#: ekos/capture/captureprocess.cpp:1106
+#: ekos/capture/captureprocess.cpp:1550
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Zachytiť"
 
-#: ekos/capture/captureprocess.cpp:1111
+#: ekos/capture/captureprocess.cpp:1555
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1143
+#: ekos/capture/captureprocess.cpp:1587
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Bežiaci script: %1"
 
-#: ekos/capture/captureprocess.cpp:1158
+#: ekos/capture/captureprocess.cpp:1602
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1166
+#: ekos/capture/captureprocess.cpp:1610
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1178
+#: ekos/capture/captureprocess.cpp:1622
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Processing meridian flip..."
 msgstr "Prevrátenie meridiánu..."
 
-#: ekos/capture/captureprocess.cpp:1188
+#: ekos/capture/captureprocess.cpp:1632
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1193
+#: ekos/capture/captureprocess.cpp:1637
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1212 ekos/focus/focus.cpp:4871
+#: ekos/capture/captureprocess.cpp:1810 ekos/focus/focus.cpp:4874
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
-#: ekos/capture/captureprocess.cpp:1235 ekos/focus/focus.cpp:4876
+#: ekos/capture/captureprocess.cpp:1833 ekos/focus/focus.cpp:4879
 #: ekos/guide/guide.cpp:892
 #, fuzzy, kde-format
 #| msgid "Exposure failed. Restarting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Expozícia zlyhala. Reštartujem expozíciu..."
 
-#: ekos/capture/captureprocess.cpp:1324
+#: ekos/capture/captureprocess.cpp:1922
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1335
+#: ekos/capture/captureprocess.cpp:1933
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Aktuálne ADU je %1 Ďalšia expozícia je %2 sekúnd."
 
-#: ekos/capture/captureprocess.cpp:1357
+#: ekos/capture/captureprocess.cpp:1955
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Aktuálne ADU %1 v cieľovom rozsahu tolerancie ADU."
 
-#: ekos/capture/captureprocess.cpp:1390
+#: ekos/capture/captureprocess.cpp:1988
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to calculate optimal exposure settings, please take the flats "
@@ -15859,16 +15823,45 @@ msgid ""
 msgstr ""
 "Nemôžem vypočítať optimálne nastavenia expozície, prosím urobte to ručne."
 
-#: ekos/capture/captureprocess.cpp:1398
+#: ekos/capture/captureprocess.cpp:1996
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Aktuálne ADU je %1 Ďalšia expozícia je %2 sekúnd."
 
-#: ekos/capture/captureprocess.cpp:1549
+#: ekos/capture/captureprocess.cpp:2217
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Sequence paused."
 msgstr "Rad postupnosti"
+
+#: ekos/capture/captureprocess.cpp:2270
+#, kde-format
+msgid ""
+"All jobs are complete. Do you want to reset the status of all jobs and "
+"restart capturing?"
+msgstr ""
+"Všetky úlohy sú ukončené. Naozaj chcete vynulovať stav všetkých úloh a "
+"reštartovať zachytávanie?"
+
+#: ekos/capture/captureprocess.cpp:2285
+#, kde-format
+msgid ""
+"Warning: option \"Always Reset Sequence When Starting\" is enabled and "
+"resets the sequence counts."
+msgstr ""
+
+#: ekos/capture/captureprocess.cpp:2374
+#, fuzzy, kde-format
+#| msgid "Are you sure you want to remove the %1 client?"
+msgid "Are you sure you want to restart %1 camera driver?"
+msgstr "Naozaj chcete odstrániť klienta %1?"
+
+#: ekos/capture/captureprocess.cpp:2375
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Restart"
+msgid "Driver Restart"
+msgstr "Reštart"
 
 #: ekos/capture/captureprocessoverlay.cpp:107
 #, fuzzy, kde-format
@@ -17035,7 +17028,7 @@ msgstr ""
 msgid "No Focuser connected."
 msgstr "CCD nepripojené."
 
-#: ekos/focus/focus.cpp:1120 ekos/focus/focus.cpp:4014
+#: ekos/focus/focus.cpp:1120 ekos/focus/focus.cpp:4017
 #, kde-format
 msgid "No CCD connected."
 msgstr "CCD nepripojené."
@@ -17132,65 +17125,65 @@ msgstr "Meno planéty"
 msgid "Detection in progress, please wait."
 msgstr "Dome Creek"
 
-#: ekos/focus/focus.cpp:1532
+#: ekos/focus/focus.cpp:1533
 #, fuzzy, kde-format
 #| msgid "Autofocus on Filter Change"
 msgid "Autofocus aborted."
 msgstr "Automaticky zamerať pri zmene filtra"
 
-#: ekos/focus/focus.cpp:1618
+#: ekos/focus/focus.cpp:1621
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1625
+#: ekos/focus/focus.cpp:1628
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Camera."
 msgstr "Chyba: Stratené spojenie na zaostrovanie."
 
-#: ekos/focus/focus.cpp:1646
+#: ekos/focus/focus.cpp:1649
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1652
+#: ekos/focus/focus.cpp:1655
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to filter wheel."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Chyba: Stratené spojenie na koliesko filtra."
 
-#: ekos/focus/focus.cpp:1794
+#: ekos/focus/focus.cpp:1797
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1801
+#: ekos/focus/focus.cpp:1804
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Chyba: Stratené spojenie na zaostrovanie."
 
-#: ekos/focus/focus.cpp:1813
+#: ekos/focus/focus.cpp:1816
 #, fuzzy, kde-format
 #| msgctxt "City in Oklahoma USA"
 #| msgid "Woodward"
 msgid "outward"
 msgstr "Woodward"
 
-#: ekos/focus/focus.cpp:1813
+#: ekos/focus/focus.cpp:1816
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1827
+#: ekos/focus/focus.cpp:1830
 #, fuzzy, kde-format
 #| msgid "Focusing inward by %1 ms..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "Zaostrujem dnu podľa %1 ms..."
 
-#: ekos/focus/focus.cpp:1833
+#: ekos/focus/focus.cpp:1836
 #, fuzzy, kde-format
 #| msgid "Focusing inward by %1 ms..."
 msgid "Focusing %2 by %1 step..."
@@ -17199,65 +17192,65 @@ msgstr[0] "Zaostrujem dnu podľa %1 ms..."
 msgstr[1] "Zaostrujem dnu podľa %1 ms..."
 msgstr[2] "Zaostrujem dnu podľa %1 ms..."
 
-#: ekos/focus/focus.cpp:1839
+#: ekos/focus/focus.cpp:1842
 #, fuzzy, kde-format
 #| msgid "Focusing inward by %1 ms..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "Zaostrujem dnu podľa %1 ms..."
 
-#: ekos/focus/focus.cpp:1877
+#: ekos/focus/focus.cpp:1880
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
-#: ekos/focus/focus.cpp:1884
+#: ekos/focus/focus.cpp:1887
 #, fuzzy, kde-format
 #| msgid "Focusing outward by %1 ms..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Zaostrujem von podľa %1 ms..."
 
-#: ekos/focus/focus.cpp:1895
+#: ekos/focus/focus.cpp:1898
 #, fuzzy, kde-format
 #| msgid "Focusing outward by %1 ms..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Zaostrujem von podľa %1 ms..."
 
-#: ekos/focus/focus.cpp:1951
+#: ekos/focus/focus.cpp:1954
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1960
+#: ekos/focus/focus.cpp:1963
 #, fuzzy, kde-format
 #| msgid "Capture error! Aborting..."
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Chyba zachytenia! Prerušujem..."
 
-#: ekos/focus/focus.cpp:2009
+#: ekos/focus/focus.cpp:2012
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Detection complete."
 msgstr "Zarovnanie dokončené"
 
-#: ekos/focus/focus.cpp:2201
+#: ekos/focus/focus.cpp:2204
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Detecting sources..."
 msgstr "Sťahujem ..."
 
-#: ekos/focus/focus.cpp:2314
+#: ekos/focus/focus.cpp:2317
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Operácia automatického zaostrenia ukončená úspešne"
 
-#: ekos/focus/focus.cpp:2326
+#: ekos/focus/focus.cpp:2329
 #, fuzzy, kde-format
 #| msgid "Autofocus operation started"
 msgid "Autofocus operation failed"
 msgstr "Operácia automatického zaostrenia spustená"
 
-#: ekos/focus/focus.cpp:2358
+#: ekos/focus/focus.cpp:2361
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus procedure completed after %1 iteration."
@@ -17266,92 +17259,92 @@ msgstr[0] "Automatické ostrenie dokončené."
 msgstr[1] "Automatické ostrenie dokončené."
 msgstr[2] "Automatické ostrenie dokončené."
 
-#: ekos/focus/focus.cpp:2442
+#: ekos/focus/focus.cpp:2445
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "settling"
 
-#: ekos/focus/focus.cpp:2449
+#: ekos/focus/focus.cpp:2452
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Settling complete."
 msgstr "Zarovnanie dokončené"
 
-#: ekos/focus/focus.cpp:2462
+#: ekos/focus/focus.cpp:2465
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Automatické zaostrenie zlyhalo, vraciam späť na pôvodnú polohu zaostrenia %1."
 
-#: ekos/focus/focus.cpp:2499
+#: ekos/focus/focus.cpp:2502
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS prijatý. Nezistené žiadne hviezdy."
 
-#: ekos/focus/focus.cpp:2654
+#: ekos/focus/focus.cpp:2657
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Zlyhal automatický výber hviezdy. Prosím, vyberte hviezdu ručne."
 
-#: ekos/focus/focus.cpp:2750
+#: ekos/focus/focus.cpp:2753
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Zachytenie dokončené. Vybrať hviezdu na zameranie."
 
-#: ekos/focus/focus.cpp:2783
+#: ekos/focus/focus.cpp:2786
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Nezistené žiadne hviezdy, zachytávanie ešte raz..."
 
-#: ekos/focus/focus.cpp:2918
+#: ekos/focus/focus.cpp:2921
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 "Automatické ostrenie zlyhalo pri dosiahnutí náležitého zaostrenia. Skúste "
 "zvýšenie hodnoty tolerancie."
 
-#: ekos/focus/focus.cpp:2929 ekos/focus/focus.cpp:3568
+#: ekos/focus/focus.cpp:2932 ekos/focus/focus.cpp:3571
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Nezistené žiadne hviezdy, zachytávanie ešte raz..."
 
-#: ekos/focus/focus.cpp:2935 ekos/focus/focus.cpp:3574
+#: ekos/focus/focus.cpp:2938 ekos/focus/focus.cpp:3577
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Zlyhal automatický výber hviezdy. Prosím, vyberte hviezdu ručne."
 
-#: ekos/focus/focus.cpp:2940 ekos/focus/focus.cpp:3579
+#: ekos/focus/focus.cpp:2943 ekos/focus/focus.cpp:3582
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Zlyhal automatický výber hviezdy. Prosím, vyberte hviezdu ručne."
 
-#: ekos/focus/focus.cpp:3166
+#: ekos/focus/focus.cpp:3169
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3173
+#: ekos/focus/focus.cpp:3176
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3216
+#: ekos/focus/focus.cpp:3219
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS prijaté. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3218
+#: ekos/focus/focus.cpp:3221
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS prijatý. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3279
+#: ekos/focus/focus.cpp:3282
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -17360,46 +17353,46 @@ msgstr ""
 "Zmena HFR je príliš malá. Skúste zvýšenie veľkosti kroku alebo zníženie "
 "tolerancie."
 
-#: ekos/focus/focus.cpp:3286
+#: ekos/focus/focus.cpp:3289
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Zlyhalo zistenie kontrolnej hviezdy v snímke. Nasnímajte a vyberte kontrolnú "
 "hviezdu."
 
-#: ekos/focus/focus.cpp:3391
+#: ekos/focus/focus.cpp:3394
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3455
+#: ekos/focus/focus.cpp:3458
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3466
+#: ekos/focus/focus.cpp:3469
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3476
+#: ekos/focus/focus.cpp:3479
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 "Dosiahnutý nerozhodný výsledok. Skúste to, prosím, znova s iným nastavením."
 
-#: ekos/focus/focus.cpp:3505
+#: ekos/focus/focus.cpp:3508
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3553
+#: ekos/focus/focus.cpp:3556
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS prijaté. HFR %1. Delta (%2%) Min HFR (%3)"
 
-#: ekos/focus/focus.cpp:3557
+#: ekos/focus/focus.cpp:3560
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -17407,54 +17400,54 @@ msgstr ""
 "Automatické ostrenie zlyhalo pri dosiahnutí náležitého zaostrenia. Skúste "
 "upravenie hodnoty tolerancie."
 
-#: ekos/focus/focus.cpp:3647 ekos/focus/focus.cpp:3660
-#: ekos/focus/focus.cpp:3781 ekos/focus/focus.cpp:3853
-#: ekos/focus/focus.cpp:3914 ekos/focus/focus.cpp:3958
+#: ekos/focus/focus.cpp:3650 ekos/focus/focus.cpp:3663
+#: ekos/focus/focus.cpp:3784 ekos/focus/focus.cpp:3856
+#: ekos/focus/focus.cpp:3917 ekos/focus/focus.cpp:3961
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Chyba zaostrovania, skontrolovať panel INDI."
 
-#: ekos/focus/focus.cpp:3691 ekos/focus/focus.cpp:3797
+#: ekos/focus/focus.cpp:3694 ekos/focus/focus.cpp:3800
 #, fuzzy, kde-format
 #| msgid "Autofocus on Filter Change"
 msgid "Simulate focuser comms failure..."
 msgstr "Automaticky zamerať pri zmene filtra"
 
-#: ekos/focus/focus.cpp:3762 ekos/focus/focus.cpp:3838
-#: ekos/focus/focus.cpp:3899 ekos/focus/focus.cpp:3932
+#: ekos/focus/focus.cpp:3765 ekos/focus/focus.cpp:3841
+#: ekos/focus/focus.cpp:3902 ekos/focus/focus.cpp:3935
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Reštartujem automatické ostrenie..."
 
-#: ekos/focus/focus.cpp:4032
+#: ekos/focus/focus.cpp:4035
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Spustenie spojitej expozície..."
 
-#: ekos/focus/focus.cpp:4296
+#: ekos/focus/focus.cpp:4299
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4301
+#: ekos/focus/focus.cpp:4304
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Focus star is selected."
 msgstr "%1 hviezda zistená."
 
-#: ekos/focus/focus.cpp:4431
+#: ekos/focus/focus.cpp:4434
 #, fuzzy, kde-format
 #| msgid "No star was selected. Aborting..."
 msgid "No star was selected. Using last known position..."
 msgstr "Nebola vybraná žiadna hviezda. Prerušujem..."
 
-#: ekos/focus/focus.cpp:4437
+#: ekos/focus/focus.cpp:4440
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Nebola vybraná žiadna hviezda. Prerušujem..."
 
-#: ekos/focus/focus.cpp:4552
+#: ekos/focus/focus.cpp:4555
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus Timer"
@@ -17462,38 +17455,38 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Časovač zaostrenia"
 
-#: ekos/focus/focus.cpp:4889
+#: ekos/focus/focus.cpp:4892
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing image again..."
 msgstr "Snímam obrázok..."
 
-#: ekos/focus/focus.cpp:4904
+#: ekos/focus/focus.cpp:4907
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save image. Aborting..."
 msgstr "Zlyhalo nastavenie náhradnej snímky."
 
-#: ekos/focus/focus.cpp:4914
+#: ekos/focus/focus.cpp:4917
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
-#: ekos/focus/focus.cpp:4919
+#: ekos/focus/focus.cpp:4922
 #, fuzzy, kde-format
 #| msgid "Exposure failed. Restarting exposure..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Expozícia zlyhala. Reštartujem expozíciu..."
 
-#: ekos/focus/focus.cpp:5197
+#: ekos/focus/focus.cpp:5200
 #, fuzzy, kde-format
 #| msgid "Relative Profile"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Relatívny profil"
 
-#: ekos/focus/focus.cpp:6389
+#: ekos/focus/focus.cpp:6392
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17518,7 +17511,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6405
+#: ekos/focus/focus.cpp:6408
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17530,7 +17523,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6412
+#: ekos/focus/focus.cpp:6415
 #, kde-format
 msgid ""
 "\n"
@@ -17551,7 +17544,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6422
+#: ekos/focus/focus.cpp:6425
 #, fuzzy, kde-format
 #| msgid "Focus Out"
 msgid "Focus Advisor"
@@ -17600,7 +17593,7 @@ msgstr "Začiatok:"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:315 ekos/scheduler/framingassistant.ui:1256
+#: ekos/focus/focus.ui:315 ekos/scheduler/framingassistant.ui:1281
 #: ekos/scheduler/scheduler.ui:373
 #, kde-format
 msgid "Steps:"
@@ -17890,7 +17883,7 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, overlapSpin)
 #: ekos/focus/focus.ui:1097 ekos/focus/focus.ui:1198 ekos/focus/focus.ui:1241
 #: ekos/focus/focus.ui:1990 ekos/focus/focus.ui:2087 ekos/focus/focus.ui:2914
-#: ekos/scheduler/framingassistant.ui:854
+#: ekos/scheduler/framingassistant.ui:879
 #, fuzzy, no-c-format, kde-format
 #| msgid "%"
 msgid " %"
@@ -18873,7 +18866,7 @@ msgstr "<html><head/><body><p>Preemptívne hodiny vypnutia</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
-#: ekos/focus/focus.ui:2775 ekos/scheduler/framingassistant.ui:141
+#: ekos/focus/focus.ui:2775 ekos/scheduler/framingassistant.ui:87
 #, fuzzy, kde-format
 #| msgid "mm"
 msgid " mm"
@@ -23929,7 +23922,7 @@ msgstr "Prevrátenie meridiánu..."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
-#: ekos/opsekos.ui:460 kstars.kcfg:2841
+#: ekos/opsekos.ui:460 kstars.kcfg:2845
 #, kde-format
 msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
@@ -23952,7 +23945,7 @@ msgstr "Teleskop ukončil prevrátenie meridiánu."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
-#: ekos/opsekos.ui:484 kstars.kcfg:2845
+#: ekos/opsekos.ui:484 kstars.kcfg:2849
 #, kde-format
 msgid ""
 "If captured position exceeds target position by more this many arcminutes, "
@@ -25144,7 +25137,7 @@ msgid ""
 msgstr "Vybrať zariadenia"
 
 #: ekos/scheduler/framingassistant.cpp:539
-#: ekos/scheduler/framingassistantui.cpp:549
+#: ekos/scheduler/framingassistantui.cpp:555
 #, fuzzy, kde-format
 #| msgid "Scheduler"
 msgid " Scheduler job"
@@ -25154,7 +25147,7 @@ msgstr[1] "Plánovač"
 msgstr[2] "Plánovač"
 
 #: ekos/scheduler/framingassistant.cpp:541
-#: ekos/scheduler/framingassistantui.cpp:551
+#: ekos/scheduler/framingassistantui.cpp:557
 #, kde-format
 msgid " (first only)"
 msgstr ""
@@ -25173,118 +25166,8 @@ msgstr "Plánovač pozorovania"
 msgid "↓ Confirm Equipment"
 msgstr "Nastaviť zariadenie"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pixelHSizeSpin)
-#: ekos/scheduler/framingassistant.ui:102
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
-msgid ""
-"<html><head/><body><p align=\"justify\">Height of a single camera photosite, "
-"in micrometers.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
-
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelHSizeSpin)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelWSizeSpin)
-#: ekos/scheduler/framingassistant.ui:105
-#: ekos/scheduler/framingassistant.ui:266
-#, fuzzy, kde-format
-#| msgid "µm"
-msgid " µm"
-msgstr "µm"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_8)
-#: ekos/scheduler/framingassistant.ui:114
-#, kde-format
-msgid "Camera frame width and height in pixels"
-msgstr "Výška a šírka snímky fotoaparátu v pixeloch"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, fetchB)
-#: ekos/scheduler/framingassistant.ui:124
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
-msgid ""
-"<html><head/><body><p align=\"justify\">Fetch equipment information from the "
-"Ekos active profile, if any.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QPushButton, fetchB)
-#: ekos/scheduler/framingassistant.ui:127
-#, kde-format
-msgid "Fetch"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focalLenSpin)
-#: ekos/scheduler/framingassistant.ui:138
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
-msgid ""
-"<html><head/><body><p align=\"justify\">Focal length of the telescope to use "
-"for the mosaic.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_11)
-#: ekos/scheduler/framingassistant.ui:157
-#, kde-format
-msgid "Camera pixel size in microns"
-msgstr "Veľkosť pixelov fotoaparátu v mikrónoch"
-
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/scheduler/framingassistant.ui:160
-#, kde-format
-msgid "Pixel Size:"
-msgstr "Veľkosť v bodoch:"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, cameraHSpin)
-#: ekos/scheduler/framingassistant.ui:185
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
-msgid ""
-"<html><head/><body><p align=\"justify\">Height of the frame produced by the "
-"camera, in pixels.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, cameraHSpin)
-#. i18n: ectx: property (suffix), widget (QSpinBox, cameraWSpin)
-#: ekos/scheduler/framingassistant.ui:188
-#: ekos/scheduler/framingassistant.ui:227
-#, kde-format
-msgid " pix"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#. i18n: ectx: property (text), widget (QLabel, label_13)
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, cameraWFOVLabel)
-#. i18n: ectx: property (text), widget (QLabel, targetFOVWLabel)
-#: ekos/scheduler/framingassistant.ui:211
-#: ekos/scheduler/framingassistant.ui:250
-#: ekos/scheduler/framingassistant.ui:588
-#: ekos/scheduler/framingassistant.ui:745
-#: ekos/scheduler/framingassistant.ui:806
-#: kstarslite/qml/indi/modules/MotionControl.qml:130
-#, kde-format, kde-kuit-format
-msgid "W"
-msgstr "Z"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, cameraWSpin)
-#: ekos/scheduler/framingassistant.ui:224
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
-msgid ""
-"<html><head/><body><p align=\"justify\">Width of the frame produced by the "
-"camera, in pixels.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pixelWSizeSpin)
-#: ekos/scheduler/framingassistant.ui:263
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
-msgid ""
-"<html><head/><body><p align=\"justify\">Width of a single camera photosite, "
-"in micrometers.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/scheduler/framingassistant.ui:281
+#: ekos/scheduler/framingassistant.ui:74
 #, fuzzy, kde-format
 #| msgid "Telescope focal length in millimeters."
 msgid "Mount focal length in millimeters"
@@ -25293,15 +25176,131 @@ msgstr "Ohnisková vzdialenosť ďalekohľadu v milimetroch"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/scheduler/framingassistant.ui:284 oal/equipmentwriter.ui:129
+#: ekos/scheduler/framingassistant.ui:77 oal/equipmentwriter.ui:129
 #: oal/equipmentwriter.ui:465
 #, fuzzy, kde-format
 #| msgid "Focal Length:"
 msgid "Focal length:"
 msgstr "Ohnisková vzdialenosť:"
 
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focalLenSpin)
+#: ekos/scheduler/framingassistant.ui:84
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+msgid ""
+"<html><head/><body><p align=\"justify\">Focal length of the telescope to use "
+"for the mosaic.</p></body></html>"
+msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_17)
+#: ekos/scheduler/framingassistant.ui:105
+#, kde-format
+msgid "Reducer:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_8)
+#: ekos/scheduler/framingassistant.ui:136
+#, kde-format
+msgid "Camera frame width and height in pixels"
+msgstr "Výška a šírka snímky fotoaparátu v pixeloch"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, cameraWFOVLabel)
+#. i18n: ectx: property (text), widget (QLabel, targetFOVWLabel)
+#: ekos/scheduler/framingassistant.ui:151
+#: ekos/scheduler/framingassistant.ui:239
+#: ekos/scheduler/framingassistant.ui:613
+#: ekos/scheduler/framingassistant.ui:770
+#: ekos/scheduler/framingassistant.ui:831
+#: kstarslite/qml/indi/modules/MotionControl.qml:130
+#, kde-format, kde-kuit-format
+msgid "W"
+msgstr "Z"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, cameraWSpin)
+#: ekos/scheduler/framingassistant.ui:164
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+msgid ""
+"<html><head/><body><p align=\"justify\">Width of the frame produced by the "
+"camera, in pixels.</p></body></html>"
+msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, cameraWSpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox, cameraHSpin)
+#: ekos/scheduler/framingassistant.ui:167
+#: ekos/scheduler/framingassistant.ui:206
+#, kde-format
+msgid " pix"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, cameraHSpin)
+#: ekos/scheduler/framingassistant.ui:203
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+msgid ""
+"<html><head/><body><p align=\"justify\">Height of the frame produced by the "
+"camera, in pixels.</p></body></html>"
+msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_11)
+#: ekos/scheduler/framingassistant.ui:224
+#, kde-format
+msgid "Camera pixel size in microns"
+msgstr "Veľkosť pixelov fotoaparátu v mikrónoch"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: ekos/scheduler/framingassistant.ui:227
+#, kde-format
+msgid "Pixel Size:"
+msgstr "Veľkosť v bodoch:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pixelWSizeSpin)
+#: ekos/scheduler/framingassistant.ui:252
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+msgid ""
+"<html><head/><body><p align=\"justify\">Width of a single camera photosite, "
+"in micrometers.</p></body></html>"
+msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelWSizeSpin)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelHSizeSpin)
+#: ekos/scheduler/framingassistant.ui:255
+#: ekos/scheduler/framingassistant.ui:291
+#, fuzzy, kde-format
+#| msgid "µm"
+msgid " µm"
+msgstr "µm"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pixelHSizeSpin)
+#: ekos/scheduler/framingassistant.ui:288
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+msgid ""
+"<html><head/><body><p align=\"justify\">Height of a single camera photosite, "
+"in micrometers.</p></body></html>"
+msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, fetchB)
+#: ekos/scheduler/framingassistant.ui:333
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+msgid ""
+"<html><head/><body><p align=\"justify\">Fetch equipment information from the "
+"Ekos active profile, if any.</p></body></html>"
+msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QPushButton, fetchB)
+#: ekos/scheduler/framingassistant.ui:336
+#, kde-format
+msgid "Fetch"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToSelectGridB)
-#: ekos/scheduler/framingassistant.ui:325
+#: ekos/scheduler/framingassistant.ui:350
 #, kde-format
 msgid "Go to Grid Selection page"
 msgstr ""
@@ -25309,9 +25308,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, nextToSelectGridB)
 #. i18n: ectx: property (text), widget (QPushButton, backToSelectGrid)
 #. i18n: ectx: property (text), widget (QPushButton, backToAdjustGridB)
-#: ekos/scheduler/framingassistant.ui:328
-#: ekos/scheduler/framingassistant.ui:1104
-#: ekos/scheduler/framingassistant.ui:1644
+#: ekos/scheduler/framingassistant.ui:353
+#: ekos/scheduler/framingassistant.ui:1129
+#: ekos/scheduler/framingassistant.ui:1669
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Select"
@@ -25319,21 +25318,21 @@ msgid "Select Grid"
 msgstr "%1 vybrané"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fovGroup)
-#: ekos/scheduler/framingassistant.ui:369
+#: ekos/scheduler/framingassistant.ui:394
 #, fuzzy, kde-format
 #| msgid "1. Select Profile"
 msgid "↓ Select Grid"
 msgstr "1. Vyberte si profil"
 
 #. i18n: ectx: property (whatsThis), widget (QSlider, transparencySlider)
-#: ekos/scheduler/framingassistant.ui:396
+#: ekos/scheduler/framingassistant.ui:421
 #, fuzzy, kde-format
 #| msgid "Adjust time step"
 msgid "Adjust tiles transparency"
 msgstr "Upraviť časový krok"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: ekos/scheduler/framingassistant.ui:415
+#: ekos/scheduler/framingassistant.ui:440
 #, kde-format
 msgid ""
 "Camera's rotation angle (East of North) in degrees. To measure the angle, "
@@ -25341,14 +25340,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/scheduler/framingassistant.ui:418
+#: ekos/scheduler/framingassistant.ui:443
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Position Angle:"
 msgstr "Pozičný uhol"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraHFOVSpin)
-#: ekos/scheduler/framingassistant.ui:458
+#: ekos/scheduler/framingassistant.ui:483
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Field height of the camera in "
@@ -25361,16 +25360,16 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetHFOVSpin)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraWFOVSpin)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:464
-#: ekos/scheduler/framingassistant.ui:545
-#: ekos/scheduler/framingassistant.ui:770
-#: ekos/scheduler/framingassistant.ui:825
+#: ekos/scheduler/framingassistant.ui:489
+#: ekos/scheduler/framingassistant.ui:570
+#: ekos/scheduler/framingassistant.ui:795
+#: ekos/scheduler/framingassistant.ui:850
 #, kde-format
 msgid "'"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, targetFOVLabel)
-#: ekos/scheduler/framingassistant.ui:479
+#: ekos/scheduler/framingassistant.ui:504
 #, kde-format
 msgid ""
 "Final mosaic field of view size in arc minutes. Click update to calculate it "
@@ -25378,14 +25377,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
-#: ekos/scheduler/framingassistant.ui:482
+#: ekos/scheduler/framingassistant.ui:507
 #, fuzzy, kde-format
 #| msgid "Mosaic:"
 msgid "Mosaic FOV:"
 msgstr "Mozaika:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, reverseOddRows)
-#: ekos/scheduler/framingassistant.ui:497
+#: ekos/scheduler/framingassistant.ui:522
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25394,14 +25393,14 @@ msgid ""
 msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
-#: ekos/scheduler/framingassistant.ui:500
+#: ekos/scheduler/framingassistant.ui:525
 #, fuzzy, kde-format
 #| msgid "Minimum pulse"
 msgid "Minimum mount move"
 msgstr "Minimálny impulz"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetHFOVSpin)
-#: ekos/scheduler/framingassistant.ui:542
+#: ekos/scheduler/framingassistant.ui:567
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Minimum field height that the mosaic "
@@ -25411,7 +25410,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/scheduler/framingassistant.ui:565
+#: ekos/scheduler/framingassistant.ui:590
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25420,14 +25419,14 @@ msgid ""
 msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
-#: ekos/scheduler/framingassistant.ui:568
+#: ekos/scheduler/framingassistant.ui:593
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Cover FOV"
 msgstr "Riešiteľ FOV"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, mosaicWSpin)
-#: ekos/scheduler/framingassistant.ui:601
+#: ekos/scheduler/framingassistant.ui:626
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Number of tiles on the mosaic width."
@@ -25437,46 +25436,46 @@ msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicWSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicHSpin)
-#: ekos/scheduler/framingassistant.ui:604
-#: ekos/scheduler/framingassistant.ui:694
+#: ekos/scheduler/framingassistant.ui:629
+#: ekos/scheduler/framingassistant.ui:719
 #, fuzzy, kde-format
 #| msgid " x "
 msgid " x"
 msgstr " x "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
-#: ekos/scheduler/framingassistant.ui:631
+#: ekos/scheduler/framingassistant.ui:656
 #, kde-format
 msgid "Percentage of overlap between two neighbouring images"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, overlapLabel)
-#: ekos/scheduler/framingassistant.ui:634
+#: ekos/scheduler/framingassistant.ui:659
 #, kde-format
 msgid "Overlap:"
 msgstr "Prekryť:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/scheduler/framingassistant.ui:641
+#: ekos/scheduler/framingassistant.ui:666
 #, fuzzy, kde-format
 #| msgid "Transparent"
 msgid "Tile Transparency:"
 msgstr "Priesvitné"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
-#: ekos/scheduler/framingassistant.ui:657
+#: ekos/scheduler/framingassistant.ui:682
 #, kde-format
 msgid "Camera FOV in arc minutes as determined from equipment parameters above"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, cameraFOVLabel)
-#: ekos/scheduler/framingassistant.ui:660
+#: ekos/scheduler/framingassistant.ui:685
 #, kde-format
 msgid "Camera FOV:"
 msgstr "Fotoaparát FOV:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, mosaicHSpin)
-#: ekos/scheduler/framingassistant.ui:691
+#: ekos/scheduler/framingassistant.ui:716
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Number of tiles on the mosaic height."
@@ -25486,21 +25485,21 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
-#: ekos/scheduler/framingassistant.ui:718
-#: ekos/scheduler/framingassistant.ui:1063
+#: ekos/scheduler/framingassistant.ui:743
+#: ekos/scheduler/framingassistant.ui:1088
 #, kde-format
 msgid "Specify the number of rows and columns of the final mosaic image"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/scheduler/framingassistant.ui:721
+#: ekos/scheduler/framingassistant.ui:746
 #, fuzzy, kde-format
 #| msgid "Mosaic:"
 msgid "Mosaic Grid:"
 msgstr "Mozaika:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:764
+#: ekos/scheduler/framingassistant.ui:789
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Field width of the camera in "
@@ -25510,7 +25509,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, transparencyAuto)
-#: ekos/scheduler/framingassistant.ui:782
+#: ekos/scheduler/framingassistant.ui:807
 #, fuzzy, kde-format
 #| msgid "Auto"
 msgctxt "Transparency"
@@ -25518,7 +25517,7 @@ msgid "Auto"
 msgstr "Automatická"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:822
+#: ekos/scheduler/framingassistant.ui:847
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Minimum field width that the mosaic "
@@ -25528,7 +25527,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, overlapSpin)
-#: ekos/scheduler/framingassistant.ui:851
+#: ekos/scheduler/framingassistant.ui:876
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25538,7 +25537,7 @@ msgid ""
 msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/framingassistant.ui:872
+#: ekos/scheduler/framingassistant.ui:897
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25547,79 +25546,79 @@ msgid ""
 msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/framingassistant.ui:875
+#: ekos/scheduler/framingassistant.ui:900
 #, fuzzy, kde-format
 #| msgid "East of North"
 msgid " East of North"
 msgstr "Východ severu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToEquipmentB)
-#: ekos/scheduler/framingassistant.ui:909
+#: ekos/scheduler/framingassistant.ui:934
 #, kde-format
 msgid "Go to equipment selection page"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, backToEquipmentB)
-#: ekos/scheduler/framingassistant.ui:912
+#: ekos/scheduler/framingassistant.ui:937
 #, fuzzy, kde-format
 #| msgid "Configure Equipment"
 msgid "Confirm Equipment"
 msgstr "Nastaviť zariadenie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importB)
-#: ekos/scheduler/framingassistant.ui:936
+#: ekos/scheduler/framingassistant.ui:961
 #, kde-format
 msgid "Import Mosaic from Telescopius"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, importB)
-#: ekos/scheduler/framingassistant.ui:939
+#: ekos/scheduler/framingassistant.ui:964
 #, fuzzy, kde-format
 #| msgid "Import Catalog"
 msgid "Import..."
 msgstr "Importovať katalóg"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
-#: ekos/scheduler/framingassistant.ui:946
+#: ekos/scheduler/framingassistant.ui:971
 #, kde-format
 msgid "Reset mosaic center to sky map center"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, recenterB)
-#: ekos/scheduler/framingassistant.ui:949
+#: ekos/scheduler/framingassistant.ui:974
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Recenter"
 msgstr "Na stred"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToAdjustGrid)
-#: ekos/scheduler/framingassistant.ui:960
+#: ekos/scheduler/framingassistant.ui:985
 #, fuzzy, kde-format
 #| msgid "Go to previous Wizard page"
 msgid "Go to grid adjustment page"
 msgstr "Prejsť na predchádzajúcu sprievodcu"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToAdjustGrid)
-#: ekos/scheduler/framingassistant.ui:963
+#: ekos/scheduler/framingassistant.ui:988
 #, kde-format
 msgid "Adjust Grid"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, fovGroup_2)
-#: ekos/scheduler/framingassistant.ui:1004
+#: ekos/scheduler/framingassistant.ui:1029
 #, kde-format
 msgid "↓ Adjust Grid"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/scheduler/framingassistant.ui:1066
+#: ekos/scheduler/framingassistant.ui:1091
 #, fuzzy, kde-format
 #| msgid "1000 meters"
 msgid "J2000 Center"
 msgstr "1000 metrov"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/scheduler/framingassistant.ui:1076
+#: ekos/scheduler/framingassistant.ui:1101
 #, kde-format
 msgid ""
 "Adjust Grid center by manually entering the J2000 center or by dragging the "
@@ -25628,27 +25627,27 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToSelectGrid)
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToAdjustGridB)
-#: ekos/scheduler/framingassistant.ui:1101
-#: ekos/scheduler/framingassistant.ui:1641
+#: ekos/scheduler/framingassistant.ui:1126
+#: ekos/scheduler/framingassistant.ui:1666
 #, kde-format
 msgid "Go to grid selection page"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, goSolveB)
-#: ekos/scheduler/framingassistant.ui:1131
+#: ekos/scheduler/framingassistant.ui:1156
 #, kde-format
 msgid "Go and plate solve mosaic center"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, goSolveB)
-#: ekos/scheduler/framingassistant.ui:1134
+#: ekos/scheduler/framingassistant.ui:1159
 #, fuzzy, kde-format
 #| msgid "Capture && Solve"
 msgid "Go && Solve"
 msgstr "Zachytiť && vyriešiť"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToJobsB)
-#: ekos/scheduler/framingassistant.ui:1145
+#: ekos/scheduler/framingassistant.ui:1170
 #, fuzzy, kde-format
 #| msgid "Create scheduler jobs to capture the mosaic image"
 msgid "Go to scheduler job creation page"
@@ -25656,28 +25655,28 @@ msgstr "Vytvoriť úlohy plánovača na snímanie mozaikového obrázku"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToJobsB)
 #. i18n: ectx: property (text), widget (QPushButton, createJobsB)
-#: ekos/scheduler/framingassistant.ui:1148
-#: ekos/scheduler/framingassistant.ui:1674
+#: ekos/scheduler/framingassistant.ui:1173
+#: ekos/scheduler/framingassistant.ui:1699
 #, kde-format
 msgid "Create Jobs"
 msgstr "Vytvoriť úlohy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, jobsGroup)
-#: ekos/scheduler/framingassistant.ui:1186
+#: ekos/scheduler/framingassistant.ui:1211
 #, fuzzy, kde-format
 #| msgid "Scheduler"
 msgid "↓Create  Scheduler Jobs"
 msgstr "Plánovač"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/framingassistant.ui:1198 ekos/scheduler/scheduler.ui:251
+#: ekos/scheduler/framingassistant.ui:1223 ekos/scheduler/scheduler.ui:251
 #, kde-format
 msgid "Perform calibration and autoguiding before proceeding to the next step."
 msgstr ""
 "Vykonať kalibráciu a automatické navedenie pred prechodom na ďalší krok."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, directoryEdit)
-#: ekos/scheduler/framingassistant.ui:1211
+#: ekos/scheduler/framingassistant.ui:1236
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25687,13 +25686,13 @@ msgid ""
 msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/framingassistant.ui:1218 ekos/scheduler/scheduler.ui:124
+#: ekos/scheduler/framingassistant.ui:1243 ekos/scheduler/scheduler.ui:124
 #, kde-format
 msgid "Ekos Sequence File"
 msgstr "Súbor sekvencie Ekos"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/framingassistant.ui:1221
+#: ekos/scheduler/framingassistant.ui:1246
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25702,7 +25701,7 @@ msgid ""
 msgstr "Online zdroje"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/framingassistant.ui:1234 ekos/scheduler/scheduler.ui:229
+#: ekos/scheduler/framingassistant.ui:1259 ekos/scheduler/scheduler.ui:229
 #, kde-format
 msgid ""
 "Perform alignment using astrometry solver before proceeding to the next step."
@@ -25712,46 +25711,46 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/scheduler/framingassistant.ui:1253 ekos/scheduler/scheduler.ui:370
+#: ekos/scheduler/framingassistant.ui:1278 ekos/scheduler/scheduler.ui:370
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr "Vyberte, ktoré kroky vykonať pred spustením procesu zachytenia."
 
 #. i18n: ectx: property (text), widget (QLabel, alignEveryLabel)
-#: ekos/scheduler/framingassistant.ui:1269
+#: ekos/scheduler/framingassistant.ui:1294
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Align Every"
 msgstr "Zarovnanie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadSequenceB)
-#: ekos/scheduler/framingassistant.ui:1288 ekos/scheduler/scheduler.ui:140
+#: ekos/scheduler/framingassistant.ui:1313 ekos/scheduler/scheduler.ui:140
 #, kde-format
 msgid "Load the image sequence queue."
 msgstr "Načítať frontu sekvencie obrázkov."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetEdit)
-#: ekos/scheduler/framingassistant.ui:1308
+#: ekos/scheduler/framingassistant.ui:1333
 #, kde-format
 msgid "M 31"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/framingassistant.ui:1321 ekos/scheduler/scheduler.ui:204
+#: ekos/scheduler/framingassistant.ui:1346 ekos/scheduler/scheduler.ui:204
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr "Otočiť na cieľ a sledovať ho pred prechodom na ďalší krok."
 
 #. i18n: ectx: property (text), widget (QCheckBox, trackStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, CheckTrack)
-#: ekos/scheduler/framingassistant.ui:1327 ekos/scheduler/scheduler.ui:210
+#: ekos/scheduler/framingassistant.ui:1352 ekos/scheduler/scheduler.ui:210
 #: tools/argsettrack.ui:38
 #, kde-format
 msgid "Track"
 msgstr "Stopa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/scheduler/framingassistant.ui:1337
+#: ekos/scheduler/framingassistant.ui:1362
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25760,20 +25759,20 @@ msgid ""
 msgstr "Online zdroje"
 
 #. i18n: ectx: property (text), widget (QLabel, focusEveryLabel)
-#: ekos/scheduler/framingassistant.ui:1350
+#: ekos/scheduler/framingassistant.ui:1375
 #, fuzzy, kde-format
 #| msgid "Focuser"
 msgid "Focus Every"
 msgstr "Zaostrovanie"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/scheduler/framingassistant.ui:1386
+#: ekos/scheduler/framingassistant.ui:1411
 #, kde-format
 msgid "Directory to save sequence images"
 msgstr "Adresár na uloženie sekvenčných obrázkov"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
-#: ekos/scheduler/framingassistant.ui:1392
+#: ekos/scheduler/framingassistant.ui:1417
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
 msgid ""
@@ -25782,28 +25781,28 @@ msgid ""
 msgstr "Online zdroje"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
-#: ekos/scheduler/framingassistant.ui:1399
+#: ekos/scheduler/framingassistant.ui:1424
 #, fuzzy, kde-format
 #| msgid "Enforce Autofocus HFR limit."
 msgid "Perform alignment every N jobs."
 msgstr "Uplatniť obmedzenie HFR automatického ostrenia."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
-#: ekos/scheduler/framingassistant.ui:1418
+#: ekos/scheduler/framingassistant.ui:1443
 #, fuzzy, kde-format
 #| msgid "Enforce Autofocus HFR limit."
 msgid "Perform autofocus every N jobs."
 msgstr "Uplatniť obmedzenie HFR automatického ostrenia."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/framingassistant.ui:1459 ekos/scheduler/scheduler.ui:273
+#: ekos/scheduler/framingassistant.ui:1484 ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Perform autofocusing before proceeding to the next step."
 msgstr "Vykonať automatické zaostrenie pred prechodom na ďalší krok."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
-#: ekos/scheduler/framingassistant.ui:1497 ekos/scheduler/scheduler.ui:344
+#: ekos/scheduler/framingassistant.ui:1522 ekos/scheduler/scheduler.ui:344
 #, fuzzy, kde-format
 #| msgctxt "Toggle the opaque fill of the ground polygon in the display"
 #| msgid "Ground"
@@ -25811,18 +25810,18 @@ msgid "Group:"
 msgstr "Zem"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
-#: ekos/scheduler/framingassistant.ui:1509
+#: ekos/scheduler/framingassistant.ui:1534
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
 "want the mosaic jobs to repeat together--assign them a group name, and give "
-"them <i>repeat for N (N=2 or more)</i> or <i>repeat until terminated</i> "
-"completion conditions. Otherwise leave empty. Only applies to the Greedy "
-"scheduler algorithm.</p></body></html>"
+"them <span style=\" font-style:italic;\">repeat for N (N=2 or more)</span> "
+"or <span style=\" font-style:italic;\">repeat until terminated</span> "
+"completion conditions. Otherwise leave empty.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
-#: ekos/scheduler/framingassistant.ui:1538
+#: ekos/scheduler/framingassistant.ui:1563
 #, fuzzy, kde-format
 #| msgid "4. Completion Conditions"
 msgid "Completion Condition:"
@@ -25830,33 +25829,33 @@ msgstr "4. Ukončovacie podmienky"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
-#: ekos/scheduler/framingassistant.ui:1550
-#: ekos/scheduler/framingassistant.ui:1585 ekos/scheduler/scheduler.ui:1444
+#: ekos/scheduler/framingassistant.ui:1575
+#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1444
 #, fuzzy, kde-format
 #| msgid "start the job on the specified date and time"
 msgid "Restart job until it is executed this many times."
 msgstr "spustiť úlohu v určenom dátume a čase"
 
 #. i18n: ectx: property (text), widget (QRadioButton, repeatCompletionR)
-#: ekos/scheduler/framingassistant.ui:1553 ekos/scheduler/scheduler.ui:1368
+#: ekos/scheduler/framingassistant.ui:1578 ekos/scheduler/scheduler.ui:1368
 #, fuzzy, kde-format
 msgid "&Repeat for"
 msgstr "opakovať pokiaľ %1 %2 %3"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
-#: ekos/scheduler/framingassistant.ui:1566 ekos/scheduler/scheduler.ui:1403
+#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1403
 #, kde-format
 msgid "The observation job is completed when the sequence is complete."
 msgstr "Pozorovacia úloha je ukončená, keď sekvencia je ukončená."
 
 #. i18n: ectx: property (text), widget (QRadioButton, sequenceCompletionR)
-#: ekos/scheduler/framingassistant.ui:1569 ekos/scheduler/scheduler.ui:1406
+#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1406
 #, kde-format
 msgid "Se&quence completion"
 msgstr "Ukončenie sekvencie"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
-#: ekos/scheduler/framingassistant.ui:1588 ekos/scheduler/scheduler.ui:1447
+#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1447
 #, fuzzy, kde-format
 #| msgctxt "City in Georgia USA"
 #| msgid "Brunswick"
@@ -25864,55 +25863,55 @@ msgid " runs"
 msgstr "Brunswick"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, loopCompletionR)
-#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1469
+#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1469
 #, kde-format
 msgid "Restart the sequence job indefinitely."
 msgstr "Reštartovať úlohu sekvencie neurčito."
 
 #. i18n: ectx: property (text), widget (QRadioButton, loopCompletionR)
-#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1472
+#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1472
 #, fuzzy, kde-format
 #| msgid "Loop until ter&minated"
 msgid "Repeat &until terminated"
 msgstr "Opakovať do ukončenia"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, createJobsB)
-#: ekos/scheduler/framingassistant.ui:1671
+#: ekos/scheduler/framingassistant.ui:1696
 #, fuzzy, kde-format
 #| msgid "Create scheduler jobs to capture the mosaic image"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Vytvoriť úlohy plánovača na snímanie mozaikového obrázku"
 
-#: ekos/scheduler/framingassistantui.cpp:686 ekos/scheduler/scheduler.cpp:1103
+#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Select Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Vybrať frontu sekvencií"
 
-#: ekos/scheduler/framingassistantui.cpp:688 ekos/scheduler/scheduler.cpp:1105
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:1105
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Fronta sekvencie Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:700
+#: ekos/scheduler/framingassistantui.cpp:706
 #, fuzzy, kde-format
 #| msgid "Auto Select Star"
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Automatický výber hviezdy"
 
-#: ekos/scheduler/framingassistantui.cpp:702
+#: ekos/scheduler/framingassistantui.cpp:708
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:761
+#: ekos/scheduler/framingassistantui.cpp:767
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:840
+#: ekos/scheduler/framingassistantui.cpp:846
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgctxt "@title:window"
@@ -37302,44 +37301,52 @@ msgstr ""
 msgid "Telescope focal length in millimeters."
 msgstr "Ohnisková vzdialenosť ďalekohľadu v milimetroch"
 
-#. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
+#. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:2809
+#, fuzzy, kde-format
+#| msgctxt "City in Florida USA"
+#| msgid "Boca Raton"
+msgid "Focal Reducer ratio"
+msgstr "Boca Raton"
+
+#. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
+#: kstars.kcfg:2813
 #, kde-format
 msgid "Camera pixel size width in micrometers."
 msgstr "Šírka pixela fotoaparátu v mikrometroch."
 
 #. i18n: ectx: label, entry (CameraPixelHeight), group (Scheduler)
-#: kstars.kcfg:2813
+#: kstars.kcfg:2817
 #, kde-format
 msgid "Camera pixel size height in micrometers."
 msgstr "Výška pixela fotoaparátu v mikrometroch."
 
 #. i18n: ectx: label, entry (CameraWidth), group (Scheduler)
-#: kstars.kcfg:2817
+#: kstars.kcfg:2821
 #, kde-format
 msgid "Camera Width in pixels."
 msgstr "Šírka fotoaparátu v bodoch."
 
 #. i18n: ectx: label, entry (CameraHeight), group (Scheduler)
-#: kstars.kcfg:2821
+#: kstars.kcfg:2825
 #, kde-format
 msgid "Camera Height in pixels."
 msgstr "Výška fotoaparátu v bodoch."
 
 #. i18n: ectx: label, entry (CameraRotation), group (Scheduler)
-#: kstars.kcfg:2825
+#: kstars.kcfg:2829
 #, kde-format
 msgid "Position angle of the camera with respect to north."
 msgstr "Pozičný uhol fotoaparátu vzhľadom na sever."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategy), group (Scheduler)
-#: kstars.kcfg:2829
+#: kstars.kcfg:2833
 #, kde-format
 msgid "Strategy how to react, when a job aborts or steps into an error."
 msgstr ""
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategyDelay), group (Scheduler)
-#: kstars.kcfg:2833
+#: kstars.kcfg:2837
 #, kde-format
 msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
@@ -37347,141 +37354,141 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
-#: kstars.kcfg:2837
+#: kstars.kcfg:2841
 #, kde-format
 msgid "Re-schedule jobs that ran into errors."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerParkDome), group (Scheduler)
-#: kstars.kcfg:2849
+#: kstars.kcfg:2853
 #, kde-format
 msgid "Default scheduler checkbox for parking dome on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerParkMount), group (Scheduler)
-#: kstars.kcfg:2853
+#: kstars.kcfg:2857
 #, kde-format
 msgid "Default scheduler checkbox for parking mount on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerCloseDustCover), group (Scheduler)
-#: kstars.kcfg:2857
+#: kstars.kcfg:2861
 #, kde-format
 msgid "Default scheduler checkbox for closing dust cover on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWarmCCD), group (Scheduler)
-#: kstars.kcfg:2861
+#: kstars.kcfg:2865
 #, kde-format
 msgid "Default scheduler checkbox for warming the CCD on shutdown."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerUnparkDome), group (Scheduler)
-#: kstars.kcfg:2865
+#: kstars.kcfg:2869
 #, kde-format
 msgid "Default scheduler checkbox for unparking dome on startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerUnparkMount), group (Scheduler)
-#: kstars.kcfg:2869
+#: kstars.kcfg:2873
 #, kde-format
 msgid "Default scheduler checkbox for unparking mount on startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerOpenDustCover), group (Scheduler)
-#: kstars.kcfg:2873
+#: kstars.kcfg:2877
 #, kde-format
 msgid "Default scheduler checkbox for opening dust cover on startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
-#: kstars.kcfg:2877
+#: kstars.kcfg:2881
 #, kde-format
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
-#: kstars.kcfg:2881
+#: kstars.kcfg:2885
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
-#: kstars.kcfg:2885
+#: kstars.kcfg:2889
 #, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
-#: kstars.kcfg:2889
+#: kstars.kcfg:2893
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)
-#: kstars.kcfg:2893
+#: kstars.kcfg:2897
 #, kde-format
 msgid "Default scheduler checkbox for job altitude constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAltitudeValue), group (Scheduler)
-#: kstars.kcfg:2897
+#: kstars.kcfg:2901
 #, fuzzy, kde-format
 #| msgid "Default maximum mount altitude limit."
 msgid "Default scheduler job altitude constraint."
 msgstr "Predvolená maximálna hodnota výšky montáže."
 
 #. i18n: ectx: label, entry (SchedulerHorizon), group (Scheduler)
-#: kstars.kcfg:2901
+#: kstars.kcfg:2905
 #, fuzzy, kde-format
 #| msgid "The color for the artificial horizon region."
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr "Farba pre oblasť umelého horizontu."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
-#: kstars.kcfg:2905
+#: kstars.kcfg:2909
 #, kde-format
 msgid "Default scheduler checkbox for job moon separation constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
-#: kstars.kcfg:2909
+#: kstars.kcfg:2913
 #, kde-format
 msgid "Default scheduler job moon separation constraint."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
-#: kstars.kcfg:2913
+#: kstars.kcfg:2917
 #, kde-format
 msgid "Default scheduler checkbox for job weather constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
-#: kstars.kcfg:2917
+#: kstars.kcfg:2921
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
-#: kstars.kcfg:2921
+#: kstars.kcfg:2925
 #, kde-format
 msgid "Restart sequences as soon as all sequences have been completed."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
-#: kstars.kcfg:2925
+#: kstars.kcfg:2929
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
-#: kstars.kcfg:2931
+#: kstars.kcfg:2935
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
-#: kstars.kcfg:2935
+#: kstars.kcfg:2939
 #, kde-format
 msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
@@ -37489,14 +37496,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
-#: kstars.kcfg:2939
+#: kstars.kcfg:2943
 #, kde-format
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
-#: kstars.kcfg:2943
+#: kstars.kcfg:2947
 #, kde-format
 msgid ""
 "Display the median eccentricity for the stars in the capture on the Analyze "
@@ -37504,74 +37511,74 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
-#: kstars.kcfg:2947
+#: kstars.kcfg:2951
 #, kde-format
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
-#: kstars.kcfg:2951
+#: kstars.kcfg:2955
 #, fuzzy, kde-format
 #| msgid "Display the focus InfoBox?"
 msgid "Display the autofocus solution position."
 msgstr "Zobraziť infobox zamerania?"
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
-#: kstars.kcfg:2955
+#: kstars.kcfg:2959
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
-#: kstars.kcfg:2959
+#: kstars.kcfg:2963
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
-#: kstars.kcfg:2963
+#: kstars.kcfg:2967
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
-#: kstars.kcfg:2967
+#: kstars.kcfg:2971
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
-#: kstars.kcfg:2971
+#: kstars.kcfg:2975
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
-#: kstars.kcfg:2975
+#: kstars.kcfg:2979
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
-#: kstars.kcfg:2979
+#: kstars.kcfg:2983
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
-#: kstars.kcfg:2983
+#: kstars.kcfg:2987
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
-#: kstars.kcfg:2987
+#: kstars.kcfg:2991
 #, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
-#: kstars.kcfg:2991
+#: kstars.kcfg:2995
 #, kde-format
 msgid ""
 "Display the arc-seconds distance between the target position and the plate-"
@@ -37579,269 +37586,269 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
-#: kstars.kcfg:2995
+#: kstars.kcfg:2999
 #, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
-#: kstars.kcfg:2999
+#: kstars.kcfg:3003
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
-#: kstars.kcfg:3003
+#: kstars.kcfg:3007
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
-#: kstars.kcfg:3007
+#: kstars.kcfg:3011
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
-#: kstars.kcfg:3011
+#: kstars.kcfg:3015
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
-#: kstars.kcfg:3015
+#: kstars.kcfg:3019
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
-#: kstars.kcfg:3019
+#: kstars.kcfg:3023
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
-#: kstars.kcfg:3023
+#: kstars.kcfg:3027
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr ""
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
-#: kstars.kcfg:3028
+#: kstars.kcfg:3032
 #, kde-format
 msgid "The address of last used server"
 msgstr "Adresa naposledy použitého servera"
 
 #. i18n: ectx: label, entry (LastServerPort), group (INDI Lite)
-#: kstars.kcfg:3031
+#: kstars.kcfg:3035
 #, kde-format
 msgid "The port of last used server"
 msgstr "Port naposledy použitého servera"
 
 #. i18n: ectx: label, entry (LastWebManagerPort), group (INDI Lite)
-#: kstars.kcfg:3035
+#: kstars.kcfg:3039
 #, fuzzy, kde-format
 #| msgid "The port of last used server"
 msgid "The port of last used Web Manager"
 msgstr "Port naposledy použitého servera"
 
 #. i18n: ectx: label, entry (HIPSMemoryCache), group (HIPS)
-#: kstars.kcfg:3041
+#: kstars.kcfg:3045
 #, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
-#: kstars.kcfg:3045
+#: kstars.kcfg:3049
 #, kde-format
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
-#: kstars.kcfg:3049
+#: kstars.kcfg:3053
 #, kde-format
 msgid "HIPS source catalog title."
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
-#: kstars.kcfg:3053
+#: kstars.kcfg:3057
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
-#: kstars.kcfg:3057
+#: kstars.kcfg:3061
 #, fuzzy, kde-format
 #| msgid "Draw Sun in the sky map?"
 msgid "Show HiPS grid on the sky map."
 msgstr "Kresliť Slnko na mapu oblohy?"
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
-#: kstars.kcfg:3061
+#: kstars.kcfg:3065
 #, kde-format
 msgid "Redraw HiPS while panning."
 msgstr ""
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3065
+#: kstars.kcfg:3069
 #, fuzzy, kde-format
 #| msgid "Draw stars in the sky map?"
 msgid "Draw HiPS sources in the sky map?"
 msgstr "Kresliť hviezdy na mapu oblohy?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3066
+#: kstars.kcfg:3070
 #, fuzzy, kde-format
 #| msgid "Toggle whether stars are drawn in the sky map."
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
 msgstr "Prepnúť, či sú hviezdy vykreslené na mape oblohy."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
-#: kstars.kcfg:3070
+#: kstars.kcfg:3074
 #, kde-format
 msgid "Use offline storage to load HiPS?"
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
-#: kstars.kcfg:3074
+#: kstars.kcfg:3078
 #, kde-format
 msgid "HIPS offline full path."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3079
+#: kstars.kcfg:3083
 #, fuzzy, kde-format
 #| msgid "Invalid Filename"
 msgid "Terrain Filename."
 msgstr "Neplatné meno súboru"
 
 #. i18n: ectx: whatsthis, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3080
+#: kstars.kcfg:3084
 #, kde-format
 msgid "Terrain source filename."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3084
+#: kstars.kcfg:3088
 #, kde-format
 msgid "Terrain Azimuth Correction."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3085
+#: kstars.kcfg:3089
 #, kde-format
 msgid "Terrain source azimuth correction."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3089
+#: kstars.kcfg:3093
 #, kde-format
 msgid "Terrain Altitude Correction."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3090
+#: kstars.kcfg:3094
 #, kde-format
 msgid "Terrain source altitude correction."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3094
+#: kstars.kcfg:3098
 #, fuzzy, kde-format
 #| msgid "Download all Images"
 msgid "Terrain Downsampling"
 msgstr "Stiahnuť všetky obrázky"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3095
+#: kstars.kcfg:3099
 #, kde-format
 msgid "Speed quality tradeoff for rendering the terrain image."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3099
+#: kstars.kcfg:3103
 #, kde-format
 msgid "Terrain While panning."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3100
+#: kstars.kcfg:3104
 #, kde-format
 msgid "Redraw terrain while panning."
 msgstr ""
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3104
+#: kstars.kcfg:3108
 #, fuzzy, kde-format
 #| msgid "Draw Saturn?"
 msgid "Draw terrain"
 msgstr "Zobraziť Saturn?"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3105
+#: kstars.kcfg:3109
 #, fuzzy, kde-format
 #| msgid "Toggle whether the Sun is drawn in the sky map."
 msgid "Toggle whether the terrain is drawn in the sky map."
 msgstr "Prepnúť, či je Slnko vykreslené na mape oblohy."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
-#: kstars.kcfg:3109
+#: kstars.kcfg:3113
 #, kde-format
 msgid "Terrain Skip Speedup"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3110 kstars.kcfg:3115
+#: kstars.kcfg:3114 kstars.kcfg:3119
 #, kde-format
 msgid "Enable a one of the terrain drawing speedups."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3114
+#: kstars.kcfg:3118
 #, kde-format
 msgid "Terrain Transparency Speedup."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3119
+#: kstars.kcfg:3123
 #, kde-format
 msgid "Terrain Smooth Pixels."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3120
+#: kstars.kcfg:3124
 #, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
 msgstr ""
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
-#: kstars.kcfg:3126
+#: kstars.kcfg:3130
 #, fuzzy, kde-format
 #| msgid "Default align module CCD."
 msgid "Default observatory module weather source."
 msgstr "Predvolený vyrovnávací modul CCD."
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
-#: kstars.kcfg:3129
+#: kstars.kcfg:3133
 #, kde-format
 msgid "Will be reacted upon warnings?"
 msgstr ""
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
-#: kstars.kcfg:3133
+#: kstars.kcfg:3137
 #, kde-format
 msgid "Will be reacted upon alerts?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
-#: kstars.kcfg:3137
+#: kstars.kcfg:3141
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
-#: kstars.kcfg:3141
+#: kstars.kcfg:3145
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
 msgstr ""
@@ -37849,63 +37856,63 @@ msgstr ""
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertStopScheduler), group (Observatory)
-#: kstars.kcfg:3145 kstars.kcfg:3157 kstars.kcfg:3161
+#: kstars.kcfg:3149 kstars.kcfg:3161 kstars.kcfg:3165
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
-#: kstars.kcfg:3149
+#: kstars.kcfg:3153
 #, kde-format
 msgid "Delay for reacting upon a weather warning."
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
-#: kstars.kcfg:3153
+#: kstars.kcfg:3157
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
-#: kstars.kcfg:3165
+#: kstars.kcfg:3169
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
 msgstr ""
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
-#: kstars.kcfg:3169
+#: kstars.kcfg:3173
 #, kde-format
 msgid "Dome status relevant for the Observatory status."
 msgstr ""
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
-#: kstars.kcfg:3173
+#: kstars.kcfg:3177
 #, kde-format
 msgid "Shutter status relevant for the Observatory status."
 msgstr ""
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
-#: kstars.kcfg:3177
+#: kstars.kcfg:3181
 #, kde-format
 msgid "Weather status relevant for the Observatory status."
 msgstr ""
 
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
-#: kstars.kcfg:3181
+#: kstars.kcfg:3185
 #, fuzzy, kde-format
 #| msgid "Set the color named %1 to the value %2."
 msgid "Scale the sensor graph value axis to the values range."
 msgstr "Nastaviť farbu s názvom %1 k hodnote %2."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
-#: kstars.kcfg:3187
+#: kstars.kcfg:3191
 #, kde-format
 msgid "Full path to the ASTAP executable."
 msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
-#: kstars.kcfg:3191 kstars.kcfg:3195
+#: kstars.kcfg:3195 kstars.kcfg:3199
 #, kde-format
 msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
@@ -37914,7 +37921,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
-#: kstars.kcfg:3199 kstars.kcfg:3203
+#: kstars.kcfg:3203 kstars.kcfg:3207
 #, kde-format
 msgid ""
 "The program will search in a square spiral around the start position up to "
@@ -37922,26 +37929,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
-#: kstars.kcfg:3207
+#: kstars.kcfg:3211
 #, fuzzy, kde-format
 #| msgid "Update the table and the plot for the new date and location."
 msgid "Update the fits header with the found solution."
 msgstr "Aktualizovať tabuľku a graf pre nový dátum a polohu."
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
-#: kstars.kcfg:3211
+#: kstars.kcfg:3215
 #, kde-format
 msgid "Increase search window size."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
-#: kstars.kcfg:3217
+#: kstars.kcfg:3221
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
-#: kstars.kcfg:3221
+#: kstars.kcfg:3225
 #, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr ""
@@ -84229,6 +84236,11 @@ msgstr "Farba pozadia:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte farbu pre pozadie."
+
+#, fuzzy
+#~| msgid "Autofocus failed. Aborting exposure..."
+#~ msgid "Adaptive focus failed. Continuing..."
+#~ msgstr "Automatické ostrenie zlyhalo. Prerušenie expozície..."
 
 #, fuzzy
 #~| msgid "Enter the filename for the output catalog file"
