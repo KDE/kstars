@@ -3148,16 +3148,11 @@ void Manager::syncActiveDevices()
         if (!tvp)
             continue;
 
-        //bool propertyUpdated = false;
-
+        // Only applicable to non-train devices
         for (auto &it : *tvp.getText())
         {
             QList<QSharedPointer<ISD::GenericDevice>> devs;
-            if (it.isNameMatch("ACTIVE_TELESCOPE"))
-            {
-                devs = INDIListener::devicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
-            }
-            else if (it.isNameMatch("ACTIVE_DOME"))
+            if (it.isNameMatch("ACTIVE_DOME"))
             {
                 devs = INDIListener::devicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
             }
@@ -3165,52 +3160,6 @@ void Manager::syncActiveDevices()
             {
                 devs = INDIListener::devicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
             }
-            else if (it.isNameMatch("ACTIVE_ROTATOR"))
-            {
-                devs = INDIListener::devicesByInterface(INDI::BaseDevice::ROTATOR_INTERFACE);
-            }
-            else if (it.isNameMatch("ACTIVE_FOCUSER"))
-            {
-                devs = INDIListener::devicesByInterface(INDI::BaseDevice::FOCUSER_INTERFACE);
-            }
-            else if (it.isNameMatch("ACTIVE_FILTER"))
-            {
-                devs = INDIListener::devicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
-                if (!captureProcess)
-                    continue;
-                // Active filter wheel should be set to whatever the user selects in capture module
-                auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(captureProcess->opticalTrain());
-                // Does defaultFilterWheel exist in devices?
-                if (!filterWheel)
-                {
-                    // If already empty, do not update it.
-                    if (!QString(it.getText()).isEmpty())
-                    {
-                        it.setText("");
-                        oneDevice->sendNewProperty(tvp.getText());
-                    }
-                    continue;
-                }
-                else
-                {
-                    auto name = filterWheel->getDeviceName();
-                    // TODO this should be profile specific
-                    if (QString(it.getText()) != name)
-                    {
-                        it.setText(name.toLatin1().constData());
-                        oneDevice->sendNewProperty(tvp.getText());
-                        break;
-                    }
-                    continue;
-                }
-                // If it does not exist, then continue and pick from available devs below.
-
-            }
-            // 2021.04.21 JM: There could be more than active weather device
-            //                else if (it.isNameMatch("ACTIVE_WEATHER"))
-            //                {
-            //                    devs = findDevicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
-            //                }
 
             if (!devs.empty())
             {

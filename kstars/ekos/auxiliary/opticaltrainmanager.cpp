@@ -247,6 +247,125 @@ void OpticalTrainManager::refreshModel()
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::syncActiveDevices()
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        auto train = oneTrain["name"].toString();
+        QSharedPointer<ISD::GenericDevice> device;
+
+        if (getGenericDevice(train, Mount, device))
+            syncActiveProperties(oneTrain, device);
+        if (getGenericDevice(train, Camera, device))
+            syncActiveProperties(oneTrain, device);
+        if (getGenericDevice(train, GuideVia, device))
+            syncActiveProperties(oneTrain, device);
+        if (getGenericDevice(train, Focuser, device))
+            syncActiveProperties(oneTrain, device);
+        if (getGenericDevice(train, FilterWheel, device))
+            syncActiveProperties(oneTrain, device);
+        if (getGenericDevice(train, Rotator, device))
+            syncActiveProperties(oneTrain, device);
+        if (getGenericDevice(train, DustCap, device))
+            syncActiveProperties(oneTrain, device);
+        if (getGenericDevice(train, LightBox, device))
+            syncActiveProperties(oneTrain, device);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::syncActiveProperties(const QVariantMap &train, const QSharedPointer<ISD::GenericDevice> &device)
+{
+    auto tvp = device->getProperty("ACTIVE_DEVICES");
+    if (!tvp)
+        return;
+
+    auto name = train["name"].toString();
+
+    for (auto &it : *tvp.getText())
+    {
+        QList<QSharedPointer<ISD::GenericDevice>> devs;
+        QString elementText = it.getText();
+        if (it.isNameMatch("ACTIVE_TELESCOPE"))
+        {
+            auto activeDevice = train["mount"].toString();
+            if (activeDevice == "--")
+                elementText.clear();
+            else if (activeDevice != elementText)
+            {
+                QSharedPointer<ISD::GenericDevice> genericDevice;
+                if (getGenericDevice(name, Mount, genericDevice))
+                    devs.append(genericDevice);
+            }
+        }
+        else if (it.isNameMatch("ACTIVE_DOME"))
+        {
+            devs = INDIListener::devicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
+        }
+        else if (it.isNameMatch("ACTIVE_GPS"))
+        {
+            devs = INDIListener::devicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
+        }
+        else if (it.isNameMatch("ACTIVE_ROTATOR"))
+        {
+            auto activeDevice = train["rotator"].toString();
+            if (activeDevice == "--")
+                elementText.clear();
+            else if (activeDevice != elementText)
+            {
+                QSharedPointer<ISD::GenericDevice> genericDevice;
+                if (getGenericDevice(name, Rotator, genericDevice))
+                    devs.append(genericDevice);
+            }
+        }
+        else if (it.isNameMatch("ACTIVE_FOCUSER"))
+        {
+            auto activeDevice = train["focuser"].toString();
+            if (activeDevice == "--")
+                elementText.clear();
+            else if (activeDevice != elementText)
+            {
+                QSharedPointer<ISD::GenericDevice> genericDevice;
+                if (getGenericDevice(name, Focuser, genericDevice))
+                    devs.append(genericDevice);
+            }
+        }
+        else if (it.isNameMatch("ACTIVE_FILTER"))
+        {
+            auto activeDevice = train["filterwheel"].toString();
+            if (activeDevice == "--")
+                elementText.clear();
+            else if (activeDevice != elementText)
+            {
+                QSharedPointer<ISD::GenericDevice> genericDevice;
+                if (getGenericDevice(name, FilterWheel, genericDevice))
+                    devs.append(genericDevice);
+            }
+        }
+
+        if (!devs.empty())
+        {
+            if (it.getText() != devs.first()->getDeviceName())
+            {
+                it.setText(devs.first()->getDeviceName().toLatin1().constData());
+                device->sendNewProperty(tvp.getText());
+            }
+        }
+        // Clear element if required
+        else if (elementText.isEmpty() && !QString(it.getText()).isEmpty())
+        {
+            it.setText("");
+            device->sendNewProperty(tvp.getText());
+        }
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
 {
     m_DelegateTimer.stop();
@@ -265,9 +384,13 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
 
         // Start delegate timer to ensure no more changes are pending.
         m_DelegateTimer.start();
+
+        syncActiveDevices();
     }
     else
+    {
         checkOpticalTrains();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -388,6 +511,7 @@ bool OpticalTrainManager::setOpticalTrainValue(const QString &name, const QStrin
             // Update field and database.
             oneTrain[field] = value;
             KStarsData::Instance()->userdb()->UpdateOpticalTrain(oneTrain, oneTrain["id"].toInt());
+            syncActiveDevices();
             emit updated();
             return true;
         }
@@ -597,6 +721,64 @@ bool OpticalTrainManager::selectOpticalTrain(QListWidgetItem *item)
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
+QString OpticalTrainManager::findTrainContainingDevice(const QString &name, Role role)
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        auto train = oneTrain["name"].toString();
+
+        switch (role)
+        {
+            case Mount:
+                if (oneTrain["mount"].toString() == name)
+                    return train;
+                break;
+            case Camera:
+                if (oneTrain["camera"].toString() == name)
+                    return train;
+                break;
+            case Rotator:
+                if (oneTrain["rotator"].toString() == name)
+                    return train;
+                break;
+            case GuideVia:
+                if (oneTrain["guider"].toString() == name)
+                    return train;
+                break;
+            case DustCap:
+                if (oneTrain["dustcap"].toString() == name)
+                    return train;
+                break;
+            case Scope:
+                if (oneTrain["scope"].toString() == name)
+                    return train;
+                break;
+            case FilterWheel:
+                if (oneTrain["filterwheel"].toString() == name)
+                    return train;
+                break;
+            case Focuser:
+                if (oneTrain["focuser"].toString() == name)
+                    return train;
+                break;
+            case Reducer:
+                if (oneTrain["reducer"].toString() == name)
+                    return train;
+                break;
+            case LightBox:
+                if (oneTrain["lightbox"].toString() == name)
+                    return train;
+                break;
+        }
+
+    }
+
+    return QString();
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
 bool OpticalTrainManager::selectOpticalTrain(const QString &name)
 {
     for (auto &oneTrain : m_OpticalTrains)
@@ -652,6 +834,42 @@ void OpticalTrainManager::openEditor(const QString &name)
         trainNamesList->setCurrentItem(matches.first());
     emit configurationRequested(true);
     show();
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::getGenericDevice(const QString &train, Role role, QSharedPointer<ISD::GenericDevice> &generic)
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        if (oneTrain["name"].toString() == train)
+        {
+            switch (role)
+            {
+                case Mount:
+                    return INDIListener::findDevice(oneTrain["mount"].toString(), generic);
+                case Camera:
+                    return INDIListener::findDevice(oneTrain["camera"].toString(), generic);
+                case Rotator:
+                    return INDIListener::findDevice(oneTrain["rotator"].toString(), generic);
+                case GuideVia:
+                    return INDIListener::findDevice(oneTrain["guider"].toString(), generic);
+                case DustCap:
+                    return INDIListener::findDevice(oneTrain["dustcap"].toString(), generic);
+                case FilterWheel:
+                    return INDIListener::findDevice(oneTrain["filterwheel"].toString(), generic);
+                case Focuser:
+                    return INDIListener::findDevice(oneTrain["focuser"].toString(), generic);
+                case LightBox:
+                    return INDIListener::findDevice(oneTrain["lightbox"].toString(), generic);
+                default:
+                    break;
+            }
+        }
+    }
+
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////

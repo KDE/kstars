@@ -37,6 +37,20 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         static OpticalTrainManager *Instance();
         static void release();
 
+        typedef enum
+        {
+            Mount,
+            Camera,
+            Rotator,
+            GuideVia,
+            DustCap,
+            Scope,
+            FilterWheel,
+            Focuser,
+            Reducer,
+            LightBox
+        } Role;
+
         void setProfile(const QSharedPointer<ProfileInfo> &profile);
         void checkOpticalTrains();
 
@@ -61,6 +75,14 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          * @return true if optical train found
          */
         bool selectOpticalTrain(QListWidgetItem *item);
+
+        /**
+         * @brief findTrainContainingDevice Search optical trains for device match a specific role.
+         * @param name Device Name
+         * @param role Device Role
+         * @return Train containing device name matching the specified role
+         */
+        QString findTrainContainingDevice(const QString &name, Role role);
 
         /**
          * @brief Select an optical train and fill the field values in the train editor with the
@@ -112,6 +134,27 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          * @brief syncDevices Sync delegates and then update model accordingly.
          */
         void syncDevices();
+
+        /**
+         * @brief syncActiveDevices Syncs ACTIVE_DEVICES in INDI as per the optical train settings.
+         */
+        void syncActiveDevices();
+
+        /**
+         * @brief getGenericDevice Find Generic Device matching given Role in the given train
+         * @param train Train Name
+         * @param role Device Role
+         * @param generic Generic Device. If found, the pointer is pointing to GenericDevice
+         * @return True if found, false if not found.
+         */
+        bool getGenericDevice(const QString &train, Role role, QSharedPointer<ISD::GenericDevice> &generic);
+
+        /**
+         * @brief syncActiveProperties Since ACTIVE_DEVICE properties
+         * @param train Train map
+         * @param device Generic device
+         */
+        void syncActiveProperties(const QVariantMap &train, const QSharedPointer<ISD::GenericDevice> &device);
 
         /**
          * @brief id Get database ID for a given train
