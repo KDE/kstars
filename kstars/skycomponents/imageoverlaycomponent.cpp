@@ -789,13 +789,13 @@ void ImageOverlayComponent::solverDone(bool timedOut, bool success, const FITSIm
     QComboBox *statusItem = dynamic_cast<QComboBox*>(m_ImageOverlayTable->cellWidget(solverRow, STATUS_COL));
     if (timedOut)
     {
-        updateStatusDisplay(i18n("Solver timed out in %1s", elapsedSeconds, 0, 'f', 1));
+        updateStatusDisplay(i18n("Solver timed out in %1s", QString::number(elapsedSeconds, 'f', 1)));
         m_Overlays[solverRow].m_Status = ImageOverlay::PLATE_SOLVE_FAILURE;
         statusItem->setCurrentIndex(static_cast<int>(m_Overlays[solverRow].m_Status));
     }
     else if (!success)
     {
-        updateStatusDisplay(i18n("Solver failed in %1s", elapsedSeconds, 0, 'f', 1));
+        updateStatusDisplay(i18n("Solver failed in %1s", QString::number(elapsedSeconds, 'f', 1)));
         m_Overlays[solverRow].m_Status = ImageOverlay::PLATE_SOLVE_FAILURE;
         statusItem->setCurrentIndex(static_cast<int>(m_Overlays[solverRow].m_Status));
     }
