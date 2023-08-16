@@ -205,6 +205,10 @@
 ><para
 >Automatisk utsträckning: Använd filtret Automatisk utsträckning på bilden.</para
 ></listitem>
+                <listitem
+><para
+>Välj markeringsrektangel: Välj markeringsrektangel för statistik i ett intresseområde.</para
+></listitem>
             </itemizedlist>
     </listitem>
     <listitem
@@ -323,6 +327,10 @@
         </listitem>
         <listitem>
             <para
+>Statistik för intresseområden (rektangel) </para>
+        </listitem>
+        <listitem>
+            <para
 >Rektangulära och ekvatoriella rutnät (om information om världskoordinatsystem finns). </para>
         </listitem>
         <listitem>
@@ -374,6 +382,35 @@
             <listitem>
                 <para
 >Tillhandahåller enkel statistik om minimala och maximala bildpunktsvärden och deras respektive positioner, FITS-djup, dimension, medelvärde, och standardavvikelse. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>Statistik för intresseområden</term>
+            <listitem>
+                <screenshot>
+                    <screeninfo
+>FITS-visning </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Markeringsstatistik</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Tillhandahåller enkel statistiskt medelvärde, standardavvikelse och median för området markerat av användaren i ett verktygstips. </para>
+                <para
+>Användaren kan antingen ange markerat området med <keycombo
+>&Shift;<keycap
+>vänsterklick</keycap
+></keycombo
+> och dra eller genom att välja ett alternativ i kombinationsmenyn på knappen Ändra markeringsrektangel. Förutom det kan användaren enkelt förflytta området med <keycap
+>vänsterklick</keycap
+> och dra. Områdets statistik visas som ett verktygstips när markören hålls över det markerade området. För mindre bilder uppdateras statistiken omedelbart, och för större bilder uppdateras statistiken när användaren väl släpper vänsterknappen efter området har ändrats. </para>
             </listitem>
         </varlistentry>
     </variablelist>

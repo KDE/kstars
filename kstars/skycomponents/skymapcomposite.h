@@ -46,6 +46,7 @@ class SupernovaeComponent;
 class TargetListComponent;
 class HIPSComponent;
 class TerrainComponent;
+class ImageOverlayComponent;
 class MosaicComponent;
 
 /**
@@ -167,6 +168,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         SatellitesComponent *satellites();
         SupernovaeComponent *supernovaeComponent();
         ArtificialHorizonComponent *artificialHorizon();
+        ImageOverlayComponent *imageOverlay();
 
         /** Getters for SkyComponents **/
         inline HorizonComponent *horizon()
@@ -294,6 +296,7 @@ class SkyMapComposite : public QObject, public SkyComposite
         FlagComponent *m_Flags { nullptr };
         HIPSComponent *m_HiPS{ nullptr };
         TerrainComponent *m_Terrain{ nullptr };
+        ImageOverlayComponent *m_ImageOverlay{ nullptr };
 #ifdef HAVE_INDI
         MosaicComponent *m_Mosaic { nullptr };
 #endif

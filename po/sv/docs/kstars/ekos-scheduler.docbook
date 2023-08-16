@@ -23,27 +23,83 @@
         </mediaobject>
     </screenshot>
     <sect3 id="ekos-scheduler-introduction">
-        <title
+      <title
 >Inledning</title>
         <para
->Ekos schemaläggning erbjuder en ovärderligt arsenal för att bygga upp ett automatiserat observatorium. Ett automatiserat observatorium är ett sammansatt av flera delsystem som orkestreras tillsammans för att uppnå en mängd vetenskapliga mål utan mänsklig intervention. Det är den enda modulen som inte kräver att Ekos har startats, eftersom den utnyttjas för att <emphasis
->starta</emphasis
-> och <emphasis
->stoppa</emphasis
-> Ekos. Den är konstruerad för att vara enkel och intuitiv. Dock bör schemaläggning bara användas efter du har bemästrat Ekos, och känner till alla egenheter hos din utrustningen. Eftersom hela processen är automatiserad, inklusive fokusering, guidning och meridianvändning, bör hela utrustningen ha används grundligt med Ekos, och alla parametrar och inställningar injusterade för att uppnå bästa resultat. </para>
-        <para
->Med Ekos kan användaren utnyttja den kraftfulla sekvenskön för att ta bildsekvenser av ett visst mål. Med enkla anordningar förväntas användaren fokusera CCD:n, rikta in stativet, rama in målet och starta guidning innan tagningsprocessen påbörjas. I mer komplexa observatoriemiljöer finns oftast fördefinierade anpassade procedurer som ska utföras för att förbereda observatoriet för avbildning, och en annan uppsättning procedurer för avstängning. Användaren kan planera att ta bilder av en eller flera mål under natten, och förväntar sig att data ska vara redo på morgonen. I &kstars; hjälper verktyg så som <link linkend="tool-obsplanner"
->Observationsplanering</link
-> och <link linkend="tool-whatsup"
->Vad händer i natt</link
-> användaren att välja kandidater för avbildning. Efter att ha valt önskade kandidater, kan användaren lägga till dem i Ekos schemaläggningslista för utvärdering. Användaren kan också lägga till målen direkt i Ekos schemaläggning eller välja en FITS-fil med en tidigare bild. </para>
+>Ekos schemaläggare är en viktig komponent i arbetsflödet för bildtagning. Den ansluter till INDI, startar och stoppar alla andra Ekos-moduler, schemalägger jobb enligt deras begränsningar och prioriteringar, övervakar dessa jobb när de körs och stänger sedan av systemet på ett säkert sätt när jobben är klara eller före gryningen. Oavsett om du kör flerdagars bildtagningssessioner för flera mål, eller bara försöker avbilda ett enda mål under några timmar, är det klokt att låta schemaläggaren styra dina bildsessioner. </para>
     </sect3>
-
-    <sect3 id="ekos-scheduler-settings">
+    <sect3 id="scheduler-table">
         <title
+>Schemaläggningstabell</title>
+        <para
+>Schemaläggningens hjärta är en tabell som visar listan över schemaläggningsjobb som användaren vill utföra. Förknippat med varje jobb är egenskaper (i huvudsak beskrivna i avsnittet om inställningar nedan). Egenskaperna beskriver jobbets namn, vart teleskopet ska riktas vid tagning av jobbet, en beskrivning av vilka typer av bilder som ska tas, begränsningar för när jobben ska utföras (t.ex. höjd, skymning, måne, landskapsblockeringar, etc.), saker som behöver göras innan och efter jobbet utförs, och strategier för att hantera fel. </para>
+        <para
+>Du kan lägga till, ta bort, ändra, eller ändra ordningen på rader i schemaläggningstabellen. </para>
+        <itemizedlist>
+            <listitem>
+              <para
+>Du kan lägga till en jobbrad för schemaläggning i tabellen genom att klicka på knappen <guilabel 
+>+</guilabel 
+> ovanför tabellen, om alla nödvändiga egenskaper är ifyllda (namn, position och sekvensfil). </para>
+            </listitem>
+            <listitem>
+              <para
+>Om du klickar på en rad kan du klicka på knappen <guilabel 
+>-</guilabel 
+> ovanför tabellen för att ta bort raden. </para>
+            </listitem>
+
+            <listitem>
+              <para
+>Om du klickar på en rad kan du klicka på knapparna <guilabel 
+>^</guilabel 
+> eller <guilabel 
+>v</guilabel 
+> för att flytta raderna uppåt eller neråt i jobblistan. </para>
+            </listitem>
+
+            <listitem>
+              <para
+>Om du dubbelklickar på en rad, fylls de olika inställningarna i med jobbets egenskaper på schemaläggningssidan. Sedan kan du ändra en eller flera av egenskaperna och därefter klicka på bocken ovanför tabellen (efter dubbelklicket gjorde om <guilabel 
+>+</guilabel 
+> till en <guilabel 
+>bock</guilabel 
+>) så tilldelas de nya egenskaperna till jobbet. </para>
+            </listitem>
+        </itemizedlist>
+
+    </sect3>
+    <sect3 id="scheduling-algorithm">
+        <title
+>Schemaläggningsalgoritm</title>
+        <para
+>Schemaläggningstabellen (ovan) listar jobb i prioritetsordning, där högre jobb (på lägre numrerade rader) har högre prioritet än jobb längre ner i listan (med högre numrerade rader). </para>
+        <para
+>Schemaläggningen planerar (och omplanerar) regelbundet vilka jobb som ska utföras och när. Den kan börja utföra ett visst jobb och sedan ersätta det jobbet med ett nytt. Den kan vara inaktiv om inga jobb kan utföras (t.ex. i dagsljus), och vänta tills den blir aktiv igen. Dess mål är att hålla utrustningen så upptagen som möjligt, samtidigt som schemaläggningstabellens prioriteringar respekteras. Så här fungerar det. </para>
+        <para
+>När schemaläggningen startar (eller när den planerar om, vilket den gör varje sekund medan den är aktiv), tittar den igenom hela listan med jobb, börjar med det högst prioriterade jobbet och arbetar sig ner till det lägsta prioritet om det behövs. När den hittar ett jobb som kan utföras, startas det det jobbet, och ersätter eventuellt det pågående jobbet. Ett jobb kan utföras om dess begränsningar är uppfyllda, t.ex. målet är inte blockerat av den lokala terrängen, det uppfyller begränsningen för minimal elevation, det har inte redan slutfört alla önskade bilder, ... </para>
+    <para
+>Algoritmen visar dess beräknade nästa start- och stopptider för alla jobb i schemaläggningstabellen. Den visar också en uppskattning av hur många gånger jobb kommer att utföras under de kommande 48 timmarna i loggpanelen längst ner i fönstret. Se skärmbilden av schemaläggningsfönstret överst i det här avsnittet. </para>
+        <para
+>Schemaläggningsalgoritmen som beskrivs i stycket ovan är känd som den giriga schemaläggningsalgoritmen. Det är den som rekommenderas att använda. I tidigare versioner av Ekos fanns en annan "klassisk schemaläggningsalgoritm" som för närvarande fasas ut. Det systemet kunde inte ersätta pågående jobb och använde sig därför inte lika mycket av utrustningen som den giriga algoritmen gör. </para>
+    </sect3>
+    <sect3 id="scheduler-files">
+        <title
+>Schemaläggningsfiler (.esq)</title>
+        <para
+>Schemaläggningstabellen med dess lista över jobb och egenskaper kan sparas på disk och läsas in igen. Den skrivs i en .esq-fil. Knappar för att skriva den aktuella schemaläggningstabellen till disk och läsa tillbaka andra .esq-filer finns ovanför tabellen till höger. </para>
+    </sect3>
+    <sect3 id="ekos-scheduler-settings">
+      <title
 >Inställningar</title>
         <para
->Ekos schemaläggning tillhandahåller ett enkelt gränssnitt för att hjälpa användaren ställa in villkoren och begränsningarna som krävs för ett observationsjobb. Varje observationsjobb består av följande: </para>
+>Ekos schemaläggning tillhandahåller ett enkelt gränssnitt för att hjälpa användaren ställa in villkoren och begränsningarna som krävs för ett schemaläggningsjobb. Innan du kan lägga till ett jobb i schemaläggaren måste du välja <guilabel
+>Mål</guilabel
+>, dess koordinater, och <guilabel
+>Sekvens</guilabel
+>. </para>
+        <para
+>Varje schemaläggningsjobb består av följande: </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -55,13 +111,19 @@
 >Lägg till</guibutton
 > det från <link linkend="tool-obsplanner"
 >observationsplaneringen</link
->. Det går också att mata in ett eget namn. </para>
+>. Det går också att mata in ett eget namn. Koordinater kan också kopieras från himmelskartan genom att använda knappen precis till höger om koordinaterna. </para>
+            </listitem>
+            <listitem>
+                <para
+>Valfri <guilabel 
+>PV</guilabel 
+>: Positionsvinkeln (eller bildrotationen) kan specificeras för system med hårdvara för kamerarotation. </para>
             </listitem>
             <listitem>
                 <para
 >Valfri <guilabel
 >FITS-fil</guilabel
->: Om en FITS-fil anges, ska astrometrilösningsverktyget lösa den filen och använda central RA/DEK som målkoordinater. </para>
+>: Om en FITS-fil anges, löser astrometrilösningsverktyget filen och använder central RA/Dek som målkoordinater. </para>
             </listitem>
             <listitem>
                 <para
@@ -69,13 +131,7 @@
 >Sekvens</guilabel
 >-fil: Sekvensfilen konstrueras i Ekos <link linkend="ekos-capture"
 >tagningsmodul</link
->. Den innehåller ett antal bilder att ta, filter, temperaturinställningar, prefix, nerladdningskatalog, etc. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Prioritet</guilabel
->: Ställ in jobbprioritet i intervallet 1 till 20, där 1 anger högsta prioritet och 20 den lägsta. Prioriteten används vid beräkning av vikt för att välja nästa mål att avbilda. </para>
+>. Den har en lista över tagningsspecifikationer, där varje specifikation innehåller antalet bilder at ta, vilket filter att använda, exponeringslängden, förstärkningen, filnamngivningsinformation, temperaturinställningar, prefix, nerladdningskatalog, etc. </para>
             </listitem>
             <listitem>
                 <para
@@ -87,7 +143,7 @@
                 <para
 ><guilabel
 >Steg</guilabel
->: Användaren väljer vilka Ekos moduler som ska utnyttjas i observationsjobbets arbetsflöde. </para>
+>: Användaren väljer vilka steg som ska vidtas i början av jobbet. Möjligheterna är: (1) Starta stativföljning, (2) automatisk fokusering, (3) kör en inriktning med lösning av astrobilder, (4) starta automatisk guidning. En eller flera kan väljas. </para>
             </listitem>
             <listitem>
                 <para
@@ -95,7 +151,7 @@
 >Startvillkor</guilabel
 >: Villkor som måste uppfyllas <emphasis role="bold"
 >innan</emphasis
-> observationsjobbet startas. För närvarande kan användaren välja att starta så snart som möjligt, <guimenuitem
+> schemaläggningsjobbet startas. För närvarande kan användaren välja att starta så snart som möjligt, <guimenuitem
 >Så snart som möjligt</guimenuitem
 >, när målet är nära eller förbi kulmineringen, eller vid en specifik tid. </para>
             </listitem>
@@ -103,24 +159,80 @@
                 <para
 ><guilabel
 >Begränsningar</guilabel
->: Begränsningar är villkor som <emphasis role="bold"
+>: De är villkor som <emphasis role="bold"
 >alltid</emphasis
-> måste uppfyllas under hela observationsjobbets utförande. De inkluderar minimal målelevation, minimal månseparation, skymningsobservation, elevationsbegränsningar för artificiell horisont och väderövervakning. </para>
+> måste uppfyllas under hela schemaläggningsjobbets utförande. De inkluderar minimal målelevation, minimal månseparation, skymningsobservation, elevationsbegränsningar för artificiell horisont och väderövervakning. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
 >Färdigvillkor</guilabel
->: Villkor som leder till att observationsjobbet blir färdigt. Standardvalet är att helt enkelt markera observationsjobbet som färdigt när sekvensprocessen är färdig. Ytterligare villkor gör det möjligt för användaren att upprepa sekvensprocessen obegränsat, eller till en viss tidpunkt. </para>
+>: Villkor som leder till att schemaläggningsjobbet blir färdigt. Standardvalet är att helt enkelt markera schemaläggningsjobbet som färdigt när sekvensprocessen är färdig. Ytterligare villkor gör det möjligt för användaren att upprepa sekvensprocessen ett visst antal gånger eller obegränsat, eller till en viss tidpunkt. </para>
             </listitem>
         </itemizedlist>
+    </sect3>
+    <sect3 id="other-options">
+        <title
+>Andra alternativ</title>
         <para
->Man måste välja <guilabel
->Mål</guilabel
-> och <guilabel
->Sekvens</guilabel
-> innan ett jobb kan läggas till i schemat. När schemaläggning startas, utvärderar den alla jobb i enlighet med angivna villkor och begränsningar, och försöker välja bästa jobb att utföra. Val av jobb beror på en enkel heuristisk algoritm som poängsätter varje jobb givet villkoren och begränsningarna, som vart och en viktas i enlighet med det. Om två mål har identiska villkor och begränsningar, väljs oftast målet med högre prioritet följt av målet med högre elevation att utföras. Om inga kandidater är tillgängliga vid aktuell tid, går schemaläggningen till viloläge och vaknar när nästa jobb är redo att utföras. </para>
-        <screenshot>
+>Det finns flera andra alternativ för att styra hur schemaläggningen beter sig. De finns i Kstars allmänna Inställningsmeny, som visas nedan med fliken Ekos och delfliken Schemaläggning. </para>
+      <screenshot>
+            <screeninfo
+>Schemaläggningsinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_scheduler_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Schemaläggningsinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+       <sect4 id="remember-job-progress">
+        <title
+>Kom ihåg jobbtillstånd</title>
+        <para
+>Bland inställningarna som visas ovan är en av de viktigare känd som <guilabel 
+>Kom ihåg jobbtillstånd</guilabel 
+>. När rutan är markerad och ett jobb pågår, tittar schemaläggaren på jobbets bilder som redan är tagna på disken och tar inte om de som redan finns där. Fördelen är att om ett jobb startas om, eller utförs igen en annan natt, eller om flera jobb utförs tillsammans, stoppar och startar när de går att utföra, startar jobb om precis där de slutade. Det fungerar bra med alternativet <guilabel 
+>Upprepa till avslutat</guilabel 
+> för slutförande av jobb. Om <guilabel 
+>Kom ihåg jobbtillstånd</guilabel 
+> inte är markerad, startar jobb om från början av sekvensspecifikationen varje gång, vilket förmodligen inte är vad du vill göra. Om bilderna inte lagras på samma dator som Ekos körs på, så fungerar tyvärr inte funktionen och jobben startar om från början. </para>
+        <para
+>En möjligen förvirrande bieffekt av <guilabel 
+>Kom ihåg jobbtillstånd</guilabel 
+> är att om du har utfört ett jobb med (standard) villkoret för slutförande av sekvensen, och det har tagit alla sina bilder, och du nu vill utföra jobbet igen, schemalägger inte schemaläggningen jobbet eftersom den tror att alla bilder redan har tagits. Du måste antingen flytta bilderna någon annanstans på disken, eller ändra slutförhållandet till Upprepa N gånger eller Upprepa till avslutat. </para>
+       </sect4>
+       <sect4 id="group-repeats">
+        <title
+>Gruppupprepningar</title>
+        <para
+>Funktionen låter dig utföra två eller flera schemaläggningsjobb med ungefär samma prioritet, så att om båda gick att utföra skulle de förlöpa i ungefär samma takt. Det kan till exempel gälla för jobb som avbildar flera rutor i en mosaik, men är generellt användbart för alla typer av jobb. </para>
+        <para
+>Normalt ställs (den giriga) schemaläggningens jobbprioritet in av raden som jobbet är listat i schemaläggningens jobbtabell. Jobb på rader närmare toppen körs med högre prioritet än jobb längre ner. Således, om ett jobb på rad 2 (Jobb 2) använder <guilabel 
+>Upprepa till avslutat</guilabel 
+> och jobbets begränsningar för att utföras är uppfyllda, kommer ett lägre jobb (t.ex. Jobb 3) inte att schemaläggas för att utföras. </para>
+        <para
+>Om du vill alternera jobb kan du tilldela vart och ett av jobben samma <guilabel 
+>grupp</guilabel 
+> och ge jobben ett av de upprepade slutvillkoren (t.ex. Upprepa N gånger, eller Upprepa till avslutat). Med den inställningen kommer jobb i samma grupp att avstå till varandra om de har slutfört fler 'upprepningar' än det andra jobbet. Så om Jobb 2 med gruppen "min grupp" slutför sin 2:a upprepning och Jobb 3 med samma gruppnamn bara har genomfört 0 eller 1 upprepning när det är dags att schemalägga Jobb 2 kommer Jobb 3 att utföras istället. </para>
+        <para
+>Föreställ dig i praktiken att du hade en mosaik med 6 rutor som du vill byta mellan. Du kan ge alla jobben samma gruppnamn, ställa in alla till t.ex. "Upprepa 5 gånger". Sedan skulle de utföras i samma takt. Kadensen för byte av jobb skulle styras av längden på sekvensfilen som tilldelas vart och ett av jobben. Man vill inte låta kadensen vara för kort (t.ex. ta en tvåminutersbild), eftersom det finns extratid vid byte av jobb. Till exempel kan det vara fråga om att börja jobbet med inriktning, börja guidning och till och med fokusera. </para>
+       </sect4>
+       <sect4 id="repeat-all-jobs">
+        <title
+>Upprepa alla jobb</title>
+        <para
+>Det finns en kryssruta och nummerinmatning precis under tabellen schemaläggningsjobb som låter dig upprepa hela schemat N gånger. Det kan användas för att alternera några jobb. Du kan bara lista jobben i schemaläggningen, ställa in den på att upprepa N gånger, så kommer jobben att upprepas. Ändring är dock inte kompatibel med 'Kom ihåg jobbtillstånd (ovan) och inte tillgänglig om Kom ihåg jobbtillstånd är markerat. (Observera: Kom ihåg jobbtillstånd är rekommenderat.) </para>
+       </sect4>
+    </sect3>
+    <sect3 id="workflow">
+        <title
+>Arbetsflöde</title>
+
+      <screenshot>
             <screeninfo
 >Schemaläggning och planering </screeninfo>
             <mediaobject>
@@ -193,11 +305,11 @@
             </listitem>
         </itemizedlist>
         <para
->Ekos schemaläggning initierar bara startproceduren när starttiden för det första observationsjobbet närmar sig (normal <emphasis
+>Ekos schemaläggning initierar bara startproceduren när starttiden för det första schemaläggningsjobbet närmar sig (normal <emphasis
 >ledtid</emphasis
 > är 5 minuter innan <emphasis
 >starttiden</emphasis
->). När väl startproceduren har slutförts med lyckat resultat, väljer schemaläggningen observationsjobbets mål och startar sekvensprocessen. Om ett startskript anges, ska det köras först. </para>
+>). När väl startproceduren har slutförts med lyckat resultat, väljer schemaläggningen schemaläggningsjobbets mål och startar sekvensprocessen. Om ett startskript anges, ska det köras först. </para>
     </sect3>
 
     <sect3 id="ekos-scheduler-data-acquisition">
@@ -232,6 +344,14 @@
 >tagningsmodulen</link
 > och startar avbildningsprocessen. </para>
             </listitem>
+            <listitem>
+                <para
+>Koordinera modulproblem, såsom fel i styrning eller inriktning. De kan leda till avstängningar och omplanering av schemaläggarens jobb. </para>
+            </listitem>
+            <listitem>
+                <para
+>Observera: En del av interaktionerna mellan moduler initieras av modulerna själva, men övervakas av schemaläggningen. De inkluderar meridianvändningar, automatisk fokusering initierad av temperaturförändringar eller tidsgränsens utgång och minimikrav på guidningsavvikelser vid tagning. </para>
+            </listitem>
         </itemizedlist>
     </sect3>
 
@@ -239,7 +359,7 @@
         <title
 >Avstängning</title>
         <para
->När väl observationsjobbet har avslutats med lyckat resultat, väljer schemaläggningen nästa mål. Om schemalagd tid för nästa mål inte är inne ännu, parkeras stativet tills målet är redo. Dessutom, om tiden för nästa schemalagda mål inte är inom en användarkonfigurerbar tidsgräns, utför schemaläggningen en <emphasis
+>När väl schemaläggningsjobbet har avslutats med lyckat resultat, väljer schemaläggningen nästa schemaläggningsjobbet. Om inget jobb kan schemaläggas för tillfället, parkeras stativet till nästa jobb kan utföras. Dessutom, om nästa jobb inte ska startas förrän efter en användarinställningsbar tidsgräns, utför schemaläggningen en <emphasis
 >förebyggande</emphasis
 > avstängning för att bevara resurser, och utför startproceduren igen när det är dags för målet. </para>
         <para
@@ -322,22 +442,22 @@ exit(0)
 >körbara</emphasis
 > för att Ekos ska anropa dem (använd exempelvis <userinput
 >chmod +x startskript.py</userinput
-> för att markera skriptet som körbart). Ekos schemaläggning möjliggör verkligt enkel automatisk operation utan behov av något mänskligt ingripande i något steg av processen. Utan mänsklig närvaro blir det alltmer kritiskt att återhämta sig från fel under alla observationskörningens stadier på ett snyggt sätt. Genom att använda underrättelser i &plasma; kan användaren ställa in hörbara larm och e-postunderrättelser för de diverse händelserna under schemaläggningen. </para>
+> för att markera skriptet som körbart). Ekos schemaläggning möjliggör verkligt enkel automatisk operation utan behov av något mänskligt ingripande i något steg av processen. Utan mänsklig närvaro blir det alltmer kritiskt att återhämta sig från fel under alla observationskörningens stadier på ett snyggt sätt. Genom att använda underrättelser i &plasma; kan användaren ställa in hörbara larm och e-postunderrättelser för de diverse händelserna i schemaläggaren. </para>
     </sect3>
 
-    <sect3 id="ekos-scheduler-mosaic-wizard">
+    <sect3 id="ekos-scheduler-mosaic-Planner">
         <title
->Mosaikguiden</title>
+>Mosaikplanering</title>
         <screenshot>
             <screeninfo
->Mosaikguiden </screeninfo>
+>Mosaikplanering </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="mosaic_wizard.png" format="PNG"/>
+                    <imagedata fileref="mosaic_planner.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Mosaikguiden</phrase>
+>Mosaikplanering</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -370,74 +490,55 @@ exit(0)
 >PixInsight</ulink
 >, och är inte ämnet för den här beskrivningen. Det första steget kan åstadkommas i Ekos schemaläggning där det skapar en mosaik lämplig för din utrustning och i enlighet med önskat synfält. Ekos skapar inte bara mosaikpanelerna för målet, utan också motsvarande observatoriejobb som krävs för att ta alla bilderna. Det förenklar stort logistiken för att ta många bilder med olika filter och kalibreringsbilder över ett stort område av himlen. </para>
         <para
-><guilabel
->Skapa mosaikjobb</guilabel
-> i Ekos schemaläggning skapar flera schemaläggningsjobb baserat på ett mål i centrum. Det kräver att ett mål och en sekvensfil först väljes. Sekvensfilen innehåller all nödvändig information för att ta en bild, inklusive exponeringstid, filter, temperaturinställningar, etc., och den informationen används för varje ruta i mosaiken. Observationsjobbets villkor och begränsningar måste också tilldelas, så kontrollera att de är enligt dina krav. Du kan helt enkelt förbereda ett nytt jobb utan att lägga till det, eller välja ett befintligt jobb, under förutsättning att både målets och sekvensfilens fält är giltiga på schemaläggningsform. Om du tidigare lagt till jobb i observationslistan. frågar Ekos dig om du vill behålla dem eller ta bort dem innan mosaikjobben infogas i listan. </para>
-        <para
->När målet och villkoren är klara, startas mosaikjobbet genom att klicka på ikonen intill knappen <guibutton
->Sök</guibutton
-> i Ekos modul. Ett nytt fönster visas med ett formulär på vänster sida och målet centrerat på ett himmelsdiagram. Maximera fönstret av bekvämlighetsskäl. Det finns en hjälpikon längst upp till vänster på himmelsdiagrammet. Flytta musen över det för att visa den senaste dokumentationen av verktyget. Varje komponent har också sitt eget verktygstips. </para>
-        <para
->Första gången måste du ange utrustningens inställningar, inklusive teleskopets fokallängd förutom kamerans bredd, höjd, och bildpunktsdimensioner. Du måste också ange kamerans rotation i förhållande till himmelspolen som stativet pekar på. Om Ekos redan har startats, kan du hämta optisk information genom att klicka på <guibutton
->Hämta</guibutton
-> för att automatiskt fylla i fälten. Om kamerans rotationsvinkel inte är känd under det här steget, måste du först använda <link linkend="ekos-align"
->inriktningsmodulen</link
-> för att lösa ett fält, helst nära himmelsekvatorn, för att noggrant bestämma den. Rotationsvinkeln är en viktig parameter för mosaiken, eftersom verktyget skapar ett rutnät baserat på orienteringen. </para>
-        <screenshot>
+><guilabel 
+>Mosaikplaneraren</guilabel 
+> i Ekos schemaläggning skapar flera schemaläggningsjobb baserat på ett centralt mål. För att sätta på planeraren, klicka på knappen <guibutton 
+>Mosaikplanerare</guibutton 
+> i Ekos schemaläggning eller på Kstars INDI-verktygsrad som illustreras på skärmbilden. Planeraren ritar mosaikpanelen direkt till himmelskartan. Det rekommenderas att aktivera HiPS-överlagring för bästa upplevelse. Planeraren består av fyra steg: </para>
+        <orderedlist>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Bekräfta utrustning</emphasis
+>: Ekos försöker läsa in utrustningsinställningar från INDI. Om det misslyckas måste du ange dina utrustningsinställningar inklusive teleskopets brännvidd förutom kamerans bredd, höjd och bildpunktsmått. Inställningarna sparas för framtida sessioner. </para>
+            <screenshot>
             <screeninfo
->Schemaläggningens mosaikverktyg </screeninfo>
+>Bekräfta utrustning </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="ekos-scheduler-mosaic-std.png" format="PNG"/>
+                    <imagedata fileref="mosaic_confirm_equipment.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Schemaläggningens mosaikverktyg</phrase>
+>Bekräfta utrustning</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
-        <para
->Ange därefter önskad <guilabel
->överlappning</guilabel
-> och önskat antal horisontella och vertikala paneler (t.ex. 2x2, 3x3, etc.) i <guilabel
->mosaikrutnätet</guilabel
->. Himmelsdiagrammet uppdateras automatiskt efter en kort stund, med målets synfält beräknat enligt antal rutor i rutnätet och kamerans synfält. Normalt är procent överlappning mellan bilderna 5 %, men det går att ändra till önskat värde. Ändras <guilabel
->överlappning</guilabel
-> justeras <guilabel
->mosaikrutnätet</guilabel
-> så att det täcker samma område, medan om <guilabel
->mosaikrutnätet</guilabel
-> ändras så utökar eller krymper det mosaikområdet. För att återställa utsträckningen av mosaikfältets synfält till området som förväntas täckas av rutnätet, klicka på <guibutton
->Täck synfält</guibutton
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Justera rutnät</emphasis
+>: Välj mosaikpanelens dimension och överlappningsprocent. Mosaikpanelen uppdateras därefter på himmelskartan. Justera positionsvinkeln för att matcha önskad mosaikorientering på himlen. Om positionsvinkeln skiljer sig från kamerans vanliga orientering kan det vara nödvändigt att rotera kameran, antingen manuellt eller via en mekaniserad rotatör, när schemaläggningsjobben utförs. Rutornas genomskinlighet beräknas normalt automatiskt men det kan stängas av och istället justera den manuellt. För att beräkna mosaikfältet från antalet rutor, klicka på knappen <guibutton 
+>Täck synfält</guibutton 
+>. Mosaikpanelen kan centreras på himmelskartan genom att klicka på knappen <guibutton 
+>Centrera om</guibutton 
 >. </para>
-        <screenshot>
+                <screenshot>
             <screeninfo
->Schemaläggningens mosaikverktyg: synfält </screeninfo>
+>Välj rutnät </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="ekos-scheduler-mosaic-std.png" format="PNG"/>
+                    <imagedata fileref="mosaic_select_grid.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Schemaläggningens mosaikverktyg: synfält</phrase>
+>Välj rutnät</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
         <para
 >En stor överlappning gör det enklare att sy ihop bildrutor under efterbehandling, men det kräver fler rutor för att täcka önskad utsträckning. Om du dock redan känner till det minimala antalet delbildrutor som avvisningsalgoritmen använder under efterbehandling, bör du överväga att öka överlappningen för att uppnå det värdet för de områden som täcks av flera rutor. Exempelvis har ett 4 x 4 mosaikrutnät med 75 % överlappning 16 delbildrutor som täcker snittet i centrum, vilket är nog för Winsoriserad sigmaavvisning. Även om den resulterande samlingen inte har samma höjd på alla delar av den slutliga bildrutan, ger metoden dig kontroll över signa-brus-förhållandet och låter dig ge målet en omgivning medan ett relativt litet antal tagningar måste utföras. </para>
-        <screenshot>
-            <screeninfo
->Schemaläggningens mosaikverktyg: 75 % överlappning </screeninfo>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="ekos-scheduler-mosaic-threequarteroverlap.png" format="PNG"/>
-                </imageobject>
-                <textobject>
-                    <phrase
->Schemaläggningens mosaikverktyg: 75 % överlappning</phrase>
-                </textobject>
-            </mediaobject>
-        </screenshot>
         <para
 >Det stora numret som visas i hörnet på varje ruta i rutnätet representerar ordningen som rutorna kommer att tas. Det förvalda s-formade valet (väst-öst och sedan alternerande hög-låg/låg-hög förflyttning), säkerställer att stativets förflyttning är minimal under observationen. Avmarkera <guilabel
 >Minimal stativförflyttning</guilabel
@@ -449,7 +550,7 @@ exit(0)
 >Schemaläggningens mosaikverktyg: stor rotation </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="ekos-scheduler-mosaic-atpole.png" format="PNG"/>
+                    <imagedata fileref="mosaic_close_pole.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
@@ -457,15 +558,54 @@ exit(0)
                 </textobject>
             </mediaobject>
         </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Justera rutnät</emphasis
+>: Justera rutnätscentrum genom att manuellt ange J2000-centrum eller genom att dra mosaikcentrum på himmelskartan. </para>
+            <screenshot>
+            <screeninfo
+>Justera rutnät </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_adjust_grid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Justera rutnät</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Skapa jobb</emphasis
+>: Det sista steget är att välja sekvensfilen och katalogen för att lagra bilderna. Målfält kan fyllas i automatiskt men kan ändras efter önskemål. Välj de steg som varje schemaläggningsjobb ska utföra i följd (följning -> fokusering -> inriktning -> guidning -> tagning), och justera frekvensen för automatisk justering och fokuseringsrutiner som måste utföras under mosaikoperationen. Till exempel, om <guilabel 
+>Justera var</guilabel 
+> är inställd på två schemaläggningsjobb, utför det första jobbet astrometri-inriktningen, medan det andra jobbet hoppar över den. När det tredje jobbet är utfört, utförs inriktningen igen och så vidare. </para>
+                <para
+>Om du vill att de olika mosaikjobben ska alternera, fyll sedan i gruppnamnet med en identifierare som alla mosaikjobb delar och välj ett upprepande slutvillkor. </para>
+            <screenshot>
+            <screeninfo
+>Skapa jobb </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_create_jobs.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Skapa jobb</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+        </orderedlist
+>                
         <para
->Om du behöver justera mosaikens position, klicka på vyn och dra diagrammet för att centrera om målet. När du är nöjd, ställ in frekvensen för inriktnings- och fokuseringsstegen när mosaiken utförs, välj en utdatakatalog och acceptera dialogrutan. Ekos kommer att skapa ett observationsjobb och en motsvarande anpassad sekvensfil för varje panel. Spara planen i en Ekos schemaläggningslista (<literal role="extension"
->.esl</literal
->) med knappen <guibutton
->Spara som...</guibutton
->, så att den kan läsas in vilken lämplig observationsnatt som helst. Med alternativet <guilabel
->Kom ihåg jobbtillstånd</guilabel
-> fortsätter den där du slutade. </para>
-        <para
->Med Ekos schemaläggning är avbildning över flera nätter väldigt mycket enklare och det har aldrig varit så lätt att skapa supermosaikbilder. </para>
+>Klicka på <guibutton
+>Skapa jobb</guibutton
+> för att skapa mosaikschemaläggningsjobb och lägga till dem i schemaläggningskön. Du kan redigera jobben ytterligare individuellt, som du skulle gjort med vanliga schemaläggningsjobb. </para>
     </sect3>
 </sect2>

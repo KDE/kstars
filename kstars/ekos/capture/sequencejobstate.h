@@ -286,7 +286,7 @@ class SequenceJobState: public QObject
         void setScopeParked(bool parked);
         // park / unpark dome
         void setDomeParked(bool parked);
-        // check if the the focuser needs to be moved to the focus position.
+        // check if the focuser needs to be moved to the focus position.
         void flatSyncFocus(int targetFilterID);
         // ask whether the CCD has a shutter
         void queryHasShutter();
@@ -458,7 +458,7 @@ class SequenceJobState: public QObject
         IPState checkPreDomeParkReady();
 
         /**
-         * @brief Check if the the focuser needs to be moved to the focus position.
+         * @brief Check if the focuser needs to be moved to the focus position.
          * @return IPS_OK if cover closed, IPS_BUSY if not and IPS_ALERT if the
           *        process should be aborted.
          */

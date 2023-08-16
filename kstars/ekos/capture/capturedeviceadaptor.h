@@ -210,7 +210,7 @@ public:
          */
         void setDomeParked(bool parked);
         /**
-         * @brief Check if the the focuser needs to be moved to the focus position.
+         * @brief Check if the focuser needs to be moved to the focus position.
          */
         void flatSyncFocus(int targetFilterID);
 

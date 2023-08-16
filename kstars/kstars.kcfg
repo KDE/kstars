@@ -3125,6 +3125,33 @@
        <default>false</default>
     </entry>
    </group>
+   <group name="ImageOverlay">
+    <entry name="ShowImageOverlays" type="Bool">
+          <label>Display Image Overlays.</label>
+          <whatsthis>Toggle whether to display image overlays.</whatsthis>
+          <default>false</default>
+    </entry>
+    <entry name="ShowSelectedImageOverlay" type="Bool">
+          <label>Center SkyMap over selected image overlay.</label>
+          <whatsthis>Center SkyMap over the selected overlay image in the image overlay table (if it's solved).</whatsthis>
+          <default>true</default>
+    </entry>
+    <entry name="ImageOverlayMaxDimension" type="Int">
+          <label>Image overlay max dimension</label>
+          <whatsthis>Maximum dimension for image overlay images.</whatsthis>
+          <default>1000</default>
+    </entry>
+    <entry name="ImageOverlayTimeout" type="Int">
+          <label>Image overlay plate-solving timeout.</label>
+          <whatsthis>Timeout for plate-solving an image overlay.</whatsthis>
+          <default>30</default>
+    </entry>
+    <entry name="ImageOverlayDefaultScale" type="Double">
+          <label>Image overlay default plate-solving scale.</label>
+          <whatsthis>Default scale (arcseconds/pixel) for image-overlay plate solving.</whatsthis>
+          <default>0</default>
+    </entry>
+   </group>
    <group name="Observatory">
    <entry name="DefaultObservatoryWeatherSource" type="String">
       <label>Default observatory module weather source.</label>

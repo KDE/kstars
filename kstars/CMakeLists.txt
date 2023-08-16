@@ -610,6 +610,7 @@ set(kstars_options_SRCS
     options/opssatellites.cpp
     options/opssupernovae.cpp
     options/opsterrain.cpp
+    options/opsimageoverlay.cpp
     options/opsdeveloper.cpp
 )
 
@@ -622,6 +623,7 @@ set(kstars_optionsui_SRCS
     options/opssatellites.ui
     options/opssupernovae.ui
     options/opsterrain.ui
+    options/opsimageoverlay.ui
     options/opsdeveloper.ui
 )
 
@@ -774,6 +776,7 @@ set(libkstarscomponents_SRCS
     skycomponents/artificialhorizoncomponent.cpp
     skycomponents/hipscomponent.cpp
     skycomponents/terraincomponent.cpp
+    skycomponents/imageoverlaycomponent.cpp
     skycomponents/horizoncomponent.cpp
     skycomponents/milkyway.cpp
     skycomponents/skycomponent.cpp

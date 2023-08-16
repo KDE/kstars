@@ -26,113 +26,93 @@
         <title
 >Inledning</title>
         <para
->Ekos guidningsmodul möjliggör automatisk guidning genom att antingen använda den kraftfulla inbyggda guidningsverktyget, eller valfritt, extern guidning via <ulink url="https://openphdguiding.org/"
+>Ekos guidningsmodul utför automatisk guidning genom att antingen använda den kraftfulla inbyggda guidningsverktyget, eller valfritt, extern guidning via <ulink url="https://openphdguiding.org/"
 >PHD2</ulink
 > eller <ulink url="https://sourceforge.net/projects/linguider/"
 >lin_guider</ulink
->. Vid användning av den interna guidningen, tas CCD-bildrutor och skickas till Ekos för analys. Beroende på guidestjärnans avvikelse från dess låsta position, skickas korrigeringspulser för guidning till stativet <guilabel
->Via</guilabel
-> någon enhet som stöder ST4-portar. Som alternativ kan korrigeringar skickas <emphasis
->direkt</emphasis
-> till stativet, om stativets drivrutin stöder det. De flesta alternativen i guidningens grafiska användargränssnitt är väldokumenterade, så håll bara musen över ett objekt så dyker ett verktygstips upp med nyttig information. </para>
-        <para
->För att utföra guidning måste en guidnings-CCD väljas i <link linkend="ekos-profile-wizard"
->Ekos profilinställning</link
->. Teleskopets öppning och fokallängd måste ställas in i teleskopdrivrutinen. Om guidnings-CCD:n är ansluten till ett separat guidningsteleskop måste också guidningsteleskopets <guilabel
->Fokallängd</guilabel
-> och <guilabel
->Öppningsdiameter</guilabel
-> anges. Värdena kan ställas in under fliken <guilabel
->Alternativ</guilabel
-> för <link linkend="indi-telescope-setup"
->teleskopets drivrutin</link
-> eller i stativmodulen. Automatisk guidning är en tvåstegsprocess: kalibrering och guidning. </para>
-        <mediaobject>
-            <videoobject>
-                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/aza2fGIF7YE"
-></videodata>
-            </videoobject>
-            <caption>
-                <para>
+>. Vid användning av den interna guidningen, tas kamerabildrutor och skickas till Ekos för analys. Beroende på stjärnornas avvikelse från deras låsta positioner, skickas korrigeringspulser för guidning till stativets RA- och Dek-axelmotorer. De flesta alternativen i guidningsmodulens grafiska användargränssnitt är väldokumenterade, så håll bara musen över ett objekt så dyker ett verktygstips upp med nyttig information. </para>
+    </sect3>
+
+    <sect3 id="guide-Setup">
+        <title
+>Inställning</title>
+        <screenshot>
+            <screeninfo
+>Välja Ekos-profilguidning </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_profile_guide.png" format="PNG"/>
+                </imageobject>
+                <textobject>
                     <phrase
->Introduktion till guidning</phrase>
-                </para>
-            </caption>
-        </mediaobject>
+>Välja Ekos-profilguidning</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para
->Under de två processerna måste följande ställas in: </para>
+>För att utföra guidning, måste du välja guidning i profileditorn (en gång) för profilen du ska använda. Välj Intern för Ekos interna guidning, eller PHD2, i profileditorn. </para>
+        <screenshot>
+            <screeninfo
+>Ekos-guidningsoptik </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_optical_train.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos-guidningsoptik</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>För att utföra guidning behöver du också ställa in guidningsoptiken. Den andra optiken skiljer sig nästan alltid från den du använder med tagning/inriktning/fokusering. Se bilden ovan för ett exempel på en inställning av guidningsoptik. Observera att det valda teleskopet är guidningsteleskopet, vilket kan vara detsamma som huvudteleskopet om du använder guidningsmetoderna OAG (off-axis-guiding) eller ONAG. Den valda kameran är naturligtvis din guidningskamera. Guidning via ska vara stativet, förutsatt att du skickar guidningspulser direkt till stativet, eller namnet på ST4-enheten (t.ex. din kamera) om du använder ST4-guidningspulser. </para>
+        <para
+>Titta på huvudsidan för guidning som visas i början av guidningsavsnittet. Det finns många parametrar som också kan justeras, varav några listas nedan. </para>
         <itemizedlist>
             <listitem>
                 <para
 ><guilabel
->Guidekamera</guilabel
->: Ställ in guidnings-CCD. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Via</guilabel
->: Väljer vilken enhet som tar emot automatiska korrigeringspulser för guidning från Ekos. Oftast har guidnings-CCD:er en ST4-port. Om du använder guidekamerans ST4 för automatisk guidning av teleskopet, ställ då in guidningsdrivrutinen i kombinationsrutan <guilabel
->Via</guilabel
->. Guidnings-CCD:n tar emot korrigeringspulserna från Ekos och skickar dem vidare till stativet via ST4-porten. Som alternativ stöder vissa teleskop pulskommandon och du kan välja att teleskopet är mottagare av Ekos korrigeringspulser. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
 >Exponering</guilabel
->: CCD-exponering i sekunder. </para>
+>: På guidningens huvudsida kan du justera guidningens exponeringstid. Efter att guidningskameran har slutfört exponeringen beräknar guidningsalgoritmen och skickar guidningspulser till stativet, sedan väntar den en användarinställningsbar fördröjning och börjar sedan sin nästa exponering. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
 >Indelning</guilabel
->: CCD-indelning. </para>
+>: Bildpunktsindelning för guidningsbilden. Det är oftast vettigt att placera bildpunkterna 2x2. Algoritmerna kan fortfarande hitta stjärnpositioner i delbildpunkter och skicka korrekta guidningspulser till stativet. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
 >Ruta</guilabel
->: Storlek på rutan som omger guidningsstjärnan. Välj en lämplig storlek som varken är för stor eller för liten för den valda stjärnan. </para>
+>: Den gäller bara andra guidningsalgoritmer än multistjärna, och multistjärna är den rekommenderade guidningsmetoden. Storlek på rutan som omger guidningsstjärnan. Välj en lämplig storlek som varken är för stor eller för liten för den valda stjärnan. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Effekter</guilabel
->: Ange filter som ska användas för att förbättra bilden. </para>
+>Riktningar</guilabel
+>: Vanligtvis vill du låta alla riktningsrutor vara markerade. Om du avmarkerar dem inaktiveras guidning i dessa riktningar. Det är till exempel möjligt att inaktivera Dek-guidning i nordlig riktning. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Mörk</guilabel
+>: Markera det för att aktivera korrigering med mörk bild för guidningsbilder. Se nedan. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Rensa kalibrering</guilabel
+>: Markera det för att ta bort kalibreringsdata. Se kalibreringsavsnittet nedan. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Delbildruta, Automatisk stjärna</guilabel
+>: De gäller bara andra guidningsalgoritmer än multipelstjärna, och multipelstjärna är den rekommenderade guidningsmetoden. </para>
             </listitem>
         </itemizedlist>
     </sect3>
-
-    <sect3 id="guide-dark-frames">
-        <title
->Mörka bildrutor</title>
-        <para
->Mörka bildrutor är <emphasis
->ytterst</emphasis
-> nyttiga för att reducera brus i guidningsbilderna. Det rekommenderas starkt att ta mörka bilder innan kalibrerings- eller guidningsproceduren påbörjas. Markera kryssrutan <guilabel
->Mörk</guilabel
-> och klicka sedan på <guilabel
->Ta bild</guilabel
-> för att ta en mörk bild. Första gången det utförs, frågar Ekos dig om kamerans slutare. Om kameran inte har en slutare, varnar Ekos dig om att täcka kameran eller teleskopet så fort du tar en mörk bild, innan du går vidare med tagningen. Å andra sidan, om kameran redan inkluderar en slutare går Ekos direkt vidare med tagningen av den mörka bilden. Alla mörka bildrutor sparas automatiskt i Ekos bibliotek med mörka bildrutor. Normalt fortsätter bibliotek med mörka bildrutor att återanvända mörka bildrutor under 30 dagar, och sedan tas nya mörka bildrutor. Värdet går att ställa in, och kan anpassas under <link linkend="ekos"
->Ekos inställningar</link
-> i &kstars; inställningsdialogruta. </para>
-        <screenshot>
-            <screeninfo
->Ekos bibliotek med mörka bildrutor </screeninfo>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="dark_library.png" format="PNG"/>
-                </imageobject>
-                <textobject>
-                    <phrase
->Ekos bibliotek med mörka bildrutor</phrase>
-                </textobject>
-            </mediaobject>
-        </screenshot>
-        <para
->Det rekommenderas att ta mörka bildrutor som täcker flera indelningar och exponeringsvärden, så att de kan återanvändas transparent av Ekos så fort det behövs. </para>
-    </sect3>
-
     <sect3 id="guide-calibration">
         <title
 >Kalibrering</title>
@@ -151,53 +131,74 @@
             </mediaobject>
         </screenshot>
         <para
->Under kalibreringsfasen måste du ta en bild, välja en guidestjärna, och klicka på <guibutton
->Guidning</guibutton
-> för att påbörja kalibreringsprocessen. Om kalibrering redan har slutförts med lyckat resultat tidigare, kommer den automatiska guidningsprocessen att börja omedelbart, annars kommer kalibreringsprocessen att starta. Om <guilabel
->Automatisk stjärna</guilabel
-> är markerat, behöver du bara klicka på <guibutton
->Ta bild</guibutton
-> så kommer Ekos automatiskt välja guidestjärnan som passar bäst på bilden och fortsätta kalibreringsprocessen. Om <guilabel
->Automatisk stjärna</guilabel
-> är inaktiverad, försöker Ekos markera den bästa guidestjärnan i fältet. Du måste bekräfta eller ändra valet innan kalibreringsprocessen kan startas. Kalibreringsalternativen är: </para>
+>Automatisk guiding är en tvåstegsprocess: Kalibrering och guidning. Kalibrering behövs för att metoden ska förstå kamerans orientering, i förhållande till RA- och Dek-axlarna, och även effekterna av guidningspulser (t.ex. hur mycket en 100 ms RA-guidningspuls normalt flyttar RA-axeln). När den väl uppskattat värdena kan guidningsverktyget korrigera stativets position effektivt. Du kan se parametrarnas kalibrerade värden på bilden ovan i avsnittet "Kalibrerade värden". </para>
+        <para
+>I likhet med andra guidningsverktyg, rekommenderar vi att du kalibrerar noggrant en gång och sedan bara kalibrerar om när det behövs. Det är nödvändigt att kalibrera om när kameran flyttas (t.ex. roteras) i förhållande till stativet. Det bör inte vara nödvändigt att kalibrera varje gång du vrider stativet. Du ska kalibrera när du pekar nära meridianen och längs himmelsekvatorn (förmodligen strax väster om den). Guidning (och guidningskalibrering) är problematiska nära polen, det fungerar förmodligen inte. <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
+>Det här bildspelet</ulink
+> innehåller goda råd om hur man kalibrerar Intern guidning och/eller PHD2. </para>
+        <para
+>De viktiga alternativen på sidan med kalibreringsalternativ (ovan) är: </para>
         <itemizedlist>
             <listitem>
                 <para
 ><guilabel
->Puls</guilabel
->: Längden på pulser att skickas till stativet i millisekunder. Värdet bör vara stort nog för att orsaka en märkbar förflyttning av guidestjärnan. Om värdet ökas och ingen förflyttning av guidestjärnan syns, antyder det möjliga problem med stativet såsom att det har fastnat eller anslutningsproblem via ST4-kabeln. </para>
+>Pulsstorlek</guilabel
+>: bör vara tillräckligt stor för att flytta bilden några bildpunkter. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Två axlar</guilabel
->: Markera om du vill att kalibreringsprocessen ska utföra kalibrering för både RA och DEK. Om avmarkerad, utförs kalibreringen bara för RA. </para>
+>Återanvänd kalibrering</guilabel
+>: Det finns två kryssrutor för att behålla kalibreringen. Vi rekommenderar att du markerar "Lagra och återanvänd guidningskalibrering om möjligt", och avmarkerar "Nollställ guidningskalibrering efter varje stativförflyttning". </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Automatisk stjärna</guilabel
->: Om markerad, försöker Ekos välja den bästa guidestjärnan på bildrutan och påbörja kalibreringsprocessen automatiskt. </para>
+>Vänd Dek...</guilabel
+>: Det är också viktigt att markera eller avmarkera (det är stativberoende) "Vänd Dek vid ändring av pirsida när kalibrering återanvänds". För att ta reda på rätt inställning för stativet måste du kalibrera på en pirsida med lyckat resultat, se till att guidningen fungerar bra på den sidan, och sedan byta till den andra sidan. Guida i en minut eller två. Om Dek sticker iväg har du förmodligen fel inställning av kryssrutan "Vänd Dek...". </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Maximal förflyttning, Maximalt antal upprepningar</guilabel
+>: Vi rekommenderar att du använder många upprepningar (t.ex. 10) och stor maximal förflyttning (t.ex. 20+ bildpunkter). På så sätt bör du få en bra uppskattning av guidningskalibreringens parametrar. Kalibrering bör vara något du gör sällan, så det är bäst att ta lite extra tid och göra rätt. </para>
             </listitem>
         </itemizedlist>
         <para
->Hårkorspositionen är guidestjärnans position vald av dig (eller av det automatiska valet) i den tagna guidningsbilden. Du bör välja en stjärna som inte är nära kanten. Om bilden är otydlig kan du välja olika <guilabel
->Effekter</guilabel
-> för att förbättra den. </para>
+>För att kalibrera (om), rensa kalibreringen på guidningens huvudsida och klicka sedan helt enkelt på knappen <guibutton 
+>Guidning</guibutton 
+>. Observera att om kalibreringen redan har slutförts tidigare med lyckat resultat och du inte har rensat kalibreringen, och du återanvänder kalibreringar, så börjar den automatiska guidningsprocessen omedelbart, annars startas kalibreringsprocessen. </para>
         <para
->Ekos påbörjar kalibreringsprocessen genom att skicka pulser för att flytta stativet i RA och DEK. Om kalibreringsprocessen misslyckas på grund av kort drivning, försök att öka pulslängden. För att rensa kalibreringen, klicka på ikonen av papperskorgen intill knappen <guibutton
->Guidning</guibutton
->. </para>
-        <warning>
+>Ekos påbörjar kalibreringsprocessen genom att skicka pulser för att flytta stativet i RA och Dek. Den flyttar ut RA-axeln, och flyttar den sedan tillbaka in. Efter det flyttar den lite i Dek för att ta bort spel som kan finnas, och sedan flyttar ut och tillbaka för Dek. För att visa det grafiskt, klicka på delfliken på guidningens huvudsida "Kalibreringsdiagram". </para>
+        <sect4 id="guide-calibration-failures">
+        <title
+>Misslyckad kalibrering</title>
             <para
 >Kalibrering kan misslyckas av olika orsaker. För att öka chansen att lyckas, prova med tipsen nedan. </para>
-        </warning>
         <itemizedlist>
+            <listitem>
+                <para
+>Dåliga himmelsförhållanden. Om himmelsförhållanden inte är bra, kanske det inte är värt att kämpa med guidning/kalibrering. </para>
+            </listitem>
+            <listitem>
+                <para
+>Guidekamerafokusering. </para>
+            </listitem>
+            <listitem>
+                <para
+>Låt algoritmen förbli i förvalt värde (<guimenuitem
+>SEP Multistjärna</guimenuitem
+>) under fliken Guidningsalternativ. </para>
+            </listitem>
+            <listitem>
+                <para
+>Prova "guidningsstandardparametrarna" för SEP-stjärndetektering  (under fliken guidningsalternativ) och justera dem om det behövs. </para>
+            </listitem>
             <listitem>
                 <para
 ><guilabel
 >Bättre polärinriktning</guilabel
->: Det är kritiskt för att lyckas med alla astrofotograferingssessioner. Utför en snabb polärinriktning med ett polärteleskop (om tillgängligt) eller genom att använda Ekos <link linkend="ekos-align-polaralignment"
+>: Det är kritiskt för att lyckas med alla astrofotograferingssessioner. Använd Ekos <link linkend="ekos-align-polaralignment"
 >polärinriktningsprocedur</link
 > i inriktningsmodulen. </para>
             </listitem>
@@ -209,33 +210,11 @@
             </listitem>
             <listitem>
                 <para
->Föredra användning av en ST4-kabel mellan guidekameran och stativet framför att använda pulskommandon för stativet. </para>
-            </listitem>
-            <listitem>
-                <para
->Välj ett annat filter (t.ex. hög kontrast) och se om det gör skillnad i att reducera bruset. </para>
-            </listitem>
-            <listitem>
-                <para
->Mindre kvadratstorlek. </para>
-            </listitem>
-            <listitem>
-                <para
 >Ta mörka bilder för att reducera bruset. </para>
             </listitem>
-            <listitem>
-                <para
->Prova med DEK proportionell förstärkning eller inaktivera DEK-kontroll helt och hållet och titta på skillnaden. </para>
-            </listitem>
-            <listitem>
-                <para
->Låt algoritmen förbli i förvalt värde (<guimenuitem
->Smart</guimenuitem
->). </para>
-            </listitem>
         </itemizedlist>
+    </sect4>
     </sect3>
-
     <sect3 id="guide-guiding">
         <title
 >Guidning</title>
@@ -254,31 +233,57 @@
             </mediaobject>
         </screenshot>
         <para
->När väl kalibreringsprocessen har slutförts med lyckat resultat, ska guidningen därefter påbörjas automatiskt. Guidningens prestanda visas i området <guilabel
+>När väl kalibreringsprocessen har slutförts med lyckat resultat, påbörjas guidningen automatiskt. Guidningens prestanda visas i området <guilabel
 >Avdriftsgrafik</guilabel
 > där <guilabel
 >Grön</guilabel
 > anger avvikelser i RA och <guilabel
 >Blå</guilabel
-> avvikelser i DEK. Färgerna på RA/DEK-linjerna kan ändras i <link linkend="colors"
+> avvikelser i Dek. Färgerna på RA/Dek-linjerna kan ändras i <link linkend="colors"
 >&kstars; färgschema</link
->. Den vertikala axeln anger avvikelsen i bågsekunder från guidestjärnans centrumposition, och den horisontella axeln anger tid. Det går att hålla musen över linjen för att få exakt avvikelse vid en specifik tidpunkt. Dessutom går det att zooma och dra eller panorera diagrammet för att inspektera ett specifikt område. </para>
+> i &kstars; inställningsdialogruta. Den vertikala axeln anger avvikelsen i bågsekunder från den låsta positionen, och den horisontella axeln anger tid. Det går att hålla musen över linjen för att få exakt avvikelse vid en specifik tidpunkt. Dessutom går det att zooma och dra eller panorera diagrammet för att inspektera ett specifikt område i diagrammet. Ett annat bekvämt ställe att undersöka guidningsprestanda är under fliken Analys. </para>
         <para
->Ekos kan utnyttja flera olika algoritmer för att bestämma guidestjärnans medelpunkt. Normalt är algoritmen <emphasis
->smart</emphasis
-> bäst lämpad i de flesta situationer. Algoritmen <emphasis
->snabb</emphasis
-> är baserad på HFR-beräkningar. Du kan prova att byta guidningsalgoritmer om Ekos inte kan hålla guidestjärnan inom guiderutan på ett riktigt sätt. </para>
+>Ekos kan använda flera algoritmer för att bestämma avdriften från den (ursprungliga) låsta positionen, men den överlägset mest exakta är (standardvärdet) algoritmen SEP-multipelstjärna. Den använder den detekterade positionen för många stjärnor (i ovanstående inställningar, upp till 50) för att bestämma bästa uppskattning av den aktuella driften. Den är beroende av noggrann stjärndetektering. Därför kan det vara viktigt att justera parametrar för stjärndetektering. Börja med SEP-standardprofilen, och redigera eventuellt parametrarna om du märker att stjärnor inte detekteras korrekt. </para>
         <para
->Informationsområdet visar information om teleskopet och synfältet, förutom avvikelserna från guidestjärnan tillsammans med korrektionspulserna skickade till stativet. Kvadratiskt medelvärde visas för varje axel tillsammans med det totala kvadratiska medelvärdet i bågsekunder. Det interna guidningsverktyget använder en <ulink url="https://sv.wikipedia.org/wiki/PID-regulator"
->PID-regulator</ulink
-> för att korrigera stativföljningen. För närvarande utnyttjas <emphasis
->bara</emphasis
-> den proportionella och integrerade förstärkningen i algoritmen, så att justera den ska påverka längden på de genererade pulserna i millisekunder som skickas till stativet. </para>
+>Här är några av parametrarna som du kan vilja justera. Återigen finns goda råd i val av parametrar på Internet, t.ex. från <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
+>bildspelet ovan</ulink
+>. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Aggressivitet. Hur snabbt du vill att guidningen ska rätta till felet. Värden på 0,5 eller 0,6 är vanligtvis bäst (dvs korrigering av ungefär hälften av det observerade felet). Trots intuitionen verkar det som att korrigering av 100 % av felet kan orsaka dålig prestanda eftersom guidningen då ofta oscillerar med överkorrigeringar. </para>
+            </listitem>
+            <listitem>
+                <para
+>Algoritm. Vi rekommenderar starkt att du använder den mest aktuella algoritmen: SEP-multipelstjärna. Nästan den enda anledningen till att inte göra det skulle vara om du inte kan få SEP-stjärndetektering att fungera adekvat. </para>
+            </listitem>
+            <listitem>
+                <para
+>SEP-profil. Börja med guidningsstandard, även om du kan välja andra om du har mycket stora eller små stjärnor (i termer av antal bildpunkter i diameter). </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+    <sect3 id="guide-dithering">
+        <title
+>Gitter</title>
+
+        <screenshot>
+            <screeninfo
+>Gitterinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_dithering_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Gitterinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para
 >För att aktivera automatiskt gitter mellan bildrutor, försäkra dig om att kryssrutan <guilabel
 >Gitter</guilabel
-> är markerad. Normalt ska Ekos använda gitter för guidningsrutan (dvs. flytta den) upp till tre bildpunkter mellan varje tagen bildruta i <link linkend="ekos-capture"
+> är markerad. Normalt ska Ekos använda gitter för guidningsrutan (dvs. flytta den) upp till tre bildpunkter efter var N:e bildruta tagen i <link linkend="ekos-capture"
 >Ekos tagningsmodul</link
 >. Rörelsens längd och riktning är slumpmässiga. Eftersom guidningsprestanda kan oscillera direkt efter gitter används, kan lämplig längd att vänta efteråt innan tagningsprocessen återupptas ställas in med <guilabel
 >Dämpning</guilabel
@@ -288,82 +293,17 @@
 >Avbryt automatisk guidning vid fel</guilabel
 > för att välja önskat beteende. </para>
         <para
+>Gitter resulterar inte i en lång avvikelse från den ursprungliga målpositionen. Ekos håller reda på de ursprungliga och aktuella målpositionerna, och flyttar målet tillbaka mot det ursprungliga målet om positionen har glidit för långt. </para>
+        <para
+>Gitter med en puls är ett intressant snabbare alternativ som skickar en puls för gitter, men inte verifierar att gittret nådde sin önskade plats. Det är möjligt att gitter för ett givet värde inte är så mycket som önskas, men den totala effekten bör bli bra. </para>
+        <para
 >Gitter utan guidning stöds också. Det är användbart när någon guidekamera inte är tillgänglig eller när korta exponeringar utförs. I detta fall kan stativet kommenderas att röra sig i en slumpmässig riktning upp till pulslängden angiven i alternativet <guilabel
 >Puls för icke-guidningsgitter</guilabel
 >. </para>
-        <para
->Ekos stöder flera guidningsmetoder: Intern, PHD2 och LinGuider. Önskat guidningsverktyg måste väljas i Ekos utrustningsprofil: </para>
-        <itemizedlist>
-            <listitem>
-                <para
-><guilabel
->Intern guidefunktion</guilabel
->: Använd Ekos interna guidningsverktyg. Det är förvalt och rekommenderat alternativ. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->PHD2</guilabel
->: Använd PHD2 som externt guideverktyg. Om valt, ange PHD2 värddator och port. Låt förvalda värden vara kvar om Ekos och PHD2 kör på samma dator. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->LinGuider</guilabel
->: Använd LinGuider som externt guideverktyg. Om valt, ange LinGuider värddator och port. Låt förvalda värden vara kvar om Ekos och LinGuider kör på samma dator. </para>
-            </listitem>
-        </itemizedlist>
-        <screenshot>
-            <screeninfo
->Riktningskontroll i guidningen </screeninfo>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="ekos_profile_guider_select.png" format="PNG"/>
-                </imageobject>
-                <textobject>
-                    <phrase
->Riktningskontroll i guidningen</phrase>
-                </textobject>
-            </mediaobject>
-        </screenshot>
     </sect3>
-
-    <sect3 id="guide-direction-control">
-        <title
->Riktningskontroll i guidningen</title>
-        <para
->Det går att finjustera guidningsprestanda i styrningssektionen. Den automatiska guidningsprocessen fungerar som en <ulink url="https://sv.wikipedia.org/wiki/PID-regulator"
->PID-regulator</ulink
-> när korrigeringskommandon skickas till stativet. Det går att ändra proportionell och integrerande förstärkning för att förbättra guidningsprestanda vid behov. Normalt skickas korrigerande pulser för guidning till båda stativets axlar i alla riktningar: positiva och negativa. Man kan finjustera styrningen genom att välja vilken axel som ska få korrigerande guidningspulser, och för varje axel kan riktningen, <guilabel
->Positiv (+)</guilabel
-> eller <guilabel
->Negativ (-)</guilabel
->, som får korrigerande guidningspulser. Exempelvis, för deklinationsaxeln är riktningen <guilabel
->+</guilabel
-> norr och <guilabel
->-</guilabel
-> är söder. </para>
-    </sect3>
-
-    <sect3 id="guide-guiding-rate">
-        <title
->Guidningshastighet</title>
-        <para
->Varje stativ har en viss guidningshastighet i (x 15"/sek) som vanligtvis går från 0,1x till 1,0x, med 0,5x ett vanligt värde som används av många stativ. Förvald guidningshastighet är 0,5x siderisk, vilket motsvarar en proportionell förstärkning av 133,33. Ställ därför in guidningshastigheten till det värde som ditt stativ använder, så visar Ekos <emphasis
->rekommenderat</emphasis
-> värde på proportionell förstärkning som kan ställas in i fältet för proportionell förstärkning under <guilabel
->Styrparametrar</guilabel
->. Att ställa in värdet <emphasis
->ändrar inte</emphasis
-> stativets guidningshastighet. Stativets guidningshastighet måste antingen ändras via <link linkend="indi-telescope-setup"
->INDI-drivrutinen</link
->, om det stöds, eller via handkontrollen. </para>
-    </sect3>
-
     <sect3 id="guide-drift-graphics">
         <title
 >Avdriftsgrafik</title>
-
         <screenshot>
             <screeninfo
 >Avdriftsgrafik </screeninfo>
@@ -414,6 +354,57 @@
 > där färgen anger i vilken koncentrisk ring det hamnar i. Det går att ändra radien på den innersta gröna cirkeln genom att justera avdriftsdiagrammets noggrannhet. </para>
     </sect3>
 
+    <sect3 id="guide-gpg">
+        <title
+>Guidning med GPG</title>
+        <screenshot>
+            <screeninfo
+>Guidning med GPG </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_gpg_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Guidning med GPG</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Med GPG-guidning använder den interna guidningen prediktiv och adaptiv guidning för RA-axeln. Det modellerar adaptivt stativets periodiska fel och lägger till dess förutsagda bidrag till varje styrpuls. </para>
+        <para
+>De viktigaste inställningarna att överväga är Huvudperiod och Uppskatta period. Om du känner till stativets period, kanske genom att titta i <ulink url="https://github.com/OpenPHDGuiding/phd2/wiki/Mount-Worm-Period-Info"
+>den här tabellen</ulink
+>, avmarkera då Uppskatta period och ange din kända huvudperiod. Om inte, markera Uppskatta period. Mörk guidning mellan bildrutor kan användas för att "sprida ut" GPG-förutsägelsen. Om du till exempel använder 5 s för guidning, kan du ställa in det mörka guidningsintervallet till 1 s så blir förutsägelsens puls varje sekund, men guidningens driftkorrigering skickas ut var 5:e s. På detta sätt matar den ut de förutsagda korrigeringarna mycket snabbare än guidningskamerans exponeringstid, vilket effektivt utför periodisk felkorrigering och tillåter längre guidningskameraexponeringar. Alla andra parametrar är bäst att lämna med standardinställningarna. </para>
+    </sect3>
+    <sect3 id="guide-dark-frames">
+        <title
+>Mörka bildrutor</title>
+        <para
+>Mörka bildrutor kan vara nyttiga för att reducera brus i guidningsbilderna. Om du väljer att använda alternativet, rekommenderas att ta mörka bilder innan kalibrerings- eller guidningsproceduren påbörjas. Markera kryssrutan <guilabel
+>Mörk</guilabel
+> och klicka sedan på <guilabel
+>Ta bild</guilabel
+> för att ta en mörk bild. Första gången det utförs, frågar Ekos dig om kamerans slutare. Om kameran inte har en slutare, varnar Ekos dig om att täcka kameran eller teleskopet så fort du tar en mörk bild, innan du går vidare med tagningen. Å andra sidan, om kameran redan inkluderar en slutare går Ekos direkt vidare med tagningen av den mörka bilden. Alla mörka bildrutor sparas automatiskt i Ekos bibliotek med mörka bildrutor. Normalt fortsätter bibliotek med mörka bildrutor att återanvända mörka bildrutor under 30 dagar, och sedan tas nya mörka bildrutor. Värdet går att ställa in, och kan anpassas under <link linkend="ekos"
+>Ekos inställningar</link
+> i &kstars; inställningsdialogruta. </para>
+        <screenshot>
+            <screeninfo
+>Ekos bibliotek med mörka bildrutor </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="dark_library.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos bibliotek med mörka bildrutor</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Det rekommenderas att ta mörka bildrutor som täcker flera indelningar och exponeringsvärden, så att de kan återanvändas transparent av Ekos så fort det behövs. </para>
+    </sect3>
+    
     <sect3 id="guide-phd2-support">
         <title
 >Stöd för PHD2</title>
@@ -450,12 +441,16 @@
 >Anslut</guibutton
 >. Vid start försöker Ekos automatiskt ansluta till PHD2. När anslutningen väl är upprättad kan guidningen omedelbart påbörjas genom att klicka på knappen <guibutton
 >Guidning</guibutton
->. PHD2 ska utföra kalibrering om nödvändigt. Om gitter väljes, ska PHD2 kommenderas att använda gitter givet indikerade positioner i bildpunkter, och när guidningen väl har dämpats och är stabil, ska tagningsprocessen i Ekos återupptas. </para>
-        <note>
-            <para
->Ekos sparar CSV guidningsloggdata som kan vara användbar för analys av stativet prestanda i <filename
+>. PHD2 utföra kalibrering om nödvändigt. Om gitter väljes, kommenderas PHD2 att använda gitter givet indikerade positioner i bildpunkter, och när guidningen väl har dämpats och är stabil, återupptas tagningsprocessen i Ekos. </para>
+    </sect3>
+    <sect3 id="guide-logs">
+        <title
+>Guidningsloggar</title>
+        <para
+>Ekos interna guidning sparar en CSV guidningslogg med data på PHD2-format som kan vara användbar för analys av stativet prestanda. På Linux lagras den i <filename
 >~/.local/share/kstars/guide_log.txt</filename
->. Loggen är bara tillgänglig när det inbyggda guidningsverktyget. </para>
-        </note>
+>. Loggen är bara tillgänglig när det inbyggda guidningsverktyget. Den ska vara kompatibel med <ulink url="https://openphdguiding.org/phd2-log-viewer/"
+>PHD2:s guidningsloggvisning</ulink
+>. </para>
     </sect3>
 </sect2>

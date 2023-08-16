@@ -433,7 +433,7 @@ class Align : public QWidget, public Ui::Align
         /** DBUS interface function.
              * Sets the target coordinates that the solver compares the solution coordinates to.
              * By default, the target coordinates are those of the current mount when the capture and
-             * solve operation is started. In case of SYNC, only the error between the the solution and target
+             * solve operation is started. In case of SYNC, only the error between the solution and target
              * coordinates is calculated. When Slew to Target is selected, the mount would be slewed afterwards to
              * this target coordinate.
              * @param ra0 J2000 Right Ascension in hours.

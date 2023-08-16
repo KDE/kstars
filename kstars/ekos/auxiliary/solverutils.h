@@ -14,6 +14,7 @@
 #include <QFutureWatcher>
 #include <mutex>
 #include <memory>
+#include <QSharedPointer>
 
 #ifdef _WIN32
 #undef Unused

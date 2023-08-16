@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-15 00:41+0000\n"
-"PO-Revision-Date: 2023-08-12 08:53+0300\n"
+"POT-Creation-Date: 2023-08-16 00:41+0000\n"
+"PO-Revision-Date: 2023-08-15 09:40+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -182,7 +182,7 @@ msgstr "Видимі супутники"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:241
 #: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1105 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -195,7 +195,7 @@ msgstr "Мітки супутників"
 
 #: auxiliary/colorscheme.cpp:61 data/qml/whatisinteresting/wiview.qml:526
 #: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1111 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -456,14 +456,14 @@ msgid "Save Image"
 msgstr "Збереження зображення"
 
 #: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3789
-#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1314
+#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1326
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Файл з назвою «%1» вже існує. Перезаписати?"
 
 #: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3792
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1315
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1327
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -553,8 +553,8 @@ msgstr "Скасувати"
 #: ekos/capture/sequencejob.cpp:21 ekos/manager.cpp:1068 ekos/manager.cpp:1083
 #: ekos/manager.cpp:1113 ekos/scheduler/schedulerjob.cpp:674
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
-#: indi/indimount.cpp:33 kstarsactions.cpp:478 kstarsactions.cpp:486
-#: kstarsactions.cpp:496
+#: indi/indimount.cpp:33 kstarsactions.cpp:480 kstarsactions.cpp:488
+#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:518
 #, kde-format
 msgid "Error"
 msgstr "Помилка"
@@ -718,7 +718,7 @@ msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 "Помилка під час записування файла налаштувань вбудованого засобу астрометрії."
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:723
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:733
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -914,11 +914,11 @@ msgstr "Імітатор Сонячної системи XPlanet: %1"
 #: indi/indimount.cpp:794 indi/indimount.cpp:809 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
-#: skycomponents/skymapcomposite.cpp:594 skyglpainter.cpp:288
+#: skycomponents/skymapcomposite.cpp:600 skyglpainter.cpp:288
 #: skymapdrawabstract.cpp:244 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:425 skyqpainter.cpp:449
+#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:427 skyqpainter.cpp:451
 #: tools/conjunctions.cpp:58 tools/conjunctions.cpp:292 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
@@ -935,11 +935,11 @@ msgstr "Сонце"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mercury)
 #: auxiliary/xplanetimageviewer.cpp:203
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:204
-#: skycomponents/skymapcomposite.cpp:596 skyglpainter.cpp:296
+#: skycomponents/skymapcomposite.cpp:602 skyglpainter.cpp:296
 #: skymapdrawabstract.cpp:246 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:435 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
+#: skyqpainter.cpp:437 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
 #: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
 #: tools/skycalendar.ui:34
@@ -952,7 +952,7 @@ msgstr "Меркурій"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Venus)
 #: auxiliary/xplanetimageviewer.cpp:203 options/opssolarsystem.ui:140
-#: skycomponents/skymapcomposite.cpp:598 skymapdrawabstract.cpp:248
+#: skycomponents/skymapcomposite.cpp:604 skymapdrawabstract.cpp:248
 #: skyobjects/ksplanet.cpp:127 skyobjects/ksplanet.cpp:161
 #: skyobjects/ksplanet.cpp:369 skyobjects/ksplanet.cpp:409
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
@@ -987,11 +987,11 @@ msgstr "Земля"
 #: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:156
 #: printing/detailstable.cpp:145 printing/detailstable.cpp:162
 #: printing/detailstable.cpp:173 printing/detailstable.cpp:186
-#: printing/pwizobjectselection.cpp:124 skycomponents/skymapcomposite.cpp:600
+#: printing/pwizobjectselection.cpp:124 skycomponents/skymapcomposite.cpp:606
 #: skymapdrawabstract.cpp:250 skyobjects/ksmoon.cpp:64
 #: skyobjects/ksplanet.cpp:177 skyobjects/ksplanetbase.cpp:204
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/skyobject.cpp:287
-#: skyobjects/skyobject.cpp:367 skyqpainter.cpp:426 skyqpainter.cpp:449
+#: skyobjects/skyobject.cpp:367 skyqpainter.cpp:428 skyqpainter.cpp:451
 #: tools/conjunctions.cpp:59 tools/eclipsetool.cpp:29
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
@@ -1010,11 +1010,11 @@ msgstr "Місяць"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mars)
 #: auxiliary/xplanetimageviewer.cpp:207
 #: kstarslite/skyitems/skynodes/planetnode.cpp:26 options/opssolarsystem.ui:85
-#: skycomponents/skymapcomposite.cpp:602 skyglpainter.cpp:292
+#: skycomponents/skymapcomposite.cpp:608 skyglpainter.cpp:292
 #: skymapdrawabstract.cpp:252 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:431 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
+#: skyqpainter.cpp:433 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
 #: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
 #: tools/skycalendar.ui:48
@@ -1038,11 +1038,11 @@ msgstr "Деймос"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Jupiter)
 #: auxiliary/xplanetimageviewer.cpp:209
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:172
-#: skycomponents/skymapcomposite.cpp:604 skyglpainter.cpp:296
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:296
 #: skymapdrawabstract.cpp:254 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:435 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
+#: skyqpainter.cpp:437 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
 #: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
@@ -1076,11 +1076,11 @@ msgstr "Європа"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:297 skymap.cpp:1365
+#: skycomponents/skymapcomposite.cpp:612 skyglpainter.cpp:297 skymap.cpp:1365
 #: skymapdrawabstract.cpp:256 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
-#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:436
+#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:438
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
 #: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
@@ -1139,7 +1139,7 @@ msgstr "Феба"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Uranus)
 #: auxiliary/xplanetimageviewer.cpp:213 options/opssolarsystem.ui:252
-#: skycomponents/skymapcomposite.cpp:608 skymapdrawabstract.cpp:258
+#: skycomponents/skymapcomposite.cpp:614 skymapdrawabstract.cpp:258
 #: skyobjects/ksplanet.cpp:139 skyobjects/ksplanet.cpp:169
 #: skyobjects/ksplanet.cpp:391 skyobjects/ksplanet.cpp:429
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
@@ -1180,7 +1180,7 @@ msgstr "Оберон"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Neptune)
 #: auxiliary/xplanetimageviewer.cpp:215 options/opssolarsystem.ui:220
-#: skycomponents/skymapcomposite.cpp:610 skymapdrawabstract.cpp:260
+#: skycomponents/skymapcomposite.cpp:616 skymapdrawabstract.cpp:260
 #: skyobjects/ksplanet.cpp:142 skyobjects/ksplanet.cpp:171
 #: skyobjects/ksplanet.cpp:395 skyobjects/ksplanet.cpp:433
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
@@ -3058,7 +3058,7 @@ msgstr "Змінити"
 #: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:424
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
 #: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:475
-#: fitsviewer/solveInfo.ui:66
+#: fitsviewer/solveInfo.ui:66 skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "RA"
 msgstr "ПС"
@@ -3246,7 +3246,7 @@ msgid "Clone..."
 msgstr "Клонувати…"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1118
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1126
 #, kde-format
 msgid "Colors"
 msgstr "Кольори"
@@ -3539,7 +3539,7 @@ msgstr "Посилання"
 msgid "Could not add the link."
 msgstr "Не вдалося додати посилання."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1145
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1153
 #, kde-format
 msgid "Advanced"
 msgstr "Додаткові"
@@ -3592,7 +3592,7 @@ msgid "Could not update the user log."
 msgstr "Не вдалося оновити журнал користувача."
 
 #: dialogs/detaildialog.cpp:1108 dialogs/detaildialog.cpp:1140
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: kstarsactions.cpp:303 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, kde-format
@@ -3600,7 +3600,7 @@ msgid "No connected mounts found."
 msgstr "Не знайдено з'єднаних лафетів."
 
 #: dialogs/detaildialog.cpp:1119 fitsviewer/fitslabel.cpp:436
-#: kstarsactions.cpp:286 tools/observinglist.cpp:698
+#: kstarsactions.cpp:288 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -4185,7 +4185,7 @@ msgstr "Розташування умовних позначень:"
 msgid "Any"
 msgstr "Будь-які"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1102 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:467
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -6266,7 +6266,7 @@ msgstr "Не вдалося виконати запис до файла %1"
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
 #: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
 #: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1363 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1375 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6748,6 +6748,7 @@ msgstr ""
 #: ekos/guide/guide.ui:342 ekos/guide/guide.ui:1247
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
 #: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:495
+#: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "DEC"
 msgstr "Схил"
@@ -9649,8 +9650,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshSourceB)
+#. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1202
-#: hips/opships.ui:116
+#: hips/opships.ui:116 options/opsimageoverlay.ui:165
 #, kde-format
 msgid "Refresh"
 msgstr "Оновити"
@@ -9855,8 +9857,12 @@ msgstr "Захоплення"
 #. i18n: ectx: property (text), widget (QLabel, PAso1)
 #. i18n: ectx: property (text), widget (QLabel, PAso2)
 #. i18n: ectx: property (text), widget (QLabel, PAso3)
+#. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317
+#: ekos/align/polaralignwidget.ui:317 options/opsimageoverlay.ui:242
+#: skycomponents/imageoverlaycomponent.cpp:342
+#: skycomponents/imageoverlaycomponent.cpp:702
+#: skycomponents/imageoverlaycomponent.cpp:782
 #, kde-format
 msgid "Solve"
 msgstr "Розв'язати"
@@ -12067,7 +12073,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:133 ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1133 kstarsinit.cpp:449
+#: kstarsactions.cpp:1141 kstarsinit.cpp:449
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -12109,7 +12115,7 @@ msgid "Log INDI devices activity"
 msgstr "Записувати до журналу дії із пристроями INDI"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1129
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1137
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -12123,7 +12129,7 @@ msgstr "Записувати до журналу дії з обробки FITS"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/capture.ui:194
-#: kstarsactions.cpp:1123
+#: kstarsactions.cpp:1131
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -12389,22 +12395,22 @@ msgstr "Відкрити каталог журналів"
 msgid "New Train"
 msgstr "Новий тракт"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:314
+#: ekos/auxiliary/opticaltrainmanager.cpp:437
 #, kde-format
 msgid "Primary"
 msgstr "Основний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:317
+#: ekos/auxiliary/opticaltrainmanager.cpp:440
 #, kde-format
 msgid "Secondary"
 msgstr "Вторинний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:320
+#: ekos/auxiliary/opticaltrainmanager.cpp:443
 #, kde-format
 msgid "Tertiary"
 msgstr "Третинний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:953
+#: ekos/auxiliary/opticaltrainmanager.cpp:1171
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12413,7 +12419,7 @@ msgstr ""
 "Не виявлено деяких пристроїв (%1). Будь ласка, повторно налаштуйте оптичні "
 "тракти, перш ніж переходити до інших дій."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:960
+#: ekos/auxiliary/opticaltrainmanager.cpp:1178
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -13662,7 +13668,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1805 kstarsinit.cpp:783
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:783
 #: kstarsinit.cpp:784 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
@@ -14930,7 +14936,7 @@ msgstr "Зберегти захоплену послідовність зобр�
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/capture.ui:1867 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/scheduler/scheduler.ui:1096 indi/drivermanager.ui:66
-#: indi/drivermanager.ui:322
+#: indi/drivermanager.ui:322 skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "Status"
 msgstr "Стан"
@@ -17522,8 +17528,9 @@ msgstr "Виберіть джерело даних щодо температур
 #. i18n: ectx: attribute (title), widget (QWidget, settingsTab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
+#. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
 #: ekos/focus/focus.ui:913 ekos/guide/opscalibration.ui:34
-#: ekos/guide/opsgpg.ui:103
+#: ekos/guide/opsgpg.ui:103 options/opsimageoverlay.ui:38
 #, kde-format
 msgid "Settings"
 msgstr "Параметри"
@@ -23232,6 +23239,8 @@ msgstr "Перервати рух купола"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
+#: skycomponents/imageoverlaycomponent.cpp:585
+#: skycomponents/imageoverlaycomponent.cpp:708
 #: skycomponents/satellitescomponent.cpp:143 tools/conjunctions.cpp:350
 #, kde-format
 msgid "Abort"
@@ -25109,10 +25118,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/scheduler/framingassistant.ui:105
-#, fuzzy, kde-format
-#| msgid "Reducer"
+#, kde-format
 msgid "Reducer:"
-msgstr "Зменшувач"
+msgstr "Зменшувач:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #: ekos/scheduler/framingassistant.ui:136
@@ -25745,13 +25753,7 @@ msgstr "Група:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
 #: ekos/scheduler/framingassistant.ui:1534
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"justify\">Select a group name. Useful if "
-#| "you want the mosaic jobs to repeat together--assign them a group name, "
-#| "and give them <i>repeat for N (N=2 or more)</i> or <i>repeat until "
-#| "terminated</i> completion conditions. Otherwise leave empty. Only applies "
-#| "to the Greedy scheduler algorithm.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
 "want the mosaic jobs to repeat together--assign them a group name, and give "
@@ -25761,10 +25763,10 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Виберіть назву групи. Корисно, якщо "
 "вам потрібно, щоб мозаїчні завдання повторювалися разом — призначте назву "
-"групи і встановіть для них умови завершення <i>повторити N (N=2 або більше)</"
-"i> або <i>повторювати до переривання</i>. За інших умов лишіть поле "
-"порожнім. Застосовується лише у «жадібному» режимі планування.</p></body></"
-"html>"
+"групи і встановіть для них умови завершення <span style=\" font-style:italic;"
+"\">повторити N (N=2 або більше)</span> або <span style=\" font-style:italic;"
+"\">повторювати до переривання</span>. За інших умов лишіть поле порожнім.</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1563
@@ -28072,182 +28074,182 @@ msgstr "Звичайний"
 msgid "Calibrate"
 msgstr "Калібрувати"
 
-#: fitsviewer/fitsdata.cpp:240
+#: fitsviewer/fitsdata.cpp:250
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Помилка при читанні буфера fits: %1."
 
-#: fitsviewer/fitsdata.cpp:253
+#: fitsviewer/fitsdata.cpp:263
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Не вдалося розпакувати стиснений FITS"
 
-#: fitsviewer/fitsdata.cpp:269
+#: fitsviewer/fitsdata.cpp:279
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Помилка під час відкриття файла fits %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:282
+#: fitsviewer/fitsdata.cpp:292
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Помилка під час читання буфера fits: %1"
 
-#: fitsviewer/fitsdata.cpp:294
+#: fitsviewer/fitsdata.cpp:304
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Не вдалося визначити місце HDU зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:301
+#: fitsviewer/fitsdata.cpp:311
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Помилка під час відкриття файла FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:315
+#: fitsviewer/fitsdata.cpp:325
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Підтримки одновимірних зображень FITS у KStars не передбачено."
 
-#: fitsviewer/fitsdata.cpp:361 fitsviewer/fitsdata.cpp:580
+#: fitsviewer/fitsdata.cpp:371 fitsviewer/fitsdata.cpp:590
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Підтримки бітової глибини %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:371
+#: fitsviewer/fitsdata.cpp:381
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Розміри зображення, %1⨯%2, є некоректними"
 
-#: fitsviewer/fitsdata.cpp:416
+#: fitsviewer/fitsdata.cpp:426
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Помилка під час спроби читання зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:477
+#: fitsviewer/fitsdata.cpp:487
 #, kde-format
 msgid "File contain no images"
 msgstr "У файлі не міститься зображень"
 
-#: fitsviewer/fitsdata.cpp:506
+#: fitsviewer/fitsdata.cpp:516
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Підтримки формату зразка %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:544
+#: fitsviewer/fitsdata.cpp:554
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Помилка під час спроби відкрити файл XISF: "
 
-#: fitsviewer/fitsdata.cpp:595
+#: fitsviewer/fitsdata.cpp:605
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Помилка під час спроби зберегти зображення XISF"
 
-#: fitsviewer/fitsdata.cpp:686 fitsviewer/fitsdata.cpp:798
+#: fitsviewer/fitsdata.cpp:696 fitsviewer/fitsdata.cpp:808
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: недостатньо пам'яті для каналу image_buffer. Потрібно %1 байтів "
 
-#: fitsviewer/fitsdata.cpp:737
+#: fitsviewer/fitsdata.cpp:747
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Не вдалося відкрити файл %1: %2"
 
-#: fitsviewer/fitsdata.cpp:750
+#: fitsviewer/fitsdata.cpp:760
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Не вдалося відкрити буфер: %1"
 
-#: fitsviewer/fitsdata.cpp:761
+#: fitsviewer/fitsdata.cpp:771
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Не вдалося виконати unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:768
+#: fitsviewer/fitsdata.cpp:778
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Не вдалося dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:776
+#: fitsviewer/fitsdata.cpp:786
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Не вдалося завантажити до пам'яті: %1"
 
-#: fitsviewer/fitsdata.cpp:919
+#: fitsviewer/fitsdata.cpp:929
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Підтримки збереження стиснених файлів не передбачено."
 
-#: fitsviewer/fitsdata.cpp:979
+#: fitsviewer/fitsdata.cpp:989
 #, kde-format
 msgid "Failed to close file: %1"
 msgstr "Не вдалося закрити файл: %1"
 
-#: fitsviewer/fitsdata.cpp:986
+#: fitsviewer/fitsdata.cpp:996
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Не вдалося створити файл: %1"
 
-#: fitsviewer/fitsdata.cpp:1001
+#: fitsviewer/fitsdata.cpp:1011
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Не вдалося створити зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:1010 fitsviewer/fitsdata.cpp:1017
+#: fitsviewer/fitsdata.cpp:1020 fitsviewer/fitsdata.cpp:1027
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Не вдалося оновити ключ: %1"
 
-#: fitsviewer/fitsdata.cpp:1106
+#: fitsviewer/fitsdata.cpp:1116
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Не вдалося оновити дату: %1"
 
-#: fitsviewer/fitsdata.cpp:1115
+#: fitsviewer/fitsdata.cpp:1125
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Не вдалося оновити журнал: %1"
 
-#: fitsviewer/fitsdata.cpp:1137
+#: fitsviewer/fitsdata.cpp:1147
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Не вдалося записати зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:2764 fitsviewer/fitsdata.cpp:2775
-#: fitsviewer/fitsdata.cpp:2811 fitsviewer/fitsdata.cpp:2847
-#: fitsviewer/fitsdata.cpp:2894
+#: fitsviewer/fitsdata.cpp:2774 fitsviewer/fitsdata.cpp:2785
+#: fitsviewer/fitsdata.cpp:2821 fitsviewer/fitsdata.cpp:2857
+#: fitsviewer/fitsdata.cpp:2904
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Не знайдено світових координатних систем."
 
-#: fitsviewer/fitsdata.cpp:3616
+#: fitsviewer/fitsdata.cpp:3626
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Передбачено підтримку лише 8- та 16-бітових зображень із мозаїчністю."
 
-#: fitsviewer/fitsdata.cpp:3649
+#: fitsviewer/fitsdata.cpp:3659
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Непідтримуваний взірець мозаїчності %1."
 
-#: fitsviewer/fitsdata.cpp:3680
+#: fitsviewer/fitsdata.cpp:3690
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Непідтримувані зсуви мозаїчності %1 %2."
 
-#: fitsviewer/fitsdata.cpp:3748 fitsviewer/fitsdata.cpp:3795
-#: fitsviewer/fitsdata.cpp:3840 fitsviewer/fitsdata.cpp:3887
+#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3805
+#: fitsviewer/fitsdata.cpp:3850 fitsviewer/fitsdata.cpp:3897
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк: %1"
 
-#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3850
+#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3860
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк."
 
-#: fitsviewer/fitsdata.cpp:3778 fitsviewer/fitsdata.cpp:3870
+#: fitsviewer/fitsdata.cpp:3788 fitsviewer/fitsdata.cpp:3880
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Помилка засобу усування мозаїчності (%1)"
@@ -28817,7 +28819,7 @@ msgstr "Піксельні лінії сітки"
 msgid "HiPS Overlay"
 msgstr "Накладка HiPS"
 
-#: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1272
+#: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1284
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
@@ -28881,12 +28883,14 @@ msgstr "Розмір"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:1063 fitsviewer/statform.ui:66
+#: skycomponents/imageoverlaycomponent.cpp:63
 #, kde-format
 msgid "Width"
 msgstr "Ширина"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:71
+#: skycomponents/imageoverlaycomponent.cpp:63
 #, kde-format
 msgid "Height"
 msgstr "Висота"
@@ -31311,17 +31315,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1541 skymap.cpp:427
+#: kstars.cpp:323 kstarsactions.cpp:1553 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Зупинити стеження"
 
-#: kstars.cpp:331 kstarsactions.cpp:1710 kstarsinit.cpp:263
+#: kstars.cpp:331 kstarsactions.cpp:1722 kstarsinit.cpp:263
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Перегляд небесного глобуса (&екваторіальні координати)"
 
-#: kstars.cpp:332 kstarsactions.cpp:1689 kstarsinit.cpp:264
+#: kstars.cpp:332 kstarsactions.cpp:1701 kstarsinit.cpp:264
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Горизонтальний перегляд (горизонтальні &координати)"
@@ -37251,10 +37255,9 @@ msgstr "Фокусна відстань телескопа, у міліметр�
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:2809
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Reducer ratio"
-msgstr "Фокальне співвідношення"
+msgstr "Коефіцієнт фокального перетворення"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
 #: kstars.kcfg:2813
@@ -37811,26 +37814,91 @@ msgstr ""
 "Зображення зі згладжуванням пікселів виглядає краще, але обробляється "
 "повільніше."
 
-#. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
+#. i18n: ectx: label, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3130
+#, kde-format
+msgid "Display Image Overlays."
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
+#: kstars.kcfg:3131
+#, fuzzy, kde-format
+#| msgid "Toggle whether Pluto is drawn in the sky map."
+msgid "Toggle whether to display image overlays."
+msgstr "Перемикач показу Плутона на карті неба."
+
+#. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
+#: kstars.kcfg:3135
+#, kde-format
+msgid "Center SkyMap over selected image overlay."
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
+#: kstars.kcfg:3136
+#, kde-format
+msgid ""
+"Center SkyMap over the selected overlay image in the image overlay table (if "
+"it's solved)."
+msgstr ""
+
+#. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
+#: kstars.kcfg:3140
+#, fuzzy, kde-format
+#| msgid "Image has invalid dimensions %1x%2"
+msgid "Image overlay max dimension"
+msgstr "Розміри зображення, %1⨯%2, є некоректними"
+
+#. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
+#: kstars.kcfg:3141
+#, fuzzy, kde-format
+#| msgid "Maximum distance for comet names"
+msgid "Maximum dimension for image overlay images."
+msgstr "Максимальна дистанція для позначок з назвами комет"
+
+#. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
+#: kstars.kcfg:3145
+#, kde-format
+msgid "Image overlay plate-solving timeout."
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
+#: kstars.kcfg:3146
+#, kde-format
+msgid "Timeout for plate-solving an image overlay."
+msgstr ""
+
+#. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
+#: kstars.kcfg:3150
+#, kde-format
+msgid "Image overlay default plate-solving scale."
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
+#: kstars.kcfg:3151
+#, kde-format
+msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
+msgstr ""
+
+#. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
+#: kstars.kcfg:3157
 #, kde-format
 msgid "Default observatory module weather source."
 msgstr "Типове джерело даних щодо погоди модуля обсерваторії."
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
-#: kstars.kcfg:3133
+#: kstars.kcfg:3160
 #, kde-format
 msgid "Will be reacted upon warnings?"
 msgstr "Чи буде реакція на попередження?"
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
-#: kstars.kcfg:3137
+#: kstars.kcfg:3164
 #, kde-format
 msgid "Will be reacted upon alerts?"
 msgstr "Чи буде реакція на сповіщення?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
-#: kstars.kcfg:3141
+#: kstars.kcfg:3168
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
 msgstr ""
@@ -37838,7 +37906,7 @@ msgstr ""
 "несприятливих погодних умов?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
-#: kstars.kcfg:3145
+#: kstars.kcfg:3172
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
 msgstr ""
@@ -37848,7 +37916,7 @@ msgstr ""
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertStopScheduler), group (Observatory)
-#: kstars.kcfg:3149 kstars.kcfg:3161 kstars.kcfg:3165
+#: kstars.kcfg:3176 kstars.kcfg:3188 kstars.kcfg:3192
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
 msgstr ""
@@ -37856,13 +37924,13 @@ msgstr ""
 "погодних умов?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
-#: kstars.kcfg:3153
+#: kstars.kcfg:3180
 #, kde-format
 msgid "Delay for reacting upon a weather warning."
 msgstr "Затримка реакції на попередження щодо погодних умов."
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
-#: kstars.kcfg:3157
+#: kstars.kcfg:3184
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
 msgstr ""
@@ -37870,44 +37938,44 @@ msgstr ""
 "погодних умов?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
-#: kstars.kcfg:3169
+#: kstars.kcfg:3196
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
 msgstr "Затримка реакції на сповіщення щодо погодних умов."
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
-#: kstars.kcfg:3173
+#: kstars.kcfg:3200
 #, kde-format
 msgid "Dome status relevant for the Observatory status."
 msgstr "Стан купола для стану обсерваторії."
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
-#: kstars.kcfg:3177
+#: kstars.kcfg:3204
 #, kde-format
 msgid "Shutter status relevant for the Observatory status."
 msgstr "Стан затвора для стану обсерваторії."
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
-#: kstars.kcfg:3181
+#: kstars.kcfg:3208
 #, kde-format
 msgid "Weather status relevant for the Observatory status."
 msgstr "Стан погоди для стану обсерваторії."
 
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
-#: kstars.kcfg:3185
+#: kstars.kcfg:3212
 #, kde-format
 msgid "Scale the sensor graph value axis to the values range."
 msgstr "Масштабувати вісь значень графіка даних датчика за діапазоном значень."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
-#: kstars.kcfg:3191
+#: kstars.kcfg:3218
 #, kde-format
 msgid "Full path to the ASTAP executable."
 msgstr "Шлях до виконуваного файла ASTAP повністю"
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
-#: kstars.kcfg:3195 kstars.kcfg:3199
+#: kstars.kcfg:3222 kstars.kcfg:3226
 #, kde-format
 msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
@@ -37918,7 +37986,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
-#: kstars.kcfg:3203 kstars.kcfg:3207
+#: kstars.kcfg:3230 kstars.kcfg:3234
 #, kde-format
 msgid ""
 "The program will search in a square spiral around the start position up to "
@@ -37928,25 +37996,25 @@ msgstr ""
 "позиції до досягнення цього значення радіуса."
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
-#: kstars.kcfg:3211
+#: kstars.kcfg:3238
 #, kde-format
 msgid "Update the fits header with the found solution."
 msgstr "Оновити дані у заголовку FITS визначеними параметрами розв'язку."
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
-#: kstars.kcfg:3215
+#: kstars.kcfg:3242
 #, kde-format
 msgid "Increase search window size."
 msgstr "Збільшити розмір вікна пошуку."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
-#: kstars.kcfg:3221
+#: kstars.kcfg:3248
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr "Керувати рівнем прозорості панелі мозаїки в автоматичному режимі."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
-#: kstars.kcfg:3225
+#: kstars.kcfg:3252
 #, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr "Керувати рівнем прозорості панелі мозаїки."
@@ -66399,12 +66467,12 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "Інше"
 
-#: kstarsactions.cpp:206
+#: kstarsactions.cpp:208
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "Ефекти рефракції вимкнено"
 
-#: kstarsactions.cpp:207
+#: kstarsactions.cpp:209
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
@@ -66412,7 +66480,7 @@ msgid ""
 msgstr ""
 "У разі вимикання показу горизонту ефекти рефракції буде тимчасово вимкнено."
 
-#: kstarsactions.cpp:446
+#: kstarsactions.cpp:448
 #, kde-format
 msgid ""
 "Due to a known issue in the kde frameworks, updating already downloaded "
@@ -66423,34 +66491,34 @@ msgstr ""
 "неможливим. <br> Будь ласка, вилучіть їх і повторно встановіть ресурси, щоб "
 "оновити їх."
 
-#: kstarsactions.cpp:479
+#: kstarsactions.cpp:481
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr "Дані каталогу «%1» пошкоджено."
 
-#: kstarsactions.cpp:487
+#: kstarsactions.cpp:489
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 "Дані каталогу «%1» пошкоджено.<br>Мало бути отримано id=%2, маємо id=%3"
 
-#: kstarsactions.cpp:497
+#: kstarsactions.cpp:499
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr "Не вдалося імпортувати каталог «%1»<br>%2"
 
-#: kstarsactions.cpp:551
+#: kstarsactions.cpp:553
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "Параметри світлового забруднення"
 
-#: kstarsactions.cpp:553
+#: kstarsactions.cpp:555
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "Параметри обладнання — тип і характеристики обладнання"
 
-#: kstarsactions.cpp:662 kstarsactions.cpp:699 kstarsactions.cpp:742
-#: kstarsactions.cpp:781
+#: kstarsactions.cpp:664 kstarsactions.cpp:701 kstarsactions.cpp:744
+#: kstarsactions.cpp:783
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -66459,7 +66527,7 @@ msgstr ""
 "Не вдалося знайти сервер INDI. Будь ласка, переконайтеся, що встановлено "
 "пакунок, який містить виконуваний файл «indiserver»."
 
-#: kstarsactions.cpp:716
+#: kstarsactions.cpp:718
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
@@ -66469,75 +66537,94 @@ msgstr ""
 "певний технічний досвід. Ним не можна користуватися у поєднанні із Ekos. Ви "
 "хочете відкрити вікно засобу керування пристроями INDI попри це?"
 
-#: kstarsactions.cpp:719
+#: kstarsactions.cpp:721
 #, kde-format
 msgid "INDI Device Manager"
 msgstr "Керування пристроями INDI"
 
-#: kstarsactions.cpp:1099
+#: kstarsactions.cpp:1102
 #, kde-format
 msgid "Catalogs"
 msgstr "Каталоги"
 
-#: kstarsactions.cpp:1111
+#: kstarsactions.cpp:1114
 #, kde-format
 msgid "Guides"
 msgstr "Підказки"
 
-#: kstarsactions.cpp:1114
+#: kstarsactions.cpp:1117
 #, kde-format
 msgid "Terrain"
 msgstr "Ландшафт"
 
-#: kstarsactions.cpp:1142
+#. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
+#: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
+#, fuzzy, kde-format
+#| msgid "Overlay"
+msgid "Image Overlays"
+msgstr "Накладання"
+
+#: kstarsactions.cpp:1150
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1148
+#: kstarsactions.cpp:1156
 #, kde-format
 msgid "Developer"
 msgstr "Розробник"
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:268
+#: kstarsactions.cpp:1174 kstarsactions.cpp:1934 kstarsinit.cpp:268
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Приховати ландшафт"
 
-#: kstarsactions.cpp:1166 kstarsactions.cpp:1922 kstarsinit.cpp:269
+#: kstarsactions.cpp:1174 kstarsactions.cpp:1934 kstarsinit.cpp:269
 #, kde-format
 msgid "Show Terrain"
 msgstr "Показати ландшафт"
 
-#: kstarsactions.cpp:1285
+#: kstarsactions.cpp:1178
+#, fuzzy, kde-format
+#| msgid "HiPS Overlay"
+msgid "Hide Image Overlays"
+msgstr "Накладка HiPS"
+
+#: kstarsactions.cpp:1178
+#, fuzzy, kde-format
+#| msgid "Show HiPS Overlay"
+msgid "Show Image Overlays"
+msgstr "Показувати накладку HiPS"
+
+#: kstarsactions.cpp:1297
 #, kde-format
 msgid "Open FITS"
 msgstr "Відкриття FITS"
 
-#: kstarsactions.cpp:1300
+#: kstarsactions.cpp:1312
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Експортування зображення"
 
-#: kstarsactions.cpp:1346 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1358 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "скрипти KStars (*.kstars)"
 
-#: kstarsactions.cpp:1354
+#: kstarsactions.cpp:1366
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "Підтримки віддаленого виконання скриптів не передбачено."
 
-#: kstarsactions.cpp:1362 oal/execute.cpp:319 tools/observinglist.cpp:909
+#: kstarsactions.cpp:1374 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Не вдалося відкрити файл %1"
 
-#: kstarsactions.cpp:1387
+#: kstarsactions.cpp:1399
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -66550,27 +66637,27 @@ msgstr ""
 "сценарій, можливо, не функціонуватиме належним чином, а може навіть містить "
 "шкідливий код. Все ж бажаєте його виконати?"
 
-#: kstarsactions.cpp:1392
+#: kstarsactions.cpp:1404
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Помилка перевірки сценарію"
 
-#: kstarsactions.cpp:1392
+#: kstarsactions.cpp:1404
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Запуск у будь-якому випадку"
 
-#: kstarsactions.cpp:1399
+#: kstarsactions.cpp:1411
 #, kde-format
 msgid "Running script: %1"
 msgstr "Виконання сценарію: %1"
 
-#: kstarsactions.cpp:1417
+#: kstarsactions.cpp:1429
 #, kde-format
 msgid "Script finished."
 msgstr "Сценарій виконано."
 
-#: kstarsactions.cpp:1429
+#: kstarsactions.cpp:1441
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -66581,90 +66668,90 @@ msgstr ""
 "«Зоряна карта», що має біле тло. Чи бажаєте ви тимчасово перемкнутися на "
 "схему кольорів «Зоряна карта» для друку?"
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1446
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Перемикнутися на кольори «Зоряної карти»?"
 
-#: kstarsactions.cpp:1435
+#: kstarsactions.cpp:1447
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Перемикач схему кольорів"
 
-#: kstarsactions.cpp:1435
+#: kstarsactions.cpp:1447
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Не перемикатися"
 
-#: kstarsactions.cpp:1518 kstarsinit.cpp:236
+#: kstarsactions.cpp:1530 kstarsinit.cpp:236
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "&Почати стеження"
 
-#: kstarsactions.cpp:1632
+#: kstarsactions.cpp:1644
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Приблизне поле зору: %1°"
 
-#: kstarsactions.cpp:1637
+#: kstarsactions.cpp:1649
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Приблизне поле зору: %1'"
 
-#: kstarsactions.cpp:1643
+#: kstarsactions.cpp:1655
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Приблизне поле зору: %1\""
 
-#: kstarsactions.cpp:1660
+#: kstarsactions.cpp:1672
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Введіть бажаний кутовий розмір поля зору"
 
-#: kstarsactions.cpp:1661
+#: kstarsactions.cpp:1673
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Введіть кутовий розмір поля зору у градусах:"
 
-#: kstarsactions.cpp:1692 kstarsinit.cpp:711
+#: kstarsactions.cpp:1704 kstarsinit.cpp:711
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Північ з&гори"
 
-#: kstarsactions.cpp:1695 kstarsinit.cpp:720
+#: kstarsactions.cpp:1707 kstarsinit.cpp:720
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Північ в&низу"
 
-#: kstarsactions.cpp:1713 kstarsinit.cpp:711
+#: kstarsactions.cpp:1725 kstarsinit.cpp:711
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "Зеніт з&гори"
 
-#: kstarsactions.cpp:1716 kstarsinit.cpp:720
+#: kstarsactions.cpp:1728 kstarsinit.cpp:720
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "Зеніт в&низу"
 
-#: kstarsactions.cpp:1874
+#: kstarsactions.cpp:1886
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr "Спробувати визначити із зображення"
 
-#: kstarsactions.cpp:1876
+#: kstarsactions.cpp:1888
 #, kde-format
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "Окуляр: виберіть поле зору"
 
-#: kstarsactions.cpp:1877
+#: kstarsactions.cpp:1889
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr "Поле зору, для якого слід показати окуляр:"
@@ -74341,6 +74428,117 @@ msgstr "Небесний &екватор"
 msgid "Local meridian"
 msgstr "Місцевий меридіан"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
+#: options/opsimageoverlay.ui:64
+#, fuzzy, kde-format
+#| msgid "Show image of "
+msgid "Show image overlays"
+msgstr "Показати знімок "
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
+#: options/opsimageoverlay.ui:71
+#, kde-format
+msgid ""
+"Center SkyMap over the selected overlay image in the table below (if it's "
+"solved)."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
+#: options/opsimageoverlay.ui:74
+#, fuzzy, kde-format
+#| msgid "Changes the type of selection"
+msgid "Center SkyMap on selection"
+msgstr "Змінює тип позначення"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
+#: options/opsimageoverlay.ui:92 options/opsimageoverlay.ui:108
+#, kde-format
+msgid ""
+"Maximum dimension for an image overlay image. (Larger images will be scaled "
+"down.)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
+#: options/opsimageoverlay.ui:95
+#, fuzzy, kde-format
+#| msgid "Maximum time"
+msgid "Maximum image dimension"
+msgstr "Максимальний час"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
+#: options/opsimageoverlay.ui:140
+#, kde-format
+msgid ""
+"Open overlay directory. Copy or move images to this directory to process "
+"them."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
+#: options/opsimageoverlay.ui:146
+#, fuzzy, kde-format
+#| msgid "Directory"
+msgid "Overlay Directory"
+msgstr "Каталог"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
+#: options/opsimageoverlay.ui:239
+#, kde-format
+msgid ""
+"<html><head/><body><p>Plate solve the selected overlay image(s).</p><p>Uses "
+"the selected Align profile to the right, but not Align scale nor position. "
+"It will use the default scale to the right (a-s/px), if none is given on the "
+"table row and scale column (0 is no scale constraint). It will not use a "
+"position unless RA and DEC are entered on the table row. Uses the timeout "
+"above. You can select many rows (with click and shift click) and it will "
+"attempt to solve them all.</p><p>Plate solving may be difficult. You may not "
+"be able to plate solve all your images. You can try to supply scales and "
+"positions, and try different profiles. If you are unsucessful, but still "
+"want to display an image, you can enter an RA, DEC, Scale, Orientation in "
+"the appropriate columns for the row you're interested in, then manually set "
+"the Status column to OK.</p><p>You cannot re-platesolve a row whose status "
+"is OK, but you can manually change the status to something else, then plate-"
+"solving is enabled.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
+#: options/opsimageoverlay.ui:255
+#, fuzzy, kde-format
+#| msgid "Selects the Options Profile to use for Plate Solving"
+msgid "Selects the Options Profile (from Align) to use for Plate Solving"
+msgstr ""
+"Визначає профіль параметрів, який буде використано для розв'язування "
+"зображення"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
+#: options/opsimageoverlay.ui:271 options/opsimageoverlay.ui:287
+#, kde-format
+msgid ""
+"Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
+"table if there."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
+#: options/opsimageoverlay.ui:274
+#, fuzzy, kde-format
+#| msgid "Default"
+msgid "Default a-s/px"
+msgstr "Типовий"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
+#: options/opsimageoverlay.ui:312 options/opsimageoverlay.ui:328
+#, kde-format
+msgid "Timeout for plate-solving an overlay image (seconds)."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
+#: options/opsimageoverlay.ui:315
+#, kde-format
+msgid "Timeout"
+msgstr "Час очікування"
+
 #: options/opssatellites.cpp:100
 #, kde-format
 msgid "Satellite Name"
@@ -75771,6 +75969,207 @@ msgstr "Без піктограми"
 msgid "Creating horizon"
 msgstr "Створюється горизонт"
 
+#: skycomponents/imageoverlaycomponent.cpp:60
+#, fuzzy, kde-format
+#| msgid "File name"
+msgid "Filename"
+msgstr "Назва файла"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: tools/modcalcsimple.ui:183
+#, kde-format
+msgid "Angle"
+msgstr "Кут"
+
+#: skycomponents/imageoverlaycomponent.cpp:62
+#, kde-format
+msgid "A-S/px"
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:63
+#, fuzzy, kde-format
+#| msgid "Rotate Right"
+msgid "EastRight"
+msgstr "Обертати праворуч"
+
+#: skycomponents/imageoverlaycomponent.cpp:162
+#, kde-format
+msgid "Bad RA string entered for %1. Reset to original value."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:176
+#, kde-format
+msgid "Bad DEC string entered for %1. Reset to original value."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:189
+#, kde-format
+msgid "Bad orientation angle string entered for %1. Reset to original value."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:200
+#, kde-format
+msgid "Bad scale angle string entered for %1. Reset to original value."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:230
+#, kde-format
+msgid "Cannot set status to OK. Legal non-0 RA value required."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:241
+#, kde-format
+msgid "Cannot set status to OK. Legal non-0 DEC value required."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:252
+#, kde-format
+msgid "Cannot set status to OK. Legal orientation value required."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:263
+#, kde-format
+msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:293
+#, kde-format
+msgid "Stored OK status for %1."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:386
+#, kde-format
+msgid "Updating from directory: %1"
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:435
+#, kde-format
+msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:437
+#: skycomponents/imageoverlaycomponent.cpp:555
+#: skycomponents/imageoverlaycomponent.cpp:844
+#, kde-format
+msgid "Image Overlays.  %1 images, %2 available."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:450
+#, fuzzy, kde-format
+#| msgid "Loading images..."
+msgid "Loading image files..."
+msgstr "Завантаження зображень…"
+
+#: skycomponents/imageoverlaycomponent.cpp:456
+#, kde-format
+msgid "%1 image files loaded."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:518
+#, fuzzy, kde-format
+#| msgid "Process"
+msgid "Unprocessed"
+msgstr "Обробка"
+
+#: skycomponents/imageoverlaycomponent.cpp:518
+#, fuzzy, kde-format
+#| msgid "File"
+msgid "Bad File"
+msgstr "Файл"
+
+#: skycomponents/imageoverlaycomponent.cpp:518
+#, fuzzy, kde-format
+#| msgid "Solver Failed."
+msgid "Solve Failed"
+msgstr "Помилка розв'язувача."
+
+#: skycomponents/imageoverlaycomponent.cpp:518
+#, fuzzy, kde-format
+#| msgctxt "Constellation name (optional)"
+#| msgid "HOOK"
+msgid "OK"
+msgstr "ГАЧОК"
+
+#: skycomponents/imageoverlaycomponent.cpp:541
+#, fuzzy, kde-format
+#| msgid "Left/Right"
+msgid "West-Right"
+msgstr "←/→"
+
+#: skycomponents/imageoverlaycomponent.cpp:542
+#, fuzzy, kde-format
+#| msgid "Rotate Right"
+msgid "East-Right"
+msgstr "Обертати праворуч"
+
+#: skycomponents/imageoverlaycomponent.cpp:596
+#, kde-format
+msgid "Solving: %1. %2 in queue."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:598
+#, fuzzy, kde-format
+#| msgid "Moving %1"
+msgid "Solving: %1."
+msgstr "Пересування %1"
+
+#: skycomponents/imageoverlaycomponent.cpp:663
+#, kde-format
+msgid "Can't show %1. Not plate solved."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:668
+#, kde-format
+msgid "Can't show %1. Image not loaded."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:701
+#, fuzzy, kde-format
+#| msgid "Autoguiding aborted."
+msgid "Solving aborted."
+msgstr "Автонаведення перервано."
+
+#: skycomponents/imageoverlaycomponent.cpp:736
+#, kde-format
+msgid "Skipping already solved: %1."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:755
+#, kde-format
+msgid "%1 already solved. Skipping."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:775
+#, kde-format
+msgid ""
+"Reload not yet implemented. Currently you need to restart KStars to do this."
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:792
+#, fuzzy, kde-format
+#| msgid "Solver timed out: %1s %2"
+msgid "Solver timed out in %1s"
+msgstr "Час очікування на розв'язок вичерпано: %1 с %2"
+
+#: skycomponents/imageoverlaycomponent.cpp:798
+#, fuzzy, kde-format
+#| msgid "Solver failed: %1s %2"
+msgid "Solver failed in %1s"
+msgstr "Помилка розв'язувача: %1 с %2"
+
+#: skycomponents/imageoverlaycomponent.cpp:811
+#, kde-format
+msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
+msgstr ""
+
+#: skycomponents/imageoverlaycomponent.cpp:843
+#, fuzzy, kde-format
+#| msgid "No image info available."
+msgid "Done solving. %1 available."
+msgstr "Немає даних щодо зображення."
+
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
 msgid "Loading %1"
@@ -75865,12 +76264,12 @@ msgctxt "@title:window"
 msgid "Satellite Orbital Elements Update"
 msgstr "Оновлення параметрів орбіт супутників"
 
-#: skycomponents/skymapcomposite.cpp:126
+#: skycomponents/skymapcomposite.cpp:127
 #, kde-format
 msgid "Failed to load the DSO database."
 msgstr "Не вдалося завантажити базу даних віддалених об'єктів."
 
-#: skycomponents/skymapcomposite.cpp:134
+#: skycomponents/skymapcomposite.cpp:135
 #, kde-format
 msgid ""
 "Do you want to start over with an empty database?\n"
@@ -79783,13 +80182,6 @@ msgstr "Читати з файла вводу"
 #, kde-format
 msgid "Specify Local Time in the Input File"
 msgstr "Визначте місцевий час у вхідному файлі."
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, kde-format
-msgid "Angle"
-msgstr "Кут"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
@@ -84883,9 +85275,6 @@ msgstr "Встановити колір тла."
 #~ "мозаїки, а послідовність буде пов'язано із усіма плитками мозаїки.</p></"
 #~ "body></html>"
 
-#~ msgid "Moving %1"
-#~ msgstr "Пересування %1"
-
 #~ msgid "Current Rotation"
 #~ msgstr "Поточне обертання"
 
@@ -85027,9 +85416,6 @@ msgstr "Встановити колір тла."
 
 #~ msgid "time limit for successful dither settling"
 #~ msgstr "часове обмеження для успішного завершення малого руху"
-
-#~ msgid "Timeout"
-#~ msgstr "Час очікування"
 
 #~ msgid ""
 #~ "Failed to properly configure astrometry config file.  Please click the "

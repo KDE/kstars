@@ -47,6 +47,7 @@
 #include "skymap.h"
 #include "hipscomponent.h"
 #include "terraincomponent.h"
+#include "imageoverlaycomponent.h"
 #include "mosaiccomponent.h"
 #endif
 
@@ -155,6 +156,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
     addComponent(m_HiPS = new HIPSComponent(this));
 
     addComponent(m_Terrain = new TerrainComponent(this));
+
+    addComponent(m_ImageOverlay = new ImageOverlayComponent(this));
 
     // Mosaic Component
 #ifdef HAVE_INDI
@@ -358,6 +361,9 @@ void SkyMapComposite::draw(SkyPainter *skyp)
     m_StarHopRouteList->pen =
         QPen(QColor(data->colorScheme()->colorNamed("StarHopRouteColor")), 1.);
     m_StarHopRouteList->draw(skyp);
+
+    // Draw fits overlay before mosaic and terrain/horizon, but after most things.
+    m_ImageOverlay->draw(skyp);
 
 #ifdef HAVE_INDI
     m_Mosaic->draw(skyp);
@@ -826,4 +832,9 @@ SupernovaeComponent *SkyMapComposite::supernovaeComponent()
 ArtificialHorizonComponent *SkyMapComposite::artificialHorizon()
 {
     return m_ArtificialHorizon;
+}
+
+ImageOverlayComponent *SkyMapComposite::imageOverlay()
+{
+    return m_ImageOverlay;
 }

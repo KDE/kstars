@@ -9,6 +9,7 @@
 #include <QPointer>
 
 #include "kstarsdata.h"
+#include "kstars.h"
 #include "Options.h"
 #include "skymap.h"
 #include "projections/projector.h"
@@ -20,6 +21,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/earthshadowcomponent.h"
+#include "skycomponents/imageoverlaycomponent.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/constellationsart.h"
 #include "skyobjects/catalogobject.h"
@@ -34,7 +36,7 @@
 #endif
 #include "hips/hipsrenderer.h"
 #include "terrain/terrainrenderer.h"
-
+#include <QElapsedTimer>
 namespace
 {
 // Convert spectral class to numerical index.
@@ -581,13 +583,13 @@ bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
 
     if (visible && m_proj->onScreen(pos))
     {
-	KStarsData *data = KStarsData::Instance();
+        KStarsData *data = KStarsData::Instance();
 
         setPen(data->colorScheme()->colorNamed("AsteroidColor"));
         drawLine(QPoint(pos.x() - 1.0, pos.y()), QPoint(pos.x() + 1.0, pos.y()));
-	drawLine(QPoint(pos.x(), pos.y() - 1.0), QPoint(pos.x(), pos.y() + 1.0));
+        drawLine(QPoint(pos.x(), pos.y() - 1.0), QPoint(pos.x(), pos.y() + 1.0));
 
-	return true;
+        return true;
     }
 
     return false;
@@ -745,6 +747,107 @@ bool SkyQPainter::drawTerrain(bool useCache)
 
     delete (terrainImage);
     return rendered;
+}
+
+namespace
+{
+QPointF rotatePoint(const QPointF &center, double sinAngle, double cosAngle, const QPointF &pt)
+{
+    // translate point back to origin:
+    QPointF p1(pt.x() - center.x(), pt.y() - center.y());
+
+    // rotate point
+    QPointF p2(p1.x() * cosAngle - p1.y() * sinAngle,
+               p1.x() * sinAngle + p1.y() * cosAngle);
+
+    // translate back
+    return QPointF(p2.x() + center.x(), p2.y() + center.y());
+}
+}  // namespace
+
+bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, bool useCache)
+{
+    Q_UNUSED(useCache);
+    if (!Options::showImageOverlays())
+        return false;
+
+    constexpr int minDisplayDimension = 5;
+
+    // Convert the RA/DEC from j2000 to jNow and add in az/alt computations.
+    auto localTime = KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc());
+
+    // QElapsedTimer drawTimer;
+    // drawTimer.restart();
+    int numDrawn = 0;
+    for (const ImageOverlay &o : *imageOverlays)
+    {
+        if (o.m_Status != ImageOverlay::AVAILABLE || o.m_Img.get() == nullptr)
+            continue;
+
+        double orientation = o.m_Orientation,  ra = o.m_RA, dec = o.m_DEC, scale = o.m_ArcsecPerPixel;
+        const int origWidth = o.m_Width, origHeight = o.m_Height;
+
+        // Not sure why I have to do this, suspect it's related to the East-to-the-right thing.
+        // Note that I have mirrored the image above, so east-to-the-right=false is now east-to-the-right=true
+        // BTW, solver gave me -66, but astrometry.net gave me 246.1 East of North
+        orientation += 180;
+
+        const dms raDms(ra), decDms(dec);
+        SkyPoint coord(raDms, decDms);
+        coord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        coord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+        // Find if the object is not visible, or if it is very small.
+        const double a = origWidth * scale / 60.0;  // This is the width of the image in arcmin--not the major axis
+        const double zoom = Options::zoomFactor();
+        // W & h are the actual pixel width and height (as doubles) though
+        // the projection size might be smaller.
+        const double w    = a * dms::PI * zoom / 10800.0;
+        const double h    = w * origHeight / origWidth;
+        const double maxDimension = std::max(w, h);
+        if (maxDimension < minDisplayDimension)
+            continue;
+
+        bool visible;
+        QPointF pos  = m_proj->toScreen(&coord, true, &visible);
+        if (!visible)
+            continue;
+
+        const auto PA = (orientation < 0) ? orientation + 360 : orientation;
+        const auto finalPA =  m_proj->findNorthPA(&coord, pos.x(), pos.y()) - PA;
+
+        // If all 4 corners are left of the viewport, or all 4 are right of it, or all 4 are above it
+        // or all 4 are below it, then the object is not visible in the viewport.
+
+        // First find the screen coords of all 4 corners.
+        const double sinAngle = sin(finalPA * M_PI / 180.0), cosAngle = cos(finalPA * M_PI / 180.0);
+        const double w2 = w / 2.0, h2 = h / 2.0;
+        const QPointF p1 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() - w2, pos.y() - h2));
+        const QPointF p2 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() - w2, pos.y() + h2));
+        const QPointF p3 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() + w2, pos.y() - h2));
+        const QPointF p4 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() + w2, pos.y() + h2));
+
+        // Now see if they are all left/right/above/below the viewport.
+        ViewParams view = m_proj->viewParams();
+        const double vw = view.width, vh = view.height;
+        if (p1.x() < 0 && p2.x() < 0 && p3.x() < 0 && p4.x() < 0)
+            continue;
+        if (p1.y() < 0 && p2.y() < 0 && p3.y() < 0 && p4.y() < 0)
+            continue;
+        if (p1.x() >= vw && p2.x() >= vw && p3.x() >= vw && p4.x() >= vw)
+            continue;
+        if (p1.y() >= vh && p2.y() >= vh && p3.y() >= vh && p4.y() >= vh)
+            continue;
+
+        save();
+        translate(pos);
+        rotate(finalPA);
+        drawImage(QRectF(-0.5 * w, -0.5 * h, w, h), *(o.m_Img.get()));
+        numDrawn++;
+        restore();
+    }
+    // fprintf(stderr, "DrawTimer: %lldms for %d images\n", drawTimer.elapsed(), numDrawn);
+    return true;
 }
 
 void SkyQPainter::drawCatalogObjectImage(const QPointF &pos, const CatalogObject &obj,

@@ -1905,7 +1905,7 @@ void FITSView::processRectangle(QPoint p1, QPoint p2, bool calculate)
     //but we need to feed Rectangle(topleft, topright)
     //hence we calculate topleft and topright for each case
 
-    //p1 is the the point where the user presses the mouse
+    //p1 is the point where the user presses the mouse
     //p2 is the point where the user releases the mouse
     selectionRectangleRaw = QRect(p1, p2).normalized();
     //Index out of bounds Check for raw Rectangle, this effectively works when user does shift + drag, other wise becomes redundant

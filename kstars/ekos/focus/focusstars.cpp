@@ -52,7 +52,7 @@ int matchStars(const QList<Edge> &stars1, const QList<Edge> &stars2, int mainSta
     // minFraction is the fraction of the stars passed into StarCorrespondence (i.e. in stars1)
     // that must be found in stars2. Ideally, star1 would be a smaller list, but instead we simply
     // adjust minFraction.
-    // Goal is to get 45% of the the stars in the smaller star set (or more).
+    // Goal is to get 45% of the stars in the smaller star set (or more).
     int minStars = std::min(stars1.size(), stars2.size());
     int desiredStars = 0.45 * minStars;
     const double minFraction = static_cast<double>(desiredStars) / stars1.size();

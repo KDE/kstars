@@ -286,7 +286,7 @@
 
 <copyright>
 <year
->2001-2021</year>
+>2001-2023</year>
 <holder
 >&Jason.Harris; och &kstars;-gruppen</holder>
 </copyright>
@@ -295,9 +295,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2022-07-24</date>
+>2023-08-01</date>
 <releaseinfo
->3.6.0</releaseinfo>
+>3.6.6</releaseinfo>
 
 <abstract>
 <para

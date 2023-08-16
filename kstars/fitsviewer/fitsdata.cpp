@@ -62,6 +62,16 @@ QString getTemporaryPath()
 
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
+bool FITSData::readableFilename(const QString &filename)
+{
+    QFileInfo info(filename);
+    QString extension = info.completeSuffix().toLower();
+    return extension.contains("fit") || extension.contains("fz") ||
+           extension.contains("xisf") ||
+           QImageReader::supportedImageFormats().contains(extension.toLatin1()) ||
+           RAWFormats.contains(extension);
+}
+
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
 {
     qRegisterMetaType<FITSMode>("FITSMode");
@@ -4188,6 +4198,9 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
 void FITSData::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
 {
     int status = 0;
+
+    if (fptr == nullptr)
+        return;
 
     fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
     fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);

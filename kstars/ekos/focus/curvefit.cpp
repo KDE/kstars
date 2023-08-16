@@ -21,7 +21,7 @@ const double INEPSGTOL = pow(GSL_DBL_EPSILON, 1.0 / 3.0);
 constexpr double INEPSFTOL = 1e-5;
 
 // The functions here fit a number of different curves to the incoming data points using the Lehvensberg-Marquart
-// solver with geodesic acceleration as provided the the Gnu Science Library (GSL). The following sources of information are useful:
+// solver with geodesic acceleration as provided the Gnu Science Library (GSL). The following sources of information are useful:
 // www.wikipedia.org/wiki/Levenberg–Marquardt_algorithm - overview of the mathematics behind the algo
 // www.gnu.org/software/gsl/doc/html/nls.html - GSL manual describing Nonlinear Least-Squares fitting.
 //

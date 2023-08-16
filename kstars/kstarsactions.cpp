@@ -31,6 +31,7 @@
 #include "options/opscolors.h"
 #include "options/opsguides.h"
 #include "options/opsterrain.h"
+#include "options/opsimageoverlay.h"
 #include "options/opsdeveloper.h"
 #include "options/opssatellites.h"
 #include "options/opssolarsystem.h"
@@ -45,6 +46,7 @@
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/catalogscomponent.h"
 #include "skycomponents/mosaiccomponent.h"
+#include "skycomponents/imageoverlaycomponent.h"
 #ifdef HAVE_INDI
 #include "skyobjects/mosaictiles.h"
 #endif
@@ -1087,7 +1089,8 @@ KConfigDialog *KStars::prepareOps()
     opcatalog     = new OpsCatalog();
     opguides      = new OpsGuides();
     opterrain     = new OpsTerrain();
-    opsdeveloper     = new OpsDeveloper();
+    opsImageOverlay = new OpsImageOverlay();
+    opsdeveloper  = new OpsDeveloper();
     opsolsys      = new OpsSolarSystem();
     opssatellites = new OpsSatellites();
     opssupernovae = new OpsSupernovae();
@@ -1114,6 +1117,11 @@ KConfigDialog *KStars::prepareOps()
     page = dialog->addPage(opterrain, i18n("Terrain"), "kstars_terrain");
     page->setIcon(QIcon::fromTheme("kstars_terrain", QIcon(":/icons/kstars_terrain.png")));
 
+    page = dialog->addPage(opsImageOverlay, i18n("Image Overlays"), "kstars_imageoverlay");
+    page->setIcon(QIcon::fromTheme("kstars_imageoverlay", QIcon(":/icons/kstars_imageoverlay.png")));
+    KStarsData::Instance()->skyComposite()->imageOverlay()->setWidgets(
+        opsImageOverlay->table(), opsImageOverlay->statusDisplay(), opsImageOverlay->solvePushButton(),
+        opsImageOverlay->tableTitleBox(), opsImageOverlay->solverProfile());
 
     page = dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
     page->setIcon(QIcon::fromTheme("kstars_colors"));
@@ -1164,6 +1172,10 @@ void KStars::syncOps()
     opterrain->syncOptions();
     actionCollection()->action("toggle_terrain")
     ->setText(Options::showTerrain() ? i18n("Hide Terrain") : i18n("Show Terrain"));
+
+    opsImageOverlay->syncOptions();
+    actionCollection()->action("toggle_image_overlays")
+    ->setText(Options::showImageOverlays() ? i18n("Hide Image Overlays") : i18n("Show Image Overlays"));
 }
 
 void KStars::slotApplyConfigChanges()

@@ -53,6 +53,7 @@
         <file>qml/mount/timer.qml</file>
         <file>qml/mount/stop.png</file>
         <file>icons/kstars_terrain.png</file>
+        <file>icons/kstars_imageoverlay.png</file>
         <file>icons/kstars_developer.png</file>
         <file>icons/kstars_satellites_invisible.svg</file>
         <file>icons/kstars_satellites_visible.svg</file>

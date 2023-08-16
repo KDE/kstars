@@ -46,7 +46,7 @@
 >Statistik</guilabel
 > visar klocktid. X-axeln kan zoomas in och ut med knapparna <guibutton
 >+/-</guibutton
->, mushjulet, samt vanliga snabbtangenter (t.ex. zooma in == <keycombo
+>, samt vanliga snabbtangenter (t.ex. zooma in == <keycombo
 >&Ctrl;<keycap
 >+</keycap
 ></keycombo
@@ -59,6 +59,8 @@
 > visar all data, och <guilabel
 >Senaste</guilabel
 > visar senaste data (du kan styra bredden genom att zooma). </para>
+        <para
+>De tre huvudskärmarna kan döljas för att lämna mer utrymme för övriga skärmar. Det finns kryssrutor till vänster om sektionsrubrikerna (Tidslinje, Statistik och Detaljinformation) som aktiverar och döljer skärmarna. </para>
     </sect3>
     <sect3 id="analyze-timeline">
         <title
@@ -66,7 +68,7 @@
         <para
 >Tidslinjen visar Ekos huvudprocesser, och när de var aktiva. Exempelvis linjen <guilabel
 >Tagning</guilabel
-> när bilder tas (gröna sektioner) och när tagning avbröts (röda sektioner). Att klicka på en grön sektion ger information om den bilden, och att dubbelklicka på en visar då bilden som togs i FITS-visningen, om den är tillgänglig. </para>
+> när bilder tas (Withergrön för RGB eller färgkodat av filtret) och när tagning avbröts (röda sektioner). Att klicka på en tagen sektion ger information om den bilden, och att dubbelklicka på en visar då bilden som togs i FITS-visningen, om den är tillgänglig. </para>
         <note>
             <para
 >Om de tagna bilderna har flyttats, kan du ange <guilabel
@@ -86,12 +88,16 @@
         <para
 >En mängd olika statistik kan visa i diagrammet <guilabel
 >Statistik</guilabel
->. Det finns för många för att visas på ett läsbart sätt, så välj bland dem med kryssrutor. Ett rimligt sätt att börja är att använda <guilabel
+>. Det finns för många för att visas på ett läsbart sätt, så välj bland dem med kryssrutorna. Ett rimligt sätt att börja är att använda <guilabel
 >RMS</guilabel
 >, <guilabel
 >signal-brus</guilabel
 > (vid användning av intern guidning med SEP-multipelstjärna), och <guilabel
 >HFR</guilabel
-> (om du har automatiskt beräknad HFR i FITS-inställningarna). Experimentera med andra. Axeln som visas (0-5) är bara lämplig för RA/DEK-fel, avdrift, RMS, pulser, och HFR. De kan skalas längs y-axeln (besvärligt) genom att använda mushjulet, men de andra graferna kan inte skalas. För att nollställa y-axelns zoomning, högerklicka på statistikdiagrammet. Att klicka på grafen fyller i värdena för visad statistik. Grafen zoomas och panoreras horisontellt koordinerat med tidslinjen. </para>
+> (om du har automatiskt beräknad HFR i FITS-inställningarna). Experimentera med andra. </para>
+        <para
+>Den vänstra axeln som visas är inledningsvis endast lämplig för RA/Dek-fel, avdrift, RMS-fel, RA/Dek-pulser och HFR, ritade i bågsekunder och med ett intervall på -2 till 5 bågsekunder. Om du däremot klickar på en av rutorna under statistikdiagrammet (som visar ett statistikvärde) ställer in statistikens intervall som intervallet som visas på vänster axel. Genom att dubbelklicka på den rutan visas en meny där du kan justera statistikens uppritade y-område (t.ex. ställa in den till automatisk, ställa in intervallet explicit, återställa det till standardvärdet och även ändra färgen på den uppritade statistiken). </para>
+        <para
+>Statistiken som visas på den vänstra axeln kan också skalas (med svårighet) genom att använda mushjulet. Den kan panoreras genom att dra musen uppåt eller neråt över den vänstra axelns nummer. Genom att klicka någonstans i statistikdiagrammet fylls värdena i den visade statistiken i. Att markera den sista rutan gör att de senaste värdena (från en realtidssession) blir den visade statistiken. Diagrammet zoomas och panoreras horisontellt i samordning med tidslinjen. </para>
     </sect3>
 </sect2>

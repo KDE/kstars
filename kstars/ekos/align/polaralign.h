@@ -23,10 +23,10 @@ class TestPolarAlign;
     solve to the FITSData image. Then:
         polarAlign.addPoint(image);
  3) Rotate the mount in RA ~30 degrees (could be less or more) east (or west)
-    and capture, solve and add wcs from the solve to the the new image. Then:
+    and capture, solve and add wcs from the solve to the new image. Then:
         polarAlign.addPoint(image);
  4) Rotate the mount in RA another ~30 degrees east (or west)
-    and capture, solve and add wcs from the solve to the the new image. Then:
+    and capture, solve and add wcs from the solve to the new image. Then:
         polarAlign.addPoint(image);
  5) Find the mount's axis of rotation as follows:
         if (!polarAlign.findAxis())

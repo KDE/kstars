@@ -51,6 +51,12 @@
                     <listitem>
                         <para
 ><guilabel
+>Portväljare</guilabel
+>: Markera alternativet för att aktivera Portväljare. När en ny profil skapas  är den markerad som standard. Portväljaren används för att välja initiala seriella och nätverkskommunikationsparametrar för enheterna i utrustningsprofilen. Efter anslutning till utrustning för första gången visas portväljarens ruta där kommunikationsparametrarna kan ställas in innan anslutningen upprättas. När du väl är ansluten är alternativet Portväljare avstängt. Det kan ändras till markerad i profileditorn för att aktivera den igen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
 >Platsinformation</guilabel
 >: Man kan valfritt markera kryssrutan <guilabel
 >Platsinformation</guilabel
@@ -80,9 +86,33 @@
 >inte</emphasis
 > ange filterhjulenheten i kombinationsmenyn för filter. </para>
                     </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Skript</guilabel
+>: Justera predrivrutin- och postdrivrutin- fördröjningar och skript för varje drivrutin. En regel kan definieras för varje drivrutin om det finns ett behov av att införa fördröjningar före och/eller efter start av en viss drivrutin. Fälten före kombinationsrutan för drivrutinsval ska köras <emphasis
+>innan</emphasis
+> drivrutinen startas, medan fälten efter kombinationsrutan för drivrutinsval ska köras <emphasis
+>efter</emphasis
+> drivrutinen startats. Skriptfältet, om det anges, måste innehålla den fullständiga sökvägen till ett körbart skript med lämpliga rättigheter. Alla drivrutiner som ställs in i skripteditorn ska startas först och i ordning innan resten av utrustningens profildrivrutiner. </para>
+                        <screenshot>
+                        <screeninfo
+>Profileditorskript </screeninfo>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="profile_editor_scripts.png" format="PNG"/>
+                            </imageobject>
+                            <textobject>
+                                <phrase
+>Profileditorskript</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                    </listitem>
                 </itemizedlist>
             </listitem>
-        </varlistentry>
+        </varlistentry
+>        
         <varlistentry>
             <term
 >Starta och stoppa INDI</term>
@@ -103,5 +133,6 @@
 > för att skapa INDI-servern och anslutningen till utrustningen. Ekos ska då skapa de olika modulikonerna (montering, tagning, fokusering, etc.) när anslutningen till enheten skapas. </para>
             </listitem>
         </varlistentry>
-    </variablelist>
+    </variablelist
+>    
 </sect2>
