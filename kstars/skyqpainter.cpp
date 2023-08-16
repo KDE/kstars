@@ -787,7 +787,7 @@ bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, boo
         double orientation = o.m_Orientation,  ra = o.m_RA, dec = o.m_DEC, scale = o.m_ArcsecPerPixel;
         const int origWidth = o.m_Width, origHeight = o.m_Height;
 
-        // Not sure why I have to do this, suspect it's related to the the East-to-the-right thing.
+        // Not sure why I have to do this, suspect it's related to the East-to-the-right thing.
         // Note that I have mirrored the image above, so east-to-the-right=false is now east-to-the-right=true
         // BTW, solver gave me -66, but astrometry.net gave me 246.1 East of North
         orientation += 180;

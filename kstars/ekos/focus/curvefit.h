@@ -15,7 +15,7 @@
 namespace Ekos
 {
 // The curve fitting class provides curve fitting algorithms using the Lehvensberg-Marquart (LM)
-// solver as provided the the Gnu Science Library (GSL). See the comments at the start of curvefit.cpp
+// solver as provided the Gnu Science Library (GSL). See the comments at the start of curvefit.cpp
 // for more details.
 //
 // 2 curves, hyperbola and parabola are provided.
