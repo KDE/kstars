@@ -23,7 +23,7 @@
         </mediaobject>
     </screenshot>
     <para
->CCD-modulen är den huvudsakliga bild- och videoinsamlingsmodul i Ekos. Den gör det möjligt att ta enkla bilder (förhandsgranskningar), flera bilder (sekvenskö) eller spela in <ulink url="https://sites.google.com/site/astropipp/ser-player"
+>Tagningsmodulen är den huvudsakliga bild- och videoinsamlingsmodul i Ekos. Den gör det möjligt att ta enkla bilder (förhandsgranskningar), flera bilder (sekvenskö) eller spela in <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 >-videor tillsammans med val av filterhjul och rotator, om de är tillgängliga. </para>
     <sect3 id="capture-ccd-filter-wheel">
@@ -215,52 +215,104 @@
             <listitem>
                 <para
 ><guilabel
->Prefix</guilabel
->: Lägg till ett prefix att lägga till i det genererade filnamnet. Det går också att lägga till bildtyp, filter, exponeringstid och en ISO 8601-tidsstämpel. Om du exempelvis anger prefix som <userinput
->M45</userinput
-> och markerar kryssrutorna Typ och Filter, blir de genererade filnamnen följande, med antagandet att filtret är inställt till <guimenuitem
->Röd</guimenuitem
-> och bildtypen är <guimenuitem
->Ljus</guimenuitem
->: </para>
-                <itemizedlist>
-                    <listitem>
-                        <para
->M45_ljus_röd_001.fits </para>
-                    </listitem>
-                    <listitem>
-                        <para
->M45_ljus_röd_002.fits </para>
-                    </listitem>
-                </itemizedlist>
+>Mål</guilabel
+>: Namnet på himmelsmålet som ska tas, t.ex. M42. Kan läsas in i förväg av schemaläggningsmodulen och genom att välja i Kstars. </para>
+            </listitem>
+            <listitem>
                 <para
->Om <guilabel
->TS</guilabel
-> är markerad, läggs en tidsstämpel till sist i filnamnet, t.ex.: </para>
+><guilabel
+>Format</guilabel
+>: Formatsträngen definierar sökväg och filnamn för de tagna bilderna med användning av platsmarkörer som fylls i med det valda dataobjektet när de sparas. </para>
+                <para
+>En markör identifieras av tecknet %. Alla markörer har en kortform med en enda bokstav, och en självbeskrivande lång form. </para>
+                <para
+>Godtycklig text kan också inkluderas i formatsträngen, <emphasis role="bold"
+>förutom tecknen % och \.</emphasis
+> Sökvägstecknet / kan användas för att definiera godtyckliga kataloger. </para>
+                <para
+>Observera: Markörer är skiftlägeskänsliga i både sin korta och långa form. </para>
+                <para
+>Tillgängliga platsmarkörer: </para>
                 <itemizedlist>
                     <listitem>
                         <para
->M45_ljusröd_001_2016-11-09T23-47-46.fits</para>
+><emphasis role="bold"
+>%f</emphasis
+> eller <emphasis role="bold"
+>%filename</emphasis
+>: Namn på sekvensens .esq-fil, utan filändelse. </para>
                     </listitem>
                     <listitem>
                         <para
->M45_ljusröd_002_2016-11-09T23-48-34.fits</para>
+><emphasis role="bold"
+>%D</emphasis
+> eller <emphasis role="bold"
+>%Datetime</emphasis
+>: Aktuell tid och datum <emphasis role="bold"
+>när filen sparas. Använd endast denna tagg i filnamnsdelen av formatet, inte i sökvägsdelen.</emphasis
+> </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%T</emphasis
+> eller <emphasis role="bold"
+>%Type</emphasis
+>: Bildrutans typ t.ex. 'Light', 'Bias', 'Dark', 'Flat'... </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%e</emphasis
+> eller <emphasis role="bold"
+>%exposure</emphasis
+>: Exponeringstiden i sekunder. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%F</emphasis
+> eller <emphasis role="bold"
+>%Filter</emphasis
+>: Det aktiva filtrets namn. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%t</emphasis
+> eller <emphasis role="bold"
+>%target</emphasis
+>: Målets namn. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><emphasis role="bold"
+>%s*</emphasis
+> eller <emphasis role="bold"
+>%sequence*</emphasis
+>: Bildsekvensens identifierare där * är antalet använda siffror (1-9).<emphasis role="bold"
+>Markören krävs och måste vara det sista elementet i formatet.</emphasis
+> </para>
                     </listitem>
                 </itemizedlist>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Skript</guilabel
->: Ange ett <emphasis
->valfritt</emphasis
-> skript att köra efter varje tagning är färdig. Den fullständiga sökvägen till skriptet måste anges, och det måste vara körbart. För att ange att det lyckas, måste skriptet returnera noll vilket tillåter att sekvensen fortsätter. Om ett värde skilt från noll returneras av skriptet, avbryts sekvensen. </para>
+>Knapp för bläddring i katalogen</guilabel
+>: Öppnar en bläddringsdialog för att tillåta val av katalogplatsen som används i formatsträngen. Använd när du först definierar ett tagningsjobb. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Katalog</guilabel
->: Lokal katalog där sekvensbilderna ska sparas. </para>
+>Förhandsgranskning</guilabel
+>: Visar en förhandsgranskning av det resulterande filnamnet enligt formatsträngen och andra jobbinställningar. </para>
+                <para
+>Platsmarkörer som anges av sekvensfilen .seq kan bara visas när sekvensfilen väl har sparats. </para>
+                <para
+>Markören Datetime förhandsgranskas med nuvarande systemtid och ersätts av tiden då bilden sparas. </para>
+                <para
+>Sekvensmarkören förhandsgranskas alltid som bild 1 i sekvensen och ökas automatiskt medan jobbet pågår. </para>
             </listitem>
             <listitem>
                 <para
@@ -305,6 +357,12 @@
 > eller <guimenuitem
 >Båda</guimenuitem
 > ovan väljes, måste fjärrkatalogen där fjärrbilder sparas anges. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Förhandsgranskning</guilabel
+>: Visar en förhandsgranskning av det resulterande filnamnet enligt de angivna jobbinställningarna för sökvägar. Filnamnsformatet för att spara på en annan dator är fördefinierat, platsmarkörer får inte användas. Sekvensnumret för filen förhandsgranskas alltid som bild 1 i sekvensen och kommer automatiskt att ökas när jobbet pågår. </para>
             </listitem>
         </itemizedlist>
     </sect3>
@@ -451,104 +509,6 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
-
-    <sect3 id="capture-filter-settings">
-        <title
->Filterinställningar</title>
-
-        <screenshot>
-            <screeninfo
->Filterkö </screeninfo>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="filter_settings.png" format="PNG"/>
-                </imageobject>
-                <textobject>
-                    <phrase
->Filterkö</phrase>
-                </textobject>
-            </mediaobject>
-        </screenshot>
-
-        <para
->Klicka på filterikonen <inlinemediaobject
-><imageobject
-><imagedata fileref="view-filter.png" format="PNG"/></imageobject
-></inlinemediaobject
-> intill rutan för val av filterhjul för att visa filterinställningsdialogrutan. Om du använder filter som inte är samfokala med varandra och kräver en viss fokuseringsposition för att de ska vara riktiga, ställ då in alla relativa fokuseringspositioner i dialogrutan. </para>
-        <para
->Anpassa inställningar för varje filter individuellt: </para>
-        <orderedlist>
-            <listitem>
-                <para
-><guilabel
->Filter</guilabel
->: Filternamn. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Exponering</guilabel
->: Ställ in exponeringstiden som används när fokusering med det här filtret används. Normalt är den inställd till 1 sekund. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Position</guilabel
->: Ange relativ position. Ekos utför en ändring av fokuseringsposition om det finns en skillnad mellan det aktuella filtrets och målfiltrets position. Givet värdena i exempelbilden, ska Ekos exempelvis ge ett kommando till fokuseringsenheten att fokusera inåt med +300 tick, om det aktuella filtret är inställt till <emphasis
->Röd</emphasis
-> och nästa filter är <emphasis
->Grön</emphasis
->. Relativa positiva fokuseringspositioner anger fokusera utåt, medan negativa värden anger fokusera inåt. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Automatisk fokusering</guilabel
->: Markera alternativet för att inleda den automatiska fokuseringsprocessen så fort filtret byts till det här filtret. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Lås filter</guilabel
->: Ange vilket filter som ska ställas in och <emphasis
->låsas</emphasis
-> när automatisk fokusering utförs för det här filtret. </para>
-            </listitem>
-        </orderedlist>
-        <para
->Låt oss ta ett exempel. Antag att tagningssekvensen pågår och aktuellt filter är <guilabel
->Grön</guilabel
->, så att den relativa positionen redan är inställd till +300. Nästa bild i sekvensen använder Väte alfa (H_Alpha), så innan Ekos tar nästa bild utförs följande åtgärder: </para>
-        <itemizedlist>
-            <listitem>
-                <para
->Eftersom Luminositet anges när det låsta filtret och automatisk fokusering markeras, ändras filtret till Luminositet. </para>
-            </listitem>
-            <listitem>
-                <para
->Fokuseringspositionen -300 appliceras, eftersom det föregående filtret <guilabel
->Grön</guilabel
-> tidigare flyttades +300. </para>
-            </listitem>
-            <listitem>
-                <para
->Den automatiska fokuseringsprocessen initieras. </para>
-            </listitem>
-            <listitem>
-                <para
->När väl automatisk fokusering är färdig, ändras filtret till H_Alpha. </para>
-            </listitem>
-            <listitem>
-                <para
->Fokuseringspositionen -1200 appliceras. </para>
-            </listitem>
-            <listitem>
-                <para
->Tagningssekvensen återupptas. </para>
-            </listitem>
-        </itemizedlist>
     </sect3>
 
     <sect3 id="capture-fits-viewer">

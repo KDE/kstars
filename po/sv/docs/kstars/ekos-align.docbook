@@ -32,21 +32,7 @@
         <para
 >Ofta är det en avvikelse mellan vart teleskopet tror det pekar och vart det verkligen pekar. Storleken på denna avvikelse kan sträcka sig från några få bågminuter till ett antal grader. Ekos kan därefter korrigera avvikelsen genom att antingen synkronisera till de nya koordinaterna, eller genom att förflytta stativet till det önskade målet som ursprungligen begärdes. </para>
         <para
->Dessutom tillhandahåller Ekos två verktyg för att mäta och korrigera polära inriktningsfel: </para>
-        <itemizedlist>
-            <listitem>
-                <para
-><guilabel
->Polärt inriktningsverktyg</guilabel
->: Ett mycket lättanvänt verktyg för att mäta och korrigera polära fel. Det tar tre bilder nära himmelspolen (nära polstjärnan på norra halvklotet) och beräknar avvikelsen mellan stativets axel och polära axeln. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Gammalt polärt inriktningsverktyg</guilabel
->: Om polstjärnan inte är synlig kan verktyget användas för att mäta och korrigera polära inriktningsfel. Det tar några bilder nära meridianen och öster/väster om meridianen. Det gör det möjligt för användaren att justera stativet så att inriktningsfelet minimeras. </para>
-            </listitem>
-        </itemizedlist>
+>Dessutom tillhandahåller Ekos en polärinriktningsguide för att korrigera polära inriktningsfel. Den tar tre bilder, flyttar mellan bilderna, och beräknar positionen mellan stativaxeln och polaxeln. Den ger återkoppling till användaren med höjd- och azimutjusteringar som behövs för att rikta in axlarna. Bilderna är vanligtvis tagna nära himmelspolen (nära Polaris på norra halvklotet) men kan fungera bra tagna från var som helst, vanligtvis med början nära meridianen och antingen förflytta åt öster eller åt väster. </para>
         <para
 >Du behöver allra minst en CCD/webbkamera och ett teleskop som stöder förflyttnings- och synkroniseringskommandon. De flesta kommersiella teleskop stöder nuförtiden sådana kommandon. </para>
         <para
@@ -481,12 +467,6 @@
 >Polärinriktningsguide</guilabel
 >: Ett enkelt verktyg för att hjälpa till med polär inriktning av tyska ekvatoriella stativ. </para>
                 </listitem>
-                <listitem>
-                    <para
-><guilabel
->Gammalt polärt inriktningsverktyg</guilabel
->: Mät polärt inriktningsfel när en vy av himmelspolen (t.ex. polstjärnan för norra halvklotet) inte är tillgänglig. </para>
-                </listitem>
             </itemizedlist>
             <warning>
                 <para
@@ -712,9 +692,6 @@
         <sect3 id="ekos-align-polaralignment">
             <title
 >Polärinriktning</title>
-            <sect4 id="ekos-align-plar-alignment-assistant">
-                <title
->Polärinriktningsguide</title>
                 <para
 >När ett tyskt ekvatoriellt stativ (German Equatorial Mount, GEM) används för avbildning, är en kritisk aspekt av att ta långtidsexponeringar att säkerställa riktig polär inriktning. Ett GEM-stativ har två axlar: Rektascensionaxeln (RA) och deklinationsaxeln (DE). Idealt sätt ska RA-axeln vara inriktad med himmelssfärens polaxel. Stativets jobb är att följa stjärnans rörelse på himlen från det ögonblick den stiger över horisonten i öster, hela vägen upp över meridianen, och västerut tills den går ner. </para>
 
@@ -753,15 +730,15 @@
                 <para
 >Dock vill man troligtvis använda automatisk guidning för att hålla samma stjärna låst på samma position över tid, om man inte har ett av de allra bästa stativen. Trots detta, om stativets axel inte är riktigt inriktat i förhållande till himmelspolen, skulle även ett mekaniskt perfekt stativ förlora inriktningen med tiden. Följningsfelet är proportionellt mot felinrikningens storlek. Därför är det mycket viktigt för långtidsexponeringar att stativet är polärinriktat för att reducera alla resterande fel när det rör sig över himlen. </para>
                 <para
->Peka stativet så nära som möjligt till himmelspolen innan processen påbörjas. Om du bor på norra halvklotet peka så nära som möjligt på polstjärnan. </para>
+>Innan processen påbörjas, rikta stativet så nära den himmelspolen som möjligt med motvikterna neråt. Om du bor på norra halvklotet, rikta den så nära Polaris som möjligt. Om Polaris inte är synlig (t.ex. blockerad av träd eller byggnader) kan du peka någon annanstans, helst nära meridianen. Se till att det finns minst 30-60 graders himmel synligt i en båge öster eller väster om meridianen från den position du väljer. Välj riktning för fri himmel, antalet grader för var och en av två förflyttningarna, stativets rörelsehastighet och om stativet ska flyttas automatiskt (rekommenderas) eller manuellt. </para>
                 <para
->Verktyget fungerar genom att ta och lösa tre bilder. Efter var och en har tagits, roteras stativet ett bestämt värde och en annan bild tas och löses. </para>
+>Verktyget fungerar genom att ta och lösa tre bilder. Efter var och en har tagits, roteras stativet med det fasta värdet du skrivit in och en annan bild tas och löses. Om du väljer manuell, måste du förflytta stativet ungefär den valda vinkeln. </para>
                 <screenshot>
                     <screeninfo
 >Polärinriktningsguide </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_assistant_main.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_main2.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
@@ -769,181 +746,93 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
+
+            <sect4 id="ekos-align-platesolvecorrection">
+                <title
+>Analys av astrobilder korrigeringsmetod</title>
+                
                 <para
->Efter första tagningen kan stativet antingen roteras väster eller öster med ett specifikt värde (normalt 30 grader). Efter att ha valt storleken och riktningen, klicka på <guibutton
->Nästa</guibutton
-> för att fortsätta, så roteras stativet. När rotationen väl är färdig blir du ombedd att ta en ny bild, om du inte har markerat <guilabel
->Automatiskt läge</guilabel
->. Med automatiskt läge fortsätter resten av processen med samma inställningar och riktning tills totalt tre bilder har tagits. </para>
-                <para
->Eftersom stativets verkliga RA/DE konstateras med astrometri, kan vi konstruera en unik cirkel från de tre centrum som hittas av astrometrilösningarna. Cirkeln centrum är det som stativet roterar kring (RA-axeln), och idealt ska punkten sammanfalla med himmelspolen. Om det dock finns en felinriktning, ritar Ekos en korrektionsvektor. Korrektionsvektorn kan placeras var som helst på bilden. <emphasis
->Uppdatera</emphasis
-> därefter kameramatningen och gör korrigeringar av stativets elevations- och azimutratt ända tills stjärnan är positionerad i angivet hårkors. För att göra det enkelt att utföra korrigeringarna, expandera vyn genom att klicka på fullskärmsknappen <inlinemediaobject
-><imageobject
-><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject
-></inlinemediaobject
->. </para>
+>Bilderna nedan visar arbetsflödet när korrigeringstekniken <emphasis 
+>Analys av astrobilder</emphasis 
+> används. Bilden nedan visar en skärm efter att de tre mätbilderna har tagits och lösts. Den visar ett fel på nästan 18' i höjd och att stativets axel måste flyttas upp. På samma sätt visar den ett azimutfel på nästan 15' och att axeln måste flyttas åt höger (sett från bakom teleskopet). </para>
                 <screenshot>
                     <screeninfo
->Polärinriktningsresultat </screeninfo>
+>Polärinriktningsguide </screeninfo>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="polar_alignment_result.png" format="PNG"/>
+                            <imagedata fileref="polar_assistant_ps1.png" format="PNG"/>
                         </imageobject>
                         <textobject>
                             <phrase
->Polärinriktningsresultat</phrase>
+>Polärinriktningsguide, lösning av astrobilder arbetsflöde 1</phrase>
                         </textobject>
                     </mediaobject>
                 </screenshot>
                 <para
->Om du är borta från StellarMate eller dator kan en surfplatta användas för att övervaka kameramatningen medan korrektioner utförs. Använd <link linkend="ekos-tutorials-viewer"
->StellarMates webbaserade VNC-visning</link
-> eller använd vilken VNC-klient som helst på surfplattan för att komma åt StellarMate. Om Ekos kör på din dator, kan program såsom TeamViewer användas för att uppnå samma resultat. Det följande är en video som demonstrerar hur man använder polärinriktningsguiden. </para>
-                <mediaobject>
-                    <videoobject>
-                        <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/sx6Zz9lNd5Q"
-></videodata>
-                    </videoobject>
-                    <caption>
-                        <para>
+>Om felet är tillräckligt lågt (t.ex. mindre än en bågminut) behöver du inte göra några justeringar. Tryck bara på stopp så är du klar. </para>
+                <para
+>Om du ska göra korrigeringar av stativets axel, bör du välja justeringsmetod (vi använder analys av astrobilder i det här exemplet), och hur ofta systemet ska ta bilder igen för att mäta om polärinriktningsfelet. Uppdateringsintervallet bör vara frekvent, men det är inte meningsfullt att göra det snabbare än att din processor kan ta och lösa bilderna. Vi använder 2 s i det här exemplet. Tryck sedan på knappen <guibutton 
+>Uppdatera</guibutton 
+> för att påbörja korrigeringsprocessen. </para>
+                <para
+>Systemet tar bilder och uppskattar det polära inriktningsfelet igen efter varje bild. Du kan försöka minska felet genom att justera höjd- och azimutkorrigeringsrattarna på stativet. Bilden nedan visar skärmen efter att höjdfelet nästan har nollställts. Se skillnaden mellan raden <emphasis
+>Uppmätt fel</emphasis
+>, som visar det ursprungligen uppmätta felet efter de ursprungliga tre tagningarna, och raden <emphasis
+>Uppdaterat fel</emphasis
+> som visar den aktuella feluppskattningen. </para>
+                <screenshot>
+                    <screeninfo
+>Polärinriktningsguide </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps2.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
                             <phrase
->Polärinriktning</phrase>
-                        </para>
-                    </caption>
-                </mediaobject>
-            </sect4>
-            <sect4 id="ekos-align-legacy-polar-alignment-workflow">
+>Polärinriktningsguide, lösning av astrobilder arbetsflöde 2</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Nedan har användaren även justerat azimut för att minska felet ytterligare. Nu är felet mycket lågt och processen är klar. Användaren ska trycka på stoppknappen. </para>
+                <screenshot>
+                    <screeninfo
+>Polärinriktningsguide </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_ps3.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Polärinriktningsguide, lösning av astrobilder arbetsflöde 3</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                </sect4>
+                <sect4 id="ekos-align-move-star-correction">
                 <title
->Gammalt arbetsflöde för polär inriktning</title>
+>Korrigeringsmetoden flytta stjärna</title>
+
                 <para
->Genom att använda polärinriktningsläget kan Ekos mäta och korrigera polärinriktningsfel. Peka stativet på en stjärna nära meridianen för att mäta azimutfel. Om du bor på norra halvklotet pekas stativet mot sydmeridianen. Klicka på <guibutton
->Mät azimutfel</guibutton
-> för att påbörja processen. Ekos försöker mäta driften mellan två bilder och beräkna felet enligt det. Det går att be Ekos att korrigera azimutfel genom att klicka på knappen <guibutton
->Korrigera azimutfel</guibutton
->. Ekos flyttar till en ny position och ber dig justera stativets azimutrattar ända tills stjärnan är i synfältets centrum. Man kan använda fokuseringsmodulens <link linkend="focus-focuser-group"
->inramningsfunktion</link
-> för att ta en titt på bilden medan justeringarna utförs. </para>
-                <para
->För att mäta elevationsfel på liknande sätt, klicka på <guibutton
->Mät elevationsfel</guibutton
->. Stativet måste antingen pekas åt öster eller väster, och ställa in kombinationsrutan <guilabel
->Elevationsriktning</guilabel
-> på motsvarande sätt. Ekos tar två bilder och beräknar felet. Det går att be Ekos att korrigera elevationsfel genom att klicka på knappen <guibutton
->Korrigera elevationsfel</guibutton
->. Liksom för azimutkorrektion flyttar Ekos till en ny position och ber dig justera stativets elevationsrattar ända tills stjärnan är i synfältets centrum. </para>
-                <para
->Efter att ha gjort en korrektion, rekommenderas att mäta azimut- och elevationsfel igen och bedöma skillnaden. Korrektionen kan behöva utföras mer än en gång för att erhålla optimala resultat. </para>
-                <para
->Innan polärinriktningsverktyget startas måste arbetsflödet GÅ TILL ovan utföras för minst en punkt på himlen. När stativet väl är inriktat, gå vidare med följande (med antagandet att du bor på norra halvklotet): </para>
-                <orderedlist>
-                    <listitem>
-                        <para
->Flytta till en <emphasis role="bold"
->ljusstark</emphasis
-> stjärna (magnitud 4 eller lägre) nära sydmeridianen (azimut 180). Säkerställ att <guilabel
->Förflytta till mål</guilabel
-> är valt. Ta bild och lös. Stjärnan ska vara exakt centrerad i CCD-synfältet. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Byte läge till <guilabel
->Polärinriktning</guilabel
->. Klicka på <guibutton
->Mät azimutfel</guibutton
->. Du blir ombedd att flytta till en stjärna vid sydmeridianen, vilket vi redan har gjort. Ekos utför nu felberäkningen. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Om allt går bra visas felet i utdatarutorna. Klicka på <guibutton
->Korrigera azimutfel</guibutton
-> för att korrigera felet. Ekos flyttar nu till en annan punkt på himlen, och du måste <emphasis role="bold"
->BARA</emphasis
-> justera stativets azimutrattar för att centrera stjärnan i synfältet. Det bekvämaste sättet att titta på stjärnfältet är att gå till modulen <guilabel
->Fokusering</guilabel
-> och klicka på <guibutton
->Starta bildinramning</guibutton
->. Om azimutfelet är stort kanske inte stjärnan syns i CCD-synfältet, och i sådana fall måste <emphasis
->blinda</emphasis
-> justeringar göras (eller titta helt enkelt i sökkikaren ända tills stjärnan kommer in i CCD-synfältet). </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Börja azimutjusteringar tills den ljusstarka stjärna du flyttade till från början är så nära centrum som det går att få den. </para>
-                    </listitem>
-                    <listitem>
-                        <para
-><guibutton
->Stoppa bildinramning</guibutton
-> i <link linkend="focus-focuser-group"
->fokuseringsmodulen</link
+>Vi har också en alternativt metod för att korrigera polärinriktning. Två varianter är <emphasis
+>Flytta stjärna och beräkna fel</emphasis
+> och <emphasis
+>Flytta stjärna</emphasis
+>. När du väljer metoden placerar systemet en gul/grön/violett triangel på skärmen. Triangeln kan flyttas genom att klicka nära en stjärna, så flyttas det gula/violetta hörnet till stjärnan. Med denna metod korrigerar användaren polärinriktning genom att först justera stativets azimutratt så att den valda stjärnan rör sig längs triangelns gula sida. När stjärnan är nära nästa hörn, bör azimutknappen justeras så att stjärnan rör sig längs triangelns gröna sida. När stjärnan väl har flyttats till det gröna/violetta hörnet är stativet polärinriktat och användaren kan klicka på <emphasis
+>stopp</emphasis
 >. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Upprepa <guibutton
->Mät azimutfel</guibutton
-> för att säkerställa att vi verkligen har korrigerat felet. Det kan behöva utföras mer än en gång för att säkerställa att resultaten är giltiga. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Byt läge till <guilabel
->GÅ TILL</guilabel
->. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Flytta nu till en <emphasis role="bold"
->ljusstark</emphasis
-> stjärna antingen på östra eller västra horisonten, företrädesvis ovanför 20 graders elevation. Den måste vara så nära som möjligt till den östra (azimut 90) eller västra (270) kardinalpunkten. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Efter förflyttningen är klar, ta och lös. Stjärnan ska nu vara precis i mitten av CCD-synfältet. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Byte läge till <guilabel
->Polär inriktning</guilabel
->. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Klicka på <guibutton
->Mät elevationsfel</guibutton
->. Du blir ombedd att flytta till en stjärna antingen till östra (azimut 90) eller västra (azimut 270) horisonten, vilket vi redan har gjort, klicka på <guibutton
->Fortsätt</guibutton
->. Ekos utför nu felberäkningen. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Klicka på <guibutton
->Korrigera elevationsfel</guibutton
-> för att korrigera felet. Ekos flyttar nu till en annan punkt på himlen, och kräver att du <emphasis role="bold"
->BARA</emphasis
-> justerar stativets elevationsreglage för att centrera stjärnan i synfältet. Börja inramning som tidigare i <link linkend="focus-focuser-group"
->fokuseringsmodulen</link
-> för att hjälpa dig med centreringen. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Efter centreringen är klar, sluta inramning. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Upprepa <guibutton
->Mät elevationsfel</guibutton
-> för att säkerställa att vi verkligen har korrigerat felet. Det kan behöva utföras mer än en gång för att säkerställa att resultaten är giltiga. </para>
-                    </listitem>
-                    <listitem>
-                        <para
->Den polära inriktningen är nu klar!</para>
-                    </listitem>
-                </orderedlist>
-                <warning>
-                    <para
->Stativet kan förflyttas till en farlig position och kan riskera att träffa tripoden och/eller annan utrustning. Övervaka stativets rörelse noggrant. Använd på egen risk. </para>
-                </warning>
+                  <para
+>Skillnaden mellan <emphasis
+>Flytta stjärna och beräkna fel</emphasis
+> och <emphasis
+>Flytta stjärna</emphasis
+> är att i den förra försöker systemet följa stjärnan som användaren har valt och placerar en cirkel runt stjärnan. Med metoden, försöker det också uppdatera raden <emphasis 
+>Uppdaterat fel</emphasis 
+>. Om stjärnföljningen inte är tillförlitlig, ignorera den helt enkelt eller använd metoden <emphasis
+> Flytta stjärna </emphasis
+> och flytta stjärnan med ögonmått tills den är nära det slutliga målet. Ett exempel på hur tekniken används visas i den här videon: <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
+>https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
+> </para>
             </sect4>
         </sect3>
-    </sect2>
+</sect2>

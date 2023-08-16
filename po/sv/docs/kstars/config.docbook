@@ -1922,5 +1922,94 @@
 </listitem>
 </itemizedlist>
 
+</sect1>
+
+<sect1 id="skymap_orientation">
+  <title
+>Justera himmelskartans orientering</title>
+  <para
+>Du kan justera olika inställningar för att göra så att himmelskartans orientering motsvarar vad som syns i det optiska instrumentet, under förutsättning att (i den här versionen) instrumentet inte speglar synfältet (vilket görs av prismor använda med Schmidt-Cassegrain teleskop och refraktorer). </para>
+  <para
+>Välj först det koordinatsystem som motsvarar stativet. För ett ekvatorialt monterat instrument, byt till Ekvatoriella koordinater i menyn <guimenu 
+>Visa</guimenu 
+>. Alternativet för att byta mellan koordinatsystemet bör vara <guilabel 
+>Byt till horisontell vy (horisontella koordinater)</guilabel 
+> när det aktuella värdet är ekvatoriella koordinater. För ett altazimut-monterat instrument eller användning av blotta ögat, byt till horisontella koordinater, så att alternativet i menyn <guimenu 
+>Visa</guimenu 
+> blir <guilabel 
+>Byt till stjärnglob (ekvatoriella koordinater)</guilabel 
+>. Det ställer in baskoordinatsystemet som används för att återge himmelskartan, och ställer även in referensen för himmelskartans orientering: zenit eller norr. </para>
+  <para
+>För att rotera himmelskartan fritt kan du hålla ner &Shift;-tangenten och dra musen på himmelskartan. En tillfällig överlagring visas som anger riktningen för norr och zenit vid punkten, och anger vinkeln de har mot vertikalt i motsols riktning. Orienteringarna för zenit och norr uppdateras när du roterar himmelskartan. Att släppa &Shift; eller musknappen stoppar rotationen. När du panorerar himmelskartan eller fokuserar den på olika objekt, behålls rotationen du ställer in som en förskjutning från referensriktningen. Referensriktningen är norr när man använder ekvatoriella koordinater och zenit när man använder horisontella koordinater. Som en påminnelse är referensriktningen solid och ljusare i den tillfälliga överlagringen. För de två vanliga orienteringarna upprätt och inverterad kan rotationen ställas in eller återställas med hjälp av undermenyn <menuchoice
+><guimenu
+>Visa</guimenu
+><guisubmenu
+>Himmelskartans orientering</guisubmenu
+></menuchoice
+>. Välj "Norr ner" eller "Zenit ner" som är tillämpligt för att ställa in orienteringen till 180 grader. </para>
+  <para
+>Om du observerar visuellt genom ett okular på ett instrument kan du behöva göra några fler korrigeringar. För det vanliga fallet med ett stort Dobsonteleskop (eller mer allmänt en Newtonsk konstruktion monterad på ett altazimutstativ), är en systematisk tilläggskorrigering till hjälp. Korrigeringen gäller eftersom vi står upprätt när vi använder teleskopet oavsett vinkeln teleskopröret gör mot marken. Så när vi flyttar teleskopet i höjd, måste ytterligare en korrigering, beroende på objektets höjd, göras för att få himmelskartan att motsvara  genom okularet. Den här korrigeringen aktiveras genom att markera kryssrutan <guilabel 
+>Rediga observatörskorrigering</guilabel 
+> i undermenyn <menuchoice 
+><guimenu 
+>Visa</guimenu 
+><guisubmenu 
+>Himmelskartans orientering</guisubmenu 
+></menuchoice 
+>. Korrigeringen är bara meningsfull med metoden Horisontell koordinat och är inaktiverad när ekvatorialkoordinater används. </para>
+  <para
+>Slutligen ger vi några exempel på hur man använder inställningarna för olika instrument: <itemizedlist>
+      <listitem
+><para
+>Observation med blotta ögat: Välj horisontella koordinater och orienteringen <guilabel
+>Zenit upp</guilabel
+> med <menuchoice
+><guimenu
+>Visa</guimenu
+><guisubmenu
+>Himmelskartans orientering</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Kamera på ett ekvatoriellt monterat teleskop: Välj ekvatoriella koordinater och justera orienteringen på himmelskartan så att den motsvarar kameran. Medan stativet pekar på olika delar av himlen, ska orienteringen återges korrekt.</para
+></listitem>
+      <listitem
+><para
+>Användning av kikare: Samma inställningar som observation med blotta ögat</para
+></listitem>
+      <listitem
+><para
+>Användning av ett RACI sökarteleskop på ett altazimutmonterat teleskop: Samma inställningar som för att observera med blotta ögat, förutom att du kan behöva justera orienteringen manuellt en gång om du har den monterad i vinkel.</para
+></listitem>
+      <listitem
+><para
+>Användning av ett genomgående (omvänd vy) sökarteleskop på ett altazimutmonterat teleskop: Välj horisontella koordinater och himmelskartans orientering <guilabel 
+>Zenit ner</guilabel 
+> med undermenyn <menuchoice 
+><guimenu 
+>Visa</guimenu 
+><guisubmenu 
+>Himmelskartans orientering</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+      <listitem
+><para
+>Okularet på ett Dobsonteleskop: Välj horisontella koordinater, och i undermenyn <menuchoice 
+><guimenu 
+>Visa</guimenu 
+><guisubmenu 
+>Himmelskartans orientering</guisubmenu 
+></menuchoice 
+> väljer du <guilabel 
+>Zenit ner</guilabel 
+> och markerar alternativet <guilabel 
+>Upprätt observatörskorrigering</guilabel
+>. Justera sedan orienteringen manuellt en gång för att motsvara teleskopets okular, så bör det hädanefter följas korrekt.</para
+></listitem>
+    </itemizedlist>
+  </para>
 </sect1
 >&hips; </chapter>
