@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:41+0000\n"
-"PO-Revision-Date: 2023-08-15 10:08+0200\n"
+"POT-Creation-Date: 2023-08-17 00:41+0000\n"
+"PO-Revision-Date: 2023-08-16 13:39+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6384,7 +6384,7 @@ msgstr "Captura i soluciona"
 #, kde-format
 msgid "Load a FITS image and solve. Slew mount to image central coordinates."
 msgstr ""
-"Carrega i identifica una imatge FITS. Orienta la muntura a les coordenades "
+"Carrega i soluciona una imatge FITS. Orienta la muntura a les coordenades "
 "del centre de la imatge."
 
 #. i18n: ectx: property (text), widget (QPushButton, loadSlewB)
@@ -25697,7 +25697,7 @@ msgid "↓Create  Scheduler Jobs"
 msgstr "↓Crea tasques del programador"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/framingassistant.ui:1223 ekos/scheduler/scheduler.ui:251
+#: ekos/scheduler/framingassistant.ui:1223
 #, kde-format
 msgid "Perform calibration and autoguiding before proceeding to the next step."
 msgstr ""
@@ -25733,7 +25733,7 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/framingassistant.ui:1259 ekos/scheduler/scheduler.ui:229
+#: ekos/scheduler/framingassistant.ui:1259
 #, kde-format
 msgid ""
 "Perform alignment using astrometry solver before proceeding to the next step."
@@ -25742,8 +25742,7 @@ msgstr ""
 "amb el pas següent."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/scheduler/framingassistant.ui:1278 ekos/scheduler/scheduler.ui:370
+#: ekos/scheduler/framingassistant.ui:1278
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr ""
@@ -25768,7 +25767,7 @@ msgid "M 31"
 msgstr "M 31"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/framingassistant.ui:1346 ekos/scheduler/scheduler.ui:204
+#: ekos/scheduler/framingassistant.ui:1346
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr ""
@@ -25828,7 +25827,7 @@ msgid "Perform autofocus every N jobs."
 msgstr "Porta a terme un enfocament automàtic cada N tasques."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/framingassistant.ui:1484 ekos/scheduler/scheduler.ui:273
+#: ekos/scheduler/framingassistant.ui:1484
 #, kde-format
 msgid "Perform autofocusing before proceeding to the next step."
 msgstr "Realitza l'enfocament automàtic abans de continuar amb el pas següent."
@@ -26565,7 +26564,7 @@ msgstr ""
 "S'apropa el límit del crepuscle astronòmic de la sortida a les %1 (%2 minuts "
 "de marge de seguretat) de la tasca «%3», es marca com a inactiva."
 
-#: ekos/scheduler/scheduler.cpp:4088 ekos/scheduler/scheduler.cpp:7892
+#: ekos/scheduler/scheduler.cpp:4088 ekos/scheduler/scheduler.cpp:7921
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -26579,14 +26578,14 @@ msgstr ""
 "Avís: el procediment de captura de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/scheduler.cpp:4143 ekos/scheduler/scheduler.cpp:8124
+#: ekos/scheduler/scheduler.cpp:4143 ekos/scheduler/scheduler.cpp:8153
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Avís: el procediment d'enfocament de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/scheduler.cpp:4167 ekos/scheduler/scheduler.cpp:7965
+#: ekos/scheduler/scheduler.cpp:4167 ekos/scheduler/scheduler.cpp:7994
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
@@ -27099,7 +27098,7 @@ msgstr "El procediment de tancament ha finalitzat."
 msgid "Unable to open sequence queue file '%1'"
 msgstr "No s'ha pogut en obrir el fitxer «%1» de cua de seqüències"
 
-#: ekos/scheduler/scheduler.cpp:7572
+#: ekos/scheduler/scheduler.cpp:7601
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -27108,17 +27107,17 @@ msgstr ""
 "En repòs durant %1 per a la simulació d'actualització del rellotge fins que "
 "la tasca d'observació següent estigui llesta..."
 
-#: ekos/scheduler/scheduler.cpp:7857
+#: ekos/scheduler/scheduler.cpp:7886
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "L'alineació de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/scheduler.cpp:7876
+#: ekos/scheduler/scheduler.cpp:7905
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Avís: ha fallat l'alineació de la tasca «%1»."
 
-#: ekos/scheduler/scheduler.cpp:7882
+#: ekos/scheduler/scheduler.cpp:7911
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -27126,39 +27125,39 @@ msgstr ""
 "Avís: la tasca «%1» ha forçat un reinici del model de muntura després de "
 "fallar l'alineació núm. %2."
 
-#: ekos/scheduler/scheduler.cpp:7887 ekos/scheduler/scheduler.cpp:7953
+#: ekos/scheduler/scheduler.cpp:7916 ekos/scheduler/scheduler.cpp:7982
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "S'està reiniciant el procediment d'alineació de %1..."
 
-#: ekos/scheduler/scheduler.cpp:7925
+#: ekos/scheduler/scheduler.cpp:7954
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "El guiatge de la tasca «%1» està en curs."
 
-#: ekos/scheduler/scheduler.cpp:7937
+#: ekos/scheduler/scheduler.cpp:7966
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Avís: ha fallat el guiatge de la tasca «%1»."
 
-#: ekos/scheduler/scheduler.cpp:7939
+#: ekos/scheduler/scheduler.cpp:7968
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Avís: ha fallat el calibratge de la tasca «%1»."
 
-#: ekos/scheduler/scheduler.cpp:7958
+#: ekos/scheduler/scheduler.cpp:7987
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "La tasca «%1» està fent el guiatge, el procediment de guiatge es reiniciarà "
 "en %2 segons."
 
-#: ekos/scheduler/scheduler.cpp:8017
+#: ekos/scheduler/scheduler.cpp:8046
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr "Avís: ha fallat la captura de l'objectiu de la tasca «%1»."
 
-#: ekos/scheduler/scheduler.cpp:8030
+#: ekos/scheduler/scheduler.cpp:8059
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
@@ -27167,63 +27166,63 @@ msgstr ""
 "La tasca «%1» està fent la captura, s'està reiniciant el seu procediment de "
 "guiatge (intent núm. %2 de %3)."
 
-#: ekos/scheduler/scheduler.cpp:8038
+#: ekos/scheduler/scheduler.cpp:8067
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Avís: la tasca «%1» ha fallat el procediment de captura, es reinicia la "
 "captura."
 
-#: ekos/scheduler/scheduler.cpp:8044
+#: ekos/scheduler/scheduler.cpp:8073
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "Avís: la tasca «%1» de procediment de captura ha fallat, i es marca com "
 "interrompuda."
 
-#: ekos/scheduler/scheduler.cpp:8053
+#: ekos/scheduler/scheduler.cpp:8082
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Tasca de l'Ekos (%1): Ha finalitzat la captura"
 
-#: ekos/scheduler/scheduler.cpp:8100
+#: ekos/scheduler/scheduler.cpp:8129
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr "L'enfocament de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/scheduler.cpp:8110
+#: ekos/scheduler/scheduler.cpp:8139
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Avís: ha fallat l'enfocament de la tasca «%1»."
 
-#: ekos/scheduler/scheduler.cpp:8114
+#: ekos/scheduler/scheduler.cpp:8143
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "S'està reiniciant el procediment d'enfocament de la tasca «%1»."
 
-#: ekos/scheduler/scheduler.cpp:8155
+#: ekos/scheduler/scheduler.cpp:8184
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "L'orientació de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/scheduler.cpp:8161
+#: ekos/scheduler/scheduler.cpp:8190
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Avís: la tasca «%1» d'orientació ha fallat, i es marca com a finalitzada a "
 "causa d'errors."
 
-#: ekos/scheduler/scheduler.cpp:8167
+#: ekos/scheduler/scheduler.cpp:8196
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Avís: la tasca «%1» no ha trobat cap orientació, es reinicia."
 
-#: ekos/scheduler/scheduler.cpp:8180
+#: ekos/scheduler/scheduler.cpp:8209
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "El reposicionament de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/scheduler.cpp:8186
+#: ekos/scheduler/scheduler.cpp:8215
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -27231,47 +27230,47 @@ msgstr ""
 "Avís: la tasca «%1» de reposicionament ha fallat, i es marca com a "
 "finalitzada a causa d'errors."
 
-#: ekos/scheduler/scheduler.cpp:8192
+#: ekos/scheduler/scheduler.cpp:8221
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Avís: la tasca «%1» no ha trobat cap reposicionament, es reinicia."
 
-#: ekos/scheduler/scheduler.cpp:8213
+#: ekos/scheduler/scheduler.cpp:8242
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Les condicions meteorològiques són BONES."
 
-#: ekos/scheduler/scheduler.cpp:8217
+#: ekos/scheduler/scheduler.cpp:8246
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Avís: les condicions meteorològiques es troben a la zona d'ALERTA."
 
-#: ekos/scheduler/scheduler.cpp:8221
+#: ekos/scheduler/scheduler.cpp:8250
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 "Precaució: les condicions meteorològiques es troben a la zona de PERILL!"
 
-#: ekos/scheduler/scheduler.cpp:8243
+#: ekos/scheduler/scheduler.cpp:8272
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Les condicions meteorològiques es troben a la zona d'alerta"
 
-#: ekos/scheduler/scheduler.cpp:8252
+#: ekos/scheduler/scheduler.cpp:8281
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "Les condicions meteorològiques són crítiques. El tancament de l'observatori "
 "és imminent"
 
-#: ekos/scheduler/scheduler.cpp:8272
+#: ekos/scheduler/scheduler.cpp:8301
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 "S'està iniciant el procediment de tancament a causa de condicions "
 "meteorològiques adverses."
 
-#: ekos/scheduler/scheduler.cpp:8300
+#: ekos/scheduler/scheduler.cpp:8329
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
@@ -27280,7 +27279,7 @@ msgstr ""
 "La tasca «%1» està programada per a executar-se a les %2. S'ha programat el "
 "tancament de l'observatori per a quan s'enllesteixi la següent tasca."
 
-#: ekos/scheduler/scheduler.cpp:8323
+#: ekos/scheduler/scheduler.cpp:8352
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
@@ -27289,17 +27288,17 @@ msgstr ""
 "La tasca «%1» està programada per a executar-se a les %2. S'aparcarà la "
 "muntura fins que la tasca estigui a punt."
 
-#: ekos/scheduler/scheduler.cpp:8333
+#: ekos/scheduler/scheduler.cpp:8362
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "En repòs fins que la tasca d'observació %1 estigui llesta a les %2..."
 
-#: ekos/scheduler/scheduler.cpp:8335
+#: ekos/scheduler/scheduler.cpp:8364
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "El programador està en el mode de repòs"
 
-#: ekos/scheduler/scheduler.cpp:8343
+#: ekos/scheduler/scheduler.cpp:8372
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -27308,17 +27307,17 @@ msgstr ""
 "Avís: La tasca «%1» és a %2 a partir d'ara, és possible que vulgueu "
 "habilitar el tancament preventiu."
 
-#: ekos/scheduler/scheduler.cpp:8503
+#: ekos/scheduler/scheduler.cpp:8532
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Temps límit del solucionador: %1s %2"
 
-#: ekos/scheduler/scheduler.cpp:8505
+#: ekos/scheduler/scheduler.cpp:8534
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "El solucionador ha fallat: %1s %2"
 
-#: ekos/scheduler/scheduler.cpp:8540
+#: ekos/scheduler/scheduler.cpp:8569
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
@@ -27360,6 +27359,40 @@ msgstr "Seqüència:"
 msgid "Priority:"
 msgstr "Prioritat:"
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
+#: ekos/scheduler/scheduler.ui:204
+#, fuzzy, kde-format
+#| msgid "Slew to the target and track it before proceeding to the next step."
+msgid "Slew to the target and track. Done at the start of each scheduler job."
+msgstr ""
+"Orienta a l'objectiu i fes el seguiment abans de continuar amb el pas "
+"següent."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
+#: ekos/scheduler/scheduler.ui:229
+#, fuzzy, kde-format
+#| msgid ""
+#| "Perform alignment using astrometry solver before proceeding to the next "
+#| "step."
+msgid ""
+"Run alignment using astrometry solver. Done at the start of each scheduler "
+"job."
+msgstr ""
+"Realitza l'alineació usant el solucionador d'astrometria abans de continuar "
+"amb el pas següent."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
+#: ekos/scheduler/scheduler.ui:251
+#, kde-format
+msgid "Start autoguiding. Done at the start of each scheduler job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
+#: ekos/scheduler/scheduler.ui:273
+#, kde-format
+msgid "Run autofocus. Done at the start of each scheduler job."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
 #, kde-format
@@ -27386,6 +27419,14 @@ msgstr ""
 "grup, i els doneu les condicions de compleció <i>repeteix per a N</i> o "
 "<i>repeteix fins que finalitzin</i>. En cas contrari, deixeu-ho en blanc. "
 "Només s'aplica a l'algorisme «voraç» del programador.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
+#: ekos/scheduler/scheduler.ui:370
+#, kde-format
+msgid ""
+"Select the tasks to run at the start of each scheduler job. Executed in "
+"order, left to right."
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -38065,20 +38106,19 @@ msgstr "Píxels suavitzats per a una representació més agradable però lenta."
 #: kstars.kcfg:3130
 #, kde-format
 msgid "Display Image Overlays."
-msgstr ""
+msgstr "Mostra les superposicions d'imatges."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
-#, fuzzy, kde-format
-#| msgid "Toggle whether Pluto is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether to display image overlays."
-msgstr "Estableix si es dibuixa o no Plutó en el mapa celeste."
+msgstr "Alterna si es mostren les superposicions d'imatges."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3135
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "Centra el mapa celeste sobre la superposició d'imatge seleccionada."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3136
@@ -38087,44 +38127,47 @@ msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
 "it's solved)."
 msgstr ""
+"Centra el mapa celeste sobre la imatge superposada seleccionada en la taula "
+"de superposició d'imatges (si està solucionada)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3140
-#, fuzzy, kde-format
-#| msgid "Image has invalid dimensions %1x%2"
+#, kde-format
 msgid "Image overlay max dimension"
-msgstr "La imatge té dimensions no vàlides %1x%2"
+msgstr "Dimensió màxima de la superposició d'imatges"
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3141
-#, fuzzy, kde-format
-#| msgid "Maximum distance for comet names"
+#, kde-format
 msgid "Maximum dimension for image overlay images."
-msgstr "Distància màxima per als noms dels cometes"
+msgstr "Dimensió màxima de les imatges de superposició d'imatges."
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3145
 #, kde-format
 msgid "Image overlay plate-solving timeout."
-msgstr ""
+msgstr "Temps d'espera de la solució de plaques de superposició d'imatges."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3146
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
-msgstr ""
+msgstr "Temps d'espera de la solució de plaques d'una superposició d'imatges."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3150
 #, kde-format
 msgid "Image overlay default plate-solving scale."
 msgstr ""
+"Escala de la solució de plaques predeterminada de superposició d'imatges."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3151
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
+"Escala predeterminada (segons d'arc/píxel) de la solució de plaques de "
+"superposició d'imatges."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3157
@@ -66844,10 +66887,9 @@ msgstr "Terreny"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
 #: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Image Overlays"
-msgstr "Superposició"
+msgstr "Superposicions d'imatges"
 
 #: kstarsactions.cpp:1150
 #, kde-format
@@ -66870,16 +66912,14 @@ msgid "Show Terrain"
 msgstr "Mostra el terreny"
 
 #: kstarsactions.cpp:1178
-#, fuzzy, kde-format
-#| msgid "HiPS Overlay"
+#, kde-format
 msgid "Hide Image Overlays"
-msgstr "Superposició del HiPS"
+msgstr "Oculta les superposicions d'imatges"
 
 #: kstarsactions.cpp:1178
-#, fuzzy, kde-format
-#| msgid "Show HiPS Overlay"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "Mostra la superposició del HiPS"
+msgstr "Mostra les superposicions d'imatges"
 
 #: kstarsactions.cpp:1297
 #, kde-format
@@ -74763,10 +74803,9 @@ msgstr "Meridià local"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "Veure la imatge de "
+msgstr "Mostra les superposicions d'imatges"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -74775,14 +74814,16 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
+"Centra el mapa celeste sobre la imatge superposada seleccionada en la taula "
+"següent (si està solucionada)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Changes the type of selection"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Canvia el tipus de selecció"
+msgstr "Centra el mapa celeste en la selecció"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
 #: options/opsimageoverlay.ui:92 options/opsimageoverlay.ui:108
@@ -74791,13 +74832,14 @@ msgid ""
 "Maximum dimension for an image overlay image. (Larger images will be scaled "
 "down.)"
 msgstr ""
+"Dimensió màxima d'una imatge de superposició d'imatges (les imatges més "
+"grans es reduiran d'escala)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
-#, fuzzy, kde-format
-#| msgid "Maximum time"
+#, kde-format
 msgid "Maximum image dimension"
-msgstr "Temps màxim"
+msgstr "Dimensió màxima de les imatges"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:140
@@ -74806,17 +74848,34 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
+"Obre el directori de superposicions. Copieu o mogueu imatges a aquest "
+"directori per a processar-les."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgid "Overlay Directory"
-msgstr "Directori"
+msgstr "Directori de superposicions"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Plate solve the selected overlay image(s).</"
+#| "p><p>Uses the selected Align profile to the right, but not Align scale "
+#| "nor position. It will use the default scale to the right (a-s/px), if "
+#| "none is given on the table row and scale column (0 is no scale "
+#| "constraint). It will not use a position unless RA and DEC are entered on "
+#| "the table row. Uses the timeout above. You can select many rows (with "
+#| "click and shift click) and it will attempt to solve them all.</p><p>Plate "
+#| "solving may be difficult. You may not be able to plate solve all your "
+#| "images. You can try to supply scales and positions, and try different "
+#| "profiles. If you are unsucessful, but still want to display an image, you "
+#| "can enter an RA, DEC, Scale, Orientation in the appropriate columns for "
+#| "the row you're interested in, then manually set the Status column to OK.</"
+#| "p><p>You cannot re-platesolve a row whose status is OK, but you can "
+#| "manually change the status to something else, then plate-solving is "
+#| "enabled.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Plate solve the selected overlay image(s).</p><p>Uses "
 "the selected Align profile to the right, but not Align scale nor position. "
@@ -74826,21 +74885,37 @@ msgid ""
 "above. You can select many rows (with click and shift click) and it will "
 "attempt to solve them all.</p><p>Plate solving may be difficult. You may not "
 "be able to plate solve all your images. You can try to supply scales and "
-"positions, and try different profiles. If you are unsucessful, but still "
+"positions, and try different profiles. If you are unsuccessful, but still "
 "want to display an image, you can enter an RA, DEC, Scale, Orientation in "
 "the appropriate columns for the row you're interested in, then manually set "
 "the Status column to OK.</p><p>You cannot re-platesolve a row whose status "
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Soluciona les plaques de les imatges superposades "
+"seleccionades.</p><p>Usa el perfil d'alineació seleccionat a la dreta, però "
+"no l'escala d'alineació ni la posició. Utilitzarà l'escala predeterminada de "
+"la dreta (a-s/px), si no se n'indica cap a la fila de la taula i la columna "
+"d'escala (0 no és cap restricció d'escala). No s'utilitzarà una posició "
+"llevat que s'introdueixin l'AR i la Dec a la fila de la taula. Utilitza el "
+"temps d'espera anterior. Podeu seleccionar moltes files (amb clic i clic amb "
+"majúscules) i s'intentarà resoldre-les totes.</p><p>La solució de plaques "
+"pot ser difícil. És possible que no es puguin solucionar totes les imatges. "
+"Podeu intentar proporcionar escales i posicions, i provar perfils diferents. "
+"Si no esteu satisfet, però encara voleu mostrar una imatge, podeu introduir "
+"una AR, Dec, escala i orientació a les columnes apropiades a la fila en la "
+"qual esteu interessat, després establir manualment la columna Estat a "
+"D'acord.</p><p>No podeu tornar a solucionar una placa d'una fila l'estat de "
+"la qual sigui correcte, però podeu canviar manualment l'estat a una altra "
+"cosa, aleshores la solució de la placa estarà habilitada.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
 msgstr ""
-"Selecciona el perfil d'opcions per a usar en el solucionador de plaques"
+"Selecciona el perfil d'opcions (d'alineació) per a usar en el solucionador "
+"de plaques"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -74850,13 +74925,14 @@ msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
 msgstr ""
+"Escala predeterminada en arcsec/px a usar en la solució. 0 és cap. "
+"S'utilitzaria el que hi ha a la taula si n'hi ha."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px"
-msgstr "Predeterminat"
+msgstr "a-s/px predeterminats"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -74864,13 +74940,13 @@ msgstr "Predeterminat"
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
 msgstr ""
+"Temps d'espera de la solució de plaques d'una imatge superposada (segons)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout"
-msgstr "Temps d'espera:"
+msgstr "Temps d'espera"
 
 #: options/opssatellites.cpp:100
 #, kde-format
@@ -76308,8 +76384,7 @@ msgid "Creating horizon"
 msgstr "S'està creant l'horitzó"
 
 #: skycomponents/imageoverlaycomponent.cpp:60
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "Nom del fitxer"
 
@@ -76324,189 +76399,189 @@ msgstr "Angle"
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "a-s/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:63
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Gira a la dreta"
+msgstr "EstDreta"
 
 #: skycomponents/imageoverlaycomponent.cpp:162
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Cadena AR incorrecta introduïda a %1. Es restaura al valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:176
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Cadena Dec incorrecta introduïda a %1. Es restaura al valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:189
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Cadena d'angle d'orientació incorrecta introduïda a %1. Es restaura al valor "
+"original."
 
 #: skycomponents/imageoverlaycomponent.cpp:200
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Cadena d'angle d'escala incorrecta introduïda a %1. Es restaura al valor "
+"original."
 
 #: skycomponents/imageoverlaycomponent.cpp:230
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"No s'ha pogut establir l'estat a «D'acord». Es requereix un valor de l'AR "
+"correcte no 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:241
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"No s'ha pogut establir l'estat a «D'acord». Es requereix un valor de la Dec "
+"correcte no 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:252
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"No s'ha pogut establir l'estat a «D'acord». Es requereix un valor "
+"d'orientació correcte."
 
 #: skycomponents/imageoverlaycomponent.cpp:263
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"No s'ha pogut establir l'estat a «D'acord». Es requereix un valor d'a-s/px "
+"correcte no 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:293
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "S'ha emmagatzemat l'estat «D'acord» per %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:386
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "S'està actualitzant a partir del directori: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:435
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 superposicions (%2 noves, %3 suprimides) %4 solucionades"
 
 #: skycomponents/imageoverlaycomponent.cpp:437
 #: skycomponents/imageoverlaycomponent.cpp:555
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Superposició d'imatges.  %1 imatges, %2 disponibles."
 
 #: skycomponents/imageoverlaycomponent.cpp:450
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "S'estan carregant les imatges..."
+msgstr "S'estan carregant els fitxers d'imatges..."
 
 #: skycomponents/imageoverlaycomponent.cpp:456
 #, kde-format
 msgid "%1 image files loaded."
-msgstr ""
+msgstr "S'han carregat %1 fitxers d'imatges."
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Unprocessed"
-msgstr "Processament"
+msgstr "Sense processament"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "Fitxer"
+msgstr "Fitxer incorrecte"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solve Failed"
-msgstr "El solucionador ha fallat."
+msgstr "La solució ha fallat"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgid "OK"
-msgstr "GANXO"
+msgstr "D'acord"
 
 #: skycomponents/imageoverlaycomponent.cpp:541
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "Esquerra/Dreta"
+msgstr "Oest-Dreta"
 
 #: skycomponents/imageoverlaycomponent.cpp:542
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "Gira a la dreta"
+msgstr "Est-Dreta"
 
 #: skycomponents/imageoverlaycomponent.cpp:596
 #, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr ""
+msgstr "Solucionant: %1. %2 a la cua."
 
 #: skycomponents/imageoverlaycomponent.cpp:598
-#, fuzzy, kde-format
-#| msgid "Slaving"
+#, kde-format
 msgid "Solving: %1."
-msgstr "Control"
+msgstr "Solucionant: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:663
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "No es pot mostrar %1. No s'ha solucionat la placa."
 
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "No es pot mostrar %1. La imatge no s'ha carregat."
 
 #: skycomponents/imageoverlaycomponent.cpp:701
-#, fuzzy, kde-format
-#| msgid "Autoguiding aborted."
+#, kde-format
 msgid "Solving aborted."
-msgstr "S'ha interromput el guiatge automàtic."
+msgstr "S'ha interromput la solució."
 
 #: skycomponents/imageoverlaycomponent.cpp:736
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "S'ometen les ja solucionades: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:755
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 ja solucionada. S'omet."
 
 #: skycomponents/imageoverlaycomponent.cpp:775
 #, kde-format
 msgid ""
 "Reload not yet implemented. Currently you need to restart KStars to do this."
 msgstr ""
+"Encara no s'ha implementat la recàrrega. Actualment cal tornar a engegar el "
+"KStars per a fer-ho."
 
 #: skycomponents/imageoverlaycomponent.cpp:792
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s %2"
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Temps límit del solucionador: %1s %2"
+msgstr "Temps límit del solucionador en %1 s"
 
 #: skycomponents/imageoverlaycomponent.cpp:798
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "El solucionador ha fallat: %1s %2"
+msgstr "El solucionador fallarà en %1 s"
 
 #: skycomponents/imageoverlaycomponent.cpp:811
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "El solucionador serà correcte en %1 s: AR %2 Dec %3 Escala %4 Angle %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:843
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Done solving. %1 available."
-msgstr "Sense informació disponible de la imatge."
+msgstr "Solució efectuada. %1 disponibles."
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format

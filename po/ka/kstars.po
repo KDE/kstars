@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:41+0000\n"
-"PO-Revision-Date: 2023-07-25 05:04+0200\n"
+"POT-Creation-Date: 2023-08-17 00:41+0000\n"
+"PO-Revision-Date: 2023-08-16 06:02+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -252,7 +252,7 @@ msgstr "FITS გამოსახულების ობიექტის �
 #, kde-format
 msgctxt "use default color scheme"
 msgid "Default Colors"
-msgstr "ნაგულისხმები ფერები"
+msgstr "ნაგულისხმევი ფერები"
 
 #: auxiliary/colorscheme.cpp:137 kstarsdata.cpp:1057 options/opscolors.cpp:59
 #: tools/scriptbuilder.cpp:742
@@ -690,7 +690,7 @@ msgstr "შევქმნა Astrometry-ის ინდექსის ფა�
 #: auxiliary/ksutils.cpp:1358
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
-msgstr "Astrometry-ის ინდექსის ფაილის ნაგულისხმები ბილიკი შექმნილია."
+msgstr "Astrometry-ის ინდექსის ფაილის ნაგულისხმევი ბილიკი შექმნილია."
 
 #: auxiliary/ksutils.cpp:1363
 #, kde-format
@@ -698,7 +698,7 @@ msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr ""
-"Astrometry-ის ინდექსის ფაილების ნაგულისხმები საქაღალდე არ არსებობს და მისი "
+"Astrometry-ის ინდექსის ფაილების ნაგულისხმევი საქაღალდე არ არსებობს და მისი "
 "შექმნა შეუძლებელია."
 
 #: auxiliary/ksutils.cpp:1384 auxiliary/ksutils.cpp:1540
@@ -774,7 +774,7 @@ msgstr "დასრულებულია"
 #: auxiliary/kswizard.cpp:268
 #, kde-format
 msgid "There was no default data directory found in the app bundle."
-msgstr "აპის პაკეტში მონაცემების ნაგულისხმები საქაღალდე ვერ ვიპოვე."
+msgstr "აპის პაკეტში მონაცემების ნაგულისხმევი საქაღალდე ვერ ვიპოვე."
 
 #: auxiliary/kswizard.cpp:277
 #, kde-format
@@ -797,7 +797,7 @@ msgstr "მონაცემების საქაღალდის წვ�
 #, kde-format
 msgctxt "default theme name"
 msgid "Default"
-msgstr "ნაგულისხმები"
+msgstr "ნაგულისხმევი"
 
 #: auxiliary/thumbnaileditor.cpp:37
 #, kde-format
@@ -2578,7 +2578,7 @@ msgstr "კატალოგი ID-ით %1 ნაპოვნი არაა
 #: ekos/scheduler/scheduler.ui:333 skycomponents/flagcomponent.cpp:33
 #, kde-format
 msgid "Default"
-msgstr "ნაგულისხმები"
+msgstr "ნაგულისხმევი"
 
 #: dialogs/catalogcoloreditor.cpp:138
 #, kde-format
@@ -2666,7 +2666,7 @@ msgstr "ტიპი"
 #: dialogs/catalogcsvimport.cpp:188
 #, kde-format
 msgid "default"
-msgstr "ნაგულისხმები"
+msgstr "ნაგულისხმევი"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogCSVImport)
 #: dialogs/catalogcsvimport.ui:14
@@ -8571,7 +8571,7 @@ msgstr "22' - 30'"
 #: ekos/align/opsprograms.ui:17
 #, kde-format
 msgid "Load Typical Default Paths"
-msgstr "ტიპიური ნაგულისხმები ბილიკების ჩატვირთვა"
+msgstr "ტიპიური ნაგულისხმევი ბილიკების ჩატვირთვა"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:23
@@ -8591,7 +8591,7 @@ msgstr ""
 #: ekos/align/opsprograms.ui:32
 #, kde-format
 msgid "Linux Default"
-msgstr "ლინუქსის ნაგულისხმები"
+msgstr "ლინუქსის ნაგულისხმევი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:37
@@ -10315,7 +10315,7 @@ msgstr "შეცვლა"
 #: ekos/analyze/yaxistool.ui:239
 #, kde-format
 msgid "Use Default Limits"
-msgstr "ნაგულისხმები ლიმიტების გამოყენება"
+msgstr "ნაგულისხმევი ლიმიტების გამოყენება"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:134
 #, kde-format
@@ -11393,7 +11393,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:235 options/opsadvanced.ui:320
 #, kde-format
 msgid "Defaul&t"
-msgstr "ნაგულისხმები"
+msgstr "ნაგულისხმევი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
@@ -13030,7 +13030,7 @@ msgstr ""
 #: ekos/focus/focus.ui:2674
 #, kde-format
 msgid "Tolerance:"
-msgstr ""
+msgstr "დაშვება:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountC)
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountCheck)
@@ -17275,7 +17275,7 @@ msgid ""
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>დააყენეთ თქვენი ტელესკოპის დიაფრაგმის ზომა მმ-ში. ეს "
-"ნაგულისხმებია არჩეული ოპტიკური მატარებლიდან.</p></body></html>"
+"ნაგულისხმევია არჩეული ოპტიკური მატარებლიდან.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -17466,7 +17466,7 @@ msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>დააყენეთ გამოსაყენებელი F#. ეს ნაგულისხმებია არჩეული "
+"<html><head/><body><p>დააყენეთ გამოსაყენებელი F#. ეს ნაგულისხმევია არჩეული "
 "ოპტიკური მატარებლიდან.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
@@ -17489,7 +17489,7 @@ msgid ""
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>დააყენეთ გამოსაყენებელი სინათლის ტალღის სიგრძე. "
-"ნაგულისხმებად ის არჩეული ფილტრისთვის პარამეტრების მხტუნარიდანაა.  </p></"
+"ნაგულისხმევად ის არჩეული ფილტრისთვის პარამეტრების მხტუნარიდანაა.  </p></"
 "body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
@@ -21547,7 +21547,7 @@ msgstr "შეერთებისას"
 #: ekos/opsekos.ui:92
 #, kde-format
 msgid "Alwa&ys load defaults"
-msgstr "ნაგულისხმები მნიშვნელობების ყოველთვის ჩატვირთვა"
+msgstr "ნაგულისხმევი მნიშვნელობების ყოველთვის ჩატვირთვა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/opsekos.ui:109
@@ -23364,7 +23364,7 @@ msgid "↓Create  Scheduler Jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/framingassistant.ui:1223 ekos/scheduler/scheduler.ui:251
+#: ekos/scheduler/framingassistant.ui:1223
 #, kde-format
 msgid "Perform calibration and autoguiding before proceeding to the next step."
 msgstr ""
@@ -23393,15 +23393,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/framingassistant.ui:1259 ekos/scheduler/scheduler.ui:229
+#: ekos/scheduler/framingassistant.ui:1259
 #, kde-format
 msgid ""
 "Perform alignment using astrometry solver before proceeding to the next step."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/scheduler/framingassistant.ui:1278 ekos/scheduler/scheduler.ui:370
+#: ekos/scheduler/framingassistant.ui:1278
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr ""
@@ -23425,7 +23424,7 @@ msgid "M 31"
 msgstr "M 31"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/framingassistant.ui:1346 ekos/scheduler/scheduler.ui:204
+#: ekos/scheduler/framingassistant.ui:1346
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr ""
@@ -23479,7 +23478,7 @@ msgid "Perform autofocus every N jobs."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/framingassistant.ui:1484 ekos/scheduler/scheduler.ui:273
+#: ekos/scheduler/framingassistant.ui:1484
 #, kde-format
 msgid "Perform autofocusing before proceeding to the next step."
 msgstr ""
@@ -24122,7 +24121,7 @@ msgid ""
 "minutes safety margin), marking idle."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4088 ekos/scheduler/scheduler.cpp:7892
+#: ekos/scheduler/scheduler.cpp:4088 ekos/scheduler/scheduler.cpp:7921
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -24132,12 +24131,12 @@ msgstr ""
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4143 ekos/scheduler/scheduler.cpp:8124
+#: ekos/scheduler/scheduler.cpp:4143 ekos/scheduler/scheduler.cpp:8153
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4167 ekos/scheduler/scheduler.cpp:7965
+#: ekos/scheduler/scheduler.cpp:4167 ekos/scheduler/scheduler.cpp:7994
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
@@ -24598,199 +24597,199 @@ msgstr ""
 msgid "Unable to open sequence queue file '%1'"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7572
+#: ekos/scheduler/scheduler.cpp:7601
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
 "ready..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7857
+#: ekos/scheduler/scheduler.cpp:7886
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7876
+#: ekos/scheduler/scheduler.cpp:7905
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7882
+#: ekos/scheduler/scheduler.cpp:7911
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7887 ekos/scheduler/scheduler.cpp:7953
+#: ekos/scheduler/scheduler.cpp:7916 ekos/scheduler/scheduler.cpp:7982
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7925
+#: ekos/scheduler/scheduler.cpp:7954
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7937
+#: ekos/scheduler/scheduler.cpp:7966
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7939
+#: ekos/scheduler/scheduler.cpp:7968
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7958
+#: ekos/scheduler/scheduler.cpp:7987
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8017
+#: ekos/scheduler/scheduler.cpp:8046
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8030
+#: ekos/scheduler/scheduler.cpp:8059
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
 "%3)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8038
+#: ekos/scheduler/scheduler.cpp:8067
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8044
+#: ekos/scheduler/scheduler.cpp:8073
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8053
+#: ekos/scheduler/scheduler.cpp:8082
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8100
+#: ekos/scheduler/scheduler.cpp:8129
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8110
+#: ekos/scheduler/scheduler.cpp:8139
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8114
+#: ekos/scheduler/scheduler.cpp:8143
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8155
+#: ekos/scheduler/scheduler.cpp:8184
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8161
+#: ekos/scheduler/scheduler.cpp:8190
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8167
+#: ekos/scheduler/scheduler.cpp:8196
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8180
+#: ekos/scheduler/scheduler.cpp:8209
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8186
+#: ekos/scheduler/scheduler.cpp:8215
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8192
+#: ekos/scheduler/scheduler.cpp:8221
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8213
+#: ekos/scheduler/scheduler.cpp:8242
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8217
+#: ekos/scheduler/scheduler.cpp:8246
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8221
+#: ekos/scheduler/scheduler.cpp:8250
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8243
+#: ekos/scheduler/scheduler.cpp:8272
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "ამინდის პროგნოზი არც ისე სახარბიელოა"
 
-#: ekos/scheduler/scheduler.cpp:8252
+#: ekos/scheduler/scheduler.cpp:8281
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "ამინდის პროგნოზი კრიტიკულია. ობსერვატორიის გამორთვა გარდაუვალია"
 
-#: ekos/scheduler/scheduler.cpp:8272
+#: ekos/scheduler/scheduler.cpp:8301
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8300
+#: ekos/scheduler/scheduler.cpp:8329
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8323
+#: ekos/scheduler/scheduler.cpp:8352
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8333
+#: ekos/scheduler/scheduler.cpp:8362
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8335
+#: ekos/scheduler/scheduler.cpp:8364
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8343
+#: ekos/scheduler/scheduler.cpp:8372
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8503
+#: ekos/scheduler/scheduler.cpp:8532
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "ამომხსნელთან დაკავშირების დრო გავიდა: %1წმ %2"
 
-#: ekos/scheduler/scheduler.cpp:8505
+#: ekos/scheduler/scheduler.cpp:8534
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "ამომხსნელის შეცდომა: %1წმ %2"
 
-#: ekos/scheduler/scheduler.cpp:8540
+#: ekos/scheduler/scheduler.cpp:8569
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
@@ -24827,6 +24826,32 @@ msgstr "მიმდევრობა:"
 msgid "Priority:"
 msgstr "პრიორიტეტი:"
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
+#: ekos/scheduler/scheduler.ui:204
+#, kde-format
+msgid "Slew to the target and track. Done at the start of each scheduler job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
+#: ekos/scheduler/scheduler.ui:229
+#, kde-format
+msgid ""
+"Run alignment using astrometry solver. Done at the start of each scheduler "
+"job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
+#: ekos/scheduler/scheduler.ui:251
+#, kde-format
+msgid "Start autoguiding. Done at the start of each scheduler job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
+#: ekos/scheduler/scheduler.ui:273
+#, kde-format
+msgid "Run autofocus. Done at the start of each scheduler job."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
 #, kde-format
@@ -24845,6 +24870,14 @@ msgid ""
 "give them <i>repeat for N</i> or <i>repeat until terminated</i> completion "
 "conditions. Otherwise leave empty. Only applies to the Greedy scheduler "
 "algorithm.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
+#: ekos/scheduler/scheduler.ui:370
+#, kde-format
+msgid ""
+"Select the tasks to run at the start of each scheduler job. Executed in "
+"order, left to right."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
@@ -26036,7 +26069,7 @@ msgstr "დაპატარავება"
 #: fitsviewer/fitsview.cpp:2442
 #, kde-format
 msgid "Default Zoom"
-msgstr "ნაგულისხმები მასშტაბირება"
+msgstr "ნაგულისხმევი მასშტაბირება"
 
 #: fitsviewer/fitsview.cpp:2445
 #, kde-format
@@ -27666,7 +27699,7 @@ msgstr ""
 #: indi/opsindi.ui:65 indi/opsindi.ui:102
 #, kde-format
 msgid "Default INDI video port"
-msgstr "INDI-ის ნაგულისხმები ვიდეო პორტი"
+msgstr "INDI-ის ნაგულისხმევი ვიდეო პორტი"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_2)
 #: indi/opsindi.ui:68
@@ -28995,7 +29028,7 @@ msgstr "FITS ნაგულისხმევი საქაღალდე"
 #: kstars.kcfg:223
 #, kde-format
 msgid "The default location of saved FITS files"
-msgstr "შენახული FITS ფაილების ნაგულისხმები მდებარეობა"
+msgstr "შენახული FITS ფაილების ნაგულისხმევი მდებარეობა"
 
 #. i18n: ectx: label, entry (serverTransferBufferSize), group (indi)
 #: kstars.kcfg:227
@@ -31726,7 +31759,7 @@ msgstr ""
 #: kstars.kcfg:1374
 #, kde-format
 msgid "Default size for DSS images"
-msgstr "DSS გამოსახულებების ნაგულისხმები ზომა"
+msgstr "DSS გამოსახულებების ნაგულისხმევი ზომა"
 
 #. i18n: ectx: whatsthis, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1375
@@ -32647,7 +32680,7 @@ msgstr ""
 #: kstars.kcfg:1924
 #, kde-format
 msgid "Default Filter Wheel filter"
-msgstr "ნაგულისხმები ფილტრის ფილტრის ბორბალი"
+msgstr "ნაგულისხმევი ფილტრის ფილტრის ბორბალი"
 
 #. i18n: ectx: label, entry (UseFocusDarkFrame), group (Focus)
 #: kstars.kcfg:1927
@@ -33953,10 +33986,9 @@ msgstr "ტელესკოპის ფოკუსური მანძი�
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:2809
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Reducer ratio"
-msgstr "ფოკუსური პროპორცია"
+msgstr "ფოკალური რედუქტორის პროპორცია"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
 #: kstars.kcfg:2813
@@ -63178,10 +63210,9 @@ msgstr "რელიეფი"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
 #: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Image Overlays"
-msgstr "დადება"
+msgstr "გამოსახულების განლაგებები"
 
 #: kstarsactions.cpp:1150
 #, kde-format
@@ -63204,17 +63235,14 @@ msgid "Show Terrain"
 msgstr "რელიეფის ჩვენება"
 
 #: kstarsactions.cpp:1178
-#, fuzzy, kde-format
-#| msgid "HiPS Overlay"
+#, kde-format
 msgid "Hide Image Overlays"
-msgstr "HiPS დადება"
+msgstr "გამოსახულების განლაგებების დამალვა"
 
 #: kstarsactions.cpp:1178
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Image as"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "გამოსახულების შენახვა, როგორც"
+msgstr "გამოსახულების განლაგებების ჩვენება"
 
 #: kstarsactions.cpp:1297
 #, kde-format
@@ -63644,7 +63672,7 @@ msgstr "&კოორტინატების ხელით დაყენ
 #: kstarsinit.cpp:252
 #, kde-format
 msgid "&Default Zoom"
-msgstr "&ნაგულისხმები მასშტაბირება"
+msgstr "&ნაგულისხმევი მასშტაბირება"
 
 #: kstarsinit.cpp:255
 #, kde-format
@@ -64564,17 +64592,17 @@ msgstr "მოითმინეთ, მიმდინარეობს კო
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:58
 #, kde-kuit-format
 msgid "Default city"
-msgstr "ნაგულისხმები ქალაქი"
+msgstr "ნაგულისხმევი ქალაქი"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:59
 #, kde-kuit-format
 msgid "Default province"
-msgstr "ნაგულისხმები პროვინცია"
+msgstr "ნაგულისხმევი პროვინცია"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:60
 #, kde-kuit-format
 msgid "Default country"
-msgstr "ნაგულისხმები ქვეყანა"
+msgstr "ნაგულისხმევი ქვეყანა"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:62
 #, kde-kuit-format
@@ -66044,7 +66072,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Default"
-msgstr "ნაგულისხმები"
+msgstr "ნაგულისხმევი"
 
 #: libindi_strings.cpp:106
 #, kde-kuit-format
@@ -69872,7 +69900,7 @@ msgstr ""
 #: options/opsadvanced.ui:583
 #, kde-format
 msgid "Default cursor:"
-msgstr "ნაგულისხმები კურსორი:"
+msgstr "ნაგულისხმევი კურსორი:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:590
@@ -70845,10 +70873,9 @@ msgstr "ლოკალური მერიდიანი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "გამოსახულების ჩვენება "
+msgstr "გამოსახულების განლაგებების ჩვენება"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -70860,10 +70887,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "ტელესკოპზე დაცენტრება"
+msgstr "მონიშვნისას ცის რუკაზე დაცენტრება"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -70876,10 +70902,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
-#, fuzzy, kde-format
-#| msgid "Maximum allowed separation:"
+#, kde-format
 msgid "Maximum image dimension"
-msgstr "მაქსიმალური დასაშვები დაშორება:"
+msgstr "გამოსახულების მაქსიმალური ზომა"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:140
@@ -70891,10 +70916,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgid "Overlay Directory"
-msgstr "საქაღალდე"
+msgstr "განლაგების საქაღალდე"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
@@ -70908,7 +70932,7 @@ msgid ""
 "above. You can select many rows (with click and shift click) and it will "
 "attempt to solve them all.</p><p>Plate solving may be difficult. You may not "
 "be able to plate solve all your images. You can try to supply scales and "
-"positions, and try different profiles. If you are unsucessful, but still "
+"positions, and try different profiles. If you are unsuccessful, but still "
 "want to display an image, you can enter an RA, DEC, Scale, Orientation in "
 "the appropriate columns for the row you're interested in, then manually set "
 "the Status column to OK.</p><p>You cannot re-platesolve a row whose status "
@@ -70933,10 +70957,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px"
-msgstr "ნაგულისხმები"
+msgstr "ნაგულისხმევი a-s/px"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -70947,10 +70970,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout"
-msgstr "ვადა:"
+msgstr "ვადა"
 
 #: options/opssatellites.cpp:100
 #, kde-format
@@ -72298,8 +72320,7 @@ msgid "Creating horizon"
 msgstr "ჰოზირონტის შექმნა"
 
 #: skycomponents/imageoverlaycomponent.cpp:60
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "ფაილის სახელი"
 
@@ -72317,10 +72338,9 @@ msgid "A-S/px"
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:63
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "მარჯვნივ შებრუნება"
+msgstr "აღმოსავლეთ-მარჯვნივ"
 
 #: skycomponents/imageoverlaycomponent.cpp:162
 #, kde-format
@@ -72385,10 +72405,9 @@ msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:450
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "გამოსახულებების ჩატვირთვა..."
+msgstr "გამოსახულების ფაილებს ჩატვირთვა..."
 
 #: skycomponents/imageoverlaycomponent.cpp:456
 #, kde-format
@@ -72396,41 +72415,34 @@ msgid "%1 image files loaded."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Unprocessed"
-msgstr "პროცესი"
+msgstr "დაუმუშავებელი"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "ფაილი"
+msgstr "არასწორი ფაილი"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solve Failed"
-msgstr "ამომხსნელის შეცდომა."
+msgstr "ამომხსნელის შეცდომა"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgid "OK"
-msgstr "კაუჭი"
+msgstr "დიახ"
 
 #: skycomponents/imageoverlaycomponent.cpp:541
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "მარჯვნივ/მარცხნივ"
+msgstr "დასავლეთ-მარჯვნივ"
 
 #: skycomponents/imageoverlaycomponent.cpp:542
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "მარჯვნივ შებრუნება"
+msgstr "აღმოსავლეთ-მარჯვნივ"
 
 #: skycomponents/imageoverlaycomponent.cpp:596
 #, kde-format
@@ -72438,10 +72450,9 @@ msgid "Solving: %1. %2 in queue."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:598
-#, fuzzy, kde-format
-#| msgid "Min: %1"
+#, kde-format
 msgid "Solving: %1."
-msgstr "მინ: %1"
+msgstr "ამოხსნა: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:663
 #, kde-format
@@ -72454,10 +72465,9 @@ msgid "Can't show %1. Image not loaded."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:701
-#, fuzzy, kde-format
-#| msgid "Solving Method"
+#, kde-format
 msgid "Solving aborted."
-msgstr "ამოხსნის მეთოდი"
+msgstr "ამოხსნა შეწყდა."
 
 #: skycomponents/imageoverlaycomponent.cpp:736
 #, kde-format
@@ -72476,16 +72486,14 @@ msgid ""
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:792
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s %2"
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "ამომხსნელთან დაკავშირების დრო გავიდა: %1წმ %2"
+msgstr "ამომხსნელის მოლოდინის ვადა ამოიწურა %1წმ-ში"
 
 #: skycomponents/imageoverlaycomponent.cpp:798
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "ამომხსნელის შეცდომა: %1წმ %2"
+msgstr "ამომხსნელის შეცდომა %1წმ-ში"
 
 #: skycomponents/imageoverlaycomponent.cpp:811
 #, kde-format
