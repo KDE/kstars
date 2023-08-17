@@ -201,7 +201,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Slew to the target and track it before proceeding to the next step.</string>
+               <string>Slew to the target and track. Done at the start of each scheduler job.</string>
               </property>
               <property name="layoutDirection">
                <enum>Qt::LeftToRight</enum>
@@ -226,7 +226,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Perform alignment using astrometry solver before proceeding to the next step.</string>
+               <string>Run alignment using astrometry solver. Done at the start of each scheduler job.</string>
               </property>
               <property name="text">
                <string>Align</string>
@@ -248,7 +248,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Perform calibration and autoguiding before proceeding to the next step.</string>
+               <string>Start autoguiding. Done at the start of each scheduler job.</string>
               </property>
               <property name="text">
                <string>Guide</string>
@@ -270,7 +270,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Perform autofocusing before proceeding to the next step.</string>
+               <string>Run autofocus. Done at the start of each scheduler job.</string>
               </property>
               <property name="layoutDirection">
                <enum>Qt::LeftToRight</enum>
@@ -367,7 +367,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Select which steps to execute before starting the capture process.</string>
+             <string>Select the tasks to run at the start of each scheduler job. Executed in order, left to right.</string>
             </property>
             <property name="text">
              <string>Steps:</string>

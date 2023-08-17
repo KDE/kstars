@@ -282,6 +282,9 @@ QString PlaceholderPath::generateFilename(const QMap<PathProperty, QVariant> &pa
 
     QString tempFormat = currentDir + format + "_%s" + QString::number(pathPropertyMap[PP_SUFFIX].toUInt());
 
+#if defined(Q_OS_WIN)
+    tempFormat.replace("\\", "/");
+#endif
     QRegularExpressionMatch match;
     QRegularExpression
     // This is the original regex with %p & %d tags - disabled for now to simply

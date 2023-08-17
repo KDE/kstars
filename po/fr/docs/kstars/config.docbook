@@ -173,12 +173,12 @@
 </para>
 
 <para
->La fenêtre <guilabel
->Configuration de &kstars;</guilabel
-> est divisée en douze pages : <guilabel
->Catalogues</guilabel
+>The <guilabel
+>Configure - &kstars;</guilabel
+> window is divided into fourteen pages: <guilabel
+>Catalogs</guilabel
 >, <guilabel
->Système solaire</guilabel
+>Solar System</guilabel
 >, <guilabel
 >Satellites</guilabel
 >, <guilabel
@@ -188,7 +188,9 @@
 >, <guilabel
 >Terrain</guilabel
 >, <guilabel
->Couleurs</guilabel
+>Image Overlays</guilabel
+>, <guilabel
+>Colors</guilabel
 >, <guilabel
 >FITS</guilabel
 >, <guilabel
@@ -197,8 +199,10 @@
 >Ekos</guilabel
 >, <guilabel
 >Xplanet</guilabel
-> et <guilabel
->Avancé</guilabel
+>, <guilabel
+>Advanced</guilabel
+> and <guilabel
+>Developer</guilabel
 >. </para>
 
 <!-- Catalogs page: -->
@@ -296,6 +300,24 @@
 >terrains</guilabel
 > vous permet de définir les terrains ou les images de paysage et de configurer leurs options d'accélération. </para>
 
+<!-- Image Overlays page: -->
+<para>
+<indexterm
+><primary
+>La fenêtre de configuration de &kstars;</primary>
+<secondary
+>Image Overlays page</secondary
+></indexterm>
+<indexterm
+><primary
+>Image Overlays</primary>
+<secondary
+>Personnalisation</secondary
+></indexterm
+>The <guilabel
+>Image Overlays</guilabel
+> page allows you to add and manage your own images that will be displayed in the skymap. </para>
+
 <!-- Colors page: -->
 <para>
 <indexterm
@@ -363,6 +385,18 @@
 >La page <guilabel
 >Avancé</guilabel
 > fournit un contrôle fin des comportements les plus subtils de &kstars;. </para>
+
+<!-- Developer page: -->
+<para>
+<indexterm
+><primary
+>La fenêtre de configuration de &kstars;</primary>
+<secondary
+>Page Avancé</secondary
+></indexterm
+>The <guilabel
+>Developer</guilabel
+> page allows you to enable or disable a few options mostly useful for developers or for folks looking to help debug issues. Currently these are enabling the saving of images during Ekos's autofocus, guiding and alignment. </para>
 </sect1>
 
 <sect1 id="catalogs">
@@ -1494,6 +1528,81 @@
 ></menuchoice
 >. </para>
 </tip>
+</sect1>
+
+<sect1 id="imageOverlays">
+<title
+>Image Overlays</title>
+<screenshot>
+<screeninfo
+>Image Overlays on SkyMap</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays2.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Image Overlays on SkyMap</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>La fenêtre de configuration de &kstars;</primary>
+<secondary
+>Image Overlays page</secondary
+></indexterm
+>Image overlays are custom images (typically .jpg) that are rendered onto the skymap over stars and other skymap items, but below the terrain. These images are added by you, the user, a sort of personal sky catalog. If configured properly, these personal images can be displayed almost perfectly aligned with other objects in the sky. </para>
+<screenshot>
+<screeninfo
+>Image Overlays Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays1.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Image Overlays Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>The <guilabel
+>Image Overlays</guilabel
+> page lets you configure whether image overlays will be shown on the skymap, and helps you add them to the system. The image at the start of this section shows the skymap with image overlays enabled and some image overlays loaded. </para>
+<para
+>Each time it starts up, KStars looks for new image overlay images in a special directory, parallel to the logs directory, named imageOverlays. On Linux this can be found in ~/.local/share/kstars/imageOverlays. The exact location for your system can be found by clicking the <guilabel
+>Overlay Directory</guilabel
+> button near the top of the Image Overlays config page shown at the top of this section. To start, add your images to that directory. Ideally, for performance reasons these aren't massive files, but probably images with widths 1000 or 2000 should be fine. To add additional images in the future, add them to the same directory and restart KStars. </para>
+<para
+>Start KStars once you have images in the imageOverlays directory. If you then go to the Image Overlays config page, you should see the new files listed in the table. The new images will show their status as "Unprocessed". Only images whose status is "OK" are displayed on the SkyMap. That is because KStars needs to know the sky location, size, and orientation for these images before it can display them. To change the status to OK you need to plate-solve the images or add the required information manually--see below. </para>
+<para
+>To prepare your images for display, you need to plate-solve the images (one time only). To do this, find an image in the table, click on its filename, and then click <guilabel
+>Solve</guilabel
+> below the table. The Solve button's label should switch to <guilabel
+>Cancel</guilabel
+> during the solve, and then when completed successfully, the solved parameters are displayed in the table and the status is changed to "OK". A successful plate-solve's information is stored in the user database so that solving doesn't need to be repeated. The solved image should from then on appear in its proper position in the SkyMap. You can plate-solve multiple images in a single operation by clicking on the first image's filename, then shift clicking on another filename. All the image files between the filenames should be selected. Then clicking Solve will attempt to solve them all. However, KStars will not attempt to plate-solve images whose status is "OK", it will skip those images. (If you wish to re-plate-solve images with status "OK", then manually change their status to "Unprocessed" and click "Solve"). It is possible that if you select several images, a few of them will not be successfully solved. </para>
+<para
+>Plate solving these images can sometimes be difficult. That is because at this point the system has no information as to the scale or position to look, and thus it is a blind solve. To improve your chance for success, you can enter an approxiate RA/DEC center sky position into the RA and DEC columns for the row you are trying to solve. You can also add an image scale, in arcseconds-per-pixel. You can add a default scale to the right of the Solve button in the box labelled <guilabel
+>Default a-s/px</guilabel
+> so that all solving attempts use this scale by default. You can also add a scale directly into the table-row-column, which would override the default. You can choose which StellarSolver profile the solver uses (these profiles can be edited in Ekos' align tab). Finally, you can adjust the solver's <guilabel
+>Timeout</guilabel
+> in seconds. </para>
+<para
+>If you have problematic images that won't solve, you can still display them by manually entering the values (that the solver didn't find) into the table. They are the RA, DEC, arcsecond-per-pixel, orientation angle, and east-to-the-right (or West-to-the-right) settings. Once you have done that, you can then change the status to "OK" and KStars will save these values to the user database as if they had been automatically solved. </para>
+<para
+>There are a few more controls on the Image Overlays settings page. The <guilabel
+>Show image overlays</guilabel
+> checkbox at the top of the page enables or disables this feature--that is, toggles whether any image overlays are display on the SkyMap or not. </para>
+<para
+>The <guilabel
+>Maximum image dimension</guilabel
+> box allows you to vary the maximum image dimension used for images. That is, if you place images that are, for example, 5000 pixels wide into the imageOverlays directory, but this input box's value is 1000, then the 5000-pixel-images will be read in, but then downsampled to 1000-pixels-wide before display. This is done to reduce the memory footprint and cpu usage of this feature. It would be more efficient to add image files with the desired image width. </para>
+<para
+>The <guilabel
+>Center SkyMap on selection</guilabel
+> checkbox allows you to easily navigate to the overlay images without directly manipulating the SkyMap. With this enabled, you select a row in the overlay table (e.g. by clicking on the filename field) and the skymap is moved to that image if the image's status is OK. At that point you can move from one image to the next with up/down arrow keyboard commands. </para>
 </sect1>
 
 <sect1 id="colors">

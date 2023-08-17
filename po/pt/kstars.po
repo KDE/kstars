@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:41+0000\n"
+"POT-Creation-Date: 2023-08-17 00:41+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -26800,7 +26800,7 @@ msgid "↓Create  Scheduler Jobs"
 msgstr "↓ Criar as Tarefas do Agendamento"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/framingassistant.ui:1223 ekos/scheduler/scheduler.ui:251
+#: ekos/scheduler/framingassistant.ui:1223
 #, kde-format
 msgid "Perform calibration and autoguiding before proceeding to the next step."
 msgstr ""
@@ -26835,7 +26835,7 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/framingassistant.ui:1259 ekos/scheduler/scheduler.ui:229
+#: ekos/scheduler/framingassistant.ui:1259
 #, kde-format
 msgid ""
 "Perform alignment using astrometry solver before proceeding to the next step."
@@ -26844,8 +26844,7 @@ msgstr ""
 "próxima fase."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/scheduler/framingassistant.ui:1278 ekos/scheduler/scheduler.ui:370
+#: ekos/scheduler/framingassistant.ui:1278
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr ""
@@ -26870,7 +26869,7 @@ msgid "M 31"
 msgstr "M 31"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/framingassistant.ui:1346 ekos/scheduler/scheduler.ui:204
+#: ekos/scheduler/framingassistant.ui:1346
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr "Deslocar para o alvo e segui-lo antes de passar para o passo seguinte."
@@ -26928,7 +26927,7 @@ msgid "Perform autofocus every N jobs."
 msgstr "Forçar a focagem automática a cada N tarefas."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/framingassistant.ui:1484 ekos/scheduler/scheduler.ui:273
+#: ekos/scheduler/framingassistant.ui:1484
 #, kde-format
 msgid "Perform autofocusing before proceeding to the next step."
 msgstr "Efectuar a focagem automática antes de passar à próxima fase."
@@ -27669,7 +27668,7 @@ msgstr ""
 "A tarefa '%3' está agora próxima do limite da madrugada astronómica às %1 "
 "(%2 minutos de margem de segurança); a marcar como inactiva."
 
-#: ekos/scheduler/scheduler.cpp:4088 ekos/scheduler/scheduler.cpp:7892
+#: ekos/scheduler/scheduler.cpp:4088 ekos/scheduler/scheduler.cpp:7921
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -27683,14 +27682,14 @@ msgstr ""
 "Atenção: o procedimento de captura da tarefa '%1' falhou; a marcar como "
 "interrompido."
 
-#: ekos/scheduler/scheduler.cpp:4143 ekos/scheduler/scheduler.cpp:8124
+#: ekos/scheduler/scheduler.cpp:4143 ekos/scheduler/scheduler.cpp:8153
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Atenção: o procedimento de foco da tarefa '%1' falhou; a marcar como "
 "interrompido."
 
-#: ekos/scheduler/scheduler.cpp:4167 ekos/scheduler/scheduler.cpp:7965
+#: ekos/scheduler/scheduler.cpp:4167 ekos/scheduler/scheduler.cpp:7994
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
@@ -28202,7 +28201,7 @@ msgstr "O procedimento de encerramento terminou."
 msgid "Unable to open sequence queue file '%1'"
 msgstr "Não foi possível aceder ao ficheiro da fila de sequência '%1'"
 
-#: ekos/scheduler/scheduler.cpp:7572
+#: ekos/scheduler/scheduler.cpp:7601
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -28211,17 +28210,17 @@ msgstr ""
 "A suspender por %1 o relógio da simulação até que a próxima tarefa de "
 "observação esteja pronta..."
 
-#: ekos/scheduler/scheduler.cpp:7857
+#: ekos/scheduler/scheduler.cpp:7886
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "O alinhamento da tarefa '%1' terminou."
 
-#: ekos/scheduler/scheduler.cpp:7876
+#: ekos/scheduler/scheduler.cpp:7905
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Atenção: o alinhamento da tarefa '%1' foi mal-sucedido."
 
-#: ekos/scheduler/scheduler.cpp:7882
+#: ekos/scheduler/scheduler.cpp:7911
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -28229,39 +28228,39 @@ msgstr ""
 "Atenção: a tarefa '%1' forçou um reinício do modelo da montagem após falhar "
 "o alinhamento #%2."
 
-#: ekos/scheduler/scheduler.cpp:7887 ekos/scheduler/scheduler.cpp:7953
+#: ekos/scheduler/scheduler.cpp:7916 ekos/scheduler/scheduler.cpp:7982
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "A reiniciar o processo de alinhamento %1..."
 
-#: ekos/scheduler/scheduler.cpp:7925
+#: ekos/scheduler/scheduler.cpp:7954
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "A guia da tarefa '%1' está em curso."
 
-#: ekos/scheduler/scheduler.cpp:7937
+#: ekos/scheduler/scheduler.cpp:7966
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Atenção: a guia da tarefa '%1' foi mal-sucedida."
 
-#: ekos/scheduler/scheduler.cpp:7939
+#: ekos/scheduler/scheduler.cpp:7968
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Atenção: a calibração da tarefa '%1' falhou."
 
-#: ekos/scheduler/scheduler.cpp:7958
+#: ekos/scheduler/scheduler.cpp:7987
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "A tarefa '%1' está em pleno processo de guia, e o mesmo será reiniciado "
 "daqui a %2 segundos."
 
-#: ekos/scheduler/scheduler.cpp:8017
+#: ekos/scheduler/scheduler.cpp:8046
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr "Atenção: a tarefa '%1' não conseguiu capturar o alvo."
 
-#: ekos/scheduler/scheduler.cpp:8030
+#: ekos/scheduler/scheduler.cpp:8059
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
@@ -28270,64 +28269,64 @@ msgstr ""
 "A tarefa '%1' está a capturar e está a reiniciar o seu procedimento de guia "
 "(tentativa #%2 de %3)."
 
-#: ekos/scheduler/scheduler.cpp:8038
+#: ekos/scheduler/scheduler.cpp:8067
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Atenção: o procedimento de captura da tarefa '%1' falhou; a reiniciar a "
 "captura."
 
-#: ekos/scheduler/scheduler.cpp:8044
+#: ekos/scheduler/scheduler.cpp:8073
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "Atenção: o procedimento de captura da tarefa '%1' falhou; a marcar como "
 "interrompida."
 
-#: ekos/scheduler/scheduler.cpp:8053
+#: ekos/scheduler/scheduler.cpp:8082
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Tarefa do Ekos (%1) - Captura terminada"
 
-#: ekos/scheduler/scheduler.cpp:8100
+#: ekos/scheduler/scheduler.cpp:8129
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr "A focagem da tarefa '%1' está completa."
 
-#: ekos/scheduler/scheduler.cpp:8110
+#: ekos/scheduler/scheduler.cpp:8139
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Atenção: a focagem da tarefa '%1' foi mal-sucedida."
 
-#: ekos/scheduler/scheduler.cpp:8114
+#: ekos/scheduler/scheduler.cpp:8143
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr ""
 "A tarefa '%1' está a reiniciar o seu procedimento de focagem automático."
 
-#: ekos/scheduler/scheduler.cpp:8155
+#: ekos/scheduler/scheduler.cpp:8184
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "O deslocamento da tarefa '%1' está completo."
 
-#: ekos/scheduler/scheduler.cpp:8161
+#: ekos/scheduler/scheduler.cpp:8190
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Atenção: o deslocamento da tarefa '%1' foi mal-sucedido; a marcar como "
 "terminado devido a erros."
 
-#: ekos/scheduler/scheduler.cpp:8167
+#: ekos/scheduler/scheduler.cpp:8196
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Atenção: a tarefa '%1' não está em deslocamento; a reiniciá-la."
 
-#: ekos/scheduler/scheduler.cpp:8180
+#: ekos/scheduler/scheduler.cpp:8209
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "O reposicionamento da tarefa '%1' está completo."
 
-#: ekos/scheduler/scheduler.cpp:8186
+#: ekos/scheduler/scheduler.cpp:8215
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -28335,44 +28334,44 @@ msgstr ""
 "Atenção: o reposicionamento da tarefa '%1' falhou; a marcar como terminado "
 "devido a erros."
 
-#: ekos/scheduler/scheduler.cpp:8192
+#: ekos/scheduler/scheduler.cpp:8221
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Atenção: a tarefa '%1' não está a posicionar de novo; a reiniciar."
 
-#: ekos/scheduler/scheduler.cpp:8213
+#: ekos/scheduler/scheduler.cpp:8242
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "As condições meteorológicas estão OK."
 
-#: ekos/scheduler/scheduler.cpp:8217
+#: ekos/scheduler/scheduler.cpp:8246
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Atenção: as condições meteorológicas estão na zona de AVISO."
 
-#: ekos/scheduler/scheduler.cpp:8221
+#: ekos/scheduler/scheduler.cpp:8250
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Atenção: as condições meteorológicas estão na zona de PERIGO!"
 
-#: ekos/scheduler/scheduler.cpp:8243
+#: ekos/scheduler/scheduler.cpp:8272
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "As condições meteorológicas estão na zona de aviso"
 
-#: ekos/scheduler/scheduler.cpp:8252
+#: ekos/scheduler/scheduler.cpp:8281
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "As condições meteorológicas estão num nível crítico. O encerramento do "
 "observatório está eminente"
 
-#: ekos/scheduler/scheduler.cpp:8272
+#: ekos/scheduler/scheduler.cpp:8301
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr "A iniciar o procedimento de encerramento devido ao mau tempo."
 
-#: ekos/scheduler/scheduler.cpp:8300
+#: ekos/scheduler/scheduler.cpp:8329
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
@@ -28381,7 +28380,7 @@ msgstr ""
 "A tarefa '%1' está agendada para execução às %2. O observatório está "
 "agendado para encerramento até a próxima tarefa estar pronta."
 
-#: ekos/scheduler/scheduler.cpp:8323
+#: ekos/scheduler/scheduler.cpp:8352
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
@@ -28390,17 +28389,17 @@ msgstr ""
 "A tarefa '%1' está agendada para execução às %2. A bloquear a montagem até "
 "que a tarefa esteja pronta."
 
-#: ekos/scheduler/scheduler.cpp:8333
+#: ekos/scheduler/scheduler.cpp:8362
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "A suspender até que a tarefa de observação %1 esteja pronta às %2..."
 
-#: ekos/scheduler/scheduler.cpp:8335
+#: ekos/scheduler/scheduler.cpp:8364
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "O agendamento está no modo suspenso"
 
-#: ekos/scheduler/scheduler.cpp:8343
+#: ekos/scheduler/scheduler.cpp:8372
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -28409,17 +28408,17 @@ msgstr ""
 "Atenção: A tarefa '%1' ocorre daqui a %2, pelo que poderá querer activar o "
 "Encerramento Preemptivo."
 
-#: ekos/scheduler/scheduler.cpp:8503
+#: ekos/scheduler/scheduler.cpp:8532
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "A resolução expirou o tempo-limite: %1s %2"
 
-#: ekos/scheduler/scheduler.cpp:8505
+#: ekos/scheduler/scheduler.cpp:8534
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "A resolução falhou: %1s %2"
 
-#: ekos/scheduler/scheduler.cpp:8540
+#: ekos/scheduler/scheduler.cpp:8569
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
@@ -28460,6 +28459,38 @@ msgstr "Sequência:"
 msgid "Priority:"
 msgstr "Prioridade:"
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
+#: ekos/scheduler/scheduler.ui:204
+#, fuzzy, kde-format
+#| msgid "Slew to the target and track it before proceeding to the next step."
+msgid "Slew to the target and track. Done at the start of each scheduler job."
+msgstr "Deslocar para o alvo e segui-lo antes de passar para o passo seguinte."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
+#: ekos/scheduler/scheduler.ui:229
+#, fuzzy, kde-format
+#| msgid ""
+#| "Perform alignment using astrometry solver before proceeding to the next "
+#| "step."
+msgid ""
+"Run alignment using astrometry solver. Done at the start of each scheduler "
+"job."
+msgstr ""
+"Efectuar o alinhamento com a resolução do Astrometry, antes de passar à "
+"próxima fase."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
+#: ekos/scheduler/scheduler.ui:251
+#, kde-format
+msgid "Start autoguiding. Done at the start of each scheduler job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
+#: ekos/scheduler/scheduler.ui:273
+#, kde-format
+msgid "Run autofocus. Done at the start of each scheduler job."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
 #, kde-format
@@ -28487,6 +28518,14 @@ msgstr ""
 "(N=2 ou mais)</i> ou <i>repetir até terminado</i> - caso contrário, deixe-as "
 "em branco. Só se aplica no algoritmo de agendamento Ambicioso.</p></body></"
 "html>"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
+#: ekos/scheduler/scheduler.ui:370
+#, kde-format
+msgid ""
+"Select the tasks to run at the start of each scheduler job. Executed in "
+"order, left to right."
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -75720,7 +75759,7 @@ msgid ""
 "above. You can select many rows (with click and shift click) and it will "
 "attempt to solve them all.</p><p>Plate solving may be difficult. You may not "
 "be able to plate solve all your images. You can try to supply scales and "
-"positions, and try different profiles. If you are unsucessful, but still "
+"positions, and try different profiles. If you are unsuccessful, but still "
 "want to display an image, you can enter an RA, DEC, Scale, Orientation in "
 "the appropriate columns for the row you're interested in, then manually set "
 "the Status column to OK.</p><p>You cannot re-platesolve a row whose status "
