@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-17 00:41+0000\n"
-"PO-Revision-Date: 2023-08-16 11:13+0200\n"
+"PO-Revision-Date: 2023-08-17 14:15+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -27009,35 +27009,36 @@ msgstr "Prioriteit:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
 #: ekos/scheduler/scheduler.ui:204
-#, fuzzy, kde-format
-#| msgid "Slew to the target and track it before proceeding to the next step."
+#, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
-msgstr "Draaien naar doel, en het volgen, voor de volgende stap."
+msgstr ""
+"Draaien naar doel en het volgen. Wordt gedaan bij het begin van elke "
+"geplande taak."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
 #: ekos/scheduler/scheduler.ui:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "Perform alignment using astrometry solver before proceeding to the next "
-#| "step."
+#, kde-format
 msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
 msgstr ""
-"Uitlijnen uitvoeren met behulp van de oplosser van Astrometry, voor de "
-"volgende stap."
+"Uitlijnen uitvoeren met behulp van de oplosser van astrometry. Wordt gedaan "
+"aan het begin van elke geplande taak."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/scheduler.ui:251
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Automatisch volgen beginnen. Wordt gedaan bij het begin van elke geplande "
+"taak."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Autofocus uitvoeren. Wordt gedaan bij het begin van elke geplande taak."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
@@ -27073,6 +27074,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"De uit te voeren taak selecteren bij het begin van elke geplande taak. "
+"uitgevoerd in de volgorde, links naar rechts."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -74186,6 +74189,22 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Op de geselecteerde overlays van afbeelding(en) plaat "
+"oplossen toepassen.</p><p>Gebruikt het geselecteerde uitlijnprofiel rechts, "
+"maar niet schaal uitlijnen noch positie. Het zal de standaard schaal rechts "
+"(b-s/px) gebruiken, als er geen is gegeven in de tabelrij en de schaalkolom "
+"(0 is geen schaalbeperking). Het zal geen positie gebruiken tenzij RA en DEC "
+"zijn ingevoerd in de tabelrij. Gebruikt de bovenstaande tijdslimiet. U kunt "
+"vele rijen selecteren (met klik en shift-klik) en het zal proberen ze "
+"allemaal op te lossen.</p><p>Plaat oplossen kan moeilijk zijn. U zou niet in "
+"staat kunnen zijn om dat te doen met al uw afbeeldingen. U kunt proberen "
+"schalen en posities te leveren en verschillende profielen te proberen. Heeft "
+"dat geen succes, maar u wilt nog steeds een afbeelding te tonen, dan kunt u "
+"een RA, DEC, Schaal, Oriëntatie in de bijbehorende kolommen in te voeren "
+"voor de rij waarin u bent geïnteresseerd, zet daarna handmatig de "
+"statuskolom naar OK.</p><p>U kunt niet een rij waarvan de status OK is, "
+"opnieuw plaat oplossen, maar u kunt handmatig de status in iets anders "
+"zetten, daarna is plaat oplossen ingeschakeld.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
@@ -75703,44 +75722,44 @@ msgstr ""
 #: skycomponents/imageoverlaycomponent.cpp:230
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
-msgstr ""
+msgstr "Kan status niet op OK zetten. Legale niet-0 RA-waarde vereist."
 
 #: skycomponents/imageoverlaycomponent.cpp:241
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
-msgstr ""
+msgstr "Kan status niet op OK zetten. Legale niet-0 DEC-waarde vereist."
 
 #: skycomponents/imageoverlaycomponent.cpp:252
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
-msgstr ""
+msgstr "Kan status niet op OK zetten. Legale oriëntatie vereist."
 
 #: skycomponents/imageoverlaycomponent.cpp:263
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
-msgstr ""
+msgstr "Kan status niet op OK zetten. Legale niet-0 b-s/px-waarde vereist."
 
 #: skycomponents/imageoverlaycomponent.cpp:293
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "OK status opgeslagen voor %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:386
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Bijwerken uit map: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:435
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 overlays (%2 nieuw, %3 verwijderd) %4 opgelost"
 
 #: skycomponents/imageoverlaycomponent.cpp:437
 #: skycomponents/imageoverlaycomponent.cpp:555
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Overlays van afbeelding.  %1 afbeeldingen, %2 beschikbaar."
 
 #: skycomponents/imageoverlaycomponent.cpp:450
 #, kde-format
@@ -75795,12 +75814,12 @@ msgstr "Oplossen: %1."
 #: skycomponents/imageoverlaycomponent.cpp:663
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Kan %1 niet tonen. Niet plaat-opgelost."
 
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Kan %1 niet tonen. Afbeelding niet geladen."
 
 #: skycomponents/imageoverlaycomponent.cpp:701
 #, kde-format
@@ -75810,18 +75829,20 @@ msgstr "Oplossen afgebroken."
 #: skycomponents/imageoverlaycomponent.cpp:736
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Overslaan, al opgelost: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:755
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 is al opgelost. Overslaan."
 
 #: skycomponents/imageoverlaycomponent.cpp:775
 #, kde-format
 msgid ""
 "Reload not yet implemented. Currently you need to restart KStars to do this."
 msgstr ""
+"Opnieuw laden nog niet geïmplementeerd. Op dit moment moet u KStars opnieuw "
+"starten om dit te doen."
 
 #: skycomponents/imageoverlaycomponent.cpp:792
 #, kde-format
@@ -75836,7 +75857,7 @@ msgstr "Oplossen is mislukt na %1s"
 #: skycomponents/imageoverlaycomponent.cpp:811
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Succes van oplosser in %1s: RA %2 DEC %3 Schaal %4 hoek %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:843
 #, kde-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-17 00:41+0000\n"
-"PO-Revision-Date: 2023-08-16 13:39+0200\n"
+"PO-Revision-Date: 2023-08-17 13:00+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6556,7 +6556,7 @@ msgstr "Píx:"
 #: ekos/align/align.ui:440
 #, kde-format
 msgid "Image rotation angle, East of North"
-msgstr "Angle de rotació de la imatge, est o nord"
+msgstr "Angle de rotació de la imatge, est del nord"
 
 # Nota: (PA)
 #  - Position Angle
@@ -6571,7 +6571,7 @@ msgstr "AP:"
 #: ekos/align/align.ui:450
 #, kde-format
 msgid "Position angle in degrees, East of North"
-msgstr "Angle de posició en graus, a l'est del nord"
+msgstr "Angle de posició en graus, est del nord"
 
 # FL (Focal lenght) -> DF (Distància focal)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
@@ -9923,7 +9923,7 @@ msgstr "Captura"
 #: skycomponents/imageoverlaycomponent.cpp:782
 #, kde-format
 msgid "Solve"
-msgstr "Solució"
+msgstr "Soluciona"
 
 #. i18n: ectx: property (text), widget (QLabel, PAs1)
 #. i18n: ectx: property (text), widget (QLabel, PAs2)
@@ -27361,37 +27361,37 @@ msgstr "Prioritat:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
 #: ekos/scheduler/scheduler.ui:204
-#, fuzzy, kde-format
-#| msgid "Slew to the target and track it before proceeding to the next step."
+#, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
 msgstr ""
-"Orienta a l'objectiu i fes el seguiment abans de continuar amb el pas "
-"següent."
+"Orienta a l'objectiu i seguiment. Es fa al començament de cada tasca del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
 #: ekos/scheduler/scheduler.ui:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "Perform alignment using astrometry solver before proceeding to the next "
-#| "step."
+#, kde-format
 msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
 msgstr ""
-"Realitza l'alineació usant el solucionador d'astrometria abans de continuar "
-"amb el pas següent."
+"Realitza l'alineació usant el solucionador d'astrometria. Es fa al "
+"començament de cada tasca del programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/scheduler.ui:251
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Inicia el guiatge automàtic. Es fa al començament de cada tasca del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Executa l'enfocament automàtic. Es fa al començament de cada tasca del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
@@ -27427,6 +27427,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"Seleccioneu les tasques a executar al començament de cada tasca del "
+"programador. S'executen en ordre, d'esquerra a dreta."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -74859,23 +74861,7 @@ msgstr "Directori de superposicions"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plate solve the selected overlay image(s).</"
-#| "p><p>Uses the selected Align profile to the right, but not Align scale "
-#| "nor position. It will use the default scale to the right (a-s/px), if "
-#| "none is given on the table row and scale column (0 is no scale "
-#| "constraint). It will not use a position unless RA and DEC are entered on "
-#| "the table row. Uses the timeout above. You can select many rows (with "
-#| "click and shift click) and it will attempt to solve them all.</p><p>Plate "
-#| "solving may be difficult. You may not be able to plate solve all your "
-#| "images. You can try to supply scales and positions, and try different "
-#| "profiles. If you are unsucessful, but still want to display an image, you "
-#| "can enter an RA, DEC, Scale, Orientation in the appropriate columns for "
-#| "the row you're interested in, then manually set the Status column to OK.</"
-#| "p><p>You cannot re-platesolve a row whose status is OK, but you can "
-#| "manually change the status to something else, then plate-solving is "
-#| "enabled.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plate solve the selected overlay image(s).</p><p>Uses "
 "the selected Align profile to the right, but not Align scale nor position. "

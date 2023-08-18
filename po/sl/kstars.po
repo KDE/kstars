@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-17 00:41+0000\n"
-"PO-Revision-Date: 2023-07-25 11:42+0200\n"
+"PO-Revision-Date: 2023-08-17 11:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -27457,12 +27457,16 @@ msgstr ""
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Začnite samodejno vodenje. Izvede se na začetku vsakega načrtovanega "
+"opravila."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Zagon samodejnega ostrenja. Izvede se na začetku vsakega načrtovanega "
+"opravila."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
@@ -27498,6 +27502,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"Izberite opravila, ki se bodo izvajala na začetku vsakega načrtovanega "
+"opravila. Izvajajo se po vrstnem redu od leve proti desni."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -38192,7 +38198,7 @@ msgstr "Gladki piksli za prijetnejše, a počasnejše uglajevanje."
 #: kstars.kcfg:3130
 #, kde-format
 msgid "Display Image Overlays."
-msgstr ""
+msgstr "Prikaz prekrivanja slik."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
@@ -38205,7 +38211,7 @@ msgstr "Preklopi izris Pluton na zvezdni karti."
 #: kstars.kcfg:3135
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "Zemljevid SkyMap se osredini nad izbrano prekrivno sliko."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3136
@@ -38214,6 +38220,8 @@ msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
 "it's solved)."
 msgstr ""
+"Zemljevid SkyMap osredinite nad izbrano prekrivno sliko v tabeli prekrivanja "
+"slik (če je rešena)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3140
@@ -38233,25 +38241,26 @@ msgstr "Največja oddaljenost za imena kometov"
 #: kstars.kcfg:3145
 #, kde-format
 msgid "Image overlay plate-solving timeout."
-msgstr ""
+msgstr "Časovna omejitev reševanja slikovnega prekrivanja plošč."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3146
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
-msgstr ""
+msgstr "Časovna omejitev za reševanje prekrivanja slike s ploščo."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3150
 #, kde-format
 msgid "Image overlay default plate-solving scale."
-msgstr ""
+msgstr "Privzeto merilo za reševanje plošč s prekrivanjem slik."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3151
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
+"Privzeto merilo (arkus sekund/sl. točko) za reševanje prekrivne plošče slike."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3157
@@ -75174,6 +75183,8 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
+"SkyMap osredinite nad izbrano prekrivno sliko v spodnji tabeli (če je "
+"rešena)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
@@ -75188,7 +75199,7 @@ msgstr "Spremeni vrsto izbora"
 msgid ""
 "Maximum dimension for an image overlay image. (Larger images will be scaled "
 "down.)"
-msgstr ""
+msgstr "Največja mera za prekrivno sliko (večje slike bodo pomanjšane)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
@@ -75204,6 +75215,8 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
+"Odprite mapo za prekrivanje. Kopirajte ali premaknite slike v to mapo, da "
+"jih lahko obdelate."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
@@ -75214,7 +75227,7 @@ msgstr "Mapa"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Plate solve the selected overlay image(s).</p><p>Uses "
 "the selected Align profile to the right, but not Align scale nor position. "
@@ -75231,6 +75244,21 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Plošča reši izbrano(-e) prekrivno(-e) sliko(-e).</"
+"p><p>Uporabi izbrani profil izravnave na desno, ne pa tudi merila in "
+"položaja izravnave. Uporabi privzeto merilo v desno (a-s/px), če v vrstici "
+"tabele in stolpcu merila ni podano nobeno (0 pomeni, da ni omejitve merila). "
+"Položaja ne bo uporabil, če v vrstici tabele nista vnesena RA in DEC. "
+"Uporablja zgornji časovni interval. Izberete lahko več vrstic (s klikom in "
+"klikom s premikom) in program bo poskušal rešiti vse.</p><p>Reševanje "
+"ploščic je lahko težavno. Morda ne boste mogli rešiti vseh svojih slik. "
+"Poskusite lahko ponuditi lestvice in položaje ter preizkusite različne "
+"profile. Če niste uspešni, vendar še vedno želite prikazati sliko, lahko v "
+"ustrezne stolpce za vrstico, ki vas zanima, vnesete RA, DEC, merilo, "
+"orientacijo, nato pa ročno nastavite stolpec Status na OK.</p><p>Vrstice, "
+"katere stanje je OK, ne morete ponovno razporediti na plošče, lahko pa ročno "
+"spremenite stanje v kaj drugega, nato je razporeditev na plošče omogočena.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
@@ -75246,6 +75274,8 @@ msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
 msgstr ""
+"Privzeto merilo arcs/sl.točko za uporabo pri reševanju. 0 je nič. Uporabi "
+"tisto, kar je v tabeli, če je tam."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
@@ -75259,7 +75289,7 @@ msgstr "Privzeto"
 #: options/opsimageoverlay.ui:312 options/opsimageoverlay.ui:328
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
-msgstr ""
+msgstr "Časovna omejitev za reševanje prekrivne slike na plošči (v sekundah)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
@@ -76708,7 +76738,7 @@ msgstr "Kot"
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-S/sl. točko"
 
 #: skycomponents/imageoverlaycomponent.cpp:63
 #, fuzzy, kde-format
@@ -76719,64 +76749,75 @@ msgstr "Zavrti v desno"
 #: skycomponents/imageoverlaycomponent.cpp:162
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Vnesen slab niz RA za %1. Ponastavite na prvotno vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:176
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Vnesen slab niz DEC za %1. Ponastavite na prvotno vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:189
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Za %1 je vnesen napačen niz kotov orientacije. Ponastavite na prvotno "
+"vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:200
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Za %1 je vnesen napačen niz kotov merila. Ponastavite na prvotno vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:230
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost RA, "
+"ki ni 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:241
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost DEC, "
+"ki ni 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:252
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost "
+"usmerjenosti."
 
 #: skycomponents/imageoverlaycomponent.cpp:263
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost a-s/"
+"sl.t., ki ni 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:293
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Shranjeno stanje »v redu« za %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:386
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Posodabljanje iz mape: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:435
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 overlays (%2 new, %3 deleted) %4 solved"
 
 #: skycomponents/imageoverlaycomponent.cpp:437
 #: skycomponents/imageoverlaycomponent.cpp:555
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Prekrivanje slik.  %1 slik, %2 na voljo."
 
 #: skycomponents/imageoverlaycomponent.cpp:450
 #, fuzzy, kde-format
@@ -76787,7 +76828,7 @@ msgstr "Nalaganje slik ..."
 #: skycomponents/imageoverlaycomponent.cpp:456
 #, kde-format
 msgid "%1 image files loaded."
-msgstr ""
+msgstr "%1 naložene slikovne datoteke."
 
 #: skycomponents/imageoverlaycomponent.cpp:518
 #, fuzzy, kde-format
@@ -76829,7 +76870,7 @@ msgstr "Zavrti v desno"
 #: skycomponents/imageoverlaycomponent.cpp:596
 #, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr ""
+msgstr "Reševanje: %1. %2 v čakalni vrsti."
 
 #: skycomponents/imageoverlaycomponent.cpp:598
 #, fuzzy, kde-format
@@ -76839,12 +76880,12 @@ msgstr "Slaving"
 #: skycomponents/imageoverlaycomponent.cpp:663
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Ni možno prikazati %1. Ni rešena plošča."
 
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Ni možno prikazati %1. Slika ni naložena."
 
 #: skycomponents/imageoverlaycomponent.cpp:701
 #, fuzzy, kde-format
@@ -76855,18 +76896,20 @@ msgstr "Samodejno vodenje prekinjeno."
 #: skycomponents/imageoverlaycomponent.cpp:736
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Preskakovanje že rešenega: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:755
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 je že rešen. Preskočeno."
 
 #: skycomponents/imageoverlaycomponent.cpp:775
 #, kde-format
 msgid ""
 "Reload not yet implemented. Currently you need to restart KStars to do this."
 msgstr ""
+"Ponovno nalaganje še ni izvedeno. Trenutno morate za to ponovno zagnati "
+"KStars."
 
 #: skycomponents/imageoverlaycomponent.cpp:792
 #, fuzzy, kde-format
@@ -76883,7 +76926,7 @@ msgstr "Reševalnik ni uspel: %1 s"
 #: skycomponents/imageoverlaycomponent.cpp:811
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Uspeh reševalca v %1s: RA %2; DEC %3; merilo %4; kot %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:843
 #, fuzzy, kde-format
@@ -84678,43 +84721,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "Adaptive focus failed. Continuing..."
-#~ msgstr "Prilagodljivo ostrenje ni uspelo. Nadaljevanje ..."
-
-#, fuzzy
-#~| msgid "Enter the filename for the output catalog file"
-#~ msgid "Add the filter name to the capture file name."
-#~ msgstr "Vnesite ime izhodne datoteke kataloga"
-
-#, fuzzy
-#~| msgid "Append the expose duration to the prefix"
-#~ msgid "Add the capture duration to the capture file name."
-#~ msgstr "Pripni trajanje osvetlitve k predponi"
-
-#, fuzzy
-#~| msgid "Append time stamp to the prefix"
-#~ msgid "Add the capture timestamp to the capture file name."
-#~ msgstr "Pripni časovni žig k predponi"
-
-#, fuzzy
-#~ msgid ""
-#~ "Options for the method of Star Extraction.  Internal SEP uses an internal "
-#~ "library in KStars, External Sextractor requires an external program, and "
-#~ "Built In uses whatever default Star Extraction process your selected "
-#~ "solving method uses."
-#~ msgstr ""
-#~ "Možnosti za metodo ekstrakcije zvezd.  Notranji SEP uporablja notranjo "
-#~ "knjižnico v KStars, Zunanji sextractor zahteva zunanji program, in Built "
-#~ "In uporablja privzeto star ekstrakcijo proces vaš izbran način reševanja "
-#~ "uporablja."
-
-#~ msgid ""
-#~ "Use JPEG format, instead of FITS, to upload images to the online "
-#~ "astrometry.net service"
-#~ msgstr ""
-#~ "Za pošiljanje na spletno storitev astrometry.net uporabi vrsto datoteke "
-#~ "JPEG namesto FITS"
-
-#~ msgid "Upload JPG"
-#~ msgstr "Pošlji JPG"

@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-17 00:41+0000\n"
-"PO-Revision-Date: 2023-07-25 16:17+0200\n"
+"PO-Revision-Date: 2023-08-17 21:07+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -9563,12 +9563,7 @@ msgstr ""
 "i> para estimar el error restante.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1229
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
-#| "alignment error.</p><p>Be patient, plate solving can be affected by knob "
-#| "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
-#| "the you're finished.</p>"
+#, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
 "alignment error.</p><p>Be patient, plate solving can be affected by knob "
@@ -25243,10 +25238,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/scheduler/framingassistant.ui:105
-#, fuzzy, kde-format
-#| msgid "Reducer"
+#, kde-format
 msgid "Reducer:"
-msgstr "Reductor"
+msgstr "Reductor:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #: ekos/scheduler/framingassistant.ui:136
@@ -74776,10 +74770,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout"
-msgstr "Tiempo de expiración:"
+msgstr "Tiempo de espera"
 
 #: options/opssatellites.cpp:100
 #, kde-format
@@ -76215,8 +76208,7 @@ msgid "Creating horizon"
 msgstr "Dibujando el horizonte"
 
 #: skycomponents/imageoverlaycomponent.cpp:60
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "Nombre de archivo"
 
@@ -76302,40 +76294,34 @@ msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:450
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "Cargando imágenes..."
+msgstr "Cargando archivos de imágenes..."
 
 #: skycomponents/imageoverlaycomponent.cpp:456
 #, kde-format
 msgid "%1 image files loaded."
-msgstr ""
+msgstr "%1 archivos de imágenes cargados."
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Unprocessed"
-msgstr "Proceso"
+msgstr "Sin procesar"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "Archivo"
+msgstr "Archivo incorrecto"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solve Failed"
-msgstr "El sistema de identificación ha fallado."
+msgstr "La resolución ha fallado"
 
 #: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgid "OK"
-msgstr "GANCHO"
+msgstr "Aceptar"
 
 #: skycomponents/imageoverlaycomponent.cpp:541
 #, fuzzy, kde-format
@@ -76352,13 +76338,12 @@ msgstr "Rotar a la derecha"
 #: skycomponents/imageoverlaycomponent.cpp:596
 #, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr ""
+msgstr "Resolviendo: %1. %2 en cola."
 
 #: skycomponents/imageoverlaycomponent.cpp:598
-#, fuzzy, kde-format
-#| msgid "Moving %1"
+#, kde-format
 msgid "Solving: %1."
-msgstr "Moviendo %1"
+msgstr "Resolviendo: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:663
 #, kde-format
@@ -76371,10 +76356,9 @@ msgid "Can't show %1. Image not loaded."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:701
-#, fuzzy, kde-format
-#| msgid "Autoguiding aborted."
+#, kde-format
 msgid "Solving aborted."
-msgstr "Guiado automático interrumpido."
+msgstr "Resolución interrumpida."
 
 #: skycomponents/imageoverlaycomponent.cpp:736
 #, kde-format

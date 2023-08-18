@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-17 00:41+0000\n"
-"PO-Revision-Date: 2023-08-16 12:25+0200\n"
+"PO-Revision-Date: 2023-08-17 09:14+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -26896,33 +26896,35 @@ msgstr "Prioritet:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
 #: ekos/scheduler/scheduler.ui:204
-#, fuzzy, kde-format
-#| msgid "Slew to the target and track it before proceeding to the next step."
+#, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
-msgstr "Förflytta till målet och följ det innan nästa steg."
+msgstr ""
+"Förflytta till målet och följ det. Görs i början av varje "
+"schemaläggningsjobb."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
 #: ekos/scheduler/scheduler.ui:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "Perform alignment using astrometry solver before proceeding to the next "
-#| "step."
+#, kde-format
 msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
-msgstr "Utför inriktning med astrometrilösningsverktyget innan nästa steg."
+msgstr ""
+"Utför inriktning med astrometrilösningsverktyget. Görs i början av varje "
+"schemaläggningsjobb."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/scheduler.ui:251
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Starta automatisk guidning. Görs i början av varje schemaläggningsjobb."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Utför automatisk fokusering. Görs i början av varje schemaläggningsjobb."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
@@ -26958,6 +26960,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"Välj uppgifter att utföra i början av varje schemaläggningsjobb. Utförs i "
+"ordning, vänster till höger."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -73896,23 +73900,7 @@ msgstr "Överlagringskatalog"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plate solve the selected overlay image(s).</"
-#| "p><p>Uses the selected Align profile to the right, but not Align scale "
-#| "nor position. It will use the default scale to the right (a-s/px), if "
-#| "none is given on the table row and scale column (0 is no scale "
-#| "constraint). It will not use a position unless RA and DEC are entered on "
-#| "the table row. Uses the timeout above. You can select many rows (with "
-#| "click and shift click) and it will attempt to solve them all.</p><p>Plate "
-#| "solving may be difficult. You may not be able to plate solve all your "
-#| "images. You can try to supply scales and positions, and try different "
-#| "profiles. If you are unsucessful, but still want to display an image, you "
-#| "can enter an RA, DEC, Scale, Orientation in the appropriate columns for "
-#| "the row you're interested in, then manually set the Status column to OK.</"
-#| "p><p>You cannot re-platesolve a row whose status is OK, but you can "
-#| "manually change the status to something else, then plate-solving is "
-#| "enabled.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plate solve the selected overlay image(s).</p><p>Uses "
 "the selected Align profile to the right, but not Align scale nor position. "
@@ -73931,14 +73919,14 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Lösning av astrobilder för markerade överlagrade "
 "bilder.</p><p>Använder den valda inriktningsprofilen till höger, men riktar "
-"inte in skala eller position. Använder förvald skala till höger (b-s/"
+"varken in skala eller position. Den använder förvald skala till höger (b-s/"
 "bildpunkt), om ingen anges i tabellraden och skalningskolumnen (0 är ingen "
-"skalningsbegränsning). Använder inte någon position om inte RA och Dek anges "
-"i tabellraden. Använder tidsgränsen ovan. Du kan markera flera rader (med "
-"klick och skift-klick), för att försöka lösa alla.</p><p>Det kan vara svårt "
-"att lösa astrobilder. Det kanske inte går att lösa alla bilder. Du kan prova "
-"att tillhandahålla skalning och position och prova olika profiler. Om du "
-"misslyckas, men ändå vill visa en bild, kan du ange RA, Dek, Skala, "
+"skalningsbegränsning). Den använder inte någon position om inte RA och Dek "
+"anges i tabellraden. Använder tidsgränsen ovan. Du kan markera flera rader "
+"(med klick och skift-klick), för att försöka lösa alla.</p><p>Det kan vara "
+"svårt att lösa astrobilder. Det kanske inte går att lösa alla bilder. Du kan "
+"prova att tillhandahålla skalning och position och prova olika profiler. Om "
+"du misslyckas, men ändå vill visa en bild, kan du ange RA, Dek, Skala, "
 "Orientering i motsvarande kolumner för raden du är intresserad av, och sedan "
 "manuellt ändra statuskolumnen till Ok.</p> <p>Du kan inte göra om lösningen "
 "för en rad vars status är Ok, men du kan manuellt ändra status till något "
@@ -73967,7 +73955,7 @@ msgstr ""
 #: options/opsimageoverlay.ui:274
 #, kde-format
 msgid "Default a-s/px"
-msgstr "Förval b-s/bildpunkt"
+msgstr "Förvald b-s/bildpunkt"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
