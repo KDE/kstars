@@ -194,6 +194,10 @@ void SolverUtils::solverDone()
 void SolverUtils::solverTimeout()
 {
     m_SolverTimer.stop();
+
+    disconnect(m_StellarSolver.get(), &StellarSolver::finished, this, &SolverUtils::solverDone);
+    abort();
+
     FITSImage::Solution empty;
     emit done(true, false, empty, m_TimeoutMilliseconds / 1000.0);
 
