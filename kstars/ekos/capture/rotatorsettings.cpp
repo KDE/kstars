@@ -101,7 +101,11 @@ void RotatorSettings::initRotator(const QString &train, Ekos::CaptureDeviceAdapt
     // Setting angle & gauge
     m_CaptureDA = CaptureDA;
     RotatorAngle->setValue(CaptureDA->getRotatorAngle());
+
+    // Need to block signal to prevent any cascade effect this change was not triggered by user input.
+    CameraPA->blockSignals(true);
     CameraPA->setValue(RotatorUtils::Instance()->calcCameraAngle(RotatorAngle->value(), false));
+    CameraPA->blockSignals(false);
     updateGaugeZeroPos(RotatorUtils::Instance()->getMountPierside());
 }
 
@@ -140,7 +144,9 @@ void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
         rotatorGauge->setNullPosition(QRoundProgressBar::PositionBottom);
     }
     double RAngle = RotatorAngle->value();
+    CameraPA->blockSignals(true);
     CameraPA->setValue(RotatorUtils::Instance()->calcCameraAngle(RAngle, false));
+    CameraPA->blockSignals(false);
     updateGauge(RAngle);
 }
 

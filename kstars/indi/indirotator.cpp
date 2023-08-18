@@ -16,7 +16,7 @@ bool Rotator::setAbsoluteAngle(double angle)
     if (!nvp)
         return false;
 
-    if (std::abs(angle - nvp->at(0)->getValue()) < 0.001)
+    if (std::abs(angle - nvp->at(0)->getValue()) < 0.01)
         return true;
 
     nvp->at(0)->setValue(angle);
