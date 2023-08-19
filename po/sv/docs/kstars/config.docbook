@@ -1584,11 +1584,11 @@
 >Avbryt</guilabel 
 > medan lösningen pågår, och när den är klar visa de lösta parametrarna i tabellen och ändra status till "Ok". Informationen från en lyckad lösning av astrobilder lagras i användardatabasen så att lösningen inte behöver göras om. Den lösta bilden bör från och med nu visas på rätt plats på himmelskartan. Du kan lösa flera bilder med en enda operation genom att klicka på den första bildens filnamn och sedan skift-klicka på ett annat filnamn. Alla bildfiler mellan filnamnen markeras då. Klicka sedan på Lös för att försöka lösa dem alla. Kstars kommer dock inte att försöka lösa bilder vars status är "Ok", utan hoppar över bilderna. (Om du vill lösa om bilder med status "Ok" ändra då manuellt deras status till "Obehandlad" och klicka på "Lös"). Det är möjligt att, om du väljer flera bilder, vissa inte kan lösas med lyckat resultat. </para>
 <para
->Plate solving these images can sometimes be difficult. That is because at this point the system has no information as to the scale or position to look, and thus it is a blind solve. To improve your chance for success, you can enter an approximate RA/DEC center sky position into the RA and DEC columns for the row you are trying to solve. You can also add an image scale, in arcseconds-per-pixel. You can add a default scale to the right of the Solve button in the box labeled <guilabel
->Default a-s/px</guilabel
-> so that all solving attempts use this scale by default. You can also add a scale directly into the table-row-column, which would override the default. You can choose which StellarSolver profile the solver uses (these profiles can be edited in Ekos' align tab). Finally, you can adjust the solver's <guilabel
->Timeout</guilabel
-> in seconds. </para>
+>Lösning av astrobilder för bilderna kan ibland vara svårt. Det beror på att systemet för närvarande inte har någon information om skala eller position att titta på, och därför är det en blind lösning. För att förbättra chansen att lyckas, kan en ungefärlig centrerad himmelsposition för RA/Dek anges i kolumnerna RA och Dek för raden du försöker lösa. Du kan också lägga till en bildskala, i bågsekunder per bildpunkt. Du kan lägga till en förvald skala till höger om knappen Lös i rutan märkt <guilabel 
+>Förvald b-s/bildpunkt</guilabel 
+> så att alla lösningsförsök använder skalan som förval. Du kan också lägga till en skala direkt i tabellens rad och kolumn, vilket bortser från det förvalda värdet. Du kan välja vilken profil i StellarSolver som lösningsverktyget använder (profilerna kan redigeras under Ekos inriktningsflik). Slutligen kan du justera lösningsverktygets <guilabel 
+>Tidsgräns</guilabel 
+> i sekunder. </para>
 <para
 >Om du har problematiska bilder som inte går att lösa kan du ändå visa dem genom att manuellt mata in värdena (som lösningsverktyget inte hittade) i tabellen. De är inställningarna för RA, Dek, bågsekund-per-bildpunkt, orienteringsvinkel och öster-till-höger (eller väster-till-höger). När du har gjort det kan du sedan ändra status till "Ok" så sparar Kstars värdena i användardatabasen som om de hade lösts automatiskt. </para>
 <para
