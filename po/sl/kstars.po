@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 00:41+0000\n"
-"PO-Revision-Date: 2023-07-25 11:42+0200\n"
+"POT-Creation-Date: 2023-08-19 00:41+0000\n"
+"PO-Revision-Date: 2023-08-17 11:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -416,7 +416,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
-#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:730
+#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
 #: options/opscolors.ui:204
 #, kde-format, kde-kuit-format
 msgid "Save"
@@ -1835,7 +1835,7 @@ msgstr "Cilj:"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/capture.ui:813
-#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:1011 oal/execute.ui:146
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
@@ -2998,8 +2998,8 @@ msgstr "Uredi ..."
 #. i18n: ectx: property (text), widget (QPushButton, RemovePreset)
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 indi/customdrivers.ui:154 indi/drivermanager.ui:311
-#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:934
-#: oal/equipmentwriter.ui:1271 options/opscolors.ui:230
+#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:906
+#: oal/equipmentwriter.ui:1243 options/opscolors.ui:230
 #, kde-format
 msgid "Remove"
 msgstr "Odstrani"
@@ -3039,7 +3039,7 @@ msgstr "Ustvari/Uredi katalog"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetColor)
 #: dialogs/catalogeditform.ui:79 dialogs/newfov.ui:1246
-#: oal/equipmentwriter.ui:1021 xplanet/opsxplanet.ui:666
+#: oal/equipmentwriter.ui:993 xplanet/opsxplanet.ui:666
 #, kde-format
 msgid "Color:"
 msgstr "Barva:"
@@ -3166,7 +3166,7 @@ msgstr "Vzdrževalec"
 #. i18n: ectx: property (text), widget (QCheckBox, f_UseAutoFocus)
 #: dialogs/catalogsdbui.cpp:121 dialogs/catalogsdbui.cpp:135
 #: dialogs/catalogsdbui.ui:73 ekos/observatory/observatory.ui:370
-#: oal/equipmentwriter.ui:1177
+#: oal/equipmentwriter.ui:1149
 #, kde-format
 msgid "Enable"
 msgstr "Omogoči"
@@ -3709,7 +3709,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:847 ekos/capture/capture.cpp:885
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
-#: indi/streamform.ui:368 oal/equipmentwriter.ui:1191
+#: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -4950,12 +4950,11 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #. i18n: ectx: property (text), widget (QLabel, label_29)
-#. i18n: ectx: property (text), widget (QLabel, label_27)
 #. i18n: ectx: property (text), widget (QLabel, binoApertureUnit)
 #: dialogs/newfov.ui:134 dialogs/newfov.ui:193 dialogs/newfov.ui:477
 #: oal/equipmentwriter.ui:176 oal/equipmentwriter.ui:232
-#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:625
-#: oal/equipmentwriter.ui:681 tools/whatsinteresting/wiequipsettings.ui:213
+#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:587
+#: tools/whatsinteresting/wiequipsettings.ui:213
 #, kde-format
 msgid "mm"
 msgstr "mm"
@@ -5252,7 +5251,7 @@ msgstr "m"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9_3)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1163
+#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1135
 #, kde-format
 msgid "Wavelength:"
 msgstr "Valovna dolžina:"
@@ -11003,7 +11002,7 @@ msgstr "Ali ste prepričani, da želite zapreti program?"
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:109 ekos/capture/capture.ui:1872
-#: oal/equipmentwriter.ui:946
+#: oal/equipmentwriter.ui:918
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
@@ -11486,7 +11485,7 @@ msgstr "Čas:"
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel_2)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:529
-#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1031
+#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1003
 #, kde-format
 msgid "Exposure:"
 msgstr "Osvetlitev:"
@@ -14445,7 +14444,7 @@ msgstr "Odmik kamere"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
-#: oal/equipmentwriter.ui:1060
+#: oal/equipmentwriter.ui:1032
 #, kde-format
 msgid "Offset:"
 msgstr "Odmik:"
@@ -15912,7 +15911,7 @@ msgstr "Barva območja Bortle"
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
-#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:576
+#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:611
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Goriščno razmerje"
@@ -27457,12 +27456,16 @@ msgstr ""
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Začnite samodejno vodenje. Izvede se na začetku vsakega načrtovanega "
+"opravila."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Zagon samodejnega ostrenja. Izvede se na začetku vsakega načrtovanega "
+"opravila."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
@@ -27498,6 +27501,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"Izberite opravila, ki se bodo izvajala na začetku vsakega načrtovanega "
+"opravila. Izvajajo se po vrstnem redu od leve proti desni."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -30144,7 +30149,7 @@ msgstr "Proizvajalec:"
 #. i18n: ectx: property (text), widget (QPushButton, NewLens)
 #. i18n: ectx: property (text), widget (QPushButton, NewFilter)
 #: indi/customdrivers.ui:177 oal/equipmentwriter.ui:418
-#: oal/equipmentwriter.ui:920 oal/equipmentwriter.ui:1257
+#: oal/equipmentwriter.ui:892 oal/equipmentwriter.ui:1229
 #, kde-format
 msgid "Add New"
 msgstr "Dodaj novega"
@@ -38192,7 +38197,7 @@ msgstr "Gladki piksli za prijetnejše, a počasnejše uglajevanje."
 #: kstars.kcfg:3130
 #, kde-format
 msgid "Display Image Overlays."
-msgstr ""
+msgstr "Prikaz prekrivanja slik."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
@@ -38205,7 +38210,7 @@ msgstr "Preklopi izris Pluton na zvezdni karti."
 #: kstars.kcfg:3135
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "Zemljevid SkyMap se osredini nad izbrano prekrivno sliko."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3136
@@ -38214,6 +38219,8 @@ msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
 "it's solved)."
 msgstr ""
+"Zemljevid SkyMap osredinite nad izbrano prekrivno sliko v tabeli prekrivanja "
+"slik (če je rešena)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3140
@@ -38233,25 +38240,26 @@ msgstr "Največja oddaljenost za imena kometov"
 #: kstars.kcfg:3145
 #, kde-format
 msgid "Image overlay plate-solving timeout."
-msgstr ""
+msgstr "Časovna omejitev reševanja slikovnega prekrivanja plošč."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3146
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
-msgstr ""
+msgstr "Časovna omejitev za reševanje prekrivanja slike s ploščo."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3150
 #, kde-format
 msgid "Image overlay default plate-solving scale."
-msgstr ""
+msgstr "Privzeto merilo za reševanje plošč s prekrivanjem slik."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3151
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
+"Privzeto merilo (arkus sekund/sl. točko) za reševanje prekrivne plošče slike."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3157
@@ -73321,8 +73329,8 @@ msgstr "Daljnogled"
 #. i18n: ectx: property (text), widget (QLabel, label3_2)
 #. i18n: ectx: property (text), widget (QLabel, label4)
 #: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:379
-#: oal/equipmentwriter.ui:593 oal/equipmentwriter.ui:849
-#: oal/equipmentwriter.ui:974
+#: oal/equipmentwriter.ui:573 oal/equipmentwriter.ui:821
+#: oal/equipmentwriter.ui:946
 #, kde-format
 msgid "Id:"
 msgstr "ID:"
@@ -73376,8 +73384,8 @@ msgstr "Ritchey-Chretien"
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, scopeModelText)
 #: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:393
-#: oal/equipmentwriter.ui:703 oal/equipmentwriter.ui:896
-#: oal/equipmentwriter.ui:1001 tools/whatsinteresting/wiequipsettings.ui:107
+#: oal/equipmentwriter.ui:580 oal/equipmentwriter.ui:868
+#: oal/equipmentwriter.ui:973 tools/whatsinteresting/wiequipsettings.ui:107
 #, kde-format
 msgid "Model:"
 msgstr "Model:"
@@ -73388,8 +73396,8 @@ msgstr "Model:"
 #. i18n: ectx: property (text), widget (QLabel, label31)
 #. i18n: ectx: property (text), widget (QLabel, label5)
 #: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:386
-#: oal/equipmentwriter.ui:647 oal/equipmentwriter.ui:866
-#: oal/equipmentwriter.ui:991
+#: oal/equipmentwriter.ui:601 oal/equipmentwriter.ui:838
+#: oal/equipmentwriter.ui:963
 #, kde-format
 msgid "Vendor:"
 msgstr "Proizvajalec:"
@@ -73459,29 +73467,29 @@ msgstr "radian"
 msgid "DSLR Lens"
 msgstr "Objektiv DSLR"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
-#: oal/equipmentwriter.ui:573
-#, fuzzy, kde-format
-msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Počisti zgodovino podatkov senzorja</p></body></html>"
-
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: oal/equipmentwriter.ui:600
+#: oal/equipmentwriter.ui:594
 #, fuzzy, kde-format
 #| msgid "Focal length:"
 msgid "Focal Length"
 msgstr "Goriščna razdalja:"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
+#: oal/equipmentwriter.ui:608
+#, fuzzy, kde-format
+msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Počisti zgodovino podatkov senzorja</p></body></html>"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
-#: oal/equipmentwriter.ui:727
+#: oal/equipmentwriter.ui:699
 #, fuzzy, kde-format
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Počisti zgodovino podatkov senzorja</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
-#: oal/equipmentwriter.ui:760
+#: oal/equipmentwriter.ui:732
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Clear data and add a new DSLR lens</p></body></html>"
@@ -73489,7 +73497,7 @@ msgstr ""
 "<html><head/><body><p>Počisti zgodovino podatkov senzorja</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
-#: oal/equipmentwriter.ui:780
+#: oal/equipmentwriter.ui:752
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Use astrometry.net solver.</p></body></html>"
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
@@ -73497,87 +73505,87 @@ msgstr ""
 "<html><head/><body><p>Uporabi reševalnik astrometry.net</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
-#: oal/equipmentwriter.ui:805
+#: oal/equipmentwriter.ui:777
 #, kde-format
 msgid "Barlow Lens"
 msgstr "Objektiv Barlow"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: oal/equipmentwriter.ui:837
+#: oal/equipmentwriter.ui:809
 #, fuzzy, kde-format
 #| msgid "Enter details of Barlow/Shapley lenses"
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr "Vnesite podrobnosti objektivov Barlow/Shapley"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:876
+#: oal/equipmentwriter.ui:848
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
 msgstr "Faktor povečave objektiva Barlow/Shapley"
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:879
+#: oal/equipmentwriter.ui:851
 #, kde-format
 msgid "Factor:"
 msgstr "Faktor:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddLens)
-#: oal/equipmentwriter.ui:927
+#: oal/equipmentwriter.ui:899
 #, kde-format
 msgid "Save Lens"
 msgstr "Shrani objektiv"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
-#: oal/equipmentwriter.ui:1057
+#: oal/equipmentwriter.ui:1029
 #, fuzzy, kde-format
 msgid "Filter focus offset"
 msgstr "Zamik ostrine filtra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: oal/equipmentwriter.ui:1086
+#: oal/equipmentwriter.ui:1058
 #, kde-format
 msgid "Abs. position:"
 msgstr "Abs. položaj:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: oal/equipmentwriter.ui:1106
+#: oal/equipmentwriter.ui:1078
 #, fuzzy, kde-format
 msgid "Focus alt:"
 msgstr "Višina ostrilca:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: oal/equipmentwriter.ui:1129
+#: oal/equipmentwriter.ui:1101
 #, fuzzy, kde-format
 msgid "Ticks per C:"
 msgstr "Oznak na enoto stopinje:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: oal/equipmentwriter.ui:1146
+#: oal/equipmentwriter.ui:1118
 #, fuzzy, kde-format
 msgid "Ticks per Alt:"
 msgstr "Oznak na enoto višine:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: oal/equipmentwriter.ui:1170
+#: oal/equipmentwriter.ui:1142
 #, kde-format
 msgid "Auto focus:"
 msgstr "Samodejno ostrenje:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: oal/equipmentwriter.ui:1184
+#: oal/equipmentwriter.ui:1156
 #, kde-format
 msgid "Locked filter:"
 msgstr "Zaklenjeni filter:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: oal/equipmentwriter.ui:1217
+#: oal/equipmentwriter.ui:1189
 #, fuzzy, kde-format
 #| msgid "Focuser:"
 msgid "Focus temp:"
 msgstr "Ostrilec:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
-#: oal/equipmentwriter.ui:1264
+#: oal/equipmentwriter.ui:1236
 #, kde-format
 msgid "Save Filter"
 msgstr "Shrani filter"
@@ -75174,6 +75182,8 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
+"SkyMap osredinite nad izbrano prekrivno sliko v spodnji tabeli (če je "
+"rešena)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
@@ -75188,7 +75198,7 @@ msgstr "Spremeni vrsto izbora"
 msgid ""
 "Maximum dimension for an image overlay image. (Larger images will be scaled "
 "down.)"
-msgstr ""
+msgstr "Največja mera za prekrivno sliko (večje slike bodo pomanjšane)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
@@ -75204,6 +75214,8 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
+"Odprite mapo za prekrivanje. Kopirajte ali premaknite slike v to mapo, da "
+"jih lahko obdelate."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
@@ -75214,7 +75226,7 @@ msgstr "Mapa"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Plate solve the selected overlay image(s).</p><p>Uses "
 "the selected Align profile to the right, but not Align scale nor position. "
@@ -75231,6 +75243,21 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Plošča reši izbrano(-e) prekrivno(-e) sliko(-e).</"
+"p><p>Uporabi izbrani profil izravnave na desno, ne pa tudi merila in "
+"položaja izravnave. Uporabi privzeto merilo v desno (a-s/px), če v vrstici "
+"tabele in stolpcu merila ni podano nobeno (0 pomeni, da ni omejitve merila). "
+"Položaja ne bo uporabil, če v vrstici tabele nista vnesena RA in DEC. "
+"Uporablja zgornji časovni interval. Izberete lahko več vrstic (s klikom in "
+"klikom s premikom) in program bo poskušal rešiti vse.</p><p>Reševanje "
+"ploščic je lahko težavno. Morda ne boste mogli rešiti vseh svojih slik. "
+"Poskusite lahko ponuditi lestvice in položaje ter preizkusite različne "
+"profile. Če niste uspešni, vendar še vedno želite prikazati sliko, lahko v "
+"ustrezne stolpce za vrstico, ki vas zanima, vnesete RA, DEC, merilo, "
+"orientacijo, nato pa ročno nastavite stolpec Status na OK.</p><p>Vrstice, "
+"katere stanje je OK, ne morete ponovno razporediti na plošče, lahko pa ročno "
+"spremenite stanje v kaj drugega, nato je razporeditev na plošče omogočena.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
@@ -75246,6 +75273,8 @@ msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
 msgstr ""
+"Privzeto merilo arcs/sl.točko za uporabo pri reševanju. 0 je nič. Uporabi "
+"tisto, kar je v tabeli, če je tam."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
@@ -75259,7 +75288,7 @@ msgstr "Privzeto"
 #: options/opsimageoverlay.ui:312 options/opsimageoverlay.ui:328
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
-msgstr ""
+msgstr "Časovna omejitev za reševanje prekrivne slike na plošči (v sekundah)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
@@ -76708,7 +76737,7 @@ msgstr "Kot"
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-S/sl. točko"
 
 #: skycomponents/imageoverlaycomponent.cpp:63
 #, fuzzy, kde-format
@@ -76719,64 +76748,75 @@ msgstr "Zavrti v desno"
 #: skycomponents/imageoverlaycomponent.cpp:162
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Vnesen slab niz RA za %1. Ponastavite na prvotno vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:176
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Vnesen slab niz DEC za %1. Ponastavite na prvotno vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:189
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Za %1 je vnesen napačen niz kotov orientacije. Ponastavite na prvotno "
+"vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:200
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Za %1 je vnesen napačen niz kotov merila. Ponastavite na prvotno vrednost."
 
 #: skycomponents/imageoverlaycomponent.cpp:230
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost RA, "
+"ki ni 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:241
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost DEC, "
+"ki ni 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:252
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost "
+"usmerjenosti."
 
 #: skycomponents/imageoverlaycomponent.cpp:263
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"Stanja ni mogoče nastaviti na »v redu«. Zahtevana je veljavna vrednost a-s/"
+"sl.t., ki ni 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:293
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Shranjeno stanje »v redu« za %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:386
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Posodabljanje iz mape: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:435
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 overlays (%2 new, %3 deleted) %4 solved"
 
 #: skycomponents/imageoverlaycomponent.cpp:437
 #: skycomponents/imageoverlaycomponent.cpp:555
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Prekrivanje slik.  %1 slik, %2 na voljo."
 
 #: skycomponents/imageoverlaycomponent.cpp:450
 #, fuzzy, kde-format
@@ -76787,7 +76827,7 @@ msgstr "Nalaganje slik ..."
 #: skycomponents/imageoverlaycomponent.cpp:456
 #, kde-format
 msgid "%1 image files loaded."
-msgstr ""
+msgstr "%1 naložene slikovne datoteke."
 
 #: skycomponents/imageoverlaycomponent.cpp:518
 #, fuzzy, kde-format
@@ -76829,7 +76869,7 @@ msgstr "Zavrti v desno"
 #: skycomponents/imageoverlaycomponent.cpp:596
 #, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr ""
+msgstr "Reševanje: %1. %2 v čakalni vrsti."
 
 #: skycomponents/imageoverlaycomponent.cpp:598
 #, fuzzy, kde-format
@@ -76839,12 +76879,12 @@ msgstr "Slaving"
 #: skycomponents/imageoverlaycomponent.cpp:663
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Ni možno prikazati %1. Ni rešena plošča."
 
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Ni možno prikazati %1. Slika ni naložena."
 
 #: skycomponents/imageoverlaycomponent.cpp:701
 #, fuzzy, kde-format
@@ -76855,18 +76895,20 @@ msgstr "Samodejno vodenje prekinjeno."
 #: skycomponents/imageoverlaycomponent.cpp:736
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Preskakovanje že rešenega: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:755
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 je že rešen. Preskočeno."
 
 #: skycomponents/imageoverlaycomponent.cpp:775
 #, kde-format
 msgid ""
 "Reload not yet implemented. Currently you need to restart KStars to do this."
 msgstr ""
+"Ponovno nalaganje še ni izvedeno. Trenutno morate za to ponovno zagnati "
+"KStars."
 
 #: skycomponents/imageoverlaycomponent.cpp:792
 #, fuzzy, kde-format
@@ -76883,7 +76925,7 @@ msgstr "Reševalnik ni uspel: %1 s"
 #: skycomponents/imageoverlaycomponent.cpp:811
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Uspeh reševalca v %1s: RA %2; DEC %3; merilo %4; kot %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:843
 #, fuzzy, kde-format
@@ -84678,43 +84720,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "Adaptive focus failed. Continuing..."
-#~ msgstr "Prilagodljivo ostrenje ni uspelo. Nadaljevanje ..."
-
-#, fuzzy
-#~| msgid "Enter the filename for the output catalog file"
-#~ msgid "Add the filter name to the capture file name."
-#~ msgstr "Vnesite ime izhodne datoteke kataloga"
-
-#, fuzzy
-#~| msgid "Append the expose duration to the prefix"
-#~ msgid "Add the capture duration to the capture file name."
-#~ msgstr "Pripni trajanje osvetlitve k predponi"
-
-#, fuzzy
-#~| msgid "Append time stamp to the prefix"
-#~ msgid "Add the capture timestamp to the capture file name."
-#~ msgstr "Pripni časovni žig k predponi"
-
-#, fuzzy
-#~ msgid ""
-#~ "Options for the method of Star Extraction.  Internal SEP uses an internal "
-#~ "library in KStars, External Sextractor requires an external program, and "
-#~ "Built In uses whatever default Star Extraction process your selected "
-#~ "solving method uses."
-#~ msgstr ""
-#~ "Možnosti za metodo ekstrakcije zvezd.  Notranji SEP uporablja notranjo "
-#~ "knjižnico v KStars, Zunanji sextractor zahteva zunanji program, in Built "
-#~ "In uporablja privzeto star ekstrakcijo proces vaš izbran način reševanja "
-#~ "uporablja."
-
-#~ msgid ""
-#~ "Use JPEG format, instead of FITS, to upload images to the online "
-#~ "astrometry.net service"
-#~ msgstr ""
-#~ "Za pošiljanje na spletno storitev astrometry.net uporabi vrsto datoteke "
-#~ "JPEG namesto FITS"
-
-#~ msgid "Upload JPG"
-#~ msgstr "Pošlji JPG"

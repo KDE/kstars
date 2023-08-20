@@ -35,6 +35,8 @@ OpsImageOverlay::OpsImageOverlay() : QFrame(KStars::Instance())
                 KStarsData::Instance()->skyComposite()->imageOverlay());
     connect(solveButton, &QPushButton::clicked, overlayComponent, &ImageOverlayComponent::startSolving,
             Qt::UniqueConnection);
+    connect(refreshB, &QPushButton::clicked, overlayComponent, &ImageOverlayComponent::reload,
+            Qt::UniqueConnection);
     connect(kcfg_ShowImageOverlays, &QCheckBox::stateChanged, [](int state)
     {
         Options::setShowImageOverlays(state);

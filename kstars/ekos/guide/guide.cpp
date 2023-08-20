@@ -3123,7 +3123,7 @@ void Guide::refreshOpticalTrain()
 
         // DSLR Lens Aperture
         if (m_Aperture < 0 && m_FocalRatio > 0)
-            m_Aperture = m_FocalLength * m_FocalRatio;
+            m_Aperture = m_FocalLength / m_FocalRatio;
 
         auto mount = OpticalTrainManager::Instance()->getMount(name);
         setMount(mount);

@@ -175,7 +175,7 @@
 <para
 >Het venster <guilabel
 >Configureren - &kstars;</guilabel
-> wordt ingedeeld in twaalf pagina's: <guilabel
+> wordt ingedeeld in veertien pagina's: <guilabel
 >Catalogi</guilabel
 >, <guilabel
 >Zonnestelsel</guilabel
@@ -188,6 +188,8 @@
 >, <guilabel
 >Terrein</guilabel
 >, <guilabel
+>Overlays van afbeeldingen</guilabel
+>, <guilabel
 >Kleuren</guilabel
 >, <guilabel
 >FITS</guilabel
@@ -197,8 +199,10 @@
 >Ekos</guilabel
 >, <guilabel
 >Xplanet</guilabel
-> en <guilabel
+>, <guilabel
 >Gevorderd</guilabel
+> en <guilabel
+>Ontwikkelaar</guilabel
 >. </para>
 
 <!-- Catalogs page: -->
@@ -296,6 +300,24 @@
 >Terrein</guilabel
 > kunt u het terrein- of landschapsafbeelding instellen en zijn versnellingsopties configureren. </para>
 
+<!-- Image Overlays page: -->
+<para>
+<indexterm
+><primary
+>Venster &kstars; instellen</primary>
+<secondary
+>Pagina Overlays van afbeelding</secondary
+></indexterm>
+<indexterm
+><primary
+>Overlays van afbeelding</primary>
+<secondary
+>Aanpassen</secondary
+></indexterm
+>In de pagina <guilabel
+>Overlays van afbeelding</guilabel
+> kunt u uw eigen afbeeldingen toevoegen en beheren die getoond zullen worden in de hemelkaart. </para>
+
 <!-- Colors page: -->
 <para>
 <indexterm
@@ -363,6 +385,18 @@
 >In de pagina <guilabel
 >Geavanceerd</guilabel
 > heeft u een nauwkeurige controle over het meer subtiele gedrag van &kstars;. </para>
+
+<!-- Developer page: -->
+<para>
+<indexterm
+><primary
+>Venster &kstars; instellen</primary>
+<secondary
+>Pagina Geavanceerd</secondary
+></indexterm
+>De pagina <guilabel
+>Ontwikkelaar</guilabel
+> biedt u het in- of uitschakelen van een paar opties die het meest nuttig zijn voor ontwikkelaars of voor mensen die zoeken naar hulp bij debuggen. Deze schakelen het opslaan van afbeeldingen in tijdens autofocus, volgen en uitlijning van Ekos. </para>
 </sect1>
 
 <sect1 id="catalogs">
@@ -1496,6 +1530,81 @@
 ></menuchoice
 >. </para>
 </tip>
+</sect1>
+
+<sect1 id="imageOverlays">
+<title
+>Overlays van afbeelding</title>
+<screenshot>
+<screeninfo
+>Overlays van afbeelding op hemelkaart</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays2.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Overlays van afbeelding op hemelkaart</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Venster &kstars; instellen</primary>
+<secondary
+>Pagina Overlays van afbeelding</secondary
+></indexterm
+>Overlays van afbeelding zijn aangepaste afbeeldingen (typisch .jpg) die gerenderd worden op de hemelkaart over sterren en andere items in de hemelkaart, maar onder het terrein. Deze afbeeldingen worden door u, de gebruiker, toegevoegd als een soort van persoonlijke hemelcatalogus. Indien juist geconfigureerd, kunnen deze persoonlijke afbeeldingen bijna perfect getoond worden uitgelijnd met andere objecten in de hemel. </para>
+<screenshot>
+<screeninfo
+>Venster Overlays van afbeelding</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays1.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Venster Overlays van afbeelding</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>De pagina <guilabel
+>Overlays van afbeeldingen</guilabel
+> laat u configureren of overlays van afbeelding getoond zullen worden op de hemelkaart en helpt u ze toe te voegen in het systeem. De afbeelding aan het begin van deze sectie toont de hemelkaart met overlays van afbeelding ingeschakeld en enige overlays van afbeelding geladen. </para>
+<para
+>Elke keer KStars start, zoekt deze naar nieuw overlays van afbeeldingen in een speciale map, parallel aan de map logs, genaamd imageOverlays. Onder Linux is deze te vinden in ~/.local/share/kstars/imageOverlays. De exacte locatie voor uw systeem is te vinden door te klikken op de knop <guilabel
+>Overlaymap</guilabel
+> aan de bovenkant van de configuratiepagina van Overlays van afbeelding getoond aan de bovenkant van deze sectie. Om te beginnen, voeg uw afbeeldingen toe aan die map. Ideaal, om redenen van prestaties zijn dit geen grote bestanden, maar waarschijnlijk afbeeldingen met breedtes van 1000 of 2000, dat zou genoeg moeten zijn. Om extra afbeeldingen in de toekomst toe te voegen, voeg ze toe aan dezelfde map en start KStars opnieuw. </para>
+<para
+>Start KStars nadat u afbeeldingen hebt in de map imageOverlays. Als u daarna naar de configuratiepagina van Overlays van afbeelding gaat, zou u de nieuwe bestanden in de tabel moeten zien. De nieuwe afbeeldingen zullen hun status tonen als "Niet verwerkt". Alleen afbeeldingen waarvan de status "OK" is worden getoond in de hemelkaart. Dat komt omdat KStars de locatie aan de hemel, grootte en oriëntatie voor deze afbeeldingen moet kennen voordat ze getoond kunnen worden. Om de status naar OK te wijzigen moet u de afbeeldingen plaat oplossen of de vereiste informatie handmatig toevoegen--zie onderstaand. </para>
+<para
+>Om uw afbeeldingen voor te bereiden op tonen moet u de afbeeldingen plaat-oplossen (slechts één keer). Om dit te doen, kies een afbeelding in de tabel, klik op zijn bestandsnaam en klik daarna op <guilabel
+>Oplossen</guilabel
+> onder de tabel. Het label van de knop Oplossen zou moeten wijzigen naar <guilabel
+>Annuleren</guilabel
+> tijdens het oplossen en daarna, bij met succes voltooien, worden de opgeloste parameters getoond in de tabel en de status is gewijzigd naar "OK". Na met succes plaat-oplossen wordt de informatie opgeslagen in de database van de gebruiker zodat oplossen niet herhaald hoeft te worden. De opgeloste afbeelding zou vanaf dan verschijnen in op zijn juiste positie in de hemelkaart. U kunt meerdere afbeeldingen plaat-oplossen in een enkele bewerking door te klikken op de eerste bestandsnaam van de afbeelding, daarna Shift en klikken op een andere bestandsnaam. Alle afbeeldingsbestanden tussen de bestandsnamen zullen geselecteerd worden. Daarna klikken op Oplossen zal geprobeerd worden ze allemaal op te lossen. KStars zal echter niet proberen afbeelding waarvan de status "OK" is opnieuw op te lossen, het zal die afbeeldingen overslaan. (Als u afbeeldingen opnieuw wilt plaat- oplossen met status "OK", wijzig hun status handmatig naar "Niet verwerkt" en klik op "Oplossen"). Het is mogelijk dat als u verschillende afbeeldingen selecteert, een paar ervan niet met succes worden opgelost. </para>
+<para
+>Deze afbeeldingen plaat-oplossen kan soms moeilijk zijn. Dat is omdat op dit punt het systeem geen informatie over de schaal of positie waar te kijken, en dus is het een blinde oplossing. Om uw kans op succes te vergroten kunt u een benaderde RA/DEC centrale hemelpositie in de RA en DEC kolommen voor de rij die u probeert op te lossen in te voeren. U kunt ook een schaal van de afbeelding toevoegen, in boogseconden-per-pixel. U kunt een standaard schaal rechts van de knop oplossen in het vak met label <guilabel
+>Standaard b-s/px</guilabel
+> toevoegen zodat alle pogingen voor oplossen deze schaal standaard gebruiken. U kunt ook direct in de tabel-rij-kolom een schaal toevoegen, die de standaard overschrijft. U kunt kiezen welk StellarSolver-profiel de oplosser gebruikt (deze profielen kunnen bewerkt worden in tabblad uitlijnen van Ekos). U kunt tenslotte de <guilabel
+>Tijdlimiet</guilabel
+> in seconden van de oplosser aanpassen. </para>
+<para
+>Als u problematische afbeeldingen hebt die niet opgelost willen worden, dan kunt u ze toch tonen door handmatig de waarden (die de oplosser niet vond) invoeren in de tabel. Het zijn de instellen RA, DEC, boogseconde-per-pixel, oriëntatiehoek en Oost-naar-rechts (of West-naar-rechts). Nadat u dat hebt gedaan, kunt u de status wijzigen naar "OK" en KStars zal deze waarden opslaan in de database van de gebruiker alsof ze automatisch zijn opgelost. </para>
+<para
+>Er zijn nog een paar besturingen op de instellingenpagina van Overlays van afbeelding. Het keuzevak <guilabel
+>Overlays van afbeelding tonen</guilabel
+> bovenaan de pagina schakelt deze functie in of uit--dat wil zeggen, schakelt om of een overlay van afbeelding getoond wordt op de hemelkaart of niet. </para>
+<para
+>Het vak <guilabel
+>Maximale afmetingen van afbeelding</guilabel
+> biedt u het variëren van de maximale afmetingen van de gebruikte afbeeldingen. Dat wil zeggen, als u afbeeldingen plaatst, bijvoorbeeld, 5000 pixels breed in de map imageOverlays, maar de waarde in dit invoervak is 1000, dan zal de 5000-pixel-afbeelding ingelezen worden, maar omlaag gebracht worden naar 1000-pixels-breed vóór het tonen. Dit wordt gedaan om de voetafdruk in het geheugen en gebruik van voor deze functie te verminderen. Het zou efficiënter zijn om afbeeldingsbestanden met de gewenste afbeeldingsbreedte toe te voegen. </para>
+<para
+>Het keuzevak <guilabel
+>Hemelkaart centreren bij selectie</guilabel
+> biedt u het gemakkelijk navigeren naar de overlay-afbeeldingen zonder direct de hemelkaart te manipuleren. Met dit ingeschakeld, selecteert u een rij in de overlay-tabel (bijv. door op het bestandsnaamveld te klikken) en de hemelkaart verplaatst zich naar die afbeelding als de status van de afbeelding OK is. Op dat punt kunt u van de ene afbeelding naar de volgende gaan met de omhoog/omlaag pijltjestoetsen op het toetsenbord. </para>
 </sect1>
 
 <sect1 id="colors">

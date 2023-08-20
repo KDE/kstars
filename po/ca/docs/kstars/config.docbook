@@ -173,9 +173,9 @@
 </para>
 
 <para
->La finestra <guilabel
+>lLa finestra <guilabel
 >Configuració - &kstars;</guilabel
-> està dividida en dotze pàgines: <guilabel
+> està dividida en catorze pàgines: <guilabel
 >Catàlegs</guilabel
 >, <guilabel
 >Sistema solar</guilabel
@@ -188,6 +188,8 @@
 >, <guilabel
 >Terreny</guilabel
 >, <guilabel
+>Superposició d'imatges</guilabel
+>, <guilabel
 >Colors</guilabel
 >, <guilabel
 >FITS</guilabel
@@ -197,8 +199,10 @@
 >Ekos</guilabel
 >, <guilabel
 >Xplanet</guilabel
-> i <guilabel
+>, <guilabel
 >Avançat</guilabel
+> i <guilabel
+>Desenvolupador</guilabel
 >. </para>
 
 <!-- Catalogs page: -->
@@ -296,6 +300,24 @@
 >Terreny</guilabel
 > permet establir el terreny o la imatge del paisatge i configurar les seves opcions d'acceleració. </para>
 
+<!-- Image Overlays page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>Pàgina de superposicions d'imatges</secondary
+></indexterm>
+<indexterm
+><primary
+>Superposicions d'imatges</primary>
+<secondary
+>Personalitzar</secondary
+></indexterm
+>La pàgina <guilabel
+>Superposicions d'imatges</guilabel
+> permet afegir i gestionar les vostres pròpies imatges que es mostraran en el mapa celeste. </para>
+
 <!-- Colors page: -->
 <para>
 <indexterm
@@ -363,6 +385,18 @@
 >La pàgina <guilabel
 >Avançat</guilabel
 > proveeix un acurat control sobre els comportaments més subtils del &kstars;. </para>
+
+<!-- Developer page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Avançat</secondary
+></indexterm
+>La pàgina <guilabel
+>Desenvolupador</guilabel
+> permet activar o desactivar algunes opcions útils sobretot per als desenvolupadors o per a la gent que busca ajudar en els problemes de depuració. Actualment, activen el desament d'imatges durant l'enfocament automàtic, el guiatge i l'alineació de l'Ekos. </para>
 </sect1>
 
 <sect1 id="catalogs">
@@ -1269,14 +1303,14 @@
 >Sistema solar</title>
 <screenshot>
 <screeninfo
->Finestra amb Sistema solar</screeninfo>
+>Finestra del Sistema solar</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="solarsystem_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Sistema solar</phrase>
+>Finestra del Sistema solar</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1299,14 +1333,14 @@
 >Satèl·lits</title>
 <screenshot>
 <screeninfo
->Finestra amb Satèl·lits</screeninfo>
+>Finestra dels Satèl·lits</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="satellites_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Satèl·lits</phrase>
+>Finestra dels Satèl·lits</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1369,14 +1403,14 @@
 >Supernoves</title>
 <screenshot>
 <screeninfo
->Finestra amb Supernoves</screeninfo>
+>Finestra de les Supernoves</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="supernovae_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Supernoves</phrase>
+>Finestra de les Supernoves</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1415,14 +1449,14 @@
 >Guies</title>
 <screenshot>
 <screeninfo
->Finestra amb Guies</screeninfo>
+>Finestra de les Guies</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="guides_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Guies</phrase>
+>Finestra de les Guies</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1451,14 +1485,14 @@
 >Terreny</title>
 <screenshot>
 <screeninfo
->Finestra amb Terreny</screeninfo>
+>Finestra del Terreny</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="terrain_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Terreny</phrase>
+>Finestra del Terreny</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1500,19 +1534,94 @@
 </tip>
 </sect1>
 
+<sect1 id="imageOverlays">
+<title
+>Superposicions d'imatges</title>
+<screenshot>
+<screeninfo
+>Superposicions d'imatges en el mapa celeste</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays2.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Superposicions d'imatges en el mapa celeste</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>Pàgina de superposicions d'imatges</secondary
+></indexterm
+>Les superposicions d'imatge són imatges personalitzades (normalment .jpg) que es representen en el mapa celeste sobre les estrelles i altres elements del mapa celeste, però sota el terreny. Aquestes imatges les afegiu vós, l'usuari, com una mena de catàleg personal del cel. Si es configuren correctament, aquestes imatges personals es poden mostrar gairebé perfectament alineades amb altres objectes del cel. </para>
+<screenshot>
+<screeninfo
+>Finestra de Superposicions d'imatges</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays1.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra de Superposicions d'imatges</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>La pàgina <guilabel
+>Superposició d'imatges</guilabel
+> permet configurar si es mostraran les superposicions d'imatge en el mapa celeste i us ajudarà a afegir-les al sistema. La imatge a l'inici d'aquesta secció mostra el mapa celeste amb les superposicions d'imatges activades i algunes superposicions d'imatges carregades. </para>
+<para
+>Cada vegada que s'inicia, el KStars cerca imatges superposades noves en un directori especial, paral·lel al directori de registres, anomenat «imageOverlays». Al Linux, això es pot trobar a ~/.local/share/kstars/imageOverlays. La ubicació exacta al vostre sistema es pot trobar fent clic al botó <guilabel
+>Directori de superposicions</guilabel
+> a prop de la part superior de la pàgina de configuració de les Superposicions d'imatges que es mostra a la part superior d'aquesta secció. Per a començar, afegiu les vostres imatges a aquest directori. Idealment, per raons de rendiment no són fitxers massius, però probablement les imatges amb amplades de 1000 o 2000 haurien de ser bones. Per a afegir imatges addicionals en el futur, afegiu-les al mateix directori i reinicieu el KStars. </para>
+<para
+>Inicieu el KStars un cop tingueu les imatges al directori «imageOverlays». Si després aneu a la pàgina de configuració de Superposicions d'imatges, hauríeu de veure els fitxers nous llistats a la taula. Les imatges noves mostraran el seu estat com a «sense processar». Al mapa celeste només es mostren les imatges l'estat de les quals és «D'acord». Això es deu al fet que el KStars necessita conèixer la ubicació, la mida i l'orientació del cel per a aquestes imatges abans de poder mostrar-les. Per a canviar l'estat a D'acord, cal que resolgueu les imatges o afegiu manualment la informació requerida (vegeu a sota). </para>
+<para
+>Per a preparar les imatges per a la seva visualització, cal que les planifiqueu (només una vegada). Per a fer-ho, trobeu una imatge a la taula, feu clic al nom del fitxer i, a continuació, feu clic a <guilabel
+>Soluciona</guilabel
+> sota la taula. L'etiqueta del botó Soluciona hauria de canviar a <guilabel
+>Cancel·la</guilabel
+> durant la resolució, i després, quan s'hagi completat correctament, els paràmetres resolts es mostraran a la taula i l'estat es canviarà a «D'acord». La informació d'un solucionador de plaques amb èxit s'emmagatzema a la base de dades d'usuaris de manera que no cal repetir la solució. La imatge resolta hauria d'aparèixer a partir de llavors en la seva posició adequada al mapa celeste. Podeu resoldre múltiples imatges en una única operació fent clic al nom del primer fitxer de la imatge i després fent clic amb majúscules a un altre nom. S'haurien de seleccionar tots els fitxers d'imatge entre els noms de fitxers. Després, fent clic a Soluciona intentarà resoldre'ls tots. No obstant això, el KStars no intentarà resoldre plaques d'imatges l'estat de les quals sigui «D'acord», s'ometran aquestes imatges (si voleu replanificar les imatges amb l'estat "D'acord", llavors canvieu manualment el seu estat a «No processat» i feu clic a «Soluciona»). És possible que si seleccioneu diverses imatges, algunes no es resolguin correctament. </para>
+<para
+>De vegades, la solució de plaques d'aquestes imatges pot ser difícil. Això es deu al fet que, en aquest moment, el sistema no té informació sobre l'escala o la posició que ha d'observar, i per tant és una solució cega. Per a millorar la vostra oportunitat d'èxit, podeu introduir una posició AR/Dec aproximada del centre del cel a les columnes AR i Dec per a la fila que esteu intentant resoldre. També podeu afegir una escala d'imatge, en segons d'arc per píxel. Podeu afegir una escala predeterminada a la dreta del botó Soluciona en el quadre etiquetat <guilabel
+>a-s/px predeterminats</guilabel
+> de manera que tots els intents de resolució usin aquesta escala predeterminada. També podeu afegir una escala directament a la taula-fila-columna, que sobreescriurà el valor predeterminat. Podeu triar quin perfil de l'StellarSolver usa el solucionador (aquests perfils es poden editar a la pestanya d'alineació de l'Ekos). Finalment, podeu ajustar el <guilabel
+>Temps d'espera</guilabel
+> del solucionador en segons. </para>
+<para
+>Si teniu imatges problemàtiques que no es resolen, encara podeu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a la taula. Són els paràmetres d'AR, Dec, arcsegons per píxel, angle d'orientació, i d'est a la dreta (o d'oest a la dreta). Una vegada fet això, podreu canviar l'estat a «D'acord» i el KStars desarà aquests valors a la base de dades d'usuari com si s'haguessin resolt automàticament. </para>
+<para
+>Hi ha alguns controls més a la pàgina de configuració de les superposicions d'imatges. La casella de selecció <guilabel
+>Mostra les superposicions d'imatges</guilabel
+> a la part superior de la pàgina activa o desactiva aquesta característica, és a dir, alterna si es mostren o no les superposicions d'imatges al mapa celeste. </para>
+<para
+>El quadre <guilabel
+>Dimensió màxima de les imatges</guilabel
+> permet variar la dimensió màxima d'imatge emprada a les imatges. És a dir, si col·loqueu les imatges que són, per exemple, de 5000 píxels d'amplada en el directori «imageOverlays», però el valor d'aquest quadre d'entrada és 1000, llavors les imatges de 5000 píxels es llegiran, però després es reduiran a 1000 píxels d'amplada abans de mostrar-les. Això es fa per reduir l'empremta de memòria i l'ús de CPU d'aquesta característica. Seria més eficient afegir fitxers d'imatge amb l'amplada d'imatge desitjada. </para>
+<para
+>La casella de selecció <guilabel
+>Centra el mapa celeste en la selecció</guilabel
+> permet navegar fàcilment a les imatges superposades sense manipular directament el mapa celeste. Amb aquesta opció activada, seleccioneu una fila a la taula de superposició (p. ex., fent clic al camp del nom de fitxer) i el mapa celeste es mourà a aquesta imatge si l'estat de la imatge és correcte. En aquest punt podeu moure's d'una imatge a la següent amb les fletxes amunt/avall del teclat. </para>
+</sect1>
+
 <sect1 id="colors">
 <title
 >Colors</title>
 <screenshot>
 <screeninfo
->Finestra amb Colors</screeninfo>
+>Finestra de Colors</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="colors_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Colors</phrase>
+>Finestra de Colors</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1561,14 +1670,14 @@
 >FITS</title>
 <screenshot>
 <screeninfo
->Finestra amb FITS</screeninfo>
+>Finestra del FITS</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="fits_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb FITS</phrase>
+>Finestra del FITS</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1619,14 +1728,14 @@
 >INDI</title>
 <screenshot>
 <screeninfo
->Finestra amb INDI</screeninfo>
+>Finestra de l'INDI</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="indi_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb INDI</phrase>
+>Finestra de l'INDI</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1643,14 +1752,14 @@
 >Ekos</title>
 <screenshot>
 <screeninfo
->Finestra amb l'Ekos</screeninfo>
+>Finestra de l'Ekos</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="ekos_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb l'Ekos</phrase>
+>Finestra de l'Ekos</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1667,14 +1776,14 @@
 >Xplanet</title>
 <screenshot>
 <screeninfo
->Finestra amb Xplanet</screeninfo>
+>Finestra de l'Xplanet</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="xplanet_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Xplanet</phrase>
+>Finestra de l'Xplanet</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1691,14 +1800,14 @@
 >Avançat</title>
 <screenshot>
 <screeninfo
->Finestra amb Avançat</screeninfo>
+>Finestra Avançat</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="advanced_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra amb Avançat</phrase>
+>Finestra Avançat</phrase>
   </textobject>
 </mediaobject>
 </screenshot>

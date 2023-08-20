@@ -162,7 +162,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Refresh</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh from the overlay directory. Add overlays that have been added there, and remove overlays that are no longer there.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string/>

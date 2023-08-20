@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 00:41+0000\n"
+"POT-Creation-Date: 2023-08-19 00:41+0000\n"
 "PO-Revision-Date: 2023-08-02 12:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -400,7 +400,7 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
-#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:730
+#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
 #: options/opscolors.ui:204
 #, kde-format, kde-kuit-format
 msgid "Save"
@@ -1798,7 +1798,7 @@ msgstr "目标："
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/capture.ui:813
-#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:1011 oal/execute.ui:146
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
@@ -2936,8 +2936,8 @@ msgstr "编辑..."
 #. i18n: ectx: property (text), widget (QPushButton, RemovePreset)
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 indi/customdrivers.ui:154 indi/drivermanager.ui:311
-#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:934
-#: oal/equipmentwriter.ui:1271 options/opscolors.ui:230
+#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:906
+#: oal/equipmentwriter.ui:1243 options/opscolors.ui:230
 #, kde-format
 msgid "Remove"
 msgstr "删除"
@@ -2977,7 +2977,7 @@ msgstr "创建或编辑星表"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetColor)
 #: dialogs/catalogeditform.ui:79 dialogs/newfov.ui:1246
-#: oal/equipmentwriter.ui:1021 xplanet/opsxplanet.ui:666
+#: oal/equipmentwriter.ui:993 xplanet/opsxplanet.ui:666
 #, kde-format
 msgid "Color:"
 msgstr "颜色："
@@ -3104,7 +3104,7 @@ msgstr "维护者"
 #. i18n: ectx: property (text), widget (QCheckBox, f_UseAutoFocus)
 #: dialogs/catalogsdbui.cpp:121 dialogs/catalogsdbui.cpp:135
 #: dialogs/catalogsdbui.ui:73 ekos/observatory/observatory.ui:370
-#: oal/equipmentwriter.ui:1177
+#: oal/equipmentwriter.ui:1149
 #, kde-format
 msgid "Enable"
 msgstr "启用"
@@ -3645,7 +3645,7 @@ msgstr "0.0 秒差距"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:847 ekos/capture/capture.cpp:885
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
-#: indi/streamform.ui:368 oal/equipmentwriter.ui:1191
+#: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -4873,12 +4873,11 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #. i18n: ectx: property (text), widget (QLabel, label_29)
-#. i18n: ectx: property (text), widget (QLabel, label_27)
 #. i18n: ectx: property (text), widget (QLabel, binoApertureUnit)
 #: dialogs/newfov.ui:134 dialogs/newfov.ui:193 dialogs/newfov.ui:477
 #: oal/equipmentwriter.ui:176 oal/equipmentwriter.ui:232
-#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:625
-#: oal/equipmentwriter.ui:681 tools/whatsinteresting/wiequipsettings.ui:213
+#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:587
+#: tools/whatsinteresting/wiequipsettings.ui:213
 #, kde-format
 msgid "mm"
 msgstr "毫米"
@@ -5166,7 +5165,7 @@ msgstr "米"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9_3)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1163
+#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1135
 #, kde-format
 msgid "Wavelength:"
 msgstr "波长："
@@ -10545,7 +10544,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:109 ekos/capture/capture.ui:1872
-#: oal/equipmentwriter.ui:946
+#: oal/equipmentwriter.ui:918
 #, kde-format
 msgid "Filter"
 msgstr "滤镜"
@@ -10991,7 +10990,7 @@ msgstr "时间："
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel_2)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:529
-#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1031
+#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1003
 #, kde-format
 msgid "Exposure:"
 msgstr "曝光量："
@@ -13755,7 +13754,7 @@ msgstr "相机偏移"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
-#: oal/equipmentwriter.ui:1060
+#: oal/equipmentwriter.ui:1032
 #, kde-format
 msgid "Offset:"
 msgstr "偏移量："
@@ -15117,7 +15116,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
-#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:576
+#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:611
 #, kde-format
 msgid "Focal Ratio"
 msgstr "焦比"
@@ -27750,7 +27749,7 @@ msgstr "制造商："
 #. i18n: ectx: property (text), widget (QPushButton, NewLens)
 #. i18n: ectx: property (text), widget (QPushButton, NewFilter)
 #: indi/customdrivers.ui:177 oal/equipmentwriter.ui:418
-#: oal/equipmentwriter.ui:920 oal/equipmentwriter.ui:1257
+#: oal/equipmentwriter.ui:892 oal/equipmentwriter.ui:1229
 #, kde-format
 msgid "Add New"
 msgstr "新建"
@@ -69857,8 +69856,8 @@ msgstr "望远镜"
 #. i18n: ectx: property (text), widget (QLabel, label3_2)
 #. i18n: ectx: property (text), widget (QLabel, label4)
 #: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:379
-#: oal/equipmentwriter.ui:593 oal/equipmentwriter.ui:849
-#: oal/equipmentwriter.ui:974
+#: oal/equipmentwriter.ui:573 oal/equipmentwriter.ui:821
+#: oal/equipmentwriter.ui:946
 #, kde-format
 msgid "Id:"
 msgstr "ID："
@@ -69912,8 +69911,8 @@ msgstr "里奇-克莱琴望远镜(RC)"
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, scopeModelText)
 #: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:393
-#: oal/equipmentwriter.ui:703 oal/equipmentwriter.ui:896
-#: oal/equipmentwriter.ui:1001 tools/whatsinteresting/wiequipsettings.ui:107
+#: oal/equipmentwriter.ui:580 oal/equipmentwriter.ui:868
+#: oal/equipmentwriter.ui:973 tools/whatsinteresting/wiequipsettings.ui:107
 #, kde-format
 msgid "Model:"
 msgstr "型号："
@@ -69924,8 +69923,8 @@ msgstr "型号："
 #. i18n: ectx: property (text), widget (QLabel, label31)
 #. i18n: ectx: property (text), widget (QLabel, label5)
 #: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:386
-#: oal/equipmentwriter.ui:647 oal/equipmentwriter.ui:866
-#: oal/equipmentwriter.ui:991
+#: oal/equipmentwriter.ui:601 oal/equipmentwriter.ui:838
+#: oal/equipmentwriter.ui:963
 #, kde-format
 msgid "Vendor:"
 msgstr "销售商："
@@ -69994,117 +69993,117 @@ msgstr "弧度"
 msgid "DSLR Lens"
 msgstr "单反镜头"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
-#: oal/equipmentwriter.ui:573
-#, kde-format
-msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: oal/equipmentwriter.ui:600
+#: oal/equipmentwriter.ui:594
 #, kde-format
 msgid "Focal Length"
 msgstr "焦距"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
+#: oal/equipmentwriter.ui:608
+#, kde-format
+msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
-#: oal/equipmentwriter.ui:727
+#: oal/equipmentwriter.ui:699
 #, kde-format
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
-#: oal/equipmentwriter.ui:760
+#: oal/equipmentwriter.ui:732
 #, kde-format
 msgid ""
 "<html><head/><body><p>Clear data and add a new DSLR lens</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
-#: oal/equipmentwriter.ui:780
+#: oal/equipmentwriter.ui:752
 #, kde-format
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
-#: oal/equipmentwriter.ui:805
+#: oal/equipmentwriter.ui:777
 #, kde-format
 msgid "Barlow Lens"
 msgstr "巴洛镜"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: oal/equipmentwriter.ui:837
+#: oal/equipmentwriter.ui:809
 #, kde-format
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr "输入巴洛镜/减焦镜细节"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:876
+#: oal/equipmentwriter.ui:848
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
 msgstr "增倍镜/减焦镜 放大倍数"
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:879
+#: oal/equipmentwriter.ui:851
 #, kde-format
 msgid "Factor:"
 msgstr "因子："
 
 #. i18n: ectx: property (text), widget (QPushButton, AddLens)
-#: oal/equipmentwriter.ui:927
+#: oal/equipmentwriter.ui:899
 #, kde-format
 msgid "Save Lens"
 msgstr "保存镜头设置"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
-#: oal/equipmentwriter.ui:1057
+#: oal/equipmentwriter.ui:1029
 #, kde-format
 msgid "Filter focus offset"
 msgstr "滤镜对焦偏移量"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: oal/equipmentwriter.ui:1086
+#: oal/equipmentwriter.ui:1058
 #, kde-format
 msgid "Abs. position:"
 msgstr "绝对位置："
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: oal/equipmentwriter.ui:1106
+#: oal/equipmentwriter.ui:1078
 #, kde-format
 msgid "Focus alt:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: oal/equipmentwriter.ui:1129
+#: oal/equipmentwriter.ui:1101
 #, kde-format
 msgid "Ticks per C:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: oal/equipmentwriter.ui:1146
+#: oal/equipmentwriter.ui:1118
 #, kde-format
 msgid "Ticks per Alt:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: oal/equipmentwriter.ui:1170
+#: oal/equipmentwriter.ui:1142
 #, kde-format
 msgid "Auto focus:"
 msgstr "自动对焦:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: oal/equipmentwriter.ui:1184
+#: oal/equipmentwriter.ui:1156
 #, kde-format
 msgid "Locked filter:"
 msgstr "锁定滤镜:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: oal/equipmentwriter.ui:1217
+#: oal/equipmentwriter.ui:1189
 #, kde-format
 msgid "Focus temp:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
-#: oal/equipmentwriter.ui:1264
+#: oal/equipmentwriter.ui:1236
 #, kde-format
 msgid "Save Filter"
 msgstr "保存滤镜"

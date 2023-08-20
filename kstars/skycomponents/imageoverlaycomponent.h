@@ -94,8 +94,12 @@ class ImageOverlayComponent : public QObject, public SkyComponent
         return m_Directory;
     };
 
+ signals:
+    void updateLog(const QString &message);
+
 private slots:
     void tryAgain();
+    void updateStatusDisplay(const QString &message);
 
 private:
     void loadFromUserDB();
@@ -104,7 +108,6 @@ private:
     void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
     void initializeGui();
     int numAvailable();
-    void updateStatusDisplay(const QString &message);
     void cellChanged(int row, int col);
     void statusCellChanged(int row);
     void selectionChanged();
