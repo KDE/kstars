@@ -767,6 +767,9 @@ class KStars : public KXmlGuiWindow
         /** Toggle whether to show the terrain image on the skymap. */
         void slotTerrain();
 
+        /** Toggle whether to show image overlays on the skymap. */
+        void slotImageOverlays();
+
         /** Save data to config file before exiting.*/
         void slotAboutToQuit();
 

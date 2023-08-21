@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:41+0000\n"
+"POT-Creation-Date: 2023-08-21 00:41+0000\n"
 "PO-Revision-Date: 2023-08-17 09:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -554,7 +554,7 @@ msgstr "Скасувати"
 #: ekos/manager.cpp:1113 ekos/scheduler/schedulerjob.cpp:674
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:480 kstarsactions.cpp:488
-#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:518
+#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Error"
 msgstr "Помилка"
@@ -9649,9 +9649,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshSourceB)
-#. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1202
-#: hips/opships.ui:116 options/opsimageoverlay.ui:165
+#: hips/opships.ui:116
 #, kde-format
 msgid "Refresh"
 msgstr "Оновити"
@@ -9859,9 +9858,9 @@ msgstr "Захоплення"
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
 #: ekos/align/polaralignwidget.ui:317 options/opsimageoverlay.ui:242
-#: skycomponents/imageoverlaycomponent.cpp:342
-#: skycomponents/imageoverlaycomponent.cpp:702
-#: skycomponents/imageoverlaycomponent.cpp:782
+#: skycomponents/imageoverlaycomponent.cpp:343
+#: skycomponents/imageoverlaycomponent.cpp:703
+#: skycomponents/imageoverlaycomponent.cpp:783
 #, kde-format
 msgid "Solve"
 msgstr "Розв'язати"
@@ -23238,8 +23237,8 @@ msgstr "Перервати рух купола"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
-#: skycomponents/imageoverlaycomponent.cpp:585
-#: skycomponents/imageoverlaycomponent.cpp:708
+#: skycomponents/imageoverlaycomponent.cpp:586
+#: skycomponents/imageoverlaycomponent.cpp:709
 #: skycomponents/satellitescomponent.cpp:143 tools/conjunctions.cpp:350
 #, kde-format
 msgid "Abort"
@@ -74522,6 +74521,20 @@ msgstr ""
 msgid "Overlay Directory"
 msgstr "Каталог накладок"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
+#: options/opsimageoverlay.ui:165
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
+#| "sensor name to display its data over time.</p></body></html>"
+msgid ""
+"<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
+"have been added there, and remove overlays that are no longer there.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Поточні дані метеорологічних датчиків. Натисніть мітку "
+"датчика, щоб побачити графік зміни даних з часом.</p></body></html>"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
 #, kde-format
@@ -76053,179 +76066,176 @@ msgstr "Кут.с./пк"
 msgid "EastRight"
 msgstr "СхідПраворуч"
 
-#: skycomponents/imageoverlaycomponent.cpp:162
+#: skycomponents/imageoverlaycomponent.cpp:163
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
 "Введено помилковий рядок для ПС для %1. Відновлюємо початкове значення."
 
-#: skycomponents/imageoverlaycomponent.cpp:176
+#: skycomponents/imageoverlaycomponent.cpp:177
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
 "Введено помилковий рядок для схилення для %1. Відновлюємо початкове значення."
 
-#: skycomponents/imageoverlaycomponent.cpp:189
+#: skycomponents/imageoverlaycomponent.cpp:190
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
 "Введено помилковий рядок для кута орієнтації для %1. Відновлюємо початкове "
 "значення."
 
-#: skycomponents/imageoverlaycomponent.cpp:200
+#: skycomponents/imageoverlaycomponent.cpp:201
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
 "Введено помилковий рядок для кута масштабування для %1. Відновлюємо "
 "початкове значення."
 
-#: skycomponents/imageoverlaycomponent.cpp:230
+#: skycomponents/imageoverlaycomponent.cpp:231
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
 "Не вдалося встановити стан «Гаразд». Потрібне коректне ненульове значення ПС."
 
-#: skycomponents/imageoverlaycomponent.cpp:241
+#: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
 "Не вдалося встановити стан «Гаразд». Потрібне коректне ненульове значення "
 "схилення."
 
-#: skycomponents/imageoverlaycomponent.cpp:252
+#: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
 "Не вдалося встановити стан «Гаразд». Потрібне коректне значення орієнтації."
 
-#: skycomponents/imageoverlaycomponent.cpp:263
+#: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
 "Не вдалося встановити стан «Гаразд». Потрібне коректне ненульове значення у "
 "кутових секундах на піксель."
 
-#: skycomponents/imageoverlaycomponent.cpp:293
+#: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
 msgstr "Збережено коректний стан для %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:386
+#: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
 msgid "Updating from directory: %1"
 msgstr "Оновлення з каталогу: %1"
 
-#: skycomponents/imageoverlaycomponent.cpp:435
+#: skycomponents/imageoverlaycomponent.cpp:436
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr "%1 накладок (%2 нових, %3 вилучених), %4 розв'язано"
 
-#: skycomponents/imageoverlaycomponent.cpp:437
-#: skycomponents/imageoverlaycomponent.cpp:555
-#: skycomponents/imageoverlaycomponent.cpp:844
+#: skycomponents/imageoverlaycomponent.cpp:438
+#: skycomponents/imageoverlaycomponent.cpp:556
+#: skycomponents/imageoverlaycomponent.cpp:845
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Зображення-накладки. %1 зображень, %2 доступно."
 
-#: skycomponents/imageoverlaycomponent.cpp:450
+#: skycomponents/imageoverlaycomponent.cpp:451
 #, kde-format
 msgid "Loading image files..."
 msgstr "Завантаження файлів зображень…"
 
-#: skycomponents/imageoverlaycomponent.cpp:456
+#: skycomponents/imageoverlaycomponent.cpp:457
 #, kde-format
 msgid "%1 image files loaded."
 msgstr "Завантажено %1 файлів зображень."
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Unprocessed"
 msgstr "Не оброблено"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Bad File"
 msgstr "Пошкоджений файл"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Solve Failed"
 msgstr "Не вдалося розв'язати"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "OK"
 msgstr "Гаразд"
 
-#: skycomponents/imageoverlaycomponent.cpp:541
+#: skycomponents/imageoverlaycomponent.cpp:542
 #, kde-format
 msgid "West-Right"
 msgstr "Захід-Праворуч"
 
-#: skycomponents/imageoverlaycomponent.cpp:542
+#: skycomponents/imageoverlaycomponent.cpp:543
 #, kde-format
 msgid "East-Right"
 msgstr "Схід-Праворуч"
 
-#: skycomponents/imageoverlaycomponent.cpp:596
+#: skycomponents/imageoverlaycomponent.cpp:597
 #, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "Розв'язування: %1. %2 у черзі."
 
-#: skycomponents/imageoverlaycomponent.cpp:598
+#: skycomponents/imageoverlaycomponent.cpp:599
 #, kde-format
 msgid "Solving: %1."
 msgstr "Розв'язування: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:663
+#: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr "Неможливо показати %1. Пластину не розв'язано."
 
-#: skycomponents/imageoverlaycomponent.cpp:668
+#: skycomponents/imageoverlaycomponent.cpp:669
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr "Неможливо показати %1. Зображення не завантажено."
 
-#: skycomponents/imageoverlaycomponent.cpp:701
+#: skycomponents/imageoverlaycomponent.cpp:702
 #, kde-format
 msgid "Solving aborted."
 msgstr "Розв'язування перервано."
 
-#: skycomponents/imageoverlaycomponent.cpp:736
+#: skycomponents/imageoverlaycomponent.cpp:737
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr "Пропускаємо вже розв'язане: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:755
+#: skycomponents/imageoverlaycomponent.cpp:756
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr "%1 вже розв'язано. Пропускаємо."
 
-#: skycomponents/imageoverlaycomponent.cpp:775
+#: skycomponents/imageoverlaycomponent.cpp:774
 #, kde-format
-msgid ""
-"Reload not yet implemented. Currently you need to restart KStars to do this."
+msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
-"Перезавантаження ще не реалізовано. У поточній версії для цього слід "
-"перезапустити KStars."
 
-#: skycomponents/imageoverlaycomponent.cpp:792
+#: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
 msgid "Solver timed out in %1s"
 msgstr "Перевищення часу очікування на розв'язок, %1 с"
 
-#: skycomponents/imageoverlaycomponent.cpp:798
+#: skycomponents/imageoverlaycomponent.cpp:799
 #, kde-format
 msgid "Solver failed in %1s"
 msgstr "Помилка розв'язувача, %1 с"
 
-#: skycomponents/imageoverlaycomponent.cpp:811
+#: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr "Успішне розв'язання за %1 с: ПС %2 Схил %3 Масш %4 Кут %5"
 
-#: skycomponents/imageoverlaycomponent.cpp:843
+#: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr "Розв'язування виконано. Доступне %1."
@@ -84057,6 +84067,13 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid ""
+#~ "Reload not yet implemented. Currently you need to restart KStars to do "
+#~ "this."
+#~ msgstr ""
+#~ "Перезавантаження ще не реалізовано. У поточній версії для цього слід "
+#~ "перезапустити KStars."
 
 #~ msgid "Adaptive focus failed. Continuing..."
 #~ msgstr "Не вдалося виконати адаптивне фокусування. Продовжуємо…"

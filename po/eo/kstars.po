@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:41+0000\n"
-"PO-Revision-Date: 2023-08-05 10:03+0100\n"
+"POT-Creation-Date: 2023-08-21 00:41+0000\n"
+"PO-Revision-Date: 2023-08-20 21:04+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -554,7 +554,7 @@ msgstr "Nuligi"
 #: ekos/manager.cpp:1113 ekos/scheduler/schedulerjob.cpp:674
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:480 kstarsactions.cpp:488
-#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:518
+#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Error"
 msgstr "Eraro"
@@ -9564,9 +9564,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshSourceB)
-#. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1202
-#: hips/opships.ui:116 options/opsimageoverlay.ui:165
+#: hips/opships.ui:116
 #, kde-format
 msgid "Refresh"
 msgstr "Refreŝigi"
@@ -9768,9 +9767,9 @@ msgstr "Kapto"
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
 #: ekos/align/polaralignwidget.ui:317 options/opsimageoverlay.ui:242
-#: skycomponents/imageoverlaycomponent.cpp:342
-#: skycomponents/imageoverlaycomponent.cpp:702
-#: skycomponents/imageoverlaycomponent.cpp:782
+#: skycomponents/imageoverlaycomponent.cpp:343
+#: skycomponents/imageoverlaycomponent.cpp:703
+#: skycomponents/imageoverlaycomponent.cpp:783
 #, kde-format
 msgid "Solve"
 msgstr "Solvi"
@@ -22934,8 +22933,8 @@ msgstr "Ĉesigi kupolmoviĝon"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
-#: skycomponents/imageoverlaycomponent.cpp:585
-#: skycomponents/imageoverlaycomponent.cpp:708
+#: skycomponents/imageoverlaycomponent.cpp:586
+#: skycomponents/imageoverlaycomponent.cpp:709
 #: skycomponents/satellitescomponent.cpp:143 tools/conjunctions.cpp:350
 #, kde-format
 msgid "Abort"
@@ -24782,10 +24781,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/scheduler/framingassistant.ui:105
-#, fuzzy, kde-format
-#| msgid "Reducer"
+#, kde-format
 msgid "Reducer:"
-msgstr "Reduktilo"
+msgstr "Reduktilo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #: ekos/scheduler/framingassistant.ui:136
@@ -26854,22 +26852,20 @@ msgstr "Prioritato:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
 #: ekos/scheduler/scheduler.ui:204
-#, fuzzy, kde-format
-#| msgid "Slew to the target and track it before proceeding to the next step."
+#, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
-msgstr "Turnu al la celo kaj spuru ĝin antaŭ ol daŭrigi la sekvan paŝon."
+msgstr ""
+"Turni al la celo kaj spuri ĝin. Farita je la komenco de ĉiu planila tasko."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
 #: ekos/scheduler/scheduler.ui:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "Perform alignment using astrometry solver before proceeding to the next "
-#| "step."
+#, kde-format
 msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
 msgstr ""
-"Faru vicigon uzante astrometrian solvanton antaŭ ol daŭrigi la sekvan paŝon."
+"Ruli vicigon uzante astrometrian solvailon. Farita je la komenco de ĉiu "
+"planila tasko."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/scheduler.ui:251
@@ -36667,10 +36663,9 @@ msgstr "Teleskopa fokusa distanco en milimetroj."
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:2809
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Reducer ratio"
-msgstr "Foka Proporcio"
+msgstr "Fokoreduktila proporcio"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
 #: kstars.kcfg:2813
@@ -37198,10 +37193,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
-#, fuzzy, kde-format
-#| msgid "Toggle whether Pluto is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether to display image overlays."
-msgstr "Baskuligi ĉu Plutono estas desegnita sur la ĉiela mapo."
+msgstr "Baskuligi ĉu montri bildajn superkovrojn."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3135
@@ -37219,17 +37213,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3140
-#, fuzzy, kde-format
-#| msgid "Image has invalid dimensions %1x%2"
+#, kde-format
 msgid "Image overlay max dimension"
-msgstr "Bildo havas nevalidajn dimensiojn %1x%2"
+msgstr "Maksimuma dimensio de bilda superkovro"
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3141
-#, fuzzy, kde-format
-#| msgid "Maximum distance for comet names"
+#, kde-format
 msgid "Maximum dimension for image overlay images."
-msgstr "Maksimuma distanco por kometnomoj"
+msgstr "Maksimuma dimensio bildsuperkovrajn bildoj."
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3145
@@ -65925,10 +65917,9 @@ msgstr "Tereno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
 #: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Image Overlays"
-msgstr "Overlay"
+msgstr "Bildaj Superkovroj"
 
 #: kstarsactions.cpp:1150
 #, kde-format
@@ -65951,16 +65942,14 @@ msgid "Show Terrain"
 msgstr "Montri Terenon"
 
 #: kstarsactions.cpp:1178
-#, fuzzy, kde-format
-#| msgid "HiPS Overlay"
+#, kde-format
 msgid "Hide Image Overlays"
-msgstr "HiPS-supermeto"
+msgstr "Kaŝi Bildajn Supermetojn"
 
 #: kstarsactions.cpp:1178
-#, fuzzy, kde-format
-#| msgid "Show HiPS Overlay"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "Montri HiPS-supermeton"
+msgstr "Montri Bildajn Supermetojn"
 
 #: kstarsactions.cpp:1297
 #, kde-format
@@ -73772,10 +73761,9 @@ msgstr "Loka meridiano"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "Montri bildon de"
+msgstr "Montri bildajn supermetojn"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -73787,10 +73775,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Changes the type of selection"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Ŝanĝas la tipon de elekto"
+msgstr "Centrigi SkyMap sur elekto"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -73803,10 +73790,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
-#, fuzzy, kde-format
-#| msgid "Maximum time"
+#, kde-format
 msgid "Maximum image dimension"
-msgstr "Maksimuma tempo"
+msgstr "Maksimuma bilddimensio"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:140
@@ -73818,10 +73804,23 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgid "Overlay Directory"
-msgstr "Dosierujo"
+msgstr "Dosierujo de Supermetaĵoj"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
+#: options/opsimageoverlay.ui:165
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
+#| "sensor name to display its data over time.</p></body></html>"
+msgid ""
+"<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
+"have been added there, and remove overlays that are no longer there.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Nuntempaj datumoj de la vetersensiloj. Klaku sur la "
+"sensilnomo por montri ĝiajn datumojn laŭlonge de la tempo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
@@ -73845,10 +73844,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
-msgstr "Elektas la Opcioj-Profilo por uzi por Pleta Solvado"
+msgstr "Elektas la Opcioj-Profilon (el Align) uzendan por Pleta Solvado"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -73861,10 +73859,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px"
-msgstr "Defaŭlte"
+msgstr "Defaŭlta a-s/px"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -73875,10 +73872,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout"
-msgstr "Tempo elĉerpita:"
+msgstr "Eltempiĝo"
 
 #: options/opssatellites.cpp:100
 #, kde-format
@@ -75292,8 +75288,7 @@ msgid "Creating horizon"
 msgstr "Kreante horizonton"
 
 #: skycomponents/imageoverlaycomponent.cpp:60
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "Dosiernomo"
 
@@ -75311,186 +75306,171 @@ msgid "A-S/px"
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:63
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Rotacii Dekstren"
+msgstr "OrientoDekstra"
 
-#: skycomponents/imageoverlaycomponent.cpp:162
+#: skycomponents/imageoverlaycomponent.cpp:163
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:176
+#: skycomponents/imageoverlaycomponent.cpp:177
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:189
+#: skycomponents/imageoverlaycomponent.cpp:190
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:200
+#: skycomponents/imageoverlaycomponent.cpp:201
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:230
+#: skycomponents/imageoverlaycomponent.cpp:231
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:241
+#: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:252
+#: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:263
+#: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:293
+#: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:386
+#: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
 msgid "Updating from directory: %1"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:435
+#: skycomponents/imageoverlaycomponent.cpp:436
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:437
-#: skycomponents/imageoverlaycomponent.cpp:555
-#: skycomponents/imageoverlaycomponent.cpp:844
+#: skycomponents/imageoverlaycomponent.cpp:438
+#: skycomponents/imageoverlaycomponent.cpp:556
+#: skycomponents/imageoverlaycomponent.cpp:845
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:450
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#: skycomponents/imageoverlaycomponent.cpp:451
+#, kde-format
 msgid "Loading image files..."
-msgstr "Ŝargante bildojn..."
+msgstr "Ŝargante bilddosierojn..."
 
-#: skycomponents/imageoverlaycomponent.cpp:456
+#: skycomponents/imageoverlaycomponent.cpp:457
 #, kde-format
 msgid "%1 image files loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Process"
+#: skycomponents/imageoverlaycomponent.cpp:519
+#, kde-format
 msgid "Unprocessed"
-msgstr "Procezo"
+msgstr "Nepritraktita"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "File"
+#: skycomponents/imageoverlaycomponent.cpp:519
+#, kde-format
 msgid "Bad File"
-msgstr "Dosiero"
+msgstr "Malbona Dosiero"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#: skycomponents/imageoverlaycomponent.cpp:519
+#, kde-format
 msgid "Solve Failed"
-msgstr "Solvanto Malsukcesis."
+msgstr "Solvado Malsukcesis"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#: skycomponents/imageoverlaycomponent.cpp:519
+#, kde-format
 msgid "OK"
-msgstr "HOKO"
-
-#: skycomponents/imageoverlaycomponent.cpp:541
-#, fuzzy, kde-format
-#| msgid "Left/Right"
-msgid "West-Right"
-msgstr "Maldekstra dekstra"
+msgstr "BONE"
 
 #: skycomponents/imageoverlaycomponent.cpp:542
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
-msgid "East-Right"
-msgstr "Rotacii Dekstren"
+#, kde-format
+msgid "West-Right"
+msgstr "Okcident-Dekstra"
 
-#: skycomponents/imageoverlaycomponent.cpp:596
+#: skycomponents/imageoverlaycomponent.cpp:543
+#, kde-format
+msgid "East-Right"
+msgstr "Orient-Dekstra"
+
+#: skycomponents/imageoverlaycomponent.cpp:597
 #, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr ""
+msgstr "Solvante: %1. %2 en vico."
 
-#: skycomponents/imageoverlaycomponent.cpp:598
-#, fuzzy, kde-format
-#| msgid "Slaving"
+#: skycomponents/imageoverlaycomponent.cpp:599
+#, kde-format
 msgid "Solving: %1."
-msgstr "Sklavo"
+msgstr "Solvante: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:663
+#: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:668
+#: skycomponents/imageoverlaycomponent.cpp:669
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:701
-#, fuzzy, kde-format
-#| msgid "Autoguiding aborted."
+#: skycomponents/imageoverlaycomponent.cpp:702
+#, kde-format
 msgid "Solving aborted."
-msgstr "Aŭtogvidado ĉesigita."
+msgstr "Solvado ĉesigita."
 
-#: skycomponents/imageoverlaycomponent.cpp:736
+#: skycomponents/imageoverlaycomponent.cpp:737
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:755
+#: skycomponents/imageoverlaycomponent.cpp:756
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:775
+#: skycomponents/imageoverlaycomponent.cpp:774
 #, kde-format
-msgid ""
-"Reload not yet implemented. Currently you need to restart KStars to do this."
+msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:792
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s %2"
+#: skycomponents/imageoverlaycomponent.cpp:793
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Solvanto elĉerpita: %1s %2"
+msgstr "Solvilo eltempiĝis post %1s"
 
-#: skycomponents/imageoverlaycomponent.cpp:798
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#: skycomponents/imageoverlaycomponent.cpp:799
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "Solvanto malsukcesis: %1s %2"
+msgstr "Solvilo malsukcesis post %1s"
 
-#: skycomponents/imageoverlaycomponent.cpp:811
+#: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:843
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#: skycomponents/imageoverlaycomponent.cpp:844
+#, kde-format
 msgid "Done solving. %1 available."
-msgstr "Neniuj bildaj informoj haveblaj."
+msgstr "Finis solvadon. %1 haveblaj."
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
@@ -83266,15 +83246,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Adaptive focus failed. Continuing..."
-#~ msgstr "Aŭtomata fokusado malsukcesis. Daŭrigante..."
-
-#~ msgid "Add the filter name to the capture file name."
-#~ msgstr "Aldoni la filtrilon al la kapta dosiernomo."
-
-#~ msgid "Add the capture duration to the capture file name."
-#~ msgstr "Aldoni la kaptaŭron al la kapta dosiernomo."
-
-#~ msgid "Add the capture timestamp to the capture file name."
-#~ msgstr "Aldoni la kaptan tempomarkon al la kapta dosiernomo."

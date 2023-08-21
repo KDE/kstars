@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:41+0000\n"
-"PO-Revision-Date: 2023-08-16 17:41+0200\n"
+"POT-Creation-Date: 2023-08-21 00:41+0000\n"
+"PO-Revision-Date: 2023-08-20 00:05+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -563,7 +563,7 @@ msgstr "Cancel·la"
 #: ekos/manager.cpp:1113 ekos/scheduler/schedulerjob.cpp:674
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:480 kstarsactions.cpp:488
-#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:518
+#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Error"
 msgstr "S'ha produït un error"
@@ -2401,7 +2401,7 @@ msgid ""
 "This feature allows you to copy-paste a piece of text from e.g. a website or "
 "another app and magically try to infer the contents of this form from it."
 msgstr ""
-"Esta característica permet copiar-apegar un tros de text (p. ex. des d'un "
+"Esta característica permet copiar-apegar un tros de text (p. ex., des d'un "
 "lloc web o una altra aplicació) i màgicament intentarà deduir el contingut "
 "d'este formulari a partir del text."
 
@@ -6556,7 +6556,7 @@ msgstr "Píx:"
 #: ekos/align/align.ui:440
 #, kde-format
 msgid "Image rotation angle, East of North"
-msgstr "Angle de rotació de la imatge, est o nord"
+msgstr "Angle de rotació de la imatge, est del nord"
 
 # Nota: (PA)
 #  - Position Angle
@@ -6571,7 +6571,7 @@ msgstr "AP:"
 #: ekos/align/align.ui:450
 #, kde-format
 msgid "Position angle in degrees, East of North"
-msgstr "Angle de posició en graus, a l'est del nord"
+msgstr "Angle de posició en graus, est del nord"
 
 # FL (Focal lenght) -> DF (Distància focal)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
@@ -8099,7 +8099,7 @@ msgid ""
 msgstr ""
 "No utilitzeu Sincronitza quan s'ha seleccionat Orienta cap a l'objectiu. "
 "Utilitzeu l'orientació diferencial per a corregir les discrepàncies. Açò és "
-"útil en algunes muntures (p. ex. Paramount)."
+"útil en algunes muntures (p. ex., Paramount)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDifferentialSlewing)
 #: ekos/align/opsastrometry.ui:560
@@ -9709,9 +9709,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshSourceB)
-#. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1202
-#: hips/opships.ui:116 options/opsimageoverlay.ui:165
+#: hips/opships.ui:116
 #, kde-format
 msgid "Refresh"
 msgstr "Actualitza"
@@ -9920,12 +9919,12 @@ msgstr "Captura"
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
 #: ekos/align/polaralignwidget.ui:317 options/opsimageoverlay.ui:242
-#: skycomponents/imageoverlaycomponent.cpp:342
-#: skycomponents/imageoverlaycomponent.cpp:702
-#: skycomponents/imageoverlaycomponent.cpp:782
+#: skycomponents/imageoverlaycomponent.cpp:343
+#: skycomponents/imageoverlaycomponent.cpp:703
+#: skycomponents/imageoverlaycomponent.cpp:783
 #, kde-format
 msgid "Solve"
-msgstr "Solució"
+msgstr "Soluciona"
 
 #. i18n: ectx: property (text), widget (QLabel, PAs1)
 #. i18n: ectx: property (text), widget (QLabel, PAs2)
@@ -17436,14 +17435,14 @@ msgstr ""
 "paràmetres. Marqueu la casella «Actualitza» associada per a acceptar estes "
 "recomanacions i premeu «Actualitza els paràmetres».\n"
 "1. Propietats de la càmera: Cal tindre en compte que cal assegurar-se que el "
-"«Guany» s'establix de manera adequada, p. ex. guany d'unitat.\n"
+"«Guany» s'establix de manera adequada, p. ex., guany d'unitat.\n"
 "2. Pestanya «Configuració»: Tots tenen recomanacions.\n"
 "3. Pestanya «Processament»: Tots tenen recomanacions.\n"
 "4. Pestanya «Mecànica»: la nota «Mida del pas» i «Múltiples passos enfora:» "
 "es tracten a dalt.\n"
 "\n"
 "Ara moveu l'enfocador per a aproximar l'enfocament i seleccioneu un filtre "
-"de banda ampla, p. ex. Luminància\n"
+"de banda ampla, p. ex., Luminància\n"
 "Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
 
 #: ekos/focus/focus.cpp:6425
@@ -18998,7 +18997,7 @@ msgstr ""
 "<html><head/><body><p>Establix la mida del pas (en micres) de l'enfocador. "
 "Per a calcular-ho, moveu l'enfocador d'un extrem del seu recorregut fins a "
 "l'altre (cal tindre cura de no forçar-lo més enllà dels seus límits). "
-"Mesureu la distància que es mou el tub amb la precisió que pugueu (p. ex. "
+"Mesureu la distància que es mou el tub amb la precisió que pugueu (p. ex., "
 "amb un peu de rei) i convertiu-ho a micres. Cal tindre en compte quants "
 "passos l'heu mogut. Mida del pas = a la distància en micres / nombre de "
 "passos.</p></body></html>"
@@ -23316,8 +23315,8 @@ msgstr "Interromp el moviment de la cúpula"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
-#: skycomponents/imageoverlaycomponent.cpp:585
-#: skycomponents/imageoverlaycomponent.cpp:708
+#: skycomponents/imageoverlaycomponent.cpp:586
+#: skycomponents/imageoverlaycomponent.cpp:709
 #: skycomponents/satellitescomponent.cpp:143 tools/conjunctions.cpp:350
 #, kde-format
 msgid "Abort"
@@ -27357,37 +27356,37 @@ msgstr "Prioritat:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
 #: ekos/scheduler/scheduler.ui:204
-#, fuzzy, kde-format
-#| msgid "Slew to the target and track it before proceeding to the next step."
+#, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
 msgstr ""
-"Orienta cap a l'objectiu i fes el seguiment abans de continuar amb el pas "
-"següent."
+"Orienta cap a l'objectiu i fes el seguiment. Es fa al començament de cada "
+"tasca del programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
 #: ekos/scheduler/scheduler.ui:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "Perform alignment using astrometry solver before proceeding to the next "
-#| "step."
+#, kde-format
 msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
 msgstr ""
-"Realitza l'alineació utilitzant el solucionador d'astrometria abans de "
-"continuar amb el pas següent."
+"Realitza l'alineació utilitzant el solucionador d'astrometria. Es fa al "
+"començament de cada tasca del programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/scheduler.ui:251
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Inicia el guiatge automàtic. Es fa al començament de cada tasca del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Executa l'enfocament automàtic. Es fa al començament de cada tasca del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
@@ -27424,6 +27423,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"Seleccioneu les tasques que s'executaran al començament de cada tasca del "
+"programador. S'executaran en ordre, d'esquerra a dreta."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -34992,7 +34993,7 @@ msgid ""
 "is avoided."
 msgstr ""
 "Marcar esta opció fa que es recalculen les coordenades equatorials actuals a "
-"partir de les coordenades del catàleg (p. ex. s'apliquen correccions de "
+"partir de les coordenades del catàleg (p. ex., s'apliquen correccions de "
 "precessió, nutació i aberració) cada vegada que es redibuixa el mapa. Açò "
 "alentix el processat, sobretot quan hi ha moltes estreles per a manipular, "
 "però és més probable que estiga lliure d'errors. Hi ha errors coneguts en la "
@@ -73594,7 +73595,7 @@ msgid ""
 "is avoided."
 msgstr ""
 "Marcar esta opció fa que es recalculen les coordenades equatorials actuals a "
-"partir de les coordenades del catàleg (p. ex. s'apliquen correccions de "
+"partir de les coordenades del catàleg (p. ex., s'apliquen correccions de "
 "precessió, nutació i aberració) cada vegada que es redibuixa el mapa. Açò "
 "alentix el processat, sobretot quan hi ha moltes estreles per a manipular, "
 "però és més probable que estiga lliure d'errors. Hi ha errors coneguts en la "
@@ -74871,25 +74872,24 @@ msgstr ""
 msgid "Overlay Directory"
 msgstr "Directori de superposicions"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
-#: options/opsimageoverlay.ui:239
+#. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
+#: options/opsimageoverlay.ui:165
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Plate solve the selected overlay image(s).</"
-#| "p><p>Uses the selected Align profile to the right, but not Align scale "
-#| "nor position. It will use the default scale to the right (a-s/px), if "
-#| "none is given on the table row and scale column (0 is no scale "
-#| "constraint). It will not use a position unless RA and DEC are entered on "
-#| "the table row. Uses the timeout above. You can select many rows (with "
-#| "click and shift click) and it will attempt to solve them all.</p><p>Plate "
-#| "solving may be difficult. You may not be able to plate solve all your "
-#| "images. You can try to supply scales and positions, and try different "
-#| "profiles. If you are unsucessful, but still want to display an image, you "
-#| "can enter an RA, DEC, Scale, Orientation in the appropriate columns for "
-#| "the row you're interested in, then manually set the Status column to OK.</"
-#| "p><p>You cannot re-platesolve a row whose status is OK, but you can "
-#| "manually change the status to something else, then plate-solving is "
-#| "enabled.</p></body></html>"
+#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
+#| "sensor name to display its data over time.</p></body></html>"
+msgid ""
+"<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
+"have been added there, and remove overlays that are no longer there.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Dades actuals dels sensors meteorològics. Feu clic "
+"damunt del nom del sensor per a mostrar les seues dades amb el pas del temps."
+"</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
+#: options/opsimageoverlay.ui:239
+#, kde-format
 msgid ""
 "<html><head/><body><p>Plate solve the selected overlay image(s).</p><p>Uses "
 "the selected Align profile to the right, but not Align scale nor position. "
@@ -76420,179 +76420,176 @@ msgstr "Seg. d'arc/px"
 msgid "EastRight"
 msgstr "EstDreta"
 
-#: skycomponents/imageoverlaycomponent.cpp:162
+#: skycomponents/imageoverlaycomponent.cpp:163
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr "Cadena AR incorrecta introduïda a %1. Es restaura al valor original."
 
-#: skycomponents/imageoverlaycomponent.cpp:176
+#: skycomponents/imageoverlaycomponent.cpp:177
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr "Cadena Dec incorrecta introduïda a %1. Es restaura al valor original."
 
-#: skycomponents/imageoverlaycomponent.cpp:189
+#: skycomponents/imageoverlaycomponent.cpp:190
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
 "Cadena d'angle d'orientació incorrecta introduïda a %1. Es restaura al valor "
 "original."
 
-#: skycomponents/imageoverlaycomponent.cpp:200
+#: skycomponents/imageoverlaycomponent.cpp:201
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
 "Cadena d'angle d'escala incorrecta introduïda a %1. Es restaura al valor "
 "original."
 
-#: skycomponents/imageoverlaycomponent.cpp:230
+#: skycomponents/imageoverlaycomponent.cpp:231
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
 "No s'ha pogut establir l'estat a «D'acord». Es requerix un valor correcte "
 "per a l'AR que no siga 0."
 
-#: skycomponents/imageoverlaycomponent.cpp:241
+#: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
 "No s'ha pogut establir l'estat a «D'acord». Es requerix un valor correcte "
 "per a la Dec que no siga 0."
 
-#: skycomponents/imageoverlaycomponent.cpp:252
+#: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
 "No s'ha pogut establir l'estat a «D'acord». Es requerix un valor correcte "
 "per a l'orientació que no siga 0."
 
-#: skycomponents/imageoverlaycomponent.cpp:263
+#: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
 "No s'ha pogut establir l'estat a «D'acord». Es requerix un valor correcte "
 "per als Seg. d'arc/px que no siga 0."
 
-#: skycomponents/imageoverlaycomponent.cpp:293
+#: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
 msgstr "S'ha emmagatzemat l'estat «D'acord» per a %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:386
+#: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
 msgid "Updating from directory: %1"
 msgstr "S'està actualitzant a partir del directori: %1"
 
-#: skycomponents/imageoverlaycomponent.cpp:435
+#: skycomponents/imageoverlaycomponent.cpp:436
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr "%1 superposicions (%2 noves, %3 suprimides) %4 solucionades"
 
-#: skycomponents/imageoverlaycomponent.cpp:437
-#: skycomponents/imageoverlaycomponent.cpp:555
-#: skycomponents/imageoverlaycomponent.cpp:844
+#: skycomponents/imageoverlaycomponent.cpp:438
+#: skycomponents/imageoverlaycomponent.cpp:556
+#: skycomponents/imageoverlaycomponent.cpp:845
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Superposició d'imatges.  %1 imatges, %2 disponibles."
 
-#: skycomponents/imageoverlaycomponent.cpp:450
+#: skycomponents/imageoverlaycomponent.cpp:451
 #, kde-format
 msgid "Loading image files..."
 msgstr "S'estan carregant els fitxers d'imatge..."
 
-#: skycomponents/imageoverlaycomponent.cpp:456
+#: skycomponents/imageoverlaycomponent.cpp:457
 #, kde-format
 msgid "%1 image files loaded."
 msgstr "S'han carregat %1 fitxers d'imatge."
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Unprocessed"
 msgstr "Sense processar"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Bad File"
 msgstr "Fitxer incorrecte"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Solve Failed"
 msgstr "La solució ha fallat"
 
-#: skycomponents/imageoverlaycomponent.cpp:518
+#: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "OK"
 msgstr "D'acord"
 
-#: skycomponents/imageoverlaycomponent.cpp:541
+#: skycomponents/imageoverlaycomponent.cpp:542
 #, kde-format
 msgid "West-Right"
 msgstr "Oest-Dreta"
 
-#: skycomponents/imageoverlaycomponent.cpp:542
+#: skycomponents/imageoverlaycomponent.cpp:543
 #, kde-format
 msgid "East-Right"
 msgstr "Est-Dreta"
 
-#: skycomponents/imageoverlaycomponent.cpp:596
+#: skycomponents/imageoverlaycomponent.cpp:597
 #, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "Solucionant: %1. %2 en la cua."
 
-#: skycomponents/imageoverlaycomponent.cpp:598
+#: skycomponents/imageoverlaycomponent.cpp:599
 #, kde-format
 msgid "Solving: %1."
 msgstr "Solucionant: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:663
+#: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr "No es pot mostrar %1. No s'ha solucionat la placa."
 
-#: skycomponents/imageoverlaycomponent.cpp:668
+#: skycomponents/imageoverlaycomponent.cpp:669
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr "No es pot mostrar %1. No s'ha carregat la imatge."
 
-#: skycomponents/imageoverlaycomponent.cpp:701
+#: skycomponents/imageoverlaycomponent.cpp:702
 #, kde-format
 msgid "Solving aborted."
 msgstr "S'ha interromput la solució."
 
-#: skycomponents/imageoverlaycomponent.cpp:736
+#: skycomponents/imageoverlaycomponent.cpp:737
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr "S'ometen les ja solucionades: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:755
+#: skycomponents/imageoverlaycomponent.cpp:756
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr "%1 ja solucionada. S'omet."
 
-#: skycomponents/imageoverlaycomponent.cpp:775
+#: skycomponents/imageoverlaycomponent.cpp:774
 #, kde-format
-msgid ""
-"Reload not yet implemented. Currently you need to restart KStars to do this."
+msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
-"Encara no s'ha implementat la recàrrega. Actualment, per a fer-ho, cal "
-"tornar a iniciar KStars."
 
-#: skycomponents/imageoverlaycomponent.cpp:792
+#: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
 msgid "Solver timed out in %1s"
 msgstr "Temps límit del solucionador en %1 s"
 
-#: skycomponents/imageoverlaycomponent.cpp:798
+#: skycomponents/imageoverlaycomponent.cpp:799
 #, kde-format
 msgid "Solver failed in %1s"
 msgstr "El solucionador ha fallat en %1 s"
 
-#: skycomponents/imageoverlaycomponent.cpp:811
+#: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr "El solucionador ha finalitzat en %1 s: AR %2 Dec %3 Escala %4 Angle %5"
 
-#: skycomponents/imageoverlaycomponent.cpp:843
+#: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr "Solució feta. N'hi ha %1 disponibles."
@@ -79809,7 +79806,7 @@ msgstr ""
 "<html><head/><body><p>L'horitzó artificial s'utilitza per a definir <span "
 "style=\"font-weight:600;\">regions</span> del mapa celeste que estan <span "
 "style=\"font-style:italic;\">tapades</span> en la vista des del vostre punt "
-"de vista (p. ex. per arbres alts o edificis). Les regions poden ser àrees "
+"de vista (p. ex., per arbres alts o edificis). Les regions poden ser àrees "
 "per damunt o per davall de segments de línies que introduïu.</p><ul style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
 "list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
@@ -84488,3 +84485,10 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
+
+#~ msgid ""
+#~ "Reload not yet implemented. Currently you need to restart KStars to do "
+#~ "this."
+#~ msgstr ""
+#~ "Encara no s'ha implementat la recàrrega. Actualment, per a fer-ho, cal "
+#~ "tornar a iniciar KStars."

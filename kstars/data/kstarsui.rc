@@ -49,6 +49,7 @@
                 <Action name="coordsys" />
                 <Action name="skymap_orientation" />
                 <Action name="toggle_terrain" />
+                <Action name="toggle_image_overlays" />
                 <Menu name="projection"><text>&amp;Projection</text>
                         <Action name="project_lambert"/>
                         <Action name="project_azequidistant"/>
