@@ -1926,12 +1926,23 @@ void KStars::slotFullScreen()
     }
 }
 
-// Toggle to and from full screen mode
+// Toggle showing terrain on the SkyMap.
 void KStars::slotTerrain()
 {
     Options::setShowTerrain(!Options::showTerrain());
     actionCollection()->action("toggle_terrain")
     ->setText(Options::showTerrain() ? i18n("Hide Terrain") : i18n("Show Terrain"));
+    opterrain->syncOptions();
+    KStars::Instance()->map()->forceUpdate();
+}
+
+// Toggle showing image overlays on the SkyMap.
+void KStars::slotImageOverlays()
+{
+    Options::setShowImageOverlays(!Options::showImageOverlays());
+    actionCollection()->action("toggle_image_overlays")
+    ->setText(Options::showImageOverlays() ? i18n("Hide Image Overlays") : i18n("Show Image Overlays"));
+    opsImageOverlay->syncOptions();
     KStars::Instance()->map()->forceUpdate();
 }
 

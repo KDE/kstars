@@ -269,6 +269,11 @@ void KStars::initActions()
                 i18n("Show Terrain"))
             << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_T);
 
+    actionCollection()->addAction("toggle_image_overlays", this, SLOT(slotImageOverlays()))
+            << (Options::showImageOverlays() ? i18n("Hide Image Overlays") :
+                i18n("Show Image Overlays"))
+            << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_O);
+
     actionCollection()->addAction("project_lambert", this, SLOT(slotMapProjection()))
             << i18n("&Lambert Azimuthal Equal-area") << QKeySequence("F5") << AddToGroup(projectionGroup)
             << Checked(Options::projection() == Projector::Lambert);
