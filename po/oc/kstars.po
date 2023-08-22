@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-21 00:41+0000\n"
+"POT-Creation-Date: 2023-08-22 00:41+0000\n"
 "PO-Revision-Date: 2008-08-05 23:45+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -1746,14 +1746,14 @@ msgstr "Aficha&tge"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:43 data/kstarsui.rc:138 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:43 data/kstarsui.rc:139 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "&Ajuda"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:57 data/kstarsui.rc:153
+#: data/fitsviewerui.rc:57 data/kstarsui.rc:154
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Barra d'espleches principala"
@@ -1777,82 +1777,82 @@ msgid "&Pointing"
 msgstr ""
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:52
+#: data/kstarsui.rc:53
 #, kde-format
 msgid "&Projection"
 msgstr ""
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:63
+#: data/kstarsui.rc:64
 #, kde-format
 msgid "&Tools"
 msgstr "&Espleches"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:65
+#: data/kstarsui.rc:66
 #, kde-format
 msgid "&Devices"
 msgstr ""
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:88
+#: data/kstarsui.rc:89
 #, kde-format
 msgid "&Data"
 msgstr ""
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:92
+#: data/kstarsui.rc:93
 #, fuzzy, kde-format
 #| msgid "Update"
 msgid "&Updates"
 msgstr "Actualizar"
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:99
+#: data/kstarsui.rc:100
 #, kde-format
 msgid "&Observation"
 msgstr ""
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:106
+#: data/kstarsui.rc:107
 #, kde-format
 msgid "&Settings"
 msgstr "&Paramètres"
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:107
+#: data/kstarsui.rc:108
 #, kde-format
 msgid "&Info Boxes"
 msgstr ""
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:115
+#: data/kstarsui.rc:116
 #, kde-format
 msgid "&Statusbar"
 msgstr ""
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:171
+#: data/kstarsui.rc:172
 #, kde-format
 msgid "View Toolbar"
 msgstr ""
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:189
+#: data/kstarsui.rc:190
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "INDI Toolbar"
 msgstr "Barras d'espleches"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:199
+#: data/kstarsui.rc:200
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgid "Telescope Toolbar"
 msgstr "Seleccionar una estampaira"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:210
+#: data/kstarsui.rc:211
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "Dome Toolbar"
@@ -2060,7 +2060,7 @@ msgstr "Estatut"
 msgid "Idle"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:439
+#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:444
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr ""
@@ -4466,7 +4466,7 @@ msgstr "Etiqueta :"
 msgid "Any"
 msgstr "Totes"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:472
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -12142,7 +12142,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:133 ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1141 kstarsinit.cpp:449
+#: kstarsactions.cpp:1141 kstarsinit.cpp:454
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -13705,8 +13705,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:783
-#: kstarsinit.cpp:784 tools/exporteyepieceview.cpp:57
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:788
+#: kstarsinit.cpp:789 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -30645,7 +30645,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "Magnitud"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:912
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:917
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:514 skyobjects/skyobject.h:26
@@ -71449,13 +71449,13 @@ msgstr "Russia"
 msgid "Show Terrain"
 msgstr "Detalhs"
 
-#: kstarsactions.cpp:1178
+#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:273
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Hide Image Overlays"
 msgstr "Espandida"
 
-#: kstarsactions.cpp:1178
+#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:274
 #, fuzzy, kde-format
 #| msgctxt "NAME OF TRANSLATORS"
 #| msgid "Your names"
@@ -71580,7 +71580,7 @@ msgstr ""
 msgid "Enter a field-of-view angle in degrees: "
 msgstr ""
 
-#: kstarsactions.cpp:1704 kstarsinit.cpp:711
+#: kstarsactions.cpp:1704 kstarsinit.cpp:716
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Norway"
@@ -71588,20 +71588,20 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Norvègia"
 
-#: kstarsactions.cpp:1707 kstarsinit.cpp:720
+#: kstarsactions.cpp:1707 kstarsinit.cpp:725
 #, fuzzy, kde-format
 #| msgid "omicron"
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "omicron"
 
-#: kstarsactions.cpp:1725 kstarsinit.cpp:711
+#: kstarsactions.cpp:1725 kstarsinit.cpp:716
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr ""
 
-#: kstarsactions.cpp:1728 kstarsinit.cpp:720
+#: kstarsactions.cpp:1728 kstarsinit.cpp:725
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
@@ -71928,37 +71928,37 @@ msgstr "Kanu"
 msgid "&Zoom to Angular Size..."
 msgstr ""
 
-#: kstarsinit.cpp:273
+#: kstarsinit.cpp:278
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr ""
 
-#: kstarsinit.cpp:276
+#: kstarsinit.cpp:281
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr ""
 
-#: kstarsinit.cpp:279
+#: kstarsinit.cpp:284
 #, kde-format
 msgid "&Orthographic"
 msgstr ""
 
-#: kstarsinit.cpp:282
+#: kstarsinit.cpp:287
 #, kde-format
 msgid "&Equirectangular"
 msgstr ""
 
-#: kstarsinit.cpp:285
+#: kstarsinit.cpp:290
 #, kde-format
 msgid "&Stereographic"
 msgstr ""
 
-#: kstarsinit.cpp:288
+#: kstarsinit.cpp:293
 #, kde-format
 msgid "&Gnomonic"
 msgstr ""
 
-#: kstarsinit.cpp:294
+#: kstarsinit.cpp:299
 #, fuzzy, kde-format
 #| msgctxt "NAME OF TRANSLATORS"
 #| msgid "Your names"
@@ -71966,7 +71966,7 @@ msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "Yannig Marchegay (Kokoyaya)"
 
-#: kstarsinit.cpp:299
+#: kstarsinit.cpp:304
 #, fuzzy, kde-format
 #| msgctxt "NAME OF TRANSLATORS"
 #| msgid "Your names"
@@ -71974,246 +71974,246 @@ msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "Yannig Marchegay (Kokoyaya)"
 
-#: kstarsinit.cpp:306
+#: kstarsinit.cpp:311
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr ""
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:318
 #, fuzzy, kde-format
 #| msgid "Location:"
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "Emplaçament :"
 
-#: kstarsinit.cpp:320
+#: kstarsinit.cpp:325
 #, fuzzy, kde-format
 #| msgid "Main Toolbar"
 msgid "Show Main Toolbar"
 msgstr "Barra d'espleches principala"
 
-#: kstarsinit.cpp:322
+#: kstarsinit.cpp:327
 #, fuzzy, kde-format
 #| msgid "Main Toolbar"
 msgid "Show View Toolbar"
 msgstr "Barra d'espleches principala"
 
-#: kstarsinit.cpp:326
+#: kstarsinit.cpp:331
 #, kde-format
 msgid "Show Statusbar"
 msgstr "Estatut"
 
-#: kstarsinit.cpp:327
+#: kstarsinit.cpp:332
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr ""
 
-#: kstarsinit.cpp:328
+#: kstarsinit.cpp:333
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr ""
 
-#: kstarsinit.cpp:329
+#: kstarsinit.cpp:334
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr ""
 
-#: kstarsinit.cpp:337
+#: kstarsinit.cpp:342
 #, fuzzy, kde-format
 #| msgid "Colors"
 msgid "C&olor Schemes"
 msgstr "Colors"
 
-#: kstarsinit.cpp:338
+#: kstarsinit.cpp:343
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Chara"
 msgid "&Classic"
 msgstr "Maòri"
 
-#: kstarsinit.cpp:339
+#: kstarsinit.cpp:344
 #, fuzzy, kde-format
 #| msgid "&Start"
 msgid "&Star Chart"
 msgstr "&Aviar"
 
-#: kstarsinit.cpp:340
+#: kstarsinit.cpp:345
 #, fuzzy, kde-format
 #| msgid "Action:"
 msgid "&Night Vision"
 msgstr "Accion :"
 
-#: kstarsinit.cpp:341
+#: kstarsinit.cpp:346
 #, kde-format
 msgid "&Moonless Night"
 msgstr ""
 
-#: kstarsinit.cpp:361
+#: kstarsinit.cpp:366
 #, fuzzy, kde-format
 #| msgid "Symbol"
 msgid "&FOV Symbols"
 msgstr "Simbòl"
 
-#: kstarsinit.cpp:369
+#: kstarsinit.cpp:374
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr ""
 
-#: kstarsinit.cpp:376
+#: kstarsinit.cpp:381
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "Skymap Orientation"
 msgstr "Opcions"
 
-#: kstarsinit.cpp:382
+#: kstarsinit.cpp:387
 #, fuzzy, kde-format
 #| msgid "Location:"
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "Emplaçament :"
 
-#: kstarsinit.cpp:399
+#: kstarsinit.cpp:404
 #, kde-format
 msgid "Startup Wizard..."
 msgstr ""
 
-#: kstarsinit.cpp:404
+#: kstarsinit.cpp:409
 #, fuzzy, kde-format
 #| msgid "&Start"
 msgid "Manage DSO Catalogs"
 msgstr "&Aviar"
 
-#: kstarsinit.cpp:408
+#: kstarsinit.cpp:413
 #, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr ""
 
-#: kstarsinit.cpp:410
+#: kstarsinit.cpp:415
 #, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr ""
 
-#: kstarsinit.cpp:412
+#: kstarsinit.cpp:417
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr ""
 
-#: kstarsinit.cpp:414
+#: kstarsinit.cpp:419
 #, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr ""
 
-#: kstarsinit.cpp:418
+#: kstarsinit.cpp:423
 #, kde-format
 msgid "Calculator"
 msgstr "Calculeta"
 
-#: kstarsinit.cpp:428
+#: kstarsinit.cpp:433
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Observation Planner"
 msgstr "Connexion"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:431 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:436 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr ""
 
-#: kstarsinit.cpp:434
+#: kstarsinit.cpp:439
 #, kde-format
 msgid "What's up Tonight"
 msgstr ""
 
-#: kstarsinit.cpp:443
+#: kstarsinit.cpp:448
 #, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:445 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
+#: kstarsinit.cpp:450 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr ""
 
-#: kstarsinit.cpp:463
+#: kstarsinit.cpp:468
 #, kde-format
 msgid "Script Builder"
 msgstr ""
 
-#: kstarsinit.cpp:471
+#: kstarsinit.cpp:476
 #, kde-format
 msgid "Jupiter's Moons"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:474 options/opsguides.ui:284
+#: kstarsinit.cpp:479 options/opsguides.ui:284
 #, fuzzy, kde-format
 #| msgid "Files"
 msgid "Flags"
 msgstr "Fichièrs"
 
-#: kstarsinit.cpp:477
+#: kstarsinit.cpp:482
 #, fuzzy, kde-format
 #| msgid "Location:"
 msgid "List your &Equipment..."
 msgstr "Emplaçament :"
 
-#: kstarsinit.cpp:479
+#: kstarsinit.cpp:484
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observer..."
 msgstr "Servidor"
 
-#: kstarsinit.cpp:483
+#: kstarsinit.cpp:488
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr ""
 
-#: kstarsinit.cpp:487
+#: kstarsinit.cpp:492
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Messina"
 msgid "Execute the Session Plan..."
 msgstr "Russia"
 
-#: kstarsinit.cpp:491
+#: kstarsinit.cpp:496
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Orange"
 msgid "Polaris Hour Angle..."
 msgstr "Irange"
 
-#: kstarsinit.cpp:498
+#: kstarsinit.cpp:503
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgid "Telescope Wizard..."
 msgstr "Seleccionar una estampaira"
 
-#: kstarsinit.cpp:503
+#: kstarsinit.cpp:508
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgid "Device Manager..."
 msgstr "Gestionari de periferics"
 
-#: kstarsinit.cpp:507
+#: kstarsinit.cpp:512
 #, fuzzy, kde-format
 #| msgid "Location:"
 msgid "Custom Drivers..."
 msgstr "Emplaçament :"
 
-#: kstarsinit.cpp:510
+#: kstarsinit.cpp:515
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr ""
 
-#: kstarsinit.cpp:522
+#: kstarsinit.cpp:527
 #, kde-format
 msgid "Displays the Tip of the Day"
 msgstr ""
 
-#: kstarsinit.cpp:530
+#: kstarsinit.cpp:535
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -72224,63 +72224,63 @@ msgid ""
 "of 'X'."
 msgstr ""
 
-#: kstarsinit.cpp:539
+#: kstarsinit.cpp:544
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Senegal"
 msgid "Time step control"
 msgstr "Senegal"
 
-#: kstarsinit.cpp:548
+#: kstarsinit.cpp:553
 #, fuzzy, kde-format
 #| msgid "Star"
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "Estèla"
 
-#: kstarsinit.cpp:550
+#: kstarsinit.cpp:555
 #, fuzzy, kde-format
 #| msgid "Colors"
 msgid "Toggle stars"
 msgstr "Colors"
 
-#: kstarsinit.cpp:552
+#: kstarsinit.cpp:557
 #, fuzzy, kde-format
 #| msgid "&Start"
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "&Aviar"
 
-#: kstarsinit.cpp:554
+#: kstarsinit.cpp:559
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgid "Toggle deep sky objects"
 msgstr "Seleccionar una estampaira"
 
-#: kstarsinit.cpp:556
+#: kstarsinit.cpp:561
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr ""
 
-#: kstarsinit.cpp:558
+#: kstarsinit.cpp:563
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr ""
 
-#: kstarsinit.cpp:560
+#: kstarsinit.cpp:565
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr ""
 
-#: kstarsinit.cpp:562
+#: kstarsinit.cpp:567
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Toggle constellation lines"
 msgstr "Connexion"
 
-#: kstarsinit.cpp:564
+#: kstarsinit.cpp:569
 #, fuzzy, kde-format
 #| msgctxt "NAME OF TRANSLATORS"
 #| msgid "Your names"
@@ -72288,49 +72288,49 @@ msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "Yannig Marchegay (Kokoyaya)"
 
-#: kstarsinit.cpp:566
+#: kstarsinit.cpp:571
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Toggle constellation names"
 msgstr "Connexion"
 
-#: kstarsinit.cpp:568
+#: kstarsinit.cpp:573
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr ""
 
-#: kstarsinit.cpp:570
+#: kstarsinit.cpp:575
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Toggle constellation boundaries"
 msgstr "Connexion"
 
-#: kstarsinit.cpp:572
+#: kstarsinit.cpp:577
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr ""
 
-#: kstarsinit.cpp:574
+#: kstarsinit.cpp:579
 #, fuzzy, kde-kuit-format
 #| msgid "Connection"
 msgid "Toggle constellation art (BETA)"
 msgstr "Connexion"
 
-#: kstarsinit.cpp:576
+#: kstarsinit.cpp:581
 #, fuzzy, kde-format
 #| msgid "in"
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "dins"
 
-#: kstarsinit.cpp:578
+#: kstarsinit.cpp:583
 #, kde-format
 msgid "Toggle milky way"
 msgstr ""
 
-#: kstarsinit.cpp:580
+#: kstarsinit.cpp:585
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Equatorial Guinea"
@@ -72338,14 +72338,14 @@ msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "Guinèa Eqüatoriala"
 
-#: kstarsinit.cpp:582
+#: kstarsinit.cpp:587
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Equatorial Guinea"
 msgid "Toggle equatorial coordinate grid"
 msgstr "Guinèa Eqüatoriala"
 
-#: kstarsinit.cpp:584
+#: kstarsinit.cpp:589
 #, fuzzy, kde-format
 #| msgctxt "Region/state name (optional, rarely needs a translation)"
 #| msgid "Arizona"
@@ -72353,39 +72353,39 @@ msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "Argentina"
 
-#: kstarsinit.cpp:586
+#: kstarsinit.cpp:591
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Toggle horizontal coordinate grid"
 msgstr "Connexion"
 
-#: kstarsinit.cpp:588
+#: kstarsinit.cpp:593
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "Pilòt :"
 
-#: kstarsinit.cpp:590
+#: kstarsinit.cpp:595
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr ""
 
-#: kstarsinit.cpp:592
+#: kstarsinit.cpp:597
 #, fuzzy, kde-format
 #| msgid "Files"
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "Fichièrs"
 
-#: kstarsinit.cpp:594
+#: kstarsinit.cpp:599
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Delta"
 msgid "Toggle flags"
 msgstr "Kanu"
 
-#: kstarsinit.cpp:596
+#: kstarsinit.cpp:601
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sevilla"
@@ -72393,99 +72393,99 @@ msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "Serbia"
 
-#: kstarsinit.cpp:598
+#: kstarsinit.cpp:603
 #, fuzzy, kde-format
 #| msgctxt "NAME OF TRANSLATORS"
 #| msgid "Your names"
 msgid "Toggle satellites"
 msgstr "Yannig Marchegay (Kokoyaya)"
 
-#: kstarsinit.cpp:600
+#: kstarsinit.cpp:605
 #, fuzzy, kde-format
 #| msgid "Version"
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "Version"
 
-#: kstarsinit.cpp:602
+#: kstarsinit.cpp:607
 #, fuzzy, kde-format
 #| msgid "Colors"
 msgid "Toggle supernovae"
 msgstr "Colors"
 
-#: kstarsinit.cpp:604
+#: kstarsinit.cpp:609
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr ""
 
-#: kstarsinit.cpp:606
+#: kstarsinit.cpp:611
 #, kde-format
 msgid "Toggle What's Interesting"
 msgstr ""
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:616
 #, fuzzy, kde-format
 #| msgid "Track"
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Pista"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:618
 #, fuzzy, kde-format
 #| msgid "Colors"
 msgid "Toggle Ekos"
 msgstr "Colors"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:620
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr ""
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:622
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr ""
 
-#: kstarsinit.cpp:620
+#: kstarsinit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Save"
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "Enregistrar"
 
-#: kstarsinit.cpp:622
+#: kstarsinit.cpp:627
 #, kde-format
 msgid "Toggle FITS Viewer"
 msgstr ""
 
-#: kstarsinit.cpp:626
+#: kstarsinit.cpp:631
 #, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr ""
 
-#: kstarsinit.cpp:628
+#: kstarsinit.cpp:633
 #, fuzzy, kde-format
 #| msgid "Colors"
 msgid "Toggle Sensor FOV"
 msgstr "Colors"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:638
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr ""
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:640
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Senegal"
 msgid "Toggle Mosaic Panel"
 msgstr "Senegal"
 
-#: kstarsinit.cpp:640
+#: kstarsinit.cpp:645
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Senegal"
@@ -72493,90 +72493,90 @@ msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "Senegal"
 
-#: kstarsinit.cpp:642
+#: kstarsinit.cpp:647
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Senegal"
 msgid "Toggle Mount Control Panel"
 msgstr "Senegal"
 
-#: kstarsinit.cpp:646
+#: kstarsinit.cpp:651
 #, fuzzy, kde-format
 #| msgid "Center"
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "Centre"
 
-#: kstarsinit.cpp:648
+#: kstarsinit.cpp:653
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Equatorial Guinea"
 msgid "Toggle Lock Telescope Center"
 msgstr "Guinèa Eqüatoriala"
 
-#: kstarsinit.cpp:652
+#: kstarsinit.cpp:657
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Equatorial Guinea"
 msgid "Toggle Telescope Tracking"
 msgstr "Guinèa Eqüatoriala"
 
-#: kstarsinit.cpp:656
+#: kstarsinit.cpp:661
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgid "Slew telescope to the focused object"
 msgstr "Seleccionar una estampaira"
 
-#: kstarsinit.cpp:660
+#: kstarsinit.cpp:665
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgid "Sync telescope to the focused object"
 msgstr "Seleccionar una estampaira"
 
-#: kstarsinit.cpp:664
+#: kstarsinit.cpp:669
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgid "Abort telescope motions"
 msgstr "Seleccionar una estampaira"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:674
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgid "Park telescope"
 msgstr "Seleccionar una estampaira"
 
-#: kstarsinit.cpp:673
+#: kstarsinit.cpp:678
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Unpark telescope"
 msgstr "Centre"
 
-#: kstarsinit.cpp:679
+#: kstarsinit.cpp:684
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "Impossible de dobrir lo fichièr : %1"
 
-#: kstarsinit.cpp:682
+#: kstarsinit.cpp:687
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "Impossible de dobrir lo fichièr : %1"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:694
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Park dome"
 msgstr "Espandida"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:698
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Maseru"
 msgid "Unpark dome"
 msgstr "Pero"
 
-#: kstarsinit.cpp:715
+#: kstarsinit.cpp:720
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -72586,7 +72586,7 @@ msgid ""
 "eye view."
 msgstr ""
 
-#: kstarsinit.cpp:724
+#: kstarsinit.cpp:729
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -72596,7 +72596,7 @@ msgid ""
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
 
-#: kstarsinit.cpp:729
+#: kstarsinit.cpp:734
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gibraltar"
@@ -72605,7 +72605,7 @@ msgctxt ""
 msgid "Arbitrary"
 msgstr "Gibraltar"
 
-#: kstarsinit.cpp:733
+#: kstarsinit.cpp:738
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -72614,13 +72614,13 @@ msgid ""
 "arbitrary"
 msgstr ""
 
-#: kstarsinit.cpp:739
+#: kstarsinit.cpp:744
 #, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid "Erect observer correction"
 msgstr ""
 
-#: kstarsinit.cpp:742
+#: kstarsinit.cpp:747
 #, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid ""
@@ -72633,53 +72633,53 @@ msgid ""
 "orientation."
 msgstr ""
 
-#: kstarsinit.cpp:768
+#: kstarsinit.cpp:773
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr ""
 
-#: kstarsinit.cpp:803
+#: kstarsinit.cpp:808
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Images"
 msgid "HiPS Settings..."
 msgstr "Imatges"
 
-#: kstarsinit.cpp:810
+#: kstarsinit.cpp:815
 #, kde-format
 msgid " Welcome to KStars "
 msgstr ""
 
-#: kstarsinit.cpp:909 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
+#: kstarsinit.cpp:914 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "res"
 
-#: kstarsinit.cpp:964 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:969 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr ""
 
-#: kstarsinit.cpp:966 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:971 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
 "Would you like to reset to the default position?"
 msgstr ""
 
-#: kstarsinit.cpp:967
+#: kstarsinit.cpp:972
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Reset Position"
 msgstr "Posicion"
 
-#: kstarsinit.cpp:968
+#: kstarsinit.cpp:973
 #, kde-format
 msgid "Do Not Reset"
 msgstr ""
 
-#: kstarsinit.cpp:1023
+#: kstarsinit.cpp:1028
 #, kde-format
 msgid "&Themes"
 msgstr ""
