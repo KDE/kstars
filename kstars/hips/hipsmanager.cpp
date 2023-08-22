@@ -51,7 +51,7 @@ HIPSManager *HIPSManager::Instance()
         HIPSManager::Instance()->setOfflineLevels(orders);
 
         if (Options::hIPSUseOfflineSource())
-            _HIPSManager->setCurrentSource("Offline");
+            _HIPSManager->setCurrentSource(Options::hIPSSource());
     }
 
     return _HIPSManager;
@@ -117,7 +117,7 @@ void HIPSManager::slotApply()
         QDir hipsDirectory(Options::hIPSOfflinePath());
         auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
         HIPSManager::Instance()->setOfflineLevels(orders);
-        _HIPSManager->setCurrentSource("Offline");
+        _HIPSManager->setCurrentSource(Options::hIPSSource());
     }
 
     readSources();
@@ -423,7 +423,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
         return true;
     }
     // Offline DSS
-    else if (Options::hIPSUseOfflineSource() || title == "Offline")
+    else if (Options::hIPSUseOfflineSource())
     {
         m_currentFormat = "jpg";
         m_currentTileWidth = 512;
@@ -433,9 +433,10 @@ bool HIPSManager::setCurrentSource(const QString &title)
         m_currentOrder = m_OfflineLevelsMap.lastKey();
         m_uid = qHash(m_currentURL);
         Options::setShowHIPS(true);
+        // N.B. Only DSS Colored catalog is supported for offline source
+        Options::setHIPSSource("DSS Colored");
         return true;
     }
-
 
     for (QMap<QString, QString> &source : m_hipsSources)
     {
