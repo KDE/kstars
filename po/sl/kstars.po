@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-21 00:41+0000\n"
+"POT-Creation-Date: 2023-08-22 00:41+0000\n"
 "PO-Revision-Date: 2023-08-17 11:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1638,14 +1638,14 @@ msgstr "&Pogled"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:43 data/kstarsui.rc:138 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:43 data/kstarsui.rc:139 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "&Pomoč"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:57 data/kstarsui.rc:153
+#: data/fitsviewerui.rc:57 data/kstarsui.rc:154
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Glavna orodna vrstica"
@@ -1669,79 +1669,79 @@ msgid "&Pointing"
 msgstr "&Smer"
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:52
+#: data/kstarsui.rc:53
 #, kde-format
 msgid "&Projection"
 msgstr "&Projekcija"
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:63
+#: data/kstarsui.rc:64
 #, kde-format
 msgid "&Tools"
 msgstr "O&rodja"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:65
+#: data/kstarsui.rc:66
 #, kde-format
 msgid "&Devices"
 msgstr "Na&prave"
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:88
+#: data/kstarsui.rc:89
 #, kde-format
 msgid "&Data"
 msgstr "Po&datki"
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:92
+#: data/kstarsui.rc:93
 #, kde-format
 msgid "&Updates"
 msgstr "&Posodobitve"
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:99
+#: data/kstarsui.rc:100
 #, kde-format
 msgid "&Observation"
 msgstr "&Opazovanje"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:106
+#: data/kstarsui.rc:107
 #, kde-format
 msgid "&Settings"
 msgstr "Na&stavitve"
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:107
+#: data/kstarsui.rc:108
 #, kde-format
 msgid "&Info Boxes"
 msgstr "Okvirji s podatki"
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:115
+#: data/kstarsui.rc:116
 #, kde-format
 msgid "&Statusbar"
 msgstr "Vrstica &stanja"
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:171
+#: data/kstarsui.rc:172
 #, kde-format
 msgid "View Toolbar"
 msgstr "Orodna vrstica pogleda"
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:189
+#: data/kstarsui.rc:190
 #, kde-format
 msgid "INDI Toolbar"
 msgstr "Orodna vrstica INDI"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:199
+#: data/kstarsui.rc:200
 #, kde-format
 msgid "Telescope Toolbar"
 msgstr "Orodna letvica za teleskop"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:210
+#: data/kstarsui.rc:211
 #, kde-format
 msgid "Dome Toolbar"
 msgstr "Orodna letvica kupole"
@@ -1925,7 +1925,7 @@ msgstr "Stanje:"
 msgid "Idle"
 msgstr "Nedejaven"
 
-#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:439
+#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:444
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr "Kaj je zanimivega ..."
@@ -4190,7 +4190,7 @@ msgstr "Položaj legende:"
 msgid "Any"
 msgstr "Vsi"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:472
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -12063,7 +12063,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:133 ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1141 kstarsinit.cpp:449
+#: kstarsactions.cpp:1141 kstarsinit.cpp:454
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -13652,8 +13652,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:783
-#: kstarsinit.cpp:784 tools/exporteyepieceview.cpp:57
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:788
+#: kstarsinit.cpp:789 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -31486,7 +31486,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "Prikaži sliko DSS"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:912
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:917
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:514 skyobjects/skyobject.h:26
@@ -67188,12 +67188,12 @@ msgstr "Skrij teren"
 msgid "Show Terrain"
 msgstr "Prikaži teren"
 
-#: kstarsactions.cpp:1178
+#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:273
 #, fuzzy, kde-format
 msgid "Hide Image Overlays"
 msgstr "HiPS Vse Nebo Overlay"
 
-#: kstarsactions.cpp:1178
+#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:274
 #, fuzzy, kde-format
 #| msgid "Show HiPS grid"
 msgid "Show Image Overlays"
@@ -67320,7 +67320,7 @@ msgstr "Vnesite željen kot vidnega polja"
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Vnesite kot vidnega polja v stopinjah: "
 
-#: kstarsactions.cpp:1704 kstarsinit.cpp:711
+#: kstarsactions.cpp:1704 kstarsinit.cpp:716
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -67328,7 +67328,7 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Sever"
 
-#: kstarsactions.cpp:1707 kstarsinit.cpp:720
+#: kstarsactions.cpp:1707 kstarsinit.cpp:725
 #, fuzzy, kde-format
 #| msgctxt "City in Kansas USA"
 #| msgid "Norton"
@@ -67336,14 +67336,14 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norton"
 
-#: kstarsactions.cpp:1725 kstarsinit.cpp:711
+#: kstarsactions.cpp:1725 kstarsinit.cpp:716
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Nadglavišče"
 
-#: kstarsactions.cpp:1728 kstarsinit.cpp:720
+#: kstarsactions.cpp:1728 kstarsinit.cpp:725
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
@@ -67665,271 +67665,271 @@ msgstr "&Privzeto približanje"
 msgid "&Zoom to Angular Size..."
 msgstr "Približaj na &kotno velikost ..."
 
-#: kstarsinit.cpp:273
+#: kstarsinit.cpp:278
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr "&Lambertova azimutalna z enakimi območji"
 
-#: kstarsinit.cpp:276
+#: kstarsinit.cpp:281
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "&Azimutalna ekvidistančna"
 
-#: kstarsinit.cpp:279
+#: kstarsinit.cpp:284
 #, kde-format
 msgid "&Orthographic"
 msgstr "&Ortografska"
 
-#: kstarsinit.cpp:282
+#: kstarsinit.cpp:287
 #, kde-format
 msgid "&Equirectangular"
 msgstr "&Ekvidistančna valjna"
 
-#: kstarsinit.cpp:285
+#: kstarsinit.cpp:290
 #, kde-format
 msgid "&Stereographic"
 msgstr "&Stereografska"
 
-#: kstarsinit.cpp:288
+#: kstarsinit.cpp:293
 #, kde-format
 msgid "&Gnomonic"
 msgstr "&Gnomonska"
 
-#: kstarsinit.cpp:294
+#: kstarsinit.cpp:299
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "Pokaži &okvirje s podatki"
 
-#: kstarsinit.cpp:299
+#: kstarsinit.cpp:304
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "Pokaži okvir s &časom"
 
-#: kstarsinit.cpp:306
+#: kstarsinit.cpp:311
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "Pokaži okvir s &smerjo pogleda"
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:318
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "Pokaži okvir z &zemljepisno lego"
 
-#: kstarsinit.cpp:320
+#: kstarsinit.cpp:325
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "Pokaži glavno orodno vrstico"
 
-#: kstarsinit.cpp:322
+#: kstarsinit.cpp:327
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "Pokaži orodno vrstico pogleda"
 
-#: kstarsinit.cpp:326
+#: kstarsinit.cpp:331
 #, kde-format
 msgid "Show Statusbar"
 msgstr "Pokaži vrstico stanja"
 
-#: kstarsinit.cpp:327
+#: kstarsinit.cpp:332
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "Pokaži polje z azim./viš."
 
-#: kstarsinit.cpp:328
+#: kstarsinit.cpp:333
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "Pokaži polje z rekt./dekl."
 
-#: kstarsinit.cpp:329
+#: kstarsinit.cpp:334
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "Pokaži polje z rekt./dekl. J2000.0"
 
-#: kstarsinit.cpp:337
+#: kstarsinit.cpp:342
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "&Barvne sheme"
 
-#: kstarsinit.cpp:338
+#: kstarsinit.cpp:343
 #, kde-format
 msgid "&Classic"
 msgstr "&Klasična"
 
-#: kstarsinit.cpp:339
+#: kstarsinit.cpp:344
 #, kde-format
 msgid "&Star Chart"
 msgstr "&Zvezdna karta"
 
-#: kstarsinit.cpp:340
+#: kstarsinit.cpp:345
 #, kde-format
 msgid "&Night Vision"
 msgstr "&Nočni pogled"
 
-#: kstarsinit.cpp:341
+#: kstarsinit.cpp:346
 #, kde-format
 msgid "&Moonless Night"
 msgstr "Noč brez &Lune"
 
-#: kstarsinit.cpp:361
+#: kstarsinit.cpp:366
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "Znaki &vidnega polja"
 
-#: kstarsinit.cpp:369
+#: kstarsinit.cpp:374
 #, fuzzy, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr "HiPS Vse Nebo Overlay"
 
-#: kstarsinit.cpp:376
+#: kstarsinit.cpp:381
 #, fuzzy, kde-format
 #| msgid "Skymap Options"
 msgid "Skymap Orientation"
 msgstr "Možnosti zvezdne karte"
 
-#: kstarsinit.cpp:382
+#: kstarsinit.cpp:387
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "&Zemljepisna lega ..."
 
-#: kstarsinit.cpp:399
+#: kstarsinit.cpp:404
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "Čarovnik za zagon ..."
 
-#: kstarsinit.cpp:404
+#: kstarsinit.cpp:409
 #, fuzzy, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "Upravljaj kataloge globokega neba"
 
-#: kstarsinit.cpp:408
+#: kstarsinit.cpp:413
 #, fuzzy, kde-format
 #| msgid "Update comets orbital elements"
 msgid "Update Comets Orbital Elements"
 msgstr "Posodobi predmete krožnic kometov"
 
-#: kstarsinit.cpp:410
+#: kstarsinit.cpp:415
 #, fuzzy, kde-format
 #| msgid "Update asteroids orbital elements"
 msgid "Update Asteroids Orbital Elements"
 msgstr "Posodobi predmete krožnic asteroidov"
 
-#: kstarsinit.cpp:412
+#: kstarsinit.cpp:417
 #, fuzzy, kde-format
 #| msgid "Update Recent Supernovae data"
 msgid "Update Recent Supernovae Data"
 msgstr "Posodobi podatke za nedavne supernove"
 
-#: kstarsinit.cpp:414
+#: kstarsinit.cpp:419
 #, fuzzy, kde-format
 #| msgid "Update satellites orbital elements"
 msgid "Update Satellites Orbital Elements"
 msgstr "Posodobi predmete krožnic satelitov"
 
-#: kstarsinit.cpp:418
+#: kstarsinit.cpp:423
 #, kde-format
 msgid "Calculator"
 msgstr "Računalo"
 
-#: kstarsinit.cpp:428
+#: kstarsinit.cpp:433
 #, kde-format
 msgid "Observation Planner"
 msgstr "Načrtovalnik opazovanja"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:431 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:436 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "Višina glede na čas"
 
-#: kstarsinit.cpp:434
+#: kstarsinit.cpp:439
 #, kde-format
 msgid "What's up Tonight"
 msgstr "Kaj je danes na nebu"
 
-#: kstarsinit.cpp:443
+#: kstarsinit.cpp:448
 #, fuzzy, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr "Simulator sončnega sistema XPlanet: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:445 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
+#: kstarsinit.cpp:450 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr "Nebesni koledar"
 
-#: kstarsinit.cpp:463
+#: kstarsinit.cpp:468
 #, kde-format
 msgid "Script Builder"
 msgstr "Izgrajevalnik skriptov"
 
-#: kstarsinit.cpp:471
+#: kstarsinit.cpp:476
 #, kde-format
 msgid "Jupiter's Moons"
 msgstr "Jupitrove lune"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:474 options/opsguides.ui:284
+#: kstarsinit.cpp:479 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "Zastavice"
 
-#: kstarsinit.cpp:477
+#: kstarsinit.cpp:482
 #, kde-format
 msgid "List your &Equipment..."
 msgstr "Navedite vašo opr&emo..."
 
-#: kstarsinit.cpp:479
+#: kstarsinit.cpp:484
 #, kde-format
 msgid "Manage Observer..."
 msgstr "Upravljanje z opazovalcem ..."
 
-#: kstarsinit.cpp:483
+#: kstarsinit.cpp:488
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr "Navidezno obzorje ..."
 
-#: kstarsinit.cpp:487
+#: kstarsinit.cpp:492
 #, fuzzy, kde-format
 #| msgid "Execute the session Plan..."
 msgid "Execute the Session Plan..."
 msgstr "Izvedi načrt seje ..."
 
-#: kstarsinit.cpp:491
+#: kstarsinit.cpp:496
 #, kde-format
 msgid "Polaris Hour Angle..."
 msgstr "Urni kot Severnice..."
 
-#: kstarsinit.cpp:498
+#: kstarsinit.cpp:503
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "Čarovnik za daljnogled ..."
 
-#: kstarsinit.cpp:503
+#: kstarsinit.cpp:508
 #, kde-format
 msgid "Device Manager..."
 msgstr "Upravljalnik naprav ..."
 
-#: kstarsinit.cpp:507
+#: kstarsinit.cpp:512
 #, kde-format
 msgid "Custom Drivers..."
 msgstr "Gonilniki po meri ..."
 
-#: kstarsinit.cpp:510
+#: kstarsinit.cpp:515
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "Nadzorna plošča INDI..."
 
-#: kstarsinit.cpp:522
+#: kstarsinit.cpp:527
 #, kde-format
 msgid "Displays the Tip of the Day"
 msgstr "Prikaže Namig dneva"
 
-#: kstarsinit.cpp:530
+#: kstarsinit.cpp:535
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -67945,305 +67945,305 @@ msgstr ""
 "Za časovne korake, ki so daljši od 10 minut, je razmik med prikazi okvirjev "
 "»X«."
 
-#: kstarsinit.cpp:539
+#: kstarsinit.cpp:544
 #, kde-format
 msgid "Time step control"
 msgstr "Nadzor časovnega koraka"
 
-#: kstarsinit.cpp:548
+#: kstarsinit.cpp:553
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "Zvezde"
 
-#: kstarsinit.cpp:550
+#: kstarsinit.cpp:555
 #, kde-format
 msgid "Toggle stars"
 msgstr "Preklopi prikaz zvezd"
 
-#: kstarsinit.cpp:552
+#: kstarsinit.cpp:557
 #, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "Globoko nebo"
 
-#: kstarsinit.cpp:554
+#: kstarsinit.cpp:559
 #, kde-format
 msgid "Toggle deep sky objects"
 msgstr "Preklopi prikaz objektov globokega neba"
 
-#: kstarsinit.cpp:556
+#: kstarsinit.cpp:561
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "Osončje"
 
-#: kstarsinit.cpp:558
+#: kstarsinit.cpp:563
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr "Preklopi prikaz objektov Osončja"
 
-#: kstarsinit.cpp:560
+#: kstarsinit.cpp:565
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "Črte ozvezdij"
 
-#: kstarsinit.cpp:562
+#: kstarsinit.cpp:567
 #, kde-format
 msgid "Toggle constellation lines"
 msgstr "Preklopi prikaz črt ozvezdij"
 
-#: kstarsinit.cpp:564
+#: kstarsinit.cpp:569
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "Imena ozvezdij"
 
-#: kstarsinit.cpp:566
+#: kstarsinit.cpp:571
 #, kde-format
 msgid "Toggle constellation names"
 msgstr "Preklopi prikaz imen ozvezdij"
 
-#: kstarsinit.cpp:568
+#: kstarsinit.cpp:573
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "Meje ozvezdij"
 
-#: kstarsinit.cpp:570
+#: kstarsinit.cpp:575
 #, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "Preklopi prikaz mej ozvezdij"
 
-#: kstarsinit.cpp:572
+#: kstarsinit.cpp:577
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr "Grafika o. (beta)"
 
-#: kstarsinit.cpp:574
+#: kstarsinit.cpp:579
 #, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
 msgstr "Preklopi grafiko ozvezdij (beta)"
 
-#: kstarsinit.cpp:576
+#: kstarsinit.cpp:581
 #, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "Rimska cesta"
 
-#: kstarsinit.cpp:578
+#: kstarsinit.cpp:583
 #, kde-format
 msgid "Toggle milky way"
 msgstr "Preklopi prikaz Rimske ceste"
 
-#: kstarsinit.cpp:580
+#: kstarsinit.cpp:585
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "Ekvatorialna koordinatna mreža"
 
-#: kstarsinit.cpp:582
+#: kstarsinit.cpp:587
 #, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "Preklopi prikaz ekvatorialne koordinatne mreže"
 
-#: kstarsinit.cpp:584
+#: kstarsinit.cpp:589
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "Horizontalna koordinatna mreža"
 
-#: kstarsinit.cpp:586
+#: kstarsinit.cpp:591
 #, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "Preklopi prikaz horizontalne koordinatne mreže"
 
-#: kstarsinit.cpp:588
+#: kstarsinit.cpp:593
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "Tla"
 
-#: kstarsinit.cpp:590
+#: kstarsinit.cpp:595
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr "Preklopi prikaz tal"
 
-#: kstarsinit.cpp:592
+#: kstarsinit.cpp:597
 #, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "Zastavice"
 
-#: kstarsinit.cpp:594
+#: kstarsinit.cpp:599
 #, kde-format
 msgid "Toggle flags"
 msgstr "Preklopi prikaz zastavic"
 
-#: kstarsinit.cpp:596
+#: kstarsinit.cpp:601
 #, kde-format
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "Sateliti"
 
-#: kstarsinit.cpp:598
+#: kstarsinit.cpp:603
 #, kde-format
 msgid "Toggle satellites"
 msgstr "Preklopi prikaz satelitov"
 
-#: kstarsinit.cpp:600
+#: kstarsinit.cpp:605
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "Supernove"
 
-#: kstarsinit.cpp:602
+#: kstarsinit.cpp:607
 #, kde-format
 msgid "Toggle supernovae"
 msgstr "Preklopi prikaz supernov"
 
-#: kstarsinit.cpp:604
+#: kstarsinit.cpp:609
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "Kaj je zanimivega"
 
-#: kstarsinit.cpp:606
+#: kstarsinit.cpp:611
 #, kde-format
 msgid "Toggle What's Interesting"
 msgstr "Preklopi kaj je zanimivega"
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:616
 #, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:618
 #, kde-format
 msgid "Toggle Ekos"
 msgstr "Preklopi Ekos"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:620
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "Nadzorna plošča INDI"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:622
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr "Preklopi nadzorno ploščo INDI"
 
-#: kstarsinit.cpp:620
+#: kstarsinit.cpp:625
 #, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "Pregledovalnik FITS"
 
-#: kstarsinit.cpp:622
+#: kstarsinit.cpp:627
 #, kde-format
 msgid "Toggle FITS Viewer"
 msgstr "Preklopi pregledovalnik FITS"
 
-#: kstarsinit.cpp:626
+#: kstarsinit.cpp:631
 #, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "Vidno polje senzorja"
 
-#: kstarsinit.cpp:628
+#: kstarsinit.cpp:633
 #, kde-format
 msgid "Toggle Sensor FOV"
 msgstr "Preklopi vidno polje senzorja"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:638
 #, fuzzy, kde-format
 #| msgid "Mosaic FOV:"
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr "VP mozaika:"
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:640
 #, fuzzy, kde-format
 msgid "Toggle Mosaic Panel"
 msgstr "Preklopi nadzorno ploščo za namestitev"
 
-#: kstarsinit.cpp:640
+#: kstarsinit.cpp:645
 #, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "Nadzor montaže"
 
-#: kstarsinit.cpp:642
+#: kstarsinit.cpp:647
 #, fuzzy, kde-format
 msgid "Toggle Mount Control Panel"
 msgstr "Preklopi nadzorno ploščo za namestitev"
 
-#: kstarsinit.cpp:646
+#: kstarsinit.cpp:651
 #, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "Usredini teleskop"
 
-#: kstarsinit.cpp:648
+#: kstarsinit.cpp:653
 #, fuzzy, kde-format
 msgid "Toggle Lock Telescope Center"
 msgstr "Preklopi zaklepanje teleskopa center"
 
-#: kstarsinit.cpp:652
+#: kstarsinit.cpp:657
 #, fuzzy, kde-format
 msgid "Toggle Telescope Tracking"
 msgstr "Preklopi sledenje teleskopom"
 
-#: kstarsinit.cpp:656
+#: kstarsinit.cpp:661
 #, fuzzy, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "Pomikajte teleskop do ostejenega predmeta"
 
-#: kstarsinit.cpp:660
+#: kstarsinit.cpp:665
 #, fuzzy, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "Sinhronizacija teleskopa z usmerjenim predmetom"
 
-#: kstarsinit.cpp:664
+#: kstarsinit.cpp:669
 #, fuzzy, kde-format
 msgid "Abort telescope motions"
 msgstr "Prekinitev gibanj teleskopa"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:674
 #, fuzzy, kde-format
 msgid "Park telescope"
 msgstr "Park teleskop"
 
-#: kstarsinit.cpp:673
+#: kstarsinit.cpp:678
 #, fuzzy, kde-format
 msgid "Unpark telescope"
 msgstr "Unpark teleskop"
 
-#: kstarsinit.cpp:679
+#: kstarsinit.cpp:684
 #, fuzzy, kde-format
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "Zamik teleskopa v položaj kazalca miške"
 
-#: kstarsinit.cpp:682
+#: kstarsinit.cpp:687
 #, fuzzy, kde-format
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "Sinhronizacija teleskopa s položajem kazalca miške"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:694
 #, kde-format
 msgid "Park dome"
 msgstr "Parkiraj kupolo"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:698
 #, kde-format
 msgid "Unpark dome"
 msgstr "Odparkiraj kupolo"
 
-#: kstarsinit.cpp:715
+#: kstarsinit.cpp:720
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -68257,7 +68257,7 @@ msgstr ""
 "navpično navzgor. To bi bila naravna izbira za iskalo s pokončno sliko ali "
 "pogled s prostimi očmi."
 
-#: kstarsinit.cpp:724
+#: kstarsinit.cpp:729
 #, fuzzy, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -68271,14 +68271,14 @@ msgstr ""
 "navpično navzdol. To bi bila naravna izbira za teleskop z obrnjeno sliko, "
 "refraktor/cassegrain brez erektorske prizme ali Dobsonov teleskop."
 
-#: kstarsinit.cpp:729
+#: kstarsinit.cpp:734
 #, fuzzy, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
 msgstr "Arbitrarno"
 
-#: kstarsinit.cpp:733
+#: kstarsinit.cpp:738
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -68289,13 +68289,13 @@ msgstr ""
 "Ta način se izbere samodejno, če ste zemljevid neba ročno zavrteli z uporabo "
 "akcije dvigalka + povlek miške, da vas obvesti, da je orientacija poljubna"
 
-#: kstarsinit.cpp:739
+#: kstarsinit.cpp:744
 #, fuzzy, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid "Erect observer correction"
 msgstr "Popravek pokončnega opazovalca"
 
-#: kstarsinit.cpp:742
+#: kstarsinit.cpp:747
 #, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid ""
@@ -68315,33 +68315,33 @@ msgstr ""
 "uporabi ekvatorialnih koordinat. Običajno je to smiselno kombinirati z "
 "orientacijo v zenitu navzdol."
 
-#: kstarsinit.cpp:768
+#: kstarsinit.cpp:773
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "Urejevalnik znakov VP ..."
 
-#: kstarsinit.cpp:803
+#: kstarsinit.cpp:808
 #, kde-format
 msgid "HiPS Settings..."
 msgstr "Nastavitve HiPS ..."
 
-#: kstarsinit.cpp:810
+#: kstarsinit.cpp:815
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " Dobrodošli v KStars "
 
-#: kstarsinit.cpp:909 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
+#: kstarsinit.cpp:914 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "nič"
 
-#: kstarsinit.cpp:964 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:969 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "Začetni položaj je pod obzorjem"
 
-#: kstarsinit.cpp:966 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:971 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -68350,17 +68350,17 @@ msgstr ""
 "Začetni položaj je pod obzorjem.\n"
 "Ali želite ponastaviti na privzet položaj?"
 
-#: kstarsinit.cpp:967
+#: kstarsinit.cpp:972
 #, kde-format
 msgid "Reset Position"
 msgstr "Ponastavi položaj"
 
-#: kstarsinit.cpp:968
+#: kstarsinit.cpp:973
 #, kde-format
 msgid "Do Not Reset"
 msgstr "Ne ponastavi"
 
-#: kstarsinit.cpp:1023
+#: kstarsinit.cpp:1028
 #, kde-format
 msgid "&Themes"
 msgstr "&Teme"

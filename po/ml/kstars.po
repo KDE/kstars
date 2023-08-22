@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-21 00:41+0000\n"
+"POT-Creation-Date: 2023-08-22 00:41+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -1687,14 +1687,14 @@ msgstr "കാണുക"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:43 data/kstarsui.rc:138 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:43 data/kstarsui.rc:139 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "&സഹായം"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:57 data/kstarsui.rc:153
+#: data/fitsviewerui.rc:57 data/kstarsui.rc:154
 #, kde-format
 msgid "Main Toolbar"
 msgstr ""
@@ -1718,80 +1718,80 @@ msgid "&Pointing"
 msgstr ""
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:52
+#: data/kstarsui.rc:53
 #, fuzzy, kde-format
 msgid "&Projection"
 msgstr "പ്രക്ഷേപണം"
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:63
+#: data/kstarsui.rc:64
 #, fuzzy, kde-format
 msgid "&Tools"
 msgstr "ടൂളുകള്‍"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:65
+#: data/kstarsui.rc:66
 #, fuzzy, kde-format
 msgid "&Devices"
 msgstr "മൊബൈല്‍ ഉപകരണങ്ങള്‍"
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:88
+#: data/kstarsui.rc:89
 #, kde-format
 msgid "&Data"
 msgstr ""
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:92
+#: data/kstarsui.rc:93
 #, fuzzy, kde-format
 msgid "&Updates"
 msgstr "പുതിയ വിവരങ്ങള്‍ എന്നെ ഇന്റര്‍നെറ്റില്‍ കൂടി അറിയിക്കുക "
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:99
+#: data/kstarsui.rc:100
 #, fuzzy, kde-format
 msgid "&Observation"
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:106
+#: data/kstarsui.rc:107
 #, kde-format
 msgid "&Settings"
 msgstr ""
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:107
+#: data/kstarsui.rc:108
 #, kde-format
 msgid "&Info Boxes"
 msgstr ""
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:115
+#: data/kstarsui.rc:116
 #, kde-format
 msgid "&Statusbar"
 msgstr ""
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:171
+#: data/kstarsui.rc:172
 #, kde-format
 msgid "View Toolbar"
 msgstr ""
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:189
+#: data/kstarsui.rc:190
 #, fuzzy, kde-format
 msgid "INDI Toolbar"
 msgstr "ടൂളുകള്‍"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:199
+#: data/kstarsui.rc:200
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Telescope Toolbar"
 msgstr "ടെലസ്കോപ്പ്"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:210
+#: data/kstarsui.rc:211
 #, fuzzy, kde-format
 msgid "Dome Toolbar"
 msgstr "ടൂളുകള്‍"
@@ -1985,7 +1985,7 @@ msgstr "നക്ഷത്രങ്ങള്‍"
 msgid "Idle"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:439
+#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:444
 #, fuzzy, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr "കാന്തിമാനം എത്ര വരെയുള്ള നെബുലകളുടെ പേരുകള്‍ :"
@@ -4287,7 +4287,7 @@ msgstr "എത്ര കാന്തിമാനം വരെയുള്ളത�
 msgid "Any"
 msgstr "അല്‍ബനി"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:467
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:472
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -11668,7 +11668,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:133 ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1141 kstarsinit.cpp:449
+#: kstarsactions.cpp:1141 kstarsinit.cpp:454
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -13177,8 +13177,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:783
-#: kstarsinit.cpp:784 tools/exporteyepieceview.cpp:57
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:788
+#: kstarsinit.cpp:789 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -29387,7 +29387,7 @@ msgstr ""
 "കാണിക്കുന്നതിനുള്ള പ്രോഗ്രാം തുടങ്ങുന്നതില്‍ പരാജയപ്പെട്ടു:\n"
 "%s"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:912
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:917
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:514 skyobjects/skyobject.h:26
@@ -69377,12 +69377,12 @@ msgstr "ഇടിയും മിന്നലും"
 msgid "Show Terrain"
 msgstr "ഫയലിന്റെ _പേരു്:"
 
-#: kstarsactions.cpp:1178
+#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:273
 #, fuzzy, kde-format
 msgid "Hide Image Overlays"
 msgstr "ആകാശ സമയം മുന്‍ കൂട്ടിയുള്ളത് "
 
-#: kstarsactions.cpp:1178
+#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:274
 #, fuzzy, kde-format
 msgid "Show Image Overlays"
 msgstr "നക്ഷത്രരാശിയുടെ കലാരൂപത്തിന്റെ തീവ്രത"
@@ -69503,27 +69503,27 @@ msgstr ""
 msgid "Enter a field-of-view angle in degrees: "
 msgstr ""
 
-#: kstarsactions.cpp:1704 kstarsinit.cpp:711
+#: kstarsactions.cpp:1704 kstarsinit.cpp:716
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "വടക്കു്"
 
-#: kstarsactions.cpp:1707 kstarsinit.cpp:720
+#: kstarsactions.cpp:1707 kstarsinit.cpp:725
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "വടക്കു്"
 
-#: kstarsactions.cpp:1725 kstarsinit.cpp:711
+#: kstarsactions.cpp:1725 kstarsinit.cpp:716
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr ""
 
-#: kstarsactions.cpp:1728 kstarsinit.cpp:720
+#: kstarsactions.cpp:1728 kstarsinit.cpp:725
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
@@ -69828,37 +69828,37 @@ msgstr "മാനുഷിക പര്‍വ്വതീകരണം: "
 msgid "&Zoom to Angular Size..."
 msgstr ""
 
-#: kstarsinit.cpp:273
+#: kstarsinit.cpp:278
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr ""
 
-#: kstarsinit.cpp:276
+#: kstarsinit.cpp:281
 #, fuzzy, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "അഗ്രകോടി ചട്ടക്കൂട്"
 
-#: kstarsinit.cpp:279
+#: kstarsinit.cpp:284
 #, kde-format
 msgid "&Orthographic"
 msgstr ""
 
-#: kstarsinit.cpp:282
+#: kstarsinit.cpp:287
 #, fuzzy, kde-format
 msgid "&Equirectangular"
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
 
-#: kstarsinit.cpp:285
+#: kstarsinit.cpp:290
 #, fuzzy, kde-format
 msgid "&Stereographic"
 msgstr "സമയ മേഖല ഉറപ്പിക്കുക: "
 
-#: kstarsinit.cpp:288
+#: kstarsinit.cpp:293
 #, kde-format
 msgid "&Gnomonic"
 msgstr ""
 
-#: kstarsinit.cpp:294
+#: kstarsinit.cpp:299
 #, fuzzy, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
@@ -69866,13 +69866,13 @@ msgstr ""
 "കാണിക്കുന്നതിനുള്ള പ്രോഗ്രാം തുടങ്ങുന്നതില്‍ പരാജയപ്പെട്ടു:\n"
 "%s"
 
-#: kstarsinit.cpp:299
+#: kstarsinit.cpp:304
 #, fuzzy, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "സമയ വേഗത കുറയ്ക്കുക [J]"
 
-#: kstarsinit.cpp:306
+#: kstarsinit.cpp:311
 #, fuzzy, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
@@ -69880,7 +69880,7 @@ msgstr ""
 "കാണിക്കുന്നതിനുള്ള പ്രോഗ്രാം തുടങ്ങുന്നതില്‍ പരാജയപ്പെട്ടു:\n"
 "%s"
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:318
 #, fuzzy, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
@@ -69888,219 +69888,219 @@ msgstr ""
 "കാണിക്കുന്നതിനുള്ള പ്രോഗ്രാം തുടങ്ങുന്നതില്‍ പരാജയപ്പെട്ടു:\n"
 "%s"
 
-#: kstarsinit.cpp:320
+#: kstarsinit.cpp:325
 #, fuzzy, kde-format
 msgid "Show Main Toolbar"
 msgstr "പ്രധാനമായ വിനിമയതലം ലോഡ് ചെയ്യുവാന്‍ സാധ്യമായില്ല"
 
-#: kstarsinit.cpp:322
+#: kstarsinit.cpp:327
 #, fuzzy, kde-format
 msgid "Show View Toolbar"
 msgstr ""
 "കാണിക്കുന്നതിനുള്ള പ്രോഗ്രാം തുടങ്ങുന്നതില്‍ പരാജയപ്പെട്ടു:\n"
 "%s"
 
-#: kstarsinit.cpp:326
+#: kstarsinit.cpp:331
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Show Statusbar"
 msgstr "നക്ഷത്രങ്ങള്‍"
 
-#: kstarsinit.cpp:327
+#: kstarsinit.cpp:332
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr ""
 
-#: kstarsinit.cpp:328
+#: kstarsinit.cpp:333
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr ""
 
-#: kstarsinit.cpp:329
+#: kstarsinit.cpp:334
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr ""
 
-#: kstarsinit.cpp:337
+#: kstarsinit.cpp:342
 #, fuzzy, kde-format
 msgid "C&olor Schemes"
 msgstr "പാപുവ ന്യൂ ഗിനിയ"
 
-#: kstarsinit.cpp:338
+#: kstarsinit.cpp:343
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Chapais"
 msgid "&Classic"
 msgstr "ഷാപെയ്സ്"
 
-#: kstarsinit.cpp:339
+#: kstarsinit.cpp:344
 #, fuzzy, kde-format
 msgid "&Star Chart"
 msgstr "നക്ഷത്രം തിളങ്ങുന്നതിന്റെ മാനം :"
 
-#: kstarsinit.cpp:340
+#: kstarsinit.cpp:345
 #, fuzzy, kde-format
 msgid "&Night Vision"
 msgstr "രാത്രി ദൃശ്യം (ചുവപ്പ്)"
 
-#: kstarsinit.cpp:341
+#: kstarsinit.cpp:346
 #, fuzzy, kde-format
 msgid "&Moonless Night"
 msgstr "രാത്രി ദൃശ്യം (ചുവപ്പ്)"
 
-#: kstarsinit.cpp:361
+#: kstarsinit.cpp:366
 #, fuzzy, kde-format
 msgid "&FOV Symbols"
 msgstr "_വീഡിയോ ഘടിപ്പിയ്ക്കുമ്പോള്‍ എഡിറ്റ് ചെയ്യുക"
 
-#: kstarsinit.cpp:369
+#: kstarsinit.cpp:374
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr ""
 
-#: kstarsinit.cpp:376
+#: kstarsinit.cpp:381
 #, fuzzy, kde-format
 msgid "Skymap Orientation"
 msgstr "ആജ്ഞാ സ്ഥാന സാധ്യതകള്‍"
 
-#: kstarsinit.cpp:382
+#: kstarsinit.cpp:387
 #, fuzzy, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "തിരഞ്ഞെടുത്ത സ്ഥലം സൂക്ഷിക്കുക"
 
-#: kstarsinit.cpp:399
+#: kstarsinit.cpp:404
 #, kde-format
 msgid "Startup Wizard..."
 msgstr ""
 
-#: kstarsinit.cpp:404
+#: kstarsinit.cpp:409
 #, fuzzy, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "ആകാശ സമയം മുന്‍ കൂട്ടിയുള്ളത് "
 
-#: kstarsinit.cpp:408
+#: kstarsinit.cpp:413
 #, fuzzy, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr "ഭൂമി ദേവിയുടെ ക്ഷേത്രം"
 
-#: kstarsinit.cpp:410
+#: kstarsinit.cpp:415
 #, fuzzy, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr "ഭൂമി ദേവിയുടെ ക്ഷേത്രം"
 
-#: kstarsinit.cpp:412
+#: kstarsinit.cpp:417
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr ""
 
-#: kstarsinit.cpp:414
+#: kstarsinit.cpp:419
 #, fuzzy, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr "ഭൂമി ദേവിയുടെ ക്ഷേത്രം"
 
-#: kstarsinit.cpp:418
+#: kstarsinit.cpp:423
 #, fuzzy, kde-format
 msgid "Calculator"
 msgstr "ഗണനി"
 
-#: kstarsinit.cpp:428
+#: kstarsinit.cpp:433
 #, fuzzy, kde-format
 msgid "Observation Planner"
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:431 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:436 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
 #, fuzzy, kde-format
 msgid "Altitude vs. Time"
 msgstr "സമയ വേഗത കുറയ്ക്കുക [J]"
 
-#: kstarsinit.cpp:434
+#: kstarsinit.cpp:439
 #, fuzzy, kde-format
 msgid "What's up Tonight"
 msgstr "കാന്തിമാനം എത്ര വരെയുള്ള നെബുലകളുടെ പേരുകള്‍ :"
 
-#: kstarsinit.cpp:443
+#: kstarsinit.cpp:448
 #, fuzzy, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr "സൌരയൂഥ വസ്തു "
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:445 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
+#: kstarsinit.cpp:450 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
 #, fuzzy, kde-format
 msgid "Sky Calendar"
 msgstr "ആകാശ സംസ്കാരം "
 
-#: kstarsinit.cpp:463
+#: kstarsinit.cpp:468
 #, fuzzy, kde-format
 msgid "Script Builder"
 msgstr "ലോക്കല്‍ സ്ക്രിപ്റ്റ്: "
 
-#: kstarsinit.cpp:471
+#: kstarsinit.cpp:476
 #, fuzzy, kde-format
 #| msgid "Jupiter"
 msgid "Jupiter's Moons"
 msgstr "വ്യാഴം"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:474 options/opsguides.ui:284
+#: kstarsinit.cpp:479 options/opsguides.ui:284
 #, fuzzy, kde-format
 msgid "Flags"
 msgstr "മാധ്യമ ഫയലുകള്‍"
 
-#: kstarsinit.cpp:477
+#: kstarsinit.cpp:482
 #, fuzzy, kde-format
 msgid "List your &Equipment..."
 msgstr "_എല്ലാം നീക്കം ചെയ്യുക"
 
-#: kstarsinit.cpp:479
+#: kstarsinit.cpp:484
 #, fuzzy, kde-format
 msgid "Manage Observer..."
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
-#: kstarsinit.cpp:483
+#: kstarsinit.cpp:488
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr ""
 
-#: kstarsinit.cpp:487
+#: kstarsinit.cpp:492
 #, fuzzy, kde-format
 msgid "Execute the Session Plan..."
 msgstr "ബൌവെ ദ്വീപുകള്‍"
 
-#: kstarsinit.cpp:491
+#: kstarsinit.cpp:496
 #, fuzzy, kde-format
 #| msgid "Color value:"
 msgid "Polaris Hour Angle..."
 msgstr "നിറം മൂല്യം:"
 
-#: kstarsinit.cpp:498
+#: kstarsinit.cpp:503
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Telescope Wizard..."
 msgstr "ടെലസ്കോപ്പ്"
 
-#: kstarsinit.cpp:503
+#: kstarsinit.cpp:508
 #, fuzzy, kde-format
 msgid "Device Manager..."
 msgstr "വോള്യം മാനേജര്‍"
 
-#: kstarsinit.cpp:507
+#: kstarsinit.cpp:512
 #, fuzzy, kde-format
 msgid "Custom Drivers..."
 msgstr "സാധാരണ ഗുണഗണങ്ങള്‍"
 
-#: kstarsinit.cpp:510
+#: kstarsinit.cpp:515
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr ""
 
-#: kstarsinit.cpp:522
+#: kstarsinit.cpp:527
 #, kde-format
 msgid "Displays the Tip of the Day"
 msgstr ""
 
-#: kstarsinit.cpp:530
+#: kstarsinit.cpp:535
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -70111,155 +70111,155 @@ msgid ""
 "of 'X'."
 msgstr ""
 
-#: kstarsinit.cpp:539
+#: kstarsinit.cpp:544
 #, fuzzy, kde-format
 msgid "Time step control"
 msgstr "സമയ വേഗത കുറയ്ക്കുക [J]"
 
-#: kstarsinit.cpp:548
+#: kstarsinit.cpp:553
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "നക്ഷത്രങ്ങള്‍"
 
-#: kstarsinit.cpp:550
+#: kstarsinit.cpp:555
 #, fuzzy, kde-format
 msgid "Toggle stars"
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: kstarsinit.cpp:552
+#: kstarsinit.cpp:557
 #, fuzzy, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "ആകാശ സംസ്കാരം "
 
-#: kstarsinit.cpp:554
+#: kstarsinit.cpp:559
 #, fuzzy, kde-format
 msgid "Toggle deep sky objects"
 msgstr "ആകാശ സമയം മുന്‍ കൂട്ടിയുള്ളത് "
 
-#: kstarsinit.cpp:556
+#: kstarsinit.cpp:561
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "സൌരയൂഥം"
 
-#: kstarsinit.cpp:558
+#: kstarsinit.cpp:563
 #, fuzzy, kde-format
 msgid "Toggle Solar system objects"
 msgstr "സൌരയൂഥ വസ്തു "
 
-#: kstarsinit.cpp:560
+#: kstarsinit.cpp:565
 #, fuzzy, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "നക്ഷത്രരാശിയുടെ വരകള്‍"
 
-#: kstarsinit.cpp:562
+#: kstarsinit.cpp:567
 #, fuzzy, kde-format
 msgid "Toggle constellation lines"
 msgstr "നക്ഷത്രരാശിയുടെ കലാരൂപത്തിന്റെ തീവ്രത"
 
-#: kstarsinit.cpp:564
+#: kstarsinit.cpp:569
 #, fuzzy, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "<b>ഗാനങ്ങളുടെ പേരു്</b>"
 
-#: kstarsinit.cpp:566
+#: kstarsinit.cpp:571
 #, fuzzy, kde-format
 msgid "Toggle constellation names"
 msgstr "ഗാനങ്ങളുടെ പേരു് _നല്‍കുക..."
 
-#: kstarsinit.cpp:568
+#: kstarsinit.cpp:573
 #, fuzzy, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "നക്ഷത്രരാശിയുടെ അതിരുകള്‍"
 
-#: kstarsinit.cpp:570
+#: kstarsinit.cpp:575
 #, fuzzy, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "നക്ഷത്രരാശിയുടെ കലാരൂപത്തിന്റെ തീവ്രത"
 
-#: kstarsinit.cpp:572
+#: kstarsinit.cpp:577
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr ""
 
-#: kstarsinit.cpp:574
+#: kstarsinit.cpp:579
 #, fuzzy, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
 msgstr "ഗാനങ്ങളുടെ പേരു് _നല്‍കുക..."
 
-#: kstarsinit.cpp:576
+#: kstarsinit.cpp:581
 #, fuzzy, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "ആകാശ ഗംഗയുടെ തീവ്രത: "
 
-#: kstarsinit.cpp:578
+#: kstarsinit.cpp:583
 #, fuzzy, kde-format
 msgid "Toggle milky way"
 msgstr "ആകാശ ഗംഗയുടെ തീവ്രത: "
 
-#: kstarsinit.cpp:580
+#: kstarsinit.cpp:585
 #, fuzzy, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "ഭൂമദ്ധ്യരേഖാ ചട്ടക്കൂട്"
 
-#: kstarsinit.cpp:582
+#: kstarsinit.cpp:587
 #, fuzzy, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "ഭൂമദ്ധ്യരേഖാ ചട്ടക്കൂട്"
 
-#: kstarsinit.cpp:584
+#: kstarsinit.cpp:589
 #, fuzzy, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "കുറുകെയുള്ള ഫ്ലിപ്പ്"
 
-#: kstarsinit.cpp:586
+#: kstarsinit.cpp:591
 #, fuzzy, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "കുറുകെയുള്ള ഫ്ലിപ്പ്"
 
-#: kstarsinit.cpp:588
+#: kstarsinit.cpp:593
 #, fuzzy, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "ഭൌമോപരിതലം"
 
-#: kstarsinit.cpp:590
+#: kstarsinit.cpp:595
 #, fuzzy, kde-format
 msgid "Toggle opaque ground"
 msgstr "ചന്ദ്ര മാപനം"
 
-#: kstarsinit.cpp:592
+#: kstarsinit.cpp:597
 #, fuzzy, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "മാധ്യമ ഫയലുകള്‍"
 
-#: kstarsinit.cpp:594
+#: kstarsinit.cpp:599
 #, fuzzy, kde-format
 msgid "Toggle flags"
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: kstarsinit.cpp:596
+#: kstarsinit.cpp:601
 #, fuzzy, kde-format
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "<b>ഗാനങ്ങളുടെ പേരു്</b>"
 
-#: kstarsinit.cpp:598
+#: kstarsinit.cpp:603
 #, fuzzy, kde-format
 msgid "Toggle satellites"
 msgstr "നക്ഷത്രരാശിയുടെ കലാരൂപത്തിന്റെ തീവ്രത"
 
-#: kstarsinit.cpp:600
+#: kstarsinit.cpp:605
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Anderson"
@@ -70267,155 +70267,155 @@ msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "ആന്‍ഡര്‍സണ്‍ "
 
-#: kstarsinit.cpp:602
+#: kstarsinit.cpp:607
 #, fuzzy, kde-format
 msgid "Toggle supernovae"
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: kstarsinit.cpp:604
+#: kstarsinit.cpp:609
 #, fuzzy, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "കാന്തിമാനം എത്ര വരെയുള്ള നെബുലകളുടെ പേരുകള്‍ :"
 
-#: kstarsinit.cpp:606
+#: kstarsinit.cpp:611
 #, fuzzy, kde-format
 msgid "Toggle What's Interesting"
 msgstr "കാന്തിമാനം എത്ര വരെയുള്ള നെബുലകളുടെ പേരുകള്‍ :"
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:616
 #, fuzzy, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:618
 #, fuzzy, kde-format
 msgid "Toggle Ekos"
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:620
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr ""
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:622
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr ""
 
-#: kstarsinit.cpp:620
+#: kstarsinit.cpp:625
 #, fuzzy, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "%s പ്രവര്‍ത്തിപ്പിയ്ക്കാനൊരുങ്ങുന്നു.\\n"
 
-#: kstarsinit.cpp:622
+#: kstarsinit.cpp:627
 #, fuzzy, kde-format
 msgid "Toggle FITS Viewer"
 msgstr "%s പ്രവര്‍ത്തിപ്പിയ്ക്കാനൊരുങ്ങുന്നു.\\n"
 
-#: kstarsinit.cpp:626
+#: kstarsinit.cpp:631
 #, fuzzy, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "പ്രഭാവമില്ല"
 
-#: kstarsinit.cpp:628
+#: kstarsinit.cpp:633
 #, fuzzy, kde-format
 msgid "Toggle Sensor FOV"
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:638
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr ""
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:640
 #, fuzzy, kde-format
 msgid "Toggle Mosaic Panel"
 msgstr "വടക്കേ നദി"
 
-#: kstarsinit.cpp:640
+#: kstarsinit.cpp:645
 #, fuzzy, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "വടക്കേ നദി"
 
-#: kstarsinit.cpp:642
+#: kstarsinit.cpp:647
 #, fuzzy, kde-format
 msgid "Toggle Mount Control Panel"
 msgstr "വടക്കേ നദി"
 
-#: kstarsinit.cpp:646
+#: kstarsinit.cpp:651
 #, fuzzy, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
 
-#: kstarsinit.cpp:648
+#: kstarsinit.cpp:653
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Toggle Lock Telescope Center"
 msgstr "ടെലസ്കോപ്പ്"
 
-#: kstarsinit.cpp:652
+#: kstarsinit.cpp:657
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Toggle Telescope Tracking"
 msgstr "ടെലസ്കോപ്പ്"
 
-#: kstarsinit.cpp:656
+#: kstarsinit.cpp:661
 #, fuzzy, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "ഖഗോളവസ്തുവിനെ തിരയല്‍"
 
-#: kstarsinit.cpp:660
+#: kstarsinit.cpp:665
 #, fuzzy, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "ഖഗോളവസ്തുവിനെ തിരയല്‍"
 
-#: kstarsinit.cpp:664
+#: kstarsinit.cpp:669
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Abort telescope motions"
 msgstr "ടെലസ്കോപ്പ്"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:674
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Park telescope"
 msgstr "ടെലസ്കോപ്പ്"
 
-#: kstarsinit.cpp:673
+#: kstarsinit.cpp:678
 #, fuzzy, kde-format
 msgid "Unpark telescope"
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
 
-#: kstarsinit.cpp:679
+#: kstarsinit.cpp:684
 #, fuzzy, kde-format
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: kstarsinit.cpp:682
+#: kstarsinit.cpp:687
 #, fuzzy, kde-format
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:694
 #, fuzzy, kde-format
 msgid "Park dome"
 msgstr "ലോക്കല്‍ സ്ക്രിപ്റ്റ്: "
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:698
 #, fuzzy, kde-format
 #| msgid "Mars"
 msgid "Unpark dome"
 msgstr "ചൊവ്വ"
 
-#: kstarsinit.cpp:715
+#: kstarsinit.cpp:720
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -70425,7 +70425,7 @@ msgid ""
 "eye view."
 msgstr ""
 
-#: kstarsinit.cpp:724
+#: kstarsinit.cpp:729
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -70435,7 +70435,7 @@ msgid ""
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
 
-#: kstarsinit.cpp:729
+#: kstarsinit.cpp:734
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gibraltar"
@@ -70444,7 +70444,7 @@ msgctxt ""
 msgid "Arbitrary"
 msgstr "ജിബ്രാള്‍ട്ടര്‍"
 
-#: kstarsinit.cpp:733
+#: kstarsinit.cpp:738
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -70453,13 +70453,13 @@ msgid ""
 "arbitrary"
 msgstr ""
 
-#: kstarsinit.cpp:739
+#: kstarsinit.cpp:744
 #, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid "Erect observer correction"
 msgstr ""
 
-#: kstarsinit.cpp:742
+#: kstarsinit.cpp:747
 #, kde-format
 msgctxt "Orient sky map for an erect observer"
 msgid ""
@@ -70472,50 +70472,50 @@ msgid ""
 "orientation."
 msgstr ""
 
-#: kstarsinit.cpp:768
+#: kstarsinit.cpp:773
 #, fuzzy, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "_വീഡിയോ ഘടിപ്പിയ്ക്കുമ്പോള്‍ എഡിറ്റ് ചെയ്യുക"
 
-#: kstarsinit.cpp:803
+#: kstarsinit.cpp:808
 #, fuzzy, kde-format
 msgid "HiPS Settings..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിന്റെ ആല്‍ബം"
 
-#: kstarsinit.cpp:810
+#: kstarsinit.cpp:815
 #, fuzzy, kde-format
 msgid " Welcome to KStars "
 msgstr "%s പ്രവര്‍ത്തിപ്പിയ്ക്കാനൊരുങ്ങുന്നു.\\n"
 
-#: kstarsinit.cpp:909 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
+#: kstarsinit.cpp:914 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "ഒന്നുമില്ല"
 
-#: kstarsinit.cpp:964 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:969 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr ""
 
-#: kstarsinit.cpp:966 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:971 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
 "Would you like to reset to the default position?"
 msgstr ""
 
-#: kstarsinit.cpp:967
+#: kstarsinit.cpp:972
 #, fuzzy, kde-format
 msgid "Reset Position"
 msgstr "സ്ഥാനം"
 
-#: kstarsinit.cpp:968
+#: kstarsinit.cpp:973
 #, fuzzy, kde-format
 msgid "Do Not Reset"
 msgstr "%s സൂക്ഷിക്കുവാന്‍ സാധിച്ചില്ല"
 
-#: kstarsinit.cpp:1023
+#: kstarsinit.cpp:1028
 #, kde-format
 msgid "&Themes"
 msgstr ""

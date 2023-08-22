@@ -1555,7 +1555,9 @@
 <secondary
 >Pagina Overlays van afbeelding</secondary
 ></indexterm
->Overlays van afbeelding zijn aangepaste afbeeldingen (typisch .jpg) die gerenderd worden op de hemelkaart over sterren en andere items in de hemelkaart, maar onder het terrein. Deze afbeeldingen worden door u, de gebruiker, toegevoegd als een soort van persoonlijke hemelcatalogus. Indien juist geconfigureerd, kunnen deze persoonlijke afbeeldingen bijna perfect getoond worden uitgelijnd met andere objecten in de hemel. </para>
+>Image overlays are custom images (typically <literal role="extension"
+>.jpg</literal
+>) that are rendered onto the skymap over stars and other skymap items, but below the terrain. These images are added by you, the user, a sort of personal sky catalog. If configured properly, these personal images can be displayed almost perfectly aligned with other objects in the sky. </para>
 <screenshot>
 <screeninfo
 >Venster Overlays van afbeelding</screeninfo>
@@ -1574,37 +1576,83 @@
 >Overlays van afbeeldingen</guilabel
 > laat u configureren of overlays van afbeelding getoond zullen worden op de hemelkaart en helpt u ze toe te voegen in het systeem. De afbeelding aan het begin van deze sectie toont de hemelkaart met overlays van afbeelding ingeschakeld en enige overlays van afbeelding geladen. </para>
 <para
->Elke keer KStars start, zoekt deze naar nieuw overlays van afbeeldingen in een speciale map, parallel aan de map logs, genaamd imageOverlays. Onder Linux is deze te vinden in ~/.local/share/kstars/imageOverlays. De exacte locatie voor uw systeem is te vinden door te klikken op de knop <guilabel
->Overlaymap</guilabel
-> aan de bovenkant van de configuratiepagina van Overlays van afbeelding getoond aan de bovenkant van deze sectie. Om te beginnen, voeg uw afbeeldingen toe aan die map. Ideaal, om redenen van prestaties zijn dit geen grote bestanden, maar waarschijnlijk afbeeldingen met breedtes van 1000 of 2000, dat zou genoeg moeten zijn. Om extra afbeeldingen in de toekomst toe te voegen, voeg ze toe aan dezelfde map en start KStars opnieuw. </para>
+>Each time it starts up, &kstars; looks for new image overlay images in a special directory, parallel to the logs directory, named <literal
+>imageOverlays</literal
+>. On Linux this can be found in <filename class="directory"
+>~/.local/share/kstars/imageOverlays</filename
+>. The exact location for your system can be found by clicking the <guibutton
+>Overlay Directory</guibutton
+> button near the top of the <guilabel
+>Image Overlays</guilabel
+> config page shown at the top of this section. To start, add your images to that directory. Ideally, for performance reasons these aren't massive files, but probably images with widths 1000 or 2000 should be fine. To add additional images in the future, add them to the same directory and click the refresh button or restart &kstars;. To remove overlays, remove them from the directory and click the refresh button or restart &kstars;. </para>
 <para
->Start KStars nadat u afbeeldingen hebt in de map imageOverlays. Als u daarna naar de configuratiepagina van Overlays van afbeelding gaat, zou u de nieuwe bestanden in de tabel moeten zien. De nieuwe afbeeldingen zullen hun status tonen als "Niet verwerkt". Alleen afbeeldingen waarvan de status "OK" is worden getoond in de hemelkaart. Dat komt omdat KStars de locatie aan de hemel, grootte en oriëntatie voor deze afbeeldingen moet kennen voordat ze getoond kunnen worden. Om de status naar OK te wijzigen moet u de afbeeldingen plaat oplossen of de vereiste informatie handmatig toevoegen--zie onderstaand. </para>
+>Start &kstars; once you have images in the <literal
+>imageOverlays</literal
+> directory. If you then go to the <guilabel
+>Image Overlays</guilabel
+> config page, you should see the new files listed in the table. The new images will show their status as <guilabel
+>Unprocessed</guilabel
+>. Only images whose status is <guilabel
+>OK</guilabel
+> are displayed on the SkyMap. That is because &kstars; needs to know the sky location, size, and orientation for these images before it can display them. To change the status to <guilabel
+>OK</guilabel
+> you need to plate-solve the images or add the required information manually--see below. </para>
 <para
->Om uw afbeeldingen voor te bereiden op tonen moet u de afbeeldingen plaat-oplossen (slechts één keer). Om dit te doen, kies een afbeelding in de tabel, klik op zijn bestandsnaam en klik daarna op <guilabel
->Oplossen</guilabel
-> onder de tabel. Het label van de knop Oplossen zou moeten wijzigen naar <guilabel
->Annuleren</guilabel
-> tijdens het oplossen en daarna, bij met succes voltooien, worden de opgeloste parameters getoond in de tabel en de status is gewijzigd naar "OK". Na met succes plaat-oplossen wordt de informatie opgeslagen in de database van de gebruiker zodat oplossen niet herhaald hoeft te worden. De opgeloste afbeelding zou vanaf dan verschijnen in op zijn juiste positie in de hemelkaart. U kunt meerdere afbeeldingen plaat-oplossen in een enkele bewerking door te klikken op de eerste bestandsnaam van de afbeelding, daarna Shift en klikken op een andere bestandsnaam. Alle afbeeldingsbestanden tussen de bestandsnamen zullen geselecteerd worden. Daarna klikken op Oplossen zal geprobeerd worden ze allemaal op te lossen. KStars zal echter niet proberen afbeelding waarvan de status "OK" is opnieuw op te lossen, het zal die afbeeldingen overslaan. (Als u afbeeldingen opnieuw wilt plaat- oplossen met status "OK", wijzig hun status handmatig naar "Niet verwerkt" en klik op "Oplossen"). Het is mogelijk dat als u verschillende afbeeldingen selecteert, een paar ervan niet met succes worden opgelost. </para>
+>To prepare your images for display, you need to plate-solve the images (one time only). To do this, find an image in the table, click on its filename, and then click <guibutton
+>Solve</guibutton
+> below the table. The <guibutton
+>Solve</guibutton
+> button's label should switch to <guibutton
+>Cancel</guibutton
+> during the solve, and then when completed successfully, the solved parameters are displayed in the table and the status is changed to <guilabel
+>OK</guilabel
+>. A successful plate-solve's information is stored in the user database so that solving doesn't need to be repeated. The solved image should from then on appear in its proper position in the SkyMap. You can plate-solve multiple images in a single operation by clicking on the first image's filename, then holding down the &Shift; key and clicking on another filename. All the image files between the filenames should be selected. Then clicking <guibutton
+>Solve</guibutton
+> will attempt to solve them all. However, &kstars; will not attempt to plate-solve images whose status is <guilabel
+>OK</guilabel
+>, it will skip those images. (If you wish to re-plate-solve images with status <guilabel
+>OK</guilabel
+>, then manually change their status to <guilabel
+>Unprocessed</guilabel
+> and click <guibutton
+>Solve</guibutton
+>). It is possible that if you select several images, a few of them will not be successfully solved. </para>
 <para
->Deze afbeeldingen plaat-oplossen kan soms moeilijk zijn. Dat is omdat op dit punt het systeem geen informatie over de schaal of positie waar te kijken, en dus is het een blinde oplossing. Om uw kans op succes te vergroten kunt u een benaderde RA/DEC centrale hemelpositie in de RA en DEC kolommen voor de rij die u probeert op te lossen in te voeren. U kunt ook een schaal van de afbeelding toevoegen, in boogseconden-per-pixel. U kunt een standaard schaal rechts van de knop oplossen in het vak met label <guilabel
->Standaard b-s/px</guilabel
-> toevoegen zodat alle pogingen voor oplossen deze schaal standaard gebruiken. U kunt ook direct in de tabel-rij-kolom een schaal toevoegen, die de standaard overschrijft. U kunt kiezen welk StellarSolver-profiel de oplosser gebruikt (deze profielen kunnen bewerkt worden in tabblad uitlijnen van Ekos). U kunt tenslotte de <guilabel
->Tijdlimiet</guilabel
-> in seconden van de oplosser aanpassen. </para>
+>Plate solving these images can sometimes be difficult. That is because at this point the system has no information as to the scale or position to look, and thus it is a blind solve. To improve your chance for success, you can enter an approximate RA/DEC center sky position into the <guilabel
+>RA</guilabel
+> and <guilabel
+>DEC</guilabel
+> columns for the row you are trying to solve. You can also add an image scale, in arcseconds-per-pixel. You can add a default scale to the right of the <guibutton
+>Solve</guibutton
+> button in the box labeled <guilabel
+>Default a-s/px</guilabel
+> so that all solving attempts use this scale by default. You can also add a scale directly into the table-row-column, which would override the default. You can choose which StellarSolver profile the solver uses (these profiles can be edited in Ekos' <guilabel
+>Align</guilabel
+> tab). Finally, you can adjust the solver's <guilabel
+>Timeout</guilabel
+> in seconds. </para>
 <para
->Als u problematische afbeeldingen hebt die niet opgelost willen worden, dan kunt u ze toch tonen door handmatig de waarden (die de oplosser niet vond) invoeren in de tabel. Het zijn de instellen RA, DEC, boogseconde-per-pixel, oriëntatiehoek en Oost-naar-rechts (of West-naar-rechts). Nadat u dat hebt gedaan, kunt u de status wijzigen naar "OK" en KStars zal deze waarden opslaan in de database van de gebruiker alsof ze automatisch zijn opgelost. </para>
+>If you have problematic images that won't solve, you can still display them by manually entering the values (that the solver didn't find) into the table. They are the RA, DEC, arcsecond-per-pixel, orientation angle, and east-to-the-right (or West-to-the-right) settings. Once you have done that, you can then change the status to <guilabel
+>OK</guilabel
+> and &kstars; will save these values to the user database as if they had been automatically solved. </para>
 <para
->Er zijn nog een paar besturingen op de instellingenpagina van Overlays van afbeelding. Het keuzevak <guilabel
->Overlays van afbeelding tonen</guilabel
-> bovenaan de pagina schakelt deze functie in of uit--dat wil zeggen, schakelt om of een overlay van afbeelding getoond wordt op de hemelkaart of niet. </para>
+>There are a few more controls on the <guilabel
+>Image Overlays</guilabel
+> settings page. The <guilabel
+>Show image overlays</guilabel
+> checkbox at the top of the page enables or disables this feature--that is, toggles whether any image overlays are display on the SkyMap or not. </para>
 <para
->Het vak <guilabel
->Maximale afmetingen van afbeelding</guilabel
-> biedt u het variëren van de maximale afmetingen van de gebruikte afbeeldingen. Dat wil zeggen, als u afbeeldingen plaatst, bijvoorbeeld, 5000 pixels breed in de map imageOverlays, maar de waarde in dit invoervak is 1000, dan zal de 5000-pixel-afbeelding ingelezen worden, maar omlaag gebracht worden naar 1000-pixels-breed vóór het tonen. Dit wordt gedaan om de voetafdruk in het geheugen en gebruik van voor deze functie te verminderen. Het zou efficiënter zijn om afbeeldingsbestanden met de gewenste afbeeldingsbreedte toe te voegen. </para>
+>The <guilabel
+>Maximum image dimension:</guilabel
+> spinbox allows you to vary the maximum image dimension used for images. That is, if you place images that are, for example, 5000 pixels wide into the <literal
+>imageOverlays</literal
+> directory, but this input box's value is 1000, then the 5000-pixel-images will be read in, but then downsampled to 1000-pixels-wide before display. This is done to reduce the memory footprint and cpu usage of this feature. It would be more efficient to add image files with the desired image width. </para>
 <para
->Het keuzevak <guilabel
->Hemelkaart centreren bij selectie</guilabel
-> biedt u het gemakkelijk navigeren naar de overlay-afbeeldingen zonder direct de hemelkaart te manipuleren. Met dit ingeschakeld, selecteert u een rij in de overlay-tabel (bijv. door op het bestandsnaamveld te klikken) en de hemelkaart verplaatst zich naar die afbeelding als de status van de afbeelding OK is. Op dat punt kunt u van de ene afbeelding naar de volgende gaan met de omhoog/omlaag pijltjestoetsen op het toetsenbord. </para>
+>The <guilabel
+>Center SkyMap on selection</guilabel
+> checkbox allows you to easily navigate to the overlay images without directly manipulating the SkyMap. With this enabled, you select a row in the overlay table (&ie;, by clicking on the filename field) and the skymap is moved to that image if the image's status is <guilabel
+>OK</guilabel
+>. At that point you can move from one image to the next with &Up; and &Down; arrow keyboard commands. </para>
 </sect1>
 
 <sect1 id="colors">
