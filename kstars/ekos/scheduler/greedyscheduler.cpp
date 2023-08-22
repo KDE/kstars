@@ -94,6 +94,10 @@ bool GreedyScheduler::checkJob(const QList<SchedulerJob *> &jobs,
                                const QDateTime &now,
                                SchedulerJob *currentJob)
 {
+    // Don't interrupt a job that just started.
+    if (currentJob && currentJob->getStateTime().secsTo(now) < 5)
+        return true;
+
     QDateTime startTime;
     SchedulerJob *next = selectNextJob(jobs, now, currentJob, false, &startTime);
     if (next == currentJob && now.secsTo(startTime) <= 1)
