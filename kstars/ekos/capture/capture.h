@@ -10,7 +10,7 @@
 #include "captureprocess.h"
 #include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
-#include "sequencejobstate.h"
+#include "sequencejob.h"
 // #include "ekos/manager.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
@@ -564,7 +564,10 @@ class Capture : public QWidget, public Ui::Capture
              *    If no, the user is asked whether the jobs should be reset. If the user declines,
              *    starting is aborted.
              */
-        Q_SCRIPTABLE Q_NOREPLY void start();
+        Q_SCRIPTABLE Q_NOREPLY void start()
+        {
+            process()->startNextPendingJob();
+        }
 
         /** DBUS interface function.
              * Stops currently running jobs:
@@ -672,14 +675,25 @@ class Capture : public QWidget, public Ui::Capture
         // Capture actions
         // ////////////////////////////////////////////////////////////////////
         /**
-         * @brief captureOne Capture one preview image
+         * @brief captureStarted Change the UI after the capturing process
+         * has been started.
          */
-        void captureOne();
+        void jobStarting();
+        /**
+         * @brief capturePreview Capture a single preview image
+         */
+        void capturePreview()
+        {
+            process()->capturePreview();
+        }
 
         /**
          * @brief startFraming Like captureOne but repeating.
          */
-        void startFraming();
+        void startFraming()
+        {
+            process()->capturePreview(true);
+        }
 
         /**
          * @brief generateDarkFlats Generate a list of dark flat jobs from available flat frames.
@@ -688,12 +702,11 @@ class Capture : public QWidget, public Ui::Capture
 
         /**
              * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
-             * @param preview True if the job is a preview job, otherwise, it is added as a batch job.
-             * @param isDarkFlat True if the job is a dark flat job, false otherwise.
+             * @param jobtype batch, preview, looping or dark flat job.
              * @param filenamePreview if the job is to generate a preview filename
-             * @return True if job is added successfully, false otherwise.
+             * @return pointer to job created or nullptr otherwise.
              */
-        bool addJob(bool preview = false, bool isDarkFlat = false, FilenamePreviewType filenamePreview = NOT_PREVIEW);
+        SequenceJob *addJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH, FilenamePreviewType filenamePreview = NOT_PREVIEW);
 
         // ////////////////////////////////////////////////////////////////////
         // public capture settings
@@ -755,27 +768,17 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // UI controls
         // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief addSequenceJob Add a sequence job. This simply calls addJob below with both preview and isDarkFlat set to false.
-         * @return return result of addJob(..)
-         */
-        bool addSequenceJob();
 
         void removeJobFromQueue();
 
         /**
-             * @brief moveJobUp Move the job in the sequence queue one place up.
-             */
-        void moveJobUp();
+          * @brief moveJobUp Move the job in the sequence queue one place up or down.
+          */
+        void moveJob(bool up);
 
         /**
-             * @brief moveJobDown Move the job in the sequence queue one place down.
-             */
-        void moveJobDown();
-
-        /**
-             * @brief setTemperature Set the target CCD temperature in the GUI settings.
-             */
+         * @brief setTemperature Set the target CCD temperature in the GUI settings.
+         */
         void setTargetTemperature(double temperature)
         {
             cameraTemperatureN->setValue(temperature);
@@ -806,6 +809,13 @@ class Capture : public QWidget, public Ui::Capture
         // Clear Camera Configuration
         void clearCameraConfiguration();
 
+        /**
+         * @brief updateJobTable Update the table row values for the given sequence job. If the job
+         * is null, all rows will be updated
+         * @param job as identifier for the row
+         */
+        void updateJobTable(SequenceJob *job);
+
         // ////////////////////////////////////////////////////////////////////
         // slots handling device and module events
         // ////////////////////////////////////////////////////////////////////
@@ -813,7 +823,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief captureStarted Manage the result when capturing has been started
          */
-        void captureStarted();
+        void captureRunning();
 
         /**
              * @brief setGuideDeviation Set the guiding deviation as measured by the guiding module. Abort capture
@@ -1023,9 +1033,11 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
 
         /**
-         * @brief findExecutableJob find next job to be executed
+         * @brief updateJobtableRow Update the status cell and the counts cell ofa single row
+         * from the sequence job table.
          */
-        SequenceJob *findNextPendingJob();
+        void updateJobTableRow(SequenceJob *job);
+        void updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell);
 
         // shortcut for the module state
         QSharedPointer<CaptureModuleState> state() const

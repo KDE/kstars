@@ -37,8 +37,6 @@ class SequenceJob : public QObject
         typedef enum
         {
             // Bool
-            SJ_Preview,
-            // Bool
             SJ_EnforceTemperature,
             // Bool
             SJ_EnforceStartGuiderDrift,
@@ -80,8 +78,6 @@ class SequenceJob : public QObject
             SJ_DirectoryPostfix,
             // QString
             SJ_Filename,
-            // Bool
-            SJ_DarkFlat,
             // Double
             SJ_TargetADU,
             // Double
@@ -90,10 +86,17 @@ class SequenceJob : public QObject
             SJ_Signature,
         } PropertyID;
 
+        typedef enum
+        {
+            JOBTYPE_BATCH,    /* regular batch job            */
+            JOBTYPE_PREVIEW,  /* previews (single or looping) */
+            JOBTYPE_DARKFLAT  /* capturing dark flats         */
+        } SequenceJobType;
+
         ////////////////////////////////////////////////////////////////////////
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
-        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<CaptureModuleState> sharedState);
+        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<CaptureModuleState> sharedState, SequenceJobType jobType);
         SequenceJob(XMLEle *root);
         ~SequenceJob() = default;
 
@@ -136,9 +139,15 @@ class SequenceJob : public QObject
             return StatusStrings()[getStatus()];
         }
         // Setter: Set how many captures have completed thus far
-        void setCompleted(int value);
+        void setCompleted(int value)
+        {
+            m_Completed = value;
+        }
         // Getter: How many captured have completed thus far.
-        int getCompleted() const;
+        int getCompleted() const
+        {
+            return m_Completed;
+        }
         // Setter: Set how many more seconds to expose in this job
         void setExposeLeft(double value);
         // Getter: Get how many more seconds are left to expose.
@@ -168,28 +177,47 @@ class SequenceJob : public QObject
         ISD::Mount::PierSide getPierSide() const;
 
         ////////////////////////////////////////////////////////////////////////
-        /// GUI Related Functions
-        ////////////////////////////////////////////////////////////////////////
-        void setStatusCell(QTableWidgetItem * cell);
-        void setCountCell(QTableWidgetItem * cell);
-
-        ////////////////////////////////////////////////////////////////////////
         /// Job Attribute Functions
         ////////////////////////////////////////////////////////////////////////
-        QString getSignature();
+        // job type
+        SequenceJobType jobType() const
+        {
+            return m_jobType;
+        }
+        void setJobType(SequenceJobType newJobType)
+        {
+            m_jobType = newJobType;
+        }
+        QString getSignature()
+        {
+            return (getCoreProperty(SJ_Signature).toString()).remove(".fits");
+        }
         // Scripts
-        const QMap<ScriptTypes, QString> &getScripts() const;
-        void setScripts(const QMap<ScriptTypes, QString> &scripts);
-        QString getScript(ScriptTypes type) const;
-        void setScript(ScriptTypes type, const QString &value);
-        // Custome Properties
-        QMap<QString, QMap<QString, QVariant> > getCustomProperties() const;
-        void setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value);
-
-        // Setter: Set Frame Type
-        void setFrameType(CCDFrameType value);
-        // Getter: Get Frame Type
-        CCDFrameType getFrameType() const;
+        const QMap<ScriptTypes, QString> &getScripts() const
+        {
+            return m_Scripts;
+        }
+        void setScripts(const QMap<ScriptTypes, QString> &scripts)
+        {
+            m_Scripts = scripts;
+        }
+        const QString getScript(ScriptTypes type) const
+        {
+            return m_Scripts[type];
+        }
+        void setScript(ScriptTypes type, const QString &value)
+        {
+            m_Scripts[type] = value;
+        }
+        // Custom Properties
+        const QMap<QString, QMap<QString, QVariant> > getCustomProperties() const
+        {
+            return m_CustomProperties;
+        }
+        void setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value)
+        {
+            m_CustomProperties = value;
+        }
 
         // Setter: Set upload mode
         void setUploadMode(ISD::Camera::UploadMode value);
@@ -250,6 +278,15 @@ class SequenceJob : public QObject
         JOBStatus getStatus()
         {
             return state->getStatus();
+        }
+
+        void setFrameType(CCDFrameType value)
+        {
+            state->setFrameType(value);
+        }
+        CCDFrameType getFrameType() const
+        {
+            return state->getFrameType();
         }
 
         int getTargetFilter()
@@ -374,10 +411,12 @@ class SequenceJob : public QObject
         // update the current guiding deviation
         void updateGuiderDrift(double deviation_rms);
 
+private:
+        // Initialisation inside of the constructors
+        void init (SequenceJobType jobType);
 
-    private:
-        // should not be used from outside
-        SequenceJob();
+        // job type (batch, preview, ...)
+        SequenceJobType m_jobType;
 
         void setStatus(JOBStatus const);
 
@@ -399,18 +438,14 @@ class SequenceJob : public QObject
         ISD::Camera::UploadMode m_UploadMode { ISD::Camera::UPLOAD_CLIENT };
         // Transfer Format
         QString m_TransferFormat { "FITS" };
-        // capture frame type (light, flat, dark, bias)
-        CCDFrameType m_FrameType { FRAME_LIGHT };
 
         //////////////////////////////////////////////////////////////
-        /// Status Variable
+        /// Status Variables
         //////////////////////////////////////////////////////////////
         int m_CaptureRetires { 0 };
         uint32_t m_Completed { 0 };
         double m_ExposeLeft { 0 };
         bool m_JobProgressIgnored {false};
-        QTableWidgetItem * statusCell { nullptr };
-        QTableWidgetItem * countCell { nullptr };
 
         //////////////////////////////////////////////////////////////
         /// State machines encapsulating the state of this capture sequence job

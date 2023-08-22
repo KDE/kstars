@@ -25,8 +25,9 @@ const QStringList SequenceJob::StatusStrings()
 }
 
 
-SequenceJob::SequenceJob()
+void SequenceJob::init(SequenceJobType jobType)
 {
+    setJobType(jobType);
     // Set default property values
     m_CoreProperties[SJ_Exposure] = -1;
     m_CoreProperties[SJ_Gain] = -1;
@@ -37,14 +38,14 @@ SequenceJob::SequenceJob()
     m_CoreProperties[SJ_Binning] = QPoint(1, 1);
     m_CoreProperties[SJ_ROI] = QRect(0, 0, 0, 0);
     m_CoreProperties[SJ_EnforceTemperature] = false;
-    m_CoreProperties[SJ_DarkFlat] = false;
     m_CoreProperties[SJ_GuiderActive] = false;
     m_CoreProperties[SJ_Encoding] = "FITS";
 }
 
 SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
-                         const QSharedPointer<CaptureModuleState> sharedState) : SequenceJob()
+                         const QSharedPointer<CaptureModuleState> sharedState, SequenceJobType jobType)
 {
+    init(jobType);
     devices = cp;
     // initialize the state machine
     state.reset(new SequenceJobState(sharedState));
@@ -63,8 +64,9 @@ SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
  * @brief SequenceJob::SequenceJob Construct job from XML source
  * @param root pointer to valid job stored in XML format.
  */
-SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
+SequenceJob::SequenceJob(XMLEle *root)
 {
+    init(SequenceJob::JOBTYPE_BATCH);
     XMLEle *ep    = nullptr;
     XMLEle *subEP = nullptr;
 
@@ -202,7 +204,8 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
             if (subEP)
             {
                 const char * dark = findXMLAttValu(subEP, "dark");
-                setCoreProperty(SJ_DarkFlat, !strcmp(dark, "true"));
+                if (!strcmp(dark, "true"))
+                    setJobType(JOBTYPE_DARKFLAT);
 
                 XMLEle * typeEP = findXMLEle(subEP, "Type");
 
@@ -303,74 +306,6 @@ int SequenceJob::getJobRemainingTime(double estimatedDownloadTime)
 void SequenceJob::setStatus(JOBStatus const in_status)
 {
     state->reset(in_status);
-    if( !getCoreProperty(SequenceJob::SJ_Preview).toBool() && nullptr != statusCell)
-        statusCell->setText(StatusStrings()[in_status]);
-}
-
-void SequenceJob::setStatusCell(QTableWidgetItem* cell)
-{
-    statusCell = cell;
-    if (nullptr != cell)
-    {
-        cell->setTextAlignment(Qt::AlignHCenter);
-        cell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-        setStatus(getStatus());
-    }
-}
-
-void SequenceJob::setCompleted(int value)
-{
-    m_Completed = value;
-    if( !getCoreProperty(SequenceJob::SJ_Preview).toBool() && nullptr != countCell)
-        countCell->setText(QString("%L1/%L2").arg(value).arg(getCoreProperty(SJ_Count).toInt()));
-}
-
-int SequenceJob::getCompleted() const
-{
-    return m_Completed;
-}
-
-void SequenceJob::setCountCell(QTableWidgetItem* cell)
-{
-    countCell = cell;
-    if (nullptr != cell)
-    {
-        cell->setTextAlignment(Qt::AlignHCenter);
-        cell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-        setCoreProperty(SJ_Count, getCoreProperty(SJ_Count));
-    }
-}
-
-
-
-QMap<QString, QMap<QString, QVariant> > SequenceJob::getCustomProperties() const
-{
-    return m_CustomProperties;
-}
-
-void SequenceJob::setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value)
-{
-    m_CustomProperties = value;
-}
-
-const QMap<ScriptTypes, QString> &SequenceJob::getScripts() const
-{
-    return m_Scripts;
-}
-
-void SequenceJob::setScripts(const QMap<ScriptTypes, QString> &scripts)
-{
-    m_Scripts = scripts;
-}
-
-QString SequenceJob::getScript(ScriptTypes type) const
-{
-    return m_Scripts[type];
-}
-
-void SequenceJob::setScript(ScriptTypes type, const QString &value)
-{
-    m_Scripts[type] = value;
 }
 
 void SequenceJob::connectDeviceAdaptor()
@@ -399,7 +334,7 @@ void SequenceJob::disconnectDeviceAdaptor()
 
 void SequenceJob::startCapturing(bool autofocusReady, FITSMode mode)
 {
-    state->initCapture(getFrameType(), getCoreProperty(SequenceJob::SJ_Preview).toBool(), autofocusReady, mode);
+    state->initCapture(getFrameType(), jobType() == SequenceJob::JOBTYPE_PREVIEW, autofocusReady, mode);
 }
 
 void SequenceJob::capture(FITSMode mode)
@@ -407,10 +342,10 @@ void SequenceJob::capture(FITSMode mode)
     if (!devices.data()->getActiveCamera() || !devices.data()->getActiveChip())
         return;
 
-    devices.data()->getActiveChip()->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
+    devices.data()->getActiveChip()->setBatchMode(jobType() != SequenceJob::JOBTYPE_PREVIEW);
     devices.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
 
-    if (getCoreProperty(SequenceJob::SJ_Preview).toBool())
+    if (jobType() == SequenceJob::JOBTYPE_PREVIEW)
     {
         if (devices.data()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
             devices.data()->getActiveCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
@@ -651,7 +586,6 @@ void SequenceJob::updateDeviceStates()
     addMount(devices->mount());
     setDome(devices->dome());
     setDustCap(devices->dustCap());
-
 }
 
 void SequenceJob::setLightBox(ISD::LightBox *lightBox)
@@ -674,24 +608,6 @@ void SequenceJob::setDome(ISD::Dome *dome)
     state->m_CaptureModuleState->hasDome = (dome != nullptr);
 }
 
-void SequenceJob::setFrameType(CCDFrameType value)
-{
-    m_FrameType = value;
-    // propagate the frame type to the state machine
-    state->setFrameType(value);
-}
-
-// Getter: Get Frame Type
-CCDFrameType SequenceJob::getFrameType() const
-{
-    return m_FrameType;
-}
-
-QString SequenceJob::getSignature()
-{
-    return (getCoreProperty(SJ_Signature).toString()).remove(".fits");
-}
-
 void SequenceJob::prepareCapture()
 {
     // simply forward it to the state machine
@@ -700,19 +616,19 @@ void SequenceJob::prepareCapture()
         case FRAME_LIGHT:
             state->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
                                             getCoreProperty(SJ_EnforceStartGuiderDrift).toBool() && getCoreProperty(SJ_GuiderActive).toBool(),
-                                            getCoreProperty(SJ_Preview).toBool());
+                                            jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         case FRAME_FLAT:
             state->prepareFlatFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
-                                           getCoreProperty(SJ_Preview).toBool());
+                                           jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         case FRAME_DARK:
             state->prepareDarkFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
-                                           getCoreProperty(SJ_Preview).toBool());
+                                           jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         case FRAME_BIAS:
             state->prepareBiasFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
-                                           getCoreProperty(SJ_Preview).toBool());
+                                           jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         default:
             // not refactored yet, immediately completed
@@ -743,11 +659,6 @@ void SequenceJob::setCoreProperty(PropertyID id, const QVariant &value)
     // Handle special cases
     switch (id)
     {
-        case SJ_Count:
-            if( !getCoreProperty(SequenceJob::SJ_Preview).toBool() && nullptr != countCell)
-                countCell->setText(QString("%L1/%L2").arg(m_Completed).arg(value.toInt()));
-            break;
-
         case SJ_RemoteDirectory:
         {
             auto remoteDir = value.toString();

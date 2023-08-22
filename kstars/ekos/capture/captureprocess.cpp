@@ -204,11 +204,78 @@ void CaptureProcess::toggleSequence()
     }
     else if (capturestate == CAPTURE_IDLE || capturestate == CAPTURE_ABORTED || capturestate == CAPTURE_COMPLETE)
     {
-        emit startCapture();
+        startNextPendingJob();
     }
     else
     {
         emit stopCapture(CAPTURE_ABORTED);
+    }
+}
+
+void CaptureProcess::startNextPendingJob()
+{
+    if (m_State->allJobs().count() > 0)
+    {
+        SequenceJob *nextJob = findNextPendingJob();
+        if (nextJob != nullptr)
+        {
+            startJob(nextJob);
+            emit jobStarting();
+        }
+        else // do nothing if no job is pending
+            emit newLog(i18n("No pending jobs found. Please add a job to the sequence queue."));
+    }
+    else
+    {
+        // Add a new job from the current capture settings.
+        // If this succeeds, Capture will call this function again.
+        emit addJob();
+    }
+}
+
+void CaptureProcess::jobAdded(SequenceJob *newJob)
+{
+    if (newJob == nullptr)
+    {
+        emit newLog(i18n("No new job created."));
+        return;
+    }
+    // a job has been created successfully
+    switch (newJob->jobType())
+    {
+        case SequenceJob::JOBTYPE_BATCH:
+            startNextPendingJob();
+            break;
+        case SequenceJob::JOBTYPE_PREVIEW:
+            m_State->setActiveJob(newJob);
+            capturePreview();
+            break;
+        default:
+            // do nothing
+            break;
+    }
+}
+
+void CaptureProcess::capturePreview(bool loop)
+{
+    if (m_State->getFocusState() >= FOCUS_PROGRESS)
+    {
+        emit newLog(i18n("Cannot capture while focus module is busy."));
+    }
+    else if (activeJob() == nullptr)
+    {
+        if (loop && !m_State->isLooping())
+        {
+            m_State->setLooping(true);
+            emit newLog(i18n("Starting framing..."));
+        }
+        // create a preview job
+        emit addJob(SequenceJob::JOBTYPE_PREVIEW);
+    }
+    else
+    {
+        // job created, start capture preparation
+        prepareJob(activeJob());
     }
 }
 
@@ -231,43 +298,43 @@ void CaptureProcess::stopCapturing(CaptureState targetState)
             {
                 case CAPTURE_SUSPENDED:
                     stopText = i18n("CCD capture suspended");
-                    activeJob()->resetStatus(JOB_BUSY);
+                    resetJobStatus(JOB_BUSY);
                     break;
 
                 case CAPTURE_COMPLETE:
                     stopText = i18n("CCD capture complete");
-                    activeJob()->resetStatus(JOB_DONE);
+                    resetJobStatus(JOB_DONE);
                     break;
 
                 case CAPTURE_ABORTED:
                     stopText = i18n("CCD capture aborted");
-                    activeJob()->resetStatus(JOB_ABORTED);
+                    resetJobStatus(JOB_ABORTED);
                     break;
 
                 default:
                     stopText = i18n("CCD capture stopped");
-                    activeJob()->resetStatus(JOB_IDLE);
+                    resetJobStatus(JOB_IDLE);
                     break;
             }
             emit captureAborted(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText, KSNotification::Capture, KSNotification::Alert);
             emit newLog(stopText);
             activeJob()->abort();
-            if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
+            if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             {
                 int index = m_State->allJobs().indexOf(activeJob());
                 m_State->changeSequenceValue(index, "Status", "Aborted");
+                emit updateJobTable(activeJob());
             }
         }
 
         // In case of batch job
-        if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
+        if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
         {
         }
         // or preview job in calibration stage
         else if (activeJob()->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
         {
-            activeJob()->setCoreProperty(SequenceJob::SJ_Preview, false);
         }
         // or regular preview job
         else
@@ -341,7 +408,7 @@ void CaptureProcess::prepareJob(SequenceJob * job)
 
     // If job is Preview and NO view is available, ask to enable it.
     // if job is batch job, then NO VIEW IS REQUIRED at all. It's optional.
-    if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() && Options::useFITSViewer() == false
+    if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW && Options::useFITSViewer() == false
             && Options::useSummaryPreview() == false)
     {
         // ask if FITS viewer usage should be enabled
@@ -366,7 +433,7 @@ void CaptureProcess::prepareJob(SequenceJob * job)
     if (m_State->isLooping() == false)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
 
-    if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
+    if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
     {
         // set the progress info
 
@@ -415,14 +482,14 @@ void CaptureProcess::prepareJob(SequenceJob * job)
                     count -= a_job->getCompleted();
 
             // This is the current completion count of the current job
-            activeJob()->setCompleted(count);
+            updatedCaptureCompleted(count);
         }
         // JM 2018-09-24: Only set completed jobs to 0 IF the scheduler set captured frames map to begin with
         // If the map is empty, then no scheduler is used and it should proceed as normal.
         else if (m_State->hasCapturedFramesMap())
         {
             // No preliminary information, we reset the job count and run the job unconditionally to clarify the behavior
-            activeJob()->setCompleted(0);
+            updatedCaptureCompleted(0);
         }
         // JM 2018-09-24: In case ignoreJobProgress is enabled
         // We check if this particular job progress ignore flag is set. If not,
@@ -432,7 +499,7 @@ void CaptureProcess::prepareJob(SequenceJob * job)
                  && activeJob()->getJobProgressIgnored() == false)
         {
             activeJob()->setJobProgressIgnored(true);
-            activeJob()->setCompleted(0);
+            updatedCaptureCompleted(0);
         }
         // We cannot rely on sequenceID to give us a count - if we don't ignore job progress, we leave the count as it was originally
 
@@ -440,8 +507,8 @@ void CaptureProcess::prepareJob(SequenceJob * job)
         if (activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt() <=
                 activeJob()->getCompleted())
         {
-            activeJob()->setCompleted(activeJob()->getCoreProperty(
-                                          SequenceJob::SJ_Count).toInt());
+            updatedCaptureCompleted(activeJob()->getCoreProperty(
+                                        SequenceJob::SJ_Count).toInt());
             emit newLog(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
                              QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
                              job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
@@ -576,7 +643,7 @@ void CaptureProcess::executeJob()
 
     // If the job is a dark flat, let's find the optimal exposure from prior
     // flat exposures.
-    if (activeJob()->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
+    if (activeJob()->jobType() == SequenceJob::JOBTYPE_DARKFLAT)
     {
         // If we found a prior exposure, and current upload more is not local, then update full prefix
         if (m_State->setDarkFlatExposure(activeJob())
@@ -705,11 +772,13 @@ void CaptureProcess::captureStarted(CaptureModuleState::CAPTUREResult rc)
             m_State->sequenceCountDownAddMSecs(activeJob()->getJobRemainingTime(m_State->averageDownloadTime()) * 1000);
             // ensure that the download time label is visible
 
-            if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
+            if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             {
                 auto index = m_State->allJobs().indexOf(activeJob());
                 if (index >= 0 && index < m_State->getSequence().count())
                     m_State->changeSequenceValue(index, "Status", "In Progress");
+
+                emit updateJobTable(activeJob());
             }
             emit captureRunning();
         }
@@ -941,8 +1010,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
         }
 
         // If dark is selected, perform dark substraction.
-        if (data && Options::autoDark() && job->getCoreProperty(SequenceJob::SJ_Preview).toBool()
-                && m_State->useGuideHead() == false)
+        if (data && Options::autoDark() && job->jobType() == SequenceJob::JOBTYPE_PREVIEW && m_State->useGuideHead() == false)
         {
             QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
             if (trainID.isValid())
@@ -1144,7 +1212,7 @@ void CaptureProcess::processJobCompletion2()
     {
         activeJob()->done();
 
-        if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
+        if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
         {
             int index = m_State->allJobs().indexOf(activeJob());
             QJsonArray seqArray = m_State->getSequence();
@@ -1153,6 +1221,7 @@ void CaptureProcess::processJobCompletion2()
             seqArray.replace(index, oneSequence);
             m_State->setSequence(seqArray);
             emit sequenceChanged(seqArray);
+            emit updateJobTable(activeJob());
         }
     }
     // stopping clears the planned state, therefore skip if pause planned
@@ -1245,7 +1314,7 @@ void CaptureProcess::captureImage()
     if (activeJob()->getFrameType() == FRAME_FLAT)
     {
         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
-        if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false
+        if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW
                 && activeJob()->getFlatFieldDuration() == DURATION_ADU &&
                 activeJob()->getCalibrationStage() == SequenceJobState::CAL_NONE)
         {
@@ -1262,7 +1331,7 @@ void CaptureProcess::captureImage()
     }
 
     // If preview, always set to UPLOAD_CLIENT if not already set.
-    if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool())
+    if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
     {
         if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
             activeCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
@@ -1472,11 +1541,10 @@ IPState CaptureProcess::updateDownloadTimesAction()
 
 IPState CaptureProcess::previewImageCompletedAction(QSharedPointer<FITSData> imageData)
 {
-    if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool())
+    if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
     {
         //sendNewImage(blobFilename, blobChip);
         emit newImage(activeJob(), imageData);
-        m_State->allJobs().removeOne(activeJob());
         // Reset upload mode if it was changed by preview
         activeCamera()->setUploadMode(activeJob()->getUploadMode());
         // Reset active job pointer
@@ -1494,11 +1562,11 @@ IPState CaptureProcess::previewImageCompletedAction(QSharedPointer<FITSData> ima
 IPState CaptureProcess::updateCompletedCaptureCountersAction()
 {
     // update counters if not in preview mode or calibrating
-    if (! activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool()
+    if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW
             && activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
     {
         /* Increase the sequence's current capture count */
-        activeJob()->setCompleted(activeJob()->getCompleted() + 1);
+        updatedCaptureCompleted(activeJob()->getCompleted() + 1);
         /* Decrease the counter for in-sequence focusing */
         m_State->getRefocusState()->decreaseInSequenceFocusCounter();
         /* Reset adaptive focus flag */
@@ -2273,8 +2341,7 @@ SequenceJob *CaptureProcess::findNextPendingJob()
                 return nullptr;
 
         // If the end-user accepted to reset, reset all jobs and restart
-        for (auto &job : m_State->allJobs())
-            job->resetStatus();
+        resetAllJobs();
 
         first_job = m_State->allJobs().first();
     }
@@ -2283,11 +2350,35 @@ SequenceJob *CaptureProcess::findNextPendingJob()
     else if (m_State->ignoreJobProgress())
     {
         emit newLog(i18n("Warning: option \"Always Reset Sequence When Starting\" is enabled and resets the sequence counts."));
-        for (auto &job : m_State->allJobs())
-            job->resetStatus();
+        resetAllJobs();
     }
 
     return first_job;
+}
+
+void Ekos::CaptureProcess::resetJobStatus(JOBStatus newStatus)
+{
+    if (activeJob() != nullptr)
+    {
+        activeJob()->resetStatus(newStatus);
+        emit updateJobTable(activeJob());
+    }
+}
+
+void Ekos::CaptureProcess::resetAllJobs()
+{
+    for (auto &job : m_State->allJobs())
+    {
+        job->resetStatus();
+    }
+    // update the entire job table
+    emit updateJobTable(nullptr);
+}
+
+void Ekos::CaptureProcess::updatedCaptureCompleted(int count)
+{
+    activeJob()->setCompleted(count);
+    emit updateJobTable(activeJob());
 }
 
 void CaptureProcess::llsq(QVector<double> x, QVector<double> y, double &a, double &b)

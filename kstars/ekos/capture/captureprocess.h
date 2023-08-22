@@ -8,6 +8,7 @@
 
 #include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
+#include "sequencejob.h"
 
 #include "indiapi.h"
 #include "ekos/auxiliary/darkprocessor.h"
@@ -25,7 +26,10 @@ namespace Ekos
  * Executing the sequence jobs is a complex process (explained here for light frames) and works roughly
  * as follows and starts by calling {@see Capture#start()} either from the scheduler, by DBUS or by
  * pressing the start button:
- * 1. Select the next sequence job to be executed ({@see Capture#findNextPendingJob()}
+ * 1. Select the next sequence job to be executed ({@see startNextPendingJob()}. If the list of jobs is
+ * empty, an {@see #addJob()} event is sent. The corresponding callback function
+ * {@see #jobAdded(SequenceJob*)} is triggered. Now we know that at least one sequence job is
+ * to be executed.
  * 2. Prepare the selected job
  *    - update the counters of captured frames ({@see #prepareJob(SequenceJob *)})
  *    - execute the pre job script, if existing ({@see #prepareActiveJobStage1()})
@@ -182,7 +186,30 @@ public:
     void toggleSequence();
 
     /**
-     * @brief stopCapturing Stopiing the entire capturing state
+     * @brief startNextPendingJob Start the next pending job.
+     *
+     * Find the next job to be executed:
+     * 1. If there are already some jobs defined, {@see #findNextPendingJob()} is
+     *    used to find the next job to be executed.
+     * 2. If the list is empty, the current settings are used to create a job instantly,
+     *    which subsequently will be executed.
+     */
+    void startNextPendingJob();
+
+    /**
+     * @brief Counterpart to the event {@see#addJob(SequenceJob::SequenceJobType)}
+     * where the event receiver reports whether one has been added successfully
+     * and of which type it was.
+     */
+    void jobAdded(SequenceJob *newJob);
+
+    /**
+     * @brief capturePreview Capture a preview (single or looping ones)
+     */
+    void capturePreview(bool loop = false);
+
+    /**
+     * @brief stopCapturing Stopping the entire capturing state
      * (envelope for aborting, suspending, pausing, ...)
      * @param targetState state capturing should be having afterwards
      */
@@ -599,12 +626,14 @@ public:
 
 signals:
     // controls for capture execution
-    void startCapture();
+    void addJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH);
+    void jobStarting();
     void stopCapture(CaptureState targetState = CAPTURE_IDLE);
     void captureAborted(double exposureSeconds);
     void captureStopped();
     void syncGUIToJob(SequenceJob *job);
     void updateFrameProperties(int reset);
+    void updateJobTable(SequenceJob *job);
     void jobExecutionPreparationStarted();
     void jobPrepared(SequenceJob *job);
     void captureImageStarted();
@@ -660,7 +689,18 @@ private:
         return m_DeviceAdaptor->getActiveCamera();
     }
 
-
-
+    /**
+     * @brief resetAllJobs Iterate over all jobs and reset them.
+     */
+    void resetAllJobs();
+    /**
+     * @brief resetJobStatus Reset a single job to the given status
+     */
+    void resetJobStatus(JOBStatus newStatus);
+    /**
+     * @brief updatedCaptureCompleted Update the completed captures count to the given
+     * number.
+     */
+    void updatedCaptureCompleted(int count);
 };
 } // Ekos namespace

@@ -316,7 +316,7 @@ void CaptureModuleState::decreaseDitherCounter()
 bool CaptureModuleState::checkDithering()
 {
     // No need if preview only
-    if (m_activeJob && m_activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
+    if (m_activeJob && m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         return false;
 
     if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
@@ -651,7 +651,7 @@ bool CaptureModuleState::startFocusIfRequired()
     // 2. Target frame is not LIGHT
     // 3. Capture is preview only
     if (m_activeJob == nullptr || m_activeJob->getFrameType() != FRAME_LIGHT
-            || m_activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
+            || m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         return false;
 
     RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired();
@@ -882,7 +882,7 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
         // We don't enforce limit on previews or non-LIGHT frames
         if ((Options::enforceGuideDeviation() == false)
                 ||
-                (m_activeJob  && (m_activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() ||
+                (m_activeJob  && (m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW ||
                                   m_activeJob->getExposeLeft() == 0.0 ||
                                   m_activeJob->getFrameType() != FRAME_LIGHT)))
             return;
