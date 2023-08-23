@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-22 00:41+0000\n"
+"POT-Creation-Date: 2023-08-23 00:42+0000\n"
 "PO-Revision-Date: 2023-08-17 21:07+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -408,7 +408,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2531
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2474
 #: ekos/scheduler/scheduler.cpp:4809
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2549,8 +2549,8 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2113
-#: ekos/capture/capture.cpp:2540 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2056
+#: ekos/capture/capture.cpp:2483 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
@@ -3726,7 +3726,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:847 ekos/capture/capture.cpp:885
+#: ekos/capture/capture.cpp:871 ekos/capture/capture.cpp:909
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -5892,7 +5892,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: se ha perdido la conexión con la rueda de filtros."
 
 #: ekos/align/align.cpp:1455 ekos/capture/captureprocess.cpp:170
-#: ekos/capture/captureprocess.cpp:496 ekos/focus/focus.cpp:4832
+#: ekos/capture/captureprocess.cpp:563 ekos/focus/focus.cpp:4832
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6081,7 +6081,7 @@ msgstr "Captura interrumpida."
 msgid "Solver aborted after %1 seconds."
 msgstr "Sistema de identificación interrumpido tras %1 segundos."
 
-#: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1443
+#: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1441
 #: ekos/focus/focus.cpp:3969 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:917
@@ -6199,8 +6199,8 @@ msgstr "El sistema de coordenadas mundial (WCS) está desactivado."
 msgid "Capture error. Aborting..."
 msgstr "Error de captura. Interrumpiendo..."
 
-#: ekos/align/align.cpp:3160 ekos/capture/captureprocess.cpp:1375
-#: ekos/capture/captureprocess.cpp:1871
+#: ekos/align/align.cpp:3160 ekos/capture/captureprocess.cpp:1444
+#: ekos/capture/captureprocess.cpp:1939
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando intento de captura #%1"
@@ -6247,24 +6247,24 @@ msgstr "dAR (segundos de arco)"
 msgid "dDE (arcsec)"
 msgstr "dDE (segundos de arco)"
 
-#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:3319
+#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:3268
 #: ekos/focus/focus.cpp:4724
 #, kde-format
 msgid "Filter operation failed."
 msgstr "La operación de filtrado ha fallado."
 
-#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:3255
+#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:3204
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Cambiando el desplazamiento de enfoque en %1 pasos..."
 
 #: ekos/align/align.cpp:3515 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:3260
+#: ekos/capture/capture.cpp:3209
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Cambiando el filtro a %1..."
 
-#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:3265
+#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:3214
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfoque automático al cambiar filtros..."
@@ -6281,8 +6281,8 @@ msgid "Export Solution Points"
 msgstr "Exportar los puntos de la solución"
 
 #: ekos/align/align.cpp:3799 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2112
-#: ekos/capture/capture.cpp:2539 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2055
+#: ekos/capture/capture.cpp:2482 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
 #: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6291,14 +6291,14 @@ msgid "Invalid URL: %1"
 msgstr "URL no válido: %1"
 
 #: ekos/align/align.cpp:3808 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:2562 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/capture/capture.cpp:2505 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:4830 ekos/scheduler/scheduler.cpp:7226
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "No se puede escribir en el archivo %1 "
 
 #: ekos/align/align.cpp:3809 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2128
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2071
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
 #: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
 #: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
@@ -6946,13 +6946,13 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Abrir lista de alineación de Ekos"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2127
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2070
 #: ekos/scheduler/scheduler.cpp:4485 ekos/scheduler/scheduler.cpp:7169
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "No se puede abrir el archivo %1"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2154
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2097
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7670,7 +7670,7 @@ msgstr "Aparcar automáticamente"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:3804
+#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:3788
 #: ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
@@ -12019,7 +12019,7 @@ msgstr "Cambio de filtro..."
 msgid "Aligning..."
 msgstr "Alineando..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1392
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1390
 #, kde-format
 msgid "Calibrating..."
 msgstr "Calibrando..."
@@ -14051,29 +14051,22 @@ msgstr "Aparcar montura"
 msgid "Park Dome"
 msgstr "Aparcar cúpula"
 
-#: ekos/capture/capture.cpp:221 ekos/capture/capture.cpp:2957
+#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2906
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Añadir trabajo a la cola de secuencias"
 
-#: ekos/capture/capture.cpp:222 ekos/capture/capture.cpp:2958
+#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2907
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Eliminar trabajo de la cola de secuencias"
 
-#: ekos/capture/capture.cpp:468
+#: ekos/capture/capture.cpp:500
 #, kde-format
 msgid "Downloading..."
 msgstr "Descargando..."
 
-#: ekos/capture/capture.cpp:651
-#, kde-format
-msgid "No pending jobs found. Please add a job to the sequence queue."
-msgstr ""
-"No se han encontrado trabajos pendientes. Por favor, añada un trabajo a la "
-"cola de secuencia."
-
-#: ekos/capture/capture.cpp:656
+#: ekos/capture/capture.cpp:670
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
@@ -14082,7 +14075,7 @@ msgstr ""
 "Advertencia: se ha seleccionado un enfoque en la secuencia, pero no se ha "
 "iniciado el proceso de enfoque automático."
 
-#: ekos/capture/capture.cpp:658
+#: ekos/capture/capture.cpp:672
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -14091,137 +14084,121 @@ msgstr ""
 "Advertencia: se ha seleccionado la comprobación de la delta de temperatura, "
 "pero no se ha iniciado el proceso de enfoque automático."
 
-#: ekos/capture/capture.cpp:1307
+#: ekos/capture/capture.cpp:1331
 #, kde-format
 msgid "Framing..."
 msgstr "Encuadre..."
 
-#: ekos/capture/capture.cpp:1318
+#: ekos/capture/capture.cpp:1342
 #, kde-format
 msgid "Captured image received"
 msgstr "Se ha recibido la imagen capturada"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1336 ekos/capture/capture.ui:2245
+#: ekos/capture/capture.cpp:1360 ekos/capture/capture.ui:2245
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "Exposición (-/-):"
 
-#: ekos/capture/capture.cpp:1348 ekos/capture/captureprocess.cpp:729
-#, kde-format
-msgid "Cannot capture while focus module is busy."
-msgstr "No se puede capturar mientras el módulo de enfoque está ocupado."
-
-#: ekos/capture/capture.cpp:1360
-#, kde-format
-msgid "Cannot start framing while focus module is busy."
-msgstr ""
-"No se puede empezar a encuadrar mientras el módulo de enfoque está ocupado."
-
-#: ekos/capture/capture.cpp:1365
-#, kde-format
-msgid "Starting framing..."
-msgstr "Iniciando el encuadre..."
-
-#: ekos/capture/capture.cpp:1426
+#: ekos/capture/capture.cpp:1424
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Capturando la imagen %2 de %1 segundos..."
 
-#: ekos/capture/capture.cpp:1511
+#: ekos/capture/capture.cpp:1507
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "Debe seleccionar un directorio para los modos «Local» y «Ambos»."
 
-#: ekos/capture/capture.cpp:1517
+#: ekos/capture/capture.cpp:1513
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 "Debe seleccionar un directorio local para los modos «Cliente» y «Ambos»."
 
-#: ekos/capture/capture.cpp:1651 ekos/capture/capture.cpp:1654
+#: ekos/capture/capture.cpp:1648 ekos/capture/capture.cpp:1651
 #, kde-format
 msgid "Dark Flat"
 msgstr "Plano oscuro"
 
-#: ekos/capture/capture.cpp:1730
+#: ekos/capture/capture.cpp:1732
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "Aplicados los cambios del trabajo #%1."
 
-#: ekos/capture/capture.cpp:1963
+#: ekos/capture/capture.cpp:1919
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Fijando la temperatura a %1 °C..."
 
-#: ekos/capture/capture.cpp:1964
+#: ekos/capture/capture.cpp:1920
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Fijar la temperatura a %1 °C..."
 
-#: ekos/capture/capture.cpp:1968
+#: ekos/capture/capture.cpp:1924
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Esperando que la deriva de guiado esté por debajo de %1\"..."
 
-#: ekos/capture/capture.cpp:1970
+#: ekos/capture/capture.cpp:1926
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Esperando guiado < %1\"..."
 
-#: ekos/capture/capture.cpp:1975
+#: ekos/capture/capture.cpp:1931
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Fijando la cámara a %1 grados al E del N..."
 
-#: ekos/capture/capture.cpp:1976
+#: ekos/capture/capture.cpp:1932
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Ajustar la cámara a %1 grados..."
 
-#: ekos/capture/capture.cpp:2019 ekos/capture/capture.cpp:2020
+#: ekos/capture/capture.cpp:1975 ekos/capture/capture.cpp:1976
 #, kde-format
 msgid "Focus complete."
 msgstr "Enfoque completado."
 
-#: ekos/capture/capture.cpp:2024
+#: ekos/capture/capture.cpp:1980
 #, kde-format
 msgid "Autofocus failed."
 msgstr "El enfoque automático ha fallado."
 
-#: ekos/capture/capture.cpp:2046
+#: ekos/capture/capture.cpp:2002
 #, kde-format
 msgid "Paused..."
 msgstr "En pausa..."
 
-#: ekos/capture/capture.cpp:2051
+#: ekos/capture/capture.cpp:2007
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Inversión de meridiano..."
 
-#: ekos/capture/capture.cpp:2052
+#: ekos/capture/capture.cpp:2008
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Inversión de meridiano iniciada"
 
-#: ekos/capture/capture.cpp:2056
+#: ekos/capture/capture.cpp:2012
 #, kde-format
 msgid "Flip complete."
 msgstr "Inversión completada."
 
-#: ekos/capture/capture.cpp:2094 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:2037 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Directorio para guardar FITS"
 
-#: ekos/capture/capture.cpp:2104
+#: ekos/capture/capture.cpp:2047
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Abrir cola de secuencias de Ekos"
 
-#: ekos/capture/capture.cpp:2215
+#: ekos/capture/capture.cpp:2158
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
@@ -14230,28 +14207,28 @@ msgstr ""
 "La configuración de la inversión del meridiano se ha desplazado al módulo de "
 "la montura. Por favor, configure ahí la inversión del meridiano."
 
-#: ekos/capture/capture.cpp:2303
+#: ekos/capture/capture.cpp:2246
 #, kde-format
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr "Advertencia: no se ha encontrado el filtro %1 en la rueda de filtros."
 
-#: ekos/capture/capture.cpp:2510
+#: ekos/capture/capture.cpp:2453
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Guardar cola de secuencias de Ekos"
 
-#: ekos/capture/capture.cpp:2531
+#: ekos/capture/capture.cpp:2474
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Ha ocurrido un error al guardar la cola de secuencias"
 
-#: ekos/capture/capture.cpp:2563
+#: ekos/capture/capture.cpp:2506
 #, kde-format
 msgid "Could not open file"
 msgstr "No se ha podido abrir el archivo"
 
-#: ekos/capture/capture.cpp:2583
+#: ekos/capture/capture.cpp:2526
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14262,95 +14239,95 @@ msgstr ""
 "opción «Guardar el valor HFR de la secuencia en el archivo» no está "
 "activado. El valor HFR actual no se escribirá en el archivo de la secuencia."
 
-#: ekos/capture/capture.cpp:2718
+#: ekos/capture/capture.cpp:2661
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Cola de secuencias guardada en %1"
 
-#: ekos/capture/capture.cpp:2742
+#: ekos/capture/capture.cpp:2688
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "¿Seguro que desea reiniciar el estado de todos los trabajos?"
 
-#: ekos/capture/capture.cpp:2742 ekos/capture/captureprocess.cpp:2271
+#: ekos/capture/capture.cpp:2688 ekos/capture/captureprocess.cpp:2339
 #, kde-format
 msgid "Reset job status"
 msgstr "Reiniciar el estado de los trabajos"
 
-#: ekos/capture/capture.cpp:2936
+#: ekos/capture/capture.cpp:2885
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Editando trabajo #%1..."
 
-#: ekos/capture/capture.cpp:2939 ekos/scheduler/scheduler.cpp:1676
+#: ekos/capture/capture.cpp:2888 ekos/scheduler/scheduler.cpp:1676
 #, kde-format
 msgid "Apply job changes."
 msgstr "Aplicar cambios del trabajo."
 
-#: ekos/capture/capture.cpp:2940
+#: ekos/capture/capture.cpp:2889
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Cancelar cambios del trabajo."
 
-#: ekos/capture/capture.cpp:2952
+#: ekos/capture/capture.cpp:2901
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Edición de trabajo cancelada"
 
-#: ekos/capture/capture.cpp:3105
+#: ekos/capture/capture.cpp:3054
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Las coordenadas del muro no son válidas."
 
-#: ekos/capture/capture.cpp:3194
+#: ekos/capture/capture.cpp:3143
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Seleccionar el observador actual"
 
-#: ekos/capture/capture.cpp:3196
+#: ekos/capture/capture.cpp:3145
 #, kde-format
 msgid "Current Observer:"
 msgstr "Observador actual:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:3207 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:3156 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Gestionar observadores"
 
-#: ekos/capture/capture.cpp:3272
+#: ekos/capture/capture.cpp:3221
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Filtro asignado a %1."
 
-#: ekos/capture/capture.cpp:3594
+#: ekos/capture/capture.cpp:3543
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "¿Reiniciar la configuración de %1 a sus valores por omisión?"
 
-#: ekos/capture/capture.cpp:3596
+#: ekos/capture/capture.cpp:3545
 #, kde-format
 msgid "Confirmation"
 msgstr "Confirmación"
 
-#: ekos/capture/capture.cpp:3612
+#: ekos/capture/capture.cpp:3596
 #, kde-format
 msgid "Cooler is on"
 msgstr "Refrigerador encendido"
 
-#: ekos/capture/capture.cpp:3612
+#: ekos/capture/capture.cpp:3596
 #, kde-format
 msgid "Cooler is off"
 msgstr "Refrigerador apagado"
 
-#: ekos/capture/capture.cpp:3796
+#: ekos/capture/capture.cpp:3780
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "Incremento (C/min):"
 
-#: ekos/capture/capture.cpp:3802
+#: ekos/capture/capture.cpp:3786
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
@@ -14359,28 +14336,28 @@ msgstr ""
 "Cambio de temperatura máximo por minuto cuando se enfría o se calienta la "
 "cámara. Definir a cero para desactivarlo."
 
-#: ekos/capture/capture.cpp:3810
+#: ekos/capture/capture.cpp:3794
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr "Diferencia máxima entre las temperaturas de la cámara y objetivo"
 
-#: ekos/capture/capture.cpp:3820
+#: ekos/capture/capture.cpp:3804
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Definir la regulación de la temperatura"
 
-#: ekos/capture/capture.cpp:3838
+#: ekos/capture/capture.cpp:3822
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Detener secuencia"
 
-#: ekos/capture/capture.cpp:3844
+#: ekos/capture/capture.cpp:3828
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Continuar secuencia"
 
-#: ekos/capture/capture.cpp:3869
+#: ekos/capture/capture.cpp:3853
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15547,7 +15524,7 @@ msgstr "Borrar"
 msgid "Target: "
 msgstr "Objetivo: "
 
-#: ekos/capture/captureprocess.cpp:171 ekos/capture/captureprocess.cpp:497
+#: ekos/capture/captureprocess.cpp:171 ekos/capture/captureprocess.cpp:564
 #, kde-format
 msgid "Image Transfer"
 msgstr "Transferencia de imagen"
@@ -15557,50 +15534,73 @@ msgstr "Transferencia de imagen"
 msgid "Sequence resumed."
 msgstr "Se continúa con la secuencia."
 
-#: ekos/capture/captureprocess.cpp:233
+#: ekos/capture/captureprocess.cpp:226
+#, kde-format
+msgid "No pending jobs found. Please add a job to the sequence queue."
+msgstr ""
+"No se han encontrado trabajos pendientes. Por favor, añada un trabajo a la "
+"cola de secuencia."
+
+#: ekos/capture/captureprocess.cpp:240
+#, fuzzy, kde-format
+#| msgid "No jobs scheduled."
+msgid "No new job created."
+msgstr "No hay trabajos planificados."
+
+#: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
+#, kde-format
+msgid "Cannot capture while focus module is busy."
+msgstr "No se puede capturar mientras el módulo de enfoque está ocupado."
+
+#: ekos/capture/captureprocess.cpp:270
+#, kde-format
+msgid "Starting framing..."
+msgstr "Iniciando el encuadre..."
+
+#: ekos/capture/captureprocess.cpp:300
 #, kde-format
 msgid "CCD capture suspended"
 msgstr "Captura CCD suspendida"
 
-#: ekos/capture/captureprocess.cpp:238
+#: ekos/capture/captureprocess.cpp:305
 #, kde-format
 msgid "CCD capture complete"
 msgstr "Captura CCD completada"
 
-#: ekos/capture/captureprocess.cpp:243
+#: ekos/capture/captureprocess.cpp:310
 #, kde-format
 msgid "CCD capture aborted"
 msgstr "Captura CCD interrumpida"
 
-#: ekos/capture/captureprocess.cpp:248
+#: ekos/capture/captureprocess.cpp:315
 #, kde-format
 msgid "CCD capture stopped"
 msgstr "Captura CCD detenida"
 
-#: ekos/capture/captureprocess.cpp:322
+#: ekos/capture/captureprocess.cpp:389
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 "La pausa solo es posible cuando está en marcha la captura de fotogramas."
 
-#: ekos/capture/captureprocess.cpp:329
+#: ekos/capture/captureprocess.cpp:396
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "La secuencia se debe pausar tras completar la exposición actual."
 
-#: ekos/capture/captureprocess.cpp:360
+#: ekos/capture/captureprocess.cpp:427
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "No hay ninguna vista disponible para las vistas previas. ¿Activar el visor "
 "FITS?"
 
-#: ekos/capture/captureprocess.cpp:361
+#: ekos/capture/captureprocess.cpp:428
 #, kde-format
 msgid "Display preview"
 msgstr "Mostrar vista previa"
 
-#: ekos/capture/captureprocess.cpp:445
+#: ekos/capture/captureprocess.cpp:512
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -15609,7 +15609,7 @@ msgstr ""
 "El trabajo necesita imágenes %2 de %1 segundos y ya tiene %3/%4 capturas, "
 "por lo que no se necesita su ejecución."
 
-#: ekos/capture/captureprocess.cpp:458
+#: ekos/capture/captureprocess.cpp:525
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -15618,124 +15618,124 @@ msgstr ""
 "El trabajo necesita imágenes %2 de %1 segundos y ya tiene %3/%4 capturas, "
 "por lo que se procesará."
 
-#: ekos/capture/captureprocess.cpp:677
+#: ekos/capture/captureprocess.cpp:744
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Continuando el guiado automático."
 
-#: ekos/capture/captureprocess.cpp:719
+#: ekos/capture/captureprocess.cpp:788
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Error al fijar la división del fotograma."
 
-#: ekos/capture/captureprocess.cpp:724
+#: ekos/capture/captureprocess.cpp:793
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Ha ocurrido un error al fijar el binning."
 
-#: ekos/capture/captureprocess.cpp:976
+#: ekos/capture/captureprocess.cpp:1044
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Imagen remota guardada en %1"
 
-#: ekos/capture/captureprocess.cpp:1075
+#: ekos/capture/captureprocess.cpp:1143
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Guiado automático suspendido."
 
-#: ekos/capture/captureprocess.cpp:1104
+#: ekos/capture/captureprocess.cpp:1172
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Advertencia: el proceso de calibración ha terminado prematuramente."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1169
+#: ekos/capture/captureprocess.cpp:1238
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "Secuencia de captura CCD completada"
 
-#: ekos/capture/captureprocess.cpp:1226
+#: ekos/capture/captureprocess.cpp:1295
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Error: se ha perdido la conexión al CCD."
 
-#: ekos/capture/captureprocess.cpp:1255
+#: ekos/capture/captureprocess.cpp:1324
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "No se pueden calcular los niveles de ADU en imágenes que no sean FITS."
 
-#: ekos/capture/captureprocess.cpp:1367 ekos/capture/captureprocess.cpp:1863
+#: ekos/capture/captureprocess.cpp:1436 ekos/capture/captureprocess.cpp:1931
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "La captura ha fallado. Compruebe el panel de control de INDI para más "
 "detalles."
 
-#: ekos/capture/captureprocess.cpp:1468
+#: ekos/capture/captureprocess.cpp:1537
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 "Tiempo de descarga: %1 s, Nueva estimación del tiempo de descarga: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1517
+#: ekos/capture/captureprocess.cpp:1585
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Recibida imagen %1 de %2."
 
-#: ekos/capture/captureprocess.cpp:1550
+#: ekos/capture/captureprocess.cpp:1618
 #, kde-format
 msgid "Captured %1"
 msgstr "Se ha capturado %1"
 
-#: ekos/capture/captureprocess.cpp:1555
+#: ekos/capture/captureprocess.cpp:1623
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "Advertencia: etiquetas de sustitución restantes y potencialmente "
 "desconocidas %1 en %2"
 
-#: ekos/capture/captureprocess.cpp:1587
+#: ekos/capture/captureprocess.cpp:1655
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Ejecutando guion de captura %1"
 
-#: ekos/capture/captureprocess.cpp:1602
+#: ekos/capture/captureprocess.cpp:1670
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "El guion previo a la captura ha terminado con el código %1."
 
-#: ekos/capture/captureprocess.cpp:1610
+#: ekos/capture/captureprocess.cpp:1678
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "El guion posterior a la captura ha terminado con el código %1."
 
-#: ekos/capture/captureprocess.cpp:1622
+#: ekos/capture/captureprocess.cpp:1690
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Procesando la inversión de meridiano..."
 
-#: ekos/capture/captureprocess.cpp:1632
+#: ekos/capture/captureprocess.cpp:1700
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "El guion previo al trabajo ha terminado con el código %1."
 
-#: ekos/capture/captureprocess.cpp:1637
+#: ekos/capture/captureprocess.cpp:1705
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "El guion posterior al trabajo ha terminado con el código %1."
 
-#: ekos/capture/captureprocess.cpp:1810 ekos/focus/focus.cpp:4874
+#: ekos/capture/captureprocess.cpp:1878 ekos/focus/focus.cpp:4874
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "El tiempo de exposición se ha agotado. Interrumpiendo..."
 
-#: ekos/capture/captureprocess.cpp:1833 ekos/focus/focus.cpp:4879
+#: ekos/capture/captureprocess.cpp:1901 ekos/focus/focus.cpp:4879
 #: ekos/guide/guide.cpp:892
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "El tiempo de exposición se ha agotado. Reiniciando la exposición..."
 
-#: ekos/capture/captureprocess.cpp:1922
+#: ekos/capture/captureprocess.cpp:1990
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15744,20 +15744,20 @@ msgstr ""
 "La calibración plana ha fallado. La imagen capturada es de solo %1 bits, "
 "mientras que la ADU necesaria es de %2."
 
-#: ekos/capture/captureprocess.cpp:1933
+#: ekos/capture/captureprocess.cpp:2001
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "La imagen actual está saturada (%1). La siguiente exposición es de %2 "
 "segundos."
 
-#: ekos/capture/captureprocess.cpp:1955
+#: ekos/capture/captureprocess.cpp:2023
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "El ADU actual de %1 está en el intervalo de tolerancia del ADU objetivo."
 
-#: ekos/capture/captureprocess.cpp:1988
+#: ekos/capture/captureprocess.cpp:2056
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -15766,17 +15766,17 @@ msgstr ""
 "No ha sido posible calcular los ajustes de exposición óptimos. Por favor, "
 "capture los planos de forma manual."
 
-#: ekos/capture/captureprocess.cpp:1996
+#: ekos/capture/captureprocess.cpp:2064
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "El ADU actual es de %1. La siguiente exposición es de %2 segundos."
 
-#: ekos/capture/captureprocess.cpp:2217
+#: ekos/capture/captureprocess.cpp:2285
 #, kde-format
 msgid "Sequence paused."
 msgstr "Secuencia en pausa."
 
-#: ekos/capture/captureprocess.cpp:2270
+#: ekos/capture/captureprocess.cpp:2338
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15785,7 +15785,7 @@ msgstr ""
 "Se han completado todos los trabajos. ¿Seguro que desea reiniciar el estado "
 "de todos los trabajos y de la captura?"
 
-#: ekos/capture/captureprocess.cpp:2285
+#: ekos/capture/captureprocess.cpp:2352
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15794,12 +15794,12 @@ msgstr ""
 "Advertencia: la opción «Reiniciar siempre la secuencia al empezar» está "
 "activada y reinicia los contadores de la secuencia."
 
-#: ekos/capture/captureprocess.cpp:2374
+#: ekos/capture/captureprocess.cpp:2465
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "¿Está seguro de que desea reiniciar el controlador de la cámara %1?"
 
-#: ekos/capture/captureprocess.cpp:2375
+#: ekos/capture/captureprocess.cpp:2466
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicio del controlador"
@@ -25986,7 +25986,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Seleccionar el directorio de trabajos"
 
-#: ekos/scheduler/greedyscheduler.cpp:137 ekos/scheduler/scheduler.cpp:2296
+#: ekos/scheduler/greedyscheduler.cpp:141 ekos/scheduler/scheduler.cpp:2296
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "El trabajo «%1» no tiene más lotes pendientes."
@@ -31307,7 +31307,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "Mostrar imagen DSS"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:917
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:919
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:514 skyobjects/skyobject.h:26
@@ -67934,28 +67934,28 @@ msgstr ""
 msgid "Edit FOV Symbols..."
 msgstr "Editar símbolos de campo visual..."
 
-#: kstarsinit.cpp:808
+#: kstarsinit.cpp:810
 #, kde-format
 msgid "HiPS Settings..."
 msgstr "Preferencias de HiPS..."
 
-#: kstarsinit.cpp:815
+#: kstarsinit.cpp:817
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " Bienvenido a KStars "
 
-#: kstarsinit.cpp:914 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
+#: kstarsinit.cpp:916 kstarsliteinit.cpp:65 skymap.cpp:374 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "nada"
 
-#: kstarsinit.cpp:969 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:971 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "La posición inicial está bajo el horizonte"
 
-#: kstarsinit.cpp:971 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:973 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -67964,17 +67964,17 @@ msgstr ""
 "La posición solicitada está por debajo del horizonte.\n"
 "¿Desea apuntar cargar la posición predefinida?"
 
-#: kstarsinit.cpp:972
+#: kstarsinit.cpp:974
 #, kde-format
 msgid "Reset Position"
 msgstr "Reiniciar posición"
 
-#: kstarsinit.cpp:973
+#: kstarsinit.cpp:975
 #, kde-format
 msgid "Do Not Reset"
 msgstr "No reiniciar"
 
-#: kstarsinit.cpp:1028
+#: kstarsinit.cpp:1030
 #, kde-format
 msgid "&Themes"
 msgstr "&Temas"
@@ -84271,6 +84271,11 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
+
+#~ msgid "Cannot start framing while focus module is busy."
+#~ msgstr ""
+#~ "No se puede empezar a encuadrar mientras el módulo de enfoque está "
+#~ "ocupado."
 
 #~ msgid "Adaptive focus failed. Continuing..."
 #~ msgstr "El enfoque adaptativo ha fallado. Continuando..."
