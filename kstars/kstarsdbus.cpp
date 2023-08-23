@@ -416,6 +416,28 @@ QString KStars::getFocusInformationXML()
     return output;
 }
 
+QString KStars::getFocusInformationJSON()
+{
+    SkyPoint* focus = map()->focus();
+    Q_ASSERT(focus != nullptr); // Making sure the focus object isn't null
+
+    QJsonObject jsonObject {
+        {"FOV_Degrees", map()->fov()},
+        {"RA_JNow_Degrees", focus->ra().Degrees()},
+        {"Dec_JNow_Degrees", focus->dec().Degrees()},
+        {"RA_JNow_HMS", focus->ra().toHMSString()},
+        {"Dec_JNow_DMS", focus->dec().toDMSString()},
+        {"Altitude_Degrees", focus->alt().Degrees()},
+        {"Azimuth_Degrees", focus->az().Degrees()},
+        {"Altitude_DMS", focus->alt().toDMSString()},
+        {"Azimuth_DMS", focus->az().toDMSString()},
+        {"Focused_Object", map()->focusObject() ? map()->focusObject()->name() : QString()}
+    };
+
+    return QString(QJsonDocument(jsonObject).toJson(QJsonDocument::Compact));
+}
+
+
 void KStars::changeViewOption(const QString &op, const QString &val)
 {
     bool bOk(false), dOk(false);
@@ -816,6 +838,91 @@ QString KStars::getObjectDataXML(const QString &objectName, bool fallbackToInter
     return output;
 }
 
+QString KStars::getObjectDataJSON(const QString &objectName, bool fallbackToInternet, bool storeInternetResolved)
+{
+    bool deleteTargetAfterUse = false;
+
+    const SkyObject *target = data()->objectNamed(objectName);
+    if (!target && fallbackToInternet)
+    {
+        if (!storeInternetResolved)
+        {
+            const auto &cedata = NameResolver::resolveName(objectName);
+            if (cedata.first)
+            {
+                target = cedata.second.clone();
+                deleteTargetAfterUse = true;
+            }
+        }
+        else
+        {
+            CatalogsDB::DBManager db_manager { CatalogsDB::dso_db_path() };
+            target = FindDialog::resolveAndAdd(db_manager, objectName);
+        }
+
+    }
+    if (!target)
+    {
+        return QString("{}");
+    }
+
+    QJsonObject jsonObject {
+        {"Name", target->name()},
+        {"Alt_Name", target->name2()},
+        {"Long_Name", target->longname()},
+        {"Constellation", KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(target)},
+        {"RA_Dec_Epoch_JD", QString::number(target->getLastPrecessJD(), 'f', 3)},
+        {"RA_HMS", target->ra().toHMSString()},
+        {"Dec_DMS", target->dec().toDMSString()},
+        {"RA_J2000_HMS", target->ra0().toHMSString()},
+        {"Dec_J2000_DMS", target->dec0().toDMSString()},
+        {"RA_Degrees", QString::number(target->ra().Degrees())},
+        {"Dec_Degrees", QString::number(target->dec().Degrees())},
+        {"RA_J2000_Degrees", QString::number(target->ra0().Degrees())},
+        {"Dec_J2000_Degrees", QString::number(target->dec0().Degrees())},
+        {"Type", target->typeName()},
+        {"Magnitude", QString::number(target->mag(), 'g', 2)},
+        {"Position_Angle", QString::number(target->pa(), 'g', 3)}
+    };
+
+    auto *star = dynamic_cast<const StarObject *>(target);
+    auto *dso = dynamic_cast<const CatalogObject *>(target);
+
+    if (star)
+    {
+        jsonObject.insert("Spectral_Type", star->sptype());
+        jsonObject.insert("Genetive_Name", star->gname());
+        jsonObject.insert("Greek_Letter", star->greekLetter());
+        jsonObject.insert("Proper_Motion", QString::number(star->pmMagnitude()));
+        jsonObject.insert("Proper_Motion_RA", QString::number(star->pmRA()));
+        jsonObject.insert("Proper_Motion_Dec", QString::number(star->pmDec()));
+        jsonObject.insert("Parallax_mas", QString::number(star->parallax()));
+        jsonObject.insert("Distance_pc", QString::number(star->distance()));
+        jsonObject.insert("Henry_Draper", QString::number(star->getHDIndex()));
+        jsonObject.insert("BV_Index", QString::number(star->getBVIndex()));
+    }
+    else if (dso)
+    {
+        jsonObject.insert("Catalog", dso->getCatalog().name);
+        jsonObject.insert("Major_Axis", QString::number(dso->a()));
+        jsonObject.insert("Minor_Axis", QString::number(dso->a() * dso->e()));
+    }
+
+    // Serializing the QJsonObject and converting it to a QString
+    QByteArray serializedJson = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
+    QString output = QString(serializedJson);
+
+    if (deleteTargetAfterUse)
+    {
+        Q_ASSERT(!!target);
+        delete target;
+    }
+
+    return QString(QJsonDocument(jsonObject).toJson(QJsonDocument::Compact));
+}
+
+
+
 QString KStars::getObjectPositionInfo(const QString &objectName)
 {
     Q_ASSERT(data());
@@ -913,6 +1020,101 @@ QString KStars::getObjectPositionInfo(const QString &objectName)
     stream.writeEndElement(); // object
     stream.writeEndDocument();
     return output;
+}
+
+QString KStars::getObjectPositionInfoJSON(const QString &objectName)
+{    
+    Q_ASSERT(data());
+    const SkyObject *obj = data()->objectNamed(objectName);
+    if (!obj)
+    {
+        return QString("{}"); // Return an empty JSON object.
+    }
+
+    SkyObject *target = obj->clone();
+    if (!target)
+    {
+        qWarning() << "ERROR: Could not clone SkyObject " << objectName << "!";
+        return QString("{}"); // Return an empty JSON object.
+    }
+
+    const KSNumbers *updateNum = data()->updateNum();
+    const KStarsDateTime ut    = data()->ut();
+    const GeoLocation *geo     = data()->geo();
+    QString riseTimeString, setTimeString, transitTimeString;
+    QString riseAzString, setAzString, transitAltString;
+
+    // Make sure the coordinates of the SkyObject are updated
+    target->updateCoords(updateNum, true, geo->lat(), data()->lst(), true);
+    target->EquatorialToHorizontal(data()->lst(), geo->lat());
+
+    // Compute rise, set and transit times and parameters -- Code pulled from DetailDialog
+    QTime riseTime    = target->riseSetTime(ut, geo, true);   //true = use rise time
+    dms riseAz        = target->riseSetTimeAz(ut, geo, true); //true = use rise time
+    QTime transitTime = target->transitTime(ut, geo);
+    dms transitAlt    = target->transitAltitude(ut, geo);
+    if (transitTime < riseTime)
+    {
+        transitTime = target->transitTime(ut.addDays(1), geo);
+        transitAlt  = target->transitAltitude(ut.addDays(1), geo);
+    }
+    //If set time is before rise time, use set time for tomorrow
+    QTime setTime = target->riseSetTime(ut, geo, false);   //false = use set time
+    dms setAz     = target->riseSetTimeAz(ut, geo, false); //false = use set time
+    if (setTime < riseTime)
+    {
+        setTime = target->riseSetTime(ut.addDays(1), geo, false);   //false = use set time
+        setAz   = target->riseSetTimeAz(ut.addDays(1), geo, false); //false = use set time
+    }
+    if (riseTime.isValid())
+    {
+        riseTimeString = QString::asprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
+        setTimeString  = QString::asprintf("%02d:%02d", setTime.hour(), setTime.minute());
+        riseAzString   = riseAz.toDMSString(true, true);
+        setAzString    = setAz.toDMSString(true, true);
+    }
+    else
+    {
+        if (target->alt().Degrees() > 0.0)
+        {
+            riseTimeString = setTimeString = QString("Circumpolar");
+        }
+        else
+        {
+            riseTimeString = setTimeString = QString("Never Rises");
+        }
+        riseAzString = setAzString = QString("N/A");
+    }
+
+    transitTimeString = QString::asprintf("%02d:%02d", transitTime.hour(), transitTime.minute());
+    transitAltString  = transitAlt.toDMSString(true, true);
+
+ QJsonObject jsonObject {
+        {"Name", target->name()},
+        {"RA_Dec_Epoch_JD", QString::number(target->getLastPrecessJD(), 'f', 3)},
+        {"AltAz_JD", QString::number(data()->ut().djd(), 'f', 3)},
+        {"RA_HMS", target->ra().toHMSString(true)},
+        {"Dec_DMS", target->dec().toDMSString(true, true)},
+        {"RA_J2000_HMS", target->ra0().toHMSString(true)},
+        {"Dec_J2000_DMS", target->dec0().toDMSString(true, true)},
+        {"RA_Degrees", QString::number(target->ra().Degrees())},
+        {"Dec_Degrees", QString::number(target->dec().Degrees())},
+        {"RA_J2000_Degrees", QString::number(target->ra0().Degrees())},
+        {"Dec_J2000_Degrees", QString::number(target->dec0().Degrees())},
+        {"Altitude_DMS", target->alt().toDMSString(true, true)},
+        {"Azimuth_DMS", target->az().toDMSString(true, true)},
+        {"Altitude_Degrees", QString::number(target->alt().Degrees())},
+        {"Azimuth_Degrees", QString::number(target->az().Degrees())},
+        {"Rise", riseTimeString},
+        {"Rise_Az_DMS", riseAzString},
+        {"Set", setTimeString},
+        {"Set_Az_DMS", setAzString},
+        {"Transit", transitTimeString},
+        {"Transit_Alt_DMS", transitAltString},
+        {"Time_Zone_Offset", QString::asprintf("%02.2f", geo->TZ())}
+    };
+
+    return QString(QJsonDocument(jsonObject).toJson(QJsonDocument::Compact));
 }
 
 void KStars::renderEyepieceView(const QString &objectName, const QString &destPathChart, const double fovWidth,

@@ -339,6 +339,10 @@ class KStars : public KXmlGuiWindow
          */
         Q_SCRIPTABLE QString getFocusInformationXML();
 
+          /** DBUS interface function. Get the focus information as JSON.
+         */
+        Q_SCRIPTABLE QString getFocusInformationJSON();
+
         /** DBUS interface function.  Read config file.
              * This function is useful for restoring the user settings from the config file,
              * after having modified the settings in memory.
@@ -445,11 +449,28 @@ class KStars : public KXmlGuiWindow
                                               bool fallbackToInternet = false,
                                               bool storeInternetResolved = true);
 
+        /** DBUS interface function.  Return JSON containing information about a sky object
+             * @param objectName name of the object.
+             * @param fallbackToInternet Attempt to resolve the name using internet databases if not found
+             * @param storeInternetResolved If we fell back to the internet, save the result in DSO database for future offline access
+             * @note If the object was not found, the JSON is empty.
+             */
+        Q_SCRIPTABLE QString getObjectDataJSON(const QString &objectName,
+                                               bool fallbackToInternet = false,
+                                               bool storeInternetResolved = true);
+
+
         /** DBUS interface function.  Return XML containing position info about a sky object
              * @param objectName name of the object.
              * @note If the object was not found, the XML is empty.
              */
         Q_SCRIPTABLE QString getObjectPositionInfo(const QString &objectName);
+
+        /** DBUS interface function.  Return XML containing position info about a sky object
+             * @param objectName name of the object.
+             * @note If the object was not found, the XML is empty.
+             */
+        Q_SCRIPTABLE QString getObjectPositionInfoJSON(const QString &objectName);
 
         /** DBUS interface function. Render eyepiece view and save it in the file(s) specified
              * @note See EyepieceField::renderEyepieceView() for more info. This is a DBus proxy that calls that method, and then writes the resulting image(s) to file(s).

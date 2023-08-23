@@ -88,6 +88,9 @@
     <method name="getFocusInformationXML">
       <arg type="s" direction="out"/>
     </method>
+    <method name="getFocusInformationJSON">
+      <arg type="s" direction="out"/>
+    </method>
     <method name="readConfig">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -170,10 +173,24 @@
       <arg name="fallbackToInternet" type="b" direction="in"/>
       <arg name="storeInternetResolved" type="b" direction="in"/>
     </method>
+    <method name="getObjectDataJSON">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+    </method>
+    <method name="getObjectDataJSON">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+      <arg name="fallbackToInternet" type="b" direction="in"/>
+      <arg name="storeInternetResolved" type="b" direction="in"/>
+    </method>
     <method name="getObjectPositionInfo">
       <arg type="s" direction="out"/>
       <arg name="objectName" type="s" direction="in"/>
     </method>
+    <method name="getObjectPositionInfoJSON">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+    </method>   
     <method name="renderEyepieceView">
       <arg name="objectName" type="s" direction="in"/>
       <arg name="destPathChart" type="s" direction="in"/>
