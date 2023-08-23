@@ -70,9 +70,9 @@
 >, <guibutton
 >Copia la funció</guibutton
 >, <guibutton
->Mou amunt</guibutton
+>Mou cap amunt</guibutton
 > i <guibutton
->Mou avall</guibutton
+>Mou cap avall</guibutton
 >. <guibutton
 >Afig una funció</guibutton
 >, afegirà la funció ressaltada en el navegador de funcions al quadro Script actual (també podeu afegir una funció fent doble clic damunt seu). La resta de botons opera sobre la funció ressaltada al quadro Script actual, eliminant-la, duplicant-la, o canviant la seua posició en l'script actual. </para>
@@ -129,7 +129,7 @@
 >. </para
 ><para
 >Un pas més: El fet de tindre a UseAltAz al final de l'script no ens farà cap servei, necessitarem canviar açò abans que succeïsca res. Així doncs, assegureu-vos que esta funció estiga ressaltada al quadro Script actual i premeu el botó <guibutton
->Mou amunt</guibutton
+>Mou cap amunt</guibutton
 > fins que esta siga la primera funció. </para
 ><para
 >Ara que hem finalitzat l'script, hem de guardar-lo al disc. Premeu el botó <guibutton

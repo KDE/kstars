@@ -2566,7 +2566,7 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
                 ekosLiveClient.get()->media()->sendData(data, uuid);
         }
 
-        if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
+        if (job->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             ekosLiveClient.get()->cloud()->upload(data, uuid);
 
     }

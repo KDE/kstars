@@ -94,6 +94,10 @@ class SequenceJobState: public QObject
          * @param frameType frame type for which the preparation should be done
          */
         void setFrameType(CCDFrameType frameType);
+        CCDFrameType getFrameType()
+        {
+            return m_frameType;
+        }
 
         /**
          * @brief Trigger all peparation actions before a capture may be started.

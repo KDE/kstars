@@ -785,9 +785,9 @@ void KStars::repopulateHIPS()
     for (auto &action : actions)
         hipsGroup->removeAction(action);
 
-    QAction *ka = actionCollection()->addAction(i18n("None"), this, SLOT(slotHIPSSource()))
-                  << i18n("None") << AddToGroup(hipsGroup)
-                  << Checked(Options::hIPSSource() == "None");
+    auto ka = actionCollection()->addAction(i18n("None"), this, SLOT(slotHIPSSource()))
+              << i18n("None") << AddToGroup(hipsGroup)
+              << Checked(Options::hIPSSource() == "None");
 
     hipsActionMenu->addAction(ka);
     hipsActionMenu->addSeparator();
@@ -796,9 +796,11 @@ void KStars::repopulateHIPS()
     {
         QString title = source.value("obs_title");
 
-        QAction *newAction = actionCollection()->addAction(title, this, SLOT(slotHIPSSource()))
-                             << title << AddToGroup(hipsGroup)
-                             << Checked(Options::hIPSSource() == title);
+        auto newAction = actionCollection()->addAction(title, this, SLOT(slotHIPSSource()))
+                         << title << AddToGroup(hipsGroup)
+                         << Checked(Options::hIPSSource() == title);
+
+        newAction->setDisabled(Options::hIPSUseOfflineSource() && title != "DSS Colored");
 
         hipsActionMenu->addAction(newAction);
     }

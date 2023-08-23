@@ -410,7 +410,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     if (command == commands[CAPTURE_PREVIEW])
     {
         setCapturePresetSettings(payload);
-        capture->captureOne();
+        capture->capturePreview();
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {

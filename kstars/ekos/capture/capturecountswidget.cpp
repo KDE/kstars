@@ -254,7 +254,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
 void CaptureCountsWidget::updateJobProgress(Ekos::SequenceJob *job)
 {
     // display informations about the current active capture
-    if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() == true)
+    if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         setFrameInfo(i18n("Preview"),  job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                      job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x(),
                      job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y(), job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());

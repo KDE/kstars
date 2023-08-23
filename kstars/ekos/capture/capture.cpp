@@ -33,6 +33,7 @@
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
 
+
 // Current Sequence File Format:
 #define SQ_FORMAT_VERSION 2.5
 // We accept file formats with version back to:
@@ -40,6 +41,23 @@
 
 // Qt version calming
 #include <qtendl.h>
+
+namespace
+{
+
+// Columns in the job table
+enum JobTableColumnIndex
+{
+    JOBTABLE_COL_STATUS = 0,
+    JOBTABLE_COL_FILTER,
+    JOBTABLE_COL_COUNTS,
+    JOBTABLE_COL_EXP,
+    JOBTABLE_COL_TYPE,
+    JOBTABLE_COL_BINNING,
+    JOBTABLE_COL_ISO,
+    JOBTABLE_COL_OFFSET
+};
+} // namespace
 
 namespace Ekos
 {
@@ -144,15 +162,24 @@ Capture::Capture()
         state()->updateHFRThreshold();
         generatePreviewFilename();
     });
-    connect(previewB, &QPushButton::clicked, this, &Capture::captureOne);
+    connect(previewB, &QPushButton::clicked, this, &Capture::capturePreview);
     connect(loopB, &QPushButton::clicked, this, &Capture::startFraming);
 
     //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Capture::checkSeqFile(QString)));
 
-    connect(addToQueueB, &QPushButton::clicked, this, &Capture::addSequenceJob);
+    connect(addToQueueB, &QPushButton::clicked, this, [this]()
+    {
+        addJob(SequenceJob::JOBTYPE_BATCH);
+    });
+    connect(queueUpB, &QPushButton::clicked, [this]()
+    {
+        moveJob(true);
+    });
+    connect(queueDownB, &QPushButton::clicked, [this]()
+    {
+        moveJob(false);
+    });
     connect(removeFromQueueB, &QPushButton::clicked, this, &Capture::removeJobFromQueue);
-    connect(queueUpB, &QPushButton::clicked, this, &Capture::moveJobUp);
-    connect(queueDownB, &QPushButton::clicked, this, &Capture::moveJobDown);
     connect(selectFileDirectoryB, &QPushButton::clicked, this, &Capture::saveFITSDirectory);
     connect(queueSaveB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::saveSequenceQueue));
     connect(queueSaveAsB, &QPushButton::clicked, this, &Capture::saveSequenceQueueAs);
@@ -461,6 +488,11 @@ Capture::Capture()
     connect(m_captureProcess.data(), &CaptureProcess::jobExecutionPreparationStarted, this,
             &Capture::jobExecutionPreparationStarted);
     connect(m_captureProcess.data(), &CaptureProcess::sequenceChanged, this, &Capture::sequenceChanged);
+    connect(m_captureProcess.data(), &CaptureProcess::addJob, [this](SequenceJob::SequenceJobType jobType)
+    {
+        // report the result back to the process
+        process()->jobAdded(addJob(jobType));
+    });
     connect(m_captureProcess.data(), &CaptureProcess::jobPrepared, this, &Capture::jobPrepared);
     connect(m_captureProcess.data(), &CaptureProcess::captureImageStarted, this, &Capture::captureImageStarted);
     connect(m_captureProcess.data(), &CaptureProcess::downloadingFrame, this, [this]()
@@ -469,12 +501,13 @@ Capture::Capture()
     });
     connect(m_captureProcess.data(), &CaptureProcess::captureAborted, this, &Capture::captureAborted);
     connect(m_captureProcess.data(), &CaptureProcess::captureStopped, this, &Capture::captureStopped);
+    connect(m_captureProcess.data(), &CaptureProcess::updateJobTable, this, &Capture::updateJobTable);
     connect(m_captureProcess.data(), &CaptureProcess::abortFocus, this, &Capture::abortFocus);
     connect(m_captureProcess.data(), &CaptureProcess::updateMeridianFlipStage, this, &Capture::updateMeridianFlipStage);
     connect(m_captureProcess.data(), &CaptureProcess::darkFrameCompleted, this, &Capture::imageCapturingCompleted);
     connect(m_captureProcess.data(), &CaptureProcess::newLog, this, &Capture::appendLogText);
-    connect(m_captureProcess.data(), &CaptureProcess::startCapture, this, &Capture::start);
-    connect(m_captureProcess.data(), &CaptureProcess::captureRunning, this, &Capture::captureStarted);
+    connect(m_captureProcess.data(), &CaptureProcess::jobStarting, this, &Capture::jobStarting);
+    connect(m_captureProcess.data(), &CaptureProcess::captureRunning, this, &Capture::captureRunning);
     connect(m_captureProcess.data(), &CaptureProcess::stopCapture, this, &Capture::stop);
     connect(m_captureProcess.data(), &CaptureProcess::suspendGuiding, this, &Capture::suspendGuiding);
     connect(m_captureProcess.data(), &CaptureProcess::resumeGuiding, this, &Capture::resumeGuiding);
@@ -631,6 +664,16 @@ void Capture::toggleSequence()
     process()->toggleSequence();
 }
 
+void Capture::jobStarting()
+{
+    if (m_LimitsUI->limitFocusHFRS->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
+        appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
+    if (m_LimitsUI->limitFocusDeltaTS->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
+        appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
+
+    updateStartButtons(true, false);
+}
+
 void Capture::registerNewModule(const QString &name)
 {
     if (name == "Mount" && mountInterface == nullptr)
@@ -640,25 +683,6 @@ void Capture::registerNewModule(const QString &name)
                                             "org.kde.kstars.Ekos.Mount", QDBusConnection::sessionBus(), this);
 
     }
-}
-
-void Capture::start()
-{
-    SequenceJob *nextJob = findNextPendingJob();
-    // do nothing if no job is pending
-    if (nextJob == nullptr)
-    {
-        appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
-        return;
-    }
-
-    if (m_LimitsUI->limitFocusHFRS->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
-        appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
-    if (m_LimitsUI->limitFocusDeltaTS->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
-        appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
-
-    updateStartButtons(true, false);
-    process()->startJob(nextJob);
 }
 
 QString Capture::camera()
@@ -1319,7 +1343,7 @@ void Capture::imageCapturingCompleted()
                               KSNotification::Capture);
 
     // If it was initially set as pure preview job and NOT as preview for calibration
-    if (thejob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
+    if (thejob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         return;
 
     /* The image progress has now one more capture */
@@ -1339,32 +1363,6 @@ void Capture::captureStopped()
     auto captureState = state()->getCaptureState();
     if (captureState == CAPTURE_ABORTED || captureState == CAPTURE_SUSPENDED || captureState == CAPTURE_COMPLETE)
         updateStartButtons(false, false);
-}
-
-void Capture::captureOne()
-{
-    if (state()->getFocusState() >= FOCUS_PROGRESS)
-    {
-        appendLogText(i18n("Cannot capture while focus module is busy."));
-    }
-    else if (addJob(true))
-    {
-        process()->prepareJob(state()->allJobs().last());
-    }
-}
-
-void Capture::startFraming()
-{
-    if (state()->getFocusState() >= FOCUS_PROGRESS)
-    {
-        appendLogText(i18n("Cannot start framing while focus module is busy."));
-    }
-    else if (!state()->isLooping())
-    {
-        state()->setLooping(true);
-        appendLogText(i18n("Starting framing..."));
-        captureOne();
-    }
 }
 
 void Capture::updateTargetDistance(double targetDiff)
@@ -1419,7 +1417,7 @@ QString frameLabel(CCDFrameType type, const QString &filter)
 }
 }
 
-void Capture::captureStarted()
+void Capture::captureRunning()
 {
     emit captureStarting(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                          activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString());
@@ -1491,16 +1489,14 @@ void Capture::updateRotatorAngle(double value)
         m_RotatorControlPanel->updateGauge(value);
 }
 
-bool Capture::addSequenceJob()
-{
-    return addJob(false, false);
-}
-
-bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filenamePreview)
+SequenceJob *Capture::addJob(SequenceJob::SequenceJobType jobtype, FilenamePreviewType filenamePreview)
 {
     if (state()->getCaptureState() != CAPTURE_IDLE && state()->getCaptureState() != CAPTURE_ABORTED
             && state()->getCaptureState() != CAPTURE_COMPLETE)
-        return false;
+        return nullptr;
+
+    bool isPreview = jobtype == SequenceJob::JOBTYPE_PREVIEW;
+    bool isDarkFlat = jobtype == SequenceJob::JOBTYPE_DARKFLAT;
 
     SequenceJob * job = nullptr;
 
@@ -1509,28 +1505,30 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
         {
             KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
-            return false;
+            return nullptr;
         }
 
         if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
         {
             KSNotification::error(i18n("You must set local directory for Client & Both modes."));
-            return false;
+            return nullptr;
         }
     }
 
     if (m_JobUnderEdit && filenamePreview == NOT_PREVIEW)
+    {
         job = state()->allJobs().at(queueTable->currentRow());
+        job->setJobType(jobtype);
+    }
     else
     {
-        job = new SequenceJob(m_captureDeviceAdaptor, state());
+        job = new SequenceJob(m_captureDeviceAdaptor, state(), jobtype);
     }
 
     Q_ASSERT_X(job, __FUNCTION__, "Capture Job is invalid.");
 
     job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
-    job->setCoreProperty(SequenceJob::SJ_DarkFlat, isDarkFlat);
 
     if (captureISOS)
         job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
@@ -1542,7 +1540,6 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
         job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
 
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
-    job->setCoreProperty(SequenceJob::SJ_Preview, preview);
 
     if (cameraTemperatureN->isEnabled())
     {
@@ -1597,14 +1594,15 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     {
         // JM 2018-09-24: If this is the first job added
         // We always ignore job progress by default.
-        if (state()->allJobs().isEmpty() && preview == false)
+        if (state()->allJobs().isEmpty() && isPreview == false)
             state()->setIgnoreJobProgress(true);
 
-        state()->allJobs().append(job);
-
         // Nothing more to do if preview
-        if (preview)
-            return true;
+        if (isPreview)
+            return job;
+
+        // preview jobs will not be added to the job list
+        state()->allJobs().append(job);
     }
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
@@ -1621,10 +1619,9 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     else
         currentRow = queueTable->currentRow();
 
-    QTableWidgetItem * status = m_JobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
-    job->setStatusCell(status);
+    QTableWidgetItem * status = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_STATUS) : new QTableWidgetItem();
 
-    QTableWidgetItem * filter = m_JobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
+    QTableWidgetItem * filter = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_FILTER) : new QTableWidgetItem();
     filter->setText("--");
     jsonJob.insert("Filter", "--");
     if (FilterPosCombo->count() > 0 && (captureTypeS->currentIndex() == FRAME_LIGHT
@@ -1637,29 +1634,29 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
-    job->setCountCell(count);
+    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_COUNTS) : new QTableWidgetItem();
+    updateJobTableCountCell(job, count);
     jsonJob.insert("Count", count->text());
 
-    QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
+    QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_EXP) : new QTableWidgetItem();
     exp->setText(QString("%L1").arg(captureExposureN->value(), 0, 'f', captureExposureN->decimals()));
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Exp", exp->text());
 
-    QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_TYPE) : new QTableWidgetItem();
     type->setText(isDarkFlat ? i18n("Dark Flat") : captureTypeS->currentText());
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Type", isDarkFlat ? i18n("Dark Flat") : type->text());
 
-    QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
+    QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_BINNING) : new QTableWidgetItem();
     bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     jsonJob.insert("Bin", bin->text());
 
-    QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, 6) : new QTableWidgetItem();
+    QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_ISO) : new QTableWidgetItem();
     if (captureISOS && captureISOS->currentIndex() != -1)
     {
         iso->setText(captureISOS->currentText());
@@ -1678,7 +1675,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
+    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_OFFSET) : new QTableWidgetItem();
     if (job->getCoreProperty(SequenceJob::SJ_Offset).toDouble() >= 0)
     {
         offset->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Offset).toDouble(), 'f', 1));
@@ -1694,14 +1691,19 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
 
     if (m_JobUnderEdit == false)
     {
-        queueTable->setItem(currentRow, 0, status);
-        queueTable->setItem(currentRow, 1, filter);
-        queueTable->setItem(currentRow, 2, count);
-        queueTable->setItem(currentRow, 3, exp);
-        queueTable->setItem(currentRow, 4, type);
-        queueTable->setItem(currentRow, 5, bin);
-        queueTable->setItem(currentRow, 6, iso);
-        queueTable->setItem(currentRow, 7, offset);
+        status->setTextAlignment(Qt::AlignHCenter);
+        count->setTextAlignment(Qt::AlignHCenter);
+        status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+        queueTable->setItem(currentRow, JOBTABLE_COL_STATUS, status);
+        queueTable->setItem(currentRow, JOBTABLE_COL_FILTER, filter);
+        queueTable->setItem(currentRow, JOBTABLE_COL_COUNTS, count);
+        queueTable->setItem(currentRow, JOBTABLE_COL_EXP, exp);
+        queueTable->setItem(currentRow, JOBTABLE_COL_TYPE, type);
+        queueTable->setItem(currentRow, JOBTABLE_COL_BINNING, bin);
+        queueTable->setItem(currentRow, JOBTABLE_COL_ISO, iso);
+        queueTable->setItem(currentRow, JOBTABLE_COL_OFFSET, offset);
 
         state()->getSequence().append(jsonJob);
         emit sequenceChanged(state()->getSequence());
@@ -1737,8 +1739,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat, FilenamePreviewType filename
                         filenamePreview != REMOTE_PREVIEW, true, 1,
                         ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
-
-    return true;
+    updateJobTableRow(job);
+    return job;
 }
 
 void Capture::removeJobFromQueue()
@@ -1803,9 +1805,6 @@ bool Capture::removeJob(int index)
         queueDownB->setEnabled(false);
     }
 
-    for (int i = 0; i < state()->allJobs().count(); i++)
-        state()->allJobs().at(i)->setStatusCell(queueTable->item(i, 0));
-
     if (index < queueTable->rowCount())
         queueTable->selectRow(index);
     else if (queueTable->rowCount() > 0)
@@ -1823,24 +1822,23 @@ bool Capture::removeJob(int index)
     return true;
 }
 
-void Capture::moveJobUp()
+void Capture::moveJob(bool up)
 {
     int currentRow = queueTable->currentRow();
+    int destinationRow = up ? currentRow - 1 : currentRow + 1;
 
     int columnCount = queueTable->columnCount();
 
-    if (currentRow <= 0 || queueTable->rowCount() == 1)
+    if (currentRow < 0 || destinationRow < 0 || destinationRow >= queueTable->rowCount())
         return;
-
-    int destinationRow = currentRow - 1;
 
     for (int i = 0; i < columnCount; i++)
     {
-        QTableWidgetItem * downItem = queueTable->takeItem(currentRow, i);
-        QTableWidgetItem * upItem   = queueTable->takeItem(destinationRow, i);
+        QTableWidgetItem * selectedLine = queueTable->takeItem(currentRow, i);
+        QTableWidgetItem * counterpart  = queueTable->takeItem(destinationRow, i);
 
-        queueTable->setItem(destinationRow, i, downItem);
-        queueTable->setItem(currentRow, i, upItem);
+        queueTable->setItem(destinationRow, i, selectedLine);
+        queueTable->setItem(currentRow, i, counterpart);
     }
 
     SequenceJob * job = state()->allJobs().takeAt(currentRow);
@@ -1855,48 +1853,6 @@ void Capture::moveJobUp()
     emit sequenceChanged(seqArray);
 
     queueTable->selectRow(destinationRow);
-
-    for (int i = 0; i < state()->allJobs().count(); i++)
-        state()->allJobs().at(i)->setStatusCell(queueTable->item(i, 0));
-
-    state()->setDirty(true);
-}
-
-void Capture::moveJobDown()
-{
-    int currentRow = queueTable->currentRow();
-
-    int columnCount = queueTable->columnCount();
-
-    if (currentRow < 0 || queueTable->rowCount() == 1 || (currentRow + 1) == queueTable->rowCount())
-        return;
-
-    int destinationRow = currentRow + 1;
-
-    for (int i = 0; i < columnCount; i++)
-    {
-        QTableWidgetItem * downItem = queueTable->takeItem(currentRow, i);
-        QTableWidgetItem * upItem   = queueTable->takeItem(destinationRow, i);
-
-        queueTable->setItem(destinationRow, i, downItem);
-        queueTable->setItem(currentRow, i, upItem);
-    }
-
-    SequenceJob * job = state()->allJobs().takeAt(currentRow);
-
-    state()->allJobs().removeOne(job);
-    state()->allJobs().insert(destinationRow, job);
-
-    QJsonArray seqArray = state()->getSequence();
-    QJsonObject currentJob = seqArray[currentRow].toObject();
-    seqArray.replace(currentRow, seqArray[destinationRow]);
-    seqArray.replace(destinationRow, currentJob);
-    emit sequenceChanged(seqArray);
-
-    queueTable->selectRow(destinationRow);
-
-    for (int i = 0; i < state()->allJobs().count(); i++)
-        state()->allJobs().at(i)->setStatusCell(queueTable->item(i, 0));
 
     state()->setDirty(true);
 }
@@ -1925,7 +1881,7 @@ void Capture::jobPrepared(SequenceJob * job)
     if (index >= 0)
         queueTable->selectRow(index);
 
-    if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
+    if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
     {
         // set the progress info
         imgProgress->setEnabled(true);
@@ -1942,7 +1898,7 @@ void Capture::jobExecutionPreparationStarted()
         qWarning(KSTARS_EKOS_CAPTURE) << "jobExecutionPreparationStarted with null state()->getActiveJob().";
         return;
     }
-    if (activeJob()->getCoreProperty(SequenceJob::SJ_Preview).toBool())
+    if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         updateStartButtons(true, false);
 }
 
@@ -2065,19 +2021,6 @@ void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
         }
     }
 }
-
-SequenceJob *Capture::findNextPendingJob()
-{
-    // if the job table is empty, create ad hoc a new job from the current settings
-    if (queueTable->rowCount() == 0)
-    {
-        if (addJob() == false)
-            return nullptr;
-    }
-    // find the next one among the existing ones
-    return process()->findNextPendingJob();
-}
-
 
 void Capture::setRotatorReversed(bool toggled)
 {
@@ -2487,7 +2430,7 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
         }
     }
 
-    addJob(false, isDarkFlat);
+    addJob(isDarkFlat ? SequenceJob::JOBTYPE_DARKFLAT : SequenceJob::JOBTYPE_BATCH);
 
     return true;
 }
@@ -2690,7 +2633,7 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<Type>DawnDust</Type>" << Qt::endl;
         outstream << "</FlatSource>" << Qt::endl;
 
-        outstream << "<FlatDuration dark='" << (job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool() ? "true" : "false")
+        outstream << "<FlatDuration dark='" << (job->jobType() == SequenceJob::JOBTYPE_DARKFLAT ? "true" : "false")
                   << "'>" << Qt::endl;
         if (job->getFlatFieldDuration() == DURATION_MANUAL)
             outstream << "<Type>Manual</Type>" << Qt::endl;
@@ -2734,7 +2677,10 @@ void Capture::resetJobs()
     {
         SequenceJob * job = state()->allJobs().at(queueTable->currentRow());
         if (nullptr != job)
+        {
             job->resetStatus();
+            updateJobTableRow(job);
+        }
     }
     else
     {
@@ -2746,7 +2692,10 @@ void Capture::resetJobs()
         }
 
         foreach (SequenceJob * job, state()->allJobs())
+        {
             job->resetStatus();
+            updateJobTableRow(job);
+        }
     }
 
     // Also reset the storage count for all jobs
@@ -2910,7 +2859,7 @@ bool Capture::selectJob(QModelIndex i)
 
     SequenceJob * job = state()->allJobs().at(i.row());
 
-    if (job == nullptr || job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
+    if (job == nullptr || job->jobType() == SequenceJob::JOBTYPE_DARKFLAT)
         return false;
 
     syncGUIToJob(job);
@@ -3596,6 +3545,41 @@ void Capture::clearCameraConfiguration()
             i18n("Confirmation"), 30);
 }
 
+void Capture::updateJobTable(SequenceJob *job)
+{
+    if (job != nullptr)
+    {
+        updateJobTableRow(job);
+    }
+    else
+    {
+        QListIterator<SequenceJob *> iter(state()->allJobs());
+        while (iter.hasNext())
+            updateJobTableRow(iter.next());
+    }
+}
+
+void Capture::updateJobTableRow(SequenceJob *job)
+{
+    // do nothing if no job is given
+    if (job == nullptr)
+        return;
+    // find the job's row
+    int row = state()->allJobs().indexOf(job);
+    if (row >= 0 && row < queueTable->rowCount())
+    {
+        QTableWidgetItem *statusCell = queueTable->item(row, JOBTABLE_COL_STATUS);
+        QTableWidgetItem *countCell  = queueTable->item(row, JOBTABLE_COL_COUNTS);
+        statusCell->setText(job->getStatusString());
+        updateJobTableCountCell(job, countCell);
+    }
+}
+
+void Capture::updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell)
+{
+    countCell->setText(QString("%L1/%L2").arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+}
+
 void Capture::setCoolerToggled(bool enabled)
 {
     auto isToggled = (!enabled && coolerOnB->isChecked()) || (enabled && coolerOffB->isChecked());
@@ -3860,7 +3844,7 @@ void Capture::generateDarkFlats()
         syncGUIToJob(state()->allJobs().at(i));
 
         captureTypeS->setCurrentIndex(FRAME_DARK);
-        addJob(false, true);
+        addJob(SequenceJob::JOBTYPE_DARKFLAT);
         jobsAdded++;
     }
 
@@ -4008,8 +3992,13 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
     //             || m_format.contains("%f")))
     else if (state()->sequenceURL().toLocalFile().isEmpty() && m_format.contains("%f"))
         previewText = ("Save the sequence file to show filename preview");
-    else if (addJob(true, false, previewType) == true)
+    else
     {
+        // create temporarily a sequence job
+        SequenceJob *m_job = addJob(SequenceJob::JOBTYPE_PREVIEW, previewType);
+        if (m_job == nullptr)
+            return previewText;
+
         QString previewSeq;
         if (state()->sequenceURL().toLocalFile().isEmpty())
         {
@@ -4019,7 +4008,6 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         else
             previewSeq = state()->sequenceURL().toLocalFile();
         auto m_placeholderPath = PlaceholderPath(previewSeq);
-        auto m_job = state()->allJobs().last();
 
         QString extension;
         if (captureEncodingS->currentText() == "FITS")
@@ -4030,8 +4018,9 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
             extension = ".[NATIVE]";
         previewText = m_placeholderPath.generateFilename(*m_job, targetNameT->text(), previewType == LOCAL_PREVIEW, true, 1,
                       extension, "", false);
-        state()->allJobs().removeLast();
         previewText = QDir::toNativeSeparators(previewText);
+        // we do not use it any more
+        m_job->deleteLater();
     }
 
     // Must change directory separate to UNIX style for remote

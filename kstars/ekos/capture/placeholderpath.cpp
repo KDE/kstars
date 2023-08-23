@@ -62,7 +62,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
     auto frameType = getFrameType(job->getFrameType());
     auto filterType = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     auto exposure    = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
-    const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
+    const auto isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
 
     if (isDarkFlat)
         frameType = "DarkFlat";
@@ -143,7 +143,7 @@ void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
     auto frameTypeString = getFrameType(job->getFrameType());
     QString imagePrefix = KSUtils::sanitize(targetName);
 
-    const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
+    const auto isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
     if (isDarkFlat)
         frameTypeString = "DarkFlat";
 
@@ -181,7 +181,7 @@ QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &
     if (tempImagePrefix.isEmpty() == false)
         tempImagePrefix += '_';
 
-    const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
+    const auto isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
 
     tempImagePrefix += isDarkFlat ? "DarkFlat" : CCDFrameTypeNames[frameType];
 
@@ -234,7 +234,7 @@ QString PlaceholderPath::generateFilename(const SequenceJob &job,
     QMap<PathProperty, QVariant> pathPropertyMap;
     pathPropertyMap[PP_TARGETNAME]  = QVariant(targetName);
     pathPropertyMap[PP_FILTER]      = job.getCoreProperty(SequenceJob::SJ_Filter);
-    pathPropertyMap[PP_DARKFLAT]    = job.getCoreProperty(SequenceJob::SJ_DarkFlat);
+    pathPropertyMap[PP_DARKFLAT]    = job.jobType() == SequenceJob::JOBTYPE_DARKFLAT;
     pathPropertyMap[PP_DIRECTORY]   = job.getCoreProperty(local ? SequenceJob::SJ_LocalDirectory :
                                       SequenceJob::SJ_RemoteDirectory);
     pathPropertyMap[PP_FORMAT]      = job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat);
@@ -428,7 +428,7 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, const 
     setPathProperty(PP_DIRECTORY, job.getCoreProperty(SequenceJob::SJ_LocalDirectory));
     setPathProperty(PP_FORMAT, job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat));
     setPathProperty(PP_SUFFIX, job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix));
-    setPathProperty(PP_DARKFLAT, job.getCoreProperty(SequenceJob::SJ_DarkFlat));
+    setPathProperty(PP_DARKFLAT, job.jobType() == SequenceJob::JOBTYPE_DARKFLAT);
 }
 
 QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)

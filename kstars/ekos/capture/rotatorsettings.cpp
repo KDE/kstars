@@ -113,7 +113,10 @@ void RotatorSettings::updateRotator(double RAngle)
 {
     RotatorAngle->setValue(RAngle);
     double PAngle = RotatorUtils::Instance()->calcCameraAngle(RAngle, false);
+    // Need to block signal to prevent any cascade effect this change was not triggered by user input.
+    CameraPA->blockSignals(true);
     CameraPA->setValue(PAngle);
+    CameraPA->blockSignals(false);
     updateGauge(RAngle);
 }
 

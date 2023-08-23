@@ -1557,7 +1557,9 @@
 <secondary
 >Pàgina de superposicions d'imatges</secondary
 ></indexterm
->Les superposicions d'imatge són imatges personalitzades (normalment .jpg) que es representen en el mapa celeste sobre les estrelles i altres elements del mapa celeste, però sota el terreny. Aquestes imatges les afegiu vós, l'usuari, com una mena de catàleg personal del cel. Si es configuren correctament, aquestes imatges personals es poden mostrar gairebé perfectament alineades amb altres objectes del cel. </para>
+>Les superposicions d'imatge són imatges personalitzades (normalment <literal role="extension"
+>.jpg</literal
+>) que es representen en el mapa celeste sobre les estrelles i altres elements del mapa celeste, però sota el terreny. Aquestes imatges les afegiu vós, l'usuari, com una mena de catàleg personal del cel. Si es configuren correctament, aquestes imatges personals es poden mostrar gairebé perfectament alineades amb altres objectes del cel. </para>
 <screenshot>
 <screeninfo
 >Finestra de Superposicions d'imatges</screeninfo>
@@ -1576,37 +1578,81 @@
 >Superposició d'imatges</guilabel
 > permet configurar si es mostraran les superposicions d'imatge en el mapa celeste i us ajudarà a afegir-les al sistema. La imatge a l'inici d'aquesta secció mostra el mapa celeste amb les superposicions d'imatges activades i algunes superposicions d'imatges carregades. </para>
 <para
->Cada vegada que s'inicia, el KStars cerca imatges superposades noves en un directori especial, paral·lel al directori de registres, anomenat «imageOverlays». Al Linux, això es pot trobar a ~/.local/share/kstars/imageOverlays. La ubicació exacta al vostre sistema es pot trobar fent clic al botó <guilabel
->Directori de superposicions</guilabel
-> a prop de la part superior de la pàgina de configuració de les Superposicions d'imatges que es mostra a la part superior d'aquesta secció. Per a començar, afegiu les vostres imatges a aquest directori. Idealment, per raons de rendiment no són fitxers massius, però probablement les imatges amb amplades de 1000 o 2000 haurien de ser bones. Per a afegir imatges addicionals en el futur, afegiu-les al mateix directori i feu clic al botó d'actualització o reinicieu el KStars. Per a eliminar superposicions, elimineu-les del directori i feu clic al botó d'actualització o reinicieu el KStars. </para>
+>Cada vegada que s'inicia, el &kstars; cerca imatges superposades noves en un directori especial, paral·lel al directori de registres, anomenat <literal
+>imageOverlays</literal
+>. Al Linux, això es pot trobar a <filename class="directory"
+>~/.local/share/kstars/imageOverlays</filename
+>. La ubicació exacta al vostre sistema es pot trobar fent clic al botó <guibutton
+>Directori de superposicions</guibutton
+> a prop de la part superior de la pàgina de configuració de les <guilabel
+>Superposicions d'imatges</guilabel
+> que es mostra a la part superior d'aquesta secció. Per a començar, afegiu les vostres imatges a aquest directori. Idealment, per raons de rendiment no són fitxers massius, però probablement les imatges amb amplades de 1000 o 2000 haurien de ser bones. Per a afegir imatges addicionals en el futur, afegiu-les al mateix directori i feu clic al botó d'actualització o reinicieu el &kstars;. Per a eliminar superposicions, elimineu-les del directori i feu clic al botó d'actualització o reinicieu el &kstars;. </para>
 <para
->Inicieu el KStars un cop tingueu les imatges al directori «imageOverlays». Si després aneu a la pàgina de configuració de Superposicions d'imatges, hauríeu de veure els fitxers nous llistats a la taula. Les imatges noves mostraran el seu estat com a «sense processar». Al mapa celeste només es mostren les imatges l'estat de les quals és «D'acord». Això es deu al fet que el KStars necessita conèixer la ubicació, la mida i l'orientació del cel per a aquestes imatges abans de poder mostrar-les. Per a canviar l'estat a D'acord, cal que resolgueu les imatges o afegiu manualment la informació requerida (vegeu a sota). </para>
+>Inicieu el &kstars; un cop tingueu les imatges al directori <literal
+>imageOverlays</literal
+>. Si després aneu a la pàgina de configuració de <guilabel
+>Superposicions d'imatges</guilabel
+>, hauríeu de veure els fitxers nous llistats a la taula. Les imatges noves mostraran el seu estat com a <guilabel
+>Sense processar</guilabel
+>. Al mapa celeste només es mostren les imatges l'estat de les quals és <guilabel
+>D'acord</guilabel
+>. Això es deu al fet que el &kstars; necessita conèixer la ubicació, la mida i l'orientació del cel per a aquestes imatges abans de poder mostrar-les. Per a canviar l'estat a <guilabel
+>D'acord</guilabel
+>, cal que resolgueu les imatges o afegiu manualment la informació requerida (vegeu a sota). </para>
 <para
->Per a preparar les imatges per a la seva visualització, cal que les planifiqueu (només una vegada). Per a fer-ho, trobeu una imatge a la taula, feu clic al nom del fitxer i, a continuació, feu clic a <guilabel
->Soluciona</guilabel
-> sota la taula. L'etiqueta del botó Soluciona hauria de canviar a <guilabel
->Cancel·la</guilabel
-> durant la resolució, i després, quan s'hagi completat correctament, els paràmetres resolts es mostraran a la taula i l'estat es canviarà a «D'acord». La informació d'un solucionador de plaques amb èxit s'emmagatzema a la base de dades d'usuaris de manera que no cal repetir la solució. La imatge resolta hauria d'aparèixer a partir de llavors en la seva posició adequada al mapa celeste. Podeu resoldre múltiples imatges en una única operació fent clic al nom del primer fitxer de la imatge i després fent clic amb majúscules a un altre nom. S'haurien de seleccionar tots els fitxers d'imatge entre els noms de fitxers. Després, fent clic a Soluciona intentarà resoldre'ls tots. No obstant això, el KStars no intentarà resoldre plaques d'imatges l'estat de les quals sigui «D'acord», s'ometran aquestes imatges (si voleu replanificar les imatges amb l'estat "D'acord", llavors canvieu manualment el seu estat a «No processat» i feu clic a «Soluciona»). És possible que si seleccioneu diverses imatges, algunes no es resolguin correctament. </para>
+>Per a preparar les imatges per a la seva visualització, cal que solucioneu les seves plaques (només una vegada). Per a fer-ho, trobeu una imatge a la taula, feu clic al nom del fitxer i, a continuació, feu clic a <guibutton
+>Soluciona</guibutton
+> sota la taula. L'etiqueta del botó <guibutton
+>Soluciona</guibutton
+> hauria de canviar a <guibutton
+>Cancel·la</guibutton
+> durant la resolució, i després, quan s'hagi completat correctament, els paràmetres resolts es mostraran a la taula i l'estat es canviarà a <guilabel
+>D'acord</guilabel
+>. La informació d'un solucionador de plaques amb èxit s'emmagatzema a la base de dades d'usuaris de manera que no cal repetir la solució. La imatge resolta hauria d'aparèixer a partir de llavors en la seva posició adequada al mapa celeste. Podeu resoldre múltiples imatges en una única operació fent clic al nom del primer fitxer de la imatge i després prement &Maj; en un altre nom. S'haurien de seleccionar tots els fitxers d'imatge entre els noms de fitxers. Després, fent clic a Soluciona intentarà resoldre'ls tots. No obstant això, el &kstars; no intentarà resoldre plaques d'imatges l'estat de les quals sigui <guilabel
+>D'acord</guilabel
+>, s'ometran aquestes imatges (si voleu replanificar les imatges amb l'estat <guilabel
+>D'acord</guilabel
+>, llavors canvieu manualment el seu estat a <guilabel
+>No processat</guilabel
+> i feu clic a <guibutton
+>Soluciona</guibutton
+>). És possible que si seleccioneu diverses imatges, algunes no es resolguin correctament. </para>
 <para
->De vegades, la solució de plaques d'aquestes imatges pot ser difícil. Això es deu al fet que, en aquest moment, el sistema no té informació sobre l'escala o la posició que ha d'observar, i per tant és una solució cega. Per a millorar la vostra oportunitat d'èxit, podeu introduir una posició AR/Dec aproximada del centre del cel a les columnes AR i Dec per a la fila que esteu intentant resoldre. També podeu afegir una escala d'imatge, en segons d'arc per píxel. Podeu afegir una escala predeterminada a la dreta del botó Soluciona en el quadre etiquetat <guilabel
+>De vegades, la solució de plaques d'aquestes imatges pot ser difícil. Això es deu al fet que, en aquest moment, el sistema no té informació sobre l'escala o la posició que ha d'observar, i per tant és una solució cega. Per a millorar la vostra oportunitat d'èxit, podeu introduir una posició AR/Dec aproximada del centre del cel a les columnes <guilabel
+>AR</guilabel
+> i <guilabel
+>Dec</guilabel
+> per a la fila que esteu intentant resoldre. També podeu afegir una escala d'imatge, en segons d'arc per píxel. Podeu afegir una escala predeterminada a la dreta del botó <guibutton
+>Soluciona</guibutton
+> en el quadre etiquetat <guilabel
 >a-s/px predeterminats</guilabel
-> de manera que tots els intents de resolució usin aquesta escala predeterminada. També podeu afegir una escala directament a la taula-fila-columna, que sobreescriurà el valor predeterminat. Podeu triar quin perfil de l'StellarSolver usa el solucionador (aquests perfils es poden editar a la pestanya d'alineació de l'Ekos). Finalment, podeu ajustar el <guilabel
+> de manera que tots els intents de resolució usin aquesta escala predeterminada. També podeu afegir una escala directament a la taula-fila-columna, que sobreescriurà el valor predeterminat. Podeu triar quin perfil de l'StellarSolver usa el solucionador (aquests perfils es poden editar a la pestanya <guilabel
+>Alineació</guilabel
+> de l'Ekos). Finalment, podeu ajustar el <guilabel
 >Temps d'espera</guilabel
 > del solucionador en segons. </para>
 <para
->Si teniu imatges problemàtiques que no es resolen, encara podeu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a la taula. Són els paràmetres d'AR, Dec, arcsegons per píxel, angle d'orientació, i d'est a la dreta (o d'oest a la dreta). Una vegada fet això, podreu canviar l'estat a «D'acord» i el KStars desarà aquests valors a la base de dades d'usuari com si s'haguessin resolt automàticament. </para>
+>Si teniu imatges problemàtiques que no es resolen, encara podeu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a la taula. Són els paràmetres d'AR, Dec, arcsegons per píxel, angle d'orientació, i d'est a la dreta (o d'oest a la dreta). Una vegada fet això, podreu canviar l'estat a <guilabel
+>D'acord</guilabel
+> i el &kstars; desarà aquests valors a la base de dades d'usuari com si s'haguessin resolt automàticament. </para>
 <para
->Hi ha alguns controls més a la pàgina de configuració de les superposicions d'imatges. La casella de selecció <guilabel
+>Hi ha alguns controls més a la pàgina de configuració de les <guilabel
+>Superposicions d'imatges</guilabel
+>. La casella de selecció <guilabel
 >Mostra les superposicions d'imatges</guilabel
 > a la part superior de la pàgina activa o desactiva aquesta característica, és a dir, alterna si es mostren o no les superposicions d'imatges al mapa celeste. </para>
 <para
->El quadre <guilabel
+>El botó de selecció de valors <guilabel
 >Dimensió màxima de les imatges</guilabel
-> permet variar la dimensió màxima d'imatge emprada a les imatges. És a dir, si col·loqueu les imatges que són, per exemple, de 5000 píxels d'amplada en el directori «imageOverlays», però el valor d'aquest quadre d'entrada és 1000, llavors les imatges de 5000 píxels es llegiran, però després es reduiran a 1000 píxels d'amplada abans de mostrar-les. Això es fa per reduir l'empremta de memòria i l'ús de CPU d'aquesta característica. Seria més eficient afegir fitxers d'imatge amb l'amplada d'imatge desitjada. </para>
+> permet variar la dimensió màxima d'imatge emprada a les imatges. És a dir, si col·loqueu les imatges que són, per exemple, de 5000 píxels d'amplada en el directori <literal
+>imageOverlays</literal
+>, però el valor d'aquest quadre d'entrada és 1000, llavors les imatges de 5000 píxels es llegiran, però després es reduiran a 1000 píxels d'amplada abans de mostrar-les. Això es fa per reduir l'empremta de memòria i l'ús de CPU d'aquesta característica. Seria més eficient afegir fitxers d'imatge amb l'amplada d'imatge desitjada. </para>
 <para
 >La casella de selecció <guilabel
 >Centra el mapa celeste en la selecció</guilabel
-> permet navegar fàcilment a les imatges superposades sense manipular directament el mapa celeste. Amb aquesta opció activada, seleccioneu una fila a la taula de superposició (p. ex., fent clic al camp del nom de fitxer) i el mapa celeste es mourà a aquesta imatge si l'estat de la imatge és correcte. En aquest punt podeu moure's d'una imatge a la següent amb les fletxes amunt/avall del teclat. </para>
+> permet navegar fàcilment a les imatges superposades sense manipular directament el mapa celeste. Amb aquesta opció activada, seleccioneu una fila a la taula de superposició (&pex;, fent clic al camp del nom de fitxer) i el mapa celeste es mourà a aquesta imatge si l'estat de la imatge és <guilabel
+>D'acord</guilabel
+>. En aquest punt podeu moure's d'una imatge a la següent amb les fletxes &Up; i &Down; del teclat. </para>
 </sect1>
 
 <sect1 id="colors">
