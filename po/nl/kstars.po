@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-23 00:42+0000\n"
-"PO-Revision-Date: 2023-08-21 10:49+0200\n"
+"PO-Revision-Date: 2023-08-23 13:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15355,10 +15355,9 @@ msgstr ""
 "Geen opdrachten meer gevonden. Voeg een opdracht toe aan de opdrachtrij."
 
 #: ekos/capture/captureprocess.cpp:240
-#, fuzzy, kde-format
-#| msgid "No jobs scheduled."
+#, kde-format
 msgid "No new job created."
-msgstr "Geen jobs gepland."
+msgstr "Geen nieuwe taken aangemaakt."
 
 #: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
 #, kde-format
