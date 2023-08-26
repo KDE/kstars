@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-23 00:42+0000\n"
-"PO-Revision-Date: 2023-08-17 09:14+0200\n"
+"PO-Revision-Date: 2023-08-25 18:21+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -15281,10 +15281,9 @@ msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr "Inga väntande jobb hittades. Lägg till ett jobb i sekvenskön."
 
 #: ekos/capture/captureprocess.cpp:240
-#, fuzzy, kde-format
-#| msgid "No jobs scheduled."
+#, kde-format
 msgid "No new job created."
-msgstr "Inga jobb schemalagda."
+msgstr "Inga nya jobb skapade."
 
 #: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
 #, kde-format
@@ -73899,17 +73898,15 @@ msgstr "Överlagringskatalog"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:165
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Vädersensorns aktuella information. Klicka på "
-"sensornamnet för att visa data över tid.</p></body></html>"
+"<html><head/><body><p>Uppdatering från överlagringskatalogen. Lägg till "
+"överlagringar som har lagts till där, och ta bor överlagringar som inte "
+"längre finns där.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
@@ -75560,7 +75557,7 @@ msgstr "%1 redan löst. Hoppar över."
 #: skycomponents/imageoverlaycomponent.cpp:774
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
-msgstr ""
+msgstr "Uppdaterar. Bildöverlagringar tillfälligt inaktiverade."
 
 #: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
