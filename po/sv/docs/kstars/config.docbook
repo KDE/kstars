@@ -1553,7 +1553,9 @@
 <secondary
 >Sidan Överlagrade bilder</secondary
 ></indexterm
->Överlagrade bilder är egna bilder (vanligtvis .jpg) som återges på himmelskartan över stjärnor och andra himmelsobjekt, men under terrängen. Bilderna läggs till av dig, användaren, en sorts personlig himmelskatalog. Om de är rätt inställda kan de personliga bilderna visas nästan perfekt inriktade med andra objekt på himlen. </para>
+>Överlagrade bilder är egna bilder (vanligtvis <literal role="extension"
+>.jpg</literal
+>) som återges på himmelskartan över stjärnor och andra himmelsobjekt, men under terrängen. Bilderna läggs till av dig, användaren, en sorts personlig himmelskatalog. Om de är rätt inställda kan de personliga bilderna visas nästan perfekt inriktade med andra objekt på himlen. </para>
 <screenshot>
 <screeninfo
 >Fönstret Överlagrade bilder</screeninfo>
@@ -1572,37 +1574,79 @@
 >Överlagrade bilder</guilabel 
 > låter dig ändra inställning av om överlagrade bilder ska visas på himmelskartan, och hjälper dig att lägga till dem i systemet. Bilden i början av det här avsnittet visar himmelskartan med överlagrade bilder aktiverade och några överlagrade bilder inlästa. </para>
 <para
->Varje gång det startas, letar KStars efter nya överlagrade bilder i en speciell katalog, parallell med loggkatalogen, som heter imageOverlays. På Linux finns den i ~/.local/share/kstars/imageOverlays. Den exakta platsen på systemet kan visas genom att klicka på knappen <guilabel 
->Överlagringskatalog</guilabel 
-> nära överdelen av inställningssidan för överlagrade bilder som visas överst i det här avsnittet. För att börja, lägg till bilder i katalogen. Av prestandaskäl ska det helst inte vara stora filer, men troligen är bilder med bredden 1000 eller 2000 inga problem. För att lägga till ytterligare bilder i framtiden, lägg till dem i samma katalog och starta om Kstars. </para>
+>Varje gång det startas, letar &kstars; efter nya överlagrade bilder i en speciell katalog, parallell med loggkatalogen, som heter <literal
+>imageOverlays</literal
+>. På Linux finns den i <filename class="directory"
+>~/.local/share/kstars/imageOverlays</filename
+>. Den exakta platsen på systemet kan visas genom att klicka på knappen <guibutton
+>Överlagringskatalog</guibutton
+> nära överdelen av inställningssidan <guilabel
+>Bildöverlagringar</guilabel
+> som visas överst i det här avsnittet. För att börja, lägg till bilder i katalogen. Av prestandaskäl ska det helst inte vara stora filer, men troligen är bilder med bredden 1000 eller 2000 inga problem. För att lägga till ytterligare bilder i framtiden, lägg till dem i samma katalog och klicka på uppdateringsknappen eller starta om &kstars;. För att ta bord överlagrade bilder, ta bort dem från katalogen och klicka på uppdateringsknappen eller starta om &kstars;. </para>
 <para
->Starta Kstars när du har bilder i katalogen imageOverlays. Om du sedan går till inställningssidan för överlagrade bilder ska du se de nya filerna listade i tabellen. De nya bilderna visar status "Obehandlad". Endast bilder vars status är "Ok" visas på himmelskartan. Det beror på att Kstars måste känna till bildernas plats på himlen, storlek och orientering innan de kan visas. För att ändra status till Ok måste du utföra lösning av astrobilder med bilderna eller lägga till den nödvändiga informationen manuellt: se nedan. </para>
+>Starta &kstars; när du har bilder i katalogen <literal
+>imageOverlays</literal
+>. Om du sedan går till inställningssidan <guilabel
+>Bildöverlagringar</guilabel
+>, ska du se de nya filerna listade i tabellen. De nya bilderna visar status <guilabel
+>Obehandlad</guilabel
+>. Endast bilder vars status är <guilabel
+>Ok</guilabel
+> visas på himmelskartan. Det beror på att &kstars; måste känna till bildernas plats på himlen, storlek och orientering innan de kan visas. För att ändra status till <guilabel
+>Ok</guilabel
+> måste du utföra lösning av astrobilder med bilderna eller lägga till den nödvändiga informationen manuellt: se nedan. </para>
 <para
->För att förbereda dina bilder för visning måste du utföra lösning av astrobilder med bilderna (endast en gång). För att göra det, välj en bild i tabellen, klicka på filnamnet och klicka sedan på <guilabel 
->Lös</guilabel 
-> under tabellen. Knappens beteckning ska då ändras till <guilabel 
->Avbryt</guilabel 
-> medan lösningen pågår, och när den är klar visa de lösta parametrarna i tabellen och ändra status till "Ok". Informationen från en lyckad lösning av astrobilder lagras i användardatabasen så att lösningen inte behöver göras om. Den lösta bilden bör från och med nu visas på rätt plats på himmelskartan. Du kan lösa flera bilder med en enda operation genom att klicka på den första bildens filnamn och sedan skift-klicka på ett annat filnamn. Alla bildfiler mellan filnamnen markeras då. Klicka sedan på Lös för att försöka lösa dem alla. Kstars kommer dock inte att försöka lösa bilder vars status är "Ok", utan hoppar över bilderna. (Om du vill lösa om bilder med status "Ok" ändra då manuellt deras status till "Obehandlad" och klicka på "Lös"). Det är möjligt att, om du väljer flera bilder, vissa inte kan lösas med lyckat resultat. </para>
+>För att förbereda dina bilder för visning måste du utföra lösning av astrobilder med bilderna (endast en gång). För att göra det, välj en bild i tabellen, klicka på filnamnet och klicka sedan på <guibutton
+>Lös</guibutton
+> under tabellen. Knappens beteckning ska då ändras till <guibutton
+>Avbryt</guibutton
+> medan lösningen pågår, och när den är klar visa de lösta parametrarna i tabellen och ändra status till <guilabel
+>Ok</guilabel
+>. Informationen från en lyckad lösning av astrobilder lagras i användardatabasen så att lösningen inte behöver göras om. Den lösta bilden bör från och med nu visas på rätt plats på himmelskartan. Du kan lösa flera bilder med en enda operation genom att klicka på den första bildens filnamn, sedan hålla nere &Shift;-tangenten och klicka på ett annat filnamn. Alla bildfiler mellan filnamnen markeras då. Klicka sedan på <guibutton
+>Lös</guibutton
+> för att försöka lösa dem alla. &kstars; försöker dock inte lösa bilder vars status är <guilabel
+>Ok</guilabel
+>, utan hoppar över bilderna. (Om du vill lösa om bilder med status <guilabel
+>Ok</guilabel
+> ändra då manuellt deras status till <guilabel
+>Obehandlad</guilabel
+> och klicka på <guibutton
+>Lös</guibutton
+>). Det är möjligt att, om du väljer flera bilder, vissa inte kan lösas med lyckat resultat. </para>
 <para
->Lösning av astrobilder för bilderna kan ibland vara svårt. Det beror på att systemet för närvarande inte har någon information om skala eller position att titta på, och därför är det en blind lösning. För att förbättra chansen att lyckas, kan en ungefärlig centrerad himmelsposition för RA/Dek anges i kolumnerna RA och Dek för raden du försöker lösa. Du kan också lägga till en bildskala, i bågsekunder per bildpunkt. Du kan lägga till en förvald skala till höger om knappen Lös i rutan märkt <guilabel 
+>Lösning av astrobilder för bilderna kan ibland vara svårt. Det beror på att systemet för närvarande inte har någon information om skala eller position att titta på, och därför är det en blind lösning. För att förbättra chansen att lyckas, kan en ungefärlig centrerad himmelsposition för RA/Dek anges i kolumnerna <guilabel
+>RA</guilabel
+> och <guilabel
+>Dek</guilabel
+> för raden du försöker lösa. Du kan också lägga till en bildskala, i bågsekunder per bildpunkt. Du kan lägga till en förvald skala till höger om knappen <guibutton
+>Lös</guibutton
+> i rutan märkt <guilabel 
 >Förvald b-s/bildpunkt</guilabel 
 > så att alla lösningsförsök använder skalan som förval. Du kan också lägga till en skala direkt i tabellens rad och kolumn, vilket bortser från det förvalda värdet. Du kan välja vilken profil i StellarSolver som lösningsverktyget använder (profilerna kan redigeras under Ekos inriktningsflik). Slutligen kan du justera lösningsverktygets <guilabel 
 >Tidsgräns</guilabel 
 > i sekunder. </para>
 <para
->Om du har problematiska bilder som inte går att lösa kan du ändå visa dem genom att manuellt mata in värdena (som lösningsverktyget inte hittade) i tabellen. De är inställningarna för RA, Dek, bågsekund-per-bildpunkt, orienteringsvinkel och öster-till-höger (eller väster-till-höger). När du har gjort det kan du sedan ändra status till "Ok" så sparar Kstars värdena i användardatabasen som om de hade lösts automatiskt. </para>
+>Om du har problematiska bilder som inte går att lösa kan du ändå visa dem genom att manuellt mata in värdena (som lösningsverktyget inte hittade) i tabellen. De är inställningarna för RA, Dek, bågsekund-per-bildpunkt, orienteringsvinkel och öster-till-höger (eller väster-till-höger). När du har gjort det kan du sedan ändra status till <guilabel
+>Ok</guilabel
+> så sparar &kstars; värdena i användardatabasen som om de hade lösts automatiskt. </para>
 <para
->Det finns några fler kontroller på inställningssidan för överlagrade bilder. Kryssrutan <guilabel 
+>Det finns några fler kontroller på inställningssidan <guilabel
+>Bildöverlagringar</guilabel
+>. Kryssrutan <guilabel 
 >Visa överlagrade bilder</guilabel 
 > längst upp på sidan aktiverar eller inaktiverar funktionen: det vill säga väljer om några överlagrade bilder visas på himmelskartan eller inte. </para>
 <para
->Rutan <guilabel 
->Maximal bilddimension</guilabel 
-> låter dig variera den maximala bilddimensionen som används för bilder. Det vill säga, om du lägger bilder som är till exempel 5000 bildpunkter breda i katalogen imageOverlays, men inmatningsrutans värde är 1000, så kommer bilderna med 5000 bildpunkter att läsas in, men sedan samplas ner till 1000 bildpunkters bredd före visning. Det görs för att minska funktionens minnesåtgång och processoranvändning. Det vore effektivare att lägga till bildfiler med önskad bildbredd. </para>
+>Rutan <guilabel
+>Maximal bilddimension</guilabel
+> låter dig variera den maximala bilddimensionen som används för bilder. Det vill säga, om du lägger bilder som är till exempel 5000 bildpunkter breda i katalogen <literal
+>imageOverlays</literal
+>, men inmatningsrutans värde är 1000, så kommer bilderna med 5000 bildpunkter att läsas in, men sedan samplas ner till 1000 bildpunkters bredd före visning. Det görs för att minska funktionens minnesåtgång och processoranvändning. Det vore effektivare att lägga till bildfiler med önskad bildbredd. </para>
 <para
 >Kryssrutan <guilabel 
 >Centrera himmelskartan på markering</guilabel 
-> låter dig enkelt navigera till de överlagrade bilderna utan att direkt manipulera himmelskartan. Med det aktiverat markerar du en rad i överlagringstabellen (t.ex. genom att klicka på filnamnsfältet) så flyttas himmelskartan till den bilden om bildens status är Ok. Vid det tillfället kan du gå från en bild till nästa med tangentbordskommandona uppåtpil/neråtpil. </para>
+> låter dig enkelt navigera till de överlagrade bilderna utan att direkt manipulera himmelskartan. Med det aktiverat markerar du en rad i överlagringstabellen (t.ex. genom att klicka på filnamnsfältet) så flyttas himmelskartan till den bilden om bildens status är <guilabel
+>Ok</guilabel
+>. Vid det tillfället kan du gå från en bild till nästa med tangentbordskommandona uppåtpil/neråtpil. </para>
 </sect1>
 
 <sect1 id="colors">

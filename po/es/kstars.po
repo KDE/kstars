@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-23 00:42+0000\n"
-"PO-Revision-Date: 2023-08-17 21:07+0200\n"
+"PO-Revision-Date: 2023-08-25 16:27+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7457,24 +7457,7 @@ msgstr "Método de extracción de fuentes"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable limited resource mode to turn off any "
-#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
-#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
-#| "span>: World Coordinate System data will not be processed. WCS maps sky "
-#| "coordinates to image coordinates. Equatorial grid lines, object "
-#| "identification, and telescope slew within an image are disabled.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
-#| "grayscale images are shown.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Options for the method of Star "
 "Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
@@ -7488,24 +7471,18 @@ msgid ""
 "indent:0px;\">Built In Method uses whatever default Star Extraction process "
 "your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Permitir que el modo de recursos limitados desactive "
-"algunas operaciones que usan muchos recursos:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Debayering automático</span>: No se realizará "
-"«debayering» de las imágenes «bayered». Solo se muestran las imágenes en "
-"escalas de grises.</li><li style=\" margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">WCS automático</span>: Los datos del "
-"sistema de coordenadas mundial no se procesarán. WCS mapea coordenadas del "
-"cielo con coordenadas de la imagen. Se desactivan las líneas de rejilla "
-"ecuatorial, la identificación de objetos y el desplazamiento del telescopio "
-"dentro de una imagen.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Cubo 3D</span>: Las imágenes RGB no se "
-"procesarán. Solo se muestran las imágenes en escalas de grises.</li></ul></"
-"body></html>"
+"<html><head/><body><p align=\"center\">Opciones para el método de extracción "
+"de estrellas</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">SEP interno usa una biblioteca interna de "
+"KStars.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">SExtractor externo "
+"necesita un programa externo.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">El método integrado usa cualquier proceso predeterminado de "
+"extracción de estrellas que utilice el método de resolución seleccionado.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -7527,16 +7504,7 @@ msgstr "Método integrado para el sistema de identificación"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:94
-#, fuzzy, kde-format
-#| msgid ""
-#| "Selects the method of plate solving with the StellarSolver Library.  The "
-#| "StellarSolver option uses StellarSolver's internal build of Astrometry."
-#| "net and requires no external programs.  Local Astrometry uses a local "
-#| "installation of command line astrometry.net on Linux and Mac or ANSVR on "
-#| "Windows.  Local Watney uses a local installation of the Watney Astrometry "
-#| "Solver Program.  Local ASTAP uses a local installation of the ASTAP "
-#| "program.  And Online uses either astrometry.net over the internet or "
-#| "ANSVR on a nearby computer."
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"center\">Selects the method of plate solving "
 "with the StellarSolver Library</p><ul><li>'Internal SEP' option uses "
@@ -7550,14 +7518,18 @@ msgid ""
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
-"Selecciona el método de resolución de placas con la biblioteca "
-"StellarSolver. La opción «StellarSolver» usa la compilación interna de "
-"StellarSolver de Astrometry.net y no necesita programas externos. "
-"«Astrometry local» usa una instalación local de Astrometry.net para la línea "
-"de órdenes en Linux y Mac, o ANSVR en Windows. Watney local usa una "
-"instalación local del programa de identificación de astrometría Watney. "
-"«ASTAP» usa una instalación local del programa ASTAP. Y «En línea» usa "
-"Astrometry.net a través de Internet, o ANSVR en un equipo cercano."
+"<html><head/><body><p align=\"center\">Selecciona el método de resolución de "
+"placas con la biblioteca StellarSolver.</p><ul><li>La opción «SEP interno» "
+"usa la compilación interna de StellarSolver de Astrometry.net y no necesita "
+"programas externos.</li><li>«Astrometry local» usa una instalación local de "
+"Astrometry.net para la línea de órdenes en Linux y Mac, o ANSVR en Windows.</"
+"li><li>«ASTAP local» usa una instalación local del programa ASTAP.</"
+"li><li>«Watney local» usa una instalación local del programa de resolución "
+"de astrometría Watney.</li><li>«En línea» usa Astrometry.net a través de "
+"internet o ANSVR en un equipo cercano. <span style=\" font-weight:600;"
+"\">Nota</span>: Si el ancho de banda es un problema, considere el uso de "
+"«SEP interno» en lugar del «Método integrado del sistema de resolución».</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:98
@@ -7801,7 +7773,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Mejora la fiabilidad del sistema de identificación en "
-"algunos casos. La ventana de búsqueda será más grande con superposición, "
+"algunos casos. La ventana de búsqueda será más grande con solapamiento, "
 "aunque puede ralentizar el proceso de identificación.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPLargeSearchWindow)
@@ -14684,52 +14656,7 @@ msgstr "Objetivo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/capture.ui:1094
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Format is used to define the image file names by "
-#| "the use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:700;\"> %f</span> or <span style=\" font-weight:700;"
-#| "\">%filename</span>: The name of the .esq file, without extension.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:700;\"> %D</span> or <span style=\" font-weight:700;"
-#| "\">%Datetime</span>: The current time and date <span style=\" font-"
-#| "weight:700;\">when the file is saved.</span></li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:700;"
-#| "\"> %T</span> or <span style=\" font-weight:700;\">%Type</span>: The "
-#| "frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:700;"
-#| "\"> %e</span> or <span style=\" font-weight:700;\">%exposure</span>: The "
-#| "exposure duration in seconds.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:700;\"> %F</span> or "
-#| "<span style=\" font-weight:700;\">%Filter</span>: The active filter name."
-#| "</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:700;\"> %t</span> or <span style=\" font-weight:700;"
-#| "\">%target</span>: The Target name.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:700;"
-#| "\"> %s*</span> or <span style=\" font-weight:700;\">%sequence</span>: The "
-#| "image sequence identifier where * is the number of digits used (1-9). "
-#| "<span style=\" font-weight:700;\">This tag is mandatory and must be the "
-#| "last element in the format.</span></li></ul><p>Arbitrary text may also be "
-#| "included within the Format string, <span style=\" font-weight:700;"
-#| "\">except the % and \\ characters.</span> The / path character can be "
-#| "used to define arbitrary directories.</p><p>Notes:</p><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Tags "
-#| "are case sensitive in both their short and long forms.</li><li style=\" "
-#| "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-#| "block-indent:0; text-indent:0px;\">Only use the %Datetime tag in the "
-#| "filename portion of the format, not in the path definition.</li></ul></"
-#| "body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -14793,47 +14720,63 @@ msgstr ""
 "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
-"de sustitución<span style=\" font-weight:700;\"> %f</span> o <span style=\" "
-"font-weight:700;\">%filename</span>: El nombre del archivo .esq sin la "
+"de sustitución<span style=\" font-weight:704;\"> %f</span> o <span style=\" "
+"font-weight:704;\">%filename</span>: El nombre del archivo .esq sin la "
 "extensión.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
-"de sustitución<span style=\" font-weight:700;\"> %D</span> o <span style=\" "
-"font-weight:700;\">%Datetime</span>: La fecha y hora actuales <span style=\" "
-"font-weight:700;\">de cuando se guarda el archivo.</span></li><li style=\" "
+"de sustitución<span style=\" font-weight:704;\"> %D</span> o <span style=\" "
+"font-weight:704;\">%Datetime</span>: La fecha y hora actuales <span style=\" "
+"font-weight:704;\">de cuando se guarda el archivo.</span></li><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Etiqueta de sustitución<span style=\" "
-"font-weight:700;\"> %T</span> o <span style=\" font-weight:700;\">%Type</"
+"font-weight:704;\"> %T</span> o <span style=\" font-weight:704;\">%Type</"
 "span>: El tipo de fotograma (por ejemplo, «Claro», «Sesgo», «Oscuro», "
 "«Plano», etc.).</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
-"de sustitución<span style=\" font-weight:700;\"> %e</span> o <span style=\" "
-"font-weight:700;\">%exposure</span>: La duración de la exposición, en "
+"de sustitución<span style=\" font-weight:704;\"> %e</span> o <span style=\" "
+"font-weight:704;\">%exposure</span>: La duración de la exposición, en "
 "segundos.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta "
-"de sustitución<span style=\" font-weight:700;\"> %F</span> o <span style=\" "
-"font-weight:700;\">%Filter</span>: El nombre del filtro activo.</li><li "
+"de sustitución<span style=\" font-weight:704;\"> %F</span> o <span style=\" "
+"font-weight:704;\">%Filter</span>: El nombre del filtro activo.</li><li "
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta de "
-"sustitución<span style=\" font-weight:700;\"> %t</span> o <span style=\" "
-"font-weight:700;\">%target</span>: El nombre del objetivo.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">Etiqueta de sustitución<span style=\" "
-"font-weight:700;\"> %s*</span> o <span style=\" font-weight:700;\">"
-"%sequence</span>: El identificador de secuencia de la imagen, donde * es el "
-"número de dígitos usados (1-9). <span style=\" font-weight:700;\">Esta "
-"etiqueta es obligatoria y debe ser el último elemento del formato.</span></"
-"li></ul><p>También puede incluir cualquier texto dentro de la cadena de "
-"formato, <span style=\" font-weight:700;\">excepto los caracteres «%» y «\\»."
-"</span> El carácter de ruta «/» se puede usar para definir directorios.</"
-"p><p>Notas:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
-"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Las etiquetas distinguen entre mayúsculas y minúsculas, "
-"tanto en la forma corta como en la larga.</li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Solo debe usar la etiqueta %Datetime en la porción del "
-"nombre de archivo del formato, no en la definición de la ruta.</li></ul></"
-"body></html>"
+"sustitución<span style=\" font-weight:704;\"> %t</span> o <span style=\" "
+"font-weight:704;\">%target</span>: El nombre del objetivo.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Etiqueta de sustitución <span style=\" "
+"font-weight:600;\">%C</span> o <span style=\" font-weight:600;\">"
+"%temperature</span>: La temperatura de la cámara de la captura.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Etiqueta de sustitución "
+"<span style=\" font-weight:600;\">%G</span> o <span style=\" font-weight:600;"
+"\">%gain</span>: La ganancia configurada para la captura.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Etiqueta de sustitución <span style=\" "
+"font-weight:600;\">%O</span> o <span style=\" font-weight:600;\">%offset</"
+"span>: El desplazamiento configurado para la captura.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Etiqueta de sustitución <span style=\" "
+"font-weight:600;\">%P</span> o <span style=\" font-weight:600;\">%pierside</"
+"span>: El lado de la columna actual de la montura.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Etiqueta de sustitución<span style=\" font-"
+"weight:704;\"> %s*</span> o <span style=\" font-weight:704;\">%sequence</"
+"span>: El identificador de secuencia de la imagen, donde * es el número de "
+"dígitos usados (1-9). <span style=\" font-weight:704;\">Esta etiqueta es "
+"obligatoria y debe ser el último elemento del formato.</span></li></"
+"ul><p>También puede incluir cualquier texto dentro de la cadena de formato, "
+"<span style=\" font-weight:704;\">excepto los caracteres «%» y «\\».</span> "
+"El carácter de ruta «/» se puede usar para definir directorios.</p><p>Notas:"
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Las etiquetas distinguen entre mayúsculas y minúsculas, tanto "
+"en la forma corta como en la larga.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Solo debe usar la etiqueta %Datetime en la porción del nombre "
+"de archivo del formato, no en la definición de la ruta.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/capture.ui:1104
@@ -15542,10 +15485,9 @@ msgstr ""
 "cola de secuencia."
 
 #: ekos/capture/captureprocess.cpp:240
-#, fuzzy, kde-format
-#| msgid "No jobs scheduled."
+#, kde-format
 msgid "No new job created."
-msgstr "No hay trabajos planificados."
+msgstr "No se ha creado ningún trabajo nuevo."
 
 #: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
 #, kde-format
@@ -25876,13 +25818,7 @@ msgstr "Grupo:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
 #: ekos/scheduler/framingassistant.ui:1534
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"justify\">Select a group name. Useful if "
-#| "you want the mosaic jobs to repeat together--assign them a group name, "
-#| "and give them <i>repeat for N (N=2 or more)</i> or <i>repeat until "
-#| "terminated</i> completion conditions. Otherwise leave empty. Only applies "
-#| "to the Greedy scheduler algorithm.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
 "want the mosaic jobs to repeat together--assign them a group name, and give "
@@ -25893,9 +25829,9 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Seleccione un nombre para el grupo. "
 "Resulta útil si desea que los trabajos del mosaico se repitan juntos: "
 "asígneles un nombre de grupo y proporcione las condiciones de finalización "
-"<i>repetir N veces (N=2 o más)</i> o <i>repetir hasta que terminen</i>. En "
-"caso contrario, déjelo vacío. Solo se aplica al algoritmo «Voraz» del "
-"planificador.</p></body></html>"
+"<span style=\" font-style:italic;\">repetir N veces (N=2 o más)</span> o "
+"<span style=\" font-style:italic;\">repetir hasta que terminen</span>. En "
+"caso contrario, déjelo vacío.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1563
@@ -27415,36 +27351,37 @@ msgstr "Prioridad:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
 #: ekos/scheduler/scheduler.ui:204
-#, fuzzy, kde-format
-#| msgid "Slew to the target and track it before proceeding to the next step."
+#, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
 msgstr ""
-"Mover hasta el objetivo y seguirlo antes de continuar con el siguiente paso."
+"Mover hasta el objetivo y seguirlo. Realizado al inicio de cada trabajo del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
 #: ekos/scheduler/scheduler.ui:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "Perform alignment using astrometry solver before proceeding to the next "
-#| "step."
+#, kde-format
 msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
 msgstr ""
-"Realizar la alineación usando el sistema de identificación astrométrico "
-"antes de continuar con el siguiente paso."
+"Ejecutar alineación usando el sistema de resolución de Astrometry. Realizado "
+"al inicio de cada trabajo del programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/scheduler.ui:251
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Iniciar guiado automático. Realizado al inicio de cada trabajo del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:273
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Ejecutar enfoque automático. Realizado al inicio de cada trabajo del "
+"programador."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
 #: ekos/scheduler/scheduler.ui:300
@@ -27479,6 +27416,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"Seleccionar las tareas que se ejecutan al inicio de cada trabajo del "
+"programador. Se ejecutan en orden, de izquierda a derecha."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:447
@@ -37485,10 +37424,9 @@ msgstr "Distancia focal del telescopio, en milímetros."
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:2809
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Reducer ratio"
-msgstr "Relación focal"
+msgstr "Relación del reductor focal"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
 #: kstars.kcfg:2813
@@ -38052,20 +37990,19 @@ msgstr "Suavizar píxeles para un renderizado más agradable, aunque más lento.
 #: kstars.kcfg:3130
 #, kde-format
 msgid "Display Image Overlays."
-msgstr ""
+msgstr "Mostrar capas de imágenes."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
-#, fuzzy, kde-format
-#| msgid "Toggle whether Pluto is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether to display image overlays."
-msgstr "Muestra/oculta Plutón en el mapa del cielo."
+msgstr "Muestra/oculta la visualización de capas de imágenes."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3135
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "Centrar el mapa del cielo sobre la capa de imagen seleccionada."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3136
@@ -38074,44 +38011,46 @@ msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
 "it's solved)."
 msgstr ""
+"Centrar el mapa del cielo sobre la imagen de capa seleccionada en la tabla "
+"de capas de imágenes (si se ha resuelto)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3140
-#, fuzzy, kde-format
-#| msgid "Image has invalid dimensions %1x%2"
+#, kde-format
 msgid "Image overlay max dimension"
-msgstr "La imagen tiene dimensiones no válidas %1x%2"
+msgstr "Dimensión máxima de la capa de imagen"
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3141
-#, fuzzy, kde-format
-#| msgid "Maximum distance for comet names"
+#, kde-format
 msgid "Maximum dimension for image overlay images."
-msgstr "Distancia máxima para nombres de cometas"
+msgstr "Dimensión máxima para las imágenes de capas de imagen."
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3145
 #, kde-format
 msgid "Image overlay plate-solving timeout."
-msgstr ""
+msgstr "Tiempo de espera de resolución de placas de capas de imágenes."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3146
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
-msgstr ""
+msgstr "Tiempo de espera para resolución de placa de una capa de imagen."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3150
 #, kde-format
 msgid "Image overlay default plate-solving scale."
-msgstr ""
+msgstr "Escala de resolución de placas predeterminada de capas de imágenes."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3151
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
+"Escala predeterminada (segundos de arco/píxel) para resolución de placas de "
+"capas de imágenes."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3157
@@ -66786,10 +66725,9 @@ msgstr "Terreno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
 #: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Image Overlays"
-msgstr "Superponer"
+msgstr "Capas de imágenes"
 
 #: kstarsactions.cpp:1150
 #, kde-format
@@ -66812,16 +66750,14 @@ msgid "Show Terrain"
 msgstr "Mostrar el terreno"
 
 #: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:273
-#, fuzzy, kde-format
-#| msgid "HiPS Overlay"
+#, kde-format
 msgid "Hide Image Overlays"
-msgstr "Capa HiPS"
+msgstr "Ocultar capas de imágenes"
 
 #: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:274
-#, fuzzy, kde-format
-#| msgid "Show HiPS Overlay"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "Mostrar la capa HiPS"
+msgstr "Mostrar capas de imágenes"
 
 #: kstarsactions.cpp:1297
 #, kde-format
@@ -74665,10 +74601,9 @@ msgstr "Meridiano local"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "Mostrar imagen de "
+msgstr "Mostrar capas de imágenes"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -74677,13 +74612,14 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
+"Centrar el mapa del cielo sobre la imagen de capa seleccionada en la tabla "
+"inferior (si está resuelta)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Changes the type of selection"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Cambia el tipo de selección"
+msgstr "Centrar el mapa del cielo en la selección"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -74693,13 +74629,14 @@ msgid ""
 "Maximum dimension for an image overlay image. (Larger images will be scaled "
 "down.)"
 msgstr ""
+"Dimensión máxima para una imagen de capa de imagen. (Las imágenes más "
+"grandes se escalarán)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
-#, fuzzy, kde-format
-#| msgid "Maximum time"
+#, kde-format
 msgid "Maximum image dimension"
-msgstr "Tiempo máximo"
+msgstr "Dimensión máxima de la imagen"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:140
@@ -74708,27 +74645,25 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
+"Abrir directorio de capas. Copie o mueva imágenes a este directorio para "
+"procesarlas."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgid "Overlay Directory"
-msgstr "Directorio"
+msgstr "Directorio de capas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:165
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Datos actuales de los sensores meteorológicos. Pulse "
-"el nombre del sensor para mostrar sus datos en el transcurso del tiempo.</"
+"<html><head/><body><p>Actualizar usando el directorio de capas. Añadir las "
+"capas que se hayan añadido allí y eliminar las capas que ya no estén en él.</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
@@ -74750,13 +74685,31 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Resolver la placa de las imágenes de capas "
+"seleccionadas.</p><p>Usa el perfil de alineación seleccionado a la derecha, "
+"pero no la escala de alineación ni la posición. Usará la escala "
+"predeterminada de la derecha (a-s/px), si no se proporciona ninguna en la "
+"fila de la tabla ni en la columna de escala (0 significa sin restricción de "
+"escala). No usará ninguna posición a menos que se introduzcan la AR y la DEC "
+"en la fila de la tabla. Usa el tiempo de espera anterior. Puede seleccionar "
+"varias filas (con clic y mayúsculas+clic) para intentar resolverlas todas.</"
+"p><p>La resolución de placas puede ser complicada. Es posible que no pueda "
+"resolver las placas de todas las imágenes. Puede intentar proporcionar "
+"escalas y posiciones, así como probar diferentes perfiles. Si no tiene "
+"éxito, pero sigue queriendo mostrar una imagen, puede introducir la AR, la "
+"DEC, la escala y la orientación en las columnas apropiadas para la fila que "
+"le interese, y luego definir la columna de estado a «Correcto»</p><p>No "
+"puede volver a resolver placas de una fila cuyo estado es «Correcto», aunque "
+"puede cambiar el estado de forma manual a otro distinto para volver a "
+"activar la resolución de placas.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
-msgstr "Selecciona el perfil de opciones a a usar para resolver placas"
+msgstr ""
+"Selecciona el perfil de opciones a a usar (de la alineación) para resolver "
+"placas"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -74766,13 +74719,14 @@ msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
 msgstr ""
+"Escala predeterminada de segundos de arco/píxel que se usa al resolver. 0 es "
+"ninguna. Usará lo que haya en la tabla, si hay algo."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px"
-msgstr "Por omisión"
+msgstr "Segundos de arco/píxel predeterminados"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -74780,6 +74734,7 @@ msgstr "Por omisión"
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
 msgstr ""
+"Tiempo de espera para resolver placas de una imagen de capa (en segundos)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
@@ -76236,75 +76191,88 @@ msgstr "Ángulo"
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "S-A/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:63
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Rotar a la derecha"
+msgstr "EsteDerecha"
 
 #: skycomponents/imageoverlaycomponent.cpp:163
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
+"Cadena de AR incorrecta introducida para %1. Se reinicia al valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:177
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
+"Cadena de DEC incorrecta introducida para %1. Se reinicia al valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:190
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Cadena de ángulo de orientación incorrecta introducida para %1. Se reinicia "
+"al valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:201
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Cadena de ángulo de escala incorrecta introducida para %1. Se reinicia al "
+"valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:231
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"No se puede definir el estado a Correcto. Se necesita un valor de AR legal "
+"distinto de cero."
 
 #: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"No se puede definir el estado a Correcto. Se necesita un valor de DEC legal "
+"distinto de cero."
 
 #: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"No se puede definir el estado a Correcto. Se necesita un valor legal de "
+"orientación."
 
 #: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"No se puede definir el estado a Correcto. Se necesita un valor de segundos "
+"de arco/píxel legal distinto de cero."
 
 #: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Guardado estado de Correcto para %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Actualizando desde el directorio: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:436
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 capas (%2 nuevas, %3 borradas) %4 resueltas"
 
 #: skycomponents/imageoverlaycomponent.cpp:438
 #: skycomponents/imageoverlaycomponent.cpp:556
 #: skycomponents/imageoverlaycomponent.cpp:845
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Capas de imágenes. %1 imágenes, %2 disponibles."
 
 #: skycomponents/imageoverlaycomponent.cpp:451
 #, kde-format
@@ -76337,16 +76305,14 @@ msgid "OK"
 msgstr "Aceptar"
 
 #: skycomponents/imageoverlaycomponent.cpp:542
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "Izquierda/derecha"
+msgstr "Oeste-Derecha"
 
 #: skycomponents/imageoverlaycomponent.cpp:543
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "Rotar a la derecha"
+msgstr "Este-Derecha"
 
 #: skycomponents/imageoverlaycomponent.cpp:597
 #, kde-format
@@ -76361,12 +76327,12 @@ msgstr "Resolviendo: %1."
 #: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "No se puede mostrar %1. No se ha resuelto ninguna placa."
 
 #: skycomponents/imageoverlaycomponent.cpp:669
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "No se puede mostrar %1. No se ha cargado ninguna imagen."
 
 #: skycomponents/imageoverlaycomponent.cpp:702
 #, kde-format
@@ -76376,41 +76342,37 @@ msgstr "Resolución interrumpida."
 #: skycomponents/imageoverlaycomponent.cpp:737
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Omitiendo ya resuelta: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:756
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 ya se ha resuelto. Se omite."
 
 #: skycomponents/imageoverlaycomponent.cpp:774
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
-msgstr ""
+msgstr "Volviendo a cargar. Capas de imágenes desactivadas temporalmente."
 
 #: skycomponents/imageoverlaycomponent.cpp:793
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s %2"
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr ""
-"Se ha agotado el tiempo de espera del sistema de identificación: %1 s %2"
+msgstr "Se ha agotado el tiempo de espera del sistema de resolución en %1 s"
 
 #: skycomponents/imageoverlaycomponent.cpp:799
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "El sistema de identificación ha fallado: %1 s %2"
+msgstr "El sistema de resolución ha fallado en %1 s"
 
 #: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Resolución correcta en %1 s: AR %2 DEC %3 Escala %4 Ángulo %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:844
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Done solving. %1 available."
-msgstr "No se dispone de información sobre la imagen."
+msgstr "Resolución terminada. %1 disponible."
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
