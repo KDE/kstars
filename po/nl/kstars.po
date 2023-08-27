@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-23 00:42+0000\n"
-"PO-Revision-Date: 2023-08-23 13:31+0200\n"
+"PO-Revision-Date: 2023-08-26 10:46+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -504,7 +504,7 @@ msgstr "Ok"
 #: auxiliary/ksmessagebox.h:35
 #, kde-format
 msgid "Question"
-msgstr "raag"
+msgstr "Vraag"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerYesR)
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:441

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-23 00:42+0000\n"
-"PO-Revision-Date: 2023-08-20 00:05+0200\n"
+"PO-Revision-Date: 2023-08-26 19:09+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -15508,10 +15508,9 @@ msgstr ""
 "No s'han trobat tasques pendents. Afegiu una tasca a la cua en seqüència."
 
 #: ekos/capture/captureprocess.cpp:240
-#, fuzzy, kde-format
-#| msgid "No jobs scheduled."
+#, kde-format
 msgid "No new job created."
-msgstr "No hi ha cap tasca programada."
+msgstr "No s'ha creat cap tasca nova."
 
 #: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
 #, kde-format
@@ -25845,9 +25844,9 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Seleccioneu un nom de grup. És útil "
 "si voleu que les tasques de mosaic es repetisquen juntes: assigneu-lis un "
 "nom de grup i doneu-li les condicions de compleció <span style=\"font-style:"
-"italic;\">repetix per a N (N=2 o més)</span> o <span style=\"font-style:"
-"italic;\">repetix fins que es finalitze</span>. En cas contrari, deixeu-ho "
-"en blanc.</p></body></html>"
+"italic;\">Repetix N (N=2 o més)</span> o <span style=\"font-style:italic;"
+"\">Repetix fins que es finalitze</span>. En cas contrari, deixeu-ho en blanc."
+"</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1563
@@ -25867,7 +25866,7 @@ msgstr "Reinicia la tasca fins que s'execute este nombre de vegades."
 #: ekos/scheduler/framingassistant.ui:1578 ekos/scheduler/scheduler.ui:1368
 #, kde-format
 msgid "&Repeat for"
-msgstr "Repeti&x per a"
+msgstr "Repeti&x"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
 #: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1403
@@ -27410,10 +27409,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Seleccioneu un nom de grup. És útil "
 "si voleu que diversos treballs es repetisquen junts: assigneu-los un nom de "
-"grup i doneu-li les condicions de la compleció <i>repetix per a N (N=2 o "
-"més)</i> o <i>repetix fins que es finalitze</i>. En cas contrari, deixeu-ho "
-"en blanc. Només s'aplicarà a l'algorisme «voraç» del programador.</p></"
-"body></html>"
+"grup i doneu-li les condicions de la compleció <i>Repetix N (N=2 o més)</i> "
+"o <i>Repetix fins que es finalitze</i>. En cas contrari, deixeu-ho en blanc. "
+"Només s'aplicarà a l'algorisme «voraç» del programador.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/scheduler/scheduler.ui:370
@@ -74873,18 +74871,15 @@ msgstr "Directori de superposicions"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:165
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Dades actuals dels sensors meteorològics. Feu clic "
-"damunt del nom del sensor per a mostrar les seues dades amb el pas del temps."
-"</p></body></html>"
+"<html><head/><body><p>Actualitza a partir del directori de superposicions. "
+"Afig les superposicions que s'hi han afegit i elimina les que ja no hi són.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
@@ -76572,6 +76567,8 @@ msgstr "%1 ja solucionada. S'omet."
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
+"S'està tornant a carregar. Les superposicions d'imatges estan desactivades "
+"temporalment."
 
 #: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
@@ -84484,15 +84481,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Cannot start framing while focus module is busy."
-#~ msgstr ""
-#~ "No s'ha pogut iniciar l'enquadrament mentre el mòdul d'enfocament està "
-#~ "ocupat."
-
-#~ msgid ""
-#~ "Reload not yet implemented. Currently you need to restart KStars to do "
-#~ "this."
-#~ msgstr ""
-#~ "Encara no s'ha implementat la recàrrega. Actualment, per a fer-ho, cal "
-#~ "tornar a iniciar KStars."
