@@ -25,14 +25,21 @@ void SequenceJobState::setFrameType(CCDFrameType frameType)
     m_PreparationState = PREP_NONE;
 }
 
+void SequenceJobState::initPreparation(bool isPreview)
+{
+    m_status      = JOB_BUSY;
+    m_isPreview   = isPreview;
+    wpScopeStatus = WP_NONE;
+}
+
 void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforceInitialGuidingDrift, bool isPreview)
 {
     // precondition: do not start while already being busy and conditions haven't changed
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature && enforceInitialGuidingDrift == m_enforceInitialGuiding)
         return;
 
-    m_status    = JOB_BUSY;
-    m_isPreview = isPreview;
+    // initialize the states
+    initPreparation(isPreview);
 
     // Reset all prepare actions
     setAllActionsReady();
@@ -65,8 +72,8 @@ void SequenceJobState::prepareFlatFrameCapture(bool enforceCCDTemp, bool isPrevi
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature)
         return;
 
-    m_status    = JOB_BUSY;
-    m_isPreview = isPreview;
+    // initialize the states
+    initPreparation(isPreview);
 
     // Reset all prepare actions
     setAllActionsReady();
@@ -89,8 +96,8 @@ void SequenceJobState::prepareDarkFrameCapture(bool enforceCCDTemp, bool isPrevi
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature)
         return;
 
-    m_status    = JOB_BUSY;
-    m_isPreview = isPreview;
+    // initialize the states
+    initPreparation(isPreview);
 
     // Reset all prepare actions
     setAllActionsReady();
