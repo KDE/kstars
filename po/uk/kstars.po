@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-23 00:42+0000\n"
+"POT-Creation-Date: 2023-08-28 00:41+0000\n"
 "PO-Revision-Date: 2023-08-23 08:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -15213,7 +15213,7 @@ msgid "Does %1 have a shutter?"
 msgstr "Чи є у %1 затвор?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:689
-#: ekos/capture/sequencejobstate.cpp:407
+#: ekos/capture/sequencejobstate.cpp:414
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Темний кадр"
@@ -16481,88 +16481,88 @@ msgstr "Виконується"
 msgid "Complete"
 msgstr "Завершено"
 
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:401
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Виконайте освітлення телескопа рівномірним розсіяним джерелом світла."
 
-#: ekos/capture/sequencejobstate.cpp:395
+#: ekos/capture/sequencejobstate.cpp:402
 #, kde-format
 msgid "Flat Frame"
 msgstr "Кадр плоского поля"
 
-#: ekos/capture/sequencejobstate.cpp:406
+#: ekos/capture/sequencejobstate.cpp:413
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Закрийте об'єктив телескопа, щоб отримати еталонне темне зображення."
 
-#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:471
+#: ekos/capture/sequencejobstate.cpp:441 ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Паркуємо пилозахисний ковпак…"
 
-#: ekos/capture/sequencejobstate.cpp:443 ekos/capture/sequencejobstate.cpp:482
-#: ekos/capture/sequencejobstate.cpp:528
+#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:489
+#: ekos/capture/sequencejobstate.cpp:535
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Увімкнути світло у підсвічуванні…"
 
-#: ekos/capture/sequencejobstate.cpp:471 ekos/capture/sequencejobstate.cpp:670
+#: ekos/capture/sequencejobstate.cpp:478 ekos/capture/sequencejobstate.cpp:677
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Знімаємо пилозахисний ковпак з паркування…"
 
-#: ekos/capture/sequencejobstate.cpp:482 ekos/capture/sequencejobstate.cpp:528
-#: ekos/capture/sequencejobstate.cpp:655
+#: ekos/capture/sequencejobstate.cpp:489 ekos/capture/sequencejobstate.cpp:535
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Вимикаємо світло у підсвічуванні…"
 
-#: ekos/capture/sequencejobstate.cpp:500
+#: ekos/capture/sequencejobstate.cpp:507
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr "Лафет повертається до стіни…"
 
-#: ekos/capture/sequencejobstate.cpp:511 ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:518 ekos/capture/sequencejobstate.cpp:522
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Наведення на стіну завершено, припиняємо стеження."
 
-#: ekos/capture/sequencejobstate.cpp:543
+#: ekos/capture/sequencejobstate.cpp:550
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Не вдалося запаркувати лафет. Перериваємо обробку…"
 
-#: ekos/capture/sequencejobstate.cpp:553
+#: ekos/capture/sequencejobstate.cpp:560
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 "Паркуємо лафет, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/sequencejobstate.cpp:574
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Не вдалося запаркувати купол. Перериваємо обробку…"
 
-#: ekos/capture/sequencejobstate.cpp:577
+#: ekos/capture/sequencejobstate.cpp:584
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "Паркуємо купол, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:831
+#: ekos/capture/sequencejobstate.cpp:838
 #, kde-format
 msgid "Light box on."
 msgstr "Підсвічування увімкнено."
 
-#: ekos/capture/sequencejobstate.cpp:846
+#: ekos/capture/sequencejobstate.cpp:853
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Пилозахисний ковпак запарковано."
 
-#: ekos/capture/sequencejobstate.cpp:850
+#: ekos/capture/sequencejobstate.cpp:857
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Пилозахисний ковпак знято з паркування."
