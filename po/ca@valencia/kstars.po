@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-23 00:42+0000\n"
-"PO-Revision-Date: 2023-08-26 19:09+0200\n"
+"POT-Creation-Date: 2023-08-28 00:41+0000\n"
+"PO-Revision-Date: 2023-08-27 21:35+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6643,7 +6643,7 @@ msgstr "Guany:"
 #: ekos/align/align.ui:562 ekos/focus/focus.ui:790 ekos/guide/guide.ui:401
 #, kde-format
 msgid "Bin:"
-msgstr "Grup:"
+msgstr "Agrupament:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
 #: ekos/align/align.ui:584 ekos/focus/focus.ui:720 ekos/guide/guide.ui:166
@@ -10433,8 +10433,8 @@ msgid ""
 "<html><head/><body><p>Plot the right ascension (RA) guide pulses in "
 "milliseconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça els polsos de guia de l'ascensió recta (AR) en "
-"mil·lisegons.</p></body></html>"
+"<html><head/><body><p>Traça els polsos de guiatge de l'ascensió recta (AR) "
+"en mil·lisegons.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raPulseCB)
 #: ekos/analyze/analyze.ui:475
@@ -10450,7 +10450,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Els polsos de guia de l'ascensió recta (AR) en "
+"<html><head/><body><p>Els polsos de guiatge de l'ascensió recta (AR) en "
 "mil·lisegons. Feu clic ací per a veure este eix en els valors de l'eix "
 "esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
@@ -10461,7 +10461,7 @@ msgid ""
 "<html><head/><body><p>Plot the declination (DEC) guide pulses in "
 "milliseconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça els polsos de guia de la declinació (Dec) en "
+"<html><head/><body><p>Traça els polsos de guiatge de la declinació (Dec) en "
 "mil·lisegons.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decPulseOut)
@@ -10472,7 +10472,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Els polsos de guia de la declinació (Dec) en "
+"<html><head/><body><p>Els polsos de guiatge de la declinació (Dec) en "
 "mil·lisegons. Feu clic ací per a veure este eix en els valors de l'eix "
 "esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
@@ -14993,7 +14993,7 @@ msgstr "Exp"
 #: ekos/capture/capture.ui:1892
 #, kde-format
 msgid "Bin"
-msgstr "Grup"
+msgstr "Agrupament"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/capture/capture.ui:1897
@@ -15278,7 +15278,7 @@ msgid "Does %1 have a shutter?"
 msgstr "%1 té un obturador?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:689
-#: ekos/capture/sequencejobstate.cpp:407
+#: ekos/capture/sequencejobstate.cpp:414
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Exposició fosca"
@@ -16552,91 +16552,91 @@ msgstr "En curs"
 msgid "Complete"
 msgstr "Finalitzat"
 
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:401
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Cobrix el telescopi amb una font de llum il·luminada uniformement."
 
-#: ekos/capture/sequencejobstate.cpp:395
+#: ekos/capture/sequencejobstate.cpp:402
 #, kde-format
 msgid "Flat Frame"
 msgstr "Fotograma pla"
 
-#: ekos/capture/sequencejobstate.cpp:406
+#: ekos/capture/sequencejobstate.cpp:413
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Cobrix el telescopi per tal de prendre una exposició fosca."
 
-#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:471
+#: ekos/capture/sequencejobstate.cpp:441 ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "S'està aparcant la tapa per la pols..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:443 ekos/capture/sequencejobstate.cpp:482
-#: ekos/capture/sequencejobstate.cpp:528
+#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:489
+#: ekos/capture/sequencejobstate.cpp:535
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Encén el llum de la caixa de llum..."
 
-#: ekos/capture/sequencejobstate.cpp:471 ekos/capture/sequencejobstate.cpp:670
+#: ekos/capture/sequencejobstate.cpp:478 ekos/capture/sequencejobstate.cpp:677
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "S'està desaparcant la tapa per la pols..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:482 ekos/capture/sequencejobstate.cpp:528
-#: ekos/capture/sequencejobstate.cpp:655
+#: ekos/capture/sequencejobstate.cpp:489 ekos/capture/sequencejobstate.cpp:535
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Apaga el llum de la caixa de llum..."
 
-#: ekos/capture/sequencejobstate.cpp:500
+#: ekos/capture/sequencejobstate.cpp:507
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr "S'està orientant la muntura cap a la posició de la paret..."
 
-#: ekos/capture/sequencejobstate.cpp:511 ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:518 ekos/capture/sequencejobstate.cpp:522
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 "S'ha completat l'orientació cap a la posició de la paret, es para el "
 "seguiment."
 
-#: ekos/capture/sequencejobstate.cpp:543
+#: ekos/capture/sequencejobstate.cpp:550
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "No s'ha pogut fer l'aparcament de la muntura. S'interromp..."
 
-#: ekos/capture/sequencejobstate.cpp:553
+#: ekos/capture/sequencejobstate.cpp:560
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 "S'està aparcant la muntura abans de capturar els fotogrames de calibratge..."
 
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/sequencejobstate.cpp:574
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "No s'ha pogut fer l'aparcament de la cúpula. S'interromp..."
 
-#: ekos/capture/sequencejobstate.cpp:577
+#: ekos/capture/sequencejobstate.cpp:584
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "S'està aparcant la cúpula abans de capturar els fotogrames de calibratge..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:831
+#: ekos/capture/sequencejobstate.cpp:838
 #, kde-format
 msgid "Light box on."
 msgstr "Caixa de llum encesa."
 
-#: ekos/capture/sequencejobstate.cpp:846
+#: ekos/capture/sequencejobstate.cpp:853
 #, kde-format
 msgid "Dust cap parked."
 msgstr "La tapa per la pols està aparcada."
 
-#: ekos/capture/sequencejobstate.cpp:850
+#: ekos/capture/sequencejobstate.cpp:857
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "La tapa per la pols està desaparcada."
@@ -19946,7 +19946,7 @@ msgstr "Estrela seleccionada automàticament."
 #: ekos/guide/guide.cpp:2427
 #, kde-format
 msgid "Failed to select an auto star."
-msgstr "No s'ha pogut seleccionar l'estrela automàtica."
+msgstr "No s'ha pogut seleccionar una estrela automàtica."
 
 #: ekos/guide/guide.cpp:2436
 #, kde-format
@@ -20004,8 +20004,8 @@ msgid ""
 "use 'auto star' detection.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Selecciona automàticament l'estrela de calibratge. <br/"
-">Nota: «Múltiples estreles SEP» <span style=\"font-weight:600;\">sempre</"
-"span> utilitza la detecció «Estrela automàtica».</p></body></html>"
+">Nota: «SEP MultiStar» <span style=\"font-weight:600;\">sempre</span> "
+"utilitza la detecció «Estrela automàtica».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideAutoStar)
 #: ekos/guide/guide.ui:124
@@ -20058,8 +20058,8 @@ msgstr ""
 "d'imatge. Per al sistema de guiatge intern, abans de marcar esta opció, "
 "<span style=\"font-weight:600;\">primer</span> cal capturar una imatge i "
 "seleccionar una estrela guia. Desmarqueu-la per a tornar a prendre un "
-"fotograma complet. <br/>Nota: «Múltiples estreles SEP» <span style=\"font-"
-"weight:600;\">no pot</span> utilitzar un submarc.</p></body></html>"
+"fotograma complet. <br/>Nota: «SEP MultiStar» <span style=\"font-weight:600;"
+"\">no pot</span> utilitzar un submarc.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:279
@@ -21071,7 +21071,7 @@ msgstr ""
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr ""
-"Invertix el Dec en canviar el costat del moll quan es reusa el calibratge."
+"Invertix la Dec en canviar el costat del moll quan es reusa el calibratge."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -21892,7 +21892,7 @@ msgstr "Sense llindar"
 #: ekos/guide/opsguide.ui:476
 #, kde-format
 msgid "SEP Multi Star (recommended)"
-msgstr "Múltiples estreles SEP (recomanat)"
+msgstr "SEP MultiStar (recomanat)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:484

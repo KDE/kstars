@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-23 00:42+0000\n"
+"POT-Creation-Date: 2023-08-28 00:41+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -15251,7 +15251,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:689
-#: ekos/capture/sequencejobstate.cpp:407
+#: ekos/capture/sequencejobstate.cpp:414
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Tamno izlaganje"
@@ -16558,7 +16558,7 @@ msgstr "U toku"
 msgid "Complete"
 msgstr "Završeno"
 
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:401
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -16568,13 +16568,13 @@ msgstr ""
 "Ako navodeća kamera nije opremljena sa zatvarače, prekrij teleskop ili "
 "kameru kako bi dobio tamnije izlaganje."
 
-#: ekos/capture/sequencejobstate.cpp:395
+#: ekos/capture/sequencejobstate.cpp:402
 #, fuzzy, kde-format
 #| msgid "Use Dark Frame"
 msgid "Flat Frame"
 msgstr "Koristi tamni okvir"
 
-#: ekos/capture/sequencejobstate.cpp:406
+#: ekos/capture/sequencejobstate.cpp:413
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -16584,77 +16584,77 @@ msgstr ""
 "Ako navodeća kamera nije opremljena sa zatvarače, prekrij teleskop ili "
 "kameru kako bi dobio tamnije izlaganje."
 
-#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:471
+#: ekos/capture/sequencejobstate.cpp:441 ekos/capture/sequencejobstate.cpp:478
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking dust cap..."
 msgstr "Parkiranje teleskopa..."
 
-#: ekos/capture/sequencejobstate.cpp:443 ekos/capture/sequencejobstate.cpp:482
-#: ekos/capture/sequencejobstate.cpp:528
+#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:489
+#: ekos/capture/sequencejobstate.cpp:535
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:471 ekos/capture/sequencejobstate.cpp:670
+#: ekos/capture/sequencejobstate.cpp:478 ekos/capture/sequencejobstate.cpp:677
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Unparking dust cap..."
 msgstr "Parkiranje teleskopa..."
 
-#: ekos/capture/sequencejobstate.cpp:482 ekos/capture/sequencejobstate.cpp:528
-#: ekos/capture/sequencejobstate.cpp:655
+#: ekos/capture/sequencejobstate.cpp:489 ekos/capture/sequencejobstate.cpp:535
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:500
+#: ekos/capture/sequencejobstate.cpp:507
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount slewing to wall position..."
 msgstr "Namiještanje nazad na izvornu poziciju..."
 
-#: ekos/capture/sequencejobstate.cpp:511 ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:518 ekos/capture/sequencejobstate.cpp:522
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Kalibriranje završeno."
 
-#: ekos/capture/sequencejobstate.cpp:543
+#: ekos/capture/sequencejobstate.cpp:550
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking mount failed, aborting..."
 msgstr "FITS slika nije uspjela se učitati, prekidam..."
 
-#: ekos/capture/sequencejobstate.cpp:553
+#: ekos/capture/sequencejobstate.cpp:560
 #, fuzzy, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/sequencejobstate.cpp:574
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking dome failed, aborting..."
 msgstr "FITS slika nije uspjela se učitati, prekidam..."
 
-#: ekos/capture/sequencejobstate.cpp:577
+#: ekos/capture/sequencejobstate.cpp:584
 #, fuzzy, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/capture/sequencejobstate.cpp:831
+#: ekos/capture/sequencejobstate.cpp:838
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:846
+#: ekos/capture/sequencejobstate.cpp:853
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:850
+#: ekos/capture/sequencejobstate.cpp:857
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-23 00:42+0000\n"
-"PO-Revision-Date: 2023-08-02 12:40\n"
+"POT-Creation-Date: 2023-08-28 00:41+0000\n"
+"PO-Revision-Date: 2023-08-27 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -9142,27 +9142,27 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:1213
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
-msgstr ""
+msgstr "<p>拍摄第二张图像中...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1215
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
-msgstr ""
+msgstr "<p>解析<i>第二张</i>图像中...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1217
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
-msgstr ""
+msgstr "<p>执行 <i>第二次 </i>支架旋转中...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1219
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
-msgstr ""
+msgstr "<p>拍摄 <i>第三张</i> 及最后图像中...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1221
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
-msgstr ""
+msgstr "<p>解析<i>第三张</i>图像中...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1224
 #, kde-format
@@ -14429,7 +14429,7 @@ msgid "Does %1 have a shutter?"
 msgstr "%1 有快门吗？"
 
 #: ekos/capture/capturedeviceadaptor.cpp:689
-#: ekos/capture/sequencejobstate.cpp:407
+#: ekos/capture/sequencejobstate.cpp:414
 #, kde-format
 msgid "Dark Exposure"
 msgstr "暗场曝光"
@@ -14629,10 +14629,9 @@ msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr "未找到挂起的任务。请添加任务至序列队列中。"
 
 #: ekos/capture/captureprocess.cpp:240
-#, fuzzy, kde-format
-#| msgid "No jobs scheduled."
+#, kde-format
 msgid "No new job created."
-msgstr "未安排作业。"
+msgstr ""
 
 #: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
 #, kde-format
@@ -15586,84 +15585,84 @@ msgstr "进行中"
 msgid "Complete"
 msgstr "完成"
 
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:401
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:395
+#: ekos/capture/sequencejobstate.cpp:402
 #, kde-format
 msgid "Flat Frame"
 msgstr "平场"
 
-#: ekos/capture/sequencejobstate.cpp:406
+#: ekos/capture/sequencejobstate.cpp:413
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "盖上望远镜以拍摄暗场。"
 
-#: ekos/capture/sequencejobstate.cpp:434 ekos/capture/sequencejobstate.cpp:471
+#: ekos/capture/sequencejobstate.cpp:441 ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "防尘盖关闭中..."
 
-#: ekos/capture/sequencejobstate.cpp:443 ekos/capture/sequencejobstate.cpp:482
-#: ekos/capture/sequencejobstate.cpp:528
+#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:489
+#: ekos/capture/sequencejobstate.cpp:535
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "打开 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:471 ekos/capture/sequencejobstate.cpp:670
+#: ekos/capture/sequencejobstate.cpp:478 ekos/capture/sequencejobstate.cpp:677
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "防尘盖开启中..."
 
-#: ekos/capture/sequencejobstate.cpp:482 ekos/capture/sequencejobstate.cpp:528
-#: ekos/capture/sequencejobstate.cpp:655
+#: ekos/capture/sequencejobstate.cpp:489 ekos/capture/sequencejobstate.cpp:535
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "关闭 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:500
+#: ekos/capture/sequencejobstate.cpp:507
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr "赤道仪旋转至墙的位置..."
 
-#: ekos/capture/sequencejobstate.cpp:511 ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:518 ekos/capture/sequencejobstate.cpp:522
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "转到 wall position 已完成，停止跟踪。"
 
-#: ekos/capture/sequencejobstate.cpp:543
+#: ekos/capture/sequencejobstate.cpp:550
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "赤道仪归位失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:553
+#: ekos/capture/sequencejobstate.cpp:560
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位赤道仪..."
 
-#: ekos/capture/sequencejobstate.cpp:567
+#: ekos/capture/sequencejobstate.cpp:574
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "归位圆顶失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:577
+#: ekos/capture/sequencejobstate.cpp:584
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位圆顶..."
 
-#: ekos/capture/sequencejobstate.cpp:831
+#: ekos/capture/sequencejobstate.cpp:838
 #, kde-format
 msgid "Light box on."
 msgstr "Light box 打开。"
 
-#: ekos/capture/sequencejobstate.cpp:846
+#: ekos/capture/sequencejobstate.cpp:853
 #, kde-format
 msgid "Dust cap parked."
 msgstr "防尘盖已关闭。"
 
-#: ekos/capture/sequencejobstate.cpp:850
+#: ekos/capture/sequencejobstate.cpp:857
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "防尘盖已开启。"
@@ -23373,10 +23372,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/scheduler/framingassistant.ui:105
-#, fuzzy, kde-format
-#| msgid "Reducer"
+#, kde-format
 msgid "Reducer:"
-msgstr "减焦器"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #: ekos/scheduler/framingassistant.ui:136
@@ -25317,21 +25315,17 @@ msgstr "优先级："
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
 #: ekos/scheduler/scheduler.ui:204
-#, fuzzy, kde-format
-#| msgid "Slew to the target and track it before proceeding to the next step."
+#, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
-msgstr "转动至目标并跟踪，然后继续下一步。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
 #: ekos/scheduler/scheduler.ui:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "Perform alignment using astrometry solver before proceeding to the next "
-#| "step."
+#, kde-format
 msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
-msgstr "在下一步前使用解析器对齐校准。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/scheduler.ui:251
@@ -34632,10 +34626,9 @@ msgstr "望远镜焦距（毫米）。"
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:2809
-#, fuzzy, kde-format
-#| msgid "Focal Ratio"
+#, kde-format
 msgid "Focal Reducer ratio"
-msgstr "焦比"
+msgstr ""
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
 #: kstars.kcfg:2813
@@ -35147,10 +35140,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
-#, fuzzy, kde-format
-#| msgid "Toggle whether Pluto is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether to display image overlays."
-msgstr "切换是否在星图中绘制冥王星。"
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3135
@@ -35168,17 +35160,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3140
-#, fuzzy, kde-format
-#| msgid "Image has invalid dimensions %1x%2"
+#, kde-format
 msgid "Image overlay max dimension"
-msgstr "图像尺寸无效 %1x%2"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3141
-#, fuzzy, kde-format
-#| msgid "Maximum distance for comet names"
+#, kde-format
 msgid "Maximum dimension for image overlay images."
-msgstr "彗星名称的最大距离"
+msgstr ""
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3145
@@ -63865,10 +63855,9 @@ msgstr "地景"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
 #: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Image Overlays"
-msgstr "叠加"
+msgstr ""
 
 #: kstarsactions.cpp:1150
 #, kde-format
@@ -63891,18 +63880,14 @@ msgid "Show Terrain"
 msgstr "显示地景"
 
 #: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:273
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Image as"
+#, kde-format
 msgid "Hide Image Overlays"
-msgstr "图像另存为"
+msgstr ""
 
 #: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:274
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Image as"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "图像另存为"
+msgstr ""
 
 #: kstarsactions.cpp:1297
 #, kde-format
@@ -71566,10 +71551,9 @@ msgstr "地方子午线"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "显示图像"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -71581,10 +71565,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Changes the type of selection"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "更改选择的类型"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -71597,10 +71580,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
-#, fuzzy, kde-format
-#| msgid "Maximum time"
+#, kde-format
 msgid "Maximum image dimension"
-msgstr "最长时间："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:140
@@ -71612,24 +71594,18 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgid "Overlay Directory"
-msgstr "目录"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:165
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>天气传感器的当前数据。点击传感器名称来显示其随时间变化"
-"的数据。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
@@ -71653,10 +71629,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
-msgstr "请选择用于解析的配置文件"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -71669,10 +71644,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px"
-msgstr "默认"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -71683,10 +71657,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout"
-msgstr "超时："
+msgstr ""
 
 #: options/opssatellites.cpp:100
 #, kde-format
@@ -73043,10 +73016,9 @@ msgid "Creating horizon"
 msgstr "正在创建地平线"
 
 #: skycomponents/imageoverlaycomponent.cpp:60
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
-msgstr "文件名"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
@@ -73062,10 +73034,9 @@ msgid "A-S/px"
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:63
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "向右旋转"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:163
 #, kde-format
@@ -73130,10 +73101,9 @@ msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:451
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "正在加载图像..."
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:457
 #, kde-format
@@ -73141,41 +73111,34 @@ msgid "%1 image files loaded."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Unprocessed"
-msgstr "处理"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "文件"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solve Failed"
-msgstr "解析失败."
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgid "OK"
-msgstr "天钩"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:542
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "左/右"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:543
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "向右旋转"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:597
 #, kde-format
@@ -73183,10 +73146,9 @@ msgid "Solving: %1. %2 in queue."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:599
-#, fuzzy, kde-format
-#| msgid "Slaving"
+#, kde-format
 msgid "Solving: %1."
-msgstr "从动"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
@@ -73199,10 +73161,9 @@ msgid "Can't show %1. Image not loaded."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:702
-#, fuzzy, kde-format
-#| msgid "Autoguiding aborted."
+#, kde-format
 msgid "Solving aborted."
-msgstr "自动导星已中止。"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:737
 #, kde-format
@@ -73220,16 +73181,14 @@ msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:793
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "解析超时。"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:799
-#, fuzzy, kde-format
-#| msgid "Solver failed. Try again."
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "解析失败。再试一次。"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
@@ -73237,10 +73196,9 @@ msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:844
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Done solving. %1 available."
-msgstr "图像信息不可用。"
+msgstr ""
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
@@ -80495,15 +80453,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Cannot start framing while focus module is busy."
-#~ msgstr "无法开始循环拍摄，因为对焦模块正忙。"
-
-#~ msgid "Add the filter name to the capture file name."
-#~ msgstr "添加滤镜名到拍摄文件名。"
-
-#~ msgid "Add the capture duration to the capture file name."
-#~ msgstr "添加拍摄时长到拍摄文件名。"
-
-#~ msgid "Add the capture timestamp to the capture file name."
-#~ msgstr "添加拍摄时间戳到拍摄文件名。"

@@ -100,6 +100,12 @@ class SequenceJobState: public QObject
         }
 
         /**
+         * @brief initPreparation Reset all states properly for capture preparation
+         * @param isPreview flag if the captures are in the preview mode
+         */
+        void initPreparation(bool isPreview);
+
+        /**
          * @brief Trigger all peparation actions before a capture may be started.
          * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
          * @param enforceInitialGuidingDrift flag if the initial guiding drift must be below the target value.

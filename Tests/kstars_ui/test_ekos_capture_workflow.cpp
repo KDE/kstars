@@ -736,6 +736,12 @@ void TestEkosCaptureWorkflow::testWallSource()
     KTRY_CAPTURE_ADD_FRAME(frametype, 2, 1, 2.0, "Luminance", imagepath);
     // build a simple 1xL light sequence
     KTRY_CAPTURE_ADD_LIGHT(1, 1, 0.0, "Red", imagepath);
+    // switch capture type to flat so that we can set the calibration
+    captureTypeS->setCurrentText("Flat");
+    // add another sequence to check if wall source may be used twice
+    // select another wall position as flat light source (az=0°, alt=0)
+    KTRY_SELECT_FLAT_WALL(capture, "0", "0");
+    KTRY_CAPTURE_ADD_FRAME(frametype, 2, 1, 2.0, "Luminance", imagepath);
 
     // start the sequence
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
@@ -747,8 +753,24 @@ void TestEkosCaptureWorkflow::testWallSource()
     KTRY_CLICK(capture, startB);
     // check if mount has reached the expected position
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedMountStates, 60000);
-    // check if one single flat is captured
+    // check if one single flat and one red frame is captured
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+
+    // reset the sequence
+    KTRY_CLICK(capture, resetB);
+    // restart the sequence
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IDLE);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
+    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_SLEWING);
+    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_IDLE);
+    KTRY_CLICK(capture, startB);
+    // check if mount has reached the expected position
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedMountStates, 60000);
+    // check if one single flat and one red frame is captured
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+
 }
 
 
@@ -1179,6 +1201,8 @@ void TestEkosCaptureWorkflow::init()
     m_CaptureHelper->m_LightPanelDevice = nullptr;
     // clear rotator
     m_CaptureHelper->m_RotatorDevice = nullptr;
+    // disable reset jobs warning
+    KMessageBox::saveDontShowAgainYesNo("reset_job_status_warning", KMessageBox::ButtonCode::No);
 }
 
 void TestEkosCaptureWorkflow::cleanup()
