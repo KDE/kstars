@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-28 00:41+0000\n"
-"PO-Revision-Date: 2023-08-26 10:46+0200\n"
+"PO-Revision-Date: 2023-08-28 11:00+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17679,7 +17679,7 @@ msgstr ""
 #: ekos/focus/focus.ui:1269
 #, kde-format
 msgid "Display Units:"
-msgstr "Schermeenheden:"
+msgstr "Te tonen eenheden:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusNoMaskRB)
 #: ekos/focus/focus.ui:1282
