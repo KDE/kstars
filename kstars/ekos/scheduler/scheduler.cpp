@@ -4853,11 +4853,16 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "<Group>" << tiles->group() << "</Group>" << Qt::endl;
 
         QString ccArg, ccValue = tiles->completionCondition(&ccArg);
-        if (ccValue == "FinishSequence") outstream << "<FinishSequence/>" << Qt::endl;
-        else if (ccValue == "FinishLoop") outstream << "<FinishLoop/>" << Qt::endl;
-        else if (ccValue == "FinishRepeat") outstream << "<FinishRepeat>" << ccArg << "</FinishRepeat>" << Qt::endl;
+        if (ccValue == "FinishSequence")
+            outstream << "<FinishSequence/>" << Qt::endl;
+        else if (ccValue == "FinishLoop")
+            outstream << "<FinishLoop/>" << Qt::endl;
+        else if (ccValue == "FinishRepeat")
+            outstream << "<FinishRepeat>" << ccArg << "</FinishRepeat>" << Qt::endl;
 
+        outstream << "<Sequence>" << tiles->sequenceFile() << "</Sequence>" << Qt::endl;
         outstream << "<Directory>" << tiles->outputDirectory() << "</Directory>" << Qt::endl;
+
         outstream << "<FocusEveryN>" << tiles->focusEveryN() << "</FocusEveryN>" << Qt::endl;
         outstream << "<AlignEveryN>" << tiles->alignEveryN() << "</AlignEveryN>" << Qt::endl;
         if (tiles->isTrackChecked())
