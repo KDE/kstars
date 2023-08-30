@@ -2650,7 +2650,7 @@
          <default>0.6</default>
       </entry>
       <entry name="GPGMinPeriodsForInference" type="UInt">
-         <default>4</default>
+         <default>2</default>
       </entry>
       <entry name="GPGMinMove" type="Double">
          <default>0.2</default>
@@ -2677,7 +2677,7 @@
          <default>10.0</default>
       </entry>
       <entry name="GPGMinPeriodsForPeriodEstimate" type="UInt">
-         <default>4</default>
+         <default>2</default>
       </entry>
       <entry name="GPGPointsForApproximation" type="UInt">
          <default>100</default>
