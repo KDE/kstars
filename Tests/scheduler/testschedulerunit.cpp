@@ -10,6 +10,7 @@
  */
 
 #include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/greedyscheduler.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "indi/indiproperty.h"
 #include "ekos/capture/sequencejob.h"
@@ -36,21 +37,19 @@ class TestSchedulerUnit : public QObject
         ~TestSchedulerUnit() override = default;
 
     private slots:
-        void darkSkyScoreTest();
         void setupGeoAndTimeTest();
         void setupJobTest_data();
         void setupJobTest();
         void loadSequenceQueueTest();
         void estimateJobTimeTest();
-        void calculateJobScoreTest();
         void evaluateJobsTest();
 
     private:
         void runSetupJob(SchedulerJob &job,
-                         GeoLocation *geo, KStarsDateTime *localTime, const QString &name, int priority,
+                         GeoLocation *geo, KStarsDateTime *localTime, const QString &name,
                          const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
-                         const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime,
-                         int16_t sOffset, SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
+                         const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime, SchedulerJob::CompletionCondition eCond,
+                         const QDateTime &eTime, int eReps,
                          double minAlt, double minMoonSep = 0, bool enforceWeather = false, bool enforceTwilight = true,
                          bool enforceArtificialHorizon = true, bool track = true, bool focus = true, bool align = true, bool guide = true);
 };
@@ -139,36 +138,13 @@ bool compareTimes(const QDateTime &t1, const QDateTime &t2, int toleranceSecs = 
     else return true;
 }
 
-// Test Scheduler::darkSkyScore().
-// Picks an arbitary dawn and dusk fraction (.25 and .75) and makes sure the dark sky score is
-// negative between dawn and dusk and not negative elsewhere.
-void TestSchedulerUnit::darkSkyScoreTest()
-{
-    constexpr double _dawn = .25, _dusk = .75;
-    for (double offset = 0; offset < 1.0; offset += 0.1)
-    {
-        QDateTime t = midNight.addSecs(24 * 3600 * offset);
-        // Scheduler calculating dawn and dusk finds the NEXT dawn and dusks - let's simulate this
-        QDateTime dawn = midNight.addSecs(_dawn * 24.0 * 3600.0);
-        if (dawn < t) dawn = dawn.addDays(1);
-        QDateTime dusk = midNight.addSecs(_dusk * 24.0 * 3600.0);
-        if (dusk < t) dusk = dusk.addDays(1);
-        int16_t score = Scheduler::getDarkSkyScore(dawn, dusk, t);
-        if (offset < _dawn || offset > _dusk)
-            QVERIFY(score >= 0);
-        else
-            QVERIFY(score < 0);
-    }
-}
-
-
 // The runSetupJob() utility calls the static function Scheduler::setupJob() with all the args passed in
 // and tests to see that the resulting SchedulerJob object has the values that were requested.
 void TestSchedulerUnit::runSetupJob(
-    SchedulerJob &job, GeoLocation *geo, KStarsDateTime *localTime, const QString &name, int priority,
+    SchedulerJob &job, GeoLocation *geo, KStarsDateTime *localTime, const QString &name,
     const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
     const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime,
-    int16_t sOffset, SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
+    SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
     double minAlt, double minMoonSep, bool enforceWeather, bool enforceTwilight,
     bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
@@ -179,15 +155,14 @@ void TestSchedulerUnit::runSetupJob(
     QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
 
     QString group = "";
-    Scheduler::setupJob(job, name, group, priority, ra, dec, ut.djd(), positionAngle,
+    Scheduler::setupJob(job, name, group, ra, dec, ut.djd(), positionAngle,
                         sequenceUrl, fitsUrl,
-                        sCond, sTime, sOffset,
+                        sCond, sTime,
                         eCond, eTime, eReps,
                         minAlt, minMoonSep,
                         enforceWeather, enforceTwilight, enforceArtificialHorizon,
                         track, focus, align, guide);
     QVERIFY(name == job.getName());
-    QVERIFY(priority == job.getPriority());
     QVERIFY(ra == job.getTargetCoords().ra0());
     QVERIFY(dec == job.getTargetCoords().dec0());
     QVERIFY(positionAngle == job.getPositionAngle());
@@ -204,15 +179,9 @@ void TestSchedulerUnit::runSetupJob(
     {
         case SchedulerJob::START_AT:
             QVERIFY(sTime == job.getStartupTime());
-            QVERIFY(0 == job.getCulminationOffset());
-            break;
-        case SchedulerJob::START_CULMINATION:
-            QVERIFY(QDateTime() == job.getStartupTime());
-            QVERIFY(sOffset == job.getCulminationOffset());
             break;
         case SchedulerJob::START_ASAP:
             QVERIFY(QDateTime() == job.getStartupTime());
-            QVERIFY(0 == job.getCulminationOffset());
             break;
     }
 
@@ -270,7 +239,6 @@ void TestSchedulerUnit::setupJobTest_data()
 {
     QTest::addColumn<SchedulerJob::StartupCondition>("START_CONDITION");
     QTest::addColumn<QDateTime>("START_TIME");
-    QTest::addColumn<int>("START_OFFSET");
     QTest::addColumn<SchedulerJob::CompletionCondition>("END_CONDITION");
     QTest::addColumn<QDateTime>("END_TIME");
     QTest::addColumn<int>("REPEATS");
@@ -283,7 +251,7 @@ void TestSchedulerUnit::setupJobTest_data()
     QTest::addColumn<bool>("GUIDE");
 
     QTest::newRow("ASAP_TO_FINISH")
-            << SchedulerJob::START_ASAP << QDateTime() << 0 // start conditions
+            << SchedulerJob::START_ASAP << QDateTime() // start conditions
             << SchedulerJob::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
             << false  // enforce weather
             << true   // enforce twilight
@@ -296,7 +264,6 @@ void TestSchedulerUnit::setupJobTest_data()
     QTest::newRow("START_AT_FINISH_AT")
             << SchedulerJob::START_AT // start conditions
             << QDateTime(QDate(2021, 4, 17), QTime(0, 1, 0), QTimeZone(-7 * 3600))
-            << 0
             << SchedulerJob::FINISH_AT // end conditions
             << QDateTime(QDate(2021, 4, 17), QTime(0, 2, 0), QTimeZone(-7 * 3600))
             << 1
@@ -308,19 +275,8 @@ void TestSchedulerUnit::setupJobTest_data()
             << true   // align
             << true;  // guide
 
-    QTest::newRow("CULMINATION_TO_REPEAT")
-            << SchedulerJob::START_CULMINATION << QDateTime() << 60 // start conditions
-            << SchedulerJob::FINISH_REPEAT << QDateTime() << 3 // end conditions
-            << true   // enforce weather
-            << true   // enforce twilight
-            << true   // enforce artificial horizon
-            << true   // track
-            << true   // focus
-            << false  // align
-            << true;  // guide
-
     QTest::newRow("ASAP_TO_LOOP")
-            << SchedulerJob::START_ASAP << QDateTime() << 0 // start conditions
+            << SchedulerJob::START_ASAP << QDateTime() // start conditions
             << SchedulerJob::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
             << false  // enforce weather
             << false  // enforce twilight
@@ -335,7 +291,6 @@ void TestSchedulerUnit::setupJobTest()
 {
     QFETCH(SchedulerJob::StartupCondition, START_CONDITION);
     QFETCH(QDateTime, START_TIME);
-    QFETCH(int, START_OFFSET);
     QFETCH(SchedulerJob::CompletionCondition, END_CONDITION);
     QFETCH(QDateTime, END_TIME);
     QFETCH(int, REPEATS);
@@ -348,9 +303,9 @@ void TestSchedulerUnit::setupJobTest()
     QFETCH(bool, GUIDE);
 
     SchedulerJob job(nullptr);
-    runSetupJob(job, &siliconValley, &midNight, "Job1", 10,
+    runSetupJob(job, &siliconValley, &midNight, "Job1",
                 midnightRA, testDEC, 5.0, QUrl("1"), QUrl("2"),
-                START_CONDITION, START_TIME, START_OFFSET,
+                START_CONDITION, START_TIME,
                 END_CONDITION, END_TIME, REPEATS,
                 30.0, 5.0, ENFORCE_WEATHER, ENFORCE_TWILIGHT,
                 ENFORCE_ARTIFICIAL_HORIZON, TRACK, FOCUS, ALIGN, GUIDE);
@@ -415,10 +370,10 @@ void TestSchedulerUnit::estimateJobTimeTest()
 
     // First test, start ASAP and finish when the sequence is done.
     SchedulerJob job(nullptr);
-    runSetupJob(job, &siliconValley, &midNight, "Job1", 10,
+    runSetupJob(job, &siliconValley, &midNight, "Job1",
                 midnightRA, testDEC, 5.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(), 0,
+                SchedulerJob::START_ASAP, QDateTime(),
                 SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
                 30.0, 5.0, false, false);
 
@@ -499,87 +454,11 @@ void TestSchedulerUnit::estimateJobTimeTest()
     QVERIFY(compareFloat(overhead + exposureDuration - 120, job.getEstimatedTime()));
 }
 
-// Test Scheduler::calculateJobScore() and SchedulerJob::getAltitudeScore().
-void TestSchedulerUnit::calculateJobScoreTest()
-{
-    // Some computations use the local time, which is taken from KStars::Instance()->lt()
-    // unless this is set. The Instance does not exist when running this unit test.
-    Scheduler::setLocalTime(&midNight);
-
-    // The nullptr is moon pointer. Not currently tested.
-    SchedulerJob job(nullptr);
-
-    runSetupJob(job, &siliconValley, &midNight, "Job1", 10,
-                midnightRA, testDEC, 5.0,
-                QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(), 0,
-                SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
-                30.0);
-
-    // You can't get a job score until estimateJobTime has been called.
-    QMap<QString, uint16_t> capturedFramesCount;
-    QVERIFY(Scheduler::estimateJobTime(&job, capturedFramesCount, nullptr));
-
-    // These scores were pre-computed for the svAltitudes from the SiliconValley GeoLocation
-    // above at RA,DEC = midnightRA, testDEC, with the time offset by 12.
-    // That is, altScores[0] corresponds to -12 hours from midNight.
-    QVector<int> altScores =
-    {
-        -1000, -1000, -1000, -1000, 0, 1, 3, 8, 16, 34, 69, 140, 282, 140,
-            69, 34, 16, 8, 3, 1, 0, -1000, -1000, -1000, -1000,
-        };
-
-    // Loops checking the score calculations for different altitudes.
-    for (int hours = -12; hours <= 12; hours++)
-    {
-        const auto time = midNight.addSecs(hours * 3600);
-        double alt;
-        job.setMinAltitude(0);
-        // Check the expected altitude and altitude score, with minAltitude = 0.
-        int16_t altScore = job.getAltitudeScore(midNight.addSecs(hours * 3600), &alt);
-        QVERIFY(altScore == altScores[hours + 12]);
-        QVERIFY(compareFloat(alt, svAltitudes[hours + 12], .1));
-
-        // Vary minAltitude and re-check the altitude and other scores.
-        for (double altConstraint = -30; altConstraint < 60; altConstraint += 12)
-        {
-            job.setMinAltitude(altConstraint);
-            altScore = job.getAltitudeScore(time, &alt);
-            if (alt < altConstraint)
-                QVERIFY(altScore == -1000);
-            else
-                QVERIFY(altScore == altScores[hours + 12]);
-
-            const int moonScore = 100;
-            const double _dawn = .25, _dusk = .75;
-            QDateTime const dawn = midNight.addSecs(_dawn * 24.0 * 3600.0);
-            QDateTime const dusk = midNight.addSecs(_dusk * 24.0 * 3600.0);
-            int darkScore = Scheduler::getDarkSkyScore(dawn, dusk, time);
-
-            job.setEnforceTwilight(true);
-            int16_t overallScore = Scheduler::calculateJobScore(&job, dawn, dusk, time);
-
-            // The overall score is a combination of:
-            // - the altitude score,
-            // - the darkSkyScore (if enforcing twilight)
-            // - the moon separation score (not yet tested, and disabled here).
-            QVERIFY((overallScore == altScore + darkScore + moonScore) ||
-                    ((overallScore == darkScore) && (darkScore < 0)) ||
-                    ((overallScore == darkScore + altScore) && (darkScore + altScore < 0)));
-
-            job.setEnforceTwilight(false);
-            darkScore = 0;
-            overallScore = Scheduler::calculateJobScore(&job, dawn, dusk, time);
-            QVERIFY((overallScore == altScore + moonScore) ||
-                    ((overallScore == altScore) && (altScore < 0)));
-        }
-    }
-}
-
 // Test Scheduler::evaluateJobs().
 void TestSchedulerUnit::evaluateJobsTest()
 {
     auto now = midNight;
+    Ekos::GreedyScheduler scheduler;
     Scheduler::setLocalTime(&now);
     // The nullptr is moon pointer. Not currently tested.
     SchedulerJob job(nullptr);
@@ -589,36 +468,31 @@ void TestSchedulerUnit::evaluateJobsTest()
     QDateTime const dusk = midNight.addSecs(_dusk * 24.0 * 3600.0);
     const bool rescheduleErrors = true;
     const bool restart = true;
-    bool possiblyDelay = true;
     const QMap<QString, uint16_t> capturedFrames;
     QList<SchedulerJob *> jobs;
-    const Ekos::SchedulerState state = Ekos::SCHEDULER_IDLE;
-    QList<SchedulerJob *> sortedJobs;
+    QList<SchedulerJob *> jobsToProcess;
     const double minAltitude = 30.0;
 
     // Test 1: Evaluating an empty jobs list should return an empty list.
-    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
-                 restart, &possiblyDelay, nullptr);
-    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
-    QVERIFY(sortedJobs.empty());
+    scheduler.setParams(restart, true, rescheduleErrors, 3600, 3600);
+    jobsToProcess = scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
+    QVERIFY(jobsToProcess.empty());
 
     // Test 2: Add one job to the list.
     // It should be on the list, and scheduled starting right away (there are no conflicting constraints)
     // and ending at the estimated completion interval after "now" .
-    runSetupJob(job, &siliconValley, &midNight, "Job1", 10,
+    runSetupJob(job, &siliconValley, &midNight, "Job1",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(), 0,
+                SchedulerJob::START_ASAP, QDateTime(),
                 SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
                 minAltitude);
     jobs.append(&job);
 
-    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
-                 restart, &possiblyDelay, nullptr);
-    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
+    jobsToProcess = scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
     // Should have the one same job on both lists.
-    QVERIFY(sortedJobs.size() == 1);
-    QVERIFY(jobs[0] == sortedJobs[0]);
+    QVERIFY(jobsToProcess.size() == 1);
+    QVERIFY(jobs[0] == jobsToProcess[0]);
     QVERIFY(jobs[0] == &job);
     // The job should start now.
     QVERIFY(job.getStartupTime() == now);
@@ -638,7 +512,7 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(Scheduler::Dawn <= Scheduler::Dusk);
 
     jobs.clear();
-    sortedJobs.clear();
+    jobsToProcess.clear();
 
     // Test 3: In this case, there are two jobs.
     // The first must wait for to get above the min altitude (which is set to 80-degrees).
@@ -649,95 +523,88 @@ void TestSchedulerUnit::evaluateJobsTest()
     // Thus, first job, with two repetitions will be scheduled 11:10pm --> 12:43am.
     SchedulerJob job1(nullptr);
     auto localTime8pm = midNight.addSecs(-4 * 3600);
-    Scheduler::setLocalTime(&localTime8pm);
-    runSetupJob(job1, &siliconValley, &localTime8pm, "Job1", 10,
+    runSetupJob(job1, &siliconValley, &localTime8pm, "Job1",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(), 0,
+                SchedulerJob::START_ASAP, QDateTime(),
                 SchedulerJob::FINISH_REPEAT, QDateTime(), 2,
                 80.0);
     jobs.append(&job1);
 
-    // The second job has no blocking constraints, but will be scheduled after
-    // the first one. Thus it should get scheduled to start 5 minutes after the first
-    // finishes, or at 12:48am lasting about 45 minutes --> 1:36am.
+    // The second job has no blocking constraints, hence it will start immediately at 08:00 pm.
+    // Since it lasts about 48 minutes, it should terminate at 08:48 pm and won't be suspended
+    // by the first job.
     SchedulerJob job2(nullptr);
-    runSetupJob(job2, &siliconValley, &localTime8pm, "Job2", 10,
+    runSetupJob(job2, &siliconValley, &localTime8pm, "Job2",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(), 0,
+                SchedulerJob::START_ASAP, QDateTime(),
                 SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
                 30.0);
     jobs.append(&job2);
 
-    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
-                 restart, &possiblyDelay, nullptr);
-    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
+    jobsToProcess = scheduler.scheduleJobs(jobs, localTime8pm, capturedFrames, nullptr);
 
-    QVERIFY(sortedJobs.size() == 2);
-    QVERIFY(sortedJobs[0] == &job1);
-    QVERIFY(sortedJobs[1] == &job2);
-    QVERIFY(compareTimes(sortedJobs[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
-    QVERIFY(compareTimes(sortedJobs[0]->getCompletionTime(), midNight.addSecs(43 * 60), 300));
+    QVERIFY(jobsToProcess.size() == 2);
+    QVERIFY(jobsToProcess[0] == &job1);
+    QVERIFY(jobsToProcess[1] == &job2);
+    QVERIFY(compareTimes(jobsToProcess[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
+    QVERIFY(compareTimes(jobsToProcess[0]->getCompletionTime(), midNight.addSecs(43 * 60), 300));
 
-    QVERIFY(compareTimes(sortedJobs[1]->getStartupTime(), midNight.addSecs(48 * 60), 300));
-    QVERIFY(compareTimes(sortedJobs[1]->getCompletionTime(), midNight.addSecs(1 * 3600 + 36 * 60), 300));
+    QVERIFY(compareTimes(jobsToProcess[1]->getStartupTime(), localTime8pm, 300));
+    QVERIFY(compareTimes(jobsToProcess[1]->getCompletionTime(), localTime8pm.addSecs(48 * 60), 300));
 
     Scheduler::calculateDawnDusk();
 
     // The two job should run inside the twilight interval and have the same twilight values as Scheduler current values
-    QVERIFY(sortedJobs[0]->runsDuringAstronomicalNightTime());
-    QVERIFY(sortedJobs[1]->runsDuringAstronomicalNightTime());
-    QVERIFY(sortedJobs[0]->getDawnAstronomicalTwilight() == Scheduler::Dawn);
-    QVERIFY(sortedJobs[1]->getDuskAstronomicalTwilight() == Scheduler::Dusk);
+    QVERIFY(jobsToProcess[0]->runsDuringAstronomicalNightTime());
+    QVERIFY(jobsToProcess[1]->runsDuringAstronomicalNightTime());
+    QVERIFY(jobsToProcess[0]->getDawnAstronomicalTwilight() == Scheduler::Dawn);
+    QVERIFY(jobsToProcess[1]->getDuskAstronomicalTwilight() == Scheduler::Dusk);
 
     // The two job can start now, thus the next events for today are dawn, then dusk
     QVERIFY(Scheduler::Dawn <= Scheduler::Dusk);
 
     jobs.clear();
-    sortedJobs.clear();
+    jobsToProcess.clear();
 
     // Test 4: Similar to above, but the first job estimate will run past dawn as it has 10 repetitions.
-    // In actuality, the planning part of the scheduler doesn't deal with estimating it stopping at dawn,
-    // but would find out at dawn when it evaluates the job and interrupts it (not part of this test).
     // The second job, therefore, should be initially scheduled to start "tomorrow" just after dusk.
 
     // Start the scheduler at 8pm but minAltitude won't be reached until ~11:10pm, and job3 estimated conclusion is 6:39am.
     SchedulerJob job3(nullptr);
     Scheduler::setLocalTime(&localTime8pm);
-    runSetupJob(job3, &siliconValley, &localTime8pm, "Job1", 10,
+    runSetupJob(job3, &siliconValley, &localTime8pm, "Job1",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(), 0,
+                SchedulerJob::START_ASAP, QDateTime(),
                 SchedulerJob::FINISH_REPEAT, QDateTime(), 10,
                 80.0);
     jobs.append(&job3);
 
     // The second job should be scheduled "tomorrow" starting after dusk
     SchedulerJob job4(nullptr);
-    runSetupJob(job4, &siliconValley, &localTime8pm, "Job2", 10,
+    runSetupJob(job4, &siliconValley, &localTime8pm, "Job2",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(), 0,
+                SchedulerJob::START_ASAP, QDateTime(),
                 SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
-                30.0);
+                80.0);
     jobs.append(&job4);
 
-    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
-                 restart, &possiblyDelay, nullptr);
-    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
+    jobsToProcess = scheduler.scheduleJobs(jobs, localTime8pm, capturedFrames, nullptr);
 
-    QVERIFY(sortedJobs.size() == 2);
-    QVERIFY(sortedJobs[0] == &job3);
-    QVERIFY(sortedJobs[1] == &job4);
-    QVERIFY(compareTimes(sortedJobs[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
-    QVERIFY(compareTimes(sortedJobs[0]->getCompletionTime(), midNight.addSecs(6 * 3600 + 39 * 60), 300));
+    QVERIFY(jobsToProcess.size() == 2);
+    QVERIFY(jobsToProcess[0] == &job3);
+    QVERIFY(jobsToProcess[1] == &job4);
+    QVERIFY(compareTimes(jobsToProcess[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
+    QVERIFY(compareTimes(jobsToProcess[0]->getCompletionTime(), midNight.addSecs(6 * 3600 + 39 * 60), 300));
 
-    QVERIFY(compareTimes(sortedJobs[1]->getStartupTime(), midNight.addSecs(18 * 3600 + 54 * 60), 300));
-    QVERIFY(compareTimes(sortedJobs[1]->getCompletionTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
+    QVERIFY(compareTimes(jobsToProcess[1]->getStartupTime(), midNight.addSecs(18 * 3600 + 54 * 60), 300));
+    QVERIFY(compareTimes(jobsToProcess[1]->getCompletionTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
 
     jobs.clear();
-    sortedJobs.clear();
+    jobsToProcess.clear();
 }
 
 QTEST_GUILESS_MAIN(TestSchedulerUnit)

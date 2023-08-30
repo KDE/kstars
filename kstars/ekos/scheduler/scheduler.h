@@ -107,8 +107,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /** @brief Algorithms, in the same order as UI. */
         typedef enum
         {
-            ALGORITHM_CLASSIC,
-            ALGORITHM_GREEDY
+            ALGORITHM_GREEDY = 1
         } SchedulerAlgorithm;
 
         /** @brief Columns, in the same order as UI. */
@@ -118,12 +117,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
             SCHEDCOL_STATUS,
             SCHEDCOL_CAPTURES,
             SCHEDCOL_ALTITUDE,
-            SCHEDCOL_SCORE,
             SCHEDCOL_STARTTIME,
             SCHEDCOL_ENDTIME,
-            SCHEDCOL_DURATION,
-            SCHEDCOL_LEADTIME,
-            SCHEDCOL_COUNT
         } SchedulerColumns;
 
         /** @brief IterationTypes, the different types of scheduler iterations that are run. */
@@ -303,53 +298,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief setupJob Massive initialization of a SchedulerJob for testing and exectution
              * @param job Target
         */
-        static void setupJob(
-            SchedulerJob &job, const QString &name, const QString &group, int priority, const dms &ra,
+        static void setupJob(SchedulerJob &job, const QString &name, const QString &group, const dms &ra,
             const dms &dec, double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl,
-            SchedulerJob::StartupCondition startup, const QDateTime &startupTime, int16_t startupOffset,
+            SchedulerJob::StartupCondition startup, const QDateTime &startupTime,
             SchedulerJob::CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
             double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
             bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide);
-
-        /**
-             * @brief evaluateJobs Computes estimated start and end times for the SchedulerJobs passed in. Returns a proposed schedule.
-             * @param jobs The input list of SchedulerJobs to evaluate.
-             * @param capturedFramesCount which parts of the schedulerJobs have already been completed.
-             * @param dawn next dawn, as a KStarsDateTime
-             * @param dusk next dusk, as a KStarsDateTime
-             * @param scheduler instance of the scheduler used for logging. Can be nullptr.
-             * @return list of sorted jobs
-             */
-        static QList<SchedulerJob *> evaluateJobs(QList<SchedulerJob *> &jobs, const QMap<QString, uint16_t> &capturedFramesCount,
-                QDateTime const &dawn, QDateTime const &dusk, Scheduler *scheduler);
-
-        /**
-             * @brief prepareJobsForEvaluation Start of job evaluation
-             * @param jobs The input list of SchedulerJobs to evaluate.
-             * @param state The current scheduler state.
-             * @param capturedFramesCount which parts of the schedulerJobs have already been completed.
-             * @param rescheduleErrors whether jobs that failed with errors should be rescheduled.
-             * @param restartJobs whether jobs that failed for one reason or another shoulc be rescheduled.
-             * @param possiblyDelay a return value indicating whether the timer should try scheduling again after a delay.
-             * @param scheduler instance of the scheduler used for logging. Can be nullptr.
-             * @return Total score
-             */
-        static QList<SchedulerJob *> prepareJobsForEvaluation(
-            QList<SchedulerJob *> &jobs, SchedulerState state, const QMap<QString, uint16_t> &capturedFramesCount,
-            bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler);
-
-        /**
-             * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
-             * @param job Target
-             * @param dawn next dawn, as a KStarsDateTime
-             * @param dusk next dusk, as a KStarsDateTime
-             * @param when date and time to evaluate constraints, now if omitted.
-             * @return Total score
-             *
-             */
-
-        static int16_t calculateJobScore(SchedulerJob const *job, QDateTime const &dawn, QDateTime const &dusk,
-                                         QDateTime const &when = QDateTime());
 
         /**
              * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
@@ -372,13 +326,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         static bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
                                       bool &hasAutoFocus, Scheduler *scheduler);
-
-        /**
-             * @brief getDarkSkyScore Get the dark sky score of a date and time. The further from dawn the better.
-             * @param when date and time to check the dark sky score, now if omitted
-             * @return Dark sky score. Daylight get bad score, as well as pre-dawn to dawn.
-             */
-        static int16_t getDarkSkyScore(QDateTime const &dawn, QDateTime const &dusk, QDateTime const &when = QDateTime());
 
         /** @brief Setter used in testing to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
@@ -500,7 +447,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         static int timeHeuristics(const SchedulerJob *schedJob);
 
         void setAlgorithm(int alg);
-        SchedulerAlgorithm getAlgorithm() const;
 
         // Used in testing, instead of KStars::Instance() resources
         static KStarsDateTime *storedLocalTime;
@@ -692,7 +638,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief checkJobStage Check the progress of the job states and make DBUS call to start the next stage until the job is complete.
              */
         void checkJobStage();
-        bool checkJobStageClassic();
         void checkJobStageEplogue();
 
         /**
@@ -812,12 +757,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         bool executeJob(SchedulerJob *job);
 
         void executeScript(const QString &filename);
-
-        /**
-             * @brief getWeatherScore Get current weather condition score.
-             * @return If weather condition OK, return score 0, else bad score.
-             */
-        int16_t getWeatherScore() const;
 
         /**
              * @brief calculateDawnDusk Get dawn and dusk times for today

@@ -41,8 +41,6 @@ QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject,
     QString startupConditionStr;
     if (startupCondition.type == SchedulerJob::START_ASAP)
         startupConditionStr = QString("<Condition>ASAP</Condition>");
-    else if (startupCondition.type == SchedulerJob::START_CULMINATION)
-        startupConditionStr = QString("<Condition value='%1'>Culmination</Condition>").arg(startupCondition.culminationOffset);
     else if (startupCondition.type == SchedulerJob::START_AT)
         startupConditionStr = QString("<Condition value='%1'>At</Condition>").arg(
                                   startupCondition.atLocalDateTime.toString(Qt::ISODate));
