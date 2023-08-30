@@ -43,7 +43,7 @@ PlaceholderPath::~PlaceholderPath()
 
 QString PlaceholderPath::defaultFormat(bool useFilter, bool useExposure, bool useTimestamp)
 {
-    QString tempFormat = "%t" + QDir::separator() + "%T" + QDir::separator();
+    QString tempFormat = QDir::separator() + "%t" + QDir::separator() + "%T" + QDir::separator();
     if (useFilter)
         tempFormat.append("%F" + QDir::separator());
     tempFormat.append("%t_%T_");
@@ -276,9 +276,14 @@ QString PlaceholderPath::generateFilename(const QMap<PathProperty, QVariant> &pa
     else
         currentDir = QDir::toNativeSeparators(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/kstars/");
 
-    if(!currentDir.isEmpty() && !currentDir.endsWith(QDir::separator())
-            && !format.isEmpty() && !format.startsWith(QDir::separator()))
-        currentDir.append(QDir::separator());
+    // ensure, that there is exactly one separator is between non empty directory and format
+    if(!currentDir.isEmpty() && !format.isEmpty())
+    {
+        if(!currentDir.endsWith(QDir::separator()) && !format.startsWith(QDir::separator()))
+            currentDir.append(QDir::separator());
+        if(currentDir.endsWith(QDir::separator()) && format.startsWith(QDir::separator()))
+            currentDir = currentDir.left(currentDir.length() - 1);
+    }
 
     QString tempFormat = currentDir + format + "_%s" + QString::number(pathPropertyMap[PP_SUFFIX].toUInt());
 
