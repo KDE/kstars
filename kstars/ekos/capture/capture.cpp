@@ -1735,10 +1735,27 @@ SequenceJob *Capture::addJob(SequenceJob::SequenceJobType jobtype, FilenamePrevi
         emit sequenceChanged(state()->getSequence());
     }
 
-    QString signature = placeholderPath.generateFilename(*job, state()->targetName(),
+    QString signature = placeholderPath.generateSequenceFilename(*job, state()->targetName(),
                         filenamePreview != REMOTE_PREVIEW, true, 1,
                         ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
+
+    auto remoteUpload = placeholderPath.generateSequenceFilename(*job,
+                        state()->targetName(),
+                        false,
+                        true,
+                        1,
+                        ".fits",
+                        "",
+                        false,
+                        true);
+
+    auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
+    auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
+    auto remoteFilename = QString("%1_XXX").arg(remoteUpload.mid(lastSeparator + 1));
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, remoteDirectory);
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, remoteFilename);
+
     updateJobTableRow(job);
     return job;
 }
@@ -4016,7 +4033,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
             extension = ".xisf";
         else
             extension = ".[NATIVE]";
-        previewText = m_placeholderPath.generateFilename(*m_job, targetNameT->text(), previewType == LOCAL_PREVIEW, true, 1,
+        previewText = m_placeholderPath.generateSequenceFilename(*m_job, targetNameT->text(), previewType == LOCAL_PREVIEW, true, 1,
                       extension, "", false);
         previewText = QDir::toNativeSeparators(previewText);
         // we do not use it any more

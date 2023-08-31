@@ -75,7 +75,9 @@ class SequenceJob : public QObject
             // QString
             SJ_RemoteDirectory,
             // QString
-            SJ_DirectoryPostfix,
+            SJ_RemoteFormatDirectory,
+            // QString
+            SJ_RemoteFormatFilename,
             // QString
             SJ_Filename,
             // Double

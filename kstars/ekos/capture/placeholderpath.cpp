@@ -131,10 +131,11 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
             && filterType.isEmpty() == false)
         directoryPostfix += QDir::separator() + filterType;
 
-    job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
-
-    QString signature = generateFilename(*job, jobTargetName, true, true, 1, ".fits", "", false, true);
+    QString signature = generateSequenceFilename(*job, jobTargetName, true, true, 1, ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
+
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, directoryPostfix);
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, directoryPostfix);
 }
 
 void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
@@ -166,7 +167,8 @@ void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
             &&  filterName.isEmpty() == false)
         directoryPostfix += QDir::separator() + filterName;
 
-    job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, directoryPostfix);
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, directoryPostfix);
 }
 
 QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &imagePrefix)
@@ -221,7 +223,7 @@ QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &
     return tempImagePrefix;
 }
 
-QString PlaceholderPath::generateFilename(const SequenceJob &job,
+QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
         const QString &targetName,
         bool local,
         const bool batch_mode,
@@ -246,16 +248,17 @@ QString PlaceholderPath::generateFilename(const SequenceJob &job,
     pathPropertyMap[PP_OFFSET]      = job.getCoreProperty(SequenceJob::SJ_Offset);
     pathPropertyMap[PP_PIERSIDE]    = QVariant(job.getPierSide());
 
-    return generateFilename(pathPropertyMap, batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
+    return generateFilenameInternal(pathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
 }
 
-QString PlaceholderPath::generateFilename(const bool batch_mode, const int nextSequenceID, const QString &extension,
+QString PlaceholderPath::generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
         const QString &filename, const bool glob, const bool gettingSignature) const
 {
-    return generateFilename(m_PathPropertyMap, batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
+    return generateFilenameInternal(m_PathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
 }
 
-QString PlaceholderPath::generateFilename(const QMap<PathProperty, QVariant> &pathPropertyMap,
+QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap,
+        const bool local,
         const bool batch_mode,
         const int nextSequenceID,
         const QString &extension,
@@ -308,7 +311,13 @@ QString PlaceholderPath::generateFilename(const QMap<PathProperty, QVariant> &pa
         else if ((match.captured("name") == "Datetime") || (match.captured("name") == "D"))
         {
             if (glob || gettingSignature)
-                replacement = "\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d";
+            {
+                if (local)
+                    replacement = "\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d";
+                else
+                    replacement = "ISO8601";
+
+            }
             else
                 replacement = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
         }
@@ -457,7 +466,7 @@ QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
 
 QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QString &targetName)
 {
-    QString path = generateFilename(job, targetName, true, true, 0, ".*", "", true);
+    QString path = generateSequenceFilename(job, targetName, true, true, 0, ".*", "", true);
     auto sanitizedPath = path;
 
     // This is needed for Windows as the regular expression confuses path search

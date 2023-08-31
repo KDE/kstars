@@ -547,7 +547,7 @@ void Camera::processStream(INDI::Property prop)
 bool Camera::generateFilename(bool batch_mode, const QString &extension, QString *filename)
 {
 
-    *filename = placeholderPath.generateFilename(batch_mode, nextSequenceID, extension, "");
+    *filename = placeholderPath.generateOutputFilename(true, batch_mode, nextSequenceID, extension, "");
 
     QDir currentDir = QFileInfo(*filename).dir();
     if (currentDir.exists() == false)
@@ -1126,10 +1126,8 @@ bool Camera::configureRapidGuide(CameraChip *targetChip, bool autoLoop, bool sen
     return true;
 }
 
-void Camera::updateUploadSettings(const QString &remoteDir)
+void Camera::updateUploadSettings(const QString &uploadDirectory, const QString &uploadFile)
 {
-    QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("XXX");
-
     ITextVectorProperty *uploadSettingsTP = nullptr;
     IText *uploadT                        = nullptr;
 
@@ -1137,17 +1135,17 @@ void Camera::updateUploadSettings(const QString &remoteDir)
     if (uploadSettingsTP)
     {
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_DIR");
-        if (uploadT && remoteDir.isEmpty() == false)
+        if (uploadT && uploadDirectory.isEmpty() == false)
         {
-            auto uploadDir = remoteDir;
+            auto posixDirectory = uploadDirectory;
             // N.B. Need to convert any Windows directory separators / to Posix separators /
-            uploadDir.replace(QDir::separator(), "/");
-            IUSaveText(uploadT, uploadDir.toLatin1().constData());
+            posixDirectory.replace(QDir::separator(), "/");
+            IUSaveText(uploadT, posixDirectory.toLatin1().constData());
         }
 
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_PREFIX");
         if (uploadT)
-            IUSaveText(uploadT, filename.toLatin1().constData());
+            IUSaveText(uploadT, uploadFile.toLatin1().constData());
 
         sendNewProperty(uploadSettingsTP);
     }
