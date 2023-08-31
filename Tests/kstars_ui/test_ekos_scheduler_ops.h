@@ -54,7 +54,6 @@ class TestEkosSchedulerOps : public QObject
         void testDawnShutdown();
         void testTwilightStartup();
         void testTwilightStartup_data();
-        void testCulminationStartup();
         void testFixedDateStartup();
         void testArtificialHorizonConstraints();
         void testGreedySchedulerRun();

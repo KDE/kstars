@@ -669,7 +669,7 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
             break;
     }
 
-    svp->reset();
+    svp.reset();
     if (strConfig)
     {
         auto sp = svp.findWidgetByName(strConfig);
@@ -721,7 +721,10 @@ void GenericDevice::updateTime()
             offsetEle->setText(offset.toLatin1().constData());
 
         if (timeEle && offsetEle)
+        {
+            qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Time UTC:" << isoTS << "Offset:" << offset;
             m_ClientManager->sendNewProperty(timeUTC);
+        }
     }
 }
 
@@ -761,6 +764,8 @@ void GenericDevice::updateLocation()
         return;
 
     np->setValue(geo->elevation());
+
+    qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Location Longitude:" << longNP << "Latitude:" << geo->lat()->Degrees() << "Elevation:" << geo->elevation();
 
     m_ClientManager->sendNewProperty(nvp);
 }

@@ -56,17 +56,20 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> 
 
     scheduledJob = selectNextJob(sortedJobs, now, nullptr, true, &when, nullptr, nullptr, &capturedFramesCount);
     auto schedule = getSchedule();
-    if (!schedule.empty())
+    if (scheduler != nullptr)
     {
-        // Print in reverse order ?! The log window at the bottom of the screen
-        // prints "upside down" -- most recent on top -- and I believe that view
-        // is more important than the log file (where we can invert when debugging).
-        for (int i = schedule.size() - 1; i >= 0; i--)
-            scheduler->appendLogText(GreedyScheduler::jobScheduleString(schedule[i]));
-        scheduler->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:")
-                                 .arg(now.toString()).arg(timer.elapsed() / 1000.0));
+        if (!schedule.empty())
+        {
+            // Print in reverse order ?! The log window at the bottom of the screen
+            // prints "upside down" -- most recent on top -- and I believe that view
+            // is more important than the log file (where we can invert when debugging).
+            for (int i = schedule.size() - 1; i >= 0; i--)
+                scheduler->appendLogText(GreedyScheduler::jobScheduleString(schedule[i]));
+            scheduler->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:")
+                                     .arg(now.toString()).arg(timer.elapsed() / 1000.0));
+        }
+        else scheduler->appendLogText(QString("Greedy Scheduler: empty plan (%1s)").arg(timer.elapsed() / 1000.0));
     }
-    else scheduler->appendLogText(QString("Greedy Scheduler: empty plan (%1s)").arg(timer.elapsed() / 1000.0));
     if (scheduledJob != nullptr)
     {
         qCDebug(KSTARS_EKOS_SCHEDULER)

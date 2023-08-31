@@ -65,9 +65,8 @@ class SchedulerJob
         /** @brief Conditions under which a SchedulerJob may start. */
         typedef enum
         {
-            START_ASAP,
-            START_CULMINATION,
-            START_AT
+            START_ASAP = 0,
+            START_AT   = 2
         } StartupCondition;
 
         /** @brief Conditions under which a SchedulerJob may complete. */
@@ -192,15 +191,6 @@ class SchedulerJob
         void setCompletionCondition(const CompletionCondition &value);
         /** @} */
 
-        /** @brief Target culmination proximity under which this job starts. */
-        /** @{ */
-        int16_t getCulminationOffset() const
-        {
-            return culminationOffset;
-        }
-        void setCulminationOffset(const int16_t &value);
-        /** @} */
-
         /** @brief Timestamp format to use when displaying information about this job. */
         /** @{ */
         QString const &getDateTimeDisplayFormat() const
@@ -235,15 +225,6 @@ class SchedulerJob
             return inSequenceFocus;
         }
         void setInSequenceFocus(bool value);
-        /** @} */
-
-        /** @brief Job priority, low priority value means most prioritary. */
-        /** @{ */
-        uint8_t getPriority() const
-        {
-            return priority;
-        }
-        void setPriority(const uint8_t &value);
         /** @} */
 
         /** @brief Whether to restrict job to night time. */
@@ -485,51 +466,6 @@ class SchedulerJob
             estimatedTimeLeftThisRepeat = value;
         }
 
-        /** @brief Shortcut to widget cell for estimated time in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getEstimatedTimeCell() const
-        {
-            return estimatedTimeCell;
-        }
-        void setEstimatedTimeCell(QTableWidgetItem *value);
-        /** @} */
-
-        /** @brief Estimation of the lead time the job will have to process. */
-        /** @{ */
-        int64_t getLeadTime() const
-        {
-            return leadTime;
-        }
-        void setLeadTime(const int64_t &value);
-        /** @} */
-
-        /** @brief Shortcut to widget cell for estimated time in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getLeadTimeCell() const
-        {
-            return leadTimeCell;
-        }
-        void setLeadTimeCell(QTableWidgetItem *value);
-        /** @} */
-
-        /** @brief Current score of the scheduler job. */
-        /** @{ */
-        int getScore() const
-        {
-            return score;
-        }
-        void setScore(int value);
-        /** @} */
-
-        /** @brief Shortcut to widget cell for job score in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getScoreCell() const
-        {
-            return scoreCell;
-        }
-        void setScoreCell(QTableWidgetItem *value);
-        /** @} */
-
         /** @brief Whether this job requires light frames, or only calibration frames. */
         /** @{ */
         bool getLightFramesRequired() const
@@ -588,22 +524,6 @@ class SchedulerJob
             return this != a_job && name == a_job->name && sequenceFile == a_job->sequenceFile;
         }
 
-        /** @brief Compare ::SchedulerJob instances based on score.
-         * @todo This is a qSort predicate, deprecated in QT5.
-         * @arg a, b are ::SchedulerJob instances to compare.
-         * @return true if the score of b is lower than the score of a.
-         * @return false if the score of b is higher than or equal to the score of a.
-         */
-        static bool decreasingScoreOrder(SchedulerJob const *a, SchedulerJob const *b);
-
-        /** @brief Compare ::SchedulerJob instances based on priority.
-         * @todo This is a qSort predicate, deprecated in QT5.
-         * @arg a, b are ::SchedulerJob instances to compare.
-         * @return true if the priority of a is lower than the priority of b.
-         * @return false if the priority of a is higher than or equal to the priority of b.
-         */
-        static bool increasingPriorityOrder(SchedulerJob const *a, SchedulerJob const *b);
-
         /** @brief Compare ::SchedulerJob instances based on altitude and movement in sky at startup time.
          * @todo This is a qSort predicate, deprecated in QT5.
          * @arg a, b are ::SchedulerJob instances to compare.
@@ -616,22 +536,6 @@ class SchedulerJob
          * @return false otherwise, if the altitude of b is higher than or equal to the altitude of a.
          */
         static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b, QDateTime const &when = QDateTime());
-
-        /** @brief Compare ::SchedulerJob instances based on startup time.
-         * @todo This is a qSort predicate, deprecated in QT5.
-         * @arg a, b are ::SchedulerJob instances to compare.
-         * @return true if the startup time of a is sooner than the priority of b.
-         * @return false if the startup time of a is later than or equal to the priority of b.
-         */
-        static bool increasingStartupTimeOrder(SchedulerJob const *a, SchedulerJob const *b);
-
-        /**
-             * @brief getAltitudeScore Get the altitude score of an object. The higher the better
-             * @param when date and time to check the target altitude, now if omitted.
-             * @param altPtr returns the altitude in degrees if not a nullptr.
-             * @return Altitude score. Target altitude below minimum altitude required by job or setting target under 3 degrees below minimum altitude get bad score.
-             */
-        int16_t getAltitudeScore(QDateTime const &when = QDateTime(), double *altPtr = nullptr) const;
 
         /**
              * @brief getMoonSeparationScore Get moon separation score. The further apart, the better, up a maximum score of 20.
@@ -659,13 +563,6 @@ class SchedulerJob
                                            const QDateTime &until = QDateTime()) const;
         QDateTime getNextEndTime(const QDateTime &start, int increment = 1, QString *reason = nullptr,
                                  const QDateTime &until = QDateTime()) const;
-
-        /**
-             * @brief calculateCulmination find culmination time adjust for the job offset
-             * @param when date and time to start searching from, now if omitted
-             * @return The date and time the target is in entering the culmination interval, valid if found, invalid if not achievable (currently always valid).
-             */
-        QDateTime calculateCulmination(QDateTime const &when = QDateTime()) const;
 
         /**
              * @brief calculateDawnDusk find the next astronomical dawn and dusk after the current date and time of observation
@@ -852,20 +749,13 @@ class SchedulerJob
         QTableWidgetItem *altitudeCell { nullptr };
         QTableWidgetItem *startupCell { nullptr };
         QTableWidgetItem *completionCell { nullptr };
-        QTableWidgetItem *estimatedTimeCell { nullptr };
         QTableWidgetItem *captureCountCell { nullptr };
-        QTableWidgetItem *scoreCell { nullptr };
-        QTableWidgetItem *leadTimeCell { nullptr };
         /** @} */
 
-        int score { 0 };
-        int16_t culminationOffset { 0 };
-        uint8_t priority { 10 };
         int64_t estimatedTime { -1 };
         int64_t estimatedTimePerRepeat { 0 };
         int64_t estimatedStartupTime { 0 };
         int64_t estimatedTimeLeftThisRepeat { 0 };
-        int64_t leadTime { 0 };
         uint16_t repeatsRequired { 1 };
         uint16_t repeatsRemaining { 1 };
         bool inSequenceFocus { false };

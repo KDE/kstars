@@ -97,8 +97,6 @@ QString SchedulerJob::startupConditionString(SchedulerJob::StartupCondition cond
     {
         case START_ASAP:
             return "ASAP";
-        case START_CULMINATION:
-            return "CULM";
         case START_AT:
             return "AT";
     }
@@ -111,8 +109,6 @@ QString SchedulerJob::jobStartupConditionString(SchedulerJob::StartupCondition c
     {
         case START_ASAP:
             return "ASAP";
-        case START_CULMINATION:
-            return "CULM";
         case START_AT:
             return QString("AT %1").arg(getFileStartupTime().toString("MM/dd hh:mm"));
     }
@@ -153,7 +149,8 @@ QString SchedulerJob::jobCompletionConditionString(SchedulerJob::CompletionCondi
 
 SchedulerJob::SchedulerJob()
 {
-    moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Moon")));
+    if (KStarsData::Instance() != nullptr)
+        moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Moon")));
 }
 
 // Private constructor for unit testing.
@@ -383,23 +380,6 @@ void SchedulerJob::setState(const JOBStatus &value)
 }
 
 
-void SchedulerJob::setLeadTime(const int64_t &value)
-{
-    leadTime = value;
-    updateJobCells();
-}
-
-void SchedulerJob::setScore(int value)
-{
-    score = value;
-    updateJobCells();
-}
-
-void SchedulerJob::setCulminationOffset(const int16_t &value)
-{
-    culminationOffset = value;
-}
-
 void SchedulerJob::setSequenceCount(const int count)
 {
     sequenceCount = count;
@@ -465,26 +445,6 @@ void SchedulerJob::setCaptureCountCell(QTableWidgetItem *value)
         captureCountCell->setToolTip(i18n("Count of captures stored for job '%1', based on its sequence job.\n"
                                           "This is a summary, additional specific frame types may be required to complete the job.",
                                           name));
-}
-
-void SchedulerJob::setScoreCell(QTableWidgetItem *value)
-{
-    scoreCell = value;
-    if (nullptr != scoreCell)
-        scoreCell->setToolTip(i18n("Current score for job '%1', from its altitude, moon separation and sky darkness.\n"
-                                   "Negative if adequate altitude is not achieved yet or if there is no proper observation time today.\n"
-                                   "The Scheduler will refresh scores when picking a new candidate job.",
-                                   name));
-}
-
-void SchedulerJob::setLeadTimeCell(QTableWidgetItem *value)
-{
-    leadTimeCell = value;
-    if (nullptr != leadTimeCell)
-        leadTimeCell->setToolTip(i18n("Time interval from the job which precedes job '%1'.\n"
-                                      "Adjust the Lead Time in Ekos options to increase that duration and leave time for jobs to complete.\n"
-                                      "Rearrange jobs to minimize that duration and optimize your imaging time.",
-                                      name));
 }
 
 void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
@@ -553,11 +513,6 @@ void SchedulerJob::setInSequenceFocus(bool value)
     inSequenceFocus = value;
 }
 
-void SchedulerJob::setPriority(const uint8_t &value)
-{
-    priority = value;
-}
-
 void SchedulerJob::setEnforceTwilight(bool value)
 {
     enforceTwilight = value;
@@ -567,15 +522,6 @@ void SchedulerJob::setEnforceTwilight(bool value)
 void SchedulerJob::setEnforceArtificialHorizon(bool value)
 {
     enforceArtificialHorizon = value;
-}
-
-void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
-{
-    estimatedTimeCell = value;
-    if (estimatedTimeCell)
-        estimatedTimeCell->setToolTip(i18n("Duration job '%1' will take to complete when started, as estimated by the Scheduler.\n"
-                                           "Depends on the actions to be run, and the sequence job to be processed.",
-                                           name));
 }
 
 void SchedulerJob::setLightFramesRequired(bool value)
@@ -732,7 +678,6 @@ void SchedulerJob::updateJobCells()
             {
                 /* If the original condition is START_AT/START_CULMINATION, startup time is fixed */
                 case START_AT:
-                case START_CULMINATION:
                     startupCell->setIcon(QIcon::fromTheme("chronometer"));
                     break;
 
@@ -811,30 +756,6 @@ void SchedulerJob::updateJobCells()
             completionCell->tableWidget()->resizeColumnToContents(completionCell->column());
     }
 
-    if (nullptr != estimatedTimeCell)
-    {
-        if (0 < estimatedTime)
-            /* Seconds to ms - this doesn't follow dateTimeDisplayFormat, which renders YMD too */
-            estimatedTimeCell->setText(QTime::fromMSecsSinceStartOfDay(estimatedTime * 1000).toString("HH:mm:ss"));
-#if 0
-        else if(0 == estimatedTime)
-            /* FIXME: this special case could be merged with the previous, kept for future to indicate actual duration */
-            estimatedTimeCell->setText("00:00:00");
-#endif
-        else
-            /* Invalid marker */
-            estimatedTimeCell->setText("-");
-
-        /* Warn the end-user if estimated time doesn't fit in the startup/completion interval */
-        if (estimatedTime < startupTime.secsTo(completionTime))
-            estimatedTimeCell->setIcon(QIcon::fromTheme("document-find"));
-        else
-            estimatedTimeCell->setIcon(QIcon());
-
-        if (nullptr != estimatedTimeCell->tableWidget())
-            estimatedTimeCell->tableWidget()->resizeColumnToContents(estimatedTimeCell->column());
-    }
-
     if (nullptr != captureCountCell)
     {
         switch (completionCondition)
@@ -859,39 +780,6 @@ void SchedulerJob::updateJobCells()
             captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
     }
 
-    if (nullptr != scoreCell)
-    {
-        if (0 <= score)
-            scoreCell->setText(QString("%L1").arg(score));
-        else
-            /* FIXME: negative scores are just weird for the end-user */
-            scoreCell->setText("<0");
-
-        if (nullptr != scoreCell->tableWidget())
-            scoreCell->tableWidget()->resizeColumnToContents(scoreCell->column());
-    }
-
-    if (nullptr != leadTimeCell)
-    {
-        // Display lead time, plus a warning if lead time is more than twice the lead time of the Ekos options
-        switch (state)
-        {
-            case JOB_INVALID:
-            case JOB_ERROR:
-            case JOB_COMPLETE:
-                leadTimeCell->setText("-");
-                break;
-
-            default:
-                leadTimeCell->setText(QString("%1%2")
-                                      .arg(Options::leadTime() * 60 * 2 < leadTime ? QString(QChar(0x26A0)) : "")
-                                      .arg(QTime::fromMSecsSinceStartOfDay(leadTime * 1000).toString("HH:mm:ss")));
-                break;
-        }
-
-        if (nullptr != leadTimeCell->tableWidget())
-            leadTimeCell->tableWidget()->resizeColumnToContents(leadTimeCell->column());
-    }
 }
 
 void SchedulerJob::reset()
@@ -902,7 +790,6 @@ void SchedulerJob::reset()
     lastAbortTime = QDateTime();
     lastErrorTime = QDateTime();
     estimatedTime = -1;
-    leadTime = 0;
     startupCondition = fileStartupCondition;
     startupTime = fileStartupCondition == START_AT ? fileStartupTime : QDateTime();
 
@@ -917,16 +804,6 @@ void SchedulerJob::reset()
     completedIterations = 0;
     updateJobCells();
     clearCache();
-}
-
-bool SchedulerJob::decreasingScoreOrder(SchedulerJob const *job1, SchedulerJob const *job2)
-{
-    return job1->getScore() > job2->getScore();
-}
-
-bool SchedulerJob::increasingPriorityOrder(SchedulerJob const *job1, SchedulerJob const *job2)
-{
-    return job1->getPriority() < job2->getPriority();
 }
 
 bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJob const *job2, QDateTime const &when)
@@ -949,11 +826,6 @@ bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJo
 
     // If both targets rise or set, sort by decreasing altitude, considering a setting target is prioritary
     return (A_is_setting && B_is_setting) ? altA < altB : altB < altA;
-}
-
-bool SchedulerJob::increasingStartupTimeOrder(SchedulerJob const *job1, SchedulerJob const *job2)
-{
-    return job1->getStartupTime() < job2->getStartupTime();
 }
 
 bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason) const
@@ -986,85 +858,6 @@ bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, 
         return getHorizon()->isAltitudeOK(azimuth, altitude, altitudeReason);
 
     return true;
-}
-
-int16_t SchedulerJob::getAltitudeScore(QDateTime const &when, double *altPtr) const
-{
-    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-
-    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
-    KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
-                          getLocalTime());
-
-    // Create a sky object with the target catalog coordinates
-    SkyPoint const target = getTargetCoords();
-    SkyObject o;
-    o.setRA0(target.ra0());
-    o.setDec0(target.dec0());
-
-    // Update RA/DEC of the target for the current fraction of the day
-    KSNumbers numbers(ltWhen.djd());
-    o.updateCoordsNow(&numbers);
-
-    // Compute local sidereal time for the current fraction of the day, calculate altitude
-    CachingDms const LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
-    o.EquatorialToHorizontal(&LST, getGeo()->lat());
-    double const altitude = o.alt().Degrees();
-    double const azimuth = o.az().Degrees();
-    if (altPtr != nullptr)
-        *altPtr = altitude;
-
-    double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
-    int16_t score = BAD_SCORE - 1;
-
-    bool const altitudeOK = satisfiesAltitudeConstraint(azimuth, altitude);
-
-    // If altitude is negative, bad score
-    // FIXME: some locations may allow negative altitudes
-    if (altitude < 0)
-    {
-        score = BAD_SCORE;
-    }
-    else if (hasAltitudeConstraint())
-    {
-        // If under altitude constraint, bad score
-        if (!altitudeOK)
-            score = BAD_SCORE;
-        // Else if setting and under altitude cutoff, job would end soon after starting, bad score
-        // FIXME: half bad score when under altitude cutoff risk getting positive again
-        else
-        {
-            double offset = LST.Hours() - o.ra().Hours();
-            if (24.0 <= offset)
-                offset -= 24.0;
-            else if (offset < 0.0)
-                offset += 24.0;
-            if (0.0 <= offset && offset < 12.0)
-            {
-                bool const settingAltitudeOK = satisfiesAltitudeConstraint(azimuth, altitude - SETTING_ALTITUDE_CUTOFF);
-                if (!settingAltitudeOK)
-                    score = BAD_SCORE / 2;
-            }
-        }
-    }
-    // If not constrained but below minimum hard altitude, set score to 10% of altitude value
-    else if (altitude < MIN_ALTITUDE)
-    {
-        score = static_cast <int16_t> (altitude / 10.0);
-    }
-
-    // Else default score calculation without altitude constraint
-    if (score < BAD_SCORE)
-        score = static_cast <int16_t> ((1.5 * pow(1.06, altitude)) - (MIN_ALTITUDE / 10.0));
-
-    //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' target altitude is %3 degrees at %2 (score %4).")
-    //    .arg(getName())
-    //    .arg(when.toString(getDateTimeDisplayFormat()))
-    //    .arg(currentAlt, 0, 'f', minAltitude->decimals())
-    //    .arg(QString::asprintf("%+d", score));
-
-    return score;
 }
 
 int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
@@ -1281,57 +1074,6 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
     }
 
     return QDateTime();
-}
-
-QDateTime SchedulerJob::calculateCulmination(QDateTime const &when) const
-{
-    // FIXME: culmination calculation is a min altitude requirement, should be an interval altitude requirement
-
-    // FIXME: block calculating target coordinates at a particular time is duplicated in calculateCulmination
-
-    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
-    KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
-                          getLocalTime());
-
-    // Create a sky object with the target catalog coordinates
-    SkyPoint const target = getTargetCoords();
-    SkyObject o;
-    o.setRA0(target.ra0());
-    o.setDec0(target.dec0());
-
-    // Update RA/DEC for the argument date/time
-    KSNumbers numbers(ltWhen.djd());
-    o.updateCoordsNow(&numbers);
-
-    // Calculate transit date/time at the argument date - transitTime requires UT and returns LocalTime
-    KStarsDateTime transitDateTime(ltWhen.date(), o.transitTime(getGeo()->LTtoUT(ltWhen), getGeo()), Qt::LocalTime);
-
-    // Shift transit date/time by the argument offset
-    KStarsDateTime observationDateTime = transitDateTime.addSecs(getCulminationOffset() * 60);
-
-    // Relax observation time, culmination calculation is stable at minute only
-    KStarsDateTime relaxedDateTime = observationDateTime.addSecs(Options::leadTime() * 60);
-
-    // Verify resulting observation time is under lead time vs. argument time
-    // If sooner, delay by 8 hours to get to the next transit - perhaps in a third call
-    if (relaxedDateTime < ltWhen)
-    {
-        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' startup %2 is posterior to transit %3, shifting by 8 hours.")
-                                       .arg(getName())
-                                       .arg(ltWhen.toString(getDateTimeDisplayFormat()))
-                                       .arg(relaxedDateTime.toString(getDateTimeDisplayFormat()));
-
-        return calculateCulmination(when.addSecs(8 * 60 * 60));
-    }
-
-    // Guarantees - culmination calculation is stable at minute level, so relax by lead time
-    Q_ASSERT_X(observationDateTime.isValid(), __FUNCTION__, "Observation time for target culmination is valid.");
-    Q_ASSERT_X(ltWhen <= relaxedDateTime, __FUNCTION__,
-               "Observation time for target culmination is at or after than argument time");
-
-    // Return consolidated culmination time
-    return Qt::UTC == observationDateTime.timeSpec() ? getGeo()->UTtoLT(observationDateTime) : observationDateTime;
 }
 
 double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when, bool * is_setting, bool debug)
@@ -1698,15 +1440,10 @@ QJsonObject SchedulerJob::toJson() const
         {"completedCount", completedCount},
         {"minAltitude", minAltitude},
         {"minMoonSeparation", minMoonSeparation},
-        {"culminationOffset", culminationOffset},
-        {"priority", priority},
         {"repeatsRequired", repeatsRequired},
         {"repeatsRemaining", repeatsRemaining},
         {"inSequenceFocus", inSequenceFocus},
-        {"score", score},
         {"startupTime", startupCell ? startupCell->text() : "--"},
-        {"leadTime", leadTimeCell ? leadTimeCell->text() : "--"},
-        {"estimatedTime", estimatedTimeCell ? estimatedTimeCell->text() : "--"},
         {"completionTime", completionCell ? completionCell->text() : "--"},
         {"altitude", altitudeCell ? altitudeCell->text() : "--"},
     };

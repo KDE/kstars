@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-28 00:41+0000\n"
+"POT-Creation-Date: 2023-08-31 00:41+0000\n"
 "PO-Revision-Date: 2023-08-27 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -212,7 +212,7 @@ msgid "Asteroids"
 msgstr "小行星"
 
 #. i18n: ectx: property (text), widget (QCheckBox, artificialHorizonCheck)
-#: auxiliary/colorscheme.cpp:63 ekos/scheduler/scheduler.ui:1796
+#: auxiliary/colorscheme.cpp:63 ekos/scheduler/scheduler.ui:1708
 #: skycomponents/artificialhorizoncomponent.cpp:140
 #, kde-format
 msgid "Artificial Horizon"
@@ -397,7 +397,7 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2474
-#: ekos/scheduler/scheduler.cpp:4809
+#: ekos/scheduler/scheduler.cpp:3818
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -546,7 +546,7 @@ msgstr "取消"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:134 ekos/analyze/analyze.cpp:136
 #: ekos/capture/sequencejob.cpp:21 ekos/manager.cpp:1068 ekos/manager.cpp:1083
-#: ekos/manager.cpp:1113 ekos/scheduler/schedulerjob.cpp:674
+#: ekos/manager.cpp:1113 ekos/scheduler/schedulerjob.cpp:620
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:480 kstarsactions.cpp:488
 #: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:519
@@ -973,7 +973,7 @@ msgstr "地球"
 #: data/qml/whatisinteresting/wiview.qml:176
 #: data/qml/whatisinteresting/wiview.qml:188 dialogs/detaildialog.cpp:216
 #: dialogs/detaildialog.cpp:232 dialogs/detaildialog.cpp:255
-#: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:156
+#: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:153
 #: printing/detailstable.cpp:145 printing/detailstable.cpp:162
 #: printing/detailstable.cpp:173 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:124 skycomponents/skymapcomposite.cpp:606
@@ -1787,7 +1787,7 @@ msgstr "ZA："
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
 #: data/qml/mount/mountbox.qml:668 ekos/capture/capture.ui:1017
-#: ekos/scheduler/scheduler.ui:319
+#: ekos/scheduler/scheduler.ui:161
 #, kde-format, kde-kuit-format
 msgid "Target:"
 msgstr "目标："
@@ -1881,8 +1881,8 @@ msgstr "状态："
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:572 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1299
-#: ekos/scheduler/schedulerjob.cpp:667 ekos/scheduler/schedulerjob.cpp:691
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1252
+#: ekos/scheduler/schedulerjob.cpp:613 ekos/scheduler/schedulerjob.cpp:637
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2233,8 +2233,8 @@ msgid "Check if magnitude is unknown"
 msgstr "检查星等是否未知"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:675
-#: ekos/scheduler/schedulerjob.cpp:706 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:621
+#: ekos/scheduler/schedulerjob.cpp:652 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2475,7 +2475,7 @@ msgstr "该 URL 无效。您是否想要打开浏览器窗口用 Google 搜索�
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
 #: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2056
 #: ekos/capture/capture.cpp:2483 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:4443 ekos/scheduler/scheduler.cpp:4819
+#: ekos/scheduler/scheduler.cpp:3459 ekos/scheduler/scheduler.cpp:3828
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
@@ -2586,8 +2586,8 @@ msgstr "找不到 ID 为%1 的星表。"
 #. i18n: ectx: property (text), item, widget (QComboBox, schedulerProfileCombo)
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
-#: ekos/scheduler/scheduler.cpp:3450 ekos/scheduler/scheduler.cpp:7449
-#: ekos/scheduler/scheduler.ui:333 skycomponents/flagcomponent.cpp:33
+#: ekos/scheduler/scheduler.cpp:2569 ekos/scheduler/scheduler.cpp:6434
+#: ekos/scheduler/scheduler.ui:250 skycomponents/flagcomponent.cpp:33
 #, kde-format
 msgid "Default"
 msgstr "默认"
@@ -3000,7 +3000,7 @@ msgstr "编辑"
 #: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:911
 #: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:424
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
-#: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:475
+#: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:468
 #: fitsviewer/solveInfo.ui:66 skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "RA"
@@ -3019,7 +3019,7 @@ msgstr "星等"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/scheduler/scheduler.ui:1091 indi/drivermanager.ui:327
+#: ekos/scheduler/scheduler.ui:1059 indi/drivermanager.ui:327
 #: tools/observinglist.cpp:92 tools/observinglist.cpp:96
 #, kde-format
 msgid "Name"
@@ -5930,7 +5930,7 @@ msgstr "解析中止，用时 %1 秒。"
 #: ekos/align/align.cpp:2465 ekos/capture/capture.cpp:1441
 #: ekos/focus/focus.cpp:3969 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
 #: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:917
+#: ekos/scheduler/scheduler.cpp:911
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6121,7 +6121,7 @@ msgstr "导出已解析的点"
 #: ekos/align/align.cpp:3799 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2055
 #: ekos/capture/capture.cpp:2482 ekos/guide/guidedriftgraph.cpp:475
-#: ekos/scheduler/scheduler.cpp:4442 ekos/scheduler/scheduler.cpp:4818
+#: ekos/scheduler/scheduler.cpp:3458 ekos/scheduler/scheduler.cpp:3827
 #: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -6130,16 +6130,16 @@ msgstr "无效的网址：%1"
 
 #: ekos/align/align.cpp:3808 ekos/align/mountmodel.cpp:400
 #: ekos/capture/capture.cpp:2505 ekos/guide/guidedriftgraph.cpp:484
-#: ekos/scheduler/scheduler.cpp:4830 ekos/scheduler/scheduler.cpp:7226
+#: ekos/scheduler/scheduler.cpp:3839 ekos/scheduler/scheduler.cpp:6211
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "无法写入到文件 %1"
 
 #: ekos/align/align.cpp:3809 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2071
-#: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:4486
-#: ekos/scheduler/scheduler.cpp:4831 ekos/scheduler/scheduler.cpp:7170
-#: ekos/scheduler/scheduler.cpp:7227 indi/drivermanager.cpp:1520
+#: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:3502
+#: ekos/scheduler/scheduler.cpp:3840 ekos/scheduler/scheduler.cpp:6155
+#: ekos/scheduler/scheduler.cpp:6212 indi/drivermanager.cpp:1520
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1375 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -6598,7 +6598,7 @@ msgstr ""
 #: ekos/align/align.ui:916 ekos/align/opsastrometry.ui:389
 #: ekos/guide/guide.ui:342 ekos/guide/guide.ui:1247
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
-#: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:495
+#: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:488
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "DEC"
@@ -6754,7 +6754,7 @@ msgid "Open Ekos Alignment List"
 msgstr "打开 Ekos 校准列表"
 
 #: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2070
-#: ekos/scheduler/scheduler.cpp:4485 ekos/scheduler/scheduler.cpp:7169
+#: ekos/scheduler/scheduler.cpp:3501 ekos/scheduler/scheduler.cpp:6154
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "无法打开文件 %1"
@@ -9581,7 +9581,7 @@ msgid "Parking"
 msgstr "归位中"
 
 #: ekos/analyze/analyze.cpp:128 ekos/analyze/analyze.cpp:147 ekos/ekos.h:140
-#: ekos/scheduler/schedulerjob.cpp:692 indi/indimount.cpp:31
+#: ekos/scheduler/schedulerjob.cpp:638 indi/indimount.cpp:31
 #, kde-format
 msgid "Slewing"
 msgstr "旋转"
@@ -9643,7 +9643,7 @@ msgstr "找不到图像 %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1868 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2016 ekos/manager/focusmanager.ui:101
-#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:279
+#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:445
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
 msgid "Focus"
@@ -9651,7 +9651,7 @@ msgstr "对焦"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #: ekos/analyze/analyze.cpp:1869 ekos/manager.cpp:1990
-#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:232
+#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:398
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
 msgid "Align"
@@ -9664,7 +9664,7 @@ msgstr "对准"
 #: ekos/analyze/analyze.cpp:1870 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2170
-#: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:254
+#: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:420
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
 msgid "Guide"
@@ -9715,7 +9715,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:2846 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
-#: ekos/scheduler/schedulerjob.cpp:673
+#: ekos/scheduler/schedulerjob.cpp:619
 #, kde-format
 msgid "Aborted"
 msgstr "中止"
@@ -9731,7 +9731,7 @@ msgid "Disconnected"
 msgstr "已断开连接"
 
 #: ekos/analyze/analyze.cpp:2852 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:705
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:651
 #, kde-format
 msgid "Capturing"
 msgstr "正在捕获"
@@ -9773,7 +9773,7 @@ msgstr "已校准"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:32
-#: ekos/scheduler/schedulerjob.cpp:703
+#: ekos/scheduler/schedulerjob.cpp:649
 #, kde-format
 msgid "Guiding"
 msgstr "导星中"
@@ -11503,7 +11503,7 @@ msgstr "调度器"
 #. i18n: ectx: property (title), widget (QGroupBox, weatherBox)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherCheck)
 #: ekos/auxiliary/opslogs.ui:100 ekos/observatory/observatory.ui:742
-#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1736
+#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1648
 #, kde-format
 msgid "Weather"
 msgstr "气象卫星"
@@ -13289,7 +13289,7 @@ msgstr "公差："
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountC)
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountCheck)
-#: ekos/capture/calibrationoptions.ui:246 ekos/scheduler/scheduler.ui:1925
+#: ekos/capture/calibrationoptions.ui:246 ekos/scheduler/scheduler.ui:1837
 #, kde-format
 msgid "Park Mount"
 msgstr "归位赤道仪"
@@ -13299,7 +13299,7 @@ msgstr "归位赤道仪"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningDomeCB)
 #. i18n: ectx: property (text), widget (QCheckBox, parkDomeCheck)
 #: ekos/capture/calibrationoptions.ui:253 ekos/observatory/observatory.ui:944
-#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:1947
+#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:1859
 #, kde-format
 msgid "Park Dome"
 msgstr "归位圆顶"
@@ -13504,7 +13504,7 @@ msgstr "重置任务状态"
 msgid "Editing job #%1..."
 msgstr "编辑任务 #%1..."
 
-#: ekos/capture/capture.cpp:2888 ekos/scheduler/scheduler.cpp:1676
+#: ekos/capture/capture.cpp:2888 ekos/scheduler/scheduler.cpp:1619
 #, kde-format
 msgid "Apply job changes."
 msgstr "应用作业更改。"
@@ -14133,7 +14133,7 @@ msgstr "拍摄序列另存为..."
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/capture.ui:1867 ekos/ekoslive/ekoslivedialog.ui:119
-#: ekos/scheduler/scheduler.ui:1096 indi/drivermanager.ui:66
+#: ekos/scheduler/scheduler.ui:1064 indi/drivermanager.ui:66
 #: indi/drivermanager.ui:322 skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "Status"
@@ -15580,7 +15580,7 @@ msgid "In Progress"
 msgstr "进行中"
 
 #: ekos/capture/sequencejob.cpp:22 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:672
+#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:618
 #, kde-format
 msgid "Complete"
 msgstr "完成"
@@ -15682,7 +15682,7 @@ msgstr "等待"
 msgid "Image Received"
 msgstr "图像已接收"
 
-#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:695
+#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:641
 #, kde-format
 msgid "Focusing"
 msgstr "对焦"
@@ -15712,7 +15712,7 @@ msgstr "设置温度"
 msgid "Setting Rotator"
 msgstr "设置场旋器"
 
-#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:698
+#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:644
 #, kde-format
 msgid "Aligning"
 msgstr "对准"
@@ -15763,7 +15763,7 @@ msgstr "对焦偏移"
 msgid "Startup"
 msgstr "开始"
 
-#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:670
+#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:616
 #, kde-format
 msgid "Running"
 msgstr "正在运行"
@@ -16409,7 +16409,7 @@ msgstr "开始："
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/focus.ui:315 ekos/scheduler/framingassistant.ui:1281
-#: ekos/scheduler/scheduler.ui:373
+#: ekos/scheduler/scheduler.ui:111
 #, kde-format
 msgid "Steps:"
 msgstr "步数："
@@ -20728,7 +20728,7 @@ msgstr "1. 选择配置文件"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/manager.ui:129 ekos/profilewizard.ui:937
-#: ekos/scheduler/scheduler.ui:450
+#: ekos/scheduler/scheduler.ui:349
 #, kde-format
 msgid "Profile:"
 msgstr "配置："
@@ -20797,7 +20797,7 @@ msgstr "3. 连接及断开设备"
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/manager.ui:738 ekos/mount/mount.ui:195 ekos/scheduler/scheduler.ui:1112
+#: ekos/manager.ui:738 ekos/mount/mount.ui:195 ekos/scheduler/scheduler.ui:1080
 #: kstarslite/qml/dialogs/DetailsDialog.qml:269 tools/altvstime.cpp:97
 #, kde-format, kde-kuit-format
 msgid "Altitude"
@@ -21075,7 +21075,7 @@ msgstr "对准模块清除完毕。"
 msgid "Failed to clear Alignment Model."
 msgstr "清除对准模块失败。"
 
-#: ekos/mount/mount.cpp:1558 ekos/scheduler/scheduler.cpp:6344
+#: ekos/mount/mount.cpp:1558 ekos/scheduler/scheduler.cpp:5354
 #, kde-format
 msgid "Mount already parked."
 msgstr "赤道仪已经归位完毕。"
@@ -21764,7 +21764,7 @@ msgstr "关闭快门"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2068 ekos/scheduler/scheduler.cpp:2094
+#: ekos/scheduler/scheduler.cpp:2008 ekos/scheduler/scheduler.cpp:2034
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "停止调度程序"
@@ -23859,7 +23859,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/framingassistant.ui:1243 ekos/scheduler/scheduler.ui:124
+#: ekos/scheduler/framingassistant.ui:1243 ekos/scheduler/scheduler.ui:72
 #, kde-format
 msgid "Ekos Sequence File"
 msgstr "Ekos 序列文件"
@@ -23892,7 +23892,7 @@ msgid "Align Every"
 msgstr "每次都校准"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadSequenceB)
-#: ekos/scheduler/framingassistant.ui:1313 ekos/scheduler/scheduler.ui:140
+#: ekos/scheduler/framingassistant.ui:1313 ekos/scheduler/scheduler.ui:124
 #, kde-format
 msgid "Load the image sequence queue."
 msgstr "加载图像序列队列。"
@@ -23911,7 +23911,7 @@ msgstr "转动至目标并跟踪，然后继续下一步。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, trackStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, CheckTrack)
-#: ekos/scheduler/framingassistant.ui:1352 ekos/scheduler/scheduler.ui:210
+#: ekos/scheduler/framingassistant.ui:1352 ekos/scheduler/scheduler.ui:376
 #: tools/argsettrack.ui:38
 #, kde-format
 msgid "Track"
@@ -23965,7 +23965,7 @@ msgstr "继续下一步前进行自动对焦。"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
-#: ekos/scheduler/framingassistant.ui:1522 ekos/scheduler/scheduler.ui:344
+#: ekos/scheduler/framingassistant.ui:1522 ekos/scheduler/scheduler.ui:236
 #, kde-format
 msgid "Group:"
 msgstr ""
@@ -23990,43 +23990,43 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
 #: ekos/scheduler/framingassistant.ui:1575
-#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1444
+#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1397
 #, kde-format
 msgid "Restart job until it is executed this many times."
 msgstr "重新启动作业，直到它多次被执行。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, repeatCompletionR)
-#: ekos/scheduler/framingassistant.ui:1578 ekos/scheduler/scheduler.ui:1368
+#: ekos/scheduler/framingassistant.ui:1578 ekos/scheduler/scheduler.ui:1321
 #, kde-format
 msgid "&Repeat for"
 msgstr "重复(&R)"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
-#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1403
+#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1356
 #, kde-format
 msgid "The observation job is completed when the sequence is complete."
 msgstr "当序列完成后，观测即完成。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sequenceCompletionR)
-#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1406
+#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1359
 #, kde-format
 msgid "Se&quence completion"
 msgstr "序列完成（&Q）"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
-#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1447
+#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1400
 #, kde-format
 msgid " runs"
 msgstr " 遍"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, loopCompletionR)
-#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1469
+#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1422
 #, kde-format
 msgid "Restart the sequence job indefinitely."
 msgstr "无限期地重新启动序列作业。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, loopCompletionR)
-#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1472
+#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1425
 #, kde-format
 msgid "Repeat &until terminated"
 msgstr "重复直到中止(&T)"
@@ -24037,13 +24037,13 @@ msgstr "重复直到中止(&T)"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:1103
+#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:1097
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "选择序列队列"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:1105
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:1099
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Ekos 序列队列 (*.esq)"
@@ -24070,12 +24070,12 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "选择作业目录"
 
-#: ekos/scheduler/greedyscheduler.cpp:141 ekos/scheduler/scheduler.cpp:2296
+#: ekos/scheduler/greedyscheduler.cpp:144
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "任务“%1”没有尚未完成的批量任务。"
 
-#: ekos/scheduler/scheduler.cpp:484
+#: ekos/scheduler/scheduler.cpp:480
 #, kde-format
 msgid ""
 "Job scheduler list.\n"
@@ -24086,7 +24086,7 @@ msgstr ""
 "请单击选中列表中作业。\n"
 "双击移编辑左手边的作业。"
 
-#: ekos/scheduler/scheduler.cpp:491
+#: ekos/scheduler/scheduler.cpp:487
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
@@ -24095,22 +24095,22 @@ msgstr ""
 "从观测列表中删除所选作业。\n"
 "删除作业前属性会被复制到编辑区。"
 
-#: ekos/scheduler/scheduler.cpp:495
+#: ekos/scheduler/scheduler.cpp:491
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:498
+#: ekos/scheduler/scheduler.cpp:494
 #, kde-format
 msgid "Move selected job one line down in the list.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:502
+#: ekos/scheduler/scheduler.cpp:498
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:506
+#: ekos/scheduler/scheduler.cpp:502
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -24121,91 +24121,84 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:737 ekos/scheduler/scheduler.cpp:7125
+#: ekos/scheduler/scheduler.cpp:733 ekos/scheduler/scheduler.cpp:6135
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:980
+#: ekos/scheduler/scheduler.cpp:974
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1034
+#: ekos/scheduler/scheduler.cpp:1028
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "FITS 文件头：找不到 OBJCTRA (%1)。"
 
-#: ekos/scheduler/scheduler.cpp:1053
+#: ekos/scheduler/scheduler.cpp:1047
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "FITS 头：找不到 OBJCTDEC (%1)。"
 
-#: ekos/scheduler/scheduler.cpp:1112
+#: ekos/scheduler/scheduler.cpp:1106
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "选择启动脚本"
 
-#: ekos/scheduler/scheduler.cpp:1114 ekos/scheduler/scheduler.cpp:1128
+#: ekos/scheduler/scheduler.cpp:1108 ekos/scheduler/scheduler.cpp:1122
 #, kde-format
 msgid "Script (*)"
 msgstr "脚本（*）"
 
-#: ekos/scheduler/scheduler.cpp:1126
+#: ekos/scheduler/scheduler.cpp:1120
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "选择关机脚本"
 
-#: ekos/scheduler/scheduler.cpp:1237
+#: ekos/scheduler/scheduler.cpp:1222
 #, kde-format
 msgid "Warning: You cannot add or modify a job while the scheduler is running."
 msgstr "警告：在调度器运行时，您不能添加或修改作业。"
 
-#: ekos/scheduler/scheduler.cpp:1243
+#: ekos/scheduler/scheduler.cpp:1228
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "警告：需要目标名称。"
 
-#: ekos/scheduler/scheduler.cpp:1249
+#: ekos/scheduler/scheduler.cpp:1234
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "警告：序列文件是必需的。"
 
-#: ekos/scheduler/scheduler.cpp:1256
+#: ekos/scheduler/scheduler.cpp:1241
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "警告：目标坐标是必需的。"
 
-#: ekos/scheduler/scheduler.cpp:1266
+#: ekos/scheduler/scheduler.cpp:1251
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "警告：赤经值 %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:1272
+#: ekos/scheduler/scheduler.cpp:1257
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "警告：赤纬值 %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:1368
-#, kde-format
-msgid ""
-"Warning: job '%1' has startup time %2 resulting in a negative score, and "
-"will be marked invalid when processed."
-msgstr "警告: 作业“%1”有启动时间 %2 导致负分, 处理时标记为无效。"
-
-#: ekos/scheduler/scheduler.cpp:1387
+#: ekos/scheduler/scheduler.cpp:1359
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1395
+#: ekos/scheduler/scheduler.cpp:1367
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -24213,807 +24206,678 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1400
-#, kde-format
-msgid ""
-"Warning: job '%1' at row %2 might require a specific startup time or a "
-"different priority, as currently they will start in order of insertion in "
-"the table"
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:1408
+#: ekos/scheduler/scheduler.cpp:1375
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1596
+#: ekos/scheduler/scheduler.cpp:1539
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1606
+#: ekos/scheduler/scheduler.cpp:1549
 #, kde-format
 msgid "Warning: you cannot add or modify a job while the scheduler is running."
 msgstr "警告：在调度器运行时，您不能添加或修改作业。"
 
-#: ekos/scheduler/scheduler.cpp:1669
+#: ekos/scheduler/scheduler.cpp:1612
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1937
+#: ekos/scheduler/scheduler.cpp:1877
 #, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "任务“%1”尚未在调度器停止前处理，标记为已中止。"
 
-#: ekos/scheduler/scheduler.cpp:1944
+#: ekos/scheduler/scheduler.cpp:1884
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "调度程序中止。"
 
-#: ekos/scheduler/scheduler.cpp:2003
+#: ekos/scheduler/scheduler.cpp:1943
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "调度程序挂起，直到下一份作业准备就绪"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:2029 ekos/scheduler/scheduler.ui:1171
+#: ekos/scheduler/scheduler.cpp:1969 ekos/scheduler/scheduler.ui:1124
 #, kde-format
 msgid "Start Scheduler"
 msgstr "启动调度程序"
 
-#: ekos/scheduler/scheduler.cpp:2050
+#: ekos/scheduler/scheduler.cpp:1990
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "警告：启动脚本 URL %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:2058
+#: ekos/scheduler/scheduler.cpp:1998
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr "警告：关机脚本 URL %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:2087
+#: ekos/scheduler/scheduler.cpp:2027
 #, kde-format
 msgid "Scheduler started."
 msgstr "调度器已开始。"
 
-#: ekos/scheduler/scheduler.cpp:2107
+#: ekos/scheduler/scheduler.cpp:2047
 #, kde-format
 msgid "Scheduler resuming."
 msgstr "调度器恢复。"
 
-#: ekos/scheduler/scheduler.cpp:2120
+#: ekos/scheduler/scheduler.cpp:2060
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2124
+#: ekos/scheduler/scheduler.cpp:2064
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "恢复调度程序"
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2073
 #, kde-format
 msgid "Scheduler paused."
 msgstr "调度程序暂停。"
 
-#: ekos/scheduler/scheduler.cpp:2155
+#: ekos/scheduler/scheduler.cpp:2095
 #, kde-format
 msgid "No job running"
 msgstr "没有作业运行"
 
-#: ekos/scheduler/scheduler.cpp:2213
-#, kde-format
-msgid "All jobs aborted. Waiting %1 seconds to re-schedule."
-msgstr "所有作业已中止。正在等待 %1 秒重新调度。"
-
-#: ekos/scheduler/scheduler.cpp:2215 ekos/scheduler/scheduler.cpp:5239
-#, kde-format
-msgid "Scheduler waits for a retry."
-msgstr "调度器等待重试。"
-
-#: ekos/scheduler/scheduler.cpp:2370
-#, kde-format
-msgid "No jobs left in the scheduler queue."
-msgstr "调度器队列中已没有任何作业。"
-
-#: ekos/scheduler/scheduler.cpp:2378
-#, kde-format
-msgid "Only %1 jobs left in the scheduler queue, rescheduling those."
-msgstr "调度器队列中只剩下 %1 个作业，正在重新安排这些作业。"
-
-#: ekos/scheduler/scheduler.cpp:2506
-#, kde-format
-msgid ""
-"Warning: job '%1' has fixed startup time %2 set in the past, marking invalid."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2517
-#, kde-format
-msgid ""
-"Warning: job '%1' has a fixed start time incompatible with its twilight "
-"restriction, marking invalid."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2528
-#, kde-format
-msgid ""
-"Warning: job '%1' has a fixed start time incompatible with its altitude "
-"restriction, marking invalid."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2539
-#, kde-format
-msgid ""
-"Warning: job '%1' has a fixed start time incompatible with its Moon "
-"separation restriction, marking invalid."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2558
-#, kde-format
-msgid ""
-"Warning: job '%1' has fixed startup time %2 unachievable due to the "
-"completion time of its previous sibling, marking invalid."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2619
-#, kde-format
-msgid ""
-"Warning: Job '%1' cannot start because its previous sibling has no "
-"completion time, marking invalid."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2664
-#, kde-format
-msgid ""
-"Warning: job '%1' execution overlaps daylight, it will be interrupted at "
-"dawn and rescheduled on next night time."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2701
-#, kde-format
-msgid ""
-"Warning: job '%1' requires culmination offset of %2 minutes, not achievable, "
-"marking invalid."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2744
-#, kde-format
-msgid ""
-"Warning: job '%1' requires minimum altitude %2 and Moon separation %3, not "
-"achievable, marking invalid."
-msgstr ""
-"警告：job'%1' 要求最低高度为 %2 和 Moon separation 为 %3, 不可实现, 标记为无"
-"效。"
-
-#: ekos/scheduler/scheduler.cpp:2778
-#, kde-format
-msgid ""
-"Warning: job '%1' is constrained by the start time of the next job, and "
-"cannot finish in time, marking aborted."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2799
-#, kde-format
-msgid ""
-"Job '%1' completion time (%2) could not be achieved before start up time (%3)"
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:2884
+#: ekos/scheduler/scheduler.cpp:2163
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "在估计后，调度队列中没有留下任何作业。"
 
-#: ekos/scheduler/scheduler.cpp:2892
+#: ekos/scheduler/scheduler.cpp:2171
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr "评估后，调度器队列中只剩下中断的作业，正在重新安排这些作业。"
 
-#: ekos/scheduler/scheduler.cpp:2908
+#: ekos/scheduler/scheduler.cpp:2185
 #, kde-format
 msgid "No jobs scheduled."
 msgstr "未安排作业。"
 
-#: ekos/scheduler/scheduler.cpp:2931
-#, kde-format
-msgid "No jobs left in the scheduler queue after schedule cleanup."
-msgstr "清理规划后，调度器队列中没有留下任何作业。"
-
-#: ekos/scheduler/scheduler.cpp:2960
+#: ekos/scheduler/scheduler.cpp:2199
 #, kde-format
 msgid "Scheduler is awake."
 msgstr "调度器被唤醒。"
 
-#: ekos/scheduler/scheduler.cpp:2966
+#: ekos/scheduler/scheduler.cpp:2205
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr "调度器被唤醒。准备就绪后将开始作业..."
 
-#: ekos/scheduler/scheduler.cpp:2968
+#: ekos/scheduler/scheduler.cpp:2207
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3152
+#: ekos/scheduler/scheduler.cpp:2271
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Ekos 作业开始 (%1)"
 
-#: ekos/scheduler/scheduler.cpp:3191
+#: ekos/scheduler/scheduler.cpp:2310
 #, kde-format
 msgid "Ekos started."
 msgstr "Ekos 已启动。"
 
-#: ekos/scheduler/scheduler.cpp:3200
+#: ekos/scheduler/scheduler.cpp:2319
 #, kde-format
 msgid "Starting Ekos failed. Retrying..."
 msgstr "启动 Ekos 失败，正在重试..."
 
-#: ekos/scheduler/scheduler.cpp:3206
+#: ekos/scheduler/scheduler.cpp:2325
 #, kde-format
 msgid "Starting Ekos failed."
 msgstr "启动 Ekos 失败。"
 
-#: ekos/scheduler/scheduler.cpp:3217
+#: ekos/scheduler/scheduler.cpp:2336
 #, kde-format
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "启动 Ekos 超时，正在重试..."
 
-#: ekos/scheduler/scheduler.cpp:3229
+#: ekos/scheduler/scheduler.cpp:2348
 #, kde-format
 msgid "Starting Ekos timed out."
 msgstr "启动 Ekos 超时。"
 
-#: ekos/scheduler/scheduler.cpp:3240
+#: ekos/scheduler/scheduler.cpp:2359
 #, kde-format
 msgid "Ekos stopped."
 msgstr "Ekos 已停止。"
 
-#: ekos/scheduler/scheduler.cpp:3291
+#: ekos/scheduler/scheduler.cpp:2410
 #, kde-format
 msgid "INDI devices connected."
 msgstr "INDI 设备已连接。"
 
-#: ekos/scheduler/scheduler.cpp:3298
+#: ekos/scheduler/scheduler.cpp:2417
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr "一个或多个 INDI 设备连接失败。正在重试..."
 
-#: ekos/scheduler/scheduler.cpp:3304
+#: ekos/scheduler/scheduler.cpp:2423
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr "一个或多个 INDI 设备连接失败，请检查 INDI 控制面板以了解详情。"
 
-#: ekos/scheduler/scheduler.cpp:3313
+#: ekos/scheduler/scheduler.cpp:2432
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr "一个或多个 INDI 设备连接超时，正在重试..."
 
-#: ekos/scheduler/scheduler.cpp:3320
+#: ekos/scheduler/scheduler.cpp:2439
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
 msgstr "一个或多个 INDI 设备连接超时，请检查 INDI 控制面板以了解详情。"
 
-#: ekos/scheduler/scheduler.cpp:3331
+#: ekos/scheduler/scheduler.cpp:2450
 #, kde-format
 msgid "INDI devices disconnected."
 msgstr "INDI 设备已断开连接。"
 
-#: ekos/scheduler/scheduler.cpp:3347
+#: ekos/scheduler/scheduler.cpp:2466
 #, kde-format
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr "警告：超时后圆顶尚未准备好，尝试恢复中..."
 
-#: ekos/scheduler/scheduler.cpp:3352
+#: ekos/scheduler/scheduler.cpp:2471
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3362
+#: ekos/scheduler/scheduler.cpp:2481
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
 msgstr "警告：超时后支架尚未准备好，尝试恢复中..."
 
-#: ekos/scheduler/scheduler.cpp:3377
+#: ekos/scheduler/scheduler.cpp:2496
 #, kde-format
 msgid "Warning: cap device not ready after timeout, attempting to recover..."
 msgstr "警告：超时后拍摄设备未装备好，尝试恢复中..."
 
-#: ekos/scheduler/scheduler.cpp:3428
+#: ekos/scheduler/scheduler.cpp:2547
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr "天文台处于启动流程中"
 
-#: ekos/scheduler/scheduler.cpp:3441
+#: ekos/scheduler/scheduler.cpp:2560
 #, kde-format
 msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos 已经启动，跳过启动脚本..."
 
-#: ekos/scheduler/scheduler.cpp:3538
+#: ekos/scheduler/scheduler.cpp:2657
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "天文台处于关闭流程中"
 
-#: ekos/scheduler/scheduler.cpp:3554
+#: ekos/scheduler/scheduler.cpp:2673
 #, kde-format
 msgid "Warming up CCD..."
 msgstr "CCD 升温..."
 
-#: ekos/scheduler/scheduler.cpp:3584
+#: ekos/scheduler/scheduler.cpp:2703
 #, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
 msgstr "警告：无 INDI 连接，正在跳过归位操作。"
 
-#: ekos/scheduler/scheduler.cpp:3708
+#: ekos/scheduler/scheduler.cpp:2827
 #, kde-format
 msgid "park/unpark wait procedure failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3719
+#: ekos/scheduler/scheduler.cpp:2838
 #, kde-format
 msgid "Executing script %1..."
 msgstr "正在执行脚本 %1..."
 
-#: ekos/scheduler/scheduler.cpp:3754
+#: ekos/scheduler/scheduler.cpp:2873
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "启动脚本失败，中止..."
 
-#: ekos/scheduler/scheduler.cpp:3759
+#: ekos/scheduler/scheduler.cpp:2878
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "关闭脚本失败，中止..."
 
-#: ekos/scheduler/scheduler.cpp:3789
+#: ekos/scheduler/scheduler.cpp:2908
 #, kde-format
 msgid "Shutdown complete."
 msgstr "关闭完成。"
 
-#: ekos/scheduler/scheduler.cpp:3791
+#: ekos/scheduler/scheduler.cpp:2910
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
 msgstr "关机过程失败，中止..."
 
-#: ekos/scheduler/scheduler.cpp:3864
+#: ekos/scheduler/scheduler.cpp:2983
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3973
-#, kde-format
-msgid "Job '%1' reached completion time %2, stopping."
-msgstr "作业%1满足完成时间 %2，停止中。"
-
-#: ekos/scheduler/scheduler.cpp:3996
-#, kde-format
-msgid "Job '%1' current altitude (%2 degrees) fails constraints, marking idle."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:4020
-#, kde-format
-msgid ""
-"Job '%2' current moon separation (%1 degrees) is lower than minimum "
-"constraint (%3 degrees), marking idle."
-msgstr "作业%2当前 Moon separation (%1 度) 低于最低限制 (%3 度)，标记为闲置。"
-
-#: ekos/scheduler/scheduler.cpp:4039
-#, kde-format
-msgid ""
-"Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 "
-"minutes safety margin), marking idle."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:4088 ekos/scheduler/scheduler.cpp:7921
+#: ekos/scheduler/scheduler.cpp:3104 ekos/scheduler/scheduler.cpp:6907
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr "警告：任务“%1”的对齐校准失败，标记已中止。"
 
-#: ekos/scheduler/scheduler.cpp:4116
+#: ekos/scheduler/scheduler.cpp:3132
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "警告：任务“%1”的拍摄失败，标记为已中止。"
 
-#: ekos/scheduler/scheduler.cpp:4143 ekos/scheduler/scheduler.cpp:8153
+#: ekos/scheduler/scheduler.cpp:3159 ekos/scheduler/scheduler.cpp:7139
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "警告：任务“%1”的对焦失败，标记已中止。"
 
-#: ekos/scheduler/scheduler.cpp:4167 ekos/scheduler/scheduler.cpp:7994
+#: ekos/scheduler/scheduler.cpp:3183 ekos/scheduler/scheduler.cpp:6980
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "警告：任务“%1”的导星失败，标记已中止。"
 
-#: ekos/scheduler/scheduler.cpp:4193
+#: ekos/scheduler/scheduler.cpp:3209
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "警告：任务“%1”断开了与支架的连接，正在尝试重新连接。"
 
-#: ekos/scheduler/scheduler.cpp:4213
+#: ekos/scheduler/scheduler.cpp:3229
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "警告：任务“%1”断开了连接圆顶的连接，正在尝试重新连接。"
 
-#: ekos/scheduler/scheduler.cpp:4251
+#: ekos/scheduler/scheduler.cpp:3267
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "导星已经在运行，直接开始拍摄。"
 
-#: ekos/scheduler/scheduler.cpp:4263
+#: ekos/scheduler/scheduler.cpp:3279
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
 "frames are pending."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4432
+#: ekos/scheduler/scheduler.cpp:3448
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "打开 Ekos 调度器列表"
 
-#: ekos/scheduler/scheduler.cpp:4790
+#: ekos/scheduler/scheduler.cpp:3799
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "保存 Ekos 调度器列表"
 
-#: ekos/scheduler/scheduler.cpp:4809
+#: ekos/scheduler/scheduler.cpp:3818
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "未能保存计划列表"
 
-#: ekos/scheduler/scheduler.cpp:4999
+#: ekos/scheduler/scheduler.cpp:4009
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "计划列表保存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:5042
+#: ekos/scheduler/scheduler.cpp:4052
 #, kde-format
 msgid "Job '%1' is slewing to target."
 msgstr "任务“%1”正在转动到目标。"
 
-#: ekos/scheduler/scheduler.cpp:5085
+#: ekos/scheduler/scheduler.cpp:4095
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr "警告：任务“%1”无法进行自动对焦，不被支持。"
 
-#: ekos/scheduler/scheduler.cpp:5168
+#: ekos/scheduler/scheduler.cpp:4178
 #, kde-format
 msgid "Job '%1' is focusing."
 msgstr "任务“%1”正在对焦。"
 
-#: ekos/scheduler/scheduler.cpp:5218
+#: ekos/scheduler/scheduler.cpp:4228
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr "任务“%1”因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:5220
+#: ekos/scheduler/scheduler.cpp:4230
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr "任务“%1”已中止。"
 
-#: ekos/scheduler/scheduler.cpp:5233
+#: ekos/scheduler/scheduler.cpp:4243
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr "等待 %1 秒重启作业 '%2'。"
 
-#: ekos/scheduler/scheduler.cpp:5276
+#: ekos/scheduler/scheduler.cpp:4249
+#, kde-format
+msgid "Scheduler waits for a retry."
+msgstr "调度器等待重试。"
+
+#: ekos/scheduler/scheduler.cpp:4286
 #, kde-format
 msgid "Job '%1' is complete."
 msgstr "任务“%1”已完成。"
 
-#: ekos/scheduler/scheduler.cpp:5321
+#: ekos/scheduler/scheduler.cpp:4331
 #, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:5370 ekos/scheduler/scheduler.cpp:5413
+#: ekos/scheduler/scheduler.cpp:4380 ekos/scheduler/scheduler.cpp:4423
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:5417
+#: ekos/scheduler/scheduler.cpp:4427
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr "任务“%1”正在重复执行，无限次循环。"
 
-#: ekos/scheduler/scheduler.cpp:5437
+#: ekos/scheduler/scheduler.cpp:4447
 #, kde-format
 msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
 "Job '%1' stopping, reached completion time with #%2 batches done."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:5467
+#: ekos/scheduler/scheduler.cpp:4477
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
 "Job '%1' completed #%2 batches before completion time, restarted."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:5512
+#: ekos/scheduler/scheduler.cpp:4522
 #, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5525
+#: ekos/scheduler/scheduler.cpp:4535
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5536
+#: ekos/scheduler/scheduler.cpp:4546
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5543
+#: ekos/scheduler/scheduler.cpp:4553
 #, kde-format
 msgid "Job '%1' is plate solving %2."
 msgstr "任务“%1”正在解析 %2。"
 
-#: ekos/scheduler/scheduler.cpp:5558
+#: ekos/scheduler/scheduler.cpp:4568
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5575
+#: ekos/scheduler/scheduler.cpp:4585
 #, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5589
+#: ekos/scheduler/scheduler.cpp:4599
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5600
+#: ekos/scheduler/scheduler.cpp:4610
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5606
+#: ekos/scheduler/scheduler.cpp:4616
 #, kde-format
 msgid "Job '%1' is capturing and plate solving."
 msgstr "任务“%1”正在拍摄及解析。"
 
-#: ekos/scheduler/scheduler.cpp:5621
+#: ekos/scheduler/scheduler.cpp:4631
 #, kde-format
 msgid "Guiding already running for %1 ..."
 msgstr "正在为 %1 导星..."
 
-#: ekos/scheduler/scheduler.cpp:5649
+#: ekos/scheduler/scheduler.cpp:4659
 #, kde-format
 msgid "Starting guiding procedure for %1 ..."
 msgstr "正在启动 %1 的导星程序..."
 
-#: ekos/scheduler/scheduler.cpp:5733
+#: ekos/scheduler/scheduler.cpp:4743
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr "Ekos 作业 (%1) - 拍摄已启动"
 
-#: ekos/scheduler/scheduler.cpp:5736
+#: ekos/scheduler/scheduler.cpp:4746
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr "作业%1的拍摄进行中（脚本 #%2）..."
 
-#: ekos/scheduler/scheduler.cpp:5738
+#: ekos/scheduler/scheduler.cpp:4748
 #, kde-format
 msgid "Job '%1' capture is in progress..."
 msgstr "任务“%1”正在拍摄..."
 
-#: ekos/scheduler/scheduler.cpp:5964
+#: ekos/scheduler/scheduler.cpp:4974
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "警告：任务“%1”含不可访问序列“%2”，标记为无效。"
 
-#: ekos/scheduler/scheduler.cpp:6035
+#: ekos/scheduler/scheduler.cpp:5045
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
 "procedures currently set in its sequence will not occur."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:6063
+#: ekos/scheduler/scheduler.cpp:5073
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "任务“%1”%2x%3\" %4"
 
-#: ekos/scheduler/scheduler.cpp:6318
+#: ekos/scheduler/scheduler.cpp:5328
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:6377
+#: ekos/scheduler/scheduler.cpp:5387
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "正在归位赤道仪..."
 
-#: ekos/scheduler/scheduler.cpp:6390
+#: ekos/scheduler/scheduler.cpp:5400
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:6417
+#: ekos/scheduler/scheduler.cpp:5427
 #, kde-format
 msgid "Mount already unparked."
 msgstr "赤道仪已经启动完毕。"
 
-#: ekos/scheduler/scheduler.cpp:6494
+#: ekos/scheduler/scheduler.cpp:5504
 #, kde-format
 msgid "Mount parked."
 msgstr "赤道仪归位完毕。"
 
-#: ekos/scheduler/scheduler.cpp:6509
+#: ekos/scheduler/scheduler.cpp:5519
 #, kde-format
 msgid "Mount unparked."
 msgstr "赤道仪启动完毕。"
 
-#: ekos/scheduler/scheduler.cpp:6521
+#: ekos/scheduler/scheduler.cpp:5531
 #, kde-format
 msgid ""
 "Warning: mount unpark operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr "警告: 支架归位操作尝试了 %1/%2 次后超时。正在重启操作..."
 
-#: ekos/scheduler/scheduler.cpp:6527
+#: ekos/scheduler/scheduler.cpp:5537
 #, kde-format
 msgid "Warning: mount unpark operation timed out on last attempt."
 msgstr "警告：上次支架尝试启动操作超时。"
 
-#: ekos/scheduler/scheduler.cpp:6541
+#: ekos/scheduler/scheduler.cpp:5551
 #, kde-format
 msgid ""
 "Warning: mount park operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr "警告: 支架启动操作尝试了 %1/%2 次后超时。正在重启操作..."
 
-#: ekos/scheduler/scheduler.cpp:6547
+#: ekos/scheduler/scheduler.cpp:5557
 #, kde-format
 msgid "Warning: mount park operation timed out on last attempt."
 msgstr "警告：上次支架尝试归位操作超时。"
 
-#: ekos/scheduler/scheduler.cpp:6559 ekos/scheduler/scheduler.cpp:6587
+#: ekos/scheduler/scheduler.cpp:5569 ekos/scheduler/scheduler.cpp:5597
 #, kde-format
 msgid "Mount unparking error."
 msgstr "赤道仪启动出现错误。"
 
-#: ekos/scheduler/scheduler.cpp:6567
+#: ekos/scheduler/scheduler.cpp:5577
 #, kde-format
 msgid ""
 "Warning: mount park operation failed on attempt %1/%2. Restarting "
 "operation..."
 msgstr "警告: 支架归位操作尝试了 %1/%2 次后失败。正在重启操作..."
 
-#: ekos/scheduler/scheduler.cpp:6573 ekos/scheduler/scheduler.cpp:6581
+#: ekos/scheduler/scheduler.cpp:5583 ekos/scheduler/scheduler.cpp:5591
 #, kde-format
 msgid "Mount parking error."
 msgstr "赤道仪启动出现错误。"
 
-#: ekos/scheduler/scheduler.cpp:6677
+#: ekos/scheduler/scheduler.cpp:5687
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:6702
+#: ekos/scheduler/scheduler.cpp:5712
 #, kde-format
 msgid "Parking dome..."
 msgstr "归位圆顶..."
 
-#: ekos/scheduler/scheduler.cpp:6708
+#: ekos/scheduler/scheduler.cpp:5718
 #, kde-format
 msgid "Dome already parked."
 msgstr "圆顶已经关闭。"
 
-#: ekos/scheduler/scheduler.cpp:6718
+#: ekos/scheduler/scheduler.cpp:5728
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:6740
+#: ekos/scheduler/scheduler.cpp:5750
 #, kde-format
 msgid "Unparking dome..."
 msgstr "打开圆顶..."
 
-#: ekos/scheduler/scheduler.cpp:6746
+#: ekos/scheduler/scheduler.cpp:5756
 #, kde-format
 msgid "Dome already unparked."
 msgstr "圆顶已经打开。"
 
-#: ekos/scheduler/scheduler.cpp:6778
+#: ekos/scheduler/scheduler.cpp:5788
 #, kde-format
 msgid "Dome parked."
 msgstr "圆顶已归位。"
 
-#: ekos/scheduler/scheduler.cpp:6789
+#: ekos/scheduler/scheduler.cpp:5799
 #, kde-format
 msgid "Dome unparked."
 msgstr "圆顶打开完毕。"
 
-#: ekos/scheduler/scheduler.cpp:6801 ekos/scheduler/scheduler.cpp:6996
+#: ekos/scheduler/scheduler.cpp:5811 ekos/scheduler/scheduler.cpp:6006
 #, kde-format
 msgid "Operation timeout. Restarting operation..."
 msgstr "操作超时。重启操作..."
 
-#: ekos/scheduler/scheduler.cpp:6816
+#: ekos/scheduler/scheduler.cpp:5826
 #, kde-format
 msgid "Dome parking failed. Restarting operation..."
 msgstr "圆顶归位失败，正在重新执行..."
 
-#: ekos/scheduler/scheduler.cpp:6821
+#: ekos/scheduler/scheduler.cpp:5831
 #, kde-format
 msgid "Dome parking error."
 msgstr "关闭圆顶出现错误。"
 
-#: ekos/scheduler/scheduler.cpp:6830
+#: ekos/scheduler/scheduler.cpp:5840
 #, kde-format
 msgid "Dome unparking failed. Restarting operation..."
 msgstr "圆顶启动失败，正在重新执行..."
 
-#: ekos/scheduler/scheduler.cpp:6835
+#: ekos/scheduler/scheduler.cpp:5845
 #, kde-format
 msgid "Dome unparking error."
 msgstr "打开圆顶出现错误。"
 
-#: ekos/scheduler/scheduler.cpp:6873
+#: ekos/scheduler/scheduler.cpp:5883
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:6897
+#: ekos/scheduler/scheduler.cpp:5907
 #, kde-format
 msgid "Parking Cap..."
 msgstr "归位镜头盖..."
 
-#: ekos/scheduler/scheduler.cpp:6903
+#: ekos/scheduler/scheduler.cpp:5913
 #, kde-format
 msgid "Cap already parked."
 msgstr "镜头盖已归位。"
 
-#: ekos/scheduler/scheduler.cpp:6912
+#: ekos/scheduler/scheduler.cpp:5922
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:6936
+#: ekos/scheduler/scheduler.cpp:5946
 #, kde-format
 msgid "Unparking cap..."
 msgstr "打开镜头盖..."
 
-#: ekos/scheduler/scheduler.cpp:6942
+#: ekos/scheduler/scheduler.cpp:5952
 #, kde-format
 msgid "Cap already unparked."
 msgstr "镜头盖已打开。"
 
-#: ekos/scheduler/scheduler.cpp:6974
+#: ekos/scheduler/scheduler.cpp:5984
 #, kde-format
 msgid "Cap parked."
 msgstr "镜头盖归位完毕。"
 
-#: ekos/scheduler/scheduler.cpp:6984
+#: ekos/scheduler/scheduler.cpp:5994
 #, kde-format
 msgid "Cap unparked."
 msgstr "镜头盖打开完毕。"
 
-#: ekos/scheduler/scheduler.cpp:7009
+#: ekos/scheduler/scheduler.cpp:6019
 #, kde-format
 msgid "Cap parking error."
 msgstr "归位镜头盖错误。"
 
-#: ekos/scheduler/scheduler.cpp:7014
+#: ekos/scheduler/scheduler.cpp:6024
 #, kde-format
 msgid "Cap unparking error."
 msgstr "打开镜头盖错误。"
 
-#: ekos/scheduler/scheduler.cpp:7259
+#: ekos/scheduler/scheduler.cpp:6244
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
@@ -25022,259 +24886,259 @@ msgstr ""
 "关闭天文晨昏检查可能会导致观测台在白天运行。这可能会对您的设备造成不可逆转的"
 "损坏！"
 
-#: ekos/scheduler/scheduler.cpp:7261
+#: ekos/scheduler/scheduler.cpp:6246
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr "天文曙暮光告警"
 
-#: ekos/scheduler/scheduler.cpp:7275
+#: ekos/scheduler/scheduler.cpp:6260
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "手动启动过程已成功完成。"
 
-#: ekos/scheduler/scheduler.cpp:7277
+#: ekos/scheduler/scheduler.cpp:6262
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "手动启动过程因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:7292
+#: ekos/scheduler/scheduler.cpp:6277
 #, kde-format
 msgid "Warning: executing startup procedure manually..."
 msgstr "警告：手动执行启动程序中..."
 
-#: ekos/scheduler/scheduler.cpp:7301
+#: ekos/scheduler/scheduler.cpp:6286
 #, kde-format
 msgid "Are you sure you want to execute the startup procedure manually?"
 msgstr "您确定您想要手动执行启动过程？"
 
-#: ekos/scheduler/scheduler.cpp:7345
+#: ekos/scheduler/scheduler.cpp:6330
 #, kde-format
 msgid "Startup procedure terminated."
 msgstr "启动过程终止。"
 
-#: ekos/scheduler/scheduler.cpp:7358
+#: ekos/scheduler/scheduler.cpp:6343
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "手动关闭过程已成功完成。"
 
-#: ekos/scheduler/scheduler.cpp:7364
+#: ekos/scheduler/scheduler.cpp:6349
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "手动关闭过程因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:7379
+#: ekos/scheduler/scheduler.cpp:6364
 #, kde-format
 msgid "Warning: executing shutdown procedure manually..."
 msgstr "警告: 手动执行关闭程序中..."
 
-#: ekos/scheduler/scheduler.cpp:7387
+#: ekos/scheduler/scheduler.cpp:6372
 #, kde-format
 msgid "Are you sure you want to execute the shutdown procedure manually?"
 msgstr "您确定要手动执行关闭过程吗？"
 
-#: ekos/scheduler/scheduler.cpp:7434
+#: ekos/scheduler/scheduler.cpp:6419
 #, kde-format
 msgid "Shutdown procedure terminated."
 msgstr "关闭流程已终止。"
 
-#: ekos/scheduler/scheduler.cpp:7464
+#: ekos/scheduler/scheduler.cpp:6449
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "无法打开序列队列文件“%1”"
 
-#: ekos/scheduler/scheduler.cpp:7601
+#: ekos/scheduler/scheduler.cpp:6587
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
 "ready..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:7886
+#: ekos/scheduler/scheduler.cpp:6872
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "任务“%1”的对齐校准已完成。"
 
-#: ekos/scheduler/scheduler.cpp:7905
+#: ekos/scheduler/scheduler.cpp:6891
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "警告：任务“%1”的对齐校准失败。"
 
-#: ekos/scheduler/scheduler.cpp:7911
+#: ekos/scheduler/scheduler.cpp:6897
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr "警告：任务“%1”在校准失败后强制重置赤道仪模型 #%2。"
 
-#: ekos/scheduler/scheduler.cpp:7916 ekos/scheduler/scheduler.cpp:7982
+#: ekos/scheduler/scheduler.cpp:6902 ekos/scheduler/scheduler.cpp:6968
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "重启 %1 对准流程..."
 
-#: ekos/scheduler/scheduler.cpp:7954
+#: ekos/scheduler/scheduler.cpp:6940
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "任务“%1”的导星进行中。"
 
-#: ekos/scheduler/scheduler.cpp:7966
+#: ekos/scheduler/scheduler.cpp:6952
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "警告：任务“%1”的导星失败。"
 
-#: ekos/scheduler/scheduler.cpp:7968
+#: ekos/scheduler/scheduler.cpp:6954
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "警告：任务“%1”的校准失败。"
 
-#: ekos/scheduler/scheduler.cpp:7987
+#: ekos/scheduler/scheduler.cpp:6973
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "任务“%1”正在导星，导星过程将在 %2 秒后重启。"
 
-#: ekos/scheduler/scheduler.cpp:8046
+#: ekos/scheduler/scheduler.cpp:7032
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr "警告：任务“'%1”拍摄目标失败。"
 
-#: ekos/scheduler/scheduler.cpp:8059
+#: ekos/scheduler/scheduler.cpp:7045
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
 "%3)."
 msgstr "任务“%1”正在拍摄，且正在重新启动其导星程序 (尝试 #%2 of %3)。"
 
-#: ekos/scheduler/scheduler.cpp:8067
+#: ekos/scheduler/scheduler.cpp:7053
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "警告：任务“%1”的拍摄过程失败，正在重启拍摄。"
 
-#: ekos/scheduler/scheduler.cpp:8073
+#: ekos/scheduler/scheduler.cpp:7059
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "警告：任务“%1”的拍摄过程失败，标记为已中止。"
 
-#: ekos/scheduler/scheduler.cpp:8082
+#: ekos/scheduler/scheduler.cpp:7068
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Ekos 作业 (%1) - 拍摄已完毕"
 
-#: ekos/scheduler/scheduler.cpp:8129
+#: ekos/scheduler/scheduler.cpp:7115
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr "任务“%1”对焦已完成。"
 
-#: ekos/scheduler/scheduler.cpp:8139
+#: ekos/scheduler/scheduler.cpp:7125
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "警告：任务“%1”对焦失败。"
 
-#: ekos/scheduler/scheduler.cpp:8143
+#: ekos/scheduler/scheduler.cpp:7129
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "任务“%1”正在重启其对焦程序。"
 
-#: ekos/scheduler/scheduler.cpp:8184
+#: ekos/scheduler/scheduler.cpp:7170
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "任务“%1”的转动已完成。"
 
-#: ekos/scheduler/scheduler.cpp:8190
+#: ekos/scheduler/scheduler.cpp:7176
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr "警告：任务“%1”的转动失败，标记为因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:8196
+#: ekos/scheduler/scheduler.cpp:7182
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "警告：任务“%1”发现未在转动，正在重启。"
 
-#: ekos/scheduler/scheduler.cpp:8209
+#: ekos/scheduler/scheduler.cpp:7195
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "任务“%1”的重新定位已完成。"
 
-#: ekos/scheduler/scheduler.cpp:8215
+#: ekos/scheduler/scheduler.cpp:7201
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr "警告：任务“%1”重新定位失败，标记为因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:8221
+#: ekos/scheduler/scheduler.cpp:7207
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "警告：任务“%1”发现未在移位，正在重启。"
 
-#: ekos/scheduler/scheduler.cpp:8242
+#: ekos/scheduler/scheduler.cpp:7228
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "天气条件具备。"
 
-#: ekos/scheduler/scheduler.cpp:8246
+#: ekos/scheduler/scheduler.cpp:7232
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "警告：天气条件在警告区。"
 
-#: ekos/scheduler/scheduler.cpp:8250
+#: ekos/scheduler/scheduler.cpp:7236
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "注意：天气条件处于危险区！"
 
-#: ekos/scheduler/scheduler.cpp:8272
+#: ekos/scheduler/scheduler.cpp:7258
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "天气条件在警戒区"
 
-#: ekos/scheduler/scheduler.cpp:8281
+#: ekos/scheduler/scheduler.cpp:7267
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "天气恶劣。立即关闭天文台"
 
-#: ekos/scheduler/scheduler.cpp:8301
+#: ekos/scheduler/scheduler.cpp:7287
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr "因天气恶劣，启动关机流程。"
 
-#: ekos/scheduler/scheduler.cpp:8329
+#: ekos/scheduler/scheduler.cpp:7315
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr "任务“%1”计划在 %2 执行。观测将计划关闭，直到下次任务准备就绪。"
 
-#: ekos/scheduler/scheduler.cpp:8352
+#: ekos/scheduler/scheduler.cpp:7338
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8362
+#: ekos/scheduler/scheduler.cpp:7348
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8364
+#: ekos/scheduler/scheduler.cpp:7350
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "调度器处于睡眠模式"
 
-#: ekos/scheduler/scheduler.cpp:8372
+#: ekos/scheduler/scheduler.cpp:7358
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8532
+#: ekos/scheduler/scheduler.cpp:7518
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8534
+#: ekos/scheduler/scheduler.cpp:7520
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8569
+#: ekos/scheduler/scheduler.cpp:7555
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "拍摄的图像距离目标 %1角分 ，正在重新对齐..."
@@ -25285,8 +25149,34 @@ msgstr "拍摄的图像距离目标 %1角分 ，正在重新对齐..."
 msgid "Object && Sequence Selection"
 msgstr "天体及序列选择"
 
+#. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
+#: ekos/scheduler/scheduler.ui:75
+#, kde-format
+msgid "Sequence:"
+msgstr "序列:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
+#: ekos/scheduler/scheduler.ui:82
+#, kde-format
+msgid "Target Position Angle"
+msgstr "目标方位角"
+
+#. i18n: ectx: property (text), widget (QLabel, rotationLabel)
+#: ekos/scheduler/scheduler.ui:85
+#, kde-format
+msgid "PA"
+msgstr "PA"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
+#: ekos/scheduler/scheduler.ui:108
+#, kde-format
+msgid ""
+"Select the tasks to run at the start of each scheduler job. Executed in "
+"order, left to right."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QLabel, FITSLabel)
-#: ekos/scheduler/scheduler.ui:72
+#: ekos/scheduler/scheduler.ui:195
 #, kde-format
 msgid ""
 "Select optional FITS file to be used for alignment. When using FITS, specify "
@@ -25296,60 +25186,20 @@ msgstr ""
 "转动赤道仪。"
 
 #. i18n: ectx: property (text), widget (QLabel, FITSLabel)
-#: ekos/scheduler/scheduler.ui:75
+#: ekos/scheduler/scheduler.ui:198
 #, kde-format
 msgid "FITS File:"
 msgstr "FITS 文件："
 
-#. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/scheduler.ui:127
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
+#: ekos/scheduler/scheduler.ui:211
 #, kde-format
-msgid "Sequence:"
-msgstr "序列:"
-
-#. i18n: ectx: property (text), widget (QLabel, priorityLabel)
-#: ekos/scheduler/scheduler.ui:154
-#, kde-format
-msgid "Priority:"
-msgstr "优先级："
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/scheduler.ui:204
-#, kde-format
-msgid "Slew to the target and track. Done at the start of each scheduler job."
+msgid "Position Angle in Degrees"
 msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/scheduler.ui:229
-#, kde-format
-msgid ""
-"Run alignment using astrometry solver. Done at the start of each scheduler "
-"job."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/scheduler.ui:251
-#, kde-format
-msgid "Start autoguiding. Done at the start of each scheduler job."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/scheduler.ui:273
-#, kde-format
-msgid "Run autofocus. Done at the start of each scheduler job."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, prioritySpin)
-#: ekos/scheduler/scheduler.ui:300
-#, kde-format
-msgid ""
-"Assigned priority to each job with 1 being the highest priority and 20 being "
-"the lowest priority"
-msgstr "分配优先级到每个作业，其中 1 为最高优先级，20为最低优先级"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, groupLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
-#: ekos/scheduler/scheduler.ui:341 ekos/scheduler/scheduler.ui:357
+#: ekos/scheduler/scheduler.ui:233 ekos/scheduler/scheduler.ui:519
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
@@ -25359,64 +25209,64 @@ msgid ""
 "algorithm.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/scheduler/scheduler.ui:370
-#, kde-format
-msgid ""
-"Select the tasks to run at the start of each scheduler job. Executed in "
-"order, left to right."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/scheduler/scheduler.ui:447
-#, kde-format
-msgid "Ekos Device Profile"
-msgstr "Ekos 设备配置文件"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: ekos/scheduler/scheduler.ui:457
+#: ekos/scheduler/scheduler.ui:290
 #, kde-format
 msgid "Target coordinates in J2000 Epoch"
 msgstr "目标坐标使用 J2000 历元"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/scheduler/scheduler.ui:460
+#: ekos/scheduler/scheduler.ui:293
 #, kde-format
 msgid "J2000:"
 msgstr "J2000:"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, label_9)
+#: ekos/scheduler/scheduler.ui:346
+#, kde-format
+msgid "Ekos Device Profile"
+msgstr "Ekos 设备配置文件"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
+#: ekos/scheduler/scheduler.ui:370
+#, kde-format
+msgid "Slew to the target and track. Done at the start of each scheduler job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
+#: ekos/scheduler/scheduler.ui:395
+#, kde-format
+msgid ""
+"Run alignment using astrometry solver. Done at the start of each scheduler "
+"job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
+#: ekos/scheduler/scheduler.ui:417
+#, kde-format
+msgid "Start autoguiding. Done at the start of each scheduler job."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
+#: ekos/scheduler/scheduler.ui:439
+#, kde-format
+msgid "Run autofocus. Done at the start of each scheduler job."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, copySkyCenterB)
-#: ekos/scheduler/scheduler.ui:645
+#: ekos/scheduler/scheduler.ui:526
 #, kde-format
 msgid "Fill coordinates with Sky Map center"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:659
-#, kde-format
-msgid "Target Position Angle"
-msgstr "目标方位角"
-
-#. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:662
-#, kde-format
-msgid "PA"
-msgstr "PA"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/scheduler.ui:675
-#, kde-format
-msgid "Position Angle in Degrees"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QPushButton, mosaicB)
-#: ekos/scheduler/scheduler.ui:920
+#: ekos/scheduler/scheduler.ui:888
 #, kde-format
 msgid "Open the Mosaic Planner"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueAppendB)
-#: ekos/scheduler/scheduler.ui:967
+#: ekos/scheduler/scheduler.ui:935
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Load schedule from file and append "
@@ -25426,7 +25276,7 @@ msgstr ""
 "列。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/scheduler/scheduler.ui:1001
+#: ekos/scheduler/scheduler.ui:969
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Load schedule from file and replace "
@@ -25436,61 +25286,43 @@ msgstr ""
 "列。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/scheduler/scheduler.ui:1029
+#: ekos/scheduler/scheduler.ui:997
 #, kde-format
 msgid "Save schedule"
 msgstr "保存调度"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/scheduler/scheduler.ui:1063
+#: ekos/scheduler/scheduler.ui:1031
 #, kde-format
 msgid "Save schedule as..."
 msgstr "调度另存为..."
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1107
+#: ekos/scheduler/scheduler.ui:1075
 #, kde-format
 msgid "Captures"
 msgstr "拍摄"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1117
-#, kde-format
-msgid "Score"
-msgstr "评分"
-
-#. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1122
+#: ekos/scheduler/scheduler.ui:1085
 #, kde-format
 msgid "Start Time"
 msgstr "起始时间"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1127
+#: ekos/scheduler/scheduler.ui:1090
 #, kde-format
 msgid "End Time"
 msgstr "结束时间"
 
-#. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1132
-#, kde-format
-msgid "Est. Duration"
-msgstr "估计时间"
-
-#. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1137
-#, kde-format
-msgid "Lead time"
-msgstr "前置时间"
-
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/scheduler/scheduler.ui:1210
+#: ekos/scheduler/scheduler.ui:1163
 #, kde-format
 msgid "Pause Scheduler"
 msgstr "暂停计划程序"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, repeatSequenceCB)
-#: ekos/scheduler/scheduler.ui:1260
+#: ekos/scheduler/scheduler.ui:1213
 #, kde-format
 msgid ""
 "<html><head/><body><p>Repeat all scheduled jobs as soon as all jobs have "
@@ -25500,13 +25332,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
-#: ekos/scheduler/scheduler.ui:1263
+#: ekos/scheduler/scheduler.ui:1216
 #, kde-format
 msgid "Repeat all jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1270
+#: ekos/scheduler/scheduler.ui:1223
 #, kde-format
 msgid ""
 "<html><head/><body><p>Limit number of iterations the scheduler will execute "
@@ -25515,94 +25347,61 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1273
+#: ekos/scheduler/scheduler.ui:1226
 #, kde-format
 msgid " times"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
-#: ekos/scheduler/scheduler.ui:1333
+#: ekos/scheduler/scheduler.ui:1286
 #, kde-format
 msgid "Job Completion Conditions"
 msgstr "作业完成条件"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, completionTimeEdit)
-#: ekos/scheduler/scheduler.ui:1384
+#: ekos/scheduler/scheduler.ui:1337
 #, kde-format
 msgid "dd/MM/yy hh:mm"
 msgstr "日/月/年 时:分"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, timeCompletionR)
-#: ekos/scheduler/scheduler.ui:1425
+#: ekos/scheduler/scheduler.ui:1378
 #, kde-format
 msgid "Terminate the job on the given date and time."
 msgstr "在所给定的日期和时间终止这项作业。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeCompletionR)
-#: ekos/scheduler/scheduler.ui:1428
+#: ekos/scheduler/scheduler.ui:1381
 #, kde-format
 msgid "Repeat &until"
 msgstr "重复直到(&U)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroup)
-#: ekos/scheduler/scheduler.ui:1493
+#: ekos/scheduler/scheduler.ui:1446
 #, kde-format
 msgid "Job Startup Conditions"
 msgstr "作业启动条件"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, startupTimeEdit)
-#: ekos/scheduler/scheduler.ui:1525
+#: ekos/scheduler/scheduler.ui:1478
 #, kde-format
 msgid "dd/MM hh:mm"
 msgstr "日/月/年 时:分"
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, culminationConditionR)
-#: ekos/scheduler/scheduler.ui:1541
-#, kde-format
-msgid ""
-"Start the observation job when the object reaches culmination adjusted for "
-"the offset value in minutes. By default, the observation job runs 60 minutes "
-"prior to culmination."
-msgstr ""
-"当天体抵达预设的中天偏移值时，开始观测作业。 默认下，观测作业会在过中天60分钟"
-"前开始。"
-
-#. i18n: ectx: property (text), widget (QRadioButton, culminationConditionR)
-#: ekos/scheduler/scheduler.ui:1544
-#, kde-format
-msgid "Cul&mination Offset"
-msgstr "中天偏移(&M)"
-
 #. i18n: ectx: property (toolTip), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1560
+#: ekos/scheduler/scheduler.ui:1494
 #, kde-format
 msgid "start the job on the specified date and time"
 msgstr "在指定日期和时间开始作业"
 
 #. i18n: ectx: property (text), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1563
+#: ekos/scheduler/scheduler.ui:1497
 #, kde-format
 msgid "O&n"
 msgstr "于此刻启动(&O)"
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, culminationOffset)
-#: ekos/scheduler/scheduler.ui:1579
-#, kde-format
-msgid ""
-"<html><head/><body><p>Offset in minutes to start imaging before or after "
-"culmination time.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>偏移值：过中天前或后的几分钟开始成像。</p></body></"
-"html>"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, culminationOffset)
-#: ekos/scheduler/scheduler.ui:1582
-#, kde-format
-msgid " min"
-msgstr " 分"
-
 #. i18n: ectx: property (toolTip), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1607
+#: ekos/scheduler/scheduler.ui:1513
 #, kde-format
 msgid ""
 "Start the observation job as soon as all the constraints, if any, are met. "
@@ -25610,51 +25409,51 @@ msgid ""
 msgstr "一旦满足所有限制条件（如果有）就立即开始观测，会先拍摄最好的候选目标。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1610
+#: ekos/scheduler/scheduler.ui:1516
 #, kde-format
 msgid "ASAP"
 msgstr "越快越好"
 
 #. i18n: ectx: property (title), widget (QGroupBox, contraintsGroup)
-#: ekos/scheduler/scheduler.ui:1641
+#: ekos/scheduler/scheduler.ui:1553
 #, kde-format
 msgid "Job Constraints"
 msgstr "作业限制条件"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, moonSeparationCheck)
-#: ekos/scheduler/scheduler.ui:1673
+#: ekos/scheduler/scheduler.ui:1585
 #, kde-format
 msgid ""
 "The moon separation must remain equal to or higher than the given value."
 msgstr "Moon separation 必须保持等于或高于给定值。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, moonSeparationCheck)
-#: ekos/scheduler/scheduler.ui:1676
+#: ekos/scheduler/scheduler.ui:1588
 #, kde-format
 msgid "Moon  > "
 msgstr "月相 > "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altConstraintCheck)
-#: ekos/scheduler/scheduler.ui:1692
+#: ekos/scheduler/scheduler.ui:1604
 #, kde-format
 msgid "The object's altitude must remain equal or higher than the given value."
 msgstr "天体的高度必须保持等于或高于给定值。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, altConstraintCheck)
-#: ekos/scheduler/scheduler.ui:1695
+#: ekos/scheduler/scheduler.ui:1607
 #, kde-format
 msgid "Alt > "
 msgstr "高度角 > "
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minAltitude)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoonSeparation)
-#: ekos/scheduler/scheduler.ui:1714 ekos/scheduler/scheduler.ui:1752
+#: ekos/scheduler/scheduler.ui:1626 ekos/scheduler/scheduler.ui:1664
 #, kde-format
 msgid " °"
 msgstr " °"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, weatherCheck)
-#: ekos/scheduler/scheduler.ui:1733
+#: ekos/scheduler/scheduler.ui:1645
 #, kde-format
 msgid ""
 "<html><head/><body><p>Weather conditions must remain safe. When weather "
@@ -25665,7 +25464,7 @@ msgstr ""
 "序。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, twilightCheck)
-#: ekos/scheduler/scheduler.ui:1771
+#: ekos/scheduler/scheduler.ui:1683
 #, kde-format
 msgid ""
 "<html><body><p>The twilight restriction constrains jobs to execute in "
@@ -25674,13 +25473,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, twilightCheck)
-#: ekos/scheduler/scheduler.ui:1774
+#: ekos/scheduler/scheduler.ui:1686
 #, kde-format
 msgid "Twilight"
 msgstr "曙暮光"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
-#: ekos/scheduler/scheduler.ui:1793
+#: ekos/scheduler/scheduler.ui:1705
 #, kde-format
 msgid ""
 "<html><body><p>The artificial horizon restriction constrains the altitude of "
@@ -25692,7 +25491,7 @@ msgstr ""
 "KStars 设置菜单中查看假地平选项</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
-#: ekos/scheduler/scheduler.ui:1819
+#: ekos/scheduler/scheduler.ui:1731
 #, kde-format
 msgid ""
 "<html><head/><body><p>Astronomical dawn and dusk for the Scheduler job "
@@ -25712,7 +25511,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:1843
+#: ekos/scheduler/scheduler.ui:1755
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time shutdown procedure to be executed after all "
@@ -25722,58 +25521,58 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:1846
+#: ekos/scheduler/scheduler.ui:1758
 #, kde-format
 msgid "Observatory Shutdown Procedure"
 msgstr "天文台关闭过程"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, warmCCDCheck)
-#: ekos/scheduler/scheduler.ui:1881
+#: ekos/scheduler/scheduler.ui:1793
 #, kde-format
 msgid "Turn off CCD cooler."
 msgstr "关闭 CCD 制冷。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, warmCCDCheck)
-#: ekos/scheduler/scheduler.ui:1884
+#: ekos/scheduler/scheduler.ui:1796
 #, kde-format
 msgid "Warm CCD"
 msgstr "关闭CCD制冷"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, capCheck)
-#: ekos/scheduler/scheduler.ui:1900
+#: ekos/scheduler/scheduler.ui:1812
 #, kde-format
 msgid "Close dust cover"
 msgstr "关闭防尘盖"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCheck)
-#: ekos/scheduler/scheduler.ui:1903
+#: ekos/scheduler/scheduler.ui:1815
 #, kde-format
 msgid "Cap"
 msgstr "合上防尘盖"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkMountCheck)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, unparkMountCheck)
-#: ekos/scheduler/scheduler.ui:1922 ekos/scheduler/scheduler.ui:2227
+#: ekos/scheduler/scheduler.ui:1834 ekos/scheduler/scheduler.ui:2139
 #, kde-format
 msgid "Park telescope to home position."
 msgstr "归位望远镜到初始位置。"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkDomeCheck)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, unparkDomeCheck)
-#: ekos/scheduler/scheduler.ui:1944 ekos/scheduler/scheduler.ui:2205
+#: ekos/scheduler/scheduler.ui:1856 ekos/scheduler/scheduler.ui:2117
 #, kde-format
 msgid "Park dome to home position"
 msgstr "圆顶关闭到初始位置"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/scheduler/scheduler.ui:1990 ekos/scheduler/scheduler.ui:2292
+#: ekos/scheduler/scheduler.ui:1902 ekos/scheduler/scheduler.ui:2204
 #, kde-format
 msgid "Script:"
 msgstr "脚本："
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:2031
+#: ekos/scheduler/scheduler.ui:1943
 #, kde-format
 msgid ""
 "<html><head/><body><p>Define what should happen when a job steps into an "
@@ -25812,25 +25611,25 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:2034
+#: ekos/scheduler/scheduler.ui:1946
 #, kde-format
 msgid "Aborted Job Management"
 msgstr "中止作业管理"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:2066
+#: ekos/scheduler/scheduler.ui:1978
 #, kde-format
 msgid "Do not re-schedule aborted jobs."
 msgstr "不要重新调度已中止的作业。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:2069
+#: ekos/scheduler/scheduler.ui:1981
 #, kde-format
 msgid "&None"
 msgstr "无(&N)"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:2085
+#: ekos/scheduler/scheduler.ui:1997
 #, kde-format
 msgid ""
 "Re-schedule aborted jobs as soon as all executable jobs are either completed "
@@ -25838,49 +25637,49 @@ msgid ""
 msgstr "一旦所有可执行的作业完成或中止，重新调度已中止的作业。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:2088
+#: ekos/scheduler/scheduler.ui:2000
 #, kde-format
 msgid "&Queue"
 msgstr "队列(&Q)"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:2104
+#: ekos/scheduler/scheduler.ui:2016
 #, kde-format
 msgid "Re-schedule an aborted job immediately."
 msgstr "立即重新调度已中止的作业。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:2107
+#: ekos/scheduler/scheduler.ui:2019
 #, kde-format
 msgid "I&mmediate"
 msgstr "立刻(&M)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:2130
+#: ekos/scheduler/scheduler.ui:2042
 #, kde-format
 msgid "Treat errors like aborts."
 msgstr "将错误视为中止。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:2133
+#: ekos/scheduler/scheduler.ui:2045
 #, kde-format
 msgid "Re-schedule errors"
 msgstr "重新调度错误"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingDelaySB)
-#: ekos/scheduler/scheduler.ui:2146
+#: ekos/scheduler/scheduler.ui:2058
 #, kde-format
 msgid "Delay in seconds."
 msgstr "秒延迟"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, errorHandlingDelaySB)
-#: ekos/scheduler/scheduler.ui:2149
+#: ekos/scheduler/scheduler.ui:2061
 #, kde-format
 msgid " s wait"
 msgstr " 秒等待"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:2167
+#: ekos/scheduler/scheduler.ui:2079
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time startup procedure to be executed before "
@@ -25890,41 +25689,41 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:2170
+#: ekos/scheduler/scheduler.ui:2082
 #, kde-format
 msgid "Observatory Startup Procedure"
 msgstr "天文台启动过程"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unparkDomeCheck)
-#: ekos/scheduler/scheduler.ui:2208
+#: ekos/scheduler/scheduler.ui:2120
 #, kde-format
 msgid "UnPark Dome"
 msgstr "启动圆顶"
 
 #. i18n: ectx: property (text), widget (QCheckBox, unparkMountCheck)
-#: ekos/scheduler/scheduler.ui:2230
+#: ekos/scheduler/scheduler.ui:2142
 #, kde-format
 msgid "UnPark Mount"
 msgstr "启动赤道仪"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, uncapCheck)
-#: ekos/scheduler/scheduler.ui:2246
+#: ekos/scheduler/scheduler.ui:2158
 #, kde-format
 msgid "Open dust cover"
 msgstr "打开防尘盖"
 
 #. i18n: ectx: property (text), widget (QCheckBox, uncapCheck)
-#: ekos/scheduler/scheduler.ui:2249
+#: ekos/scheduler/scheduler.ui:2161
 #, kde-format
 msgid "UnCap"
 msgstr "打开防尘盖"
 
-#: ekos/scheduler/schedulerjob.cpp:363
+#: ekos/scheduler/schedulerjob.cpp:360
 #, kde-format
 msgid "Ekos job failed (%1)"
 msgstr "Ekos 作业失败 (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:424
+#: ekos/scheduler/schedulerjob.cpp:404
 #, kde-format
 msgid ""
 "Current status of job '%1', managed by the Scheduler.\n"
@@ -25936,7 +25735,7 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:435
+#: ekos/scheduler/schedulerjob.cpp:415
 #, kde-format
 msgid ""
 "Current altitude of the target of job '%1'.\n"
@@ -25944,7 +25743,7 @@ msgid ""
 "A setting target is indicated with an arrow going down."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:445
+#: ekos/scheduler/schedulerjob.cpp:425
 #, kde-format
 msgid ""
 "Startup time for job '%1', as estimated by the Scheduler.\n"
@@ -25953,7 +25752,7 @@ msgid ""
 "symbol. "
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:455
+#: ekos/scheduler/schedulerjob.cpp:435
 #, kde-format
 msgid ""
 "Completion time for job '%1', as estimated by the Scheduler.\n"
@@ -25962,7 +25761,7 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:465
+#: ekos/scheduler/schedulerjob.cpp:445
 #, kde-format
 msgid ""
 "Count of captures stored for job '%1', based on its sequence job.\n"
@@ -25970,74 +25769,47 @@ msgid ""
 "complete the job."
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:474
-#, kde-format
-msgid ""
-"Current score for job '%1', from its altitude, moon separation and sky "
-"darkness.\n"
-"Negative if adequate altitude is not achieved yet or if there is no proper "
-"observation time today.\n"
-"The Scheduler will refresh scores when picking a new candidate job."
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:484
-#, kde-format
-msgid ""
-"Time interval from the job which precedes job '%1'.\n"
-"Adjust the Lead Time in Ekos options to increase that duration and leave "
-"time for jobs to complete.\n"
-"Rearrange jobs to minimize that duration and optimize your imaging time."
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:576
-#, kde-format
-msgid ""
-"Duration job '%1' will take to complete when started, as estimated by the "
-"Scheduler.\n"
-"Depends on the actions to be run, and the sequence job to be processed."
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:668
+#: ekos/scheduler/schedulerjob.cpp:614
 #, kde-format
 msgid "Evaluating"
 msgstr "评价"
 
-#: ekos/scheduler/schedulerjob.cpp:669
+#: ekos/scheduler/schedulerjob.cpp:615
 #, kde-format
 msgid "Scheduled"
 msgstr "已计划"
 
-#: ekos/scheduler/schedulerjob.cpp:671
+#: ekos/scheduler/schedulerjob.cpp:617
 #, kde-format
 msgid "Invalid"
 msgstr "无效"
 
-#: ekos/scheduler/schedulerjob.cpp:693
+#: ekos/scheduler/schedulerjob.cpp:639
 #, kde-format
 msgid "Slew complete"
 msgstr "旋转完成"
 
-#: ekos/scheduler/schedulerjob.cpp:697
+#: ekos/scheduler/schedulerjob.cpp:643
 #, kde-format
 msgid "Focus complete"
 msgstr "对焦完成"
 
-#: ekos/scheduler/schedulerjob.cpp:699
+#: ekos/scheduler/schedulerjob.cpp:645
 #, kde-format
 msgid "Align complete"
 msgstr "对齐完成"
 
-#: ekos/scheduler/schedulerjob.cpp:700
+#: ekos/scheduler/schedulerjob.cpp:646
 #, kde-format
 msgid "Repositioning"
 msgstr "重新定位"
 
-#: ekos/scheduler/schedulerjob.cpp:701
+#: ekos/scheduler/schedulerjob.cpp:647
 #, kde-format
 msgid "Repositioning complete"
 msgstr "重新定位完成"
 
-#: ekos/scheduler/schedulerjob.cpp:704
+#: ekos/scheduler/schedulerjob.cpp:650
 #, kde-format
 msgid "Guiding complete"
 msgstr "导星完毕"
@@ -80453,3 +80225,74 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
+
+#~ msgid ""
+#~ "Warning: job '%1' has startup time %2 resulting in a negative score, and "
+#~ "will be marked invalid when processed."
+#~ msgstr "警告: 作业“%1”有启动时间 %2 导致负分, 处理时标记为无效。"
+
+#~ msgid "All jobs aborted. Waiting %1 seconds to re-schedule."
+#~ msgstr "所有作业已中止。正在等待 %1 秒重新调度。"
+
+#~ msgid "No jobs left in the scheduler queue."
+#~ msgstr "调度器队列中已没有任何作业。"
+
+#~ msgid "Only %1 jobs left in the scheduler queue, rescheduling those."
+#~ msgstr "调度器队列中只剩下 %1 个作业，正在重新安排这些作业。"
+
+#~ msgid ""
+#~ "Warning: job '%1' requires minimum altitude %2 and Moon separation %3, "
+#~ "not achievable, marking invalid."
+#~ msgstr ""
+#~ "警告：job'%1' 要求最低高度为 %2 和 Moon separation 为 %3, 不可实现, 标记为"
+#~ "无效。"
+
+#~ msgid "No jobs left in the scheduler queue after schedule cleanup."
+#~ msgstr "清理规划后，调度器队列中没有留下任何作业。"
+
+#~ msgid "Job '%1' reached completion time %2, stopping."
+#~ msgstr "作业%1满足完成时间 %2，停止中。"
+
+#~ msgid ""
+#~ "Job '%2' current moon separation (%1 degrees) is lower than minimum "
+#~ "constraint (%3 degrees), marking idle."
+#~ msgstr ""
+#~ "作业%2当前 Moon separation (%1 度) 低于最低限制 (%3 度)，标记为闲置。"
+
+#~ msgid "Priority:"
+#~ msgstr "优先级："
+
+#~ msgid ""
+#~ "Assigned priority to each job with 1 being the highest priority and 20 "
+#~ "being the lowest priority"
+#~ msgstr "分配优先级到每个作业，其中 1 为最高优先级，20为最低优先级"
+
+#~ msgid "Score"
+#~ msgstr "评分"
+
+#~ msgid "Est. Duration"
+#~ msgstr "估计时间"
+
+#~ msgid "Lead time"
+#~ msgstr "前置时间"
+
+#~ msgid ""
+#~ "Start the observation job when the object reaches culmination adjusted "
+#~ "for the offset value in minutes. By default, the observation job runs 60 "
+#~ "minutes prior to culmination."
+#~ msgstr ""
+#~ "当天体抵达预设的中天偏移值时，开始观测作业。 默认下，观测作业会在过中天60"
+#~ "分钟前开始。"
+
+#~ msgid "Cul&mination Offset"
+#~ msgstr "中天偏移(&M)"
+
+#~ msgid ""
+#~ "<html><head/><body><p>Offset in minutes to start imaging before or after "
+#~ "culmination time.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>偏移值：过中天前或后的几分钟开始成像。</p></body></"
+#~ "html>"
+
+#~ msgid " min"
+#~ msgstr " 分"

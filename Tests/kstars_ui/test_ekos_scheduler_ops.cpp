@@ -117,9 +117,6 @@ void TestEkosSchedulerOps::init()
 
     // This allows testing of the shutdown.
     Options::setStopEkosAfterShutdown(true);
-
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_CLASSIC);
-
     Options::setDitherEnabled(false);
 
     // define START_ASAP and FINISH_SEQUENCE as default startup/completion conditions.
@@ -129,7 +126,7 @@ void TestEkosSchedulerOps::init()
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
     Options::setSettingAltitudeCutoff(0);
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_CLASSIC);
+    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
 }
 
 void TestEkosSchedulerOps::cleanup()
@@ -797,46 +794,6 @@ void TestEkosSchedulerOps::wakeupAndRestart(const QDateTime &restartTime, KStars
                     mount->parkStatus() == ISD::PARK_UNPARKED);
         }));
     }
-}
-
-void TestEkosSchedulerOps::testCulminationStartup()
-{
-    // culmination offset
-    const int offset = -60;
-
-    // obtain location and target from test data
-    QFETCH(QString, location);
-    QFETCH(QString, target);
-    GeoLocation * const geo = KStars::Instance()->data()->locationNamed(location);
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName(target);
-
-    // move forward in 20s steps
-    WithInterval interval(20000, scheduler);
-
-    // determine the transit time (UTC) for a fixed date
-    KStarsDateTime midnight(QDate(2021, 7, 11), QTime(0, 0, 0), Qt::UTC);
-    QTime transitTimeUT = targetObject->transitTimeUT(midnight, geo);
-    KStarsDateTime transitUT(midnight.date(), transitTimeUT, Qt::UTC);
-
-    // select start time three hours before transit
-    KStarsDateTime startUTime(midnight.date(), transitTimeUT.addSecs(-3600 * 3), Qt::UTC);
-
-    // define culmination offset of 1h as startup condition
-    m_startupCondition.type = SchedulerJob::START_CULMINATION;
-    m_startupCondition.culminationOffset = -60;
-
-    // check whether the job startup is offset minutes before the calculated transit
-    KStarsDateTime const jobStartUTime = transitUT.addSecs(60 * offset);
-    // initialize the the scheduler
-    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    QVector<QString> esqVector;
-    esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
-    QVector<QString> eslVector;
-    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, m_completionCondition, {true, true, true, true},
-                        false, true));
-    initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
-    // verify if the job starts at the expected time
-    initJob(startUTime, jobStartUTime);
 }
 
 void TestEkosSchedulerOps::testFixedDateStartup()
