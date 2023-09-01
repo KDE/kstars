@@ -568,12 +568,12 @@ void TestPlaceholderPath::testFlexibleNaming()
     auto placeholderPath = Ekos::PlaceholderPath(seqFilename);
     bool bm = bool(batch_mode.toInt());
     int i = nextSequenceID.toInt();
-    QString filename = placeholderPath.generateFilename(job, targetName, true, bm, i, ".fits", "");
+    QString filename = placeholderPath.generateSequenceFilename(job, targetName, true, bm, i, ".fits", "");
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
 
     placeholderPath.setGenerateFilenameSettings(job, targetName);
-    filename = placeholderPath.generateFilename(bm, i, ".fits", "");
+    filename = placeholderPath.generateOutputFilename(true, bm, i, ".fits", "");
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
 #endif
@@ -635,10 +635,10 @@ void TestPlaceholderPath::testFlexibleNamingGlob()
     auto placeholderPath = Ekos::PlaceholderPath("");
     bool bm = false;
     int i = nextSequenceID.toInt();
-    QString filename = placeholderPath.generateFilename(job, "", true, bm, i, ".fits", "", true);
+    QString filename = placeholderPath.generateSequenceFilename(job, "", true, bm, i, ".fits", "", true);
     QCOMPARE(filename, result);
     placeholderPath.setGenerateFilenameSettings(job, "");
-    filename = placeholderPath.generateFilename(bm, i, ".fits", "", true);
+    filename = placeholderPath.generateOutputFilename(true, bm, i, ".fits", "", true);
     QCOMPARE(filename, result);
 #endif
 }
@@ -753,7 +753,7 @@ void TestPlaceholderPath::testGetCompletedFileIds()
         QCOMPARE(nextSequenceID, id - 1);
         nextSequenceID = placeholderPath.checkSeqBoundary(job, targetName);
         QCOMPARE(nextSequenceID, id);
-        QString filename = placeholderPath.generateFilename(bm, id, ".fits", "");
+        QString filename = placeholderPath.generateOutputFilename(true, bm, id, ".fits", "");
         QDir path;
         path.mkpath(QFileInfo(filename).dir().path());
         QFile(filename).open(QIODevice::WriteOnly);
