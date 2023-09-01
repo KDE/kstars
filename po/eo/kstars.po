@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-31 00:41+0000\n"
-"PO-Revision-Date: 2023-08-20 21:04+0100\n"
+"POT-Creation-Date: 2023-09-01 00:41+0000\n"
+"PO-Revision-Date: 2023-08-31 22:24+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -401,7 +401,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2474
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2491
 #: ekos/scheduler/scheduler.cpp:3818
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2516,8 +2516,8 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3800
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2056
-#: ekos/capture/capture.cpp:2483 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1166 ekos/capture/capture.cpp:2073
+#: ekos/capture/capture.cpp:2500 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:3459 ekos/scheduler/scheduler.cpp:3828
 #: fitsviewer/fitstab.cpp:495 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
@@ -6191,24 +6191,24 @@ msgstr "dRA (arksec)"
 msgid "dDE (arcsec)"
 msgstr "dDE (arksec)"
 
-#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:3268
+#: ekos/align/align.cpp:3496 ekos/capture/capture.cpp:3285
 #: ekos/focus/focus.cpp:4724
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filtrila operacio malsukcesis."
 
-#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:3204
+#: ekos/align/align.cpp:3508 ekos/capture/capture.cpp:3221
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Ŝanĝante fokusan kompenson je %1 paŝoj..."
 
 #: ekos/align/align.cpp:3515 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:3209
+#: ekos/capture/capture.cpp:3226
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Ŝanĝante filtrilon al %1..."
 
-#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:3214
+#: ekos/align/align.cpp:3520 ekos/capture/capture.cpp:3231
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Aŭtomata fokuso pri filtrila ŝanĝo..."
@@ -6225,8 +6225,8 @@ msgid "Export Solution Points"
 msgstr "Eksporti Solvo-Poentojn"
 
 #: ekos/align/align.cpp:3799 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2055
-#: ekos/capture/capture.cpp:2482 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:2072
+#: ekos/capture/capture.cpp:2499 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:3458 ekos/scheduler/scheduler.cpp:3827
 #: fitsviewer/fitstab.cpp:494 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6235,14 +6235,14 @@ msgid "Invalid URL: %1"
 msgstr "Nevalida URL: %1"
 
 #: ekos/align/align.cpp:3808 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:2505 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/capture/capture.cpp:2522 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:3839 ekos/scheduler/scheduler.cpp:6211
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Ne eblas skribi al dosiero %1"
 
 #: ekos/align/align.cpp:3809 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2071
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2088
 #: ekos/guide/guidedriftgraph.cpp:485 ekos/scheduler/scheduler.cpp:3502
 #: ekos/scheduler/scheduler.cpp:3840 ekos/scheduler/scheduler.cpp:6155
 #: ekos/scheduler/scheduler.cpp:6212 indi/drivermanager.cpp:1520
@@ -6879,13 +6879,13 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Malfermi Ekos-Vicigoliston"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2070
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:2087
 #: ekos/scheduler/scheduler.cpp:3501 ekos/scheduler/scheduler.cpp:6154
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Ne eblas malfermi dosieron %1"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2097
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2114
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7560,7 +7560,7 @@ msgstr "Aŭtomata Parko"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:3788
+#: ekos/align/opsalign.ui:271 ekos/capture/capture.cpp:3805
 #: ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
@@ -13845,12 +13845,12 @@ msgstr "Parki Muntaĵon"
 msgid "Park Dome"
 msgstr "Parki Kupolon"
 
-#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2906
+#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2923
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Aldoni taskon al sekvenca vico"
 
-#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2907
+#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2924
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Forigi taskon el sekvencvico"
@@ -13919,79 +13919,79 @@ msgstr "Malhela Plata"
 msgid "Job #%1 changes applied."
 msgstr "Ŝanĝoj de la tasko #%1 aplikitaj."
 
-#: ekos/capture/capture.cpp:1919
+#: ekos/capture/capture.cpp:1936
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Agordante temperaturon al %1 °C..."
 
-#: ekos/capture/capture.cpp:1920
+#: ekos/capture/capture.cpp:1937
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Meti Temp al %1 °C..."
 
-#: ekos/capture/capture.cpp:1924
+#: ekos/capture/capture.cpp:1941
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Atendante gvidan drivon sub %1\"..."
 
-#: ekos/capture/capture.cpp:1926
+#: ekos/capture/capture.cpp:1943
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Atendi Gvidilon < %1\"..."
 
-#: ekos/capture/capture.cpp:1931
+#: ekos/capture/capture.cpp:1948
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Metante kameraon al %1 gradoj E de N..."
 
-#: ekos/capture/capture.cpp:1932
+#: ekos/capture/capture.cpp:1949
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Meti kameraon al %1 grad..."
 
-#: ekos/capture/capture.cpp:1975 ekos/capture/capture.cpp:1976
+#: ekos/capture/capture.cpp:1992 ekos/capture/capture.cpp:1993
 #, kde-format
 msgid "Focus complete."
 msgstr "Fokuso kompleta."
 
-#: ekos/capture/capture.cpp:1980
+#: ekos/capture/capture.cpp:1997
 #, kde-format
 msgid "Autofocus failed."
 msgstr "Aŭtomata fokuso malsukcesis."
 
-#: ekos/capture/capture.cpp:2002
+#: ekos/capture/capture.cpp:2019
 #, kde-format
 msgid "Paused..."
 msgstr "Paŭzita..."
 
-#: ekos/capture/capture.cpp:2007
+#: ekos/capture/capture.cpp:2024
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Meridiano Flip..."
 
-#: ekos/capture/capture.cpp:2008
+#: ekos/capture/capture.cpp:2025
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Meridiana renversiĝo komenciĝis"
 
-#: ekos/capture/capture.cpp:2012
+#: ekos/capture/capture.cpp:2029
 #, kde-format
 msgid "Flip complete."
 msgstr "Flip kompleta."
 
-#: ekos/capture/capture.cpp:2037 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:2054 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS Konservi Adresaron"
 
-#: ekos/capture/capture.cpp:2047
+#: ekos/capture/capture.cpp:2064
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Malfermi Ekos Sekvencan Vicon"
 
-#: ekos/capture/capture.cpp:2158
+#: ekos/capture/capture.cpp:2175
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
@@ -14000,28 +14000,28 @@ msgstr ""
 "Meridian-flip-agordo estis ŝanĝita al la munta modulo. Bonvolu agordi la "
 "meridianan turniĝon tie."
 
-#: ekos/capture/capture.cpp:2246
+#: ekos/capture/capture.cpp:2263
 #, kde-format
 msgid "Warning: Filter %1 not found in filter wheel."
 msgstr "Averto: Filtrilo %1 ne trovita en filtrila rado."
 
-#: ekos/capture/capture.cpp:2453
+#: ekos/capture/capture.cpp:2470
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Konservi Ekos Sekvencovicon"
 
-#: ekos/capture/capture.cpp:2474
+#: ekos/capture/capture.cpp:2491
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Malsukcesis konservi la sekvencan vicon"
 
-#: ekos/capture/capture.cpp:2506
+#: ekos/capture/capture.cpp:2523
 #, kde-format
 msgid "Could not open file"
 msgstr "Ne eblis malfermi dosieron"
 
-#: ekos/capture/capture.cpp:2526
+#: ekos/capture/capture.cpp:2543
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14032,95 +14032,95 @@ msgstr ""
 "Sekvencan HFR-valoron al Dosiero\" ne estas ebligita. La nuna HFR-valoro ne "
 "estos skribita al sekvencodosiero."
 
-#: ekos/capture/capture.cpp:2661
+#: ekos/capture/capture.cpp:2678
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Sekvendvico konservita al %1"
 
-#: ekos/capture/capture.cpp:2688
+#: ekos/capture/capture.cpp:2705
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ĉu vi certas, ke vi volas restarigi la staton de ĉiuj taskoj?"
 
-#: ekos/capture/capture.cpp:2688 ekos/capture/captureprocess.cpp:2339
+#: ekos/capture/capture.cpp:2705 ekos/capture/captureprocess.cpp:2339
 #, kde-format
 msgid "Reset job status"
 msgstr "Restarigi taskstatuson"
 
-#: ekos/capture/capture.cpp:2885
+#: ekos/capture/capture.cpp:2902
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Redaktante taskon #%1..."
 
-#: ekos/capture/capture.cpp:2888 ekos/scheduler/scheduler.cpp:1619
+#: ekos/capture/capture.cpp:2905 ekos/scheduler/scheduler.cpp:1619
 #, kde-format
 msgid "Apply job changes."
 msgstr "Apliki taskŝanĝojn."
 
-#: ekos/capture/capture.cpp:2889
+#: ekos/capture/capture.cpp:2906
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Nuligi taskŝanĝojn."
 
-#: ekos/capture/capture.cpp:2901
+#: ekos/capture/capture.cpp:2918
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Redakta tasko nuligita."
 
-#: ekos/capture/capture.cpp:3054
+#: ekos/capture/capture.cpp:3071
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Muraj koordinatoj estas nevalidaj."
 
-#: ekos/capture/capture.cpp:3143
+#: ekos/capture/capture.cpp:3160
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Elekti Nunan Observanton"
 
-#: ekos/capture/capture.cpp:3145
+#: ekos/capture/capture.cpp:3162
 #, kde-format
 msgid "Current Observer:"
 msgstr "Nuna Observanto:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:3156 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:3173 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Administri Observantojn"
 
-#: ekos/capture/capture.cpp:3221
+#: ekos/capture/capture.cpp:3238
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Filtrilo agordita al %1."
 
-#: ekos/capture/capture.cpp:3543
+#: ekos/capture/capture.cpp:3560
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Ĉu restarigi %1 agordon al defaŭlta?"
 
-#: ekos/capture/capture.cpp:3545
+#: ekos/capture/capture.cpp:3562
 #, kde-format
 msgid "Confirmation"
 msgstr "Konfirmo"
 
-#: ekos/capture/capture.cpp:3596
+#: ekos/capture/capture.cpp:3613
 #, kde-format
 msgid "Cooler is on"
 msgstr "La malvarmigilo estas ŝaltita"
 
-#: ekos/capture/capture.cpp:3596
+#: ekos/capture/capture.cpp:3613
 #, kde-format
 msgid "Cooler is off"
 msgstr "La malvarmigilo estas malŝaltita"
 
-#: ekos/capture/capture.cpp:3780
+#: ekos/capture/capture.cpp:3797
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "Deklivo (C/min):"
 
-#: ekos/capture/capture.cpp:3786
+#: ekos/capture/capture.cpp:3803
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
@@ -14129,28 +14129,28 @@ msgstr ""
 "Maksimuma temperaturŝanĝo por minuto dum malvarmigo aŭ varmigado de la "
 "fotilo. Agordu nulon por malŝalti."
 
-#: ekos/capture/capture.cpp:3794
+#: ekos/capture/capture.cpp:3811
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr "Maksimuma diferenco inter fotilo kaj celtemperaturoj"
 
-#: ekos/capture/capture.cpp:3804
+#: ekos/capture/capture.cpp:3821
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Meti Temperaturan Reguligon"
 
-#: ekos/capture/capture.cpp:3822
+#: ekos/capture/capture.cpp:3839
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Haltiga Sekvenco"
 
-#: ekos/capture/capture.cpp:3828
+#: ekos/capture/capture.cpp:3845
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Rekomencu Sekvencon"
 
-#: ekos/capture/capture.cpp:3853
+#: ekos/capture/capture.cpp:3870
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15299,10 +15299,9 @@ msgstr ""
 "vico."
 
 #: ekos/capture/captureprocess.cpp:240
-#, fuzzy, kde-format
-#| msgid "No jobs scheduled."
+#, kde-format
 msgid "No new job created."
-msgstr "Neniuj taskoj planitaj."
+msgstr "Neniu nova labortaskoj kreita."
 
 #: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
 #, kde-format
@@ -25413,13 +25412,7 @@ msgstr "Grupo:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
 #: ekos/scheduler/framingassistant.ui:1534
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"justify\">Select a group name. Useful if "
-#| "you want the mosaic jobs to repeat together--assign them a group name, "
-#| "and give them <i>repeat for N (N=2 or more)</i> or <i>repeat until "
-#| "terminated</i> completion conditions. Otherwise leave empty. Only applies "
-#| "to the Greedy scheduler algorithm.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
 "want the mosaic jobs to repeat together--assign them a group name, and give "
@@ -25429,9 +25422,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Elektu grupnomon. Utila se vi volas "
 "ke la mozaiktaskoj ripetiĝu kune--asignu grupnomon al ili, kaj donu al ili "
-"<i>repeat for N (N=2 or more)</i> aŭ <i>repeat until terminated</i> "
-"kompletigajn kondiĉojn. Alikaze lasu malplena. Nur aplikiĝas al la Avara "
-"planil-algoritmo.</p></body></html>"
+"<span style=\" font-style:italic;\">repeat for N (N=2 or more)</span> aŭ "
+"<span style=\" font-style:italic;\">repeat until terminated</span> "
+"kompletigajn kondiĉojn. Alikaze lasu malplena.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1563
@@ -26681,6 +26674,8 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
+"Elektu la taskojn por ruligi ĉe la komenco de ĉiu planisto-labortasko. "
+"Efektivgita en ordo, de maldekstre al dekstre."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FITSLabel)
 #: ekos/scheduler/scheduler.ui:195
@@ -26761,13 +26756,13 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:417
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
-msgstr ""
+msgstr "Komenci aŭtomatan gvidadon. Farita ĉe la komenco de ĉiu planila tasko."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:439
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
-msgstr ""
+msgstr "Ruli aŭtomatan fokuson. Farita ĉe la komenco de ĉiu planila tasko."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copySkyCenterB)
 #: ekos/scheduler/scheduler.ui:526
@@ -36918,7 +36913,7 @@ msgstr "Glataj rastrumeroj por pli agrabla, sed pli malrapida bildigo."
 #: kstars.kcfg:3130
 #, kde-format
 msgid "Display Image Overlays."
-msgstr ""
+msgstr "Vidigi Bildajn Supermetaĵojn."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
@@ -36930,7 +36925,7 @@ msgstr "Baskuligi ĉu montri bildajn superkovrojn."
 #: kstars.kcfg:3135
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "Centri SkyMap super elektita bilda superkovro."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3136
@@ -36939,6 +36934,8 @@ msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
 "it's solved)."
 msgstr ""
+"Centri SkyMap super la elektita superkovra bildo en la bildsuperkovra tabelo "
+"(se ĝi estas solvita)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3140
@@ -36956,25 +36953,26 @@ msgstr "Maksimuma dimensio bildsuperkovrajn bildoj."
 #: kstars.kcfg:3145
 #, kde-format
 msgid "Image overlay plate-solving timeout."
-msgstr ""
+msgstr "Eltempiĝo por pletsolvado de bildsuperkovro."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3146
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
-msgstr ""
+msgstr "Eltempiĝo por pletsolvado de bildsuperkovro."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3150
 #, kde-format
 msgid "Image overlay default plate-solving scale."
-msgstr ""
+msgstr "Defaŭlta skalo por bildsuperkovra pletsolvado."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3151
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
+"Defaŭlta skalo (arksekundoj/rastrumero) por bildsuperkovra pletsolvado."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3157
@@ -73501,6 +73499,8 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
+"Centri SkyMap super la elektita superkovra bildo en la suba tabelo (se ĝi "
+"estas solvita)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
@@ -73516,6 +73516,8 @@ msgid ""
 "Maximum dimension for an image overlay image. (Larger images will be scaled "
 "down.)"
 msgstr ""
+"Maksimuma dimensio por bildsupermeta bildo. (Pli grandaj bildoj estos "
+"skalitaj malgrandiĝe.)"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
@@ -73530,6 +73532,8 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
+"Malfermi overlay-dosierujon. Kopii aŭ movi bildojn al ĉi tiu dosierujo por "
+"prilabori ilin."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
@@ -73539,17 +73543,15 @@ msgstr "Dosierujo de Supermetaĵoj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:165
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Nuntempaj datumoj de la vetersensiloj. Klaku sur la "
-"sensilnomo por montri ĝiajn datumojn laŭlonge de la tempo.</p></body></html>"
+"<html><head/><body><p>Refreŝigi el la dosierujo de supermetaĵoj. Aldonu "
+"supermetojn kiuj estis aldonitaj tie, kaj forigu supermetojn kiuj ne plu "
+"estas tie.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:239
@@ -73570,6 +73572,20 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Pletsolvi la elektita(j)n supermetaĵo(j)n.</p><p>Uzas "
+"la elektitan Align-profilon dekstre, sed ne Align-skalon nek pozicion.Ĝi "
+"uzos la defaŭltan skalon dekstre (a-s/px), se neniu estas donita sur la "
+"tabelvico kaj skalkolumno (0 estas neniu skallimo). Ĝi ne uzos pozicion krom "
+"se RA kaj DEC estas enmetitaj sur la tabelvico. Uzas la tempotempon supre. "
+"Vi povas elekti multajn vicojn (per klako kaj movklako) kaj ĝi provos solvi "
+"ilin ĉiujn.</p><p>La pletsolvado povas esti malfacila. Vi eble ne povos "
+"solvi ĉiujn viajn bildojn. Vi povas provi provizi skalojn kaj poziciojn, kaj "
+"provi malsamajn profilojn. Se vi malsukcesas, sed tamen volas montri bildon, "
+"vi povas enigi RA, DEC, Skalon, Orientiĝon en la taŭgajn kolumnojn por la "
+"vico, pri kiu vi interesiĝas, tiam mane agordi la Statuso-kolumnon al Bone.</"
+"p><p>Vi ne povas re-pletsolvi vicon kies statuso estas en ordo, sed vi povas "
+"mane ŝanĝi la statuson al io alia, sekve pletsolvado estas ŝaltita.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
@@ -73585,6 +73601,8 @@ msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
 msgstr ""
+"Defaŭlta arksek/px-skalo uzenda en solvado. 0 estas neniu. Uzus kio estas en "
+"tabelo se havebla."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
@@ -73597,7 +73615,7 @@ msgstr "Defaŭlta a-s/px"
 #: options/opsimageoverlay.ui:312 options/opsimageoverlay.ui:328
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
-msgstr ""
+msgstr "Eltempiĝo por pletsolvi supermetan bildon (sekundoj)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
@@ -75032,7 +75050,7 @@ msgstr "Angulo"
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-S/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:63
 #, kde-format
@@ -75042,64 +75060,65 @@ msgstr "OrientoDekstra"
 #: skycomponents/imageoverlaycomponent.cpp:163
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Malbona RA-ĉeno enigita por %1. Remetita al origina valoro."
 
 #: skycomponents/imageoverlaycomponent.cpp:177
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Malbona DEC-ĉeno enigita por %1. Remetita al origina valoro."
 
 #: skycomponents/imageoverlaycomponent.cpp:190
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Malbona orientig-angula ĉeno enigita por %1. Remetita al origina valoro."
 
 #: skycomponents/imageoverlaycomponent.cpp:201
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
-msgstr ""
+msgstr "Malbona skal-angula ĉeno enigita por %1. Remetita al origina valoro."
 
 #: skycomponents/imageoverlaycomponent.cpp:231
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
-msgstr ""
+msgstr "Ne povas meti statuson al Bone. Legitima ne-0 RA-valoro postulata."
 
 #: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
-msgstr ""
+msgstr "Ne povas meti statuson al Bone. Legitima ne-0 DE-valoro postulata."
 
 #: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
-msgstr ""
+msgstr "Ne povas meti statuson al Bone. Legitima orientiga valoro postulata."
 
 #: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
-msgstr ""
+msgstr "Ne povas meti statuson al Bone. Legitima ne-0 a-s/px-valoro postulata."
 
 #: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Konservis Bone-statuson por %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Ĝisdatigante el dosierujo: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:436
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 supermetoj (%2 novaj, %3 forigitaj) %4 solvitaj"
 
 #: skycomponents/imageoverlaycomponent.cpp:438
 #: skycomponents/imageoverlaycomponent.cpp:556
 #: skycomponents/imageoverlaycomponent.cpp:845
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Bildaj supermetaĵoj. %1 bildoj, %2 disponeblaj."
 
 #: skycomponents/imageoverlaycomponent.cpp:451
 #, kde-format
@@ -75109,7 +75128,7 @@ msgstr "Ŝargante bilddosierojn..."
 #: skycomponents/imageoverlaycomponent.cpp:457
 #, kde-format
 msgid "%1 image files loaded."
-msgstr ""
+msgstr "%1 bilddosieroj ŝargitaj."
 
 #: skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
@@ -75154,12 +75173,12 @@ msgstr "Solvante: %1."
 #: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Ne povas montri %1. Ne pletsolvita."
 
 #: skycomponents/imageoverlaycomponent.cpp:669
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Ne povas montri %1. Bildo ne ŝargita."
 
 #: skycomponents/imageoverlaycomponent.cpp:702
 #, kde-format
@@ -75169,17 +75188,17 @@ msgstr "Solvado ĉesigita."
 #: skycomponents/imageoverlaycomponent.cpp:737
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Saltante jam solvitan: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:756
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 jam solvita. Preterlasante."
 
 #: skycomponents/imageoverlaycomponent.cpp:774
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
-msgstr ""
+msgstr "Reŝargante. Bildaj supermetaĵoj provizore malŝaltitaj."
 
 #: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
@@ -75194,7 +75213,7 @@ msgstr "Solvilo malsukcesis post %1s"
 #: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Sukceso de solvilo en %1s: RA %2 DEC %3 Skalo %4 Angulo %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
@@ -82975,208 +82994,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "Warning: job '%1' has startup time %2 resulting in a negative score, and "
-#~ "will be marked invalid when processed."
-#~ msgstr ""
-#~ "Averto: tasko '%1' havas ektempon %2 rezultigante negativan poentaron, "
-#~ "kaj estos markita nevalida kiam prilaborita."
-
-#~ msgid ""
-#~ "Warning: job '%1' at row %2 might require a specific startup time or a "
-#~ "different priority, as currently they will start in order of insertion in "
-#~ "the table"
-#~ msgstr ""
-#~ "Averto: tasko '%1' ĉe vico %2 eble postulas specifan ektempon aŭ alian "
-#~ "prioritaton, ĉar nuntempe ili komenciĝos en ordo de enmeto en la tabelon"
-
-#~ msgid "All jobs aborted. Waiting %1 seconds to re-schedule."
-#~ msgstr "Ĉiuj taskoj interrompitaj. Atendante %1 sekundojn por replani."
-
-#~ msgid "No jobs left in the scheduler queue."
-#~ msgstr "Neniuj taskoj restas en la vostovico."
-
-#~ msgid "Only %1 jobs left in the scheduler queue, rescheduling those."
-#~ msgstr ""
-#~ "Restas nur %1 taskoj en la vostovico de la planisto, reprogramante tiujn."
-
-#~ msgid ""
-#~ "Warning: job '%1' has fixed startup time %2 set in the past, marking "
-#~ "invalid."
-#~ msgstr ""
-#~ "Averto: tasko '%1' fiksis la ektempon %2 agordita en la pasinteco, "
-#~ "markante nevalida."
-
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its twilight "
-#~ "restriction, marking invalid."
-#~ msgstr ""
-#~ "Averto: tasko '%1' havas fiksan komencan tempon nekongruan kun ĝia "
-#~ "krepuska limigo, markante nevalida."
-
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its altitude "
-#~ "restriction, marking invalid."
-#~ msgstr ""
-#~ "Averto: tasko '%1' havas fiksan komencan tempon nekongruan kun ĝia "
-#~ "altlimigo, markante nevalida."
-
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its Moon "
-#~ "separation restriction, marking invalid."
-#~ msgstr ""
-#~ "Averto: tasko '%1' havas fiksan komenctempon nekongruan kun sia limigo de "
-#~ "disiĝo de Luno, markante nevalida."
-
-#~ msgid ""
-#~ "Warning: job '%1' has fixed startup time %2 unachievable due to the "
-#~ "completion time of its previous sibling, marking invalid."
-#~ msgstr ""
-#~ "Averto: tasko '%1' fiksis ektempon %2 neatingebla pro la fintempo de sia "
-#~ "antaŭa gefrato, markante nevalida."
-
-#~ msgid ""
-#~ "Warning: Job '%1' cannot start because its previous sibling has no "
-#~ "completion time, marking invalid."
-#~ msgstr ""
-#~ "Averto: Tasko '%1' ne povas komenciĝi ĉar ĝia antaŭa gefrato ne havas "
-#~ "kompletigtempon, markante nevalida."
-
-#~ msgid ""
-#~ "Warning: job '%1' execution overlaps daylight, it will be interrupted at "
-#~ "dawn and rescheduled on next night time."
-#~ msgstr ""
-#~ "Averto: plenumo de tasko '%1' interkovras taglumon, ĝi estos interrompita "
-#~ "ĉe tagiĝo kaj replanita la venontan nokton."
-
-#~ msgid ""
-#~ "Warning: job '%1' requires culmination offset of %2 minutes, not "
-#~ "achievable, marking invalid."
-#~ msgstr ""
-#~ "Averto: tasko '%1' postulas kulminan kompenson de %2 minutoj, ne "
-#~ "atingebla, markante nevalida."
-
-#~ msgid ""
-#~ "Warning: job '%1' requires minimum altitude %2 and Moon separation %3, "
-#~ "not achievable, marking invalid."
-#~ msgstr ""
-#~ "Averto: tasko '%1' postulas minimuman altecon %2 kaj Lun-disigon %3, "
-#~ "neatingebla, markante nevalida."
-
-#~ msgid ""
-#~ "Warning: job '%1' is constrained by the start time of the next job, and "
-#~ "cannot finish in time, marking aborted."
-#~ msgstr ""
-#~ "Averto: tasko '%1' estas limigita de la komenca tempo de la sekva tasko, "
-#~ "kaj ne povas finiĝi ĝustatempe, markante ĉesigita."
-
-#~ msgid ""
-#~ "Job '%1' completion time (%2) could not be achieved before start up time "
-#~ "(%3)"
-#~ msgstr ""
-#~ "La kompletiga tempo de la tasko '%1' (%2) ne povis esti atingita antaŭ la "
-#~ "lanĉa tempo (%3)"
-
-#~ msgid "No jobs left in the scheduler queue after schedule cleanup."
-#~ msgstr "Neniuj taskoj restas en la vostovico post horara purigado."
-
-#~ msgid "Job '%1' reached completion time %2, stopping."
-#~ msgstr "Tasko '%1' atingis fintempon %2, haltante."
-
-#~ msgid ""
-#~ "Job '%1' current altitude (%2 degrees) fails constraints, marking idle."
-#~ msgstr ""
-#~ "Tasko '%1' nuna alteco (%2 gradoj) malsukcesas limojn, markante neaktiva."
-
-#~ msgid ""
-#~ "Job '%2' current moon separation (%1 degrees) is lower than minimum "
-#~ "constraint (%3 degrees), marking idle."
-#~ msgstr ""
-#~ "Tasko '%2' aktuala lundisiĝo (%1 gradoj) estas pli malalta ol minimuma "
-#~ "limo (%3 gradoj), markante neaktiva."
-
-#~ msgid ""
-#~ "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 "
-#~ "minutes safety margin), marking idle."
-#~ msgstr ""
-#~ "Tasko '%3' nun alproksimiĝas al la limo de la astronomia krepuska pliiĝo "
-#~ "ĉe %1 (%2 minutoj sekureca marĝeno), markante neaktiva."
-
-#~ msgid "Priority:"
-#~ msgstr "Prioritato:"
-
-#~ msgid ""
-#~ "Assigned priority to each job with 1 being the highest priority and 20 "
-#~ "being the lowest priority"
-#~ msgstr ""
-#~ "Asignita prioritato al ĉiu tasko kun 1 estante la plej alta prioritato "
-#~ "kaj 20 estante la plej malsupra prioritato"
-
-#~ msgid "Score"
-#~ msgstr "Poentaro"
-
-#~ msgid "Est. Duration"
-#~ msgstr "Est. Daŭro"
-
-#~ msgid "Lead time"
-#~ msgstr "Plumbotempo"
-
-#~ msgid ""
-#~ "Start the observation job when the object reaches culmination adjusted "
-#~ "for the offset value in minutes. By default, the observation job runs 60 "
-#~ "minutes prior to culmination."
-#~ msgstr ""
-#~ "Komenci la observadon kiam la objekto atingas kulminon ĝustigita por la "
-#~ "kompensa valoro en minutoj. Defaŭlte, la observado funkcias 60 minutojn "
-#~ "antaŭ kulmino."
-
-#~ msgid "Cul&mination Offset"
-#~ msgstr "Kul&mina Deŝovo"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#~ "culmination time.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Deŝovo en minutoj por komenci bildigon antaŭ aŭ "
-#~ "post kulmina tempo.</p></body></html>"
-
-#~ msgid " min"
-#~ msgstr " min"
-
-#~ msgid ""
-#~ "Current score for job '%1', from its altitude, moon separation and sky "
-#~ "darkness.\n"
-#~ "Negative if adequate altitude is not achieved yet or if there is no "
-#~ "proper observation time today.\n"
-#~ "The Scheduler will refresh scores when picking a new candidate job."
-#~ msgstr ""
-#~ "Nuna poentaro por tasko '%1', de ĝia alteco, luna apartigo kaj ĉiela "
-#~ "mallumo.\n"
-#~ "Negativa se adekvata alteco ankoraŭ ne estas atingita aŭ se ne estas "
-#~ "taŭga observada tempo hodiaŭ.\n"
-#~ "La Planilo refreŝigos poentarojn kiam elektas novan kandidatlaboron. ."
-
-#~ msgid ""
-#~ "Time interval from the job which precedes job '%1'.\n"
-#~ "Adjust the Lead Time in Ekos options to increase that duration and leave "
-#~ "time for jobs to complete.\n"
-#~ "Rearrange jobs to minimize that duration and optimize your imaging time."
-#~ msgstr ""
-#~ "Tempo-intervalo de la tasko kiu antaŭas taskon '%1'.\n"
-#~ "Alĝustigu la opciojn de Antaŭtempa tempo en Ekos por pliigi tiun daŭron "
-#~ "kaj lasi tempon por plenumi taskojn.\n"
-#~ "Reordigu taskojn por minimumigi tiun daŭron kaj optimumigi vian "
-#~ "bildtempon."
-
-#~ msgid ""
-#~ "Duration job '%1' will take to complete when started, as estimated by the "
-#~ "Scheduler.\n"
-#~ "Depends on the actions to be run, and the sequence job to be processed."
-#~ msgstr ""
-#~ "Daŭrolaboro '%1' daŭros por fini kiam komencite, laŭ takso de la "
-#~ "Planilo.\n"
-#~ "Dependas de la agoj rulotaj, kaj de la sinsekva tasko prilaborota."
-
-#~ msgid "Cannot start framing while focus module is busy."
-#~ msgstr "Ne povas komenci enkadrigi dum fokusa modulo estas okupata."
