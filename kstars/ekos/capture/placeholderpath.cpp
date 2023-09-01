@@ -118,24 +118,8 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
 
     job->setCoreProperty(SequenceJob::SJ_FullPrefix, imagePrefix);
 
-    // Directory postfix
-    QString directoryPostfix;
-
-    /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in capture.cpp */
-    if (tempTargetName.isEmpty())
-        directoryPostfix = QDir::separator() + frameType;
-    else
-        directoryPostfix = QDir::separator() + tempTargetName + QDir::separator() + frameType;
-    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE
-            || isDarkFlat)
-            && filterType.isEmpty() == false)
-        directoryPostfix += QDir::separator() + filterType;
-
     QString signature = generateSequenceFilename(*job, jobTargetName, true, true, 1, ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
-
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, directoryPostfix);
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, directoryPostfix);
 }
 
 void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
@@ -248,13 +232,16 @@ QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
     pathPropertyMap[PP_OFFSET]      = job.getCoreProperty(SequenceJob::SJ_Offset);
     pathPropertyMap[PP_PIERSIDE]    = QVariant(job.getPierSide());
 
-    return generateFilenameInternal(pathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
+    return generateFilenameInternal(pathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob,
+                                    gettingSignature);
 }
 
-QString PlaceholderPath::generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
+QString PlaceholderPath::generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID,
+        const QString &extension,
         const QString &filename, const bool glob, const bool gettingSignature) const
 {
-    return generateFilenameInternal(m_PathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob, gettingSignature);
+    return generateFilenameInternal(m_PathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob,
+                                    gettingSignature);
 }
 
 QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap,
