@@ -479,7 +479,7 @@ bool Focus::addTemperatureSource(const QSharedPointer<ISD::GenericDevice> &devic
     return true;
 }
 
-void Focus::checkTemperatureSource(const QString &name)
+void Focus::checkTemperatureSource(const QString &name )
 {
     auto source = name;
     if (name.isEmpty())
@@ -493,12 +493,14 @@ void Focus::checkTemperatureSource(const QString &name)
 
     for (auto &oneSource : m_TemperatureSources)
     {
-        if (oneSource->getDeviceName() == name)
+        if (oneSource->getDeviceName() == source)
         {
             currentSource = oneSource;
             break;
         }
     }
+
+    m_LastSourceDeviceAutofocusTemperature = currentSource;
 
     // No valid device found
     if (!currentSource)
@@ -508,14 +510,16 @@ void Focus::checkTemperatureSource(const QString &name)
     for (const auto &oneSource : m_TemperatureSources)
         disconnect(oneSource.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Focus::processTemperatureSource);
 
+
     if (findTemperatureElement(currentSource))
     {
         m_LastSourceAutofocusTemperature = currentTemperatureSourceElement->value;
         absoluteTemperatureLabel->setText(QString("%1 °C").arg(currentTemperatureSourceElement->value, 0, 'f', 2));
         deltaTemperatureLabel->setText(QString("%1 °C").arg(0.0, 0, 'f', 2));
     }
-    else
+    else {
         m_LastSourceAutofocusTemperature = INVALID_VALUE;
+    }
 
     connect(currentSource.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Focus::processTemperatureSource,
             Qt::UniqueConnection);
@@ -823,6 +827,13 @@ void Focus::getAbsFocusPosition()
 
 void Focus::processTemperatureSource(INDI::Property prop)
 {
+    if (m_LastSourceAutofocusTemperature == INVALID_VALUE && m_LastSourceDeviceAutofocusTemperature && !currentTemperatureSourceElement ) {
+        if( findTemperatureElement( m_LastSourceDeviceAutofocusTemperature ) ) {
+            appendLogText(i18n("Finally found temperature source %1", QString(currentTemperatureSourceElement->nvp->name)));
+            m_LastSourceAutofocusTemperature = currentTemperatureSourceElement->value;
+        }
+    }
+
     double delta = 0;
     if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp->name == prop.getName())
     {
