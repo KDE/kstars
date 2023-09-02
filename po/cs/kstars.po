@@ -34310,10 +34310,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3131
-#, fuzzy, kde-format
-#| msgid "Toggle whether Pluto is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether to display image overlays."
-msgstr "Je-li zapnuto, zobrazí se Pluto."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3135
@@ -34337,10 +34336,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3141
-#, fuzzy, kde-format
-#| msgid "Maximum distance for comet names"
+#, kde-format
 msgid "Maximum dimension for image overlay images."
-msgstr "Maximální vzdálenost pro názvy komet"
+msgstr ""
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3145
@@ -63022,10 +63020,9 @@ msgstr "Terénní"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
 #: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Image Overlays"
-msgstr "Překrytí"
+msgstr ""
 
 #: kstarsactions.cpp:1150
 #, kde-format
@@ -63048,18 +63045,14 @@ msgid "Show Terrain"
 msgstr "Zobrazit terén"
 
 #: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:273
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Image as"
+#, kde-format
 msgid "Hide Image Overlays"
-msgstr "Uložit obrázek jako"
+msgstr ""
 
 #: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:274
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Image as"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "Uložit obrázek jako"
+msgstr ""
 
 #: kstarsactions.cpp:1297
 #, kde-format
@@ -70743,10 +70736,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "Zobrazit obrázek "
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -70758,10 +70750,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Vystředit v dalekohledu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -70774,10 +70765,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
-#, fuzzy, kde-format
-#| msgid "Maximum time"
+#, kde-format
 msgid "Maximum image dimension"
-msgstr "Maximální doba"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:140
@@ -70789,10 +70779,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgid "Overlay Directory"
-msgstr "Adresář"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:165
@@ -70840,10 +70829,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px"
-msgstr "Výchozí"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -70854,10 +70842,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timeout"
-msgstr "Čas"
+msgstr "Vypršení časového limitu"
 
 #: options/opssatellites.cpp:100
 #, kde-format
@@ -72223,8 +72210,7 @@ msgid "Creating horizon"
 msgstr "Vytváření horizontu"
 
 #: skycomponents/imageoverlaycomponent.cpp:60
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "Název souboru"
 
@@ -72242,10 +72228,9 @@ msgid "A-S/px"
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:63
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Otočit vpravo"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:163
 #, kde-format
@@ -72310,10 +72295,9 @@ msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:451
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "Načítání obrázků..."
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:457
 #, kde-format
@@ -72321,41 +72305,34 @@ msgid "%1 image files loaded."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Unprocessed"
-msgstr "Zpracovat"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "Soubor"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgid "Solve Image"
+#, kde-format
 msgid "Solve Failed"
-msgstr "Vyřešit obrázek"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgid "OK"
-msgstr "HÁK"
+msgstr "OK"
 
 #: skycomponents/imageoverlaycomponent.cpp:542
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "Doleva/doprava"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:543
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "Otočit vpravo"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:597
 #, kde-format
@@ -72363,10 +72340,9 @@ msgid "Solving: %1. %2 in queue."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:599
-#, fuzzy, kde-format
-#| msgid "Min: %1"
+#, kde-format
 msgid "Solving: %1."
-msgstr "Min: %1"
+msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
@@ -79483,12 +79459,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#~ msgid "Priority:"
-#~ msgstr "Priorita:"
-
-#~ msgid "Score"
-#~ msgstr "Skóre"
-
-#~ msgid " min"
-#~ msgstr " min"
