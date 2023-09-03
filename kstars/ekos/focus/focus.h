@@ -1097,6 +1097,7 @@ class Focus : public QWidget, public Ui::Focus
 
         //double observatoryTemperature { INVALID_VALUE };
         double m_LastSourceAutofocusTemperature { INVALID_VALUE };
+        QSharedPointer<ISD::GenericDevice> m_LastSourceDeviceAutofocusTemperature;
         //TemperatureSource lastFocusTemperatureSource { NO_TEMPERATURE };
         double m_LastSourceAutofocusAlt { INVALID_VALUE };
 

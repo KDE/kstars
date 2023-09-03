@@ -152,7 +152,7 @@ class Camera : public ConcreteDevice
         bool setRapidGuide(CameraChip *targetChip, bool enable);
 
         // Upload Settings
-        void updateUploadSettings(const QString &remoteDir);
+        void updateUploadSettings(const QString &uploadDirectory, const QString &uploadFile);
         UploadMode getUploadMode();
         bool setUploadMode(UploadMode mode);
 

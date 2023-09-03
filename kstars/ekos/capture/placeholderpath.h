@@ -78,13 +78,14 @@ class PlaceholderPath
          *
          * This overload of the function supports calls from the capture class
          */
-        QString generateFilename(const SequenceJob &job, const QString &targetName, bool local, const bool batch_mode,
+        QString generateSequenceFilename(const SequenceJob &job, const QString &targetName, bool local, const bool batch_mode,
                                  const int nextSequenceID, const QString &extension, const QString &filename,
                                  const bool glob = false, const bool gettingSignature = false) const;
 
         /**
          * @brief generateFilename performs the data for tag substituion in the filename
          * @param sequence job to be processed
+         * @param local Generate local filename, otherwise, generate remote filename
          * @param batch_mode if true dateTime tag is returned with placeholders
          * @param nextSequenceID file sequence number count
          * @param extension filename extension
@@ -94,7 +95,7 @@ class PlaceholderPath
          *
          * This overload of the function supports calls from the indicamera class
          */
-        QString generateFilename(const bool batch_mode, const int nextSequenceID, const QString &extension, const QString &filename,
+        QString generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension, const QString &filename,
                                  const bool glob = false, const bool gettingSignature = false) const;
 
         /**
@@ -167,7 +168,7 @@ class PlaceholderPath
 
 private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.
-        QString generateFilename(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool batch_mode, const int nextSequenceID, const QString &extension,
+        QString generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
                                  const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
 
         QString getFrameType(CCDFrameType frameType) const

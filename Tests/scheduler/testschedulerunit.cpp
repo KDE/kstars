@@ -436,7 +436,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // 2. Get the signiture of the first job
     SequenceJob *seqJob = jobs[0];
     auto placeholderPath = Ekos::PlaceholderPath();
-    QString signature = placeholderPath.generateFilename(*seqJob,
+    QString signature = placeholderPath.generateSequenceFilename(*seqJob,
                         job.getName(), true, true, 1, ".fits", "", false, true);
     seqJob->setCoreProperty(SequenceJob::SJ_Signature, signature);
     QString sig0 = jobs[0]->getSignature();

@@ -410,11 +410,13 @@ void SequenceJob::capture(FITSMode mode)
         }
     }
 
-    const auto remoteDirectory = getCoreProperty(SJ_RemoteDirectory).toString();
-    if (devices.data()->getActiveChip()->isBatchMode() && remoteDirectory.isEmpty() == false)
+    const auto remoteFormatDirectory = getCoreProperty(SJ_RemoteFormatDirectory).toString();
+    const auto remoteFormatFilename = getCoreProperty(SJ_RemoteFormatFilename).toString();
+    if (devices.data()->getActiveChip()->isBatchMode() &&
+            remoteFormatDirectory.isEmpty() == false &&
+            remoteFormatFilename.isEmpty() == false)
     {
-        devices.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(
-                    SJ_DirectoryPostfix).toString());
+        devices.data()->getActiveCamera()->updateUploadSettings(remoteFormatDirectory, remoteFormatFilename);
     }
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
