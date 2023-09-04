@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-03 00:41+0000\n"
-"PO-Revision-Date: 2023-08-31 22:24+0100\n"
+"PO-Revision-Date: 2023-09-03 08:00+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -16578,10 +16578,9 @@ msgid "Focus Options Profile Editor"
 msgstr "Profilredaktilo por Fokusaj Opcioj"
 
 #: ekos/focus/focus.cpp:832
-#, fuzzy, kde-format
-#| msgid "Focuser temperature source"
+#, kde-format
 msgid "Finally found temperature source %1"
-msgstr "Fokusilo temperaturo fonto"
+msgstr "Fine trovis temperaturfonton %1"
 
 #: ekos/focus/focus.cpp:957
 #, kde-format
