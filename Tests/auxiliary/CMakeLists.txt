@@ -69,3 +69,8 @@ ADD_EXECUTABLE( testtrixelcache testtrixelcache.h )
 TARGET_LINK_LIBRARIES( testtrixelcache ${TEST_LIBRARIES})
 ADD_TEST( NAME TestTrixelCache COMMAND testtrixelcache )
 SET_TESTS_PROPERTIES(TestTrixelCache PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( testrectangleoverlap testrectangleoverlap.cpp )
+TARGET_LINK_LIBRARIES( testrectangleoverlap ${TEST_LIBRARIES})
+ADD_TEST( NAME TestRectangleOverlap COMMAND testrectangleoverlap )
+SET_TESTS_PROPERTIES( TestRectangleOverlap PROPERTIES LABELS "stable")

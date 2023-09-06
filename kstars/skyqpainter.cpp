@@ -37,6 +37,8 @@
 #include "hips/hipsrenderer.h"
 #include "terrain/terrainrenderer.h"
 #include <QElapsedTimer>
+#include "auxiliary/rectangleoverlap.h"
+
 namespace
 {
 // Convert spectral class to numerical index.
@@ -749,22 +751,6 @@ bool SkyQPainter::drawTerrain(bool useCache)
     return rendered;
 }
 
-namespace
-{
-QPointF rotatePoint(const QPointF &center, double sinAngle, double cosAngle, const QPointF &pt)
-{
-    // translate point back to origin:
-    QPointF p1(pt.x() - center.x(), pt.y() - center.y());
-
-    // rotate point
-    QPointF p2(p1.x() * cosAngle - p1.y() * sinAngle,
-               p1.x() * sinAngle + p1.y() * cosAngle);
-
-    // translate back
-    return QPointF(p2.x() + center.x(), p2.y() + center.y());
-}
-}  // namespace
-
 bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, bool useCache)
 {
     Q_UNUSED(useCache);
@@ -775,6 +761,10 @@ bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, boo
 
     // Convert the RA/DEC from j2000 to jNow and add in az/alt computations.
     auto localTime = KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc());
+
+    const ViewParams view = m_proj->viewParams();
+    const double vw = view.width, vh = view.height;
+    RectangleOverlap overlap(QPointF(vw / 2.0, vh / 2.0), vw, vh);
 
     // QElapsedTimer drawTimer;
     // drawTimer.restart();
@@ -810,33 +800,12 @@ bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, boo
 
         bool visible;
         QPointF pos  = m_proj->toScreen(&coord, true, &visible);
-        if (!visible)
+        if (!visible || isnan(pos.x()) || isnan(pos.y()))
             continue;
 
         const auto PA = (orientation < 0) ? orientation + 360 : orientation;
         const auto finalPA =  m_proj->findNorthPA(&coord, pos.x(), pos.y()) - PA;
-
-        // If all 4 corners are left of the viewport, or all 4 are right of it, or all 4 are above it
-        // or all 4 are below it, then the object is not visible in the viewport.
-
-        // First find the screen coords of all 4 corners.
-        const double sinAngle = sin(finalPA * M_PI / 180.0), cosAngle = cos(finalPA * M_PI / 180.0);
-        const double w2 = w / 2.0, h2 = h / 2.0;
-        const QPointF p1 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() - w2, pos.y() - h2));
-        const QPointF p2 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() - w2, pos.y() + h2));
-        const QPointF p3 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() + w2, pos.y() - h2));
-        const QPointF p4 = rotatePoint(pos, sinAngle, cosAngle, QPointF(pos.x() + w2, pos.y() + h2));
-
-        // Now see if they are all left/right/above/below the viewport.
-        ViewParams view = m_proj->viewParams();
-        const double vw = view.width, vh = view.height;
-        if (p1.x() < 0 && p2.x() < 0 && p3.x() < 0 && p4.x() < 0)
-            continue;
-        if (p1.y() < 0 && p2.y() < 0 && p3.y() < 0 && p4.y() < 0)
-            continue;
-        if (p1.x() >= vw && p2.x() >= vw && p3.x() >= vw && p4.x() >= vw)
-            continue;
-        if (p1.y() >= vh && p2.y() >= vh && p3.y() >= vh && p4.y() >= vh)
+        if (!overlap.intersects(pos, w, h, finalPA))
             continue;
 
         save();

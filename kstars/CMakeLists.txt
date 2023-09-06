@@ -866,6 +866,7 @@ set(kstars_extra_SRCS
     auxiliary/QProgressIndicator.cpp
     auxiliary/ctkrangeslider.cpp
     auxiliary/ctk3slider.cpp
+    auxiliary/rectangleoverlap.cpp
     auxiliary/gslhelpers.cpp
     auxiliary/robuststatistics.cpp
     time/simclock.cpp
