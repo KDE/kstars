@@ -3065,6 +3065,9 @@ void Scheduler::checkJobStage()
 
 void Scheduler::checkJobStageEplogue()
 {
+    if (!currentJob)
+        return;
+
     // #5 Check system status to improve robustness
     // This handles external events such as disconnections or end-user manipulating INDI panel
     if (!checkStatus())
