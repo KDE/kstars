@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:41+0000\n"
+"POT-Creation-Date: 2023-09-05 00:41+0000\n"
 "PO-Revision-Date: 2023-07-29 12:39+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -907,7 +907,7 @@ msgstr ""
 #: skymapdrawabstract.cpp:244 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:427 skyqpainter.cpp:451
+#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:429 skyqpainter.cpp:453
 #: tools/conjunctions.cpp:58 tools/conjunctions.cpp:292 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
@@ -928,7 +928,7 @@ msgstr "Sol"
 #: skymapdrawabstract.cpp:246 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:437 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
+#: skyqpainter.cpp:439 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
 #: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
 #: tools/skycalendar.ui:34
@@ -980,7 +980,7 @@ msgstr "Jorda"
 #: skymapdrawabstract.cpp:250 skyobjects/ksmoon.cpp:64
 #: skyobjects/ksplanet.cpp:177 skyobjects/ksplanetbase.cpp:204
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/skyobject.cpp:287
-#: skyobjects/skyobject.cpp:367 skyqpainter.cpp:428 skyqpainter.cpp:451
+#: skyobjects/skyobject.cpp:367 skyqpainter.cpp:430 skyqpainter.cpp:453
 #: tools/conjunctions.cpp:59 tools/eclipsetool.cpp:29
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
@@ -1003,7 +1003,7 @@ msgstr "Måne"
 #: skymapdrawabstract.cpp:252 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:433 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
+#: skyqpainter.cpp:435 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
 #: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
 #: tools/skycalendar.ui:48
@@ -1031,7 +1031,7 @@ msgstr ""
 #: skymapdrawabstract.cpp:254 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:437 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
+#: skyqpainter.cpp:439 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
 #: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
@@ -1069,7 +1069,7 @@ msgstr ""
 #: skymapdrawabstract.cpp:256 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
-#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:438
+#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:440
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
 #: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
