@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-07 00:41+0000\n"
-"PO-Revision-Date: 2023-09-08 12:10+0200\n"
+"PO-Revision-Date: 2023-09-09 18:57+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2284,7 +2284,7 @@ msgstr "Nom:"
 #: dialogs/addcatalogobject.ui:33
 #, kde-format
 msgid "e.g. PGC 54559"
-msgstr "P. ex. PGC 54559"
+msgstr "P. ex., PGC 54559"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/addcatalogobject.ui:50
@@ -2368,7 +2368,7 @@ msgstr "Identificador de catàleg:"
 #: dialogs/addcatalogobject.ui:195
 #, kde-format
 msgid "e.g. 54559"
-msgstr "P. ex. 54559"
+msgstr "P. ex., 54559"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/addcatalogobject.ui:202
@@ -2392,7 +2392,7 @@ msgstr "Nom llarg:"
 #: dialogs/addcatalogobject.ui:236
 #, kde-format
 msgid "e.g. Hoag's Object"
-msgstr "P. ex. Objecte de Hoag"
+msgstr "P. ex., Objecte de Hoag"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guessFromTextButton)
 #: dialogs/addcatalogobject.ui:251
@@ -18174,25 +18174,25 @@ msgstr ""
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
 "list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">HFR Adj</span>: «Adjusted Half Flux Radius» (Radi "
-"de semiflux ajustat). Normalitza l'HFR per a la intensitat dels pics. Esta "
-"és una característica experimental.</li></ul><li style=\"margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\"font-weight:600;\">FWHM</span>: «Full Width "
-"Half Maximum» (amplària total a la meitat del màxim). La corba, ajusta un "
-"PSF a cada centroide d'estrela i utilitza la corba per a calcular la FWHM. "
-"Esta és una característica experimental.</li><li style=\"margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\"font-weight:600;\">Nombre d'estreles</"
-"span>: El nombre d'estreles detectades en l'enfocament òptim serà un màxim. "
-"Esta és una característica experimental.</li><li style=\"margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\"font-weight:600;\">Fourier</span>: Càlcul "
-"de la potència de Fourier. Utilitza l'aproximació de la potència de la "
-"transformada de Fourier desenvolupada per Tan i Schulz a https://arxiv.org/"
-"pdf/2201.12466.pdf. A l'enfocament òptim, la potència en l'espai de "
-"freqüències -resultat de la transformada de Fourier- serà un màxim. Esta és "
-"una característica experimental.</li></ul></body></html>"
+"style=\"font-weight:600;\">HFR ajustada</span>: «Adjusted Half Flux "
+"Radius» (Radi de semiflux ajustat). Normalitza l'HFR per a la intensitat "
+"dels pics. Esta és una característica experimental.</li></ul><li style="
+"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">FWHM</"
+"span>: «Full Width Half Maximum» (amplària total a la meitat del màxim). La "
+"corba, ajusta un PSF a cada centroide d'estrela i utilitza la corba per a "
+"calcular la FWHM. Esta és una característica experimental.</li><li style="
+"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Nombre "
+"d'estreles</span>: El nombre d'estreles detectades en l'enfocament òptim "
+"serà un màxim. Esta és una característica experimental.</li><li style="
+"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Fourier</"
+"span>: Càlcul de la potència de Fourier. Utilitza l'aproximació de la "
+"potència de la transformada de Fourier desenvolupada per Tan i Schulz a "
+"https://arxiv.org/pdf/2201.12466.pdf. A l'enfocament òptim, la potència en "
+"l'espai de freqüències -resultat de la transformada de Fourier- serà un "
+"màxim. Esta és una característica experimental.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -18205,7 +18205,7 @@ msgstr "HFR"
 #: ekos/focus/focus.ui:1708
 #, kde-format
 msgid "HFR Adj"
-msgstr "HFR Adj"
+msgstr "HFR ajustada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/focus.ui:1713
@@ -70121,7 +70121,7 @@ msgstr "FPS"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Rate"
-msgstr "Velocitat de fotogrames"
+msgstr "Velocitat dels fotogrames"
 
 #: libindi_strings.cpp:196
 #, kde-kuit-format
