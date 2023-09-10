@@ -1715,18 +1715,19 @@ void Analyze::updateStatsValues()
     const double time = statsCursorTime < 0 ? maxXValue : statsCursorTime;
 
     auto d2Fcn = [](double d) -> QString { return QString::number(d, 'f', 2); };
+    auto d1Fcn = [](double d) -> QString { return QString::number(d, 'f', 1); };
     // HFR, numCaptureStars, median & eccentricity are the only ones to use the last real value,
     // that is, it keeps those values from the last exposure.
     updateStat(time, hfrOut, statsPlot->graph(HFR_GRAPH), d2Fcn, true);
     updateStat(time, eccentricityOut, statsPlot->graph(ECCENTRICITY_GRAPH), d2Fcn, true);
-    updateStat(time, skyBgOut, statsPlot->graph(SKYBG_GRAPH), d2Fcn);
-    updateStat(time, snrOut, statsPlot->graph(SNR_GRAPH), d2Fcn);
+    updateStat(time, skyBgOut, statsPlot->graph(SKYBG_GRAPH), d1Fcn);
+    updateStat(time, snrOut, statsPlot->graph(SNR_GRAPH), d1Fcn);
     updateStat(time, raOut, statsPlot->graph(RA_GRAPH), d2Fcn);
     updateStat(time, decOut, statsPlot->graph(DEC_GRAPH), d2Fcn);
     updateStat(time, driftOut, statsPlot->graph(DRIFT_GRAPH), d2Fcn);
     updateStat(time, rmsOut, statsPlot->graph(RMS_GRAPH), d2Fcn);
     updateStat(time, rmsCOut, statsPlot->graph(CAPTURE_RMS_GRAPH), d2Fcn);
-    updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d2Fcn);
+    updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d1Fcn);
     updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn);
     updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn);
 
