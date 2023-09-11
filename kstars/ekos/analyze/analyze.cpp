@@ -819,7 +819,7 @@ double Analyze::processInputLine(const QString &line)
         if (!ok)
             return 0;
         const QString filter = list[3];
-        processCaptureStarting(time, exposureSeconds, filter, true);
+        processCaptureStarting(time, exposureSeconds, filter);
     }
     else if ((list[0] == "CaptureComplete") && (list.size() >= 6) && (list.size() <= 9))
     {
@@ -855,7 +855,7 @@ double Analyze::processInputLine(const QString &line)
         double temperature = QString(list[3]).toDouble(&ok);
         if (!ok)
             return 0;
-        processAutofocusStarting(time, temperature, filter, true);
+        processAutofocusStarting(time, temperature, filter);
     }
     else if ((list[0] == "AutofocusComplete") && (list.size() >= 4))
     {
@@ -963,7 +963,7 @@ double Analyze::processInputLine(const QString &line)
     else if ((list[0] == "SchedulerJobStart") && list.size() == 3)
     {
         QString jobName = list[2];
-        processSchedulerJobStarted(time, jobName, true);
+        processSchedulerJobStarted(time, jobName);
     }
     else if ((list[0] == "SchedulerJobEnd") && list.size() == 4)
     {
@@ -2594,18 +2594,15 @@ void Analyze::captureStarting(double exposureSeconds, const QString &filter)
 
 // Called by either the above (when live data is received), or reading from file.
 // BatchMode would be true when reading from file.
-void Analyze::processCaptureStarting(double time, double exposureSeconds, const QString &filter, bool batchMode)
+void Analyze::processCaptureStarting(double time, double exposureSeconds, const QString &filter)
 {
     captureStartedTime = time;
     captureStartedFilter = filter;
     updateMaxX(time);
 
-    if (!batchMode)
-    {
-        addTemporarySession(&temporaryCaptureSession, time, 1, CAPTURE_Y, temporaryBrush);
-        temporaryCaptureSession.duration = exposureSeconds;
-        temporaryCaptureSession.filter = filter;
-    }
+    addTemporarySession(&temporaryCaptureSession, time, 1, CAPTURE_Y, temporaryBrush);
+    temporaryCaptureSession.duration = exposureSeconds;
+    temporaryCaptureSession.filter = filter;
 }
 
 // Called when the captureComplete slot receives a signal.
@@ -2709,19 +2706,17 @@ void Analyze::autofocusStarting(double temperature, const QString &filter)
     processAutofocusStarting(logTime(), temperature, filter);
 }
 
-void Analyze::processAutofocusStarting(double time, double temperature, const QString &filter, bool batchMode)
+void Analyze::processAutofocusStarting(double time, double temperature, const QString &filter)
 {
     autofocusStartedTime = time;
     autofocusStartedFilter = filter;
     autofocusStartedTemperature = temperature;
     addTemperature(temperature, time);
     updateMaxX(time);
-    if (!batchMode)
-    {
-        addTemporarySession(&temporaryFocusSession, time, 1, FOCUS_Y, temporaryBrush);
-        temporaryFocusSession.temperature = temperature;
-        temporaryFocusSession.filter = filter;
-    }
+
+    addTemporarySession(&temporaryFocusSession, time, 1, FOCUS_Y, temporaryBrush);
+    temporaryFocusSession.temperature = temperature;
+    temporaryFocusSession.filter = filter;
 }
 
 void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks,
@@ -2970,7 +2965,7 @@ void Analyze::processGuideState(double time, const QString &stateStr, bool batch
             guideSessions.add(GuideSession(guideStateStartedTime, time, nullptr, lastGuideStateStarted));
         }
     }
-    if (state == G_GUIDING && !batchMode)
+    if (state == G_GUIDING)
     {
         addTemporarySession(&temporaryGuideSession, time, 1, GUIDE_Y, successBrush);
         temporaryGuideSession.simpleState = state;
@@ -3145,7 +3140,7 @@ void Analyze::processAlignState(double time, const QString &statusString, bool b
     }
     bool stateInteresting = (state == ALIGN_PROGRESS || state == ALIGN_SYNCING ||
                              state == ALIGN_SLEWING);
-    if (stateInteresting && !batchMode)
+    if (stateInteresting)
     {
         addTemporarySession(&temporaryAlignSession, time, 1, ALIGN_Y, temporaryBrush);
         temporaryAlignSession.state = state;
@@ -3214,7 +3209,7 @@ void Analyze::processMountState(double time, const QString &statusString, bool b
         mountSessions.add(MountSession(mountStateStartedTime, time, nullptr, lastMountState));
     }
 
-    if (state != ISD::Mount::MOUNT_IDLE && !batchMode)
+    if (state != ISD::Mount::MOUNT_IDLE)
     {
         addTemporarySession(&temporaryMountSession, time, 1, MOUNT_Y,
                             (state == ISD::Mount::MOUNT_TRACKING) ? successBrush : temporaryBrush);
@@ -3382,7 +3377,7 @@ void Analyze::processMountFlipState(double time, const QString &statusString, bo
          state == MeridianFlipState::MOUNT_FLIP_WAITING ||
          state == MeridianFlipState::MOUNT_FLIP_ACCEPTED ||
          state == MeridianFlipState::MOUNT_FLIP_RUNNING);
-    if (stateInteresting && !batchMode)
+    if (stateInteresting)
     {
         addTemporarySession(&temporaryMountFlipSession, time, 1, MERIDIAN_MOUNT_FLIP_Y, temporaryBrush);
         temporaryMountFlipSession.state = state;
@@ -3445,18 +3440,15 @@ void Analyze::schedulerJobEnded(const QString &jobName, const QString &reason)
 
 // Called by either the above (when live data is received), or reading from file.
 // BatchMode would be true when reading from file.
-void Analyze::processSchedulerJobStarted(double time, const QString &jobName, bool batchMode)
+void Analyze::processSchedulerJobStarted(double time, const QString &jobName)
 {
     checkForMissingSchedulerJobEnd(time - 1);
     schedulerJobStartedTime = time;
     schedulerJobStartedJobName = jobName;
     updateMaxX(time);
 
-    if (!batchMode)
-    {
-        addTemporarySession(&temporarySchedulerJobSession, time, 1, SCHEDULER_Y, schedulerJobBrush(jobName, true));
-        temporarySchedulerJobSession.jobName = jobName;
-    }
+    addTemporarySession(&temporarySchedulerJobSession, time, 1, SCHEDULER_Y, schedulerJobBrush(jobName, true));
+    temporarySchedulerJobSession.jobName = jobName;
 }
 
 // Called when the captureComplete slot receives a signal.
