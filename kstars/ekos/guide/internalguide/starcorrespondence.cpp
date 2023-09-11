@@ -344,7 +344,7 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
 
         foundStar = stars[bestStarIndex];
         qCDebug(KSTARS_EKOS_GUIDE)
-                << " StarCorrespondence found guideStar at " << bestStarIndex << "found/not"
+                << "StarCorrespondence found guideStar at " << bestStarIndex << "found/not"
                 << numFound << numNotFound;
         m_NumReferencesFound = numFound;
     }

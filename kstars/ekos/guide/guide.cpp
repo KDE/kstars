@@ -1003,7 +1003,7 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
 
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Guide::processData);
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Received guide frame.";
+    // qCDebug(KSTARS_EKOS_GUIDE) << "Received guide frame.";
 
     int subBinX = 1, subBinY = 1;
     targetChip->getBinning(&subBinX, &subBinY);
@@ -1029,10 +1029,10 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
     }
 
     syncTrackingBoxPosition();
-    qCDebug(KSTARS_EKOS_GUIDE) << "Tracking box position synched.";
+    // qCDebug(KSTARS_EKOS_GUIDE) << "Tracking box position synched.";
 
     setCaptureComplete();
-    qCDebug(KSTARS_EKOS_GUIDE) << "Capture complete.";
+    // qCDebug(KSTARS_EKOS_GUIDE) << "Capture complete.";
 
 }
 
@@ -2227,7 +2227,7 @@ bool Guide::executeOperationStack()
         return false;
 
     GuideState nextOperation = operationStack.pop();
-    qCDebug(KSTARS_EKOS_GUIDE) << "Executing operation " << getGuideStatusString(nextOperation);
+    // qCDebug(KSTARS_EKOS_GUIDE) << "Executing operation " << getGuideStatusString(nextOperation);
 
     bool actionRequired = false;
 
