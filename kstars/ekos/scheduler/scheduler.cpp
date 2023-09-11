@@ -3078,6 +3078,7 @@ void Scheduler::checkJobStageEplogue()
 
     // #6 Check each stage is processing properly
     // FIXME: Vanishing property should trigger a call to its event callback
+    if (!currentJob) return;
     switch (currentJob->getStage())
     {
         case SchedulerJob::STAGE_IDLE:
@@ -5091,8 +5092,13 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         QString const signature_path = QFileInfo(signature).path();
         int captures_required        = seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt() * schedJob->getRepeatsRequired();
         int captures_completed       = capturedFramesCount[signature];
-        int capturesRequiredPerRepeat = std::max(1, seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
+        const int capturesRequiredPerRepeat = std::max(1, seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
         int capturesLeftThisRepeat   = std::max(0, capturesRequiredPerRepeat - (captures_completed % capturesRequiredPerRepeat));
+        if (captures_completed >= (1 + completedIterations) * capturesRequiredPerRepeat)
+        {
+            // Something else is causing this iteration to be incomplete. Nothing left to do for this seqJob.
+            capturesLeftThisRepeat = 0;
+        }
 
         if (rememberJobProgress && schedJob->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
         {
@@ -5195,20 +5201,21 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
                 // If inSequenceFocus is true
                 if (hasAutoFocus)
                 {
-                    // Wild guess that each in sequence auto focus takes an average of 30 seconds. It can take any where from 2 seconds to 2+ minutes.
-                    // FIXME: estimating one focus per capture is probably not realistic.
+                    // Wild guess, 10s of autofocus for each capture required. Can vary a lot, but this is just a completion estimate.
+                    constexpr int afSecsPerCapture = 10;
                     qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 requires a focus procedure.").arg(seqName);
-                    totalImagingTime += captures_to_go * 30;
-                    imagingTimePerRepeat += capturesRequiredPerRepeat;
-                    imagingTimeLeftThisRepeat += capturesLeftThisRepeat;
+                    totalImagingTime += captures_to_go * afSecsPerCapture;
+                    imagingTimePerRepeat += capturesRequiredPerRepeat * afSecsPerCapture;
+                    imagingTimeLeftThisRepeat += capturesLeftThisRepeat * afSecsPerCapture;
                 }
                 // If we're dithering after each exposure, that's another 10-20 seconds
                 if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE && Options::ditherEnabled())
                 {
+                    constexpr int ditherSecs = 15;
                     qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 requires a dither procedure.").arg(seqName);
-                    totalImagingTime += (captures_to_go * 15) / Options::ditherFrames();
-                    imagingTimePerRepeat += (capturesRequiredPerRepeat * 15) / Options::ditherFrames();
-                    imagingTimeLeftThisRepeat += (capturesLeftThisRepeat * 15) / Options::ditherFrames();
+                    totalImagingTime += (captures_to_go * ditherSecs) / Options::ditherFrames();
+                    imagingTimePerRepeat += (capturesRequiredPerRepeat * ditherSecs) / Options::ditherFrames();
+                    imagingTimeLeftThisRepeat += (capturesLeftThisRepeat * ditherSecs) / Options::ditherFrames();
                 }
             }
         }

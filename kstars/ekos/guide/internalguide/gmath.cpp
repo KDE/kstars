@@ -388,8 +388,9 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             drift_integral[k] += drift[k][i];
         drift_integral[k] /= (double)CIRCULAR_BUFFER_SIZE;
 
-        qCDebug(KSTARS_EKOS_GUIDE) << label << "drift[" << axisStr(k) << "] = " << arcsecDrift
-                                   << " integral[" << axisStr(k) << "] = " << drift_integral[k];
+        if (in_params.integral_gain[k] > 0)
+            qCDebug(KSTARS_EKOS_GUIDE) << label << "drift[" << axisStr(k) << "] = " << arcsecDrift
+                                       << " integral[" << axisStr(k) << "] = " << drift_integral[k];
 
         const double arcsecPerMsPulse = k == GUIDE_RA ? calibration.raPulseMillisecondsPerArcsecond() :
                                         calibration.decPulseMillisecondsPerArcsecond();
@@ -424,9 +425,6 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         }
 
     }
-    qCDebug(KSTARS_EKOS_GUIDE) << label << "pulse_length[" << axisStr(k) << "] = " << pulseLength
-                               << "ms, Direction = " << directionStr(pulseDirection);
-
     updateOutParams(k, arcsecDrift, pulseLength, pulseDirection);
 }
 
@@ -437,12 +435,17 @@ void cgmath::calculatePulses(Ekos::GuideState state, const std::pair<Seconds, Se
     processAxis(GUIDE_RA, dithering, false, timeStep.first, "Guiding:");
     processAxis(GUIDE_DEC, dithering, false, timeStep.second, "Guiding:");
 
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("Guiding pulses: RA: %1ms %2  DEC: %3ms %4")
+            .arg(out_params.pulse_length[GUIDE_RA]).arg(directionStr(out_params.pulse_dir[GUIDE_RA]))
+            .arg(out_params.pulse_length[GUIDE_DEC]).arg(directionStr(out_params.pulse_dir[GUIDE_DEC]));
+
     outputGuideLog();
 }
 
 void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> &imageData,
                                QSharedPointer<GuideView> &guideView,
-                               const std::pair<Seconds, Seconds> &timeStep, GuideLog *logger)
+                               const std::pair<Seconds, Seconds> &timeStep, GuideLog * logger)
 {
     if (suspended)
     {
@@ -500,19 +503,11 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         }
         return;
     }
-    qCDebug(KSTARS_EKOS_GUIDE) << "################## BEGIN PROCESSING ##################";
-
     // translate star coords into sky coord. system
 
     // convert from pixels into arcsecs
     starPositionArcSec    = calibration.convertToArcseconds(starPosition);
     targetPositionArcSec = calibration.convertToArcseconds(targetPosition);
-
-    qCDebug(KSTARS_EKOS_GUIDE) << "Star    X:" << starPosition.x   << "Y:" << starPosition.y << "arcsecs: " <<
-                               starPositionArcSec.x << starPositionArcSec.y;
-    qCDebug(KSTARS_EKOS_GUIDE) << "Reticle X:" << targetPosition.x << "Y:" << targetPosition.y << "arcsecs: " <<
-                               targetPositionArcSec.x << targetPositionArcSec.y;
-
 
     // Compute RA & DEC drift in arcseconds.
     const GuiderUtils::Vector star_xy_arcsec_drift = starPositionArcSec - targetPositionArcSec;
@@ -525,7 +520,13 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     drift[GUIDE_RA][driftUpto[GUIDE_RA]]   = star_drift.x;
     drift[GUIDE_DEC][driftUpto[GUIDE_DEC]] = star_drift.y;
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "-------> AFTER ROTATION  Diff RA: " << star_drift.x << " DEC: " << star_drift.y;
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("Star %1 %2 a-s %3 %4 Target %5 %6 a-s %7 %8 Drift: RA %9 DEC %10")
+            .arg(starPosition.x, 0, 'f', 1)        .arg(starPosition.y, 0, 'f', 1)
+            .arg(starPositionArcSec.x, 0, 'f', 1)  .arg(starPositionArcSec.y, 0, 'f', 1)
+            .arg(targetPosition.x, 0, 'f', 1)      .arg(targetPosition.y, 0, 'f', 1)
+            .arg(targetPositionArcSec.x, 0, 'f', 1).arg(targetPositionArcSec.y, 0, 'f', 1)
+            .arg(star_drift.x, 0, 'f', 2)          .arg(star_drift.y, 0, 'f', 2);
 
     if (state == Ekos::GUIDE_GUIDING && usingSEPMultiStar())
     {
@@ -534,13 +535,15 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                                 targetPosition.x, targetPosition.y,
                                 &multiStarRADrift, &multiStarDECDrift))
         {
-            qCDebug(KSTARS_EKOS_GUIDE) << "-------> MultiStar:      Diff RA: " << multiStarRADrift << " DEC: " << multiStarDECDrift;
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar drift: RA %1 DEC %2")
+                                       .arg(multiStarRADrift, 0, 'f', 2)
+                                       .arg(multiStarDECDrift, 0, 'f', 2);
             drift[GUIDE_RA][driftUpto[GUIDE_RA]]   = multiStarRADrift;
             drift[GUIDE_DEC][driftUpto[GUIDE_DEC]] = multiStarDECDrift;
         }
         else
         {
-            qCDebug(KSTARS_EKOS_GUIDE) << "-------> MultiStar: failed, fell back to guide star";
+            qCDebug(KSTARS_EKOS_GUIDE) << "MultiStar: failed, fell back to guide star";
         }
     }
 
@@ -592,7 +595,6 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         // Add SNR and MASS from SEP stars.
         logger->addGuideData(data);
     }
-    qCDebug(KSTARS_EKOS_GUIDE) << "################## FINISH PROCESSING ##################";
 }
 
 void cgmath::performDarkGuiding(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep)
@@ -602,6 +604,10 @@ void cgmath::performDarkGuiding(Ekos::GuideState state, const std::pair<Seconds,
     //out_params.sigma[GUIDE_RA] = 0;
 
     processAxis(GUIDE_RA, dithering, true, timeStep.first, "Dark Guiding:");
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("Dark Guiding pulses: RA: %1ms %2")
+            .arg(out_params.pulse_length[GUIDE_RA]).arg(directionStr(out_params.pulse_dir[GUIDE_RA]));
+
 
     // Don't guide in DEC when dark guiding
     updateOutParams(GUIDE_DEC, 0, 0, NO_DIR);

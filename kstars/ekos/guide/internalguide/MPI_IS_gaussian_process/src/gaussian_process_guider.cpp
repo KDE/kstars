@@ -25,6 +25,8 @@
 // HY: Added this include and a few qCDebug EKos logging calls below.
 #include "ekos_guide_debug.h"
 
+#define DLOG if (false) qCDebug
+
 #define SAVE_FFT_DATA_ 0
 #define PRINT_TIMINGS_ 0
 
@@ -277,8 +279,8 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
 
     if (dithering_active_)
     {
-        qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::result(in=%1,snr=%2,ts=%3,ppt=%4) dithering active")
-                                   .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
+        DLOG(KSTARS_EKOS_GUIDE) << QString("GPG::result(in=%1,snr=%2,ts=%3,ppt=%4) dithering active")
+                                .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
         if (--dither_steps_ <= 0)
         {
             dithering_active_ = false;
@@ -288,7 +290,7 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
         GPDebug->Log("PPEC rslt(dithering): input = %.2f, final = %.2f",
                      input, parameters.control_gain_ * input);
 
-        qCDebug(KSTARS_EKOS_GUIDE)
+        DLOG(KSTARS_EKOS_GUIDE)
                 << QString("PPEC rslt(dithering): input = %1, final = %2")
                 .arg(input, 5, 'f', 2)
                 .arg(parameters.control_gain_ * input, 5, 'f', 2);
@@ -296,8 +298,8 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
         return parameters.control_gain_ * input; // ...but apply proportional control
     }
 
-    qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::result(in=%1,snr=%2,ts=%3,ppt=%4)")
-                               .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
+    DLOG(KSTARS_EKOS_GUIDE) << QString("GPG::result(in=%1,snr=%2,ts=%3,ppt=%4)")
+                            .arg(input, 6, 'f', 2).arg(SNR, 5, 'f', 1).arg(time_step, 6, 'f', 2).arg(prediction_point, 5, 'f', 1);
     // the starting time is set at the first call of result after startup or reset
     if (get_number_of_measurements() == 1)
     {
@@ -370,15 +372,15 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
                  input, control_signal_, parameters.control_gain_ * input, parameters.prediction_gain_ * prediction_, hysteresis_control,
                  hyst_percentage, period_length);
 
-    qCDebug(KSTARS_EKOS_GUIDE) <<
-                               QString("PPEC rslt: input = %1, final = %2, react = %3, pred = %4, hyst = %5, hyst_pct = %6, period_length = %7")
-                               .arg(input, 5, 'f', 2)
-                               .arg(control_signal_, 5, 'f', 2)
-                               .arg(parameters.control_gain_ * input, 5, 'f', 2)
-                               .arg(parameters.prediction_gain_ * prediction_, 5, 'f', 2)
-                               .arg(hysteresis_control, 5, 'f', 2)
-                               .arg(hyst_percentage, 5, 'f', 2)
-                               .arg(period_length, 5, 'f', 2);
+    DLOG(KSTARS_EKOS_GUIDE) <<
+                            QString("PPEC rslt: input = %1, final = %2, react = %3, pred = %4, hyst = %5, hyst_pct = %6, period_length = %7")
+                            .arg(input, 5, 'f', 2)
+                            .arg(control_signal_, 5, 'f', 2)
+                            .arg(parameters.control_gain_ * input, 5, 'f', 2)
+                            .arg(parameters.prediction_gain_ * prediction_, 5, 'f', 2)
+                            .arg(hysteresis_control, 5, 'f', 2)
+                            .arg(hyst_percentage, 5, 'f', 2)
+                            .arg(period_length, 5, 'f', 2);
     return control_signal_;
 }
 
@@ -440,8 +442,8 @@ void GaussianProcessGuider::reset()
 
 void GaussianProcessGuider::GuidingDithered(double amt, double rate)
 {
-    qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::GuidingDithered(amt=%1,rate=%2)")
-                               .arg(amt, 6, 'f', 2).arg(rate, 5, 'f', 1);
+    DLOG(KSTARS_EKOS_GUIDE) << QString("GPG::GuidingDithered(amt=%1,rate=%2)")
+                            .arg(amt, 6, 'f', 2).arg(rate, 5, 'f', 1);
 
     // we store the amount of dither in seconds of gear time
     dither_offset_ += amt / rate; // this is the amount of time offset
@@ -452,8 +454,8 @@ void GaussianProcessGuider::GuidingDithered(double amt, double rate)
 
 void GaussianProcessGuider::GuidingDitherSettleDone(bool success)
 {
-    qCDebug(KSTARS_EKOS_GUIDE) << QString("GPG::GuidingDitherSettleDone(%1)")
-                               .arg(success ? "true" : "false");
+    DLOG(KSTARS_EKOS_GUIDE) << QString("GPG::GuidingDitherSettleDone(%1)")
+                            .arg(success ? "true" : "false");
     if (success)
     {
         dither_steps_ = 1; // the last dither step should always be executed by

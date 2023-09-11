@@ -665,14 +665,15 @@ void SchedulerJob::updateJobCells()
 
     if (nullptr != startupCell)
     {
+        auto time = (state == JOB_BUSY) ? stateTime : startupTime;
         /* Display startup time if it is valid */
-        if (startupTime.isValid())
+        if (time.isValid())
         {
             startupCell->setText(QString("%1%2%L3° %4")
                                  .arg(altitudeAtStartup < minAltitude ? QString(QChar(0x26A0)) : "")
                                  .arg(QChar(isSettingAtStartup ? 0x2193 : 0x2191))
                                  .arg(altitudeAtStartup, 0, 'f', 1)
-                                 .arg(startupTime.toString(dateTimeDisplayFormat)));
+                                 .arg(time.toString(dateTimeDisplayFormat)));
 
             switch (fileStartupCondition)
             {

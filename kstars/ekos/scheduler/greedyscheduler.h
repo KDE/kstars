@@ -139,6 +139,12 @@ class GreedyScheduler : public QObject
         // Removes the EVALUATION state, after eval is done.
         void unsetEvaluation(const QList<SchedulerJob *> &jobs);
 
+        typedef enum {
+            DONT_SIMULATE = 0,
+            SIMULATE,
+            SIMULATE_EACH_JOB_ONCE
+        } SimulationType;
+
         // If currentJob is nullptr, this is used to find the next job
         // to schedule. It returns a pointer to a job in jobs, or nullptr.
         // If currentJob is a pointer to a job in jobs, then it will return
@@ -146,8 +152,8 @@ class GreedyScheduler : public QObject
         // to a job that should interrupt it.
         SchedulerJob *selectNextJob(const QList<SchedulerJob *> &jobs,
                                     const QDateTime &now,
-                                    SchedulerJob *currentJob = nullptr,
-                                    bool fullSchedule = false,
+                                    SchedulerJob *currentJob,
+                                    SimulationType simType,
                                     QDateTime *when = nullptr,
                                     QDateTime *nextInterruption = nullptr,
                                     QString *interruptReason = nullptr,
@@ -157,8 +163,9 @@ class GreedyScheduler : public QObject
         // Used to find which jobs will be run in the future.
         // Returns the end time of the simulation.
         QDateTime simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time,
-                      const QDateTime &endTime = QDateTime(),
-                      const QMap<QString, uint16_t> *capturedFramesCount = nullptr);
+                           const QDateTime &endTime,
+                           const QMap<QString, uint16_t> *capturedFramesCount,
+                           SimulationType simType);
 
         // Error/Abort restart parameters.
         // Defaults don't matter much, will be set by UI.
@@ -172,6 +179,13 @@ class GreedyScheduler : public QObject
         // by getScheduledJob() and getSchedule().
         SchedulerJob *scheduledJob { nullptr };
         QList<JobSchedule> schedule;
+
+        // The amount of time it took to simulate.
+        // If it's quick, we may do it in checkJob to keep the schedule up-to-date.
+        double m_SimSeconds = 0;
+        // The time of the last simulation in checkJob().
+        // We don't simulate too frequently.
+        QDateTime m_LastCheckJobSim;
 };
 
 }  // namespace Ekos

@@ -15,6 +15,8 @@
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include <QTime>
 
+#define DLOG if (false) qCDebug
+
 // Then when looking for the guide star, gets this many candidates.
 #define STARS_TO_SEARCH 250
 
@@ -344,7 +346,9 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
                 guideStarSNR = SNR;
                 guideStarMass = star.sum;
                 unreliableDectionCounter = 0;
-                qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence found " << i << "at" << star.x << star.y << "SNR" << SNR;
+                qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence found star %1 at %2 %3 SNR %4")
+                                           .arg(i).arg(star.x, 0, 'f', 1).arg(star.y, 0, 'f', 1).arg(SNR, 0, 'f', 1);
+
                 if (guideView != nullptr)
                     plotStars(guideView, trackingBox);
                 return GuiderUtils::Vector(star.x, star.y, 0);
@@ -492,10 +496,10 @@ void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num
                               QList<double> *outputScores, QList<double> *minDistances)
 {
     if (roi == nullptr)
-        qCDebug(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num;
+        DLOG(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num;
     else
-        qCDebug(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num <<
-                                   QString("Roi(%1,%2 %3x%4)").arg(roi->x()).arg(roi->y()).arg(roi->width()).arg(roi->height());
+        DLOG(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num <<
+                                QString("Roi(%1,%2 %3x%4)").arg(roi->x()).arg(roi->y()).arg(roi->width()).arg(roi->height());
 
     stars->clear();
     if (imageData == nullptr)
@@ -535,7 +539,7 @@ void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num
                 minDistances->append(findMinDistance(starIndex, sepStars));
         }
     }
-    qCDebug(KSTARS_EKOS_GUIDE)
+    DLOG(KSTARS_EKOS_GUIDE)
             << QString("Multistar: findTopStars returning: %1 stars, %2s")
             .arg(stars->size()).arg(timer.elapsed() / 1000.0, 4, 'f', 2);
 }
@@ -642,9 +646,9 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
     if (starCorrespondence.size() == 0)
         return false;
     const Edge gStar = starCorrespondence.reference(starCorrespondence.guideStar());
-    qCDebug(KSTARS_EKOS_GUIDE) << "Multistar getDrift, reticle:" << reticle_x << reticle_y
-                               << "guidestar" << gStar.x << gStar.y
-                               << "so offsets:" << (reticle_x - gStar.x) << (reticle_y - gStar.y);
+    DLOG(KSTARS_EKOS_GUIDE) << "Multistar getDrift, reticle:" << reticle_x << reticle_y
+                            << "guidestar" << gStar.x << gStar.y
+                            << "so offsets:" << (reticle_x - gStar.x) << (reticle_y - gStar.y);
     // Revoke multistar if we're that far away.
     // Currently disabled by large constant.
     constexpr double maxDriftForMultistar = 4000000.0;  // arc-seconds
@@ -673,7 +677,8 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
     double driftRASum = 0, driftDECSum = 0;
     double guideStarRADrift = 0, guideStarDECDrift = 0;
     QVector<double> raDrifts, decDrifts;
-    qCDebug(KSTARS_EKOS_GUIDE)
+
+    DLOG(KSTARS_EKOS_GUIDE)
             << QString("%1 %2  dRA   dDEC").arg(logHeader("")).arg(logHeader("    Ref:"));
     for (int i = 0; i < detectedStars.size(); ++i)
     {
@@ -699,7 +704,7 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
             decDrifts.push_back(driftDEC);
             numStarsProcessed++;
 
-            qCDebug(KSTARS_EKOS_GUIDE)
+            DLOG(KSTARS_EKOS_GUIDE)
                     << QString("%1 %2 %3 %4").arg(logStar("MultiStar", i, bg, star))
                     .arg(logStar("    Ref:", getStarMap(i), bg, ref))
                     .arg(driftRA, 5, 'f', 2).arg(driftDEC, 5, 'f', 2);
@@ -752,15 +757,15 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
             *RADrift  = raDriftsKeep[middle];
             *DECDrift = decDriftsKeep[middle];
         }
-        qCDebug(KSTARS_EKOS_GUIDE) << "MultiStar: Drift median " << *RADrift << *DECDrift << numStarsProcessed << " of " <<
-                                   detectedStars.size() << "#guide" << starCorrespondence.size();
+        DLOG(KSTARS_EKOS_GUIDE) << "MultiStar: Drift median " << *RADrift << *DECDrift << numStarsProcessed << " of " <<
+                                detectedStars.size() << "#guide" << starCorrespondence.size();
     }
     else
     {
         *RADrift  = driftRASum / raDriftsKeep.size();
         *DECDrift = driftDECSum / decDriftsKeep.size();
-        qCDebug(KSTARS_EKOS_GUIDE) << "MultiStar: Drift " << *RADrift << *DECDrift << numStarsProcessed << " of " <<
-                                   detectedStars.size() << "#guide" << starCorrespondence.size();
+        DLOG(KSTARS_EKOS_GUIDE) << "MultiStar: Drift " << *RADrift << *DECDrift << numStarsProcessed << " of " <<
+                                detectedStars.size() << "#guide" << starCorrespondence.size();
     }
     return true;
 }

@@ -219,11 +219,11 @@ class Analyze : public QWidget, public Ui::Analyze
         // to process their messages. Time is the offset in seconds from the start of the log.
         // BatchMode is true in the file reading path. It means don't call replot() as there may be
         // many more messages to come. The rest of the args are specific to the message type.
-        void processCaptureStarting(double time, double exposureSeconds, const QString &filter, bool batchMode = false);
+        void processCaptureStarting(double time, double exposureSeconds, const QString &filter);
         void processCaptureComplete(double time, const QString &filename, double exposureSeconds, const QString &filter,
                                     double hfr, int numStars, int median, double eccentricity, bool batchMode = false);
         void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false);
-        void processAutofocusStarting(double time, double temperature, const QString &filter, bool batchMode = false);
+        void processAutofocusStarting(double time, double temperature, const QString &filter);
         void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve,
                                       const QString &title, bool batchMode = false);
         void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, int tempTicks,
@@ -240,7 +240,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void processAlignState(double time, const QString &statusString, bool batchMode = false);
         void processMountFlipState(double time, const QString &statusString, bool batchMode = false);
 
-        void processSchedulerJobStarted(double time, const QString &jobName, bool batchMode = false);
+        void processSchedulerJobStarted(double time, const QString &jobName);
         void processSchedulerJobEnded(double time, const QString &jobName, const QString &reason, bool batchMode = false);
         void checkForMissingSchedulerJobEnd(double time);
         void processTargetDistance(double time, double targetDistance, bool batchMode = false);
