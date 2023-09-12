@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-11 00:42+0000\n"
+"POT-Creation-Date: 2023-09-12 00:41+0000\n"
 "PO-Revision-Date: 2023-02-18 20:36+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -1923,7 +1923,7 @@ msgstr "Stato:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2845 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:2840 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -10143,7 +10143,7 @@ msgstr ""
 "delle immagini catturate. Una volta impostata, per le immagini di nuova "
 "cattura saranno rilevate le stelle."
 
-#: ekos/analyze/analyze.cpp:2847 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2842 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:619
@@ -10151,97 +10151,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Interrotto"
 
-#: ekos/analyze/analyze.cpp:2849 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Connesso"
 
-#: ekos/analyze/analyze.cpp:2851 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Disconnesso"
 
-#: ekos/analyze/analyze.cpp:2853 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2848 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:651
 #, kde-format
 msgid "Capturing"
 msgstr "Cattura"
 
-#: ekos/analyze/analyze.cpp:2855 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Ciclo"
 
-#: ekos/analyze/analyze.cpp:2857 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Sottrazione"
 
-#: ekos/analyze/analyze.cpp:2859 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Sotto-inquadratura"
 
-#: ekos/analyze/analyze.cpp:2861 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Seleziona stella"
 
-#: ekos/analyze/analyze.cpp:2863 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Calibrazione"
 
-#: ekos/analyze/analyze.cpp:2865 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Errore di calibrazione"
 
-#: ekos/analyze/analyze.cpp:2867 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Calibrato"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2869 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:649
 #, kde-format
 msgid "Guiding"
 msgstr "Guida automatica"
 
-#: ekos/analyze/analyze.cpp:2871 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2866 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "In sospeso"
 
-#: ekos/analyze/analyze.cpp:2873 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Riacquisizione"
 
-#: ekos/analyze/analyze.cpp:2875 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2870 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Dithering"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2877 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Dithering manuale"
 
-#: ekos/analyze/analyze.cpp:2879 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Errore di dithering"
 
-#: ekos/analyze/analyze.cpp:2881 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Dithering riuscito"
 
-#: ekos/analyze/analyze.cpp:2883 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Impostazioni"

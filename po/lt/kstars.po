@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-11 00:42+0000\n"
+"POT-Creation-Date: 2023-09-12 00:41+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -1979,7 +1979,7 @@ msgstr "Būsena"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
 #: ekos/analyze/analyze.cpp:122 ekos/analyze/analyze.cpp:141
-#: ekos/analyze/analyze.cpp:2845 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:2840 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -10172,7 +10172,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2847 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2842 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:619
@@ -10180,88 +10180,88 @@ msgstr ""
 msgid "Aborted"
 msgstr "Nutraukta"
 
-#: ekos/analyze/analyze.cpp:2849 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2844 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "Užmegzti ryšį"
 
-#: ekos/analyze/analyze.cpp:2851 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2846 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "Nutraukti ryšį"
 
-#: ekos/analyze/analyze.cpp:2853 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2848 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:651
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capturing"
 msgstr "Įrašyti"
 
-#: ekos/analyze/analyze.cpp:2855 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2850 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2857 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2852 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Subtracting"
 msgstr "Kalibravimas"
 
-#: ekos/analyze/analyze.cpp:2859 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2854 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "Pavadinimas:"
 
-#: ekos/analyze/analyze.cpp:2861 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2856 ekos/ekos.h:28
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selecting star"
 msgstr "Parinkite žvaigždę"
 
-#: ekos/analyze/analyze.cpp:2863 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating"
 msgstr "Kalibravimas"
 
-#: ekos/analyze/analyze.cpp:2865 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration error"
 msgstr "Kalibravimas"
 
-#: ekos/analyze/analyze.cpp:2867 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2862 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgid "Calibrate"
 msgid "Calibrated"
 msgstr "Kalibruoti"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2869 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:649
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
 msgstr "Vedikliai"
 
-#: ekos/analyze/analyze.cpp:2871 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2866 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspended"
 msgstr "Vedikliai"
 
-#: ekos/analyze/analyze.cpp:2873 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Reacquiring"
 msgstr "Įrašyti"
 
-#: ekos/analyze/analyze.cpp:2875 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2870 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10269,24 +10269,24 @@ msgid "Dithering"
 msgstr "Papildymas"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2877 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "Papildymas"
 
-#: ekos/analyze/analyze.cpp:2879 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "Stebimųjų sąrašas"
 
-#: ekos/analyze/analyze.cpp:2881 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2883 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
