@@ -517,7 +517,8 @@ void Focus::checkTemperatureSource(const QString &name )
         absoluteTemperatureLabel->setText(QString("%1 °C").arg(currentTemperatureSourceElement->value, 0, 'f', 2));
         deltaTemperatureLabel->setText(QString("%1 °C").arg(0.0, 0, 'f', 2));
     }
-    else {
+    else
+    {
         m_LastSourceAutofocusTemperature = INVALID_VALUE;
     }
 
@@ -827,8 +828,11 @@ void Focus::getAbsFocusPosition()
 
 void Focus::processTemperatureSource(INDI::Property prop)
 {
-    if (m_LastSourceAutofocusTemperature == INVALID_VALUE && m_LastSourceDeviceAutofocusTemperature && !currentTemperatureSourceElement ) {
-        if( findTemperatureElement( m_LastSourceDeviceAutofocusTemperature ) ) {
+    if (m_LastSourceAutofocusTemperature == INVALID_VALUE && m_LastSourceDeviceAutofocusTemperature
+            && !currentTemperatureSourceElement )
+    {
+        if( findTemperatureElement( m_LastSourceDeviceAutofocusTemperature ) )
+        {
             appendLogText(i18n("Finally found temperature source %1", QString(currentTemperatureSourceElement->nvp->name)));
             m_LastSourceAutofocusTemperature = currentTemperatureSourceElement->value;
         }
@@ -1025,7 +1029,7 @@ void Focus::adaptiveFocusAdmin(const bool resetFlag, const bool success, const b
     // Signal Analyze if success (both for focuser moves and zero moves)
     if (success)
         emit adaptiveFocusComplete(filter(), m_LastAdaptiveFocusTemperature, m_LastAdaptiveFocusTempTicks, m_LastAdaptiveFocusAlt,
-                                   m_LastAdaptiveFocusAltTicks, m_LastAdaptiveFocusTotalTicks, currentPosition);
+                                   m_LastAdaptiveFocusAltTicks, m_LastAdaptiveFocusTotalTicks, currentPosition, focuserMoved);
 }
 
 double Focus::getAdaptiveTempTicks()

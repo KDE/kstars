@@ -497,7 +497,7 @@ protected:
         void autofocusComplete(const QString &filter, const QString &points, const QString &curve = "", const QString &title = "");
         void autofocusAborted(const QString &filter, const QString &points);
         void adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks, double altitude, int altTicks,
-                                   int totalTicks, int position);
+                                   int totalTicks, int position, bool focuserMoved);
 
         // HFR V curve plot events
         /**

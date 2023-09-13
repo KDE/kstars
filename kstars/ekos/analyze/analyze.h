@@ -186,7 +186,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &title);
         void adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks,
-                                   double altitude, int altTicks, int totalTicks, int position);
+                                   double altitude, int altTicks, int totalTicks, int position, bool focuserMoved);
         void autofocusAborted(const QString &filter, const QString &points);
         void newTemperature(double temperatureDelta, double temperature);
 
@@ -227,7 +227,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve,
                                       const QString &title, bool batchMode = false);
         void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, int tempTicks,
-                                          double altitude, int altTicks, int totalTicks, int position, bool batchMode = false);
+                                          double altitude, int altTicks, int totalTicks, int position, bool focuserMoved, bool batchMode = false);
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode = false);
         void processTemperature(double time, double temperature, bool batchMode = false);
         void processGuideState(double time, const QString &state, bool batchMode = false);
