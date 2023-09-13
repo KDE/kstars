@@ -17,6 +17,7 @@
 
 #include <KConfigDialog>
 #include <QProcess>
+#include <ekos_align_debug.h>
 
 namespace Ekos
 {
@@ -36,10 +37,21 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
         emit needToLoadProfile(kcfg_SolveOptionsProfile->currentText());
     });
 
-    reloadOptionsProfiles();
+    reloadOptionsProfiles();   
 
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
+    connect(m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+}
+
+void OpsAlign::setFlipPolicy(const Ekos::OpsAlign::FlipPriority Priority)
+{
+    if (Priority == Ekos::OpsAlign::ROTATOR_ANGLE)
+        kcfg_AstrometryFlipRotationAllowed->setChecked(true);
+    else if (Priority == Ekos::OpsAlign::POSITION_ANGLE)
+        FlipRotationNotAllowed->setChecked(true);
+    OpsAlign::update();
+    emit m_ConfigDialog->button(QDialogButtonBox::Apply)->click();
 }
 
 void OpsAlign::reloadOptionsProfiles()

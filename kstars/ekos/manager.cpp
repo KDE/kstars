@@ -3438,11 +3438,13 @@ bool Manager::getFilterManager(const QString &name, QSharedPointer<FilterManager
     return false;
 }
 
-void Manager::createRotatorController(const QString &Name)
+void Manager::createRotatorController(ISD::Rotator *device)
 {
+    auto Name = device->getDeviceName();
     if (m_RotatorControllers.contains(Name) == false)
     {
         QSharedPointer<RotatorSettings> newRC(new RotatorSettings(this));
+        // Properties are fetched in RotatorSettings::initRotator!
         m_RotatorControllers[Name] = newRC;
     }
 }

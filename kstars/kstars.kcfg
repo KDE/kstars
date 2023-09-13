@@ -2281,6 +2281,10 @@
          <whatsthis>Threshold between measured and FITS position angles in arcminutes to consider the load and slew operation successful.</whatsthis>
          <default>30</default>
       </entry>
+      <entry name="AstrometryFlipRotationAllowed" type="Bool">
+         <whatsthis>PA 180°-rotation for rotator after mount flip accepted.</whatsthis>
+         <default>true</default>
+      </entry>
       <entry name="SolverGotoOption" type="UInt">
          <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
          <default>1</default>

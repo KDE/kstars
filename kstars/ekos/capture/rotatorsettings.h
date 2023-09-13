@@ -9,8 +9,9 @@
 
 #include "ui_rotatorsettings.h"
 #include "ekos/capture/capturedeviceadaptor.h"
+#include "ekos/align/opsalign.h"
 #include "indi/indimount.h"
-
+#include "qloggingcategory.h"
 #include <QDialog>
 
 class RotatorSettings : public QDialog, public Ui::RotatorDialog
@@ -21,21 +22,31 @@ public:
 
     explicit RotatorSettings(QWidget *parent);
 
-    void   initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, QString RotatorName);
+    void   initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, ISD::Rotator *device);
     void   updateRotator(double RAngle);
     void   updateGauge(double Angle);
     void   updateGaugeZeroPos(ISD::Mount::PierSide Pierside);
-    bool   isRotationEnforced() { return enforceJobPA->isChecked(); }
-    void   setRotationEnforced(bool enabled) { enforceJobPA->setChecked(enabled); }
+    void   updateFlipPolicy(const bool FlipRotationAllowed);
+    /* remove enforceJobPA
+    // bool   isRotationEnforced() { return enforceJobPA->isChecked(); }
+    // void   setRotationEnforced(bool enabled) { enforceJobPA->setChecked(enabled); }
+    */
     double getCameraPA() { return CameraPA->value(); }
     void   setCameraPA(double Angle) { CameraPA->setValue(Angle); }
     void   setPAOffset(double value) { CameraOffset->setValue(value);}
     void   refresh(double PAngle);
 
 private:
+    // Capture adaptor instance to access functions
+    Ekos::CaptureDeviceAdaptor *m_CaptureDA {nullptr};
+    // Rotator Device
+    ISD::Rotator *m_Rotator = {nullptr};
+    void   setFlipPolicy(const int index);
+    void   showAlignOptions();
     void   activateRotator(double Angle);
     void   commitRotatorDirection(bool Reverse);
     void   syncFOV(double PA);
 
-    Ekos::CaptureDeviceAdaptor *m_CaptureDA {nullptr};
+signals:
+    void   newLog(const QString &text);
 };

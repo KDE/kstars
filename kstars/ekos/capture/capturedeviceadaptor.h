@@ -128,6 +128,11 @@ public:
         double getRotatorAngle();
 
         /**
+         * @brief Get the rotator's angle state
+         */
+        IPState getRotatorAngleState();
+
+        /**
          * @brief reverseRotator Toggle rotation reverse
          * @param toggled If true, reverse rotator normal direction. If false, use rotator normal direction.
          */

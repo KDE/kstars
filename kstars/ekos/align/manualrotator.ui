@@ -32,7 +32,7 @@
    <item>
     <widget class="QLabel" name="helpLabel">
      <property name="text">
-      <string>&lt;p&gt;To disable rotation validation, uncheck the Rotator option in Alignment Options.&lt;/p&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To disable rotation validation, uncheck the &amp;quot;Automatic and Manual Rotator Control&amp;quot; in &amp;quot;StellarSolver Options&amp;quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignJustify|Qt::AlignVCenter</set>

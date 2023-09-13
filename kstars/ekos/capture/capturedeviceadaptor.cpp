@@ -177,7 +177,8 @@ void CaptureDeviceAdaptor::setDome(ISD::Dome *device)
 
 void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
 {
-    if (m_ActiveRotator == device)
+    // do nothing if *real* rotator is already connected
+    if ((m_ActiveRotator == device) && (device != nullptr))
         return;
 
     // clean up old connections
@@ -201,8 +202,7 @@ void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
         emit newRotator(device->getDeviceName());
     }
     else
-        // no rotator present
-        emit newRotator("");
+        emit newRotator(""); // no real rotator present, so check if user wants to use "manual rotator"
 
 }
 
@@ -244,6 +244,14 @@ double CaptureDeviceAdaptor::getRotatorAngle()
         return 0;
 }
 
+IPState CaptureDeviceAdaptor::getRotatorAngleState()
+{
+    if (m_ActiveRotator != nullptr)
+        return m_ActiveRotator->absoluteAngleState();
+    else
+        return IPS_ALERT;
+}
+
 void CaptureDeviceAdaptor::reverseRotator(bool toggled)
 {
     if (m_ActiveRotator != nullptr)
@@ -258,6 +266,8 @@ void CaptureDeviceAdaptor::readRotatorAngle()
     if (m_ActiveRotator != nullptr)
         emit newRotatorAngle(m_ActiveRotator->absoluteAngle(), m_ActiveRotator->absoluteAngleState());
 }
+
+
 
 void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
 {
