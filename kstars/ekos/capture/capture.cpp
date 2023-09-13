@@ -3211,7 +3211,7 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
 void Capture::setFilterStatus(FilterState filterState)
 {
     if (filterState != state()->getFilterManagerState())
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFilterStatusString(
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Filter state changed from" << Ekos::getFilterStatusString(
                                          state()->getFilterManagerState()) << "to" << Ekos::getFilterStatusString(filterState);
     if (state()->getCaptureState() == CAPTURE_CHANGING_FILTER)
     {

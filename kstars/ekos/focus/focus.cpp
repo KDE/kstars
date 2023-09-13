@@ -276,7 +276,7 @@ void Focus::checkCamera()
 
     // Do NOT perform checks when the camera is capturing or busy as this may result
     // in signals/slots getting disconnected.
-    switch (state)
+    switch (state())
     {
         // Idle, can change camera.
         case FOCUS_IDLE:
@@ -1307,9 +1307,7 @@ void Focus::start()
     }
 
     //emit statusUpdated(true);
-    state = Ekos::FOCUS_PROGRESS;
-    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-    emit newStatus(state);
+    setState(Ekos::FOCUS_PROGRESS);
 
     KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"), KSNotification::Focus);
 
@@ -1522,7 +1520,7 @@ void Focus::checkStopFocus(bool abort)
 void Focus::meridianFlipStarted()
 {
     // if focusing is not running, do nothing
-    if (state == FOCUS_IDLE || state == FOCUS_COMPLETE || state == FOCUS_FAILED || state == FOCUS_ABORTED)
+    if (state() == FOCUS_IDLE || state() == FOCUS_COMPLETE || state() == FOCUS_FAILED || state() == FOCUS_ABORTED)
         return;
 
     // store current focus iteration counter since abort() sets it to the maximal value to avoid restarting
@@ -1536,7 +1534,7 @@ void Focus::meridianFlipStarted()
 void Focus::abort()
 {
     // No need to "abort" if not already in progress.
-    if (state <= FOCUS_ABORTED)
+    if (state() <= FOCUS_ABORTED)
         return;
 
     bool focusLoop = inFocusLoop;
@@ -1604,11 +1602,7 @@ void Focus::stop(Ekos::FocusState completionState)
     }
 
     if (completionState == Ekos::FOCUS_ABORTED || completionState == Ekos::FOCUS_FAILED)
-    {
-        state = completionState;
-        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-        emit newStatus(state);
-    }
+        setState(completionState);
 }
 
 void Focus::capture(double settleTime)
@@ -1722,11 +1716,8 @@ void Focus::capture(double settleTime)
     }
 
     captureInProgress = true;
-    if (state != FOCUS_PROGRESS)
-    {
-        state = FOCUS_PROGRESS;
-        emit newStatus(state);
-    }
+    if (state() != FOCUS_PROGRESS)
+        setState(FOCUS_PROGRESS);
 
     m_FocusView->setBaseSize(focusingWidget->size());
 
@@ -2299,7 +2290,8 @@ bool Focus::appendMeasure(double newMeasure)
 
 void Focus::settle(const FocusState completionState, const bool autoFocusUsed, const bool buildOffsetsUsed)
 {
-    state = completionState;
+    // TODO: check if the completion state can be emitted in all cases (sterne-jaeger 2023-09-12)
+    m_state = completionState;
     if (completionState == Ekos::FOCUS_COMPLETE)
     {
         if (autoFocusUsed && fallbackFilterPending)
@@ -2343,7 +2335,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
         }
     }
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state);
+    qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state());
 
     // Delay state notification if we have a locked filter pending return to original filter
     if (fallbackFilterPending)
@@ -2352,11 +2344,11 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
                                            static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
     }
     else
-        emit newStatus(state);
+        emit newStatus(state());
 
     if (autoFocusUsed && buildOffsetsUsed)
         // If we are building filter offsets signal AF run is complete
-        m_FilterManager->autoFocusComplete(state, currentPosition, m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
+        m_FilterManager->autoFocusComplete(state(), currentPosition, m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
 
     resetButtons();
 }
@@ -2674,9 +2666,7 @@ void Focus::setHFRComplete()
                 m_FocusView->setTrackingBoxEnabled(true);
 
                 // Use can now move it to select the desired star
-                state = Ekos::FOCUS_WAITING;
-                qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-                emit newStatus(state);
+                setState(Ekos::FOCUS_WAITING);
 
                 // Start the wait timer so we abort after a timeout if the user does not make a choice
                 waitStarSelectTimer.start();
@@ -2776,9 +2766,7 @@ void Focus::setHFRComplete()
             m_FocusView->setTrackingBoxEnabled(true);
 
             // Now we wait
-            state = Ekos::FOCUS_WAITING;
-            qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-            emit newStatus(state);
+            setState(Ekos::FOCUS_WAITING);
 
             // If the user does not select for a timeout period, we abort.
             waitStarSelectTimer.start();
@@ -2849,24 +2837,16 @@ void Focus::setHFRComplete()
     {
         // If we are done and there is no further autofocus,
         // we reset state to IDLE
-        if (state != Ekos::FOCUS_IDLE)
-        {
-            state = Ekos::FOCUS_IDLE;
-            qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-            emit newStatus(state);
-        }
+        if (state() != Ekos::FOCUS_IDLE)
+            setState(Ekos::FOCUS_IDLE);
 
         resetButtons();
         return;
     }
 
     // Set state to progress
-    if (state != Ekos::FOCUS_PROGRESS)
-    {
-        state = Ekos::FOCUS_PROGRESS;
-        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-        emit newStatus(state);
-    }
+    if (state() != Ekos::FOCUS_PROGRESS)
+        setState(Ekos::FOCUS_PROGRESS);
 
     // Now let's kick in the algorithms
 
@@ -4037,9 +4017,7 @@ void Focus::startFraming()
     clearDataPoints();
 
     //emit statusUpdated(true);
-    state = Ekos::FOCUS_FRAMING;
-    qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-    emit newStatus(state);
+    setState(Ekos::FOCUS_FRAMING);
 
     resetButtons();
 
@@ -4204,7 +4182,7 @@ void Focus::selectFocusStarFraction(double x, double y)
 
 void Focus::focusStarSelected(int x, int y)
 {
-    if (state == Ekos::FOCUS_PROGRESS)
+    if (state() == Ekos::FOCUS_PROGRESS)
         return;
 
     if (subFramed == false)
@@ -4319,11 +4297,9 @@ void Focus::focusStarSelected(int x, int y)
 
     waitStarSelectTimer.stop();
     FocusState nextState = inAutoFocus ? FOCUS_PROGRESS : FOCUS_IDLE;
-    if (nextState != state)
+    if (nextState != state())
     {
-        state = nextState;
-        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-        emit newStatus(state);
+        setState(nextState);
     }
 }
 
@@ -4451,12 +4427,8 @@ void Focus::checkAutoStarTimeout()
         appendLogText(i18n("No star was selected. Aborting..."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
-    else if (state == FOCUS_WAITING)
-    {
-        state = FOCUS_IDLE;
-        qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
-        emit newStatus(state);
-    }
+    else if (state() == FOCUS_WAITING)
+        setState(FOCUS_IDLE);
 }
 
 void Focus::setAbsoluteFocusTicks()
@@ -4700,7 +4672,7 @@ void Focus::setupFilterManager()
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         // If we are changing filter offset while idle, then check if we need to suspend guiding.
-        if (filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
+        if (filterState == FILTER_OFFSET && state() != Ekos::FOCUS_PROGRESS)
         {
             if (m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
             {
@@ -4725,7 +4697,7 @@ void Focus::setupFilterManager()
         else if (fallbackFilterPending)
         {
             fallbackFilterPending = false;
-            emit newStatus(state);
+            emit newStatus(state());
         }
     });
 
@@ -4792,7 +4764,7 @@ void Focus::connectFilterManager()
     {
         if (m_FilterManager)
             m_FilterManager->setFocusOffsetComplete();
-        if (m_GuidingSuspended && state != Ekos::FOCUS_PROGRESS)
+        if (m_GuidingSuspended && state() != Ekos::FOCUS_PROGRESS)
         {
             QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
             {
@@ -6501,6 +6473,13 @@ bool Focus::scopeHasObstruction(QString scopeType)
         return false;
     else
         return true;
+}
+
+void Focus::setState(FocusState newState)
+{
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus State changes from" << getFocusStatusString(m_state) << "to" << getFocusStatusString(newState);
+    m_state = newState;
+    emit newStatus(m_state);
 }
 
 void Focus::initView()

@@ -157,6 +157,7 @@ void CaptureModuleState::setCaptureState(CaptureState value)
     // Only emit status if it changed
     if (m_CaptureState != value)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE()) << "Capture State changes from" << getCaptureStatusString(m_CaptureState) << "to" << getCaptureStatusString(value);
         m_CaptureState = value;
         getMeridianFlipState()->setCaptureState(m_CaptureState);
         emit newStatus(m_CaptureState);
