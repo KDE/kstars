@@ -169,7 +169,7 @@ class Focus : public QWidget, public Ui::Focus
 
         Q_SCRIPTABLE Ekos::FocusState status()
         {
-            return state;
+            return m_state;
         }
 
         /** @}*/
@@ -443,7 +443,7 @@ class Focus : public QWidget, public Ui::Focus
          */
         void adaptiveFocus();
 
-    protected:
+protected:
         void addPlotPosition(int pos, double hfr, bool plot = true);
 
     private slots:
@@ -497,7 +497,7 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusComplete(const QString &filter, const QString &points, const QString &curve = "", const QString &title = "");
         void autofocusAborted(const QString &filter, const QString &points);
         void adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks, double altitude, int altTicks,
-                                   int totalTicks, int position);
+                                   int totalTicks, int position, bool focuserMoved);
 
         // HFR V curve plot events
         /**
@@ -1020,7 +1020,12 @@ class Focus : public QWidget, public Ui::Focus
         bool isVShapeSolution = false;
 
         /// State
-        Ekos::FocusState state { Ekos::FOCUS_IDLE };
+        FocusState m_state { Ekos::FOCUS_IDLE };
+        FocusState state() const
+        {
+            return m_state;
+        }
+        void setState(FocusState newState);
 
         /// CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;

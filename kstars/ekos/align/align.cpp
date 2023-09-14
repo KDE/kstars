@@ -2118,7 +2118,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 }
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << sRawAngle << "Rotator PA:" << solverPA
                                            << "Rotator Offset:" << OffsetAngle << "Direction:" << reverseStatus;
-                // newSolverResulta() -> capture: setAlignresult() -> RotatorSettings: refresh()
+                // Flow is: newSolverResults() -> capture: setAlignresult() -> RotatorSettings: refresh()
                 emit newSolverResults(solverPA, ra, dec, pixscale);
                 // appendLogText(i18n("Camera offset angle is %1 degrees.", OffsetAngle));
                 appendLogText(i18n("Camera position angle is %1 degrees.", RotatorUtils::Instance()->calcCameraAngle(sRawAngle, false)));
@@ -2299,28 +2299,27 @@ bool Align::checkIfRotationRequired()
         else // [Capture & Solve]: "direct" or within [Load & Slew]
         {
             currentRotatorPA = solverFOV->PA();
-            // [Load & Slew] only: check if we need to rotate the rotator to match the position angle of the image
-            if  (m_Rotator != nullptr && m_Rotator->isConnected())
+            if (std::isnan(m_TargetPositionAngle) == false) // [Load & Slew] only
             {
-                if (std::isnan(m_TargetPositionAngle) == false) // [Load & Slew]
+                // If image pierside versus mount pierside is different and policy is lenient ...
+                if (RotatorUtils::Instance()->Instance()->checkImageFlip() && (Options::astrometryFlipRotationAllowed()))
                 {
-                    // Check if image pierside versus versus mount pierside is different ...
-                    if (RotatorUtils::Instance()->Instance()->checkImageFlip())
-                    {
-                        // ... and calculate flipped PA ...
-                        sRawAngle = RotatorUtils::Instance()->calcRotatorAngle(m_TargetPositionAngle);
-                        m_TargetPositionAngle = RotatorUtils::Instance()->calcCameraAngle(sRawAngle, true);
-                        RotatorUtils::Instance()->setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
-                    }
-                    // Go to 'updateProperty()' (where the same check is executed again)
-                    if(fabs(RotatorUtils::Instance()->DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60 >
+                    // ... calculate "flipped" PA ...
+                    sRawAngle = RotatorUtils::Instance()->calcRotatorAngle(m_TargetPositionAngle);
+                    m_TargetPositionAngle = RotatorUtils::Instance()->calcCameraAngle(sRawAngle, true);
+                    RotatorUtils::Instance()->setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
+                }
+                // Match the position angle with rotator
+                if  (m_Rotator != nullptr && m_Rotator->isConnected())
+                {
+                    if(fabs(KSUtils::rangePA(currentRotatorPA - m_TargetPositionAngle)) * 60 >
                             Options::astrometryRotatorThreshold())
                     {
-                        // newSolverResults() -> capture: setAlignresult() -> RS: refresh()
+                        // Signal flow: newSolverResults() -> capture: setAlignresult() -> RS: refresh()
                         emit newSolverResults(m_TargetPositionAngle, 0, 0, 0);
                         appendLogText(i18n("Setting camera position angle to %1 degrees ...", m_TargetPositionAngle));
                         setState(ALIGN_ROTATING);
-                        emit newStatus(state);
+                        emit newStatus(state); // Evoke 'updateProperty()' (where the same check is executed again)
                         return true;
                     }
                     else
@@ -2330,38 +2329,38 @@ bool Align::checkIfRotationRequired()
                         m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
                     }
                 }
-            }
-            else if (std::isnan(m_TargetPositionAngle) == false) // [Load & Slew] with manual rotator
-            {
-                double current = currentRotatorPA;
-                double target = m_TargetPositionAngle;
-
-                double diff = KSUtils::rangePA(current - target);
-                double threshold = Options::astrometryRotatorThreshold() / 60.0;
-
-                appendLogText(i18n("Current PA is %1; Target PA is %2; diff: %3", current, target, diff));
-
-                emit manualRotatorChanged(current, target, threshold);
-
-                m_ManualRotator->setRotatorDiff(current, target, diff);
-                if (fabs(diff) > threshold)
-                {
-                    targetAccuracyNotMet = true;
-                    m_ManualRotator->show();
-                    m_ManualRotator->raise();
-                    setState(ALIGN_ROTATING);
-                    emit newStatus(state);
-                    return true;
-                }
+                //  Match the position angle manually
                 else
                 {
-                    m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
-                    targetAccuracyNotMet = false;
+                    double current = currentRotatorPA;
+                    double target = m_TargetPositionAngle;
+
+                    double diff = KSUtils::rangePA(current - target);
+                    double threshold = Options::astrometryRotatorThreshold() / 60.0;
+
+                    appendLogText(i18n("Current PA is %1; Target PA is %2; diff: %3", current, target, diff));
+
+                    emit manualRotatorChanged(current, target, threshold);
+
+                    m_ManualRotator->setRotatorDiff(current, target, diff);
+                    if (fabs(diff) > threshold)
+                    {
+                        targetAccuracyNotMet = true;
+                        m_ManualRotator->show();
+                        m_ManualRotator->raise();
+                        setState(ALIGN_ROTATING);
+                        emit newStatus(state);
+                        return true;
+                    }
+                    else
+                    {
+                        m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
+                        targetAccuracyNotMet = false;
+                    }
                 }
             }
         }
     }
-
     return false;
 }
 
@@ -3338,6 +3337,8 @@ void Align::refreshAlignOptions()
 {
     solverFOV->setImageDisplay(Options::astrometrySolverWCS());
     m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
+    if (m_Rotator)
+        m_RotatorControlPanel->updateFlipPolicy(Options::astrometryFlipRotationAllowed());
 }
 
 void Align::setupOptions()

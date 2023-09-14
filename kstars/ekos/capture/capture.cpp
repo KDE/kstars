@@ -630,22 +630,27 @@ void Capture::setFilterWheel(QString name)
 
 void Capture::setRotator(QString name)
 {
+    ISD::Rotator *Rotator = devices()->rotator();
     // clear old rotator
     rotatorB->setEnabled(false);
-    if (devices()->rotator() && !m_RotatorControlPanel.isNull())
+    if (Rotator && !m_RotatorControlPanel.isNull())
         m_RotatorControlPanel->close();
 
     // set new rotator
-    if (!name.isEmpty())
+    if (!name.isEmpty())  // start real rotator
     {
         Manager::Instance()->getRotatorController(name, m_RotatorControlPanel);
-        m_RotatorControlPanel->initRotator(opticalTrainCombo->currentText(), m_captureDeviceAdaptor.data(), name);
+        m_RotatorControlPanel->initRotator(opticalTrainCombo->currentText(), m_captureDeviceAdaptor.data(), Rotator);
         connect(rotatorB, &QPushButton::clicked, this, [this]()
         {
             m_RotatorControlPanel->show();
             m_RotatorControlPanel->raise();
         });
         rotatorB->setEnabled(true);
+    }
+    else if (Options::astrometryUseRotator()) // start at least rotatorutils for "manual rotator"
+    {
+        RotatorUtils::Instance()->initRotatorUtils(opticalTrainCombo->currentText());
     }
 }
 
@@ -1577,12 +1582,12 @@ SequenceJob *Capture::addJob(SequenceJob::SequenceJobType jobtype, FilenamePrevi
 
     // Custom Properties
     job->setCustomProperties(customPropertiesDialog->getCustomProperties());
-
+     /* remove enforceJobPA
     if (devices()->rotator() && m_RotatorControlPanel && m_RotatorControlPanel->isRotationEnforced())
     {
         job->setTargetRotation(m_RotatorControlPanel->getCameraPA());
     }
-
+    */
     job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
                          captureFrameHN->value()));
     job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
@@ -2203,9 +2208,10 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
 {
     XMLEle * ep;
     XMLEle * subEP;
+    /* remove enforceJobPA
     if (m_RotatorControlPanel)
         m_RotatorControlPanel->setRotationEnforced(false);
-
+    */
     bool isDarkFlat = false;
     state()->scripts().clear();
     QLocale cLocale = QLocale::c();
@@ -2342,7 +2348,9 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
         }
         else if (!strcmp(tagXMLEle(ep), "Rotation") && m_RotatorControlPanel)
         {
+             /* remove enforceJobPA
             m_RotatorControlPanel->setRotationEnforced(true);
+            */
             m_RotatorControlPanel->setCameraPA(cLocale.toDouble(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Properties"))
@@ -2805,11 +2813,12 @@ void Capture::syncGUIToJob(SequenceJob * job)
     {
         if (job->getTargetRotation() != Ekos::INVALID_VALUE)
         {
-            m_RotatorControlPanel->setRotationEnforced(true);
+            // remove enforceJobPA m_RotatorControlPanel->setRotationEnforced(true);
             m_RotatorControlPanel->setCameraPA(job->getTargetRotation());
         }
-        else
-            m_RotatorControlPanel->setRotationEnforced(false);
+        // remove enforceJobPA
+        // else
+        //    m_RotatorControlPanel->setRotationEnforced(false);
     }
 
     // hide target drift if align check frequency is == 0
@@ -3211,7 +3220,7 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
 void Capture::setFilterStatus(FilterState filterState)
 {
     if (filterState != state()->getFilterManagerState())
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFilterStatusString(
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Filter state changed from" << Ekos::getFilterStatusString(
                                          state()->getFilterManagerState()) << "to" << Ekos::getFilterStatusString(filterState);
     if (state()->getCaptureState() == CAPTURE_CHANGING_FILTER)
     {

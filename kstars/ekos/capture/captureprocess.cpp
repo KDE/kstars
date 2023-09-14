@@ -89,11 +89,11 @@ bool CaptureProcess::setMount(ISD::Mount *device)
 
 bool CaptureProcess::setRotator(ISD::Rotator *device)
 {
-    // do nothing if the connector is already connected
-    if (m_DeviceAdaptor->rotator() == device)
+    // do nothing if *real* rotator is already connected
+    if ((m_DeviceAdaptor->rotator() == device) && (device != nullptr))
         return false;
 
-    // rotator initializing depends on present mount process
+    // real & manual rotator initializing depends on present mount process
     if (m_DeviceAdaptor->mount())
     {
         if (m_DeviceAdaptor->rotator())
@@ -104,12 +104,12 @@ bool CaptureProcess::setRotator(ISD::Rotator *device)
 
         if (device)
         {
-            Manager::Instance()->createRotatorController(device->getDeviceName());
+            Manager::Instance()->createRotatorController(device);
             connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::rotatorReverseToggled, this, &CaptureProcess::rotatorReverseToggled,
                     Qt::UniqueConnection);
-            m_DeviceAdaptor->setRotator(device);
         }
-        return (device != nullptr);
+        m_DeviceAdaptor->setRotator(device);
+        return true;
     }
     return false;
 }

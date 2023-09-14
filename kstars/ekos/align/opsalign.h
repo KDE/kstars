@@ -22,26 +22,28 @@ class OpsAlign : public QWidget, public Ui::OpsAlign
 {
     Q_OBJECT
 
-  public:
-    explicit OpsAlign(Align *parent);
-    virtual ~OpsAlign() override = default;
+    public:
+        explicit OpsAlign(Align *parent);
+        virtual ~OpsAlign() override = default;
 
-public slots:
-    void reloadOptionsProfiles();
-  protected:
-  private slots:
-    void slotApply();
+        typedef enum { ROTATOR_ANGLE = 0, POSITION_ANGLE = 1 } FlipPriority;
+        void setFlipPolicy(FlipPriority Priority);
 
+    public slots:
+        void reloadOptionsProfiles();
 
-  signals:
-    void settingsUpdated();
-    void needToLoadProfile(const QString &profile);
+    protected:
 
-  private:
-    QList<SSolver::Parameters> optionsList;
-    KConfigDialog *m_ConfigDialog { nullptr };
-    Align *alignModule { nullptr };
+    private slots:
+        void slotApply();
 
+    signals:
+        void settingsUpdated();
+        void needToLoadProfile(const QString &profile);
 
+    private:
+        QList<SSolver::Parameters> optionsList;
+        KConfigDialog *m_ConfigDialog { nullptr };
+        Align *alignModule { nullptr };
 };
 }

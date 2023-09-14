@@ -13,17 +13,21 @@
 #include "Options.h"
 #include "fov.h"
 #include "kstarsdata.h"
-
+#include "ekos/manager.h"
 #include <indicom.h>
 #include <basedevice.h>
 #include <cmath>
 
+#include "ekos_capture_debug.h"
 
 RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 
+    connect(this, &RotatorSettings::newLog, Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::appendLogText);
     connect(RotatorUtils::Instance(), &RotatorUtils::changedPierside, this, &RotatorSettings::updateGaugeZeroPos);
+    connect(FlipPolicy, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &RotatorSettings::setFlipPolicy);
+    connect(AlignOptions,  &QPushButton::clicked, this, &RotatorSettings::showAlignOptions);
 
     // -- Parameter -> ui file
 
@@ -60,7 +64,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     rotatorGauge->setMinimum(-360); // display in viewing direction
     rotatorGauge->setMaximum(0);
 
-    // Polar Angle Gauge
+    // Position Angle Gauge
     paGauge->setFormat("P");        // dummy format
     paGauge->setMinimum(-181);      // display in viewing direction
     paGauge->setMaximum(181);
@@ -93,30 +97,38 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     MountPierside->setDisabled(true);  // only show pierside for information
 }
 
-void RotatorSettings::initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, QString RName)
+void RotatorSettings::initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, ISD::Rotator *device)
 {
-    RotatorUtils::Instance()->initRotatorUtils(train);
-    // Setting name
-    RotatorName->setText(RName);
-    // Setting angle & gauge
     m_CaptureDA = CaptureDA;
-    RotatorAngle->setValue(CaptureDA->getRotatorAngle());
+    RotatorUtils::Instance()->initRotatorUtils(train);
 
-    // Need to block signal to prevent any cascade effect this change was not triggered by user input.
-    CameraPA->blockSignals(true);
-    CameraPA->setValue(RotatorUtils::Instance()->calcCameraAngle(RotatorAngle->value(), false));
-    CameraPA->blockSignals(false);
-    updateGaugeZeroPos(RotatorUtils::Instance()->getMountPierside());
+    m_Rotator = device;
+    RotatorName->setText(m_Rotator->getDeviceName());
+    updateFlipPolicy(Options::astrometryFlipRotationAllowed());
+    // Give getState() a second
+    QTimer::singleShot(1000, [ = ]
+    {
+        if (m_CaptureDA->getRotatorAngleState() == IPS_OK)
+        {
+            double RAngle = m_CaptureDA->getRotatorAngle();
+            updateRotator(RAngle);
+            updateGaugeZeroPos(RotatorUtils::Instance()->getMountPierside());
+            qCInfo(KSTARS_EKOS_CAPTURE()) << "Rotator Settings: Initial raw angle is" << RAngle << ".";
+            emit newLog(i18n("Initial rotator angle %1° is read in successfully.", RAngle));
+        }
+        else
+            qCWarning(KSTARS_EKOS_CAPTURE()) << "Rotator Settings: Reading initial raw angle failed.";
+    });
 }
 
 void RotatorSettings::updateRotator(double RAngle)
 {
     RotatorAngle->setValue(RAngle);
     double PAngle = RotatorUtils::Instance()->calcCameraAngle(RAngle, false);
-    // Need to block signal to prevent any cascade effect this change was not triggered by user input.
-    CameraPA->blockSignals(true);
+    CameraPA->blockSignals(true); // Prevent reaction coupling via user input
     CameraPA->setValue(PAngle);
     CameraPA->blockSignals(false);
+    CameraPASlider->setSliderPosition(PAngle * 100); // Prevent rounding to integer
     updateGauge(RAngle);
 }
 
@@ -129,28 +141,55 @@ void RotatorSettings::updateGauge(double RAngle)
 
 void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
 {
+    double RAngle = 0;
     if (Pierside == ISD::Mount::PIER_UNKNOWN)
-    {
         MountPierside->setStyleSheet("QComboBox {border: 1px solid red;}");
-    }
     else
-    {
         MountPierside->setStyleSheet("QComboBox {}");
-    }
     MountPierside->setCurrentIndex(Pierside);
     if (Pierside == ISD::Mount::PIER_WEST)
-    {
         rotatorGauge->setNullPosition(QRoundProgressBar::PositionTop);
-    }
     else if (Pierside == ISD::Mount::PIER_EAST)
-    {
         rotatorGauge->setNullPosition(QRoundProgressBar::PositionBottom);
+    if (Options::astrometryFlipRotationAllowed()) // Preserve rotator raw angle
+        RAngle = RotatorAngle->value();
+    else // Preserve camera position angle
+    {
+        RAngle = RotatorUtils::Instance()->calcRotatorAngle(CameraPA->value());
+        activateRotator(RAngle);
     }
-    double RAngle = RotatorAngle->value();
-    CameraPA->blockSignals(true);
-    CameraPA->setValue(RotatorUtils::Instance()->calcCameraAngle(RAngle, false));
-    CameraPA->blockSignals(false);
     updateGauge(RAngle);
+    updateRotator(RAngle);
+}
+
+void RotatorSettings::setFlipPolicy(const int index)
+{
+    Ekos::OpsAlign::FlipPriority Priority = static_cast<Ekos::OpsAlign::FlipPriority>(index);
+    Ekos::OpsAlign *AlignOptionsModule = Ekos::Manager::Instance()->alignModule()->getAlignOptionsModule();
+    if (AlignOptionsModule)
+        AlignOptionsModule->setFlipPolicy(Priority);
+}
+
+void RotatorSettings::updateFlipPolicy(const bool FlipRotationAllowed)
+{
+    int i = -1;
+    if (FlipRotationAllowed)
+        i = static_cast<int>(Ekos::OpsAlign::FlipPriority::ROTATOR_ANGLE);
+    else
+        i = static_cast<int>(Ekos::OpsAlign::FlipPriority::POSITION_ANGLE);
+    FlipPolicy->blockSignals(true); // Prevent reaction coupling
+    FlipPolicy->setCurrentIndex(i);
+    FlipPolicy->blockSignals(false);
+}
+
+void RotatorSettings::showAlignOptions()
+{
+    KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
+    if (alignSettings)
+    {
+        alignSettings->setEnabled(true);
+        alignSettings->show();
+    }
 }
 
 void RotatorSettings::activateRotator(double Angle)

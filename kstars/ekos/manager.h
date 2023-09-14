@@ -145,7 +145,7 @@ class Manager : public QDialog, public Ui::Manager
         bool getFilterManager(const QString &name, QSharedPointer<FilterManager> &fm);
 
         // Rotator Control
-        void createRotatorController(const QString &Name);
+        void createRotatorController(ISD::Rotator *device);
         bool getRotatorController(const QString &Name, QSharedPointer<RotatorSettings> &rs);
         bool existRotatorController();
 

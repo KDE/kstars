@@ -86,6 +86,9 @@ int ALT_GRAPH = -1;
 int PIER_SIDE_GRAPH = -1;
 int TARGET_DISTANCE_GRAPH = -1;
 
+// This one is in timelinePlot.
+int ADAPTIVE_FOCUS_GRAPH = -1;
+
 // Initialized in initGraphicsPlot().
 int FOCUS_GRAPHICS = -1;
 int FOCUS_GRAPHICS_FINAL = -1;
@@ -865,7 +868,7 @@ double Analyze::processInputLine(const QString &line)
         const QString title = list.size() > 5 ? list[5] : "";
         processAutofocusComplete(time, filter, samples, curve, title, true);
     }
-    else if ((list[0] == "AdaptiveFocusComplete") && (list.size() == 9))
+    else if ((list[0] == "AdaptiveFocusComplete") && (list.size() >= 9))
     {
         const QString filter = list[2];
         double temperature = QString(list[3]).toDouble(&ok);
@@ -874,8 +877,9 @@ double Analyze::processInputLine(const QString &line)
         const int altTicks = QString(list[6]).toInt(&ok);
         const int totalTicks = QString(list[7]).toInt(&ok);
         const int position = QString(list[8]).toInt(&ok);
+        const bool focuserMoved = list.size() < 10 || QString(list[9]).toInt(&ok) != 0;
         processAdaptiveFocusComplete(time, filter, temperature, tempTicks,
-                                     altitude, altTicks, totalTicks, position, true);
+                                     altitude, altTicks, totalTicks, position, focuserMoved, true);
     }
     else if ((list[0] == "AutofocusAborted") && (list.size() == 4))
     {
@@ -1873,6 +1877,10 @@ void Analyze::initTimelinePlot()
     textTicker->addTick(MOUNT_Y, i18n("Mount"));
     textTicker->addTick(SCHEDULER_Y, i18n("Job"));
     timelinePlot->yAxis->setTicker(textTicker);
+
+    ADAPTIVE_FOCUS_GRAPH = initGraph(timelinePlot, timelinePlot->yAxis, QCPGraph::lsNone, Qt::red, "adaptiveFocus");
+    timelinePlot->graph(ADAPTIVE_FOCUS_GRAPH)->setPen(QPen(Qt::red, 2));
+    timelinePlot->graph(ADAPTIVE_FOCUS_GRAPH)->setScatterStyle(QCPScatterStyle::ssDisc);
 }
 
 // Turn on and off the various statistics, adding/removing them from the legend.
@@ -2720,38 +2728,41 @@ void Analyze::processAutofocusStarting(double time, double temperature, const QS
 }
 
 void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks,
-                                    double altitude, int altTicks, int totalTicks, int position)
+                                    double altitude, int altTicks, int totalTicks, int position, bool focuserMoved)
 {
-    saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7").arg(filter).arg(temperature, 0, 'f', 2)
-                .arg(tempTicks).arg(altitude, 0, 'f', 2).arg(altTicks).arg(totalTicks).arg(position));
+    saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(filter).arg(temperature, 0, 'f', 2)
+                .arg(tempTicks).arg(altitude, 0, 'f', 2).arg(altTicks).arg(totalTicks).arg(position).arg(focuserMoved ? 1 : 0));
 
     if (runtimeDisplay)
-        processAdaptiveFocusComplete(logTime(), filter, temperature, tempTicks, altitude, altTicks, totalTicks, position);
+        processAdaptiveFocusComplete(logTime(), filter, temperature, tempTicks, altitude, altTicks, totalTicks, position,
+                                     focuserMoved);
 }
 
 void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, double temperature, int tempTicks,
-        double altitude, int altTicks, int totalTicks, int position, bool batchMode)
+        double altitude, int altTicks, int totalTicks, int position, bool focuserMoved, bool batchMode)
 {
     removeTemporarySession(&temporaryFocusSession);
-    QBrush stripe;
 
-    // Making the interval "time-4 -> time" since adaptive focus is a quick process and want to make it visible.
-    constexpr int artificialInterval = 4;
-    if (filterStripeBrush(filter, &stripe))
-        addSession(time - artificialInterval, time, FOCUS_Y, successBrush, &stripe);
-    else
-        addSession(time - artificialInterval, time, FOCUS_Y, successBrush, nullptr);
-    auto session = FocusSession(time - artificialInterval, time, nullptr,
-                                filter, temperature, tempTicks, altitude, altTicks, totalTicks, position);
-    focusSessions.add(session);
     addFocusPosition(position, time);
     updateMaxX(time);
+
+    // Don't plot an adaptive focus that does nothing.
+    // The message is still useful, though, to keep updating the focus position (above).
+    if (totalTicks == 0 || !focuserMoved)
+        return;
+
+    // Add a dot on the timeline.
+    timelinePlot->graph(ADAPTIVE_FOCUS_GRAPH)->addData(time, FOCUS_Y);
+
+    // Add mouse sensitivity on the timeline.
+    constexpr int artificialInterval = 10;
+    auto session = FocusSession(time - artificialInterval, time + artificialInterval, nullptr,
+                                filter, temperature, tempTicks, altitude, altTicks, totalTicks, position);
+    focusSessions.add(session);
+
     if (!batchMode)
-    {
-        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-            focusSessionClicked(session, false);
         replot();
-    }
+
     autofocusStartedTime = -1;
 }
 

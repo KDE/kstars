@@ -16,7 +16,7 @@ class RotatorUtils : public QObject
         static RotatorUtils *Instance();
         static void release();
 
-        void initRotatorUtils(const QString &train);
+        void   initRotatorUtils(const QString &train);
         void   setImageFlip(bool state);
         bool   checkImageFlip();
         double calcRotatorAngle(double PositionAngle);

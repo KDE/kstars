@@ -534,6 +534,11 @@ class Align : public QWidget, public Ui::Align
             opticalTrainCombo->setCurrentText(value);
         }
 
+        Ekos::OpsAlign *getAlignOptionsModule()
+        {
+            return opsAlign;
+        }
+
     private slots:
         // Solver timeout
         void checkAlignmentTimeout();
