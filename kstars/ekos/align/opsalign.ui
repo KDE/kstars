@@ -350,7 +350,7 @@
          <item row="2" column="1" colspan="2">
           <widget class="QRadioButton" name="FlipRotationNotAllowed">
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Preserve position angle&lt;/span&gt; will keep the camera position angle. The rotator allways turns the camera to the original position angle and hence the image will show exactly the original star arrangement.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Preserve position angle&lt;/span&gt; will keep the camera position angle. The rotator always turns the camera to the original position angle and hence the image will show exactly the original star arrangement.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
             <string>Preserve position angle</string>
