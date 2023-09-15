@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-14 00:41+0000\n"
-"PO-Revision-Date: 2023-09-03 09:54+0300\n"
+"POT-Creation-Date: 2023-09-15 00:41+0000\n"
+"PO-Revision-Date: 2023-09-14 09:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -6026,7 +6026,7 @@ msgstr "Позиційний кут камери належить до прий�
 #: ekos/align/align.cpp:2341
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
-msgstr "Поточне ПВ — %1; цільове ПВ — %2; різниця: %3"
+msgstr "Поточний ПК — %1; цільовий ПК — %2; різниця: %3"
 
 #: ekos/align/align.cpp:2408
 #, kde-format
@@ -6886,6 +6886,9 @@ msgid ""
 "Automatic and Manual Rotator Control&quot; in &quot;StellarSolver "
 "Options&quot;.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Щоб вимкнути перевірку обертання, зніміть позначку з "
+"пункту «Керування обертанням, автоматично і вручну» у «Параметрах "
+"StellarSolver».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
 #: ekos/align/manualrotator.ui:58
@@ -7616,71 +7619,60 @@ msgstr "Автопаркування"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Automatic && Manual Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
 msgstr "Керування обертанням, автоматично і вручну"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotator threshold in arc-minutes when using Load "
-#| "&amp; Slew. If the difference between measured position angle and FITS "
-#| "position angle is below this value, the Load &amp; Slew operation is "
-#| "considered successful.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation deviation threshold in arc-minutes when using "
 "[Load &amp; Slew]. If the difference between measured position angle and "
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Порогове значення обертання у кутових мінутах під час "
-"операції із завантаження з наведенням. Якщо відмінність між виміряним "
-"позиційним кутом і позиційним кутом FITS буде меншою за це значення, "
-"операція із завантаження з наведенням вважатиметься успішною.</p></body></"
-"html>"
+"<html><head/><body><p>Порогове значення відхилення обертання у кутових "
+"мінутах під час операції із завантаження з наведенням. Якщо відмінність між "
+"виміряним позиційним кутом і позиційним кутом FITS буде меншою за це "
+"значення, операція із завантаження з наведенням вважатиметься успішною.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold: "
-msgstr "Поріг:"
+msgstr "Поріг: "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Необроблений кут засобу обертання</p></body></html>"
+"<html><head/><body><p>Порогове значення відхилення обертання</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
 "reference image reports a different pierside respective to the actual mount "
 "pierside.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Початковий</span> "
-"розмір кроку у поділках, який може суттєво змінити значення РПП (HFR). Для "
-"фокусування на основі таймера це початковий час у мілісекундах для "
-"пересування фокусу зовні чи всередину.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Правила "
+"віддзеркалення</span> визначають, як засіб обертання реагуватиме на "
+"віддзеркалення або результат повідомлення засобу відшукання розв'язку для "
+"еталонного зображення про інший бік стійки відносно поточного боку стійки "
+"лафета.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
 #, kde-format
 msgid "Flip Policy: "
-msgstr ""
+msgstr "Правила віддзеркалення:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
@@ -7692,39 +7684,38 @@ msgid ""
 "astronomic image processing applications can handle &quot;flipped&quot; "
 "images.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Зберегти кут засобу "
+"обертання</span> — зберегти позицію засобу обертання. Засіб обертання "
+"лишатиметься неактивним, а отже, камеру буде віртуально обернено на 180°.</"
+"p><p>У більшості сучасних програм для обробки астрономічних зображень "
+"передбачено можливість роботи з «віддзеркаленими» зображеннями.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve rotator angle"
-msgstr "Кут обертання"
+msgstr "Зберігати кут засобу обертання"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:353
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Preserve position "
-"angle</span> will keep the camera position angle. The rotator allways turns "
+"angle</span> will keep the camera position angle. The rotator always turns "
 "the camera to the original position angle and hence the image will show "
 "exactly the original star arrangement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Початковий</span> "
-"розмір кроку у поділках, який може суттєво змінити значення РПП (HFR). Для "
-"фокусування на основі таймера це початковий час у мілісекундах для "
-"пересування фокусу зовні чи всередину.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Зберігати позиційний "
+"кут</span> — зберігати позиційний кут камери. Засіб обертання завжди "
+"повертатиме камеру до початкового позиційного кута, а отже, на зображенні "
+"буде показано точне початкове розташування зірок.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "Позиційний кут:"
+msgstr "Зберігати позиційний кут"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -16290,10 +16281,9 @@ msgstr ""
 "проведено %1 секунд тому."
 
 #: ekos/capture/rotatorsettings.cpp:117
-#, fuzzy, kde-format
-#| msgid "Mosaic file %1 saved successfully."
+#, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr "Файл мозаїки %1 успішно збережено."
+msgstr "Початковий кут засобу обертання %1° успішно прочитано."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -16344,17 +16334,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve Rotator Angle"
-msgstr "Кут обертання"
+msgstr "Зберігати кут засобу обертання"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Camera Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "Позиційний кут камери"
+msgstr "Зберігати позиційний кут"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -16388,12 +16376,7 @@ msgstr "<html><head/><body><p>Кут зсуву камери</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>To create an <span style=\" font-weight:600;"
-#| "\">Alias</span> from an existing driver, select an existing driver and "
-#| "then only change the <span style=\" font-weight:600;\">Label </span>then "
-#| "press<span style=\" font-weight:600;\"> Add.</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -16402,18 +16385,19 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Щоб створити <span style=\" font-weight:600;"
-"\">альтернативну назву</span> на основі наявного драйвера, позначте пункт "
-"наявного драйвера, змініть <span style=\" font-weight:600;\">Мітку</span> і "
-"натисніть кнопку <span style=\" font-weight:600;\">Додати</span>.</p></"
-"body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Правила "
+"віддзеркалення</span> визначають, як засіб обертання реагуватиме на "
+"віддзеркалення або результат повідомлення засобу відшукання розв'язку для "
+"еталонного зображення про інший бік стійки відносно поточного боку стійки "
+"лафета.</p><p>Правила віддзеркалення можна змінити на сторінці <span style="
+"\" font-weight:600;\">Параметри вирівнювання</span><span style=\" font-"
+"size:12pt;\"> у «Параметрах засобу обертання».</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Flip Policy"
-msgstr "Перевернути перегляд"
+msgstr "Правила віддзеркалення"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
@@ -16497,8 +16481,7 @@ msgstr "Зворотний напрямок засобу обертання"
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "Alignment Options"
+#, kde-format
 msgid "Align Options"
 msgstr "Параметри вирівнювання"
 
@@ -27199,7 +27182,7 @@ msgstr "Позиційний кут цілі"
 #: ekos/scheduler/scheduler.ui:85
 #, kde-format
 msgid "PA"
-msgstr "ПА"
+msgstr "ПК"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/scheduler/scheduler.ui:108
@@ -36329,7 +36312,7 @@ msgstr ""
 #: kstars.kcfg:2285
 #, kde-format
 msgid "PA 180°-rotation for rotator after mount flip accepted."
-msgstr ""
+msgstr "Обертання за ПК на 180° після підтвердження віддзеркалення лафета."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2289

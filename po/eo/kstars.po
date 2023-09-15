@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-14 00:41+0000\n"
-"PO-Revision-Date: 2023-09-03 08:00+0100\n"
+"POT-Creation-Date: 2023-09-15 00:41+0000\n"
+"PO-Revision-Date: 2023-09-14 06:33+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -7553,67 +7553,54 @@ msgstr ""
 #: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:426
 #, kde-format
 msgid "Auto Park"
-msgstr "Aŭtomata Parko"
+msgstr "Aŭtomata Parkiĝo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Automatic && Manual Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
-msgstr "Aŭtomata && Manlibro Rotaciisto"
+msgstr "Aŭtomata kaj Permana Rotaciorego"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotator threshold in arc-minutes when using Load "
-#| "&amp; Slew. If the difference between measured position angle and FITS "
-#| "position angle is below this value, the Load &amp; Slew operation is "
-#| "considered successful.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation deviation threshold in arc-minutes when using "
 "[Load &amp; Slew]. If the difference between measured position angle and "
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rotaciisto-sojlo en arkminutoj kiam vi uzas Ŝargi kaj "
-"Slew. Se la diferenco inter mezurita pozicia angulo kaj FITS-pozicia angulo "
-"estas sub ĉi tiu valoro, la operacio Ŝargi kaj Slew estas konsiderata "
-"sukcesa.</p></body></html>"
+"<html><head/><body><p>Rotacidevio-sojlo en arkminutoj kiam vi uzas Ŝargi "
+"&amp; Slew. Se la diferenco inter mezurita pozicia angulo kaj FITS-pozicia "
+"angulo estas sub ĉi tiu valoro, la operacio [Ŝargi &amp; Slew] estas "
+"konsiderata sukcesa.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold: "
 msgstr "Sojlo:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
-msgstr "<html><head/><body><p>Kruda rotaciila angulo</p></body></html>"
+msgstr "<html><head/><body><p>Rotaciangula deviosojlo</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
 "reference image reports a different pierside respective to the actual mount "
 "pierside.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Komenca paŝogrando</"
-"span> en paŝeroj por kaŭzi rimarkindan ŝanĝon en HFR-valoro. Por "
-"tempigilbazita fokusilo, ĝi estas la komenca tempo en milisekundoj por movi "
-"la fokusilon enen aŭ eksteren</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Renversopolitiko</"
+"span> determinas kiel la rotatoro reagas post renverso aŭ se la rezulto de "
+"solvita referencbildo raportas malsaman kajoflankon respektive al la fakta "
+"kajoflanko de la muntaĵo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
@@ -7634,42 +7621,40 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve rotator angle"
-msgstr "Rotaciila Angulo"
+msgstr "Konservi rotaciilan angulon"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:353
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#| "<html><head/><body><p><span style=\" font-weight:600;\">Preserve position "
+#| "angle</span> will keep the camera position angle. The rotator allways "
+#| "turns the camera to the original position angle and hence the image will "
+#| "show exactly the original star arrangement.</p></body></html>"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Preserve position "
-"angle</span> will keep the camera position angle. The rotator allways turns "
+"angle</span> will keep the camera position angle. The rotator always turns "
 "the camera to the original position angle and hence the image will show "
 "exactly the original star arrangement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Komenca paŝogrando</"
-"span> en paŝeroj por kaŭzi rimarkindan ŝanĝon en HFR-valoro. Por "
-"tempigilbazita fokusilo, ĝi estas la komenca tempo en milisekundoj por movi "
-"la fokusilon enen aŭ eksteren</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Konservi rotaciilan "
+"angulon</span> konservos la fotilan pozicion angulon. La rotaciilo ĉiam "
+"turniĝas la fotilon al la origina poziciangulo kaj tial la bildo montros "
+"ĝuste la originan stelaranĝon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "Pozicia angulo:"
+msgstr "Konservi pozician angulon"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Select ASTAP executable"
-msgstr "Elektu plenumeblan ASTAP"
+msgstr "Elekti plenumeblan ASTAP"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, Options)
@@ -16151,17 +16136,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve Rotator Angle"
-msgstr "Rotaciila Angulo"
+msgstr "Konservi Rotaciilan Angulon"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Camera Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "Kamerapozicia Angulo"
+msgstr "Konservi Pozician Angulon"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -16172,8 +16155,8 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>La aktuala kajoflanko de la muntaĵo. Ruĝa kadro "
-"indikas nekonatan kajoflankon. Tio estas normala kiam la muntaĵo estas "
-"enparkita.</p></body></html>"
+"indikas nekonatan kajoflankon. Tio estas normala se la muntaĵo estas "
+"enparkita. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:233
@@ -16196,12 +16179,7 @@ msgstr "<html><head/><body><p>Kameradeŝova angulo</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>To create an <span style=\" font-weight:600;"
-#| "\">Alias</span> from an existing driver, select an existing driver and "
-#| "then only change the <span style=\" font-weight:600;\">Label </span>then "
-#| "press<span style=\" font-weight:600;\"> Add.</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -16210,17 +16188,18 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Por krei <span style=\" font-weight:600;\">Kaŝnomo</"
-"span> el ekzistanta pelilo, elektu ekzistantan pelilon kaj poste nur ŝanĝu "
-"la <span style=\" font-weight:600;\">Etikedu </span> tiam premu<span style="
-"\" font-weight:600;\"> Aldoni.</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Renversa Politiko</"
+"span> determinas kiel la rotatoro reagas post renverso aŭ se la rezulto de "
+"solvita referencbildo raportas malsaman kajoflankon respektive al la fakta "
+"kajoflanko de la muntaĵo</p><p>Renversa Politiko povas esti ŝanĝata en <span "
+"style=\" font-weight:600;\">Vicigaj Opcioj</span><span style=\" font-"
+"size:12pt;\"> sub &quot;Agordoj de Rotaciilo&quot;.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Flip Policy"
-msgstr "Renversi vidon"
+msgstr "Renversa Politiko"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
@@ -16302,10 +16281,9 @@ msgstr "Inversigi Direkton de Rotaciilo"
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "Alignment Options"
+#, kde-format
 msgid "Align Options"
-msgstr "Opcioj de Paraleligo"
+msgstr "Vicigaj Opcioj"
 
 #: ekos/capture/scriptsmanager.cpp:42
 #, kde-format
@@ -83080,35 +83058,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "<p>To disable rotation validation, uncheck the Rotator option in "
-#~ "Alignment Options.</p>"
-#~ msgstr ""
-#~ "<p>Por malŝalti validadon de rotacio, malmarku la opcion de Rotaciulo en "
-#~ "Paraleligaj Opcioj.</p>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use automatic or manual rotation control when using "
-#~ "Load &amp; Slew. For automatic control, the mechanized rotator is "
-#~ "commanded to rotate to match the desired position angle. For manual "
-#~ "control, the user is asked to manually rotate the camera until the "
-#~ "desired position angle is reached.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Uzu aŭtomatan aŭ manan rotacian kontrolon kiam vi "
-#~ "uzas Ŝargi kaj Slew. Por aŭtomata kontrolo, la mekanizita rotaciilo estas "
-#~ "ordonita turni por kongrui kun la dezirata pozicio-angulo. Por mana "
-#~ "kontrolo, la uzanto estas petata permane turni la fotilon ĝis la dezirata "
-#~ "pozicio-angulo estas atingita.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The camera position angle is saved to a sequence "
-#~ "capture job. On execution of the job the camera is rotated to the "
-#~ "specified position angle.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>La kamerapozicia angulo estas konservata al "
-#~ "sekvenca kaptotasko. Je plenumo de la tasko la kamerao estas rotaciita al "
-#~ "la specifita poziciangulo.</p></body></html>"
-
-#~ msgid "Save Camera Position Angle to Sequence Job"
-#~ msgstr "Konservi Kamerapozician Angulon al Sekvenctasko"
