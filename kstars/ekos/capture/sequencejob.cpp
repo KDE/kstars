@@ -342,8 +342,13 @@ void SequenceJob::capture(FITSMode mode)
     if (!devices.data()->getActiveCamera() || !devices.data()->getActiveChip())
         return;
 
+    // initialize the log entry
+    QString logentry = QString("Capture exposure = %1 sec, type = %2").arg(getCoreProperty(SJ_Exposure).toDouble()).arg(CCDFrameTypeNames[getFrameType()]);
+    logentry.append(QString(", filter = %1, upload mode = %2").arg(getCoreProperty(SJ_Filter).toString()).arg(getUploadMode()));
+
     devices.data()->getActiveChip()->setBatchMode(jobType() != SequenceJob::JOBTYPE_PREVIEW);
     devices.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
+    logentry.append(QString(", batch mode = %1, seq prefix = %2").arg(jobType() != SequenceJob::JOBTYPE_PREVIEW ? "true" : "false").arg(getCoreProperty(SJ_FullPrefix).toString()));
 
     if (jobType() == SequenceJob::JOBTYPE_PREVIEW)
     {
@@ -417,11 +422,14 @@ void SequenceJob::capture(FITSMode mode)
             remoteFormatFilename.isEmpty() == false)
     {
         devices.data()->getActiveCamera()->updateUploadSettings(remoteFormatDirectory, remoteFormatFilename);
+        if (getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+            logentry.append(QString(", remote dir = %1, remote format = %2").arg(remoteFormatDirectory).arg(remoteFormatFilename));
     }
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
     if (ISOIndex != -1)
     {
+        logentry.append(QString(", ISO index = %1").arg(ISOIndex));
         if (ISOIndex != devices.data()->getActiveChip()->getISOIndex())
             devices.data()->getActiveChip()->setISOIndex(ISOIndex);
     }
@@ -429,12 +437,14 @@ void SequenceJob::capture(FITSMode mode)
     const auto gain = getCoreProperty(SJ_Gain).toDouble();
     if (gain >= 0)
     {
+        logentry.append(QString(", gain = %1").arg(gain));
         devices.data()->getActiveCamera()->setGain(gain);
     }
 
     const auto offset = getCoreProperty(SJ_Offset).toDouble();
     if (offset >= 0)
     {
+        logentry.append(QString(", offset = %1").arg(offset));
         devices.data()->getActiveCamera()->setOffset(offset);
     }
 
@@ -452,9 +462,13 @@ void SequenceJob::capture(FITSMode mode)
         if (devices.data()->getActiveChip()->canBin()
                 && devices.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
         {
+            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set binning to " << "x =" << binning.x() << ", y =" << binning.y();
             setStatus(JOB_ERROR);
             emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
         }
+        else
+            logentry.append(QString(", binning = %1x%2").arg(binning.x()).arg(binning.y()));
+
 
         const auto roi = getCoreProperty(SJ_ROI).toRect();
 
@@ -465,14 +479,19 @@ void SequenceJob::capture(FITSMode mode)
                         roi.height(),
                         currentBinX != binning.x()) == false)
         {
+            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" << roi.width() << "height =" << roi.height();
             setStatus(JOB_ERROR);
             emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
         }
+        else
+            logentry.append(QString(", ROI = (%1+%2, %3+%4)").arg(roi.x()).arg(roi.width()).arg(roi.y()).arg(roi.width()));
+
     }
 
     devices.data()->getActiveCamera()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
     devices.data()->getActiveCamera()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
     devices.data()->getActiveChip()->setFrameType(getFrameType());
+    logentry.append(QString(", format = %1, encoding = %2").arg(getCoreProperty(SJ_Format).toString()).arg(getCoreProperty(SJ_Encoding).toString()));
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
     // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already
@@ -487,6 +506,8 @@ void SequenceJob::capture(FITSMode mode)
     const auto exposure = getCoreProperty(SJ_Exposure).toDouble();
     m_ExposeLeft = exposure;
     devices.data()->getActiveChip()->capture(exposure);
+    // create log entry with settings
+    qCInfo(KSTARS_EKOS_CAPTURE()) << logentry;
 
     emit captureStarted(CaptureModuleState::CAPTURE_OK);
 }
