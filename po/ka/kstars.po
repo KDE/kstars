@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-15 00:41+0000\n"
-"PO-Revision-Date: 2023-09-04 06:00+0200\n"
+"PO-Revision-Date: 2023-09-15 05:54+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7264,19 +7264,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold: "
-msgstr "ზღვარი:"
+msgstr "ზღვარი: "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ახალი ოპტიკური მატარებლის შექმნა.</p></body></html>"
+"<html><head/><body><p>შემობრუნების კუთხის აცდენის ზღვარი.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
@@ -7323,10 +7321,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "მდებარეობის კუთხე:"
+msgstr "მდებარეობის კუთხის შენარჩუნება"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -15179,10 +15176,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Camera Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "კამერის მდებარეობის კუთხე"
+msgstr "მდებარეობის კუთხის შენარჩუნება"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -15291,8 +15287,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "Alignment Options"
+#, kde-format
 msgid "Align Options"
 msgstr "სწორების მორგება"
 

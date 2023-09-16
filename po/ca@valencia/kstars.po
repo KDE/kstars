@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-15 00:41+0000\n"
-"PO-Revision-Date: 2023-09-09 18:57+0200\n"
+"PO-Revision-Date: 2023-09-15 20:49+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6940,6 +6940,9 @@ msgid ""
 "Automatic and Manual Rotator Control&quot; in &quot;StellarSolver "
 "Options&quot;.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Per a desactivar la validació del rotor, desmarqueu "
+"«Control automàtic i manual del rotor», a les «Opcions de StellarSolver».</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
 #: ekos/align/manualrotator.ui:58
@@ -7661,71 +7664,60 @@ msgstr "Aparcament automàtic"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Automatic && Manual Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
 msgstr "Control automàtic i manual del rotor"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotator threshold in arc-minutes when using Load "
-#| "&amp; Slew. If the difference between measured position angle and FITS "
-#| "position angle is below this value, the Load &amp; Slew operation is "
-#| "considered successful.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation deviation threshold in arc-minutes when using "
 "[Load &amp; Slew]. If the difference between measured position angle and "
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Llindar del rotor en minuts d'arc quan s'utilitza "
-"Carrega i orienta. Si la diferència entre l'angle de posició mesurat i "
-"l'angle de posició FITS està per davall d'este valor, es considera que "
-"l'operació de carrega i orienta ha finalitzat amb èxit.</p></body></html>"
+"<html><head/><body><p>Llindar de desviació del rotor en minuts d'arc quan "
+"s'utilitza [Carrega i orienta]. Si la diferència entre l'angle de posició "
+"mesurat i l'angle de posició FITS està per davall d'este valor, es "
+"considerarà que l'operació de [Carrega i orienta] ha finalitzat amb èxit.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold: "
-msgstr "Llindar:"
+msgstr "Llindar: "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
 msgstr ""
-"<html><head/><body><p>L'angle del rotor sense processar</p></body></html>"
+"<html><head/><body><p>Llindar de desviació de l'angle del rotor</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
 "reference image reports a different pierside respective to the actual mount "
 "pierside.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\"font-weight:600;\">Mida del pas inicial</"
-"span> en les marques per a causar un canvi notable en el valor de l'HFR. Per "
-"a un enfocador basat en temporitzador, este és el temps inicial en "
-"mil·lisegons per a moure l'enfocador cap endins o cap enfora.</p></body></"
-"html>"
+"<html><head/><body><p>La <span style=\"font-weight:600;\">Política "
+"d'inversió</span> determina com reaccionarà el rotor després d'una inversió "
+"o si el resultat d'una imatge de referència solucionada informa d'un costat "
+"del moll diferent respecte al costat del moll real de la muntura.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
 #, kde-format
 msgid "Flip Policy: "
-msgstr ""
+msgstr "Política d'inversió: "
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
@@ -7737,40 +7729,37 @@ msgid ""
 "astronomic image processing applications can handle &quot;flipped&quot; "
 "images.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\"font-weight:600;\">Mantín l'angle del "
+"rotor</span> conservarà la posició del rotor. El rotor romandrà inactiu i, "
+"per tant, la càmera girarà virtualment 180°.</p><p>La majoria de les "
+"aplicacions modernes de processament d'imatges astronòmiques poden gestionar "
+"les imatges «invertides».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve rotator angle"
-msgstr "Angle del rotor"
+msgstr "Mantín l'angle del rotor"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:353
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Preserve position "
 "angle</span> will keep the camera position angle. The rotator always turns "
 "the camera to the original position angle and hence the image will show "
 "exactly the original star arrangement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\"font-weight:600;\">Mida del pas inicial</"
-"span> en les marques per a causar un canvi notable en el valor de l'HFR. Per "
-"a un enfocador basat en temporitzador, este és el temps inicial en "
-"mil·lisegons per a moure l'enfocador cap endins o cap enfora.</p></body></"
-"html>"
+"<html><head/><body><p><span style=\"font-weight:600;\">Mantín l'angle del "
+"rotor</span> conservarà l'angle de posició de la càmera. El rotor sempre "
+"girarà la càmera fins a l'angle de posició original i, per tant, la imatge "
+"mostrarà exactament la disposició original de l'estrela.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "Angle de posició:"
+msgstr "Mantín l'angle de posició"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -16362,7 +16351,7 @@ msgstr ""
 #: ekos/capture/rotatorsettings.cpp:117
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr ""
+msgstr "L'angle %1° inicial del rotor s'ha llegit correctament."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -16414,17 +16403,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve Rotator Angle"
-msgstr "Angle del rotor"
+msgstr "Mantín l'angle del rotor"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Camera Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "Angle de posició de la càmera"
+msgstr "Mantín l'angle de posició"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -16461,12 +16448,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>To create an <span style=\" font-weight:600;"
-#| "\">Alias</span> from an existing driver, select an existing driver and "
-#| "then only change the <span style=\" font-weight:600;\">Label </span>then "
-#| "press<span style=\" font-weight:600;\"> Add.</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -16475,17 +16457,19 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Per a crear un <span style=\"font-weight:600;\">àlies</"
-"span> d'un controlador existent, seleccioneu-ne un i després només canvieu "
-"l'<span style=\"font-weight:600;\">etiqueta </span> i premeu <span style="
-"\"font-weight:600;\">Afig</span>.</p></body></html>"
+"<html><head/><body><p>La <span style=\"font-weight:600;\">Política "
+"d'inversió</span> determina com reaccionarà el rotor després d'una inversió "
+"o si el resultat d'una imatge de referència solucionada informa d'un costat "
+"del moll diferent respecte al costat del moll real de la muntura.</p><p>La "
+"política d'inversió es pot modificar a <span style=\"font-weight:600;"
+"\">Opcions d'alineació</span><span style=\"font-size:12pt;\"> a «Configureu "
+"el rotor».</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Flip Policy"
-msgstr "Capgira la vista"
+msgstr "Política d'inversió"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
@@ -16569,8 +16553,7 @@ msgstr "Direcció invertida del rotor"
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "Alignment Options"
+#, kde-format
 msgid "Align Options"
 msgstr "Opcions d'alineació"
 
@@ -36558,6 +36541,7 @@ msgstr ""
 #, kde-format
 msgid "PA 180°-rotation for rotator after mount flip accepted."
 msgstr ""
+"Gir de 180° de l'AP del rotor després d'acceptar la inversió de la muntura."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2289
@@ -69231,7 +69215,7 @@ msgstr "Tots"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt  D:M:S"
-msgstr "Alt  D:M:S"
+msgstr "Alt D:M:S"
 
 #: libindi_strings.cpp:26
 #, kde-kuit-format
@@ -77606,7 +77590,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>La calculadora astronòmica de KStars (Ctrl+C), us permet efectuar\n"
+"\t\t<p>La calculadora astronòmica de KStars («Ctrl+C»), us permet efectuar\n"
 "\t\t\tun gran nombre dels càlculs que KStars fa internament.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -77623,7 +77607,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>L'eina «Generador de corbes de lluminositat de l'AAVSO» (Ctrl+V) es "
+"\t\t<p>L'eina «Generador de corbes de lluminositat de l'AAVSO» («Ctrl+V») es "
 "connecta \n"
 "\t\t\ta un servidor de l'Associació Americana d'Observadors d'Estreles "
 "Variables, i \n"
@@ -77644,7 +77628,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>L'eina «Altitud en funció del temps» (Ctrl+A) dibuixa corbes "
+"\t\t<p>L'eina «Altitud en funció del temps» («Ctrl+A») dibuixa corbes "
 "d'altitud per a\n"
 "\t\t\tqualsevol grup d'objectes que seleccioneu. És una eina magnífica per "
 "a\n"
@@ -77662,7 +77646,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Amb l'eina «Què hi ha esta nit?» (Ctrl+U), podreu saber d'una ullada\n"
+"\t\t<p>Amb l'eina «Què hi ha esta nit?» («Ctrl+U»), podreu saber d'una "
+"ullada\n"
 "\t\t\tquins objectes seran visibles des del vostre emplaçament per a una\n"
 "\t\t\tnit concreta.\n"
 "\t\t</p>\n"
@@ -77685,7 +77670,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>KStars té una potent eina Planificador d'observacions\n"
-"\t\t\t  (Ctrl+L). El planificador us ajuda a mantindre una\n"
+"\t\t\t  («Ctrl+L»). El planificador us ajuda a mantindre una\n"
 "\t\t\t  llista de desitjos d'objectes que vos agradaria\n"
 "\t\t\t  observar, i després seleccionar alguns d'estos\n"
 "\t\t\t  objectes per a planificar una sessió d'observació.\n"
@@ -77741,7 +77726,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>L'eina «Visor del sistema solar» (Ctrl+Y) mostra una vista superior\n"
+"\t\t<p>L'eina «Visor del sistema solar» («Ctrl+Y») mostra una vista "
+"superior\n"
 "\t\t\tdel sistema solar, amb el detall de la posició dels planetes "
 "principals en la data\n"
 "\t\t\tde la simulació.\n"
@@ -77759,8 +77745,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>L'eina «Llunes de Júpiter» (Ctrl+J) mostra les posicions relatives de "
-"les\n"
+"\t\t<p>L'eina «Llunes de Júpiter» («Ctrl+J») mostra les posicions relatives "
+"de les\n"
 "\t\t\tquatre llunes de Júpiter més grans (Io, Europa, Ganimedes i Calixt), "
 "tal com\n"
 "\t\t\tes veuen des de la Terra, i en funció del temps.\n"
@@ -84318,36 +84304,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "<p>To disable rotation validation, uncheck the Rotator option in "
-#~ "Alignment Options.</p>"
-#~ msgstr ""
-#~ "<p>Per a inhabilitar la validació del rotor, desactiveu l'opció del rotor "
-#~ "en les opcions d'alineació.</p>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use automatic or manual rotation control when using "
-#~ "Load &amp; Slew. For automatic control, the mechanized rotator is "
-#~ "commanded to rotate to match the desired position angle. For manual "
-#~ "control, the user is asked to manually rotate the camera until the "
-#~ "desired position angle is reached.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Utilitza el control de rotació automàtic o manual "
-#~ "quan s'utilitza Carrega i orienta. Per al control automàtic, s'ordena que "
-#~ "el rotor mecanitzat gire fins a coincidir amb l'angle de posició "
-#~ "desitjat. Per al control manual, es demana a l'usuari que gire manualment "
-#~ "la càmera fins que s'arribe a l'angle de posició desitjat.</p></body></"
-#~ "html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The camera position angle is saved to a sequence "
-#~ "capture job. On execution of the job the camera is rotated to the "
-#~ "specified position angle.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>L'angle de posició de la càmera es guarda a una "
-#~ "seqüència de la tasca de captura. En executar la tasca, la càmera gira "
-#~ "fins a l'angle de posició especificat.</p></body></html>"
-
-#~ msgid "Save Camera Position Angle to Sequence Job"
-#~ msgstr "Guarda l'angle de posició de la càmera a la tasca en seqüència"

@@ -7292,18 +7292,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold: "
-msgstr "Práh:"
+msgstr "Práh: "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
-msgstr "<html><head/><body><p>Přiblížit pro osu X.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
@@ -7350,10 +7348,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "Poziční úhel:"
+msgstr ""
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -15203,10 +15200,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "Poziční úhel"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -15249,10 +15245,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Flip Policy"
-msgstr "Otočit pohled"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
@@ -15316,10 +15311,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "View Options"
+#, kde-format
 msgid "Align Options"
-msgstr "Možnosti pohledu"
+msgstr ""
 
 #: ekos/capture/scriptsmanager.cpp:42
 #, kde-format
