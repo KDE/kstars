@@ -268,15 +268,6 @@ KStars::~KStars()
              << (float(CachingDms::cachingdms_bad_uses) / float(CachingDms::cachingdms_constructor_calls)) * 100.
              << "% bad uses";
 #endif
-
-    /* BUG 366596: Some KDE applications processes remain as background (zombie) processes after closing
-         * No solution to this bug so far using Qt 5.8 as of 2016-11-24
-         * Therefore, the only way to solve this on Windows is to explicitly kill kstars.exe
-         * Hopefully we do not need this hack once the above bug is resolved.
-         */
-#ifdef Q_OS_WIN
-    QProcess::execute("taskkill /im kstars.exe /f");
-#endif
 }
 
 void KStars::releaseResources()
