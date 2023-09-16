@@ -859,9 +859,12 @@ font-weight:bold;
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum telescope altitude limit. If the telescope is below this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="minimum">
-             <double>-10.000000000000000</double>
+             <double>-90.000000000000000</double>
             </property>
             <property name="maximum">
+             <double>90.000000000000000</double>
+            </property>
+            <property name="value">
              <double>90.000000000000000</double>
             </property>
            </widget>
@@ -879,6 +882,9 @@ font-weight:bold;
             </property>
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum telescope altitude limit. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="minimum">
+             <double>-90.000000000000000</double>
             </property>
             <property name="maximum">
              <double>90.000000000000000</double>

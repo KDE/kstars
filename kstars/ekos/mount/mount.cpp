@@ -312,6 +312,8 @@ bool Mount::setMount(ISD::Mount *device)
     {
         if (enableAltitudeLimits->isChecked())
             m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
+        else
+            m_Mount->setAltLimits(-91,+91);
 
         syncTelescopeInfo();
 
@@ -330,6 +332,8 @@ bool Mount::setMount(ISD::Mount *device)
         {
             if (enableAltitudeLimits->isChecked())
                 m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
+            else
+                m_Mount->setAltLimits(-91,+91);
 
             syncTelescopeInfo();
 
@@ -911,7 +915,7 @@ void Mount::setAltitudeLimits(bool enable)
         maximumAltLimit->setEnabled(false);
 
         if (m_Mount)
-            m_Mount->setAltLimits(-1, -1);
+            m_Mount->setAltLimits(-91, +91);
     }
 }
 

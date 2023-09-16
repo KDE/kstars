@@ -836,12 +836,15 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
     // If altitude limits is enabled, then reject motion immediately.
     double targetAlt = ScopeTarget->altRefracted().Degrees();
 
-    if ((minAlt != -1 && maxAlt != -1) && (targetAlt < minAlt || targetAlt > maxAlt))
+    if ((-90 <= minAlt && maxAlt <= 90) && (targetAlt < minAlt || targetAlt > maxAlt))
     {
         KSNotification::event(QLatin1String("IndiServerMessage"),
                               i18n("Requested altitude %1 is outside the specified altitude limit boundary (%2,%3).",
                                    QString::number(targetAlt, 'g', 3), QString::number(minAlt, 'g', 3),
                                    QString::number(maxAlt, 'g', 3)), KSNotification::Mount, KSNotification::Warn);
+        qCInfo(KSTARS_INDI) << "Requested altitude " << QString::number(targetAlt, 'g', 3)
+                            << " is outside the specified altitude limit boundary ("
+                            << QString::number(minAlt, 'g', 3) << "," << QString::number(maxAlt, 'g', 3) << ").";
         return false;
     }
 
@@ -850,7 +853,7 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
     {
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
         {
-            if (minAlt == -1 && maxAlt == -1)
+            if (minAlt < -90 && +90 < maxAlt)
                 Options::setConfirmBelowHorizon(false);
             KSMessageBox::Instance()->disconnect(this);
             checkObjectAndSend();
