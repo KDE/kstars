@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-15 00:41+0000\n"
-"PO-Revision-Date: 2023-09-02 02:57\n"
+"POT-Creation-Date: 2023-09-17 00:41+0000\n"
+"PO-Revision-Date: 2023-09-16 10:09\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5929,7 +5929,7 @@ msgstr "解析中止，用时 %1 秒。"
 
 #: ekos/align/align.cpp:2464 ekos/capture/capture.cpp:1446
 #: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
-#: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:911
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -7371,60 +7371,42 @@ msgstr "自动归位"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Automatic && Manual Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
-msgstr "自动或手动旋转模块控制"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotator threshold in arc-minutes when using Load "
-#| "&amp; Slew. If the difference between measured position angle and FITS "
-#| "position angle is below this value, the Load &amp; Slew operation is "
-#| "considered successful.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation deviation threshold in arc-minutes when using "
 "[Load &amp; Slew]. If the difference between measured position angle and "
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>“加载转动”中，以角分为单位的旋像器阈值。如果测量位置角"
-"度和 FITS 位置角度之间的差异低于此值，则视“加载转动”操作成功。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold: "
-msgstr "阈值："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
-msgstr "<html><head/><body><p>完成前的剩余时间</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: "
-#| "Internal Guider is recommended. Using external guider applications "
-#| "requires additional setup instructions outside the scope of Ekos.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
 "reference image reports a different pierside respective to the actual mount "
 "pierside.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">提示</span>: 推荐内部"
-"导星。 使用外部导星程序需要在 Ekos 范围以外的附加设置。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
@@ -7461,10 +7443,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "位置角:"
+msgstr ""
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -15465,17 +15446,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
-#, fuzzy, kde-format
-#| msgid "Polaris Hour Angle"
+#, kde-format
 msgid "Preserve Rotator Angle"
-msgstr "北极星时角"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Target Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "目标方位角"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -15518,10 +15497,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Flip Policy"
-msgstr "翻转显示"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
@@ -15585,10 +15563,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "Alignment Options"
+#, kde-format
 msgid "Align Options"
-msgstr "校准选项"
+msgstr ""
 
 #: ekos/capture/scriptsmanager.cpp:42
 #, kde-format
@@ -15961,10 +15938,9 @@ msgid "Focus Options Profile Editor"
 msgstr "对焦选项配置编辑器"
 
 #: ekos/focus/focus.cpp:836
-#, fuzzy, kde-format
-#| msgid "Focuser temperature source"
+#, kde-format
 msgid "Finally found temperature source %1"
-msgstr "电调温度源"
+msgstr ""
 
 #: ekos/focus/focus.cpp:961
 #, kde-format
@@ -21095,109 +21071,109 @@ msgstr "赤道仪配置"
 msgid "Mount Control"
 msgstr "赤道仪控制"
 
-#: ekos/mount/mount.cpp:367
+#: ekos/mount/mount.cpp:371
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr "检测到 GPS 设备。KStars 和支架的时间和位置设置现在同步到 GPS 设备。"
 
-#: ekos/mount/mount.cpp:382
+#: ekos/mount/mount.cpp:386
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr "检测到 GPS 。您想要切换到 GPS 的时间和位置吗？"
 
-#: ekos/mount/mount.cpp:383
+#: ekos/mount/mount.cpp:387
 #, kde-format
 msgid "GPS Settings"
 msgstr "GPS设置"
 
-#: ekos/mount/mount.cpp:511
+#: ekos/mount/mount.cpp:515
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "您确定要停止赤道仪跟踪吗？"
 
-#: ekos/mount/mount.cpp:512
+#: ekos/mount/mount.cpp:516
 #, kde-format
 msgid "Mount Tracking"
 msgstr "赤道仪跟踪"
 
-#: ekos/mount/mount.cpp:599
+#: ekos/mount/mount.cpp:603
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr "望远镜高度角小于 %1 的最小高度角限制。中止运动......"
 
-#: ekos/mount/mount.cpp:615
+#: ekos/mount/mount.cpp:619
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr "望远镜高度角大于 %1 的最大高度角限制。中止运动......"
 
-#: ekos/mount/mount.cpp:667
+#: ekos/mount/mount.cpp:671
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr "望远镜时角度超过 %1的最大时角。中止运动..."
 
-#: ekos/mount/mount.cpp:809
+#: ekos/mount/mount.cpp:813
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "中天翻转设置在极轴校准时处于非活动状态。"
 
-#: ekos/mount/mount.cpp:823
+#: ekos/mount/mount.cpp:827
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr "已完成极轴对齐动作，已激活中天翻转。"
 
-#: ekos/mount/mount.cpp:846
+#: ekos/mount/mount.cpp:850
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1|/|$[~stripAccel %1]"
 
-#: ekos/mount/mount.cpp:1444
+#: ekos/mount/mount.cpp:1448
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "对准模块清除完毕。"
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1452
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "清除对准模块失败。"
 
-#: ekos/mount/mount.cpp:1558 ekos/scheduler/scheduler.cpp:5364
+#: ekos/mount/mount.cpp:1562 ekos/scheduler/scheduler.cpp:5364
 #, kde-format
 msgid "Mount already parked."
 msgstr "赤道仪已经归位完毕。"
 
-#: ekos/mount/mount.cpp:1583
+#: ekos/mount/mount.cpp:1587
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "归位时间不能是过去的。"
 
-#: ekos/mount/mount.cpp:1592
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "归位时间必须在当前时间的24小时内。"
 
-#: ekos/mount/mount.cpp:1597
+#: ekos/mount/mount.cpp:1601
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "警告！归位时间已经超过12小时。"
 
-#: ekos/mount/mount.cpp:1599
+#: ekos/mount/mount.cpp:1603
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "注意：调度器处于活动状态时请不要使用自动归位。"
 
-#: ekos/mount/mount.cpp:1618
+#: ekos/mount/mount.cpp:1622
 #, kde-format
 msgid "Parking timer is up."
 msgstr "归位计时器已开启。"
 
-#: ekos/mount/mount.cpp:1627
+#: ekos/mount/mount.cpp:1631
 #, kde-format
 msgid "Starting auto park..."
 msgstr "启动自动归位..."
@@ -21361,7 +21337,7 @@ msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:910
+#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:916
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
@@ -21402,7 +21378,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:881 ekos/mount/mount.ui:933
+#: ekos/mount/mount.ui:884 ekos/mount/mount.ui:939
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
@@ -21413,7 +21389,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:897 kstars.kcfg:1647
+#: ekos/mount/mount.ui:903 kstars.kcfg:1647
 #, kde-format
 msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
@@ -21421,19 +21397,19 @@ msgid ""
 msgstr "最小的望远镜高度角限制。如果望远镜低于此限制，它将被命令停止。"
 
 #. i18n: ectx: property (text), widget (QLabel, minAltLabel)
-#: ekos/mount/mount.ui:900
+#: ekos/mount/mount.ui:906
 #, kde-format
 msgid "Min. Alt:"
 msgstr "最小高度角:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:913
+#: ekos/mount/mount.ui:919
 #, kde-format
 msgid "Max. HA (hours):"
 msgstr "最大时角（小时）："
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:920
+#: ekos/mount/mount.ui:926
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
@@ -21448,13 +21424,13 @@ msgstr ""
 "仪将被命令停止并关闭跟踪。 需要赤道仪正确报告 Pier Side。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:923
+#: ekos/mount/mount.ui:929
 #, kde-format
 msgid "Enable HA Limits"
 msgstr "允许时角限制条件"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:936
+#: ekos/mount/mount.ui:942
 #, kde-format
 msgid "Max. Alt:"
 msgstr "最大高度角:"
@@ -28016,7 +27992,7 @@ msgid ""
 "%3)."
 msgstr "请求的高度角 %1 超出了指定的高度角限制 (%2,%3)。"
 
-#: indi/indimount.cpp:873
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -28024,7 +28000,7 @@ msgstr ""
 "请求的位置低于地平线。\n"
 "您仍然要前往该地点吗？"
 
-#: indi/indimount.cpp:874
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "望远镜动作"
@@ -29061,17 +29037,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1553 skymap.cpp:427
+#: kstars.cpp:314 kstarsactions.cpp:1553 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "停止跟踪(&T)"
 
-#: kstars.cpp:331 kstarsactions.cpp:1722 kstarsinit.cpp:263
+#: kstars.cpp:322 kstarsactions.cpp:1722 kstarsinit.cpp:263
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "切换天球仪视角（赤道坐标）(&C)"
 
-#: kstars.cpp:332 kstarsactions.cpp:1701 kstarsinit.cpp:264
+#: kstars.cpp:323 kstarsactions.cpp:1701 kstarsinit.cpp:264
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr ""
@@ -33789,7 +33765,7 @@ msgstr ""
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2285
 #, kde-format
-msgid "PA 180°-rotation for rotator after mount flip accepted."
+msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
@@ -80329,19 +80305,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "<p>To disable rotation validation, uncheck the Rotator option in "
-#~ "Alignment Options.</p>"
-#~ msgstr "<p>如需禁用旋转校验，请取消对齐选项中选中的旋转选项。</p>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use automatic or manual rotation control when using "
-#~ "Load &amp; Slew. For automatic control, the mechanized rotator is "
-#~ "commanded to rotate to match the desired position angle. For manual "
-#~ "control, the user is asked to manually rotate the camera until the "
-#~ "desired position angle is reached.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>在使用负载 &amp; 旋转时使用自动或手动旋转控制。为了"
-#~ "自动控制，机械化旋转器被命令旋转以匹配所需的位置角度。为了手动控制，用户被"
-#~ "要求手动旋转相机直到达到所需的位置角。</p></body></html>"

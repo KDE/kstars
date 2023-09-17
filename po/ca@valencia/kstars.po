@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-15 00:41+0000\n"
-"PO-Revision-Date: 2023-09-15 20:49+0200\n"
+"POT-Creation-Date: 2023-09-17 00:41+0000\n"
+"PO-Revision-Date: 2023-09-16 20:16+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6094,7 +6094,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2464 ekos/capture/capture.cpp:1446
 #: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
-#: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:911
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -16351,7 +16351,7 @@ msgstr ""
 #: ekos/capture/rotatorsettings.cpp:117
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr "L'angle %1° inicial del rotor s'ha llegit correctament."
+msgstr "L'angle %1° inicial del rotor s'ha llegit correctament.."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -22756,7 +22756,7 @@ msgstr "Configureu la muntura"
 msgid "Mount Control"
 msgstr "Control de la muntura"
 
-#: ekos/mount/mount.cpp:367
+#: ekos/mount/mount.cpp:371
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -22765,29 +22765,29 @@ msgstr ""
 "S'ha detectat un controlador del GPS. KStars i la configuració del temps i "
 "emplaçament de la muntura ara se sincronitzaran amb el controlador del GPS."
 
-#: ekos/mount/mount.cpp:382
+#: ekos/mount/mount.cpp:386
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 "S'ha detectat un GPS. Voleu canviar la font de l'hora i de l'emplaçament al "
 "del GPS?"
 
-#: ekos/mount/mount.cpp:383
+#: ekos/mount/mount.cpp:387
 #, kde-format
 msgid "GPS Settings"
 msgstr "Configureu el GPS"
 
-#: ekos/mount/mount.cpp:511
+#: ekos/mount/mount.cpp:515
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Segur que voleu desactivar el seguiment de la muntura?"
 
-#: ekos/mount/mount.cpp:512
+#: ekos/mount/mount.cpp:516
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Seguiment de la muntura"
 
-#: ekos/mount/mount.cpp:599
+#: ekos/mount/mount.cpp:603
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -22795,7 +22795,7 @@ msgstr ""
 "L'altitud del telescopi està per davall del límit d'altitud mínima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:615
+#: ekos/mount/mount.cpp:619
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -22803,7 +22803,7 @@ msgstr ""
 "L'altitud del telescopi està per damunt del límit d'altitud màxima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:667
+#: ekos/mount/mount.cpp:671
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -22812,67 +22812,67 @@ msgstr ""
 "L'angle horari del telescopi està per damunt de l'angle horari màxim de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:809
+#: ekos/mount/mount.cpp:813
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "La inversió del meridià restarà inactiva durant l'alineació polar."
 
-#: ekos/mount/mount.cpp:823
+#: ekos/mount/mount.cpp:827
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Han finalitzat els moviments d'alineació polar, s'ha activat la inversió del "
 "meridià."
 
-#: ekos/mount/mount.cpp:846
+#: ekos/mount/mount.cpp:850
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1444
+#: ekos/mount/mount.cpp:1448
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "S'ha netejat el model d'alineació."
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1452
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "No s'ha pogut netejar el model d'alineació."
 
-#: ekos/mount/mount.cpp:1558 ekos/scheduler/scheduler.cpp:5364
+#: ekos/mount/mount.cpp:1562 ekos/scheduler/scheduler.cpp:5364
 #, kde-format
 msgid "Mount already parked."
 msgstr "La muntura ja està aparcada."
 
-#: ekos/mount/mount.cpp:1583
+#: ekos/mount/mount.cpp:1587
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "L'hora d'aparcament no pot estar en el passat."
 
-#: ekos/mount/mount.cpp:1592
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "L'hora d'aparcament cal que estiga en les pròximes 24 hores."
 
-#: ekos/mount/mount.cpp:1597
+#: ekos/mount/mount.cpp:1601
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Avís! L'hora d'aparcament supera les 12 hores."
 
-#: ekos/mount/mount.cpp:1599
+#: ekos/mount/mount.cpp:1603
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Precaució: no podeu utilitzar l'aparcament automàtic quan el programador "
 "està actiu."
 
-#: ekos/mount/mount.cpp:1618
+#: ekos/mount/mount.cpp:1622
 #, kde-format
 msgid "Parking timer is up."
 msgstr "El temporitzador d'aparcament està actiu."
 
-#: ekos/mount/mount.cpp:1627
+#: ekos/mount/mount.cpp:1631
 #, kde-format
 msgid "Starting auto park..."
 msgstr "S'està iniciant l'aparcament automàtic..."
@@ -23039,7 +23039,7 @@ msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:910
+#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:916
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
@@ -23083,7 +23083,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:881 ekos/mount/mount.ui:933
+#: ekos/mount/mount.ui:884 ekos/mount/mount.ui:939
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
@@ -23094,7 +23094,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:897 kstars.kcfg:1647
+#: ekos/mount/mount.ui:903 kstars.kcfg:1647
 #, kde-format
 msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
@@ -23104,19 +23104,19 @@ msgstr ""
 "límit, s'ordenarà la parada."
 
 #. i18n: ectx: property (text), widget (QLabel, minAltLabel)
-#: ekos/mount/mount.ui:900
+#: ekos/mount/mount.ui:906
 #, kde-format
 msgid "Min. Alt:"
 msgstr "Alt mín.:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:913
+#: ekos/mount/mount.ui:919
 #, kde-format
 msgid "Max. HA (hours):"
 msgstr "AH màx. (hores):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:920
+#: ekos/mount/mount.ui:926
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
@@ -23134,13 +23134,13 @@ msgstr ""
 "correctament del costat del moll.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:923
+#: ekos/mount/mount.ui:929
 #, kde-format
 msgid "Enable HA Limits"
 msgstr "Activa els límits AH"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:936
+#: ekos/mount/mount.ui:942
 #, kde-format
 msgid "Max. Alt:"
 msgstr "Alt màx.:"
@@ -30180,7 +30180,7 @@ msgid ""
 msgstr ""
 "L'altitud requerida %1 està fora dels límits d'altitud especificats (%2, %3)."
 
-#: indi/indimount.cpp:873
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -30188,7 +30188,7 @@ msgstr ""
 "L'altitud requerida es troba per davall de l'horitzó. Segur que voleu "
 "continuar?"
 
-#: indi/indimount.cpp:874
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Moviment del telescopi"
@@ -30971,8 +30971,8 @@ msgstr ""
 "Introduïu el número del port al qual està connectat el telescopi. Si tan "
 "sols teniu un port sèrie al vostre ordinador, usualment este serà <tt>/dev/"
 "ttyUSB0</tt>\n"
-"<br><br>Si no segur de quin és el número del port, podreu deixar el camp "
-"buit i KStars intentarà escanejar-los per a trobar els telescopis "
+"<br><br>Si no esteu segur de quin és el número del port, podreu deixar el "
+"camp buit i KStars intentarà escanejar-los per a trobar els telescopis "
 "connectats. Cal tindre present que l'escanejat automàtic pot tardar alguns "
 "minuts a completar-se. "
 
@@ -31269,17 +31269,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1553 skymap.cpp:427
+#: kstars.cpp:314 kstarsactions.cpp:1553 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "A&tura el seguiment"
 
-#: kstars.cpp:331 kstarsactions.cpp:1722 kstarsinit.cpp:263
+#: kstars.cpp:322 kstarsactions.cpp:1722 kstarsinit.cpp:263
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Canvia a la vista de l'esfera celeste (&coordenades equatorials)"
 
-#: kstars.cpp:332 kstarsactions.cpp:1701 kstarsinit.cpp:264
+#: kstars.cpp:323 kstarsactions.cpp:1701 kstarsinit.cpp:264
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Canvia a la vista horitzontal (&coordenades horitzontals)"
@@ -36538,8 +36538,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2285
-#, kde-format
-msgid "PA 180°-rotation for rotator after mount flip accepted."
+#, fuzzy, kde-format
+#| msgid "PA 180°-rotation for rotator after mount flip accepted."
+msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
 "Gir de 180° de l'AP del rotor després d'acceptar la inversió de la muntura."
 
@@ -78568,9 +78569,9 @@ msgstr ""
 "Establiu ací el valor de l'opció de visualització seleccionada. Assegureu-"
 "vos que el valor que introduïu coincidix amb el tipus de dades esperat per "
 "l'opció. Per exemple, l'opció «UseAltAz» espera un valor booleà, de manera "
-"que haureu d'introduir «true», «false», «1» o «0». Si no segur de quin tipus "
-"de dada s'espera, examineu la vista en arbre emprant el botó «Navega per "
-"l'arbre...»."
+"que haureu d'introduir «true», «false», «1» o «0». Si no esteu segur de quin "
+"tipus de dada s'espera, examineu la vista en arbre emprant el botó «Navega "
+"per l'arbre...»."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argchangeviewoption.ui:102
