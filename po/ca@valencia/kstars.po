@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-17 00:41+0000\n"
-"PO-Revision-Date: 2023-09-16 20:16+0200\n"
+"PO-Revision-Date: 2023-09-17 12:06+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -28023,7 +28023,7 @@ msgstr "S'ha produït un error en llegir la memòria intermèdia de FITS: %1."
 #: fitsviewer/fitsdata.cpp:263
 #, kde-format
 msgid "Failed to unpack compressed fits"
-msgstr "No s'han pogut desempaquetar els FITS comprimits"
+msgstr "No s'han pogut desempaquetar FITS comprimits"
 
 #: fitsviewer/fitsdata.cpp:279
 #, kde-format
@@ -34990,7 +34990,7 @@ msgstr "Mostra cada imatge capturada en una finestra del visor FITS."
 #: kstars.kcfg:1455
 #, kde-format
 msgid "Preview FITS in a single tab?"
-msgstr "Voleu previsualitzar els FITS en una única pestanya?"
+msgstr "Voleu previsualitzar FITS en una única pestanya?"
 
 #. i18n: ectx: label, entry (singleWindowCapturedFITS), group (FITSViewer)
 #: kstars.kcfg:1460
@@ -36538,11 +36538,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2285
-#, fuzzy, kde-format
-#| msgid "PA 180°-rotation for rotator after mount flip accepted."
+#, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
-"Gir de 180° de l'AP del rotor després d'acceptar la inversió de la muntura."
+"El gir de 180° de l'AP del rotor s'ha acceptat després de la inversió de la "
+"muntura."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2289

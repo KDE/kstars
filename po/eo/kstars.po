@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-17 00:41+0000\n"
-"PO-Revision-Date: 2023-09-15 21:20+0100\n"
+"PO-Revision-Date: 2023-09-17 08:58+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -35683,10 +35683,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2285
-#, fuzzy, kde-format
-#| msgid "PA 180°-rotation for rotator after mount flip accepted."
+#, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
-msgstr "PA 180°-rotacio por rotaciilo post akcepto de muntaĵrenverso."
+msgstr "PA 180°-rotacio por rotaciilo estas akceptita post muntaĵrenverso."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2289

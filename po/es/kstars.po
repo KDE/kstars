@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-17 00:41+0000\n"
-"PO-Revision-Date: 2023-09-15 17:28+0200\n"
+"PO-Revision-Date: 2023-09-17 12:26+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -36437,8 +36437,7 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2285
-#, fuzzy, kde-format
-#| msgid "PA 180°-rotation for rotator after mount flip accepted."
+#, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
 "Se ha aceptado la rotación de 180° del AP del rotador tras la inversión de "
