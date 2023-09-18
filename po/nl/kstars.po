@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-14 00:41+0000\n"
-"PO-Revision-Date: 2023-09-03 14:37+0200\n"
+"POT-Creation-Date: 2023-09-17 00:41+0000\n"
+"PO-Revision-Date: 2023-09-17 22:19+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6064,7 +6064,7 @@ msgstr "Oplossen gestopt na %1 seconden."
 
 #: ekos/align/align.cpp:2464 ekos/capture/capture.cpp:1446
 #: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
-#: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:911
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6893,6 +6893,9 @@ msgid ""
 "Automatic and Manual Rotator Control&quot; in &quot;StellarSolver "
 "Options&quot;.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Om validatie van rotatie uit te schakelen, deactiveer "
+"de &quot;Automatische en handmatige Rotatorbesturing&quot; in &quot;"
+"StellarSolverOpties&quot;.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
 #: ekos/align/manualrotator.ui:58
@@ -7600,69 +7603,58 @@ msgstr "Autoparkeren"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Automatic && Manual Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
-msgstr "Automatische && handmatige rotatorbesturing"
+msgstr "Automatische en handmatige rotatorbesturing"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotator threshold in arc-minutes when using Load "
-#| "&amp; Slew. If the difference between measured position angle and FITS "
-#| "position angle is below this value, the Load &amp; Slew operation is "
-#| "considered successful.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation deviation threshold in arc-minutes when using "
 "[Load &amp; Slew]. If the difference between measured position angle and "
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Drempelwaarde voor rotator in boogminuten bij Inlezen "
-"&amp; Draaien. Als het verschil tussen de gemeten positiehoek en de FITS-"
-"positiehoek kleiner is, dan wordt de operatie Inlezen &amp; Draaien "
-"beschouwd als gelukt.</p></body></html>"
+"<html><head/><body><p>Drempelwaarde van afwijking in rotatie in boogminuten "
+"bij [Inlezen &amp; Draaien]. Als het verschil tussen de gemeten positiehoek "
+"en de FITS-positiehoek kleiner is, dan wordt de operatie [Inlezen &amp; "
+"Draaien] beschouwd als gelukt.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Threshold: "
-msgstr "Drempelwaarde:"
+msgstr "Drempel: "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
-msgstr "<html><head/><body><p>Ruwe rotatorhoek:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Drempel van hoekafwijking in rotatie:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
 "reference image reports a different pierside respective to the actual mount "
 "pierside.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Initiële "
-"stapgrootte</span> in streepjes voor merkbare verandering in waarde HFR. Bij "
-"een focuser op basis van een timer, is dit de aanvangstijd in milliseconden "
-"waarop de focuser in- of uit wordt verplaatst.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Beleid voor "
+"omdraaien</span> bepaalt hoe de rotator reageert na een omdraaiing of als "
+"het resultaat van een opgelost referentie-afbeelding een andere richting "
+"respectievelijk rapporteert aan de actuele richting van de opstelling.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
 #, kde-format
 msgid "Flip Policy: "
-msgstr ""
+msgstr "Beleid voor omdraaien: "
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
@@ -7674,39 +7666,37 @@ msgid ""
 "astronomic image processing applications can handle &quot;flipped&quot; "
 "images.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Behoud de "
+"rotatorhoek</span> zal de rotatorpositie behouden. De rotator blijft "
+"inactief en dus is de camera virtueel met 180° gedraaid.</p><p>De meeste "
+"moderne astronomische toepassingen voor afbeeldingsbewerkingen kunnen &quot;"
+"omgedraaide&quot; afbeeldingen behandelen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve rotator angle"
-msgstr "Rotatorhoek"
+msgstr "Rotatorhoek bewaren"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:353
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step "
-#| "Size</span> in ticks to cause a noticeable change in HFR value. For timer "
-#| "based focuser, it is the initial time in milliseconds to move the focuser "
-#| "inward or outward</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Preserve position "
-"angle</span> will keep the camera position angle. The rotator allways turns "
+"angle</span> will keep the camera position angle. The rotator always turns "
 "the camera to the original position angle and hence the image will show "
 "exactly the original star arrangement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Initiële "
-"stapgrootte</span> in streepjes voor merkbare verandering in waarde HFR. Bij "
-"een focuser op basis van een timer, is dit de aanvangstijd in milliseconden "
-"waarop de focuser in- of uit wordt verplaatst.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Behoud positiehoek </"
+"span> zal de positiehoek van de camera behouden. De rotator draait de camera "
+"altijd naar de originele positiehoek en dus zal de afbeelding exact de "
+"originele arrangering van de sterren tonen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "Positiehoek:"
+msgstr "Positiehoek bewaren"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -16191,10 +16181,9 @@ msgstr ""
 "seconden geleden."
 
 #: ekos/capture/rotatorsettings.cpp:117
-#, fuzzy, kde-format
-#| msgid "Mosaic file %1 saved successfully."
+#, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr "Mozaïekbestand %1 is met succes opgeslagen."
+msgstr "Initiële rotatorhoek %1° is met succes ingelezen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -16245,17 +16234,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve Rotator Angle"
-msgstr "Rotatorhoek"
+msgstr "Rotatorhoek bewaren"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Current Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "Huidige positiehoek"
+msgstr "Positiehoek bewaren"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -16290,12 +16277,7 @@ msgstr "<html><head/><body><p>Offsethoek van de camera</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>To create an <span style=\" font-weight:600;"
-#| "\">Alias</span> from an existing driver, select an existing driver and "
-#| "then only change the <span style=\" font-weight:600;\">Label </span>then "
-#| "press<span style=\" font-weight:600;\"> Add.</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -16304,17 +16286,19 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Om een  <span style=\" font-weight:600;\">Alias</span> "
-"te maken vanuit een bestaande driver, selecteer een bestaande driver en "
-"wijzig daarna de <span style=\" font-weight:600;\">naam </span>waarna u op "
-"<span style=\" font-weight:600;\"> Toevoegen </span> klikt.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Beleid voor "
+"omdraaien</span> bepaalt hoe de rotator reageert na een omdraaiing of als "
+"het resultaat van een opgelost referentie-afbeelding een andere richting ten "
+"opzichte van de actuele richting van de opstelling rapporteert.</p><p>Beleid "
+"voor omdraaien kan gewijzigd worden in <span style=\" font-weight:600;"
+"\">Uitlijnopties</span><span style=\" font-size:12pt;\"> onder &quot;"
+"Rotatorinstellingen&quot;.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Flip Policy"
-msgstr "Beeld na flip"
+msgstr "Beleid voor omdraaien"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
@@ -16396,10 +16380,9 @@ msgstr "Richting van rotator omdraaien"
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "Alignment Options"
+#, kde-format
 msgid "Align Options"
-msgstr "Opties Uitlijnen"
+msgstr "Uitlijnopties"
 
 #: ekos/capture/scriptsmanager.cpp:42
 #, kde-format
@@ -22523,7 +22506,7 @@ msgstr "Instellingen opstelling"
 msgid "Mount Control"
 msgstr "Besturing opstelling"
 
-#: ekos/mount/mount.cpp:367
+#: ekos/mount/mount.cpp:371
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -22532,27 +22515,27 @@ msgstr ""
 "GPS-driver gevonden. KStars, tijdstip van aankoppelen en locatie-"
 "instellingen worden nu aangepast aan de GPS-driver."
 
-#: ekos/mount/mount.cpp:382
+#: ekos/mount/mount.cpp:386
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr "GPS gevonden. Wilt u de bron van tijd en locatie aan GPS overlaten?"
 
-#: ekos/mount/mount.cpp:383
+#: ekos/mount/mount.cpp:387
 #, kde-format
 msgid "GPS Settings"
 msgstr "Instellingen GPS"
 
-#: ekos/mount/mount.cpp:511
+#: ekos/mount/mount.cpp:515
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Wilt u volgen met de opstelling werkelijk uitzetten?"
 
-#: ekos/mount/mount.cpp:512
+#: ekos/mount/mount.cpp:516
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Volgen met opstelling"
 
-#: ekos/mount/mount.cpp:599
+#: ekos/mount/mount.cpp:603
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -22560,7 +22543,7 @@ msgstr ""
 "Telescoophoogte is kleiner dan de kleinste toegestane hoogte %1, beweging "
 "wordt gestopt..."
 
-#: ekos/mount/mount.cpp:615
+#: ekos/mount/mount.cpp:619
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -22568,7 +22551,7 @@ msgstr ""
 "Telescoophoogte is groter dan de grootste toegestane hoogte %1, beweging "
 "wordt gestopt..."
 
-#: ekos/mount/mount.cpp:667
+#: ekos/mount/mount.cpp:671
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -22577,65 +22560,65 @@ msgstr ""
 "Telescoopuurhoek is groter dan de grootste toegestane hoogte %1, beweging "
 "wordt gestopt..."
 
-#: ekos/mount/mount.cpp:809
+#: ekos/mount/mount.cpp:813
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "Meridiaanflip op inactief ingesteld tijdens uitlijning op de pool."
 
-#: ekos/mount/mount.cpp:823
+#: ekos/mount/mount.cpp:827
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Bewegingen bij uitlijnen op de pool beëindigd, meridiaanflip geactiveerd."
 
-#: ekos/mount/mount.cpp:846
+#: ekos/mount/mount.cpp:850
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1444
+#: ekos/mount/mount.cpp:1448
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "Uitlijnmodel gewist."
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1452
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Wissen uitlijnmodel mislukt."
 
-#: ekos/mount/mount.cpp:1558 ekos/scheduler/scheduler.cpp:5364
+#: ekos/mount/mount.cpp:1562 ekos/scheduler/scheduler.cpp:5364
 #, kde-format
 msgid "Mount already parked."
 msgstr "Opstelling is reeds geparkeerd."
 
-#: ekos/mount/mount.cpp:1583
+#: ekos/mount/mount.cpp:1587
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Parkeren kan niet in verleden tijd gebeuren."
 
-#: ekos/mount/mount.cpp:1592
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "Parkeertijd moet binnen 24 uur na nu zijn."
 
-#: ekos/mount/mount.cpp:1597
+#: ekos/mount/mount.cpp:1601
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Waarschuwing! Parkeren is pas over meer dan 12 uur."
 
-#: ekos/mount/mount.cpp:1599
+#: ekos/mount/mount.cpp:1603
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Waarschuwing: U kunt niet autoparkeren gebruiken met actieve taakplanner."
 
-#: ekos/mount/mount.cpp:1618
+#: ekos/mount/mount.cpp:1622
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Parkeertijdmeter loopt."
 
-#: ekos/mount/mount.cpp:1627
+#: ekos/mount/mount.cpp:1631
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Autoparkeren wordt gestart ..."
@@ -22802,7 +22785,7 @@ msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:910
+#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:916
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
@@ -22845,7 +22828,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:881 ekos/mount/mount.ui:933
+#: ekos/mount/mount.ui:884 ekos/mount/mount.ui:939
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
@@ -22856,7 +22839,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:897 kstars.kcfg:1647
+#: ekos/mount/mount.ui:903 kstars.kcfg:1647
 #, kde-format
 msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
@@ -22864,19 +22847,19 @@ msgid ""
 msgstr "Kleinst toegestane hoogte telescoop. Hieronder stopt de telescoop."
 
 #. i18n: ectx: property (text), widget (QLabel, minAltLabel)
-#: ekos/mount/mount.ui:900
+#: ekos/mount/mount.ui:906
 #, kde-format
 msgid "Min. Alt:"
 msgstr "Min. Hgt:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:913
+#: ekos/mount/mount.ui:919
 #, kde-format
 msgid "Max. HA (hours):"
 msgstr "Max. uurhoek (uren):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:920
+#: ekos/mount/mount.ui:926
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
@@ -22894,13 +22877,13 @@ msgstr ""
 "Pier Side.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:923
+#: ekos/mount/mount.ui:929
 #, kde-format
 msgid "Enable HA Limits"
 msgstr "Begrenzingen HA (uurhoek) aanzetten"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:936
+#: ekos/mount/mount.ui:942
 #, kde-format
 msgid "Max. Alt:"
 msgstr "Max. Hgt:"
@@ -29822,13 +29805,13 @@ msgid ""
 "%3)."
 msgstr "De gewenste hoogte %1 is buiten de opgegeven grenzen (%2,%3)."
 
-#: indi/indimount.cpp:873
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr "Gevraagde hoogte is onder de horizon.Wilt u werkelijk verdergaan?"
 
-#: indi/indimount.cpp:874
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Beweging telescoop"
@@ -30895,17 +30878,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1553 skymap.cpp:427
+#: kstars.cpp:314 kstarsactions.cpp:1553 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Volgen stoppen"
 
-#: kstars.cpp:331 kstarsactions.cpp:1722 kstarsinit.cpp:263
+#: kstars.cpp:322 kstarsactions.cpp:1722 kstarsinit.cpp:263
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Maar globeweergave van sterren omschakelen (Equatoriale &coördinaten)"
 
-#: kstars.cpp:332 kstarsactions.cpp:1701 kstarsinit.cpp:264
+#: kstars.cpp:323 kstarsactions.cpp:1701 kstarsinit.cpp:264
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Naar horizontale weergave omschakelen (Horizontale &coördinaten)"
@@ -36035,8 +36018,9 @@ msgstr ""
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2285
 #, kde-format
-msgid "PA 180°-rotation for rotator after mount flip accepted."
+msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
+"PA 180°-rotatie voor rotator is geaccepteerd na omdraaien van opstelling."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2289
@@ -69319,7 +69303,7 @@ msgstr "Terugkoppeling"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Field De-rotator"
-msgstr "Veld de-rotatie"
+msgstr "Veld de-rotator"
 
 #: libindi_strings.cpp:157
 #, kde-kuit-format

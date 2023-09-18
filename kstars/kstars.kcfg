@@ -2282,7 +2282,7 @@
          <default>30</default>
       </entry>
       <entry name="AstrometryFlipRotationAllowed" type="Bool">
-         <whatsthis>PA 180°-rotation for rotator after mount flip accepted.</whatsthis>
+         <whatsthis>PA 180° rotation for rotator is accepted after mount flip.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="SolverGotoOption" type="UInt">

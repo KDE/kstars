@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-14 00:41+0000\n"
-"PO-Revision-Date: 2023-08-22 05:57+0200\n"
+"POT-Creation-Date: 2023-09-17 00:41+0000\n"
+"PO-Revision-Date: 2023-09-15 16:04+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6053,7 +6053,7 @@ msgstr "Reševalnik je prekinil po %1 sekundah."
 
 #: ekos/align/align.cpp:2464 ekos/capture/capture.cpp:1446
 #: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1897
-#: ekos/mount/mount.cpp:832 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:911
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6188,7 +6188,7 @@ msgstr "Poravnaj okvir"
 #: ekos/align/align.cpp:3354
 #, kde-format
 msgid "StellarSolver Options"
-msgstr "Možnosti reševalnika"
+msgstr "Možnosti reševalnika StellarSolver"
 
 #: ekos/align/align.cpp:3359
 #, kde-format
@@ -6890,6 +6890,9 @@ msgid ""
 "Automatic and Manual Rotator Control&quot; in &quot;StellarSolver "
 "Options&quot;.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Če želite onemogočiti preverjanje rotacije, odstranite "
+"potrditev možnosti &quot;Samodejni in ročni krmilnik rotatorja&quot; v &quot;"
+"Možnosti reševalnika StellarSolver&quot;.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
 #: ekos/align/manualrotator.ui:58
@@ -7627,8 +7630,7 @@ msgstr "Samodejno parkiranje"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Automatic && Manual Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
 msgstr "Samodejni in ročni krmilnik rotatorja"
 
@@ -7679,9 +7681,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
-#, kde-format
+#, fuzzy, kde-format
 msgid "Flip Policy: "
-msgstr ""
+msgstr "Pravila zrcaljenja: "
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
@@ -7693,6 +7695,11 @@ msgid ""
 "astronomic image processing applications can handle &quot;flipped&quot; "
 "images.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Ohrani kot "
+"rotatorja</span> bo ohranilo položaj rotatorja. Rotator ostane nedejaven, "
+"zato se fotoaparat oz. kamera praktično obrne za 180°.</p><p>Večina sodobnih "
+"programov za obdelavo astronomskih slik lahko obdeluje &quot;"
+"prezrcaljene&quot; slike.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
@@ -7709,7 +7716,7 @@ msgstr "Kontrolnik kota rotatorja"
 #| "move the focuser inward or outward"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Preserve position "
-"angle</span> will keep the camera position angle. The rotator allways turns "
+"angle</span> will keep the camera position angle. The rotator always turns "
 "the camera to the original position angle and hence the image will show "
 "exactly the original star arrangement.</p></body></html>"
 msgstr ""
@@ -8008,13 +8015,13 @@ msgstr "Možnosti položaja"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUsePosition)
 #. i18n: ectx: label, entry (AstrometryUsePosition), group (Align)
 #: ekos/align/opsastrometry.ui:322 kstars.kcfg:2355
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Set estimated position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
 msgstr ""
-"Nastavite ocenjen položaj, da pospešite astrometrijo, saj mu ni treba iskati "
-"na drugih območjih neba."
+"Nastavite ocenjen položaj, da pospešite reševalnik astrometry.net, saj mu ni "
+"treba iskati na drugih območjih neba."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUsePosition)
 #: ekos/align/opsastrometry.ui:325
@@ -8054,7 +8061,7 @@ msgstr "5"
 #, fuzzy, kde-format
 msgid ""
 "The RA of the Estimated Telescope/Image Field Position in hh:mm:ss notation"
-msgstr "Ra ocenjenega položaja teleskopa/slikovnega polja v notati hh:mm:ss"
+msgstr "RA ocenjenega položaja teleskopa/slikovnega polja v zapisu uu:mm:ss"
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_47)
 #: ekos/align/opsastrometry.ui:379
@@ -8207,7 +8214,7 @@ msgstr "Namesti datoteke"
 #: ekos/align/opsastrometryindexfiles.cpp:601
 #, fuzzy, kde-format
 msgid "Could not contact Astrometry Index Server."
-msgstr "Ni se mogoče obrniti na strežnik indeksa astrometrije."
+msgstr "Ni se mogoče obrniti na strežnik indeksa astrometry.net."
 
 #: ekos/align/opsastrometryindexfiles.cpp:607
 #, kde-format
@@ -8599,7 +8606,7 @@ msgstr "16' - 22'"
 #: ekos/align/opsastrometryindexfiles.ui:4429
 #: ekos/align/opsastrometryindexfiles.ui:4436
 #: ekos/align/opsastrometryindexfiles.ui:4443
-#, fuzzy, kde-format
+#, kde-format
 msgid "info"
 msgstr "Podatki"
 
@@ -9133,27 +9140,27 @@ msgstr "Windows Cygwin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/opsprograms.ui:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "Local Sextractor Program"
-msgstr "Lokalni Sextractor Program"
+msgstr "Krajevni program Sextractor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/align/opsprograms.ui:69
-#, fuzzy, kde-format
+#, kde-format
 msgid "sextractor binary:"
-msgstr "binarni sekstraktor:"
+msgstr "Izvršilna datoteka sextractor:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SextractorBinary)
 #: ekos/align/opsprograms.ui:76
-#, fuzzy, kde-format
+#, kde-format
 msgid "Path to Sextractor binary file"
-msgstr "Pot do binarne datoteke Sextractor"
+msgstr "Pot do izvršilne datoteke Sextractor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/align/opsprograms.ui:89
-#, fuzzy, kde-format
+#, kde-format
 msgid "Local Astrometry.net or Local ANSVR"
-msgstr "Lokalni Astrometry.net ali lokalni ANSVR"
+msgstr "Krajevni Astrometry.net ali krajevni ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryConfFile)
 #: ekos/align/opsprograms.ui:95
@@ -9175,7 +9182,7 @@ msgstr "wcsinfo:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometrySolverBinary)
 #: ekos/align/opsprograms.ui:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "Astrometry.net solve-field binary path"
 msgstr "Pot izvršilne datoteke za določanje položaja astrometry.net"
 
@@ -12350,9 +12357,9 @@ msgstr "Beleži dejavnost modula za stojalo Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:430
-#, fuzzy, kde-format
+#, kde-format
 msgid "The Logging Level for StellarSolver and Astrometry.net"
-msgstr "Raven sečnje za StellarSolver in Astrometry.net"
+msgstr "Raven beleženja za StellarSolver in Astrometry.net"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:437
@@ -16241,7 +16248,7 @@ msgstr "Ekos bo čim prej ponovno izostril, zadnji postopek je bil %1 s."
 #: ekos/capture/rotatorsettings.cpp:117
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr ""
+msgstr "Začetni kot rotatorja %1 je bil uspešno prebran."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -21867,12 +21874,12 @@ msgstr "Večzvezdje"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_20)
 #: ekos/guide/opsguide.ui:358
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The StellarSolver profile to use when detecting stars--used with the SEP "
 "MultiStar and SEP algorithms."
 msgstr ""
-"Profil StellarSolver, ki ga uporabljate pri zaznavanju zvezd-- uporablja se "
+"Profil StellarSolver, ki ga uporabljate pri zaznavanju zvezd - uporablja se "
 "z algoritmoma SEP MultiStar in SEP."
 
 #. i18n: ectx: property (text), widget (QLabel, l_20)
@@ -22748,7 +22755,7 @@ msgstr "Nastavitve stativa"
 msgid "Mount Control"
 msgstr "Nadzor stativa"
 
-#: ekos/mount/mount.cpp:367
+#: ekos/mount/mount.cpp:371
 #, fuzzy, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -22757,27 +22764,27 @@ msgstr ""
 "Gps gonilnik zaznan. KStars ter nastavitve časa namestitve in lokacije so "
 "zdaj sinhronizirane z gonilnikom GPS."
 
-#: ekos/mount/mount.cpp:382
+#: ekos/mount/mount.cpp:386
 #, fuzzy, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr "GPS je zaznan. Ali želite preklopiti čas in vir lokacije na GPS?"
 
-#: ekos/mount/mount.cpp:383
+#: ekos/mount/mount.cpp:387
 #, kde-format
 msgid "GPS Settings"
 msgstr "Nastavitve GPS"
 
-#: ekos/mount/mount.cpp:511
+#: ekos/mount/mount.cpp:515
 #, fuzzy, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Ali ste prepričani, da želite izklopiti sledenje nosilca?"
 
-#: ekos/mount/mount.cpp:512
+#: ekos/mount/mount.cpp:516
 #, fuzzy, kde-format
 msgid "Mount Tracking"
 msgstr "Sledenje stativa"
 
-#: ekos/mount/mount.cpp:599
+#: ekos/mount/mount.cpp:603
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -22785,7 +22792,7 @@ msgstr ""
 "Višina daljnogleda je pod najnižjo mejo višine: %1. Prekinjanje "
 "premikanja ..."
 
-#: ekos/mount/mount.cpp:615
+#: ekos/mount/mount.cpp:619
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -22793,7 +22800,7 @@ msgstr ""
 "Višina daljnogleda je nad najvišjo mejo višine: %1. Prekinjanje "
 "premikanja ..."
 
-#: ekos/mount/mount.cpp:667
+#: ekos/mount/mount.cpp:671
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -22801,66 +22808,66 @@ msgid ""
 msgstr ""
 "Višina daljnogleda je nad najvišjo mejo višine: %1. Prekinjanje premikanja..."
 
-#: ekos/mount/mount.cpp:809
+#: ekos/mount/mount.cpp:813
 #, fuzzy, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 "Obrat čez poldnevnik je nastavljen na neaktivnega med polarno poravnavo."
 
-#: ekos/mount/mount.cpp:823
+#: ekos/mount/mount.cpp:827
 #, fuzzy, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr "Premiki polarne poravnave končani, obrat čez poldnevnik aktiviran."
 
-#: ekos/mount/mount.cpp:846
+#: ekos/mount/mount.cpp:850
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1444
+#: ekos/mount/mount.cpp:1448
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "Model poravnave je počiščen."
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1452
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Modela poravnave ni uspelo počistiti."
 
-#: ekos/mount/mount.cpp:1558 ekos/scheduler/scheduler.cpp:5364
+#: ekos/mount/mount.cpp:1562 ekos/scheduler/scheduler.cpp:5364
 #, kde-format
 msgid "Mount already parked."
 msgstr "Stojalo je že parkirano."
 
-#: ekos/mount/mount.cpp:1583
+#: ekos/mount/mount.cpp:1587
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Čas parkiranja ne more biti v preteklosti."
 
-#: ekos/mount/mount.cpp:1592
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "Čas parkiranja mora biti v roku 24 ur od trenutnega časa."
 
-#: ekos/mount/mount.cpp:1597
+#: ekos/mount/mount.cpp:1601
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Opozorilo! Parkiranje je oddaljeno več kot 12 ur."
 
-#: ekos/mount/mount.cpp:1599
+#: ekos/mount/mount.cpp:1603
 #, fuzzy, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Previdno: ne uporabljajte samodejnega parkiranja, medtem ko je "
 "razporejevalnik aktiven."
 
-#: ekos/mount/mount.cpp:1618
+#: ekos/mount/mount.cpp:1622
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Časovnik parkiranja je vklopljen."
 
-#: ekos/mount/mount.cpp:1627
+#: ekos/mount/mount.cpp:1631
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Zagon samodejnega parkiranja …"
@@ -23027,7 +23034,7 @@ msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:910
+#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:916
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
@@ -23069,7 +23076,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:881 ekos/mount/mount.ui:933
+#: ekos/mount/mount.ui:884 ekos/mount/mount.ui:939
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
@@ -23080,7 +23087,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:897 kstars.kcfg:1647
+#: ekos/mount/mount.ui:903 kstars.kcfg:1647
 #, kde-format
 msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
@@ -23090,19 +23097,19 @@ msgstr ""
 "zaustavljen."
 
 #. i18n: ectx: property (text), widget (QLabel, minAltLabel)
-#: ekos/mount/mount.ui:900
+#: ekos/mount/mount.ui:906
 #, kde-format
 msgid "Min. Alt:"
 msgstr "Najm. viš.:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:913
+#: ekos/mount/mount.ui:919
 #, fuzzy, kde-format
 msgid "Max. HA (hours):"
 msgstr "Najv. HA (ure):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:920
+#: ekos/mount/mount.ui:926
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
@@ -23119,13 +23126,13 @@ msgstr ""
 "nosilec, ki pravilno poroča o strani pomola.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:923
+#: ekos/mount/mount.ui:929
 #, fuzzy, kde-format
 msgid "Enable HA Limits"
 msgstr "Omogoči omejitve HA"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:936
+#: ekos/mount/mount.ui:942
 #, kde-format
 msgid "Max. Alt:"
 msgstr "Najv. viš.:"
@@ -30366,14 +30373,14 @@ msgid ""
 "%3)."
 msgstr "Zahtevana višina %1 je zunaj navedene omejitve višine (%2,%3)."
 
-#: indi/indimount.cpp:873
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr ""
 "Zahtevana višina je pod obzorjem. Ali ste prepričani, da želite nadaljevati?"
 
-#: indi/indimount.cpp:874
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Premikanje daljnogleda"
@@ -31474,18 +31481,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:323 kstarsactions.cpp:1553 skymap.cpp:427
+#: kstars.cpp:314 kstarsactions.cpp:1553 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Zaustavi s&ledenje"
 
-#: kstars.cpp:331 kstarsactions.cpp:1722 kstarsinit.cpp:263
+#: kstars.cpp:322 kstarsactions.cpp:1722 kstarsinit.cpp:263
 #, fuzzy, kde-format
 #| msgid "Switch to star globe view (Equatorial &Coordinates)"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Preklopi v prikaz zvezdne krogle (ekvatorialne &koordinate)"
 
-#: kstars.cpp:332 kstarsactions.cpp:1701 kstarsinit.cpp:264
+#: kstars.cpp:323 kstarsactions.cpp:1701 kstarsinit.cpp:264
 #, fuzzy, kde-format
 #| msgid "Switch to horizonal view (Horizontal &Coordinates)"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -36619,9 +36626,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2285
-#, kde-format
-msgid "PA 180°-rotation for rotator after mount flip accepted."
-msgstr ""
+#, fuzzy, kde-format
+msgid "PA 180° rotation for rotator is accepted after mount flip."
+msgstr "PA 180°-rotacija za rotator po sprejetju zrcaljenja za montažo."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2289
@@ -84512,309 +84519,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#, fuzzy
-#~ msgid ""
-#~ "<p>To disable rotation validation, uncheck the Rotator option in "
-#~ "Alignment Options.</p>"
-#~ msgstr ""
-#~ "<p>Če želite onemogočiti preverjanje veljavnosti vrtenja, v možnostih "
-#~ "poravnave počistite možnost Rotator.</p>"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Use automatic or manual rotation control when using "
-#~ "Load &amp; Slew. For automatic control, the mechanized rotator is "
-#~ "commanded to rotate to match the desired position angle. For manual "
-#~ "control, the user is asked to manually rotate the camera until the "
-#~ "desired position angle is reached.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Uporabite samodejni ali ročni nadzor vrtenja, ko "
-#~ "uporabljate Naloži &amp; premik. Pri samodejnem krmiljenju rotator dobiva "
-#~ "ukaze za vrtenje, da se postavi na želeni kot položaja. Za ročno "
-#~ "krmiljenje se od uporabnika pričakuje, da ročno zavrti kamero, dokler ne "
-#~ "doseže želenega kota položaja.</p></body></html>"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>The camera position angle is saved to a sequence "
-#~ "capture job. On execution of the job the camera is rotated to the "
-#~ "specified position angle.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Pred zajemom nastavite kot ciljnega položaja.</p></"
-#~ "body></html>"
-
-#, fuzzy
-#~ msgid "Save Camera Position Angle to Sequence Job"
-#~ msgstr "Shrani kot položaja fotoaparata v posel zaporedja"
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning: job '%1' has startup time %2 resulting in a negative score, and "
-#~ "will be marked invalid when processed."
-#~ msgstr ""
-#~ "Opozorilo: posel »%1« ima čas zagona %2, ki ima za posledico negativen "
-#~ "rezultat in bo ob obdelavi označen kot neveljaven."
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning: job '%1' at row %2 might require a specific startup time or a "
-#~ "different priority, as currently they will start in order of insertion in "
-#~ "the table"
-#~ msgstr ""
-#~ "Opozorilo: posel »%1« v vrstici %2 morda zahteva določen čas zagona ali "
-#~ "drugo prednostno nalogo, saj se bodo trenutno začeli po vrstnem redu "
-#~ "vstavljanja v tabelo"
-
-#, fuzzy
-#~ msgid "All jobs aborted. Waiting %1 seconds to re-schedule."
-#~ msgstr ""
-#~ "Vsa delovna mesta so bila ugasnjena. Čakam %1 s, da se ponovno razporedi."
-
-#~ msgid "No jobs left in the scheduler queue."
-#~ msgstr "Ni več poslov v čakalni vrsti."
-
-#, fuzzy
-#~| msgid "Scheduler complete. Starting shutdown procedure..."
-#~ msgid "Only %1 jobs left in the scheduler queue, rescheduling those."
-#~ msgstr "Razporejevalnik je zaključil. Začenjanje postopka za izklop ..."
-
-#, fuzzy
-#~| msgid "Manual startup procedure terminated due to errors."
-#~ msgid ""
-#~ "Warning: job '%1' has fixed startup time %2 set in the past, marking "
-#~ "invalid."
-#~ msgstr "Ročni postopek zagona je bil prekinjen zaradi napak."
-
-#, fuzzy
-#~| msgid ""
-#~| "No night time found for %1 to rise above minimum altitude of %2 degrees "
-#~| "with minimum moon separation of %3 degrees."
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its twilight "
-#~ "restriction, marking invalid."
-#~ msgstr ""
-#~ "Za %1 ni bilo najdenega časa v noči, ko se bi povzpel nad najmanjšo "
-#~ "višino %2 stopinj z najmanjšim odmikom Lune %3 stopinj."
-
-#, fuzzy
-#~| msgid ""
-#~| "No night time found for %1 to rise above minimum altitude of %2 degrees "
-#~| "with minimum moon separation of %3 degrees."
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its altitude "
-#~ "restriction, marking invalid."
-#~ msgstr ""
-#~ "Za %1 ni bilo najdenega časa v noči, ko se bi povzpel nad najmanjšo "
-#~ "višino %2 stopinj z najmanjšim odmikom Lune %3 stopinj."
-
-#, fuzzy
-#~| msgid ""
-#~| "No night time found for %1 to rise above minimum altitude of %2 degrees "
-#~| "with minimum moon separation of %3 degrees."
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its Moon "
-#~ "separation restriction, marking invalid."
-#~ msgstr ""
-#~ "Za %1 ni bilo najdenega časa v noči, ko se bi povzpel nad najmanjšo "
-#~ "višino %2 stopinj z najmanjšim odmikom Lune %3 stopinj."
-
-#, fuzzy
-#~| msgid "Manual startup procedure terminated due to errors."
-#~ msgid ""
-#~ "Warning: job '%1' has fixed startup time %2 unachievable due to the "
-#~ "completion time of its previous sibling, marking invalid."
-#~ msgstr "Ročni postopek zagona je bil prekinjen zaradi napak."
-
-#, fuzzy
-#~| msgid ""
-#~| "No night time found for %1 to rise above minimum altitude of %2 degrees "
-#~| "with minimum moon separation of %3 degrees."
-#~ msgid ""
-#~ "Warning: Job '%1' cannot start because its previous sibling has no "
-#~ "completion time, marking invalid."
-#~ msgstr ""
-#~ "Za %1 ni bilo najdenega časa v noči, ko se bi povzpel nad najmanjšo "
-#~ "višino %2 stopinj z najmanjšim odmikom Lune %3 stopinj."
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning: job '%1' execution overlaps daylight, it will be interrupted at "
-#~ "dawn and rescheduled on next night time."
-#~ msgstr ""
-#~ "Opozorilo: opravilo »%1« se prekriva z dnevno svetlobo, prekine se ob "
-#~ "zori in prestavi naslednji večer."
-
-#, fuzzy
-#~| msgid ""
-#~| "%1 culminates during the day and cannot be scheduled for observation."
-#~ msgid ""
-#~ "Warning: job '%1' requires culmination offset of %2 minutes, not "
-#~ "achievable, marking invalid."
-#~ msgstr ""
-#~ "%1 doseže višek med dnevom in ga ni mogoče razporediti za opazovanje."
-
-#, fuzzy
-#~| msgid ""
-#~| "No night time found for %1 to rise above minimum altitude of %2 degrees "
-#~| "with minimum moon separation of %3 degrees."
-#~ msgid ""
-#~ "Warning: job '%1' requires minimum altitude %2 and Moon separation %3, "
-#~ "not achievable, marking invalid."
-#~ msgstr ""
-#~ "Za %1 ni bilo najdenega časa v noči, ko se bi povzpel nad najmanjšo "
-#~ "višino %2 stopinj z najmanjšim odmikom Lune %3 stopinj."
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning: job '%1' is constrained by the start time of the next job, and "
-#~ "cannot finish in time, marking aborted."
-#~ msgstr ""
-#~ "Opozorilo: delo »%1« je omejeno z začetnim časom naslednjega posla in ne "
-#~ "more končati pravočasno, pri tem pa označiti prekinitev."
-
-#, fuzzy
-#~ msgid ""
-#~ "Job '%1' completion time (%2) could not be achieved before start up time "
-#~ "(%3)"
-#~ msgstr ""
-#~ "Časa dokončanja projekta »%1« (%2) ni bilo mogoče doseči pred časom "
-#~ "zagona (%3)"
-
-#, fuzzy
-#~| msgid "Scheduler complete. Starting shutdown procedure..."
-#~ msgid "No jobs left in the scheduler queue after schedule cleanup."
-#~ msgstr "Razporejevalnik je zaključil. Začenjanje postopka za izklop ..."
-
-#, fuzzy
-#~| msgid ""
-#~| "%1 observation job reached completion time with #%2 batch done. "
-#~| "Stopping..."
-#~| msgid_plural ""
-#~| "%1 observation job reached completion time with #%2 batches done. "
-#~| "Stopping..."
-#~ msgid "Job '%1' reached completion time %2, stopping."
-#~ msgstr ""
-#~ "Posel opazovanja %1 je dosegel zaključek s končanimi %2 paketnimi "
-#~ "opravili. Zaustavljanje ..."
-
-#, fuzzy
-#~| msgid ""
-#~| "%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 "
-#~| "degrees), aborting job..."
-#~ msgid ""
-#~ "Job '%1' current altitude (%2 degrees) fails constraints, marking idle."
-#~ msgstr ""
-#~ "Trenutna višina %1 (%2 stopinj) je presegla najmanjšo omejitev višine (%3 "
-#~ "stopinj), prekinjanje posla ..."
-
-#, fuzzy
-#~| msgid ""
-#~| "Current moon separation (%1 degrees) is lower than %2 minimum constraint "
-#~| "(%3 degrees), aborting job..."
-#~ msgid ""
-#~ "Job '%2' current moon separation (%1 degrees) is lower than minimum "
-#~ "constraint (%3 degrees), marking idle."
-#~ msgstr ""
-#~ "Trenuten odmik Lune (%1 stopinj) je nižji kot najmanjša omejitev %2 (%3 "
-#~ "stopinj), prekinjanje posla ..."
-
-#, fuzzy
-#~| msgid ""
-#~| "Approaching astronomical twilight rise limit at %1 (%2 minutes safety "
-#~| "margin), aborting all jobs..."
-#~ msgid ""
-#~ "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 "
-#~ "minutes safety margin), marking idle."
-#~ msgstr ""
-#~ "Približevanje meji začetka astronomskega somraka %1 (%2 minut varnostnega "
-#~ "odmika), prekinjanje vseh poslov ..."
-
-#~ msgid "Priority:"
-#~ msgstr "Prednost:"
-
-#~ msgid ""
-#~ "Assigned priority to each job with 1 being the highest priority and 20 "
-#~ "being the lowest priority"
-#~ msgstr ""
-#~ "Vsakemu poslu je bila dodeljena prednost, 1 kot najvišja in 20 kot "
-#~ "najnižja prednost"
-
-#, fuzzy
-#~ msgid "Score"
-#~ msgstr "Točke"
-
-#~ msgid "Est. Duration"
-#~ msgstr "Oc. trajanje"
-
-#, fuzzy
-#~| msgid "Lead Time:"
-#~ msgid "Lead time"
-#~ msgstr "Uvajalni čas:"
-
-#~ msgid ""
-#~ "Start the observation job when the object reaches culmination adjusted "
-#~ "for the offset value in minutes. By default, the observation job runs 60 "
-#~ "minutes prior to culmination."
-#~ msgstr ""
-#~ "Začni posel opazovanja, ko objekt doseže vrhunec, prilagojen za vrednost "
-#~ "zamika v minutah. Privzeto se posel opazovanja zažene eno uro pred "
-#~ "vrhuncem."
-
-#, fuzzy
-#~| msgid "Cu&lmination Offset"
-#~ msgid "Cul&mination Offset"
-#~ msgstr "Zamik &vrhunca"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#~ "culmination time.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Zamik v minutah za začetek zajemanja pred ali po "
-#~ "času vrhunca.</p></body></html>"
-
-#, fuzzy
-#~ msgid " min"
-#~ msgstr " min."
-
-#, fuzzy
-#~ msgid ""
-#~ "Current score for job '%1', from its altitude, moon separation and sky "
-#~ "darkness.\n"
-#~ "Negative if adequate altitude is not achieved yet or if there is no "
-#~ "proper observation time today.\n"
-#~ "The Scheduler will refresh scores when picking a new candidate job."
-#~ msgstr ""
-#~ "Trenutna ocena za delo »%1«, od višine, ločevanja lune in nebeško temo.\n"
-#~ "Negativno, če še ni dosežena ustrezna nadmorska višina ali če danes ni "
-#~ "ustreznega časa opazovanja.\n"
-#~ "Razporejevalnik bo pri izbiranju novega kandidata osvežil rezultate."
-
-#, fuzzy
-#~ msgid ""
-#~ "Time interval from the job which precedes job '%1'.\n"
-#~ "Adjust the Lead Time in Ekos options to increase that duration and leave "
-#~ "time for jobs to complete.\n"
-#~ "Rearrange jobs to minimize that duration and optimize your imaging time."
-#~ msgstr ""
-#~ "Časovni interval od posla, ki je pred projektom »%1«.\n"
-#~ "Prilagodite možnosti »Čas svinca« v ekosu, da povečate trajanje in "
-#~ "pustite čas za dokončanje delovnih mest.\n"
-#~ "Preurediti delovna mesta, da zmanjšate to trajanje in optimizirate čas "
-#~ "slikanja."
-
-#, fuzzy
-#~ msgid ""
-#~ "Duration job '%1' will take to complete when started, as estimated by the "
-#~ "Scheduler.\n"
-#~ "Depends on the actions to be run, and the sequence job to be processed."
-#~ msgstr ""
-#~ "Posel trajanja »%1« se bo končal, ko se začne, kot je ocenil "
-#~ "Razporejevalnik.\n"
-#~ "Odvisno od dejanj, ki jih je treba zagnati, in od postopka zaporedja, ki "
-#~ "ga je treba obdelati."
-
-#, fuzzy
-#~| msgid "Cannot capture while focus module is busy."
-#~ msgid "Cannot start framing while focus module is busy."
-#~ msgstr "Ni mogoče zajemati, dokler je modul za ostrenje zaposlen."
