@@ -1755,6 +1755,12 @@ void Align::startSolving()
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
     disconnect(m_AlignView.get(), &FITSView::loaded, this, &Align::startSolving);
 
+    m_UsedScale = false;
+    m_UsedPosition = false;
+    m_ScaleUsed = 0;
+    m_RAUsed = 0;
+    m_DECUsed = 0;
+
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
         if(Options::solverType() != SSolver::SOLVER_ASTAP
@@ -1851,14 +1857,23 @@ void Align::startSolving()
             m_ImageData->parseSolution(solution);
 
             if (useImageScale && solution.pixscale > 0)
+            {
+                m_UsedScale = true;
+                m_ScaleUsed = solution.pixscale;
                 m_StellarSolver->setSearchScale(solution.pixscale * 0.8,
                                                 solution.pixscale * 1.2,
                                                 SSolver::ARCSEC_PER_PIX);
+            }
             else
                 m_StellarSolver->setProperty("UseScale", false);
 
             if (useImagePosition && solution.ra > 0)
+            {
+                m_UsedPosition = true;
+                m_RAUsed = solution.ra;
+                m_DECUsed = solution.dec;
                 m_StellarSolver->setSearchPositionInDegrees(solution.ra, solution.dec);
+            }
             else
                 m_StellarSolver->setProperty("UsePosition", false);
 
@@ -1880,6 +1895,9 @@ void Align::startSolving()
             //Setting the initial search scale settings
             if (useImageScale)
             {
+                m_UsedScale = true;
+                m_ScaleUsed = Options::astrometryImageScaleLow();
+
                 SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
                 // Extend search scale from 80% to 120%
                 m_StellarSolver->setSearchScale(Options::astrometryImageScaleLow() * 0.8,
@@ -1890,7 +1908,12 @@ void Align::startSolving()
                 m_StellarSolver->setProperty("UseScale", false);
             //Setting the initial search location settings
             if(useImagePosition)
+            {
                 m_StellarSolver->setSearchPositionInDegrees(m_TelescopeCoord.ra().Degrees(), m_TelescopeCoord.dec().Degrees());
+                m_UsedPosition = true;
+                m_RAUsed = m_TelescopeCoord.ra().Degrees();
+                m_DECUsed = m_TelescopeCoord.dec().Degrees();
+            }
             else
                 m_StellarSolver->setProperty("UsePosition", false);
         }
@@ -2240,12 +2263,18 @@ void Align::solverFailed()
     {
         QDir dir;
         QDateTime now = KStarsData::Instance()->lt();
-        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("align/failed-" +
-                       now.toString("yyyy-MM-dd"));
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("align/failed");
         dir.mkpath(path);
+        QString extraFilenameInfo;
+        if (m_UsedScale)
+            extraFilenameInfo.append(QString("_s%1u%2").arg(m_ScaleUsed, 0, 'f', 3)
+                                     .arg(Options::astrometryImageScaleUnits()));
+        if (m_UsedPosition)
+            extraFilenameInfo.append(QString("_r%1_d%2").arg(m_RAUsed, 0, 'f', 5).arg(m_DECUsed, 0, 'f', 5));
+
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
-        QString name     = "failed_align_frame_" + now.toString("HH-mm-ss") + ".fits";
+        QString name     = "failed_align_frame_" + now.toString("yyyy-MM-dd-HH-mm-ss") + extraFilenameInfo + ".fits";
         QString filename = path + QStringLiteral("/") + name;
         if (m_ImageData)
             m_ImageData->saveImage(filename);

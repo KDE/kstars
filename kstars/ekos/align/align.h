@@ -926,5 +926,11 @@ class Align : public QWidget, public Ui::Align
         // Settings
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
+
+        bool m_UsedScale = false;
+        bool m_UsedPosition = false;
+        double m_ScaleUsed = 0;
+        double m_RAUsed = 0;
+        double m_DECUsed = 0;
 };
 }
