@@ -1429,6 +1429,10 @@
          <label>Save Internal Align images on disk?</label>
          <default>false</default>
       </entry>
+      <entry name="SaveFailedAlignImages" type="Bool">
+         <label>Save Failed Align images on disk?</label>
+         <default>false</default>
+      </entry>
       <entry name="GuideLogging" type="Bool">
          <whatsthis>Log Ekos Guide Module activity.</whatsthis>
          <default>false</default>

@@ -1721,7 +1721,7 @@ void Align::setCaptureComplete()
 
     solverFOV->setImage(m_AlignView->getDisplayImage());
 
-    // If focus logging is enabled, let's save the frame.
+    // If align logging is enabled, let's save the frame.
     if (Options::saveAlignImages())
     {
         QDir dir;
@@ -2234,6 +2234,22 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
 void Align::solverFailed()
 {
+
+    // If failed-align logging is enabled, let's save the frame.
+    if (Options::saveFailedAlignImages())
+    {
+        QDir dir;
+        QDateTime now = KStarsData::Instance()->lt();
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("align/failed-" +
+                       now.toString("yyyy-MM-dd"));
+        dir.mkpath(path);
+        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+        QString name     = "failed_align_frame_" + now.toString("HH-mm-ss") + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
+        if (m_ImageData)
+            m_ImageData->saveImage(filename);
+    }
     if (state != ALIGN_ABORTED)
     {
         // Try to solve with scale turned off, if not turned off already

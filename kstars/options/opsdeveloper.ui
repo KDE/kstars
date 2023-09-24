@@ -64,6 +64,16 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QCheckBox" name="kcfg_SaveFailedAlignImages">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save Align images where align failed. Only enable to troubleshoot align by examining frames. This can consume some extra storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Save Failed Align Images</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
