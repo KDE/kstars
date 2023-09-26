@@ -1582,10 +1582,10 @@ SequenceJob *Capture::addJob(SequenceJob::SequenceJobType jobtype, FilenamePrevi
 
     // Custom Properties
     job->setCustomProperties(customPropertiesDialog->getCustomProperties());
-     /* remove enforceJobPA
+    /* remove enforceJobPA
     if (devices()->rotator() && m_RotatorControlPanel && m_RotatorControlPanel->isRotationEnforced())
     {
-        job->setTargetRotation(m_RotatorControlPanel->getCameraPA());
+       job->setTargetRotation(m_RotatorControlPanel->getCameraPA());
     }
     */
     job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
@@ -2348,7 +2348,7 @@ bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
         }
         else if (!strcmp(tagXMLEle(ep), "Rotation") && m_RotatorControlPanel)
         {
-             /* remove enforceJobPA
+            /* remove enforceJobPA
             m_RotatorControlPanel->setRotationEnforced(true);
             */
             m_RotatorControlPanel->setCameraPA(cLocale.toDouble(pcdataXMLEle(ep)));
@@ -2728,6 +2728,9 @@ void Capture::resetJobs()
 
     // We're not controlled by the Scheduler, restore progress option
     state()->setIgnoreJobProgress(Options::alwaysResetSequenceWhenStarting());
+
+    // enable start button
+    startB->setEnabled(true);
 }
 
 void Capture::ignoreSequenceHistory()

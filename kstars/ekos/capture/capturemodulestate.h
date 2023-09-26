@@ -618,6 +618,11 @@ class CaptureModuleState: public QObject
 
         bool checkDithering();
 
+        bool checkCapturing()
+        {
+            return (m_CaptureState == CAPTURE_CAPTURING || m_CaptureState == CAPTURE_PAUSE_PLANNED);
+        }
+
         /**
          * @brief updateMFMountState Handle changes of the meridian flip mount state
          */
