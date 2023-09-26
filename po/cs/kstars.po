@@ -31778,10 +31778,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SaveFailedAlignImages), group (General)
 #: kstars.kcfg:1433
-#, fuzzy, kde-format
-#| msgid "Save the image to disk"
+#, kde-format
 msgid "Save Failed Align images on disk?"
-msgstr "Uložit obrázek na disk"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1437
@@ -70504,10 +70503,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:73
-#, fuzzy, kde-format
-#| msgid "Delete All Images"
+#, kde-format
 msgid "Save Failed Align Images"
-msgstr "Smazat všechny obrázky"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
