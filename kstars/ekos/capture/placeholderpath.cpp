@@ -430,6 +430,10 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, const 
     setPathProperty(PP_FORMAT, job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat));
     setPathProperty(PP_SUFFIX, job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix));
     setPathProperty(PP_DARKFLAT, job.jobType() == SequenceJob::JOBTYPE_DARKFLAT);
+    setPathProperty(PP_TEMPERATURE, QVariant(job.getTargetTemperature()));
+    setPathProperty(PP_GAIN, job.getCoreProperty(SequenceJob::SJ_Gain));
+    setPathProperty(PP_OFFSET, job.getCoreProperty(SequenceJob::SJ_Offset));
+    setPathProperty(PP_PIERSIDE, QVariant(job.getPierSide()));
 }
 
 QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
