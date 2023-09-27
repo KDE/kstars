@@ -581,10 +581,37 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         // Are we past the end time?
         if (endTime.isValid() && jobStartTime.secsTo(endTime) < 0) break;
 
+        // It's possible there are start_at jobs that can preempt this job.
+        // Find the next start_at time, and use that as an end constraint to getNextEndTime
+        // if it's before jobInterruptTime.
+        QDateTime nextStartAtTime;
+        foreach (SchedulerJob *job, simJobs)
+        {
+            if (job != selectedJob &&
+                    job->getStartupCondition() == SchedulerJob::START_AT &&
+                    jobStartTime.secsTo(job->getStartupTime()) > 0 &&
+                    (job->getState() == SchedulerJob::JOB_EVALUATION ||
+                     job->getState() == SchedulerJob::JOB_SCHEDULED))
+            {
+                QDateTime startAtTime = job->getStartupTime();
+                if (!nextStartAtTime.isValid() || nextStartAtTime.secsTo(startAtTime) < 0)
+                    nextStartAtTime = startAtTime;
+            }
+        }
+        // Check to see if the above start-at stop time is before the interrupt stop time.
+        QDateTime constraintStopTime = jobInterruptTime;
+        if (nextStartAtTime.isValid() &&
+                (!constraintStopTime.isValid() ||
+                 nextStartAtTime.secsTo(constraintStopTime) < 0))
+            constraintStopTime = nextStartAtTime;
+
         QString constraintReason;
         // Get the time that this next job would fail its constraints, and a human-readable explanation.
         QDateTime jobConstraintTime = selectedJob->getNextEndTime(jobStartTime, SCHEDULE_RESOLUTION_MINUTES, &constraintReason,
-                                      jobInterruptTime);
+                                      constraintStopTime);
+        if (nextStartAtTime.isValid() && jobConstraintTime.isValid() &&
+                std::abs(jobConstraintTime.secsTo(nextStartAtTime)) < 2 * SCHEDULE_RESOLUTION_MINUTES)
+            constraintReason = "interrupted by start-at job";
         TEST_PRINT(stderr, "%d   %s\n", __LINE__,     QString("  constraint \"%1\" reason \"%2\"")
                    .arg(jobConstraintTime.toString("MM/dd hh:mm")).arg(constraintReason).toLatin1().data());
         QDateTime jobCompletionTime;
@@ -653,7 +680,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
                     SchedulerJob *next = selectNextJob(simJobs, t, nullptr, DONT_SIMULATE, &tempStart, &tempInterrupt, &tempReason);
                     if (next != selectedJob)
                     {
-                        stopReason = "Interrupted for group member";
+                        stopReason = "interrupted for group member";
                         jobStopTime = t;
                         TEST_PRINT(stderr, "%d   %s\n", __LINE__, QString(" switched to group member %1 at %2")
                                    .arg(next == nullptr ? "null" : next->getName()).arg(t.toString("MM/dd hh:mm")).toLatin1().data());
