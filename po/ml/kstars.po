@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 00:39+0000\n"
+"POT-Creation-Date: 2023-09-27 00:39+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -6211,7 +6211,7 @@ msgstr "arcmin"
 msgid "dDE (arcsec)"
 msgstr "സെക്കന്റുകള്‍"
 
-#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3294
+#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3297
 #: ekos/focus/focus.cpp:4711
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6219,18 +6219,18 @@ msgstr "സെക്കന്റുകള്‍"
 msgid "Filter operation failed."
 msgstr "കാലിയെന്റെ"
 
-#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3230
+#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3233
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3561 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:3235
+#: ekos/capture/capture.cpp:3238
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3240
+#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3243
 #, fuzzy, kde-format
 msgid "Auto focus on filter change..."
 msgstr "പ്രാദേശികം(കണ്ട്രി)"
@@ -13520,12 +13520,12 @@ msgstr "എണ്ണം"
 msgid "Park Dome"
 msgstr "ലോക്കല്‍ സ്ക്രിപ്റ്റ്: "
 
-#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2932
+#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2935
 #, fuzzy, kde-format
 msgid "Add job to sequence queue"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2933
+#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2936
 #, fuzzy, kde-format
 msgid "Remove job from sequence queue"
 msgstr "അവ്യക്ത ചിത്രം"
@@ -13721,82 +13721,82 @@ msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീ�
 msgid "Reset job status"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2911
+#: ekos/capture/capture.cpp:2914
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "കണ്ണി ചിട്ടപ്പെടുത്തുക..."
 
-#: ekos/capture/capture.cpp:2914 ekos/scheduler/scheduler.cpp:1619
+#: ekos/capture/capture.cpp:2917 ekos/scheduler/scheduler.cpp:1619
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2915
+#: ekos/capture/capture.cpp:2918
 #, fuzzy, kde-format
 msgid "Cancel job changes."
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/capture/capture.cpp:2927
+#: ekos/capture/capture.cpp:2930
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
 msgstr "കണ്ണി ചിട്ടപ്പെടുത്തുക..."
 
-#: ekos/capture/capture.cpp:3080
+#: ekos/capture/capture.cpp:3083
 #, fuzzy, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "തെറ്റായ സ്ക്രിപ്റ്റ് നിര്‍ദ്ദേശം"
 
-#: ekos/capture/capture.cpp:3169
+#: ekos/capture/capture.cpp:3172
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
-#: ekos/capture/capture.cpp:3171
+#: ekos/capture/capture.cpp:3174
 #, fuzzy, kde-format
 msgid "Current Observer:"
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:3182 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:3185 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 msgid "Manage Observers"
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
-#: ekos/capture/capture.cpp:3247
+#: ekos/capture/capture.cpp:3250
 #, fuzzy, kde-format
 msgid "Filter set to %1."
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/capture/capture.cpp:3569
+#: ekos/capture/capture.cpp:3572
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3571
+#: ekos/capture/capture.cpp:3574
 #, fuzzy, kde-format
 msgid "Confirmation"
 msgstr "_എല്ലാം നീക്കം ചെയ്യുക"
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3806
+#: ekos/capture/capture.cpp:3809
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3812
+#: ekos/capture/capture.cpp:3815
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
@@ -13804,37 +13804,37 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3814 ekos/focus/focus.ui:1895
+#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Archenhold"
 msgid "Threshold:"
 msgstr "ആര്‍ക്കന്‍ഹോള്‍ഡ്"
 
-#: ekos/capture/capture.cpp:3820
+#: ekos/capture/capture.cpp:3823
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3830
+#: ekos/capture/capture.cpp:3833
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "ഇന്‍പുട്ട് ഡിവൈസുകള്‍"
 
-#: ekos/capture/capture.cpp:3848
+#: ekos/capture/capture.cpp:3851
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "ആവൃത്തി:"
 
-#: ekos/capture/capture.cpp:3854
+#: ekos/capture/capture.cpp:3857
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "ആവൃത്തി:"
 
-#: ekos/capture/capture.cpp:3879
+#: ekos/capture/capture.cpp:3882
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15123,12 +15123,12 @@ msgid ""
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2465
+#: ekos/capture/captureprocess.cpp:2467
 #, fuzzy, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/capture/captureprocess.cpp:2466
+#: ekos/capture/captureprocess.cpp:2468
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"

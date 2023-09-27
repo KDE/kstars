@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1660884 $
+# Version: $Revision: 1661031 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 00:39+0000\n"
+"POT-Creation-Date: 2023-09-27 00:39+0000\n"
 "PO-Revision-Date: 2023-07-08 08:53+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -6221,24 +6221,24 @@ msgstr "dRA (sekunda kątowa)"
 msgid "dDE (arcsec)"
 msgstr "dDE (sekunda kątowa)"
 
-#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3294
+#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3297
 #: ekos/focus/focus.cpp:4711
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Nie udało się działanie filtra."
 
-#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3230
+#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3233
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Zmiana przesunięcia ogniskowej o %1 kroków..."
 
 #: ekos/align/align.cpp:3561 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:3235
+#: ekos/capture/capture.cpp:3238
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Zmienianie filtra na %1..."
 
-#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3240
+#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3243
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Samo-ogniskowanie po zmianie filtra..."
@@ -13998,12 +13998,12 @@ msgstr "Zaparkuj montaż"
 msgid "Park Dome"
 msgstr "Zaparkuj kopułę"
 
-#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2932
+#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2935
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Dodaj zadanie do kolejki"
 
-#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2933
+#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2936
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Usuń zadanie z kolejki"
@@ -14200,80 +14200,80 @@ msgstr "Czy na pewno chcesz wyzerować stan wszystkich prac?"
 msgid "Reset job status"
 msgstr "Wyzeruj stan pracy"
 
-#: ekos/capture/capture.cpp:2911
+#: ekos/capture/capture.cpp:2914
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Edytowanie pracy #%1..."
 
-#: ekos/capture/capture.cpp:2914 ekos/scheduler/scheduler.cpp:1619
+#: ekos/capture/capture.cpp:2917 ekos/scheduler/scheduler.cpp:1619
 #, kde-format
 msgid "Apply job changes."
 msgstr "Zastosuj zmiany w zadaniach."
 
-#: ekos/capture/capture.cpp:2915
+#: ekos/capture/capture.cpp:2918
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Porzuć zmiany w zadaniach."
 
-#: ekos/capture/capture.cpp:2927
+#: ekos/capture/capture.cpp:2930
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Porzucono edytowanie pracy."
 
-#: ekos/capture/capture.cpp:3080
+#: ekos/capture/capture.cpp:3083
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Współrzędne ściany są nieprawidłowe."
 
-#: ekos/capture/capture.cpp:3169
+#: ekos/capture/capture.cpp:3172
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Wybór bieżącego obserwatora"
 
-#: ekos/capture/capture.cpp:3171
+#: ekos/capture/capture.cpp:3174
 #, kde-format
 msgid "Current Observer:"
 msgstr "Bieżący obserwator:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:3182 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:3185 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Zarządzanie obserwatorami"
 
-#: ekos/capture/capture.cpp:3247
+#: ekos/capture/capture.cpp:3250
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Filtr ustawiony na %1."
 
-#: ekos/capture/capture.cpp:3569
+#: ekos/capture/capture.cpp:3572
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Wyzerować ustawienia %1 do domyślnych?"
 
-#: ekos/capture/capture.cpp:3571
+#: ekos/capture/capture.cpp:3574
 #, kde-format
 msgid "Confirmation"
 msgstr "Potwierdzenie"
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is on"
 msgstr "Schładzacz jest włączony"
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is off"
 msgstr "Schładzacz jest wyłączony"
 
-#: ekos/capture/capture.cpp:3806
+#: ekos/capture/capture.cpp:3809
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "Rampa (C/min):"
 
-#: ekos/capture/capture.cpp:3812
+#: ekos/capture/capture.cpp:3815
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
@@ -14283,33 +14283,33 @@ msgstr ""
 "aparatu. Ustaw na zero, aby wyłączyć."
 
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3814 ekos/focus/focus.ui:1895
+#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
 msgstr "Próg:"
 
-#: ekos/capture/capture.cpp:3820
+#: ekos/capture/capture.cpp:3823
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr "Największa różnica pomiędzy temperaturami aparatu i docelową"
 
-#: ekos/capture/capture.cpp:3830
+#: ekos/capture/capture.cpp:3833
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Ustawianie regulację temperatury"
 
-#: ekos/capture/capture.cpp:3848
+#: ekos/capture/capture.cpp:3851
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Zatrzymaj kolejkę"
 
-#: ekos/capture/capture.cpp:3854
+#: ekos/capture/capture.cpp:3857
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Wznów kolejkę"
 
-#: ekos/capture/capture.cpp:3879
+#: ekos/capture/capture.cpp:3882
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15722,12 +15722,12 @@ msgstr ""
 "Uwaga: opcja \"Zawsze zeruj sekwencję przy rozruchu\" jest włączona i zeruje "
 "licznik sekwencji."
 
-#: ekos/capture/captureprocess.cpp:2465
+#: ekos/capture/captureprocess.cpp:2467
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Na pewno uruchomić ponownie sterownik aparatu %1?"
 
-#: ekos/capture/captureprocess.cpp:2466
+#: ekos/capture/captureprocess.cpp:2468
 #, kde-format
 msgid "Driver Restart"
 msgstr "Uruchom ponownie sterownik"
