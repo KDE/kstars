@@ -1408,7 +1408,7 @@ void CaptureProcess::resetFrame()
 void CaptureProcess::setExposureProgress(ISD::CameraChip *tChip, double value, IPState ipstate)
 {
     // ignore values if not capturing
-    if (m_State->getCaptureState() != CAPTURE_CAPTURING)
+    if (m_State->checkCapturing() == false)
         return;
 
     if (m_DeviceAdaptor->getActiveChip() != tChip ||
@@ -2371,6 +2371,8 @@ void Ekos::CaptureProcess::resetAllJobs()
     {
         job->resetStatus();
     }
+    // clear existing job counts
+    m_State->clearCapturedFramesMap();
     // update the entire job table
     emit updateJobTable(nullptr);
 }

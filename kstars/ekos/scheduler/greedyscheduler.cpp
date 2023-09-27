@@ -371,6 +371,8 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         for (int i = 0; i < jobs.size(); ++i)
         {
             SchedulerJob *atJob = jobs[i];
+            if (atJob == nextJob)
+                continue;
             const QDateTime atTime = atJob->getFileStartupTime();
             if (atJob->getFileStartupCondition() == SchedulerJob::START_AT && atTime.isValid())
             {
@@ -388,7 +390,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                 {
                     // This difference between the user-specified start time, and the time it can really start.
                     const double startDelta = atJobStartTime.secsTo(atTime);
-                    if (fabs(startDelta) < 10 * 60)
+                    if (fabs(startDelta) < 20 * 60)
                     {
                         // If we're looking for a new job to start, then give the START_AT priority
                         // if it's within 10 minutes of its user-specified time.

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 00:39+0000\n"
+"POT-Creation-Date: 2023-09-27 00:39+0000\n"
 "PO-Revision-Date: 2023-09-24 17:05+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6263,24 +6263,24 @@ msgstr "dAR (seg. d'arc)"
 msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
-#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3294
+#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3297
 #: ekos/focus/focus.cpp:4711
 #, kde-format
 msgid "Filter operation failed."
 msgstr "No s'ha pogut fer l'operació del filtre."
 
-#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3230
+#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3233
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Canvia el desplaçament de l'enfocament en %1 passos..."
 
 #: ekos/align/align.cpp:3561 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:3235
+#: ekos/capture/capture.cpp:3238
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "S'està canviant el filtre a %1..."
 
-#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3240
+#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3243
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfocament automàtic en el canvi de filtre..."
@@ -14107,12 +14107,12 @@ msgstr "Aparca la muntura"
 msgid "Park Dome"
 msgstr "Aparca la cúpula"
 
-#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2932
+#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2935
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Afig una tasca a la cua en seqüència"
 
-#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2933
+#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2936
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Suprimix una tasca de la cua en seqüència"
@@ -14309,80 +14309,80 @@ msgstr "Segur que voleu restablir l'estat de totes les tasques?"
 msgid "Reset job status"
 msgstr "Restablix l'estat de les tasques"
 
-#: ekos/capture/capture.cpp:2911
+#: ekos/capture/capture.cpp:2914
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "S'està editant la tasca núm. %1..."
 
-#: ekos/capture/capture.cpp:2914 ekos/scheduler/scheduler.cpp:1619
+#: ekos/capture/capture.cpp:2917 ekos/scheduler/scheduler.cpp:1619
 #, kde-format
 msgid "Apply job changes."
 msgstr "S'han aplicat els canvis a la tasca."
 
-#: ekos/capture/capture.cpp:2915
+#: ekos/capture/capture.cpp:2918
 #, kde-format
 msgid "Cancel job changes."
 msgstr "S'han cancel·lat els canvis de la tasca."
 
-#: ekos/capture/capture.cpp:2927
+#: ekos/capture/capture.cpp:2930
 #, kde-format
 msgid "Editing job canceled."
 msgstr "S'ha cancel·lat la tasca d'edició."
 
-#: ekos/capture/capture.cpp:3080
+#: ekos/capture/capture.cpp:3083
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Les coordenades de la paret no són vàlides."
 
-#: ekos/capture/capture.cpp:3169
+#: ekos/capture/capture.cpp:3172
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Seleccioneu l'observador actual"
 
-#: ekos/capture/capture.cpp:3171
+#: ekos/capture/capture.cpp:3174
 #, kde-format
 msgid "Current Observer:"
 msgstr "Observador actual:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:3182 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:3185 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Gestiona els observadors"
 
-#: ekos/capture/capture.cpp:3247
+#: ekos/capture/capture.cpp:3250
 #, kde-format
 msgid "Filter set to %1."
 msgstr "S'ha establit el filtre a %1."
 
-#: ekos/capture/capture.cpp:3569
+#: ekos/capture/capture.cpp:3572
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Voleu reiniciar la configuració %1 als valors predeterminats?"
 
-#: ekos/capture/capture.cpp:3571
+#: ekos/capture/capture.cpp:3574
 #, kde-format
 msgid "Confirmation"
 msgstr "Confirmació"
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is on"
 msgstr "El refrigerador està encés"
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is off"
 msgstr "El refrigerador està apagat"
 
-#: ekos/capture/capture.cpp:3806
+#: ekos/capture/capture.cpp:3809
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "Rampa (C/min):"
 
-#: ekos/capture/capture.cpp:3812
+#: ekos/capture/capture.cpp:3815
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
@@ -14392,33 +14392,33 @@ msgstr ""
 "Establiu-ho a zero per a inhabilitar."
 
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3814 ekos/focus/focus.ui:1895
+#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
 msgstr "Llindar:"
 
-#: ekos/capture/capture.cpp:3820
+#: ekos/capture/capture.cpp:3823
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr "Diferència màxima entre la temperatura de la càmera i la de l'objectiu"
 
-#: ekos/capture/capture.cpp:3830
+#: ekos/capture/capture.cpp:3833
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Establiu la regulació de la temperatura"
 
-#: ekos/capture/capture.cpp:3848
+#: ekos/capture/capture.cpp:3851
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Para la seqüència"
 
-#: ekos/capture/capture.cpp:3854
+#: ekos/capture/capture.cpp:3857
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Reprén la seqüència"
 
-#: ekos/capture/capture.cpp:3879
+#: ekos/capture/capture.cpp:3882
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15820,12 +15820,12 @@ msgstr ""
 "Avís: l'opció «Reinicia sempre la seqüència en iniciar» està activa i compta "
 "el reinici de la seqüència."
 
-#: ekos/capture/captureprocess.cpp:2465
+#: ekos/capture/captureprocess.cpp:2467
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Segur que voleu reiniciar el controlador de la càmera %1?"
 
-#: ekos/capture/captureprocess.cpp:2466
+#: ekos/capture/captureprocess.cpp:2468
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicia el controlador"

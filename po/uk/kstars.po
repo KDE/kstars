@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 00:39+0000\n"
+"POT-Creation-Date: 2023-09-27 00:39+0000\n"
 "PO-Revision-Date: 2023-09-24 08:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -6210,24 +6210,24 @@ msgstr "ΔПС (кут. сек.)"
 msgid "dDE (arcsec)"
 msgstr "ΔСхил (кут. сек.)"
 
-#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3294
+#: ekos/align/align.cpp:3542 ekos/capture/capture.cpp:3297
 #: ekos/focus/focus.cpp:4711
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Невдала спроба фільтрування."
 
-#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3230
+#: ekos/align/align.cpp:3554 ekos/capture/capture.cpp:3233
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Змінюємо зсув фокусування на %1 кроків…"
 
 #: ekos/align/align.cpp:3561 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:3235
+#: ekos/capture/capture.cpp:3238
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Змінюємо фільтр на %1…"
 
-#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3240
+#: ekos/align/align.cpp:3566 ekos/capture/capture.cpp:3243
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Автофокусування при зміні фільтрів…"
@@ -14043,12 +14043,12 @@ msgstr "Запаркувати лафет"
 msgid "Park Dome"
 msgstr "Запаркувати купол"
 
-#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2932
+#: ekos/capture/capture.cpp:248 ekos/capture/capture.cpp:2935
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Додати завдання до черги"
 
-#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2933
+#: ekos/capture/capture.cpp:249 ekos/capture/capture.cpp:2936
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Вилучити завдання з черги"
@@ -14246,80 +14246,80 @@ msgstr "Ви справді хочете скинути записи стану 
 msgid "Reset job status"
 msgstr "Скинути запис стану для завдання"
 
-#: ekos/capture/capture.cpp:2911
+#: ekos/capture/capture.cpp:2914
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Редагуємо завдання %1…"
 
-#: ekos/capture/capture.cpp:2914 ekos/scheduler/scheduler.cpp:1619
+#: ekos/capture/capture.cpp:2917 ekos/scheduler/scheduler.cpp:1619
 #, kde-format
 msgid "Apply job changes."
 msgstr "Застосувати зміни у завданні."
 
-#: ekos/capture/capture.cpp:2915
+#: ekos/capture/capture.cpp:2918
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Скасувати зміни у завданні."
 
-#: ekos/capture/capture.cpp:2927
+#: ekos/capture/capture.cpp:2930
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Виконання завдання з редагування скасовано."
 
-#: ekos/capture/capture.cpp:3080
+#: ekos/capture/capture.cpp:3083
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Некоректні координати стіни."
 
-#: ekos/capture/capture.cpp:3169
+#: ekos/capture/capture.cpp:3172
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Виберіть поточного спостерігача"
 
-#: ekos/capture/capture.cpp:3171
+#: ekos/capture/capture.cpp:3174
 #, kde-format
 msgid "Current Observer:"
 msgstr "Поточний спостерігач:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:3182 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:3185 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Керування спостерігачами"
 
-#: ekos/capture/capture.cpp:3247
+#: ekos/capture/capture.cpp:3250
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Встановлено фільтр %1."
 
-#: ekos/capture/capture.cpp:3569
+#: ekos/capture/capture.cpp:3572
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Відновити типові значення налаштувань %1?"
 
-#: ekos/capture/capture.cpp:3571
+#: ekos/capture/capture.cpp:3574
 #, kde-format
 msgid "Confirmation"
 msgstr "Підтвердження"
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is on"
 msgstr "Охолоджувач увімкнено"
 
-#: ekos/capture/capture.cpp:3622
+#: ekos/capture/capture.cpp:3625
 #, kde-format
 msgid "Cooler is off"
 msgstr "Охолоджувач вимкнено"
 
-#: ekos/capture/capture.cpp:3806
+#: ekos/capture/capture.cpp:3809
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr "Обмеження (°C/хв.):"
 
-#: ekos/capture/capture.cpp:3812
+#: ekos/capture/capture.cpp:3815
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
@@ -14329,34 +14329,34 @@ msgstr ""
 "камери. Встановіть нульове значення, щоб вимкнути."
 
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3814 ekos/focus/focus.ui:1895
+#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
 #, kde-format
 msgid "Threshold:"
 msgstr "Поріг:"
 
-#: ekos/capture/capture.cpp:3820
+#: ekos/capture/capture.cpp:3823
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 "Максимальна прийнятна різниця температур між температурами камери і цілі."
 
-#: ekos/capture/capture.cpp:3830
+#: ekos/capture/capture.cpp:3833
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Встановити регулювання температури"
 
-#: ekos/capture/capture.cpp:3848
+#: ekos/capture/capture.cpp:3851
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Зупинити послідовність"
 
-#: ekos/capture/capture.cpp:3854
+#: ekos/capture/capture.cpp:3857
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Відновити виконання послідовності"
 
-#: ekos/capture/capture.cpp:3879
+#: ekos/capture/capture.cpp:3882
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15758,12 +15758,12 @@ msgstr ""
 "Попередження: позначено пункт «Завжди скидати послідовність на початку», "
 "отже, лічильники послідовності зображень буде скинуто до нульових значень."
 
-#: ekos/capture/captureprocess.cpp:2465
+#: ekos/capture/captureprocess.cpp:2467
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Ви справді бажаєте перезапустити драйвер камери %1?"
 
-#: ekos/capture/captureprocess.cpp:2466
+#: ekos/capture/captureprocess.cpp:2468
 #, kde-format
 msgid "Driver Restart"
 msgstr "Перезапуск драйвера"
