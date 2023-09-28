@@ -1396,7 +1396,7 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
 
     if (SchedulerJob::START_AT == getFileStartupCondition())
     {
-        if (getFileStartupTime().secsTo(ltStart) < 60)
+        if (getFileStartupTime().secsTo(ltStart) < -120)
         {
             // if the file startup time is in the future, then end now.
             // This case probably wouldn't happen in the running code.

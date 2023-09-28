@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>519</width>
-    <height>309</height>
+    <height>321</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -331,7 +331,7 @@
           </widget>
          </item>
          <item row="1" column="1" colspan="2">
-          <widget class="QRadioButton" name="kcfg_AstrometryFlipRotationAllowed">
+          <widget class="QRadioButton" name="FlipRotationAllowed">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Preserve rotator angle&lt;/span&gt; will keep the rotator position. The rotator remains inactive and hence the camera is virtually rotated by 180°.&lt;/p&gt;&lt;p&gt;Most modern astronomic image processing applications can handle &amp;quot;flipped&amp;quot; images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
