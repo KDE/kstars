@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-27 00:39+0000\n"
+"POT-Creation-Date: 2023-09-28 00:39+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -7887,7 +7887,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7898,7 +7898,7 @@ msgid ""
 "images.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, fuzzy, kde-format
 #| msgid "Rotator Angle"

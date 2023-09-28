@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-27 00:39+0000\n"
+"POT-Creation-Date: 2023-09-28 00:39+0000\n"
 "PO-Revision-Date: 2023-09-24 17:05+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -7719,7 +7719,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr "Política d'inversió: "
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7735,7 +7735,7 @@ msgstr ""
 "aplicacions modernes de processament d'imatges astronòmiques poden gestionar "
 "les imatges «invertides».</p></body></html>"
 
-#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, kde-format
 msgid "Preserve rotator angle"

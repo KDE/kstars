@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-27 00:39+0000\n"
+"POT-Creation-Date: 2023-09-28 00:39+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -7676,7 +7676,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7687,7 +7687,7 @@ msgid ""
 "images.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, fuzzy, kde-format
 #| msgid "Main Toolbar"

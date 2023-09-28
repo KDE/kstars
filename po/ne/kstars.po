@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-27 00:39+0000\n"
+"POT-Creation-Date: 2023-09-28 00:39+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -7951,7 +7951,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7962,7 +7962,7 @@ msgid ""
 "images.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
