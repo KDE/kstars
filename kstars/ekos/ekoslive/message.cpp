@@ -2513,6 +2513,9 @@ void Message::sendModuleState(const QString &name)
 QObject *Message::findObject(const QString &name)
 {
     QObject *object {nullptr};
+    // Check for manager itself
+    if (name == "Manager")
+        return m_Manager;
     // Try Manager first
     object = m_Manager->findChild<QObject *>(name);
     if (object)
@@ -2522,6 +2525,7 @@ QObject *Message::findObject(const QString &name)
     if (object)
         return object;
     // Finally KStars
+    // N.B. This does not include indepdent objects with their parent set to null (e.g. FITSViewer)
     object = KStars::Instance()->findChild<QObject *>(name);
     return object;
 }
