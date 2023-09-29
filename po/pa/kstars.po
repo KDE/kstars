@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-28 00:39+0000\n"
+"POT-Creation-Date: 2023-09-29 00:39+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -7674,7 +7674,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7685,7 +7685,7 @@ msgid ""
 "images.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, fuzzy, kde-format
 #| msgctxt "City in Quebec Canada"
@@ -27416,40 +27416,40 @@ msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 msgid "Failed to write image: %1"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: fitsviewer/fitsdata.cpp:2774 fitsviewer/fitsdata.cpp:2785
-#: fitsviewer/fitsdata.cpp:2821 fitsviewer/fitsdata.cpp:2857
-#: fitsviewer/fitsdata.cpp:2904
+#: fitsviewer/fitsdata.cpp:2778 fitsviewer/fitsdata.cpp:2789
+#: fitsviewer/fitsdata.cpp:2825 fitsviewer/fitsdata.cpp:2861
+#: fitsviewer/fitsdata.cpp:2908
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3626
+#: fitsviewer/fitsdata.cpp:3630
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3659
+#: fitsviewer/fitsdata.cpp:3663
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3690
+#: fitsviewer/fitsdata.cpp:3694
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3805
-#: fitsviewer/fitsdata.cpp:3850 fitsviewer/fitsdata.cpp:3897
+#: fitsviewer/fitsdata.cpp:3762 fitsviewer/fitsdata.cpp:3809
+#: fitsviewer/fitsdata.cpp:3854 fitsviewer/fitsdata.cpp:3901
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3860
+#: fitsviewer/fitsdata.cpp:3772 fitsviewer/fitsdata.cpp:3864
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3788 fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3792 fitsviewer/fitsdata.cpp:3884
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""

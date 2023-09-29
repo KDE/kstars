@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-28 00:39+0000\n"
+"POT-Creation-Date: 2023-09-29 00:39+0000\n"
 "PO-Revision-Date: 2023-09-16 10:09\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7414,7 +7414,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7425,7 +7425,7 @@ msgid ""
 "images.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, kde-format
 msgid "Preserve rotator angle"
@@ -26039,40 +26039,40 @@ msgstr ""
 msgid "Failed to write image: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2774 fitsviewer/fitsdata.cpp:2785
-#: fitsviewer/fitsdata.cpp:2821 fitsviewer/fitsdata.cpp:2857
-#: fitsviewer/fitsdata.cpp:2904
+#: fitsviewer/fitsdata.cpp:2778 fitsviewer/fitsdata.cpp:2789
+#: fitsviewer/fitsdata.cpp:2825 fitsviewer/fitsdata.cpp:2861
+#: fitsviewer/fitsdata.cpp:2908
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "未能找到世界坐标系统。"
 
-#: fitsviewer/fitsdata.cpp:3626
+#: fitsviewer/fitsdata.cpp:3630
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "只支持 8 和 16 位拜耳图像。"
 
-#: fitsviewer/fitsdata.cpp:3659
+#: fitsviewer/fitsdata.cpp:3663
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "不支持的拜耳模式 %1。"
 
-#: fitsviewer/fitsdata.cpp:3690
+#: fitsviewer/fitsdata.cpp:3694
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "不支持的拜耳偏移 %1 %2。"
 
-#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3805
-#: fitsviewer/fitsdata.cpp:3850 fitsviewer/fitsdata.cpp:3897
+#: fitsviewer/fitsdata.cpp:3762 fitsviewer/fitsdata.cpp:3809
+#: fitsviewer/fitsdata.cpp:3854 fitsviewer/fitsdata.cpp:3901
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "无法为临时拜耳缓冲区分配内存：%1"
 
-#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3860
+#: fitsviewer/fitsdata.cpp:3772 fitsviewer/fitsdata.cpp:3864
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "无法为临时拜耳缓冲区分配内存。"
 
-#: fitsviewer/fitsdata.cpp:3788 fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3792 fitsviewer/fitsdata.cpp:3884
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "解拜耳失败 (%1)"
