@@ -4,6 +4,81 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.7 (OVERLAY):
+
+723c4743f 2023-09-30 Jasem Mutlaq         INDI drivers sync
+d39c36d26 2023-09-29 Jasem Mutlaq         Invoke might not work for all parentless objects
+17508fd93 2023-09-28 Jasem Mutlaq         Revert "Save flip policy"
+b2e5af299 2023-09-28 John Evans           HFR Adj Bug
+0d4cff2fc 2023-09-27 Jasem Mutlaq         Save flip policy
+37970721f 2023-09-27 Hy Murveit           Fix start_at greedy scheduler simulation
+856fb1856 2023-09-26 Wolfgang Reissenberger Fixes for capture state bugs
+74d173898 2023-09-26 Hy Murveit           slight fix for start_at jobs in greedy scheduler
+02b6b9a31 2023-09-25 Wolfgang Reissenberger Bugfix for new placeholder values
+c816e83a9 2023-09-23 Hy Murveit           Add scale and position to failed solve image filename
+c11a47bde 2023-09-23 Hy Murveit           Add option to auto-save failed align images.
+44e106eb0 2023-09-16 Oliver Kellogg       kstars/kstars.kcfg (group "Align" entry "AstrometryFlipRotationAllowed") : Disambiguate <whatsthis>. https://invent.kde.org/education/kstars/-/commi..
+51c12672f 2023-09-16 Jasem Mutlaq         Removing old fix for a QT bug that no longer exists on Windows
+ec0746d7b 2023-09-16 Eric Dejouhanet      Bugfix  mount altitude limits
+4849e57ce 2023-09-15 Wolfgang Reissenberger Logging capture settings added
+3bd6988b7 2023-09-14 Oliver Kellogg       kstars/ekos/align/opsalign.ui : Fix typo in tooltip of radiobutton "FlipRotationNotAllowed".
+5d3a9fdd3 2023-09-13 Toni Schriber        Upgrade & refactor rotatorsettings
+680dbb457 2023-09-13 Hy Murveit           Improve analyze/adaptive-focus graphics.
+8ae81c48e 2023-09-13 Wolfgang Reissenberger Bugfix for state logging
+b0b11bb34 2023-09-10 Hy Murveit           Analyze in-progress timeline sessions were not shown when switching to current session
+c7f659645 2023-09-10 Hy Murveit           Disable lots of multistar logging.
+004f4d95a 2023-09-09 Hy Murveit           Reduce resolution of a few Analyze stats to make them fit better.
+1499a832b 2023-09-05 Hy Murveit           Improve job start/end time estimation.
+02163ba56 2023-09-06 Hy Murveit           Fix crash
+b27e2b313 2023-09-04 Hy Murveit           Improve imageOverlay visibility test, add RectangleOverlap class.
+63f61d365 2023-09-02 Philip Mair          Ekos Fokus: Fix temperature not updated after startup
+aba6ea9af 2023-09-01 Jasem Mutlaq         Fix compile errors due to changes in placeholder tests
+ae9a7fc2f 2023-09-01 Jasem Mutlaq         Remove obsolete code
+c2890c018 2023-08-31 Jasem Mutlaq         Fix issue with remote filenames not matching placeholder signature
+418726f66 2023-08-30 Wolfgang Reissenberger Ensure exactly one directory separator
+f0c36bc0e 2023-08-29 Hy Murveit           Update two gpg parameters that somehow are not the standard defaults.
+6d6910146 2023-08-30 Wolfgang Reissenberger Classic algorithm code parts removed from Scheduler
+b54a48d64 2023-08-30 Jasem Mutlaq         Add logging to note when we change device time and location from KStars
+4491953d7 2023-08-29 Jasem Mutlaq         Add missing sequence file. This should resolve issue with mosaic info not getting saved properly on edit
+a1ab2037c 2023-08-27 Wolfgang Reissenberger Bugfix wall source
+03ac2ee8b 2023-08-23 Jasem Mutlaq         One more place to prevent rotater from uncommanded motion
+2f9792b30 2023-08-22 Wolfgang Reissenberger Refactoring Capture | extracting sequence job handling
+f31ea61a8 2023-08-22 Jasem Mutlaq         Fix bug when using offline HIPS source that prevented HIPS settings from getting saved to the configuration file correctly
+027898f54 2023-08-21 Hy Murveit           Greedy scheduler may not bump a job started a few seconds ago.
+24782190a 2023-08-21 Antoni Bella Pérez   doc: some review
+577dec309 2023-08-20 Hy Murveit           Add view menu option and keyboard shortcut for image overlays.
+cd028a575 2023-08-20 Hy Murveit           Implement refresh button. Avoid adding to status widget when not in main thread.
+ce758d961 2023-08-18 Jasem Mutlaq         Fix rotator going to zero after startup due to signals not blocked properly as they should during startup
+569871dac 2023-08-18 Wolfgang Reissenberger Aperture calculation corrected for DSLR lenses
+047e68676 2023-08-17 Yuri Chornoivan      Fix minor typos
+1303316ac 2023-08-16 Tetsuya Kakura       Fix capture count on Windows
+fe874a997 2023-08-10 Hy Murveit           Update tooltips for scheduler steps.
+6906f4cd4 2023-08-16 Yuri Chornoivan      Fix minor typos
+d0affd0b5 2023-08-15 Hy Murveit           fix i18n bug
+35af5ee3f 2023-08-15 Hy Murveit           Add image overlays docbook page.
+9dce95eb9 2023-08-15 Hy Murveit           Add i18n to imageOverlay.
+cb21bb20b 2023-08-15 Jasem Mutlaq         Simplify. Add button to refresh files (not yet implemented)
+f93ab7486 2023-08-15 Hy Murveit           Image Overlay Component.
+6dba08055 2023-08-15 Jasem Mutlaq         Fix Active Device
+e522b191d 2023-08-14 Wolfgang Reissenberger Refactoring Capture | extracting process steps (continued)
+a4432a087 2023-08-14 Jasem Mutlaq         Mosaic tiles now account for focal reducer
+d48b03e20 2023-08-14 John Evans           Focus looping reset bug
+5cefcc588 2023-08-13 Pino Toscano         Explicitly include fitsdata.h
+c4d79967a 2023-08-12 Jasem Mutlaq         Fix too large font size in mosaic
+d05688569 2023-08-12 Pino Toscano         Explicitly include fitsdata.h
+6d6e8bc36 2023-08-11 Wolfgang Reissenberger New placeholders in placeholder path
+fb7dd987b 2023-08-11 Yuri Chornoivan      Fix XML
+1cf8fe875 2023-08-10 Antoni Bella Pérez   doc: GUI Sync
+340761130 2023-08-06 Jasem Mutlaq         Default align profile should be default
+2fddd09c3 2023-08-04 Hy Murveit           Fix handbook link
+7422de4d7 2023-08-04 Oliver Kellogg       ekos/align/polaralignmentassistant.cpp (getPAHMessage) : Fix typo in i18n message of case PAH_REFRESH with (pAHRefreshAlgorithm->currentIndex() == P..
+e17f98a63 2023-08-02 Yuri Chornoivan      Fix minor typo
+08c0ceeb7 2023-08-02 Jasem Mutlaq         Starting KStars v3.6.7 development cycle
+5972c874a 2023-08-02 Albert Astals Cid    Fix compilation in some systems
+2f581f88c 2023-08-01 Jasem Mutlaq         Fix typo
+2f4cddbb1 2023-07-31 Hy Murveit           Update guider section of the handbook
+1de8adb48 2023-07-31 Yuri Chornoivan      Fix minor typo
+
 3.6.6 (GREEDY):
 
 d19108b68 2023-07-31 Jasem Mutlaq         Add missing time info
