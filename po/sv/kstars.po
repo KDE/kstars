@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-29 00:39+0000\n"
-"PO-Revision-Date: 2023-09-17 20:41+0200\n"
+"PO-Revision-Date: 2023-09-29 20:24+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -34269,10 +34269,9 @@ msgstr "Spara bilder från internt inriktning på disk?"
 
 #. i18n: ectx: label, entry (SaveFailedAlignImages), group (General)
 #: kstars.kcfg:1433
-#, fuzzy, kde-format
-#| msgid "Save Internal Align images on disk?"
+#, kde-format
 msgid "Save Failed Align images on disk?"
-msgstr "Spara bilder från internt inriktning på disk?"
+msgstr "Spara misslyckade inriktningsbilder på disk?"
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1437
@@ -73345,26 +73344,21 @@ msgstr "Spara justeringsbilder"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Save Internal Align frames. Only enable to "
-#| "troubleshoot align by examining frames. This can consume some extra "
-#| "storage space.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Align images where align failed. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Spara bilder från internt guidningsverktyg. Aktivera "
-"bara för att felsöka justeringen genom att granska bildrutorna. Det kan "
-"konsumera visst extra lagringsutrymme.</p></body></html>"
+"<html><head/><body><p>Spara inriktningsbilder där inriktningen misslyckades. "
+"Aktivera bara för att felsöka inriktningen genom att granska bildrutor. Det "
+"kan konsumera visst extra lagringsutrymme.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:73
-#, fuzzy, kde-format
-#| msgid "Save Align Images"
+#, kde-format
 msgid "Save Failed Align Images"
-msgstr "Spara justeringsbilder"
+msgstr "Spara misslyckade inriktningsbilder"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
