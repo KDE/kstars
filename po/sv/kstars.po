@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-28 00:39+0000\n"
-"PO-Revision-Date: 2023-09-17 20:41+0200\n"
+"POT-Creation-Date: 2023-09-29 00:39+0000\n"
+"PO-Revision-Date: 2023-09-29 20:24+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -7622,7 +7622,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr "Vändningsprincip: "
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7638,7 +7638,7 @@ msgstr ""
 "programmen för astronomisk bildbehandling kan hantera &quot;vända&quot; "
 "bilder.</p></body></html>"
 
-#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, kde-format
 msgid "Preserve rotator angle"
@@ -27689,40 +27689,40 @@ msgstr "Misslyckades uppdatera historik: %1"
 msgid "Failed to write image: %1"
 msgstr "Misslyckades skriva bild: %1"
 
-#: fitsviewer/fitsdata.cpp:2774 fitsviewer/fitsdata.cpp:2785
-#: fitsviewer/fitsdata.cpp:2821 fitsviewer/fitsdata.cpp:2857
-#: fitsviewer/fitsdata.cpp:2904
+#: fitsviewer/fitsdata.cpp:2778 fitsviewer/fitsdata.cpp:2789
+#: fitsviewer/fitsdata.cpp:2825 fitsviewer/fitsdata.cpp:2861
+#: fitsviewer/fitsdata.cpp:2908
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Inget världskoordinatsystem hittades."
 
-#: fitsviewer/fitsdata.cpp:3626
+#: fitsviewer/fitsdata.cpp:3630
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Bara 8- och 16-bitars bilder med Bayer stöds."
 
-#: fitsviewer/fitsdata.cpp:3659
+#: fitsviewer/fitsdata.cpp:3663
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Bayer-mönster %1 stöds inte"
 
-#: fitsviewer/fitsdata.cpp:3690
+#: fitsviewer/fitsdata.cpp:3694
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Bayer-förskjutningar %1 %2 stöds inte."
 
-#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3805
-#: fitsviewer/fitsdata.cpp:3850 fitsviewer/fitsdata.cpp:3897
+#: fitsviewer/fitsdata.cpp:3762 fitsviewer/fitsdata.cpp:3809
+#: fitsviewer/fitsdata.cpp:3854 fitsviewer/fitsdata.cpp:3901
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Kan inte reservera minne för tillfällig Bayer-buffert: %1"
 
-#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3860
+#: fitsviewer/fitsdata.cpp:3772 fitsviewer/fitsdata.cpp:3864
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Kan inte reservera minne för tillfällig Bayer-buffert."
 
-#: fitsviewer/fitsdata.cpp:3788 fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3792 fitsviewer/fitsdata.cpp:3884
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Bayer-borttagning misslyckades (%1)"
@@ -34269,10 +34269,9 @@ msgstr "Spara bilder från internt inriktning på disk?"
 
 #. i18n: ectx: label, entry (SaveFailedAlignImages), group (General)
 #: kstars.kcfg:1433
-#, fuzzy, kde-format
-#| msgid "Save Internal Align images on disk?"
+#, kde-format
 msgid "Save Failed Align images on disk?"
-msgstr "Spara bilder från internt inriktning på disk?"
+msgstr "Spara misslyckade inriktningsbilder på disk?"
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1437
@@ -73345,26 +73344,21 @@ msgstr "Spara justeringsbilder"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Save Internal Align frames. Only enable to "
-#| "troubleshoot align by examining frames. This can consume some extra "
-#| "storage space.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Align images where align failed. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Spara bilder från internt guidningsverktyg. Aktivera "
-"bara för att felsöka justeringen genom att granska bildrutorna. Det kan "
-"konsumera visst extra lagringsutrymme.</p></body></html>"
+"<html><head/><body><p>Spara inriktningsbilder där inriktningen misslyckades. "
+"Aktivera bara för att felsöka inriktningen genom att granska bildrutor. Det "
+"kan konsumera visst extra lagringsutrymme.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:73
-#, fuzzy, kde-format
-#| msgid "Save Align Images"
+#, kde-format
 msgid "Save Failed Align Images"
-msgstr "Spara justeringsbilder"
+msgstr "Spara misslyckade inriktningsbilder"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23

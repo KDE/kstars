@@ -2213,9 +2213,13 @@ double FITSData::getHFR(HFRType type)
         {
             // HFR_ADJ_AVERAGE - so adjust the HFR based on the stars brightness
             // HFRadj = HFR.erf(sqrt(ln(peak/background)))/(1 - background/peak)
-            // Sanity check inputs to equation blowing up
+            // Sanity check inputs to prevent equation blowing up
             if (m_SkyBackground.mean <= 0.0 || center->val < m_SkyBackground.mean)
-                qCDebug(KSTARS_FITS) << "HFR Adj, sky background " << m_SkyBackground.mean << " star peak " << center->val << " ignoring";
+            {
+                HFRs.push_back(center->HFR);
+                qCDebug(KSTARS_FITS) << "HFR Adj, sky background " << m_SkyBackground.mean << " star peak " << center->val <<
+                                     " not adjusting";
+            }
             else
             {
                 const double a_div_b = center->val / m_SkyBackground.mean;

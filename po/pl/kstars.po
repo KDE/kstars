@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1661099 $
+# Version: $Revision: 1661183 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-28 00:39+0000\n"
+"POT-Creation-Date: 2023-09-29 00:39+0000\n"
 "PO-Revision-Date: 2023-07-08 08:53+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -7697,7 +7697,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7708,7 +7708,7 @@ msgid ""
 "images.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, fuzzy, kde-format
 #| msgid "Rotator Angle"
@@ -27952,40 +27952,40 @@ msgstr "Nie można uaktualnić historii: %1"
 msgid "Failed to write image: %1"
 msgstr "Nie udało się zapisać obrazu: %1"
 
-#: fitsviewer/fitsdata.cpp:2774 fitsviewer/fitsdata.cpp:2785
-#: fitsviewer/fitsdata.cpp:2821 fitsviewer/fitsdata.cpp:2857
-#: fitsviewer/fitsdata.cpp:2904
+#: fitsviewer/fitsdata.cpp:2778 fitsviewer/fitsdata.cpp:2789
+#: fitsviewer/fitsdata.cpp:2825 fitsviewer/fitsdata.cpp:2861
+#: fitsviewer/fitsdata.cpp:2908
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Nie znaleziono układu współrzędnych świata."
 
-#: fitsviewer/fitsdata.cpp:3626
+#: fitsviewer/fitsdata.cpp:3630
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Obsługiwane są obrazy bayered tylko o głębi 8 i 16 bitów."
 
-#: fitsviewer/fitsdata.cpp:3659
+#: fitsviewer/fitsdata.cpp:3663
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Nieobsługiwany wzór bayera %1."
 
-#: fitsviewer/fitsdata.cpp:3690
+#: fitsviewer/fitsdata.cpp:3694
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nieobsługiwane przesunięcia bayera %1 %2."
 
-#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3805
-#: fitsviewer/fitsdata.cpp:3850 fitsviewer/fitsdata.cpp:3897
+#: fitsviewer/fitsdata.cpp:3762 fitsviewer/fitsdata.cpp:3809
+#: fitsviewer/fitsdata.cpp:3854 fitsviewer/fitsdata.cpp:3901
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Nie można przydzielić pamięci do tymczasowego bufora bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3860
+#: fitsviewer/fitsdata.cpp:3772 fitsviewer/fitsdata.cpp:3864
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Nie można przydzielić pamięci do tymczasowego bufora bayer."
 
-#: fitsviewer/fitsdata.cpp:3788 fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3792 fitsviewer/fitsdata.cpp:3884
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Niepowodzenie debayer (%1)"

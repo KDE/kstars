@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-28 00:39+0000\n"
+"POT-Creation-Date: 2023-09-29 00:39+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -280,7 +280,7 @@ msgid ""
 "Local color scheme file could not be opened.\n"
 "Scheme cannot be recorded."
 msgstr ""
-"Non se puido abrir o ficheiro local de esquemas de cor.\n"
+"Non foi posíbel abrir o ficheiro local de esquemas de cor.\n"
 "Non se pode gravar o esquema."
 
 #: auxiliary/colorscheme.cpp:287
@@ -289,7 +289,7 @@ msgid ""
 "Local color scheme index file could not be opened.\n"
 "Scheme cannot be recorded."
 msgstr ""
-"Non se puido abrir o ficheiro índice de esquemas de cor.\n"
+"Non foi posíbel abrir o ficheiro índice de esquemas de cor.\n"
 "Non se pode gravar o esquema."
 
 #: auxiliary/filedownloader.cpp:94
@@ -372,12 +372,12 @@ msgstr "A imaxe gardouse en %1."
 #: tools/scriptbuilder.cpp:920
 #, kde-format
 msgid "Could not upload image to remote location: %1"
-msgstr "Non se puido enviar a imaxe á localización remota: %1"
+msgstr "Non foi posíbel enviar a imaxe á localización remota: %1"
 
 #: auxiliary/imageexporter.cpp:236
 #, kde-format
 msgid "Could not export image: URL %1 invalid"
-msgstr "Non se puido exportar a imaxe: O URL %1 é incorrecto"
+msgstr "Non foi posíbel exportar a imaxe: O URL %1 é incorrecto"
 
 #: auxiliary/imageviewer.cpp:117
 #, fuzzy, kde-format
@@ -727,23 +727,23 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
-"Non se poden atopar os executábeis «dcraw» e «cjpeg». Instáleos para "
+"Non é posíbel atopar os executábeis «dcraw» e «cjpeg». Instáleos para "
 "converter ficheiros CR2 e NEF en JPEG."
 
 #: auxiliary/ksutils.cpp:1682
 #, kde-format
 msgid "Cannot open %1: %2"
-msgstr "Non se pode abrir %1: %2"
+msgstr "Non é posíbel abrir %1: %2"
 
 #: auxiliary/ksutils.cpp:1690
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
-msgstr "Non se pode desestacionar a miniatura %1: %2"
+msgstr "Non é posíbel desestacionar a miniatura %1: %2"
 
 #: auxiliary/ksutils.cpp:1701
 #, kde-format
 msgid "Cannot write %s %1: %2"
-msgstr "Non se pode escribir %s %1: %2"
+msgstr "Non é posíbel escribir %s %1: %2"
 
 #: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:179
 #: ekos/scheduler/framingassistantui.cpp:194
@@ -861,12 +861,12 @@ msgstr "Resultados da busca:"
 #: auxiliary/thumbnailpicker.cpp:353
 #, kde-format
 msgid "Failed to load image at %1"
-msgstr "Non se puido cargar a imaxe en %1"
+msgstr "Non foi posíbel cargar a imaxe en %1"
 
 #: auxiliary/thumbnailpicker.cpp:353
 #, kde-format
 msgid "Failed to load image"
-msgstr "Non se puido cargar a imaxe"
+msgstr "Non foi posíbel cargar a imaxe"
 
 #: auxiliary/thumbnailpicker.h:38
 #, kde-format
@@ -3735,7 +3735,7 @@ msgstr ""
 #: dialogs/detaildialog.cpp:1211 dialogs/detaildialog.cpp:1220
 #, kde-format
 msgid "Unable to save image to %1"
-msgstr "Non se pode gardar a imaxe en %1"
+msgstr "Non é posíbel gardar a imaxe en %1"
 
 #: dialogs/detaildialog.cpp:1212 dialogs/detaildialog.cpp:1221
 #, kde-format
@@ -4265,7 +4265,7 @@ msgstr "Recanto inferior dereito"
 #: dialogs/exportimagedialog.cpp:126
 #, kde-format
 msgid "Could not export image"
-msgstr "Non se puido exportar a imaxe"
+msgstr "Non foi posíbel exportar a imaxe"
 
 #. i18n: ectx: property (title), widget (QGroupBox, legendGroupBox)
 #: dialogs/exportimagedialog.ui:17
@@ -4788,7 +4788,7 @@ msgstr "Os campos están baleiros"
 #: dialogs/locationdialog.cpp:323
 #, kde-format
 msgid "Could not parse the Latitude/Longitude."
-msgstr "Non se puido procesar a latitude/lonxitude."
+msgstr "Non foi posíbel procesar a latitude/lonxitude."
 
 #: dialogs/locationdialog.cpp:324
 #, kde-format
@@ -4813,24 +4813,24 @@ msgstr "Regras de troco de horario verán/inverno (DST)"
 #: dialogs/locationdialog.cpp:623
 #, kde-format
 msgid "Cannot add new location -- city name blank"
-msgstr "Non se pode engadir o novo lugar, o nome da cidade está baleiro"
+msgstr "Non é posíbel engadir o novo lugar, o nome da cidade está baleiro"
 
 #: dialogs/locationdialog.cpp:627
 #, kde-format
 msgid "Cannot add new location -- country name blank"
-msgstr "Non se pode engadir o novo lugar, o nome do país está baleiro"
+msgstr "Non é posíbel engadir o novo lugar, o nome do país está baleiro"
 
 #: dialogs/locationdialog.cpp:631
 #, kde-format
 msgid "Cannot add new location -- invalid latitude / longitude"
 msgstr ""
-"Non se pode engadir o novo lugar, o valor de latitude e lonxitude é "
+"Non é posíbel engadir o novo lugar, o valor de latitude e lonxitude é "
 "incorrecto"
 
 #: dialogs/locationdialog.cpp:635
 #, kde-format
 msgid "Cannot add new location -- missing UTC Offset"
-msgstr "Non se pode engadir o novo lugar, falta o desprazamento de UTC"
+msgstr "Non é posíbel engadir o novo lugar, falta o desprazamento de UTC"
 
 #: dialogs/locationdialog.cpp:639
 #, kde-format
@@ -6050,7 +6050,7 @@ msgstr ""
 #: ekos/align/align.cpp:1564 ekos/focus/focus.cpp:1735
 #, kde-format
 msgid "Capturing image..."
-msgstr "Estase a capturar a imaxe…"
+msgstr "Capturando a imaxe…"
 
 #: ekos/align/align.cpp:1654 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:2587
@@ -6429,7 +6429,7 @@ msgstr "O URL é incorrecto: %1"
 #: ekos/scheduler/scheduler.cpp:3843 ekos/scheduler/scheduler.cpp:6221
 #, kde-format
 msgid "Unable to write to file %1"
-msgstr "Non se pode escribir no ficheiro %1."
+msgstr "Non é posíbel escribir no ficheiro %1."
 
 #: ekos/align/align.cpp:3855 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:2093
@@ -6447,7 +6447,7 @@ msgstr "Non se pode escribir no ficheiro %1."
 #: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
-msgstr "Non se puido abrir o ficheiro"
+msgstr "Non foi posíbel abrir o ficheiro"
 
 #: ekos/align/align.cpp:3876
 #, kde-format
@@ -7108,7 +7108,7 @@ msgstr "Abrir a lista de aliñamento de Ekos"
 #: ekos/scheduler/scheduler.cpp:3505 ekos/scheduler/scheduler.cpp:6164
 #, kde-format
 msgid "Unable to open file %1"
-msgstr "Non se pode abrir o ficheiro %1."
+msgstr "Non é posíbel abrir o ficheiro %1."
 
 #: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:2119
 #, kde-format
@@ -7129,7 +7129,7 @@ msgstr "Gardar a lista de aliñamento de Ekos"
 #: ekos/align/mountmodel.cpp:383
 #, kde-format
 msgid "Failed to save alignment list"
-msgstr "Non se puido gardar a lista de aliñamento."
+msgstr "Non foi posíbel gardar a lista de aliñamento."
 
 #: ekos/align/mountmodel.cpp:429
 #, kde-format
@@ -7887,7 +7887,7 @@ msgstr ""
 msgid "Flip Policy: "
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
 #, kde-format
 msgid ""
@@ -7898,7 +7898,7 @@ msgid ""
 "images.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, FlipRotationAllowed)
+#. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
 #, fuzzy, kde-format
 #| msgid "Rotator Angle"
@@ -9714,7 +9714,8 @@ msgstr "Agora a información de SCM é válida. Capturando o seguinte fotograma�
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
-"Non se puido procesar o sistema de coordenadas mundial: %1. Inténteo de novo."
+"Non foi posíbel procesar o sistema de coordenadas mundial: %1. Inténteo de "
+"novo."
 
 #: ekos/align/polaralignmentassistant.cpp:1172
 #, fuzzy, kde-format
@@ -10192,18 +10193,18 @@ msgid ""
 "Cannot set solver to remote. The Ekos equipment profile must include the "
 "astrometry Auxiliary driver."
 msgstr ""
-"Non se pode poñer o resolvedor como remoto. O perfil de equipamento de Ekos "
-"debe incluír o controlador Auxiliary de astrometría."
+"Non é posíbel poñer o resolvedor como remoto. O perfil de equipamento de "
+"Ekos debe incluír o controlador Auxiliary de astrometría."
 
 #: ekos/align/remoteastrometryparser.cpp:50
 #, kde-format
 msgid "Cannot open file %1 for reading."
-msgstr "Non se pode abrir o ficheiro %1 para lectura."
+msgstr "Non é posíbel abrir o ficheiro %1 para lectura."
 
 #: ekos/align/remoteastrometryparser.cpp:60
 #, kde-format
 msgid "Failed to find solver properties."
-msgstr "Non se puideron atopar as propiedades do resolvedor."
+msgstr "Non foi posíbel atopar as propiedades do resolvedor."
 
 #: ekos/align/remoteastrometryparser.cpp:85
 #, kde-format
@@ -10218,7 +10219,7 @@ msgstr "Iniciando o resolvedor remoto…"
 #: ekos/align/remoteastrometryparser.cpp:112
 #, kde-format
 msgid "Failed to find solver settings."
-msgstr "Non se puido atopar a configuración do resolvedor."
+msgstr "Non foi posíbel atopar a configuración do resolvedor."
 
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
 #: ekos/observatory/observatory.cpp:356 indi/indidome.cpp:21
@@ -11635,7 +11636,7 @@ msgstr "Non se puido cargar o ficheiro de fotograma escuro %1"
 #: ekos/auxiliary/darklibrary.cpp:464
 #, kde-format
 msgid "Failed to load dark frame file %1"
-msgstr "Non se puido cargar o ficheiro de fotograma escuro %1"
+msgstr "Non foi posíbel cargar o ficheiro de fotograma escuro %1"
 
 #: ekos/auxiliary/darklibrary.cpp:524
 #, fuzzy, kde-format
@@ -13260,7 +13261,7 @@ msgstr "Iniciar o exame"
 #: ekos/auxiliary/serialportassistant.cpp:291
 #, kde-format
 msgid "Failed to scan devices."
-msgstr "Non se puideron examinar os dispositivos."
+msgstr "Non foi posíbel examinar os dispositivos."
 
 #: ekos/auxiliary/serialportassistant.cpp:300
 #: ekos/auxiliary/serialportassistant.cpp:311
@@ -13269,7 +13270,7 @@ msgid ""
 "Failed to detect any devices. Please make sure device is powered and "
 "connected to StellarMate via USB."
 msgstr ""
-"Non se puido detectar ningún dispositivo. Asegúrese de que ten batería e "
+"Non foi posíbel detectar ningún dispositivo. Asegúrese de que ten batería e "
 "está conectado a StellarMate por USB."
 
 #: ekos/auxiliary/serialportassistant.cpp:350
@@ -13290,7 +13291,7 @@ msgstr "Completouse o tramado"
 #: ekos/auxiliary/serialportassistant.cpp:384
 #, kde-format
 msgid "Failed to add a new rule."
-msgstr "Non se puido engadir unha nova regra."
+msgstr "Non foi posíbel engadir unha nova regra."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SerialPortAssistant)
 #: ekos/auxiliary/serialportassistant.ui:14
@@ -14583,12 +14584,12 @@ msgstr "Gardar a fila da secuencia de Ekos"
 #: ekos/capture/capture.cpp:2499
 #, kde-format
 msgid "Failed to save sequence queue"
-msgstr "Non se puido gardar a fila da secuencia."
+msgstr "Non foi posíbel gardar a fila da secuencia."
 
 #: ekos/capture/capture.cpp:2531
 #, kde-format
 msgid "Could not open file"
-msgstr "Non se puido abrir o ficheiro"
+msgstr "Non foi posíbel abrir o ficheiro"
 
 #: ekos/capture/capture.cpp:2551
 #, kde-format
@@ -15893,7 +15894,7 @@ msgstr "Non quedan traballos na cola do planificador."
 #: ekos/capture/captureprocess.cpp:263 ekos/capture/captureprocess.cpp:798
 #, kde-format
 msgid "Cannot capture while focus module is busy."
-msgstr "Non se pode capturar mentres o módulo de enfoque está ocupado."
+msgstr "Non é posíbel capturar mentres o módulo de enfoque está ocupado."
 
 #: ekos/capture/captureprocess.cpp:270
 #, kde-format
@@ -15971,12 +15972,12 @@ msgstr "Continuouse o guiado automático."
 #: ekos/capture/captureprocess.cpp:788
 #, kde-format
 msgid "Failed to set sub frame."
-msgstr "Non se puido configurar o sub fotograma."
+msgstr "Non foi posíbel configurar o sub fotograma."
 
 #: ekos/capture/captureprocess.cpp:793
 #, kde-format
 msgid "Failed to set binning."
-msgstr "Non se puido configurar a eliminación de ruído (binning)."
+msgstr "Non foi posíbel configurar a eliminación de ruído (binning)."
 
 #: ekos/capture/captureprocess.cpp:1044
 #, kde-format
@@ -16007,7 +16008,7 @@ msgstr "Erro: Perdeuse a conexión ao dispositivo de carga acoplada (CCD)."
 #: ekos/capture/captureprocess.cpp:1324
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
-msgstr "Non se poden calcular os niveis de ADU en imaxes non FITS."
+msgstr "Non é posíbel calcular os niveis de ADU en imaxes non FITS."
 
 #: ekos/capture/captureprocess.cpp:1436 ekos/capture/captureprocess.cpp:1931
 #, kde-format
@@ -16109,7 +16110,7 @@ msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
-"Non se pode calcular unha configuración de exposición óptima. Proceda "
+"Non é posíbel calcular unha configuración de exposición óptima. Proceda "
 "manualmente."
 
 #: ekos/capture/captureprocess.cpp:2064
@@ -17603,7 +17604,7 @@ msgstr "Recibiuse o FITS. Non se detectou ningunha estrela."
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
-"Non se puido escoller automaticamente unha estrela. Escolla unha á mao."
+"Non foi posíbel escoller automaticamente unha estrela. Escolla unha á mao."
 
 #: ekos/focus/focus.cpp:2758
 #, kde-format
@@ -17640,8 +17641,8 @@ msgstr ""
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
-"Non se puido detectar ningunha estrela. Restabelecer o fotograma e intentalo "
-"de novo."
+"Non foi posíbel detectar ningunha estrela. Restabelecer o fotograma e "
+"intentalo de novo."
 
 #: ekos/focus/focus.cpp:3164
 #, kde-format
@@ -17676,8 +17677,8 @@ msgstr ""
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
-"Non se puido detectar a estrela para enfocar no marco. Capture e seleccione "
-"unha estrela para enfocar."
+"Non foi posíbel detectar a estrela para enfocar no marco. Capture e "
+"seleccione unha estrela para enfocar."
 
 #: ekos/focus/focus.cpp:3389
 #, kde-format
@@ -17745,7 +17746,7 @@ msgstr "Reiniciando o proceso de enfoque automático…"
 #: ekos/focus/focus.cpp:4028
 #, kde-format
 msgid "Starting continuous exposure..."
-msgstr "Estase a iniciar a exposición continua…"
+msgstr "Iniciando a exposición continua…"
 
 #: ekos/focus/focus.cpp:4292
 #, kde-format
@@ -19958,37 +19959,37 @@ msgstr "Seleccionouse unha estrela automaticamente %1"
 #: ekos/guide/externalguide/linguider.cpp:175
 #, kde-format
 msgid "Failed to process star position."
-msgstr "Non se puido procesar a posición da estrela."
+msgstr "Non foi posíbel procesar a posición da estrela."
 
 #: ekos/guide/externalguide/linguider.cpp:188
 #, kde-format
 msgid "Failed to set guider reticle position."
-msgstr "Non se puido definir a posición da retícula da guía."
+msgstr "Non foi posíbel definir a posición da retícula da guía."
 
 #: ekos/guide/externalguide/linguider.cpp:200
 #, kde-format
 msgid "Failed to set guider square position."
-msgstr "Non se puido definir a posición cadrada da guía."
+msgstr "Non foi posíbel definir a posición cadrada da guía."
 
 #: ekos/guide/externalguide/linguider.cpp:226
 #, kde-format
 msgid "Failed to start guider."
-msgstr "Non se puido iniciar a guía."
+msgstr "Non foi posíbel iniciar a guía."
 
 #: ekos/guide/externalguide/linguider.cpp:228
 #, kde-format
 msgid "Failed to stop guider."
-msgstr "Non se puido deter a guía."
+msgstr "Non foi posíbel deter a guía."
 
 #: ekos/guide/externalguide/linguider.cpp:253
 #, kde-format
 msgid "Failed to get RA/DEC Drift."
-msgstr "Non se puido obter a deriva de α e δ."
+msgstr "Non foi posíbel obter a deriva de α e δ."
 
 #: ekos/guide/externalguide/linguider.cpp:267
 #, kde-format
 msgid "Failed to set dither range."
-msgstr "Non se puido definir o intervalo de tramado."
+msgstr "Non foi posíbel definir o intervalo de tramado."
 
 #: ekos/guide/externalguide/phd2.cpp:134
 #, kde-format
@@ -20436,7 +20437,7 @@ msgstr "A exposición fallou. Reiniciándoa…"
 #: ekos/guide/guide.cpp:1798
 #, kde-format
 msgid "Cannot change guider type while active."
-msgstr "Non se pode cambiar o tipo de guía mentres está cativo."
+msgstr "Non é posíbel cambiar o tipo de guía mentres está cativo."
 
 #: ekos/guide/guide.cpp:1889
 #, kde-format
@@ -20450,7 +20451,7 @@ msgstr ""
 #: ekos/guide/guide.cpp:2272
 #, kde-format
 msgid "Calibration failed to start."
-msgstr "Non se puido iniciar a calibración."
+msgstr "Non foi posíbel iniciar a calibración."
 
 #: ekos/guide/guide.cpp:2423
 #, kde-format
@@ -20460,7 +20461,7 @@ msgstr "Seleccionouse unha estrela automaticamente."
 #: ekos/guide/guide.cpp:2427
 #, kde-format
 msgid "Failed to select an auto star."
-msgstr "Non se puido seleccionar unha estrela automática."
+msgstr "Non foi posíbel seleccionar unha estrela automática."
 
 #: ekos/guide/guide.cpp:2436
 #, kde-format
@@ -21378,7 +21379,7 @@ msgstr "Superouse o valor de limiar de RMS de delta. Buscando estrelas guía…"
 #: ekos/guide/internalguide/internalguider.cpp:1185
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
-msgstr "Non se puideron atopar estrelas guía axeitadas. Interrompendo…"
+msgstr "Non foi posíbel atopar estrelas guía axeitadas. Interrompendo…"
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
 #: ekos/guide/manualdither.ui:22 kstarslite/qml/dialogs/DetailsDialog.qml:138
@@ -22658,7 +22659,7 @@ msgstr "Conectando ao servidor remoto de INDI en %1 no porto %2…"
 #: ekos/manager.cpp:981
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
-msgstr "Non se puido iniciar o perfil no xestor web remoto de INDI."
+msgstr "Non foi posíbel iniciar o perfil no xestor web remoto de INDI."
 
 #: ekos/manager.cpp:985
 #, kde-format
@@ -22756,7 +22757,7 @@ msgid ""
 "%1\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
-"Non se pode estabelecer:\n"
+"Non é posíbel estabelecer:\n"
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
@@ -22773,7 +22774,7 @@ msgid ""
 "%1\n"
 "Please ensure each device is connected and powered on."
 msgstr ""
-"Non se pode estabelecer unha cos seguintes dispositivos:\n"
+"Non é posíbel estabelecer unha cos seguintes dispositivos:\n"
 "%1\n"
 "Asegúrese de que os dispositivos están conectados e acendidos."
 
@@ -22932,7 +22933,8 @@ msgstr "Actualizouse a localización do sitio a %1."
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
-"Non se puido actualizar a localización do sitio a %1. Non se atopou a cidade."
+"Non foi posíbel actualizar a localización do sitio a %1. Non se atopou a "
+"cidade."
 
 #: ekos/manager.cpp:2710
 #, kde-format
@@ -23345,7 +23347,7 @@ msgstr "Baleirouse o modelo de aliñamento."
 #: ekos/mount/mount.cpp:1452
 #, kde-format
 msgid "Failed to clear Alignment Model."
-msgstr "Non se puido baleirar o modelo de aliñamento."
+msgstr "Non foi posíbel baleirar o modelo de aliñamento."
 
 #: ekos/mount/mount.cpp:1562 ekos/scheduler/scheduler.cpp:5364
 #, kde-format
@@ -24856,7 +24858,7 @@ msgstr "Editor de perfís"
 #: ekos/profileeditor.cpp:115
 #, kde-format
 msgid "Cannot save an empty profile."
-msgstr "Non se pode gardar un perfil baleiro."
+msgstr "Non é posíbel gardar un perfil baleiro."
 
 #: ekos/profileeditor.cpp:127
 #, fuzzy, kde-format
@@ -25386,8 +25388,8 @@ msgid ""
 "Failed to detect any StellarMate gadget. Make sure it is powered and on the "
 "same network."
 msgstr ""
-"Non se puido detectar ningún trebello de StellarMate. Asegúrese de que ten "
-"batería e está na mesma rede."
+"Non foi posíbel detectar ningún trebello de StellarMate. Asegúrese de que "
+"ten batería e está na mesma rede."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfileWizard)
 #: ekos/profilewizard.ui:26
@@ -26957,7 +26959,8 @@ msgstr "Conectáronse dispositivos de INDI."
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr ""
-"Non se puido conectar un ou máis dispositivos de INDI. Intentándoo de novo…"
+"Non foi posíbel conectar un ou máis dispositivos de INDI. Intentándoo de "
+"novo…"
 
 #: ekos/scheduler/scheduler.cpp:2423
 #, kde-format
@@ -26965,7 +26968,7 @@ msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr ""
-"Non se puideron conectar un ou máis dispositivos de INDI. Para máis "
+"Non foi posíbel conectar un ou máis dispositivos de INDI. Para máis "
 "información, revise o panel de control de INDI."
 
 #: ekos/scheduler/scheduler.cpp:2432
@@ -27152,7 +27155,7 @@ msgstr "Gardar a lista do planificador de Ekos"
 #: ekos/scheduler/scheduler.cpp:3822
 #, kde-format
 msgid "Failed to save scheduler list"
-msgstr "Non se puido gardar a lista do planificador."
+msgstr "Non foi posíbel gardar a lista do planificador."
 
 #: ekos/scheduler/scheduler.cpp:4013
 #, kde-format
@@ -27613,7 +27616,7 @@ msgstr "Terminou o procedemento de apagamento."
 #: ekos/scheduler/scheduler.cpp:6459
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
-msgstr "Non se pode abrir o ficheiro de cola de secuencia «%1»"
+msgstr "Non é posíbel abrir o ficheiro de cola de secuencia «%1»"
 
 #: ekos/scheduler/scheduler.cpp:6597
 #, kde-format
@@ -28598,7 +28601,7 @@ msgstr "Produciuse un erro ao ler o búfer FITS."
 #: fitsviewer/fitsdata.cpp:263
 #, kde-format
 msgid "Failed to unpack compressed fits"
-msgstr "Non se puido desempaquetar o FITS comprimido"
+msgstr "Non foi posíbel desempaquetar o FITS comprimido"
 
 #: fitsviewer/fitsdata.cpp:279
 #, fuzzy, kde-format
@@ -28750,32 +28753,32 @@ msgstr "Non se puido editar a cidade"
 msgid "Failed to write image: %1"
 msgstr "Non se puido cargar a imaxe en %1"
 
-#: fitsviewer/fitsdata.cpp:2774 fitsviewer/fitsdata.cpp:2785
-#: fitsviewer/fitsdata.cpp:2821 fitsviewer/fitsdata.cpp:2857
-#: fitsviewer/fitsdata.cpp:2904
+#: fitsviewer/fitsdata.cpp:2778 fitsviewer/fitsdata.cpp:2789
+#: fitsviewer/fitsdata.cpp:2825 fitsviewer/fitsdata.cpp:2861
+#: fitsviewer/fitsdata.cpp:2908
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Non se atopou ningún sistema de coordenadas mundial."
 
-#: fitsviewer/fitsdata.cpp:3626
+#: fitsviewer/fitsdata.cpp:3630
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 "Só se admiten imaxes de 8 e 16 bits con información do padrón de Bayer."
 
-#: fitsviewer/fitsdata.cpp:3659
+#: fitsviewer/fitsdata.cpp:3663
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Padrón de Bayer incompatíbel %1."
 
-#: fitsviewer/fitsdata.cpp:3690
+#: fitsviewer/fitsdata.cpp:3694
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Padrón de Bayer incompatíbel %1."
 
-#: fitsviewer/fitsdata.cpp:3758 fitsviewer/fitsdata.cpp:3805
-#: fitsviewer/fitsdata.cpp:3850 fitsviewer/fitsdata.cpp:3897
+#: fitsviewer/fitsdata.cpp:3762 fitsviewer/fitsdata.cpp:3809
+#: fitsviewer/fitsdata.cpp:3854 fitsviewer/fitsdata.cpp:3901
 #, fuzzy, kde-format
 #| msgid "Unable to allocate memory for temporary bayer buffer."
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
@@ -28783,14 +28786,14 @@ msgstr ""
 "Non se pode reservar memoria para o búfer temporal para información do "
 "padrón de Bayer."
 
-#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3860
+#: fitsviewer/fitsdata.cpp:3772 fitsviewer/fitsdata.cpp:3864
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
-"Non se pode reservar memoria para o búfer temporal para información do "
+"Non é posíbel reservar memoria para o búfer temporal para información do "
 "padrón de Bayer."
 
-#: fitsviewer/fitsdata.cpp:3788 fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3792 fitsviewer/fitsdata.cpp:3884
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "A debayer (%1) fallou."
@@ -29128,7 +29131,7 @@ msgstr "O cambio de escala da imaxe fallou."
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
-"Non se pode achegar máis porque o modo de recursos limitados está activo."
+"Non é posíbel achegar máis porque o modo de recursos limitados está activo."
 
 #: fitsviewer/fitsview.cpp:1735
 #, kde-format
@@ -29931,7 +29934,7 @@ msgstr "Valores de píxel"
 #: fitsviewer/starprofileviewer.cpp:49
 #, kde-format
 msgid "Couldn't initialize the OpenGL context."
-msgstr "Non se puido preparar o contexto de OpenGL."
+msgstr "Non foi posíbel preparar o contexto de OpenGL."
 
 #: fitsviewer/starprofileviewer.cpp:60
 #, fuzzy, kde-format
@@ -30326,7 +30329,7 @@ msgstr ""
 #: indi/clientmanagerlite.cpp:155 indi/clientmanagerlite.cpp:162
 #, kde-format
 msgid "Could not connect to the Web Manager"
-msgstr "Non se puido conectar co xestor web"
+msgstr "Non foi posíbel conectar co xestor web"
 
 #: indi/clientmanagerlite.cpp:179 indi/clientmanagerlite.cpp:211
 #: indi/clientmanagerlite.cpp:219
@@ -30365,7 +30368,7 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2 to JPEG."
 msgstr ""
-"Non se poden atopar os executábeis «dcraw» e «cjpeg». Instáleos para "
+"Non é posíbel atopar os executábeis «dcraw» e «cjpeg». Instáleos para "
 "converter ficheiros do formato CR2 ao formato JPEG."
 
 #: indi/customdrivers.cpp:106
@@ -30376,7 +30379,7 @@ msgstr "A etiqueta xa existe. A etiqueta debe ser única."
 #: indi/customdrivers.cpp:122
 #, kde-format
 msgid "Failed to add new driver. Is the label unique?"
-msgstr "Non se puido engadir o novo controlador. É única a súa etiqueta?"
+msgstr "Non foi posíbel engadir o novo controlador. É única a súa etiqueta?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: indi/customdrivers.ui:55
@@ -30468,7 +30471,7 @@ msgstr "Xa se está a executar o controlador %1; quérelo reiniciar?"
 #: indi/drivermanager.cpp:357 indi/indidriver.cpp:309
 #, kde-format, kde-kuit-format
 msgid "Cannot start INDI server: port error."
-msgstr "Non se pode iniciar o servidor de INDI: hai un erro no porto."
+msgstr "Non é posíbel iniciar o servidor de INDI: hai un erro no porto."
 
 #: indi/drivermanager.cpp:365
 #, fuzzy, kde-format
@@ -30501,7 +30504,7 @@ msgstr ""
 #: indi/drivermanager.cpp:1023 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
-msgstr "Non se puido abrir o ficheiro do controlador do INDI: %1"
+msgstr "Non foi posíbel abrir o ficheiro do controlador do INDI: %1"
 
 #: indi/drivermanager.cpp:1389
 #, fuzzy, kde-format
@@ -30543,7 +30546,7 @@ msgid ""
 "Unable to write to file 'indihosts.xml'\n"
 "Any changes to INDI hosts configurations will not be saved."
 msgstr ""
-"Non se pode escribir no ficheiro «indihosts.xml»\n"
+"Non é posíbel escribir no ficheiro «indihosts.xml»\n"
 "Non se gardará ningún cambio da configuración dos servidores INDI."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DriverManager)
@@ -30645,7 +30648,7 @@ msgid ""
 "No INDI devices currently running. To run devices, please select devices "
 "from the Device Manager in the devices menu."
 msgstr ""
-"Non hai dispositivos INDI en funcionamento. Para utilizar dispositivos, "
+"Non hai dispositivos INDI en funcionamento. Para usar dispositivos, "
 "escólleos no Xestor de dispositivos no menú de dispositivos."
 
 #: indi/indicamera.cpp:441
@@ -30771,7 +30774,7 @@ msgstr "FLUXO DE DATOS INDI"
 #: indi/indielement.cpp:624
 #, kde-format
 msgid "Cannot open file %1 for reading"
-msgstr "Non se pode abrir o ficheiro %1 para lectura"
+msgstr "Non é posíbel abrir o ficheiro %1 para lectura"
 
 #: indi/indielement.cpp:633
 #, kde-format
@@ -30900,7 +30903,7 @@ msgstr "O ficheiro de datos gardouse en %1"
 #: indi/indiwebmanager.cpp:239
 #, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
-msgstr "Non se puido iniciar o controlador %1 no servidor remoto de INDI."
+msgstr "Non foi posíbel iniciar o controlador %1 no servidor remoto de INDI."
 
 #: indi/opsindi.cpp:41
 #, kde-format
@@ -33720,32 +33723,31 @@ msgstr "O algoritmo co que se proxecta o mapa."
 #: kstars.kcfg:741
 #, kde-format
 msgid "Use abbreviated constellation names?"
-msgstr "Utilizar os nomes abreviados das constelacións?"
+msgstr "Usar os nomes abreviados das constelacións?"
 
 #. i18n: ectx: whatsthis, entry (UseAbbrevConstellNames), group (View)
 #: kstars.kcfg:742
 #, kde-format
 msgid "Use official IAU abbreviations for constellation names."
-msgstr ""
-"Utilizar as abreviacións oficiais da IAU para os nomes das constelacións."
+msgstr "Usar as abreviacións oficiais da IAU para os nomes das constelacións."
 
 #. i18n: ectx: label, entry (UseLatinConstellNames), group (View)
 #: kstars.kcfg:746
 #, kde-format
 msgid "Use Latin constellation names?"
-msgstr "Utilizar os nomes das constelacións en latín?"
+msgstr "Usar os nomes das constelacións en latín?"
 
 #. i18n: ectx: whatsthis, entry (UseLatinConstellNames), group (View)
 #: kstars.kcfg:747
 #, kde-format
 msgid "Use Latin constellation names."
-msgstr "Utiliza os nomes latinos das constelacións."
+msgstr "Usa os nomes latinos das constelacións."
 
 #. i18n: ectx: label, entry (UseLocalConstellNames), group (View)
 #: kstars.kcfg:751
 #, kde-format
 msgid "Use localized constellation names?"
-msgstr "Utilizar os nomes das constelacións no teu idioma?"
+msgstr "Usar os nomes das constelacións no teu idioma?"
 
 #. i18n: ectx: whatsthis, entry (UseLocalConstellNames), group (View)
 #: kstars.kcfg:752
@@ -33754,14 +33756,14 @@ msgid ""
 "Use localized constellation names (if localized names are not available, "
 "default to Latin names)."
 msgstr ""
-"Utiliza os nomes traducidos das constelacións (se non estiveren dispoñíbeis, "
+"Usa os nomes traducidos das constelacións (se non estiveren dispoñíbeis, "
 "recorrerase aos latinos)."
 
 #. i18n: ectx: label, entry (UseAltAz), group (View)
 #: kstars.kcfg:756
 #, kde-format
 msgid "Use horizontal coordinate system?"
-msgstr "Utilizar un sistema de coordenadas horizontais?"
+msgstr "Usar un sistema de coordenadas horizontais?"
 
 #. i18n: ectx: whatsthis, entry (UseAltAz), group (View)
 #: kstars.kcfg:757
@@ -67389,7 +67391,7 @@ msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
 "'indiserver' binary is installed."
 msgstr ""
-"Non se pode atopar o servidor de INDI. Asegúrese de que o paquete que "
+"Non é posíbel atopar o servidor de INDI. Asegúrese de que o paquete que "
 "fornece o executábel «indiserver» estea instalado."
 
 #: kstarsactions.cpp:718
@@ -67495,7 +67497,7 @@ msgstr "Non se permite executar scripts externos."
 #: kstarsactions.cpp:1374 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
 msgid "Could not open file %1"
-msgstr "Non se puido abrir o ficheiro %1"
+msgstr "Non foi posíbel abrir o ficheiro %1"
 
 #: kstarsactions.cpp:1399
 #, kde-format
@@ -67523,7 +67525,7 @@ msgstr "Executar aínda así"
 #: kstarsactions.cpp:1411
 #, kde-format
 msgid "Running script: %1"
-msgstr "Estase a executar o guión: %1"
+msgstr "Executando o guión: %1"
 
 #: kstarsactions.cpp:1429
 #, kde-format
@@ -67538,7 +67540,7 @@ msgid ""
 "Chart color scheme for printing?"
 msgstr ""
 "Pode aforrar tinta de impresora usando o esquema de cores «Carta estelar», "
-"que utiliza un fondo branco. Quere cambiar temporalmente para ese esquema de "
+"que usa un fondo branco. Quere cambiar temporalmente para ese esquema de "
 "cores para imprimir?"
 
 #: kstarsactions.cpp:1446
@@ -67651,8 +67653,9 @@ msgid ""
 "\n"
 "It appears that your setup is broken."
 msgstr ""
-"Non se puido atopar o ficheiro %1. KStars non pode funcionar correctamente "
-"sen este ficheiro. KStars busca este ficheiro nos lugares seguintes:\n"
+"Non foi posíbel atopar o ficheiro %1. KStars non pode funcionar "
+"correctamente sen este ficheiro. KStars busca este ficheiro nos lugares "
+"seguintes:\n"
 "\n"
 "\t%2\n"
 "\n"
@@ -67698,7 +67701,7 @@ msgstr "Estanse a cargar os datos das cidades"
 #: kstarsdata.cpp:193
 #, kde-format
 msgid "Loading User Information"
-msgstr "Estase a cargar a información do usuario"
+msgstr "Cargando a información do usuario"
 
 #: kstarsdata.cpp:197
 #, kde-format
@@ -67729,12 +67732,12 @@ msgstr "O ficheiro é incorrecto: %1"
 #: kstarsdata.cpp:1143
 #, kde-format
 msgid "Could not set time: %1 / %2 / %3 ; %4:%5:%6"
-msgstr "Non se puido axustar a hora: %1 / %2 / %3; %4:%5:%6"
+msgstr "Non foi posíbel axustar a hora: %1 / %2 / %3; %4:%5:%6"
 
 #: kstarsdata.cpp:1472
 #, kde-format
 msgid "Could not set location named %1, %2, %3"
-msgstr "Non se puido escoller o lugar chamado %1, %2, %3"
+msgstr "Non foi posíbel escoller o lugar chamado %1, %2, %3"
 
 #: kstarsdata.cpp:1552 kstarslite/dialogs/detaildialoglite.cpp:686
 #, kde-format
@@ -67742,7 +67745,7 @@ msgid ""
 "Custom image-links file could not be opened.\n"
 "Link cannot be recorded for future sessions."
 msgstr ""
-"Non se puido abrir o ficheiro personalizado de ligazóns a imaxes.\n"
+"Non foi posíbel abrir o ficheiro personalizado de ligazóns a imaxes.\n"
 "As ligazóns non poden gardarse para sesións futuras."
 
 #: kstarsdata.cpp:1554 kstarslite/dialogs/detaildialoglite.cpp:711
@@ -67751,7 +67754,7 @@ msgid ""
 "Custom information-links file could not be opened.\n"
 "Link cannot be recorded for future sessions."
 msgstr ""
-"Non se puido abrir o ficheiro personalizado de ligazóns a información.\n"
+"Non foi posíbel abrir o ficheiro personalizado de ligazóns a información.\n"
 "As ligazóns non poden gardarse para sesións futuras."
 
 #: kstarsdata.cpp:1654 kstarsdata.cpp:1676
@@ -68889,14 +68892,14 @@ msgid ""
 "Could not fetch location name (check your Internet connection). Added with "
 "default name"
 msgstr ""
-"Non se puido obter o nome do lugar (revise a súa conexión a Internet). "
+"Non foi posíbel obter o nome do lugar (revise a súa conexión a Internet). "
 "Engadiuse cun nome predeterminado"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:66
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:96
 #, kde-kuit-format
 msgid "Failed to set location"
-msgstr "Non se puido definir o lugar"
+msgstr "Non foi posíbel definir o lugar"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:71
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:100
@@ -68908,7 +68911,7 @@ msgstr "Estabeleceuse o lugar"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:102
 #, kde-kuit-format
 msgid "Could not set your location"
-msgstr "Non se puido definir o seu lugar"
+msgstr "Non foi posíbel definir o seu lugar"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:76
 #, kde-kuit-format
@@ -68916,7 +68919,7 @@ msgid ""
 "Could not fetch location name (check your Internet connection). Set default "
 "name"
 msgstr ""
-"Non se puido obter o nome do lugar (revise a súa conexión a Internet). "
+"Non foi posíbel obter o nome do lugar (revise a súa conexión a Internet). "
 "Estabeleceuse o nome predeterminado"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:148
@@ -69027,7 +69030,7 @@ msgstr "O lugar xa existe. Cambie a cidade, a provincia ou o país"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:414
 #, kde-kuit-format
 msgid "Failed to add location"
-msgstr "Non se puido engadir o lugar"
+msgstr "Non foi posíbel engadir o lugar"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:417
 #, kde-kuit-format
@@ -69037,7 +69040,7 @@ msgstr "Engadiuse un novo lugar - %1"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:423
 #, kde-kuit-format
 msgid "Failed to edit city"
-msgstr "Non se puido editar a cidade"
+msgstr "Non foi posíbel editar a cidade"
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:14
 #, kde-kuit-format
@@ -69087,7 +69090,7 @@ msgstr "Definir %1 como o lugar actual"
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:63
 #, kde-kuit-format
 msgid "Could not set as the current location"
-msgstr "Non se puido definir como o lugar actual"
+msgstr "Non foi posíbel definir como o lugar actual"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:70
 #, kde-kuit-format
@@ -69162,7 +69165,7 @@ msgstr "Conectouse co servidor"
 #: kstarslite/qml/indi/INDIControlPanel.qml:219
 #, kde-kuit-format
 msgid "Could not connect to the server"
-msgstr "Non se puido conectar co servidor"
+msgstr "Non foi posíbel conectar co servidor"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:235
 #, kde-kuit-format
@@ -73496,14 +73499,14 @@ msgstr "Ficheiros FITS para abrir."
 #: main.cpp:239 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
-msgstr "Non se puido interpretar o formato de imaxe %1; asúmese que é PNG."
+msgstr "Non foi posíbel interpretar o formato de imaxe %1; asúmese que é PNG."
 
 #: main.cpp:297
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
-"A cadea de data fornecida é incorrecta: %1. Utilízase no canto a data/hora "
-"da CPU."
+"A cadea de data fornecida é incorrecta: %1. Úsase no canto a data/hora da "
+"CPU."
 
 #: main.cpp:328
 #, kde-format
@@ -73513,12 +73516,12 @@ msgstr "Executouse o guión."
 #: main.cpp:332
 #, kde-format
 msgid "Could not execute script."
-msgstr "Non se puido executar o guión."
+msgstr "Non foi posíbel executar o guión."
 
 #: main.cpp:356
 #, kde-format
 msgid "Using CPU date/time instead."
-msgstr "Utilízase no canto a data/hora da CPU."
+msgstr "Úsase no canto a data/hora da CPU."
 
 #: oal/equipmentwriter.cpp:32
 #, fuzzy, kde-format
@@ -74347,7 +74350,7 @@ msgstr ""
 #: options/opsadvanced.ui:596
 #, kde-format
 msgid "Use animated slewing"
-msgstr "Utilizar a animación da focalización"
+msgstr "Usar a animación da focalización"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: options/opsadvanced.ui:603
@@ -74810,13 +74813,13 @@ msgid ""
 "Local color scheme index file could not be opened.\n"
 "Scheme cannot be removed."
 msgstr ""
-"Non se puido abrir o ficheiro de índice do esquemas de cor local\n"
+"Non foi posíbel abrir o ficheiro de índice do esquemas de cor local\n"
 "O esquema non pode retirarse."
 
 #: options/opscolors.cpp:295
 #, kde-format
 msgid "Could not delete the file: %1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel eliminar o ficheiro: %1"
 
 #: options/opscolors.cpp:296
 #, kde-format
@@ -74826,7 +74829,7 @@ msgstr "Produciuse un erro ao eliminar o ficheiro"
 #: options/opscolors.cpp:308
 #, kde-format
 msgid "Could not find an entry named %1 in colors.dat."
-msgstr "Non se puido atopar unha entrada chamada %1 en colors.dat."
+msgstr "Non foi posíbel atopar unha entrada chamada %1 en colors.dat."
 
 #: options/opscolors.cpp:309
 #, kde-format
@@ -75187,13 +75190,13 @@ msgstr "Opcións do nome das constelacións"
 #: options/opsguides.ui:127
 #, kde-format
 msgid "Use Latin constellation names"
-msgstr "Utilizar os nomes das constelacións en latín"
+msgstr "Usar os nomes das constelacións en latín"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:130
 #, kde-format
 msgid "Select this to use Latin constellation names on the sky map"
-msgstr "Escolle esta opción para utilizar os nomes das constelacións en latín"
+msgstr "Escolle esta opción para usar os nomes das constelacións en latín"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:133
@@ -75213,7 +75216,7 @@ msgstr "Usar os nomes das constelacións no teu idioma"
 msgid ""
 "Select this to use constellation names from your locality (if available)"
 msgstr ""
-"Escolle esta opción para utilizar os nomes de constelación no teu idioma (se "
+"Escolle esta opción para usar os nomes de constelación no teu idioma (se "
 "estiveren dispoñíbeis)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseLocalConstellNames)
@@ -75226,7 +75229,7 @@ msgstr "Traducido"
 #: options/opsguides.ui:159
 #, kde-format
 msgid "Use IAU abbreviations"
-msgstr "Utilizar as abreviaturas da IAU"
+msgstr "Usar as abreviaturas da IAU"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
 #: options/opsguides.ui:162
@@ -75235,7 +75238,7 @@ msgid ""
 "Select this to use abbreviations from the International Astronomical Union "
 "as constellation labels"
 msgstr ""
-"Escolle esta opción para utilizar as abreviaturas da Unión Astronómica "
+"Escolle esta opción para usar as abreviaturas da Unión Astronómica "
 "Internacional como lendas das constelacións"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
@@ -75267,7 +75270,7 @@ msgstr ""
 #: options/opsguides.ui:214
 #, kde-format
 msgid "Use filled Milky Way contour?"
-msgstr "Quere utilizar contornos preenchidos para a Vía Láctea?"
+msgstr "Quere usar contornos preenchidos para a Vía Láctea?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:217
@@ -75685,7 +75688,7 @@ msgstr ""
 #: options/opssolarsystem.ui:72
 #, kde-format
 msgid "Use images"
-msgstr "Utilizar imaxes"
+msgstr "Usar imaxes"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMars)
 #: options/opssolarsystem.ui:79
@@ -75718,7 +75721,7 @@ msgstr ""
 #: options/opssolarsystem.ui:101
 #, kde-format
 msgid "Use name labels"
-msgstr "Utilizar lendas co nome"
+msgstr "Usar lendas co nome"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAllPlanets)
 #: options/opssolarsystem.ui:108
@@ -76315,7 +76318,7 @@ msgstr "Navegador de instantáneas de campo de visión"
 #: tools/scriptbuilder.cpp:921
 #, kde-format
 msgid "Could not upload file"
-msgstr "Non se puido enviar o ficheiro"
+msgstr "Non foi posíbel enviar o ficheiro"
 
 #: printing/foveditordialog.cpp:247
 #, kde-format
@@ -76850,7 +76853,7 @@ msgstr "Exportar"
 #: printing/pwizprint.cpp:126
 #, kde-format
 msgid "Could not upload file to remote location: %1"
-msgstr "Non se puido enviar o ficheiro á localización remota: %1"
+msgstr "Non foi posíbel enviar o ficheiro á localización remota: %1"
 
 #. i18n: ectx: property (text), widget (QLabel, stepTitle)
 #: printing/pwizprint.ui:77
@@ -77030,7 +77033,7 @@ msgstr "Sen iconas"
 #: skycomponents/horizoncomponent.cpp:28
 #, kde-format
 msgid "Creating horizon"
-msgstr "Estase a crear o horizonte"
+msgstr "Creando o horizonte"
 
 #: skycomponents/imageoverlaycomponent.cpp:60
 #, fuzzy, kde-format
@@ -77238,7 +77241,7 @@ msgstr "Non hai información dispoñíbel da imaxe."
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
 msgid "Loading %1"
-msgstr "Estase a cargar %1"
+msgstr "Cargando %1"
 
 #: skycomponents/localmeridiancomponent.cpp:20
 #, kde-format
@@ -77253,7 +77256,7 @@ msgstr "Compoñente do meridiano local"
 #: skycomponents/milkyway.cpp:32
 #, kde-format
 msgid "Loading Milky Way"
-msgstr "Estase a cargar a Vía Láctea"
+msgstr "Cargando a Vía Láctea"
 
 #: skycomponents/milkyway.cpp:33
 #, kde-format
@@ -77348,7 +77351,7 @@ msgstr ""
 #: skycomponents/solarsystemcomposite.cpp:25
 #, kde-format
 msgid "Loading solar system"
-msgstr "Estase a cargar o Sistema Solar"
+msgstr "Cargando o Sistema Solar"
 
 #: skycomponents/starcomponent.cpp:65
 #, kde-format
@@ -77879,12 +77882,12 @@ msgstr "Erro ao procesar «TimeZoneRule»; configurando a regra como baleira."
 #: time/timezonerule.cpp:104
 #, kde-format
 msgid "Could not parse %1 as a valid month code."
-msgstr "Non se puido procesar %1 como código de mes correcto."
+msgstr "Non foi posíbel procesar %1 como código de mes correcto."
 
 #: time/timezonerule.cpp:217
 #, kde-format
 msgid "Could not parse %1 as a valid day code."
-msgstr "Non se puido procesar %1 como código de día correcto."
+msgstr "Non foi posíbel procesar %1 como código de día correcto."
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:2
@@ -78154,7 +78157,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Pódense axustar as coordenadas do Foco central manualmente.\n"
-"\t\t\tPreme Ctrl+M, ou utiliza o elemento de menú «Foco->Axustar o foco "
+"\t\t\tPreme Ctrl+M, ou usa o elemento de menú «Foco->Axustar o foco "
 "manualmente…»\n"
 "\t\t\te insire as coordenadas desexadas na xanela.\n"
 "\t\t</p>\n"
@@ -78171,7 +78174,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Para cambiar entre os sistemas de coordenadas ecuatorial e\n"
-"\t\t\thorizontal, utiliza o elemento de menú «Ver->Coordenadas» ou\n"
+"\t\t\thorizontal, usa o elemento de menú «Ver->Coordenadas» ou\n"
 "\t\t\tpreme a barra espazadora.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -79199,7 +79202,7 @@ msgid ""
 "RA and Dec coordinates of the object, and then press the \"Plot\" button to "
 "add its curve to the plot."
 msgstr ""
-"Hai dúas maneiras de utilizar este campo:\n"
+"Hai dúas maneiras de usar este campo:\n"
 "\n"
 "1. Escribe o nome dun obxecto coñecido e preme o botón «Representar» (ou "
 "preme Intro). A curva de Altitude fronte a Tempo do obxecto engadirase ao "
@@ -79477,7 +79480,7 @@ msgstr "Amosar o diálogo de impresión"
 #: tools/argprintimage.ui:29
 #, kde-format
 msgid "Use star chart colors"
-msgstr "Utilizar as cores da carta estelar"
+msgstr "Usar as cores da carta estelar"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argsetcolor.ui:30
@@ -80100,7 +80103,7 @@ msgstr "Exportar os eclipses"
 #: tools/eclipsetool.cpp:224
 #, kde-format
 msgid "Could not export."
-msgstr "Non se puideron exportar."
+msgstr "Non foi posíbel exportar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: tools/eclipsetool.ui:89
@@ -80241,7 +80244,7 @@ msgstr "Predefinición:"
 #: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1395
 #, kde-format
 msgid "Failed to download DSS/SDSS image."
-msgstr "Non se puido descargar a imaxe DSS ou SDSS."
+msgstr "Non foi posíbel descargar a imaxe DSS ou SDSS."
 
 #: tools/flagmanager.cpp:51
 #, fuzzy, kde-format
@@ -80566,7 +80569,7 @@ msgstr "Segunda posición"
 #: tools/scriptbuilder.cpp:982
 #, kde-format
 msgid "Could not open file %1."
-msgstr "Non se puido abrir o ficheiro %1."
+msgstr "Non foi posíbel abrir o ficheiro %1."
 
 #: tools/modcalcangdist.cpp:145 tools/modcalcapcoord.cpp:155
 #: tools/modcalcdaylength.cpp:269 tools/modcalcgalcoord.cpp:203
@@ -81768,12 +81771,12 @@ msgstr[1] ""
 #: tools/observinglist.cpp:1163
 #, kde-format
 msgid "Cannot save an empty session list."
-msgstr "Non se pode gardar unha lista de sesións baleira."
+msgstr "Non é posíbel gardar unha lista de sesións baleira."
 
 #: tools/observinglist.cpp:1175
 #, kde-format
 msgid "Could not open file %1.  Try a different filename?"
-msgstr "Non se puido abrir o ficheiro %1. Quere intentar cun nome distinto?"
+msgstr "Non foi posíbel abrir o ficheiro %1. Quere intentar cun nome distinto?"
 
 #: tools/observinglist.cpp:1176
 #, kde-format
@@ -82701,7 +82704,7 @@ msgid ""
 "strokes are possible; use 'space' for the spacebar."
 msgstr ""
 "Parar a execución do guión ata se premer a tecla indicada. Só se admiten "
-"eventos dunha única tecla, utiliza «space» para a barra espazadora."
+"eventos dunha única tecla, usa «space» para a barra espazadora."
 
 #: tools/scriptbuilder.cpp:213
 #, kde-format
@@ -83098,7 +83101,7 @@ msgstr "Opcións do mapa celeste"
 #, kde-format
 msgid "Use Horizontal coordinates? (otherwise, use Equatorial)"
 msgstr ""
-"Quere utilizar as coordenadas horizontais? (en caso contrario úsanse as "
+"Quere usar as coordenadas horizontais? (en caso contrario úsanse as "
 "ecuatoriais)"
 
 #: tools/scriptbuilder.cpp:638
@@ -83210,7 +83213,7 @@ msgstr ""
 #: tools/scriptbuilder.cpp:814
 #, kde-format
 msgid "Could not download remote file."
-msgstr "Non se puido descargar o ficheiro remoto."
+msgstr "Non foi posíbel descargar o ficheiro remoto."
 
 #: tools/scriptbuilder.cpp:814
 #, kde-format
@@ -83233,7 +83236,7 @@ msgstr ""
 #: tools/scriptbuilder.cpp:1109
 #, kde-format
 msgid "Could not parse script.  Line was: %1"
-msgstr "Non se puido procesar o guión. A liña foi a: %1"
+msgstr "Non foi posíbel procesar o guión. A liña foi a: %1"
 
 #: tools/scriptbuilder.cpp:1520 tools/scriptbuilder.cpp:1524
 #: tools/scriptbuilder.cpp:1578 tools/scriptbuilder.cpp:2004
@@ -83357,7 +83360,7 @@ msgid ""
 msgstr ""
 "Isto amosa a lista de ordes presentes no guión actual. Se realza algunha "
 "orde, aparecerá en baixo un trebello onde has poder indicar os argumentos. "
-"Utiliza os botóns de acción da dereita para copiar, retirar ou cambiar a "
+"Usa os botóns de acción da dereita para copiar, retirar ou cambiar a "
 "posición da orde escollida. "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
@@ -83666,8 +83669,7 @@ msgstr "Visíbel agora: A uns %1 graos sobre o horizonte %2"
 #, kde-format
 msgid "Select telescope from list to use or add a new telescope"
 msgstr ""
-"Escolla o telescopio da lista que desexe utilizar ou engada un telescopio "
-"novo."
+"Escolla o telescopio da lista que desexe usar ou engada un telescopio novo."
 
 #. i18n: ectx: property (title), widget (QGroupBox, scopeDetailsBox)
 #: tools/whatsinteresting/wiequipsettings.ui:82

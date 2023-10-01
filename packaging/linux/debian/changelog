@@ -1,13 +1,14 @@
+kstars-bleeding (6:3.6.7) jammy; urgency=medium
+
+  * 3.6.7 Upstream release.
+
+ -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Sat, 31 Sep 2023 08:30:00 +0300
+
 kstars-bleeding (6:3.6.6) jammy; urgency=medium
 
   * 3.6.6 Upstream release.
 
  -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Thu, 1 Jun 2023 08:30:00 +0300
-kstars-bleeding (6:3.6.7) jammy; urgency=medium
-
-  * 3.6.7 Upstream release.
-
- -- Jasem Mutlaq <mutlaqja@ikarustech.com>  Wed, 2 Aug 2023 08:30:00 +0300
 
 kstars-bleeding (6:3.6.5) jammy; urgency=medium
 
