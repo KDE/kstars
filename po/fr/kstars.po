@@ -9629,9 +9629,9 @@ msgid ""
 "you're finished.</p>"
 msgstr ""
 "<p>Ajustez les <i>boutons de réglages de l'altitude et de l'azimut</i> de la "
-"monture pour réduire l'erreur d'alignement polaire.</p><p></p>Soyez patient, "
-"la résolution peut être affectée par les mouvements des boutons. N'utilisez "
-"les résultats qu'après deux images. Cliquez sur <i>Arrêter</i> pour terminer "
+"monture pour réduire l'erreur d'alignement polaire.</p><p>Soyez patient, la "
+"résolution peut être affectée par les mouvements des boutons. N'utilisez les "
+"résultats qu'après deux images. Cliquez sur <i>Arrêter</i> pour terminer "
 "l'opération.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1231
@@ -18720,7 +18720,7 @@ msgstr ""
 "pas</span> pouvant produire une modification visible de la valeur « HFR ». "
 "Pour la gestion de mise au point utilisant un minuteur, c'est le temps "
 "initial en millisecondes pour déplacer le gestionnaire de mise au point vers "
-"l'intérieur ou vers l'extérieur."
+"l'intérieur ou vers l'extérieur.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/focus.ui:2334
@@ -27352,7 +27352,7 @@ msgstr ""
 "Cela est utile si vous souhaitez que les tâches de mosaïque se répètent "
 "ensemble. Assignez leurs un nom de groupe et donnez leurs la condition "
 "d'achèvement <i>Répéter pour N (N=2 ou plus)</i> ou <i>Répéter jusqu'à "
-"achèvement</>. Sinon, laissez vide. Ne s'applique que pour l'algorithme "
+"achèvement</i>. Sinon, laissez vide. Ne s'applique que pour l'algorithme "
 "Greedy.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
@@ -74783,7 +74783,7 @@ msgstr ""
 "toujours possible de saisir les données d'AD, de DEC, d'échelle et "
 "d'orientation dans les colonnes appropriées de la ligne adéquate et ensuite "
 "régler manuellement l'état à OK, mais vous pouvez aussi régler l'état à "
-"quelque chose d'autre pour activer la résolution."
+"quelque chose d'autre pour activer la résolution.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:255
