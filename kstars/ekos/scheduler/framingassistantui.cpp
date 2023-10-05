@@ -645,7 +645,8 @@ void FramingAssistantUI::createJobs()
             {"group", tiles->group()},
             {"ra", oneTile->skyCenter.ra0().toHMSString()},
             {"dec", oneTile->skyCenter.dec0().toDMSString()},
-            {"pa", tiles->positionAngle()},
+            // Take care of standard range for position angle
+            {"pa", KSUtils::rangePA(tiles->positionAngle())},
             {"sequence", oneSequence},
             {"track", ui->trackStepCheck->isChecked()},
             {"focus", shouldFocus},
