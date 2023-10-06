@@ -3806,21 +3806,27 @@ void Capture::showTemperatureRegulation()
     devices()->getActiveCamera()->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_SLOPE", &rMin, &rMax, &rStep);
     devices()->getActiveCamera()->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_THRESHOLD", &tMin, &tMax, &tStep);
 
-    QLabel rampLabel(i18nc("Temperature ramp celcius per minute", "Ramp (C/min):"));
+    QLabel rampLabel(i18nc("Maximum temperature variation over time when regulating.", "Ramp (°C/min):"));
     QDoubleSpinBox rampSpin;
     rampSpin.setMinimum(rMin);
     rampSpin.setMaximum(rMax);
     rampSpin.setSingleStep(rStep);
     rampSpin.setValue(currentRamp);
-    rampSpin.setToolTip(i18n("Maximum temperature change per minute when cooling or warming the camera. Set zero to disable."));
+    rampSpin.setToolTip(i18n("<html><body>"
+                             "<p>Maximum temperature change per minute when cooling or warming the camera. Set zero to disable."
+                             "<p>This setting is read from and stored in the INDI camera driver configuration."
+                             "</body></html>"));
 
-    QLabel thresholdLabel(i18n("Threshold:"));
+    QLabel thresholdLabel(i18nc("Temperature threshold above which regulation triggers.", "Threshold (°C):"));
     QDoubleSpinBox thresholdSpin;
     thresholdSpin.setMinimum(tMin);
     thresholdSpin.setMaximum(tMax);
     thresholdSpin.setSingleStep(tStep);
     thresholdSpin.setValue(currentThreshold);
-    thresholdSpin.setToolTip(i18n("Maximum difference between camera and target temperatures"));
+    thresholdSpin.setToolTip(i18n("<html><body>"
+                                  "<p>Maximum difference between camera and target temperatures triggering regulation."
+                                  "<p>This setting is read from and stored in the INDI camera driver configuration."
+                                  "</body></html>"));
 
     QFormLayout layout;
     layout.addRow(&rampLabel, &rampSpin);
