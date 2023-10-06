@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-29 00:39+0000\n"
+"POT-Creation-Date: 2023-10-06 00:39+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -578,7 +578,7 @@ msgid "Error"
 msgstr "Erro"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/scheduler/framingassistantui.cpp:767
+#: ekos/scheduler/framingassistantui.cpp:768
 #, kde-format
 msgid "Sorry"
 msgstr "Desculpe"
@@ -764,8 +764,8 @@ msgstr ""
 
 #: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:179
 #: ekos/scheduler/framingassistantui.cpp:194
-#: ekos/scheduler/framingassistantui.cpp:853
-#: ekos/scheduler/framingassistantui.cpp:872 skyobjects/ksplanetbase.h:60
+#: ekos/scheduler/framingassistantui.cpp:854
+#: ekos/scheduler/framingassistantui.cpp:873 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -12392,7 +12392,7 @@ msgstr "Registra a atividade do módulo de Focagem do Ekos"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:329 ekos/opsekos.ui:184
-#: ekos/scheduler/framingassistantui.cpp:665
+#: ekos/scheduler/framingassistantui.cpp:666
 #, kde-format
 msgid "Scheduler"
 msgstr "Agendador"
@@ -26281,36 +26281,36 @@ msgstr "Reiniciar até ter&minar"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:1097
+#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:1097
 #, fuzzy, kde-format
 #| msgid "Select Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Selecionar fila de sequências"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:1099
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:1099
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Fila de sequências Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:706
+#: ekos/scheduler/framingassistantui.cpp:707
 #, fuzzy, kde-format
 #| msgid "Auto Select Star"
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Seleção automática de estrelas"
 
-#: ekos/scheduler/framingassistantui.cpp:708
+#: ekos/scheduler/framingassistantui.cpp:709
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:767
+#: ekos/scheduler/framingassistantui.cpp:768
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:846
+#: ekos/scheduler/framingassistantui.cpp:847
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgctxt "@title:window"

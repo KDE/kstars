@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-29 00:39+0000\n"
+"POT-Creation-Date: 2023-10-06 00:39+0000\n"
 "PO-Revision-Date: 2023-09-24 08:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -560,7 +560,7 @@ msgid "Error"
 msgstr "Помилка"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/scheduler/framingassistantui.cpp:767
+#: ekos/scheduler/framingassistantui.cpp:768
 #, kde-format
 msgid "Sorry"
 msgstr "Вибачте"
@@ -744,8 +744,8 @@ msgstr "Не вдалося записати %s %1: %2"
 
 #: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:179
 #: ekos/scheduler/framingassistantui.cpp:194
-#: ekos/scheduler/framingassistantui.cpp:853
-#: ekos/scheduler/framingassistantui.cpp:872 skyobjects/ksplanetbase.h:60
+#: ekos/scheduler/framingassistantui.cpp:854
+#: ekos/scheduler/framingassistantui.cpp:873 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -12087,7 +12087,7 @@ msgstr "Записувати до журналу дії у модулі план
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:329 ekos/opsekos.ui:184
-#: ekos/scheduler/framingassistantui.cpp:665
+#: ekos/scheduler/framingassistantui.cpp:666
 #, kde-format
 msgid "Scheduler"
 msgstr "Планування"
@@ -25918,34 +25918,34 @@ msgstr "Циклічне повторення до п&ереривання"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Створити заплановані завдання для виконання плану мозаїки"
 
-#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:1097
+#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:1097
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Виберіть чергу послідовності"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:1099
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:1099
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "черга послідовності Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:706
+#: ekos/scheduler/framingassistantui.cpp:707
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Вибір імпортування мозаїки"
 
-#: ekos/scheduler/framingassistantui.cpp:708
+#: ekos/scheduler/framingassistantui.cpp:709
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr "CSV Telescopius (*.csv)"
 
-#: ekos/scheduler/framingassistantui.cpp:767
+#: ekos/scheduler/framingassistantui.cpp:768
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr "Імпортовані дані мають містити координати центра."
 
-#: ekos/scheduler/framingassistantui.cpp:846
+#: ekos/scheduler/framingassistantui.cpp:847
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
