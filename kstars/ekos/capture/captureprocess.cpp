@@ -427,7 +427,7 @@ void CaptureProcess::prepareJob(SequenceJob * job)
         connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
         {
             KSMessageBox::Instance()->disconnect(this);
-            abort();
+            activeJob()->abort();
         });
         KSMessageBox::Instance()->questionYesNo(i18n("No view available for previews. Enable FITS viewer?"),
                                                 i18n("Display preview"), 15);
@@ -1442,7 +1442,7 @@ void CaptureProcess::setExposureProgress(ISD::CameraChip *tChip, double value, I
 
         if (retries == 3)
         {
-            abort();
+            activeJob()->abort();
             return;
         }
 
