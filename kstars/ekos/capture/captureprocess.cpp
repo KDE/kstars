@@ -1440,7 +1440,7 @@ void CaptureProcess::setExposureProgress(ISD::CameraChip *tChip, double value, I
 
         emit newLog(i18n("Capture failed. Check INDI Control Panel for details."));
 
-        if (retries == 3)
+        if (retries >= 3)
         {
             activeJob()->abort();
             return;
@@ -1935,7 +1935,7 @@ void CaptureProcess::processCaptureError(ISD::Camera::ErrorType type)
 
         emit newLog(i18n("Capture failed. Check INDI Control Panel for details."));
 
-        if (retries == 3)
+        if (retries >= 3)
         {
             emit stopCapture(CAPTURE_ABORTED);
             return;
