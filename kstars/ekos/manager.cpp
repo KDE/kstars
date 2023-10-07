@@ -2209,6 +2209,16 @@ void Manager::initObservatory()
         int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
         connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
+
+        if (Options::ekosLeftIcons())
+        {
+            QTransform trans;
+            trans.rotate(90);
+            QIcon icon  = toolsWidget->tabIcon(index);
+            QPixmap pix = icon.pixmap(QSize(48, 48));
+            icon        = QIcon(pix.transformed(trans));
+            toolsWidget->setTabIcon(index, icon);
+        }
     }
 }
 
