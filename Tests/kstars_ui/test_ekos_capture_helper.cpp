@@ -182,3 +182,120 @@ void TestEkosCaptureHelper::cleanupScheduler()
     // remove jobs
     Ekos::Manager::Instance()->schedulerModule()->removeAllJobs();
 }
+
+QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs)
+{
+    QStringList result = serializeGeneralSettings(settings);
+
+
+    for (QVector<SimpleCaptureLightsJob>::iterator job_iter = jobs.begin(); job_iter !=  jobs.end(); job_iter++)
+        result.append(serializeJob(*job_iter));
+
+    result.append("</SequenceQueue>");
+    return result;
+}
+
+QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs)
+{
+    QStringList result = serializeGeneralSettings(settings);
+
+
+    for (QVector<SimpleCaptureCalibratingJob>::iterator job_iter = jobs.begin(); job_iter !=  jobs.end(); job_iter++)
+        result.append(serializeJob(*job_iter));
+
+    result.append("</SequenceQueue>");
+    return result;
+}
+
+QStringList TestEkosCaptureHelper::serializeGeneralSettings(CaptureSettings settings)
+{
+    QStringList result({"<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+                        "<SequenceQueue version='2.5'><CCD>CCD Simulator</CCD>",
+                        "<FilterWheel>CCD Simulator</FilterWheel>",
+                        QString("<Observer>%1</Observer>").arg(settings.observer),
+                        QString("<GuideDeviation enabled='%1'>%2</GuideDeviation>").arg(settings.guideDeviation.enabled ? "true" : "false").arg(settings.guideDeviation.value),
+                        QString("<GuideStartDeviation enabled='%1'>%2</GuideStartDeviation>").arg(settings.startGuideDeviation.enabled ? "true" : "false").arg(settings.startGuideDeviation.value),
+                        QString("<Autofocus enabled='%1'>%2</Autofocus>").arg(settings.inSequenceFocus.enabled ? "true" : "false").arg(settings.inSequenceFocus.value),
+                        QString("<RefocusOnTemperatureDelta enabled='%1'>%2</RefocusOnTemperatureDelta>").arg(settings.autofocusOnTemperature.enabled ? "true" : "false").arg(settings.autofocusOnTemperature.value),
+                        QString("<RefocusEveryN enabled='%1'>%2</RefocusEveryN>").arg(settings.refocusEveryN.enabled ? "true" : "false").arg(settings.refocusEveryN.value),
+                        QString("<RefocusOnMeridianFlip enabled='%1'/>").arg(settings.refocusAfterMeridianFlip ? "true" : "false")});
+
+    return result;
+}
+
+QStringList TestEkosCaptureHelper::serializeJob(const TestEkosCaptureHelper::SimpleCaptureLightsJob &job)
+{
+    QStringList result({"<Job>",
+                        QString("<Exposure>%1</Exposure>").arg(job.exposureTime),
+                        "<Format>Mono</Format>",
+                        QString("<Encoding>%1</Encoding>").arg(job.encoding),
+                        QString("<Binning><X>%1</X><Y>%2</Y></Binning>").arg(job.binX).arg(job.binY),
+                        QString("<Frame><X>%1</X><Y>%2</Y><W>%3</W><H>%4</H></Frame>").arg(job.x).arg(job.y).arg(job.w).arg(job.h),
+                        QString("<Temperature force='%2'>%1</Temperature>").arg(job.cameraTemperature.value).arg(job.cameraTemperature.enabled ? "true" : "false"),
+                        QString("<Filter>%1</Filter>").arg(job.filterName),
+                        QString("<Type>%1</Type>").arg(job.type),
+                        QString("<Count>%1</Count>").arg(job.count),
+                        QString("<Delay>%1</Delay>").arg(job.delayMS / 1000),
+                        QString("<PlaceholderFormat>%1</PlaceholderFormat>").arg(job.placeholderFormat),
+                        QString("<PlaceholderSuffix>%1</PlaceholderSuffix>").arg(job.formatSuffix),
+                        QString("<FITSDirectory>%1</FITSDirectory>").arg(job.fitsDirectory),
+                        QString("<UploadMode>%1</UploadMode>").arg(job.uploadMode),
+                        "<Properties />",
+                        "<Calibration>",
+                        "<FlatSource><Type>Manual</Type></FlatSource>",
+                        "<FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>",
+                        "<PreMountPark>False</PreMountPark>",
+                        "<PreDomePark>False</PreDomePark>",
+                        "</Calibration>",
+                        "</Job>"});
+
+    return result;
+}
+
+QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJob &job)
+{
+    QStringList result({"<Job>",
+                        QString("<Exposure>%1</Exposure>").arg(job.exposureTime),
+                        "<Format>Mono</Format>",
+                        QString("<Encoding>%1</Encoding>").arg("FITS"),
+                        QString("<Binning><X>%1</X><Y>%2</Y></Binning>").arg(2).arg(2),
+                        QString("<Frame><X>%1</X><Y>%2</Y><W>%3</W><H>%4</H></Frame>").arg(0).arg(0).arg(1280).arg(1080),
+                        QString("<Temperature force='%2'>%1</Temperature>").arg(-20).arg("true"),
+                        QString("<Filter>%1</Filter>").arg("Luminance"),
+                        QString("<Type>%1</Type>").arg(job.type),
+                        QString("<Count>%1</Count>").arg(job.count),
+                        QString("<Delay>%1</Delay>").arg(2),
+                        QString("<PlaceholderFormat>%1</PlaceholderFormat>").arg("/%t/%T/%F/%t_%T_%F_%e_%D"),
+                        QString("<PlaceholderSuffix>%1</PlaceholderSuffix>").arg(2),
+                        QString("<FITSDirectory>%1</FITSDirectory>").arg("/home/pi"),
+                        QString("<UploadMode>%1</UploadMode>").arg(0),
+                        "<Properties />",
+                        "<Calibration>"});
+
+    if (job.src_manual)
+        result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(FlatFieldSourceNames[SOURCE_MANUAL]));
+    else if (job.src_buildin_light)
+        result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(FlatFieldSourceNames[SOURCE_FLATCAP]));
+    else if (job.src_external_light)
+        result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(FlatFieldSourceNames[SOURCE_DARKCAP]));
+    else if (job.src_wall)
+        result.append({QString("<FlatSource><Type>%1</Type>").arg(FlatFieldSourceNames[SOURCE_WALL]),
+                       QString("<Az>%1</Az>").arg(job.wall_az),
+                       QString("<Alt>%1</Alt>").arg(job.wall_alt),
+                       QString("</FlatSource>")});
+
+    result.append("<FlatDuration dark='false'>");
+    if (job.duration_manual)
+        result.append("<Type>Manual</Type>");
+    else if (job.duration_adu)
+        result.append(QString("<Type>ADU</Type><Value>%1</Value><Tolerance>%2</Tolerance>").arg(job.adu).arg(job.tolerance));
+    result.append("</FlatDuration>");
+    result.append({QString("<PreMountPark>%1</PreMountPark>").arg(job.park_mount ? "True" : "False"),
+                   QString("<PreDomePark>%1</PreDomePark>").arg(job.park_dome ? "True" : "False"),
+                   "</Calibration>",
+                   "</Job>"
+                  });
+    return result;
+
+}
+

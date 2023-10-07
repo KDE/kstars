@@ -701,12 +701,31 @@ class Capture : public QWidget, public Ui::Capture
         void generateDarkFlats();
 
         /**
-             * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
-             * @param jobtype batch, preview, looping or dark flat job.
-             * @param filenamePreview if the job is to generate a preview filename
-             * @return pointer to job created or nullptr otherwise.
-             */
-        SequenceJob *addJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH, FilenamePreviewType filenamePreview = NOT_PREVIEW);
+         * @brief updateJobFromUI Update all job attributes from the UI settings.
+         */
+        void updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePreview = NOT_PREVIEW);
+
+        /**
+         * @brief addJob Add a new job to the UI. This is used when a job is loaded from a capture sequence file. In
+         * contrast to {@see #createJob()}, the job's attributes are taken from the file and only the UI gehts updated.
+         */
+        void addJob(SequenceJob *job);
+
+        /**
+         * @brief createJob Create a new job with the settings given in the GUI.
+         * @param jobtype batch, preview, looping or dark flat job.
+         * @param filenamePreview if the job is to generate a preview filename
+         * @return pointer to job created or nullptr otherwise.
+         */
+        SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH, FilenamePreviewType filenamePreview = NOT_PREVIEW);
+
+        /**
+         * @brief jobEditFinished Editing of an existing job finished, update its
+         *        attributes from the UI settings. The job under edit is taken from the
+         *        selection in the job table.
+         * @return true if job updated succeeded.
+         */
+        void editJobFinished();
 
         // ////////////////////////////////////////////////////////////////////
         // public capture settings
@@ -809,13 +828,6 @@ class Capture : public QWidget, public Ui::Capture
         // Clear Camera Configuration
         void clearCameraConfiguration();
 
-        /**
-         * @brief updateJobTable Update the table row values for the given sequence job. If the job
-         * is null, all rows will be updated
-         * @param job as identifier for the row
-         */
-        void updateJobTable(SequenceJob *job);
-
         // ////////////////////////////////////////////////////////////////////
         // slots handling device and module events
         // ////////////////////////////////////////////////////////////////////
@@ -916,7 +928,7 @@ class Capture : public QWidget, public Ui::Capture
         void resetJobs();
         bool selectJob(QModelIndex i);
         void editJob(QModelIndex i);
-        void resetJobEdit();
+        void resetJobEdit(bool cancelled = false);
 
         // Flat field
         void openCalibrationDialog();
@@ -1029,15 +1041,34 @@ class Capture : public QWidget, public Ui::Capture
         void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
 
         // ////////////////////////////////////////////////////////////////////
-        // helper functions
+        // Job table handling
         // ////////////////////////////////////////////////////////////////////
 
+
         /**
-         * @brief updateJobtableRow Update the status cell and the counts cell ofa single row
-         * from the sequence job table.
+         * @brief updateJobTable Update the table row values for the given sequence job. If the job
+         * is null, all rows will be updated
+         * @param job as identifier for the row
+         * @param full if false, then only the status and the counter will be updated.
          */
-        void updateJobTableRow(SequenceJob *job);
+        void updateJobTable(SequenceJob *job, bool full = false);
+
+        /**
+         * @brief updateJobTableCountCell Update the job counter in the job table of a sigle job
+         */
         void updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell);
+
+        // ////////////////////////////////////////////////////////////////////
+        // helper functions
+        // ////////////////////////////////////////////////////////////////////
+        // check if the upload paths are filled correctly
+        bool checkUploadPaths(FilenamePreviewType filenamePreview);
+
+        // create a new row in the job table and fill it with the given job's values
+        void createNewJobTableRow(SequenceJob *job);
+
+        // Create a Json job from the current job table row
+        QJsonObject createJsonJob(SequenceJob *job, int currentRow);
 
         // shortcut for the module state
         QSharedPointer<CaptureModuleState> state() const
@@ -1119,7 +1150,16 @@ class Capture : public QWidget, public Ui::Capture
         // reset = 1 --> Full reset
         // reset = 2 --> Only update limits if needed
         void updateFrameProperties(int reset = 0);
+
+        /**
+         * @brief syncGUIToJob Update UI to job settings
+         */
         void syncGUIToJob(SequenceJob *job);
+        /**
+         * @brief syncGUIToState Update UI to general settings from Options
+         */
+        void syncGUIToGeneralSettings();
+
         // DSLR Info
         void cullToDSLRLimits();
         //void syncDriverToDSLRLimits();
@@ -1137,21 +1177,22 @@ class Capture : public QWidget, public Ui::Capture
         // This sets and gets the custom properties target gain
         // it does not access the ccd gain property
         void setGain(double value);
-        double getGain();
+        double getGain()
+        {
+            return process()->getGain(customPropertiesDialog->getCustomProperties());
+        }
 
         void setOffset(double value);
-        double getOffset();
+        double getOffset()
+        {
+            return process()->getOffset(customPropertiesDialog->getCustomProperties());
+        }
 
         /**
          * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
          * @param nvp pointer to number property.
          */
         void processCCDNumber(INumberVectorProperty *nvp);
-
-        // ////////////////////////////////////////////////////////////////////
-        // XML capture sequence file handling
-        // ////////////////////////////////////////////////////////////////////
-        bool processJobInfo(XMLEle *root, bool ignoreTarget = false);
 
         // ////////////////////////////////////////////////////////////////////
         // Attributes
@@ -1188,7 +1229,6 @@ class Capture : public QWidget, public Ui::Capture
 
         QSharedPointer<FilterManager> m_FilterManager;
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;
-
 };
 
 }

@@ -997,6 +997,320 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
     QVERIFY(m_CaptureHelper->searchFITS(destination).size() == 1);
 }
 
+void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()
+{
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // initialize the capture settings
+    QFETCH(QString, observer);
+    QFETCH(bool, guideDeviation);
+    QFETCH(bool, startGuideDeviation);
+    QFETCH(bool, inSequenceFocus);
+    QFETCH(bool, autofocusOnTemperature);
+    QFETCH(bool, refocusEveryN);
+    QFETCH(bool, refocusAfterMeridianFlip);
+    TestEkosCaptureHelper::CaptureSettings settings;
+    settings.observer = observer;
+    settings.guideDeviation = {guideDeviation, 2.0};
+    settings.startGuideDeviation = {startGuideDeviation, 1.0};
+    settings.inSequenceFocus = {inSequenceFocus, 1.5};
+    settings.autofocusOnTemperature = {autofocusOnTemperature, 3.3};
+    settings.refocusEveryN = {refocusEveryN, 5};
+    settings.refocusAfterMeridianFlip = refocusAfterMeridianFlip;
+
+    // clear current values to ensure that we observe a change
+    QString oldObserver("unknown");
+    capture->setObserverName(oldObserver);
+    KTRY_SET_DOUBLESPINBOX(capture, limitGuideDeviationN, 0.0);
+    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, !settings.guideDeviation.enabled);
+    KTRY_SET_DOUBLESPINBOX(capture, startGuiderDriftN, 0.0);
+    KTRY_SET_CHECKBOX(capture, startGuiderDriftS, !settings.startGuideDeviation.enabled);
+    KTRY_SET_DOUBLESPINBOX(capture, limitFocusHFRN, 0.1);
+    KTRY_SET_CHECKBOX(capture, limitFocusHFRS, !settings.guideDeviation.enabled);
+    KTRY_SET_DOUBLESPINBOX(capture, limitFocusDeltaTN, 0.2);
+    KTRY_SET_CHECKBOX(capture, limitFocusDeltaTS, !settings.autofocusOnTemperature.enabled);
+    KTRY_SET_SPINBOX(capture, limitRefocusN, 100);
+    KTRY_SET_CHECKBOX(capture, limitRefocusS, !settings.refocusEveryN.enabled);
+    KTRY_SET_CHECKBOX(capture, meridianRefocusS, !settings.refocusAfterMeridianFlip);
+
+    // create capture sequence file
+    TestEkosCaptureHelper::SimpleCaptureLightsJob job;
+    QVector<TestEkosCaptureHelper::SimpleCaptureLightsJob> jobs;
+    jobs.append(job);
+    QStringList content = m_CaptureHelper->getSimpleEsqContent(settings, jobs);
+    QString esqFilename = destination->filePath("test.esq");
+    qCInfo(KSTARS_EKOS_TEST) << "Sequence file name: " << esqFilename;
+    m_CaptureHelper->writeFile(esqFilename, content);
+
+    // load the capture sequence file
+    QVERIFY2(capture->loadSequenceQueue(esqFilename), "Loading capture sequence file failed!");
+
+    // Verify the results
+    QCOMPARE(capture->getObserverName(), settings.observer);
+    QCOMPARE(limitGuideDeviationS->isChecked(), settings.guideDeviation.enabled);
+    QCOMPARE(limitGuideDeviationN->value(), settings.guideDeviation.value);
+    QCOMPARE(startGuiderDriftS->isChecked(), settings.startGuideDeviation.enabled);
+    QCOMPARE(startGuiderDriftN->value(), settings.startGuideDeviation.value);
+    QCOMPARE(limitFocusHFRS->isChecked(), settings.inSequenceFocus.enabled);
+    QCOMPARE(limitFocusHFRN->value(), settings.inSequenceFocus.value);
+    QCOMPARE(limitFocusDeltaTS->isChecked(), settings.autofocusOnTemperature.enabled);
+    QCOMPARE(limitFocusDeltaTN->value(), settings.autofocusOnTemperature.value);
+    QCOMPARE(limitRefocusS->isChecked(), settings.refocusEveryN.enabled);
+    QCOMPARE(limitRefocusN->value(), settings.refocusEveryN.value);
+    QCOMPARE(meridianRefocusS->isChecked(), settings.refocusAfterMeridianFlip);
+}
+
+void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings()
+{
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // initialize default settings
+    TestEkosCaptureHelper::CaptureSettings settings = {"Test Observer", {true, 2.0},  {true, 1.0},  {false, 1.5}, {true, 1.0}, {false, 5}, false};
+
+    // clear the UI settings
+    KTRY_SET_DOUBLESPINBOX(capture, captureExposureN, 1.0);
+    KTRY_SET_SPINBOX(capture, captureCountN, 1);
+    KTRY_SET_SPINBOX(capture, captureDelayN, 0);
+    KTRY_SET_SPINBOX(capture, captureBinHN, 1);
+    KTRY_SET_SPINBOX(capture, captureBinVN, 1);
+    KTRY_SET_SPINBOX(capture, captureFrameXN, 0);
+    KTRY_SET_SPINBOX(capture, captureFrameYN, 0);
+    KTRY_SET_SPINBOX(capture, captureFrameWN, 500);
+    KTRY_SET_SPINBOX(capture, captureFrameHN, 500);
+    KTRY_SET_COMBO(capture, FilterPosCombo, "Blue");
+    KTRY_SET_COMBO(capture, captureEncodingS, "FITS");
+    KTRY_SET_COMBO(capture, captureTypeS, "Dark");
+    KTRY_SET_LINEEDIT(capture, fileDirectoryT, "/home/pi");
+    KTRY_SET_LINEEDIT(capture, placeholderFormatT, "/%T");
+    KTRY_SET_SPINBOX(capture, formatSuffixN, 1);
+    KTRY_SET_DOUBLESPINBOX(capture, cameraTemperatureN, 10.0);
+    KTRY_SET_CHECKBOX(capture, cameraTemperatureS, false);
+    KTRY_SET_COMBO_INDEX(capture, fileUploadModeS, 1);
+
+    // create the job
+    TestEkosCaptureHelper::SimpleCaptureLightsJob job;
+    QFETCH(double, exposureTime);
+    job.exposureTime = exposureTime;
+    QFETCH(int, count);
+    job.count = count;
+    QFETCH(int, delay);
+    job.delayMS = delay;
+    QFETCH(int, binX);
+    job.binX = binX;
+    QFETCH(int, binY);
+    job.binY = binY;
+    QFETCH(int, x);
+    job.x = x;
+    QFETCH(int, y);
+    job.y = y;
+    QFETCH(int, w);
+    job.w = w;
+    QFETCH(int, h);
+    job.h = h;
+    QFETCH(QString, filter);
+    job.filterName = filter;
+    QFETCH(QString, type);
+    job.type = type;
+    QFETCH(QString, encoding);
+    job.encoding = encoding;
+    QFETCH(QString, fitsDirectory);
+    job.fitsDirectory = fitsDirectory;
+    QFETCH(int, formatSuffix);
+    job.formatSuffix = formatSuffix;
+    QFETCH(QString, placeholderFormat);
+    job.placeholderFormat = placeholderFormat;
+    QFETCH(double, cameraTemperature);
+    job.cameraTemperature.value = cameraTemperature;
+    QFETCH(bool, cameraCooling);
+    job.cameraTemperature.enabled = cameraCooling;
+    QFETCH(int, fileUploadMode);
+    job.uploadMode = fileUploadMode;
+
+    QVector<TestEkosCaptureHelper::SimpleCaptureLightsJob> jobs;
+    jobs.append(job);
+    // create capture sequence file
+    QStringList content = m_CaptureHelper->getSimpleEsqContent(settings, jobs);
+    QString esqFilename = destination->filePath("test.esq");
+    qCInfo(KSTARS_EKOS_TEST) << "Sequence file name: " << esqFilename;
+    m_CaptureHelper->writeFile(esqFilename, content);
+
+    // load the capture sequence file
+    QVERIFY2(capture->loadSequenceQueue(esqFilename), "Loading capture sequence file failed!");
+
+    // Verify the results
+    QTRY_COMPARE(captureExposureN->value(), exposureTime);
+    QTRY_COMPARE(captureCountN->value(), count);
+    QTRY_COMPARE(captureDelayN->value(), delay / 1000);
+    QTRY_COMPARE(captureBinHN->value(), binX);
+    QTRY_COMPARE(captureBinVN->value(), binY);
+    QTRY_COMPARE(captureFrameXN->value(), x);
+    QTRY_COMPARE(captureFrameYN->value(), y);
+    QTRY_COMPARE(captureFrameWN->value(), w);
+    QTRY_COMPARE(captureFrameHN->value(), h);
+    QTRY_COMPARE(FilterPosCombo->currentText(), filter);
+    QTRY_COMPARE(captureTypeS->currentText(), type);
+    QTRY_COMPARE(captureEncodingS->currentText(), encoding);
+    QTRY_COMPARE(fileDirectoryT->text(), fitsDirectory);
+    QTRY_COMPARE(placeholderFormatT->text(), placeholderFormat);
+    QTRY_COMPARE(formatSuffixN->value(), formatSuffix);
+    QTRY_COMPARE(cameraTemperatureN->value(), cameraTemperature);
+    QTRY_COMPARE(cameraTemperatureS->isChecked(), cameraCooling);
+    QTRY_COMPARE(fileUploadModeS->currentIndex(), fileUploadMode);
+}
+
+
+void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings()
+{
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // initialize default settings
+    TestEkosCaptureHelper::CaptureSettings settings = {"Test Observer", {true, 2.0},  {true, 1.0},  {false, 1.5}, {true, 1.0}, {false, 5}, false};
+
+    // retrieve test data
+    QFETCH(double, exposureTime);
+    QFETCH(int, count);
+    QFETCH(QString, type);
+    QFETCH(bool, src_manual);
+    QFETCH(bool, src_buildin_light);
+    QFETCH(bool, src_external_light);
+    QFETCH(bool, src_wall);
+    QFETCH(double, wall_az);
+    QFETCH(double, wall_alt);
+    QFETCH(bool, duration_manual);
+    QFETCH(bool, duration_adu);
+    QFETCH(int, adu);
+    QFETCH(int, tolerance);
+    QFETCH(bool, park_mount);
+    QFETCH(bool, park_dome);
+
+    // clear the UI settings
+    KTRY_SET_DOUBLESPINBOX(capture, captureExposureN, 5.4);
+    KTRY_SET_COMBO(capture, captureTypeS, (type == "Flat" ? "Dark" : "Flat"));
+    KTRY_SET_SPINBOX(capture, captureCountN, 2 + count);
+
+    // create the job
+    TestEkosCaptureHelper::SimpleCaptureCalibratingJob job;
+    job.exposureTime = exposureTime;
+    job.type = type;
+    job.count = count;
+    job.src_manual = src_manual;
+    job.src_buildin_light = src_buildin_light;
+    job.src_external_light = src_external_light;
+    job.src_wall = src_wall;
+    job.wall_az = wall_az;
+    job.wall_alt = wall_alt;
+    job.duration_manual = duration_manual;
+    job.duration_adu = duration_adu;
+    job.adu = adu;
+    job.tolerance = tolerance;
+    job.park_mount = park_mount;
+    job.park_dome = park_dome;
+
+    QVector<TestEkosCaptureHelper::SimpleCaptureCalibratingJob> jobs;
+    jobs.append(job);
+    // create capture sequence file
+    QStringList content = m_CaptureHelper->getSimpleEsqContent(settings, jobs);
+    QString esqFilename = destination->filePath("test.esq");
+    qCInfo(KSTARS_EKOS_TEST) << "Sequence file name: " << esqFilename;
+    m_CaptureHelper->writeFile(esqFilename, content);
+
+    // load the capture sequence file
+    QVERIFY2(capture->loadSequenceQueue(esqFilename), "Loading capture sequence file failed!");
+
+    // Verify the results on the main tab
+    QTRY_COMPARE(captureExposureN->value(), exposureTime);
+    QTRY_COMPARE(captureCountN->value(), count);
+    QTRY_COMPARE(captureTypeS->currentText(), type);
+
+    // Verify the results on the calibration dialog
+    bool success = false;
+    QTimer::singleShot(1000, capture, [&] { success = verifyCalibrationSettings(); });
+    KTRY_CLICK(capture, calibrationB);
+
+    QTRY_VERIFY_WITH_TIMEOUT(success, 10000);
+}
+
+bool TestEkosCaptureWorkflow::verifyCalibrationSettings()
+{
+    bool passed = false;
+    QDialog *calibrationDialog = nullptr;
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(calibrationDialog = Ekos::Manager::Instance()->findChild<QDialog *>("calibrationOptions"),
+                                 2000);
+    // ensure that the cancel button is pressed in any case
+    [&]()
+    {
+        QFETCH(bool, src_manual);
+        QFETCH(bool, src_buildin_light);
+        QFETCH(bool, src_external_light);
+        QFETCH(bool, src_wall);
+        QFETCH(double, wall_az);
+        QFETCH(double, wall_alt);
+        QFETCH(bool, duration_manual);
+        QFETCH(bool, duration_adu);
+        QFETCH(int, adu);
+        QFETCH(int, tolerance);
+        QFETCH(bool, park_mount);
+        QFETCH(bool, park_dome);
+        KTRY_GADGET(calibrationDialog, QRadioButton, manualSourceC);
+        KTRY_GADGET(calibrationDialog, QRadioButton, flatDeviceSourceC);
+        KTRY_GADGET(calibrationDialog, QRadioButton, darkDeviceSourceC);
+        KTRY_GADGET(calibrationDialog, QRadioButton, wallSourceC);
+        KTRY_GADGET(calibrationDialog, dmsBox, azBox);
+        KTRY_GADGET(calibrationDialog, dmsBox, altBox);
+        KTRY_GADGET(calibrationDialog, QRadioButton, manualDurationC);
+        KTRY_GADGET(calibrationDialog, QRadioButton, ADUC);
+        KTRY_GADGET(calibrationDialog, QSpinBox, ADUValue);
+        KTRY_GADGET(calibrationDialog, QSpinBox, ADUTolerance);
+        KTRY_GADGET(calibrationDialog, QCheckBox, parkMountC);
+        KTRY_GADGET(calibrationDialog, QCheckBox, parkDomeC);
+        QTRY_COMPARE(manualSourceC->isChecked(), src_manual);
+        QTRY_COMPARE(flatDeviceSourceC->isChecked(), src_buildin_light);
+        QTRY_COMPARE(darkDeviceSourceC->isChecked(), src_external_light);
+        QTRY_COMPARE(wallSourceC->isChecked(), src_wall);
+        if (src_wall)
+        {
+            dms wallAz, wallAlt;
+            bool azOk = false, altOk = false;
+
+            wallAz  = azBox->createDms(&azOk);
+            wallAlt = altBox->createDms(&altOk);
+
+            QTRY_COMPARE(wallAz.Degrees(), wall_az);
+            QTRY_COMPARE(wallAlt.Degrees(), wall_alt);
+        }
+        QTRY_COMPARE(manualDurationC->isChecked(), duration_manual);
+        QTRY_COMPARE(ADUC->isChecked(), duration_adu);
+        if (duration_adu)
+        {
+            QTRY_COMPARE(ADUValue->value(), adu);
+            QTRY_COMPARE(ADUTolerance->value(), tolerance);
+        }
+        QTRY_COMPARE(parkMountC->isChecked(), park_mount);
+        QTRY_COMPARE(parkDomeC->isChecked(), park_dome);
+        passed = true;
+    }
+    ();
+    // cancel the dialog
+    calibrationDialog->done(QDialog::Rejected);
+
+    return passed;
+}
+
 
 /* *********************************************************************************
  *
@@ -1114,6 +1428,94 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature_data()
     QTest::newRow("init=0 target=0")  << 0.0 <<  0.0;
 }
 
+void TestEkosCaptureWorkflow::testLoadEsqFileGeneral_data()
+{
+    QTest::addColumn<QString>("observer");              /*!< Set the observer value                  */
+    QTest::addColumn<bool>("guideDeviation");           /*!< Enable guide deviation                  */
+    QTest::addColumn<bool>("startGuideDeviation");      /*!< Enable starting guide deviation         */
+    QTest::addColumn<bool>("inSequenceFocus");          /*!< Enable in sequence focusing (HFR based) */
+    QTest::addColumn<bool>("autofocusOnTemperature");   /*!< Enable temperature based autofocus      */
+    QTest::addColumn<bool>("refocusEveryN");            /*!< Enable focusing after every n capture   */
+    QTest::addColumn<bool>("refocusAfterMeridianFlip"); /*!< Enable refocus after a meridian flip    */
+
+    QTest::newRow("observer") << "KStars Freak" << false << false << false << false << false << false;
+    QTest::newRow("guideDeviation") << "KStars Freak" << true << false << false << false << false << false;
+    QTest::newRow("startGuideDeviation") << "KStars Freak" << false << true << false << false << false << false;
+    QTest::newRow("inSequenceFocus") << "KStars Freak" << false << false << true << false << false << false;
+    QTest::newRow("autofocusOnTemperature") << "KStars Freak" << false << false << false << true << false << false;
+    QTest::newRow("refocusEveryN") << "KStars Freak" << false << false << false << false << true << false;
+    QTest::newRow("refocusAfterMeridianFlip") << "KStars Freak" << false << false << false << false << false << true;
+}
+
+void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings_data()
+{
+    QTest::addColumn<double>("exposureTime");         /*!< Exposure time               */
+    QTest::addColumn<int>("count");                   /*!< Number of frames            */
+    QTest::addColumn<int>("delay");                   /*!< Delay between captures      */
+    QTest::addColumn<QString>("filter");              /*!< Filter name                 */
+    QTest::addColumn<QString>("type");                /*!< Frame type (Light etc.)     */
+    QTest::addColumn<QString>("encoding");            /*!< Encoding (FITS etc.)        */
+    QTest::addColumn<int>("binX");                    /*!< Binning (X value)           */
+    QTest::addColumn<int>("binY");                    /*!< Binning (Y value)           */
+    QTest::addColumn<int>("x");                       /*!< ROI left                    */
+    QTest::addColumn<int>("y");                       /*!< ROI top                     */
+    QTest::addColumn<int>("w");                       /*!< ROI width                   */
+    QTest::addColumn<int>("h");                       /*!< ROI height                  */
+    QTest::addColumn<QString>("fitsDirectory");       /*!< Base directory for frames   */
+    QTest::addColumn<QString>("placeholderFormat");   /*!< Placeholder format string   */
+    QTest::addColumn<int>("formatSuffix");            /*!< Digits of the number suffix */
+    QTest::addColumn<double>("cameraTemperature");    /*!< Cooling temperature         */
+    QTest::addColumn<bool>("cameraCooling");          /*!< Cooling necessary           */
+    QTest::addColumn<int>("fileUploadMode");          /*!< Upload mode (local/remote)  */
+
+    double exposureTime = 2.0, cameraTemperature = -20.0;
+    int count = 2, delay = 5000, binX = 2, binY = 2;
+    int x = 10, y = 10, w = 480, h = 360;
+    int formatSuffix = 4, fileUploadMode = 2;
+    bool cameraCooling = true;
+    QString filter("Green");
+    QString type("Light");
+    QString encoding("Native");
+    QString fitsDirectory("/home/astro");
+    QString placeholderFormat("/%t/%T/%T_%t_%e");
+
+    QTest::newRow(QString("%2x %5 %3 %1s bin=%6x%7 dir=%4").arg(exposureTime).arg(count).arg(filter).arg(fitsDirectory).arg(
+                      type).arg(binX).arg(binY).toLatin1())
+            << exposureTime << count << delay << filter << type << encoding << binX << binY << x << y << w << h << fitsDirectory
+            << placeholderFormat << formatSuffix << cameraTemperature << cameraCooling << fileUploadMode;
+}
+
+void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
+{
+    QTest::addColumn<double>("exposureTime");         /*!< Exposure time                */
+    QTest::addColumn<int>("count");                   /*!< Number of frames             */
+    QTest::addColumn<QString>("type");                /*!< Frame type (Flat etc.)       */
+    QTest::addColumn<bool>("src_manual");             /*!< Manual flat light            */
+    QTest::addColumn<bool>("src_buildin_light");      /*!< Cap with flat light          */
+    QTest::addColumn<bool>("src_external_light");     /*!< External flat light          */
+    QTest::addColumn<bool>("src_wall");               /*!< Wall as flat light           */
+    QTest::addColumn<double>("wall_az");              /*!< Az position for wall source  */
+    QTest::addColumn<double>("wall_alt");             /*!< Alt position for wall source */
+    QTest::addColumn<bool>("duration_manual");        /*!< Manual exposure time         */
+    QTest::addColumn<bool>("duration_adu");           /*!< ADU based exposure           */
+    QTest::addColumn<int>("adu");                     /*!< Target ADU                   */
+    QTest::addColumn<int>("tolerance");               /*!< ADU tolerance                */
+    QTest::addColumn<bool>("park_mount");             /*!< Park mount before capturing  */
+    QTest::addColumn<bool>("park_dome");              /*!< Park dome before capturing   */
+
+    QTest::newRow("Flat src=manual adu=manual") << 1.0 << 2 << "Flat" << true << false << false << false << 180.0 << 85.0 <<
+            true << false
+            << 12345 << 1234 << false << false;
+    QTest::newRow("Dark src=buildin adu=automatic") << 1.0 << 2 << "Dark" << false << true << false << false << 180.0 << 85.0 <<
+            false <<
+            true <<  12345 << 1234 << false << false;
+    QTest::newRow("Bias src=external park=mount") << 1.0 << 2 << "Bias" << false << false << true << false << 180.0 << 85.0 <<
+            false <<
+            true << 12345 << 1234 << true << false;
+    QTest::newRow("Flat src=wall park=mount") << 1.0 << 2 << "Flat" << false << false << false << true << 180.0 << 85.0 << false
+            << true
+            << 12345 <<  1234 << true << false;
+}
 
 /* *********************************************************************************
  *

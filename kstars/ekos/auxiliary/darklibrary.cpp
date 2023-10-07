@@ -1187,7 +1187,7 @@ void DarkLibrary::generateDarkJobs()
                 m_CaptureModule->setPresetSettings(settings);
                 m_CaptureModule->setFileSettings(fileSettings);
                 m_CaptureModule->setCount(countSpin->value());
-                m_CaptureModule->addJob();
+                m_CaptureModule->createJob();
             }
         }
     }
