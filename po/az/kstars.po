@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-06 00:39+0000\n"
+"POT-Creation-Date: 2023-10-07 00:39+0000\n"
 "PO-Revision-Date: 2022-07-31 23:14+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -13734,45 +13734,49 @@ msgstr ""
 
 #: ekos/capture/capture.cpp:3809
 #, kde-format
-msgctxt "Temperature ramp celcius per minute"
-msgid "Ramp (C/min):"
+msgctxt "Maximum temperature variation over time when regulating."
+msgid "Ramp (°C/min):"
 msgstr ""
 
 #: ekos/capture/capture.cpp:3815
 #, kde-format
 msgid ""
-"Maximum temperature change per minute when cooling or warming the camera. "
-"Set zero to disable."
+"<html><body><p>Maximum temperature change per minute when cooling or warming "
+"the camera. Set zero to disable.<p>This setting is read from and stored in "
+"the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
+#: ekos/capture/capture.cpp:3820
 #, kde-format
-msgid "Threshold:"
+msgctxt "Temperature threshold above which regulation triggers."
+msgid "Threshold (°C):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3823
+#: ekos/capture/capture.cpp:3826
 #, kde-format
-msgid "Maximum difference between camera and target temperatures"
+msgid ""
+"<html><body><p>Maximum difference between camera and target temperatures "
+"triggering regulation.<p>This setting is read from and stored in the INDI "
+"camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3833
+#: ekos/capture/capture.cpp:3839
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3851
+#: ekos/capture/capture.cpp:3857
 #, kde-format
 msgid "Stop Sequence"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3857
+#: ekos/capture/capture.cpp:3863
 #, kde-format
 msgid "Resume Sequence"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3882
+#: ekos/capture/capture.cpp:3888
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -17547,6 +17551,12 @@ msgid ""
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
+#: ekos/focus/focus.ui:1895
+#, kde-format
+msgid "Threshold:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)

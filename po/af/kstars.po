@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-06 00:39+0000\n"
+"POT-Creation-Date: 2023-10-07 00:39+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -13580,47 +13580,51 @@ msgstr ""
 
 #: ekos/capture/capture.cpp:3809
 #, kde-format
-msgctxt "Temperature ramp celcius per minute"
-msgid "Ramp (C/min):"
+msgctxt "Maximum temperature variation over time when regulating."
+msgid "Ramp (°C/min):"
 msgstr ""
 
 #: ekos/capture/capture.cpp:3815
 #, kde-format
 msgid ""
-"Maximum temperature change per minute when cooling or warming the camera. "
-"Set zero to disable."
+"<html><body><p>Maximum temperature change per minute when cooling or warming "
+"the camera. Set zero to disable.<p>This setting is read from and stored in "
+"the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
+#: ekos/capture/capture.cpp:3820
 #, fuzzy, kde-format
-msgid "Threshold:"
+msgctxt "Temperature threshold above which regulation triggers."
+msgid "Threshold (°C):"
 msgstr "Leon"
 
-#: ekos/capture/capture.cpp:3823
+#: ekos/capture/capture.cpp:3826
 #, kde-format
-msgid "Maximum difference between camera and target temperatures"
+msgid ""
+"<html><body><p>Maximum difference between camera and target temperatures "
+"triggering regulation.<p>This setting is read from and stored in the INDI "
+"camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3833
+#: ekos/capture/capture.cpp:3839
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Koördinate"
 
-#: ekos/capture/capture.cpp:3851
+#: ekos/capture/capture.cpp:3857
 #, fuzzy, kde-format
 #| msgid "open cluster"
 msgid "Stop Sequence"
 msgstr "open klaster"
 
-#: ekos/capture/capture.cpp:3857
+#: ekos/capture/capture.cpp:3863
 #, fuzzy, kde-format
 #| msgid "open cluster"
 msgid "Resume Sequence"
 msgstr "open klaster"
 
-#: ekos/capture/capture.cpp:3882
+#: ekos/capture/capture.cpp:3888
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -17262,6 +17266,12 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
+#: ekos/focus/focus.ui:1895
+#, fuzzy, kde-format
+msgid "Threshold:"
+msgstr "Leon"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1911
@@ -85644,10 +85654,6 @@ msgstr "Wissel Diep Lug Objekte"
 #, fuzzy
 #~ msgid "Loading FITS"
 #~ msgstr "Laaiïng van K-sterre..."
-
-#, fuzzy
-#~ msgid "Threshold (%):"
-#~ msgstr "Leon"
 
 #, fuzzy
 #~ msgid "Box Size:"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-06 00:39+0000\n"
+"POT-Creation-Date: 2023-10-07 00:39+0000\n"
 "PO-Revision-Date: 2023-09-29 20:24+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -14179,48 +14179,58 @@ msgid "Cooler is off"
 msgstr "Kylenhet är av"
 
 #: ekos/capture/capture.cpp:3809
-#, kde-format
-msgctxt "Temperature ramp celcius per minute"
-msgid "Ramp (C/min):"
+#, fuzzy, kde-format
+#| msgctxt "Temperature ramp celcius per minute"
+#| msgid "Ramp (C/min):"
+msgctxt "Maximum temperature variation over time when regulating."
+msgid "Ramp (°C/min):"
 msgstr "Ramp (C/min):"
 
 #: ekos/capture/capture.cpp:3815
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Maximum temperature change per minute when cooling or warming the camera. "
+#| "Set zero to disable."
 msgid ""
-"Maximum temperature change per minute when cooling or warming the camera. "
-"Set zero to disable."
+"<html><body><p>Maximum temperature change per minute when cooling or warming "
+"the camera. Set zero to disable.<p>This setting is read from and stored in "
+"the INDI camera driver configuration.</body></html>"
 msgstr ""
 "Maximal temperaturändring per minut när kameran kyls ner eller värms upp. "
 "Ställ in till noll för att inaktivera."
 
-#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
-#, kde-format
-msgid "Threshold:"
-msgstr "Tröskel:"
+#: ekos/capture/capture.cpp:3820
+#, fuzzy, kde-format
+#| msgid "Threshold (%):"
+msgctxt "Temperature threshold above which regulation triggers."
+msgid "Threshold (°C):"
+msgstr "Tröskel (%):"
 
-#: ekos/capture/capture.cpp:3823
+#: ekos/capture/capture.cpp:3826
 #, kde-format
-msgid "Maximum difference between camera and target temperatures"
-msgstr "Maximal skillnad mellan kamerans och målets temperatur"
+msgid ""
+"<html><body><p>Maximum difference between camera and target temperatures "
+"triggering regulation.<p>This setting is read from and stored in the INDI "
+"camera driver configuration.</body></html>"
+msgstr ""
 
-#: ekos/capture/capture.cpp:3833
+#: ekos/capture/capture.cpp:3839
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Ställ in temperaturreglering"
 
-#: ekos/capture/capture.cpp:3851
+#: ekos/capture/capture.cpp:3857
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Stoppa sekvens"
 
-#: ekos/capture/capture.cpp:3857
+#: ekos/capture/capture.cpp:3863
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Återuppta sekvens"
 
-#: ekos/capture/capture.cpp:3882
+#: ekos/capture/capture.cpp:3888
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -18260,6 +18270,12 @@ msgstr ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussisk</span>: Använder en "
 "tvådimensionell Gaussfördelning. Detta är en experimentell funktion.</li></"
 "ul></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
+#: ekos/focus/focus.ui:1895
+#, kde-format
+msgid "Threshold:"
+msgstr "Tröskel:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1911
@@ -83072,6 +83088,9 @@ msgstr "Bakgrundsfärg:"
 msgid "Set the color for the background."
 msgstr "Ange bakgrundens färg."
 
+#~ msgid "Maximum difference between camera and target temperatures"
+#~ msgstr "Maximal skillnad mellan kamerans och målets temperatur"
+
 #~ msgid ""
 #~ "<p>To disable rotation validation, uncheck the Rotator option in "
 #~ "Alignment Options.</p>"
@@ -108233,9 +108252,6 @@ msgstr "Ange bakgrundens färg."
 
 #~ msgid "Number of frames to average"
 #~ msgstr "Antal bildrutor att medelvärdesbilda"
-
-#~ msgid "Threshold (%):"
-#~ msgstr "Tröskel (%):"
 
 #~ msgid "Delay between two consequent focus images"
 #~ msgstr "Fördröjning mellan två på varandra följande fokuseringsbilder"

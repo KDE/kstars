@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-06 00:39+0000\n"
+"POT-Creation-Date: 2023-10-07 00:39+0000\n"
 "PO-Revision-Date: 2020-01-12 12:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -14688,51 +14688,51 @@ msgstr "A refrixeración está apagada"
 
 #: ekos/capture/capture.cpp:3809
 #, kde-format
-msgctxt "Temperature ramp celcius per minute"
-msgid "Ramp (C/min):"
+msgctxt "Maximum temperature variation over time when regulating."
+msgid "Ramp (°C/min):"
 msgstr ""
 
 #: ekos/capture/capture.cpp:3815
 #, kde-format
 msgid ""
-"Maximum temperature change per minute when cooling or warming the camera. "
-"Set zero to disable."
+"<html><body><p>Maximum temperature change per minute when cooling or warming "
+"the camera. Set zero to disable.<p>This setting is read from and stored in "
+"the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/capture.cpp:3817 ekos/focus/focus.ui:1895
-#, kde-format
-msgid "Threshold:"
-msgstr "Limiar:"
-
-#: ekos/capture/capture.cpp:3823
+#: ekos/capture/capture.cpp:3820
 #, fuzzy, kde-format
-#| msgid ""
-#| "Maximum acceptable difference between requested and measured temperature "
-#| "set point."
-msgid "Maximum difference between camera and target temperatures"
-msgstr ""
-"Diferenza máxima aceptábel entre a temperatura solicitada e a temperatura "
-"real medida."
+#| msgid "Threshold (%):"
+msgctxt "Temperature threshold above which regulation triggers."
+msgid "Threshold (°C):"
+msgstr "Limiar (%):"
 
-#: ekos/capture/capture.cpp:3833
+#: ekos/capture/capture.cpp:3826
+#, kde-format
+msgid ""
+"<html><body><p>Maximum difference between camera and target temperatures "
+"triggering regulation.<p>This setting is read from and stored in the INDI "
+"camera driver configuration.</body></html>"
+msgstr ""
+
+#: ekos/capture/capture.cpp:3839
 #, fuzzy, kde-format
 #| msgid "Setting Temperature"
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Definindo a temperatura"
 
-#: ekos/capture/capture.cpp:3851
+#: ekos/capture/capture.cpp:3857
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Deter a secuencia"
 
-#: ekos/capture/capture.cpp:3857
+#: ekos/capture/capture.cpp:3863
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Continuar a secuencia"
 
-#: ekos/capture/capture.cpp:3882
+#: ekos/capture/capture.cpp:3888
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -18913,6 +18913,12 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
+#: ekos/focus/focus.ui:1895
+#, kde-format
+msgid "Threshold:"
+msgstr "Limiar:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/focus.ui:1911
@@ -85128,6 +85134,15 @@ msgstr "Indicar a cor do fondo."
 
 #, fuzzy
 #~| msgid ""
+#~| "Maximum acceptable difference between requested and measured temperature "
+#~| "set point."
+#~ msgid "Maximum difference between camera and target temperatures"
+#~ msgstr ""
+#~ "Diferenza máxima aceptábel entre a temperatura solicitada e a temperatura "
+#~ "real medida."
+
+#, fuzzy
+#~| msgid ""
 #~| "<html><head/><body><p>Set target position angle before capture is "
 #~| "started.</p></body></html>"
 #~ msgid ""
@@ -110128,9 +110143,6 @@ msgstr "Indicar a cor do fondo."
 
 #~ msgid "Number of frames to average"
 #~ msgstr "Número de fotogramas dos que facer a media"
-
-#~ msgid "Threshold (%):"
-#~ msgstr "Limiar (%):"
 
 #~ msgid "Delay between two consequent focus images"
 #~ msgstr "Demora entre dúas imaxes enfocadas consecutivas"
