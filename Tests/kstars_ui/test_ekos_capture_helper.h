@@ -155,6 +155,53 @@ class TestEkosCaptureHelper : public TestEkosHelper
 
 public:
 
+    struct OptDouble {
+        bool enabled = false;
+        double value = 0.0;
+    };
+
+    struct OptInt {
+        bool enabled = false;
+        double value = 0;
+    };
+
+    struct CaptureSettings {
+        QString observer = "";
+        OptDouble guideDeviation, startGuideDeviation;
+        OptDouble inSequenceFocus, autofocusOnTemperature;
+        OptInt refocusEveryN;
+        bool refocusAfterMeridianFlip = false;
+    };
+
+    struct SimpleCaptureLightsJob
+    {
+        int exposureTime = 1.0;
+        int count = 1;
+        int delayMS = 0; // delay in milliseconds
+        int binX = 1, binY = 1;
+        int x = 0, y = 0, w = 1280, h = 1080;
+        QString filterName = "Luminance";
+        QString type = "Light";
+        QString encoding = "FITS";
+        QString fitsDirectory = "/home/pi";
+        QString placeholderFormat = "/%t/%T/%F/%t_%T_%F_%e_%D";
+        int formatSuffix = 3;
+        OptDouble cameraTemperature = {false, 20.0};
+        int uploadMode = 0;
+    };
+
+    struct SimpleCaptureCalibratingJob
+    {
+        int exposureTime = 1.0;
+        QString type = "Flat";
+        int count = 1;
+        bool src_manual = true, src_buildin_light = false, src_external_light = false, src_wall = false;
+        double wall_az = 90, wall_alt = 0;
+        bool duration_manual = true, duration_adu = false;
+        int adu = 10000, tolerance = 1000;
+        bool park_mount = false, park_dome = false;
+    };
+
     explicit TestEkosCaptureHelper(QString guider = nullptr);
 
     /**
@@ -200,6 +247,37 @@ public:
      * @brief Stop and clean up scheduler
      */
     void cleanupScheduler();
+
+    /**
+     * @brief getSimpleEsqContent Create a simple lights capture sequence file
+     * @param settings overall settings
+     * @param jobs list of sequence jobs
+     * @return XML string list
+     */
+    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs);
+
+    /**
+     * @brief getSimpleEsqContent Create a simple flats capture sequence file
+     * @param settings overall settings
+     * @param jobs list of sequence jobs
+     * @return XML string list
+     */
+    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs);
+
+    /**
+     * @brief serializeGeneralSettings Create the XML representation of the general settings
+     */
+    QStringList serializeGeneralSettings(CaptureSettings settings);
+
+    /**
+     * @brief serializeJob Create the XML representation of a single lights job
+     */
+    QStringList serializeJob(const SimpleCaptureLightsJob &job);
+
+    /**
+     * @brief serializeJob Create the XML representation of a single flats job
+     */
+    QStringList serializeJob(const SimpleCaptureCalibratingJob &job);
 
     /**
      * @brief calculateSignature Calculate the signature of a given filter

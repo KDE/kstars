@@ -96,11 +96,24 @@ class TestEkosCaptureWorkflow : public QObject
         bool prepareCapture(int refocusLimitTime = 0.0, double refocusHFR = 0.0, double refocusTemp = 0.0, int delay = 0);
 
         /**
+         * @brief initCaptureSetting Initialize Capture settings with a single bool/double pair
+         * @param setting a single setting with an enabling checkbox and the value
+         * @param checkboxName name of the QCheckBox widget
+         * @param spinBoxName name of the QDoubleSpinBox widget
+         */
+        void initCaptureSetting(TestEkosCaptureHelper::OptDouble setting, const QString checkboxName, const QString dspinBoxName);
+
+        /**
          * @brief Helper function translating simple QString input into QTest test data rows
          * @param exptime exposure time of the sequence
          * @param sequenceList List of sequences with filter and count as QString("<filter>:<count"), ... list
          */
         void prepareTestData(double exptime, QList<QString> sequenceList);
+
+        /**
+         * @brief verifyCalibrationSettings Verify if the flats calibration settings match the test data.
+         */
+        bool verifyCalibrationSettings();
 
         // counter for images taken in a single test run
         int image_count;
@@ -233,6 +246,31 @@ class TestEkosCaptureWorkflow : public QObject
          * @brief Test capturing a simple darks library
          */
         void testDarksLibrary();
+
+        /**
+         * @brief testLoadEsqFile Test for correctly loading a capture sequence file. This test case concentrates
+         * upon the general values stored in the file, that are valid for all sequence jobs contained.
+         */
+        void testLoadEsqFileGeneral();
+
+        /** @brief Test data for {@see testLoadEsqFileGeneral()} */
+        void testLoadEsqFileGeneral_data();
+
+        /**
+         * @brief testLoadEsqFileBasicJobSettings Test for basic job settings when loading capture sequence file.
+         */
+        void testLoadEsqFileBasicJobSettings();
+
+        /** @brief Test data for {@see testLoadEsqFileBasicJobSettings()} */
+        void testLoadEsqFileBasicJobSettings_data();
+
+        /**
+         * @brief testLoadEsqFileFlatSettings Test for flat job settings when loading capture sequence file.
+         */
+        void testLoadEsqFileCalibrationSettings();
+
+        /** @brief Test data for {@see testLoadEsqFileCalibrationSettings()} */
+        void testLoadEsqFileCalibrationSettings_data();
 };
 
 #endif // HAVE_INDI

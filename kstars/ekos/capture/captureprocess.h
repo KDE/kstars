@@ -197,11 +197,11 @@ public:
     void startNextPendingJob();
 
     /**
-     * @brief Counterpart to the event {@see#addJob(SequenceJob::SequenceJobType)}
+     * @brief Counterpart to the event {@see#createJob(SequenceJob::SequenceJobType)}
      * where the event receiver reports whether one has been added successfully
      * and of which type it was.
      */
-    void jobAdded(SequenceJob *newJob);
+    void jobCreated(SequenceJob *newJob);
 
     /**
      * @brief capturePreview Capture a preview (single or looping ones)
@@ -565,6 +565,29 @@ public:
     void updateFilterInfo();
 
     // ////////////////////////////////////////////////////////////////////
+    // XML capture sequence file handling
+    // ////////////////////////////////////////////////////////////////////
+    /**
+     * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
+     * @param fileURL full URL of the filename
+     * @param ignoreTarget ignore target defined in the sequence queue file (necessary for using the target of the scheduler)
+     */
+     bool loadSequenceQueue(const QString &fileURL, bool ignoreTarget = false);
+
+     /**
+      * @brief loadSequenceJob Create a single job from an XML definition.
+      * @param root XML root holding the job definition
+      * @param ignoreTarget true iff the target from the XML should be ignored
+      */
+     SequenceJob *loadSequenceJob(XMLEle *root, bool ignoreTarget = false);
+
+    /**
+     * Saves the Sequence Queue to the Ekos Sequence Queue file.
+     * @param fileURL full URL of the filename
+     */
+     bool saveSequenceQueue(const QString &path);
+
+    // ////////////////////////////////////////////////////////////////////
     // helper functions
     // ////////////////////////////////////////////////////////////////////
 
@@ -616,6 +639,32 @@ public:
      */
     void restartCamera(const QString &name);
 
+    /**
+     * @brief frameTypes Retrieve the frame types from the active camera's primary chip.
+     */
+    QStringList frameTypes();
+    /**
+     * @brief filterLabels list of currently available filter labels
+     */
+    QStringList filterLabels();
+
+    /**
+     * @brief getGain Retrieve the gain value from the custom property value. Depending
+     *        on the camera, it is either stored as GAIN property value of CCD_GAIN or as
+     *        Gain property value from CCD_CONTROLS.
+     */
+    double getGain(QMap<QString, QMap<QString, QVariant> > propertyMap);
+    void updateGain(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap);
+
+    /**
+     * @brief getOffset Retrieve the offset value from the custom property value. Depending
+     *        on the camera, it is either stored as OFFSET property value of CCD_OFFSET or as
+     *        Offset property value from CCD_CONTROLS.
+     */
+    double getOffset(QMap<QString, QMap<QString, QVariant> > propertyMap);
+    void updateOffset(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap);
+
+
     // ////////////////////////////////////////////////////////////////////
     // attributes access
     // ////////////////////////////////////////////////////////////////////
@@ -626,14 +675,15 @@ public:
 
 signals:
     // controls for capture execution
-    void addJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH);
+    void addJob (SequenceJob *job);
+    void createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH);
     void jobStarting();
     void stopCapture(CaptureState targetState = CAPTURE_IDLE);
     void captureAborted(double exposureSeconds);
     void captureStopped();
     void syncGUIToJob(SequenceJob *job);
     void updateFrameProperties(int reset);
-    void updateJobTable(SequenceJob *job);
+    void updateJobTable(SequenceJob *job, bool full = false);
     void jobExecutionPreparationStarted();
     void jobPrepared(SequenceJob *job);
     void captureImageStarted();
@@ -673,12 +723,29 @@ private:
     QVector<double> ExpRaw, ADURaw;
     ADUAlgorithm targetADUAlgorithm { ADU_LEAST_SQUARES };
 
+
+    /**
+     * @brief activeJob Shortcut for the module state
+     */
+    QSharedPointer<CaptureModuleState> state() const
+    {
+        return m_State;
+    }
+
+    /**
+     * @brief activeJob Shortcut to device adapter
+     */
+    QSharedPointer<CaptureDeviceAdaptor> devices()
+    {
+        return m_DeviceAdaptor;
+    }
+
     /**
      * @brief activeJob Shortcut to the active job held in the state machine
      */
     SequenceJob *activeJob()
     {
-        return  m_State->getActiveJob();
+        return  state()->getActiveJob();
     }
 
     /**
@@ -686,7 +753,7 @@ private:
      */
     ISD::Camera *activeCamera()
     {
-        return m_DeviceAdaptor->getActiveCamera();
+        return devices()->getActiveCamera();
     }
 
     /**
