@@ -759,7 +759,6 @@ class Capture : public QWidget, public Ui::Capture
              */
         void refreshCameraSettings();
 
-
         /**
              * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
              * @param nvp pointer to number property.
@@ -1150,6 +1149,11 @@ class Capture : public QWidget, public Ui::Capture
         // reset = 1 --> Full reset
         // reset = 2 --> Only update limits if needed
         void updateFrameProperties(int reset = 0);
+
+        /**
+         * @brief updateCaptureFormats Update encoding and transfer formats
+         */
+        void updateCaptureFormats();
 
         /**
          * @brief syncGUIToJob Update UI to job settings
