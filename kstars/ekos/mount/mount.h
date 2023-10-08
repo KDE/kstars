@@ -542,6 +542,9 @@ class Mount : public QWidget, public Ui::Mount
          */
         void loadGlobalSettings();
 
+        void connectSyncSettings();
+        void disconnectSyncSettings();
+
         /**
          * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
          * global and per-train settings.

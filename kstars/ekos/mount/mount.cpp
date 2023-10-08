@@ -313,7 +313,7 @@ bool Mount::setMount(ISD::Mount *device)
         if (enableAltitudeLimits->isChecked())
             m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
         else
-            m_Mount->setAltLimits(-91,+91);
+            m_Mount->setAltLimits(-91, +91);
 
         syncTelescopeInfo();
 
@@ -333,7 +333,7 @@ bool Mount::setMount(ISD::Mount *device)
             if (enableAltitudeLimits->isChecked())
                 m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
             else
-                m_Mount->setAltLimits(-91,+91);
+                m_Mount->setAltLimits(-91, +91);
 
             syncTelescopeInfo();
 
@@ -1737,7 +1737,7 @@ void Mount::setAllSettings(const QVariantMap &settings)
 {
     // Disconnect settings that we don't end up calling syncSettings while
     // performing the changes.
-    disconnectSettings();
+    disconnectSyncSettings();
 
     for (auto &name : settings.keys())
     {
@@ -1801,7 +1801,7 @@ void Mount::setAllSettings(const QVariantMap &settings)
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Mount, m_Settings);
 
     // Restablish connections
-    connectSettings();
+    connectSyncSettings();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1982,7 +1982,7 @@ void Mount::loadGlobalSettings()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Mount::connectSettings()
+void Mount::connectSyncSettings()
 {
     // All Combo Boxes
     for (auto &oneWidget : findChildren<QComboBox*>())
@@ -2003,6 +2003,39 @@ void Mount::connectSettings()
     // All QDateTimeEdit
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())
         connect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::disconnectSyncSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
+
+    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+        disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::connectSettings()
+{
+    connectSyncSettings();
 
     // connections to the meridian flip state machine
     connect(executeMeridianFlip, &QCheckBox::toggled, mf_state.get(), &MeridianFlipState::setEnabled);
@@ -2024,24 +2057,7 @@ void Mount::connectSettings()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Mount::disconnectSettings()
 {
-    // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
-        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
-
-    // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
-        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
-
-    // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
-        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
-
-    // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
-        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
-
-    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
-        disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
+    disconnectSyncSettings();
 
     // cut connections to the meridian flip state machine
     disconnect(executeMeridianFlip, &QCheckBox::toggled, mf_state.get(), &MeridianFlipState::setEnabled);
