@@ -343,12 +343,14 @@ void SequenceJob::capture(FITSMode mode)
         return;
 
     // initialize the log entry
-    QString logentry = QString("Capture exposure = %1 sec, type = %2").arg(getCoreProperty(SJ_Exposure).toDouble()).arg(CCDFrameTypeNames[getFrameType()]);
+    QString logentry = QString("Capture exposure = %1 sec, type = %2").arg(getCoreProperty(SJ_Exposure).toDouble()).arg(
+                           CCDFrameTypeNames[getFrameType()]);
     logentry.append(QString(", filter = %1, upload mode = %2").arg(getCoreProperty(SJ_Filter).toString()).arg(getUploadMode()));
 
     devices.data()->getActiveChip()->setBatchMode(jobType() != SequenceJob::JOBTYPE_PREVIEW);
     devices.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
-    logentry.append(QString(", batch mode = %1, seq prefix = %2").arg(jobType() != SequenceJob::JOBTYPE_PREVIEW ? "true" : "false").arg(getCoreProperty(SJ_FullPrefix).toString()));
+    logentry.append(QString(", batch mode = %1, seq prefix = %2").arg(jobType() != SequenceJob::JOBTYPE_PREVIEW ? "true" :
+                    "false").arg(getCoreProperty(SJ_FullPrefix).toString()));
 
     if (jobType() == SequenceJob::JOBTYPE_PREVIEW)
     {
@@ -448,50 +450,49 @@ void SequenceJob::capture(FITSMode mode)
         devices.data()->getActiveCamera()->setOffset(offset);
     }
 
-    // Only attempt to set ROI and Binning if CCD transfer format is FITS or XISF
-    if (devices.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("FITS")
-            || devices.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("XISF"))
-    {
-        int currentBinX = 1, currentBinY = 1;
-        devices.data()->getActiveChip()->getBinning(&currentBinX, &currentBinY);
-
-        const auto binning = getCoreProperty(SJ_Binning).toPoint();
-        // N.B. Always set binning _before_ setting frame because if the subframed image
-        // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
-        // So setting binning first always ensures this will work.
-        if (devices.data()->getActiveChip()->canBin()
-                && devices.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
-        {
-            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set binning to " << "x =" << binning.x() << ", y =" << binning.y();
-            setStatus(JOB_ERROR);
-            emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
-        }
-        else
-            logentry.append(QString(", binning = %1x%2").arg(binning.x()).arg(binning.y()));
-
-
-        const auto roi = getCoreProperty(SJ_ROI).toRect();
-
-        if ((roi.width() > 0 && roi.height() > 0) && devices.data()->getActiveChip()->canSubframe()
-                && devices.data()->getActiveChip()->setFrame(roi.x(),
-                        roi.y(),
-                        roi.width(),
-                        roi.height(),
-                        currentBinX != binning.x()) == false)
-        {
-            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" << roi.width() << "height =" << roi.height();
-            setStatus(JOB_ERROR);
-            emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
-        }
-        else
-            logentry.append(QString(", ROI = (%1+%2, %3+%4)").arg(roi.x()).arg(roi.width()).arg(roi.y()).arg(roi.width()));
-
-    }
-
     devices.data()->getActiveCamera()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
     devices.data()->getActiveCamera()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
     devices.data()->getActiveChip()->setFrameType(getFrameType());
-    logentry.append(QString(", format = %1, encoding = %2").arg(getCoreProperty(SJ_Format).toString()).arg(getCoreProperty(SJ_Encoding).toString()));
+    logentry.append(QString(", format = %1, encoding = %2").arg(getCoreProperty(SJ_Format).toString()).arg(getCoreProperty(
+                        SJ_Encoding).toString()));
+
+    // Only attempt to set ROI and Binning if CCD transfer format is FITS or XISF
+    int currentBinX = 1, currentBinY = 1;
+    devices.data()->getActiveChip()->getBinning(&currentBinX, &currentBinY);
+
+    const auto binning = getCoreProperty(SJ_Binning).toPoint();
+    // N.B. Always set binning _before_ setting frame because if the subframed image
+    // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
+    // So setting binning first always ensures this will work.
+    if (devices.data()->getActiveChip()->canBin()
+            && devices.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set binning to " << "x =" << binning.x() << ", y =" << binning.y();
+        setStatus(JOB_ERROR);
+        emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
+    }
+    else
+        logentry.append(QString(", binning = %1x%2").arg(binning.x()).arg(binning.y()));
+
+
+    const auto roi = getCoreProperty(SJ_ROI).toRect();
+
+    if ((roi.width() > 0 && roi.height() > 0) && devices.data()->getActiveChip()->canSubframe()
+            && devices.data()->getActiveChip()->setFrame(roi.x(),
+                    roi.y(),
+                    roi.width(),
+                    roi.height(),
+                    currentBinX != binning.x()) == false)
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" <<
+                                         roi.width() << "height =" << roi.height();
+        setStatus(JOB_ERROR);
+        emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
+    }
+    else
+        logentry.append(QString(", ROI = (%1+%2, %3+%4)").arg(roi.x()).arg(roi.width()).arg(roi.y()).arg(roi.width()));
+
+
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
     // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already

@@ -725,6 +725,33 @@ void Capture::refreshCameraSettings()
 
     updateFrameProperties();
 
+    updateCaptureFormats();
+
+    customPropertiesDialog->setCCD(activeCamera());
+
+    liveVideoB->setEnabled(activeCamera()->hasVideoStream());
+    if (activeCamera()->hasVideoStream())
+        setVideoStreamEnabled(activeCamera()->isStreamingEnabled());
+    else
+        liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
+
+    connect(activeCamera(), &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
+    connect(activeCamera(), &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
+    connect(activeCamera(), &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
+    connect(activeCamera(), &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
+    connect(activeCamera(), &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
+            Qt::UniqueConnection);
+
+    syncCameraInfo();
+
+    // update values received by the device adaptor
+    // connect(activeCamera(), &ISD::Camera::newTemperatureValue, this, &Capture::updateCCDTemperature, Qt::UniqueConnection);
+
+    DarkLibrary::Instance()->checkCamera();
+}
+
+void Capture::updateCaptureFormats()
+{
     QStringList frameTypes = process()->frameTypes();
 
     captureTypeS->clear();
@@ -751,28 +778,6 @@ void Capture::refreshCameraSettings()
     captureEncodingS->addItems(activeCamera()->getEncodingFormats());
     captureEncodingS->setCurrentText(activeCamera()->getEncodingFormat());
     captureEncodingS->blockSignals(false);
-
-    customPropertiesDialog->setCCD(activeCamera());
-
-    liveVideoB->setEnabled(activeCamera()->hasVideoStream());
-    if (activeCamera()->hasVideoStream())
-        setVideoStreamEnabled(activeCamera()->isStreamingEnabled());
-    else
-        liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
-
-    connect(activeCamera(), &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
-            Qt::UniqueConnection);
-
-    syncCameraInfo();
-
-    // update values received by the device adaptor
-    // connect(activeCamera(), &ISD::Camera::newTemperatureValue, this, &Capture::updateCCDTemperature, Qt::UniqueConnection);
-
-    DarkLibrary::Instance()->checkCamera();
 }
 
 void Capture::syncCameraInfo()
@@ -1131,8 +1136,8 @@ void Capture::updateFrameProperties(int reset)
         settings["y"]    = 0;
         settings["w"]    = captureFrameWN->maximum();
         settings["h"]    = captureFrameHN->maximum();
-        settings["binx"] = 1;
-        settings["biny"] = 1;
+        settings["binx"] = captureBinHN->value();
+        settings["biny"] = captureBinVN->value();
 
         state()->frameSettings()[devices()->getActiveChip()] = settings;
     }
@@ -1156,6 +1161,8 @@ void Capture::updateFrameProperties(int reset)
         settings["y"] = y;
         settings["w"] = w;
         settings["h"] = h;
+        settings["binx"] = captureBinHN->value();
+        settings["biny"] = captureBinVN->value();
 
         state()->frameSettings()[devices()->getActiveChip()] = settings;
     }
@@ -1205,6 +1212,8 @@ void Capture::processCameraNumber(INDI::Property prop)
     else if ((prop.isNameMatch("CCD_INFO") && state()->useGuideHead() == false) ||
              (prop.isNameMatch("GUIDER_INFO") && state()->useGuideHead()))
         updateFrameProperties(2);
+    else if (prop.isNameMatch("CCD_TRANSFER_FORMAT") || prop.isNameMatch("CCD_CAPTURE_FORMAT"))
+        updateCaptureFormats();
     else if (prop.isNameMatch("CCD_CONTROLS"))
     {
         auto nvp = prop.getNumber();
@@ -1507,6 +1516,7 @@ void Capture::addJob(SequenceJob *job)
 SequenceJob *Capture::createJob(SequenceJob::SequenceJobType jobtype, FilenamePreviewType filenamePreview)
 {
     SequenceJob *job = new SequenceJob(devices(), state(), jobtype);
+
     updateJobFromUI(job, filenamePreview);
 
     // Nothing more to do if preview or for placeholder calculations
@@ -3252,8 +3262,6 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     if (getOffset() >= 0)
         job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
 
-    job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
-
     if (cameraTemperatureN->isEnabled())
     {
         job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraTemperatureS->isChecked());
@@ -3275,7 +3283,6 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
                          && Options::enforceStartGuiderDrift()));
     job->setTargetStartGuiderDrift(Options::startGuideDeviation());
 
-    //if (filterSlot != nullptr && currentFilter != nullptr)
     if (FilterPosCombo->currentIndex() != -1 && devices()->filterWheel() != nullptr)
         job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());
 

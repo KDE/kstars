@@ -437,16 +437,17 @@ bool CameraChip::abortExposure()
 }
 bool CameraChip::canBin() const
 {
-    return CanBin;
+    return CanBin && m_Camera->getEncodingFormat() != QLatin1String("Native");
 }
 
 void CameraChip::setCanBin(bool value)
 {
     CanBin = value;
 }
+
 bool CameraChip::canSubframe() const
 {
-    return CanSubframe;
+    return CanSubframe && m_Camera->getEncodingFormat() != QLatin1String("Native");
 }
 
 void CameraChip::setCanSubframe(bool value)
