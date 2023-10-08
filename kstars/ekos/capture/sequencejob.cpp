@@ -464,35 +464,41 @@ void SequenceJob::capture(FITSMode mode)
     // N.B. Always set binning _before_ setting frame because if the subframed image
     // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
     // So setting binning first always ensures this will work.
-    if (devices.data()->getActiveChip()->canBin()
-            && devices.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
+    if (devices.data()->getActiveChip()->canBin())
     {
-        qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set binning to " << "x =" << binning.x() << ", y =" << binning.y();
-        setStatus(JOB_ERROR);
-        emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
+        if (devices.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
+        {
+            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set binning to " << "x =" << binning.x() << ", y =" << binning.y();
+            setStatus(JOB_ERROR);
+            emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
+        }
+        else
+            logentry.append(QString(", binning = %1x%2").arg(binning.x()).arg(binning.y()));
     }
     else
-        logentry.append(QString(", binning = %1x%2").arg(binning.x()).arg(binning.y()));
+        logentry.append(QString(", Cannot bin"));
 
 
     const auto roi = getCoreProperty(SJ_ROI).toRect();
 
-    if ((roi.width() > 0 && roi.height() > 0) && devices.data()->getActiveChip()->canSubframe()
-            && devices.data()->getActiveChip()->setFrame(roi.x(),
-                    roi.y(),
-                    roi.width(),
-                    roi.height(),
-                    currentBinX != binning.x()) == false)
+    if (devices.data()->getActiveChip()->canSubframe())
     {
-        qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" <<
-                                         roi.width() << "height =" << roi.height();
-        setStatus(JOB_ERROR);
-        emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
+        if ((roi.width() > 0 && roi.height() > 0) && devices.data()->getActiveChip()->setFrame(roi.x(),
+                roi.y(),
+                roi.width(),
+                roi.height(),
+                currentBinX != binning.x()) == false)
+        {
+            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" <<
+                                             roi.width() << "height =" << roi.height();
+            setStatus(JOB_ERROR);
+            emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
+        }
+        else
+            logentry.append(QString(", ROI = (%1+%2, %3+%4)").arg(roi.x()).arg(roi.width()).arg(roi.y()).arg(roi.width()));
     }
     else
-        logentry.append(QString(", ROI = (%1+%2, %3+%4)").arg(roi.x()).arg(roi.width()).arg(roi.y()).arg(roi.width()));
-
-
+        logentry.append(", Cannot subframe");
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
     // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already
