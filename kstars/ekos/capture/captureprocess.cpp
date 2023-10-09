@@ -2619,6 +2619,9 @@ SequenceJob *CaptureProcess::loadSequenceJob(XMLEle *root, bool ignoreTarget)
     job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, Options::enforceStartGuiderDrift());
     job->setTargetStartGuiderDrift(Options::startGuideDeviation());
 
+    // create signature with current target
+    auto placeholderPath = Ekos::PlaceholderPath();
+    placeholderPath.processJobInfo(job, state()->targetName());
 
     return job;
 }
