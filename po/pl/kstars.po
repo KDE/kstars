@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1661982 $
+# Version: $Revision: 1662046 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 00:39+0000\n"
+"POT-Creation-Date: 2023-10-10 00:39+0000\n"
 "PO-Revision-Date: 2023-07-08 08:53+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -6265,7 +6265,7 @@ msgid "Invalid URL: %1"
 msgstr "Nieprawidłowy URL: %1"
 
 #: ekos/align/align.cpp:3854 ekos/align/mountmodel.cpp:400
-#: ekos/capture/captureprocess.cpp:2633 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/capture/captureprocess.cpp:2636 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:3843 ekos/scheduler/scheduler.cpp:6221
 #, kde-format
 msgid "Unable to write to file %1"
@@ -14146,7 +14146,7 @@ msgstr "Nieudane zapisywanie szeregu kolejki"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Czy na pewno chcesz wyzerować stan wszystkich prac?"
 
-#: ekos/capture/capture.cpp:2050 ekos/capture/captureprocess.cpp:2883
+#: ekos/capture/capture.cpp:2050 ekos/capture/captureprocess.cpp:2886
 #, kde-format
 msgid "Reset job status"
 msgstr "Wyzeruj stan pracy"
@@ -15684,12 +15684,12 @@ msgstr ""
 "Ustawienia obrotu o południk zostały przeniesione do modułu montażu. Ustaw "
 "obrót o południk właśnie tam."
 
-#: ekos/capture/captureprocess.cpp:2634
+#: ekos/capture/captureprocess.cpp:2637
 #, kde-format
 msgid "Could not open file"
 msgstr "Nie można otworzyć pliku"
 
-#: ekos/capture/captureprocess.cpp:2654
+#: ekos/capture/captureprocess.cpp:2657
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -15700,17 +15700,17 @@ msgstr ""
 "wartość sekwencji HFR do pliku\" nie jest włączona. Bieżąca wartość HFR nie "
 "zostanie zapisana do pliku sekwencji."
 
-#: ekos/capture/captureprocess.cpp:2781
+#: ekos/capture/captureprocess.cpp:2784
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Szereg kolejki zapisano do %1"
 
-#: ekos/capture/captureprocess.cpp:2829
+#: ekos/capture/captureprocess.cpp:2832
 #, kde-format
 msgid "Sequence paused."
 msgstr "Wstrzymano kolejkę."
 
-#: ekos/capture/captureprocess.cpp:2882
+#: ekos/capture/captureprocess.cpp:2885
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15719,7 +15719,7 @@ msgstr ""
 "Wykonano wszystkie prace. Czy chcesz wyzerować stan wszystkich prac i "
 "rozpocząć przechwytywanie od nowa?"
 
-#: ekos/capture/captureprocess.cpp:2896
+#: ekos/capture/captureprocess.cpp:2899
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15728,12 +15728,12 @@ msgstr ""
 "Uwaga: opcja \"Zawsze zeruj sekwencję przy rozruchu\" jest włączona i zeruje "
 "licznik sekwencji."
 
-#: ekos/capture/captureprocess.cpp:3011
+#: ekos/capture/captureprocess.cpp:3014
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Na pewno uruchomić ponownie sterownik aparatu %1?"
 
-#: ekos/capture/captureprocess.cpp:3012
+#: ekos/capture/captureprocess.cpp:3015
 #, kde-format
 msgid "Driver Restart"
 msgstr "Uruchom ponownie sterownik"

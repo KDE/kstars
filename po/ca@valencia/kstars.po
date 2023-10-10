@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 00:39+0000\n"
+"POT-Creation-Date: 2023-10-10 00:39+0000\n"
 "PO-Revision-Date: 2023-10-07 15:29+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6307,7 +6307,7 @@ msgid "Invalid URL: %1"
 msgstr "URL no vàlid: %1"
 
 #: ekos/align/align.cpp:3854 ekos/align/mountmodel.cpp:400
-#: ekos/capture/captureprocess.cpp:2633 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/capture/captureprocess.cpp:2636 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:3843 ekos/scheduler/scheduler.cpp:6221
 #, kde-format
 msgid "Unable to write to file %1"
@@ -14255,7 +14255,7 @@ msgstr "No s'ha pogut fer la guardada de la cua en seqüència"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Segur que voleu restablir l'estat de totes les tasques?"
 
-#: ekos/capture/capture.cpp:2050 ekos/capture/captureprocess.cpp:2883
+#: ekos/capture/capture.cpp:2050 ekos/capture/captureprocess.cpp:2886
 #, kde-format
 msgid "Reset job status"
 msgstr "Restablix l'estat de les tasques"
@@ -15782,12 +15782,12 @@ msgstr ""
 "La configuració de la inversió del meridià s'ha mogut al mòdul de muntura. "
 "Configureu allí la inversió del meridià."
 
-#: ekos/capture/captureprocess.cpp:2634
+#: ekos/capture/captureprocess.cpp:2637
 #, kde-format
 msgid "Could not open file"
 msgstr "No s'ha pogut obrir el fitxer"
 
-#: ekos/capture/captureprocess.cpp:2654
+#: ekos/capture/captureprocess.cpp:2657
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -15798,17 +15798,17 @@ msgstr ""
 "activat l'opció «Guarda el valor HFR de la seqüència a un fitxer». El valor "
 "actual de l'HFR no s'escriurà en el fitxer de seqüència."
 
-#: ekos/capture/captureprocess.cpp:2781
+#: ekos/capture/captureprocess.cpp:2784
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "La cua en seqüència s'ha guardat a %1"
 
-#: ekos/capture/captureprocess.cpp:2829
+#: ekos/capture/captureprocess.cpp:2832
 #, kde-format
 msgid "Sequence paused."
 msgstr "Seqüència en pausa."
 
-#: ekos/capture/captureprocess.cpp:2882
+#: ekos/capture/captureprocess.cpp:2885
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15817,7 +15817,7 @@ msgstr ""
 "S'han completat totes les tasques. Voleu restablir l'estat de totes les "
 "tasques i reprendre la captura?"
 
-#: ekos/capture/captureprocess.cpp:2896
+#: ekos/capture/captureprocess.cpp:2899
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15826,12 +15826,12 @@ msgstr ""
 "Avís: l'opció «Reinicia sempre la seqüència en iniciar» està activa i compta "
 "el reinici de la seqüència."
 
-#: ekos/capture/captureprocess.cpp:3011
+#: ekos/capture/captureprocess.cpp:3014
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Segur que voleu reiniciar el controlador de la càmera %1?"
 
-#: ekos/capture/captureprocess.cpp:3012
+#: ekos/capture/captureprocess.cpp:3015
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicia el controlador"
@@ -16928,7 +16928,8 @@ msgstr "S'ha produït un error d'autenticació amb el servidor Ekos Live: %1"
 #: ekos/ekoslive/nodemanager.cpp:169
 #, kde-format
 msgid "Error parsing server response: %1"
-msgstr "S'ha produït un error en analitzar la resposta del servidor: %1"
+msgstr ""
+"S'ha produït un error en l'anàlisi sintàctica de la resposta del servidor: %1"
 
 #: ekos/focus/focus.cpp:102
 #, kde-format
@@ -27636,8 +27637,8 @@ msgid ""
 msgstr ""
 "<html><body><p>La restricció de l'horitzó artificial obliga que l'altitud de "
 "l'objectiu estiga sobre l'horitzó artificial, si se n'ha definit i activat "
-"un. Vegeu l'element de l'horitzó artificial en el menú Configureu KStars.</"
-"p></body></html>"
+"un. Vegeu l'element de l'horitzó artificial en el menú Configuració de "
+"KStars.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
 #: ekos/scheduler/scheduler.ui:1731
@@ -34960,19 +34961,19 @@ msgstr "Registre d'activitat del mòdul Enfocament d'Ekos."
 #: kstars.kcfg:1425
 #, kde-format
 msgid "Save Internal Guider images on disk?"
-msgstr "Voleu guardar al disc les imatges del sistema de guiatge intern?"
+msgstr "Voleu guardar en el disc les imatges del sistema de guiatge intern?"
 
 #. i18n: ectx: label, entry (SaveAlignImages), group (General)
 #: kstars.kcfg:1429
 #, kde-format
 msgid "Save Internal Align images on disk?"
-msgstr "Voleu guardar al disc les imatges de l'alineació interna?"
+msgstr "Voleu guardar en el disc les imatges de l'alineació interna?"
 
 #. i18n: ectx: label, entry (SaveFailedAlignImages), group (General)
 #: kstars.kcfg:1433
 #, kde-format
 msgid "Save Failed Align images on disk?"
-msgstr "Voleu guardar al disc les imatges de l'alineació fallida?"
+msgstr "Voleu guardar en el disc les imatges de l'alineació fallida?"
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1437
@@ -77352,7 +77353,7 @@ msgstr ""
 "\t\t\tTambé podeu emprar les tecles +/-, els botons «Acosta»/«Allunya»\n"
 "\t\t\tde la barra d'eines i estes opcions en el menú Visualitza.\n"
 "\t\t\tEl nivell d'ampliació es pot tescollir manualment amb l'opció\n"
-"\t\t\t«Amplia a una mida angular» del menú Visualitza (Ctrl+Maj+Z),\n"
+"\t\t\t«Amplia a una mida angular» del menú Visualitza («Ctrl+Maj+Z»),\n"
 "\t\t\ti el podeu establir gràficament tot mantenint premuda la tecla\n"
 "\t\t\t«Ctrl» mentre arrossegueu el ratolí per a definir un rectangle\n"
 "\t\t\tamb les mides noves.\n"
@@ -80713,8 +80714,8 @@ msgstr ""
 #, kde-kuit-format
 msgid "Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3"
 msgstr ""
-"S'ha produït un error en analitzar l'XML des de CDS Sesame: %1 en la línia "
-"%2 @ col = %3"
+"S'ha produït un error en l'anàlisi sintàctica de l'XML des de CDS Sesame: %1 "
+"a la línia %2 @ col = %3"
 
 #: tools/nameresolver.cpp:232
 #, kde-kuit-format
@@ -80894,7 +80895,7 @@ msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
-"El fitxer especificat no és vàlid. S'esperava un fitxer XML basat en "
+"El fitxer especificat no és vàlid. S'esperava un fitxer en XML basat en "
 "l'esquema de l'OpenAstronomyLog."
 
 #: tools/observinglist.cpp:954
@@ -84341,6 +84342,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Warning: Filter %1 not found in filter wheel."
-#~ msgstr "Avís: No s'ha trobat el filtre %1 en la roda de filtres."

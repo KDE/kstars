@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 00:39+0000\n"
+"POT-Creation-Date: 2023-10-10 00:39+0000\n"
 "PO-Revision-Date: 2023-06-17 12:23+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -6230,7 +6230,7 @@ msgid "Invalid URL: %1"
 msgstr "Invalid URL: %1"
 
 #: ekos/align/align.cpp:3854 ekos/align/mountmodel.cpp:400
-#: ekos/capture/captureprocess.cpp:2633 ekos/guide/guidedriftgraph.cpp:484
+#: ekos/capture/captureprocess.cpp:2636 ekos/guide/guidedriftgraph.cpp:484
 #: ekos/scheduler/scheduler.cpp:3843 ekos/scheduler/scheduler.cpp:6221
 #, kde-format
 msgid "Unable to write to file %1"
@@ -14062,7 +14062,7 @@ msgstr "Failed to save sequence queue"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Are you sure you want to reset status of all jobs?"
 
-#: ekos/capture/capture.cpp:2050 ekos/capture/captureprocess.cpp:2883
+#: ekos/capture/capture.cpp:2050 ekos/capture/captureprocess.cpp:2886
 #, kde-format
 msgid "Reset job status"
 msgstr "Reset job status"
@@ -15575,12 +15575,12 @@ msgstr ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 
-#: ekos/capture/captureprocess.cpp:2634
+#: ekos/capture/captureprocess.cpp:2637
 #, kde-format
 msgid "Could not open file"
 msgstr "Could not open file"
 
-#: ekos/capture/captureprocess.cpp:2654
+#: ekos/capture/captureprocess.cpp:2657
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -15591,17 +15591,17 @@ msgstr ""
 "File\" is not enabled. Current HFR value will not be written to sequence "
 "file."
 
-#: ekos/capture/captureprocess.cpp:2781
+#: ekos/capture/captureprocess.cpp:2784
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Sequence queue saved to %1"
 
-#: ekos/capture/captureprocess.cpp:2829
+#: ekos/capture/captureprocess.cpp:2832
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sequence paused."
 
-#: ekos/capture/captureprocess.cpp:2882
+#: ekos/capture/captureprocess.cpp:2885
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15610,7 +15610,7 @@ msgstr ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 
-#: ekos/capture/captureprocess.cpp:2896
+#: ekos/capture/captureprocess.cpp:2899
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15619,12 +15619,12 @@ msgstr ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 
-#: ekos/capture/captureprocess.cpp:3011
+#: ekos/capture/captureprocess.cpp:3014
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Are you sure you want to restart %1 camera driver?"
 
-#: ekos/capture/captureprocess.cpp:3012
+#: ekos/capture/captureprocess.cpp:3015
 #, kde-format
 msgid "Driver Restart"
 msgstr "Driver Restart"
