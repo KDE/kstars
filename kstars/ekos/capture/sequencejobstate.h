@@ -341,15 +341,11 @@ class SequenceJobState: public QObject
         // status of the focuser synchronisation
         FlatSyncStatus flatSyncStatus { FS_NONE };
         // light source for flat capturing
-        FlatFieldSource flatFieldSource { SOURCE_MANUAL };
+        CalibrationPreActions m_CalibrationPreAction { ACTION_NONE };
         // wall coordinates for capturing flats with the wall as light source
         SkyPoint wallCoord;
         // telescope status for flats using the wall position
         ScopeWallPositionStatus wpScopeStatus { WP_NONE };
-        // flag if the mount should be parking before capturing
-        bool preMountPark;
-        // flag if the dome should be parking before capturing
-        bool preDomePark;
 
         // ////////////////////////////////////////////////////////////////////
         // capture preparation state

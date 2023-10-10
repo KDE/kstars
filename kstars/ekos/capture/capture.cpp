@@ -2121,12 +2121,10 @@ void Capture::syncGUIToJob(SequenceJob * job)
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     generateDarkFlatsB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     state()->setFlatFieldDuration(job->getFlatFieldDuration());
-    state()->setFlatFieldSource(job->getFlatFieldSource());
+    state()->setCalibrationPreAction(job->getCalibrationPreAction());
     state()->setTargetADU(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble());
     state()->setTargetADUTolerance(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble());
     state()->setWallCoord(job->getWallCoord());
-    state()->setPreMountPark(job->getPreMountPark());
-    state()->setPreDomePark(job->getPreDomePark());
 
     // Script options
     state()->setScripts(job->getScripts());
@@ -2370,28 +2368,26 @@ void Capture::openCalibrationDialog()
     else
         calibrationOptions.parkDomeC->setEnabled(false);
 
-    switch (state()->flatFieldSource())
+    switch (state()->calibrationPreAction())
     {
-        case SOURCE_MANUAL:
-            calibrationOptions.manualSourceC->setChecked(true);
+        case ACTION_PARK_MOUNT:
+            calibrationOptions.parkMountC->setChecked(true);
             break;
 
-        case SOURCE_FLATCAP:
-            calibrationOptions.flatDeviceSourceC->setChecked(true);
+        case ACTION_PARK_DOME:
+            calibrationOptions.parkDomeC->setChecked(true);
             break;
 
-        case SOURCE_DARKCAP:
-            calibrationOptions.darkDeviceSourceC->setChecked(true);
-            break;
-
-        case SOURCE_WALL:
-            calibrationOptions.wallSourceC->setChecked(true);
+        case ACTION_WALL:
+            calibrationOptions.gotoWallC->setChecked(true);
             calibrationOptions.azBox->setText(state()->wallCoord().az().toDMSString());
             calibrationOptions.altBox->setText(state()->wallCoord().alt().toDMSString());
             break;
 
-        case SOURCE_DAWN_DUSK:
-            calibrationOptions.dawnDuskFlatsC->setChecked(true);
+        case ACTION_NONE:
+            calibrationOptions.parkMountC->setChecked(false);
+            calibrationOptions.parkDomeC->setChecked(false);
+            calibrationOptions.gotoWallC->setChecked(false);
             break;
     }
 
@@ -2410,13 +2406,11 @@ void Capture::openCalibrationDialog()
 
     if (calibrationDialog.exec() == QDialog::Accepted)
     {
-        if (calibrationOptions.manualSourceC->isChecked())
-            state()->setFlatFieldSource(SOURCE_MANUAL);
-        else if (calibrationOptions.flatDeviceSourceC->isChecked())
-            state()->setFlatFieldSource(SOURCE_FLATCAP);
-        else if (calibrationOptions.darkDeviceSourceC->isChecked())
-            state()->setFlatFieldSource(SOURCE_DARKCAP);
-        else if (calibrationOptions.wallSourceC->isChecked())
+        if (calibrationOptions.parkMountC->isChecked())
+            state()->setCalibrationPreAction(ACTION_PARK_MOUNT);
+        else if (calibrationOptions.parkDomeC->isChecked())
+            state()->setCalibrationPreAction(ACTION_PARK_DOME);
+        else if (calibrationOptions.gotoWallC->isChecked())
         {
             dms wallAz, wallAlt;
             bool azOk = false, altOk = false;
@@ -2426,18 +2420,18 @@ void Capture::openCalibrationDialog()
 
             if (azOk && altOk)
             {
-                state()->setFlatFieldSource(SOURCE_WALL);
+                state()->setCalibrationPreAction(ACTION_WALL);
                 state()->wallCoord().setAz(wallAz);
                 state()->wallCoord().setAlt(wallAlt);
             }
             else
             {
-                calibrationOptions.manualSourceC->setChecked(true);
+                calibrationOptions.gotoWallC->setChecked(false);
                 KSNotification::error(i18n("Wall coordinates are invalid."));
             }
         }
         else
-            state()->setFlatFieldSource(SOURCE_DAWN_DUSK);
+            state()->setCalibrationPreAction(ACTION_NONE);
 
         if (calibrationOptions.manualDurationC->isChecked())
             state()->setFlatFieldDuration(DURATION_MANUAL);
@@ -2453,7 +2447,7 @@ void Capture::openCalibrationDialog()
 
         state()->setDirty(true);
 
-        Options::setCalibrationFlatSourceIndex(state()->flatFieldSource());
+        Options::setCalibrationFlatSourceIndex(state()->calibrationPreAction());
         Options::setCalibrationFlatDurationIndex(state()->flatFieldDuration());
         Options::setCalibrationWallAz(state()->wallCoord().az().Degrees());
         Options::setCalibrationWallAlt(state()->wallCoord().alt().Degrees());
@@ -3271,7 +3265,7 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
     job->setScripts(state()->scripts());
     job->setFlatFieldDuration(state()->flatFieldDuration());
-    job->setFlatFieldSource(state()->flatFieldSource());
+    job->setFlatFieldSource(state()->calibrationPreAction());
     job->setPreMountPark(state()->preMountPark());
     job->setPreDomePark(state()->preDomePark());
     job->setWallCoord(state()->wallCoord());

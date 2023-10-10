@@ -2543,18 +2543,16 @@ SequenceJob *CaptureProcess::loadSequenceJob(XMLEle *root, bool ignoreTarget)
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
-            subEP = findXMLEle(ep, "FlatSource");
+            subEP = findXMLEle(ep, "PreAction");
             if (subEP)
             {
                 XMLEle * typeEP = findXMLEle(subEP, "Type");
                 if (typeEP)
                 {
-                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
-                        job->setFlatFieldSource(SOURCE_MANUAL);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "FlatCap"))
-                        job->setFlatFieldSource(SOURCE_FLATCAP);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "DarkCap"))
-                        job->setFlatFieldSource(SOURCE_DARKCAP);
+                    if (!strcmp(pcdataXMLEle(typeEP), "ParkMount"))
+                        job->setFlatFieldSource(ACTION_PARK_MOUNT);
+                    else if (!strcmp(pcdataXMLEle(typeEP), "ParkDome"))
+                        job->setFlatFieldSource(ACTION_PARK_DOME);
                     else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
@@ -2562,7 +2560,7 @@ SequenceJob *CaptureProcess::loadSequenceJob(XMLEle *root, bool ignoreTarget)
 
                         if (azEP && altEP)
                         {
-                            job->setFlatFieldSource(SOURCE_WALL);
+                            job->setFlatFieldSource(ACTION_WALL);
                             SkyPoint wallCoord;
                             wallCoord.setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
                             wallCoord.setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
@@ -2570,7 +2568,7 @@ SequenceJob *CaptureProcess::loadSequenceJob(XMLEle *root, bool ignoreTarget)
                         }
                     }
                     else
-                        job->setFlatFieldSource(SOURCE_DAWN_DUSK);
+                        job->setFlatFieldSource(ACTION_NONE);
                 }
             }
 
@@ -2600,14 +2598,6 @@ SequenceJob *CaptureProcess::loadSequenceJob(XMLEle *root, bool ignoreTarget)
                     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, QVariant(cLocale.toDouble(pcdataXMLEle(aduEP))));
                 }
             }
-
-            subEP = findXMLEle(ep, "PreMountPark");
-            if (subEP)
-                job->setPreMountPark(!strcmp(pcdataXMLEle(subEP), "True"));
-
-            subEP = findXMLEle(ep, "PreDomePark");
-            if (subEP)
-                job->setPreDomePark(!strcmp(pcdataXMLEle(subEP), "True"));
         }
     }
 
@@ -2747,14 +2737,14 @@ bool CaptureProcess::saveSequenceQueue(const QString &path)
         outstream << "</Properties>" << Qt::endl;
 
         outstream << "<Calibration>" << Qt::endl;
-        outstream << "<FlatSource>" << Qt::endl;
-        outstream << QString("<Type>%1</Type>").arg(FlatFieldSourceNames[job->getFlatFieldSource()]) << Qt::endl;
-        if (job->getFlatFieldSource() == SOURCE_WALL)
+        outstream << "<PreAction>" << Qt::endl;
+        outstream << QString("<Type>%1</Type>").arg(CalibrationPreActionNames[job->getCalibrationPreAction()]) << Qt::endl;
+        if (job->getCalibrationPreAction() == ACTION_WALL)
         {
             outstream << "<Az>" << cLocale.toString(job->getWallCoord().az().Degrees()) << "</Az>" << Qt::endl;
             outstream << "<Alt>" << cLocale.toString(job->getWallCoord().alt().Degrees()) << "</Alt>" << Qt::endl;
         }
-        outstream << "</FlatSource>" << Qt::endl;
+        outstream << "</PreAction>" << Qt::endl;
 
         outstream << "<FlatDuration dark='" << (job->jobType() == SequenceJob::JOBTYPE_DARKFLAT ? "true" : "false")
                   << "'>" << Qt::endl;
@@ -2769,13 +2759,7 @@ bool CaptureProcess::saveSequenceQueue(const QString &path)
                       "</Tolerance>" << Qt::endl;
         }
         outstream << "</FlatDuration>" << Qt::endl;
-
-        outstream << "<PreMountPark>" << (job->getPreMountPark() ? "True" : "False") <<
-                  "</PreMountPark>" << Qt::endl;
-        outstream << "<PreDomePark>" << (job->getPreDomePark() ? "True" : "False") <<
-                  "</PreDomePark>" << Qt::endl;
         outstream << "</Calibration>" << Qt::endl;
-
         outstream << "</Job>" << Qt::endl;
     }
 

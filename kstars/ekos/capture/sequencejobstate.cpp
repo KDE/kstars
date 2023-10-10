@@ -335,8 +335,8 @@ void SequenceJobState::prepareRotatorCheck()
 IPState SequenceJobState::checkFlatsLightCoverReady()
 {
     IPState result = IPS_OK;
-
-    switch (flatFieldSource)
+    
+    switch (m_CalibrationPreAction)
     {
         case SOURCE_MANUAL:
             result = checkManualCoverReady(true);
@@ -368,7 +368,7 @@ IPState SequenceJobState::checkDarksCoverReady()
         return result;
 
     // 2. check if the selected cover is ready for darks
-    switch (flatFieldSource)
+    switch (m_CalibrationPreAction)
     {
         // All these are manual when it comes to dark frames
         case SOURCE_MANUAL:
@@ -543,7 +543,7 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
 
 IPState SequenceJobState::checkPreMountParkReady()
 {
-    if (preMountPark && m_CaptureModuleState->hasTelescope && flatFieldSource != SOURCE_WALL)
+    if (preMountPark && m_CaptureModuleState->hasTelescope && m_CalibrationPreAction != SOURCE_WALL)
     {
         if (m_CaptureModuleState->getScopeParkState() == ISD::PARK_ERROR)
         {
@@ -626,7 +626,7 @@ IPState SequenceJobState::checkHasShutter()
 
 IPState SequenceJobState::checkLightFrameScopeCoverOpen()
 {
-    switch (flatFieldSource)
+    switch (m_CalibrationPreAction)
     {
         // All these are considered MANUAL when it comes to light frames
         case SOURCE_MANUAL:

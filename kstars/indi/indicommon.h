@@ -158,15 +158,13 @@ const QMap<CCDFrameType, QString> CCDFrameTypeNames =
 
 typedef enum { SINGLE_BIN, DOUBLE_BIN, TRIPLE_BIN, QUADRAPLE_BIN } CCDBinType;
 
-typedef enum { SOURCE_MANUAL, SOURCE_FLATCAP, SOURCE_WALL, SOURCE_DAWN_DUSK, SOURCE_DARKCAP } FlatFieldSource;
+typedef enum { ACTION_NONE, ACTION_WALL, ACTION_PARK_MOUNT, ACTION_PARK_DOME } CalibrationPreActions;
 
-const QMap<FlatFieldSource, QString> FlatFieldSourceNames =
+const QMap<CalibrationPreActions, QString> CalibrationPreActionNames =
 {
-    {SOURCE_MANUAL, "Manual"},
-    {SOURCE_FLATCAP, "FlatCap"},
-    {SOURCE_WALL, "Wall"},
-    {SOURCE_DAWN_DUSK, "DawnDusk"},
-    {SOURCE_DARKCAP, "DarkCap"}
+    {ACTION_WALL, "Wall"},
+    {ACTION_PARK_MOUNT, "ParkMount"},
+    {ACTION_PARK_DOME, "ParkDome"}
 };
 
 typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;

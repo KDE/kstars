@@ -568,14 +568,14 @@ ISD::Camera::UploadMode SequenceJob::getUploadMode() const
 }
 
 // Setter: Set flat field source
-void SequenceJob::setFlatFieldSource(FlatFieldSource value)
+void SequenceJob::setFlatFieldSource(CalibrationPreActions value)
 {
-    state->flatFieldSource = value;
+    state->m_CalibrationPreAction = value;
 }
 // Getter: Get flat field source
-FlatFieldSource SequenceJob::getFlatFieldSource() const
+CalibrationPreActions SequenceJob::getCalibrationPreAction() const
 {
-    return state->flatFieldSource;
+    return state->m_CalibrationPreAction;
 }
 
 void SequenceJob::setWallCoord(const SkyPoint &value)
