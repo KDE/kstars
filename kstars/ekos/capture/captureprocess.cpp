@@ -21,7 +21,7 @@
 #endif
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.5
+#define SQ_FORMAT_VERSION 2.6
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 2.0
 
@@ -139,6 +139,16 @@ bool CaptureProcess::setLightBox(ISD::LightBox *device)
 
     devices()->setLightBox(device);
     state()->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_UNKNOWN);
+
+    return true;
+}
+
+bool CaptureProcess::setDome(ISD::Dome *device)
+{
+    if (devices()->dome() == device)
+        return false;
+
+    devices()->setDome(device);
 
     return true;
 }
@@ -690,7 +700,6 @@ void CaptureProcess::prepareJobExecution()
 
 void CaptureProcess::refreshOpticalTrain(QString name)
 {
-
     auto mount = OpticalTrainManager::Instance()->getMount(name);
     setMount(mount);
 
@@ -2549,26 +2558,25 @@ SequenceJob *CaptureProcess::loadSequenceJob(XMLEle *root, bool ignoreTarget)
                 XMLEle * typeEP = findXMLEle(subEP, "Type");
                 if (typeEP)
                 {
+                    job->setCalibrationPreAction(ACTION_NONE);
                     if (!strcmp(pcdataXMLEle(typeEP), "ParkMount"))
-                        job->setFlatFieldSource(ACTION_PARK_MOUNT);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "ParkDome"))
-                        job->setFlatFieldSource(ACTION_PARK_DOME);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
+                        job->setCalibrationPreAction(job->getCalibrationPreAction() | ACTION_PARK_MOUNT);
+                    if (!strcmp(pcdataXMLEle(typeEP), "ParkDome"))
+                        job->setCalibrationPreAction(job->getCalibrationPreAction() | ACTION_PARK_DOME);
+                    if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
                         XMLEle * altEP = findXMLEle(subEP, "Alt");
 
                         if (azEP && altEP)
                         {
-                            job->setFlatFieldSource(ACTION_WALL);
+                            job->setCalibrationPreAction((job->getCalibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
                             SkyPoint wallCoord;
                             wallCoord.setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
                             wallCoord.setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
                             job->setWallCoord(wallCoord);
                         }
                     }
-                    else
-                        job->setFlatFieldSource(ACTION_NONE);
                 }
             }
 
@@ -2738,7 +2746,7 @@ bool CaptureProcess::saveSequenceQueue(const QString &path)
 
         outstream << "<Calibration>" << Qt::endl;
         outstream << "<PreAction>" << Qt::endl;
-        outstream << QString("<Type>%1</Type>").arg(CalibrationPreActionNames[job->getCalibrationPreAction()]) << Qt::endl;
+        outstream << QString("<Type>%1</Type>").arg(job->getCalibrationPreAction()) << Qt::endl;
         if (job->getCalibrationPreAction() == ACTION_WALL)
         {
             outstream << "<Az>" << cLocale.toString(job->getWallCoord().az().Degrees()) << "</Az>" << Qt::endl;

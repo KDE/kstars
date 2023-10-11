@@ -387,6 +387,13 @@ class Capture : public QWidget, public Ui::Capture
         void setRotator(QString name);
 
         /**
+         * @brief setDome Set dome device
+         * @param device pointer to dome device
+         * @return true if successfull, false otherewise.
+         */
+        bool setDome(ISD::Dome *device);
+
+        /**
          * @brief Generic method for removing any connected device.
          */
         void removeDevice(const QSharedPointer<ISD::GenericDevice> &device)

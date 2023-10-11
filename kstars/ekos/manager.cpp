@@ -1626,6 +1626,8 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     auto dome = device->getDome();
     if (dome)
     {
+        if (captureProcess)
+            captureProcess->setDome(dome);
         if (observatoryProcess)
             observatoryProcess->setDome(dome);
     }

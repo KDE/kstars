@@ -169,18 +169,17 @@ SequenceJob::SequenceJob(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
-            subEP = findXMLEle(ep, "FlatSource");
+            subEP = findXMLEle(ep, "PreAction");
             if (subEP)
             {
                 XMLEle * typeEP = findXMLEle(subEP, "Type");
                 if (typeEP)
                 {
-                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
-                        setFlatFieldSource(SOURCE_MANUAL);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "FlatCap"))
-                        setFlatFieldSource(SOURCE_FLATCAP);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "DarkCap"))
-                        setFlatFieldSource(SOURCE_DARKCAP);
+                    setCalibrationPreAction(ACTION_NONE);
+                    if (!strcmp(pcdataXMLEle(typeEP), "ParkMount"))
+                        setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_MOUNT);
+                    else if (!strcmp(pcdataXMLEle(typeEP), "ParkDome"))
+                        setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_DOME);
                     else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
@@ -188,15 +187,14 @@ SequenceJob::SequenceJob(XMLEle *root)
 
                         if (azEP && altEP)
                         {
-                            setFlatFieldSource(SOURCE_WALL);
+                            // If we have wall, then we need to disable park mount
+                            setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
                             SkyPoint wallCoord;
                             wallCoord.setAz(dms::fromString(pcdataXMLEle(azEP), true));
                             wallCoord.setAlt(dms::fromString(pcdataXMLEle(altEP), true));
                             setWallCoord(wallCoord);
                         }
                     }
-                    else
-                        setFlatFieldSource(SOURCE_DAWN_DUSK);
                 }
             }
 
@@ -227,18 +225,6 @@ SequenceJob::SequenceJob(XMLEle *root)
                 {
                     setCoreProperty(SJ_TargetADUTolerance, cLocale.toDouble(pcdataXMLEle(aduEP)));
                 }
-            }
-
-            subEP = findXMLEle(ep, "PreMountPark");
-            if (subEP)
-            {
-                setPreMountPark(!strcmp(pcdataXMLEle(subEP), "True"));
-            }
-
-            subEP = findXMLEle(ep, "PreDomePark");
-            if (subEP)
-            {
-                setPreDomePark(!strcmp(pcdataXMLEle(subEP), "True"));
             }
         }
     }
@@ -568,12 +554,12 @@ ISD::Camera::UploadMode SequenceJob::getUploadMode() const
 }
 
 // Setter: Set flat field source
-void SequenceJob::setFlatFieldSource(CalibrationPreActions value)
+void SequenceJob::setCalibrationPreAction(uint32_t value)
 {
     state->m_CalibrationPreAction = value;
 }
-// Getter: Get flat field source
-CalibrationPreActions SequenceJob::getCalibrationPreAction() const
+// Getter: Get calibration pre action
+uint32_t SequenceJob::getCalibrationPreAction() const
 {
     return state->m_CalibrationPreAction;
 }

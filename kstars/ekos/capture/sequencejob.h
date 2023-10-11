@@ -227,9 +227,9 @@ class SequenceJob : public QObject
         ISD::Camera::UploadMode getUploadMode() const;
 
         // Setter: Set flat field source
-        void setFlatFieldSource(CalibrationPreActions value);
+        void setCalibrationPreAction(uint32_t value);
         // Getter: Get flat field source
-        CalibrationPreActions getCalibrationPreAction() const;
+        uint32_t getCalibrationPreAction() const;
 
         // Setter: Set Wall SkyPoint Azimuth coords
         void setWallCoord(const SkyPoint &value);

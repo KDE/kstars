@@ -630,6 +630,11 @@ void Capture::setFilterWheel(QString name)
         emit settingsUpdated(getPresetSettings());
 }
 
+bool Capture::setDome(ISD::Dome *device)
+{
+    return m_captureProcess->setDome(device);
+}
+
 void Capture::setRotator(QString name)
 {
     ISD::Rotator *Rotator = devices()->rotator();
@@ -2352,43 +2357,20 @@ void Capture::openCalibrationDialog()
     Ui_calibrationOptions calibrationOptions;
     calibrationOptions.setupUi(&calibrationDialog);
 
-    if (devices()->mount())
+    calibrationOptions.parkMountC->setEnabled(devices()->mount() && devices()->mount()->canPark());
+    calibrationOptions.parkDomeC->setEnabled(devices()->dome() && devices()->dome()->canPark());
+
+    calibrationOptions.parkMountC->setChecked(false);
+    calibrationOptions.parkDomeC->setChecked(false);
+    calibrationOptions.gotoWallC->setChecked(false);
+
+    calibrationOptions.parkMountC->setChecked(state()->calibrationPreAction() & ACTION_PARK_MOUNT);
+    calibrationOptions.parkDomeC->setChecked(state()->calibrationPreAction() & ACTION_PARK_DOME);
+    if (state()->calibrationPreAction() & ACTION_WALL)
     {
-        calibrationOptions.parkMountC->setEnabled(devices()->mount()->canPark());
-        calibrationOptions.parkMountC->setChecked(state()->preMountPark());
-    }
-    else
-        calibrationOptions.parkMountC->setEnabled(false);
-
-    if (devices()->dome())
-    {
-        calibrationOptions.parkDomeC->setEnabled(devices()->dome()->canPark());
-        calibrationOptions.parkDomeC->setChecked(state()->preDomePark());
-    }
-    else
-        calibrationOptions.parkDomeC->setEnabled(false);
-
-    switch (state()->calibrationPreAction())
-    {
-        case ACTION_PARK_MOUNT:
-            calibrationOptions.parkMountC->setChecked(true);
-            break;
-
-        case ACTION_PARK_DOME:
-            calibrationOptions.parkDomeC->setChecked(true);
-            break;
-
-        case ACTION_WALL:
-            calibrationOptions.gotoWallC->setChecked(true);
-            calibrationOptions.azBox->setText(state()->wallCoord().az().toDMSString());
-            calibrationOptions.altBox->setText(state()->wallCoord().alt().toDMSString());
-            break;
-
-        case ACTION_NONE:
-            calibrationOptions.parkMountC->setChecked(false);
-            calibrationOptions.parkDomeC->setChecked(false);
-            calibrationOptions.gotoWallC->setChecked(false);
-            break;
+        calibrationOptions.gotoWallC->setChecked(true);
+        calibrationOptions.azBox->setText(state()->wallCoord().az().toDMSString());
+        calibrationOptions.altBox->setText(state()->wallCoord().alt().toDMSString());
     }
 
     switch (state()->flatFieldDuration())
@@ -2406,11 +2388,12 @@ void Capture::openCalibrationDialog()
 
     if (calibrationDialog.exec() == QDialog::Accepted)
     {
+        state()->setCalibrationPreAction(ACTION_NONE);
         if (calibrationOptions.parkMountC->isChecked())
-            state()->setCalibrationPreAction(ACTION_PARK_MOUNT);
-        else if (calibrationOptions.parkDomeC->isChecked())
-            state()->setCalibrationPreAction(ACTION_PARK_DOME);
-        else if (calibrationOptions.gotoWallC->isChecked())
+            state()->setCalibrationPreAction(state()->calibrationPreAction() | ACTION_PARK_MOUNT);
+        if (calibrationOptions.parkDomeC->isChecked())
+            state()->setCalibrationPreAction(state()->calibrationPreAction() | ACTION_PARK_DOME);
+        if (calibrationOptions.gotoWallC->isChecked())
         {
             dms wallAz, wallAlt;
             bool azOk = false, altOk = false;
@@ -2420,7 +2403,7 @@ void Capture::openCalibrationDialog()
 
             if (azOk && altOk)
             {
-                state()->setCalibrationPreAction(ACTION_WALL);
+                state()->setCalibrationPreAction((state()->calibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
                 state()->wallCoord().setAz(wallAz);
                 state()->wallCoord().setAlt(wallAlt);
             }
@@ -2430,8 +2413,6 @@ void Capture::openCalibrationDialog()
                 KSNotification::error(i18n("Wall coordinates are invalid."));
             }
         }
-        else
-            state()->setCalibrationPreAction(ACTION_NONE);
 
         if (calibrationOptions.manualDurationC->isChecked())
             state()->setFlatFieldDuration(DURATION_MANUAL);
@@ -2442,12 +2423,9 @@ void Capture::openCalibrationDialog()
             state()->setTargetADUTolerance(calibrationOptions.ADUTolerance->value());
         }
 
-        state()->setPreMountPark(calibrationOptions.parkMountC->isChecked());
-        state()->setPreDomePark(calibrationOptions.parkDomeC->isChecked());
-
         state()->setDirty(true);
 
-        Options::setCalibrationFlatSourceIndex(state()->calibrationPreAction());
+        Options::setCalibrationPreActionIndex(state()->calibrationPreAction());
         Options::setCalibrationFlatDurationIndex(state()->flatFieldDuration());
         Options::setCalibrationWallAz(state()->wallCoord().az().Degrees());
         Options::setCalibrationWallAlt(state()->wallCoord().alt().Degrees());
@@ -3265,9 +3243,7 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
     job->setScripts(state()->scripts());
     job->setFlatFieldDuration(state()->flatFieldDuration());
-    job->setFlatFieldSource(state()->calibrationPreAction());
-    job->setPreMountPark(state()->preMountPark());
-    job->setPreDomePark(state()->preDomePark());
+    job->setCalibrationPreAction(state()->calibrationPreAction());
     job->setWallCoord(state()->wallCoord());
     job->setCoreProperty(SequenceJob::SJ_TargetADU, state()->targetADU());
     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, state()->targetADUTolerance());

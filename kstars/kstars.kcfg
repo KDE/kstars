@@ -1814,8 +1814,8 @@
          <whatsthis>Maximum difference between measured and target ADU values to deem the value as acceptable.</whatsthis>
          <default>1000</default>
       </entry>
-      <entry name="CalibrationFlatSourceIndex" type="UInt">
-         <label>Index of flat source option.</label>
+      <entry name="CalibrationPreActionIndex" type="UInt">
+         <label>ORed list of calibration pre-actions.</label>
          <default>0</default>
       </entry>
       <entry name="CalibrationFlatDurationIndex" type="UInt">

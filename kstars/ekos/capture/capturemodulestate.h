@@ -928,11 +928,11 @@ class CaptureModuleState: public QObject
             m_flatFieldDuration = value;
         }
 
-        CalibrationPreActions calibrationPreAction() const
+        uint32_t calibrationPreAction() const
         {
             return m_CalibrationPreAction;
         }
-        void setCalibrationPreAction(CalibrationPreActions value)
+        void setCalibrationPreAction(uint32_t value)
         {
             m_CalibrationPreAction = value;
         }
@@ -1082,7 +1082,7 @@ private:
         double m_targetADU { 0 };
         SkyPoint m_wallCoord;
         FlatFieldDuration m_flatFieldDuration { DURATION_MANUAL };
-        CalibrationPreActions m_CalibrationPreAction { ACTION_NONE };
+        uint32_t m_CalibrationPreAction { ACTION_NONE };
         bool m_lightBoxLightEnabled { false };
         // Allowed camera exposure times
         DoubleRange m_ExposureRange;

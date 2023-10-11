@@ -147,6 +147,13 @@ public:
     bool setLightBox(ISD::LightBox *device);
 
     /**
+     * @brief setDome Connect to the given dome device
+     * @param device point to dome INDI device
+     * @return True if added successfully, false if duplicate or failed to add.
+     */
+    bool setDome(ISD::Dome *device);
+
+    /**
      * @brief setCamera Connect to the given camera device (and deconnect
      * the old one if existing)
      * @param device pointer to camera INDI device.

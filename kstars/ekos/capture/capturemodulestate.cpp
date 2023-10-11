@@ -24,7 +24,7 @@ CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
     getGuideDeviationTimer().setInterval(GD_TIMER_TIMEOUT);
     connect(&m_guideDeviationTimer, &QTimer::timeout, this, &CaptureModuleState::checkGuideDeviationTimeout);
 
-    setCalibrationPreAction(static_cast<CalibrationPreActions>(Options::calibrationFlatSourceIndex()));
+    setCalibrationPreAction(static_cast<CalibrationPreActions>(Options::calibrationPreActionIndex()));
     setFlatFieldDuration(static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex()));
     wallCoord().setAz(Options::calibrationWallAz());
     wallCoord().setAlt(Options::calibrationWallAlt());
@@ -1167,7 +1167,7 @@ QJsonObject CaptureModuleState::calibrationSettings()
 {
     QJsonObject settings =
     {
-        {"preAction", calibrationPreAction()},
+        {"preAction", static_cast<int>(calibrationPreAction())},
         {"duration", flatFieldDuration()},
         {"az", wallCoord().az().Degrees()},
         {"al", wallCoord().alt().Degrees()},

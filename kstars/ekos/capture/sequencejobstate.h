@@ -341,7 +341,7 @@ class SequenceJobState: public QObject
         // status of the focuser synchronisation
         FlatSyncStatus flatSyncStatus { FS_NONE };
         // light source for flat capturing
-        CalibrationPreActions m_CalibrationPreAction { ACTION_NONE };
+        uint32_t m_CalibrationPreAction { ACTION_NONE };
         // wall coordinates for capturing flats with the wall as light source
         SkyPoint wallCoord;
         // telescope status for flats using the wall position
@@ -406,11 +406,17 @@ class SequenceJobState: public QObject
         // ////////////////////////////////////////////////////////////////////
 
         /**
-         * @brief Check if the selected flats light source is ready.
+         * @brief checkCalibrationPreActionsReady Check if we completed all the required pre-calibration actions
+         * @return IPS_OK if completed, IPS_BUSY if in progress, and IPS_ALERT if trouble.
+         */
+        IPState checkCalibrationPreActionsReady();
+
+        /**
+         * @brief Check if the cover and light for flats is ready
          * @return IPS_OK if cover closed, IPS_BUSY if not and IPS_ALERT if the
          *         process should be aborted.
          */
-        IPState checkFlatsLightCoverReady();
+        IPState checkFlatsCoverReady();
 
         /**
          * @brief Check if the selected dark covers is ready.
@@ -420,19 +426,11 @@ class SequenceJobState: public QObject
         IPState checkDarksCoverReady();
 
         /**
-          * @brief Ask the user to place a flat screen onto the telescope
+          * @brief Ask the user to place a flat screen onto the telescope if a light source is required.
           * @return IPS_OK if cover closed, IPS_BUSY if not and IPS_ALERT if the
           *         process should be aborted.
           */
-        IPState checkManualCoverReady(bool light);
-
-        /**
-         * @brief Check if the telescope cap with internal light source is ready
-         *        for capturing flats.
-         * @return IPS_OK if cap is closed, IPS_BUSY if not and IPS_ALERT if the
-         *         process should be aborted.
-         */
-        IPState checkFlatCapReady();
+        IPState checkManualCoverReady(bool lightSourceRequired);
 
         /**
          * @brief Check if the telescope dust cap is ready for capturing flats or darks.
