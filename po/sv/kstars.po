@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 00:39+0000\n"
-"PO-Revision-Date: 2023-09-29 20:24+0200\n"
+"PO-Revision-Date: 2023-10-10 18:50+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -14145,32 +14145,27 @@ msgid "Cooler is off"
 msgstr "Kylenhet är av"
 
 #: ekos/capture/capture.cpp:3168
-#, fuzzy, kde-format
-#| msgctxt "Temperature ramp celcius per minute"
-#| msgid "Ramp (C/min):"
+#, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
-msgstr "Ramp (C/min):"
+msgstr "Ramp (°C/min):"
 
 #: ekos/capture/capture.cpp:3174
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum temperature change per minute when cooling or warming the camera. "
-#| "Set zero to disable."
+#, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
 "the camera. Set zero to disable.<p>This setting is read from and stored in "
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
-"Maximal temperaturändring per minut när kameran kyls ner eller värms upp. "
-"Ställ in till noll för att inaktivera."
+"<html><body><p>Maximal temperaturändring per minut när kameran kyls ner "
+"eller värms upp. Ställ in till noll för att inaktivera.<p>Inställningen "
+"läses från och lagras i INDI-kameradrivrutinens inställning.</body></html>"
 
 #: ekos/capture/capture.cpp:3179
-#, fuzzy, kde-format
-#| msgid "Threshold (%):"
+#, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
-msgstr "Tröskel (%):"
+msgstr "Tröskel (°C):"
 
 #: ekos/capture/capture.cpp:3185
 #, kde-format
@@ -14179,6 +14174,9 @@ msgid ""
 "triggering regulation.<p>This setting is read from and stored in the INDI "
 "camera driver configuration.</body></html>"
 msgstr ""
+"<html><body><p>Maximal skillnad mellan kamerans och målets temperatur som "
+"orsakar reglering.<p>Inställningen läses från och lagras i INDI-"
+"kameradrivrutinens inställning.</body></html>"
 
 #: ekos/capture/capture.cpp:3198
 #, kde-format

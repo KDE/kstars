@@ -13362,11 +13362,10 @@ msgid ""
 msgstr ""
 
 #: ekos/capture/capture.cpp:3179
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
-msgstr "Práh:"
+msgstr ""
 
 #: ekos/capture/capture.cpp:3185
 #, kde-format

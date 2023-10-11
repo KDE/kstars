@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 00:39+0000\n"
-"PO-Revision-Date: 2023-09-16 10:09\n"
+"PO-Revision-Date: 2023-10-10 14:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -13573,30 +13573,24 @@ msgid "Cooler is off"
 msgstr "制冷已关闭"
 
 #: ekos/capture/capture.cpp:3168
-#, fuzzy, kde-format
-#| msgctxt "Temperature ramp celcius per minute"
-#| msgid "Ramp (C/min):"
+#, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
-msgstr "温度梯度(度/分)"
+msgstr ""
 
 #: ekos/capture/capture.cpp:3174
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum temperature change per minute when cooling or warming the camera. "
-#| "Set zero to disable."
+#, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
 "the camera. Set zero to disable.<p>This setting is read from and stored in "
 "the INDI camera driver configuration.</body></html>"
-msgstr "冷却或加热摄像头时，每分钟最大温度变化。设置为零以禁用。"
+msgstr ""
 
 #: ekos/capture/capture.cpp:3179
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
-msgstr "阈值："
+msgstr ""
 
 #: ekos/capture/capture.cpp:3185
 #, kde-format
@@ -32375,10 +32369,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SaveFailedAlignImages), group (General)
 #: kstars.kcfg:1433
-#, fuzzy, kde-format
-#| msgid "Save Internal Guider images on disk?"
+#, kde-format
 msgid "Save Failed Align images on disk?"
-msgstr "保存内部导星图像到磁盘吗？"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1437
@@ -71101,25 +71094,18 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
-#| "autofocus by examining frames. This can consume a lot of storage space.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Align images where align failed. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>保存对焦图像。仅当需要通过检查图像来排除自动焦点故障时"
-"启用。因为这可能消耗大量存储空间。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:73
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Save Failed Align Images"
-msgstr "保存导星图像"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -80346,6 +80332,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Maximum difference between camera and target temperatures"
-#~ msgstr "相机温度与目标温度的最大温差"
