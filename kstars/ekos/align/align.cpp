@@ -41,6 +41,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymapcomposite.h"
+#include "ekos/auxiliary/solverutils.h"
 
 // INDI
 #include "ekos/manager.h"
@@ -1936,6 +1937,8 @@ void Align::startSolving()
             m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
             m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
         }
+
+        SolverUtils::patchMultiAlgorithm(m_StellarSolver.get());
 
         // Start solving process
         m_StellarSolver->start();

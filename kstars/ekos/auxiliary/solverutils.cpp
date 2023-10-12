@@ -11,8 +11,9 @@
 #include <QRegularExpression>
 #include <QUuid>
 
-SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSeconds) : m_Parameters(parameters),
-    m_TimeoutMilliseconds(timeoutSeconds * 1000.0)
+SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSeconds,
+                         SSolver::ProcessType type) :
+    m_Parameters(parameters), m_TimeoutMilliseconds(timeoutSeconds * 1000.0), m_Type(type)
 {
     connect(&m_Watcher, &QFutureWatcher<bool>::finished, this, &SolverUtils::executeSolver, Qt::UniqueConnection);
     connect(&m_SolverTimer, &QTimer::timeout, this, &SolverUtils::solverTimeout, Qt::UniqueConnection);
@@ -72,7 +73,7 @@ void SolverUtils::prepareSolver()
 {
     if (m_StellarSolver->isRunning())
         m_StellarSolver->abort();
-    m_StellarSolver->setProperty("ProcessType", SSolver::SOLVE);
+    m_StellarSolver->setProperty("ProcessType", m_Type);
     m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
     m_StellarSolver->setProperty("SolverType", Options::solverType());
@@ -142,6 +143,8 @@ void SolverUtils::prepareSolver()
     // LOG_ALL is crashy now
     m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
     m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
+
+    patchMultiAlgorithm(m_StellarSolver.get());
 }
 
 void SolverUtils::runSolver(const QSharedPointer<FITSData> &data)
@@ -180,12 +183,19 @@ void SolverUtils::solverDone()
     const double elapsed = (QDateTime::currentMSecsSinceEpoch() - m_StartTime) / 1000.0;
     m_SolverTimer.stop();
 
-    FITSImage::Solution solution;
-    bool success = m_StellarSolver->solvingDone() && !m_StellarSolver->failed();
-    if (success)
-        solution = m_StellarSolver->getSolution();
-    emit done(false, success, solution, elapsed);
-
+    if (m_Type == SSolver::SOLVE)
+    {
+        FITSImage::Solution solution;
+        const bool success = m_StellarSolver->solvingDone() && !m_StellarSolver->failed();
+        if (success)
+            solution = m_StellarSolver->getSolution();
+        emit done(false, success, solution, elapsed);
+    }
+    else
+    {
+        const bool success = m_StellarSolver->extractionDone() && !m_StellarSolver->failed();
+        emit done(false, success, FITSImage::Solution(), elapsed);
+    }
     if (!m_TemporaryFilename.isEmpty())
         QFile::remove(m_TemporaryFilename);
     m_TemporaryFilename.clear();
@@ -203,4 +213,16 @@ void SolverUtils::solverTimeout()
     if (!m_TemporaryFilename.isEmpty())
         QFile::remove(m_TemporaryFilename);
     m_TemporaryFilename.clear();
+}
+
+// We don't trust StellarSolver's mutli-processing algorithm MULTI_DEPTHS which is used
+// with multiAlgorithm==MULTI_AUTO && use_scale && !use_position.
+void SolverUtils::patchMultiAlgorithm(StellarSolver *solver)
+{
+    if (solver && solver->property("UseScale").toBool() && !solver->property("UsePosition").toBool())
+    {
+        auto currentParameters = solver->getCurrentParameters();
+        currentParameters.multiAlgorithm = NOT_MULTI;
+        solver->setParameters(currentParameters);
+    }
 }

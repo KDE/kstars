@@ -15,12 +15,14 @@
 #include <QWidget>
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
+#include "ui_platesolve.h"
 #include <QFuture>
 #include <QPointer>
 #include <QListWidget>
 #include <QLabel>
 #include <QPushButton>
 #include <memory>
+#include "ekos/auxiliary/solverutils.h"
 
 class FITSHistogramEditor;
 class FITSView;
@@ -115,12 +117,15 @@ class FITSTab : public QWidget
         void ZoomOut();
         void ZoomDefault();
         void evaluateStats();
+        void extractImage();
+        void solveImage();
     protected:
         virtual void closeEvent(QCloseEvent *ev) override;
 
     private:
         bool setupView(FITSMode mode, FITSScale filter);
         void processData();
+        void imageSolved(bool success);
 
         /** Ask user whether he wants to save changes and save if he do. */
 
@@ -134,6 +139,9 @@ class FITSTab : public QWidget
         /// The Statistics Panel
         QPointer<QDialog> statWidget;
         Ui::statForm stat;
+        /// The Plate Solving UI
+        QPointer<QDialog> m_PlateSolveWidget;
+        Ui::PlateSolveUI m_PlateSolveUI;
         /// FITS Histogram
         QPointer<FITSHistogramEditor> m_HistogramEditor;
         QPointer<FITSViewer> viewer;
@@ -153,6 +161,13 @@ class FITSTab : public QWidget
         int uid { 0 };
 
         std::unique_ptr<FITSStretchUI> stretchUI;
+
+        // Used for solving an image.
+        void setupSolver(bool extractOnly = false);
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+        void extractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+        void initSolverUI();
+        QSharedPointer<SolverUtils> m_Solver;
 
     signals:
         void debayerToggled(bool);

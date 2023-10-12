@@ -28,6 +28,7 @@
 #include "ekos/capture/placeholderpath.h"
 #include "skyobjects/starobject.h"
 #include "greedyscheduler.h"
+#include "ekos/auxiliary/solverutils.h"
 
 #include <KConfigDialog>
 #include <KActionCollection>
