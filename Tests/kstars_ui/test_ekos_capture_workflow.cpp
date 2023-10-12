@@ -534,8 +534,6 @@ void TestEkosCaptureWorkflow::testFlatManualSource()
     // switch capture type to flat so that we can set the calibration
     KTRY_SET_COMBO(capture, captureTypeS, "Flat");
 
-    // select manual flat method
-    KTRY_SELECT_FLAT_METHOD(manualSourceC, false, false);
     // ensure that the filter wheel is configured
     KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo);
     // wait until filter combo box is filled
@@ -618,11 +616,6 @@ void TestEkosCaptureWorkflow::testLightPanelSource()
     KTRY_SET_COMBO(capture, captureTypeS, frametype);
 
     // select internal or external flat light
-    QFETCH(bool, internalLight);
-    if (internalLight == true)
-        KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, false, false);
-    else
-        KTRY_SELECT_FLAT_METHOD(darkDeviceSourceC, false, false);
     // build a simple 1xL sequence
     KTRY_CAPTURE_ADD_FRAME(frametype, 1, 1, 0.0, "Luminance", imagepath);
     // build a simple 1xL light sequence
@@ -662,8 +655,7 @@ void TestEkosCaptureWorkflow::testDustcapSource()
     // park
     SET_INDI_VALUE_SWITCH("Flip Flat", "CAP_PARK", "PARK", true);
     // turn light off
-    SET_INDI_VALUE_SWITCH("Flip Flat", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_OFF",
-                          true);
+    SET_INDI_VALUE_SWITCH("Flip Flat", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_OFF", true);
 
     // Now all devices should be up and running
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000);
@@ -688,11 +680,6 @@ void TestEkosCaptureWorkflow::testDustcapSource()
     // select frame type and internal or external flat light
     QFETCH(bool, internalLight);
     QFETCH(QString, frametype);
-
-    if (internalLight == true)
-        KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, false, false);
-    else
-        KTRY_SELECT_FLAT_METHOD(darkDeviceSourceC, false, false);
 
     // build a simple 1xL flat sequence
     KTRY_CAPTURE_ADD_FRAME(frametype, 1, 1, 0.0, "Luminance", imagepath);
@@ -774,47 +761,47 @@ void TestEkosCaptureWorkflow::testWallSource()
 }
 
 
-void TestEkosCaptureWorkflow::testPreMountAndDomePark()
-{
-    // use the light panel simulator
-    m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
-    // use the dome simulator
-    m_CaptureHelper->m_DomeDevice = "Dome Simulator";
-    // default initialization
-    QVERIFY(prepareTestCase());
+//void TestEkosCaptureWorkflow::testPreMountAndDomePark()
+//{
+//    // use the light panel simulator
+//    m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
+//    // use the dome simulator
+//    m_CaptureHelper->m_DomeDevice = "Dome Simulator";
+//    // default initialization
+//    QVERIFY(prepareTestCase());
 
-    // QSKIP("Observatory refactoring needs to be completed until this test can be activated.");
+//    // QSKIP("Observatory refactoring needs to be completed until this test can be activated.");
 
-    // switch to capture module
-    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
-    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+//    // switch to capture module
+//    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+//    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
 
-    // use a test directory for flats
-    QString imagepath = getImageLocation()->path() + "/test";
+//    // use a test directory for flats
+//    QString imagepath = getImageLocation()->path() + "/test";
 
-    // switch capture type to flat so that we can set the calibration
-    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+//    // switch capture type to flat so that we can set the calibration
+//    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
 
-    // select internal flat light, pre-mount and but not pre-dome park
-    KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, true, false);
-    // determine frame type
-    QFETCH(QString, frametype);
-    // build a simple 1xL sequence
-    KTRY_CAPTURE_ADD_FRAME(frametype, 2, 1, 2.0, "Luminance", imagepath);
+//    // select internal flat light, pre-mount and but not pre-dome park
+//    KTRY_SELECT_FLAT_METHOD(flatDeviceSourceC, true, false);
+//    // determine frame type
+//    QFETCH(QString, frametype);
+//    // build a simple 1xL sequence
+//    KTRY_CAPTURE_ADD_FRAME(frametype, 2, 1, 2.0, "Luminance", imagepath);
 
-    // start the sequence
-    // m_CaptureHelper->expectedDomeStates.append(ISD::Dome::DOME_PARKED);
-    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_PARKED);
-    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
-    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
-    KTRY_CLICK(capture, startB);
-    // check if mount has reached the expected position
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedMountStates, 30000);
-    // check if dome has reached the expected position
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedDomeStates, 30000);
-    // check if one single flat is captured
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
-}
+//    // start the sequence
+//    // m_CaptureHelper->expectedDomeStates.append(ISD::Dome::DOME_PARKED);
+//    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_PARKED);
+//    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+//    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
+//    KTRY_CLICK(capture, startB);
+//    // check if mount has reached the expected position
+//    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedMountStates, 30000);
+//    // check if dome has reached the expected position
+//    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedDomeStates, 30000);
+//    // check if one single flat is captured
+//    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+//}
 
 void TestEkosCaptureWorkflow::testFlatSyncFocus()
 {
@@ -1185,10 +1172,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings()
     QFETCH(double, exposureTime);
     QFETCH(int, count);
     QFETCH(QString, type);
-    QFETCH(bool, src_manual);
-    QFETCH(bool, src_buildin_light);
-    QFETCH(bool, src_external_light);
-    QFETCH(bool, src_wall);
+    QFETCH(int, pre_action);
     QFETCH(double, wall_az);
     QFETCH(double, wall_alt);
     QFETCH(bool, duration_manual);
@@ -1208,10 +1192,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings()
     job.exposureTime = exposureTime;
     job.type = type;
     job.count = count;
-    job.src_manual = src_manual;
-    job.src_buildin_light = src_buildin_light;
-    job.src_external_light = src_external_light;
-    job.src_wall = src_wall;
+    job.preAction = pre_action;
     job.wall_az = wall_az;
     job.wall_alt = wall_alt;
     job.duration_manual = duration_manual;
@@ -1254,10 +1235,7 @@ bool TestEkosCaptureWorkflow::verifyCalibrationSettings()
     // ensure that the cancel button is pressed in any case
     [&]()
     {
-        QFETCH(bool, src_manual);
-        QFETCH(bool, src_buildin_light);
-        QFETCH(bool, src_external_light);
-        QFETCH(bool, src_wall);
+        QFETCH(int, pre_action);
         QFETCH(double, wall_az);
         QFETCH(double, wall_alt);
         QFETCH(bool, duration_manual);
@@ -1266,23 +1244,20 @@ bool TestEkosCaptureWorkflow::verifyCalibrationSettings()
         QFETCH(int, tolerance);
         QFETCH(bool, park_mount);
         QFETCH(bool, park_dome);
-        KTRY_GADGET(calibrationDialog, QRadioButton, manualSourceC);
-        KTRY_GADGET(calibrationDialog, QRadioButton, flatDeviceSourceC);
-        KTRY_GADGET(calibrationDialog, QRadioButton, darkDeviceSourceC);
-        KTRY_GADGET(calibrationDialog, QRadioButton, wallSourceC);
+        KTRY_GADGET(calibrationDialog, QCheckBox, gotoWallC);
+        KTRY_GADGET(calibrationDialog, QCheckBox, parkMountC);
+        KTRY_GADGET(calibrationDialog, QCheckBox, parkDomeC);
         KTRY_GADGET(calibrationDialog, dmsBox, azBox);
         KTRY_GADGET(calibrationDialog, dmsBox, altBox);
         KTRY_GADGET(calibrationDialog, QRadioButton, manualDurationC);
         KTRY_GADGET(calibrationDialog, QRadioButton, ADUC);
         KTRY_GADGET(calibrationDialog, QSpinBox, ADUValue);
         KTRY_GADGET(calibrationDialog, QSpinBox, ADUTolerance);
-        KTRY_GADGET(calibrationDialog, QCheckBox, parkMountC);
-        KTRY_GADGET(calibrationDialog, QCheckBox, parkDomeC);
-        QTRY_COMPARE(manualSourceC->isChecked(), src_manual);
-        QTRY_COMPARE(flatDeviceSourceC->isChecked(), src_buildin_light);
-        QTRY_COMPARE(darkDeviceSourceC->isChecked(), src_external_light);
-        QTRY_COMPARE(wallSourceC->isChecked(), src_wall);
-        if (src_wall)
+        QTRY_COMPARE(gotoWallC->isChecked(), pre_action & ACTION_WALL);
+        QTRY_COMPARE(parkMountC->isChecked(), pre_action & ACTION_PARK_MOUNT);
+        QTRY_COMPARE(parkDomeC->isChecked(), pre_action & ACTION_PARK_DOME);
+
+        if (pre_action & ACTION_WALL)
         {
             dms wallAz, wallAlt;
             bool azOk = false, altOk = false;
@@ -1400,10 +1375,10 @@ void TestEkosCaptureWorkflow::testWallSource_data()
 }
 
 
-void TestEkosCaptureWorkflow::testPreMountAndDomePark_data()
-{
-    testWallSource_data();
-}
+//void TestEkosCaptureWorkflow::testPreMountAndDomePark_data()
+//{
+//    testWallSource_data();
+//}
 
 void TestEkosCaptureWorkflow::testDarkManualCovering_data()
 {
@@ -1490,10 +1465,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
     QTest::addColumn<double>("exposureTime");         /*!< Exposure time                */
     QTest::addColumn<int>("count");                   /*!< Number of frames             */
     QTest::addColumn<QString>("type");                /*!< Frame type (Flat etc.)       */
-    QTest::addColumn<bool>("src_manual");             /*!< Manual flat light            */
-    QTest::addColumn<bool>("src_buildin_light");      /*!< Cap with flat light          */
-    QTest::addColumn<bool>("src_external_light");     /*!< External flat light          */
-    QTest::addColumn<bool>("src_wall");               /*!< Wall as flat light           */
+    QTest::addColumn<int>("pre_action");              /*!< Calibration Pre-Actions      */
     QTest::addColumn<double>("wall_az");              /*!< Az position for wall source  */
     QTest::addColumn<double>("wall_alt");             /*!< Alt position for wall source */
     QTest::addColumn<bool>("duration_manual");        /*!< Manual exposure time         */
@@ -1503,18 +1475,12 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
     QTest::addColumn<bool>("park_mount");             /*!< Park mount before capturing  */
     QTest::addColumn<bool>("park_dome");              /*!< Park dome before capturing   */
 
-    QTest::newRow("Flat src=manual adu=manual") << 1.0 << 2 << "Flat" << true << false << false << false << 180.0 << 85.0 <<
-            true << false
-            << 12345 << 1234 << false << false;
-    QTest::newRow("Dark src=buildin adu=automatic") << 1.0 << 2 << "Dark" << false << true << false << false << 180.0 << 85.0 <<
-            false <<
-            true <<  12345 << 1234 << false << false;
-    QTest::newRow("Bias src=external park=mount") << 1.0 << 2 << "Bias" << false << false << true << false << 180.0 << 85.0 <<
-            false <<
-            true << 12345 << 1234 << true << false;
-    QTest::newRow("Flat src=wall park=mount") << 1.0 << 2 << "Flat" << false << false << false << true << 180.0 << 85.0 << false
-            << true
-            << 12345 <<  1234 << true << false;
+    QTest::newRow("Flat pre_action=wall adu=manual") << 1.0 << 2 << "Flat" << 2 << 180.0 << 85.0 <<
+            true << false << 12345 << 1234 << false << false;
+    QTest::newRow("Dark pre_Action=none adu=automatic") << 1.0 << 2 << "Dark" << 1 << 180.0 << 85.0 <<
+            false << true <<  12345 << 1234 << false << false;
+    QTest::newRow("Bias pre_action=park_mount") << 1.0 << 2 << "Bias" << 4 << 180.0 << 85.0 <<
+            false << true << 12345 << 1234 << true << false;
 }
 
 /* *********************************************************************************

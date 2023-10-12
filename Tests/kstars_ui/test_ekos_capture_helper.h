@@ -195,7 +195,7 @@ public:
         int exposureTime = 1.0;
         QString type = "Flat";
         int count = 1;
-        bool src_manual = true, src_buildin_light = false, src_external_light = false, src_wall = false;
+        int preAction = 0;
         double wall_az = 90, wall_alt = 0;
         bool duration_manual = true, duration_adu = false;
         int adu = 10000, tolerance = 1000;

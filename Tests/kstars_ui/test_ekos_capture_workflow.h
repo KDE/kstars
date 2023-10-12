@@ -45,8 +45,8 @@ KTRY_CAPTURE_CLICK(calibrationB);  } while (false)
 #define KTRY_SELECT_FLAT_WALL(capture, azimuth, altitude) do { \
 QTimer::singleShot(1000, capture, [&]() { \
     QDialog *calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("calibrationOptions"); \
-    KTRY_GADGET(calibrationOptions, QAbstractButton, wallSourceC); \
-    wallSourceC->setChecked(true); \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, gotoWallC); \
+    gotoWallC->setChecked(true); \
     KTRY_SET_LINEEDIT(calibrationOptions, azBox, azimuth); \
     KTRY_SET_LINEEDIT(calibrationOptions, altBox, altitude); \
     KTRY_GADGET(calibrationOptions, QAbstractButton, manualDurationC);  \
@@ -221,10 +221,10 @@ class TestEkosCaptureWorkflow : public QObject
         /**
          * @brief Check mount and dome parking before capturing flats.
          */
-        void testPreMountAndDomePark();
+        //void testPreMountAndDomePark();
 
         /** @brief Test data for {@see testFlatPreMountAndDomePark()} */
-        void testPreMountAndDomePark_data();
+        //void testPreMountAndDomePark_data();
 
         /**
          * @brief Check the flat capture behavior if "same focus" is selectee

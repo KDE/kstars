@@ -272,17 +272,14 @@ QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJo
                         "<Properties />",
                         "<Calibration>"});
 
-    if (job.src_manual)
-        result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(FlatFieldSourceNames[SOURCE_MANUAL]));
-    else if (job.src_buildin_light)
-        result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(FlatFieldSourceNames[SOURCE_FLATCAP]));
-    else if (job.src_external_light)
-        result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(FlatFieldSourceNames[SOURCE_DARKCAP]));
-    else if (job.src_wall)
-        result.append({QString("<FlatSource><Type>%1</Type>").arg(FlatFieldSourceNames[SOURCE_WALL]),
-                       QString("<Az>%1</Az>").arg(job.wall_az),
-                       QString("<Alt>%1</Alt>").arg(job.wall_alt),
-                       QString("</FlatSource>")});
+
+    result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(job.preAction));
+    if (job.preAction & ACTION_WALL)
+    {
+        result.append(QString("<Az>%1</Az>").arg(job.wall_az));
+        result.append(QString("<Alt>%1</Alt>").arg(job.wall_alt));
+    }
+    result.append(QString("</FlatSource>"));
 
     result.append("<FlatDuration dark='false'>");
     if (job.duration_manual)
