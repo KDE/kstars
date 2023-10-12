@@ -1474,7 +1474,7 @@ msgstr ""
 #: auxiliary/xplanetimageviewer.cpp:791 indi/servermanager.cpp:88
 #, kde-format
 msgid "Error making FIFO file %1: %2."
-msgstr "Ocorreu un erro ao crear un ficheiro temporal %1: %2."
+msgstr "Produciuse un erro ao crear un ficheiro temporal %1: %2."
 
 #: auxiliary/xplanetimageviewer.cpp:842
 #, kde-format
@@ -17254,7 +17254,7 @@ msgstr "Lembrar os credenciais"
 #: ekos/ekoslive/ekoslivedialog.ui:109
 #, kde-format
 msgid "Username:"
-msgstr "Nome de usuario:"
+msgstr "Nome de usuaria:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoStartCheck)
 #: ekos/ekoslive/ekoslivedialog.ui:199
@@ -35798,7 +35798,7 @@ msgstr "Iniciar Ekos Live ao iniciar KStars."
 #: kstars.kcfg:1600
 #, kde-format
 msgid "EkosLive username"
-msgstr "Nome de usuario de EkosLive"
+msgstr "Nome de usuaria de EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1603
