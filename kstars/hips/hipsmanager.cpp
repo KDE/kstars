@@ -362,7 +362,7 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
         else
         {
             delete item;
-            qCWarning(KSTARS) << "no image" << data;
+            qCWarning(KSTARS) << "no image. Data size: " << data.length();
         }
     }
     else
