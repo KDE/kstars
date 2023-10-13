@@ -22,7 +22,7 @@
 >sistema horizontal de coordenadas</link
 >. Geométricamente, es el punto de la <link linkend="ai-csphere"
 >esfera celeste</link
-> intersectado por una línea dibujada desde el centro de la tierra hasta su posición en la superficie. </para
+> que se interseca con una línea dibujada desde el centro de la tierra hasta su posición en la superficie. </para
 ><para
 >El cenit es, por definición, un punto en el <link linkend="ai-meridian"
 >meridiano local</link
@@ -33,10 +33,12 @@
 <para
 >Se puede apuntar al cenit pulsando <keycap
 >Z</keycap
-> o seleccionando <guimenuitem
+> o seleccionando la opción del menú <menuchoice
+><guimenu
+>Apuntar</guimenu
+> <guimenuitem
 >Cenit</guimenuitem
-> en el menú <guimenu
->Posición</guimenu
+></menuchoice
 >. </para>
 </tip>
 </sect1>

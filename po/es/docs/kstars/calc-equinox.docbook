@@ -32,6 +32,6 @@
 >Este módulo dispone de un modo de trabajo por lotes. Para usarlo, solo debe generar un archivo de entrada cuyas líneas contengan un año para el que calcular los datos de un equinoccio o de un solsticio. Especifique después los archivos de entrada y de salida, y pulse el botón <guilabel
 >Calcular</guilabel
 > para generar el archivo de salida. Cada línea del archivo de salida contiene el año de entrada y la fecha de cada evento. También puede leer la salida directamente en &kstars; pulsando el botón <guibutton
->Ver salida</guibutton
+>Ver salida...</guibutton
 >. </para>
 </sect2>

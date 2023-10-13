@@ -5,7 +5,7 @@
 <para
 >&kstars;</para>
 <para
->Copyright del programa 2001-2015 El equipo de &kstars; <email
+>Copyright del programa 2001-2021 El equipo de &kstars; <email
 >mutlaqja@ikarustech.com</email
 > </para>
 
@@ -13,110 +13,104 @@
 >El equipo de &kstars; <itemizedlist>
 <listitem
 ><para
->Jason Harris <email
->kstars@30doradus.org</email
-></para>
+>&Jason.Harris; &Jason.Harris.mail;</para>
 </listitem>
 <listitem
 ><para
->Jasem Mutlaq<email
->mutlaqja@ikarustech.com</email
-></para>
+>&Jasem.Mutlaq; &Jasem.Mutlaq.mail;</para>
 </listitem>
 <listitem
 ><para
->Pablo de Vicente<email
->pvicentea@wanadoo.es</email
-></para>
+>&Pablo.de.Vicente; &Pablo.de.Vicente.mail;</para>
 </listitem>
 <listitem
 ><para
->Heiko Evermann<email
->heiko@evermann.de</email
-></para>
+>&Heiko.Evermann; &Heiko.Evermann.mail;</para>
 </listitem>
 <listitem
 ><para
->Thomas Kabelmann<email
->tk78@gmx.de</email
-></para>
+>&Thomas.Kabelmann; &Thomas.Kabelmann.mail;</para>
 </listitem>
 <listitem
 ><para
->Mark Hollomon<email
+>Mark Hollomon <email
 >mhh@mindspring.com</email
 ></para>
 </listitem>
 <listitem
 ><para
->Carsten Niehaus<email
->cniehaus@gmx.de</email
-></para>
+>&Carsten.Niehaus; &Carsten.Niehaus.mail;</para>
 </listitem>
 <listitem
 ><para
->James Bowlin<email
+>James Bowlin <email
 >bowlin@mindspring.com</email
 ></para>
 </listitem>
 <listitem
 ><para
->Alexey Khudyakov<email
+>Alexey Khudyakov <email
 >alexey.skladnoy@gmail.com</email
 ></para>
 </listitem>
 <listitem
 ><para
->Mederic Boquien<email
+>Mederic Boquien <email
 >mboquien@free.fr</email
 ></para>
 </listitem>
 <listitem
 ><para
->Akarsh Simha<email
+>Akarsh Simha <email
 >akarsh.simha@kdemail.net</email
 ></para>
 </listitem>
 <listitem
 ><para
->Jerome Sonrier<email
+>Jerome Sonrier <email
 >jsid@emor3j.fr.eu.org</email
 ></para>
 </listitem>
 <listitem
 ><para
->Prakash Mohan<email
+>Prakash Mohan <email
 >prakash.mohan@kdemail.net</email
 ></para>
 </listitem>
 <listitem
 ><para
->Victor Carbune<email
+>Victor Carbune <email
 >victor.carbune@kdemail.net</email
 ></para>
 </listitem>
 <listitem
 ><para
->Henry de Valence<email
+>Henry de Valence <email
 >hdevalence@gmail.com</email
 ></para>
 </listitem>
 <listitem
 ><para
->Samikshan Bairagya<email
+>Samikshan Bairagya <email
 >samikshan.bairagya@kdemail.net</email
 ></para>
 </listitem>
 <listitem
 ><para
->Rafal Kulaga<email
+>Rafal Kulaga <email
 >rl.kulaga@gmail.com</email
 ></para>
 </listitem>
 <listitem
 ><para
->Rishab Arora<email
+>Rishab Arora <email
 >ra.rishab@gmail.com</email
+></para>
+</listitem>
+<listitem
+><para
+>Valentin Boettcher <email
+>hiro@protagon.space</email
 ></para>
 </listitem>
 </itemizedlist>
@@ -153,15 +147,11 @@
 <para
 >Agradecimiento especial: a los desarrolladores de &kde; y &Qt; por entregarle al mundo un maravilloso conjunto de <acronym
 >API</acronym
->s libres. Al equipo de <application
->KDevelop</application
-> por su excelente entorno de programación, que ha convertido el desarrollo de &kstars; en algo sencillo y divertido. A todos los participantes en el foro de <application
->KDevelop</application
->, a las listas de correo de &kde; y a irc.kde.org, por contestar a nuestra frecuentes preguntas. Gracias a Anne-Marie Mahfouf por invitar a &kstars; a formar parte del módulo &kde;-Edu. Por último, gracias todos los que han enviado informes de fallos o comentarios. Gracias a todos. </para>
+>s libres. Al equipo de &kdevelop; por su excelente entorno de programación, que ha convertido el desarrollo de &kstars; en algo sencillo y divertido. A todos los participantes en el foro de &kdevelop;, a las listas de correo de &kde; y a irc.kde.org, por contestar a nuestra frecuentes preguntas. Gracias a &Anne-Marie.Mahfouf; por invitar a &kstars; a formar parte del módulo &kde;-Edu. Por último, gracias todos los que han enviado informes de fallos o comentarios. Gracias a todos. </para>
 
 <para
->Copyright de la documentación 2001-2015 Jason Harris y el equipo de KStars <email
->kstars@30doradus.org</email
+>Copyright de la documentación 2001-2021 &Jason.Harris; y el equipo de &kstars; <email
+>kstars-devel AT kde.org</email
 > </para>
 
 <para
@@ -172,5 +162,4 @@
 > y Eloy Cuadra <email
 >ecuadra@eloihr.net</email
 ></para
-> 
-&underFDL; &underGPL; </chapter>
+> &underFDL; &underGPL; </chapter>

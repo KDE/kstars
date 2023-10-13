@@ -36,7 +36,11 @@
 <para
 >Para usar el módulo, seleccione en primer lugar qué coordenadas se usarán como entrada en la sección <guilabel
 >Selección de coordenadas de entrada</guilabel
->: «Cartesianas» o «Geográficas». Seleccione a continuación un modelo elipsoide y rellene las coordenadas de entrada en la sección <guilabel
+>: <guilabel
+>Cartesianas</guilabel
+> o <guilabel
+>Geográficas</guilabel
+>. Seleccione a continuación un modelo elipsoide y rellene las coordenadas de entrada en la sección <guilabel
 >Coordenadas cartesianas</guilabel
 > o en la sección <guilabel
 >Coordenadas geográficas</guilabel

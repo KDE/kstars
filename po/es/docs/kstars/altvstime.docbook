@@ -28,17 +28,17 @@
 >. La parte inferior del dibujo está sombreada en verde para indicar que los puntos en esta región están por debajo del horizonte. </para>
 <para
 >Hay varios modos de añadir curvas al dibujo. El modo más sencillo de añadir una curva de un objeto existente es introducir su nombre en el campo de entrada del <guilabel
->Nombre</guilabel
+>Nombre:</guilabel
 >, y pulsar «Intro», o el botón <guibutton
 >Dibujar</guibutton
 >. Si el texto que usted introdujo se encuentra en la base de datos, la curva del objeto se añade al dibujo. También puede pulsar el botón <guibutton
->Buscar objeto</guibutton
+>Buscar objeto...</guibutton
 > para abrir la <link linkend="findobjects"
 >Ventana de búsqueda de objetos</link
 > y seleccionar un objeto de entre la lista de objetos conocidos. Si desea añadir un astro que no existe en la base de datos, introduzca simplemente un nombre para dicho astro, y después rellene las coordenadas de los campos de entrada de <guilabel
->AR</guilabel
+>AR:</guilabel
 > y <guilabel
->Dec</guilabel
+>Dec:</guilabel
 >. Después pulse el botón <guibutton
 >Dibujar</guibutton
 > para añadir la curva de su objeto (advierta que debe elegir un nombre que no exista en la base de datos para que funcione adecuadamente). </para>
@@ -51,7 +51,9 @@
 >Quaoar</firstterm
 > se está poniendo alrededor de las 15:00 de hora local, y saliendo cerca de las 04:00 de hora local. </para>
 <para
->El gráfico se puede ampliar y mover fácilmente con el ratón. El nivel de ampliación se puede ajustar usando la rueda del ratón. Cuando se reduce el gráfico, el nivel de ampliación se limita automáticamente a un valor mínimo por omisión, de modo que los intervalos de los ejes puedan cubrir todo el gráfico (es decir, para el eje vertical, el valor de altitud máximo coincidirá con el borde superior del marco del gráfico). El mismo principio se aplica cuando se desplaza el gráfico usando el movimiento del ratón. Para desplazar el gráfico, haga clic en el punto que desee desplazar y arrastre el ratón en la dirección que quiera: izquierda, derecha, arriba o abajo. </para>
+>El gráfico se puede ampliar y mover fácilmente con el ratón. El nivel de ampliación se puede ajustar usando la <mousebutton
+>rueda</mousebutton
+> del ratón. Cuando se reduce el gráfico, el nivel de ampliación se limita automáticamente a un valor mínimo por omisión, de modo que los intervalos de los ejes puedan cubrir todo el gráfico (es decir, para el eje vertical, el valor de altitud máximo coincidirá con el borde superior del marco del gráfico). El mismo principio se aplica cuando se desplaza el gráfico usando el movimiento del ratón. Para desplazar el gráfico, haga clic en el punto que desee desplazar y arrastre el ratón en la dirección que quiera: izquierda, derecha, arriba o abajo. </para>
 <para
 >Otra útil función que proporciona la herramienta altura frente a tiempo es la posibilidad de calcular y marcar las horas de orto, ocaso y tránsito. Esto se puede conseguir pulsando cualquiera de los botones <guibutton
 >Orto</guibutton
