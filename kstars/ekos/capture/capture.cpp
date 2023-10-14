@@ -709,16 +709,21 @@ void Capture::refreshCameraSettings()
 {
     // Make sure we have a valid chip and valid base device.
     // Make sure we are not in capture process.
+    auto camera = activeCamera();
+
+    if (!camera)
+        return;
+
     ISD::CameraChip *targetChip = devices()->getActiveChip();
     if (!targetChip || !targetChip->getCCD() || targetChip->isCapturing())
         return;
 
-    if (activeCamera()->hasCoolerControl())
+    if (camera->hasCoolerControl())
     {
         coolerOnB->setEnabled(true);
         coolerOffB->setEnabled(true);
-        coolerOnB->setChecked(activeCamera()->isCoolerOn());
-        coolerOffB->setChecked(!activeCamera()->isCoolerOn());
+        coolerOnB->setChecked(camera->isCoolerOn());
+        coolerOffB->setChecked(!camera->isCoolerOn());
     }
     else
     {
@@ -732,19 +737,19 @@ void Capture::refreshCameraSettings()
 
     updateCaptureFormats();
 
-    customPropertiesDialog->setCCD(activeCamera());
+    customPropertiesDialog->setCCD(camera);
 
-    liveVideoB->setEnabled(activeCamera()->hasVideoStream());
-    if (activeCamera()->hasVideoStream())
-        setVideoStreamEnabled(activeCamera()->isStreamingEnabled());
+    liveVideoB->setEnabled(camera->hasVideoStream());
+    if (camera->hasVideoStream())
+        setVideoStreamEnabled(camera->isStreamingEnabled());
     else
         liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
-    connect(activeCamera(), &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
+    connect(camera, &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
             Qt::UniqueConnection);
 
     syncCameraInfo();
