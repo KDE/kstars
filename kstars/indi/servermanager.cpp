@@ -306,20 +306,28 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
 
 bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
 {
-    ClientManager *cm = driver->getClientManager();
+    auto cm = driver->getClientManager();
 
-    // N.B. This MUST be called BEFORE stopping driver below
-    // Since it requires the driver device pointer.
-    cm->removeManagedDriver(driver);
+    if (cm)
+    {
+        // N.B. This MUST be called BEFORE stopping driver below
+        // Since it requires the driver device pointer.
+        cm->removeManagedDriver(driver);
 
-    // Stop driver.
-    stopDriver(driver);
+        // Stop driver.
+        stopDriver(driver);
+    }
+    else
+    {
+        cm = DriverManager::Instance()->getClientManager(driver);
+    }
 
     // Wait 1 second before starting the driver again.
     QTimer::singleShot(1000, this, [this, driver, cm]()
     {
         cm->appendManagedDriver(driver);
-        m_ManagedDrivers.append(driver);
+        if (m_ManagedDrivers.contains(driver) == false)
+            m_ManagedDrivers.append(driver);
         driver->setServerManager(this);
 
         QTextStream out(&indiFIFO);
