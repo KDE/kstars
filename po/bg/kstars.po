@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-14 00:39+0000\n"
+"POT-Creation-Date: 2023-10-15 00:39+0000\n"
 "PO-Revision-Date: 2021-01-13 13:17+0200\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@ludost.net>\n"
@@ -395,7 +395,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2012
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2017
 #: ekos/scheduler/scheduler.cpp:3823
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2450,8 +2450,8 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3849
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1170 ekos/capture/capture.cpp:1935
-#: ekos/capture/capture.cpp:2021 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1170 ekos/capture/capture.cpp:1940
+#: ekos/capture/capture.cpp:2026 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:3464 ekos/scheduler/scheduler.cpp:3833
 #: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
@@ -3498,7 +3498,7 @@ msgstr "Грешка при изтеглянето на файла."
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "Сигурни ли сте, че искате връзката %1 да бъде премахната?"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1495
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1512
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -3625,7 +3625,7 @@ msgstr "0.00 пс"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:888 ekos/capture/capture.cpp:926
+#: ekos/capture/capture.cpp:893 ekos/capture/capture.cpp:931
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -5904,7 +5904,7 @@ msgstr "Създаване на изображение"
 msgid "Solver aborted after %1 seconds."
 msgstr "Файлът FITS е записан в %1"
 
-#: ekos/align/align.cpp:2512 ekos/capture/capture.cpp:1461
+#: ekos/align/align.cpp:2512 ekos/capture/capture.cpp:1466
 #: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1899
 #: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:912
@@ -6062,24 +6062,24 @@ msgstr "0.00 дъг/мин"
 msgid "dDE (arcsec)"
 msgstr "дъг/сек"
 
-#: ekos/align/align.cpp:3545 ekos/capture/capture.cpp:2622
+#: ekos/align/align.cpp:3545 ekos/capture/capture.cpp:2627
 #: ekos/focus/focus.cpp:4711
 #, fuzzy, kde-format
 msgid "Filter operation failed."
 msgstr "Калибриране"
 
-#: ekos/align/align.cpp:3557 ekos/capture/capture.cpp:2558
+#: ekos/align/align.cpp:3557 ekos/capture/capture.cpp:2563
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3564 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:2563
+#: ekos/capture/capture.cpp:2568
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3569 ekos/capture/capture.cpp:2568
+#: ekos/align/align.cpp:3569 ekos/capture/capture.cpp:2573
 #, fuzzy, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Настройки на автофокуса"
@@ -6096,8 +6096,8 @@ msgid "Export Solution Points"
 msgstr "Скриване на всички орбити"
 
 #: ekos/align/align.cpp:3848 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:1934
-#: ekos/capture/capture.cpp:2020 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:1939
+#: ekos/capture/capture.cpp:2025 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:3463 ekos/scheduler/scheduler.cpp:3832
 #: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6113,11 +6113,11 @@ msgid "Unable to write to file %1"
 msgstr "Грешка при запис на изображението: %1 "
 
 #: ekos/align/align.cpp:3858 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:1950
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:1955
 #: ekos/capture/captureprocess.cpp:2264 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:3507 ekos/scheduler/scheduler.cpp:3845
 #: ekos/scheduler/scheduler.cpp:6166 ekos/scheduler/scheduler.cpp:6223
-#: indi/drivermanager.cpp:1520 indi/indidriver.cpp:921 kstarsactions.cpp:1375
+#: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1375
 #: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6720,7 +6720,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Списък за наблюдение"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:1949
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:1954
 #: ekos/capture/captureprocess.cpp:2263 ekos/scheduler/scheduler.cpp:3506
 #: ekos/scheduler/scheduler.cpp:6165
 #, kde-format
@@ -11299,7 +11299,7 @@ msgstr "Настройки на автофокуса"
 msgid "Aligning..."
 msgstr "Подравняване......"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1410
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1415
 #, kde-format
 msgid "Calibrating..."
 msgstr "Калибриране..."
@@ -12867,7 +12867,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1329
 #: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:788
 #: kstarsinit.cpp:789 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
@@ -13112,12 +13112,12 @@ msgstr ""
 msgid "Tolerance:"
 msgstr "Допустимост:"
 
-#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:2291
+#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:2296
 #, fuzzy, kde-format
 msgid "Add job to sequence queue"
 msgstr "Последователни изображения..."
 
-#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:2292
+#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:2297
 #, fuzzy, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Последователни изображения..."
@@ -13141,214 +13141,214 @@ msgid ""
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1351
+#: ekos/capture/capture.cpp:1356
 #, fuzzy, kde-format
 msgid "Framing..."
 msgstr "Фрамингъм"
 
-#: ekos/capture/capture.cpp:1362
+#: ekos/capture/capture.cpp:1367
 #, fuzzy, kde-format
 msgid "Captured image received"
 msgstr "Заснемане на последователни изображения"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1380 ekos/capture/capture.ui:2245
+#: ekos/capture/capture.cpp:1385 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 msgid "Expose (-/-):"
 msgstr "Експониране:"
 
-#: ekos/capture/capture.cpp:1444
+#: ekos/capture/capture.cpp:1449
 #, fuzzy, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Зареждане на изображенията..."
 
-#: ekos/capture/capture.cpp:1622
+#: ekos/capture/capture.cpp:1627
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1798
+#: ekos/capture/capture.cpp:1803
 #, fuzzy, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Температура на чипа CCD."
 
-#: ekos/capture/capture.cpp:1799
+#: ekos/capture/capture.cpp:1804
 #, fuzzy, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Температура на чипа CCD."
 
-#: ekos/capture/capture.cpp:1803
+#: ekos/capture/capture.cpp:1808
 #, fuzzy, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Съвпадащи обекти:"
 
-#: ekos/capture/capture.cpp:1805
+#: ekos/capture/capture.cpp:1810
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1810
+#: ekos/capture/capture.cpp:1815
 #, fuzzy, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Температура на чипа CCD."
 
-#: ekos/capture/capture.cpp:1811
+#: ekos/capture/capture.cpp:1816
 #, fuzzy, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Задаване на местоположение..."
 
-#: ekos/capture/capture.cpp:1854 ekos/capture/capture.cpp:1855
+#: ekos/capture/capture.cpp:1859 ekos/capture/capture.cpp:1860
 #, fuzzy, kde-format
 msgid "Focus complete."
 msgstr "Настройки на автофокуса"
 
-#: ekos/capture/capture.cpp:1859
+#: ekos/capture/capture.cpp:1864
 #, fuzzy, kde-format
 msgid "Autofocus failed."
 msgstr "Настройки на автофокуса"
 
-#: ekos/capture/capture.cpp:1881
+#: ekos/capture/capture.cpp:1886
 #, kde-format
 msgid "Paused..."
 msgstr "На пауза..."
 
-#: ekos/capture/capture.cpp:1886
+#: ekos/capture/capture.cpp:1891
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "&Автоматично показване на FITS при прихващане"
 
-#: ekos/capture/capture.cpp:1887
+#: ekos/capture/capture.cpp:1892
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "&Автоматично показване на FITS при прихващане"
 
-#: ekos/capture/capture.cpp:1891
+#: ekos/capture/capture.cpp:1896
 #, fuzzy, kde-format
 msgid "Flip complete."
 msgstr "готово"
 
-#: ekos/capture/capture.cpp:1916 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:1921 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Директорията с файлове FITS по подразбиране:"
 
-#: ekos/capture/capture.cpp:1926
+#: ekos/capture/capture.cpp:1931
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Списък за наблюдение"
 
-#: ekos/capture/capture.cpp:1991
+#: ekos/capture/capture.cpp:1996
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Последователни изображения..."
 
-#: ekos/capture/capture.cpp:2012
+#: ekos/capture/capture.cpp:2017
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2055
+#: ekos/capture/capture.cpp:2060
 #, fuzzy, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Сигурни ли сте, че искате връзката %1 да бъде премахната?"
 
-#: ekos/capture/capture.cpp:2055 ekos/capture/captureprocess.cpp:2878
+#: ekos/capture/capture.cpp:2060 ekos/capture/captureprocess.cpp:2878
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "Възстановяване на позицията"
 
-#: ekos/capture/capture.cpp:2270
+#: ekos/capture/capture.cpp:2275
 #, fuzzy, kde-format
 msgid "Editing job #%1..."
 msgstr "Редактиране на връзка..."
 
-#: ekos/capture/capture.cpp:2273 ekos/scheduler/scheduler.cpp:1620
+#: ekos/capture/capture.cpp:2278 ekos/scheduler/scheduler.cpp:1620
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2274
+#: ekos/capture/capture.cpp:2279
 #, fuzzy, kde-format
 msgid "Cancel job changes."
 msgstr "Запис на промените на файла FITS?"
 
-#: ekos/capture/capture.cpp:2286
+#: ekos/capture/capture.cpp:2291
 #, fuzzy, kde-format
 msgid "Editing job canceled."
 msgstr "Редактиране на връзка..."
 
-#: ekos/capture/capture.cpp:2413
+#: ekos/capture/capture.cpp:2418
 #, fuzzy, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Истински координати"
 
-#: ekos/capture/capture.cpp:2497
+#: ekos/capture/capture.cpp:2502
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Сървър"
 
-#: ekos/capture/capture.cpp:2499
+#: ekos/capture/capture.cpp:2504
 #, fuzzy, kde-format
 msgid "Current Observer:"
 msgstr "Сървър"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:2510 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:2515 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 msgid "Manage Observers"
 msgstr "Наблюдаващ"
 
-#: ekos/capture/capture.cpp:2575
+#: ekos/capture/capture.cpp:2580
 #, fuzzy, kde-format
 msgid "Filter set to %1."
 msgstr "Файлът FITS е записан в %1"
 
-#: ekos/capture/capture.cpp:2897
+#: ekos/capture/capture.cpp:2902
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2899
+#: ekos/capture/capture.cpp:2904
 #, kde-format
 msgid "Confirmation"
 msgstr "Потвърждение"
 
-#: ekos/capture/capture.cpp:2937 ekos/capture/capture.cpp:3012
+#: ekos/capture/capture.cpp:2942 ekos/capture/capture.cpp:3017
 #, fuzzy, kde-format
 msgid "Dark Flat"
 msgstr "Използване на надписи с имена"
 
-#: ekos/capture/capture.cpp:2989
+#: ekos/capture/capture.cpp:2994
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2995
+#: ekos/capture/capture.cpp:3000
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3033
+#: ekos/capture/capture.cpp:3038
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3033
+#: ekos/capture/capture.cpp:3038
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3140
+#: ekos/capture/capture.cpp:3145
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3146
+#: ekos/capture/capture.cpp:3151
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -13356,14 +13356,14 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3151
+#: ekos/capture/capture.cpp:3156
 #, fuzzy, kde-format
 #| msgid "Threshold:"
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Праг:"
 
-#: ekos/capture/capture.cpp:3157
+#: ekos/capture/capture.cpp:3162
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -13371,23 +13371,23 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3170
+#: ekos/capture/capture.cpp:3175
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Температура на чипа CCD."
 
-#: ekos/capture/capture.cpp:3188
+#: ekos/capture/capture.cpp:3193
 #, fuzzy, kde-format
 msgid "Stop Sequence"
 msgstr "Честота:"
 
-#: ekos/capture/capture.cpp:3194
+#: ekos/capture/capture.cpp:3199
 #, fuzzy, kde-format
 msgid "Resume Sequence"
 msgstr "Честота:"
 
-#: ekos/capture/capture.cpp:3219
+#: ekos/capture/capture.cpp:3224
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -27213,61 +27213,61 @@ msgstr "Грешка при стартиране на сървъра INDI: гр�
 msgid "Failed to create local INDI server"
 msgstr "Грешка при стартиране на сървъра INDI: грешка в порта."
 
-#: indi/drivermanager.cpp:604 indi/indidriver.cpp:291
+#: indi/drivermanager.cpp:621 indi/indidriver.cpp:291
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Invalid port entry: %1"
 msgstr "Грешен файл: %1"
 
-#: indi/drivermanager.cpp:800
+#: indi/drivermanager.cpp:817
 #, fuzzy, kde-format
 msgid "Connected to INDI server"
 msgstr "Връзка"
 
-#: indi/drivermanager.cpp:992 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1009 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
 
-#: indi/drivermanager.cpp:1023 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1040 indi/indidriver.cpp:528
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
 msgstr "Грешка при отварянето на файла: %1"
 
-#: indi/drivermanager.cpp:1389
+#: indi/drivermanager.cpp:1406
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "Добавяне на сървър"
 
-#: indi/drivermanager.cpp:1400 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1417 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "Грешка: невалиден номер на порт."
 
-#: indi/drivermanager.cpp:1413 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1430 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "Сървър: %1 Порт: %2 вече съществува."
 
-#: indi/drivermanager.cpp:1441
+#: indi/drivermanager.cpp:1458
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "Редактиране на сървър"
 
-#: indi/drivermanager.cpp:1487 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1504 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr "Трябва да прекъснете връзката, преди да я премахнете."
 
-#: indi/drivermanager.cpp:1493 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1510 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "Сигурни ли сте, че искате клиентът %1 да бъде премахнат?"
 
-#: indi/drivermanager.cpp:1518 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1535 indi/indidriver.cpp:920
 #, fuzzy, kde-format, kde-kuit-format
 msgid ""
 "Unable to write to file 'indihosts.xml'\n"
@@ -28025,17 +28025,17 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:407
+#: indi/servermanager.cpp:415
 #, fuzzy, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Включване или изключване на устройство INDI."
 
-#: indi/servermanager.cpp:453
+#: indi/servermanager.cpp:461
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:454
+#: indi/servermanager.cpp:462
 #, fuzzy, kde-format
 msgid "Driver crash"
 msgstr "Драйвер:"

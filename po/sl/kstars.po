@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-14 00:39+0000\n"
-"PO-Revision-Date: 2023-10-08 16:32+0200\n"
+"POT-Creation-Date: 2023-10-15 00:39+0000\n"
+"PO-Revision-Date: 2023-10-14 07:15+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -412,7 +412,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2012
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2017
 #: ekos/scheduler/scheduler.cpp:3823
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2529,8 +2529,8 @@ msgstr "URL ni veljaven. Ali naj v spletnem brskalniku odprem iskalnik Google?"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3849
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1170 ekos/capture/capture.cpp:1935
-#: ekos/capture/capture.cpp:2021 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1170 ekos/capture/capture.cpp:1940
+#: ekos/capture/capture.cpp:2026 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:3464 ekos/scheduler/scheduler.cpp:3833
 #: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
@@ -3583,7 +3583,7 @@ msgstr "Ni mogoče urejati vnosa."
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "Ali zares želite odstraniti povezavo %1?"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1495
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1512
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -3710,7 +3710,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:888 ekos/capture/capture.cpp:926
+#: ekos/capture/capture.cpp:893 ekos/capture/capture.cpp:931
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -6054,7 +6054,7 @@ msgstr "Zajem prekinjen."
 msgid "Solver aborted after %1 seconds."
 msgstr "Reševalnik je prekinil po %1 sekundah."
 
-#: ekos/align/align.cpp:2512 ekos/capture/capture.cpp:1461
+#: ekos/align/align.cpp:2512 ekos/capture/capture.cpp:1466
 #: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1899
 #: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:912
@@ -6224,24 +6224,24 @@ msgstr "dRA (ločne s)"
 msgid "dDE (arcsec)"
 msgstr "dDE (ločne s)"
 
-#: ekos/align/align.cpp:3545 ekos/capture/capture.cpp:2622
+#: ekos/align/align.cpp:3545 ekos/capture/capture.cpp:2627
 #: ekos/focus/focus.cpp:4711
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operacija filtra ni uspela."
 
-#: ekos/align/align.cpp:3557 ekos/capture/capture.cpp:2558
+#: ekos/align/align.cpp:3557 ekos/capture/capture.cpp:2563
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Spreminjanje izostritve za %1 s..."
 
 #: ekos/align/align.cpp:3564 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:2563
+#: ekos/capture/capture.cpp:2568
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Spreminjanje filtra v %1 ..."
 
-#: ekos/align/align.cpp:3569 ekos/capture/capture.cpp:2568
+#: ekos/align/align.cpp:3569 ekos/capture/capture.cpp:2573
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Samodejno ostrenje ob spremembi filtra..."
@@ -6258,8 +6258,8 @@ msgid "Export Solution Points"
 msgstr "Izvozi točke rešitve"
 
 #: ekos/align/align.cpp:3848 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:1934
-#: ekos/capture/capture.cpp:2020 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:1939
+#: ekos/capture/capture.cpp:2025 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:3463 ekos/scheduler/scheduler.cpp:3832
 #: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6275,11 +6275,11 @@ msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
 #: ekos/align/align.cpp:3858 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:1950
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:1955
 #: ekos/capture/captureprocess.cpp:2264 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:3507 ekos/scheduler/scheduler.cpp:3845
 #: ekos/scheduler/scheduler.cpp:6166 ekos/scheduler/scheduler.cpp:6223
-#: indi/drivermanager.cpp:1520 indi/indidriver.cpp:921 kstarsactions.cpp:1375
+#: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1375
 #: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6922,7 +6922,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Odpri seznam razporejevalnika Ekos"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:1949
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:1954
 #: ekos/capture/captureprocess.cpp:2263 ekos/scheduler/scheduler.cpp:3506
 #: ekos/scheduler/scheduler.cpp:6165
 #, kde-format
@@ -7844,13 +7844,13 @@ msgstr "Možnosti slikanja"
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_41)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_12)
 #: ekos/align/opsastrometry.ui:47 ekos/align/opsastrometry.ui:248
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The lower end of the imager scale, calculated as a little smaller than the "
 "shorter dimension of the image."
 msgstr ""
-"Spodnji konec merila/lestvice imagerja, izračunan kot malo manjši od krajše "
-"dimenzije slike."
+"Spodnji konec merila/lestvice slikovnika, izračunan kot malo manjši od "
+"krajše mere slike."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_41)
 #: ekos/align/opsastrometry.ui:50
@@ -7881,7 +7881,7 @@ msgstr "Uporabi merilo"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_50)
 #: ekos/align/opsastrometry.ui:83
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p>The units of the imager scale bounds above.</p>\n"
 "<ul>\n"
@@ -7889,7 +7889,7 @@ msgid ""
 "<li>aw: arcminute width</li>\n"
 "</ul>"
 msgstr ""
-"<p>Enote zgornjih meja lestvice slikovalnika.</p>\n"
+"<p>Enote zgornjih meja lestvice slikovnika.</p>\n"
 "<ul>\n"
 "<li>dw: stopinje širine</li>\n"
 "<li>aw: ločne minute širine</li>\n"
@@ -7904,12 +7904,12 @@ msgstr "U"
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_42)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_13)
 #: ekos/align/opsastrometry.ui:102 ekos/align/opsastrometry.ui:134
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The high end of the imager scale, calculated as a little bigger than the "
 "longer dimension of the image."
 msgstr ""
-"Visok konec imager lestvice, izračunan kot malo večji od daljše dimenzije "
+"Visok konec lestvice slikovnika, izračunan kot malo večji od daljše mere "
 "slike."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_42)
@@ -12021,7 +12021,7 @@ msgstr "Spreminjanje filtra ..."
 msgid "Aligning..."
 msgstr "Poravnavanje ..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1410
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1415
 #, kde-format
 msgid "Calibrating..."
 msgstr "Umerjanje ..."
@@ -12356,12 +12356,12 @@ msgstr "Vrtilnik"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/auxiliary/opslogs.ui:407
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Have problems with INDI drivers? Turn on logging for drivers that exhibit "
 "issues."
 msgstr ""
-"Imate težave z indi gonilniki? Vklopite sečnje za gonilnike, ki izkažejo "
+"Imate težave z gonilniki INDI? Vklopite beleženje za gonilnike, ki izkažejo "
 "težave."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -13732,7 +13732,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1329
 #: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:788
 #: kstarsinit.cpp:789 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
@@ -14002,12 +14002,12 @@ msgstr ""
 msgid "Tolerance:"
 msgstr "Toleranca:"
 
-#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:2291
+#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:2296
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Dodaj posel v čakalno vrsto zaporedja"
 
-#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:2292
+#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:2297
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Odstrani posel iz čakalne vrste zaporedja"
@@ -14035,218 +14035,218 @@ msgstr ""
 "Opozorilo: izbrano je preverjanje delte temperature, vendar postopek "
 "samodejnega ostrenja ni bil zagnan."
 
-#: ekos/capture/capture.cpp:1351
+#: ekos/capture/capture.cpp:1356
 #, kde-format
 msgid "Framing..."
 msgstr "Okvirjanje..."
 
-#: ekos/capture/capture.cpp:1362
+#: ekos/capture/capture.cpp:1367
 #, kde-format
 msgid "Captured image received"
 msgstr "Zajeta slika prejeta"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1380 ekos/capture/capture.ui:2245
+#: ekos/capture/capture.cpp:1385 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 msgid "Expose (-/-):"
 msgstr "Osvetlitev (-/-):"
 
-#: ekos/capture/capture.cpp:1444
+#: ekos/capture/capture.cpp:1449
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Zajemanje slike %1-sekund %2..."
 
-#: ekos/capture/capture.cpp:1622
+#: ekos/capture/capture.cpp:1627
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "Uveljavljene spremembe %1. posla."
 
-#: ekos/capture/capture.cpp:1798
+#: ekos/capture/capture.cpp:1803
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Nastavljanje temperature na %1 °C ..."
 
-#: ekos/capture/capture.cpp:1799
+#: ekos/capture/capture.cpp:1804
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Nastavi temperaturo na %1 °C ..."
 
-#: ekos/capture/capture.cpp:1803
+#: ekos/capture/capture.cpp:1808
 #, fuzzy, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Čakanje na drift vodnika pod %1 a-s ..."
 
-#: ekos/capture/capture.cpp:1805
+#: ekos/capture/capture.cpp:1810
 #, fuzzy, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Počakajte na < %1 a-s ..."
 
-#: ekos/capture/capture.cpp:1810
+#: ekos/capture/capture.cpp:1815
 #, fuzzy, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Nastavitev vrtenja na %1 d E od N..."
 
-#: ekos/capture/capture.cpp:1811
+#: ekos/capture/capture.cpp:1816
 #, fuzzy, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Nastavite rotator %1 ..."
 
-#: ekos/capture/capture.cpp:1854 ekos/capture/capture.cpp:1855
+#: ekos/capture/capture.cpp:1859 ekos/capture/capture.cpp:1860
 #, kde-format
 msgid "Focus complete."
 msgstr "Ostrenje zaključeno."
 
-#: ekos/capture/capture.cpp:1859
+#: ekos/capture/capture.cpp:1864
 #, kde-format
 msgid "Autofocus failed."
 msgstr "Neuspelo samodejno ostrenje."
 
-#: ekos/capture/capture.cpp:1881
+#: ekos/capture/capture.cpp:1886
 #, kde-format
 msgid "Paused..."
 msgstr "V premoru ..."
 
-#: ekos/capture/capture.cpp:1886
+#: ekos/capture/capture.cpp:1891
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Obrat čez poldnevnik..."
 
-#: ekos/capture/capture.cpp:1887
+#: ekos/capture/capture.cpp:1892
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Začetek obrata čez poldnevnik"
 
-#: ekos/capture/capture.cpp:1891
+#: ekos/capture/capture.cpp:1896
 #, kde-format
 msgid "Flip complete."
 msgstr "Obrat končan."
 
-#: ekos/capture/capture.cpp:1916 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:1921 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Mapa za shranjevanje FITS"
 
-#: ekos/capture/capture.cpp:1926
+#: ekos/capture/capture.cpp:1931
 #, fuzzy, kde-format
 #| msgid "Open Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Odpri čakalno vrsto zaporedja Ekos"
 
-#: ekos/capture/capture.cpp:1991
+#: ekos/capture/capture.cpp:1996
 #, fuzzy, kde-format
 #| msgid "Save Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Shrani čakalno vrsto zaporedja Ekos"
 
-#: ekos/capture/capture.cpp:2012
+#: ekos/capture/capture.cpp:2017
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Ni bilo mogoče shraniti čakalne vrste zaporedja"
 
-#: ekos/capture/capture.cpp:2055
+#: ekos/capture/capture.cpp:2060
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ali zares želite ponastaviti stanje vseh poslov?"
 
-#: ekos/capture/capture.cpp:2055 ekos/capture/captureprocess.cpp:2878
+#: ekos/capture/capture.cpp:2060 ekos/capture/captureprocess.cpp:2878
 #, kde-format
 msgid "Reset job status"
 msgstr "Ponastavi stanje poslov"
 
-#: ekos/capture/capture.cpp:2270
+#: ekos/capture/capture.cpp:2275
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Urejanje %1. posla ..."
 
-#: ekos/capture/capture.cpp:2273 ekos/scheduler/scheduler.cpp:1620
+#: ekos/capture/capture.cpp:2278 ekos/scheduler/scheduler.cpp:1620
 #, kde-format
 msgid "Apply job changes."
 msgstr "Uveljavi spremembe poslov."
 
-#: ekos/capture/capture.cpp:2274
+#: ekos/capture/capture.cpp:2279
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Prekliči spremembe poslov."
 
-#: ekos/capture/capture.cpp:2286
+#: ekos/capture/capture.cpp:2291
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Urejanje posla preklicano."
 
-#: ekos/capture/capture.cpp:2413
+#: ekos/capture/capture.cpp:2418
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Koordinate zidu so neveljavne."
 
-#: ekos/capture/capture.cpp:2497
+#: ekos/capture/capture.cpp:2502
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Izberite trenutnega opazovalca"
 
-#: ekos/capture/capture.cpp:2499
+#: ekos/capture/capture.cpp:2504
 #, kde-format
 msgid "Current Observer:"
 msgstr "Trenutni opazovalec:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:2510 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:2515 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Upravljanje z opazovalci"
 
-#: ekos/capture/capture.cpp:2575
+#: ekos/capture/capture.cpp:2580
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Filter set to %1."
 msgstr "Datoteka shranjena v %1"
 
-#: ekos/capture/capture.cpp:2897
+#: ekos/capture/capture.cpp:2902
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Ali želite ponastaviti prilagoditev %1 na privzeto?"
 
-#: ekos/capture/capture.cpp:2899
+#: ekos/capture/capture.cpp:2904
 #, kde-format
 msgid "Confirmation"
 msgstr "Potrditev"
 
-#: ekos/capture/capture.cpp:2937 ekos/capture/capture.cpp:3012
+#: ekos/capture/capture.cpp:2942 ekos/capture/capture.cpp:3017
 #, fuzzy, kde-format
 #| msgid "Dark Frame"
 msgid "Dark Flat"
 msgstr "Posnetek teme"
 
-#: ekos/capture/capture.cpp:2989
+#: ekos/capture/capture.cpp:2994
 #, fuzzy, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "Nastaviti morate oddaljeni imenik za local & both načine."
 
-#: ekos/capture/capture.cpp:2995
+#: ekos/capture/capture.cpp:3000
 #, fuzzy, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "Nastavite morate lokalni imenik za odjemalca & oba načina."
 
-#: ekos/capture/capture.cpp:3033
+#: ekos/capture/capture.cpp:3038
 #, kde-format
 msgid "Cooler is on"
 msgstr "Hladilnik je aktiviran"
 
-#: ekos/capture/capture.cpp:3033
+#: ekos/capture/capture.cpp:3038
 #, kde-format
 msgid "Cooler is off"
 msgstr "Hladilnik je ugasnjen"
 
-#: ekos/capture/capture.cpp:3140
+#: ekos/capture/capture.cpp:3145
 #, fuzzy, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Rampa (C/min):"
 
-#: ekos/capture/capture.cpp:3146
+#: ekos/capture/capture.cpp:3151
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14256,14 +14256,14 @@ msgstr ""
 "Največja sprememba temperature na minuto pri hlajenju ali segrevanje "
 "fotoaparata. Nastavite nič, da onemogočite."
 
-#: ekos/capture/capture.cpp:3151
+#: ekos/capture/capture.cpp:3156
 #, fuzzy, kde-format
 #| msgid "Threshold:"
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Prag:"
 
-#: ekos/capture/capture.cpp:3157
+#: ekos/capture/capture.cpp:3162
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14274,23 +14274,23 @@ msgstr ""
 "temperaturo, ki sproži regulacijo.<p>Ta nastavitev se prebere iz "
 "konfiguracije gonilnika kamere INDI in se vanjo shrani.</body></html>"
 
-#: ekos/capture/capture.cpp:3170
+#: ekos/capture/capture.cpp:3175
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Določite uravnavanje temperature"
 
-#: ekos/capture/capture.cpp:3188
+#: ekos/capture/capture.cpp:3193
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Zaustavi zaporedje"
 
-#: ekos/capture/capture.cpp:3194
+#: ekos/capture/capture.cpp:3199
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Nadaljuj zaporedje"
 
-#: ekos/capture/capture.cpp:3219
+#: ekos/capture/capture.cpp:3224
 #, fuzzy, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15161,14 +15161,14 @@ msgstr "Skupaj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, switchToGraphicsButton)
 #: ekos/capture/capturecountswidget.ui:614
-#, fuzzy, kde-format
+#, kde-format
 msgid "Switch display to the graphical mode of capture counts display."
-msgstr "Preklopite zaslon na grafični način zajemanja šteje prikaz."
+msgstr "Preklopite zaslon na grafični način prikaza števila zajemov."
 
 #: ekos/capture/capturedeviceadaptor.cpp:565
 #, fuzzy, kde-format
 msgid "Remove cover from the telescope in order to continue."
-msgstr "Če želite nadaljevati, odstranite pokrov iz teleskopa."
+msgstr "Če želite nadaljevati, odstranite pokrov s teleskopa."
 
 #: ekos/capture/capturedeviceadaptor.cpp:566
 #, kde-format
@@ -15436,7 +15436,7 @@ msgstr "Zajem CCD prekinjen"
 #: ekos/capture/captureprocess.cpp:404
 #, fuzzy, kde-format
 msgid "Pausing only possible while frame capture is running."
-msgstr "Med zajemem okvirja je mogoče ugasniti le mogoče."
+msgstr "Med potekom zajema okvirja je možen le premor."
 
 #: ekos/capture/captureprocess.cpp:411
 #, kde-format
@@ -15898,14 +15898,13 @@ msgstr "Skupni čas osvetlitve (ms)"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
-#, fuzzy, kde-format
-#| msgid "JPEG Quality"
+#, kde-format
 msgid "Sky Quality"
-msgstr "Kakovost JPEG"
+msgstr "Kakovost neba"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
-#, fuzzy, kde-format
+#, kde-format
 msgid "Adjust the quality of the sky"
 msgstr "Prilagodite kakovost neba"
 
@@ -15919,17 +15918,15 @@ msgstr "Število filtrov"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:171
-#, fuzzy, kde-format
-#| msgid "Gain:"
+#, kde-format
 msgid "Gain"
-msgstr "Ojačitev:"
+msgstr "Ojačitev"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:220
-#, fuzzy, kde-format
-#| msgid "ISO:"
+#, kde-format
 msgid "ISO"
-msgstr "ISO:"
+msgstr "ISO"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:249
@@ -15985,18 +15982,15 @@ msgstr "Izberite način branja na fotoaparatih z več načini branja."
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
-#, fuzzy, kde-format
-#| msgid "Clear  Model"
+#, kde-format
 msgid "Read Mode"
-msgstr "Očisti model"
+msgstr "Način branja"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
+#, kde-format
 msgid "Exposure Time (sec)"
-msgstr "Skupni čas osvetlitve (ms)"
+msgstr "Čas osvetlitve (s)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:446
@@ -28645,7 +28639,7 @@ msgstr "Reševalnik ni uspel: %1 s"
 #: fitsviewer/fitstab.cpp:681
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
-msgstr ""
+msgstr "Izvlečenih %1 zvezd (%2 nefiltriranih) v %3s"
 
 #: fitsviewer/fitstab.cpp:728
 #, fuzzy, kde-format
@@ -28662,12 +28656,12 @@ msgstr "Reševalnik ni uspel: %1 s"
 #: fitsviewer/fitstab.cpp:822
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
-msgstr ""
+msgstr "Opozorilo! To orodje podpira samo notranjega reševalca StellarSolver."
 
 #: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
-msgstr ""
+msgstr "Spremenite na to nastavitev v meniju možnosti poravnave Ekosa."
 
 #: fitsviewer/fitsview.cpp:506 fitsviewer/fitsview.cpp:516
 #, fuzzy, kde-format
@@ -29087,10 +29081,10 @@ msgstr "Enookensko odpiranje FITS"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:112
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image"
-msgstr "Pripeljite okno FITSViewer v ospredje, ko prejmete novo sliko"
+msgstr "Postavi okno FITSViewer v ospredje ob prejemanju nove slike"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:115
@@ -29367,9 +29361,9 @@ msgstr "Nelineani histogram"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:420
-#, fuzzy, kde-format
+#, kde-format
 msgid "Compute the HFR of images loaded into fitsviewer."
-msgstr "Izpopolnjevanje HFR slik, naloženih v fitsviewer."
+msgstr "Izračun HFR-ja slik, naloženih v fitsviewer."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:423
@@ -29426,13 +29420,13 @@ msgstr "Delitev reševalnika StellarSolver"
 #: fitsviewer/platesolve.ui:47
 #, kde-format
 msgid "Plate solve the image using the parameters below."
-msgstr ""
+msgstr "Sliko rešite s pomočjo spodnjih parametrov."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:101
 #, kde-format
 msgid "<p>The units of the imager scale bounds."
-msgstr ""
+msgstr "<p>Enote za meje merila slikovnika."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:108
@@ -29474,6 +29468,7 @@ msgstr ""
 msgid ""
 "Set the approximate RA/DEC positions using the center position of the SkyMap."
 msgstr ""
+"Približne položaje RA/DEC nastavite s središčnim položajem zemljevida SkyMap."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
@@ -30109,17 +30104,17 @@ msgstr "Ni mogoče zagnati strežnika INDI: napaka vrat."
 msgid "Failed to create local INDI server"
 msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
 
-#: indi/drivermanager.cpp:604 indi/indidriver.cpp:291
+#: indi/drivermanager.cpp:621 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
 msgid "Invalid port entry: %1"
 msgstr "Neveljavna vrata: %1"
 
-#: indi/drivermanager.cpp:800
+#: indi/drivermanager.cpp:817
 #, kde-format
 msgid "Connected to INDI server"
 msgstr "Vzpostavljena povezava s strežnikom INDI"
 
-#: indi/drivermanager.cpp:992 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1009 indi/indidriver.cpp:487
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid ""
 #| "Unable to find INDI Drivers directory: %1\n"
@@ -30131,44 +30126,44 @@ msgstr ""
 "Ni mogoče najti mape z gonilniki INDI: %1\n"
 "Prepričajte se, da je pot pravilno nastavljena v nastavitvah za KStars"
 
-#: indi/drivermanager.cpp:1023 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1040 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
 msgstr "Ni mogoče odpreti datoteke gonilnika INDI: %1"
 
-#: indi/drivermanager.cpp:1389
+#: indi/drivermanager.cpp:1406
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "Dodaj gostitelja"
 
-#: indi/drivermanager.cpp:1400 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1417 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "Napaka: številka vrat je neveljavna."
 
-#: indi/drivermanager.cpp:1413 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1430 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "Gostitelj: %1 vrata: %2 že obstaja."
 
-#: indi/drivermanager.cpp:1441
+#: indi/drivermanager.cpp:1458
 #, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "Spremeni gostitelja"
 
-#: indi/drivermanager.cpp:1487 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1504 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr "Odklopiti morate odjemalca, preden ga odstranite."
 
-#: indi/drivermanager.cpp:1493 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1510 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "Ali zares želite odstraniti odjemalca %1?"
 
-#: indi/drivermanager.cpp:1518 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1535 indi/indidriver.cpp:920
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to write to file 'indihosts.xml'\n"
@@ -31003,18 +30998,18 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr "Skript po zajemanju se je končal s kodo %1."
 
-#: indi/servermanager.cpp:407
+#: indi/servermanager.cpp:415
 #, fuzzy, kde-format
 #| msgid "Connection to INDI server at host %1 with port %2 failed."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Povezava s strežnikom INDI na gostitelju %1 na vratih %2 ni uspela."
 
-#: indi/servermanager.cpp:453
+#: indi/servermanager.cpp:461
 #, fuzzy, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "Gonilnik INDI <b>%1 se</b> je zrušil. Ponovno zagnati?"
 
-#: indi/servermanager.cpp:454
+#: indi/servermanager.cpp:462
 #, kde-format
 msgid "Driver crash"
 msgstr "Sesutje gonilnika"
@@ -35215,10 +35210,10 @@ msgstr "Prikaži vse odprte slike FITS v enem oknu pregledovalnika FITS."
 
 #. i18n: ectx: whatsthis, entry (focusFITSOnNewImage), group (FITSViewer)
 #: kstars.kcfg:1474
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image."
-msgstr "Ko prejmete novo sliko, prinesite okno FITSViewer v ospredje."
+msgstr "Ko prejmete novo sliko, postavite okno FITSViewer v ospredje."
 
 #. i18n: ectx: label, entry (independentWindowFITS), group (FITSViewer)
 #: kstars.kcfg:1478
@@ -35306,39 +35301,39 @@ msgstr "Odmik Y prekrivanja HPS"
 
 #. i18n: ectx: label, entry (FitsSolverProfile), group (FITSViewer)
 #: kstars.kcfg:1526
-#, fuzzy, kde-format
+#, kde-format
 msgid "Options Profile for Fitsviewer Solving."
-msgstr "Možnosti Profil za reševanje."
+msgstr "Profil možnosti za reševanje Fitsviewer."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1530
 #, kde-format
 msgid "Use scale for Fitsviewer Solving."
-msgstr ""
+msgstr "Uporabite merilo za reševanje s Fitsviewer."
 
 #. i18n: ectx: label, entry (FitsSolverUsePosition), group (FITSViewer)
 #: kstars.kcfg:1534
 #, kde-format
 msgid "Use position for Fitsviewer Solving."
-msgstr ""
+msgstr "Uporabite položaj za reševanje s Fitsviewer."
 
 #. i18n: ectx: label, entry (FitsSolverScale), group (FITSViewer)
 #: kstars.kcfg:1538
 #, kde-format
 msgid "Scale to use with Fitsviewer Solving."
-msgstr ""
+msgstr "Merilo za reševanje s Fitsviewer."
 
 #. i18n: ectx: label, entry (FitsSolverImageScaleUnits), group (FITSViewer)
 #: kstars.kcfg:1542
 #, kde-format
 msgid "Scale units to use with Fitsviewer Solving."
-msgstr ""
+msgstr "Enote merila za uporabo z reševanjem Fitsviewer."
 
 #. i18n: ectx: label, entry (FitsSolverRadius), group (FITSViewer)
 #: kstars.kcfg:1546
 #, kde-format
 msgid "Radius in position (degrees) to use with Fitsviewer Solving."
-msgstr ""
+msgstr "Polmer na položaju (stopinje) za uporabo z reševanjem Fitsviewer."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1552
@@ -35943,7 +35938,7 @@ msgstr "Samodejno raztegni zajete slike v pregledovalniku FITS."
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
@@ -35952,7 +35947,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
@@ -84682,46 +84677,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "Specify the source the flat field evenly illuminated light source"
-#~ msgstr ""
-#~ "Navedite vir za plosko polje, ki je enakomerno osvetljen s svetlobnim "
-#~ "virom"
-
-#~ msgid "Flat Source"
-#~ msgstr "Ploski vir"
-
-#~ msgid "Light source triggered by the user manually"
-#~ msgstr "Vir svetlobe, ki ga ročno sproži uporabnik"
-
-#~ msgid ""
-#~ "For dark and bias frames, close the dust cap before proceeding. For flat "
-#~ "frames, close the dust cap and turn on the light source."
-#~ msgstr ""
-#~ "Za posnetke teme in posnetke z odmikom pred nadaljevanjem zaprite "
-#~ "protiprašni pokrov. Za ploske posnetke zaprite protiprašni pokrov in "
-#~ "vklopite vir svetlobe."
-
-#~ msgid "Dust Cover with Built-in Flat Light"
-#~ msgstr "Protiprašni pokrov z vgrajeno plosko svetilko"
-
-#~ msgid ""
-#~ "For dark and bias frames, close the dust cap before proceeding. For flat "
-#~ "frames, open the dust cap and turn on the light source."
-#~ msgstr ""
-#~ "Za posnetke teme in posnetke z odmikom, pred nadaljevanjem zaprite "
-#~ "protiprašni pokrov. Za ploske posnetke odprite protiprašni pokrov in "
-#~ "vklopite vir svetlobe."
-
-#~ msgid "Dust Cover with External Flat Light"
-#~ msgstr "Protiprašni pokrov z zunanjo plosko svetilko"
-
-#~ msgid "Use Dawn and Dusk light"
-#~ msgstr "Uporabi svetlobo zore in mraka"
-
-#~ msgid "Dawn/Dusk"
-#~ msgstr "Zora/mrak"
-
-#, fuzzy
-#~ msgid "Index of flat source option."
-#~ msgstr "Indeks možnosti ravnoga vira."

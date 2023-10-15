@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-14 00:39+0000\n"
+"POT-Creation-Date: 2023-10-15 00:39+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -426,7 +426,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2012
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2017
 #: ekos/scheduler/scheduler.cpp:3823
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2660,8 +2660,8 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3849
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1170 ekos/capture/capture.cpp:1935
-#: ekos/capture/capture.cpp:2021 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/analyze/analyze.cpp:1170 ekos/capture/capture.cpp:1940
+#: ekos/capture/capture.cpp:2026 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:3464 ekos/scheduler/scheduler.cpp:3833
 #: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
@@ -3821,7 +3821,7 @@ msgstr "फाइल डाउनलोड गर्न सकेन ।"
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "तपाईँ %1 लिङ्क हटाउन निश्चित हुनुहुन्छ ?"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1495
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1512
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -3952,7 +3952,7 @@ msgstr "०.० पीसी"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:888 ekos/capture/capture.cpp:926
+#: ekos/capture/capture.cpp:893 ekos/capture/capture.cpp:931
 #: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -6381,7 +6381,7 @@ msgstr "छवि ग्रहण गर्नुहोस्"
 msgid "Solver aborted after %1 seconds."
 msgstr "%1 मा FITS फाइल बचत गरियो"
 
-#: ekos/align/align.cpp:2512 ekos/capture/capture.cpp:1461
+#: ekos/align/align.cpp:2512 ekos/capture/capture.cpp:1466
 #: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1899
 #: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:912
@@ -6561,7 +6561,7 @@ msgstr "आर्कमिनेट"
 msgid "dDE (arcsec)"
 msgstr "आर्कसेक"
 
-#: ekos/align/align.cpp:3545 ekos/capture/capture.cpp:2622
+#: ekos/align/align.cpp:3545 ekos/capture/capture.cpp:2627
 #: ekos/focus/focus.cpp:4711
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6569,18 +6569,18 @@ msgstr "आर्कसेक"
 msgid "Filter operation failed."
 msgstr "कालियन्टे"
 
-#: ekos/align/align.cpp:3557 ekos/capture/capture.cpp:2558
+#: ekos/align/align.cpp:3557 ekos/capture/capture.cpp:2563
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3564 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:2563
+#: ekos/capture/capture.cpp:2568
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3569 ekos/capture/capture.cpp:2568
+#: ekos/align/align.cpp:3569 ekos/capture/capture.cpp:2573
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
@@ -6600,8 +6600,8 @@ msgid "Export Solution Points"
 msgstr "सबै कक्ष मार्ग खाली गर्नुहोस्"
 
 #: ekos/align/align.cpp:3848 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:1934
-#: ekos/capture/capture.cpp:2020 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:1939
+#: ekos/capture/capture.cpp:2025 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:3463 ekos/scheduler/scheduler.cpp:3832
 #: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6618,11 +6618,11 @@ msgid "Unable to write to file %1"
 msgstr "छवि बचत गर्न असक्षम भयो: %1 "
 
 #: ekos/align/align.cpp:3858 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:1950
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:1955
 #: ekos/capture/captureprocess.cpp:2264 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:3507 ekos/scheduler/scheduler.cpp:3845
 #: ekos/scheduler/scheduler.cpp:6166 ekos/scheduler/scheduler.cpp:6223
-#: indi/drivermanager.cpp:1520 indi/indidriver.cpp:921 kstarsactions.cpp:1375
+#: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1375
 #: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -7290,7 +7290,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "सूची अवलोकन गर्दै"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:1949
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:1954
 #: ekos/capture/captureprocess.cpp:2263 ekos/scheduler/scheduler.cpp:3506
 #: ekos/scheduler/scheduler.cpp:6165
 #, fuzzy, kde-format
@@ -12238,7 +12238,7 @@ msgstr "पूरा भएको"
 msgid "Aligning..."
 msgstr "फोकस गरिएको: "
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1410
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1415
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -13949,7 +13949,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1312
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1329
 #: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:788
 #: kstarsinit.cpp:789 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
@@ -14220,13 +14220,13 @@ msgstr ""
 msgid "Tolerance:"
 msgstr "टोर्यान्स"
 
-#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:2291
+#: ekos/capture/capture.cpp:254 ekos/capture/capture.cpp:2296
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "छवि क्रम ग्रहण गर्नुहोस्..."
 
-#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:2292
+#: ekos/capture/capture.cpp:255 ekos/capture/capture.cpp:2297
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
@@ -14252,245 +14252,245 @@ msgid ""
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1351
+#: ekos/capture/capture.cpp:1356
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "फ्रामिङहाम"
 
-#: ekos/capture/capture.cpp:1362
+#: ekos/capture/capture.cpp:1367
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Captured image received"
 msgstr "छवि क्रम ग्रहण गर्नुहोस्"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1380 ekos/capture/capture.ui:2245
+#: ekos/capture/capture.cpp:1385 ekos/capture/capture.ui:2245
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
 msgstr "विवरण:"
 
-#: ekos/capture/capture.cpp:1444
+#: ekos/capture/capture.cpp:1449
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing %1-second %2 image..."
 msgstr "छवि लोड गरिँदैछ..."
 
-#: ekos/capture/capture.cpp:1622
+#: ekos/capture/capture.cpp:1627
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1798
+#: ekos/capture/capture.cpp:1803
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
-#: ekos/capture/capture.cpp:1799
+#: ekos/capture/capture.cpp:1804
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
-#: ekos/capture/capture.cpp:1803
+#: ekos/capture/capture.cpp:1808
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "स्काइ वस्तुहरू लोड गर्दै"
 
-#: ekos/capture/capture.cpp:1805
+#: ekos/capture/capture.cpp:1810
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1810
+#: ekos/capture/capture.cpp:1815
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
-#: ekos/capture/capture.cpp:1811
+#: ekos/capture/capture.cpp:1816
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "स्थान सेट गर्नुहोस्..."
 
-#: ekos/capture/capture.cpp:1854 ekos/capture/capture.cpp:1855
+#: ekos/capture/capture.cpp:1859 ekos/capture/capture.cpp:1860
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete."
 msgstr "पूरा भएको"
 
-#: ekos/capture/capture.cpp:1859
+#: ekos/capture/capture.cpp:1864
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus failed."
 msgstr "पूरा भएको"
 
-#: ekos/capture/capture.cpp:1881
+#: ekos/capture/capture.cpp:1886
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1886
+#: ekos/capture/capture.cpp:1891
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian Flip..."
 msgstr "ग्रहण माथि फिट्सको स्वचालित प्रदर्शन"
 
-#: ekos/capture/capture.cpp:1887
+#: ekos/capture/capture.cpp:1892
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip started"
 msgstr "ग्रहण माथि फिट्सको स्वचालित प्रदर्शन"
 
-#: ekos/capture/capture.cpp:1891
+#: ekos/capture/capture.cpp:1896
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "पूरा भएको"
 
-#: ekos/capture/capture.cpp:1916 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:1921 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "पूर्वानिर्धारित फिट्स डाइरेक्टरी"
 
-#: ekos/capture/capture.cpp:1926
+#: ekos/capture/capture.cpp:1931
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "सूची अवलोकन गर्दै"
 
-#: ekos/capture/capture.cpp:1991
+#: ekos/capture/capture.cpp:1996
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "छवि क्रम ग्रहण गर्नुहोस्..."
 
-#: ekos/capture/capture.cpp:2012
+#: ekos/capture/capture.cpp:2017
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2055
+#: ekos/capture/capture.cpp:2060
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "तपाईँ %1 लिङ्क हटाउन निश्चित हुनुहुन्छ ?"
 
-#: ekos/capture/capture.cpp:2055 ekos/capture/captureprocess.cpp:2878
+#: ekos/capture/capture.cpp:2060 ekos/capture/captureprocess.cpp:2878
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "स्थिति रिसेट गर्नुहोस्"
 
-#: ekos/capture/capture.cpp:2270
+#: ekos/capture/capture.cpp:2275
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "लिङ्क सम्पादन गर्नुहोस्..."
 
-#: ekos/capture/capture.cpp:2273 ekos/scheduler/scheduler.cpp:1620
+#: ekos/capture/capture.cpp:2278 ekos/scheduler/scheduler.cpp:1620
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2274
+#: ekos/capture/capture.cpp:2279
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "फिट्समा परिवर्तन बचत गर्नुहुन्छ ?"
 
-#: ekos/capture/capture.cpp:2286
+#: ekos/capture/capture.cpp:2291
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
 msgstr "लिङ्क सम्पादन गर्नुहोस्..."
 
-#: ekos/capture/capture.cpp:2413
+#: ekos/capture/capture.cpp:2418
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Wall coordinates are invalid."
 msgstr "पारदर्शी समन्वयहरू:"
 
-#: ekos/capture/capture.cpp:2497
+#: ekos/capture/capture.cpp:2502
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "सर्भर"
 
-#: ekos/capture/capture.cpp:2499
+#: ekos/capture/capture.cpp:2504
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "सर्भर"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:2510 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:2515 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
 msgstr "सर्भर"
 
-#: ekos/capture/capture.cpp:2575
+#: ekos/capture/capture.cpp:2580
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "%1 मा FITS फाइल बचत गरियो"
 
-#: ekos/capture/capture.cpp:2897
+#: ekos/capture/capture.cpp:2902
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2899
+#: ekos/capture/capture.cpp:2904
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "यकीन मेट्नुहोस्"
 
-#: ekos/capture/capture.cpp:2937 ekos/capture/capture.cpp:3012
+#: ekos/capture/capture.cpp:2942 ekos/capture/capture.cpp:3017
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Barkerville"
 msgid "Dark Flat"
 msgstr "बारकेभिले"
 
-#: ekos/capture/capture.cpp:2989
+#: ekos/capture/capture.cpp:2994
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2995
+#: ekos/capture/capture.cpp:3000
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3033
+#: ekos/capture/capture.cpp:3038
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3033
+#: ekos/capture/capture.cpp:3038
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3140
+#: ekos/capture/capture.cpp:3145
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3146
+#: ekos/capture/capture.cpp:3151
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14498,7 +14498,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3151
+#: ekos/capture/capture.cpp:3156
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -14506,7 +14506,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "फ्रिहोल्ड"
 
-#: ekos/capture/capture.cpp:3157
+#: ekos/capture/capture.cpp:3162
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14514,26 +14514,26 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3170
+#: ekos/capture/capture.cpp:3175
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
-#: ekos/capture/capture.cpp:3188
+#: ekos/capture/capture.cpp:3193
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "आवृती:"
 
-#: ekos/capture/capture.cpp:3194
+#: ekos/capture/capture.cpp:3199
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "आवृती:"
 
-#: ekos/capture/capture.cpp:3219
+#: ekos/capture/capture.cpp:3224
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -29783,66 +29783,66 @@ msgstr "INDI सर्भर सुरु गर्न सकिँदैन: �
 msgid "Failed to create local INDI server"
 msgstr "INDI सर्भर सुरु गर्न सकिँदैन: पोर्ट त्रुटि ।"
 
-#: indi/drivermanager.cpp:604 indi/indidriver.cpp:291
+#: indi/drivermanager.cpp:621 indi/indidriver.cpp:291
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Invalid file: %1"
 msgid "Invalid port entry: %1"
 msgstr "अवैध फाइल: %1"
 
-#: indi/drivermanager.cpp:800
+#: indi/drivermanager.cpp:817
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected to INDI server"
 msgstr "जडान गर्नुहोस्"
 
-#: indi/drivermanager.cpp:992 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1009 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
 
-#: indi/drivermanager.cpp:1023 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1040 indi/indidriver.cpp:528
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Could not open file: %1"
 msgid "Failed to open INDI Driver file: %1"
 msgstr "फाइल खोल्न सकेन: %1"
 
-#: indi/drivermanager.cpp:1389
+#: indi/drivermanager.cpp:1406
 #, fuzzy, kde-format
 #| msgid "Add Host"
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "होस्ट थप्नुहोस्"
 
-#: indi/drivermanager.cpp:1400 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1417 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "त्रुटि: पोर्ट सङ्ख्या अवैध छ ।"
 
-#: indi/drivermanager.cpp:1413 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1430 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "होस्ट: %1 पोर्ट: %2 पहिल्यै अवस्थित छ ।"
 
-#: indi/drivermanager.cpp:1441
+#: indi/drivermanager.cpp:1458
 #, fuzzy, kde-format
 #| msgid "Modify Host"
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "होस्ट परिमार्जन गर्नुहोस्"
 
-#: indi/drivermanager.cpp:1487 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1504 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr "यसलाई हटाउनु अघि क्लाइन्ट विच्छेदन गर्न आवश्यक छ ।"
 
-#: indi/drivermanager.cpp:1493 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1510 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "तपाईँ %1 क्लाइन्ट हटाउन निश्चित हुनुहुन्छ ?"
 
-#: indi/drivermanager.cpp:1518 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1535 indi/indidriver.cpp:920
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid ""
 #| "unable to write to file 'indihosts.xml'\n"
@@ -30678,18 +30678,18 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:407
+#: indi/servermanager.cpp:415
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 failed."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "पोर्ट %2 भित्र %1 मा INDI होस्टलाई जडान असफल भयो ।"
 
-#: indi/servermanager.cpp:453
+#: indi/servermanager.cpp:461
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:454
+#: indi/servermanager.cpp:462
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Driver crash"
